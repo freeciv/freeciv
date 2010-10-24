@@ -8,10 +8,11 @@ legend=_("In 1945 Korea was split by the Soviet Union and\
  forming North Korea and South Korea. Even 60 years since\
  then, North Korea remains a communist state of Stalinist type.")
 
-leader="Kim Jong-il", ; second leader of DPRK
-       "Kim Il-sung" ; first leader of DPRK
-
-leader_sex="Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Kim Jong-il",         "Male" ; Second leader of DPRK.
+ "Kim Il-sung",         "Male" ; First leader of DPRK.
+}
 
 flag="north_korea"
 flag_alt = "-"

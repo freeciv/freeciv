@@ -9,20 +9,21 @@ legend=_("Sicily is the largest island of Italy. It has been ruled by\
  which gradually became one of Italy's more powerful states. In 1816 it\
  was merged with Naples into the Kingdom of the Two Sicilies which was\
  united with Italy in 1861.")
-leader =
- "Ruggeru II",
- "Ruggeru III",
- "Giorgiu di Antiochia",
- "Gugghiermu lu Malu",
- "Gugghiermu lu Bonu",
- "Custanza",
- "Fidiricu I",
- "Petru III d'Aragona",
- "Firdinannu II dî Dui Sicili",
- "Sarvaturi Giulianu"
 
-leader_sex = "Male", "Male", "Male", "Male",
- "Male", "Female", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Ruggeru II",                  "Male"
+ "Ruggeru III",                 "Male"
+ "Giorgiu di Antiochia",        "Male"
+ "Gugghiermu lu Malu",          "Male"
+ "Gugghiermu lu Bonu",          "Male"
+ "Custanza",                    "Female"
+ "Fidiricu I",                  "Male"
+ "Petru III d'Aragona",         "Male"
+ "Firdinannu II dî Dui Sicili", "Male"
+ "Sarvaturi Giulianu",          "Male"
+}
+
 flag="sicily"
 flag_alt = "-"
 city_style = "Classical"

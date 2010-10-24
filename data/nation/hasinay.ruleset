@@ -9,10 +9,13 @@ legend=_("A Caddoan political league from East Texas, the Hasinai\
  Puebloan polities of the America Southwest, their cultural ties were more\
  strongly in line with the other mound-building cultures of the Southeast.\
  The word Texas derived from Caddoan word for \"Friend.\"")
-leader= 
-"Nah-ah-sah-nah", 
-"Sho-ee-tat" 
-leader_sex="Male", "Male" 
+
+leaders = {
+ "name",                "sex"
+ "Nah-ah-sah-nah",      "Male"
+ "Sho-ee-tat",          "Male"
+}
+
 flag="caddo" 
 flag_alt = "-" 
 city_style = "tropical" 

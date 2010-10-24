@@ -16,35 +16,35 @@ legend=_("Mexico borrows its name from the Mexica people, another name for\
  Revolution of 1910 which left more than a million dead. The Revolution\
  led to the establishment of a corporatist one party state in 1929. Only\
  in 2000 did Mexico see its first democratic transfer of power.")
-leader=
- "Miguel Hidalgo",
- "José María Morelos",
- "Vicente Guerrero",
- "Agustín de Iturbide",
- "Guadalupe Victoria",
- "Antonio López de Santa Anna",
- "Benito Juárez",
- "Maximiliano",
- "Carlota",
- "Porfirio Díaz",
- "Francisco I. Madero",
- "Victoriano Huerta",
- "Emiliano Zapata",
- "Pancho Villa",
- "Venustiano Carranza",
- "Álvaro Obregón",
- "Plutarco Elías Calles",
- "Lázaro Cárdenas",
- "Manuel Ávila Camacho",
- "Miguel Alemán",
- "Adolfo López Mateos",
- "Gustavo Díaz Ordaz",
- "Luis Echeverría",
- "José López Portillo"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Female", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Miguel Hidalgo",              "Male"
+ "José María Morelos",          "Male"
+ "Vicente Guerrero",            "Male"
+ "Agustín de Iturbide",         "Male"
+ "Guadalupe Victoria",          "Male"
+ "Antonio López de Santa Anna", "Male"
+ "Benito Juárez",               "Male"
+ "Maximiliano",                 "Male"
+ "Carlota",                     "Female"
+ "Porfirio Díaz",               "Male"
+ "Francisco I. Madero",         "Male"
+ "Victoriano Huerta",           "Male"
+ "Emiliano Zapata",             "Male"
+ "Pancho Villa",                "Male"
+ "Venustiano Carranza",         "Male"
+ "Álvaro Obregón",              "Male"
+ "Plutarco Elías Calles",       "Male"
+ "Lázaro Cárdenas",             "Male"
+ "Manuel Ávila Camacho",        "Male"
+ "Miguel Alemán",               "Male"
+ "Adolfo López Mateos",         "Male"
+ "Gustavo Díaz Ordaz",          "Male"
+ "Luis Echeverría",             "Male"
+ "José López Portillo",         "Male"
+}
+
 flag="mexico"
 flag_alt = "-"
 city_style = "Babylonian"

@@ -9,14 +9,17 @@ legend=_("The Songhai people established a state in the 11th century CE\
  which eventually grew to become one of the largest in the history of\
  Africa. The rulers of Songhai became known for their wealth as well as\
  their devotion to the Muslim faith.")
-leader=
- "Askia Ishaq I",
- "Askia Daoud",
- "Askia Mohammad Benkan",
- "Askia Mohammad I",
- "Sonni Ali",
- "Sunni Silman Dandi"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Askia Ishaq I",               "Male"
+ "Askia Daoud",                 "Male"
+ "Askia Mohammad Benkan",       "Male"
+ "Askia Mohammad I",            "Male"
+ "Sonni Ali",                   "Male"
+ "Sunni Silman Dandi",          "Male"
+}
+
 flag="songhai"
 flag_alt="-"
 city_style="Tropical"

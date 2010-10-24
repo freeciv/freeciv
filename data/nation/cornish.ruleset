@@ -5,13 +5,16 @@ plural = _("?plural:Cornish")
 groups= "Medieval", "European"
 legend=_("Cornwall is a region in the extreme southwest of England,\
  traditionally the home of the legendary King Arthur.")
-leader =
- "Arthur",
- "Jonathan Trelawny",
- "Thomas Flamank",
- "Michael Joseph",
- "William Bligh"
-leader_sex = "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Arthur",              "Male"
+ "Jonathan Trelawny",   "Male"
+ "Thomas Flamank",      "Male"
+ "Michael Joseph",      "Male"
+ "William Bligh",       "Male"
+}
+
 flag = "cornwall"
 flag_alt = "england"
 city_style = "Celtic"

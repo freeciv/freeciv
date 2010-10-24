@@ -7,12 +7,15 @@ legend=_("The Rio-Grandense Republic or Piratini Republic existed in the\
  Brazilian state of Rio Grande do Sul from 1836 to 1845. It fought the\
  War of Tatters against the Brazilian Imperial Army and was supported by\
  Giuseppe Garibaldi amongst others.")
-leader=
- "Antônio de Sousa Neto",
- "Bento Gonçalves da Silva",
- "José Garibaldi",
- "Davi Canabarro"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Antônio de Sousa Neto",       "Male"
+ "Bento Gonçalves da Silva",    "Male"
+ "José Garibaldi",              "Male"
+ "Davi Canabarro",              "Male"
+}
+
 flag = "piratini"
 flag_alt = "-"
 city_style = "European"

@@ -6,14 +6,17 @@ groups="Ancient", "Asian"
 legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
  7th centuries BC under a succession of peoples including Amorites,\
  Kassites, Assyrians, and Chaldeans.")
-leader=
- "Hammurabi",
- "Sharru-Kin II", ; a.k.a. Sargon II
- "Nabu-Kudurri-Usur II", ; a.k.a. Nebuchadnezzar II
- "Tukulti-Apil-Eshara III", ; a.k.a. Tiglath-Pileser III
- "Burnaburish II", ; a.k.a. Burnaburiash II
- "Nabu-Nasir" ; a.k.a. Nabonassar
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Hammurabi",                   "Male"
+ "Sharru-Kin II",               "Male" ; a.k.a. Sargon II
+ "Nabu-Kudurri-Usur II",        "Male" ; a.k.a. Nebuchadnezzar II
+ "Tukulti-Apil-Eshara III",     "Male" ; a.k.a. Tiglath-Pileser III
+ "Burnaburish II",              "Male" ; a.k.a. Burnaburiash II
+ "Nabu-Nasir",                  "Male" ; a.k.a. Nabonassar
+}
+
 flag = "babylon"
 flag_alt = "-"
 city_style = "Babylonian"

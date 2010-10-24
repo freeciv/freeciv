@@ -5,15 +5,17 @@ plural=_("?plural:Galicians")
 groups="Medieval", "European"
 legend=_("Galicia is a region in the northwest of Spain, just above\
  Portugal.")
-leader=
- "Afonso",
- "Diego Xelmírez",
- "Hermerico",
- "Pero Pardo de Cela",
- "Rosalía de Castro",
- "Manuel"
-leader_sex="Male", "Male", "Male", "Male",
-           "Female", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Afonso",              "Male"
+ "Diego Xelmírez",      "Male"
+ "Hermerico",           "Male"
+ "Pero Pardo de Cela",  "Male"
+ "Rosalía de Castro",   "Female"
+ "Manuel",              "Male"
+}
+
 flag="galicia"
 flag_alt = "-"
 city_style = "Celtic"

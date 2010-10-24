@@ -19,15 +19,15 @@ legend=_("The Tocharians were an Indo-European people living what is now\
  Even this use fell when Islam spread and took the place of Buddhism as\
  the predominant religion in the region.")
 
-leader=
- "Jiva",
- "Maya",
- "Dhanika",
- "Ambare",
- "Ysassa-Pyapo",
- "Sulica"
-
-leader_sex = "Female", "Female", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Jiva",                "Female"
+ "Maya",                "Female"
+ "Dhanika",             "Male"
+ "Ambare",              "Male"
+ "Ysassa-Pyapo",        "Male"
+ "Sulica",              "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Lant/Lantsa = King/Queen */

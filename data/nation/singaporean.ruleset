@@ -17,13 +17,16 @@ plural=_("?plural:Singaporeans")
 groups="Modern", "Asian"
 legend=_("Singapore is a mercantile city-state located at the southernmost\
  tip of the Malaysian Peninsula.")
-leader=
- "Stamford Raffles",
- "W.A. Pickering",
- "Ong Teng Cheong",
- "Lee Kuan Yew",
- "Yusof bin Ishak"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Stamford Raffles",    "Male"
+ "W.A. Pickering",      "Male"
+ "Ong Teng Cheong",     "Male"
+ "Lee Kuan Yew",        "Male"
+ "Yusof bin Ishak",     "Male"
+}
+
 flag="singapore"
 flag_alt = "-"
 city_style = "Asian"

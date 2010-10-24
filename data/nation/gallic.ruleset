@@ -12,15 +12,18 @@ legend=_("The Gauls were a Celtic people occupying what is now France and\
  of three million.  The Gauls united and rallied under Vercingetorix, who\
  defeated Caesar at the battle of Gergovia, but was later crushed by him\
  at the battle of Alesia.")
-leader=
- "Vercingetorix",
- "Ambiorix",
- "Dumnorix",
- "Orgetorix",
- "Leonnorius",
- "Brennus",
- "Julia Pacata"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Vercingetorix",       "Male"
+ "Ambiorix",            "Male"
+ "Dumnorix",            "Male"
+ "Orgetorix",           "Male"
+ "Leonnorius",          "Male"
+ "Brennus",             "Male"
+ "Julia Pacata",        "Female"
+}
+
 flag="gaul"
 flag_alt = "-"
 city_style = "Celtic"

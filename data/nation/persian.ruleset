@@ -5,14 +5,17 @@ plural=_("?plural:Persians")
 groups="Ancient", "Medieval", "Early Modern", "Asian"
 legend=_("The first Persian (Achaemenid) Empire lasted from 550 BC to 330\
  BC; the second (Sassanid) from 226 AD to 642 AD.")
-leader=
- "Kurush II", ; a.k.a. "Cyrus"
- "Darayavaush I", ; a.k.a. "Darius"
- "Khshayarsha I", ; a.k.a. "Xerxes"
- "Ardashir I",
- "Khosrau I",
- "Shapur I"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Kurush II",           "Male" ; a.k.a. "Cyrus"
+ "Darayavaush I",       "Male" ; a.k.a. "Darius"
+ "Khshayarsha I",       "Male" ; a.k.a. "Xerxes"
+ "Ardashir I",          "Male"
+ "Khosrau I",           "Male"
+ "Shapur I",            "Male"
+}
+
 flag="iran_ancient"
 flag_alt = "iran"
 city_style = "Classical"

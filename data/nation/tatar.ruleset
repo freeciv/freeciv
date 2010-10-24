@@ -10,18 +10,18 @@ legend=_("The Tatars are a Turkic-speaking nation. Various Tatar states\
  have their own republic called Tatarstan in the Russian Federation and\
  the Autonomous Republic of Crimea in Ukraine.")
 
-leader=
- "Küçem", ;Sibirian khan
- "Tuqtamış", ;Sibirian khan
- "Oluğ Mөxәmmәt", ;Kazan khan
- "Qasim II", ;Astrakhan khan
- "Haci I Giray", ;Crimean khan
- "Devlet I Giray", ;Crimean khan
- "Qasim", ;Kasimov khan (vassal of russian tsar)
- "Sadri Maksudi Arsal", ;leader of Idel-Ural State
- "Mintimer Shaymiev"
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Küçem",               "Male" ; Sibirian khan
+ "Tuqtamış",            "Male" ; Sibirian khan
+ "Oluğ Mөxәmmәt",       "Male" ; Kazan khan
+ "Qasim II",            "Male" ; Astrakhan khan
+ "Haci I Giray",        "Male" ; Crimean khan
+ "Devlet I Giray",      "Male" ; Crimean khan
+ "Qasim",               "Male" ; Kasimov khan (vassal of russian tsar)
+ "Sadri Maksudi Arsal", "Male" ; Leader of Idel-Ural State
+ "Mintimer Shaymiev",   "Male"
+}
 
 flag="tatarstan"
 flag_alt = "-"

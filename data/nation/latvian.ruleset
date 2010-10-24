@@ -9,19 +9,19 @@ legend = _("In the aftermath of World War I Latvia proclaimed its\
  Soviet Union. After the collapse of Soviet Union in 1991 Latvia restored\
  its independence.")
 
-leader =
- "Namiesis",
- "Viestards",
- "Tālibalds",
- "Visvaldis",
- "Kriðjānis Valdemārs",
- "Jānis Balodis",
- "Pçteris Radziòð",
- "Jorìis Zemitāns",
- "Jānis Èakste",
- "Kārlis Ulmanis"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Namiesis",            "Male"
+ "Viestards",           "Male"
+ "Tālibalds",           "Male"
+ "Visvaldis",           "Male"
+ "Kriðjānis Valdemārs", "Male"
+ "Jānis Balodis",       "Male"
+ "Pçteris Radziòð",     "Male"
+ "Jorìis Zemitāns",     "Male"
+ "Jānis Èakste",        "Male"
+ "Kārlis Ulmanis",      "Male"
+}
 
 flag="latvia"
 flag_alt = "-"

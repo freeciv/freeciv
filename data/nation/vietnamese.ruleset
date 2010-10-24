@@ -6,14 +6,17 @@ groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("The Vietnamese nation was founded in the first century AD by\
  twin sisters who became the war leaders of a revolt against a Chinese\
  military governor.")
-leader=
- "Trưng Trắc",
- "Trưng Nhị",
- "Ly Bon",
- "Gia Long",
- "Bảo Đại",
- "Hồ Chí Minh"
-leader_sex="Female", "Female", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Trưng Trắc",          "Female"
+ "Trưng Nhị",           "Female"
+ "Ly Bon",              "Male"
+ "Gia Long",            "Male"
+ "Bảo Đại",             "Male"
+ "Hồ Chí Minh",         "Male"
+}
+
 flag="vietnam"
 flag_alt = "-"
 city_style = "Asian"

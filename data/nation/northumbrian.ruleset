@@ -8,28 +8,32 @@ legend=_("The Northumbria was a Medieval kingdom of the Angles, in what\
  the unification of Bernicia and Deira by king Aethelfrith. One of the\
  main states of the Anglo-Saxon heptarchy, in the 10th century it was\
  incorporated into England.")
-leader=
-; kings of Bernicia:
- "Esa",
- "Eoppa",
- "Glappa",
- "Æðelric",
- "Þeodric",
- "Friþuwald",
- "Æðelfriþ",
- "Eanfriþ",
-; kings of Deira:
- "Edwin",
- "Osric",
- "Oswald",
- "Æðelwold",
- "Alchfriþ",
- "Ælfwine",
- "Ealdfriþ",
- "Ecgfriþ",
- "Osred"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",        "sex"
+
+; Kings of Bernicia:
+ "Esa",         "Male"
+ "Eoppa",       "Male"
+ "Glappa",      "Male"
+ "Æðelric",     "Male"
+ "Þeodric",     "Male"
+ "Friþuwald",   "Male"
+ "Æðelfriþ",    "Male"
+ "Eanfriþ",     "Male"
+
+; Kings of Deira:
+ "Edwin",       "Male"
+ "Osric",       "Male"
+ "Oswald",      "Male"
+ "Æðelwold",    "Male"
+ "Alchfriþ",    "Male"
+ "Ælfwine",     "Male"
+ "Ealdfriþ",    "Male"
+ "Ecgfriþ",     "Male"
+ "Osred",       "Male"
+}
+
 flag = "northumbria"
 flag_alt = "england"
 city_style = "European"

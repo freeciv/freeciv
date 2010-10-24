@@ -6,14 +6,17 @@ groups="Ancient", "Modern", "Asian"
 legend=_("The nation of Israel was founded in 1948 as a scattered collection\
  of cantons in British Palestine, and has gradually expanded through winning\
  a series of wars launched against it in 1948, 1967 and 1973.")
-leader=
- "Solomon",
- "David",
- "David Ben-Gurion",
- "Ze'ev Zabotinsky",
- "Golda Meir", 
- "Moshe Dayan"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Solomon",             "Male"
+ "David",               "Male"
+ "David Ben-Gurion",    "Male"
+ "Ze'ev Zabotinsky",    "Male"
+ "Golda Meir",          "Female"
+ "Moshe Dayan",         "Male"
+}
+
 flag="israel"
 flag_alt = "-"
 city_style = "Babylonian"

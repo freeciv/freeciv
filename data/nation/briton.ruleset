@@ -6,14 +6,16 @@ groups="Ancient", "European"
 legend=_("The Britons were the inhabitants of most of Great Britain\
  during the Iron Age. They spoke Brythonic Celtic languages and are the\
  ancestors of the modern Welsh, Cornish and Breton people.")
-leader=
- "Cunobelinos",
- "Cassiwellaunos",
- "Caratacos",
- "Cartismandua",
- "Boudica"
 
-leader_sex="Male", "Male", "Male", "Female", "Female"
+leaders = {
+ "name",                "sex"
+ "Cunobelinos",         "Male"
+ "Cassiwellaunos",      "Male"
+ "Caratacos",           "Male"
+ "Cartismandua",        "Female"
+ "Boudica",             "Female"
+}
+
 flag="britannia"
 flag_alt = "gaul"
 city_style = "Celtic"

@@ -9,11 +9,12 @@ legend=_("The Cree are the largest native group in Canada with over 200,000\
  \"Iiyiyuu\" or \"Iinuu,\" meaning \"people.\" They originally inhabited\
  much of Quebec, Labrador, Alberta, Saskatchewan, Ontario and Manitoba.")
 
-leader=
- "Awashish",
- "Mukash",
- "Ominayak"
-leader_sex="Male", "Male", "Male"
+leaders = {
+ "name",        "sex"
+ "Awashish",    "Male"
+ "Mukash",      "Male"
+ "Ominayak",    "Male"
+}
 
 ruler_titles = { "government",      "male_title",      "female_title"
 		 ; /* TRANS: Uchimaahkaan = Chief */

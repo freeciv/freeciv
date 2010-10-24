@@ -9,20 +9,22 @@ legend = _("The Ostrogoths or Greuthungi (meaning people of the steppe,\
  conquered Italy from Odoacer and founded their kingdom there. In the 5th\
  century the Ostrogothic kingdom was crushed by the Byzantines in a war\
  that depopulated much of Italy.")
-leader=
-"Walamers",
-"Þiudamers",
-"Þiudareiks",
-"Amalaswinþa",
-"Aþalareiks",
-"Þiudahaþus",
-"Weitigeisas",
-"Hildibadus",
-"Herareiks",
-"Totila",
-"Þeia"
-leader_sex=
- "Male", "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",        "sex"
+ "Walamers",    "Male"
+ "Þiudamers",   "Male"
+ "Þiudareiks",  "Male"
+ "Amalaswinþa", "Female"
+ "Aþalareiks",  "Male"
+ "Þiudahaþus",  "Male"
+ "Weitigeisas", "Male"
+ "Hildibadus",  "Male"
+ "Herareiks",   "Male"
+ "Totila",      "Male"
+ "Þeia",        "Male"
+}
+
 flag= "valknut" 
 flag_alt = "-" 
 city_style = "Celtic" 

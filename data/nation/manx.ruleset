@@ -10,25 +10,26 @@ legend=_("The Isle of Man is a island in the British Isles located\
  Lordship of Man. Man is noted for having the oldest still functioning\
  parliament in the world, the Tynwald, which exists since 979 AD. Since\
  1765 the island depends on Great Britain.")
-leader=
-"Ketill Flatnose",
-"Maccus mac Arailt",
-"Gofraid mac Arailt",
-"Echmarcach mac Ragnaill",
-"Murchad mac Diarmata",
-"Diarmait mac Maíl na mBó",
-"Fingal Godfredson",
-"Gofraid Méranech",
-"Domnall mac Taidc Ua Briain",
-"Lagman",
-"Gofraidh mac Amhlaibh",
-"Somhairle",
-"Raghnall mac Arallt",
-"Raghnall mac Gofraidh",
-"Arailt mac Amhlaibh"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Ketill Flatnose",             "Male"
+ "Maccus mac Arailt",           "Male"
+ "Gofraid mac Arailt",          "Male"
+ "Echmarcach mac Ragnaill",     "Male"
+ "Murchad mac Diarmata",        "Male"
+ "Diarmait mac Maíl na mBó",    "Male"
+ "Fingal Godfredson",           "Male"
+ "Gofraid Méranech",            "Male"
+ "Domnall mac Taidc Ua Briain", "Male"
+ "Lagman",                      "Male"
+ "Gofraidh mac Amhlaibh",       "Male"
+ "Somhairle",                   "Male"
+ "Raghnall mac Arallt",         "Male"
+ "Raghnall mac Gofraidh",       "Male"
+ "Arailt mac Amhlaibh",         "Male"
+}
+
 flag= "man" 
 flag_alt = "-" 
 city_style = "Celtic" 

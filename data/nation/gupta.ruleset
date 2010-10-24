@@ -7,14 +7,14 @@ groups="Asian", "Ancient"
 legend=_("The Gupta Empire was one of the great classical empires. It\
  ruled northern India from around 240 to 550 AD.")
 
-leader=
- "Chandra Gupta I",
- "Sumudra Gupta",
- "Kumara Gupta",
- "Skanda Gupta",
- "Chandra Gupta II"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Chandra Gupta I",     "Male"
+ "Sumudra Gupta",       "Male"
+ "Kumara Gupta",        "Male"
+ "Skanda Gupta",        "Male"
+ "Chandra Gupta II",    "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",       _("Raja"),           _("Rani")

@@ -10,15 +10,18 @@ legend=_("Although Occitania never had a real political unity (it\
  religous freedom allowed the flourishing of Catharism, which was\
  declared heretic by the Pope, and the French kings took advantage\
  of the subsequent crusade to annex its territory.")
-leader=
- "Raimon-Rogièr Trencavel",
- "Rogièr Bernat I",
- "Guilhèm de Gellona",
- "Raimon VI",
- "Alienòr d'Aquitània",
- "Felipa Maude",
- "Frederic Mistral"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Female", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Raimon-Rogièr Trencavel",     "Male"
+ "Rogièr Bernat I",             "Male"
+ "Guilhèm de Gellona",          "Male"
+ "Raimon VI",                   "Male"
+ "Alienòr d'Aquitània",         "Female"
+ "Felipa Maude",                "Female"
+ "Frederic Mistral",            "Male"
+}
+
 flag="occitania"
 flag_alt = "-"
 city_style = "European"

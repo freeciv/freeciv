@@ -7,24 +7,26 @@ legend=_("Sikhs are the followers of a monotheistic religion originating\
  from the Indian Subcontinent in the 15th century. The Punjab, on the\
  border of Pakistan and India, is the heartland of Sikhism. In the 19th\
  century a Sikh Empire existed in the region.")
-leader =
- "Nanak Dev",
- "Angad Dev",
- "Amar Das",
- "Ram Das",
- "Arjan Dev",
- "Har Gobind",
- "Har Rai",
- "Har Krishan",
- "Tegh Bahadur",
- "Gobind Singh",
- "Nawab Kapur Singh",
- "Bibi Sahib Kaur",
- "Ranjit Singh",
- "Jind Kaur",
- "Sher Singh Attariwalla"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Female", "Male", "Female", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Nanak Dev",                   "Male"
+ "Angad Dev",                   "Male"
+ "Amar Das",                    "Male"
+ "Ram Das",                     "Male"
+ "Arjan Dev",                   "Male"
+ "Har Gobind",                  "Male"
+ "Har Rai",                     "Male"
+ "Har Krishan",                 "Male"
+ "Tegh Bahadur",                "Male"
+ "Gobind Singh",                "Male"
+ "Nawab Kapur Singh",           "Male"
+ "Bibi Sahib Kaur",             "Female"
+ "Ranjit Singh",                "Male"
+ "Jind Kaur",                   "Female"
+ "Sher Singh Attariwalla",      "Male"
+}
+
 flag = "sikh"
 flag_alt = "-"
 city_style = "Babylonian"

@@ -14,16 +14,18 @@ legend=_("Oral tradition indicates that the Yakuts - or Sakha as they call\
  Numbering about a million today,\
  the Yakuts make up roughly half of the population of the vast Sakha\
  Republic of Russia's Far Eastern district.")
-leader=
-; Latinized Sakha - Russian-based English name - Cyrillic Sakha
- "Platon Ojuunuskaj", ; Platon Oyunsky / Платон Ойуунускай
- "Sèmèn Noghoruodap", ; Semyon Novgorodov / Сэмэн Ноҕоруодап
- "Tygyn Darxan", ; Tygyn Darkhan / Тыгын Дархан
- "Manchaary", ; Manchari / Манчаары
- "Tuyaara", ; Туйаара
- "Kùnnèy" ; Күннэй
 
-leader_sex="Male", "Male", "Male", "Male", "Female", "Female"
+; Latinized Sakha - Russian-based English name - Cyrillic Sakha
+leaders = {
+ "name",                "sex"
+ "Platon Ojuunuskaj",   "Male" ; Platon Oyunsky / Платон Ойуунускай
+ "Sèmèn Noghoruodap",   "Male" ; Semyon Novgorodov / Сэмэн Ноҕоруодап
+ "Tygyn Darxan",        "Male" ; Tygyn Darkhan / Тыгын Дархан
+ "Manchaary",           "Male" ; Manchari / Манчаары
+ "Tuyaara",             "Female" ; Туйаара
+ "Kùnnèy",              "Female" ; Күннэй
+}
+
 flag="sakha"
 flag_alt = "-"
 city_style = "European"

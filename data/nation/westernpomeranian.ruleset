@@ -10,18 +10,20 @@ legend=_("Western Pomerania is a geographical and historical region in\
  divided into smaller feudal principalities which were gradually conquered\
  by Brandenburg. For many years this land was part of Germany but in 1945\
  it was attached to Poland.")
-leader=
- "Warcisław I",
- "Warcisław II",
- "Barmin I",
- "Bogusław I",
- "Bogusław IV",
- "Kazimierz II",
- "Racibor",
- "Eryk I",
- "Eryk II"
-leader_sex=
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Warcisław I",         "Male"
+ "Warcisław II",        "Male"
+ "Barmin I",            "Male"
+ "Bogusław I",          "Male"
+ "Bogusław IV",         "Male"
+ "Kazimierz II",        "Male"
+ "Racibor",             "Male"
+ "Eryk I",              "Male"
+ "Eryk II",             "Male"
+}
+
 flag = "pomerania"
 flag_alt = "-"
 city_style = "European"

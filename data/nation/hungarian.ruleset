@@ -6,15 +6,17 @@ groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("Legend says that Hungary was founded by Arpad in the 9th\
  century.")
 
-leader=
- "Árpád",
- "Szent István",
- "Károly Róbert",
- "Hunyadi Mátyás",
- "Mária Terézia",
- "Batthyány",
- "Béla IV"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Árpád",               "Male"
+ "Szent István",        "Male"
+ "Károly Róbert",       "Male"
+ "Hunyadi Mátyás",      "Male"
+ "Mária Terézia",       "Female"
+ "Batthyány",           "Male"
+ "Béla IV",             "Male"
+}
+
 flag="hungary"
 flag_alt = "-"
 city_style = "European"

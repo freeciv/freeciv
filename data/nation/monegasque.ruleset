@@ -10,19 +10,19 @@ legend=_("With only two square kilometers, Monaco is the second smallest\
  absence of income taxes, its casino and its Formula 1 track. Foreigners\
  make up more than 80 percent of the population. In terms of GDP per\
  capita Monaco is the wealthiest country in the world by a large margin.")
-leader =
- "François Grimaldi",
- "Charles Grimaldi",
- "Claudine",
- "Honoré II",
- "Florestan I",
- "Louis II",
- "Rainier III",
- "Albert II",
- "Caroline"
 
-leader_sex = "Male", "Male", "Female", "Male",
- "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                "sex"
+ "François Grimaldi",   "Male"
+ "Charles Grimaldi",    "Male"
+ "Claudine",            "Female"
+ "Honoré II",           "Male"
+ "Florestan I",         "Male"
+ "Louis II",            "Male"
+ "Rainier III",         "Male"
+ "Albert II",           "Male"
+ "Caroline",            "Female"
+}
 
 flag = "monaco_alternative" 
 flag_alt = "indonesia" ;the regular flag is identical to the Indonesian flag

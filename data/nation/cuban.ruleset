@@ -7,14 +7,16 @@ legend=_("Cuba came under Spanish control in the 16th century. In the\
  following centuries, the island became one of the leading producers of\
  tobacco, sugar and coffee in the world. Cuba was granted nominal\
  independence in 1902.")
-leader=
-  "José Martí",
-  "Fulgencio Batista",
-  "Camilo Cienfuegos",
-  "Ernesto Che Guevara",
-  "Fidel Castro"
 
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "José Martí",          "Male"
+ "Fulgencio Batista",   "Male"
+ "Camilo Cienfuegos",   "Male"
+ "Ernesto Che Guevara", "Male"
+ "Fidel Castro",        "Male"
+}
+
 flag="cuba"
 flag_alt = "-"
 city_style = "Classical"

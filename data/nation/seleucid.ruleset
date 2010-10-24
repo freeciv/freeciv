@@ -8,18 +8,21 @@ legend=_("The Seleucid Empire was one of the diadochi states founded when\
  was named after its founder Seleucus I Nicator. Centered in Syria, the\
  Seleucids where the most powerful of the diadochi states but eventually\
  succumbed to Rome in the last century BC.")
-leader=
- "Seleukos Nikator",
- "Antiochos Soter",
- "Antiochos Theos",
- "Seleukos Kallinikos",
- "Antiochos Megas",
- "Antiochos Epifanes",
- "Demetrios Nikator",
- "Kleopatra Thea",
- "Antiochos Grypos",
- "Filippos Filoromaios"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Seleukos Nikator",            "Male"
+ "Antiochos Soter",             "Male"
+ "Antiochos Theos",             "Male"
+ "Seleukos Kallinikos",         "Male"
+ "Antiochos Megas",             "Male"
+ "Antiochos Epifanes",          "Male"
+ "Demetrios Nikator",           "Male"
+ "Kleopatra Thea",              "Female"
+ "Antiochos Grypos",            "Male"
+ "Filippos Filoromaios",        "Male"
+}
+
 flag="seleucid"
 flag_alt = "-"
 city_style = "Classical"

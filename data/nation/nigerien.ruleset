@@ -10,13 +10,15 @@ legend=_("Niger is a country in the Sahel region of West Africa, named\
  bottom in international rankings such as the Human Development Index.\
  Niger has both the highest fertility rate and infant mortality rate in\
  the world. Niger should not be confused with Nigeria.")
-leader =
- "Hamani Diori",
- "Seyni Kountché",
- "Ali Saibou",
- "Ibrahim Baré Maïnassara"
 
-leader_sex = "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Hamani Diori",                "Male"
+ "Seyni Kountché",              "Male"
+ "Ali Saibou",                  "Male"
+ "Ibrahim Baré Maïnassara",     "Male"
+}
+
 flag = "niger"
 flag_alt = "-"
 city_style = "Celtic"

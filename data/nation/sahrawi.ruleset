@@ -8,13 +8,15 @@ legend=_("The Sahrawi are the inhabitants of the Western Sahara, a former\
  considered an illegal occupation by most of the international community.\
  The Moroccan Army and Sahrawi Polisario rebels have been fighting each\
  other since 1975.")
-leader=
- "Muhammad Bassiri",
- "El-Ouali Mustapha Sayed",
- "Mohamed Abdelaziz",
- "Aminatou Haidar"
 
-leader_sex="Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Muhammad Bassiri",            "Male"
+ "El-Ouali Mustapha Sayed",     "Male"
+ "Mohamed Abdelaziz",           "Male"
+ "Aminatou Haidar",             "Female"
+}
+
 flag="sadr"
 flag_alt = "-"
 city_style = "Babylonian"

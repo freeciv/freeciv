@@ -6,18 +6,20 @@ groups="Modern", "Early Modern", "Medieval", "European"
 legend=_("France has long been a major power in Europe. French conquerors\
  like Emperor Napoleon and King Charlemagne united large parts of\
  Europe under the French flag.")
-leader=
- "Napoléon Bonaparte",
- "Charlemagne",
- "Henri IV",
- "Louis XIV",
- "Charles de Gaulle",
- "Vercingétorix",
- "Clovis",
- "Charles Martel",
- "Jeanne d'Arc"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Female"
+
+leaders = {
+ "name",                "sex"
+ "Napoléon Bonaparte",  "Male"
+ "Charlemagne",         "Male"
+ "Henri IV",            "Male"
+ "Louis XIV",           "Male"
+ "Charles de Gaulle",   "Male"
+ "Vercingétorix",       "Male"
+ "Clovis",              "Male"
+ "Charles Martel",      "Male"
+ "Jeanne d'Arc",        "Female"
+}
+
 flag="france"
 flag_alt = "-"
 city_style = "Celtic"

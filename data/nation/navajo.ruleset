@@ -10,18 +10,19 @@ legend=_("The Navajo or Dine are the most populous Native American\
  nation of the United States. They are closely related to the Apache.\
  Their language is famous for being one of the world's most\
  complex.")
-leader=
- "Dághaaʼ",		;Barboncito
- "Bislahalani",
- "Hózhǫ́ǫ́jí Naatʼą́",
- "Askkii Dighin",
- "Ch’ilhajinii",	;Manuelito
- "Hildjajin",
- "Haskeh",
- "Narbona",
- "Annie Dodge Wauneka"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Dághaaʼ",             "Male" ; Barboncito
+ "Bislahalani",         "Male"
+ "Hózhǫ́ǫ́jí Naatʼą́",     "Male"
+ "Askkii Dighin",       "Male"
+ "Ch’ilhajinii",        "Male" ; Manuelito
+ "Hildjajin",           "Male"
+ "Haskeh",              "Male"
+ "Narbona",             "Male"
+ "Annie Dodge Wauneka", "Female"
+}
 
 flag="navajo"
 flag_alt = "-"

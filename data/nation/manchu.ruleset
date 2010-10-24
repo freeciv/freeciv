@@ -6,15 +6,18 @@ groups="Medieval", "Asian", "Early Modern"
 legend=_("The Manchus were a semi-nomadic people originating from the region\
  called Manchuria in Northeast Asia. In the 17th century they conquered and\
  ruled China as the Manchu Empire until 1911.")
-leader=
- "Puyi",
- "Cixi",
- "Abkai Wehiyehe", ; Qianlong Emperor
- "Puxian Wannu",
- "Giocangga",
- "Abatai",
- "Nurhaci"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Puyi",                "Male"
+ "Cixi",                "Female"
+ "Abkai Wehiyehe",      "Male" ; Qianlong Emperor
+ "Puxian Wannu",        "Male"
+ "Giocangga",           "Male"
+ "Abatai",              "Male"
+ "Nurhaci",             "Male"
+}
+
 flag="manchuria"
 flag_alt = "-"
 city_style = "Asian"

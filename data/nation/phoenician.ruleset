@@ -12,15 +12,17 @@ legend=_("Phoenicia was an ancient civilization, based in what is now the\
  Greek and Latin names.  They referred to themselves a Kan'ani and their\
  Punic (Carthaginian) descendents in St. Augustine's day called themselves\
  Chanani.")
-leader=
- "Hiram",
- "Agenor",
- "Eshmunazar",
- "Kadmos",
- "Ithobaal",
- "Abd'ashtart"
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male"
+
+leaders = {
+ "name",        "sex"
+ "Hiram",       "Male"
+ "Agenor",      "Male"
+ "Eshmunazar",  "Male"
+ "Kadmos",      "Male"
+ "Ithobaal",    "Male"
+ "Abd'ashtart", "Male"
+}
+
 flag="phoenicia"
 flag_alt = "-"
 city_style = "Classical"

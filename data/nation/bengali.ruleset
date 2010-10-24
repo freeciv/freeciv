@@ -8,15 +8,18 @@ legend=_("Bengal is a region in the easternmost part of the Indian\
  Shashanka who reigned around 606 AD. Today the People's Republic of\
  Bangladesh occupies the eastern part of the region, while the western part\
  is the Indian state of West Bengal.")
-leader=
- "Shashanka",
- "Gopala I",
- "Dharampala",
- "Devapala",
- "Jagat Malla",
- "Siraj Ud Daulah",
- "Ziaur Rahman"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Shashanka",           "Male"
+ "Gopala I",            "Male"
+ "Dharampala",          "Male"
+ "Devapala",            "Male"
+ "Jagat Malla",         "Male"
+ "Siraj Ud Daulah",     "Male"
+ "Ziaur Rahman",        "Male"
+}
+
 flag="bangladesh"
 flag_alt = "-"
 city_style = "Asian"

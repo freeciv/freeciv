@@ -6,22 +6,23 @@ groups="European", "Medieval", "Modern"
 legend=_("One of Europe's smaller countries, Luxembourg was founded as\
  a county in 963. In 1815 it was elevated to a Grand Duchy in a personal\
  union with the Netherlands, which was severed in 1890.")
-leader=
- "Siegfried I",
- "Heng de Blannen",
- "Heinrich IV",
- "Wenzel I",
- "Sigismund",
- "Karl V",
- "Wëllem I",
- "Wëllem III",
- "Paul Eyschen",
- "Marie-Adélaïde",
- "Charlotte",
- "Jean"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Female", "Female", "Male"
+leaders = {
+ "name",                "sex"
+ "Siegfried I",         "Male"
+ "Heng de Blannen",     "Male"
+ "Heinrich IV",         "Male"
+ "Wenzel I",            "Male"
+ "Sigismund",           "Male"
+ "Karl V",              "Male"
+ "Wëllem I",            "Male"
+ "Wëllem III",          "Male"
+ "Paul Eyschen",        "Male"
+ "Marie-Adélaïde",      "Female"
+ "Charlotte",           "Female"
+ "Jean",                "Male"
+}
+
 flag="luxembourg"
 flag_alt = "netherlands"
 city_style = "european"

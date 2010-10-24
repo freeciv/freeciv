@@ -5,15 +5,17 @@ plural = _("?plural:Malaysians")
 groups = "Modern", "Asian"
 legend = _("Malaysia was started with the founding of Malacca (Melaka) by\
  Parameswara in the early 14th century.")
-leader =
- "Parameswara",
- "Mansur",
- "Perak",
- "Hang Tuah",
- "Abdul Rahman",
- "Abdul Razak"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Parameswara",         "Male"
+ "Mansur",              "Male"
+ "Perak",               "Male"
+ "Hang Tuah",           "Male"
+ "Abdul Rahman",        "Male"
+ "Abdul Razak",         "Male"
+}
+
 flag = "malaysia"
 flag_alt = "-"
 city_style = "Tropical"

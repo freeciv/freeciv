@@ -17,13 +17,16 @@ legend=_("The Toltecs were a Meso-American civilization that existed from\
  is based on Aztec mythology, some claim there was never a Toltec Empire,\
  but that Aztec references to the Toltecs were an allegory for\
  civilization.")
-leader=
- "Mixcoatl",
- "Topiltzin Quetzalcoatl",
- "Quetzalpetlatl",
- "Tlahuizcalpantecuhtli",
- "Huemac"
-leader_sex="Male", "Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Mixcoatl",                    "Male"
+ "Topiltzin Quetzalcoatl",      "Male"
+ "Quetzalpetlatl",              "Female"
+ "Tlahuizcalpantecuhtli",       "Male"
+ "Huemac",                      "Male"
+}
+
 flag="toltec"
 flag_alt = "aztec"
 city_style = "Classical"

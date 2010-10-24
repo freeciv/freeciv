@@ -8,16 +8,16 @@ legend=_("The Kalmyks are a Western Mongolian ethnic group living in\
  17th century and formed a khanate that was allied with Russia. The\
  Kalmyks are the only Buddhist nation of Europe.")
 
-leader=
- "Esen",
- "Kho Orluk",
- "Ayuka", 
- "Ubashi",
- "Menko Bormanzhinov",
- "Oka Gorodovikov",
- "Kirsan Ilyumzhinov"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Esen",                "Male"
+ "Kho Orluk",           "Male"
+ "Ayuka",               "Male"
+ "Ubashi",              "Male"
+ "Menko Bormanzhinov",  "Male"
+ "Oka Gorodovikov",     "Male"
+ "Kirsan Ilyumzhinov",  "Male"
+}
 
 flag="kalmykia"
 flag_alt = "-"

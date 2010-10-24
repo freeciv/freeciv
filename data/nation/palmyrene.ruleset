@@ -5,13 +5,14 @@ plural=_("?plural:Palmyrenes")
 groups= "Asian", "Ancient"
 legend=_("Palmyra was a breakaway Roman state in Asia governed by queen\
  Zenobia. It 273 AD Aurelian brought it back under Roman control.")
-leader=
- "Septimius Odaenathus",
- "Septimia Zenobia",
- "Vabalathus",
- "Cassius Longinus"
- 
-leader_sex="Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Septimius Odaenathus",        "Male"
+ "Septimia Zenobia",            "Female"
+ "Vabalathus",                  "Male"
+ "Cassius Longinus",            "Male"
+}
 
 flag="palmyra"
 flag_alt = "-"

@@ -13,14 +13,14 @@ legend=_("During the colonial era Central America formed the Captaincy\
  since 1993 the Central American republics cooperate in the Central\
  American Integration System (SICA).")
 
-leader=
- "Gabino Gaínza",
- "Vicente Filísola",
- "Manuel José Arce",
- "Francisco Morazán",
- "Manuel Coronel Matus"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Gabino Gaínza",               "Male"
+ "Vicente Filísola",            "Male"
+ "Manuel José Arce",            "Male"
+ "Francisco Morazán",           "Male"
+ "Manuel Coronel Matus",        "Male"
+}
 
 flag         = "central_america"
 flag_alt     = "-"

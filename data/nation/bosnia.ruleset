@@ -5,19 +5,20 @@ plural=_("?plural:Bosnians")
 groups="Modern", "European"
 legend=_("Bosnia and Herzegovina is a country in south-east Europe, and the\
  home of three constituent peoples: Bosniaks, Serbs, and Croats.")
-leader=
- "Kulin",
- "Tvrtko Kotromanić",
- "Prijezda I",
- "Stjepan Tomaš",
- "Nikola Filipović",
- "Avdo Humo",
- "Alija Izetbegović",
- "Husein-beg Gradaščević",
- "Džemal Bijedić"
-leader_sex="Male", "Male", "Male",
-           "Male", "Male", "Male",
-           "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Kulin",                       "Male"
+ "Tvrtko Kotromanić",           "Male"
+ "Prijezda I",                  "Male"
+ "Stjepan Tomaš",               "Male"
+ "Nikola Filipović",            "Male"
+ "Avdo Humo",                   "Male"
+ "Alija Izetbegović",           "Male"
+ "Husein-beg Gradaščević",      "Male"
+ "Džemal Bijedić",              "Male"
+}
+
 flag="bosnia"
 flag_alt = "-"
 city_style = "European"

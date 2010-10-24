@@ -7,14 +7,17 @@ legend=_("The region that is now Libya was a Roman colony until it was\
  conquered by the Arab civilization in the 7th century. In 1912 it came\
  under the control of Italy and after the Second World War Libya was granted\
  independence as a condition of the Allied peace treaty with Italy.")
-leader=
- "Muammar al-Qadhafi",
- "Omar al-Moktar",
- "Suleiman Safar",
- "Ahmad ash-Sharif",
- "Muhammad Idris",
- "Ramadan as Suwaythi"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Muammar al-Qadhafi",  "Male"
+ "Omar al-Moktar",      "Male"
+ "Suleiman Safar",      "Male"
+ "Ahmad ash-Sharif",    "Male"
+ "Muhammad Idris",      "Male"
+ "Ramadan as Suwaythi", "Male"
+}
+
 flag ="libya"
 flag_alt = "-"
 city_style = "Classical"

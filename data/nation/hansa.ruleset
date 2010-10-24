@@ -7,18 +7,20 @@ legend=_("The Hanseatic League was a powerful alliance of trading cities\
  existing from the 12th to the 19th century. Hanseatic cities were found\
  in the North Sea and Baltic region. Members of the league had their own\
  law system and occasionaly the Hansa went to war with rivalling powers.")
-leader =
- "Hinrich de Lööw",
- "Johann Rinck",
- "Georg Giese",
- "Paul Beneke",
- "Albrecht Giese",
- "Johann Smidt",
- "Heinrich Sudermann",
- "Simon vun Utrecht",
- "Jürgen Wullenwever"
-leader_sex = "Male", "Male", "Male", "Male", "Male",
-             "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Hinrich de Lööw",     "Male"
+ "Johann Rinck",        "Male"
+ "Georg Giese",         "Male"
+ "Paul Beneke",         "Male"
+ "Albrecht Giese",      "Male"
+ "Johann Smidt",        "Male"
+ "Heinrich Sudermann",  "Male"
+ "Simon vun Utrecht",   "Male"
+ "Jürgen Wullenwever",  "Male"
+}
+
 flag="hansa"
 flag_alt = "germany"
 city_style = "European"

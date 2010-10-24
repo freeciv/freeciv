@@ -9,19 +9,19 @@ legend=_("After the fall of the Western Roman Empire, a Germanic people\
  country with the court in Dijon outshining that of Paris. It is today one\
  of the regions of France.")
 
-leader=
- "Richard le Justicier",
- "Henri le Grand",
- "Hugues III",
- "Eudes IV",
- "Philippe le Hardi",
- "Jean sans Peur",
- "Philippe le Bon",
- "Charles le Téméraire",
- "Marie",
- "Marguerite"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Female", "Female"
+leaders = {
+ "name",                        "sex"
+ "Richard le Justicier",        "Male"
+ "Henri le Grand",              "Male"
+ "Hugues III",                  "Male"
+ "Eudes IV",                    "Male"
+ "Philippe le Hardi",           "Male"
+ "Jean sans Peur",              "Male"
+ "Philippe le Bon",             "Male"
+ "Charles le Téméraire",        "Male"
+ "Marie",                       "Female"
+ "Marguerite",                  "Female"
+}
 
 flag = "burgundy"
 flag_alt = "-"

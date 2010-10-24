@@ -5,44 +5,42 @@ plural=_("?plural:Americans")
 groups="Early Modern", "Modern", "American"
 legend=_("Formally named the United States of America.  Independent from\
  Great Britain after a revolution in 1776-1783 AD.")
-leader="George Washington",
-       "Alexander Hamilton",
-       "Benjamin Franklin",
-       "John Adams",
-       "Thomas Jefferson", 
-       "James Madison",
-       "James Monroe",
-       "John Quincy Adams",
-       "Andrew Jackson",
-       "Martin Van Buren",
-       "John Tyler",
-       "James Polk",
-       "Zachary Taylor",
-       "Abraham Lincoln",
-       "Andew Johnson", 
-       "Ulysses S. Grant",
-       "James Garfield",
-       "Grover Cleveland",
-       "Benjamin Harrison",
-       "William McKinley",
-       "Theodore Roosevelt",
-       "Woodrow Wilson",
-       "Herbert Hoover",
-       "Franklin D. Roosevelt",
-       "Harry S. Truman",
-       "Dwight Eisenhower",
-       "John F. Kennedy", 
-       "Lyndon Johnson",
-       "Richard Nixon",
-       "Ronald Reagan",
-       "Eleanor Roosevelt"
-leader_sex="Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male",
-           "Female"
+
+leaders = {
+ "name",                        "sex"
+ "George Washington",           "Male"
+ "Alexander Hamilton",          "Male"
+ "Benjamin Franklin",           "Male"
+ "John Adams",                  "Male"
+ "Thomas Jefferson",            "Male"
+ "James Madison",               "Male"
+ "James Monroe",                "Male"
+ "John Quincy Adams",           "Male"
+ "Andrew Jackson",              "Male"
+ "Martin Van Buren",            "Male"
+ "John Tyler",                  "Male"
+ "James Polk",                  "Male"
+ "Zachary Taylor",              "Male"
+ "Abraham Lincoln",             "Male"
+ "Andew Johnson",               "Male"
+ "Ulysses S. Grant",            "Male"
+ "James Garfield",              "Male"
+ "Grover Cleveland",            "Male"
+ "Benjamin Harrison",           "Male"
+ "William McKinley",            "Male"
+ "Theodore Roosevelt",          "Male"
+ "Woodrow Wilson",              "Male"
+ "Herbert Hoover",              "Male"
+ "Franklin D. Roosevelt",       "Male"
+ "Harry S. Truman",             "Male"
+ "Dwight Eisenhower",           "Male"
+ "John F. Kennedy",             "Male"
+ "Lyndon Johnson",              "Male"
+ "Richard Nixon",               "Male"
+ "Ronald Reagan",               "Male"
+ "Eleanor Roosevelt",           "Female"
+}
+
 flag="usa"
 flag_alt = "-"
 city_style = "Celtic"

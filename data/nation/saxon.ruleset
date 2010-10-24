@@ -5,12 +5,15 @@ plural=_("?plural:Saxons")
 groups="Medieval", "Early Modern", "European"
 legend=_("The Electorate of Saxony was an independent hereditary electorate\
  of the Holy Roman Empire from 1356-1806.")
-leader =
- "Rudolf I",
- "Frederick Augustus I",
- "Frederick Augustus II",
- "Frederick Augustus III"
-leader_sex = "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Rudolf I",                    "Male"
+ "Frederick Augustus I",        "Male"
+ "Frederick Augustus II",       "Male"
+ "Frederick Augustus III",      "Male"
+}
+
 flag="saxony"
 flag_alt = "-"
 city_style = "European"

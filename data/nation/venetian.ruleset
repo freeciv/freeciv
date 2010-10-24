@@ -11,15 +11,17 @@ legend=_("The Republic of Venice emerged from the shadows of history\
  on trade, and its navy was respected throughout the Mediterranean sea.\
  After a long decline, it eventually fell to the armies of Bonaparte in\
  1796.")
-leader =
- "Enrico Dandolo",
- "Giustiniano Participazio",
- "Pietro Tribuno",
- "Lorenzo Tiepolo",
- "Leonardo Loredan",
- "Andrea Gritti"
-leader_sex = "Male", "Male", "Male",
-             "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Enrico Dandolo",              "Male"
+ "Giustiniano Participazio",    "Male"
+ "Pietro Tribuno",              "Male"
+ "Lorenzo Tiepolo",             "Male"
+ "Leonardo Loredan",            "Male"
+ "Andrea Gritti",               "Male"
+}
+
 flag = "venice"
 flag_alt = "italy"
 city_style = "Classical"

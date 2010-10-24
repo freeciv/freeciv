@@ -17,17 +17,20 @@ legend=_("Paraguay is located in the heartland of South America. It was\
  was ruled by General Stroessner, who provided a safe haven for Nazi war\
  criminals. Around the turn of the millennium however Paraguay started to\
  see a democratic system of government and an impressive economic growth.")
-leader=
- "Gaspar Rodríguez de Francia",
- "Carlos Antonio López",
- "Francisco Solano López",
- "Eusebio Ayala",
- "José Félix Estigarribia",
- "Higinio Moríñigo",
- "Alfredo Stroessner",
- "Andrés Rodríguez",
- "Fernando Lugo"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Gaspar Rodríguez de Francia", "Male"
+ "Carlos Antonio López",        "Male"
+ "Francisco Solano López",      "Male"
+ "Eusebio Ayala",               "Male"
+ "José Félix Estigarribia",     "Male"
+ "Higinio Moríñigo",            "Male"
+ "Alfredo Stroessner",          "Male"
+ "Andrés Rodríguez",            "Male"
+ "Fernando Lugo",               "Male"
+}
+
 flag="paraguay"
 flag_alt = "-"
 city_style = "European"

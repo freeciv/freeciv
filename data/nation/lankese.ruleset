@@ -6,12 +6,15 @@ groups="Ancient", "Medieval", "Early Modern", "Modern", "Asian"
 legend=_("Prince Vijaya came to Sri Lanka from Orissa, in north-eastern\
  India during the 6th century BC and founded the Sinhalese kingdom there.\
  During British colonialism the country was known as Ceylon.")
-leader=
- "Vijaya",
- "Parakramabahu I",
- "Kasyapa",
- "J.R. Jayewardene"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Vijaya",              "Male"
+ "Parakramabahu I",     "Male"
+ "Kasyapa",             "Male"
+ "J.R. Jayewardene",    "Male"
+}
+
 flag="srilanka"
 flag_alt = "-"
 city_style = "Asian"

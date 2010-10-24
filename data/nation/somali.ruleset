@@ -10,24 +10,25 @@ legend=_("Somali is a country in the Horn of Africa. In ancient times\
  Barre unsuccesfully tried to root out the country's clan system. In\
  1991 he was overthrown. The country has been without a functioning\
  government ever since.")
-leader=
- "Abdulaahi Kooge Maxamuud Harti",
- "Axmed Guray",
- "Geraad Cali Dable",
- "Ibraahin Adeer",
- "Yuusuf Maxamuud Ibrahiim",
- "Yuusuf Cali Keenadiid",
- "Cusmaan Ahmed",
- "Sayid Maxamed Cabdille Xasan",
- "Maxamuud Cali Shiire",
- "Aadan Cabdulle Cusmaan",
- "Maxamed Siyaad Barre",
- "Maxamed Faarax Caydiid",
- "Ayaan Xirsi Cali",
- "Ahmed Yuusuf"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male"
+leaders = {
+ "name",                                "sex"
+ "Abdulaahi Kooge Maxamuud Harti",      "Male"
+ "Axmed Guray",                         "Male"
+ "Geraad Cali Dable",                   "Male"
+ "Ibraahin Adeer",                      "Male"
+ "Yuusuf Maxamuud Ibrahiim",            "Male"
+ "Yuusuf Cali Keenadiid",               "Male"
+ "Cusmaan Ahmed",                       "Male"
+ "Sayid Maxamed Cabdille Xasan",        "Male"
+ "Maxamuud Cali Shiire",                "Male"
+ "Aadan Cabdulle Cusmaan",              "Male"
+ "Maxamed Siyaad Barre",                "Male"
+ "Maxamed Faarax Caydiid",              "Male"
+ "Ayaan Xirsi Cali",                    "Female"
+ "Ahmed Yuusuf",                        "Male"
+}
+
 flag= "somalia" 
 flag_alt = "arab" 
 city_style = "Tropical" 

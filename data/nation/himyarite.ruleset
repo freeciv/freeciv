@@ -17,14 +17,14 @@ builders, finding it necessary to erect citadels to protect against\
  fifth Sassanid satrap of \"al-Yaman\" converted to Islam and Southern\
  Arabia was incorporated into the new, expanding Muslim empire.")
 
-leader=
- "Shamir Yuhar'esh II",
- "Sha'ram Awtar",
- "Yusif Asar",
- "dhu-Nawas",
- "Sayf ibn-dhi-Yazan"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Shamir Yuhar'esh II", "Male"
+ "Sha'ram Awtar",       "Male"
+ "Yusif Asar",          "Male"
+ "dhu-Nawas",           "Male"
+ "Sayf ibn-dhi-Yazan",  "Male"
+}
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Sheikh"),	_("Shaykha")

@@ -5,14 +5,17 @@ plural=_("?plural:Texans")
 groups="American"
 legend=_("Texas is second largest and second most populous state of the\
  USA, famous for its \"larger than life\" cowboy mentality.")
-leader=
- "Sam Houston",
- "Stephen F. Austin",
- "James P. Henderson",
- "Ma Ferguson",
- "Lyndon B. Johnson",
- "George W. Bush"
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Sam Houston",         "Male"
+ "Stephen F. Austin",   "Male"
+ "James P. Henderson",  "Female"
+ "Ma Ferguson",         "Male"
+ "Lyndon B. Johnson",   "Male"
+ "George W. Bush",      "Male"
+}
+
 flag="texas"
 flag_alt = "usa"
 city_style = "European"

@@ -4,10 +4,13 @@ name=_("Papuan")
 plural=_("?plural:Papuans")
 groups="Modern", "Oceanian"
 legend=_("The Papuans are a Melanesian people on the island of New Guinea.")
-leader=
- "Michael Somare",
- "Bill Skate"
-leader_sex="Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Michael Somare",      "Male"
+ "Bill Skate",          "Male"
+}
+
 flag = "papua_newguinea"
 flag_alt = "-"
 city_style = "Tropical"

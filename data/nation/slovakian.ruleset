@@ -5,18 +5,19 @@ plural=_("?plural:Slovakians")
 groups="Medieval", "Modern", "European"
 legend=_("Slovakia is a country in the heart of Europe. Formerly part of\
  Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire.")
-leader=
- "Ľudevít Velislav Štúr",
- "Rastislav Štefánik",
- "Samo",
- "Mojmír",
- "Pribina",
- "Koceľ",
- "Svätopluk", 
- "Matúš Čák Trenčiansky"
-leader_sex="Male", "Male", "Male",
-           "Male", "Male", "Male", "Male",
-           "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Ľudevít Velislav Štúr",       "Male"
+ "Rastislav Štefánik",          "Male"
+ "Samo",                        "Male"
+ "Mojmír",                      "Male"
+ "Pribina",                     "Male"
+ "Koceľ",                       "Male"
+ "Svätopluk",                   "Male"
+ "Matúš Čák Trenčiansky",       "Male"
+}
+
 flag="slovakia"
 flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
                ; - the blue triangle in it means Slovakia

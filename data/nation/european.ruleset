@@ -7,14 +7,17 @@ legend=_("The foundation for the European Union was laid in 1957 with the\
  Treaty of Rome. The EU project has developed since then and is beginning to\
  resemble a fledgeling super state. But the question remains: Does such a\
  thing as a common European identity and nation actually exist?")
+
 ; Presidents of the European Commission that held office over one year.
-leader=
- "Walter Hallstein",
- "Jean Rey",
- "Franco Maria Malfatti",
- "Sicco L. Mansholt",
- "Roy Jenkins"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Walter Hallstein",            "Male"
+ "Jean Rey",                    "Male"
+ "Franco Maria Malfatti",       "Male"
+ "Sicco L. Mansholt",           "Male"
+ "Roy Jenkins",                 "Male"
+}
+
 flag="europe"
 flag_alt = "-"
 city_style = "European"

@@ -7,31 +7,31 @@ legend=_("When the Holy Roman Emperor sentenced the entire population to\
  death, the people of the Netherlands revolted and declared themselves\
  independent, forming the Union of Utrecht in 1579. The Netherlands grew\
  to be a dominant maritime and economic power in the 17th century.")
-leader=
- "Willem de Zwijger",
- "Maurits",
- "Johan van Oldenbarnevelt",
- "Frederik Hendrik",
- "Johan de Witt",
- "Willem IV",
- "Willem V",
- "Herman Willem Daendels",
- "Lodewijk Napoleon",
- "Willem I",
- "Willem II",
- "Johan Rudolph Thorbecke",
- "Willem III",
- "Abraham Kuyper",
- "Wilhelmina",
- "Hendrikus Colijn",
- "Willem Drees",
- "Juliana",
- "Joop den Uyl",
- "Beatrix"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male",
- "Female", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Willem de Zwijger",           "Male"
+ "Maurits",                     "Male"
+ "Johan van Oldenbarnevelt",    "Male"
+ "Frederik Hendrik",            "Male"
+ "Johan de Witt",               "Male"
+ "Willem IV",                   "Male"
+ "Willem V",                    "Male"
+ "Herman Willem Daendels",      "Male"
+ "Lodewijk Napoleon",           "Male"
+ "Willem I",                    "Male"
+ "Willem II",                   "Male"
+ "Johan Rudolph Thorbecke",     "Male"
+ "Willem III",                  "Male"
+ "Abraham Kuyper",              "Male"
+ "Wilhelmina",                  "Female"
+ "Hendrikus Colijn",            "Male"
+ "Willem Drees",                "Male"
+ "Juliana",                     "Female"
+ "Joop den Uyl",                "Male"
+ "Beatrix",                     "Female"
+}
+
 flag="netherlands"
 flag_alt = "-"
 city_style = "European"

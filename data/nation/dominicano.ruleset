@@ -8,19 +8,18 @@ legend=_("The Dominican Republic is located on the eastern two thirds of\
  the first permanent European settlement in the Americas when it was\
  founded by Bartholomew Columbus in 1498.")
 
-leader=
- "Cristobal Colón",
- "Juan Pablo Duarte",
- "Pedro Santana",
- "Buenaventura Báez",
- "Ulises Heureaux",
- "Horacio Vásquez",
- "Rafael Leónidas Trujillo",
- "Juan Bosch",
- "Joaquín Balaguer"
-
-leader_sex="Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Cristobal Colón",             "Male"
+ "Juan Pablo Duarte",           "Male"
+ "Pedro Santana",               "Male"
+ "Buenaventura Báez",           "Male"
+ "Ulises Heureaux",             "Male"
+ "Horacio Vásquez",             "Male"
+ "Rafael Leónidas Trujillo",    "Male"
+ "Juan Bosch",                  "Male"
+ "Joaquín Balaguer",            "Male"
+}
 
 flag="dominican_republic"
 flag_alt = "-"

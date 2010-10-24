@@ -9,15 +9,17 @@ legend=_("Sub-Saharan Africa has been a cultural and ethnical melting pot\
  was the most influential. This empire reigned from the 14th to the 17th\
  century and was famed for its wealth and benevolent kings. The modern\
  Republic of Mali derives its name from this empire.")
-leader=
- "Kankan Musa I",	; Mansa from 1312-1337
- "Gao",			; Mansa from 1300-1305
- "Sakura",		; Born slave but seized power, conqueror
- "Wali Keita",		; Second Mansa of Mali empire
- "Kolonkan",		; Sundiata Keita`s sister
- "Sundiata Keita"	; First Mansa of Mali empire
 
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+leaders = {
+ "name",                "sex"
+ "Kankan Musa I",       "Male" ; Mansa from 1312-1337
+ "Gao",                 "Male" ; Mansa from 1300-1305
+ "Sakura",              "Male" ; Born slave but seized power, conqueror
+ "Wali Keita",          "Male" ; Second Mansa of Mali empire
+ "Kolonkan",            "Female" ; Sundiata Keita`s sister
+ "Sundiata Keita",      "Male" ; First Mansa of Mali empire
+}
+
 flag="mali_ancient"
 flag_alt = "mali"
 city_style = "Classical"

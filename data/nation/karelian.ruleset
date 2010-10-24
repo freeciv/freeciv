@@ -6,18 +6,19 @@ groups="European"
 legend=_("The Karelians are a Finno-Ugric people inhabiting Karelia, a\
  region currently divided between Finland and Russia. They are closely\
  related to the Finns.")
-leader=
- "Väinämöinen",
- "Seppo Ilmarinen",
- "Louhi",
- "Arhippa Perttunen",
- "Karl Rautio",
- "Lauri Törni",
- "Otto Kuusinen",
- "Johannes Virolainen"
 
-leader_sex="Male", "Male", "Female", "Male",
- "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Väinämöinen",         "Male"
+ "Seppo Ilmarinen",     "Male"
+ "Louhi",               "Female"
+ "Arhippa Perttunen",   "Male"
+ "Karl Rautio",         "Male"
+ "Lauri Törni",         "Male"
+ "Otto Kuusinen",       "Male"
+ "Johannes Virolainen", "Male"
+}
+
 flag="karelia"
 flag_alt = "-"
 city_style = "Celtic"

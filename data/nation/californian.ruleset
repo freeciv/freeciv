@@ -12,20 +12,25 @@ legend=_("California is the largest US state by population and economy.\
  Rush brought massive numbers of immigrants to California. In the 20th\
  century the state became a center of the world's entertainment and\
  technology industries.")
-leader=
- "Junípero Serra",	;missionary
- "William B. Ide",	;commander of California Republic
- "John C. Frémont",	;conqueror and military governor
- "Joaquin Murrieta",	;outlaw
- "Leland Stanford",	;tycoon and governor
- "Norton I",		;self declared emperor of the United States
- "Hiram Johnson",	;progressive politican and governor
- "Earl Warren",		;US Supreme Court justice and governor
- "Ronald Wilson Reagan", ;actor, governor and president of the United States
- "Arnold Schwarzenegger", ;governator
- "Nancy Pelosi"		;politician, speaker
-leader_sex="Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Junípero Serra",              "Male" ; Missionary
+ "William B. Ide",              "Male" ; Commander of California Republic
+ "John C. Frémont",             "Male" ; Conqueror and military governor
+ "Joaquin Murrieta",            "Male" ; Outlaw
+ "Leland Stanford",             "Male" ; Tycoon and governor
+ "Norton I",                    "Male" ; Self declared emperor of the United
+                                       ; States
+ "Hiram Johnson",               "Male" ; Progressive politican and governor
+ "Earl Warren",                 "Male" ; US Supreme Court justice and
+                                       ; governor
+ "Ronald Wilson Reagan",        "Male" ; Actor, governor and president of the
+                                       ; United States
+ "Arnold Schwarzenegger",       "Male" ; Governator
+ "Nancy Pelosi",                "Female" ; Politician, speaker
+}
+
 flag="california"
 flag_alt = "usa"
 city_style = "European"

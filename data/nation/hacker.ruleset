@@ -4,32 +4,31 @@ name=_("Hacker")
 plural=_("?plural:Hackers")
 groups="Imaginary"
 legend=_("h4xx0r r0xx0rz!")
-leader=
- "Linus Torvalds",
- "Richard Stallman",
- "Dennis Ritchie",
- "Ken Thompson",
- "Robert Pike",
- "Donald Knuth",
- "Ada Lovelace",
- "Grace Murray Hopper",
- "Jean Sammet",
- "Barbara Liskov",
- "Julf",		; Johan Helsingius
- "Cap'n Crunch",	; John Draper
- "Condor",		; Kevin Mitnick
- "Dark Dante",		; Kevin Poulsen
- "Phiber Optik",	; Mark Abene
- "rtm",			; Robert Morris
- "Woz",			; Steve Wozniak
- "Edsger Dijkstra",
- "Alan Kay",
- "Bjarne Stroustrup",
- "Niklaus Wirth"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female",
- "Female", "Female", "Female", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Linus Torvalds",      "Male"
+ "Richard Stallman",    "Male"
+ "Dennis Ritchie",      "Male"
+ "Ken Thompson",        "Male"
+ "Robert Pike",         "Male"
+ "Donald Knuth",        "Male"
+ "Ada Lovelace",        "Female"
+ "Grace Murray Hopper", "Female"
+ "Jean Sammet",         "Female"
+ "Barbara Liskov",      "Female"
+ "Julf",                "Male" ; Johan Helsingius
+ "Cap'n Crunch",        "Male" ; John Draper
+ "Condor",              "Male" ; Kevin Mitnick
+ "Dark Dante",          "Male" ; Kevin Poulsen
+ "Phiber Optik",        "Male" ; Mark Abene
+ "rtm",                 "Male" ; Robert Morris
+ "Woz",                 "Male" ; Steve Wozniak
+ "Edsger Dijkstra",     "Male"
+ "Alan Kay",            "Male"
+ "Bjarne Stroustrup",   "Male"
+ "Niklaus Wirth",       "Male"
+}
 
 flag="hacker"
 flag_alt = "-"

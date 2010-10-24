@@ -6,19 +6,21 @@ groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("Portugal founded the first of the great mercantile empires\
  in the 1400s on the shipbuilding advances funded by Prince Henry the\
  Navigator.")
-leader=
- "Afonso Henriques",
- "Sancho I",
- "Dinis",
- "Afonso IV",
- "João I",
- "João II",
- "Manuel I",
- "João IV",
- "Maria II",
- "António de Oliveira Salazar"
-leader_sex="Male", "Male", "Male", "Male",
-	   "Male", "Male", "Male", "Male", "Female", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Afonso Henriques",            "Male"
+ "Sancho I",                    "Male"
+ "Dinis",                       "Male"
+ "Afonso IV",                   "Male"
+ "João I",                      "Male"
+ "João II",                     "Male"
+ "Manuel I",                    "Male"
+ "João IV",                     "Male"
+ "Maria II",                    "Female"
+ "António de Oliveira Salazar", "Male"
+}
+
 flag="portugal"
 flag_alt = "-"
 city_style = "Classical"

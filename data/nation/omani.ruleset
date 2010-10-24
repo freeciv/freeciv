@@ -6,20 +6,23 @@ groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("Oman is an Arab country in southwest Asia on the southeast coast\
  of the Arabian Peninsula. Before the arrival of Islam Oman was controlled\
  by Achaemenids, Parthians and Sassanids.")
-leader="Makhzum ibn Al-Fallah",
- "Umar ibn Al-Khattab",
- "Umar Al-Sharif",
- "Muhammad ibn Ismail",
- "Bakarat ibn Muhammad",
- "Nasir ibn Murshid",
- "Saif I ibn Sultan",
- "Muhammad ibn Nasir",
- "Abu Hilal Ahmad ibn Said",
- "Salim I ibn Sultan",
- "Azzan ibn Qais",
- "Taimur ibn Faisal"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Makhzum ibn Al-Fallah",       "Male"
+ "Umar ibn Al-Khattab",         "Male"
+ "Umar Al-Sharif",              "Male"
+ "Muhammad ibn Ismail",         "Male"
+ "Bakarat ibn Muhammad",        "Male"
+ "Nasir ibn Murshid",           "Male"
+ "Saif I ibn Sultan",           "Male"
+ "Muhammad ibn Nasir",          "Male"
+ "Abu Hilal Ahmad ibn Said",    "Male"
+ "Salim I ibn Sultan",          "Male"
+ "Azzan ibn Qais",              "Male"
+ "Taimur ibn Faisal",           "Male"
+}
+
 flag= "oman" 
 flag_alt = "arab" 
 city_style = "Tropical" 

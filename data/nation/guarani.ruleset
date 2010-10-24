@@ -9,14 +9,14 @@ legend=_("Numbering perhaps as many as 400,000 people at the time\
  Guarani language is spoken by over 4 million people and is an official\
  language of the nation of Paraguay.") 
 
-leader= 
+leaders = {
+ "name",                "sex"
+ "Sepe Tiaraju",        "Male"
+ "Nheçu",               "Male"
+ "Nicolás Ñanguirú",    "Male"
+ "Miguel Guarumba",     "Male"
+}
 
-"Sepe Tiaraju", 
-"Nheçu",
-"Nicolás Ñanguirú",
-"Miguel Guarumba"
-
-leader_sex="Male", "Male", "Male", "Male"
 flag = "guarani" 
 flag_alt = "-" 
 city_style = "Tropical" 

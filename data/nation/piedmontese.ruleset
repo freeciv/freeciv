@@ -11,21 +11,22 @@ legend=_("Piedmont was formed when the Duchy of Savoy elevated itself to\
  1861 it was merged into the newly formed kingdom of Italy, the last\
  Piedmontese king becoming the first king of Italy. Currently it is one\
  of the regions of Italy.")
-leader =
- "Vittorio Amedeo II",
- "Carlo Emanuele",
- "Vittorio Amedeo III",
- "Cesare Balbo",
- "Vittorio Emanuele I",
- "Camillo Benso di Cavour",
- "Margherita di Savoia",
- "Giovanni Bosco",
- "Antonio Gramsci",
- "Giuseppe Perotti",
- "Mercedes Bresso"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Female",
- "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Vittorio Amedeo II",          "Male"
+ "Carlo Emanuele",              "Male"
+ "Vittorio Amedeo III",         "Male"
+ "Cesare Balbo",                "Male"
+ "Vittorio Emanuele I",         "Male"
+ "Camillo Benso di Cavour",     "Male"
+ "Margherita di Savoia",        "Female"
+ "Giovanni Bosco",              "Male"
+ "Antonio Gramsci",             "Male"
+ "Giuseppe Perotti",            "Male"
+ "Mercedes Bresso",             "Female"
+}
+
 flag = "piedmont"
 flag_alt = "italy"
 city_style = "European"

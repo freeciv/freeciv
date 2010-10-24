@@ -7,17 +7,19 @@ legend=_("The Hittite kingdom lasted from about 1680 BC to about 1180 BC.\
  They were the first civilisation to discover iron working. At its height,\
  they controlled central Anatolia, north-western Syria and Mesopotamia down\
  to Babylon.")
-leader=
- "Suppiluliumas",
- "Kanis",
- "Labarnas",
- "Anittas",
- "Hattusilis",
- "Mursilis",
- "Telipinus",
- "Muwatallis"
-leader_sex="Male", "Female", "Male", "Male", "Male",
-           "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Suppiluliumas",       "Male"
+ "Kanis",               "Female"
+ "Labarnas",            "Male"
+ "Anittas",             "Male"
+ "Hattusilis",          "Male"
+ "Mursilis",            "Male"
+ "Telipinus",           "Male"
+ "Muwatallis",          "Male"
+}
+
 ; Flag modeled after Neo-Hittite Two-Headed Sphinx. Gold and purple are
 ; royal colors in many historical near-eastern empires.
 ; http://www.arthistory.upenn.edu/spr03/422/April10/303.JPG

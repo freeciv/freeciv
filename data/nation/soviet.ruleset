@@ -10,15 +10,18 @@ legend=_("The history of the Soviet Union starts in November 1917,\
  the 20th century, but by the end of 1991 it had disintegrated\
  into fifteen independent countries due to social and economic\
  problems.")
-leader=
- "Vladimir Lenin",
- "Iosif Stalin",
- "Nikita Khruschov",
- "Leonid Brezhnev",
- "Yuriy Andropov",
- "Nadezhda Krupskaya",
- "Alexandra Kollontai"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Vladimir Lenin",      "Male"
+ "Iosif Stalin",        "Male"
+ "Nikita Khruschov",    "Male"
+ "Leonid Brezhnev",     "Male"
+ "Yuriy Andropov",      "Male"
+ "Nadezhda Krupskaya",  "Female"
+ "Alexandra Kollontai", "Female"
+}
+
 flag="soviet"
 flag_alt = "-"
 city_style = "European"

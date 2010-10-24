@@ -9,11 +9,12 @@ legend=_("The Mapuche people successfully resisted the expansion of the Inka\
  proved to be stubborn opponents of the Spanish, too, who, along with their\
  Chilean successors, took 300 years to conquer them.")
 
-leader=
- "Lef-Traru",
- "Caupolicán",
- "Colocolo"
-leader_sex = "Male", "Male", "Male"
+leaders = {
+ "name",        "sex"
+ "Lef-Traru",   "Male"
+ "Caupolicán",  "Male"
+ "Colocolo",    "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Monarchy",       _("Toqui"),           _("?female:Toqui")

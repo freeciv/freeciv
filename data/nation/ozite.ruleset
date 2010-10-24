@@ -10,14 +10,17 @@ legend=_("The land of Oz was created by L. Frank Baum in 1900 in 'The\
  of other books. The country consists of four main territories: Winkie\
  Country, Quadling Country, Munchkin Country, and Gillikin Country. Oz\
  is surrounded by an impassable desert.")
-leader=
- "Ozma", 			; a.k.a. Tip
- "Pastoria",			; Ozma’s father
- "Lurline",			; the fairy queen
- "O. Z. Diggs",			; a.k.a. The wonderful wizard
- "Scarecrow",			; successor to the wizard
- "Dorothy Gale"			; not a ruler, but a popular character
-leader_sex="Female", "Male", "Female", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Ozma",                "Female" ; a.k.a. Tip
+ "Pastoria",            "Male" ; Ozma’s father
+ "Lurline",             "Female" ; The fairy queen
+ "O. Z. Diggs",         "Male" ; a.k.a. The wonderful wizard
+ "Scarecrow",           "Male" ; Successor to the wizard
+ "Dorothy Gale",        "Female" ; Not a ruler, but a popular character
+}
+
 flag="oz"
 city_style = "European"
 

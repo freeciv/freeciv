@@ -6,14 +6,17 @@ groups="Asian"
 legend=_("South Vietnam, officially the Republic of Vietnam, was the\
  American-backed state during the Vietnam War. The country was reunited\
  with North Vietnam after it was conquered by communist forces in 1975.")
-leader=
- "Ngô Đình Diệm",
- "Ngô Đình Nhu",
- "Trần Lệ Xuân",
- "Dương Văn Minh",
- "Nguyễn Cao Kỳ",
- "Nguyễn Văn Thiệu"
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Ngô Đình Diệm",       "Male"
+ "Ngô Đình Nhu",        "Male"
+ "Trần Lệ Xuân",        "Female"
+ "Dương Văn Minh",      "Male"
+ "Nguyễn Cao Kỳ",       "Male"
+ "Nguyễn Văn Thiệu",    "Male"
+}
+
 flag="rvn"
 flag_alt = "vietnam"
 city_style = "Asian"

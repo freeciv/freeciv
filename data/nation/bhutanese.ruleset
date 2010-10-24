@@ -8,16 +8,17 @@ legend=_("Located in the Himalayas, Bhutan is one of the most isolated\
  by foreign invadors for a millennium if not more. In the 17th century\
  Bhutan became a unified nation under Shabdrung Ngawang Namgyal, who\
  repelled a Mongol invasion and united the rivaling Bhutanese tribes.")
-leader=
- "Guru Rinpoche",
- "Phajo Drugom Zhigpo",
- "Shabdrung Ngawang Namgyal",
- "Gyalse Tenzin Rabgye",
- "Ugyen Wangchuck",
- "Jigme Dorji Wangchuck",
- "Jigme Singye Wangchuck"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Guru Rinpoche",               "Male"
+ "Phajo Drugom Zhigpo",         "Male"
+ "Shabdrung Ngawang Namgyal",   "Male"
+ "Gyalse Tenzin Rabgye",        "Male"
+ "Ugyen Wangchuck",             "Male"
+ "Jigme Dorji Wangchuck",       "Male"
+ "Jigme Singye Wangchuck",      "Male"
+}
 
 flag="bhutan"
 flag_alt = "-"

@@ -14,25 +14,25 @@ legend=_("Bolivia is a landlocked country in South America with a large\
  regime led to a revolution in 1952. After a series of military coups in\
  the 1970s the country returned to democratic rule in the 1980s. In 2006\
  Evo Morales became the country's first indigenous president.")
-leader= 
- "Antonio José de Sucre",
- "Andres de Santa Cruz",
- "Manuel Belzu",
- "Mariano Melgarejo",
- "Hilarión Daza",
- "José Manuel Pando",
- "Daniel Salamanca",
- "Germán Busch",
- "Gualberto Villarroel",
- "Víctor Paz Estenssoro",
- "Hernán Siles Zuazo",
- "René Barrientos",
- "Hugo Banzer",
- "Lydia Gueiler",
- "Evo Morales"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male"
+leaders = {
+ "name",                        "sex"
+ "Antonio José de Sucre",       "Male"
+ "Andres de Santa Cruz",        "Male"
+ "Manuel Belzu",                "Male"
+ "Mariano Melgarejo",           "Male"
+ "Hilarión Daza",               "Male"
+ "José Manuel Pando",           "Male"
+ "Daniel Salamanca",            "Male"
+ "Germán Busch",                "Male"
+ "Gualberto Villarroel",        "Male"
+ "Víctor Paz Estenssoro",       "Male"
+ "Hernán Siles Zuazo",          "Male"
+ "René Barrientos",             "Male"
+ "Hugo Banzer",                 "Male"
+ "Lydia Gueiler",               "Female"
+ "Evo Morales",                 "Male"
+}
 
 flag="bolivia"
 flag_alt = "aymara"

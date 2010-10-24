@@ -7,17 +7,18 @@ legend=_("Nation in Central Asia. Uzbekistan was the center of\
  ancient states such as Khoresm, the Khanate of Bukhara, the Khanate of\
  Kokand, and others. Conquered by the Russian Empire in 19th century,\
  Uzbekistan got independence from the Soviet Union in 1991.")
-leader="Shahrukh Biy", ; Khan of Kokand
-       "Muhammad Shaybani",
-       "Timur", ; founder of Timurid dynasty
-       "Ulugh Beg", ; Timurid ruler
-       "Abdullah II", ; Khan of Bukhara
-       "Ilbars I", ; founder of Khanate of Kiva
-       "Anush Tigin Gharchai", ; Korazm ruler
-       "Mamun I" ; Khorazm ruler
 
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Shahrukh Biy",                "Male" ; Khan of Kokand
+ "Muhammad Shaybani",           "Male"
+ "Timur",                       "Male" ; Founder of Timurid dynasty
+ "Ulugh Beg",                   "Male" ; Timurid ruler
+ "Abdullah II",                 "Male" ; Khan of Bukhara
+ "Ilbars I",                    "Male" ; Founder of Khanate of Kiva
+ "Anush Tigin Gharchai",        "Male" ; Korazm ruler
+ "Mamun I",                     "Male" ; Khorazm ruler
+}
 
 flag="uzbekistan"
 flag_alt = "-"

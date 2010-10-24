@@ -6,30 +6,31 @@ groups="African"
 legend=_("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")
-leader=
- "Mnguni",		; Legendary first king of the Zulu and related tribes
- "Nkosinkulu",
- "Mdlani",
- "Malandela kaLuzumana",
- "Ntombhela kaMalandela",
- "Zulu kaNtombela",	; Founder of the Zulu clan
- "Gumede kaZulu",
- "Phunga kaGumede",
- "Mageba kaPhunga",
- "Ndaba kaMageba",
- "Jama kaNdaba",
- "Senzangakhona kaJama",
- "Shaka kaSenzangakhona",	; Shaka Zulu
- "Dingane kaSenzangakhona",	; Half-brother of Shaka
- "Mpande kaSenzangakhona",	; Half-brother of Shaka
- "Cetshwayo kaMpande",
- "Dinizulu kaCetshwayo",
- "Solomon kaDinizulu",
- "Cyprian Bhekuzulu kaSolomon"
-leader_sex="Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Mnguni",                      "Male" ; Legendary first king of the Zulu
+                                       ; and related tribes
+ "Nkosinkulu",                  "Male"
+ "Mdlani",                      "Male"
+ "Malandela kaLuzumana",        "Male"
+ "Ntombhela kaMalandela",       "Male"
+ "Zulu kaNtombela",             "Male" ; Founder of the Zulu clan
+ "Gumede kaZulu",               "Male"
+ "Phunga kaGumede",             "Male"
+ "Mageba kaPhunga",             "Male"
+ "Ndaba kaMageba",              "Male"
+ "Jama kaNdaba",                "Male"
+ "Senzangakhona kaJama",        "Male"
+ "Shaka kaSenzangakhona",       "Male" ; Shaka Zulu
+ "Dingane kaSenzangakhona",     "Male" ; Half-brother of Shaka
+ "Mpande kaSenzangakhona",      "Male" ; Half-brother of Shaka
+ "Cetshwayo kaMpande",          "Male"
+ "Dinizulu kaCetshwayo",        "Male"
+ "Solomon kaDinizulu",          "Male"
+ "Cyprian Bhekuzulu kaSolomon", "Male"
+}
+
 flag="zulu"
 flag_alt = "rwanda"  ; used previously
 city_style = "Tropical"

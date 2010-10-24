@@ -8,20 +8,20 @@ legend=_("The Sultanate of Aceh located on the western tip of the island of\
  much of the trade through the Strait of Malacca. Aceh was subjugated by\
  the Dutch in the bloody Aceh War of 1873-1903.")
 
-leader=
- "Ali Mughayat Syah",
- "Alauddin al-Kahar",
- "Iskandar Muda",
- "Iskandar Thani",
- "Taj ul-Alam",
- "Zainatuddin",
- "Tuanku Ibrahim",
- "Muhammad Daud Syah",
- "Cut Nyak Meutia",
- "Hasan di Tiro"
+leaders = {
+ "name",                "sex"
+ "Ali Mughayat Syah",   "Male"
+ "Alauddin al-Kahar",   "Male"
+ "Iskandar Muda",       "Male"
+ "Iskandar Thani",      "Male"
+ "Taj ul-Alam",         "Female"
+ "Zainatuddin",         "Female"
+ "Tuanku Ibrahim",      "Male"
+ "Muhammad Daud Syah",  "Male"
+ "Cut Nyak Meutia",     "Female"
+ "Hasan di Tiro",       "Male"
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Female",
- "Female", "Male", "Male", "Female", "Male"
 flag="aceh"
 flag_alt="-"
 city_style="Asian"

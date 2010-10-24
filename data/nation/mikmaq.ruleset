@@ -8,14 +8,14 @@ legend=_("Today numbering roughly 25,000, the Mi'kmaq inhabited (and\
  Christianity did so in 1610 under French suzerainty. French\
  rule gave way to English and English to Canadian.")
 
-leader= 
+leaders = {
+ "name",                "sex"
+ "Membertou",           "Male"
+ "Matiew Plansue",      "Male"
+ "So'sep Ku'l",         "Male"
+ "Sa'n Teni",           "Male"
+}
 
-"Membertou", 
-"Matiew Plansue", 
-"So'sep Ku'l", 
-"Sa'n Teni" 
-
-leader_sex="Male", "Male", "Male", "Male" 
 flag = "mikmaq" 
 flag_alt = "-" 
 city_style = "Celtic" 

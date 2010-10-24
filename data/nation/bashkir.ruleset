@@ -9,15 +9,16 @@ legend=_("The Bashkirs are a Turkic-speaking nation in the southern Urals.\
  Russian government. Today most of the Bashkirs live in the Bashkortostan\
  Republic which is part of the Russian Federation.")
 
-leader=
 ; Latinized Bashkir - English - Cyrillic Bashkir
- "Mortadza Räximov", ; Murtaza Rakhimov / Мортаҙа Рәхимов
- "Äxmätzäki Velidi Tughan", ; Zeki Velidi Togan / Әхмәтзәки Вәлиди Туған
- "Batyrsha", ; Батырша
- "Qarahaqal", ; Ҡараһаҡал
- "Salawat Julajev" ; Salavat Yulayev / Салауат Юлаев
+leaders = {
+ "name",                        "sex"
+ "Mortadza Räximov",            "Male" ; Murtaza Rakhimov / Мортаҙа Рәхимов
+ "Äxmätzäki Velidi Tughan",     "Male" ; Zeki Velidi Togan / Әхмәтзәки Вәлиди Туған
+ "Batyrsha",                    "Male" ; Батырша
+ "Qarahaqal",                   "Male" ; Ҡараһаҡал
+ "Salawat Julajev",             "Male" ; Salavat Yulayev / Салауат Юлаев
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="bashkortostan"
 flag_alt = "-"
 city_style = "European"

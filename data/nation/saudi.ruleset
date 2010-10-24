@@ -9,15 +9,18 @@ legend=_("Saudi Arabia is located on the Arabian Peninsula and includes\
  and Nejd in 1925. Named after its ruling dynasty, the house of Saud,\
  Saudi Arabia is one of the last countries retaining an absolute\
  monarchy. It has the largest proven oil reserves of the world.")
-leader=
- "Muhammad ibn Saud",
- "Turki ibn Abdallah",
- "Abdul Rahman ibn Faisal",
- "Ibn Saud",
- "Faisal",
- "Fahd",
- "Abdullah"
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Muhammad ibn Saud",           "Male"
+ "Turki ibn Abdallah",          "Male"
+ "Abdul Rahman ibn Faisal",     "Male"
+ "Ibn Saud",                    "Male"
+ "Faisal",                      "Male"
+ "Fahd",                        "Male"
+ "Abdullah",                    "Male"
+}
+
 flag="saudi_arabia"
 flag_alt = "arab"
 city_style = "Babylonian"

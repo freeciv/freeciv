@@ -10,21 +10,21 @@ legend=_("The largest of the Central American republics, Nicaragua is\
  to rule until 1979, when the last Somoza was overthrown by sandinista\
  revolutionaries, starting 11 years of civil war between the sandinista\
  government and the contras.")
-leader =
-"Francisco Hernández de Córdoba",
-"William Walker",
-"José Santos Zelaya",
-"Adolfo Díaz",
-"José María Moncada",
-"Augusto César Sandino",
-"Anastasio Somoza García",
-"Luis Somoza Debayle",
-"Anastasio Somoza Debayle",
-"Daniel Ortega",
-"Violeta Barrios de Chamorro"
 
-leader_sex="Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                                "sex"
+ "Francisco Hernández de Córdoba",      "Male"
+ "William Walker",                      "Male"
+ "José Santos Zelaya",                  "Male"
+ "Adolfo Díaz",                         "Male"
+ "José María Moncada",                  "Male"
+ "Augusto César Sandino",               "Male"
+ "Anastasio Somoza García",             "Male"
+ "Luis Somoza Debayle",                 "Male"
+ "Anastasio Somoza Debayle",            "Male"
+ "Daniel Ortega",                       "Male"
+ "Violeta Barrios de Chamorro",         "Female"
+}
 
 flag = "nicaragua"
 flag_alt = ""

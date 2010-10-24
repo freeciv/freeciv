@@ -5,29 +5,30 @@ plural=_("?plural:Ashantis")
 groups="African", "Medieval", "Early Modern" 
 legend=_("The Ashanti were an ancient kingdom in part of modern Ghana. The\
  first Ashanti kingdom was founded in the 11th century.")
-leader=
-"Twum",
-"Antwi",
-"Kobia Amamfi",
-"Oti Akenten",
-"Obiri Yeboa",
-"Osei Tutu Opemsoo",
-"Amaniampon",
-"Opoku Ware Katakyie",
-"Kusi Oboadum",
-"Safo Kantanka",
-"Osei Kwadwo Okoawia",
-"Osei Kwame",
-"Atakora Kwame",
-"Opoku Fofie",
-"Osei Yaw Akoto",
-"Kofi Karikari",
-"Mensa Bonsu",
-"Akyampon Panyin",
-"Prempeh I"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Twum",                "Male"
+ "Antwi",               "Male"
+ "Kobia Amamfi",        "Male"
+ "Oti Akenten",         "Male"
+ "Obiri Yeboa",         "Male"
+ "Osei Tutu Opemsoo",   "Male"
+ "Amaniampon",          "Male"
+ "Opoku Ware Katakyie", "Male"
+ "Kusi Oboadum",        "Male"
+ "Safo Kantanka",       "Male"
+ "Osei Kwadwo Okoawia", "Male"
+ "Osei Kwame",          "Male"
+ "Atakora Kwame",       "Male"
+ "Opoku Fofie",         "Male"
+ "Osei Yaw Akoto",      "Male"
+ "Kofi Karikari",       "Male"
+ "Mensa Bonsu",         "Male"
+ "Akyampon Panyin",     "Male"
+ "Prempeh I",           "Male"
+}
+
 flag= "ashanti" 
 flag_alt = "-" 
 city_style = "Celtic" 

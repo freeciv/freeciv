@@ -4,18 +4,18 @@ name=_("Atlantean")
 plural=_("?plural:Atlantean")
 groups="Imaginary"
 legend=_("The mythical continent of Atlantis")
-leader=
- "Poseidon",
- "Evenor",
- "Cleito",
- "Plato",
- "Timaeus",
- "Callum",
- "Mneseus",
- "Calypso"
 
-leader_sex="Male", "Male", "Female", "Male", "Male",
-           "Male", "Male", "Female"
+leaders = {
+ "name",        "sex"
+ "Poseidon",    "Male"
+ "Evenor",      "Male"
+ "Cleito",      "Female"
+ "Plato",       "Male"
+ "Timaeus",     "Male"
+ "Callum",      "Male"
+ "Mneseus",     "Male"
+ "Calypso",     "Female"
+}
 
 flag="atlantis"
 flag_alt = "-"

@@ -6,15 +6,17 @@ groups="European", "Medieval"
 legend=_("Leon was a medieval kingdom in the northwestern part of the\
  Iberian peninsula. Currently Leon is part of the Spanish autonomous\
  community of Castile and Leon.")
-leader=
- "García I",
- "Fruela II",
- "Alfonsu VII",
- "Fernandu II",
- "Alfonsu IX de Borgoña",
- "José Eguiagaray"
-leader_sex="Male", "Male", "Male", "Male",
-           "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "García I",                    "Male"
+ "Fruela II",                   "Male"
+ "Alfonsu VII",                 "Male"
+ "Fernandu II",                 "Male"
+ "Alfonsu IX de Borgoña",       "Male"
+ "José Eguiagaray",             "Male"
+}
+
 flag="leon"
 flag_alt = "-"
 city_style = "European"

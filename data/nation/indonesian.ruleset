@@ -6,12 +6,14 @@ groups="Modern", "Asian", "Oceanian"
 legend=_("Indonesia is a large country on the Malay Archipelago with central\
  government on the island of Java. The country has a Muslim majority and is\
  one of the most populous in the world.")
-leader=
- "Sukarno",
- "Suharto",
- "Megawati Sukarnoputri"
 
-leader_sex="Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Sukarno",                     "Male"
+ "Suharto",                     "Male"
+ "Megawati Sukarnoputri",       "Female"
+}
+
 flag="indonesia"
 flag_alt = "-"
 city_style = "Tropical"

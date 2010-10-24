@@ -12,20 +12,22 @@ legend=_("Great Moravia was a Slavic medieval monarchy, whose center was\
  Hungarians by the Holy Roman Empire Moravia was turned into a\
  principality, which was in a personal union with Bohemia for most of its\
  history.")
-leader=
-"Mojmír I",
-"Rastislav",
-"Slavomír",
-"Svätopluk I",
-"Mojmír II",
-"Svätopluk II",
-"Predslav",
-"Jan Jindřich",
-"Jošt Lucemburský",
-"Mikuláš Ludvík Zinzendorf",
-"Petr rytíř Chlumecký"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Mojmír I",                    "Male"
+ "Rastislav",                   "Male"
+ "Slavomír",                    "Male"
+ "Svätopluk I",                 "Male"
+ "Mojmír II",                   "Male"
+ "Svätopluk II",                "Male"
+ "Predslav",                    "Male"
+ "Jan Jindřich",                "Male"
+ "Jošt Lucemburský",            "Male"
+ "Mikuláš Ludvík Zinzendorf",   "Male"
+ "Petr rytíř Chlumecký",        "Male"
+}
+
 flag= "moravia" 
 flag_alt = "-" 
 city_style = "Celtic" 

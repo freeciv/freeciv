@@ -7,15 +7,17 @@ legend=_("Ghana takes its name from the old Ghana Empire. Known as the\
  Gold Coast by the Europeans, the Portuguese, Dutch and Swedes founded\
  outposts but in the 19th century Ghana became a British colony. In 1957\
  Kwame Nkrumah proclaimed Ghana's independence.")
-leader=
- "Kwame Nkrumah",
- "Kofi Abrefa Busia",
- "Joseph Arthur Ankrah",
- "Hilla Limann",
- "Jerry Rawlings",
- "Joyce Bamford-Addo"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Kwame Nkrumah",               "Male"
+ "Kofi Abrefa Busia",           "Male"
+ "Joseph Arthur Ankrah",        "Male"
+ "Hilla Limann",                "Male"
+ "Jerry Rawlings",              "Male"
+ "Joyce Bamford-Addo",          "Female"
+}
+
 flag="ghana"
 flag_alt = "-"
 city_style = "Tropical"

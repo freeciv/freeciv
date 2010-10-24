@@ -6,13 +6,16 @@ groups="Medieval", "Early Modern", "Asian"
 legend=_("The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a\
  peaceful maritime trading nation eventually invaded, occupied, and annexed\
  by Japan.")
-leader=
- "Sho Shisho",
- "Sho Hashi",
- "Sho En",
- "Sho Nei",
- "Sho Ho"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",        "sex"
+ "Sho Shisho",  "Male"
+ "Sho Hashi",   "Male"
+ "Sho En",      "Male"
+ "Sho Nei",     "Male"
+ "Sho Ho",      "Male"
+}
+
 flag="ryukyu"
 flag_alt="-"
 city_style="Asian"

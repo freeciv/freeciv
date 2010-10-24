@@ -5,15 +5,18 @@ plural=_("?plural:Cherokees")
 groups="American"
 legend=_("The Cherokee nation is the largest Native American\
  nation in North America today.")
-leader=
- "Takatoka",
- "Tahlonteskee",
- "Atakullakulla",
- "Sequoyah",
- "Moytoy",
- "John Ross",
- "Wilma Mankiller"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Takatoka",            "Male"
+ "Tahlonteskee",        "Male"
+ "Atakullakulla",       "Male"
+ "Sequoyah",            "Male"
+ "Moytoy",              "Male"
+ "John Ross",           "Male"
+ "Wilma Mankiller",     "Female"
+}
+
 flag= "keetoowah"
 flag_alt = "-"
 city_style = "Celtic"

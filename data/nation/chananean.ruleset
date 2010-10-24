@@ -12,17 +12,20 @@ legend=_("Reports of chynocephaly (having the head of a dog or jackal)\
  The country 'Chananea' comes from the German poet Walter of Speyer. In\
  the account by Sir John Mandeville, the people were known as the\
  Nacumerians.")
-leader=
- "Garwlwyd",	; Arthurian legend
- "Christopher", ; St. Christopher is sometimes portrayed as a chynocephali
- "Reprebus",    ; A chynocephali captured in the time of Diocletian
- "Laika",       ; The first dog in space (not a chynocephali, but famous)
- "Anubis",
- "Anput",
- "Hermanubis",
- "Cerberus"
 
-leader_sex="Male", "Male", "Male", "Female", "Male", "Female", "Male", "Male"
+leaders = {
+ "name",        "sex"
+ "Garwlwyd",    "Male" ; Arthurian legend
+ "Christopher", "Male" ; St. Christopher is sometimes portrayed as a
+                       ; chynocephali
+ "Reprebus",    "Male" ; A chynocephali captured in the time of Diocletian
+ "Laika",       "Female" ; The first dog in space (not a chynocephali, but
+                         ; famous)
+ "Anubis",      "Male"
+ "Anput",       "Female"
+ "Hermanubis",  "Male"
+ "Cerberus",    "Male"
+}
 
 flag="chananea"
 flag_alt = "-"

@@ -13,18 +13,17 @@ legend=_("A monarchy emerged in the Great Lakes region of East Africa in\
  the colony fell to Belgium. Following international pressure after World\
  War II, Burundi became an independent nation in January 1962.")
 
-leader=
- "Mwezi I",
- "Ntare IV Rutaganzwa Rugamba",
- "Mutaga II",
- "Mwambutsa III Mbariza",
- "Ntare V Ndizeye",
- "Inamabuye",
- "Rugari",
- "Kayagge"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Female", "Female",
- "Female"
+leaders = {
+ "name",                        "sex"
+ "Mwezi I",                     "Male"
+ "Ntare IV Rutaganzwa Rugamba", "Male"
+ "Mutaga II",                   "Male"
+ "Mwambutsa III Mbariza",       "Male"
+ "Ntare V Ndizeye",             "Male"
+ "Inamabuye",                   "Female"
+ "Rugari",                      "Female"
+ "Kayagge",                     "Female"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Mwami/Mwamikazi = King/Queen */

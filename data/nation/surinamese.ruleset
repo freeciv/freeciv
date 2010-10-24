@@ -9,18 +9,20 @@ legend=_("Suriname is the smallest independent country of South America.\
  the English who traded it with the Dutch for New Amsterdam, modern New\
  York, in 1667. Suriname was granted self government in 1954 and became\
  fully independent in 1975.")
-leader=
- "Abraham Crijnssen",
- "Adyáko Benti Basiton",
- "Boni",
- "Reinier Frederik van Raders",
- "Johannes Kielstra",
- "Anton de Kom",
- "Henck Arron",
- "Henk Chin A Sen",
- "Desi Bouterse"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Abraham Crijnssen",           "Male"
+ "Adyáko Benti Basiton",        "Male"
+ "Boni",                        "Male"
+ "Reinier Frederik van Raders", "Male"
+ "Johannes Kielstra",           "Male"
+ "Anton de Kom",                "Male"
+ "Henck Arron",                 "Male"
+ "Henk Chin A Sen",             "Male"
+ "Desi Bouterse",               "Male"
+}
+
 flag="suriname"
 flag_alt = "-"
 city_style = "Tropical"

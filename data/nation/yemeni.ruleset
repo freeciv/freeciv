@@ -6,15 +6,17 @@ groups="Asian", "Modern"
 legend=_("Yemen is the only republic on the Arabian Peninsula. Although\
  it was the site of several ancient civilizations, Yemen only exists in\
  its current form since North Yemen annexed South Yemen in 1990.")
-leader=
- "Yahya Muhammad Hamid ed-Din",
- "Muhammad al-Badr",
- "Abdullah as-Sallal",
- "Abdul Rahman al-Iryani",
- "Ibrahim al-Hamdi",
- "Ali Abdullah Saleh"
 
-leader_sex="Male", "Male",  "Male", "Male", "Male",  "Male"
+leaders = {
+ "name",                        "sex"
+ "Yahya Muhammad Hamid ed-Din", "Male"
+ "Muhammad al-Badr",            "Male"
+ "Abdullah as-Sallal",          "Male"
+ "Abdul Rahman al-Iryani",      "Male"
+ "Ibrahim al-Hamdi",            "Male"
+ "Ali Abdullah Saleh",          "Male"
+}
+
 flag="yemen"
 flag_alt = "-"
 city_style = "Babylonian"

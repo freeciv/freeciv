@@ -11,14 +11,17 @@ legend=_("In the beginning of the 14th century Osman, a leader of a\
  Europe, the Islamic Arab world as well as\
  Egypt and much of North Africa, making it a regional superpower\
  until its dissolution in the aftermath of World War I.")
-leader=
- "Fâtih Sultân Mehmed",
- "Yavuz Sultân Selim",
- "Ertuğrul Gâzi",
- "Osman",
- "Orhan",
- "Kânûnî Sultân Süleyman"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Fâtih Sultân Mehmed",         "Male"
+ "Yavuz Sultân Selim",          "Male"
+ "Ertuğrul Gâzi",               "Male"
+ "Osman",                       "Male"
+ "Orhan",                       "Male"
+ "Kânûnî Sultân Süleyman",      "Male"
+}
+
 flag ="ottoman"
 flag_alt = "turkey"
 city_style = "Classical"

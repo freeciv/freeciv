@@ -12,25 +12,27 @@ legend=_("The Scythians or Scyths were an Ancient Iranian people of\
  Histories and Ovid in his poem of exile Epistulae ex Ponto, and\
  archaeologically from the exquisite goldwork found in Scythian burial\
  mounds in Ukraine and Southern Russia.")
-leader= 
-"Bartatua",
-"Madius",
-"Protothyes",
-"Partitavas",
-"Agar",
-"Akrosas",
-"Anacharsis",
-"Antir",
-"Argotes",
-"Ariant",
-"Ariapeith",
-"Arimaz",
-"Aristagoras",
-"Ateus",
-"Gnur",
-"Zarina"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female" 
+
+leaders = {
+ "name",        "sex"
+ "Bartatua",    "Male"
+ "Madius",      "Male"
+ "Protothyes",  "Male"
+ "Partitavas",  "Male"
+ "Agar",        "Male"
+ "Akrosas",     "Male"
+ "Anacharsis",  "Male"
+ "Antir",       "Male"
+ "Argotes",     "Male"
+ "Ariant",      "Male"
+ "Ariapeith",   "Male"
+ "Arimaz",      "Male"
+ "Aristagoras", "Male"
+ "Ateus",       "Male"
+ "Gnur",        "Male"
+ "Zarina",      "Female"
+}
+
 flag= "scythia" 
 flag_alt = "-" 
 city_style = "Celtic" 

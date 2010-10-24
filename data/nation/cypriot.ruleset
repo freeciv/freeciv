@@ -6,14 +6,17 @@ groups="Modern", "European"
 legend=_("Cyprus became an independent republic on 16th August 1960.\
  It is a Eurasian island country located in the eastern Mediterranean,\
  south of Turkey and west of Syria and Lebanon.")
-leader=
- "Aikaterini",
- "Dimitris Christofias",
- "Makarios III",
- "Spyros Kyprianou",
- "George Vasiliou",
- "Glafkos Klerides"
-leader_sex="Female", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Aikaterini",                  "Female"
+ "Dimitris Christofias",        "Male"
+ "Makarios III",                "Male"
+ "Spyros Kyprianou",            "Male"
+ "George Vasiliou",             "Male"
+ "Glafkos Klerides",            "Male"
+}
+
 flag="cyprus"
 flag_alt = "-"
 city_style = "Classical"

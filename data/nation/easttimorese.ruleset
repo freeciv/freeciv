@@ -8,14 +8,15 @@ legend=_("A former Portuguese colony, East Timor declared independence\
  Timor became the first newly sovereign state of the 21st century when\
  Indonesia relinquished control on May 20, 2002.")
 
-leader=
- "José Ramos-Horta",
- "Lúcia Lobato",
- "Manuel Carrascalão",
- "Nicolau Lobato",
- "Baria Nahak"
+leaders = {
+ "name",                "sex"
+ "José Ramos-Horta",    "Male"
+ "Lúcia Lobato",        "Female"
+ "Manuel Carrascalão",  "Male"
+ "Nicolau Lobato",      "Male"
+ "Baria Nahak",         "Male"
+}
 
-leader_sex="Male", "Female", "Male", "Male", "Male"
 flag="east_timor"
 flag_alt="-"
 city_style="Tropical"

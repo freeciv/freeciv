@@ -7,20 +7,20 @@ legend=_("Montenegro is a small country on the Balkans, the last to be\
  conquered by the Ottomans and the first to become independent again.\
  Part of Yugoslavia in the 20th century, it dissolved its union\
  with Serbia in 2006.")
-leader=
- "Mihailo I",
- "Balša I ",
- "Đurađ V Crnojević",
- "Petar II Petrović-Njegoš",
- "Danilo I Petrović-Njegoš",
- "Nikola I Mirkov Petrović-Njegoš",
- "Jelena Petrović-Njegoš",
- "Krsto Zrnov Popović",
- "Veljko Milatović",
- "Milo Đukanović"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male",
-           "Male", "Male"
+leaders = {
+ "name",                                "sex"
+ "Mihailo I",                           "Male"
+ "Balša I ",                            "Male"
+ "Đurađ V Crnojević",                   "Male"
+ "Petar II Petrović-Njegoš",            "Male"
+ "Danilo I Petrović-Njegoš",            "Male"
+ "Nikola I Mirkov Petrović-Njegoš",     "Male"
+ "Jelena Petrović-Njegoš",              "Female"
+ "Krsto Zrnov Popović",                 "Male"
+ "Veljko Milatović",                    "Male"
+ "Milo Đukanović",                      "Male"
+}
 
 flag="montenegro"
 flag_alt = "-"

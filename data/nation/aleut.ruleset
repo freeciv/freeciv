@@ -10,11 +10,14 @@ legend=_("The Unangan, or Aleut, lived in permanent subterranean homes\
  Russian Orthodox Christianity and intermarrying with Russians, and some\
  even accompanied Russians to their other colonial entrepots such as Ft.\
  Ross in northern California and Ft. Elizabeth in Hawai'i.")
-leader= 
-"Ivan Pan'kov", 
-"AhKahNeKak", 
-"Igadik" 
-leader_sex="Male", "Male", "Male" 
+
+leaders = {
+ "name",                "sex"
+ "Ivan Pan'kov",        "Male"
+ "AhKahNeKak",          "Male"
+ "Igadik",              "Male"
+}
+
 flag="aleut" 
 flag_alt = "-" 
 city_style = "celtic" 

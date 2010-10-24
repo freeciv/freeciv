@@ -7,14 +7,15 @@ legend=_("Wedged between Nepal and Bhutan, the Himalayan kingdom\
  of Sikkim was ruled by a lineage of monarchs known as chogyals for\
  centuries, until becoming the 22nd state of India in 1975.")
 
-leader=
-"Tashi Namgyal",
-"Tshudpud Namgyal",
-"Pendiongmu",
-"Phuntsog Namgyal",
-"Khye Bumsa"
+leaders = {
+ "name",                "sex"
+"Tashi Namgyal",        "Male"
+"Tshudpud Namgyal",     "Male"
+"Pendiongmu",           "Female"
+"Phuntsog Namgyal",     "Male"
+"Khye Bumsa",           "Male"
+}
 
-leader_sex="Male", "Male", "Female", "Male", "Male"
 flag="sikkim"
 flag_alt="-"
 city_style="Asian"

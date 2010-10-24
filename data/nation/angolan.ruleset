@@ -11,13 +11,13 @@ legend=_("When the Portuguese arrived to Angola in the 15th century the\
  guerilla groups started fighting each other. After half a century of war\
  a peace agreement was finally reached in 2002.")
 
-leader=
-"Holden Roberto",
-"Agostinho Neto",
-"Jonas Savimbi",
-"José Eduardo dos Santos"
-
-leader_sex="Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Holden Roberto",              "Male"
+ "Agostinho Neto",              "Male"
+ "Jonas Savimbi",               "Male"
+ "José Eduardo dos Santos",     "Male"
+}
 
 flag= "angola"
 flag_alt = "-"

@@ -9,17 +9,17 @@ legend=_("The Gaels were Celtic people, they may have originated in Spain\
  and Manx. Today, Gaelic speaking areas remain in Ireland, Scotland, the\
  Isle of Man and the Canadian province of Nova Scotia.")
 
-leader =
- "Naomh Breandán",
- "Naomh Pádraig",
- "Brigid ingen Cobthaig",
- "Conall Echlúath",
- "Mac Cairthinn mac Coelboth",
- "Áed Róin",
- "Conn Cétchathac",
- "Iseabail Ní Mheic Cailéin"
-
-leader_sex = "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Naomh Breandán",              "Male"
+ "Naomh Pádraig",               "Male"
+ "Brigid ingen Cobthaig",       "Female"
+ "Conall Echlúath",             "Male"
+ "Mac Cairthinn mac Coelboth",  "Male"
+ "Áed Róin",                    "Male"
+ "Conn Cétchathac",             "Male"
+ "Iseabail Ní Mheic Cailéin",   "Female"
+}
 
 flag="gael"
 flag_alt = "stpatrick"

@@ -13,12 +13,12 @@ legend=_("The Akwe are also known by three different tribal names in\
  century AD. They are Ge speakers who farm maize, manioc, sweet potatoes\
  and yams.")
 
-leader=
- "Apowe",
- "Warodi",
- "Warinatsé"
-
-leader_sex = "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Apowe",               "Male"
+ "Warodi",              "Male"
+ "Warinatsé",           "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Monarchy",       _("He'a"),            _("?female:He'a")

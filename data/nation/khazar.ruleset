@@ -6,28 +6,29 @@ groups="European", "Medieval"
 legend=_("The Khazars founded a steppe empire on the plains of Southern\
  Russia in the Early Middle Ages. Originally shamanists, they adopted\
  Judaism as their state religion.")
-leader =
- "Khozarig",
- "Karadach",
- "Ziebel",
- "Buri-Sad",
- "Irbis",
- "Busir",
- "Barjik",
- "Baghatur",
- "Khan-Tuvan",
- "Hazer",
- "Zachariah",
- "Yazir Bulash",
- "Obadiah",
- "Hezekiah",
- "Chanukkah",
- "Manasseh I",
- "Manasseh II",
- "Georgius Tzul"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-       "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Khozarig",            "Male"
+ "Karadach",            "Male"
+ "Ziebel",              "Male"
+ "Buri-Sad",            "Male"
+ "Irbis",               "Male"
+ "Busir",               "Male"
+ "Barjik",              "Male"
+ "Baghatur",            "Male"
+ "Khan-Tuvan",          "Male"
+ "Hazer",               "Male"
+ "Zachariah",           "Male"
+ "Yazir Bulash",        "Male"
+ "Obadiah",             "Male"
+ "Hezekiah",            "Male"
+ "Chanukkah",           "Male"
+ "Manasseh I",          "Male"
+ "Manasseh II",         "Male"
+ "Georgius Tzul",       "Male"
+}
+
 flag="khazaria"
 flag_alt = "-"
 city_style = "Celtic"

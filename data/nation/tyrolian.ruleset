@@ -6,15 +6,17 @@ groups="Medieval", "European"
 legend=_("Tyrol was a county in the Alps. In the 16th century its own\
  dynasty died out and the region passed to Habsburg Austria. The\
  southern part was annexed by Italy after World War I.")
-leader=
- "Albert IV",
- "Margaretha Maultasch",
- "Siegmund der Münzreiche",
- "Ferdinand",
- "Andreas Hofer",
- "Silvius Magnago"
 
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Albert IV",                   "Male"
+ "Margaretha Maultasch",        "Female"
+ "Siegmund der Münzreiche",     "Male"
+ "Ferdinand",                   "Male"
+ "Andreas Hofer",               "Male"
+ "Silvius Magnago",             "Male"
+}
+
 flag="tyrol"
 flag_alt = "austria"
 city_style = "European"

@@ -8,14 +8,16 @@ plural=_("?plural:Burkinabes")
 groups="Modern", "African"
 legend=_("Formerly Upper Volta, Burkina Faso is a country in inland\
  West Africa. It achieved its independence from France in 1960.")
-leader=
- "Maurice Yaméogo",
- "Sangoulé Lamizana",
- "Saye Zerbo",
- "Thomas Sankara",
- "Blaise Compaoré"
- 
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Maurice Yaméogo",     "Male"
+ "Sangoulé Lamizana",   "Male"
+ "Saye Zerbo",          "Male"
+ "Thomas Sankara",      "Male"
+ "Blaise Compaoré",     "Male"
+}
+
 flag="burkina_faso"
 flag_alt = "-"
 city_style = "Tropical"

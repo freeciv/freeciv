@@ -7,15 +7,15 @@ legend=_("Nation in Central Asia. Conquered by the Russian Empire\
  in 19th century, Kyrgyzstan got independence\
  from the Soviet Union in 1991.")
 
-leader="Gudulu", ; Kyrgyz Khagan
-       "Yshbeg", ; Enisey Kyrgyz Khagan
-       "Bars-beg", ; Kyrgyz Khagan
-       "Tagay-biy", ; Kyrgyz Khagan
-       "Shabdan Dzhantaev", ; Kyrgyz field commander
-       "Kurmanjan Datka" ; Kyrgyz stateswoman
-
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Female"
+leaders = {
+ "name",                "sex"
+ "Gudulu",              "Male" ; Kyrgyz Khagan.
+ "Yshbeg",              "Male" ; Enisey Kyrgyz Khagan.
+ "Bars-beg",            "Male" ; Kyrgyz Khagan.
+ "Tagay-biy",           "Male" ; Kyrgyz Khagan.
+ "Shabdan Dzhantaev",   "Male" ; Kyrgyz field commander.
+ "Kurmanjan Datka",     "Female" ; Kyrgyz stateswoman.
+}
 
 flag="kyrgyzstan"
 flag_alt = "-"

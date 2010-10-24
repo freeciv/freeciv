@@ -6,14 +6,17 @@ groups="Modern", "African"
 legend=_("The Swazis is a Bantu people of southern Africa. Under the\
  leadership of Mswati II (1820 - 1868), the Swazis expanded their territory\
  and stabilized the southern frontier with the Zulus.")
-leader=
- "Dlamini I",
- "Sobhuza I",
- "Mswati II",
- "Labotsibeni",
- "Sobhuza II",
- "Ntombi"
-leader_sex="Male", "Male", "Male", "Female", "Male", "Female"
+
+leaders = {
+ "name",        "sex"
+ "Dlamini I",   "Male"
+ "Sobhuza I",   "Male"
+ "Mswati II",   "Male"
+ "Labotsibeni", "Female"
+ "Sobhuza II",  "Male"
+ "Ntombi",      "Female"
+}
+
 flag="swaziland"
 flag_alt = "rwanda"
 city_style = "Tropical"

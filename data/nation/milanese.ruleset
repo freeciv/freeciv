@@ -7,19 +7,20 @@ legend=_("Milan is the capital of Lombardy, a region in Northern Italy. From\
  1395 to 1797 it was the seat of the Duchy of Milan. Lombardy came under\
  Austrian domination after the Napoleonic War. In 1859 it was annexed by\
  Italy.")
-leader =
- "Alberto da Giussano",
- "Matteo I Visconti",
- "Gian Galeazzo Visconti",
- "Beatrice d'Este",
- "Francesco Sforza",
- "Ludovico il Moro",
- "Francesco Maria Sforza",
- "Giuseppe Radetzky",
- "Umberto Bossi"
 
-leader_sex = "Male", "Male", "Male", "Male", "Female",
-             "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Alberto da Giussano",         "Male"
+ "Matteo I Visconti",           "Male"
+ "Gian Galeazzo Visconti",      "Male"
+ "Beatrice d'Este",             "Male"
+ "Francesco Sforza",            "Female"
+ "Ludovico il Moro",            "Male"
+ "Francesco Maria Sforza",      "Male"
+ "Giuseppe Radetzky",           "Male"
+ "Umberto Bossi",               "Male"
+}
+
 flag = "milan"
 flag_alt = "-"
 city_style = "European"

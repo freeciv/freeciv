@@ -12,17 +12,19 @@ legend=_("During the Middle Ages, Catalan kings conquered and presided over\
  the Spanish Succession War. In 1713, England signed the Treaty of Utrecht\
  and dropped out of the alliance, and the Catalans were finally defeated in\
  1714, losing their national rights as a result.")
-leader=
- "Guifré el Pilós",
- "Ramon Berenguer IV",
- "Jaume I",
- "Pere II",
- "Pau Claris",
- "Francesc Macià",
- "Lluís Companys",
- "Josep Tarradellas"
-leader_sex="Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Guifré el Pilós",     "Male"
+ "Ramon Berenguer IV",  "Male"
+ "Jaume I",             "Male"
+ "Pere II",             "Male"
+ "Pau Claris",          "Male"
+ "Francesc Macià",      "Male"
+ "Lluís Companys",      "Male"
+ "Josep Tarradellas",   "Male"
+}
+
 flag="catalan"
 flag_alt = "-"
 city_style = "Classical"

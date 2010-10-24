@@ -13,13 +13,15 @@ legend=_("The Kurds are a distinct ethno-linguistic group speaking an\
  Ottoman Empire and the end of the colonial era. Today, Iraq's Kurdistan\
  Autonomous Region is the only Kurd-dominated politial entity in the\
  world.")
-leader=
- "Kâvos", ; King of the Median Kurds
- "Bahram Pasha", ; "the Great", Emir of the Badinan Emirate
- "Mehmûdê Berzencî", ; King of the Kingdom of Kurdistan
- "Qazî Mihemmed", ; President of the Republic of Kurdistan
- "Mistefa Barzanî" ; President of the Kurdistan Democratic Party
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Kâvos",               "Male" ; King of the Median Kurds.
+ "Bahram Pasha",        "Male" ; "the Great", Emir of the Badinan Emirate.
+ "Mehmûdê Berzencî",    "Male" ; King of the Kingdom of Kurdistan.
+ "Qazî Mihemmed",       "Male" ; President of the Republic of Kurdistan.
+ "Mistefa Barzanî",     "Male" ; President of the Kurdistan Democratic Party.
+}
 
 ruler_titles = { "government", "male_title", "female_title"
                  "Despotism", _("Sheikh"), _("Shaykha")

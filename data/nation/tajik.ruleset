@@ -7,13 +7,14 @@ legend=_("Nation in Central Asia. Conquered by the Russian Empire\
  in 19th century, Tajikistan got independence\
  from the Soviet Union in 1991.")
 
-leader="Diodotos I", ; king of Bactria
-       "Heraios", ; first Kushan ruler
-       "Saman Khuda", ; founder of Samanid dynasty
-       "Isma'il I ibn Ahmad", ; Samanid ruler
-       "Abolqasem Lahouti" ; political activist and poet
-
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Diodotos I",          "Male" ; King of Bactria.
+ "Heraios",             "Male" ; First Kushan ruler.
+ "Saman Khuda",         "Male" ; Founder of Samanid dynasty.
+ "Isma'il I ibn Ahmad", "Male" ; Samanid ruler.
+ "Abolqasem Lahouti",   "Male" ; Political activist and poet.
+}
 
 flag="tajikistan"
 flag_alt = "-"

@@ -7,17 +7,18 @@ legend = _("The Walloons are the French speaking inhabitants of Belgium.\
  In the 19th century, Wallonia was first region on the European\
  continent to industrialize and the second in the world after England.\
  It subsequently became a hotbed of socialist and labor union activity.")
-leader=
- "Baudouin de Constantinople",
- "Godefroid de Bouillon",
- "Jacqueline de Hainaut",
- "Maximilien-Henri de Bavière",
- "Jules Destrée",
- "Léon Degrelle",
- "Julien Lahaut",
- "Elio Di Rupo"
-leader_sex="Male", "Male", "Female", "Male",
- "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Baudouin de Constantinople",  "Male"
+ "Godefroid de Bouillon",       "Male"
+ "Jacqueline de Hainaut",       "Female"
+ "Maximilien-Henri de Bavière", "Male"
+ "Jules Destrée",               "Male"
+ "Léon Degrelle",               "Male"
+ "Julien Lahaut",               "Male"
+ "Elio Di Rupo",                "Male"
+}
 
 flag="wallonia"
 flag_alt = "belgium"

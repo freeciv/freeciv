@@ -8,19 +8,19 @@ legend=_("Hesse became a landgraviate of the Holy Roman Empire in the\
  smaller territories. Many Hessians fought in the American Revolution as\
  mercenaries on both sides. Currently Hesse is one of the states of the\
  Federal Republic of Germany.")
-leader=
- "Heinrich das Kind",
- "Otto das Kind",
- "Heinrich II der Eiserne",
- "Ludwig der Friedfertige",
- "Ulrich von Hutten",
- "Philipp I der Großmütige",
- "Wilhelm IV der Weise",
- "Friedrich von Schweden",
- "Ludwig X"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Heinrich das Kind",           "Male"
+ "Otto das Kind",               "Male"
+ "Heinrich II der Eiserne",     "Male"
+ "Ludwig der Friedfertige",     "Male"
+ "Ulrich von Hutten",           "Male"
+ "Philipp I der Großmütige",    "Male"
+ "Wilhelm IV der Weise",        "Male"
+ "Friedrich von Schweden",      "Male"
+ "Ludwig X",                    "Male"
+}
 
 flag="hesse"
 flag_alt = "germany"

@@ -3,19 +3,22 @@
 name=_("Abkhaz")
 plural=_("?plural:Abkhazians")
 groups="Asian", "European", "Medieval", "Early Modern", "Modern"
+
 legend=_("Ancestors of Abkhazians have lived in the western Caucasus since\
  time immemorial. Short periods of independence alternated with domination\
  by the Greeks, Romans, Byzantines, Turks, Russians and Georgians.\
  Nowadays Abkhazia is a partially recognized republic.")
 
-leader=
-"Leon II", ;Abkhazian tsar
-"Bagrat I", ;Abkhazian tsar
-"Nestor Lakoba", ;leader of the Autonomous Republic of Abkhazia before 1936
-"Vladislav Ardzinba", ;1st president of Abkhazia
-"Sergey Bagapsh" ;current president of Abkhazia
+leaders = {
+ "name",                "sex"
+ "Leon II",             "Male" ; Abkhazian tsar
+ "Bagrat I",            "Male" ; Abkhazian tsar
+ "Nestor Lakoba",       "Male" ; Leader of the Autonomous Republic of
+                               ; Abkhazia before 1936
+ "Vladislav Ardzinba",  "Male" ; 1st president of Abkhazia
+ "Sergey Bagapsh",      "Male" ; Current president of Abkhazia
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="abkhazia"
 flag_alt = "-"
 city_style = "Classical"

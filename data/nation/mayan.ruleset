@@ -5,19 +5,21 @@ plural=_("?plural:Mayas")
 groups="Ancient", "Medieval", "Early Modern", "American"
 legend=_("The Mayans were a Mesoamerican civilization. They are\
  famous for building great pyramids and palaces in the jungle.")
-leader=
- "K'uk B'alam",
- "Sac K'uk'",
- "Pakal",
- "Jasaw Chan K'awiil I",
- "Yuknoom",
- "Itzamnaaj B'alam II",
- "Tekun Umam",
- "Kan Ek'",
- "Crescencio Poot",
- "Rigoberta Menchú Tum"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "K'uk B'alam",                 "Male"
+ "Sac K'uk'",                   "Female"
+ "Pakal",                       "Male"
+ "Jasaw Chan K'awiil I",        "Male"
+ "Yuknoom",                     "Male"
+ "Itzamnaaj B'alam II",         "Male"
+ "Tekun Umam",                  "Male"
+ "Kan Ek'",                     "Male"
+ "Crescencio Poot",             "Male"
+ "Rigoberta Menchú Tum",        "Female"
+}
+
 flag = "maya"
 flag_alt = "-"
 city_style = "Tropical"

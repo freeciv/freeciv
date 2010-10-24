@@ -4,17 +4,20 @@ name=_("Mazovian")
 plural=_("?plural:Mazovians")
 groups="European", "Medieval"
 legend=_("Mazovia is a historic and geographic region of central-eastern Poland.")
-leader="Miecław",
- "Bolesław IV Kędzierzawy",
- "Kazimierz II Sprawiedliwy",
- "Leszek I Biały",
- "Konrad I Mazowiecki",
- "Helena Znojemska",
- "Janusz II",
- "Janusz III",
- "Konrad III Rudy"
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Female", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Miecław",                     "Male"
+ "Bolesław IV Kędzierzawy",     "Male"
+ "Kazimierz II Sprawiedliwy",   "Male"
+ "Leszek I Biały",              "Male"
+ "Konrad I Mazowiecki",         "Male"
+ "Helena Znojemska",            "Female"
+ "Janusz II",                   "Male"
+ "Janusz III",                  "Male"
+ "Konrad III Rudy",             "Male"
+}
+
 flag = "mazovia"
 flag_alt = "-"
 city_style = "European"

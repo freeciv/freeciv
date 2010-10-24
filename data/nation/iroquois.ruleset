@@ -10,14 +10,17 @@ legend=_("The Iroquois Confederacy - known as Haudenosaunee in their own\
  The confederacy had a written constitution and a currency system making\
  them the most advanced state in North America upon the arrival of the\
  Europeans.")
-leader=
- "Deganawidah",		; a.k.a. The Great Peacemaker
- "Hiawatha",
- "Thayendanegea",	; a.k.a. Joseph Brant
- "Kaintwakon",		; a.k.a. Cornplanter
- "Kateri Tekakwitha",	; The first canonized Amerindian
- "Guyasuta"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Deganawidah",         "Male" ; a.k.a. The Great Peacemaker.
+ "Hiawatha",            "Male"
+ "Thayendanegea",       "Male" ; a.k.a. Joseph Brant.
+ "Kaintwakon",          "Male" ; a.k.a. Cornplanter.
+ "Kateri Tekakwitha",   "Female" ; The first canonized Amerindian.
+ "Guyasuta",            "Male"
+}
+
 flag="iroquois"
 flag_alt = "-"
 city_style = "Celtic"

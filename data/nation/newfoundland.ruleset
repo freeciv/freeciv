@@ -13,17 +13,20 @@ legend=_("In precolumbian times Newfoundland and Labrador were settled\
  voluntarily surrendered its sovereignty to the UK. Newfoundland passed\
  to Canada in 1949, currently it is known as the Province of Newfoundland\
  and Labrador.")
-leader=
- "Thorfinn Karlsefni",
- "Freydís Eiríksdóttir",
- "David Kirke",
- "Philip Francis Little",
- "William Whiteway",
- "Robert Bond",
- "Richard Squires",
- "Joey Smallwood",
- "Brian Peckford"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Thorfinn Karlsefni",          "Male"
+ "Freydís Eiríksdóttir",        "Female"
+ "David Kirke",                 "Male"
+ "Philip Francis Little",       "Male"
+ "William Whiteway",            "Male"
+ "Robert Bond",                 "Male"
+ "Richard Squires",             "Male"
+ "Joey Smallwood",              "Male"
+ "Brian Peckford",              "Male"
+}
+
 flag="newfoundland"
 flag_alt = "canada_old"
 city_style = "Celtic"

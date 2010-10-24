@@ -5,13 +5,16 @@ plural=_("?plural:Japanese")
 groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("According to traditional Japanese mythology, Japan was founded\
  in the 7th century BC by the ancestral Emperor Jimmu.")
-leader=
-  "Jimmu",
-  "Mutsuhito",
-  "Hirohito",
-  "Oda Nobunaga",
-  "Tokugawa Ieyasu"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Jimmu",               "Male"
+ "Mutsuhito",           "Male"
+ "Hirohito",            "Male"
+ "Oda Nobunaga",        "Male"
+ "Tokugawa Ieyasu",     "Male"
+}
+
 flag="japan"
 flag_alt = "-"
 city_style = "Asian"

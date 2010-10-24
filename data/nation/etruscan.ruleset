@@ -13,16 +13,19 @@ legend=_("The Etruscans were an ancient civilization in Etruria, Italy,\
  sources often put the Etruscans in a negative light, depicting them as\
  a sexually licentious culture. However, Roman civilization owes a lot to\
  their Etruscan predecessors.")
-leader=
- "Osiniu",
- "Tyrsenos",
- "Thefarie Velianas",
- "Aruns",
- "Lars Porsena",
- "Lars Tolumnius",
- "Tarquinius",
- "Sleparis"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Osiniu",              "Male"
+ "Tyrsenos",            "Male"
+ "Thefarie Velianas",   "Male"
+ "Aruns",               "Male"
+ "Lars Porsena",        "Male"
+ "Lars Tolumnius",      "Male"
+ "Tarquinius",          "Male"
+ "Sleparis",            "Female"
+}
+
 flag = "etruscan"
 flag_alt = "italy"
 city_style = "Classical"

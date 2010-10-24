@@ -9,27 +9,27 @@ groups="Modern", "Medieval", "Early Modern", "European"
 legend=_("The founding of the Danish kingdom is generally assigned to the\
  reign of Harald Blatand, who unified what is now Denmark between 958 AD\
  and 988 AD.")
+
 ; Leaders in chronological order according to:
 ; http://en.wikipedia.org/wiki/List_of_Danish_monarchs
-leader=
- "Gorm den Gamle",
- "Harald Blåtand",
- "Svend Tveskæg",
- "Knud den Store",
- "Hardeknud",
- "Svend Estridsen",
- "Knud den Hellige",
- "Valdemar den Store",
- "Valdemar Sejr",
- "Erik Glipping",
- "Valdemar III",
- "Valdemar Atterdag",
- "Christian IV",
- "Margrete I"
-leader_sex=
-  "Male", "Male", "Male", "Male", "Male",
-  "Male", "Male", "Male", "Male", "Male",
-  "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                "sex"
+ "Gorm den Gamle",      "Male"
+ "Harald Blåtand",      "Male"
+ "Svend Tveskæg",       "Male"
+ "Knud den Store",      "Male"
+ "Hardeknud",           "Male"
+ "Svend Estridsen",     "Male"
+ "Knud den Hellige",    "Male"
+ "Valdemar den Store",  "Male"
+ "Valdemar Sejr",       "Male"
+ "Erik Glipping",       "Male"
+ "Valdemar III",        "Male"
+ "Valdemar Atterdag",   "Male"
+ "Christian IV",        "Male"
+ "Margrete I",          "Female"
+}
+
 flag="denmark"
 flag_alt = "-"
 city_style = "European"

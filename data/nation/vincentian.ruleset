@@ -10,14 +10,16 @@ legend=_("Saint Vincent and the Grenadines were amongst the last\
  the French relinquished their claims. Saint Vincent and the Grenadines\
  became independent from Britain in 1979 and are currently a Commonwealth\
  realm.")
-leader=
- "Joseph Chatoyer",
- "E.T. Joshua",
- "Milton Cato",
- "James Fitz-Allen Mitchell",
- "Ralph Gonsalves"
 
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Joseph Chatoyer",             "Male"
+ "E.T. Joshua",                 "Male"
+ "Milton Cato",                 "Male"
+ "James Fitz-Allen Mitchell",   "Male"
+ "Ralph Gonsalves",             "Male"
+}
+
 flag="svg"
 flag_alt = "-"
 city_style = "Tropical"

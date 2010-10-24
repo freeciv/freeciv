@@ -21,15 +21,16 @@ legend=_("The P'urhepecha or Tarascans are a people native to the modern\
  Spanish rule was not smooth and devolved into violence. The empire,\
  founded around 1450 AD, collapsed in 1530.")
 
-leader=
- "Taríakuri",
- "Hiripan",
- "Tangáxuan I",
- "Tsïtsïkipandakuarhe",
- "Suangua",
- "Tangáxuan II",
- "Erendirha"		;Eréndira
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                "sex"
+ "Taríakuri",           "Male"
+ "Hiripan",             "Male"
+ "Tangáxuan I",         "Male"
+ "Tsïtsïkipandakuarhe", "Male"
+ "Suangua",             "Male"
+ "Tangáxuan II",        "Male"
+ "Erendirha",           "Female" ; Eréndira
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Kasonsi = King */

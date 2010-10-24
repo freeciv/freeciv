@@ -8,16 +8,16 @@ legend=_("The Guanches were the original inhabitants of the Canary\
  related to the Berbers. In the 15th century they were subjugated by\
  Castile.")
 
-leader=
-"Tinerfe",
-"Añaterve",
-"Tenesor Semidán",
-"Maninidra",
-"Tanausu",
-"Doramas",
-"Beneharo"
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Tinerfe",             "Male"
+ "Añaterve",            "Male"
+ "Tenesor Semidán",     "Male"
+ "Maninidra",           "Male"
+ "Tanausu",             "Male"
+ "Doramas",             "Male"
+ "Beneharo",            "Male"
+}
 
 flag = "guanche"
 flag_alt = "-"

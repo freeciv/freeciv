@@ -6,19 +6,20 @@ groups="Ancient", "Medieval", "Early Modern", "Asian"
 legend=_("The Han people are the majority ethnic group in China, tracing\
  their lineage back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the\
  Yellow Emperor), legendary god-kings of prehistory.")
-leader=
- "Wu Zetian", 
- "Li Shimin",
- "Liu Bei",
- "Liu Bang",
- "Qin Shihuang",
- "Shun",
- "Yao",
- "Da Yu",
- "Huangdi", ; Yellow Emperor
- "Yandi"    ; Yan Emperor
-leader_sex="Female", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Wu Zetian",           "Female"
+ "Li Shimin",           "Male"
+ "Liu Bei",             "Male"
+ "Liu Bang",            "Male"
+ "Qin Shihuang",        "Male"
+ "Shun",                "Male"
+ "Yao",                 "Male"
+ "Da Yu",               "Male"
+ "Huangdi",             "Male" ; Yellow Emperor
+ "Yandi",               "Male" ; Yan Emperor
+}
 
 flag="han"
 flag_alt="china"

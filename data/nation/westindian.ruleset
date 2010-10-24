@@ -9,13 +9,15 @@ legend=_("The West Indies, known for pirates, rum, cricket and beaches.\
  Trinidad, Jamaica and the smaller members. The federation fell apart in\
  1962. Some islands became independent countries, others returned to\
  the status of a British dependency.")
-leader=
- "Patrick Buchan-Hepburn",
- "Grantley Herbert Adams",
- "C.G.D. La Corbiniere",
- "Robert Llewellyn Bradshaw"
 
-leader_sex="Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Patrick Buchan-Hepburn",      "Male"
+ "Grantley Herbert Adams",      "Male"
+ "C.G.D. La Corbiniere",        "Male"
+ "Robert Llewellyn Bradshaw",   "Male"
+}
+
 flag="west_indies_federation"
 flag_alt = "-"
 city_style = "Tropical"

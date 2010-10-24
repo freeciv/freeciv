@@ -12,12 +12,12 @@ legend=_("Inhabiting the Santa Barbara Channel Islands and the southern\
  established five missions in Chumash land. As a result of disease and other\
  byproducts of colonial rule, the population fell to less than 3,000 in 1831.")
 
-leader= 
+leaders = {
+ "name",        "sex"
+ "Yanonalit",   "Male"
+ "Kitsepawit",  "Male"
+}
 
-"Yanonalit",
-"Kitsepawit"
-
-leader_sex="Male", "Male"
 flag = "chumash"
 flag_alt = "-" 
 city_style = "Celtic" 

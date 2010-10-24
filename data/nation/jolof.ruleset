@@ -16,13 +16,15 @@ legend=_("Also called Wolof, the Kingdom was formed between the\
  and a conversion to Islam fueled in large part by anti-European\
  sentiment.") 
 
-leader= 
-"Ndyadyane Ndyaye", 
-"Sare N'Dyaye", 
-"Gireun Buri Dyelen", 
-"Bukaar Biye-Sungule", 
-"Lat-Koddu" 
-leader_sex="Male", "Male", "Male", "Male", "Male" 
+leaders = {
+ "name",                "sex"
+ "Ndyadyane Ndyaye",    "Male"
+ "Sare N'Dyaye",        "Male"
+ "Gireun Buri Dyelen",  "Male"
+ "Bukaar Biye-Sungule", "Male"
+ "Lat-Koddu",           "Male"
+}
+
 flag= "jolof" 
 flag_alt = "-" 
 city_style = "Tropical" 

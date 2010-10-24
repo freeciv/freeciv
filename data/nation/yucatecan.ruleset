@@ -11,19 +11,21 @@ legend=_("Yucatan is a peninsula of Mexico, famous for its Maya heritage\
  understand you\" in Yucatec Maya. On two occasions in the 19th century\
  Yucatan declared independence from Mexico. Currently it is divided into\
  three states: Yucatan, Campeche and Quintana Roo.")
-leader=
- "Francisco de Montejo",
- "Diego de Landa",
- "Andrés Quintana Roo",
- "Santiago Méndez",
- "Miguel Barbachano",
- "Justo Sierra",
- "Felipe Carrillo Puerto",
- "Víctor Cevera Pacheco",
- "Carlos Sansores Pérez",
- "Ivonne Ortega"
-leader_sex="Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Francisco de Montejo",        "Male"
+ "Diego de Landa",              "Male"
+ "Andrés Quintana Roo",         "Male"
+ "Santiago Méndez",             "Male"
+ "Miguel Barbachano",           "Male"
+ "Justo Sierra",                "Male"
+ "Felipe Carrillo Puerto",      "Male"
+ "Víctor Cevera Pacheco",       "Male"
+ "Carlos Sansores Pérez",       "Male"
+ "Ivonne Ortega",               "Female"
+}
+
 flag="yucatan"
 flag_alt = "-"
 city_style = "Classical"

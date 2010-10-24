@@ -5,12 +5,16 @@ plural=_("?plural:Greater Poles")
 groups="European", "Medieval"
 legend=_("Greater Poland or Wielkopolska is a historic and geographic\
  region of central-western Poland.")
-leader="Mieszko III Stary",
- "Władysław III Laskonogi",
- "Władysław Odonic",
- "Przemysł I",
- "Bolesław Pobożny"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Mieszko III Stary",           "Male"
+ "Władysław III Laskonogi",     "Male"
+ "Władysław Odonic",            "Male"
+ "Przemysł I",                  "Male"
+ "Bolesław Pobożny",            "Male"
+}
+
 flag = "greater_poland"
 flag_alt = "-"
 city_style = "European"

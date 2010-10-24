@@ -6,18 +6,20 @@ groups="Modern", "African", "Asian"
 legend=_("Modern Egypt is the most populous Middle Eastern country as well\
  as one of the most populous in Africa. It is located on the site of one\
  of the world's most ancient civilizations.")
-leader=
- "Shajar al-Durr",
- "Al-Nasir Muhammad",
- "Barquq",
- "Abbas Hilmi Pasha",
- "Fuad I",
- "Farouk",
- "Gamal Abdel Nasser",
- "Anwar El Sadat",
- "Hosni Mubarak"
-leader_sex="Female", "Male", "Male", "Male", "Male",
-        "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Shajar al-Durr",      "Female"
+ "Al-Nasir Muhammad",   "Male"
+ "Barquq",              "Male"
+ "Abbas Hilmi Pasha",   "Male"
+ "Fuad I",              "Male"
+ "Farouk",              "Male"
+ "Gamal Abdel Nasser",  "Male"
+ "Anwar El Sadat",      "Male"
+ "Hosni Mubarak",       "Male"
+}
+
 flag="egypt"
 flag_alt = "egypt_ancient"
 city_style = "Babylonian"

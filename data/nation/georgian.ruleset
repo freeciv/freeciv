@@ -5,17 +5,19 @@ plural=_("?plural:Georgians")
 groups="Ancient", "Medieval", "Early Modern", "Modern", "European", "Asian"
 legend=_("The Georgians were one of the first peoples in history to adopt\
  Christianity, in the 300s AD.")
-leader=
- "Kartlos",
- "Giorgi III",
- "Vakhtang I Gorgasali",
- "Tamar",
- "Davit IV",
- "Alexandre Bagrationi",
- "Merab Kostava",
- "Eduard Shevardnadze"
-leader_sex="Male", "Male", "Male", "Female",
-           "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Kartlos",                     "Male"
+ "Giorgi III",                  "Male"
+ "Vakhtang I Gorgasali",        "Male"
+ "Tamar",                       "Female"
+ "Davit IV",                    "Male"
+ "Alexandre Bagrationi",        "Male"
+ "Merab Kostava",               "Male"
+ "Eduard Shevardnadze",         "Male"
+}
+
 flag="georgia"
 flag_alt = "-"
 city_style = "European"

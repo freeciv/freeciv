@@ -5,12 +5,15 @@ plural=_("?plural:Indians")
 groups="Ancient", "Medieval", "Modern", "Asian"
 legend=_("The cradle of Ancient Indian civilization lay in the Indus river\
  valley in modern-day Pakistan.")
-leader=
- "Mohandas Gandhi",
- "Ashoka",
- "Chandragupta",
- "Indira Gandhi"
-leader_sex="Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Mohandas Gandhi",     "Male"
+ "Ashoka",              "Male"
+ "Chandragupta",        "Male"
+ "Indira Gandhi",       "Female"
+}
+
 flag="india"
 flag_alt = "-"
 city_style = "Asian"

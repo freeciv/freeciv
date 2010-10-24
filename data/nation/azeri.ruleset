@@ -11,26 +11,24 @@ legend=_("The Azeris are the people of Azerbaijan. The territory\
  in history. Then Azerbaijan became part of the Soviet Union until\
  its dissolution in 1991.")
 
-leader=
-  "İsmayıl Xətai",
-  "Shams ad-Din Eldeqiz",
-  "Shakhverdi",
-  "Dargah Quli",
-  "Haydar Quli",
-  "Husayn",
-  "Malik Najaf",
-  "Muhammed Ali",
-  "Seyid Abbas",
-  "Əbülfəz Elçibəy",
-  "Heydər Əliyev",
-  "Ahmed bey Agaoglu",
-  "Mammed Amin Rasulzade",
-  "Fatali Khan Khoyski",
-  "Nariman Narimanov"
-
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "İsmayıl Xətai",               "Male"
+ "Shams ad-Din Eldeqiz",        "Male"
+ "Shakhverdi",                  "Male"
+ "Dargah Quli",                 "Male"
+ "Haydar Quli",                 "Male"
+ "Husayn",                      "Male"
+ "Malik Najaf",                 "Male"
+ "Muhammed Ali",                "Male"
+ "Seyid Abbas",                 "Male"
+ "Əbülfəz Elçibəy",             "Male"
+ "Heydər Əliyev",               "Male"
+ "Ahmed bey Agaoglu",           "Male"
+ "Mammed Amin Rasulzade",       "Male"
+ "Fatali Khan Khoyski",         "Male"
+ "Nariman Narimanov",           "Male"
+}
 
 flag="azerbaijan"
 flag_alt="-"

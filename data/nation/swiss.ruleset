@@ -7,31 +7,30 @@ legend=_("Switzerland has existed as a state in its present form since the\
  adoption of the Swiss Federal Constitution in 1848. The precursors of modern\
  Switzerland established a protective alliance at the end of the 13th century,\
  forming a loose confederation of states which persisted for centuries.")
- leader=
- "Wilhelm Tell",
- "Arnold von Winkelried",
- "Hermann Gessler",
- "Ulrich von Hohensax",
- "Hans Ludwig von Erlach",
- "Wilhelm Bernhard von Muralt",
- "Karl Ludwig von Erlach",
- "Augustin Keller",
- "Johann Weber",
- "Joseph Leonz Andermatt",
- "Pierre von der Weid",
- "Niklaus Rudolf von Wattenwyl",
- "Niklaus Franz von Bachmann",
- "C.J. Guiguer de Prangins",
- "Peter Ludwig von Donatz",
- "Guillaume-Henri Dufour",
- "Johann Ulrich von Salis-Soglio",
- "Hans Herzog",
- "Ulrich Wille",
- "Henri Guisan"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                                "sex"
+ "Wilhelm Tell",                        "Male"
+ "Arnold von Winkelried",               "Male"
+ "Hermann Gessler",                     "Male"
+ "Ulrich von Hohensax",                 "Male"
+ "Hans Ludwig von Erlach",              "Male"
+ "Wilhelm Bernhard von Muralt",         "Male"
+ "Karl Ludwig von Erlach",              "Male"
+ "Augustin Keller",                     "Male"
+ "Johann Weber",                        "Male"
+ "Joseph Leonz Andermatt",              "Male"
+ "Pierre von der Weid",                 "Male"
+ "Niklaus Rudolf von Wattenwyl",        "Male"
+ "Niklaus Franz von Bachmann",          "Male"
+ "C.J. Guiguer de Prangins",            "Male"
+ "Peter Ludwig von Donatz",             "Male"
+ "Guillaume-Henri Dufour",              "Male"
+ "Johann Ulrich von Salis-Soglio",      "Male"
+ "Hans Herzog",                         "Male"
+ "Ulrich Wille",                        "Male"
+ "Henri Guisan",                        "Male"
+}
 
 flag="switzerland"
 flag_alt = "-"

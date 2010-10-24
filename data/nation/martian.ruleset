@@ -4,18 +4,20 @@ name=_("Martian")
 plural=_("?plural:Martians")
 groups="Imaginary"
 legend=_("Marsmen landed on Earth in 4000 BC!")
-leader=
- "Ray Bradbury",
- "Wernher von Braun",
- "Arthur C. Clarke",
- "Isaac Asimov",
- "Gene Roddenberry",
- "Ursula Le Guin",
- "Andre Norton",
- "Alice Bradley Sheldon",
- "H. G. Wells"
-leader_sex="Male", "Male", "Male", "Male", "Male",
- "Female", "Female", "Female", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Ray Bradbury",                "Male"
+ "Wernher von Braun",           "Male"
+ "Arthur C. Clarke",            "Male"
+ "Isaac Asimov",                "Male"
+ "Gene Roddenberry",            "Male"
+ "Ursula Le Guin",              "Female"
+ "Andre Norton",                "Female"
+ "Alice Bradley Sheldon",       "Female"
+ "H. G. Wells",                 "Male"
+}
+
 flag="mars"
 flag_alt = "-"
 city_style = "Babylonian"

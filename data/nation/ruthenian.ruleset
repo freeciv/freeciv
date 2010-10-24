@@ -7,21 +7,21 @@ legend=_("The Kievan Rus' were a Medieval Slavic monarchy. It was\
  centered in Kiev after that city was conquered by Oleg of Novgorod.\
  In the 13th century the Rus' succumbed to a Mongol invasion. The Rus'\
  were the precursors of the modern East Slavic nations.")
-leader=
- "Oleg",
- "Igor",
- "Olga",
- "Sviatoslav I Veliky",
- "Yaropolk I",
- "Volodimer Veliky",
- "Sviatopolk Okayanny",
- "Yaroslav Mudry",
- "Iziaslav I",
- "Volodimer II Monomah",
- "Mstislav I"
-leader_sex=
- "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Oleg",                        "Male"
+ "Igor",                        "Male"
+ "Olga",                        "Female"
+ "Sviatoslav I Veliky",         "Male"
+ "Yaropolk I",                  "Male"
+ "Volodimer Veliky",            "Male"
+ "Sviatopolk Okayanny",         "Male"
+ "Yaroslav Mudry",              "Male"
+ "Iziaslav I",                  "Male"
+ "Volodimer II Monomah",        "Male"
+ "Mstislav I",                  "Male"
+}
 
 flag = "kiev"
 flag_alt = "russia"

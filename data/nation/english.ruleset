@@ -6,18 +6,20 @@ groups="Medieval", "Early Modern", "European"
 legend=_("England was unified by Alfred the Great of Wessex in the late\
  9th century AD, only to be conquered by William of Normandy a century\
  later, in the last successful invasion of the country.")
-leader=
- "Elizabeth I",
- "Alfred the Great",		; a.k.a. "Alfred of Wessex"
- "William the Conqueror", 
- "Richard Lionheart",
- "Henry II",
- "Oliver Cromwell",
- "John Lackland",
- "Mary Tudor",
- "Edward Longshanks"
-leader_sex="Female", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Female", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Elizabeth I",                 "Female"
+ "Alfred the Great",            "Male" ; a.k.a. "Alfred of Wessex"
+ "William the Conqueror",       "Male"
+ "Richard Lionheart",           "Male"
+ "Henry II",                    "Male"
+ "Oliver Cromwell",             "Male"
+ "John Lackland",               "Male"
+ "Mary Tudor",                  "Female"
+ "Edward Longshanks",           "Male"
+}
+
 flag="england"
 flag_alt = "united_kingdom"
 city_style = "European"

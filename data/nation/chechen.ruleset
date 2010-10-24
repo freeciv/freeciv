@@ -11,16 +11,20 @@ legend=_("Chechnya is an ancient nation in the Caucasus, currently part\
  of the Soviet Union, a civil war erupted when Chechen separatists\
  proclaimed an independent Chechen Republic of Ichkeria.")
 
-leader=
- "Şeyx Mansur",
- "Hadƶi Murat",
- "Şamil",
- "Dudin Musa kant Ƶovxar", ;first president of the Chechen Republic  of Ichkeria
- "Masxadan Ali kant Aslan", ;second (and last) president of Ichkeria
- "Axmad Kadyrov", ;former president of Chechnya (killed by terrorists)
- "Ramzan Kadyrov"
+leaders = {
+ "name",                        "sex"
+ "Şeyx Mansur",                 "Male"
+ "Hadƶi Murat",                 "Male"
+ "Şamil",                       "Male"
+; First president of the Chechen Republic  of Ichkeria
+ "Dudin Musa kant Ƶovxar",      "Male"
+; Second (and last) president of Ichkeria
+ "Masxadan Ali kant Aslan",     "Male"
+; Former president of Chechnya (killed by terrorists)
+ "Axmad Kadyrov",               "Male"
+ "Ramzan Kadyrov",              "Male"
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="chechnya"
 flag_alt = "-"
 city_style = "European"

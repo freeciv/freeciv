@@ -6,26 +6,21 @@ groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The Holy See is the episcopal jurisdiction of the Bishop of\
  Rome commonly known as the Pope, and is the preeminent episcopal see\
  of the Catholic Church, forming the central government of the Church.")
-leader = "Petrus",
- "Clemens I",
- "Leo I",
- "Gregorius I",
- "Ioanna",
- "Innocentius III",
- "Adrianus VI",
- "Pius IX",
- "Ioannes Paulus II",
- "Benedictus XVI"
-leader_sex = "Male", 
- "Male", 
- "Male", 
- "Male", 
- "Female", 
- "Male", 
- "Male", 
- "Male", 
- "Male", 
- "Male"
+
+leaders = {
+ "name",                "sex"
+ "Petrus",              "Male"
+ "Clemens I",           "Male"
+ "Leo I",               "Male"
+ "Gregorius I",         "Male"
+ "Ioanna",              "Female"
+ "Innocentius III",     "Male"
+ "Adrianus VI",         "Male"
+ "Pius IX",             "Male"
+ "Ioannes Paulus II",   "Male"
+ "Benedictus XVI",      "Male"
+}
+
 flag = "vatican"
 flag_alt = "constantine"
 city_style = "Classical"

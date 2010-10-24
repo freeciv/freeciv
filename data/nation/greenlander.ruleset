@@ -9,16 +9,18 @@ legend=_("Legend says that the Great Shaman Qitdlarssuaq lead the Inuit\
  on the southwestern tip of the island. Today, Greenland is a self-governing\
  country within the Kingdom of Denmark with mixed Inuit and Scaninavian\
  population.")
-leader=
- "Kuupik Kleist",
- "Lena Pedersen",
- "Eske Brun",
- "Hinrich Rink",
- "Poul Egede",
- "Eirikr Thorvaldsson", ; Eric the Red
- "Qitdlarssuaq"
 
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Kuupik Kleist",       "Male"
+ "Lena Pedersen",       "Male"
+ "Eske Brun",           "Female"
+ "Hinrich Rink",        "Male"
+ "Poul Egede",          "Male"
+ "Eirikr Thorvaldsson", "Male" ; Eric the Red
+ "Qitdlarssuaq",        "Male"
+}
+
 flag="greenland"
 flag_alt = "-"
 city_style = "European"

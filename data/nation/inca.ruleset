@@ -19,13 +19,15 @@ legend=_("The Inca were an Amerind people of the Northern Andes who\
  Wayna Qhapaq, who had died from disease - likely smallpox - that was\
  sweeping through the land.")
 
-leader=
- "Túpaq Amaru",
- "Manqo Qhapaq",
- "Atawallpa",
- "Pachakuti Inka Yupanki",
- "Thupa Inka Yupanki"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Túpaq Amaru",                 "Male"
+ "Manqo Qhapaq",                "Male"
+ "Atawallpa",                   "Male"
+ "Pachakuti Inka Yupanki",      "Male"
+ "Thupa Inka Yupanki",          "Male"
+}
+
 flag="inca"
 flag_alt = "peru"	; Used previously
 city_style = "Tropical"

@@ -11,14 +11,17 @@ legend=_("China is the oldest major civilization that is still in\
  by the Communists in 1949, occupies the mainland, while the former\
  Nationalist government of the Republic of China governs the island of\
  Taiwan.")
-leader=
- "Deng Xiaoping",
- "Hua Guofeng",
- "Wang Guangmei",
- "Zhou Enlai",
- "Mao Zedong",
- "Chen Duxiu"
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Deng Xiaoping",       "Male"
+ "Hua Guofeng",         "Male"
+ "Wang Guangmei",       "Female"
+ "Zhou Enlai",          "Male"
+ "Mao Zedong",          "Male"
+ "Chen Duxiu",          "Male"
+}
+
 flag="china"
 flag_alt = "-"
 city_style = "Asian"

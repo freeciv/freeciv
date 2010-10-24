@@ -6,20 +6,22 @@ groups="Modern", "European"
 legend=_("Finland is a small, cold country on the northern fringe of Europe,\
  noted for exporting timber, cellular phones, and world-class operating\
  systems.")
-leader=
- "K. J. Ståhlberg",		; born as Carl Johan Ståhlberg
- "Lauri Kristian Relander",
- "Pehr Evind Svinhufvud",
- "Kyösti Kallio",
- "Risto Ryti",
- "C.G.E.Mannerheim",		; Marshal of Finland
- "J. K. Paasikivi",		; born as Johan Gustaf Hellsten
- "Urho Kekkonen",		; Kekkonen, Kekkonen, Kekkonen, Kekkonen, Kekkonen.
- "Mauno Koivisto",	
- "Martti Ahtisaari",		; Nobel Peace Prize laureate
- "Tarja Halonen"		; First female president
-leader_sex="Male", "Male", "Male", "Male", "Male",
-	   "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "K. J. Ståhlberg",             "Male" ; born as Carl Johan Ståhlberg
+ "Lauri Kristian Relander",     "Male"
+ "Pehr Evind Svinhufvud",       "Male"
+ "Kyösti Kallio",               "Male"
+ "Risto Ryti",                  "Male"
+ "C.G.E.Mannerheim",            "Male" ; Marshal of Finland
+ "J. K. Paasikivi",             "Male" ; born as Johan Gustaf Hellsten
+ "Urho Kekkonen",               "Male"
+ "Mauno Koivisto",              "Male"
+ "Martti Ahtisaari",            "Male" ; Nobel Peace Prize laureate
+ "Tarja Halonen",               "Female" ; First female president
+}
+
 flag="finland"
 flag_alt = "-"
 city_style = "European"

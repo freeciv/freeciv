@@ -13,17 +13,17 @@ legend=_("Inhabitants of the Balkan peninsula, the ethnic origins of the\
  1912. For much of the 20th century Albania was ruled by communist\
  dictator Enver Hoxha.")
 
-leader=
- "Dhimitër Progoni",
- "Gjergj Kastrioti Skënderbeu",
- "Ismail Qemali",
- "Esad Pashë Toptani",
- "Ahmet Bej Zogu",
- "Geraldina Zog",
- "Envër Hoxha",
- "Ramiz Alia"
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Dhimitër Progoni",            "Male"
+ "Gjergj Kastrioti Skënderbeu", "Male"
+ "Ismail Qemali",               "Male"
+ "Esad Pashë Toptani",          "Male"
+ "Ahmet Bej Zogu",              "Male"
+ "Geraldina Zog",               "Female"
+ "Envër Hoxha",                 "Male"
+ "Ramiz Alia",                  "Male"
+}
 
 flag="albania"
 flag_alt = "-"

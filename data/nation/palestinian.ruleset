@@ -5,15 +5,16 @@ plural=_("?plural:Palestinian")
 groups= "Asian", "Modern"
 legend=_("Palestinians are the Arab inhabitants of the former British\
  mandate of Palestine.")
-leader=
- "Khalil al-Sakakini",
- "Mohammad Amin al-Husayni",
- "Raghib al-Nashashibi",
- "Abd al-Qadir al-Husayni",
- "Yasser Arafat",
- "Mahmoud Abbas"
- 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Khalil al-Sakakini",          "Male"
+ "Mohammad Amin al-Husayni",    "Male"
+ "Raghib al-Nashashibi",        "Male"
+ "Abd al-Qadir al-Husayni",     "Male"
+ "Yasser Arafat",               "Male"
+ "Mahmoud Abbas",               "Male"
+}
 
 flag="palestine"
 flag_alt = "-"

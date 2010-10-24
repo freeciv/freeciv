@@ -9,20 +9,21 @@ legend=_("Lorraine or Lotharingia was formed as the middle kingdom when\
  the struggles between the various Frankish dynasties. What was left of\
  Lorraine became a duchy that both France and Germany were continuously\
  eyeing for. Lorraine became a province of France in 1766.")
-leader=
- "Lothaire II",
- "Louis II le Germanique",
- "Zwentibold",
- "René II de Lorraine",
- "Antoine le Bon",
- "Louise de Lorraine-Vaudémont",
- "Alberte-Barbe de St.-Baslemont",
- "François III",
- "Stanislas",
- "Josef Bürckel"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female",
- "Female", "Male", "Male", "Male"
+leaders = {
+ "name",                                "sex"
+ "Lothaire II",                         "Male"
+ "Louis II le Germanique",              "Male"
+ "Zwentibold",                          "Male"
+ "René II de Lorraine",                 "Male"
+ "Antoine le Bon",                      "Male"
+ "Louise de Lorraine-Vaudémont",        "Female"
+ "Alberte-Barbe de St.-Baslemont",      "Female"
+ "François III",                        "Male"
+ "Stanislas",                           "Male"
+ "Josef Bürckel",                       "Male"
+}
+
 flag="lorraine"
 flag_alt = "france_old"
 city_style = "European"

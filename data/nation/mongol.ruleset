@@ -7,22 +7,24 @@ legend=_("In the centuries after their unification by Chinggis Khan, the\
  Mongols conquered the largest empire in human history, encompassing most\
  of the continent of Asia.  They became notorious for their utter\
  ruthlessness in warfare.")
-leader=
- "Chinggis",
- "Ogedei",
- "Batu",
- "Chagadai",
- "Tului",
- "Godan",
- "Subetei",
- "Teregene",
- "Kuyuk",
- "Mengke",
- "Khubilai",
- "Hulegu",
- "Dokuz"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Female", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",        "sex"
+ "Chinggis",    "Male"
+ "Ogedei",      "Male"
+ "Batu",        "Male"
+ "Chagadai",    "Male"
+ "Tului",       "Male"
+ "Godan",       "Male"
+ "Subetei",     "Male"
+ "Teregene",    "Female"
+ "Kuyuk",       "Male"
+ "Mengke",      "Male"
+ "Khubilai",    "Male"
+ "Hulegu",      "Male"
+ "Dokuz",       "Female"
+}
+
 flag="mongolia"
 flag_alt = "-"
 city_style = "Asian"

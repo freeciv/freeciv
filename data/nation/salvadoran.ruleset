@@ -20,20 +20,19 @@ legend=_("Originally inhabited by Pipil Indians, in the 16th century El\
  Hernandez in 1944 but the country remained instable and from 1979-1992\
  the country lived through another bloody civil war.")
 
-leader=
- "José Matías Delgado",
- "Francisco Dueñas",
- "Santiago González",
- "Farabundo Martí",
- "Maximiliano Hernández Martínez",
- "José Napoleón Duarte",
- "Óscar Romero",
- "Schafik Handal",
- "Roberto d'Aubuisson",
- "Mauricio Funes"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male"
+leaders = {
+ "name",                                "sex"
+ "José Matías Delgado",                 "Male"
+ "Francisco Dueñas",                    "Male"
+ "Santiago González",                   "Male"
+ "Farabundo Martí",                     "Male"
+ "Maximiliano Hernández Martínez",      "Male"
+ "José Napoleón Duarte",                "Male"
+ "Óscar Romero",                        "Male"
+ "Schafik Handal",                      "Male"
+ "Roberto d'Aubuisson",                 "Male"
+ "Mauricio Funes",                      "Male"
+}
 
 flag         = "el_salvador"
 flag_alt     = "-"

@@ -5,18 +5,20 @@ plural=_("?plural:Peruvians")
 groups="Modern", "American"
 legend=_("Peru was the cradle of the Inca Empire and civilization. It is\
  still today a major center of indigenous South American culture.")
-leader=
- "Andrés de Santa Cruz",
- "Agustín Gamarra",
- "Ramón Castilla",
- "Andrés Avelino Cáceres",
- "José Pardo y Barreda",
- "Augusto B. Leguía",
- "Manuel A. Odría",
- "Fernando Belaúnde Terry",
- "Alberto Fujimori"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Andrés de Santa Cruz",        "Male"
+ "Agustín Gamarra",             "Male"
+ "Ramón Castilla",              "Male"
+ "Andrés Avelino Cáceres",      "Male"
+ "José Pardo y Barreda",        "Male"
+ "Augusto B. Leguía",           "Male"
+ "Manuel A. Odría",             "Male"
+ "Fernando Belaúnde Terry",     "Male"
+ "Alberto Fujimori",            "Male"
+}
+
 flag="peru"
 flag_alt = "-"
 city_style = "Tropical"

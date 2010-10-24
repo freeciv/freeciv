@@ -6,14 +6,17 @@ groups="European", "Early Modern"
 legend=_("Hanover was a state in Northern Germany, in current Lower\
  Saxony. From 1714 to 1837 Hanover and the United Kingdom were united\
  in a personal union. In 1866 it was gobbled up by Prussia.") 
-leader =
- "Ernst August",
- "Georg I",
- "Georg II",
- "Georg III",
- "Georg IV",
- "Rudolf von Bennigsen"
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Ernst August",                "Male"
+ "Georg I",                     "Male"
+ "Georg II",                    "Male"
+ "Georg III",                   "Male"
+ "Georg IV",                    "Male"
+ "Rudolf von Bennigsen",        "Male"
+}
+
 flag="hanover"
 flag_alt = "westphalia"
 city_style = "European"

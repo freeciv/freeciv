@@ -10,17 +10,19 @@ legend=_("Uyghur was an east Turk empire and civilization. At its height in\
  populations of the Central Asian states of Uzbekistan, Kazakhstan and\
  Kyrgyzstan. They are also the main minority of the Xinjiang province of\
  China.")
-leader=
- "Kutluk Bilge Kul",
- "Moyunchur",
- "Khitan",
- "Bugu",
- "Baga Tarkan",
- "Kutlug Bilge",
- "Sutuk Bugra",
- "Guyuk"
- 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Kutluk Bilge Kul",    "Male"
+ "Moyunchur",           "Male"
+ "Khitan",              "Male"
+ "Bugu",                "Male"
+ "Baga Tarkan",         "Male"
+ "Kutlug Bilge",        "Male"
+ "Sutuk Bugra",         "Male"
+ "Guyuk",               "Male"
+}
+
 flag="uyghur"
 flag_alt = "-"
 city_style = "Classical"

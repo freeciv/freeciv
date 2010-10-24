@@ -6,16 +6,19 @@ groups="Ancient", "Medieval", "Modern", "European", "Asian"
 legend=_("According to legend, the Armenian people are the descendants of\
  Haik - the great-great-grandson of Noah. The modern Republic of Armenia\
  gained independence from the Soviet Union in 1991.")
-leader=
- "Armenak",
- "Ishpuinis",
- "Tigranes II",
- "Gregor Lusarovitch",
- "Trdat III",
- "Menuas",
- "Argishtis I",
- "Zabel I"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Armenak",             "Male"
+ "Ishpuinis",           "Male"
+ "Tigranes II",         "Male"
+ "Gregor Lusarovitch",  "Male"
+ "Trdat III",           "Male"
+ "Menuas",              "Male"
+ "Argishtis I",         "Male"
+ "Zabel I",             "Female"
+}
+
 flag="armenia"
 flag_alt = "-"
 city_style = "Classical"

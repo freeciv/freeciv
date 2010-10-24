@@ -6,18 +6,20 @@ groups="Medieval", "European"
 legend=_("Westphalia, before becoming a Prussian province, was the western\
  region of the Duchy of Saxony. Today it makes up the northern part of\
  the largest German federal state, North Rhine-Westphalia.")
-leader =
- "Widukind",
- "Liudger",
- "Hermann von Werl",
- "Gottfried von Arnsberg",
- "Graf von der Mark",
- "Heinrich Aldegrever",
- "Jan van Leiden",
- "Franz von Waldeck",
- "Annette von Droste Hülshoff"
-leader_sex = "Male", "Male", "Male", "Male", "Male",
-             "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Widukind",                    "Male"
+ "Liudger",                     "Male"
+ "Hermann von Werl",            "Male"
+ "Gottfried von Arnsberg",      "Male"
+ "Graf von der Mark",           "Male"
+ "Heinrich Aldegrever",         "Male"
+ "Jan van Leiden",              "Male"
+ "Franz von Waldeck",           "Male"
+ "Annette von Droste Hülshoff", "Female"
+}
+
 flag="westphalia"
 flag_alt = "germany"
 city_style = "European"

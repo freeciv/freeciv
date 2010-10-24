@@ -13,12 +13,14 @@ legend=_("Gatherers, hunters and fishermen, the Ohlone lived in\
  of an Ohlone language died in 1939, the Ohlone are today federally\
  recognized as 7 tribes.") 
 
-leader= 
-"Chamis", 
-"Xigmacse", 
-"Mossués", 
-"Charquín" 
-leader_sex="Male", "Male", "Male", "Male" 
+leaders = {
+ "name",        "sex"
+ "Chamis",      "Male"
+ "Xigmacse",    "Male"
+ "Mossués",     "Male"
+ "Charquín",    "Male"
+}
+
 flag= "ohlone" 
 flag_alt = "-" 
 city_style = "Celtic" 

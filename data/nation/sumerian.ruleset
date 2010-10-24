@@ -6,19 +6,21 @@ groups="Ancient", "Asian"
 legend=_("Sumer controlled southern Mesopotamia until the rise of\
  Babylonia. Tablets of Sumerian writing some 5500 years old have been\
  found, pre-dating every other writing in history.")
-leader=
- "Shulgi",
- "Gilgamesh",
- "Ur-Nanshe", ; a.k.a. Ur-Nina
- "Lugal-Za-Gesi",
- "En-Mer-Kar",
- "Urukagina",
- "Etana",
- "Ur-Nammu",
- "Ibbi-Sin",
- "Nin-Kasalsi"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Shulgi",              "Male"
+ "Gilgamesh",           "Male"
+ "Ur-Nanshe",           "Male" ; a.k.a. Ur-Nina
+ "Lugal-Za-Gesi",       "Male"
+ "En-Mer-Kar",          "Male"
+ "Urukagina",           "Male"
+ "Etana",               "Male"
+ "Ur-Nammu",            "Male"
+ "Ibbi-Sin",            "Male"
+ "Nin-Kasalsi",         "Female"
+}
+
 flag = "sumeria"
 flag_alt = "-"
 city_style = "Babylonian"

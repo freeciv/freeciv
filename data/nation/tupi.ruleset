@@ -11,13 +11,13 @@ legend=_("The Tupi are a native Brazilian people related to the Guarani who\
  and disease. The Tupi intermarried with African slaves and Europeans alike\
  and a great many Brazilian place names are derived from Tupi words. ")
 
-leader=
- "Tibiriça",
- "Pindubuçu",
- "Jugasu",
- "Konyan Bebe"
-
-leader_sex = "Male", "Male", "Male", "Male"
+leaders = {
+ "name",        "sex"
+ "Tibiriça",    "Male"
+ "Pindubuçu",   "Male"
+ "Jugasu",      "Male"
+ "Konyan Bebe", "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Morubixaba = Chief */

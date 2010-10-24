@@ -12,20 +12,21 @@ legend=_("For most of its history, Corsica has been ruled by foreign\
  republic with the first modern constitution in the world. Genoa sold its\
  claim to France, after which a French invasion force defeated the\
  Corsicans and Corsica was incorporated into France.")
-leader =
- "Vincinteddu d'Istria",
- "Samperu Corsu",
- "Tiadoru di Neuhoff",
- "Pasquale Paoli",
- "Carlu Andria Pozzu di Borgu",
- "Napulione Buonaparte",
- "Elisa Buonaparte",
- "Tiadoru Poli",
- "Nonce Romanetti",
- "Danielle Casanova"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male",
- "Male", "Female", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Vincinteddu d'Istria",        "Male"
+ "Samperu Corsu",               "Male"
+ "Tiadoru di Neuhoff",          "Male"
+ "Pasquale Paoli",              "Male"
+ "Carlu Andria Pozzu di Borgu", "Male"
+ "Napulione Buonaparte",        "Male"
+ "Elisa Buonaparte",            "Female"
+ "Tiadoru Poli",                "Male"
+ "Nonce Romanetti",             "Male"
+ "Danielle Casanova",           "Female"
+}
+
 flag="corsica"
 flag_alt = "-"
 city_style = "Celtic"

@@ -5,19 +5,22 @@ plural=_("?plural:Poles")
 groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The Polish state was formed about a millennium ago, and reached\
  its Golden Age near the end of the 16th century.")
-leader="Mieszko I",
-       "Bolesław Chrobry",
-       "Władysław Łokietek", 
-       "Kazimierz Wielki",
-       "Jadwiga",
-       "Władysław Jagiełło",
-       "Stefan Batory",
-       "Jan III Sobieski",
-       "Stanisław Poniatowski",
-       "Tadeusz Kościuszko",
-       "Józef Piłsudski"
-leader_sex="Male", "Male", "Male", "Male", "Female",
-           "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Mieszko I",                   "Male"
+ "Bolesław Chrobry",            "Male"
+ "Władysław Łokietek",          "Male"
+ "Kazimierz Wielki",            "Male"
+ "Jadwiga",                     "Female"
+ "Władysław Jagiełło",          "Male"
+ "Stefan Batory",               "Male"
+ "Jan III Sobieski",            "Male"
+ "Stanisław Poniatowski",       "Male"
+ "Tadeusz Kościuszko",          "Male"
+ "Józef Piłsudski",             "Male"
+ }
+
 flag="poland"
 flag_alt = "-"
 city_style = "European"

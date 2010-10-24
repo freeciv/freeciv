@@ -7,12 +7,15 @@ legend=_("Kampuchea (known in English as Cambodia) is the modern successor\
  state of the mighty Khmer Empire, which ruled most of the Indochinese\
  Peninsula between the 11th\
  and 14th centuries.")
-leader=
- "Pol Pot",
- "Norodom Sihanouk",
- "Ang Chan",
- "Jayavarman II"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Pol Pot",             "Male"
+ "Norodom Sihanouk",    "Male"
+ "Ang Chan",            "Male"
+ "Jayavarman II",       "Male"
+}
+
 flag="kampuchea"
 flag_alt = "-"
 city_style = "Asian"

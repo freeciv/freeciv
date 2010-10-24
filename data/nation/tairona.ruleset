@@ -13,13 +13,13 @@ legend=_("A Chibchan-speaking people related to the Kuna of Panama and the\
  eventually they succumbed to the various pressures that all Native\
  American peoples were subject to at the period.")
 
-leader=
- "Nabobá",
- "Nugi Túxe",
- "Hába Haxtoxé",
- "Kunhwingumu"
-
-leader_sex = "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Nabobá",              "Male"
+ "Nugi Túxe",           "Male"
+ "Hába Haxtoxé",        "Male"
+ "Kunhwingumu",         "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Hankwa = Chief */

@@ -4,14 +4,17 @@ name=_("Arab")
 plural=_("?plural:Arabs")
 groups="Medieval", "Asian", "African"
 legend=_("The Arab/Islamic civilization of 622 AD-1495 AD.")
-leader=
- "Mohammad",
- "Umar",
- "Harun al-Rashid",
- "Saladin", 
- "Al-Mansur",
- "Al-Hakim"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Mohammad",            "Male"
+ "Umar",                "Male"
+ "Harun al-Rashid",     "Male"
+ "Saladin",             "Male"
+ "Al-Mansur",           "Male"
+ "Al-Hakim",            "Male"
+}
+
 flag ="arab"
 flag_alt = "-"
 city_style = "Classical"

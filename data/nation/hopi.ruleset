@@ -8,18 +8,17 @@ legend=_("A matrilineal culture in North America, who claim descent from the\
  Hisatsinom. The Hopi live today on the Hopi Reservation in northeastern\
  Arizona.")
 
-leader=
- "Waki",
- "Sunki",
- "Tiponi",
- "Tuba",
- "Alo",
- "Cha'akmongwi",
- "Cheveyo",
- "Wikvaya"
-
-leader_sex = "Female", "Female", "Female", "Male", "Male", "Male", "Male",
- "Male"
+leaders = {
+ "name",                "sex"
+ "Waki",                "Female"
+ "Sunki",               "Female"
+ "Tiponi",              "Female"
+ "Tuba",                "Male"
+ "Alo",                 "Male"
+ "Cha'akmongwi",        "Male"
+ "Cheveyo",             "Male"
+ "Wikvaya",             "Male"
+}
 
 flag         = "hopi"
 flag_alt     = "-"

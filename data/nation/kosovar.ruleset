@@ -6,14 +6,17 @@ groups="European", "Modern"
 legend=_("Kosovo is a country on the Balkans. It declared independence in\
  2008. Serbia claims Kosovo as a province and its independence is not\
  universally recognized.")
-leader=
- "Mahmud Shevket Pasha",
- "Bajram Curri",
- "Isa Boletini",
- "Fadil Hoxha",
- "Ibrahim Rugova",
- "Fatmir Sejdiu"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Mahmud Shevket Pasha",        "Male"
+ "Bajram Curri",                "Male"
+ "Isa Boletini",                "Male"
+ "Fadil Hoxha",                 "Male"
+ "Ibrahim Rugova",              "Male"
+ "Fatmir Sejdiu",               "Male"
+}
+
 flag="kosovo"
 flag_alt = "-"
 city_style = "Celtic"

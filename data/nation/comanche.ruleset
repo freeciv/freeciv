@@ -7,15 +7,19 @@ legend=_("The Comanche or Numunu are a Native American ethnic group whose\
  historic range (the Comancheria) consisted of present-day eastern New\
  Mexico, southern Colorado, northeastern Arizona, southern Kansas, all of\
  Oklahoma, and most of northwest Texas.")
-leader="Tu-uh-ku-mah",     ;Black Horse
-       "Isa-tai",          ;White Eagle
-       "Po-bish-e-quasho", ;Iron Jacket
-       "Mo'pe-choko-pa",   ;Old Owl
-       "Toshaway",         ;Silver Knife
-       "Paruasemana",      ;Ten Bears
-       "Peta Nocona",
-       "Quanah Parker"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Tu-uh-ku-mah",        "Male" ; Black Horse
+ "Isa-tai",             "Male" ; White Eagle
+ "Po-bish-e-quasho",    "Male" ; Iron Jacket
+ "Mo'pe-choko-pa",      "Male" ; Old Owl
+ "Toshaway",            "Male" ; Silver Knife
+ "Paruasemana",         "Male" ; Ten Bears
+ "Peta Nocona",         "Male"
+ "Quanah Parker",       "Male"
+}
+
 flag = "comanche"
 flag_alt = "-"
 city_style = "celtic"

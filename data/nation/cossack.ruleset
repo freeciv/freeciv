@@ -6,22 +6,24 @@ groups="European", "Early Modern"
 legend=_("The Zaporozhian Cossacks lived in Zaporozhia, in Central\
  Ukraine. They were a multi-ethnic community with Ruthenians being the\
  dominant element, organized in a military manner.")
-leader=
- "Predslav Lyantskoronsky",
- "Ostap Dashkevych",
- "Dmytro Vyshnevetsky",
- "Ivan Svirgovsky",
- "Ivan Pidkova",
- "Kryshtof Kosynsky",
- "Ivan Sulyma",
- "Bohdan Khmelnytsky",
- "Ivan Bohun",
- "Ivan Mazepa",
- "Pavlo Polubotok",
- "Kyrylo Rozumovsky",
- "Yemelyan Pugachev"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Predslav Lyantskoronsky",     "Male"
+ "Ostap Dashkevych",            "Male"
+ "Dmytro Vyshnevetsky",         "Male"
+ "Ivan Svirgovsky",             "Male"
+ "Ivan Pidkova",                "Male"
+ "Kryshtof Kosynsky",           "Male"
+ "Ivan Sulyma",                 "Male"
+ "Bohdan Khmelnytsky",          "Male"
+ "Ivan Bohun",                  "Male"
+ "Ivan Mazepa",                 "Male"
+ "Pavlo Polubotok",             "Male"
+ "Kyrylo Rozumovsky",           "Male"
+ "Yemelyan Pugachev",           "Male"
+}
+
 flag= "cossack" 
 flag_alt = "-" 
 city_style = "Celtic" 

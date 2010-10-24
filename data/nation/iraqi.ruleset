@@ -6,13 +6,16 @@ groups="Modern", "Asian"
 legend=_("Iraq was founded after the fall of the Ottoman\
  empire. It is encompassing the ancient region of Mesopotamia at the\
  confluence of the Tigris and Euphrates rivers.")
-leader=
- "Faisal I",
- "Saddam Hussein",
- "Mohammed Baqir al-Hakim",
- "Abdul Salam Arif",
- "Bakr Sidqi"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Faisal I",                    "Male"
+ "Saddam Hussein",              "Male"
+ "Mohammed Baqir al-Hakim",     "Male"
+ "Abdul Salam Arif",            "Male"
+ "Bakr Sidqi",                  "Male"
+}
+
 flag = "iraq"
 flag_alt = "iraq_old"
 city_style = "Babylonian"

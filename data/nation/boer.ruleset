@@ -7,15 +7,17 @@ legend=_("The Boers were Dutch settlers in British-controlled South\
  Africa from 1650 AD.  They briefly controlled two republics, the\
  Transvaal and the Orange Free State, before being defeated by the British\
  in the war of 1899-1902.")
-leader=
- "Jacobus Pretorius",
- "Louis Botha",
- "Wessel Pretorius",
- "Paulus Krüger",
- "Piet Retief",
- "Jan Smuts"
-leader_sex= "Male", "Male", "Male",
-	    "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Jacobus Pretorius",   "Male"
+ "Louis Botha",         "Male"
+ "Wessel Pretorius",    "Male"
+ "Paulus Krüger",       "Male"
+ "Piet Retief",         "Male"
+ "Jan Smuts",           "Male"
+}
+
 flag="boer"
 flag_alt = "-"
 city_style = "Tropical"

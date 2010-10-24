@@ -9,16 +9,19 @@ legend=_("Eritrea is a country in eastern Africa which borders Sudan,\
  the development of an independence movement in the 1960s. In 1991 the\
  31-year war ended with Eritrea gaining independence.")
 
-leader=
- "Isaias Afewerki",     ; first provisional President (living)
- "Hamid Idris Awate",   ; leader of Eritrean Liberation Army
- "Ali Said Abdella",    ; rebel commander, politician and diplomat
- "Bahta Hagos",         ; 19th century local military commander
- "Woldeab Woldemariam", ; early 20th century teacher and political leader
- "Ibrahim Sultan Ali",  ; early 20th century independence activist
- "Fozia Hashim"         ; current minister of justice - female (living)
+leaders = {
+ "name",                "sex"
+ "Isaias Afewerki",     "Male" ; First provisional President (living).
+ "Hamid Idris Awate",   "Male" ; leader of Eritrean Liberation Army.
+ "Ali Said Abdella",    "Male" ; rebel commander, politician and diplomat.
+ "Bahta Hagos",         "Male" ; 19th century local military commander.
+ "Woldeab Woldemariam", "Male" ; early 20th century teacher and political
+                               ; leader.
+ "Ibrahim Sultan Ali",  "Male" ; early 20th century independence activist.
+ "Fozia Hashim",        "Female" ; current minister of justice - female
+                                 ; (living).
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="eritrea"
 flag_alt="-"
 city_style="Babylonian"

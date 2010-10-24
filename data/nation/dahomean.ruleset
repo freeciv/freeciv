@@ -12,44 +12,63 @@ legend=_("The southern third of modern Benin was once a historic kingdom\
  warriors: an army of women who were the king's official bodyguards and\
  celibate wives.") 
 
-leader=
- "Gangnihessou",         ; 1st of the traditional 12 kings of Dahomey
- "Dakodonou",            ; (c. 1620 - 1645)
- "Aho Houegbadja",       ; aka Wegbaja (1645 - 1685)
- "Houessou Akaba",       ; (1685 - 1708)
- "Tassi Hangbe",         ; aka Ahangbe, may have ruled jointly with twin Akaba
- "Dossou Agadja",        ; (1708 - c. 1732)
- "Adonon",               ; queen mother, wife of Wegbaja
- "Tegbessou",            ; (c. 1732 - 1774)
- "Kpengla",              ; (1774 - 1789)
- "Agonglo",              ; (1790 - 1797)
- "Adandozan Magogugu",   ; often excised from Dahomey history (1804 - 1818)
- "Ghezo Gbalangbe",      ; (1818 - 1858)
- "Glele",                ; aka Badohou (1858 - 1889)
- "Visesgan",             ; majordomo in 1870s - 1889, very influential woman
- "Béhanzin",             ; aka Kondo (1889 - 1894)
- "Agoli-agbo",           ; last of the 12 kings (1894 - 1900)
- "Seh-Dong-Hong-Beh",    ; Leader of the ahosi c. 1851
- "Hwanjile"              ; queen mother of Tegbesu, joint ruler by some sources
-leader_sex=
- "Male",
- "Male",
- "Male",
- "Male",
- "Female",
- "Male",
- "Female",
- "Male",
- "Male",
- "Male",
- "Male",
- "Male",
- "Male",
- "Female",
- "Male",
- "Male",
- "Female",
- "Female"
+leaders = {
+ "name",                "sex"
+
+; 1st of the traditional 12 kings of Dahomey
+ "Gangnihessou",         "Male"
+
+; (c. 1620 - 1645)
+ "Dakodonou",            "Male"
+
+; a.k.a. Wegbaja (1645 - 1685)
+ "Aho Houegbadja",       "Male"
+
+; (1685 - 1708)
+ "Houessou Akaba",       "Male"
+
+; a.k.a. Ahangbe, may have ruled jointly with twin Akaba
+ "Tassi Hangbe",         "Female"
+
+; (1708 - c. 1732)
+ "Dossou Agadja",        "Male"
+
+; Queen mother, wife of Wegbaja
+ "Adonon",               "Female"
+
+; (c. 1732 - 1774)
+ "Tegbessou",            "Male"
+
+; (1774 - 1789)
+ "Kpengla",              "Male"
+
+; (1790 - 1797)
+ "Agonglo",              "Male"
+
+; Often excised from Dahomey history (1804 - 1818)
+ "Adandozan Magogugu",   "Male"
+
+; (1818 - 1858)
+ "Ghezo Gbalangbe",      "Male"
+
+; a.k.a. Badohou (1858 - 1889)
+ "Glele",                "Male"
+
+; Majordomo in 1870s - 1889, very influential woman
+ "Visesgan",             "Female"
+
+; a.k.a. Kondo (1889 - 1894)
+ "Béhanzin",             "Male"
+
+; Last of the 12 kings (1894 - 1900)
+ "Agoli-agbo",           "Male"
+
+; Leader of the ahosi c. 1851
+ "Seh-Dong-Hong-Beh",    "Female"
+
+; Queen mother of Tegbesu, joint ruler by some sources
+ "Hwanjile",             "Female"
+}
 
 flag="dahomey"
 flag_alt = "-"

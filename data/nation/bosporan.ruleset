@@ -5,28 +5,29 @@ plural=_("?plural:Bosporans")
 groups="European", "Ancient"
 legend=_("The Bosporan Kingdom was an ancient state in eastern Crimea and\
  the Taman Peninsula on the shores of the Cimmerian Bosporus.")
-leader=
-"Gomer",
-"Genger",
-"Esdron",
-"Basabiliano",
-"Gaberiano",
-"Teushapa",
-"Getmalor",
-"Sandakhshatra",
-"Almadion",
-"Marcomer",
-"Spartocus I",
-"Paerisades II",
-"Asander",
-"Sauromates I",
-"Rhoemetalces",
-"Rhescuporis II",
-"Ininthimeus",
-"Rhadamsades"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-       "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Gomer",               "Male"
+ "Genger",              "Male"
+ "Esdron",              "Male"
+ "Basabiliano",         "Male"
+ "Gaberiano",           "Male"
+ "Teushapa",            "Male"
+ "Getmalor",            "Male"
+ "Sandakhshatra",       "Male"
+ "Almadion",            "Male"
+ "Marcomer",            "Male"
+ "Spartocus I",         "Male"
+ "Paerisades II",       "Male"
+ "Asander",             "Male"
+ "Sauromates I",        "Male"
+ "Rhoemetalces",        "Male"
+ "Rhescuporis II",      "Male"
+ "Ininthimeus",         "Male"
+ "Rhadamsades",         "Male"
+}
+
 flag = "bosporus"
 flag_alt = "-"
 city_style = "Classical"

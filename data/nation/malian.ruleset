@@ -5,14 +5,16 @@ plural=_("?plural:Malians")
 groups="Modern", "African"
 legend=_("Mali is a large country in Western Africa. Once part of French\
  Sudan, it gained independence together with Senegal in 1959.")
-leader=
- "Aminata Traoré",
- "Moussa Traoré",
- "Modibo Keïta",
- "Aoua Keïta",
- "Ahmed Baba"
- 
-leader_sex="Female", "Male", "Male", "Female", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Aminata Traoré",      "Female"
+ "Moussa Traoré",       "Male"
+ "Modibo Keïta",        "Male"
+ "Aoua Keïta",          "Female"
+ "Ahmed Baba",          "Male"
+}
+
 flag="mali"
 flag_alt = "-"
 city_style = "Classical"

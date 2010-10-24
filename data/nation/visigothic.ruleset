@@ -13,25 +13,26 @@ legend = _("The Thervingi or Visigoths were an East Germanic people, one of\
  the Pyrenees to the Franks but Visigothic rulers continued to rule the\
  Romanized Iberians until the peninsula was eventually overrun by Muslim\
  invaders in 711.")
-leader=
-"Aþanareiks",		;Athanaric
-"Friþugairns",		;Fritigern
-"Alareiks I",		;Alaric I
-"Wallja",		;Wallia
-"Eureiks",		;Euric
-"Þiudareiks II",	;Theodoric II
-"Alareiks II",		;Alaric II
-"Amalareiks",		;Amalaric
-"Chrodechildis",	;Clotilde
-"Liubagilds",		;Leogild
-"Wittereiks",		;Witteric
-"Swinþila",		;Suintila
-"Hrekkared",		;Reccared
-"Hroþareiks",		;Roderic
-"Egilona"		;Egilona
-leader_sex=
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male",
- "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Aþanareiks",          "Male" ; Athanaric
+ "Friþugairns",         "Male" ; Fritigern
+ "Alareiks I",          "Male" ; Alaric I
+ "Wallja",              "Male" ; Wallia
+ "Eureiks",             "Male" ; Euric
+ "Þiudareiks II",       "Male" ; Theodoric II
+ "Alareiks II",         "Male" ; Alaric II
+ "Amalareiks",          "Male" ; Amalaric
+ "Chrodechildis",       "Female" ; Clotilde
+ "Liubagilds",          "Male" ; Leogild
+ "Wittereiks",          "Male" ; Witteric
+ "Swinþila",            "Male" ; Suintila
+ "Hrekkared",           "Male" ; Reccared
+ "Hroþareiks",          "Male" ; Roderic
+ "Egilona",             "Female" ; Egilona
+}
+
 flag= "visigoth" 
 flag_alt = "-" 
 city_style = "Celtic" 

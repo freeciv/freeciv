@@ -5,15 +5,17 @@ plural = _("?plural:Mozambicans")
 groups="African", "Modern"
 legend=_("Mozambique is a country in Southeast Africa. It gained\
  independence from Portugal in 1975.")
-leader =
- "Lourenço Marques",
- "Josina Muthemba",
- "Eduardo Mondlane",
- "Samora Machel",
- "Joaquim Chissanoi",
- "Luisa Diogo"
 
-leader_sex = "Male", "Female", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                "sex"
+ "Lourenço Marques",    "Male"
+ "Josina Muthemba",     "Female"
+ "Eduardo Mondlane",    "Male"
+ "Samora Machel",       "Male"
+ "Joaquim Chissanoi",   "Male"
+ "Luisa Diogo",         "Female"
+}
+
 flag = "mozambique"
 flag_alt = "-"
 city_style = "Tropical"

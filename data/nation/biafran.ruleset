@@ -8,12 +8,14 @@ legend=_("Biafra declared independence from Nigeria in 1967 after years\
  A war between Nigeria and Biafra followed, which claimed up to two\
  million lives, mostly because of famine and disease caused by the\
  blockade of Biafran ports. Biafra surrendered in 1970.")
-leader=
- "Chukwuemeka Odumegwu Ojukwu",
- "Philip Effiong",
- "Oyibo Adinamadu"
 
-leader_sex="Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Chukwuemeka Odumegwu Ojukwu", "Male"
+ "Philip Effiong",              "Male"
+ "Oyibo Adinamadu",             "Female"
+}
+
 flag="biafra"
 flag_alt = "-"
 city_style = "Tropical"

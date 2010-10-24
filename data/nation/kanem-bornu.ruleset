@@ -7,13 +7,13 @@ groups="Medieval", "Early Modern", "African"
 legend=_("This empire lasted in some form from the 9th-century until 1893 in\
  modern Chad and Nigeria and controlled much of the trans-Saharan trade.")
 
-leader=
- "Dugu",
- "Dunama Dabbalemi",
- "Katuri",
- "Biri II"
-
-leader_sex = "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Dugu",                "Male"
+ "Dunama Dabbalemi",    "Male"
+ "Katuri",              "Male"
+ "Biri II",             "Male"
+}
 
 flag         = "kanem-bornu"
 flag_alt     = "-"

@@ -8,12 +8,12 @@ legend=_("The Confederal Republic of the Tribes of the Rif was a short-lived\
  and Moroccans. The country was conquered by the Spanish and French in\
  1926. The area is now part of Morocco.")
 
-leader=
-  "Abd el-Krim",            ; first president
-  "Hajj Hatmi",             ; prime minister 1923 - 1926
-  "Mohammed Ameziane"       ; 19th century freedom fighter
-
-leader_sex="Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Abd el-Krim",         "Male" ; First president
+ "Hajj Hatmi",          "Male" ; Prime minister 1923 - 1926
+ "Mohammed Ameziane",   "Male" ; 19th century freedom fighter
+}
 
 flag="rif"
 flag_alt = "-"

@@ -9,14 +9,15 @@ legend=_("Fiji is the most populous of the small Oceanian island states.\
  Fiji has been independent from Britain since 1970. Since then the\
  country's politics have been characterized by ethnic tensions between\
  Indo-Fijians and indigenous Fijians.")
-leader =
- "Seru Epenisa Cakobau",
- "Kamisese Mara",
- "S. M. Koya",
- "Penaia Ganilau",
- "Sitiveni Rabuka"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Seru Epenisa Cakobau",        "Male"
+ "Kamisese Mara",               "Male"
+ "S. M. Koya",                  "Male"
+ "Penaia Ganilau",              "Male"
+ "Sitiveni Rabuka",             "Male"
+}
 
 flag="fiji"
 flag_alt = "-"

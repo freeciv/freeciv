@@ -12,13 +12,16 @@ legend=_("The Metis are a people of mixed First Nations (Native American)\
  form one of the three indigenous groups of Canada. In the 19th century\
  the Metis repeatedly rebelled against the British and Canadian\
  authorities.")
-leader=
- "Toussaint Charbonneau",
- "Gabriel Dumont",
- "Louis Riel",
- "James P. Brady",
- "Blanche Brillon Macdonald"
-leader_sex="Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Toussaint Charbonneau",       "Male"
+ "Gabriel Dumont",              "Male"
+ "Louis Riel",                  "Male"
+ "James P. Brady",              "Male"
+ "Blanche Brillon Macdonald",   "Female"
+}
+
 flag="metis"
 flag_alt="-"
 city_style="Celtic"

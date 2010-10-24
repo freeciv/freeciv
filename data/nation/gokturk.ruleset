@@ -14,31 +14,31 @@ legend=_("The Gokturk or Old Turkic Khaganate was ruled by the Ashina dynasty\
  were ancestors of the modern Turkic nations in Asia and Eastern Europe.\
  They were the creators of a vast military empire, which covered the\
  steppe areas from the Kuban river in the West to Korea in the East.")
-leader=
-"Asena",    ;legendary son of red she-wolf
-"Bumin",
-"Issik",
-"Muqan",
-"Taspar",
-"Ishbara",
-"Bagha",
-"Istami",
-"Tardush",
-"Heshana",
-"Böri",
-"Shibir",
-"Ilterish",
-"Qapaghan",
-"Bilge",
-"Tengri",
-"Irterish",
-"Ozmish",
-"Kul Tigin",
-"Tonyukuk"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-		   "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",        "sex"
+ "Asena",       "Male" ;legendary son of red she-wolf
+ "Bumin",       "Male"
+ "Issik",       "Male"
+ "Muqan",       "Male"
+ "Taspar",      "Male"
+ "Ishbara",     "Male"
+ "Bagha",       "Male"
+ "Istami",      "Male"
+ "Tardush",     "Male"
+ "Heshana",     "Male"
+ "Böri",        "Male"
+ "Shibir",      "Male"
+ "Ilterish",    "Male"
+ "Qapaghan",    "Male"
+ "Bilge",       "Male"
+ "Tengri",      "Male"
+ "Irterish",    "Male"
+ "Ozmish",      "Male"
+ "Kul Tigin",   "Male"
+ "Tonyukuk",    "Male"
+}
+
 flag = "gokturk"
 flag_alt = "-"
 city_style = "asian"

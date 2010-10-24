@@ -9,12 +9,15 @@ legend=_("The history of the United Arab Emirates goes back to the 7th\
  emirates joined in a federative state as the United\
  Arab Emirates. The following year, the seventh member emirate joined\
  them.")
-leader="Dhiyab bin Isa ibn Nahayan",
-       "Saeed II bin Maktoum",
-       "Zayed II bin Sultan Al Nahayan",
-       "Maktoum bin Rashid Al Maktoum",
-       "Rashid bin Saeed Al Maktoum"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                                "sex"
+ "Dhiyab bin Isa ibn Nahayan",          "Male"
+ "Saeed II bin Maktoum",                "Male"
+ "Zayed II bin Sultan Al Nahayan",      "Male"
+ "Maktoum bin Rashid Al Maktoum",       "Male"
+ "Rashid bin Saeed Al Maktoum",         "Male"
+}
 
 flag="uae"
 flag_alt = "-"

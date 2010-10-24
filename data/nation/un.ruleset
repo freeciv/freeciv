@@ -5,16 +5,19 @@ plural=_("?plural:UN")
 groups="Imaginary"
 legend=_("The United Nations believe in human rights and the protection of\
  the weak.")
-leader=
- "Trygve Lie",
- "Dag Hammarskjöld",
- "U Thant",
- "Kurt Waldheim",
- "Javier Pérez de Cuéllar",
- "Boutros Boutros-Ghali",
- "Kofi Annan",
- "Ban Ki-moon"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Trygve Lie",                  "Male"
+ "Dag Hammarskjöld",            "Male"
+ "U Thant",                     "Male"
+ "Kurt Waldheim",               "Male"
+ "Javier Pérez de Cuéllar",     "Male"
+ "Boutros Boutros-Ghali",       "Male"
+ "Kofi Annan",                  "Male"
+ "Ban Ki-moon",                 "Male"
+}
+
 flag="united_nations"
 flag_alt = "-"
 city_style = "Classical"

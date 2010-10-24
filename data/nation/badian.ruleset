@@ -6,14 +6,16 @@ groups="Medieval", "Early Modern", "European"
 legend=_("Baden was a country in Swabia, in southwestern Germany. After\
  World War II it was merged with Wuerttemberg and Hohenzollern to form\
  the land of Baden-Wuerttemberg.")
-leader =
- "Berthold I",
- "Hermann II",
- "Karl Friedrich",
- "Friedrich Hecker",
- "Max von Baden",
- "Adam Remmele"
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Berthold I",          "Male"
+ "Hermann II",          "Male"
+ "Karl Friedrich",      "Male"
+ "Friedrich Hecker",    "Male"
+ "Max von Baden",       "Male"
+ "Adam Remmele",        "Male"
+}
 
 flag="baden"
 flag_alt = "germany"

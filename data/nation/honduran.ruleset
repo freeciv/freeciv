@@ -9,21 +9,20 @@ legend=_("Honduras has been an independent republic since the dissolution\
  republic', periods of dictatorship and of more or less democratic rule\
  have followed each other. Its current constitution was adopted in 1982.")
 
-leader=
- "Dionisio de Herrera",
- "Francisco Morazán Quesada",
- "José Santos Guardiola",
- "José María Medina",
- "Ponciano Leiva",
- "Tiburcio Carías Andino",
- "Ramón Villeda Morales",
- "Oswaldo López Arellano",
- "Policarpo Paz",
- "Roberto Suazo",
- "Manuel Zelaya"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Dionisio de Herrera",         "Male"
+ "Francisco Morazán Quesada",   "Male"
+ "José Santos Guardiola",       "Male"
+ "José María Medina",           "Male"
+ "Ponciano Leiva",              "Male"
+ "Tiburcio Carías Andino",      "Male"
+ "Ramón Villeda Morales",       "Male"
+ "Oswaldo López Arellano",      "Male"
+ "Policarpo Paz",               "Male"
+ "Roberto Suazo",               "Male"
+ "Manuel Zelaya",               "Male"
+}
 
 flag         = "honduras"
 flag_alt     = "-"

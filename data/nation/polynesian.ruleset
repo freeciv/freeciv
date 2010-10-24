@@ -5,14 +5,15 @@ plural=_("?plural:Polynesian")
 groups= "Oceanian"
 legend=_("Polynesian culture stretches from Hawaii to New Zealand to\
  Easter Island and covers all the islands in between.")
-leader=
- "Solomon Mamaloni",
- "Malietoa Tanumafili",
- "Tofilau Eti Alesana",
- "Kamehameha",
- "Pomare IV"
- 
-leader_sex="Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Solomon Mamaloni",    "Male"
+ "Malietoa Tanumafili", "Male"
+ "Tofilau Eti Alesana", "Male"
+ "Kamehameha",          "Male"
+ "Pomare IV",           "Female"
+}
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Great Chief"),_("?female:Great Chief")

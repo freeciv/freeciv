@@ -6,17 +6,21 @@ groups="Medieval", "European"
 legend=_("The Sorbs are West Slavic people living in the East of Germany\
  in Eastern Saxony and Southern Brandenburg (Lusatia).\
  The region has historically been associated with Poland and Bohemia.")
-leader=
-"Derwan",
-"Miliduch",
-"Burislaw",                   ;probably Polish king Bolesław I Chrobry
-"Bolko",                      ;Bolko II Mały from silesian lineage of Piast dynasty
-"Kaspar Peuker",
-"Jan Skala",
-"Marja Grólmusec",	      ;WW2 resistance fighter
-"Měrćin Nowak-Njechorński",
-"Stanisław Tilich"            ;prime minister of Saxony
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Derwan",                      "Male"
+ "Miliduch",                    "Male"
+ "Burislaw",                    "Male" ; probably Polish king Bolesław I Chrobry
+ "Bolko",                       "Male" ; Bolko II Mały from silesian lineage
+                                       ; of Piast dynasty
+ "Kaspar Peuker",               "Male"
+ "Jan Skala",                   "Male"
+ "Marja Grólmusec",             "Female" ; WW2 resistance fighter
+ "Měrćin Nowak-Njechorński",    "Male"
+ "Stanisław Tilich",            "Male" ; prime minister of Saxony
+}
+
 flag= "lusatia" 
 flag_alt = "-" 
 city_style = "Celtic" 
@@ -132,4 +136,3 @@ cities=
   "Lěšna",
   "Zawidow",
   "Niska"
-  

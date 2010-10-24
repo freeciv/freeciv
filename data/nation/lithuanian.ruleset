@@ -6,21 +6,24 @@ groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("Lithuania is a small country on the south coast of the Baltic\
  Sea, northeast of Poland.  Lithuanian is the most archaic and complex of\
  the northern Indo-European languages")
-leader=
- "Mindaugas",
- "Vytenis",
- "Gediminas",
- "Algirdas",
- "Kęstutis",
- "Vytautas",
- "Aleksandras Stulginskis",
- "Kazys Grinius",
- "Antanas Smetona",
- "Morta",
- "Ona",
- "Barbora Radvilaitė",
- "Emilija Pliaterytė"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Female", "Female", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Mindaugas",                   "Male"
+ "Vytenis",                     "Male"
+ "Gediminas",                   "Male"
+ "Algirdas",                    "Male"
+ "Kęstutis",                    "Male"
+ "Vytautas",                    "Male"
+ "Aleksandras Stulginskis",     "Male"
+ "Kazys Grinius",               "Male"
+ "Antanas Smetona",             "Male"
+ "Morta",                       "Female"
+ "Ona",                         "Female"
+ "Barbora Radvilaitė",          "Female"
+ "Emilija Pliaterytė",          "Female"
+}
+
 flag="lithuania"
 flag_alt = "-"
 city_style = "European"

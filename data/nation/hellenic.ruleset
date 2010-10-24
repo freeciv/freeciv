@@ -5,13 +5,16 @@ plural=_("?plural:Hellenes")
 groups="Modern", "European"
 legend=_("The Hellenic Republic - also known as Greece - was created when\
  the Hellenic people gained independence from the Ottoman Empire in 1832.")
-leader=
- "Theodore Kolokotronis",
- "Laskarina Boumboulina",
- "Kharilaos Trikoupis",
- "Eleutherios Venizelos",
- "Aris Veloukhiotis"
-leader_sex="Male", "Female", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Theodore Kolokotronis",       "Male"
+ "Laskarina Boumboulina",       "Female"
+ "Kharilaos Trikoupis",         "Male"
+ "Eleutherios Venizelos",       "Male"
+ "Aris Veloukhiotis",           "Male"
+}
+
 flag="greece"
 flag_alt = "-"
 city_style = "Classical"

@@ -12,14 +12,17 @@ legend=_("The Zapotecs or Binniza live in the Mexican state of Oaxaca.\
  civilizations. The most notable Zapotec center, Monte Alban, was built\
  on a razed mountain top. Benito Juarez, Mexico's first indigenous\
  president, was a Zapotec.")
-leader=
- "Za'achila II",
- "Za'achila III",
- "Cosijoeza",
- "Cosijopí Sicasibí",
- "Bino Gada",
- "Heliodoro Charis"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Za'achila II",        "Male"
+ "Za'achila III",       "Male"
+ "Cosijoeza",           "Male"
+ "Cosijopí Sicasibí",   "Male"
+ "Bino Gada",           "Male"
+ "Heliodoro Charis",    "Male"
+}
+
 flag="zapotec"
 flag_alt = "mexico"
 city_style = "Babylonian"

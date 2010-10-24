@@ -6,13 +6,14 @@ groups="Modern", "Asian"
 legend=_("The Federation of Pakistan was formed from the\
  predominantly Muslim regions of British India in 1947.")
 
-leader=
- "Zulfikar Ali Bhutto",
- "Muhammad Zia-ul-Haq",
- "Benazir Bhutto",
- "Muhammad Ali Jinnah",
- "Khawaja Nazimuddin"
-leader_sex="Male", "Male", "Female", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Zulfikar Ali Bhutto", "Male"
+ "Muhammad Zia-ul-Haq", "Male"
+ "Benazir Bhutto",      "Female"
+ "Muhammad Ali Jinnah", "Male"
+ "Khawaja Nazimuddin",  "Male"
+}
 
 flag="pakistan"
 flag_alt="-"

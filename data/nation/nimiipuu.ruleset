@@ -16,24 +16,52 @@ legend=_("The Nimiipuu, or the 'Real People', in their own language,\
  numbered about 6,000. After a defeat by the American cavalry on October 5,\
  1877, the Nimiipuu were moved to reservations. The elected Nez Perce\
  Tribal Executive Committee now governs tribal affairs.")
-leader=
- ; The Nez Perce was divided into several tribal groups, each with their
- ; own leaders.
- "Hin-mah-too-yah-lat-kekt",  ; (Chief Joseph) 1840 - 1904, Wallowa chief
- "Tu-eka-kas",                ; (Joseph the Elder) 1785 - 1871, Wallowa chief
- "Peo-peo-hix-hiix",          ; (White Bird) d. 1892, Lamatta chief
- "Allalimya Takanin",         ; (Looking Glass) c. 1823 - 1877, a war leader
- "Shmoqŭla",                  ; (The Preacher) c. 1815, priest of Sokulk
- "Waaya-Tonah-Toesits-Kahn",  ; (Jackson Sundown) 1863 - 1923, rodeo star
- "Archie Phinney",            ; 1903 - 1949, anthropologist and activist
- "Aleiya",                    ; (Lawyer) 1796 - 1876, son of Twisted Hair
- "Twisted Hair",              ; Clearwater chief
- "Mi-tat-wap-tes",            ; (Three Feathers) signed treaty of 1855
- "Kalkalshuatash",            ; (Chief Jason) 
- "James Stuart",              ; First Home and Farm Association President (1923)
- "Rebecca Miles"              ; Chair of NPTEC until 2007 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male","Female"
+
+; The Nez Perce was divided into several tribal groups, each with their
+; own leaders.
+leaders = {
+ "name",                        "sex"
+
+; (Chief Joseph) 1840 - 1904, Wallowa chief
+ "Hin-mah-too-yah-lat-kekt",    "Male"
+
+; (Joseph the Elder) 1785 - 1871, Wallowa chief
+ "Tu-eka-kas",                  "Male"
+
+; (White Bird) d. 1892, Lamatta chief
+ "Peo-peo-hix-hiix",            "Male"
+
+; (Looking Glass) c. 1823 - 1877, a war leader
+ "Allalimya Takanin",           "Male"
+
+; (The Preacher) c. 1815, priest of Sokulk
+ "Shmoqŭla",                    "Male"
+
+; (Jackson Sundown) 1863 - 1923, rodeo star
+ "Waaya-Tonah-Toesits-Kahn",    "Male"
+
+; 1903 - 1949, anthropologist and activist
+ "Archie Phinney",              "Male"
+
+; (Lawyer) 1796 - 1876, son of Twisted Hair
+ "Aleiya",                      "Male"
+
+; Clearwater chief
+ "Twisted Hair",                "Male"
+
+; (Three Feathers) signed treaty of 1855
+ "Mi-tat-wap-tes",              "Male"
+
+; (Chief Jason) 
+ "Kalkalshuatash",              "Male"
+
+; First Home and Farm Association President (1923)
+ "James Stuart",                "Male"
+
+; Chair of NPTEC until 2007 
+ "Rebecca Miles",               "Female"
+}
+
 flag="nez_perce"
 flag_alt = "-"
 city_style = "Celtic"

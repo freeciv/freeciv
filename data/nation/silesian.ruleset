@@ -5,14 +5,18 @@ plural=_("?plural:Silesians")
 groups="Medieval", "European"
 legend=_("Silesia is a region of southern Poland that was at one time an\
  independent kingdom.")
-leader = "Władysław Wygnaniec",
-         "Henryk Brodaty",
-         "Henryk Pobożny",
-	 "Jerzy IV Wilhelm",
-         "Józef Kożdoń",
-         "Jan Kustos",
-         "Wojciech Korfanty"
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Władysław Wygnaniec", "Male"
+ "Henryk Brodaty",      "Male"
+ "Henryk Pobożny",      "Male"
+ "Jerzy IV Wilhelm",    "Male"
+ "Józef Kożdoń",        "Male"
+ "Jan Kustos",          "Male"
+ "Wojciech Korfanty",   "Male"
+}
+
 flag="silesia"
 flag_alt = "-"
 city_style = "European"

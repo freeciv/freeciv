@@ -19,14 +19,17 @@ legend=_("The Democratic Republic of the Congo is a big country in\
  a new round of pillaging. When Mobutu was toppled the country sank\
  into a civil war, causing five million deaths, the bloodiest event\
  since World War II.")
-leader=
- "Léopold II de Belgique",
- "Patrice Lumumba",
- "Joseph Kasavubu",
- "Mobutu Sese Seko",
- "Laurent-Désiré Kabila",
- "Joseph Kabila"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Léopold II de Belgique",      "Male"
+ "Patrice Lumumba",             "Male"
+ "Joseph Kasavubu",             "Male"
+ "Mobutu Sese Seko",            "Male"
+ "Laurent-Désiré Kabila",       "Male"
+ "Joseph Kabila",               "Male"
+}
+
 flag="dr_congo"
 flag_alt = "-"
 city_style = "Tropical"

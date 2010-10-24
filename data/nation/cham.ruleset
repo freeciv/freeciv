@@ -12,17 +12,18 @@ legend=_("Champa was the name of a group of closely related polities\
  time, most of the Cham nobility had converted to Islam. The majority of\
  Muslims in modern Vietnam are of Cham ethniticity.")
 
-leader=
- "Po Binasuor",
- "Jaya Indravarman IV",
- "Harivarman IV",
- "Isanavarman",
- "Jaya Indravaman I",
- "Indravarman II",
- "Satyavarman",
- "Vikrantavarman I"
+leaders = {
+ "name",                "sex"
+ "Po Binasuor",         "Male"
+ "Jaya Indravarman IV", "Male"
+ "Harivarman IV",       "Male"
+ "Isanavarman",         "Female"
+ "Jaya Indravaman I",   "Male"
+ "Indravarman II",      "Male"
+ "Satyavarman",         "Male"
+ "Vikrantavarman I",    "Male"
+}
 
-leader_sex="Male", "Male", "Male", "Female", "Male", "Male", "Male", "Male"
 flag="cham"
 flag_alt="-"
 city_style="Asian"

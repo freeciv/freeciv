@@ -15,18 +15,20 @@ legend=_("The Mixtecs or Nuu Savi were one of the major Mesoamerican\
  Spanish. Nowadays there are about 700.000 Mixtecs living in the Mexican\
  states of Oaxaca, Guerrero and Puebla, as well as in emigrant\
  communities in Northern Mexico and the US.")
-leader=
- "8 Nakuaa Teyusi Ñaña", ;8 Deer Jaguar Claw
- "5 Koo Yuchi",		;5 Crocodile
- "9 Ya'a",		;9 Eagle
- "6 Koo Yuchi",		;6 Lizard
- "11 Tachi Niñi Kuiñi",	;11 Wind Bloody Jaguar
- "13 Koo",		;13 Serpent
- "4 Tachi",		;4 Wind
- "2 Savi",		;2 Rain
- "12 Ñutaa"		;12 Earthquake
 
-leader_sex="Male", "Male", "Female", "Female", "Male", "Female", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "8 Nakuaa Teyusi Ñaña",        "Male" ; 8 Deer Jaguar Claw
+ "5 Koo Yuchi",                 "Male" ; 5 Crocodile
+ "9 Ya'a",                      "Female" ; 9 Eagle
+ "6 Koo Yuchi",                 "Female" ; 6 Lizard
+ "11 Tachi Niñi Kuiñi",         "Male" ; 11 Wind Bloody Jaguar
+ "13 Koo",                      "Female" ; 13 Serpent
+ "4 Tachi",                     "Male" ; 4 Wind
+ "2 Savi",                      "Male" ; 2 Rain
+ "12 Ñutaa",                    "Male" ; 12 Earthquake
+}
+
 flag="mixtec"
 flag_alt = "-"
 city_style = "Babylonian"

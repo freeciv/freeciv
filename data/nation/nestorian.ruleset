@@ -14,13 +14,13 @@ legend=_("Legends of Prester John circulated in Europe from the 12th\
  side of the Muslim world, many Europeans hoped Prester John would be a\
  valuable ally in their quest to end Muslim rule of the Holy Land.")
 
-leader=
- "Prester John",	; aka Presbyter Johannes
- "David of India",	; son, nephew or grandson of John
- "Repanse de Schoye",	; mother of John (von Eschenbach)
- "Feirefiz"		; father of John (von Eschenbach)
-
-leader_sex="Male", "Male", "Female", "Male"
+leaders = {
+ "name",                "sex"
+ "Prester John",        "Male" ; a.k.a. Presbyter Johannes
+ "David of India",      "Male" ; Son, nephew or grandson of John
+ "Repanse de Schoye",   "Female" ; Mother of John (von Eschenbach)
+ "Feirefiz",            "Male" ; Father of John (von Eschenbach)
+}
 
 flag="nestoria"
 flag_alt = "-"

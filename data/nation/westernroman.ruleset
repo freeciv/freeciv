@@ -8,20 +8,21 @@ legend=_("The Roman Empire was first divided by Diocletian in 286 and\
  counterpart, the Byzantine empire, the Western Roman Empire was not\
  capable of resisting barbarian invasions and economic desintegration.\
  The last Western Roman emperor was deposed in 476 AD.")
-leader=
- "Iulianus Apostata",
- "Valentinianus",
- "Honorius",
- "Galla Placidia",
- "Iusta Grata Honoria",
- "Flavius Aetius",
- "Maiorianus",
- "Anthemius",
- "Iulius Nepos",
- "Romulus Augustus",
- "Syagrius"
-leader_sex="Male", "Male", "Male", "Female", "Female",
- "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Iulianus Apostata",   "Male"
+ "Valentinianus",       "Male"
+ "Honorius",            "Male"
+ "Galla Placidia",      "Female"
+ "Iusta Grata Honoria", "Female"
+ "Flavius Aetius",      "Male"
+ "Maiorianus",          "Male"
+ "Anthemius",           "Male"
+ "Iulius Nepos",        "Male"
+ "Romulus Augustus",    "Male"
+ "Syagrius",            "Male"
+}
 
 flag = "labarum"
 flag_alt = "constantine"

@@ -9,15 +9,17 @@ legend=_("Columbus landed on Jamaica in 1494. The island was colonized by\
  1834. The country became an independent country within the Commonwealth\
  in 1962. Jamaica is famous around the world for its music; genres such\
  as reggae and ska originated on the island.")
-leader=
- "Samuel Sharpe",
- "Paul Bogle",
- "Alexander Bustamante",
- "Michael Manley",
- "P. J. Patterson",
- "Portia Simpson-Miller"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Samuel Sharpe",               "Male"
+ "Paul Bogle",                  "Male"
+ "Alexander Bustamante",        "Male"
+ "Michael Manley",              "Male"
+ "P. J. Patterson",             "Male"
+ "Portia Simpson-Miller",       "Female"
+}
+
 flag="jamaica"
 flag_alt = "-"
 city_style = "Tropical"

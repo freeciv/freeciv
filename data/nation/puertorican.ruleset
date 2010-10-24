@@ -8,20 +8,20 @@ legend=_("The smallest of the Greater Antilles, Puerto Rico was inhabited\
  was conquered by the United States in 1898, just one year after Spain\
  had granted autonomy to the island. Currently it is a US commonwealth,\
  but its definitive status is still being discussed.")
-leader=
- "Juan Ponce de León",
- "Ramón Power y Giralt",
- "Roberto Cofresí",
- "Ramón Emeterio Betances",
- "Segundo Ruiz Belvis",
- "Manuel Rojas",
- "Luisa Capetillo",
- "Luis Muñoz Rivera",
- "Pedro Albizu Campos",
- "Blanca Canales"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female",
- "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Juan Ponce de León",          "Male"
+ "Ramón Power y Giralt",        "Male"
+ "Roberto Cofresí",             "Male"
+ "Ramón Emeterio Betances",     "Male"
+ "Segundo Ruiz Belvis",         "Male"
+ "Manuel Rojas",                "Male"
+ "Luisa Capetillo",             "Female"
+ "Luis Muñoz Rivera",           "Male"
+ "Pedro Albizu Campos",         "Male"
+ "Blanca Canales",              "Female"
+}
 
 flag="puerto_rico"
 flag_alt = "-"

@@ -4,14 +4,17 @@ name=_("Greek")
 plural=_("?plural:Greeks")
 groups="Ancient", "European"
 legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
-leader=
- "Alexandros Molossus",
- "Perikles",
- "Leonidas",
- "Solon",
- "Alkibiades",
- "Megas Alexandros"	; Alexander the Great
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Alexandros Molossus", "Male"
+ "Perikles",            "Male"
+ "Leonidas",            "Male"
+ "Solon",               "Male"
+ "Alkibiades",          "Male"
+ "Megas Alexandros",    "Male" ; Alexander the Great
+}
+
 flag="greece_ancient"
 flag_alt = "greece"
 city_style = "Classical"

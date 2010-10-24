@@ -6,17 +6,19 @@ groups="Modern", "European"
 legend=_("The Republic of Macedonia is located in the south-central part\
  of the Balkan peninsula. It declared independence from Yugoslavia in\
  1991.")
-leader=
- "Marko Mrnjavčević",
- "Christo Matov",
- "Dame Gruev",
- "Nikola Karev",
- "Gotze Delchev",
- "Metodija Andonov-Čento",
- "Lazar Koliševski",
- "Kiro Gligorov"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Marko Mrnjavčević",           "Male"
+ "Christo Matov",               "Male"
+ "Dame Gruev",                  "Male"
+ "Nikola Karev",                "Male"
+ "Gotze Delchev",               "Male"
+ "Metodija Andonov-Čento",      "Male"
+ "Lazar Koliševski",            "Male"
+ "Kiro Gligorov",               "Male"
+}
+
 flag="macedonia"
 flag_alt = "-"
 city_style = "European"

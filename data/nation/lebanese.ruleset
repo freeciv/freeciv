@@ -9,17 +9,19 @@ legend=_("Located in the Levant, the Eastern shore of the Mediterranean,\
  empires. It was part of the Ottoman Empire for over four centuries and\
  became a French mandate after World War I. Lebanon proclaimed its\
  independence in 1943.")
-leader =
- "Fakhr-al-Din II",
- "Bashir Shihab II",
- "Charles Debbas",
- "Camille Chamoun",
- "Fuad Chehab",
- "Elie Hobeika",
- "Rashid Karami",
- "Rafiq Hariri"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Fakhr-al-Din II",     "Male"
+ "Bashir Shihab II",    "Male"
+ "Charles Debbas",      "Male"
+ "Camille Chamoun",     "Male"
+ "Fuad Chehab",         "Male"
+ "Elie Hobeika",        "Male"
+ "Rashid Karami",       "Male"
+ "Rafiq Hariri",        "Male"
+}
+
 flag = "lebanon"
 flag_alt = "-"
 city_style = "Classical"

@@ -11,13 +11,13 @@ legend=_("Although European Powers long neglected the desertic\
  Union of South Africa. It finally became independent in 1990,\
  under the name of Namibia.")
 
-leader=
- "Sam Nujoma",
- "Samuel Maharero",
- "Jakobus Morenga",
- "Hendrik Witbooi"
-
-leader_sex="Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Sam Nujoma",          "Male"
+ "Samuel Maharero",     "Male"
+ "Jakobus Morenga",     "Male"
+ "Hendrik Witbooi",     "Male"
+}
 
 flag = "namibia"
 flag_alt = "rwanda"

@@ -9,24 +9,25 @@ legend=_("The Basques have lived since times immemorial by the western\
  historic identity alive, the Basques provide a link with man's distant\
  past. Euskara, the language spoken by the Basque people, is probably the\
  oldest living language in Europe and has no known relatives.")
-leader=
- "Eneko Aritza",
- "Antso III.a Gartzes Nagusia",
- "Katalina I.a Nafarroakoa",
- "Tomas Zumalakarregi",
- "Sabino Arana",
- "Dolores Ibarruri",
- "Jose Antonio Agirre",
- "Fernando Buesa",
- "Patxi Iturrioz",
- "Federiko Krutwig",
- "Jesus Maria Leizaola",
- "Mario Onaindia",
- "Ramón Rubial Cavia",
- "Juan José Ibarretxe"
 
-leader_sex="Male", "Male", "Female", "Male", "Male", "Female", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Eneko Aritza",                "Male"
+ "Antso III.a Gartzes Nagusia", "Male"
+ "Katalina I.a Nafarroakoa",    "Female"
+ "Tomas Zumalakarregi",         "Male"
+ "Sabino Arana",                "Male"
+ "Dolores Ibarruri",            "Female"
+ "Jose Antonio Agirre",         "Male"
+ "Fernando Buesa",              "Male"
+ "Patxi Iturrioz",              "Male"
+ "Federiko Krutwig",            "Male"
+ "Jesus Maria Leizaola",        "Male"
+ "Mario Onaindia",              "Male"
+ "Ramón Rubial Cavia",          "Male"
+ "Juan José Ibarretxe",         "Male"
+}
+
 flag="euskadi"
 flag_alt = "-"
 city_style = "Celtic"

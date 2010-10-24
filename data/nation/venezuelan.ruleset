@@ -10,16 +10,19 @@ legend=_("Venezuela is the northernmost country in South America. Having\
  been a Spanish colony since the 16th century, the country gained\
  independence on July 5th 1811 under the leadership of El Libertador Simon\
  Bolivar - The Liberator.")
-leader=
- "Ambrosio Alfinger",
- "Simón Bolivar",
- "Cristóbal Mendoza",
- "José Antonio Páez",
- "Juan Vicente Gómez",
- "Rómulo Betancourt",
- "Marcos Pérez Jiménez",
- "Hugo Chávez"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Ambrosio Alfinger",           "Male"
+ "Simón Bolivar",               "Male"
+ "Cristóbal Mendoza",           "Male"
+ "José Antonio Páez",           "Male"
+ "Juan Vicente Gómez",          "Male"
+ "Rómulo Betancourt",           "Male"
+ "Marcos Pérez Jiménez",        "Male"
+ "Hugo Chávez",                 "Male"
+}
+
 flag="venezuela"
 flag_alt = "-"
 city_style = "Tropical"

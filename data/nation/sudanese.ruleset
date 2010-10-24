@@ -5,12 +5,15 @@ plural=_("?plural:Sudanese")
 groups="Modern", "African"
 legend=_("In 1820 Sudan came under Egyptian rule and later British rule.\
  Sudan became independent in 1956.")
-leader=
- "Muhammad ibn Abdalla",
- "Gaafar Nimeiry",
- "Suwar al-Dahab",
- "Ibrahim Abboud"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Muhammad ibn Abdalla",        "Male"
+ "Gaafar Nimeiry",              "Male"
+ "Suwar al-Dahab",              "Male"
+ "Ibrahim Abboud",              "Male"
+}
+
 flag="sudan"
 flag_alt = "-"
 city_style = "Classical"

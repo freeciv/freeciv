@@ -10,17 +10,19 @@ legend=_("Asturians were a Celtic people which occupied most of the northern\
  722, king Pelayo defeated the Umayyad Muslim troops at Cuadonga, establishing\
  the Asturian Kingdom, which lasted until year 910 when the capital town was\
  moved from Uvieu to Leon. Now, Asturias is an autonomous community of Spain")
-leader=
- "Pelayo",
- "Alfonso II",
- "Ramiro I",
- "Favila I",
- "Gonzalo Peláez",
- "Xosefa de Xovellanos",
- "Aida Lafuente",
- "Rosario Acuña"
-leader_sex="Male", "Male", "Male", "Male",
-           "Male","Female", "Female", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Pelayo",                      "Male"
+ "Alfonso II",                  "Male"
+ "Ramiro I",                    "Male"
+ "Favila I",                    "Male"
+ "Gonzalo Peláez",              "Male"
+ "Xosefa de Xovellanos",        "Female"
+ "Aida Lafuente",               "Female"
+ "Rosario Acuña",               "Female"
+}
+
 flag="asturias"
 flag_alt = "-"
 city_style = "Celtic"

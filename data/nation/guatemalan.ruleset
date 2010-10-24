@@ -9,21 +9,22 @@ legend=_("The ancient heartland of the Mayas, Guatemala was conquered by\
  political turmoil for much of its history. Guatemala lived through one\
  of the most brutal civil wars of the 20th century until a peace agreement\
  was signed in 1996.")
-leader=
- "Pedro de Alvarado",
- "Manuel Carrera",
- "José Rufino Barrios",
- "Manuel Estrada Cabrera",
- "Jorge Ubico",
- "Juan José Arévalo",
- "Jacobo Árbenz Guzmán",
- "Carlos Castillo Armas",
- "Miguel Ydígoras",
- "Julio César Méndez Montenegro",
- "Fernando Romeo Lucas García",
- "Efraín Ríos Montt"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                                "sex"
+ "Pedro de Alvarado",                   "Male"
+ "Manuel Carrera",                      "Male"
+ "José Rufino Barrios",                 "Male"
+ "Manuel Estrada Cabrera",              "Male"
+ "Jorge Ubico",                         "Male"
+ "Juan José Arévalo",                   "Male"
+ "Jacobo Árbenz Guzmán",                "Male"
+ "Carlos Castillo Armas",               "Male"
+ "Miguel Ydígoras",                     "Male"
+ "Julio César Méndez Montenegro",       "Male"
+ "Fernando Romeo Lucas García",         "Male"
+ "Efraín Ríos Montt",                   "Male"
+}
 
 flag="guatemala"
 flag_alt="-"

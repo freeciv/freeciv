@@ -12,13 +12,15 @@ legend=_("Inheritors of the Moche cultural tradition, Chimor began\
  artistic wares. Until its fall, Chimor controlled perhaps 2/3 of\
  the population of the northern Andes.") 
 
-leader= 
-"Tacaynamu", 
-"Guacricaur", 
-"Ñanenpinco", 
-"Minchançaman", 
-"Fempellec" 
-leader_sex="Male", "Male", "Male", "Male", "Male" 
+leaders = {
+ "name",                "sex"
+ "Tacaynamu",           "Male"
+ "Guacricaur",          "Male"
+ "Ñanenpinco",          "Male"
+ "Minchançaman",        "Male"
+ "Fempellec",           "Male"
+}
+
 flag= "chimu" 
 flag_alt = "-" 
 city_style = "Babylonian" 

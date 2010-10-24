@@ -8,12 +8,15 @@ conflicts_with="phoenician"
 legend=_("The Carthaginians, descendants of Phoenician traders,\
  ran a naval empire in the Mediterranean from the 5th to 2nd centuries\
  BC. Carthage was destroyed by Rome in 146 BC.")
-leader=
- "Hannibal Barca",
- "Hasdrubal Barca",
- "Hamilcar Barca",
- "Dido"
-leader_sex="Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Hannibal Barca",      "Male"
+ "Hasdrubal Barca",     "Male"
+ "Hamilcar Barca",      "Male"
+ "Dido",                "Female"
+}
+
 flag="cartago"
 flag_alt = "tunisia"	; Used previously
 city_style = "Classical"

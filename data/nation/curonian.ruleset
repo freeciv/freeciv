@@ -7,21 +7,23 @@ legend=_("The Duchy of Courland and Semigallia was created as the result\
  of the secularization of the Teutonic Order State. The dukes of Courland\
  were vassals of Poland until its collapse. Duke Jakob Kettler led the\
  failed attempts of colonization in South America and Africa.")
-leader=
-"Martin Lewitz",
-"Heinrich Basedow",
-"Hermann Ronneberg",
-"Gotthard Kettler",
-"Friedrich Kettler",
-"Jakob Kettler",
-"Friedrich Kasimir Kettler",
-"Friedrich Wilhelm Kettler",
-"Ferdinand Kettler",
-"Ernst Johann Biron",
-"Peter von Biron",
-"Dorothea von Medem"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Martin Lewitz",               "Male"
+ "Heinrich Basedow",            "Male"
+ "Hermann Ronneberg",           "Male"
+ "Gotthard Kettler",            "Male"
+ "Friedrich Kettler",           "Male"
+ "Jakob Kettler",               "Male"
+ "Friedrich Kasimir Kettler",   "Male"
+ "Friedrich Wilhelm Kettler",   "Male"
+ "Ferdinand Kettler",           "Male"
+ "Ernst Johann Biron",          "Male"
+ "Peter von Biron",             "Male"
+ "Dorothea von Medem",          "Female"
+}
+
 flag= "courland" 
 flag_alt = "-" 
 city_style = "European" 

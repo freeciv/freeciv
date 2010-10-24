@@ -15,21 +15,21 @@ legend=_("Ecuador is a country in western South America. It is divided\
  (Quito). It also fought numerous border wars with both Colombia and\
  Peru. Nowadays Ecuador is one of the main oil producing countries of\
  South America.")
-leader=
- "Sebastián de Belalcázar",
- "Eugenio Espejo",
- "Juan José Flores",
- "Gabriel García Moreno",
- "Eloy Alfaro",
- "José María Velasco Ibarra",
- "Guillermo Rodríguez Lara",
- "Jaime Roldós",
- "Leon Febres Cordero",
- "Abdalá Bucaram",
- "Rosalía Arteaga"
 
-leader_sex="Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Sebastián de Belalcázar",     "Male"
+ "Eugenio Espejo",              "Male"
+ "Juan José Flores",            "Male"
+ "Gabriel García Moreno",       "Male"
+ "Eloy Alfaro",                 "Male"
+ "José María Velasco Ibarra",   "Male"
+ "Guillermo Rodríguez Lara",    "Male"
+ "Jaime Roldós",                "Male"
+ "Leon Febres Cordero",         "Male"
+ "Abdalá Bucaram",              "Male"
+ "Rosalía Arteaga",             "Female"
+}
 
 flag="ecuador"
 flag_alt = "colombia"

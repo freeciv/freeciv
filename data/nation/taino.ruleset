@@ -16,15 +16,15 @@ legend=_("Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico,\
  traders between islands. Recent genetic studies show that roughly half of\
  Puerto Ricans have Taino maternal descent.")
 
-leader=
- "Agüeybana",
- "Jumacao",
- "Canobaná",
- "Hayuya",
- "Loquillo",
- "Hatuey"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",        "sex"
+ "Agüeybana",   "Male"
+ "Jumacao",     "Male"
+ "Canobaná",    "Male"
+ "Hayuya",      "Male"
+ "Loquillo",    "Male"
+ "Hatuey",      "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Cacike = Chief */

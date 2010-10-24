@@ -6,11 +6,14 @@ groups= "Medieval", "European"
 legend=_("The Welsh at one time controlled all of what is now England\
  until being driven into the mountainous western reaches by invading\
  Saxons.")
-leader=
- "Llywelyn ap Gruffudd",
- "Hywel Dda",
- "Owain Glyndwr"
-leader_sex="Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Llywelyn ap Gruffudd",        "Male"
+ "Hywel Dda",                   "Male"
+ "Owain Glyndwr",               "Male"
+}
+
 flag="wales"
 flag_alt = "united_kingdom"
 city_style = "Celtic"

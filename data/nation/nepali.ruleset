@@ -9,20 +9,20 @@ legend=_("Nepal is a landlocked country located in the Himalayas. Long a\
  united into one kingdom in the 18th century. Nepal became a republic in\
  2008.")
 
-leader=
- "Siddharta Gautama",
- "Janaka",
- "Dravya Shah",
- "Prithvi Narayan Shah",
- "Jung Bahadur Rana",
- "Tribhuvan",
- "Mahendra",
- "Birendra",
- "Dipendra",
- "Prachanda"
+leaders = {
+ "name",                        "sex"
+ "Siddharta Gautama",           "Male"
+ "Janaka",                      "Male"
+ "Dravya Shah",                 "Male"
+ "Prithvi Narayan Shah",        "Male"
+ "Jung Bahadur Rana",           "Male"
+ "Tribhuvan",                   "Male"
+ "Mahendra",                    "Male"
+ "Birendra",                    "Male"
+ "Dipendra",                    "Male"
+ "Prachanda",                   "Male"
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male"
 flag= "nepal"
 flag_alt = "-"
 city_style = "Asian" 

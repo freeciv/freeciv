@@ -13,21 +13,22 @@ legend=_("Romans already mentioned the Frisii but historians are unsure\
  Netherlands. In 1782 the Estates of Friesland was the first foreign\
  government to recognize the independence of the United States of\
  America.")
-leader=
- "Finn",
- "Redbad",
- "Egbert II",
- "Pier Gerlofs Donia",
- "Ulrich Cirksema",
- "Edzard de Grutte",
- "Rennenberg",
- "Ernst Kasimir",
- "Johan Willem Friso",
- "Idsert Aebinga van Humalda",
- "Ferdinand Domela Nieuwenhuis",
- "Mata Hari"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                                "sex"
+ "Finn",                                "Male"
+ "Redbad",                              "Male"
+ "Egbert II",                           "Male"
+ "Pier Gerlofs Donia",                  "Male"
+ "Ulrich Cirksema",                     "Male"
+ "Edzard de Grutte",                    "Male"
+ "Rennenberg",                          "Male"
+ "Ernst Kasimir",                       "Male"
+ "Johan Willem Friso",                  "Male"
+ "Idsert Aebinga van Humalda",          "Male"
+ "Ferdinand Domela Nieuwenhuis",        "Male"
+ "Mata Hari",                           "Female"
+}
 
 flag="frisia"
 flag_alt = "-"

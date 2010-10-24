@@ -6,14 +6,17 @@ groups="Modern", "European"
 legend=_("After centuries of Danish rule, the Norwegians made their\
  own constitution in Eidsvoll, 1814 AD. Finally, in 1905 AD the Norwegians\
  got their independence after a union with Sweden.")
-leader=
- "Johan Nygaardsvold",
- "Einar Gerhardsen",
- "Trygve Bratteli",
- "Gro Harlem Brundtland",
- "Jan P. Syse",
- "Haakon VII"
-leader_sex="Male", "Male", "Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Johan Nygaardsvold",          "Male"
+ "Einar Gerhardsen",            "Male"
+ "Trygve Bratteli",             "Male"
+ "Gro Harlem Brundtland",       "Female"
+ "Jan P. Syse",                 "Male"
+ "Haakon VII",                  "Male"
+}
+
 flag="norway"
 flag_alt = "denmark"  ; Now used by Danish
 city_style = "European"

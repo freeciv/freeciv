@@ -8,23 +8,23 @@ legend=_("The Principality of Liechtenstein is a tiny, doubly landlocked\
  and by Austria to its east. The Principality was formed by the merger\
  of Vaduz and Schellenberg in 1719.")
 
-leader=
- "Karl I",
- "Karl Eusebius",
- "Hans-Adam I",
- "Josef Wenzel",
- "Anton Florian",
- "Josef Johann Adam",
- "Johann Nepomuk Karl",
- "Franz Josef I",
- "Alois I",
- "Johann I",
- "Alois II",
- "Johann II",
- "Franz Josef II"
+leaders = {
+ "name",                "sex"
+ "Karl I",              "Male"
+ "Karl Eusebius",       "Male"
+ "Hans-Adam I",         "Male"
+ "Josef Wenzel",        "Male"
+ "Anton Florian",       "Male"
+ "Josef Johann Adam",   "Male"
+ "Johann Nepomuk Karl", "Male"
+ "Franz Josef I",       "Male"
+ "Alois I",             "Male"
+ "Johann I",            "Male"
+ "Alois II",            "Male"
+ "Johann II",           "Male"
+ "Franz Josef II",      "Male"
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male"
 flag="liechtenstein"
 flag_alt = "-"
 city_style = "European"

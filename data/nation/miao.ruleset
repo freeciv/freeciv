@@ -12,15 +12,16 @@ legend=_("According to Chinese legend, the Yellow Emperor of Huaxia\
  Europe and North America, of which many belong to the \"Hmong\"\
  sub-group.")
 
-leader=
-"Haam Choj",
-"Touby Lyfoung",
-"Paj Cai Vwj",
-"Vaj Tsoov Loom",
-"Qin Liangyu",
-"Txiv Yawg"
+leaders = {
+ "name",                "sex"
+ "Haam Choj",           "Male"
+ "Touby Lyfoung",       "Male"
+ "Paj Cai Vwj",         "Male"
+ "Vaj Tsoov Loom",      "Male"
+ "Qin Liangyu",         "Female"
+ "Txiv Yawg",           "Male"
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
 flag="hainan"
 flag_alt="-"
 city_style="Asian"

@@ -10,15 +10,15 @@ legend=_("This Kingdom, lasting from roughly 1400 AD until the late 19th\
  explorers, missionaries and slavers began to arrive and exerted\
  considerable influence in the Kingdom.")
 
-leader=
- "Lukeni lua Nim",
- "Ntinu Nimi a Lukeni",
- "Nanga",
- "Nlaza",
- "Nkuwu a Ntinu",
- "Nvita a Nkanga"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Lukeni lua Nim",      "Male"
+ "Ntinu Nimi a Lukeni", "Male"
+ "Nanga",               "Male"
+ "Nlaza",               "Male"
+ "Nkuwu a Ntinu",       "Male"
+ "Nvita a Nkanga",      "Male"
+}
 
 flag         = "kongo"
 flag_alt     = "-"

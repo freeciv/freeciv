@@ -24,13 +24,14 @@ legend=_("The Otomi are one of the most ancient peoples of Mexico. They\
  a million people the Otomi are still one of the biggest indigenous groups\
  of Mexico.")
 
-leader=
- "Zidada Hyadi",
- "Zinänä",
- "B'odga",
- "Ñädo"
+leaders = {
+ "name",                "sex"
+ "Zidada Hyadi",        "Male"
+ "Zinänä",              "Female"
+ "B'odga",              "Male"
+ "Ñädo",                "Male"
+}
 
-leader_sex="Male", "Female", "Male", "Male"
 flag = "otomi"
 flag_alt = "-"
 city_style = "Celtic"

@@ -13,20 +13,20 @@ legend=_("The history of Laos starts with the Lan Xang kingdom\
  in 1986 the liberalization and a gradual return to\
  private enterpise started.")
 
-leader="Khun Lo", ; first laotian king
-       "Fa Ngum", ; king of Lan Xang kingdom
-       "Samsenethai",
-       "Visunarat",
-       "Photisarath",
-       "Setthathirath",
-       "Sourigna Vongsa",
-       "Anouvong",
-       "Phetsarath", ; founder of modern Laos state
-       "Kaysone Phomvihane", ; prime minister and president of Laos
-       "Souphanouvong" ; president of Laos
-leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male",
-           "Male"
+leaders = {
+ "name",                "sex"
+ "Khun Lo",             "Male" ; first laotian king.
+ "Fa Ngum",             "Male" ; king of Lan Xang kingdom.
+ "Samsenethai",         "Male"
+ "Visunarat",           "Male"
+ "Photisarath",         "Male"
+ "Setthathirath",       "Male"
+ "Sourigna Vongsa",     "Male"
+ "Anouvong",            "Male"
+ "Phetsarath",          "Male" ; founder of modern Laos state.
+ "Kaysone Phomvihane",  "Male" ; prime minister and president of Laos.
+ "Souphanouvong",       "Male" ; president of Laos.
+}
 
 flag="laos"
 flag_alt = "-"

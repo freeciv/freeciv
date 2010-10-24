@@ -8,17 +8,18 @@ legend=_("Australia was founded as a British penal colony in 1788 AD.\
  Queensland, South Australia, Western Australia and Tasmania) it\
  became a single country in 1902.\
  It is the only country on earth to occupy an entire continent.")
-leader =
- "Robert Menzies",
- "Mary Reibey",
- "John Curtin",
- "Enid Lyons",
- "Harold Holt",
- "Edmund Barton",
- "Elizabeth Nicholls",
- "Edith Cowan"
-leader_sex = "Male", "Female", "Male", "Female", "Male", "Male", "Female",
- "Female"
+
+leaders = {
+ "name",                "sex"
+ "Robert Menzies",      "Male"
+ "Mary Reibey",         "Female"
+ "John Curtin",         "Male"
+ "Enid Lyons",          "Female"
+ "Harold Holt",         "Male"
+ "Edmund Barton",       "Male"
+ "Elizabeth Nicholls",  "Female"
+ "Edith Cowan",         "Female"
+}
 
 flag="australia"
 flag_alt = "-"

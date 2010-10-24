@@ -7,13 +7,16 @@ legend=_("Siberia is a historical and geographical region of Russia and\
  the USSR. During the reign of the czars separatist sentiments prevailed\
  amongst some Slavic colonists. In 1918 a Siberian Republic was proclaimed\
  but it was annexed by the USSR after only a few months.")
-leader=
- "Afanasiy Shchapov",
- "Grigory Potanin",
- "Nikolai Yadrintsev",
- "Aleksandr Kolchak",
- "Viktor Pepelyayev"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Afanasiy Shchapov",   "Male"
+ "Grigory Potanin",     "Male"
+ "Nikolai Yadrintsev",  "Male"
+ "Aleksandr Kolchak",   "Male"
+ "Viktor Pepelyayev",   "Male"
+}
+
 flag= "siberia" 
 flag_alt = "-" 
 city_style = "European" 

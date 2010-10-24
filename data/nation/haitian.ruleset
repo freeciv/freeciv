@@ -6,20 +6,20 @@ groups="Modern", "American"
 legend=_("A slave rebellion led Haiti to independence in 1804. It was the\
  first independent black republic and the second independent country in\
  the Americas.")
-leader=
- "Tousen Louvèti",
- "Jan Jak Desalin",
- "Anri Kristòf ",
- "Jan Pyè Bwaye",
- "Aleksann Petyon ",
- "Pyè Nò Aleksi",
- "Fosten Soulouk",
- "'Papa Dok' Divalye",
- "Simone Ovide Divalye",
- "Jan Bètran Aristid"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-   "Male", "Female", "Male"
+leaders = {
+ "name",                        "sex"
+ "Tousen Louvèti",              "Male"
+ "Jan Jak Desalin",             "Male"
+ "Anri Kristòf ",               "Male"
+ "Jan Pyè Bwaye",               "Male"
+ "Aleksann Petyon ",            "Male"
+ "Pyè Nò Aleksi",               "Male"
+ "Fosten Soulouk",              "Male"
+ "'Papa Dok' Divalye",          "Male"
+ "Simone Ovide Divalye",        "Female"
+ "Jan Bètran Aristid",          "Male"
+}
 
 flag="haiti"
 flag_alt = "-"

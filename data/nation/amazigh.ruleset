@@ -13,48 +13,57 @@ legend=_("The Amazigh civilization is one of the oldest in the Mediterranean\
  collectively known as Berber languages,\
  using an age-old writing system called Tifinagh.")
 
-leader=
-"Vermina",
-; son of Syphax, Last King of Massaessyle (Occidental Numidia) before
-; unification. reigned 203BC-200BC after his father, but resigned to Romans
+leaders = {
+ "name",                "sex"
+
+; Son of Syphax, Last King of Massaessyle (Occidental Numidia) before
+; unification. Reigned 203BC-200BC after his father, but resigned to Romans
 ; by 200BC.
-"Niptasan",
+ "Vermina",             "Male"
+
 ; King of the Massyles (Oriental Numidia).
-"Zilalsan",
-; son of Niptasan, King of the Massyles (Oriental Numidia).
-"Gaïa",
-; son of Zilalsan, Last King of the Massyles (Oriental Numidia) before
+ "Niptasan",            "Male"
+
+; Son of Niptasan, King of the Massyles (Oriental Numidia).
+ "Zilalsan",            "Male"
+
+; Son of Zilalsan, Last King of the Massyles (Oriental Numidia) before
 ; unification. died 208BC.
-"Gauda",
-; son of Mastanabal and brother of Jugurtha, reigned 106BC-88BC.
-"Hiempsal II",
-; son of Gauda,reigned 88BC-60BC.
-"Juba I",
+ "Gaïa",                "Male"
+
+; Son of Mastanabal and brother of Jugurtha, reigned 106BC-88BC.
+ "Gauda",               "Male"
+
+; Son of Gauda,reigned 88BC-60BC.
+ "Hiempsal II",         "Male"
+
 ; (85BC-46BC) son of Hiempsal II, last king of the free Amazigh Numdia.
 ; reigned 60BC-46BC.
-"Juba II",
+ "Juba I",              "Male"
+
 ; son of Juba II, Vassal King of Mauritania, the Roman Numidia, married
 ; Cleopatra Selene II (40BC6AC), daughter of Cleopatra, reigned 52BC-23BC.
-"Tacfarinas",
+ "Juba II",             "Male"
+
 ; Berber: Tiqfarin
 ; Amazigh General in the Roman Army, after Roman empire weakens, he unified
 ; the amazigh tribes and conquerred a part of Numidia between 17Ac-24AC.
-"Ptolemaeus",
+ "Tacfarinas",          "Male"
+
 ; Ptolemy of Mauretania
 ; (1AC-40AC) son of Juba II and Cleopatra Selene II, the last King of
 ; Mauretania, Conquered Takfarinas revolt and Garamantes Rebellion.
 ; reigned 23AC-40AC.
-"Tariq Ibn Ziad",
+ "Ptolemaeus",          "Male"
+
 ; Amazigh Umayyad General, he Conquered Al-Andalus, d. 720
-"Youssef Ibn Tachfin"
+ "Tariq Ibn Ziad",      "Male"
+
 ; (1006-1106), founder of the Amazigh Almoravides sunnites dynasty, governs
 ; over Morocco, Mauritania, west Algeria, Sénégal, Al-Andalus and a part of
 ; Portugal.
-
-
-leader_sex= "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male"
-
+ "Youssef Ibn Tachfin", "Male"
+}
 
 flag= "amazigh"
 flag_alt = "morocco"

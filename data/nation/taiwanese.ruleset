@@ -9,13 +9,16 @@ legend=_("The Republic of China was established in 1912 as the sucessor\
  civil war against the Chinese Communists in 1949, the Nationalist\
  government evacuated to the island of Taiwan, establishing Taipei as the\
  provisional capital of the Republic of China.")
-leader=
- "Sun Yat Sen",
- "Yuan Shikai",
- "Soong Ching Ling",
- "Chiang Kai Shek",
- "Chiang Ching Kuo"
-leader_sex="Male", "Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Sun Yat Sen",         "Male"
+ "Yuan Shikai",         "Male"
+ "Soong Ching Ling",    "Female"
+ "Chiang Kai Shek",     "Male"
+ "Chiang Ching Kuo",    "Male"
+}
+
 flag="taiwan"
 flag_alt = "-"
 city_style = "Asian"

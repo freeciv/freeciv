@@ -6,15 +6,16 @@ groups="Modern", "European"
 legend=_("The Ukraine is a vast region on the westernmost marches of the\
  former Soviet Union. It includes some of the most fertile black-soil\
  cropland on Earth.")
-leader =
 
- "Basil Kapnist",
- "Symon Petliura",
- "Petro Shelest",
- "Stepan Bandera",
- "Yuliya Timoshenko"
+leaders = {
+ "name",                "sex"
+ "Basil Kapnist",       "Male"
+ "Symon Petliura",      "Male"
+ "Petro Shelest",       "Male"
+ "Stepan Bandera",      "Male"
+ "Yuliya Timoshenko",   "Female"
+}
 
-leader_sex = "Male", "Male", "Male", "Male", "Female"
 flag="ukraine"
 flag_alt = "-"
 city_style = "European"

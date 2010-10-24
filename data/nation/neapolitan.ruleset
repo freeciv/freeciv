@@ -7,18 +7,19 @@ legend=_("For centuries the Kingdom of Naples was the largest country\
  on the Italian Peninsula. Many European powers showed interest in the\
  kingdom and its throne changed hands many times. After the Napoleonic\
  Era it was merged with the Kingdom of Sicily.")
-leader=
- "Carlo 'e Angiò",
- "Giovanna I",
- "Carlo 'e Durazzo",
- "Giovanna II",
- "Ferrantino",
- "Masaniello",
- "Carlo 'e Parma",
- "Gioacchino Murat"
 
-leader_sex="Male", "Female", "Male", "Female",
-           "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Carlo 'e Angiò",      "Male"
+ "Giovanna I",          "Female"
+ "Carlo 'e Durazzo",    "Male"
+ "Giovanna II",         "Female"
+ "Ferrantino",          "Male"
+ "Masaniello",          "Male"
+ "Carlo 'e Parma",      "Male"
+ "Gioacchino Murat",    "Male"
+}
+
 flag="naples"
 flag_alt = "sicily"
 city_style = "Classical"

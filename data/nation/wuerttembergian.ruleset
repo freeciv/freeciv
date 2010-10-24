@@ -6,15 +6,17 @@ groups="Medieval", "Early Modern", "European"
 legend=_("Wuerttemberg was a country in Swabia, in southwestern Germany.\
  After World War II it was merged with Baden and Hohenzollern to form\
  the land of Baden-Wuerttemberg.")
-leader =
- "Konrad I",
- "Ulrich der Stifter",
- "Eberhard der Erlauchte",
- "Eberhard III",
- "Friedrich Wilhelm Karl",
- "Eugen Bolz"
-leader_sex = "Male", "Male", "Male", "Male", "Male",
-             "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Konrad I",                    "Male"
+ "Ulrich der Stifter",          "Male"
+ "Eberhard der Erlauchte",      "Male"
+ "Eberhard III",                "Male"
+ "Friedrich Wilhelm Karl",      "Male"
+ "Eugen Bolz",                  "Male"
+}
+
 flag="wuerttemberg"
 flag_alt = "germany"
 city_style = "European"

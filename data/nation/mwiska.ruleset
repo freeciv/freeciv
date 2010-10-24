@@ -12,16 +12,16 @@ legend=_("Comprising five states, variously described as chiefdoms\
  was fairly quick, however, and no rebellion took place after 1541 and\
  the language went extinct in the 18th century.") 
 
-leader= 
+leaders = {
+ "name",                "sex"
+"Tisquesusa",           "Male"
+"Nemequene",            "Male"
+"Saguanmachica",        "Male"
+"Nompaneme",            "Male"
+"Tundama",              "Male"
+"Aquimin",              "Male"
+}
 
-"Tisquesusa", 
-"Nemequene", 
-"Saguanmachica", 
-"Nompaneme", 
-"Tundama", 
-"Aquimin" 
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag = "mwiska" 
 flag_alt = "-" 
 city_style = "Tropical" 

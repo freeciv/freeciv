@@ -7,36 +7,35 @@ legend=_("The Italian nation was unified in 1870 AD after decades of\
  campaigning by indigenous nationalists. It was a monarchy under the\
  House of Savoy until 1922, then a fascist state until 1945 after which\
  democracy was restored by the World War II victors.")
-leader =
- "Bettino Ricasoli",
- "Marco Minghetti",
- "Luigi Federico Menabrea",
- "Giovanni Lanza",
- "Agostino Depretis",
- "Francesco Crispi",
- "Giovanni Giolitti",
- "Luigi Pelloux",
- "Antonio Salandra",
- "Vittorio Emanuele Orlando",
- "Francesco Saverio Nitti",
- "Luigi Facta",
- "Benito Mussolini",
- "Pietro Badoglio",
- "Alcide De Gasperi",
- "Vittorio Emanuele II",
- "Umberto I",
- "Vittorio Emanuele III",
- "Elena del Montenegro",
- "Umberto II",
- "Giuseppe Garibaldi",
- "Giuseppe Mazzini",
- "Palmiro Togliatti",
- "Giacomo Matteotti"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Female", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Bettino Ricasoli",            "Male"
+ "Marco Minghetti",             "Male"
+ "Luigi Federico Menabrea",     "Male"
+ "Giovanni Lanza",              "Male"
+ "Agostino Depretis",           "Male"
+ "Francesco Crispi",            "Male"
+ "Giovanni Giolitti",           "Male"
+ "Luigi Pelloux",               "Male"
+ "Antonio Salandra",            "Male"
+ "Vittorio Emanuele Orlando",   "Male"
+ "Francesco Saverio Nitti",     "Male"
+ "Luigi Facta",                 "Male"
+ "Benito Mussolini",            "Male"
+ "Pietro Badoglio",             "Male"
+ "Alcide De Gasperi",           "Male"
+ "Vittorio Emanuele II",        "Male"
+ "Umberto I",                   "Male"
+ "Vittorio Emanuele III",       "Male"
+ "Elena del Montenegro",        "Female"
+ "Umberto II",                  "Male"
+ "Giuseppe Garibaldi",          "Male"
+ "Giuseppe Mazzini",            "Male"
+ "Palmiro Togliatti",           "Male"
+ "Giacomo Matteotti",           "Male"
+}
+
 flag = "italy"
 flag_alt = "-"
 city_style = "Classical"

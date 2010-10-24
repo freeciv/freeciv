@@ -13,14 +13,14 @@ legend=_("Known by the Greeks as Chorasmia, Khwarezm was an urbanized,\
  separate kingdoms, but was united under the Turkic Anushtiginid dynasty,\
  which lasted from 1097 until Chinggis Khan conquered it in 1231.")
 
-leader=
- "Pharasmanes",
- "Hystaspes",
- "Phrataphernes",
- "Artav",
- "Vishtapa"
-
-leader_sex = "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Pharasmanes",         "Male"
+ "Hystaspes",           "Male"
+ "Phrataphernes",       "Male"
+ "Artav",               "Male"
+ "Vishtapa",            "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Monarchy",        _("Shah"),           _("Shahbanu")

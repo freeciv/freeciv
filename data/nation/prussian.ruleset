@@ -12,14 +12,15 @@ legend=_("Prussia was originally the name of a pagan Baltic people, who in\
  uniting the German nation in 1871 and solidified its power during the\
  Franco-Prussian war of the same year.")
 
-leader=
- "Albrecht der Bär",
- "Waldemar",
- "Albrecht I",
- "Albrecht Friedrich",
- "Friedrich Wilhelm",
- "Friedrich I"
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Albrecht der Bär",    "Male"
+ "Waldemar",            "Male"
+ "Albrecht I",          "Male"
+ "Albrecht Friedrich",  "Male"
+ "Friedrich Wilhelm",   "Male"
+ "Friedrich I",         "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",      _("Duke"),          _("Duchess")

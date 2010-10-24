@@ -7,22 +7,24 @@ legend=_("The Vikings raided and traded along the coasts of Europe\
  between 800 AD and 1100 AD. Viking raiders eventually became the rulers\
  of Normandy, Russia, and a short-lived kingdom in Sicily.")
 
-leader=
- "Aud Ivarsdottir",	; Danish royalty (7th century)
- "Rørik",		; Swedish viking and founder of Kiev (9th century)
- "Gudfred",		; Danish royalty (9th century)
- "Harald Hårfagre",	; Norwegian king (9th century)
- "Hrolf Gangr",		; Viking king of Normandy a.k.a "Rollo" (9th century)
- "Styrbjörn Sterki",	; Swedish royalty (10th century)
- "Erik Blodøks",	; Norwegian king (10th century)
- "Olav Trygvasson",	; Norwegian royalty (10th century)
- "Olav Haraldsson",	; Norwegian king (11th century)
- "Harald Hardråde",	; Norwegian king (11th century)
- "Sigurd Jorsalfare",	; Norwegian king (12th century)
- "Magnus Berrføtt",	; Norwegian king (12th century)
- "Magnus Lagabøter"	; Norwegian king (13th century)
-leader_sex="Female", "Male", "Male", "Male", "Male", "Male", "Male",
-	   "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Aud Ivarsdottir",     "Female" ; Danish royalty (7th century)
+ "Rørik",               "Male" ; Swedish viking and founder of Kiev
+                               ; (9th century)
+ "Gudfred",             "Male" ; Danish royalty (9th century)
+ "Harald Hårfagre",     "Male" ; Norwegian king (9th century)
+ "Hrolf Gangr",         "Male" ; Viking king of Normandy a.k.a "Rollo"
+                               ; (9th century)
+ "Styrbjörn Sterki",    "Male" ; Swedish royalty (10th century)
+ "Erik Blodøks",        "Male" ; Norwegian king (10th century)
+ "Olav Trygvasson",     "Male" ; Norwegian royalty (10th century)
+ "Olav Haraldsson",     "Male" ; Norwegian king (11th century)
+ "Harald Hardråde",     "Male" ; Norwegian king (11th century)
+ "Sigurd Jorsalfare",   "Male" ; Norwegian king (12th century)
+ "Magnus Berrføtt",     "Male" ; Norwegian king (12th century)
+ "Magnus Lagabøter",    "Male" ; Norwegian king (13th century)
+}
 
 flag="viking"
 flag_alt="norway"	; Used previously

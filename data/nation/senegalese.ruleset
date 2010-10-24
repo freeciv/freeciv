@@ -7,12 +7,12 @@ legend=_("Senegal is the westernmost country of mainland Africa. It has\
  been independent from France since 1960. Senegal is relatively stable\
  and democratic compared to its neighbors.")
 
-leader=
-"Léopold Sédar Senghor",
-"Abdou Diouf",
-"Mame Madior Boye"
-
-leader_sex="Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Léopold Sédar Senghor",       "Male"
+ "Abdou Diouf",                 "Male"
+ "Mame Madior Boye",            "Female"
+}
 
 flag= "senegal"
 flag_alt = "-"

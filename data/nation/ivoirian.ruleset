@@ -10,13 +10,13 @@ legend=_("Ivory Coast or Cote d'Ivoire achieved independence in 1960. It\
  has been relatively stable compared to other West African countries, but\
  in the 2000s it lived through a civil war.")
 
-leader=
- "Félix Houphouët-Boigny",
- "Henri Konan Bédié",
- "Robert Guéï",
- "Laurent Gbagbo"
-
-leader_sex = "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Félix Houphouët-Boigny",      "Male"
+ "Henri Konan Bédié",           "Male"
+ "Robert Guéï",                 "Male"
+ "Laurent Gbagbo",              "Male"
+}
 
 flag = "ivory_coast"
 flag_alt = "-"

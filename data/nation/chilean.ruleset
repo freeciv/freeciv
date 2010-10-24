@@ -8,22 +8,22 @@ legend=_("Chile is located on the south-western coast of South America.\
  more than doubled its territory in the 19th century. Always having been\
  more stable and prosperous than its neighbors, Chile currently is the\
  most developed country of Latin America.")
-leader=
- "Pedro de Valdivia",
- "Bernardo O'Higgins",
- "José Miguel Carrera",
- "Manuel Blanco Encalada",
- "Diego Portales",
- "Manuel Montt",
- "Arturo Alessandri",
- "Eduardo Frei Montalva",
- "Salvador Allende",
- "Augusto Pinochet",
- "Michelle Bachelet"
-leader_sex="Male", "Male", "Male",
-           "Male", "Male", "Male",
-           "Male", "Male", "Male",
-           "Male", "Female"
+
+leaders = {
+ "name",                        "sex"
+ "Pedro de Valdivia",           "Male"
+ "Bernardo O'Higgins",          "Male"
+ "José Miguel Carrera",         "Male"
+ "Manuel Blanco Encalada",      "Male"
+ "Diego Portales",              "Male"
+ "Manuel Montt",                "Male"
+ "Arturo Alessandri",           "Male"
+ "Eduardo Frei Montalva",       "Male"
+ "Salvador Allende",            "Male"
+ "Augusto Pinochet",            "Male"
+ "Michelle Bachelet",           "Female"
+}
+
 flag="chile"
 flag_alt = "-"
 city_style = "European"

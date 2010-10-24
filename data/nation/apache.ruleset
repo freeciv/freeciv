@@ -9,13 +9,17 @@ legend=_("The Apaches is a group of Athabascan speaking Indian tribes\
  They came from the Far North around 1000 AD. The Apache are known as\
  fierce warriors. In the 19th century it took the United States half a\
  century to subdue them.")
-leader="Dasoda-hae",    ;Mangas Coloradas
-       "K'uu-ch'ish",   ;Cochise
-       "Goyaałé",     ;Geronimo
-       "Dos-Teh-Seh",   ;Naiche
-       "Góyą́ń",		;Gouyen
-       "Alchesay"       ;William Alchesay
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+
+leaders = {
+ "name",        "sex"
+ "Dasoda-hae",  "Male" ; Mangas Coloradas
+ "K'uu-ch'ish", "Male" ; Cochise
+ "Goyaałé",     "Male" ; Geronimo
+ "Dos-Teh-Seh", "Male" ; Naiche
+ "Góyą́ń",       "Female" ; Gouyen
+ "Alchesay",    "Male" ; William Alchesay
+}
+
 flag = "apache"
 flag_alt = "-"
 city_style = "celtic"

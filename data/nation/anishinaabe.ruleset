@@ -8,18 +8,21 @@ legend=_("The Anishinaabeg are a group of closely related Native American\
  Ojibwe, Algonkin and Potawatomi. They speak Algonquian languages.\
  Together they are one of the most numerous indigenous peoples of North\
  America.")
-leader=
- "Pontiac",
- "Egushawa",
- "Ningweegon",
- "Shup-Shewana",
- "Aazhawigiizhigokwe",
- "Gichiweshkiinh",
- "Ozaawindib",
- "Waabaanakwad",
- "Eshkibagikoonzhe",
- "Leonard Peltier"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Pontiac",             "Male"
+ "Egushawa",            "Male"
+ "Ningweegon",          "Male"
+ "Shup-Shewana",        "Male"
+ "Aazhawigiizhigokwe",  "Female"
+ "Gichiweshkiinh",      "Male"
+ "Ozaawindib",          "Male"
+ "Waabaanakwad",        "Male"
+ "Eshkibagikoonzhe",    "Male"
+ "Leonard Peltier",     "Male"
+}
+
 flag="anishinaabe"
 flag_alt = "-"
 city_style = "Celtic"

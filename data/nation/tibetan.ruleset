@@ -11,14 +11,17 @@ legend=_("The Tibetan homeland is sometimes called the \"Roof of the\
  when Mongol rule had weakened, Lozang Gyatso - born 1617 and the 5th Dalai\
  Lama - established a buddhist religious state under the control of the\
  Gelugpa school of Tibetan Buddhism.")
-leader=
- "Songtsen Gampo",	; 7th century king
- "Trisonog Detsen",	; 8th century king
- "Tri Ralpachen",	; 9th century king
- "Changchub Gyaltsen",	; 14th century king
- "Lozang Gyatso",	; 5th Dalai Lama (1617-1682)
- "Thupten Gyatso"	; 13th Dalai Lama (1876-1933)
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Songtsen Gampo",      "Male" ; 7th century king
+ "Trisonog Detsen",     "Male" ; 8th century king
+ "Tri Ralpachen",       "Male" ; 9th century king
+ "Changchub Gyaltsen",  "Male" ; 14th century king
+ "Lozang Gyatso",       "Male" ; 5th Dalai Lama (1617-1682)
+ "Thupten Gyatso",      "Male" ; 13th Dalai Lama (1876-1933)
+}
+
 flag="tibet"
 flag_alt = "-"
 city_style = "Asian"

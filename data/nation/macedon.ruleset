@@ -7,14 +7,17 @@ legend=_("The Kingdom of Macedonia was located in the southern Balkans.\
  Under Alexander the Great it became one of the most powerful states in\
  the world but it splintered into several states after Alexander's\
  death. Macedonia was eventually conquered by Rome in 146 BC. ")
-leader=
- "Filippos II",
- "Olympias",
- "Alexandros",
- "Kassandros",
- "Antipater",
- "Ptolemaios Soter"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Filippos II",         "Male"
+ "Olympias",            "Female"
+ "Alexandros",          "Male"
+ "Kassandros",          "Male"
+ "Antipater",           "Male"
+ "Ptolemaios Soter",    "Male"
+}
+
 flag="macedon"
 flag_alt = "-"
 city_style = "Classical"

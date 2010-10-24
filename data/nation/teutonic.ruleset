@@ -8,21 +8,21 @@ legend=_("The Teutonic Order led a series of crusades against pagan Balts\
  of the Order, which remained a powerful country for three centuries. The\
  State was secularized and replaced by the Duchy of Prussia in the 16th\
  century.")
-leader=
- "Hermann von Salza",
- "Anno von Sangershausen",
- "Hartmann von Heldrungen",
- "Karl von Trier",
- "Winrich von Kniprode",
- "Konrad von Jungingen",
- "Paul von Rusdorf",
- "Ludwig von Erlichshausen",
- "Martin Truchseß von Wetzhausen",
- "Friedrich von Sachsen",
- "Albrecht von Brandenburg-Ansbach"
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                                "sex"
+ "Hermann von Salza",                   "Male"
+ "Anno von Sangershausen",              "Male"
+ "Hartmann von Heldrungen",             "Male"
+ "Karl von Trier",                      "Male"
+ "Winrich von Kniprode",                "Male"
+ "Konrad von Jungingen",                "Male"
+ "Paul von Rusdorf",                    "Male"
+ "Ludwig von Erlichshausen",            "Male"
+ "Martin Truchseß von Wetzhausen",      "Male"
+ "Friedrich von Sachsen",               "Male"
+ "Albrecht von Brandenburg-Ansbach",    "Male"
+}
 
 flag="teutonic_order"
 flag_alt = "hre"

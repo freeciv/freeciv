@@ -14,24 +14,26 @@ legend=_("According to legend, Slavic and Finnic tribes of Novgorod\
  the last Russian emperor. After USSR dissolution in 1991 Russia appeared\
  on world map again, now as a federative republic.")
 
-leader=
- "Ryurik",		; a.k.a. Rurik the Varangian
- "Vladimir Krasno Solnyshko",
- "Vsevolod Bolshoe Gnezdo",
- "Aleksandr Nevsky",
- "Dmitriy Donskoy",
- "Ivan III",		; "the Great"
- "Ivan Grozny",		; "the Terrible"
- "Petr I",		; a.k.a Pyotr Alexeyevich or Peter the Great
- "Pavel I",
- "Nikolay I",
- "Aleksandr II",
- "Anna Ioannovna",
- "Elizaveta Petrovna",
- "Ekaterina II"	; also Yekaterina, Catherine: compare Yekaterinburg
+leaders = {
+ "name",                        "sex"
+ "Ryurik",                      "Male" ; a.k.a. Rurik the Varangian
+ "Vladimir Krasno Solnyshko",   "Male"
+ "Vsevolod Bolshoe Gnezdo",     "Male"
+ "Aleksandr Nevsky",            "Male"
+ "Dmitriy Donskoy",             "Male"
+ "Ivan III",                    "Male" ; "the Great"
+ "Ivan Grozny",                 "Male" ; "the Terrible"
+ "Petr I",                      "Male" ; a.k.a Pyotr Alexeyevich
+                                       ; or Peter the Great
+ "Pavel I",                     "Male"
+ "Nikolay I",                   "Male"
+ "Aleksandr II",                "Male"
+ "Anna Ioannovna",              "Female"
+ "Elizaveta Petrovna",          "Female"
+ "Ekaterina II",                "Female" ; also Yekaterina, Catherine:
+                                         ; compare Yekaterinburg
+}
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Female", "Female", "Female"
 flag="russia"
 flag_alt = "-"
 city_style = "European"

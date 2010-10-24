@@ -8,18 +8,20 @@ legend=_("Brazil was founded as a colony of Portugal but became\
  France. The country was first established as an empire under the exiled\
  Portuguese royal family. The empire lasted until the establishment of a\
  republican government in 1889.")
-leader=
- "Pedro I",
- "Isabel",
- "Deodoro da Fonseca",
- "Getúlio Vargas",
- "Juscelino Kubitscheck",
- "João Goulart",
- "Ernesto Geisel",
- "Tancredo Neves",
- "Lula"
-leader_sex="Male", "Female", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Pedro I",                     "Male"
+ "Isabel",                      "Female"
+ "Deodoro da Fonseca",          "Male"
+ "Getúlio Vargas",              "Male"
+ "Juscelino Kubitscheck",       "Male"
+ "João Goulart",                "Male"
+ "Ernesto Geisel",              "Male"
+ "Tancredo Neves",              "Male"
+ "Lula",                        "Male"
+}
+
 flag = "brasil"
 flag_alt = "-"
 city_style = "Tropical"

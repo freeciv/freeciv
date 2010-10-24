@@ -9,8 +9,15 @@ legend=_("Andorra is a small country in the eastern Pyrenees. In 1278,\
  still in effect and their successors - the current bishop of Urgell and\
  the President of the French Republic - bear the (mostly honorific) title\
  of co-prince of Andorra.")
-leader="Borís I", "Pere d'Urtx", "Roger Bernat III", "Carlemany"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Borís I",             "Male"
+ "Pere d'Urtx",         "Male"
+ "Roger Bernat III",    "Male"
+ "Carlemany",           "Male"
+}
+
 flag="andorra"
 flag_alt = "-"
 city_style = "European"

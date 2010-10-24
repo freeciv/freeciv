@@ -11,21 +11,22 @@ legend=_("Known to the Romans as Armorica, Brittany had been Celtic\
  west of the peninsula, with people speaking French instead. The Dukedom\
  of Brittany itself was formally annexed to France in 1491.")
 
-leader=
-"Frañsez I",
-"Nevenoe",
-"Alan Iañ",
-"Salaün",
-"Paskwezhen",
-"Konan II",
-"Waroch",
-"Arzhur",
-"Yann II",
-"Hawise",
-"Konstanza",
-"Anna",
-"Klaoda"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Female", "Female", "Female"
+leaders = {
+ "name",        "sex"
+"Frañsez I",    "Male"
+"Nevenoe",      "Male"
+"Alan Iañ",     "Male"
+"Salaün",       "Male"
+"Paskwezhen",   "Male"
+"Konan II",     "Male"
+"Waroch",       "Male"
+"Arzhur",       "Male"
+"Yann II",      "Male"
+"Hawise",       "Female"
+"Konstanza",    "Female"
+"Anna",         "Female"
+"Klaoda",       "Female"
+}
 
 flag = "brittany"
 flag_alt = "-"

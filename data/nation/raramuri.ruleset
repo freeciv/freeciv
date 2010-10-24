@@ -12,13 +12,15 @@ legend=_("The Raramuri or Tarahumara live in the canyons of the Sierra\
  kicking wooden balls in races that last up to several days. In 1891 a\
  Raramuri uprising in Tomochi was brutally repressed by the Mexican\
  authorities.")
-leader=
- "Candameña",
- "Basaseachi",
- "Teresa Urrea",
- "Cruz Chávez"
 
-leader_sex="Male", "Female", "Female", "Male"
+leaders = {
+ "name",                "sex"
+ "Candameña",           "Male"
+ "Basaseachi",          "Female"
+ "Teresa Urrea",        "Female"
+ "Cruz Chávez",         "Male"
+}
+
 flag="raramuri"
 flag_alt = "-"
 city_style = "Celtic"

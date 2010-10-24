@@ -7,14 +7,17 @@ legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
  between the kingdom of England and the kingdom of Scotland. The country -\
  also known as Great Britain - became the leading industrial and maritime\
  power in the 19th century.")
-leader=
- "Benjamin Disraeli",
- "William Gladstone",
- "George VI",
- "Victoria",
- "Winston Churchill",
- "Margaret Thatcher"
-leader_sex="Male", "Male", "Male", "Female", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "Benjamin Disraeli",   "Male"
+ "William Gladstone",   "Male"
+ "George VI",           "Male"
+ "Victoria",            "Female"
+ "Winston Churchill",   "Male"
+ "Margaret Thatcher",   "Female"
+}
+
 flag="united_kingdom"
 flag_alt = "-"
 city_style = "European"

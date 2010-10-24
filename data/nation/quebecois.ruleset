@@ -5,13 +5,16 @@ plural=_("?plural:Quebecois")
 groups= "American"
 legend=_("Quebec is the largest province of Canada, housing the majority of\
  the Francophone population of America.")
-leader=
- "Samuel de Champlain",
- "Louis de Frontenac",
- "Louis-Joseph de Montcalm",
- "Louis-Joseph Papineau",
- "René Lévesque"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Samuel de Champlain",         "Male"
+ "Louis de Frontenac",          "Male"
+ "Louis-Joseph de Montcalm",    "Male"
+ "Louis-Joseph Papineau",       "Male"
+ "René Lévesque",               "Male"
+}
+
 flag = "quebec"
 flag_alt = "-"
 city_style = "Celtic"

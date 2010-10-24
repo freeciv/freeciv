@@ -4,12 +4,15 @@ name = _("Kenyan")
 plural = _("?plural:Kenyans")
 groups="Modern", "African"
 legend=_("Kenya gained independence from Britain in December 1963.")
-leader =
- "Shiundu",
- "Mumia",
- "Ezekiel Apindi",
- "Jomo Kenyatta"
-leader_sex = "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Shiundu",             "Male"
+ "Mumia",               "Male"
+ "Ezekiel Apindi",      "Male"
+ "Jomo Kenyatta",       "Male"
+}
+
 flag = "kenya"
 flag_alt = "-"
 city_style = "Tropical"

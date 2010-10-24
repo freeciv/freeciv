@@ -8,23 +8,21 @@ legend=_("Dryads are creatures of Greek myth; they are a type of nymph\
  long-lived. They are usually female and are often depicted as beautiful\
  young women.")
 
-leader=
- "Melia",	; one of the Meliae (according to Hesiod)
- "Leuce", 	; white poplar, daughter of Oceanus
+leaders = {
+ "name",        "sex"
+ "Melia",       "Female" ; One of the Meliae (according to Hesiod)
+ "Leuce",       "Female" ; White poplar, daughter of Oceanus
 
- ; Following hamadryads from Deiphnosophistae of Athenaeus
- "Karya", 	; walnut or hazelnut
- "Balanos",     ; oak
- "Kraneia",	; dogwood
- "Morea",	; mulberry
- "Aigeiros",	; black poplar
- "Ptelea",	; elm
- "Ampelos",	; vines
- "Syke"		; fig
-
-leader_sex=
- "Female", "Female", "Female", "Female", "Female",
- "Female", "Female", "Female", "Female", "Female"
+; Following hamadryads from Deiphnosophistae of Athenaeus
+ "Karya",       "Female" ; Walnut or hazelnut
+ "Balanos",     "Female" ; Oak
+ "Kraneia",     "Female" ; Dogwood
+ "Morea",       "Female" ; Mulberry
+ "Aigeiros",    "Female" ; Black poplar
+ "Ptelea",      "Female" ; Elm
+ "Ampelos",     "Female" ; Vines
+ "Syke",        "Female" ; Fig
+}
 
 flag="dryad"
 flag_alt = "-"

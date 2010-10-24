@@ -8,16 +8,16 @@ legend=_("An Algonquian people, the Shawnee were led by Tikamthi (better\
  native alliance against American expansionism but were ultimately\
  unsuccessful and made to resettle in Indian Territory (modern Oklahoma).")
 
-leader= 
+leaders = {
+ "name",                "sex"
+"Paxinos",              "Male"
+"Tenskwatawa",          "Male"
+"Tikamthi",             "Male"
+"Nererahhe",            "Male"
+"Waweyapiersenwaw",     "Male"
+"Tanacharison",         "Male"
+}
 
-"Paxinos", 
-"Tenskwatawa", 
-"Tikamthi", 
-"Nererahhe", 
-"Waweyapiersenwaw", 
-"Tanacharison" 
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male" 
 flag = "shawnee" 
 flag_alt = "-" 
 city_style = "Celtic" 

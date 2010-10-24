@@ -7,17 +7,20 @@ legend=_("The Confederate States of America was a splinter nation of the\
  United States during the American Civil War. It was formed in 1861 by six\
  Southern states but had to abandon their claims of independence a few\
  years later after several military defeats by United States troops.")
-leader=
- "John Bell Hood",
- "Robert E. Lee",
- "John C. Calhoun",
- "Stonewall Jackson",
- "John Hunt Morgan",
- "James Longstreet",
- "Alexander Stephens",
- "Jefferson Davis",
- "Belle Boyd"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
+
+leaders = {
+ "name",                "sex"
+ "John Bell Hood",      "Male"
+ "Robert E. Lee",       "Male"
+ "John C. Calhoun",     "Male"
+ "Stonewall Jackson",   "Male"
+ "John Hunt Morgan",    "Male"
+ "James Longstreet",    "Male"
+ "Alexander Stephens",  "Male"
+ "Jefferson Davis",     "Male"
+ "Belle Boyd",          "Female"
+}
+
 flag="southern_cross"
 flag_alt="-"
 city_style="European"

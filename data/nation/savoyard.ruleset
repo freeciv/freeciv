@@ -11,16 +11,16 @@ legend=_("Savoy emerged in the Western Alps after the disintegration of\
  manipulative political acquisitions. Savoy itself was annexed by France\
  in 1860.")
 
-leader=
- "Humbert aux Blanches-Mains",
- "Amédée VIII",
- "Emmanuel-Philibert",
- "François de Sales",
- "Eugène de Savoie",
- "Victor-Amédée II",
- "Antoine Louis Albitte"
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Humbert aux Blanches-Mains",  "Male"
+ "Amédée VIII",                 "Male"
+ "Emmanuel-Philibert",          "Male"
+ "François de Sales",           "Male"
+ "Eugène de Savoie",            "Male"
+ "Victor-Amédée II",            "Male"
+ "Antoine Louis Albitte",       "Male"
+}
 
 flag="savoy"
 flag_alt = "-"

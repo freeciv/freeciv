@@ -9,15 +9,17 @@ legend=_("Modern Ossetians are the successors of the Alans of Ancient\
  continued to exist until the Mongol invasions. Nowadays Ossetians live\
  in the Republic of North Ossetia (part of Russian Federation) and in the\
  partially recognized Republic of South Ossetia.")
-leader=
-"Khuddan", ;tsar of Alania
-"Dauyt Soslan",
-"Maria Shvarnovna",
-"Bagatar", ;last tsar of Alania
-"Torez Kulumbegov", ;leader of Southern Ossetia
-"Eduard Kokoity" ;Current president of Southern Ossetia
 
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Khuddan",             "Male" ; Tsar of Alania
+ "Dauyt Soslan",        "Male"
+ "Maria Shvarnovna",    "Female"
+ "Bagatar",             "Male" ; Last tsar of Alania
+ "Torez Kulumbegov",    "Male" ; Leader of Southern Ossetia
+ "Eduard Kokoity",      "Male" ; Current president of Southern Ossetia
+}
+
 flag="ossetia"
 flag_alt = "-"
 city_style = "European"

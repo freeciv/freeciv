@@ -7,14 +7,17 @@ legend=_("Modern Turkey is the successor state of the Ottoman Empire, which\
  collapsed and was dismembered by the victors in World War I after backing\
  the Central Powers.  The country was subsequently reformed and secularized\
  by Kemal Mustapha, the hero of the defense of Gallipoli.")
-leader=
- "Kemal Atatürk",
- "İsmet İnönü",
- "Alparslan",
- "Enver Paşa",
- "Selçuk Bey",
- "Kılıçarslan"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Kemal Atatürk",       "Male"
+ "İsmet İnönü",         "Male"
+ "Alparslan",           "Male"
+ "Enver Paşa",          "Male"
+ "Selçuk Bey",          "Male"
+ "Kılıçarslan",         "Male"
+}
+
 flag="turkey"
 flag_alt = "-"
 city_style = "Classical"

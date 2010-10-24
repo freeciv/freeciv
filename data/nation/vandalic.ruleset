@@ -9,17 +9,20 @@ legend=_("The Vandals were an East Germanic people originating from what\
  kingdom in Carthage. The Vandals are perhaps best known for their sack\
  of Rome in 455 AD. In 534 AD Belisarius conquered the Vandalic kingdom\
  for the Byzantine Empire.")
-leader=
- "Wisimar",
- "Godigisel",
- "Gundereiks",
- "Gensereiks",
- "Hunereiks",
- "Gunþamund",
- "Þrasamund",
- "Hildereiks",
- "Geilamir"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",        "sex"
+ "Wisimar",     "Male"
+ "Godigisel",   "Male"
+ "Gundereiks",  "Male"
+ "Gensereiks",  "Male"
+ "Hunereiks",   "Male"
+ "Gunþamund",   "Male"
+ "Þrasamund",   "Male"
+ "Hildereiks",  "Male"
+ "Geilamir",    "Male"
+}
+
 flag="vandal"
 flag_alt = "-"
 city_style = "Celtic"

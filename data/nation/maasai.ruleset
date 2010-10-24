@@ -7,16 +7,14 @@ legend=_("The Maasai are an indigenous African ethnic group of\
  semi-nomadic people located in Kenya and northern Tanzania. Due to\
  their distinctive customs and dress and residence near the many game\
  parks of East Africa, they are among the most well known of African\
- ethnic groups.") 
+ ethnic groups.")
 
-leader=
- "Mbatian",
- "Lenana",
- "Segi"
-leader_sex=
- "Male",
- "Male",
- "Male"
+leaders = {
+ "name",        "sex"
+ "Mbatian",     "Male"
+ "Lenana",      "Male"
+ "Segi",        "Male"
+}
 
 flag = "maasai" 
 flag_alt = "-" 

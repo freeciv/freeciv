@@ -9,15 +9,17 @@ legend=_("Originally inhabited by the Arawk, Guyana was colonized by the\
  independence in 1966. Under Forbes Burnham Guyana became a Marxist\
  oriented country, but in the 1980s it started its transition to a market\
  democracy.")
-leader=
- "Cuffy",
- "Gordon James Lethem",
- "Forbes Burnham",
- "Cheddi Jagan",
- "Janet Rosenberg Jagan",
- "Bharrat Jagdeo"
 
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+leaders = {
+ "name",                        "sex"
+ "Cuffy",                       "Male"
+ "Gordon James Lethem",         "Male"
+ "Forbes Burnham",              "Male"
+ "Cheddi Jagan",                "Male"
+ "Janet Rosenberg Jagan",       "Female"
+ "Bharrat Jagdeo",              "Male"
+}
+
 flag="guyana"
 flag_alt = "-"
 city_style = "Tropical"

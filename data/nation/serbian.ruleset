@@ -6,28 +6,29 @@ groups="Modern", "Medieval", "European"
 legend=_("Serbia is part of the region of the Southern Slavs that was\
  conquered by the Ottomans after the collapse of the Byzantine Empire. \
  During most of the 20th century it was part of the Yugoslav Federation.")
-leader=
- "Vlastimir",
- "Časlav Klonimirović",
- "Stephanus Vojislav",
- "Mihailo Obrenović",
- "Konstantin Bodin",
- "Stefan Nemanja",
- "Stefan Prvovenčani",
- "Stefan Uroš",
- "Stefan Milutin",
- "Stefan Dušan",
- "Karađorđe Petrović",
- "Miloš Obrenović",
- "Aleksandar Karađorđević",
- "Stevan Šupljikac",
- "Milan II Obrenović",
- "Petar Karađorđević",
- "Slobodan Milošević",
- "Zoran Đinđić"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Vlastimir",                   "Male"
+ "Časlav Klonimirović",         "Male"
+ "Stephanus Vojislav",          "Male"
+ "Mihailo Obrenović",           "Male"
+ "Konstantin Bodin",            "Male"
+ "Stefan Nemanja",              "Male"
+ "Stefan Prvovenčani",          "Male"
+ "Stefan Uroš",                 "Male"
+ "Stefan Milutin",              "Male"
+ "Stefan Dušan",                "Male"
+ "Karađorđe Petrović",          "Male"
+ "Miloš Obrenović",             "Male"
+ "Aleksandar Karađorđević",     "Male"
+ "Stevan Šupljikac",            "Male"
+ "Milan II Obrenović",          "Male"
+ "Petar Karađorđević",          "Male"
+ "Slobodan Milošević",          "Male"
+ "Zoran Đinđić",                "Male"
+}
+
 flag="serbia"
 flag_alt = "-"
 city_style = "European"

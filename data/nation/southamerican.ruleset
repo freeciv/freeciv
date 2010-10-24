@@ -6,11 +6,14 @@ groups= "Imaginary"
 legend=_("The Union of South American Nations was formed in 2008, modelled\
  after the European Union, but panamericanism has already existed since\
  the the 19th century.")
-leader=
- "Francisco de Miranda",
- "Víctor Raúl Haya de la Torre",
- "Che Guevara"
-leader_sex= "Male", "Male", "Male"
+
+leaders = {
+ "name",                                "sex"
+ "Francisco de Miranda",                "Male"
+ "Víctor Raúl Haya de la Torre",        "Male"
+ "Che Guevara",                         "Male"
+}
+
 flag="unasur"
 flag_alt = "-"
 city_style = "European"

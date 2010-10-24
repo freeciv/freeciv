@@ -5,34 +5,47 @@ name=_("Vampire")
 plural=_("?plural:Vampires")
 groups="Imaginary"
 legend=_("Bloodsucking creatures of legend.")
-leader=
-; Historical people associated with vampirism 
- "Vlad Ţepeş",
- "Erzsébet Báthory",
-; from legend
- "Lilith",
-; from 'Carmilla' by Joseph Sheridan Le Fanu (1872)
- "Mircalla Karnstein",
-; from 'Varney the Vampire' by James Malcolm Rymer (1845-47)
- "Francis Varney",
-; from 'The Vampyre' by John William Polidori (1819)
- "Ruthven",
-; from 'Vampire City' by Paul Féval (1867)
- "Otto Goetzi",
-; from 'Knightshade' by Paul Féval (1807)
- "Jean Ténèbr",
- "Ange Ténèbr",
-; from 'The Vampire Countess' by Paul Féval (1856)
- "Addhema",
- "Szandor",
-; from 'Thalaba the Destroyer' by Robert Southey (1797)
- "Oneiza",
-; from 'Dracula' by Bram Stoker (1897)
- "Lucy Westenra",
-; from 'La Morte Amoureuse' by Théophile Gautier (1836)
- "Clarimond"
-leader_sex="Male", "Female", "Female", "Female", "Male", "Male",
- "Male", "Male", "Male", "Female", "Male", "Female", "Female", "Female"
+
+leaders = {
+ "name",                "sex"
+
+; Historical people associated with vampirism.
+ "Vlad Ţepeş",          "Male"
+ "Erzsébet Báthory",    "Female"
+
+; From legend...
+ "Lilith",              "Female"
+
+; From 'Carmilla' by Joseph Sheridan Le Fanu (1872):
+ "Mircalla Karnstein",  "Female"
+
+; From 'Varney the Vampire' by James Malcolm Rymer (1845-47):
+ "Francis Varney",      "Male"
+
+; From 'The Vampyre' by John William Polidori (1819):
+ "Ruthven",             "Male"
+
+; From 'Vampire City' by Paul Féval (1867):
+ "Otto Goetzi",         "Male"
+
+; Fom 'Knightshade' by Paul Féval (1807):
+ "Jean Ténèbr",         "Male"
+ "Ange Ténèbr",         "Male"
+
+; From 'The Vampire Countess' by Paul Féval (1856):
+ "Addhema",             "Female"
+ "Szandor",             "Male"
+
+; From 'Thalaba the Destroyer' by Robert Southey (1797):
+ "Oneiza",              "Female"
+
+; From 'Dracula' by Bram Stoker (1897):
+ "Lucy Westenra",       "Female"
+
+; From 'La Morte Amoureuse' by Théophile Gautier (1836):
+ "Clarimond",           "Female"
+}
+
 flag="vampire"
 flag_alt = "-"
 city_style = "European"

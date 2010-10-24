@@ -10,22 +10,21 @@ legend=_("Al-Andalus was the parts of the Iberian peninsula that was\
  Al-Andalus. Their last city on the Iberian peninsula, Granada, fell in\
  1492.")
 
-leader=
-  "Tariq ibn Ziad",
-  "Yusuf al-Fihr",
-  "Abd-Arrahmane I",
-  "Abd-Arrahmane III",
-  "Al-Mansur Ibn Abi Aamir",
-  "Banu Abbad",
-  "Al Sayyid Campeador",
-  "Yaqub al-Mansur",
-  "Mohamed I ibn Nasr",
-  "Yusuf I",
-  "Mohamed V",
-  "Boabdil"
-
-leader_sex= "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Tariq ibn Ziad",              "Male"
+ "Yusuf al-Fihr",               "Male"
+ "Abd-Arrahmane I",             "Male"
+ "Abd-Arrahmane III",           "Male"
+ "Al-Mansur Ibn Abi Aamir",     "Male"
+ "Banu Abbad",                  "Male"
+ "Al Sayyid Campeador",         "Male"
+ "Yaqub al-Mansur",             "Male"
+ "Mohamed I ibn Nasr",          "Male"
+ "Yusuf I",                     "Male"
+ "Mohamed V",                   "Male"
+ "Boabdil",                     "Male"
+}
 
 flag="almohad"
 flag_alt = "morocco"

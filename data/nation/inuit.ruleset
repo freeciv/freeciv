@@ -7,13 +7,15 @@ legend=_("The Inuits are a group of peoples inhabiting the Arctic areas\
  of North America and Siberia. The Canadian territory of Nunavut has a\
  majority population of Inuits; the name of the territory means \"our\
  land\" in Inuktitut.")
-leader=
- "Abe Okpik",
- "Helen Maksagak",
- "Paul Okalik",
- "Eva Aariak"
 
-leader_sex="Male", "Female", "Male", "Female"
+leaders = {
+ "name",                "sex"
+ "Abe Okpik",           "Male"
+ "Helen Maksagak",      "Female"
+ "Paul Okalik",         "Male"
+ "Eva Aariak",          "Female"
+}
+
 flag="nunavut"
 flag_alt = "greenland" ; used previously
 city_style = "European"

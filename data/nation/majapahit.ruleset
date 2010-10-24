@@ -13,14 +13,14 @@ legend=_("This empire began in 1293 AD when a local prince used invading\
  They lasted until 1500 when they were eclipsed by the Sultanate of\
  Malacca and the rise of Islam in the Indonesian world.")
 
-leader=
- "Suhita",
- "Hayam Wuruk", ; Throne name: Rajasanagara
- "Dyah Gitarja", ; Throne name: Tribhuwana Wijayatunggadewi
- "Gajah Mada",
- "Raden Wijaya" ; Throne name: Nararya Sangramawijaya
-
-leader_sex = "Female", "Male", "Female", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Suhita",              "Female"
+ "Hayam Wuruk",         "Male" ; Throne name: Rajasanagara.
+ "Dyah Gitarja",        "Female" ; Throne name: Tribhuwana Wijayatunggadewi.
+ "Gajah Mada",          "Male"
+ "Raden Wijaya",        "Male" ; Throne name: Nararya Sangramawijaya.
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",       _("Raja"),           _("Rani")

@@ -7,34 +7,33 @@ legend=_("Historical feudal state on the Crimean Peninsula, existing from\
  the 15th to the 18th century. Crimean Tatars invaded Poland and Russia,\
  which caused wars with Turkey.")
 
-leader=
- "Hacı Geray I",
- "Nur Devlet",
- "Meğli Geray I",
- "Ayder",
- "Ğazı Geray I",
- "Saadet Geray I",
- "Sahib Geray I",
- "Fetih Geray I",
- "Toqtamış Geray",
- "Selamet Geray I",
- "Mehmed Geray III",
- "Canibek Geray",
- "Inayet Geray",
- "Bahadır Geray I",
- "Islam Geray III",
- "Adil Geray",
- "Saadet Geray III",
- "Qaplan Geray I",
- "Selamet Geray II",
- "Qırım Geray",
- "Arslan Geray",
- "Maqsud Geray",
- "Şahin Geray"
-leader_sex=
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Hacı Geray I",        "Male"
+ "Nur Devlet",          "Male"
+ "Meğli Geray I",       "Male"
+ "Ayder",               "Male"
+ "Ğazı Geray I",        "Male"
+ "Saadet Geray I",      "Male"
+ "Sahib Geray I",       "Male"
+ "Fetih Geray I",       "Male"
+ "Toqtamış Geray",      "Male"
+ "Selamet Geray I",     "Male"
+ "Mehmed Geray III",    "Male"
+ "Canibek Geray",       "Male"
+ "Inayet Geray",        "Male"
+ "Bahadır Geray I",     "Male"
+ "Islam Geray III",     "Male"
+ "Adil Geray",          "Male"
+ "Saadet Geray III",    "Male"
+ "Qaplan Geray I",      "Male"
+ "Selamet Geray II",    "Male"
+ "Qırım Geray",         "Male"
+ "Arslan Geray",        "Male"
+ "Maqsud Geray",        "Male"
+ "Şahin Geray",         "Male"
+}
+
 flag= "crimean_tatar" 
 flag_alt = "turkey" 
 city_style = "Classical" 

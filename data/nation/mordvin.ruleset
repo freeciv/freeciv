@@ -7,13 +7,14 @@ legend=_("The Mordvins are a Finnic people consisting of two subgroups: the\
  Erzya and the Moksha. Mordvins live mainly in the Republic of Mordovia,\
  a subdivision of the Russian Federation.")
 
-leader=
- "Kola Merkushkin", ; Nikolay Merkushkin / Кола Меркушкин (Moksha)
- "Olëna", ;  Alyona / Олёна (Erzya)
- "Purgaz", ; Пургаз - Erzyan Prince
- "Puresh" ; Пуреш - Mokshan Prince
+leaders = {
+ "name",                "sex"
+ "Kola Merkushkin",     "Male" ; Nikolay Merkushkin / Кола Меркушкин (Moksha)
+ "Olëna",               "Female" ;  Alyona / Олёна (Erzya)
+ "Purgaz",              "Male" ; Пургаз - Erzyan Prince
+ "Puresh",              "Male" ; Пуреш - Mokshan Prince
+}
 
-leader_sex="Male", "Female", "Male", "Male"
 flag="mordovia" ; flag of the Republic of Mordovia
 flag_alt="-"
 city_style="European"

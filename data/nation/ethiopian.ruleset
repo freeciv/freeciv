@@ -5,17 +5,19 @@ plural=_("?plural:Ethiopians")
 groups="Modern", "Early Modern", "Ancient", "African"
 legend=_("Ethiopia is the oldest nation in Africa and the only one to\
  remain independent during European colonialism.")
-leader=
- "Zara Yakob",
- "Menelik II",
- "Haile Selassies",
- "Zoskales",
- "Gedara",
- "Lalibela",
- "Yekuno Amlak",
- "Tewodros II"
-leader_sex="Male", "Male", "Male", "Male", "Male",
-  "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Zara Yakob",          "Male"
+ "Menelik II",          "Male"
+ "Haile Selassies",     "Male"
+ "Zoskales",            "Male"
+ "Gedara",              "Male"
+ "Lalibela",            "Male"
+ "Yekuno Amlak",        "Male"
+ "Tewodros II",         "Male"
+}
+
 flag="ethiopia"
 flag_alt = "italy"
 city_style = "Babylonian"

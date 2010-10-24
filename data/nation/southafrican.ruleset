@@ -11,12 +11,15 @@ legend=_("Dutch settlers began colonizing southern Africa in the 17th\
  skin. Following the adoption of the country's first non-racist constitution\
  in 1994, long-time political prisoner Nelson Mandela became the\
  first truly democratically elected president of South Africa.")
-leader=
- "Nelson Mandela",
- "P.W. Botha",
- "J.C. Smuts",
- "H.F. Verwoerd"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Nelson Mandela",      "Male"
+ "P.W. Botha",          "Male"
+ "J.C. Smuts",          "Male"
+ "H.F. Verwoerd",       "Male"
+}
+
 flag="south_africa"
 flag_alt = "-"
 city_style = "Tropical"

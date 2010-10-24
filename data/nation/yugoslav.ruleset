@@ -8,12 +8,14 @@ legend=_("Yugoslavia was a state consisting of the Slavic nations of the\
  the Axis powers. After a national liberation war the communists threw\
  out the occupants and continued to rule until the 1980s. The 1990s saw\
  the bloody breakup of Yugoslavia into independent republics.")
-leader=
- "Aleksandar I Karađorđević",
- "Pavle Karađorđević",
- "Petar II Karađorđević",
- "Josip Broz Tito"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Aleksandar I Karađorđević",   "Male"
+ "Pavle Karađorđević",          "Male"
+ "Petar II Karađorđević",       "Male"
+ "Josip Broz Tito",             "Male"
+}
 
 flag="yugoslavia"
 flag_alt = "-"

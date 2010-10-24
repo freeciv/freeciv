@@ -16,34 +16,30 @@ legend=_("The origins of Austria date back to the time of the Roman\
  lasted until the end of World  War II in 1945, after which Austria was\
  occupied by the Allies.")
 
-leader=
-                        ; Full name/s in comment
- "Albrecht II",
- "Ladislaus V",
- "Maximilian II",
- "Rudolf II",
- "Matthias",
- "Ferdinand II",
- "Ferdinand III",
- "Ferdinand IV",
- "Joseph I",
- "Karl VI",	     	; Franz Joseph Wenzel Balthasar Johann Anton Ignaz
- "Maria Theresia",
- "Joseph II",		; Benedikt August Johann Anton Michael Adam
- "Franz I",	     	; Franz Joseph Karl
- "Ferdinand V",	     	; Karl Leopold Joseph Franz Marcellin
- "Franz Joseph I",	; Franz Joseph Karl
- "Karl III",		; Karl Franz Joseph Ludwig Hubert Georg Otto Marie
- "Karl Seitz",
- "Michael Hainisch",
- "Wilhelm Miklas",
- "Karl Renner",
- "Theodor Körner"
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male"
-
+leaders = {
+ "name",                "sex" ; Full name/s in comment
+ "Albrecht II",         "Male"
+ "Ladislaus V",         "Male"
+ "Maximilian II",       "Male"
+ "Rudolf II",           "Male"
+ "Matthias",            "Male"
+ "Ferdinand II",        "Male"
+ "Ferdinand III",       "Male"
+ "Ferdinand IV",        "Male"
+ "Joseph I",            "Male"
+ "Karl VI",             "Male" ; Franz Joseph Wenzel Balthasar Johann Anton Ignaz
+ "Maria Theresia",      "Female"
+ "Joseph II",           "Male" ; Benedikt August Johann Anton Michael Adam
+ "Franz I",             "Male" ; Franz Joseph Karl
+ "Ferdinand V",         "Male" ; Karl Leopold Joseph Franz Marcellin
+ "Franz Joseph I",      "Male" ; Franz Joseph Karl
+ "Karl III",            "Male" ; Karl Franz Joseph Ludwig Hubert Georg Otto Marie
+ "Karl Seitz",          "Male"
+ "Michael Hainisch",    "Male"
+ "Wilhelm Miklas",      "Male"
+ "Karl Renner",         "Male"
+ "Theodor Körner",      "Male"
+}
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",      _("Grand Master"),    _("Grand Mistress")

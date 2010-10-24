@@ -5,13 +5,15 @@ plural=_("?plural:Nigerians")
 groups="Modern", "African"
 legend=_("Nigeria won full independence from British rule in 1960. It is\
  the most populous country of Africa.")
-leader=
- "Abubakar Tafawa Balewa",
- "Nnamdi Azikiwe",
- "Yakubu Gowon",
- "Sani Abacha"
 
-leader_sex="Male", "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Abubakar Tafawa Balewa",      "Male"
+ "Nnamdi Azikiwe",              "Male"
+ "Yakubu Gowon",                "Male"
+ "Sani Abacha",                 "Male"
+}
+
 flag="nigeria"
 flag_alt = "-"
 city_style = "Tropical"

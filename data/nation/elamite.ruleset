@@ -7,25 +7,27 @@ legend=_("Elam was an ancient civilization located in the area of modern\
  southwest Iran, which arose around 3100 BC. The Elamite language,\
  written in cuneiform, is of unkown origin. In 643 BC the Elamite\
  civilization was destroyed by the Assyrians under Assurbanipal.")
-leader=
- "Girnamme",
- "Lurak-lukhkhan",
- "Tan-Ruhurater I",
- "Idaddu-napir",
- "Kidinu",
- "Inshushinak-sunkir-nappipir",
- "Tepti-ahar",
- "Pahir-ishshan",
- "Unpahash-Napirisha",
- "Napirisha-Untash",
- "Khallutush-Inshushinak",
- "Shutruk-Nahhunte",
- "Kutir-Nahhunte III",
- "Shilkhak-Inshushinak",
- "Shilhana-Hamru-Lagamar",
- "Tammaritu II"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Girnamme",                    "Male"
+ "Lurak-lukhkhan",              "Male"
+ "Tan-Ruhurater I",             "Male"
+ "Idaddu-napir",                "Male"
+ "Kidinu",                      "Male"
+ "Inshushinak-sunkir-nappipir", "Male"
+ "Tepti-ahar",                  "Male"
+ "Pahir-ishshan",               "Male"
+ "Unpahash-Napirisha",          "Male"
+ "Napirisha-Untash",            "Male"
+ "Khallutush-Inshushinak",      "Male"
+ "Shutruk-Nahhunte",            "Male"
+ "Kutir-Nahhunte III",          "Male"
+ "Shilkhak-Inshushinak",        "Male"
+ "Shilhana-Hamru-Lagamar",      "Male"
+ "Tammaritu II",                "Male"
+}
+
 flag = "elam"
 flag_alt = "-"
 city_style = "Classical"

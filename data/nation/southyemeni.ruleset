@@ -6,14 +6,16 @@ groups="Asian"
 legend=_("The area around Aden was colonized by the British in 1839.\
  South Yemen declared independence in 1967 and joined the communist bloc.\
  It was united with North Yemen in 1990.")
-leader=
- "Qahtan Muhammad al-Shaabi",
- "Muhammad Ali Haitham",
- "Salim Rubai Ali",
- "Abdul Fattah Ismail",
- "Ali Nasir Muhammad"
 
-leader_sex="Male", "Male",  "Male", "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Qahtan Muhammad al-Shaabi",   "Male"
+ "Muhammad Ali Haitham",        "Male"
+ "Salim Rubai Ali",             "Male"
+ "Abdul Fattah Ismail",         "Male"
+ "Ali Nasir Muhammad",          "Male"
+}
+
 flag="south_yemen"
 flag_alt = "-"
 city_style = "Babylonian"

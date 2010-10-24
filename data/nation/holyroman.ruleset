@@ -13,18 +13,18 @@ legend = _("The Holy Roman Empire was considered the successor to the\
  it was dissolved by Napoleon and replaced by the Confederation of the\
  Rhine.")
 
-leader =
- "Otto I Magnus", 
- "Conradus II",
- "Henricus IV",
- "Fridericus I Barba Rossa",
- "Fridericus II",
- "Carolus V",
- "Ferdinandus I",
- "Carolus VII Albertus",
- "Franciscus II"
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", 
-             "Male", "Male"
+leaders = {
+ "name",                        "sex"
+ "Otto I Magnus",               "Male"
+ "Conradus II",                 "Male"
+ "Henricus IV",                 "Male"
+ "Fridericus I Barba Rossa",    "Male"
+ "Fridericus II",               "Male"
+ "Carolus V",                   "Male"
+ "Ferdinandus I",               "Male"
+ "Carolus VII Albertus",        "Male"
+ "Franciscus II",               "Male"
+}
 
 flag         = "hre"
 flag_alt     = "germany"

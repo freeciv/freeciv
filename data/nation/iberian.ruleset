@@ -6,16 +6,17 @@ groups="Ancient", "European"
 legend=_("The Iberians were non-Indo-European inhabitants of the\
  ancient Iberian Peninsula. Very little is known about their history.\
  They were subjugated by Rome in the last centuries BC.")
-leader=
- "Budar",
- "Busadines",
- "Himilce",
- "Indibil",
- "Korbis",
- "Korribilo",
- "Mandonio"
 
-leader_sex="Male", "Male", "Female", "Male", "Male", "Male","Male"
+leaders = {
+ "name",        "sex"
+ "Budar",       "Male"
+ "Busadines",   "Male"
+ "Himilce",     "Female"
+ "Indibil",     "Male"
+ "Korbis",      "Male"
+ "Korribilo",   "Male"
+ "Mandonio",    "Male"
+}
 
 flag="iberian"
 flag_alt = "-"

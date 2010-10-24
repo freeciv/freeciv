@@ -8,14 +8,14 @@ legend=_("An island group in the Southern Pacific, Tonga was settled by\
  protectorate in the 19th century, they are the only country in Oceania\
  to have escaped actual colonization.")
 
-leader=
- "Tu'i Tonga 'Aho'eitu",
- "Tu'itatui",
- "George Tupou I",
- "Salote Tupou III",
- "Feleti Sevele"
-
-leader_sex="Male", "Male", "Male", "Female", "Male"
+leaders = {
+ "name",                        "sex"
+ "Tu'i Tonga 'Aho'eitu",        "Male"
+ "Tu'itatui",                   "Male"
+ "George Tupou I",              "Male"
+ "Salote Tupou III",            "Female"
+ "Feleti Sevele",               "Male"
+}
 
 flag= "tonga"
 flag_alt = "-"

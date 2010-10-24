@@ -8,12 +8,13 @@ legend=_("Tanzania was formed as a merger of the former British colonies\
  ruled by Julius Nyerere, who followed the tenets of African socialism.\
  In 1985 Nyerere was the first African head of state to voluntarily step\
  down.")
-leader=
- "Julius Nyerere",
- "Edward Sokoine",
- "Ali Hassan Mwinyi"
 
-leader_sex="Male", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Julius Nyerere",      "Male"
+ "Edward Sokoine",      "Male"
+ "Ali Hassan Mwinyi",   "Male"
+}
 
 flag="tanzania"
 flag_alt = "-"

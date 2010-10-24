@@ -10,18 +10,20 @@ legend=_("Aragon was formed as a Frankish county and was elevated to a\
  a union that would form the base of the Spanish unification. The kingdom\
  was legally dissolved in 1707 but today Aragon continues to exist as an\
  autonomous community of Spain.")
-leader=
- "Aureolo",
- "Aznar",
- "Sancho Remíriz",
- "Remiro I",
- "Chaime lo Conqueridor",
- "Ferrando lo Catolico",
- "Catalina d'Aragón",
- "José de Palafox y Melzi",
- "Fermín Galán"
-leader_sex="Male", "Male", "Male", "Male",
-           "Male", "Male", "Female", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Aureolo",                     "Male"
+ "Aznar",                       "Male"
+ "Sancho Remíriz",              "Male"
+ "Remiro I",                    "Male"
+ "Chaime lo Conqueridor",       "Male"
+ "Ferrando lo Catolico",        "Male"
+ "Catalina d'Aragón",           "Female"
+ "José de Palafox y Melzi",     "Male"
+ "Fermín Galán",                "Male"
+}
+
 flag="aragon"
 flag_alt = "-"
 city_style = "European"

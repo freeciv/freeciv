@@ -5,13 +5,16 @@ plural=_("?plural:Syrians")
 groups="Modern", "Asian"
 legend=_("The modern Syrian Arab Republic was formed from a French mandate\
  and gradually gained independence during the 1940s.")
-leader=
- "Taj al-Din al-Hasani",
- "Hashim al-Atassi",
- "Khalid al-Azm",
- "Shukri al-Kuwatli",
- "Hafez al-Assad"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Taj al-Din al-Hasani",        "Male"
+ "Hashim al-Atassi",            "Male"
+ "Khalid al-Azm",               "Male"
+ "Shukri al-Kuwatli",           "Male"
+ "Hafez al-Assad",              "Male"
+}
+
 flag="syria"
 flag_alt = "-"
 city_style = "Classical"

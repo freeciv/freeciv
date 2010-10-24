@@ -9,16 +9,19 @@ legend=_("The German Democratic Republic was founded in the Soviet\
  for the Berlin Wall and its vast internal security apparatus, the Stasi.\
  In 1989 the communist regime collapsed and one year later it was annexed\
  to the Federal Republic of Germany.")
-leader=
- "Otto Grotewohl",
- "Wilhelm Pieck",
- "Willi Stoph",
- "Walter Ulbricht",
- "Erich Honecker",
- "Erich Mielke",
- "Sabine Bergmann-Pohl",
- "Lothar de Maizière"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male"
+
+leaders = {
+ "name",                        "sex"
+ "Otto Grotewohl",              "Male"
+ "Wilhelm Pieck",               "Male"
+ "Willi Stoph",                 "Male"
+ "Walter Ulbricht",             "Male"
+ "Erich Honecker",              "Male"
+ "Erich Mielke",                "Male"
+ "Sabine Bergmann-Pohl",        "Female"
+ "Lothar de Maizière",          "Male"
+}
+
 flag = "ddr"
 flag_alt = "germany"
 city_style = "European"

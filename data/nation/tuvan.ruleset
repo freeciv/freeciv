@@ -11,14 +11,16 @@ legend=_("Tuvans are a Turkic people living in the Autonomous Republic\
  Anchimaa-Toka became chairperson of the republic. In 1944 it was\
  incorporated in the Soviet Union as a part of the Russian Soviet\
  Federative Socialist Republic.")
-leader=
-"Donduk Kuular",
-"Sherig-ool Oorzhak",
-"Solchak Toka",
-"Sergey Shoygu",
-"Khertek Anchimaa-Toka"
 
-leader_sex="Male", "Male", "Male", "Male", "Female"
+leaders = {
+ "name",                        "sex"
+ "Donduk Kuular",               "Male"
+ "Sherig-ool Oorzhak",          "Male"
+ "Solchak Toka",                "Male"
+ "Sergey Shoygu",               "Male"
+ "Khertek Anchimaa-Toka",       "Female"
+}
+
 flag= "tannu_tuva" 
 flag_alt = "-" 
 city_style = "Celtic" 

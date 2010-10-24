@@ -6,15 +6,16 @@ groups="American", "Modern"
 legend=_("Grenada is an island nation in the Caribbean. It gained\
  independence from the United Kingdom in 1974. The main island was known\
  as Camahogne by the indigenous Caribs.")
-leader=
- "Eric Gairy",	        ; first Prime Minister
- "Maurice Bishop",      ; New Jewel Movement
- "Bernard Coard",	; army coup
- "Phyllis Coard",	; army coup
- "Herbert Blaize"       ; founder of GNP
 
-leader_sex="Male", "Male", "Male", "Female",
-           "Male"
+leaders = {
+ "name",                "sex"
+ "Eric Gairy",          "Male" ; First Prime Minister.
+ "Maurice Bishop",      "Male" ; New Jewel Movement.
+ "Bernard Coard",       "Male" ; Army coup.
+ "Phyllis Coard",       "Female" ; Army coup.
+ "Herbert Blaize",      "Male" ; Founder of GNP.
+}
+
 flag="grenada"
 flag_alt = "united_kingdom"
 city_style = "Tropical"

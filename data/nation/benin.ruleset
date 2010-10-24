@@ -13,15 +13,17 @@ legend=_("Not to be confused with the modern republic of Benin,\
  port silted up. The Kingdom finally ended in 1897 when the\
  British assumed control.")
 
-leader= 
-"Obagodo", 
-"Owodo", 
-"Evian", 
-"Ogiamne", 
-"Oranmiyan", 
-"Eweka I", 
-"Ornogbua" 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male" 
+leaders = {
+ "name",        "sex"
+ "Obagodo",     "Male"
+ "Owodo",       "Male"
+ "Evian",       "Male"
+ "Ogiamne",     "Male"
+ "Oranmiyan",   "Male"
+ "Eweka I",     "Male"
+ "Ornogbua",    "Male"
+}
+
 flag= "benin_ancient" 
 flag_alt = "-" 
 city_style = "Tropical" 

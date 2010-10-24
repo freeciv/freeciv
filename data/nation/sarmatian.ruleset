@@ -7,21 +7,24 @@ legend=_("The Sarmatians were Iranian pastoralic tribes from Central Asia\
  and Southwest Siberia. They were closely related to the Saka and the\
  Scythians. The myth of the origin from the Sarmatians formed the basis\
  of the Polish culture from the 15th to the 18th century.")
-leader=
-"Sangiban", ;king of Alans
-"Amage",
-"Skopasis",
-"Respindal",
-"Tasius",   ;king of Roxolani
-"Arifarna", ;Aripharnes, king of Siraces
-"Abeacus",  ;king of Siraces
-"Zorsines", ;king of Siraces
-"Zanticus",
-"Spaldines",
-"Goar",
-"Beukan",
-"Babai"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",        "sex"
+ "Sangiban",    "Male" ; King of Alans.
+ "Amage",       "Female"
+ "Skopasis",    "Male"
+ "Respindal",   "Male"
+ "Tasius",      "Male" ; King of Roxolani.
+ "Arifarna",    "Male" ; Aripharnes, king of Siraces.
+ "Abeacus",     "Male" ; King of Siraces.
+ "Zorsines",    "Male" ; King of Siraces.
+ "Zanticus",    "Male"
+ "Spaldines",   "Male"
+ "Goar",        "Male"
+ "Beukan",      "Male"
+ "Babai",       "Male"
+}
+
 flag = "sarmatia"
 flag_alt = "-"
 city_style = "celtic"

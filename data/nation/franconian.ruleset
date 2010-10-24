@@ -8,14 +8,17 @@ legend=_("Franconia was one of the stem duchies of the Holy Roman\
  didn't manage to consolidate itself and by the 12th century it had\
  completely dissappeared. Franconia continues to exist as a cultural\
  region in the modern states of Bavaria, Thuringia and Baden-Wuerttemberg.")
-leader=
- "Eberhard",
- "Konrad III von Bibra",
- "Lorenz von Bibra",
- "Julius Echter von Mespelbrunn",
- "Franz Ludwig von Erthal",
- "Johann Gottfried von Guttenberg"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                                "sex"
+ "Eberhard",                            "Male"
+ "Konrad III von Bibra",                "Male"
+ "Lorenz von Bibra",                    "Male"
+ "Julius Echter von Mespelbrunn",       "Male"
+ "Franz Ludwig von Erthal",             "Male"
+ "Johann Gottfried von Guttenberg",     "Male"
+}
+
 flag= "franconia" 
 flag_alt = "-" 
 city_style = "Celtic" 

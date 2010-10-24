@@ -7,17 +7,17 @@ legend=_("Kazakhs are descendants of Turkic and Mongolian nomadic tribes.\
  Conquered by Russia in the 18th century, Kazahstan became independent in\
  1991 with the dissolution of the Soviet Union. It is one of ten largest\
  states in the world by area.")
-leader =
- "Kerei",      ; khan of Kazakh Khanate
- "Zhanibek",   ; khan of Kazakh Khanate
- "Kasym",      ; khan of Kazakh Khanate
- "Abul Khair", ; ruler of Junior Jüz
- "Ablai",      ; ruler of Middle Jüz
- "Kenesary Kasymov", ; leader of uprising against Russians
- "Dinmukhamed Konayev" ; Soviet time leader
 
-leader_sex = "Male", "Male", "Male", "Male", "Male",
-             "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "Kerei",               "Male" ; Khan of Kazakh Khanate.
+ "Zhanibek",            "Male" ; Khan of Kazakh Khanate.
+ "Kasym",               "Male" ; Khan of Kazakh Khanate.
+ "Abul Khair",          "Male" ; Ruler of Junior Jüz.
+ "Ablai",               "Male" ; Ruler of Middle Jüz.
+ "Kenesary Kasymov",   "Male"  ; Leader of uprising against Russians.
+ "Dinmukhamed Konayev","Male"  ; Soviet time leader.
+}
 
 flag="kazakhstan"
 flag_alt = "-"

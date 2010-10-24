@@ -7,13 +7,16 @@ legend=_("Vermont was an independent state for 14 years before it joined\
  the United States in 1791. Currently it is one of the smallest states of\
  the United States, both in population and area. Vermont is famous for\
  its dairy products and maple syrup.")
-leader=
- "Ethan Allen",
- "Thomas Chittenden",
- "Moses Robinson",
- "Ethan A. Hitchcock",
- "Bernie Sanders"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",                "sex"
+ "Ethan Allen",         "Male"
+ "Thomas Chittenden",   "Male"
+ "Moses Robinson",      "Male"
+ "Ethan A. Hitchcock",  "Male"
+ "Bernie Sanders",      "Male"
+}
+
 flag="vermont"
 flag_alt = "usa"
 city_style = "European"

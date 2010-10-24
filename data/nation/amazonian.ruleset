@@ -8,10 +8,18 @@ which appear in Classical Greek writing and art. Authors have located \
 them in the Ukraine, Asia Minor, or Libya. The Amazons were reported \
 to remove their right breasts in order to better use the bow and other \
 weapons.")
-leader="Penthesilea", "Hippolyta", "Semiramis",
-   "Myrine", "Thalestris", "Antianara", "Antiope"
-leader_sex="Female", "Female", "Female", "Female", "Female", "Female", 
-   "Female"
+
+leaders = {
+ "name",                "sex"
+ "Penthesilea",         "Female"
+ "Hippolyta",           "Female"
+ "Semiramis",           "Female"
+ "Myrine",              "Female"
+ "Thalestris",          "Female"
+ "Antianara",           "Female"
+ "Antiope",             "Female"
+}
+
 flag="amazon"
 flag_alt = "-"
 city_style = "Classical"

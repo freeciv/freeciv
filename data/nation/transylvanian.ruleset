@@ -10,16 +10,18 @@ legend=_("Transylvania is a historical territory in what is now Romania,\
  Transylvania was the first country in Europe to proclaim religious\
  freedom. The principality lost its independence to Habsburg Austria in\
  1711.")
-leader=
- "János Szapolyai",
- "Hunyadi János",
- "Bethlen Gábor",
- "Rákóczi György",
- "Báthory Erzsébet",
- "Rákóczi Ferenc",
- "Bem József"
 
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Male"
+leaders = {
+ "name",                "sex"
+ "János Szapolyai",     "Male"
+ "Hunyadi János",       "Male"
+ "Bethlen Gábor",       "Male"
+ "Rákóczi György",      "Male"
+ "Báthory Erzsébet",    "Female"
+ "Rákóczi Ferenc",      "Male"
+ "Bem József",          "Male"
+}
+
 flag="transylvania"
 flag_alt = "-"
 city_style = "European"

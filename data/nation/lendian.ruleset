@@ -9,12 +9,15 @@ legend=_("The Lendians were a confederation of West Slavic, Lechitic\
  at the time of the early Piast dynasty. The Lendians succumbed to\
  Ruthenization as a result of deportation actions organized by Kievan\
  princes and the activities of the Orthodox Church.")
-leader=
-"Lech",
-"Zawigost",
-"Wysz",
-"Włodzisław"
-leader_sex="Male", "Male", "Male", "Male"
+
+leaders = {
+ "name",        "sex"
+ "Lech",        "Male"
+ "Zawigost",    "Male"
+ "Wysz",        "Male"
+ "Włodzisław",  "Male"
+}
+
 flag = "lendian"
 flag_alt = "-"
 city_style = "Celtic"
