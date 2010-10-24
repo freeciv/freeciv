@@ -73,6 +73,16 @@ typedef unsigned int fc_bool;
 #define fc__attribute(x)
 #endif
 
+/* __attribute__((warn_unused_result)) requires at least gcc 3.4 */
+#if defined(__GNUC__)
+#if (__GNUC__ > 3) || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+#define fc__warn_unused_result  __attribute__((warn_unused_result))
+#endif
+#endif
+#ifndef fc__warn_unused_result
+#define fc__warn_unused_result
+#endif
+
 #ifdef WIN32_NATIVE
 typedef long int fc_errno;
 #else
@@ -106,7 +116,7 @@ bool fc_strrep(char *str, size_t len, const char *search,
                const char *replace);
 char *fc_strrep_resize(char *str, size_t *len, const char *search,
                        const char *replace)
-                       fc__attribute((warn_unused_result));
+                       fc__warn_unused_result;
 
 size_t fc_strlcpy(char *dest, const char *src, size_t n);
 size_t fc_strlcat(char *dest, const char *src, size_t n);

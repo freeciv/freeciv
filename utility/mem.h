@@ -18,7 +18,7 @@
                                  * might be more reliable? --dwp */
 
 /* utility */
-#include "support.h"            /* fc__attribute */
+#include "support.h"            /* fc__warn_unused_result */
 
 /* fc_malloc, fc_realloc, fc_calloc:
  * fc_ stands for freeciv; the return value is checked,
@@ -44,16 +44,16 @@
  */
 void *fc_real_malloc(size_t size,
                      const char *called_as, int line, const char *file)
-                     fc__attribute((warn_unused_result));
+                     fc__warn_unused_result;
 void *fc_real_realloc(void *ptr, size_t size,
                       const char *called_as, int line, const char *file)
-                      fc__attribute((warn_unused_result));
+                      fc__warn_unused_result;
 void *fc_real_calloc(size_t nelem, size_t elsize,
                      const char *called_as, int line, const char *file)
-                     fc__attribute((warn_unused_result));
+                     fc__warn_unused_result;
 
 char *real_fc_strdup(const char *str,
                      const char *called_as, int line, const char *file)
-                     fc__attribute((warn_unused_result));
+                     fc__warn_unused_result;
 
 #endif /* FC__MEM_H */
