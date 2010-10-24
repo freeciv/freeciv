@@ -150,6 +150,7 @@ flag_files =				\
 		hopi.png		\
 		hre.png			\
 		hungary.png		\
+		iberian.png		\
 		iceland.png		\
 		illyria.png		\
 		inca.png		\
@@ -530,6 +531,7 @@ shield_files =					\
 		hopi-shield.png			\
 		hre-shield.png			\
 		hungary-shield.png		\
+		iberian-shield.png		\
 		iceland-shield.png		\
 		illyria-shield.png		\
 		inca-shield.png			\
@@ -910,6 +912,7 @@ svg_files = 				\
 		hopi.svg		\
 		hre.svg			\
 		hungary.svg		\
+		iberian.svg		\
 		iceland.svg		\
 		illyria.svg		\
 		inca.svg		\

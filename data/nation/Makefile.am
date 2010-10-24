@@ -155,6 +155,7 @@ pkgdata_DATA = \
 		honduran.ruleset \
 		hopi.ruleset \
 		hungarian.ruleset \
+		iberian.ruleset \
 		icelandic.ruleset \
 		illyrian.ruleset \
 		inca.ruleset \
