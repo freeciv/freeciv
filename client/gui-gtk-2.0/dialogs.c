@@ -751,7 +751,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
       continue;
     }
 
-    if (group != NULL && !is_nation_in_group(pnation, group)) {
+    if (NULL != group && !nation_is_in_group(pnation, group)) {
       continue;
     }
 
@@ -809,7 +809,7 @@ static GtkWidget* create_nation_selection_list(void)
   for (i = 1; i <= nation_group_count(); i++) {
     struct nation_group* group = (nation_group_by_number(i - 1));
     nation_list = create_list_of_nations_in_group(group, i);
-    group_name_label = gtk_label_new(Q_(group->name));
+    group_name_label = gtk_label_new(nation_group_name_translation(group));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), nation_list, group_name_label);
   }
   
@@ -1088,8 +1088,7 @@ static gint cmp_func(gconstpointer ap, gconstpointer bp)
  *****************************************************************/
 static void select_random_leader(void)
 {
-  struct nation_leader *leaders;
-  int i, nleaders;
+  int i;
   GList *items = NULL;
   GtkWidget *text, *list;
   gchar *name;
@@ -1106,11 +1105,12 @@ static void select_random_leader(void)
     unique = TRUE;
   }
 
-  leaders
-    = get_nation_leaders(nation_by_number(selected_nation), &nleaders);
-  for (i = 0; i < nleaders; i++) {
-    items = g_list_prepend(items, leaders[i].name);
-  }
+  i = 0;
+  nation_leader_list_iterate(nation_leaders(nation_by_number
+                                            (selected_nation)), pleader) {
+    items = g_list_prepend(items, (gpointer) nation_leader_name(pleader));
+    i++;
+  } nation_leader_list_iterate_end
 
   /* Populate combo box with minimum signal noise. */
   g_signal_handlers_block_by_func(list, races_leader_callback, NULL);
@@ -1124,7 +1124,7 @@ static void select_random_leader(void)
   if (unique) {
     gtk_entry_set_text(GTK_ENTRY(text), name);
   } else {
-    i = fc_rand(nleaders);
+    i = fc_rand(i);
     gtk_entry_set_text(GTK_ENTRY(text), g_list_nth_data(items, i));
   }
 
@@ -1264,15 +1264,16 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
 **************************************************************************/
 static void races_leader_callback(void)
 {
+  const struct nation_leader *pleader;
   const gchar *name;
 
   name = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
 
-  if (check_nation_leader_name(nation_by_number(selected_nation), name)) {
-    selected_sex = get_nation_leader_sex(nation_by_number(selected_nation),
-					 name);
+  if ((pleader = nation_leader_by_name(nation_by_number(selected_nation),
+                                       name))) {
+    selected_sex = nation_leader_is_male(pleader);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[selected_sex]),
-				 TRUE);
+                                 TRUE);
   }
 }
 

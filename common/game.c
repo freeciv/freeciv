@@ -476,6 +476,7 @@ void game_reset(void)
 ***************************************************************/
 void game_ruleset_init(void)
 {
+  nation_groups_init();
   ruleset_cache_init();
   terrains_init();
   base_types_init();

@@ -833,7 +833,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
     return FALSE;
   }
   handle_unit_build_city(pplayer, punit->id,
-			 city_name_suggestion(pplayer, ptile));
+                         city_name_suggestion(pplayer, ptile));
   pcity = tile_city(ptile);
   if (!pcity) {
     log_error("%s: Failed to build city at (%d, %d)",

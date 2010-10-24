@@ -147,7 +147,7 @@ Nation_Type *api_find_nation_type(int nation_type_id)
 Nation_Type *api_find_nation_type_by_name(const char *name_orig)
 {
   SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
-  return find_nation_by_rule_name(name_orig);
+  return nation_by_rule_name(name_orig);
 }
 
 /**************************************************************************

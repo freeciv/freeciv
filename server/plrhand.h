@@ -26,7 +26,7 @@ void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
 
-struct nation_type *pick_a_nation(struct nation_type **choices,
+struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
                                   bool only_available,
                                   enum barbarian_type barb_type);

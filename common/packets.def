@@ -1220,14 +1220,10 @@ PACKET_RULESET_NATION = 148; sc, lsend
   STRING legend[MAX_LEN_MSG];
 
   UINT8 city_style;
-  TECH_LIST init_techs[MAX_NUM_TECH_LIST];
-  UNIT_TYPE init_units[MAX_NUM_UNIT_LIST];
-  IMPROVEMENT init_buildings[MAX_NUM_BUILDING_LIST];
-  GOVERNMENT init_government;
 
   UINT8 leader_count;
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
-  BOOL leader_sex[MAX_NUM_LEADERS:leader_count];
+  BOOL leader_is_male[MAX_NUM_LEADERS:leader_count];
 
   BOOL is_available, is_playable;
   UINT8 barbarian_type;

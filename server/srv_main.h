@@ -99,8 +99,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
 void save_game(const char *orig_filename, const char *save_reason,
                bool scenario);
-void pick_random_player_name(const struct nation_type *pnation,
-			     char *newname);
+const char *pick_random_player_name(const struct nation_type *pnation);
 void send_all_info(struct conn_list *dest);
 
 void identity_number_release(int id);

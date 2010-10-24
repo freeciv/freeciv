@@ -1370,14 +1370,14 @@ struct player *shuffled_player(int i)
 }
 
 /****************************************************************************
-  This function return one of the nations available from the
-  NO_NATION_SELECTED-terminated choices list. If no available nations in this
-  file were found, return a random nation.
+  This function return one of the nations available from the choices list.
+  If no available nations in this file were found, return a random nation.
 
   choices may be NULL; if so it's ignored.
-  If only_available is set choose only nations that have is_available bit set.
+  If only_available is set choose only nations that have is_available bit
+  set.
 ****************************************************************************/
-struct nation_type *pick_a_nation(struct nation_type **choices,
+struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
                                   bool only_available,
                                   enum barbarian_type barb_type)
@@ -1385,13 +1385,13 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
   enum {
     UNAVAILABLE, AVAILABLE, PREFERRED, UNWANTED
   } nations_used[nation_count()], looking_for;
-  int match[nation_count()], pick;
+  int match[nation_count()], pick, index;
   int num_nations_avail = 0, pref_nations_avail = 0;
 
   /* Values of nations_used: 
    * 0: not available - nation is already used or is a special nation
    * 1: available - we can use this nation
-   * 2: preferred - we can use this nation and it is on the choices list 
+   * 2: preferred - we can use this nation and it is on the choices list
    * 3: unwanted - we can used this nation, but we really don't want to
    */
   nations_iterate(pnation) {
@@ -1400,42 +1400,49 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
         || (barb_type != nation_barbarian_type(pnation))
         || (barb_type == NOT_A_BARBARIAN && !is_nation_playable(pnation))) {
       /* Nation is unplayable or already used: don't consider it. */
-      nations_used[nation_index(pnation)] = UNAVAILABLE;
-      match[nation_index(pnation)] = 0;
+      index = nation_index(pnation);
+      nations_used[index] = UNAVAILABLE;
+      match[index] = 0;
       continue;
     }
 
-    nations_used[nation_index(pnation)] = AVAILABLE;
+    index = nation_index(pnation);
+    nations_used[index] = AVAILABLE;
 
-    match[nation_index(pnation)] = 1;
+    match[index] = 1;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED) {
-        int x = nations_match(pnation, nation_of_player(pplayer), ignore_conflicts);
-	if (x < 0) {
-	  nations_used[nation_index(pnation)] = UNWANTED;
-	  match[nation_index(pnation)] = 1;
-	  break;
-	} else {
-	  match[nation_index(pnation)] += x * 100;
-	}
+        int x = nations_match(pnation, nation_of_player(pplayer),
+                              ignore_conflicts);
+        if (x < 0) {
+          nations_used[index] = UNWANTED;
+          match[index] = 1;
+          break;
+        } else {
+          match[index] += x * 100;
+        }
       }
     } players_iterate_end;
 
-    num_nations_avail += match[nation_index(pnation)];
+    num_nations_avail += match[index];
   } nations_iterate_end;
 
   /* Mark as prefered those nations which are on the choices list and
    * which are AVAILABLE, but no UNWANTED */
-  for (; choices && *choices != NO_NATION_SELECTED; choices++) {
-    if (nations_used[nation_index(*choices)] == AVAILABLE) {
-      pref_nations_avail += match[nation_index(*choices)];
-      nations_used[nation_index(*choices)] = PREFERRED;
-    }
+  if (NULL != choices) {
+    nation_list_iterate(choices, pnation) {
+      index = nation_index(pnation);
+      if (nations_used[index] == AVAILABLE) {
+        pref_nations_avail += match[index];
+        nations_used[index] = PREFERRED;
+      }
+    } nation_list_iterate_end;
   }
-  
+
   nations_iterate(pnation) {
-    if (nations_used[nation_index(pnation)] == UNWANTED) {
-      nations_used[nation_index(pnation)] = AVAILABLE;
+    index = nation_index(pnation);
+    if (nations_used[index] == UNWANTED) {
+      nations_used[index] = AVAILABLE;
     }
   } nations_iterate_end;
 
@@ -1451,11 +1458,12 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
   }
 
   nations_iterate(pnation) {
-    if (nations_used[nation_index(pnation)] == looking_for) {
-      pick -= match[nation_index(pnation)];
+    index = nation_index(pnation);
+    if (nations_used[index] == looking_for) {
+      pick -= match[index];
 
-      if (pick < 0) {
-	return pnation;
+      if (0 > pick) {
+        return pnation;
       }
     }
   } nations_iterate_end;
@@ -1490,7 +1498,6 @@ static struct player *split_player(struct player *pplayer)
 {
   struct player_research *new_research, *old_research;
   struct player *cplayer;
-  struct nation_type **civilwar_nations;
 
   /* make a new player, or not */
   cplayer = server_create_player(-1);
@@ -1500,16 +1507,16 @@ static struct player *split_player(struct player *pplayer)
 
   server_player_init(cplayer, TRUE, TRUE);
 
-  /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
-  civilwar_nations = get_nation_civilwar(nation_of_player(pplayer));
-  player_set_nation(cplayer, pick_a_nation(civilwar_nations, TRUE, FALSE,
-                                           NOT_A_BARBARIAN));
-  pick_random_player_name(nation_of_player(cplayer), cplayer->name);
+  player_set_nation(cplayer, pick_a_nation
+      (nation_of_player(pplayer)->server.civilwar_nations,
+       TRUE, FALSE, NOT_A_BARBARIAN));
+  sz_strlcpy(cplayer->name,
+             pick_random_player_name(nation_of_player(cplayer)));
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
-  cplayer->government = nation_of_player(cplayer)->init_government;
+  cplayer->government = nation_of_player(cplayer)->server.init_government;
   fc_assert(cplayer->revolution_finishes < 0);
   cplayer->server.capital = TRUE;
 

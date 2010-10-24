@@ -100,9 +100,10 @@ static void load_government_names(struct section_file *file);
 static void load_terrain_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
-static struct nation_city* load_city_name_list(struct section_file *file,
-					     const char *secfile_str1,
-					     const char *secfile_str2);
+static void load_city_name_list(struct section_file *file,
+                                struct nation_type *pnation,
+                                const char *secfile_str1,
+                                const char *secfile_str2);
 
 static void load_ruleset_techs(struct section_file *file);
 static void load_ruleset_units(struct section_file *file);
@@ -2322,41 +2323,47 @@ static void send_ruleset_control(struct conn_list *dest)
   lsend_packet_ruleset_control(dest, &packet);
 }
 
-/**************************************************************************
-This checks if nations[pos] leader names are not already defined in any 
-previous nation, or twice in its own leader name table.
-If not return NULL, if yes return pointer to name which is repeated
-and id of a conflicting nation as second parameter.
-**************************************************************************/
-static char *check_leader_names(Nation_type_id nation,
-             Nation_type_id *conflict_nation)
+/****************************************************************************
+  This checks if nations[pos] leader names are not already defined in any
+  previous nation, or twice in its own leader name table.
+  If not return NULL, if yes return pointer to name which is repeated
+  and id of a conflicting nation as second parameter.
+****************************************************************************/
+static const char *check_leader_names(struct nation_type *pnation,
+                                      struct nation_type **ppconflict_nation)
 {
-  int k;
-  struct nation_type *pnation = nation_by_number(nation);
+  nation_leader_list_iterate(nation_leaders(pnation), pleader) {
+    const char *name = nation_leader_name(pleader);
 
-  for (k = 0; k < pnation->leader_count; k++) {
-    char *leader = pnation->leaders[k].name;
-    int i;
-    Nation_type_id nation2;
-
-    for (i = 0; i < k; i++) {
-      if (0 == strcmp(leader, pnation->leaders[i].name)) {
-        *conflict_nation = nation;
-	return leader;
+    nation_leader_list_iterate(nation_leaders(pnation), prev_leader) {
+      if (prev_leader == pleader) {
+        break;
+      } else if (0 == fc_strcasecmp(name, nation_leader_name(prev_leader))) {
+        *ppconflict_nation = pnation;
+        return name;
       }
+    } nation_leader_list_iterate_end;
+  } nation_leader_list_iterate_end;
+
+  nations_iterate(prev_nation) {
+    if (prev_nation == pnation) {
+      break;
     }
 
-    for (nation2 = 0; nation2 < nation; nation2++) {
-      struct nation_type *pnation2 = nation_by_number(nation2);
+    nation_leader_list_iterate(nation_leaders(prev_nation), pleader) {
+      const char *name = nation_leader_name(pleader);
 
-      for (i = 0; i < pnation2->leader_count; i++) {
-	if (0 == strcmp(leader, pnation2->leaders[i].name)) {
-	  *conflict_nation = nation2;
-	  return leader;
-	}
-      }
-    }
-  }
+      nation_leader_list_iterate(nation_leaders(prev_nation), prev_leader) {
+        if (prev_leader == pleader) {
+          break;
+        } else if (0 == fc_strcasecmp(name,
+                                      nation_leader_name(prev_leader))) {
+          *ppconflict_nation = prev_nation;
+          return name;
+        }
+      } nation_leader_list_iterate_end;
+    } nation_leader_list_iterate_end;
+  } nations_iterate_end;
   return NULL;
 }
 
@@ -2404,149 +2411,125 @@ static void load_nation_names(struct section_file *file)
   section_list_destroy(sec);
 }
 
-/**************************************************************************
+/****************************************************************************
   This function loads a city name list from a section file.  The file and
   two section names (which will be concatenated) are passed in.  The
   malloc'ed city name list (which is all filled out) will be returned.
-**************************************************************************/
-static struct nation_city *load_city_name_list(struct section_file *file,
-                                               const char *secfile_str1,
-                                               const char *secfile_str2)
+****************************************************************************/
+static void load_city_name_list(struct section_file *file,
+                                struct nation_type *pnation,
+                                const char *secfile_str1,
+                                const char *secfile_str2)
 {
   size_t dim, j;
-  struct nation_city *city_names;
-  int value;
-
-  /* First we read the strings from the section file (above). */
   const char **cities = secfile_lookup_str_vec(file, &dim, "%s.%s",
                                                secfile_str1, secfile_str2);
 
-  /*
-   * Now we allocate enough room in the city_names array to store
-   * all the name data.  The array is NULL-terminated by
-   * having a NULL name at the end.
-   */
-  city_names = fc_calloc(dim + 1, sizeof(*city_names));
-  city_names[dim].name = NULL;
+  /* Each string will be of the form "<cityname> (<label>, <label>, ...)".
+   * The cityname is just the name for this city, while each "label" matches
+   * a terrain type for the city (or "river"), with a preceeding ! to negate
+   * it. The parentheses are optional (but necessary to have the settings,
+   * of course). Our job is now to parse it. */
+  for (j = 0; j < dim; j++) {
+    size_t len = strlen(cities[j]);
+    char city_name[len + 1], *p, *next, *end;
+    struct nation_city *pncity;
 
-  /*
-   * Each string will be of the form
-   * "<cityname> (<label>, <label>, ...)".  The cityname is just the
-   * name for this city, while each "label" matches a terrain type
-   * for the city (or "river"), with a preceeding ! to negate it.
-   * The parentheses are optional (but necessary to have the
-   * settings, of course).  Our job is now to parse this into the
-   * nation_city structure.
-   */
-  for (j = 0, value = 1; j < dim; j++, value++) {
-    char *name = strchr(cities[j], '(');
+    sz_strlcpy(city_name, cities[j]);
 
-    /*
-     * Now we wish to determine values for all of the city labels.
-     * A value of 0 means no preference (which is necessary so that
-     * the use of this is optional); -1 means the label is negated
-     * and 1 means it's labelled.  Mostly the parsing just involves
-     * a lot of ugly string handling...
-     */
-    memset(city_names[j].terrain, 0,
-	   terrain_count() * sizeof(city_names[j].terrain[0]));
-    city_names[j].river = 0;
+    /* Now we wish to determine values for all of the city labels. A value
+     * of NCP_NONE means no preference (which is necessary so that the use
+     * of this is optional); NCP_DISLIKE means the label is negated and
+     * NCP_LIKE means it's labelled. Mostly the parsing just involves
+     * a lot of ugly string handling... */
+    if ((p = strchr(city_name, '('))) {
+      *p++ = '\0';
 
-    if (name) {
-      /*
-       * 0-terminate the original string, then find the
-       * close-parenthesis so that we can make sure we stop there.
-       */
-      char *next = strchr(name + 1, ')');
-      if (!next) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" [%s] %s: city name \"%s\" unmatched parenthesis.",
-                      secfile_name(file), secfile_str1,
-                      secfile_str2, cities[j]);
-      } else { /* if (!next) */
-        name[0] = next[0] = '\0';
-        name++;
+      if (!(end = strchr(p, ')'))) {
+        ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
+                      "unmatched parenthesis.", secfile_name(file),
+                      secfile_str1, secfile_str2, cities[j]);
+      }
 
-        /* Handle the labels one at a time. */
-        do {
-	  int setting;
+      for (*end++ = '\0'; '\0' != *end; end++) {
+        if (!fc_isspace(*end)) {
+          ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
+                        "contains characthers after last parenthesis, "
+                        "ignoring...", secfile_name(file), secfile_str1,
+                        secfile_str2, cities[j]);
+        }
+      }
+    }
 
-	  next = strchr(name, ',');
-	  if (next) {
-	    next[0] = '\0';
-	  }
-	  remove_leading_trailing_spaces(name);
-	
-	  /*
-	   * The ! is used to mark a negative, which is recorded
-	   * with a -1.  Otherwise we use a 1.
-	   */
-	  if (name[0] == '!') {
-	    name++;
-	    setting = -1;
-	  } else {
-	    setting = 1;
-	  }
+    /* Build the nation_city. */
+    remove_leading_trailing_spaces(city_name);
+    if (check_name(city_name)) {
+      /* The ruleset contains a name that is too long. This shouldn't
+       * happen - if it does, the author should get immediate feedback. */
+      ruleset_error(LOG_ERROR, "\"%s\" [%s] %s: city name \"%s\" "
+                    "is too long; shortening it.", secfile_name(file),
+                    secfile_str1, secfile_str2, city_name);
+      city_name[MAX_LEN_NAME - 1] = '\0';
+    }
+    pncity = nation_city_new(pnation, city_name);
 
-          if (fc_strcasecmp(name, "river") == 0) {
-            city_names[j].river = setting;
-          } else {
-            /* "handled" tracks whether we find a match
-             * (for error handling) */
-            bool handled = FALSE;
-            int l = strlen(name);
+    if (NULL != p) {
+      /* Handle the labels one at a time. */
+      do {
+        enum nation_city_preference prefer;
 
-            if (l > 0  && 's' == fc_tolower(name[l-1])) {
-              /* remove frequent trailing 's' */
-              name[--l] = '\0';
+        if ((next = strchr(p, ','))) {
+          *next = '\0';
+        }
+        remove_leading_trailing_spaces(p);
+
+        /* The ! is used to mark a negative, which is recorded with
+         * NCP_DISLIKE. Otherwise we use a NCP_LIKE.
+         */
+        if (*p == '!') {
+          p++;
+          prefer = NCP_DISLIKE;
+        } else {
+          prefer = NCP_LIKE;
+        }
+
+        if (0 == fc_strcasecmp(p, "river")) {
+          nation_city_set_river_preference(pncity, prefer);
+        } else {
+          const struct terrain *pterrain = find_terrain_by_rule_name(p);
+
+          if (NULL == pterrain) {
+            /* Try with removing frequent trailing 's'. */
+            size_t l = strlen(p);
+
+            if (0 < l && 's' == fc_tolower(p[l - 1])) {
+              p[l - 1] = '\0';
             }
+            pterrain = find_terrain_by_rule_name(p);
+          }
 
-            terrain_type_iterate(pterrain) {
-              const int i = terrain_index(pterrain);
-              const char *isection = &terrain_sections[i * MAX_SECTION_LABEL];
-              /*
-               * Note that the section name is unique (by definition).
-               * The sub-strings are carefully crafted for this function.
-               */
-              if (NULL != fc_strcasestr(isection, name)) {
-                city_names[j].terrain[i] = setting;
-                handled = TRUE;
-                break;
-              }
-            } terrain_type_iterate_end;
-            if (!handled) {
-             /* Nation authors may use terrains like "lake" that are
-              * available in the default ruleset but not in civ1/civ2.
-              * In normal use we should just ignore hints for unknown
-              * terrains, but nation authors may want to know about this
-              * to spot typos etc. */
+          if (NULL != pterrain) {
+            nation_city_set_terrain_preference(pncity, pterrain, prefer);
+          } else {
+            /* Nation authors may use terrains like "lake" that are
+             * available in the default ruleset but not in civ1/civ2.
+             * In normal use we should just ignore hints for unknown
+             * terrains, but nation authors may want to know about this
+             * to spot typos etc. */
              log_verbose("\"%s\" [%s] %s: terrain \"%s\" not found;"
                          " skipping it.",
-                         secfile_name(file), secfile_str1, secfile_str2, name);
-	    }
-	  }
-	  name = next ? next + 1 : NULL;
-        } while (name && name[0] != '\0');
-      } /* if (!next) */
-    } /* if (name) */
-    /* FIXME: Remove the cast-HACK. */
-    remove_leading_trailing_spaces((char *) cities[j]);
-    city_names[j].name = fc_strdup(cities[j]);
-    if (check_name(city_names[j].name)) {
-      /* The ruleset contains a name that is too long.  This shouldn't
-	 happen - if it does, the author should get immediate feedback */
-      ruleset_error(LOG_ERROR, 
-                    "\"%s\" [%s] %s: city name \"%s\" is too long;"
-                    " shortening it.",
-                    secfile_name(file), secfile_str1,
-                    secfile_str2, city_names[j].name);
-      city_names[j].name[MAX_LEN_NAME - 1] = '\0';
+                         secfile_name(file), secfile_str1, secfile_str2, p);
+          }
+        }
+
+        p = next ? next + 1 : NULL;
+      } while (NULL != p && '\0' != *p);
     }
   }
-  if (cities) {
+
+  if (NULL != cities) {
     free(cities);
   }
-  return city_names;
 }
 
 /**************************************************************************
@@ -2554,13 +2537,12 @@ Load nations.ruleset file
 **************************************************************************/
 static void load_ruleset_nations(struct section_file *file)
 {
-  const char *bad_leader, *govern;
   struct government *gov;
-  int i2, j, k;
+  int j;
   size_t dim;
   char temp_name[MAX_LEN_NAME];
-  const char **groups, **leaders, **civilwar_nations, **conflicts;
-  const char *name;
+  const char **vec;
+  const char *name, *bad_leader;
   int barb_land_count = 0;
   int barb_sea_count = 0;
   const char *filename = secfile_name(file);
@@ -2573,179 +2555,182 @@ static void load_ruleset_nations(struct section_file *file)
     struct nation_group *pgroup;
 
     name = secfile_lookup_str(file, "%s.name", section_name(psection));
-    pgroup = add_new_nation_group(name);
-    if (!secfile_lookup_int(file, &pgroup->match,
-                            "%s.match", section_name(psection))) {
+    if (NULL == name) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
+    pgroup = nation_group_new(name);
+    if (!secfile_lookup_int(file, &j, "%s.match", section_name(psection))) {
+      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+    }
+    nation_group_set_match(pgroup, j);
   } section_list_iterate_end;
   section_list_destroy(sec);
 
   sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
-
-  nations_iterate(pl) {
-    const int i = nation_index(pl);
+  nations_iterate(pnation) {
+    struct nation_type *pconflict;
+    const int i = nation_index(pnation);
     char tmp[200] = "\0";
     const char *barb_type;
     const char *sec_name = section_name(section_list_get(sec, i));
 
-    groups = secfile_lookup_str_vec(file, &dim, "%s.groups", sec_name);
-    pl->num_groups = dim;
-    pl->groups = fc_calloc(dim + 1, sizeof(*(pl->groups)));
-
+    /* Nation groups. */
+    vec = secfile_lookup_str_vec(file, &dim, "%s.groups", sec_name);
     for (j = 0; j < dim; j++) {
-      pl->groups[j] = find_nation_group_by_rule_name(groups[j]);
-      if (!pl->groups[j]) {
-        log_error("Nation %s: Unknown group \"%s\".",
-                  nation_rule_name(pl), groups[j]);
-      }
-    }
-    pl->groups[dim] = NULL; /* extra at end of list */
-    free(groups);
-    
-    conflicts = 
-      secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec_name);
-    pl->conflicts_with = fc_calloc(dim + 1, sizeof(*(pl->conflicts_with)));
+      struct nation_group *pgroup = nation_group_by_rule_name(vec[j]);
 
-    for (j = 0, k = 0; k < dim; j++, k++) {
-      pl->conflicts_with[j] = find_nation_by_rule_name(conflicts[k]);
-
-      if (pl->conflicts_with[j] == NO_NATION_SELECTED) {
-       /* For nation authors, this would probably be considered an error.
-        * But it can happen normally.  The civ1 compatibility ruleset only
-        * uses the nations that were in civ1, so not all of the links will
-        * exist. */
-       j--;
-       log_verbose("Nation %s: conflicts_with nation \"%s\" is unknown.",
-                   nation_rule_name(pl), conflicts[k]);
-      }
-    }
-    pl->conflicts_with[j] = NO_NATION_SELECTED; /* extra at end of list */
-    free(conflicts);
-
-    /* nation leaders */
-
-    leaders = secfile_lookup_str_vec(file, &dim, "%s.leader", sec_name);
-    if (dim > MAX_NUM_LEADERS) {
-      log_error("Nation %s: Too many leaders; using %d of %d",
-                nation_rule_name(pl), MAX_NUM_LEADERS, (int) dim);
-      dim = MAX_NUM_LEADERS;
-    } else if (dim < 1) {
-      ruleset_error(LOG_FATAL,
-                    "Nation %s: number of leaders is %d; at least one is required.",
-                    nation_rule_name(pl), (int) dim);
-    }
-    pl->leader_count = dim;
-    pl->leaders = fc_calloc(dim /*exact*/, sizeof(*(pl->leaders)));
-
-    for(j = 0; j < dim; j++) {
-      pl->leaders[j].name = fc_strdup(leaders[j]);
-      if (check_name(leaders[j])) {
-        /* The ruleset contains a name that is too long.  This shouldn't
-           happen - if it does, the author should get immediate feedback */
-        ruleset_error(LOG_ERROR,
-                      "Nation %s: leader name \"%s\" is too long;"
-                      " shortening it.", nation_rule_name(pl), leaders[j]);
-	pl->leaders[j].name[MAX_LEN_NAME - 1] = '\0';
-      }
-    }
-    free(leaders);
-
-    /* check if leader name is not already defined */
-    if ((bad_leader = check_leader_names(i, &i2))) {
-        if (i == i2) {
-          ruleset_error(LOG_FATAL,
-                        "Nation %s: leader \"%s\" defined more than once.",
-                        nation_rule_name(pl),
-                        bad_leader);
-        } else {
-          ruleset_error(LOG_FATAL,
-                        "Nations %s and %s share the same leader \"%s\".",
-                        nation_rule_name(pl),
-                        nation_rule_name(nation_by_number(i2)),
-                        bad_leader);
-        }
-    }
-    /* read leaders'sexes */
-    leaders = secfile_lookup_str_vec(file, &dim, "%s.leader_sex", sec_name);
-    if (dim != pl->leader_count) {
-      ruleset_error(LOG_FATAL,
-                    "Nation %s: the leader sex count (%d) "
-                    "is not equal to the number of leaders (%d)",
-                    nation_rule_name(pl), (int) dim, pl->leader_count);
-    }
-    for (j = 0; j < dim; j++) {
-      if (0 == fc_strcasecmp(leaders[j], "Male")) {
-        pl->leaders[j].is_male = TRUE;
-      } else if (0 == fc_strcasecmp(leaders[j], "Female")) {
-        pl->leaders[j].is_male = FALSE;
+      if (NULL != pgroup) {
+        nation_group_list_append(pnation->groups, pgroup);
       } else {
-        log_error("Nation %s, leader %s: sex must be either Male or Female; "
-                  "assuming Male",
-                  nation_rule_name(pl), pl->leaders[j].name);
-	pl->leaders[j].is_male = TRUE;
+        /* For nation authors, this would probably be considered an error.
+         * But it can happen normally. The civ1 compatibility ruleset only
+         * uses the nations that were in civ1, so not all of the links will
+         * exist. */
+        log_verbose("Nation %s: Unknown group \"%s\".",
+                    nation_rule_name(pnation), vec[j]);
       }
     }
-    free(leaders);
-    
-    pl->is_available = secfile_lookup_bool_default(file, TRUE,
-                                                   "%s.is_available",
-                                                   sec_name);
+    if (NULL != vec) {
+      free(vec);
+    }
 
-    pl->is_playable = secfile_lookup_bool_default(file, TRUE,
-                                                  "%s.is_playable",
-                                                  sec_name);
-    if (pl->is_playable) {
+    /* Nation conflicts. */
+    vec = secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec_name);
+    for (j = 0; j < dim; j++) {
+      pconflict = nation_by_rule_name(vec[j]);
+
+      if (NULL != pconflict) {
+        nation_list_append(pnation->server.conflicts_with, pconflict);
+      } else {
+        /* For nation authors, this would probably be considered an error.
+         * But it can happen normally. The civ1 compatibility ruleset only
+         * uses the nations that were in civ1, so not all of the links will
+         * exist. */
+        log_verbose("Nation %s: conflicts_with nation \"%s\" is unknown.",
+                    nation_rule_name(pnation), vec[j]);
+      }
+    }
+    if (NULL != vec) {
+      free(vec);
+    }
+
+    /* Nation leaders. */
+    for (j = 0; j < MAX_NUM_LEADERS; j++) {
+      const char *sex;
+      bool is_male = FALSE;
+
+      name = secfile_lookup_str(file, "%s.leaders%d.name", sec_name, j);
+      if (NULL == name) {
+        /* No more to read. */
+        break;
+      }
+
+      if (check_name(name)) {
+        /* The ruleset contains a name that is too long. This shouldn't
+         * happen - if it does, the author should get immediate feedback */
+        sz_strlcpy(temp_name, name);
+        ruleset_error(LOG_ERROR, "Nation %s: leader name \"%s\" "
+                      "is too long; shortening it to \"%s\".",
+                      nation_rule_name(pnation), name, temp_name);
+        name = temp_name;
+      }
+
+      sex = secfile_lookup_str(file, "%s.leaders%d.sex", sec_name, j);
+      if (NULL == sex) {
+        ruleset_error(LOG_FATAL, "Nation %s: leader \"%s\": %s.",
+                      nation_rule_name(pnation), name, secfile_error());
+      } else if (0 == fc_strcasecmp("Male", sex)) {
+        is_male = TRUE;
+      } else if (0 != fc_strcasecmp("Female", sex)) {
+        ruleset_error(LOG_FATAL, "Nation %s: leader \"%s\" has unsupported "
+                      "sex variant \"%s\".",
+                      nation_rule_name(pnation), name, sex);
+      }
+      (void) nation_leader_new(pnation, name, is_male);
+    }
+
+    /* Check the number of leaders. */
+    if (MAX_NUM_LEADERS == j) {
+      /* Too much leaders, get the real number defined in the ruleset. */
+      while (NULL != secfile_entry_lookup(file, "%s.leaders%d.name",
+                                          sec_name, j)) {
+        j++;
+      }
+      log_error("Nation %s: Too many leaders; using %d of %d",
+                nation_rule_name(pnation), MAX_NUM_LEADERS, j);
+    } else if (0 == j) {
+      ruleset_error(LOG_FATAL,
+                    "Nation %s: no leaders; at least one is required.",
+                    nation_rule_name(pnation));
+    }
+
+    /* Check if leader name is not already defined */
+    if ((bad_leader = check_leader_names(pnation, &pconflict))) {
+      if (pnation == pconflict) {
+        ruleset_error(LOG_FATAL,
+                      "Nation %s: leader \"%s\" defined more than once.",
+                      nation_rule_name(pnation), bad_leader);
+      } else {
+        ruleset_error(LOG_FATAL,
+                      "Nations %s and %s share the same leader \"%s\".",
+                      nation_rule_name(pnation), nation_rule_name(pconflict),
+                      bad_leader);
+      }
+    }
+
+    pnation->is_available =
+        secfile_lookup_bool_default(file, TRUE, "%s.is_available", sec_name);
+    pnation->is_playable =
+        secfile_lookup_bool_default(file, TRUE, "%s.is_playable", sec_name);
+
+    if (pnation->is_playable) {
       server.playable_nations++;
     }
 
-    /* Check barbarian type. Default is "None" meaning not a barbarian */    
+    /* Check barbarian type. Default is "None" meaning not a barbarian */
     barb_type = secfile_lookup_str_default(file, "None",
                                            "%s.barbarian_type", sec_name);
     if (fc_strcasecmp(barb_type, "None") == 0) {
-      pl->barb_type = NOT_A_BARBARIAN;
+      pnation->barb_type = NOT_A_BARBARIAN;
     } else if (fc_strcasecmp(barb_type, "Land") == 0) {
-      if (pl->is_playable) {
+      if (pnation->is_playable) {
         /* We can't allow players to use barbarian nations, barbarians
          * may run out of nations */
         ruleset_error(LOG_FATAL,
                       "Nation %s marked both barbarian and playable.",
-                      nation_rule_name(pl));
+                      nation_rule_name(pnation));
       }
-      pl->barb_type = LAND_BARBARIAN;
+      pnation->barb_type = LAND_BARBARIAN;
       barb_land_count++;
     } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
-      if (pl->is_playable) {
+      if (pnation->is_playable) {
         /* We can't allow players to use barbarian nations, barbarians
          * may run out of nations */
         ruleset_error(LOG_FATAL,
                       "Nation %s marked both barbarian and playable.",
-                      nation_rule_name(pl));
+                      nation_rule_name(pnation));
       }
-      pl->barb_type = SEA_BARBARIAN;
+      pnation->barb_type = SEA_BARBARIAN;
       barb_sea_count++;
     } else {
       ruleset_error(LOG_FATAL,
                     "Nation %s, barbarian_type is \"%s\". Must be "
                     "\"None\" or \"Land\" or \"Sea\".",
-                    nation_rule_name(pl),
-                    barb_type);
+                    nation_rule_name(pnation), barb_type);
     }
 
     /* Flags */
-
-    sz_strlcpy(pl->flag_graphic_str,
+    sz_strlcpy(pnation->flag_graphic_str,
                secfile_lookup_str_default(file, "-", "%s.flag", sec_name));
-    sz_strlcpy(pl->flag_graphic_alt,
+    sz_strlcpy(pnation->flag_graphic_alt,
                secfile_lookup_str_default(file, "-",
                                           "%s.flag_alt", sec_name));
 
     /* Ruler titles */
-    
     j = -1;
-    while ((govern = secfile_lookup_str_default(file, NULL,
-                                                "%s.ruler_titles%d.government",
-                                                sec_name, ++j))) {
+    while ((name = secfile_lookup_str_default(file, NULL,
+                                              "%s.ruler_titles%d.government",
+                                              sec_name, ++j))) {
       const char *male_name;
       const char *female_name;
       
@@ -2754,124 +2739,99 @@ static void load_ruleset_nations(struct section_file *file)
       female_name = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
                                        sec_name, j);
 
-      gov = find_government_by_rule_name(govern);
-      if (gov) {
-	struct ruler_title *title;
+      gov = find_government_by_rule_name(name);
+      if (NULL != gov) {
+        struct ruler_title *title;
 
-	gov->num_ruler_titles++;
-	gov->ruler_titles
-	  = fc_realloc(gov->ruler_titles,
-		       gov->num_ruler_titles * sizeof(*gov->ruler_titles));
-	title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
-
-	title->nation = pl;
+        gov->num_ruler_titles++;
+        gov->ruler_titles
+          = fc_realloc(gov->ruler_titles,
+                       gov->num_ruler_titles * sizeof(*gov->ruler_titles));
+        title = gov->ruler_titles + gov->num_ruler_titles - 1;
+        title->nation = pnation;
 
         name_set(&title->male, male_name);
-
         name_set(&title->female, female_name);
       } else {
         /* log_verbose() rather than log_error() so that can use single
          * nation ruleset file with variety of government ruleset files: */
         log_verbose("Nation %s: government \"%s\" not found.",
-                    nation_rule_name(pl), govern);
+                    nation_rule_name(pnation), name);
       }
     }
 
     /* City styles */
-
-    sz_strlcpy(temp_name,
-               secfile_lookup_str(file, "%s.city_style", sec_name));
-    pl->city_style = find_city_style_by_rule_name(temp_name);
-    if (pl->city_style < 0) {
+    name = secfile_lookup_str(file, "%s.city_style", sec_name);
+    pnation->city_style = find_city_style_by_rule_name(name);
+    if (0 > pnation->city_style) {
       log_error("Nation %s: city style \"%s\" is unknown, using default.",
-                nation_rule_name(pl), temp_name);
-      pl->city_style = 0;
+                nation_rule_name(pnation), name);
+      pnation->city_style = 0;
     }
 
-    while (city_style_has_requirements(&city_styles[pl->city_style])) {
-      if (pl->city_style == 0) {
-	ruleset_error(LOG_FATAL,
+    while (city_style_has_requirements(city_styles + pnation->city_style)) {
+      if (pnation->city_style == 0) {
+        ruleset_error(LOG_FATAL,
                       "Nation %s: the default city style is not available "
-                      "from the beginning!",
-                      nation_rule_name(pl));
-	/* Note that we can't use temp_name here. */
+                      "from the beginning!", nation_rule_name(pnation));
+        /* Note that we can't use temp_name here. */
       }
       log_error("Nation %s: city style \"%s\" is not available "
                 "from beginning; using default.",
-                nation_rule_name(pl), temp_name);
-      pl->city_style = 0;
+                nation_rule_name(pnation), name);
+      pnation->city_style = 0;
     }
 
     /* Civilwar nations */
-
-    civilwar_nations = secfile_lookup_str_vec(file, &dim,
-                                              "%s.civilwar_nations",
-                                              sec_name);
-    pl->civilwar_nations = fc_calloc(dim + 1, sizeof(*(pl->civilwar_nations)));
-
-    for (j = 0, k = 0; k < dim; j++, k++) {
-      pl->civilwar_nations[j] = find_nation_by_rule_name(civilwar_nations[k]);
+    vec = secfile_lookup_str_vec(file, &dim,
+                                 "%s.civilwar_nations", sec_name);
+    for (j = 0; j < dim; j++) {
+      pconflict = nation_by_rule_name(vec[j]);
 
       /* No test for duplicate nations is performed.  If there is a duplicate
-       * entry it will just cause that nation to have an increased probability
-       * of being chosen. */
-
-      if (pl->civilwar_nations[j] == NO_NATION_SELECTED) {
-        j--;
+       * entry it will just cause that nation to have an increased
+       * probability of being chosen. */
+      if (NULL != pconflict) {
+        nation_list_append(pnation->server.civilwar_nations, pconflict);
+        nation_list_append(pconflict->server.parent_nations, pnation);
+      } else {
         /* For nation authors, this would probably be considered an error.
          * But it can happen normally. The civ1 compatability ruleset only
          * uses the nations that were in civ1, so not all of the links will
          * exist. */
         log_verbose("Nation %s: civil war nation \"%s\" is unknown.",
-                    nation_rule_name(pl), civilwar_nations[k]);
+                    nation_rule_name(pnation), vec[j]);
       }
     }
-    pl->civilwar_nations[j] = NO_NATION_SELECTED; /* end of list */
-    free(civilwar_nations);
+    if (NULL != vec) {
+      free(vec);
+    }
 
     /* Load nation specific initial items */
-    lookup_tech_list(file, sec_name, "init_techs", pl->init_techs, filename);
+    lookup_tech_list(file, sec_name, "init_techs",
+                       pnation->server.init_techs, filename);
     lookup_building_list(file, sec_name, "init_buildings",
-                         pl->init_buildings, filename);
-    lookup_unit_list(file, sec_name, "init_units", LOG_ERROR, pl->init_units,
-                     filename);
+                         pnation->server.init_buildings, filename);
+    lookup_unit_list(file, sec_name, "init_units", LOG_ERROR,
+                     pnation->server.init_units, filename);
     fc_strlcat(tmp, sec_name, 200);
     fc_strlcat(tmp, ".init_government", 200);
-    pl->init_government = lookup_government(file, tmp, filename);
+    pnation->server.init_government = lookup_government(file, tmp, filename);
 
-    /* read "normal" city names */
+    /* Read default city names. */
+    load_city_name_list(file, pnation, sec_name, "cities");
 
-    pl->city_names = load_city_name_list(file, sec_name, "cities");
-
-    pl->legend = fc_strdup(secfile_lookup_str(file, "%s.legend", sec_name));
-    if (check_strlen(pl->legend, MAX_LEN_MSG, NULL)) {
+    pnation->legend = fc_strdup(secfile_lookup_str(file, "%s.legend",
+                                                   sec_name));
+    if (check_strlen(pnation->legend, MAX_LEN_MSG, NULL)) {
       ruleset_error(LOG_ERROR,
                     "Nation %s: legend \"%s\" is too long;"
-                    " shortening it.", nation_rule_name(pl), pl->legend);
-      pl->legend[MAX_LEN_MSG - 1] = '\0';
+                    " shortening it.", nation_rule_name(pnation),
+                    pnation->legend);
+      pnation->legend[MAX_LEN_MSG - 1] = '\0';
     }
 
-    pl->player = NULL;
-  } nations_iterate_end;
-
-  /* Calculate parent nations.  O(n^2) algorithm. */
-  nations_iterate(pl) {
-    struct nation_type *parents[nation_count()];
-    int count = 0;
-
-    nations_iterate(p2) {
-      for (k = 0; p2->civilwar_nations[k] != NO_NATION_SELECTED; k++) {
-	if (p2->civilwar_nations[k] == pl) {
-	  parents[count] = p2;
-	  count++;
-	}
-      }
-    } nations_iterate_end;
-
-    fc_assert(sizeof(parents[0]) == sizeof(*pl->parent_nations));
-    pl->parent_nations = fc_malloc((count + 1) * sizeof(parents[0]));
-    memcpy(pl->parent_nations, parents, count * sizeof(parents[0]));
-    pl->parent_nations[count] = NO_NATION_SELECTED;
+    pnation->player = NULL;
   } nations_iterate_end;
 
   section_list_destroy(sec);
@@ -3832,15 +3792,11 @@ static void send_ruleset_nations(struct conn_list *dest)
   int i;
 
   groups_packet.ngroups = nation_group_count();
+  i = 0;
   nation_groups_iterate(pgroup) {
-    sz_strlcpy(groups_packet.groups[nation_group_index(pgroup)], pgroup->name);
+    sz_strlcpy(groups_packet.groups[i++], nation_group_rule_name(pgroup));
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
-
-  fc_assert(sizeof(packet.init_techs)
-            == FC_MEMBER_SIZEOF(struct nation_type, init_techs));
-  fc_assert(ARRAY_SIZE(packet.init_techs)
-            == FC_MEMBER_ARRAY_SIZE(struct nation_type, init_techs));
 
   nations_iterate(n) {
     packet.id = nation_number(n);
@@ -3848,29 +3804,27 @@ static void send_ruleset_nations(struct conn_list *dest)
     sz_strlcpy(packet.noun_plural, rule_name(&n->noun_plural));
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
-    packet.leader_count = n->leader_count;
-    for(i=0; i < n->leader_count; i++) {
-      sz_strlcpy(packet.leader_name[i], n->leaders[i].name);
-      packet.leader_sex[i] = n->leaders[i].is_male;
-    }
+
+    i = 0;
+    nation_leader_list_iterate(nation_leaders(n), pleader) {
+      sz_strlcpy(packet.leader_name[i], nation_leader_name(pleader));
+      packet.leader_is_male[i] = nation_leader_is_male(pleader);
+      i++;
+    } nation_leader_list_iterate_end;
+    packet.leader_count = i;
+
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
     packet.is_available = n->is_available;
     packet.barbarian_type = n->barb_type;
-    memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
-    memcpy(packet.init_buildings, n->init_buildings, 
-           sizeof(packet.init_buildings));
-    memcpy(packet.init_units, n->init_units, 
-           sizeof(packet.init_units));
-    packet.init_government = government_number(n->init_government);
 
     sz_strlcpy(packet.legend, n->legend);
 
-     /* client needs only the names */
-     packet.ngroups = n->num_groups;
-     for (i = 0; i < n->num_groups; i++) {
-       packet.groups[i] = nation_group_number(n->groups[i]);
-     }
+    i = 0;
+    nation_group_list_iterate(n->groups, pgroup) {
+      packet.groups[i++] = nation_group_number(pgroup);
+    } nation_group_list_iterate_end;
+    packet.ngroups = i;
 
     lsend_packet_ruleset_nation(dest, &packet);
   } nations_iterate_end;
@@ -4123,9 +4077,9 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 
   /* See if it's given as national init tech */
   for (i = 0;
-       i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
+       i < MAX_NUM_TECH_LIST && pnation->server.init_techs[i] != A_LAST;
        i++) {
-    if (pnation->init_techs[i] == advance_number(tech)) {
+    if (pnation->server.init_techs[i] == advance_number(tech)) {
       return TRUE;
     }
   }
@@ -4348,9 +4302,9 @@ static bool sanity_check_ruleset_data(void)
 
     /* Check national initial techs */
     for (i = 0;
-         i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
+         i < MAX_NUM_TECH_LIST && pnation->server.init_techs[i] != A_LAST;
          i++) {
-      Tech_type_id tech = pnation->init_techs[i];
+      Tech_type_id tech = pnation->server.init_techs[i];
       struct advance *a = valid_advance_by_number(tech);
 
       if (!a) {

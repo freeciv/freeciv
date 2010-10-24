@@ -2522,27 +2522,27 @@ static int change_sex_callback(struct widget *pSex)
 static int next_name_callback(struct widget *pNext)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    int dim;
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct nation_leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
-      
+    const struct nation_leader_list *leaders =
+        nation_leaders(nation_by_number(pSetup->nation));
+    const struct nation_leader *pleader;
+
     pSetup->selected_leader++;
-    
+    pleader = nation_leader_list_get(leaders, pSetup->selected_leader);
+
     /* change leadaer sex */
-    if (pSetup->leader_sex != leaders[pSetup->selected_leader].is_male) {
+    if (pSetup->leader_sex != nation_leader_is_male(pleader)) {
       change_sex_callback(NULL);
     }
-      
+
     /* change leadaer name */
     copy_chars_to_string16(pSetup->pName_Edit->string16,
-                                  leaders[pSetup->selected_leader].name);
+                           nation_leader_name(pleader));
     
     FC_FREE(pLeaderName);
-    pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
-    fc_strlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
-                         strlen(leaders[pSetup->selected_leader].name) + 1);
-    
-    if ((dim - 1) == pSetup->selected_leader) {
+    pLeaderName = fc_strdup(nation_leader_name(pleader));
+
+    if (nation_leader_list_size(leaders) - 1 == pSetup->selected_leader) {
       set_wstate(pSetup->pName_Next, FC_WS_DISABLED);
     }
   
@@ -2577,26 +2577,26 @@ static int next_name_callback(struct widget *pNext)
 static int prev_name_callback(struct widget *pPrev)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    int dim;
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct nation_leader *leaders = get_nation_leaders(nation_by_number(pSetup->nation), &dim);
-      
+    const struct nation_leader_list *leaders =
+        nation_leaders(nation_by_number(pSetup->nation));
+    const struct nation_leader *pleader;
+
     pSetup->selected_leader--;
-  
+    pleader = nation_leader_list_get(leaders, pSetup->selected_leader);
+
     /* change leadaer sex */
-    if (pSetup->leader_sex != leaders[pSetup->selected_leader].is_male) {
+    if (pSetup->leader_sex != nation_leader_is_male(pleader)) {
       change_sex_callback(NULL);
     }
-    
+
     /* change leadaer name */
     copy_chars_to_string16(pSetup->pName_Edit->string16,
-                                  leaders[pSetup->selected_leader].name);
-    
+                           nation_leader_name(pleader));
+
     FC_FREE(pLeaderName);
-    pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
-    fc_strlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
-                         strlen(leaders[pSetup->selected_leader].name) + 1);
-    
+    pLeaderName = fc_strdup(nation_leader_name(pleader));
+
     if (!pSetup->selected_leader) {
       set_wstate(pSetup->pName_Prev, FC_WS_DISABLED);
     }
@@ -2867,22 +2867,21 @@ static void change_nation_label(void)
 **************************************************************************/
 static void select_random_leader(Nation_type_id nation)
 {
-  int dim;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-  struct nation_leader *leaders = get_nation_leaders(nation_by_number(nation), &dim);
-  
-    
-  pSetup->selected_leader = fc_rand(dim);
+  const struct nation_leader_list *leaders =
+      nation_leaders(nation_by_number(pSetup->nation));
+  const struct nation_leader *pleader;
+
+  pSetup->selected_leader = fc_rand(nation_leader_list_size(leaders));
+  pleader = nation_leader_list_get(leaders, pSetup->selected_leader);
   copy_chars_to_string16(pSetup->pName_Edit->string16,
-  				leaders[pSetup->selected_leader].name);
-  
+                         nation_leader_name(pleader));
+
   FC_FREE(pLeaderName);
-  pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
-  fc_strlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
-                       strlen(leaders[pSetup->selected_leader].name) + 1);
-  
+  pLeaderName = fc_strdup(nation_leader_name(pleader));
+
   /* initialize leader sex */
-  pSetup->leader_sex = leaders[pSetup->selected_leader].is_male;
+  pSetup->leader_sex = nation_leader_is_male(pleader);
 
   if (pSetup->leader_sex) {
     copy_chars_to_string16(pSetup->pChange_Sex->string16, _("Male"));
@@ -2894,14 +2893,14 @@ static void select_random_leader(Nation_type_id nation)
   set_wstate(pSetup->pName_Prev, FC_WS_DISABLED);
   set_wstate(pSetup->pName_Next, FC_WS_DISABLED);
 
-  if (dim > 1) {
+  if (1 < nation_leader_list_size(leaders)) {
     /* if selected leader is not the first leader, enable "previous leader" button */
     if (pSetup->selected_leader > 0) {
       set_wstate(pSetup->pName_Prev, FC_WS_NORMAL);
     }
 
     /* if selected leader is not the last leader, enable "next leader" button */
-    if (pSetup->selected_leader < (dim - 1)) {
+    if (pSetup->selected_leader < (nation_leader_list_size(leaders) - 1)) {
       set_wstate(pSetup->pName_Next, FC_WS_NORMAL);
     }
   }

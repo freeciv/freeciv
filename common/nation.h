@@ -13,62 +13,62 @@
 #ifndef FC__NATION_H
 #define FC__NATION_H
 
+/* utility */
+#include "iterator.h"
+
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
 #include "terrain.h"            /* MAX_NUM_TERRAINS */
 
-#define MAX_NUM_TECH_GOALS 10
-
-/* Changing this value will break network compatibility. */
 #define NO_NATION_SELECTED (NULL)
 
+/* Changing this value will break network compatibility. */
 #define NATION_NONE -1
 #define NATION_ANY  -2
 
-/* 
- * Purpose of this constant is to catch invalid ruleset and network
- * data and to allow static allocation of the nation_info packet.
- */
-#define MAX_NUM_LEADERS MAX_NUM_ITEMS
+/* Nation city (server only). */
+struct nation_city;
 
-#define MAX_NUM_NATION_GROUPS 128
-
-/*
- * The nation_city structure holds information about a default choice for
- * the city name.  The "name" field is, of course, just the name for
- * the city.  The "river" and "terrain" fields are entries recording
- * whether the terrain is present near the city - we give higher priority
- * to cities which have matching terrain.  In the case of a river we only
- * care if the city is _on_ the river, for other terrain features we give
- * the bonus if the city is close to the terrain.  Both of these entries
- * may hold a value of 0 (no preference), 1 (city likes the terrain), or -1
- * (city doesn't like the terrain).
- *
- * This is controlled through the nation's ruleset like this:
- *   cities = "Washington (ocean, river, swamp)", "New York (!mountains)"
- */
-typedef int ternary;
-
-struct nation_city {
-  char *name;
-  ternary river;
-  ternary terrain[MAX_NUM_TERRAINS];	
+enum nation_city_preference {
+  NCP_DISLIKE = -1,
+  NCP_NONE = 0,
+  NCP_LIKE = 1
 };
 
-struct nation_leader {
-  char *name;
-  bool is_male;
-};
+#define SPECLIST_TAG nation_city
+#define SPECLIST_TYPE struct nation_city
+#include "speclist.h"
+#define nation_city_list_iterate(citylist, pncity)                          \
+  TYPED_LIST_ITERATE(struct nation_city, citylist, pncity)
+#define nation_city_list_iterate_end LIST_ITERATE_END
 
-struct nation_group {
-  int item_number;
+/* Nation leader. */
+struct nation_leader;
+#define SPECLIST_TAG nation_leader
+#define SPECLIST_TYPE struct nation_leader
+#include "speclist.h"
+#define nation_leader_list_iterate(leaderlist, pleader)                     \
+  TYPED_LIST_ITERATE(struct nation_leader, leaderlist, pleader)
+#define nation_leader_list_iterate_end LIST_ITERATE_END
 
-  char name[MAX_LEN_NAME];
-  
-  /* How much the AI will try to select a nation in the same group */
-  int match;
-};
+/* Nation group. */
+struct nation_group;
+#define SPECLIST_TAG nation_group
+#define SPECLIST_TYPE struct nation_group
+#include "speclist.h"
+#define nation_group_list_iterate(grouplist, pgroup)                        \
+  TYPED_LIST_ITERATE(struct nation_group, grouplist, pgroup)
+#define nation_group_list_iterate_end LIST_ITERATE_END
+
+/* Nation list. */
+struct nation_type;
+#define SPECLIST_TAG nation
+#define SPECLIST_TYPE struct nation_type
+#include "speclist.h"
+#define nation_list_iterate(nationlist, pnation)                            \
+  TYPED_LIST_ITERATE(struct nation_type, nationlist, pnation)
+#define nation_list_iterate_end LIST_ITERATE_END
 
 /* Pointer values are allocated on load then freed in free_nations(). */
 struct nation_type {
@@ -77,40 +77,48 @@ struct nation_type {
   struct name_translation noun_plural;
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
-  int  leader_count;
-  struct nation_leader *leaders;
+  struct nation_leader_list *leaders;
   int city_style;
-  struct nation_city *city_names;	/* The default city names. */
   char *legend;				/* may be empty */
 
   bool is_playable;
   enum barbarian_type barb_type;
 
-  /* civilwar_nations is a NO_NATION_SELECTED-terminated list of index of
-   * the nations that can fork from this one.  parent_nations is the inverse
-   * of this array.  Server only. */
-  struct nation_type **civilwar_nations;
-  struct nation_type **parent_nations;
-
-  /* Items given to this nation at game start.  Server only. */
-  int init_techs[MAX_NUM_TECH_LIST];
-  int init_buildings[MAX_NUM_BUILDING_LIST];
-  struct government *init_government;
-  struct unit_type *init_units[MAX_NUM_UNIT_LIST];
-
-  /* Groups which this nation is assigned to */
-  int num_groups;
-  struct nation_group **groups;
-  
-  /* Nations which we don't want in the same game.
-   * For example, British and English.
-   * Terminated with NO_NATION_SELECTED. */
-  struct nation_type **conflicts_with;
-
   /* Unavailable nations aren't allowed to be chosen in the scenario. */
   bool is_available;
 
+  /* Groups which this nation is assigned to */
+  struct nation_group_list *groups;
+
   struct player *player; /* Who's using the nation, or NULL. */
+
+  union {
+    struct {
+      /* Only used in the server (./ai/ and ./server/). */
+
+      struct nation_city_list *default_cities;
+
+      /* 'civilwar_nations' is a list of the nations that can fork from
+       * this one. 'parent_nations' is the inverse of this list. */
+      struct nation_list *civilwar_nations;
+      struct nation_list *parent_nations;
+
+      /* Nations which we don't want in the same game. For example,
+       * British and English. */
+      struct nation_list *conflicts_with;
+
+      /* Items given to this nation at game start. */
+      int init_techs[MAX_NUM_TECH_LIST];
+      int init_buildings[MAX_NUM_BUILDING_LIST];
+      struct government *init_government;
+      struct unit_type *init_units[MAX_NUM_UNIT_LIST];
+    } server;
+
+    struct {
+      /* Only used at the client. */
+      /* Nothing yet. */
+    } client;
+  };
 };
 
 /* General nation accessor functions. */
@@ -123,8 +131,8 @@ struct nation_type *nation_of_player(const struct player *pplayer);
 struct nation_type *nation_of_city(const struct city *pcity);
 struct nation_type *nation_of_unit(const struct unit *punit);
 
-struct nation_type *find_nation_by_rule_name(const char *name);
-struct nation_type *find_nation_by_translated_name(const char *name);
+struct nation_type *nation_by_rule_name(const char *name);
+struct nation_type *nation_by_translated_name(const char *name);
 
 const char *nation_rule_name(const struct nation_type *pnation);
 
@@ -142,51 +150,77 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer);
 
 /* General nation leader accessor functions. */
-struct nation_leader *get_nation_leaders(const struct nation_type *nation, int *dim);
-struct nation_type **get_nation_civilwar(const struct nation_type *nation);
-bool get_nation_leader_sex(const struct nation_type *nation,
-			   const char *name);
-bool check_nation_leader_name(const struct nation_type *nation,
-			      const char *name);
+const struct nation_leader_list *
+nation_leaders(const struct nation_type *pnation);
+struct nation_leader *nation_leader_new(struct nation_type *pnation,
+                                        const char *name, bool is_male);
+struct nation_leader *
+nation_leader_by_name(const struct nation_type *pnation, const char *name);
+const char *nation_leader_name(const struct nation_leader *pleader);
+bool nation_leader_is_male(const struct nation_leader *pleader);
+
+/* General nation city accessor functions. */
+struct terrain;
+
+const struct nation_city_list *
+nation_cities(const struct nation_type *pnation);
+struct nation_city *nation_city_new(struct nation_type *pnation,
+                                    const char *name);
+
+const char *nation_city_name(const struct nation_city *pncity);
+
+enum nation_city_preference
+nation_city_preference_revert(enum nation_city_preference prefer);
+void nation_city_set_terrain_preference(struct nation_city *pncity,
+                                        const struct terrain *pterrain,
+                                        enum nation_city_preference prefer);
+void nation_city_set_river_preference(struct nation_city *pncity,
+                                      enum nation_city_preference prefer);
+enum nation_city_preference
+nation_city_terrain_preference(const struct nation_city *pncity,
+                               const struct terrain *pterrain);
+enum nation_city_preference
+nation_city_river_preference(const struct nation_city *pncity);
 
 /* General nation group accessor routines */
 int nation_group_count(void);
 int nation_group_index(const struct nation_group *pgroup);
 int nation_group_number(const struct nation_group *pgroup);
 
+struct nation_group *nation_group_new(const char *name);
 struct nation_group *nation_group_by_number(int id);
-struct nation_group *find_nation_group_by_rule_name(const char *name);
+struct nation_group *nation_group_by_rule_name(const char *name);
 
-bool is_nation_in_group(struct nation_type *nation,
-			struct nation_group *group);
+void nation_group_set_match(struct nation_group *pgroup, int match);
+
+const char *nation_group_rule_name(const struct nation_group *pgroup);
+const char *nation_group_name_translation(const struct nation_group *pgroup);
+
+bool nation_is_in_group(const struct nation_type *pnation,
+                        const struct nation_group *pgroup);
 
 /* Initialization and iteration */
+void nation_groups_init(void);
 void nation_groups_free(void);
-struct nation_group *add_new_nation_group(const char *name);
 
-struct nation_group *nation_group_array_first(void);
-const struct nation_group *nation_group_array_last(void);
+struct nation_group_iter;
+size_t nation_group_iter_sizeof(void);
+struct iterator *nation_group_iter_init(struct nation_group_iter *it);
 
-#define nation_groups_iterate(_p)					\
-{									\
-  struct nation_group *_p = nation_group_array_first();			\
-  if (NULL != _p) {							\
-    for (; _p <= nation_group_array_last(); _p++) {
-
-#define nation_groups_iterate_end					\
-    }									\
-  }									\
-}
+#define nation_groups_iterate(NAME_pgroup)                                  \
+  generic_iterate(struct nation_group_iter, struct nation_group *,          \
+                  NAME_pgroup, nation_group_iter_sizeof,                    \
+                  nation_group_iter_init)
+#define nation_groups_iterate_end generic_iterate_end
 
 /* Initialization and iteration */
 void nations_alloc(int num);
 void nations_free(void);
-void nation_city_names_free(struct nation_city *city_names);
 
-int nations_match(struct nation_type* n1, struct nation_type* n2,
+int nations_match(const struct nation_type *pnation1,
+                  const struct nation_type *pnation2,
                   bool ignore_conflicts);
 
-#include "iterator.h"
 struct nation_iter;
 size_t nation_iter_sizeof(void);
 struct iterator *nation_iter_init(struct nation_iter *it);

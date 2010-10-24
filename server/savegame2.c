@@ -2362,7 +2362,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
       struct nation_type *pnation = NO_NATION_SELECTED;
 
       if (nation_name != NULL && strlen(nation_name)) {
-        pnation = find_nation_by_rule_name(nation_name);
+        pnation = nation_by_rule_name(nation_name);
         if (pnation == NO_NATION_SELECTED) {
           log_sg("Warning: Unknown nation %s for starting position %d",
                     nation_name, i);
@@ -3079,7 +3079,7 @@ static void sg_load_player_main(struct loaddata *loading,
 
   /* Nation */
   string = secfile_lookup_str(loading->file, "player%d.nation", plrno);
-  player_set_nation(plr, find_nation_by_rule_name(string));
+  player_set_nation(plr, nation_by_rule_name(string));
 
   /* Government */
   string = secfile_lookup_str(loading->file, "player%d.government_name",

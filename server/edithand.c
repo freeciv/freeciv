@@ -977,10 +977,10 @@ void handle_edit_player_create(struct connection *pc, int tag)
 
   server_player_init(pplayer, TRUE, TRUE);
   player_set_nation(pplayer, pnation);
-  pick_random_player_name(pnation, pplayer->name);
+  sz_strlcpy(pplayer->name, pick_random_player_name(pnation));
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->is_connected = FALSE;
-  pplayer->government = pnation->init_government;
+  pplayer->government = pnation->server.init_government;
   pplayer->server.capital = FALSE;
 
   pplayer->economic.gold = 0;

@@ -899,8 +899,8 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   server_player_init(pplayer, TRUE, TRUE);
 
   player_set_nation(pplayer, pnation);
-  pplayer->government = pplayer->nation->init_government;
-  pplayer->target_government = pplayer->nation->init_government;
+  pplayer->government = pnation->server.init_government;
+  pplayer->target_government = pnation->server.init_government;
 
   init_tech(pplayer, TRUE);
   give_global_initial_techs(pplayer);

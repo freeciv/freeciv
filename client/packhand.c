@@ -2945,67 +2945,57 @@ void handle_ruleset_nation_groups
 {
   int i;
 
-  nation_groups_free();
   for (i = 0; i < packet->ngroups; i++) {
-    struct nation_group *group;
+    struct nation_group *pgroup;
 
-    group = add_new_nation_group(packet->groups[i]);
-    fc_assert(group != NULL && nation_group_index(group) == i);
+    pgroup = nation_group_new(packet->groups[i]);
+    fc_assert(NULL != pgroup);
+    fc_assert(i == nation_group_index(pgroup));
   }
 }
 
 /****************************************************************************
   Packet ruleset_nation handler.
 ****************************************************************************/
-void handle_ruleset_nation(const struct packet_ruleset_nation *p)
+void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
 {
+  struct nation_type *pnation = nation_by_number(packet->id);
   int i;
-  struct nation_type *pl = nation_by_number(p->id);
 
-  fc_assert_ret_msg(NULL != pl, "Bad nation %d.", p->id);
+  fc_assert_ret_msg(NULL != pnation, "Bad nation %d.", packet->id);
 
-  name_set(&pl->adjective, p->adjective);
-  name_set(&pl->noun_plural, p->noun_plural);
-  sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
-  sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
-  pl->leader_count = p->leader_count;
-  pl->leaders = fc_malloc(sizeof(*pl->leaders) * pl->leader_count);
-  for (i = 0; i < pl->leader_count; i++) {
-    pl->leaders[i].name = fc_strdup(p->leader_name[i]);
-    pl->leaders[i].is_male = p->leader_sex[i];
+  name_set(&pnation->adjective, packet->adjective);
+  name_set(&pnation->noun_plural, packet->noun_plural);
+  sz_strlcpy(pnation->flag_graphic_str, packet->graphic_str);
+  sz_strlcpy(pnation->flag_graphic_alt, packet->graphic_alt);
+  pnation->city_style = packet->city_style;
+  for (i = 0; i < packet->leader_count; i++) {
+    (void) nation_leader_new(pnation, packet->leader_name[i],
+                             packet->leader_is_male[i]);
   }
-  pl->city_style = p->city_style;
 
-  pl->is_playable = p->is_playable;
-  pl->barb_type = p->barbarian_type;
+  pnation->is_available = packet->is_available;
+  pnation->is_playable = packet->is_playable;
+  pnation->barb_type = packet->barbarian_type;
 
-  memcpy(pl->init_techs, p->init_techs, sizeof(pl->init_techs));
-  memcpy(pl->init_buildings, p->init_buildings, 
-         sizeof(pl->init_buildings));
-  memcpy(pl->init_units, p->init_units, 
-         sizeof(pl->init_units));
-  pl->init_government = government_by_number(p->init_government);
-
-  if (p->legend[0] != '\0') {
-    pl->legend = fc_strdup(_(p->legend));
+  if ('\0' != packet->legend[0]) {
+    pnation->legend = fc_strdup(_(packet->legend));
   } else {
-    pl->legend = fc_strdup("");
+    pnation->legend = fc_strdup("");
   }
 
-  pl->num_groups = p->ngroups;
-  pl->groups = fc_calloc(sizeof(*(pl->groups)), pl->num_groups);
-  for (i = 0; i < p->ngroups; i++) {
-    pl->groups[i] = nation_group_by_number(p->groups[i]);
-    if (!pl->groups[i]) {
+  for (i = 0; i < packet->ngroups; i++) {
+    struct nation_group *pgroup = nation_group_by_number(packet->groups[i]);
+
+    if (NULL != pgroup) {
+      nation_group_list_append(pnation->groups, pgroup);
+    } else {
       log_error("handle_ruleset_nation() \"%s\" have unknown group %d.",
-                nation_rule_name(pl), p->groups[i]);
-      pl->groups[i] = nation_group_by_number(0); /* default group */
+                nation_rule_name(pnation), packet->groups[i]);
     }
   }
 
-  pl->is_available = p->is_available;
-
-  tileset_setup_nation_flag(tileset, pl);
+  tileset_setup_nation_flag(tileset, pnation);
 }
 
 /**************************************************************************

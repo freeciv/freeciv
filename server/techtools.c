@@ -854,17 +854,17 @@ void give_global_initial_techs(struct player *pplayer)
 ****************************************************************************/
 void give_nation_initial_techs(struct player *pplayer)
 {
-  const struct nation_type *nation = nation_of_player(pplayer);
+  const struct nation_type *pnation = nation_of_player(pplayer);
   int i;
 
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    if (nation->init_techs[i] == A_LAST) {
+    if (pnation->server.init_techs[i] == A_LAST) {
       break;
     }
     /* Maybe the player already got this tech by an other way (e.g. team). */
-    if (player_invention_state(pplayer, nation->init_techs[i])
+    if (player_invention_state(pplayer, pnation->server.init_techs[i])
         != TECH_KNOWN) {
-      found_new_tech(pplayer, nation->init_techs[i], FALSE, TRUE);
+      found_new_tech(pplayer, pnation->server.init_techs[i], FALSE, TRUE);
     }
   }
 }

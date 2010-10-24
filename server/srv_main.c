@@ -1494,24 +1494,6 @@ void check_for_full_turn_done(void)
 }
 
 /**************************************************************************
-  Checks if the player name belongs to the default player names of a
-  particular player.
-**************************************************************************/
-static bool is_default_nation_name(const char *name,
-				   const struct nation_type *nation)
-{
-  int choice;
-
-  for (choice = 0; choice < nation->leader_count; choice++) {
-    if (fc_strcasecmp(name, nation->leaders[choice].name) == 0) {
-      return TRUE;
-    }
-  }
-
-  return FALSE;
-}
-
-/**************************************************************************
   Check if this name is allowed for the player.  Fill out the error message
   (a translated string to be sent to the client) if not.
 **************************************************************************/
@@ -1566,7 +1548,7 @@ static bool is_allowed_player_name(struct player *pplayer,
   } players_iterate_end;
 
   /* Any name from the default list is always allowed. */
-  if (is_default_nation_name(name, nation)) {
+  if (NULL != nation_leader_by_name(nation, name)) {
     return TRUE;
   }
 
@@ -1856,6 +1838,7 @@ void aifill(int amount)
 **************************************************************************/
 static void generate_players(void)
 {
+  struct nation_leader *pleader;
   int i, c;
 
   /* Select nations for AI players generated with server
@@ -1872,10 +1855,10 @@ static void generate_players(void)
       if (is_nation_playable(pnation)
           && pnation->is_available
           && NULL == pnation->player
-          && check_nation_leader_name(pnation, name)) {
+          && (pleader = nation_leader_by_name(pnation, name))) {
         player_set_nation(pplayer, pnation);
         pplayer->city_style = city_style_of_nation(pnation);
-        pplayer->is_male = get_nation_leader_sex(pnation, name);
+        pplayer->is_male = nation_leader_is_male(pleader);
         break;
       }
     } nations_iterate_end;
@@ -1908,15 +1891,13 @@ static void generate_players(void)
 
     /* don't change the name of a created player */
     if (!pplayer->was_created) {
-      char leader_name[MAX_LEN_NAME];
-
-      pick_random_player_name(nation_of_player(pplayer), leader_name);
-      sz_strlcpy(pplayer->name, leader_name);
+      sz_strlcpy(pplayer->name,
+                 pick_random_player_name(nation_of_player(pplayer)));
     }
 
-    if (check_nation_leader_name(nation_of_player(pplayer), pplayer->name)) {
-      pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer),
-                                               pplayer->name);
+    if ((pleader = nation_leader_by_name(nation_of_player(pplayer),
+                                         pplayer->name))) {
+      pplayer->is_male = nation_leader_is_male(pleader);
     } else {
       pplayer->is_male = (fc_rand(2) == 1);
     }
@@ -1927,53 +1908,45 @@ static void generate_players(void)
   (void) send_server_info_to_metaserver(META_INFO);
 }
 
-/*************************************************************************
- Used in pick_random_player_name() below; buf has size at least MAX_LEN_NAME;
-*************************************************************************/
-static bool good_name(char *ptry, char *buf) {
-  if (!(find_player_by_name(ptry) || find_player_by_user(ptry))) {
-     (void) fc_strlcpy(buf, ptry, MAX_LEN_NAME);
-     return TRUE;
-  }
-  return FALSE;
-}
-
-/*************************************************************************
-  Returns a random ruler name picked from given nation
-     ruler names, given that nation's number. If that player name is already 
-     taken, iterates through all leader names to find unused one. If it fails
-     it iterates through "Player 1", "Player 2", ... until an unused name
-     is found.
- newname should point to a buffer of size at least MAX_LEN_NAME.
-*************************************************************************/
-void pick_random_player_name(const struct nation_type *pnation,
-			     char *newname)
+/****************************************************************************
+  Returns a random ruler name picked from given nation ruler names, given
+  that nation's number. If it fails it iterates through "Player 1",
+  "Player 2", ... until an unused name is found.
+****************************************************************************/
+const char *pick_random_player_name(const struct nation_type *pnation)
 {
-   int i, names_count;
-   struct nation_leader *leaders;
+  const char *choice = NULL;
+  int i = 0;
 
-   leaders = get_nation_leaders(pnation, &names_count);
+  nation_leader_list_iterate(nation_leaders(pnation), pleader) {
+    const char *name = nation_leader_name(pleader);
 
-   /* Try random names (scattershot), then all available,
-    * then "Player 1" etc:
-    */
-   for(i=0; i<names_count; i++) {
-     if (good_name(leaders[fc_rand(names_count)].name, newname)) {
-       return;
-     }
-   }
-   
-   for(i=0; i<names_count; i++) {
-     if (good_name(leaders[i].name, newname)) {
-       return;
-     }
-   }
-   
-   for(i=1; /**/; i++) {
-     char tempname[50];
-     fc_snprintf(tempname, sizeof(tempname), _("Player %d"), i);
-     if (good_name(tempname, newname)) return;
-   }
+    if (NULL == find_player_by_name(name)
+        && NULL == find_player_by_user(name)
+        && 0 == fc_rand(++i)) {
+      choice = name;
+    }
+  } nation_leader_list_iterate_end;
+
+  if (NULL != choice) {
+    return choice;
+  }
+
+  {
+    static char tempname[MAX_LEN_NAME];
+
+    for (i = 1; i < MAX_NUM_PLAYER_SLOTS; i++) {
+      fc_snprintf(tempname, sizeof(tempname), _("Player no. %d"), i);
+      if (NULL == find_player_by_name(tempname)
+          && NULL == find_player_by_user(tempname)) {
+        return tempname;
+      }
+    }
+
+    fc_assert_msg(FALSE, "Failed to generate a player name.");
+    sz_strlcpy(tempname, _("A poorly-named player"));
+    return tempname;
+  }
 }
 
 /*************************************************************************
@@ -2230,9 +2203,10 @@ static void final_ruleset_adjustments(void)
   players_iterate(pplayer) {
     struct nation_type *pnation = nation_of_player(pplayer);
 
-    pplayer->government = pnation->init_government;
+    pplayer->government = pnation->server.init_government;
 
-    if (pnation->init_government == game.government_during_revolution) {
+    if (pnation->server.init_government
+        == game.government_during_revolution) {
       /* If we do not do this, an assertion will trigger. This enables us to
        * select a valid government on game start. */
       pplayer->revolution_finishes = 0;

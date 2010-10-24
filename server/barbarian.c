@@ -98,8 +98,9 @@ static struct player *create_barbarian_player(enum barbarian_type type)
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         player_status_reset(barbarians);
-        pick_random_player_name(nation_of_player(barbarians), barbarians->name);
-	sz_strlcpy(barbarians->username, ANON_USER_NAME);
+        sz_strlcpy(barbarians->name,
+                   pick_random_player_name(nation_of_player(barbarians)));
+        sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
 	  map_clear_known(ptile, barbarians);
@@ -120,14 +121,14 @@ static struct player *create_barbarian_player(enum barbarian_type type)
 
   nation = pick_a_nation(NULL, FALSE, TRUE, type);
   player_set_nation(barbarians, nation);
-  pick_random_player_name(nation, barbarians->name);
+  sz_strlcpy(barbarians->name, pick_random_player_name(nation));
 
   server.nbarbarians++;
   game.server.max_players = MAX(player_count(), game.server.max_players);
 
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
-  barbarians->government = nation->init_government;
+  barbarians->government = nation->server.init_government;
   fc_assert(barbarians->revolution_finishes < 0);
   barbarians->server.capital = FALSE;
   barbarians->economic.gold = 100;

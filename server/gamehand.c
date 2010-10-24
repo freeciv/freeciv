@@ -297,9 +297,9 @@ void init_new_game(void)
 
     /* Place nation specific start units (not role based!) */
     i = 0;
-    while (nation->init_units[i] != NULL && i < MAX_NUM_UNIT_LIST) {
+    while (NULL != nation->server.init_units[i] && MAX_NUM_UNIT_LIST > i) {
       ptile = find_dispersed_position(pplayer, &p);
-      create_unit(pplayer, ptile, nation->init_units[i], FALSE, 0, 0);
+      create_unit(pplayer, ptile, nation->server.init_units[i], FALSE, 0, 0);
       placed_units[player_index(pplayer)]++;
       i++;
     }

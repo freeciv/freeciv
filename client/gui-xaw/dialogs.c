@@ -1331,8 +1331,6 @@ void races_toggles_callback(Widget w, XtPointer client_data,
   int index = XTPOINTER_TO_INT(client_data);
   struct nation_type *race = races_toggles_to_nations[index];
   int j;
-  int leader_count;
-  struct nation_leader *leaders = get_nation_leaders(race, &leader_count);
   Widget entry;
 
   if(races_leader_pick_popupmenu)
@@ -1346,17 +1344,20 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 
   local_nation_count = nation_count();
 
-  for(j=0; j<leader_count; j++) {
+  j = 0;
+  nation_leader_list_iterate(nation_leaders(race), pleader) {
     entry =
-      XtVaCreateManagedWidget(leaders[j].name,
-			      smeBSBObjectClass,
-			      races_leader_pick_popupmenu,
-			      NULL);
+      XtVaCreateManagedWidget(nation_leader_name(pleader),
+                              smeBSBObjectClass,
+                              races_leader_pick_popupmenu,
+                              NULL);
     XtAddCallback(entry, XtNcallback, races_leader_pick_callback,
-		  INT_TO_XTPOINTER(local_nation_count * j + nation_index(race)));
-  }
+                  INT_TO_XTPOINTER(local_nation_count * j
+                                   + nation_index(race)));
+    j++;
+  } nation_leader_list_iterate_end;
 
-  races_leader_set_values(race, fc_rand(leader_count));
+  races_leader_set_values(race, fc_rand(j));
 
   x_simulate_button_click
   (
@@ -1381,13 +1382,14 @@ void races_leader_pick_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void races_leader_set_values(struct nation_type *race, int lead)
 {
-  int leader_count;
-  struct nation_leader *leaders = get_nation_leaders(race, &leader_count);
+  const struct nation_leader *pleader =
+      nation_leader_list_get(nation_leaders(race), lead);
 
-  XtVaSetValues(races_leader, XtNstring, leaders[lead].name, NULL);
-  XawTextSetInsertionPoint(races_leader, strlen(leaders[lead].name));
+  XtVaSetValues(races_leader, XtNstring, nation_leader_name(pleader), NULL);
+  XawTextSetInsertionPoint(races_leader,
+                           strlen(nation_leader_name(pleader)));
 
-  races_sex_buttons_set_current(!leaders[lead].is_male);
+  races_sex_buttons_set_current(!nation_leader_is_male(pleader));
 }
 
 /**************************************************************************

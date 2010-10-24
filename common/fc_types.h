@@ -36,6 +36,8 @@
 #define MAX_VET_LEVELS 10
 #define MAX_BASE_TYPES 32
 #define MAX_NUM_USER_UNIT_FLAGS 4
+#define MAX_NUM_LEADERS MAX_NUM_ITEMS
+#define MAX_NUM_NATION_GROUPS 128
 
 /* Changing these will probably break network compatability. */
 #define MAX_LEN_NAME     48

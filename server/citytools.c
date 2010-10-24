@@ -83,10 +83,6 @@ static struct city_list *arrange_workers_queue = NULL;
 static bool send_city_suppressed = FALSE;
 
 
-static char *search_for_city_name(struct tile *ptile,
-				  struct nation_city *city_names,
-				  struct player *pplayer);
-
 /****************************************************************************
   Freeze the workers (citizens on tiles) for the city.  They will not be
   auto-arranged until unfreeze_workers is called.
@@ -168,21 +164,21 @@ void city_thaw_workers_queue(void)
   arrange_workers_queue = NULL;
 }
 
-/****************************************************************
-Returns the priority of the city name at the given position,
-using its own internal algorithm.  Lower priority values are
-more desired, and all priorities are non-negative.
+/****************************************************************************
+  Returns the priority of the city name at the given position, using its
+  own internal algorithm.  Lower priority values are more desired, and all
+  priorities are non-negative.
 
-This function takes into account game.natural_city_names, and
-should be able to deal with any future options we want to add.
-*****************************************************************/
+  This function takes into account game.natural_city_names, and should be
+  able to deal with any future options we want to add.
+****************************************************************************/
 static int evaluate_city_name_priority(struct tile *ptile,
-				       struct nation_city *nc,
-				       int default_priority)
+                                       const struct nation_city *pncity,
+                                       int default_priority)
 {
   /* Lower values mean higher priority. */
   float priority = (float)default_priority;
-  int goodness;
+  enum nation_city_preference goodness;
 
   /* Increasing this value will increase the difference caused by
      (non-)matching terrain.  A matching terrain is mult_factor
@@ -229,73 +225,83 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * we _only_ multiplied (or divided), then cities that had more
    * terrain labels would have their priorities hurt (or helped).
    */
-  goodness = tile_has_special(ptile, S_RIVER) ?
-	      nc->river : -nc->river;
-  if (goodness > 0) {
-    priority /= mult_factor;
-  } else if (goodness < 0) {
+  goodness = nation_city_river_preference(pncity);
+  if (!tile_has_special(ptile, S_RIVER)) {
+    goodness = nation_city_preference_revert(goodness);
+  }
+
+  switch (goodness) {
+  case NCP_DISLIKE:
     priority *= mult_factor;
+    break;
+  case NCP_NONE:
+    break;
+  case NCP_LIKE:
+    priority /= mult_factor;
+    break;
   }
 
   terrain_type_iterate(pterrain) {
     /* Now we do the same for every available terrain. */
-    goodness = is_terrain_near_tile(ptile, pterrain, TRUE)
-               ? nc->terrain[terrain_index(pterrain)]
-               : -nc->terrain[terrain_index(pterrain)];
-    if (goodness > 0) {
-      priority /= mult_factor;
-    } else if (goodness < 0) {
+    goodness = nation_city_terrain_preference(pncity, pterrain);
+    if (!is_terrain_near_tile(ptile, pterrain, TRUE)) {
+      goodness = nation_city_preference_revert(goodness);
+    }
+    switch (goodness) {
+    case NCP_DISLIKE:
       priority *= mult_factor;
+      break;
+    case NCP_NONE:
+      break;
+    case NCP_LIKE:
+      priority /= mult_factor;
     }
   } terrain_type_iterate_end;
 
-  return (int)priority;	
+  return (int) priority;
 }
 
-/**************************************************************************
-Checks if a city name belongs to default city names of a particular
-player.
-**************************************************************************/
+/****************************************************************************
+  Checks if a city name belongs to default city names of a particular
+  player.
+****************************************************************************/
 static bool is_default_city_name(const char *name, struct player *pplayer)
 {
-  struct nation_type *nation = nation_of_player(pplayer);
-  int choice;
-
-  for (choice = 0; nation->city_names[choice].name; choice++) {
-    if (fc_strcasecmp(name, nation->city_names[choice].name) == 0) {
+  nation_city_list_iterate(nation_cities(nation_of_player(pplayer)),
+                           pncity) {
+    if (0 == fc_strcasecmp(name, nation_city_name(pncity))) {
       return TRUE;
     }
-  }
-
+  } nation_city_list_iterate_end;
   return FALSE;
 }
 
-/****************************************************************
-Searches through a city name list (a struct nation_city array)
-to pick the best available city name, and returns a pointer to
-it.  The function checks if the city name is available and calls
-evaluate_city_name_priority to determine the priority of the
-city name.  If the list has no valid entries in it, NULL will be
-returned.
-*****************************************************************/
-static char *search_for_city_name(struct tile *ptile, struct nation_city *city_names,
-				  struct player *pplayer)
+/****************************************************************************
+  Searches through a city name list (a struct nation_city array) to pick
+  the best available city name, and returns a pointer to it. The function
+  checks if the city name is available and calls
+  evaluate_city_name_priority() to determine the priority of the city name.
+  If the list has no valid entries in it, NULL will be returned.
+****************************************************************************/
+static const char *search_for_city_name(struct tile *ptile,
+                                        const struct nation_city_list *
+                                        default_cities,
+                                        struct player *pplayer)
 {
-  int choice, best_priority = -1;
-  char* best_name = NULL;
+  int choice = 0, priority, best_priority = -1;
+  const char *name, *best_name = NULL;
 
-  for (choice = 0; city_names[choice].name; choice++) {
-    if (!game_find_city_by_name(city_names[choice].name)
-	&& is_allowed_city_name(pplayer, city_names[choice].name, NULL, 0)) {
-      int priority = evaluate_city_name_priority(ptile, &city_names[choice],
-						 choice);
-
-      if (best_priority == -1 || priority < best_priority) {
-	best_priority = priority;
-	best_name = city_names[choice].name;
+  nation_city_list_iterate(default_cities, pncity) {
+    name = nation_city_name(pncity);
+    if (NULL == game_find_city_by_name(name)
+        && is_allowed_city_name(pplayer, name, NULL, 0)) {
+      priority = evaluate_city_name_priority(ptile, pncity, choice++);
+      if (-1 == best_priority || priority < best_priority) {
+        best_priority = priority;
+        best_name = name;
       }
     }
-  }
+  } nation_city_list_iterate_end;
 
   return best_name;
 }
@@ -390,31 +396,31 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   return TRUE;
 }
 
-/****************************************************************
-Come up with a default name when a new city is about to be built.
-Handle running out of names etc. gracefully.  Maybe we should keep
-track of which names have been rejected by the player, so that we do
-not suggest them again?
-Returned pointer points into internal data structures or static
-buffer etc, and should be considered read-only (and not freed)
-by caller.
-*****************************************************************/
+/****************************************************************************
+  Come up with a default name when a new city is about to be built. Handle
+  running out of names etc. gracefully. Maybe we should keeptrack of which
+  names have been rejected by the player, so that we do not suggest them
+  again?
+****************************************************************************/
 const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 {
-  int i = 0, j;
-  bool nations_selected[nation_count()];
-  struct nation_type *nation_list[nation_count()];
-  int queue_size;
+  struct nation_type *pnation = nation_of_player(pplayer);
+  const char *name;
 
-  static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
+  log_verbose("Suggesting city name for %s at (%d,%d)",
+              player_name(pplayer), TILE_XY(ptile));
 
-  /* tempname must be static because it's returned below. */
-  static char tempname[MAX_LEN_NAME];
+  /* First try default city names. */
+  name = search_for_city_name(ptile, nation_cities(pnation), pplayer);
+  if (NULL != name) {
+    log_debug("Default city name found: %s.", name);
+    return name;
+  }
 
-  /* This function follows a straightforward algorithm to look through
+  /* Not found... Let's try a straightforward algorithm to look through
    * nations to find a city name.
    *
-   * We start by adding the player's nation to the queue.  Then we proceed:
+   * We start by adding the player's nation to the queue. Then we proceed:
    * - Pick a random nation from the queue.
    * - If it has a valid city name, use that.
    * - Otherwise, add all parent and child nations to the queue.
@@ -426,88 +432,89 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
    * - queue_size gives the size of the queue (number of nations in it).
    * - i is the current position in the queue.
    * Note that nations aren't removed from the queue after they're processed.
-   * New nations are just added onto the end.
-   */
+   * New nations are just added onto the end. */
+  {
+    struct nation_type *nation_list[nation_count()];
+    bool nations_selected[nation_count()];
+    int queue_size = 1, i = 0, index;
 
-  log_verbose("Suggesting city name for %s at (%d,%d)",
-              player_name(pplayer), TILE_XY(ptile));
-  
-  memset(nations_selected, 0, sizeof(nations_selected));
+    memset(nations_selected, 0, sizeof(nations_selected));
+    nation_list[0] = pnation;
+    nations_selected[nation_index(pnation)] = TRUE;
 
-  queue_size = 1;
-  nation_list[0] = nation_of_player(pplayer);
-  nations_selected[nation_index(nation_list[0])] = TRUE;
+    while (i < nation_count()) {
+      for (; i < queue_size; i++) {
 
-  while (i < nation_count()) {
-    for (; i < queue_size; i++) {
-      char *name;
-      struct nation_type *nation;
+        if (0 < i) {
+          /* Pick a random nation from the queue. */
+          const int which = i + fc_rand(queue_size - i);
+          struct nation_type *tmp = nation_list[i];
 
-      {
-        /* Pick a random nation from the queue. */
-        const int which = i + fc_rand(queue_size - i);
-        struct nation_type *tmp = nation_list[i];
+          nation_list[i] = nation_list[which];
+          nation_list[which] = tmp;
 
-	nation_list[i] = nation_list[which];
-	nation_list[which] = tmp;
+          pnation = nation_list[i];
+          log_debug("Looking through %s.", nation_rule_name(pnation));
+          name = search_for_city_name(ptile, nation_cities(pnation), pplayer);
+
+          if (NULL != name) {
+            return name;
+          }
+        }
+
+        /* Append the nation's civil war nations into the search tree. */
+        nation_list_iterate(pnation->server.civilwar_nations, n) {
+          index = nation_index(n);
+          if (!nations_selected[index]) {
+            nation_list[queue_size] = n;
+            nations_selected[index] = TRUE;
+            queue_size++;
+            log_debug("Child %s.", nation_rule_name(n));
+          }
+        } nation_list_iterate_end;
+
+        /* Append the nation's parent nations into the search tree. */
+        nation_list_iterate(pnation->server.parent_nations, n) {
+          index = nation_index(n);
+          if (!nations_selected[index]) {
+            nation_list[queue_size] = n;
+            nations_selected[index] = TRUE;
+            queue_size++;
+            log_debug("Parent %s.", nation_rule_name(n));
+          }
+        } nation_list_iterate_end;
       }
 
-      nation = nation_list[i];
-      name = search_for_city_name(ptile, nation->city_names, pplayer);
-
-      log_debug("Looking through %s.", nation_rule_name(nation));
-
-      if (name) {
-	return name;
-      }
-
-      /* Append the nation's civil war nations into the search tree. */
-      for (j = 0; nation->civilwar_nations[j] != NO_NATION_SELECTED; j++) {
-        struct nation_type *n = nation->civilwar_nations[j];
-
-        if (!nations_selected[nation_index(n)]) {
+      /* Still not found; append all remaining nations. */
+      nations_iterate(n) {
+        index = nation_index(n);
+        if (!nations_selected[index]) {
           nation_list[queue_size] = n;
           nations_selected[nation_index(n)] = TRUE;
           queue_size++;
-          log_debug("Child %s.", nation_rule_name(n));
+          log_debug("Misc nation %s.", nation_rule_name(n));
         }
-      }
+      } nations_iterate_end;
+    }
+  }
 
-      /* Append the nation's parent nations into the search tree. */
-      for (j = 0; nation->parent_nations[j] != NO_NATION_SELECTED; j++) {
-        struct nation_type *n = nation->parent_nations[j];
+  /* Not found in rulesets, make a default name. */
+  {
+    static char tempname[MAX_LEN_NAME];
+    int i;
 
-        if (!nations_selected[nation_index(n)]) {
-          nation_list[queue_size] = n;
-          nations_selected[nation_index(n)] = TRUE;
-          queue_size++;
-          log_debug("Parent %s.", nation_rule_name(n));
-        }
+    log_debug("City name not found in rulesets.");
+    for (i = 1; i <= map_num_tiles(); i++ ) {
+      fc_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
+      if (NULL == game_find_city_by_name(tempname)) {
+        return tempname;
       }
     }
 
-    /* Append all remaining nations. */
-    nations_iterate(n) {
-      if (!nations_selected[nation_index(n)]) {
-	nation_list[queue_size] = n;
-	nations_selected[nation_index(n)] = TRUE;
-	queue_size++;
-        log_debug("Misc nation %s.", nation_rule_name(n));
-      }
-    } nations_iterate_end;
+    fc_assert_msg(FALSE, "Failed to generate a city name.");
+    sz_strlcpy(tempname, _("A poorly-named city"));
+    return tempname;
   }
-
-  for (i = 1; i <= num_tiles; i++ ) {
-    fc_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
-    if (!game_find_city_by_name(tempname)) {
-      return tempname;
-    }
-  }
-  
-  /* This had better be impossible! */
-  fc_assert(FALSE);
-  sz_strlcpy(tempname, _("A poorly-named city"));
-  return tempname;
 }
 
 /**************************************************************************
@@ -1139,7 +1146,7 @@ void city_build_free_buildings(struct city *pcity)
 
   /* Nation specific free buildings. */
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    Impr_type_id n = nation->init_buildings[i];
+    Impr_type_id n = nation->server.init_buildings[i];
     struct impr_type *pimprove;
 
     if (n == B_LAST) {

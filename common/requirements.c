@@ -80,7 +80,7 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_NATION:
-    source.value.nation = find_nation_by_rule_name(value);
+    source.value.nation = nation_by_rule_name(value);
     if (source.value.nation != NO_NATION_SELECTED) {
       return source;
     }

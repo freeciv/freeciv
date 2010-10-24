@@ -740,7 +740,7 @@ static void map_load_startpos(struct section_file *file)
       struct nation_type *pnation = NO_NATION_SELECTED;
 
       if (nation_name != NULL) {
-        pnation = find_nation_by_rule_name(nation_name);
+        pnation = nation_by_rule_name(nation_name);
         if (pnation == NO_NATION_SELECTED) {
           log_error("Warning: Unknown nation %s for starting position %d",
                     nation_name, i);
@@ -2257,7 +2257,7 @@ static void player_load_main(struct player *plr, int plrno,
       p = "";
     }
   }
-  pnation = find_nation_by_rule_name(p);
+  pnation = nation_by_rule_name(p);
 
   if (pnation != NO_NATION_SELECTED) {
 
