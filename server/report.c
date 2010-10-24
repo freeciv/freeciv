@@ -824,29 +824,6 @@ static const char *pollution_to_text(int value)
 /**************************************************************************
 ...
 **************************************************************************/
-static const char *number_to_ordinal_string(int num)
-{
-  static char buf[16];
-  char fmt[] = "(%d%s)";
-
-  fc_assert_action(num > 0, num = (num % 10) + 10);
-
-  if ((num % 10) == 1 && num != 11) {
-    fc_snprintf(buf, sizeof(buf), fmt, num, _("st"));
-  } else if ((num % 10) == 2 && num != 12) {
-    fc_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
-  } else if ((num % 10) == 3 && num != 13) {
-    fc_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
-  } else {
-    fc_snprintf(buf, sizeof(buf), fmt, num, _("th"));
-  }
-
-  return buf;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void dem_line_item(char *outptr, size_t out_size,
                           struct player *pplayer, struct dem_row *prow,
                           bv_cols selcols)
@@ -873,9 +850,9 @@ static void dem_line_item(char *outptr, size_t out_size,
       }
     } players_iterate_end;
 
-    cat_snprintf(outptr, out_size, " %6s", number_to_ordinal_string(place));
+    cat_snprintf(outptr, out_size, _("(ranked %d)"), place);
   }
-
+   
   if (NULL == pplayer || BV_ISSET(selcols, DEM_COL_BEST)) {
     struct player *best_player = pplayer;
     int best_value = NULL != pplayer ? prow->get_value(pplayer) : 0;
