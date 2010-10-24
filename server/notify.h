@@ -98,7 +98,7 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
 struct event_cache_players *
 event_cache_player_add(struct event_cache_players *players,
                        const struct player *pplayer)
-                       fc__attribute((warn_unused_result));
+                       fc__warn_unused_result;
 void event_cache_add_for_players(const struct packet_chat_msg *packet,
                                  struct event_cache_players *players);
 
