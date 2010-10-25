@@ -324,8 +324,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   struct connection *pconn = find_conn_by_user(pplayer->username);
 
   /* Mode 1: A city name has to be unique for each player. */
-  if (game.server.allowed_city_names == 1 &&
-      city_list_find_name(pplayer->cities, cityname)) {
+  if (CNM_PLAYER_UNIQUE == game.server.allowed_city_names
+      && city_list_find_name(pplayer->cities, cityname)) {
     if (error_buf) {
       fc_snprintf(error_buf, bufsz, _("You already have a city called %s."),
                   cityname);
@@ -334,8 +334,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   }
 
   /* Modes 2,3: A city name has to be globally unique. */
-  if ((game.server.allowed_city_names == 2 
-       || game.server.allowed_city_names == 3)
+  if ((CNM_GLOBAL_UNIQUE == game.server.allowed_city_names
+       || CNM_NO_STEALING == game.server.allowed_city_names)
       && game_find_city_by_name(cityname)) {
     if (error_buf) {
       fc_snprintf(error_buf, bufsz,
@@ -354,7 +354,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
    * player's default city names.  Note the name will already have been
    * allowed if it is in this player's default city names list.
    */
-  if (game.server.allowed_city_names == 3) {
+  if (CNM_NO_STEALING == game.server.allowed_city_names) {
     struct player *pother = NULL;
 
     players_iterate(player2) {
@@ -971,7 +971,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   ASSERT_VISION(new_vision);
 
   sz_strlcpy(old_city_name, city_name(pcity));
-  if (game.server.allowed_city_names == 1
+  if (CNM_PLAYER_UNIQUE == game.server.allowed_city_names
       && city_list_find_name(ptaker->cities, city_name(pcity))) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcenter));

@@ -32,6 +32,13 @@ enum debug_globals {
   DEBUG_LAST
 };
 
+enum city_names_mode {
+  CNM_NO_RESTRICTIONS = 0,
+  CNM_PLAYER_UNIQUE,
+  CNM_GLOBAL_UNIQUE,
+  CNM_NO_STEALING
+};
+
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -71,7 +78,7 @@ struct civ_game {
 
       /* Other game data. */
 
-      int allowed_city_names;
+      enum city_names_mode allowed_city_names;
       int aqueductloss;
       bool auto_ai_toggle;
       bool autoattack;
@@ -505,7 +512,7 @@ extern struct civ_game game;
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_PLAIN
 #endif
 
-#define GAME_DEFAULT_ALLOWED_CITY_NAMES 1
+#define GAME_DEFAULT_ALLOWED_CITY_NAMES CNM_PLAYER_UNIQUE
 
 #define GAME_DEFAULT_REVOLUTION_LENGTH 0
 #define GAME_MIN_REVOLUTION_LENGTH 0

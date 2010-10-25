@@ -5687,7 +5687,8 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.borders, "game.borders");
   secfile_insert_bool(file, game.info.happyborders, "game.happyborders");
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
-  secfile_insert_int(file, game.server.allowed_city_names, "game.allowed_city_names");
+  secfile_insert_int(file, game.server.allowed_city_names,
+                     "game.allowed_city_names");
   secfile_insert_bool(file, game.server.migration,
                       "game.migration");
   secfile_insert_int(file, game.server.mgr_turninterval,

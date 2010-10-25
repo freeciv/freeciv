@@ -297,16 +297,15 @@ static const struct sset_val_name *diplomacy_name(int diplomacy)
 }
 
 /****************************************************************************
-  City name setting names accessor.
-  FIXME: Replace the magic values by enumerators.
+  City names setting names accessor.
 ****************************************************************************/
-static const struct sset_val_name *cityname_name(int cityname)
+static const struct sset_val_name *citynames_name(int citynames)
 {
-  switch (cityname) {
-  NAME_CASE(0, "NO_RESTRICTIONS", N_("No restrictions"));
-  NAME_CASE(1, "PLAYER_UNIQUE", N_("Unique to a player"));
-  NAME_CASE(2, "GLOBAL_UNIQUE", N_("Globally unique"));
-  NAME_CASE(3, "NO_STEALING", N_("No city name stealing"));
+  switch (citynames) {
+  NAME_CASE(CNM_NO_RESTRICTIONS, "NO_RESTRICTIONS", N_("No restrictions"));
+  NAME_CASE(CNM_PLAYER_UNIQUE, "PLAYER_UNIQUE", N_("Unique to a player"));
+  NAME_CASE(CNM_GLOBAL_UNIQUE, "GLOBAL_UNIQUE", N_("Globally unique"));
+  NAME_CASE(CNM_NO_STEALING, "NO_STEALING", N_("No city name stealing"));
   }
   return NULL;
 }
@@ -1415,16 +1414,17 @@ static struct setting settings[] = {
   GEN_ENUM("citynames", game.server.allowed_city_names,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Allowed city names"),
-           N_("- \"No restrictions\": players can have multiple cities with "
-              "the same names.\n"
-              "- \"Unique to a player\": one player can't have multiple "
-              "cities with the same name.\n"
-              "- \"Globally unique\": all cities in a game have to have "
-              "different names.\n"
-              "- \"No city name stealing\": like \"Globally unique\", but a "
-              "player isn't allowed to use a default city name of another "
-              "nations unless it is a default for their nation also."),
-           NULL, NULL, cityname_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
+           N_("- \"No restrictions\" (NO_RESTRICTIONS): players can have "
+              "multiple cities with the same names.\n"
+              "- \"Unique to a player\" (PLAYER_UNIQUE): one player can't "
+              "have multiple cities with the same name.\n"
+              "- \"Globally unique\" (GLOBAL_UNIQUE): all cities in a game "
+              "have to have different names.\n"
+              "- \"No city name stealing\" (NO_STEALING): like "
+              "\"Globally unique\", but a player isn't allowed to use a "
+              "default city name of another nations unless it is a default "
+              "for their nation also."),
+           NULL, NULL, citynames_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
 
   /* Flexible rules: these can be changed after the game has started.
    *
