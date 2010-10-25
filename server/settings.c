@@ -215,15 +215,14 @@ static const struct sset_val_name *topology_name(int topology_bit)
 
 /****************************************************************************
   Generator setting names accessor.
-  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *generator_name(int generator)
 {
   switch (generator) {
-  NAME_CASE(0, "SCENARIO", N_("Scenario map"));
-  NAME_CASE(1, "RANDOM", N_("Fully random height"));
-  NAME_CASE(2, "FRACTAL", N_("Pseudo-fractal height"));
-  NAME_CASE(3, "ISLAND", N_("Island-based"));
+  NAME_CASE(MAPGEN_SCENARIO, "SCENARIO", N_("Scenario map"));
+  NAME_CASE(MAPGEN_RANDOM, "RANDOM", N_("Fully random height"));
+  NAME_CASE(MAPGEN_FRACTAL, "FRACTAL", N_("Pseudo-fractal height"));
+  NAME_CASE(MAPGEN_ISLAND, "ISLAND", N_("Island-based"));
   }
   return NULL;
 }
@@ -453,20 +452,21 @@ static bool savename_validate(const char *value, struct connection *caller,
 }
 
 /****************************************************************************
-  Verify the value of the generator option (notably the 0 case).
+  Verify the value of the generator option (notably the MAPGEN_SCENARIO
+  case).
 ****************************************************************************/
 static bool generator_validate(int value, struct connection *caller,
                                char *reject_msg, size_t reject_msg_len)
 {
   if (map_is_empty()) {
-    if (0 == value) {
+    if (MAPGEN_SCENARIO == value) {
       settings_snprintf(reject_msg, reject_msg_len,
                         _("You cannot disable the map generator."));
       return FALSE;
     }
     return TRUE;
   } else {
-    if (0 != value) {
+    if (MAPGEN_SCENARIO != value) {
       settings_snprintf(reject_msg, reject_msg_len,
                         _("You cannot require a map generator "
                           "when a map is loaded."));
@@ -907,19 +907,18 @@ static struct setting settings[] = {
                  "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
               NULL, NULL, topology_name, MAP_DEFAULT_TOPO)
 
-  /* Map generation parameters: once we have a map these are of historical
-   * interest only, and cannot be changed.
-   */
   GEN_ENUM("generator", map.server.generator,
-           SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used to generate map"),
            /* TRANS: Don't translate "startpos". */
            N_("If the default value of startpos is used then a startpos "
               "setting will be chosen based on the generator:\n"
-              "- \"Fully random height\": depending on continent size\n"
-              "- \"Pseudo-fractal height\": all on a single continent\n"
-              "- \"Island-based\": one player per continent\n"
-              "See the \"startpos\" setting."),
+              "- \"Fully random height\" (RANDOM): depending on continent "
+              "size.\n"
+              "- \"Pseudo-fractal height\" (FRACTAL): all on a single "
+              "continent.\n"
+              "- \"Island-based\" (ISLAND): one player per continent.\n"
+              "See the 'startpos' setting."),
            generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
 
   GEN_ENUM("startpos", map.server.startpos,

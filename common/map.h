@@ -47,6 +47,13 @@ enum mapsize_type {
   MAPSIZE_XYSIZE        /* 'xsize' and 'ysize' are defined. */
 };
 
+enum map_generator {
+  MAPGEN_SCENARIO,
+  MAPGEN_RANDOM,
+  MAPGEN_FRACTAL,
+  MAPGEN_ISLAND
+};
+
 struct civ_map {
   int topology_id;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
@@ -72,7 +79,7 @@ struct civ_map {
       int riches;
       int huts;
       int landpercent;
-      int generator;
+      enum map_generator generator;
       int startpos;
       bool tinyisles;
       bool separatepoles;
@@ -531,7 +538,7 @@ extern const int DIR_DY[8];
 #define MAP_MIN_WETNESS          0
 #define MAP_MAX_WETNESS          100
 
-#define MAP_DEFAULT_GENERATOR    1
+#define MAP_DEFAULT_GENERATOR    MAPGEN_RANDOM
 
 #define MAP_DEFAULT_STARTPOS     0
 

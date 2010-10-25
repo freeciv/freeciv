@@ -5002,7 +5002,8 @@ static void game_load_internal(struct section_file *file)
     fc_assert_exit_msg(secfile_lookup_int(file, &map.server.huts,
                                           "map.huts"),
                        "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file, &map.server.generator,
+    fc_assert_exit_msg(secfile_lookup_int(file,
+                                          FC_ENUM_PTR(map.server.generator),
                                           "map.generator"),
                        "%s", secfile_error());
     fc_assert_exit_msg(secfile_lookup_int(file, &map.server.seed,
@@ -5047,7 +5048,8 @@ static void game_load_internal(struct section_file *file)
                            "%s", secfile_error());
       }
 
-      if (S_S_INITIAL == tmp_server_state && 0 == map.server.generator) {
+      if (S_S_INITIAL == tmp_server_state
+          && MAPGEN_SCENARIO == map.server.generator) {
         /* generator 0 = map done with a map editor aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
           map_load(file, savefile_options, special_order,
@@ -5727,7 +5729,8 @@ void game_save(struct section_file *file, const char *save_reason,
     secfile_insert_int(file, map.server.wetness, "map.wetness");
     secfile_insert_int(file, map.server.steepness, "map.steepness");
     secfile_insert_int(file, map.server.huts, "map.huts");
-    secfile_insert_int(file, scenario ? 0 : map.server.generator,
+    secfile_insert_int(file,
+                       scenario ? MAPGEN_SCENARIO : map.server.generator,
                        "map.generator");
     secfile_insert_int(file, map.server.startpos, "map.startpos");
     secfile_insert_bool(file, map.server.have_huts, "map.have_huts");

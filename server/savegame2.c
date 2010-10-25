@@ -2065,8 +2065,10 @@ static void sg_load_map(struct loaddata *loading)
   map.server.have_huts
     = secfile_lookup_bool_default(loading->file, TRUE, "map.have_huts");
 
-  if (S_S_INITIAL == loading->server_state && 0 == map.server.generator) {
-    /* Generator 0 is used; this map was done with the map editor. */
+  if (S_S_INITIAL == loading->server_state
+      && MAPGEN_SCENARIO == map.server.generator) {
+    /* Generator MAPGEN_SCENARIO is used;
+     * this map was done with the map editor. */
 
     /* Load tiles. */
     sg_load_map_tiles(loading);

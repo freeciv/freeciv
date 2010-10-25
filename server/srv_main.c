@@ -2243,12 +2243,13 @@ static void srv_ready(void)
     generate_players();
     final_ruleset_adjustments();
   }
-   
-  /* If we have a tile map, and map.server.generator == 0, call
-   * map_fractal_generate anyway to make the specials, huts and continent
-   * numbers. */
+
+  /* If we have a tile map, and MAPGEN_SCENARIO == map.server.generator,
+   * call map_fractal_generate anyway to make the specials, huts and
+   * continent numbers. */
   if (map_is_empty()
-      || (map.server.generator == 0 && game.info.is_new_game)) {
+      || (MAPGEN_SCENARIO == map.server.generator
+          && game.info.is_new_game)) {
     struct unit_type *utype = crole_to_unit_type(game.server.start_units[0], NULL);
 
     map_fractal_generate(TRUE, utype);

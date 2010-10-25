@@ -1317,7 +1317,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
-  if (map.server.generator != 0) {
+  if (map.server.generator != MAPGEN_SCENARIO) {
     generator_init_topology(autosize);
     map_allocate();
     adjust_terrain_param();
@@ -1327,7 +1327,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     /* create a temperature map */
     create_tmap(FALSE);
 
-    if (map.server.generator == 3) {
+    if (MAPGEN_ISLAND == map.server.generator) {
       /* initialise terrain selection lists used by make_island() */
       island_terrain_init();
 
@@ -1348,19 +1348,20 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       island_terrain_free();
     }
 
-    if (map.server.generator == 2) {
+    if (MAPGEN_FRACTAL == map.server.generator) {
       make_pseudofractal1_hmap(1 + ((map.server.startpos == 0
 				     || map.server.startpos == 3)
 				    ? 0 : player_count()));
     }
 
-    if (map.server.generator == 1) {
+    if (MAPGEN_RANDOM == map.server.generator) {
       make_random_hmap(MAX(1, 1 + get_sqsize() 
 			   - (map.server.startpos ? player_count() / 4 : 0)));
     }
 
     /* if hmap only generator make anything else */
-    if (map.server.generator == 1 || map.server.generator == 2) {
+    if (MAPGEN_RANDOM == map.server.generator
+        || MAPGEN_FRACTAL == map.server.generator) {
       make_land();
       free(height_map);
       height_map = NULL;
@@ -1404,18 +1405,18 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     bool success;
     
     switch (map.server.generator) {
-    case 0:
-    case 1:
+    case MAPGEN_SCENARIO:
+    case MAPGEN_RANDOM:
       mode = map.server.startpos;
       break;
-    case 2:
+    case MAPGEN_FRACTAL:
       if (map.server.startpos == 0) {
         mode = MT_ALL;
       } else {
         mode = map.server.startpos;
       }
       break;
-    case 3:
+    case MAPGEN_ISLAND:
       if (map.server.startpos <= 1 || (map.server.startpos == 4)) {
         mode = MT_SINGLE;
       } else {
@@ -2216,7 +2217,7 @@ static void mapgenerator2(void)
   int bigfrac = 70, midfrac = 20, smallfrac = 10;
 
   if (map.server.landpercent > 85) {
-    map.server.generator = 1;
+    map.server.generator = MAPGEN_RANDOM;
     return;
   }
 
@@ -2225,7 +2226,7 @@ static void mapgenerator2(void)
   totalweight = 100 * player_count();
 
   fc_assert_action(!placed_map_is_initialized(),
-                   map.server.generator = 1; return);
+                   map.server.generator = MAPGEN_RANDOM; return);
 
   while (!done && bigfrac > midfrac) {
     done = TRUE;
@@ -2262,7 +2263,7 @@ static void mapgenerator2(void)
   if (bigfrac <= midfrac) {
     /* We could never make adequately big islands. */
     log_normal(_("Falling back to generator %d."), 1);
-    map.server.generator = 1;
+    map.server.generator = MAPGEN_RANDOM;
 
     /* init world created this map, destroy it before abort */
     destroy_placed_map();
@@ -2305,7 +2306,7 @@ static void mapgenerator3(void)
   struct gen234_state *pstate = &state;
 
   if (map.server.landpercent > 80) {
-    map.server.generator = 2;
+    map.server.generator = MAPGEN_FRACTAL;
     return;
   }
 
@@ -2331,7 +2332,7 @@ static void mapgenerator3(void)
 
   if (map.xsize < 40 || map.ysize < 40 || map.server.landpercent > 80) { 
     log_normal(_("Falling back to generator %d."), 2); 
-    map.server.generator = 2;
+    map.server.generator = MAPGEN_FRACTAL;
     return; 
   }
 
