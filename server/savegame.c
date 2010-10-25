@@ -556,6 +556,52 @@ static enum unit_activity char2activity(char activity)
   return ACTIVITY_LAST;
 }
 
+/****************************************************************************
+  Setting compress type compability checks.
+****************************************************************************/
+static inline enum fz_method int2fz_method(int magic)
+{
+  switch (magic) {
+  case 0:               /* Was FZ_PLAIN. */
+    return FZ_PLAIN;
+  case 1:               /* Was FZ_ZLIB. */
+#ifdef HAVE_LIBZ
+    return FZ_ZLIB;
+#else
+    log_verbose("Not compiled with zlib support, reverting to default.");
+    break;
+#endif /* HAVE_LIBZ */
+  case 2:               /* Was FZ_BZIP2. */
+#ifdef HAVE_LIBBZ2
+    return FZ_BZIP2;
+#else
+    log_verbose("Not compiled with bzib2 support, reverting to default.");
+    break;
+#endif /* HAVE_LIBZ */
+  }
+  return GAME_DEFAULT_COMPRESS_TYPE;
+}
+
+/****************************************************************************
+  Setting compress type compability checks.
+****************************************************************************/
+static inline int fz_method2int(enum fz_method method)
+{
+  switch (method) {
+  case FZ_PLAIN:
+    return 0;
+#ifdef HAVE_LIBZ
+  case FZ_ZLIB:
+    return 1;
+#endif
+#ifdef HAVE_LIBBZ2
+  case FZ_BZIP2:
+    return 2;
+#endif
+  }
+  return 0;     /* Not supported, reverting to FZ_PLAIN. */
+}
+
 /***************************************************************
 Quote the memory block denoted by data and length so it consists only
 of " a-f0-9:". The returned string has to be freed by the caller using
@@ -4732,9 +4778,9 @@ static void game_load_internal(struct section_file *file)
     game.server.save_compress_level
       = secfile_lookup_int_default(file, GAME_DEFAULT_COMPRESS_LEVEL,
                                    "game.save_compress_level");
-    game.server.save_compress_type
-      = secfile_lookup_int_default(file, GAME_DEFAULT_COMPRESS_TYPE,
-                                   "game.save_compress_type");
+    game.server.save_compress_type =
+        int2fz_method(secfile_lookup_int_default(file, -1,
+                                                 "game.save_compress_type"));
 
     game.info.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
@@ -5603,7 +5649,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_str(file, game.server.save_name, "game.save_name");
   secfile_insert_int(file, game.server.save_compress_level,
                      "game.save_compress_level");
-  secfile_insert_int(file, game.server.save_compress_type,
+  secfile_insert_int(file, fz_method2int(game.server.save_compress_type),
                      "game.save_compress_type");
   secfile_insert_int(file, game.info.aifill, "game.aifill");
   secfile_insert_bool(file, game.server.scorelog, "game.scorelog");

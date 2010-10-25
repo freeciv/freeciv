@@ -222,7 +222,7 @@ struct inputfile *inf_from_file(const char *filename,
 
   fc_assert_ret_val(NULL != filename, NULL);
   fc_assert_ret_val(0 < strlen(filename), NULL);
-  fp = fz_from_file(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
+  fp = fz_from_file(filename, "r", -1, 0);
   if (!fp) {
     return NULL;
   }

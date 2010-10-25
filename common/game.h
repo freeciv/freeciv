@@ -121,7 +121,7 @@ struct civ_game {
       int razechance;
       int revolution_length;
       int save_compress_level;
-      int save_compress_type;
+      enum fz_method save_compress_type;
       int saveversion; /* save game version to use */
       int save_nturns;
       bool savepalace;
@@ -508,16 +508,10 @@ extern struct civ_game game;
 #define GAME_MAX_COMPRESS_LEVEL     9
 
 #if defined(HAVE_LIBBZ2)
-#  define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
-#  define GAME_MAX_COMPRESS_TYPE FZ_BZIP2
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_BZIP2
 #elif defined(HAVE_LIBZ)
-#  define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
-#  define GAME_MAX_COMPRESS_TYPE FZ_ZLIB
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_ZLIB
 #else
-#  define GAME_MIN_COMPRESS_TYPE FZ_PLAIN
-#  define GAME_MAX_COMPRESS_TYPE FZ_PLAIN
 #  define GAME_DEFAULT_COMPRESS_TYPE FZ_PLAIN
 #endif
 

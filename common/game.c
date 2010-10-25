@@ -367,13 +367,7 @@ static void game_defaults(void)
     game.server.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
     sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
     game.server.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
-#ifdef HAVE_LIBBZ2
-    game.server.save_compress_type = FZ_BZIP2;
-#elif defined (HAVE_LIBZ)
-    game.server.save_compress_type = FZ_ZLIB;
-#else
-    game.server.save_compress_type = FZ_PLAIN;
-#endif
+    game.server.save_compress_type = GAME_DEFAULT_COMPRESS_TYPE;
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
     game.server.saveversion       = GAME_DEFAULT_SAVEVERSION;
     game.server.save_nturns       = GAME_DEFAULT_SAVETURNS;

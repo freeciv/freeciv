@@ -350,6 +350,24 @@ static const struct sset_val_name *phasemode_name(int phasemode)
 }
 
 /****************************************************************************
+  Savegame compress type names accessor.
+****************************************************************************/
+static const struct sset_val_name *
+compresstype_name(enum fz_method compresstype)
+{
+  switch (compresstype) {
+  NAME_CASE(FZ_PLAIN, "PLAIN", N_("No compression"));
+#ifdef HAVE_LIBZ
+  NAME_CASE(FZ_ZLIB, "LIBZ", N_("Using zlib (gzip format)"));
+#endif
+#ifdef HAVE_LIBBZ2
+  NAME_CASE(FZ_BZIP2, "BZIP2", N_("Using bzip2"));
+#endif
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Names accessor for boolean settings (disable/enable).
 ****************************************************************************/
 static const struct sset_val_name *bool_name(int enable)
@@ -1822,16 +1840,11 @@ static struct setting settings[] = {
 	  GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
 	  GAME_DEFAULT_COMPRESS_LEVEL)
 
-  GEN_INT("compresstype", game.server.save_compress_type,
-          SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
-          N_("Savegame compression algorithm"),
-          N_("Compression library to use for savegames.\n"
-             " 0 - none\n"
-             " 1 - zlib (gzip format)\n"
-             " 2 - bzip2\n"
-             "Not all servers support all compression methods."), NULL,
-          NULL, GAME_MIN_COMPRESS_TYPE, GAME_MAX_COMPRESS_TYPE,
-	  GAME_DEFAULT_COMPRESS_TYPE)
+  GEN_ENUM("compresstype", game.server.save_compress_type,
+           SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
+           N_("Savegame compression algorithm"),
+           N_("Compression library to use for savegames."),
+           NULL, NULL, compresstype_name, GAME_DEFAULT_COMPRESS_TYPE)
 
   GEN_ENUM("saveversion", game.server.saveversion,
            SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
