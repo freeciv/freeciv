@@ -191,7 +191,7 @@ static void build_landarea_map(struct claim_map *pcmap)
       }
     }
 
-    if (game.info.borders > 0) {
+    if (BORDERS_DISABLED != game.info.borders) {
       /* If borders are enabled, use owner information directly from the
        * map.  Otherwise use the calculations above. */
       owner = tile_owner(ptile);

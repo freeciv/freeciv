@@ -1869,7 +1869,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
       }
-      if (game.info.borders > 0
+      if (BORDERS_DISABLED != game.info.borders
           && game.info.happyborders
           && base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
         /* "3 tiles" is hardcoded in is_friendly_city_near() */

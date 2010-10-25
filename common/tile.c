@@ -62,7 +62,7 @@ struct tile *tile_claimer(const struct tile *ptile)
 void tile_set_owner(struct tile *ptile, struct player *pplayer,
                     struct tile *claimer)
 {
-  if (0 < game.info.borders) {
+  if (BORDERS_DISABLED != game.info.borders) {
     ptile->owner = pplayer;
     ptile->claimer = claimer;
   }

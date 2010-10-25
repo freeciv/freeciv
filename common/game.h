@@ -32,14 +32,6 @@ enum debug_globals {
   DEBUG_LAST
 };
 
-/* NB: Must match phasemode setting
- * help text in server/settings.c */
-enum phase_mode_types {
-  PMT_CONCURRENT = 0,
-  PMT_PLAYERS_ALTERNATE = 1,
-  PMT_TEAMS_ALTERNATE = 2
-};
-
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -303,9 +295,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_GLOBAL_WARMING  TRUE
 #define GAME_DEFAULT_NUCLEAR_WINTER  TRUE
 
-/* 0 means no national borders. */
-#define GAME_DEFAULT_BORDERS         1
-#define GAME_MAX_BORDERS             3
+#define GAME_DEFAULT_BORDERS         BORDERS_ENABLED
 
 #define GAME_DEFAULT_HAPPYBORDERS    TRUE
 

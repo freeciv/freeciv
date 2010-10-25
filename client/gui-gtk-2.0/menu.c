@@ -2259,7 +2259,7 @@ void real_menus_init(void)
   menus_set_active(safe_group, "SHOW_MAP_GRID", draw_map_grid);
   menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", draw_borders);
   menus_set_sensitive(safe_group, "SHOW_NATIONAL_BORDERS",
-                      game.info.borders > 0);
+                      BORDERS_DISABLED != game.info.borders);
   menus_set_active(safe_group, "SHOW_CITY_FULL_BAR", draw_full_citybar);
   menus_set_active(safe_group, "SHOW_CITY_NAMES", draw_city_names);
   menus_set_active(safe_group, "SHOW_CITY_GROWTH", draw_city_growth);

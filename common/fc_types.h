@@ -314,4 +314,17 @@ enum gui_type {
 #define SPECENUM_VALUE3 AIRLIFTING_UNLIMITED_DEST
 #include "specenum_gen.h"
 
+enum phase_mode_types {
+  PMT_CONCURRENT = 0,
+  PMT_PLAYERS_ALTERNATE,
+  PMT_TEAMS_ALTERNATE
+};
+
+enum borders_mode {
+  BORDERS_DISABLED = 0,
+  BORDERS_ENABLED,
+  BORDERS_SEE_INSIDE,
+  BORDERS_EXPAND,
+};
+
 #endif /* FC__FC_TYPES_H */

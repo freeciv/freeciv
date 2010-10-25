@@ -266,15 +266,15 @@ static const struct sset_val_name *killcitizen_name(int killcitizen_bit)
 
 /****************************************************************************
   Borders setting names accessor.
-  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *borders_name(int borders)
 {
   switch (borders) {
-  NAME_CASE(0, "DISABLED", N_("Disabled"));
-  NAME_CASE(1, "ENABLED", N_("Enabled"));
-  NAME_CASE(2, "SEE_BORDERS", N_("See everything inside borders"));
-  NAME_CASE(3, "EXPAND_BORDERS",
+  NAME_CASE(BORDERS_DISABLED, "DISABLED", N_("Disabled"));
+  NAME_CASE(BORDERS_ENABLED, "ENABLED", N_("Enabled"));
+  NAME_CASE(BORDERS_SEE_INSIDE, "SEE_INSIDE",
+            N_("See everything inside borders"));
+  NAME_CASE(BORDERS_EXPAND, "EXPAND",
             N_("Borders expand to unknown, revealing tiles"));
   }
   return NULL;

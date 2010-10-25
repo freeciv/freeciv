@@ -34,7 +34,7 @@ int tile_border_source_radius_sq(struct tile *ptile)
   struct city *pcity;
   int radius_sq = 0;
 
-  if (game.info.borders == 0) {
+  if (BORDERS_DISABLED == game.info.borders) {
     return 0;
   }
 
@@ -66,7 +66,7 @@ int tile_border_source_strength(struct tile *ptile)
   struct city *pcity;
   int strength = 0;
 
-  if (game.info.borders == 0) {
+  if (BORDERS_DISABLED == game.info.borders) {
     return 0;
   }
 

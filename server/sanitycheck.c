@@ -169,7 +169,7 @@ static void check_map(const char *file, const char *function, int line)
 
     if (NULL != pcity) {
       SANITY_TILE(ptile, same_pos(pcity->tile, ptile));
-      if (0 < game.info.borders) {
+      if (BORDERS_DISABLED != game.info.borders) {
         SANITY_TILE(ptile, tile_owner(ptile) != NULL);
       }
     }
@@ -233,7 +233,7 @@ static bool check_city_good(struct city *pcity, const char *file,
 
   SANITY_CITY(pcity, !terrain_has_flag(tile_terrain(pcenter), TER_NO_CITIES));
 
-  if (0 < game.info.borders) {
+  if (BORDERS_DISABLED != game.info.borders) {
     SANITY_CITY(pcity, NULL != tile_owner(pcenter));
   }
 

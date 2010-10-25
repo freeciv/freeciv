@@ -4761,9 +4761,10 @@ static void game_load_internal(struct section_file *file)
     (void) secfile_entry_lookup(file, "game.farmfood");
 
     /* National borders setting. */
-    game.info.borders = secfile_lookup_int_default(file, 0, "game.borders");
-    if (game.info.borders > GAME_MAX_BORDERS) {
-      game.info.borders = 1;
+    game.info.borders = secfile_lookup_int_default(file, BORDERS_DISABLED,
+                                                   "game.borders");
+    if (BORDERS_EXPAND < game.info.borders) {
+      game.info.borders = BORDERS_ENABLED;
     }
     game.info.happyborders = secfile_lookup_bool_default(file, FALSE, 
 						    "game.happyborders");

@@ -158,91 +158,94 @@ Syntax:
 */
 
 # typedefs for numbers
-type UINT8		= uint8(int)
-type UINT16		= uint16(int)
-type UINT32		= uint32(int)
-type SINT8		= sint8(int)
-type SINT16		= sint16(int)
-type SINT32		= sint32(int)
-type BOOL		= bool8(bool)
-type FLOAT		= float10000(float)
-type FLOAT10x7		= float1000000(float)
+type BOOL               = bool8(bool)
+type FLOAT              = float10000(float)
+type FLOAT10x7          = float1000000(float)
+type SINT8              = sint8(int)
+type SINT16             = sint16(int)
+type SINT32             = sint32(int)
+type UINT8              = uint8(int)
+type UINT16             = uint16(int)
+type UINT32             = uint32(int)
 
 # typedefs for arrays/structs
-type MEMORY		= memory(unsigned char)
-type STRING		= string(char)
-type BIT_STRING		= bit_string(char)
-type WORKLIST		= worklist(struct worklist)
-type TECH_LIST		= tech_list(int)
-type REQUIREMENT	= requirement(struct requirement)
+type BIT_STRING         = bit_string(char)
+type MEMORY             = memory(unsigned char)
+type REQUIREMENT        = requirement(struct requirement)
+type STRING             = string(char)
+type TECH_LIST          = tech_list(int)
+type WORKLIST           = worklist(struct worklist)
 
 # typedefs for enums
-type CLAUSE		= uint8(enum clause_type)
-type ACTIVITY		= uint8(enum unit_activity)
-type EVENT		= sint16(enum event_type)
-type KNOWN		= uint8(enum known_type)
-type SPECIAL		= uint16(enum tile_special_type)
-type DIPLOMAT_ACTION	= uint8(enum diplomat_actions)
-type CMDLEVEL		= uint8(enum cmdlevel)
-type PLACE_TYPE		= uint8(enum spaceship_place_type)
-type RIVER_MOVE		= uint8(enum special_river_move)
-type REPORT_TYPE	= uint8(enum report_type)
-type AUTH_TYPE		= uint8(enum authentication_type)
-type IMPR_RANGE		= uint8(enum impr_range)
-type IMPR_GENUS		= uint8(enum impr_genus_id)
-type DIRECTION		= uint8(enum direction8)
-type ORDERS		= uint8(enum unit_orders)
-type SSET_TYPE		= uint8(enum sset_type)
-type SSET_CLASS         = uint8(enum sset_class)
-type REQ_TYPE	        = uint8(enum universals_n)
-type REQ_RANGE		= uint8(enum req_range)
-type EFFECT_TYPE	= uint8(enum effect_type)
-type BASE               = sint8(Base_type_id)
-type BASE_GUI           = uint8(enum base_gui_type)
-type GUI_TYPE           = uint8(enum gui_type)
+type ACTIVITY           = uint8(enum unit_activity)
 type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
+type AUTH_TYPE          = uint8(enum authentication_type)
+type BASE_GUI           = uint8(enum base_gui_type)
+type BORDERS_MODE       = uint8(enum borders_mode)
+type CLAUSE             = uint8(enum clause_type)
+type CMDLEVEL           = uint8(enum cmdlevel)
+type DIPLOMAT_ACTION    = uint8(enum diplomat_actions)
+type DIRECTION          = uint8(enum direction8)
+type EFFECT_TYPE        = uint8(enum effect_type)
+type EVENT              = sint16(enum event_type)
+type GUI_TYPE           = uint8(enum gui_type)
+type IMPR_GENUS         = uint8(enum impr_genus_id)
+type IMPR_RANGE         = uint8(enum impr_range)
+type KNOWN              = uint8(enum known_type)
+type ORDERS             = uint8(enum unit_orders)
+type PHASE_MODE         = uint8(enum phase_mode_types)
+type PLACE_TYPE         = uint8(enum spaceship_place_type)
+type REPORT_TYPE        = uint8(enum report_type)
+type REQ_RANGE          = uint8(enum req_range)
+type REQ_TYPE           = uint8(enum universals_n)
+type RIVER_MOVE         = uint8(enum special_river_move)
+type SPECIAL            = uint16(enum tile_special_type)
+type SSET_CLASS         = uint8(enum sset_class)
+type SSET_TYPE          = uint8(enum sset_type)
 
-type BV_IMPRS           = bitvector(bv_imprs)
+# typedefs for bit vectors
+type BV_BASE_FLAGS      = bitvector(bv_base_flags)
+type BV_BASES           = bitvector(bv_bases)
+type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
-type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
-type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
-type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
+type BV_IMPRS           = bitvector(bv_imprs)
+type BV_PLAYER          = bitvector(bv_player)
+type BV_SPECIAL         = bitvector(bv_special)
 type BV_TECH_FLAGS      = bitvector(bv_tech_flags)
 type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
-type BV_BASE_FLAGS      = bitvector(bv_base_flags)
-type BV_CITY_OPTIONS    = bitvector(bv_city_options)
-type BV_SPECIAL         = bitvector(bv_special)
-type BV_PLAYER          = bitvector(bv_player)
+type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
-type BV_BASES           = bitvector(bv_bases)
+type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
+type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 
 # typedefs for IDs
-type PLAYER 		= SINT8
-type CITY   		= UINT16
-type UNIT   		= UINT16
-type TECH     		= UINT8
-type TILE		= SINT32
-type UNIT_TYPE		= uint8(Unit_type_id)
-type NATION		= sint16(Nation_type_id)
-type GOVERNMENT		= UINT8
-type CONNECTION		= SINT16
-type TEAM		= UINT8
+type BASE               = sint8(Base_type_id)
+type CITY               = UINT16
+type CONNECTION         = SINT16
 type CONTINENT          = sint16(Continent_id)
-type IMPROVEMENT	= uint8(Impr_type_id)
+type EDIT_TECH_MODE     = uint8(enum editor_tech_mode)
+type GOVERNMENT         = UINT8
+type IMPROVEMENT        = uint8(Impr_type_id)
+type NATION             = sint16(Nation_type_id)
+type PLAYER             = SINT8
 type RESOURCE           = uint8(Resource_type_id)
 type SPECIALIST         = uint8(Specialist_type_id)
+type TEAM               = UINT8
+type TECH               = UINT8
 type TERRAIN            = uint8(Terrain_type_id)
-type EDIT_TECH_MODE     = uint8(enum editor_tech_mode)
+type TILE               = SINT32
+type UNIT               = UINT16
+type UNIT_TYPE          = uint8(Unit_type_id)
 
 # other typedefs
 type CITY_COORD         = UINT8
-type XYSIZE  		= UINT16
-type YEAR     		= SINT16
-type HP     		= UINT8
-type PERCENT  		= UINT8
-type GOLD		= UINT32
-type TURN		= SINT16
+type GOLD               = UINT32
+type HP                 = UINT8
+type PERCENT            = UINT8
 type PHASE              = SINT16
+type TURN               = SINT16
+type XYSIZE             = UINT16
+type YEAR               = SINT16
 
 /****************************************************
 The remaining lines are the definition of the packets. These are
@@ -371,7 +374,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 base_tech_cost;
   UINT8 border_city_radius_sq;
   UINT8 border_size_effect;
-  UINT8 borders;
+  BORDERS_MODE borders;
   BOOL calendar_skip_0;
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;
@@ -420,7 +423,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL nuclear_winter;
   UINT32 nuclearwinter;
   PHASE phase;
-  UINT8 phase_mode;
+  PHASE_MODE phase_mode;
   BOOL pillage_select;
   STRING positive_year_label[MAX_LEN_NAME];
   UINT8 rapturedelay;

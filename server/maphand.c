@@ -1609,7 +1609,8 @@ static void map_claim_ownership_full(struct tile *ptile,
 {
   struct player *ploser = tile_owner(ptile);
 
-  if (game.info.borders >= 2) {
+  if (BORDERS_SEE_INSIDE == game.info.borders
+      || BORDERS_EXPAND == game.info.borders) {
     if (ploser != powner) {
       if (ploser) {
         const v_radius_t radius_sq = V_RADIUS(-1, 0);
@@ -1693,7 +1694,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 {
   int radius_sq = tile_border_source_radius_sq(ptile);
 
-  if (0 == game.info.borders) {
+  if (BORDERS_DISABLED == game.info.borders) {
     return;
   }
 
@@ -1705,7 +1706,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
       continue;
     }
 
-    if (!map_is_known(dtile, owner) && game.info.borders < 3) {
+    if (!map_is_known(dtile, owner) && BORDERS_EXPAND != game.info.borders) {
       continue;
     }
 
@@ -1753,7 +1754,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
 *************************************************************************/
 void map_calculate_borders(void)
 {
-  if (game.info.borders == 0) {
+  if (BORDERS_DISABLED == game.info.borders) {
     return;
   }
 
