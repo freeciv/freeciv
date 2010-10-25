@@ -62,6 +62,7 @@ flag_files =				\
 		byzantium.png		\
 		caddo.png		\
 		california.png		\
+		cameroon.png		\
 		canada.png		\
 		canada_old.png		\
 		cartago.png		\
@@ -443,6 +444,7 @@ shield_files =					\
 		byzantium-shield.png		\
 		caddo-shield.png		\
 		california-shield.png		\
+		cameroon-shield.png		\
 		canada-shield.png		\
 		canada_old-shield.png		\
 		cartago-shield.png		\
@@ -824,6 +826,7 @@ svg_files = 				\
 		byzantium.svg		\
 		caddo.svg		\
 		california.svg		\
+		cameroon.svg		\
 		canada.svg		\
 		canada_old.svg		\
 		cartago.svg		\

@@ -66,6 +66,7 @@ pkgdata_DATA = \
 		byzantium.ruleset \
 		californian.ruleset \
 		cambodian.ruleset \
+		cameroonian.ruleset \
 		canadian.ruleset \
 		carthaginian.ruleset \
 		castilian.ruleset \

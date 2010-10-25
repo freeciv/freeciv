@@ -115,6 +115,7 @@ match=2
 *include "nation/byzantium.ruleset"
 *include "nation/californian.ruleset"
 *include "nation/cambodian.ruleset"
+*include "nation/cameroonian.ruleset"
 *include "nation/canadian.ruleset"
 *include "nation/carthaginian.ruleset"
 *include "nation/castilian.ruleset"

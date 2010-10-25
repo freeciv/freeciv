@@ -71,6 +71,7 @@ artists = "
    Byzantium		Dragases
    Caddo		Daniel Markstedt
    California		Devin Cook (Wikimedia Commons)
+   Cameroon		J.M. Maalderink
    Canada		James Leigh
    Canada (old)		Hoshie (Wikimedia Commons)
    Cartago		Daniel Markstedt and Matt Jecrell
@@ -455,6 +456,7 @@ sprites =
 		"f.byzantium", "flags/byzantium"
 		"f.caddo", "flags/caddo"
 		"f.california", "flags/california"
+		"f.cameroon", "flags/cameroon"
 		"f.canada", "flags/canada"
 		"f.canada_old", "flags/canada_old"
 		"f.cartago", "flags/cartago"
