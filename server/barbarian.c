@@ -249,7 +249,7 @@ bool unleash_barbarians(struct tile *ptile)
    *        but L_BARBARIAN_TECH is already available,
    *        we should unleash those.
    *        Doesn't affect any ruleset I'm aware of. */
-  if (game.server.barbarianrate == 0
+  if (BARBS_DISABLED == game.server.barbarianrate
       || game.info.turn < game.server.onsetbarbarian
       || num_role_units(L_BARBARIAN) == 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
@@ -504,6 +504,8 @@ static void try_summon_barbarians(void)
     return;
   }
 
+  fc_assert(1 < game.server.barbarianrate);
+
   /* do not harass small civs - in practice: do not uprise at the beginning */
   if ((int)fc_rand(UPRISE_CIV_MORE) >
            (int)city_list_size(victim->cities) -
@@ -628,7 +630,8 @@ void summon_barbarians(void)
 {
   int i, n;
 
-  if (game.server.barbarianrate == 0) {
+  if (BARBS_DISABLED == game.server.barbarianrate
+      || BARBS_HUTS_ONLY == game.server.barbarianrate) {
     return;
   }
 

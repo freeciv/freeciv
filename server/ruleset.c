@@ -1510,16 +1510,20 @@ if (_count > MAX_VET_LEVELS) {						\
   if(num_role_units(L_FIRSTBUILD)==0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=firstbuild units?", filename);
   }
-  if (num_role_units(L_BARBARIAN) == 0 && game.server.barbarianrate > 0) {
+  if (0 == num_role_units(L_BARBARIAN)
+      && BARBS_DISABLED != game.server.barbarianrate) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian units?", filename);
   }
-  if (num_role_units(L_BARBARIAN_LEADER) == 0 && game.server.barbarianrate > 0) {
+  if (0 == num_role_units(L_BARBARIAN_LEADER)
+      && BARBS_DISABLED != game.server.barbarianrate) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian leader units?", filename);
   }
-  if (num_role_units(L_BARBARIAN_BUILD) == 0 && game.server.barbarianrate > 0) {
+  if (0 == num_role_units(L_BARBARIAN_BUILD)
+      && BARBS_DISABLED != game.server.barbarianrate) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian build units?", filename);
   }
-  if (num_role_units(L_BARBARIAN_BOAT) == 0 && game.server.barbarianrate > 0) {
+  if (0 == num_role_units(L_BARBARIAN_BOAT)
+      && BARBS_DISABLED != game.server.barbarianrate) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian ship units?", filename);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     u = get_role_unit(L_BARBARIAN_BOAT,0);
@@ -1530,7 +1534,8 @@ if (_count > MAX_VET_LEVELS) {						\
                     utype_rule_name(u));
     }
   }
-  if (num_role_units(L_BARBARIAN_SEA) == 0 && game.server.barbarianrate > 0) {
+  if (0 == num_role_units(L_BARBARIAN_SEA)
+      && BARBS_DISABLED != game.server.barbarianrate) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=sea raider barbarian units?",
                   filename);
   }

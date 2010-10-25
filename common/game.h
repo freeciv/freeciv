@@ -39,6 +39,14 @@ enum city_names_mode {
   CNM_NO_STEALING
 };
 
+enum barbarians_rate {
+  BARBS_DISABLED = 0,
+  BARBS_HUTS_ONLY,
+  BARBS_NORMAL,
+  BARBS_FREQUENT,
+  BARBS_HORDES
+};
+
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -83,7 +91,7 @@ struct civ_game {
       bool auto_ai_toggle;
       bool autoattack;
       int autoupgrade_veteran_loss;
-      int barbarianrate;
+      enum barbarians_rate barbarianrate;
       int base_bribe_cost;
       int base_incite_cost;
       int civilwarsize;
@@ -462,7 +470,7 @@ extern struct civ_game game;
 #define GAME_MIN_TRADEMINDIST        1
 #define GAME_MAX_TRADEMINDIST        999
 
-#define GAME_DEFAULT_BARBARIANRATE   2
+#define GAME_DEFAULT_BARBARIANRATE   BARBS_NORMAL
 
 #define GAME_DEFAULT_ONSETBARBARIAN  60
 #define GAME_MIN_ONSETBARBARIAN      0

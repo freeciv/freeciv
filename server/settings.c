@@ -312,16 +312,15 @@ static const struct sset_val_name *citynames_name(int citynames)
 
 /****************************************************************************
   Barbarian setting names accessor.
-  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *barbarians_name(int barbarians)
 {
   switch (barbarians) {
-  NAME_CASE(0, "NO_BARBS", N_("No barbarians"));
-  NAME_CASE(1, "HUTS_ONLY", N_("Only in huts"));
-  NAME_CASE(2, "NORMAL", N_("Normal rate of appearance"));
-  NAME_CASE(3, "FREQUENT", N_("Frequent barbarian uprising"));
-  NAME_CASE(4, "HORDES", N_("Raging hordes"));
+  NAME_CASE(BARBS_DISABLED, "DISABLED", N_("No barbarians"));
+  NAME_CASE(BARBS_HUTS_ONLY, "HUTS_ONLY", N_("Only in huts"));
+  NAME_CASE(BARBS_NORMAL, "NORMAL", N_("Normal rate of appearance"));
+  NAME_CASE(BARBS_FREQUENT, "FREQUENT", N_("Frequent barbarian uprising"));
+  NAME_CASE(BARBS_HORDES, "HORDES", N_("Raging hordes"));
   }
   return NULL;
 }
@@ -1443,7 +1442,7 @@ static struct setting settings[] = {
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Barbarian appearance frequency"),
            N_("This setting controls how frequently the barbarians appear "
-              "in the game. See also the \"onsetbarbs\" setting."),
+              "in the game. See also the 'onsetbarbs' setting."),
            NULL, NULL, barbarians_name, GAME_DEFAULT_BARBARIANRATE)
 
   GEN_INT("onsetbarbs", game.server.onsetbarbarian,
