@@ -17,7 +17,7 @@ leaders = {
 }
 
 flag="myanmar"
-flag_alt = "taiwan"	; similar design
+flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",     "male_title",        "female_title"
@@ -31,8 +31,6 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Similar flag
-conflicts_with = "taiwanese"
 civilwar_nations = "bengali", "thai", "laotian"
 
 cities =

@@ -240,7 +240,8 @@ artists = "
    Mozambique		Tobias Jakobs
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
-   Myanmar		Caleb Moore
+   Myanmar		Zachary Harden
+   Myanmar (old)	Caleb Moore
    Namibia		Vzb83 and Madden (Wikimedia Commons)
    Naples		J.M. Maalderink
    NATO			Christian Schaller
