@@ -327,4 +327,12 @@ enum borders_mode {
   BORDERS_EXPAND,
 };
 
+enum diplomacy_mode {
+  DIPLO_FOR_ALL,
+  DIPLO_FOR_HUMANS,
+  DIPLO_FOR_AIS,
+  DIPLO_FOR_TEAMS,
+  DIPLO_DISABLED,
+};
+
 #endif /* FC__FC_TYPES_H */

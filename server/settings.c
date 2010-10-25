@@ -282,16 +282,16 @@ static const struct sset_val_name *borders_name(int borders)
 
 /****************************************************************************
   Diplomacy setting names accessor.
-  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *diplomacy_name(int diplomacy)
 {
   switch (diplomacy) {
-  NAME_CASE(0, "ENABLED", N_("Enabled for everyone"));
-  NAME_CASE(1, "HUMAN", N_("Only allowed between human players"));
-  NAME_CASE(2, "AI", N_("Only allowed between AI players"));
-  NAME_CASE(3, "TEAMS", N_("Restricted to teams"));
-  NAME_CASE(4, "DISABLED", N_("Disabled for everyone"));
+  NAME_CASE(DIPLO_FOR_ALL, "ALL", N_("Enabled for everyone"));
+  NAME_CASE(DIPLO_FOR_HUMANS, "HUMAN",
+            N_("Only allowed between human players"));
+  NAME_CASE(DIPLO_FOR_AIS, "AI", N_("Only allowed between AI players"));
+  NAME_CASE(DIPLO_FOR_TEAMS, "TEAM", N_("Restricted to teams"));
+  NAME_CASE(DIPLO_DISABLED, "DISABLED", N_("Disabled for everyone"));
   }
   return NULL;
 }

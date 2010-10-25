@@ -184,6 +184,7 @@ type BASE_GUI           = uint8(enum base_gui_type)
 type BORDERS_MODE       = uint8(enum borders_mode)
 type CLAUSE             = uint8(enum clause_type)
 type CMDLEVEL           = uint8(enum cmdlevel)
+type DIPLOMACY_MODE     = uint8(enum diplomacy_mode)
 type DIPLOMAT_ACTION    = uint8(enum diplomat_actions)
 type DIRECTION          = uint8(enum direction8)
 type EFFECT_TYPE        = uint8(enum effect_type)
@@ -382,7 +383,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 citymindist;
   UINT32 cooling;
   UINT32 coolinglevel;
-  UINT8 diplomacy;
+  DIPLOMACY_MODE diplomacy;
   BOOL fogofwar;
   UINT8 food_cost;
   UINT32 foodbox;

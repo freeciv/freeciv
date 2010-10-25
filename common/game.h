@@ -299,7 +299,7 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_HAPPYBORDERS    TRUE
 
-#define GAME_DEFAULT_DIPLOMACY       0
+#define GAME_DEFAULT_DIPLOMACY       DIPLO_FOR_ALL
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          40

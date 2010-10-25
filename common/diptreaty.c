@@ -22,22 +22,27 @@
 
 #include "diptreaty.h"
 
-/**************************************************************************
+/****************************************************************************
   Returns TRUE iff pplayer could do diplomancy in the game at all.
-  These values are set by player in stdinhand.c.
-**************************************************************************/
-bool diplomacy_possible(const struct player *pplayer,
-			const struct player *aplayer)
+****************************************************************************/
+bool diplomacy_possible(const struct player *pplayer1,
+                        const struct player *pplayer2)
 {
-  return  (game.info.diplomacy == 0      /* Unlimited diplomacy */
-	   || (game.info.diplomacy == 1  /* Human diplomacy only */
-               && !pplayer->ai_controlled 
-               && !aplayer->ai_controlled)
-	   || (game.info.diplomacy == 2  /* AI diplomacy only */
-               && pplayer->ai_controlled
-               && aplayer->ai_controlled)
-	   || (game.info.diplomacy == 3  /* Team diplomacy only */
-	       && players_on_same_team(pplayer, aplayer)));
+  switch (game.info.diplomacy) {
+  case DIPLO_FOR_ALL:
+    return TRUE;
+  case DIPLO_FOR_HUMANS:
+    return (!pplayer1->ai_controlled && !pplayer2->ai_controlled);
+  case DIPLO_FOR_AIS:
+    return (pplayer1->ai_controlled && pplayer2->ai_controlled);
+  case DIPLO_FOR_TEAMS:
+    return players_on_same_team(pplayer1, pplayer2);
+  case DIPLO_DISABLED:
+    return FALSE;
+  }
+  log_error("%s(): Unsupported diplomacy variant %d.",
+            __FUNCTION__, game.info.diplomacy);
+  return FALSE;
 }
 
 /**************************************************************************
