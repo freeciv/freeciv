@@ -86,6 +86,7 @@ struct sset_val_name {
 struct setting;
 
 struct setting *setting_by_number(int id);
+struct setting *setting_by_name(const char *name);
 int setting_number(const struct setting *pset);
 
 const char *setting_name(const struct setting *pset);

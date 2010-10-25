@@ -186,7 +186,8 @@ static void setting_game_restore(struct setting *pset);
     }
 
 /****************************************************************************
-  Map size definition setting names accessor.
+  Map size definition setting names accessor. This setting has an
+  hard-coded depedence in "server/meta.c".
 ****************************************************************************/
 static const struct sset_val_name *mapsize_name(int mapsize)
 {
@@ -1923,6 +1924,19 @@ static const int SETTINGS_NUM = ARRAY_SIZE(settings);
 struct setting *setting_by_number(int id)
 {
   return (0 <= id && id < SETTINGS_NUM ? settings + id : NULL);
+}
+
+/****************************************************************************
+  Returns the setting to the given name.
+****************************************************************************/
+struct setting *setting_by_name(const char *name)
+{
+  settings_iterate(pset) {
+    if (0 == strcmp(name, pset->name)) {
+      return pset;
+    }
+  } settings_iterate_end;
+  return NULL;
 }
 
 /****************************************************************************

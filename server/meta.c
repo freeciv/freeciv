@@ -40,21 +40,25 @@
 #include <winsock.h>
 #endif
 
-#include "capstr.h"
-#include "connection.h"
-#include "dataio.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
 #include "support.h"
 #include "timing.h"
+
+/* common */
+#include "capstr.h"
+#include "connection.h"
+#include "dataio.h"
+#include "game.h"
 #include "version.h"
 
 /* server */
 #include "console.h"
 #include "plrhand.h"
+#include "settings.h"
 #include "srv_main.h"
 
 #include "meta.h"
@@ -194,6 +198,23 @@ static void metaserver_failed(void)
   con_flush();
 
   server_close_meta();
+}
+
+/****************************************************************************
+  Insert a setting in the metaserver message. Return TRUE if it succeded.
+****************************************************************************/
+static inline bool meta_insert_setting(char *s, size_t rest,
+                                       const char *set_name)
+{
+  const struct setting *pset = setting_by_name(set_name);
+  char buf[256];
+
+  fc_assert_ret_val_msg(NULL != pset, FALSE,
+                        "Setting \"%s\" not found!", set_name);
+  fc_snprintf(s, rest, "vn[]=%s&vv[]=%s&",
+              fc_url_encode(setting_name(pset)),
+              setting_value_name(pset, FALSE, buf, sizeof(buf)));
+  return TRUE;
 }
 
 /*************************************************************************
@@ -346,42 +367,49 @@ static bool send_to_metaserver(enum meta_flag flag)
       s = end_of_strn(s, &rest);
     }
 
-    /* send some variables: should be listed in inverted order
-     * FIXME: these should be input from the settings array */
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("timeout"), game.info.timeout);
-    s = end_of_strn(s, &rest);
+    /* Send some variables: should be listed in inverted order? */
+    {
+      static const char *settings[] = {
+        "timeout", "endturn", "minplayers", "maxplayers",
+        "aifill", "allowtake", "generator"
+      };
+      int i;
 
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("year"), game.info.year);
-    s = end_of_strn(s, &rest);
+      for (i = 0; i < ARRAY_SIZE(settings); i++) {
+        if (meta_insert_setting(s, rest, settings[i])) {
+          s = end_of_strn(s, &rest);
+        }
+      }
 
+      /* HACK: send the most determinant setting for the map size. */
+      switch (map.server.mapsize) {
+      case MAPSIZE_FULLSIZE:
+        if (meta_insert_setting(s, rest, "size")) {
+          s = end_of_strn(s, &rest);
+        }
+        break;
+      case MAPSIZE_PLAYER:
+        if (meta_insert_setting(s, rest, "tilesperplayer")) {
+          s = end_of_strn(s, &rest);
+        }
+        break;
+      case MAPSIZE_XYSIZE:
+        if (meta_insert_setting(s, rest, "xsize")) {
+          s = end_of_strn(s, &rest);
+        }
+        if (meta_insert_setting(s, rest, "ysize")) {
+          s = end_of_strn(s, &rest);
+        }
+        break;
+      }
+    }
+
+    /* Turn and year. */
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("turn"), game.info.turn);
     s = end_of_strn(s, &rest);
-
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("endturn"), game.server.end_turn);
-    s = end_of_strn(s, &rest);
-
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("minplayers"), game.server.min_players);
-    s = end_of_strn(s, &rest);
-
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("maxplayers"), game.server.max_players);
-    s = end_of_strn(s, &rest);
-
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%s&",
-                fc_url_encode("allowtake"), game.server.allow_take);
-    s = end_of_strn(s, &rest);
-
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("generator"), map.server.generator);
-    s = end_of_strn(s, &rest);
-
-    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("size"), map.server.size);
+                fc_url_encode("year"), game.info.year);
     s = end_of_strn(s, &rest);
   }
 
