@@ -1332,16 +1332,18 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       island_terrain_init();
 
       /* 2 or 3 players per isle? */
-      if (map.server.startpos == 2 || (map.server.startpos == 3)) { 
-	mapgenerator4();
+      if (MAPSTARTPOS_2or3 == map.server.startpos
+          || MAPSTARTPOS_ALL == map.server.startpos) {
+        mapgenerator4();
       }
-      if (map.server.startpos <= 1) {
-	/* single player per isle */
-	mapgenerator3();
+      if (MAPSTARTPOS_DEFAULT == map.server.startpos
+          || MAPSTARTPOS_SINGLE == map.server.startpos) {
+        /* Single player per isle. */
+        mapgenerator3();
       }
-      if (map.server.startpos == 4) {
-	/* "variable" single player */
-	mapgenerator2();
+      if (MAPSTARTPOS_VARIABLE == map.server.startpos) {
+        /* "Variable" single player. */
+        mapgenerator2();
       }
 
       /* free terrain selection lists used by make_island() */
@@ -1349,14 +1351,16 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     }
 
     if (MAPGEN_FRACTAL == map.server.generator) {
-      make_pseudofractal1_hmap(1 + ((map.server.startpos == 0
-				     || map.server.startpos == 3)
-				    ? 0 : player_count()));
+      make_pseudofractal1_hmap(1 +
+                               ((MAPSTARTPOS_DEFAULT == map.server.startpos
+                                 || MAPSTARTPOS_ALL == map.server.startpos)
+                                ? 0 : player_count()));
     }
 
     if (MAPGEN_RANDOM == map.server.generator) {
-      make_random_hmap(MAX(1, 1 + get_sqsize() 
-			   - (map.server.startpos ? player_count() / 4 : 0)));
+      make_random_hmap(MAX(1, 1 + get_sqsize()
+                           - (MAPSTARTPOS_DEFAULT != map.server.startpos
+                              ? player_count() / 4 : 0)));
     }
 
     /* if hmap only generator make anything else */
@@ -1401,7 +1405,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   /* We don't want random start positions in a scenario which already
    * provides them. */
   if (map.server.num_start_positions == 0) {
-    enum start_mode mode = MT_ALL;
+    enum map_startpos mode = MAPSTARTPOS_ALL;
     bool success;
     
     switch (map.server.generator) {
@@ -1411,16 +1415,16 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       break;
     case MAPGEN_FRACTAL:
       if (map.server.startpos == 0) {
-        mode = MT_ALL;
+        mode = MAPSTARTPOS_ALL;
       } else {
         mode = map.server.startpos;
       }
       break;
     case MAPGEN_ISLAND:
       if (map.server.startpos <= 1 || (map.server.startpos == 4)) {
-        mode = MT_SINGLE;
+        mode = MAPSTARTPOS_SINGLE;
       } else {
-	mode = MT_2or3;
+        mode = MAPSTARTPOS_2or3;
       }
       break;
     }
@@ -1432,15 +1436,15 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       }
       
       switch(mode) {
-        case MT_SINGLE:
-	  mode = MT_2or3;
-	  continue;
-	case MT_2or3:
-	  mode = MT_ALL;
-	  break;
-	case MT_ALL:
-	  mode = MT_VARIABLE;
-	  break;
+        case MAPSTARTPOS_SINGLE:
+          mode = MAPSTARTPOS_2or3;
+          continue;
+        case MAPSTARTPOS_2or3:
+          mode = MAPSTARTPOS_ALL;
+          break;
+        case MAPSTARTPOS_ALL:
+          mode = MAPSTARTPOS_VARIABLE;
+          break;
         default:
           fc_assert_exit_msg(FALSE, "The server couldn't allocate "
                              "starting positions.");
@@ -2402,7 +2406,7 @@ static void mapgenerator4(void)
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
   if (player_count() < 2 || map.server.landpercent > 80) {
-    map.server.startpos = 1;
+    map.server.startpos = MAPSTARTPOS_SINGLE;
     return;
   }
 

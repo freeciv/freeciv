@@ -229,16 +229,20 @@ static const struct sset_val_name *generator_name(int generator)
 
 /****************************************************************************
   Start position setting names accessor.
-  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *startpos_name(int startpos)
 {
   switch (startpos) {
-  NAME_CASE(0, "GENERATOR", N_("Generator's choice"));
-  NAME_CASE(1, "ONE_PER_CONT", N_("One player per continent"));
-  NAME_CASE(2, "TWO_PER_CONT", N_("Two players per continent"));
-  NAME_CASE(3, "ALL_ON_CONT", N_("All players on a single continent"));
-  NAME_CASE(4, "SIZE", N_("Depending on size of continents"));
+  NAME_CASE(MAPSTARTPOS_DEFAULT, "DEFAULT",
+            N_("Generator's choice"));
+  NAME_CASE(MAPSTARTPOS_SINGLE, "SINGLE",
+            N_("One player per continent"));
+  NAME_CASE(MAPSTARTPOS_2or3, "2or3",
+            N_("Two on three players per continent"));
+  NAME_CASE(MAPSTARTPOS_ALL, "ALL",
+            N_("All players on a single continent"));
+  NAME_CASE(MAPSTARTPOS_VARIABLE, "VARIABLE",
+            N_("Depending on size of continents"));
   }
   return NULL;
 }
@@ -924,9 +928,9 @@ static struct setting settings[] = {
   GEN_ENUM("startpos", map.server.startpos,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used to choose start positions"),
-           N_("Selecting \"Generator's choice\" means the default value "
-              "will be picked based on the generator chosen. See the "
-              "\"generator\" setting.\n"
+           N_("Selecting \"Generator's choice\" (DEFAULT) means the default "
+              "value will be picked based on the generator chosen. See the "
+              "'generator' setting.\n"
               "Note: generators try to create the right number of "
               "continents for the choice of start pos and to the number "
               "of players"), NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)

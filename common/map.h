@@ -48,10 +48,18 @@ enum mapsize_type {
 };
 
 enum map_generator {
-  MAPGEN_SCENARIO,
+  MAPGEN_SCENARIO = 0,
   MAPGEN_RANDOM,
   MAPGEN_FRACTAL,
   MAPGEN_ISLAND
+};
+
+enum map_startpos {
+  MAPSTARTPOS_DEFAULT = 0,      /* Generator's choice. */
+  MAPSTARTPOS_SINGLE,           /* One player per continent. */
+  MAPSTARTPOS_2or3,             /* Two on three players per continent. */
+  MAPSTARTPOS_ALL,              /* All players on a single continent. */
+  MAPSTARTPOS_VARIABLE,         /* Depending on size of continents. */
 };
 
 struct civ_map {
@@ -80,7 +88,7 @@ struct civ_map {
       int huts;
       int landpercent;
       enum map_generator generator;
-      int startpos;
+      enum map_startpos startpos;
       bool tinyisles;
       bool separatepoles;
       bool alltemperate;
@@ -540,7 +548,7 @@ extern const int DIR_DY[8];
 
 #define MAP_DEFAULT_GENERATOR    MAPGEN_RANDOM
 
-#define MAP_DEFAULT_STARTPOS     0
+#define MAP_DEFAULT_STARTPOS     MAPSTARTPOS_DEFAULT
 
 #define MAP_DEFAULT_TINYISLES    FALSE
 #define MAP_MIN_TINYISLES        FALSE
