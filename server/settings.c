@@ -381,8 +381,8 @@ compresstype_name(enum fz_method compresstype)
 static const struct sset_val_name *bool_name(int enable)
 {
   switch (enable) {
-  NAME_CASE(FALSE, "FALSE", N_("disabled"));
-  NAME_CASE(TRUE, "TRUE", N_("enabled"));
+  NAME_CASE(FALSE, "DISABLED", N_("disabled"));
+  NAME_CASE(TRUE, "ENABLED", N_("enabled"));
   }
   return NULL;
 }
@@ -706,28 +706,6 @@ static bool unitwaittime_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
-  Check that everyone is on a team for team-alternating simultaneous
-  phases. NB: Assumes that it is not possible to first set team
-  alternating phase mode then make teamless players.
-*************************************************************************/
-static bool phasemode_callback(int value, struct connection *caller,
-                               char *reject_msg, size_t reject_msg_len)
-{
-  if (value == PMT_TEAMS_ALTERNATE) {
-    players_iterate(pplayer) {
-      if (!pplayer->team) {
-        settings_snprintf(reject_msg, reject_msg_len,
-                          _("All players must have a team if this option "
-                            "value is used."));
-        return FALSE;
-      }
-    } players_iterate_end;
-  }
-
-  return TRUE;
-}
-
-/*************************************************************************
  ...
 *************************************************************************/
 static bool xsize_callback(int value, struct connection *caller,
@@ -839,6 +817,11 @@ static struct setting settings[] = {
   GEN_ENUM("mapsize", map.server.mapsize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map size definition"),
+          /* TRANS: The strings between double quotes are also translated
+           * separately (they must match!). The strings between single
+           * quotes are setting names and shouldn't be translated. The
+           * strings between paranthesis and in uppercase must stay as
+           * untranslated. */
           N_("The map size can be defined using different options:\n"
              "- \"Number of tiles\" (FULLSIZE): Map size (option 'size').\n"
              "- \"Tiles per player\" (PLAYER): Number of (land) tiles per "
@@ -850,6 +833,11 @@ static struct setting settings[] = {
   GEN_INT("size", map.server.size, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map size (in thousands of tiles)"),
+          /* TRANS: The strings between double quotes are also translated
+           * separately (they must match!). The strings between single
+           * quotes are setting names and shouldn't be translated. The
+           * strings between paranthesis and in uppercase must stay as
+           * untranslated. */
           N_("This value is used to determine the map dimensions.\n"
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
              "  size = 20 is a huge map of 20,000 tiles\n"
@@ -860,6 +848,11 @@ static struct setting settings[] = {
   GEN_INT("tilesperplayer", map.server.tilesperplayer, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Number of (land) tiles per player"),
+          /* TRANS: The strings between double quotes are also translated
+           * separately (they must match!). The strings between single
+           * quotes are setting names and shouldn't be translated. The
+           * strings between paranthesis and in uppercase must stay as
+           * untranslated. */
           N_("This value is used to determine the map dimensions. It "
              "calculates the map size at game start based on the number "
              "of players and the value of the setting 'landmass'. "
@@ -871,6 +864,11 @@ static struct setting settings[] = {
   GEN_INT("xsize", map.xsize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map width in squares"),
+          /* TRANS: The strings between double quotes are also translated
+           * separately (they must match!). The strings between single
+           * quotes are setting names and shouldn't be translated. The
+           * strings between paranthesis and in uppercase must stay as
+           * untranslated. */
           N_("Defines the map width. To use this option, set "
              "'mapsize' to \"Width and height\" (XYSIZE)."),
           xsize_callback, NULL,
@@ -878,6 +876,11 @@ static struct setting settings[] = {
   GEN_INT("ysize", map.ysize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map height in squares"),
+          /* TRANS: The strings between double quotes are also translated
+           * separately (they must match!). The strings between single
+           * quotes are setting names and shouldn't be translated. The
+           * strings between paranthesis and in uppercase must stay as
+           * untranslated. */
           N_("Defines the map height. To use this option, set "
              "'mapsize' to \"Width and height\" (XYSIZE)."),
           ysize_callback, NULL,
@@ -912,7 +915,11 @@ static struct setting settings[] = {
   GEN_ENUM("generator", map.server.generator,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used to generate map"),
-           /* TRANS: Don't translate "startpos". */
+           /* TRANS: The strings between double quotes are also translated
+            * separately (they must match!). The strings between single
+            * quotes are setting names and shouldn't be translated. The
+            * strings between paranthesis and in uppercase must stay as
+            * untranslated. */
            N_("If the default value of startpos is used then a startpos "
               "setting will be chosen based on the generator:\n"
               "- \"Fully random height\" (RANDOM): depending on continent "
@@ -926,6 +933,11 @@ static struct setting settings[] = {
   GEN_ENUM("startpos", map.server.startpos,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Method used to choose start positions"),
+           /* TRANS: The strings between double quotes are also translated
+            * separately (they must match!). The strings between single
+            * quotes are setting names and shouldn't be translated. The
+            * strings between paranthesis and in uppercase must stay as
+            * untranslated. */
            N_("Selecting \"Generator's choice\" (DEFAULT) means the default "
               "value will be picked based on the generator chosen. See the "
               "'generator' setting.\n"
@@ -934,22 +946,24 @@ static struct setting settings[] = {
               "of players"), NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
 
   GEN_BOOL("tinyisles", map.server.tinyisles,
-	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
-	   N_("Presence of 1x1 islands"),
-           N_("0 = no 1x1 islands; 1 = some 1x1 islands"), NULL, NULL,
-	   MAP_DEFAULT_TINYISLES)
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Presence of 1x1 islands"),
+           N_("This setting controls whether the map generator is allowed "
+              " to make islands of one only tile size."), NULL, NULL,
+           MAP_DEFAULT_TINYISLES)
 
   GEN_BOOL("separatepoles", map.server.separatepoles,
-	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	   N_("Whether the poles are separate continents"),
-	   N_("0 = continents may attach to poles; 1 = poles will "
-              "usually be separate"), NULL, NULL,
-	   MAP_DEFAULT_SEPARATE_POLES)
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Whether the poles are separate continents"),
+           N_("If this setting is disabled, the continents may attach to "
+              "poles."), NULL, NULL, MAP_DEFAULT_SEPARATE_POLES)
 
   GEN_BOOL("alltemperate", map.server.alltemperate, 
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
-	   N_("All the map is temperate"),
-	   N_("0 = normal Earth-like planet; 1 = all-temperate planet "),
+           N_("All the map is temperate"),
+           N_("If this setting is enabled, the temperature will be "
+              "equivalent everywhere on the map. It will result that the "
+              "poles won't be generated."),
            NULL, NULL, MAP_DEFAULT_ALLTEMPERATE)
 
   GEN_INT("temperature", map.server.temperature,
@@ -1071,16 +1085,17 @@ static struct setting settings[] = {
   GEN_INT("aifill", game.info.aifill,
 	  SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Limited number of AI players"),
-	  N_("If set to a positive value, then AI players will be "
-	     "automatically created or removed to keep the total "
-	     "number of players at this amount.  As more players join, "
-	     "these AI players will be replaced.  When set to zero, "
+          N_("If set to a positive value, then AI players will be "
+             "automatically created or removed to keep the total "
+             "number of players at this amount. As more players join, "
+             "these AI players will be replaced. When set to zero, "
              "all AI players will be removed."), NULL,
           aifill_action, GAME_MIN_AIFILL, GAME_MAX_AIFILL,
           GAME_DEFAULT_AIFILL)
 
   GEN_INT("ec_turns", game.server.event_cache.turns,
-          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,
+          SSET_TO_CLIENT,
           N_("Event cache for this number of turns"),
           N_("Event messages are saved for this number of turns. A value of "
              "0 deactivates the event cache."),
@@ -1088,23 +1103,26 @@ static struct setting settings[] = {
           GAME_DEFAULT_EVENT_CACHE_TURNS)
 
   GEN_INT("ec_max_size", game.server.event_cache.max_size,
-          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,
+          SSET_TO_CLIENT,
           N_("Size of the event cache"),
           N_("This defines the maximal number of events in the event cache."),
-          NULL, NULL, GAME_MIN_EVENT_CACHE_MAX_SIZE, GAME_MAX_EVENT_CACHE_MAX_SIZE,
-          GAME_DEFAULT_EVENT_CACHE_MAX_SIZE)
+          NULL, NULL, GAME_MIN_EVENT_CACHE_MAX_SIZE,
+          GAME_MAX_EVENT_CACHE_MAX_SIZE, GAME_DEFAULT_EVENT_CACHE_MAX_SIZE)
 
   GEN_BOOL("ec_chat", game.server.event_cache.chat,
-           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,
+           SSET_TO_CLIENT,
            N_("Save chat messages in the event cache"),
-           N_("If set to 1 chat messages will be saved in the event cache."),
-           NULL, NULL, GAME_DEFAULT_EVENT_CACHE_CHAT)
+           N_("If turned on, chat messages will be saved in the event "
+              "cache."), NULL, NULL, GAME_DEFAULT_EVENT_CACHE_CHAT)
 
   GEN_BOOL("ec_info", game.server.event_cache.info,
            SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Print turn and time for each cached event"),
-           N_("If set to 1 all cached events will be marked by the turn and time "
-              "of the event like '(T2 - 15:29:52)'."),
+           /* TRANS: Don't translate the text between single quotes. */
+           N_("If turned on, all cached events will be marked by the turn "
+              "and time of the event like '(T2 - 15:29:52)'."),
            NULL, NULL, GAME_DEFAULT_EVENT_CACHE_INFO)
 
   /* Game initialization parameters (only affect the first start of the game,
@@ -1413,6 +1431,9 @@ static struct setting settings[] = {
   GEN_ENUM("citynames", game.server.allowed_city_names,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Allowed city names"),
+           /* TRANS: The strings between double quotes are also translated
+            * separately (they must match!). The strings between paranthesis
+            * and in uppercase must not to be translated. */
            N_("- \"No restrictions\" (NO_RESTRICTIONS): players can have "
               "multiple cities with the same names.\n"
               "- \"Unique to a player\" (PLAYER_UNIQUE): one player can't "
@@ -1441,6 +1462,8 @@ static struct setting settings[] = {
   GEN_ENUM("barbarians", game.server.barbarianrate,
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Barbarian appearance frequency"),
+           /* TRANS: The string between single quotes is a setting name and
+            * should not be translated. */
            N_("This setting controls how frequently the barbarians appear "
               "in the game. See also the 'onsetbarbs' setting."),
            NULL, NULL, barbarians_name, GAME_DEFAULT_BARBARIANRATE)
@@ -1463,13 +1486,13 @@ static struct setting settings[] = {
 	  GAME_DEFAULT_REVOLUTION_LENGTH)
 
   GEN_BOOL("fogofwar", game.info.fogofwar,
-	   SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	   N_("Whether to enable fog of war"),
-	   N_("If this is set to 1, only those units and cities within "
-	      "the vision range of your own units and cities will be "
-	      "revealed to you. You will not see new cities or terrain "
-              "changes in tiles not observed."), NULL, NULL,
-	   GAME_DEFAULT_FOGOFWAR)
+           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Whether to enable fog of war"),
+           N_("If this is enabled, only those units and cities within "
+              "the vision range of your own units and cities will be "
+              "revealed to you. You will not see new cities or terrain "
+              "changes in tiles not observed."),
+           NULL, NULL, GAME_DEFAULT_FOGOFWAR)
 
   GEN_BOOL("foggedborders", game.server.foggedborders,
            SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
@@ -1478,46 +1501,51 @@ static struct setting settings[] = {
               "to see changes in tile ownership if they do not have "
               "direct sight of the affected tiles. Otherwise, players "
               "can see any or all changes to borders as long as they "
-              "have previously seen the tiles."), NULL, NULL,
-           GAME_DEFAULT_FOGGEDBORDERS)
+              "have previously seen the tiles."),
+           NULL, NULL, GAME_DEFAULT_FOGGEDBORDERS)
 
   GEN_BITWISE("airliftingstyle", game.info.airlifting_style,
               SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
               SSET_TO_CLIENT, N_("Airlifting style"),
+              /* TRANS: The strings between double quotes are also
+               * translated separately (they must match!). The strings
+               * between paranthesis and in uppercase must not to be
+               * translated. */
               N_("This setting affects airlifting units between cities. It "
                  "can be a set of the following values:\n"
-                 "- \"Allows units to be airlifted from allied cities\"\n"
-                 "- \"Allows units to be airlifted to allied citiess\"\n"
-                 "- \"Unlimited units from source city\": note that "
-                 "airlifting from a city doesn't reduce the airlifted "
-                 "counter, but still needs at least 1.\n"
-                 "- \"Unlimited units to destination city\": note that "
-                 "airlifting to a city doesn't reduce the airlifted "
-                 "counter, and doesn't need any."),
+                 "- \"Allows units to be airlifted from allied cities\" "
+                 "(FROM_ALLIES).\n"
+                 "- \"Allows units to be airlifted to allied citiess\" "
+                 "(TO_ALLIES)\n"
+                 "- \"Unlimited units from source city\" (SRC_UNLIMITED): "
+                 "note that airlifting from a city doesn't reduce the "
+                 "airlifted counter, but still needs at least 1.\n"
+                 "- \"Unlimited units to destination city\" "
+                 "(DEST_UNLIMITED): note that airlifting to a city doesn't "
+                 "reduce the airlifted counter, and doesn't need any."),
               NULL, NULL, airliftingstyle_name, GAME_DEFAULT_AIRLIFTINGSTYLE)
 
   GEN_INT("diplchance", game.server.diplchance,
-	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Base chance for diplomats and spies to succeed."),
-	  /* xgettext:no-c-format */
-	  N_("The chance of a spy returning from a successful mission and "
-	     "the base chance of success for diplomats and spies."),
+          SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
+          SSET_TO_CLIENT,
+          N_("Base chance for diplomats and spies to succeed."),
+          N_("The chance of a spy returning from a successful mission and "
+             "the base chance of success for diplomats and spies."),
           NULL, NULL,
-	  GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
+          GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
 
   GEN_BOOL("spacerace", game.info.spacerace,
-	   SSET_RULES_FLEXIBLE, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
-	   N_("Whether to allow space race"),
-	   N_("If this option is set to 1, players can build spaceships."),
-           NULL, NULL,
-	   GAME_DEFAULT_SPACERACE)
+           SSET_RULES_FLEXIBLE, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Whether to allow space race"),
+           N_("If this option is enabled, players can build spaceships."),
+           NULL, NULL, GAME_DEFAULT_SPACERACE)
 
   GEN_BOOL("endspaceship", game.server.endspaceship, SSET_RULES_FLEXIBLE,
            SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
            N_("Should the game end if the spaceship arrives?"),
-           N_("If this option is set to 1, the game will end with the "
-              "arrival of a spaceship at Alpha Centauri."), NULL, NULL,
-           GAME_DEFAULT_END_SPACESHIP)
+           N_("If this option is turned on, the game will end with the "
+              "arrival of a spaceship at Alpha Centauri."),
+           NULL, NULL, GAME_DEFAULT_END_SPACESHIP)
 
   GEN_INT("civilwarsize", game.server.civilwarsize,
 	  SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
@@ -1532,7 +1560,7 @@ static struct setting settings[] = {
   GEN_BOOL("restrictinfra", game.info.restrictinfra,
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
            N_("Restrict the use of the infrastructure for enemy units"),
-           N_("If this option is set to 1, the use of roads and rails "
+           N_("If this option is enabled, the use of roads and rails "
               "will be restricted for enemy units."), NULL, NULL,
            GAME_DEFAULT_RESTRICTINFRA)
 
@@ -1557,14 +1585,13 @@ static struct setting settings[] = {
 	  GAME_DEFAULT_CONTACTTURNS)
 
   GEN_BOOL("savepalace", game.server.savepalace,
-	   SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	   N_("Rebuild palace whenever capital is conquered"),
-	   N_("If this is set to 1, when the capital is conquered the "
-	      "palace is automatically rebuilt for free in another randomly "
-	      "choosen city. This is significant because the technology "
-	      "requirement for building a palace will be ignored."),
-           NULL, NULL,
-	   GAME_DEFAULT_SAVEPALACE)
+           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Rebuild palace whenever capital is conquered"),
+           N_("If this is turned on, when the capital is conquered the "
+              "palace is automatically rebuilt for free in another randomly "
+              "choosen city. This is significant because the technology "
+              "requirement for building a palace will be ignored."),
+           NULL, NULL, GAME_DEFAULT_SAVEPALACE)
 
   GEN_BOOL("homecaughtunits", game.server.homecaughtunits,
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
@@ -1583,6 +1610,8 @@ static struct setting settings[] = {
   GEN_BOOL("migration", game.server.migration,
            SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Whether to enable citizen migration"),
+           /* TRANS: The strings between single quotes are setting names
+            * and should not be translated. */
            N_("This is the master setting that controls whether citizen "
               "migration is active in the game. If enabled, citizens may "
               "automatically move from less desirable cities to more "
@@ -1592,16 +1621,17 @@ static struct setting settings[] = {
               "Citizens will never migrate out of the capital, or cause "
               "a wonder to be lost by disbanding a city. A number of other "
               "settings control how migration behaves:\n"
-              "  mgr_turninterval - How often citizens try to migrate.\n"
-              "  mgr_foodneeded   - Whether destination food is checked.\n"
-              "  mgr_distance     - How far citizens will migrate.\n"
-              "  mgr_worldchance  - Chance for inter-nation migration.\n"
-              "  mgr_nationchance - Chance for intra-nation migration."),
+              "  'mgr_turninterval' - How often citizens try to migrate.\n"
+              "  'mgr_foodneeded'   - Whether destination food is checked.\n"
+              "  'mgr_distance'     - How far citizens will migrate.\n"
+              "  'mgr_worldchance'  - Chance for inter-nation migration.\n"
+              "  'mgr_nationchance' - Chance for intra-nation migration."),
            NULL, NULL, GAME_DEFAULT_MIGRATION)
 
   GEN_INT("mgr_turninterval", game.server.mgr_turninterval,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
           N_("Number of turns between migrations from a city"),
+           /* TRANS: Do not translate 'migration' setting name. */
           N_("This setting controls the number of turns between migration "
              "checks for a given city. The interval is calculated from "
              "the founding turn of the city. So for example if this "
@@ -1616,6 +1646,7 @@ static struct setting settings[] = {
   GEN_BOOL("mgr_foodneeded", game.server.mgr_foodneeded,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Whether migration is limited by food"),
+           /* TRANS: Do not translate 'migration' setting name. */
            N_("If this setting is enabled, citizens will not migrate to "
               "cities which would not have enough food to support them. "
               "This setting has no effect unless migration is enabled by "
@@ -1625,6 +1656,7 @@ static struct setting settings[] = {
   GEN_INT("mgr_distance", game.server.mgr_distance,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
           N_("Maximum distance citizens may migrate"),
+          /* TRANS: Do not translate 'migration' setting name. */
           N_("This setting controls how far citizens may look for a "
              "suitable migration destination when deciding which city "
              "to migrate to. The value is added to the current city radius "
@@ -1638,6 +1670,7 @@ static struct setting settings[] = {
   GEN_INT("mgr_nationchance", game.server.mgr_nationchance,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
           N_("Percent probability for migration within the same nation"),
+          /* TRANS: Do not translate 'migration' setting name. */
           N_("This setting controls how likely it is for citizens to "
              "migrate between cities owned by the same player. Zero "
              "indicates migration will never occur, 100 means that "
@@ -1650,6 +1683,7 @@ static struct setting settings[] = {
   GEN_INT("mgr_worldchance", game.server.mgr_worldchance,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
           N_("Percent probability for migration between foreign cities"),
+          /* TRANS: Do not translate 'migration' setting name. */
           N_("This setting controls how likely it is for migration "
              "to occur between cities owned by different players. "
              "Zero indicates migration will never occur, 100 means "
@@ -1703,25 +1737,29 @@ static struct setting settings[] = {
              allowtake_callback, NULL, GAME_DEFAULT_ALLOW_TAKE)
 
   GEN_BOOL("autotoggle", game.server.auto_ai_toggle,
-	   SSET_META, SSET_NETWORK, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	   N_("Whether AI-status toggles with connection"),
-	   N_("If this is set to 1, AI status is turned off when a player "
-	      "connects, and on when a player disconnects."),
+           SSET_META, SSET_NETWORK, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Whether AI-status toggles with connection"),
+           N_("If enabled, AI status is turned off when a player "
+              "connects, and on when a player disconnects."),
            NULL, autotoggle_action, GAME_DEFAULT_AUTO_AI_TOGGLE)
 
   GEN_INT("endturn", game.server.end_turn,
-	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Turn the game ends"),
+          SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Turn the game ends"),
           N_("The game will end at the end of the given turn."),
           endturn_callback, NULL,
           GAME_MIN_END_TURN, GAME_MAX_END_TURN, GAME_DEFAULT_END_TURN)
 
   GEN_INT("timeout", game.info.timeout,
-	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Maximum seconds per turn"),
-	  N_("If all players have not hit \"Turn Done\" before this "
-	     "time is up, then the turn ends automatically. Zero "
-	     "means there is no timeout. In servers compiled with "
+          SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Maximum seconds per turn"),
+          /* TRANS: \"Turn Done\" refers to the client button; it is also
+           * translated separately, the translation should be the same.
+           * \"timeoutincrease\" is a command name and must not to be
+           * translated. */
+          N_("If all players have not hit \"Turn Done\" before this "
+             "time is up, then the turn ends automatically. Zero "
+             "means there is no timeout. In servers compiled with "
              "debugging, a timeout of -1 sets the autogame test mode. "
              "Only connections with hack level access may set the "
              "timeout to lower than 30 seconds. Use this with the "
@@ -1739,6 +1777,8 @@ static struct setting settings[] = {
   GEN_INT("unitwaittime", game.server.unitwaittime,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
           N_("Time between unit moves over turn change"),
+          /* TRANS: The string between single quote is a setting name and
+           * should not be translated. */
           N_("This setting gives the minimum amount of time in seconds "
              "between unit moves after a turn change occurs. For "
              "example, if this setting is set to 20 and a unit moves "
@@ -1758,7 +1798,7 @@ static struct setting settings[] = {
            N_("Control of simultaneous player/team phases."),
            N_("This setting controls whether players may make "
               "moves at the same time during a turn."),
-           phasemode_callback, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
+           NULL, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.server.tcptimeout,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
@@ -1795,44 +1835,48 @@ static struct setting settings[] = {
 	  GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT)
 
   GEN_BOOL("turnblock", game.server.turnblock,
-	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	   N_("Turn-blocking game play mode"),
-	   N_("If this is set to 1 the game turn is not advanced "
-	      "until all players have finished their turn, including "
-              "disconnected players."), NULL, NULL,
-	   GAME_DEFAULT_TURNBLOCK)
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Turn-blocking game play mode"),
+           N_("If this is turned on, the game turn is not advanced "
+              "until all players have finished their turn, including "
+              "disconnected players."),
+           NULL, NULL, GAME_DEFAULT_TURNBLOCK)
 
   GEN_BOOL("fixedlength", game.server.fixedlength,
-	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	   N_("Fixed-length turns play mode"),
-	   N_("If this is set to 1 the game turn will not advance "
-	      "until the timeout has expired, even after all players "
-              "have clicked on \"Turn Done\"."), NULL, NULL,
-	   FALSE)
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Fixed-length turns play mode"),
+           /* TRANS: \"Turn Done\" refers to the client button; it is also
+            * translated separately, the translation should be the same. */
+           N_("If this is turned on the game turn will not advance "
+              "until the timeout has expired, even after all players "
+              "have clicked on \"Turn Done\"."),
+           NULL, NULL, FALSE)
 
   GEN_STRING("demography", game.server.demography,
-	     SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	     N_("What is in the Demographics report"),
-	     N_("This should be a string of characters, each of which "
-		"specifies the inclusion of a line of information "
-		"in the Demographics report.\n"
-		"The characters and their meanings are:\n"
-		"    N = include Population\n"
-		"    P = include Production\n"
-		"    A = include Land Area\n"
-		"    L = include Literacy\n"
-		"    R = include Research Speed\n"
-		"    S = include Settled Area\n"
-		"    E = include Economics\n"
-		"    M = include Military Service\n"
-		"    O = include Pollution\n"
-		"Additionally, the following characters control whether "
-		"or not certain columns are displayed in the report:\n"
-		"    q = display \"quantity\" column\n"
-		"    r = display \"rank\" column\n"
-		"    b = display \"best nation\" column\n"
-		"The order of characters is not significant, but "
-		"their capitalization is."),
+             SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+             N_("What is in the Demographics report"),
+             /* TRANS: The strings between double quotes should be
+              * translated. */
+             N_("This should be a string of characters, each of which "
+                "specifies the inclusion of a line of information "
+                "in the Demographics report.\n"
+                "The characters and their meanings are:\n"
+                "    N = include Population\n"
+                "    P = include Production\n"
+                "    A = include Land Area\n"
+                "    L = include Literacy\n"
+                "    R = include Research Speed\n"
+                "    S = include Settled Area\n"
+                "    E = include Economics\n"
+                "    M = include Military Service\n"
+                "    O = include Pollution\n"
+                "Additionally, the following characters control whether "
+                "or not certain columns are displayed in the report:\n"
+                "    q = display \"quantity\" column\n"
+                "    r = display \"rank\" column\n"
+                "    b = display \"best nation\" column\n"
+                "The order of characters is not significant, but "
+                "their capitalization is."),
              demography_callback, NULL, GAME_DEFAULT_DEMOGRAPHY)
 
   GEN_INT("saveturns", game.server.save_nturns,
@@ -1843,13 +1887,14 @@ static struct setting settings[] = {
           GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
 
   GEN_INT("compress", game.server.save_compress_level,
-	  SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
-	  N_("Savegame compression level"),
-	  N_("If non-zero, saved games will be compressed using zlib "
-	     "(gzip format) or bzip2. Larger values will give better "
-             "compression but take longer."), NULL, NULL,
-	  GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
-	  GAME_DEFAULT_COMPRESS_LEVEL)
+          SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
+          N_("Savegame compression level"),
+          /* TRANS: 'compresstype' setting name should not be translated. */
+          N_("If non-zero, saved games will be compressed depending of the "
+             "'compresstype' setting. Larger values will give better "
+             "compression but take longer."),
+          NULL, NULL, GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
+          GAME_DEFAULT_COMPRESS_LEVEL)
 
   GEN_ENUM("compresstype", game.server.save_compress_type,
            SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
@@ -1861,19 +1906,23 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
            N_("Save using the given savegame version."),
            N_("Create a savegame which can be loaded by the given version "
-              "of Freeciv. Some features will not be saved/restored for "
-              "older versions. '0' uses the current format."),
+              "of Freeciv. Note that some features will not be "
+              "saved/restored for older versions."),
            NULL, NULL, saveversion_name, GAME_DEFAULT_SAVEVERSION)
 
   GEN_STRING("savename", game.server.save_name,
              SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
              N_("Definition of the save file name"),
+             /* TRANS: %R, %S, %T and %Y must not to be translated. The
+              * strings (examples and setting names) between single quotes
+              * neither. The strings between <> should be translated.
+              * xgettext:no-c-format */
              N_("Within the string the following custom formats are "
                 "allowed:\n"
                 "  %R = <reason>\n"
                 "  %S = <suffix>\n"
-                "  %T = <game.info.turn>\n"
-                "  %Y = <game.info.year>\n"
+                "  %T = <turn-number>\n"
+                "  %Y = <game-year>\n"
                 "\n"
                 "Example: 'freeciv-T%04T-Y%+05Y-%R' => "
                 "'freeciv-T0100-Y00001-manual'\n"
@@ -1887,7 +1936,7 @@ static struct setting settings[] = {
   GEN_BOOL("scorelog", game.server.scorelog,
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
            N_("Whether to log player statistics"),
-           N_("If this is set to 1, player statistics are appended to "
+           N_("If this is turned on, player statistics are appended to "
               "the file defined by the option 'scorefile' every turn. "
               "These statistics can be used to create power graphs after "
               "the game."), NULL, scorelog_action, GAME_DEFAULT_SCORELOG)
@@ -2178,7 +2227,7 @@ static const char *setting_bool_to_str(const struct setting *pset,
   const struct sset_val_name *name = pset->boolean.name(value);
 
   if (pretty) {
-    fc_snprintf(buf, buf_len, "%s (%s)", Q_(name->pretty), name->support);
+    fc_snprintf(buf, buf_len, "%s", Q_(name->pretty));
   } else {
     fc_strlcpy(buf, name->support, buf_len);
   }
