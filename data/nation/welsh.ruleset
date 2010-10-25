@@ -12,6 +12,7 @@ leaders = {
  "Llywelyn ap Gruffudd",        "Male"
  "Hywel Dda",                   "Male"
  "Owain Glyndwr",               "Male"
+ "Gwenllian ferch Gruffudd",    "Female"
 }
 
 flag="wales"
@@ -32,15 +33,37 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
-civilwar_nations="scottish", "irish", "cornish"
+
+civilwar_nations="Breton", "Irish", "Cornish"
 
 cities =
-  "Cardiff", "Swansea", "Newport", "Barry", "Port Talbot", "Carmarthen",
-  "Caerphilly", "Merthyr Tydfil", "Pembroke", "Fishguard", "Aberystwyth",
-  "Lampeter", "Llandovery", "Brecon", "Flint", "Caernarfon", "Llanfyllin",
-  "Holyhead", "Tywyn", "Llandeilo", "Cwmbran"
+ "Caerdydd",		; Cardiff
+ "Abertawe",		; Swansea
+ "Casnewydd",		; Newport
+ "Y Barri",		; Barry
+ "Aberafan",		; Port Talbot
+ "Caerfyrddin",		; Carmarthen
+ "Caerffili",		; Caerphilly
+ "Merthyr Tudful",	; Merthyr Tydfil
+ "Penfro",		; Pembroke
+ "Abergwaun",		; Fishguard
+ "Aberystwyth",
+ "Llambed",		; Lampeter
+ "Llanymddyfri",	; Llandovery
+ "Aberhonddu",		; Brecon
+ "Y Fflint",		; Flint
+ "Caernarfon",
+ "Llanfyllin",
+ "Caergybi",		; Holyhead
+ "Tywyn",
+ "Llandeilo",
+ "Cwmbrân",		; Cwmbran
+ "Y Rhondda",		; Rhondda
+ "Llanelli",
+ "Castell Nedd",	;Neath
+ "Wrecsam",		;Wrexham
+ "Llanfairpwllgwyngyll"
 
 
