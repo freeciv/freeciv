@@ -46,6 +46,7 @@
 #include "ggzclient.h"
 #include "packhand.h"
 #include "servers.h"
+#include "update_queue.h"
 
 /* client/gui-gtk-2.0 */
 #include "chatline.h"
@@ -1059,14 +1060,30 @@ static inline GtkTreeStore *connection_list_store_new(void)
 }
 
 /****************************************************************************
-  Send the /take command by chat and toggle AI if needed.
+  Maybe toggle AI of the player if the client could take the player. This
+  function shouldn't be used directly, see in client_take_player().
+****************************************************************************/
+static void client_aitoggle_player(void *data)
+{
+  struct player *pplayer = player_by_number(FC_PTR_TO_INT(data));
+
+  if (NULL != pplayer
+      && pplayer == client_player()
+      && pplayer->ai_controlled) {
+    send_chat("/away");
+  }
+}
+
+/****************************************************************************
+  Send the /take command by chat and toggle AI if needed (after that).
 ****************************************************************************/
 static void client_take_player(struct player *pplayer)
 {
-  if (pplayer->ai_controlled) {
-    send_chat_printf("/aitoggle \"%s\"", player_name(pplayer));
-  }
-  send_chat_printf("/take \"%s\"", player_name(pplayer));
+  int request_id = send_chat_printf("/take \"%s\"", player_name(pplayer));
+  void *data = FC_INT_TO_PTR(player_number(pplayer));
+
+  update_queue_connect_processing_finished(request_id,
+                                           client_aitoggle_player, data);
 }
 
 /****************************************************************************

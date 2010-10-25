@@ -21,8 +21,8 @@
 /* utility */
 #include "astring.h"
 #include "fcintl.h"
+#include "fc_utf8.h"
 #include "log.h"
-#include "support.h"
 
 /* common */
 #include "featured_text.h"
@@ -38,30 +38,29 @@
 #include "chatline_common.h"
 
 
-/**************************************************************************
+/****************************************************************************
   Send the message as a chat to the server.
-**************************************************************************/
-void send_chat(const char *message)
+****************************************************************************/
+int send_chat(const char *message)
 {
-  dsend_packet_chat_msg_req(&client.conn, message);
+  return dsend_packet_chat_msg_req(&client.conn, message);
 }
 
-/**************************************************************************
+/****************************************************************************
   Send the message as a chat to the server. Message is constructed
   in printf style.
-**************************************************************************/
-void send_chat_printf(const char *format, ...)
+****************************************************************************/
+int send_chat_printf(const char *format, ...)
 {
-  char msg[250];
-  int maxlen = sizeof(msg);
+  struct packet_chat_msg_req packet;
+  va_list args;
 
-  va_list ap;
-  va_start(ap, format);
-  /* FIXME: terminating like this can lead to invalid utf-8, a major no-no. */
-  fc_vsnprintf(msg, maxlen, format, ap);
-  msg[maxlen - 1] = '\0'; /* Make sure there is always ending zero */
-  send_chat(msg);
-  va_end(ap);
+  va_start(args, format);
+  fc_utf8_vsnprintf_trunc(packet.message, sizeof(packet.message),
+                          format, args);
+  va_end(args);
+
+  return send_packet_chat_msg_req(&client.conn, &packet);
 }
 
 /**************************************************************************

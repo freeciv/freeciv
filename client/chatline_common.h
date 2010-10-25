@@ -19,9 +19,9 @@
 /* common */
 #include "featured_text.h"      /* struct text_tag_list, struct ft_color */
 
-void send_chat(const char *message);
-void send_chat_printf(const char *format, ...)
-  fc__attribute((__format__ (__printf__, 1, 2)));
+int send_chat(const char *message);
+int send_chat_printf(const char *format, ...)
+    fc__attribute((__format__ (__printf__, 1, 2)));
 
 void output_window_append(const struct ft_color color,
                           const char *featured_text);
