@@ -10,19 +10,19 @@ legend=_("In the centuries after their unification by Chinggis Khan, the\
 
 leaders = {
  "name",        "sex"
- "Chinggis",    "Male"
- "Ogedei",      "Male"
- "Batu",        "Male"
- "Chagadai",    "Male"
- "Tului",       "Male"
- "Godan",       "Male"
- "Subetei",     "Male"
- "Teregene",    "Female"
- "Kuyuk",       "Male"
- "Mengke",      "Male"
- "Khubilai",    "Male"
- "Hulegu",      "Male"
- "Dokuz",       "Female"
+ "Chinggis",	"Male" ; Genghis / Чингис
+ "Ögedei",	"Male" ; Өгэдэй
+ "Bat",		"Male" ; Batu / Бат
+ "Tsagadai",	"Male" ; Chagatai / Цагадай
+ "Tolui",	"Male" ; Толуй
+ "Tokhtamysh",	"Male" ; Тохтамыш
+ "Sübeedei",	"Male" ; Subutai / Сүбээдэй
+ "Dörgene",	"Female" ; Toregene / Дөргэнэ
+ "Güyük", 	"Male" ; Гүюг
+ "Mönkh", 	"Male" ; Mongke / Мөнх
+ "Khubilai",	"Male" ; Kublai / Хубилай
+ "Khülegü",	"Male" ; Hulagu / Хүлэгү
+ "Sorkhagtani",  "Female" ; Sorghaghtani / Сорхагтани
 }
 
 flag="mongolia"
@@ -38,66 +38,37 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Used to have russian here but korean seems closer
-civilwar_nations = "chinese", "korean", "kalmyk"
+civilwar_nations="Tibetan", "Tuvan", "Kalmyk", "Timurid", "Uyghur", "Tatar",
+ "Crimean Tatar"
 
-; Many of these are historical (not part of modern Mongolia)
-cities =
- "Almaligh",
- "Khotan",
- "Turfan",
- "Samarkand",
- "Bokhara",
- "Tashkent",
- "Kashgar",
- "Balkh",
- "Kabul",
- "Sarai",
- "Astra Khan",
- "Tana",
- "Kazan",
- "Caffa",
- "Karakorum",
- "Hami",
- "Dunhuang",
- "Tali",
- "Tabriz",
- "Basra",
- "Rayy",
- "Daybul",
- "Ulan Bator",
- "Ulan Ude",
- "Sainshand",
- "Ulangom",
- "Hovd",
- "Hatgal",
- "Uliastay",
- "Tsetserleg",
- "Altan Bulag",
- "Dzuunmod",
- "Bayan Hongor",
- "Huld",
- "Dalandzadgad",
- "Coybalsan",
- "Erdenet",
- "Mandal Gobi",
- "Muren",
- "Sukhe Bator",
- "Dzuun Haraa",
- "Undur Khan",
- "Olgiy",
- "Arbay Heere",
- "Bulgan",
- "Altay",
- "Baruun Urt",
- "Coyr",
- "Darhan",
- "Bayan Uul",
- "Dzuun Balag",
- "Ereen Cav",
- "Nalayh",
- "Tamsag Bulag",
- "Buyant Uhaa",
- "Dund Us",
- "Dzamyn Uud",
- "Tsetsen Khan"
+cities=
+ "Karakorum", ; Каракорум
+ "Ulaanbaatar", ; Улаанбаатар
+ "Sainshand", ; Сайншанд
+ "Ulaangom", ; Улаангом
+ "Khovd", ; Ховд
+ "Tsetserleg", ; Цэцэрлэг
+ "Altanbulag", ; Алтанбулаг
+ "Zuunmod", ; Зуунмод
+ "Bayankhongor", ; Баянхонгор
+ "Dalanzadgad", ; Даланзадгад
+ "Choibalsan", ; Чойбалсан
+ "Erdenet", ; Эрдэнэт
+ "Mandalgovi", ; Мандалговь
+ "Mörön", ; Мөрөн
+ "Sükhbaatar", ; Сүхбаатар
+ "Züünkharaa", ; Зүүнхараа
+ "Öndörkhaan", ; Өндөрхаан
+ "Ölgii", ; Өлгий
+ "Arvaikheer", ; Арвайхээр
+ "Bulgan", ; Булган
+ "Altai", ; Алтай
+ "Baruun-Urt", ; Баруун-Урт
+ "Choir", ; Чойр
+ "Darkhan", ; Дархан
+ "Bayan-Uul", ; Баян-Уул
+ "Nalaikh", ; Налайх
+ "Zamyn-Üüd", ; Замын-Үүд
+ "Khatgal", ; Хатгал
+ "Uliastai", ; Улиастай
+ "Khuld" ; Хулд
