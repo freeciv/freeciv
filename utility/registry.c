@@ -2483,12 +2483,12 @@ bool secfile_lookup_enum_data(const struct section_file *secfile,
         *pvalue = val;
         break;
       }
-      if (NULL == name) {
-        SECFILE_LOG(secfile, entry_section(pentry),
-                    "Entry \"%s\": no match for \"%s\".",
-                    entry_name(pentry), str);
-        return FALSE;
-      }
+    }
+    if (NULL == name) {
+      SECFILE_LOG(secfile, entry_section(pentry),
+                  "Entry \"%s\": no match for \"%s\".",
+                  entry_name(pentry), str);
+      return FALSE;
     }
   }
 
@@ -2565,12 +2565,12 @@ int secfile_lookup_enum_default_data(const struct section_file *secfile,
         value = val;
         break;
       }
-      if (NULL == name) {
-        SECFILE_LOG(secfile, entry_section(pentry),
-                    "Entry \"%s\": no match for \"%s\".",
-                    entry_name(pentry), str);
-        return defval;
-      }
+    }
+    if (NULL == name) {
+      SECFILE_LOG(secfile, entry_section(pentry),
+                  "Entry \"%s\": no match for \"%s\".",
+                  entry_name(pentry), str);
+      return defval;
     }
   }
 
