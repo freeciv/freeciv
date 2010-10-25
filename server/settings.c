@@ -169,6 +169,13 @@ static void setting_game_restore(struct setting *pset);
 
 /****************************************************************************
   Enumerator name accessors.
+
+  Important note about compatibility:
+  1) you cannot modify the support name of an existant value. However, in a
+     developpement, you can modify it if it wasn't included in any stable
+     branch before.
+  2) Take care of modifiying the pretty name of an existant value: make sure
+  to modify the help texts which are using it.
 ****************************************************************************/
 
 #define NAME_CASE(_val, _support, _pretty)                                  \
@@ -180,14 +187,13 @@ static void setting_game_restore(struct setting *pset);
 
 /****************************************************************************
   Map size definition setting names accessor.
-  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *mapsize_name(int mapsize)
 {
   switch (mapsize) {
-  NAME_CASE(0, "FULLSIZE", N_("Number of tiles"));
-  NAME_CASE(1, "PLAYER", N_("Tiles per player"));
-  NAME_CASE(2, "XYSIZE", N_("Width and height"));
+  NAME_CASE(MAPSIZE_FULLSIZE, "FULLSIZE", N_("Number of tiles"));
+  NAME_CASE(MAPSIZE_PLAYER, "PLAYER", N_("Tiles per player"));
+  NAME_CASE(MAPSIZE_XYSIZE, "XYSIZE", N_("Width and height"));
   }
   return NULL;
 }
@@ -831,11 +837,11 @@ static struct setting settings[] = {
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map size definition"),
           N_("The map size can be defined using different options:\n"
-             "  'Number of tiles' (0)  = Map size (option 'size')\n"
-             "  'Tiles per player' (1) = Number of (land) tiles per "
-             "player (option 'tilesperplayer')\n"
-             "  'Width and height' (2) = Map width and height in "
-             "squares (options 'xsize' and 'ysize')"),
+             "- \"Number of tiles\" (FULLSIZE): Map size (option 'size').\n"
+             "- \"Tiles per player\" (PLAYER): Number of (land) tiles per "
+             "player (option 'tilesperplayer').\n"
+             "- \"Width and height\" (XYSIZE): Map width and height in "
+             "squares (options 'xsize' and 'ysize')."),
           NULL, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
 
   GEN_INT("size", map.server.size, SSET_MAP_SIZE,
@@ -844,8 +850,8 @@ static struct setting settings[] = {
           N_("This value is used to determine the map dimensions.\n"
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
              "  size = 20 is a huge map of 20,000 tiles\n"
-             "To use this option, set 'mapsize' to 'Number of tiles' "
-             "(0)."), NULL, NULL,
+             "To use this option, set 'mapsize' to \"Number of tiles\" "
+             "(FULLSIZE)."), NULL, NULL,
           MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
 
   GEN_INT("tilesperplayer", map.server.tilesperplayer, SSET_MAP_SIZE,
@@ -854,8 +860,8 @@ static struct setting settings[] = {
           N_("This value is used to determine the map dimensions. It "
              "calculates the map size at game start based on the number "
              "of players and the value of the setting 'landmass'. "
-             "To use this option, set 'mapsize' to 'Tiles per player' "
-             "(1)."),
+             "To use this option, set 'mapsize' to \"Tiles per player\" "
+             "(PLAYER)."),
           NULL, NULL, MAP_MIN_TILESPERPLAYER,
           MAP_MAX_TILESPERPLAYER, MAP_DEFAULT_TILESPERPLAYER)
 
@@ -863,13 +869,15 @@ static struct setting settings[] = {
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map width in squares"),
           N_("Defines the map width. To use this option, set "
-             "'mapsize' to 'Width and height' (2)."), xsize_callback, NULL,
+             "'mapsize' to \"Width and height\" (XYSIZE)."),
+          xsize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
   GEN_INT("ysize", map.ysize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map height in squares"),
           N_("Defines the map height. To use this option, set "
-             "'mapsize' to 'Width and height' (2)."), ysize_callback, NULL,
+             "'mapsize' to \"Width and height\" (XYSIZE)."),
+          ysize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
 
   GEN_BITWISE("topology", map.topology_id, SSET_MAP_SIZE,

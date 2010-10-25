@@ -548,7 +548,8 @@ void savegame2_save(struct section_file *file, const char *save_reason,
     /* freeciv 2.2.x */
     if (player_count() > 32) {
       log_error("Error: freeciv 2.2.x can't handle more than 32 players.");
-    } else if (map.server.mapsize != 0 || map.server.size > 30) {
+    } else if (MAPSIZE_FULLSIZE != map.server.mapsize
+               || 30 < map.server.size) {
       log_error("Error: freeciv 2.2.x can't handle bigger maps.");
     } else {
       log_verbose("saving game in old format ...");

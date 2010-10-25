@@ -39,6 +39,14 @@ miscellaneous terrain information
 
 struct hash_table;
 
+enum mapsize_type {
+  MAPSIZE_FULLSIZE = 0, /* Using the number of tiles / 1000. */
+  MAPSIZE_PLAYER,       /* Define the number of (land) tiles per player;
+                         * the setting 'landmass' and the number of players
+                         * are used to calculate the map size. */
+  MAPSIZE_XYSIZE        /* 'xsize' and 'ysize' are defined. */
+};
+
 struct civ_map {
   int topology_id;
   enum direction8 valid_dirs[8], cardinal_dirs[8];
@@ -57,7 +65,7 @@ struct civ_map {
     } client;
 
     struct {
-      int mapsize; /* how the map size is defined */
+      enum mapsize_type mapsize; /* how the map size is defined */
       int size; /* used to calculate [xy]size */
       int tilesperplayer; /* tiles per player; used to calculate size */
       int seed;
@@ -478,12 +486,7 @@ extern const int DIR_DY[8];
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
 
-/* How the map size is defined:
- * 0: using the number of tiles / 1000
- * 1: define the number of (land) tiles per player; the setting 'landmass'
- *    and the number of players are used to calculate the map size
- * 2: xsize and ysize are defined */
-#define MAP_DEFAULT_MAPSIZE  0
+#define MAP_DEFAULT_MAPSIZE     MAPSIZE_FULLSIZE
 
 /* Size of the map in thousands of tiles.  Setting the maximal size over
  * than 30 is dangerous, because some parts of the code (e.g. path finding)

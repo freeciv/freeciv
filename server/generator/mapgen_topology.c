@@ -266,14 +266,14 @@ void generator_init_topology(bool autosize)
     fc_assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
 
     switch (map.server.mapsize) {
-    case 2:
+    case MAPSIZE_XYSIZE:
       map.server.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
       log_normal(_("Creating a map of size %d x %d = %d tiles (map size: "
                    "%d)."), map.xsize, map.ysize, map.xsize * map.ysize,
                  map.server.size);
       break;
 
-    case 1:
+    case MAPSIZE_PLAYER:
       map_size = player_count() * map.server.tilesperplayer
                  / map.server.landpercent / 10;
 
@@ -296,7 +296,7 @@ void generator_init_topology(bool autosize)
       }
       /* no break */
 
-    case 0:
+    case MAPSIZE_FULLSIZE:
       /* Set map.xsize and map.ysize based on map.size. */
       set_sizes(map.server.size, default_ratios[id][0], default_ratios[id][1]);
       break;
