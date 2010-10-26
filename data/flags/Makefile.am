@@ -65,6 +65,7 @@ flag_files =				\
 		cameroon.png		\
 		canada.png		\
 		canada_old.png		\
+		car.png			\
 		cartago.png		\
 		castile.png		\
 		catalan.png		\
@@ -447,6 +448,7 @@ shield_files =					\
 		cameroon-shield.png		\
 		canada-shield.png		\
 		canada_old-shield.png		\
+		car-shield.png			\
 		cartago-shield.png		\
 		castile-shield.png		\
 		catalan-shield.png		\
@@ -829,6 +831,7 @@ svg_files = 				\
 		cameroon.svg		\
 		canada.svg		\
 		canada_old.svg		\
+		car.svg			\
 		cartago.svg		\
 		castile.svg		\
 		catalan.svg		\

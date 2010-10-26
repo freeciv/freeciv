@@ -74,6 +74,7 @@ artists = "
    Cameroon		J.M. Maalderink
    Canada		James Leigh
    Canada (old)		Hoshie (Wikimedia Commons)
+   CAR			Vzb83 (Wikimedia Commons)
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Celtiberian		J.M. Maalderink
@@ -460,6 +461,7 @@ sprites =
 		"f.cameroon", "flags/cameroon"
 		"f.canada", "flags/canada"
 		"f.canada_old", "flags/canada_old"
+		"f.car", "flags/car"
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
