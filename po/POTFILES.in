@@ -292,6 +292,7 @@ data/nation/boer.ruleset
 data/nation/bolivian.ruleset
 data/nation/bosnia.ruleset
 data/nation/bosporan.ruleset
+data/nation/brandenburgian.ruleset
 data/nation/brazilian.ruleset
 data/nation/breton.ruleset
 data/nation/british.ruleset
@@ -452,6 +453,7 @@ data/nation/mapuche.ruleset
 data/nation/martian.ruleset
 data/nation/mayan.ruleset
 data/nation/mazovian.ruleset
+data/nation/mecklenburgian.ruleset
 data/nation/metis.ruleset
 data/nation/mexican.ruleset
 data/nation/miao.ruleset
@@ -492,12 +494,14 @@ data/nation/nuu-chah-nulth.ruleset
 data/nation/occitan.ruleset
 data/nation/ohlone.ruleset
 data/nation/omani.ruleset
+data/nation/oldenburgian.ruleset
 data/nation/ossetian.ruleset
 data/nation/ostrogothic.ruleset
 data/nation/otomi.ruleset
 data/nation/ottoman.ruleset
 data/nation/ozite.ruleset
 data/nation/pakistani.ruleset
+data/nation/palatinate.ruleset
 data/nation/palestinian.ruleset
 data/nation/palmyrene.ruleset
 data/nation/panamanian.ruleset
@@ -533,6 +537,7 @@ data/nation/sarmatian.ruleset
 data/nation/saudi.ruleset
 data/nation/savoyard.ruleset
 data/nation/saxon.ruleset
+data/nation/schleswig-holsteinian.ruleset
 data/nation/scottish.ruleset
 data/nation/scythian.ruleset
 data/nation/seleucid.ruleset

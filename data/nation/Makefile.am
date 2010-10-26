@@ -54,6 +54,7 @@ pkgdata_DATA = \
 		bolivian.ruleset \
 		bosnia.ruleset \
 		bosporan.ruleset \
+		brandenburgian.ruleset \
 		brazilian.ruleset \
 		breton.ruleset \
 		briton.ruleset \
@@ -214,6 +215,7 @@ pkgdata_DATA = \
 		martian.ruleset \
 		mayan.ruleset \
 		mazovian.ruleset \
+		mecklenburgian.ruleset \
 		metis.ruleset \
 		mexican.ruleset \
 		miao.ruleset \
@@ -252,6 +254,7 @@ pkgdata_DATA = \
 		nuu-chah-nulth.ruleset \
 		occitan.ruleset \
 		ohlone.ruleset \
+		oldenburgian.ruleset \
 		omani.ruleset \
 		otomi.ruleset \
 		ossetian.ruleset \
@@ -259,6 +262,7 @@ pkgdata_DATA = \
 		ottoman.ruleset \
 		ozite.ruleset \
 		pakistani.ruleset \
+		palatinate.ruleset \
 		palestinian.ruleset \
 		palmyrene.ruleset \
 		panamanian.ruleset \
@@ -294,6 +298,7 @@ pkgdata_DATA = \
 		saudi.ruleset \
 		savoyard.ruleset \
 		saxon.ruleset \
+		schleswig-holsteinian.ruleset \
 		scottish.ruleset \
 		scythian.ruleset \
 		seleucid.ruleset \

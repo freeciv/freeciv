@@ -25,7 +25,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "frisian", "saxon", "westphalian", "british"
+civilwar_nations = "frisian", "saxon", "westphalian", "british", "oldenburgian"
 
 cities =
  "Hannover",

@@ -44,7 +44,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "german", "dutch", "saxon", "english"
+civilwar_nations = "dutch", "oldenburgian", "schleswig-holsteinian", "english"
 
 cities =
 ;Frisian capitals

@@ -27,8 +27,8 @@ flag_alt = "germany"
 city_style = "european"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Landgrave"),        _("Landgravine")
-		 "Monarchy", 	    _("Elector"),    _("Electress")
+                 "Despotism",       _("Landgrave"),    _("Landgravine")
+		 "Monarchy", 	    _("Elector"),      _("Electress")
 		 "Republic", 	    _("Minister-President"),    _("?female:Minister-President")
                }
 
@@ -37,7 +37,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="bavarian", "hanoverian", "badian"
+civilwar_nations="bavarian", "hanoverian", "badian", "palatinate"
 
 cities =
  "Kassel",

@@ -52,6 +52,7 @@ flag_files =				\
 		bosnia.png		\
 		bosporus.png		\
 		botswana.png		\
+		brandenburg.png		\
 		brasil.png		\
 		britannia.png		\
 		brittany.png		\
@@ -216,6 +217,7 @@ flag_files =				\
 		mars.png		\
 		maya.png		\
 		mazovia.png		\
+		mecklenburg.png		\
 		metis.png		\
 		mexico.png		\
 		micronesia.png		\
@@ -257,12 +259,14 @@ flag_files =				\
 		nuu-chah-nulth.png	\
 		occitania.png		\
 		ohlone.png		\
+		oldenburg.png		\
 		oman.png		\
 		ossetia.png		\
 		otomi.png		\
 		ottoman.png		\
 		oz.png			\
 		pakistan.png		\
+		palatinate.png		\
 		palestine.png		\
 		palmyra.png		\
 		panama.png		\
@@ -300,6 +304,7 @@ flag_files =				\
 		saudi_arabia.png	\
 		savoy.png		\
 		saxony.png		\
+		schleswig-holstein.png	\
 		scotland.png		\
 		scythia.png		\
 		seleucid.png		\
@@ -435,6 +440,7 @@ shield_files =					\
 		bosnia-shield.png		\
 		bosporus-shield.png		\
 		botswana-shield.png		\
+		brandenburg-shield.png		\
 		brasil-shield.png		\
 		britannia-shield.png		\
 		brittany-shield.png		\
@@ -599,6 +605,7 @@ shield_files =					\
 		mars-shield.png			\
 		maya-shield.png			\
 		mazovia-shield.png		\
+		mecklenburg-shield.png		\
 		metis-shield.png		\
 		mexico-shield.png		\
 		micronesia-shield.png		\
@@ -640,12 +647,14 @@ shield_files =					\
 		nuu-chah-nulth-shield.png	\
 		occitania-shield.png		\
 		ohlone-shield.png		\
+		oldenburg-shield.png		\
 		oman-shield.png			\
 		ossetia-shield.png		\
 		otomi-shield.png		\
 		ottoman-shield.png		\
 		oz-shield.png			\
 		pakistan-shield.png		\
+		palatinate-shield.png		\
 		palestine-shield.png		\
 		palmyra-shield.png		\
 		panama-shield.png		\
@@ -683,6 +692,7 @@ shield_files =					\
 		saudi_arabia-shield.png		\
 		savoy-shield.png		\
 		saxony-shield.png		\
+		schleswig-holstein-shield.png	\
 		scotland-shield.png		\
 		scythia-shield.png		\
 		seleucid-shield.png		\
@@ -818,6 +828,7 @@ svg_files = 				\
 		bosporus.svg		\
 		botswana.svg		\
 		bosnia.svg		\
+		brandenburg.svg		\
 		brasil.svg		\
 		britannia.svg		\
 		brittany.svg		\
@@ -982,6 +993,7 @@ svg_files = 				\
 		mars.svg		\
 		maya.svg		\
 		mazovia.svg		\
+		mecklenburg.svg		\
 		metis.svg		\
 		mexico.svg		\
 		micronesia.svg		\
@@ -1023,12 +1035,14 @@ svg_files = 				\
 		nuu-chah-nulth.svg	\
 		occitania.svg		\
 		ohlone.svg		\
+		oldenburg.svg		\
 		oman.svg		\
 		ossetia.svg		\
 		otomi.svg		\
 		ottoman.svg		\
 		oz.svg			\
 		pakistan.svg		\
+		palatinate.svg		\
 		palestine.svg		\
 		palmyra.svg		\
 		panama.svg		\
@@ -1066,6 +1080,7 @@ svg_files = 				\
 		savoy.svg		\
 		saudi_arabia.svg	\
 		saxony.svg		\
+		schleswig-holstein.svg	\
 		scotland.svg		\
 		scythia.svg		\
 		seleucid.svg		\

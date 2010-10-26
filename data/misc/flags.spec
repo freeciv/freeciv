@@ -56,6 +56,7 @@ artists = "
    Benin (ancient)	Orange Tuesday (Wikimedia Commons)
    Bhutan		Denelson83 and Zachary Harden (Wikimedia Commons)
    Biafra		J.M. Maalderink
+   Brandenburg		Madden (Wikimedia Commons)
    Boer			Caleb Moore
    Bolivia		Caleb Moore
    Bosnia		Daniel McRae
@@ -224,6 +225,7 @@ artists = "
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mazovia		J.M. Maalderink
+   Mecklenburg		Daniel Markstedt
    Metis		J.M. Maalderink
    Mexico		Cezary Biele
    Micronesia		SKopp (Wikimedia commons)
@@ -266,12 +268,14 @@ artists = "
    Nuu-chah-nulth	Daniel Markstedt
    Occitania		Mysid
    Ohlone		J.M. Maalderink
+   Oldenburg		J.M. Maalderink
    Oman			Open Clip Art
    Ossetia		J.M. Maalderink
    Otomi		J.M. Maalderink
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
+   Palatinate		Madden (Wikimedia Commons)
    Palestine		J.M. Maalderink
    Palmyra		JB Grout
    Panama		J.M. Maalderink
@@ -308,6 +312,7 @@ artists = "
    Saudi Arabia		Cezary Biele
    Savoy		J.M. Maalderink
    Saxony 		Björn Adelberg
+   Schleswig-Holstein	Madden and Drbashir117 (Wikimedia Commons)
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
    Sakha		Zachary Harden
@@ -448,6 +453,7 @@ sprites =
 		"f.bosnia", "flags/bosnia"
 		"f.bosporus", "flags/bosporus"
 		"f.botswana", "flags/botswana"
+		"f.brandenburg", "flags/brandenburg"
 		"f.brasil", "flags/brasil"
 		"f.britannia", "flags/britannia"
 		"f.brittany", "flags/brittany"
@@ -612,6 +618,7 @@ sprites =
 		"f.mars", "flags/mars"
 		"f.maya", "flags/maya"
 		"f.mazovia", "flags/mazovia"
+		"f.mecklenburg", "flags/mecklenburg"
 		"f.metis", "flags/metis"
 		"f.mexico", "flags/mexico"
 		"f.micronesia", "flags/micronesia"
@@ -653,12 +660,14 @@ sprites =
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
 		"f.occitania", "flags/occitania"
 		"f.ohlone", "flags/ohlone"
+		"f.oldenburg", "flags/oldenburg"
 		"f.oman", "flags/oman"
 		"f.ossetia", "flags/ossetia"
 		"f.otomi", "flags/otomi"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"
+		"f.palatinate", "flags/palatinate"
 		"f.palestine", "flags/palestine"
 		"f.palmyra", "flags/palmyra"
 		"f.panama", "flags/panama"
@@ -696,6 +705,7 @@ sprites =
 		"f.saudi_arabia", "flags/saudi_arabia"
 		"f.savoy", "flags/savoy"
 		"f.saxony", "flags/saxony"
+		"f.schleswig-holstein", "flags/schleswig-holstein"
 		"f.scotland", "flags/scotland"
 		"f.scythia", "flags/scythia"
 		"f.seleucid", "flags/seleucid"

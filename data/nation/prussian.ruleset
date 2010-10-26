@@ -14,7 +14,6 @@ legend=_("Prussia was originally the name of a pagan Baltic people, who in\
 
 leaders = {
  "name",                "sex"
- "Albrecht der Bär",    "Male"
  "Waldemar",            "Male"
  "Albrecht I",          "Male"
  "Albrecht Friedrich",  "Male"
@@ -24,7 +23,7 @@ leaders = {
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",      _("Duke"),          _("Duchess")
-                 "Republic",       _("Elector"),       _("?female:Elector")
+                 "Republic",       _("Minister-President"), _("?female:Minister-President")
                  "Democracy",      _("Chancellor"),   _("?female:Chancellor")
                  "Fundamentalism", _("Archbishop"),   _("?female:Archbishop")
                  "Communism",_("First Secretary"),_("?female:First Secretary")
@@ -39,7 +38,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "german", "polish", "lithuanian"
+civilwar_nations = "german", "polish", "lithuanian", "brandenburgian"
 
 ; Sources:
 ; http://commons.wikimedia.org/wiki/Image:Rzeczpospolita_Royal_Ducal.png
