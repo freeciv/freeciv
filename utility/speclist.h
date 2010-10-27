@@ -181,7 +181,7 @@ static inline void SPECLIST_FOO(_list_unique_full) (SPECLIST_LIST *tthis,
 static inline bool SPECLIST_FOO(_list_search) (const SPECLIST_LIST *tthis,
                                                const SPECLIST_TYPE *pfoo)
 {
-  return genlist_search(GENLIST(tthis), pfoo);
+  return NULL != genlist_search(GENLIST(tthis), pfoo);
 }
 
 static inline void SPECLIST_FOO(_list_sort) (SPECLIST_LIST * tthis,

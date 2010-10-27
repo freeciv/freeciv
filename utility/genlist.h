@@ -13,43 +13,30 @@
 #ifndef FC__GENLIST_H
 #define FC__GENLIST_H
 
-/********************************************************************** 
+/****************************************************************************
   MODULE: genlist
 
-  A "genlist" is a generic doubly-linked list.  That is:
+  A "genlist" is a generic doubly-linked list. That is:
     generic:        stores (void*) pointers to arbitrary user data;
     doubly-linked:  can be efficiently traversed both "forwards"
                     and "backwards".
-		    
-  The list data structures are allocated dynamically, and list
-  elements can be added or removed at arbitrary positions.
-  
-  Positions in the list are specified starting from 0, up to n-1
-  for a list with n elements.  The position -1 can be used to
-  refer to the last element (that is, the same as n-1, or n when
-  adding a new element), but other negative numbers are not
-  meaningful.
 
-  There are two memory management issues:
-  
-  - The user-data pointed to by the genlist elements; these are
-    entirely the user's responsibility, and the genlist code just
-    treats these as opaque data, not doing any allocation or freeing.
-    
-  - The data structures used internally by the genlist to store
-    data for the links etc.  These are allocated by genlist_insert(),
-    and freed by genlist_unlink() and genlist_clear().  That is,
-    it is the responsibility of the user to call the unlink functions
-    as necessary to avoid memory leaks.
+  The list data structures are allocated dynamically, and list elements can
+  be added or removed at arbitrary positions.
 
-  A trap to beware of with iterators is modifying the list while the 
-  iterator is active, in particular removing the next element pointed 
+  Positions in the list are specified starting from 0, up to n - 1 for a
+  list with n elements. The position -1 can be used to refer to the last
+  element (that is, the same as n - 1, or n when adding a new element), but
+  other negative numbers are not meaningful.
+
+  A trap to beware of with iterators is modifying the list while the
+  iterator is active, in particular removing the next element pointed
   to by the iterator (see further comments below).
 
   See also the speclist module.
-***********************************************************************/
+****************************************************************************/
 
-#include "support.h"    /* bool */
+#include "support.h"    /* bool, fc__warn_unused_result */
 
 /* A single element of a genlist, opaque type. */
 struct genlist_link;
@@ -60,40 +47,68 @@ struct genlist;
 /* Function type definitions. */
 typedef void (*genlist_free_fn_t) (void *);
 typedef void * (*genlist_copy_fn_t) (const void *);
+typedef bool (*genlist_cond_fn_t) (const void *);
 typedef bool (*genlist_comp_fn_t) (const void *, const void *);
 
-struct genlist *genlist_new(void);
-struct genlist *genlist_new_full(genlist_free_fn_t free_data_func);
+struct genlist *genlist_new(void) fc__warn_unused_result;
+struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
+                fc__warn_unused_result;
 void genlist_destroy(struct genlist *pgenlist);
 
-struct genlist *genlist_copy(const struct genlist *pgenlist);
+struct genlist *genlist_copy(const struct genlist *pgenlist)
+                fc__warn_unused_result;
 struct genlist *genlist_copy_full(const struct genlist *pgenlist,
                                   genlist_copy_fn_t copy_data_func,
-                                  genlist_free_fn_t free_data_func);
+                                  genlist_free_fn_t free_data_func)
+                fc__warn_unused_result;
 
 void genlist_clear(struct genlist *pgenlist);
+
 void genlist_unique(struct genlist *pgenlist);
 void genlist_unique_full(struct genlist *pgenlist,
                          genlist_comp_fn_t comp_data_func);
+
 void genlist_append(struct genlist *pgenlist, void *data);
 void genlist_prepend(struct genlist *pgenlist, void *data);
 void genlist_insert(struct genlist *pgenlist, void *data, int idx);
-bool genlist_remove(struct genlist *pgenlist, void *data);
+void genlist_insert_after(struct genlist *pgenlist, void *data,
+                          struct genlist_link *plink);
+void genlist_insert_before(struct genlist *pgenlist, void *data,
+                           struct genlist_link *plink);
+
+bool genlist_remove(struct genlist *pgenlist, const void *data);
+bool genlist_remove_if(struct genlist *pgenlist,
+                       genlist_cond_fn_t cond_data_func);
+int genlist_remove_all(struct genlist *pgenlist, const void *data);
+int genlist_remove_all_if(struct genlist *pgenlist,
+                          genlist_cond_fn_t cond_data_func);
+void genlist_erase(struct genlist *pgenlist, struct genlist_link *plink);
+void genlist_pop_front(struct genlist *pgenlist);
+void genlist_pop_back(struct genlist *pgenlist);
 
 int genlist_size(const struct genlist *pgenlist);
 void *genlist_get(const struct genlist *pgenlist, int idx);
+void *genlist_front(const struct genlist *pgenlist);
+void *genlist_back(const struct genlist *pgenlist);
+struct genlist_link *genlist_link(const struct genlist *pgenlist, int idx);
+struct genlist_link *genlist_head(const struct genlist *pgenlist);
+struct genlist_link *genlist_tail(const struct genlist *pgenlist);
 
-bool genlist_search(const struct genlist *pgenlist, const void *data);
+struct genlist_link *genlist_search(const struct genlist *pgenlist,
+                                    const void *data);
+struct genlist_link *genlist_search_if(const struct genlist *pgenlist,
+                                       genlist_cond_fn_t cond_data_func);
 
 void genlist_sort(struct genlist *pgenlist,
-                  int (*compar)(const void *, const void *));
+                  int (*compar) (const void *, const void *));
 void genlist_shuffle(struct genlist *pgenlist);
+void genlist_reverse(struct genlist *pgenlist);
 
-const struct genlist_link *genlist_head(const struct genlist *pgenlist);
-const struct genlist_link *genlist_tail(const struct genlist *pgenlist);
 void *genlist_link_data(const struct genlist_link *plink);
-const struct genlist_link *genlist_link_prev(const struct genlist_link *plink);
-const struct genlist_link *genlist_link_next(const struct genlist_link *plink);
+struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
+                     fc__warn_unused_result;
+struct genlist_link *genlist_link_next(const struct genlist_link *plink)
+                     fc__warn_unused_result;
 
 
 #ifdef DEBUG
@@ -115,7 +130,7 @@ do {                                                                        \
                                                                             \
   TYPED_LIST_CHECK(typed_list);                                             \
   myiter = genlist_head((const struct genlist *) typed_list);               \
-  for (; genlist_link_data(myiter);) {                                      \
+  while (NULL != myiter) {                                                  \
     var = (atype *) genlist_link_data(myiter);                              \
     myiter = genlist_link_next(myiter);
 
@@ -133,7 +148,7 @@ do {                                                                        \
                                                                             \
   TYPED_LIST_CHECK(typed_list);                                             \
   myiter = genlist_tail((const struct genlist *) typed_list);               \
-  for (; genlist_link_data(myiter);) {                                      \
+  while (NULL != myiter) {                                                  \
     var = (atype *) genlist_link_data(myiter);                              \
     myiter = genlist_link_prev(myiter);
 
