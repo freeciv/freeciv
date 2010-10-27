@@ -399,12 +399,13 @@ bool client_start_server(void)
   {
     char buf[16];
 
-    fc_snprintf(buf, sizeof(buf), "%d",
-                (TF_WRAPX
-                 | ((tileset_is_isometric(tileset)
-                    && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
-                 | ((tileset_hex_width(tileset) != 0
-                    || tileset_hex_height(tileset) != 0) ? TF_HEX : 0)));
+    fc_strlcpy(buf, "WRAPX", sizeof(buf));
+    if (tileset_is_isometric(tileset) && 0 == tileset_hex_height(tileset)) {
+      fc_strlcat(buf, "|ISO", sizeof(buf));
+    }
+    if (0 < tileset_hex_width(tileset) || 0 < tileset_hex_height(tileset)) {
+      fc_strlcat(buf, "|HEX", sizeof(buf));
+    }
     desired_settable_option_update("topology", buf, FALSE);
   }
 
