@@ -1123,7 +1123,7 @@ static bool object_extract(GObject *object, struct player **ppplayer,
   }
   if (NULL != ppconn) {
     id = GPOINTER_TO_INT(g_object_get_data(object, "connection_id"));
-    *ppconn = find_conn_by_id(id);
+    *ppconn = conn_by_number(id);
     if (NULL != *ppconn) {
       ret = TRUE;
     }
@@ -1547,7 +1547,7 @@ static gboolean connection_list_event(GtkWidget *widget,
     pplayer = player_by_number(player_no);
 
     gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
-    pconn = find_conn_by_id(conn_id);
+    pconn = conn_by_number(conn_id);
 
     menu = create_conn_menu(pplayer, pconn);
     gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
@@ -1595,7 +1595,7 @@ static bool conn_list_selection(struct player **ppplayer,
       }
       if (NULL != ppconn) {
         gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &id, -1);
-        *ppconn = find_conn_by_id(id);
+        *ppconn = conn_by_number(id);
       }
       return TRUE;
     }

@@ -80,8 +80,8 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile);
 **************************************************************************/
 void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct city *pcity = game_find_city_by_number(city_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  struct city *pcity = game_city_by_number(city_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -162,7 +162,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
 void handle_unit_upgrade(struct player *pplayer, int unit_id)
 {
   char buf[512];
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -193,7 +193,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 **************************************************************************/
 void handle_unit_transform(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct unit_type *to_type, *from_type;
 
   if (NULL == punit) {
@@ -232,9 +232,9 @@ void handle_unit_diplomat_query(struct connection *pc,
 				enum diplomat_actions action_type)
 {
   struct player *pplayer = pc->playing;
-  struct unit *pdiplomat = player_find_unit_by_id(pplayer, diplomat_id);
-  struct unit *punit = game_find_unit_by_number(target_id);
-  struct city *pcity = game_find_city_by_number(target_id);
+  struct unit *pdiplomat = player_unit_by_number(pplayer, diplomat_id);
+  struct unit *punit = game_unit_by_number(target_id);
+  struct city *pcity = game_city_by_number(target_id);
 
   if (NULL == pdiplomat) {
     /* Probably died or bribed. */
@@ -291,9 +291,9 @@ void handle_unit_diplomat_action(struct player *pplayer,
 				 int value,
 				 enum diplomat_actions action_type)
 {
-  struct unit *pdiplomat = player_find_unit_by_id(pplayer, diplomat_id);
-  struct unit *punit = game_find_unit_by_number(target_id);
-  struct city *pcity = game_find_city_by_number(target_id);
+  struct unit *pdiplomat = player_unit_by_number(pplayer, diplomat_id);
+  struct unit *punit = game_unit_by_number(target_id);
+  struct city *pcity = game_city_by_number(target_id);
 
   if (NULL == pdiplomat) {
     /* Probably died or bribed. */
@@ -380,7 +380,7 @@ void handle_unit_diplomat_action(struct player *pplayer,
 **************************************************************************/
 void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 {
-  struct city *old_pcity = game_find_city_by_number(punit->homecity);
+  struct city *old_pcity = game_city_by_number(punit->homecity);
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = city_owner(new_pcity);
 
@@ -451,8 +451,8 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 				 int city_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -472,7 +472,7 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 void handle_unit_disband(struct player *pplayer, int unit_id)
 {
   struct city *pcity;
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -674,7 +674,7 @@ void handle_unit_build_city(struct player *pplayer, int unit_id,
                             const char *name)
 {
   enum add_build_city_result res;
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -706,7 +706,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 				 enum tile_special_type activity_target,
                                  Base_type_id activity_base)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -767,7 +767,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 **************************************************************************/
 void handle_unit_move(struct player *pplayer, int unit_id, int tile)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct tile *ptile = index_to_tile(tile);
 
   if (NULL == punit) {
@@ -1140,7 +1140,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   }
 
   /* The attacker may have died for many reasons */
-  if (game_find_unit_by_number(winner_id) != NULL) {
+  if (game_unit_by_number(winner_id) != NULL) {
     send_unit_info(NULL, pwinner);
   }
 }
@@ -1474,7 +1474,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 {
   const char *text;
   struct city *pcity_dest;
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -1524,7 +1524,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   int revenue, i;
   bool can_establish, home_full = FALSE, dest_full = FALSE;
   struct city *pcity_homecity; 
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
 
   if (NULL == punit) {
@@ -1548,7 +1548,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     return FALSE;
   }
 
-  pcity_homecity = player_find_city_by_id(pplayer, punit->homecity);
+  pcity_homecity = player_city_by_number(pplayer, punit->homecity);
 
   if (!pcity_homecity) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -1591,7 +1591,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* See if there's a trade route we can cancel at the home city. */
     if (home_full) {
       if (get_city_min_trade_route(pcity_homecity, &slot) < trade) {
-        pcity_out_of_home = game_find_city_by_number(pcity_homecity->trade[slot]);
+        pcity_out_of_home = game_city_by_number(pcity_homecity->trade[slot]);
         fc_assert(pcity_out_of_home != NULL);
       } else {
         notify_player(pplayer, city_tile(pcity_dest),
@@ -1612,7 +1612,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_full) {
       if (get_city_min_trade_route(pcity_dest, &slot) < trade) {
-        pcity_out_of_dest = game_find_city_by_number(pcity_dest->trade[slot]);
+        pcity_out_of_dest = game_city_by_number(pcity_dest->trade[slot]);
         fc_assert(pcity_out_of_dest != NULL);
       } else {
         notify_player(pplayer, city_tile(pcity_dest),
@@ -1828,7 +1828,7 @@ void handle_unit_establish_trade(struct player *pplayer, int unit_id)
 void handle_unit_battlegroup(struct player *pplayer,
 			     int unit_id, int battlegroup)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -1844,7 +1844,7 @@ void handle_unit_battlegroup(struct player *pplayer,
 **************************************************************************/
 void handle_unit_autosettlers(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -1972,8 +1972,8 @@ static void unit_activity_handling_base(struct unit *punit,
 ****************************************************************************/
 void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 {
-  struct unit *pcargo = player_find_unit_by_id(pplayer, cargo_id);
-  struct unit *ptrans = game_find_unit_by_number(trans_id);
+  struct unit *pcargo = player_unit_by_number(pplayer, cargo_id);
+  struct unit *ptrans = game_unit_by_number(trans_id);
 
   if (NULL == pcargo) {
     /* Probably died or bribed. */
@@ -2004,8 +2004,8 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 ****************************************************************************/
 void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 {
-  struct unit *pcargo = game_find_unit_by_number(cargo_id);
-  struct unit *ptrans = game_find_unit_by_number(trans_id);
+  struct unit *pcargo = game_unit_by_number(cargo_id);
+  struct unit *ptrans = game_unit_by_number(trans_id);
 
   if (NULL == pcargo) {
     /* Probably died or bribed. */
@@ -2042,7 +2042,7 @@ Explode nuclear at a tile without enemy units
 **************************************************************************/
 void handle_unit_nuke(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -2058,7 +2058,7 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
 **************************************************************************/
 void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int tile)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
   struct tile *ptile = index_to_tile(tile);
 
   if (NULL == punit) {
@@ -2084,7 +2084,7 @@ void handle_unit_orders(struct player *pplayer,
                         const struct packet_unit_orders *packet)
 {
   int length = packet->length, i;
-  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, packet->unit_id);
   struct tile *src_tile = index_to_tile(packet->src_tile);
 
   if (NULL == punit) {

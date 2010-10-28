@@ -70,7 +70,7 @@ static void lsend_vote_new(struct conn_list *dest, struct vote *pvote)
     return;
   }
 
-  pconn = find_conn_by_id(pvote->caller_id);
+  pconn = conn_by_number(pvote->caller_id);
   if (pconn == NULL) {
     return;
   }
@@ -109,7 +109,7 @@ static void lsend_vote_update(struct conn_list *dest, struct vote *pvote,
     return;
   }
 
-  pconn = find_conn_by_id(pvote->caller_id);
+  pconn = conn_by_number(pvote->caller_id);
   if (pconn == NULL) {
     return;
   }
@@ -413,7 +413,7 @@ static void check_vote(struct vote *pvote)
   num_voters = count_voters(pvote);
 
   vote_cast_list_iterate(pvote->votes_cast, pvc) {
-    if (!(pconn = find_conn_by_id(pvc->conn_id))
+    if (!(pconn = conn_by_number(pvc->conn_id))
         || !conn_can_vote(pconn, pvote)) {
       continue;
     }
@@ -536,7 +536,7 @@ static void check_vote(struct vote *pvote)
   lsend_vote_resolve(NULL, pvote, passed);
 
   vote_cast_list_iterate(pvote->votes_cast, pvc) {
-    if (!(pconn = find_conn_by_id(pvc->conn_id))) {
+    if (!(pconn = conn_by_number(pvc->conn_id))) {
       log_error("Got a vote from a lost connection");
       continue;
     } else if (!conn_can_vote(pconn, pvote)) {
@@ -580,7 +580,7 @@ static void check_vote(struct vote *pvote)
 /**************************************************************************
   Find the vote cast for the user id conn_id in a vote.
 **************************************************************************/
-static struct vote_cast *find_vote_cast(struct vote *pvote, int conn_id)
+static struct vote_cast *vote_cast_find(struct vote *pvote, int conn_id)
 {
   if (!pvote) {
     return NULL;
@@ -643,7 +643,7 @@ void connection_vote(struct connection *pconn,
   }
 
   /* Try to find a previous vote */
-  if ((pvc = find_vote_cast(pvote, pconn->id))) {
+  if ((pvc = vote_cast_find(pvote, pconn->id))) {
     pvc->vote_cast = type;
   } else if ((pvc = vote_cast_new(pvote))) {
     pvc->vote_cast = type;
@@ -669,7 +669,7 @@ void cancel_connection_votes(struct connection *pconn)
   remove_vote(get_vote_by_caller(pconn));
 
   vote_list_iterate(vote_list, pvote) {
-    remove_vote_cast(pvote, find_vote_cast(pvote, pconn->id));
+    remove_vote_cast(pvote, vote_cast_find(pvote, pconn->id));
   } vote_list_iterate_end;
 }
 
@@ -862,5 +862,5 @@ void send_updated_vote_totals(struct conn_list *dest)
 **************************************************************************/
 const struct connection *vote_get_caller(const struct vote *pvote)
 {
-  return find_conn_by_id(pvote->caller_id);
+  return conn_by_number(pvote->caller_id);
 }

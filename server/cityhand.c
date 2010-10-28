@@ -53,7 +53,7 @@
 **************************************************************************/
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
   enum add_build_city_result res;
 
   if (NULL == punit) {
@@ -101,7 +101,7 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
 				   Specialist_type_id from,
 				   Specialist_type_id to)
 {
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
 
   if (!pcity) {
     return;
@@ -133,7 +133,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
 {
   struct tile *ptile;
   struct tile *pcenter;
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
   int city_radius_sq;
 
   if (NULL == pcity) {
@@ -185,7 +185,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 {
   struct tile *ptile;
   struct tile *pcenter;
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
   int city_radius_sq = city_map_radius_sq_get(pcity);
 
   if (NULL == pcity) {
@@ -281,7 +281,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 {
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
   struct impr_type *pimprove = improvement_by_number(build_id);
 
   if (!pcity || !pimprove) {
@@ -362,7 +362,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 void handle_city_worklist(struct player *pplayer, int city_id,
                           const struct worklist *worklist)
 {
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
 
   if (!pcity) {
     return;
@@ -378,7 +378,7 @@ void handle_city_worklist(struct player *pplayer, int city_id,
 **************************************************************************/
 void handle_city_buy(struct player *pplayer, int city_id)
 {
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
 
   if (!pcity) {
     return;
@@ -393,7 +393,7 @@ void handle_city_buy(struct player *pplayer, int city_id)
 void handle_city_refresh(struct player *pplayer, int city_id)
 {
   if (city_id != 0) {
-    struct city *pcity = player_find_city_by_id(pplayer, city_id);
+    struct city *pcity = player_city_by_number(pplayer, city_id);
 
     if (!pcity) {
       return;
@@ -413,7 +413,7 @@ void handle_city_change(struct player *pplayer, int city_id,
 			int production_kind, int production_value)
 {
   struct universal prod;
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
 
   if (!universals_n_is_valid(production_kind)) {
     log_error("[%s] bad production_kind %d.", __FUNCTION__,
@@ -461,7 +461,7 @@ void handle_city_change(struct player *pplayer, int city_id,
 void handle_city_rename(struct player *pplayer, int city_id,
                         const char *name)
 {
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
   char message[1024];
 
   if (!pcity) {
@@ -486,7 +486,7 @@ void handle_city_rename(struct player *pplayer, int city_id,
 void handle_city_options_req(struct player *pplayer, int city_id,
 			     bv_city_options options)
 {
-  struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city *pcity = player_city_by_number(pplayer, city_id);
 
   if (!pcity) {
     return;

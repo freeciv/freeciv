@@ -232,7 +232,7 @@ void chat_add(const char *astring, int conn_id)
   struct ct_string *string;
   struct sw_widget *label;
   struct ct_rect rect;
-  struct connection *conn = find_conn_by_id(conn_id);
+  struct connection *conn = conn_by_number(conn_id);
   struct color *pcolor = color_alloc(0, 0, 0);
   struct player *pplayer=NULL;
 

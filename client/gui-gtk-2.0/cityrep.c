@@ -229,7 +229,7 @@ static struct city *city_model_get(GtkTreeModel *model, GtkTreeIter *iter)
   int id;
 
   gtk_tree_model_get(model, iter, CRD_COL_CITY_ID, &id, -1);
-  pcity = game_find_city_by_number(id);
+  pcity = game_city_by_number(id);
   return ((NULL != pcity
            && client_has_player()
            && city_owner(pcity) != client_player())

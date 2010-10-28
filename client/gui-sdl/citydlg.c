@@ -403,7 +403,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     Uint16 i = 0, hh = 0;
     SDL_Rect area;
   
-    pUnit = player_find_unit_by_id(client.conn.playing, MAX_ID - pButton->ID);
+    pUnit = player_unit_by_number(client_player(), MAX_ID - pButton->ID);
     
     if(!pUnit || !can_client_issue_orders()) {
       return -1;
@@ -719,7 +719,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   unit_list_iterate(pList, pUnit) {
         
     pUType = unit_type(pUnit);
-    pHome_City = game_find_city_by_number(pUnit->homecity);
+    pHome_City = game_city_by_number(pUnit->homecity);
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
@@ -1972,7 +1972,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     if (pCity->trade[i]) {
       step += pCity->trade_value[i];
 
-      if ((pTradeCity = game_find_city_by_number(pCity->trade[i]))) {
+      if ((pTradeCity = game_city_by_number(pCity->trade[i]))) {
 	fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name(pTradeCity),
 		    pCity->trade_value[i]);
       } else {
@@ -3929,7 +3929,7 @@ void real_city_dialog_refresh(struct city *pCity)
 void refresh_unit_city_dialogs(struct unit *pUnit)
 {
 
-  struct city *pCity_sup = game_find_city_by_number(pUnit->homecity);
+  struct city *pCity_sup = game_city_by_number(pUnit->homecity);
   struct city *pCity_pre = tile_city(pUnit->tile);
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)

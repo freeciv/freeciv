@@ -216,8 +216,8 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   const char *s = "none";
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
-  pcity = game_find_city_by_number(unit_data->charge);
-  pcharge = game_find_unit_by_number(unit_data->charge);
+  pcity = game_city_by_number(unit_data->charge);
+  pcharge = game_unit_by_number(unit_data->charge);
   if (pcharge) {
     charge_x = pcharge->tile->x;
     charge_y = pcharge->tile->y;

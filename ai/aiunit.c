@@ -1077,7 +1077,7 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
   }
 
   if (!pcity) {
-    pcity = game_find_city_by_number(punit->homecity);
+    pcity = game_city_by_number(punit->homecity);
   }
 
   if (ai_military_rampage(punit, RAMPAGE_ANYTHING, RAMPAGE_ANYTHING)) {
@@ -1376,8 +1376,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
     /* First check if we can use the boat we are currently loaded to */
     if (punit->transported_by != -1) {
-      ferryboat = player_find_unit_by_id(unit_owner(punit),
-                                         punit->transported_by);
+      ferryboat = player_unit_by_number(unit_owner(punit),
+                                        punit->transported_by);
 
       /* We are already in, so don't ask for free capacity */
       if (ferryboat == NULL || !is_boat_free(ferryboat, punit, 0)) {
@@ -1389,7 +1389,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     if (ferryboat == NULL) {
       /* Try to find new boat */
       int boatid = aiferry_find_boat(punit, 1, NULL);
-      ferryboat = player_find_unit_by_id(pplayer, boatid);
+      ferryboat = player_unit_by_number(pplayer, boatid);
     }
   }
 
@@ -1542,14 +1542,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       needferry = (go_by_boat && !ferryboat
 		   ? utype_build_shield_cost(boattype) : 0);
       /* FIXME: add time to build the ferry? */
-      want = military_amortize(pplayer, game_find_city_by_number(punit->homecity),
+      want = military_amortize(pplayer, game_city_by_number(punit->homecity),
                                want, MAX(1, move_time),
 			       bcost_bal + needferry);
 
       /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
       if (want <= 0 && punit->id == 0 && best == 0) {
         int bk_e = military_amortize(pplayer,
-				     game_find_city_by_number(punit->homecity),
+                                     game_city_by_number(punit->homecity),
                                      benefit * SHIELD_WEIGHTING, 
                                      MAX(1, move_time),
 				     bcost_bal + needferry);
@@ -1657,7 +1657,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
          * (costs 2 luxuries to compensate) */
         want -= (unhap ? 2 * move_time * TRADE_WEIGHTING : 0);
       }
-      want = military_amortize(pplayer, game_find_city_by_number(punit->homecity),
+      want = military_amortize(pplayer, game_city_by_number(punit->homecity),
                                want, MAX(1, move_time), bcost_bal);
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
         best = want;
@@ -1743,7 +1743,7 @@ static void ai_military_attack_barbarian(struct player *pplayer,
       struct unit *ferry = NULL;
 
       if (punit->transported_by != -1) {
-        ferry = game_find_unit_by_number(punit->transported_by);
+        ferry = game_unit_by_number(punit->transported_by);
 
         /* We already are in a boat so it needs no
          * free capacity */
@@ -1822,7 +1822,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
                  dest_tile->x, dest_tile->y);
         if (!ai_gothere(pplayer, punit, dest_tile)) {
           /* Died or got stuck */
-	  if (game_find_unit_by_number(id)
+          if (game_unit_by_number(id)
 	      && punit->moves_left && punit->tile != start_tile) {
 	    /* Got stuck. Possibly because of adjacency to an
 	     * enemy unit. Perhaps we are in luck and are now next to a
@@ -1892,7 +1892,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOG_DEBUG, punit, "attack: barbarian");
     ai_military_attack_barbarian(pplayer, punit);
   }
-  if ((punit = game_find_unit_by_number(id)) && punit->moves_left > 0) {
+  if ((punit = game_unit_by_number(id)) && punit->moves_left > 0) {
     UNIT_LOG(LOG_DEBUG, punit, "attack: giving up unit to defense");
     ai_military_defend(pplayer, punit);
   }
@@ -2108,7 +2108,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
 
     UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
     result = ai_hunter_manage(pplayer, punit);
-    if (!game_find_unit_by_number(sanity)) {
+    if (NULL == game_unit_by_number(sanity)) {
       TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return; /* died */
     }
@@ -2180,7 +2180,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   }
 
   /* If we are still alive, either sentry or fortify. */
-  if ((punit = game_find_unit_by_number(id))) {
+  if ((punit = game_unit_by_number(id))) {
     struct city *pcity = tile_city(punit->tile);
 
     if (unit_list_find(punit->tile->units,

@@ -137,7 +137,7 @@ void city_freeze_workers_queue(struct city *pcity)
 {
   if (NULL == arrange_workers_queue) {
     arrange_workers_queue = city_list_new();
-  } else if (city_list_find_id(arrange_workers_queue, pcity->id)) {
+  } else if (city_list_find_number(arrange_workers_queue, pcity->id)) {
     return;
   }
 
@@ -293,7 +293,7 @@ static const char *search_for_city_name(struct tile *ptile,
 
   nation_city_list_iterate(default_cities, pncity) {
     name = nation_city_name(pncity);
-    if (NULL == game_find_city_by_name(name)
+    if (NULL == game_city_by_name(name)
         && is_allowed_city_name(pplayer, name, NULL, 0)) {
       priority = evaluate_city_name_priority(ptile, pncity, choice++);
       if (-1 == best_priority || priority < best_priority) {
@@ -321,7 +321,7 @@ reason for rejection. There's 4 different modes:
 bool is_allowed_city_name(struct player *pplayer, const char *cityname,
 			  char *error_buf, size_t bufsz)
 {
-  struct connection *pconn = find_conn_by_user(pplayer->username);
+  struct connection *pconn = conn_by_user(pplayer->username);
 
   /* Mode 1: A city name has to be unique for each player. */
   if (CNM_PLAYER_UNIQUE == game.server.allowed_city_names
@@ -336,7 +336,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   /* Modes 2,3: A city name has to be globally unique. */
   if ((CNM_GLOBAL_UNIQUE == game.server.allowed_city_names
        || CNM_NO_STEALING == game.server.allowed_city_names)
-      && game_find_city_by_name(cityname)) {
+      && game_city_by_name(cityname)) {
     if (error_buf) {
       fc_snprintf(error_buf, bufsz,
                   _("A city called %s already exists."), cityname);
@@ -506,7 +506,7 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
     log_debug("City name not found in rulesets.");
     for (i = 1; i <= map_num_tiles(); i++ ) {
       fc_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
-      if (NULL == game_find_city_by_name(tempname)) {
+      if (NULL == game_city_by_name(tempname)) {
         return tempname;
       }
     }
@@ -828,7 +828,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
   struct city *ptrade_city;
 
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    ptrade_city = game_find_city_by_number(pcity->trade[i]);
+    ptrade_city = game_city_by_number(pcity->trade[i]);
 
     if (!ptrade_city) {
       /* no trade route on this slot */
@@ -875,7 +875,7 @@ static void build_free_small_wonders(struct player *pplayer,
       /* FIXME: instead, find central city */
       struct city *pnew_city = city_list_get(pplayer->cities, fc_rand(size));
 
-      fc_assert_action(!find_city_from_small_wonder(pplayer, pimprove),
+      fc_assert_action(NULL == city_from_small_wonder(pplayer, pimprove),
                        continue);
 
       city_add_improvement(pnew_city, pimprove);
@@ -1267,7 +1267,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   maybe_make_contact(ptile, city_owner(pcity));
 
   unit_list_iterate((ptile)->units, punit) {
-    struct city *home = game_find_city_by_number(punit->homecity);
+    struct city *home = game_city_by_number(punit->homecity);
 
     /* Catch fortress building, transforming into ocean, etc. */
     if (!can_unit_continue_current_activity(punit)) {
@@ -1377,7 +1377,7 @@ void remove_city(struct city *pcity)
   }
 
   for (o = 0; o < NUM_TRADE_ROUTES; o++) {
-    struct city *pother_city = game_find_city_by_number(pcity->trade[o]);
+    struct city *pother_city = game_city_by_number(pcity->trade[o]);
 
     if (!pother_city) {
       continue;
@@ -1625,7 +1625,7 @@ static bool player_has_trade_route_with_city(struct player *pplayer,
   int i;
 
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    struct city *other = game_find_city_by_number(pcity->trade[i]);
+    struct city *other = game_city_by_number(pcity->trade[i]);
     if (other && city_owner(other) == pplayer) {
       return TRUE;
     }
@@ -2119,7 +2119,7 @@ static void remove_smallest_trade_route(struct city *pcity)
     return;
   }
 
-  remove_trade_route(pcity, game_find_city_by_number(pcity->trade[slot]));
+  remove_trade_route(pcity, game_city_by_number(pcity->trade[slot]));
 }
 
 /**************************************************************************

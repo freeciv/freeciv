@@ -59,7 +59,7 @@ static void sha_tile_update(struct tile *ptile)
 **************************************************************************/
 static void sha_unit_change(int id)
 {
-  struct unit *punit = game_find_unit_by_number(id);
+  struct unit *punit = game_unit_by_number(id);
   struct unit *pold_unit = unit_list_find(previous_units, id);
 
   log_debug("sha got unit: %d", id);
@@ -73,7 +73,7 @@ static void sha_unit_change(int id)
 **************************************************************************/
 static void sha_unit_new(int id)
 {
-  struct unit *punit = game_find_unit_by_number(id);
+  struct unit *punit = game_unit_by_number(id);
   struct unit *pold_unit = create_unit_virtual(unit_owner(punit), NULL, 0, 0);
 
   log_debug("sha got unit: %d", id);

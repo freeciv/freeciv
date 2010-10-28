@@ -591,13 +591,13 @@ void get_unique_guest_name(char *name)
   unsigned int i;
 
   /* first see if the given name is suitable */
-  if (is_guest_name(name) && !find_conn_by_user(name)) {
+  if (is_guest_name(name) && NULL == conn_by_user(name)) {
     return;
-  } 
+  }
 
   /* next try bare guest name */
   fc_strlcpy(name, GUEST_NAME, MAX_LEN_NAME);
-  if (!find_conn_by_user(name)) {
+  if (NULL == conn_by_user(name)) {
     return;
   }
 
@@ -607,7 +607,7 @@ void get_unique_guest_name(char *name)
 
 
     /* attempt to find this name; if we can't we're good to go */
-    if (!find_conn_by_user(name)) {
+    if (NULL == conn_by_user(name)) {
       break;
     }
   }

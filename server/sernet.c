@@ -812,10 +812,10 @@ static const char *makeup_connection_name(int *id)
   for(;;) {
     if (i==(unsigned short)-1) i++;              /* don't use 0 */
     fc_snprintf(name, sizeof(name), "c%u", (unsigned int)++i);
-    if (!find_player_by_name(name)
-	&& !find_player_by_user(name)
-	&& !find_conn_by_id(i)
-	&& !find_conn_by_user(name)) {
+    if (NULL == player_by_name(name)
+        && NULL == player_by_user(name)
+        && NULL == conn_by_number(i)
+        && NULL == conn_by_user(name)) {
       *id = i;
       return name;
     }

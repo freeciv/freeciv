@@ -601,7 +601,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
         switch (type) {
         case TLT_CITY:
           {
-            struct city *pcity = game_find_city_by_number(id);
+            struct city *pcity = game_city_by_number(id);
 
             if (pcity) {
               ptile = client_city_tile(pcity);
@@ -620,7 +620,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
           break;
         case TLT_UNIT:
           {
-            struct unit *punit = game_find_unit_by_number(id);
+            struct unit *punit = game_unit_by_number(id);
 
             if (punit) {
               ptile = unit_tile(punit);

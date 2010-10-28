@@ -245,9 +245,9 @@ Terrain_type_id terrain_number(const struct terrain *pterrain);
 
 struct terrain *terrain_by_number(const Terrain_type_id type);
 
-struct terrain *find_terrain_by_identifier(const char identifier);
-struct terrain *find_terrain_by_rule_name(const char *name);
-struct terrain *find_terrain_by_translated_name(const char *name);
+struct terrain *terrain_by_identifier(const char identifier);
+struct terrain *terrain_by_rule_name(const char *name);
+struct terrain *terrain_by_translated_name(const char *name);
 struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag);
 
 char terrain_identifier(const struct terrain *pterrain);
@@ -295,14 +295,14 @@ Resource_type_id resource_index(const struct resource *presource);
 Resource_type_id resource_number(const struct resource *presource);
 
 struct resource *resource_by_number(const Resource_type_id id);
-struct resource *find_resource_by_identifier(const char identifier);
-struct resource *find_resource_by_rule_name(const char *name);
+struct resource *resource_by_identifier(const char identifier);
+struct resource *resource_by_rule_name(const char *name);
 
 const char *resource_rule_name(const struct resource *presource);
 const char *resource_name_translation(const struct resource *presource);
 
 /* General special accessor functions. */
-enum tile_special_type find_special_by_rule_name(const char *name);
+enum tile_special_type special_by_rule_name(const char *name);
 const char *special_rule_name(enum tile_special_type type);
 const char *special_name_translation(enum tile_special_type type);
 

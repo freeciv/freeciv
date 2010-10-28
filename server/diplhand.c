@@ -210,7 +210,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  }
 	  break;
 	case CLAUSE_CITY:
-	  pcity = game_find_city_by_number(pclause->value);
+	  pcity = game_city_by_number(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
             notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
 			  _("City you are trying to give no longer exists, "
@@ -308,7 +308,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       if (pclause->from == pother) {
 	switch (pclause->type) {
 	case CLAUSE_CITY:
-	  pcity = game_find_city_by_number(pclause->value);
+          pcity = game_city_by_number(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
             notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                           _("One of the cities the %s are giving away"
@@ -462,7 +462,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	break;
       case CLAUSE_CITY:
 	{
-	  struct city *pcity = game_find_city_by_number(pclause->value);
+          struct city *pcity = game_city_by_number(pclause->value);
 
 	  if (!pcity) {
             log_error("Treaty city id %d not found - skipping clause.",
@@ -667,7 +667,7 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
      *                           - Kris Bubendorfer
      */
     if (type == CLAUSE_CITY) {
-      struct city *pcity = game_find_city_by_number(value);
+      struct city *pcity = game_city_by_number(value);
 
       if (pcity && !map_is_known_and_seen(pcity->tile, pother, V_MAIN))
 	give_citymap_from_player_to_player(pcity, pplayer, pother);

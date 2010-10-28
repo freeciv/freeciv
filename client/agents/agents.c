@@ -284,7 +284,7 @@ static void thaw(void)
 /***********************************************************************
  Helper.
 ***********************************************************************/
-static struct my_agent *find_agent_by_name(const char *agent_name)
+static struct my_agent *agent_by_name(const char *agent_name)
 {
   int i;
 
@@ -724,9 +724,9 @@ void agents_tile_new(struct tile *ptile)
  request has been processed by the server.
 ***********************************************************************/
 void wait_for_requests(const char *agent_name, int first_request_id,
-		       int last_request_id)
+                       int last_request_id)
 {
-  struct my_agent *agent = find_agent_by_name(agent_name);
+  struct my_agent *agent = agent_by_name(agent_name);
 
   log_request_ids("A:%s: wait_for_request(ids=[%d..%d])",
                   agent->agent.name, first_request_id, last_request_id);
@@ -762,9 +762,9 @@ void wait_for_requests(const char *agent_name, int first_request_id,
  Adds a specific call for the given agent.
 ***********************************************************************/
 void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
-				    struct unit *punit)
+                                    struct unit *punit)
 {
-  struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
+  struct my_agent *agent = agent_by_name(name_of_calling_agent);
 
   fc_assert_ret(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit->id);
@@ -775,9 +775,9 @@ void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
  Adds a specific call for the given agent.
 ***********************************************************************/
 void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
-				    struct city *pcity)
+                                    struct city *pcity)
 {
-  struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
+  struct my_agent *agent = agent_by_name(name_of_calling_agent);
 
   fc_assert_ret(agent->agent.city_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);

@@ -1066,8 +1066,8 @@ void real_menus_update(void)
       
 	/* unit_can_est_trade_route_here(pUnit) */
       if (pCity && unit_has_type_flag(pUnit, F_TRADE_ROUTE)
-        && (pHomecity = game_find_city_by_number(pUnit->homecity))
-	&& can_cities_trade(pHomecity, pCity)) {
+          && (pHomecity = game_city_by_number(pUnit->homecity))
+          && can_cities_trade(pHomecity, pCity)) {
 	int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity);
 	
         if (can_establish_trade_route(pHomecity, pCity)) {

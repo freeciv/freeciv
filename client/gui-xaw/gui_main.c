@@ -543,10 +543,11 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
   int i = (size_t)client_data;
 
   fc_assert_ret(i >= 0 && i < num_units_below);
-  if (unit_ids[i] == 0) /* no unit displayed at this place */
+  if (unit_ids[i] == 0) { /* no unit displayed at this place */
     return;
-  punit=game_find_unit_by_number(unit_ids[i]);
-  if(punit) { /* should always be true at this point */
+  }
+  punit = game_unit_by_number(unit_ids[i]);
+  if (punit) { /* should always be true at this point */
     if (unit_owner(punit) == client.conn.playing) {
       /* may be non-true if alliance */
       set_unit_focus(punit);

@@ -426,7 +426,7 @@ extern struct output_type output_types[];
         _city##_index < _city##_size;                                  \
         _city##_index++) {                                             \
       struct city *_city =                                             \
-       game_find_city_by_number(_city##_numbers[_city##_index]);       \
+       game_city_by_number(_city##_numbers[_city##_index]);            \
                                                                        \
       if (NULL != _city) {
 
@@ -441,7 +441,7 @@ extern struct output_type output_types[];
 const char *get_output_identifier(Output_type_id output);
 const char *get_output_name(Output_type_id output);
 struct output_type *get_output_type(Output_type_id output);
-Output_type_id find_output_type_by_identifier(const char *id);
+Output_type_id output_type_by_identifier(const char *id);
 void add_specialist_output(const struct city *pcity, int *output);
 
 /* properties */
@@ -565,9 +565,9 @@ int city_num_trade_routes(const struct city *pcity);
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
                                        const struct city *pc2);
 int get_city_min_trade_route(const struct city *pcity, int *slot);
-  
+
 /* list functions */
-struct city *city_list_find_id(struct city_list *This, int id);
+struct city *city_list_find_number(struct city_list *This, int id);
 struct city *city_list_find_name(struct city_list *This, const char *name);
 
 int city_name_compare(const void *p1, const void *p2);
@@ -576,8 +576,8 @@ int city_name_compare(const void *p1, const void *p2);
 const char *city_style_rule_name(const int style);
 const char *city_style_name_translation(const int style);
 
-int find_city_style_by_rule_name(const char *s);
-int find_city_style_by_translated_name(const char *s);
+int city_style_by_rule_name(const char *s);
+int city_style_by_translated_name(const char *s);
 
 bool city_style_has_requirements(const struct citystyle *style);
 int city_style_of_player(const struct player *plr);
@@ -671,7 +671,7 @@ bool city_exist(int id);
   (CITY_MAP_CENTER_TILE_INDEX == city_tile_index)
 #define FREE_WORKED_TILES (1)
 
-enum citytile_type find_citytile_by_rule_name(const char *name);
+enum citytile_type citytile_by_rule_name(const char *name);
 
 void *city_ai_data(const struct city *pcity, const struct ai_type *ai);
 void city_set_ai_data(struct city *pcity, const struct ai_type *ai,

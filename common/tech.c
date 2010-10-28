@@ -491,7 +491,7 @@ struct advance *valid_advance_by_number(const Tech_type_id id)
  Does a linear search of advances[].name.translated
  Returns NULL when none match.
 **************************************************************************/
-struct advance *find_advance_by_translated_name(const char *name)
+struct advance *advance_by_translated_name(const char *name)
 {
   advance_iterate(A_NONE, padvance) {
     if (0 == strcmp(advance_name_translation(padvance), name)) {
@@ -506,7 +506,7 @@ struct advance *find_advance_by_translated_name(const char *name)
  Does a linear search of advances[].name.vernacular
  Returns NULL when none match.
 **************************************************************************/
-struct advance *find_advance_by_rule_name(const char *name)
+struct advance *advance_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
@@ -532,7 +532,7 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
  Search for a tech with a given flag starting at index
  Returns A_LAST if no tech has been found
 **************************************************************************/
-Tech_type_id find_advance_by_flag(Tech_type_id index, enum tech_flag_id flag)
+Tech_type_id advance_by_flag(Tech_type_id index, enum tech_flag_id flag)
 {
   advance_index_iterate(index, i)
   {

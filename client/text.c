@@ -286,7 +286,7 @@ const char *popup_info_text(struct tile *ptile)
     }
 
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
-      struct city *hcity = game_find_city_by_number(pfocus_unit->homecity);
+      struct city *hcity = game_city_by_number(pfocus_unit->homecity);
 
       if (unit_has_type_flag(pfocus_unit, F_TRADE_ROUTE)
 	  && can_cities_trade(hcity, pcity)
@@ -318,8 +318,8 @@ const char *popup_info_text(struct tile *ptile)
     get_full_username(username, sizeof(username), owner);
     get_full_nation(nation, sizeof(nation), owner);
 
-    if (NULL == client.conn.playing || owner == client.conn.playing) {
-      struct city *pcity = player_find_city_by_id(owner, punit->homecity);
+    if (!client_player() || owner == client_player()) {
+      struct city *pcity = player_city_by_number(owner, punit->homecity);
 
       if (pcity) {
         /* TRANS: "Unit: <unit type> | <username>
@@ -527,7 +527,7 @@ const char *unit_description(struct unit *punit)
 {
   int pcity_near_dist;
   struct city *pcity =
-      player_find_city_by_id(unit_owner(punit), punit->homecity);
+      player_city_by_number(unit_owner(punit), punit->homecity);
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
   struct unit_type *ptype = unit_type(punit);
   static struct astring str = ASTRING_INIT;
@@ -964,8 +964,8 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   /* Lines 2, 3, and 4 vary. */
   if (count == 1) {
     struct unit *punit = unit_list_get(punits, 0);
-    struct city *pcity =
-	player_find_city_by_id(unit_owner(punit), punit->homecity);
+    struct city *pcity = player_city_by_number(unit_owner(punit),
+                                               punit->homecity);
 
     astr_add_line(&str, "%s", tile_get_info_text(punit->tile, linebreaks));
     {

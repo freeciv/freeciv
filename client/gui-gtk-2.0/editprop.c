@@ -686,10 +686,10 @@ static gpointer objtype_get_object_from_id(int objtype, int id)
     return index_to_tile(id);
     break;
   case OBJTYPE_UNIT:
-    return game_find_unit_by_number(id);
+    return game_unit_by_number(id);
     break;
   case OBJTYPE_CITY:
-    return game_find_city_by_number(id);
+    return game_city_by_number(id);
     break;
   case OBJTYPE_PLAYER:
     return player_by_number(id);

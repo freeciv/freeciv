@@ -609,7 +609,7 @@ struct output_type *get_output_type(Output_type_id output)
 /**************************************************************************
   Find the output type for this output identifier.
 **************************************************************************/
-Output_type_id find_output_type_by_identifier(const char *id)
+Output_type_id output_type_by_identifier(const char *id)
 {
   Output_type_id o;
 
@@ -1615,7 +1615,7 @@ bool city_rapture_grow(const struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *city_list_find_id(struct city_list *This, int id)
+struct city *city_list_find_number(struct city_list *This, int id)
 {
   if (id != 0) {
     city_list_iterate(This, pcity) {
@@ -1687,7 +1687,7 @@ int city_style_of_player(const struct player *plr)
   Returns the city style that has the given (translated) name.
   Returns -1 if none match.
 ****************************************************************************/
-int find_city_style_by_translated_name(const char *s)
+int city_style_by_translated_name(const char *s)
 {
   int i;
 
@@ -1704,7 +1704,7 @@ int find_city_style_by_translated_name(const char *s)
   Returns the city style that has the given (untranslated) rule name.
   Returns -1 if none match.
 ****************************************************************************/
-int find_city_style_by_rule_name(const char *s)
+int city_style_by_rule_name(const char *s)
 {
   const char *qs = Qn_(s);
   int i;
@@ -2567,7 +2567,7 @@ static int get_trade_illness(const struct city *pcity)
   int i;
 
   for (i = 0 ; i < NUM_TRADE_ROUTES ; i++) {
-    struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
+    struct city *trade_city = game_city_by_number(pcity->trade[i]);
     if (trade_city != NULL
         && trade_city->turn_plague != -1
         && game.info.turn - trade_city->turn_plague < 5) {
@@ -2680,7 +2680,7 @@ static inline void set_city_production(struct city *pcity)
   /* Add on special extra incomes: trade routes and tithes. */
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     pcity->trade_value[i] =
-	trade_between_cities(pcity, game_find_city_by_number(pcity->trade[i]));
+	trade_between_cities(pcity, game_city_by_number(pcity->trade[i]));
     pcity->prod[O_TRADE] += pcity->trade_value[i];
   }
   pcity->prod[O_GOLD] += get_city_tithes_bonus(pcity);
@@ -2714,7 +2714,7 @@ static inline void set_city_production(struct city *pcity)
 **************************************************************************/
 int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
-  struct city *pcity = game_find_city_by_number(punit->homecity);
+  struct city *pcity = game_city_by_number(punit->homecity);
   struct unit_type *ut = unit_type(punit);
   struct player *plr = unit_owner(punit);
   int happy_cost = utype_happy_cost(ut, plr);
@@ -2888,7 +2888,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
   }
 
   if (waste_by_dist > 0) {
-    const struct city *capital = find_palace(city_owner(pcity));
+    const struct city *capital = player_palace(city_owner(pcity));
 
     if (!capital) {
       return total; /* no capital - no income */
@@ -3116,7 +3116,7 @@ void destroy_city_virtual(struct city *pcity)
 bool city_exist(int id)
 {
   /* Check if city exist in game */
-  if (game_find_city_by_number(id)) {
+  if (game_city_by_number(id)) {
     return TRUE;
   }
 
@@ -3136,13 +3136,13 @@ bool city_is_virtual(const struct city *pcity)
     return FALSE;
   }
 
-  return pcity != game_find_city_by_number(pcity->id);
+  return pcity != game_city_by_number(pcity->id);
 }
 
 /**************************************************************************
   Return citytile type for a given rule name
 **************************************************************************/
-enum citytile_type find_citytile_by_rule_name(const char *name)
+enum citytile_type citytile_by_rule_name(const char *name)
 {
   if (!fc_strcasecmp(name, "center")) {
     return CITYT_CENTER;

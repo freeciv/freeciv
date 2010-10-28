@@ -380,7 +380,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 
   improvement_iterate(i) {
     if (is_great_wonder(i)) {
-      struct city *pcity = find_city_from_great_wonder(i);
+      struct city *pcity = city_from_great_wonder(i);
 
       if (pcity) {
         if (player_count() > team_count()) {

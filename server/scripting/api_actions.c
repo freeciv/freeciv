@@ -216,7 +216,7 @@ void api_actions_create_base(Tile *ptile, const char *name, Player *pplayer)
     return;
   }
 
-  pbase = find_base_type_by_rule_name(name);
+  pbase = base_type_by_rule_name(name);
 
   if (pbase) {
     create_base(ptile, pbase, pplayer);

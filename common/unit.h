@@ -323,7 +323,7 @@ bool unit_is_virtual(const struct unit *punit);
 void free_unit_orders(struct unit *punit);
 
 int get_transporter_occupancy(const struct unit *ptrans);
-struct unit *find_transporter_for_unit(const struct unit *pcargo);
+struct unit *transporter_for_unit(const struct unit *pcargo);
 
 enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 					   bool is_free);

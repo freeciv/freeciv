@@ -398,7 +398,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
 
     double_colon = (*(cp+1) == ':');
     if (double_colon) {
-      conn_dest = find_conn_by_user_prefix(name, &match_result_conn);
+      conn_dest = conn_by_user_prefix(name, &match_result_conn);
       if (match_result_conn == M_PRE_AMBIGUOUS) {
 	complain_ambiguous(pconn, name, 1);
 	return;
@@ -409,7 +409,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
       }
     } else {
       /* single colon */
-      pdest = find_player_by_name_prefix(name, &match_result_player);
+      pdest = player_by_name_prefix(name, &match_result_player);
       if (match_result_player == M_PRE_AMBIGUOUS) {
 	complain_ambiguous(pconn, name, 0);
 	return;
@@ -423,7 +423,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
         return;
 	/* else try for connection name match before complaining */
       }
-      conn_dest = find_conn_by_user_prefix(name, &match_result_conn);
+      conn_dest = conn_by_user_prefix(name, &match_result_conn);
       if (match_result_conn == M_PRE_AMBIGUOUS) {
 	complain_ambiguous(pconn, name, 1);
 	return;

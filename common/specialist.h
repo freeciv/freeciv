@@ -41,7 +41,7 @@ Specialist_type_id specialist_index(const struct specialist *sp);
 Specialist_type_id specialist_number(const struct specialist *sp);
 
 struct specialist *specialist_by_number(const Specialist_type_id id);
-struct specialist *find_specialist_by_rule_name(const char *name);
+struct specialist *specialist_by_rule_name(const char *name);
 
 const char *specialist_rule_name(const struct specialist *sp);
 const char *specialist_name_translation(const struct specialist *sp);

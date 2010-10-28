@@ -495,7 +495,7 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
       switch (ptag->link.type) {
       case TLT_CITY:
         {
-          struct city *pcity = game_find_city_by_number(ptag->link.id);
+          struct city *pcity = game_city_by_number(ptag->link.id);
 
           if (pcity) {
             ret += fc_snprintf(buf + ret, len - ret,
@@ -522,7 +522,7 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
         break;
       case TLT_UNIT:
         {
-          struct unit *punit = game_find_unit_by_number(ptag->link.id);
+          struct unit *punit = game_unit_by_number(ptag->link.id);
 
           if (punit) {
             ret += fc_snprintf(buf + ret, len - ret,
@@ -577,7 +577,7 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
     switch (ptag->link.type) {
     case TLT_CITY:
       {
-        struct city *pcity = game_find_city_by_number(ptag->link.id);
+        struct city *pcity = game_city_by_number(ptag->link.id);
 
         /* Note that if city_tile(pcity) is NULL, then it is probably an
          * invisible city (see client/packhand.c).  Then, we don't
@@ -592,7 +592,7 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
       break;
     case TLT_UNIT:
       {
-        struct unit *punit = game_find_unit_by_number(ptag->link.id);
+        struct unit *punit = game_unit_by_number(ptag->link.id);
 
         if (punit) {
           return fc_snprintf(buf, len, "%s", unit_name_translation(punit));

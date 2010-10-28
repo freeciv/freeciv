@@ -695,7 +695,7 @@ bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
 /***************************************************************
 ...
 ***************************************************************/
-struct player *find_player_by_name(const char *name)
+struct player *player_by_name(const char *name)
 {
   players_iterate(pplayer) {
     if (fc_strcasecmp(name, pplayer->name) == 0) {
@@ -734,8 +734,8 @@ static const char *player_name_by_number(int i)
 /***************************************************************
 Find player by its name prefix
 ***************************************************************/
-struct player *find_player_by_name_prefix(const char *name,
-					  enum m_pre_result *result)
+struct player *player_by_name_prefix(const char *name,
+                                     enum m_pre_result *result)
 {
   int ind;
 
@@ -754,7 +754,7 @@ struct player *find_player_by_name_prefix(const char *name,
 /***************************************************************
 Find player by its user name (not player/leader name)
 ***************************************************************/
-struct player *find_player_by_user(const char *name)
+struct player *player_by_user(const char *name)
 {
   players_iterate(pplayer) {
     if (fc_strcasecmp(name, pplayer->username) == 0) {
@@ -876,11 +876,9 @@ bool can_player_see_city_internals(const struct player *pplayer,
  hash are considered - even those not currently owned by any
  player. Callers expect this behavior.
 ***************************************************************/
-struct city *player_find_city_by_id(const struct player *pplayer,
-				    int city_id)
+struct city *player_city_by_number(const struct player *pplayer, int city_id)
 {
-  /* We call idex directly. Should use game_find_city_by_id()
-   * instead? */
+  /* We call idex directly. Should use game_city_by_number() instead? */
   struct city *pcity = idex_lookup_city(city_id);
 
   if (!pcity) {
@@ -904,11 +902,9 @@ struct city *player_find_city_by_id(const struct player *pplayer,
  hash are considered - even those not currently owned by any
  player. Callers expect this behavior.
 ***************************************************************/
-struct unit *player_find_unit_by_id(const struct player *pplayer,
-				    int unit_id)
+struct unit *player_unit_by_number(const struct player *pplayer, int unit_id)
 {
-  /* We call idex directly. Should use game_find_unit_by_number()
-   * instead? */
+  /* We call idex directly. Should use game_unit_by_number() instead? */
   struct unit *punit = idex_lookup_unit(unit_id);
 
   if (!punit) {
@@ -1070,7 +1066,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
 /**************************************************************************
 Locate the city where the players palace is located, (NULL Otherwise) 
 **************************************************************************/
-struct city *find_palace(const struct player *pplayer)
+struct city *player_palace(const struct player *pplayer)
 {
   if (!pplayer) {
     /* The client depends on this behavior in some places. */
@@ -1349,7 +1345,7 @@ bool is_valid_username(const char *name)
 /****************************************************************************
   Returns AI level associated with level name
 ****************************************************************************/
-enum ai_level find_ai_level_by_name(const char *name)
+enum ai_level ai_level_by_name(const char *name)
 {
   enum ai_level level;
 

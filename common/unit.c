@@ -277,9 +277,9 @@ bool unit_can_est_trade_route_here(const struct unit *punit)
   struct city *phomecity, *pdestcity;
 
   return (unit_has_type_flag(punit, F_TRADE_ROUTE)
-	  && (pdestcity = tile_city(punit->tile))
-	  && (phomecity = game_find_city_by_number(punit->homecity))
-	  && can_cities_trade(phomecity, pdestcity));
+          && (pdestcity = tile_city(punit->tile))
+          && (phomecity = game_city_by_number(punit->homecity))
+          && can_cities_trade(phomecity, pdestcity));
 }
 
 /**************************************************************************
@@ -364,7 +364,7 @@ bool is_field_unit(const struct unit *punit)
 **************************************************************************/
 bool is_hiding_unit(const struct unit *punit)
 {
-  struct unit *transporter = game_find_unit_by_number(punit->transported_by);
+  struct unit *transporter = game_unit_by_number(punit->transported_by);
 
   return (unit_has_type_flag(punit, F_PARTIAL_INVIS)
 	  || (transporter && unit_has_type_flag(transporter, F_PARTIAL_INVIS)));
@@ -1685,7 +1685,7 @@ int get_transporter_occupancy(const struct unit *ptrans)
 /****************************************************************************
   Find a transporter at the given location for the unit.
 ****************************************************************************/
-struct unit *find_transporter_for_unit(const struct unit *pcargo)
+struct unit *transporter_for_unit(const struct unit *pcargo)
 {
   struct tile *ptile = pcargo->tile;
 
@@ -1832,7 +1832,7 @@ bool unit_type_is_losing_hp(const struct player *pplayer,
 bool unit_alive(int id)
 {
   /* Check if unit exist in game */
-  if (game_find_unit_by_number(id)) {
+  if (game_unit_by_number(id)) {
     return TRUE;
   }
 
@@ -1852,7 +1852,7 @@ bool unit_is_virtual(const struct unit *punit)
     return FALSE;
   }
 
-  return punit != game_find_unit_by_number(punit->id);
+  return punit != game_unit_by_number(punit->id);
 }
 
 /**************************************************************************

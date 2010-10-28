@@ -209,7 +209,7 @@ bool units_are_occupied(const struct unit_list *punits)
 bool units_can_load(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (find_transporter_for_unit(punit)) {
+    if (transporter_for_unit(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;
@@ -223,7 +223,7 @@ bool units_can_load(const struct unit_list *punits)
 bool units_can_unload(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (can_unit_unload(punit, game_find_unit_by_number(punit->transported_by))
+    if (can_unit_unload(punit, game_unit_by_number(punit->transported_by))
 	&& can_unit_exist_at_tile(punit, punit->tile)) {
       return TRUE;
     }

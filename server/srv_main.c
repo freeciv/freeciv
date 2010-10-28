@@ -1502,7 +1502,7 @@ static bool is_allowed_player_name(struct player *pplayer,
 				   const char *name,
 				   char *error_buf, size_t bufsz)
 {
-  struct connection *pconn = find_conn_by_user(pplayer->username);
+  struct connection *pconn = conn_by_user(pplayer->username);
 
   /* An empty name is surely not allowed. */
   if (strlen(name) == 0) {
@@ -1802,7 +1802,7 @@ void aifill(int amount)
 
     do {
       fc_snprintf(leader_name, sizeof(leader_name), "AI*%d", filled++);
-    } while (find_player_by_name(leader_name));
+    } while (player_by_name(leader_name));
     sz_strlcpy(pplayer->name, leader_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
@@ -1921,8 +1921,8 @@ const char *pick_random_player_name(const struct nation_type *pnation)
   nation_leader_list_iterate(nation_leaders(pnation), pleader) {
     const char *name = nation_leader_name(pleader);
 
-    if (NULL == find_player_by_name(name)
-        && NULL == find_player_by_user(name)
+    if (NULL == player_by_name(name)
+        && NULL == player_by_user(name)
         && 0 == fc_rand(++i)) {
       choice = name;
     }
@@ -1937,8 +1937,8 @@ const char *pick_random_player_name(const struct nation_type *pnation)
 
     for (i = 1; i < MAX_NUM_PLAYER_SLOTS; i++) {
       fc_snprintf(tempname, sizeof(tempname), _("Player no. %d"), i);
-      if (NULL == find_player_by_name(tempname)
-          && NULL == find_player_by_user(tempname)) {
+      if (NULL == player_by_name(tempname)
+          && NULL == player_by_user(tempname)) {
         return tempname;
       }
     }

@@ -229,10 +229,10 @@ int game_next_year(int);
 void game_advance_year(void);
 
 int civ_population(const struct player *pplayer);
-struct city *game_find_city_by_name(const char *name);
-struct city *game_find_city_by_number(int id);
+struct city *game_city_by_name(const char *name);
+struct city *game_city_by_number(int id);
 
-struct unit *game_find_unit_by_number(int id);
+struct unit *game_unit_by_number(int id);
 
 void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);

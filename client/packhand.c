@@ -302,7 +302,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
 ****************************************************************************/
 void handle_city_remove(int city_id)
 {
-  struct city *pcity = game_find_city_by_number(city_id);
+  struct city *pcity = game_city_by_number(city_id);
   bool need_menus_update;
 
   fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
@@ -325,7 +325,7 @@ void handle_city_remove(int city_id)
 **************************************************************************/
 void handle_unit_remove(int unit_id)
 {
-  struct unit *punit = game_find_unit_by_number(unit_id);
+  struct unit *punit = game_unit_by_number(unit_id);
   struct player *powner;
   bool need_economy_report_update;
 
@@ -386,8 +386,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 			     bool make_winner_veteran)
 {
   bool show_combat = FALSE;
-  struct unit *punit0 = game_find_unit_by_number(attacker_unit_id);
-  struct unit *punit1 = game_find_unit_by_number(defender_unit_id);
+  struct unit *punit0 = game_unit_by_number(attacker_unit_id);
+  struct unit *punit1 = game_unit_by_number(defender_unit_id);
 
   if (punit0 && punit1) {
     if (tile_visible_mapcanvas(punit0->tile) &&
@@ -474,7 +474,7 @@ void handle_city_info(const struct packet_city_info *packet)
   bool production_changed = FALSE;
   bool trade_routes_changed = FALSE;
   struct unit_list *pfocus_units = get_units_in_focus();
-  struct city *pcity = game_find_city_by_number(packet->id);
+  struct city *pcity = game_city_by_number(packet->id);
   struct tile_list *worked_tiles = NULL;
   struct tile *pcenter = index_to_tile(packet->tile);
   struct tile *ptile = NULL;
@@ -851,7 +851,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   bool city_is_new = FALSE;
   bool name_changed = FALSE;
   bool update_descriptions = FALSE;
-  struct city *pcity = game_find_city_by_number(packet->id);
+  struct city *pcity = game_city_by_number(packet->id);
   struct tile *pcenter = index_to_tile(packet->tile);
   struct tile *ptile = NULL;
   struct tile_list *worked_tiles = NULL;
@@ -1189,8 +1189,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool moved = FALSE;
   bool ret = FALSE;
 
-  punit = player_find_unit_by_id(unit_owner(packet_unit), packet_unit->id);
-  if (!punit && game_find_unit_by_number(packet_unit->id)) {
+  punit = player_unit_by_number(unit_owner(packet_unit), packet_unit->id);
+  if (!punit && game_unit_by_number(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
      * by simply deleting the old one and creating a new one. */
     handle_unit_remove(packet_unit->id);
@@ -1289,13 +1289,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if (punit->homecity != packet_unit->homecity) {
       /* change homecity */
       struct city *pcity;
-      if ((pcity=game_find_city_by_number(punit->homecity))) {
+      if ((pcity = game_city_by_number(punit->homecity))) {
 	unit_list_remove(pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
       punit->homecity = packet_unit->homecity;
-      if ((pcity=game_find_city_by_number(punit->homecity))) {
+      if ((pcity = game_city_by_number(punit->homecity))) {
 	unit_list_prepend(pcity->units_supported, punit);
 	repaint_city = TRUE;
       }
@@ -1407,7 +1407,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if (repaint_city || repaint_unit) {
       /* We repaint the city if the unit itself needs repainting or if
        * there is a special city-only redrawing to be done. */
-      if((pcity=game_find_city_by_number(punit->homecity))) {
+      if ((pcity = game_city_by_number(punit->homecity))) {
 	refresh_city_dialog(pcity);
       }
       if (repaint_unit && tile_city(punit->tile) && tile_city(punit->tile) != pcity) {
@@ -1446,7 +1446,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     unit_register_battlegroup(punit);
 
-    if((pcity=game_find_city_by_number(punit->homecity))) {
+    if ((pcity = game_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     }
 
@@ -1511,7 +1511,7 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
   struct unit *punit;
 
   if (packet->goes_out_of_sight) {
-    punit = game_find_unit_by_number(packet->id);
+    punit = game_unit_by_number(packet->id);
     if (punit) {
       client_remove_unit(punit);
     }
@@ -1527,7 +1527,7 @@ void handle_unit_short_info(const struct packet_unit_short_info *packet)
     static int last_serial_num = 0;
 
     /* fetch city -- abort if not found */
-    pcity = game_find_city_by_number(packet->info_city_id);
+    pcity = game_city_by_number(packet->info_city_id);
     if (!pcity) {
       return;
     }
@@ -1995,7 +1995,7 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
 ****************************************************************************/
 void handle_conn_info(const struct packet_conn_info *pinfo)
 {
-  struct connection *pconn = find_conn_by_id(pinfo->id);
+  struct connection *pconn = conn_by_number(pinfo->id);
   bool preparing_client_state = FALSE;
 
   log_debug("conn_info id%d used%d est%d plr%d obs%d acc%d",
@@ -2105,7 +2105,7 @@ void handle_conn_ping_info(int connections, const int *conn_id,
   int i;
 
   for (i = 0; i < connections; i++) {
-    struct connection *pconn = find_conn_by_id(conn_id[i]);
+    struct connection *pconn = conn_by_number(conn_id[i]);
 
     if (!pconn) {
       continue;
@@ -2383,7 +2383,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   if (NULL == tile_worked(ptile)
    || tile_worked(ptile)->id != packet->worked) {
     if (IDENTITY_NUMBER_ZERO != packet->worked) {
-      struct city *pwork = game_find_city_by_number(packet->worked);
+      struct city *pwork = game_city_by_number(packet->worked);
 
       if (NULL == pwork) {
         char named[MAX_LEN_NAME];
@@ -3070,7 +3070,7 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 **************************************************************************/
 void handle_city_name_suggestion_info(int unit_id, const char *name)
 {
-  struct unit *punit = player_find_unit_by_id(client.conn.playing, unit_id);
+  struct unit *punit = player_unit_by_number(client_player(), unit_id);
 
   if (!can_client_issue_orders()) {
     return;
@@ -3089,11 +3089,12 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 ...
 **************************************************************************/
 void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
-				 enum diplomat_actions action_type)
+                                 enum diplomat_actions action_type)
 {
-  struct city *pcity = game_find_city_by_number(target_id);
-  struct unit *punit = game_find_unit_by_number(target_id);
-  struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
+  struct city *pcity = game_city_by_number(target_id);
+  struct unit *punit = game_unit_by_number(target_id);
+  struct unit *pdiplomat = player_unit_by_number(client_player(),
+                                                 diplomat_id);
 
   fc_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
 
@@ -3132,8 +3133,9 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
 void handle_city_sabotage_list(int diplomat_id, int city_id,
                                bv_imprs improvements)
 {
-  struct city *pcity = game_find_city_by_number(city_id);
-  struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
+  struct city *pcity = game_city_by_number(city_id);
+  struct unit *pdiplomat = player_unit_by_number(client_player(),
+                                                 diplomat_id);
 
   fc_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
   fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);

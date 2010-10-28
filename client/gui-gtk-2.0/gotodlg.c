@@ -266,7 +266,7 @@ static struct city *get_selected_city(void)
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(view));
 
   gtk_tree_model_get(model, &it, GD_COL_CITY_ID, &city_id, -1);
-  return game_find_city_by_number(city_id);
+  return game_city_by_number(city_id);
 }
 
 /**************************************************************************

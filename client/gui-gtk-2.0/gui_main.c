@@ -1737,7 +1737,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   struct unit *punit;
 
   if (i == -1) {
-    punit = game_find_unit_by_number(unit_id_top);
+    punit = game_unit_by_number(unit_id_top);
     if (punit && unit_is_in_focus(punit)) {
       /* Clicking on the currently selected unit will center it. */
       center_tile_mapcanvas(punit->tile);
@@ -1748,7 +1748,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   if (unit_ids[i] == 0) /* no unit displayed at this place */
     return TRUE;
 
-  punit = game_find_unit_by_number(unit_ids[i]);
+  punit = game_unit_by_number(unit_ids[i]);
   if (NULL != punit && unit_owner(punit) == client.conn.playing) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     set_unit_focus(punit);
@@ -1764,7 +1764,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
                                                   gpointer data)
 {
-  struct unit *punit = game_find_unit_by_number(unit_id_top);
+  struct unit *punit = game_unit_by_number(unit_id_top);
 
   if (punit) {
     popup_unit_select_dialog(punit->tile);

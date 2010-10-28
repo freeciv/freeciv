@@ -101,7 +101,7 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
     } else {
       (void) adv_unit_move(punit, ptile);
     }
-    if (!game_find_unit_by_number(id)) {
+    if (!game_unit_by_number(id)) {
       /* Died... */
       return FALSE;
     }

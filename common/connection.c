@@ -372,7 +372,7 @@ void conn_list_do_unbuffer(struct conn_list *dest)
   Find connection by exact user name, from game.all_connections,
   case-insensitve.  Returns NULL if not found.
 ***************************************************************/
-struct connection *find_conn_by_user(const char *user_name)
+struct connection *conn_by_user(const char *user_name)
 {
   conn_list_iterate(game.all_connections, pconn) {
     if (fc_strcasecmp(user_name, pconn->username)==0) {
@@ -382,19 +382,18 @@ struct connection *find_conn_by_user(const char *user_name)
   return NULL;
 }
 
-/***************************************************************
-  Like find_conn_by_username(), but allow unambigous prefix
-  (ie abbreviation).
-  Returns NULL if could not match, or if ambiguous or other
-  problem, and fills *result with characterisation of
-  match/non-match (see shared.[ch])
-***************************************************************/
+/****************************************************************************
+  Like conn_by_username(), but allow unambigous prefix (i.e. abbreviation).
+  Returns NULL if could not match, or if ambiguous or other problem, and
+  fills *result with characterisation of match/non-match (see
+  "utility/shared.[ch]").
+****************************************************************************/
 static const char *connection_accessor(int i) {
   return conn_list_get(game.all_connections, i)->username;
 }
 
-struct connection *find_conn_by_user_prefix(const char *user_name,
-                                            enum m_pre_result *result)
+struct connection *conn_by_user_prefix(const char *user_name,
+                                       enum m_pre_result *result)
 {
   int ind;
 
@@ -416,7 +415,7 @@ struct connection *find_conn_by_user_prefix(const char *user_name,
   Number of connections will always be relatively small given
   current implementation, so linear search should be fine.
 ***************************************************************/
-struct connection *find_conn_by_id(int id)
+struct connection *conn_by_number(int id)
 {
   conn_list_iterate(game.all_connections, pconn) {
     if (pconn->id == id) {

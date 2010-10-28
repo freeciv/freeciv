@@ -104,7 +104,7 @@ void client_remove_unit(struct unit *punit)
   }
 
   if (!client_has_player() || unit_owner(&old_unit) == client_player()) {
-    pcity = game_find_city_by_number(hc);
+    pcity = game_city_by_number(hc);
     if (NULL != pcity) {
       refresh_city_dialog(pcity);
       log_debug("home city %s, %s, (%d %d)",
@@ -238,7 +238,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
                 advance_name_for_player(client.conn.playing, pclause->value));
     break;
   case CLAUSE_CITY:
-    pcity = game_find_city_by_number(pclause->value);
+    pcity = game_city_by_number(pclause->value);
     if (pcity) {
       fc_snprintf(buf, bufsiz, _("The %s give %s"),
                   nation_plural_for_player(pclause->from),
@@ -417,8 +417,8 @@ void center_on_something(void)
   can_slide = FALSE;
   if (get_num_units_in_focus() > 0) {
     center_tile_mapcanvas(head_of_units_in_focus()->tile);
-  } else if (NULL != client.conn.playing
-             && NULL != (pcity = find_palace(client.conn.playing))) {
+  } else if (client_has_player()
+             && NULL != (pcity = player_palace(client_player()))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);
   } else if (NULL != client.conn.playing

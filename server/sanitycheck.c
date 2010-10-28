@@ -256,9 +256,9 @@ static bool check_city_good(struct city *pcity, const char *file,
 
   city_built_iterate(pcity, pimprove) {
     if (is_small_wonder(pimprove)) {
-      SANITY_CITY(pcity, find_city_from_small_wonder(pplayer, pimprove) == pcity);
+      SANITY_CITY(pcity, city_from_small_wonder(pplayer, pimprove) == pcity);
     } else if (is_great_wonder(pimprove)) {
-      SANITY_CITY(pcity, find_city_from_great_wonder(pimprove) == pcity);
+      SANITY_CITY(pcity, city_from_great_wonder(pimprove) == pcity);
     }
   } city_built_iterate_end;
 
@@ -377,7 +377,8 @@ static void check_units(const char *file, const char *function, int line)
       SANITY_CHECK(unit_owner(punit) == pplayer);
 
       if (IDENTITY_NUMBER_ZERO != punit->homecity) {
-	SANITY_CHECK(phome = player_find_city_by_id(pplayer, punit->homecity));
+        SANITY_CHECK(phome = player_city_by_number(pplayer,
+                                                   punit->homecity));
 	if (phome) {
 	  SANITY_CHECK(city_owner(phome) == pplayer);
 	}
@@ -401,7 +402,7 @@ static void check_units(const char *file, const char *function, int line)
       SANITY_CHECK(punit->hp > 0);
 
       if (punit->transported_by != -1) {
-        transporter = game_find_unit_by_number(punit->transported_by);
+        transporter = game_unit_by_number(punit->transported_by);
         SANITY_CHECK(transporter != NULL);
 
 	/* Make sure the transporter is on the tile. */
@@ -413,8 +414,8 @@ static void check_units(const char *file, const char *function, int line)
 	SANITY_CHECK(transporter2 != NULL);
 
         /* Also in the list of owner? */
-        SANITY_CHECK(player_find_unit_by_id(unit_owner(transporter),
-				      punit->transported_by) != NULL);
+        SANITY_CHECK(player_unit_by_number(unit_owner(transporter),
+                                           punit->transported_by) != NULL);
         SANITY_CHECK(same_pos(ptile, transporter->tile));
 
         /* Transporter capacity will be checked when transporter itself

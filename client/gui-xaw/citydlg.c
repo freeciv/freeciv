@@ -405,7 +405,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;
 
-  pcity_sup = player_find_city_by_id(client.conn.playing, punit->homecity);
+  pcity_sup = player_city_by_number(client_player(), punit->homecity);
   pcity_pre=tile_city(punit->tile);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
@@ -1147,7 +1147,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
 					    XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
     struct city *pcity = tile_city(punit->tile);
@@ -1173,7 +1173,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
 					      XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
     struct city *pcity = tile_city(punit->tile);
@@ -1200,7 +1200,7 @@ static void present_units_activate_close_callback(Widget w,
 						  XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   destroy_message_dialog(w);
 
@@ -1226,13 +1226,13 @@ static void supported_units_activate_close_callback(Widget w,
 						    XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   destroy_message_dialog(w);
 
   if (NULL != punit) {
     struct city *pcity =
-      player_find_city_by_id(client.conn.playing, punit->homecity);
+      player_city_by_number(client_player(), punit->homecity);
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1253,7 +1253,7 @@ static void present_units_sentry_callback(Widget w, XtPointer client_data,
 					   XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
     request_unit_sentry(punit);
@@ -1270,7 +1270,7 @@ static void present_units_fortify_callback(Widget w, XtPointer client_data,
 					   XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
     request_unit_fortify(punit);
@@ -1287,7 +1287,7 @@ static void present_units_disband_callback(Widget w, XtPointer client_data,
 					   XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
     request_unit_disband(punit);
@@ -1304,7 +1304,7 @@ static void present_units_homecity_callback(Widget w, XtPointer client_data,
 					    XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
     request_unit_change_homecity(punit);
@@ -1335,12 +1335,12 @@ void present_units_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   XEvent *e = (XEvent*)call_data;
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
   
   if ((NULL != punit
        || (can_conn_edit(&client.conn)
            && NULL == client.conn.playing
-           && (punit = game_find_unit_by_number((size_t)client_data))))
+           && (punit = game_unit_by_number((size_t) client_data))))
       && (pcity = tile_city(punit->tile))
       && (pdialog = get_city_dialog(pcity))) {
     
@@ -1455,7 +1455,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       struct city *pcity;
       x=1;
       total+=pdialog->pcity->trade_value[i];
-      if((pcity=game_find_city_by_number(pdialog->pcity->trade[i]))) {
+      if ((pcity = game_city_by_number(pdialog->pcity->trade[i]))) {
 	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
 		    city_name(pcity), pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
@@ -1611,10 +1611,10 @@ static void support_units_callback(Widget w, XtPointer client_data,
   Widget wd;
   XEvent *e = (XEvent*)call_data;
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
-    struct city *pcity = game_find_city_by_number(punit->homecity);
+    struct city *pcity = game_city_by_number(punit->homecity);
 
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
@@ -1952,7 +1952,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 void unitupgrade_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
 {
   struct unit *punit =
-    player_find_unit_by_id(client.conn.playing, (size_t)client_data);
+    player_unit_by_number(client_player(), (size_t)client_data);
 
   /* Is it right place for breaking? -ev */
   if (!can_client_issue_orders()) {
@@ -1982,8 +1982,8 @@ void unitupgrade_callback_no(Widget w, XtPointer client_data, XtPointer call_dat
 void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   char buf[512];
-  struct unit *punit = player_find_unit_by_id(client.conn.playing,
-					      (size_t)client_data);
+  struct unit *punit = player_unit_by_number(client_player(),
+                                             (size_t) client_data);
 
   if (!punit) {
     return;
@@ -2540,7 +2540,7 @@ void cityopt_cancel_command_callback(Widget w, XtPointer client_data,
 void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data)
 {
-  struct city *pcity = game_find_city_by_number(cityopt_city_id);
+  struct city *pcity = game_city_by_number(cityopt_city_id);
 
   if (pcity) {
 /*    int i; */

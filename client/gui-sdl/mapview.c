@@ -767,7 +767,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  }
 	    
 	  pUType = unit_type(aunit);
-          pHome_City = game_find_city_by_number(aunit->homecity);
+          pHome_City = game_city_by_number(aunit->homecity);
           fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,

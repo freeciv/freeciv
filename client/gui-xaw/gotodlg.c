@@ -199,9 +199,9 @@ static struct city *get_selected_city(void)
   if(len>3 && strcmp(ret->string+len-3, "(A)")==0) {
     char name[MAX_LEN_NAME];
     fc_strlcpy(name, ret->string, MIN(sizeof(name),len-2));
-    return game_find_city_by_name(name);
+    return game_city_by_name(name);
   }
-  return game_find_city_by_name(ret->string);
+  return game_city_by_name(ret->string);
 }
 
 /**************************************************************************

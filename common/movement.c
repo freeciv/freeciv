@@ -544,7 +544,7 @@ enum unit_move_type move_type_from_str(const char *s)
   Search transport suitable for given unit from tile. It has to have
   free space in it.
 **************************************************************************/
-struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile)
+struct unit *transport_from_tile(struct unit *punit, struct tile *ptile)
 {
   unit_list_iterate(ptile->units, ptransport) {
     if (could_unit_load(punit, ptransport)) {

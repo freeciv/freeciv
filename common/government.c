@@ -36,7 +36,7 @@ struct government *governments = NULL;
   Returns the government that has the given (translated) name.
   Returns NULL if none match.
 ****************************************************************************/
-struct government *find_government_by_translated_name(const char *name)
+struct government *government_by_translated_name(const char *name)
 {
   government_iterate(gov) {
     if (0 == strcmp(government_name_translation(gov), name)) {
@@ -51,7 +51,7 @@ struct government *find_government_by_translated_name(const char *name)
   Returns the government that has the given (untranslated) rule name.
   Returns NULL if none match.
 ****************************************************************************/
-struct government *find_government_by_rule_name(const char *name)
+struct government *government_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 

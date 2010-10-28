@@ -829,7 +829,7 @@ void process_caravan_arrival(struct unit *punit)
 
     data = genlist_get(caravan_arrival_queue, 0);
     genlist_remove(caravan_arrival_queue, data);
-    punit = game_find_unit_by_number(FC_PTR_TO_INT(data));
+    punit = game_unit_by_number(FC_PTR_TO_INT(data));
 
     if (punit && (unit_can_help_build_wonder_here(punit)
                   || unit_can_est_trade_route_here(punit))
@@ -837,7 +837,7 @@ void process_caravan_arrival(struct unit *punit)
             || (unit_owner(punit) == client.conn.playing
                 && !client.conn.playing->ai_controlled))) {
       struct city *pcity_dest = tile_city(unit_tile(punit));
-      struct city *pcity_homecity = game_find_city_by_number(punit->homecity);
+      struct city *pcity_homecity = game_city_by_number(punit->homecity);
 
       if (pcity_dest && pcity_homecity) {
         popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
@@ -886,9 +886,9 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     diplomat_id = p_ids[0];
     victim_id = p_ids[1];
     genlist_remove(diplomat_arrival_queue, p_ids); /* Do free(p_ids). */
-    pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
-    pcity = game_find_city_by_number(victim_id);
-    punit = game_find_unit_by_number(victim_id);
+    pdiplomat = player_unit_by_number(client_player(), diplomat_id);
+    pcity = game_city_by_number(victim_id);
+    punit = game_unit_by_number(victim_id);
 
     if (!pdiplomat || !unit_has_type_flag(pdiplomat, F_DIPLOMAT))
       continue;
@@ -1479,7 +1479,7 @@ void request_unit_autosettlers(const struct unit *punit)
 void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 {
   if (!ptrans) {
-    ptrans = find_transporter_for_unit(pcargo);
+    ptrans = transporter_for_unit(pcargo);
   }
 
   if (ptrans
@@ -1500,7 +1500,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 ****************************************************************************/
 void request_unit_unload(struct unit *pcargo)
 {
-  struct unit *ptrans = game_find_unit_by_number(pcargo->transported_by);
+  struct unit *ptrans = game_unit_by_number(pcargo->transported_by);
 
   if (can_client_issue_orders()
       && ptrans
@@ -2450,7 +2450,7 @@ void key_cancel_action(void)
 **************************************************************************/
 void key_center_capital(void)
 {
-  struct city *capital = find_palace(client.conn.playing);
+  struct city *capital = player_palace(client_player());
 
   if (capital)  {
     /* Center on the tile, and pop up the crosshair overlay. */

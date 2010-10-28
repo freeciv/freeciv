@@ -385,7 +385,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 	} else if (is_small_wonder(pimprove)) {
 	  if (improvement_obsolete(pplayer, pimprove)) {
 	    state = _("Obsolete");
-	  } else if (find_city_from_small_wonder(pplayer, target.value.building)) {
+          } else if (city_from_small_wonder(pplayer, target.value.building)) {
 	    state = _("Built");
           } else {
             state = _("Small Wonder");
@@ -469,7 +469,7 @@ void get_city_dialog_output_text(const struct city *pcity,
          *
          * NB: (pcity->trade_value[i] == 0) is valid case.  The trade route
          * is established but doesn't give trade surplus. */
-        struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
+        struct city *trade_city = game_city_by_number(pcity->trade[i]);
         /* TRANS: "unknown" location */
         const char *name = trade_city ? city_name(trade_city) : _("(unknown)");
 

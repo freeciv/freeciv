@@ -152,7 +152,7 @@ void city_refresh_queue_add(struct city *pcity)
 {
   if (NULL == city_refresh_queue) {
     city_refresh_queue = city_list_new();
-  } else if (city_list_find_id(city_refresh_queue, pcity->id)) {
+  } else if (city_list_find_number(city_refresh_queue, pcity->id)) {
     return;
   }
 
@@ -618,7 +618,7 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
+    struct city *pcity2 = game_city_by_number(pcity->trade[i]);
 
     if (pcity2) {
       city_refresh(pcity2);
@@ -740,7 +740,7 @@ static bool city_increase_size(struct city *pcity)
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    struct city *pcity2 = game_find_city_by_number(pcity->trade[i]);
+    struct city *pcity2 = game_city_by_number(pcity->trade[i]);
 
     if (pcity2) {
       city_refresh(pcity2);
@@ -2005,7 +2005,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Distance from capital */
-  capital = find_palace(city_owner(pcity));
+  capital = player_palace(city_owner(pcity));
   if (capital) {
     int tmp = map_distance(capital->tile, pcity->tile);
     dist = MIN(32, tmp);
@@ -2131,7 +2131,7 @@ static void update_city_activity(struct city *pcity)
     /* City population updated here, after the rapture stuff above. --Jing */
     saved_id = pcity->id;
     city_populate(pcity);
-    if (!player_find_city_by_id(pplayer, saved_id)) {
+    if (NULL == player_city_by_number(pplayer, saved_id)) {
       return;
     }
 

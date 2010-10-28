@@ -106,7 +106,7 @@ static int popup_buy_production_from_city_report_callback(struct widget *pWidget
 static int popup_cma_from_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct city *pCity = game_find_city_by_number(MAX_ID - pWidget->ID);
+    struct city *pCity = game_city_by_number(MAX_ID - pWidget->ID);
       
     /* state is changed before enter this function */  
     if(!get_checkbox_state(pWidget)) {

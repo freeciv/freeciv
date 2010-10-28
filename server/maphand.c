@@ -1588,7 +1588,7 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
 static void map_unit_homecity_enqueue(struct tile *ptile)
 {
   unit_list_iterate(ptile->units, punit) {
-    struct city *phome = game_find_city_by_number(punit->homecity);
+    struct city *phome = game_city_by_number(punit->homecity);
 
     if (NULL == phome) {
       continue;

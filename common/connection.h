@@ -272,10 +272,10 @@ void connection_do_unbuffer(struct connection *pc);
 void conn_list_do_buffer(struct conn_list *dest);
 void conn_list_do_unbuffer(struct conn_list *dest);
 
-struct connection *find_conn_by_user(const char *user_name);
-struct connection *find_conn_by_user_prefix(const char *user_name,
-                                             enum m_pre_result *result);
-struct connection *find_conn_by_id(int id);
+struct connection *conn_by_user(const char *user_name);
+struct connection *conn_by_user_prefix(const char *user_name,
+                                       enum m_pre_result *result);
+struct connection *conn_by_number(int id);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
 void connection_common_init(struct connection *pconn);

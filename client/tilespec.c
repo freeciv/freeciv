@@ -5285,7 +5285,7 @@ struct sprite *get_basic_mine_sprite(const struct tileset *t)
   struct drawing_data *draw;
   struct terrain *tm;
 
-  tm = find_terrain_by_rule_name("mountains");
+  tm = terrain_by_rule_name("mountains");
   if (tm != NULL) {
     draw = t->sprites.drawing[terrain_index(tm)];
     if (draw->mine != NULL) {

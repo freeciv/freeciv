@@ -541,7 +541,7 @@ static void pillage_callback(Widget w, XtPointer client_data,
   }
 
   if (client_data) {
-    struct unit *punit = game_find_unit_by_number (unit_to_use_to_pillage);
+    struct unit *punit = game_unit_by_number(unit_to_use_to_pillage);
     if (punit) {
       Base_type_id pillage_base = -1;
       int what = XTPOINTER_TO_INT(client_data);
@@ -765,7 +765,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     unit_select_ids[i]=punit->id;
 
-    pcity = player_find_city_by_id(client.conn.playing, punit->homecity);
+    pcity = player_city_by_number(client_player(), punit->homecity);
     
     fc_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s", 
 	    utype_name_translation(punittemp), 
@@ -843,8 +843,8 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(unit_select_dialog_shell);
   
   for(i=0; i<unit_select_no; i++) {
-    struct unit *punit = player_find_unit_by_id(client.conn.playing,
-						unit_select_ids[i]);
+    struct unit *punit = player_unit_by_number(client_player(),
+                                               unit_select_ids[i]);
     if(punit) {
       set_unit_focus(punit);
     }
@@ -865,8 +865,8 @@ void unit_select_callback(Widget w, XtPointer client_data,
   for(i=0; i<unit_select_no; i++) {
 
     if(unit_select_commands[i]==w) {
-      struct unit *punit = player_find_unit_by_id(client.conn.playing,
-						  unit_select_ids[i]);
+      struct unit *punit = player_unit_by_number(client_player(),
+                                                 unit_select_ids[i]);
       if(punit) {
 	set_unit_focus(punit);
       }

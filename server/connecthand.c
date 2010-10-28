@@ -174,7 +174,7 @@ void establish_new_connection(struct connection *pconn)
   send_scenario_info(dest);
   send_game_info(dest);
 
-  if ((pplayer = find_player_by_user(pconn->username))
+  if ((pplayer = player_by_user(pconn->username))
       && connection_attach_real(pconn, pplayer, FALSE, TRUE)) {
     /* a player has already been created for this user, reconnect */
 

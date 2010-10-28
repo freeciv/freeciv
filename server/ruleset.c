@@ -384,7 +384,7 @@ static struct advance *lookup_tech(struct section_file *file,
   if (!sval || (LOG_FATAL < loglevel && strcmp(sval, "Never") == 0)) {
     padvance = A_NEVER;
   } else {
-    padvance = find_advance_by_rule_name(sval);
+    padvance = advance_by_rule_name(sval);
 
     if (A_NEVER == padvance) {
       ruleset_error(loglevel,
@@ -416,7 +416,7 @@ static struct impr_type *lookup_building(struct section_file *file,
   if (!sval || (LOG_FATAL < loglevel && strcmp(sval, "None") == 0)) {
     pimprove = B_NEVER;
   } else {
-    pimprove = find_improvement_by_rule_name(sval);
+    pimprove = improvement_by_rule_name(sval);
 
     if (B_NEVER == pimprove) {
       ruleset_error(loglevel,
@@ -468,7 +468,7 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
   }
   for (i = 0; i < nval; i++) {
     const char *sval = slist[i];
-    struct unit_type *punittype = find_unit_type_by_rule_name(sval);
+    struct unit_type *punittype = unit_type_by_rule_name(sval);
 
     if (!punittype) {
       ruleset_error(LOG_FATAL,
@@ -519,7 +519,7 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
   }
   for (i=0; i<nval; i++) {
     const char *sval = slist[i];
-    struct advance *padvance = find_advance_by_rule_name(sval);
+    struct advance *padvance = advance_by_rule_name(sval);
 
     if (NULL == padvance) {
       ruleset_error(LOG_FATAL,
@@ -574,7 +574,7 @@ static void lookup_building_list(struct section_file *file,
   }
   for (i = 0; i < nval; i++) {
     const char *sval = slist[i];
-    struct impr_type *pimprove = find_improvement_by_rule_name(sval);
+    struct impr_type *pimprove = improvement_by_rule_name(sval);
 
     if (NULL == pimprove) {
       ruleset_error(LOG_FATAL,
@@ -613,7 +613,7 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
   if (strcmp(sval, "None")==0) {
     punittype = NULL;
   } else {
-    punittype = find_unit_type_by_rule_name(sval);
+    punittype = unit_type_by_rule_name(sval);
     if (!punittype) {
       ruleset_error(loglevel,
                     "\"%s\" %s %s: couldn't match \"%s\".",
@@ -638,7 +638,7 @@ static struct government *lookup_government(struct section_file *file,
   struct government *gov;
   
   sval = secfile_lookup_str(file, "%s", entry);
-  gov = find_government_by_rule_name(sval);
+  gov = government_by_rule_name(sval);
   if (!gov) {
     ruleset_error(LOG_FATAL,
                   "\"%s\" %s: couldn't match \"%s\".",
@@ -1219,7 +1219,7 @@ if (_count > MAX_VET_LEVELS) {						\
       if (!unit_class_flag_id_is_valid(ival)) {
         log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
                   filename, uclass_rule_name(ut), sval);
-        ival = find_unit_flag_by_rule_name(sval);
+        ival = unit_flag_by_rule_name(sval);
         if (ival != F_LAST) {
           log_error("\"%s\" unit_class \"%s\": unit_type flag!",
                     filename, uclass_rule_name(ut));
@@ -1279,7 +1279,7 @@ if (_count > MAX_VET_LEVELS) {						\
                                           rule_name(&u->name));
 
     sval = secfile_lookup_str(file, "%s.class", sec_name);
-    pclass = find_unit_class_by_rule_name(sval);
+    pclass = unit_class_by_rule_name(sval);
     if (!pclass) {
       ruleset_error(LOG_FATAL,
                     "\"%s\" unit_type \"%s\":"
@@ -1359,7 +1359,7 @@ if (_count > MAX_VET_LEVELS) {						\
     slist = secfile_lookup_str_vec(file, &nval, "%s.cargo", sec_name);
     BV_CLR_ALL(u->cargo);
     for (j = 0; j < nval; j++) {
-      struct unit_class *uclass = find_unit_class_by_rule_name(slist[j]);
+      struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
 
       if (!uclass) {
         ruleset_error(LOG_FATAL,
@@ -1377,7 +1377,7 @@ if (_count > MAX_VET_LEVELS) {						\
     slist = secfile_lookup_str_vec(file, &nval, "%s.targets", sec_name);
     BV_CLR_ALL(u->targets);
     for (j = 0; j < nval; j++) {
-      struct unit_class *uclass = find_unit_class_by_rule_name(slist[j]);
+      struct unit_class *uclass = unit_class_by_rule_name(slist[j]);
 
       if (!uclass) {
         ruleset_error(LOG_FATAL,
@@ -1427,7 +1427,7 @@ if (_count > MAX_VET_LEVELS) {						\
       if (0 == strcmp(sval, "")) {
         continue;
       }
-      ival = find_unit_flag_by_rule_name(sval);
+      ival = unit_flag_by_rule_name(sval);
       if (F_LAST == ival) {
         log_error("\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                   filename, utype_rule_name(u),  sval);
@@ -1457,7 +1457,7 @@ if (_count > MAX_VET_LEVELS) {						\
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = find_unit_role_by_rule_name(sval);
+      ival = unit_role_by_rule_name(sval);
       if (ival==L_LAST) {
         log_error("\"%s\" unit_type \"%s\": bad role name \"%s\".",
                   filename, utype_rule_name(u), sval);
@@ -2016,7 +2016,7 @@ static void load_ruleset_terrain(struct section_file *file)
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsection);
     BV_CLR_ALL(pterrain->native_to);
     for (j = 0; j < nval; j++) {
-      struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
+      struct unit_class *class = unit_class_by_rule_name(slist[j]);
 
       if (!class) {
         ruleset_error(LOG_FATAL,
@@ -2113,7 +2113,7 @@ static void load_ruleset_terrain(struct section_file *file)
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
     BV_CLR_ALL(pbase->native_to);
     for (j = 0; j < nval; j++) {
-      struct unit_class *class = find_unit_class_by_rule_name(slist[j]);
+      struct unit_class *class = unit_class_by_rule_name(slist[j]);
 
       if (!class) {
         ruleset_error(LOG_FATAL,
@@ -2173,7 +2173,7 @@ static void load_ruleset_terrain(struct section_file *file)
     slist = secfile_lookup_str_vec(file, &nval, "%s.conflicts", section);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
-      struct base_type *pbase2 = find_base_type_by_rule_name(sval);
+      struct base_type *pbase2 = base_type_by_rule_name(sval);
 
       if (pbase2 == NULL) {
         ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown conflict base \"%s\".",
@@ -2501,7 +2501,7 @@ static void load_city_name_list(struct section_file *file,
         if (0 == fc_strcasecmp(p, "river")) {
           nation_city_set_river_preference(pncity, prefer);
         } else {
-          const struct terrain *pterrain = find_terrain_by_rule_name(p);
+          const struct terrain *pterrain = terrain_by_rule_name(p);
 
           if (NULL == pterrain) {
             /* Try with removing frequent trailing 's'. */
@@ -2510,7 +2510,7 @@ static void load_city_name_list(struct section_file *file,
             if (0 < l && 's' == fc_tolower(p[l - 1])) {
               p[l - 1] = '\0';
             }
-            pterrain = find_terrain_by_rule_name(p);
+            pterrain = terrain_by_rule_name(p);
           }
 
           if (NULL != pterrain) {
@@ -2744,7 +2744,7 @@ static void load_ruleset_nations(struct section_file *file)
       female_name = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
                                        sec_name, j);
 
-      gov = find_government_by_rule_name(name);
+      gov = government_by_rule_name(name);
       if (NULL != gov) {
         struct ruler_title *title;
 
@@ -2767,7 +2767,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     /* City styles */
     name = secfile_lookup_str(file, "%s.city_style", sec_name);
-    pnation->city_style = find_city_style_by_rule_name(name);
+    pnation->city_style = city_style_by_rule_name(name);
     if (0 > pnation->city_style) {
       log_error("Nation %s: city style \"%s\" is unknown, using default.",
                 nation_rule_name(pnation), name);
@@ -2990,7 +2990,7 @@ static void load_ruleset_cities(struct section_file *file)
     if(0 == strcmp(replacement, "-")) {
       city_styles[i].replaced_by = -1;
     } else {
-      city_styles[i].replaced_by = find_city_style_by_rule_name(replacement);
+      city_styles[i].replaced_by = city_style_by_rule_name(replacement);
       if (city_styles[i].replaced_by < 0) {
         log_error("\"%s\": style \"%s\" replacement \"%s\" not found",
                   filename, city_style_rule_name(i), replacement);

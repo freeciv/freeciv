@@ -1157,7 +1157,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 {									    \
   Tech_type_id tech_id = 0;						    \
 									    \
-  while ((tech_id = find_advance_by_flag(tech_id, (flag))) != A_LAST) {
+  while ((tech_id = advance_by_flag(tech_id, (flag))) != A_LAST) {
 
 #define techs_with_flag_iterate_end		\
     tech_id++;					\

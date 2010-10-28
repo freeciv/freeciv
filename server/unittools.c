@@ -339,7 +339,7 @@ void player_restore_units(struct player *pplayer)
           && !is_unit_being_refueled(punit)) {
         struct unit *carrier;
 
-        carrier = find_transport_from_tile(punit, punit->tile);
+        carrier = transport_from_tile(punit, punit->tile);
         if (carrier) {
           put_unit_onto_transporter(punit, carrier);
         } else {
@@ -388,7 +388,7 @@ void player_restore_units(struct player *pplayer)
                 punit->goto_tile = NULL;
 
                 if (!is_unit_being_refueled(punit)) {
-                  carrier = find_transport_from_tile(punit, punit->tile);
+                  carrier = transport_from_tile(punit, unit_tile(punit));
                   if (carrier) {
                     put_unit_onto_transporter(punit, carrier);
                   }
@@ -850,14 +850,14 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  if (game_find_unit_by_number(id) && unit_has_orders(punit)) {
+  if (game_unit_by_number(id) && unit_has_orders(punit)) {
     if (!execute_orders(punit)) {
       /* Unit died. */
       return;
     }
   }
 
-  if (game_find_unit_by_number(id)) {
+  if (game_unit_by_number(id)) {
     send_unit_info(NULL, punit);
   }
 
@@ -1309,7 +1309,7 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   unit_forget_last_activity(punit);
 
   /* update unit upkeep */
-  city_units_upkeep(game_find_city_by_number(punit->homecity));
+  city_units_upkeep(game_city_by_number(punit->homecity));
 
   conn_list_do_buffer(pplayer->connections);
 
@@ -1350,7 +1350,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   fc_assert_ret_val(ptile != NULL, NULL);
   punit->tile = ptile;
 
-  pcity = game_find_city_by_number(homecity_id);
+  pcity = game_city_by_number(homecity_id);
   if (utype_has_flag(type, F_NOHOME)) {
     punit->homecity = 0; /* none */
   } else {
@@ -1398,7 +1398,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   wakeup_neighbor_sentries(punit);
 
   /* update unit upkeep */
-  city_units_upkeep(game_find_city_by_number(homecity_id));
+  city_units_upkeep(game_city_by_number(homecity_id));
 
   /* The unit may have changed the available tiles in nearby cities. */
   city_map_update_tile_now(ptile);
@@ -1418,7 +1418,7 @@ static void server_remove_unit(struct unit *punit)
 {
   struct tile *ptile = punit->tile;
   struct city *pcity = tile_city(ptile);
-  struct city *phomecity = game_find_city_by_number(punit->homecity);
+  struct city *phomecity = game_city_by_number(punit->homecity);
   struct unit *ptrans;
 
 #ifdef DEBUG
@@ -1428,7 +1428,7 @@ static void server_remove_unit(struct unit *punit)
 #endif
 
   if (-1 != punit->transported_by) {
-    ptrans = game_find_unit_by_number(punit->transported_by);
+    ptrans = game_unit_by_number(punit->transported_by);
   } else {
     ptrans = NULL;
   }
@@ -1570,7 +1570,7 @@ void wipe_unit(struct unit *punit)
   }
 
   /* update unit upkeep */
-  city_units_upkeep(game_find_city_by_number(homecity_id));
+  city_units_upkeep(game_city_by_number(homecity_id));
 
   /* Finally reassign, bounce, or destroy all units that cannot exist at this
    * location without transport. */
@@ -1583,7 +1583,7 @@ void wipe_unit(struct unit *punit)
           && !can_unit_exist_at_tile(pcargo, ptile)
           && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
            || unit_has_type_flag(pcargo, F_GAMELOSS))) {
-        struct unit *ptransport = find_transport_from_tile(pcargo, ptile);
+        struct unit *ptransport = transport_from_tile(pcargo, ptile);
         if (ptransport != NULL) {
           put_unit_onto_transporter(pcargo, ptransport);
           send_unit_info(NULL, pcargo);
@@ -1618,7 +1618,7 @@ void wipe_unit(struct unit *punit)
     unit_list_iterate_safe(ptile->units, pcargo) {
       if (pcargo->transported_by == -1
           && !can_unit_exist_at_tile(pcargo, ptile)) {
-        struct unit *ptransport = find_transport_from_tile(pcargo, ptile);
+        struct unit *ptransport = transport_from_tile(pcargo, ptile);
 
         if (ptransport != NULL) {
           put_unit_onto_transporter(pcargo, ptransport);
@@ -1663,11 +1663,11 @@ void unit_change_owner(struct unit *punit, struct player *pplayer,
   /* update unit upkeep in the homecity of the victim */
   if (punit->homecity > 0) {
     /* update unit upkeep */
-    city_units_upkeep(game_find_city_by_number(punit->homecity));
+    city_units_upkeep(game_city_by_number(punit->homecity));
   }
   /* update unit upkeep in the new homecity */
   if (homecity > 0) {
-    city_units_upkeep(game_find_city_by_number(homecity));
+    city_units_upkeep(game_city_by_number(homecity));
   }
 
   /* Be sure to wipe the converted unit! */
@@ -2471,7 +2471,7 @@ void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
 ****************************************************************************/
 void unload_unit_from_transporter(struct unit *punit)
 {
-  struct unit *ptrans = game_find_unit_by_number(punit->transported_by);
+  struct unit *ptrans = game_unit_by_number(punit->transported_by);
 
   pull_unit_from_transporter(punit, ptrans);
   send_unit_info(NULL, punit);
@@ -2575,10 +2575,10 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 #endif
 
-    if (game_find_unit_by_number(sanity2)) {
+    if (game_unit_by_number(sanity2)) {
       send_unit_info(NULL, penemy);
     }
-    if (game_find_unit_by_number(sanity1)) {
+    if (game_unit_by_number(sanity1)) {
       send_unit_info(NULL, punit);
     } else {
       unit_list_destroy(autoattack);
@@ -2587,7 +2587,7 @@ static bool unit_survive_autoattack(struct unit *punit)
   } unit_list_iterate_safe_end;
 
   unit_list_destroy(autoattack);
-  if (game_find_unit_by_number(sanity1)) {
+  if (game_unit_by_number(sanity1)) {
     /* We could have lost movement in combat */
     punit->moves_left = MIN(punit->moves_left, moves);
     send_unit_info(NULL, punit);
@@ -2719,10 +2719,10 @@ static void unit_move_consequences(struct unit *punit,
   }
 
   if (homecity_id_start_pos != 0) {
-    homecity_start_pos = game_find_city_by_number(homecity_id_start_pos);
+    homecity_start_pos = game_city_by_number(homecity_id_start_pos);
   }
   if (homecity_id_start_pos != homecity_id_end_pos) {
-    homecity_end_pos = game_find_city_by_number(homecity_id_end_pos);
+    homecity_end_pos = game_city_by_number(homecity_id_end_pos);
   } else {
     homecity_end_pos = homecity_start_pos;
   }
@@ -2932,7 +2932,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     punit->tile = pdesttile;
     punit->moved = TRUE;
     if (punit->transported_by != -1) {
-      ptransporter = game_find_unit_by_number(punit->transported_by);
+      ptransporter = game_unit_by_number(punit->transported_by);
       pull_unit_from_transporter(punit, ptransporter);
     }
     punit->moves_left = MAX(0, punit->moves_left - move_cost);
@@ -2969,7 +2969,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     
     /* Special checks for ground units in the ocean. */
     if (!can_unit_survive_at_tile(punit, pdesttile)) {
-      ptransporter = find_transporter_for_unit(punit);
+      ptransporter = transporter_for_unit(punit);
       if (ptransporter) {
         put_unit_onto_transporter(punit, ptransporter);
       }
@@ -3236,7 +3236,7 @@ bool execute_orders(struct unit *punit)
       handle_unit_build_city(pplayer, unitid,
 			     city_name_suggestion(pplayer, punit->tile));
       log_debug("  building city");
-      if (player_find_unit_by_id(pplayer, unitid)) {
+      if (player_unit_by_number(pplayer, unitid)) {
 	/* Build failed. */
 	cancel_orders(punit, " orders canceled; failed to build city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
@@ -3293,7 +3293,7 @@ bool execute_orders(struct unit *punit)
 
       log_debug("  moving to %d,%d", TILE_XY(dst_tile));
       res = unit_move_handling(punit, dst_tile, FALSE, !last_order);
-      if (!player_find_unit_by_id(pplayer, unitid)) {
+      if (!player_unit_by_number(pplayer, unitid)) {
         log_debug("  unit died while moving.");
         /* A player notification should already have been sent. */
         return FALSE;
@@ -3358,7 +3358,7 @@ bool execute_orders(struct unit *punit)
     case ORDER_TRADE_ROUTE:
       log_debug("  orders: establishing trade route.");
       handle_unit_establish_trade(pplayer, unitid);
-      if (player_find_unit_by_id(pplayer, unitid)) {
+      if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no trade route city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Attempt to establish trade route for %s failed."),
@@ -3370,7 +3370,7 @@ bool execute_orders(struct unit *punit)
     case ORDER_BUILD_WONDER:
       log_debug("  orders: building wonder");
       handle_unit_help_build_wonder(pplayer, unitid);
-      if (player_find_unit_by_id(pplayer, unitid)) {
+      if (player_unit_by_number(pplayer, unitid)) {
         cancel_orders(punit, "  no wonder city");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Attempt to build wonder for %s failed."),

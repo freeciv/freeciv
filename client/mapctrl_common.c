@@ -690,8 +690,8 @@ static int unit_list_compare(const void *a, const void *b)
   } else {
     /* If the transporters aren't the same, put in order by the
      * transporters. */
-    const struct unit *ptrans1 = game_find_unit_by_number(punit1->transported_by);
-    const struct unit *ptrans2 = game_find_unit_by_number(punit2->transported_by);
+    const struct unit *ptrans1 = game_unit_by_number(punit1->transported_by);
+    const struct unit *ptrans2 = game_unit_by_number(punit2->transported_by);
 
     if (!ptrans1) {
       ptrans1 = punit1;

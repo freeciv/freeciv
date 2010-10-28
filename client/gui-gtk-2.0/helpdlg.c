@@ -714,7 +714,7 @@ static void help_update_improvement(const struct help_item *pitem,
 				    char *title)
 {
   char buf[8192];
-  struct impr_type *imp = find_improvement_by_translated_name(title);
+  struct impr_type *imp = improvement_by_translated_name(title);
 
   create_help_page(HELP_IMPROVEMENT);
 
@@ -758,7 +758,7 @@ static void help_update_wonder(const struct help_item *pitem,
 			       char *title)
 {
   char buf[8192];
-  struct impr_type *imp = find_improvement_by_translated_name(title);
+  struct impr_type *imp = improvement_by_translated_name(title);
 
   create_help_page(HELP_WONDER);
 
@@ -810,7 +810,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 				  char *title)
 {
   char buf[8192];
-  struct unit_type *utype = find_unit_type_by_translated_name(title);
+  struct unit_type *utype = unit_type_by_translated_name(title);
 
   create_help_page(HELP_UNIT);
 
@@ -909,7 +909,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
   int i, j;
   GtkWidget *w, *hbox;
   char buf[8192];
-  struct advance *padvance = find_advance_by_translated_name(title);
+  struct advance *padvance = advance_by_translated_name(title);
 
   create_help_page(HELP_TECH);
 
@@ -1058,7 +1058,7 @@ static void help_update_terrain(const struct help_item *pitem,
 				char *title)
 {
   char buf[8192];
-  struct terrain *pterrain = find_terrain_by_translated_name(title);
+  struct terrain *pterrain = terrain_by_translated_name(title);
 
   create_help_page(HELP_TERRAIN);
 
@@ -1158,7 +1158,7 @@ static void help_update_terrain(const struct help_item *pitem,
 static void help_update_base(const struct help_item *pitem, char *title)
 {
   char buf[8192];
-  struct base_type *pbase = find_base_type_by_translated_name(title);
+  struct base_type *pbase = base_type_by_translated_name(title);
 
   create_help_page(HELP_BASE);
 
@@ -1200,7 +1200,7 @@ static void help_update_government(const struct help_item *pitem,
 				   char *title)
 {
   char buf[8192];
-  struct government *gov = find_government_by_translated_name(title);
+  struct government *gov = government_by_translated_name(title);
 
   if (!gov) {
     strcat(buf, pitem->text);

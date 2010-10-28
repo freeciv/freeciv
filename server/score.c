@@ -315,8 +315,8 @@ void calc_civ_score(struct player *pplayer)
 
   improvement_iterate(i) {
     if (is_great_wonder(i)
-	&& (pcity = find_city_from_great_wonder(i))
-	&& player_owns_city(pplayer, pcity)) {
+        && (pcity = city_from_great_wonder(i))
+        && player_owns_city(pplayer, pcity)) {
       pplayer->score.wonders++;
     }
   } improvement_iterate_end;

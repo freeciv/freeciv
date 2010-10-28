@@ -97,8 +97,8 @@ struct impr_type *improvement_by_number(const Impr_type_id id);
 struct impr_type *valid_improvement(struct impr_type *pimprove);
 struct impr_type *valid_improvement_by_number(const Impr_type_id id);
 
-struct impr_type *find_improvement_by_rule_name(const char *name);
-struct impr_type *find_improvement_by_translated_name(const char *name);
+struct impr_type *improvement_by_rule_name(const char *name);
+struct impr_type *improvement_by_translated_name(const char *name);
 
 const char *improvement_rule_name(const struct impr_type *pimprove);
 const char *improvement_name_translation(const struct impr_type *pimprove);
@@ -139,19 +139,19 @@ void wonder_destroyed(const struct city *pcity,
 
 bool wonder_is_built(const struct player *pplayer,
                      const struct impr_type *pimprove);
-struct city *find_city_from_wonder(const struct player *pplayer,
-                                   const struct impr_type *pimprove);
+struct city *city_from_wonder(const struct player *pplayer,
+                              const struct impr_type *pimprove);
 
 bool great_wonder_is_built(const struct impr_type *pimprove);
 bool great_wonder_is_destroyed(const struct impr_type *pimprove);
 bool great_wonder_is_available(const struct impr_type *pimprove);
-struct city *find_city_from_great_wonder(const struct impr_type *pimprove);
+struct city *city_from_great_wonder(const struct impr_type *pimprove);
 struct player *great_wonder_owner(const struct impr_type *pimprove);
 
 bool small_wonder_is_built(const struct player *pplayer,
                            const struct impr_type *pimprove);
-struct city *find_city_from_small_wonder(const struct player *pplayer,
-                                         const struct impr_type *pimprove);
+struct city *city_from_small_wonder(const struct player *pplayer,
+                                    const struct impr_type *pimprove);
 
 /* player related improvement functions */
 bool improvement_obsolete(const struct player *pplayer,

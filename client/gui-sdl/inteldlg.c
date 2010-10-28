@@ -290,7 +290,7 @@ void update_intel_dialog(struct player *p)
       
     /* ---------- */
     
-    pCapital = find_palace(p);
+    pCapital = player_palace(p);
     research = player_research_get(p);
     change_ptsize16(pStr, adj_font(10));
     pStr->style &= ~TTF_STYLE_BOLD;

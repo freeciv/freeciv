@@ -305,7 +305,7 @@ static bool send_to_metaserver(enum meta_flag flag)
       players_iterate(plr) {
         bool is_player_available = TRUE;
         char type[15];
-        struct connection *pconn = find_conn_by_user(plr->username);
+        struct connection *pconn = conn_by_user(plr->username);
 
         if (!plr->is_alive) {
           sz_strlcpy(type, "Dead");

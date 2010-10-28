@@ -86,7 +86,7 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 static int goto_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct city *pDestcity = game_find_city_by_number(MAX_ID - pWidget->ID);
+    struct city *pDestcity = game_city_by_number(MAX_ID - pWidget->ID);
   
     if (pDestcity) {
       struct unit *pUnit = head_of_units_in_focus();

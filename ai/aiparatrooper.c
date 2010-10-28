@@ -213,7 +213,7 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
     if (ptile_dest) {
       if (do_paradrop(punit, ptile_dest)) {
 	/* successfull! */
-	if (!game_find_unit_by_number(sanity)) {
+        if (NULL == game_unit_by_number(sanity)) {
 	  /* the unit did not survive the move */
 	  return;
 	}

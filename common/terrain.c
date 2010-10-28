@@ -154,7 +154,7 @@ struct terrain *terrain_by_number(const Terrain_type_id type)
 /****************************************************************************
   Return the terrain type matching the identifier, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *find_terrain_by_identifier(const char identifier)
+struct terrain *terrain_by_identifier(const char identifier)
 {
   if (TERRAIN_UNKNOWN_IDENTIFIER == identifier) {
     return T_UNKNOWN;
@@ -171,7 +171,7 @@ struct terrain *find_terrain_by_identifier(const char identifier)
 /****************************************************************************
   Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *find_terrain_by_rule_name(const char *name)
+struct terrain *terrain_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
@@ -187,7 +187,7 @@ struct terrain *find_terrain_by_rule_name(const char *name)
 /****************************************************************************
   Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-struct terrain *find_terrain_by_translated_name(const char *name)
+struct terrain *terrain_by_translated_name(const char *name)
 {
   terrain_type_iterate(pterrain) {
     if (0 == strcmp(terrain_name_translation(pterrain), name)) {
@@ -340,7 +340,7 @@ struct resource *resource_by_number(const Resource_type_id type)
 /****************************************************************************
   Return the resource type matching the identifier, or NULL when none matches.
 ****************************************************************************/
-struct resource *find_resource_by_identifier(const char identifier)
+struct resource *resource_by_identifier(const char identifier)
 {
   resource_type_iterate(presource) {
     if (presource->identifier == identifier) {
@@ -354,7 +354,7 @@ struct resource *find_resource_by_identifier(const char identifier)
 /****************************************************************************
   Return the resource type matching the name, or NULL when none matches.
 ****************************************************************************/
-struct resource *find_resource_by_rule_name(const char *name)
+struct resource *resource_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
@@ -496,7 +496,7 @@ static const char *tile_special_type_names[] =
 /****************************************************************************
   Return the special with the given name, or S_LAST.
 ****************************************************************************/
-enum tile_special_type find_special_by_rule_name(const char *name)
+enum tile_special_type special_by_rule_name(const char *name)
 {
   fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, S_LAST);
 

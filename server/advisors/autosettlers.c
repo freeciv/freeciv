@@ -354,8 +354,8 @@ int settler_evaluate_improvements(struct unit *punit,
       }
 
       if (state) {
-        enroute = player_find_unit_by_id(pplayer,
-                                         state[tile_index(ptile)].enroute);
+        enroute = player_unit_by_number(pplayer,
+                                        state[tile_index(ptile)].enroute);
       }
 
       if (pf_map_get_position(pfm, ptile, &pos)) {
@@ -543,7 +543,8 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
     }
 
     /* Mark the square as taken. */
-    displaced = player_find_unit_by_id(pplayer, state[tile_index(best_tile)].enroute);
+    displaced = player_unit_by_number(pplayer,
+                                      state[tile_index(best_tile)].enroute);
 
     if (displaced) {
       fc_assert(state[tile_index(best_tile)].enroute == displaced->id);
@@ -569,7 +570,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 
       displaced->goto_tile = NULL;
       auto_settler_findwork(pplayer, displaced, state, recursion + 1);
-      if (player_find_unit_by_id(pplayer, saved_id) == NULL) {
+      if (NULL == player_unit_by_number(pplayer, saved_id)) {
         /* Actions of the displaced settler somehow caused this settler
          * to die. (maybe by recursively giving control back to this unit)
          */

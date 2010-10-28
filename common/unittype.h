@@ -271,8 +271,8 @@ Unit_type_id utype_number(const struct unit_type *punittype);
 struct unit_type *unit_type(const struct unit *punit);
 struct unit_type *utype_by_number(const Unit_type_id id);
 
-struct unit_type *find_unit_type_by_rule_name(const char *name);
-struct unit_type *find_unit_type_by_translated_name(const char *name);
+struct unit_type *unit_type_by_rule_name(const char *name);
+struct unit_type *unit_type_by_translated_name(const char *name);
 
 const char *unit_rule_name(const struct unit *punit);
 const char *utype_rule_name(const struct unit_type *punittype);
@@ -290,8 +290,8 @@ bool utype_has_flag(const struct unit_type *punittype, int flag);
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role);
 bool utype_has_role(const struct unit_type *punittype, int role);
 
-enum unit_flag_id find_unit_flag_by_rule_name(const char *s);
-enum unit_role_id find_unit_role_by_rule_name(const char *s);
+enum unit_flag_id unit_flag_by_rule_name(const char *s);
+enum unit_role_id unit_role_by_rule_name(const char *s);
 
 void set_user_unit_flag_name(enum unit_flag_id id, const char *name);
 const char *unit_flag_rule_name(enum unit_flag_id id);
@@ -321,7 +321,7 @@ struct unit_class *unit_class(const struct unit *punit);
 struct unit_class *utype_class(const struct unit_type *punittype);
 struct unit_class *uclass_by_number(const Unit_Class_id id);
 
-struct unit_class *find_unit_class_by_rule_name(const char *s);
+struct unit_class *unit_class_by_rule_name(const char *s);
 
 const char *uclass_rule_name(const struct unit_class *pclass);
 const char *uclass_name_translation(const struct unit_class *pclass);

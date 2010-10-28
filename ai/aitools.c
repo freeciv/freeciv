@@ -799,7 +799,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
   if (punit->server.adv->role == AIUNIT_HUNTER) {
     /* Clear victim's hunted bit - we're no longer chasing. */
-    struct unit *target = game_find_unit_by_number(unit_data->target);
+    struct unit *target = game_unit_by_number(unit_data->target);
 
     if (target) {
       BV_CLR(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
@@ -830,7 +830,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   }
   if (punit->server.adv->role == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */
-    struct unit *target = game_find_unit_by_number(unit_data->target);
+    struct unit *target = game_unit_by_number(unit_data->target);
 
     fc_assert_ret(target != NULL);
     BV_SET(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
@@ -926,13 +926,13 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
   (void) unit_move_handling(punit, ptile, FALSE, FALSE);
-  alive = (game_find_unit_by_number(sanity) != NULL);
+  alive = (game_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, punit->tile)
       && bodyguard != NULL  && def_ai_unit_data(bodyguard)->charge == punit->id) {
     ai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
-    alive = (game_find_unit_by_number(sanity) != NULL);
+    alive = (game_unit_by_number(sanity) != NULL);
   }
 
   return alive;
@@ -1010,7 +1010,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   (void) unit_move_handling(punit, ptile, FALSE, TRUE);
 
   /* handle the results */
-  if (game_find_unit_by_number(sanity) && same_pos(ptile, punit->tile)) {
+  if (game_unit_by_number(sanity) && same_pos(ptile, punit->tile)) {
     struct unit *bodyguard = aiguard_guard_of(punit);
     if (is_ai && bodyguard != NULL
         && def_ai_unit_data(bodyguard)->charge == punit->id) {

@@ -750,7 +750,7 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
   enum m_pre_result match_result;
   struct player *pplayer;
 
-  pplayer = find_player_by_name_prefix(arg, &match_result);
+  pplayer = player_by_name_prefix(arg, &match_result);
 
   if (!pplayer) {
     cmd_reply_no_such_player(CMD_AITOGGLE, caller, arg, match_result);
@@ -818,7 +818,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
 
   /* Check first if we can replace a player with
    * [1a] - the same username. */
-  pplayer = find_player_by_user(name);
+  pplayer = player_by_user(name);
   if (pplayer && pplayer->is_alive) {
     fc_snprintf(buf, buflen,
                 _("A living user already exists by that name."));
@@ -826,7 +826,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   }
 
   /* [1b] - the same player name. */
-  pplayer = find_player_by_name(name);
+  pplayer = player_by_name(name);
   if (pplayer && pplayer->is_alive) {
     fc_snprintf(buf, buflen,
                 _("A living player already exists by that name."));
@@ -937,12 +937,12 @@ enum rfc_status create_command_pregame(const char *name, bool check,
     return C_SYNTAX;
   }
 
-  if (NULL != find_player_by_name(name)) {
+  if (NULL != player_by_name(name)) {
     fc_snprintf(buf, buflen,
                 _("A player already exists by that name."));
     return C_BOUNCE;
   }
-  if (NULL != find_player_by_user(name)) {
+  if (NULL != player_by_user(name)) {
     fc_snprintf(buf, buflen,
                 _("A user already exists by that name."));
     return C_BOUNCE;
@@ -1025,9 +1025,9 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
   struct player *pplayer;
   char name[MAX_LEN_NAME];
 
-  pplayer=find_player_by_name_prefix(arg, &match_result);
-  
-  if(!pplayer) {
+  pplayer = player_by_name_prefix(arg, &match_result);
+
+  if (NULL == pplayer) {
     cmd_reply_no_such_player(CMD_REMOVE, caller, arg, match_result);
     return FALSE;
   }
@@ -1436,7 +1436,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
 
     ret = TRUE;
 
-  } else if ((ptarget = find_conn_by_user_prefix(arg[1], &match_result))) {
+  } else if ((ptarget = conn_by_user_prefix(arg[1], &match_result))) {
     if (set_cmdlevel(caller, ptarget, level)) {
       ret = TRUE;
     }
@@ -1847,7 +1847,7 @@ void set_ai_level_direct(struct player *pplayer, enum ai_level level)
 static bool set_ai_level_named(struct connection *caller, const char *name,
                                const char *level_name, bool check)
 {
-  enum ai_level level = find_ai_level_by_name(level_name);
+  enum ai_level level = ai_level_by_name(level_name);
   return set_ai_level(caller, name, level, check);
 }
 
@@ -1862,7 +1862,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
 
   fc_assert_ret_val(level > 0 && level < 11, FALSE);
 
-  pplayer=find_player_by_name_prefix(name, &match_result);
+  pplayer = player_by_name_prefix(name, &match_result);
 
   if (pplayer) {
     if (pplayer->ai_controlled) {
@@ -2137,7 +2137,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
 
-  pplayer = find_player_by_name_prefix(arg[0], &match_result);
+  pplayer = player_by_name_prefix(arg[0], &match_result);
   if (pplayer == NULL) {
     cmd_reply_no_such_player(CMD_TEAM, caller, arg[0], match_result);
     goto cleanup;
@@ -2463,7 +2463,7 @@ static bool debug_command(struct connection *caller, char *str,
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
-    pplayer = find_player_by_name_prefix(arg[1], &match_result);
+    pplayer = player_by_name_prefix(arg[1], &match_result);
     if (pplayer == NULL) {
       cmd_reply_no_such_player(CMD_DEBUG, caller, arg[1], match_result);
       goto cleanup;
@@ -2488,7 +2488,7 @@ static bool debug_command(struct connection *caller, char *str,
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
-    pplayer = find_player_by_name_prefix(arg[1], &match_result);
+    pplayer = player_by_name_prefix(arg[1], &match_result);
     if (pplayer == NULL) {
       cmd_reply_no_such_player(CMD_DEBUG, caller, arg[1], match_result);
       goto cleanup;
@@ -2608,7 +2608,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 must be integer."));
       goto cleanup;
     }
-    if (!(punit = game_find_unit_by_number(id))) {
+    if (!(punit = game_unit_by_number(id))) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Unit %d does not exist."), id);
       goto cleanup;
     }
@@ -2998,11 +2998,11 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* match connection if we're console, match a player if we're not */
   if (ntokens == 1) {
-    if (!caller && !(pconn = find_conn_by_user_prefix(arg[0], &result))) {
+    if (!caller && !(pconn = conn_by_user_prefix(arg[0], &result))) {
       cmd_reply_no_such_conn(CMD_OBSERVE, caller, arg[0], result);
       goto end;
-    } else if (caller 
-               && !(pplayer = find_player_by_name_prefix(arg[0], &result))) {
+    } else if (caller
+               && !(pplayer = player_by_name_prefix(arg[0], &result))) {
       cmd_reply_no_such_player(CMD_OBSERVE, caller, arg[0], result);
       goto end;
     }
@@ -3010,11 +3010,11 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* get connection name then player name */
   if (ntokens == 2) {
-    if (!(pconn = find_conn_by_user_prefix(arg[0], &result))) {
+    if (!(pconn = conn_by_user_prefix(arg[0], &result))) {
       cmd_reply_no_such_conn(CMD_OBSERVE, caller, arg[0], result);
       goto end;
     }
-    if (!(pplayer = find_player_by_name_prefix(arg[1], &result))) {
+    if (!(pplayer = player_by_name_prefix(arg[1], &result))) {
       cmd_reply_no_such_player(CMD_OBSERVE, caller, arg[1], result);
       goto end;
     }
@@ -3083,7 +3083,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
     if (pplayer) {
       /* find pplayer again, the pointer might have been changed */
-      pplayer = find_player_by_name(name);
+      pplayer = player_by_name(name);
     }
   } 
 
@@ -3152,7 +3152,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   if (ntokens == 2) {
-    if (!(pconn = find_conn_by_user_prefix(arg[i], &match_result))) {
+    if (!(pconn = conn_by_user_prefix(arg[i], &match_result))) {
       cmd_reply_no_such_conn(CMD_TAKE, caller, arg[i], match_result);
       goto end;
     }
@@ -3176,7 +3176,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
       /* Make it human! */
       pplayer->ai_controlled = FALSE;
     }
-  } else if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
+  } else if (!(pplayer = player_by_name_prefix(arg[i], &match_result))) {
     cmd_reply_no_such_player(CMD_TAKE, caller, arg[i], match_result);
     goto end;
   }
@@ -3261,7 +3261,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
     if (pplayer) {
       /* find pplayer again; the pointer might have been changed */
-      pplayer = find_player_by_name(name);
+      pplayer = player_by_name(name);
     }
   }
 
@@ -3325,7 +3325,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
   /* match the connection if the argument was given */
   if (ntokens == 1 
-      && !(pconn = find_conn_by_user_prefix(arg[0], &match_result))) {
+      && !(pconn = conn_by_user_prefix(arg[0], &match_result))) {
     cmd_reply_no_such_conn(CMD_DETACH, caller, arg[0], match_result);
     goto end;
   }
@@ -4389,7 +4389,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
   struct player *pplayer;
   bool was_connected;
 
-  ptarget = find_conn_by_user_prefix(name, &match_result);
+  ptarget = conn_by_user_prefix(name, &match_result);
 
   if (!ptarget) {
     cmd_reply_no_such_conn(CMD_CUT, caller, name, match_result);

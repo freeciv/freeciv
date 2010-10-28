@@ -825,7 +825,7 @@ static int unit_select_callback( struct widget *pWidget )
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit =
-      player_find_unit_by_id(client.conn.playing, MAX_ID - pWidget->ID);
+      player_unit_by_number(client_player(), MAX_ID - pWidget->ID);
   
     popdown_unit_select_dialog();
     if (pUnit) {

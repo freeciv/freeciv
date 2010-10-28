@@ -48,10 +48,8 @@ enum bodyguard_enum {
 void aiguard_check_guard(const struct unit *guard)
 {
   struct unit_ai *guard_data = def_ai_unit_data(guard);
-  const struct unit *charge_unit
-    = game_find_unit_by_number(guard_data->charge);
-  const struct city *charge_city
-    = game_find_city_by_number(guard_data->charge);
+  const struct unit *charge_unit = game_unit_by_number(guard_data->charge);
+  const struct city *charge_city = game_city_by_number(guard_data->charge);
   const struct player *guard_owner = unit_owner(guard);
   const struct player *charge_owner = NULL;
   struct unit_ai *charge_data = NULL;
@@ -93,8 +91,7 @@ void aiguard_check_charge_unit(const struct unit *charge)
 {
   struct unit_ai *charge_data = def_ai_unit_data(charge);
   const struct player *charge_owner = unit_owner(charge);
-  const struct unit *guard
-    = game_find_unit_by_number(charge_data->bodyguard);
+  const struct unit *guard = game_unit_by_number(charge_data->bodyguard);
   struct unit_ai *guard_data = NULL;
 
   if (guard) {
@@ -120,10 +117,8 @@ void aiguard_check_charge_unit(const struct unit *charge)
 void aiguard_clear_charge(struct unit *guard)
 {
   struct unit_ai *guard_data = def_ai_unit_data(guard);
-  struct unit *charge_unit
-    = game_find_unit_by_number(guard_data->charge);
-  struct city *charge_city
-    = game_find_city_by_number(guard_data->charge);
+  struct unit *charge_unit = game_unit_by_number(guard_data->charge);
+  struct city *charge_city = game_city_by_number(guard_data->charge);
 
   /* IDs always distinct */
   fc_assert_ret(charge_unit == NULL || charge_city == NULL);
@@ -153,8 +148,7 @@ void aiguard_clear_guard(struct unit *charge)
   struct unit_ai *charge_data = def_ai_unit_data(charge);
 
   if (0 < charge_data->bodyguard) {
-    struct unit *guard
-      = game_find_unit_by_number(charge_data->bodyguard);
+    struct unit *guard = game_unit_by_number(charge_data->bodyguard);
 
     if (guard) {
       struct unit_ai *guard_data = def_ai_unit_data(guard);
@@ -273,7 +267,7 @@ bool aiguard_has_guard(struct unit *charge)
 struct unit *aiguard_guard_of(struct unit *charge)
 {
   CHECK_CHARGE_UNIT(charge);
-  return game_find_unit_by_number(def_ai_unit_data(charge)->bodyguard);
+  return game_unit_by_number(def_ai_unit_data(charge)->bodyguard);
 }
 
 /**************************************************************************
@@ -283,7 +277,7 @@ struct unit *aiguard_guard_of(struct unit *charge)
 struct unit *aiguard_charge_unit(struct unit *guard)
 {
   CHECK_GUARD(guard);
-  return game_find_unit_by_number(def_ai_unit_data(guard)->charge);
+  return game_unit_by_number(def_ai_unit_data(guard)->charge);
 }
 
 /**************************************************************************
@@ -293,7 +287,7 @@ struct unit *aiguard_charge_unit(struct unit *guard)
 struct city *aiguard_charge_city(struct unit *guard)
 {
   CHECK_GUARD(guard);
-  return game_find_city_by_number(def_ai_unit_data(guard)->charge);
+  return game_city_by_number(def_ai_unit_data(guard)->charge);
 }
 
 /**************************************************************************
@@ -303,10 +297,8 @@ struct city *aiguard_charge_city(struct unit *guard)
 void aiguard_update_charge(struct unit *guard)
 {
   struct unit_ai *guard_data = def_ai_unit_data(guard);
-  const struct unit *charge_unit
-    = game_find_unit_by_number(guard_data->charge);
-  const struct city *charge_city
-    = game_find_city_by_number(guard_data->charge);
+  const struct unit *charge_unit = game_unit_by_number(guard_data->charge);
+  const struct city *charge_city = game_city_by_number(guard_data->charge);
   const struct player *guard_owner = unit_owner(guard);
   const struct player *charge_owner = NULL;
 

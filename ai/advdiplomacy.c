@@ -469,8 +469,8 @@ static int ai_goldequiv_clause(struct player *pplayer,
     break;
 
   case CLAUSE_CITY: {
-    struct city *offer = city_list_find_id(pclause->from->cities, 
-                                           pclause->value);
+    struct city *offer = city_list_find_number(pclause->from->cities,
+                                               pclause->value);
 
     if (!offer || city_owner(offer) != giver) {
       /* City destroyed or taken during negotiations */

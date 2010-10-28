@@ -322,7 +322,7 @@ static void pillage_callback(GtkWidget *w, gpointer data)
   struct unit *punit;
   int what = GPOINTER_TO_INT(data);
 
-  punit = game_find_unit_by_number(unit_to_use_to_pillage);
+  punit = game_unit_by_number(unit_to_use_to_pillage);
   if (punit) {
     Base_type_id pillage_base = -1;
 
@@ -406,7 +406,7 @@ static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
   gtk_tree_model_get_iter(GTK_TREE_MODEL(unit_select_store), &it, path);
   gtk_tree_model_get(GTK_TREE_MODEL(unit_select_store), &it, 0, &id, -1);
  
-  if ((punit = player_find_unit_by_id(client.conn.playing, id))) {
+  if ((punit = player_unit_by_number(client_player(), id))) {
     set_unit_focus(punit);
   }
 

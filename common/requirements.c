@@ -50,31 +50,31 @@ struct universal universal_by_rule_name(const char *kind,
   case VUT_NONE:
     return source;
   case VUT_ADVANCE:
-    source.value.advance = find_advance_by_rule_name(value);
+    source.value.advance = advance_by_rule_name(value);
     if (source.value.advance != NULL) {
       return source;
     }
     break;
   case VUT_GOVERNMENT:
-    source.value.govern = find_government_by_rule_name(value);
+    source.value.govern = government_by_rule_name(value);
     if (source.value.govern != NULL) {
       return source;
     }
     break;
   case VUT_IMPROVEMENT:
-    source.value.building = find_improvement_by_rule_name(value);
+    source.value.building = improvement_by_rule_name(value);
     if (source.value.building != NULL) {
       return source;
     }
     break;
   case VUT_SPECIAL:
-    source.value.special = find_special_by_rule_name(value);
+    source.value.special = special_by_rule_name(value);
     if (source.value.special != S_LAST) {
       return source;
     }
     break;
   case VUT_TERRAIN:
-    source.value.terrain = find_terrain_by_rule_name(value);
+    source.value.terrain = terrain_by_rule_name(value);
     if (source.value.terrain != T_UNKNOWN) {
       return source;
     }
@@ -86,19 +86,19 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_UTYPE:
-    source.value.utype = find_unit_type_by_rule_name(value);
+    source.value.utype = unit_type_by_rule_name(value);
     if (source.value.utype) {
       return source;
     }
     break;
   case VUT_UTFLAG:
-    source.value.unitflag = find_unit_flag_by_rule_name(value);
+    source.value.unitflag = unit_flag_by_rule_name(value);
     if (source.value.unitflag != F_LAST) {
       return source;
     }
     break;
   case VUT_UCLASS:
-    source.value.uclass = find_unit_class_by_rule_name(value);
+    source.value.uclass = unit_class_by_rule_name(value);
     if (source.value.uclass) {
       return source;
     }
@@ -111,13 +111,13 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_OTYPE:
-    source.value.outputtype = find_output_type_by_identifier(value);
+    source.value.outputtype = output_type_by_identifier(value);
     if (source.value.outputtype != O_LAST) {
       return source;
     }
     break;
   case VUT_SPECIALIST:
-    source.value.specialist = find_specialist_by_rule_name(value);
+    source.value.specialist = specialist_by_rule_name(value);
     if (source.value.specialist) {
       return source;
     }
@@ -128,7 +128,7 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_AI_LEVEL:
-    source.value.ai_level = find_ai_level_by_name(value);
+    source.value.ai_level = ai_level_by_name(value);
     if (source.value.ai_level != AI_LEVEL_LAST) {
       return source;
     }
@@ -141,7 +141,7 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_BASE:
-    source.value.base = find_base_type_by_rule_name(value);
+    source.value.base = base_type_by_rule_name(value);
     if (source.value.base != NULL) {
       return source;
     }
@@ -160,7 +160,7 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_CITYTILE:
-    source.value.citytile = find_citytile_by_rule_name(value);
+    source.value.citytile = citytile_by_rule_name(value);
     if (source.value.citytile != CITYT_LAST) {
       return source;
     }
@@ -562,7 +562,7 @@ static int num_continent_buildings(const struct player *pplayer,
   if (is_wonder(building)) {
     const struct city *pcity;
 
-    pcity = find_city_from_wonder(pplayer, building);
+    pcity = city_from_wonder(pplayer, building);
     if (pcity && tile_continent(pcity->tile) == continent) {
       return 1;
     }

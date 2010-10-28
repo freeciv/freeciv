@@ -1252,7 +1252,7 @@ static struct resource *char2resource(char c)
    || c == RESOURCE_NONE_IDENTIFIER) {
     return NULL;
   }
-  return find_resource_by_identifier(c);
+  return resource_by_identifier(c);
 }
 
 /****************************************************************************
@@ -1329,7 +1329,7 @@ static int char2num(char ch)
 ****************************************************************************/
 static struct terrain *char2terrain(char ch)
 {
-  /* find_terrain_by_identifier plus fatal error */
+  /* terrain_by_identifier plus fatal error */
   if (ch == TERRAIN_UNKNOWN_IDENTIFIER) {
     return T_UNKNOWN;
   }
@@ -1386,7 +1386,7 @@ static Tech_type_id technology_load(struct section_file *file,
     return A_UNSET;
   }
 
-  padvance = find_advance_by_rule_name(name);
+  padvance = advance_by_rule_name(name);
   sg_failure_ret_val(NULL != padvance, A_NONE,
                      "%s: unknown technology \"%s\".", path_with_name, name);
 
@@ -1498,7 +1498,7 @@ static void sg_load_savefile(struct loaddata *loading)
     loading->special.order = fc_calloc(nmod,
                                        sizeof(*loading->special.order));
     for (j = 0; j < loading->special.size; j++) {
-      loading->special.order[j] = find_special_by_rule_name(modname[j]);
+      loading->special.order[j] = special_by_rule_name(modname[j]);
     }
     free(modname);
     for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
@@ -1528,7 +1528,7 @@ static void sg_load_savefile(struct loaddata *loading)
     nmod = 4 * ((loading->base.size + 3) / 4);
     loading->base.order = fc_calloc(nmod, sizeof(*loading->base.order));
     for (j = 0; j < loading->base.size; j++) {
-      loading->base.order[j] = find_base_type_by_rule_name(modname[j]);
+      loading->base.order[j] = base_type_by_rule_name(modname[j]);
     }
     free(modname);
     for (; j < nmod; j++) {
@@ -2785,8 +2785,8 @@ static void sg_load_players_basic(struct loaddata *loading)
                    "'players.destroyed_wonders'.", string[k])
 
     if (string[k] == '1') {
-      struct impr_type *pimprove
-        = find_improvement_by_rule_name(loading->improvement.order[k]);
+      struct impr_type *pimprove =
+          improvement_by_rule_name(loading->improvement.order[k]);
       if (pimprove) {
         game.info.great_wonder_owners[improvement_index(pimprove)]
           = WONDER_DESTROYED;
@@ -3087,7 +3087,7 @@ static void sg_load_player_main(struct loaddata *loading,
   /* Government */
   string = secfile_lookup_str(loading->file, "player%d.government_name",
                               plrno);
-  gov = find_government_by_rule_name(string);
+  gov = government_by_rule_name(string);
   sg_failure_ret(gov != NULL, "Player%d: unsupported government \"%s\".",
                  plrno, string);
   plr->government = gov;
@@ -3096,7 +3096,7 @@ static void sg_load_player_main(struct loaddata *loading,
   string = secfile_lookup_str(loading->file,
                               "player%d.target_government_name", plrno);
   if (string) {
-    plr->target_government = find_government_by_rule_name(string);
+    plr->target_government = government_by_rule_name(string);
   } else {
     plr->target_government = NULL;
   }
@@ -3215,7 +3215,7 @@ static void sg_load_player_main(struct loaddata *loading,
     string = secfile_lookup_str(loading->file, "player%d.city_style_by_name",
                                 plrno);
     sg_failure_ret(string != NULL, "%s", secfile_error());
-    city_style = find_city_style_by_rule_name(string);
+    city_style = city_style_by_rule_name(string);
     if (city_style < 0) {
       log_sg("Player%d: unsupported city_style_name \"%s\". "
              "Changed to \"%s\".", plrno, string, city_style_rule_name(0));
@@ -3289,8 +3289,8 @@ static void sg_load_player_main(struct loaddata *loading,
                    string[i], plrno)
 
     if (string[i] == '1') {
-      struct advance *padvance
-        = find_advance_by_rule_name(loading->technology.order[i]);
+      struct advance *padvance =
+          advance_by_rule_name(loading->technology.order[i]);
       if (padvance) {
         player_invention_set(plr, advance_number(padvance), TECH_KNOWN);
       }
@@ -3774,8 +3774,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                    string[i], citystr)
 
     if (string[i] == '1') {
-      struct impr_type *pimprove
-        = find_improvement_by_rule_name(loading->improvement.order[i]);
+      struct impr_type *pimprove =
+          improvement_by_rule_name(loading->improvement.order[i]);
       if (pimprove) {
         city_add_improvement(pcity, pimprove);
       }
@@ -4062,7 +4062,7 @@ static void sg_load_player_units(struct loaddata *loading,
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", plrno, i);
 
     name = secfile_lookup_str(loading->file, "%s.type_by_name", buf);
-    type = find_unit_type_by_rule_name(name);
+    type = unit_type_by_rule_name(name);
     sg_failure_ret(type != NULL, "%s: unknown unit type \"%s\".", buf, name);
 
     /* Create a dummy unit. */
@@ -4075,7 +4075,7 @@ static void sg_load_player_units(struct loaddata *loading,
     identity_number_reserve(punit->id);
     idex_register_unit(punit);
 
-    if ((pcity = game_find_city_by_number(punit->homecity))) {
+    if ((pcity = game_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     } else if (punit->homecity > IDENTITY_NUMBER_ZERO) {
       log_sg("%s: bad home city %d.", buf, punit->homecity);
@@ -4156,10 +4156,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                       "%s.activity_target", unitstr);
   if (target == S_OLD_FORTRESS) {
     target = S_LAST;
-    pbase = find_base_type_by_rule_name("Fortress");
+    pbase = base_type_by_rule_name("Fortress");
   } else if (target == S_OLD_AIRBASE) {
     target = S_LAST;
-    pbase = find_base_type_by_rule_name("Airbase");
+    pbase = base_type_by_rule_name("Airbase");
   }
 
   if (activity == ACTIVITY_PATROL_UNUSED) {
@@ -4905,8 +4905,8 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
                     string[i], citystr)
 
     if (string[i] == '1') {
-      struct impr_type *pimprove
-        = find_improvement_by_rule_name(loading->improvement.order[i]);
+      struct impr_type *pimprove =
+          improvement_by_rule_name(loading->improvement.order[i]);
       if (pimprove) {
         BV_SET(pdcity->improvements, improvement_index(pimprove));
       }
@@ -5116,7 +5116,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      struct unit *ferry = game_find_unit_by_number(punit->transported_by);
+      struct unit *ferry = game_unit_by_number(punit->transported_by);
 
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
         log_sg("Removing %s unferried %s in %s at (%d, %d)",

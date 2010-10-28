@@ -497,8 +497,8 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   if (!unit_move_handling(pdiplomat, victim_tile, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }
-  if (player_find_unit_by_id(pplayer, diplomat_id)) {
-    send_unit_info (pplayer, pdiplomat);
+  if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
+    send_unit_info(pplayer, pdiplomat);
   }
 
   /* Update clients. */
@@ -1355,7 +1355,7 @@ int unit_bribe_cost(struct unit *punit)
   int default_hp = unit_type(punit)->hp;
 
   cost = unit_owner(punit)->economic.gold + game.server.base_bribe_cost;
-  capital = find_palace(unit_owner(punit));
+  capital = player_palace(unit_owner(punit));
   if (capital) {
     int tmp = map_distance(capital->tile, punit->tile);
     dist=MIN(32, tmp);

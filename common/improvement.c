@@ -253,7 +253,7 @@ bool is_wonder(const struct impr_type *pimprove)
   Does a linear search of improvement_types[].name.translated
   Returns NULL when none match.
 **************************************************************************/
-struct impr_type *find_improvement_by_translated_name(const char *name)
+struct impr_type *improvement_by_translated_name(const char *name)
 {
   improvement_iterate(pimprove) {
     if (0 == strcmp(improvement_name_translation(pimprove), name)) {
@@ -268,7 +268,7 @@ struct impr_type *find_improvement_by_translated_name(const char *name)
   Does a linear search of improvement_types[].name.vernacular
   Returns NULL when none match.
 ****************************************************************************/
-struct impr_type *find_improvement_by_rule_name(const char *name)
+struct impr_type *improvement_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
@@ -537,8 +537,8 @@ bool wonder_is_built(const struct player *pplayer,
   Get the world city with this wonder (small or great).  This doesn't
   always success on the client side.
 **************************************************************************/
-struct city *find_city_from_wonder(const struct player *pplayer,
-                                   const struct impr_type *pimprove)
+struct city *city_from_wonder(const struct player *pplayer,
+                              const struct impr_type *pimprove)
 {
   int city_id = pplayer->wonders[improvement_index(pimprove)];
 
@@ -552,7 +552,7 @@ struct city *find_city_from_wonder(const struct player *pplayer,
 #ifdef DEBUG
   if (is_server()) {
     /* On client side, this info is not always known. */
-    struct city *pcity = player_find_city_by_id(pplayer, city_id);
+    struct city *pcity = player_city_by_number(pplayer, city_id);
 
     if (NULL == pcity) {
       log_error("Player %s (nb %d) has outdated wonder info for "
@@ -573,7 +573,7 @@ struct city *find_city_from_wonder(const struct player *pplayer,
   }
 #endif /* DEBUG */
 
-  return player_find_city_by_id(pplayer, city_id);
+  return player_city_by_number(pplayer, city_id);
 }
 
 /**************************************************************************
@@ -613,7 +613,7 @@ bool great_wonder_is_available(const struct impr_type *pimprove)
   Get the world city with this great wonder.  This doesn't always success
   on the client side.
 **************************************************************************/
-struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
+struct city *city_from_great_wonder(const struct impr_type *pimprove)
 {
   int player_id = game.info.great_wonder_owners[improvement_index(pimprove)];
 
@@ -622,7 +622,7 @@ struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
   if (WONDER_OWNED(player_id)) {
 #ifdef DEBUG
     const struct player *pplayer = player_by_number(player_id);
-    struct city *pcity = find_city_from_wonder(pplayer, pimprove);
+    struct city *pcity = city_from_wonder(pplayer, pimprove);
 
     if (is_server() && NULL == pcity) {
       log_error("Game has outdated wonder info for %s (nb %d), "
@@ -634,7 +634,7 @@ struct city *find_city_from_great_wonder(const struct impr_type *pimprove)
 
     return pcity;
 #else
-    return find_city_from_wonder(player_by_number(player_id), pimprove);
+    return city_from_wonder(player_by_number(player_id), pimprove);
 #endif /* DEBUG */
   } else {
     return NULL;
@@ -673,15 +673,15 @@ bool small_wonder_is_built(const struct player *pplayer,
 /**************************************************************************
   Get the player city with this small wonder.
 **************************************************************************/
-struct city *find_city_from_small_wonder(const struct player *pplayer,
-                                         const struct impr_type *pimprove)
+struct city *city_from_small_wonder(const struct player *pplayer,
+                                    const struct impr_type *pimprove)
 {
   fc_assert_ret_val(is_small_wonder(pimprove), NULL);
 
   if (NULL == pplayer) {
     return NULL; /* Used in some places in the client. */
   } else {
-    return find_city_from_wonder(pplayer, pimprove);
+    return city_from_wonder(pplayer, pimprove);
   }
 }
 

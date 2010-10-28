@@ -626,7 +626,7 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
 {
   struct unit *punit;
 
-  punit = game_find_unit_by_number(id);
+  punit = game_unit_by_number(id);
   if (!punit) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No such unit (ID %d)."), id);
@@ -651,7 +651,7 @@ void handle_edit_unit(struct connection *pc,
   int moves_left, fuel, hp;
 
   id = packet->id;
-  punit = game_find_unit_by_number(id);
+  punit = game_unit_by_number(id);
   if (!punit) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No such unit (ID %d)."), id);
@@ -791,7 +791,7 @@ void handle_edit_city(struct connection *pc,
   bool need_game_info = FALSE;
   bv_player need_player_info;
 
-  pcity = game_find_city_by_number(packet->id);
+  pcity = game_city_by_number(packet->id);
   if (!pcity) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit city with invalid city ID %d."),
@@ -853,7 +853,7 @@ void handle_edit_city(struct connection *pc,
                && packet->built[id] >= 0) {
 
       if (is_great_wonder(pimprove)) {
-        oldcity = find_city_from_great_wonder(pimprove);
+        oldcity = city_from_great_wonder(pimprove);
         if (oldcity != pcity) {
           BV_SET(need_player_info, player_index(pplayer));
         }
@@ -863,7 +863,7 @@ void handle_edit_city(struct connection *pc,
           BV_SET(need_player_info, player_index(city_owner(oldcity)));
         }
       } else if (is_small_wonder(pimprove)) {
-        oldcity = find_city_from_small_wonder(pplayer, pimprove);
+        oldcity = city_from_small_wonder(pplayer, pimprove);
         if (oldcity != pcity) {
           BV_SET(need_player_info, player_index(pplayer));
         }
@@ -1263,7 +1263,7 @@ void handle_edit_city_remove(struct connection *pc, int id)
 {
   struct city *pcity;
 
-  pcity = game_find_city_by_number(id);
+  pcity = game_city_by_number(id);
   if (pcity == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No such city (ID %d)."), id);

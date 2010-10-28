@@ -115,7 +115,7 @@ int civ_population(const struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *game_find_city_by_name(const char *name)
+struct city *game_city_by_name(const char *name)
 {
   players_iterate(pplayer) {
     struct city *pcity = city_list_find_name(pplayer->cities, name);
@@ -134,7 +134,7 @@ struct city *game_find_city_by_name(const char *name)
   City may be any city in the game.  This now always uses fast idex
   method, instead of looking through all cities of all players.
 **************************************************************************/
-struct city *game_find_city_by_number(int id)
+struct city *game_city_by_number(int id)
 {
   return idex_lookup_city(id);
 }
@@ -144,7 +144,7 @@ struct city *game_find_city_by_number(int id)
   Find unit out of all units in game: now uses fast idex method,
   instead of looking through all units of all players.
 **************************************************************************/
-struct unit *game_find_unit_by_number(int id)
+struct unit *game_unit_by_number(int id)
 {
   return idex_lookup_unit(id);
 }
@@ -156,7 +156,7 @@ void game_remove_unit(struct unit *punit)
 {
   struct city *pcity;
 
-  pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
+  pcity = player_city_by_number(unit_owner(punit), punit->homecity);
   if (pcity) {
     unit_list_remove(pcity->units_supported, punit);
 

@@ -148,8 +148,8 @@ struct advance *advance_by_number(const Tech_type_id atype);
 struct advance *valid_advance(struct advance *padvance);
 struct advance *valid_advance_by_number(const Tech_type_id atype);
 
-struct advance *find_advance_by_rule_name(const char *name);
-struct advance *find_advance_by_translated_name(const char *name);
+struct advance *advance_by_rule_name(const char *name);
+struct advance *advance_by_translated_name(const char *name);
 
 const char *advance_name_by_player(const struct player *pplayer,
 				   Tech_type_id tech);
@@ -164,7 +164,7 @@ const char *advance_name_translation(const struct advance *padvance);
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);
 
 /* FIXME: oddball function used in one place */
-Tech_type_id find_advance_by_flag(Tech_type_id index, enum tech_flag_id flag);
+Tech_type_id advance_by_flag(Tech_type_id index, enum tech_flag_id flag);
 
 /* Ancillary routines */
 enum tech_state player_invention_state(const struct player *pplayer,

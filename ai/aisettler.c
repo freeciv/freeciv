@@ -623,7 +623,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   if (look_for_boat) {
     int ferry_id = aiferry_find_boat(punit, 1, NULL);
 
-    ferry = game_find_unit_by_number(ferry_id);
+    ferry = game_unit_by_number(ferry_id);
   }
 
   if (ferry 
@@ -714,7 +714,7 @@ BUILD_CITY:
     } else {
      /* Go there */
       if ((!ai_gothere(pplayer, punit, ptile)
-           && !game_find_unit_by_number(sanity))
+           && NULL == game_unit_by_number(sanity))
           || punit->moves_left <= 0) {
         return;
       }

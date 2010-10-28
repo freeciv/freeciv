@@ -144,7 +144,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   struct unit_type *punittype;
   struct unit *ghost;
   int maxrange;
-  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
+  struct city *wonder_city = game_city_by_number(ai->wonder_city);
 
   city_list_iterate(pplayer->cities, acity) {
     def_ai_city_data(acity)->distance_to_wonder_city = 0; /* unavailable */
@@ -271,7 +271,7 @@ static int base_want(struct player *pplayer, struct city *pcity,
 
   if (!can_city_build_improvement_now(pcity, pimprove)
       || (is_small_wonder(pimprove)
-          && find_city_from_small_wonder(pplayer, pimprove))) {
+          && NULL != city_from_small_wonder(pplayer, pimprove))) {
     return 0;
   }
 
@@ -1217,7 +1217,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
 void building_advisor(struct player *pplayer)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  struct city *wonder_city = game_find_city_by_number(ai->wonder_city);
+  struct city *wonder_city = game_city_by_number(ai->wonder_city);
 
   if (wonder_city && city_owner(wonder_city) != pplayer) {
     /* We lost it to the enemy! */

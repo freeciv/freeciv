@@ -523,7 +523,7 @@ int unit_upgrade_price(const struct player *pplayer,
   Returns the unit type that has the given (translated) name.
   Returns NULL if none match.
 **************************************************************************/
-struct unit_type *find_unit_type_by_translated_name(const char *name)
+struct unit_type *unit_type_by_translated_name(const char *name)
 {
   unit_type_iterate(punittype) {
     if (0 == strcmp(utype_name_translation(punittype), name)) {
@@ -538,7 +538,7 @@ struct unit_type *find_unit_type_by_translated_name(const char *name)
   Returns the unit type that has the given (untranslated) rule name.
   Returns NULL if none match.
 **************************************************************************/
-struct unit_type *find_unit_type_by_rule_name(const char *name)
+struct unit_type *unit_type_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
@@ -555,7 +555,7 @@ struct unit_type *find_unit_type_by_rule_name(const char *name)
   Returns the unit class that has the given (untranslated) rule name.
   Returns NULL if none match.
 **************************************************************************/
-struct unit_class *find_unit_class_by_rule_name(const char *s)
+struct unit_class *unit_class_by_rule_name(const char *s)
 {
   const char *qs = Qn_(s);
 
@@ -590,7 +590,7 @@ void set_user_unit_flag_name(enum unit_flag_id id, const char *name)
   Convert flag names to enum; case insensitive;
   returns F_LAST if can't match.
 **************************************************************************/
-enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
+enum unit_flag_id unit_flag_by_rule_name(const char *s)
 {
   enum unit_flag_id i;
 
@@ -630,7 +630,7 @@ const char *unit_flag_rule_name(enum unit_flag_id id)
   Convert role names to enum; case insensitive;
   returns L_LAST if can't match.
 **************************************************************************/
-enum unit_role_id find_unit_role_by_rule_name(const char *s)
+enum unit_role_id unit_role_by_rule_name(const char *s)
 {
   enum unit_role_id i;
 

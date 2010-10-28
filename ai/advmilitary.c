@@ -385,7 +385,7 @@ static int assess_distance(struct city *pcity, struct unit *punit,
                            int move_rate)
 {
   int distance = 0;
-  struct unit *ferry = game_find_unit_by_number(punit->transported_by);
+  struct unit *ferry = game_unit_by_number(punit->transported_by);
 
   if (same_pos(punit->tile, pcity->tile)) {
     return 0;
@@ -1168,7 +1168,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     if (is_ground_unit(myunit)) {
       int boatid = aiferry_find_boat(myunit, 1, NULL);
-      ferryboat = game_find_unit_by_number(boatid);
+      ferryboat = game_unit_by_number(boatid);
 
       if (ferryboat) {
         boattype = unit_type(ferryboat);

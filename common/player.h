@@ -270,10 +270,10 @@ int player_number(const struct player *pplayer);
 struct player *player_by_number(const int player_id);
 
 const char *player_name(const struct player *pplayer);
-struct player *find_player_by_name(const char *name);
-struct player *find_player_by_name_prefix(const char *name,
-					  enum m_pre_result *result);
-struct player *find_player_by_user(const char *name);
+struct player *player_by_name(const char *name);
+struct player *player_by_name_prefix(const char *name,
+                                     enum m_pre_result *result);
+struct player *player_by_user(const char *name);
 
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
 
@@ -300,10 +300,10 @@ bool player_owns_city(const struct player *pplayer,
 bool player_can_invade_tile(const struct player *pplayer,
                             const struct tile *ptile);
 
-struct city *player_find_city_by_id(const struct player *pplayer,
-				    int city_id);
-struct unit *player_find_unit_by_id(const struct player *pplayer,
-				    int unit_id);
+struct city *player_city_by_number(const struct player *pplayer,
+                                   int city_id);
+struct unit *player_unit_by_number(const struct player *pplayer,
+                                    int unit_id);
 
 bool player_in_city_map(const struct player *pplayer,
                         const struct tile *ptile);
@@ -315,7 +315,7 @@ int player_get_expected_income(const struct player *pplayer);
 
 struct player_economic player_limit_to_max_rates(struct player *pplayer);
 
-struct city *find_palace(const struct player *pplayer);
+struct city *player_palace(const struct player *pplayer);
 
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype);
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
@@ -387,7 +387,7 @@ bool gives_shared_vision(const struct player *me, const struct player *them);
 /* User functions. */
 bool is_valid_username(const char *name);
 
-enum ai_level find_ai_level_by_name(const char *name);
+enum ai_level ai_level_by_name(const char *name);
 const char *ai_level_name(enum ai_level level);
 const char *ai_level_cmd(enum ai_level level);
 bool is_settable_ai_level(enum ai_level level);

@@ -162,7 +162,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
   if (profit > 0) {
     profit = military_amortize(unit_owner(punit), 
-                               game_find_city_by_number(punit->homecity),
+                               game_city_by_number(punit->homecity),
                                profit, sortie_time, balanced_cost);
     log_debug("%s at (%d, %d) is a worthy target with profit %d", 
               unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
@@ -279,7 +279,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
     if (!pvirtual) {
       pvirtual =
         create_unit_virtual(pplayer,
-                            player_find_city_by_id(pplayer, punit->homecity),
+                            player_city_by_number(pplayer, punit->homecity),
                             unit_type(punit), punit->veteran);
     }
 
@@ -407,7 +407,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     }
   }
 
-  if ((punit = game_find_unit_by_number(id)) != NULL && punit->moves_left > 0
+  if ((punit = game_unit_by_number(id)) != NULL && punit->moves_left > 0
       && punit->moves_left != moves) {
     /* We have moved this turn, might have ended up stuck out in the fields
      * so, as a safety measure, let's manage again */

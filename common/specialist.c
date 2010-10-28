@@ -103,7 +103,7 @@ struct specialist *specialist_by_number(const Specialist_type_id id)
   Return the specialist type with the given (untranslated!) rule name.
   Returns NULL if none match.
 ****************************************************************************/
-struct specialist *find_specialist_by_rule_name(const char *name)
+struct specialist *specialist_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 

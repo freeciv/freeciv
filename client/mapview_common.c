@@ -1184,7 +1184,7 @@ static void draw_trade_routes_for_city(const struct city *pcity_src)
   }
 
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    pcity_dest = game_find_city_by_number(pcity_src->trade[i]);
+    pcity_dest = game_city_by_number(pcity_src->trade[i]);
     if (!pcity_dest) {
       continue;
     }
@@ -3090,14 +3090,14 @@ static struct tile *link_mark_tile(const struct link_mark *pmark)
   switch (pmark->type) {
   case TLT_CITY:
     {
-      struct city *pcity = game_find_city_by_number(pmark->id);
+      struct city *pcity = game_city_by_number(pmark->id);
       return pcity ? pcity->tile : NULL;
     }
   case TLT_TILE:
     return index_to_tile(pmark->id);
   case TLT_UNIT:
     {
-      struct unit *punit = game_find_unit_by_number(pmark->id);
+      struct unit *punit = game_unit_by_number(pmark->id);
       return punit ? punit->tile : NULL;
     }
   }

@@ -393,7 +393,7 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
 {
   struct unit_type *ptype = unit_type(punit);
   struct city *pcity =
-      player_find_city_by_id(client.conn.playing, punit->homecity);
+      player_city_by_number(client_player(), punit->homecity);
   INIT;
 
   add("%s", utype_name_translation(ptype));
@@ -425,8 +425,8 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     struct player *owner = unit_owner(punit);
     struct unit_type *ptype = unit_type(punit);
 
-    if (owner == client.conn.playing) {
-      struct city *pcity = player_find_city_by_id(owner, punit->homecity);
+    if (owner == client_player()) {
+      struct city *pcity = player_city_by_number(owner, punit->homecity);
 
       if (pcity){
 	/* TRANS: "Unit: Musketeers (Polish, Warsaw)" */

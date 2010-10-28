@@ -416,7 +416,7 @@ bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
   SCRIPT_CHECK_SELF(punit_type, FALSE);
   SCRIPT_CHECK_ARG_NIL(flag, 2, string, FALSE);
 
-  id = find_unit_flag_by_rule_name(flag);
+  id = unit_flag_by_rule_name(flag);
   if (id != F_LAST) {
     return utype_has_flag(punit_type, id);
   } else {
@@ -434,7 +434,7 @@ bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
   SCRIPT_CHECK_SELF(punit_type, FALSE);
   SCRIPT_CHECK_ARG_NIL(role, 2, string, FALSE);
 
-  id = find_unit_role_by_rule_name(role);
+  id = unit_role_by_rule_name(role);
   if (id != L_LAST) {
     return utype_has_role(punit_type, id);
   } else {

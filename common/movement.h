@@ -87,7 +87,7 @@ bool can_unit_type_transport(const struct unit_type *transporter,
 int unit_class_transporter_capacity(const struct tile *ptile,
                                     const struct player *pplayer,
                                     const struct unit_class *pclass);
-struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile);
+struct unit *transport_from_tile(struct unit *punit, struct tile *ptile);
 
 enum unit_move_type move_type_from_str(const char *s);
 
