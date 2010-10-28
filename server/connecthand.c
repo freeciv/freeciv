@@ -541,7 +541,7 @@ static bool connection_attach_real(struct connection *pconn,
     if (!game_was_started()) {
       if (!pplayer->was_created && NULL == pplayer->nation) {
         /* Temporarily set player_name() to username. */
-        sz_strlcpy(pplayer->name, pconn->username);
+        server_player_set_name(pplayer, pconn->username);
       }
       aifill(game.info.aifill);
     }

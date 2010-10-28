@@ -906,7 +906,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   give_global_initial_techs(pplayer);
   give_nation_initial_techs(pplayer);
 
-  sz_strlcpy(pplayer->name, name);
+  server_player_set_name(pplayer, name);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
@@ -998,7 +998,7 @@ enum rfc_status create_command_pregame(const char *name, bool check,
   team_remove_player(pplayer);
   server_player_init(pplayer, FALSE, TRUE);
 
-  sz_strlcpy(pplayer->name, name);
+  server_player_set_name(pplayer, name);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */

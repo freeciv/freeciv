@@ -3071,7 +3071,7 @@ static void sg_load_player_main(struct loaddata *loading,
   /* Basic player data. */
   string = secfile_lookup_str(loading->file, "player%d.name", plrno);
   sg_failure_ret(string != NULL, "%s", secfile_error());
-  sz_strlcpy(plr->name, string);
+  server_player_set_name(plr, string);
   sz_strlcpy(plr->username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.username", plrno));

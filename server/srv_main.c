@@ -1493,82 +1493,6 @@ void check_for_full_turn_done(void)
   force_end_of_sniff = TRUE;
 }
 
-/**************************************************************************
-  Check if this name is allowed for the player.  Fill out the error message
-  (a translated string to be sent to the client) if not.
-**************************************************************************/
-static bool is_allowed_player_name(struct player *pplayer,
-				   const struct nation_type *nation,
-				   const char *name,
-				   char *error_buf, size_t bufsz)
-{
-  struct connection *pconn = conn_by_user(pplayer->username);
-
-  /* An empty name is surely not allowed. */
-  if (strlen(name) == 0) {
-    if (error_buf) {
-      fc_snprintf(error_buf, bufsz, _("Please choose a non-blank name."));
-    }
-    return FALSE;
-  }
-
-  /* Any name already taken is not allowed. */
-  players_iterate(other_player) {
-    if (other_player == pplayer) {
-      /* We don't care if we're the one using the name/nation. */
-      continue;
-    }
-    /* FIXME: currently cannot use nation_of_player(other_player)
-     * as the nation debug code is buggy and doesn't test nation for NULL
-     */
-    if (other_player->nation == nation) {
-      if (error_buf) {
-        fc_snprintf(error_buf, bufsz, _("That nation is already in use."));
-      }
-      return FALSE;
-    } else {
-      /* Check to see if name has been taken.
-       * Ignore case because matches elsewhere are case-insenstive.
-       * Don't limit this check to just players with allocated nation:
-       * otherwise could end up with same name as pre-created AI player
-       * (which have no nation yet, but will keep current player name).
-       * Also want to keep all player names strictly distinct at all
-       * times (for server commands etc), including during nation
-       * allocation phase.
-       */
-      if (fc_strcasecmp(player_name(other_player), name) == 0) {
-        if (error_buf) {
-          fc_snprintf(error_buf, bufsz,
-                      _("Another player already has the name '%s'.  Please "
-                        "choose another name."), name);
-        }
-        return FALSE;
-      }
-    }
-  } players_iterate_end;
-
-  /* Any name from the default list is always allowed. */
-  if (NULL != nation_leader_by_name(nation, name)) {
-    return TRUE;
-  }
-
-  /* To prevent abuse, only players with HACK access (usually local
-   * connections) can use non-ascii names.  Otherwise players could use
-   * confusing garbage names in multi-player games. */
-    /* FIXME: is there a better way to determine if a *player* has hack
-     * access? */
-  if (!is_ascii_name(name)
-      && (!pconn || pconn->access_level != ALLOW_HACK)) {
-    if (error_buf) {
-      fc_snprintf(error_buf, bufsz, _("Please choose a name containing "
-                                      "only ASCII characters."));
-    }
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
 /****************************************************************************
   Initialize the list of available nations.
 
@@ -1652,7 +1576,6 @@ void handle_nation_select_req(struct connection *pc, int player_no,
 
   if (new_nation != NO_NATION_SELECTED) {
     char message[1024];
-    char real_name[MAX_LEN_NAME];
 
     /* check sanity of the packet sent by client */
     if (city_style < 0 || city_style >= game.control.styles_count
@@ -1673,18 +1596,12 @@ void handle_nation_select_req(struct connection *pc, int player_no,
       return;
     }
 
-    sz_strlcpy(real_name, name);
-    remove_leading_trailing_spaces(real_name);
-
-    if (!is_allowed_player_name(pplayer, new_nation, real_name,
-                                message, sizeof(message))) {
+    if (!server_player_set_name_full(pc, pplayer, new_nation, name,
+                                     message, sizeof(message))) {
       notify_player(pplayer, NULL, E_NATION_SELECTED,
                     ftc_server, "%s", message);
       return;
     }
-
-    real_name[0] = fc_toupper(real_name[0]);
-    sz_strlcpy(pplayer->name, real_name);
 
     notify_conn(NULL, NULL, E_NATION_SELECTED, ftc_server,
                 _("%s is the %s ruler %s."),
@@ -1803,7 +1720,7 @@ void aifill(int amount)
     do {
       fc_snprintf(leader_name, sizeof(leader_name), "AI*%d", filled++);
     } while (player_by_name(leader_name));
-    sz_strlcpy(pplayer->name, leader_name);
+    server_player_set_name(pplayer, leader_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
     pplayer->ai_common.skill_level = game.info.skill_level;
@@ -1891,12 +1808,12 @@ static void generate_players(void)
 
     /* don't change the name of a created player */
     if (!pplayer->was_created) {
-      sz_strlcpy(pplayer->name,
-                 pick_random_player_name(nation_of_player(pplayer)));
+      server_player_set_name(pplayer, pick_random_player_name
+                             (nation_of_player(pplayer)));
     }
 
     if ((pleader = nation_leader_by_name(nation_of_player(pplayer),
-                                         pplayer->name))) {
+                                         player_name(pplayer)))) {
       pplayer->is_male = nation_leader_is_male(pleader);
     } else {
       pplayer->is_male = (fc_rand(2) == 1);
@@ -1928,25 +1845,7 @@ const char *pick_random_player_name(const struct nation_type *pnation)
     }
   } nation_leader_list_iterate_end;
 
-  if (NULL != choice) {
-    return choice;
-  }
-
-  {
-    static char tempname[MAX_LEN_NAME];
-
-    for (i = 1; i < MAX_NUM_PLAYER_SLOTS; i++) {
-      fc_snprintf(tempname, sizeof(tempname), _("Player no. %d"), i);
-      if (NULL == player_by_name(tempname)
-          && NULL == player_by_user(tempname)) {
-        return tempname;
-      }
-    }
-
-    fc_assert_msg(FALSE, "Failed to generate a player name.");
-    sz_strlcpy(tempname, _("A poorly-named player"));
-    return tempname;
-  }
+  return choice;
 }
 
 /*************************************************************************

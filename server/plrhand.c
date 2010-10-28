@@ -1214,6 +1214,180 @@ void server_remove_player(struct player *pplayer)
   send_player_remove_info_c(pslot, NULL);
 }
 
+/****************************************************************************
+  Check if this name is allowed for the player. Fill out the error message
+  (a translated string to be sent to the client) if not.
+****************************************************************************/
+static bool server_player_name_is_allowed(const struct connection *caller,
+                                          const struct player *pplayer,
+                                          const struct nation_type *pnation,
+                                          const char *name, char *error_buf,
+                                          size_t error_buf_len)
+{
+  /* An empty name is surely not allowed. */
+  if (0 == strlen(name)) {
+    fc_strlcpy(error_buf, _("Please choose a non-blank name."),
+               error_buf_len);
+    return FALSE;
+  }
+
+  /* Any name already taken is not allowed. */
+  players_iterate(other_player) {
+    if (other_player == pplayer) {
+      /* We don't care if we're the one using the name/nation. */
+      continue;
+    } else if (NULL != pnation && other_player->nation == pnation) {
+      /* FIXME: currently cannot use nation_of_player(other_player) as the
+       * nation debug code is buggy and doesn't test nation for NULL. */
+      fc_strlcpy(error_buf, _("That nation is already in use."),
+                 error_buf_len);
+      return FALSE;
+    } else if (0 == fc_strcasecmp(player_name(other_player), name)) {
+      fc_snprintf(error_buf, error_buf_len,
+                  _("Another player already has the name '%s'. Please "
+                    "choose another name."), name);
+      return FALSE;
+    }
+  } players_iterate_end;
+
+  if (NULL == pnation) {
+    /* FIXME: currently cannot use nation_of_player(other_player) as the
+     * nation debug code is buggy and doesn't test nation for NULL. */
+    pnation = pplayer->nation;
+  }
+
+  /* Any name from the default list is always allowed. */
+  if (NULL != pnation && NULL != nation_leader_by_name(pnation, name)) {
+    return TRUE;
+  }
+
+  /* To prevent abuse, only players with HACK access (usually local
+   * connections) can use non-ascii names. Otherwise players could use
+   * confusing garbage names in multi-player games. */
+  if (NULL != caller
+      && caller->access_level < ALLOW_HACK
+      && !is_ascii_name(name)) {
+    fc_strlcpy(error_buf,
+               _("Please choose a name containing only ASCII characters."),
+               error_buf_len);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Try to set the player name to 'name'. Else, find a default name. Returns
+  TRUE on success.
+****************************************************************************/
+bool server_player_set_name_full(const struct connection *caller,
+                                 struct player *pplayer,
+                                 const struct nation_type *pnation,
+                                 const char *name,
+                                 char *error_buf, size_t error_buf_len)
+{
+  char real_name[MAX_LEN_NAME];
+  char buf[256];
+  int i;
+
+  /* Always provide an error buffer. */
+  if (NULL == error_buf) {
+    error_buf = buf;
+    error_buf_len = sizeof(buf);
+  }
+  error_buf[0] = '\0';
+
+  if (NULL != name) {
+    /* Ensure this is a correct name. */
+    sz_strlcpy(real_name, name);
+    remove_leading_trailing_spaces(real_name);
+    real_name[0] = fc_toupper(real_name[0]);
+
+    if (server_player_name_is_allowed(caller, pplayer, pnation, real_name,
+                                      error_buf, error_buf_len)) {
+      log_debug("Name of player nb %d set to \"%s\".",
+                player_number(pplayer), real_name);
+      fc_strlcpy(pplayer->name, real_name, sizeof(pplayer->name));
+      return TRUE; /* Success! */
+    } else {
+      log_verbose("Failed to set the name of the player nb %d to \"%s\": %s",
+                  player_number(pplayer), real_name, error_buf);
+      /* Fallthrough. */
+    }
+  }
+
+  if (NULL != caller) {
+    /* If we want to test, let's fail here. */
+    fc_assert(NULL != name);
+    return FALSE;
+  }
+
+  if (NULL != name) {
+    /* Try to append a number to 'real_name'. */
+    char test[MAX_LEN_NAME];
+
+    for (i = 2; i <= player_slot_count(); i++) {
+      fc_snprintf(test, sizeof(test), "%s%d", real_name, i);
+      if (server_player_name_is_allowed(caller, pplayer, pnation,
+                                        test, error_buf, error_buf_len)) {
+        log_verbose("Name of player nb %d set to \"%s\" instead.",
+                    player_number(pplayer), test);
+        fc_strlcpy(pplayer->name, test, sizeof(pplayer->name));
+        return TRUE;
+      } else {
+        log_debug("Failed to set the name of the player nb %d to \"%s\": %s",
+                  player_number(pplayer), test, error_buf);
+      }
+    }
+  }
+
+  /* Try a default name. */
+  fc_snprintf(real_name, sizeof(real_name),
+              _("Player no. %d"), player_number(pplayer));
+  if (server_player_name_is_allowed(caller, pplayer, pnation,
+                                    real_name, error_buf, error_buf_len)) {
+    log_verbose("Name of player nb %d set to \"%s\".",
+                player_number(pplayer), real_name);
+    fc_strlcpy(pplayer->name, real_name, sizeof(pplayer->name));
+    return TRUE;
+  } else {
+    log_debug("Failed to set the name of the player nb %d to \"%s\": %s",
+              player_number(pplayer), real_name, error_buf);
+  }
+
+  /* Try a very default name... */
+  for (i = 0; i < player_slot_count(); i++) {
+    fc_snprintf(real_name, sizeof(real_name), _("Player no. %d"), i);
+    if (server_player_name_is_allowed(caller, pplayer, pnation,
+                                      real_name, error_buf, error_buf_len)) {
+      log_verbose("Name of player nb %d to \"%s\".",
+                  player_number(pplayer), real_name);
+      fc_strlcpy(pplayer->name, real_name, sizeof(pplayer->name));
+      return TRUE;
+    } else {
+      log_debug("Failed to set the name of the player nb %d to \"%s\": %s",
+                player_number(pplayer), real_name, error_buf);
+    }
+  }
+
+  /* This is really not normal... Maybe the size of 'real_name'
+   * is not enough big, or a bug in server_player_name_is_allowed(). */
+  fc_strlcpy(pplayer->name, _("A poorly-named player"),
+             sizeof(pplayer->name));
+  return FALSE; /* Let's say it's a failure. */
+}
+
+/****************************************************************************
+  Try to set the player name to 'name'. Else, find a default name.
+****************************************************************************/
+void server_player_set_name(struct player *pplayer, const char *name)
+{
+  bool ret;
+
+  ret = server_player_set_name_full(NULL, pplayer, NULL, name, NULL, 0);
+  fc_assert(TRUE == ret);
+}
+
 /**************************************************************************
   Returns the default diplomatic state between 2 players.
 
@@ -1511,8 +1685,8 @@ static struct player *split_player(struct player *pplayer)
   player_set_nation(cplayer, pick_a_nation
       (nation_of_player(pplayer)->server.civilwar_nations,
        TRUE, FALSE, NOT_A_BARBARIAN));
-  sz_strlcpy(cplayer->name,
-             pick_random_player_name(nation_of_player(cplayer)));
+  server_player_set_name(cplayer,
+                         pick_random_player_name(nation_of_player(cplayer)));
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;

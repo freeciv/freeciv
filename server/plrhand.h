@@ -26,6 +26,13 @@ void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
 
+void server_player_set_name(struct player *pplayer, const char *name);
+bool server_player_set_name_full(const struct connection *caller,
+                                 struct player *pplayer,
+                                 const struct nation_type *pnation,
+                                 const char *name,
+                                 char *error_buf, size_t error_buf_len);
+
 struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
                                   bool only_available,

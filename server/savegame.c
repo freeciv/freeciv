@@ -2266,7 +2266,8 @@ static void player_load_main(struct player *plr, int plrno,
     server.nbarbarians++;
   }
 
-  sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
+  server_player_set_name(plr, secfile_lookup_str(file, "player%d.name",
+                                                 plrno));
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
   sz_strlcpy(plr->ranked_username,

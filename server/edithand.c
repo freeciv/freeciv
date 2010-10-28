@@ -977,7 +977,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
 
   server_player_init(pplayer, TRUE, TRUE);
   player_set_nation(pplayer, pnation);
-  sz_strlcpy(pplayer->name, pick_random_player_name(pnation));
+  server_player_set_name(pplayer, pick_random_player_name(pnation));
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->is_connected = FALSE;
   pplayer->government = pnation->server.init_government;
@@ -1048,33 +1048,16 @@ void handle_edit_player(struct connection *pc,
 
   /* Handle player name change. */
   if (0 != strcmp(packet->name, player_name(pplayer))) {
-    if (packet->name[0] == '\0') {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                  _("Cannot set empty name for player (%d) '%s'."),
-                  player_number(pplayer), player_name(pplayer));
+    char error_buf[256];
+
+    if (server_player_set_name_full(pc, pplayer, NULL, packet->name,
+                                    error_buf, sizeof(error_buf))) {
+      changed = TRUE;
     } else {
-      bool valid = TRUE;
-
-      players_iterate(other_player) {
-        if (other_player == pplayer) {
-          continue;
-        }
-        if (0 != fc_strcasecmp(player_name(other_player), packet->name)) {
-          continue;
-        }
-        notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                    _("Cannot change name of player (%d) '%s' to '%s': "
-                      "another player (%d) already has that name."),
-                    player_number(pplayer), player_name(pplayer),
-                    packet->name, player_number(other_player));
-        valid = FALSE;
-        break;
-      } players_iterate_end;
-
-      if (valid) {
-        sz_strlcpy(pplayer->name, packet->name);
-        changed = TRUE;
-      }
+      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+                  _("Cannot change name of player (%d) '%s' to '%s': %s"),
+                  player_number(pplayer), player_name(pplayer),
+                  packet->name, error_buf);
     }
   }
 
