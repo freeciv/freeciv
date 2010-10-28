@@ -14,7 +14,13 @@
 #include <config.h>
 #endif
 
+/* utility */
+#include "mem.h"
+
+/* client */
 #include "themes_common.h"
+
+/* client/include */
 #include "themes_g.h"
 
 /*****************************************************************************

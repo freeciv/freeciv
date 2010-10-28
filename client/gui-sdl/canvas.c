@@ -19,8 +19,9 @@
 
 /* utility */
 #include "log.h"
+#include "mem.h"
 
-/* gui-sdl */
+/* client/gui-sdl */
 #include "SDL_ttf.h"
 #include "colors.h"
 #include "graphics.h"

@@ -20,9 +20,10 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 #include "string_vector.h"
 
-/* gui-sdl */
+/* client/gui-sdl */
 #include "themespec.h"
 
 #include "themes_common.h"

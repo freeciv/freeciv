@@ -27,7 +27,6 @@
 #include "astring.h"
 #include "bitvector.h"
 #include "fcintl.h"
-#include "genlist.h"
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
@@ -70,7 +69,7 @@ static const char * const help_type_names[] = {
     TYPED_LIST_ITERATE(struct help_item, helplist, phelp)
 #define help_list_iterate_end  LIST_ITERATE_END
 
-static const struct genlist_link *help_nodes_iterator;
+static const struct help_list_link *help_nodes_iterator;
 static struct help_list *help_nodes;
 static bool help_nodes_init = FALSE;
 /* helpnodes_init is not quite the same as booted in boot_help_texts();
@@ -940,8 +939,8 @@ void boot_help_texts(struct player *pplayer)
 
 /****************************************************************
   The following few functions are essentially wrappers for the
-  help_nodes genlist.  This allows us to avoid exporting the
-  genlist, and instead only access it through a controlled
+  help_nodes help_list.  This allows us to avoid exporting the
+  help_list, and instead only access it through a controlled
   interface.
 *****************************************************************/
 
@@ -1036,7 +1035,7 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
 void help_iter_start(void)
 {
   check_help_nodes_init();
-  help_nodes_iterator = genlist_head(help_list_base(help_nodes));
+  help_nodes_iterator = help_list_head(help_nodes);
 }
 
 /****************************************************************
@@ -1048,9 +1047,9 @@ const struct help_item *help_iter_next(void)
   const struct help_item *pitem;
   
   check_help_nodes_init();
-  pitem = genlist_link_data(help_nodes_iterator);
+  pitem = help_list_link_data(help_nodes_iterator);
   if (pitem) {
-    help_nodes_iterator = genlist_link_next(help_nodes_iterator);
+    help_nodes_iterator = help_list_link_next(help_nodes_iterator);
   }
 
   return pitem;

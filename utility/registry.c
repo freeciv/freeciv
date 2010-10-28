@@ -156,7 +156,6 @@
 /* utility */
 #include "astring.h"
 #include "fcintl.h"
-#include "genlist.h"
 #include "hash.h"
 #include "inputfile.h"
 #include "ioz.h"
@@ -756,7 +755,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   char pentry_name[128];
   const char *col_entry_name;
   fz_FILE *fs;
-  const struct genlist_link *ent_iter, *save_iter, *col_iter;
+  const struct entry_list_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
   int i;
 
@@ -780,9 +779,9 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
     /* Following doesn't use entry_list_iterate() because we want to do
      * tricky things with the iterators...
      */
-    for (ent_iter = genlist_head(entry_list_base(section_entries(psection)));
-         ent_iter && (pentry = genlist_link_data(ent_iter));
-         ent_iter = genlist_link_next(ent_iter)) {
+    for (ent_iter = entry_list_head(section_entries(psection));
+         ent_iter && (pentry = entry_list_link_data(ent_iter));
+         ent_iter = entry_list_link_next(ent_iter)) {
 
       /* Tables: break out of this loop if this is a non-table
             * entry (pentry and ent_iter unchanged) or after table (pentry
@@ -835,8 +834,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         /* write the column names, and calculate ncol: */
         ncol = 0;
         col_iter = save_iter;
-        for(; (col_pentry = genlist_link_data(col_iter));
-            col_iter = genlist_link_next(col_iter)) {
+        for(; (col_pentry = entry_list_link_data(col_iter));
+            col_iter = entry_list_link_next(col_iter)) {
           col_entry_name = entry_name(col_pentry);
           if (strncmp(col_entry_name, first, offset) != 0) {
             break;
@@ -856,8 +855,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         for (;;) {
           char expect[128];     /* pentry->name we're expecting */
 
-          pentry = genlist_link_data(ent_iter);
-          col_pentry = genlist_link_data(col_iter);
+          pentry = entry_list_link_data(ent_iter);
+          col_pentry = entry_list_link_data(col_iter);
 
           fc_snprintf(expect, sizeof(expect), "%s%d.%s",
                       base, irow, entry_name(col_pentry) + offset);
@@ -893,8 +892,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           }
           entry_to_file(pentry, fs);
 
-          ent_iter = genlist_link_next(ent_iter);
-          col_iter = genlist_link_next(col_iter);
+          ent_iter = entry_list_link_next(ent_iter);
+          col_iter = entry_list_link_next(col_iter);
 
           icol++;
           if (icol == ncol) {
@@ -919,8 +918,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
 
       /* Check for vector. */
       for (i = 1;; i++) {
-        col_iter = genlist_link_next(ent_iter);
-        col_pentry = genlist_link_data(col_iter);
+        col_iter = entry_list_link_next(ent_iter);
+        col_pentry = entry_list_link_data(col_iter);
         if (NULL == col_pentry) {
           break;
         }
@@ -2746,6 +2745,7 @@ struct section *secfile_section_new(struct section_file *secfile,
   /* Append to secfile. */
   psection->secfile = secfile;
   section_list_append(secfile->sections, psection);
+
   if (NULL != secfile->hash.sections) {
     hash_insert(secfile->hash.sections, psection->name, psection);
   }

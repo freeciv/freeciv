@@ -28,8 +28,9 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 
-/* gui-sdl */
+/* client/gui-sdl */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_iconv.h"

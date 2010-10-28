@@ -46,6 +46,7 @@
 /* utility */
 #include "hash.h"
 #include "log.h"
+#include "mem.h"
 #include "registry.h"
 
 /* scripting */

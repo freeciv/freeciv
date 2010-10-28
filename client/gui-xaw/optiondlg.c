@@ -35,6 +35,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 #include "shared.h"
 #include "string_vector.h"
 #include "support.h"

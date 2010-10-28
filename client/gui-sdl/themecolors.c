@@ -15,7 +15,10 @@
 #include <config.h>
 #endif
 
-/* gui-sdl */
+/* utility */
+#include "mem.h"
+
+/* client/gui-sdl */
 #include "colors.h"
 #include "themespec.h"
 

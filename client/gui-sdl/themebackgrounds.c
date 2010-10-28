@@ -17,8 +17,9 @@
 
 /* utility */
 #include "registry.h"
+#include "mem.h"
 
-/* gui-sdl */
+/* client/gui-sdl */
 #include "graphics.h"
 #include "themespec.h"
 

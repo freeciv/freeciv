@@ -34,9 +34,6 @@
 /* server/scripting */
 #include "script.h"
 
-/* utility */
-#include "genlist.h"
-
 #include "api_methods.h"
 
 
@@ -244,7 +241,7 @@ bool api_methods_player_knows_tech(Player *pplayer, Tech_Type *ptech)
 Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
 {
   SCRIPT_CHECK_SELF(pplayer, NULL);
-  return genlist_head(unit_list_base(pplayer->units));
+  return unit_list_head(pplayer->units);
 }
 
 /**************************************************************************
@@ -253,7 +250,7 @@ Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
 City_List_Link *api_methods_private_player_city_list_head(Player *pplayer)
 {
   SCRIPT_CHECK_SELF(pplayer, NULL);
-  return genlist_head(city_list_base(pplayer->cities));
+  return city_list_head(pplayer->cities);
 }
 
 /**************************************************************************
@@ -328,7 +325,7 @@ int api_methods_tile_num_units(Tile *ptile)
 Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile)
 {
   SCRIPT_CHECK_SELF(ptile, NULL);
-  return genlist_head(unit_list_base(ptile->units));
+  return unit_list_head(ptile->units);
 }
 
 /**************************************************************************
@@ -476,7 +473,7 @@ const char *api_methods_unit_type_name_translation(Unit_Type *punit_type)
 **************************************************************************/
 Unit *api_methods_unit_list_link_data(Unit_List_Link *link)
 {
-  return (Unit *)genlist_link_data(link);
+  return unit_list_link_data(link);
 }
 
 /**************************************************************************
@@ -484,7 +481,7 @@ Unit *api_methods_unit_list_link_data(Unit_List_Link *link)
 **************************************************************************/
 Unit_List_Link *api_methods_unit_list_next_link(Unit_List_Link *link)
 {
-  return genlist_link_next(link);
+  return unit_list_link_next(link);
 }
 
 /**************************************************************************
@@ -492,7 +489,7 @@ Unit_List_Link *api_methods_unit_list_next_link(Unit_List_Link *link)
 **************************************************************************/
 City *api_methods_city_list_link_data(City_List_Link *link)
 {
-  return (City *)genlist_link_data(link);
+  return city_list_link_data(link);
 }
 
 /**************************************************************************
@@ -500,5 +497,5 @@ City *api_methods_city_list_link_data(City_List_Link *link)
 **************************************************************************/
 City_List_Link *api_methods_city_list_next_link(City_List_Link *link)
 {
-  return genlist_link_next(link);
+  return city_list_link_next(link);
 }
