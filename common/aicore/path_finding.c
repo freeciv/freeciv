@@ -200,6 +200,9 @@ static inline void finalize_position(const struct pf_parameter *param,
   }
 }
 
+#define CAN_ENTER_NODE(node)                                                \
+ ((node)->can_invade && TB_IGNORE != (node)->behavior)
+
 
 /* ============ Specific pf_normal_* mode structures ============= */
 
@@ -537,7 +540,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       }
 
       /* Can we enter this tile at all? */
-      if (!node1->can_invade || node1->behavior == TB_IGNORE) {
+      if (!CAN_ENTER_NODE(node1)) {
         continue;
       }
 
@@ -612,10 +615,17 @@ static inline bool pf_normal_map_iterate_until(struct pf_normal_map *pfnm,
                                                struct tile *ptile)
 {
   struct pf_map *pfm = PF_MAP(pfnm);
-  const struct pf_normal_node *node = &pfnm->lattice[tile_index(ptile)];
+  struct pf_normal_node *node = pfnm->lattice + tile_index(ptile);
 
-  while (node->status != NS_PROCESSED
-	 && !same_pos(ptile, pfm->tile)) {
+  if (NS_UNINIT == node->status) {
+    pf_normal_node_init(pfnm, node, ptile);
+  }
+
+  if (!CAN_ENTER_NODE(node)) {
+    return FALSE;
+  }
+
+  while (NS_PROCESSED != node->status && !same_pos(ptile, pfm->tile)) {
     if (!pf_map_iterate(pfm)) {
       return FALSE;
     }
@@ -1198,7 +1208,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
       }
 
       /* Can we enter this tile at all? */
-      if (!node1->can_invade || node1->behavior == TB_IGNORE) {
+      if (!CAN_ENTER_NODE(node1)) {
         continue;
       }
 
@@ -1336,11 +1346,19 @@ static inline bool pf_danger_map_iterate_until(struct pf_danger_map *pfdm,
                                                struct tile *ptile)
 {
   struct pf_map *pfm = PF_MAP(pfdm);
-  const struct pf_danger_node *node = &pfdm->lattice[tile_index(ptile)];
+  struct pf_danger_node *node = pfdm->lattice + tile_index(ptile);
 
-  while (node->status != NS_PROCESSED
-	 && node->status != NS_WAITING
-	 && !same_pos(ptile, pfm->tile)) {
+  if (NS_UNINIT == node->status) {
+    pf_danger_node_init(pfdm, node, ptile);
+  }
+
+  if (!CAN_ENTER_NODE(node)) {
+    return FALSE;
+  }
+
+  while (NS_PROCESSED != node->status
+         && NS_WAITING != node->status
+         && !same_pos(ptile, pfm->tile)) {
     if (!pf_map_iterate(pfm)) {
       return FALSE;
     }
@@ -2048,7 +2066,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       }
 
       /* Can we enter this tile at all? */
-      if (!node1->can_invade || node1->behavior == TB_IGNORE) {
+      if (!CAN_ENTER_NODE(node1)) {
         continue;
       }
 
@@ -2238,11 +2256,19 @@ static inline bool pf_fuel_map_iterate_until(struct pf_fuel_map *pffm,
                                              struct tile *ptile)
 {
   struct pf_map *pfm = PF_MAP(pffm);
-  const struct pf_fuel_node *node = &pffm->lattice[tile_index(ptile)];
+  struct pf_fuel_node *node = pffm->lattice + tile_index(ptile);
 
-  while (node->status != NS_PROCESSED
-	 && node->status != NS_WAITING
-	 && !same_pos(ptile, pfm->tile)) {
+  if (NS_UNINIT == node->status) {
+    pf_fuel_node_init(pffm, node, ptile);
+  }
+
+  if (!CAN_ENTER_NODE(node)) {
+    return FALSE;
+  }
+
+  while (NS_PROCESSED != node->status
+         && NS_WAITING != node->status
+         && !same_pos(ptile, pfm->tile)) {
     if (!pf_map_iterate(pfm)) {
       return FALSE;
     }
