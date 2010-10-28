@@ -1560,14 +1560,13 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     UNAVAILABLE, AVAILABLE, PREFERRED, UNWANTED
   } nations_used[nation_count()], looking_for;
   int match[nation_count()], pick, index;
-  int num_nations_avail = 0, pref_nations_avail = 0;
+  int num_avail_nations = 0, num_pref_nations = 0;
 
-  /* Values of nations_used: 
-   * 0: not available - nation is already used or is a special nation
-   * 1: available - we can use this nation
-   * 2: preferred - we can use this nation and it is on the choices list
-   * 3: unwanted - we can used this nation, but we really don't want to
-   */
+  /* Values of nations_used:
+   * UNAVAILABLE - nation is already used or is a special nation.
+   * AVAILABLE - we can use this nation.
+   * PREFERRED - we can use this nation and it is on the choices list.
+   * UNWANTED - we can used this nation, but we really don't want to. */
   nations_iterate(pnation) {
     if (pnation->player
         || (only_available && !pnation->is_available)
@@ -1589,8 +1588,12 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
         int x = nations_match(pnation, nation_of_player(pplayer),
                               ignore_conflicts);
         if (x < 0) {
+          log_debug("Nations '%s' (nb %d) and '%s' (nb %d) are in conflict.",
+                    nation_rule_name(pnation), nation_number(pnation),
+                    nation_rule_name(nation_of_player(pplayer)),
+                    nation_number(nation_of_player(pplayer)));
           nations_used[index] = UNWANTED;
-          match[index] = 1;
+          match[index] -= x * 100;
           break;
         } else {
           match[index] += x * 100;
@@ -1598,7 +1601,9 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
       }
     } players_iterate_end;
 
-    num_nations_avail += match[index];
+    if (AVAILABLE == nations_used[index]) {
+      num_avail_nations += match[index];
+    }
   } nations_iterate_end;
 
   /* Mark as prefered those nations which are on the choices list and
@@ -1607,40 +1612,57 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     nation_list_iterate(choices, pnation) {
       index = nation_index(pnation);
       if (nations_used[index] == AVAILABLE) {
-        pref_nations_avail += match[index];
+        num_pref_nations += match[index];
         nations_used[index] = PREFERRED;
       }
     } nation_list_iterate_end;
   }
 
-  nations_iterate(pnation) {
-    index = nation_index(pnation);
-    if (nations_used[index] == UNWANTED) {
-      nations_used[index] = AVAILABLE;
+  if (0 < num_pref_nations || 0 < num_avail_nations) {
+    if (0 < num_pref_nations) {
+      /* Use a preferred nation only. */
+      pick = fc_rand(num_pref_nations);
+      looking_for = PREFERRED;
+      log_debug("Picking a preferred nation.");
+    } else {
+      /* Use any available nation. */
+      fc_assert(0 < num_avail_nations);
+      pick = fc_rand(num_avail_nations);
+      looking_for = AVAILABLE;
+      log_debug("Picking an available nation.");
     }
-  } nations_iterate_end;
 
-  fc_assert_ret_val(num_nations_avail > 0, NO_NATION_SELECTED);
-  fc_assert_ret_val(pref_nations_avail >= 0, NO_NATION_SELECTED);
+    nations_iterate(pnation) {
+      index = nation_index(pnation);
+      if (nations_used[index] == looking_for) {
+        pick -= match[index];
 
-  if (pref_nations_avail == 0) {
-    pick = fc_rand(num_nations_avail);
-    looking_for = AVAILABLE; /* Use any available nation. */
-  } else {
-    pick = fc_rand(pref_nations_avail);
-    looking_for = PREFERRED; /* Use a preferred nation only. */
-  }
-
-  nations_iterate(pnation) {
-    index = nation_index(pnation);
-    if (nations_used[index] == looking_for) {
-      pick -= match[index];
-
-      if (0 > pick) {
-        return pnation;
+        if (0 > pick) {
+          return pnation;
+        }
       }
+    } nations_iterate_end;
+  } else {
+    /* No available nation: use unwanted nation... */
+    struct nation_type *less_worst_nation = NO_NATION_SELECTED;
+    int less_worst_score = -FC_INFINITY;
+
+    log_debug("Picking an unwanted nation.");
+    nations_iterate(pnation) {
+      index = nation_index(pnation);
+      if (UNWANTED == nations_used[index]) {
+        pick = -fc_rand(match[index]);
+        if (pick > less_worst_score) {
+          less_worst_nation = pnation;
+          less_worst_score = pick;
+        }
+      }
+    } nations_iterate_end;
+
+    if (NO_NATION_SELECTED != less_worst_nation) {
+      return less_worst_nation;
     }
-  } nations_iterate_end;
+  }
 
   log_error("No nation found!");
   return NO_NATION_SELECTED;

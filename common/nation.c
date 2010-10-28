@@ -851,12 +851,13 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 /****************************************************************************
   Returns how much two nations looks good in the same game.
   Negative return value means that we really really don't want these
-  nations together. 'ignore_conflicts' has no effect on client side
+  nations together. Server side function.
 ****************************************************************************/
 int nations_match(const struct nation_type *pnation1,
                   const struct nation_type *pnation2,
                   bool ignore_conflicts)
 {
+  bool in_conflict = FALSE;
   int sum = 0;
 
   fc_assert_ret_val(is_server(), -1);
@@ -867,15 +868,21 @@ int nations_match(const struct nation_type *pnation1,
   if (!ignore_conflicts) {
     nation_list_iterate(pnation1->server.conflicts_with, pnation0) {
       if (pnation0 == pnation2) {
-        return -1;
+        in_conflict = TRUE;
+        sum = 1; /* Be sure to returns something negative. */
+        break;
       }
     } nation_list_iterate_end;
 
-    nation_list_iterate(pnation2->server.conflicts_with, pnation0) {
-      if (pnation0 == pnation1) {
-        return -1;
-      }
-    } nation_list_iterate_end;
+    if (!in_conflict) {
+      nation_list_iterate(pnation2->server.conflicts_with, pnation0) {
+        if (pnation0 == pnation1) {
+          in_conflict = TRUE;
+          sum = 1; /* Be sure to returns something negative. */
+          break;
+        }
+      } nation_list_iterate_end;
+    }
   }
 
   nation_group_list_iterate(pnation1->groups, pgroup) {
@@ -884,5 +891,5 @@ int nations_match(const struct nation_type *pnation1,
     }
   } nation_group_list_iterate_end;
 
-  return sum;
+  return (in_conflict ? -sum : sum);
 }
