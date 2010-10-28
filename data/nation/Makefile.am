@@ -240,6 +240,7 @@ pkgdata_DATA = \
 		neapolitan.ruleset \
 		nepali.ruleset \
 		nestorian.ruleset \
+		newfoundland.ruleset \
 		newzealand.ruleset \
 		nicaraguan.ruleset \
 		nigerian.ruleset \

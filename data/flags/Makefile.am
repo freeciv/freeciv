@@ -22,6 +22,7 @@ flag_files =				\
 		anishinaabe.png		\
 		antarctica.png		\
 		antarctica_alt.png	\
+		apache.png		\
 		arab.png		\
 		aragon.png		\
 		aram.png		\
@@ -410,6 +411,7 @@ shield_files =					\
 		anishinaabe-shield.png		\
 		antarctica-shield.png		\
 		antarctica_alt-shield.png	\
+		apache-shield.png		\
 		arab-shield.png			\
 		aragon-shield.png		\
 		aram-shield.png			\
@@ -798,6 +800,7 @@ svg_files = 				\
 		anishinaabe.svg		\
 		antarctica.svg		\
 		antarctica_alt.svg	\
+		apache.svg		\
 		arab.svg		\
 		aragon.svg		\
 		aram.svg		\
