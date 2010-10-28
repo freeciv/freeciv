@@ -1172,170 +1172,174 @@ pf_danger_map_adjust_cost(const struct pf_parameter *params,
 *****************************************************************************/
 static bool pf_danger_map_iterate(struct pf_map *pfm)
 {
-  struct pf_danger_map *pfdm = PF_DANGER_MAP(pfm);
+  struct pf_danger_map *const pfdm = PF_DANGER_MAP(pfm);
+  const struct pf_parameter *const params = pf_map_get_parameter(pfm);
   struct tile *tile = pfm->tile;
   mapindex_t index = tile_index(tile);
-  struct pf_danger_node *node = &pfdm->lattice[index];
-  const struct pf_parameter *params = pf_map_get_parameter(pfm);
+  struct pf_danger_node *node = pfdm->lattice + index;
 
-  /* There is no exit from DONT_LEAVE tiles! */
-  if (node->behavior != TB_DONT_LEAVE) {
-    /* Cost at tile but taking into account waiting */
-    int loc_cost;
-    if (node->status != NS_WAITING) {
-      loc_cost = node->cost;
-    } else {
-      loc_cost = pf_danger_map_fill_cost_for_full_moves(params,
-                                                        node->cost);
+  do {
+    /* There is no exit from DONT_LEAVE tiles! */
+    if (node->behavior != TB_DONT_LEAVE) {
+      /* Cost at tile but taking into account waiting */
+      int loc_cost;
+      if (node->status != NS_WAITING) {
+        loc_cost = node->cost;
+      } else {
+        loc_cost = pf_danger_map_fill_cost_for_full_moves(params,
+                                                          node->cost);
+      }
+
+      /* The previous position is contained in {x,y} fields of map */
+      adjc_dir_iterate(tile, tile1, dir) {
+        mapindex_t index1 = tile_index(tile1);
+        struct pf_danger_node *node1 = &pfdm->lattice[index1];
+        int cost;
+        int extra = 0;
+
+        /* Dangerous tiles can be updated even after being processed */
+        if ((node1->status == NS_PROCESSED || node1->status == NS_WAITING)
+            && !node1->is_dangerous) {
+          continue;
+        }
+
+        /* Initialise target tile if necessary */
+        if (node1->status == NS_UNINIT) {
+          pf_danger_node_init(pfdm, node1, tile1);
+        }
+
+        /* Can we enter this tile at all? */
+        if (!CAN_ENTER_NODE(node1)) {
+          continue;
+        }
+
+        /* Is the move ZOC-ok? */
+        if (params->get_zoc && !(node->zoc_number == ZOC_MINE
+                                 || node1->zoc_number != ZOC_NO)) {
+          continue;
+        }
+
+        /* Evaluate the cost of the move */
+        if (node1->node_known_type == TILE_UNKNOWN) {
+          cost = params->unknown_MC;
+        } else {
+          cost = params->get_MC(tile, dir, tile1, params);
+        }
+        if (cost == PF_IMPOSSIBLE_MC) {
+          continue;
+        }
+        cost = pf_danger_map_adjust_cost(params, cost, node1->is_dangerous,
+                                         get_moves_left(params, loc_cost));
+
+        if (cost == PF_IMPOSSIBLE_MC) {
+          /* This move is deemed impossible */
+          continue;
+        }
+
+        /* Total cost at xy1 */
+        cost += loc_cost;
+
+        /* Evaluate the extra cost of the destination, if it's relevant */
+        if (params->get_EC) {
+          extra = node1->extra_tile + node->extra_cost;
+        }
+
+        /* Update costs and add to queue, if this is a better route
+         * to tile1. */
+        if (!node1->is_dangerous) {
+          int cost_of_path = get_total_CC(params, cost, extra);
+
+          if (node1->status == NS_INIT
+              || (cost_of_path< get_total_CC(params, node1->cost,
+                                             node1->extra_cost))) {
+            node1->extra_cost = extra;
+            node1->cost = cost;
+            node1->dir_to_here = dir;
+            /* Clear the previously recorded path back */
+            if (node1->danger_segment) {
+              free(node1->danger_segment);
+              node1->danger_segment = NULL;
+            }
+            if (node->is_dangerous) {
+              /* Transition from red to blue, need to record the path back */
+              pf_danger_map_create_segment(pfdm, node1);
+            } else {
+              /* We don't consider waiting to get to a safe tile as 
+               * "real" waiting */
+              node1->waited = FALSE;
+            }
+            node1->status = NS_NEW;
+            pq_insert(pfdm->queue, index1, -cost_of_path);
+          }
+        } else {
+          /* The procedure is slightly different for dangerous nodes */
+          /* We will update costs if:
+           * 1: we are here for the first time
+           * 2: we can possibly go further across dangerous area or
+           * 3: we can have lower extra and will not
+           *    overwrite anything useful */
+          if (node1->status == NS_INIT
+              || (get_moves_left(params, cost)
+                  > get_moves_left(params, node1->cost))
+              || ((get_total_CC(params, cost, extra)
+                   < get_total_CC(params, node1->cost, node1->extra_cost))
+                  && node1->status == NS_PROCESSED)) {
+            node1->extra_cost = extra;
+            node1->cost = cost;
+            node1->dir_to_here = dir;
+            node1->status = NS_NEW;
+            node1->waited = (node->status == NS_WAITING);
+            /* Extra costs of all nodes in danger_queue are equal! */
+            pq_insert(pfdm->danger_queue, index1, -cost);
+          }
+        }
+      } adjc_dir_iterate_end;
     }
 
-    /* The previous position is contained in {x,y} fields of map */
-    adjc_dir_iterate(tile, tile1, dir) {
-      mapindex_t index1 = tile_index(tile1);
-      struct pf_danger_node *node1 = &pfdm->lattice[index1];
-      int cost;
-      int extra = 0;
+    if (!node->is_dangerous && node->status != NS_WAITING
+        && get_moves_left(params, node->cost) < get_move_rate(params)) {
+      int fc, cc;
+      /* Consider waiting at this node. 
+       * To do it, put it back into queue. */
+      fc = pf_danger_map_fill_cost_for_full_moves(params, node->cost);
+      cc = get_total_CC(params, fc, node->extra_cost);
+      node->status = NS_WAITING;
+      pq_insert(pfdm->queue, index, -cc);
+    } else {
+      node->status = NS_PROCESSED;
+    }
 
-      /* Dangerous tiles can be updated even after being processed */
-      if ((node1->status == NS_PROCESSED || node1->status == NS_WAITING)
-          && !node1->is_dangerous) {
-        continue;
-      }
+    /* Get the next nearest node */
 
-      /* Initialise target tile if necessary */
-      if (node1->status == NS_UNINIT) {
-        pf_danger_node_init(pfdm, node1, tile1);
-      }
-
-      /* Can we enter this tile at all? */
-      if (!CAN_ENTER_NODE(node1)) {
-        continue;
-      }
-
-      /* Is the move ZOC-ok? */
-      if (params->get_zoc && !(node->zoc_number == ZOC_MINE
-                               || node1->zoc_number != ZOC_NO)) {
-        continue;
-      }
-
-      /* Evaluate the cost of the move */
-      if (node1->node_known_type == TILE_UNKNOWN) {
-        cost = params->unknown_MC;
-      } else {
-        cost = params->get_MC(tile, dir, tile1, params);
-      }
-      if (cost == PF_IMPOSSIBLE_MC) {
-        continue;
-      }
-      cost = pf_danger_map_adjust_cost(params, cost, node1->is_dangerous,
-                                       get_moves_left(params, loc_cost));
-
-      if (cost == PF_IMPOSSIBLE_MC) {
-        /* This move is deemed impossible */
-        continue;
-      }
-
-      /* Total cost at xy1 */
-      cost += loc_cost;
-
-      /* Evaluate the extra cost of the destination, if it's relevant */
-      if (params->get_EC) {
-        extra = node1->extra_tile + node->extra_cost;
-      }
-
-      /* Update costs and add to queue, if this is a better route to tile1 */
-      if (!node1->is_dangerous) {
-        int cost_of_path = get_total_CC(params, cost, extra);
-
-        if (node1->status == NS_INIT
-            || (cost_of_path< get_total_CC(params, node1->cost,
-                                           node1->extra_cost))) {
-          node1->extra_cost = extra;
-          node1->cost = cost;
-          node1->dir_to_here = dir;
-          /* Clear the previously recorded path back */
-          if (node1->danger_segment) {
-            free(node1->danger_segment);
-            node1->danger_segment = NULL;
-          }
-          if (node->is_dangerous) {
-            /* Transition from red to blue, need to record the path back */
-            pf_danger_map_create_segment(pfdm, node1);
-          } else {
-            /* We don't consider waiting to get to a safe tile as 
-             * "real" waiting */
-            node1->waited = FALSE;
-          }
-          node1->status = NS_NEW;
-          pq_insert(pfdm->queue, index1, -cost_of_path);
+    /* First try to get it from danger_queue */
+    if (!pq_remove(pfdm->danger_queue, &index)) {
+      /* No dangerous nodes to process, go for a safe one */
+      do {
+        if (!pq_remove(pfdm->queue, &index)) {
+          return FALSE;
         }
-      } else {
-        /* The procedure is slightly different for dangerous nodes */
-        /* We will update costs if:
-         * 1: we are here for the first time
-         * 2: we can possibly go further across dangerous area or
-         * 3: we can have lower extra and will not
-         *    overwrite anything useful */
-        if (node1->status == NS_INIT
-            || (get_moves_left(params, cost)
-                > get_moves_left(params, node1->cost))
-            || ((get_total_CC(params, cost, extra)
-                 < get_total_CC(params, node1->cost, node1->extra_cost))
-                && node1->status == NS_PROCESSED)) {
-          node1->extra_cost = extra;
-          node1->cost = cost;
-          node1->dir_to_here = dir;
-          node1->status = NS_NEW;
-          node1->waited = (node->status == NS_WAITING);
-          /* Extra costs of all nodes in danger_queue are equal! */
-          pq_insert(pfdm->danger_queue, index1, -cost);
-        }
-      }
-    } adjc_dir_iterate_end;
-  }
+      } while (pfdm->lattice[index].status == NS_PROCESSED);
+    }
 
-  if (!node->is_dangerous && node->status != NS_WAITING
-      && get_moves_left(params, node->cost) < get_move_rate(params)) {
-    int fc, cc;
-    /* Consider waiting at this node. 
-     * To do it, put it back into queue. */
-    fc = pf_danger_map_fill_cost_for_full_moves(params, node->cost);
-    cc = get_total_CC(params, fc, node->extra_cost);
-    node->status = NS_WAITING;
-    pq_insert(pfdm->queue, index, -cc);
-  } else {
-    node->status = NS_PROCESSED;
-  }
+    /* Reset data. */
+    tile = index_to_tile(index);
+    pfm->tile = tile;
+    node = pfdm->lattice + index;
 
-  /* Get the next nearest node */
+#ifdef PF_DEBUG
+    fc_assert(NS_INIT < node->status);
 
-  /* First try to get it from danger_queue */
-  if (!pq_remove(pfdm->danger_queue, &index)) {
-    /* No dangerous nodes to process, go for a safe one */
-    do {
-      if (!pq_remove(pfdm->queue, &index)) {
-        return FALSE;
-      }
-    } while (pfdm->lattice[index].status == NS_PROCESSED);
-  }
+    if (NS_WAITING == node->status) {
+      /* We've already returned this node once, skip it. */
+      log_debug("Considering waiting at (%d, %d)", TILE_XY(tile));
+    } else if (node->is_dangerous) {
+      /* We don't return dangerous tiles. */
+      log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
+    }
+#endif
+  } while (NS_WAITING == node->status || node->is_dangerous);
 
-  tile = index_to_tile(index);
-  pfm->tile = tile;
-  node = &pfdm->lattice[index];
-
-  fc_assert(node->status > NS_INIT);
-
-  if (node->status == NS_WAITING) {
-    /* We've already returned this node once, skip it */
-    log_debug("Considering waiting at (%d, %d)", TILE_XY(tile));
-    return pf_map_iterate(pfm);
-  } else if (node->is_dangerous) {
-    /* We don't return dangerous tiles */
-    log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
-    return pf_map_iterate(pfm);
-  }
-
-  /* Just return it */
+  /* Else, just return it */
   return TRUE;
 }
 
@@ -2019,234 +2023,233 @@ pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
 ***************************************************************************/
 static bool pf_fuel_map_iterate(struct pf_map *pfm)
 {
-  struct pf_fuel_map *pffm = PF_FUEL_MAP(pfm);
+  struct pf_fuel_map *const pffm = PF_FUEL_MAP(pfm);
+  const struct pf_parameter *const params = pf_map_get_parameter(pfm);
   struct tile *tile = pfm->tile;
   mapindex_t index = tile_index(tile);
-  struct pf_fuel_node *node = &pffm->lattice[index];
-  const struct pf_parameter *params = pf_map_get_parameter(pfm);
+  struct pf_fuel_node *node = pffm->lattice + index;
 
-  /* There is no exit from DONT_LEAVE tiles! */
-  if (node->behavior != TB_DONT_LEAVE) {
-    int loc_cost, loc_moves_left;
+  do {
 
-    if (node->status != NS_WAITING) {
-      loc_cost = node->cost;
-      loc_moves_left = node->moves_left;
-    } else {
-      /* Cost and moves left at tile but taking into account waiting */
-      loc_cost = pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
-                                                      node->moves_left);
-      loc_moves_left = get_move_rate(params);
-    }
+    /* There is no exit from DONT_LEAVE tiles! */
+    if (node->behavior != TB_DONT_LEAVE) {
+      int loc_cost, loc_moves_left;
 
-    /* The previous position is contained in {x,y} fields of map */
-    adjc_dir_iterate(tile, tile1, dir) {
-      mapindex_t index1 = tile_index(tile1);
-      struct pf_fuel_node *node1 = &pffm->lattice[index1];
-      int cost, extra = 0;
-      int moves_left, mlr = 0;
-      int cost_of_path, old_cost_of_path;
-      struct tile *prev_tile;
-      struct pf_fuel_pos *pos;
-
-      /* Non-full fuel tiles can be updated even after being processed */
-      if ((node1->status == NS_PROCESSED  || node1->status == NS_WAITING)
-          && node1->moves_left_req == 0) {
-        continue;
-      }
-
-      /* Initialise target tile if necessary */
-      if (node1->status == NS_UNINIT) {
-        pf_fuel_node_init(pffm, node1, tile1);
-      }
-
-      /* Cannot use this unreachable tile */
-      if (node1->moves_left_req == PF_IMPOSSIBLE_MC) {
-        continue;
-      }
-
-      /* Can we enter this tile at all? */
-      if (!CAN_ENTER_NODE(node1)) {
-        continue;
-      }
-
-      /* Is the move ZOC-ok? */
-      if (params->get_zoc && !(node->zoc_number == ZOC_MINE
-                               || node1->zoc_number != ZOC_NO)) {
-        continue;
-      }
-
-      /* Evaluate the cost of the move */
-      if (node1->node_known_type == TILE_UNKNOWN) {
-        cost = params->unknown_MC;
+      if (node->status != NS_WAITING) {
+        loc_cost = node->cost;
+        loc_moves_left = node->moves_left;
       } else {
-        cost = params->get_MC(tile, dir, tile1, params);
-      }
-      if (cost == PF_IMPOSSIBLE_MC) {
-        continue;
-      }
-
-      moves_left = loc_moves_left - cost;
-      if (moves_left < node1->moves_left_req
-          && (!BV_ISSET(params->unit_flags, F_ONEATTACK)
-              || 1 != params->fuel
-              || 0 >= moves_left)) {
-        /* We don't have enough moves left, but missiles
-         * can do suicidal attacks. */
-        continue;
+        /* Cost and moves left at tile but taking into account waiting */
+        loc_cost = pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
+                                                        node->moves_left);
+        loc_moves_left = get_move_rate(params);
       }
 
-      if (node1->is_enemy_tile
-          && !pf_fuel_map_attack_is_possible(params, loc_moves_left,
-                                             node->moves_left_req)) {
-        /* We wouldn't have enough moves left after attacking */
-        continue;
-      }
+      /* The previous position is contained in {x,y} fields of map */
+      adjc_dir_iterate(tile, tile1, dir) {
+        mapindex_t index1 = tile_index(tile1);
+        struct pf_fuel_node *node1 = &pffm->lattice[index1];
+        int cost, extra = 0;
+        int moves_left, mlr = 0;
+        int cost_of_path, old_cost_of_path;
+        struct tile *prev_tile;
+        struct pf_fuel_pos *pos;
 
-      /* Total cost at xy1 */
-      cost += loc_cost;
-
-      /* Evaluate the extra cost of the destination, if it's relevant */
-      if (params->get_EC) {
-        extra = node1->extra_tile + node->extra_cost;
-      }
-
-      /*
-       * Update costs and add to queue, if this is a better route to xy1.
-       *
-       * case safe tiles or reached directly without waiting...
-       */
-      pos = node1->fuel_segment;
-      cost_of_path = get_total_CC(params, cost, extra);
-      if (node1->status == NS_INIT) {
-        /* Not calculated yet */
-        old_cost_of_path = 0;
-      } else if (pos) {
-        /*
-         * We have a path to this tile. The default values could have been
-         * overwritten if we had more moves left to deal with waiting. Then,
-         * we have to get back the value of this node to calculate the cost.
-         */
-        old_cost_of_path = get_total_CC(params, pos->cost, pos->extra_cost);
-      } else {
-        /* Default cost */
-        old_cost_of_path = get_total_CC(params, node1->cost,
-                                        node1->extra_cost);
-      }
-
-      /* We would prefer to be the nearest possible of a refuel point,
-       * especially in the attack case. */
-      if (cost_of_path == old_cost_of_path) {
-        prev_tile = mapstep(tile1, DIR_REVERSE(pos ? pos->dir
-                                               : node1->dir_to_here));
-        mlr = pffm->lattice[tile_index(prev_tile)].moves_left_req;
-      } else {
-        prev_tile = NULL;
-      }
-
-      if (node1->status == NS_INIT || cost_of_path < old_cost_of_path
-          || (prev_tile && mlr > node->moves_left_req)) {
-        node1->extra_cost = extra;
-        node1->cost = cost;
-        node1->moves_left = moves_left;
-        node1->dir_to_here = dir;
-        /* Always record the segment, including when it is not dangerous. */
-        pf_fuel_map_create_segment(pffm, tile1, node1);
-        if (node->status == NS_WAITING) {
-          /* It is the first part of a fuel segment */
-          node1->waited = TRUE;
+        /* Non-full fuel tiles can be updated even after being processed */
+        if ((node1->status == NS_PROCESSED  || node1->status == NS_WAITING)
+            && node1->moves_left_req == 0) {
+          continue;
         }
-        node1->status = NS_NEW;
-        if (node1->moves_left_req == 0) {
-          pq_insert(pffm->queue, index1, -cost_of_path);
+
+        /* Initialise target tile if necessary */
+        if (node1->status == NS_UNINIT) {
+          pf_fuel_node_init(pffm, node1, tile1);
+        }
+
+        /* Cannot use this unreachable tile */
+        if (node1->moves_left_req == PF_IMPOSSIBLE_MC) {
+          continue;
+        }
+
+        /* Can we enter this tile at all? */
+        if (!CAN_ENTER_NODE(node1)) {
+          continue;
+        }
+
+        /* Is the move ZOC-ok? */
+        if (params->get_zoc && !(node->zoc_number == ZOC_MINE
+                                 || node1->zoc_number != ZOC_NO)) {
+          continue;
+        }
+
+        /* Evaluate the cost of the move */
+        if (node1->node_known_type == TILE_UNKNOWN) {
+          cost = params->unknown_MC;
         } else {
+          cost = params->get_MC(tile, dir, tile1, params);
+        }
+        if (cost == PF_IMPOSSIBLE_MC) {
+          continue;
+        }
+
+        moves_left = loc_moves_left - cost;
+        if (moves_left < node1->moves_left_req
+            && (!BV_ISSET(params->unit_flags, F_ONEATTACK)
+                || 1 != params->fuel
+                || 0 >= moves_left)) {
+          /* We don't have enough moves left, but missiles
+           * can do suicidal attacks. */
+          continue;
+        }
+
+        if (node1->is_enemy_tile
+            && !pf_fuel_map_attack_is_possible(params, loc_moves_left,
+                                               node->moves_left_req)) {
+          /* We wouldn't have enough moves left after attacking */
+          continue;
+        }
+
+        /* Total cost at xy1 */
+        cost += loc_cost;
+
+        /* Evaluate the extra cost of the destination, if it's relevant */
+        if (params->get_EC) {
+          extra = node1->extra_tile + node->extra_cost;
+        }
+
+        /* Update costs and add to queue, if this is a better route
+         * to tile1. Case safe tiles or reached directly without waiting. */
+        pos = node1->fuel_segment;
+        cost_of_path = get_total_CC(params, cost, extra);
+        if (node1->status == NS_INIT) {
+          /* Not calculated yet */
+          old_cost_of_path = 0;
+        } else if (pos) {
+          /* We have a path to this tile. The default values could have been
+           * overwritten if we had more moves left to deal with waiting.
+           * Then, we have to get back the value of this node to calculate
+           * the cost. */
+          old_cost_of_path = get_total_CC(params, pos->cost, pos->extra_cost);
+        } else {
+          /* Default cost */
+          old_cost_of_path = get_total_CC(params, node1->cost,
+                                          node1->extra_cost);
+        }
+
+        /* We would prefer to be the nearest possible of a refuel point,
+         * especially in the attack case. */
+        if (cost_of_path == old_cost_of_path) {
+          prev_tile = mapstep(tile1, DIR_REVERSE(pos ? pos->dir
+                                                 : node1->dir_to_here));
+          mlr = pffm->lattice[tile_index(prev_tile)].moves_left_req;
+        } else {
+          prev_tile = NULL;
+        }
+
+        if (node1->status == NS_INIT || cost_of_path < old_cost_of_path
+            || (prev_tile && mlr > node->moves_left_req)) {
+          node1->extra_cost = extra;
+          node1->cost = cost;
+          node1->moves_left = moves_left;
+          node1->dir_to_here = dir;
+          /* Always record the segment, including when it is not dangerous
+           * to move there. */
+          pf_fuel_map_create_segment(pffm, tile1, node1);
+          if (node->status == NS_WAITING) {
+            /* It is the first part of a fuel segment */
+            node1->waited = TRUE;
+          }
+          node1->status = NS_NEW;
+          if (node1->moves_left_req == 0) {
+            pq_insert(pffm->queue, index1, -cost_of_path);
+          } else {
+            /* Extra costs of all nodes in out_of_fuel_queue are equal! */
+            pq_insert(pffm->out_of_fuel_queue, index1, -cost);
+          }
+          continue;
+        }
+
+        if (node1->moves_left_req == 0) {
+          /* Waiting to cross over a refuel is senseless. */
+          continue;
+        }
+
+        if (pos) {
+          /* We had a path to this tile. Here, we have to use back the
+           * default values because we could have more moves left if we
+           * waited somewhere. */
+          old_cost_of_path = get_total_CC(params, node1->cost,
+                                          node1->extra_cost);
+        }
+
+        if (moves_left > node1->moves_left
+            || cost_of_path < old_cost_of_path) {
+          /* The procedure is slightly different for out of fuel nodes */
+          /* We will update costs if:
+           * 1: we are here for the first time ;
+           * 2: we can possibly go further across dangerous area; or
+           * 3: we can have lower extra and will not overwrite anything
+           *    useful. */
+          node1->extra_cost = extra;
+          node1->cost = cost;
+          node1->moves_left = moves_left;
+          node1->dir_to_here = dir;
+          node1->status = NS_NEW;
+          node1->waited = (node->status == NS_WAITING);
           /* Extra costs of all nodes in out_of_fuel_queue are equal! */
           pq_insert(pffm->out_of_fuel_queue, index1, -cost);
         }
-        continue;
-      }
+      } adjc_dir_iterate_end;
+    }
 
-      if (node1->moves_left_req == 0) {
-        /* Waiting to cross over a refuel is senseless. */
-        continue;
-      }
+    if (0 == node->moves_left_req
+        && !node->is_enemy_tile
+        && node->status != NS_WAITING
+        && node->moves_left < get_move_rate(params)) {
+      int fc, cc;
+      /* Consider waiting at this node.
+       * To do it, put it back into queue. */
+      node->status = NS_WAITING;
+      fc = pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
+                                                node->moves_left);
+      cc = get_total_CC(params, fc, node->extra_cost);
+      pq_insert(pffm->queue, index, -cc);
+    } else {
+      node->status = NS_PROCESSED;
+    }
 
-      if (pos) {
-        /*
-         * We had a path to this tile. Here, we have to use back the
-         * default values because we could have more moves left if we
-         * waited somewhere.
-         */
-        old_cost_of_path = get_total_CC(params, node1->cost,
-                                        node1->extra_cost);
-      }
+    /* Get the next nearest node */
 
-      if (moves_left > node1->moves_left
-          || cost_of_path < old_cost_of_path) {
-        /* The procedure is slightly different for out of fuel nodes */
-        /* We will update costs if:
-         * 1: we are here for the first time
-         * 2: we can possibly go further across dangerous area or
-         * 3: we can have lower extra and will not overwrite anything
-         *    useful */
-        node1->extra_cost = extra;
-        node1->cost = cost;
-        node1->moves_left = moves_left;
-        node1->dir_to_here = dir;
-        node1->status = NS_NEW;
-        node1->waited = (node->status == NS_WAITING);
-        /* Extra costs of all nodes in out_of_fuel_queue are equal! */
-        pq_insert(pffm->out_of_fuel_queue, index1, -cost);
-      }
-    } adjc_dir_iterate_end;
-  }
+    /* First try to get it from out_of_fuel_queue */
+    if (!pq_remove(pffm->out_of_fuel_queue, &index)) {
+      /* No dangerous nodes to process, go for a safe one */
+      do {
+        if (!pq_remove(pffm->queue, &index)) {
+          return FALSE;
+        }
+      } while (pffm->lattice[index].status == NS_PROCESSED);
+    }
 
-  if (node->moves_left_req == 0
-      && !node->is_enemy_tile
-      && node->status != NS_WAITING
-      && node->moves_left < get_move_rate(params)) {
-    int fc, cc;
-    /* Consider waiting at this node.
-     * To do it, put it back into queue. */
-    node->status = NS_WAITING;
-    fc = pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
-                                              node->moves_left);
-    cc = get_total_CC(params, fc, node->extra_cost);
-    pq_insert(pffm->queue, index, -cc);
-  } else {
-    node->status = NS_PROCESSED;
-  }
+    /* Reset data. */
+    tile = index_to_tile(index);
+    pfm->tile = tile;
+    node = pffm->lattice + index;
 
-  /* Get the next nearest node */
+#ifdef PF_DEBUG
+    fc_assert(NS_INIT < node->status);
 
-  /* First try to get it from out_of_fuel_queue */
-  if (!pq_remove(pffm->out_of_fuel_queue, &index)) {
-    /* No dangerous nodes to process, go for a safe one */
-    do {
-      if (!pq_remove(pffm->queue, &index)) {
-        return FALSE;
-      }
-    } while (pffm->lattice[index].status == NS_PROCESSED);
-  }
+    if (NS_WAITING == node->status) {
+      /* We've already returned this node once, skip it */
+      log_debug("Considering waiting at (%d, %d)", TILE_XY(tile));
+    } else if (pf_fuel_node_dangerous(node)) {
+      /* We don't return dangerous tiles */
+      log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
+    }
+#endif /* PF_DEBUG */
+  } while (NS_WAITING == node->status || pf_fuel_node_dangerous(node));
 
-  tile = index_to_tile(index);
-  pfm->tile = tile;
-  node = &pffm->lattice[index];
-
-  fc_assert(node->status > NS_INIT);
-
-  if (node->status == NS_WAITING) {
-    /* We've already returned this node once, skip it */
-    log_debug("Considering waiting at (%d, %d)", TILE_XY(tile));
-    return pf_map_iterate(pfm);
-  } else if (pf_fuel_node_dangerous(node)) {
-    /* We don't return dangerous tiles */
-    log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
-    return pf_map_iterate(pfm);
-  } else {
-    /* Just return it */
-    return TRUE;
-  }
+  /* Else, just return it. */
+  return TRUE;
 }
 
 /************************************************************************
