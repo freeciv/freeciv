@@ -16,12 +16,13 @@ leaders = {
 }
 
 ; Source: http://www.raccoonbend.com/languages/ainuenglish.html
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Nipa = Chief */
-                 "Despotism",       _("Nipa"),           _("?female:Nipa")
-		 ; /* TRANS: Nipsa = Master */
-                 "Monarchy",        _("Nipsa"),          _("?female:Nipsa")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Nipa = Chief */
+ "Despotism",       _("%s Nipa"),        _("?female:%s Nipa")
+ ; /* TRANS: Nipsa = Master */
+ "Monarchy",        _("%s Nipsa"),       _("?female:%s Nipsa")
+}
 
 flag="ainu"
 flag_alt = "-"

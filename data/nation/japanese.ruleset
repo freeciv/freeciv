@@ -15,15 +15,16 @@ leaders = {
  "Tokugawa Ieyasu",     "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Monarchy",        _("Emperor %s"),        _("Empress %s")
+ "Republic",        _("Shogun %s"),         _("?female:Shogun %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="japan"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Emperor"),        _("Empress")
-                 "Republic",        _("Shogun"),         _("?female:Shogun")
-                 "Democracy", _("Prime Minister"),_("?female:Prime Minister")
-}
 
 init_techs=""
 init_buildings=""

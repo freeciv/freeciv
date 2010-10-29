@@ -21,14 +21,15 @@ leaders = {
  "Jan Bètran Aristid",          "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism", _("President-for-Life %s"), _("?female:President-for-Life %s")
+ "Monarchy",        _("Emperor %s"),      _("Empress %s")
+}
+
 flag="haiti"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("President-for-Life"),         _("?female:President-for-Life")
-                 "Monarchy",  _("Emperor"),    _("Empress")
-               }
 
 init_techs=""
 init_buildings=""

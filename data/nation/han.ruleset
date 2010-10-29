@@ -21,14 +21,16 @@ leaders = {
  "Yandi",               "Male" ; Yan Emperor
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Warlord %s"),      _("?female:Warlord %s")
+ "Monarchy",        _("Emperor %s"),      _("Empress Dowager %s")
+ "Communism",       _("Chairman %s"),     _("Chairperson %s")
+}
+
 flag="han"
 flag_alt="china"
 city_style="Asian"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Warlord"),      _("?female:Warlord")
-                 "Monarchy",        _("Emperor"),      _("Empress Dowager")
-                 "Communism",       _("Chairman"),     _("Chairperson")
-               }
 
 init_techs=""
 init_buildings=""

@@ -1372,22 +1372,25 @@ const char *get_score_text(const struct player *pplayer)
 const char *get_report_title(const char *report_name)
 {
   static struct astring str = ASTRING_INIT;
-  const struct player *pplayer = client.conn.playing;
+  const struct player *pplayer = client_player();
 
   astr_clear(&str);
 
   astr_add_line(&str, "%s", report_name);
 
   if (pplayer != NULL) {
+    char buf[4 * MAX_LEN_NAME];
+
     /* TRANS: <nation adjective> <government name>.
      * E.g. "Polish Republic". */
     astr_add_line(&str, _("?nationgovernment:%s %s"),
                   nation_adjective_for_player(pplayer),
                   government_name_for_player(pplayer));
 
-    astr_add_line(&str, "%s %s: %s",
-                  ruler_title_translation(pplayer),
-                  player_name(pplayer),
+    /* TRANS: Just happending 2 strings, using the correct localized
+     * syntax. */
+    astr_add_line(&str, _("%s: %s"),
+                  ruler_title_for_player(pplayer, buf, sizeof(buf)),
                   textyear(game.info.year));
   } else {
     /* TRANS: "Observer: 1985" */

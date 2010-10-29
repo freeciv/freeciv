@@ -23,7 +23,7 @@ leaders = {
 }
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Monarchy",        _("Shah"),           _("Shahbanu")
+                 "Monarchy",        _("%s Shah"),           _("%s Shahbanu")
                }
 
 flag         = "khwarezm"

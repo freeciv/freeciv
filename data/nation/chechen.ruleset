@@ -25,14 +25,15 @@ leaders = {
  "Ramzan Kadyrov",              "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Emir %s"),      _("Emira %s")
+ "Fundamentalism",  _("Imam %s"),      _("?female:Imam %s")
+}
+
 flag="chechnya"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Emir"),         _("Emira")
-                 "Fundamentalism",  _("Imam"),         _("?female:Imam")
-               }
 
 init_techs=""
 init_buildings=""

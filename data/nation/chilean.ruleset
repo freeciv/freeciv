@@ -24,15 +24,16 @@ leaders = {
  "Michelle Bachelet",           "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Captain General %s"), _("?female:Captain General %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("?female:Mother Superior %s")
+ "Republic",        _("Supreme Director %s"),_("Supreme Director %s")
+}
+
 flag="chile"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",       _("Captain General"),_("?female:Captain General")
-                 "Fundamentalism",  _("Archbishop"),     _("?female:Mother Superior")
-                 "Republic",      _("Supreme Director"),_("Supreme Director")
-               }
 
 init_techs=""
 init_buildings=""

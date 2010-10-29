@@ -31,14 +31,15 @@ leaders = {
  "Rosalía Arteaga",             "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("General %s"),     _("?female:General %s")
+ "Fundamentalism",  _("Bishop %s"),      _("Mother Superior %s")
+}
+
 flag="ecuador"
 flag_alt = "colombia"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",      _("General"),      _("?female:General")
-                 "Fundamentalism", _("Bishop"),       _("Mother Superior")
-               }
 
 init_techs=""
 init_buildings=""

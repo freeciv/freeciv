@@ -20,14 +20,15 @@ leaders = {
  "Ralph Gonsalves",             "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism", _("Bishop %s"),         _("?female:Bishop %s")
+}
+
 flag="svg"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
-                 "Fundamentalism", _("Bishop"),         _("?female:Bishop")
-               }
 
 
 init_techs=""

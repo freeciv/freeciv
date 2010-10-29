@@ -23,16 +23,17 @@ leaders = {
  "Eva Duarte de Perón",         "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",        "female_title"
+ "Despotism",      _("Caudillo %s"),    _("Caudilla %s")
+ "Democracy",      _("Presidente %s"),  _("Presidenta %s")
+ "Fundamentalism", _("Cardinal %s"),    _("?female:Cardinal %s")
+ "Monarchy",       _("Viceroy %s"),     _("Vicereine %s")
+}
+
 flag="argentina"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("Caudillo"),       _("Caudilla")
-                 "Democracy",      _("Presidente"),     _("Presidenta")
-                 "Fundamentalism", _("Cardinal"),     _("?female:Cardinal")
-                 "Monarchy", _("Viceroy"),     _("Vicereine")
-               }
 
 init_techs=""
 init_buildings=""

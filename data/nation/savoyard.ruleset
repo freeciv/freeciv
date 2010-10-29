@@ -26,10 +26,11 @@ flag="savoy"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title"
-"Despotism",        _("Duke"),    _("Duchess")
-"Democracy",       _("Prime Minister"),    _("?female:Prime Minister")
-               }
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Duke %s"),           _("Duchess %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
 
 init_techs=""
 init_buildings=""

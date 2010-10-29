@@ -332,6 +332,7 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
 struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1)
 {
+  char plr0_buf[4 * MAX_LEN_NAME], plr1_buf[4 * MAX_LEN_NAME];
   char buf[512], *pheadlinem;
   struct Diplomacy_dialog *pdialog;
   Dimension width, height, maxwidth;
@@ -554,18 +555,18 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				smeBSBObjectClass, popupmenu, NULL);
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_alliance_callback,
 		(XtPointer)pdialog);
-  
+
   fc_snprintf(buf, sizeof(buf),
-	      _("This Eternal Treaty\n"
-		 "marks the results of the diplomatic work between\n"
-		 "The %s %s %s\nand\nThe %s %s %s"),
-	  nation_adjective_for_player(plr0),
-	  ruler_title_translation(plr0),
-	  player_name(plr0),
-	  nation_adjective_for_player(plr1),
-	  ruler_title_translation(plr1),
-	  player_name(plr1));
-  
+              /* TRANS: The <nation adjective> <ruler-title + player-name>
+               * E.g. "The Czech President Václav Havel". */
+              _("This Eternal Treaty\n"
+                "marks the results of the diplomatic work between\n"
+                "The %s %s\nand\nThe %s %s"),
+              nation_adjective_for_player(plr0),
+              ruler_title_for_player(plr0, plr0_buf, sizeof(plr0_buf)),
+              nation_adjective_for_player(plr1),
+              ruler_title_for_player(plr1, plr1_buf, sizeof(plr1_buf)));
+
   pheadlinem=create_centered_string(buf);
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadlinem", 
 						 labelWidgetClass, 

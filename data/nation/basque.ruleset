@@ -28,14 +28,15 @@ leaders = {
  "Juan José Ibarretxe",         "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",        "female_title"
+ ; /* TRANS: Lehendakari = Basque neologism equivalent with President */
+ "Democracy",      _("Lehendakari %s"), _("?female:Lehendakari %s")
+}
+
 flag="euskadi"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",     "male_title",        "female_title"
-; /* TRANS: Lehendakari = Basque neologism equivalent with President */
-                 "Democracy",    _("Lehendakari"), _("?female:Lehendakari")
-               }
 
 init_techs=""
 init_buildings=""

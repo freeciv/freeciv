@@ -15,6 +15,13 @@ leaders = {
  "Gwenllian ferch Gruffudd",    "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Chieftain %s"),      _("?female:Chieftain %s")
+ "Monarchy",        _("Prince %s"),         _("Princess %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="wales"
 flag_alt = "united_kingdom"
 city_style = "Celtic"
@@ -24,12 +31,6 @@ city_style = "Celtic"
 ;      = "Y Gwerinaeth Pobl Cymru"         "people's republic" (communism)
 ;    = "Yr Ymerodrath Scantaidd Cymreig" "holy welsh empire" (fundamentalism)
 ;      = "Y Gweriniaeth Cymru"           "republic"     (republic, democracy)
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chieftain"),    _("?female:Chieftain")
-                 "Monarchy",        _("Prince"),       _("Princess")
-                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

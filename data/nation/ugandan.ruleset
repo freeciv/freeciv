@@ -27,23 +27,24 @@ leaders = {
  "Wandira Speciosa Kagibwe",    "Female"
 }
 
+ruler_titles = {
+ "government", "male_title",         "female_title"
+ "Despotism",  _("Dictator %s"),        _("?female:Dictator %s")
+
+ ; /* TRANS: There are two titles for king, kabaka and 
+ ;    mujaguzo. Kabaka is the material king, while 
+ ;    mujaguzo is the spiritual king, and is represented 
+ ;    by royal drums. These titles come from Buganda, an 
+ ;    ancient kingdom which occupied much of present-day 
+ ;    Uganda. */
+ "Monarchy",   _("Kabaka %s"),          _("?female:Kabaka %s")
+ ; The President, not Prime Minister, is head of government
+ ; in Uganda.
+}
+
 flag="uganda"
 flag_alt = "-"
 city_style = "tropical"
-
-ruler_titles = { "government", "male_title",         "female_title"
-                 "Despotism",  _("Dictator"),        _("?female:Dictator")
-
-                 ; /* TRANS: There are two titles for king, kabaka and 
-                 ;    mujaguzo. Kabaka is the material king, while 
-                 ;    mujaguzo is the spiritual king, and is represented 
-                 ;    by royal drums. These titles come from Buganda, an 
-                 ;    ancient kingdom which occupied much of present-day 
-                 ;    Uganda. */
-                 "Monarchy",   _("Kabaka"),          _("?female:Kabaka")
-                 ; The President, not Prime Minister, is head of government
-                 ; in Uganda.
-               }
 
 init_techs=""
 init_buildings=""

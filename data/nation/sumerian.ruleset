@@ -21,14 +21,15 @@ leaders = {
  "Nin-Kasalsi",         "Female"
 }
 
+ruler_titles = {
+ "government", "male_title",    "female_title"
+ "Monarchy",   _("%s Lugal"),   _("?female:%s Lugal")
+ "Communism",  _("%s Ensi"),    _("?female:%s Ensi")
+}
+
 flag = "sumeria"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government", "male_title", "female_title"
-                 "Monarchy",   _("Lugal"),   _("?female:Lugal")
-                 "Communism",  _("Ensi"),    _("?female:Ensi")
-               }
 
 init_techs=""
 init_buildings=""

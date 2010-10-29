@@ -20,16 +20,17 @@ leaders = {
  "Theodora",                    "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Imperator %s"),   _("Imperatrix %s")
+ "Fundamentalism",  _("Patriarch %s"),   _("Matriarch %s")
+ ; /* TRANS: Basileus = Monarch */
+ "Monarchy",        _("Basileus %s"),    _("Basilissa %s")
+}
+
 flag="byzantium"
 flag_alt = "greek"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Imperator"),   _("Imperatrix")
-		 "Fundamentalism",  _("Patriarch"),   _("Matriarch")
-		 ; /* TRANS: Basileus = Monarch */
-                 "Monarchy",        _("Basileus"),    _("Basilissa")
-               }
 
 init_techs=""
 init_buildings=""

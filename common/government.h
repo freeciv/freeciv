@@ -80,7 +80,8 @@ ruler_title_male_rule_name(const struct ruler_title *pruler_title);
 const char *
 ruler_title_female_rule_name(const struct ruler_title *pruler_title);
 
-const char *ruler_title_translation(const struct player *pplayer);
+const char *ruler_title_for_player(const struct player *pplayer,
+                                   char *buf, size_t buf_len);
 
 #define government_ruler_titles_iterate(NAME_pgov, NAME_rule_title)         \
   generic_iterate(struct hash_iter, const struct ruler_title *,             \

@@ -22,14 +22,16 @@ leaders = {
  "Frederic Mistral",            "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Despotism",       _("Viscount %s"),         _("Viscountess %s")
+ "Monarchy",        _("Duke %s"),             _("Duchess %s")
+ "Fundamentalism",  _("Perfect %s"),          _("Perfecta %s")
+}
+
 flag="occitania"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",          "female_title"
-                 "Despotism",       _("Viscount"),         _("Viscountess")
-                 "Monarchy",        _("Duke"),             _("Duchess")
-                 "Fundamentalism",  _("Perfect"),          _("Perfecta")
-               }
 
 init_techs=""
 init_buildings=""

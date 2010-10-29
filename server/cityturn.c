@@ -440,6 +440,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 **************************************************************************/
 void update_city_activities(struct player *pplayer)
 {
+  char buf[4 * MAX_LEN_NAME];
   int n, gold;
 
   fc_assert(NULL != pplayer);
@@ -500,7 +501,7 @@ void update_city_activities(struct player *pplayer)
   if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
     notify_player(pplayer, NULL, E_LOW_ON_FUNDS, ftc_server,
                   _("WARNING, we're LOW on FUNDS %s."),
-                  ruler_title_translation(pplayer));
+                  ruler_title_for_player(pplayer, buf, sizeof(buf)));
   }
 
 #if 0

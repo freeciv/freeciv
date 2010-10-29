@@ -15,13 +15,14 @@ leaders = {
  "David Lange", "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="newzealand"
 flag_alt = "australia"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-}
 
 init_techs=""
 init_buildings=""

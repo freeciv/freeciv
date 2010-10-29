@@ -24,17 +24,18 @@ leaders = {
  "Friedrich Franz IV",	"male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+ "Despotism",       _("Prince %s"),          _("Princess %s")
+ "Fundamentalism",  _("Bishop %s"),          _("?female:Bishop %s")
+ "Monarchy",        _("Grand Duke %s"),      _("Grand Duchess %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag = "mecklenburg"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",         "female_title"
-                 "Communism",       _("First Secretary"), _("?female:First Secretary")
-                 "Despotism",       _("Prince"),          _("Princess")
-                 "Fundamentalism",  _("Bishop"),          _("?female:Bishop")
-                 "Monarchy",        _("Grand Duke"),      _("Grand Duchess")
-                 "Republic",        _("Minister-President"), _("?female:Minister-President")
-               }
 
 init_techs=""
 init_buildings=""

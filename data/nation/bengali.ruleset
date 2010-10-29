@@ -20,13 +20,14 @@ leaders = {
  "Ziaur Rahman",        "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Republic",       _("Nabob %s"),        _("?female:Nabob %s")
+}
+
 flag="bangladesh"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Republic",       _("Nabob"),           _("?female:Nabob")
-               }
 
 init_techs=""
 init_buildings=""

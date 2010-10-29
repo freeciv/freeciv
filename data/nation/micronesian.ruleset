@@ -16,10 +16,11 @@ leaders = {
  "Manny Mori",          "Male"
 }
 
-ruler_titles = { "government",   "male_title",          "female_title"
-               "Monarchy",       _("Saudeleur"),        _("?female:Saudeleur")
-               "Republic",       _("Commissioner"),     _("?female:Commissioner")
-               }
+ruler_titles = {
+ "government",   "male_title",          "female_title"
+ "Monarchy",     _("Saudeleur %s"),     _("?female:Saudeleur %s")
+ "Republic",     _("Commissioner %s"),  _("?female:Commissioner %s")
+}
 
 flag="micronesia"
 flag_alt = "-"

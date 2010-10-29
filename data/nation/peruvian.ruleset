@@ -19,16 +19,17 @@ leaders = {
  "Alberto Fujimori",            "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",             "female_title"
+ "Communism",       _("Comandante %s"),       _("Comandanta %s")
+ "Despotism",       _("Protector %s"),        _("?female:Protector %s")
+ "Monarchy",        _("Viceroy %s"),          _("Vicereine %s")
+ "Republic",        _("Supreme Director %s"), _("Supreme Director %s")
+}
+
 flag="peru"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Communism",      _("Comandante"),_("Comandanta")
-                 "Despotism",       _("Protector"),    _("?female:Protector")
-                 "Monarchy",      _("Viceroy"),_("Vicereine")
-                 "Republic",      _("Supreme Director"),_("Supreme Director")
-               }
 
 init_techs=""
 init_buildings=""

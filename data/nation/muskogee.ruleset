@@ -25,16 +25,17 @@ leaders = {
  "Estajoca",                    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Chief %s"),           _("Chief %s")
+ "Monarchy",        _("Great Chief %s"),     _("Great Chief %s")
+ "Republic",        _("Spokesman %s"),       _("Spokeswoman %s")
+ "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+}
+
 flag="muskogee"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chief"),        _("Chief")
-                 "Monarchy",        _("Great Chief"),  _("Great Chief")
-                 "Republic",        _("Spokesman"),    _("Spokeswoman")
-                "Democracy",_("Principal Chief"),_("?female:Principal Chief")
-               }
 
 init_techs=""
 init_buildings=""

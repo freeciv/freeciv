@@ -24,15 +24,16 @@ leaders = {
  "Caroline",            "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",           "female_title"
+ "Democracy",   _("Minister of State %s"), _("?female:Minister of State %s")
+ "Fundamentalism", _("Bishop %s"),         _("Mother Superior %s")
+ "Monarchy",       _("Prince %s"),         _("Princess %s")
+}
+
 flag = "monaco_alternative" 
 flag_alt = "indonesia" ;the regular flag is identical to the Indonesian flag
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
- "Democracy",      _("Minister of State"), _("?female:Minister of State")
- "Fundamentalism", _("Bishop"),            _("Mother Superior")
- "Monarchy",       _("Prince"),            _("Princess")
-}
 
 init_techs=""
 init_buildings=""

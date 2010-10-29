@@ -17,6 +17,12 @@ leaders = {
  "Adam Remmele",        "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",       "female_title"
+ "Monarchy",        _("Grand Duke %s"), _("Grand Duchess %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag="baden"
 flag_alt = "germany"
 city_style = "European"
@@ -25,11 +31,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Grand Duke"),      _("Grand Duchess")
-                 "Republic",        _("Minister-President"),      _("?female:Minister-President")
-}
 
 civilwar_nations = "wuerttembergian", "palatinate", "swiss"
 

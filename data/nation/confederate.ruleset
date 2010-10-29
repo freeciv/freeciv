@@ -21,15 +21,16 @@ leaders = {
  "Belle Boyd",          "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("General %s"),   _("?female:General %s")
+ "Fundamentalism",  _("Reverend %s"),  _("?female:Reverend %s")
+ "Republic",        _("Speaker %s"),   _("?female:Speaker %s")
+}
+
 flag="southern_cross"
 flag_alt="-"
 city_style="European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",        _("General"),      _("?female:General")
-                 "Fundamentalism",        _("Reverend"),      _("?female:Reverend")
-                 "Republic",        _("Speaker"),      _("?female:Speaker")
-               }
 
 init_techs=""
 init_buildings=""

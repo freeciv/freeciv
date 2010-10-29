@@ -32,14 +32,15 @@ leaders = {
  "Ñädo",                "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Monarchy",        _("Great Chief %s"),  _("?female:Great Chief %s")
+ "Fundamentalism",  _("Shaman %s"),       _("?female:Shaman %s")
+}
+
 flag = "otomi"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-		 "Monarchy", 	    _("Great Chief"),  _("?female:Great Chief")
-                 "Fundamentalism",  _("Shaman"),       _("?female:Shaman")
-	       }
 
 init_techs=""
 init_buildings=""

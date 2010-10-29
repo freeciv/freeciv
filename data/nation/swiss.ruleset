@@ -32,15 +32,16 @@ leaders = {
  "Henri Guisan",                        "Male"
 }
 
+ruler_titles = {
+ "government",  "male_title",             "female_title"
+ "Anarchy",     _("General %s"),          _("?female:General %s")
+ "Despotism",   _("Bailiff %s"),          _("?female:Bailiff %s")
+ "Democracy", _("Federal Councillor %s"), _("?female:Federal Councillor %s")
+}
+
 flag="switzerland"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",	"male_title",	"female_title"
-                 "Anarchy",     _("General"),   _("?female:General")
-		 "Despotism",   _("Bailiff"),   _("?female:Bailiff")
-                 "Democracy",   _("Federal Councillor"), _("?female:Federal Councillor")
-	       }
 
 init_techs=""
 init_buildings=""

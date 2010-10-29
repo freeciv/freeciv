@@ -18,16 +18,18 @@ leaders = {
  "Matúš Čák Trenčiansky",       "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Despotism",       _("?title:Leader %s"), _("?female:Leader %s")
+ "Democracy",       _("Prime Minister %s"),_("?female:Prime Minister %s")
+ "Fundamentalism",  _("Pope %s"),          _("Priestess %s")
+ "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
+}
+
 flag="slovakia"
 flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
                ; - the blue triangle in it means Slovakia
 city_style = "European"
-ruler_titles = { "government",      "male_title",        "female_title"
-                  "Despotism",      _("?title:Leader"),  _("?female:Leader")
-                  "Democracy",_("Prime Minister"),_("?female:Prime Minister")
-                  "Fundamentalism", _("Pope"),           _("Priestess")
-          "Communism", _("General Secretary"), _("?female:General Secretary")
-                }
 
 init_techs=""
 init_buildings=""

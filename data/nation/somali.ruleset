@@ -29,15 +29,18 @@ leaders = {
  "Ahmed Yuusuf",                        "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Anarchy",         _("Warlord %s"),   _("Warlady %s")
+ "Monarchy",        _("Sultan %s"),    _("Sultana %s")
+ "Fundamentalism",  _("Caliph %s"),    _("Calipha %s")
+ "Despotism",       _("Sheikh %s"),    _("Shaykha %s")
+}
+
 flag= "somalia" 
 flag_alt = "arab" 
 city_style = "Tropical" 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Anarchy",         _("Warlord"),      _("Warlady")
-                 "Monarchy",        _("Sultan"),       _("Sultana")
-                 "Fundamentalism",  _("Caliph"),       _("Calipha")
-                 "Despotism",       _("Sheikh"),       _("Shaykha")
-               }
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

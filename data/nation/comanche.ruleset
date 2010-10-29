@@ -20,14 +20,16 @@ leaders = {
  "Quanah Parker",       "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Paraivo %s"),      _("?female:Paraivo %s")
+ "Monarchy",        _("Great Chief %s"),  _("?female:Great Chief %s")
+ "Fundamentalism",  _("Shaman %s"),       _("?female:Shaman %s")
+}
+
 flag = "comanche"
 flag_alt = "-"
 city_style = "celtic"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Paraivo"),      _("?female:Paraivo")
-                 "Monarchy",        _("Great Chief"),  _("?female:Great Chief")
-                 "Fundamentalism",  _("Shaman"),       _("?female:Shaman")
-               }
 init_techs=""
 init_buildings=""
 init_government="Despotism"

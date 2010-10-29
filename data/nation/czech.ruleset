@@ -26,14 +26,15 @@ leaders = {
  "Václav Havel",        "Male"
 }
 
+; Thane = Vladyka, Prophetess = Vestkyne (Libuse)
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Thane %s"),     _("Prophetess %s")
+}
+
 flag = "czech"
 flag_alt = "-"
 city_style = "European"
-
-; Thane = Vladyka, Prophetess = Vestkyne (Libuse)
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Thane"),        _("Prophetess")
-               }
 
 init_techs=""
 init_buildings=""

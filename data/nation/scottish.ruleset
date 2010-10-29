@@ -18,15 +18,16 @@ leaders = {
  "Mary Stuart",         "Female"
 }
 
+ruler_titles = {
+ "government",  "male_title",           "female_title"
+ "Despotism",   _("Chieftain %s"),      _("?female:Chieftain %s")
+ "Republic",    _("Speaker %s"),        _("?female:Speaker %s")
+ "Democracy",   _("First Minister %s"), _("?female:First Minister %s")
+}
+
 flag="scotland"
 flag_alt = "united_kingdom"
 city_style = "Celtic"
-
-ruler_titles = { "government",  "male_title",         "female_title"
-                 "Despotism",   _("Chieftain"),       _("?female:Chieftain")
-                 "Republic",    _("Speaker"),         _("?female:Speaker")
-                 "Democracy",_("First Minister"), _("?female:First Minister")
-               }
 
 init_techs=""
 init_buildings=""

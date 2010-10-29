@@ -20,10 +20,11 @@ flag="kampuchea"
 flag_alt = "-"
 city_style = "Asian"
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Warlord"),      _("Warlord")
-                 "Communism",       _("Brother"),      _("Sister")
-                 "Democracy", _("Prime Minister"),_("?female:Prime Minister")
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Warlord %s"),        _("Warlord %s")
+ "Communism",       _("Brother %s"),        _("Sister %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
 }
 
 init_techs=""

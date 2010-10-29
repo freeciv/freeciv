@@ -19,13 +19,14 @@ leaders = {
  "Hendrik Witbooi",     "Male"
 }
 
+ruler_titles = {
+ "government",  "male_title",         "female_title"
+ "Republic",    _("Spokesman %s"),    _("Spokeswoman %s")
+}
+
 flag = "namibia"
 flag_alt = "rwanda"
 city_style = "Tropical"
-
-ruler_titles = { "government", 	"male_title", "female_title"
-"Republic", 	    _("Spokesman"),    _("Spokeswoman")
-}
 
 init_techs=""
 init_buildings=""

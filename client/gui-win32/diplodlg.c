@@ -630,7 +630,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
     
   fc_snprintf(buf, sizeof(buf),
 	      _("This Eternal Treaty\n"
-		"marks the results of the diplomatic work between\n"
+                "marks the results of the diplomatic work between\n"
 		"The %s %s %s\nand\nThe %s %s %s"),
 	      nation_adjective_for_player(plr0),
 	      ruler_title_translation(plr0),

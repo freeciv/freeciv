@@ -28,14 +28,17 @@ leaders = {
  "Petr rytíř Chlumecký",        "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title", "female_title"
+ "Despotism",       _("Duke %s"),        _("Duchess %s")
+ "Monarchy",        _("Grand Duke %s"),  _("Grand Duchess %s")
+ "Fundamentalism",  _("Bishop %s"),      _("Prophetess %s")
+}
+
 flag= "moravia" 
 flag_alt = "-" 
 city_style = "Celtic" 
-ruler_titles = { "government", "male_title", "female_title"
-"Despotism",       _("Duke"),        _("?female:Duchess")
-"Monarchy",        _("Grand Duke"),  _("Grand Duchess")
-"Fundamentalism",  _("Bishop"),      _("Prophetess")
-}
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

@@ -23,15 +23,16 @@ leaders = {
  "Blanca Canales",              "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Captain General %s"), _("?female:Captain General %s")
+ "Fundamentalism",  _("Padre %s"),           _("Madre %s")
+ "Republic",        _("Governor %s"),        _("?female:Governor %s")
+}
+
 flag="puerto_rico"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Captain General"), _("?female:Captain General")
-                 "Fundamentalism",  _("Padre"), 	 _("Madre")
-                 "Republic",        _("Governor"), 	 _("?female:Governor")
-               }
 
 init_techs=""
 init_buildings=""

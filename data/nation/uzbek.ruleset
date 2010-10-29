@@ -20,14 +20,15 @@ leaders = {
  "Mamun I",                     "Male" ; Khorazm ruler
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("%s Khan"),      _("%s Khatan")
+ "Monarchy",        _("Emir %s"),      _("Emira %s")
+}
+
 flag="uzbekistan"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Khan"),         _("Khatan")
-                 "Monarchy",        _("Emir"),         _("Emira")
-               }
 
 init_techs=""
 init_buildings=""

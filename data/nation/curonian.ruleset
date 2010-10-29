@@ -24,14 +24,17 @@ leaders = {
  "Dorothea von Medem",          "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",          "female_title"
+ "Despotism",      _("Landmeister %s"),   _("Landmeisterin %s")
+ "Fundamentalism", _("Bishop %s"),        _("Mother Superior %s")
+ "Monarchy",       _("Duke %s"),          _("Duchess %s")
+}
+
 flag= "courland" 
 flag_alt = "-" 
 city_style = "European" 
-ruler_titles = { "government",       "male_title",       "female_title"
-                 "Despotism",      _("Landmeister"),   _("Landmeisterin")
-                 "Fundamentalism", _("Bishop"),        _("Mother Superior")
-                 "Monarchy",       _("Duke"),          _("Duchess")
-}
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

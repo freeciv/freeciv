@@ -18,15 +18,17 @@ leaders = {
  "Konrad III Rudy",             "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Prince %s"),          _("Princess %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("Mother Superior %s")
+ "Monarchy",        _("Grand Prince %s"),    _("Grand Princess %s")
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+}
+
 flag = "mazovia"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Prince"),        _("?female:Princess")
-                 "Fundamentalism",  _("Archbishop"),    _("Mother Superior")
-                 "Monarchy",        _("Grand Prince"),  _("Grand Princess")
-                 "Communism",       _("First Secretary"), _("?female:First Secretary")
-               }
 init_techs=""
 init_buildings=""
 init_government="Despotism"

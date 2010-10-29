@@ -16,14 +16,15 @@ leaders = {
  "Mahmoud Abbas",               "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Fundamentalism",  _("Grand Mufti %s"),  _("?female:Grand Mufti %s")
+ "Monarchy",        _("Sheikh %s"),       _("?female:Sheikh %s")
+}
+
 flag="palestine"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Fundamentalism",  _("Grand Mufti"),  _("?female:Grand Mufti")
-                 "Monarchy",        _("Sheikh"),       _("?female:Sheikh")
-}
 
 init_techs=""
 init_buildings=""

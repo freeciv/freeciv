@@ -26,13 +26,14 @@ leaders = {
  "Sleparis",            "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Democracy",       _("Zilach %s"),    _("?female:Zilach %s")
+}
+
 flag = "etruscan"
 flag_alt = "italy"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",        _("Zilach"),      _("Zilach")
-               }
 
 init_techs=""
 init_buildings=""

@@ -27,11 +27,12 @@ leaders = {
  "Kastus Kalinouski",           "Male"
 }
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Duke"),         _("Duchess")
-                 "Monarchy",        _("Tsar"),         _("Tsaritsa")
-                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
-               }
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Duke %s"),      _("Duchess %s")
+ "Monarchy",        _("Tsar %s"),      _("Tsaritsa %s")
+ "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
+}
 
 flag="belarus"
 flag_alt = "-"

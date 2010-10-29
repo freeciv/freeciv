@@ -22,14 +22,15 @@ leaders = {
  "Tarja Halonen",               "Female" ; First female president
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Despotism",       _("Grand Prince %s"),  _("Grand Princess %s")
+ "Fundamentalism",  _("Archbishop %s"),    _("?female:Archbishop %s")
+}
+
 flag="finland"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",       _("Grand Prince"),  _("Grand Princess")
-                 "Fundamentalism",  _("Archbishop"),     _("?female:Archbishop")
-               }
 
 init_techs=""
 init_buildings=""

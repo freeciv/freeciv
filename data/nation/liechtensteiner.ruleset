@@ -25,15 +25,16 @@ leaders = {
  "Franz Josef II",      "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Monarchy",        _("Prince %s"),          _("Princess %s")
+ "Democracy",       _("Prime Minister %s"),  _("?female:Prime Minister %s")
+ "Fundamentalism",  _("Bishop %s"),          _("?female:Bishop %s")
+}
+
 flag="liechtenstein"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
- "Monarchy",        _("Prince"),    _("Princess")
- "Democracy",       _("Prime Minister"),    _("?female:Prime Minister")
- "Fundamentalism",        _("Bishop"),      _("?female:Bishop")
-               }
 
 init_techs=""
 init_buildings=""

@@ -22,14 +22,15 @@ leaders = {
  "Alexandra Kollontai", "Female"
 }
 
+ruler_titles = {
+ "government",  "male_title",              "female_title",
+ "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
+ "Monarchy",    _("Great Leader %s"),      _("?female:Great Leader %s")
+}
+
 flag="soviet"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",    "male_title",       "female_title",
-          "Communism", _("General Secretary"), _("?female:General Secretary")
-		 "Monarchy",      _("Great Leader"),_("?female:Great Leader")
-               }
 
 init_techs=""
 init_buildings=""

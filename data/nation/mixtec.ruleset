@@ -29,13 +29,14 @@ leaders = {
  "12 Ñutaa",                    "Male" ; 12 Earthquake
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Lord %s"),      _("Lady %s")
+}
+
 flag="mixtec"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",         _("Lord"),      _("?female:Lady")
-}
 
 init_techs=""
 init_buildings=""

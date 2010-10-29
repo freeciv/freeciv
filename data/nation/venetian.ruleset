@@ -22,16 +22,17 @@ leaders = {
  "Andrea Gritti",               "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Condottiere %s"),  _("Condottiera %s")
+ "Fundamentalism",  _("Patriarch %s"),    _("Matriarch %s")
+ "Monarchy",        _("Viceroy %s"),      _("Vicereine %s")
+ "Republic",        _("Doge %s"),         _("Dogaressa %s")
+}
+
 flag = "venice"
 flag_alt = "italy"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Condottiere"),  _("Condottiera")
-                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
-                 "Monarchy",        _("Viceroy"),      _("Vicereine")
-                 "Republic",        _("Doge"),         _("Dogaressa")
-               }
 
 init_techs=""
 init_buildings=""

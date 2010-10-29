@@ -29,12 +29,15 @@ leaders = {
  "Prempeh I",           "Male"
 }
 
+ruler_titles = {
+ "government",  "male_title",       "female_title"
+ "Monarchy",    _("Asantehene %s"), _("?female:Asantehene %s")  
+}
+
 flag= "ashanti" 
 flag_alt = "-" 
 city_style = "Celtic" 
-ruler_titles = { "government", "male_title", "female_title"
-                 "Monarchy",    _("Asantehene"), _("?female:Asantehene")  
-} 
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

@@ -23,14 +23,15 @@ leaders = {
  "Marguerite",                  "Female"
 }
 
+ruler_titles = {
+ "government",  "male_title",     "female_title"
+ "Despotism",   _("Margrave %s"), _("Margravine %s")
+ "Monarchy",    _("Duke %s"),     _("Duchess %s")
+}
+
 flag = "burgundy"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government", "male_title",  "female_title"
-		"Despotism",   _("Margrave"), _("Margravine")
-		"Monarchy",    _("Duke"),     _("Duchess")
-}
 
 init_techs=""
 init_buildings=""

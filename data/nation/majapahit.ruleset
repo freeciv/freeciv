@@ -22,11 +22,12 @@ leaders = {
  "Raden Wijaya",        "Male" ; Throne name: Nararya Sangramawijaya.
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",       _("Raja"),           _("Rani")
-                 "Monarchy",        _("Maharaja"),       _("Maharani")
-                 "Democracy",       _("Mahapatih"),      _("?female:Mahapatih")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Raja %s"),        _("Rani %s")
+ "Monarchy",        _("Maharaja %s"),    _("Maharani %s")
+ "Democracy",       _("Mahapatih %s"),   _("?female:Mahapatih %s")
+}
 
 flag         = "majapahit"
 flag_alt     = "-"

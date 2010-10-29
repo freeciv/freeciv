@@ -17,14 +17,15 @@ leaders = {
  "Nabu-Nasir",                  "Male" ; a.k.a. Nabonassar
 }
 
+ruler_titles =
+ { "government", "male_title",  "female_title"
+ ; /* TRANS: Lugal = Great Man */
+ "Despotism",    _("%s Lugal"), _("?female:%s Lugal")
+} 
+
 flag = "babylon"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",	"male_title",	"female_title"
-		 ; /* TRANS: Lugal = Great Man */
-		 "Despotism",	_("Lugal"),	 _("?female:Lugal")
-	       } 
 
 init_techs=""
 init_buildings=""

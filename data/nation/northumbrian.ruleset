@@ -34,14 +34,16 @@ leaders = {
  "Osred",       "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Theod %s"),           _("?female:Theod %s")
+ "Monarchy",        _("Cyning %s"),          _("Cwene %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("?female:Mother Superior %s")
+}
+
 flag = "northumbria"
 flag_alt = "england"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Theod"),           _("?female:Theod")
-		 "Monarchy",        _("Cyning"),          _("Cwene")
-                 "Fundamentalism",  _("Archbishop"),      _("?female:Mother Superior")
-               }
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

@@ -17,15 +17,16 @@ leaders = {
  "Elsa Laula",          "Female" ; Early Sami political activist
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Noaidi = Shaman */
+ "Despotism",       _("Noaidi %s"),      _("?female:Noaidi %s")
+ "Republic",        _("Spokesman %s"),   _("Spokeswoman %s")
+}
+
 flag="sapmi"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-		 ; /* TRANS: Noaydde = Shaman */
-                 "Despotism",       _("Noaydde"),      _("?female:Noaydde")
-                 "Republic",        _("Spokesman"),    _("Spokeswoman")
-               }
 
 init_techs=""
 init_buildings=""

@@ -22,15 +22,16 @@ leaders = {
  "Thupten Gyatso",      "Male" ; 13th Dalai Lama (1876-1933)
 }
 
+ruler_titles = {
+ "government",     "male_title",           "female_title"
+ "Despotism",      _("Lama %s"),           _("?female:Lama %s")
+ "Monarchy",       _("Dalai Lama %s"),     _("?female:Dalai Lama %s")
+ "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="tibet"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("Lama"),           _("?female:Lama")
-		 "Monarchy",       _("Dalai Lama"),     _("?female:Dalai Lama")
-                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

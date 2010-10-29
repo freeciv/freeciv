@@ -15,13 +15,14 @@ leaders = {
  "René Lévesque",               "Male"
 }
 
+ruler_titles = {
+ "government",  "male_title",      "female_title"
+ "Monarchy",    _("Governor %s"),  _("?female:Governor %s")
+} 
+
 flag = "quebec"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",	"male_title",	"female_title"
-		 "Monarchy",	_("Governor"),	_("?female:Governor")
-	       } 
 
 init_techs=""
 init_buildings=""

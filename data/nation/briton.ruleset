@@ -16,15 +16,16 @@ leaders = {
  "Boudica",             "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",       "female_title"
+ "Despotism",	   _("Chieftain %s"),  _("?female:Chieftain %s")
+ "Fundamentalism", _("Druid %s"),      _("?female:Druid %s")
+ "Monarchy",       _("High King %s"),  _("High Queen %s")
+} 
+
 flag="britannia"
 flag_alt = "gaul"
 city_style = "Celtic"
-
-ruler_titles = { "government",     "male_title",    "female_title"
-		 "Despotism",	   _("Chieftain"),  _("?female:Chieftain")
-		 "Fundamentalism", _("Druid"),      _("?female:Druid")
-                 "Monarchy",        _("High King"),    _("High Queen")
-	       } 
 
 init_techs=""
 init_buildings=""

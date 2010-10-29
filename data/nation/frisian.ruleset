@@ -30,15 +30,17 @@ leaders = {
  "Mata Hari",                           "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Democracy",       _("Commissioner %s"), _("?female:Commissioner %s")
+ "Monarchy",	    _("Count %s"),        _("Countess %s")
+ "Republic",	    _("Stadtholder %s"),  _("Stadtholdress %s")
+ "Despotism",	    _("Potestate %s"),    _("?female:Potestate %s")
+}
+
 flag="frisia"
 flag_alt = "-"
 city_style = "Celtic"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",  _("Commissioner"), _("?female:Commissioner")
-                 "Monarchy",	    _("Count"),         _("Countess")
-		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
-		 "Despotism",	    _("Potestate"),  _("?female:Potestate")
-               }
 init_techs=""
 init_buildings=""
 init_government="Despotism"

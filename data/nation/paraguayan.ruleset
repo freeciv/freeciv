@@ -31,15 +31,16 @@ leaders = {
  "Fernando Lugo",               "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Communism",       _("Comandante %s"),  _("Comandanta %s")
+ "Despotism",       _("General %s"),     _("?female:General %s")
+ "Fundamentalism",  _("Abbot %s"),       _("Mother Superior %s")
+}
+
 flag="paraguay"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Communism",      _("Comandante"),  _("Comandanta")
-                 "Despotism",      _("General"),     _("?female:General")
-                 "Fundamentalism", _("Abbot"),       _("Mother Superior")
-}
 
 init_techs=""
 init_buildings=""

@@ -27,14 +27,15 @@ leaders = {
  "Brian Peckford",              "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
+}
+
 flag="newfoundland"
 flag_alt = "canada_old"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",         "female_title"
-                "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
-                "Fundamentalism", _("Bishop"),         _("?female:Bishop")
-               }
 
 init_techs=""
 init_buildings=""

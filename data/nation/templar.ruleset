@@ -35,12 +35,14 @@ leaders = {
  "Jacques de Molay",            "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Monarchy",        _("Grand Master %s"), _("Grand Mistress %s")
+}
+
 flag="templar"
 flag_alt = "stpatrick"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Grand Master"), _("Grand Mistress")
-               }
 
 init_techs=""
 init_buildings=""

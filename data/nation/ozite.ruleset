@@ -21,12 +21,13 @@ leaders = {
  "Dorothy Gale",        "Female" ; Not a ruler, but a popular character
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Wizard %s"),      _("Witch %s")
+}
+
 flag="oz"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",      _("Wizard"),          _("Witch")
-               }
 
 init_techs=""
 init_buildings=""

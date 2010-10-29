@@ -21,15 +21,17 @@ leaders = {
  "Is-Sinjorina Agata Barbara",  "Female" ; only female President, 1982 - 1987
 }
 
+ruler_titles = {
+ "government",       "male_title",          "female_title"
+ "Democracy",        _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism",   _("Bishop %s"),        _("Mother Superior %s")
+ "Monarchy",         _("Grand Master %s"),  _("Grand Mistress %s")
+}
+
 flag="malta"
 flag_alt = "europe"
                     
 city_style = "Classical"
-ruler_titles = { "government",  "male_title",      "female_title"
-                 "Democracy",   _("Prime Minister"), _("?female:Prime Minister")
-                 "Fundamentalism",   _("Bishop"), _("Mother Superior")
-                 "Monarchy",   _("Grand Master"), _("Grand Mistress")
-               }
 
 init_techs=""
 init_buildings=""

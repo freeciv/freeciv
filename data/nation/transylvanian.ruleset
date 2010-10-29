@@ -22,15 +22,16 @@ leaders = {
  "Bem József",          "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Voivode %s"),     _("?female:Voivode %s")
+ "Fundamentalism",  _("Bishop %s"),      _("?female:Bishop %s")
+ "Monarchy",        _("Prince %s"),      _("Princess %s")
+}
+
 flag="transylvania"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Voivode"),     _("?female:Voivode")
-                 "Fundamentalism",  _("Bishop"),      _("?female:Bishop")
-                 "Monarchy",        _("Prince"),      _("Princess")
-}
 
 init_techs=""
 init_buildings=""

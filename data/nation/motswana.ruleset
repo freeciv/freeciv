@@ -18,14 +18,15 @@ leaders = {
  "Festus Mogae",        "Male" ; President from 1998 - 2008
 }
 
+ruler_titles = {
+ "government", "male_title",         "female_title"
+ ; /* TRANS: kgosi = chief/king */
+ "Monarchy",   _("Kgosi %s"),        _("?female:Kgosi %s")
+}
+
 flag="botswana"
 flag_alt = "-"
 city_style = "tropical"
-
-ruler_titles = { "government", "male_title",         "female_title"
- 		; /* TRANS: kgosi = chief/king */
-                 "Monarchy",   _("Kgosi"),           _("?female:Kgosi")
-               }
 
 init_techs=""
 init_buildings=""

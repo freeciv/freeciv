@@ -16,13 +16,14 @@ leaders = {
 "Khye Bumsa",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Chogyal %s"),   _("?female:Chogyal %s")
+}
+
 flag="sikkim"
 flag_alt="-"
 city_style="Asian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Chogyal"),      _("?female:Chogyal")
-               }
 
 init_techs=""
 init_buildings=""

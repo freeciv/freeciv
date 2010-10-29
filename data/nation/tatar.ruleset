@@ -23,14 +23,15 @@ leaders = {
  "Mintimer Shaymiev",   "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Fundamentalism",  _("Grand Mufti %s"),  _("?female:Grand Mufti %s")
+ "Monarchy",        _("%s Khan"),         _("%s Khansha")
+}
+
 flag="tatarstan"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Fundamentalism",       _("Grand Mufti"),         _("?female:Grand Mufti")
-                 "Monarchy",        _("Khan"),         _("Khansha")
-               }
 
 init_techs=""
 init_buildings=""

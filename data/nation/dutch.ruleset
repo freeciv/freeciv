@@ -32,20 +32,22 @@ leaders = {
  "Beatrix",                     "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Republic",	    _("Stadtholder %s"),    _("Stadtholdress %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism",  _("Reverend %s"),       _("?female:Reverend %s")
+}
+
 flag="netherlands"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
-                 "Democracy", _("Prime Minister"),_("?female:Prime Minister")
-                 "Fundamentalism",       _("Reverend"), _("?female:Reverend")
-               }
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
+
 conflicts_with="burgundian"
 civilwar_nations="boer", "belgian", "frisian", "indonesian", "surinamese"
 

@@ -2293,15 +2293,17 @@ static void load_ruleset_governments(struct section_file *file)
         section_name(section_list_get(sec, government_index(g)));
     const char *male, *female;
 
-    if ((male = secfile_lookup_str(file, "%s.ruler_male_title", sec_name))
-        && (female = secfile_lookup_str(file, "%s.ruler_male_title",
-                                        sec_name))) {
-      (void) government_ruler_title_new(g, NULL, male, female);
-    } else {
+    if (!(male = secfile_lookup_str(file, "%s.ruler_male_title", sec_name))
+        || !(female = secfile_lookup_str(file, "%s.ruler_female_title",
+                                         sec_name))) {
       ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
                     "government \"%s\" (nb %d): %s",
                     government_rule_name(g), government_number(g),
                     secfile_error());
+    } else if (NULL == government_ruler_title_new(g, NULL, male, female)) {
+      ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
+                    "government \"%s\" (nb %d).",
+                    government_rule_name(g), government_number(g));
     }
   } governments_iterate_end;
 

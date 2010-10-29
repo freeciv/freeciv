@@ -15,8 +15,9 @@ leaders = {
  "Spartacus",   "Male"
 }
 
-ruler_titles = { "government",     "male_title",     "female_title"
-                 "Monarchy",       _("Rhesos"),      _("?female:Rhesos")
+ruler_titles = {
+ "government",     "male_title",     "female_title"
+ "Monarchy",       _("Rhesos %s"),      _("?female:Rhesos %s")
 }
 
 ; A dragon was depicted on the standard of the Thracians.

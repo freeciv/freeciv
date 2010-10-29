@@ -23,9 +23,10 @@ leaders = {
  "Mistefa Barzanî",     "Male" ; President of the Kurdistan Democratic Party.
 }
 
-ruler_titles = { "government", "male_title", "female_title"
-                 "Despotism", _("Sheikh"), _("Shaykha")
-                 "Monarchy", _("Emir"), _("Emira")
+ruler_titles = {
+ "government", "male_title",   "female_title"
+ "Despotism",  _("Sheikh %s"), _("Shaykha %s")
+ "Monarchy",   _("Emir %s"),   _("Emira %s")
 }
 
 flag = "kurd"

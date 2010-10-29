@@ -26,12 +26,13 @@ leaders = {
  "Sayf ibn-dhi-Yazan",  "Male"
 }
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheikh"),	_("Shaykha")
-                 "Monarchy",        _("Malik"),		_("Malika")
-                 "Republic",        _("Sultan"),	_("Sultana")
-                 "Communism",       _("Caliph"),	_("Calipha")
-               }
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Sheikh %s"),    _("Shaykha %s")
+ "Monarchy",        _("Malik %s"),     _("Malika %s")
+ "Republic",        _("Sultan %s"),    _("Sultana %s")
+ "Communism",       _("Caliph %s"),    _("Calipha %s")
+}
 
 flag         = "himyar"
 flag_alt     = "-"

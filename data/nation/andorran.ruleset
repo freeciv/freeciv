@@ -18,19 +18,20 @@ leaders = {
  "Carlemany",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",             "female_title"
+ ; /* TRANS: Cap de Govern = Government Head */
+ "Democracy",       _("Cap de Govern %s"),    _("?female:Cap de Govern %s")
+ "Despotism",       _("Dictador %s"),         _("Dictadora %s")
+ "Monarchy",        _("Prince %s"),           _("Princess %s")
+ "Republic",        _("President %s"),        _("Presidenta %s")
+ ; /* TRANS: Bisbe = Bishop ; Gran Bruixa = Great Witch */
+ "Fundamentalism",  _("Bisbe %s"),            _("Gran Bruixa %s")
+}
+
 flag="andorra"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",          "female_title"
-		; /* TRANS: Cap de Govern = Government Head */
-                 "Democracy",  _("Cap de Govern"), _("?female:Cap de Govern")
-                 "Despotism",       _("Dictador"),         _("Dictadora")
-		; /* TRANS: Rei, Reina = King, Queen */
-                 "Monarchy",        _("Prince"),           _("Princess")
-                 "Republic",        _("President"),        _("Presidenta")
-		; /* TRANS: Bisbe = Bishop ; Gran Bruixa = Great Witch */
-                 "Fundamentalism",  _("Bisbe"),            _("Gran Bruixa")
-               }
 
 init_techs=""
 init_buildings=""

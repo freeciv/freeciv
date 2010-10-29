@@ -18,17 +18,18 @@ leaders = {
  "Maria Lea Pedini-Angelini",   "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Communism",       _("Chairman %s"),       _("Chairwoman %s")
+ "Democracy",       _("Councillor %s"),     _("?female:Councillor %s")
+ "Fundamentalism",  _("Abbot %s"),          _("Mother Superior %s")
+ "Monarchy",        _("Duke %s"),           _("Duchess %s")
+ "Republic",        _("Captain-Regent %s"), _("?female:Captain-Regent %s")
+}
+
 flag = "san_marino"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Communism",       _("Chairman"),   _("Chairwoman")
-                 "Democracy",       _("Councillor"), _("?female:Councillor")
-                 "Fundamentalism",  _("Abbot"),      _("Mother Superior")
-                 "Monarchy",        _("Duke"),       _("Duchess")
-                 "Republic",        _("Captain-Regent"), _("?female:Captain-Regent")
-}
 
 init_techs=""
 init_buildings=""

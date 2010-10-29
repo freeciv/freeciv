@@ -23,17 +23,18 @@ leaders = {
  "Fatima Al-Fihriya",           "Female" ; Prominent educator, d 880.
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Sheikh %s"),          _("Shaykha %s")
+ "Monarchy",        _("Malik %s"),           _("Malika %s")
+ "Republic",        _("Sultan %s"),          _("Sultana %s")
+ "Communism",       _("Caliph %s"),          _("Calipha %s")
+ "Democracy",       _("Amir Al-Muminin %s"), _("Amirat Al-Muminin %s")
+}
+
 flag="morocco"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheikh"),       _("Shaykha")
-                 "Monarchy",        _("Malik"),        _("Malika")
-                 "Republic",        _("Sultan"),       _("Sultana")
-                 "Communism",       _("Caliph"),       _("Calipha")
-                 "Democracy",    _("Amir Al-Muminin"), _("Amirat Al-Muminin")
-               }
 
 init_techs=""
 init_buildings=""

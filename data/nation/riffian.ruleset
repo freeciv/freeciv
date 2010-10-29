@@ -15,14 +15,15 @@ leaders = {
  "Mohammed Ameziane",   "Male" ; 19th century freedom fighter
 }
 
+ruler_titles = {
+ "government", "male_title",         "female_title"
+ "Monarchy",   _("Emir %s"),            _("Emira %s")
+ "Republic",   _("%s Basha"),           _("?female:%s Basha")
+}
+
 flag="rif"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government", "male_title",         "female_title"
-                 "Monarchy",   _("Emir"),            _("Emira")
-                 "Republic",   _("Basha"),           _("?female:Basha")
-               }
 
 init_techs=""
 init_buildings=""

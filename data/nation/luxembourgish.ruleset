@@ -23,17 +23,18 @@ leaders = {
  "Jean",                "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",           "female_title"
+ "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Despotism",      _("Count %s"),          _("Countess %s")
+ "Fundamentalism", _("Bishop %s"),         _("Mother Superior %s")
+ "Monarchy",       _("Grand Duke %s"),     _("Grand Duchess %s")
+ "Republic",       _("Stadtholder %s"),    _("Stadtholdress %s")
+}
+
 flag="luxembourg"
 flag_alt = "netherlands"
 city_style = "european"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
-                 "Despotism",      _("Count"),          _("Countess")
-                 "Fundamentalism", _("Bishop"),         _("Mother Superior")
-                 "Monarchy",       _("Grand Duke"),     _("Grand Duchess")
-                 "Republic",       _("Stadtholder"),    _("Stadtholdress")
-               }
 
 init_techs=""
 init_buildings=""

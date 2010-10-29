@@ -23,15 +23,16 @@ leaders = {
  "Rosario Acuña",               "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Cabezaleru %s"),     _("Cabezalera %s")
+ "Monarchy",        _("Rei %s"),            _("Reina %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="asturias"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",          "female_title"
-                 "Despotism",       _("Cabezaleru"),     _("?female:Cabezalera")
-                 "Monarchy",        _("Rei"),              _("Reina")
-                 "Democracy",   _("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

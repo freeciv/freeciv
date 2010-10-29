@@ -15,14 +15,15 @@ leaders = {
  "William Bligh",       "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Chieftain %s"), _("?female:Chieftain %s")
+ "Monarchy",        _("High King %s"), _("High Queen %s")
+}
+
 flag = "cornwall"
 flag_alt = "england"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chieftain"),    _("?female:Chieftain")
-                 "Monarchy",        _("High King"),    _("High Queen")
-               }
 
 init_techs=""
 init_buildings=""

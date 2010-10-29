@@ -19,10 +19,11 @@ leaders = {
  "Konyan Bebe", "Male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Morubixaba = Chief */
-                 "Despotism",       _("Morubixaba"),     _("?female:Morubixaba")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Morubixaba = Chief */
+ "Despotism",       _("Morubixaba %s"),  _("?female:Morubixaba %s")
+}
 
 flag         = "tupi"
 flag_alt     = "-"

@@ -18,14 +18,15 @@ leaders = {
  "Kurt Eisner",         "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Fundamentalism",  _("Bishop %s"),       _("Mother Superior %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag="bavarian"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Fundamentalism", _("Bishop"),          _("Mother Superior")
-		 "Republic",    _("Minister-President"), _("?female:Minister-President")
-               }
 init_techs=""
 init_buildings=""
 init_government="Despotism"

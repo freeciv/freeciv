@@ -21,16 +21,17 @@ leaders = {
  "Benedictus XVI",      "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",      "female_title"
+ "Anarchy",        _("Antipope %s"),  _("Antipopess %s")
+ "Fundamentalism", _("Patriarch %s"), _("?female:Patriarch %s")
+ "Monarchy",       _("Pope %s"),      _("Popess %s")
+ "Republic",       _("Cardinal %s"),  _("?female:Cardinal %s")
+}
+
 flag = "vatican"
 flag_alt = "constantine"
 city_style = "Classical"
-
-ruler_titles = { "government",     "male_title",      "female_title"
-                 "Anarchy",        _("Antipope"), _("Antipopess")
-                 "Fundamentalism", _("Patriarch"), _("?female:Patriarch")
-                 "Monarchy",       _("Pope"), _("Popess")
-                 "Republic",       _("Cardinal"), _("?female:Cardinal")
-               }
 
 init_techs=""
 init_buildings=""

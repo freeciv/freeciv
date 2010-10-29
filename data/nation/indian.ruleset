@@ -14,16 +14,17 @@ leaders = {
  "Indira Gandhi",       "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Raja %s"),      _("Rani %s")
+ "Fundamentalism",  _("Guru %s"),      _("?female:Guru %s")
+ "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
+ "Republic",        _("Mahatma %s"),   _("?female:Mahatma %s")
+}
+
 flag="india"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Raja"),         _("Rani")
-                 "Fundamentalism",  _("Guru"),         _("?female:Guru")
-                 "Monarchy",        _("Maharaja"),     _("Maharani")
-                 "Republic",        _("Mahatma"),      _("?female:Mahatma")
-               }
 
 init_techs=""
 init_buildings=""

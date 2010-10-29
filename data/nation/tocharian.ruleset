@@ -29,10 +29,11 @@ leaders = {
  "Sulica",              "Male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Lant/Lantsa = King/Queen */
-                 "Monarchy",       _("Lant"),            _("Lantsa")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Lant/Lantsa = King/Queen */
+ "Monarchy",        _("Lant %s"),        _("Lantsa %s")
+}
 
 flag         = "tocharian"
 flag_alt     = "-"

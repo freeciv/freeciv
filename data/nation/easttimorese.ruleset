@@ -17,13 +17,14 @@ leaders = {
  "Baria Nahak",         "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",    "female_title"
+ "Fundamentalism", _("Bishop %s"),  _("Mother Superior %s")
+}
+
 flag="east_timor"
 flag_alt="-"
 city_style="Tropical"
-
-ruler_titles = { "government",     "male_title", "female_title"
-                 "Fundamentalism", _("Bishop"),  _("?female:Mother Superior")
-} 
 
 init_techs=""
 init_buildings=""

@@ -22,16 +22,17 @@ leaders = {
  "Rafiq Hariri",        "Male"
 }
 
+ruler_titles = {
+ "government", "male_title",              "female_title"
+ "Anarchy",    _("Warlord %s"),           _("Warlady %s")
+ "Communism",  _("Secretary General %s"), _("?female:Secretary General %s")
+ "Despotism",  _("General %s"),           _("?female:General %s")
+ "Monarchy",   _("Emir %s"),              _("Emira %s")
+}
+
 flag = "lebanon"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government", "male_title",           "female_title"
-                 "Anarchy",    _("Warlord"),           _("Warlady")
-                 "Communism",  _("Secretary General"), _("?female:Secretary General")
-                 "Despotism",  _("General"),           _("?female:General")
-                 "Monarchy",   _("Emir"),              _("Emira")
-               }
 
 init_techs=""
 init_buildings=""

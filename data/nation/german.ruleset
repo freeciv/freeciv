@@ -26,14 +26,16 @@ leaders = {
  "Angela Merkel",               "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Democracy",       _("Chancellor %s"),      _("?female:Chancellor %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("?female:Archbishop %s")
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+}
+
 flag         = "germany"
 flag_alt     = "-"
 city_style   = "European"
-ruler_titles = { "government",      "male_title",       "female_title"
-                 "Democracy",      _("Chancellor"),   _("?female:Chancellor")
-                 "Fundamentalism", _("Archbishop"),   _("?female:Archbishop")
-                 "Communism",_("First Secretary"),_("?female:First Secretary")
-               }
 
 init_techs = ""
 init_buildings=""

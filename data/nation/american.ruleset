@@ -41,14 +41,15 @@ leaders = {
  "Eleanor Roosevelt",           "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Republic",        _("Speaker %s"),      _("?female:Speaker %s")
+ "Fundamentalism",  _("Reverend %s"),     _("?female:Reverend %s")
+}
+
 flag="usa"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("Speaker"),      _("?female:Speaker")
-                 "Fundamentalism",  _("Reverend"),     _("?female:Reverend")
-               }
 
 init_techs=""
 init_buildings=""

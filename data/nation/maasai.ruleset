@@ -16,13 +16,15 @@ leaders = {
  "Segi",        "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",             "female_title"
+ "Despotism",      _("Laibon %s"),           _("?female:Laibon %s")
+ "Monarchy",       _("Paramount Chief %s"),  _("?female:Paramount Chief %s")
+}
+
 flag = "maasai" 
 flag_alt = "-" 
 city_style = "Tropical" 
-ruler_titles = { "government",      "male_title",        "female_title"
-"Despotism",       _("Laibon"),        _("?female:Laibon")
-"Monarchy",       _("Paramount Chief"),        _("?female:Paramount Chief")
-               }
 
 init_techs="" 
 init_buildings="" 

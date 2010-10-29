@@ -53,8 +53,8 @@ name        = _("Anarchy")
 graphic     = "gov.anarchy"
 graphic_alt = "-"
 
-ruler_male_title = _("Usurper")
-ruler_female_title = _("?female:Usurper")
+ruler_male_title = _("Usurper %s")
+ruler_female_title = _("?female:Usurper %s")
 
 helptext = _("\
 Anarchy is simply the absence of any recognizable government.\
@@ -75,8 +75,8 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 ai_better   = "Monarchy"
 
-ruler_male_title = _("Chief")
-ruler_female_title = _("?female:Chief")
+ruler_male_title = _("Chief %s")
+ruler_female_title = _("?female:Chief %s")
 
 helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
@@ -97,8 +97,8 @@ graphic     = "gov.monarchy"
 graphic_alt = "-"
 ai_better   = "Communism"
 
-ruler_male_title = _("King")
-ruler_female_title = _("Queen")
+ruler_male_title = _("King %s")
+ruler_female_title = _("Queen %s")
 
 helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
@@ -118,8 +118,8 @@ reqs = { "type", "name", "range"
 graphic     = "gov.communism"
 graphic_alt = "-"
 
-ruler_male_title = _("Comrade")
-ruler_female_title = _("?female:Comrade")
+ruler_male_title = _("Comrade %s")
+ruler_female_title = _("?female:Comrade %s")
 
 helptext = _("\
 A Communist government is based on the ideal that all people are\
@@ -142,8 +142,8 @@ reqs = { "type", "name", "range"
 graphic     = "gov.republic"
 graphic_alt = "-"
 
-ruler_male_title = _("Consul")
-ruler_female_title = _("?female:Consul")
+ruler_male_title = _("Consul %s")
+ruler_female_title = _("?female:Consul %s")
 
 helptext = _("\
 Under a Republican government, citizens hold an election to select a\
@@ -164,8 +164,8 @@ reqs = { "type", "name", "range"
 graphic     = "gov.democracy"
 graphic_alt = "-"
 
-ruler_male_title = _("President")
-ruler_female_title = _("?female:President")
+ruler_male_title = _("President %s")
+ruler_female_title = _("?female:President %s")
 
 helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\
@@ -185,8 +185,8 @@ reqs = { "type", "name", "range"
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
 
-ruler_male_title = _("High Priest")
-ruler_female_title = _("High Priestess")
+ruler_male_title = _("High Priest %s")
+ruler_female_title = _("High Priestess %s")
 
 helptext = _("\
 Fundamentalism is a form of government organized around a central\

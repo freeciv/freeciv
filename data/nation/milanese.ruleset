@@ -21,16 +21,17 @@ leaders = {
  "Umberto Bossi",               "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Condottiere %s"),  _("Condottiera %s")
+ "Fundamentalism",  _("Fra %s"),          _("Madre %s")
+ "Monarchy",        _("Duke %s"),         _("Duchess %s")
+ "Republic",        _("Captain %s"),      _("?female:Captain %s")
+}
+
 flag = "milan"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Condottiere"),  _("Condottiera")
-                 "Fundamentalism",  _("Fra"),          _("Madre")
-                 "Monarchy",        _("Duke"),         _("Duchess")
-                 "Republic",        _("Captain"),      _("?female:Captain")
-               }
 
 init_techs=""
 init_buildings=""

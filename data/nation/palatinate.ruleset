@@ -23,16 +23,17 @@ leaders = {
  "Elisabeth Charlotte",		"female"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Count Palatine %s"), _("Countess Palatine %s")
+ "Fundamentalism",  _("Prince-Bishop %s"),  _("Mother Superior %s")
+ "Monarchy",        _("Elector %s"),        _("Electress %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag="palatinate"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",          "female_title"
-                 "Despotism",       _("Count Palatine"), _("Countess Palatine")
-                 "Fundamentalism",  _("Prince-Bishop"),  _("Mother Superior")
-                 "Monarchy",        _("Elector"),        _("Electress")
-                 "Republic",        _("Minister-President"), _("?female:Minister-President")
-               }
 
 init_techs=""
 init_buildings=""

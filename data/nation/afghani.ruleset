@@ -19,17 +19,18 @@ leaders = {
  "Daoud Khan",          "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Monarchy",        _("Emir %s"),          _("Emira %s")
+ "Republic",        _("Padishah %s"),      _("?female:Padishah %s")
+ "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
+ "Fundamentalism",  _("Mullah %s"),        _("?female:Mullah %s")
+ "Democracy",       _("Prime Minister %s"),_("?female:Prime Minister %s")
+}
+
 flag="afghanistan"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",       "female_title"
-                "Monarchy",        _("Emir"),          _("Emira")
-                "Republic",        _("Padishah"),     _("?female:Padishah")
-                "Communism",   _("General Secretary"), _("?female:General Secretary")
-                "Fundamentalism",  _("Mullah"),        _("?female:Mullah")
-                "Democracy", _("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

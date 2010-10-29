@@ -370,8 +370,7 @@ void update_intel_dialog(struct player *p)
 
         switch (i) {
         case LABEL_RULER:
-          fc_snprintf(buf, sizeof(buf), "%s %s",
-                      ruler_title_translation(p), player_name(p));
+          ruler_title_for_player(p, buf, sizeof(buf));
           break;
         case LABEL_GOVERNMENT:
           sz_strlcpy(buf, government_name_for_player(p));

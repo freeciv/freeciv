@@ -19,6 +19,13 @@ leaders = {
  "Elisabeth",   "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism",  _("Bishop %s"),         _("Mother Superior %s")
+ "Republic",        _("Stadtholder %s"),    _("Stadtholdress %s")
+}
+
 flag="belgium"
 flag_alt = "-"
 city_style = "Celtic"
@@ -29,12 +36,6 @@ init_government="Despotism"
 init_units=""
 conflicts_with="flemish", "walloon"
 civilwar_nations="flemish", "walloon", "congolese"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",       _("Prime Minister"), _("?female:Prime Minister")
-                 "Fundamentalism",  _("Bishop"),         _("Mother Superior")
-                 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
-               }
 
 ; Alternating Flemish and Walloon names
 cities =

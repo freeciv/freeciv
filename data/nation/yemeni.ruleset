@@ -17,14 +17,15 @@ leaders = {
  "Ali Abdullah Saleh",          "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
+ "Fundamentalism",  _("Imam %s"),          _("Imama %s")
+}
+
 flag="yemen"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",           "female_title"
-                 "Communism",       _("General Secretary"), _("?female:General Secretary")
-                 "Fundamentalism",  _("Imam"),              _("Imama")
-               }
 
 init_techs=""
 init_buildings=""

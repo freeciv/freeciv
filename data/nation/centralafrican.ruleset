@@ -17,13 +17,14 @@ leaders=
  "Barthélemy Boganda",	"male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Emperor %s"),   _("Empress %s")
+}
+
 flag="car"
 flag_alt="-"
 city_style="Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-        	 "Monarchy",        _("Emperor"),      _("Empress")
-               }
 
 init_techs=""
 init_buildings=""

@@ -34,15 +34,16 @@ leaders = {
  "Mauricio Funes",                      "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("General %s"),     _("?female:General %s")
+ "Communism",       _("Comandante %s"),  _("Comandanta %s")
+ "Fundamentalism",  _("Archbishop %s"),  _("Mother Superior %s")
+}
+
 flag         = "el_salvador"
 flag_alt     = "-"
 city_style   = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("General"),     _("?female:General")
-                 "Communism",       _("Comandante"),  _("Comandanta")
-                 "Fundamentalism",  _("Archbishop"),  _("Mother Superior")
-               }
 
 init_techs=""
 init_buildings=""

@@ -25,17 +25,18 @@ leaders = {
  "Tecuichpo",                   "Female"
 }
 
+ruler_titles = {
+ "government",  "male_title",            "female_title"
+ ; /* TRANS: Tlahtoani = Speaker */
+ ; /* TRANS: Cihua = Female */
+ "Despotism",   _("Tlahtoani %s"),       _("Cihuatlahtoani %s")
+ ; /* TRANS: Hueyi  = Great */
+ "Monarchy",    _("Hueyi Tlahtoani %s"), _("Hueyi Cihuatlahtoani %s")
+} 
+
 flag="aztec"
 flag_alt = "mexico"	; Used previously
 city_style = "Tropical"
-
-ruler_titles = { "government",	"male_title",	"female_title"
-		 ; /* TRANS: Tlahtoani = Speaker */
-		 ; /* TRANS: Cihua = Female */
-		 "Despotism",	_("Tlahtoani"),  _("Cihuatlahtoani")
-		 ; /* TRANS: Hueyi  = Great */
-	         "Monarchy",	_("Hueyi Tlahtoani"), _("Hueyi Cihuatlahtoani")
-	       } 
 
 init_techs=""
 init_buildings=""

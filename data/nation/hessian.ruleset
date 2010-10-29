@@ -22,15 +22,16 @@ leaders = {
  "Ludwig X",                    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Landgrave %s"),   _("Landgravine %s")
+ "Monarchy",        _("Elector %s"),     _("Electress %s")
+ "Republic", _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag="hesse"
 flag_alt = "germany"
 city_style = "european"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Landgrave"),    _("Landgravine")
-		 "Monarchy", 	    _("Elector"),      _("Electress")
-		 "Republic", 	    _("Minister-President"),    _("?female:Minister-President")
-               }
 
 init_techs=""
 init_buildings=""

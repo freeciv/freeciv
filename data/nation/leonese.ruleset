@@ -17,13 +17,14 @@ leaders = {
  "José Eguiagaray",             "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",   "female_title"
+ "Fundamentalism", _("Bishop %s"), _("Mother Superior %s")
+}
+
 flag="leon"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government", "male_title", "female_title"
-		"Fundamentalism", _("Bishop"), _("Mother Superior")
-}
 
 init_techs=""
 init_buildings=""

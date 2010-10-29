@@ -15,13 +15,15 @@ leaders = {
  "Megas Alexandros",    "Male" ; Alexander the Great
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Despot %s"),         _("?female:Despot %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="greece_ancient"
 flag_alt = "greece"
 city_style = "Classical"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Despot"),       _("?female:Despot")
-                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

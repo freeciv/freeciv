@@ -24,14 +24,15 @@ leaders = {
  "Julia Pacata",        "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",       "female_title"
+ "Despotism",      _("Chieftain %s"),  _("?female:Chieftain %s")
+ "Fundamentalism", _("Druid %s"),      _("?female:Druid %s")
+} 
+
 flag="gaul"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",     "male_title",    "female_title"
-		 "Despotism",	   _("Chieftain"),  _("?female:Chieftain")
-		 "Fundamentalism", _("Druid"),      _("?female:Druid")
-	       } 
 
 init_techs=""
 init_buildings=""

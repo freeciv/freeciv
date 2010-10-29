@@ -19,13 +19,15 @@ leaders = {
  "Sergey Bagapsh",      "Male" ; Current president of Abkhazia
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Fundamentalism",  _("Imam %s"),      _("?female:Imam %s")
+}
+
 flag="abkhazia"
 flag_alt = "-"
 city_style = "Classical"
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Fundamentalism",  _("Imam"),         _("?female:Imam")
-               }
 
 init_techs=""
 init_buildings=""

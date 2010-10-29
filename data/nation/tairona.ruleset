@@ -21,11 +21,12 @@ leaders = {
  "Kunhwingumu",         "Male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Hankwa = Chief */
-"Despotism",       _("Hankwa"),        _("?female:Hankwa")
-"Monarchy",       _("Paramount Chief"),        _("?female:Paramount Chief")
-               }
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ ; /* TRANS: Hankwa = Chief */
+ "Despotism",       _("Hankwa %s"),          _("?female:Hankwa %s")
+ "Monarchy",        _("Paramount Chief %s"), _("?female:Paramount Chief %s")
+}
 
 flag         = "tairona"
 flag_alt     = "-"

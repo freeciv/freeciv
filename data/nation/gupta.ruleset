@@ -16,12 +16,13 @@ leaders = {
  "Chandra Gupta II",    "Male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",       _("Raja"),           _("Rani")
-                 "Monarchy",        _("Maharaja"),       _("Maharani")
-		 ; /* TRANS: Maharajadhiraja = Great King of Kings */
-                 "Democracy", _("Maharajadhiraja"), _("Maharanidhirani")
-               }
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Raja %s"),            _("Rani %s")
+ "Monarchy",        _("Maharaja %s"),        _("Maharani %s")
+ ; /* TRANS: Maharajadhiraja = Great King of Kings */
+ "Democracy",       _("Maharajadhiraja %s"), _("Maharanidhirani %s")
+}
 
 flag         = "gupta"
 flag_alt     = "-"

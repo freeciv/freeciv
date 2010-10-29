@@ -17,16 +17,17 @@ leaders = {
  "Ntombi",      "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",            "female_title"
+ ; /* TRANS: Ngwenyama/Indovuzaki = Lion/Elephant cow */
+ "Monarchy",       _("Ngwenyama %s"),       _("Indovuzaki %s")
+ "Republic",       _("Spokesman %s"),       _("Spokeswoman %s")
+ "Democracy",      _("Principal Chief %s"), _("?female:Principal Chief %s")
+}
+
 flag="swaziland"
 flag_alt = "rwanda"
 city_style = "Tropical"
-
-ruler_titles = { "government",     "male_title",        "female_title"
-		 ; /* TRANS: Ngwenyama/Indovuzaki = Lion/Elephant cow */
-                 "Monarchy",       _("Ngwenyama"),      _("Indovuzaki")
-                 "Republic",        _("Spokesman"),    _("Spokeswoman")
-                "Democracy",_("Principal Chief"),_("?female:Principal Chief")
-               }
 
 init_techs=""
 init_buildings=""

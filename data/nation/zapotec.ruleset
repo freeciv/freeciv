@@ -23,13 +23,14 @@ leaders = {
  "Heliodoro Charis",    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Lord %s"),      _("Lady %s")
+}
+
 flag="zapotec"
 flag_alt = "mexico"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",         _("Lord"),      _("?female:Lady")
-}
 
 init_techs=""
 init_buildings=""

@@ -47,14 +47,15 @@ leaders = {
  "Messalina",           "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Dictator %s"),  _("Dictatrix %s")
+ "Monarchy",        _("Imperator %s"), _("Imperatrix %s")
+}
+
 flag = "rome"
 flag_alt = "italy"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Dictator"),     _("Dictatrix")
-                 "Monarchy",        _("Imperator"),    _("Imperatrix")
-}
 
 init_techs=""
 init_buildings=""

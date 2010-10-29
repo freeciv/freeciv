@@ -26,15 +26,16 @@ leaders = {
  "Juan de Padilla",             "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",     "female_title"
+ "Despotism",      _("Count %s"),    _("Countess %s")
+ "Fundamentalism", _("Cardinal %s"), _("?female:Cardinal %s")
+ "Republic",       _("Comunero %s"), _("Comunera %s")
+}
+
 flag="castile"
 flag_alt = "spain"
 city_style = "European"
-
-ruler_titles = { "government", "male_title", "female_title"
-		"Despotism", _("Count"), _("Countess")
-		"Fundamentalism", _("Cardinal"), _("?female:Cardinal")
-		"Republic", _("Comunero"), _("Comunera")
-}
 
 init_techs=""
 init_buildings=""

@@ -25,11 +25,12 @@ flag= "tannu_tuva"
 flag_alt = "-" 
 city_style = "Celtic" 
 
-ruler_titles = { "government",      "male_title",        "female_title"
-	         "Communism",     _("Chairman"),       _("Chairwoman")
-                 "Despotism",     _("Khan"),           _("?female:Khan")
-                 "Monarchy",      _("Great Khan"),     _("?female:Great Khan")
-                 "Fundamentalism", _("Great Shaman"),  _("Great Shaman")  
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Communism",       _("Chairman %s"),     _("Chairwoman %s")
+ "Despotism",       _("%s Khan"),         _("%s Khatan")
+ "Monarchy",        _("%s Khagan"),       _("?female:%s Khagan")
+ "Fundamentalism",  _("Great Shaman %s"), _("Great Shaman %s")
 } 
 
 init_techs="" 

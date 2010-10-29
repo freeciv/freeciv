@@ -21,17 +21,18 @@ leaders = {
 "Theodor Steltzer",	"male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("%s Jarl"),         _("?female:%s Jarl")
+ "Fundamentalism",  _("Bishop %s"),       _("?female:Bishop %s")
+ "Monarchy",        _("Duke %s"),         _("Duchess %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="schleswig-holstein" 
 flag_alt = "-" 
 city_style = "european" 
-
-ruler_titles = { "government",      "male_title",         "female_title"
-                 "Despotism",       _("Jarl"),            _("?female:Jarl")
-                 "Fundamentalism",  _("Bishop"),          _("?female:Bishop")
-                 "Monarchy",        _("Duke"),            _("Duchess")
-                 "Republic",        _("Minister-President"), _("?female:Minister-President")
-               }
 
 init_techs="" 
 init_buildings="" 

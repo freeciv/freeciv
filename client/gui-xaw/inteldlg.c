@@ -174,7 +174,7 @@ void close_intel_dialog(struct player *p)
 *****************************************************************/
 void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 {
-  char buf[64];
+  char buf[4 * MAX_LEN_NAME], plr_buf[4 * MAX_LEN_NAME];
   struct city *pcity;
 
   static char *tech_list_names_ptrs[A_LAST+1];
@@ -204,9 +204,9 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 						     XtNlabel, buf,
 						     NULL));
 
-  fc_snprintf(buf, sizeof(buf), _("Ruler: %s %s"),
-	      ruler_title_translation(pdialog->pplayer),
-	      player_name(pdialog->pplayer));
+  fc_snprintf(buf, sizeof(buf), _("Ruler: %s"),
+              ruler_title_for_player(pdialog->pplayer,
+                                     plr_buf, sizeof(plr_buf)));
   XtVaCreateManagedWidget("intelnamelabel",
 			  labelWidgetClass,
 			  pdialog->intel_form,
@@ -420,7 +420,7 @@ void popdown_intel_diplo_dialog(struct intel_dialog *pdialog)
 *****************************************************************/
 void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
 {
-  char buf[64];
+  char buf[4 * MAX_LEN_NAME], plr_buf[4 * MAX_LEN_NAME];
 
   pdialog->intel_diplo_dialog_shell_is_raised = raise;
 
@@ -446,10 +446,10 @@ void create_intel_diplo_dialog(struct intel_dialog *pdialog, bool raise)
 				pdialog->intel_diplo_form,
 				XtNlabel, buf,
 				NULL));
-   
-  fc_snprintf(buf, sizeof(buf), _("Ruler: %s %s"), 
-	      ruler_title_translation(pdialog->pplayer),
-	      player_name(pdialog->pplayer));
+
+  fc_snprintf(buf, sizeof(buf), _("Ruler: %s"),
+              ruler_title_for_player(pdialog->pplayer,
+                                     plr_buf, sizeof(plr_buf)));
   XtVaCreateManagedWidget("inteldiplonamelabel", 
 			  labelWidgetClass, 
 			  pdialog->intel_diplo_form, 

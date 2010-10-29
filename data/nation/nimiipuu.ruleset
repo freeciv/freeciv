@@ -62,14 +62,15 @@ leaders = {
  "Rebecca Miles",               "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Monarchy",        _("Great Chief %s"),  _("?female:Great Chief %s")
+ "Democracy",       _("Chairman %s"),     _("Chairwoman %s")
+}
+
 flag="nez_perce"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-		 "Monarchy", 	    _("Great Chief"),  _("?female:Great Chief")
-                 "Democracy",       _("Chairman"),     _("Chairwoman")
-	       }
 
 init_techs=""
 init_buildings=""

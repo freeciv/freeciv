@@ -25,10 +25,11 @@ leaders = {
  "Kayagge",                     "Female"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Mwami/Mwamikazi = King/Queen */
-                 "Monarchy",        _("Mwami"),          _("Mwamikazi")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Mwami/Mwamikazi = King/Queen */
+ "Monarchy",        _("Mwami %s"),       _("Mwamikazi %s")
+}
 
 flag         = "burundi"
 flag_alt     = "-"

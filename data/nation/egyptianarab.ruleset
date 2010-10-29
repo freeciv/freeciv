@@ -20,16 +20,17 @@ leaders = {
  "Hosni Mubarak",       "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Communism",       _("Chairman %s"),       _("Chairwoman %s")
+ "Despotism",       _("Sultan %s"),         _("Sultana %s")
+ "Fundamentalism",  _("Caliph %s"),         _("Calipha %s")
+ "Republic",        _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="egypt"
 flag_alt = "egypt_ancient"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Communism",       _("Chairman"),     _("Chairwoman")
-                 "Despotism",       _("Sultan"),       _("Sultana")
-                 "Fundamentalism",  _("Caliph"),       _("Calipha")
-                 "Republic",        _("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

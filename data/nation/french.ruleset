@@ -20,15 +20,16 @@ leaders = {
  "Jeanne d'Arc",        "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Chieftain %s"),    _("?female:Chieftain %s")
+ "Democracy",       _("Premier %s"),      _("?female:Premier %s")
+ "Fundamentalism",  _("Archbishop %s"),   _("?female:Archbishop %s")
+}
+
 flag="france"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chieftain"),    _("?female:Chieftain")
-                 "Democracy",       _("Premier"),      _("?female:Premier")
-                 "Fundamentalism",  _("Archbishop"),  _("?female:Archbishop")
-	       }
 
 init_techs=""
 init_buildings=""

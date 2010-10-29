@@ -2246,3 +2246,78 @@ int fc_snprintcf(char *buf, size_t buf_len, const char *format, ...)
 
   return fc_vsnprintcf(buf, buf_len, format, sequences, sequences_num);
 }
+
+/****************************************************************************
+  Extract the sequences of a format. Returns the number of extracted
+  escapes.
+****************************************************************************/
+static size_t extract_escapes(const char *format, char *escapes,
+                              size_t max_escapes)
+{
+  static const char format_escapes[] = {
+    '*', 'd', 'i', 'o', 'u', 'x', 'X', 'e', 'E', 'f',
+    'F', 'g', 'G', 'a', 'A', 'c', 's', 'p', 'n',
+  };
+  bool reordered = FALSE;
+  size_t num = 0;
+  int index = 0;
+
+  memset(escapes, 0, max_escapes);
+  format = strchr(format, '%');
+  while (NULL != format) {
+    format++;
+    if ('%' == *format) {
+      /* Double, not a sequence. */
+      continue;
+    } else if (fc_isdigit(*format)) {
+      const char *start = format;
+
+      do {
+        format++;
+      } while (fc_isdigit(*format));
+      if ('$' == *format) {
+        /* Strings are reordered. */
+        sscanf(start, "%d", &index);
+        reordered = TRUE;
+      }
+    }
+
+    while ('\0' != *format
+           && NULL == strchr(format_escapes, *format)) {
+      format++;
+    }
+    escapes[index] = *format;
+
+    /* Increase the read count. */
+    if (reordered) {
+      if (index > num) {
+        num = index;
+      }
+    } else {
+      index++;
+      num++;
+    }
+
+    if ('*' != *format) {
+      format = strchr(format, '%');
+    } /* else we didn't have found the real sequence. */
+  }
+  return num;
+}
+
+/****************************************************************************
+  Returns TRUE iff both formats are compatible (if 'format1' can be used
+  instead 'format2' and reciprocally).
+****************************************************************************/
+bool formats_match(const char *format1, const char *format2)
+{
+  char format1_escapes[256], format2_escapes[256];
+  size_t format1_escapes_num = extract_escapes(format1, format1_escapes,
+                                               sizeof(format1_escapes));
+  size_t format2_escapes_num = extract_escapes(format2, format2_escapes,
+                                               sizeof(format2_escapes));
+
+  return (format1_escapes_num == format2_escapes_num
+          && 0 == memcmp(format1_escapes, format2_escapes,
+                         format1_escapes_num));
+}

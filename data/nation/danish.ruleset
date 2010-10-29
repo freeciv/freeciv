@@ -30,12 +30,14 @@ leaders = {
  "Margrete I",          "Female"
 }
 
+ruler_titles = {
+ "government",   "male_title",           "female_title"
+ "Democracy",    _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="denmark"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy", _("Prime Minister"),_("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

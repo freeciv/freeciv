@@ -17,6 +17,11 @@ leaders = {
  "Eugen Bolz",                  "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Republic", _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag="wuerttemberg"
 flag_alt = "germany"
 city_style = "European"
@@ -25,10 +30,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("Minister-President"),      _("?female:Minister-President")
-}
 
 civilwar_nations = "badian", "bavarian", "franconian", "swiss"
 

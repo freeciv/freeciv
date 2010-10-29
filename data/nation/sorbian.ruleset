@@ -21,13 +21,16 @@ leaders = {
  "Stanisław Tilich",            "Male" ; prime minister of Saxony
 }
 
+ruler_titles = {
+ "government",     "male_title",       "female_title"
+ "Despotism",     _("Prince %s"),      _("Princess %s")
+ "Republic",      _("Burgomaster %s"), _("?female:Burgomaster %s")
+} 
+
 flag= "lusatia" 
 flag_alt = "-" 
 city_style = "Celtic" 
-ruler_titles = { "government",     "male_title",     "female_title"
-                  "Despotism",   _("Prince"),      _("?female:Princess")  
-                  "Republic",    _("Burgomaster"), _("?female:Burgomaster")  
-} 
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

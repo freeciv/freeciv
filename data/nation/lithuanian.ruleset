@@ -24,12 +24,14 @@ leaders = {
  "Emilija Pliaterytė",          "Female"
 }
 
+ruler_titles = {
+ "government",    "male_title",            "female_title"
+ "Monarchy",      _("Great Duke %s"),      _("Great Duchess %s")
+}
+
 flag="lithuania"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",         "female_title"
-                 "Monarchy",      _("Great Duke"),      _("Great Duchess")
-}
 
 init_techs=""
 init_buildings=""

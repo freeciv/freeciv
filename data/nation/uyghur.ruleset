@@ -23,14 +23,15 @@ leaders = {
  "Guyuk",               "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("%s Khan"),      _("%s Khatan")
+ "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
+}
+
 flag="uyghur"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Khan"),         _("Khatan")
-                 "Monarchy",        _("Great Khan"),   _("Great Khatan")
-               }
 
 init_techs=""
 init_buildings=""

@@ -19,17 +19,18 @@ leaders = {
  "Salawat Julajev",             "Male" ; Salavat Yulayev / Салауат Юлаев
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("%s Khan"),         _("%s Khansha")
+ "Monarchy",        _("Emir %s"),         _("Emira %s")
+ "Republic",        _("Sultan %s"),       _("Sultana %s")
+ "Communism",  _("General Secretary %s"), _("?female:General Secretary %s")
+ "Fundamentalism",  _("Imam %s"),         _("?female:Imam %s")
+}
+
 flag="bashkortostan"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Khan"),         _("Khansha")
-                 "Monarchy",        _("Emir"),         _("Emira")
-                 "Republic",        _("Sultan"),       _("Sultana")
-          "Communism", _("General Secretary"), _("?female:General Secretary")
-                 "Fundamentalism",  _("Imam"),         _("?female:Imam")
-               }
 
 init_techs=""
 init_buildings=""

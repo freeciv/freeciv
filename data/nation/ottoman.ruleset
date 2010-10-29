@@ -22,16 +22,17 @@ leaders = {
  "Kânûnî Sultân Süleyman",      "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("%s Bey"),          _("?female:%s Bey")
+ "Monarchy",        _("Hakan %s"),        _("?female:Hakan %s")
+ "Republic",        _("Padishah %s"),     _("?female:Padishah %s")
+ "Democracy",       _("Imperator %s"),    _("Imperatrix %s")
+}
+
 flag ="ottoman"
 flag_alt = "turkey"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Bey"),          _("?female:Bey")
-                 "Monarchy",        _("Hakan"),        _("?female:Hakan")
-                 "Republic",        _("Padishah"),     _("?female:Padishah")
-                 "Democracy",       _("Imperator"),    _("Imperatrix")
-               }
 
 init_techs=""
 init_buildings=""

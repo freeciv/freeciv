@@ -16,14 +16,14 @@ leaders = {
  "Oyibo Adinamadu",             "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",       "female_title"
+ "Republic",        _("Colonel %s"),    _("?female:Colonel %s")
+}
+
 flag="biafra"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",      _("Colonel"),    _("?female:Colonel")
-               }
-
 
 init_techs=""
 init_buildings=""

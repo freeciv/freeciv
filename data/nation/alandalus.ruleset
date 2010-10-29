@@ -26,17 +26,18 @@ leaders = {
  "Boabdil",                     "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Sheikh %s"),          _("Shaykha %s")
+ "Communism",       _("Caliph %s"),          _("Calipha %s")
+ "Monarchy",        _("Emir %s"),            _("Emira %s")
+ "Republic",        _("Sultan %s"),          _("Sultana %s")
+ "Democracy",       _("Amir Al-Muminin %s"), _("Amirat Al-Muminin %s")
+}
+
 flag="almohad"
 flag_alt = "morocco"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheikh"),       _("Shaykha")
-                 "Communism",       _("Caliph"),       _("Calipha")
-                 "Monarchy",        _("Emir"),         _("Emira")
-                 "Republic",        _("Sultan"),       _("Sultana")
-                 "Democracy",    _("Amir Al-Muminin"), _("Amirat Al-Muminin")
-               }
 
 
 init_techs=""

@@ -20,14 +20,15 @@ leaders = {
  "Gioacchino Murat",    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism",  _("Cardinal %s"),       _("Madre %s")
+}
+
 flag="naples"
 flag_alt = "sicily"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
-                 "Fundamentalism", _("Cardinal"),       _("Madre")
-}
 
 init_techs=""
 init_buildings=""

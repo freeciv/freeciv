@@ -34,17 +34,18 @@ leaders = {
                                          ; compare Yekaterinburg
 }
 
+; Alternative titles for an 'Imperial' Monarchy is Imperator/Imperatritsa
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Duke %s"),      _("Duchess %s")
+ "Monarchy",        _("Tsar %s"),      _("Tsaritsa %s")
+ "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
+}
+
 flag="russia"
 flag_alt = "-"
 city_style = "European"
-
-; Alternative titles for an 'Imperial' Monarchy is Imperator/Imperatritsa
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Duke"),         _("Duchess")
-                 "Monarchy",        _("Tsar"),         _("Tsaritsa")
-                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
-               }
 
 init_techs=""
 init_buildings=""

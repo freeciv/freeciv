@@ -25,16 +25,19 @@ leaders = {
  "Þeia",        "Male"
 }
 
+ruler_titles = {
+ "government",        "male_title",       "female_title"
+ "Despotism",         _("Reiks %s"),      _("?female:Reiks %s")
+ "Fundamentalism",    _("Presbyter %s"),  _("?female:Presbyter %s") 
+; /* TRANS: The first two characters in "Thiud" should be replaced by */
+; /* TRANS: U+00DE LATIN CAPITAL LETTER THORN if available in your charset. */
+ "Monarchy",          _("Thiud %s"),      _("Qens %s") 
+}
+
 flag= "valknut" 
 flag_alt = "-" 
 city_style = "Celtic" 
-ruler_titles = { "government",      "male_title",       "female_title"
-                 "Despotism",         _("Reiks"),      _("?female:Reiks")
-                 "Fundamentalism",    _("Presbyter"),  _("?female:Presbyter") 
-; /* TRANS: The first two characters in "Thiud" should be replaced by */
-; /* TRANS: U+00DE LATIN CAPITAL LETTER THORN if available in your charset. */
-                 "Monarchy",          _("Thiud"),      _("Qens") 
-              }
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

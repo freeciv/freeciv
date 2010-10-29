@@ -26,10 +26,11 @@ leaders = {
  "Hatuey",      "Male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Cacike = Chief */
-                 "Despotism",       _("Cacike"),         _("?female:Cacike")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Cacike = Chief */
+ "Despotism",       _("Cacike %s"),      _("?female:Cacike %s")
+}
 
 flag         = "taino"
 flag_alt     = "-"

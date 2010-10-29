@@ -30,14 +30,15 @@ leaders = {
  "Nariman Narimanov",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("%s Khan"),      _("%s Khatan")
+ "Monarchy",        _("%s Shah"),      _("%s Shahbanu")
+}
+
 flag="azerbaijan"
 flag_alt="-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Khan"),         _("Khatan")
-                 "Monarchy",        _("Shah"),         _("Shahbanu")
-               }
 
 init_techs=""
 init_buildings=""

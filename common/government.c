@@ -220,6 +220,81 @@ static void ruler_title_destroy(struct ruler_title *pruler_title)
 }
 
 /****************************************************************************
+  Return TRUE if the ruler title is valid.
+****************************************************************************/
+static bool ruler_title_check(const struct ruler_title *pruler_title)
+{
+  bool ret = TRUE;
+
+  if (!formats_match(rule_name(&pruler_title->male), "%s")) {
+    if (NULL != pruler_title->pnation) {
+      log_error("\"%s\" male ruler title for nation \"%s\" (nb %d) "
+                "is not a format. It should match \"%%s\"",
+                rule_name(&pruler_title->male),
+                nation_rule_name(pruler_title->pnation),
+                nation_number(pruler_title->pnation));
+    } else {
+      log_error("\"%s\" male ruler title is not a format. "
+                "It should match \"%%s\"",
+                rule_name(&pruler_title->male));
+    }
+    ret = FALSE;
+  }
+  if (!formats_match(rule_name(&pruler_title->female), "%s")) {
+    if (NULL != pruler_title->pnation) {
+      log_error("\"%s\" female ruler title for nation \"%s\" (nb %d) "
+                "is not a format. It should match \"%%s\"",
+                rule_name(&pruler_title->female),
+                nation_rule_name(pruler_title->pnation),
+                nation_number(pruler_title->pnation));
+    } else {
+      log_error("\"%s\" female ruler title is not a format. "
+                "It should match \"%%s\"",
+                rule_name(&pruler_title->female));
+    }
+    ret = FALSE;
+  }
+#ifdef ENABLE_NLS
+  if (rule_name(&pruler_title->male) != name_translation(&pruler_title->male)
+      && !formats_match(name_translation(&pruler_title->male), "%s")) {
+    if (NULL != pruler_title->pnation) {
+      log_error("Translation of \"%s\" male ruler title for nation \"%s\" "
+                "(nb %d) is not a format (\"%s\"). It should match \"%%s\"",
+                rule_name(&pruler_title->male),
+                nation_rule_name(pruler_title->pnation),
+                nation_number(pruler_title->pnation),
+                name_translation(&pruler_title->male));
+    } else {
+      log_error("Translation of \"%s\" male ruler title is not a format "
+                "(\"%s\"). It should match \"%%s\"",
+                rule_name(&pruler_title->male),
+                name_translation(&pruler_title->male));
+    }
+    ret = FALSE;
+  }
+  if (rule_name(&pruler_title->female)
+      != name_translation(&pruler_title->female)
+      && !formats_match(name_translation(&pruler_title->female), "%s")) {
+    if (NULL != pruler_title->pnation) {
+      log_error("Translation of \"%s\" female ruler title for nation \"%s\" "
+                "(nb %d) is not a format (\"%s\"). It should match \"%%s\"",
+                rule_name(&pruler_title->female),
+                nation_rule_name(pruler_title->pnation),
+                nation_number(pruler_title->pnation),
+                name_translation(&pruler_title->female));
+    } else {
+      log_error("Translation of \"%s\" female ruler title is not a format "
+                "(\"%s\"). It should match \"%%s\"",
+                rule_name(&pruler_title->female),
+                name_translation(&pruler_title->female));
+    }
+    ret = FALSE;
+  }
+#endif /* ENABLE_NLS */
+  return ret;
+}
+
+/****************************************************************************
   Add a new ruler title for the nation. Pass NULL for pnation for defining
   the default title.
 ****************************************************************************/
@@ -232,6 +307,11 @@ government_ruler_title_new(struct government *pgovern,
   struct ruler_title *pruler_title =
       ruler_title_new(pnation, ruler_male_title, ruler_female_title);
   void *ret;
+
+  if (!ruler_title_check(pruler_title)) {
+    ruler_title_destroy(pruler_title);
+    return NULL;
+  }
 
   if (NULL != pnation) {
     ret = hash_replace(pgovern->ruler_titles,
@@ -281,11 +361,15 @@ ruler_title_female_rule_name(const struct ruler_title *pruler_title)
 /****************************************************************************
   Return the ruler title of the player (translated).
 ****************************************************************************/
-const char *ruler_title_translation(const struct player *pplayer)
+const char *ruler_title_for_player(const struct player *pplayer,
+                                   char *buf, size_t buf_len)
 {
   const struct government *pgovern = government_of_player(pplayer);
   const struct nation_type *pnation = nation_of_player(pplayer);
   struct ruler_title *pruler_title;
+
+  fc_assert_ret_val(NULL != buf, NULL);
+  fc_assert_ret_val(0 < buf_len, NULL);
 
   /* Try specific nation rule title. */
   pruler_title = hash_lookup_data(pgovern->ruler_titles,
@@ -302,11 +386,20 @@ const char *ruler_title_translation(const struct player *pplayer)
               "nation \"%s\" (nb %d).",
               government_rule_name(pgovern), government_number(pgovern),
               nation_rule_name(pnation), nation_number(pnation));
-    return pplayer->is_male ? _("Mr.") : _("Ms.");
+    if (pplayer->is_male) {
+      fc_snprintf(buf, buf_len, _("Mr. %s"), player_name(pplayer));
+    } else {
+      fc_snprintf(buf, buf_len, _("Ms. %s"), player_name(pplayer));
+    }
+  } else {
+    fc_snprintf(buf, buf_len,
+                name_translation(pplayer->is_male
+                                 ? &pruler_title->male
+                                 : &pruler_title->female),
+                player_name(pplayer));
   }
 
-  return name_translation(pplayer->is_male ? &pruler_title->male
-                          : &pruler_title->female);
+  return buf;
 }
 
 

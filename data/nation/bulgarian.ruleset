@@ -25,15 +25,16 @@ leaders = {
  "Alexander I Battemberg",      "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Monarchy",        _("Tsar %s"),         _("Tsaritsa %s")
+ "Communism",       _("Drugariat %s"),    _("Drugarkata %s")
+ "Fundamentalism",  _("Patriarch %s"),    _("Sveta Maika %s")
+}
+
 flag="bulgaria"
 flag_alt = "-"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-        	 "Monarchy",        _("Tsar"),         _("Tsaritsa")
-		 "Communism",       _("Drugariat"),    _("Drugarkata")
-		 "Fundamentalism",  _("Patriarch"),    _("Sveta Maika")
-               }
 
 init_techs=""
 init_buildings=""

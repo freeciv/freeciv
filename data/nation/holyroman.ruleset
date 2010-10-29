@@ -26,14 +26,16 @@ leaders = {
  "Franciscus II",               "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",       "female_title"
+ "Republic",       _("Chancellor %s"),  _("?female:Chancellor %s") 
+ "Fundamentalism", _("Pope %s"),        _("?female:Popess %s")
+ "Monarchy",       _("Emperor %s"),     _("?female:Empress %s")
+}
+
 flag         = "hre"
 flag_alt     = "germany"
 city_style   = "European"
-ruler_titles = { "government",      "male_title",       "female_title"
-                 "Republic",       _("Chancellor"),     _("?female:Chancellor") 
-                 "Fundamentalism", _("Pope"),   _("?female:Popess")
-                "Monarchy",_("Emperor"),_("?female:Empress")
-               }
 
 init_techs = ""
 init_buildings=""

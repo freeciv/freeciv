@@ -16,11 +16,12 @@ leaders = {
  "Ominayak",    "Male"
 }
 
-ruler_titles = { "government",      "male_title",      "female_title"
-		 ; /* TRANS: Uchimaahkaan = Chief */
-		 ; /* TRANS: Uchimaahkaaniskweu = Chief's wife */
-                 "Despotism",       _("Uchimaahkaan"),_("Uchimaahkaaniskweu")
-               }
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ ; /* TRANS: Uchimaahkaan = Chief */
+ ; /* TRANS: Uchimaahkaaniskweu = Chief's wife */
+ "Despotism",       _("Uchimaahkaan %s"), _("Uchimaahkaaniskweu %s")
+}
 
 flag="innu"
 flag_alt = "-"

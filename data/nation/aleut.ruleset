@@ -18,13 +18,15 @@ leaders = {
  "Igadik",              "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",     "female_title"
+ "Despotism",      _("Sukaskiq %s"), _("?female:Sukaskiq %s")
+ "Fundamentalism", _("Shaman %s"),   _("?female:Shaman %s")
+}
+
 flag="aleut" 
 flag_alt = "-" 
 city_style = "celtic" 
-ruler_titles = { "government", "male_title", "female_title" 
-"Despotism", _("Sukaskiq"), _("Sukaskiq") 
-"Fundamentalism", _("Shaman"), _("?female:Shaman") 
-} 
 
 init_techs="" 
 init_buildings="" 

@@ -16,15 +16,16 @@ leaders = {
  "Abdul Razak",         "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Monarchy",        _("Sultan %s"),         _("Sultana %s")
+ "Republic",        _("Tun %s"),            _("?female:Tun %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag = "malaysia"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Sultan"),       _("Sultana")
-                 "Republic",        _("Tun"),          _("?female:Tun")
-                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-               }
 
 init_techs = ""
 init_buildings = ""

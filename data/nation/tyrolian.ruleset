@@ -17,16 +17,17 @@ leaders = {
  "Silvius Magnago",             "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",      _("Bailiff %s"),         _("?female:Bailiff %s")
+ "Fundamentalism", _("Prince-Bishop %s"),   _("Princess-Bishop %s")
+ "Monarchy",       _("Count %s"),           _("Countess %s")
+ "Republic",       _("Landeshauptmann %s"), _("Landeshauptfrau %s")
+}
+
 flag="tyrol"
 flag_alt = "austria"
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-		 "Despotism",      _("Bailiff"),         _("?female:Bailiff")
-                 "Fundamentalism", _("Prince-Bishop"),   _("Princess-Bishop")
-                 "Monarchy",       _("Count"),           _("Countess")
-                 "Republic",       _("Landeshauptmann"), _("Landeshauptfrau")
-               }
 
 init_techs=""
 init_buildings=""

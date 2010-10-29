@@ -21,14 +21,15 @@ leaders = {
  "António de Oliveira Salazar", "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Viscount %s"),       _("Viscountess %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="portugal"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Viscount"),     _("Viscountess")
-                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-}
 
 init_techs=""
 init_buildings=""

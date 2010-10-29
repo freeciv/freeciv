@@ -32,10 +32,11 @@ leaders = {
  "Erendirha",           "Female" ; Eréndira
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Kasonsi = King */
-                 "Monarchy",       _("Kasonsi"),         _("?female:Kasonsi")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Kasonsi = King */
+ "Monarchy",        _("Kasonsi %s"),     _("?female:Kasonsi %s")
+}
 
 flag="purhepecha"
 flag_alt = "-"

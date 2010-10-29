@@ -27,14 +27,15 @@ leaders = {
  "Sher Singh Attariwalla",      "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Fundamentalism",  _("Guru %s"),      _("?female:Guru %s")
+ "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
+}
+
 flag = "sikh"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Fundamentalism",  _("Guru"),           _("?female:Guru")
-                 "Monarchy",        _("Maharaja"),     _("Maharani")
-               }
 
 init_techs=""
 init_buildings=""

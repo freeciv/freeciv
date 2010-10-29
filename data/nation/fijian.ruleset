@@ -19,15 +19,16 @@ leaders = {
  "Sitiveni Rabuka",             "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Ratu %s"),            _("Adi %s")
+ "Monarchy",        _("Paramount Chief %s"), _("?female:Paramount Chief %s")
+ "Republic",        _("Prime Minister %s"),  _("?female:Prime Minister %s")
+}
+
 flag="fiji"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
- "Despotism",       _("Ratu"),      	  _("Adi")
- "Monarchy",        _("Paramount Chief"), _("?female:Paramount Chief")
- "Republic",        _("Prime Minister"),  _("?female:Prime Minister")
-               }
 
 init_techs=""
 init_buildings=""

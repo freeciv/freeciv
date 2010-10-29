@@ -20,14 +20,15 @@ leaders = {
  "Portia Simpson-Miller",       "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",            "female_title"
+ "Democracy",      _("Prime Minister %s"),  _("?female:Prime Minister %s")
+ "Fundamentalism", _("Rasta %s"),           _("?female:Rasta %s")
+}
+
 flag="jamaica"
 flag_alt = "-"
 city_style = "Tropical"
-
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Democracy",      _("Prime Minister"),  _("?female:Prime Minister")
-                 "Fundamentalism", _("Rasta"),           _("?female:Rasta")
-               }
 
 init_techs=""
 init_buildings=""

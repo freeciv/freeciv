@@ -26,12 +26,13 @@ leaders = {
  "Peter II",			"male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",      _("Count"),          _("Countess")
-                 "Fundamentalism", _("Bishop"),         _("?female:Bishop")
-                 "Monarchy",       _("Grand Duke"),     _("Grand Duchess")
-                 "Republic",       _("Minister-President"), _("?female:Minister-President")
-               }
+ruler_titles = {
+ "government",     "male_title",          "female_title"
+ "Despotism",      _("Count %s"),         _("Countess %s")
+ "Fundamentalism", _("Bishop %s"),        _("?female:Bishop %s")
+ "Monarchy",       _("Grand Duke %s"),    _("Grand Duchess %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
 
 flag="oldenburg"
 flag_alt = "-"

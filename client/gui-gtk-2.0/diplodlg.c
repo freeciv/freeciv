@@ -494,7 +494,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   GtkCellRenderer *rend;
 
   struct Diplomacy_dialog *pdialog;
-  char buf[256];
+  char buf[256], plr_buf[4 * MAX_LEN_NAME];
 
   pdialog = fc_malloc(sizeof(*pdialog));
 
@@ -580,8 +580,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   fc_snprintf(buf, sizeof(buf),
-              "<span size=\"large\" weight=\"bold\">%s %s</span>",
-              ruler_title_translation(plr0), player_name(plr0));
+              "<span size=\"large\" weight=\"bold\">%s</span>",
+              ruler_title_for_player(plr0, plr_buf, sizeof(plr_buf)));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
@@ -652,8 +652,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   fc_snprintf(buf, sizeof(buf),
-              "<span size=\"large\" weight=\"bold\">%s %s</span>",
-              ruler_title_translation(plr1), player_name(plr1));
+              "<span size=\"large\" weight=\"bold\">%s</span>",
+              ruler_title_for_player(plr1, plr_buf, sizeof(plr_buf)));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 

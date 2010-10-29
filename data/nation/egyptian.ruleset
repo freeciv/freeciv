@@ -20,14 +20,15 @@ leaders = {
  "Akhenaten",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Despotism",       _("Pharaoh %s"),       _("?female:Pharaoh %s")
+ "Monarchy",        _("Great Pharaoh %s"), _("?female:Great Pharaoh %s")
+}
+
 flag="egypt_ancient"
 flag_alt = "egypt"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Pharaoh"),       _("?female:Pharaoh")
-                 "Monarchy",   _("Great Pharaoh"), _("?female:Great Pharaoh")
-               }
 
 init_techs=""
 init_buildings=""

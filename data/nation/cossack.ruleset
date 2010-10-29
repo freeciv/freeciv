@@ -24,15 +24,18 @@ leaders = {
  "Yemelyan Pugachev",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Democracy",      _("Ataman %s"),     _("?female:Ataman %s")
+ "Monarchy",       _("Prince %s"),     _("Princess %s")
+ "Fundamentalism", _("Patriarch %s"),  _("Matriarch %s")
+ "Republic",       _("Hetman %s"),     _("?female:Hetman %s")
+}
+
 flag= "cossack" 
 flag_alt = "-" 
 city_style = "Celtic" 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",      _("Ataman"),       _("?female:Ataman")
-                 "Monarchy",       _("Prince"),       _("Princess")
-                 "Fundamentalism", _("Patriarch"),    _("Matriarch")
-                 "Republic",       _("Hetman"),       _("?female:Hetman")
-               }
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

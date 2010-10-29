@@ -26,17 +26,18 @@ leaders = {
  "Nicolae Ceausescu",   "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ ; /* TRANS: Voievod/Doamna = Prince/Lady */
+ "Despotism",       _("Voievod %s"),   _("Doamna %s")
+ ; /* TRANS: Tovaras/Tovarasa = Comrade */
+ "Communism",       _("Tovaras %s"),   _("Tovarasa %s")
+ "Fundamentalism",_("Director-President %s"),_("?female:Director-President %s")
+}
+
 flag="romania"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-		 ; /* TRANS: Voievod/Doamna = Prince/Lady */
-                 "Despotism",       _("Voievod"),     	_("Doamna")
-		 ; /* TRANS: Tovaras/Tovarasa = Comrade */
-                 "Communism",       _("Tovaras"),     	_("Tovarasa")
-           "Fundamentalism", _("Director-President"), _("Director-President")
-               }
 
 init_techs=""
 init_buildings=""

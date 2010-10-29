@@ -16,13 +16,14 @@ leaders = {
  "Sa'n Teni",           "Male"
 }
 
+ruler_titles = {
+ "government", "male_title",   "female_title"
+ "Despotism",  _("Saqmaw %s"), _("?female:Saqmaw %s")
+}
+
 flag = "mikmaq" 
 flag_alt = "-" 
 city_style = "Celtic" 
-
-ruler_titles = { "government", "male_title", "female_title" 
-"Despotism",_("Saqmaw"), _("?female:Saqmaw") 
-} 
 
 init_techs="" 
 init_buildings="" 

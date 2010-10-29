@@ -16,16 +16,17 @@ leaders = {
  "Mohammad Boudiaff",   "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Sheik %s"),     _("Shaykha %s")
+ "Monarchy",        _("Malik %s"),     _("Malika %s")
+ "Republic",        _("%s Dey"),       _("?female:%s Dey")
+ "Communism",       _("Caliph %s"),    _("Calipha %s")
+}
+
 flag="algeria"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheik"),		_("Shaykha")
-                 "Monarchy",        _("Malik"),		_("Malika")
-                 "Republic",        _("Dey"),		_("?female:Dey")
-                 "Communism",       _("Caliph"),	_("Calipha")
-               }
 
 init_techs=""
 init_buildings=""

@@ -16,14 +16,15 @@ leaders = {
  "Eva Aariak",          "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Shaman %s"),        _("?female:Shaman %s")
+ "Monarchy",        _("Great Shaman %s"),  _("?female:Great Shaman %s")
+}
+
 flag="nunavut"
 flag_alt = "greenland" ; used previously
 city_style = "European"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Shaman"),        _("?female:Shaman")
-                 "Monarchy",    _("Great Shaman"),  _("?female:Great Shaman")
-               }
 
 init_techs=""
 init_buildings=""

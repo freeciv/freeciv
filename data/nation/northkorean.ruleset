@@ -18,9 +18,10 @@ flag="north_korea"
 flag_alt = "-"
 city_style = "Asian"
 
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Communism",_("Great Leader"),_("?female:Great Leader")
-               }
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Communism",       _("Great Leader %s"), _("?female:Great Leader %s")
+}
 
 init_techs=""
 init_buildings=""

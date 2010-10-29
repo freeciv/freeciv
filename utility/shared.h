@@ -370,4 +370,6 @@ static inline struct cf_sequence cf_end(void)
   return sequence;
 }
 
+bool formats_match(const char *format1, const char *format2);
+
 #endif  /* FC__SHARED_H */

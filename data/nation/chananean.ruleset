@@ -27,13 +27,14 @@ leaders = {
  "Cerberus",    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Republic",        _("%s Alpha"),        _("?female:%s Alpha")
+}
+
 flag="chananea"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("Alpha"),        _("?female:Alpha")
-               }
 
 init_techs=""
 init_buildings=""

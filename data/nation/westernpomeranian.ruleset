@@ -24,14 +24,17 @@ leaders = {
  "Eryk II",             "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Prince %s"),       _("Princess %s")
+ "Fundamentalism",  _("Archbishop %s"),   _("?female:Archbishop %s")
+ "Monarchy",        _("Grand Prince %s"), _("Grand Princess %s")
+}
+
 flag = "pomerania"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Prince"),       _("Princess")
-                 "Fundamentalism",  _("Archbishop"),   _("?female:Archbishop")
-                 "Monarchy",        _("Grand Prince"), _("Grand Princess")
-               }
+
 init_techs=""
 init_buildings=""
 init_government="Despotism"

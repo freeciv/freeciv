@@ -17,13 +17,15 @@ leaders = {
  "Nookemis",    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ ; /* TRANS: Chaabat = Chief */
+ "Despotism",      _("Chaabat %s"),         _("?female:Chaabat %s")
+}
+
 flag         = "nuu-chah-nulth"
 flag_alt     = "-"
 city_style   = "Celtic"
-ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Chaabat = Chief */
-                 "Despotism",      _("Chaabat"),         _("?female:Chaabat")
-               }
 
 init_techs=""
 init_buildings=""

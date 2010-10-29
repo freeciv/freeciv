@@ -211,7 +211,7 @@ void update_intel_dialog(struct player *p)
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
-  char cBuf[256];
+  char cBuf[256], plr_buf[4 * MAX_LEN_NAME];
   int n = 0, count = 0, col;
   struct city *pCapital;
   SDL_Rect area;
@@ -300,29 +300,30 @@ void update_intel_dialog(struct player *p)
     case A_UNKNOWN:
     case A_UNSET:
       fc_snprintf(cBuf, sizeof(cBuf),
-        _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
-          " Science: %d%% Luxury: %d%%\nResearching: unknown"),
-        ruler_title_translation(p),
-        player_name(p),
-        government_name_for_player(p),
-        /* TRANS: "unknown" location */
-        (!pCapital) ? _("(unknown)") : city_name(pCapital),
-        p->economic.gold,
-        p->economic.tax, p->economic.science, p->economic.luxury);
+                  _("Ruler: %s  Government: %s\n"
+                    "Capital: %s  Gold: %d\n"
+                    "Tax: %d%% Science: %d%% Luxury: %d%%\n"
+                    "Researching: unknown"),
+                  ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
+                  government_name_for_player(p),
+                  /* TRANS: "unknown" location */
+                  NULL != pCapital ? city_name(pCapital) : _("(unknown)"),
+                  p->economic.gold, p->economic.tax,
+                  p->economic.science, p->economic.luxury);
       break;
     default:
       fc_snprintf(cBuf, sizeof(cBuf),
-        _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
-          " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
-        ruler_title_translation(p),
-        player_name(p),
-        government_name_for_player(p),
-        /* TRANS: "unknown" location */
-        (!pCapital) ? _("(unknown)") : city_name(pCapital),
-        p->economic.gold,
-        p->economic.tax, p->economic.science, p->economic.luxury,
-        advance_name_researching(p),
-        research->bulbs_researched, total_bulbs_required(p));
+                  _("Ruler: %s  Government: %s\n"
+                    "Capital: %s  Gold: %d\n"
+                    "Tax: %d%% Science: %d%% Luxury: %d%%\n"
+                    "Researching: %s(%d/%d)"),
+                  ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
+                  government_name_for_player(p),
+                  /* TRANS: "unknown" location */
+                  NULL != pCapital ? city_name(pCapital) : _("(unknown)"),
+                  p->economic.gold, p->economic.tax, p->economic.science,
+                  p->economic.luxury, advance_name_researching(p),
+                  research->bulbs_researched, total_bulbs_required(p));
       break;
     };
     

@@ -21,15 +21,16 @@ leaders = {
  "Iseabail Ní Mheic Cailéin",   "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("High King %s"), _("High Queen %s")
+ "Fundamentalism",  _("Druid %s"),     _("?female:Druid %s")
+ "Democracy",       _("Taoiseach %s"), _("?female:Taoiseach %s")
+}
+
 flag="gael"
 flag_alt = "stpatrick"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("High King"),    _("High Queen")
-                 "Fundamentalism",  _("Druid"),   _("?female:Druid")
-                 "Democracy",       _("Taoiseach"),    _("?female:Taoiseach")
-               }
 
 init_techs=""
 init_buildings=""

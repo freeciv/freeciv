@@ -25,15 +25,15 @@ leaders = {
  "Ramiz Alia",                  "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Prince %s"),          _("Princess %s")
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+}
+
 flag="albania"
 flag_alt = "-"
 city_style = "European"
-
-
-ruler_titles = { "government",      "male_title",      "female_title"
-"Despotism",       _("Prince"),         _("Princess")
-"Communism",  _("First Secretary"),    _("?female:First Secretary")
-               }
 
 init_techs=""
 init_buildings=""

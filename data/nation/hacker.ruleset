@@ -30,14 +30,15 @@ leaders = {
  "Niklaus Wirth",       "Male"
 }
 
+ruler_titles = {
+ "government",     "male_title",        "female_title"
+ "Despotism",      _("?title:Hacker %s"),  _("?female:Hacker %s")
+ "Monarchy",       _("?title:1337 %s"),    _("?female:1337 %s")
+}
+
 flag="hacker"
 flag_alt = "-"
 city_style = "Classical"
-
-ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("?title:Hacker"),  _("?female:Hacker")
-                 "Monarchy",       _("?title:1337"),    _("?female:1337")
-               }
 
 init_techs=""
 init_buildings=""

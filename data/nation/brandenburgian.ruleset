@@ -21,17 +21,18 @@ leaders = {
 "Albrecht Friedrich",	"male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+ "Despotism",       _("Margrave %s"),        _("Margravine %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("Mother Superior %s")
+ "Monarchy",        _("Elector %s"),         _("Electress %s")
+ "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+}
+
 flag="brandenburg" 
 flag_alt = "-" 
 city_style = "european" 
-
-ruler_titles = { "government",      "male_title",         "female_title"
-                 "Communism",       _("First Secretary"), _("?female:First Secretary")
-                 "Despotism",       _("Margrave"),        _("Margravine")
-                 "Fundamentalism",  _("Archbishop"),      _("Mother Superior")
-                 "Monarchy",        _("Elector"),         _("Electress")
-                 "Republic",        _("Minister-President"), _("?female:Minister-President")
-               }
 
 init_techs="" 
 init_buildings="" 

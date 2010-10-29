@@ -15,15 +15,16 @@ leaders = {
  "J.R. Jayewardene",    "Male"
 }
 
+ruler_titles = {
+ "government",   "male_title",             "female_title"
+ "Despotism",    _("Prince %s"),           _("Princess %s")
+ "Republic",     _("Governor %s"),         _("?female:Governor %s")
+ "Communism",    _("Supreme Commander %s"),_("?female:Supreme Commander %s")
+}
+
 flag="srilanka"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Prince"),       _("Princess")
-                 "Republic",        _("Governor"),     _("?female:Governor")
-            "Communism",_("Supreme Commander"),_("?female:Supreme Commander")
-               }
 
 init_techs=""
 init_buildings=""

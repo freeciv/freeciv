@@ -18,13 +18,15 @@ leaders = {
  "Roy Jenkins",                 "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Fundamentalism",  _("Pope %s"),         _("Popess %s")
+ "Democracy",       _("Commissioner %s"), _("?female:Commissioner %s")
+}
+
 flag="europe"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Fundamentalism",  _("Pope"),         _("Popess")
-                 "Democracy",  _("Commissioner"), _("?female:Commissioner")
-               }
 
 init_techs=""
 init_buildings=""

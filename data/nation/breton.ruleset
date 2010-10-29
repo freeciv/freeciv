@@ -28,14 +28,15 @@ leaders = {
 "Klaoda",       "Female"
 }
 
+ruler_titles = {
+ "government", "male_title", "female_title"
+ "Despotism",  _("Dug %s"),  _("Dugez %s")
+ "Monarchy",   _("Roue %s"), _("Rouanez %s")
+}
+
 flag = "brittany"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government", "male_title", "female_title"
-		"Despotism", _("Dug"), _("Dugez")
-		"Monarchy", _("Roue"), _("Rouanez")
-}
 
 init_techs=""
 init_buildings=""

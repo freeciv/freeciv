@@ -27,15 +27,16 @@ leaders = {
  "Mercedes Bresso",             "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",           "female_title"
+ "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Despotism",      _("Count %s"),          _("Countess %s")
+ "Fundamentalism", _("Fra %s"),            _("Madre %s")
+}
+
 flag = "piedmont"
 flag_alt = "italy"
 city_style = "European"
-
-ruler_titles = { "government",     "male_title",        "female_title"
-                 "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
-                 "Despotism",      _("Count"),          _("Countess")
-                 "Fundamentalism", _("Fra"),            _("Madre")
-               }
 
 init_techs=""
 init_buildings=""

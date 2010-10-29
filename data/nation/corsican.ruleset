@@ -27,13 +27,14 @@ leaders = {
  "Danielle Casanova",           "Female"
 }
 
+ruler_titles = {
+ "government",    "male_title",             "female_title"
+ "Republic",      _("General-in-Chief %s"), _("?female:General-in-Chief %s")
+}
+
 flag="corsica"
 flag_alt = "-"
 city_style = "Celtic"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-"Republic",        _("General-in-Chief"),      _("?female:General-in-Chief")
-               }
 
 init_techs=""
 init_buildings=""

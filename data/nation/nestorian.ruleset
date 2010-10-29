@@ -22,14 +22,15 @@ leaders = {
  "Feirefiz",            "Male" ; Father of John (von Eschenbach)
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Emperor %s"),   _("Empress %s")
+ "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
+}
+
 flag="nestoria"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Emperor"),      _("Empress")
-                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
-               }
 
 init_techs=""
 init_buildings=""

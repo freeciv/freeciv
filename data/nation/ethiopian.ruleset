@@ -18,13 +18,14 @@ leaders = {
  "Tewodros II",         "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",       "female_title"
+ "Monarchy",        _("Emperor %s"),    _("Empress %s")
+}
+
 flag="ethiopia"
 flag_alt = "italy"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",       "female_title"
-                 "Monarchy",       _("Emperor"),        _("Empress")
-               }
 
 init_techs=""
 init_buildings=""

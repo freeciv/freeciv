@@ -27,16 +27,17 @@ leaders = {
  "Yusof bin Ishak",     "Male"
 }
 
+ruler_titles = {
+ "government",  "male_title",           "female_title"
+ "Monarchy",    _("Sultan %s"),         _("Sultana %s")
+ ; /* TRANS: Encik = Sir */
+ "Communism",   _("Encik %s"),          _("?female:Encik %s")
+ "Democracy",   _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="singapore"
 flag_alt = "-"
 city_style = "Asian"
-
-ruler_titles = { "government",	"male_title",		"female_title"
-		 "Monarchy",	_("Sultan"),		_("Sultana")
-		 ; /* TRANS: Encik = Sir */
-		 "Communism",	_("Encik"),		_("?female:Encik")
-		 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
-}
 
 init_techs=""
 init_buildings=""

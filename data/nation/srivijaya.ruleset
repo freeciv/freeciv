@@ -20,10 +20,11 @@ leaders = {
  "Jayanasa",            "Male"
 }
 
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",       _("Datu"),           _("?female:Datu")
-                 "Monarchy",        _("Maharaja"),       _("Maharani")
-               }
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Datu %s"),        _("?female:Datu %s")
+ "Monarchy",        _("Maharaja %s"),    _("Maharani %s")
+}
 
 flag         = "srivijaya"
 flag_alt     = "-"

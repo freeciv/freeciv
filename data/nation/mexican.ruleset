@@ -45,16 +45,17 @@ leaders = {
  "José López Portillo",         "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",       "female_title"
+ "Communism",       _("Comandante %s"), _("Comandanta %s")
+ "Despotism",       _("General %s"),    _("?female:General %s")
+ "Fundamentalism",  _("Padre %s"),      _("Madre %s")
+ "Monarchy",        _("Emperor %s"),    _("Empress %s")
+}
+
 flag="mexico"
 flag_alt = "-"
 city_style = "Babylonian"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Communism",       _("Comandante"), _("Comandanta")
-                 "Despotism",       _("General"),    _("?female:General")
-                 "Fundamentalism",  _("Padre"),      _("Madre")
-                 "Monarchy",        _("Emperor"),    _("Empress")
-               }
 
 init_techs=""
 init_buildings=""

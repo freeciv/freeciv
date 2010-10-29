@@ -33,15 +33,18 @@ leaders = {
  "Egilona",             "Female" ; Egilona
 }
 
+ruler_titles = {
+ "government",      "male_title",       "female_title"
+ "Despotism",       _("Reiks %s"),      _("?female:Reiks %s")
+; /* TRANS: The first two characters in "Thiud" should be replaced by */
+; /* TRANS: U+00DE LATIN CAPITAL LETTER THORN if available in your charset. */
+ "Monarchy",        _("Thiud %s"),      _("Qens %s") 
+}
+
 flag= "visigoth" 
 flag_alt = "-" 
 city_style = "Celtic" 
-ruler_titles = { "government",      "male_title",       "female_title"
-                 "Despotism",         _("Reiks"),      _("?female:Reiks")
-; /* TRANS: The first two characters in "Thiud" should be replaced by */
-; /* TRANS: U+00DE LATIN CAPITAL LETTER THORN if available in your charset. */
-                 "Monarchy",          _("Thiud"),      _("Qens") 
-              }
+
 init_techs="" 
 init_buildings="" 
 init_government="Despotism" 

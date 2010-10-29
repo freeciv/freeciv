@@ -20,14 +20,15 @@ leaders = {
  "Sundiata Keita",      "Male" ; First Mansa of Mali empire
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ ; /* TRANS: Mansa = King of kings */
+ "Monarchy",        _("Mansa %s"),        _("?female:Mansa %s")
+}
+
 flag="mali_ancient"
 flag_alt = "mali"
 city_style = "Classical"
-
-ruler_titles = { "government",      "male_title",      "female_title"
-		 ; /* TRANS: Mansa = King of kings */
-                 "Monarchy",        _("Mansa"),        _("?female:Mansa")
-               }
 
 init_techs=""
 init_buildings=""

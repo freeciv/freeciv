@@ -25,15 +25,16 @@ leaders = {
  "Carlos Sansores Pérez",       "Male"
  "Ivonne Ortega",               "Female"
 }
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("Captain General %s"), _("?female:Captain General %s")
+ "Fundamentalism",  _("Bishop %s"),          _("Mother Superior %s")
+ "Republic",        _("Governor %s"),        _("?female:Governor %s")
+}
 
 flag="yucatan"
 flag_alt = "-"
 city_style = "Classical"
-ruler_titles = { "government",      "male_title",      "female_title"
- "Despotism",       _("Captain General"), _("?female:Captain General")
- "Fundamentalism",  _("Bishop"),          _("?female:Mother Superior")
- "Republic",        _("Governor"),        _("?female:Governor")
-               }
 
 init_techs=""
 init_buildings=""
