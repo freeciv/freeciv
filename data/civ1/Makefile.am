@@ -5,6 +5,7 @@ pkgdatadir = $(datadir)/$(PACKAGE)/civ1
 
 pkgdata_DATA =          \
 	buildings.ruleset \
+	cities.ruleset	\
 	effects.ruleset	\
 	game.ruleset	\
 	governments.ruleset \
