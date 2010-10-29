@@ -214,6 +214,7 @@ artists = "
    Macedonia		Sigge Kotliar
    Madagascar		Russell Cloran
    Majapahit		Dan Cottrell and Daniel Markstedt
+   Malawi		Zachary Harden
    Malaysia		Lauris Kaplinski
    Mali			J.M. Maalderink
    Mali (ancient)	Daniel Markstedt
@@ -607,6 +608,7 @@ sprites =
 		"f.macedonia", "flags/macedonia"
 		"f.madagascar", "flags/madagascar"
 		"f.majapahit", "flags/majapahit"
+		"f.malawi", "flags/malawi"
 		"f.malaysia", "flags/malaysia"
 		"f.mali", "flags/mali"
 		"f.mali_ancient", "flags/mali_ancient"

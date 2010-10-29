@@ -204,6 +204,7 @@ pkgdata_DATA = \
 		macedonian.ruleset \
 		majapahit.ruleset \
 		malagasy.ruleset \
+		malawian.ruleset \
 		malaysian.ruleset \
 		mali.ruleset \
 		malian.ruleset \

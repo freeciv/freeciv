@@ -207,6 +207,7 @@ flag_files =				\
 		macedonia.png		\
 		madagascar.png		\
 		majapahit.png		\
+		malawi.png		\
 		malaysia.png		\
 		mali.png		\
 		mali_ancient.png	\
@@ -596,6 +597,7 @@ shield_files =					\
 		macedonia-shield.png		\
 		madagascar-shield.png		\
 		majapahit-shield.png		\
+		malawi-shield.png		\
 		malaysia-shield.png		\
 		mali-shield.png			\
 		mali_ancient-shield.png		\
@@ -985,6 +987,7 @@ svg_files = 				\
 		macedonia.svg		\
 		madagascar.svg		\
 		majapahit.svg		\
+		malawi.svg		\
 		malaysia.svg		\
 		mali.svg		\
 		mali_ancient.svg	\

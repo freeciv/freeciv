@@ -253,6 +253,7 @@ match=2
 *include "nation/macedonian.ruleset"
 *include "nation/majapahit.ruleset"
 *include "nation/malagasy.ruleset"
+*include "nation/malawian.ruleset"
 *include "nation/malaysian.ruleset"
 *include "nation/mali.ruleset"
 *include "nation/malian.ruleset"
