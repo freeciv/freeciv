@@ -339,7 +339,7 @@ void real_menus_update(void)
       XtDestroyWidget(government_widgets[i]);
     }
     i = 0;
-    government_iterate(pgovernment) {
+    governments_iterate(pgovernment) {
       Widget w;
 
       if (pgovernment == game.government_during_revolution) {
@@ -355,7 +355,7 @@ void real_menus_update(void)
 
       government_widgets[i] = w;
       i++;
-    } government_iterate_end;
+    } governments_iterate_end;
     num_government_entries = i;
 
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITY_GROWTH,

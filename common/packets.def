@@ -1155,7 +1155,6 @@ end
 
 PACKET_RULESET_GOVERNMENT_RULER_TITLE = 143; sc, lsend
   GOVERNMENT gov;
-  UINT8 id;
   NATION nation;
   STRING male_title[MAX_LEN_NAME];
   STRING female_title[MAX_LEN_NAME];
@@ -1179,8 +1178,6 @@ PACKET_RULESET_GOVERNMENT = 145; sc, lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 
-  UINT8 num_ruler_titles;
-       
   STRING name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];

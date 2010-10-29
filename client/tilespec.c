@@ -999,9 +999,9 @@ void tilespec_reread(const char *new_tileset_name)
   unit_type_iterate(punittype) {
     tileset_setup_unit_type(tileset, punittype);
   } unit_type_iterate_end;
-  government_iterate(gov) {
+  governments_iterate(gov) {
     tileset_setup_government(tileset, gov);
-  } government_iterate_end;
+  } governments_iterate_end;
   base_type_iterate(pbase) {
     tileset_setup_base(tileset, pbase);
   } base_type_iterate_end;

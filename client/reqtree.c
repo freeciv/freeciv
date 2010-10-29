@@ -204,7 +204,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
       } improvement_iterate_end;
     
       /* governments */
-      government_iterate(gov) {
+      governments_iterate(gov) {
         requirement_vector_iterate(&(gov->reqs), preq) {
           if (VUT_ADVANCE == preq->source.kind
 	   && advance_number(preq->source.value.advance) == node->tech) {
@@ -214,7 +214,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
             icons_width_sum += swidth + 2;	    
 	  }
         } requirement_vector_iterate_end;
-      } government_iterate_end;
+      } governments_iterate_end;
     }
     
     *height += max_icon_height;
@@ -1091,7 +1091,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
  	    } requirement_vector_iterate_end;
           } improvement_iterate_end;
 
-          government_iterate(gov) {
+          governments_iterate(gov) {
             requirement_vector_iterate(&(gov->reqs), preq) {
               if (VUT_ADVANCE == preq->source.kind
                && advance_number(preq->source.value.advance) == node->tech) {
@@ -1105,7 +1105,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
  	        icon_startx += swidth + 2;
               }
             } requirement_vector_iterate_end;
-          } government_iterate_end;
+          } governments_iterate_end;
         }
       }
 

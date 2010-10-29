@@ -2777,14 +2777,9 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   }
   fc_assert(gov->reqs.size == p->reqs_count);
 
-  gov->num_ruler_titles    = p->num_ruler_titles;
-
   name_set(&gov->name, p->name);
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
-
-  gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
-				sizeof(struct ruler_title));
 
   PACKET_STRVEC_EXTRACT(gov->helptext, p->helptext);
 
@@ -2795,19 +2790,15 @@ void handle_ruleset_government(const struct packet_ruleset_government *p)
   Packet ruleset_government_ruler_title handler.
 ****************************************************************************/
 void handle_ruleset_government_ruler_title
-    (const struct packet_ruleset_government_ruler_title *p)
+    (const struct packet_ruleset_government_ruler_title *packet)
 {
-  struct government *gov = government_by_number(p->gov);
+  struct government *gov = government_by_number(packet->gov);
 
-  fc_assert_ret_msg(NULL != gov, "Bad government %d.", p->gov);
-  fc_assert_ret_msg(0 <= p->id && gov->num_ruler_titles > p->id,
-                    "Bad government ruler title %d for government \"%s\".",
-                    p->id, rule_name(&gov->name));
+  fc_assert_ret_msg(NULL != gov, "Bad government %d.", packet->gov);
 
-  gov->ruler_titles[p->id].nation = nation_by_number(p->nation);
-  /* government.c ruler_title_translation */
-  name_set(&gov->ruler_titles[p->id].male, p->male_title);
-  name_set(&gov->ruler_titles[p->id].female, p->female_title);
+  (void) government_ruler_title_new(gov, nation_by_number(packet->nation),
+                                    packet->male_title,
+                                    packet->female_title);
 }
 
 /****************************************************************************

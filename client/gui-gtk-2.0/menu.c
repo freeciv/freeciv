@@ -2203,7 +2203,7 @@ void real_menus_init(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     gtk_widget_show(item);
 
-    government_iterate(g) {
+    governments_iterate(g) {
       if (g != game.government_during_revolution) {
         fc_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
@@ -2221,7 +2221,7 @@ void real_menus_init(void)
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
       }
-    } government_iterate_end;
+    } governments_iterate_end;
   }
 
   if ((menu = find_action_menu(unit_group, "MENU_BUILD_BASE"))) {

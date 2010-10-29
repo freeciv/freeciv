@@ -2233,12 +2233,12 @@ static void load_government_names(struct section_file *file)
 
   /* Government names are needed early so that get_government_by_name will
    * work. */
-  government_iterate(gov) {
+  governments_iterate(gov) {
     const char *name = secfile_lookup_str(file, "%s.name",
         section_name(section_list_get(sec, government_index(gov))));
 
     name_set(&gov->name, name);
-  } government_iterate_end;
+  } governments_iterate_end;
   section_list_destroy(sec);
 }
 
@@ -2262,7 +2262,7 @@ static void load_ruleset_governments(struct section_file *file)
     government_number(game.government_during_revolution);
 
   /* easy ones: */
-  government_iterate(g) {
+  governments_iterate(g) {
     const int i = government_index(g);
     const char *sec_name = section_name(section_list_get(sec, i));
     struct requirement_vector *reqs =
@@ -2284,25 +2284,26 @@ static void load_ruleset_governments(struct section_file *file)
                secfile_lookup_str(file, "%s.graphic_alt", sec_name));
 
     g->helptext = lookup_strvec(file, sec_name, "helptext");
-  } government_iterate_end;
+  } governments_iterate_end;
 
-  
+
   /* titles */
-  government_iterate(g) {
-    struct ruler_title *title;
-    const int i = government_index(g);
-    const char *sec_name = section_name(section_list_get(sec, i));
+  governments_iterate(g) {
+    const char *sec_name =
+        section_name(section_list_get(sec, government_index(g)));
+    const char *male, *female;
 
-    g->num_ruler_titles = 1;
-    g->ruler_titles = fc_calloc(1, sizeof(*g->ruler_titles));
-    title = &(g->ruler_titles[0]);
-
-    title->nation = DEFAULT_TITLE;
-    name_set(&title->male,
-             secfile_lookup_str(file, "%s.ruler_male_title", sec_name));
-    name_set(&title->female,
-             secfile_lookup_str(file, "%s.ruler_female_title", sec_name));
-  } government_iterate_end;
+    if ((male = secfile_lookup_str(file, "%s.ruler_male_title", sec_name))
+        && (female = secfile_lookup_str(file, "%s.ruler_male_title",
+                                        sec_name))) {
+      (void) government_ruler_title_new(g, NULL, male, female);
+    } else {
+      ruleset_error(LOG_FATAL, "Lack of default ruler titles for "
+                    "government \"%s\" (nb %d): %s",
+                    government_rule_name(g), government_number(g),
+                    secfile_error());
+    }
+  } governments_iterate_end;
 
   section_list_destroy(sec);
   secfile_check_unused(file);
@@ -2736,27 +2737,19 @@ static void load_ruleset_nations(struct section_file *file)
     while ((name = secfile_lookup_str_default(file, NULL,
                                               "%s.ruler_titles%d.government",
                                               sec_name, ++j))) {
-      const char *male_name;
-      const char *female_name;
-      
-      male_name = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
-                                     sec_name, j);
-      female_name = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
-                                       sec_name, j);
-
+      const char *male, *female;
       gov = government_by_rule_name(name);
+
       if (NULL != gov) {
-        struct ruler_title *title;
-
-        gov->num_ruler_titles++;
-        gov->ruler_titles
-          = fc_realloc(gov->ruler_titles,
-                       gov->num_ruler_titles * sizeof(*gov->ruler_titles));
-        title = gov->ruler_titles + gov->num_ruler_titles - 1;
-        title->nation = pnation;
-
-        name_set(&title->male, male_name);
-        name_set(&title->female, female_name);
+        if ((male = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
+                                       sec_name, j))
+            && (female = secfile_lookup_str(file,
+                                            "%s.ruler_titles%d.female_title",
+                                            sec_name, j))) {
+          (void) government_ruler_title_new(gov, pnation, male, female);
+        } else {
+          ruleset_error(LOG_ERROR, "%s", secfile_error());
+        }
       } else {
         /* log_verbose() rather than log_error() so that can use single
          * nation ruleset file with variety of government ruleset files: */
@@ -3749,10 +3742,9 @@ static void send_ruleset_governments(struct conn_list *dest)
 {
   struct packet_ruleset_government gov;
   struct packet_ruleset_government_ruler_title title;
-  struct ruler_title *p_title;
   int j;
 
-  government_iterate(g) {
+  governments_iterate(g) {
     /* send one packet_government */
     gov.id = government_number(g);
 
@@ -3762,8 +3754,6 @@ static void send_ruleset_governments(struct conn_list *dest)
     } requirement_vector_iterate_end;
     gov.reqs_count = j;
 
-    gov.num_ruler_titles = g->num_ruler_titles;
-
     sz_strlcpy(gov.name, rule_name(&g->name));
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
@@ -3771,19 +3761,18 @@ static void send_ruleset_governments(struct conn_list *dest)
 
     lsend_packet_ruleset_government(dest, &gov);
 
-    /* send one packet_government_ruler_title per ruler title */
-    for(j=0; j<g->num_ruler_titles; j++) {
-      p_title = &g->ruler_titles[j];
+    /* Send one packet_government_ruler_title per ruler title. */
+    government_ruler_titles_iterate(g, pruler_title) {
+      const struct nation_type *pnation = ruler_title_nation(pruler_title);
 
       title.gov = government_number(g);
-      title.id = j;
-      title.nation = p_title->nation ? nation_number(p_title->nation) : -1;
-      sz_strlcpy(title.male_title, rule_name(&p_title->male));
-      sz_strlcpy(title.female_title, rule_name(&p_title->female));
-    
+      title.nation = (NULL != pnation ? nation_number(pnation) : -1);
+      sz_strlcpy(title.male_title, ruler_title_male_rule_name(pruler_title));
+      sz_strlcpy(title.female_title,
+                 ruler_title_female_rule_name(pruler_title));
       lsend_packet_ruleset_government_ruler_title(dest, &title);
-    }
-  } government_iterate_end;
+    } government_ruler_titles_iterate_end;
+  } governments_iterate_end;
 }
 
 /**************************************************************************
@@ -4368,13 +4357,13 @@ static bool sanity_check_ruleset_data(void)
   } improvement_iterate_end;
 
   /* Governments */
-  government_iterate(pgov) {
+  governments_iterate(pgov) {
     if (!sanity_check_req_vec(&pgov->reqs, -1,
                               government_rule_name(pgov))) {
       ruleset_error(LOG_FATAL, "Governments have conflicting requirements!");
       ok = FALSE;
     }
-  } government_iterate_end;
+  } governments_iterate_end;
 
   /* Specialists */
   specialist_type_iterate(sp) {

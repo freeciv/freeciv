@@ -345,7 +345,7 @@ void ai_best_government(struct player *pplayer)
   }
 
   if (ai->govt_reeval == 0) {
-    government_iterate(gov) {
+    governments_iterate(gov) {
       int val = 0;
       int dist;
 
@@ -391,7 +391,7 @@ void ai_best_government(struct player *pplayer)
       } requirement_vector_iterate_end;
       val = amortize(val, dist);
       ai->government_want[government_index(gov)] = val; /* Save want */
-    } government_iterate_end;
+    } governments_iterate_end;
     /* Now reset our gov to it's real state. */
     pplayer->government = current_gov;
     city_list_iterate(pplayer->cities, acity) {
@@ -402,7 +402,7 @@ void ai_best_government(struct player *pplayer)
   ai->govt_reeval--;
 
   /* Figure out which government is the best for us this turn. */
-  government_iterate(gov) {
+  governments_iterate(gov) {
     int gi = government_index(gov);
     if (ai->government_want[gi] > best_val 
         && can_change_to_government(pplayer, gov)) {
@@ -422,7 +422,7 @@ void ai_best_government(struct player *pplayer)
 	}
       } requirement_vector_iterate_end;
     }
-  } government_iterate_end;
+  } governments_iterate_end;
   /* Goodness of the ideal gov is calculated relative to the goodness of the
    * best of the available ones. */
   ai->goal.govt.val -= best_val;

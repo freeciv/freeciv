@@ -228,16 +228,16 @@ static void update_player_after_tech_researched(struct player* plr,
   unit_list_refresh_vision(plr->units);
 
   /* Notify a player about new governments available */
-  government_iterate(gov) {
+  governments_iterate(gov) {
     if (!could_switch_to_government[government_index(gov)]
-	&& can_change_to_government(plr, gov)) {
+        && can_change_to_government(plr, gov)) {
       notify_player(plr, NULL, E_NEW_GOVERNMENT, ftc_server,
                     _("Discovery of %s makes the government form %s"
                       " available. You may want to start a revolution."),
                     advance_name_for_player(plr, tech_found),
                     government_name_translation(gov));
     }
-  } government_iterate_end;
+  } governments_iterate_end;
 
   /* Inform player about his new tech. */
   send_player_info_c(plr, plr->connections);
@@ -249,11 +249,11 @@ static void update_player_after_tech_researched(struct player* plr,
 ****************************************************************************/
 static void fill_can_switch_to_government_array(struct player* plr, bool* can_switch)
 {
-  government_iterate(gov) {
+  governments_iterate(gov) {
     /* We do it this way so all requirements are checked, including
      * statue-of-liberty effects. */
     can_switch[government_index(gov)] = can_change_to_government(plr, gov);
-  } government_iterate_end;
+  } governments_iterate_end;
 } 
 
 /****************************************************************************
@@ -565,14 +565,14 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
             advance_rule_name(advance_by_number(tech)));
 
   /* check governments */
-  government_iterate(gov) {
+  governments_iterate(gov) {
     if (government_of_player(plr) == gov
         && old_gov[government_index(gov)]
         && !can_change_to_government(plr, gov)) {
       /* Lost the technology for the government; switch to first
        * available government */
       bool new_gov_found = FALSE;
-      government_iterate(gov_new) {
+      governments_iterate(gov_new) {
         if (can_change_to_government(plr, gov_new)) {
           notify_player(plr, NULL, E_NEW_GOVERNMENT, ftc_server,
                         _("The required technology for our government '%s' "
@@ -584,7 +584,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
           new_gov_found = TRUE;
           break;
         }
-      } government_iterate_end;
+      } governments_iterate_end;
 
       /* Do we have a government? */
       fc_assert_ret(new_gov_found);
@@ -595,7 +595,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
       /* lost the technology for the target government; use the first
        * available government as new target government */
       bool new_gov_found = FALSE;
-      government_iterate(gov_new) {
+      governments_iterate(gov_new) {
         if (can_change_to_government(plr, gov_new)) {
           notify_player(plr, NULL, E_NEW_GOVERNMENT, ftc_server,
                         _("The required technology for our new government "
@@ -607,13 +607,13 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
           new_gov_found = TRUE;
           break;
         }
-      } government_iterate_end;
+      } governments_iterate_end;
 
       /* Do we have a new traget government? */
       fc_assert_ret(new_gov_found);
       break;
     }
-  } government_iterate_end;
+  } governments_iterate_end;
 
   /* check all settlers for valid activities */
   if (advance_has_flag(tech, TF_BRIDGE)

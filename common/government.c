@@ -17,6 +17,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -38,11 +39,11 @@ struct government *governments = NULL;
 ****************************************************************************/
 struct government *government_by_translated_name(const char *name)
 {
-  government_iterate(gov) {
+  governments_iterate(gov) {
     if (0 == strcmp(government_name_translation(gov), name)) {
       return gov;
     }
-  } government_iterate_end;
+  } governments_iterate_end;
 
   return NULL;
 }
@@ -55,11 +56,11 @@ struct government *government_by_rule_name(const char *name)
 {
   const char *qname = Qn_(name);
 
-  government_iterate(gov) {
+  governments_iterate(gov) {
     if (0 == fc_strcasecmp(government_rule_name(gov), qname)) {
       return gov;
     }
-  } government_iterate_end;
+  } governments_iterate_end;
 
   return NULL;
 }
@@ -154,43 +155,6 @@ const char *government_name_for_player(const struct player *pplayer)
   return government_name_translation(government_of_player(pplayer));
 }
 
-
-/***************************************************************
-...
-***************************************************************/
-const char *ruler_title_translation(const struct player *pp)
-{
-  struct government *gp = government_of_player(pp);
-  struct nation_type *np = nation_of_player(pp);
-  struct ruler_title *best_match = NULL;
-  int i;
-
-  fc_assert_ret_val(NULL != pp, NULL);
-
-  for(i=0; i<gp->num_ruler_titles; i++) {
-    struct ruler_title *title = &gp->ruler_titles[i];
-
-    if (title->nation == DEFAULT_TITLE && !best_match) {
-      best_match = title;
-    } else if (title->nation == np) {
-      best_match = title;
-      break;
-    }
-  }
-
-  if (NULL == best_match) {
-    log_error("Missing title for government \"%s\" (%d) nation \"%s\" (%d).",
-              government_rule_name(gp),
-              government_number(gp),
-              nation_rule_name(np),
-              nation_number(np));
-    return pp->is_male ? "Mr." : "Ms.";
-  }
-
-  return name_translation(pp->is_male ? &best_match->male
-                          : &best_match->female);
-}
-
 /***************************************************************
   Can change to government if appropriate tech exists, and one of:
    - no required tech (required is A_NONE)
@@ -216,70 +180,253 @@ bool can_change_to_government(struct player *pplayer,
 			 &gov->reqs, RPT_CERTAIN);
 }
 
-/**************************************************************************
-  Return the first item of governments.
-**************************************************************************/
-struct government *government_array_first(void)
+
+/****************************************************************************
+  Ruler titles.
+****************************************************************************/
+struct ruler_title {
+  const struct nation_type *pnation;
+  struct name_translation male;
+  struct name_translation female;
+};
+
+#define RULER_TITLE_NATION_KEY(pnation) FC_INT_TO_PTR(nation_number(pnation))
+/* Prefer nation_count() as -1, since some versions of gcc may misscompile
+ * it. */
+#define RULER_TITLE_DEFAULT_KEY FC_INT_TO_PTR(nation_count())
+
+/****************************************************************************
+  Create a new ruler title.
+****************************************************************************/
+static struct ruler_title *ruler_title_new(const struct nation_type *pnation,
+                                           const char *ruler_male_title,
+                                           const char *ruler_female_title)
 {
-  if (game.control.government_count > 0) {
-    return governments;
-  }
-  return NULL;
+  struct ruler_title *pruler_title = fc_malloc(sizeof(*pruler_title));
+
+  pruler_title->pnation = pnation;
+  name_set(&pruler_title->male, ruler_male_title);
+  name_set(&pruler_title->female, ruler_female_title);
+
+  return pruler_title;
 }
 
-/**************************************************************************
-  Return the last item of governments.
-**************************************************************************/
-const struct government *government_array_last(void)
+/****************************************************************************
+  Free a ruler title.
+****************************************************************************/
+static void ruler_title_destroy(struct ruler_title *pruler_title)
 {
-  if (game.control.government_count > 0) {
-    return &governments[game.control.government_count - 1];
-  }
-  return NULL;
+  free(pruler_title);
 }
 
-/***************************************************************
- Allocate space for the given number of governments.
-***************************************************************/
+/****************************************************************************
+  Add a new ruler title for the nation. Pass NULL for pnation for defining
+  the default title.
+****************************************************************************/
+struct ruler_title *
+government_ruler_title_new(struct government *pgovern,
+                           const struct nation_type *pnation,
+                           const char *ruler_male_title,
+                           const char *ruler_female_title)
+{
+  struct ruler_title *pruler_title =
+      ruler_title_new(pnation, ruler_male_title, ruler_female_title);
+  void *ret;
+
+  if (NULL != pnation) {
+    ret = hash_replace(pgovern->ruler_titles,
+                       RULER_TITLE_NATION_KEY(pnation), pruler_title);
+    fc_assert_msg(NULL == ret, "Ruler title for government \"%s\" (nb %d) "
+                  "and nation \"%s\" (nb %d) was set twice.",
+                  government_rule_name(pgovern), government_number(pgovern),
+                  nation_rule_name(pnation), nation_number(pnation));
+  } else {
+    ret = hash_replace(pgovern->ruler_titles,
+                       RULER_TITLE_DEFAULT_KEY, pruler_title);
+    fc_assert_msg(NULL == ret, "Default ruler title for government \"%s\" "
+                  "(nb %d) was set twice.",
+                  government_rule_name(pgovern), government_number(pgovern));
+  }
+
+  return pruler_title;
+}
+
+/****************************************************************************
+  Return the nation of the rule title. Returns NULL if this is default.
+****************************************************************************/
+const struct nation_type *
+ruler_title_nation(const struct ruler_title *pruler_title)
+{
+  return pruler_title->pnation;
+}
+
+/****************************************************************************
+  Return the male rule title name.
+****************************************************************************/
+const char *
+ruler_title_male_rule_name(const struct ruler_title *pruler_title)
+{
+  return rule_name(&pruler_title->male);
+}
+
+/****************************************************************************
+  Return the female rule title name.
+****************************************************************************/
+const char *
+ruler_title_female_rule_name(const struct ruler_title *pruler_title)
+{
+  return rule_name(&pruler_title->female);
+}
+
+/****************************************************************************
+  Return the ruler title of the player (translated).
+****************************************************************************/
+const char *ruler_title_translation(const struct player *pplayer)
+{
+  const struct government *pgovern = government_of_player(pplayer);
+  const struct nation_type *pnation = nation_of_player(pplayer);
+  struct ruler_title *pruler_title;
+
+  /* Try specific nation rule title. */
+  pruler_title = hash_lookup_data(pgovern->ruler_titles,
+                                  RULER_TITLE_NATION_KEY(pnation));
+
+  if (NULL == pruler_title) {
+    /* Try default rule title. */
+    pruler_title = hash_lookup_data(pgovern->ruler_titles,
+                                    RULER_TITLE_DEFAULT_KEY);
+  }
+
+  if (NULL == pruler_title) {
+    log_error("Missing title for government \"%s\" (nb %d) "
+              "nation \"%s\" (nb %d).",
+              government_rule_name(pgovern), government_number(pgovern),
+              nation_rule_name(pnation), nation_number(pnation));
+    return pplayer->is_male ? _("Mr.") : _("Ms.");
+  }
+
+  return name_translation(pplayer->is_male ? &pruler_title->male
+                          : &pruler_title->female);
+}
+
+
+/****************************************************************************
+  Government iterator.
+****************************************************************************/
+struct government_iter {
+  struct iterator vtable;
+  struct government *p, *end;
+};
+#define GOVERNMENT_ITER(p) ((struct government_iter *) (p))
+
+/****************************************************************************
+  Implementation of iterator 'sizeof' function.
+****************************************************************************/
+size_t government_iter_sizeof(void)
+{
+  return sizeof(struct government_iter);
+}
+
+/****************************************************************************
+  Implementation of iterator 'next' function.
+****************************************************************************/
+static void government_iter_next(struct iterator *iter)
+{
+  GOVERNMENT_ITER(iter)->p++;
+}
+
+/****************************************************************************
+  Implementation of iterator 'get' function.
+****************************************************************************/
+static void *government_iter_get(const struct iterator *iter)
+{
+  return GOVERNMENT_ITER(iter)->p;
+}
+
+/****************************************************************************
+  Implementation of iterator 'valid' function.
+****************************************************************************/
+static bool government_iter_valid(const struct iterator *iter)
+{
+  struct government_iter *it = GOVERNMENT_ITER(iter);
+  return it->p < it->end;
+}
+
+/****************************************************************************
+  Implementation of iterator 'init' function.
+****************************************************************************/
+struct iterator *government_iter_init(struct government_iter *it)
+{
+  it->vtable.next = government_iter_next;
+  it->vtable.get = government_iter_get;
+  it->vtable.valid = government_iter_valid;
+  it->p = governments;
+  it->end = governments + government_count();
+  return ITERATOR(it);
+}
+
+
+/****************************************************************************
+  Allocate resources associated with the given government.
+****************************************************************************/
+static inline void government_init(struct government *pgovern)
+{
+  memset(pgovern, 0, sizeof(*pgovern));
+
+  pgovern->item_number = pgovern - governments;
+  pgovern->ruler_titles =
+      hash_new_full(hash_fval_keyval, hash_fcmp_keyval, NULL,
+                    (hash_free_fn_t) ruler_title_destroy);
+  requirement_vector_init(&pgovern->reqs);
+}
+
+/****************************************************************************
+  De-allocate resources associated with the given government.
+****************************************************************************/
+static inline void government_free(struct government *pgovern)
+{
+  hash_free(pgovern->ruler_titles);
+  pgovern->ruler_titles = NULL;
+
+  if (NULL != pgovern->helptext) {
+    strvec_destroy(pgovern->helptext);
+    pgovern->helptext = NULL;
+  }
+
+  requirement_vector_free(&pgovern->reqs);
+}
+
+/****************************************************************************
+  Allocate the governments.
+****************************************************************************/
 void governments_alloc(int num)
 {
-  int index;
+  int i;
 
-  governments = fc_calloc(num, sizeof(*governments));
+  fc_assert(NULL == governments);
+  governments = fc_malloc(sizeof(*governments) * num);
   game.control.government_count = num;
 
-  for (index = 0; index < num; index++) {
-    struct government *gov = &governments[index];
-
-    gov->item_number = index;
-    requirement_vector_init(&gov->reqs);
+  for (i = 0; i < game.control.government_count; i++) {
+    government_init(governments + i);
   }
 }
 
-/***************************************************************
- De-allocate resources associated with the given government.
-***************************************************************/
-static void government_free(struct government *gov)
-{
-  free(gov->ruler_titles);
-  gov->ruler_titles = NULL;
-
-  if (NULL != gov->helptext) {
-    strvec_destroy(gov->helptext);
-    gov->helptext = NULL;
-  }
-
-  requirement_vector_free(&gov->reqs);
-}
-
-/***************************************************************
- De-allocate the currently allocated governments.
-***************************************************************/
+/****************************************************************************
+  De-allocate the currently allocated governments.
+****************************************************************************/
 void governments_free(void)
 {
-  government_iterate(gov) {
-    government_free(gov);
-  } government_iterate_end;
+  int i;
+
+  if (NULL == governments) {
+    return;
+  }
+
+  for (i = 0; i < game.control.government_count; i++) {
+    government_free(governments + i);
+  }
+
   free(governments);
   governments = NULL;
   game.control.government_count = 0;

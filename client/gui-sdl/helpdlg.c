@@ -1136,7 +1136,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 
   /* target governments */
   gov_count = 0;
-  government_iterate(gov) {
+  governments_iterate(gov) {
     requirement_vector_iterate(&(gov->reqs), preq) {
       if (VUT_ADVANCE == preq->source.kind
        && advance_number(preq->source.value.advance) == tech) {
@@ -1154,7 +1154,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
         gov_count++;
       }
     } requirement_vector_iterate_end;
-  } government_iterate_end;
+  } governments_iterate_end;
 
   /* target improvements */
   imp_count = 0;

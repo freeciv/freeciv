@@ -2250,7 +2250,7 @@ static void popup_government_dialog(void)
   
   /* create gov. buttons */
   j = 0;
-  government_iterate(pGov) {
+  governments_iterate(pGov) {
 
     if (pGov == game.government_during_revolution) {
       continue;
@@ -2271,7 +2271,7 @@ static void popup_government_dialog(void)
       j++;
 
     }
-  } government_iterate_end;
+  } governments_iterate_end;
 
   pGov_Dlg->pBeginWidgetList = pGov_Button;
 

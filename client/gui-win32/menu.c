@@ -1070,7 +1070,7 @@ menus_update(void)
     /* add new government entries. */
     id = IDM_GOVERNMENT_CHANGE_FIRST;
 
-    government_iterate(g) {
+    governments_iterate(g) {
       if (g != game.government_during_revolution) {
 	AppendMenu(govts, MF_STRING, id + government_number(g),
 		   government_name_translation(g));
@@ -1078,7 +1078,7 @@ menus_update(void)
 		       can_change_to_government(client.conn.playing, g)
 		       && can_client_issue_orders());
       }
-    } government_iterate_end;
+    } governments_iterate_end;
 
     my_enable_menu(menu, IDM_GOVERNMENT_FIND_CITY, TRUE);
 

@@ -842,14 +842,14 @@ void boot_help_texts(struct player *pplayer)
             } base_type_iterate_end;
             break;
           case HELP_GOVERNMENT:
-            government_iterate(gov) {
+            governments_iterate(gov) {
               pitem = new_help_item(current_type);
               fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                           government_name_translation(gov));
               pitem->topic = fc_strdup(name);
               pitem->text = fc_strdup("");
               help_list_append(category_nodes, pitem);
-            } government_iterate_end;
+            } governments_iterate_end;
             break;
           case HELP_IMPROVEMENT:
             improvement_iterate(pimprove) {
