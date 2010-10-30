@@ -56,7 +56,8 @@
 /* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Bases", "Governments", "Ruleset", NULL
+  "Techs", "Terrain", "Bases", "Specialists", "Governments", "Ruleset",
+  NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -511,7 +512,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
   case VUT_SPECIALIST:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n"),
-                 specialist_name_translation(preq->source.value.specialist));
+                 specialist_plural_translation(preq->source.value.specialist));
     return TRUE;
 
   case VUT_MINSIZE:
@@ -840,6 +841,17 @@ void boot_help_texts(struct player *pplayer)
               pitem->text = fc_strdup("");
               help_list_append(category_nodes, pitem);
             } base_type_iterate_end;
+            break;
+          case HELP_SPECIALIST:
+            specialist_type_iterate(sp) {
+              struct specialist *pspec = specialist_by_number(sp);
+              pitem = new_help_item(current_type);
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          specialist_plural_translation(pspec));
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
+              help_list_append(category_nodes, pitem);
+            } specialist_type_iterate_end;
             break;
           case HELP_GOVERNMENT:
             governments_iterate(gov) {
@@ -1935,6 +1947,39 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n\n");
     CATLSTR(buf, bufsz, user_text);
   }
+}
+
+/****************************************************************************
+  Append misc dynamic text for specialists.
+  Assumes effects are described in the help text.
+
+  pplayer may be NULL.
+****************************************************************************/
+void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
+                         const char *user_text, struct specialist *pspec)
+{
+  bool reqs = FALSE;
+
+  fc_assert_ret(NULL != buf && 0 < bufsz);
+  buf[0] = '\0';
+
+  if (NULL != pspec->helptext) {
+    strvec_iterate(pspec->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
+  }
+
+  /* Requirements for this specialist. */
+  requirement_vector_iterate(&pspec->reqs, preq) {
+    if (insert_requirement(buf, bufsz, pplayer, preq)) {
+      reqs = TRUE;
+    }
+  } requirement_vector_iterate_end;
+  if (reqs) {
+    fc_strlcat(buf, "\n", bufsz);
+  }
+
+  CATLSTR(buf, bufsz, user_text);
 }
 
 /****************************************************************

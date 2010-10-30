@@ -117,6 +117,22 @@ struct specialist *specialist_by_rule_name(const char *name)
   return NULL;
 }
 
+/****************************************************************************
+  Return the specialist type with the given (translated, plural) name.
+  Returns NULL if none match.
+****************************************************************************/
+struct specialist *specialist_by_translated_name(const char *name)
+{
+  specialist_type_iterate(i) {
+    struct specialist *sp = specialist_by_number(i);
+    if (0 == strcmp(specialist_plural_translation(sp), name)) {
+      return sp;
+    }
+  } specialist_type_iterate_end;
+
+  return NULL;
+}
+
 /**************************************************************************
   Return the (untranslated) rule name of the specialist type.
   You don't have to free the return pointer.
@@ -127,10 +143,10 @@ const char *specialist_rule_name(const struct specialist *sp)
 }
 
 /**************************************************************************
-  Return the (translated) name of the specialist type.
+  Return the (translated, plural) name of the specialist type.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *specialist_name_translation(const struct specialist *sp)
+const char *specialist_plural_translation(const struct specialist *sp)
 {
   return name_translation(&sp->name);
 }

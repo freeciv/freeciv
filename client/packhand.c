@@ -3045,13 +3045,15 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 
   fc_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
 
-  names_set(&s->name, p->name, p->rule_name);
+  names_set(&s->name, p->plural_name, p->rule_name);
   name_set(&s->abbreviation, p->short_name);
 
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&s->reqs, p->reqs[j]);
   }
   fc_assert(s->reqs.size == p->reqs_count);
+
+  PACKET_STRVEC_EXTRACT(s->helptext, p->helptext);
 
   tileset_setup_specialist_type(tileset, p->id);
 }

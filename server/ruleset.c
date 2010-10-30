@@ -2923,6 +2923,8 @@ static void load_ruleset_cities(struct section_file *file)
     reqs = lookup_req_list(file, sec_name, "reqs", specialist_rule_name(s));
     requirement_vector_copy(&s->reqs, reqs);
 
+    s->helptext = lookup_strvec(file, sec_name, "helptext");
+
     if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
       DEFAULT_SPECIALIST = i;
     }
@@ -3548,7 +3550,7 @@ static void send_ruleset_specialists(struct conn_list *dest)
     int j;
 
     packet.id = spec_id;
-    sz_strlcpy(packet.name, untranslated_name(&s->name));
+    sz_strlcpy(packet.plural_name, untranslated_name(&s->name));
     sz_strlcpy(packet.rule_name, rule_name(&s->name));
     sz_strlcpy(packet.short_name, rule_name(&s->abbreviation));
     j = 0;
@@ -3556,6 +3558,8 @@ static void send_ruleset_specialists(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
+
+    PACKET_STRVEC_COMPUTE(packet.helptext, s->helptext);
 
     lsend_packet_ruleset_specialist(dest, &packet);
   } specialist_type_iterate_end;

@@ -1148,11 +1148,12 @@ end
 
 PACKET_RULESET_SPECIALIST = 142; sc, lsend
   SPECIALIST id;
-  STRING name[MAX_LEN_NAME];
+  STRING plural_name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   STRING short_name[MAX_LEN_NAME];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+  STRING helptext[MAX_LEN_PACKET];
 end
 
 PACKET_RULESET_GOVERNMENT_RULER_TITLE = 143; sc, lsend

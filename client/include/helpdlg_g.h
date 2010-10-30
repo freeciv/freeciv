@@ -16,7 +16,8 @@
 /* This must be in same order as names in helpdata.c */
 enum help_page_type { HELP_ANY, HELP_TEXT, HELP_UNIT, HELP_IMPROVEMENT,
 		      HELP_WONDER, HELP_TECH, HELP_TERRAIN, HELP_BASE,
-                      HELP_GOVERNMENT, HELP_RULESET, HELP_LAST };
+                      HELP_SPECIALIST, HELP_GOVERNMENT, HELP_RULESET,
+                      HELP_LAST };
 
 void popup_help_dialog_string(const char *item);
 void popup_help_dialog_typed(const char *item, enum help_page_type);

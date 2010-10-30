@@ -1325,7 +1325,8 @@ const char *universal_name_translation(const struct universal *psource,
     fc_strlcat(buf, get_output_name(psource->value.outputtype), bufsz);
     return buf;
   case VUT_SPECIALIST:
-    fc_strlcat(buf, specialist_name_translation(psource->value.specialist), bufsz);
+    fc_strlcat(buf, specialist_plural_translation(psource->value.specialist),
+               bufsz);
     return buf;
   case VUT_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),

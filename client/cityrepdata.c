@@ -598,10 +598,10 @@ void init_city_report_game_data(void)
     p->title1 = Q_("?specialist:S");
     p->title2 = specialist_abbreviation_translation(s);
     fc_snprintf(sp_explanation[i], sizeof(sp_explanation[i]),
-                _("Specialists: %s"), specialist_name_translation(s));
+                _("Specialists: %s"), specialist_plural_translation(s));
     cat_snprintf(sp_explanations, sizeof(sp_explanations),
                  "%s%s", (i == 0) ? "" : ", ",
-                 specialist_name_translation(s));
+                 specialist_plural_translation(s));
     p->explanation = sp_explanation[i];
     p->data = s;
     p->func = cr_entry_specialist;

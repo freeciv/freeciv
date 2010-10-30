@@ -28,6 +28,8 @@ struct specialist {
   struct name_translation abbreviation;
 
   struct requirement_vector reqs;
+
+  struct strvec *helptext;
 };
 
 #define DEFAULT_SPECIALIST default_specialist
@@ -42,9 +44,10 @@ Specialist_type_id specialist_number(const struct specialist *sp);
 
 struct specialist *specialist_by_number(const Specialist_type_id id);
 struct specialist *specialist_by_rule_name(const char *name);
+struct specialist *specialist_by_translated_name(const char *name);
 
 const char *specialist_rule_name(const struct specialist *sp);
-const char *specialist_name_translation(const struct specialist *sp);
+const char *specialist_plural_translation(const struct specialist *sp);
 const char *specialist_abbreviation_translation(const struct specialist *sp);
 
 /* Ancillary routines */

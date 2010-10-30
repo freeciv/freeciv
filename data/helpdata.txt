@@ -159,10 +159,10 @@ harder to locate your city if you don't build it by the sea.\
     Every city has a band of citizens.  The number of citizens \
 depends on the city's population.  When you click on a city, you \
 can see how the land around the city is being used.  You can \
-assign your citizens to the land, or they can be scientists, \
-entertainers or taxmen.  Especially at the start of the game, \
-care should be taken to ensure that the citizens are employed so \
-that they maximise growth, trade and production.\
+assign your citizens to the land, or they can be specialists that \
+contribute to your civilization in other ways.  Especially at the \
+start of the game, care should be taken to ensure that the citizens \
+are employed so that they maximise growth, trade and production.\
 "), _("\
     If too much food is being generated, a citizen can be taken off \
 the land by clicking on the occupied land tile.  This \
@@ -558,9 +558,10 @@ is more problematic, however, because its effect is local -- it affects \
 only the city producing it. Thus, while it would be convenient for \
 unhappy cities to invest all their trade in luxury while others \
 invested in science or taxes instead, you will instead have to \
-compromise among the needs of all your cities (although local \
-adjustments can be made by assigning citizens as entertainers). See \
-the section on Happiness for more details on the effect of luxuries.\
+compromise among the needs of all your cities (although there may be \
+ways to make local adjustments, such as assigning citizens as \
+entertainers in the default ruleset). See the section on Happiness \
+for more details on the effect of luxuries.\
 "), _("\
 Besides working terrain gifted with rare commodities, or with access \
 to waterways and roads, you can increase trade by establishing trade \
@@ -644,24 +645,14 @@ bonus associated with Farmland. City centers are also automatically \
 developed with roads and, when technology has made them available, \
 railroads (because cities come with transportation built-in).\
 "), _("\
-The first citizens of each city are usually workers, each toiling to \
-yield up the resources of one terrain tile. However, there are several \
-other specialist roles citizens may assume once they are relieved of \
-having to work the land; in fact, taking another role is the only way \
-they can stop working. In the default rules, there are three types of \
-specialist: entertainers, who each produce two luxury points per turn \
-for their city (whose effects are described in the section on \
-Happiness); tax collectors, who each produce three extra gold per turn \
-for your treasury; and scientists, who each add three points to your \
-research output.\
-"), _("\
 The roles of citizens are controlled from the City dialog. Citizens \
 working the land are represented by three numbers showing their output \
 on the tile they are working. Clicking on these numbers will remove \
-the citizen from the tile, turning him into a specialist; this can be \
-seen in the row of citizen icons. You can click another tile to assign \
-the citizen to work it, or click on the specialist icon to change \
-their specialist role.\
+the citizen from the tile, turning them into a specialist (see the \
+section on Specialists for more details); this can be seen in the \
+row of citizen icons. You can click another tile to assign the citizen \
+to work it, or click on the specialist icon to change their specialist \
+role.\
 "), _("\
 Clicking on the city center tile in the city map will automatically \
 choose citizen roles and tiles to work, with an emphasis on food \
@@ -676,6 +667,27 @@ improve their productivity, their military strength, or give them \
 new abilities. See the sections on City Improvements and Wonders of \
 the World for more information.\
 ")
+
+[help_specialists]
+name = _(" Specialists")
+text = _("\
+The first citizens of each city usually work the land, each toiling to \
+yield up the resources of one terrain tile. However, there may be \
+other specialist roles citizens can assume; in fact, taking another \
+role is the only way they can stop working. A city may outgrow the \
+land available for it to work, in which case some citizens must become \
+specialists.\
+"), _("\
+All specialists enjoy enough privilege to remain perpetually content -- \
+they do not contribute to unhappiness or to celebration. See the \
+section on Happiness for more details.\
+"), _("\
+This section describes the available specialist roles, their effects, \
+and their requirements, if any.\
+")
+
+[help_gen_specialists]
+generate = "  Specialists"
 
 [help_happiness]
 name = _(" Happiness")
@@ -703,12 +715,12 @@ under Democracy can lead to a spontaneous national revolution, \
 overthrowing your government.\
 "), _("\
 It should be stressed that only citizens working the land vary in \
-morale -- entertainers, scientists, and tax collectors enjoy enough \
-privilege to remain perpetually content. Thus one solution to the \
-problem of an unhappy citizen is simply to assign that citizen to the \
-role of a specialist. But if cities are ever to work more than four \
-terrain tiles at once, the problem of morale must be confronted more \
-directly.\
+morale -- specialists enjoy enough privilege to remain perpetually \
+content (see the section on Specialists). Thus one solution to the \
+problem of an unhappy citizen is simply to assign that citizen to \
+the role of a specialist. But if cities are ever to work more than \
+four terrain tiles at once, the problem of morale must be confronted \
+more directly.\
 "), _("\
 There are many ways of making unhappy citizens content, which does \
 prevent disorder but is without further benefit. Producing happy \
@@ -754,10 +766,11 @@ be made content, but in all other respects behave as unhappy citizens.\
 _("\
 Luxury makes citizens happy. For every two luxury points a city \
 produces, one content citizen is made happy (if there are no content \
-citizens left, unhappy citizens become content then happy). Besides \
-the luxury points produced by any entertainers in a city, each city \
+citizens left, unhappy citizens become content then happy). Each city \
 receives back some of the trade points it produces as luxury points \
-according to your empire's tax rates; see the section on Trade.\
+according to your empire's tax rates; see the section on Trade. Luxury \
+points may also be produced by other means, such as entertainer \
+specialists in the default ruleset.\
 "), _("\
 There are several city improvements that will make content those \
 remaining citizens that are unhappy due to crowding, such as Temples \
@@ -1383,10 +1396,10 @@ with technology; and another player might grant technology in the \
 terms of a pact. But otherwise advances must be discovered through the \
 efforts of your own people.\
 "), _("\
-Most technology progress comes from trade (see the Trade section) and \
-from scientists (see the Cities section). While it is possible to \
-change which advance you are currently researching, by default all \
-progress is lost by doing so.\
+Most technology progress comes from trade (see the Trade section) and, \
+in the default ruleset, from scientist specialists (see the Specialists \
+section). While it is possible to change which advance you are \
+currently researching, by default all progress is lost by doing so.\
 "), _("\
 Technological advances can render units, city improvements, and \
 wonders obsolete. While obsolete units merely become impossible for \
@@ -1605,10 +1618,9 @@ text = _("\
 The Citizen Governor (formerly called the CMA) helps you manage your cities. \
 It deploys the available workers on the free tiles around the \
 city to achieve maximal city output. It also changes workers to \
-scientists, taxmen, or entertainers, if appropriate. And the governor \
-has another ability: whenever possible, it keeps \
-your cities content.\
-\n\n\
+specialists, if appropriate. And the governor has another ability: \
+whenever possible, it keeps your cities content.\
+"), _("\
 There are various means to tell the governor what kind of output you \
 would like. Open the city window and click on the governor tab. There \
 are two kinds of sliders: On the left, you can set a Minimal \
@@ -1619,34 +1631,34 @@ of production to another; setting science to 3 means you prefer a \
 single bulb to three shields (or gold, trade,...). You can set \
 different factors for each kind of production, according to your \
 needs.\
-\n\n\
+"), _("\
 If you set up some Minimal Surpluses which are impossible to fulfill, \
 the governor can't be activated. Whenever the governor can't fulfill its task \
 in the ongoing game, it passes back control to you. So you'd better \
 not define too high a surplus; instead, use factors to achieve your \
 goals.\
-\n\n\
+"), _("\
 The Celebrate checkbox lets your city - celebrate. This will work \
 only with a high luxury rate. See help about 'Happiness'.\
-\n\n\
+"), _("\
 Clicking on 'Control city' puts the city under control of \
 the governor, 'Release city' passes control back to you.\
-\n\n\
+"), _("\
 For ease of use, you can save your slider setting as a preset \
 with a name. Click on 'add preset' and enter a name for your \
 setting. You can use this preset in every city by just clicking \
 on its name. Also, you can control your setting from within the \
 city report, in the governor column. And you can change it from there \
 (use 'change' --> 'Citizen Governor'), if you have saved it as a preset.\
-\n\n\
+"), _("\
 Use 'Game' --> 'Save Settings' to store your presets \
 permanently.\
-\n\n\
+"), _("\
 But beware! If you use the governor for some of your cities, you will \
 encounter some difficulties with managing cities nearby, by hand. \
 It's best to manage all cities on an island either by hand or by \
 governor. Read more hints, some background information, and some \
-preset examples in the file README.cma, included with Freeciv.\n\
+preset examples in the file README.cma, included with Freeciv.\
 ")
 
 [help_chatline]

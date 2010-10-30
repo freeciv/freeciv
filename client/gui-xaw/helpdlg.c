@@ -36,6 +36,7 @@
 #include "government.h"
 #include "mem.h"
 #include "shared.h"
+#include "specialist.h"
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
@@ -1093,6 +1094,26 @@ static void help_update_base(const struct help_item *pitem,
 /**************************************************************************
   This is currently just a text page, with special text:
 **************************************************************************/
+static void help_update_specialist(const struct help_item *pitem,
+				   char *title)
+{
+  char buf[4096];
+  struct specialist *pspecialist = specialist_by_translated_name(title);
+
+  if (!pspecialist) {
+    strcat(buf, pitem->text);
+  } else {
+    helptext_specialist(buf, sizeof(buf), client.conn.playing, pitem->text,
+                        pspecialist);
+  }
+  create_help_page(HELP_TEXT);
+  set_title_topic(pitem);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
+}
+
+/**************************************************************************
+  This is currently just a text page, with special text:
+**************************************************************************/
 static void help_update_government(const struct help_item *pitem,
 				   char *title)
 {
@@ -1140,6 +1161,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_BASE:
     help_update_base(pitem, top);
+    break;
+  case HELP_SPECIALIST:
+    help_update_specialist(pitem, top);
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top);
