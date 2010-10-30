@@ -362,6 +362,7 @@ artists = "
    Thrace		William Allen Simpson and Daniel Markstedt
    Tibet		Tobias Jakobs
    Tocharian		Dan Cottrell and Daniel Markstedt
+   Togo			Vzb83 and Madden (Wikimedia Commons)
    Toltec		J.M. Maalderink
    Tonga		Madden (Wikimedia Commons)
    Transylvania		Alex:D (Wikipedia)
@@ -756,6 +757,7 @@ sprites =
 		"f.thrace", "flags/thrace"
 		"f.tibet", "flags/tibet"
 		"f.tocharian", "flags/tocharian"
+		"f.togo", "flags/togo"
 		"f.toltec", "flags/toltec"
 		"f.tonga", "flags/tonga"
 		"f.transylvania", "flags/transylvania"

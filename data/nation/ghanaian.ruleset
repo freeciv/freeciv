@@ -27,8 +27,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "ivoirian", "burkinabe"
-
+civilwar_nations="Ivoirian", "Burkinabe", "Togolese"
 
 cities =
  "Accra",
