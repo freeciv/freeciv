@@ -1535,11 +1535,18 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
+; A Solar Plant can give a stronger effect than a Recycling Center, in which
+; case we want only the Solar Plant's effect (not the addition of the two).
       "Building", "Solar Plant", "City"
     }
 
-; Nasty special cases: ensure net reduction of 66% with Solar Plant
-; and only one of Factory / Mfg. Plant
+; Nasty special cases: where a Solar Plant is present but its effect is less
+; than that of a Recycling Center, top up so that the net effect is that of the
+; Recycling Center.
+; (This would be so much easier if effects could be combined by functions
+; other than addition...)
+
+; Factory and no Mfg. Plant: Solar Plant saves 50%, less than 66%; add 16%
 [effect_recycling_center_1]
 name	= "Pollu_Prod_Pct"
 value	= -16
@@ -1554,6 +1561,7 @@ nreqs	=
       "Building", "Mfg. Plant", "City"
     }
 
+; Mfg. Plant and no Factory: Solar Plant saves 50%, less than 66%; add 16%
 [effect_recycling_center_2]
 name	= "Pollu_Prod_Pct"
 value	= -16
@@ -1566,6 +1574,21 @@ reqs	=
 nreqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
+    }
+
+; Neither Factory nor Mfg. Plant: Solar Plant saves 0%; add 66%
+[effect_recycling_center_3]
+name	= "Pollu_Prod_Pct"
+value	= -66
+reqs	=
+    { "type", "name", "range"
+      "Building", "Recycling Center", "City"
+      "Building", "Solar Plant", "City"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Mfg. Plant", "City"
     }
 
 [effect_research_lab]
