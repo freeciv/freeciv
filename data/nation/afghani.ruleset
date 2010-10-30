@@ -37,7 +37,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="iranian", "pakistani"
+civilwar_nations="Iranian", "Pakistani", "Pashtun"
 
 ; City list based on data from this page:
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Afghanistan

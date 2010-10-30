@@ -282,6 +282,7 @@ artists = "
    Panama		J.M. Maalderink
    Papua New Guinea	Tobias Jakobs
    Paraguay		Vzb83 (Wikimedia Commons)
+   Pashtun		Paul Zastoupil
    Peru			Brett Roper
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
@@ -675,6 +676,7 @@ sprites =
 		"f.panama", "flags/panama"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.paraguay", "flags/paraguay"
+		"f.pashtun", "flags/pashtun"
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"

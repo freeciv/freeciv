@@ -321,6 +321,7 @@ match=2
 *include "nation/paraguayan.ruleset"
 *include "nation/persian.ruleset"
 *include "nation/peruvian.ruleset"
+*include "nation/pashtun.ruleset"
 *include "nation/phoenician.ruleset"
 *include "nation/piedmontese.ruleset"
 *include "nation/pirate.ruleset"

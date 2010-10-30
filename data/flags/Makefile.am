@@ -274,6 +274,7 @@ flag_files =				\
 		panama.png		\
 		papua_newguinea.png	\
 		paraguay.png		\
+		pashtun.png		\
 		peru.png		\
 		philippines.png		\
 		phoenicia.png		\
@@ -664,6 +665,7 @@ shield_files =					\
 		panama-shield.png		\
 		papua_newguinea-shield.png	\
 		paraguay-shield.png		\
+		pashtun-shield.png		\
 		peru-shield.png			\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
@@ -1054,6 +1056,7 @@ svg_files = 				\
 		panama.svg		\
 		papua_newguinea.svg	\
 		paraguay.svg		\
+		pashtun.svg		\
 		peru.svg		\
 		philippines.svg		\
 		phoenicia.svg		\

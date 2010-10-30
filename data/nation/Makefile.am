@@ -270,6 +270,7 @@ pkgdata_DATA = \
 		panamanian.ruleset \
 		papuan.ruleset \
 		paraguayan.ruleset \
+		pashtun.ruleset \
 		persian.ruleset \
 		peruvian.ruleset \
 		phoenician.ruleset \

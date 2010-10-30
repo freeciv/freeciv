@@ -24,7 +24,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="indian", "afghani", "iranian"
+civilwar_nations="Indian", "Afghani", "Iranian", "Pashtun"
 
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Pakistan
 cities =
