@@ -393,6 +393,7 @@ flag_files =				\
 		yucatan.png		\
 		yugoslavia.png		\
 		zapotec.png		\
+		zimbabwe.png		\
 		zulu.png
 
 shield_files =					\
@@ -785,6 +786,7 @@ shield_files =					\
 		yucatan-shield.png		\
 		yugoslavia-shield.png		\
 		zapotec-shield.png		\
+		zimbabwe-shield.png		\
 		zulu-shield.png
 
 svg_files = 				\
@@ -1177,6 +1179,7 @@ svg_files = 				\
 		yucatan.svg		\
 		yugoslavia.svg		\
 		zapotec.svg		\
+		zimbabwe.svg		\
 		zulu.svg
 
 pkgdata_DATA = $(flag_files) $(shield_files)

@@ -385,6 +385,7 @@ pkgdata_DATA = \
 		yucatecan.ruleset \
 		yugoslav.ruleset \
 		zapotec.ruleset \
+		zimbabwean.ruleset \
 		zulu.ruleset 
 
 EXTRA_DIST = $(pkgdata_DATA) Makefile.am.sh

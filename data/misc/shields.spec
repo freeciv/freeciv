@@ -401,5 +401,6 @@ sprites =
 		"f.shield.yucatan", "flags/yucatan-shield"
 		"f.shield.yugoslavia", "flags/yugoslavia-shield"
 		"f.shield.zapotec", "flags/zapotec-shield"
+		"f.shield.zimbabwe", "flags/zimbabwe-shield"
 		"f.shield.zulu", "flags/zulu-shield"
 	}

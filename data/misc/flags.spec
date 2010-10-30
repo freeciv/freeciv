@@ -401,6 +401,7 @@ artists = "
    Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
    Zapotec		J.M. Maalderink
+   Zimbabwe		Madden (Wikimedia Commons)
    Zulu			Daniel Markstedt and Caleb Moore
 
 "
@@ -796,5 +797,6 @@ sprites =
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
 		"f.zapotec", "flags/zapotec"
+		"f.zimbabwe", "flags/zimbabwe"
 		"f.zulu", "flags/zulu"
 	}
