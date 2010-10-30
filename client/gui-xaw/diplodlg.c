@@ -558,7 +558,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   fc_snprintf(buf, sizeof(buf),
               /* TRANS: The <nation adjective> <ruler-title + player-name>
-               * E.g. "The Czech President Václav Havel". */
+               * E.g. "The Czech President Vaclav Havel". */
               _("This Eternal Treaty\n"
                 "marks the results of the diplomatic work between\n"
                 "The %s %s\nand\nThe %s %s"),
