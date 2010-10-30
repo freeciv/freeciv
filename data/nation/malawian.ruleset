@@ -17,7 +17,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",    "female_title"
- "Fundamentalism",  _("Bishop"),     _("?female:Bishop")
+ "Fundamentalism",  _("Bishop %s"),     _("?female:Bishop %s")
 }
 
 flag = "malawi"
@@ -29,7 +29,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Tanzanian", "Mozambican"
+civilwar_nations="Tanzanian", "Mozambican", "Motswana"
 
 cities =
  "Lilongwe",
