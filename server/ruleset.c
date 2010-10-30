@@ -766,6 +766,25 @@ static struct terrain *lookup_terrain(struct section_file *file,
 }
 
 /**************************************************************************
+  Load "name" and (optionally) "rule_name" into a struct name_translation.
+**************************************************************************/
+static void ruleset_load_names(struct name_translation *pname,
+                               struct section_file *file,
+                               const char *sec_name)
+{
+  const char *name = secfile_lookup_str(file, "%s.name", sec_name);
+  const char *rule_name = secfile_lookup_str(file, "%s.rule_name", sec_name);
+
+  if (!name) {
+    ruleset_error(LOG_FATAL,
+                  "\"%s\" [%s]: no \"name\" specified.",
+                  secfile_name(file), sec_name);
+  }
+
+  names_set(pname, name, rule_name);
+}
+
+/**************************************************************************
   ...
 **************************************************************************/
 static void load_tech_names(struct section_file *file)
@@ -794,11 +813,7 @@ static void load_tech_names(struct section_file *file)
 
   i = 0;
   advance_iterate(A_FIRST, a) {
-    const char *name =
-        secfile_lookup_str(file, "%s.name",
-                           section_name(section_list_get(sec, i)));
-
-    name_set(&a->name, name);
+    ruleset_load_names(&a->name, file, section_name(section_list_get(sec, i)));
     i++;
   } advance_iterate_end;
   section_list_destroy(sec);
@@ -998,11 +1013,8 @@ static void load_unit_names(struct section_file *file)
 
   unit_class_iterate(punitclass) {
     const int i = uclass_index(punitclass);
-    const char *name =
-        secfile_lookup_str(file, "%s.name",
-                           section_name(section_list_get(sec, i)));
-
-    name_set(&punitclass->name, name);
+    ruleset_load_names(&punitclass->name, file,
+                       section_name(section_list_get(sec, i)));
   } unit_class_iterate_end;
   section_list_destroy(sec);
 
@@ -1021,11 +1033,8 @@ static void load_unit_names(struct section_file *file)
 
   unit_type_iterate(punittype) {
     const int i = utype_index(punittype);
-    const char *name =
-        secfile_lookup_str(file, "%s.name",
-                           section_name(section_list_get(sec, i)));
-
-    name_set(&punittype->name, name);
+    ruleset_load_names(&punittype->name, file,
+                       section_name(section_list_get(sec, i)));
   } unit_type_iterate_end;
   section_list_destroy(sec);
 }
@@ -1573,12 +1582,8 @@ static void load_building_names(struct section_file *file)
   game.control.num_impr_types = nval;
 
   for (i = 0; i < nval; i++) {
-    const char *name =
-        secfile_lookup_str(file, "%s.name",
-                           section_name(section_list_get(sec, i)));
     struct impr_type *b = improvement_by_number(i);
-
-    name_set(&b->name, name);
+    ruleset_load_names(&b->name, file, section_name(section_list_get(sec, i)));
   }
 
   section_list_destroy(sec);
@@ -1739,12 +1744,10 @@ static void load_terrain_names(struct section_file *file)
   terrain_type_iterate(pterrain) {
     const int i = terrain_index(pterrain);
     const char *sec_name = section_name(section_list_get(sec, i));
-    const char *name = secfile_lookup_str(file, "%s.name", sec_name);
+    ruleset_load_names(&pterrain->name, file, sec_name);
 
-    if (0 == strcmp(name, "unused")) {
+    if (0 == strcmp(rule_name(&pterrain->name), "unused")) {
       name_set(&pterrain->name, "");
-    } else {
-      name_set(&pterrain->name, name);
     }
 
     section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec_name);
@@ -1771,13 +1774,10 @@ static void load_terrain_names(struct section_file *file)
   resource_type_iterate(presource) {
     const int i = resource_index(presource);
     const char *sec_name = section_name(section_list_get(sec, i));
-    const char *name = secfile_lookup_str(file, "%s.name", sec_name);
+    ruleset_load_names(&presource->name, file, sec_name);
 
-    
-    if (0 == strcmp(name, "unused")) {
+    if (0 == strcmp(rule_name(&presource->name), "unused")) {
       name_set(&presource->name, "");
-    } else {
-      name_set(&presource->name, name);
     }
 
     section_strlcpy(&resource_sections[i * MAX_SECTION_LABEL], sec_name);
@@ -1805,10 +1805,7 @@ static void load_terrain_names(struct section_file *file)
   base_type_iterate(pbase) {
     const int i = base_index(pbase);
     const char *sec_name = section_name(section_list_get(sec, i));
-    const char *name = secfile_lookup_str(file, "%s.name", sec_name);
-
-    name_set(&pbase->name, name);
-
+    ruleset_load_names(&pbase->name, file, sec_name);
     section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
   } base_type_iterate_end;
 
@@ -2234,10 +2231,9 @@ static void load_government_names(struct section_file *file)
   /* Government names are needed early so that get_government_by_name will
    * work. */
   governments_iterate(gov) {
-    const char *name = secfile_lookup_str(file, "%s.name",
-        section_name(section_list_get(sec, government_index(gov))));
-
-    name_set(&gov->name, name);
+    const char *sec_name =
+        section_name(section_list_get(sec, government_index(gov)));
+    ruleset_load_names(&gov->name, file, sec_name);
   } governments_iterate_end;
   section_list_destroy(sec);
 }
@@ -2395,24 +2391,43 @@ static void load_nation_names(struct section_file *file)
   nations_iterate(pl) {
     const int i = nation_index(pl);
     const char *sec_name = section_name(section_list_get(sec, i));
-    const char *adjective = secfile_lookup_str(file, "%s.name", sec_name);
     const char *noun_plural = secfile_lookup_str(file,
                                                  "%s.plural", sec_name);
 
-    name_set(&pl->adjective, adjective);
+    ruleset_load_names(&pl->adjective, file, sec_name);
     name_set(&pl->noun_plural, noun_plural);
 
     /* Check if nation name is already defined. */
     for(j = 0; j < i; j++) {
       struct nation_type *n2 = nation_by_number(j);
 
-      if (0 == strcmp(rule_name(&n2->adjective), rule_name(&pl->adjective))
-          || 0 == strcmp(rule_name(&n2->noun_plural),
-                         rule_name(&pl->noun_plural))) {
+      /* Compare strings after stripping off qualifiers -- we don't want
+       * two nations to end up with identical adjectives displayed to users.
+       * (This check only catches English, not localisations, of course.) */
+      if (0 == strcmp(Qn_(untranslated_name(&n2->adjective)),
+                      Qn_(untranslated_name(&pl->adjective)))) {
         ruleset_error(LOG_FATAL,
-                      "%s nation (the %s) defined twice; "
-                      "in section nation%d and section nation%d",
-                      adjective, noun_plural, j, i);
+                      "Two nations defined with the same adjective \"%s\": "
+                      "in section \'%s\' and section \'%s\'",
+                      Qn_(untranslated_name(&pl->adjective)),
+                      section_name(section_list_get(sec, j)), sec_name);
+      } else if (0 == strcmp(rule_name(&n2->adjective),
+                             rule_name(&pl->adjective))) {
+        /* We cannot have the same rule name, as the game needs them to be
+         * distinct. */
+        ruleset_error(LOG_FATAL,
+                      "Two nations defined with the same rule_name \"%s\": "
+                      "in section \'%s\' and section \'%s\'",
+                      rule_name(&pl->adjective),
+                      section_name(section_list_get(sec, j)), sec_name);
+      } else if (0 == strcmp(Qn_(untranslated_name(&n2->noun_plural)),
+                             Qn_(untranslated_name(&pl->noun_plural)))) {
+        /* We don't want identical English plural names either. */
+        ruleset_error(LOG_FATAL,
+                      "Two nations defined with the same plural name \"%s\": "
+                      "in section \'%s\' and section \'%s\'",
+                      Qn_(untranslated_name(&pl->noun_plural)),
+                      section_name(section_list_get(sec, j)), sec_name);
       }
     }
   } nations_iterate_end;
@@ -2863,8 +2878,7 @@ static void load_citystyle_names(struct section_file *file)
   if (NULL != styles) {
     city_styles_alloc(section_list_size(styles));
     section_list_iterate(styles, style) {
-      name_set(&city_styles[i].name,
-               secfile_lookup_str(file, "%s.name", section_name(style)));
+      ruleset_load_names(&city_styles[i].name, file, section_name(style));
       i++;
     } section_list_iterate_end;
     section_list_destroy(styles);
@@ -2900,9 +2914,9 @@ static void load_ruleset_cities(struct section_file *file)
     struct requirement_vector *reqs;
     const char *sec_name = section_name(psection);
 
-    name_set(&s->name, secfile_lookup_str(file, "%s.name", sec_name));
+    ruleset_load_names(&s->name, file, sec_name);
 
-    item = secfile_lookup_str_default(file, rule_name(&s->name),
+    item = secfile_lookup_str_default(file, untranslated_name(&s->name),
                                       "%s.short_name", sec_name);
     name_set(&s->abbreviation, item);
 
@@ -3445,7 +3459,8 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
 
   unit_class_iterate(c) {
     packet.id = uclass_number(c);
-    sz_strlcpy(packet.name, rule_name(&c->name));
+    sz_strlcpy(packet.name, untranslated_name(&c->name));
+    sz_strlcpy(packet.rule_name, rule_name(&c->name));
     packet.move_type = c->move_type;
     packet.min_speed = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
@@ -3467,7 +3482,8 @@ static void send_ruleset_units(struct conn_list *dest)
 
   unit_type_iterate(u) {
     packet.id = utype_number(u);
-    sz_strlcpy(packet.name, rule_name(&u->name));
+    sz_strlcpy(packet.name, untranslated_name(&u->name));
+    sz_strlcpy(packet.rule_name, rule_name(&u->name));
     sz_strlcpy(packet.sound_move, u->sound_move);
     sz_strlcpy(packet.sound_move_alt, u->sound_move_alt);
     sz_strlcpy(packet.sound_fight, u->sound_fight);
@@ -3532,7 +3548,8 @@ static void send_ruleset_specialists(struct conn_list *dest)
     int j;
 
     packet.id = spec_id;
-    sz_strlcpy(packet.name, rule_name(&s->name));
+    sz_strlcpy(packet.name, untranslated_name(&s->name));
+    sz_strlcpy(packet.rule_name, rule_name(&s->name));
     sz_strlcpy(packet.short_name, rule_name(&s->abbreviation));
     j = 0;
     requirement_vector_iterate(&s->reqs, preq) {
@@ -3554,7 +3571,8 @@ static void send_ruleset_techs(struct conn_list *dest)
 
   advance_iterate(A_NONE, a) {
     packet.id = advance_number(a);
-    sz_strlcpy(packet.name, rule_name(&a->name));
+    sz_strlcpy(packet.name, untranslated_name(&a->name));
+    sz_strlcpy(packet.rule_name, rule_name(&a->name));
     sz_strlcpy(packet.graphic_str, a->graphic_str);
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);
 
@@ -3586,7 +3604,8 @@ static void send_ruleset_buildings(struct conn_list *dest)
 
     packet.id = improvement_number(b);
     packet.genus = b->genus;
-    sz_strlcpy(packet.name, rule_name(&b->name));
+    sz_strlcpy(packet.name, untranslated_name(&b->name));
+    sz_strlcpy(packet.rule_name, rule_name(&b->name));
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     j = 0;
@@ -3626,7 +3645,8 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.id = terrain_number(pterrain);
     packet.native_to = pterrain->native_to;
 
-    sz_strlcpy(packet.name_orig, rule_name(&pterrain->name));
+    sz_strlcpy(packet.name, untranslated_name(&pterrain->name));
+    sz_strlcpy(packet.rule_name, rule_name(&pterrain->name));
     sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
     sz_strlcpy(packet.graphic_alt, pterrain->graphic_alt);
 
@@ -3682,7 +3702,8 @@ static void send_ruleset_resources(struct conn_list *dest)
   resource_type_iterate (presource) {
     packet.id = resource_number(presource);
 
-    sz_strlcpy(packet.name_orig, rule_name(&presource->name));
+    sz_strlcpy(packet.name, untranslated_name(&presource->name));
+    sz_strlcpy(packet.rule_name, rule_name(&presource->name));
     sz_strlcpy(packet.graphic_str, presource->graphic_str);
     sz_strlcpy(packet.graphic_alt, presource->graphic_alt);
 
@@ -3706,7 +3727,8 @@ static void send_ruleset_bases(struct conn_list *dest)
     int j;
 
     packet.id = base_number(b);
-    sz_strlcpy(packet.name, rule_name(&b->name));
+    sz_strlcpy(packet.name, untranslated_name(&b->name));
+    sz_strlcpy(packet.rule_name, rule_name(&b->name));
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     sz_strlcpy(packet.activity_gfx, b->activity_gfx);
@@ -3756,7 +3778,8 @@ static void send_ruleset_governments(struct conn_list *dest)
     } requirement_vector_iterate_end;
     gov.reqs_count = j;
 
-    sz_strlcpy(gov.name, rule_name(&g->name));
+    sz_strlcpy(gov.name, untranslated_name(&g->name));
+    sz_strlcpy(gov.rule_name, rule_name(&g->name));
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
     PACKET_STRVEC_COMPUTE(gov.helptext, g->helptext);
@@ -3796,7 +3819,8 @@ static void send_ruleset_nations(struct conn_list *dest)
 
   nations_iterate(n) {
     packet.id = nation_number(n);
-    sz_strlcpy(packet.adjective, rule_name(&n->adjective));
+    sz_strlcpy(packet.adjective, untranslated_name(&n->adjective));
+    sz_strlcpy(packet.rule_name, rule_name(&n->adjective));
     sz_strlcpy(packet.noun_plural, rule_name(&n->noun_plural));
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
@@ -3845,7 +3869,8 @@ static void send_ruleset_cities(struct conn_list *dest)
     } requirement_vector_iterate_end;
     city_p.reqs_count = j;
 
-    sz_strlcpy(city_p.name, rule_name(&city_styles[k].name));
+    sz_strlcpy(city_p.name, untranslated_name(&city_styles[k].name));
+    sz_strlcpy(city_p.rule_name, rule_name(&city_styles[k].name));
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
     sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
     sz_strlcpy(city_p.oceanic_graphic, city_styles[k].oceanic_graphic);

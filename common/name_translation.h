@@ -20,82 +20,95 @@
 
 /* Don't allow other modules to access directly to the fields. */
 #define vernacular _private_vernacular_
+#define rulename   _private_rulename_
 #define translated _private_translated_
 
-/* Ruleset strings (such as names) are kept in their original vernacular,
- * translated upon first use. The translation is cached for future use.
- */
+/* Ruleset strings (such as names) are kept in their original vernacular
+ * as well as being translated to the current locale. */
 struct name_translation {
-#ifdef ENABLE_NLS
-  const char *translated;               /* String doesn't need freeing,
-                                         * Used as mutable. */
-#endif
+  const char *translated;               /* String doesn't need freeing. */
   char vernacular[MAX_LEN_NAME];        /* Original string,
                                          * used for comparisons. */
+  char rulename[MAX_LEN_NAME];          /* Name used in savefiles etc.
+                                           Often the same as 'vernacular'. */
 };
 
 /* Inititalization macro. */
-#ifdef ENABLE_NLS
-#define NAME_INIT { NULL, "\0" }
-#else
-#define NAME_INIT { "\0" }
-#endif /* ENABLE_NLS */
+#define NAME_INIT { NULL, "\0", "\0" }
 
 /****************************************************************************
   Initializes a name translation structure.
 ****************************************************************************/
 static inline void name_init(struct name_translation *ptrans)
 {
-  ptrans->vernacular[0] = '\0';
-#ifdef ENABLE_NLS
+  ptrans->vernacular[0] = ptrans->rulename[0] = '\0';
   ptrans->translated = NULL;
-#endif
 }
 
 /****************************************************************************
-  Set the vernacular name of the name translation structure.
+  Set the untranslated and rule names of the name translation structure.
+  If rule_name is NULL, use vernacular_name for it.
 ****************************************************************************/
-static inline void name_set(struct name_translation *ptrans,
-                            const char *vernacular_name)
+static inline void names_set(struct name_translation *ptrans,
+                             const char *vernacular_name,
+                             const char *rule_name)
 {
   static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 
   (void) sz_loud_strlcpy(ptrans->vernacular, vernacular_name, name_too_long);
-#ifdef ENABLE_NLS
-  /* Not translated yet. */
-  ptrans->translated = NULL;
-#endif
+  (void) sz_loud_strlcpy(ptrans->rulename,
+                         rule_name ? rule_name : Qn_(vernacular_name),
+                         name_too_long);
+  /* Translate now. */
+  ptrans->translated =
+    ('\0' == ptrans->vernacular[0]
+     ? ptrans->vernacular : Q_(ptrans->vernacular));
 }
 
 /****************************************************************************
-  Return the vernacular name of the name translation structure.
+  Set the untranslated name of the name translation structure.
+  Assumes the rule name should be the same as the vernacular.
+****************************************************************************/
+static inline void name_set(struct name_translation *ptrans,
+                            const char *vernacular_name)
+{
+  names_set(ptrans, vernacular_name, NULL);
+}
+
+/****************************************************************************
+  Return the untranslated (vernacular) name of the name translation
+  structure.
+  Rarely used; you usually want name_translation() or rule_name().
+  Note that this does not discard any translation qualifiers! -- if this
+  string is to be displayed to the user (unlikely), the caller must call
+  Qn_() on it.
+****************************************************************************/
+static inline const char *
+    untranslated_name(const struct name_translation *ptrans)
+{
+  return ptrans->vernacular;
+}
+
+/****************************************************************************
+  Return the rule name of the name translation structure.
 ****************************************************************************/
 static inline const char *rule_name(const struct name_translation *ptrans)
 {
-  return Qn_(ptrans->vernacular);
+  return ptrans->rulename;
 }
 
 /****************************************************************************
   Return the translated name of the name translation structure.
 ****************************************************************************/
 static inline const char *
-name_translation(const struct name_translation *ptrans)
+    name_translation(const struct name_translation *ptrans)
 {
-#ifdef ENABLE_NLS
-  if (NULL == ptrans->translated) {
-    /* ptrans->translated used as mutable. */
-    ((struct name_translation *) ptrans)->translated =
-        ('\0' == ptrans->vernacular[0]
-         ? ptrans->vernacular : Q_(ptrans->vernacular));
-  }
   return ptrans->translated;
-#else
-  return Qn_(ptrans->vernacular);
-#endif /* ENABLE_NLS */
 }
 
 /* Don't allow other modules to access directly to the fields. */
 #undef vernacular
+#undef rulename
 #undef translated
 
 #endif /* FC__NAME_TRANSLATION_H */

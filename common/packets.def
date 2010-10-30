@@ -1091,6 +1091,7 @@ end
 PACKET_RULESET_UNIT = 140; sc, lsend
   UNIT_TYPE id;
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   STRING sound_move[MAX_LEN_NAME];
@@ -1148,6 +1149,7 @@ end
 PACKET_RULESET_SPECIALIST = 142; sc, lsend
   SPECIALIST id;
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING short_name[MAX_LEN_NAME];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
@@ -1167,6 +1169,7 @@ PACKET_RULESET_TECH = 144; sc, lsend
   BV_TECH_FLAGS flags;
   UINT32 preset_cost, num_reqs;
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
@@ -1179,6 +1182,7 @@ PACKET_RULESET_GOVERNMENT = 145; sc, lsend
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];
@@ -1215,6 +1219,7 @@ PACKET_RULESET_NATION = 148; sc, lsend
   NATION id; key
 
   STRING adjective[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING noun_plural[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
@@ -1236,6 +1241,7 @@ end
 PACKET_RULESET_CITY = 149; sc, lsend
   UINT8 style_id; 
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING citizens_graphic[MAX_LEN_NAME];
   STRING citizens_graphic_alt[MAX_LEN_NAME];
   UINT8 reqs_count;
@@ -1251,6 +1257,7 @@ PACKET_RULESET_BUILDING = 150; sc, lsend
   IMPROVEMENT id;
   IMPR_GENUS genus;
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   UINT8 reqs_count;
@@ -1271,7 +1278,8 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   BV_TERRAIN_FLAGS flags;
   BV_UNIT_CLASSES native_to;
 
-  STRING name_orig[MAX_LEN_NAME];
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
 
@@ -1305,6 +1313,7 @@ end
 PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   UINT8 id;
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   UINT8 move_type;
   UINT8 min_speed;
   UINT8 hp_loss_pct;
@@ -1315,6 +1324,7 @@ end
 PACKET_RULESET_BASE = 153; sc, lsend
   UINT8 id;
   STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   BOOL buildable;
   BOOL pillageable;
   STRING graphic_str[MAX_LEN_NAME];
@@ -1474,7 +1484,8 @@ end
 PACKET_RULESET_RESOURCE = 177; sc, lsend
   RESOURCE id;
   
-  STRING name_orig[MAX_LEN_NAME];
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
   UINT8 output[O_LAST];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];

@@ -91,6 +91,8 @@ fallout_shield_penalty=50
 ; percent subtracted from trade production if tile has fallout
 fallout_trade_penalty=50
 
+; /* <-- avoid gettext warnings
+;
 ; The individual terrain types, one per section.
 ; Roughly sorted by identifier.
 ; The actual tag used (the * in [terrain_*]) must be unique for each terrain,
@@ -100,8 +102,13 @@ fallout_trade_penalty=50
 ;
 ; Notes:
 ;
-; name                 = name as seen by user; if "unused", it is not used,
-;                        but is included for conversion and/or the editor.
+; name                 = translatable name as seen by user; if "unused", it is
+;                        not used, but is included for conversion and/or the
+;                        editor.
+; rule_name            = (optional) name for savegames, rulesets etc; if not
+;                        present, 'name' is used. Since the name used in
+;                        savegames must not change, use this when renaming a
+;                        terrain after a ruleset has been released.
 ; graphic              = preferred graphic [tile_*] in tilespec.
 ; graphic_alt          = alternate graphic [tile_*] when preferred is not found;
 ;                        otherwise may be "-"
@@ -176,6 +183,8 @@ fallout_trade_penalty=50
 ;  - ocean_depth       = the depth of an ocean, as an average level
 ; helptext             = optional help text string; should escape all raw 
 ;                        newlines so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
 
 [terrain_ocean]
 name                 = _("Ocean")
@@ -752,9 +761,15 @@ identifier  = "P"
 shield      = 3
 # desert-only, special processing, see savegame map_load().
 
+; /* <-- avoid gettext warnings
+;
 ; Base types:
 ;
-; name                    = Name of the base type.
+; name                    = translatable name as seen by user
+; rule_name               = (optional) name for savegames, rulesets etc; if not
+;                           present, 'name' is used. Since the name used in
+;                           savegames must not change, use this when renaming a
+;                           base after a ruleset has been released.
 ; buildable               = Can base be built? Defaults to true
 ; pillageable             = Can base be pillaged? Defaults to true
 ; graphic                 = tag specifing preferred graphic
@@ -781,6 +796,8 @@ shield      = 3
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
 ; helptext                = optional help text string; should escape all raw 
 ;                           newlines so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
 
 [base_fortress]
 name          = _("Fortress")

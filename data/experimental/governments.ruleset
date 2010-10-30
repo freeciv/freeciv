@@ -19,6 +19,8 @@ options="1.9"
 [governments]
 during_revolution="Anarchy"
 
+; /* <-- avoid gettext warnings
+;
 ; Below: The individual government types, one per section.
 ;
 ; The actual tag used (the * in [government_*]) does not matter, except 
@@ -32,7 +34,11 @@ during_revolution="Anarchy"
 ;
 ; Notes on fields:
 
-; name        = name of this government form as seen by user 
+; name        = translatable name as seen by user
+; rule_name   = (optional) name for savegames, rulesets etc; if not
+;               present, 'name' is used. Since the name used in savegames
+;               must not change, use this when renaming a government after a
+;               ruleset has been released.
 ; reqs        = requirements for this government (see README.effects)
 ; graphic     = tag specifing preferred graphic
 ; graphic_alt = alternate graphics tag if preferred is not found;
@@ -46,6 +52,8 @@ during_revolution="Anarchy"
 
 ; helptext = optional help text string; should escape all raw newlines 
 ;	     so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
 
 ;------------------------------------------------------------------------
 [government_anarchy]

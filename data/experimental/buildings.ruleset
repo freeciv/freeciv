@@ -27,7 +27,11 @@ options="1.10.1"
 ;
 ; Notes:
 ;
-; name		= name as seen by user 
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a building after a
+;                 ruleset has been released.
 ; genus	        = genus; one of:
 ;                 "GreatWonder", "SmallWonder", "Improvement", "Special".
 ; reqs		= requirements to build the building (see effects.ruleset

@@ -46,6 +46,8 @@ veteran_work_raise_chance = 5, 3, 1, 0
 ; by a whole point 3 must be specified.
 veteran_move_bonus = 0, 0, 0, 0
 
+; /* <-- avoid gettext warnings
+;
 ; Unit classes
 ; The number can be variable, up to 32
 ; When adding new classes, remember to check effects.ruleset also.
@@ -59,7 +61,11 @@ veteran_move_bonus = 0, 0, 0, 0
 ;
 ; ** Fields **
 ;
-; name          = Name as used in other rulesets
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a unit class after a
+;                 ruleset has been released.
 ; move_type     = Where unit moves; Land, Sea or Both.
 ; min_speed     = Minimum speed after damage and effects
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
@@ -86,6 +92,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "CanPillage"    = Unit can pillage tile infrastructure
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
+;
+; */ <-- avoid gettext warnings
 
 [unitclass_missile]
 name          = _("Missile")
@@ -142,6 +150,8 @@ hp_loss_pct   = 0
 hut_behavior  = "Frighten"
 flags         = "Unreachable", "DoesntOccupyTile"
 
+; /* <-- avoid gettext warnings
+;
 ; Below: The individual units, one per section.
 ;
 ; The number can be variable, up to 200.  
@@ -157,7 +167,11 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;
 ; ** Fields **
 ;
-; name          = name as seen by user 
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a unit after a
+;                 ruleset has been released.
 ; graphic       = tag specifing preferred graphic
 ; graphic_alt	= tag for alternate garphic if preferred graphic is not 
 ;		  present; especially if preferred graphic is non-standard, 
@@ -290,6 +304,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;		  is produced without homecity and upkeep
 ; "Diplomat"	= can do diplomat actions (see diplchance server option)
 ; "Hunter"      = AI hint: good for hunting other units
+;
+; */ <-- avoid gettext warnings
 
 [unit_settlers]
 name          = _("Settlers")

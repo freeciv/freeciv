@@ -11,6 +11,8 @@
 description="Civ2 technology data for Freeciv (incomplete)"
 options="1.9"
 
+; /* <-- avoid gettext warnings
+;
 ; Below: The individual advances, one per section.
 ; The number can be variable, up to 196.
 ;
@@ -20,7 +22,11 @@ options="1.9"
 ;
 ; Notes:
 ;
-; name          = name as seen by user 
+; name          = translatable name as seen by user
+; rule_name     = (optional) name for savegames, rulesets etc; if not
+;                 present, 'name' is used. Since the name used in savegames
+;                 must not change, use this when renaming a tech after a
+;                 ruleset has been released.
 ; req1, req2	= advances required before researching this one
 ; root_req      = advance required before acquiring this one, inherited
 ;                 by all techs that require this tech in turn unless
@@ -37,6 +43,8 @@ options="1.9"
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 
 ; it should be listed as req1.
+;
+; */ <-- avoid gettext warnings
 
 [advance_advanced_flight]
 name     = _("Advanced Flight")
