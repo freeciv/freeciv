@@ -17,7 +17,6 @@
 
 /* utility */
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "rand.h"
 #include "support.h"
@@ -42,17 +41,33 @@
 #include "editor.h"
 #include "goto.h"
 #include "citydlg_common.h"
-#include "mapview_common.h"
 #include "overview_common.h"
 #include "tilespec.h"
 
-struct hash_table *mapdeco_highlight_table;
-struct hash_table *mapdeco_crosshair_table;
+#include "mapview_common.h"
+
+
+struct tile_hash *mapdeco_highlight_table;
+struct tile_hash *mapdeco_crosshair_table;
 
 struct gotoline_counter {
   int line_count[DIR8_COUNT];
 };
-struct hash_table *mapdeco_gotoline_table;
+
+static inline struct gotoline_counter *gotoline_counter_new(void);
+static void gotoline_counter_destroy(struct gotoline_counter *pglc);
+
+#define SPECHASH_TAG gotoline
+#define SPECHASH_KEY_TYPE struct tile *
+#define SPECHASH_DATA_TYPE struct gotoline_counter *
+#define SPECHASH_DATA_FREE gotoline_counter_destroy
+#include "spechash.h"
+#define gotoline_hash_iterate(hash, ptile, pglc)                            \
+  TYPED_HASH_ITERATE(struct tile *, struct gotoline_counter *,              \
+                     hash, ptile, pglc)
+#define gotoline_hash_iterate_end HASH_ITERATE_END
+
+struct gotoline_hash *mapdeco_gotoline_table;
 
 struct view mapview;
 bool can_slide = TRUE;
@@ -89,6 +104,24 @@ struct trade_route_line {
 /* A trade route line might need to be drawn in two parts. */
 static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
 
+
+/****************************************************************************
+  Create a new goto line counter.
+****************************************************************************/
+static inline struct gotoline_counter *gotoline_counter_new(void)
+{
+  struct gotoline_counter *pglc = fc_calloc(1, sizeof(*pglc));
+  return pglc;
+}
+
+/****************************************************************************
+  Create a new goto line counter.
+****************************************************************************/
+static void gotoline_counter_destroy(struct gotoline_counter *pglc)
+{
+  fc_assert_ret(NULL != pglc);
+  free(pglc);
+}
 
 /**************************************************************************
  Refreshes a single tile on the map canvas.
@@ -2573,9 +2606,9 @@ void mapdeco_init(void)
   mapview.can_do_cached_drawing = can_do_cached_drawing();
 
   mapdeco_free();
-  mapdeco_highlight_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
-  mapdeco_crosshair_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
-  mapdeco_gotoline_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  mapdeco_highlight_table = tile_hash_new();
+  mapdeco_crosshair_table = tile_hash_new();
+  mapdeco_gotoline_table = gotoline_hash_new();
 }
 
 /**************************************************************************
@@ -2584,18 +2617,15 @@ void mapdeco_init(void)
 void mapdeco_free(void)
 {
   if (mapdeco_highlight_table) {
-    hash_free(mapdeco_highlight_table);
+    tile_hash_destroy(mapdeco_highlight_table);
     mapdeco_highlight_table = NULL;
   }
   if (mapdeco_crosshair_table) {
-    hash_free(mapdeco_crosshair_table);
+    tile_hash_destroy(mapdeco_crosshair_table);
     mapdeco_crosshair_table = NULL;
   }
   if (mapdeco_gotoline_table) {
-    hash_values_iterate(mapdeco_gotoline_table, pglc) {
-      free(pglc);
-    } hash_values_iterate_end;
-    hash_free(mapdeco_gotoline_table);
+    gotoline_hash_destroy(mapdeco_gotoline_table);
     mapdeco_gotoline_table = NULL;
   }
 }
@@ -2612,10 +2642,9 @@ void mapdeco_set_highlight(const struct tile *ptile, bool highlight)
   }
 
   if (highlight) {
-    changed = hash_insert(mapdeco_highlight_table, ptile, NULL);
+    changed = tile_hash_insert(mapdeco_highlight_table, ptile, NULL);
   } else {
-    changed = hash_key_exists(mapdeco_highlight_table, ptile);
-    hash_delete_entry(mapdeco_highlight_table, ptile);
+    changed = tile_hash_remove(mapdeco_highlight_table, ptile);
   }
 
   if (changed) {
@@ -2632,7 +2661,7 @@ bool mapdeco_is_highlight_set(const struct tile *ptile)
   if (!ptile || !mapdeco_highlight_table) {
     return FALSE;
   }
-  return hash_key_exists(mapdeco_highlight_table, ptile);
+  return tile_hash_lookup(mapdeco_highlight_table, ptile, NULL);
 }
 
 /**************************************************************************
@@ -2645,11 +2674,11 @@ void mapdeco_clear_highlights(void)
     return;
   }
 
-  hash_keys_iterate(mapdeco_highlight_table, ptile) {
+  tile_hash_iterate(mapdeco_highlight_table, ptile) {
     refresh_tile_mapcanvas(ptile, TRUE, FALSE);
-  } hash_keys_iterate_end;
+  } tile_hash_iterate_end;
 
-  hash_delete_all_entries(mapdeco_highlight_table);
+  tile_hash_clear(mapdeco_highlight_table);
 }
 
 /**************************************************************************
@@ -2664,10 +2693,9 @@ void mapdeco_set_crosshair(const struct tile *ptile, bool crosshair)
   }
 
   if (crosshair) {
-    changed = hash_insert(mapdeco_crosshair_table, ptile, NULL);
+    changed = tile_hash_insert(mapdeco_crosshair_table, ptile, NULL);
   } else {
-    changed = hash_key_exists(mapdeco_crosshair_table, ptile);
-    hash_delete_entry(mapdeco_crosshair_table, ptile);
+    changed = tile_hash_remove(mapdeco_crosshair_table, ptile);
   }
 
   if (changed) {
@@ -2684,7 +2712,7 @@ bool mapdeco_is_crosshair_set(const struct tile *ptile)
   if (!mapdeco_crosshair_table || !ptile) {
     return FALSE;
   }
-  return hash_key_exists(mapdeco_crosshair_table, ptile);
+  return tile_hash_lookup(mapdeco_crosshair_table, ptile, NULL);
 }
 
 /**************************************************************************
@@ -2697,11 +2725,11 @@ void mapdeco_clear_crosshairs(void)
     return;
   }
 
-  hash_keys_iterate(mapdeco_crosshair_table, ptile) {
+  tile_hash_iterate(mapdeco_crosshair_table, ptile) {
     refresh_tile_mapcanvas(ptile, FALSE, FALSE);
-  } hash_keys_iterate_end;
+  } tile_hash_iterate_end;
 
-  hash_delete_all_entries(mapdeco_crosshair_table);
+  tile_hash_clear(mapdeco_crosshair_table);
 }
 
 /**************************************************************************
@@ -2724,10 +2752,9 @@ void mapdeco_add_gotoline(const struct tile *ptile, enum direction8 dir)
     return;
   }
 
-  pglc = hash_lookup_data(mapdeco_gotoline_table, ptile);
-  if (!pglc) {
-    pglc = fc_calloc(1, sizeof(*pglc));
-    hash_insert(mapdeco_gotoline_table, ptile, pglc);
+  if (!gotoline_hash_lookup(mapdeco_gotoline_table, ptile, &pglc)) {
+    pglc = gotoline_counter_new();
+    gotoline_hash_insert(mapdeco_gotoline_table, ptile, pglc);
   }
   changed = (pglc->line_count[dir] < 1);
   pglc->line_count[dir]++;
@@ -2755,8 +2782,7 @@ void mapdeco_remove_gotoline(const struct tile *ptile,
     return;
   }
 
-  pglc = hash_lookup_data(mapdeco_gotoline_table, ptile);
-  if (!pglc) {
+  if (!gotoline_hash_lookup(mapdeco_gotoline_table, ptile, &pglc)) {
     return;
   }
 
@@ -2825,8 +2851,7 @@ bool mapdeco_is_gotoline_set(const struct tile *ptile,
     return FALSE;
   }
 
-  pglc = hash_lookup_data(mapdeco_gotoline_table, ptile);
-  if (!pglc) {
+  if (!gotoline_hash_lookup(mapdeco_gotoline_table, ptile, &pglc)) {
     return FALSE;
   }
 
@@ -2839,28 +2864,19 @@ bool mapdeco_is_gotoline_set(const struct tile *ptile,
 **************************************************************************/
 void mapdeco_clear_gotoroutes(void)
 {
-  const struct tile *ptile;
-  struct gotoline_counter *pglc;
-
   if (!mapdeco_gotoline_table) {
     return;
   }
 
-  hash_iterate(mapdeco_gotoline_table, iter) {
-    ptile = hash_iter_get_key(iter);
-    pglc = hash_iter_get_value(iter);
-
-    /* FIXME: Remove the casts. */
-    refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
+  gotoline_hash_iterate(mapdeco_gotoline_table, ptile, pglc) {
+    refresh_tile_mapcanvas(ptile, FALSE, FALSE);
     adjc_dir_iterate(ptile, ptile_dest, dir) {
       if (pglc->line_count[dir] > 0) {
-        refresh_tile_mapcanvas((struct tile *) ptile_dest, FALSE, FALSE);
+        refresh_tile_mapcanvas(ptile_dest, FALSE, FALSE);
       }
     } adjc_dir_iterate_end;
-
-    free(pglc);
-  } hash_iterate_end;
-  hash_delete_all_entries(mapdeco_gotoline_table);
+  } gotoline_hash_iterate_end;
+  gotoline_hash_clear(mapdeco_gotoline_table);
 }
 
 /**************************************************************************
