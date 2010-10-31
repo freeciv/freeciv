@@ -18,7 +18,7 @@
 /* utility */
 #include "dataio.h"
 #include "fcintl.h"
-#include "hash.h"
+#include "genhash.h"    /* genhash_val_t */
 #include "log.h"
 #include "mem.h"
 
@@ -32,36 +32,80 @@
 
 #define log_attribute           log_debug
 
-static struct hash_table *attribute_hash = NULL;
-
-struct attr_key {
-  int key, id, x, y;
-};
-
 enum attribute_serial {
   A_SERIAL_FAIL,
   A_SERIAL_OK,
   A_SERIAL_OLD,
 };
 
+struct attr_key {
+  int key, id, x, y;
+};
+
+static genhash_val_t attr_key_val(const struct attr_key *pkey,
+                                  size_t num_buckets);
+static bool attr_key_comp(const struct attr_key *pkey1,
+                          const struct attr_key *pkey2);
+static struct attr_key *attr_key_dup(const struct attr_key *pkey);
+static void attr_key_destroy(struct attr_key *pkey);
+
+/* 'struct attribute_hash' and related functions. */
+#define SPECHASH_TAG attribute
+#define SPECHASH_KEY_TYPE struct attr_key *
+#define SPECHASH_DATA_TYPE void *
+#define SPECHASH_KEY_VAL attr_key_val
+#define SPECHASH_KEY_COMP attr_key_comp
+#define SPECHASH_KEY_COPY attr_key_dup
+#define SPECHASH_KEY_FREE attr_key_destroy
+#define SPECHASH_DATA_FREE free
+#include "spechash.h"
+#define attribute_hash_values_iterate(hash, pvalue)                         \
+  TYPED_HASH_DATA_ITERATE(void *, hash, pvalue)
+#define attribute_hash_values_iterate_end HASH_DATA_ITERATE_END
+#define attribute_hash_iterate(hash, pkey, pvalue)                          \
+  TYPED_HASH_ITERATE(const struct attr_key *, void *, hash, pkey, pvalue)
+#define attribute_hash_iterate_end HASH_ITERATE_END
+
+
+static struct attribute_hash *attribute_hash = NULL;
 
 /****************************************************************************
- Hash function for attribute_hash.
-*****************************************************************************/
-static unsigned int attr_hash_val_fn(const void *key,
-				     unsigned int num_buckets)
+  Hash function for attribute_hash.
+****************************************************************************/
+static genhash_val_t attr_key_val(const struct attr_key *pkey,
+                                  size_t num_buckets)
 {
-  const struct attr_key *pkey = (const struct attr_key *) key;
-
-  return (pkey->id ^ pkey->x ^ pkey->y ^ pkey->key) % num_buckets;
+  return (((genhash_val_t) pkey->id ^ pkey->x ^ pkey->y ^ pkey->key)
+          % num_buckets);
 }
 
 /****************************************************************************
- Compare-function for the keys in the hash table.
-*****************************************************************************/
-static int attr_hash_cmp_fn(const void *key1, const void *key2)
+  Compare-function for the keys in the hash table.
+****************************************************************************/
+static bool attr_key_comp(const struct attr_key *pkey1,
+                          const struct attr_key *pkey2)
 {
-  return memcmp(key1, key2, sizeof(struct attr_key));
+  return (0 == memcmp(pkey1, pkey2, sizeof(*pkey1)));
+}
+
+/****************************************************************************
+  Duplicate an attribute key.
+****************************************************************************/
+static struct attr_key *attr_key_dup(const struct attr_key *pkey)
+{
+  struct attr_key *pnew_key = fc_malloc(sizeof(*pnew_key));
+
+  *pnew_key = *pkey;
+  return pnew_key;
+}
+
+/****************************************************************************
+  Free an attribute key.
+****************************************************************************/
+static void attr_key_destroy(struct attr_key *pkey)
+{
+  fc_assert_ret(NULL != pkey);
+  free(pkey);
 }
 
 /****************************************************************************
@@ -69,8 +113,8 @@ static int attr_hash_cmp_fn(const void *key1, const void *key2)
 ****************************************************************************/
 void attribute_init(void)
 {
-  fc_assert(attribute_hash == NULL);
-  attribute_hash = hash_new(attr_hash_val_fn, attr_hash_cmp_fn);
+  fc_assert(NULL == attribute_hash);
+  attribute_hash = attribute_hash_new();
 }
 
 /****************************************************************************
@@ -78,29 +122,19 @@ void attribute_init(void)
 ****************************************************************************/
 void attribute_free(void)
 {
-  int i, entries = hash_num_entries(attribute_hash);
-
-  fc_assert_ret(attribute_hash != NULL);
-
-  for (i = 0; i < entries; i++) {
-    const void *pkey = hash_key_by_number(attribute_hash, 0);
-    void *pvalue = hash_delete_entry(attribute_hash, pkey);
-
-    free((void *) pkey);
-    free(pvalue);
-  }
-
-  hash_free(attribute_hash);
+  fc_assert_ret(NULL != attribute_hash);
+  attribute_hash_destroy(attribute_hash);
   attribute_hash = NULL;
 }
 
 /****************************************************************************
- This method isn't endian safe and there will also be problems if
- sizeof(int) at serialization time is different from sizeof(int) at
- deserialization time.
-*****************************************************************************/
-static enum attribute_serial serialize_hash( struct hash_table *hash,
-					void **pdata, int *pdata_length )
+  This method isn't endian safe and there will also be problems if
+  sizeof(int) at serialization time is different from sizeof(int) at
+  deserialization time.
+****************************************************************************/
+static enum attribute_serial
+serialize_hash(const struct attribute_hash *hash,
+               void **pdata, int *pdata_length)
 {
   /*
    * Layout of version 2:
@@ -117,60 +151,50 @@ static enum attribute_serial serialize_hash( struct hash_table *hash,
    *   char key[], char value[];
    * } body[entries];
    */
-  int total_length, i, entries = hash_num_entries(hash);
+  const size_t entries = attribute_hash_size(hash);
+  int total_length, value_lengths[entries];
   void *result;
-  int *value_lengths;
   struct data_out dout;
-
-  value_lengths = fc_malloc(sizeof(int) * entries);
-
-  /*
-   * Step 1: loop through all keys and fill value_lengths
-   */
-  for (i = 0; i < entries; i++) {
-    const void *pvalue = hash_value_by_number(hash, i);
-    struct data_in din;
-    int tmp_len;
-
-    dio_input_init(&din, pvalue, 4);
-    dio_get_uint32(&din, &tmp_len);
-
-    value_lengths[i] = tmp_len;
-  }
+  int i;
 
   /*
-   * Step 2: calculate the *_length variables
+   * Step 1: loop through all keys and fill value_lengths and calculate
+   * the total_length.
    */
   /* preamble */
   total_length = 4 * 4;
-  /* value_size and key */
-  total_length += entries * (4 + 4 * 4);
+  /* body */
+  total_length += entries * (4 + 4 * 4); /* value_size + key */
+  i = 0;
+  attribute_hash_values_iterate(hash, pvalue) {
+    struct data_in din;
 
-  for (i = 0; i < entries; i++) {
+    dio_input_init(&din, pvalue, 4);
+    dio_get_uint32(&din, &value_lengths[i]);
+
     total_length += value_lengths[i];
-  }
+    i++;
+  } attribute_hash_values_iterate_end;
 
   /*
-   * Step 3: allocate memory
+   * Step 2: allocate memory.
    */
   result = fc_malloc(total_length);
   dio_output_init(&dout, result, total_length);
 
   /*
-   * Step 4: fill out the preamble
+   * Step 3: fill out the preamble.
    */
   dio_put_uint32(&dout, 0);
   dio_put_uint8(&dout, 2);
-  dio_put_uint32(&dout, entries);
+  dio_put_uint32(&dout, attribute_hash_size(hash));
   dio_put_uint32(&dout, total_length);
 
   /*
-   * Step 5: fill out the body
+   * Step 4: fill out the body.
    */
-  for (i = 0; i < entries; i++) {
-    const struct attr_key *pkey = hash_key_by_number(hash, i);
-    const void *pvalue = hash_value_by_number(hash, i);
-
+  i = 0;
+  attribute_hash_iterate(hash, pkey, pvalue) {
     dio_put_uint32(&dout, value_lengths[i]);
 
     dio_put_uint32(&dout, pkey->key);
@@ -179,19 +203,19 @@ static enum attribute_serial serialize_hash( struct hash_table *hash,
     dio_put_sint16(&dout, pkey->y);
 
     dio_put_memory(&dout, ADD_TO_POINTER(pvalue, 4), value_lengths[i]);
-  }
+    i++;
+  } attribute_hash_iterate_end;
 
   fc_assert(!dout.too_short);
 
   /*
-   * Step 6: cleanup
+   * Step 5: return.
    */
   *pdata = result;
   *pdata_length = total_length;
-  free(value_lengths);
   log_attribute("attribute.c serialize_hash() "
-                "serialized %u entries in %u bytes",
-                (unsigned int) entries, (unsigned int) total_length);
+                "serialized %lu entries in %lu bytes",
+                (long unsigned) entries, (long unsigned) total_length);
   return A_SERIAL_OK;
 }
 
@@ -200,44 +224,45 @@ static enum attribute_serial serialize_hash( struct hash_table *hash,
   server, stored in a savegame, retrieved from the savegame, sent as an 
   opaque data packet back to the client, and now is ready to be restored.
   Check everything!
-*****************************************************************************/
-static enum attribute_serial unserialize_hash( struct hash_table *hash,
-					void *data, size_t data_length )
+****************************************************************************/
+static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
+                                              const void *data,
+                                              size_t data_length)
 {
   int entries, i, dummy;
   struct data_in din;
 
-  hash_delete_all_entries(hash);
+  attribute_hash_clear(hash);
 
   dio_input_init(&din, data, data_length);
 
   dio_get_uint32(&din, &dummy);
   if (dummy != 0) {
-    log_verbose("attribute.c unserialize_hash() preamble, uint32 %u != 0",
-                (unsigned int) dummy);
+    log_verbose("attribute.c unserialize_hash() preamble, uint32 %lu != 0",
+                (long unsigned) dummy);
     return A_SERIAL_OLD;
   }
   dio_get_uint8(&din, &dummy);
   if (dummy != 2) {
     log_verbose("attribute.c unserialize_hash() preamble, "
-                "uint8 %u != 2 version", (unsigned int) dummy);
+                "uint8 %lu != 2 version", (long unsigned) dummy);
     return A_SERIAL_OLD;
   }
   dio_get_uint32(&din, &entries);
   dio_get_uint32(&din, &dummy);
   if (dummy != data_length) {
     log_verbose("attribute.c unserialize_hash() preamble, "
-                "uint32 %u != %u data_length",
-                (unsigned int) dummy, (unsigned int) data_length);
+                "uint32 %lu != %lu data_length",
+                (long unsigned) dummy, (long unsigned) data_length);
     return A_SERIAL_FAIL;
   }
 
   log_attribute("attribute.c unserialize_hash() "
-                "uint32 %u entries, %u data_length",
-                (unsigned int) entries, (unsigned int) data_length);
+                "uint32 %lu entries, %lu data_length",
+                (long unsigned) entries, (long unsigned) data_length);
 
   for (i = 0; i < entries; i++) {
-    struct attr_key *pkey = fc_malloc(sizeof(*pkey));
+    struct attr_key key;
     void *pvalue;
     int value_length;
     struct data_out dout;
@@ -246,54 +271,49 @@ static enum attribute_serial unserialize_hash( struct hash_table *hash,
     if (din.too_short) {
       log_verbose("attribute.c unserialize_hash() "
                   "uint32 value_length dio_input_too_short");
-      free(pkey);
       return A_SERIAL_FAIL;
     }
     if (value_length > dio_input_remaining(&din)) {
       log_verbose("attribute.c unserialize_hash() "
-                  "uint32 %u value_length > %u input_remaining",
-                  (unsigned int) value_length,
-                  (unsigned int) dio_input_remaining(&din));
-      free(pkey);
+                  "uint32 %lu value_length > %lu input_remaining",
+                  (long unsigned) value_length,
+                  (long unsigned) dio_input_remaining(&din));
       return A_SERIAL_FAIL;
     }
     if (value_length < 16 /* including itself */) {
       log_verbose("attribute.c unserialize_hash() "
-                  "uint32 %u value_length < 16",
-                  (unsigned int) value_length);
-      free(pkey);
+                  "uint32 %lu value_length < 16",
+                  (long unsigned) value_length);
       return A_SERIAL_FAIL;
     }
     log_attribute("attribute.c unserialize_hash() "
-                  "uint32 %u value_length", (unsigned int) value_length);
+                  "uint32 %lu value_length", (long unsigned) value_length);
 
     /* next 12 bytes */
-    dio_get_uint32(&din, &pkey->key);
-    dio_get_uint32(&din, &pkey->id);
-    dio_get_sint16(&din, &pkey->x);
-    dio_get_sint16(&din, &pkey->y);
+    dio_get_uint32(&din, &key.key);
+    dio_get_uint32(&din, &key.id);
+    dio_get_sint16(&din, &key.x);
+    dio_get_sint16(&din, &key.y);
 
     if (din.too_short) {
       log_verbose("attribute.c unserialize_hash() "
                   "uint32 key dio_input_too_short");
-      free(pkey);
       return A_SERIAL_FAIL;
     }
     pvalue = fc_malloc(value_length + 4);
 
-    dio_output_init(&dout, pvalue, 4);
+    dio_output_init(&dout, pvalue, value_length + 4);
     dio_put_uint32(&dout, value_length);
     dio_get_memory(&din, ADD_TO_POINTER(pvalue, 4), value_length);
 
-    if (!hash_insert(hash, pkey, pvalue)) {
+    if (!attribute_hash_insert(hash, &key, pvalue)) {
       /* There are some untraceable attribute bugs caused by the CMA that
-       * can cause this to happen.  I think the only safe thing to do is
-       * to delete all attributes.  Another symptom of the bug is the
+       * can cause this to happen. I think the only safe thing to do is
+       * to delete all attributes. Another symptom of the bug is the
        * value_length (above) is set to a random value, which can also
        * cause a bug. */
       free(pvalue);
-      free(pkey);
-      hash_delete_all_entries(hash);
+      attribute_hash_clear(hash);
       return A_SERIAL_FAIL;
     }
   }
@@ -301,20 +321,20 @@ static enum attribute_serial unserialize_hash( struct hash_table *hash,
 }
 
 /****************************************************************************
- Send current state to the server. Note that the current
- implementation will send all attributes to the server.
-*****************************************************************************/
+  Send current state to the server. Note that the current
+  implementation will send all attributes to the server.
+****************************************************************************/
 void attribute_flush(void)
 {
-  struct player *pplayer = client.conn.playing;
+  struct player *pplayer = client_player();
 
   if (!pplayer || client_is_observer() || !pplayer->is_alive) {
     return;
   }
 
-  fc_assert_ret(attribute_hash != NULL);
+  fc_assert_ret(NULL != attribute_hash);
 
-  if (hash_num_entries(attribute_hash) == 0)
+  if (0 == attribute_hash_size(attribute_hash))
     return;
 
   if (pplayer->attribute_block.data) {
@@ -322,18 +342,18 @@ void attribute_flush(void)
     pplayer->attribute_block.data = NULL;
   }
 
-  serialize_hash(attribute_hash, &(pplayer->attribute_block.data),
-		 &(pplayer->attribute_block.length));
+  serialize_hash(attribute_hash, &pplayer->attribute_block.data,
+                 &pplayer->attribute_block.length);
   send_attribute_block(pplayer, &client.conn);
 }
 
 /****************************************************************************
- Recreate the attribute set from the player's
- attribute_block. Shouldn't be used by normal code.
-*****************************************************************************/
+  Recreate the attribute set from the player's
+  attribute_block. Shouldn't be used by normal code.
+****************************************************************************/
 void attribute_restore(void)
 {
-  struct player *pplayer = client.conn.playing;
+  struct player *pplayer = client_player();
 
   if (!pplayer) {
     return;
@@ -357,83 +377,56 @@ void attribute_restore(void)
 }
 
 /****************************************************************************
- Low-level function to set an attribute.  If data_length is zero the
- attribute is removed.
-*****************************************************************************/
+  Low-level function to set an attribute.  If data_length is zero the
+  attribute is removed.
+****************************************************************************/
 void attribute_set(int key, int id, int x, int y, size_t data_length,
-		   const void *const data)
+                   const void *const data)
 {
-  struct attr_key *pkey;
-  void *pvalue = NULL;
+  struct attr_key akey = { .key = key, .id = id, .x = x, .y = y };
 
-  log_attribute("attribute_set(key=%d, id=%d, x=%d, y=%d, "
-                "data_length=%d, data=%p)", key, id, x, y,
-                (unsigned int) data_length, data);
+  log_attribute("attribute_set(key = %d, id = %d, x = %d, y = %d, "
+                "data_length = %lu, data = %p)", key, id, x, y,
+                (long unsigned) data_length, data);
 
-  fc_assert_ret(attribute_hash != NULL);
+  fc_assert_ret(NULL != attribute_hash);
 
-  pkey = fc_malloc(sizeof(struct attr_key));
-  pkey->key = key;
-  pkey->id = id;
-  pkey->x = x;
-  pkey->y = y;
-
-  if (data_length != 0) {
+  if (0 != data_length) {
+    void *pvalue = fc_malloc(data_length + 4);
     struct data_out dout;
-
-    pvalue = fc_malloc(data_length + 4);
 
     dio_output_init(&dout, pvalue, data_length + 4);
     dio_put_uint32(&dout, data_length);
     dio_put_memory(&dout, data, data_length);
-  }
 
-  if (hash_key_exists(attribute_hash, pkey)) {
-    void *old_key;
-    void *old_value = hash_delete_entry_full(attribute_hash, pkey, &old_key);
-
-    free(old_value);
-    free(old_key);
-  }
-
-  if (data_length != 0) {
-    if (!hash_insert(attribute_hash, pkey, pvalue)) {
-      /* Always fails. */
-      fc_assert(hash_insert(attribute_hash, pkey, pvalue));
-    }
+    attribute_hash_replace(attribute_hash, &akey, pvalue);
+  } else {
+    attribute_hash_remove(attribute_hash, &akey);
   }
 }
 
 /****************************************************************************
- Low-level function to get an attribute. If data hasn't enough space
- to hold the attribute data isn't set to the attribute. Returns the
- actual size of the attribute. Can be zero if the attribute is
- unset. To get the size of an attribute use 
-   size = attribute_get(key, id, x, y, 0, NULL)
+  Low-level function to get an attribute. If data hasn't enough space
+  to hold the attribute data isn't set to the attribute. Returns the
+  actual size of the attribute. Can be zero if the attribute is
+  unset. To get the size of an attribute use 
+    size = attribute_get(key, id, x, y, 0, NULL)
 *****************************************************************************/
 size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
-		  void *data)
+                     void *data)
 {
-
-  struct attr_key pkey;
+  struct attr_key akey = { .key = key, .id = id, .x = x, .y = y };
   void *pvalue;
   int length;
   struct data_in din;
 
-  log_attribute("attribute_get(key=%d, id=%d, x=%d, y=%d, "
-                "max_data_length=%d, data=%p)", key, id, x, y,
-                (unsigned int) max_data_length, data);
+  log_attribute("attribute_get(key = %d, id = %d, x = %d, y = %d, "
+                "max_data_length = %lu, data = %p)", key, id, x, y,
+                (long unsigned) max_data_length, data);
 
-  fc_assert_ret_val(attribute_hash != NULL, 0);
+  fc_assert_ret_val(NULL != attribute_hash, 0);
 
-  pkey.key = key;
-  pkey.id = id;
-  pkey.x = x;
-  pkey.y = y;
-
-  pvalue = hash_lookup_data(attribute_hash, &pkey);
-
-  if (!pvalue) {
+  if (!attribute_hash_lookup(attribute_hash, &akey, &pvalue)) {
     log_attribute("  not found");
     return 0;
   }
@@ -445,7 +438,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
     dio_get_memory(&din, data, length);
   }
 
-  log_attribute("  found length=%d", length);
+  log_attribute("  found length = %d", length);
   return length;
 }
 
