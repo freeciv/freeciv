@@ -52,14 +52,23 @@ struct tile {
   char *spec_sprite;
 };
 
-/* get 'struct tile_list' and related functions: */
+/* 'struct tile_list' and related functions. */
 #define SPECLIST_TAG tile
 #define SPECLIST_TYPE struct tile
 #include "speclist.h"
+#define tile_list_iterate(tile_list, ptile)                                 \
+  TYPED_LIST_ITERATE(struct tile, tile_list, ptile)
+#define tile_list_iterate_end LIST_ITERATE_END
 
-#define tile_list_iterate(tile_list, ptile) \
-    TYPED_LIST_ITERATE(struct tile, tile_list, ptile)
-#define tile_list_iterate_end  LIST_ITERATE_END
+/* 'struct tile_hash' and related functions. */
+#define SPECHASH_TAG tile
+#define SPECHASH_KEY_TYPE struct tile *
+#define SPECHASH_DATA_TYPE void *
+#include "spechash.h"
+#define tile_hash_iterate(hash, ptile)                                      \
+  TYPED_HASH_KEYS_ITERATE(struct tile *, hash, ptile)
+#define tile_hash_iterate_end HASH_KEYS_ITERATE_END
+
 
 /* Tile accessor functions. */
 int tile_index(const struct tile *ptile);

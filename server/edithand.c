@@ -20,7 +20,6 @@
 /* utility */
 #include "bitvector.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
@@ -55,10 +54,10 @@
 
 #include "edithand.h"
 
-/* This table holds pointers to tiles for which expensive
- * checks (e.g. assign_continent_numbers) have been left
- * until after a sequence of edits is complete. */
-static struct hash_table *unfixed_tile_table;
+/* This table holds pointers to tiles for which expensive checks (e.g.
+ * assign_continent_numbers) have been left until after a sequence of
+ * edits is complete. */
+static struct tile_hash *unfixed_tile_table = NULL;
 
 /* Array of size player_slot_count() indexed by player
  * number to tell whether a given player has fog of war
@@ -70,10 +69,10 @@ static bool *unfogged_players;
 ****************************************************************************/
 void edithand_init(void)
 {
-  if (unfixed_tile_table != NULL) {
-    hash_free(unfixed_tile_table);
+  if (NULL != unfixed_tile_table) {
+    tile_hash_destroy(unfixed_tile_table);
   }
-  unfixed_tile_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  unfixed_tile_table = tile_hash_new();
 
   if (unfogged_players != NULL) {
     free(unfogged_players);
@@ -86,8 +85,8 @@ void edithand_init(void)
 ****************************************************************************/
 void edithand_free(void)
 {
-  if (unfixed_tile_table != NULL) {
-    hash_free(unfixed_tile_table);
+  if (NULL != unfixed_tile_table) {
+    tile_hash_destroy(unfixed_tile_table);
     unfixed_tile_table = NULL;
   }
 
@@ -102,14 +101,14 @@ void edithand_free(void)
 ****************************************************************************/
 static void check_edited_tile_terrains(void)
 {
-  if (hash_num_entries(unfixed_tile_table) < 1) {
+  if (0 >= tile_hash_size(unfixed_tile_table)) {
     return;
   }
 
-  hash_keys_iterate(unfixed_tile_table, ptile) {
+  tile_hash_iterate(unfixed_tile_table, ptile) {
     fix_tile_on_terrain_change(ptile, FALSE);
-  } hash_keys_iterate_end;
-  hash_delete_all_entries(unfixed_tile_table);
+  } tile_hash_iterate_end;
+  tile_hash_clear(unfixed_tile_table);
 
   assign_continent_numbers();
   send_all_known_tiles(NULL);
@@ -197,7 +196,7 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
 
   tile_change_terrain(ptile, pterrain);
   if (need_to_fix_terrain_change(old_terrain, pterrain)) {
-    hash_insert(unfixed_tile_table, ptile, ptile);
+    tile_hash_insert(unfixed_tile_table, ptile, NULL);
   }
 
   if (send_tile_info) {
