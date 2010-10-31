@@ -43,7 +43,7 @@ conflicts_with = "salvadoran", "nicaraguan" ;similar flags
 civilwar_nations = "miskito", "mayan", "salvadoran"
 
 cities =
- "Tegucigalpa (mountain)",
+ "Tegucigalpa (mountains)",
  "Comayagua (mountains)",
  "San Pedro Sula (mountains)",
  "La Ceiba (ocean)",

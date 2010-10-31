@@ -11,7 +11,7 @@ legend=_("The history of Laos starts with the Lan Xang kingdom\
  by 30 years of civil war. In 1975 the communist Pathet\
  Lao established a strict socialist regime. However,\
  in 1986 the liberalization and a gradual return to\
- private enterpise started.")
+ private enterprise started.")
 
 leaders = {
  "name",                "sex"

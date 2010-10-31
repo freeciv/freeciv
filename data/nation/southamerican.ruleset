@@ -5,7 +5,7 @@ plural=_("?plural:South Americans")
 groups= "Imaginary"
 legend=_("The Union of South American Nations was formed in 2008, modeled\
  after the European Union, but panamericanism has already existed since\
- the the 19th century.")
+ the 19th century.")
 
 leaders = {
  "name",                                "sex"
