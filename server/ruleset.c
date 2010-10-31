@@ -3791,7 +3791,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     lsend_packet_ruleset_government(dest, &gov);
 
     /* Send one packet_government_ruler_title per ruler title. */
-    government_ruler_titles_iterate(g, pruler_title) {
+    ruler_titles_iterate(government_ruler_titles(g), pruler_title) {
       const struct nation_type *pnation = ruler_title_nation(pruler_title);
 
       title.gov = government_number(g);
@@ -3800,7 +3800,7 @@ static void send_ruleset_governments(struct conn_list *dest)
       sz_strlcpy(title.female_title,
                  ruler_title_female_rule_name(pruler_title));
       lsend_packet_ruleset_government_ruler_title(dest, &title);
-    } government_ruler_titles_iterate_end;
+    } ruler_titles_iterate_end;
   } governments_iterate_end;
 }
 

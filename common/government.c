@@ -17,7 +17,6 @@
 
 /* utility */
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -190,10 +189,26 @@ struct ruler_title {
   struct name_translation female;
 };
 
-#define RULER_TITLE_NATION_KEY(pnation) FC_INT_TO_PTR(nation_number(pnation))
-/* Prefer nation_count() as -1, since some versions of gcc may misscompile
- * it. */
-#define RULER_TITLE_DEFAULT_KEY FC_INT_TO_PTR(nation_count())
+/****************************************************************************
+  Hash function.
+****************************************************************************/
+static genhash_val_t nation_hash_val(const struct nation_type *pnation,
+                                     size_t num_buckets)
+{
+  genhash_val_t base = (NULL != pnation ? nation_number(pnation)
+                        : nation_count());
+
+  return base % num_buckets;
+}
+
+/****************************************************************************
+  Hash function.
+****************************************************************************/
+static bool nation_hash_comp(const struct nation_type *pnation1,
+                             const struct nation_type *pnation2)
+{
+  return pnation1 == pnation2;
+}
 
 /****************************************************************************
   Create a new ruler title.
@@ -295,6 +310,16 @@ static bool ruler_title_check(const struct ruler_title *pruler_title)
 }
 
 /****************************************************************************
+  Returns all ruler titles for a government type.
+****************************************************************************/
+const struct ruler_title_hash *
+government_ruler_titles(const struct government *pgovern)
+{
+  fc_assert_ret_val(NULL != pgovern, NULL);
+  return pgovern->ruler_titles;
+}
+
+/****************************************************************************
   Add a new ruler title for the nation. Pass NULL for pnation for defining
   the default title.
 ****************************************************************************/
@@ -306,26 +331,24 @@ government_ruler_title_new(struct government *pgovern,
 {
   struct ruler_title *pruler_title =
       ruler_title_new(pnation, ruler_male_title, ruler_female_title);
-  void *ret;
 
   if (!ruler_title_check(pruler_title)) {
     ruler_title_destroy(pruler_title);
     return NULL;
   }
 
-  if (NULL != pnation) {
-    ret = hash_replace(pgovern->ruler_titles,
-                       RULER_TITLE_NATION_KEY(pnation), pruler_title);
-    fc_assert_msg(NULL == ret, "Ruler title for government \"%s\" (nb %d) "
-                  "and nation \"%s\" (nb %d) was set twice.",
-                  government_rule_name(pgovern), government_number(pgovern),
-                  nation_rule_name(pnation), nation_number(pnation));
-  } else {
-    ret = hash_replace(pgovern->ruler_titles,
-                       RULER_TITLE_DEFAULT_KEY, pruler_title);
-    fc_assert_msg(NULL == ret, "Default ruler title for government \"%s\" "
-                  "(nb %d) was set twice.",
-                  government_rule_name(pgovern), government_number(pgovern));
+  if (ruler_title_hash_replace(pgovern->ruler_titles,
+                               pnation, pruler_title)) {
+    if (NULL != pnation) {
+      log_error("Ruler title for government \"%s\" (nb %d) and "
+                "nation \"%s\" (nb %d) was set twice.",
+                government_rule_name(pgovern), government_number(pgovern),
+                nation_rule_name(pnation), nation_number(pnation));
+    } else {
+      log_error("Default ruler title for government \"%s\" (nb %d) "
+                "was set twice.", government_rule_name(pgovern),
+                government_number(pgovern));
+    }
   }
 
   return pruler_title;
@@ -372,16 +395,11 @@ const char *ruler_title_for_player(const struct player *pplayer,
   fc_assert_ret_val(0 < buf_len, NULL);
 
   /* Try specific nation rule title. */
-  pruler_title = hash_lookup_data(pgovern->ruler_titles,
-                                  RULER_TITLE_NATION_KEY(pnation));
-
-  if (NULL == pruler_title) {
-    /* Try default rule title. */
-    pruler_title = hash_lookup_data(pgovern->ruler_titles,
-                                    RULER_TITLE_DEFAULT_KEY);
-  }
-
-  if (NULL == pruler_title) {
+  if (!ruler_title_hash_lookup(pgovern->ruler_titles,
+                               pnation, &pruler_title)
+      /* Try default rule title. */
+      && !ruler_title_hash_lookup(pgovern->ruler_titles,
+                                  NULL, &pruler_title)) {
     log_error("Missing title for government \"%s\" (nb %d) "
               "nation \"%s\" (nb %d).",
               government_rule_name(pgovern), government_number(pgovern),
@@ -468,8 +486,8 @@ static inline void government_init(struct government *pgovern)
 
   pgovern->item_number = pgovern - governments;
   pgovern->ruler_titles =
-      hash_new_full(hash_fval_keyval, hash_fcmp_keyval, NULL,
-                    (hash_free_fn_t) ruler_title_destroy);
+      ruler_title_hash_new_full(nation_hash_val, nation_hash_comp,
+                                NULL, NULL, NULL, ruler_title_destroy);
   requirement_vector_init(&pgovern->reqs);
 }
 
@@ -478,7 +496,7 @@ static inline void government_init(struct government *pgovern)
 ****************************************************************************/
 static inline void government_free(struct government *pgovern)
 {
-  hash_free(pgovern->ruler_titles);
+  ruler_title_hash_destroy(pgovern->ruler_titles);
   pgovern->ruler_titles = NULL;
 
   if (NULL != pgovern->helptext) {

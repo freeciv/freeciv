@@ -14,7 +14,6 @@
 #define FC__GOVERNMENT_H
 
 /* utility */
-#include "hash.h"
 #include "shared.h"
 
 /* common */
@@ -26,6 +25,16 @@
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 struct ruler_title;     /* Opaque type. */
+
+/* 'struct ruler_title_hash' and related functions. */
+#define SPECHASH_TAG ruler_title
+#define SPECHASH_KEY_TYPE struct nation_type *
+#define SPECHASH_DATA_TYPE struct ruler_title *
+#include "spechash.h"
+#define ruler_titles_iterate(ARG_hash, NAME_rule_title)                     \
+  TYPED_HASH_DATA_ITERATE(const struct ruler_title *, ARG_hash,             \
+                          NAME_rule_title)
+#define ruler_titles_iterate_end HASH_DATA_ITERATE_END
 
 #define G_MAGIC (127)		/* magic constant */
 
@@ -40,7 +49,7 @@ struct government {
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
-  struct hash_table *ruler_titles;
+  struct ruler_title_hash *ruler_titles;
   struct strvec *helptext;
 
   /* AI cached data for this government. */
@@ -67,6 +76,8 @@ const char *government_name_translation(const struct government *pgovern);
 const char *government_name_for_player(const struct player *pplayer);
 
 /* Ruler titles. */
+const struct ruler_title_hash *
+government_ruler_titles(const struct government *pgovern);
 struct ruler_title *
 government_ruler_title_new(struct government *pgovern,
                            const struct nation_type *pnation,
@@ -82,12 +93,6 @@ ruler_title_female_rule_name(const struct ruler_title *pruler_title);
 
 const char *ruler_title_for_player(const struct player *pplayer,
                                    char *buf, size_t buf_len);
-
-#define government_ruler_titles_iterate(NAME_pgov, NAME_rule_title)         \
-  generic_iterate(struct hash_iter, const struct ruler_title *,             \
-                  NAME_rule_title, hash_iter_sizeof, hash_value_iter_init,  \
-                  NAME_pgov->ruler_titles)
-#define government_ruler_titles_iterate_end generic_iterate_end
 
 /* Ancillary routines */
 bool can_change_to_government(struct player *pplayer,
