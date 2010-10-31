@@ -320,6 +320,7 @@ flag_files =				\
 		sikkim.png		\
 		silesia.png		\
 		singapore.png		\
+		slavic.png		\
 		slovakia.png		\
 		slovenia.png		\
 		somalia.png		\
@@ -713,6 +714,7 @@ shield_files =					\
 		sikkim-shield.png		\
 		silesia-shield.png		\
 		singapore-shield.png		\
+		slavic-shield.png		\
 		slovakia-shield.png		\
 		slovenia-shield.png		\
 		somalia-shield.png		\
@@ -1106,6 +1108,7 @@ svg_files = 				\
 		sikkim.svg		\
 		silesia.svg		\
 		singapore.svg		\
+		slavic.svg		\
 		slovakia.svg		\
 		slovenia.svg		\
 		somalia.svg		\

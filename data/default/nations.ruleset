@@ -364,6 +364,7 @@ match=2
 *include "nation/silesian.ruleset"
 *include "nation/singaporean.ruleset"
 *include "nation/sioux.ruleset"
+*include "nation/slavic.ruleset"
 *include "nation/slovakian.ruleset"
 *include "nation/slovenian.ruleset"
 *include "nation/somali.ruleset"
