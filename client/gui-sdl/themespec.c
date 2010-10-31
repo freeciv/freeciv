@@ -28,7 +28,6 @@
 /* utility */
 #include "capability.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "registry.h"
 #include "string_vector.h"
@@ -112,9 +111,22 @@ struct small_sprite {
 #define SPECLIST_TYPE struct small_sprite
 #include "speclist.h"
 
-#define small_sprite_list_iterate(list, pitem) \
-    TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
-#define small_sprite_list_iterate_end  LIST_ITERATE_END
+#define small_sprite_list_iterate(list, pitem)                              \
+  TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
+#define small_sprite_list_iterate_end LIST_ITERATE_END
+
+#define SPECHASH_TAG small_sprite
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE struct small_sprite *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#include "spechash.h"
+#define small_sprite_hash_iterate(hash, tag_name, pitem)                    \
+  TYPED_HASH_ITERATE(const char *, struct small_sprite *, hash,             \
+                     tag_name, pitem)
+#define small_sprite_hash_iterate_end HASH_ITERATE_END
 
 struct theme {
   char name[512];
@@ -129,7 +141,7 @@ struct theme {
   /*
    * This hash table maps themespec tags to struct small_sprites.
    */
-  struct hash_table *sprite_hash;
+  struct small_sprite_hash *sprite_hash;
 
 /*  struct named_sprites sprites;*/
 
@@ -582,14 +594,14 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
 
         if (!duplicates_ok) {
           for (k = 0; k < num_tags; k++) {
-            if (!hash_insert(t->sprite_hash, fc_strdup(tags[k]), ss)) {
+            if (!small_sprite_hash_insert(t->sprite_hash, tags[k], ss)) {
               log_error("warning: already have a sprite for \"%s\".",
                         tags[k]);
             }
           }
         } else {
           for (k = 0; k < num_tags; k++) {
-            (void) hash_replace(t->sprite_hash, fc_strdup(tags[k]), ss);
+            (void) small_sprite_hash_replace(t->sprite_hash, tags[k], ss);
           }
         }
 
@@ -632,13 +644,13 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
 
     if (!duplicates_ok) {
       for (k = 0; k < num_tags; k++) {
-        if (!hash_insert(t->sprite_hash, fc_strdup(tags[k]), ss)) {
+        if (!small_sprite_hash_insert(t->sprite_hash, tags[k], ss)) {
           log_error("warning: already have a sprite for \"%s\".", tags[k]);
         }
       }
     } else {
       for (k = 0; k < num_tags; k++) {
-        (void) hash_replace(t->sprite_hash, fc_strdup(tags[k]), ss);
+        (void) small_sprite_hash_replace(t->sprite_hash, tags[k], ss);
       }
     }
     FC_FREE(tags);
@@ -766,7 +778,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   }
 
   fc_assert(t->sprite_hash == NULL);
-  t->sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
+  t->sprite_hash = small_sprite_hash_new();
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
 
@@ -809,10 +821,10 @@ struct theme *theme_read_toplevel(const char *theme_name)
 static struct sprite *load_sprite(struct theme *t, const char *tag_name)
 {
   /* Lookup information about where the sprite is found. */
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+  struct small_sprite *ss;
 
   log_debug("load_sprite(tag='%s')", tag_name);
-  if (!ss) {
+  if (!small_sprite_hash_lookup(t->sprite_hash, tag_name, &ss)) {
     return NULL;
   }
 
@@ -857,8 +869,9 @@ static struct sprite *load_sprite(struct theme *t, const char *tag_name)
 **************************************************************************/
 static void unload_sprite(struct theme *t, const char *tag_name)
 {
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+  struct small_sprite *ss;
 
+  small_sprite_hash_lookup(t->sprite_hash, tag_name, &ss);
   fc_assert_ret(ss);
   fc_assert_ret(ss->ref_count >= 1);
   fc_assert_ret(ss->sprite);
@@ -1001,16 +1014,11 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
 static void unload_all_sprites(struct theme *t)
 {
   if (t->sprite_hash) {
-    int i, entries = hash_num_entries(t->sprite_hash);
-
-    for (i = 0; i < entries; i++) {
-      const char *tag_name = hash_key_by_number(t->sprite_hash, i);
-      struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
-
+    small_sprite_hash_iterate(t->sprite_hash, tag_name, ss) {
       while (ss->ref_count > 0) {
-	unload_sprite(t, tag_name);
+        unload_sprite(t, tag_name);
       }
-    }
+    } small_sprite_hash_iterate_end;
   }
 }
 
@@ -1019,23 +1027,12 @@ static void unload_all_sprites(struct theme *t)
 ***********************************************************************/
 void theme_free_sprites(struct theme *t)
 {
-  int i;
-
   log_debug("theme_free_sprites()");
 
   unload_all_sprites(t);
 
   if (t->sprite_hash) {
-    const int entries = hash_num_entries(t->sprite_hash);
-
-    for (i = 0; i < entries; i++) {
-      const char *key = hash_key_by_number(t->sprite_hash, 0);
-
-      hash_delete_entry(t->sprite_hash, key);
-      free((void *) key);
-    }
-
-    hash_free(t->sprite_hash);
+    small_sprite_hash_destroy(t->sprite_hash);
     t->sprite_hash = NULL;
   }
 
