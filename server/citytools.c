@@ -565,28 +565,28 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
   } else {
     struct city *in_city = tile_city(punit->tile);
     if (in_city) {
-      log_verbose("Transfered %s in %s from %s to %s",
+      log_verbose("Transferred %s in %s from %s to %s",
                   unit_rule_name(punit), city_name(in_city),
                   nation_rule_name(nation_of_player(from_player)),
                   nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
         notify_player(from_player, unit_tile(punit),
                       E_UNIT_RELOCATED, ftc_server,
-		      _("Transfered %s in %s from %s to %s."),
+		      _("Transferred %s in %s from %s to %s."),
 		      unit_link(punit),
 		      city_link(in_city),
 		      nation_plural_for_player(from_player),
 		      nation_plural_for_player(to_player));
       }
     } else if (can_unit_exist_at_tile(punit, tocity->tile)) {
-      log_verbose("Transfered %s from %s to %s",
+      log_verbose("Transferred %s from %s to %s",
                   unit_rule_name(punit),
                   nation_rule_name(nation_of_player(from_player)),
                   nation_rule_name(nation_of_player(to_player)));
       if (verbose) {
         notify_player(from_player, unit_tile(punit),
                       E_UNIT_RELOCATED, ftc_server,
-                      _("Transfered %s from %s to %s."),
+                      _("Transferred %s from %s to %s."),
 		      unit_link(punit),
 		      nation_plural_for_player(from_player),
 		      nation_plural_for_player(to_player));
@@ -1546,7 +1546,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 		    coins);
     } else {
       notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
-		    _("You conquer %s"),
+		    _("You conquer %s."),
 		    city_link(pcity));
       notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
 		    _("%s conquered %s."),

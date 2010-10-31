@@ -3196,7 +3196,7 @@ static void player_load_cities(struct player *plr, int plrno,
 
     k = pcity->size - specialists - (workers - FREE_WORKED_TILES);
     if (0 != k) {
-      log_error("[player%d.c%d] size missmatch for '%s' (%d,%d): "
+      log_error("[player%d.c%d] size mismatch for '%s' (%d,%d): "
                 "size [%d] != (workers [%d] - free worked tiles [%d]) + "
                 "specialists [%d]",
                 plrno, i, city_name(pcity), TILE_XY(pcenter), pcity->size,

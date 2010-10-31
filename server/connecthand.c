@@ -659,7 +659,7 @@ void connection_detach(struct connection *pconn)
           /* Detach all. */
           if (aconn != pconn) {
             notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
-                        _("detaching from %s."),
+                        _("Detaching from %s."),
                         player_name(pplayer));
             /* Recursive... but shouldn't be problem. */
             connection_detach(aconn);

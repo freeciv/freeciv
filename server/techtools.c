@@ -376,7 +376,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
           && (!is_future_tech(research->researching)
 	      || !is_future_tech(tech_found))) {
         notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
-                    _("Learned %s.  Scientists choose to research %s."),
+                    _("Learned %s. Scientists choose to research %s."),
                     advance_name_for_player(plr, tech_found),
                     advance_name_researching(plr));
       } else if (research->researching != A_UNSET) {
@@ -391,7 +391,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
                     "%s%s", buffer1, buffer2);
       } else {
         notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
-                    _("Learned %s.  Scientists "
+                    _("Learned %s. Scientists "
                       "do not know what to research next."),
                     advance_name_for_player(plr, tech_found));
       }
@@ -477,14 +477,14 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
       && (research->techs_researched > 0 || research->future_tech > 0)) {
     if (research->future_tech > 0) {
       notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
-                    _("Too low science output. We lost Future Tech. %d."),
+                    _("Insufficient science output. We lost Future Tech. %d."),
                     research->future_tech);
       research->future_tech--;
     } else {
       Tech_type_id tech = pick_random_tech_researched(plr);
       if (tech != A_NONE) {
         notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
-                      _("Too low science output. We lost %s."),
+                      _("Insufficient science output. We lost %s."),
                       advance_name_for_player(plr, tech));
         player_tech_lost(plr, tech);
       }

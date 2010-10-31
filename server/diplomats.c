@@ -1313,7 +1313,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
                     city_link(victim_city));
       notify_player(victim_player, victim_tile,
                     E_DIPLOMATIC_INCIDENT, ftc_server,
-                    _("%s have caused an incident while inciting a "
+                    _("The %s have caused an incident while inciting a "
                       "revolt in %s."),
                     nation_plural_for_player(offender),
                     city_link(victim_city));

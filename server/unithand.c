@@ -1553,7 +1553,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   if (!pcity_homecity) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Sorry, your %s cannot establish"
-                    " a trade route because it has no home city"),
+                    " a trade route because it has no home city."),
                   unit_link(punit));
     return FALSE;
    
@@ -1565,7 +1565,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   if (!can_cities_trade(pcity_homecity, pcity_dest)) {
     notify_player(pplayer, city_tile(pcity_dest), E_BAD_COMMAND, ftc_server,
                   _("Sorry, your %s cannot establish"
-                    " a trade route between %s and %s"),
+                    " a trade route between %s and %s."),
                   unit_link(punit),
                   homecity_link,
                   destcity_link);

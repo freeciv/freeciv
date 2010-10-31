@@ -523,7 +523,7 @@ enum server_events server_sniff_all_input(void)
 	} else {
 	  last_noplayers = time(NULL);
 
-          log_normal(_("restarting in %d seconds for lack of players"),
+          log_normal(_("Restarting in %d seconds for lack of players."),
                      srvarg.quitidle);
 
           set_meta_message_string(N_("restarting soon for lack of players"));
@@ -991,7 +991,7 @@ int server_open_socket(void)
 
     if (error == EAFNOSUPPORT && src.saddr.sa_family == AF_INET6 && srvarg.bind_addr == NULL) {
       /* Let's try IPv4 socket instead */
-      log_normal(_("Cannot open IPv6 socket, trying IPv4 instead"));
+      log_normal(_("Cannot open IPv6 socket, trying IPv4 instead."));
 
       if (!net_lookup_service(NULL, srvarg.port, &src, TRUE)) {
         log_fatal(_("IPv4 service lookup failed <%d>."), srvarg.port);

@@ -3963,7 +3963,7 @@ void load_rulesets(void)
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
 
-  log_normal(_("Loading rulesets"));
+  log_normal(_("Loading rulesets."));
 
   game_ruleset_free();
   game_ruleset_init();

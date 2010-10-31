@@ -1697,7 +1697,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     ransom = (pvictim->economic.gold >= game.server.ransom_gold) 
              ? game.server.ransom_gold : pvictim->economic.gold;
     notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                  _("Barbarian leader captured, %d gold ransom paid."),
+                  _("Barbarian leader captured; %d gold ransom paid."),
                   ransom);
     pvictor->economic.gold += ransom;
     pvictim->economic.gold -= ransom;

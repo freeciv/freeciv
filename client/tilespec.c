@@ -5222,8 +5222,8 @@ void tileset_use_prefered_theme(const struct tileset *t)
       }
     }
   }
-  log_verbose("The tileset doesn't specify prefered themes or none of "
-              "prefered themes can be used. Using system default");
+  log_verbose("The tileset doesn't specify preferred themes or none of its "
+              "preferred themes can be used. Using system default.");
   gui_clear_theme();
 }
 

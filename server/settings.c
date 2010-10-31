@@ -962,7 +962,7 @@ static struct setting settings[] = {
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("All the map is temperate"),
            N_("If this setting is enabled, the temperature will be "
-              "equivalent everywhere on the map. It will result that the "
+              "equivalent everywhere on the map. As a result, the "
               "poles won't be generated."),
            NULL, NULL, MAP_DEFAULT_ALLTEMPERATE)
 
@@ -980,7 +980,7 @@ static struct setting settings[] = {
              "tropical and temperate zones.\n"
              " 30 means a cold planet with small tropical zones.\n"
              "  0 means a very cold planet with large polar zones and no "
-             "tropics"),
+             "tropics."),
           NULL, NULL,
           MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
  
@@ -1195,7 +1195,7 @@ static struct setting settings[] = {
   GEN_INT("techlost_recv", game.server.techlost_recv,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
           N_("Chance to lose an invention while receiving it"),
-          N_("If you receive an invention via an treaty this setting "
+          N_("If you receive an invention via a treaty, this setting "
              "defines the chance that the invention is lost during the "
              "transfer."),
           NULL, NULL, GAME_MIN_TECHLOST_RECV, GAME_MAX_TECHLOST_RECV,
@@ -1204,7 +1204,7 @@ static struct setting settings[] = {
   GEN_INT("techlost_donor", game.server.techlost_donor,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
           N_("Chance to lose an invention while giving it"),
-          N_("If you give an invention via an treaty this setting "
+          N_("If you give an invention via a treaty, this setting "
              "defines the chance that the invention is lost for your "
              "civilization during the transfer."),
           NULL, NULL, GAME_MIN_TECHLOST_DONOR, GAME_MAX_TECHLOST_DONOR,
@@ -1322,21 +1322,21 @@ static struct setting settings[] = {
   GEN_BOOL("trading_tech", game.info.trading_tech,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RULES, SSET_TO_CLIENT,
            N_("Technology trading"),
-           N_("If turned off, trading technologies in diplomacy dialog "
+           N_("If turned off, trading technologies in the diplomacy dialog "
               "is not allowed."), NULL, NULL,
            GAME_DEFAULT_TRADING_TECH)
 
   GEN_BOOL("trading_gold", game.info.trading_gold,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RULES, SSET_TO_CLIENT,
            N_("Gold trading"),
-           N_("If turned off, trading gold in diplomacy dialog "
+           N_("If turned off, trading gold in the diplomacy dialog "
               "is not allowed."), NULL, NULL,
            GAME_DEFAULT_TRADING_GOLD)
 
   GEN_BOOL("trading_city", game.info.trading_city,
            SSET_RULES, SSET_SOCIOLOGY, SSET_RULES, SSET_TO_CLIENT,
            N_("City trading"),
-           N_("If turned off, trading cities in diplomacy dialog "
+           N_("If turned off, trading cities in the diplomacy dialog "
               "is not allowed."), NULL, NULL,
            GAME_DEFAULT_TRADING_CITY)
 
@@ -1397,7 +1397,7 @@ static struct setting settings[] = {
 
   GEN_INT("killunhomed", game.server.killunhomed,
           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-          N_("Slowly kill unhomecitied units (eg. startunits)"),
+          N_("Slowly kill units without home cities (e.g., starting units)"),
           N_("If greater than 0, then every unit without a homecity will "
              "lose hitpoints each turn. The number of hitpoints lost is "
              "given by 'killunhomed' percent of the hitpoints of the unit "
@@ -1528,7 +1528,7 @@ static struct setting settings[] = {
   GEN_INT("diplchance", game.server.diplchance,
           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
           SSET_TO_CLIENT,
-          N_("Base chance for diplomats and spies to succeed."),
+          N_("Base chance for diplomats and spies to succeed"),
           N_("The chance of a spy returning from a successful mission and "
              "the base chance of success for diplomats and spies."),
           NULL, NULL,
@@ -1589,7 +1589,7 @@ static struct setting settings[] = {
            N_("Rebuild palace whenever capital is conquered"),
            N_("If this is turned on, when the capital is conquered the "
               "palace is automatically rebuilt for free in another randomly "
-              "choosen city. This is significant because the technology "
+              "chosen city. This is significant because the technology "
               "requirement for building a palace will be ignored."),
            NULL, NULL, GAME_DEFAULT_SAVEPALACE)
 
@@ -1795,7 +1795,7 @@ static struct setting settings[] = {
    * the next turn). */
   GEN_ENUM("phasemode", game.server.phase_mode_stored,
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-           N_("Control of simultaneous player/team phases."),
+           N_("Control of simultaneous player/team phases"),
            N_("This setting controls whether players may make "
               "moves at the same time during a turn."),
            NULL, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
@@ -1822,7 +1822,7 @@ static struct setting settings[] = {
   GEN_INT("pingtime", game.server.pingtime,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Seconds between PINGs"),
-	  N_("The civserver will poll the clients with a PING request "
+	  N_("The server will poll the clients with a PING request "
              "each time this period elapses."), NULL, NULL,
 	  GAME_MIN_PINGTIME, GAME_MAX_PINGTIME, GAME_DEFAULT_PINGTIME)
 
@@ -1904,7 +1904,7 @@ static struct setting settings[] = {
 
   GEN_ENUM("saveversion", game.server.saveversion,
            SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
-           N_("Save using the given savegame version."),
+           N_("Save using the given savegame version"),
            N_("Create a savegame which can be loaded by the given version "
               "of Freeciv. Note that some features will not be "
               "saved/restored for older versions."),
@@ -2505,7 +2505,7 @@ static bool setting_enum_validate_base(const struct setting *pset,
 
   if (SSET_ENUM != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting is not a enumerator."));
+                      _("This setting is not an enumerator."));
     return FALSE;
   }
 

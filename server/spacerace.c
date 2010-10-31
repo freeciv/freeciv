@@ -188,7 +188,7 @@ void handle_spaceship_launch(struct player *pplayer)
 
   notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
                 _("The %s have launched a spaceship!  "
-                  "It is estimated to arrive on Alpha Centauri in %s."),
+                  "It is estimated to arrive at Alpha Centauri in %s."),
                 nation_plural_for_player(pplayer),
                 textyear(arrival));
 

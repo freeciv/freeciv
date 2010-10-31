@@ -276,7 +276,7 @@ static struct command commands[] = {
   {"detach",    ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("detach <connection-name>"),
-   N_("detach from a player."),
+   N_("Detach from a player."),
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to detach from a player."),
    CMD_ECHO_ADMINS, VCF_NONE, 0

@@ -352,7 +352,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
         = player_diplstate_get(pplayer, aplayer);
 
       if (!pplayers_non_attack(pplayer, aplayer)) {
-        notify(aplayer, _("*%s (AI)* Let us first cease hostilies, %s."),
+        notify(aplayer, _("*%s (AI)* Let us first cease hostilities, %s."),
                player_name(pplayer),
                player_name(aplayer));
         worth = -BIG_NUMBER;
@@ -1399,7 +1399,7 @@ void ai_diplomacy_actions(struct player *pplayer)
           && ai->diplomacy.spacerace_leader == aplayer
           && pplayers_allied(pplayer, aplayer)) {
         notify(aplayer, _("*%s (AI)* Your attempt to conquer space for "
-               "yourself alone betray your true intentions, and I "
+               "yourself alone betrays your true intentions, and I "
                "will have no more of our alliance!"),
                player_name(pplayer));
 	handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),

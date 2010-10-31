@@ -297,7 +297,7 @@ bool check_for_game_over(void)
   /* quit if we are past the turn limit */
   if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw as end turn exceeded"));
+                _("Game ended in a draw as end turn exceeded."));
     ggz_report_victory();
     return TRUE;
   }
@@ -348,7 +348,7 @@ bool check_for_game_over(void)
 
     if (!loner) {
       notify_conn(NULL, NULL, E_GAME_END, ftc_server,
-                  _("Team victory to %s"),
+                  _("Team victory to %s."),
                   team_name_translation(victor->team));
       players_iterate(pplayer) {
 	if (pplayer->team == victor->team) {
@@ -358,7 +358,7 @@ bool check_for_game_over(void)
       ggz_report_victory();
     } else {
       notify_conn(NULL, NULL, E_GAME_END, ftc_server,
-                  _("Game ended in victory for %s"),
+                  _("Game ended in victory for %s."),
                   player_name(victor));
       ggz_report_victor(victor);
       ggz_report_victory();
@@ -388,7 +388,7 @@ bool check_for_game_over(void)
     } players_iterate_end;
     if (win) {
       notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                  _("Team victory to %s"),
+                  _("Team victory to %s."),
                   team_name_translation(pteam));
       players_iterate(pplayer) {
         if (pplayer->is_alive
@@ -404,14 +404,14 @@ bool check_for_game_over(void)
   /* quit if only one player is left alive */
   if (alive == 1) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in victory for %s"),
+                _("Game ended in victory for %s."),
                 player_name(victor));
     ggz_report_victor(victor);
     ggz_report_victory();
     return TRUE;
   } else if (alive == 0) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw"));
+                _("Game ended in a draw."));
     ggz_report_victory();
     return TRUE;
   }
@@ -609,7 +609,7 @@ static void update_diplomatics(void)
                 && pplayers_allied(plr3, plr1)
                 && pplayers_allied(plr3, plr2)) {
               notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
-                            _("Ceasefire between %s and %s has run out. "
+                            _("The cease-fire between %s and %s has run out. "
                               "They are at war. You cancel your alliance "
                               "with both."),
                             player_name(plr1),
@@ -1079,10 +1079,10 @@ void save_game(const char *orig_filename, const char *save_reason,
     case FZ_PLAIN:
       break;
     default:
-      log_error(_("Unsupported compression type %d"),
+      log_error(_("Unsupported compression type %d."),
                 game.server.save_compress_type);
       notify_conn(NULL, NULL, E_SETTING, ftc_warning,
-                  _("Unsupported compression type %d"),
+                  _("Unsupported compression type %d."),
                   game.server.save_compress_type);
       break;
     }
@@ -1993,7 +1993,7 @@ static void srv_prepare(void)
 {
 #ifdef HAVE_AUTH
   if (!srvarg.auth_enabled) {
-    con_write(C_COMMENT, _("This civserver program has player authentication support, but it's currently not in use."));
+    con_write(C_COMMENT, _("This freeciv-server program has player authentication support, but it's currently not in use."));
   }
 #endif /* HAVE_AUTH */
 
@@ -2056,7 +2056,7 @@ static void srv_prepare(void)
   maybe_automatic_meta_message(default_meta_message_string());
 
   if(!(srvarg.metaserver_no_send)) {
-    log_normal(_("Sending info to metaserver <%s>"), meta_addr_port());
+    log_normal(_("Sending info to metaserver <%s>."), meta_addr_port());
     /* Open socket for meta server */
     if (!server_open_meta()
         || !send_server_info_to_metaserver(META_INFO)) {

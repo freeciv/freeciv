@@ -3833,7 +3833,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   repair = pcity->size - specialists - (workers - FREE_WORKED_TILES);
   if (0 != repair) {
-    log_sg("[%s] size missmatch for '%s' (%d,%d): size [%d] != "
+    log_sg("[%s] size mismatch for '%s' (%d,%d): size [%d] != "
            "(workers [%d] - free worked tiles [%d]) + specialists [%d]",
            citystr, city_name(pcity), TILE_XY(city_tile(pcity)), pcity->size,
            workers, FREE_WORKED_TILES, specialists);

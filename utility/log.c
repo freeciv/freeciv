@@ -185,7 +185,7 @@ out:
   return ret;
 #else
   fc_fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag "
-                       "to used advanced log levels based on files.\n"));
+                       "to use advanced log levels based on files.\n"));
   return FALSE;
 #endif /* DEBUG */
 }

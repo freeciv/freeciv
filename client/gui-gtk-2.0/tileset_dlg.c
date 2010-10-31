@@ -48,7 +48,7 @@ void popup_tileset_suggestion_dialog(void)
   GtkWidget *dialog, *label;
   char buf[1024];
 
-  dialog = gtk_dialog_new_with_buttons(_("Prefered tileset"),
+  dialog = gtk_dialog_new_with_buttons(_("Preferred tileset"),
                                        NULL,
                                        0,
                                        _("Load tileset"),
@@ -60,7 +60,7 @@ void popup_tileset_suggestion_dialog(void)
   gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);
 
   sprintf(buf,
-          _("Modpack suggest using %s tileset.\n"
+          _("Modpack suggests using %s tileset.\n"
             "It might not work with other tilesets.\n"
             "You are currently using tileset %s."),
           game.control.prefered_tileset, tileset_get_name(tileset));

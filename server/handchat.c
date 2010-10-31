@@ -113,7 +113,7 @@ static void complain_ambiguous(struct connection *pconn, const char *name,
     break;
   case 2:
     notify_conn(pconn->self, NULL, E_CHAT_ERROR, ftc_server,
-                _("%s is an anonymous name. Use connection name"), name);
+                _("%s is an anonymous name. Use connection name."), name);
     break;
   default:
     log_error("Unkown variant in %s(): %d.", __FUNCTION__, player_conn);

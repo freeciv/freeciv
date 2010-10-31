@@ -1131,7 +1131,7 @@ static bool read_init_script_real(struct connection *caller,
     real_filename = tilde_filename;
   }
 
-  log_normal(_("Loading script file: %s"), real_filename);
+  log_normal(_("Loading script file '%s'."), real_filename);
 
   if (is_reg_file_for_access(real_filename, FALSE)
       && (script_file = fc_fopen(real_filename, "r"))) {
@@ -1468,7 +1468,7 @@ static bool firstlevel_command(struct connection *caller, bool check)
     return FALSE;
   } else if (first_access_level_is_taken()) {
     cmd_reply(CMD_FIRSTLEVEL, caller, C_FAIL,
-	_("Someone else already is game organizer."));
+	_("Someone else is already game organizer."));
     return FALSE;
   } else if (!check) {
     conn_set_access(caller, first_access_level, FALSE);
@@ -2263,7 +2263,7 @@ static bool vote_command(struct connection *caller, char *str,
 
   if (match_result == M_PRE_AMBIGUOUS) {
     cmd_reply(CMD_VOTE, caller, C_SYNTAX,
-              _("The argument \"%s\" is ambigious."), arg[0]);
+              _("The argument \"%s\" is ambiguous."), arg[0]);
     goto CLEANUP;
   } else if (match_result > M_PRE_AMBIGUOUS) {
     /* Failed */
@@ -4209,7 +4209,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
         return FALSE;
       }
     } else {
-      cmd_reply(CMD_RESET, caller, C_FAIL, _("No Game started ..."));
+      cmd_reply(CMD_RESET, caller, C_FAIL, _("No game started..."));
       return FALSE;
     }
     break;
@@ -4330,16 +4330,16 @@ bool start_command(struct connection *caller, bool check, bool notify)
     /* check min_players */
     if (human_players < game.server.min_players) {
       start_cmd_reply(caller, notify,
-                      _("Not enough human players, game will not start."));
+                      _("Not enough human players; game will not start."));
       return FALSE;
     } else if (player_count() < 1) {
       /* At least one player required */
       start_cmd_reply(caller, notify,
-                      _("No players, game will not start."));
+                      _("No players; game will not start."));
       return FALSE;
     } else if (player_count() - server.nbarbarians > server.playable_nations) {
       cmd_reply(CMD_START_GAME, caller, C_FAIL,
-		_("Not enough nations for all players, game will not start."));
+		_("Not enough nations for all players; game will not start."));
       return FALSE;
     } else if (check) {
       return TRUE;

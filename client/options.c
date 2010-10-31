@@ -1703,7 +1703,7 @@ static struct client_option client_options[] = {
                   N_("Setting this option will display a 'citybar' "
                      "containing useful information beneath each city. "
                      "Disabling this option will display only the city's "
-                     "name and optionally, production."),
+                     "name and, optionally, production."),
                   COC_GRAPHICS, GUI_LAST,
                   TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_city_names, N_("Draw the city names"),
@@ -1789,9 +1789,10 @@ static struct client_option client_options[] = {
                      "be drawn."),
                   COC_GRAPHICS, GUI_LAST, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_focus_unit, N_("Draw the units in focus"),
-                  N_("Setting this option will draw the units in focus, "
-                     "including the case the other units wouldn't be "
-                     "drawn."),
+                  N_("Setting this option will cause the currently focused "
+                     "unit(s) to always be drawn, even if units are not "
+                     "otherwise being drawn (for instance if 'Draw the units' "
+                     "is unset)."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_fog_of_war, N_("Draw the fog of war"),
@@ -1803,9 +1804,9 @@ static struct client_option client_options[] = {
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(player_dlg_show_dead_players,
-                  N_("Show dead players in nation report."),
-                  N_("Setting this option will draw the players already "
-                     "dead in the nation report page."),
+                  N_("Show dead players in Nations report"),
+                  N_("This option controls whether defeated nations are "
+                     "shown on the Nations report page."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(sound_bell_at_new_turn, N_("Sound bell at new turn"),
@@ -1853,27 +1854,27 @@ static struct client_option client_options[] = {
                        "background.  If not set, it will just not highlight "
                        "anything."),
                     COC_GRAPHICS, GUI_LAST, "#000000", "#FFFF00", NULL),
-  GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
+  GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI mode"),
                   N_("Disable this option if you do not want to "
                      "press the Turn Done button manually when watching "
                      "an AI player."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
-  GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto Center on Units"),
+  GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto center on units"),
                   N_("Set this option to have the active unit centered "
                      "automatically when the unit focus changes."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
-  GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto Center on Combat"),
+  GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto center on combat"),
                   N_("Set this option to have any combat be centered "
-                     "automatically.  Disabled this will speed up the time "
+                     "automatically.  Disabling this will speed up the time "
                      "between turns but may cause you to miss combat "
                      "entirely."),
                   COC_INTERFACE, GUI_LAST, FALSE, NULL),
-  GEN_BOOL_OPTION(auto_center_each_turn, N_("Auto Center on New Turn"),
+  GEN_BOOL_OPTION(auto_center_each_turn, N_("Auto center on new turn"),
                   N_("Set this option to have the client automatically "
                      "recenter the map on a suitable location at the "
                      "start of each turn."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
-  GEN_BOOL_OPTION(wakeup_focus, N_("Focus on Awakened Units"),
+  GEN_BOOL_OPTION(wakeup_focus, N_("Focus on awakened units"),
                   N_("Set this option to have newly awoken units be "
                      "focused automatically."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
@@ -1888,21 +1889,21 @@ static struct client_option client_options[] = {
                      "moving into unknown tiles.  If not, then goto routes "
                      "will detour around or be blocked by unknown tiles."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
-  GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when Popup city"),
+  GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when popup city"),
                   N_("Setting this option makes the mapview center on a "
                      "city when its city dialog is popped up."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
-  GEN_BOOL_OPTION(concise_city_production, N_("Concise City Production"),
+  GEN_BOOL_OPTION(concise_city_production, N_("Concise city production"),
                   N_("Set this option to make the city production (as shown "
                      "in the city dialog) to be more compact."),
                   COC_INTERFACE, GUI_LAST, FALSE, NULL),
-  GEN_BOOL_OPTION(auto_turn_done, N_("End Turn when done moving"),
+  GEN_BOOL_OPTION(auto_turn_done, N_("End turn when done moving"),
                   N_("Setting this option makes your turn end automatically "
                      "when all your units are done moving."),
                   COC_INTERFACE, GUI_LAST, FALSE, NULL),
   GEN_BOOL_OPTION(ask_city_name, N_("Prompt for city names"),
                   N_("Disabling this option will make the names of newly "
-                     "founded cities chosen automatically by the server."),
+                     "founded cities be chosen automatically by the server."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(popup_new_cities, N_("Pop up city dialog for new cities"),
                   N_("Setting this option will pop up a newly-founded "
@@ -1947,8 +1948,7 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(voteinfo_bar_always_show,
                   N_("Always display the vote bar"),
                   N_("If this option is turned on, the vote bar will never "
-                     "be hidden, notably when there won't be any running "
-                     "vote."),
+                     "be hidden, even if there is no running vote."),
                   COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
   GEN_BOOL_OPTION(voteinfo_bar_hide_when_not_player,
                   N_("Do not show vote bar if not a player"),
@@ -1956,8 +1956,8 @@ static struct client_option client_options[] = {
                      "vote bar if you are not a player."),
                   COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
   GEN_BOOL_OPTION(voteinfo_bar_new_at_front, N_("Set new votes at front"),
-                  N_("If this option is enabled, then the new votes will go "
-                     "to the front of the vote list"),
+                  N_("If this option is enabled, then new votes will go "
+                     "to the front of the vote list."),
                   COC_GRAPHICS, GUI_LAST, FALSE, voteinfo_bar_callback),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
@@ -1996,7 +1996,7 @@ static struct client_option client_options[] = {
                   COC_OVERVIEW, GUI_LAST, TRUE, overview_redraw_callback),
 
   /* gui-gtk-2.0 client specific options. */
-  GEN_BOOL_OPTION(gui_gtk2_map_scrollbars, N_("Show Map Scrollbars"),
+  GEN_BOOL_OPTION(gui_gtk2_map_scrollbars, N_("Show map scrollbars"),
                   N_("Disable this option to hide the scrollbars on the "
                      "map view."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
@@ -2096,7 +2096,7 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
-                     "focused when the mouse will be floating over it."),
+                     "focused when the mouse hovers over it."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_chatline_autocompletion,
                   N_("Player or user name autocompletion"),
@@ -2198,7 +2198,7 @@ static struct client_option client_options[] = {
                   "Serif 10", NULL),
 
   /* gui-sdl client specific options. */
-  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"),
+  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full screen"),
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing."),
                   COC_INTERFACE, GUI_SDL, FALSE, NULL),
@@ -2207,12 +2207,12 @@ static struct client_option client_options[] = {
                       "selected screen."),
                    COC_INTERFACE, GUI_SDL, 640, 480, NULL),
   GEN_BOOL_OPTION(gui_sdl_do_cursor_animation, N_("Do cursor animation"),
-                  N_("If this option is disabled, the cursor will be "
-                     "always displayed as static."),
+                  N_("If this option is disabled, the cursor will "
+                     "always be displayed as static."),
                   COC_INTERFACE, GUI_SDL, TRUE, NULL),
   GEN_BOOL_OPTION(gui_sdl_use_color_cursors, N_("Use color cursors"),
-                  N_("If this option is disabled, the cursor will be "
-                     "always displayed in black and white."),
+                  N_("If this option is disabled, the cursor will "
+                     "always be displayed in black and white."),
                   COC_INTERFACE, GUI_SDL, TRUE, NULL),
 
   /* gui-win32 client specific options. */

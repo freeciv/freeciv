@@ -1157,7 +1157,7 @@ static bool worklist_change_build_target(struct player *pplayer,
               notify_player(pplayer, city_tile(pcity),
                             E_CITY_CANTBUILD, ftc_server,
                             _("%s can't build %s from the worklist; "
-                              "Only available from %s.  Postponing..."),
+                              "only available from %s.  Postponing..."),
                             city_link(pcity),
                             city_improvement_name_translation(pcity, ptarget),
                             textyear(preq->source.value.minyear));
@@ -1195,7 +1195,7 @@ static bool worklist_change_build_target(struct player *pplayer,
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
                         _("%s can't build %s from the worklist; "
-                          "Reason unknown!  Postponing..."),
+                          "reason unknown!  Postponing..."),
                         city_link(pcity),
                         city_improvement_name_translation(pcity, ptarget));
 	}
@@ -1759,7 +1759,7 @@ static bool sell_random_units(struct player *pplayer,
     gold_upkeep = punit->upkeep[O_GOLD];
 
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
-                  _("Not enough gold. %s disbanded"),
+                  _("Not enough gold. %s disbanded."),
                   unit_tile_link(punit));
     unit_list_remove(punitlist, punit);
     pplayer->score.units_lost++;

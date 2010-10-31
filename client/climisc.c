@@ -244,7 +244,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
                   nation_plural_for_player(pclause->from),
                   city_name(pcity));
     } else {
-      fc_snprintf(buf, bufsiz,_("The %s give unknown city."),
+      fc_snprintf(buf, bufsiz,_("The %s give an unknown city"),
                   nation_plural_for_player(pclause->from));
     }
     break;
@@ -1097,7 +1097,7 @@ void cityrep_buy(struct city *pcity)
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
     create_event(pcity->tile, E_BAD_COMMAND, ftc_client,
-                 _("You don't buy %s in %s!"),
+                 _("You can't buy %s in %s!"),
                  improvement_name_translation(pcity->production.value.building),
                  city_link(pcity));
     return;
