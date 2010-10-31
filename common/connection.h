@@ -37,7 +37,7 @@
 /* common */
 #include "fc_types.h"
 
-struct hash_table;
+struct genhash;
 struct timer_list;
 struct conn_pattern_list;
 
@@ -239,8 +239,8 @@ struct connection {
 				  int packet_type, int size,
 				  int request_id);
   struct {
-    struct hash_table **sent;
-    struct hash_table **received;
+    struct genhash **sent;
+    struct genhash **received;
     int *variant;
   } phs;
 

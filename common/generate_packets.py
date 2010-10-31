@@ -680,7 +680,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         if len(self.key_fields)==0:
             return "#define hash_%(name)s hash_const\n\n"%self.__dict__
         else:
-            intro='''static unsigned int hash_%(name)s(const void *vkey, unsigned int num_buckets)
+            intro='''static genhash_val_t hash_%(name)s(const void *vkey, size_t num_buckets)
 {
 '''%self.__dict__
 
@@ -706,23 +706,18 @@ static char *stats_%(name)s_names[] = {%(names)s};
         if len(self.key_fields)==0:
             return "#define cmp_%(name)s cmp_const\n\n"%self.__dict__
         else:
-            intro='''static int cmp_%(name)s(const void *vkey1, const void *vkey2)
+            intro='''static bool cmp_%(name)s(const void *vkey1, const void *vkey2)
 {
 '''%self.__dict__
             body=""
             body=body+'''  const struct %(packet_name)s *key1 = (const struct %(packet_name)s *) vkey1;
   const struct %(packet_name)s *key2 = (const struct %(packet_name)s *) vkey2;
-  int diff;
 
 '''%self.__dict__
             for field in self.key_fields:
-                body=body+'''  diff = key1->%s - key2->%s;
-  if (diff != 0) {
-    return diff;
-  }
-
+                body=body+'''  return key1->%s == key2->%s;
 '''%(field.name,field.name)
-            extro="  return 0;\n}\n\n"
+            extro="}\n\n"
             return intro+body+extro
 
     # Returns a code fragement which is the implementation of the send
@@ -777,7 +772,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
                 delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old;
   bool differ;
-  struct hash_table **hash = &pc->phs.sent[%(type)s];
+  struct genhash **hash = pc->phs.sent + %(type)s;
   int different = 0;
 '''
             else:
@@ -809,16 +804,16 @@ static char *stats_%(name)s_names[] = {%(names)s};
     # Helper for get_send()
     def get_delta_send_body(self):
         intro='''
-  if (!*hash) {
-    *hash = hash_new_full(hash_%(name)s, cmp_%(name)s, NULL, free);
+  if (NULL == *hash) {
+    *hash = genhash_new_full(hash_%(name)s, cmp_%(name)s,
+                             NULL, NULL, NULL, free);
   }
   BV_CLR_ALL(fields);
 
-  if (!hash_lookup(*hash, real_packet,
-                   (const void **) (void *) &old, NULL)) {
+  if (!genhash_lookup(*hash, real_packet, (void **) &old)) {
     old = fc_malloc(sizeof(*old));
     *old = *real_packet;
-    hash_insert(*hash, old, old);
+    genhash_insert(*hash, old, old);
     memset(old, 0, sizeof(*old));
     different = 1;      /* Force to send. */
   }
@@ -862,9 +857,9 @@ static char *stats_%(name)s_names[] = {%(names)s};
         # Cancel some is-info packets.
         for i in self.cancel:
             body=body+'''
-  hash = &pc->phs.sent[%s];
+  hash = pc->phs.sent + %s;
   if (NULL != *hash) {
-    hash_delete_entry(*hash, real_packet);
+    genhash_remove(*hash, real_packet);
   }
 '''%i
 
@@ -884,7 +879,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         if self.delta:
             delta_header='''  %(name)s_fields fields;
   struct %(packet_name)s *old;
-  struct hash_table **hash = &pc->phs.received[type];
+  struct genhash **hash = pc->phs.received + type;
 '''
             delta_body1="\n  DIO_BV_GET(&din, fields);\n"
             body1=""
@@ -930,11 +925,12 @@ static char *stats_%(name)s_names[] = {%(names)s};
         else:
             fl=""
         body='''
-  if (!*hash) {
-    *hash = hash_new_full(hash_%(name)s, cmp_%(name)s, NULL, free);
+  if (NULL == *hash) {
+    *hash = genhash_new_full(hash_%(name)s, cmp_%(name)s,
+                             NULL, NULL, NULL, free);
   }
 
-  if (hash_lookup(*hash, real_packet, (const void **) (void *) &old, NULL)) {
+  if (genhash_lookup(*hash, real_packet, (void **) &old)) {
     *real_packet = *old;
   } else {
 %(key1)s%(fl)s    memset(real_packet, 0, sizeof(*real_packet));%(key2)s
@@ -949,7 +945,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
   if (NULL == old) {
     old = fc_malloc(sizeof(*old));
     *old = *real_packet;
-    hash_insert(*hash, old, old);
+    genhash_insert(*hash, old, old);
   } else {
     *old = *real_packet;
   }
@@ -1555,7 +1551,7 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 /* utility */
 #include "bitvector.h"
 #include "capability.h"
-#include "hash.h"
+#include "genhash.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
@@ -1568,14 +1564,14 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 
 #include "packets.h"
 
-static unsigned int hash_const(const void *vkey, unsigned int num_buckets)
+static genhash_val_t hash_const(const void *vkey, size_t num_buckets)
 {
   return 0;
 }
 
-static int cmp_const(const void *vkey1, const void *vkey2)
+static bool cmp_const(const void *vkey1, const void *vkey2)
 {
-  return 0;
+  return TRUE;
 }
 
 ''')

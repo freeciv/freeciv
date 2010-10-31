@@ -35,7 +35,7 @@
 
 /* utility */
 #include "fcintl.h"
-#include "hash.h"
+#include "genhash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -560,7 +560,7 @@ static void free_packet_hashes(struct connection *pc)
   if (pc->phs.sent) {
     for (i = 0; i < PACKET_LAST; i++) {
       if (pc->phs.sent[i] != NULL) {
-	hash_free(pc->phs.sent[i]);
+        genhash_destroy(pc->phs.sent[i]);
       }
     }
     free(pc->phs.sent);
@@ -570,7 +570,7 @@ static void free_packet_hashes(struct connection *pc)
   if (pc->phs.received) {
     for (i = 0; i < PACKET_LAST; i++) {
       if (pc->phs.received[i] != NULL) {
-	hash_free(pc->phs.received[i]);
+        genhash_destroy(pc->phs.received[i]);
       }
     }
     free(pc->phs.received);
@@ -642,10 +642,10 @@ void conn_reset_delta_state(struct connection *pc)
   for (i = 0; i < PACKET_LAST; i++) {
     if (packet_has_game_info_flag(i)) {
       if (NULL != pc->phs.sent && NULL != pc->phs.sent[i]) {
-        hash_delete_all_entries(pc->phs.sent[i]);
+        genhash_clear(pc->phs.sent[i]);
       }
       if (NULL != pc->phs.received && NULL != pc->phs.received[i]) {
-        hash_delete_all_entries(pc->phs.received[i]);
+        genhash_clear(pc->phs.received[i]);
       }
     }
   }
