@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:10+0000\n"
+"POT-Creation-Date: 2010-10-31 22:18+0000\n"
 "PO-Revision-Date: 2007-09-01 22:56+0300\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
@@ -1289,7 +1289,7 @@ msgstr "Nome de ficheiro vazio no argumento de nível de log \"%s\".\n"
 #: utility/log.c:187
 #, fuzzy
 msgid ""
-"Freeciv must be compiled with the DEBUG flag to used advanced log levels "
+"Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
 "Freeciv tem de ser compilado com a opção DEBUG para utilizar o nível de "
@@ -1494,7 +1494,7 @@ msgstr ""
 
 #: ai/advdiplomacy.c:355
 #, c-format
-msgid "*%s (AI)* Let us first cease hostilies, %s."
+msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr ""
 
 #: ai/advdiplomacy.c:360
@@ -1672,7 +1672,7 @@ msgstr[1] ""
 #: ai/advdiplomacy.c:1401
 #, c-format
 msgid ""
-"*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
+"*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
 
@@ -1967,12 +1967,12 @@ msgstr "Alterada cidade base de %s para %s."
 
 #: server/citytools.c:575
 #, c-format
-msgid "Transfered %s in %s from %s to %s."
+msgid "Transferred %s in %s from %s to %s."
 msgstr "Transferido %s em %s de %s para %s."
 
 #: server/citytools.c:589
 #, c-format
-msgid "Transfered %s from %s to %s."
+msgid "Transferred %s from %s to %s."
 msgstr "Transferido %s de %s para %s."
 
 #. TRANS: Polish Destroyer ... German <city>
@@ -2051,7 +2051,7 @@ msgstr[1] "%s conquistou %s e pilhou %d moedas da cidade."
 
 #: server/citytools.c:1549
 #, fuzzy, c-format
-msgid "You conquer %s"
+msgid "You conquer %s."
 msgstr "Você atacou os %s com armas nucleares."
 
 #: server/citytools.c:1552
@@ -2272,14 +2272,14 @@ msgstr ""
 #: server/cityturn.c:1159
 #, fuzzy, c-format
 msgid ""
-"%s can't build %s from the worklist; Only available from %s.  Postponing..."
+"%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
 " %s não pode construir %s da lista de tarefas; tecn. ainda não está "
 "disponível. A adiar..."
 
 #: server/cityturn.c:1197
-#, c-format
-msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
+#, fuzzy, c-format
+msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr ""
 " %s não pode construir %s da lista de tarefas; Motivo desconhecido! A "
 "adiar..."
@@ -2349,9 +2349,9 @@ msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Não dispõe de fundos para manter %s em %s, edifício vendido!"
 
 #: server/cityturn.c:1762
-#, c-format
-msgid "Not enough gold. %s disbanded"
-msgstr ""
+#, fuzzy, c-format
+msgid "Not enough gold. %s disbanded."
+msgstr "%s não pode manter %s, unidade dissolvida."
 
 #: server/cityturn.c:1948
 #, c-format
@@ -3045,8 +3045,9 @@ msgid "detach <connection-name>"
 msgstr "cut <nome-ligação>"
 
 #: server/commands.c:279
-msgid "detach from a player."
-msgstr ""
+#, fuzzy
+msgid "Detach from a player."
+msgstr "Não pode atacar aqui."
 
 #: server/commands.c:280
 #, fuzzy
@@ -3642,7 +3643,7 @@ msgstr "Perdida a ligação: %s."
 
 #: server/connecthand.c:662
 #, fuzzy, c-format
-msgid "detaching from %s."
+msgid "Detaching from %s."
 msgstr "A pesquisar %s."
 
 #: server/console.c:221
@@ -3752,13 +3753,13 @@ msgid "You receive the %s seamap."
 msgstr "Você recebeu o mapa marítimo de %s."
 
 #: server/diplhand.c:474
-#, c-format
-msgid "You receive city of %s from %s."
+#, fuzzy, c-format
+msgid "You receive the city of %s from %s."
 msgstr "Você recebeu a cidade %s dos %s."
 
 #: server/diplhand.c:478
-#, c-format
-msgid "You give city of %s to %s."
+#, fuzzy, c-format
+msgid "You give the city of %s to %s."
 msgstr "Você dá a cidade de %s aos %s."
 
 #: server/diplhand.c:490 server/diplhand.c:493
@@ -4061,8 +4062,8 @@ msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Você causou um incidente ao incitar uma revolta em %s."
 
 #: server/diplomats.c:1316
-#, c-format
-msgid "%s have caused an incident while inciting a revolt in %s."
+#, fuzzy, c-format
+msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s causou um incidente ao incitar uma revolta em %s."
 
 #: server/edithand.c:154
@@ -4375,7 +4376,7 @@ msgstr "%s é um prefixo de nome de ligação ambíguo."
 
 #: server/handchat.c:116
 #, fuzzy, c-format
-msgid "%s is an anonymous name. Use connection name"
+msgid "%s is an anonymous name. Use connection name."
 msgstr "%s é um prefixo de nome de ligação ambíguo."
 
 #: server/handchat.c:135 server/handchat.c:172
@@ -5119,7 +5120,8 @@ msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Ficheiro legível de regras \"%s\" não encontrado."
 
 #: server/ruleset.c:3966
-msgid "Loading rulesets"
+#, fuzzy
+msgid "Loading rulesets."
 msgstr "A ler conjuntos de regras"
 
 #: server/ruleset.c:4039
@@ -5698,7 +5700,7 @@ msgstr ""
 #: server/settings.c:964
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
-"the map. It will result that the poles won't be generated."
+"the map. As a result, the poles won't be generated."
 msgstr ""
 
 #: server/settings.c:971
@@ -5716,7 +5718,7 @@ msgid ""
 " 50 means a temperate planet with normal polar, cold, temperate, and "
 "tropical zones; a desert zone overlaps tropical and temperate zones.\n"
 " 30 means a cold planet with small tropical zones.\n"
-"  0 means a very cold planet with large polar zones and no tropics"
+"  0 means a very cold planet with large polar zones and no tropics."
 msgstr ""
 
 #: server/settings.c:989
@@ -5990,7 +5992,7 @@ msgstr ""
 
 #: server/settings.c:1198
 msgid ""
-"If you receive an invention via an treaty this setting defines the chance "
+"If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
@@ -6000,7 +6002,7 @@ msgstr ""
 
 #: server/settings.c:1207
 msgid ""
-"If you give an invention via an treaty this setting defines the chance that "
+"If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
@@ -6160,7 +6162,8 @@ msgid "Technology trading"
 msgstr "Tecnologia"
 
 #: server/settings.c:1325
-msgid "If turned off, trading technologies in diplomacy dialog is not allowed."
+msgid ""
+"If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1331
@@ -6169,7 +6172,7 @@ msgid "Gold trading"
 msgstr "Moedas: %d"
 
 #: server/settings.c:1332
-msgid "If turned off, trading gold in diplomacy dialog is not allowed."
+msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1338
@@ -6178,7 +6181,7 @@ msgid "City trading"
 msgstr "Cidade: Em Celebração"
 
 #: server/settings.c:1339
-msgid "If turned off, trading cities in diplomacy dialog is not allowed."
+msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1345
@@ -6268,7 +6271,7 @@ msgstr ""
 "  8 = aéreo"
 
 #: server/settings.c:1400
-msgid "Slowly kill unhomecitied units (eg. startunits)"
+msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
 #: server/settings.c:1401
@@ -6421,7 +6424,7 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1531
-msgid "Base chance for diplomats and spies to succeed."
+msgid "Base chance for diplomats and spies to succeed"
 msgstr ""
 
 #: server/settings.c:1532
@@ -6510,7 +6513,7 @@ msgstr "Reconstruir palácio se a capital for conquistada"
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
-"automatically rebuilt for free in another randomly choosen city. This is "
+"automatically rebuilt for free in another randomly chosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
@@ -6765,7 +6768,7 @@ msgstr ""
 
 #: server/settings.c:1798
 #, fuzzy
-msgid "Control of simultaneous player/team phases."
+msgid "Control of simultaneous player/team phases"
 msgstr "Se registar estatísticas dos jogadores"
 
 #: server/settings.c:1799
@@ -6811,9 +6814,10 @@ msgid "Seconds between PINGs"
 msgstr "Segundos entre PINGs"
 
 #: server/settings.c:1825
+#, fuzzy
 msgid ""
-"The civserver will poll the clients with a PING request each time this "
-"period elapses."
+"The server will poll the clients with a PING request each time this period "
+"elapses."
 msgstr ""
 "O civserver irá questionar os clientes com um pedido PING de cada vez que "
 "este período expirar."
@@ -6938,7 +6942,7 @@ msgid "Compression library to use for savegames."
 msgstr ""
 
 #: server/settings.c:1907
-msgid "Save using the given savegame version."
+msgid "Save using the given savegame version"
 msgstr ""
 
 #: server/settings.c:1908
@@ -7088,7 +7092,7 @@ msgstr ""
 
 #: server/settings.c:2508
 #, fuzzy
-msgid "This setting is not a enumerator."
+msgid "This setting is not an enumerator."
 msgstr "Esta página de Opções"
 
 #: server/settings.c:2610 server/settings.c:2620
@@ -7138,7 +7142,7 @@ msgstr "Moedas iniciais por jogador"
 
 #: server/sernet.c:526
 #, fuzzy, c-format
-msgid "restarting in %d seconds for lack of players"
+msgid "Restarting in %d seconds for lack of players."
 msgstr "Moedas iniciais por jogador"
 
 #: server/sernet.c:529
@@ -7152,7 +7156,7 @@ msgid "Server: bad address: <%s:%d>."
 msgstr "Metaservidor: endereço inválido: [%s:%d]."
 
 #: server/sernet.c:994
-msgid "Cannot open IPv6 socket, trying IPv4 instead"
+msgid "Cannot open IPv6 socket, trying IPv4 instead."
 msgstr ""
 
 #: server/sernet.c:997
@@ -7189,9 +7193,9 @@ msgid "Your spaceship can't be launched yet!"
 msgstr "A sua nave espacial ainda não pode ser lançada!"
 
 #: server/spacerace.c:190
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
 " Os %s lançaram uma nave espacial!  Estima-se a chegada a Alfa Centauro em %"
@@ -7266,7 +7270,7 @@ msgstr "Vitória de equipa para %s"
 
 #: server/srv_main.c:300
 #, fuzzy
-msgid "Game ended in a draw as end turn exceeded"
+msgid "Game ended in a draw as end turn exceeded."
 msgstr "Jogo terminou com um empate pois foi ultrapassado o ano final"
 
 #: server/srv_main.c:333
@@ -7275,17 +7279,18 @@ msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "A nave espacial dos %s chegou a Alfa Centauro."
 
 #: server/srv_main.c:351 server/srv_main.c:391
-#, c-format
-msgid "Team victory to %s"
+#, fuzzy, c-format
+msgid "Team victory to %s."
 msgstr "Vitória de equipa para %s"
 
 #: server/srv_main.c:361 server/srv_main.c:407
-#, c-format
-msgid "Game ended in victory for %s"
+#, fuzzy, c-format
+msgid "Game ended in victory for %s."
 msgstr "Jogo terminou com a vitória de %s"
 
-#: server/srv_main.c:414
-msgid "Game ended in a draw"
+#: server/srv_main.c:414 server/stdinhand.c:4098
+#, fuzzy
+msgid "Game ended in a draw."
 msgstr "Jogo terminou com um empate"
 
 #: server/srv_main.c:530 server/srv_main.c:541
@@ -7310,14 +7315,14 @@ msgstr ""
 #: server/srv_main.c:612
 #, fuzzy, c-format
 msgid ""
-"Ceasefire between %s and %s has run out. They are at war. You cancel your "
-"alliance with both."
+"The cease-fire between %s and %s has run out. They are at war. You cancel "
+"your alliance with both."
 msgstr ""
 " O cessar-fogo com %s expirou. Você e os %s então agora em neutralidade."
 
 #: server/srv_main.c:1082 server/srv_main.c:1085
 #, fuzzy, c-format
-msgid "Unsupported compression type %d"
+msgid "Unsupported compression type %d."
 msgstr "opções suportadas: %s"
 
 #: server/srv_main.c:1115
@@ -7391,13 +7396,13 @@ msgstr "%s governa os %s."
 
 #: server/srv_main.c:1996
 msgid ""
-"This civserver program has player authentication support, but it's currently "
-"not in use."
+"This freeciv-server program has player authentication support, but it's "
+"currently not in use."
 msgstr ""
 
 #: server/srv_main.c:2059
 #, fuzzy, c-format
-msgid "Sending info to metaserver <%s>"
+msgid "Sending info to metaserver <%s>."
 msgstr "A enviar informação para o metaservidor [%s]"
 
 #: server/srv_main.c:2063
@@ -7638,8 +7643,8 @@ msgid "No command script found by the name \"%s\"."
 msgstr "Não existe nenhuma ligação de nome '%s'."
 
 #: server/stdinhand.c:1134
-#, c-format
-msgid "Loading script file: %s"
+#, fuzzy, c-format
+msgid "Loading script file '%s'."
 msgstr "A ler ficheiro de script: %s"
 
 #: server/stdinhand.c:1152
@@ -7743,7 +7748,7 @@ msgstr "Você já possui o nível de acesso de comando '%s' ou superior."
 
 #: server/stdinhand.c:1471
 #, fuzzy
-msgid "Someone else already is game organizer."
+msgid "Someone else is already game organizer."
 msgstr "Desculpe, mas já existe alguém com esse nome."
 
 #: server/stdinhand.c:1476
@@ -8014,7 +8019,7 @@ msgstr "Você não está autorizado a utilizar este comando."
 
 #: server/stdinhand.c:2266
 #, fuzzy, c-format
-msgid "The argument \"%s\" is ambigious."
+msgid "The argument \"%s\" is ambiguous."
 msgstr "O argumento da ajuda '%s' é ambíguo."
 
 #: server/stdinhand.c:2283
@@ -8510,11 +8515,6 @@ msgstr ""
 msgid "(server prompt)"
 msgstr "(linha de comando do servidor)"
 
-#: server/stdinhand.c:4098
-#, fuzzy
-msgid "Game ended in a draw."
-msgstr "Jogo terminou com um empate"
-
 #: server/stdinhand.c:4102
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
@@ -8559,7 +8559,7 @@ msgstr ""
 
 #: server/stdinhand.c:4212
 #, fuzzy
-msgid "No Game started ..."
+msgid "No game started..."
 msgstr "Jogo iniciado."
 
 #: server/stdinhand.c:4219
@@ -8581,17 +8581,17 @@ msgstr ""
 
 #: server/stdinhand.c:4333
 #, fuzzy
-msgid "Not enough human players, game will not start."
+msgid "Not enough human players; game will not start."
 msgstr "Não existem jogadores suficientes, o jogo não pode começar."
 
 #: server/stdinhand.c:4338
 #, fuzzy
-msgid "No players, game will not start."
+msgid "No players; game will not start."
 msgstr "Não existem jogadores suficientes, o jogo não pode começar."
 
 #: server/stdinhand.c:4342
 #, fuzzy
-msgid "Not enough nations for all players, game will not start."
+msgid "Not enough nations for all players; game will not start."
 msgstr "Não existem jogadores suficientes, o jogo não pode começar."
 
 #: server/stdinhand.c:4351
@@ -8813,8 +8813,8 @@ msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr " Descoberto %s. Os nossos cientistas focam-se em %s, objectivo é %s."
 
 #: server/techtools.c:379
-#, c-format
-msgid "Learned %s.  Scientists choose to research %s."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists choose to research %s."
 msgstr "Descoberto %s.  Os cientistas decidem investigar %s."
 
 #: server/techtools.c:385
@@ -8829,7 +8829,7 @@ msgstr "A pesquisar %s."
 
 #: server/techtools.c:394
 #, fuzzy, c-format
-msgid "Learned %s.  Scientists do not know what to research next."
+msgid "Learned %s. Scientists do not know what to research next."
 msgstr "Descoberto %s.  Os cientistas decidem investigar %s."
 
 #: server/techtools.c:411
@@ -8842,13 +8842,13 @@ msgstr ""
 
 #: server/techtools.c:480
 #, c-format
-msgid "Too low science output. We lost Future Tech. %d."
+msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
 #: server/techtools.c:487
-#, c-format
-msgid "Too low science output. We lost %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Insufficient science output. We lost %s."
+msgstr "Fundos insuficientes, custo de actualização de %d moedas."
 
 #: server/techtools.c:578
 #, c-format
@@ -9094,12 +9094,12 @@ msgstr "A sua %s ajuda a construir %s em %s (%d excedente)."
 #: server/unithand.c:1555
 #, fuzzy, c-format
 msgid ""
-"Sorry, your %s cannot establish a trade route because it has no home city"
+"Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr " Desculpe, os seus %s não podem estabelecer uma rota comercial aqui!"
 
 #: server/unithand.c:1567
 #, fuzzy, c-format
-msgid "Sorry, your %s cannot establish a trade route between %s and %s"
+msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr " Desculpe, os seus %s não podem estabelecer uma rota comercial aqui!"
 
 #: server/unithand.c:1599 server/unithand.c:1620
@@ -9205,8 +9205,8 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr ""
 
 #: server/unittools.c:1700
-#, c-format
-msgid "Barbarian leader captured, %d gold ransom paid."
+#, fuzzy, c-format
+msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "Lider bárbaro capturado, recebidas %d moedas de resgate."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
@@ -10219,8 +10219,8 @@ msgid "The %s give %s"
 msgstr "Os %s dão %s"
 
 #: client/climisc.c:247
-#, c-format
-msgid "The %s give unknown city."
+#, fuzzy, c-format
+msgid "The %s give an unknown city"
 msgstr "Os %s dão cidade desconhecida."
 
 #: client/climisc.c:252
@@ -10265,8 +10265,8 @@ msgid "Popup Request"
 msgstr "Pedido Janela"
 
 #: client/climisc.c:1100
-#, c-format
-msgid "You don't buy %s in %s!"
+#, fuzzy, c-format
+msgid "You can't buy %s in %s!"
 msgstr "Você não compra %s em %s!"
 
 #: client/climisc.c:1111
@@ -11755,7 +11755,7 @@ msgstr ""
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
-"and optionally, production."
+"and, optionally, production."
 msgstr ""
 
 #: client/options.c:1709
@@ -11944,238 +11944,249 @@ msgstr ""
 
 #: client/options.c:1792
 msgid ""
-"Setting this option will draw the units in focus, including the case the "
-"other units wouldn't be drawn."
+"Setting this option will cause the currently focused unit(s) to always be "
+"drawn, even if units are not otherwise being drawn (for instance if 'Draw "
+"the units' is unset)."
 msgstr ""
 
-#: client/options.c:1797
+#: client/options.c:1798
 #, fuzzy
 msgid "Draw the fog of war"
 msgstr "Página de supervisão"
 
-#: client/options.c:1798
+#: client/options.c:1799
 msgid "Setting this option will draw the fog of war."
 msgstr ""
 
-#: client/options.c:1801
+#: client/options.c:1802
 #, fuzzy
 msgid "Draw the borders"
 msgstr "Maravilhas Disponíveis"
 
-#: client/options.c:1802
+#: client/options.c:1803
 msgid "Setting this option will draw the national borders."
 msgstr ""
 
-#: client/options.c:1806
-msgid "Show dead players in nation report."
-msgstr ""
-
 #: client/options.c:1807
-msgid ""
-"Setting this option will draw the players already dead in the nation report "
-"page."
+msgid "Show dead players in Nations report"
 msgstr ""
 
-#: client/options.c:1811
+#: client/options.c:1808
+msgid ""
+"This option controls whether defeated nations are shown on the Nations "
+"report page."
+msgstr ""
+
+#: client/options.c:1812
 msgid "Sound bell at new turn"
 msgstr "Campainha no início de turno"
 
-#: client/options.c:1812
+#: client/options.c:1813
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:1818
+#: client/options.c:1819
 msgid "Unit movement animation time (milliseconds)"
 msgstr ""
 
-#: client/options.c:1819
+#: client/options.c:1820
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:1824
+#: client/options.c:1825
 msgid "Mapview recentering time (milliseconds)"
 msgstr ""
 
-#: client/options.c:1825
+#: client/options.c:1826
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:1830
+#: client/options.c:1831
 msgid "Show combat animation"
 msgstr "Mostrar animação de combate"
 
-#: client/options.c:1831
+#: client/options.c:1832
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr ""
 
-#: client/options.c:1835
+#: client/options.c:1836
 msgid "Show icons in the technology tree"
 msgstr ""
 
-#: client/options.c:1836
+#: client/options.c:1837
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:1842
+#: client/options.c:1843
 msgid "Use curved lines in the technology tree"
 msgstr ""
 
-#: client/options.c:1843
+#: client/options.c:1844
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
 
-#: client/options.c:1850
+#: client/options.c:1851
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:1851
+#: client/options.c:1852
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:1856
-msgid "Manual Turn Done in AI Mode"
+#: client/options.c:1857
+#, fuzzy
+msgid "Manual Turn Done in AI mode"
 msgstr "Turno Terminado manual em Modo IA"
 
-#: client/options.c:1857
+#: client/options.c:1858
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:1861
-msgid "Auto Center on Units"
+#: client/options.c:1862
+#, fuzzy
+msgid "Auto center on units"
 msgstr "Auto-Centrar às Unidades"
 
-#: client/options.c:1862
+#: client/options.c:1863
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:1865
-msgid "Auto Center on Combat"
+#: client/options.c:1866
+#, fuzzy
+msgid "Auto center on combat"
 msgstr "Auto-Centrar no Combate"
 
-#: client/options.c:1866
+#: client/options.c:1867
 msgid ""
-"Set this option to have any combat be centered automatically.  Disabled this "
-"will speed up the time between turns but may cause you to miss combat "
+"Set this option to have any combat be centered automatically.  Disabling "
+"this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:1871
+#: client/options.c:1872
 #, fuzzy
-msgid "Auto Center on New Turn"
+msgid "Auto center on new turn"
 msgstr "Auto-Centrar às Unidades"
 
-#: client/options.c:1872
+#: client/options.c:1873
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
 
-#: client/options.c:1876
-msgid "Focus on Awakened Units"
+#: client/options.c:1877
+#, fuzzy
+msgid "Focus on awakened units"
 msgstr "Focar Unidades Acordadas"
 
-#: client/options.c:1877
+#: client/options.c:1878
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:1880
+#: client/options.c:1881
 msgid "Keyboardless goto"
 msgstr ""
 
-#: client/options.c:1881
+#: client/options.c:1882
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/options.c:1886
+#: client/options.c:1887
 msgid "Allow goto into the unknown"
 msgstr ""
 
-#: client/options.c:1887
+#: client/options.c:1888
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:1891
-msgid "Center map when Popup city"
+#: client/options.c:1892
+#, fuzzy
+msgid "Center map when popup city"
 msgstr "Centrar mapa ao Gerir cidade"
 
-#: client/options.c:1892
+#: client/options.c:1893
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:1895
-msgid "Concise City Production"
+#: client/options.c:1896
+#, fuzzy
+msgid "Concise city production"
 msgstr "Produção de Cidade Concisa"
 
-#: client/options.c:1896
+#: client/options.c:1897
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:1899
-msgid "End Turn when done moving"
+#: client/options.c:1900
+#, fuzzy
+msgid "End turn when done moving"
 msgstr "Terminar Turno ao finalizar movimentos"
 
-#: client/options.c:1900
+#: client/options.c:1901
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:1903
+#: client/options.c:1904
 msgid "Prompt for city names"
 msgstr "Perguntar nomes de cidades"
 
-#: client/options.c:1904
+#: client/options.c:1905
+#, fuzzy
 msgid ""
-"Disabling this option will make the names of newly founded cities chosen "
+"Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
+"Se activo, os nomes das cidades serão determinados baseados no terreno "
+"circundante."
 
-#: client/options.c:1907
+#: client/options.c:1908
 msgid "Pop up city dialog for new cities"
 msgstr "Mostrar janela de cidade para novas cidades"
 
-#: client/options.c:1908
+#: client/options.c:1909
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:1911
+#: client/options.c:1912
 #, fuzzy
 msgid "Pop up caravan actions"
 msgstr "Caravana"
 
-#: client/options.c:1912
+#: client/options.c:1913
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -12184,32 +12195,32 @@ msgid ""
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
 
-#: client/options.c:1921
+#: client/options.c:1922
 msgid "Enable cursor changing"
 msgstr ""
 
-#: client/options.c:1922
+#: client/options.c:1923
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:1927
+#: client/options.c:1928
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:1928
+#: client/options.c:1929
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
 msgstr ""
 
-#: client/options.c:1933
+#: client/options.c:1934
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:1934
+#: client/options.c:1935
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12218,24 +12229,24 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:1943
+#: client/options.c:1944
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:1944
+#: client/options.c:1945
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:1948
+#: client/options.c:1949
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:1949
+#: client/options.c:1950
 msgid ""
-"If this option is turned on, the vote bar will never be hidden, notably when "
-"there won't be any running vote."
+"If this option is turned on, the vote bar will never be hidden, even if "
+"there is no running vote."
 msgstr ""
 
 #: client/options.c:1954
@@ -12253,10 +12264,13 @@ msgid "Set new votes at front"
 msgstr ""
 
 #: client/options.c:1959
+#, fuzzy
 msgid ""
-"If this option is enabled, then the new votes will go to the front of the "
-"vote list"
+"If this option is enabled, then new votes will go to the front of the vote "
+"list."
 msgstr ""
+"Se activo, os nomes das cidades serão determinados baseados no terreno "
+"circundante."
 
 #: client/options.c:1964
 msgid "Background layer"
@@ -12334,7 +12348,7 @@ msgstr ""
 
 #: client/options.c:1999
 #, fuzzy
-msgid "Show Map Scrollbars"
+msgid "Show map scrollbars"
 msgstr "Mostrar Barras Rolamento de Mapa (apenas GTK+)"
 
 #: client/options.c:2000
@@ -12478,10 +12492,13 @@ msgid "Mouse over the map widget selects it automatically"
 msgstr ""
 
 #: client/options.c:2098
+#, fuzzy
 msgid ""
-"If this option is enabled, then the map will be focused when the mouse will "
-"be floating over it."
+"If this option is enabled, then the map will be focused when the mouse "
+"hovers over it."
 msgstr ""
+"Se activo, os nomes das cidades serão determinados baseados no terreno "
+"circundante."
 
 #: client/options.c:2102
 msgid "Player or user name autocompletion"
@@ -12631,7 +12648,7 @@ msgid ""
 msgstr ""
 
 #: client/options.c:2201
-msgid "Full Screen"
+msgid "Full screen"
 msgstr ""
 
 #: client/options.c:2202
@@ -12655,7 +12672,7 @@ msgstr "Mostrar animação de combate"
 
 #: client/options.c:2210
 msgid ""
-"If this option is disabled, the cursor will be always displayed as static."
+"If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 
 #: client/options.c:2213
@@ -12664,7 +12681,7 @@ msgstr ""
 
 #: client/options.c:2214
 msgid ""
-"If this option is disabled, the cursor will be always displayed in black and "
+"If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 
@@ -16938,7 +16955,7 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
-msgid "Prefered tileset"
+msgid "Preferred tileset"
 msgstr ""
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
@@ -16953,7 +16970,7 @@ msgstr ""
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
 msgid ""
-"Modpack suggest using %s tileset.\n"
+"Modpack suggests using %s tileset.\n"
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
@@ -37882,6 +37899,9 @@ msgstr "Apa_gar pré-definição"
 msgid "You are playing Freeciv with default rules."
 msgstr ""
 
+#~ msgid "Game ended in a draw"
+#~ msgstr "Jogo terminou com um empate"
+
 #, fuzzy
 #~ msgid "?female:Imam %s"
 #~ msgstr "Camarada"
@@ -41448,10 +41468,6 @@ msgstr ""
 #~ msgstr ""
 #~ " Unidade tem de estar em terra para poder executar acções diplomáticas."
 
-#, fuzzy
-#~ msgid "Not enough gold to pay upkeep for %s. Unit disbanded."
-#~ msgstr "%s não pode manter %s, unidade dissolvida."
-
 #~ msgid "Your %s has been lost on the high seas."
 #~ msgstr "O seu %s foi perdido no alto mar."
 
@@ -42830,12 +42846,6 @@ msgstr ""
 
 #~ msgid "Ah"
 #~ msgstr "Ah"
-
-#, fuzzy
-#~ msgid "If enabled then cities will be drawn on the overview."
-#~ msgstr ""
-#~ "Se activo, os nomes das cidades serão determinados baseados no terreno "
-#~ "circundante."
 
 #, fuzzy
 #~ msgid "Oceanian"
@@ -44843,9 +44853,6 @@ msgstr ""
 
 #~ msgid "Illegal package, can't upgrade %s (yet)."
 #~ msgstr "Pacote ilegal, (ainda) não pode actualizar %s."
-
-#~ msgid "Insufficient funds, upgrade costs %d."
-#~ msgstr "Fundos insuficientes, custo de actualização de %d moedas."
 
 #~ msgid "Let's not build a city with such a stupid name."
 #~ msgstr "Não vamos fundar uma cidade com um nome tão ridículo."

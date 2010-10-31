@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:10+0000\n"
+"POT-Creation-Date: 2010-10-31 22:18+0000\n"
 "PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -1213,7 +1213,7 @@ msgstr "Kütük seviyesi değişkeninde boş dosya adı \"%s\".\n"
 #: utility/log.c:187
 #, fuzzy
 msgid ""
-"Freeciv must be compiled with the DEBUG flag to used advanced log levels "
+"Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
 "%d. hata ayıklama seviyesini kullanabilmek için Freeciv DEBUG bayrağıyla "
@@ -1410,7 +1410,7 @@ msgstr ""
 
 #: ai/advdiplomacy.c:355
 #, c-format
-msgid "*%s (AI)* Let us first cease hostilies, %s."
+msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (YZ)* Önce ateşkes yapalım, %s."
 
 #: ai/advdiplomacy.c:360
@@ -1601,7 +1601,7 @@ msgstr[0] ""
 #: ai/advdiplomacy.c:1401
 #, c-format
 msgid ""
-"*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
+"*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
 "*%s (AI)* Uzayı yalnız başına ele geçirme planların bize gerçek amacının ne "
@@ -1921,12 +1921,12 @@ msgstr "%s artık %s memleketinden."
 
 #: server/citytools.c:575
 #, c-format
-msgid "Transfered %s in %s from %s to %s."
+msgid "Transferred %s in %s from %s to %s."
 msgstr "%2$s şehrindeki %1$s, %3$s tarafından %4$s tarafına aktarıldı."
 
 #: server/citytools.c:589
 #, c-format
-msgid "Transfered %s from %s to %s."
+msgid "Transferred %s from %s to %s."
 msgstr "%s, %s sahipliğinden %s sahipliğine aktarıldı."
 
 #. TRANS: Polish Destroyer ... German <city>
@@ -1999,8 +1999,8 @@ msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s, %s şehrini fethetti ve ganimet olarak %d altın topladı."
 
 #: server/citytools.c:1549
-#, c-format
-msgid "You conquer %s"
+#, fuzzy, c-format
+msgid "You conquer %s."
 msgstr "%s şehrini fethettiniz."
 
 #: server/citytools.c:1552
@@ -2220,14 +2220,14 @@ msgstr ""
 #: server/cityturn.c:1159
 #, fuzzy, c-format
 msgid ""
-"%s can't build %s from the worklist; Only available from %s.  Postponing..."
+"%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
 "%s iş listesindeki %s yapısını inşa edemiyor; teknoloji yetersiz.  "
 "Erteleniyor..."
 
 #: server/cityturn.c:1197
-#, c-format
-msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
+#, fuzzy, c-format
+msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr ""
 "%s iş listesindeki %s yapısını inşa edemiyor; Sebebi bilinmiyor!  "
 "Erteleniyor..."
@@ -2298,8 +2298,8 @@ msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s için %s şehrinde bakım yapılamıyor, yapı satıldı!"
 
 #: server/cityturn.c:1762
-#, c-format
-msgid "Not enough gold. %s disbanded"
+#, fuzzy, c-format
+msgid "Not enough gold. %s disbanded."
 msgstr "Altın yetersiz. %s terhis edildi"
 
 #: server/cityturn.c:1948
@@ -3009,7 +3009,8 @@ msgid "detach <connection-name>"
 msgstr "detach <bağlantı-adı>"
 
 #: server/commands.c:279
-msgid "detach from a player."
+#, fuzzy
+msgid "Detach from a player."
 msgstr "bir oyuncuyla olan bağlantıyı kopar"
 
 #: server/commands.c:280
@@ -3587,9 +3588,9 @@ msgid "Lost connection: %s."
 msgstr "Bağlantı kesildi: %s."
 
 #: server/connecthand.c:662
-#, c-format
-msgid "detaching from %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Detaching from %s."
+msgstr "%s üzerinde çalışılıyor."
 
 #: server/console.c:221
 msgid "Ok. RFC-style set."
@@ -3696,13 +3697,13 @@ msgid "You receive the %s seamap."
 msgstr "%s deniz haritasını aldınız."
 
 #: server/diplhand.c:474
-#, c-format
-msgid "You receive city of %s from %s."
+#, fuzzy, c-format
+msgid "You receive the city of %s from %s."
 msgstr "%s şehrini %s tarafından aldınız."
 
 #: server/diplhand.c:478
-#, c-format
-msgid "You give city of %s to %s."
+#, fuzzy, c-format
+msgid "You give the city of %s to %s."
 msgstr "%s şehrini %s tarafına verdiniz."
 
 #: server/diplhand.c:490 server/diplhand.c:493
@@ -4012,8 +4013,8 @@ msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "%s şehrinde ayaklanma başlatırken bir skandala sebep oldunuz."
 
 #: server/diplomats.c:1316
-#, c-format
-msgid "%s have caused an incident while inciting a revolt in %s."
+#, fuzzy, c-format
+msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s, %s şehrinde ayaklanma başlatırken bir skandala sebep oldular."
 
 #: server/edithand.c:154
@@ -4326,8 +4327,8 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s önceden kullanılmış bir bağlantı adı öneki."
 
 #: server/handchat.c:116
-#, c-format
-msgid "%s is an anonymous name. Use connection name"
+#, fuzzy, c-format
+msgid "%s is an anonymous name. Use connection name."
 msgstr "%s anonim bir isim. Bağlantı adı kullanın"
 
 #: server/handchat.c:135 server/handchat.c:172
@@ -5056,7 +5057,8 @@ msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Okunabilir bir \"%s.%s\" kural seti dosyası bulunamadı."
 
 #: server/ruleset.c:3966
-msgid "Loading rulesets"
+#, fuzzy
+msgid "Loading rulesets."
 msgstr "Kural seti yükleniyor"
 
 #: server/ruleset.c:4039
@@ -5685,7 +5687,7 @@ msgstr "Haritanın tamamı ılıman"
 #, fuzzy
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
-"the map. It will result that the poles won't be generated."
+"the map. As a result, the poles won't be generated."
 msgstr "Bu ayar açıksa istemcinin tüm ekranı kullanılacaktır"
 
 #: server/settings.c:971
@@ -5704,7 +5706,7 @@ msgid ""
 " 50 means a temperate planet with normal polar, cold, temperate, and "
 "tropical zones; a desert zone overlaps tropical and temperate zones.\n"
 " 30 means a cold planet with small tropical zones.\n"
-"  0 means a very cold planet with large polar zones and no tropics"
+"  0 means a very cold planet with large polar zones and no tropics."
 msgstr ""
 "Düşük değerler soğuk, yüksek değerler de sıcak bir dünya yapar.\n"
 "\n"
@@ -6005,7 +6007,7 @@ msgstr ""
 
 #: server/settings.c:1198
 msgid ""
-"If you receive an invention via an treaty this setting defines the chance "
+"If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
@@ -6015,7 +6017,7 @@ msgstr ""
 
 #: server/settings.c:1207
 msgid ""
-"If you give an invention via an treaty this setting defines the chance that "
+"If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
@@ -6168,7 +6170,8 @@ msgid "Technology trading"
 msgstr "Teknoloji"
 
 #: server/settings.c:1325
-msgid "If turned off, trading technologies in diplomacy dialog is not allowed."
+msgid ""
+"If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1331
@@ -6177,7 +6180,7 @@ msgid "Gold trading"
 msgstr "Altın: %d"
 
 #: server/settings.c:1332
-msgid "If turned off, trading gold in diplomacy dialog is not allowed."
+msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1338
@@ -6186,7 +6189,7 @@ msgid "City trading"
 msgstr "Şehir: Kutlama"
 
 #: server/settings.c:1339
-msgid "If turned off, trading cities in diplomacy dialog is not allowed."
+msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1345
@@ -6274,7 +6277,7 @@ msgstr ""
 "  4 = hava"
 
 #: server/settings.c:1400
-msgid "Slowly kill unhomecitied units (eg. startunits)"
+msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
 #: server/settings.c:1401
@@ -6434,7 +6437,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1531
-msgid "Base chance for diplomats and spies to succeed."
+#, fuzzy
+msgid "Base chance for diplomats and spies to succeed"
 msgstr "Diplomat ve casusların en düşük başarı yüzdesi"
 
 #: server/settings.c:1532
@@ -6522,7 +6526,7 @@ msgstr "Başkent fethedildiğinde sarayı yeniden yap"
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
-"automatically rebuilt for free in another randomly choosen city. This is "
+"automatically rebuilt for free in another randomly chosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
@@ -6750,7 +6754,7 @@ msgstr ""
 
 #: server/settings.c:1798
 #, fuzzy
-msgid "Control of simultaneous player/team phases."
+msgid "Control of simultaneous player/team phases"
 msgstr "Eş zamanlı sıra"
 
 #: server/settings.c:1799
@@ -6788,8 +6792,8 @@ msgstr "PINGler arasındaki bekleme"
 
 #: server/settings.c:1825
 msgid ""
-"The civserver will poll the clients with a PING request each time this "
-"period elapses."
+"The server will poll the clients with a PING request each time this period "
+"elapses."
 msgstr ""
 
 #: server/settings.c:1832
@@ -6897,7 +6901,7 @@ msgid "Compression library to use for savegames."
 msgstr ""
 
 #: server/settings.c:1907
-msgid "Save using the given savegame version."
+msgid "Save using the given savegame version"
 msgstr ""
 
 #: server/settings.c:1908
@@ -7046,7 +7050,7 @@ msgstr "Dizi değeri çok uzun. Kullanım: set <seçenek> <değer>."
 
 #: server/settings.c:2508
 #, fuzzy
-msgid "This setting is not a enumerator."
+msgid "This setting is not an enumerator."
 msgstr "Ayarlar Sayfası"
 
 #: server/settings.c:2610 server/settings.c:2620
@@ -7096,7 +7100,7 @@ msgstr "Başlangıçta oyunculara verilen altın miktarı"
 
 #: server/sernet.c:526
 #, fuzzy, c-format
-msgid "restarting in %d seconds for lack of players"
+msgid "Restarting in %d seconds for lack of players."
 msgstr "Başlangıçta oyunculara verilen altın miktarı"
 
 #: server/sernet.c:529
@@ -7110,7 +7114,7 @@ msgid "Server: bad address: <%s:%d>."
 msgstr "Sunucu: geçersiz adres: [%s:%d]."
 
 #: server/sernet.c:994
-msgid "Cannot open IPv6 socket, trying IPv4 instead"
+msgid "Cannot open IPv6 socket, trying IPv4 instead."
 msgstr ""
 
 #: server/sernet.c:997
@@ -7148,9 +7152,9 @@ msgid "Your spaceship can't be launched yet!"
 msgstr "Uzay gemisini henüz fırlatamazsın!"
 
 #: server/spacerace.c:190
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
 "%s bir uzay gemisi fırlattı! %s zamanında Alpha Centauri'ye varacağı tahmin "
@@ -7226,7 +7230,7 @@ msgstr "Kazanan takım: %s"
 
 #: server/srv_main.c:300
 #, fuzzy
-msgid "Game ended in a draw as end turn exceeded"
+msgid "Game ended in a draw as end turn exceeded."
 msgstr "Bitiş yılına geldik ve oyun berabere bitti"
 
 #: server/srv_main.c:333
@@ -7235,18 +7239,18 @@ msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "%s uzay gemisi Alpha Centauri'ye vardı."
 
 #: server/srv_main.c:351 server/srv_main.c:391
-#, c-format
-msgid "Team victory to %s"
+#, fuzzy, c-format
+msgid "Team victory to %s."
 msgstr "Kazanan takım: %s"
 
 #: server/srv_main.c:361 server/srv_main.c:407
-#, c-format
-msgid "Game ended in victory for %s"
+#, fuzzy, c-format
+msgid "Game ended in victory for %s."
 msgstr "%s oyunu kazandı"
 
-#: server/srv_main.c:414
-msgid "Game ended in a draw"
-msgstr "Oyun berabere bitti"
+#: server/srv_main.c:414 server/stdinhand.c:4098
+msgid "Game ended in a draw."
+msgstr "Oyun berabere bitti."
 
 #: server/srv_main.c:530 server/srv_main.c:541
 #, c-format
@@ -7266,17 +7270,17 @@ msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "%s ile olan ateşkesin süresi doldu. Artık %s ile savaştasınız."
 
 #: server/srv_main.c:612
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ceasefire between %s and %s has run out. They are at war. You cancel your "
-"alliance with both."
+"The cease-fire between %s and %s has run out. They are at war. You cancel "
+"your alliance with both."
 msgstr ""
 "%s ve %s arasındaki ateşkes bitti. Artık savaştalar. İkisiyle olan "
 "ittifakınız iptal edildi."
 
 #: server/srv_main.c:1082 server/srv_main.c:1085
 #, c-format
-msgid "Unsupported compression type %d"
+msgid "Unsupported compression type %d."
 msgstr ""
 
 #: server/srv_main.c:1115
@@ -7350,13 +7354,13 @@ msgstr "%2$s tarafına %1$s hükmediyor."
 
 #: server/srv_main.c:1996
 msgid ""
-"This civserver program has player authentication support, but it's currently "
-"not in use."
+"This freeciv-server program has player authentication support, but it's "
+"currently not in use."
 msgstr ""
 
 #: server/srv_main.c:2059
 #, fuzzy, c-format
-msgid "Sending info to metaserver <%s>"
+msgid "Sending info to metaserver <%s>."
 msgstr "Bilgiler metasunucuya gönderiliyor [%s]"
 
 #: server/srv_main.c:2063
@@ -7595,8 +7599,8 @@ msgid "No command script found by the name \"%s\"."
 msgstr ""
 
 #: server/stdinhand.c:1134
-#, c-format
-msgid "Loading script file: %s"
+#, fuzzy, c-format
+msgid "Loading script file '%s'."
 msgstr "Betik dosyası yükleniyor: %s"
 
 #: server/stdinhand.c:1152
@@ -7686,7 +7690,7 @@ msgid "You already have command access level '%s' or better."
 msgstr ""
 
 #: server/stdinhand.c:1471
-msgid "Someone else already is game organizer."
+msgid "Someone else is already game organizer."
 msgstr ""
 
 #: server/stdinhand.c:1476
@@ -7953,7 +7957,7 @@ msgstr "Bu komutu kullanma izniniz yok."
 
 #: server/stdinhand.c:2266
 #, c-format
-msgid "The argument \"%s\" is ambigious."
+msgid "The argument \"%s\" is ambiguous."
 msgstr ""
 
 #: server/stdinhand.c:2283
@@ -8429,10 +8433,6 @@ msgstr ""
 msgid "(server prompt)"
 msgstr "(sunucu istemi)"
 
-#: server/stdinhand.c:4098
-msgid "Game ended in a draw."
-msgstr "Oyun berabere bitti."
-
 #: server/stdinhand.c:4102
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
@@ -8476,7 +8476,7 @@ msgstr ""
 
 #: server/stdinhand.c:4212
 #, fuzzy
-msgid "No Game started ..."
+msgid "No game started..."
 msgstr "Oyun başladı."
 
 #: server/stdinhand.c:4219
@@ -8498,17 +8498,17 @@ msgstr ""
 
 #: server/stdinhand.c:4333
 #, fuzzy
-msgid "Not enough human players, game will not start."
+msgid "Not enough human players; game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
 #: server/stdinhand.c:4338
 #, fuzzy
-msgid "No players, game will not start."
+msgid "No players; game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
 #: server/stdinhand.c:4342
 #, fuzzy
-msgid "Not enough nations for all players, game will not start."
+msgid "Not enough nations for all players; game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
 #: server/stdinhand.c:4351
@@ -8726,8 +8726,8 @@ msgstr ""
 "hedefimiz: %s."
 
 #: server/techtools.c:379
-#, c-format
-msgid "Learned %s.  Scientists choose to research %s."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists choose to research %s."
 msgstr "%s öğrenildi.  Bilim adamları %s üzerinde uğraşıyorlar."
 
 #: server/techtools.c:385
@@ -8741,8 +8741,8 @@ msgid "Researching %s."
 msgstr "%s üzerinde çalışılıyor."
 
 #: server/techtools.c:394
-#, c-format
-msgid "Learned %s.  Scientists do not know what to research next."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists do not know what to research next."
 msgstr ""
 "%s teknolojisi öğrenildi. Hedefimiz olmadığı için bilim adamları şimdi ne "
 "üzerinde çalışacaklarını bilmiyorlar."
@@ -8757,13 +8757,13 @@ msgstr ""
 
 #: server/techtools.c:480
 #, c-format
-msgid "Too low science output. We lost Future Tech. %d."
+msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
 #: server/techtools.c:487
-#, c-format
-msgid "Too low science output. We lost %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Insufficient science output. We lost %s."
+msgstr "Bir şehrin bilim üretimini %50 oranında arttırır."
 
 #: server/techtools.c:578
 #, c-format
@@ -9014,14 +9014,14 @@ msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d artıyor)."
 
 #: server/unithand.c:1555
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Sorry, your %s cannot establish a trade route because it has no home city"
+"Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "Üzgünüm, %s biriminiz ticaret yolu yapamaz çünkü memleketi yok"
 
 #: server/unithand.c:1567
-#, c-format
-msgid "Sorry, your %s cannot establish a trade route between %s and %s"
+#, fuzzy, c-format
+msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Üzgünüm, %s biriminiz %s ve %s şehirleri arasında ticaret yolu yapamaz"
 
 #: server/unithand.c:1599 server/unithand.c:1620
@@ -9128,8 +9128,8 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s, %s şehrinin yıkımından kurtuldu ve %s şehrine kaçtı."
 
 #: server/unittools.c:1700
-#, c-format
-msgid "Barbarian leader captured, %d gold ransom paid."
+#, fuzzy, c-format
+msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "Barbar lideri ele geçirildi, %d altın fidye alındı."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
@@ -10116,8 +10116,8 @@ msgid "The %s give %s"
 msgstr "%s %s veriyorlar"
 
 #: client/climisc.c:247
-#, c-format
-msgid "The %s give unknown city."
+#, fuzzy, c-format
+msgid "The %s give an unknown city"
 msgstr "%s bilinmeyen bir şehir verecek."
 
 #: client/climisc.c:252
@@ -10162,8 +10162,8 @@ msgid "Popup Request"
 msgstr "Açılır İstek"
 
 #: client/climisc.c:1100
-#, c-format
-msgid "You don't buy %s in %s!"
+#, fuzzy, c-format
+msgid "You can't buy %s in %s!"
 msgstr "%2$s şehrinde %1$s satın almadınız!"
 
 #: client/climisc.c:1111
@@ -11628,7 +11628,7 @@ msgstr "Şehir çubuğunu çiz"
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
-"and optionally, production."
+"and, optionally, production."
 msgstr ""
 
 #: client/options.c:1709
@@ -11807,239 +11807,248 @@ msgstr ""
 
 #: client/options.c:1792
 msgid ""
-"Setting this option will draw the units in focus, including the case the "
-"other units wouldn't be drawn."
+"Setting this option will cause the currently focused unit(s) to always be "
+"drawn, even if units are not otherwise being drawn (for instance if 'Draw "
+"the units' is unset)."
 msgstr ""
 
-#: client/options.c:1797
+#: client/options.c:1798
 #, fuzzy
 msgid "Draw the fog of war"
 msgstr "Savaş sisi genel görünümde olsun"
 
-#: client/options.c:1798
+#: client/options.c:1799
 msgid "Setting this option will draw the fog of war."
 msgstr ""
 
-#: client/options.c:1801
+#: client/options.c:1802
 #, fuzzy
 msgid "Draw the borders"
 msgstr "Şehir çubuğunu çiz"
 
-#: client/options.c:1802
+#: client/options.c:1803
 msgid "Setting this option will draw the national borders."
 msgstr ""
 
-#: client/options.c:1806
-msgid "Show dead players in nation report."
-msgstr ""
-
 #: client/options.c:1807
-msgid ""
-"Setting this option will draw the players already dead in the nation report "
-"page."
+msgid "Show dead players in Nations report"
 msgstr ""
 
-#: client/options.c:1811
+#: client/options.c:1808
+#, fuzzy
+msgid ""
+"This option controls whether defeated nations are shown on the Nations "
+"report page."
+msgstr "Bu ayar seçili ekran çözünürlüğünün yüksekliğini saklar"
+
+#: client/options.c:1812
 msgid "Sound bell at new turn"
 msgstr "Sıra gelince zil çal"
 
-#: client/options.c:1812
+#: client/options.c:1813
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:1818
+#: client/options.c:1819
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Birim hareketinin süresi (milisaniye)"
 
-#: client/options.c:1819
+#: client/options.c:1820
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:1824
+#: client/options.c:1825
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Harita ortalama süresi (milisaniye)"
 
-#: client/options.c:1825
+#: client/options.c:1826
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:1830
+#: client/options.c:1831
 msgid "Show combat animation"
 msgstr "Savaş hareketlerini göster"
 
-#: client/options.c:1831
+#: client/options.c:1832
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr ""
 
-#: client/options.c:1835
+#: client/options.c:1836
 msgid "Show icons in the technology tree"
 msgstr "Teknoloji ağacında simgeler göster"
 
-#: client/options.c:1836
+#: client/options.c:1837
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:1842
+#: client/options.c:1843
 #, fuzzy
 msgid "Use curved lines in the technology tree"
 msgstr "Teknoloji ağacında simgeler göster"
 
-#: client/options.c:1843
+#: client/options.c:1844
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
 
-#: client/options.c:1850
+#: client/options.c:1851
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:1851
+#: client/options.c:1852
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:1856
-msgid "Manual Turn Done in AI Mode"
+#: client/options.c:1857
+#, fuzzy
+msgid "Manual Turn Done in AI mode"
 msgstr "YZ Modundayken Sırayı Elle Geçir"
 
-#: client/options.c:1857
+#: client/options.c:1858
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:1861
-msgid "Auto Center on Units"
+#: client/options.c:1862
+#, fuzzy
+msgid "Auto center on units"
 msgstr "Birimleri Otomatik Ortala"
 
-#: client/options.c:1862
+#: client/options.c:1863
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:1865
-msgid "Auto Center on Combat"
+#: client/options.c:1866
+#, fuzzy
+msgid "Auto center on combat"
 msgstr "Savaşı Otomatik Ortala"
 
-#: client/options.c:1866
+#: client/options.c:1867
 msgid ""
-"Set this option to have any combat be centered automatically.  Disabled this "
-"will speed up the time between turns but may cause you to miss combat "
+"Set this option to have any combat be centered automatically.  Disabling "
+"this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:1871
+#: client/options.c:1872
 #, fuzzy
-msgid "Auto Center on New Turn"
+msgid "Auto center on new turn"
 msgstr "Birimleri Otomatik Ortala"
 
-#: client/options.c:1872
+#: client/options.c:1873
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
 
-#: client/options.c:1876
-msgid "Focus on Awakened Units"
+#: client/options.c:1877
+#, fuzzy
+msgid "Focus on awakened units"
 msgstr "Uyanmış Birimlere Odaklan"
 
-#: client/options.c:1877
+#: client/options.c:1878
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:1880
+#: client/options.c:1881
 msgid "Keyboardless goto"
 msgstr "Klavyesiz git komutu"
 
-#: client/options.c:1881
+#: client/options.c:1882
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/options.c:1886
+#: client/options.c:1887
 msgid "Allow goto into the unknown"
 msgstr "Bilinmeyen bölgelere git komutu verilebilsin"
 
-#: client/options.c:1887
+#: client/options.c:1888
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:1891
-msgid "Center map when Popup city"
+#: client/options.c:1892
+#, fuzzy
+msgid "Center map when popup city"
 msgstr "Şehir penceresi açılınca haritayı ortala"
 
-#: client/options.c:1892
+#: client/options.c:1893
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:1895
-msgid "Concise City Production"
+#: client/options.c:1896
+#, fuzzy
+msgid "Concise city production"
 msgstr "Şehir Üretimini Özetle Göster"
 
-#: client/options.c:1896
+#: client/options.c:1897
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:1899
-msgid "End Turn when done moving"
+#: client/options.c:1900
+#, fuzzy
+msgid "End turn when done moving"
 msgstr "Yapılacak hareket kalmayınca sırayı geçir"
 
-#: client/options.c:1900
+#: client/options.c:1901
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:1903
+#: client/options.c:1904
 msgid "Prompt for city names"
 msgstr "Şehir kurarken isim sor"
 
-#: client/options.c:1904
+#: client/options.c:1905
 msgid ""
-"Disabling this option will make the names of newly founded cities chosen "
+"Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:1907
+#: client/options.c:1908
 msgid "Pop up city dialog for new cities"
 msgstr "Yeni şehir kurulunca şehir penceresini göster"
 
-#: client/options.c:1908
+#: client/options.c:1909
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:1911
+#: client/options.c:1912
 #, fuzzy
 msgid "Pop up caravan actions"
 msgstr "Kervan işlemleri"
 
-#: client/options.c:1912
+#: client/options.c:1913
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -12048,33 +12057,33 @@ msgid ""
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
 
-#: client/options.c:1921
+#: client/options.c:1922
 #, fuzzy
 msgid "Enable cursor changing"
 msgstr "Saydamlık karıştırmayı etkinleştir"
 
-#: client/options.c:1922
+#: client/options.c:1923
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:1927
+#: client/options.c:1928
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:1928
+#: client/options.c:1929
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
 msgstr ""
 
-#: client/options.c:1933
+#: client/options.c:1934
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:1934
+#: client/options.c:1935
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12083,25 +12092,26 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:1943
+#: client/options.c:1944
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:1944
+#: client/options.c:1945
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:1948
+#: client/options.c:1949
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:1949
+#: client/options.c:1950
+#, fuzzy
 msgid ""
-"If this option is turned on, the vote bar will never be hidden, notably when "
-"there won't be any running vote."
-msgstr ""
+"If this option is turned on, the vote bar will never be hidden, even if "
+"there is no running vote."
+msgstr "Bu ayar açıksa istemcinin tüm ekranı kullanılacaktır"
 
 #: client/options.c:1954
 msgid "Do not show vote bar if not a player"
@@ -12119,10 +12129,11 @@ msgid "Set new votes at front"
 msgstr ""
 
 #: client/options.c:1959
+#, fuzzy
 msgid ""
-"If this option is enabled, then the new votes will go to the front of the "
-"vote list"
-msgstr ""
+"If this option is enabled, then new votes will go to the front of the vote "
+"list."
+msgstr "Bu ayar açıksa istemcinin tüm ekranı kullanılacaktır"
 
 #: client/options.c:1964
 msgid "Background layer"
@@ -12186,7 +12197,8 @@ msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
 #: client/options.c:1999
-msgid "Show Map Scrollbars"
+#, fuzzy
+msgid "Show map scrollbars"
 msgstr "Harita Kaydırma Çubuklarını Göster"
 
 #: client/options.c:2000
@@ -12330,8 +12342,8 @@ msgstr ""
 #: client/options.c:2098
 #, fuzzy
 msgid ""
-"If this option is enabled, then the map will be focused when the mouse will "
-"be floating over it."
+"If this option is enabled, then the map will be focused when the mouse "
+"hovers over it."
 msgstr "Bu ayar açıksa istemcinin tüm ekranı kullanılacaktır"
 
 #: client/options.c:2102
@@ -12482,7 +12494,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:2201
-msgid "Full Screen"
+#, fuzzy
+msgid "Full screen"
 msgstr "Tam Ekran"
 
 #: client/options.c:2202
@@ -12508,7 +12521,7 @@ msgstr "İmleç efektlerini göster"
 
 #: client/options.c:2210
 msgid ""
-"If this option is disabled, the cursor will be always displayed as static."
+"If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 
 #: client/options.c:2213
@@ -12517,7 +12530,7 @@ msgstr "Renkli imleçler kullan"
 
 #: client/options.c:2214
 msgid ""
-"If this option is disabled, the cursor will be always displayed in black and "
+"If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 
@@ -16644,7 +16657,7 @@ msgstr ""
 "Siz ise %s temasını kullanıyorsunuz."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
-msgid "Prefered tileset"
+msgid "Preferred tileset"
 msgstr "Tercih edilen arazi seti"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
@@ -16658,7 +16671,7 @@ msgstr "Şimdiki arazi seti dursun"
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
 msgid ""
-"Modpack suggest using %s tileset.\n"
+"Modpack suggests using %s tileset.\n"
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
@@ -37365,6 +37378,9 @@ msgstr ""
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr ""
+
+#~ msgid "Game ended in a draw"
+#~ msgstr "Oyun berabere bitti"
 
 #, fuzzy
 #~ msgid "?female:Imam %s"

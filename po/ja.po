@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:10+0000\n"
+"POT-Creation-Date: 2010-10-31 22:18+0000\n"
 "PO-Revision-Date: 2010-09-10 21:23+0900\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -1416,7 +1416,7 @@ msgstr "ログレベル引数 \"%s\" のファイル名は空です。\n"
 #: utility/log.c:187
 #, fuzzy
 msgid ""
-"Freeciv must be compiled with the DEBUG flag to used advanced log levels "
+"Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
 "デバックレベル %dを使用するには，DEBUGフラグ付きでコンパイルしなければなりま"
@@ -1623,7 +1623,7 @@ msgstr ""
 
 #: ai/advdiplomacy.c:355
 #, c-format
-msgid "*%s (AI)* Let us first cease hostilies, %s."
+msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (AI)* %sよ，まずは敵対関係を止めようではないか。"
 
 # clefs
@@ -1846,7 +1846,7 @@ msgstr[0] ""
 #: ai/advdiplomacy.c:1401
 #, c-format
 msgid ""
-"*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
+"*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
 "*%s (AI)* 貴国が単独で宇宙を征服しようとしているのを見れば貴国の意図は明らか"
@@ -2200,13 +2200,13 @@ msgstr "%sの所属を %sへ変更します。"
 
 #: server/citytools.c:575
 #, c-format
-msgid "Transfered %s in %s from %s to %s."
+msgid "Transferred %s in %s from %s to %s."
 msgstr "%2$sにある %1$sを %3$sから %4$sへ輸送しました。"
 
 # yasu
 #: server/citytools.c:589
 #, c-format
-msgid "Transfered %s from %s to %s."
+msgid "Transferred %s from %s to %s."
 msgstr "%sを %sから %sへ輸送しました。"
 
 # clefs
@@ -2283,8 +2283,8 @@ msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s は %sを制圧し，金 %dを略奪しました。"
 
 #: server/citytools.c:1549
-#, c-format
-msgid "You conquer %s"
+#, fuzzy, c-format
+msgid "You conquer %s."
 msgstr "%sを制圧しました"
 
 #: server/citytools.c:1552
@@ -2517,17 +2517,17 @@ msgstr ""
 "す..."
 
 #: server/cityturn.c:1159
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"%s can't build %s from the worklist; Only available from %s.  Postponing..."
+"%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
 "%sで作業リストから %sを建造できません。 %sからのみ利用可能です。延期していま"
 "す..."
 
 # yasu
 #: server/cityturn.c:1197
-#, c-format
-msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
+#, fuzzy, c-format
+msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr ""
 "%sで作業リストから %sを建てることができません。理由はわかりません! 延期してい"
 "ます..."
@@ -2605,8 +2605,8 @@ msgstr "%2$sで%1$sを維持できません。建物を売りました。"
 # clefs
 # 原文: missing period
 #: server/cityturn.c:1762
-#, c-format
-msgid "Not enough gold. %s disbanded"
+#, fuzzy, c-format
+msgid "Not enough gold. %s disbanded."
 msgstr "資金が足りません。%sは解散しました。"
 
 #: server/cityturn.c:1948
@@ -3364,7 +3364,8 @@ msgstr "detach <接続名>"
 # Belgae
 # was "プレイヤーを放棄する"
 #: server/commands.c:279
-msgid "detach from a player."
+#, fuzzy
+msgid "Detach from a player."
 msgstr "プレイヤー担当を解任します。"
 
 # clefs
@@ -3989,8 +3990,8 @@ msgstr "接続消失: %s"
 
 # clefs
 #: server/connecthand.c:662
-#, c-format
-msgid "detaching from %s."
+#, fuzzy, c-format
+msgid "Detaching from %s."
 msgstr "%sを放棄しています。"
 
 #: server/console.c:221
@@ -4115,14 +4116,14 @@ msgstr "%s の海洋地図を得ました。"
 
 # yasu
 #: server/diplhand.c:474
-#, c-format
-msgid "You receive city of %s from %s."
+#, fuzzy, c-format
+msgid "You receive the city of %s from %s."
 msgstr "都市 %s を %s から得ました。"
 
 # yasu
 #: server/diplhand.c:478
-#, c-format
-msgid "You give city of %s to %s."
+#, fuzzy, c-format
+msgid "You give the city of %s to %s."
 msgstr "都市 %s を %s に与えました。"
 
 # yasu
@@ -4468,8 +4469,8 @@ msgstr "%sで叛乱を煽動する試みは事変に発展しました。"
 
 # clefs
 #: server/diplomats.c:1316
-#, c-format
-msgid "%s have caused an incident while inciting a revolt in %s."
+#, fuzzy, c-format
+msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%sは%sで叛乱を煽動しようとして事変を引き起こしました。"
 
 # Belgae
@@ -4815,8 +4816,8 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s は，接続名の先頭としてはあいまいです。"
 
 #: server/handchat.c:116
-#, c-format
-msgid "%s is an anonymous name. Use connection name"
+#, fuzzy, c-format
+msgid "%s is an anonymous name. Use connection name."
 msgstr "%sは名称不明です。接続名を使用してください。"
 
 #: server/handchat.c:135 server/handchat.c:172
@@ -5565,7 +5566,8 @@ msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "ルールセットファイル \"%s.%s\" が見つかりません。"
 
 #: server/ruleset.c:3966
-msgid "Loading rulesets"
+#, fuzzy
+msgid "Loading rulesets."
 msgstr "ルールセットをロードしています"
 
 #: server/ruleset.c:4039
@@ -6235,7 +6237,7 @@ msgstr "マップ全域を温帯とする"
 #, fuzzy
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
-"the map. It will result that the poles won't be generated."
+"the map. As a result, the poles won't be generated."
 msgstr ""
 "このオプションが有効の場合，マウスをマップビュー上に移動するとフォーカスが表"
 "示タブに移ります。"
@@ -6261,7 +6263,7 @@ msgid ""
 " 50 means a temperate planet with normal polar, cold, temperate, and "
 "tropical zones; a desert zone overlaps tropical and temperate zones.\n"
 " 30 means a cold planet with small tropical zones.\n"
-"  0 means a very cold planet with large polar zones and no tropics"
+"  0 means a very cold planet with large polar zones and no tropics."
 msgstr ""
 "値を小さくすると寒冷な，大きくすると温暖なマップになります。\n"
 "[訳註:ここでいう温度は華氏です。華氏32度=0℃，華氏212度=100℃]\n"
@@ -6587,7 +6589,7 @@ msgstr ""
 
 #: server/settings.c:1198
 msgid ""
-"If you receive an invention via an treaty this setting defines the chance "
+"If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
@@ -6597,7 +6599,7 @@ msgstr ""
 
 #: server/settings.c:1207
 msgid ""
-"If you give an invention via an treaty this setting defines the chance that "
+"If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
@@ -6759,7 +6761,8 @@ msgid "Technology trading"
 msgstr "科学技術"
 
 #: server/settings.c:1325
-msgid "If turned off, trading technologies in diplomacy dialog is not allowed."
+msgid ""
+"If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1331
@@ -6768,7 +6771,7 @@ msgid "Gold trading"
 msgstr "金: %d"
 
 #: server/settings.c:1332
-msgid "If turned off, trading gold in diplomacy dialog is not allowed."
+msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1338
@@ -6777,7 +6780,7 @@ msgid "City trading"
 msgstr "都市の生産物"
 
 #: server/settings.c:1339
-msgid "If turned off, trading cities in diplomacy dialog is not allowed."
+msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1345
@@ -6871,7 +6874,7 @@ msgstr ""
 "  4 = 陸上と海上どちらも移動可能なユニット"
 
 #: server/settings.c:1400
-msgid "Slowly kill unhomecitied units (eg. startunits)"
+msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
 #: server/settings.c:1401
@@ -7034,7 +7037,8 @@ msgstr ""
 
 # clefs
 #: server/settings.c:1531
-msgid "Base chance for diplomats and spies to succeed."
+#, fuzzy
+msgid "Base chance for diplomats and spies to succeed"
 msgstr "外交官・スパイの基本成功確率"
 
 # clefs
@@ -7129,7 +7133,7 @@ msgstr "首都が占領された時に宮殿を再建築する"
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
-"automatically rebuilt for free in another randomly choosen city. This is "
+"automatically rebuilt for free in another randomly chosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
@@ -7417,7 +7421,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1798
-msgid "Control of simultaneous player/team phases."
+#, fuzzy
+msgid "Control of simultaneous player/team phases"
 msgstr "プレイヤー/チームのフェーズを同時にするか"
 
 #: server/settings.c:1799
@@ -7462,9 +7467,10 @@ msgid "Seconds between PINGs"
 msgstr "PING 間の秒数"
 
 #: server/settings.c:1825
+#, fuzzy
 msgid ""
-"The civserver will poll the clients with a PING request each time this "
-"period elapses."
+"The server will poll the clients with a PING request each time this period "
+"elapses."
 msgstr ""
 "civserverはここで指定した秒数経過するたびに，PINGをクライアントに送ります。"
 
@@ -7590,7 +7596,7 @@ msgid "Compression library to use for savegames."
 msgstr ""
 
 #: server/settings.c:1907
-msgid "Save using the given savegame version."
+msgid "Save using the given savegame version"
 msgstr ""
 
 #: server/settings.c:1908
@@ -7757,7 +7763,7 @@ msgid "String value too long (max length: %lu)."
 msgstr "文字列の値が長すぎます。"
 
 #: server/settings.c:2508
-msgid "This setting is not a enumerator."
+msgid "This setting is not an enumerator."
 msgstr ""
 
 # Belgae
@@ -7807,8 +7813,8 @@ msgid "Restarting for lack of players."
 msgstr "プレイヤーが欠けたため，初めからやり直します"
 
 #: server/sernet.c:526
-#, c-format
-msgid "restarting in %d seconds for lack of players"
+#, fuzzy, c-format
+msgid "Restarting in %d seconds for lack of players."
 msgstr "プレイヤーが欠けたため， %d秒後に初めからやり直します"
 
 #: server/sernet.c:529
@@ -7821,7 +7827,8 @@ msgid "Server: bad address: <%s:%d>."
 msgstr "サーバ: 間違ったアドレス: <%s:%d>"
 
 #: server/sernet.c:994
-msgid "Cannot open IPv6 socket, trying IPv4 instead"
+#, fuzzy
+msgid "Cannot open IPv6 socket, trying IPv4 instead."
 msgstr "IPv6ソケットを開くことができません。代わりにIPv4を試行します。"
 
 #: server/sernet.c:997
@@ -7859,9 +7866,9 @@ msgstr "宇宙船はまだ打ち上げできません!"
 
 # yasu
 #: server/spacerace.c:190
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr "%sは宇宙船を発射しました! %sにアルファケンタウリに着くと推測されます。"
 
@@ -7944,7 +7951,8 @@ msgstr "%sのシナリオ勝利です。"
 # clefs
 # Belgae
 #: server/srv_main.c:300
-msgid "Game ended in a draw as end turn exceeded"
+#, fuzzy
+msgid "Game ended in a draw as end turn exceeded."
 msgstr "終了ターンに達したためゲームは引き分けで終了しました"
 
 # yasu
@@ -7955,19 +7963,19 @@ msgstr "%sの宇宙船がアルファケンタウリに着きました。"
 
 # clefs
 #: server/srv_main.c:351 server/srv_main.c:391
-#, c-format
-msgid "Team victory to %s"
+#, fuzzy, c-format
+msgid "Team victory to %s."
 msgstr "チーム%sが勝利しました"
 
 #: server/srv_main.c:361 server/srv_main.c:407
-#, c-format
-msgid "Game ended in victory for %s"
+#, fuzzy, c-format
+msgid "Game ended in victory for %s."
 msgstr "%sの勝利でゲームは終了しました"
 
 # clefs
-#: server/srv_main.c:414
-msgid "Game ended in a draw"
-msgstr "ゲームは引き分けで終了しました"
+#: server/srv_main.c:414 server/stdinhand.c:4098
+msgid "Game ended in a draw."
+msgstr "ゲームは引き分けで終了しました。"
 
 #: server/srv_main.c:530 server/srv_main.c:541
 #, c-format
@@ -7989,17 +7997,17 @@ msgstr "%sとの停戦は終了しました。以後， %sとは交戦状態に�
 
 # clefs
 #: server/srv_main.c:612
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ceasefire between %s and %s has run out. They are at war. You cancel your "
-"alliance with both."
+"The cease-fire between %s and %s has run out. They are at war. You cancel "
+"your alliance with both."
 msgstr ""
 "%sと%sの停戦期間は終了しました。両国は戦争状態となりました。両方との同盟を破"
 "棄します。"
 
 #: server/srv_main.c:1082 server/srv_main.c:1085
-#, c-format
-msgid "Unsupported compression type %d"
+#, fuzzy, c-format
+msgid "Unsupported compression type %d."
 msgstr "圧縮タイプ %dはサポートしていません"
 
 #: server/srv_main.c:1115
@@ -8083,16 +8091,17 @@ msgid "%s rules the %s."
 msgstr "%sは%sを統治します。"
 
 #: server/srv_main.c:1996
+#, fuzzy
 msgid ""
-"This civserver program has player authentication support, but it's currently "
-"not in use."
+"This freeciv-server program has player authentication support, but it's "
+"currently not in use."
 msgstr ""
 "このcivserverプログラムはプレイヤー認証に対応していますが，現在はその機能を使"
 "用していません。"
 
 #: server/srv_main.c:2059
-#, c-format
-msgid "Sending info to metaserver <%s>"
+#, fuzzy, c-format
+msgid "Sending info to metaserver <%s>."
 msgstr "メタサーバ <%s>に情報を送信しています"
 
 #: server/srv_main.c:2063
@@ -8343,8 +8352,8 @@ msgid "No command script found by the name \"%s\"."
 msgstr "'%s' という名前のコマンド・スクリプトはありません。"
 
 #: server/stdinhand.c:1134
-#, c-format
-msgid "Loading script file: %s"
+#, fuzzy, c-format
+msgid "Loading script file '%s'."
 msgstr "スクリプトファイルをロードしています: %s"
 
 #: server/stdinhand.c:1152
@@ -8441,7 +8450,8 @@ msgstr "すでにコマンドアクセスレベルは'%s'以上です。"
 
 # clefs
 #: server/stdinhand.c:1471
-msgid "Someone else already is game organizer."
+#, fuzzy
+msgid "Someone else is already game organizer."
 msgstr "他の誰かが既にゲーム主催者になっています。"
 
 # clefs
@@ -8736,7 +8746,7 @@ msgstr "そのコマンドを利用できません。"
 
 #: server/stdinhand.c:2266
 #, c-format
-msgid "The argument \"%s\" is ambigious."
+msgid "The argument \"%s\" is ambiguous."
 msgstr "引数\"%s\"は省略しすぎです。"
 
 # clefs
@@ -9237,11 +9247,6 @@ msgid "(server prompt)"
 msgstr "(サーバ・プロンプト)"
 
 # clefs
-#: server/stdinhand.c:4098
-msgid "Game ended in a draw."
-msgstr "ゲームは引き分けで終了しました。"
-
-# clefs
 #: server/stdinhand.c:4102
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
@@ -9288,7 +9293,7 @@ msgstr ""
 
 #: server/stdinhand.c:4212
 #, fuzzy
-msgid "No Game started ..."
+msgid "No game started..."
 msgstr "ゲームが始まりました。"
 
 #: server/stdinhand.c:4219
@@ -9315,15 +9320,18 @@ msgid "Settings re-initialized."
 msgstr "設定を再初期化しました。"
 
 #: server/stdinhand.c:4333
-msgid "Not enough human players, game will not start."
+#, fuzzy
+msgid "Not enough human players; game will not start."
 msgstr "人間プレイヤーが足りないので，ゲームを開始できません。"
 
 #: server/stdinhand.c:4338
-msgid "No players, game will not start."
+#, fuzzy
+msgid "No players; game will not start."
 msgstr "プレイヤーがいないので，ゲームを開始できません。"
 
 #: server/stdinhand.c:4342
-msgid "Not enough nations for all players, game will not start."
+#, fuzzy
+msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "プレイヤー全員に割り当てるための国が足りないので，ゲームを開始できません。"
 
@@ -9551,8 +9559,8 @@ msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "%sを覚えました。科学者の研究対象は %sに移行します。目標は %sです。"
 
 #: server/techtools.c:379
-#, c-format
-msgid "Learned %s.  Scientists choose to research %s."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists choose to research %s."
 msgstr "%sを覚えました。科学者は %sの研究を選択しました。"
 
 #: server/techtools.c:385
@@ -9566,8 +9574,8 @@ msgid "Researching %s."
 msgstr "%sを研究しています。"
 
 #: server/techtools.c:394
-#, c-format
-msgid "Learned %s.  Scientists do not know what to research next."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists do not know what to research next."
 msgstr "%sを覚えました。科学者は次に何を研究するべきかの指示を求めています。"
 
 #: server/techtools.c:411
@@ -9579,13 +9587,13 @@ msgstr ""
 
 #: server/techtools.c:480
 #, c-format
-msgid "Too low science output. We lost Future Tech. %d."
+msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
 #: server/techtools.c:487
-#, c-format
-msgid "Too low science output. We lost %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Insufficient science output. We lost %s."
+msgstr "都市の研究成果を50%増やします。"
 
 #: server/techtools.c:578
 #, c-format
@@ -9842,15 +9850,15 @@ msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%1$sは %3$sの %2$s建築を手伝いました(余剰 %4$d)。"
 
 #: server/unithand.c:1555
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Sorry, your %s cannot establish a trade route because it has no home city"
+"Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr ""
 "残念ながら，ここに交易路を確立できません! %sは所属する都市がありません。"
 
 #: server/unithand.c:1567
-#, c-format
-msgid "Sorry, your %s cannot establish a trade route between %s and %s"
+#, fuzzy, c-format
+msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "残念ながら， %sは %s・ %s間に交易路を確立できません!"
 
 #: server/unithand.c:1599 server/unithand.c:1620
@@ -9960,8 +9968,8 @@ msgstr "%s は %sの破壊から辛くも脱出し， %sに落ち延びました
 
 # ama, clefs
 #: server/unittools.c:1700
-#, c-format
-msgid "Barbarian leader captured, %d gold ransom paid."
+#, fuzzy, c-format
+msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "バーバリアンの指導者が捕えられ，身代金 %dが支払われました。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
@@ -11020,8 +11028,8 @@ msgid "The %s give %s"
 msgstr "%sは%sを与える"
 
 #: client/climisc.c:247
-#, c-format
-msgid "The %s give unknown city."
+#, fuzzy, c-format
+msgid "The %s give an unknown city"
 msgstr "%sは未知の都市を与える"
 
 #: client/climisc.c:252
@@ -11067,8 +11075,8 @@ msgstr "ポップアップ要求"
 
 # yasu, clefs
 #: client/climisc.c:1100
-#, c-format
-msgid "You don't buy %s in %s!"
+#, fuzzy, c-format
+msgid "You can't buy %s in %s!"
 msgstr "%sの%sは買えません!"
 
 #: client/climisc.c:1111
@@ -12687,10 +12695,11 @@ msgstr "都市情報バーの表示"
 
 # clefs
 #: client/options.c:1703
+#, fuzzy
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
-"and optionally, production."
+"and, optionally, production."
 msgstr ""
 "設定すると，各都市の下に有用な情報を含む「都市情報バー」を表示します。無効に"
 "すると，都市の名前と，任意で生産物のみが表示されます。"
@@ -12865,46 +12874,47 @@ msgstr "フォーカスの当たっているユニットの表示"
 
 #: client/options.c:1792
 msgid ""
-"Setting this option will draw the units in focus, including the case the "
-"other units wouldn't be drawn."
+"Setting this option will cause the currently focused unit(s) to always be "
+"drawn, even if units are not otherwise being drawn (for instance if 'Draw "
+"the units' is unset)."
 msgstr ""
-"このオプションを設定すると，他のユニットが表示されないように設定されていて"
-"も，フォーカスの当たっているユニットだけはマップ上に表示されます。"
 
-#: client/options.c:1797
+#: client/options.c:1798
 msgid "Draw the fog of war"
 msgstr "戦場の霧の表示"
 
-#: client/options.c:1798
+#: client/options.c:1799
 msgid "Setting this option will draw the fog of war."
 msgstr "このオプションを設定すると，戦場の霧が表示されます。"
 
-#: client/options.c:1801
+#: client/options.c:1802
 msgid "Draw the borders"
 msgstr "国境線の表示"
 
-#: client/options.c:1802
+#: client/options.c:1803
 msgid "Setting this option will draw the national borders."
 msgstr "このオプションを設定すると，国境線が表示されます。"
 
-#: client/options.c:1806
-msgid "Show dead players in nation report."
+#: client/options.c:1807
+#, fuzzy
+msgid "Show dead players in Nations report"
 msgstr "民族報告での死亡済みプレイヤーの表示"
 
-#: client/options.c:1807
+#: client/options.c:1808
+#, fuzzy
 msgid ""
-"Setting this option will draw the players already dead in the nation report "
-"page."
+"This option controls whether defeated nations are shown on the Nations "
+"report page."
 msgstr ""
 "このオプションを設定すると，既に死亡したプレイヤーも民族報告ページに表示され"
 "ます。"
 
-#: client/options.c:1811
+#: client/options.c:1812
 msgid "Sound bell at new turn"
 msgstr "新しいターンにベルを鳴らす"
 
 # clefs
-#: client/options.c:1812
+#: client/options.c:1813
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -12914,12 +12924,12 @@ msgstr ""
 "らし方はメッセージオプションから変更できます。"
 
 # clefs
-#: client/options.c:1818
+#: client/options.c:1819
 msgid "Unit movement animation time (milliseconds)"
 msgstr "ユニット移動のアニメーションにかける時間 (ミリ秒)"
 
 # clefs
-#: client/options.c:1819
+#: client/options.c:1820
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -12930,12 +12940,12 @@ msgstr ""
 "くなりますが。]"
 
 # clefs
-#: client/options.c:1824
+#: client/options.c:1825
 msgid "Mapview recentering time (milliseconds)"
 msgstr "マップのセンタリングにかける時間 (ミリ秒)"
 
 # clefs
-#: client/options.c:1825
+#: client/options.c:1826
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -12945,12 +12955,12 @@ msgstr ""
 "移動にどのくらい時間をかけるかをこのオプションは決定します。0にすれば完全に無"
 "効になります。"
 
-#: client/options.c:1830
+#: client/options.c:1831
 msgid "Show combat animation"
 msgstr "戦闘アニメーションの表示"
 
 # clefs
-#: client/options.c:1831
+#: client/options.c:1832
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
@@ -12959,13 +12969,13 @@ msgstr ""
 "力メータの表示と爆発のことです]"
 
 # clefs
-#: client/options.c:1835
+#: client/options.c:1836
 msgid "Show icons in the technology tree"
 msgstr "科学技術ツリーでのアイコン表示"
 
 # clefs
 # Belgae
-#: client/options.c:1836
+#: client/options.c:1837
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -12973,12 +12983,12 @@ msgstr ""
 "このオプションを設定すると，科学技術ツリーの図にアイコンを表示します。無効に"
 "するとツリーはよりコンパクトになります。"
 
-#: client/options.c:1842
+#: client/options.c:1843
 msgid "Use curved lines in the technology tree"
 msgstr "科学技術ツリーに曲線を使用"
 
 # Belgae
-#: client/options.c:1843
+#: client/options.c:1844
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -12987,11 +12997,11 @@ msgstr ""
 "このオプションを設定すると，科学技術ツリーで関連する技術を曲線でつなぎます。"
 "無効にすると，直線でつなぎます。"
 
-#: client/options.c:1850
+#: client/options.c:1851
 msgid "Color to highlight your player/user name"
 msgstr "プレイヤー名/ユーザー名のハイライト色"
 
-#: client/options.c:1851
+#: client/options.c:1852
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
@@ -13001,12 +13011,13 @@ msgstr ""
 "ザー名が指定した色でハイライトされます。無効にすると，ハイライトされません。"
 
 # ama
-#: client/options.c:1856
-msgid "Manual Turn Done in AI Mode"
+#: client/options.c:1857
+#, fuzzy
+msgid "Manual Turn Done in AI mode"
 msgstr "AI モードでの手動ターン終了"
 
 # clefs
-#: client/options.c:1857
+#: client/options.c:1858
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -13014,12 +13025,13 @@ msgstr ""
 "AIプレイヤーを観察する時に，手で「ターン終了」ボタンを押したくない場合はこの"
 "オプションを無効にしてください。"
 
-#: client/options.c:1861
-msgid "Auto Center on Units"
+#: client/options.c:1862
+#, fuzzy
+msgid "Auto center on units"
 msgstr "ユニットを自動的に画面の中心へ"
 
 # clefs
-#: client/options.c:1862
+#: client/options.c:1863
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -13027,26 +13039,28 @@ msgstr ""
 "設定すると，選択されているユニットが代わった時に自動的にそのユニットが画面の"
 "中心になります。"
 
-#: client/options.c:1865
-msgid "Auto Center on Combat"
+#: client/options.c:1866
+#, fuzzy
+msgid "Auto center on combat"
 msgstr "戦闘を自動的に画面の中心へ"
 
 # clefs
-#: client/options.c:1866
+#: client/options.c:1867
 msgid ""
-"Set this option to have any combat be centered automatically.  Disabled this "
-"will speed up the time between turns but may cause you to miss combat "
+"Set this option to have any combat be centered automatically.  Disabling "
+"this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 "設定すると，戦闘が発生した時に自動的にそれが画面の中心になります。無効にする"
 "と，ターン間の待ち時間を短縮できますが，戦闘を完全に見落としてしまうかもしれ"
 "ません。"
 
-#: client/options.c:1871
-msgid "Auto Center on New Turn"
+#: client/options.c:1872
+#, fuzzy
+msgid "Auto center on new turn"
 msgstr "新規ターンに自動的に画面の中心へ"
 
-#: client/options.c:1872
+#: client/options.c:1873
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -13054,35 +13068,36 @@ msgstr ""
 "このオプションを設定すると，各ターンの開始時にマップ上の適切な位置が画面の中"
 "心になります。"
 
-#: client/options.c:1876
-msgid "Focus on Awakened Units"
+#: client/options.c:1877
+#, fuzzy
+msgid "Focus on awakened units"
 msgstr "起こされたユニットにフォーカス"
 
 # clefs
-#: client/options.c:1877
+#: client/options.c:1878
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 "設定すると，[見張り状態から]覚醒したユニットが自動的にフォーカスされます。"
 
-#: client/options.c:1880
+#: client/options.c:1881
 msgid "Keyboardless goto"
 msgstr "キーボードなしでのgotoコマンド"
 
 # clefs
 # Belgae
-#: client/options.c:1881
+#: client/options.c:1882
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 "このオプションを設定すると，左ドラッグするだけでgotoコマンドを実行できます。"
 
-#: client/options.c:1886
+#: client/options.c:1887
 msgid "Allow goto into the unknown"
 msgstr "[gotoコマンドで]未知の領域への移動を許可する"
 
 # clefs
-#: client/options.c:1887
+#: client/options.c:1888
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -13090,70 +13105,74 @@ msgstr ""
 "有効にすると，gotoコマンドでは未知の領域を通ることも考慮に入れられます。無効"
 "にすると，未知の領域は迂回し，できなければ到達不能となります。"
 
-#: client/options.c:1891
-msgid "Center map when Popup city"
+#: client/options.c:1892
+#, fuzzy
+msgid "Center map when popup city"
 msgstr "都市を開く時マップの中心へ"
 
-#: client/options.c:1892
+#: client/options.c:1893
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr "都市ダイアログを開いた時に，その都市をマップの中心にします。"
 
-#: client/options.c:1895
-msgid "Concise City Production"
+#: client/options.c:1896
+#, fuzzy
+msgid "Concise city production"
 msgstr "簡潔な都市生産物表示"
 
 # clefs
-#: client/options.c:1896
+#: client/options.c:1897
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 "(都市ダイアログなどに表示される)都市生産物の表示をよりコンパクトにします。"
 
-#: client/options.c:1899
-msgid "End Turn when done moving"
+#: client/options.c:1900
+#, fuzzy
+msgid "End turn when done moving"
 msgstr "移動を終えた時ターンを終了"
 
 # clefs
-#: client/options.c:1900
+#: client/options.c:1901
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr "すべてのユニットの移動が終了した時点で自動的にターンを終了させます。"
 
 # ntaka
-#: client/options.c:1903
+#: client/options.c:1904
 msgid "Prompt for city names"
 msgstr "新しい都市を作る時に都市名を尋ねる"
 
 # clefs
-#: client/options.c:1904
+#: client/options.c:1905
+#, fuzzy
 msgid ""
-"Disabling this option will make the names of newly founded cities chosen "
+"Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
 "オフにすると，都市建設時に都市名をサーバが自動的に決定します。[訳註:後で変更"
 "できます]"
 
 # ntaka
-#: client/options.c:1907
+#: client/options.c:1908
 msgid "Pop up city dialog for new cities"
 msgstr "新しい都市を作る時に都市ウィンドウを開く"
 
 # clefs
-#: client/options.c:1908
+#: client/options.c:1909
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr "都市を新設した時に自動的に都市ダイアログを開きます。"
 
-#: client/options.c:1911
+#: client/options.c:1912
 msgid "Pop up caravan actions"
 msgstr "キャラバン活動のポップアップ"
 
-#: client/options.c:1912
+#: client/options.c:1913
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -13167,11 +13186,11 @@ msgstr ""
 "手動で指定する必要があります。手動で指定するには，キャラバンが都市内にいると"
 "きに，「r」（交易路を設立する）か「b」（不思議建築を手伝う）を押します。"
 
-#: client/options.c:1921
+#: client/options.c:1922
 msgid "Enable cursor changing"
 msgstr "カーソルの変化を有効にする"
 
-#: client/options.c:1922
+#: client/options.c:1923
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
@@ -13180,11 +13199,11 @@ msgstr ""
 "このオプションは，指している対象や，クライアントまたはサーバの状態変化に応じ"
 "て，マウスカーソルの形状を変化させるかどうかを制御します。"
 
-#: client/options.c:1927
+#: client/options.c:1928
 msgid "Select cities before units"
 msgstr "都市をユニットより優先して選択"
 
-#: client/options.c:1928
+#: client/options.c:1929
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
@@ -13192,11 +13211,11 @@ msgstr ""
 "このオプションを有効にすると，選択枠の中に都市とユニットがともに存在する場"
 "合，都市のみが選択されます。"
 
-#: client/options.c:1933
+#: client/options.c:1934
 msgid "Clear unit orders on selection"
 msgstr "選択でユニットの命令を解除"
 
-#: client/options.c:1934
+#: client/options.c:1935
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -13210,24 +13229,25 @@ msgstr ""
 "令が解除されます。まず一度スペースキーを押すと，命令は解除され選択状態はその"
 "ままになります。もう一度スペースキーをおすと，選択状態も解除されます。"
 
-#: client/options.c:1943
+#: client/options.c:1944
 msgid "Enable vote bar"
 msgstr "投票バーの使用"
 
-#: client/options.c:1944
+#: client/options.c:1945
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr "このオプションをオンにすると，投票の状況を示す投票バーが表示されます。"
 
-#: client/options.c:1948
+#: client/options.c:1949
 msgid "Always display the vote bar"
 msgstr "投票バーを常に表示"
 
-#: client/options.c:1949
+#: client/options.c:1950
+#, fuzzy
 msgid ""
-"If this option is turned on, the vote bar will never be hidden, notably when "
-"there won't be any running vote."
+"If this option is turned on, the vote bar will never be hidden, even if "
+"there is no running vote."
 msgstr ""
 "このオプションをオンにすると，進行中の投票がない時でも投票バーが表示されたま"
 "まになります。"
@@ -13249,9 +13269,10 @@ msgid "Set new votes at front"
 msgstr "新しい投票を先頭に表示"
 
 #: client/options.c:1959
+#, fuzzy
 msgid ""
-"If this option is enabled, then the new votes will go to the front of the "
-"vote list"
+"If this option is enabled, then new votes will go to the front of the vote "
+"list."
 msgstr ""
 "このオプションを有効にすると，新しい投票は投票リストの先頭に移動します。"
 
@@ -13331,7 +13352,8 @@ msgstr ""
 "分をグレイアウトします]"
 
 #: client/options.c:1999
-msgid "Show Map Scrollbars"
+#, fuzzy
+msgid "Show map scrollbars"
 msgstr "マップのスクロールバーを表示する"
 
 #: client/options.c:2000
@@ -13510,9 +13532,10 @@ msgid "Mouse over the map widget selects it automatically"
 msgstr "マウスオーバーでマップウィジェットを自動選択"
 
 #: client/options.c:2098
+#, fuzzy
 msgid ""
-"If this option is enabled, then the map will be focused when the mouse will "
-"be floating over it."
+"If this option is enabled, then the map will be focused when the mouse "
+"hovers over it."
 msgstr ""
 "このオプションが有効の場合，マウスをマップビュー上に移動するとフォーカスが表"
 "示タブに移ります。"
@@ -13670,7 +13693,8 @@ msgid ""
 msgstr "このフォントは，研究報告での必要条件ツリーの表示に使用されます。"
 
 #: client/options.c:2201
-msgid "Full Screen"
+#, fuzzy
+msgid "Full screen"
 msgstr "フルスクリーン"
 
 #: client/options.c:2202
@@ -13697,7 +13721,7 @@ msgstr "カーソルアニメーションを表示する"
 #: client/options.c:2210
 #, fuzzy
 msgid ""
-"If this option is disabled, the cursor will be always displayed as static."
+"If this option is disabled, the cursor will always be displayed as static."
 msgstr "このオプションをオンにすると，投票の状況を示す投票バーが表示されます。"
 
 #: client/options.c:2213
@@ -13707,7 +13731,7 @@ msgstr "カラーカーソルを使用する"
 #: client/options.c:2214
 #, fuzzy
 msgid ""
-"If this option is disabled, the cursor will be always displayed in black and "
+"If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr "このオプションをオンにすると，投票の状況を示す投票バーが表示されます。"
 
@@ -17977,7 +18001,7 @@ msgstr ""
 "現在は%sを使用しています。"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
-msgid "Prefered tileset"
+msgid "Preferred tileset"
 msgstr "お好みのタイルセット"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
@@ -17992,7 +18016,7 @@ msgstr "現在のタイルセットを保ちます。"
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
 msgid ""
-"Modpack suggest using %s tileset.\n"
+"Modpack suggests using %s tileset.\n"
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
@@ -40783,6 +40807,17 @@ msgstr "defaultルールセット"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "現在はデフォルトルールでFreecivをプレイしています。"
+
+# clefs
+#~ msgid "Game ended in a draw"
+#~ msgstr "ゲームは引き分けで終了しました"
+
+#~ msgid ""
+#~ "Setting this option will draw the units in focus, including the case the "
+#~ "other units wouldn't be drawn."
+#~ msgstr ""
+#~ "このオプションを設定すると，他のユニットが表示されないように設定されていて"
+#~ "も，フォーカスの当たっているユニットだけはマップ上に表示されます。"
 
 #, fuzzy
 #~ msgid "?female:Imam %s"

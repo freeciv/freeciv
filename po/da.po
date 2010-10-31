@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:10+0000\n"
+"POT-Creation-Date: 2010-10-31 22:18+0000\n"
 "PO-Revision-Date: 2010-07-25 22:27+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -1235,7 +1235,7 @@ msgstr "Tomt filnavn i logniveauparameter »%s«.\n"
 #: utility/log.c:187
 #, fuzzy
 msgid ""
-"Freeciv must be compiled with the DEBUG flag to used advanced log levels "
+"Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
 "Freeciv skal oversættes med DEBUG-tilvalget for at benytte "
@@ -1441,7 +1441,7 @@ msgstr ""
 
 #: ai/advdiplomacy.c:355
 #, c-format
-msgid "*%s (AI)* Let us first cease hostilies, %s."
+msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (Computer)* Lad os først stoppe blodsudgydelserne, %s."
 
 #: ai/advdiplomacy.c:360
@@ -1654,7 +1654,7 @@ msgstr[1] ""
 #: ai/advdiplomacy.c:1401
 #, c-format
 msgid ""
-"*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
+"*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
 "*%s (AI)* Dit forsøg på at erobre plads til dig selv afslører dine sande "
@@ -1975,12 +1975,12 @@ msgstr "Ændret hjemby for %s til %s."
 
 #: server/citytools.c:575
 #, c-format
-msgid "Transfered %s in %s from %s to %s."
+msgid "Transferred %s in %s from %s to %s."
 msgstr "Overførte %s i %s fra %s til %s."
 
 #: server/citytools.c:589
 #, c-format
-msgid "Transfered %s from %s to %s."
+msgid "Transferred %s from %s to %s."
 msgstr "Overførte %s fra %s til %s."
 
 # problem
@@ -2057,8 +2057,8 @@ msgstr[0] "%s erobrede %s og plyndrede %d guld fra byen."
 msgstr[1] "%s erobrede %s og plyndrede %d guld fra byen."
 
 #: server/citytools.c:1549
-#, c-format
-msgid "You conquer %s"
+#, fuzzy, c-format
+msgid "You conquer %s."
 msgstr "Du erobrer %s"
 
 #: server/citytools.c:1552
@@ -2273,15 +2273,15 @@ msgstr ""
 "Udsætter..."
 
 #: server/cityturn.c:1159
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"%s can't build %s from the worklist; Only available from %s.  Postponing..."
+"%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
 "%s kan ikke bygge %s fra arbejdslisten; Kun tilgængelig fra %s. Udsætter..."
 
 #: server/cityturn.c:1197
-#, c-format
-msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
+#, fuzzy, c-format
+msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr "%s kan ikke bygge %s fra arbejdslisten; årsag ukendt! Udsætter..."
 
 #. TRANS: The <city> worklist ....
@@ -2353,8 +2353,8 @@ msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Har ikke råd til at opretholde %s i %s, bygning solgt!"
 
 #: server/cityturn.c:1762
-#, c-format
-msgid "Not enough gold. %s disbanded"
+#, fuzzy, c-format
+msgid "Not enough gold. %s disbanded."
 msgstr "Ikke nok guld. %s opløst"
 
 #: server/cityturn.c:1948
@@ -3081,7 +3081,8 @@ msgid "detach <connection-name>"
 msgstr "detach <tilslutningsnavn>"
 
 #: server/commands.c:279
-msgid "detach from a player."
+#, fuzzy
+msgid "Detach from a player."
 msgstr "løsgør fra en spiller."
 
 #: server/commands.c:280
@@ -3678,8 +3679,8 @@ msgid "Lost connection: %s."
 msgstr "Mistet tilslutning: %s."
 
 #: server/connecthand.c:662
-#, c-format
-msgid "detaching from %s."
+#, fuzzy, c-format
+msgid "Detaching from %s."
 msgstr "frigører fra %s."
 
 #: server/console.c:221
@@ -3790,13 +3791,13 @@ msgid "You receive the %s seamap."
 msgstr "Du får søkortet som %s opfatter det."
 
 #: server/diplhand.c:474
-#, c-format
-msgid "You receive city of %s from %s."
+#, fuzzy, c-format
+msgid "You receive the city of %s from %s."
 msgstr "Du får byen %s af %s."
 
 #: server/diplhand.c:478
-#, c-format
-msgid "You give city of %s to %s."
+#, fuzzy, c-format
+msgid "You give the city of %s to %s."
 msgstr "Du giver byen %s bort til %s."
 
 #: server/diplhand.c:490 server/diplhand.c:493
@@ -4107,8 +4108,8 @@ msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Du har forårsaget en skandale ved at anspore til oprør i %s."
 
 #: server/diplomats.c:1316
-#, c-format
-msgid "%s have caused an incident while inciting a revolt in %s."
+#, fuzzy, c-format
+msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s har forårsaget en skandale ved at anspore til oprør i %s."
 
 #: server/edithand.c:154
@@ -4449,8 +4450,8 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s er et tvetydigt tilslutningsnavns-præfiks."
 
 #: server/handchat.c:116
-#, c-format
-msgid "%s is an anonymous name. Use connection name"
+#, fuzzy, c-format
+msgid "%s is an anonymous name. Use connection name."
 msgstr "%s er et tvetydigt navn. Brug tilslutningsnavn"
 
 #: server/handchat.c:135 server/handchat.c:172
@@ -5177,7 +5178,8 @@ msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Kunne ikke finde en læsbar regelfil \"%s.%s\"."
 
 #: server/ruleset.c:3966
-msgid "Loading rulesets"
+#, fuzzy
+msgid "Loading rulesets."
 msgstr "Indlæser regelsæt"
 
 # er aifill en kommando?
@@ -5810,7 +5812,7 @@ msgstr "Hele kortet er tempereret"
 #, fuzzy
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
-"the map. It will result that the poles won't be generated."
+"the map. As a result, the poles won't be generated."
 msgstr ""
 "Hvis denne er slået til, vil kortet blive fokuseret når musen flyder over "
 "det."
@@ -5831,7 +5833,7 @@ msgid ""
 " 50 means a temperate planet with normal polar, cold, temperate, and "
 "tropical zones; a desert zone overlaps tropical and temperate zones.\n"
 " 30 means a cold planet with small tropical zones.\n"
-"  0 means a very cold planet with large polar zones and no tropics"
+"  0 means a very cold planet with large polar zones and no tropics."
 msgstr ""
 "Lave værdier vil skabe et koldt kort, mens høje værdier vil skabe et varmere "
 "kort.\n"
@@ -6144,7 +6146,7 @@ msgstr ""
 
 #: server/settings.c:1198
 msgid ""
-"If you receive an invention via an treaty this setting defines the chance "
+"If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
@@ -6154,7 +6156,7 @@ msgstr ""
 
 #: server/settings.c:1207
 msgid ""
-"If you give an invention via an treaty this setting defines the chance that "
+"If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
@@ -6310,7 +6312,8 @@ msgid "Technology trading"
 msgstr "Teknologi"
 
 #: server/settings.c:1325
-msgid "If turned off, trading technologies in diplomacy dialog is not allowed."
+msgid ""
+"If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1331
@@ -6319,7 +6322,7 @@ msgid "Gold trading"
 msgstr "Guld: %d"
 
 #: server/settings.c:1332
-msgid "If turned off, trading gold in diplomacy dialog is not allowed."
+msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1338
@@ -6328,7 +6331,7 @@ msgid "City trading"
 msgstr "Byproduktion"
 
 #: server/settings.c:1339
-msgid "If turned off, trading cities in diplomacy dialog is not allowed."
+msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1345
@@ -6414,7 +6417,7 @@ msgstr ""
 "  4 = enheder der kan bevæge sig både på land og på havet"
 
 #: server/settings.c:1400
-msgid "Slowly kill unhomecitied units (eg. startunits)"
+msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
 #: server/settings.c:1401
@@ -6575,7 +6578,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1531
-msgid "Base chance for diplomats and spies to succeed."
+#, fuzzy
+msgid "Base chance for diplomats and spies to succeed"
 msgstr "Basischance for succes for diplomater og spioner."
 
 #: server/settings.c:1532
@@ -6668,7 +6672,7 @@ msgstr "Genopbyg palads hvis hovedstaden erobres"
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
-"automatically rebuilt for free in another randomly choosen city. This is "
+"automatically rebuilt for free in another randomly chosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
@@ -6962,7 +6966,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1798
-msgid "Control of simultaneous player/team phases."
+#, fuzzy
+msgid "Control of simultaneous player/team phases"
 msgstr "Kontrol af samtidige spiller-/holdfraser."
 
 #: server/settings.c:1799
@@ -7004,9 +7009,10 @@ msgid "Seconds between PINGs"
 msgstr "Sekunder mellem PING"
 
 #: server/settings.c:1825
+#, fuzzy
 msgid ""
-"The civserver will poll the clients with a PING request each time this "
-"period elapses."
+"The server will poll the clients with a PING request each time this period "
+"elapses."
 msgstr ""
 "Civserver vil kontakte klienterne med PING forespørgsler efter dette "
 "tidsinterval."
@@ -7133,7 +7139,7 @@ msgid "Compression library to use for savegames."
 msgstr ""
 
 #: server/settings.c:1907
-msgid "Save using the given savegame version."
+msgid "Save using the given savegame version"
 msgstr ""
 
 #: server/settings.c:1908
@@ -7295,7 +7301,7 @@ msgstr ""
 
 #: server/settings.c:2508
 #, fuzzy
-msgid "This setting is not a enumerator."
+msgid "This setting is not an enumerator."
 msgstr "Denne side (indstillinger)"
 
 #: server/settings.c:2610 server/settings.c:2620
@@ -7344,8 +7350,8 @@ msgid "Restarting for lack of players."
 msgstr "genstarter på grund af mangel på spillere"
 
 #: server/sernet.c:526
-#, c-format
-msgid "restarting in %d seconds for lack of players"
+#, fuzzy, c-format
+msgid "Restarting in %d seconds for lack of players."
 msgstr "genstarter om %d sekunder på grund af mangel på spillere"
 
 #: server/sernet.c:529
@@ -7358,7 +7364,8 @@ msgid "Server: bad address: <%s:%d>."
 msgstr "Server: Ugyldig adresse: <%s:%d>."
 
 #: server/sernet.c:994
-msgid "Cannot open IPv6 socket, trying IPv4 instead"
+#, fuzzy
+msgid "Cannot open IPv6 socket, trying IPv4 instead."
 msgstr "Kan ikke åbne Ipv6-sokkel, forsøger i steden for IPv4"
 
 #: server/sernet.c:997
@@ -7394,9 +7401,9 @@ msgid "Your spaceship can't be launched yet!"
 msgstr "Dit rumskib kan ikke sendes endnu!"
 
 #: server/spacerace.c:190
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
 "%s har sendt et rumskib af sted! Beregnet ankomst på Alfa Centauri er %s."
@@ -7469,7 +7476,8 @@ msgid "Scenario victory to %s."
 msgstr "Scenariesejr til %s."
 
 #: server/srv_main.c:300
-msgid "Game ended in a draw as end turn exceeded"
+#, fuzzy
+msgid "Game ended in a draw as end turn exceeded."
 msgstr "Spillet sluttede uafgjort fordi slutårstallet blev overskredet"
 
 #: server/srv_main.c:333
@@ -7478,18 +7486,18 @@ msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "%s rumskib er nået frem til Alfa Centauri."
 
 #: server/srv_main.c:351 server/srv_main.c:391
-#, c-format
-msgid "Team victory to %s"
+#, fuzzy, c-format
+msgid "Team victory to %s."
 msgstr "Holdsejr til %s"
 
 #: server/srv_main.c:361 server/srv_main.c:407
-#, c-format
-msgid "Game ended in victory for %s"
+#, fuzzy, c-format
+msgid "Game ended in victory for %s."
 msgstr "Spillet endte med sejr til %s"
 
-#: server/srv_main.c:414
-msgid "Game ended in a draw"
-msgstr "Spillet endte uafgjort"
+#: server/srv_main.c:414 server/stdinhand.c:4098
+msgid "Game ended in a draw."
+msgstr "Spillet endte uafgjort."
 
 #: server/srv_main.c:530 server/srv_main.c:541
 #, c-format
@@ -7508,17 +7516,17 @@ msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "Våbenhvilen med %s er udløbet. Du er nu i krig med %s."
 
 #: server/srv_main.c:612
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Ceasefire between %s and %s has run out. They are at war. You cancel your "
-"alliance with both."
+"The cease-fire between %s and %s has run out. They are at war. You cancel "
+"your alliance with both."
 msgstr ""
 "Våbenhvilen mellem %s og %s er brudt. De er i krig. Du annullerer alliancen "
 "med begge."
 
 #: server/srv_main.c:1082 server/srv_main.c:1085
-#, c-format
-msgid "Unsupported compression type %d"
+#, fuzzy, c-format
+msgid "Unsupported compression type %d."
 msgstr "Ikke understøttet komprimeringstype %d"
 
 #: server/srv_main.c:1115
@@ -7593,16 +7601,17 @@ msgid "%s rules the %s."
 msgstr "%s styrer %s."
 
 #: server/srv_main.c:1996
+#, fuzzy
 msgid ""
-"This civserver program has player authentication support, but it's currently "
-"not in use."
+"This freeciv-server program has player authentication support, but it's "
+"currently not in use."
 msgstr ""
 "Dette civserver program har spillerbekræftelseunderstøttelse, men det er for "
 "nuværende ikke i brug."
 
 #: server/srv_main.c:2059
-#, c-format
-msgid "Sending info to metaserver <%s>"
+#, fuzzy, c-format
+msgid "Sending info to metaserver <%s>."
 msgstr "Sender info til metaserver <%s>"
 
 #: server/srv_main.c:2063
@@ -7840,8 +7849,8 @@ msgid "No command script found by the name \"%s\"."
 msgstr "Ingen tilslutning med navn »%s« fundet."
 
 #: server/stdinhand.c:1134
-#, c-format
-msgid "Loading script file: %s"
+#, fuzzy, c-format
+msgid "Loading script file '%s'."
 msgstr "Indlæser skriptfil: %s"
 
 #: server/stdinhand.c:1152
@@ -7934,7 +7943,8 @@ msgid "You already have command access level '%s' or better."
 msgstr "Du har allerede adgangsniveau '%s' eller bedre."
 
 #: server/stdinhand.c:1471
-msgid "Someone else already is game organizer."
+#, fuzzy
+msgid "Someone else is already game organizer."
 msgstr "En andre er allerede spilleder."
 
 #: server/stdinhand.c:1476
@@ -8207,7 +8217,7 @@ msgstr "Du har ikke lov at bruge denne kommando."
 
 #: server/stdinhand.c:2266
 #, c-format
-msgid "The argument \"%s\" is ambigious."
+msgid "The argument \"%s\" is ambiguous."
 msgstr "Argumentet \"%s\" er ikke entydigt."
 
 #: server/stdinhand.c:2283
@@ -8680,10 +8690,6 @@ msgstr "Din nye stemme (\"%s\") var ikke gyldig eller kunne ikke genkendes."
 msgid "(server prompt)"
 msgstr "(serverkommandolinje)"
 
-#: server/stdinhand.c:4098
-msgid "Game ended in a draw."
-msgstr "Spillet endte uafgjort."
-
 #: server/stdinhand.c:4102
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
@@ -8727,7 +8733,7 @@ msgstr ""
 
 #: server/stdinhand.c:4212
 #, fuzzy
-msgid "No Game started ..."
+msgid "No game started..."
 msgstr "Spil startet."
 
 #: server/stdinhand.c:4219
@@ -8748,15 +8754,18 @@ msgid "Settings re-initialized."
 msgstr "Indstillinger initialiseret igen."
 
 #: server/stdinhand.c:4333
-msgid "Not enough human players, game will not start."
+#, fuzzy
+msgid "Not enough human players; game will not start."
 msgstr "Ikke nok ikke-computer-spillere, spillet vil ikke starte."
 
 #: server/stdinhand.c:4338
-msgid "No players, game will not start."
+#, fuzzy
+msgid "No players; game will not start."
 msgstr "Ingen spillere, spillet vil ikke starte."
 
 #: server/stdinhand.c:4342
-msgid "Not enough nations for all players, game will not start."
+#, fuzzy
+msgid "Not enough nations for all players; game will not start."
 msgstr "Ikke nok nationer til alle spillere, spillet vil ikke starte."
 
 #: server/stdinhand.c:4351
@@ -8974,8 +8983,8 @@ msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "Lærte %s. Vore forskere koncentrerer sig om %s; målet er %s."
 
 #: server/techtools.c:379
-#, c-format
-msgid "Learned %s.  Scientists choose to research %s."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists choose to research %s."
 msgstr "Lærte %s. Forskerne vælger at forske på %s."
 
 #: server/techtools.c:385
@@ -8989,8 +8998,8 @@ msgid "Researching %s."
 msgstr "Forsker på %s."
 
 #: server/techtools.c:394
-#, c-format
-msgid "Learned %s.  Scientists do not know what to research next."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists do not know what to research next."
 msgstr "Lærte %s. Forskerne ved ikke hvad der skal forskes på som det næste."
 
 #: server/techtools.c:411
@@ -9003,13 +9012,13 @@ msgstr ""
 
 #: server/techtools.c:480
 #, c-format
-msgid "Too low science output. We lost Future Tech. %d."
+msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
 #: server/techtools.c:487
-#, c-format
-msgid "Too low science output. We lost %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Insufficient science output. We lost %s."
+msgstr "Øger byens forskningsbidrag med 50 %."
 
 #: server/techtools.c:578
 #, c-format
@@ -9258,16 +9267,16 @@ msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Din %s hjælper med at bygge %s i %s (%d i overskud)."
 
 #: server/unithand.c:1555
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Sorry, your %s cannot establish a trade route because it has no home city"
+"Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr ""
 "Beklager, din %s kan ikke etablere en handelsrute her, da den ingen hjemby "
 "har"
 
 #: server/unithand.c:1567
-#, c-format
-msgid "Sorry, your %s cannot establish a trade route between %s and %s"
+#, fuzzy, c-format
+msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Beklager, din %s kan ikke etablere en handelsrute mellem %s og %s"
 
 #: server/unithand.c:1599 server/unithand.c:1620
@@ -9375,8 +9384,8 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s undslap ødelæggelsen af %s, og flygtede til %s."
 
 #: server/unittools.c:1700
-#, c-format
-msgid "Barbarian leader captured, %d gold ransom paid."
+#, fuzzy, c-format
+msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "Barbarleder fanget, %d guld betalt i løsepenge."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
@@ -10366,8 +10375,8 @@ msgid "The %s give %s"
 msgstr "%s giver %s"
 
 #: client/climisc.c:247
-#, c-format
-msgid "The %s give unknown city."
+#, fuzzy, c-format
+msgid "The %s give an unknown city"
 msgstr "%s giver ukendt by bort."
 
 #: client/climisc.c:252
@@ -10412,8 +10421,8 @@ msgid "Popup Request"
 msgstr "Pop op-spørgsmål"
 
 #: client/climisc.c:1100
-#, c-format
-msgid "You don't buy %s in %s!"
+#, fuzzy, c-format
+msgid "You can't buy %s in %s!"
 msgstr "Du køber ikke %s i %s!"
 
 #: client/climisc.c:1111
@@ -11934,10 +11943,11 @@ msgid "Draw the citybar"
 msgstr "Tegn bybaren"
 
 #: client/options.c:1703
+#, fuzzy
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
-"and optionally, production."
+"and, optionally, production."
 msgstr ""
 "Ved at vælge denne indstilling vises en 'bybar' med brugbar information "
 "under byen. Ved at slå den fra vises kun byens navn og valgfrit produktionen."
@@ -12111,45 +12121,46 @@ msgstr "Tegn enheder i fokus"
 
 #: client/options.c:1792
 msgid ""
-"Setting this option will draw the units in focus, including the case the "
-"other units wouldn't be drawn."
+"Setting this option will cause the currently focused unit(s) to always be "
+"drawn, even if units are not otherwise being drawn (for instance if 'Draw "
+"the units' is unset)."
 msgstr ""
-"Angivelse af dette tilvalg vil tegne enhederne i fokus, inklusive tilfældet "
-"hvor de andre enheder ikke vil blive tegnet."
 
-#: client/options.c:1797
+#: client/options.c:1798
 msgid "Draw the fog of war"
 msgstr "Teg krigståge"
 
-#: client/options.c:1798
+#: client/options.c:1799
 msgid "Setting this option will draw the fog of war."
 msgstr "Angivelse af dette tilvalg til tegne krigståge."
 
-#: client/options.c:1801
+#: client/options.c:1802
 msgid "Draw the borders"
 msgstr "Tegn grænserne"
 
-#: client/options.c:1802
+#: client/options.c:1803
 msgid "Setting this option will draw the national borders."
 msgstr "Angivelse af dette tilvalg vil tegne landegrænser."
 
-#: client/options.c:1806
-msgid "Show dead players in nation report."
+#: client/options.c:1807
+#, fuzzy
+msgid "Show dead players in Nations report"
 msgstr "Vis døde spillere i nationrapporten."
 
-#: client/options.c:1807
+#: client/options.c:1808
+#, fuzzy
 msgid ""
-"Setting this option will draw the players already dead in the nation report "
-"page."
+"This option controls whether defeated nations are shown on the Nations "
+"report page."
 msgstr ""
 "Angivelse af dette tilvalg vil tegne de spillere som allerede er døde i "
 "nationrapporten."
 
-#: client/options.c:1811
+#: client/options.c:1812
 msgid "Sound bell at new turn"
 msgstr "Ring en klokke ved ny runde"
 
-#: client/options.c:1812
+#: client/options.c:1813
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -12159,11 +12170,11 @@ msgstr ""
 "start på en ny runde. Du kan kontrollere hvordan \"bell\" opfører sig ved at "
 "ændre på beskedsindstillingerne."
 
-#: client/options.c:1818
+#: client/options.c:1819
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Enheders bevægelsesanimationstid (millisekunder)"
 
-#: client/options.c:1819
+#: client/options.c:1820
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -12172,11 +12183,11 @@ msgstr ""
 "enhed bevæger sig på kortet. Sættes den til 0 forsvinder animationen "
 "fuldstændig."
 
-#: client/options.c:1824
+#: client/options.c:1825
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Indstilling af kort i centrum (millisekunder)"
 
-#: client/options.c:1825
+#: client/options.c:1826
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -12186,11 +12197,11 @@ msgstr ""
 "indstilling kontrollerer hvor lang tid denne bevægelse tager. Hvis den "
 "sættes til 0 forsvinder glidningen fuldstændig."
 
-#: client/options.c:1830
+#: client/options.c:1831
 msgid "Show combat animation"
 msgstr "Vis kampanimation"
 
-#: client/options.c:1831
+#: client/options.c:1832
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
@@ -12198,11 +12209,11 @@ msgstr ""
 "Ved at slå denne indstilling fra vil der ikke blive vist kampanimation "
 "mellem enheder på kortet."
 
-#: client/options.c:1835
+#: client/options.c:1836
 msgid "Show icons in the technology tree"
 msgstr "Vis ikoner i teknologi træet"
 
-#: client/options.c:1836
+#: client/options.c:1837
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -12210,11 +12221,11 @@ msgstr ""
 "Ved at slå denne indstilling til vises der ikoner i teknologitræet. Ved at "
 "slå denne indstilling fra gøres teknologitræet mere kompakt."
 
-#: client/options.c:1842
+#: client/options.c:1843
 msgid "Use curved lines in the technology tree"
 msgstr "Anvend bugtede linjer i teknologitræet"
 
-#: client/options.c:1843
+#: client/options.c:1844
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -12223,11 +12234,11 @@ msgstr ""
 "Ved at slå denne indstilling til bruges der bugtede linjer til at vise "
 "teknologiforbindelser. Ved at slå denne indstilling fra gøres linjerne lige."
 
-#: client/options.c:1850
+#: client/options.c:1851
 msgid "Color to highlight your player/user name"
 msgstr "Farve som bruges til at fremhæve din/dit spiller/brugernavn"
 
-#: client/options.c:1851
+#: client/options.c:1852
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
@@ -12237,11 +12248,12 @@ msgstr ""
 "fremhævet med denne farve som baggrund. Hvis den ikke er angivet, vil der "
 "ikke blive fremhævet noget."
 
-#: client/options.c:1856
-msgid "Manual Turn Done in AI Mode"
+#: client/options.c:1857
+#, fuzzy
+msgid "Manual Turn Done in AI mode"
 msgstr "Manuel 'runde afsluttet' i AI-tilstand"
 
-#: client/options.c:1857
+#: client/options.c:1858
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -12249,11 +12261,12 @@ msgstr ""
 "Slå denne indstilling fra hvis du ikke ønsker at anvende Runde slut-knappen "
 "manuelt når du kigger på en AI-spiller."
 
-#: client/options.c:1861
-msgid "Auto Center on Units"
+#: client/options.c:1862
+#, fuzzy
+msgid "Auto center on units"
 msgstr "Autocentrer på enheder"
 
-#: client/options.c:1862
+#: client/options.c:1863
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -12261,25 +12274,27 @@ msgstr ""
 "Slå denne indstilling til for at få aktive enhed centreret automatisk, når "
 "enhedsfokus ændres."
 
-#: client/options.c:1865
-msgid "Auto Center on Combat"
+#: client/options.c:1866
+#, fuzzy
+msgid "Auto center on combat"
 msgstr "Autocentrer på kamp"
 
-#: client/options.c:1866
+#: client/options.c:1867
 msgid ""
-"Set this option to have any combat be centered automatically.  Disabled this "
-"will speed up the time between turns but may cause you to miss combat "
+"Set this option to have any combat be centered automatically.  Disabling "
+"this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 "Ved at sætte denne indstilling bliver enhver kamp automatisk centreret. Ved "
 "at slå denne indstililng fra mindskes tidsforbruget mellem hver runde, men "
 "du risikerer at overse en kamp eller flere fuldstændig."
 
-#: client/options.c:1871
-msgid "Auto Center on New Turn"
+#: client/options.c:1872
+#, fuzzy
+msgid "Auto center on new turn"
 msgstr "Autocentrer ved ny runde"
 
-#: client/options.c:1872
+#: client/options.c:1873
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -12287,19 +12302,20 @@ msgstr ""
 "Sæt denne indstilling så klienten automatisk centrerer kortet på en egnet "
 "placering i starten af hver runde."
 
-#: client/options.c:1876
-msgid "Focus on Awakened Units"
+#: client/options.c:1877
+#, fuzzy
+msgid "Focus on awakened units"
 msgstr "Fokus på nye enheder"
 
-#: client/options.c:1877
+#: client/options.c:1878
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr "Sæt denne indstilling så nye enheder automatisk vil blive centreret."
 
-#: client/options.c:1880
+#: client/options.c:1881
 msgid "Keyboardless goto"
 msgstr "Gå-til uden tastatur"
 
-#: client/options.c:1881
+#: client/options.c:1882
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
@@ -12307,11 +12323,11 @@ msgstr ""
 "Hvis denne er slået til kan en gå-til ordre startes ved at venstreklikke og "
 "så holde museknappen nede mens musen trækkes til en andet område."
 
-#: client/options.c:1886
+#: client/options.c:1887
 msgid "Allow goto into the unknown"
 msgstr "Tillade at du kan gå ind i det ukendte"
 
-#: client/options.c:1887
+#: client/options.c:1888
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -12320,11 +12336,12 @@ msgstr ""
 "ukendte områder, hvis ikke, vil gå-til ruter undgå eller blive blokeret af "
 "ukendte områder."
 
-#: client/options.c:1891
-msgid "Center map when Popup city"
+#: client/options.c:1892
+#, fuzzy
+msgid "Center map when popup city"
 msgstr "Centrer kort ved visning af by"
 
-#: client/options.c:1892
+#: client/options.c:1893
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -12332,11 +12349,12 @@ msgstr ""
 "Ved at sætte denne indstilling centreres kortet på en by når byens dialog "
 "vindue åbnes."
 
-#: client/options.c:1895
-msgid "Concise City Production"
+#: client/options.c:1896
+#, fuzzy
+msgid "Concise city production"
 msgstr "Sammenfattet byproduktion"
 
-#: client/options.c:1896
+#: client/options.c:1897
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -12344,11 +12362,12 @@ msgstr ""
 "Sæt denne indstilling for at gøre byens produktionsvisning (i bydialogen) "
 "mere kompakt."
 
-#: client/options.c:1899
-msgid "End Turn when done moving"
+#: client/options.c:1900
+#, fuzzy
+msgid "End turn when done moving"
 msgstr "Afslut runde efter træk"
 
-#: client/options.c:1900
+#: client/options.c:1901
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -12356,23 +12375,24 @@ msgstr ""
 "Ved at sætte denne indstilling slutter din runde automatisk når alle dine "
 "enheder er færdig med at flytte."
 
-#: client/options.c:1903
+#: client/options.c:1904
 msgid "Prompt for city names"
 msgstr "Spørg om bynavne"
 
-#: client/options.c:1904
+#: client/options.c:1905
+#, fuzzy
 msgid ""
-"Disabling this option will make the names of newly founded cities chosen "
+"Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
 "Ved at slå denne indstilling fra vil alle nye byers navne blive valgt "
 "automatisk af serveren."
 
-#: client/options.c:1907
+#: client/options.c:1908
 msgid "Pop up city dialog for new cities"
 msgstr "Pop-op bydialog for nye byer"
 
-#: client/options.c:1908
+#: client/options.c:1909
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
@@ -12380,11 +12400,11 @@ msgstr ""
 "Ved at sætte denne indstilling vil en ny bys dialog vindue automatisk komme "
 "frem."
 
-#: client/options.c:1911
+#: client/options.c:1912
 msgid "Pop up caravan actions"
 msgstr "Pop op karavanehandlinger"
 
-#: client/options.c:1912
+#: client/options.c:1913
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -12399,11 +12419,11 @@ msgstr ""
 "enten 'r' (for en handelsrute) eller 'b' (for at bygge et vidunder), når "
 "karavanen er i byen."
 
-#: client/options.c:1921
+#: client/options.c:1922
 msgid "Enable cursor changing"
 msgstr "Slå markørændring til"
 
-#: client/options.c:1922
+#: client/options.c:1923
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
@@ -12413,11 +12433,11 @@ msgstr ""
 "afhængig af hvad den peger på samt indikere ændringer i klienten eller "
 "serveren."
 
-#: client/options.c:1927
+#: client/options.c:1928
 msgid "Select cities before units"
 msgstr "Vælg byer før enheder"
 
-#: client/options.c:1928
+#: client/options.c:1929
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
@@ -12425,11 +12445,11 @@ msgstr ""
 "Hvis denne indstilling er slået til, så vil kun byer blive valgt, såfremt "
 "der er både byer og enheder til stede i udvælgelsesrektangelet."
 
-#: client/options.c:1933
+#: client/options.c:1934
 msgid "Clear unit orders on selection"
 msgstr "Ryd enhedsordrer ved valg"
 
-#: client/options.c:1934
+#: client/options.c:1935
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12444,11 +12464,11 @@ msgstr ""
 "deres ordrer blive ryddet, mens enhederne fortsat vil være markeret. Trykkes "
 "igen på <mellemrum>, vil markeringen blive fjernet."
 
-#: client/options.c:1943
+#: client/options.c:1944
 msgid "Enable vote bar"
 msgstr "Slå afstemningsbjælke til"
 
-#: client/options.c:1944
+#: client/options.c:1945
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
@@ -12456,14 +12476,15 @@ msgstr ""
 "Hvis denne indstilling er slået til, vil afstemningsbjælken vise "
 "afstemningsinformation."
 
-#: client/options.c:1948
+#: client/options.c:1949
 msgid "Always display the vote bar"
 msgstr "Vis altid afstemningsbjælken"
 
-#: client/options.c:1949
+#: client/options.c:1950
+#, fuzzy
 msgid ""
-"If this option is turned on, the vote bar will never be hidden, notably when "
-"there won't be any running vote."
+"If this option is turned on, the vote bar will never be hidden, even if "
+"there is no running vote."
 msgstr ""
 "Hvis denne indstilling er slået til, vil afstemningsbjælken aldrig være "
 "skjult, heller ikke når der ingen afstemning er i gang."
@@ -12485,9 +12506,10 @@ msgid "Set new votes at front"
 msgstr "Angiv nye stemmeafgivelser i fronten"
 
 #: client/options.c:1959
+#, fuzzy
 msgid ""
-"If this option is enabled, then the new votes will go to the front of the "
-"vote list"
+"If this option is enabled, then new votes will go to the front of the vote "
+"list."
 msgstr ""
 "Hvis denne indstilling er slået til, så vil nye afstemninger være i starten "
 "af afstemningslisten"
@@ -12558,7 +12580,8 @@ msgid "Enabling this will show fog of war on the overview."
 msgstr "Hvis denne er valgt vises fog of war på overblikket."
 
 #: client/options.c:1999
-msgid "Show Map Scrollbars"
+#, fuzzy
+msgid "Show map scrollbars"
 msgstr "Vis rulleskakter på kort"
 
 #: client/options.c:2000
@@ -12734,9 +12757,10 @@ msgid "Mouse over the map widget selects it automatically"
 msgstr "Kontrollen mus over kortet vælger den automatisk"
 
 #: client/options.c:2098
+#, fuzzy
 msgid ""
-"If this option is enabled, then the map will be focused when the mouse will "
-"be floating over it."
+"If this option is enabled, then the map will be focused when the mouse "
+"hovers over it."
 msgstr ""
 "Hvis denne er slået til, vil kortet blive fokuseret når musen flyder over "
 "det."
@@ -12889,7 +12913,8 @@ msgid ""
 msgstr "Denne skrifttype bruges til at vise kravtræet i videnskabsrapporten."
 
 #: client/options.c:2201
-msgid "Full Screen"
+#, fuzzy
+msgid "Full screen"
 msgstr "Fuldskærmstilstand"
 
 #: client/options.c:2202
@@ -12918,7 +12943,7 @@ msgstr "Vis cursoranimation"
 #: client/options.c:2210
 #, fuzzy
 msgid ""
-"If this option is disabled, the cursor will be always displayed as static."
+"If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 "Hvis denne er slået til vil rapportdialogvinduet blive vist som et separat "
 "vindue fremfor i et pop-op vindue."
@@ -12930,7 +12955,7 @@ msgstr "Brug farve cursor"
 #: client/options.c:2214
 #, fuzzy
 msgid ""
-"If this option is disabled, the cursor will be always displayed in black and "
+"If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 "Hvis denne er slået til vil rapportdialogvinduet blive vist som et separat "
@@ -16979,7 +17004,7 @@ msgstr ""
 "Du anvender for nuværende %s."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
-msgid "Prefered tileset"
+msgid "Preferred tileset"
 msgstr "Foretrukket feltsæt"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
@@ -16993,7 +17018,7 @@ msgstr "Behold nuværende feltsæt"
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
 msgid ""
-"Modpack suggest using %s tileset.\n"
+"Modpack suggests using %s tileset.\n"
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
@@ -39024,6 +39049,16 @@ msgstr "Standard regelsæt"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "Du spiller Freeciv med standardregler."
+
+#~ msgid "Game ended in a draw"
+#~ msgstr "Spillet endte uafgjort"
+
+#~ msgid ""
+#~ "Setting this option will draw the units in focus, including the case the "
+#~ "other units wouldn't be drawn."
+#~ msgstr ""
+#~ "Angivelse af dette tilvalg vil tegne enhederne i fokus, inklusive "
+#~ "tilfældet hvor de andre enheder ikke vil blive tegnet."
 
 #, fuzzy
 #~ msgid "?female:Imam %s"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:10+0000\n"
+"POT-Creation-Date: 2010-10-31 22:18+0000\n"
 "PO-Revision-Date: 2008-01-21 15:42+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1225,7 +1225,7 @@ msgstr "Prázdné jméno souboru v argumentu úrovně logování \"%s\".\n"
 #: utility/log.c:187
 #, fuzzy
 msgid ""
-"Freeciv must be compiled with the DEBUG flag to used advanced log levels "
+"Freeciv must be compiled with the DEBUG flag to use advanced log levels "
 "based on files.\n"
 msgstr ""
 "Freeciv·musí·být·zkompilován·s·volbou·DEBUG,·aby·bylo·možné·použít·úroveň "
@@ -1436,7 +1436,7 @@ msgstr "*%s (PO)* Tak lehce to nepůjde, %s. Současné smlouvy zůstávají."
 
 #: ai/advdiplomacy.c:355
 #, fuzzy, c-format
-msgid "*%s (AI)* Let us first cease hostilies, %s."
+msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (Řízený počítačem)* Ukončeme první nepřátelství, %s"
 
 #: ai/advdiplomacy.c:360
@@ -1623,7 +1623,7 @@ msgstr[2] ""
 #: ai/advdiplomacy.c:1401
 #, c-format
 msgid ""
-"*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
+"*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
 "*%s (řízen počítačem)* Snažíte se obsadit vesmír pro sebe zrazujíce naše "
@@ -1945,12 +1945,12 @@ msgstr "Domovské město jednotky %s změněno na %s."
 
 #: server/citytools.c:575
 #, c-format
-msgid "Transfered %s in %s from %s to %s."
+msgid "Transferred %s in %s from %s to %s."
 msgstr "přesunuta %s v %s z %s do %s."
 
 #: server/citytools.c:589
 #, c-format
-msgid "Transfered %s from %s to %s."
+msgid "Transferred %s from %s to %s."
 msgstr "%s patřící %s převedena na %s."
 
 #. TRANS: Polish Destroyer ... German <city>
@@ -2030,7 +2030,7 @@ msgstr[2] "Hráč %s dobyl město %s a ukořistil v něm %d zlatých."
 
 #: server/citytools.c:1549
 #, fuzzy, c-format
-msgid "You conquer %s"
+msgid "You conquer %s."
 msgstr "Při atomovém útoku jste ozářil(a) město %s."
 
 #: server/citytools.c:1552
@@ -2253,14 +2253,14 @@ msgstr ""
 #: server/cityturn.c:1159
 #, fuzzy, c-format
 msgid ""
-"%s can't build %s from the worklist; Only available from %s.  Postponing..."
+"%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
 "%s nemůže postavit %s ze seznamu prací, protože tato technologie ještě není "
 "k dispozici.Pozdržuji..."
 
 #: server/cityturn.c:1197
-#, c-format
-msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
+#, fuzzy, c-format
+msgid "%s can't build %s from the worklist; reason unknown!  Postponing..."
 msgstr "%s nemůže stavět %s ze seznamu prací; Neznámý důvod!  Odkládá se..."
 
 #. TRANS: The <city> worklist ....
@@ -2329,8 +2329,8 @@ msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Nadále nelze udržovat %s ve městě %s - stavba prodána!"
 
 #: server/cityturn.c:1762
-#, c-format
-msgid "Not enough gold. %s disbanded"
+#, fuzzy, c-format
+msgid "Not enough gold. %s disbanded."
 msgstr "Nedostatek zlata. %s zrušeni."
 
 #: server/cityturn.c:1948
@@ -3029,7 +3029,8 @@ msgid "detach <connection-name>"
 msgstr "detach <jméno-spojení>"
 
 #: server/commands.c:279
-msgid "detach from a player."
+#, fuzzy
+msgid "Detach from a player."
 msgstr "odpojit od hráče."
 
 #: server/commands.c:280
@@ -3609,8 +3610,8 @@ msgid "Lost connection: %s."
 msgstr "Ztraceno spojení: %s."
 
 #: server/connecthand.c:662
-#, c-format
-msgid "detaching from %s."
+#, fuzzy, c-format
+msgid "Detaching from %s."
 msgstr "odpojování od %s."
 
 #: server/console.c:221
@@ -3720,13 +3721,13 @@ msgid "You receive the %s seamap."
 msgstr "Získal(a) jste mapu moří, které %s zná."
 
 #: server/diplhand.c:474
-#, c-format
-msgid "You receive city of %s from %s."
+#, fuzzy, c-format
+msgid "You receive the city of %s from %s."
 msgstr "Získala(a) jste město %s od %s."
 
 #: server/diplhand.c:478
-#, c-format
-msgid "You give city of %s to %s."
+#, fuzzy, c-format
+msgid "You give the city of %s to %s."
 msgstr "Hráč %2$s od Vás dostal město %1$s."
 
 #: server/diplhand.c:490 server/diplhand.c:493
@@ -4029,8 +4030,8 @@ msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Způsobil jste incident při pokusu vyvolat povstání ve městě %s."
 
 #: server/diplomats.c:1316
-#, c-format
-msgid "%s have caused an incident while inciting a revolt in %s."
+#, fuzzy, c-format
+msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
 
 #: server/edithand.c:154
@@ -4347,8 +4348,8 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s je nejednoznačný prefix jména spojení."
 
 #: server/handchat.c:116
-#, c-format
-msgid "%s is an anonymous name. Use connection name"
+#, fuzzy, c-format
+msgid "%s is an anonymous name. Use connection name."
 msgstr "%s je anonymní jméno. Použijte název spojení"
 
 #: server/handchat.c:135 server/handchat.c:172
@@ -5085,7 +5086,8 @@ msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Nemohu najít čitelný soubor pravidel \"%s\"."
 
 #: server/ruleset.c:3966
-msgid "Loading rulesets"
+#, fuzzy
+msgid "Loading rulesets."
 msgstr "Nahrávám pravidla"
 
 #: server/ruleset.c:4039
@@ -5710,7 +5712,7 @@ msgstr "Celá mapa je s mírným podmebím"
 #: server/settings.c:964
 msgid ""
 "If this setting is enabled, the temperature will be equivalent everywhere on "
-"the map. It will result that the poles won't be generated."
+"the map. As a result, the poles won't be generated."
 msgstr ""
 
 #: server/settings.c:971
@@ -5729,7 +5731,7 @@ msgid ""
 " 50 means a temperate planet with normal polar, cold, temperate, and "
 "tropical zones; a desert zone overlaps tropical and temperate zones.\n"
 " 30 means a cold planet with small tropical zones.\n"
-"  0 means a very cold planet with large polar zones and no tropics"
+"  0 means a very cold planet with large polar zones and no tropics."
 msgstr ""
 "Malé hodnoty určují studenou mapu, zatímco vysoké učiní mapu teplejší\n"
 "\n"
@@ -6029,7 +6031,7 @@ msgstr ""
 
 #: server/settings.c:1198
 msgid ""
-"If you receive an invention via an treaty this setting defines the chance "
+"If you receive an invention via a treaty, this setting defines the chance "
 "that the invention is lost during the transfer."
 msgstr ""
 
@@ -6039,7 +6041,7 @@ msgstr ""
 
 #: server/settings.c:1207
 msgid ""
-"If you give an invention via an treaty this setting defines the chance that "
+"If you give an invention via a treaty, this setting defines the chance that "
 "the invention is lost for your civilization during the transfer."
 msgstr ""
 
@@ -6194,7 +6196,8 @@ msgid "Technology trading"
 msgstr "Technologie"
 
 #: server/settings.c:1325
-msgid "If turned off, trading technologies in diplomacy dialog is not allowed."
+msgid ""
+"If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1331
@@ -6203,7 +6206,7 @@ msgid "Gold trading"
 msgstr "Zlato: %d"
 
 #: server/settings.c:1332
-msgid "If turned off, trading gold in diplomacy dialog is not allowed."
+msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1338
@@ -6212,7 +6215,7 @@ msgid "City trading"
 msgstr " - oslavuje"
 
 #: server/settings.c:1339
-msgid "If turned off, trading cities in diplomacy dialog is not allowed."
+msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr ""
 
 #: server/settings.c:1345
@@ -6296,7 +6299,7 @@ msgstr ""
 "  8 = letectvo"
 
 #: server/settings.c:1400
-msgid "Slowly kill unhomecitied units (eg. startunits)"
+msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr ""
 
 #: server/settings.c:1401
@@ -6455,7 +6458,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1531
-msgid "Base chance for diplomats and spies to succeed."
+#, fuzzy
+msgid "Base chance for diplomats and spies to succeed"
 msgstr "Základní pravděpodobnost úspěchu pro diplomaty a špióny."
 
 #: server/settings.c:1532
@@ -6544,7 +6548,7 @@ msgstr "Vybudování paláce při dobytí hl. města"
 #, fuzzy
 msgid ""
 "If this is turned on, when the capital is conquered the palace is "
-"automatically rebuilt for free in another randomly choosen city. This is "
+"automatically rebuilt for free in another randomly chosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
@@ -6808,7 +6812,7 @@ msgstr ""
 
 #: server/settings.c:1798
 #, fuzzy
-msgid "Control of simultaneous player/team phases."
+msgid "Control of simultaneous player/team phases"
 msgstr "Logovat statistiky hráčů"
 
 #: server/settings.c:1799
@@ -6849,9 +6853,10 @@ msgid "Seconds between PINGs"
 msgstr "Sekund mezi PINGy"
 
 #: server/settings.c:1825
+#, fuzzy
 msgid ""
-"The civserver will poll the clients with a PING request each time this "
-"period elapses."
+"The server will poll the clients with a PING request each time this period "
+"elapses."
 msgstr ""
 "Civserver (server hry) bude testovat klienty pomoci PINGu, kdy uplyne tento "
 "interval."
@@ -6976,7 +6981,7 @@ msgid "Compression library to use for savegames."
 msgstr ""
 
 #: server/settings.c:1907
-msgid "Save using the given savegame version."
+msgid "Save using the given savegame version"
 msgstr ""
 
 #: server/settings.c:1908
@@ -7127,7 +7132,7 @@ msgstr ""
 
 #: server/settings.c:2508
 #, fuzzy
-msgid "This setting is not a enumerator."
+msgid "This setting is not an enumerator."
 msgstr "Toto nastavení"
 
 #: server/settings.c:2610 server/settings.c:2620
@@ -7176,8 +7181,8 @@ msgid "Restarting for lack of players."
 msgstr "restartuje se pro nedostatek hráčů"
 
 #: server/sernet.c:526
-#, c-format
-msgid "restarting in %d seconds for lack of players"
+#, fuzzy, c-format
+msgid "Restarting in %d seconds for lack of players."
 msgstr "restartuje se za %d sekund pro nedostatek hráčů"
 
 #: server/sernet.c:529
@@ -7190,7 +7195,7 @@ msgid "Server: bad address: <%s:%d>."
 msgstr "Server: špatná adresa: <%s:%d>."
 
 #: server/sernet.c:994
-msgid "Cannot open IPv6 socket, trying IPv4 instead"
+msgid "Cannot open IPv6 socket, trying IPv4 instead."
 msgstr ""
 
 #: server/sernet.c:997
@@ -7226,9 +7231,9 @@ msgid "Your spaceship can't be launched yet!"
 msgstr "Vaše vesmírná loď ještě nemůže odstartovat!"
 
 #: server/spacerace.c:190
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"The %s have launched a spaceship!  It is estimated to arrive on Alpha "
+"The %s have launched a spaceship!  It is estimated to arrive at Alpha "
 "Centauri in %s."
 msgstr ""
 "%s provedli úspěšný start kosmické lodi!  Plánovaný dolet k Alpha Centauri v "
@@ -7303,7 +7308,7 @@ msgstr "Týmové vítězství pro %s"
 
 #: server/srv_main.c:300
 #, fuzzy
-msgid "Game ended in a draw as end turn exceeded"
+msgid "Game ended in a draw as end turn exceeded."
 msgstr "Hra skončila remízou jako na konci roku"
 
 #: server/srv_main.c:333
@@ -7312,18 +7317,18 @@ msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Kosmická loď %s dorazila na Alfu Centauri."
 
 #: server/srv_main.c:351 server/srv_main.c:391
-#, c-format
-msgid "Team victory to %s"
+#, fuzzy, c-format
+msgid "Team victory to %s."
 msgstr "Týmové vítězství pro %s"
 
 #: server/srv_main.c:361 server/srv_main.c:407
-#, c-format
-msgid "Game ended in victory for %s"
+#, fuzzy, c-format
+msgid "Game ended in victory for %s."
 msgstr "Hra skončila vítězstvím pro %s"
 
-#: server/srv_main.c:414
-msgid "Game ended in a draw"
-msgstr "Hra skončila remízou"
+#: server/srv_main.c:414 server/stdinhand.c:4098
+msgid "Game ended in a draw."
+msgstr "Hra skončila remízou."
 
 #: server/srv_main.c:530 server/srv_main.c:541
 #, c-format
@@ -7344,14 +7349,14 @@ msgstr "Příměří s %s skončilo.  K %s jste nyní neutrální."
 #: server/srv_main.c:612
 #, fuzzy, c-format
 msgid ""
-"Ceasefire between %s and %s has run out. They are at war. You cancel your "
-"alliance with both."
+"The cease-fire between %s and %s has run out. They are at war. You cancel "
+"your alliance with both."
 msgstr ""
 "Váš týmový spoluhráč %s vyhlásil válku %s. Jsme povinni zrušit alianci s %s."
 
 #: server/srv_main.c:1082 server/srv_main.c:1085
-#, c-format
-msgid "Unsupported compression type %d"
+#, fuzzy, c-format
+msgid "Unsupported compression type %d."
 msgstr "Nepodporovaný typ komprese %d"
 
 #: server/srv_main.c:1115
@@ -7426,13 +7431,13 @@ msgstr "%s vládne %s."
 
 #: server/srv_main.c:1996
 msgid ""
-"This civserver program has player authentication support, but it's currently "
-"not in use."
+"This freeciv-server program has player authentication support, but it's "
+"currently not in use."
 msgstr ""
 
 #: server/srv_main.c:2059
-#, c-format
-msgid "Sending info to metaserver <%s>"
+#, fuzzy, c-format
+msgid "Sending info to metaserver <%s>."
 msgstr "Posílá se info metaserveru <%s>"
 
 #: server/srv_main.c:2063
@@ -7673,8 +7678,8 @@ msgid "No command script found by the name \"%s\"."
 msgstr "Neexistuje žádné spojení se jménem '%s'."
 
 #: server/stdinhand.c:1134
-#, c-format
-msgid "Loading script file: %s"
+#, fuzzy, c-format
+msgid "Loading script file '%s'."
 msgstr "Nahrávám soubor se skriptem: %s"
 
 #: server/stdinhand.c:1152
@@ -7770,7 +7775,7 @@ msgstr "Máte již úroveň oprávnění '%s' nebo lepší."
 
 #: server/stdinhand.c:1471
 #, fuzzy
-msgid "Someone else already is game organizer."
+msgid "Someone else is already game organizer."
 msgstr "Někdo další má příkazovou přístupovou úroveň '%s' nebo lepší."
 
 #: server/stdinhand.c:1476
@@ -8042,7 +8047,7 @@ msgstr "Nemáte povoleno používat tento příkaz."
 
 #: server/stdinhand.c:2266
 #, c-format
-msgid "The argument \"%s\" is ambigious."
+msgid "The argument \"%s\" is ambiguous."
 msgstr "Argument \"%s\" je nesprávný."
 
 #: server/stdinhand.c:2283
@@ -8522,10 +8527,6 @@ msgstr ""
 msgid "(server prompt)"
 msgstr "(prompt serveru)"
 
-#: server/stdinhand.c:4098
-msgid "Game ended in a draw."
-msgstr "Hra skončila remízou."
-
 #: server/stdinhand.c:4102
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
@@ -8569,7 +8570,7 @@ msgstr ""
 
 #: server/stdinhand.c:4212
 #, fuzzy
-msgid "No Game started ..."
+msgid "No game started..."
 msgstr "Hra spuštěna."
 
 #: server/stdinhand.c:4219
@@ -8591,17 +8592,17 @@ msgstr ""
 
 #: server/stdinhand.c:4333
 #, fuzzy
-msgid "Not enough human players, game will not start."
+msgid "Not enough human players; game will not start."
 msgstr "Nedostatečný počet hráčů, hru nelze zahájit."
 
 #: server/stdinhand.c:4338
 #, fuzzy
-msgid "No players, game will not start."
+msgid "No players; game will not start."
 msgstr "Nedostatečný počet hráčů, hru nelze zahájit."
 
 #: server/stdinhand.c:4342
 #, fuzzy
-msgid "Not enough nations for all players, game will not start."
+msgid "Not enough nations for all players; game will not start."
 msgstr "Nedostatečný počet hráčů, hru nelze zahájit."
 
 #: server/stdinhand.c:4351
@@ -8821,8 +8822,8 @@ msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "Objeveno %s. Naši vědci se zaměřili na %s; cílem je %s."
 
 #: server/techtools.c:379
-#, c-format
-msgid "Learned %s.  Scientists choose to research %s."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists choose to research %s."
 msgstr "Objeveno %s.  Vědci si vybrali výzkum %s."
 
 #: server/techtools.c:385
@@ -8836,8 +8837,8 @@ msgid "Researching %s."
 msgstr "Zkoumá se %s."
 
 #: server/techtools.c:394
-#, c-format
-msgid "Learned %s.  Scientists do not know what to research next."
+#, fuzzy, c-format
+msgid "Learned %s. Scientists do not know what to research next."
 msgstr "Objeveno %s. Vědci neví, co dalšího mají zkoumat."
 
 #: server/techtools.c:411
@@ -8851,13 +8852,13 @@ msgstr ""
 
 #: server/techtools.c:480
 #, c-format
-msgid "Too low science output. We lost Future Tech. %d."
+msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
 #: server/techtools.c:487
-#, c-format
-msgid "Too low science output. We lost %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Insufficient science output. We lost %s."
+msgstr "Zvyšuje vědecké zdroje ve městě o 50%."
 
 #: server/techtools.c:578
 #, c-format
@@ -9104,16 +9105,16 @@ msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Náš %s pomohl se stavbou %s v %s (%d přebytek)."
 
 #: server/unithand.c:1555
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Sorry, your %s cannot establish a trade route because it has no home city"
+"Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr ""
 "Lituji, ale jednotka %s nemůže založit obchodní cestu, protože nemá domovské "
 "město"
 
 #: server/unithand.c:1567
-#, c-format
-msgid "Sorry, your %s cannot establish a trade route between %s and %s"
+#, fuzzy, c-format
+msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Lituji, ale jednotka %s nemůže založit obchodní cestu mezi %s a %s"
 
 #: server/unithand.c:1599 server/unithand.c:1620
@@ -9219,8 +9220,8 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Jednotka %s unikla před zničením %s a stáhla se do %s."
 
 #: server/unittools.c:1700
-#, c-format
-msgid "Barbarian leader captured, %d gold ransom paid."
+#, fuzzy, c-format
+msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
@@ -10241,8 +10242,8 @@ msgid "The %s give %s"
 msgstr "%s dají %s"
 
 #: client/climisc.c:247
-#, c-format
-msgid "The %s give unknown city."
+#, fuzzy, c-format
+msgid "The %s give an unknown city"
 msgstr "%s dají neznámé město."
 
 #: client/climisc.c:252
@@ -10287,8 +10288,8 @@ msgid "Popup Request"
 msgstr "Požadavek samostatně"
 
 #: client/climisc.c:1100
-#, c-format
-msgid "You don't buy %s in %s!"
+#, fuzzy, c-format
+msgid "You can't buy %s in %s!"
 msgstr "Nemůžete si koupit %s v %s!"
 
 #: client/climisc.c:1111
@@ -11773,10 +11774,11 @@ msgid "Draw the citybar"
 msgstr "Zobrazit informace u měst"
 
 #: client/options.c:1703
+#, fuzzy
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
-"and optionally, production."
+"and, optionally, production."
 msgstr ""
 "Nastavením této možnosti se zobrazí 'citybar' obsahující užitečné informace "
 "pod každým městem. Vypnutím této možnosti zobrazí pouze jméno města a "
@@ -11989,89 +11991,87 @@ msgid "Draw the units in focus"
 msgstr ""
 
 #: client/options.c:1792
-#, fuzzy
 msgid ""
-"Setting this option will draw the units in focus, including the case the "
-"other units wouldn't be drawn."
+"Setting this option will cause the currently focused unit(s) to always be "
+"drawn, even if units are not otherwise being drawn (for instance if 'Draw "
+"the units' is unset)."
 msgstr ""
-"Nastavením této možnosti se vykreslí štít jako ikona vlajky u jednotek. "
-"Pokud není nastaveno, vykreslí se celá vlajka."
 
-#: client/options.c:1797
+#: client/options.c:1798
 #, fuzzy
 msgid "Draw the fog of war"
 msgstr "Přehled clony války"
 
-#: client/options.c:1798
+#: client/options.c:1799
 msgid "Setting this option will draw the fog of war."
 msgstr ""
 
-#: client/options.c:1801
+#: client/options.c:1802
 #, fuzzy
 msgid "Draw the borders"
 msgstr "Zobrazit informace u měst"
 
-#: client/options.c:1802
+#: client/options.c:1803
 msgid "Setting this option will draw the national borders."
 msgstr ""
 
-#: client/options.c:1806
-msgid "Show dead players in nation report."
-msgstr ""
-
 #: client/options.c:1807
-msgid ""
-"Setting this option will draw the players already dead in the nation report "
-"page."
+msgid "Show dead players in Nations report"
 msgstr ""
 
-#: client/options.c:1811
+#: client/options.c:1808
+msgid ""
+"This option controls whether defeated nations are shown on the Nations "
+"report page."
+msgstr ""
+
+#: client/options.c:1812
 msgid "Sound bell at new turn"
 msgstr "Zvukové znamení na začátku kola"
 
-#: client/options.c:1812
+#: client/options.c:1813
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:1818
+#: client/options.c:1819
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Čas na animaci jednotky při pohybu (milisekundy)"
 
-#: client/options.c:1819
+#: client/options.c:1820
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:1824
+#: client/options.c:1825
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Nové vystředění mapy (milisekundy)"
 
-#: client/options.c:1825
+#: client/options.c:1826
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:1830
+#: client/options.c:1831
 msgid "Show combat animation"
 msgstr "Ukazovat animace boje"
 
-#: client/options.c:1831
+#: client/options.c:1832
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr ""
 
-#: client/options.c:1835
+#: client/options.c:1836
 msgid "Show icons in the technology tree"
 msgstr "Zobrazit ikony v technologickém stromu"
 
-#: client/options.c:1836
+#: client/options.c:1837
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -12079,11 +12079,11 @@ msgstr ""
 "Nastavení této možnosti zobrazí ikony v stromovém diagramu technologií. "
 "Vypnutím této možnosti udělá technologický strom více kompaktní."
 
-#: client/options.c:1842
+#: client/options.c:1843
 msgid "Use curved lines in the technology tree"
 msgstr "Použít zaoblené čáry v technologickém stromu"
 
-#: client/options.c:1843
+#: client/options.c:1844
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -12092,81 +12092,86 @@ msgstr ""
 "Nastavení této možnosti zaoblí čáry v technologickém stromu mezi "
 "technologiemi. Vypnutím této možnosti budou zobrazeny jen přímé čáry."
 
-#: client/options.c:1850
+#: client/options.c:1851
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:1851
+#: client/options.c:1852
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:1856
-msgid "Manual Turn Done in AI Mode"
+#: client/options.c:1857
+#, fuzzy
+msgid "Manual Turn Done in AI mode"
 msgstr "Ruční konec kola v AI módu"
 
-#: client/options.c:1857
+#: client/options.c:1858
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:1861
-msgid "Auto Center on Units"
+#: client/options.c:1862
+#, fuzzy
+msgid "Auto center on units"
 msgstr "Auto-centrovat na jednotkách"
 
-#: client/options.c:1862
+#: client/options.c:1863
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:1865
-msgid "Auto Center on Combat"
+#: client/options.c:1866
+#, fuzzy
+msgid "Auto center on combat"
 msgstr "Auto-centrovat při bitvě"
 
-#: client/options.c:1866
+#: client/options.c:1867
 msgid ""
-"Set this option to have any combat be centered automatically.  Disabled this "
-"will speed up the time between turns but may cause you to miss combat "
+"Set this option to have any combat be centered automatically.  Disabling "
+"this will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:1871
-msgid "Auto Center on New Turn"
+#: client/options.c:1872
+#, fuzzy
+msgid "Auto center on new turn"
 msgstr "Auto-centrovat při dalším tahu"
 
-#: client/options.c:1872
+#: client/options.c:1873
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
 
-#: client/options.c:1876
-msgid "Focus on Awakened Units"
+#: client/options.c:1877
+#, fuzzy
+msgid "Focus on awakened units"
 msgstr "Zaměřit na probuzené jednotky"
 
-#: client/options.c:1877
+#: client/options.c:1878
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:1880
+#: client/options.c:1881
 msgid "Keyboardless goto"
 msgstr "Pohyb bez klávesnice"
 
-#: client/options.c:1881
+#: client/options.c:1882
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/options.c:1886
+#: client/options.c:1887
 msgid "Allow goto into the unknown"
 msgstr "Povolit přesun do neznáma"
 
-#: client/options.c:1887
+#: client/options.c:1888
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -12174,62 +12179,68 @@ msgstr ""
 "Nastavením této možnosti umožníte přesun do neznámého terénu. Pokud ne, "
 "trasa povede okolo nebo bude blokována neznámým terénem."
 
-#: client/options.c:1891
-msgid "Center map when Popup city"
+#: client/options.c:1892
+#, fuzzy
+msgid "Center map when popup city"
 msgstr "Centrovat mapu při zobrazení města"
 
-#: client/options.c:1892
+#: client/options.c:1893
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:1895
-msgid "Concise City Production"
+#: client/options.c:1896
+#, fuzzy
+msgid "Concise city production"
 msgstr "Zvol produkci města"
 
-#: client/options.c:1896
+#: client/options.c:1897
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:1899
-msgid "End Turn when done moving"
+#: client/options.c:1900
+#, fuzzy
+msgid "End turn when done moving"
 msgstr "Ukončit kolo po dokončení pohybů"
 
-#: client/options.c:1900
+#: client/options.c:1901
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:1903
+#: client/options.c:1904
 msgid "Prompt for city names"
 msgstr "Dotazovat na názvy měst"
 
-#: client/options.c:1904
+#: client/options.c:1905
+#, fuzzy
 msgid ""
-"Disabling this option will make the names of newly founded cities chosen "
+"Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
 msgstr ""
+"Nastavením této možnosti se vykreslí štít jako ikona vlajky u jednotek. "
+"Pokud není nastaveno, vykreslí se celá vlajka."
 
-#: client/options.c:1907
+#: client/options.c:1908
 msgid "Pop up city dialog for new cities"
 msgstr "Zobrazit dialog pro nová města"
 
-#: client/options.c:1908
+#: client/options.c:1909
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:1911
+#: client/options.c:1912
 #, fuzzy
 msgid "Pop up caravan actions"
 msgstr "Karavana"
 
-#: client/options.c:1912
+#: client/options.c:1913
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -12238,33 +12249,33 @@ msgid ""
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
 
-#: client/options.c:1921
+#: client/options.c:1922
 #, fuzzy
 msgid "Enable cursor changing"
 msgstr "Povolit alfa blending"
 
-#: client/options.c:1922
+#: client/options.c:1923
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:1927
+#: client/options.c:1928
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:1928
+#: client/options.c:1929
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
 msgstr ""
 
-#: client/options.c:1933
+#: client/options.c:1934
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:1934
+#: client/options.c:1935
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12273,24 +12284,24 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:1943
+#: client/options.c:1944
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:1944
+#: client/options.c:1945
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:1948
+#: client/options.c:1949
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:1949
+#: client/options.c:1950
 msgid ""
-"If this option is turned on, the vote bar will never be hidden, notably when "
-"there won't be any running vote."
+"If this option is turned on, the vote bar will never be hidden, even if "
+"there is no running vote."
 msgstr ""
 
 #: client/options.c:1954
@@ -12308,10 +12319,13 @@ msgid "Set new votes at front"
 msgstr ""
 
 #: client/options.c:1959
+#, fuzzy
 msgid ""
-"If this option is enabled, then the new votes will go to the front of the "
-"vote list"
+"If this option is enabled, then new votes will go to the front of the vote "
+"list."
 msgstr ""
+"Pokud je povoleno, budou výchozí jména měst nabízena v závislosti na okolním "
+"terénu."
 
 #: client/options.c:1964
 #, fuzzy
@@ -12388,7 +12402,8 @@ msgstr ""
 "terénu."
 
 #: client/options.c:1999
-msgid "Show Map Scrollbars"
+#, fuzzy
+msgid "Show map scrollbars"
 msgstr "Zobrazit posuvníky mapy"
 
 #: client/options.c:2000
@@ -12531,10 +12546,13 @@ msgid "Mouse over the map widget selects it automatically"
 msgstr ""
 
 #: client/options.c:2098
+#, fuzzy
 msgid ""
-"If this option is enabled, then the map will be focused when the mouse will "
-"be floating over it."
+"If this option is enabled, then the map will be focused when the mouse "
+"hovers over it."
 msgstr ""
+"Pokud je povoleno, budou výchozí jména měst nabízena v závislosti na okolním "
+"terénu."
 
 #: client/options.c:2102
 msgid "Player or user name autocompletion"
@@ -12683,7 +12701,7 @@ msgstr ""
 
 #: client/options.c:2201
 #, fuzzy
-msgid "Full Screen"
+msgid "Full screen"
 msgstr "_Fullscreen"
 
 #: client/options.c:2202
@@ -12707,7 +12725,7 @@ msgstr "Ukazovat animace boje"
 
 #: client/options.c:2210
 msgid ""
-"If this option is disabled, the cursor will be always displayed as static."
+"If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 
 #: client/options.c:2213
@@ -12716,7 +12734,7 @@ msgstr "Použít barevné kurzory"
 
 #: client/options.c:2214
 msgid ""
-"If this option is disabled, the cursor will be always displayed in black and "
+"If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 
@@ -16919,7 +16937,7 @@ msgstr ""
 "Nyní se používá %s."
 
 #: client/gui-gtk-2.0/tileset_dlg.c:51
-msgid "Prefered tileset"
+msgid "Preferred tileset"
 msgstr "Preferovaná sada dlaždic"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:54
@@ -16934,7 +16952,7 @@ msgstr "Ponechat současnou sadu dlaždic"
 #: client/gui-gtk-2.0/tileset_dlg.c:63
 #, c-format
 msgid ""
-"Modpack suggest using %s tileset.\n"
+"Modpack suggests using %s tileset.\n"
 "It might not work with other tilesets.\n"
 "You are currently using tileset %s."
 msgstr ""
@@ -37619,6 +37637,17 @@ msgstr "Výchozí pravidla"
 msgid "You are playing Freeciv with default rules."
 msgstr "Hrajete Freeciv s výchozími pravidly."
 
+#~ msgid "Game ended in a draw"
+#~ msgstr "Hra skončila remízou"
+
+#, fuzzy
+#~ msgid ""
+#~ "Setting this option will draw the units in focus, including the case the "
+#~ "other units wouldn't be drawn."
+#~ msgstr ""
+#~ "Nastavením této možnosti se vykreslí štít jako ikona vlajky u jednotek. "
+#~ "Pokud není nastaveno, vykreslí se celá vlajka."
+
 #, fuzzy
 #~ msgid "?female:Imam %s"
 #~ msgstr "?female:Šamanka"
@@ -43156,12 +43185,6 @@ msgstr "Hrajete Freeciv s výchozími pravidly."
 
 #~ msgid "Ah"
 #~ msgstr "Ah"
-
-#, fuzzy
-#~ msgid "If enabled then cities will be drawn on the overview."
-#~ msgstr ""
-#~ "Pokud je povoleno, budou výchozí jména měst nabízena v závislosti na "
-#~ "okolním terénu."
 
 #, fuzzy
 #~ msgid "Oceanian"
