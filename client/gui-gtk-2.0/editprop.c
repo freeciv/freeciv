@@ -23,7 +23,6 @@
 /* utility */
 #include "bitvector.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 
@@ -82,10 +81,16 @@ static int built_status_to_string(char *buf, int buflen,
 static bool can_create_unit_at_tile(struct tile *ptile);
 
 static int get_next_unique_tag(void);
-struct stored_tag {
-  int tag;
-  int count;
-};
+
+/* 'struct stored_tag_hash' and related functions. */
+#define SPECHASH_TAG stored_tag
+#define SPECHASH_KEY_TYPE int
+#define SPECHASH_DATA_TYPE int
+#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#include "spechash.h"
 
 /* NB: If packet definitions change, be sure to
  * update objbind_pack_current_values!!! */
@@ -240,11 +245,19 @@ struct propstate {
 
 static struct propstate *propstate_new(struct objprop *op,
                                        struct propval *pv);
-static void propstate_free(struct propstate *ps);
+static void propstate_destroy(struct propstate *ps);
 static void propstate_clear_value(struct propstate *ps);
 static void propstate_set_value(struct propstate *ps,
                                 struct propval *pv);
 static struct propval *propstate_get_value(struct propstate *ps);
+
+#define SPECHASH_TAG propstate
+#define SPECHASH_KEY_TYPE int
+#define SPECHASH_DATA_TYPE struct propstate *
+#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#define SPECHASH_DATA_FREE propstate_destroy
+#include "spechash.h"
 
 
 /****************************************************************************
@@ -390,6 +403,13 @@ static void objprop_widget_spin_button_changed(GtkSpinButton *spin,
 static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
                                                  gpointer userdata);
 
+#define SPECHASH_TAG objprop
+#define SPECHASH_KEY_TYPE int
+#define SPECHASH_DATA_TYPE struct objprop *
+#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#include "spechash.h"
+
 
 /****************************************************************************
   Objbind declarations.
@@ -398,13 +418,13 @@ struct objbind {
   int objtype;
   int object_id;
   struct property_page *parent_property_page;
-  struct hash_table *propstate_table;
+  struct propstate_hash *propstate_table;
   GtkTreeRowReference *rowref;
 };
 
 static struct objbind *objbind_new(int objtype,
                                    gpointer object);
-static void objbind_free(struct objbind *ob);
+static void objbind_destroy(struct objbind *ob);
 static int objbind_get_objtype(const struct objbind *ob);
 static void objbind_bind_properties(struct objbind *ob,
                                     struct property_page *pp);
@@ -438,6 +458,14 @@ static void objbind_pack_modified_value(struct objbind *ob,
 static void objbind_set_rowref(struct objbind *ob,
                                GtkTreeRowReference *rr);
 static GtkTreeRowReference *objbind_get_rowref(struct objbind *ob);
+
+#define SPECHASH_TAG objbind
+#define SPECHASH_KEY_TYPE int
+#define SPECHASH_DATA_TYPE struct objbind *
+#define SPECHASH_DATA_FREE objbind_destroy
+#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#include "spechash.h"
 
 
 /****************************************************************************
@@ -490,9 +518,9 @@ struct property_page {
 
   struct property_editor *pe_parent;
 
-  struct hash_table *objprop_table;
-  struct hash_table *objbind_table;
-  struct hash_table *tag_table;
+  struct objprop_hash *objprop_table;
+  struct objbind_hash *objbind_table;
+  struct stored_tag_hash *tag_table;
 
   struct objbind *focused_objbind;
 };
@@ -564,13 +592,13 @@ static void property_page_destroy_button_clicked(GtkButton *button,
                                                  gpointer userdata);
 
 
-#define property_page_objprop_iterate(ARG_pp, NAME_op)\
-  hash_values_iterate((ARG_pp)->objprop_table, NAME_op)
-#define property_page_objprop_iterate_end hash_values_iterate_end
+#define property_page_objprop_iterate(ARG_pp, NAME_op)                      \
+  TYPED_HASH_DATA_ITERATE(struct objprop *, (ARG_pp)->objprop_table, NAME_op)
+#define property_page_objprop_iterate_end HASH_DATA_ITERATE_END
 
-#define property_page_objbind_iterate(ARG_pp, NAME_ob)\
-  hash_values_iterate((ARG_pp)->objbind_table, NAME_ob)
-#define property_page_objbind_iterate_end hash_values_iterate_end
+#define property_page_objbind_iterate(ARG_pp, NAME_ob)                      \
+  TYPED_HASH_DATA_ITERATE(struct objbind *, (ARG_pp)->objbind_table, NAME_ob)
+#define property_page_objbind_iterate_end HASH_DATA_ITERATE_END
 
 
 /****************************************************************************
@@ -1186,7 +1214,7 @@ static void propstate_clear_value(struct propstate *ps)
 /****************************************************************************
   Free a property state and any associated resources.
 ****************************************************************************/
-static void propstate_free(struct propstate *ps)
+static void propstate_destroy(struct propstate *ps)
 {
   if (!ps) {
     return;
@@ -1242,8 +1270,7 @@ static struct objbind *objbind_new(int objtype, gpointer object)
   ob = fc_calloc(1, sizeof(*ob));
   ob->object_id = id;
   ob->objtype = objtype;
-  ob->propstate_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,
-                                      NULL, (hash_free_fn_t) propstate_free);
+  ob->propstate_table = propstate_hash_new();
 
   return ob;
 }
@@ -1802,14 +1829,11 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
 static void objbind_clear_modified_value(struct objbind *ob,
                                          struct objprop *op)
 {
-  int propid;
-
   if (!ob || !op || !ob->propstate_table) {
     return;
   }
-  
-  propid = objprop_get_id(op);
-  hash_delete_entry(ob->propstate_table, FC_INT_TO_PTR(propid));
+
+  propstate_hash_remove(ob->propstate_table, objprop_get_id(op));
 }
 
 /****************************************************************************
@@ -1819,8 +1843,6 @@ static void objbind_clear_modified_value(struct objbind *ob,
 static bool objbind_property_is_modified(struct objbind *ob,
                                          struct objprop *op)
 {
-  int propid;
-
   if (!ob || !op) {
     return FALSE;
   }
@@ -1829,8 +1851,8 @@ static bool objbind_property_is_modified(struct objbind *ob,
     return FALSE;
   }
 
-  propid = objprop_get_id(op);
-  return hash_key_exists(ob->propstate_table, FC_INT_TO_PTR(propid));
+  return propstate_hash_lookup(ob->propstate_table,
+                               objprop_get_id(op), NULL);
 }
 
 /****************************************************************************
@@ -1843,7 +1865,7 @@ static bool objbind_has_modified_properties(struct objbind *ob)
     return FALSE;
   }
 
-  return hash_num_entries(ob->propstate_table) > 0;
+  return (0 < propstate_hash_size(ob->propstate_table));
 }
 
 /****************************************************************************
@@ -1854,7 +1876,7 @@ static void objbind_clear_all_modified_values(struct objbind *ob)
   if (!ob) {
     return;
   }
-  hash_delete_all_entries(ob->propstate_table);
+  propstate_hash_clear(ob->propstate_table);
 }
 
 /****************************************************************************
@@ -1893,12 +1915,11 @@ static void objbind_set_modified_value(struct objbind *ob,
 
   pv_copy = propval_copy(pv);
 
-  ps = hash_lookup_data(ob->propstate_table, FC_INT_TO_PTR(propid));
-  if (!ps) {
-    ps = propstate_new(op, pv_copy);
-    hash_insert(ob->propstate_table, FC_INT_TO_PTR(propid), ps);
-  } else {
+  if (propstate_hash_lookup(ob->propstate_table, propid, &ps)) {
     propstate_set_value(ps, pv_copy);
+  } else {
+    ps = propstate_new(op, pv_copy);
+    propstate_hash_insert(ob->propstate_table, propid, ps);
   }
 }
 
@@ -1912,31 +1933,28 @@ static struct propval *objbind_get_modified_value(struct objbind *ob,
                                                   struct objprop *op)
 {
   struct propstate *ps;
-  int propid;
 
   if (!ob || !op) {
     return FALSE;
   }
 
-  propid = objprop_get_id(op);
-  ps = hash_lookup_data(ob->propstate_table, FC_INT_TO_PTR(propid));
-  if (!ps) {
+  if (propstate_hash_lookup(ob->propstate_table, objprop_get_id(op), &ps)) {
+    return propstate_get_value(ps);
+  } else {
     return NULL;
   }
-
-  return propstate_get_value(ps);
 }
 
 /****************************************************************************
   Destroy the object bind and free any resources it might have been using.
 ****************************************************************************/
-static void objbind_free(struct objbind *ob)
+static void objbind_destroy(struct objbind *ob)
 {
   if (!ob) {
     return;
   }
   if (ob->propstate_table) {
-    hash_free(ob->propstate_table);
+    propstate_hash_destroy(ob->propstate_table);
     ob->propstate_table = NULL;
   }
   if (ob->rowref) {
@@ -3734,7 +3752,7 @@ static void property_page_setup_objprops(struct property_page *pp)
 #define ADDPROP(ARG_id, ARG_name, ARG_flags, ARG_valtype) do {\
   struct objprop *MY_op = objprop_new(ARG_id, ARG_name,\
                                       ARG_flags, ARG_valtype, pp);\
-  hash_insert(pp->objprop_table, FC_INT_TO_PTR(MY_op->id), MY_op);\
+  objprop_hash_insert(pp->objprop_table, MY_op->id, MY_op);\
 } while (0)
 
   switch (property_page_get_objtype(pp)) {
@@ -4009,14 +4027,12 @@ property_page_new(int objtype, struct property_editor *pe)
 
   sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-  pp->objprop_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  pp->objprop_table = objprop_hash_new();
   property_page_setup_objprops(pp);
 
-  pp->objbind_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,
-                                    NULL, (hash_free_fn_t) objbind_free);
+  pp->objbind_table = objbind_hash_new();
 
-  pp->tag_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval, NULL,
-                                free);
+  pp->tag_table = stored_tag_hash_new();
 
   property_page_objprop_iterate(pp, op) {
     if (objprop_show_in_listview(op)) {
@@ -4417,7 +4433,7 @@ static void property_page_clear_objbinds(struct property_page *pp)
   }
 
   gtk_list_store_clear(pp->object_store);
-  hash_delete_all_entries(pp->objbind_table);
+  objbind_hash_clear(pp->objbind_table);
   property_page_set_focused_objbind(pp, NULL);
 }
 
@@ -4429,24 +4445,24 @@ static void property_page_add_objbind(struct property_page *pp,
                                       gpointer object_data)
 {
   struct objbind *ob;
-  int id, objtype;
-  gpointer key;
+  int objtype;
 
   if (!pp) {
     return;
   }
 
   objtype = property_page_get_objtype(pp);
-  id = objtype_get_id_from_object(objtype, object_data);
-  key = GINT_TO_POINTER(id);
-  if (hash_key_exists(pp->objbind_table, key)) {
+  if (objbind_hash_lookup(pp->objbind_table,
+                          objtype_get_id_from_object(objtype, object_data),
+                          NULL)) {
+    /* Object already exists. */
     return;
   }
 
   ob = objbind_new(objtype, object_data);
   objbind_bind_properties(ob, pp);
 
-  hash_insert(pp->objbind_table, key, ob);
+  objbind_hash_insert(pp->objbind_table, ob->object_id, ob);
 }
 
 /****************************************************************************
@@ -4654,7 +4670,7 @@ static struct objbind *property_page_get_objbind(struct property_page *pp,
     return NULL;
   }
 
-  ob = hash_lookup_data(pp->objbind_table, GINT_TO_POINTER(object_id));
+  objbind_hash_lookup(pp->objbind_table, object_id, &ob);
   return ob;
 }
 
@@ -4684,7 +4700,7 @@ static int property_page_get_num_objbinds(const struct property_page *pp)
   if (!pp || !pp->objbind_table) {
     return 0;
   }
-  return hash_num_entries(pp->objbind_table);
+  return objbind_hash_size(pp->objbind_table);
 }
 
 /****************************************************************************
@@ -5087,7 +5103,7 @@ static void property_page_object_changed(struct property_page *pp,
   }
 
   if (removed) {
-    hash_delete_entry(pp->objbind_table, GINT_TO_POINTER(object_id));
+    objbind_hash_remove(pp->objbind_table, object_id);
     return;
   }
 
@@ -5178,16 +5194,11 @@ static void property_page_show_extviewer(struct property_page *pp,
 static void property_page_store_creation_tag(struct property_page *pp,
                                              int tag, int count)
 {
-  gpointer key;
-  struct stored_tag *st;
-
   if (!pp || !pp->tag_table) {
     return;
   }
 
-  key = GINT_TO_POINTER(tag);
-
-  if (hash_key_exists(pp->tag_table, key)) {
+  if (stored_tag_hash_lookup(pp->tag_table, tag, NULL)) {
     log_error("Attempted to insert object creation tag %d "
               "twice into tag table for property page %p (%d %s).",
               tag, pp, property_page_get_objtype(pp),
@@ -5195,11 +5206,7 @@ static void property_page_store_creation_tag(struct property_page *pp,
     return;
   }
 
-  st = fc_calloc(1, sizeof(*st));
-  st->tag = tag;
-  st->count = count;
-
-  hash_insert(pp->tag_table, key, st);
+  stored_tag_hash_insert(pp->tag_table, tag, count);
 }
 
 /****************************************************************************
@@ -5209,23 +5216,16 @@ static void property_page_store_creation_tag(struct property_page *pp,
 static void property_page_remove_creation_tag(struct property_page *pp,
                                               int tag)
 {
-  gpointer key;
-  struct stored_tag *st;
+  int count;
 
   if (!pp || !pp->tag_table) {
     return;
   }
 
-  key = GINT_TO_POINTER(tag);
-  st = hash_lookup_data(pp->tag_table, key);
-  if (!st) {
-    return;
-  }
-
-  st->count--;
-  if (st->count <= 0) {
-    hash_delete_entry(pp->tag_table, key);
-    /* The hash table frees 'st'. */
+  if (stored_tag_hash_lookup(pp->tag_table, tag, &count)) {
+    if (0 >= --count) {
+      stored_tag_hash_remove(pp->tag_table, tag);
+    }
   }
 }
 
@@ -5234,13 +5234,10 @@ static void property_page_remove_creation_tag(struct property_page *pp,
 ****************************************************************************/
 static bool property_page_tag_is_known(struct property_page *pp, int tag)
 {
-  gpointer key;
-
   if (!pp || !pp->tag_table) {
     return FALSE;
   }
-  key = GINT_TO_POINTER(tag);
-  return hash_key_exists(pp->tag_table, key);
+  return stored_tag_hash_lookup(pp->tag_table, tag, NULL);
 }
 
 /****************************************************************************
@@ -5251,8 +5248,7 @@ static void property_page_clear_tags(struct property_page *pp)
   if (!pp || !pp->tag_table) {
     return;
   }
-  hash_delete_all_entries(pp->tag_table);
-  /* Stored tags are freed by the hash table. */
+  stored_tag_hash_clear(pp->tag_table);
 }
 
 /****************************************************************************
