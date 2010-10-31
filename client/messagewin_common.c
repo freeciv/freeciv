@@ -50,7 +50,7 @@ static void meswin_dialog_update(void)
   }
 
   if (meswin_dialog_is_open()) {
-    update_queue_add(Q_CALLBACK(real_meswin_dialog_update), NULL);
+    update_queue_add(UQ_CALLBACK(real_meswin_dialog_update), NULL);
   } else if (0 < messages_total
              && (!client_has_player()
                  || !client.conn.playing->ai_controlled)) {

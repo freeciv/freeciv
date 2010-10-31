@@ -13,8 +13,10 @@
 #ifndef FC__UPDATE_QUEUE_H
 #define FC__UPDATE_QUEUE_H
 
-typedef void (*queue_callback_t) (void *data);
-#define Q_CALLBACK(fn) ((queue_callback_t) fn)
+typedef void (*uq_callback_t) (void *data);
+#define UQ_CALLBACK(fn) ((uq_callback_t) fn)
+typedef void (*uq_free_fn_t) (void *data);
+#define UQ_FREEDATA(fn) ((uq_free_fn_t) fn)
 
 /* General update queue. */
 void update_queue_init(void);
@@ -28,15 +30,30 @@ bool update_queue_is_frozen(void);
 void update_queue_processing_started(int request_id);
 void update_queue_processing_finished(int request_id);
 
-
-void update_queue_add(queue_callback_t callback, void *data);
-bool update_queue_has_callback(queue_callback_t callback, const void **data);
+/* User interface. */
+void update_queue_add(uq_callback_t callback, void *data);
+void update_queue_add_full(uq_callback_t callback, void *data,
+                           uq_free_fn_t free_data_func);
+bool update_queue_has_callback(uq_callback_t callback);
+bool update_queue_has_callback_full(uq_callback_t callback,
+                                    const void **data,
+                                    uq_free_fn_t *free_data_func);
 
 void update_queue_connect_processing_started(int request_id,
-                                             queue_callback_t callback,
+                                             uq_callback_t callback,
                                              void *data);
+void update_queue_connect_processing_started_full(int request_id,
+                                                  uq_callback_t callback,
+                                                  void *data,
+                                                  uq_free_fn_t
+                                                  free_data_func);
 void update_queue_connect_processing_finished(int request_id,
-                                              queue_callback_t callback,
+                                              uq_callback_t callback,
                                               void *data);
+void update_queue_connect_processing_finished_full(int request_id,
+                                                   uq_callback_t callback,
+                                                   void *data,
+                                                   uq_free_fn_t
+                                                   free_data_func);
 
 #endif /* FC__UPDATE_QUEUE_H */

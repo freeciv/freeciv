@@ -16,7 +16,6 @@
 #endif
 
 /* utility */
-#include "hash.h"
 #include "log.h"
 #include "support.h"            /* bool */
 
@@ -36,28 +35,142 @@
 #include "update_queue.h"
 
 
-static struct hash_table *update_queue = NULL;
-static struct hash_table *processing_started_waiting_queue = NULL;
-static struct hash_table *processing_finished_waiting_queue = NULL;
+/* Data type in 'update_queue'. */
+struct update_queue_data {
+  void *data;
+  uq_free_fn_t free_data_func;
+};
+
+static void update_queue_data_destroy(struct update_queue_data *pdata);
+
+/* 'struct update_queue_hash' and related functions. */
+#define SPECHASH_TAG update_queue
+#define SPECHASH_KEY_TYPE uq_callback_t
+#define SPECHASH_DATA_TYPE struct update_queue_data *
+#define SPECHASH_DATA_FREE update_queue_data_destroy
+#include "spechash.h"
+#define update_queue_hash_iterate(hash, callback, uq_data)                  \
+  TYPED_HASH_ITERATE(uq_callback_t, const struct update_queue_data *,       \
+                     hash, callback, uq_data)
+#define update_queue_hash_iterate_end HASH_ITERATE_END
+
+/* Type of data listed in 'processing_started_waiting_queue' and
+ * 'processing_finished_waiting_queue'. Real type is
+ * 'struct waiting_queue_list'. */
+struct waiting_queue_data {
+  uq_callback_t callback;
+  struct update_queue_data *uq_data;
+};
+
+/* 'struct waiting_queue_list' and related functions. */
+#define SPECLIST_TAG waiting_queue
+#define SPECLIST_TYPE struct waiting_queue_data
+#include "speclist.h"
+#define waiting_queue_list_iterate(list, data)                              \
+  TYPED_LIST_ITERATE(struct waiting_queue_data, list, data)
+#define waiting_queue_list_iterate_end LIST_ITERATE_END
+
+/* 'struct waiting_queue_hash' and related functions. */
+#define SPECHASH_TAG waiting_queue
+#define SPECHASH_KEY_TYPE int
+#define SPECHASH_DATA_TYPE struct waiting_queue_list *
+#define SPECHASH_DATA_FREE waiting_queue_list_destroy
+#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#include "spechash.h"
+
+static struct update_queue_hash *update_queue = NULL;
+static struct waiting_queue_hash *processing_started_waiting_queue = NULL;
+static struct waiting_queue_hash *processing_finished_waiting_queue = NULL;
 static int update_queue_frozen_level = 0;
 static bool update_queue_has_idle_callback = FALSE;
 
 static void update_unqueue(void *data);
+static inline void update_queue_push(uq_callback_t callback,
+                                     struct update_queue_data *uq_data);
+
+/****************************************************************************
+  Create a new update queue data.
+****************************************************************************/
+static inline struct update_queue_data *
+update_queue_data_new(void *data, uq_free_fn_t free_data_func)
+{
+  struct update_queue_data *uq_data = fc_malloc(sizeof(*uq_data));
+
+  uq_data->data = data;
+  uq_data->free_data_func = free_data_func;
+  return uq_data;
+}
+
+/****************************************************************************
+  Free a update queue data.
+****************************************************************************/
+static void update_queue_data_destroy(struct update_queue_data *uq_data)
+{
+  fc_assert_ret(NULL != uq_data);
+  if (NULL != uq_data->free_data_func) {
+    uq_data->free_data_func(uq_data->data);
+  }
+  free(uq_data);
+}
+
+/****************************************************************************
+  Create a new waiting queue data.
+****************************************************************************/
+static inline struct waiting_queue_data *
+waiting_queue_data_new(uq_callback_t callback, void *data,
+                       uq_free_fn_t free_data_func)
+{
+  struct waiting_queue_data *wq_data = fc_malloc(sizeof(*wq_data));
+
+  wq_data->callback = callback;
+  wq_data->uq_data = update_queue_data_new(data, free_data_func);
+  return wq_data;
+}
+
+/****************************************************************************
+  Free a waiting queue data.
+****************************************************************************/
+static void waiting_queue_data_destroy(struct waiting_queue_data *wq_data)
+{
+  fc_assert_ret(NULL != wq_data);
+  if (NULL != wq_data->uq_data) {
+    /* May be NULL, see waiting_queue_data_extract(). */
+    update_queue_data_destroy(wq_data->uq_data);
+  }
+  free(wq_data);
+}
+
+/****************************************************************************
+  Extract the update_queue_data from the waiting queue data.
+****************************************************************************/
+static inline struct update_queue_data *
+waiting_queue_data_extract(struct waiting_queue_data *wq_data)
+{
+  struct update_queue_data *uq_data = wq_data->uq_data;
+
+  wq_data->uq_data = NULL;
+  return uq_data;
+}
+
 
 /****************************************************************************
   Initialize the update queue.
 ****************************************************************************/
 void update_queue_init(void)
 {
-  if (NULL != update_queue) {
-    update_queue_free();
+  if (NULL !=  update_queue) {
+    /* Already initialized. */
+    fc_assert(NULL != processing_started_waiting_queue);
+    fc_assert(NULL != processing_finished_waiting_queue);
+    return;
   }
+  fc_assert(NULL == processing_started_waiting_queue);
+  fc_assert(NULL == processing_finished_waiting_queue);
 
-  update_queue = hash_new(hash_fval_keyval, hash_fcmp_keyval);
-  processing_started_waiting_queue = hash_new(hash_fval_keyval,
-                                              hash_fcmp_keyval);
-  processing_finished_waiting_queue = hash_new(hash_fval_keyval,
-                                               hash_fcmp_keyval);
+  update_queue = update_queue_hash_new();
+  processing_started_waiting_queue = waiting_queue_hash_new();
+  processing_finished_waiting_queue = waiting_queue_hash_new();
   update_queue_frozen_level = 0;
   update_queue_has_idle_callback = FALSE;
 }
@@ -67,16 +180,20 @@ void update_queue_init(void)
 ****************************************************************************/
 void update_queue_free(void)
 {
+  fc_assert(NULL != update_queue);
+  fc_assert(NULL != processing_started_waiting_queue);
+  fc_assert(NULL != processing_finished_waiting_queue);
+
   if (NULL != update_queue) {
-    hash_free(update_queue);
+    update_queue_hash_destroy(update_queue);
     update_queue = NULL;
   }
   if (NULL != processing_started_waiting_queue) {
-    hash_free(processing_started_waiting_queue);
+    waiting_queue_hash_destroy(processing_started_waiting_queue);
     processing_started_waiting_queue = NULL;
   }
   if (NULL != processing_finished_waiting_queue) {
-    hash_free(processing_finished_waiting_queue);
+    waiting_queue_hash_destroy(processing_finished_waiting_queue);
     processing_finished_waiting_queue = NULL;
   }
 
@@ -101,7 +218,7 @@ void update_queue_thaw(void)
   if (0 == update_queue_frozen_level
       && !update_queue_has_idle_callback
       && NULL != update_queue
-      && 0 < hash_num_entries(update_queue)) {
+      && 0 < update_queue_hash_size(update_queue)) {
     update_queue_has_idle_callback = TRUE;
     add_idle_callback(update_unqueue, NULL);
   } else if (0 > update_queue_frozen_level) {
@@ -131,17 +248,29 @@ bool update_queue_is_frozen(void)
 /****************************************************************************
   Moves the instances waiting to the request_id to the callback queue.
 ****************************************************************************/
-void update_queue_processing_started(int request_id)
+static inline void
+waiting_queue_execute_pending_requests(struct waiting_queue_hash *hash,
+                                       int request_id)
 {
-  if (NULL == processing_started_waiting_queue) {
+  struct waiting_queue_list *list;
+
+  if (NULL == hash || !waiting_queue_hash_lookup(hash, request_id, &list)) {
     return;
   }
 
-  hash_iterate(processing_started_waiting_queue, iter) {
-    update_queue_add(Q_CALLBACK(hash_iter_get_key(iter)),
-                     hash_iter_get_value(iter));
-  } hash_iterate_end;
-  hash_delete_all_entries(processing_started_waiting_queue);
+  waiting_queue_list_iterate(list, wq_data) {
+    update_queue_push(wq_data->callback, waiting_queue_data_extract(wq_data));
+  } waiting_queue_list_iterate_end;
+  waiting_queue_hash_remove(hash, request_id);
+}
+
+/****************************************************************************
+  Moves the instances waiting to the request_id to the callback queue.
+****************************************************************************/
+void update_queue_processing_started(int request_id)
+{
+  waiting_queue_execute_pending_requests(processing_started_waiting_queue,
+                                         request_id);
 }
 
 /****************************************************************************
@@ -149,15 +278,8 @@ void update_queue_processing_started(int request_id)
 ****************************************************************************/
 void update_queue_processing_finished(int request_id)
 {
-  if (NULL == processing_finished_waiting_queue) {
-    return;
-  }
-
-  hash_iterate(processing_finished_waiting_queue, iter) {
-    update_queue_add(Q_CALLBACK(hash_iter_get_key(iter)),
-                     hash_iter_get_value(iter));
-  } hash_iterate_end;
-  hash_delete_all_entries(processing_finished_waiting_queue);
+  waiting_queue_execute_pending_requests(processing_finished_waiting_queue,
+                                         request_id);
 }
 
 /****************************************************************************
@@ -165,7 +287,7 @@ void update_queue_processing_finished(int request_id)
 ****************************************************************************/
 static void update_unqueue(void *data)
 {
-  struct hash_table *hash;
+  struct update_queue_hash *hash;
 
   if (NULL == update_queue) {
     update_queue_has_idle_callback = FALSE;
@@ -181,41 +303,108 @@ static void update_unqueue(void *data)
   /* Replace the old list, don't do recursive stuff, and don't write in the
    * hash table when we are reading it. */
   hash = update_queue;
-  update_queue = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  update_queue = update_queue_hash_new();
   update_queue_has_idle_callback = FALSE;
 
   /* Invoke callbacks. */
-  hash_iterate(hash, iter) {
-    Q_CALLBACK(hash_iter_get_key(iter)) (hash_iter_get_value(iter));
-  } hash_iterate_end;
-  hash_free(hash);
+  update_queue_hash_iterate(hash, callback, uq_data) {
+    callback(uq_data->data);
+  } update_queue_hash_iterate_end;
+  update_queue_hash_destroy(hash);
 }
 
 /****************************************************************************
-  Add a callback to the update queue.  NB: you can only set a callback
-  once.  Setting a callback twice will overwrite the previous.
+  Add a callback to the update queue. NB: you can only set a callback
+  once. Setting a callback twice will overwrite the previous.
 ****************************************************************************/
-void update_queue_add(queue_callback_t callback, void *data)
+static inline void update_queue_push(uq_callback_t callback,
+                                     struct update_queue_data *uq_data)
 {
-  if (NULL != update_queue) {
-    (void) hash_replace(update_queue, callback, data);
+  update_queue_hash_insert(update_queue, callback, uq_data);
 
-    if (!update_queue_has_idle_callback
-        && !update_queue_is_frozen()) {
-      update_queue_has_idle_callback = TRUE;
-      add_idle_callback(update_unqueue, NULL);
-    }
+  if (!update_queue_has_idle_callback
+      && !update_queue_is_frozen()) {
+    update_queue_has_idle_callback = TRUE;
+    add_idle_callback(update_unqueue, NULL);
   }
 }
 
 /****************************************************************************
-  Returns whether this callback is listed in the update queue and
-  get the its data.  data can be NULL.
+  Add a callback to the update queue. NB: you can only set a callback
+  once. Setting a callback twice will overwrite the previous.
 ****************************************************************************/
-bool update_queue_has_callback(queue_callback_t callback, const void **data)
+void update_queue_add(uq_callback_t callback, void *data)
+{
+  if (NULL != update_queue) {
+    update_queue_push(callback, update_queue_data_new(data, NULL));
+  }
+}
+
+/****************************************************************************
+  Add a callback to the update queue. NB: you can only set a callback
+  once. Setting a callback twice will overwrite the previous.
+****************************************************************************/
+void update_queue_add_full(uq_callback_t callback, void *data,
+                           uq_free_fn_t free_data_func)
+{
+  if (NULL != update_queue) {
+    update_queue_push(callback, update_queue_data_new(data, free_data_func));
+  }
+}
+
+/****************************************************************************
+  Returns whether this callback is listed in the update queue.
+****************************************************************************/
+bool update_queue_has_callback(uq_callback_t callback)
 {
   return (NULL != update_queue
-          && hash_lookup(update_queue, callback, NULL, data));
+          && update_queue_hash_lookup(update_queue, callback, NULL));
+}
+
+/****************************************************************************
+  Returns whether this callback is listed in the update queue and
+  get the its data and free function. 'data' and 'free_data_func' can
+  be NULL.
+****************************************************************************/
+bool update_queue_has_callback_full(uq_callback_t callback,
+                                    const void **data,
+                                    uq_free_fn_t *free_data_func)
+{
+  if (NULL != update_queue) {
+    struct update_queue_data *uq_data;
+
+    if (update_queue_hash_lookup(update_queue, callback, &uq_data)) {
+      if (NULL != data) {
+        *data = uq_data->data;
+      }
+      if (NULL != free_data_func) {
+        *free_data_func = uq_data->free_data_func;
+      }
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/****************************************************************************
+  Connects the callback to a network event.
+****************************************************************************/
+static inline void
+waiting_queue_add_pending_request(struct waiting_queue_hash *hash,
+                                  int request_id, uq_callback_t callback,
+                                  void *data, uq_free_fn_t free_data_func)
+{
+  if (NULL != hash) {
+    struct waiting_queue_list *list;
+
+    if (!waiting_queue_hash_lookup(hash, request_id, &list)) {
+      /* The list doesn't exist yet for that request, create it. */
+      list = waiting_queue_list_new_full(waiting_queue_data_destroy);
+      waiting_queue_hash_insert(hash, request_id, list);
+    }
+    waiting_queue_list_append(list, waiting_queue_data_new(callback, data,
+                                                           free_data_func));
+  }
 }
 
 /****************************************************************************
@@ -223,12 +412,26 @@ bool update_queue_has_callback(queue_callback_t callback, const void **data)
   the request.
 ****************************************************************************/
 void update_queue_connect_processing_started(int request_id,
-                                             queue_callback_t callback,
+                                             uq_callback_t callback,
                                              void *data)
 {
-  if (NULL != processing_started_waiting_queue) {
-    (void) hash_replace(processing_started_waiting_queue, callback, data);
-  }
+  waiting_queue_add_pending_request(processing_started_waiting_queue,
+                                    request_id, callback, data, NULL);
+}
+
+/****************************************************************************
+  Connects the callback to the start of the processing (in server side) of
+  the request.
+****************************************************************************/
+void update_queue_connect_processing_started_full(int request_id,
+                                                  uq_callback_t callback,
+                                                  void *data,
+                                                  uq_free_fn_t
+                                                  free_data_func)
+{
+  waiting_queue_add_pending_request(processing_started_waiting_queue,
+                                    request_id, callback, data,
+                                    free_data_func);
 }
 
 /****************************************************************************
@@ -236,12 +439,26 @@ void update_queue_connect_processing_started(int request_id,
   the request.
 ****************************************************************************/
 void update_queue_connect_processing_finished(int request_id,
-                                              queue_callback_t callback,
+                                              uq_callback_t callback,
                                               void *data)
 {
-  if (NULL != processing_finished_waiting_queue) {
-    (void) hash_replace(processing_finished_waiting_queue, callback, data);
-  }
+  waiting_queue_add_pending_request(processing_finished_waiting_queue,
+                                    request_id, callback, data, NULL);
+}
+
+/****************************************************************************
+  Connects the callback to the end of the processing (in server side) of
+  the request.
+****************************************************************************/
+void update_queue_connect_processing_finished_full(int request_id,
+                                                   uq_callback_t callback,
+                                                   void *data,
+                                                   uq_free_fn_t
+                                                   free_data_func)
+{
+  waiting_queue_add_pending_request(processing_finished_waiting_queue,
+                                    request_id, callback, data,
+                                    free_data_func);
 }
 
 
@@ -270,7 +487,8 @@ enum client_pages get_client_page(void)
 {
   const void *data;
 
-  if (update_queue_has_callback(set_client_page_callback, &data)) {
+  if (update_queue_has_callback_full(set_client_page_callback,
+                                     &data, NULL)) {
     return FC_PTR_TO_INT(data);
   } else {
     return get_current_client_page();
@@ -302,7 +520,7 @@ void menus_init(void)
 ****************************************************************************/
 void menus_update(void)
 {
-  if (!update_queue_has_callback(menus_update_callback, NULL)) {
+  if (!update_queue_has_callback(menus_update_callback)) {
     update_queue_add(menus_update_callback, FC_INT_TO_PTR(FALSE));
   }
 }
@@ -384,7 +602,7 @@ void city_report_dialog_update_city(struct city *pcity)
 ****************************************************************************/
 void conn_list_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_conn_list_dialog_update), NULL);
+  update_queue_add(UQ_CALLBACK(real_conn_list_dialog_update), NULL);
 }
 
 
@@ -393,7 +611,7 @@ void conn_list_dialog_update(void)
 ****************************************************************************/
 void players_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_players_dialog_update), NULL);
+  update_queue_add(UQ_CALLBACK(real_players_dialog_update), NULL);
 }
 
 /****************************************************************************
@@ -401,7 +619,7 @@ void players_dialog_update(void)
 ****************************************************************************/
 void city_report_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_city_report_dialog_update), NULL);
+  update_queue_add(UQ_CALLBACK(real_city_report_dialog_update), NULL);
 }
 
 /****************************************************************************
@@ -409,7 +627,7 @@ void city_report_dialog_update(void)
 ****************************************************************************/
 void science_report_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_science_report_dialog_update), NULL);
+  update_queue_add(UQ_CALLBACK(real_science_report_dialog_update), NULL);
 }
 
 /****************************************************************************
@@ -417,7 +635,7 @@ void science_report_dialog_update(void)
 ****************************************************************************/
 void economy_report_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_economy_report_dialog_update), NULL);
+  update_queue_add(UQ_CALLBACK(real_economy_report_dialog_update), NULL);
 }
 
 /****************************************************************************
@@ -425,5 +643,5 @@ void economy_report_dialog_update(void)
 ****************************************************************************/
 void units_report_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_units_report_dialog_update), NULL);
+  update_queue_add(UQ_CALLBACK(real_units_report_dialog_update), NULL);
 }
