@@ -18,7 +18,6 @@
 /* utility */
 #include "bitvector.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "timing.h"
@@ -1229,6 +1228,21 @@ void request_unit_wakeup(struct unit *punit)
 }
 
 /****************************************************************************
+  Defines specific hash tables needed for request_unit_select().
+****************************************************************************/
+#define SPECHASH_TAG unit_type
+#define SPECHASH_KEY_TYPE struct unit_type *
+#define SPECHASH_DATA_TYPE void *
+#include "spechash.h"
+
+#define SPECHASH_TAG continent
+#define SPECHASH_KEY_TYPE Continent_id
+#define SPECHASH_DATA_TYPE void *
+#define SPECHASH_KEY_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_KEY FC_PTR_TO_INT
+#include "spechash.h"
+
+/****************************************************************************
   Select all units based on the given list of units and the selection modes.
 ****************************************************************************/
 void request_unit_select(struct unit_list *punits,
@@ -1238,7 +1252,9 @@ void request_unit_select(struct unit_list *punits,
   const struct player *pplayer;
   const struct tile *ptile;
   struct unit *punit_first;
-  struct hash_table *tile_table, *type_table, *cont_table;
+  struct tile_hash *tile_table;
+  struct unit_type_hash *type_table;
+  struct continent_hash *cont_table;
 
   if (!can_client_change_view() || !punits
       || unit_list_size(punits) < 1) {
@@ -1253,45 +1269,44 @@ void request_unit_select(struct unit_list *punits,
   }
 
   pplayer = unit_owner(punit_first);
-  tile_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
-  type_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
-  cont_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  tile_table = tile_hash_new();
+  type_table = unit_type_hash_new();
+  cont_table = continent_hash_new();
 
   unit_list_iterate(punits, punit) {
     if (seltype == SELTYPE_SAME) {
-      hash_insert(type_table, unit_type(punit), NULL);
+      unit_type_hash_insert(type_table, unit_type(punit), NULL);
     }
 
     ptile = unit_tile(punit);
     if (selloc == SELLOC_TILE) {
-      hash_insert(tile_table, ptile, NULL);
+      tile_hash_insert(tile_table, ptile, NULL);
     } else if (selloc == SELLOC_CONT) {
-      hash_insert(cont_table, FC_INT_TO_PTR(ptile->continent), NULL);
+      continent_hash_insert(cont_table, tile_continent(ptile), NULL);
     }
   } unit_list_iterate_end;
 
   if (selloc == SELLOC_TILE) {
-    hash_keys_iterate(tile_table, key) {
-      ptile = key;
+    tile_hash_iterate(tile_table, ptile) {
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) != pplayer) {
           continue;
         }
         if (seltype == SELTYPE_SAME
-            && !hash_key_exists(type_table, unit_type(punit))) {
+            && !unit_type_hash_lookup(type_table, unit_type(punit), NULL)) {
           continue;
         }
         add_unit_focus(punit);
       } unit_list_iterate_end;
-    } hash_keys_iterate_end;
+    } tile_hash_iterate_end;
   } else {
     unit_list_iterate(pplayer->units, punit) {
       ptile = unit_tile(punit);
       if ((seltype == SELTYPE_SAME
-           && !hash_key_exists(type_table, unit_type(punit)))
+           && !unit_type_hash_lookup(type_table, unit_type(punit), NULL))
           || (selloc == SELLOC_CONT
-              && !hash_key_exists(cont_table,
-                                  FC_INT_TO_PTR(ptile->continent)))) {
+              && !continent_hash_lookup(cont_table, tile_continent(ptile),
+                                        NULL))) {
         continue;
       }
 
@@ -1299,9 +1314,9 @@ void request_unit_select(struct unit_list *punits,
     } unit_list_iterate_end;
   }
 
-  hash_free(tile_table);
-  hash_free(type_table);
-  hash_free(cont_table);
+  tile_hash_destroy(tile_table);
+  unit_type_hash_destroy(type_table);
+  continent_hash_destroy(cont_table);
 }
 
 /**************************************************************************
