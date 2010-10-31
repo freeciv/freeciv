@@ -20,6 +20,8 @@ libcivutility_la_SOURCES = \
 		fcintl.c	\
 		fcintl.h	\
 		generate_specenum.py	\
+		genhash.c	\
+		genhash.h	\
 		genlist.c	\
 		genlist.h	\
 		hash.c		\
