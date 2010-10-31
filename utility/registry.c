@@ -156,7 +156,6 @@
 /* utility */
 #include "astring.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "inputfile.h"
 #include "ioz.h"
 #include "log.h"
@@ -176,6 +175,21 @@
 #define SPECVEC_TAG astring
 #include "specvec.h"
 
+#define SPECHASH_TAG section
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE struct section *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#include "spechash.h"
+
+#define SPECHASH_TAG entry
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE struct entry *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#include "spechash.h"
 
 static void secfile_log(const struct section_file *secfile,
                         const struct section *psection,
@@ -315,8 +329,8 @@ struct section_file {
   struct section_list *sections;
   bool allow_duplicates;
   struct {
-    struct hash_table *sections;
-    struct hash_table *entries;
+    struct section_hash *sections;
+    struct entry_hash *entries;
   } hash;
 };
 
@@ -349,9 +363,8 @@ struct section_file *secfile_new(bool allow_duplicates)
   secfile->sections = section_list_new_full(section_destroy);
   secfile->allow_duplicates = allow_duplicates;
 
-  secfile->hash.sections = hash_new(hash_fval_string,
-                                    hash_fcmp_string);
-  /* Maybe alloced after. */
+  secfile->hash.sections = section_hash_new();
+  /* Maybe allocated later. */
   secfile->hash.entries = NULL;
 
   return secfile;
@@ -364,12 +377,12 @@ void secfile_destroy(struct section_file *secfile)
 {
   SECFILE_RETURN_IF_FAIL(secfile, NULL, secfile != NULL);
 
-  hash_free(secfile->hash.sections);
+  section_hash_destroy(secfile->hash.sections);
   /* Mark it NULL to be sure to don't try to make operations when
    * deleting the entries. */
   secfile->hash.sections = NULL;
   if (NULL != secfile->hash.entries) {
-    hash_free(secfile->hash.entries);
+    entry_hash_destroy(secfile->hash.entries);
     /* Mark it NULL to be sure to don't try to make operations when
      * deleting the entries. */
     secfile->hash.entries = NULL;
@@ -400,8 +413,8 @@ static bool secfile_hash_insert(struct section_file *secfile,
   }
 
   entry_path(pentry, buf, sizeof(buf));
-  hentry = hash_replace(secfile->hash.entries, strdup(buf), pentry);
-  if (hentry) {
+  if (entry_hash_replace_full(secfile->hash.entries, buf, pentry,
+                              NULL, &hentry)) {
     entry_use(hentry);
     if (!secfile->allow_duplicates) {
       SECFILE_LOG(secfile, entry_section(hentry),
@@ -428,8 +441,7 @@ static bool secfile_hash_delete(struct section_file *secfile,
   }
 
   entry_path(pentry, buf, sizeof(buf));
-  return (pentry == hash_delete_entry(secfile->hash.entries, buf));
-  /* What would happen if it wasn't the right entry? */
+  return entry_hash_remove(secfile->hash.entries, buf);
 }
 
 /**************************************************************************
@@ -670,10 +682,7 @@ END:
   if (!error) {
     /* Build the entry hash table. */
     secfile->allow_duplicates = allow_duplicates;
-    secfile->hash.entries = hash_new_nentries_full(hash_fval_string,
-                                                   hash_fcmp_string,
-                                                   free, NULL,
-                                                   secfile->num_entries);
+    secfile->hash.entries = entry_hash_new_nentries(secfile->num_entries);
 
     section_list_iterate(secfile->sections, psection) {
       entry_list_iterate(section_entries(psection), pentry) {
@@ -1665,9 +1674,9 @@ struct entry *secfile_entry_by_path(const struct section_file *secfile,
   }
 
   if (NULL != secfile->hash.entries) {
-    struct entry *pentry = hash_lookup_data(secfile->hash.entries, fullpath);
+    struct entry *pentry;
 
-    if (NULL != pentry) {
+    if (entry_hash_lookup(secfile->hash.entries, fullpath, &pentry)) {
       entry_use(pentry);
     }
     return pentry;
@@ -2747,7 +2756,7 @@ struct section *secfile_section_new(struct section_file *secfile,
   section_list_append(secfile->sections, psection);
 
   if (NULL != secfile->hash.sections) {
-    hash_insert(secfile->hash.sections, psection->name, psection);
+    section_hash_insert(secfile->hash.sections, psection->name, psection);
   }
 
   return psection;
@@ -2771,7 +2780,7 @@ void section_destroy(struct section *psection)
       return;
     }
     if (NULL != secfile->hash.sections) {
-      hash_delete_entry(secfile->hash.sections, psection->name);
+      section_hash_remove(secfile->hash.sections, psection->name);
     }
   }
 
@@ -2839,7 +2848,7 @@ bool section_set_name(struct section *psection, const char *name)
 
   /* Remove old references in the hash tables. */
   if (NULL != secfile->hash.sections) {
-    hash_delete_entry(secfile->hash.sections, psection->name);
+    section_hash_remove(secfile->hash.sections, psection->name);
   }
   if (NULL != secfile->hash.entries) {
     entry_list_iterate(psection->entries, pentry) {
@@ -2853,7 +2862,7 @@ bool section_set_name(struct section *psection, const char *name)
 
   /* Reinsert new references into the hash tables. */
   if (NULL != secfile->hash.sections) {
-    hash_insert(secfile->hash.sections, psection->name, psection);
+    section_hash_insert(secfile->hash.sections, psection->name, psection);
   }
   if (NULL != secfile->hash.entries) {
     entry_list_iterate(psection->entries, pentry) {
