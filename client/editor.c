@@ -21,7 +21,6 @@
 /* utility */
 #include "bitvector.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "support.h"
 
@@ -92,7 +91,7 @@ struct editor_state {
 
   enum selection_modes selection_mode;
 
-  struct hash_table *selected_tile_table;
+  struct tile_hash *selected_tile_table;
   struct edit_buffer *copybuf;
 };
 
@@ -170,9 +169,8 @@ void editor_init(void)
               "Shoftcut for paste mode: shift-v"));
   editor->copybuf = edit_buffer_new(EBT_ALL);
 
-  editor->selected_tile_table = hash_new(hash_fval_keyval,
-                                         hash_fcmp_keyval);
-  hash_set_no_shrink(editor->selected_tile_table, TRUE);
+  editor->selected_tile_table = tile_hash_new();
+  tile_hash_set_no_shrink(editor->selected_tile_table, TRUE);
 }
 
 /****************************************************************************
@@ -528,11 +526,11 @@ static void popup_properties(struct tile *ptile)
   tiles = tile_list_new();
 
   if (editor_tile_is_selected(ptile)) {
-    hash_keys_iterate(editor->selected_tile_table, sel_tile) {
+    tile_hash_iterate(editor->selected_tile_table, sel_tile) {
       if (can_edit_tile_properties(sel_tile)) {
         tile_list_append(tiles, sel_tile);
       }
-    } hash_keys_iterate_end;
+    } tile_hash_iterate_end;
   } else {
     if (can_edit_tile_properties(ptile)) {
       tile_list_append(tiles, ptile);
@@ -983,7 +981,7 @@ void editor_selection_clear(void)
   if (!editor) {
     return;
   }
-  hash_delete_all_entries(editor->selected_tile_table);
+  tile_hash_clear(editor->selected_tile_table);
 }
 
 /****************************************************************************
@@ -994,7 +992,7 @@ void editor_selection_add(const struct tile *ptile)
   if (!editor || !ptile) {
     return;
   }
-  hash_insert(editor->selected_tile_table, ptile, NULL);
+  tile_hash_insert(editor->selected_tile_table, ptile, NULL);
 }
 
 /****************************************************************************
@@ -1005,7 +1003,7 @@ void editor_selection_remove(const struct tile *ptile)
   if (!editor || !ptile) {
     return;
   }
-  hash_delete_entry(editor->selected_tile_table, ptile);
+  tile_hash_remove(editor->selected_tile_table, ptile);
 }
 
 /****************************************************************************
@@ -1016,7 +1014,7 @@ bool editor_tile_is_selected(const struct tile *ptile)
   if (!editor || !ptile) {
     return FALSE;
   }
-  return hash_key_exists(editor->selected_tile_table, ptile);
+  return tile_hash_lookup(editor->selected_tile_table, ptile, NULL);
 }
 
 /****************************************************************************
@@ -1039,9 +1037,9 @@ void editor_apply_tool_to_selection(void)
   }
 
   connection_do_buffer(&client.conn);
-  hash_keys_iterate(editor->selected_tile_table, ptile) {
+  tile_hash_iterate(editor->selected_tile_table, ptile) {
     editor_apply_tool(ptile, TRUE);
-  } hash_keys_iterate_end;
+  } tile_hash_iterate_end;
   editor_notify_edit_finished();
   connection_do_unbuffer(&client.conn);
 
@@ -1294,7 +1292,7 @@ int editor_selection_count(void)
   if (!editor) {
     return 0;
   }
-  return hash_num_entries(editor->selected_tile_table);
+  return tile_hash_size(editor->selected_tile_table);
 }
 
 /****************************************************************************
@@ -1804,17 +1802,17 @@ const struct tile *editor_get_selection_center(void)
     return NULL;
   }
 
-  count = hash_num_entries(editor->selected_tile_table);
+  count = tile_hash_size(editor->selected_tile_table);
   if (count < 1) {
     return NULL;
   }
 
   origin = map_pos_to_tile(0, 0);
-  hash_keys_iterate(editor->selected_tile_table, ptile) {
+  tile_hash_iterate(editor->selected_tile_table, ptile) {
     map_distance_vector(&dx, &dy, origin, ptile);
     xsum += dx;
     ysum += dy;
-  } hash_keys_iterate_end;
+  } tile_hash_iterate_end;
 
   cx = xsum / count;
   cy = ysum / count;
