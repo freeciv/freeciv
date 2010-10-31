@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 01:26+0000\n"
+"POT-Creation-Date: 2010-10-31 13:20+0000\n"
 "PO-Revision-Date: 2010-10-11 20:07+0100\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -479,7 +479,7 @@ msgstr ""
 
 #. TRANS: "Vote" as a process
 #: common/events.c:167
-msgid "Vote cancelled"
+msgid "Vote canceled"
 msgstr ""
 
 #: common/events.c:168
@@ -1571,11 +1571,11 @@ msgstr ""
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
-"will answer in force in %d turn and expect you to honour your alliance with "
+"will answer in force in %d turn and expect you to honor your alliance with "
 "us and do likewise!"
 msgid_plural ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
-"will answer in force in %d turns and expect you to honour your alliance with "
+"will answer in force in %d turns and expect you to honor your alliance with "
 "us and do likewise!"
 msgstr[0] ""
 "*%s (DI)* %s siekdamas naudos šiurkščiai pažeidė mūsų susitarimus. Mes "
@@ -1652,10 +1652,10 @@ msgstr ""
 #: ai/advdiplomacy.c:1325
 #, c-format
 msgid ""
-"*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
-"Hold on - we are coming!"
+"*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
+"on - we are coming!"
 msgid_plural ""
-"*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
+"*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
 "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime kitą ėjimą "
@@ -1673,10 +1673,10 @@ msgstr[3] ""
 #: ai/advdiplomacy.c:1334
 #, c-format
 msgid ""
-"*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
+"*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgid_plural ""
-"*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
+"*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 "*%s (DI)* Gerbiame mūsų sajungą su %s ir karą %s paskelbsime kitą ėjimą. Iš "
@@ -1745,7 +1745,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1615
 #, c-format
 msgid ""
-"*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
+"*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
@@ -1764,7 +1764,7 @@ msgstr ""
 
 #: ai/advdiplomacy.c:1660
 #, c-format
-msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
+msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 "*%s (DI)* Sveikinimai, kaimyne, gal galėtume Jums pasiūlyti labiau taikius "
 "santykius?"
@@ -1781,8 +1781,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1835
 #, c-format
 msgid ""
-"*%s (AI)* We have been savagely attacked by %s, and we need your help! "
-"Honour our glorious alliance and your name will never be forgotten!"
+"*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
+"our glorious alliance and your name will never be forgotten!"
 msgstr ""
 "*%s (DI)*Mus negailestinagi užpuolė %s ir mums reikia Jūsų pagalbos! "
 "Gerbkite mūsų sąjungą ir Jūsų vardas nebus pamirštas!"
@@ -2424,7 +2424,7 @@ msgstr "Tarša prie %s."
 
 #: server/cityturn.c:2097
 #, fuzzy, c-format
-msgid "Celebrations in your honour in %s."
+msgid "Celebrations in your honor in %s."
 msgstr "Audringos šventės Jūsų garbei mieste %s."
 
 #: server/cityturn.c:2103
@@ -3999,7 +3999,7 @@ msgstr " *** Serveris nustatytas redagavimo režimu! *** "
 
 #: server/edithand.c:161
 #, c-format
-msgid " *** Edit mode cancelled by %s. *** "
+msgid " *** Edit mode canceled by %s. *** "
 msgstr ""
 
 #: server/edithand.c:312 server/edithand.c:346 server/edithand.c:373
@@ -5875,7 +5875,7 @@ msgstr ""
 #: server/settings.c:1207
 msgid ""
 "If you give an invention via an treaty this setting defines the chance that "
-"the invention is lost for your civilisation during the transfer."
+"the invention is lost for your civilization during the transfer."
 msgstr ""
 
 #: server/settings.c:1215
@@ -7795,7 +7795,7 @@ msgstr ""
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2414
 #, fuzzy, c-format
-msgid "%s has cancelled the vote \"%s\" (number %d)."
+msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr ""
 "Apgailestaujame, tačiau %s panaikino prekybos kelią iš miesto %s į Jūsų "
 "miestą %s."
@@ -7803,7 +7803,7 @@ msgstr ""
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2421
 #, c-format
-msgid "The vote \"%s\" (number %d) has been cancelled."
+msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr ""
 
 #: server/stdinhand.c:2442
@@ -8166,7 +8166,7 @@ msgstr "Nežinoma komanda. Bandykite '%shelp'."
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:3905
 #, fuzzy
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr "Jūsų naujas balsas panaikino ankstesnį jūsų balsą."
 
 #. TRANS: "vote" as a process
@@ -8646,7 +8646,7 @@ msgstr "%s prisijungė pagelbėti %s augti."
 
 #: server/unithand.c:996
 #, fuzzy, c-format
-msgid "Your %s was shot down by SDI defences, what a waste."
+msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Jūsų atominė raketa buvo pašauta SDI gynybos, kokios išlaidos."
 
 #: server/unithand.c:999
@@ -16856,7 +16856,7 @@ msgstr "Atsargos"
 #: client/gui-sdl/citydlg.c:3038 data/civ1/buildings.ruleset:250
 #: data/civ2/buildings.ruleset:304 data/default/buildings.ruleset:331
 #: data/experimental/buildings.ruleset:333
-#: data/multiplayer/buildings.ruleset:331
+#: data/multiplayer/buildings.ruleset:332
 msgid "Granary"
 msgstr "Svirnas"
 
@@ -17647,7 +17647,7 @@ msgstr " su "
 #: client/gui-sdl/mapview.c:623 data/civ1/buildings.ruleset:69
 #: data/civ2/buildings.ruleset:96 data/default/buildings.ruleset:119
 #: data/experimental/buildings.ruleset:121
-#: data/multiplayer/buildings.ruleset:141
+#: data/multiplayer/buildings.ruleset:142
 msgid "Barracks"
 msgstr "Kareivinės"
 
@@ -17660,7 +17660,7 @@ msgstr "Oro uostas"
 #: client/gui-sdl/mapview.c:641 data/civ1/buildings.ruleset:162
 #: data/civ2/buildings.ruleset:193 data/default/buildings.ruleset:219
 #: data/experimental/buildings.ruleset:221
-#: data/multiplayer/buildings.ruleset:241
+#: data/multiplayer/buildings.ruleset:242
 msgid "City Walls"
 msgstr "Miesto sienos"
 
@@ -20025,7 +20025,7 @@ msgid ""
 "around the city is being used.  You can assign your citizens to the land, or "
 "they can be specialists that contribute to your civilization in other ways.  "
 "Especially at the start of the game, care should be taken to ensure that the "
-"citizens are employed so that they maximise growth, trade and production."
+"citizens are employed so that they maximize growth, trade and production."
 msgstr ""
 
 #: data/helpdata.txt:166
@@ -20038,7 +20038,7 @@ msgstr ""
 #: data/helpdata.txt:171
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
-"central tile of the land, the citizens will be rearranged to maximise food "
+"central tile of the land, the citizens will be rearranged to maximize food "
 "production."
 msgstr ""
 
@@ -20046,7 +20046,7 @@ msgstr ""
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
-"so is labelled with a lightning bolt.  Take care not to let this happen to "
+"so is labeled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
 
@@ -22252,7 +22252,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:28 data/civ2/buildings.ruleset:54
 #: data/default/buildings.ruleset:75 data/experimental/buildings.ruleset:77
-#: data/multiplayer/buildings.ruleset:97
+#: data/multiplayer/buildings.ruleset:98
 msgid "Aqueduct"
 msgstr "Akvedukas"
 
@@ -22262,13 +22262,13 @@ msgstr "Leidžia miestui išaugti didesniam kaip 10."
 
 #: data/civ1/buildings.ruleset:47 data/civ2/buildings.ruleset:74
 #: data/default/buildings.ruleset:97 data/experimental/buildings.ruleset:99
-#: data/multiplayer/buildings.ruleset:119
+#: data/multiplayer/buildings.ruleset:120
 msgid "Bank"
 msgstr "Bankas"
 
 #: data/civ1/buildings.ruleset:63 data/civ2/buildings.ruleset:90
 #: data/default/buildings.ruleset:113 data/experimental/buildings.ruleset:115
-#: data/multiplayer/buildings.ruleset:135
+#: data/multiplayer/buildings.ruleset:136
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
@@ -22281,26 +22281,26 @@ msgstr ""
 #, no-c-format
 msgid ""
 "With a Barracks, each new unit built in a city will automatically have "
-"Veteran status, which means that its attack and defence strengths are "
+"Veteran status, which means that its attack and defense strengths are "
 "increased by 50%.  Also, damaged units which stay in town for one full turn "
 "without moving are completely restored."
 msgstr ""
 
 #: data/civ1/buildings.ruleset:93 data/civ2/buildings.ruleset:120
 #: data/default/buildings.ruleset:144 data/experimental/buildings.ruleset:146
-#: data/multiplayer/buildings.ruleset:166
+#: data/multiplayer/buildings.ruleset:167
 msgid "Barracks II"
 msgstr "Kareivinės II"
 
 #: data/civ1/buildings.ruleset:117 data/civ2/buildings.ruleset:144
 #: data/default/buildings.ruleset:169 data/experimental/buildings.ruleset:171
-#: data/multiplayer/buildings.ruleset:191
+#: data/multiplayer/buildings.ruleset:192
 msgid "Barracks III"
 msgstr "Kareivinės III"
 
 #: data/civ1/buildings.ruleset:141 data/civ2/buildings.ruleset:168
 #: data/default/buildings.ruleset:193 data/experimental/buildings.ruleset:195
-#: data/multiplayer/buildings.ruleset:215
+#: data/multiplayer/buildings.ruleset:216
 msgid "Cathedral"
 msgstr "Katedra"
 
@@ -22318,7 +22318,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:177
 #, fuzzy
 msgid ""
-"City Walls make it easier to defend a city.  They triple the defence "
+"City Walls make it easier to defend a city.  They triple the defense "
 "strength of units within the city against land, sea, and helicopter units.  "
 "They are ineffective against non-helicopter airborne units as well as "
 "Artillery.  City Walls also prevent the loss of population which occurs when "
@@ -22346,7 +22346,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:206 data/civ2/buildings.ruleset:259
 #: data/default/buildings.ruleset:287 data/experimental/buildings.ruleset:289
-#: data/multiplayer/buildings.ruleset:286
+#: data/multiplayer/buildings.ruleset:287
 msgid "Courthouse"
 msgstr "Teismo rūmai"
 
@@ -22360,7 +22360,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:229 data/civ2/buildings.ruleset:283
 #: data/default/buildings.ruleset:310 data/experimental/buildings.ruleset:312
-#: data/multiplayer/buildings.ruleset:309
+#: data/multiplayer/buildings.ruleset:310
 msgid "Factory"
 msgstr "Fabrikas"
 
@@ -22374,20 +22374,20 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:264 data/civ2/buildings.ruleset:318
 #: data/default/buildings.ruleset:345 data/experimental/buildings.ruleset:347
-#: data/multiplayer/buildings.ruleset:345
+#: data/multiplayer/buildings.ruleset:346
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:274 data/civ2/buildings.ruleset:349
-#: data/default/buildings.ruleset:376 data/experimental/buildings.ruleset:398
-#: data/multiplayer/buildings.ruleset:373
+#: data/civ1/buildings.ruleset:274 data/civ2/buildings.ruleset:350
+#: data/default/buildings.ruleset:377 data/experimental/buildings.ruleset:399
+#: data/multiplayer/buildings.ruleset:375
 msgid "Hydro Plant"
 msgstr "Hidroelektrinė"
 
-#: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:366
+#: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:367
 #, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
@@ -22403,66 +22403,66 @@ msgid ""
 "tile."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:305 data/civ2/buildings.ruleset:380
-#: data/default/buildings.ruleset:412 data/experimental/buildings.ruleset:458
-#: data/multiplayer/buildings.ruleset:407
+#: data/civ1/buildings.ruleset:305 data/civ2/buildings.ruleset:381
+#: data/default/buildings.ruleset:413 data/experimental/buildings.ruleset:459
+#: data/multiplayer/buildings.ruleset:409
 msgid "Library"
 msgstr "Biblioteka"
 
-#: data/civ1/buildings.ruleset:320 data/civ2/buildings.ruleset:395
+#: data/civ1/buildings.ruleset:320 data/civ2/buildings.ruleset:396
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Pakelia mokslo produkciją mieste 50%."
 
-#: data/civ1/buildings.ruleset:325 data/civ2/buildings.ruleset:400
-#: data/default/buildings.ruleset:432 data/experimental/buildings.ruleset:478
-#: data/multiplayer/buildings.ruleset:427
+#: data/civ1/buildings.ruleset:325 data/civ2/buildings.ruleset:401
+#: data/default/buildings.ruleset:433 data/experimental/buildings.ruleset:479
+#: data/multiplayer/buildings.ruleset:429
 msgid "Marketplace"
 msgstr "Turgus"
 
-#: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:415
-#: data/default/buildings.ruleset:447 data/experimental/buildings.ruleset:493
-#: data/multiplayer/buildings.ruleset:442
+#: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:416
+#: data/default/buildings.ruleset:448 data/experimental/buildings.ruleset:494
+#: data/multiplayer/buildings.ruleset:444
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Padidina prabangą ir mokesčių surinkimą mieste 50%."
 
-#: data/civ1/buildings.ruleset:345 data/civ2/buildings.ruleset:420
-#: data/default/buildings.ruleset:452 data/experimental/buildings.ruleset:498
-#: data/multiplayer/buildings.ruleset:447
+#: data/civ1/buildings.ruleset:345 data/civ2/buildings.ruleset:421
+#: data/default/buildings.ruleset:453 data/experimental/buildings.ruleset:499
+#: data/multiplayer/buildings.ruleset:449
 msgid "Mass Transit"
 msgstr "Masinis tranzitas"
 
-#: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:434
-#: data/default/buildings.ruleset:466 data/experimental/buildings.ruleset:512
-#: data/multiplayer/buildings.ruleset:461
+#: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:435
+#: data/default/buildings.ruleset:467 data/experimental/buildings.ruleset:513
+#: data/multiplayer/buildings.ruleset:463
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:366 data/civ2/buildings.ruleset:441
-#: data/default/buildings.ruleset:473 data/experimental/buildings.ruleset:522
-#: data/multiplayer/buildings.ruleset:468
+#: data/civ1/buildings.ruleset:366 data/civ2/buildings.ruleset:442
+#: data/default/buildings.ruleset:474 data/experimental/buildings.ruleset:523
+#: data/multiplayer/buildings.ruleset:470
 msgid "Mfg. Plant"
 msgstr "Gamyb. kompleksas"
 
-#: data/civ1/buildings.ruleset:382 data/civ2/buildings.ruleset:457
-#: data/default/buildings.ruleset:489 data/experimental/buildings.ruleset:538
-#: data/multiplayer/buildings.ruleset:484
+#: data/civ1/buildings.ruleset:382 data/civ2/buildings.ruleset:458
+#: data/default/buildings.ruleset:490 data/experimental/buildings.ruleset:539
+#: data/multiplayer/buildings.ruleset:486
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:388 data/civ2/buildings.ruleset:463
-#: data/default/buildings.ruleset:495 data/experimental/buildings.ruleset:544
-#: data/multiplayer/buildings.ruleset:490
+#: data/civ1/buildings.ruleset:388 data/civ2/buildings.ruleset:464
+#: data/default/buildings.ruleset:496 data/experimental/buildings.ruleset:545
+#: data/multiplayer/buildings.ruleset:492
 msgid "Nuclear Plant"
 msgstr "Branduolinė elektrinė"
 
-#: data/civ1/buildings.ruleset:404 data/civ2/buildings.ruleset:479
+#: data/civ1/buildings.ruleset:404 data/civ2/buildings.ruleset:480
 #, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
@@ -22476,15 +22476,15 @@ msgstr ""
 msgid "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:420 data/civ2/buildings.ruleset:516
-#: data/default/buildings.ruleset:553 data/experimental/buildings.ruleset:602
-#: data/multiplayer/buildings.ruleset:543
+#: data/civ1/buildings.ruleset:420 data/civ2/buildings.ruleset:517
+#: data/default/buildings.ruleset:554 data/experimental/buildings.ruleset:603
+#: data/multiplayer/buildings.ruleset:545
 msgid "Palace"
 msgstr "Rūmai"
 
-#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:531
-#: data/default/buildings.ruleset:568 data/experimental/buildings.ruleset:617
-#: data/multiplayer/buildings.ruleset:558
+#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:532
+#: data/default/buildings.ruleset:569 data/experimental/buildings.ruleset:618
+#: data/multiplayer/buildings.ruleset:560
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -22493,22 +22493,22 @@ msgid ""
 "(under all forms of government)."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:442 data/civ2/buildings.ruleset:538
-#: data/default/buildings.ruleset:575 data/experimental/buildings.ruleset:624
-#: data/multiplayer/buildings.ruleset:565
+#: data/civ1/buildings.ruleset:442 data/civ2/buildings.ruleset:539
+#: data/default/buildings.ruleset:576 data/experimental/buildings.ruleset:625
+#: data/multiplayer/buildings.ruleset:567
 msgid ""
 "Take good care of your capital, as its loss may result in your empire "
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:449 data/civ2/buildings.ruleset:589
-#: data/default/buildings.ruleset:634 data/experimental/buildings.ruleset:683
-#: data/multiplayer/buildings.ruleset:621
+#: data/civ1/buildings.ruleset:449 data/civ2/buildings.ruleset:590
+#: data/default/buildings.ruleset:635 data/experimental/buildings.ruleset:684
+#: data/multiplayer/buildings.ruleset:623
 msgid "Power Plant"
 msgstr "Jėgainė"
 
-#: data/civ1/buildings.ruleset:465 data/civ2/buildings.ruleset:605
+#: data/civ1/buildings.ruleset:465 data/civ2/buildings.ruleset:606
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -22517,24 +22517,24 @@ msgid ""
 "The extra production may lead to the city generating more pollution."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:477 data/civ2/buildings.ruleset:617
-#: data/default/buildings.ruleset:667 data/experimental/buildings.ruleset:716
-#: data/multiplayer/buildings.ruleset:651
+#: data/civ1/buildings.ruleset:477 data/civ2/buildings.ruleset:618
+#: data/default/buildings.ruleset:668 data/experimental/buildings.ruleset:717
+#: data/multiplayer/buildings.ruleset:653
 msgid "Recycling Center"
 msgstr "Perdirbimo centras"
 
-#: data/civ1/buildings.ruleset:492 data/civ2/buildings.ruleset:632
-#: data/default/buildings.ruleset:682 data/experimental/buildings.ruleset:731
-#: data/multiplayer/buildings.ruleset:666
+#: data/civ1/buildings.ruleset:492 data/civ2/buildings.ruleset:633
+#: data/default/buildings.ruleset:683 data/experimental/buildings.ruleset:732
+#: data/multiplayer/buildings.ruleset:668
 #, no-c-format
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr "Pastačius perdirbimo centrą išmetama tarša mieste sumažėja 66%."
 
-#: data/civ1/buildings.ruleset:498 data/civ2/buildings.ruleset:682
-#: data/default/buildings.ruleset:732 data/experimental/buildings.ruleset:781
-#: data/multiplayer/buildings.ruleset:716
+#: data/civ1/buildings.ruleset:498 data/civ2/buildings.ruleset:683
+#: data/default/buildings.ruleset:733 data/experimental/buildings.ruleset:782
+#: data/multiplayer/buildings.ruleset:718
 msgid "SDI Defense"
 msgstr "SDI gynyba"
 
@@ -22546,15 +22546,15 @@ msgid ""
 "simply has no effect."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:520 data/civ2/buildings.ruleset:756
-#: data/default/buildings.ruleset:812 data/experimental/buildings.ruleset:861
-#: data/multiplayer/buildings.ruleset:794
+#: data/civ1/buildings.ruleset:520 data/civ2/buildings.ruleset:757
+#: data/default/buildings.ruleset:813 data/experimental/buildings.ruleset:862
+#: data/multiplayer/buildings.ruleset:796
 msgid "Space Component"
 msgstr "Kosminis komponentas"
 
-#: data/civ1/buildings.ruleset:534 data/civ2/buildings.ruleset:770
-#: data/default/buildings.ruleset:827 data/experimental/buildings.ruleset:876
-#: data/multiplayer/buildings.ruleset:809
+#: data/civ1/buildings.ruleset:534 data/civ2/buildings.ruleset:771
+#: data/default/buildings.ruleset:828 data/experimental/buildings.ruleset:877
+#: data/multiplayer/buildings.ruleset:811
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -22562,67 +22562,67 @@ msgid ""
 msgstr ""
 
 #: data/civ1/buildings.ruleset:538 data/civ1/buildings.ruleset:571
-#: data/civ1/buildings.ruleset:595 data/civ2/buildings.ruleset:774
-#: data/civ2/buildings.ruleset:807 data/civ2/buildings.ruleset:831
-#: data/default/buildings.ruleset:831 data/default/buildings.ruleset:865
-#: data/default/buildings.ruleset:890 data/experimental/buildings.ruleset:880
-#: data/experimental/buildings.ruleset:914
-#: data/experimental/buildings.ruleset:939
+#: data/civ1/buildings.ruleset:595 data/civ2/buildings.ruleset:775
+#: data/civ2/buildings.ruleset:808 data/civ2/buildings.ruleset:832
+#: data/default/buildings.ruleset:832 data/default/buildings.ruleset:866
+#: data/default/buildings.ruleset:891 data/experimental/buildings.ruleset:881
+#: data/experimental/buildings.ruleset:915
+#: data/experimental/buildings.ruleset:940
 msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:544 data/civ2/buildings.ruleset:780
-#: data/default/buildings.ruleset:837 data/experimental/buildings.ruleset:886
-#: data/multiplayer/buildings.ruleset:820
+#: data/civ1/buildings.ruleset:544 data/civ2/buildings.ruleset:781
+#: data/default/buildings.ruleset:838 data/experimental/buildings.ruleset:887
+#: data/multiplayer/buildings.ruleset:822
 msgid "Space Module"
 msgstr "Kosminis modulis"
 
-#: data/civ1/buildings.ruleset:558 data/civ2/buildings.ruleset:794
-#: data/default/buildings.ruleset:852 data/experimental/buildings.ruleset:901
-#: data/multiplayer/buildings.ruleset:835
+#: data/civ1/buildings.ruleset:558 data/civ2/buildings.ruleset:795
+#: data/default/buildings.ruleset:853 data/experimental/buildings.ruleset:902
+#: data/multiplayer/buildings.ruleset:837
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:"
 msgstr ""
 
-#: data/civ1/buildings.ruleset:561 data/civ2/buildings.ruleset:797
-#: data/default/buildings.ruleset:855 data/experimental/buildings.ruleset:904
-#: data/multiplayer/buildings.ruleset:838
+#: data/civ1/buildings.ruleset:561 data/civ2/buildings.ruleset:798
+#: data/default/buildings.ruleset:856 data/experimental/buildings.ruleset:905
+#: data/multiplayer/buildings.ruleset:840
 msgid "- Habitation Module: provides living space for 10,000 people."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:563 data/civ2/buildings.ruleset:799
-#: data/default/buildings.ruleset:857 data/experimental/buildings.ruleset:906
-#: data/multiplayer/buildings.ruleset:840
+#: data/civ1/buildings.ruleset:563 data/civ2/buildings.ruleset:800
+#: data/default/buildings.ruleset:858 data/experimental/buildings.ruleset:907
+#: data/multiplayer/buildings.ruleset:842
 msgid ""
 "- Life Support Module: provides food and water for the population of  one "
 "Habitation Module."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:566 data/civ2/buildings.ruleset:802
-#: data/default/buildings.ruleset:860 data/experimental/buildings.ruleset:909
-#: data/multiplayer/buildings.ruleset:843
+#: data/civ1/buildings.ruleset:566 data/civ2/buildings.ruleset:803
+#: data/default/buildings.ruleset:861 data/experimental/buildings.ruleset:910
+#: data/multiplayer/buildings.ruleset:845
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other  Modules."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:805
-#: data/default/buildings.ruleset:863 data/experimental/buildings.ruleset:912
-#: data/multiplayer/buildings.ruleset:846
+#: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:806
+#: data/default/buildings.ruleset:864 data/experimental/buildings.ruleset:913
+#: data/multiplayer/buildings.ruleset:848
 msgid "You can build up to 4 Space Modules of each kind."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:577 data/civ2/buildings.ruleset:813
-#: data/default/buildings.ruleset:871 data/experimental/buildings.ruleset:920
-#: data/multiplayer/buildings.ruleset:855
+#: data/civ1/buildings.ruleset:577 data/civ2/buildings.ruleset:814
+#: data/default/buildings.ruleset:872 data/experimental/buildings.ruleset:921
+#: data/multiplayer/buildings.ruleset:857
 msgid "Space Structural"
 msgstr "Kosminė struktūra"
 
-#: data/civ1/buildings.ruleset:591 data/civ2/buildings.ruleset:827
-#: data/default/buildings.ruleset:886 data/experimental/buildings.ruleset:935
-#: data/multiplayer/buildings.ruleset:870
+#: data/civ1/buildings.ruleset:591 data/civ2/buildings.ruleset:828
+#: data/default/buildings.ruleset:887 data/experimental/buildings.ruleset:936
+#: data/multiplayer/buildings.ruleset:872
 #, fuzzy
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
@@ -22636,15 +22636,15 @@ msgstr ""
 "Prieš tai, kai jūs galėsite statyti erdvėlaivio dalis, kuris nors žaidėjas "
 "turi pastatyti Apollo programą."
 
-#: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:904
-#: data/default/buildings.ruleset:965 data/experimental/buildings.ruleset:1017
-#: data/multiplayer/buildings.ruleset:948
+#: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:905
+#: data/default/buildings.ruleset:966 data/experimental/buildings.ruleset:1018
+#: data/multiplayer/buildings.ruleset:950
 msgid "Temple"
 msgstr "Šventykla"
 
-#: data/civ1/buildings.ruleset:615 data/civ2/buildings.ruleset:918
-#: data/default/buildings.ruleset:979 data/experimental/buildings.ruleset:1031
-#: data/multiplayer/buildings.ruleset:962
+#: data/civ1/buildings.ruleset:615 data/civ2/buildings.ruleset:919
+#: data/default/buildings.ruleset:980 data/experimental/buildings.ruleset:1032
+#: data/multiplayer/buildings.ruleset:964
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 "effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
@@ -22652,25 +22652,25 @@ msgid ""
 msgstr ""
 
 #: data/civ1/buildings.ruleset:623 data/civ1/techs.ruleset:574
-#: data/civ2/buildings.ruleset:926 data/civ2/techs.ruleset:741
-#: data/default/buildings.ruleset:987 data/default/techs.ruleset:745
-#: data/experimental/buildings.ruleset:1039
-#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:970
+#: data/civ2/buildings.ruleset:927 data/civ2/techs.ruleset:741
+#: data/default/buildings.ruleset:988 data/default/techs.ruleset:745
+#: data/experimental/buildings.ruleset:1040
+#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:972
 #: data/multiplayer/techs.ruleset:755
 msgid "University"
 msgstr "Universitetas"
 
-#: data/civ1/buildings.ruleset:639 data/civ2/buildings.ruleset:942
+#: data/civ1/buildings.ruleset:639 data/civ2/buildings.ruleset:943
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr "Kartu su biblioteka, universitetas padidina miesto mokslo gamybą 100%."
 
-#: data/civ1/buildings.ruleset:645 data/civ2/buildings.ruleset:948
-#: data/default/buildings.ruleset:1009
-#: data/experimental/buildings.ruleset:1061
-#: data/multiplayer/buildings.ruleset:992
+#: data/civ1/buildings.ruleset:645 data/civ2/buildings.ruleset:949
+#: data/default/buildings.ruleset:1010
+#: data/experimental/buildings.ruleset:1062
+#: data/multiplayer/buildings.ruleset:994
 msgid "Apollo Program"
 msgstr "„Apollo“ programa"
 
@@ -22686,43 +22686,43 @@ msgstr ""
 "pat visi žaidėjai gali pradėti statyti erdvėlaivio dalis (jei jie turi "
 "išvystę reikiamas technologijas)."
 
-#: data/civ1/buildings.ruleset:666 data/civ2/buildings.ruleset:991
-#: data/default/buildings.ruleset:1052
-#: data/experimental/buildings.ruleset:1104
-#: data/multiplayer/buildings.ruleset:1033
+#: data/civ1/buildings.ruleset:666 data/civ2/buildings.ruleset:992
+#: data/default/buildings.ruleset:1053
+#: data/experimental/buildings.ruleset:1105
+#: data/multiplayer/buildings.ruleset:1035
 msgid "Colossus"
 msgstr "Kolosas"
 
-#: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:1005
-#: data/default/buildings.ruleset:1066
-#: data/experimental/buildings.ruleset:1118
-#: data/multiplayer/buildings.ruleset:1047
+#: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:1006
+#: data/default/buildings.ruleset:1067
+#: data/experimental/buildings.ruleset:1119
+#: data/multiplayer/buildings.ruleset:1049
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:686 data/civ2/buildings.ruleset:1011
-#: data/default/buildings.ruleset:1072
-#: data/experimental/buildings.ruleset:1124
-#: data/multiplayer/buildings.ruleset:1053
+#: data/civ1/buildings.ruleset:686 data/civ2/buildings.ruleset:1012
+#: data/default/buildings.ruleset:1073
+#: data/experimental/buildings.ruleset:1125
+#: data/multiplayer/buildings.ruleset:1055
 msgid "Copernicus' Observatory"
 msgstr "Koperniko observatorija"
 
-#: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1026
+#: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1027
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr ""
 "Pakelia mokslo produkciją kiekviename mieste, kuriame yra pastatyta, 50%."
 
-#: data/civ1/buildings.ruleset:706 data/civ2/buildings.ruleset:1031
-#: data/default/buildings.ruleset:1092
-#: data/experimental/buildings.ruleset:1144
-#: data/multiplayer/buildings.ruleset:1073
+#: data/civ1/buildings.ruleset:706 data/civ2/buildings.ruleset:1032
+#: data/default/buildings.ruleset:1093
+#: data/experimental/buildings.ruleset:1145
+#: data/multiplayer/buildings.ruleset:1075
 msgid "Cure For Cancer"
 msgstr "Vaistai nuo vėžio"
 
-#: data/civ1/buildings.ruleset:720 data/civ2/buildings.ruleset:1045
+#: data/civ1/buildings.ruleset:720 data/civ2/buildings.ruleset:1046
 #, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
@@ -22731,16 +22731,16 @@ msgstr ""
 "Stulbinantis technologinis pasiekimas vieną nelaimingą gyventoją kiekviename "
 "mieste padaro patenkintu."
 
-#: data/civ1/buildings.ruleset:727 data/civ2/buildings.ruleset:1052
-#: data/default/buildings.ruleset:1116
-#: data/experimental/buildings.ruleset:1168
-#: data/multiplayer/buildings.ruleset:1094
+#: data/civ1/buildings.ruleset:727 data/civ2/buildings.ruleset:1053
+#: data/default/buildings.ruleset:1117
+#: data/experimental/buildings.ruleset:1169
+#: data/multiplayer/buildings.ruleset:1096
 msgid "Darwin's Voyage"
 msgstr "Darvino kelionė"
 
-#: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1066
-#: data/default/buildings.ruleset:1130
-#: data/experimental/buildings.ruleset:1182
+#: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1067
+#: data/default/buildings.ruleset:1131
+#: data/experimental/buildings.ruleset:1183
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -22749,16 +22749,16 @@ msgstr ""
 "Čarlzo Darvino kelionė leido atrasti rūšių evoliucijos teoriją, kuri įkvėpė "
 "didesnį pasitikėjimą mokslu. Duoda du artimiausius technologinius laimėjimus."
 
-#: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:1094
-#: data/default/buildings.ruleset:1158
-#: data/experimental/buildings.ruleset:1210
-#: data/multiplayer/buildings.ruleset:1135
+#: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:1095
+#: data/default/buildings.ruleset:1159
+#: data/experimental/buildings.ruleset:1211
+#: data/multiplayer/buildings.ruleset:1137
 msgid "Great Library"
 msgstr "Didžioji biblioteka"
 
-#: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1108
-#: data/default/buildings.ruleset:1172
-#: data/experimental/buildings.ruleset:1224
+#: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1109
+#: data/default/buildings.ruleset:1173
+#: data/experimental/buildings.ruleset:1225
 #, fuzzy
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
@@ -22767,23 +22767,23 @@ msgstr ""
 "Civilizacija, kuri pastato Didžiąją biblioteką, gauna kiekvieną pasiekimą, "
 "kurį bent jau dvi kitos civilizacijos yra pasiekusios."
 
-#: data/civ1/buildings.ruleset:768 data/civ2/buildings.ruleset:1114
-#: data/default/buildings.ruleset:1178
-#: data/experimental/buildings.ruleset:1230
-#: data/multiplayer/buildings.ruleset:1155
+#: data/civ1/buildings.ruleset:768 data/civ2/buildings.ruleset:1115
+#: data/default/buildings.ruleset:1179
+#: data/experimental/buildings.ruleset:1231
+#: data/multiplayer/buildings.ruleset:1157
 msgid "Great Wall"
 msgstr "Didžioji siena "
 
-#: data/civ1/buildings.ruleset:782 data/civ2/buildings.ruleset:1128
-#: data/default/buildings.ruleset:1192
-#: data/experimental/buildings.ruleset:1244
+#: data/civ1/buildings.ruleset:782 data/civ2/buildings.ruleset:1129
+#: data/default/buildings.ruleset:1193
+#: data/experimental/buildings.ruleset:1245
 msgid "Works as a City Wall in all your cities."
 msgstr "Veikia kaip miesto sienos kiekviename mieste."
 
-#: data/civ1/buildings.ruleset:789 data/civ2/buildings.ruleset:1135
-#: data/default/buildings.ruleset:1200
-#: data/experimental/buildings.ruleset:1252
-#: data/multiplayer/buildings.ruleset:1174
+#: data/civ1/buildings.ruleset:789 data/civ2/buildings.ruleset:1136
+#: data/default/buildings.ruleset:1201
+#: data/experimental/buildings.ruleset:1253
+#: data/multiplayer/buildings.ruleset:1176
 msgid "Hanging Gardens"
 msgstr "Kabantys sodai"
 
@@ -22795,10 +22795,10 @@ msgid ""
 "military activity), making each content."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:811 data/civ2/buildings.ruleset:1159
-#: data/default/buildings.ruleset:1224
-#: data/experimental/buildings.ruleset:1276
-#: data/multiplayer/buildings.ruleset:1193
+#: data/civ1/buildings.ruleset:811 data/civ2/buildings.ruleset:1160
+#: data/default/buildings.ruleset:1225
+#: data/experimental/buildings.ruleset:1277
+#: data/multiplayer/buildings.ruleset:1195
 msgid "Hoover Dam"
 msgstr "Huverio užtvanka"
 
@@ -22809,26 +22809,26 @@ msgid ""
 "Factories and Mfg. Plants.)"
 msgstr ""
 
-#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:1179
-#: data/default/buildings.ruleset:1245
-#: data/experimental/buildings.ruleset:1297
-#: data/multiplayer/buildings.ruleset:1215
+#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:1180
+#: data/default/buildings.ruleset:1246
+#: data/experimental/buildings.ruleset:1298
+#: data/multiplayer/buildings.ruleset:1217
 msgid "Isaac Newton's College"
 msgstr "Izaoko Niutono koledžas"
 
-#: data/civ1/buildings.ruleset:848 data/civ2/buildings.ruleset:1194
-#: data/default/buildings.ruleset:1087
-#: data/experimental/buildings.ruleset:1139
-#: data/multiplayer/buildings.ruleset:1068
+#: data/civ1/buildings.ruleset:848 data/civ2/buildings.ruleset:1195
+#: data/default/buildings.ruleset:1088
+#: data/experimental/buildings.ruleset:1140
+#: data/multiplayer/buildings.ruleset:1070
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr ""
 "Pakelia mokslo produkciją kiekviename mieste, kuriame yra pastatyta, 100%."
 
-#: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:1199
-#: data/default/buildings.ruleset:1266
-#: data/experimental/buildings.ruleset:1318
-#: data/multiplayer/buildings.ruleset:1236
+#: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:1200
+#: data/default/buildings.ruleset:1267
+#: data/experimental/buildings.ruleset:1319
+#: data/multiplayer/buildings.ruleset:1238
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S. Bacho katedra"
 
@@ -22839,21 +22839,21 @@ msgid ""
 "military activity)."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:874 data/civ2/buildings.ruleset:1258
-#: data/default/buildings.ruleset:1325
-#: data/experimental/buildings.ruleset:1377
-#: data/multiplayer/buildings.ruleset:1296
+#: data/civ1/buildings.ruleset:874 data/civ2/buildings.ruleset:1259
+#: data/default/buildings.ruleset:1326
+#: data/experimental/buildings.ruleset:1378
+#: data/multiplayer/buildings.ruleset:1298
 msgid "Lighthouse"
 msgstr "Švyturys"
 
-#: data/civ1/buildings.ruleset:888 data/multiplayer/buildings.ruleset:1311
+#: data/civ1/buildings.ruleset:888 data/multiplayer/buildings.ruleset:1313
 msgid "Gives all your sea units 1 additional movement point."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:1278
-#: data/default/buildings.ruleset:1346
-#: data/experimental/buildings.ruleset:1398
-#: data/multiplayer/buildings.ruleset:1316
+#: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:1279
+#: data/default/buildings.ruleset:1347
+#: data/experimental/buildings.ruleset:1399
+#: data/multiplayer/buildings.ruleset:1318
 msgid "Magellan's Expedition"
 msgstr "Magelano ekspedicija"
 
@@ -22861,17 +22861,17 @@ msgstr "Magelano ekspedicija"
 msgid "Gives all sea units 1 additional movement point."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:1297
-#: data/default/buildings.ruleset:1366
-#: data/experimental/buildings.ruleset:1418
-#: data/multiplayer/buildings.ruleset:1336
+#: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:1298
+#: data/default/buildings.ruleset:1367
+#: data/experimental/buildings.ruleset:1419
+#: data/multiplayer/buildings.ruleset:1338
 msgid "Manhattan Project"
 msgstr "Manheteno projektas"
 
-#: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:1334
-#: data/default/buildings.ruleset:1403
-#: data/experimental/buildings.ruleset:1455
-#: data/multiplayer/buildings.ruleset:1375
+#: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:1335
+#: data/default/buildings.ruleset:1404
+#: data/experimental/buildings.ruleset:1456
+#: data/multiplayer/buildings.ruleset:1377
 msgid "Michelangelo's Chapel"
 msgstr "Siksto koplyčia"
 
@@ -22879,16 +22879,16 @@ msgstr "Siksto koplyčia"
 msgid "Double effects of Cathedrals, in all cities."
 msgstr "Padvigubina katedrų poveikį visuose miestuose."
 
-#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:1359
-#: data/default/buildings.ruleset:1428
-#: data/experimental/buildings.ruleset:1480
-#: data/multiplayer/buildings.ruleset:1399
+#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:1360
+#: data/default/buildings.ruleset:1429
+#: data/experimental/buildings.ruleset:1481
+#: data/multiplayer/buildings.ruleset:1401
 msgid "Oracle"
 msgstr "Orakulas"
 
-#: data/civ1/buildings.ruleset:963 data/civ2/buildings.ruleset:1373
-#: data/default/buildings.ruleset:1442
-#: data/experimental/buildings.ruleset:1494
+#: data/civ1/buildings.ruleset:963 data/civ2/buildings.ruleset:1374
+#: data/default/buildings.ruleset:1443
+#: data/experimental/buildings.ruleset:1495
 #, fuzzy
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
@@ -22897,17 +22897,17 @@ msgstr ""
 "Kiekviename mieste su šventykla du nelaimingi gyventojai paverčiami "
 "patenkintais."
 
-#: data/civ1/buildings.ruleset:970 data/civ2/buildings.ruleset:1380
-#: data/default/buildings.ruleset:1449
-#: data/experimental/buildings.ruleset:1501
-#: data/multiplayer/buildings.ruleset:1419
+#: data/civ1/buildings.ruleset:970 data/civ2/buildings.ruleset:1381
+#: data/default/buildings.ruleset:1450
+#: data/experimental/buildings.ruleset:1502
+#: data/multiplayer/buildings.ruleset:1421
 msgid "Pyramids"
 msgstr "Piramidės"
 
-#: data/civ1/buildings.ruleset:984 data/civ1/buildings.ruleset:1045
-#: data/civ2/buildings.ruleset:1454 data/default/buildings.ruleset:1525
-#: data/experimental/buildings.ruleset:1577
-#: data/multiplayer/buildings.ruleset:1494
+#: data/civ1/buildings.ruleset:984 data/civ1/buildings.ruleset:1046
+#: data/civ2/buildings.ruleset:1456 data/default/buildings.ruleset:1527
+#: data/experimental/buildings.ruleset:1579
+#: data/multiplayer/buildings.ruleset:1497
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -22916,9 +22916,9 @@ msgstr ""
 "Be anarchijos periodo leidžia pasirinkti bet kurią vyriausybę, įskaitant ir "
 "tas, kurios dar nebuvo išrastos Jūsų civilizacijos."
 
-#: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:1399
-#: data/default/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1523
+#: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:1400
+#: data/default/buildings.ruleset:1472
+#: data/experimental/buildings.ruleset:1524
 msgid "SETI Program"
 msgstr "SETI programa"
 
@@ -22927,17 +22927,17 @@ msgstr "SETI programa"
 msgid "Boosts science production in each city by 50%."
 msgstr "Paspartina tyrimus kiekviename mieste 50%."
 
-#: data/civ1/buildings.ruleset:1011 data/civ2/buildings.ruleset:1420
-#: data/default/buildings.ruleset:1491
-#: data/experimental/buildings.ruleset:1543
-#: data/multiplayer/buildings.ruleset:1460
-msgid "Shakespeare's Theatre"
+#: data/civ1/buildings.ruleset:1011 data/civ2/buildings.ruleset:1421
+#: data/default/buildings.ruleset:1492
+#: data/experimental/buildings.ruleset:1544
+#: data/multiplayer/buildings.ruleset:1462
+msgid "Shakespeare's Theater"
 msgstr "Šekspyro teatras"
 
-#: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1434
-#: data/default/buildings.ruleset:1505
-#: data/experimental/buildings.ruleset:1557
-#: data/multiplayer/buildings.ruleset:1474
+#: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1436
+#: data/default/buildings.ruleset:1507
+#: data/experimental/buildings.ruleset:1559
+#: data/multiplayer/buildings.ruleset:1477
 #, fuzzy
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -22945,21 +22945,21 @@ msgid ""
 msgstr ""
 "Visi nelaimingi gyventojai paverčiami patenkintais mieste, kuriame jis tovi."
 
-#: data/civ1/buildings.ruleset:1031 data/civ2/buildings.ruleset:1483
-#: data/default/buildings.ruleset:1553
-#: data/experimental/buildings.ruleset:1605
-#: data/multiplayer/buildings.ruleset:1523
+#: data/civ1/buildings.ruleset:1032 data/civ2/buildings.ruleset:1485
+#: data/default/buildings.ruleset:1555
+#: data/experimental/buildings.ruleset:1607
+#: data/multiplayer/buildings.ruleset:1526
 msgid "United Nations"
 msgstr "Jungtinės tautos"
 
-#: data/civ1/buildings.ruleset:1057 data/civ2/buildings.ruleset:1510
-#: data/default/buildings.ruleset:1580
-#: data/experimental/buildings.ruleset:1632
-#: data/multiplayer/buildings.ruleset:1544
+#: data/civ1/buildings.ruleset:1058 data/civ2/buildings.ruleset:1512
+#: data/default/buildings.ruleset:1582
+#: data/experimental/buildings.ruleset:1634
+#: data/multiplayer/buildings.ruleset:1547
 msgid "Women's Suffrage"
 msgstr "Moterų balsavimo teisė"
 
-#: data/civ1/buildings.ruleset:1071
+#: data/civ1/buildings.ruleset:1072
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -23944,7 +23944,7 @@ msgstr "Mechanizuoti pėstininkai"
 
 #: data/civ1/units.ruleset:410
 msgid ""
-"Mechanized Infantry; this unit has the strongest defence strength of any "
+"Mechanized Infantry; this unit has the strongest defense strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
 "Mechanizuoti pėstininkai turi didžiausią gynybos jėgą tarp visų sausumos "
@@ -24451,20 +24451,20 @@ msgstr ""
 #: data/experimental/buildings.ruleset:137
 #: data/experimental/buildings.ruleset:162
 #: data/experimental/buildings.ruleset:186
-#: data/multiplayer/buildings.ruleset:157
-#: data/multiplayer/buildings.ruleset:182
-#: data/multiplayer/buildings.ruleset:206
+#: data/multiplayer/buildings.ruleset:158
+#: data/multiplayer/buildings.ruleset:183
+#: data/multiplayer/buildings.ruleset:207
 #, no-c-format
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
-"Veteran status, which means that its attack and defence strengths are "
+"Veteran status, which means that its attack and defense strengths are "
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
 
 #: data/civ2/buildings.ruleset:182 data/default/buildings.ruleset:208
 #: data/experimental/buildings.ruleset:210
-#: data/multiplayer/buildings.ruleset:230
+#: data/multiplayer/buildings.ruleset:231
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city; however, it does not affect citizens made "
@@ -24477,10 +24477,10 @@ msgstr ""
 # ne sraigtasparnius  ?
 #: data/civ2/buildings.ruleset:208 data/default/buildings.ruleset:234
 #: data/experimental/buildings.ruleset:236
-#: data/multiplayer/buildings.ruleset:256
+#: data/multiplayer/buildings.ruleset:257
 #, fuzzy
 msgid ""
-"City Walls make it easier to defend a city.  They triple the defence "
+"City Walls make it easier to defend a city.  They triple the defense "
 "strength of units within the city against land and helicopter units.  They "
 "are ineffective against airborne and sea units as well as Howitzers.  City "
 "Walls also prevent the loss of population which occurs when a defending unit "
@@ -24494,15 +24494,15 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:217 data/default/buildings.ruleset:243
 #: data/experimental/buildings.ruleset:245
-#: data/multiplayer/buildings.ruleset:265
+#: data/multiplayer/buildings.ruleset:266
 msgid "Coastal Defense"
 msgstr "Pakrančių apsauga"
 
 #: data/civ2/buildings.ruleset:232 data/default/buildings.ruleset:258
 #: data/experimental/buildings.ruleset:260
-#: data/multiplayer/buildings.ruleset:280
+#: data/multiplayer/buildings.ruleset:281
 msgid ""
-"Increases the defence strength of units within a city by a factor of 2 when "
+"Increases the defense strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr ""
 "Mieste esančių dalinių gynybos jėga padidinama 2 kartus ginantis nuo priešo "
@@ -24532,54 +24532,54 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:328 data/default/buildings.ruleset:355
 #: data/experimental/buildings.ruleset:357
-#: data/multiplayer/buildings.ruleset:352
-msgid "Harbour"
+#: data/multiplayer/buildings.ruleset:353
+msgid "Harbor"
 msgstr "Uostas"
 
-#: data/civ2/buildings.ruleset:343 data/default/buildings.ruleset:370
-#: data/experimental/buildings.ruleset:372
-#: data/multiplayer/buildings.ruleset:367
+#: data/civ2/buildings.ruleset:344 data/default/buildings.ruleset:371
+#: data/experimental/buildings.ruleset:373
+#: data/multiplayer/buildings.ruleset:369
 msgid ""
 "Gives one extra food resource on all Oceanic tiles.  The city needs to be "
 "coastal to build this improvement."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:373
+#: data/civ2/buildings.ruleset:374
 msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a "
 "Mountain or River tile."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:486 data/civ2/buildings.ruleset:611
-#: data/civ2/buildings.ruleset:750
+#: data/civ2/buildings.ruleset:487 data/civ2/buildings.ruleset:612
+#: data/civ2/buildings.ruleset:751
 msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:495 data/default/buildings.ruleset:532
-#: data/experimental/buildings.ruleset:581
-#: data/multiplayer/buildings.ruleset:522
+#: data/civ2/buildings.ruleset:496 data/default/buildings.ruleset:533
+#: data/experimental/buildings.ruleset:582
+#: data/multiplayer/buildings.ruleset:524
 msgid "Offshore Platform"
 msgstr "Pakrantės platforma"
 
-#: data/civ2/buildings.ruleset:510 data/default/buildings.ruleset:547
-#: data/experimental/buildings.ruleset:596
-#: data/multiplayer/buildings.ruleset:537
+#: data/civ2/buildings.ruleset:511 data/default/buildings.ruleset:548
+#: data/experimental/buildings.ruleset:597
+#: data/multiplayer/buildings.ruleset:539
 msgid ""
 "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The "
 "city needs to be coastal to build this improvement."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:545 data/default/buildings.ruleset:587
-#: data/experimental/buildings.ruleset:636
-#: data/multiplayer/buildings.ruleset:577
+#: data/civ2/buildings.ruleset:546 data/default/buildings.ruleset:588
+#: data/experimental/buildings.ruleset:637
+#: data/multiplayer/buildings.ruleset:579
 msgid "Police Station"
 msgstr "Policijos būstinė"
 
-#: data/civ2/buildings.ruleset:559 data/default/buildings.ruleset:601
-#: data/experimental/buildings.ruleset:650
+#: data/civ2/buildings.ruleset:560 data/default/buildings.ruleset:602
+#: data/experimental/buildings.ruleset:651
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 2 under Democracy and 1 under Republic -- in other words, it "
@@ -24587,27 +24587,27 @@ msgid ""
 "improvement has no effect under other governments."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:567 data/default/buildings.ruleset:612
-#: data/experimental/buildings.ruleset:661
-#: data/multiplayer/buildings.ruleset:599
+#: data/civ2/buildings.ruleset:568 data/default/buildings.ruleset:613
+#: data/experimental/buildings.ruleset:662
+#: data/multiplayer/buildings.ruleset:601
 msgid "Port Facility"
 msgstr "Dokai"
 
-#: data/civ2/buildings.ruleset:582 data/default/buildings.ruleset:627
-#: data/experimental/buildings.ruleset:676
-#: data/multiplayer/buildings.ruleset:614
+#: data/civ2/buildings.ruleset:583 data/default/buildings.ruleset:628
+#: data/experimental/buildings.ruleset:677
+#: data/multiplayer/buildings.ruleset:616
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:638 data/default/buildings.ruleset:688
-#: data/experimental/buildings.ruleset:737
-#: data/multiplayer/buildings.ruleset:672
+#: data/civ2/buildings.ruleset:639 data/default/buildings.ruleset:689
+#: data/experimental/buildings.ruleset:738
+#: data/multiplayer/buildings.ruleset:674
 msgid "Research Lab"
 msgstr "Tyrimų laboratorija"
 
-#: data/civ2/buildings.ruleset:654
+#: data/civ2/buildings.ruleset:655
 #, no-c-format
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
@@ -24618,15 +24618,15 @@ msgstr ""
 "Kartu su biblioteka ir universitetu, tyrimų laboratorija mieste mokslo "
 "gamybą padidina 150%."
 
-#: data/civ2/buildings.ruleset:662 data/default/buildings.ruleset:712
-#: data/experimental/buildings.ruleset:761
-#: data/multiplayer/buildings.ruleset:696
+#: data/civ2/buildings.ruleset:663 data/default/buildings.ruleset:713
+#: data/experimental/buildings.ruleset:762
+#: data/multiplayer/buildings.ruleset:698
 msgid "SAM Battery"
 msgstr "Priešlėktuvinė gynyba"
 
-#: data/civ2/buildings.ruleset:676 data/default/buildings.ruleset:726
-#: data/experimental/buildings.ruleset:775
-#: data/multiplayer/buildings.ruleset:710
+#: data/civ2/buildings.ruleset:677 data/default/buildings.ruleset:727
+#: data/experimental/buildings.ruleset:776
+#: data/multiplayer/buildings.ruleset:712
 #, fuzzy
 msgid ""
 "Doubles the defense of all units inside the city when attacked by aircraft "
@@ -24635,24 +24635,24 @@ msgstr ""
 "Padvigubina mieste esančių dalinių gynybą, kai yra puolama su nebranduoline "
 "aviacija."
 
-#: data/civ2/buildings.ruleset:696 data/default/buildings.ruleset:746
-#: data/experimental/buildings.ruleset:795
-#: data/multiplayer/buildings.ruleset:730
+#: data/civ2/buildings.ruleset:697 data/default/buildings.ruleset:747
+#: data/experimental/buildings.ruleset:796
+#: data/multiplayer/buildings.ruleset:732
 msgid ""
 "Protects a city and its environs (up to 2 tiles away) from attacks by "
 "Nuclear units. A Nuclear unit attacking a city with SDI Defense, or "
 "attacking a unit (or deliberately exploded) within range, is shot down and "
-"simply has no effect. Also, doubles defence for units in the city against "
+"simply has no effect. Also, doubles defense for units in the city against "
 "non-nuclear missiles."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:707 data/default/buildings.ruleset:757
-#: data/experimental/buildings.ruleset:806
-#: data/multiplayer/buildings.ruleset:739
+#: data/civ2/buildings.ruleset:708 data/default/buildings.ruleset:758
+#: data/experimental/buildings.ruleset:807
+#: data/multiplayer/buildings.ruleset:741
 msgid "Sewer System"
 msgstr "Kanalizacija"
 
-#: data/civ2/buildings.ruleset:722
+#: data/civ2/buildings.ruleset:723
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
@@ -24660,13 +24660,13 @@ msgstr ""
 "Leidžia miestui užaugti didesniam nei 12. Miestui užaugti virš 8 pirmiausia "
 "reikalingas akvedukas."
 
-#: data/civ2/buildings.ruleset:728 data/default/buildings.ruleset:780
-#: data/experimental/buildings.ruleset:829
-#: data/multiplayer/buildings.ruleset:762
+#: data/civ2/buildings.ruleset:729 data/default/buildings.ruleset:781
+#: data/experimental/buildings.ruleset:830
+#: data/multiplayer/buildings.ruleset:764
 msgid "Solar Plant"
 msgstr "Saulės elektrinė"
 
-#: data/civ2/buildings.ruleset:744
+#: data/civ2/buildings.ruleset:745
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
@@ -24675,15 +24675,15 @@ msgid ""
 "Factory, Mfg. Plant and Solar Plant together give a 150% production bonus."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:837 data/default/buildings.ruleset:896
-#: data/experimental/buildings.ruleset:945
-#: data/multiplayer/buildings.ruleset:881
+#: data/civ2/buildings.ruleset:838 data/default/buildings.ruleset:897
+#: data/experimental/buildings.ruleset:946
+#: data/multiplayer/buildings.ruleset:883
 msgid "Stock Exchange"
 msgstr "Akcijų birža"
 
-#: data/civ2/buildings.ruleset:853 data/default/buildings.ruleset:912
-#: data/experimental/buildings.ruleset:961
-#: data/multiplayer/buildings.ruleset:897
+#: data/civ2/buildings.ruleset:854 data/default/buildings.ruleset:913
+#: data/experimental/buildings.ruleset:962
+#: data/multiplayer/buildings.ruleset:899
 #, fuzzy, no-c-format
 msgid ""
 "Together with a Bank, a Stock Exchange boosts tax and luxury production in a "
@@ -24694,27 +24694,27 @@ msgstr ""
 "Kartu su biblioteka ir universitetu, tyrimų laboratorija mieste mokslo "
 "gamybą padidina 150%."
 
-#: data/civ2/buildings.ruleset:861 data/default/buildings.ruleset:920
-#: data/experimental/buildings.ruleset:969
-#: data/multiplayer/buildings.ruleset:905
+#: data/civ2/buildings.ruleset:862 data/default/buildings.ruleset:921
+#: data/experimental/buildings.ruleset:970
+#: data/multiplayer/buildings.ruleset:907
 msgid "Super Highways"
 msgstr "Automagistralės"
 
-#: data/civ2/buildings.ruleset:876 data/default/buildings.ruleset:935
-#: data/experimental/buildings.ruleset:984
-#: data/multiplayer/buildings.ruleset:920
+#: data/civ2/buildings.ruleset:877 data/default/buildings.ruleset:936
+#: data/experimental/buildings.ruleset:985
+#: data/multiplayer/buildings.ruleset:922
 #, no-c-format
 msgid "Increases trade resources by 50% on all tiles with roads or railroads."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:882 data/default/buildings.ruleset:943
-#: data/experimental/buildings.ruleset:995
-#: data/multiplayer/buildings.ruleset:926
+#: data/civ2/buildings.ruleset:883 data/default/buildings.ruleset:944
+#: data/experimental/buildings.ruleset:996
+#: data/multiplayer/buildings.ruleset:928
 msgid "Supermarket"
 msgstr "Prekybos centras"
 
-#: data/civ2/buildings.ruleset:897 data/default/buildings.ruleset:958
-#: data/experimental/buildings.ruleset:1010
+#: data/civ2/buildings.ruleset:898 data/default/buildings.ruleset:959
+#: data/experimental/buildings.ruleset:1011
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland tile which is being "
@@ -24722,8 +24722,8 @@ msgid ""
 "second time."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:962 data/default/buildings.ruleset:1023
-#: data/experimental/buildings.ruleset:1075
+#: data/civ2/buildings.ruleset:963 data/default/buildings.ruleset:1024
+#: data/experimental/buildings.ruleset:1076
 #, fuzzy
 msgid ""
 "The entire map becomes permanently visible to the player who owns it -- the "
@@ -24735,25 +24735,25 @@ msgstr ""
 "pat visi žaidėjai gali pradėti statyti erdvėlaivio dalis (jei jie turi "
 "išvystę reikiamas technologijas)."
 
-#: data/civ2/buildings.ruleset:971 data/default/buildings.ruleset:1032
-#: data/experimental/buildings.ruleset:1084
-#: data/multiplayer/buildings.ruleset:1013
+#: data/civ2/buildings.ruleset:972 data/default/buildings.ruleset:1033
+#: data/experimental/buildings.ruleset:1085
+#: data/multiplayer/buildings.ruleset:1015
 msgid "A.Smith's Trading Co."
 msgstr "A. Smito prekybos korporacija"
 
-#: data/civ2/buildings.ruleset:985
+#: data/civ2/buildings.ruleset:986
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1073 data/default/buildings.ruleset:1137
-#: data/experimental/buildings.ruleset:1189
-#: data/multiplayer/buildings.ruleset:1114
+#: data/civ2/buildings.ruleset:1074 data/default/buildings.ruleset:1138
+#: data/experimental/buildings.ruleset:1190
+#: data/multiplayer/buildings.ruleset:1116
 msgid "Eiffel Tower"
 msgstr "Eifelio bokštas"
 
-#: data/civ2/buildings.ruleset:1088
+#: data/civ2/buildings.ruleset:1089
 #, fuzzy, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
@@ -24762,8 +24762,8 @@ msgstr ""
 "Jūsų reputacija ir gera valia yra padidinama tarp kitų tautų, kol Jums "
 "priklauso šis stebuklas. Reputacija atgaunama dvigubai greičiau."
 
-#: data/civ2/buildings.ruleset:1149 data/default/buildings.ruleset:1214
-#: data/experimental/buildings.ruleset:1266
+#: data/civ2/buildings.ruleset:1150 data/default/buildings.ruleset:1215
+#: data/experimental/buildings.ruleset:1267
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -24772,15 +24772,15 @@ msgid ""
 "those unhappy about military activity), making each content then happy."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1173 data/default/buildings.ruleset:1239
-#: data/experimental/buildings.ruleset:1291
+#: data/civ2/buildings.ruleset:1174 data/default/buildings.ruleset:1240
+#: data/experimental/buildings.ruleset:1292
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1213 data/default/buildings.ruleset:1280
-#: data/experimental/buildings.ruleset:1332
+#: data/civ2/buildings.ruleset:1214 data/default/buildings.ruleset:1281
+#: data/experimental/buildings.ruleset:1333
 #, fuzzy
 msgid ""
 "Makes two unhappy citizens content in every city (including citizens unhappy "
@@ -24789,15 +24789,15 @@ msgstr ""
 "Kiekviename mieste su šventykla du nelaimingi gyventojai paverčiami "
 "patenkintais."
 
-#: data/civ2/buildings.ruleset:1219 data/default/buildings.ruleset:1286
-#: data/experimental/buildings.ruleset:1338
-#: data/multiplayer/buildings.ruleset:1256
+#: data/civ2/buildings.ruleset:1220 data/default/buildings.ruleset:1287
+#: data/experimental/buildings.ruleset:1339
+#: data/multiplayer/buildings.ruleset:1258
 msgid "King Richard's Crusade"
 msgstr "Karaliaus Ričardo kryžiaus žygis"
 
-#: data/civ2/buildings.ruleset:1233 data/default/buildings.ruleset:1300
-#: data/experimental/buildings.ruleset:1352
-#: data/multiplayer/buildings.ruleset:1270
+#: data/civ2/buildings.ruleset:1234 data/default/buildings.ruleset:1301
+#: data/experimental/buildings.ruleset:1353
+#: data/multiplayer/buildings.ruleset:1272
 #, fuzzy
 msgid ""
 "Adds one extra shield resource on every tile around the city where it is "
@@ -24805,40 +24805,40 @@ msgid ""
 msgstr ""
 "Pakelia mokslo produkciją kiekviename mieste, kuriame yra pastatyta, 50%."
 
-#: data/civ2/buildings.ruleset:1239 data/default/buildings.ruleset:1306
-#: data/experimental/buildings.ruleset:1358
-#: data/multiplayer/buildings.ruleset:1276
+#: data/civ2/buildings.ruleset:1240 data/default/buildings.ruleset:1307
+#: data/experimental/buildings.ruleset:1359
+#: data/multiplayer/buildings.ruleset:1278
 msgid "Leonardo's Workshop"
 msgstr "Leonardo dirbtuvė"
 
-#: data/civ2/buildings.ruleset:1253 data/default/buildings.ruleset:1320
-#: data/experimental/buildings.ruleset:1372
+#: data/civ2/buildings.ruleset:1254 data/default/buildings.ruleset:1321
+#: data/experimental/buildings.ruleset:1373
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Patobulina vieną seną dalinį per ėjimą."
 
-#: data/civ2/buildings.ruleset:1272
+#: data/civ2/buildings.ruleset:1273
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all cities)."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1292
+#: data/civ2/buildings.ruleset:1293
 msgid "Gives all sea units 2 additional movement points."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1315 data/default/buildings.ruleset:1384
-#: data/experimental/buildings.ruleset:1436
-#: data/multiplayer/buildings.ruleset:1354
+#: data/civ2/buildings.ruleset:1316 data/default/buildings.ruleset:1385
+#: data/experimental/buildings.ruleset:1437
+#: data/multiplayer/buildings.ruleset:1356
 msgid "Marco Polo's Embassy"
 msgstr "Marko Polo ambasada"
 
-#: data/civ2/buildings.ruleset:1329 data/default/buildings.ruleset:1398
-#: data/experimental/buildings.ruleset:1450
+#: data/civ2/buildings.ruleset:1330 data/default/buildings.ruleset:1399
+#: data/experimental/buildings.ruleset:1451
 msgid "The player who owns it gets an embassy with all players."
 msgstr "Žaidėjas, kuris  turi ją, gauna ambasadą su visais žaidėjais."
 
-#: data/civ2/buildings.ruleset:1348 data/default/buildings.ruleset:1417
-#: data/experimental/buildings.ruleset:1469
+#: data/civ2/buildings.ruleset:1349 data/default/buildings.ruleset:1418
+#: data/experimental/buildings.ruleset:1470
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city; however, it does not affect citizens made "
@@ -24848,30 +24848,30 @@ msgid ""
 "the number of unhappy citizens made content."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1394
+#: data/civ2/buildings.ruleset:1395
 msgid "Counts as having a Granary in every city."
 msgstr "Kiekvienas miestas gauna svirno teikiamas funkcijas."
 
-#: data/civ2/buildings.ruleset:1414
+#: data/civ2/buildings.ruleset:1415
 #, no-c-format
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1440 data/default/buildings.ruleset:1511
-#: data/experimental/buildings.ruleset:1563
-#: data/multiplayer/buildings.ruleset:1480
+#: data/civ2/buildings.ruleset:1442 data/default/buildings.ruleset:1513
+#: data/experimental/buildings.ruleset:1565
+#: data/multiplayer/buildings.ruleset:1483
 msgid "Statue of Liberty"
 msgstr "Laisvės statula"
 
-#: data/civ2/buildings.ruleset:1461 data/default/buildings.ruleset:1532
-#: data/experimental/buildings.ruleset:1584
-#: data/multiplayer/buildings.ruleset:1501
+#: data/civ2/buildings.ruleset:1463 data/default/buildings.ruleset:1534
+#: data/experimental/buildings.ruleset:1586
+#: data/multiplayer/buildings.ruleset:1504
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzu karo akademija"
 
-#: data/civ2/buildings.ruleset:1476
+#: data/civ2/buildings.ruleset:1478
 #, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
@@ -24879,13 +24879,13 @@ msgid ""
 "to 100%."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1497 data/default/buildings.ruleset:1567
-#: data/experimental/buildings.ruleset:1619
+#: data/civ2/buildings.ruleset:1499 data/default/buildings.ruleset:1569
+#: data/experimental/buildings.ruleset:1621
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "Visi Jūsų daliniai atgauna 2 papildomus gyvybės taškus per ėjimą."
 
-#: data/civ2/buildings.ruleset:1524 data/default/buildings.ruleset:1594
-#: data/experimental/buildings.ruleset:1646
+#: data/civ2/buildings.ruleset:1526 data/default/buildings.ruleset:1596
+#: data/experimental/buildings.ruleset:1648
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
 "reduces the unhappiness caused by aggressively deployed military units owned "
@@ -24894,11 +24894,11 @@ msgid ""
 "wonder has no effect under other governments.)"
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1534
+#: data/civ2/buildings.ruleset:1536
 msgid "Capitalization"
 msgstr "Kapitalizacija"
 
-#: data/civ2/buildings.ruleset:1547
+#: data/civ2/buildings.ruleset:1549
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -25736,7 +25736,7 @@ msgstr ""
 "sraigtasparniams."
 
 #: data/default/buildings.ruleset:89 data/experimental/buildings.ruleset:91
-#: data/multiplayer/buildings.ruleset:111
+#: data/multiplayer/buildings.ruleset:112
 #, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8 and reduces the chance of plague "
@@ -25757,7 +25757,7 @@ msgstr ""
 "elektros atradimo)."
 
 #: data/default/buildings.ruleset:302 data/experimental/buildings.ruleset:304
-#: data/multiplayer/buildings.ruleset:301
+#: data/multiplayer/buildings.ruleset:302
 #, fuzzy, no-c-format
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
@@ -25768,8 +25768,8 @@ msgstr ""
 "padaro vieną nelaimingą gyventoją patenkintu. Taip pat revoliucijos sukėlimo "
 "kaina mieste tampa 4 kartus didesnė."
 
-#: data/default/buildings.ruleset:393 data/experimental/buildings.ruleset:415
-#: data/multiplayer/buildings.ruleset:390
+#: data/default/buildings.ruleset:394 data/experimental/buildings.ruleset:416
+#: data/multiplayer/buildings.ruleset:392
 #, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25782,28 +25782,28 @@ msgid ""
 "with a Power Plant."
 msgstr ""
 
-#: data/default/buildings.ruleset:403 data/default/buildings.ruleset:521
-#: data/default/buildings.ruleset:658 data/default/buildings.ruleset:806
-#: data/experimental/buildings.ruleset:425
-#: data/experimental/buildings.ruleset:570
-#: data/experimental/buildings.ruleset:707
-#: data/experimental/buildings.ruleset:855
-#: data/multiplayer/buildings.ruleset:516
-#: data/multiplayer/buildings.ruleset:645
-#: data/multiplayer/buildings.ruleset:788
+#: data/default/buildings.ruleset:404 data/default/buildings.ruleset:522
+#: data/default/buildings.ruleset:659 data/default/buildings.ruleset:807
+#: data/experimental/buildings.ruleset:426
+#: data/experimental/buildings.ruleset:571
+#: data/experimental/buildings.ruleset:708
+#: data/experimental/buildings.ruleset:856
+#: data/multiplayer/buildings.ruleset:518
+#: data/multiplayer/buildings.ruleset:647
+#: data/multiplayer/buildings.ruleset:790
 msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
 
-#: data/default/buildings.ruleset:427 data/experimental/buildings.ruleset:473
-#: data/multiplayer/buildings.ruleset:422
+#: data/default/buildings.ruleset:428 data/experimental/buildings.ruleset:474
+#: data/multiplayer/buildings.ruleset:424
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
 msgstr "100% padidina mokslo produkciją mieste."
 
-#: data/default/buildings.ruleset:511 data/experimental/buildings.ruleset:560
-#: data/multiplayer/buildings.ruleset:506
+#: data/default/buildings.ruleset:512 data/experimental/buildings.ruleset:561
+#: data/multiplayer/buildings.ruleset:508
 #, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25816,16 +25816,16 @@ msgid ""
 "with a Power Plant."
 msgstr ""
 
-#: data/default/buildings.ruleset:581 data/experimental/buildings.ruleset:630
-#: data/multiplayer/buildings.ruleset:571
+#: data/default/buildings.ruleset:582 data/experimental/buildings.ruleset:631
+#: data/multiplayer/buildings.ruleset:573
 #, no-c-format
 msgid ""
 "Under Despotism the city containing the palace gains a +75% production "
 "bonus, and under Monarchy a +50% production bonus."
 msgstr ""
 
-#: data/default/buildings.ruleset:650 data/experimental/buildings.ruleset:699
-#: data/multiplayer/buildings.ruleset:637
+#: data/default/buildings.ruleset:651 data/experimental/buildings.ruleset:700
+#: data/multiplayer/buildings.ruleset:639
 #, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25836,8 +25836,8 @@ msgid ""
 "pollution."
 msgstr ""
 
-#: data/default/buildings.ruleset:704 data/experimental/buildings.ruleset:753
-#: data/multiplayer/buildings.ruleset:688
+#: data/default/buildings.ruleset:705 data/experimental/buildings.ruleset:754
+#: data/multiplayer/buildings.ruleset:690
 #, no-c-format
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
@@ -25848,8 +25848,8 @@ msgstr ""
 "200% procentų. Kartu  su biblioteka ir universitetu tyrimų laboratorija "
 "mokslo produkciją mieste padidina 450% procentų."
 
-#: data/default/buildings.ruleset:772 data/experimental/buildings.ruleset:821
-#: data/multiplayer/buildings.ruleset:754
+#: data/default/buildings.ruleset:773 data/experimental/buildings.ruleset:822
+#: data/multiplayer/buildings.ruleset:756
 #, fuzzy
 msgid ""
 "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
@@ -25859,8 +25859,8 @@ msgstr ""
 "Leidžia miestui užaugti didesniam nei 12. Miestui užaugti virš 8 pirmiausia "
 "reikalingas akvedukas."
 
-#: data/default/buildings.ruleset:796 data/experimental/buildings.ruleset:845
-#: data/multiplayer/buildings.ruleset:778
+#: data/default/buildings.ruleset:797 data/experimental/buildings.ruleset:846
+#: data/multiplayer/buildings.ruleset:780
 #, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25873,24 +25873,24 @@ msgid ""
 "in that city."
 msgstr ""
 
-#: data/default/buildings.ruleset:1003
-#: data/experimental/buildings.ruleset:1055
-#: data/multiplayer/buildings.ruleset:986
+#: data/default/buildings.ruleset:1004
+#: data/experimental/buildings.ruleset:1056
+#: data/multiplayer/buildings.ruleset:988
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
 msgstr "Kartu su biblioteka universitetas padidina mokslą mieste 250%."
 
-#: data/default/buildings.ruleset:1046
-#: data/experimental/buildings.ruleset:1098
+#: data/default/buildings.ruleset:1047
+#: data/experimental/buildings.ruleset:1099
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
 msgstr ""
 
-#: data/default/buildings.ruleset:1106
-#: data/experimental/buildings.ruleset:1158
+#: data/default/buildings.ruleset:1107
+#: data/experimental/buildings.ruleset:1159
 #, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
@@ -25900,8 +25900,8 @@ msgstr ""
 "Stulbinantis technologinis pasiekimas vieną nelaimingą gyventoją kiekviename "
 "mieste padaro patenkintu."
 
-#: data/default/buildings.ruleset:1152
-#: data/experimental/buildings.ruleset:1204
+#: data/default/buildings.ruleset:1153
+#: data/experimental/buildings.ruleset:1205
 #, fuzzy, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -25909,28 +25909,28 @@ msgstr ""
 "Jūsų reputacija ir gera valia yra padidinama tarp kitų tautų, kol Jums "
 "priklauso šis stebuklas. Reputacija atgaunama dvigubai greičiau."
 
-#: data/default/buildings.ruleset:1260
-#: data/experimental/buildings.ruleset:1312
+#: data/default/buildings.ruleset:1261
+#: data/experimental/buildings.ruleset:1313
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
 msgstr "Pakelia mokslo produkciją kiekviename mieste su universitetu 100%."
 
-#: data/default/buildings.ruleset:1340
-#: data/experimental/buildings.ruleset:1392
+#: data/default/buildings.ruleset:1341
+#: data/experimental/buildings.ruleset:1393
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
 msgstr ""
 
-#: data/default/buildings.ruleset:1361
-#: data/experimental/buildings.ruleset:1413
+#: data/default/buildings.ruleset:1362
+#: data/experimental/buildings.ruleset:1414
 msgid "Gives all your sea units 2 additional movement points."
 msgstr ""
 
-#: data/default/buildings.ruleset:1464
-#: data/experimental/buildings.ruleset:1516
+#: data/default/buildings.ruleset:1465
+#: data/experimental/buildings.ruleset:1517
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -25938,30 +25938,30 @@ msgid ""
 "famine.  Cumulative with Granary."
 msgstr ""
 
-#: data/default/buildings.ruleset:1486
-#: data/experimental/buildings.ruleset:1538
+#: data/default/buildings.ruleset:1487
+#: data/experimental/buildings.ruleset:1539
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%. "
 msgstr ""
 "Pakelia mokslo produkciją kiekviename mieste su tyrimų laboratorija 100%."
 
-#: data/default/buildings.ruleset:1546
-#: data/experimental/buildings.ruleset:1598
+#: data/default/buildings.ruleset:1548
+#: data/experimental/buildings.ruleset:1600
 msgid ""
 "All your new military land units start at the first veteran level. The "
 "chance of a land unit getting the next veteran level after a battle "
 "increases by half."
 msgstr ""
 
-#: data/default/buildings.ruleset:1607
-#: data/experimental/buildings.ruleset:1659
-#: data/multiplayer/buildings.ruleset:1568
+#: data/default/buildings.ruleset:1609
+#: data/experimental/buildings.ruleset:1661
+#: data/multiplayer/buildings.ruleset:1571
 msgid "Coinage"
 msgstr "Monetų kalimas"
 
-#: data/default/buildings.ruleset:1628
-#: data/experimental/buildings.ruleset:1680
-#: data/multiplayer/buildings.ruleset:1581
+#: data/default/buildings.ruleset:1630
+#: data/experimental/buildings.ruleset:1682
+#: data/multiplayer/buildings.ruleset:1584
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -26251,33 +26251,33 @@ msgstr ""
 "AWACS (Airborne Warning and Control System) yra lėktuvas su specialiu "
 "radaru, kuris leidžia nustatyti priešo dalinių padėtį didelėje teritorijoje,"
 
-#: data/experimental/buildings.ruleset:378
+#: data/experimental/buildings.ruleset:379
 #, fuzzy
 msgid "Hospital"
 msgstr "Sostinė:"
 
-#: data/experimental/buildings.ruleset:392
+#: data/experimental/buildings.ruleset:393
 msgid ""
 "A Hospital is used to treat the ill, and sometimes for medical research. A "
 "city with a Hospital is less like to suffer from plagues."
 msgstr ""
 
-#: data/experimental/buildings.ruleset:434
+#: data/experimental/buildings.ruleset:435
 #, fuzzy
 msgid "Genetic Lab"
 msgstr "Veteranas"
 
-#: data/experimental/buildings.ruleset:449
+#: data/experimental/buildings.ruleset:450
 #, no-c-format
 msgid ""
 "In a Genetic Laboratory medicaments can be researched. The possibility for "
 "plagues within the city is reduced.\n"
-"A Genetic Laboratory allows the genetic optimisation of plants and animals. "
+"A Genetic Laboratory allows the genetic optimization of plants and animals. "
 "The food output is increased by 25% if the city size exceeds 20."
 msgstr ""
 
-#: data/experimental/buildings.ruleset:516
-#: data/experimental/buildings.ruleset:987
+#: data/experimental/buildings.ruleset:517
+#: data/experimental/buildings.ruleset:988
 msgid ""
 "If a metropolis (city size > 30) has a Mass Transit and a Super Highway the "
 "city radius is further increased."
@@ -26331,17 +26331,17 @@ msgid "Big Land"
 msgstr "Žemė"
 
 #: data/multiplayer/buildings.ruleset:77
-msgid "Amphitheatre"
+msgid "Amphitheater"
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:91
+#: data/multiplayer/buildings.ruleset:92
 #, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
 msgstr "Linksmina gyventojus padarydama 3 nelaimingus žmones patenkintais."
 
-#: data/multiplayer/buildings.ruleset:324
+#: data/multiplayer/buildings.ruleset:325
 #, no-c-format
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
@@ -26349,14 +26349,14 @@ msgid ""
 "ship parts."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:400
+#: data/multiplayer/buildings.ruleset:402
 msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time. A city can only build a Hydro Plant "
 "if it is next to (or on) a Mountain or River tile."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:591
+#: data/multiplayer/buildings.ruleset:593
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 4 under Democracy and 2 under Republic -- in other words, it "
@@ -26364,15 +26364,15 @@ msgid ""
 "improvement has no effect under other governments."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:813
-#: data/multiplayer/buildings.ruleset:848
-#: data/multiplayer/buildings.ruleset:874
+#: data/multiplayer/buildings.ruleset:815
+#: data/multiplayer/buildings.ruleset:850
+#: data/multiplayer/buildings.ruleset:876
 msgid ""
 "Before you can build any spaceship parts, you must build the Apollo Program. "
 "For any city to build a spaceship part, it needs to have a Factory."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:941
+#: data/multiplayer/buildings.ruleset:943
 #, no-c-format
 msgid ""
 "Increases the food resources by 100% on each farmland tile which is being "
@@ -26380,19 +26380,19 @@ msgid ""
 "second time."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1006
+#: data/multiplayer/buildings.ruleset:1008
 msgid ""
 "Allows you to start building spaceship parts in cities with factories "
 "(assuming you have researched the necessary technologies)."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1027
+#: data/multiplayer/buildings.ruleset:1029
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities on the same continent."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1087
+#: data/multiplayer/buildings.ruleset:1089
 #, fuzzy
 msgid ""
 "This stunning technological achievement makes two citizens happy in all "
@@ -26401,68 +26401,68 @@ msgstr ""
 "Šis pritrenkiantis technologinis išradimas padaro vieną nelaimingą pilietį "
 "laimingu visuose miestuose."
 
-#: data/multiplayer/buildings.ruleset:1108
+#: data/multiplayer/buildings.ruleset:1110
 msgid ""
 " Gives two immediate technology advances the first time it is built by each "
 "player."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1129
+#: data/multiplayer/buildings.ruleset:1131
 #, no-c-format
 msgid ""
 "Each city on the same continent may support one unit free of shield upkeep."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1150
+#: data/multiplayer/buildings.ruleset:1152
 #, no-c-format
 msgid "Reduces corruption by 50% in all cities on the same continent."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1169
+#: data/multiplayer/buildings.ruleset:1171
 #, fuzzy
 msgid "Works as a City Wall in all your cities on the same continent."
 msgstr "Veikia kaip miesto sienos kiekviename mieste."
 
-#: data/multiplayer/buildings.ruleset:1188
+#: data/multiplayer/buildings.ruleset:1190
 #, fuzzy
 msgid "Makes two content citizens happy in every city on the same continent."
 msgstr "Kiekviename mieste du nelaimingi gyventojai paverčiami patenkintais."
 
-#: data/multiplayer/buildings.ruleset:1208
+#: data/multiplayer/buildings.ruleset:1210
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent. (This "
 "reduces pollution and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1230
+#: data/multiplayer/buildings.ruleset:1232
 #, fuzzy, no-c-format
 msgid ""
 "Boosts science production by 100% in every city on the same continent that "
 "has a University."
 msgstr "Pakelia mokslo produkciją kiekviename mieste su universitetu 100%."
 
-#: data/multiplayer/buildings.ruleset:1250
+#: data/multiplayer/buildings.ruleset:1252
 #, fuzzy
 msgid "Makes two unhappy citizens content in every city on the same continent."
 msgstr "Kiekviename mieste du nelaimingi gyventojai paverčiami patenkintais."
 
-#: data/multiplayer/buildings.ruleset:1290
+#: data/multiplayer/buildings.ruleset:1292
 #, fuzzy
 msgid ""
 "Upgrades two obsolete units inside cities on the same continent per game "
 "turn."
 msgstr "Patobulina vieną seną dalinį per ėjimą."
 
-#: data/multiplayer/buildings.ruleset:1331
+#: data/multiplayer/buildings.ruleset:1333
 msgid "All your new sea units start at the first veteran level."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1369
+#: data/multiplayer/buildings.ruleset:1371
 #, no-c-format
 msgid "Increases trade output by 40% in all cities on the same continent."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1389
+#: data/multiplayer/buildings.ruleset:1391
 msgid ""
 "Counts as having a Cathedral in each of your cities on the same continent. "
 "This makes 3 unhappy citizens content in each city. The discovery of "
@@ -26471,7 +26471,7 @@ msgid ""
 "Cathedral, reducing by one the number of unhappy citizens made content."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1413
+#: data/multiplayer/buildings.ruleset:1415
 #, fuzzy
 msgid ""
 "Makes two of your unhappy citizens content in every city with a temple on "
@@ -26480,19 +26480,19 @@ msgstr ""
 "Kiekviename mieste su šventykla du nelaimingi gyventojai paverčiami "
 "patenkintais."
 
-#: data/multiplayer/buildings.ruleset:1434
+#: data/multiplayer/buildings.ruleset:1436
 #, no-c-format
 msgid ""
 "The city where this wonder is built will experience rapture growth when "
 "celebrating."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1440
+#: data/multiplayer/buildings.ruleset:1442
 #, fuzzy
 msgid "The Internet"
 msgstr "Vidiniai"
 
-#: data/multiplayer/buildings.ruleset:1454
+#: data/multiplayer/buildings.ruleset:1456
 #, fuzzy
 msgid ""
 "Boosts science production in each city on the same continent with a Research "
@@ -26500,21 +26500,21 @@ msgid ""
 msgstr ""
 "Pakelia mokslo produkciją kiekviename mieste su tyrimų laboratorija 100%."
 
-#: data/multiplayer/buildings.ruleset:1515
+#: data/multiplayer/buildings.ruleset:1518
 msgid ""
 "All your new ground units produced in cities on the same continent start at "
 "the first veteran level. The chance of a unit getting the next veteran level "
 "after a battle increases by half."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1537
+#: data/multiplayer/buildings.ruleset:1540
 msgid ""
 "Creates a world senate that may prevent declarations of war in some "
 "circumstances. If any player's city is in revolt for more than two turns, "
 "that player's government falls."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1558
+#: data/multiplayer/buildings.ruleset:1561
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
 "reduces the unhappiness caused by aggressively deployed military units owned "
@@ -27832,12 +27832,12 @@ msgid ""
 "Celtic kingdom was conquered by the Romans in approximately 15 BC, and later "
 "became Noricum, a Roman province, in the mid 1st century AD - an area which "
 "mostly encloses today's Austria. In 788 AD, the Frankish king Charlemagne "
-"conquered the area, and introduced Christianity. Under the the native "
-"Habsburg dynasty, Austria became one of the great powers of Europe. In 1867, "
-"the Austrian Empire was reformed into Austria-Hungary. The Austro-Hungarian "
+"conquered the area, and introduced Christianity. Under the native Habsburg "
+"dynasty, Austria became one of the great powers of Europe. In 1867, the "
+"Austrian Empire was reformed into Austria-Hungary. The Austro-Hungarian "
 "Empire collapsed in 1918 with the end of World War I. After establishing the "
-"First Austrian Republic in 1919, Austria joined  Nazi Germany in the "
-"Anschluss in 1938. This lasted until the end of World  War II in 1945, after "
+"First Austrian Republic in 1919, Austria joined Nazi Germany in the "
+"Anschluss in 1938. This lasted until the end of World War II in 1945, after "
 "which Austria was occupied by the Allies."
 msgstr ""
 
@@ -29286,7 +29286,7 @@ msgstr "?plural:Kanadiečiai"
 #: data/nation/chananean.ruleset:6
 msgid ""
 "Reports of chynocephaly (having the head of a dog or jackal) can be traced "
-"to Greek Antiquity. The physician Ctesias and the traveller Megasthenes "
+"to Greek Antiquity. The physician Ctesias and the traveler Megasthenes "
 "placed them in India. In the middle ages, Giovanni da Pian and Marco Polo "
 "made reference to them, while the theologian Ratramnus debated whether they "
 "should be considered human or not. Various stories have placed them in "
@@ -31157,7 +31157,7 @@ msgstr "?plural:Hetitai"
 #: data/nation/hittite.ruleset:6
 msgid ""
 "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were "
-"the first civilisation to discover iron working. At its height, they "
+"the first civilization to discover iron working. At its height, they "
 "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 "Babylon."
 msgstr ""
@@ -32005,7 +32005,7 @@ msgid ""
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
 "1975 the communist Pathet Lao established a strict socialist regime. "
 "However, in 1986 the liberalization and a gradual return to private "
-"enterpise started."
+"enterprise started."
 msgstr ""
 
 #: data/nation/latvian.ruleset:3
@@ -33573,7 +33573,7 @@ msgid ""
 "Although Occitania never had a real political unity (it consisted of several "
 "counties and duchies in today's southern France), its culture enjoyed great "
 "prestige all over Europe during the 11th, 12th and 13th centuries, Occitan "
-"being the language of troubadours. Its religous freedom allowed the "
+"being the language of troubadours. Its religious freedom allowed the "
 "flourishing of Catharism, which was declared heretic by the Pope, and the "
 "French kings took advantage of the subsequent crusade to annex its territory."
 msgstr ""
@@ -35108,8 +35108,8 @@ msgstr "?plural:Pietų afrikiečiai"
 
 #: data/nation/southamerican.ruleset:6
 msgid ""
-"The Union of South American Nations was formed in 2008, modelled after the "
-"European Union, but panamericanism has already existed since the the 19th "
+"The Union of South American Nations was formed in 2008, modeled after the "
+"European Union, but panamericanism has already existed since the 19th "
 "century."
 msgstr ""
 

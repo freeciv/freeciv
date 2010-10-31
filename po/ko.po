@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 01:26+0000\n"
+"POT-Creation-Date: 2010-10-31 13:20+0000\n"
 "PO-Revision-Date: 2007-12-10 21:13+0900\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -498,7 +498,7 @@ msgstr ""
 
 #. TRANS: "Vote" as a process
 #: common/events.c:167
-msgid "Vote cancelled"
+msgid "Vote canceled"
 msgstr ""
 
 #: common/events.c:168
@@ -1551,11 +1551,11 @@ msgstr ""
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
-"will answer in force in %d turn and expect you to honour your alliance with "
+"will answer in force in %d turn and expect you to honor your alliance with "
 "us and do likewise!"
 msgid_plural ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
-"will answer in force in %d turns and expect you to honour your alliance with "
+"will answer in force in %d turns and expect you to honor your alliance with "
 "us and do likewise!"
 msgstr[0] ""
 msgstr[1] ""
@@ -1596,10 +1596,10 @@ msgstr ""
 #: ai/advdiplomacy.c:1325
 #, c-format
 msgid ""
-"*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
-"Hold on - we are coming!"
+"*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
+"on - we are coming!"
 msgid_plural ""
-"*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
+"*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
 msgstr[1] ""
@@ -1607,10 +1607,10 @@ msgstr[1] ""
 #: ai/advdiplomacy.c:1334
 #, c-format
 msgid ""
-"*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
+"*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgid_plural ""
-"*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
+"*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 msgstr[1] ""
@@ -1658,7 +1658,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1615
 #, c-format
 msgid ""
-"*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
+"*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
@@ -1672,7 +1672,7 @@ msgstr ""
 
 #: ai/advdiplomacy.c:1660
 #, c-format
-msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
+msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr ""
 
 #: ai/advdiplomacy.c:1675
@@ -1685,8 +1685,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1835
 #, c-format
 msgid ""
-"*%s (AI)* We have been savagely attacked by %s, and we need your help! "
-"Honour our glorious alliance and your name will never be forgotten!"
+"*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
+"our glorious alliance and your name will never be forgotten!"
 msgstr ""
 
 #. TRANS: Further information about option will follow.
@@ -2289,7 +2289,7 @@ msgstr "%s에 오염이 근접했습니다"
 
 #: server/cityturn.c:2097
 #, c-format
-msgid "Celebrations in your honour in %s."
+msgid "Celebrations in your honor in %s."
 msgstr ""
 
 #: server/cityturn.c:2103
@@ -3850,7 +3850,7 @@ msgstr ""
 
 #: server/edithand.c:161
 #, c-format
-msgid " *** Edit mode cancelled by %s. *** "
+msgid " *** Edit mode canceled by %s. *** "
 msgstr ""
 
 #: server/edithand.c:312 server/edithand.c:346 server/edithand.c:373
@@ -5691,7 +5691,7 @@ msgstr ""
 #: server/settings.c:1207
 msgid ""
 "If you give an invention via an treaty this setting defines the chance that "
-"the invention is lost for your civilisation during the transfer."
+"the invention is lost for your civilization during the transfer."
 msgstr ""
 
 #: server/settings.c:1215
@@ -7585,13 +7585,13 @@ msgstr ""
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2414
 #, c-format
-msgid "%s has cancelled the vote \"%s\" (number %d)."
+msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr ""
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2421
 #, c-format
-msgid "The vote \"%s\" (number %d) has been cancelled."
+msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr ""
 
 #: server/stdinhand.c:2442
@@ -7949,7 +7949,7 @@ msgstr ""
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:3905
-msgid "Your new vote cancelled your previous vote."
+msgid "Your new vote canceled your previous vote."
 msgstr ""
 
 #. TRANS: "vote" as a process
@@ -8415,7 +8415,7 @@ msgstr ""
 
 #: server/unithand.c:996
 #, c-format
-msgid "Your %s was shot down by SDI defences, what a waste."
+msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr ""
 
 #: server/unithand.c:999
@@ -16431,7 +16431,7 @@ msgstr "주식"
 #: client/gui-sdl/citydlg.c:3038 data/civ1/buildings.ruleset:250
 #: data/civ2/buildings.ruleset:304 data/default/buildings.ruleset:331
 #: data/experimental/buildings.ruleset:333
-#: data/multiplayer/buildings.ruleset:331
+#: data/multiplayer/buildings.ruleset:332
 msgid "Granary"
 msgstr "곡창"
 
@@ -17194,7 +17194,7 @@ msgstr "?blistbegin:하고 "
 #: client/gui-sdl/mapview.c:623 data/civ1/buildings.ruleset:69
 #: data/civ2/buildings.ruleset:96 data/default/buildings.ruleset:119
 #: data/experimental/buildings.ruleset:121
-#: data/multiplayer/buildings.ruleset:141
+#: data/multiplayer/buildings.ruleset:142
 msgid "Barracks"
 msgstr "군영"
 
@@ -17207,7 +17207,7 @@ msgstr "공항"
 #: client/gui-sdl/mapview.c:641 data/civ1/buildings.ruleset:162
 #: data/civ2/buildings.ruleset:193 data/default/buildings.ruleset:219
 #: data/experimental/buildings.ruleset:221
-#: data/multiplayer/buildings.ruleset:241
+#: data/multiplayer/buildings.ruleset:242
 msgid "City Walls"
 msgstr "성벽"
 
@@ -19549,7 +19549,7 @@ msgid ""
 "around the city is being used.  You can assign your citizens to the land, or "
 "they can be specialists that contribute to your civilization in other ways.  "
 "Especially at the start of the game, care should be taken to ensure that the "
-"citizens are employed so that they maximise growth, trade and production."
+"citizens are employed so that they maximize growth, trade and production."
 msgstr ""
 
 #: data/helpdata.txt:166
@@ -19562,7 +19562,7 @@ msgstr ""
 #: data/helpdata.txt:171
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
-"central tile of the land, the citizens will be rearranged to maximise food "
+"central tile of the land, the citizens will be rearranged to maximize food "
 "production."
 msgstr ""
 
@@ -19570,7 +19570,7 @@ msgstr ""
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
-"so is labelled with a lightning bolt.  Take care not to let this happen to "
+"so is labeled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
 
@@ -21783,7 +21783,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:28 data/civ2/buildings.ruleset:54
 #: data/default/buildings.ruleset:75 data/experimental/buildings.ruleset:77
-#: data/multiplayer/buildings.ruleset:97
+#: data/multiplayer/buildings.ruleset:98
 msgid "Aqueduct"
 msgstr "수로"
 
@@ -21793,13 +21793,13 @@ msgstr "도시가 8 크기보다 크게 성장하기를 허락합니다."
 
 #: data/civ1/buildings.ruleset:47 data/civ2/buildings.ruleset:74
 #: data/default/buildings.ruleset:97 data/experimental/buildings.ruleset:99
-#: data/multiplayer/buildings.ruleset:119
+#: data/multiplayer/buildings.ruleset:120
 msgid "Bank"
 msgstr "은행"
 
 #: data/civ1/buildings.ruleset:63 data/civ2/buildings.ruleset:90
 #: data/default/buildings.ruleset:113 data/experimental/buildings.ruleset:115
-#: data/multiplayer/buildings.ruleset:135
+#: data/multiplayer/buildings.ruleset:136
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
@@ -21812,7 +21812,7 @@ msgstr ""
 #, no-c-format
 msgid ""
 "With a Barracks, each new unit built in a city will automatically have "
-"Veteran status, which means that its attack and defence strengths are "
+"Veteran status, which means that its attack and defense strengths are "
 "increased by 50%.  Also, damaged units which stay in town for one full turn "
 "without moving are completely restored."
 msgstr ""
@@ -21822,19 +21822,19 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:93 data/civ2/buildings.ruleset:120
 #: data/default/buildings.ruleset:144 data/experimental/buildings.ruleset:146
-#: data/multiplayer/buildings.ruleset:166
+#: data/multiplayer/buildings.ruleset:167
 msgid "Barracks II"
 msgstr "군영2"
 
 #: data/civ1/buildings.ruleset:117 data/civ2/buildings.ruleset:144
 #: data/default/buildings.ruleset:169 data/experimental/buildings.ruleset:171
-#: data/multiplayer/buildings.ruleset:191
+#: data/multiplayer/buildings.ruleset:192
 msgid "Barracks III"
 msgstr "군영3"
 
 #: data/civ1/buildings.ruleset:141 data/civ2/buildings.ruleset:168
 #: data/default/buildings.ruleset:193 data/experimental/buildings.ruleset:195
-#: data/multiplayer/buildings.ruleset:215
+#: data/multiplayer/buildings.ruleset:216
 msgid "Cathedral"
 msgstr "대성당"
 
@@ -21850,7 +21850,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:177
 msgid ""
-"City Walls make it easier to defend a city.  They triple the defence "
+"City Walls make it easier to defend a city.  They triple the defense "
 "strength of units within the city against land, sea, and helicopter units.  "
 "They are ineffective against non-helicopter airborne units as well as "
 "Artillery.  City Walls also prevent the loss of population which occurs when "
@@ -21877,7 +21877,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:206 data/civ2/buildings.ruleset:259
 #: data/default/buildings.ruleset:287 data/experimental/buildings.ruleset:289
-#: data/multiplayer/buildings.ruleset:286
+#: data/multiplayer/buildings.ruleset:287
 msgid "Courthouse"
 msgstr "법원"
 
@@ -21894,7 +21894,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:229 data/civ2/buildings.ruleset:283
 #: data/default/buildings.ruleset:310 data/experimental/buildings.ruleset:312
-#: data/multiplayer/buildings.ruleset:309
+#: data/multiplayer/buildings.ruleset:310
 msgid "Factory"
 msgstr "공장"
 
@@ -21910,7 +21910,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:264 data/civ2/buildings.ruleset:318
 #: data/default/buildings.ruleset:345 data/experimental/buildings.ruleset:347
-#: data/multiplayer/buildings.ruleset:345
+#: data/multiplayer/buildings.ruleset:346
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
@@ -21920,13 +21920,13 @@ msgstr ""
 "다. 이것은 도시가 더 빠르게 성장하고 기아현상을 더 쉽게 견디게 도와줄 것입니"
 "다."
 
-#: data/civ1/buildings.ruleset:274 data/civ2/buildings.ruleset:349
-#: data/default/buildings.ruleset:376 data/experimental/buildings.ruleset:398
-#: data/multiplayer/buildings.ruleset:373
+#: data/civ1/buildings.ruleset:274 data/civ2/buildings.ruleset:350
+#: data/default/buildings.ruleset:377 data/experimental/buildings.ruleset:399
+#: data/multiplayer/buildings.ruleset:375
 msgid "Hydro Plant"
 msgstr "수력 발전소"
 
-#: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:366
+#: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:367
 #, fuzzy, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
@@ -21949,39 +21949,39 @@ msgid ""
 "tile."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:305 data/civ2/buildings.ruleset:380
-#: data/default/buildings.ruleset:412 data/experimental/buildings.ruleset:458
-#: data/multiplayer/buildings.ruleset:407
+#: data/civ1/buildings.ruleset:305 data/civ2/buildings.ruleset:381
+#: data/default/buildings.ruleset:413 data/experimental/buildings.ruleset:459
+#: data/multiplayer/buildings.ruleset:409
 msgid "Library"
 msgstr "도서관"
 
-#: data/civ1/buildings.ruleset:320 data/civ2/buildings.ruleset:395
+#: data/civ1/buildings.ruleset:320 data/civ2/buildings.ruleset:396
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "도시 안의 과학 생산물을 50% 로 증가시킵니다."
 
-#: data/civ1/buildings.ruleset:325 data/civ2/buildings.ruleset:400
-#: data/default/buildings.ruleset:432 data/experimental/buildings.ruleset:478
-#: data/multiplayer/buildings.ruleset:427
+#: data/civ1/buildings.ruleset:325 data/civ2/buildings.ruleset:401
+#: data/default/buildings.ruleset:433 data/experimental/buildings.ruleset:479
+#: data/multiplayer/buildings.ruleset:429
 msgid "Marketplace"
 msgstr "시장"
 
-#: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:415
-#: data/default/buildings.ruleset:447 data/experimental/buildings.ruleset:493
-#: data/multiplayer/buildings.ruleset:442
+#: data/civ1/buildings.ruleset:340 data/civ2/buildings.ruleset:416
+#: data/default/buildings.ruleset:448 data/experimental/buildings.ruleset:494
+#: data/multiplayer/buildings.ruleset:444
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "도시 안의 복지와 세금의 생산량을 50% 로 증가시킵니다."
 
-#: data/civ1/buildings.ruleset:345 data/civ2/buildings.ruleset:420
-#: data/default/buildings.ruleset:452 data/experimental/buildings.ruleset:498
-#: data/multiplayer/buildings.ruleset:447
+#: data/civ1/buildings.ruleset:345 data/civ2/buildings.ruleset:421
+#: data/default/buildings.ruleset:453 data/experimental/buildings.ruleset:499
+#: data/multiplayer/buildings.ruleset:449
 msgid "Mass Transit"
 msgstr "대량 수송"
 
-#: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:434
-#: data/default/buildings.ruleset:466 data/experimental/buildings.ruleset:512
-#: data/multiplayer/buildings.ruleset:461
+#: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:435
+#: data/default/buildings.ruleset:467 data/experimental/buildings.ruleset:513
+#: data/multiplayer/buildings.ruleset:463
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
@@ -21989,15 +21989,15 @@ msgstr ""
 "인구로부터 발생되는 공해를 무효화시킵니다. 간단히 인구는 도시안에 발생되는 공"
 "해에 영향을 가지지 않습니다."
 
-#: data/civ1/buildings.ruleset:366 data/civ2/buildings.ruleset:441
-#: data/default/buildings.ruleset:473 data/experimental/buildings.ruleset:522
-#: data/multiplayer/buildings.ruleset:468
+#: data/civ1/buildings.ruleset:366 data/civ2/buildings.ruleset:442
+#: data/default/buildings.ruleset:474 data/experimental/buildings.ruleset:523
+#: data/multiplayer/buildings.ruleset:470
 msgid "Mfg. Plant"
 msgstr "제조 공장"
 
-#: data/civ1/buildings.ruleset:382 data/civ2/buildings.ruleset:457
-#: data/default/buildings.ruleset:489 data/experimental/buildings.ruleset:538
-#: data/multiplayer/buildings.ruleset:484
+#: data/civ1/buildings.ruleset:382 data/civ2/buildings.ruleset:458
+#: data/default/buildings.ruleset:490 data/experimental/buildings.ruleset:539
+#: data/multiplayer/buildings.ruleset:486
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
@@ -22005,13 +22005,13 @@ msgid ""
 msgstr ""
 "공장과 함께 있는 제조공장은, 도시안에서 보호 생산을 100% 로 증가시킵니다."
 
-#: data/civ1/buildings.ruleset:388 data/civ2/buildings.ruleset:463
-#: data/default/buildings.ruleset:495 data/experimental/buildings.ruleset:544
-#: data/multiplayer/buildings.ruleset:490
+#: data/civ1/buildings.ruleset:388 data/civ2/buildings.ruleset:464
+#: data/default/buildings.ruleset:496 data/experimental/buildings.ruleset:545
+#: data/multiplayer/buildings.ruleset:492
 msgid "Nuclear Plant"
 msgstr "원자력 발전소"
 
-#: data/civ1/buildings.ruleset:404 data/civ2/buildings.ruleset:479
+#: data/civ1/buildings.ruleset:404 data/civ2/buildings.ruleset:480
 #, fuzzy, no-c-format
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
@@ -22032,15 +22032,15 @@ msgstr ""
 msgid "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:420 data/civ2/buildings.ruleset:516
-#: data/default/buildings.ruleset:553 data/experimental/buildings.ruleset:602
-#: data/multiplayer/buildings.ruleset:543
+#: data/civ1/buildings.ruleset:420 data/civ2/buildings.ruleset:517
+#: data/default/buildings.ruleset:554 data/experimental/buildings.ruleset:603
+#: data/multiplayer/buildings.ruleset:545
 msgid "Palace"
 msgstr "궁전"
 
-#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:531
-#: data/default/buildings.ruleset:568 data/experimental/buildings.ruleset:617
-#: data/multiplayer/buildings.ruleset:558
+#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:532
+#: data/default/buildings.ruleset:569 data/experimental/buildings.ruleset:618
+#: data/multiplayer/buildings.ruleset:560
 #, fuzzy
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
@@ -22058,22 +22058,22 @@ msgstr ""
 "오. 당신의 지금의 수도를 잃어버리는 것은 또한 아마도 당신이 우주선을 가진 것"
 "을 잃게 될 것입니다."
 
-#: data/civ1/buildings.ruleset:442 data/civ2/buildings.ruleset:538
-#: data/default/buildings.ruleset:575 data/experimental/buildings.ruleset:624
-#: data/multiplayer/buildings.ruleset:565
+#: data/civ1/buildings.ruleset:442 data/civ2/buildings.ruleset:539
+#: data/default/buildings.ruleset:576 data/experimental/buildings.ruleset:625
+#: data/multiplayer/buildings.ruleset:567
 msgid ""
 "Take good care of your capital, as its loss may result in your empire "
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:449 data/civ2/buildings.ruleset:589
-#: data/default/buildings.ruleset:634 data/experimental/buildings.ruleset:683
-#: data/multiplayer/buildings.ruleset:621
+#: data/civ1/buildings.ruleset:449 data/civ2/buildings.ruleset:590
+#: data/default/buildings.ruleset:635 data/experimental/buildings.ruleset:684
+#: data/multiplayer/buildings.ruleset:623
 msgid "Power Plant"
 msgstr "발전소"
 
-#: data/civ1/buildings.ruleset:465 data/civ2/buildings.ruleset:605
+#: data/civ1/buildings.ruleset:465 data/civ2/buildings.ruleset:606
 #, fuzzy, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -22088,15 +22088,15 @@ msgstr ""
 "도시는 발전소, 수력 발전소, 또는 원자력 발전소중, 오직 하나만 가질 수 있습니"
 "다."
 
-#: data/civ1/buildings.ruleset:477 data/civ2/buildings.ruleset:617
-#: data/default/buildings.ruleset:667 data/experimental/buildings.ruleset:716
-#: data/multiplayer/buildings.ruleset:651
+#: data/civ1/buildings.ruleset:477 data/civ2/buildings.ruleset:618
+#: data/default/buildings.ruleset:668 data/experimental/buildings.ruleset:717
+#: data/multiplayer/buildings.ruleset:653
 msgid "Recycling Center"
 msgstr "재활용 센터"
 
-#: data/civ1/buildings.ruleset:492 data/civ2/buildings.ruleset:632
-#: data/default/buildings.ruleset:682 data/experimental/buildings.ruleset:731
-#: data/multiplayer/buildings.ruleset:666
+#: data/civ1/buildings.ruleset:492 data/civ2/buildings.ruleset:633
+#: data/default/buildings.ruleset:683 data/experimental/buildings.ruleset:732
+#: data/multiplayer/buildings.ruleset:668
 #, no-c-format
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
@@ -22105,9 +22105,9 @@ msgstr ""
 "재활용 센터를 세우면, 도시 안의 생산으로 발생되는 공해의 양을 66% 로 줄입니"
 "다."
 
-#: data/civ1/buildings.ruleset:498 data/civ2/buildings.ruleset:682
-#: data/default/buildings.ruleset:732 data/experimental/buildings.ruleset:781
-#: data/multiplayer/buildings.ruleset:716
+#: data/civ1/buildings.ruleset:498 data/civ2/buildings.ruleset:683
+#: data/default/buildings.ruleset:733 data/experimental/buildings.ruleset:782
+#: data/multiplayer/buildings.ruleset:718
 msgid "SDI Defense"
 msgstr "SDI 방위 시스템"
 
@@ -22123,15 +22123,15 @@ msgstr ""
 "를 공격할 때(또는 고의적으로 폭발할 때 입니다.) 격추시키고, 간단히 영향이 없"
 "게 합니다."
 
-#: data/civ1/buildings.ruleset:520 data/civ2/buildings.ruleset:756
-#: data/default/buildings.ruleset:812 data/experimental/buildings.ruleset:861
-#: data/multiplayer/buildings.ruleset:794
+#: data/civ1/buildings.ruleset:520 data/civ2/buildings.ruleset:757
+#: data/default/buildings.ruleset:813 data/experimental/buildings.ruleset:862
+#: data/multiplayer/buildings.ruleset:796
 msgid "Space Component"
 msgstr "우주 부품"
 
-#: data/civ1/buildings.ruleset:534 data/civ2/buildings.ruleset:770
-#: data/default/buildings.ruleset:827 data/experimental/buildings.ruleset:876
-#: data/multiplayer/buildings.ruleset:809
+#: data/civ1/buildings.ruleset:534 data/civ2/buildings.ruleset:771
+#: data/default/buildings.ruleset:828 data/experimental/buildings.ruleset:877
+#: data/multiplayer/buildings.ruleset:811
 #, fuzzy
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
@@ -22145,67 +22145,67 @@ msgstr ""
 "레이어로부터 반드시 지어져 있어야 합니다."
 
 #: data/civ1/buildings.ruleset:538 data/civ1/buildings.ruleset:571
-#: data/civ1/buildings.ruleset:595 data/civ2/buildings.ruleset:774
-#: data/civ2/buildings.ruleset:807 data/civ2/buildings.ruleset:831
-#: data/default/buildings.ruleset:831 data/default/buildings.ruleset:865
-#: data/default/buildings.ruleset:890 data/experimental/buildings.ruleset:880
-#: data/experimental/buildings.ruleset:914
-#: data/experimental/buildings.ruleset:939
+#: data/civ1/buildings.ruleset:595 data/civ2/buildings.ruleset:775
+#: data/civ2/buildings.ruleset:808 data/civ2/buildings.ruleset:832
+#: data/default/buildings.ruleset:832 data/default/buildings.ruleset:866
+#: data/default/buildings.ruleset:891 data/experimental/buildings.ruleset:881
+#: data/experimental/buildings.ruleset:915
+#: data/experimental/buildings.ruleset:940
 msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:544 data/civ2/buildings.ruleset:780
-#: data/default/buildings.ruleset:837 data/experimental/buildings.ruleset:886
-#: data/multiplayer/buildings.ruleset:820
+#: data/civ1/buildings.ruleset:544 data/civ2/buildings.ruleset:781
+#: data/default/buildings.ruleset:838 data/experimental/buildings.ruleset:887
+#: data/multiplayer/buildings.ruleset:822
 msgid "Space Module"
 msgstr "우주 모듈"
 
-#: data/civ1/buildings.ruleset:558 data/civ2/buildings.ruleset:794
-#: data/default/buildings.ruleset:852 data/experimental/buildings.ruleset:901
-#: data/multiplayer/buildings.ruleset:835
+#: data/civ1/buildings.ruleset:558 data/civ2/buildings.ruleset:795
+#: data/default/buildings.ruleset:853 data/experimental/buildings.ruleset:902
+#: data/multiplayer/buildings.ruleset:837
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:"
 msgstr ""
 
-#: data/civ1/buildings.ruleset:561 data/civ2/buildings.ruleset:797
-#: data/default/buildings.ruleset:855 data/experimental/buildings.ruleset:904
-#: data/multiplayer/buildings.ruleset:838
+#: data/civ1/buildings.ruleset:561 data/civ2/buildings.ruleset:798
+#: data/default/buildings.ruleset:856 data/experimental/buildings.ruleset:905
+#: data/multiplayer/buildings.ruleset:840
 msgid "- Habitation Module: provides living space for 10,000 people."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:563 data/civ2/buildings.ruleset:799
-#: data/default/buildings.ruleset:857 data/experimental/buildings.ruleset:906
-#: data/multiplayer/buildings.ruleset:840
+#: data/civ1/buildings.ruleset:563 data/civ2/buildings.ruleset:800
+#: data/default/buildings.ruleset:858 data/experimental/buildings.ruleset:907
+#: data/multiplayer/buildings.ruleset:842
 msgid ""
 "- Life Support Module: provides food and water for the population of  one "
 "Habitation Module."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:566 data/civ2/buildings.ruleset:802
-#: data/default/buildings.ruleset:860 data/experimental/buildings.ruleset:909
-#: data/multiplayer/buildings.ruleset:843
+#: data/civ1/buildings.ruleset:566 data/civ2/buildings.ruleset:803
+#: data/default/buildings.ruleset:861 data/experimental/buildings.ruleset:910
+#: data/multiplayer/buildings.ruleset:845
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other  Modules."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:805
-#: data/default/buildings.ruleset:863 data/experimental/buildings.ruleset:912
-#: data/multiplayer/buildings.ruleset:846
+#: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:806
+#: data/default/buildings.ruleset:864 data/experimental/buildings.ruleset:913
+#: data/multiplayer/buildings.ruleset:848
 msgid "You can build up to 4 Space Modules of each kind."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:577 data/civ2/buildings.ruleset:813
-#: data/default/buildings.ruleset:871 data/experimental/buildings.ruleset:920
-#: data/multiplayer/buildings.ruleset:855
+#: data/civ1/buildings.ruleset:577 data/civ2/buildings.ruleset:814
+#: data/default/buildings.ruleset:872 data/experimental/buildings.ruleset:921
+#: data/multiplayer/buildings.ruleset:857
 msgid "Space Structural"
 msgstr "우주선 구조물"
 
-#: data/civ1/buildings.ruleset:591 data/civ2/buildings.ruleset:827
-#: data/default/buildings.ruleset:886 data/experimental/buildings.ruleset:935
-#: data/multiplayer/buildings.ruleset:870
+#: data/civ1/buildings.ruleset:591 data/civ2/buildings.ruleset:828
+#: data/default/buildings.ruleset:887 data/experimental/buildings.ruleset:936
+#: data/multiplayer/buildings.ruleset:872
 #, fuzzy
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
@@ -22219,15 +22219,15 @@ msgstr ""
 "당신이 어느 우주선 부품을 지을 수 있기 전에, 아폴로 계획(불가사의)가 어느 플"
 "레이어로부터 반드시 지어져 있어야 합니다."
 
-#: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:904
-#: data/default/buildings.ruleset:965 data/experimental/buildings.ruleset:1017
-#: data/multiplayer/buildings.ruleset:948
+#: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:905
+#: data/default/buildings.ruleset:966 data/experimental/buildings.ruleset:1018
+#: data/multiplayer/buildings.ruleset:950
 msgid "Temple"
 msgstr "신전"
 
-#: data/civ1/buildings.ruleset:615 data/civ2/buildings.ruleset:918
-#: data/default/buildings.ruleset:979 data/experimental/buildings.ruleset:1031
-#: data/multiplayer/buildings.ruleset:962
+#: data/civ1/buildings.ruleset:615 data/civ2/buildings.ruleset:919
+#: data/default/buildings.ruleset:980 data/experimental/buildings.ruleset:1032
+#: data/multiplayer/buildings.ruleset:964
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 "effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
@@ -22238,25 +22238,25 @@ msgstr ""
 "군사 활동으로부터 불만족스러워하는 시민들에게는 영향을 끼치지 않습니다. "
 
 #: data/civ1/buildings.ruleset:623 data/civ1/techs.ruleset:574
-#: data/civ2/buildings.ruleset:926 data/civ2/techs.ruleset:741
-#: data/default/buildings.ruleset:987 data/default/techs.ruleset:745
-#: data/experimental/buildings.ruleset:1039
-#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:970
+#: data/civ2/buildings.ruleset:927 data/civ2/techs.ruleset:741
+#: data/default/buildings.ruleset:988 data/default/techs.ruleset:745
+#: data/experimental/buildings.ruleset:1040
+#: data/experimental/techs.ruleset:747 data/multiplayer/buildings.ruleset:972
 #: data/multiplayer/techs.ruleset:755
 msgid "University"
 msgstr "대학교"
 
-#: data/civ1/buildings.ruleset:639 data/civ2/buildings.ruleset:942
+#: data/civ1/buildings.ruleset:639 data/civ2/buildings.ruleset:943
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr "도서관과 함께 있는 대학은, 도시의 과학 생산물을 100% 로 증가시킵니다."
 
-#: data/civ1/buildings.ruleset:645 data/civ2/buildings.ruleset:948
-#: data/default/buildings.ruleset:1009
-#: data/experimental/buildings.ruleset:1061
-#: data/multiplayer/buildings.ruleset:992
+#: data/civ1/buildings.ruleset:645 data/civ2/buildings.ruleset:949
+#: data/default/buildings.ruleset:1010
+#: data/experimental/buildings.ruleset:1062
+#: data/multiplayer/buildings.ruleset:994
 msgid "Apollo Program"
 msgstr "아폴로 계획"
 
@@ -22272,17 +22272,17 @@ msgstr ""
 "은 모든 플레이어가 우주선 부품을 짓기를 시작하기를 허락합니다.(그들이 중요한 "
 "기술들에 도달했을 때를 가정하고 입니다.)"
 
-#: data/civ1/buildings.ruleset:666 data/civ2/buildings.ruleset:991
-#: data/default/buildings.ruleset:1052
-#: data/experimental/buildings.ruleset:1104
-#: data/multiplayer/buildings.ruleset:1033
+#: data/civ1/buildings.ruleset:666 data/civ2/buildings.ruleset:992
+#: data/default/buildings.ruleset:1053
+#: data/experimental/buildings.ruleset:1105
+#: data/multiplayer/buildings.ruleset:1035
 msgid "Colossus"
 msgstr "콜로서스"
 
-#: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:1005
-#: data/default/buildings.ruleset:1066
-#: data/experimental/buildings.ruleset:1118
-#: data/multiplayer/buildings.ruleset:1047
+#: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:1006
+#: data/default/buildings.ruleset:1067
+#: data/experimental/buildings.ruleset:1119
+#: data/multiplayer/buildings.ruleset:1049
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -22290,26 +22290,26 @@ msgstr ""
 "이 불가사의가 지어진 도시에서, 주위의 각각의 타일에서, 하나의 추가적인 무역 "
 "자원을, 어떤 무역 생산에서 이미 발생시킵니다."
 
-#: data/civ1/buildings.ruleset:686 data/civ2/buildings.ruleset:1011
-#: data/default/buildings.ruleset:1072
-#: data/experimental/buildings.ruleset:1124
-#: data/multiplayer/buildings.ruleset:1053
+#: data/civ1/buildings.ruleset:686 data/civ2/buildings.ruleset:1012
+#: data/default/buildings.ruleset:1073
+#: data/experimental/buildings.ruleset:1125
+#: data/multiplayer/buildings.ruleset:1055
 msgid "Copernicus' Observatory"
 msgstr "코페르니쿠스의 천문대"
 
-#: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1026
+#: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1027
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "이것이 지어진 도시에서 50% 의 과학 생산물을 향상시킵니다."
 
-#: data/civ1/buildings.ruleset:706 data/civ2/buildings.ruleset:1031
-#: data/default/buildings.ruleset:1092
-#: data/experimental/buildings.ruleset:1144
-#: data/multiplayer/buildings.ruleset:1073
+#: data/civ1/buildings.ruleset:706 data/civ2/buildings.ruleset:1032
+#: data/default/buildings.ruleset:1093
+#: data/experimental/buildings.ruleset:1145
+#: data/multiplayer/buildings.ruleset:1075
 msgid "Cure For Cancer"
 msgstr "암 치유"
 
-#: data/civ1/buildings.ruleset:720 data/civ2/buildings.ruleset:1045
+#: data/civ1/buildings.ruleset:720 data/civ2/buildings.ruleset:1046
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity)."
@@ -22317,16 +22317,16 @@ msgstr ""
 "이 깜짝 놀랄 기술 성취는, 당신의 각각의 도시에서, 하나의 불만족스러워 하는 시"
 "민을 만족시킵니다.(군사 활동에 대한 시민들의 불만족도 포함합니다.)"
 
-#: data/civ1/buildings.ruleset:727 data/civ2/buildings.ruleset:1052
-#: data/default/buildings.ruleset:1116
-#: data/experimental/buildings.ruleset:1168
-#: data/multiplayer/buildings.ruleset:1094
+#: data/civ1/buildings.ruleset:727 data/civ2/buildings.ruleset:1053
+#: data/default/buildings.ruleset:1117
+#: data/experimental/buildings.ruleset:1169
+#: data/multiplayer/buildings.ruleset:1096
 msgid "Darwin's Voyage"
 msgstr "다윈의 항해"
 
-#: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1066
-#: data/default/buildings.ruleset:1130
-#: data/experimental/buildings.ruleset:1182
+#: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1067
+#: data/default/buildings.ruleset:1131
+#: data/experimental/buildings.ruleset:1183
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -22335,38 +22335,38 @@ msgstr ""
 "찰스 다윈의 항해는, 과학의 혼란보다 큰 영감을 주는, 종의 진화의 발견을 유발시"
 "킵니다. 기술 진전이 즉시 2 단위를 줍니다."
 
-#: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:1094
-#: data/default/buildings.ruleset:1158
-#: data/experimental/buildings.ruleset:1210
-#: data/multiplayer/buildings.ruleset:1135
+#: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:1095
+#: data/default/buildings.ruleset:1159
+#: data/experimental/buildings.ruleset:1211
+#: data/multiplayer/buildings.ruleset:1137
 msgid "Great Library"
 msgstr "대형 도서관"
 
-#: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1108
-#: data/default/buildings.ruleset:1172
-#: data/experimental/buildings.ruleset:1224
+#: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1109
+#: data/default/buildings.ruleset:1173
+#: data/experimental/buildings.ruleset:1225
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
 msgstr ""
 
-#: data/civ1/buildings.ruleset:768 data/civ2/buildings.ruleset:1114
-#: data/default/buildings.ruleset:1178
-#: data/experimental/buildings.ruleset:1230
-#: data/multiplayer/buildings.ruleset:1155
+#: data/civ1/buildings.ruleset:768 data/civ2/buildings.ruleset:1115
+#: data/default/buildings.ruleset:1179
+#: data/experimental/buildings.ruleset:1231
+#: data/multiplayer/buildings.ruleset:1157
 msgid "Great Wall"
 msgstr "만리장성"
 
-#: data/civ1/buildings.ruleset:782 data/civ2/buildings.ruleset:1128
-#: data/default/buildings.ruleset:1192
-#: data/experimental/buildings.ruleset:1244
+#: data/civ1/buildings.ruleset:782 data/civ2/buildings.ruleset:1129
+#: data/default/buildings.ruleset:1193
+#: data/experimental/buildings.ruleset:1245
 msgid "Works as a City Wall in all your cities."
 msgstr "당신의 모든 도시에서 성벽처럼 동작시킵니다."
 
-#: data/civ1/buildings.ruleset:789 data/civ2/buildings.ruleset:1135
-#: data/default/buildings.ruleset:1200
-#: data/experimental/buildings.ruleset:1252
-#: data/multiplayer/buildings.ruleset:1174
+#: data/civ1/buildings.ruleset:789 data/civ2/buildings.ruleset:1136
+#: data/default/buildings.ruleset:1201
+#: data/experimental/buildings.ruleset:1253
+#: data/multiplayer/buildings.ruleset:1176
 msgid "Hanging Gardens"
 msgstr "공중 정원"
 
@@ -22382,10 +22382,10 @@ msgstr ""
 "워 하는 시민에게(군사 활동에 대한 시민들의 불만족도 포함합니다.) 먼저 적용해"
 "서 만족시킵니다."
 
-#: data/civ1/buildings.ruleset:811 data/civ2/buildings.ruleset:1159
-#: data/default/buildings.ruleset:1224
-#: data/experimental/buildings.ruleset:1276
-#: data/multiplayer/buildings.ruleset:1193
+#: data/civ1/buildings.ruleset:811 data/civ2/buildings.ruleset:1160
+#: data/default/buildings.ruleset:1225
+#: data/experimental/buildings.ruleset:1277
+#: data/multiplayer/buildings.ruleset:1195
 msgid "Hoover Dam"
 msgstr "후버 댐"
 
@@ -22399,25 +22399,25 @@ msgstr ""
 "동시킵니다. (이것은 공해를 줄이고, 공장과 제조공장,발전소의 영향을 증가시킵니"
 "다.)"
 
-#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:1179
-#: data/default/buildings.ruleset:1245
-#: data/experimental/buildings.ruleset:1297
-#: data/multiplayer/buildings.ruleset:1215
+#: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:1180
+#: data/default/buildings.ruleset:1246
+#: data/experimental/buildings.ruleset:1298
+#: data/multiplayer/buildings.ruleset:1217
 msgid "Isaac Newton's College"
 msgstr "뉴턴의 대학원"
 
-#: data/civ1/buildings.ruleset:848 data/civ2/buildings.ruleset:1194
-#: data/default/buildings.ruleset:1087
-#: data/experimental/buildings.ruleset:1139
-#: data/multiplayer/buildings.ruleset:1068
+#: data/civ1/buildings.ruleset:848 data/civ2/buildings.ruleset:1195
+#: data/default/buildings.ruleset:1088
+#: data/experimental/buildings.ruleset:1140
+#: data/multiplayer/buildings.ruleset:1070
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "이것이 지어진 도시에서 100% 의 과학 생산물을 향상시킵니다."
 
-#: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:1199
-#: data/default/buildings.ruleset:1266
-#: data/experimental/buildings.ruleset:1318
-#: data/multiplayer/buildings.ruleset:1236
+#: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:1200
+#: data/default/buildings.ruleset:1267
+#: data/experimental/buildings.ruleset:1319
+#: data/multiplayer/buildings.ruleset:1238
 msgid "J.S. Bach's Cathedral"
 msgstr "바흐의 대성당"
 
@@ -22430,21 +22430,21 @@ msgstr ""
 "이 불가사의가 지어진 같은 대륙의 모든 도시에서, 불만족스러워하는 두 시민을 만"
 "족시킵니다. (군사 활동에 대한 시민의 불만족도 포함합니다.)"
 
-#: data/civ1/buildings.ruleset:874 data/civ2/buildings.ruleset:1258
-#: data/default/buildings.ruleset:1325
-#: data/experimental/buildings.ruleset:1377
-#: data/multiplayer/buildings.ruleset:1296
+#: data/civ1/buildings.ruleset:874 data/civ2/buildings.ruleset:1259
+#: data/default/buildings.ruleset:1326
+#: data/experimental/buildings.ruleset:1378
+#: data/multiplayer/buildings.ruleset:1298
 msgid "Lighthouse"
 msgstr "파로스등대"
 
-#: data/civ1/buildings.ruleset:888 data/multiplayer/buildings.ruleset:1311
+#: data/civ1/buildings.ruleset:888 data/multiplayer/buildings.ruleset:1313
 msgid "Gives all your sea units 1 additional movement point."
 msgstr "당신의 모든 해상 부대에게 2 의 추가적인 이동 단위를 줍니다."
 
-#: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:1278
-#: data/default/buildings.ruleset:1346
-#: data/experimental/buildings.ruleset:1398
-#: data/multiplayer/buildings.ruleset:1316
+#: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:1279
+#: data/default/buildings.ruleset:1347
+#: data/experimental/buildings.ruleset:1399
+#: data/multiplayer/buildings.ruleset:1318
 msgid "Magellan's Expedition"
 msgstr "마젤란의 탐험"
 
@@ -22452,17 +22452,17 @@ msgstr "마젤란의 탐험"
 msgid "Gives all sea units 1 additional movement point."
 msgstr "모든 해상 부대에게 1의 추가적인 이동 단위를 줍니다."
 
-#: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:1297
-#: data/default/buildings.ruleset:1366
-#: data/experimental/buildings.ruleset:1418
-#: data/multiplayer/buildings.ruleset:1336
+#: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:1298
+#: data/default/buildings.ruleset:1367
+#: data/experimental/buildings.ruleset:1419
+#: data/multiplayer/buildings.ruleset:1338
 msgid "Manhattan Project"
 msgstr "맨해튼 계획"
 
-#: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:1334
-#: data/default/buildings.ruleset:1403
-#: data/experimental/buildings.ruleset:1455
-#: data/multiplayer/buildings.ruleset:1375
+#: data/civ1/buildings.ruleset:930 data/civ2/buildings.ruleset:1335
+#: data/default/buildings.ruleset:1404
+#: data/experimental/buildings.ruleset:1456
+#: data/multiplayer/buildings.ruleset:1377
 msgid "Michelangelo's Chapel"
 msgstr "미켈란젤로의 성당"
 
@@ -22470,16 +22470,16 @@ msgstr "미켈란젤로의 성당"
 msgid "Double effects of Cathedrals, in all cities."
 msgstr "모든 도시에서, 대성당의 영향을 두배로 합니다."
 
-#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:1359
-#: data/default/buildings.ruleset:1428
-#: data/experimental/buildings.ruleset:1480
-#: data/multiplayer/buildings.ruleset:1399
+#: data/civ1/buildings.ruleset:949 data/civ2/buildings.ruleset:1360
+#: data/default/buildings.ruleset:1429
+#: data/experimental/buildings.ruleset:1481
+#: data/multiplayer/buildings.ruleset:1401
 msgid "Oracle"
 msgstr "신탁"
 
-#: data/civ1/buildings.ruleset:963 data/civ2/buildings.ruleset:1373
-#: data/default/buildings.ruleset:1442
-#: data/experimental/buildings.ruleset:1494
+#: data/civ1/buildings.ruleset:963 data/civ2/buildings.ruleset:1374
+#: data/default/buildings.ruleset:1443
+#: data/experimental/buildings.ruleset:1495
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -22487,17 +22487,17 @@ msgstr ""
 "사원과 함께 있는 모든 도시안에서, 불만족스러워 하는 시민을 둘을 추가적으로 만"
 "족시킵니다. 군사 활동으로 불만족하는 시민에게는 영향을 주지않습니다."
 
-#: data/civ1/buildings.ruleset:970 data/civ2/buildings.ruleset:1380
-#: data/default/buildings.ruleset:1449
-#: data/experimental/buildings.ruleset:1501
-#: data/multiplayer/buildings.ruleset:1419
+#: data/civ1/buildings.ruleset:970 data/civ2/buildings.ruleset:1381
+#: data/default/buildings.ruleset:1450
+#: data/experimental/buildings.ruleset:1502
+#: data/multiplayer/buildings.ruleset:1421
 msgid "Pyramids"
 msgstr "피라미드"
 
-#: data/civ1/buildings.ruleset:984 data/civ1/buildings.ruleset:1045
-#: data/civ2/buildings.ruleset:1454 data/default/buildings.ruleset:1525
-#: data/experimental/buildings.ruleset:1577
-#: data/multiplayer/buildings.ruleset:1494
+#: data/civ1/buildings.ruleset:984 data/civ1/buildings.ruleset:1046
+#: data/civ2/buildings.ruleset:1456 data/default/buildings.ruleset:1527
+#: data/experimental/buildings.ruleset:1579
+#: data/multiplayer/buildings.ruleset:1497
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -22506,9 +22506,9 @@ msgstr ""
 "당신의 문명에 아직 발견되지 않은 것들을 포함해서, 무정부 상태의 과도기없이 당"
 "신이 어느 정부를 선택하기를 허락합니다."
 
-#: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:1399
-#: data/default/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1523
+#: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:1400
+#: data/default/buildings.ruleset:1472
+#: data/experimental/buildings.ruleset:1524
 msgid "SETI Program"
 msgstr "SETI 계획"
 
@@ -22517,17 +22517,17 @@ msgstr "SETI 계획"
 msgid "Boosts science production in each city by 50%."
 msgstr "각각의 도시에서 과학 생산물을 50%로 향상시킵니다."
 
-#: data/civ1/buildings.ruleset:1011 data/civ2/buildings.ruleset:1420
-#: data/default/buildings.ruleset:1491
-#: data/experimental/buildings.ruleset:1543
-#: data/multiplayer/buildings.ruleset:1460
-msgid "Shakespeare's Theatre"
+#: data/civ1/buildings.ruleset:1011 data/civ2/buildings.ruleset:1421
+#: data/default/buildings.ruleset:1492
+#: data/experimental/buildings.ruleset:1544
+#: data/multiplayer/buildings.ruleset:1462
+msgid "Shakespeare's Theater"
 msgstr "셰익스피어의 극장"
 
-#: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1434
-#: data/default/buildings.ruleset:1505
-#: data/experimental/buildings.ruleset:1557
-#: data/multiplayer/buildings.ruleset:1474
+#: data/civ1/buildings.ruleset:1026 data/civ2/buildings.ruleset:1436
+#: data/default/buildings.ruleset:1507
+#: data/experimental/buildings.ruleset:1559
+#: data/multiplayer/buildings.ruleset:1477
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
 "located, including citizens unhappy about military activity."
@@ -22535,21 +22535,21 @@ msgstr ""
 "이것이 위치한 도시의 화나고 불만족스러워 하는 모든 시민을, 군사 활동에 대한 "
 "불만족하는 시민을 포함해서 만족시킵니다."
 
-#: data/civ1/buildings.ruleset:1031 data/civ2/buildings.ruleset:1483
-#: data/default/buildings.ruleset:1553
-#: data/experimental/buildings.ruleset:1605
-#: data/multiplayer/buildings.ruleset:1523
+#: data/civ1/buildings.ruleset:1032 data/civ2/buildings.ruleset:1485
+#: data/default/buildings.ruleset:1555
+#: data/experimental/buildings.ruleset:1607
+#: data/multiplayer/buildings.ruleset:1526
 msgid "United Nations"
 msgstr "국제 연합"
 
-#: data/civ1/buildings.ruleset:1057 data/civ2/buildings.ruleset:1510
-#: data/default/buildings.ruleset:1580
-#: data/experimental/buildings.ruleset:1632
-#: data/multiplayer/buildings.ruleset:1544
+#: data/civ1/buildings.ruleset:1058 data/civ2/buildings.ruleset:1512
+#: data/default/buildings.ruleset:1582
+#: data/experimental/buildings.ruleset:1634
+#: data/multiplayer/buildings.ruleset:1547
 msgid "Women's Suffrage"
 msgstr "여성 참정권"
 
-#: data/civ1/buildings.ruleset:1071
+#: data/civ1/buildings.ruleset:1072
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -23513,7 +23513,7 @@ msgstr "기계화 보병"
 
 #: data/civ1/units.ruleset:410
 msgid ""
-"Mechanized Infantry; this unit has the strongest defence strength of any "
+"Mechanized Infantry; this unit has the strongest defense strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
 
@@ -24047,13 +24047,13 @@ msgstr ""
 #: data/experimental/buildings.ruleset:137
 #: data/experimental/buildings.ruleset:162
 #: data/experimental/buildings.ruleset:186
-#: data/multiplayer/buildings.ruleset:157
-#: data/multiplayer/buildings.ruleset:182
-#: data/multiplayer/buildings.ruleset:206
+#: data/multiplayer/buildings.ruleset:158
+#: data/multiplayer/buildings.ruleset:183
+#: data/multiplayer/buildings.ruleset:207
 #, no-c-format
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
-"Veteran status, which means that its attack and defence strengths are "
+"Veteran status, which means that its attack and defense strengths are "
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
@@ -24063,7 +24063,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:182 data/default/buildings.ruleset:208
 #: data/experimental/buildings.ruleset:210
-#: data/multiplayer/buildings.ruleset:230
+#: data/multiplayer/buildings.ruleset:231
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city; however, it does not affect citizens made "
@@ -24079,9 +24079,9 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:208 data/default/buildings.ruleset:234
 #: data/experimental/buildings.ruleset:236
-#: data/multiplayer/buildings.ruleset:256
+#: data/multiplayer/buildings.ruleset:257
 msgid ""
-"City Walls make it easier to defend a city.  They triple the defence "
+"City Walls make it easier to defend a city.  They triple the defense "
 "strength of units within the city against land and helicopter units.  They "
 "are ineffective against airborne and sea units as well as Howitzers.  City "
 "Walls also prevent the loss of population which occurs when a defending unit "
@@ -24094,15 +24094,15 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:217 data/default/buildings.ruleset:243
 #: data/experimental/buildings.ruleset:245
-#: data/multiplayer/buildings.ruleset:265
+#: data/multiplayer/buildings.ruleset:266
 msgid "Coastal Defense"
 msgstr "해안 방어"
 
 #: data/civ2/buildings.ruleset:232 data/default/buildings.ruleset:258
 #: data/experimental/buildings.ruleset:260
-#: data/multiplayer/buildings.ruleset:280
+#: data/multiplayer/buildings.ruleset:281
 msgid ""
-"Increases the defence strength of units within a city by a factor of 2 when "
+"Increases the defense strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr ""
 "적 함대로 부터 포격에 저항을 의존할때 도시 안의 부대의 방어를 2 단위로 증가시"
@@ -24133,13 +24133,13 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:328 data/default/buildings.ruleset:355
 #: data/experimental/buildings.ruleset:357
-#: data/multiplayer/buildings.ruleset:352
-msgid "Harbour"
+#: data/multiplayer/buildings.ruleset:353
+msgid "Harbor"
 msgstr "항구"
 
-#: data/civ2/buildings.ruleset:343 data/default/buildings.ruleset:370
-#: data/experimental/buildings.ruleset:372
-#: data/multiplayer/buildings.ruleset:367
+#: data/civ2/buildings.ruleset:344 data/default/buildings.ruleset:371
+#: data/experimental/buildings.ruleset:373
+#: data/multiplayer/buildings.ruleset:369
 msgid ""
 "Gives one extra food resource on all Oceanic tiles.  The city needs to be "
 "coastal to build this improvement."
@@ -24147,29 +24147,29 @@ msgstr ""
 "모든 바다의 타일들 위의 1 단위의 추가적인 식량을 줄 것입니다. 도시는 이 시설"
 "을 짓기 위해서 해안에 있어야 할 필요가 있습니다."
 
-#: data/civ2/buildings.ruleset:373
+#: data/civ2/buildings.ruleset:374
 msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a "
 "Mountain or River tile."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:486 data/civ2/buildings.ruleset:611
-#: data/civ2/buildings.ruleset:750
+#: data/civ2/buildings.ruleset:487 data/civ2/buildings.ruleset:612
+#: data/civ2/buildings.ruleset:751
 msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:495 data/default/buildings.ruleset:532
-#: data/experimental/buildings.ruleset:581
-#: data/multiplayer/buildings.ruleset:522
+#: data/civ2/buildings.ruleset:496 data/default/buildings.ruleset:533
+#: data/experimental/buildings.ruleset:582
+#: data/multiplayer/buildings.ruleset:524
 msgid "Offshore Platform"
 msgstr "해양 플랫폼"
 
-#: data/civ2/buildings.ruleset:510 data/default/buildings.ruleset:547
-#: data/experimental/buildings.ruleset:596
-#: data/multiplayer/buildings.ruleset:537
+#: data/civ2/buildings.ruleset:511 data/default/buildings.ruleset:548
+#: data/experimental/buildings.ruleset:597
+#: data/multiplayer/buildings.ruleset:539
 msgid ""
 "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The "
 "city needs to be coastal to build this improvement."
@@ -24177,14 +24177,14 @@ msgstr ""
 "도시로 부터 모든 바다의 타일들 위로, 보호 생산에 1 단위의 추가로 작동됩니다. "
 "그 도시는 이 시설을 짓기 위해서 해안에 있어야 할 필요가 있습니다."
 
-#: data/civ2/buildings.ruleset:545 data/default/buildings.ruleset:587
-#: data/experimental/buildings.ruleset:636
-#: data/multiplayer/buildings.ruleset:577
+#: data/civ2/buildings.ruleset:546 data/default/buildings.ruleset:588
+#: data/experimental/buildings.ruleset:637
+#: data/multiplayer/buildings.ruleset:579
 msgid "Police Station"
 msgstr "경찰서"
 
-#: data/civ2/buildings.ruleset:559 data/default/buildings.ruleset:601
-#: data/experimental/buildings.ruleset:650
+#: data/civ2/buildings.ruleset:560 data/default/buildings.ruleset:602
+#: data/experimental/buildings.ruleset:651
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 2 under Democracy and 1 under Republic -- in other words, it "
@@ -24196,15 +24196,15 @@ msgstr ""
 "의 군사 부대로서 야기되는 불만족을 무효화시킵니다. 이 시설은 다른 정부들 아래"
 "에서는 효과를 못 가집니다."
 
-#: data/civ2/buildings.ruleset:567 data/default/buildings.ruleset:612
-#: data/experimental/buildings.ruleset:661
-#: data/multiplayer/buildings.ruleset:599
+#: data/civ2/buildings.ruleset:568 data/default/buildings.ruleset:613
+#: data/experimental/buildings.ruleset:662
+#: data/multiplayer/buildings.ruleset:601
 msgid "Port Facility"
 msgstr "항만 시설"
 
-#: data/civ2/buildings.ruleset:582 data/default/buildings.ruleset:627
-#: data/experimental/buildings.ruleset:676
-#: data/multiplayer/buildings.ruleset:614
+#: data/civ2/buildings.ruleset:583 data/default/buildings.ruleset:628
+#: data/experimental/buildings.ruleset:677
+#: data/multiplayer/buildings.ruleset:616
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -24212,13 +24212,13 @@ msgstr ""
 "숙련된 해상 부대를 짓도록 도시를 허락합니다. 또한, 손상받은 해상 부대는 도시 "
 "안에서 한 차례 움직임 없이 머무르면 완전히 회복됩니다."
 
-#: data/civ2/buildings.ruleset:638 data/default/buildings.ruleset:688
-#: data/experimental/buildings.ruleset:737
-#: data/multiplayer/buildings.ruleset:672
+#: data/civ2/buildings.ruleset:639 data/default/buildings.ruleset:689
+#: data/experimental/buildings.ruleset:738
+#: data/multiplayer/buildings.ruleset:674
 msgid "Research Lab"
 msgstr "연구소"
 
-#: data/civ2/buildings.ruleset:654
+#: data/civ2/buildings.ruleset:655
 #, no-c-format
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
@@ -24228,15 +24228,15 @@ msgstr ""
 "도서관과 함께 있는 연구소는, 도시의 과학 생산물을 100% 로 증가시킵니다. 도서"
 "관와 대학이 함께 있는 연구소는, 도시의 과학 생산물을 150% 로 증가시킵니다."
 
-#: data/civ2/buildings.ruleset:662 data/default/buildings.ruleset:712
-#: data/experimental/buildings.ruleset:761
-#: data/multiplayer/buildings.ruleset:696
+#: data/civ2/buildings.ruleset:663 data/default/buildings.ruleset:713
+#: data/experimental/buildings.ruleset:762
+#: data/multiplayer/buildings.ruleset:698
 msgid "SAM Battery"
 msgstr "지대공미사일 포대"
 
-#: data/civ2/buildings.ruleset:676 data/default/buildings.ruleset:726
-#: data/experimental/buildings.ruleset:775
-#: data/multiplayer/buildings.ruleset:710
+#: data/civ2/buildings.ruleset:677 data/default/buildings.ruleset:727
+#: data/experimental/buildings.ruleset:776
+#: data/multiplayer/buildings.ruleset:712
 msgid ""
 "Doubles the defense of all units inside the city when attacked by aircraft "
 "(not including helicopters or missiles)."
@@ -24244,14 +24244,14 @@ msgstr ""
 "공중 부대에게 공격 당할 때 도시 안의 모든 부대의 방어가 두배로 됩니다. (헬리"
 "콥터나 미사일은 포함하지 않습니다.)"
 
-#: data/civ2/buildings.ruleset:696 data/default/buildings.ruleset:746
-#: data/experimental/buildings.ruleset:795
-#: data/multiplayer/buildings.ruleset:730
+#: data/civ2/buildings.ruleset:697 data/default/buildings.ruleset:747
+#: data/experimental/buildings.ruleset:796
+#: data/multiplayer/buildings.ruleset:732
 msgid ""
 "Protects a city and its environs (up to 2 tiles away) from attacks by "
 "Nuclear units. A Nuclear unit attacking a city with SDI Defense, or "
 "attacking a unit (or deliberately exploded) within range, is shot down and "
-"simply has no effect. Also, doubles defence for units in the city against "
+"simply has no effect. Also, doubles defense for units in the city against "
 "non-nuclear missiles."
 msgstr ""
 "도시와 주변(2 타일 떨어진 곳 입니다.)을 핵병기로의 공격으로부터 보호합니다. "
@@ -24259,13 +24259,13 @@ msgstr ""
 "를 공격할 때(또는 고의적으로 폭발할 때 입니다.) 격추시키고, 간단히 영향이 없"
 "게 합니다."
 
-#: data/civ2/buildings.ruleset:707 data/default/buildings.ruleset:757
-#: data/experimental/buildings.ruleset:806
-#: data/multiplayer/buildings.ruleset:739
+#: data/civ2/buildings.ruleset:708 data/default/buildings.ruleset:758
+#: data/experimental/buildings.ruleset:807
+#: data/multiplayer/buildings.ruleset:741
 msgid "Sewer System"
 msgstr "하수도"
 
-#: data/civ2/buildings.ruleset:722
+#: data/civ2/buildings.ruleset:723
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
@@ -24273,13 +24273,13 @@ msgstr ""
 "도시가 12 크기보다 크게 성장하기를 허락합니다. 수로는 도시가 8 크기보다 크게 "
 "성장하기 위해 먼저 요구됩니다."
 
-#: data/civ2/buildings.ruleset:728 data/default/buildings.ruleset:780
-#: data/experimental/buildings.ruleset:829
-#: data/multiplayer/buildings.ruleset:762
+#: data/civ2/buildings.ruleset:729 data/default/buildings.ruleset:781
+#: data/experimental/buildings.ruleset:830
+#: data/multiplayer/buildings.ruleset:764
 msgid "Solar Plant"
 msgstr "태양열 발전소"
 
-#: data/civ2/buildings.ruleset:744
+#: data/civ2/buildings.ruleset:745
 #, fuzzy, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city. It also "
@@ -24295,15 +24295,15 @@ msgstr ""
 "도시는 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중, 오직 하나만 "
 "가질 수 있습니다."
 
-#: data/civ2/buildings.ruleset:837 data/default/buildings.ruleset:896
-#: data/experimental/buildings.ruleset:945
-#: data/multiplayer/buildings.ruleset:881
+#: data/civ2/buildings.ruleset:838 data/default/buildings.ruleset:897
+#: data/experimental/buildings.ruleset:946
+#: data/multiplayer/buildings.ruleset:883
 msgid "Stock Exchange"
 msgstr "증권 거래소"
 
-#: data/civ2/buildings.ruleset:853 data/default/buildings.ruleset:912
-#: data/experimental/buildings.ruleset:961
-#: data/multiplayer/buildings.ruleset:897
+#: data/civ2/buildings.ruleset:854 data/default/buildings.ruleset:913
+#: data/experimental/buildings.ruleset:962
+#: data/multiplayer/buildings.ruleset:899
 #, no-c-format
 msgid ""
 "Together with a Bank, a Stock Exchange boosts tax and luxury production in a "
@@ -24314,27 +24314,27 @@ msgstr ""
 "니다. 은행과 시장이 함께 있는 증권 거래소는 도시 안의 세금과 복지 생산을, "
 "150% 로 향상시킵니다."
 
-#: data/civ2/buildings.ruleset:861 data/default/buildings.ruleset:920
-#: data/experimental/buildings.ruleset:969
-#: data/multiplayer/buildings.ruleset:905
+#: data/civ2/buildings.ruleset:862 data/default/buildings.ruleset:921
+#: data/experimental/buildings.ruleset:970
+#: data/multiplayer/buildings.ruleset:907
 msgid "Super Highways"
 msgstr "고속 도로"
 
-#: data/civ2/buildings.ruleset:876 data/default/buildings.ruleset:935
-#: data/experimental/buildings.ruleset:984
-#: data/multiplayer/buildings.ruleset:920
+#: data/civ2/buildings.ruleset:877 data/default/buildings.ruleset:936
+#: data/experimental/buildings.ruleset:985
+#: data/multiplayer/buildings.ruleset:922
 #, no-c-format
 msgid "Increases trade resources by 50% on all tiles with roads or railroads."
 msgstr "도로와 철도와 함께 있는 모든 타일은 무역 자원을 50% 로 증가시킵니다."
 
-#: data/civ2/buildings.ruleset:882 data/default/buildings.ruleset:943
-#: data/experimental/buildings.ruleset:995
-#: data/multiplayer/buildings.ruleset:926
+#: data/civ2/buildings.ruleset:883 data/default/buildings.ruleset:944
+#: data/experimental/buildings.ruleset:996
+#: data/multiplayer/buildings.ruleset:928
 msgid "Supermarket"
 msgstr "슈퍼마켓"
 
-#: data/civ2/buildings.ruleset:897 data/default/buildings.ruleset:958
-#: data/experimental/buildings.ruleset:1010
+#: data/civ2/buildings.ruleset:898 data/default/buildings.ruleset:959
+#: data/experimental/buildings.ruleset:1011
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland tile which is being "
@@ -24344,8 +24344,8 @@ msgstr ""
 "도시 주위의 사용되는 각각의 농지 타일에서 50% 의 음식 자원을 증가시킵니다. 농"
 "지 타일은 두 번 관개되어 있어야 합니다."
 
-#: data/civ2/buildings.ruleset:962 data/default/buildings.ruleset:1023
-#: data/experimental/buildings.ruleset:1075
+#: data/civ2/buildings.ruleset:963 data/default/buildings.ruleset:1024
+#: data/experimental/buildings.ruleset:1076
 msgid ""
 "The entire map becomes permanently visible to the player who owns it -- the "
 "player always has up-to-date knowledge of all terrain and cities (but not "
@@ -24357,13 +24357,13 @@ msgstr ""
 "으로 가집니다. 이것은 모든 플레이어가 우주선 부품을 짓기를 시작하기를 허락합"
 "니다.(그들이 중요한 기술들에 도달했을 때를 가정하고 입니다.)"
 
-#: data/civ2/buildings.ruleset:971 data/default/buildings.ruleset:1032
-#: data/experimental/buildings.ruleset:1084
-#: data/multiplayer/buildings.ruleset:1013
+#: data/civ2/buildings.ruleset:972 data/default/buildings.ruleset:1033
+#: data/experimental/buildings.ruleset:1085
+#: data/multiplayer/buildings.ruleset:1015
 msgid "A.Smith's Trading Co."
 msgstr "스미스의 무역 회사"
 
-#: data/civ2/buildings.ruleset:985
+#: data/civ2/buildings.ruleset:986
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
@@ -24371,21 +24371,21 @@ msgstr ""
 "당신의 모든 도시에서, 유지비가 보통 1 단위로 가지는 도시 시설은, 유지비가 공"
 "짜가 됩니다."
 
-#: data/civ2/buildings.ruleset:1073 data/default/buildings.ruleset:1137
-#: data/experimental/buildings.ruleset:1189
-#: data/multiplayer/buildings.ruleset:1114
+#: data/civ2/buildings.ruleset:1074 data/default/buildings.ruleset:1138
+#: data/experimental/buildings.ruleset:1190
+#: data/multiplayer/buildings.ruleset:1116
 msgid "Eiffel Tower"
 msgstr "에펠탑"
 
-#: data/civ2/buildings.ruleset:1088
+#: data/civ2/buildings.ruleset:1089
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
 msgstr "다른 국가 사이에서 당신의 명성과 호의를, 네배나 빠르게 회복시킵니다."
 
-#: data/civ2/buildings.ruleset:1149 data/default/buildings.ruleset:1214
-#: data/experimental/buildings.ruleset:1266
+#: data/civ2/buildings.ruleset:1150 data/default/buildings.ruleset:1215
+#: data/experimental/buildings.ruleset:1267
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -24399,8 +24399,8 @@ msgstr ""
 "사의는 불만족스러워 하는 시민에게(군사 활동에 대한 시민들의 불만족도 포함합니"
 "다.) 먼저 적용해서, 만족시킨 다음에 행복하게 합니다."
 
-#: data/civ2/buildings.ruleset:1173 data/default/buildings.ruleset:1239
-#: data/experimental/buildings.ruleset:1291
+#: data/civ2/buildings.ruleset:1174 data/default/buildings.ruleset:1240
+#: data/experimental/buildings.ruleset:1292
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -24408,8 +24408,8 @@ msgstr ""
 "모든 도시에서 수력 발전소를 가진 것 처럼 작동시킵니다. (이것은 공해를 줄이"
 "고, 공장과 제조공장,발전소의 영향을 증가시킵니다.)"
 
-#: data/civ2/buildings.ruleset:1213 data/default/buildings.ruleset:1280
-#: data/experimental/buildings.ruleset:1332
+#: data/civ2/buildings.ruleset:1214 data/default/buildings.ruleset:1281
+#: data/experimental/buildings.ruleset:1333
 msgid ""
 "Makes two unhappy citizens content in every city (including citizens unhappy "
 "about military activity)."
@@ -24417,15 +24417,15 @@ msgstr ""
 "모든 도시의 불만족스러워하는 두 시민을 만족시킵니다. (군사 활동에 대한 시민"
 "의 불만족도 포함합니다.)"
 
-#: data/civ2/buildings.ruleset:1219 data/default/buildings.ruleset:1286
-#: data/experimental/buildings.ruleset:1338
-#: data/multiplayer/buildings.ruleset:1256
+#: data/civ2/buildings.ruleset:1220 data/default/buildings.ruleset:1287
+#: data/experimental/buildings.ruleset:1339
+#: data/multiplayer/buildings.ruleset:1258
 msgid "King Richard's Crusade"
 msgstr "리처드왕의 십자군"
 
-#: data/civ2/buildings.ruleset:1233 data/default/buildings.ruleset:1300
-#: data/experimental/buildings.ruleset:1352
-#: data/multiplayer/buildings.ruleset:1270
+#: data/civ2/buildings.ruleset:1234 data/default/buildings.ruleset:1301
+#: data/experimental/buildings.ruleset:1353
+#: data/multiplayer/buildings.ruleset:1272
 msgid ""
 "Adds one extra shield resource on every tile around the city where it is "
 "built."
@@ -24433,41 +24433,41 @@ msgstr ""
 "이것이 지어진 도시 주위의 모든 타일에서, 하나의 추가적인 보호 자원을 추가시킵"
 "니다."
 
-#: data/civ2/buildings.ruleset:1239 data/default/buildings.ruleset:1306
-#: data/experimental/buildings.ruleset:1358
-#: data/multiplayer/buildings.ruleset:1276
+#: data/civ2/buildings.ruleset:1240 data/default/buildings.ruleset:1307
+#: data/experimental/buildings.ruleset:1359
+#: data/multiplayer/buildings.ruleset:1278
 msgid "Leonardo's Workshop"
 msgstr "레오나르도의 작업장"
 
-#: data/civ2/buildings.ruleset:1253 data/default/buildings.ruleset:1320
-#: data/experimental/buildings.ruleset:1372
+#: data/civ2/buildings.ruleset:1254 data/default/buildings.ruleset:1321
+#: data/experimental/buildings.ruleset:1373
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "게임 차례당 하나의 구식인 부대를 개선시킵니다."
 
-#: data/civ2/buildings.ruleset:1272
+#: data/civ2/buildings.ruleset:1273
 #, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all cities)."
 msgstr "모든 해상부대에게 추가 2의 이동포인트를 줍니다."
 
-#: data/civ2/buildings.ruleset:1292
+#: data/civ2/buildings.ruleset:1293
 msgid "Gives all sea units 2 additional movement points."
 msgstr "모든 해상 부대에게 2 의 추가적인 이동 단위를 줍니다."
 
-#: data/civ2/buildings.ruleset:1315 data/default/buildings.ruleset:1384
-#: data/experimental/buildings.ruleset:1436
-#: data/multiplayer/buildings.ruleset:1354
+#: data/civ2/buildings.ruleset:1316 data/default/buildings.ruleset:1385
+#: data/experimental/buildings.ruleset:1437
+#: data/multiplayer/buildings.ruleset:1356
 msgid "Marco Polo's Embassy"
 msgstr "마르코 폴로의 대사관"
 
-#: data/civ2/buildings.ruleset:1329 data/default/buildings.ruleset:1398
-#: data/experimental/buildings.ruleset:1450
+#: data/civ2/buildings.ruleset:1330 data/default/buildings.ruleset:1399
+#: data/experimental/buildings.ruleset:1451
 msgid "The player who owns it gets an embassy with all players."
 msgstr "이것을 소유한 플레이어는 모든 플레이어와 대사관을 가집니다."
 
-#: data/civ2/buildings.ruleset:1348 data/default/buildings.ruleset:1417
-#: data/experimental/buildings.ruleset:1469
+#: data/civ2/buildings.ruleset:1349 data/default/buildings.ruleset:1418
+#: data/experimental/buildings.ruleset:1470
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city; however, it does not affect citizens made "
@@ -24482,11 +24482,11 @@ msgstr ""
 "인 불만족스러워 하는 시민을 만족시킴을 증가시킵니다. 공산주의의 발견으로 대성"
 "당의 영향이, 불만족스러워 하는 시민을 만족시킴의 수를 한 단위 줄입니다."
 
-#: data/civ2/buildings.ruleset:1394
+#: data/civ2/buildings.ruleset:1395
 msgid "Counts as having a Granary in every city."
 msgstr "모든 도시에 곡창을 가진 것으로 간주합니다."
 
-#: data/civ2/buildings.ruleset:1414
+#: data/civ2/buildings.ruleset:1415
 #, no-c-format
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
@@ -24495,19 +24495,19 @@ msgstr ""
 "각각의 도시와 함께있는 도서관에서 과학 생산물을 50% 로 향상시킵니다. (당신의 "
 "도시의 전체에서 연구소를 가진 것으로 간주합니다.)"
 
-#: data/civ2/buildings.ruleset:1440 data/default/buildings.ruleset:1511
-#: data/experimental/buildings.ruleset:1563
-#: data/multiplayer/buildings.ruleset:1480
+#: data/civ2/buildings.ruleset:1442 data/default/buildings.ruleset:1513
+#: data/experimental/buildings.ruleset:1565
+#: data/multiplayer/buildings.ruleset:1483
 msgid "Statue of Liberty"
 msgstr "자유의 여신상"
 
-#: data/civ2/buildings.ruleset:1461 data/default/buildings.ruleset:1532
-#: data/experimental/buildings.ruleset:1584
-#: data/multiplayer/buildings.ruleset:1501
+#: data/civ2/buildings.ruleset:1463 data/default/buildings.ruleset:1534
+#: data/experimental/buildings.ruleset:1586
+#: data/multiplayer/buildings.ruleset:1504
 msgid "Sun Tzu's War Academy"
 msgstr "손자병법"
 
-#: data/civ2/buildings.ruleset:1476
+#: data/civ2/buildings.ruleset:1478
 #, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
@@ -24515,13 +24515,13 @@ msgid ""
 "to 100%."
 msgstr ""
 
-#: data/civ2/buildings.ruleset:1497 data/default/buildings.ruleset:1567
-#: data/experimental/buildings.ruleset:1619
+#: data/civ2/buildings.ruleset:1499 data/default/buildings.ruleset:1569
+#: data/experimental/buildings.ruleset:1621
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "당신의 모든 부대는 매 차례당 2의 추가적인 타격 단위를 되찾습니다."
 
-#: data/civ2/buildings.ruleset:1524 data/default/buildings.ruleset:1594
-#: data/experimental/buildings.ruleset:1646
+#: data/civ2/buildings.ruleset:1526 data/default/buildings.ruleset:1596
+#: data/experimental/buildings.ruleset:1648
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
 "reduces the unhappiness caused by aggressively deployed military units owned "
@@ -24535,11 +24535,11 @@ msgstr ""
 "도시마다 무효화시킵니다. 이 불가사의는 다른 정부 아래에서는 아무 영향을 가지"
 "지 못합니다."
 
-#: data/civ2/buildings.ruleset:1534
+#: data/civ2/buildings.ruleset:1536
 msgid "Capitalization"
 msgstr "자본화"
 
-#: data/civ2/buildings.ruleset:1547
+#: data/civ2/buildings.ruleset:1549
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -25430,7 +25430,7 @@ msgstr ""
 "주어지지만, 오직 지상 부대들과 헬리콥터들에게만 입니다."
 
 #: data/default/buildings.ruleset:89 data/experimental/buildings.ruleset:91
-#: data/multiplayer/buildings.ruleset:111
+#: data/multiplayer/buildings.ruleset:112
 msgid ""
 "Allows a city to grow larger than size 8 and reduces the chance of plague "
 "within the city. A Sewer System is required for a city to grow larger than "
@@ -25448,7 +25448,7 @@ msgstr ""
 "러워하는 시민들에게는 영향을 끼치지 않습니다."
 
 #: data/default/buildings.ruleset:302 data/experimental/buildings.ruleset:304
-#: data/multiplayer/buildings.ruleset:301
+#: data/multiplayer/buildings.ruleset:302
 #, no-c-format
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
@@ -25459,8 +25459,8 @@ msgstr ""
 "의 불만족스러워하는 시민을 만족시킵니다. (시민이 군사 활동에 불만족스러워하"
 "지 않는 한입니다.) 또한 도시의 혁명 비용을 4 시간 더 크게 만듭니다. "
 
-#: data/default/buildings.ruleset:393 data/experimental/buildings.ruleset:415
-#: data/multiplayer/buildings.ruleset:390
+#: data/default/buildings.ruleset:394 data/experimental/buildings.ruleset:416
+#: data/multiplayer/buildings.ruleset:392
 #, fuzzy, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25482,28 +25482,28 @@ msgstr ""
 "각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중 "
 "오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
-#: data/default/buildings.ruleset:403 data/default/buildings.ruleset:521
-#: data/default/buildings.ruleset:658 data/default/buildings.ruleset:806
-#: data/experimental/buildings.ruleset:425
-#: data/experimental/buildings.ruleset:570
-#: data/experimental/buildings.ruleset:707
-#: data/experimental/buildings.ruleset:855
-#: data/multiplayer/buildings.ruleset:516
-#: data/multiplayer/buildings.ruleset:645
-#: data/multiplayer/buildings.ruleset:788
+#: data/default/buildings.ruleset:404 data/default/buildings.ruleset:522
+#: data/default/buildings.ruleset:659 data/default/buildings.ruleset:807
+#: data/experimental/buildings.ruleset:426
+#: data/experimental/buildings.ruleset:571
+#: data/experimental/buildings.ruleset:708
+#: data/experimental/buildings.ruleset:856
+#: data/multiplayer/buildings.ruleset:518
+#: data/multiplayer/buildings.ruleset:647
+#: data/multiplayer/buildings.ruleset:790
 msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
 
-#: data/default/buildings.ruleset:427 data/experimental/buildings.ruleset:473
-#: data/multiplayer/buildings.ruleset:422
+#: data/default/buildings.ruleset:428 data/experimental/buildings.ruleset:474
+#: data/multiplayer/buildings.ruleset:424
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
 msgstr "도시 안의 과학 생산물을 100% 로 증가시킵니다."
 
-#: data/default/buildings.ruleset:511 data/experimental/buildings.ruleset:560
-#: data/multiplayer/buildings.ruleset:506
+#: data/default/buildings.ruleset:512 data/experimental/buildings.ruleset:561
+#: data/multiplayer/buildings.ruleset:508
 #, fuzzy, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25525,16 +25525,16 @@ msgstr ""
 "각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중 "
 "오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
-#: data/default/buildings.ruleset:581 data/experimental/buildings.ruleset:630
-#: data/multiplayer/buildings.ruleset:571
+#: data/default/buildings.ruleset:582 data/experimental/buildings.ruleset:631
+#: data/multiplayer/buildings.ruleset:573
 #, no-c-format
 msgid ""
 "Under Despotism the city containing the palace gains a +75% production "
 "bonus, and under Monarchy a +50% production bonus."
 msgstr ""
 
-#: data/default/buildings.ruleset:650 data/experimental/buildings.ruleset:699
-#: data/multiplayer/buildings.ruleset:637
+#: data/default/buildings.ruleset:651 data/experimental/buildings.ruleset:700
+#: data/multiplayer/buildings.ruleset:639
 #, fuzzy, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25553,8 +25553,8 @@ msgstr ""
 "각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중 "
 "오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
-#: data/default/buildings.ruleset:704 data/experimental/buildings.ruleset:753
-#: data/multiplayer/buildings.ruleset:688
+#: data/default/buildings.ruleset:705 data/experimental/buildings.ruleset:754
+#: data/multiplayer/buildings.ruleset:690
 #, no-c-format
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
@@ -25564,16 +25564,16 @@ msgstr ""
 "도서관과 함께 있는 연구소는, 도시의 과학 생산물을 200% 로 증가시킵니다. 도서"
 "관와 대학이 함께 있는 연구소는, 도시의 과학 생산물을 450% 로 증가시킵니다."
 
-#: data/default/buildings.ruleset:772 data/experimental/buildings.ruleset:821
-#: data/multiplayer/buildings.ruleset:754
+#: data/default/buildings.ruleset:773 data/experimental/buildings.ruleset:822
+#: data/multiplayer/buildings.ruleset:756
 msgid ""
 "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
 "for a city to grow larger than size 8. The Sewer System further reduces the "
 "chance of a plague."
 msgstr ""
 
-#: data/default/buildings.ruleset:796 data/experimental/buildings.ruleset:845
-#: data/multiplayer/buildings.ruleset:778
+#: data/default/buildings.ruleset:797 data/experimental/buildings.ruleset:846
+#: data/multiplayer/buildings.ruleset:780
 #, fuzzy, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
@@ -25595,9 +25595,9 @@ msgstr ""
 "각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중 "
 "오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
-#: data/default/buildings.ruleset:1003
-#: data/experimental/buildings.ruleset:1055
-#: data/multiplayer/buildings.ruleset:986
+#: data/default/buildings.ruleset:1004
+#: data/experimental/buildings.ruleset:1056
+#: data/multiplayer/buildings.ruleset:988
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
@@ -25605,8 +25605,8 @@ msgid ""
 msgstr ""
 "도서관과 함께 있는 대학교는, 도시의 과학 생산물을 250% 로 증가시킵니다."
 
-#: data/default/buildings.ruleset:1046
-#: data/experimental/buildings.ruleset:1098
+#: data/default/buildings.ruleset:1047
+#: data/experimental/buildings.ruleset:1099
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -25614,23 +25614,23 @@ msgstr ""
 "당신의 모든 도시에서, 유지비가 보통 1 단위로 가지는 도시 시설은, 유지비가 공"
 "짜가 됩니다."
 
-#: data/default/buildings.ruleset:1106
-#: data/experimental/buildings.ruleset:1158
+#: data/default/buildings.ruleset:1107
+#: data/experimental/buildings.ruleset:1159
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
 "further reduces the possibility for an illness in the city."
 msgstr ""
 
-#: data/default/buildings.ruleset:1152
-#: data/experimental/buildings.ruleset:1204
+#: data/default/buildings.ruleset:1153
+#: data/experimental/buildings.ruleset:1205
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr "다른 국가 사이에서 당신의 명성과 호의를, 두배나 빠르게 회복시킵니다."
 
-#: data/default/buildings.ruleset:1260
-#: data/experimental/buildings.ruleset:1312
+#: data/default/buildings.ruleset:1261
+#: data/experimental/buildings.ruleset:1313
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -25638,21 +25638,21 @@ msgid ""
 msgstr ""
 "당신이 대학을 가진 통제하는 모든 도시에서 과학 생산물을 100% 로 향상시킵니다."
 
-#: data/default/buildings.ruleset:1340
-#: data/experimental/buildings.ruleset:1392
+#: data/default/buildings.ruleset:1341
+#: data/experimental/buildings.ruleset:1393
 #, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
 msgstr "모든 해상부대에게 추가 2의 이동포인트를 줍니다."
 
-#: data/default/buildings.ruleset:1361
-#: data/experimental/buildings.ruleset:1413
+#: data/default/buildings.ruleset:1362
+#: data/experimental/buildings.ruleset:1414
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "당신의 모든 해상 부대에게 2 의 추가적인 이동 단위를 줍니다."
 
-#: data/default/buildings.ruleset:1464
-#: data/experimental/buildings.ruleset:1516
+#: data/default/buildings.ruleset:1465
+#: data/experimental/buildings.ruleset:1517
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -25663,30 +25663,30 @@ msgstr ""
 "로 줄입니다. 이것은 도시가 더 빠르게 성장하고 기아현상을 더 쉽게 견디게 도와"
 "줄 것입니다. 곡창과 누적됩니다."
 
-#: data/default/buildings.ruleset:1486
-#: data/experimental/buildings.ruleset:1538
+#: data/default/buildings.ruleset:1487
+#: data/experimental/buildings.ruleset:1539
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%. "
 msgstr ""
 "연구소와 함께 있는 각각의 도시 안의 과학 생산물을 100% 로 향상시킵니다."
 
-#: data/default/buildings.ruleset:1546
-#: data/experimental/buildings.ruleset:1598
+#: data/default/buildings.ruleset:1548
+#: data/experimental/buildings.ruleset:1600
 msgid ""
 "All your new military land units start at the first veteran level. The "
 "chance of a land unit getting the next veteran level after a battle "
 "increases by half."
 msgstr ""
 
-#: data/default/buildings.ruleset:1607
-#: data/experimental/buildings.ruleset:1659
-#: data/multiplayer/buildings.ruleset:1568
+#: data/default/buildings.ruleset:1609
+#: data/experimental/buildings.ruleset:1661
+#: data/multiplayer/buildings.ruleset:1571
 msgid "Coinage"
 msgstr "화폐주조"
 
-#: data/default/buildings.ruleset:1628
-#: data/experimental/buildings.ruleset:1680
-#: data/multiplayer/buildings.ruleset:1581
+#: data/default/buildings.ruleset:1630
+#: data/experimental/buildings.ruleset:1682
+#: data/multiplayer/buildings.ruleset:1584
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -25987,33 +25987,33 @@ msgstr ""
 "AWACS(공중 경고와 조절 체계)는 넓은 지역 너머로 적 부대들의 위치를 알아챌 수 "
 "있는 진보된 전파 탐지기를 가진 비행기입니다."
 
-#: data/experimental/buildings.ruleset:378
+#: data/experimental/buildings.ruleset:379
 #, fuzzy
 msgid "Hospital"
 msgstr "수도:"
 
-#: data/experimental/buildings.ruleset:392
+#: data/experimental/buildings.ruleset:393
 msgid ""
 "A Hospital is used to treat the ill, and sometimes for medical research. A "
 "city with a Hospital is less like to suffer from plagues."
 msgstr ""
 
-#: data/experimental/buildings.ruleset:434
+#: data/experimental/buildings.ruleset:435
 #, fuzzy
 msgid "Genetic Lab"
 msgstr "숙련가"
 
-#: data/experimental/buildings.ruleset:449
+#: data/experimental/buildings.ruleset:450
 #, no-c-format
 msgid ""
 "In a Genetic Laboratory medicaments can be researched. The possibility for "
 "plagues within the city is reduced.\n"
-"A Genetic Laboratory allows the genetic optimisation of plants and animals. "
+"A Genetic Laboratory allows the genetic optimization of plants and animals. "
 "The food output is increased by 25% if the city size exceeds 20."
 msgstr ""
 
-#: data/experimental/buildings.ruleset:516
-#: data/experimental/buildings.ruleset:987
+#: data/experimental/buildings.ruleset:517
+#: data/experimental/buildings.ruleset:988
 msgid ""
 "If a metropolis (city size > 30) has a Mass Transit and a Super Highway the "
 "city radius is further increased."
@@ -26067,10 +26067,10 @@ msgid "Big Land"
 msgstr "지상"
 
 #: data/multiplayer/buildings.ruleset:77
-msgid "Amphitheatre"
+msgid "Amphitheater"
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:91
+#: data/multiplayer/buildings.ruleset:92
 #, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
@@ -26080,7 +26080,7 @@ msgstr ""
 "니다. (전기의 발견 이후에는 4 단위입니다.) 그러나, 군사 활동으로부터 불만족스"
 "러워하는 시민들에게는 영향을 끼치지 않습니다."
 
-#: data/multiplayer/buildings.ruleset:324
+#: data/multiplayer/buildings.ruleset:325
 #, fuzzy, no-c-format
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
@@ -26090,14 +26090,14 @@ msgstr ""
 "도시 안의 보호 생산을 50% 로 증가시킵니다. 이것은 크게 공해의 원인이 될 것입"
 "니다."
 
-#: data/multiplayer/buildings.ruleset:400
+#: data/multiplayer/buildings.ruleset:402
 msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time. A city can only build a Hydro Plant "
 "if it is next to (or on) a Mountain or River tile."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:591
+#: data/multiplayer/buildings.ruleset:593
 #, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
@@ -26110,15 +26110,15 @@ msgstr ""
 "의 군사 부대로서 야기되는 불만족을 무효화시킵니다. 이 시설은 다른 정부들 아래"
 "에서는 효과를 못 가집니다."
 
-#: data/multiplayer/buildings.ruleset:813
-#: data/multiplayer/buildings.ruleset:848
-#: data/multiplayer/buildings.ruleset:874
+#: data/multiplayer/buildings.ruleset:815
+#: data/multiplayer/buildings.ruleset:850
+#: data/multiplayer/buildings.ruleset:876
 msgid ""
 "Before you can build any spaceship parts, you must build the Apollo Program. "
 "For any city to build a spaceship part, it needs to have a Factory."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:941
+#: data/multiplayer/buildings.ruleset:943
 #, fuzzy, no-c-format
 msgid ""
 "Increases the food resources by 100% on each farmland tile which is being "
@@ -26128,13 +26128,13 @@ msgstr ""
 "도시 주위의 사용되는 각각의 농지 타일에서 50% 의 음식 자원을 증가시킵니다. 농"
 "지 타일은 두 번 관개되어 있어야 합니다."
 
-#: data/multiplayer/buildings.ruleset:1006
+#: data/multiplayer/buildings.ruleset:1008
 msgid ""
 "Allows you to start building spaceship parts in cities with factories "
 "(assuming you have researched the necessary technologies)."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1027
+#: data/multiplayer/buildings.ruleset:1029
 #, fuzzy
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
@@ -26143,39 +26143,39 @@ msgstr ""
 "당신의 모든 도시에서, 유지비가 보통 1 단위로 가지는 도시 시설은, 유지비가 공"
 "짜가 됩니다."
 
-#: data/multiplayer/buildings.ruleset:1087
+#: data/multiplayer/buildings.ruleset:1089
 msgid ""
 "This stunning technological achievement makes two citizens happy in all "
 "cities of all players who have researched Genetic Engineering."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1108
+#: data/multiplayer/buildings.ruleset:1110
 msgid ""
 " Gives two immediate technology advances the first time it is built by each "
 "player."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1129
+#: data/multiplayer/buildings.ruleset:1131
 #, no-c-format
 msgid ""
 "Each city on the same continent may support one unit free of shield upkeep."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1150
+#: data/multiplayer/buildings.ruleset:1152
 #, no-c-format
 msgid "Reduces corruption by 50% in all cities on the same continent."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1169
+#: data/multiplayer/buildings.ruleset:1171
 #, fuzzy
 msgid "Works as a City Wall in all your cities on the same continent."
 msgstr "당신의 모든 도시에서 성벽처럼 동작시킵니다."
 
-#: data/multiplayer/buildings.ruleset:1188
+#: data/multiplayer/buildings.ruleset:1190
 msgid "Makes two content citizens happy in every city on the same continent."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1208
+#: data/multiplayer/buildings.ruleset:1210
 #, fuzzy
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent. (This "
@@ -26184,7 +26184,7 @@ msgstr ""
 "모든 도시에서 수력 발전소를 가진 것 처럼 작동시킵니다. (이것은 공해를 줄이"
 "고, 공장과 제조공장,발전소의 영향을 증가시킵니다.)"
 
-#: data/multiplayer/buildings.ruleset:1230
+#: data/multiplayer/buildings.ruleset:1232
 #, fuzzy, no-c-format
 msgid ""
 "Boosts science production by 100% in every city on the same continent that "
@@ -26192,30 +26192,30 @@ msgid ""
 msgstr ""
 "당신이 대학을 가진 통제하는 모든 도시에서 과학 생산물을 100% 로 향상시킵니다."
 
-#: data/multiplayer/buildings.ruleset:1250
+#: data/multiplayer/buildings.ruleset:1252
 #, fuzzy
 msgid "Makes two unhappy citizens content in every city on the same continent."
 msgstr ""
 "모든 도시의 불만족스러워하는 두 시민을 만족시킵니다. (군사 활동에 대한 시민"
 "의 불만족도 포함합니다.)"
 
-#: data/multiplayer/buildings.ruleset:1290
+#: data/multiplayer/buildings.ruleset:1292
 #, fuzzy
 msgid ""
 "Upgrades two obsolete units inside cities on the same continent per game "
 "turn."
 msgstr "게임 차례당 하나의 구식인 부대를 개선시킵니다."
 
-#: data/multiplayer/buildings.ruleset:1331
+#: data/multiplayer/buildings.ruleset:1333
 msgid "All your new sea units start at the first veteran level."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1369
+#: data/multiplayer/buildings.ruleset:1371
 #, fuzzy, no-c-format
 msgid "Increases trade output by 40% in all cities on the same continent."
 msgstr "도로와 철도와 함께 있는 모든 타일은 무역 자원을 50% 로 증가시킵니다."
 
-#: data/multiplayer/buildings.ruleset:1389
+#: data/multiplayer/buildings.ruleset:1391
 #, fuzzy
 msgid ""
 "Counts as having a Cathedral in each of your cities on the same continent. "
@@ -26230,7 +26230,7 @@ msgstr ""
 "인 불만족스러워 하는 시민을 만족시킴을 증가시킵니다. 공산주의의 발견으로 대성"
 "당의 영향이, 불만족스러워 하는 시민을 만족시킴의 수를 한 단위 줄입니다."
 
-#: data/multiplayer/buildings.ruleset:1413
+#: data/multiplayer/buildings.ruleset:1415
 #, fuzzy
 msgid ""
 "Makes two of your unhappy citizens content in every city with a temple on "
@@ -26239,19 +26239,19 @@ msgstr ""
 "사원과 함께 있는 모든 도시안에서, 불만족스러워 하는 시민을 둘을 추가적으로 만"
 "족시킵니다. 군사 활동으로 불만족하는 시민에게는 영향을 주지않습니다."
 
-#: data/multiplayer/buildings.ruleset:1434
+#: data/multiplayer/buildings.ruleset:1436
 #, no-c-format
 msgid ""
 "The city where this wonder is built will experience rapture growth when "
 "celebrating."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1440
+#: data/multiplayer/buildings.ruleset:1442
 #, fuzzy
 msgid "The Internet"
 msgstr "내부"
 
-#: data/multiplayer/buildings.ruleset:1454
+#: data/multiplayer/buildings.ruleset:1456
 #, fuzzy
 msgid ""
 "Boosts science production in each city on the same continent with a Research "
@@ -26259,7 +26259,7 @@ msgid ""
 msgstr ""
 "연구소와 함께 있는 각각의 도시 안의 과학 생산물을 100% 로 향상시킵니다."
 
-#: data/multiplayer/buildings.ruleset:1515
+#: data/multiplayer/buildings.ruleset:1518
 #, fuzzy
 msgid ""
 "All your new ground units produced in cities on the same continent start at "
@@ -26269,14 +26269,14 @@ msgstr ""
 "당신의 새로운 지상 부대가 처음부터 숙련가 수준에서 시작시킵니다. 지상 부대가 "
 "전투 후의 다음 숙련가 수준에 도달하기에 반을 증가시키는 기회입니다."
 
-#: data/multiplayer/buildings.ruleset:1537
+#: data/multiplayer/buildings.ruleset:1540
 msgid ""
 "Creates a world senate that may prevent declarations of war in some "
 "circumstances. If any player's city is in revolt for more than two turns, "
 "that player's government falls."
 msgstr ""
 
-#: data/multiplayer/buildings.ruleset:1558
+#: data/multiplayer/buildings.ruleset:1561
 #, fuzzy
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
@@ -27572,12 +27572,12 @@ msgid ""
 "Celtic kingdom was conquered by the Romans in approximately 15 BC, and later "
 "became Noricum, a Roman province, in the mid 1st century AD - an area which "
 "mostly encloses today's Austria. In 788 AD, the Frankish king Charlemagne "
-"conquered the area, and introduced Christianity. Under the the native "
-"Habsburg dynasty, Austria became one of the great powers of Europe. In 1867, "
-"the Austrian Empire was reformed into Austria-Hungary. The Austro-Hungarian "
+"conquered the area, and introduced Christianity. Under the native Habsburg "
+"dynasty, Austria became one of the great powers of Europe. In 1867, the "
+"Austrian Empire was reformed into Austria-Hungary. The Austro-Hungarian "
 "Empire collapsed in 1918 with the end of World War I. After establishing the "
-"First Austrian Republic in 1919, Austria joined  Nazi Germany in the "
-"Anschluss in 1938. This lasted until the end of World  War II in 1945, after "
+"First Austrian Republic in 1919, Austria joined Nazi Germany in the "
+"Anschluss in 1938. This lasted until the end of World War II in 1945, after "
 "which Austria was occupied by the Allies."
 msgstr ""
 
@@ -28996,7 +28996,7 @@ msgstr "캐나다 사람"
 #: data/nation/chananean.ruleset:6
 msgid ""
 "Reports of chynocephaly (having the head of a dog or jackal) can be traced "
-"to Greek Antiquity. The physician Ctesias and the traveller Megasthenes "
+"to Greek Antiquity. The physician Ctesias and the traveler Megasthenes "
 "placed them in India. In the middle ages, Giovanni da Pian and Marco Polo "
 "made reference to them, while the theologian Ratramnus debated whether they "
 "should be considered human or not. Various stories have placed them in "
@@ -30820,7 +30820,7 @@ msgstr "히타이트 사람"
 #: data/nation/hittite.ruleset:6
 msgid ""
 "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were "
-"the first civilisation to discover iron working. At its height, they "
+"the first civilization to discover iron working. At its height, they "
 "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 "Babylon."
 msgstr ""
@@ -31643,7 +31643,7 @@ msgid ""
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
 "1975 the communist Pathet Lao established a strict socialist regime. "
 "However, in 1986 the liberalization and a gradual return to private "
-"enterpise started."
+"enterprise started."
 msgstr ""
 
 #: data/nation/latvian.ruleset:3
@@ -33176,7 +33176,7 @@ msgid ""
 "Although Occitania never had a real political unity (it consisted of several "
 "counties and duchies in today's southern France), its culture enjoyed great "
 "prestige all over Europe during the 11th, 12th and 13th centuries, Occitan "
-"being the language of troubadours. Its religous freedom allowed the "
+"being the language of troubadours. Its religious freedom allowed the "
 "flourishing of Catharism, which was declared heretic by the Pope, and the "
 "French kings took advantage of the subsequent crusade to annex its territory."
 msgstr ""
@@ -34683,8 +34683,8 @@ msgstr "남아프리카 사람"
 
 #: data/nation/southamerican.ruleset:6
 msgid ""
-"The Union of South American Nations was formed in 2008, modelled after the "
-"European Union, but panamericanism has already existed since the the 19th "
+"The Union of South American Nations was formed in 2008, modeled after the "
+"European Union, but panamericanism has already existed since the 19th "
 "century."
 msgstr ""
 
