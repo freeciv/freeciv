@@ -18,7 +18,6 @@
 
 /* utility */
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
@@ -38,11 +37,12 @@
 /* the very map */
 struct civ_map map;
 
-/* An entry in the start position table. */
-struct startpos_entry {
-  int key;
-  const struct nation_type *nation;
-};
+/* struct startpos_hash and related functions. */
+#define SPECHASH_TAG startpos
+#define SPECHASH_KEY_TYPE const struct tile *
+#define SPECHASH_DATA_TYPE const struct nation_type *
+#include "spechash.h"
+
 
 /* these are initialized from the terrain ruleset */
 struct terrain_misc terrain_control;
@@ -457,10 +457,9 @@ void map_allocate(void)
   generate_map_indices();
 
   if (map.startpos_table != NULL) {
-    hash_free(map.startpos_table);
+    startpos_hash_destroy(map.startpos_table);
   }
-  map.startpos_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,
-                                     NULL, free);
+  map.startpos_table = startpos_hash_new();
 }
 
 /***************************************************************
@@ -479,7 +478,7 @@ void map_free(void)
     map.tiles = NULL;
 
     if (map.startpos_table) {
-      hash_free(map.startpos_table);
+      startpos_hash_destroy(map.startpos_table);
       map.startpos_table = NULL;
     }
 
@@ -1294,7 +1293,7 @@ bool map_startpositions_set(void)
     return FALSE;
   }
 
-  return hash_num_entries(map.startpos_table) != 0;
+  return (0 < startpos_hash_size(map.startpos_table));
 }
 
 /****************************************************************************
@@ -1304,18 +1303,12 @@ bool map_startpositions_set(void)
 void map_set_startpos(const struct tile *ptile,
                       const struct nation_type *pnation)
 {
-  struct startpos_entry *spe;
-
   if (!map.startpos_table || !ptile) {
     return;
   }
   map_clear_startpos(ptile);
 
-  spe = fc_calloc(1, sizeof(*spe));
-  spe->key = tile_index(ptile);
-  spe->nation = pnation;
-
-  hash_insert(map.startpos_table, FC_INT_TO_PTR(spe->key), spe);
+  startpos_hash_insert(map.startpos_table, ptile, pnation);
 }
 
 /****************************************************************************
@@ -1324,19 +1317,11 @@ void map_set_startpos(const struct tile *ptile,
 ****************************************************************************/
 bool map_has_startpos(const struct tile *ptile)
 {
-  struct startpos_entry *spe;
-
   if (!map.startpos_table || !ptile) {
     return FALSE;
   }
 
-  spe = hash_lookup_data(map.startpos_table,
-                         FC_INT_TO_PTR(tile_index(ptile)));
-  if (!spe) {
-    return FALSE;
-  }
-
-  return TRUE;
+  return startpos_hash_lookup(map.startpos_table, ptile, NULL);
 }
 
 /****************************************************************************
@@ -1345,19 +1330,14 @@ bool map_has_startpos(const struct tile *ptile)
 ****************************************************************************/
 const struct nation_type *map_get_startpos(const struct tile *ptile)
 {
-  struct startpos_entry *spe;
+  const struct nation_type *pnation;
 
   if (!map.startpos_table || !ptile) {
     return NULL;
   }
 
-  spe = hash_lookup_data(map.startpos_table,
-                         FC_INT_TO_PTR(tile_index(ptile)));
-  if (!spe) {
-    return NULL;
-  }
-
-  return spe->nation;
+  startpos_hash_lookup(map.startpos_table, ptile, &pnation);
+  return pnation;
 }
 
 /****************************************************************************
@@ -1369,6 +1349,5 @@ void map_clear_startpos(const struct tile *ptile)
     return;
   }
 
-  hash_delete_entry(map.startpos_table,
-                    FC_INT_TO_PTR(tile_index(ptile)));
+  startpos_hash_remove(map.startpos_table, ptile);
 }

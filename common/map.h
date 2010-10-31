@@ -37,7 +37,7 @@ miscellaneous terrain information
 *****************************************************************/
 #define terrain_misc packet_ruleset_terrain_control
 
-struct hash_table;
+struct startpos_hash;
 
 enum mapsize_type {
   MAPSIZE_FULLSIZE = 0, /* Using the number of tiles / 1000. */
@@ -72,7 +72,7 @@ struct civ_map {
   int num_continents;
   int num_oceans;               /* not updated at the client */
   struct tile *tiles;
-  struct hash_table *startpos_table;
+  struct startpos_hash *startpos_table;
 
   union {
     struct {
