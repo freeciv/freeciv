@@ -2411,14 +2411,14 @@ static bool cancelvote_command(struct connection *caller,
     notify_team(conn_get_player(vote_get_caller(pvote)),
                 NULL, E_VOTE_ABORTED, ftc_server,
                 /* TRANS: "vote" as a process */
-                _("%s has cancelled the vote \"%s\" (number %d)."),
+                _("%s has canceled the vote \"%s\" (number %d)."),
                 caller->username, pvote->cmdline, pvote->vote_no);
   } else {
     /* Server prompt */
     notify_team(conn_get_player(vote_get_caller(pvote)),
                 NULL, E_VOTE_ABORTED, ftc_server,
                 /* TRANS: "vote" as a process */
-                _("The vote \"%s\" (number %d) has been cancelled."),
+                _("The vote \"%s\" (number %d) has been canceled."),
                 pvote->cmdline, pvote->vote_no);
   }
   /* Make it after, prevent crashs about a free pointer (pvote). */
@@ -3902,7 +3902,7 @@ static bool handle_stdin_input_real(struct connection *caller,
       if (caller_had_vote) {
         cmd_reply(CMD_VOTE, caller, C_COMMENT,
                   /* TRANS: "vote" as a process */
-                  _("Your new vote cancelled your previous vote."));
+                  _("Your new vote canceled your previous vote."));
       }
 
       describe_vote(vote, votedesc, sizeof(votedesc));

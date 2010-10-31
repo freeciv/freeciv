@@ -3,7 +3,7 @@
 name=_("South American")
 plural=_("?plural:South Americans")
 groups= "Imaginary"
-legend=_("The Union of South American Nations was formed in 2008, modelled\
+legend=_("The Union of South American Nations was formed in 2008, modeled\
  after the European Union, but panamericanism has already existed since\
  the the 19th century.")
 

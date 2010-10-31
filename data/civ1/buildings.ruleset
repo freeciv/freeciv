@@ -84,7 +84,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defence strengths are increased by 50%.  Also, damaged units\
+ defense strengths are increased by 50%.  Also, damaged units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
@@ -108,7 +108,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defence strengths are increased by 50%.  Also, damaged units\
+ defense strengths are increased by 50%.  Also, damaged units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
@@ -132,7 +132,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defence strengths are increased by 50%.  Also, damaged units\
+ defense strengths are increased by 50%.  Also, damaged units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
@@ -175,7 +175,7 @@ sabotage	= 50
 sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
-City Walls make it easier to defend a city.  They triple the defence\
+City Walls make it easier to defend a city.  They triple the defense\
  strength of units within the city against land, sea, and helicopter\
  units.  They are ineffective against non-helicopter airborne units as well\
  as Artillery.  City Walls also prevent the loss of population which\
@@ -1008,7 +1008,8 @@ Boosts science production in each city by 50%.\
 ")
 
 [building_shakespeares_theatre]
-name		= _("Shakespeare's Theatre")
+name            = _("Shakespeare's Theater")
+rule_name       = "Shakespeare's Theatre"       ; en_GB used originally
 genus           = "GreatWonder"
 reqs	=
     { "type", "name", "range"

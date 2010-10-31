@@ -164,7 +164,7 @@ static struct {
   /* TRANS: "Vote" as a process */
   GEN_EV(E_VOTE_RESOLVED,	E_S_VOTE,	N_("Vote resolved")),
   /* TRANS: "Vote" as a process */
-  GEN_EV(E_VOTE_ABORTED,	E_S_VOTE,	N_("Vote cancelled")),
+  GEN_EV(E_VOTE_ABORTED,	E_S_VOTE,	N_("Vote canceled")),
   GEN_EV(E_WONDER_BUILD,	E_S_WONDER,	N_("Finished")),
   GEN_EV(E_WONDER_OBSOLETE,	E_S_WONDER,	N_("Made Obsolete")),
   GEN_EV(E_WONDER_STARTED,	E_S_WONDER,	N_("Started")),

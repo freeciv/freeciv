@@ -408,7 +408,7 @@ uk_gold       = 0
 flags         = ""
 roles         = "DefendGood"
 helptext      = _("\
-Mechanized Infantry; this unit has the strongest defence strength\
+Mechanized Infantry; this unit has the strongest defense strength\
  of any land unit, but is only available near the end of the\
  technology tree.\
 ")

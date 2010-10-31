@@ -70,11 +70,12 @@ Two cities with Airports can airlift one unit per turn. \
  some movement points left to be airlifted.\
 ")
 
-; "Colosseum" renamed to "Amphitheatre" as suggested by
+; "Colosseum" renamed to "Amphitheater" as suggested by
 ; mrstarware (http://forum.freeciv.org/viewtopic.php?t=5813)
 ;
 [building_amphitheatre]
-name		= _("Amphitheatre")
+name            = _("Amphitheater")
+rule_name       = "Amphitheatre"        ; en_GB used originally
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
@@ -157,7 +158,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new land unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defence strengths are increased by 50%.  Also, damaged land units\
+ defense strengths are increased by 50%.  Also, damaged land units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
@@ -182,7 +183,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new land unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defence strengths are increased by 50%.  Also, damaged land units\
+ defense strengths are increased by 50%.  Also, damaged land units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
@@ -206,7 +207,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new land unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defence strengths are increased by 50%.  Also, damaged land units\
+ defense strengths are increased by 50%.  Also, damaged land units\
  which stay in town for one full turn without moving are completely\
  restored.\
 ")
@@ -254,7 +255,7 @@ sabotage	= 50
 sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
-City Walls make it easier to defend a city.  They triple the defence\
+City Walls make it easier to defend a city.  They triple the defense\
  strength of units within the city against land and helicopter\
  units.  They are ineffective against airborne and sea units as well\
  as Howitzers.  City Walls also prevent the loss of population which\
@@ -278,7 +279,7 @@ sabotage	= 100
 sound		= "b_coastal_defense"
 sound_alt	= "b_generic"
 helptext	= _("\
-Increases the defence strength of units within a city by a factor\
+Increases the defense strength of units within a city by a factor\
  of 2 when defending against bombardments from enemy ships.\
 ")
 
@@ -349,7 +350,8 @@ The amount of stored food will be set to half full whenever a city\
 ")
 
 [building_harbour]
-name		= _("Harbour")
+name            = _("Harbor")
+rule_name       = "Harbour"     ; en_GB spelling used originally
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
@@ -731,7 +733,7 @@ helptext	= _("\
 Protects a city and its environs (up to 2 tiles away) from attacks\
  by Nuclear units. A Nuclear unit attacking a city with SDI Defense,\
  or attacking a unit (or deliberately exploded) within range, is shot\
- down and simply has no effect. Also, doubles defence for units in\
+ down and simply has no effect. Also, doubles defense for units in\
  the city against non-nuclear missiles.\
 ")
 
@@ -1457,7 +1459,8 @@ Boosts science production in each city on the\
 ")
 
 [building_shakespeares_theatre]
-name		= _("Shakespeare's Theatre")
+name            = _("Shakespeare's Theater")
+rule_name       = "Shakespeare's Theatre"       ; en_GB used originally
 genus		= "SmallWonder"
 reqs	=
     { "type", "name", "range"

@@ -2094,7 +2094,7 @@ static void update_city_activity(struct city *pcity)
       pcity->rapture++;
       if (pcity->rapture == 1) {
         notify_player(pplayer, city_tile(pcity), E_CITY_LOVE, ftc_server,
-                      _("Celebrations in your honour in %s."),
+                      _("Celebrations in your honor in %s."),
                       city_link(pcity));
       }
     } else {

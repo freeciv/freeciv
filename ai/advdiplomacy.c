@@ -1282,11 +1282,11 @@ void static war_countdown(struct player *pplayer, struct player *target,
     case WAR_REASON_EXCUSE:
       notify(ally, PL_("*%s (AI)* %s has grossly violated his treaties "
 		       "with us for own gain.  We will answer in force in "
-		       "%d turn and expect you to honour your alliance "
+		       "%d turn and expect you to honor your alliance "
 		       "with us and do likewise!",
 		       "*%s (AI)* %s has grossly violated his treaties "
 		       "with us for own gain.  We will answer in force in "
-		       "%d turns and expect you to honour your alliance "
+		       "%d turns and expect you to honor your alliance "
 		       "with us and do likewise!", countdown),
 	     player_name(pplayer),
 	     player_name(target),
@@ -1322,19 +1322,19 @@ void static war_countdown(struct player *pplayer, struct player *target,
       break;
     case WAR_REASON_ALLIANCE:
       if (WAR(ally, target)) {
-        notify(ally, PL_("*%s (AI)* We will honour our alliance and declare "
+        notify(ally, PL_("*%s (AI)* We will honor our alliance and declare "
 			 "war on %s in %d turn.  Hold on - we are coming!",
-			 "*%s (AI)* We will honour our alliance and declare "
+			 "*%s (AI)* We will honor our alliance and declare "
 			 "war on %s in %d turns.  Hold on - we are coming!",
 			 countdown),
 	       player_name(pplayer),
 	       player_name(target),
 	       countdown);
       } else if (adip->at_war_with_ally) {
-        notify(ally, PL_("*%s (AI)* We will honour our alliance with %s and "
+        notify(ally, PL_("*%s (AI)* We will honor our alliance with %s and "
 			 "declare war on %s in %d turns.  We expect you to "
 			 "do likewise.",
-			 "*%s (AI)* We will honour our alliance with %s and "
+			 "*%s (AI)* We will honor our alliance with %s and "
 			 "declare war on %s in %d turns.  We expect you to "
 			 "do likewise.",
 			 countdown),
@@ -1612,7 +1612,7 @@ void ai_diplomacy_actions(struct player *pplayer)
                  player_name(target));
           break;
         case -2:
-          notify(aplayer, _("*%s (AI)* Dishonoured one, we made a pact of "
+          notify(aplayer, _("*%s (AI)* Dishonored one, we made a pact of "
                  "alliance, and yet you remain at peace with our mortal "
                  "enemy, %s! This is unacceptable; our alliance is no "
                  "more!"),
@@ -1657,7 +1657,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
       adip->asked_about_peace = !aplayer->ai_controlled ? 12 : 0;
-      notify(aplayer, _("*%s (AI)* Greetings neighbour, may we suggest "
+      notify(aplayer, _("*%s (AI)* Greetings neighbor, may we suggest "
              "more peaceful relations?"),
              player_name(pplayer));
       break;
@@ -1833,7 +1833,7 @@ static void ai_incident_war(struct player *violator, struct player *victim)
             continue;
           }
           notify(ally, _("*%s (AI)* We have been savagely attacked by "
-                         "%s, and we need your help! Honour our glorious "
+                         "%s, and we need your help! Honor our glorious "
                          "alliance and your name will never be forgotten!"),
                  player_name(victim),
                  player_name(violator));

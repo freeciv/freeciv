@@ -162,7 +162,7 @@ can see how the land around the city is being used.  You can \
 assign your citizens to the land, or they can be specialists that \
 contribute to your civilization in other ways.  Especially at the \
 start of the game, care should be taken to ensure that the citizens \
-are employed so that they maximise growth, trade and production.\
+are employed so that they maximize growth, trade and production.\
 "), _("\
     If too much food is being generated, a citizen can be taken off \
 the land by clicking on the occupied land tile.  This \
@@ -171,13 +171,13 @@ previously.\
 "), _("\
     If you move all of your citizens into the city and right-click \
 on the central tile of the land, the citizens will be \
-rearranged to maximise food production.\
+rearranged to maximize food production.\
 "), 
-;     Above: probably some other AI maximisation choice now  --dwp
+;     Above: probably some other AI maximization choice now  --dwp
 _("\
     The golden rule of taking care of a city is that there should be \
 at least as many happy citizens as unhappy citizens.  A city \
-where this is not so is labelled with a lightning bolt.  Take \
+where this is not so is labeled with a lightning bolt.  Take \
 care not to let this happen to any of your cities, as unhappy \
 cities produce nothing, and will soon revolt.\
 "), _("\

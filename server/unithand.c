@@ -994,7 +994,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       /* FIXME: Remove the hard coded reference to SDI defense. */
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
                     _("Your %s was shot down by "
-                      "SDI defences, what a waste."), unit_tile_link(punit));
+                      "SDI defenses, what a waste."), unit_tile_link(punit));
       notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
                     _("The nuclear attack on %s was avoided by"
                       " your SDI defense."), city_link(pcity));

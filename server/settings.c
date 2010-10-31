@@ -1206,7 +1206,7 @@ static struct setting settings[] = {
           N_("Chance to lose an invention while giving it"),
           N_("If you give an invention via an treaty this setting "
              "defines the chance that the invention is lost for your "
-             "civilisation during the transfer."),
+             "civilization during the transfer."),
           NULL, NULL, GAME_MIN_TECHLOST_DONOR, GAME_MAX_TECHLOST_DONOR,
           GAME_DEFAULT_TECHLOST_DONOR)
 
