@@ -49,6 +49,7 @@ libcivutility_la_SOURCES = \
 		shared.c	\
 		shared.h	\
 		specenum_gen.h	\
+		spechash.h	\
 		speclist.h	\
 		specvec.h	\
 		string_vector.c	\
