@@ -949,10 +949,19 @@ static char *stats_%(name)s_names[] = {%(names)s};
   } else {
     *old = *real_packet;
   }
-
 '''%self.get_dict(vars())
+
+        # Cancel some is-info packets.
+        for i in self.cancel:
+            extro=extro+'''
+  hash = pc->phs.received + %s;
+  if (NULL != *hash) {
+    genhash_remove(*hash, real_packet);
+  }
+'''%i
+
         return body+extro
-    
+
 
 # Class which represents a packet. A packet contains a list of fields.
 class Packet:
