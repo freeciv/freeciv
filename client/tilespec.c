@@ -30,7 +30,6 @@
 #include "bitvector.h"
 #include "capability.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
@@ -388,13 +387,38 @@ struct small_sprite {
   struct sprite *sprite;
 };
 
+/* 'struct small_sprite_list' and related functions. */
 #define SPECLIST_TAG small_sprite
 #define SPECLIST_TYPE struct small_sprite
 #include "speclist.h"
+#define small_sprite_list_iterate(list, pitem)                              \
+  TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
+#define small_sprite_list_iterate_end LIST_ITERATE_END
 
-#define small_sprite_list_iterate(list, pitem) \
-    TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
-#define small_sprite_list_iterate_end  LIST_ITERATE_END
+/* 'struct sprite_hash' and related functions. */
+#define SPECHASH_TAG sprite
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE struct small_sprite *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#include "spechash.h"
+#define sprite_hash_iterate(hash, tag_name, sprite)                         \
+  TYPED_HASH_ITERATE(const char *, struct small_sprite *,                   \
+                     hash, tag_name, sprite)
+#define sprite_hash_iterate_end HASH_ITERATE_END
+
+/* 'struct drawing_hash' and related functions. */
+static void drawing_data_destroy(struct drawing_data *draw);
+
+#define SPECHASH_TAG drawing
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE struct drawing_data *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_DATA_FREE drawing_data_destroy
+#include "spechash.h"
 
 struct tileset {
   char name[512];
@@ -437,13 +461,11 @@ struct tileset {
   struct specfile_list *specfiles;
   struct small_sprite_list *small_sprites;
 
-  /*
-   * This hash table maps tilespec tags to struct small_sprites.
-   */
-  struct hash_table *sprite_hash;
+  /* This hash table maps tilespec tags to struct small_sprites. */
+  struct sprite_hash *sprite_hash;
 
   /* This hash table maps terrain graphic strings to drawing data. */
-  struct hash_table *tile_hash;
+  struct drawing_hash *tile_hash;
 
   struct named_sprites sprites;
 
@@ -457,12 +479,40 @@ struct tileset *tileset;
 
 int focus_unit_state = 0;
 
+
 /****************************************************************************
-  Hash callback for freeing key
+  Create a new drawing data.
 ****************************************************************************/
-static void sprite_hash_free_key(void *key)
+static struct drawing_data *drawing_data_new(const char *name)
 {
-  free(key);
+  struct drawing_data *draw = fc_calloc(1, sizeof(*draw));
+
+  draw->name = fc_strdup(name);
+  return draw;
+}
+
+/****************************************************************************
+  Free a drawing data.
+****************************************************************************/
+static void drawing_data_destroy(struct drawing_data *draw)
+{
+  int i;
+
+  fc_assert_ret(NULL != draw);
+
+  free(draw->name);
+  if (NULL != draw->mine_tag) {
+    free(draw->mine_tag);
+  }
+  for (i = 0; i < 4; i++) {
+    if (draw->blend[i]) {
+      free_sprite(draw->blend[i]);
+    }
+  }
+  for (i = 0; i < draw->num_layers; i++) {
+    sprite_vector_free(&draw->layer[i].base);
+  }
+  free(draw);
 }
 
 /****************************************************************************
@@ -831,26 +881,7 @@ static void tileset_free_toplevel(struct tileset *t)
   t->num_prefered_themes = 0;
 
   if (t->tile_hash) {
-    while (hash_num_entries(t->tile_hash) > 0) {
-      struct drawing_data *draw
-         = (void *)hash_value_by_number(t->tile_hash, 0);
-
-      hash_delete_entry(t->tile_hash, draw->name);
-      free(draw->name);
-      if (draw->mine_tag) {
-	free(draw->mine_tag);
-      }
-      for (i = 0; i < 4; i++) {
-	if (draw->blend[i]) {
-	  free_sprite(draw->blend[i]);
-	}
-      }
-      for (i = 0; i < draw->num_layers; i++) {
-	sprite_vector_free(&draw->layer[i].base);
-      }
-      free(draw);
-    }
-    hash_free(t->tile_hash);
+    drawing_hash_destroy(t->tile_hash);
     t->tile_hash = NULL; /* Helpful for sanity. */
   }
 
@@ -1205,14 +1236,14 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
 
         if (!duplicates_ok) {
           for (k = 0; k < num_tags; k++) {
-            if (!hash_insert(t->sprite_hash, fc_strdup(tags[k]), ss)) {
+            if (!sprite_hash_insert(t->sprite_hash, tags[k], ss)) {
               log_error("warning: already have a sprite for \"%s\".",
                         tags[k]);
             }
           }
         } else {
           for (k = 0; k < num_tags; k++) {
-            (void) hash_replace(t->sprite_hash, fc_strdup(tags[k]), ss);
+            (void) sprite_hash_replace(t->sprite_hash, tags[k], ss);
           }
         }
 
@@ -1255,13 +1286,13 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
 
     if (!duplicates_ok) {
       for (k = 0; k < num_tags; k++) {
-        if (!hash_insert(t->sprite_hash, fc_strdup(tags[k]), ss)) {
+        if (!sprite_hash_insert(t->sprite_hash, tags[k], ss)) {
           log_error("warning: already have a sprite for \"%s\".", tags[k]);
         }
       }
     } else {
       for (k = 0; k < num_tags; k++) {
-        (void) hash_replace(t->sprite_hash, fc_strdup(tags[k]), ss);
+        (void) sprite_hash_replace(t->sprite_hash, tags[k], ss);
       }
     }
     free(tags);
@@ -1541,15 +1572,14 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
 
   fc_assert(t->tile_hash == NULL);
-  t->tile_hash = hash_new(hash_fval_string, hash_fcmp_string);
+  t->tile_hash = drawing_hash_new();
 
   section_list_iterate(sections, psection) {
-    struct drawing_data *draw = fc_calloc(1, sizeof(*draw));
     const char *sec_name = section_name(psection);
+    struct drawing_data *draw = drawing_data_new(sec_name + spl);
     const char *sprite_type, *str;
     int l;
 
-    draw->name = fc_strdup(sec_name + spl);
     draw->blending = secfile_lookup_int_default(file, 0, "%s.is_blended",
                                                 sec_name);
     draw->blending = CLIP(0, draw->blending, MAX_NUM_LAYERS);
@@ -1695,7 +1725,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       draw->mine_tag = fc_strdup(str);
     }
 
-    if (!hash_insert(t->tile_hash, draw->name, draw)) {
+    if (!drawing_hash_insert(t->tile_hash, draw->name, draw)) {
       log_error("warning: duplicate tilespec entry [%s].", sec_name);
       goto ON_ERROR;
     }
@@ -1711,8 +1741,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   }
 
   fc_assert(t->sprite_hash == NULL);
-  t->sprite_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
-                                 sprite_hash_free_key, NULL);
+  t->sprite_hash = sprite_hash_new();
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
     const char *dname;
@@ -1833,11 +1862,11 @@ static char *valid_index_str(const struct tileset *t, int index)
 **************************************************************************/
 static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
 {
-  /* Lookup information about where the sprite is found. */
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+  struct small_sprite *ss;
 
   log_debug("load_sprite(tag='%s')", tag_name);
-  if (!ss) {
+  /* Lookup information about where the sprite is found. */
+  if (!sprite_hash_lookup(t->sprite_hash, tag_name, &ss)) {
     return NULL;
   }
 
@@ -1882,8 +1911,9 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
 **************************************************************************/
 static void unload_sprite(struct tileset *t, const char *tag_name)
 {
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+  struct small_sprite *ss;
 
+  sprite_hash_lookup(t->sprite_hash, tag_name, &ss);
   fc_assert_ret(ss);
   fc_assert_ret(ss->ref_count >= 1);
   fc_assert_ret(ss->sprite);
@@ -1917,7 +1947,7 @@ static void insert_sprite(struct tileset *t, const char *tag_name,
   ss->ref_count = 1;
   ss->sprite = sprite;
   small_sprite_list_prepend(t->small_sprites, ss);
-  if (!hash_insert(t->sprite_hash, fc_strdup(tag_name), ss)) {
+  if (!sprite_hash_insert(t->sprite_hash, tag_name, ss)) {
     log_error("warning: already have a sprite for '%s'.", tag_name);
   }
 }
@@ -1929,9 +1959,7 @@ static void insert_sprite(struct tileset *t, const char *tag_name,
 static bool sprite_exists(const struct tileset *t, const char *tag_name)
 {
   /* Lookup information about where the sprite is found. */
-  struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
-
-  return (ss != NULL);
+  return sprite_hash_lookup(t->sprite_hash, tag_name, NULL);
 }
 
 /* Not very safe, but convenient: */
@@ -2213,9 +2241,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       fc_assert(ARRAY_SIZE(names) == CURSOR_LAST);
       fc_snprintf(buffer, sizeof(buffer), "cursor.%s%d", names[i], f);
       SET_SPRITE(cursor[i].frame[f], buffer);
-      ss = hash_lookup_data(t->sprite_hash, buffer);
-      t->sprites.cursor[i].hot_x = ss->hot_x;
-      t->sprites.cursor[i].hot_y = ss->hot_y;
+      if (sprite_hash_lookup(t->sprite_hash, buffer, &ss)) {
+        t->sprites.cursor[i].hot_x = ss->hot_x;
+        t->sprites.cursor[i].hot_y = ss->hot_y;
+      }
     }
   }
 
@@ -2881,15 +2910,12 @@ void tileset_setup_tile_type(struct tileset *t,
     return;
   }
 
-  draw = hash_lookup_data(t->tile_hash, pterrain->graphic_str);
-  if (!draw) {
-    draw = hash_lookup_data(t->tile_hash, pterrain->graphic_alt);
-    if (!draw) {
-      log_fatal("Terrain \"%s\": no graphic tile \"%s\" or \"%s\".",
-                terrain_rule_name(pterrain), pterrain->graphic_str,
-                pterrain->graphic_alt);
-      exit(EXIT_FAILURE);
-    }
+  if (!drawing_hash_lookup(t->tile_hash, pterrain->graphic_str, &draw)
+      && !drawing_hash_lookup(t->tile_hash, pterrain->graphic_alt, &draw)) {
+    log_fatal("Terrain \"%s\": no graphic tile \"%s\" or \"%s\".",
+              terrain_rule_name(pterrain), pterrain->graphic_str,
+              pterrain->graphic_alt);
+    exit(EXIT_FAILURE);
   }
 
   /* Set up each layer of the drawing. */
@@ -4781,16 +4807,11 @@ struct unit *get_drawable_unit(const struct tileset *t,
 static void unload_all_sprites(struct tileset *t)
 {
   if (t->sprite_hash) {
-    int i, entries = hash_num_entries(t->sprite_hash);
-
-    for (i = 0; i < entries; i++) {
-      const char *tag_name = hash_key_by_number(t->sprite_hash, i);
-      struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
-
+    sprite_hash_iterate(t->sprite_hash, tag_name, ss) {
       while (ss->ref_count > 0) {
-	unload_sprite(t, tag_name);
+        unload_sprite(t, tag_name);
       }
-    }
+    } sprite_hash_iterate_end;
   }
 }
 
@@ -4813,16 +4834,7 @@ void tileset_free_tiles(struct tileset *t)
   t->sprites.city.occupied = NULL;
 
   if (t->sprite_hash) {
-    const int entries = hash_num_entries(t->sprite_hash);
-
-    for (i = 0; i < entries; i++) {
-      const char *key = hash_key_by_number(t->sprite_hash, 0);
-
-      hash_delete_entry(t->sprite_hash, key);
-      /* now freed by callback */
-    }
-
-    hash_free(t->sprite_hash);
+    sprite_hash_destroy(t->sprite_hash);
     t->sprite_hash = NULL;
   }
 
