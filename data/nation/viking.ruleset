@@ -26,6 +26,12 @@ leaders = {
  "Magnus Lagabøter",    "Male" ; Norwegian king (13th century)
 }
 
+ruler_titles = {
+ "government",   "male_title",           "female_title"
+ "Despotism",    _("%s Jarl"),           _("?female:%s Jarl")
+ "Democracy",    _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
 flag="viking"
 flag_alt="norway"	; Used previously
 city_style="European"

@@ -30,8 +30,7 @@ leaders = {
 
 ruler_titles = {
  "government", "male_title", "female_title"
- "Despotism",  _("Dug %s"),  _("Dugez %s")
- "Monarchy",   _("Roue %s"), _("Rouanez %s")
+ "Despotism",  _("Duke %s"), _("Duchess %s")
 }
 
 flag = "brittany"

@@ -24,8 +24,7 @@ leaders = {
 
 ruler_titles = {
  "government",     "male_title",           "female_title"
- "Despotism",      _("Lama %s"),           _("?female:Lama %s")
- "Monarchy",       _("Dalai Lama %s"),     _("?female:Dalai Lama %s")
+ "Fundamentalism", _("Dalai Lama %s"),     _("?female:Dalai Lama %s")
  "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
 }
 

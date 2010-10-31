@@ -23,11 +23,6 @@ leaders = {
  "Abd'ashtart", "Male"
 }
 
-ruler_titles = {
- "government",      "male_title",         "female_title"
- "Monarchy",        _("?title:Milk %s"),  _("Milkot %s")
-}
-
 flag="phoenicia"
 flag_alt = "-"
 city_style = "Classical"

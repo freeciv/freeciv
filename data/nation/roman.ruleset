@@ -51,6 +51,7 @@ ruler_titles = {
  "government",      "male_title",      "female_title"
  "Despotism",       _("Dictator %s"),  _("Dictatrix %s")
  "Monarchy",        _("Imperator %s"), _("Imperatrix %s")
+ "Anarchy",         _("Usurper %s"),   _("?female:Usurper %s")
 }
 
 flag = "rome"

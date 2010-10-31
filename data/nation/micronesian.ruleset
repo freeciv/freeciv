@@ -18,7 +18,6 @@ leaders = {
 
 ruler_titles = {
  "government",   "male_title",          "female_title"
- "Monarchy",     _("Saudeleur %s"),     _("?female:Saudeleur %s")
  "Republic",     _("Commissioner %s"),  _("?female:Commissioner %s")
 }
 

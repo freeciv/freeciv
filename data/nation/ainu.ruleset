@@ -15,15 +15,6 @@ leaders = {
  "Tsukinoe",            "Male"
 }
 
-; Source: http://www.raccoonbend.com/languages/ainuenglish.html
-ruler_titles = {
- "government",      "male_title",        "female_title"
- ; /* TRANS: Nipa = Chief */
- "Despotism",       _("%s Nipa"),        _("?female:%s Nipa")
- ; /* TRANS: Nipsa = Master */
- "Monarchy",        _("%s Nipsa"),       _("?female:%s Nipsa")
-}
-
 flag="ainu"
 flag_alt = "-"
 city_style = "Asian"

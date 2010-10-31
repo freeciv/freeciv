@@ -15,11 +15,6 @@ leaders = {
  "Biri II",             "Male"
 }
 
-ruler_titles = {
- "government",      "male_title",        "female_title"
- "Monarchy",        _("Mai %s"),         _("?female:Mai %s")
-}
-
 flag         = "kanem-bornu"
 flag_alt     = "-"
 city_style   = "Tropical"

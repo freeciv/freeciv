@@ -24,8 +24,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Despotism",       _("Dictator %s"),        _("Dictatrix %s")
- ; /* TRANS: Prymas = Bishop */
- "Fundamentalism",  _("Prymas %s"),          _("?female:Prymas %s")
+ "Fundamentalism",  _("Bishop %s"),          _("?female:Bishop %s")
  "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
 }
 

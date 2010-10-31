@@ -26,10 +26,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Democracy",      _("Ataman %s"),     _("?female:Ataman %s")
- "Monarchy",       _("Prince %s"),     _("Princess %s")
- "Fundamentalism", _("Patriarch %s"),  _("Matriarch %s")
- "Republic",       _("Hetman %s"),     _("?female:Hetman %s")
+ "Despotism",       _("Hetman %s"),    _("?female:Hetman %s")
+ "Monarchy",        _("Prince %s"),    _("Princess %s")
+ "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
 }
 
 flag= "cossack" 

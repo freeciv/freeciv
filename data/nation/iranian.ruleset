@@ -38,10 +38,8 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",          "female_title"
  "Monarchy",        _("%s Shah"),          _("%s Shahbanu")
- ; /* TRANS: Raiis Jomhoor = President */
- "Republic",        _("Raiis Jomhoor %s"), _("?female:Raiis Jomhoor %s")
  "Fundamentalism",  _("Ayatollah %s"),     _("?female:Ayatollah %s")
-              }
+}
 
 flag="iran"
 flag_alt = "-"

@@ -22,7 +22,6 @@ ruler_titles = {
  "Despotism",      _("Bailiff %s"),         _("?female:Bailiff %s")
  "Fundamentalism", _("Prince-Bishop %s"),   _("Princess-Bishop %s")
  "Monarchy",       _("Count %s"),           _("Countess %s")
- "Republic",       _("Landeshauptmann %s"), _("Landeshauptfrau %s")
 }
 
 flag="tyrol"

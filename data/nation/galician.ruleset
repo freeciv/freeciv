@@ -22,7 +22,6 @@ ruler_titles = {
 ; /* TRANS: The third letter in "Dona" should be U+00F1 LATIN SMALL LETTER */
 ; /* TRANS: N WITH TILDE */
  "Despotism",       _("Don %s"),            _("Dona %s")
- "Monarchy",        _("Rei %s"),            _("Raina %s")
  "Republic",        _("Presidente %s"),     _("Presidenta %s")
 }
 

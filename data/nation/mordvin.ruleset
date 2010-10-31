@@ -18,9 +18,6 @@ leaders = {
 ruler_titles={
  "government",      "male_title",      "female_title"
  "Despotism",       _("Prince %s"),    _("Princess %s")
- ; /* TRANS: The third letter in 'Inazor' should be a */
- ; /* TRANS: U+00E4 LATIN SMALL LETTER A WITH DIAERESIS. */
- "Monarchy",        _("Inazor %s"),    _("?female:Inazor %s")
 }
 
 flag="mordovia" ; flag of the Republic of Mordovia

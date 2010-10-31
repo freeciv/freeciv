@@ -40,10 +40,10 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("%s Yabgu"),        _("?female:%s Yabgu")
- "Fundamentalism",  _("Great Shaman %s"), _("?female:Great Shaman %s")
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("%s Khan"),         _("%s Khatan")
  "Monarchy",        _("%s Khagan"),       _("?female:%s Khagan")
+ "Fundamentalism",  _("Great Shaman %s"), _("?female:Great Shaman %s")
 }
 
 flag = "gokturk"

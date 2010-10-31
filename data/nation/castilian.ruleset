@@ -30,7 +30,6 @@ ruler_titles = {
  "government",     "male_title",     "female_title"
  "Despotism",      _("Count %s"),    _("Countess %s")
  "Fundamentalism", _("Cardinal %s"), _("?female:Cardinal %s")
- "Republic",       _("Comunero %s"), _("Comunera %s")
 }
 
 flag="castile"

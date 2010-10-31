@@ -17,11 +17,6 @@ leaders = {
  "Miguel Guarumba",     "Male"
 }
 
-ruler_titles = {
- "government", "male_title",    "female_title"
- "Despotism",  _("Mbuyape %s"), _("?female:Mbuyape %s")
-}
-
 flag = "guarani" 
 flag_alt = "-" 
 city_style = "Tropical" 

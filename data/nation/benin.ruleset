@@ -24,11 +24,6 @@ leaders = {
  "Ornogbua",    "Male"
 }
 
-ruler_titles = {
- "government", "male_title", "female_title" 
- "Monarchy",   _("Oba %s"),  _("Iye Oba %s") 
-}
-
 flag= "benin_ancient" 
 flag_alt = "-" 
 city_style = "Tropical" 

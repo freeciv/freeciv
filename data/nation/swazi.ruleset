@@ -19,8 +19,6 @@ leaders = {
 
 ruler_titles = {
  "government",     "male_title",            "female_title"
- ; /* TRANS: Ngwenyama/Indovuzaki = Lion/Elephant cow */
- "Monarchy",       _("Ngwenyama %s"),       _("Indovuzaki %s")
  "Republic",       _("Spokesman %s"),       _("Spokeswoman %s")
  "Democracy",      _("Principal Chief %s"), _("?female:Principal Chief %s")
 }

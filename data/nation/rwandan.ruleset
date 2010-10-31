@@ -18,7 +18,6 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
-; /* TRANS: Mwami = King */
  "Monarchy",        _("Mwami %s"),     _("?female:Mwami %s")
 }
 

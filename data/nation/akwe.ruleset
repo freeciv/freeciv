@@ -20,11 +20,6 @@ leaders = {
  "Warinatsé",           "Male"
 }
 
-ruler_titles = {
- "government",      "male_title",        "female_title"
- "Monarchy",       _("He'a %s"),         _("?female:He'a %s")
-}
-
 flag         = "akwe"
 flag_alt     = "-"
 city_style   = "Tropical"

@@ -20,13 +20,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",             "female_title"
- ; /* TRANS: Cap de Govern = Government Head */
- "Democracy",       _("Cap de Govern %s"),    _("?female:Cap de Govern %s")
- "Despotism",       _("Dictador %s"),         _("Dictadora %s")
+ "Communism",       _("Dictator %s"),         _("Dictatress %s")
  "Monarchy",        _("Prince %s"),           _("Princess %s")
- "Republic",        _("President %s"),        _("Presidenta %s")
- ; /* TRANS: Bisbe = Bishop ; Gran Bruixa = Great Witch */
- "Fundamentalism",  _("Bisbe %s"),            _("Gran Bruixa %s")
+ "Fundamentalism",  _("Bishop %s"),           _("?female:Bishop %s")
 }
 
 flag="andorra"

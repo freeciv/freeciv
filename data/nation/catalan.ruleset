@@ -28,11 +28,8 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Democracy",       _("Prime Minister %s"),  _("?female:Prime Minister %s")
- "Despotism",       _("Dictador %s"),        _("Dictadora %s")
- ; /* TRANS: Rei/Reina = King/Queen */
- "Monarchy",        _("Rei %s"),             _("Reina %s")
- ; /* TRANS: Arquebisbe = Archbishop */
- "Fundamentalism",  _("Arquebisbe %s"),      _("Gran Bruixa %s")
+ "Communism",       _("Dictator %s"),        _("Dictatress %s")
+ "Fundamentalism",  _("Archbishop %s"),      _("?female:Archbishop %s")
 }
 
 flag="catalan"

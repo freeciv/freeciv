@@ -27,11 +27,7 @@ leaders = {
 
 ruler_titles = {
  "government",  "male_title",            "female_title"
- ; /* TRANS: Tlahtoani = Speaker */
- ; /* TRANS: Cihua = Female */
- "Despotism",   _("Tlahtoani %s"),       _("Cihuatlahtoani %s")
- ; /* TRANS: Hueyi  = Great */
- "Monarchy",    _("Hueyi Tlahtoani %s"), _("Hueyi Cihuatlahtoani %s")
+ "Republic",    _("Speaker %s"),         _("?female:Speaker %s")
 } 
 
 flag="aztec"

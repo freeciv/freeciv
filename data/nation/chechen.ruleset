@@ -28,7 +28,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",      "female_title"
  "Monarchy",        _("Emir %s"),      _("Emira %s")
- "Fundamentalism",  _("Imam %s"),      _("?female:Imam %s")
+ "Fundamentalism",  _("Imam %s"),      _("Imama %s")
 }
 
 flag="chechnya"

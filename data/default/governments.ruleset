@@ -61,8 +61,8 @@ name        = _("Anarchy")
 graphic     = "gov.anarchy"
 graphic_alt = "-"
 
-ruler_male_title = _("Usurper %s")
-ruler_female_title = _("?female:Usurper %s")
+ruler_male_title = _("Warlord %s")
+ruler_female_title = _("Warlady %s")
 
 helptext = _("\
 Anarchy is simply the absence of any recognizable government.\

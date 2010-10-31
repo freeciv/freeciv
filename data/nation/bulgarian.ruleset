@@ -28,8 +28,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",         "female_title"
  "Monarchy",        _("Tsar %s"),         _("Tsaritsa %s")
- "Communism",       _("Drugariat %s"),    _("Drugarkata %s")
- "Fundamentalism",  _("Patriarch %s"),    _("Sveta Maika %s")
+ "Fundamentalism",  _("Patriarch %s"),    _("Matriarch %s")
 }
 
 flag="bulgaria"

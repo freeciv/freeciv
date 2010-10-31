@@ -18,8 +18,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",         "female_title"
- "Despotism",       _("Shaman %s"),        _("?female:Shaman %s")
- "Monarchy",        _("Great Shaman %s"),  _("?female:Great Shaman %s")
+ "Fundamentalism",  _("Shaman %s"),        _("?female:Shaman %s")
 }
 
 flag="nunavut"

@@ -16,11 +16,6 @@ leaders = {
  "Naoum Faik",          "Male"
 }
 
-ruler_titles = {
- "government",  "male_title",   "female_title"
- "Monarchy",    _("Malka %s"),  _("Malikta %s")
-} 
-
 flag = "assyria"
 flag_alt = "-"
 city_style = "Babylonian"

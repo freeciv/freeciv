@@ -20,8 +20,6 @@ ruler_titles = {
  "government",      "male_title",            "female_title"
  "Despotism",       _("Raja %s"),            _("Rani %s")
  "Monarchy",        _("Maharaja %s"),        _("Maharani %s")
- ; /* TRANS: Maharajadhiraja = Great King of Kings */
- "Democracy",       _("Maharajadhiraja %s"), _("Maharanidhirani %s")
 }
 
 flag         = "gupta"

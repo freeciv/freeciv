@@ -28,10 +28,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- ; /* TRANS: Voievod/Doamna = Prince/Lady */
- "Despotism",       _("Voievod %s"),   _("Doamna %s")
- ; /* TRANS: Tovaras/Tovarasa = Comrade */
- "Communism",       _("Tovaras %s"),   _("Tovarasa %s")
+ ; /* TRANS: Voievod = Prince */
+ "Despotism",       _("Voivode %s"),   _("?female:Voivode %s")
  "Fundamentalism",_("Director-President %s"),_("?female:Director-President %s")
 }
 

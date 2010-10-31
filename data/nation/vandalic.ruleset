@@ -25,11 +25,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",       "female_title"
- "Despotism",       _("Reiks %s"),      _("?female:Reiks %s")
  "Fundamentalism",  _("Presbyter %s"),  _("?female:Presbyter %s") 
-; /* TRANS: The first two characters in "Thiud" should be replaced by */
-; /* TRANS: U+00DE LATIN CAPITAL LETTER THORN if available in your charset. */
- "Monarchy",        _("Thiud %s"),      _("Qens %s") 
 }
 
 flag="vandal"

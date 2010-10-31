@@ -26,7 +26,7 @@ ruler_titles = {
  "government",      "male_title",          "female_title"
  "Despotism",       _("Viscount %s"),         _("Viscountess %s")
  "Monarchy",        _("Duke %s"),             _("Duchess %s")
- "Fundamentalism",  _("Perfect %s"),          _("Perfecta %s")
+ "Fundamentalism",  _("Perfect %s"),          _("Perfectae %s")
 }
 
 flag="occitania"

@@ -29,11 +29,12 @@ leaders = {
  "Georgius Tzul",       "Male"
 }
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Tarkhan %s"),   _("?female:Tarkhan %s")
-                 "Fundamentalism",  _("Rabbi %s"),     _("?female:Rabbi %s")
-                 "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
-               }
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Tarkhan %s"),   _("?female:Tarkhan %s")
+ "Fundamentalism",  _("Rabbi %s"),     _("?female:Rabbi %s")
+ "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
+}
 
 flag="khazaria"
 flag_alt = "-"

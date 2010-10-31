@@ -22,7 +22,6 @@ city_style = "Asian"
 
 ruler_titles = {
  "government",      "male_title",           "female_title"
- "Despotism",       _("Warlord %s"),        _("Warlord %s")
  "Communism",       _("Brother %s"),        _("Sister %s")
  "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
 }

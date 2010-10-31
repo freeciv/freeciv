@@ -18,11 +18,6 @@ leaders = {
  "Kitsepawit",  "Male"
 }
 
-ruler_titles = {
- "government", "male_title", "female_title" 
- "Despotism",  _("Wot %s"),  _("?female:Wot %s") 
-} 
-
 flag = "chumash"
 flag_alt = "-" 
 city_style = "Celtic" 

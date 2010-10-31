@@ -23,7 +23,6 @@ ruler_titles = {
  "government",       "male_title",     "female_title"
  "Despotism",        _("%s Khan"),     _("%s Khatan")
  "Fundamentalism",   _("Lama %s"),     _("?female:Lama %s")
- "Monarchy",         _("%s Taishi"),   _("?female:%s Taishi")
 }
 
 flag="kalmykia"

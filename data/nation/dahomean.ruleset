@@ -70,12 +70,6 @@ leaders = {
  "Hwanjile",             "Female"
 }
 
-ruler_titles = {
- "government", "male_title",         "female_title"
- ; /* TRANS: King and Whelped the leopard (Queen Mother) */
- "Monarchy",   _("Ahosu %s"),        _("Kpojito %s")
-}
-
 flag="dahomey"
 flag_alt = "-"
 city_style = "tropical"
