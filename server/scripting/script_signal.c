@@ -44,7 +44,6 @@
 #include <stdarg.h>
 
 /* utility */
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
@@ -62,29 +61,41 @@ struct signal_callback;
 #define SPECLIST_TYPE struct signal_callback
 #include "speclist.h"
 
-#define signal_callback_list_iterate(list, pcallback) \
-    TYPED_LIST_ITERATE(struct signal_callback, list, pcallback)
-#define signal_callback_list_iterate_end  LIST_ITERATE_END
+#define signal_callback_list_iterate(list, pcallback)                       \
+  TYPED_LIST_ITERATE(struct signal_callback, list, pcallback)
+#define signal_callback_list_iterate_end LIST_ITERATE_END
 
 /**************************************************************************
   Signal datastructure.
 **************************************************************************/
 struct signal {
-  int nargs;				  /* number of arguments to pass */
+  int nargs;                              /* number of arguments to pass */
   struct signal_callback_list *callbacks; /* connected callbacks */
 };
+
+static void signal_destroy(struct signal *psignal);
 
 /**************************************************************************
   Signal callback datastructure.
 **************************************************************************/
 struct signal_callback {
-  char *name;				  /* callback function name */
+  char *name;                             /* callback function name */
 };
 
-/**************************************************************************
-  Signal datastructure.
-**************************************************************************/
-static struct hash_table *signals;
+/****************************************************************************
+  Signal hash table.
+****************************************************************************/
+#define SPECHASH_TAG signal
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE struct signal *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_DATA_FREE signal_destroy
+#include "spechash.h"
+
+static struct signal_hash *signals;
 
 /**************************************************************************
   Api type names.
@@ -116,6 +127,49 @@ const char *get_api_type_name(enum api_types id)
     return NULL;
   }
 }
+
+/****************************************************************************
+  Create a new signal callback.
+****************************************************************************/
+static struct signal_callback *signal_callback_new(const char *name)
+{
+  struct signal_callback *pcallback = fc_malloc(sizeof(*pcallback));
+
+  pcallback->name = fc_strdup(name);
+  return pcallback;
+}
+
+/****************************************************************************
+  Free a signal callback.
+****************************************************************************/
+static void signal_callback_destroy(struct signal_callback *pcallback)
+{
+  free(pcallback->name);
+  free(pcallback);
+}
+
+/****************************************************************************
+  Create a new signal.
+****************************************************************************/
+static struct signal *signal_new(int nargs)
+{
+  struct signal *psignal = fc_malloc(sizeof(*psignal));
+
+  psignal->nargs = nargs;
+  psignal->callbacks =
+      signal_callback_list_new_full(signal_callback_destroy);
+  return psignal;
+}
+
+/****************************************************************************
+  Free a signal.
+****************************************************************************/
+static void signal_destroy(struct signal *psignal)
+{
+  signal_callback_list_destroy(psignal->callbacks);
+  free(psignal);
+}
+
 
 /**************************************************************************
   Declare any new signal types you need here.
@@ -165,96 +219,19 @@ static void signals_create(void)
 }
 
 /**************************************************************************
-  Connects a callback function to a certain signal (internal).
-**************************************************************************/
-static struct signal_callback *
-internal_signal_callback_append(struct signal_callback_list *list, 
-				const char *callback_name)
-{
-  struct signal_callback *callback;
-
-  callback = fc_malloc(sizeof(*callback));
-  callback->name = fc_strdup(callback_name);
-
-  signal_callback_list_append(list, callback);
-  return callback;
-}
-
-/**************************************************************************
-  Disconnects a callback function from a certain signal (internal).
-**************************************************************************/
-static void internal_signal_callback_remove(struct signal_callback_list *list,
-					    struct signal_callback *callback)
-{
-  signal_callback_list_remove(list, callback);
-
-  free(callback->name);
-  free(callback);
-}
-
-/**************************************************************************
-  Create a new signal type (internal).
-**************************************************************************/
-static void internal_signal_create(const char *signal_name,
-				   int nargs, enum api_types args[])
-{
-  if (hash_key_exists(signals, signal_name)) {
-    log_error("Signal \"%s\" was already created.", signal_name);
-  } else {
-    char *name;
-    struct signal *signal;
-
-    name = fc_strdup(signal_name);
-
-    signal = fc_malloc(sizeof(*signal));
-    signal->nargs = nargs;
-    signal->callbacks = signal_callback_list_new();
-
-    hash_insert(signals, name, signal);
-  }
-}
-
-/**************************************************************************
-  Free a signal type (internal).
-**************************************************************************/
-static void internal_signal_free(const char *signal_name)
-{
-  const void *pname;
-  const void *psignal;
-
-  if (hash_lookup(signals, signal_name, &pname, &psignal)) {
-    struct signal *signal = (struct signal *)psignal;
-
-    signal_callback_list_iterate(signal->callbacks, pcallback) {
-      internal_signal_callback_remove(signal->callbacks, pcallback);
-    } signal_callback_list_iterate_end;
-
-    signal_callback_list_destroy(signal->callbacks);
-    free(signal);
-  } else {
-    log_error("Signal \"%s\" does not exist, so cannot be freed.",
-              signal_name);
-  }
-}
-
-/**************************************************************************
   Invoke all the callback functions attached to a given signal.
 **************************************************************************/
 void script_signal_emit(const char *signal_name, int nargs, ...)
 {
-  struct hash_table *hash;
-  struct signal *signal;
+  struct signal *psignal;
   va_list args;
 
-  hash = signals;
-  signal = hash_lookup_data(hash, signal_name);
-
-  if (signal) {
-    if (signal->nargs != nargs) {
+  if (signal_hash_lookup(signals, signal_name, &psignal)) {
+    if (psignal->nargs != nargs) {
       log_error("Signal \"%s\" requires %d args, was passed %d on invoke.",
-                signal_name, signal->nargs, nargs);
+                signal_name, psignal->nargs, nargs);
     } else {
-      signal_callback_list_iterate(signal->callbacks, pcallback) {
+      signal_callback_list_iterate(psignal->callbacks, pcallback) {
         va_start(args, nargs);
 	if (script_callback_invoke(pcallback->name, nargs, args)) {
           va_end(args);
@@ -273,12 +250,11 @@ void script_signal_emit(const char *signal_name, int nargs, ...)
   Create a new signal type.
 **************************************************************************/
 void script_signal_create_valist(const char *signal_name,
-				 int nargs, va_list args)
+                                 int nargs, va_list args)
 {
-  struct signal *signal;
+  struct signal *psignal;
 
-  signal = hash_lookup_data(signals, signal_name);
-  if (signal) {
+  if (signal_hash_lookup(signals, signal_name, &psignal)) {
     log_error("Signal \"%s\" was already created.", signal_name);
   } else {
     enum api_types args_array[nargs];
@@ -287,7 +263,8 @@ void script_signal_create_valist(const char *signal_name,
     for (i = 0; i < nargs; i++) {
       args_array[i] = va_arg(args, int);
     }
-    internal_signal_create(signal_name, nargs, args_array);
+    /* FIXME: do something with those values. */
+    signal_hash_insert(signals, signal_name, signal_new(nargs));
   }
 }
 
@@ -312,13 +289,12 @@ void script_signal_connect(const char *signal_name, const char *callback_name)
   SCRIPT_CHECK_ARG_NIL(callback_name, 2, string);
 
   {
-    struct signal *signal;
+    struct signal *psignal;
     bool duplicate = FALSE;
 
-    signal = hash_lookup_data(signals, signal_name);
-    if (signal) {
+    if (signal_hash_lookup(signals, signal_name, &psignal)) {
       /* check for a duplicate callback */
-      signal_callback_list_iterate(signal->callbacks, pcallback) {
+      signal_callback_list_iterate(psignal->callbacks, pcallback) {
         if (!strcmp(pcallback->name, callback_name)) {
           duplicate = TRUE;
           break;
@@ -329,7 +305,8 @@ void script_signal_connect(const char *signal_name, const char *callback_name)
         script_error("Signal \"%s\" already has a callback called \"%s\".",
                      signal_name, callback_name);
       } else {
-        internal_signal_callback_append(signal->callbacks, callback_name);
+        signal_callback_list_append(psignal->callbacks,
+                                    signal_callback_new(callback_name));
       }
     } else {
       script_error("Signal \"%s\" does not exist.", signal_name);
@@ -342,8 +319,8 @@ void script_signal_connect(const char *signal_name, const char *callback_name)
 **************************************************************************/
 void script_signals_init(void)
 {
-  if (!signals) {
-    signals = hash_new(hash_fval_string, hash_fcmp_string);
+  if (NULL == signals) {
+    signals = signal_hash_new();
 
     fc_assert(ARRAY_SIZE(api_type_names) == API_TYPE_LAST);
 
@@ -356,16 +333,8 @@ void script_signals_init(void)
 **************************************************************************/
 void script_signals_free(void)
 {
-  if (signals) {
-    unsigned int n = hash_num_entries(signals), i;
-
-    for (i = 0; i < n; i++) {
-      const char *signal_name;
-
-      signal_name = hash_key_by_number(signals, i);
-      internal_signal_free(signal_name);
-    }
-    hash_free(signals);
+  if (NULL != signals) {
+    signal_hash_destroy(signals);
     signals = NULL;
   }
 }
