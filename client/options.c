@@ -21,7 +21,6 @@
 
 /* utility */
 #include "fcintl.h"
-#include "hash.h"
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
@@ -4267,7 +4266,21 @@ static const char *get_last_option_file_name(void)
 /****************************************************************************
   Desired settable options.
 ****************************************************************************/
-static struct hash_table *settable_options_hash = NULL;
+#define SPECHASH_TAG settable_options
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE char *
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_DATA_COPY genhash_str_copy_func
+#define SPECHASH_DATA_FREE genhash_str_free_func
+#include "spechash.h"
+#define settable_options_hash_iterate(hash, name, value)                    \
+  TYPED_HASH_ITERATE(const char *, const char *, hash, name, value)
+#define settable_options_hash_iterate_end HASH_ITERATE_END
+
+static struct settable_options_hash *settable_options_hash = NULL;
 
 /**************************************************************************
   Load the server options.
@@ -4283,7 +4296,7 @@ static void settable_options_load(struct section_file *sf)
 
   fc_assert_ret(NULL != settable_options_hash);
 
-  hash_delete_all_entries(settable_options_hash);
+  settable_options_hash_clear(settable_options_hash);
 
   psection = secfile_section_by_name(sf, "server");
   if (NULL == psection) {
@@ -4320,8 +4333,8 @@ static void settable_options_load(struct section_file *sf)
       continue;
     }
 
-    hash_insert(settable_options_hash,
-                fc_strdup(entry_name(pentry)), fc_strdup(string));
+    settable_options_hash_insert(settable_options_hash, entry_name(pentry),
+                                 string);
   } entry_list_iterate_end;
 }
 
@@ -4332,10 +4345,9 @@ static void settable_options_save(struct section_file *sf)
 {
   fc_assert_ret(NULL != settable_options_hash);
 
-  hash_iterate(settable_options_hash, iter) {
-    secfile_insert_str(sf, (const char *) hash_iter_get_value(iter),
-                       "server.%s", (const char *) hash_iter_get_key(iter));
-  } hash_iterate_end;
+  settable_options_hash_iterate(settable_options_hash, name, value) {
+    secfile_insert_str(sf, value, "server.%s", name);
+  } settable_options_hash_iterate_end;
 }
 
 /****************************************************************************
@@ -4393,11 +4405,12 @@ void desired_settable_options_update(void)
 
     if (0 == strcmp(value, def_val)) {
       /* Not set, using default... */
-      hash_delete_entry(settable_options_hash, option_name(poption));
+      settable_options_hash_remove(settable_options_hash,
+                                   option_name(poption));
     } else {
       /* Really desired. */
-      hash_replace(settable_options_hash,
-                   fc_strdup(option_name(poption)), fc_strdup(value));
+      settable_options_hash_replace(settable_options_hash,
+                                    option_name(poption), value);
     }
   } options_iterate_end;
 }
@@ -4413,10 +4426,10 @@ void desired_settable_option_update(const char *op_name,
   fc_assert_ret(NULL != settable_options_hash);
 
   if (allow_replace) {
-    hash_delete_entry(settable_options_hash, op_name);
+    settable_options_hash_replace(settable_options_hash, op_name, op_value);
+  } else {
+    settable_options_hash_insert(settable_options_hash, op_name, op_value);
   }
-  hash_insert(settable_options_hash, fc_strdup(op_name),
-              fc_strdup(op_value));
 }
 
 /****************************************************************
@@ -4425,13 +4438,13 @@ void desired_settable_option_update(const char *op_name,
 static void desired_settable_option_send(struct option *poption)
 {
   char buf[1024];
-  const char *desired;
+  char *desired;
   const char *value;
 
   fc_assert_ret(NULL != settable_options_hash);
 
-  desired = hash_lookup_data(settable_options_hash, option_name(poption));
-  if (NULL == desired) {
+  if (!settable_options_hash_lookup(settable_options_hash,
+                                    option_name(poption), &desired)) {
     /* No change explicitly  desired. */
     return;
   }
@@ -4471,14 +4484,28 @@ static void desired_settable_option_send(struct option *poption)
 }
 
 
-/****************************************************************
+/****************************************************************************
   City and player report dialog options.
-*****************************************************************/
-static struct hash_table *dialog_options_hash = NULL;
+****************************************************************************/
+#define SPECHASH_TAG dialog_options
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE bool
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#include "spechash.h"
+#define dialog_options_hash_iterate(hash, column, visible)                  \
+  TYPED_HASH_ITERATE(const char *, unsigned long, hash, column, visible)
+#define dialog_options_hash_iterate_end HASH_ITERATE_END
 
-/****************************************************************
+static struct dialog_options_hash *dialog_options_hash = NULL;
+
+/****************************************************************************
   Load the city and player report dialog options.
-*****************************************************************/
+****************************************************************************/
 static void options_dialogs_load(struct section_file *sf)
 {
   const struct entry_list *entries;
@@ -4496,8 +4523,8 @@ static void options_dialogs_load(struct section_file *sf)
         if (0 == strncmp(*prefix, entry_name(pentry), strlen(*prefix))
             && secfile_lookup_bool(sf, &visible, "client.%s",
                                    entry_name(pentry))) {
-          hash_replace(dialog_options_hash, fc_strdup(entry_name(pentry)),
-                       FC_INT_TO_PTR(visible));
+          dialog_options_hash_replace(dialog_options_hash,
+                                      entry_name(pentry), visible);
           break;
         }
       }
@@ -4505,18 +4532,17 @@ static void options_dialogs_load(struct section_file *sf)
   }
 }
 
-/****************************************************************
+/****************************************************************************
   Save the city and player report dialog options.
-*****************************************************************/
+****************************************************************************/
 static void options_dialogs_save(struct section_file *sf)
 {
   fc_assert_ret(NULL != dialog_options_hash);
 
   options_dialogs_update();
-  hash_iterate(dialog_options_hash, iter) {
-    secfile_insert_bool(sf, FC_PTR_TO_INT(hash_iter_get_value(iter)),
-                        "client.%s", (const char *) hash_iter_get_key(iter));
-  } hash_iterate_end;
+  dialog_options_hash_iterate(dialog_options_hash, column, visible) {
+    secfile_insert_bool(sf, visible, "client.%s", column);
+  } dialog_options_hash_iterate_end;
 }
 
 /****************************************************************
@@ -4535,16 +4561,16 @@ void options_dialogs_update(void)
   for (i = 1; i < num_player_dlg_columns; i++) {
     fc_snprintf(buf, sizeof(buf), "player_dlg_%s",
                 player_dlg_columns[i].tagname);
-    hash_replace(dialog_options_hash, fc_strdup(buf),
-                 FC_INT_TO_PTR(player_dlg_columns[i].show));
+    dialog_options_hash_replace(dialog_options_hash, buf,
+                                player_dlg_columns[i].show);
   }
 
   /* City report dialog options. */
   for (i = 0; i < num_city_report_spec(); i++) {
     fc_snprintf(buf, sizeof(buf), "city_report_%s",
                 city_report_spec_tagname(i));
-    hash_replace(dialog_options_hash, fc_strdup(buf),
-                 FC_INT_TO_PTR(*city_report_spec_show_ptr(i)));
+    dialog_options_hash_replace(dialog_options_hash, buf,
+                                *city_report_spec_show_ptr(i));
   }
 }
 
@@ -4555,7 +4581,7 @@ void options_dialogs_update(void)
 void options_dialogs_set(void)
 {
   char buf[64];
-  const void *data;
+  bool visible;
   int i;
 
   fc_assert_ret(NULL != dialog_options_hash);
@@ -4564,8 +4590,8 @@ void options_dialogs_set(void)
   for (i = 1; i < num_player_dlg_columns; i++) {
     fc_snprintf(buf, sizeof(buf), "player_dlg_%s",
                 player_dlg_columns[i].tagname);
-    if (hash_lookup(dialog_options_hash, buf, NULL, &data)) {
-      player_dlg_columns[i].show = FC_PTR_TO_INT(data);
+    if (dialog_options_hash_lookup(dialog_options_hash, buf, &visible)) {
+      player_dlg_columns[i].show = visible;
     }
   }
 
@@ -4573,8 +4599,8 @@ void options_dialogs_set(void)
   for (i = 0; i < num_city_report_spec(); i++) {
     fc_snprintf(buf, sizeof(buf), "city_report_%s",
                 city_report_spec_tagname(i));
-    if (hash_lookup(dialog_options_hash, buf, NULL, &data)) {
-      *city_report_spec_show_ptr(i) = FC_PTR_TO_INT(data);
+    if (dialog_options_hash_lookup(dialog_options_hash, buf, &visible)) {
+      *city_report_spec_show_ptr(i) = visible;
     }
   }
 }
@@ -4742,10 +4768,8 @@ void options_init(void)
   gui_options_extra_init();
   global_worklists_init();
 
-  settable_options_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
-                                        free, free);
-  dialog_options_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
-                                      free, NULL);
+  settable_options_hash = settable_options_hash_new();
+  dialog_options_hash = dialog_options_hash_new();
 
   client_options_iterate_all(poption) {
     struct client_option *pcoption = CLIENT_OPTION(poption);
@@ -4869,12 +4893,12 @@ void options_free(void)
   } client_options_iterate_all_end;
 
   if (NULL != settable_options_hash) {
-    hash_free(settable_options_hash);
+    settable_options_hash_destroy(settable_options_hash);
     settable_options_hash = NULL;
   }
 
   if (NULL != dialog_options_hash) {
-    hash_free(dialog_options_hash);
+    dialog_options_hash_destroy(dialog_options_hash);
     dialog_options_hash = NULL;
   }
 
