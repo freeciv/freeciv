@@ -356,6 +356,7 @@ flag_files =				\
 		thailand.png		\
 		thrace.png		\
 		tibet.png		\
+		timur.png		\
 		tocharian.png		\
 		togo.png		\
 		toltec.png		\
@@ -752,6 +753,7 @@ shield_files =					\
 		thailand-shield.png		\
 		thrace-shield.png		\
 		tibet-shield.png		\
+		timur-shield.png		\
 		togo-shield.png			\
 		toltec-shield.png		\
 		tocharian-shield.png		\
@@ -1148,6 +1150,7 @@ svg_files = 				\
 		thailand.svg		\
 		thrace.svg		\
 		tibet.svg		\
+		timur.svg		\
 		tocharian.svg		\
 		togo.svg		\
 		toltec.svg		\

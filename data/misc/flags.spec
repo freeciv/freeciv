@@ -364,6 +364,7 @@ artists = "
    Thailand		Lauris Kaplinski
    Thrace		William Allen Simpson and Daniel Markstedt
    Tibet		Tobias Jakobs
+   Timur		Daniel Markstedt
    Tocharian		Dan Cottrell and Daniel Markstedt
    Togo			Vzb83 and Madden (Wikimedia Commons)
    Toltec		J.M. Maalderink
@@ -763,6 +764,7 @@ sprites =
 		"f.thailand", "flags/thailand"
 		"f.thrace", "flags/thrace"
 		"f.tibet", "flags/tibet"
+		"f.timur", "flags/timur"
 		"f.tocharian", "flags/tocharian"
 		"f.togo", "flags/togo"
 		"f.toltec", "flags/toltec"
