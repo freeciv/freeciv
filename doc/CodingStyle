@@ -279,12 +279,12 @@ int the_function_starts_here(int value)
   braces.
 
 - Avoid the usage of magic values (plain hard-coded value, such as 0 or -1)
-  and prefer the usage of enumerators. If an enumeration cannot be define
-  for any reason, then, define a macro for this value.
+  and prefer the usage of enumerators. If an enumeration cannot be defined
+  for any reason, then define a macro for this value.
 
-- Avoid the most (if possible) the usage of the default case in the switch
-  statements. The default case remove the warning of the compiler when a
-  value is missing in a switch statement.
+- Avoid the usage of the default case in switch statements, if possible. The
+  default case removes the warning of the compiler when a value is missing
+  in a switch statement.
 
 
 ============================================================================
@@ -292,7 +292,7 @@ int the_function_starts_here(int value)
 ============================================================================
 - Order include files consistently: all includes are grouped together.
   These groups are divided by an empty line. The order of these groups is as
-  follow:
+  follows:
 
     1) config.h (see below)
     2) system include files which are OS-independent (part of C-standard or
@@ -311,12 +311,12 @@ int the_function_starts_here(int value)
   Always set a comment to determine the location of the following headers
   before every group.
 
-  It is very important that '#include <config.h>' be included at the top of
+  It is very important that '#include <config.h>' is at the top of
   every .c file (it need not be included from .h files). Some definitions in
   config.h will affect how the code is compiled, without which you can end
   up with bad and untraceable memory bugs.
 
-    #include "config.h"
+    #include <config.h>
 
     #include <stdlib.h>
 
@@ -338,7 +338,7 @@ int the_function_starts_here(int value)
     /* common/aicore */
     #include "pf_tools.h"
 
-  However, there is an execption to this. The last group is always the one
+  However, there is an exception to this. The last group is always the one
   we are working on it. So, if we are working on the common part, the order
   should be:
 
@@ -376,8 +376,8 @@ int the_function_starts_here(int value)
     #include "connection.h"
     void a_function(struct connection *pconn);
 
-- Of course, never include headers of non-linked parts of the code. For,
-  Example, never include client/ headers into a server/ file. Also, in the
+- Of course, never include headers of non-linked parts of the code. For
+  example, never include client/ headers into a server/ file. Also, in the
   client/ directory, GUI specific headers are never included. Always, use
   the common set of headers defined in client/include/.
 
