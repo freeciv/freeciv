@@ -1303,9 +1303,9 @@ void ai_manage_buildings(struct player *pplayer)
    * is sane to continue building the wonder in it. If either does
    * not check out, make a Wonder City. */
   if (NULL == wonder_city
-   || 0 <= wonder_city->surplus[O_SHIELD] /* FIXME: need higher surplus? */
+   || 0 >= wonder_city->surplus[O_SHIELD]
    || VUT_UTYPE == wonder_city->production.kind /* changed to defender? */
-   || !is_wonder(wonder_city->production.value.building) /* redundant test? */
+   || !is_wonder(wonder_city->production.value.building)
    || !can_city_build_improvement_now(wonder_city, 
                                       wonder_city->production.value.building)
    || improvement_obsolete(pplayer,
