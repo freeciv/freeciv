@@ -30,7 +30,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "lankese", "bengali", "sikh"
+
+civilwar_nations="Lankese", "Bengali", "Sikh", "Kashmiri"
 
 cities =
  "Delhi",
