@@ -252,7 +252,6 @@ bool check_for_game_over(void)
   int winners = 0;
   struct astring str = ASTRING_INIT;
 
-  astr_clear(&str);
   /* Check for scenario victory */
   players_iterate(pplayer) {
     if (pplayer->is_winner) {
@@ -274,8 +273,10 @@ bool check_for_game_over(void)
                 /* TRANS: There can be several winners listed */
                 _("Scenario victory to %s."), str.str);
     ggz_report_victory();
+    astr_free(&str);
     return TRUE;
   }
+  astr_free(&str);
 
   /* quit if we are past the turn limit */
   if (game.info.turn > game.info.end_turn) {
