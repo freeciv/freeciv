@@ -35,28 +35,21 @@ civilwar_nations="Lankese", "Bengali", "Sikh", "Kashmiri"
 
 cities =
  "Delhi",
- "Bombay",
- "Madras",
+ "Mumbai",		; Bombay
+ "Chennai",		; Madras
  "Bangalore",
- "Calcutta",
- "Lahore",
- "Karachi",
- "Ahmadabad",
+ "Kolkata",		; Calcutta
+ "Ahmedabad",		; Ahmadabad
  "Kanpur",
  "Hyderabad",
- "Dacca",
  "Lucknow",
- "Benares",
- "Chandrigarh",
- "Rawalpindi",
- "Colombo",
+ "Varanasi",		; Benares
+ "Chandigarh",
  "Madurai",
  "Coimbatore",
- "Calicut",
- "Trivandrum",
+ "Kozhikode",		; Calicut
+ "Thiruvananthapuram",	; Trivandrum
  "Nagpur",
- "Chittagong",
- "Multan",
  "Amritsar",
  "Srinagar",
  "Agra",
@@ -70,5 +63,35 @@ cities =
  "Mysore",
  "Raipur",
  "Gaya",
- "Cawnpore",
- "Poona (hills)"
+ "Kanpur",		; Cawnpore
+ "Pune (hills)",	; Poona
+ "Ranchi",
+ "Bhubaneswar",
+ "Thiruvananthapuram",
+ "Tiruchirappalli",
+ "Dehradun",
+ "Aizawl",
+ "Gandhinagar",
+ "Imphal",
+ "Thane",
+ "Ludhiana",
+ "Pimpri-Chinchwad",
+ "Nashik",
+ "Vadodara",
+ "Faridabad",
+ "Ghaziabad",
+ "Rajkot",
+ "Meerut",
+ "Kalyan-Dombivali",
+ "Navi Mumbai",
+ "Aurangabad",
+ "Solapur",
+ "Jabalpur",
+ "Visakhapatnam",
+ "Howrah",
+ "Jodhpur",
+ "Guwahati".
+ "Vijayawada",
+ "Mira-Bhayandar",
+ "Gwalior",
+ "Hubballi-Dharwad"
