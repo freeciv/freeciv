@@ -233,9 +233,17 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   int nuke_units = num_role_units(F_NUCLEAR);
   bool danger_of_nukes = FALSE;
 
-  /*** Threats ***/
+  if (ai->phase_is_initialized) {
+    return;
+  }
+  ai->phase_is_initialized = TRUE;
 
   TIMING_LOG(AIT_AIDATA, TIMER_START);
+
+  nuke_units = num_role_units(F_NUCLEAR);
+  danger_of_nukes = FALSE;
+
+  /*** Threats ***/
 
   ai->num_continents    = map.num_continents;
   ai->num_oceans        = map.num_oceans;
@@ -580,6 +588,10 @@ void ai_data_phase_done(struct player *pplayer)
 {
   struct ai_data *ai = &aidata[player_index(pplayer)];
 
+  if (!ai->phase_is_initialized) {
+    return;
+  }
+
   free(ai->explore.ocean);
   ai->explore.ocean = NULL;
 
@@ -603,6 +615,8 @@ void ai_data_phase_done(struct player *pplayer)
 
   ai->num_continents = 0;
   ai->num_oceans     = 0;
+
+  ai->phase_is_initialized = FALSE;
 }
 
 /**************************************************************************
@@ -647,6 +661,7 @@ void ai_data_init(struct player *pplayer)
   memset(ai->government_want, 0,
 	 (government_count() + 1) * sizeof(*ai->government_want));
 
+  ai->phase_is_initialized = FALSE;
   ai->channels = NULL;
   ai->wonder_city = 0;
   ai->diplomacy.strategy = WIN_OPEN;
