@@ -284,6 +284,7 @@ match=2
 *include "nation/moroccan.ruleset"
 *include "nation/motswana.ruleset"
 *include "nation/mozambican.ruleset"
+*include "nation/mughal.ruleset"
 *include "nation/muskogee.ruleset"
 *include "nation/mwiska.ruleset"
 *include "nation/namibian.ruleset"

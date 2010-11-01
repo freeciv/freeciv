@@ -236,6 +236,7 @@ flag_files =				\
 		mordovia.png		\
 		morocco.png		\
 		mozambique.png		\
+		mughal.png		\
 		muskogee.png		\
 		mwiska.png		\
 		myanmar.png		\
@@ -631,6 +632,7 @@ shield_files =					\
 		mordovia-shield.png		\
 		morocco-shield.png		\
 		mozambique-shield.png		\
+		mughal-shield.png		\
 		muskogee-shield.png		\
 		mwiska-shield.png		\
 		myanmar-shield.png		\
@@ -1026,6 +1028,7 @@ svg_files = 				\
 		mordovia.svg		\
 		morocco.svg		\
 		mozambique.svg		\
+		mughal.svg		\
 		muskogee.svg		\
 		mwiska.svg		\
 		myanmar.svg		\

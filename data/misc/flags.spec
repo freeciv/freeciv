@@ -243,6 +243,7 @@ artists = "
    Mordovia		Fibonacci (Wikimedia Commons)
    Morocco		Xiquet, Flad (Wikimedia Commons)
    Mozambique		Tobias Jakobs
+   Mughal		Orange Tuesday (Wikimedia Commons)
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
    Myanmar		Zachary Harden
@@ -642,6 +643,7 @@ sprites =
 		"f.mordovia", "flags/mordovia"
 		"f.morocco", "flags/morocco"
 		"f.mozambique", "flags/mozambique"
+		"f.mughal", "flags/mughal"
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"

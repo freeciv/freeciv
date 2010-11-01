@@ -235,6 +235,7 @@ pkgdata_DATA = \
 		moroccan.ruleset \
 		motswana.ruleset \
 		mozambican.ruleset \
+		mughal.ruleset \
 		muskogee.ruleset \
 		mwiska.ruleset \
 		namibian.ruleset \
