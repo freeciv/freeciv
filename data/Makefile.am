@@ -3,7 +3,6 @@
 if CLIENT
 CLIENT_FILES =				\
 	hex2t.tilespec			\
-	amplio.tilespec			\
 	amplio2.tilespec		\
 	isophex.tilespec		\
 	isotrident.tilespec		\
@@ -46,7 +45,6 @@ EXTRA_DIST = \
 	civclient.dsc.in	\
 	civserver.room.in	\
 	hex2t.tilespec	\
-	amplio.tilespec	\
 	amplio2.tilespec \
 	isophex.tilespec	\
 	isotrident.tilespec \
@@ -60,7 +58,7 @@ EXTRA_DIST = \
 	multiplayer.serv
 
 if CLIENT
-CLIENTDATADIRS = amplio amplio2 misc flags buildings isotrident trident\
+CLIENTDATADIRS = amplio2 misc flags buildings isotrident trident\
  isophex hex2t stdsounds themes wonders
 else
 CLIENTDATADIRS = 
