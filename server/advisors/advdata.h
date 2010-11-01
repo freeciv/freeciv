@@ -66,6 +66,9 @@ struct ai_dip_intel {
 
 BV_DEFINE(bv_id, MAX_NUM_ID);
 struct ai_data {
+  /* Whether ai_data_phase_init() has been called or not. */
+  bool phase_is_initialized;
+
   /* The Wonder City */
   int wonder_city;
 

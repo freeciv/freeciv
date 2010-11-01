@@ -328,14 +328,22 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
   struct ai_data *ai = pplayer->server.aidata;
   int i, j, k;
-  int nuke_units = num_role_units(F_NUCLEAR);
-  bool danger_of_nukes = FALSE;
+  int nuke_units;
+  bool danger_of_nukes;
 
   fc_assert_ret(ai != NULL);
 
-  /*** Threats ***/
+  if (ai->phase_is_initialized) {
+    return;
+  }
+  ai->phase_is_initialized = TRUE;
 
   TIMING_LOG(AIT_AIDATA, TIMER_START);
+
+  nuke_units = num_role_units(F_NUCLEAR);
+  danger_of_nukes = FALSE;
+
+  /*** Threats ***/
 
   ai->num_continents    = map.num_continents;
   ai->num_oceans        = map.num_oceans;
@@ -684,6 +692,10 @@ void ai_data_phase_done(struct player *pplayer)
 
   fc_assert_ret(ai != NULL);
 
+  if (!ai->phase_is_initialized) {
+    return;
+  }
+
   free(ai->explore.ocean);
   ai->explore.ocean = NULL;
 
@@ -707,6 +719,8 @@ void ai_data_phase_done(struct player *pplayer)
 
   ai->num_continents = 0;
   ai->num_oceans     = 0;
+
+  ai->phase_is_initialized = FALSE;
 }
 
 /**************************************************************************
@@ -804,6 +818,10 @@ void ai_data_default(struct player *pplayer)
 void ai_data_close(struct player *pplayer)
 {
   struct ai_data *ai = pplayer->server.aidata;
+
+  fc_assert_ret(NULL != ai);
+
+  ai_data_phase_done(pplayer);
 
   if (ai->diplomacy.player_intel_slots != NULL) {
     players_iterate(aplayer) {
