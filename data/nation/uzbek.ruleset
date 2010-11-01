@@ -10,14 +10,12 @@ legend=_("Nation in Central Asia. Uzbekistan was the center of\
 
 leaders = {
  "name",                        "sex"
- "Shahrukh Biy",                "Male" ; Khan of Kokand
- "Muhammad Shaybani",           "Male"
- "Timur",                       "Male" ; Founder of Timurid dynasty
- "Ulugh Beg",                   "Male" ; Timurid ruler
- "Abdullah II",                 "Male" ; Khan of Bukhara
+ "Shohruh",                     "Male" ; Khan of Kokand
+ "Shayboniy",                   "Male"
+ "Temur",                       "Male" ; Founder of Timurid dynasty
+ "Ulug'bek",                    "Male" ; Timurid ruler
+ "Abdulla II",                  "Male" ; Khan of Bukhara
  "Ilbars I",                    "Male" ; Founder of Khanate of Kiva
- "Anush Tigin Gharchai",        "Male" ; Korazm ruler
- "Mamun I",                     "Male" ; Khorazm ruler
 }
 
 ruler_titles = {
@@ -35,28 +33,47 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "turkmen", "tajik", "kazakh", "kyrgyz", "Afghani"
+conflicts_with="Timurid" ; Uzbeks considers Timur their founding father
+civilwar_nations="Turkmen", "Tajik", "Kazakh", "Kyrgyz", "Afghani"
 
 cities =
- "Bukhoro",
- "Samarqand",
- "Kokand", ; ancient name of Qŭqon
- "Khorazm",
- "Tashkent",
- "Farghona",
- "Nukus",
- "Urganch",
- "Nawoiy",
- "Qarshi",
- "Jizzakh",
- "Guliston",
- "Andijon",
+ "Buxoro", ; Bukhara
+ "Samarqand", ; Samarkand
+ "Qo'qon", ; Kokand
+ "Xiva", ; Khiva
+ "Toshkent", ; Tashkent
  "Namangan",
+ "Andijon", ; Andijan
+ "Nukus",
+ "Farg'ona", ; Fergana
+ "Qarshi",
+ "Chirchiq", ; Chirchik
+ "Marg'ilon", ; Margilan
+ "Urganch", ; Urgench
+ "Jizzax", ; Jizzakh
+ "Olmaliq", ; Almalyk
  "Angren",
- "Chirchiq",
- "Qŭqon",
- "Termiz",
- "Denow",
- "Uchquduq",
- "Oŭnghirot",
- "Mŭynoq"
+ "Navoiy",
+ "Kattaqo'rg'on", ; Kattakurgan
+ "Bekobod", ; Bekabad
+ "Juma",
+ "Zarafshon", ; Zarafshan
+ "Yangiyo'l", ; Yangiyul
+ "Guliston",
+ "Shahrisabz",
+ "To'rtko'l", ; Turtkul
+ "Urgut",
+ "Kosonsoy", ; Kasansay
+ "Asaka",
+ "Termiz", ; Termez
+ "Chimboy",
+ "Beruniy",
+ "Nurota", ; Nurata
+ "Yangiyer",
+ "Uchquduq", ; Uchkuduk
+ "Rishton",
+ "To'ytepa", ; Toytepa
+ "G'ijduvon", ; Gijduvan
+ "Vobkent", ; Vabkent
+ "Qo'ng'irot", ; Kungrad
+ "Mo'ynoq" ; Muynak
