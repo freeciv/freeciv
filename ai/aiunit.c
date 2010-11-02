@@ -80,7 +80,7 @@
 
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
-				       struct unit *leader);
+                                       struct unit *leader);
 
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_defend(struct player *pplayer,struct unit *punit);
@@ -2404,26 +2404,30 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
   return FALSE;
 }
 
-/*************************************************************************
-Barbarian leader tries to stack with other barbarian units, and if it's
-not possible it runs away. When on coast, it may disappear with 33% chance.
-**************************************************************************/
+/****************************************************************************
+  Barbarian leader tries to stack with other barbarian units, and if it's
+  not possible it runs away. When on coast, it may disappear with 33%
+  chance.
+****************************************************************************/
 static void ai_manage_barbarian_leader(struct player *pplayer,
-				       struct unit *leader)
+                                       struct unit *leader)
 {
-  Continent_id con = tile_continent(leader->tile);
-  int safest = 0;
-  struct tile *safest_tile = leader->tile;
-  struct unit *closest_unit = NULL;
-  int dist, mindist = 10000;
+  struct tile *leader_tile = unit_tile(leader), *safest_tile;
+  Continent_id leader_cont = tile_continent(leader_tile);
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct pf_reverse_map *pfrm;
+  struct unit *worst_danger;
+  int move_cost, best_move_cost;
+  int body_guards;
 
   CHECK_UNIT(leader);
 
-  if (leader->moves_left == 0
-      || (can_unit_survive_at_tile(leader, leader->tile)
-          && unit_list_size(leader->tile->units) > 1) ) {
-      unit_activity_handling(leader, ACTIVITY_SENTRY);
-      return;
+  if (0 == leader->moves_left
+      || (can_unit_survive_at_tile(leader, leader_tile)
+          && 1 < unit_list_size(leader_tile->units))) {
+    unit_activity_handling(leader, ACTIVITY_SENTRY);
+    return;
   }
 
   if (is_boss_of_boat(leader)) {
@@ -2433,7 +2437,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
     /* First release boat from leaders lead */
     aiferry_clear_boat(leader);
   
-    unit_list_iterate(leader->tile->units, warrior) {
+    unit_list_iterate(leader_tile->units, warrior) {
       if (!unit_has_type_role(warrior, L_BARBARIAN_LEADER)
           && get_transporter_capacity(warrior) == 0
           && warrior->moves_left > 0) {
@@ -2453,58 +2457,47 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   /* If we are not in charge of the boat, continue as if we
    * were not in a boat - we may want to leave the ship now. */
 
-  /* the following takes much CPU time and could be avoided */
-  generate_warmap(tile_city(leader->tile), leader);
-
-  /* duck under own units */
-  unit_list_iterate(pplayer->units, aunit) {
-    if (unit_has_type_role(aunit, L_BARBARIAN_LEADER)
-	|| !is_ground_unit(aunit)
-	|| tile_continent(aunit->tile) != con)
-      continue;
-
-    if (WARMAP_COST(aunit->tile) < mindist) {
-      mindist = WARMAP_COST(aunit->tile);
-      closest_unit = aunit;
+  /* Check the total number of units able to protect our leader. */
+  body_guards = 0;
+  unit_list_iterate(pplayer->units, punit) {
+    if (!unit_has_type_role(punit, L_BARBARIAN_LEADER)
+        && is_ground_unit(punit)
+        && tile_continent(unit_tile(punit)) == leader_cont) {
+      body_guards++;
     }
   } unit_list_iterate_end;
 
-  if (closest_unit
-      && !same_pos(closest_unit->tile, leader->tile)
-      && (tile_continent(leader->tile)
-          == tile_continent(closest_unit->tile))) {
-    (void) ai_unit_goto(leader, closest_unit->tile);
-    return; /* sticks better to own units with this -- jk */
+  if (0 < body_guards) {
+    pft_fill_unit_parameter(&parameter, leader);
+    pfm = pf_map_new(&parameter);
+
+    /* Find the closest body guard. FIXME: maybe choose the strongest too? */
+    pf_map_tiles_iterate(pfm, ptile, FALSE) {
+      unit_list_iterate(ptile->units, punit) {
+        if (unit_owner(punit) == pplayer
+            && !unit_has_type_role(punit, L_BARBARIAN_LEADER)
+            && is_ground_unit(punit)
+            && tile_continent(unit_tile(punit)) == leader_cont) {
+          struct pf_path *path = pf_map_path(pfm, ptile);
+
+          adv_follow_path(leader, path, ptile);
+          pf_path_destroy(path);
+          pf_map_destroy(pfm);
+          return;
+        }
+      } unit_list_iterate_end;
+    } pf_map_tiles_iterate_end;
+
+    pf_map_destroy(pfm);
   }
 
   UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader needs to flee");
-  mindist = 1000000;
-  closest_unit = NULL;
 
-  players_iterate(other_player) {
-    unit_list_iterate(other_player->units, aunit) {
-      if (is_military_unit(aunit)
-	  && is_ground_unit(aunit)
-	  && tile_continent(aunit->tile) == con) {
-	/* questionable assumption: aunit needs as many moves to reach us as we
-	   need to reach it */
-	dist = WARMAP_COST(aunit->tile) - unit_move_rate(aunit);
-	if (dist < mindist) {
-          log_debug("Barbarian leader: closest enemy is %s(%d,%d) dist %d",
-                    unit_rule_name(aunit),
-                    aunit->tile->x,
-                    aunit->tile->y,
-                    dist);
-          mindist = dist;
-          closest_unit = aunit;
-        }
-      }
-    } unit_list_iterate_end;
-  } players_iterate_end;
-
-  /* Disappearance - 33% chance on coast, when older than barbarian life span */
+  /* Disappearance - 33% chance on coast, when older than barbarian life
+   * span. */
   if (is_ocean_near_tile(leader->tile)
-      && leader->server.birth_turn + BARBARIAN_MIN_LIFESPAN < game.info.turn) {
+      && (leader->server.birth_turn + BARBARIAN_MIN_LIFESPAN
+          < game.info.turn)) {
     if (fc_rand(3) == 0) {
       UNIT_LOG(LOG_DEBUG, leader, "barbarian leader disappearing...");
       wipe_unit(leader);
@@ -2512,57 +2505,83 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
     }
   }
 
-  if (!closest_unit) {
+  /* Check for units we could fear. */
+  pfrm = pf_reverse_map_new_for_unit(leader);
+  worst_danger = NULL;
+  best_move_cost = FC_INFINITY;
+
+  players_iterate(other_player) {
+    if (other_player == pplayer) {
+      continue;
+    }
+
+    unit_list_iterate(other_player->units, punit) {
+      if (!is_ground_unit(punit)
+          || tile_continent(unit_tile(punit)) != leader_cont
+          /* Let's say 8 tiles maximum to fear the danger. */
+          || 8 < real_map_distance(unit_tile(punit), leader_tile)) {
+        continue;
+      }
+
+      move_cost = pf_reverse_map_unit_move_cost(pfrm, punit);
+      if (PF_IMPOSSIBLE_MC != move_cost && move_cost < best_move_cost) {
+        best_move_cost = move_cost;
+        worst_danger = punit;
+      }
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
+  pf_reverse_map_destroy(pfrm);
+
+  if (NULL == worst_danger) {
     unit_activity_handling(leader, ACTIVITY_IDLE);
-    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: no enemy.");
+    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: no close enemy.");
     return;
   }
 
-  generate_warmap(tile_city(closest_unit->tile), closest_unit);
+  pft_fill_unit_parameter(&parameter, worst_danger);
+  pfm = pf_map_new(&parameter);
+  best_move_cost = pf_map_move_cost(pfm, leader_tile);
 
+  /* Try to escape. */
   do {
-    struct tile *last_tile;
+    safest_tile = leader_tile;
 
     UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: moves left: %d.",
              leader->moves_left);
 
-    square_iterate(leader->tile, 1, near_tile) {
-      if (WARMAP_COST(near_tile) > safest
-	  && could_unit_move_to_tile(leader, near_tile) == 1) {
-	safest = WARMAP_COST(near_tile);
-        log_debug("Barbarian leader: safest is %d, %d, safeness %d",
-                  near_tile->x, near_tile->y, safest);
+    adjc_iterate(leader_tile, near_tile) {
+      if (could_unit_move_to_tile(leader, near_tile) != 1) {
+        continue;
+      }
+
+      move_cost = pf_map_move_cost(pfm, near_tile);
+      if (PF_IMPOSSIBLE_MC != move_cost
+          && move_cost > best_move_cost) {
+        UNIT_LOG(LOG_DEBUG, leader,
+                 "Barbarian leader: safest is (%d, %d), safeness %d",
+                 TILE_XY(near_tile), best_move_cost);
+        best_move_cost = move_cost;
         safest_tile = near_tile;
       }
-    } 
-    square_iterate_end;
+    } adjc_iterate_end;
 
-    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: fleeing to (%d,%d).", 
-             safest_tile->x, safest_tile->y);
+    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: fleeing to (%d, %d).",
+             TILE_XY(safest_tile));
     if (same_pos(leader->tile, safest_tile)) {
       UNIT_LOG(LOG_DEBUG, leader, 
                "Barbarian leader: reached the safest position.");
       unit_activity_handling(leader, ACTIVITY_IDLE);
+      pf_map_destroy(pfm);
       return;
     }
 
-    last_tile = leader->tile;
     (void) ai_unit_goto(leader, safest_tile);
-    if (same_pos(leader->tile, last_tile)) {
-      /* Deep inside the goto handling code, in 
-	 server/unithand.c::handle_unite_move_request(), the server
-	 may decide that a unit is better off not moving this turn,
-	 because the unit doesn't have quite enough movement points
-	 remaining.  Unfortunately for us, this favor that the server
-	 code does may lead to an endless loop here in the barbarian
-	 leader code:  the BL will try to flee to a new location, execute 
-	 the goto, find that it's still at its present (unsafe) location,
-	 and repeat.  To break this loop, we test for the condition
-	 where the goto doesn't do anything, and break if this is
-	 the case. */
-      break;
-    }
-  } while (leader->moves_left > 0);
+    fc_assert(!same_pos(leader->tile, leader_tile));
+    leader_tile = leader->tile;
+  } while (0 < leader->moves_left);
+
+  pf_map_destroy(pfm);
 }
 
 
