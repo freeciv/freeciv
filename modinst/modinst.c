@@ -28,7 +28,7 @@
 /* modinst */
 #include "download.h"
 
-#define EXAMPLE_URL "http://www.cazfi.net/freeciv/modinst/2.3/ancients.modpack"
+#define EXAMPLE_URL "http://www.cazfi.net/freeciv/modinst/2.4/ancients.modpack"
 
 static GtkWidget *statusbar;
 static GtkWidget *progressbar;

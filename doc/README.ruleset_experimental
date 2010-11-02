@@ -2,9 +2,8 @@
                    Experimental Freeciv Rulesets
 ----------------------------------------------------------------------
 
-This ruleset tries to use the new features available in freeciv 2.2 and
-the development version 2.2.99 (this will be 2.3 in the future). It is
-based on the default ruleset. The changes can be extracted by
+This ruleset tries to use the new features available since freeciv 2.2. It
+is based on the default ruleset. The changes can be extracted by
 
 #> diff -ur data/default data/experimental/
 
