@@ -86,7 +86,6 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_defend(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
 
-static int unit_move_turns(struct unit *punit, struct tile *ptile);
 static bool unit_role_defender(const struct unit_type *punittype);
 static int unit_def_rating_sq(struct unit *punit, struct unit *pdef);
 
@@ -265,61 +264,6 @@ static bool has_defense(struct city *pcity)
   return FALSE;
 }
 
-/**********************************************************************
- Precondition: A warmap must already be generated for the punit.
-
- Returns the minimal amount of turns required to reach the given
- destination position. The actual turn at which the unit will
- reach the given point depends on the movement points it has remaining.
-
- For example: Unit has a move rate of 3, path cost is 5, unit has 2
- move points left.
-
- path1 costs: first tile = 3, second tile = 2
-
- turn 0: points = 2, unit has to wait
- turn 1: points = 3, unit can move, points = 0, has to wait
- turn 2: points = 3, unit can move, points = 1
-
- path2 costs: first tile = 2, second tile = 3
-
- turn 0: points = 2, unit can move, points = 0, has to wait
- turn 1: points = 3, unit can move, points = 0
-
- In spite of the path costs being the same, units that take a path of the
- same length will arrive at different times. This function also does not 
- take into account ZOC or lack of hp affecting movement.
- 
- Note: even if a unit has only fractional move points left, there is
- still a possibility it could cross the tile.
-**************************************************************************/
-static int unit_move_turns(struct unit *punit, struct tile *ptile)
-{
-  int move_time;
-  int move_rate = unit_move_rate(punit);
-  struct unit_class *pclass = unit_class(punit);
-
-  if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
-    /* Unit does not care about terrain */
-    move_time = real_map_distance(punit->tile, ptile) * SINGLE_MOVE / move_rate;
-  } else {
-    if (unit_has_type_flag(punit, F_IGTER)) {
-      /* FIXME: IGTER units should have their move rates multiplied by 
-       * igter_speedup. Note: actually, igter units should never have their 
-       * move rates multiplied. The correct behaviour is to have every tile 
-       * they cross cost 1/3 of a movement point. ---RK */
-      move_rate *= 3;
-    }
-
-    if (uclass_move_type(pclass) == SEA_MOVING) {
-      move_time = WARMAP_SEACOST(ptile) / move_rate;
-    } else {
-      move_time = WARMAP_COST(ptile) / move_rate;
-    }
-  }
-  return move_time;
-}
- 
 /*********************************************************************
   In the words of Syela: "Using funky fprime variable instead of f in
   the denom, so that def=1 units are penalized correctly."
@@ -846,120 +790,121 @@ static bool unit_role_defender(const struct unit_type *punittype)
   return (utype_has_role(punittype, L_DEFEND_GOOD));
 }
 
-/*************************************************************************
-  See if we can find something to defend. Called both by wannabe
-  bodyguards and building want estimation code. Returns desirability
-  for using this unit as a bodyguard or for defending a city.
+/****************************************************************************
+  See if we can find something to defend. Called both by wannabe bodyguards
+  and building want estimation code. Returns desirability for using this
+  unit as a bodyguard or for defending a city.
 
-  We do not consider units with higher movement than us, or units that
-  have different move type than us, as potential charges. Nor do we 
-  attempt to bodyguard units with higher defence than us, or military
-  units with higher attack than us.
-
-  Requires an initialized warmap!
-**************************************************************************/
+  We do not consider units with higher movement than us, or units that have
+  different move type than us, as potential charges. Nor do we attempt to
+  bodyguard units with higher defence than us, or military units with higher
+  attack than us.
+****************************************************************************/
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity)
 {
-  int dist, def, best = 0;
-  int toughness = unit_def_rating_basic_sq(punit);
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
+  struct city *pcity;
+  struct ai_city *data, *best_data = NULL;
+  const int toughness = unit_def_rating_basic_sq(punit);
+  int def, best_def = -1;
+  /* Arbitrary: 3 turns. */
+  const int max_move_cost = 3 * unit_move_rate(punit);
 
-  if (toughness == 0) {
+  *aunit = NULL;
+  *acity = NULL;
+
+  if (0 == toughness) {
     /* useless */
-    return 0; 
+    return 0;
   }
 
-  /* Unit bodyguard */
-  unit_list_iterate(pplayer->units, buddy) {
-    if (!aiguard_wanted(buddy)
-        || !goto_is_sane(punit, buddy->tile, TRUE)
-        || unit_move_rate(buddy) > unit_move_rate(punit)
-        || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
-        || (is_military_unit(buddy) && get_transporter_capacity(buddy) == 0
-            && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))
-        || uclass_move_type(unit_class(buddy)) != uclass_move_type(unit_class(punit))) { 
-      continue;
-    }
-    if (tile_city(punit->tile)
-        && punit->server.adv->role == AIUNIT_DEFEND_HOME) {
-      /* FIXME: Not even if it is an allied city?
-       * And why is this *inside* the loop ?*/
-      continue; /* Do not run away from defense duty! */
-    }
-    dist = unit_move_turns(punit, buddy->tile);
-    def = (toughness - unit_def_rating_basic_sq(buddy));
-    if (def <= 0) {
-      continue; /* This should hopefully never happen. */
-    }
-    if (get_transporter_capacity(buddy) == 0) {
-      /* Reduce want based on distance. We can't do this for
-       * transports since they move around all the time, leading
-       * to hillarious flip-flops */
-      def = def >> (dist/2);
-    }
-    if (def > best) { 
-      *aunit = buddy; 
-      best = def; 
-    }
-  } unit_list_iterate_end;
+  pft_fill_unit_parameter(&parameter, punit);
+  pfm = pf_map_new(&parameter);
 
-  /* City bodyguard */
-  if (uclass_move_type(unit_class(punit)) == LAND_MOVING) {
-    struct city *pcity = tile_city(punit->tile);
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
+    if (move_cost > max_move_cost) {
+      /* Consider too far. */
+      break;
+    }
 
-   city_list_iterate(pplayer->cities, mycity) {
-     struct ai_city *mydata = def_ai_city_data(mycity);
-     if (!goto_is_sane(punit, mycity->tile, TRUE)
-         || mydata->urgency == 0) {
-       continue;
-     }
-     if (pcity) {
-       struct ai_city *city_data = def_ai_city_data(pcity);
+    pcity = tile_city(ptile);
 
-       if (city_data->grave_danger > 0
-           || city_data->urgency > mydata->urgency
-           || ((city_data->danger > mydata->danger
-                || punit->server.adv->role == AIUNIT_DEFEND_HOME)
-               && mydata->grave_danger == 0)) {
-         /* Do not yoyo between cities in need of defense. Chances are
-          * we'll be between cities when we are needed the most! */
-         continue;
-       }
-     }
-     dist = unit_move_turns(punit, mycity->tile);
-     def = (mydata->danger - assess_defense_quadratic(mycity));
-     if (def <= 0) {
-       continue;
-     }
-     def = def >> dist;
-     if (def > best && ai_fuzzy(pplayer, TRUE)) { 
-       *acity = mycity; 
-       best = def; 
-     }
-   } city_list_iterate_end;
-  }
+    /* Consider unit bodyguard. */
+    unit_list_iterate(ptile->units, buddy) {
+      /* TODO: allied unit bodyguard? */
+      if (unit_owner(buddy) != pplayer
+          || !aiguard_wanted(buddy)
+          || unit_move_rate(buddy) > unit_move_rate(punit)
+          || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
+          || (is_military_unit(buddy)
+              && 0 == get_transporter_capacity(buddy)
+              && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))
+          || (uclass_move_type(unit_class(buddy))
+              != uclass_move_type(unit_class(punit)))) {
+        continue;
+      }
 
-  UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "look_for_charge, best=%d, "
-           "type=%s(%d,%d)",
-           best * 100 / toughness,
-           *acity
-           ? city_name(*acity)
-           : (*aunit
-              ? unit_rule_name(*aunit)
-              : ""), 
-           *acity
-           ? (*acity)->tile->x
-           : (*aunit
-	      ? (*aunit)->tile->x
-	      : 0),
-           *acity
-           ? (*acity)->tile->y
-           : (*aunit
-              ? (*aunit)->tile->y
-              : 0)
-           );
-  
-  return ((best * 100) / toughness);
+      def = (toughness - unit_def_rating_basic_sq(buddy));
+      /* This should have been catched above. */
+      fc_assert_action(0 < def, continue);
+
+      if (0 == get_transporter_capacity(buddy)) {
+        /* Reduce want based on move cost. We can't do this for
+         * transports since they move around all the time, leading
+         * to hillarious flip-flops. */
+        def >>= move_cost / (2 * unit_move_rate(punit));
+      }
+      if (def > best_def) {
+        *aunit = buddy;
+        *acity = NULL;
+        best_def = def;
+      }
+    } unit_list_iterate_end;
+
+    /* City bodyguard. TODO: allied city bodyguard? */
+    if (ai_fuzzy(pplayer, TRUE)
+        && NULL != pcity
+        && city_owner(pcity) == pplayer
+        && (data = def_ai_city_data(pcity))
+        && 0 < data->urgency) {
+      if (NULL != best_data
+          && (0 < best_data->grave_danger
+              || best_data->urgency > data->urgency
+              || ((best_data->danger > data->danger
+                   || AIUNIT_DEFEND_HOME == punit->server.adv->role)
+                  && 0 == data->grave_danger))) {
+        /* Chances are we'll be between cities when we are needed the most!
+         * Resuming pf_map_move_costs_iterate()... */
+        continue;
+      }
+      def = (data->danger - assess_defense_quadratic(pcity));
+      if (def <= 0) {
+        continue;
+      }
+      /* Reduce want based on move cost. */
+      def >>= move_cost / (2 * unit_move_rate(punit));
+      if (def > best_def && ai_fuzzy(pplayer, TRUE)) {
+       *acity = pcity;
+       *aunit = NULL;
+       best_def = def;
+       best_data = data;
+     }
+    }
+  } pf_map_move_costs_iterate_end;
+
+  pf_map_destroy(pfm);
+
+  UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "%s(), best_def=%d, type=%s (%d, %d)",
+           __FUNCTION__, best_def * 100 / toughness,
+           (NULL != *acity ? city_name(*acity)
+            : (NULL != *aunit ? unit_rule_name(*aunit) : "")),
+           (NULL != *acity ? (*acity)->tile->x
+            : (NULL != *aunit ? (*aunit)->tile->x : -1)),
+           (NULL != *acity ? (*acity)->tile->y
+            : (NULL != *aunit ? (*aunit)->tile->y : -1)));
+  return ((best_def * 100) / toughness);
 }
 
 /********************************************************************** 
@@ -1021,18 +966,13 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
   TIMING_LOG(AIT_BODYGUARD, TIMER_START);
   if (unit_role_defender(unit_type(punit))) {
-    /* 
-     * This is a defending unit that doesn't need to stay put.
+    /* This is a defending unit that doesn't need to stay put.
      * It needs to defend something, but not necessarily where it's at.
-     * Therefore, it will consider becoming a bodyguard. -- Syela 
-     */
-    struct city *acity = NULL; 
-    struct unit *aunit = NULL;
-    int val;
+     * Therefore, it will consider becoming a bodyguard. -- Syela */
+    struct city *acity;
+    struct unit *aunit;
 
-    generate_warmap(tile_city(punit->tile), punit);
-
-    val = look_for_charge(pplayer, punit, &aunit, &acity);
+    look_for_charge(pplayer, punit, &aunit, &acity);
     if (acity) {
       ai_unit_new_role(punit, AIUNIT_ESCORT, acity->tile);
       aiguard_assign_guard_city(acity, punit);
