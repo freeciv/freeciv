@@ -81,17 +81,11 @@ static int diplomat_dlg_window_callback(struct widget *pWindow)
 static int diplomat_embassy_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct city *pcity =
-        game_city_by_number(pDiplomat_Dlg->diplomat_target_id);
-
-    if (NULL != pcity
+    if (NULL != game_city_by_number(pDiplomat_Dlg->diplomat_target_id)
         && NULL != game_unit_by_number(pDiplomat_Dlg->diplomat_id)) {
       request_diplomat_action(DIPLOMAT_INVESTIGATE,
                               pDiplomat_Dlg->diplomat_id,
                               pDiplomat_Dlg->diplomat_target_id, 0);
-      /* We open the city dialog now to be sure to open something if
-       * the city_info packet is not received if not changed. */
-      popup_city_dialog(pcity);
     }
 
     popdown_diplomat_dialog();

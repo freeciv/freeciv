@@ -1715,7 +1715,7 @@ static void broadcast_city_info(struct city *pcity)
     if (can_player_see_city_internals(pplayer, pcity)) {
       if (!send_city_suppressed || pplayer != powner) {
         update_dumb_city(powner, pcity);
-        lsend_packet_city_info(powner->connections, &packet);
+        lsend_packet_city_info(powner->connections, &packet, FALSE);
       }
     } else {
       if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)
@@ -1730,7 +1730,7 @@ static void broadcast_city_info(struct city *pcity)
   /* Send to global observers. */
   conn_list_iterate(game.est_connections, pconn) {
     if (conn_is_global_observer(pconn)) {
-      send_packet_city_info(pconn, &packet);
+      send_packet_city_info(pconn, &packet, FALSE);
     }
   } conn_list_iterate_end;
 }
@@ -1838,12 +1838,12 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       /* send all info to the owner */
       update_dumb_city(powner, pcity);
       package_city(pcity, &packet, FALSE);
-      lsend_packet_city_info(dest, &packet);
+      lsend_packet_city_info(dest, &packet, FALSE);
       if (dest == powner->connections) {
         /* HACK: send also a copy to global observers. */
         conn_list_iterate(game.est_connections, pconn) {
           if (conn_is_global_observer(pconn)) {
-            send_packet_city_info(pconn, &packet);
+            send_packet_city_info(pconn, &packet, FALSE);
           }
         } conn_list_iterate_end;
       }
@@ -1853,7 +1853,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
     if (!pviewer) {	/* observer */
       if (pcity) {
 	package_city(pcity, &packet, FALSE);   /* should be dumb_city info? */
-	lsend_packet_city_info(dest, &packet);
+        lsend_packet_city_info(dest, &packet, FALSE);
       }
     } else {
       if (!map_is_known(ptile, pviewer)) {

@@ -195,7 +195,9 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   /* Send city info to investigator's player.
      As this is a special case we bypass send_city_info. */
   package_city(pcity, &city_packet, TRUE);
-  lsend_packet_city_info(pplayer->connections, &city_packet);
+  /* We need to force to send the packet to ensure the client will receive
+   * something and popup the city dialog. */
+  lsend_packet_city_info(pplayer->connections, &city_packet, TRUE);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;

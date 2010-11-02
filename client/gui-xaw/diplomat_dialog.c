@@ -177,17 +177,13 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
 static void diplomat_investigate_callback(Widget w, XtPointer client_data,
                                           XtPointer call_data)
 {
-  struct city *pcity = game_city_by_number(diplomat_target_id);
-
   destroy_message_dialog(w);
   diplomat_dialog = NULL;
 
-  if (NULL != pcity && NULL != game_unit_by_number(diplomat_id)) {
+  if (NULL != game_city_by_number(diplomat_target_id)
+      && NULL != game_unit_by_number(diplomat_id)) {
     request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
                             diplomat_target_id, 0);
-    /* We open the city dialog now to be sure to open something if
-     * the city_info packet is not received if not changed. */
-    popup_city_dialog(pcity);
   }
 
   process_diplomat_arrival(NULL, 0);

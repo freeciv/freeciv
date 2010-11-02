@@ -130,14 +130,10 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
-  struct city *pcity = game_city_by_number(diplomat_target_id);
-
-  if (NULL != pcity && NULL != game_unit_by_number(diplomat_id)) {
+  if (NULL != game_city_by_number(diplomat_target_id)
+      && NULL != game_unit_by_number(diplomat_id)) {
     request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
                             diplomat_target_id, 0);
-    /* We open the city dialog now to be sure to open something if
-     * the city_info packet is not received if not changed. */
-    popup_city_dialog(pcity);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
