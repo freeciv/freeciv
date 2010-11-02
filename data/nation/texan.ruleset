@@ -10,8 +10,8 @@ leaders = {
  "name",                "sex"
  "Sam Houston",         "Male"
  "Stephen F. Austin",   "Male"
- "James P. Henderson",  "Female"
- "Ma Ferguson",         "Male"
+ "James P. Henderson",  "Male"
+ "Ma Ferguson",         "Female"
  "Lyndon B. Johnson",   "Male"
  "George W. Bush",      "Male"
 }

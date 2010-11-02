@@ -5,7 +5,7 @@ plural=_("?plural:Mongols")
 groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("In the centuries after their unification by Chinggis Khan, the\
  Mongols conquered the largest empire in human history, encompassing most\
- of the continent of Asia.  They became notorious for their utter\
+ of the continent of Asia. They became notorious for their utter\
  ruthlessness in warfare.")
 
 leaders = {

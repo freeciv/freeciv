@@ -12,9 +12,8 @@ legend=_("Afghanistan, often called the crossroads of Central Asia, has had\
 leaders = {
  "name",                "sex"
  "Kanishka",            "Male"
- "Mahmud Ghazni",       "Male"
- "Timour-i-Lang",       "Male"
- "Ahmad Shah",          "Male"
+ "Mahmud Ghaznawi",     "Male"
+ "Ahmad Shah Durrani",  "Male"
  "Zahir Shah",          "Male"
  "Daoud Khan",          "Male"
 }

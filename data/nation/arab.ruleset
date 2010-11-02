@@ -8,6 +8,7 @@ legend=_("The Arab/Islamic civilization of 622 AD-1495 AD.")
 leaders = {
  "name",                "sex"
  "Mohammad",            "Male"
+ "Fatimah",             "Female"
  "Umar",                "Male"
  "Harun al-Rashid",     "Male"
  "Saladin",             "Male"

@@ -31,18 +31,19 @@ leaders = {
 ; unification. died 208BC.
  "Gaïa",                "Male"
 
-; Son of Mastanabal and brother of Jugurtha, reigned 106BC-88BC.
- "Gauda",               "Male"
+; (238BC-148BC) son of Gaïa, unified Massyles and Massaessyle to found
+; Numidia in 202BC. reigned 208BC/148BC.
+ "Masinissa",           "Male"
 
-; Son of Gauda,reigned 88BC-60BC.
- "Hiempsal II",         "Male"
+; son of Mastanabal son of Masinissa, reigned 111BC-105BC.
+ "Jugurthen",           "Male"
 
 ; (85BC-46BC) son of Hiempsal II, last king of the free Amazigh Numdia.
 ; reigned 60BC-46BC.
  "Juba I",              "Male"
 
 ; son of Juba II, Vassal King of Mauritania, the Roman Numidia, married
-; Cleopatra Selene II (40BC6AC), daughter of Cleopatra, reigned 52BC-23BC.
+; Cleopatra Selene II (40BC-6AC), daughter of Cleopatra, reigned 52BC-23BC.
  "Juba II",             "Male"
 
 ; Berber: Tiqfarin
@@ -81,7 +82,10 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "Moroccan", "Algerian", "Tunisian", "Libyan", "Guanche", "Riffian"
+
+conflicts_with="Numidian"
+civilwar_nations="Moroccan", "Algerian", "Tunisian", "Libyan", "Guanche",
+ "Riffian"
 
 cities =
 "Tingis (mountains, ocean)",
