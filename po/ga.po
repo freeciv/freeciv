@@ -5989,44 +5989,44 @@ msgstr "(anaithnid)"
 
 #: server/stdinhand.c:380
 msgid "Name is empty, so cannot be a player."
-msgstr ""
+msgstr "Tá an t-ainm folamh, ní imreoir é."
 
 #: server/stdinhand.c:384
 msgid "Name is too long, so cannot be a player."
-msgstr ""
+msgstr "Tá an t-ainm rófhada, ní imreoir é."
 
 #: server/stdinhand.c:388
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "Réimír ilchiallach '%s' ar ainm an imreora."
 
 #: server/stdinhand.c:392
 #, c-format
 msgid "No player by the name of '%s'."
-msgstr ""
+msgstr "Níl aon imreoir ann darb ainm '%s'."
 
 #: server/stdinhand.c:396 server/stdinhand.c:431
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
-msgstr ""
+msgstr "Toradh gan súil leis %d (%s) ar '%s'."
 
 #: server/stdinhand.c:415
 msgid "Name is empty, so cannot be a connection."
-msgstr ""
+msgstr "Tá an t-ainm folamh, ní ceangal é."
 
 #: server/stdinhand.c:419
 msgid "Name is too long, so cannot be a connection."
-msgstr ""
+msgstr "Tá an t-ainm rófhada, ní ceangal é."
 
 #: server/stdinhand.c:423
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "Réimír ilchiallach '%s' ar ainm an cheangail."
 
 #: server/stdinhand.c:427
 #, c-format
 msgid "No connection by the name of '%s'."
-msgstr ""
+msgstr "Níl aon cheangal darb ainm '%s' ann."
 
 #: server/stdinhand.c:447
 #, c-format
@@ -6081,93 +6081,93 @@ msgstr ""
 #: server/stdinhand.c:572
 #, c-format
 msgid "Metaserver is now [%s]."
-msgstr ""
+msgstr "Tá an meitifhreastalaí [%s] anois."
 
 #: server/stdinhand.c:582
 #, c-format
 msgid "Server id: %s"
-msgstr ""
+msgstr "Aitheantas freastalaí: %s"
 
 #: server/stdinhand.c:696
 msgid "You cannot save games manually on this server."
-msgstr ""
+msgstr "Ní féidir cluichí a shábháil de láimh ar an bhfreastalaí seo."
 
 #: server/stdinhand.c:713
 msgid "Cannot toggle a barbarian player."
-msgstr ""
+msgstr "Ní féidir imreoir barbarach a scoránú."
 
 #: server/stdinhand.c:720
 #, c-format
 msgid "%s is now under AI control."
-msgstr ""
+msgstr "Tá %s faoi stiúir an IS anois."
 
 #: server/stdinhand.c:742
 #, c-format
 msgid "%s is now under human control."
-msgstr ""
+msgstr "Tá %s faoi stiúir imreora anois."
 
 #: server/stdinhand.c:786
 msgid "Can't add AI players once the game has begun."
-msgstr ""
+msgstr "Ní féidir imreoirí IS a chur leis tar éis thosú an chluiche."
 
 #: server/stdinhand.c:802
 msgid "Can't add more players, server is full."
-msgstr ""
+msgstr "Ní féidir tuilleadh imreoirí a chur leis, tá an freastalaí lán."
 
 #: server/stdinhand.c:808
 msgid "Can't add more players, not enough nations."
-msgstr ""
+msgstr "Ní féidir tuilleadh imreoirí a chur leis, níl a dhóthain náisiún ann."
 
 #: server/stdinhand.c:815
 msgid "Can't use an empty name."
-msgstr ""
+msgstr "Ní cheadaítear ainm folamh."
 
 #: server/stdinhand.c:822
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
-msgstr ""
+msgstr "Tá an t-ainm sin níos faide ná %d carachtar."
 
 #: server/stdinhand.c:828
 msgid "That name is not allowed."
-msgstr ""
+msgstr "Ní cheadaítear an t-ainm sin."
 
 #: server/stdinhand.c:834
 msgid "A player already exists by that name."
-msgstr ""
+msgstr "Tá imreoir darb ainm sin ann cheana."
 
 #: server/stdinhand.c:840
 msgid "A user already exists by that name."
-msgstr ""
+msgstr "Tá úsáideoir darb ainm sin ann cheana."
 
 #: server/stdinhand.c:853
 #, c-format
 msgid "Failed to create new player %s."
-msgstr ""
+msgstr "Níorbh fhéidir imreoir nua %s a chruthú."
 
 #: server/stdinhand.c:858
 #, c-format
 msgid "%s has been added as an AI-controlled player."
-msgstr ""
+msgstr "Cuireadh %s leis mar imreoir nua faoi stiúir an IS."
 
 #. TRANS: <name> replacing <name> ...
 #: server/stdinhand.c:863
 #, c-format
 msgid "%s replacing %s as an AI-controlled player."
-msgstr ""
+msgstr "Cuireadh %s in ionad %s mar imreoir faoi stiúir an IS."
 
 #: server/stdinhand.c:904
 msgid "Players cannot be removed once the game has started."
-msgstr ""
+msgstr "Ní féidir imreoirí a bhaint tar éis thosú an chluiche."
 
 #: server/stdinhand.c:916
 #, c-format
 msgid "Removed player %s from the game."
-msgstr ""
+msgstr "Baineadh imreoir %s ón chluiche."
 
 #: server/stdinhand.c:966 server/stdinhand.c:3467 server/stdinhand.c:3599
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "Ní cheadaítear an t-ainm \"%s\" mar gheall ar chúrsaí slándála."
 
 #: server/stdinhand.c:979
 #, c-format
@@ -6177,26 +6177,27 @@ msgstr ""
 #: server/stdinhand.c:987
 #, c-format
 msgid "Loading script file: %s"
-msgstr ""
+msgstr "Comhad scripte á luchtú: %s"
 
 #: server/stdinhand.c:1002
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
-msgstr ""
+msgstr "Ní féidir comhad scripte '%s' do líne na n-orduithe a léamh."
 
 #: server/stdinhand.c:1004
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr ""
+msgstr "Níorbh fhéidir comhad scripte '%s' a léamh."
 
 #: server/stdinhand.c:1096
 #, c-format
 msgid "Could not write script file '%s'."
-msgstr ""
+msgstr "Níorbh fhéidir comhad scripte '%s' a scríobh."
 
 #: server/stdinhand.c:1107
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
+"Níl cead agat scríobh ar an bhfreastalaí seo mar gheall ar chúrsaí slándála."
 
 #: server/stdinhand.c:1135
 #, c-format
@@ -6277,7 +6278,7 @@ msgstr ""
 #: server/stdinhand.c:1416
 #, c-format
 msgid "Invalid argument %d."
-msgstr ""
+msgstr "Argóint neamhbhailí %d."
 
 #: server/stdinhand.c:1423 server/stdinhand.c:1863 server/stdinhand.c:2859
 #: server/stdinhand.c:3036 server/stdinhand.c:3048 server/stdinhand.c:3261
@@ -6287,11 +6288,13 @@ msgid ""
 "Usage:\n"
 "%s"
 msgstr ""
+"Úsáid:\n"
+"%s"
 
 #: server/stdinhand.c:1430
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
-msgstr ""
+msgstr "Teorainn ama dinimiciúil: %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:1491
@@ -6325,34 +6328,34 @@ msgstr "socraithe"
 #: server/stdinhand.c:1516
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
-msgstr ""
+msgstr "Luach: %d, Íosluach: 0, Réamhshocrú: %d, Uasluach: 1"
 
 #: server/stdinhand.c:1521
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
-msgstr ""
+msgstr "Luach: %d, Íosluach: %d, Réamhshocrú: %d, Uasluach: %d"
 
 #: server/stdinhand.c:1527
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
-msgstr ""
+msgstr "Luach: \"%s\", Réamhshocrú: \"%s\""
 
 #: server/stdinhand.c:1546
 msgid "Explanations are available for the following server options:"
-msgstr ""
+msgstr "Tá cur síos ar fáil ar na roghanna freastalaí seo a leanas:"
 
 #: server/stdinhand.c:1594
 msgid "No explanation for that yet."
-msgstr ""
+msgstr "Níl aon mhíniú air sin fós."
 
 #: server/stdinhand.c:1597 server/stdinhand.c:2548
 msgid "Ambiguous option name."
-msgstr ""
+msgstr "Ainm ilchiallach ar an rogha."
 
 #: server/stdinhand.c:1617
 #, c-format
 msgid "Server Operator: %s"
-msgstr ""
+msgstr "Oibreoir Freastalaí: %s"
 
 #: server/stdinhand.c:1656
 #, c-format
@@ -6376,7 +6379,7 @@ msgstr ""
 
 #: server/stdinhand.c:1860
 msgid "This command is client only."
-msgstr ""
+msgstr "Is ordú do chliaint amháin é seo."
 
 #: server/stdinhand.c:1869
 msgid "Only players may use the away command."
@@ -6390,17 +6393,17 @@ msgstr ""
 #: server/stdinhand.c:1881
 #, c-format
 msgid "%s returned to game."
-msgstr ""
+msgstr "D'fhill %s ar an gcluiche."
 
 #: server/stdinhand.c:1923
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr ""
+msgstr "Tá bŕon orm, níl cead agat féachaint ar rogha '%s'."
 
 #: server/stdinhand.c:1929
 #, c-format
 msgid "Unknown option '%s'."
-msgstr ""
+msgstr "Rogha anaithnid '%s'."
 
 #: server/stdinhand.c:1954
 msgid "All options with non-default values"
@@ -6408,23 +6411,23 @@ msgstr ""
 
 #: server/stdinhand.c:1957
 msgid "All options"
-msgstr ""
+msgstr "Gach rogha"
 
 #: server/stdinhand.c:1960
 msgid "Vital options"
-msgstr ""
+msgstr "Roghanna riachtanacha"
 
 #: server/stdinhand.c:1963
 msgid "Situational options"
-msgstr ""
+msgstr "Roghanna de réir ócáide"
 
 #: server/stdinhand.c:1966
 msgid "Rarely used options"
-msgstr ""
+msgstr "Roghanna neamhchoitianta"
 
 #: server/stdinhand.c:1969
 msgid "+ means you may change the option"
-msgstr ""
+msgstr "Ciallaíonn '+' go bhfuil tú in ann an rogha a athrú"
 
 #: server/stdinhand.c:1970
 msgid "= means the option is on its default value"
@@ -6433,7 +6436,7 @@ msgstr ""
 #: server/stdinhand.c:1973
 #, c-format
 msgid "%-*s value   (min,max)      "
-msgstr ""
+msgstr "%-*s luach   (íos,uas)      "
 
 #: server/stdinhand.c:1973
 msgid "Option"
@@ -26375,4 +26378,3 @@ msgstr "IC"
 #: data/default/game.ruleset:177
 msgid "BC"
 msgstr "RC"
-
