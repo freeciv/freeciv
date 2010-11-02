@@ -902,7 +902,7 @@ svg_files = 				\
 		ecuador.svg		\
 		egypt_ancient.svg	\
 		egypt.svg		\
-		elamite.svg		\
+		elam.svg		\
 		el_salvador.svg		\
 		england.svg		\
 		esperanto.svg		\
