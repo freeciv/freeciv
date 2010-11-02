@@ -199,6 +199,7 @@ flag_files =				\
 		leon.png		\
 		libya.png		\
 		liechtenstein.png	\
+		lipkatatar.png		\
 		lithuania.png		\
 		lorraine.png		\
 		lusatia.png		\
@@ -596,6 +597,7 @@ shield_files =					\
 		leon-shield.png			\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
+		lipkatatar-shield.png		\
 		lithuania-shield.png		\
 		lorraine-shield.png		\
 		lusatia-shield.png		\
@@ -993,6 +995,7 @@ svg_files = 				\
 		leon.svg		\
 		libya.svg		\
 		liechtenstein.svg	\
+		lipkatatar.svg		\
 		lithuania.svg		\
 		lorraine.svg		\
 		lusatia.svg		\

@@ -37,9 +37,9 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-conflicts_with="silesian", "mazovian", "greater polish", "western pomeranian"
-civilwar_nations = "lithuanian", "silesian", "mazovian", "greater polish",
- "western pomeranian"
+conflicts_with="Silesian", "Mazovian", "Greater Polish", "Western Pomeranian"
+civilwar_nations="Lithuanian", "Silesian", "Mazovian", "Greater Polish",
+ "Western Pomeranian", "Lipka Tatar"
 
 cities =
 ; Te bedą pierwsze, bo tak pasuje

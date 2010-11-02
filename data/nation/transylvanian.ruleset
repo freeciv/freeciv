@@ -24,9 +24,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Despotism",       _("Voivode %s"),     _("?female:Voivode %s")
- "Fundamentalism",  _("Bishop %s"),      _("?female:Bishop %s")
- "Monarchy",        _("Prince %s"),      _("Princess %s")
+ "Republic",        _("Voivode %s"),   _("?female:Voivode %s")
+ "Fundamentalism",  _("Bishop %s"),    _("?female:Bishop %s")
+ "Monarchy",        _("Prince %s"),    _("Princess %s")
 }
 
 flag="transylvania"

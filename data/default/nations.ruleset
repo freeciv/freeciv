@@ -245,6 +245,7 @@ match=2
 *include "nation/leonese.ruleset"
 *include "nation/libyan.ruleset"
 *include "nation/liechtensteiner.ruleset"
+*include "nation/lipkatatar.ruleset"
 *include "nation/lithuanian.ruleset"
 *include "nation/lojbanistani.ruleset"
 *include "nation/lorrain.ruleset"
