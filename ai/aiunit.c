@@ -1611,49 +1611,55 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   return(best);
 }
 
-/**********************************************************************
-  Find safe city to recover in. An allied player's city is just as 
-  good as one of our own, since both replenish our hitpoints and
-  reduce unhappiness.
+/****************************************************************************
+  Find safe city to recover in. An allied player's city is just as good as
+  one of our own, since both replenish our hitpoints and reduce unhappiness.
 
-  TODO: Actually check how safe the city is. This is a difficult
-  decision not easily taken, since we also want to protect unsafe
-  cities, at least most of the time.
-***********************************************************************/
+  TODO: Actually check how safe the city is. This is a difficult decision
+  not easily taken, since we also want to protect unsafe cities, at least
+  most of the time.
+****************************************************************************/
 struct city *find_nearest_safe_city(struct unit *punit)
 {
+  struct pf_parameter parameter;
+  struct pf_map *pfm;
   struct player *pplayer = unit_owner(punit);
-  struct city *acity = NULL;
-  int best = 6 * THRESHOLD + 1, cur;
-  bool ground = is_ground_unit(punit);
+  struct city *pcity, *best_city = NULL;
+  int best = FC_INFINITY, cur;
 
-  CHECK_UNIT(punit);
+  pft_fill_unit_parameter(&parameter, punit);
+  pfm = pf_map_new(&parameter);
 
-  generate_warmap(tile_city(punit->tile), punit);
-  players_iterate(aplayer) {
-    if (pplayers_allied(pplayer,aplayer)) {
-      city_list_iterate(aplayer->cities, pcity) {
-        if (ground) {
-          cur = WARMAP_COST(pcity->tile);
-        } else {
-          cur = WARMAP_SEACOST(pcity->tile);
-        }
-	/* Note the "player" here is the unit owner NOT the city owner. */
-	if (get_unittype_bonus(unit_owner(punit), pcity->tile, unit_type(punit),
-			       EFT_HP_REGEN) > 0) {
-	  cur /= 3;
-	}
-        if (cur < best) {
-          best = cur;
-          acity = pcity;
-        }
-      } city_list_iterate_end;
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
+    if (move_cost > best) {
+      /* We already found a better city. No need to continue. */
+      break;
     }
-  } players_iterate_end;
-  if (best > 6 * THRESHOLD) {
-    return NULL;
-  }
-  return acity;
+
+    pcity = tile_city(ptile);
+    if (NULL == pcity || !pplayers_allied(pplayer, city_owner(pcity))) {
+      continue;
+    }
+
+    /* Score based on the move cost. */
+    cur = move_cost;
+
+    /* Note the unit owner may be different from the city owner. */
+    if (0 == get_unittype_bonus(unit_owner(punit), ptile, unit_type(punit),
+                               EFT_HP_REGEN)) {
+      /* If we cannot regen fast our hit points here, let's make some
+       * penalty. */
+      cur *= 3;
+    }
+
+    if (cur < best) {
+      best_city = pcity;
+      best = cur;
+    }
+  } pf_map_move_costs_iterate_end;
+
+  pf_map_destroy(pfm);
+  return best_city;
 }
 
 /*************************************************************************
