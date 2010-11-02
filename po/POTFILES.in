@@ -5,6 +5,7 @@ common/connection.c
 common/effects.c
 common/events.c
 common/game.c
+common/government.c
 common/map.c
 common/packets.c
 common/player.c
@@ -40,6 +41,7 @@ server/diplhand.c
 server/diplomats.c
 server/edithand.c
 server/gamehand.c
+server/generator/mapgen_topology.c
 server/ggzserver.c
 server/handchat.c
 server/maphand.c
