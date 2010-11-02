@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:18+0000\n"
+"POT-Creation-Date: 2010-11-02 15:18+0100\n"
 "PO-Revision-Date: 2008-01-21 15:42+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -599,6 +599,16 @@ msgstr "Technologie"
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
+
+#: common/government.c:408
+#, fuzzy, c-format
+msgid "Mr. %s"
+msgstr "Řídký"
+
+#: common/government.c:410
+#, fuzzy, c-format
+msgid "Ms. %s"
+msgstr "Námořní pěchota"
 
 #: common/player.c:65
 msgid "Away"
@@ -3777,234 +3787,234 @@ msgstr "Schůzka s hráčem %s zrušena."
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Vaši vyslanci byli popraveni!"
 
-#: server/diplomats.c:108
+#: server/diplomats.c:111
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
 msgstr "Váš %s nemohl otrávit vodu ve městě %s."
 
-#: server/diplomats.c:123
+#: server/diplomats.c:126
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
 msgstr "Váš %s otrávil vodu ve městě %s."
 
-#: server/diplomats.c:128
+#: server/diplomats.c:131
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "Hráč %s je podezřelý z otrávení vody ve městě %s."
 
-#: server/diplomats.c:273
+#: server/diplomats.c:280
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
 msgstr "Váš %s ve městě %s byl poraven primitivními %s."
 
-#: server/diplomats.c:288
+#: server/diplomats.c:295
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "Založil(a) jste vyslanectví ve městě %s."
 
-#: server/diplomats.c:292
+#: server/diplomats.c:299
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "%s založili vyslanectví ve městě %s."
 
-#: server/diplomats.c:353
+#: server/diplomats.c:361
 #, fuzzy, c-format
 msgid "Your %s could not sabotage the %s %s."
 msgstr "Váš %1$s neuspěl při sabotáži jednotky %3$s hráče %2$s."
 
-#: server/diplomats.c:376
+#: server/diplomats.c:384
 #, fuzzy, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Váš %1$s uspěl při sabotáži jednotky %3$s hráče %2$s."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:383
+#: server/diplomats.c:391
 #, fuzzy, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Váš %s byl sabotován hráčem %s!"
 
-#: server/diplomats.c:434
+#: server/diplomats.c:443
 msgid "You can't bribe a unit from this nation."
 msgstr "Nemůžete uplácet jednotky tohoto národa."
 
-#: server/diplomats.c:448
+#: server/diplomats.c:454
 #, fuzzy, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "Nemáte dostatek peněz na uplacení jednotky %2$s hráče %1$s."
 
-#: server/diplomats.c:458
+#: server/diplomats.c:464
 #, fuzzy, c-format
 msgid "You cannot bribe the %s!"
 msgstr "%s nemůžete uplatit!"
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Váš %s uspěl při uplácení jednotky %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:482
+#: server/diplomats.c:489
 #, fuzzy, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Jednotka %s byla uplacena hráčem %s."
 
-#: server/diplomats.c:613
+#: server/diplomats.c:620
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
 msgstr ""
 
-#: server/diplomats.c:620
+#: server/diplomats.c:627
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Váš %s byl chycen při pokusu o krádež technologie ve městě %s."
 
-#: server/diplomats.c:627
+#: server/diplomats.c:634
 #, fuzzy, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "%2$s hráče %1$s neuspěla při krádeži technologie ve městě %3$s."
 
-#: server/diplomats.c:642
+#: server/diplomats.c:650
 #, c-format
 msgid "No new technology found in %s."
 msgstr "Ve městě %s nebyla nalezena žádná nová technologie."
 
-#: server/diplomats.c:699
+#: server/diplomats.c:708
 msgid "You can't subvert this city."
 msgstr "Nemůžete rozvrátit toto město."
 
-#: server/diplomats.c:711
+#: server/diplomats.c:720
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "Nemáte dostatek zlata na rozvrácení města %s."
 
-#: server/diplomats.c:729
+#: server/diplomats.c:738
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Váš %s byl chycen při pokusu o vyvolání převratu!"
 
-#: server/diplomats.c:734
+#: server/diplomats.c:743
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Chytili jsme %s %s podněcující povstání v %s!"
 
-#: server/diplomats.c:758
+#: server/diplomats.c:767
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Ve městě %s došlo k převratu a Vy jste převzal(a) kontrolu!"
 
-#: server/diplomats.c:762
+#: server/diplomats.c:771
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "Převrat ve městě %s. %s jej pravděpodobně podporovali."
 
-#: server/diplomats.c:844
+#: server/diplomats.c:854
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Váš %s byl chycen při pokusu o sabotáž!"
 
-#: server/diplomats.c:849
+#: server/diplomats.c:859
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "%2$s (%1$s) chycen při pokusu o sabotáž ve městě %3$s!"
 
-#: server/diplomats.c:884
+#: server/diplomats.c:894
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Váš %s nenalezl ve městě %s nic, co by stálo za sabotáž."
 
-#: server/diplomats.c:933
+#: server/diplomats.c:943
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Nemůžete sabotovat %s!"
 
-#: server/diplomats.c:944
+#: server/diplomats.c:954
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Váš %s nemohl sabotovat %s, protože ve městě %s není."
 
-#: server/diplomats.c:969
+#: server/diplomats.c:979
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Váš %s byl úspěšný a zničil probíhající stavbu %s ve městě %s."
 
-#: server/diplomats.c:976
+#: server/diplomats.c:986
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "Stavba %s ve městě %s byla zničena, podezřelý je %s."
 
-#: server/diplomats.c:999
+#: server/diplomats.c:1009
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Váš %s byl chycen při pokusu o sabotáž!"
 
-#: server/diplomats.c:1003
+#: server/diplomats.c:1013
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Byl chycen %2$s (%1$s) při pokusu o sabotáž %3$s ve městě %4$s!\""
 
-#: server/diplomats.c:1017
+#: server/diplomats.c:1027
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Váš %s zničil %s ve městě %s."
 
-#: server/diplomats.c:1023
+#: server/diplomats.c:1033
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "%s zničili %s ve městě %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1133
+#: server/diplomats.c:1144
 #, fuzzy, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Nepřátelský %s byl zlikvidován při obraně %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1140
+#: server/diplomats.c:1151
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Váš %s byl zlikvidován při obraně města %s proti %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1148
+#: server/diplomats.c:1159
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Váš %s byl zlikvidován při obraně města proti %s."
 
-#: server/diplomats.c:1162
+#: server/diplomats.c:1173
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Váš %s byl zlikvidován při obraně %s."
 
-#: server/diplomats.c:1168
+#: server/diplomats.c:1179
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
 msgstr "Byl zlikvidován %2$s (%1$s) při pokusu o infiltrování města %3$s."
 
-#: server/diplomats.c:1174
+#: server/diplomats.c:1185
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "Byl zlikvidován %s %s při pokusu o infiltrování našich jednotek."
 
-#: server/diplomats.c:1227
+#: server/diplomats.c:1238
 #, fuzzy, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Váš %s úspěšně spnil misi a vrátil se nepozorovaně do města %s."
 
-#: server/diplomats.c:1246
+#: server/diplomats.c:1257
 #, fuzzy, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Váš %s byl zajat poté, co dokončil svoji misi ve městě %s."
 
-#: server/diplomats.c:1252
+#: server/diplomats.c:1263
 #, fuzzy, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Váš %s byl zajat poté, co dokončil svoji misi."
 
-#: server/diplomats.c:1286
+#: server/diplomats.c:1287
 #, fuzzy, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
@@ -4014,22 +4024,22 @@ msgstr "Váš pokus o uplacení %2$s hráče %1$s vyvolal incident."
 msgid "%s has caused an incident while bribing your %s."
 msgstr "Hráč %s vyvolal incident svým pokusem o uplacení Vašeho %s."
 
-#: server/diplomats.c:1299
+#: server/diplomats.c:1298
 #, fuzzy, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Při pokusu o krádež technologie hráči %s došlo k incidentu."
 
-#: server/diplomats.c:1304
+#: server/diplomats.c:1302
 #, fuzzy, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "Hráč %s vyvolal incident svým pokusem o krádež technologie."
 
-#: server/diplomats.c:1311
+#: server/diplomats.c:1308
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Způsobil jste incident při pokusu vyvolat povstání ve městě %s."
 
-#: server/diplomats.c:1316
+#: server/diplomats.c:1312
 #, fuzzy, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s způsobil incident při pokusu vyvolat povstání ve městě %s."
@@ -4323,6 +4333,37 @@ msgstr ""
 #: server/gamehand.c:425
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Čas na jedno kolo je menší než nula, upraveno na nulu."
+
+#: server/generator/mapgen_topology.c:231
+#, c-format
+msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:271
+#, c-format
+msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:283
+#, c-format
+msgid ""
+"Map size calculated for %d (land) tiles per player and %d player(s) too "
+"small. Setting map size to the minimal size %d."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:288
+#, c-format
+msgid ""
+"Map size calculated for %d (land) tiles per player and %d player(s) too "
+"large. Setting map size to the maximal size %d."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:293
+#, c-format
+msgid ""
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
+msgstr ""
 
 #: server/ggzserver.c:122
 msgid "Unable to make temporary directory for GGZ game.\n"
@@ -5128,8 +5169,8 @@ msgstr ""
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Uložená hra je příliš stará. Nutná je alespoň verze 1.9.0."
 
-#: server/savegame.c:5231 server/savegame2.c:2896 server/srv_main.c:1730
-#: server/srv_main.c:1734
+#: server/savegame.c:5231 server/savegame2.c:2896 server/srv_main.c:1731
+#: server/srv_main.c:1735
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s byl přidán jako počítačem ovládaný hráč úrovně %s."
@@ -7289,64 +7330,64 @@ msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Bez navádění z hlavního města je %s kosmická loď ztracena!"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:276
+#: server/srv_main.c:277
 #, c-format
 msgid "?winners:, the %s"
 msgstr ""
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:280
+#: server/srv_main.c:281
 #, c-format
 msgid "?winners:the %s"
 msgstr ""
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:290
+#: server/srv_main.c:291
 #, fuzzy, c-format
 msgid "Scenario victory to %s."
 msgstr "Týmové vítězství pro %s"
 
-#: server/srv_main.c:300
+#: server/srv_main.c:301
 #, fuzzy
 msgid "Game ended in a draw as end turn exceeded."
 msgstr "Hra skončila remízou jako na konci roku"
 
-#: server/srv_main.c:333
+#: server/srv_main.c:334
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Kosmická loď %s dorazila na Alfu Centauri."
 
-#: server/srv_main.c:351 server/srv_main.c:391
+#: server/srv_main.c:352 server/srv_main.c:392
 #, fuzzy, c-format
 msgid "Team victory to %s."
 msgstr "Týmové vítězství pro %s"
 
-#: server/srv_main.c:361 server/srv_main.c:407
+#: server/srv_main.c:362 server/srv_main.c:408
 #, fuzzy, c-format
 msgid "Game ended in victory for %s."
 msgstr "Hra skončila vítězstvím pro %s"
 
-#: server/srv_main.c:414 server/stdinhand.c:4098
+#: server/srv_main.c:415 server/stdinhand.c:4098
 msgid "Game ended in a draw."
 msgstr "Hra skončila remízou."
 
-#: server/srv_main.c:530 server/srv_main.c:541
+#: server/srv_main.c:531 server/srv_main.c:542
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 
-#: server/srv_main.c:580
+#: server/srv_main.c:581
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "obyvatelé upozorňují, že příměří s %s brzy skončí."
 
-#: server/srv_main.c:589 server/srv_main.c:594
+#: server/srv_main.c:590 server/srv_main.c:595
 #, fuzzy, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "Příměří s %s skončilo.  K %s jste nyní neutrální."
 
-#: server/srv_main.c:612
+#: server/srv_main.c:613
 #, fuzzy, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -7354,45 +7395,45 @@ msgid ""
 msgstr ""
 "Váš týmový spoluhráč %s vyhlásil válku %s. Jsme povinni zrušit alianci s %s."
 
-#: server/srv_main.c:1082 server/srv_main.c:1085
+#: server/srv_main.c:1083 server/srv_main.c:1086
 #, fuzzy, c-format
 msgid "Unsupported compression type %d."
 msgstr "Nepodporovaný typ komprese %d"
 
-#: server/srv_main.c:1115
+#: server/srv_main.c:1116
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Nepodařilo se uložit hru jako %s"
 
-#: server/srv_main.c:1117
+#: server/srv_main.c:1118
 #, c-format
 msgid "Game saved as %s"
 msgstr "Hra uložena jako %s"
 
-#: server/srv_main.c:1151
+#: server/srv_main.c:1152
 msgid "The game is already running."
 msgstr "Hra již probíhá."
 
-#: server/srv_main.c:1159
+#: server/srv_main.c:1160
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1166
+#: server/srv_main.c:1167
 msgid "Starting game."
 msgstr "Zahajuji hru."
 
-#: server/srv_main.c:1234
+#: server/srv_main.c:1235
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "požadavek pro neznámé hlášení (typ %d)"
 
-#: server/srv_main.c:1314
+#: server/srv_main.c:1315
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Upozornění: odmítnut starý klient %s"
 
-#: server/srv_main.c:1324
+#: server/srv_main.c:1325
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -7400,55 +7441,55 @@ msgstr ""
 "Váš klient je příliš starý. Pro použití tohoto serveru, prosím aktualizujte "
 "klienta na Freeciv 2.2 nebo novější."
 
-#: server/srv_main.c:1382
+#: server/srv_main.c:1383
 msgid "You are not allowed to edit."
 msgstr "Nemáte povoleno upravovat."
 
-#: server/srv_main.c:1588
+#: server/srv_main.c:1589
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "%s národ není dostupný v tomto scénáři."
 
-#: server/srv_main.c:1594
+#: server/srv_main.c:1595
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s národ je již použit."
 
-#: server/srv_main.c:1607
+#: server/srv_main.c:1608
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s je %s vládce %s."
 
-#: server/srv_main.c:1663
+#: server/srv_main.c:1664
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Čekání na start hry: %d z of %d hráčů je připraveno ke hře."
 
-#: server/srv_main.c:1856 server/srv_main.c:1860
+#: server/srv_main.c:1857 server/srv_main.c:1861
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s vládne %s."
 
-#: server/srv_main.c:1996
+#: server/srv_main.c:1997
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2059
+#: server/srv_main.c:2060
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Posílá se info metaserveru <%s>"
 
-#: server/srv_main.c:2063
+#: server/srv_main.c:2064
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2084
+#: server/srv_main.c:2085
 msgid "The game is over..."
 msgstr "Hra je u konce..."
 
-#: server/srv_main.c:2331
+#: server/srv_main.c:2332
 msgid "Now accepting new client connections."
 msgstr "Nyní přijímám spojení od klientů."
 
@@ -9031,7 +9072,7 @@ msgstr "Pouze %s může útočit z moře."
 msgid "Cannot attack from sea."
 msgstr "Nelze útočit z moře."
 
-#: server/unithand.c:1188 server/unittools.c:2313
+#: server/unithand.c:1188 server/unittools.c:2314
 msgid "Cannot attack unless you declare war first."
 msgstr "Nelze útočit dokud nevyhlásíte válku."
 
@@ -9045,7 +9086,7 @@ msgstr "%s se může pohybovat jen v našich zónach kontroly."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s se nemůže vzdálit tak daleko od pobřeží."
 
-#: server/unithand.c:1206 server/unittools.c:2319
+#: server/unithand.c:1206 server/unittools.c:2320
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Nelze útočit dokud nevyhlásíte válku."
@@ -9069,42 +9110,42 @@ msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr "Nejdříve musíte vyhlásit válku %s.  Zkuste použít dialog hráčů (F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1371
+#: server/unithand.c:1375
 #, fuzzy, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "Váš %s uspěl při uplácení jednotky %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1377
+#: server/unithand.c:1380
 #, fuzzy, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Jednotka %s byla uplacena hráčem %s."
 
-#: server/unithand.c:1404
+#: server/unithand.c:1405
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Tato jednotka je transportována, takže nemůže bombardovat."
 
-#: server/unithand.c:1416
+#: server/unithand.c:1417
 msgid "You can't attack there."
 msgstr "Zde nemůžete útočit."
 
-#: server/unithand.c:1452
+#: server/unithand.c:1453
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Transportovaná jednotka není spojenecká vůči všem jednotkám nebo městu v "
 "cílové lokaci."
 
-#: server/unithand.c:1500
+#: server/unithand.c:1501
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Náš %s pomohl se stavbou %s v %s (%d zbývá)."
 
-#: server/unithand.c:1502
+#: server/unithand.c:1503
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Náš %s pomohl se stavbou %s v %s (%d přebytek)."
 
-#: server/unithand.c:1555
+#: server/unithand.c:1556
 #, fuzzy, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -9112,22 +9153,22 @@ msgstr ""
 "Lituji, ale jednotka %s nemůže založit obchodní cestu, protože nemá domovské "
 "město"
 
-#: server/unithand.c:1567
+#: server/unithand.c:1568
 #, fuzzy, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Lituji, ale jednotka %s nemůže založit obchodní cestu mezi %s a %s"
 
-#: server/unithand.c:1599 server/unithand.c:1620
+#: server/unithand.c:1600 server/unithand.c:1621
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Lituji, ale jednotka %s zde nemůže založit obchodní cestu!"
 
-#: server/unithand.c:1604 server/unithand.c:1625
+#: server/unithand.c:1605 server/unithand.c:1626
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      Město %s již má %d lepší obchodní cesty!"
 
-#: server/unithand.c:1646
+#: server/unithand.c:1647
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -9136,22 +9177,22 @@ msgstr ""
 "Jednotka %s z města %s dorazila do města %s.  Výtěžek ve formě zlata a "
 "výzkumu je %d."
 
-#: server/unithand.c:1669
+#: server/unithand.c:1670
 #, fuzzy, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Tyto obchodní trasy byly zřízeny s %s:\n"
 
-#: server/unithand.c:1675
+#: server/unithand.c:1676
 #, fuzzy, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Lituji, ale jednotka %s nemůže založit obchodní cestu mezi %s a %s"
 
-#: server/unithand.c:1690 server/unithand.c:1712
+#: server/unithand.c:1691 server/unithand.c:1713
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr ""
 
-#: server/unithand.c:1697 server/unithand.c:1719
+#: server/unithand.c:1698 server/unithand.c:1720
 #, fuzzy, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "Lituji, %s zrušil obchodní cestu z %s do Vašeho města %s."
@@ -9219,25 +9260,25 @@ msgstr "Jednotka %s ztracena spolu s jednotkou %s."
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Jednotka %s unikla před zničením %s a stáhla se do %s."
 
-#: server/unittools.c:1700
+#: server/unittools.c:1701
 #, fuzzy, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "Vůdce barbarů byl zajat a prodán za výkupné %d zlatých."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1718
+#: server/unittools.c:1719
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1727 server/unittools.c:1790
+#: server/unittools.c:1728 server/unittools.c:1791
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s ztracena při útoku %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1765
+#: server/unittools.c:1766
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -9248,14 +9289,14 @@ msgstr[2] "Vaše útočící %s byla uspěšná proti %s %s!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1800
+#: server/unittools.c:1801
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s ztracena %s %s při útoku %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1816
+#: server/unittools.c:1817
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (%s) ztracena při útoku %s %s."
@@ -9263,7 +9304,7 @@ msgstr "%s (%s) ztracena při útoku %s %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1827
+#: server/unittools.c:1828
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -9274,7 +9315,7 @@ msgstr[2] "%s (%d) ztracena při útoku %s %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1842
+#: server/unittools.c:1843
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -9282,151 +9323,151 @@ msgstr[0] "%d ztracena %s %s při útoku %s %s."
 msgstr[1] "%d ztracena %s %s při útoku %s %s."
 msgstr[2] "%d ztracena %s %s při útoku %s %s."
 
-#: server/unittools.c:2113
+#: server/unittools.c:2114
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Na náš %s podnikli %s jaderný útok!"
 
-#: server/unittools.c:2116 server/unittools.c:2136
+#: server/unittools.c:2117 server/unittools.c:2137
 msgid "yourself"
 msgstr "Vy"
 
-#: server/unittools.c:2120
+#: server/unittools.c:2121
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "Na %s %s byl proveden jaderný útok."
 
-#: server/unittools.c:2133
+#: server/unittools.c:2134
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Na %s podnikli %s jaderný útok!"
 
-#: server/unittools.c:2141
+#: server/unittools.c:2142
 #, c-format
 msgid "You nuked %s."
 msgstr "Při atomovém útoku jste ozářil(a) město %s."
 
-#: server/unittools.c:2193
+#: server/unittools.c:2194
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s odpálili atomovou zbraň."
 
-#: server/unittools.c:2217
+#: server/unittools.c:2218
 #, c-format
 msgid "%s transported successfully."
 msgstr "Jednotka %s byla úspěšně transportována."
 
-#: server/unittools.c:2276
+#: server/unittools.c:2277
 msgid "This unit type can not be paradropped."
 msgstr "Tento typ jednotky nemůže provést výsadek."
 
-#: server/unittools.c:2286
+#: server/unittools.c:2287
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Nelze provést výsadek transportní jednotky."
 
-#: server/unittools.c:2292
+#: server/unittools.c:2293
 msgid "The destination location is not known."
 msgstr "Cílová oblast není prozkoumána."
 
-#: server/unittools.c:2302
+#: server/unittools.c:2303
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Tato jednotka nemůže provést výsadek do %s."
 
-#: server/unittools.c:2330
+#: server/unittools.c:2331
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Vzdálenost k cíli (%i) je větší než dosah jednotky (%i)."
 
-#: server/unittools.c:2341
+#: server/unittools.c:2342
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Jednotka %s vysazena do %s a ztracena."
 
-#: server/unittools.c:2354
+#: server/unittools.c:2355
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Jednotka %s byla zabita nepřátelskými jednotkami v místě výsadku."
 
-#: server/unittools.c:2383 data/default/default.lua:22
+#: server/unittools.c:2384 data/default/default.lua:22
 #: data/multiplayer/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgstr "Nalezli jsme %d zlatých."
 
-#: server/unittools.c:2389 data/default/default.lua:92
+#: server/unittools.c:2390 data/default/default.lua:92
 #: data/multiplayer/default.lua:92
 msgid "An abandoned village is here."
 msgstr "Nalezli jsme opuštěnou osadu."
 
-#: server/unittools.c:2392 data/default/default.lua:102
+#: server/unittools.c:2393 data/default/default.lua:102
 #: data/multiplayer/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Jednotka %s byla zničena barbary!"
 
-#: server/unittools.c:2421
+#: server/unittools.c:2422
 #, fuzzy
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Přelet nad osadou vyděsil její obyvatele, kteří se v hrůze rozprchli."
 
-#: server/unittools.c:2666
+#: server/unittools.c:2667
 #, fuzzy, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
-#: server/unittools.c:3192
+#: server/unittools.c:3193
 #, fuzzy, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Příkazy pro %s byly zrušeny, protože poblíž jsou jednotky."
 
-#: server/unittools.c:3243
+#: server/unittools.c:3244
 #, fuzzy, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
-#: server/unittools.c:3259
+#: server/unittools.c:3260
 #, fuzzy, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Rozkazy pro %s zrušeny, protože určují neplatnou činnost."
 
-#: server/unittools.c:3278
+#: server/unittools.c:3279
 #, fuzzy, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Rozkazy pro %s zrušeny, protože určují neplatnou polohu."
 
-#: server/unittools.c:3288
+#: server/unittools.c:3289
 #, fuzzy, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Rozkazy pro %s zrušeny, v cestě jsou jednotky."
 
-#: server/unittools.c:3313
+#: server/unittools.c:3314
 #, fuzzy, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Rozkazy pro %s zrušeny kvůli selhání pohybu."
 
-#: server/unittools.c:3353
+#: server/unittools.c:3354
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Pokus o změnu domovského města jednotky %s selhal."
 
-#: server/unittools.c:3364
+#: server/unittools.c:3365
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Pokus o vytvoření obchodní cesty pro %s selhal."
 
-#: server/unittools.c:3376
+#: server/unittools.c:3377
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Pokus o stabu divu světa %s selhal."
 
-#: server/unittools.c:3385
+#: server/unittools.c:3386
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Jednotka %s má neplatné rozkazy."
 
-#: server/unittools.c:3483
+#: server/unittools.c:3484
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -13853,7 +13894,7 @@ msgid "This unit cannot be bribed!"
 msgstr "Tato jednotka nemůže být uplacena!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:97
-#: client/gui-sdl/diplomat_dialog.c:1410 client/gui-win32/dialogs.c:1380
+#: client/gui-sdl/diplomat_dialog.c:1404 client/gui-win32/dialogs.c:1380
 #: client/gui-xaw/diplomat_dialog.c:120
 #, c-format
 msgid ""
@@ -13864,13 +13905,13 @@ msgstr ""
 "V pokladně je %d zlatých."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99
-#: client/gui-sdl/diplomat_dialog.c:711 client/gui-sdl/diplomat_dialog.c:1392
+#: client/gui-sdl/diplomat_dialog.c:705 client/gui-sdl/diplomat_dialog.c:1386
 #: client/gui-win32/dialogs.c:1382 data/Freeciv.in:2426 data/Freeciv.in:2439
 msgid "Bribe Enemy Unit"
 msgstr "Uplatit nepřátelskou jednotku"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:105
-#: client/gui-sdl/diplomat_dialog.c:1459 client/gui-win32/dialogs.c:1388
+#: client/gui-sdl/diplomat_dialog.c:1453 client/gui-win32/dialogs.c:1388
 #: client/gui-xaw/diplomat_dialog.c:129
 #, c-format
 msgid ""
@@ -13881,81 +13922,81 @@ msgstr ""
 "V pokladně je %d zlatých."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:107
-#: client/gui-gtk-2.0/diplomat_dialog.c:570
-#: client/gui-sdl/diplomat_dialog.c:1265 client/gui-sdl/diplomat_dialog.c:1472
+#: client/gui-gtk-2.0/diplomat_dialog.c:566
+#: client/gui-sdl/diplomat_dialog.c:1259 client/gui-sdl/diplomat_dialog.c:1466
 #: client/gui-win32/dialogs.c:1392 client/gui-win32/dialogs.c:1577
 #: data/Freeciv.in:2461
 msgid "Traitors Demand Too Much!"
 msgstr "Zrádci požadují příliš!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:241
-#: client/gui-sdl/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1290
+#: client/gui-gtk-2.0/diplomat_dialog.c:237
+#: client/gui-sdl/diplomat_dialog.c:654 client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2292 data/Freeciv.in:2325 data/Freeciv.in:2342
 msgid "Steal Technology"
 msgstr "Ukrást technologii"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:246
+#: client/gui-gtk-2.0/diplomat_dialog.c:242
 msgid "_Steal"
 msgstr "_Ukrást"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:255
-#: client/gui-sdl/diplomat_dialog.c:261 client/gui-win32/dialogs.c:1300
+#: client/gui-gtk-2.0/diplomat_dialog.c:251
+#: client/gui-sdl/diplomat_dialog.c:255 client/gui-win32/dialogs.c:1300
 #: data/Freeciv.in:2357
 msgid "Select Advance to Steal"
 msgstr "Vyberte technologii pro krádež"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:275
+#: client/gui-gtk-2.0/diplomat_dialog.c:271
 msgid "_Advances:"
 msgstr "_Objevy:"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:315
-#: client/gui-gtk-2.0/diplomat_dialog.c:451
-#: client/gui-sdl/diplomat_dialog.c:345 client/gui-sdl/diplomat_dialog.c:941
+#: client/gui-gtk-2.0/diplomat_dialog.c:311
+#: client/gui-gtk-2.0/diplomat_dialog.c:447
+#: client/gui-sdl/diplomat_dialog.c:339 client/gui-sdl/diplomat_dialog.c:935
 #: client/gui-win32/dialogs.c:1205 client/gui-win32/dialogs.c:1416
-#: client/gui-xaw/diplomat_dialog.c:418 client/gui-xaw/diplomat_dialog.c:504
+#: client/gui-xaw/diplomat_dialog.c:414 client/gui-xaw/diplomat_dialog.c:500
 msgid "At Spy's Discretion"
 msgstr "Podle úsudku špionáže"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:385 client/gui-win32/dialogs.c:1490
+#: client/gui-gtk-2.0/diplomat_dialog.c:381 client/gui-win32/dialogs.c:1490
 #: data/Freeciv.in:2384
 msgid "Sabotage Improvements"
 msgstr "Sabotáž vylepšení"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:390
+#: client/gui-gtk-2.0/diplomat_dialog.c:386
 msgid "_Sabotage"
 msgstr "_Sabotáž"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:399
-#: client/gui-sdl/diplomat_dialog.c:856 client/gui-win32/dialogs.c:1500
+#: client/gui-gtk-2.0/diplomat_dialog.c:395
+#: client/gui-sdl/diplomat_dialog.c:850 client/gui-win32/dialogs.c:1500
 #: data/Freeciv.in:2399
 msgid "Select Improvement to Sabotage"
 msgstr "Vyberte vylepšení pro sabotáž"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:419
+#: client/gui-gtk-2.0/diplomat_dialog.c:415
 msgid "_Improvements:"
 msgstr "_Vylepšení:"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:438
-#: client/gui-sdl/diplomat_dialog.c:885 client/gui-win32/dialogs.c:1405
-#: client/gui-xaw/diplomat_dialog.c:493
+#: client/gui-gtk-2.0/diplomat_dialog.c:434
+#: client/gui-sdl/diplomat_dialog.c:879 client/gui-win32/dialogs.c:1405
+#: client/gui-xaw/diplomat_dialog.c:489
 msgid "City Production"
 msgstr "Produkce města"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:552
-#: client/gui-sdl/diplomat_dialog.c:1180 client/gui-win32/dialogs.c:1560
-#: client/gui-xaw/diplomat_dialog.c:650
+#: client/gui-gtk-2.0/diplomat_dialog.c:548
+#: client/gui-sdl/diplomat_dialog.c:1174 client/gui-win32/dialogs.c:1560
+#: client/gui-xaw/diplomat_dialog.c:646
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Nemůžete vyvolat převrat ve městě %s!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:554
-#: client/gui-sdl/diplomat_dialog.c:1191 client/gui-win32/dialogs.c:1562
+#: client/gui-gtk-2.0/diplomat_dialog.c:550
+#: client/gui-sdl/diplomat_dialog.c:1185 client/gui-win32/dialogs.c:1562
 msgid "City can't be incited!"
 msgstr "Město nemůže být rozvráceno!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:560
-#: client/gui-sdl/diplomat_dialog.c:1200 client/gui-win32/dialogs.c:1566
-#: client/gui-xaw/diplomat_dialog.c:656
+#: client/gui-gtk-2.0/diplomat_dialog.c:556
+#: client/gui-sdl/diplomat_dialog.c:1194 client/gui-win32/dialogs.c:1566
+#: client/gui-xaw/diplomat_dialog.c:652
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -13964,15 +14005,15 @@ msgstr ""
 "Podnítit povstání za %d zaltých?\n"
 "Pokladna obsahuje %d zlatých."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:562
-#: client/gui-sdl/diplomat_dialog.c:1147 client/gui-win32/dialogs.c:1569
+#: client/gui-gtk-2.0/diplomat_dialog.c:558
+#: client/gui-sdl/diplomat_dialog.c:1141 client/gui-win32/dialogs.c:1569
 #: data/Freeciv.in:2450
 msgid "Incite a Revolt!"
 msgstr "Podnítit revoluci!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:568
-#: client/gui-sdl/diplomat_dialog.c:1251 client/gui-win32/dialogs.c:1574
-#: client/gui-xaw/diplomat_dialog.c:666
+#: client/gui-gtk-2.0/diplomat_dialog.c:564
+#: client/gui-sdl/diplomat_dialog.c:1245 client/gui-win32/dialogs.c:1574
+#: client/gui-xaw/diplomat_dialog.c:662
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -13981,8 +14022,8 @@ msgstr ""
 "Podnícení povstání stojí %d zlatých.\n"
 "Pokladna obsahuje %d zlatých."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:631 client/gui-win32/dialogs.c:1613
-#: client/gui-xaw/diplomat_dialog.c:726
+#: client/gui-gtk-2.0/diplomat_dialog.c:627 client/gui-win32/dialogs.c:1613
+#: client/gui-xaw/diplomat_dialog.c:722
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -13991,83 +14032,83 @@ msgstr ""
 "Vaše jednotka %s se dostala do %s.\n"
 "Jaký je Váš rozkaz?"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:637
-#: client/gui-sdl/diplomat_dialog.c:566 client/gui-win32/dialogs.c:1619
+#: client/gui-gtk-2.0/diplomat_dialog.c:633
+#: client/gui-sdl/diplomat_dialog.c:560 client/gui-win32/dialogs.c:1619
 #: data/Freeciv.in:2280
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Vyberte strategii vašeho diplomata"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:638
-#: client/gui-gtk-2.0/diplomat_dialog.c:662 client/gui-win32/dialogs.c:1620
+#: client/gui-gtk-2.0/diplomat_dialog.c:634
+#: client/gui-gtk-2.0/diplomat_dialog.c:658 client/gui-win32/dialogs.c:1620
 #: client/gui-win32/dialogs.c:1641
 msgid "Establish _Embassy"
 msgstr "Založit _vyslanectví"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:639
-#: client/gui-gtk-2.0/diplomat_dialog.c:663 client/gui-win32/dialogs.c:1621
+#: client/gui-gtk-2.0/diplomat_dialog.c:635
+#: client/gui-gtk-2.0/diplomat_dialog.c:659 client/gui-win32/dialogs.c:1621
 #: client/gui-win32/dialogs.c:1642
 msgid "_Investigate City"
 msgstr "_Prozkoumat město"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:640 client/gui-win32/dialogs.c:1622
+#: client/gui-gtk-2.0/diplomat_dialog.c:636 client/gui-win32/dialogs.c:1622
 msgid "_Sabotage City"
 msgstr "Provést _sabotáž"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:641
-#: client/gui-gtk-2.0/diplomat_dialog.c:666 client/gui-win32/dialogs.c:1623
+#: client/gui-gtk-2.0/diplomat_dialog.c:637
+#: client/gui-gtk-2.0/diplomat_dialog.c:662 client/gui-win32/dialogs.c:1623
 #: client/gui-win32/dialogs.c:1645
 msgid "Steal _Technology"
 msgstr "Ukrást _technologii"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:642
-#: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-win32/dialogs.c:1624
+#: client/gui-gtk-2.0/diplomat_dialog.c:638
+#: client/gui-gtk-2.0/diplomat_dialog.c:663 client/gui-win32/dialogs.c:1624
 #: client/gui-win32/dialogs.c:1646
 msgid "Incite a _Revolt"
 msgstr "Vyvolat povstání"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:643
-#: client/gui-gtk-2.0/diplomat_dialog.c:668
+#: client/gui-gtk-2.0/diplomat_dialog.c:639
+#: client/gui-gtk-2.0/diplomat_dialog.c:664
 #: client/gui-gtk-2.0/caravan_dialog.c:121 client/gui-win32/dialogs.c:1067
 msgid "_Keep moving"
 msgstr "Pokračovat _dál"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:661
-#: client/gui-sdl/diplomat_dialog.c:562 client/gui-win32/dialogs.c:1640
+#: client/gui-gtk-2.0/diplomat_dialog.c:657
+#: client/gui-sdl/diplomat_dialog.c:556 client/gui-win32/dialogs.c:1640
 #: data/Freeciv.in:2306
 msgid "Choose Your Spy's Strategy"
 msgstr "Vyberte strategii vašeho špióna"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:664 client/gui-win32/dialogs.c:1643
+#: client/gui-gtk-2.0/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1643
 msgid "_Poison City"
 msgstr "Otrávit město"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:665 client/gui-win32/dialogs.c:1644
+#: client/gui-gtk-2.0/diplomat_dialog.c:661 client/gui-win32/dialogs.c:1644
 msgid "Industrial _Sabotage"
 msgstr "Průmyslová sabotáž"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:702
-#: client/gui-sdl/diplomat_dialog.c:571 client/gui-win32/dialogs.c:1671
+#: client/gui-gtk-2.0/diplomat_dialog.c:698
+#: client/gui-sdl/diplomat_dialog.c:565 client/gui-win32/dialogs.c:1671
 #: data/Freeciv.in:2437
 msgid "Subvert Enemy Unit"
 msgstr "Rozvrátit nepřátelskou jednotku"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:704 client/gui-win32/dialogs.c:1673
-#: client/gui-xaw/diplomat_dialog.c:788
+#: client/gui-gtk-2.0/diplomat_dialog.c:700 client/gui-win32/dialogs.c:1673
+#: client/gui-xaw/diplomat_dialog.c:784
 #, fuzzy
 msgid "The diplomat is waiting for your command"
 msgstr "Pane, diplomat očekává Vaše rozkazy"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:705 client/gui-win32/dialogs.c:1674
-#: client/gui-xaw/diplomat_dialog.c:789
+#: client/gui-gtk-2.0/diplomat_dialog.c:701 client/gui-win32/dialogs.c:1674
+#: client/gui-xaw/diplomat_dialog.c:785
 #, fuzzy
 msgid "The spy is waiting for your command"
 msgstr "Pane, špion očekává Vaše rozkazy"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:706 client/gui-win32/dialogs.c:1675
+#: client/gui-gtk-2.0/diplomat_dialog.c:702 client/gui-win32/dialogs.c:1675
 msgid "_Bribe Enemy Unit"
 msgstr "_Uplatit nepřátelskou jednotku"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:707 client/gui-win32/dialogs.c:1676
+#: client/gui-gtk-2.0/diplomat_dialog.c:703 client/gui-win32/dialogs.c:1676
 msgid "_Sabotage Enemy Unit"
 msgstr "_Sabotáž nepřátelské jednotky"
 
@@ -17057,7 +17098,7 @@ msgstr "Vstup na Tržiště"
 msgid "Help build Wonder"
 msgstr "Pomoc se stavbou divu světa"
 
-#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:689
+#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:683
 #: data/Freeciv.in:2273 data/Freeciv.in:2297 data/Freeciv.in:2332
 msgid "Keep moving"
 msgstr "Pokračovat v pohybu"
@@ -17067,9 +17108,9 @@ msgstr "Pokračovat v pohybu"
 #: client/gui-sdl/dialogs.c:332 client/gui-sdl/dialogs.c:532
 #: client/gui-sdl/dialogs.c:897 client/gui-sdl/dialogs.c:1132
 #: client/gui-sdl/dialogs.c:1463 client/gui-sdl/dialogs.c:2028
-#: client/gui-sdl/diplomat_dialog.c:279 client/gui-sdl/diplomat_dialog.c:874
-#: client/gui-sdl/diplomat_dialog.c:1169 client/gui-sdl/diplomat_dialog.c:1239
-#: client/gui-sdl/diplomat_dialog.c:1447 client/gui-sdl/finddlg.c:149
+#: client/gui-sdl/diplomat_dialog.c:273 client/gui-sdl/diplomat_dialog.c:868
+#: client/gui-sdl/diplomat_dialog.c:1163 client/gui-sdl/diplomat_dialog.c:1233
+#: client/gui-sdl/diplomat_dialog.c:1441 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:257 client/gui-sdl/helpdlg.c:234
 #: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1935
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
@@ -17143,7 +17184,7 @@ msgstr "Vylepšit jednotku"
 #: client/gui-sdl/connectdlg.c:306 client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
 #: client/gui-sdl/dialogs.c:704 client/gui-sdl/dialogs.c:2365
-#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:741
+#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:735
 #: client/gui-sdl/mapctrl.c:2615 client/gui-win32/citydlg.c:1095
 #: client/gui-win32/cityrep.c:761 client/gui-win32/connectdlg.c:1033
 #: client/gui-win32/dialogs.c:1800 client/gui-win32/finddlg.c:132
@@ -17191,8 +17232,8 @@ msgid "Buy it?"
 msgstr "Koupit!"
 
 #: client/gui-sdl/citydlg.c:1205 client/gui-sdl/cma_fe.c:329
-#: client/gui-sdl/diplodlg.c:1337 client/gui-sdl/diplomat_dialog.c:1224
-#: client/gui-sdl/diplomat_dialog.c:1432 client/gui-sdl/plrdlg.c:224
+#: client/gui-sdl/diplodlg.c:1337 client/gui-sdl/diplomat_dialog.c:1218
+#: client/gui-sdl/diplomat_dialog.c:1426 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:217 client/gui-sdl/repodlgs.c:1564
 #: client/gui-win32/repodlgs.c:584 client/gui-xaw/citydlg.c:2416
 #: client/gui-xaw/cityrep.c:668 client/gui-xaw/cma_fe.c:332
@@ -17206,8 +17247,8 @@ msgid "No"
 msgstr "Ne"
 
 #: client/gui-sdl/citydlg.c:1216 client/gui-sdl/cma_fe.c:320
-#: client/gui-sdl/diplodlg.c:1347 client/gui-sdl/diplomat_dialog.c:1213
-#: client/gui-sdl/diplomat_dialog.c:1422 client/gui-sdl/plrdlg.c:224
+#: client/gui-sdl/diplodlg.c:1347 client/gui-sdl/diplomat_dialog.c:1207
+#: client/gui-sdl/diplomat_dialog.c:1416 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:228 client/gui-win32/repodlgs.c:582
 #: client/gui-xaw/citydlg.c:2416 client/gui-xaw/cityrep.c:668
 #: client/gui-xaw/cma_fe.c:332 client/gui-xaw/cma_fe.c:522
@@ -17770,29 +17811,29 @@ msgstr "Uspořádat Diplomatické setkání"
 msgid "Send him back"
 msgstr "Poslat zpátky"
 
-#: client/gui-sdl/diplomat_dialog.c:600 data/Freeciv.in:2285
+#: client/gui-sdl/diplomat_dialog.c:594 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
 msgid "Establish Embassy"
 msgstr "Zřízení Ambasády"
 
-#: client/gui-sdl/diplomat_dialog.c:615 data/Freeciv.in:2287
+#: client/gui-sdl/diplomat_dialog.c:609 data/Freeciv.in:2287
 msgid "Investigate City"
 msgstr "Prozkoumat město"
 
-#: client/gui-sdl/diplomat_dialog.c:630 data/Freeciv.in:2318
+#: client/gui-sdl/diplomat_dialog.c:624 data/Freeciv.in:2318
 msgid "Poison City"
 msgstr "Otrávit město"
 
-#: client/gui-sdl/diplomat_dialog.c:644 data/Freeciv.in:2290
+#: client/gui-sdl/diplomat_dialog.c:638 data/Freeciv.in:2290
 msgid "Sabotage City"
 msgstr "Sabotáž města"
 
-#: client/gui-sdl/diplomat_dialog.c:675 data/Freeciv.in:2295
+#: client/gui-sdl/diplomat_dialog.c:669 data/Freeciv.in:2295
 #: data/Freeciv.in:2328
 msgid "Incite a Revolt"
 msgstr "Podnítit revoluci"
 
-#: client/gui-sdl/diplomat_dialog.c:726 data/Freeciv.in:2441
+#: client/gui-sdl/diplomat_dialog.c:720 data/Freeciv.in:2441
 msgid "Sabotage Enemy Unit"
 msgstr "Sabotáž nepřátelské jednotky"
 
@@ -19135,7 +19176,7 @@ msgstr "Styl měst:"
 msgid "Unit Selection"
 msgstr "Výběr jednotky"
 
-#: client/gui-win32/dialogs.c:1210 client/gui-xaw/diplomat_dialog.c:405
+#: client/gui-win32/dialogs.c:1210 client/gui-xaw/diplomat_dialog.c:401
 msgid "NONE"
 msgstr "ŽÁDNÉ"
 
@@ -28083,7 +28124,7 @@ msgid ""
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
 
-#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
 #: data/nation/belgian.ruleset:24 data/nation/bhutanese.ruleset:25
 #: data/nation/british.ruleset:23 data/nation/burmese.ruleset:21
@@ -28116,7 +28157,7 @@ msgstr ""
 msgid "Prime Minister %s"
 msgstr "První ministr"
 
-#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
 #: data/nation/belgian.ruleset:24 data/nation/bhutanese.ruleset:25
 #: data/nation/british.ruleset:23 data/nation/burmese.ruleset:21
@@ -28195,44 +28236,50 @@ msgid ""
 msgstr ""
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
-#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:71
-#: data/nation/arab.ruleset:23 data/nation/egyptianarab.ruleset:27
+#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
+#: data/nation/arab.ruleset:24 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:34
 #: data/nation/moroccan.ruleset:31 data/nation/saudi.ruleset:26
-#: data/nation/somali.ruleset:35 data/nation/tunisian.ruleset:30
+#: data/nation/somali.ruleset:35 data/nation/timurid.ruleset:28
+#: data/nation/tunisian.ruleset:30
 #, fuzzy, c-format
 msgid "Caliph %s"
 msgstr "Kalif"
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
-#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:71
-#: data/nation/arab.ruleset:23 data/nation/egyptianarab.ruleset:27
+#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
+#: data/nation/arab.ruleset:24 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:34
 #: data/nation/moroccan.ruleset:31 data/nation/saudi.ruleset:26
-#: data/nation/somali.ruleset:35 data/nation/tunisian.ruleset:30
+#: data/nation/somali.ruleset:35 data/nation/timurid.ruleset:28
+#: data/nation/tunisian.ruleset:30
 #, fuzzy, c-format
 msgid "Calipha %s"
 msgstr "Kalif"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alandalus.ruleset:34
-#: data/nation/amazigh.ruleset:73 data/nation/arab.ruleset:22
+#: data/nation/amazigh.ruleset:74 data/nation/arab.ruleset:23
 #: data/nation/bashkir.ruleset:26 data/nation/egyptianarab.ruleset:26
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:33
+#: data/nation/kashmiri.ruleset:25 data/nation/khwarezmian.ruleset:28
 #: data/nation/malaysian.ruleset:21 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:28 data/nation/singaporean.ruleset:32
-#: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:24
+#: data/nation/mughal.ruleset:21 data/nation/omani.ruleset:28
+#: data/nation/singaporean.ruleset:32 data/nation/somali.ruleset:34
+#: data/nation/southyemeni.ruleset:24 data/nation/timurid.ruleset:27
 #: data/nation/turk.ruleset:23
 #, fuzzy, c-format
 msgid "Sultan %s"
 msgstr "Sultán"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alandalus.ruleset:34
-#: data/nation/amazigh.ruleset:73 data/nation/arab.ruleset:22
+#: data/nation/amazigh.ruleset:74 data/nation/arab.ruleset:23
 #: data/nation/bashkir.ruleset:26 data/nation/egyptianarab.ruleset:26
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:33
+#: data/nation/kashmiri.ruleset:25 data/nation/khwarezmian.ruleset:28
 #: data/nation/malaysian.ruleset:21 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:28 data/nation/singaporean.ruleset:32
-#: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:24
+#: data/nation/mughal.ruleset:21 data/nation/omani.ruleset:28
+#: data/nation/singaporean.ruleset:32 data/nation/somali.ruleset:34
+#: data/nation/southyemeni.ruleset:24 data/nation/timurid.ruleset:27
 #: data/nation/turk.ruleset:23
 #, fuzzy, c-format
 msgid "Sultana %s"
@@ -28257,13 +28304,13 @@ msgid "?female:Governor %s"
 msgstr "?female:Guvernérka"
 
 #: data/nation/acehnese.ruleset:30 data/nation/alandalus.ruleset:35
-#: data/nation/amazigh.ruleset:74 data/nation/moroccan.ruleset:32
+#: data/nation/amazigh.ruleset:75 data/nation/moroccan.ruleset:32
 #, fuzzy, c-format
 msgid "Amir Al-Muminin %s"
 msgstr "?female:První ministryně"
 
 #: data/nation/acehnese.ruleset:30 data/nation/alandalus.ruleset:35
-#: data/nation/amazigh.ruleset:74 data/nation/moroccan.ruleset:32
+#: data/nation/amazigh.ruleset:75 data/nation/moroccan.ruleset:32
 #, fuzzy, c-format
 msgid "Amirat Al-Muminin %s"
 msgstr "?female:První ministryně"
@@ -28285,35 +28332,37 @@ msgid ""
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
 
-#: data/nation/afghani.ruleset:24 data/nation/alandalus.ruleset:33
+#: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bashkir.ruleset:25 data/nation/chechen.ruleset:30
 #: data/nation/emirati.ruleset:25 data/nation/kurd.ruleset:29
 #: data/nation/lebanese.ruleset:29 data/nation/pashtun.ruleset:23
-#: data/nation/riffian.ruleset:20 data/nation/uzbek.ruleset:26
+#: data/nation/riffian.ruleset:20 data/nation/timurid.ruleset:26
+#: data/nation/uzbek.ruleset:24
 #, fuzzy, c-format
 msgid "Emir %s"
 msgstr "Emír"
 
-#: data/nation/afghani.ruleset:24 data/nation/alandalus.ruleset:33
+#: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bashkir.ruleset:25 data/nation/chechen.ruleset:30
 #: data/nation/emirati.ruleset:25 data/nation/kurd.ruleset:29
 #: data/nation/lebanese.ruleset:29 data/nation/pashtun.ruleset:23
-#: data/nation/riffian.ruleset:20 data/nation/uzbek.ruleset:26
+#: data/nation/riffian.ruleset:20 data/nation/timurid.ruleset:26
+#: data/nation/uzbek.ruleset:24
 #, fuzzy, c-format
 msgid "Emira %s"
 msgstr "Emír"
 
-#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/ottoman.ruleset:28
 #, fuzzy, c-format
 msgid "Padishah %s"
 msgstr "Padišáh"
 
-#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/ottoman.ruleset:28
 #, fuzzy, c-format
 msgid "?female:Padishah %s"
 msgstr "Podstatné jméno ženského rodu"
 
-#: data/nation/afghani.ruleset:26 data/nation/bashkir.ruleset:27
+#: data/nation/afghani.ruleset:25 data/nation/bashkir.ruleset:27
 #: data/nation/cypriot.ruleset:22 data/nation/slovakian.ruleset:26
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:27
 #: data/nation/yemeni.ruleset:22
@@ -28321,7 +28370,7 @@ msgstr "Podstatné jméno ženského rodu"
 msgid "General Secretary %s"
 msgstr "První sekretář"
 
-#: data/nation/afghani.ruleset:26 data/nation/bashkir.ruleset:27
+#: data/nation/afghani.ruleset:25 data/nation/bashkir.ruleset:27
 #: data/nation/cypriot.ruleset:22 data/nation/slovakian.ruleset:26
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:27
 #: data/nation/yemeni.ruleset:22
@@ -28329,12 +28378,12 @@ msgstr "První sekretář"
 msgid "?female:General Secretary %s"
 msgstr "?female:Hlavní sekretářka"
 
-#: data/nation/afghani.ruleset:27 data/nation/pashtun.ruleset:24
+#: data/nation/afghani.ruleset:26 data/nation/pashtun.ruleset:24
 #, fuzzy, c-format
 msgid "Mullah %s"
 msgstr "Muláh"
 
-#: data/nation/afghani.ruleset:27 data/nation/pashtun.ruleset:24
+#: data/nation/afghani.ruleset:26 data/nation/pashtun.ruleset:24
 #, fuzzy, c-format
 msgid "?female:Mullah %s"
 msgstr "?female:Mahátma"
@@ -28391,8 +28440,8 @@ msgid ""
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
 
-#: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:70
-#: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
+#: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
+#: data/nation/arab.ruleset:21 data/nation/emirati.ruleset:24
 #: data/nation/himyarite.ruleset:31 data/nation/kurd.ruleset:28
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/somali.ruleset:36
@@ -28401,7 +28450,7 @@ msgid "Sheikh %s"
 msgstr "Šejk"
 
 #: data/nation/alandalus.ruleset:31 data/nation/algerian.ruleset:21
-#: data/nation/amazigh.ruleset:70 data/nation/arab.ruleset:20
+#: data/nation/amazigh.ruleset:71 data/nation/arab.ruleset:21
 #: data/nation/emirati.ruleset:24 data/nation/himyarite.ruleset:31
 #: data/nation/kurd.ruleset:28 data/nation/moroccan.ruleset:28
 #: data/nation/omani.ruleset:30 data/nation/somali.ruleset:36
@@ -28534,15 +28583,15 @@ msgstr ""
 msgid "Sheik %s"
 msgstr "Šejk"
 
-#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:72
-#: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:32
+#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:73
+#: data/nation/arab.ruleset:22 data/nation/himyarite.ruleset:32
 #: data/nation/moroccan.ruleset:29
 #, fuzzy, c-format
 msgid "Malik %s"
 msgstr "Královna"
 
-#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:72
-#: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:32
+#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:73
+#: data/nation/arab.ruleset:22 data/nation/himyarite.ruleset:32
 #: data/nation/moroccan.ruleset:29
 #, fuzzy, c-format
 msgid "Malika %s"
@@ -28689,7 +28738,8 @@ msgstr "Diktátor"
 #: data/nation/mecklenburgian.ruleset:31 data/nation/monegasque.ruleset:30
 #: data/nation/moravian.ruleset:35 data/nation/newfoundland.ruleset:33
 #: data/nation/oldenburgian.ruleset:32 data/nation/panamanian.ruleset:30
-#: data/nation/polish.ruleset:27 data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/polish.ruleset:27 data/nation/saxon.ruleset:21
+#: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/transylvanian.ruleset:28 data/nation/venezuelan.ruleset:29
 #: data/nation/vincentian.ruleset:26 data/nation/westindian.ruleset:24
 #: data/nation/yucatecan.ruleset:31
@@ -28700,7 +28750,8 @@ msgstr "Arcibiskup"
 #: data/nation/andorran.ruleset:25 data/nation/liechtensteiner.ruleset:32
 #: data/nation/malawian.ruleset:20 data/nation/mecklenburgian.ruleset:31
 #: data/nation/newfoundland.ruleset:33 data/nation/oldenburgian.ruleset:32
-#: data/nation/polish.ruleset:27 data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/polish.ruleset:27 data/nation/saxon.ruleset:21
+#: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/transylvanian.ruleset:28 data/nation/vincentian.ruleset:26
 #: data/nation/westindian.ruleset:24
 #, fuzzy, c-format
@@ -28851,6 +28902,7 @@ msgstr ""
 #: data/nation/luxembourgish.ruleset:29 data/nation/oldenburgian.ruleset:31
 #: data/nation/piedmontese.ruleset:33 data/nation/sicilian.ruleset:29
 #: data/nation/tyrolian.ruleset:24 data/nation/walloon.ruleset:28
+#: data/nation/westphalian.ruleset:32
 #, fuzzy, c-format
 msgid "Count %s"
 msgstr "Počet"
@@ -28860,6 +28912,7 @@ msgstr "Počet"
 #: data/nation/luxembourgish.ruleset:29 data/nation/oldenburgian.ruleset:31
 #: data/nation/piedmontese.ruleset:33 data/nation/sicilian.ruleset:29
 #: data/nation/tyrolian.ruleset:24 data/nation/walloon.ruleset:28
+#: data/nation/westphalian.ruleset:32
 #, fuzzy, c-format
 msgid "Countess %s"
 msgstr "Počet"
@@ -29190,9 +29243,10 @@ msgstr ""
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:30
-#: data/nation/tajik.ruleset:21 data/nation/tatar.ruleset:28
+#: data/nation/mughal.ruleset:19 data/nation/tajik.ruleset:21
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:22 data/nation/tuvan.ruleset:31
-#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:25
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #, fuzzy, c-format
 msgid "%s Khan"
 msgstr "Chán"
@@ -29201,21 +29255,22 @@ msgstr "Chán"
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:30
-#: data/nation/tajik.ruleset:21 data/nation/tatar.ruleset:28
+#: data/nation/mughal.ruleset:19 data/nation/tajik.ruleset:21
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:22 data/nation/tuvan.ruleset:31
-#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:25
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #, fuzzy, c-format
 msgid "%s Khatan"
 msgstr "Chán"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:40
-#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:21
 #, fuzzy, c-format
 msgid "%s Shah"
 msgstr "Šach"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:40
-#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:21
 #, fuzzy, c-format
 msgid "%s Shahbanu"
 msgstr "Šaman"
@@ -29432,8 +29487,9 @@ msgstr ""
 #: data/nation/panamanian.ruleset:31 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:41 data/nation/sammarinese.ruleset:26
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
-#: data/nation/schleswig-holsteinian.ruleset:28 data/nation/serbian.ruleset:34
-#: data/nation/siberian.ruleset:24 data/nation/teutonic.ruleset:30
+#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/serbian.ruleset:34 data/nation/siberian.ruleset:24
+#: data/nation/teutonic.ruleset:30 data/nation/westphalian.ruleset:34
 #, fuzzy, c-format
 msgid "Duke %s"
 msgstr "Vévoda"
@@ -29446,8 +29502,9 @@ msgstr "Vévoda"
 #: data/nation/panamanian.ruleset:31 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:41 data/nation/sammarinese.ruleset:26
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
-#: data/nation/schleswig-holsteinian.ruleset:28 data/nation/serbian.ruleset:34
-#: data/nation/siberian.ruleset:24 data/nation/teutonic.ruleset:30
+#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/serbian.ruleset:34 data/nation/siberian.ruleset:24
+#: data/nation/teutonic.ruleset:30 data/nation/westphalian.ruleset:34
 #, fuzzy, c-format
 msgid "Duchess %s"
 msgstr "Velkovévodkyně"
@@ -29468,7 +29525,7 @@ msgstr "Carevna"
 #: data/nation/byzantium.ruleset:26 data/nation/cossack.ruleset:31
 #: data/nation/holysee.ruleset:27 data/nation/nestorian.ruleset:28
 #: data/nation/russian.ruleset:43 data/nation/ruthenian.ruleset:30
-#: data/nation/siberian.ruleset:23 data/nation/slavic.ruleset:34
+#: data/nation/siberian.ruleset:23 data/nation/slavic.ruleset:35
 #: data/nation/ukrainian.ruleset:23 data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Patriarch %s"
@@ -29478,7 +29535,7 @@ msgstr "Patriarcha"
 #: data/nation/byzantium.ruleset:26 data/nation/cossack.ruleset:31
 #: data/nation/nestorian.ruleset:28 data/nation/russian.ruleset:43
 #: data/nation/ruthenian.ruleset:30 data/nation/siberian.ruleset:23
-#: data/nation/slavic.ruleset:34 data/nation/ukrainian.ruleset:23
+#: data/nation/slavic.ruleset:35 data/nation/ukrainian.ruleset:23
 #: data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Matriarch %s"
@@ -29842,7 +29899,7 @@ msgstr "Diktátorka"
 #: data/nation/centralafrican.ruleset:22 data/nation/chinese.ruleset:27
 #: data/nation/ethiopian.ruleset:23 data/nation/haitian.ruleset:27
 #: data/nation/han.ruleset:26 data/nation/holyroman.ruleset:33
-#: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:23
+#: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:26
 #: data/nation/mexican.ruleset:53 data/nation/nestorian.ruleset:27
 #: data/nation/southvietnamese.ruleset:25 data/nation/taiwanese.ruleset:24
 #: data/nation/vietnamese.ruleset:22
@@ -30525,7 +30582,7 @@ msgstr ""
 "zatím co se původní vláda po občanské válce uchýlila na Taiwan."
 
 #: data/nation/chinese.ruleset:27 data/nation/han.ruleset:26
-#: data/nation/manchu.ruleset:23 data/nation/taiwanese.ruleset:24
+#: data/nation/manchu.ruleset:26 data/nation/taiwanese.ruleset:24
 #, fuzzy, c-format
 msgid "Empress Dowager %s"
 msgstr "Dědic trůnu"
@@ -30552,26 +30609,30 @@ msgid ""
 msgstr ""
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:27
+#: data/nation/indian.ruleset:19 data/nation/kashmiri.ruleset:23
+#: data/nation/majapahit.ruleset:27
 #, fuzzy, c-format
 msgid "Raja %s"
 msgstr "Rádža"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:27
+#: data/nation/indian.ruleset:19 data/nation/kashmiri.ruleset:23
+#: data/nation/majapahit.ruleset:27
 #, fuzzy, c-format
 msgid "Rani %s"
 msgstr "Železnice"
 
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
-#: data/nation/indian.ruleset:21 data/nation/majapahit.ruleset:28
+#: data/nation/indian.ruleset:21 data/nation/kashmiri.ruleset:24
+#: data/nation/majapahit.ruleset:28 data/nation/mughal.ruleset:20
 #: data/nation/sikh.ruleset:33 data/nation/srivijaya.ruleset:26
 #, fuzzy, c-format
 msgid "Maharaja %s"
 msgstr "Maharadža"
 
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
-#: data/nation/indian.ruleset:21 data/nation/majapahit.ruleset:28
+#: data/nation/indian.ruleset:21 data/nation/kashmiri.ruleset:24
+#: data/nation/majapahit.ruleset:28 data/nation/mughal.ruleset:20
 #: data/nation/sikh.ruleset:33 data/nation/srivijaya.ruleset:26
 #, fuzzy, c-format
 msgid "Maharani %s"
@@ -30744,12 +30805,14 @@ msgid ""
 "organized in a military manner."
 msgstr ""
 
-#: data/nation/cossack.ruleset:29 data/nation/ukrainian.ruleset:21
+#: data/nation/cossack.ruleset:29 data/nation/lipkatatar.ruleset:30
+#: data/nation/ukrainian.ruleset:21
 #, fuzzy, c-format
 msgid "Hetman %s"
 msgstr "Hejtman"
 
-#: data/nation/cossack.ruleset:29 data/nation/ukrainian.ruleset:21
+#: data/nation/cossack.ruleset:29 data/nation/lipkatatar.ruleset:30
+#: data/nation/ukrainian.ruleset:21
 #, fuzzy, c-format
 msgid "?female:Hetman %s"
 msgstr "?female:Šamanka"
@@ -30826,14 +30889,14 @@ msgstr "Chán"
 msgid "?female:%s Khagan"
 msgstr "Podstatné jméno ženského rodu"
 
-#: data/nation/crimeantatar.ruleset:41 data/nation/palestinian.ruleset:21
-#: data/nation/tatar.ruleset:30
+#: data/nation/crimeantatar.ruleset:41 data/nation/lipkatatar.ruleset:31
+#: data/nation/palestinian.ruleset:21 data/nation/tatar.ruleset:30
 #, fuzzy, c-format
 msgid "Grand Mufti %s"
 msgstr "Hlavní server:\n"
 
-#: data/nation/crimeantatar.ruleset:41 data/nation/palestinian.ruleset:21
-#: data/nation/tatar.ruleset:30
+#: data/nation/crimeantatar.ruleset:41 data/nation/lipkatatar.ruleset:31
+#: data/nation/palestinian.ruleset:21 data/nation/tatar.ruleset:30
 #, fuzzy, c-format
 msgid "?female:Grand Mufti %s"
 msgstr "?female:Druidka"
@@ -31510,6 +31573,7 @@ msgstr "Námořní pěchota"
 #: data/nation/franconian.ruleset:26 data/nation/lorrain.ruleset:30
 #: data/nation/montenegrin.ruleset:28 data/nation/palatinate.ruleset:29
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
+#: data/nation/westphalian.ruleset:33
 #, fuzzy, c-format
 msgid "Prince-Bishop %s"
 msgstr "Princezna"
@@ -32032,11 +32096,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
+#: data/nation/westphalian.ruleset:35
 #, fuzzy, c-format
 msgid "Burgomaster %s"
 msgstr "Barmský"
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
+#: data/nation/westphalian.ruleset:35
 #, fuzzy, c-format
 msgid "?female:Burgomaster %s"
 msgstr "Podstatné jméno ženského rodu"
@@ -32709,6 +32775,23 @@ msgid ""
 "the Finns."
 msgstr ""
 
+#: data/nation/kashmiri.ruleset:3
+#, fuzzy
+msgid "Kashmiri"
+msgstr "Základ"
+
+#: data/nation/kashmiri.ruleset:4
+#, fuzzy
+msgid "?plural:Kashmiris"
+msgstr "?plural:Baskové"
+
+#: data/nation/kashmiri.ruleset:6
+msgid ""
+"The Kashmir valley is situated by the western foothills of the Himalayas. "
+"Having been inhabited for millennia, it is a melting pot of Hindu, Tibetan, "
+"and Islamic culture."
+msgstr ""
+
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
 msgstr "Kazašký"
@@ -33057,6 +33140,47 @@ msgid ""
 "Schellenberg in 1719."
 msgstr ""
 
+#: data/nation/lipkatatar.ruleset:3
+#, fuzzy
+msgid "Lipka Tatar"
+msgstr "Kanadský"
+
+#: data/nation/lipkatatar.ruleset:4
+#, fuzzy
+msgid "?plural:Lipka Tatars"
+msgstr "?plural:Malajci"
+
+#: data/nation/lipkatatar.ruleset:6
+msgid ""
+"The Lipka Tatars are descendants of Tatars who migrated to the Polish-"
+"Lithuanian Commonwealth from the Crimean Khanate and the Golden Horde. Their "
+"name comes from the Turkish name of Lithuania. In addition to Lithuania, "
+"they also live in Poland and Belarus. Some Lipka Tatars have preserved their "
+"culture and traditional religion to the present day."
+msgstr ""
+
+#: data/nation/lipkatatar.ruleset:28
+#, fuzzy, c-format
+msgid "Mirza %s"
+msgstr "Emír"
+
+#: data/nation/lipkatatar.ruleset:28
+#, fuzzy, c-format
+msgid "?female:Mirza %s"
+msgstr "?female:Mahátma"
+
+#: data/nation/lipkatatar.ruleset:29 data/nation/ottoman.ruleset:27
+#: data/nation/tunisian.ruleset:28
+#, fuzzy, c-format
+msgid "%s Bey"
+msgstr "Koupit"
+
+#: data/nation/lipkatatar.ruleset:29 data/nation/ottoman.ruleset:27
+#: data/nation/tunisian.ruleset:28
+#, fuzzy, c-format
+msgid "?female:%s Bey"
+msgstr "Soudruh"
+
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
 msgstr "Lotyšský"
@@ -33126,6 +33250,7 @@ msgstr ""
 
 #: data/nation/lorrain.ruleset:30 data/nation/montenegrin.ruleset:28
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
+#: data/nation/westphalian.ruleset:33
 #, fuzzy, c-format
 msgid "Princess-Bishop %s"
 msgstr "Princezna"
@@ -33762,13 +33887,13 @@ msgstr ""
 
 #. TRANS: Voievod = Prince
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
-#: data/nation/transylvanian.ruleset:27
+#: data/nation/slavic.ruleset:34 data/nation/transylvanian.ruleset:27
 #, fuzzy, c-format
 msgid "Voivode %s"
 msgstr "Host: %s"
 
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
-#: data/nation/transylvanian.ruleset:27
+#: data/nation/slavic.ruleset:34 data/nation/transylvanian.ruleset:27
 #, fuzzy, c-format
 msgid "?female:Voivode %s"
 msgstr "?female:Soudružka"
@@ -33817,7 +33942,7 @@ msgstr "?plural:Mongolové"
 msgid ""
 "In the centuries after their unification by Chinggis Khan, the Mongols "
 "conquered the largest empire in human history, encompassing most of the "
-"continent of Asia.  They became notorious for their utter ruthlessness in "
+"continent of Asia. They became notorious for their utter ruthlessness in "
 "warfare."
 msgstr ""
 "Během několika století po jejich sjednocení Genghisem Khanem, ovládalo "
@@ -33928,6 +34053,22 @@ msgstr "?plural:Malajci"
 msgid ""
 "Mozambique is a country in Southeast Africa. It gained independence from "
 "Portugal in 1975."
+msgstr ""
+
+#: data/nation/mughal.ruleset:3
+#, fuzzy
+msgid "Mughal"
+msgstr "Muž"
+
+#: data/nation/mughal.ruleset:4
+#, fuzzy
+msgid "?plural:Mughals"
+msgstr "?plural:Malajci"
+
+#: data/nation/mughal.ruleset:6
+msgid ""
+"The Mughal Empire ruled most of the Indian subcontinent throughout the early "
+"modern era."
 msgstr ""
 
 #: data/nation/muskogee.ruleset:3
@@ -34552,16 +34693,6 @@ msgid ""
 "North Africa, making it a regional superpower until its dissolution in the "
 "aftermath of World War I."
 msgstr ""
-
-#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
-msgid "%s Bey"
-msgstr "Koupit"
-
-#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
-msgid "?female:%s Bey"
-msgstr "Soudruh"
 
 #: data/nation/ozite.ruleset:3
 #, fuzzy
@@ -36346,6 +36477,25 @@ msgstr "Dalajláma"
 msgid "?female:Dalai Lama %s"
 msgstr "?female:Mahátma"
 
+#: data/nation/timurid.ruleset:3
+msgid "Timurid"
+msgstr ""
+
+#: data/nation/timurid.ruleset:4
+#, fuzzy
+msgid "?plural:Timurids"
+msgstr "?plural:Kurdové"
+
+#: data/nation/timurid.ruleset:6
+msgid ""
+"Timur was a military genius who claimed lineage from Chinggis Khan and from "
+"his capital in Samarkand conquered all of Central Asia as well as parts of "
+"the Middle East and India. The court culture of Timurid Empire was heavily "
+"Persianized, while the imperial administration and military organization "
+"displayed influences from the Timurid ruling elite's Mongolian and Turkic "
+"origins."
+msgstr ""
+
 #: data/nation/tocharian.ruleset:3
 #, fuzzy
 msgid "Tocharian"
@@ -37879,10 +38029,6 @@ msgstr "Hrajete Freeciv s výchozími pravidly."
 #, fuzzy
 #~ msgid "Mai %s"
 #~ msgstr "v %s"
-
-#, fuzzy
-#~ msgid "?female:Mai %s"
-#~ msgstr "?female:Mahátma"
 
 #, fuzzy
 #~ msgid "Nabongo %s"

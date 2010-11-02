@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:18+0000\n"
+"POT-Creation-Date: 2010-11-02 15:18+0100\n"
 "PO-Revision-Date: 2008-07-10 17:52+0200\n"
 "Last-Translator: Antonio Codazzi <f_sophia@libero.it>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -590,6 +590,16 @@ msgstr "Jaro"
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
+
+#: common/government.c:408
+#, fuzzy, c-format
+msgid "Mr. %s"
+msgstr "Rara"
+
+#: common/government.c:410
+#, fuzzy, c-format
+msgid "Ms. %s"
+msgstr "apud %s"
 
 #: common/player.c:65
 msgid "Away"
@@ -3651,79 +3661,79 @@ msgstr "La renkontiĝo kun %s estas nuligita."
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Via diplomato estis senkapigita!"
 
-#: server/diplomats.c:108
+#: server/diplomats.c:111
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
 msgstr "Via %s ne povas veneni la akvon en %s."
 
-#: server/diplomats.c:123
+#: server/diplomats.c:126
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
 msgstr "Via %s venenis la akvon en %s."
 
-#: server/diplomats.c:128
+#: server/diplomats.c:131
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "%s estas suspektita pri venenado de la akvon en %s."
 
-#: server/diplomats.c:273
+#: server/diplomats.c:280
 #, fuzzy, c-format
 msgid "Your %s was executed in %s by primitive %s."
 msgstr "Via %s sukcesis subaĉeti la %sn."
 
-#: server/diplomats.c:288
+#: server/diplomats.c:295
 #, fuzzy, c-format
 msgid "You have established an embassy in %s."
 msgstr "Vi senbridigis hordon de barbaroj!"
 
-#: server/diplomats.c:292
+#: server/diplomats.c:299
 #, fuzzy, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "La %s plenumis la preparadon de %s en %s."
 
-#: server/diplomats.c:353
+#: server/diplomats.c:361
 #, c-format
 msgid "Your %s could not sabotage the %s %s."
 msgstr "Via %s ne povas saboti la %sjn %sn."
 
-#: server/diplomats.c:376
+#: server/diplomats.c:384
 #, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "Via %s sukcesis saboti la %sjn %sn."
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:383
+#: server/diplomats.c:391
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "Via %s estis sabotita de la %s!"
 
-#: server/diplomats.c:434
+#: server/diplomats.c:443
 msgid "You can't bribe a unit from this nation."
 msgstr "Vi ne povas subaĉeti unuon de tiu ĉi nacio."
 
-#: server/diplomats.c:448
+#: server/diplomats.c:454
 #, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "Vi ne havas sufiĉe da oro por subaĉeti la %sjn %sn."
 
-#: server/diplomats.c:458
+#: server/diplomats.c:464
 #, c-format
 msgid "You cannot bribe the %s!"
 msgstr "Vi ne povas subaĉeti la %sn!"
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "Via %s sukcesis subaĉeti la %sn."
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:482
+#: server/diplomats.c:489
 #, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "Viaj %s estis subaĉetita de la %s."
 
-#: server/diplomats.c:613
+#: server/diplomats.c:620
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -3732,155 +3742,155 @@ msgstr ""
 "%s estis atendante vian novan provon por ŝteli teĥnologio. Via %s estis "
 "kaptita kaj ekzekutita."
 
-#: server/diplomats.c:620
+#: server/diplomats.c:627
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Via %s estis kaptita dum ŝtelado de teĥnologio de %s."
 
-#: server/diplomats.c:627
+#: server/diplomats.c:634
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "La %sj %s malsukcesi forŝteli teĥnologion el %s."
 
-#: server/diplomats.c:642
+#: server/diplomats.c:650
 #, c-format
 msgid "No new technology found in %s."
 msgstr "Neniu nova teĥnologio estis trovita en %s."
 
-#: server/diplomats.c:699
+#: server/diplomats.c:708
 msgid "You can't subvert this city."
 msgstr "Vi ne povas renversi la ordon en tiu ĉi urbo."
 
-#: server/diplomats.c:711
+#: server/diplomats.c:720
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "Vi ne havas sufiĉe da mono por renversi la ordon en %s."
 
-#: server/diplomats.c:729
+#: server/diplomats.c:738
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Via %s estis kaptita dum klopodo por instigi al ribelo!"
 
-#: server/diplomats.c:734
+#: server/diplomats.c:743
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Vi kaptis %sn %sn kiuj klopodis instigi al ribelo en %s!"
 
-#: server/diplomats.c:758
+#: server/diplomats.c:767
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Estis ribelo en %s kaj nun vi havas regadon de la urbo!"
 
-#: server/diplomats.c:762
+#: server/diplomats.c:771
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "%s estas en ribelo, oni suspektas pri influo de %s nacio."
 
-#: server/diplomats.c:844
+#: server/diplomats.c:854
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Via %s estis kaptita dum industria sabotado!"
 
-#: server/diplomats.c:849
+#: server/diplomats.c:859
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Vi kaptis %sn %sn kiu estas plenumanta sabotadon en %s!"
 
-#: server/diplomats.c:884
+#: server/diplomats.c:894
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Via %s trovis nenion saboteblan en %s."
 
-#: server/diplomats.c:933
+#: server/diplomats.c:943
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Vi ne povas saboti %sn!"
 
-#: server/diplomats.c:944
+#: server/diplomats.c:954
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Via %s ne trovas la sabotendan %sn en %s."
 
-#: server/diplomats.c:969
+#: server/diplomats.c:979
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Via %s sukcesis detrui produktadon de %s en %s."
 
-#: server/diplomats.c:976
+#: server/diplomats.c:986
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "La produktado de %s en %s estis detruita, oni suspektis la %sn."
 
-#: server/diplomats.c:999
+#: server/diplomats.c:1009
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Via %s estis kaptita dum sabotado!"
 
-#: server/diplomats.c:1003
+#: server/diplomats.c:1013
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Vi kaptis %sn %sn dum la sabotado de la %s en %s!"
 
-#: server/diplomats.c:1017
+#: server/diplomats.c:1027
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Viaj %s detruis la %sn en %s."
 
-#: server/diplomats.c:1023
+#: server/diplomats.c:1033
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "La %s detruis la %sn en %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1133
+#: server/diplomats.c:1144
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Malamikaj %s estis mortigitaj de viaj %s."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1140
+#: server/diplomats.c:1151
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Viaj %s estis mortigitaj, defendante %sn kontraŭ %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1148
+#: server/diplomats.c:1159
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Viaj %s estis mortigitaj dum defendado kontraŭ %s."
 
-#: server/diplomats.c:1162
+#: server/diplomats.c:1173
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Viaj %s estis mortigitaj de defendantaj %s."
 
-#: server/diplomats.c:1168
+#: server/diplomats.c:1179
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en %s."
 
-#: server/diplomats.c:1174
+#: server/diplomats.c:1185
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "%sj %s estis mortigitaj dum enŝteliĝo en niaj trupoj."
 
-#: server/diplomats.c:1227
+#: server/diplomats.c:1238
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Via %s plenumis la taskon kaj, sendifekta kaj sekura, revenis al %s."
 
-#: server/diplomats.c:1246
+#: server/diplomats.c:1257
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Via %s estis kaptita post la plenumo de la tasko en %s."
 
-#: server/diplomats.c:1252
+#: server/diplomats.c:1263
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Via %s estis kaptita post la plenumo de la tasko."
 
-#: server/diplomats.c:1286
+#: server/diplomats.c:1287
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "Vi kaŭzis diplomatan incidenton dum subaĉetado de la %sj %s."
@@ -3890,22 +3900,22 @@ msgstr "Vi kaŭzis diplomatan incidenton dum subaĉetado de la %sj %s."
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s kaŭzis diplomatan incidenton dum subaĉetado de via %s."
 
-#: server/diplomats.c:1299
+#: server/diplomats.c:1298
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Vi kaŭzis diplomatan incidenton dum ŝtelado de teĥnologio de %s."
 
-#: server/diplomats.c:1304
+#: server/diplomats.c:1302
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s kaŭzis diplomatan incidenton dum ŝtelado de teĥnologio de vi."
 
-#: server/diplomats.c:1311
+#: server/diplomats.c:1308
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Vi kaŭzis diplomatan incidenton dum instigado al ribelo en %s."
 
-#: server/diplomats.c:1316
+#: server/diplomats.c:1312
 #, fuzzy, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s kaŭzis diplomatan incidenton dum instigado al ribelo en %s."
@@ -4190,6 +4200,37 @@ msgstr ""
 
 #: server/gamehand.c:425
 msgid "The turn timeout is smaller than zero, fixing at zero."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:231
+#, c-format
+msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:271
+#, c-format
+msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:283
+#, c-format
+msgid ""
+"Map size calculated for %d (land) tiles per player and %d player(s) too "
+"small. Setting map size to the minimal size %d."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:288
+#, c-format
+msgid ""
+"Map size calculated for %d (land) tiles per player and %d player(s) too "
+"large. Setting map size to the maximal size %d."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:293
+#, c-format
+msgid ""
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
 msgstr ""
 
 #: server/ggzserver.c:122
@@ -4991,8 +5032,8 @@ msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 "La konservitan ludon estas tro malnova, necesas almenaŭ la versio 1.9.0."
 
-#: server/savegame.c:5231 server/savegame2.c:2896 server/srv_main.c:1730
-#: server/srv_main.c:1734
+#: server/savegame.c:5231 server/savegame2.c:2896 server/srv_main.c:1731
+#: server/srv_main.c:1735
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s estis aldonita kiel AI-ludanto je %s nivelo "
@@ -6976,65 +7017,65 @@ msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Sen regado el la ĉefurbo, la %s kosmoŝipo estis perdita!"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:276
+#: server/srv_main.c:277
 #, c-format
 msgid "?winners:, the %s"
 msgstr ""
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:280
+#: server/srv_main.c:281
 #, c-format
 msgid "?winners:the %s"
 msgstr ""
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:290
+#: server/srv_main.c:291
 #, fuzzy, c-format
 msgid "Scenario victory to %s."
 msgstr "Grupa venko por %s"
 
-#: server/srv_main.c:300
+#: server/srv_main.c:301
 #, fuzzy
 msgid "Game ended in a draw as end turn exceeded."
 msgstr ""
 "La ludo finis egalstate ĉar finis la jaro kiu estas specifita kiel fino."
 
-#: server/srv_main.c:333
+#: server/srv_main.c:334
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "La %s kosmoŝipo alvenis al Alfa Centaŭro."
 
-#: server/srv_main.c:351 server/srv_main.c:391
+#: server/srv_main.c:352 server/srv_main.c:392
 #, fuzzy, c-format
 msgid "Team victory to %s."
 msgstr "Grupa venko por %s"
 
-#: server/srv_main.c:361 server/srv_main.c:407
+#: server/srv_main.c:362 server/srv_main.c:408
 #, fuzzy, c-format
 msgid "Game ended in victory for %s."
 msgstr "%s gajnis la ludon"
 
-#: server/srv_main.c:414 server/stdinhand.c:4098
+#: server/srv_main.c:415 server/stdinhand.c:4098
 msgid "Game ended in a draw."
 msgstr "La ludon finis egalstate."
 
-#: server/srv_main.c:530 server/srv_main.c:541
+#: server/srv_main.c:531 server/srv_main.c:542
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "Viaj %s estis dissolvitaj laŭ via packontrakto kun la %s."
 
-#: server/srv_main.c:580
+#: server/srv_main.c:581
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Angoroplenaj civitanoj rimarkas ke la pafĉesigo kun %s finos baldaŭ."
 
-#: server/srv_main.c:589 server/srv_main.c:594
+#: server/srv_main.c:590 server/srv_main.c:595
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "La pafĉesigo kun %s finis. Nun vi estas en milito kun la %s."
 
-#: server/srv_main.c:612
+#: server/srv_main.c:613
 #, fuzzy, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -7043,45 +7084,45 @@ msgstr ""
 "La pafĉesigo inter %s kaj %s finis. Ili estas militantaj. Vi nuligas vian "
 "aliancon kun ambaŭ ili."
 
-#: server/srv_main.c:1082 server/srv_main.c:1085
+#: server/srv_main.c:1083 server/srv_main.c:1086
 #, fuzzy, c-format
 msgid "Unsupported compression type %d."
 msgstr "Nesubtenita kunpremo %d"
 
-#: server/srv_main.c:1115
+#: server/srv_main.c:1116
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Malsukcesis la konservado de la ludo kiel %s"
 
-#: server/srv_main.c:1117
+#: server/srv_main.c:1118
 #, c-format
 msgid "Game saved as %s"
 msgstr "La ludo estas konservita kiel %s"
 
-#: server/srv_main.c:1151
+#: server/srv_main.c:1152
 msgid "The game is already running."
 msgstr "La ludo estas jam plenumanta."
 
-#: server/srv_main.c:1159
+#: server/srv_main.c:1160
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1166
+#: server/srv_main.c:1167
 msgid "Starting game."
 msgstr "Komenco de la ludo."
 
-#: server/srv_main.c:1234
+#: server/srv_main.c:1235
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "mendo pri nekonata raporto (speco %d)"
 
-#: server/srv_main.c:1314
+#: server/srv_main.c:1315
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Atentu: malnova kliento %s estas rifuzita"
 
-#: server/srv_main.c:1324
+#: server/srv_main.c:1325
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -7089,57 +7130,57 @@ msgstr ""
 "Vi kliento estas tro malnova. Por uzi tiun ĉi servilon, bonvolu anstataŭigi "
 "vian kliento per Freeciv 2.2 aŭ sekvaj versioj."
 
-#: server/srv_main.c:1382
+#: server/srv_main.c:1383
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "Vi ne rajtas agordi tiun ĉi opcion."
 
-#: server/srv_main.c:1588
+#: server/srv_main.c:1589
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "%s nacio ne estas disponebla en tiu ĉi scenejo."
 
-#: server/srv_main.c:1594
+#: server/srv_main.c:1595
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s nacio estas jam uzata."
 
-#: server/srv_main.c:1607
+#: server/srv_main.c:1608
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s estas la %s estro %s."
 
-#: server/srv_main.c:1663
+#: server/srv_main.c:1664
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 "Atendante komenci la ludon: %d el %d ludantoj estas pretaj por komenci."
 
-#: server/srv_main.c:1856 server/srv_main.c:1860
+#: server/srv_main.c:1857 server/srv_main.c:1861
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s estas la %s."
 
-#: server/srv_main.c:1996
+#: server/srv_main.c:1997
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2059
+#: server/srv_main.c:2060
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Sendante informojn al la metaservilo [%s]"
 
-#: server/srv_main.c:2063
+#: server/srv_main.c:2064
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2084
+#: server/srv_main.c:2085
 msgid "The game is over..."
 msgstr "La ludo estas finita..."
 
-#: server/srv_main.c:2331
+#: server/srv_main.c:2332
 msgid "Now accepting new client connections."
 msgstr "Nun novaj konektoj de klientoj estas akcepteblaj."
 
@@ -8687,7 +8728,7 @@ msgstr "Nur la %s kapablas ataki de la maro."
 msgid "Cannot attack from sea."
 msgstr "Estas neeble ataki de la maro."
 
-#: server/unithand.c:1188 server/unittools.c:2313
+#: server/unithand.c:1188 server/unittools.c:2314
 msgid "Cannot attack unless you declare war first."
 msgstr "Vi ne povas ataki sen militdeklari antaŭe."
 
@@ -8701,7 +8742,7 @@ msgstr "%s povas nur movi en via influa areo."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ne povas movi tiom malproksime de la marbordo."
 
-#: server/unithand.c:1206 server/unittools.c:2319
+#: server/unithand.c:1206 server/unittools.c:2320
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Vi ne povas invadi sen nuligi la pacon kun %s antaŭe."
@@ -8727,63 +8768,63 @@ msgstr ""
 "(F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1371
+#: server/unithand.c:1375
 #, fuzzy, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "Via %s sukcesis subaĉeti la %sn."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1377
+#: server/unithand.c:1380
 #, fuzzy, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Viaj %s estis subaĉetita de la %s."
 
-#: server/unithand.c:1404
+#: server/unithand.c:1405
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Ĉi tiu unuo estas transportita, do ĝi ne povas bombi."
 
-#: server/unithand.c:1416
+#: server/unithand.c:1417
 msgid "You can't attack there."
 msgstr "Vi ne povas ataki ĉi tie."
 
-#: server/unithand.c:1452
+#: server/unithand.c:1453
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Transportita unuo ne estas alianca kun ĉiuj unuoj aŭ kun urbo de la kahelo "
 "kie ĝi estas alvenonta."
 
-#: server/unithand.c:1500
+#: server/unithand.c:1501
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Viaj %s helpis prepari la %sn en %s (%d ceterajn)."
 
-#: server/unithand.c:1502
+#: server/unithand.c:1503
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Viaj %s helpis prepari la %sn en %s (troo je %d)."
 
-#: server/unithand.c:1555
+#: server/unithand.c:1556
 #, fuzzy, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "Bedaŭre, viaj %s ne povas starigi komercan kurson ĉar mankas hejmurbon"
 
-#: server/unithand.c:1567
+#: server/unithand.c:1568
 #, fuzzy, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Bedaŭre, viaj %s ne povas starigi komercan kurson inter %s kaj %s"
 
-#: server/unithand.c:1599 server/unithand.c:1620
+#: server/unithand.c:1600 server/unithand.c:1621
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Bedaŭre, viaj %s ne povas starigi komercan kurson ĉi tie!"
 
-#: server/unithand.c:1604 server/unithand.c:1625
+#: server/unithand.c:1605 server/unithand.c:1626
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "       La urbo %s jam havas %d pli bonajn komercajn kursojn!"
 
-#: server/unithand.c:1646
+#: server/unithand.c:1647
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -8792,22 +8833,22 @@ msgstr ""
 "Viaj %s estas alvenintaj de %s al %s, kaj la enspezo estas %d poentojn de "
 "oro kaj studo."
 
-#: server/unithand.c:1669
+#: server/unithand.c:1670
 #, fuzzy, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Tiuj komercaj kursoj estas starigitaj kun %s:\n"
 
-#: server/unithand.c:1675
+#: server/unithand.c:1676
 #, fuzzy, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Bedaŭre, viaj %s ne povas starigi komercan kurson inter %s kaj %s"
 
-#: server/unithand.c:1690 server/unithand.c:1712
+#: server/unithand.c:1691 server/unithand.c:1713
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr ""
 
-#: server/unithand.c:1697 server/unithand.c:1719
+#: server/unithand.c:1698 server/unithand.c:1720
 #, fuzzy, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "Bedaŭrinde, %s forigis la komercan kurson de %s ĝis via urbo %s."
@@ -8875,7 +8916,7 @@ msgstr "%s malvenkis pro la perdo de %s."
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s forkuris de la detruo de %s, kaj rifuĝis en %s."
 
-#: server/unittools.c:1700
+#: server/unittools.c:1701
 #, fuzzy, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr ""
@@ -8883,19 +8924,19 @@ msgstr ""
 "pagita."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1718
+#: server/unittools.c:1719
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Viaj atakantaj %s sukcesis kontraŭ la %sj %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1727 server/unittools.c:1790
+#: server/unittools.c:1728 server/unittools.c:1791
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s pereis pro atako de la %sj %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1765
+#: server/unittools.c:1766
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -8905,14 +8946,14 @@ msgstr[1] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d aliaj unuoj)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1800
+#: server/unittools.c:1801
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s pereis kiam la %sj %s atakis la %sjn %sn."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1816
+#: server/unittools.c:1817
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
@@ -8920,7 +8961,7 @@ msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1827
+#: server/unittools.c:1828
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -8930,159 +8971,159 @@ msgstr[1] "%s kaj %d aliaj unuoj pereis pro atako de la %sj %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1842
+#: server/unittools.c:1843
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d unuo pereis kiam la %sj %s atakis la %sj %s."
 msgstr[1] "%d unuoj pereis kiam la %sj %s atakis la %sj %s."
 
-#: server/unittools.c:2113
+#: server/unittools.c:2114
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Via %s estis atombombita fare de %s."
 
-#: server/unittools.c:2116 server/unittools.c:2136
+#: server/unittools.c:2117 server/unittools.c:2137
 msgid "yourself"
 msgstr "vi mem"
 
-#: server/unittools.c:2120
+#: server/unittools.c:2121
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "La %sj %s estis atombombitaj"
 
-#: server/unittools.c:2133
+#: server/unittools.c:2134
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s estis atombombita fare de %s."
 
-#: server/unittools.c:2141
+#: server/unittools.c:2142
 #, c-format
 msgid "You nuked %s."
 msgstr "Vi atombombis %sn."
 
-#: server/unittools.c:2193
+#: server/unittools.c:2194
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "La %s eksplodigis atombombon!"
 
-#: server/unittools.c:2217
+#: server/unittools.c:2218
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s estis transportitaj sukcese."
 
-#: server/unittools.c:2276
+#: server/unittools.c:2277
 msgid "This unit type can not be paradropped."
 msgstr "Ĉi tiu speco de unuo ne estas paraŝutebla."
 
-#: server/unittools.c:2286
+#: server/unittools.c:2287
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Vi ne povas paraŝutigi unuon kiu transportas alian unuon."
 
-#: server/unittools.c:2292
+#: server/unittools.c:2293
 msgid "The destination location is not known."
 msgstr "La alvenpunkto estas nekonata."
 
-#: server/unittools.c:2302
+#: server/unittools.c:2303
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Ĉi tiu unuo ne povas paraŝuti en %sn."
 
-#: server/unittools.c:2330
+#: server/unittools.c:2331
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "La distanco de la celo (%i) superas la aŭtonomion de la unuo (%i)."
 
-#: server/unittools.c:2341
+#: server/unittools.c:2342
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Viaj %s paraŝutis en la %s kaj estis perdita."
 
-#: server/unittools.c:2354
+#: server/unittools.c:2355
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Viaj %s estis mortigita fare de malamikaj unuoj ĉe la paraŝuta alvenpunkto."
 
-#: server/unittools.c:2383 data/default/default.lua:22
+#: server/unittools.c:2384 data/default/default.lua:22
 #: data/multiplayer/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgstr "Vi trovis %d oraj monerojn."
 
-#: server/unittools.c:2389 data/default/default.lua:92
+#: server/unittools.c:2390 data/default/default.lua:92
 #: data/multiplayer/default.lua:92
 msgid "An abandoned village is here."
 msgstr "Ĉi tie estas forlasita vilaĝo."
 
-#: server/unittools.c:2392 data/default/default.lua:102
+#: server/unittools.c:2393 data/default/default.lua:102
 #: data/multiplayer/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Viaj %s estis mortigita de la barbaroj!"
 
-#: server/unittools.c:2421
+#: server/unittools.c:2422
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Via superflugo teruris la tribon; ili forkuris terruroplenaj."
 
-#: server/unittools.c:2666
+#: server/unittools.c:2667
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "La ordonoj por %s estis nuligitaj post la ĉesigo de la movoj de la malamiko."
 
-#: server/unittools.c:3192
+#: server/unittools.c:3193
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas proksimaj unuoj."
 
-#: server/unittools.c:3243
+#: server/unittools.c:3244
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "La ordonoj por %s estis nuligitaj ĉar la konstruado de urbo malsukcesis."
 
-#: server/unittools.c:3259
+#: server/unittools.c:3260
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "La ordonoj por %s estis nuligitaj ĝis ili estos nevalidaj agoj."
 
-#: server/unittools.c:3278
+#: server/unittools.c:3279
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "La ordonoj por %s estis nuligitaj ĉar ili havas nevalidan lokiĝon."
 
-#: server/unittools.c:3288
+#: server/unittools.c:3289
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas unuoj en la vojo."
 
-#: server/unittools.c:3313
+#: server/unittools.c:3314
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "La ordonoj por %s estis nuligitaj pro malsukcesa movo."
 
-#: server/unittools.c:3353
+#: server/unittools.c:3354
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Anstataŭigo de nuna hejmurbo per %s malsukcesis."
 
-#: server/unittools.c:3364
+#: server/unittools.c:3365
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Malsukcesis provo por starigi komercan kurson por %s."
 
-#: server/unittools.c:3376
+#: server/unittools.c:3377
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Malsukcesis provo por konstrui mirindaĵon por %s."
 
-#: server/unittools.c:3385
+#: server/unittools.c:3386
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Viaj %s havas nevalidajn ordonojn."
 
-#: server/unittools.c:3483
+#: server/unittools.c:3484
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -13352,7 +13393,7 @@ msgid "This unit cannot be bribed!"
 msgstr "Ĉi tiu unuo ne estas subaĉetebla!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:97
-#: client/gui-sdl/diplomat_dialog.c:1410 client/gui-win32/dialogs.c:1380
+#: client/gui-sdl/diplomat_dialog.c:1404 client/gui-win32/dialogs.c:1380
 #: client/gui-xaw/diplomat_dialog.c:120
 #, c-format
 msgid ""
@@ -13363,13 +13404,13 @@ msgstr ""
 "La ŝtata kaso entenas %d orajn monerojn."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99
-#: client/gui-sdl/diplomat_dialog.c:711 client/gui-sdl/diplomat_dialog.c:1392
+#: client/gui-sdl/diplomat_dialog.c:705 client/gui-sdl/diplomat_dialog.c:1386
 #: client/gui-win32/dialogs.c:1382 data/Freeciv.in:2426 data/Freeciv.in:2439
 msgid "Bribe Enemy Unit"
 msgstr "Subaĉetu malamikan unuon"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:105
-#: client/gui-sdl/diplomat_dialog.c:1459 client/gui-win32/dialogs.c:1388
+#: client/gui-sdl/diplomat_dialog.c:1453 client/gui-win32/dialogs.c:1388
 #: client/gui-xaw/diplomat_dialog.c:129
 #, c-format
 msgid ""
@@ -13380,81 +13421,81 @@ msgstr ""
 "La ŝtata kaso entenas %d orajn monerojn."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:107
-#: client/gui-gtk-2.0/diplomat_dialog.c:570
-#: client/gui-sdl/diplomat_dialog.c:1265 client/gui-sdl/diplomat_dialog.c:1472
+#: client/gui-gtk-2.0/diplomat_dialog.c:566
+#: client/gui-sdl/diplomat_dialog.c:1259 client/gui-sdl/diplomat_dialog.c:1466
 #: client/gui-win32/dialogs.c:1392 client/gui-win32/dialogs.c:1577
 #: data/Freeciv.in:2461
 msgid "Traitors Demand Too Much!"
 msgstr "La perfiduloj postulis tro altan pagon!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:241
-#: client/gui-sdl/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1290
+#: client/gui-gtk-2.0/diplomat_dialog.c:237
+#: client/gui-sdl/diplomat_dialog.c:654 client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2292 data/Freeciv.in:2325 data/Freeciv.in:2342
 msgid "Steal Technology"
 msgstr "Forŝtelu teĥnologion"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:246
+#: client/gui-gtk-2.0/diplomat_dialog.c:242
 msgid "_Steal"
 msgstr "_Forŝtelu"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:255
-#: client/gui-sdl/diplomat_dialog.c:261 client/gui-win32/dialogs.c:1300
+#: client/gui-gtk-2.0/diplomat_dialog.c:251
+#: client/gui-sdl/diplomat_dialog.c:255 client/gui-win32/dialogs.c:1300
 #: data/Freeciv.in:2357
 msgid "Select Advance to Steal"
 msgstr "Elektu forŝtelendan avanaĵon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:275
+#: client/gui-gtk-2.0/diplomat_dialog.c:271
 msgid "_Advances:"
 msgstr "_Avanaĵoj:"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:315
-#: client/gui-gtk-2.0/diplomat_dialog.c:451
-#: client/gui-sdl/diplomat_dialog.c:345 client/gui-sdl/diplomat_dialog.c:941
+#: client/gui-gtk-2.0/diplomat_dialog.c:311
+#: client/gui-gtk-2.0/diplomat_dialog.c:447
+#: client/gui-sdl/diplomat_dialog.c:339 client/gui-sdl/diplomat_dialog.c:935
 #: client/gui-win32/dialogs.c:1205 client/gui-win32/dialogs.c:1416
-#: client/gui-xaw/diplomat_dialog.c:418 client/gui-xaw/diplomat_dialog.c:504
+#: client/gui-xaw/diplomat_dialog.c:414 client/gui-xaw/diplomat_dialog.c:500
 msgid "At Spy's Discretion"
 msgstr "Laŭ la opinio de la spiono"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:385 client/gui-win32/dialogs.c:1490
+#: client/gui-gtk-2.0/diplomat_dialog.c:381 client/gui-win32/dialogs.c:1490
 #: data/Freeciv.in:2384
 msgid "Sabotage Improvements"
 msgstr "Saboto de la plibonigoj"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:390
+#: client/gui-gtk-2.0/diplomat_dialog.c:386
 msgid "_Sabotage"
 msgstr "_Sabotado"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:399
-#: client/gui-sdl/diplomat_dialog.c:856 client/gui-win32/dialogs.c:1500
+#: client/gui-gtk-2.0/diplomat_dialog.c:395
+#: client/gui-sdl/diplomat_dialog.c:850 client/gui-win32/dialogs.c:1500
 #: data/Freeciv.in:2399
 msgid "Select Improvement to Sabotage"
 msgstr "Elektu sabotendan plibonigon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:419
+#: client/gui-gtk-2.0/diplomat_dialog.c:415
 msgid "_Improvements:"
 msgstr "_Urbaj plibonigoj:"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:438
-#: client/gui-sdl/diplomat_dialog.c:885 client/gui-win32/dialogs.c:1405
-#: client/gui-xaw/diplomat_dialog.c:493
+#: client/gui-gtk-2.0/diplomat_dialog.c:434
+#: client/gui-sdl/diplomat_dialog.c:879 client/gui-win32/dialogs.c:1405
+#: client/gui-xaw/diplomat_dialog.c:489
 msgid "City Production"
 msgstr "Produktado de la urbo"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:552
-#: client/gui-sdl/diplomat_dialog.c:1180 client/gui-win32/dialogs.c:1560
-#: client/gui-xaw/diplomat_dialog.c:650
+#: client/gui-gtk-2.0/diplomat_dialog.c:548
+#: client/gui-sdl/diplomat_dialog.c:1174 client/gui-win32/dialogs.c:1560
+#: client/gui-xaw/diplomat_dialog.c:646
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Vi ne povas instigi al ribelo en %s."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:554
-#: client/gui-sdl/diplomat_dialog.c:1191 client/gui-win32/dialogs.c:1562
+#: client/gui-gtk-2.0/diplomat_dialog.c:550
+#: client/gui-sdl/diplomat_dialog.c:1185 client/gui-win32/dialogs.c:1562
 msgid "City can't be incited!"
 msgstr "La urbo ne estas instigebla al ribelo!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:560
-#: client/gui-sdl/diplomat_dialog.c:1200 client/gui-win32/dialogs.c:1566
-#: client/gui-xaw/diplomat_dialog.c:656
+#: client/gui-gtk-2.0/diplomat_dialog.c:556
+#: client/gui-sdl/diplomat_dialog.c:1194 client/gui-win32/dialogs.c:1566
+#: client/gui-xaw/diplomat_dialog.c:652
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -13463,15 +13504,15 @@ msgstr ""
 "Ĉu vi deziras instigi al ribelo per %d oraj moneroj?\n"
 "La ŝtata kaso entenas %d orajn monerojn."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:562
-#: client/gui-sdl/diplomat_dialog.c:1147 client/gui-win32/dialogs.c:1569
+#: client/gui-gtk-2.0/diplomat_dialog.c:558
+#: client/gui-sdl/diplomat_dialog.c:1141 client/gui-win32/dialogs.c:1569
 #: data/Freeciv.in:2450
 msgid "Incite a Revolt!"
 msgstr "Instigu al ribelo!"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:568
-#: client/gui-sdl/diplomat_dialog.c:1251 client/gui-win32/dialogs.c:1574
-#: client/gui-xaw/diplomat_dialog.c:666
+#: client/gui-gtk-2.0/diplomat_dialog.c:564
+#: client/gui-sdl/diplomat_dialog.c:1245 client/gui-win32/dialogs.c:1574
+#: client/gui-xaw/diplomat_dialog.c:662
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -13480,8 +13521,8 @@ msgstr ""
 "La instigo al ribelo kostas %d orajn monerojn.\n"
 "La ŝtata kaso entenas %d orajn monerojn."
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:631 client/gui-win32/dialogs.c:1613
-#: client/gui-xaw/diplomat_dialog.c:726
+#: client/gui-gtk-2.0/diplomat_dialog.c:627 client/gui-win32/dialogs.c:1613
+#: client/gui-xaw/diplomat_dialog.c:722
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -13490,82 +13531,82 @@ msgstr ""
 "Via %s alvenis al %s.\n"
 "Kion vi ordonas nun?"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:637
-#: client/gui-sdl/diplomat_dialog.c:566 client/gui-win32/dialogs.c:1619
+#: client/gui-gtk-2.0/diplomat_dialog.c:633
+#: client/gui-sdl/diplomat_dialog.c:560 client/gui-win32/dialogs.c:1619
 #: data/Freeciv.in:2280
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Elektu strategion por via diplomato"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:638
-#: client/gui-gtk-2.0/diplomat_dialog.c:662 client/gui-win32/dialogs.c:1620
+#: client/gui-gtk-2.0/diplomat_dialog.c:634
+#: client/gui-gtk-2.0/diplomat_dialog.c:658 client/gui-win32/dialogs.c:1620
 #: client/gui-win32/dialogs.c:1641
 #, fuzzy
 msgid "Establish _Embassy"
 msgstr "Starigu _komercan kurson"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:639
-#: client/gui-gtk-2.0/diplomat_dialog.c:663 client/gui-win32/dialogs.c:1621
+#: client/gui-gtk-2.0/diplomat_dialog.c:635
+#: client/gui-gtk-2.0/diplomat_dialog.c:659 client/gui-win32/dialogs.c:1621
 #: client/gui-win32/dialogs.c:1642
 msgid "_Investigate City"
 msgstr "En_ketu urbon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:640 client/gui-win32/dialogs.c:1622
+#: client/gui-gtk-2.0/diplomat_dialog.c:636 client/gui-win32/dialogs.c:1622
 msgid "_Sabotage City"
 msgstr "_Sabotu urbon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:641
-#: client/gui-gtk-2.0/diplomat_dialog.c:666 client/gui-win32/dialogs.c:1623
+#: client/gui-gtk-2.0/diplomat_dialog.c:637
+#: client/gui-gtk-2.0/diplomat_dialog.c:662 client/gui-win32/dialogs.c:1623
 #: client/gui-win32/dialogs.c:1645
 msgid "Steal _Technology"
 msgstr "Forŝtelu _teĥnologion"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:642
-#: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-win32/dialogs.c:1624
+#: client/gui-gtk-2.0/diplomat_dialog.c:638
+#: client/gui-gtk-2.0/diplomat_dialog.c:663 client/gui-win32/dialogs.c:1624
 #: client/gui-win32/dialogs.c:1646
 msgid "Incite a _Revolt"
 msgstr "Instigu al _ribelo"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:643
-#: client/gui-gtk-2.0/diplomat_dialog.c:668
+#: client/gui-gtk-2.0/diplomat_dialog.c:639
+#: client/gui-gtk-2.0/diplomat_dialog.c:664
 #: client/gui-gtk-2.0/caravan_dialog.c:121 client/gui-win32/dialogs.c:1067
 msgid "_Keep moving"
 msgstr "_Estu moviĝanta"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:661
-#: client/gui-sdl/diplomat_dialog.c:562 client/gui-win32/dialogs.c:1640
+#: client/gui-gtk-2.0/diplomat_dialog.c:657
+#: client/gui-sdl/diplomat_dialog.c:556 client/gui-win32/dialogs.c:1640
 #: data/Freeciv.in:2306
 msgid "Choose Your Spy's Strategy"
 msgstr "Elektu strategion por via spiono"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:664 client/gui-win32/dialogs.c:1643
+#: client/gui-gtk-2.0/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1643
 msgid "_Poison City"
 msgstr "_Venenu la urbon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:665 client/gui-win32/dialogs.c:1644
+#: client/gui-gtk-2.0/diplomat_dialog.c:661 client/gui-win32/dialogs.c:1644
 msgid "Industrial _Sabotage"
 msgstr "_Industria saboto"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:702
-#: client/gui-sdl/diplomat_dialog.c:571 client/gui-win32/dialogs.c:1671
+#: client/gui-gtk-2.0/diplomat_dialog.c:698
+#: client/gui-sdl/diplomat_dialog.c:565 client/gui-win32/dialogs.c:1671
 #: data/Freeciv.in:2437
 msgid "Subvert Enemy Unit"
 msgstr "Ataku malamikan unuon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:704 client/gui-win32/dialogs.c:1673
-#: client/gui-xaw/diplomat_dialog.c:788
+#: client/gui-gtk-2.0/diplomat_dialog.c:700 client/gui-win32/dialogs.c:1673
+#: client/gui-xaw/diplomat_dialog.c:784
 msgid "The diplomat is waiting for your command"
 msgstr "La diplomato atendas viajn ordonojn"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:705 client/gui-win32/dialogs.c:1674
-#: client/gui-xaw/diplomat_dialog.c:789
+#: client/gui-gtk-2.0/diplomat_dialog.c:701 client/gui-win32/dialogs.c:1674
+#: client/gui-xaw/diplomat_dialog.c:785
 msgid "The spy is waiting for your command"
 msgstr "La spiono atendas viajn ordonojn"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:706 client/gui-win32/dialogs.c:1675
+#: client/gui-gtk-2.0/diplomat_dialog.c:702 client/gui-win32/dialogs.c:1675
 msgid "_Bribe Enemy Unit"
 msgstr "Sub_aĉetu malamikan unuon"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:707 client/gui-win32/dialogs.c:1676
+#: client/gui-gtk-2.0/diplomat_dialog.c:703 client/gui-win32/dialogs.c:1676
 msgid "_Sabotage Enemy Unit"
 msgstr "_Sabotu malamikan unuon"
 
@@ -16542,7 +16583,7 @@ msgstr "Eniru la bazaron ( %d R&G pluso )"
 msgid "Help build Wonder"
 msgstr "Helpu konstrui Mirindaĵon"
 
-#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:689
+#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:683
 #: data/Freeciv.in:2273 data/Freeciv.in:2297 data/Freeciv.in:2332
 msgid "Keep moving"
 msgstr "Daŭrigu moviĝi"
@@ -16552,9 +16593,9 @@ msgstr "Daŭrigu moviĝi"
 #: client/gui-sdl/dialogs.c:332 client/gui-sdl/dialogs.c:532
 #: client/gui-sdl/dialogs.c:897 client/gui-sdl/dialogs.c:1132
 #: client/gui-sdl/dialogs.c:1463 client/gui-sdl/dialogs.c:2028
-#: client/gui-sdl/diplomat_dialog.c:279 client/gui-sdl/diplomat_dialog.c:874
-#: client/gui-sdl/diplomat_dialog.c:1169 client/gui-sdl/diplomat_dialog.c:1239
-#: client/gui-sdl/diplomat_dialog.c:1447 client/gui-sdl/finddlg.c:149
+#: client/gui-sdl/diplomat_dialog.c:273 client/gui-sdl/diplomat_dialog.c:868
+#: client/gui-sdl/diplomat_dialog.c:1163 client/gui-sdl/diplomat_dialog.c:1233
+#: client/gui-sdl/diplomat_dialog.c:1441 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:257 client/gui-sdl/helpdlg.c:234
 #: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1935
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
@@ -16624,7 +16665,7 @@ msgstr "Ĝisdatigu unuon"
 #: client/gui-sdl/connectdlg.c:306 client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
 #: client/gui-sdl/dialogs.c:704 client/gui-sdl/dialogs.c:2365
-#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:741
+#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:735
 #: client/gui-sdl/mapctrl.c:2615 client/gui-win32/citydlg.c:1095
 #: client/gui-win32/cityrep.c:761 client/gui-win32/connectdlg.c:1033
 #: client/gui-win32/dialogs.c:1800 client/gui-win32/finddlg.c:132
@@ -16670,8 +16711,8 @@ msgid "Buy it?"
 msgstr "Ĉu vi aĉetas ĝin?"
 
 #: client/gui-sdl/citydlg.c:1205 client/gui-sdl/cma_fe.c:329
-#: client/gui-sdl/diplodlg.c:1337 client/gui-sdl/diplomat_dialog.c:1224
-#: client/gui-sdl/diplomat_dialog.c:1432 client/gui-sdl/plrdlg.c:224
+#: client/gui-sdl/diplodlg.c:1337 client/gui-sdl/diplomat_dialog.c:1218
+#: client/gui-sdl/diplomat_dialog.c:1426 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:217 client/gui-sdl/repodlgs.c:1564
 #: client/gui-win32/repodlgs.c:584 client/gui-xaw/citydlg.c:2416
 #: client/gui-xaw/cityrep.c:668 client/gui-xaw/cma_fe.c:332
@@ -16685,8 +16726,8 @@ msgid "No"
 msgstr "Ne"
 
 #: client/gui-sdl/citydlg.c:1216 client/gui-sdl/cma_fe.c:320
-#: client/gui-sdl/diplodlg.c:1347 client/gui-sdl/diplomat_dialog.c:1213
-#: client/gui-sdl/diplomat_dialog.c:1422 client/gui-sdl/plrdlg.c:224
+#: client/gui-sdl/diplodlg.c:1347 client/gui-sdl/diplomat_dialog.c:1207
+#: client/gui-sdl/diplomat_dialog.c:1416 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:228 client/gui-win32/repodlgs.c:582
 #: client/gui-xaw/citydlg.c:2416 client/gui-xaw/cityrep.c:668
 #: client/gui-xaw/cma_fe.c:332 client/gui-xaw/cma_fe.c:522
@@ -17236,29 +17277,29 @@ msgstr "Voku diplomatian renkontiĝon"
 msgid "Send him back"
 msgstr "Retrosendu lin"
 
-#: client/gui-sdl/diplomat_dialog.c:600 data/Freeciv.in:2285
+#: client/gui-sdl/diplomat_dialog.c:594 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
 msgid "Establish Embassy"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:615 data/Freeciv.in:2287
+#: client/gui-sdl/diplomat_dialog.c:609 data/Freeciv.in:2287
 msgid "Investigate City"
 msgstr "Enketu la urbon"
 
-#: client/gui-sdl/diplomat_dialog.c:630 data/Freeciv.in:2318
+#: client/gui-sdl/diplomat_dialog.c:624 data/Freeciv.in:2318
 msgid "Poison City"
 msgstr "Venenu la urbon"
 
-#: client/gui-sdl/diplomat_dialog.c:644 data/Freeciv.in:2290
+#: client/gui-sdl/diplomat_dialog.c:638 data/Freeciv.in:2290
 msgid "Sabotage City"
 msgstr "Sabotu la urbon"
 
-#: client/gui-sdl/diplomat_dialog.c:675 data/Freeciv.in:2295
+#: client/gui-sdl/diplomat_dialog.c:669 data/Freeciv.in:2295
 #: data/Freeciv.in:2328
 msgid "Incite a Revolt"
 msgstr "Instigu al ribelo"
 
-#: client/gui-sdl/diplomat_dialog.c:726 data/Freeciv.in:2441
+#: client/gui-sdl/diplomat_dialog.c:720 data/Freeciv.in:2441
 msgid "Sabotage Enemy Unit"
 msgstr "Saboti malamikan unuon"
 
@@ -18581,7 +18622,7 @@ msgstr "Urba stilo:"
 msgid "Unit Selection"
 msgstr "Elekto pri la unuo"
 
-#: client/gui-win32/dialogs.c:1210 client/gui-xaw/diplomat_dialog.c:405
+#: client/gui-win32/dialogs.c:1210 client/gui-xaw/diplomat_dialog.c:401
 msgid "NONE"
 msgstr "NENIU"
 
@@ -26610,7 +26651,7 @@ msgid ""
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
 
-#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
 #: data/nation/belgian.ruleset:24 data/nation/bhutanese.ruleset:25
 #: data/nation/british.ruleset:23 data/nation/burmese.ruleset:21
@@ -26643,7 +26684,7 @@ msgstr ""
 msgid "Prime Minister %s"
 msgstr "Ĉefinistro"
 
-#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
 #: data/nation/belgian.ruleset:24 data/nation/bhutanese.ruleset:25
 #: data/nation/british.ruleset:23 data/nation/burmese.ruleset:21
@@ -26722,44 +26763,50 @@ msgid ""
 msgstr ""
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
-#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:71
-#: data/nation/arab.ruleset:23 data/nation/egyptianarab.ruleset:27
+#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
+#: data/nation/arab.ruleset:24 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:34
 #: data/nation/moroccan.ruleset:31 data/nation/saudi.ruleset:26
-#: data/nation/somali.ruleset:35 data/nation/tunisian.ruleset:30
+#: data/nation/somali.ruleset:35 data/nation/timurid.ruleset:28
+#: data/nation/tunisian.ruleset:30
 #, fuzzy, c-format
 msgid "Caliph %s"
 msgstr "Kalifo"
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
-#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:71
-#: data/nation/arab.ruleset:23 data/nation/egyptianarab.ruleset:27
+#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
+#: data/nation/arab.ruleset:24 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:34
 #: data/nation/moroccan.ruleset:31 data/nation/saudi.ruleset:26
-#: data/nation/somali.ruleset:35 data/nation/tunisian.ruleset:30
+#: data/nation/somali.ruleset:35 data/nation/timurid.ruleset:28
+#: data/nation/tunisian.ruleset:30
 #, fuzzy, c-format
 msgid "Calipha %s"
 msgstr "Kalifo"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alandalus.ruleset:34
-#: data/nation/amazigh.ruleset:73 data/nation/arab.ruleset:22
+#: data/nation/amazigh.ruleset:74 data/nation/arab.ruleset:23
 #: data/nation/bashkir.ruleset:26 data/nation/egyptianarab.ruleset:26
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:33
+#: data/nation/kashmiri.ruleset:25 data/nation/khwarezmian.ruleset:28
 #: data/nation/malaysian.ruleset:21 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:28 data/nation/singaporean.ruleset:32
-#: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:24
+#: data/nation/mughal.ruleset:21 data/nation/omani.ruleset:28
+#: data/nation/singaporean.ruleset:32 data/nation/somali.ruleset:34
+#: data/nation/southyemeni.ruleset:24 data/nation/timurid.ruleset:27
 #: data/nation/turk.ruleset:23
 #, fuzzy, c-format
 msgid "Sultan %s"
 msgstr "Sultano"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alandalus.ruleset:34
-#: data/nation/amazigh.ruleset:73 data/nation/arab.ruleset:22
+#: data/nation/amazigh.ruleset:74 data/nation/arab.ruleset:23
 #: data/nation/bashkir.ruleset:26 data/nation/egyptianarab.ruleset:26
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:33
+#: data/nation/kashmiri.ruleset:25 data/nation/khwarezmian.ruleset:28
 #: data/nation/malaysian.ruleset:21 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:28 data/nation/singaporean.ruleset:32
-#: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:24
+#: data/nation/mughal.ruleset:21 data/nation/omani.ruleset:28
+#: data/nation/singaporean.ruleset:32 data/nation/somali.ruleset:34
+#: data/nation/southyemeni.ruleset:24 data/nation/timurid.ruleset:27
 #: data/nation/turk.ruleset:23
 #, fuzzy, c-format
 msgid "Sultana %s"
@@ -26784,13 +26831,13 @@ msgid "?female:Governor %s"
 msgstr "?female:Guberniestrino"
 
 #: data/nation/acehnese.ruleset:30 data/nation/alandalus.ruleset:35
-#: data/nation/amazigh.ruleset:74 data/nation/moroccan.ruleset:32
+#: data/nation/amazigh.ruleset:75 data/nation/moroccan.ruleset:32
 #, fuzzy, c-format
 msgid "Amir Al-Muminin %s"
 msgstr "?female:Ĉefministro"
 
 #: data/nation/acehnese.ruleset:30 data/nation/alandalus.ruleset:35
-#: data/nation/amazigh.ruleset:74 data/nation/moroccan.ruleset:32
+#: data/nation/amazigh.ruleset:75 data/nation/moroccan.ruleset:32
 #, fuzzy, c-format
 msgid "Amirat Al-Muminin %s"
 msgstr "?female:Ĉefministro"
@@ -26812,35 +26859,37 @@ msgid ""
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
 
-#: data/nation/afghani.ruleset:24 data/nation/alandalus.ruleset:33
+#: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bashkir.ruleset:25 data/nation/chechen.ruleset:30
 #: data/nation/emirati.ruleset:25 data/nation/kurd.ruleset:29
 #: data/nation/lebanese.ruleset:29 data/nation/pashtun.ruleset:23
-#: data/nation/riffian.ruleset:20 data/nation/uzbek.ruleset:26
+#: data/nation/riffian.ruleset:20 data/nation/timurid.ruleset:26
+#: data/nation/uzbek.ruleset:24
 #, fuzzy, c-format
 msgid "Emir %s"
 msgstr "Emiro"
 
-#: data/nation/afghani.ruleset:24 data/nation/alandalus.ruleset:33
+#: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bashkir.ruleset:25 data/nation/chechen.ruleset:30
 #: data/nation/emirati.ruleset:25 data/nation/kurd.ruleset:29
 #: data/nation/lebanese.ruleset:29 data/nation/pashtun.ruleset:23
-#: data/nation/riffian.ruleset:20 data/nation/uzbek.ruleset:26
+#: data/nation/riffian.ruleset:20 data/nation/timurid.ruleset:26
+#: data/nation/uzbek.ruleset:24
 #, fuzzy, c-format
 msgid "Emira %s"
 msgstr "Emiro"
 
-#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/ottoman.ruleset:28
 #, fuzzy, c-format
 msgid "Padishah %s"
 msgstr "Partizanoj"
 
-#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/ottoman.ruleset:28
 #, fuzzy, c-format
 msgid "?female:Padishah %s"
 msgstr "?female:Ĉefministro"
 
-#: data/nation/afghani.ruleset:26 data/nation/bashkir.ruleset:27
+#: data/nation/afghani.ruleset:25 data/nation/bashkir.ruleset:27
 #: data/nation/cypriot.ruleset:22 data/nation/slovakian.ruleset:26
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:27
 #: data/nation/yemeni.ruleset:22
@@ -26848,7 +26897,7 @@ msgstr "?female:Ĉefministro"
 msgid "General Secretary %s"
 msgstr "Ĝenerala Sekretario"
 
-#: data/nation/afghani.ruleset:26 data/nation/bashkir.ruleset:27
+#: data/nation/afghani.ruleset:25 data/nation/bashkir.ruleset:27
 #: data/nation/cypriot.ruleset:22 data/nation/slovakian.ruleset:26
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:27
 #: data/nation/yemeni.ruleset:22
@@ -26856,12 +26905,12 @@ msgstr "Ĝenerala Sekretario"
 msgid "?female:General Secretary %s"
 msgstr "?female:Ĝenerala Sekretario"
 
-#: data/nation/afghani.ruleset:27 data/nation/pashtun.ruleset:24
+#: data/nation/afghani.ruleset:26 data/nation/pashtun.ruleset:24
 #, fuzzy, c-format
 msgid "Mullah %s"
 msgstr "Mulao"
 
-#: data/nation/afghani.ruleset:27 data/nation/pashtun.ruleset:24
+#: data/nation/afghani.ruleset:26 data/nation/pashtun.ruleset:24
 #, fuzzy, c-format
 msgid "?female:Mullah %s"
 msgstr "?female:Mahatmo"
@@ -26917,8 +26966,8 @@ msgid ""
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
 
-#: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:70
-#: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
+#: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
+#: data/nation/arab.ruleset:21 data/nation/emirati.ruleset:24
 #: data/nation/himyarite.ruleset:31 data/nation/kurd.ruleset:28
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/somali.ruleset:36
@@ -26927,7 +26976,7 @@ msgid "Sheikh %s"
 msgstr "Ŝejko"
 
 #: data/nation/alandalus.ruleset:31 data/nation/algerian.ruleset:21
-#: data/nation/amazigh.ruleset:70 data/nation/arab.ruleset:20
+#: data/nation/amazigh.ruleset:71 data/nation/arab.ruleset:21
 #: data/nation/emirati.ruleset:24 data/nation/himyarite.ruleset:31
 #: data/nation/kurd.ruleset:28 data/nation/moroccan.ruleset:28
 #: data/nation/omani.ruleset:30 data/nation/somali.ruleset:36
@@ -27059,15 +27108,15 @@ msgstr ""
 msgid "Sheik %s"
 msgstr "Ŝejko"
 
-#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:72
-#: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:32
+#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:73
+#: data/nation/arab.ruleset:22 data/nation/himyarite.ruleset:32
 #: data/nation/moroccan.ruleset:29
 #, fuzzy, c-format
 msgid "Malik %s"
 msgstr "Malia"
 
-#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:72
-#: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:32
+#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:73
+#: data/nation/arab.ruleset:22 data/nation/himyarite.ruleset:32
 #: data/nation/moroccan.ruleset:29
 #, fuzzy, c-format
 msgid "Malika %s"
@@ -27211,7 +27260,8 @@ msgstr "Diktatorino"
 #: data/nation/mecklenburgian.ruleset:31 data/nation/monegasque.ruleset:30
 #: data/nation/moravian.ruleset:35 data/nation/newfoundland.ruleset:33
 #: data/nation/oldenburgian.ruleset:32 data/nation/panamanian.ruleset:30
-#: data/nation/polish.ruleset:27 data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/polish.ruleset:27 data/nation/saxon.ruleset:21
+#: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/transylvanian.ruleset:28 data/nation/venezuelan.ruleset:29
 #: data/nation/vincentian.ruleset:26 data/nation/westindian.ruleset:24
 #: data/nation/yucatecan.ruleset:31
@@ -27222,7 +27272,8 @@ msgstr "Ĉefepiskopo"
 #: data/nation/andorran.ruleset:25 data/nation/liechtensteiner.ruleset:32
 #: data/nation/malawian.ruleset:20 data/nation/mecklenburgian.ruleset:31
 #: data/nation/newfoundland.ruleset:33 data/nation/oldenburgian.ruleset:32
-#: data/nation/polish.ruleset:27 data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/polish.ruleset:27 data/nation/saxon.ruleset:21
+#: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/transylvanian.ruleset:28 data/nation/vincentian.ruleset:26
 #: data/nation/westindian.ruleset:24
 #, fuzzy, c-format
@@ -27372,6 +27423,7 @@ msgstr ""
 #: data/nation/luxembourgish.ruleset:29 data/nation/oldenburgian.ruleset:31
 #: data/nation/piedmontese.ruleset:33 data/nation/sicilian.ruleset:29
 #: data/nation/tyrolian.ruleset:24 data/nation/walloon.ruleset:28
+#: data/nation/westphalian.ruleset:32
 #, fuzzy, c-format
 msgid "Count %s"
 msgstr "Nombro"
@@ -27381,6 +27433,7 @@ msgstr "Nombro"
 #: data/nation/luxembourgish.ruleset:29 data/nation/oldenburgian.ruleset:31
 #: data/nation/piedmontese.ruleset:33 data/nation/sicilian.ruleset:29
 #: data/nation/tyrolian.ruleset:24 data/nation/walloon.ruleset:28
+#: data/nation/westphalian.ruleset:32
 #, fuzzy, c-format
 msgid "Countess %s"
 msgstr "Nombro"
@@ -27707,9 +27760,10 @@ msgstr ""
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:30
-#: data/nation/tajik.ruleset:21 data/nation/tatar.ruleset:28
+#: data/nation/mughal.ruleset:19 data/nation/tajik.ruleset:21
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:22 data/nation/tuvan.ruleset:31
-#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:25
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #, fuzzy, c-format
 msgid "%s Khan"
 msgstr "Ĥano"
@@ -27718,21 +27772,22 @@ msgstr "Ĥano"
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:30
-#: data/nation/tajik.ruleset:21 data/nation/tatar.ruleset:28
+#: data/nation/mughal.ruleset:19 data/nation/tajik.ruleset:21
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:22 data/nation/tuvan.ruleset:31
-#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:25
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #, fuzzy, c-format
 msgid "%s Khatan"
 msgstr "Ĥatano"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:40
-#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:21
 #, fuzzy, c-format
 msgid "%s Shah"
 msgstr "Ŝaho"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:40
-#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:21
 #, c-format
 msgid "%s Shahbanu"
 msgstr ""
@@ -27941,8 +27996,9 @@ msgstr ""
 #: data/nation/panamanian.ruleset:31 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:41 data/nation/sammarinese.ruleset:26
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
-#: data/nation/schleswig-holsteinian.ruleset:28 data/nation/serbian.ruleset:34
-#: data/nation/siberian.ruleset:24 data/nation/teutonic.ruleset:30
+#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/serbian.ruleset:34 data/nation/siberian.ruleset:24
+#: data/nation/teutonic.ruleset:30 data/nation/westphalian.ruleset:34
 #, fuzzy, c-format
 msgid "Duke %s"
 msgstr "Duko"
@@ -27955,8 +28011,9 @@ msgstr "Duko"
 #: data/nation/panamanian.ruleset:31 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:41 data/nation/sammarinese.ruleset:26
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
-#: data/nation/schleswig-holsteinian.ruleset:28 data/nation/serbian.ruleset:34
-#: data/nation/siberian.ruleset:24 data/nation/teutonic.ruleset:30
+#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/serbian.ruleset:34 data/nation/siberian.ruleset:24
+#: data/nation/teutonic.ruleset:30 data/nation/westphalian.ruleset:34
 #, fuzzy, c-format
 msgid "Duchess %s"
 msgstr "Dukino"
@@ -27977,7 +28034,7 @@ msgstr "Carino"
 #: data/nation/byzantium.ruleset:26 data/nation/cossack.ruleset:31
 #: data/nation/holysee.ruleset:27 data/nation/nestorian.ruleset:28
 #: data/nation/russian.ruleset:43 data/nation/ruthenian.ruleset:30
-#: data/nation/siberian.ruleset:23 data/nation/slavic.ruleset:34
+#: data/nation/siberian.ruleset:23 data/nation/slavic.ruleset:35
 #: data/nation/ukrainian.ruleset:23 data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Patriarch %s"
@@ -27987,7 +28044,7 @@ msgstr "Patriarko"
 #: data/nation/byzantium.ruleset:26 data/nation/cossack.ruleset:31
 #: data/nation/nestorian.ruleset:28 data/nation/russian.ruleset:43
 #: data/nation/ruthenian.ruleset:30 data/nation/siberian.ruleset:23
-#: data/nation/slavic.ruleset:34 data/nation/ukrainian.ruleset:23
+#: data/nation/slavic.ruleset:35 data/nation/ukrainian.ruleset:23
 #: data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Matriarch %s"
@@ -28342,7 +28399,7 @@ msgstr "Diktatorino"
 #: data/nation/centralafrican.ruleset:22 data/nation/chinese.ruleset:27
 #: data/nation/ethiopian.ruleset:23 data/nation/haitian.ruleset:27
 #: data/nation/han.ruleset:26 data/nation/holyroman.ruleset:33
-#: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:23
+#: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:26
 #: data/nation/mexican.ruleset:53 data/nation/nestorian.ruleset:27
 #: data/nation/southvietnamese.ruleset:25 data/nation/taiwanese.ruleset:24
 #: data/nation/vietnamese.ruleset:22
@@ -29009,7 +29066,7 @@ msgid ""
 msgstr ""
 
 #: data/nation/chinese.ruleset:27 data/nation/han.ruleset:26
-#: data/nation/manchu.ruleset:23 data/nation/taiwanese.ruleset:24
+#: data/nation/manchu.ruleset:26 data/nation/taiwanese.ruleset:24
 #, fuzzy, c-format
 msgid "Empress Dowager %s"
 msgstr "Reĝino-Patrino"
@@ -29034,26 +29091,30 @@ msgid ""
 msgstr ""
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:27
+#: data/nation/indian.ruleset:19 data/nation/kashmiri.ruleset:23
+#: data/nation/majapahit.ruleset:27
 #, fuzzy, c-format
 msgid "Raja %s"
 msgstr "Raĝo"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:27
+#: data/nation/indian.ruleset:19 data/nation/kashmiri.ruleset:23
+#: data/nation/majapahit.ruleset:27
 #, fuzzy, c-format
 msgid "Rani %s"
 msgstr "Fervojo"
 
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
-#: data/nation/indian.ruleset:21 data/nation/majapahit.ruleset:28
+#: data/nation/indian.ruleset:21 data/nation/kashmiri.ruleset:24
+#: data/nation/majapahit.ruleset:28 data/nation/mughal.ruleset:20
 #: data/nation/sikh.ruleset:33 data/nation/srivijaya.ruleset:26
 #, fuzzy, c-format
 msgid "Maharaja %s"
 msgstr "Maharaĝo"
 
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
-#: data/nation/indian.ruleset:21 data/nation/majapahit.ruleset:28
+#: data/nation/indian.ruleset:21 data/nation/kashmiri.ruleset:24
+#: data/nation/majapahit.ruleset:28 data/nation/mughal.ruleset:20
 #: data/nation/sikh.ruleset:33 data/nation/srivijaya.ruleset:26
 #, fuzzy, c-format
 msgid "Maharani %s"
@@ -29226,12 +29287,14 @@ msgid ""
 "organized in a military manner."
 msgstr ""
 
-#: data/nation/cossack.ruleset:29 data/nation/ukrainian.ruleset:21
+#: data/nation/cossack.ruleset:29 data/nation/lipkatatar.ruleset:30
+#: data/nation/ukrainian.ruleset:21
 #, fuzzy, c-format
 msgid "Hetman %s"
 msgstr "Kabano: %s"
 
-#: data/nation/cossack.ruleset:29 data/nation/ukrainian.ruleset:21
+#: data/nation/cossack.ruleset:29 data/nation/lipkatatar.ruleset:30
+#: data/nation/ukrainian.ruleset:21
 #, fuzzy, c-format
 msgid "?female:Hetman %s"
 msgstr "?female:Ŝamanino"
@@ -29306,14 +29369,14 @@ msgstr "Grandĥano"
 msgid "?female:%s Khagan"
 msgstr "?female:Grandĥano"
 
-#: data/nation/crimeantatar.ruleset:41 data/nation/palestinian.ruleset:21
-#: data/nation/tatar.ruleset:30
+#: data/nation/crimeantatar.ruleset:41 data/nation/lipkatatar.ruleset:31
+#: data/nation/palestinian.ruleset:21 data/nation/tatar.ruleset:30
 #, fuzzy, c-format
 msgid "Grand Mufti %s"
 msgstr "Granda Majstro"
 
-#: data/nation/crimeantatar.ruleset:41 data/nation/palestinian.ruleset:21
-#: data/nation/tatar.ruleset:30
+#: data/nation/crimeantatar.ruleset:41 data/nation/lipkatatar.ruleset:31
+#: data/nation/palestinian.ruleset:21 data/nation/tatar.ruleset:30
 #, fuzzy, c-format
 msgid "?female:Grand Mufti %s"
 msgstr "?female:Druidino"
@@ -29976,6 +30039,7 @@ msgstr "Tera areo"
 #: data/nation/franconian.ruleset:26 data/nation/lorrain.ruleset:30
 #: data/nation/montenegrin.ruleset:28 data/nation/palatinate.ruleset:29
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
+#: data/nation/westphalian.ruleset:33
 #, fuzzy, c-format
 msgid "Prince-Bishop %s"
 msgstr "Princino"
@@ -30499,11 +30563,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
+#: data/nation/westphalian.ruleset:35
 #, fuzzy, c-format
 msgid "Burgomaster %s"
 msgstr "Birma"
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
+#: data/nation/westphalian.ruleset:35
 #, fuzzy, c-format
 msgid "?female:Burgomaster %s"
 msgstr "?female:Episkopo"
@@ -31157,6 +31223,23 @@ msgid ""
 "the Finns."
 msgstr ""
 
+#: data/nation/kashmiri.ruleset:3
+#, fuzzy
+msgid "Kashmiri"
+msgstr "Bazo"
+
+#: data/nation/kashmiri.ruleset:4
+#, fuzzy
+msgid "?plural:Kashmiris"
+msgstr "?plural:Eŭskoj"
+
+#: data/nation/kashmiri.ruleset:6
+msgid ""
+"The Kashmir valley is situated by the western foothills of the Himalayas. "
+"Having been inhabited for millennia, it is a melting pot of Hindu, Tibetan, "
+"and Islamic culture."
+msgstr ""
+
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
 msgstr "Kazaĥa"
@@ -31495,6 +31578,47 @@ msgid ""
 "Schellenberg in 1719."
 msgstr ""
 
+#: data/nation/lipkatatar.ruleset:3
+#, fuzzy
+msgid "Lipka Tatar"
+msgstr "Kanada"
+
+#: data/nation/lipkatatar.ruleset:4
+#, fuzzy
+msgid "?plural:Lipka Tatars"
+msgstr "?plural:Turkoj"
+
+#: data/nation/lipkatatar.ruleset:6
+msgid ""
+"The Lipka Tatars are descendants of Tatars who migrated to the Polish-"
+"Lithuanian Commonwealth from the Crimean Khanate and the Golden Horde. Their "
+"name comes from the Turkish name of Lithuania. In addition to Lithuania, "
+"they also live in Poland and Belarus. Some Lipka Tatars have preserved their "
+"culture and traditional religion to the present day."
+msgstr ""
+
+#: data/nation/lipkatatar.ruleset:28
+#, fuzzy, c-format
+msgid "Mirza %s"
+msgstr "Emiro"
+
+#: data/nation/lipkatatar.ruleset:28
+#, fuzzy, c-format
+msgid "?female:Mirza %s"
+msgstr "?female:Mahatmo"
+
+#: data/nation/lipkatatar.ruleset:29 data/nation/ottoman.ruleset:27
+#: data/nation/tunisian.ruleset:28
+#, c-format
+msgid "%s Bey"
+msgstr ""
+
+#: data/nation/lipkatatar.ruleset:29 data/nation/ottoman.ruleset:27
+#: data/nation/tunisian.ruleset:28
+#, fuzzy, c-format
+msgid "?female:%s Bey"
+msgstr "?female:Ĉefino"
+
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
 msgstr "Litova"
@@ -31562,6 +31686,7 @@ msgstr ""
 
 #: data/nation/lorrain.ruleset:30 data/nation/montenegrin.ruleset:28
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
+#: data/nation/westphalian.ruleset:33
 #, fuzzy, c-format
 msgid "Princess-Bishop %s"
 msgstr "Princino"
@@ -32187,13 +32312,13 @@ msgstr ""
 
 #. TRANS: Voievod = Prince
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
-#: data/nation/transylvanian.ruleset:27
+#: data/nation/slavic.ruleset:34 data/nation/transylvanian.ruleset:27
 #, fuzzy, c-format
 msgid "Voivode %s"
 msgstr "Princo"
 
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
-#: data/nation/transylvanian.ruleset:27
+#: data/nation/slavic.ruleset:34 data/nation/transylvanian.ruleset:27
 #, fuzzy, c-format
 msgid "?female:Voivode %s"
 msgstr "?female:Kamaradino"
@@ -32242,7 +32367,7 @@ msgstr "?plural:Mongoloj"
 msgid ""
 "In the centuries after their unification by Chinggis Khan, the Mongols "
 "conquered the largest empire in human history, encompassing most of the "
-"continent of Asia.  They became notorious for their utter ruthlessness in "
+"continent of Asia. They became notorious for their utter ruthlessness in "
 "warfare."
 msgstr ""
 "Dum la jarcentoj sekvantaj al la unuigo farita de Ĝinĝis Ĥano, Mongoloj "
@@ -32351,6 +32476,22 @@ msgstr "?plural:Malianoj"
 msgid ""
 "Mozambique is a country in Southeast Africa. It gained independence from "
 "Portugal in 1975."
+msgstr ""
+
+#: data/nation/mughal.ruleset:3
+#, fuzzy
+msgid "Mughal"
+msgstr "Malina"
+
+#: data/nation/mughal.ruleset:4
+#, fuzzy
+msgid "?plural:Mughals"
+msgstr "?plural:Malianoj"
+
+#: data/nation/mughal.ruleset:6
+msgid ""
+"The Mughal Empire ruled most of the Indian subcontinent throughout the early "
+"modern era."
 msgstr ""
 
 #: data/nation/muskogee.ruleset:3
@@ -32965,16 +33106,6 @@ msgid ""
 "North Africa, making it a regional superpower until its dissolution in the "
 "aftermath of World War I."
 msgstr ""
-
-#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, c-format
-msgid "%s Bey"
-msgstr ""
-
-#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
-msgid "?female:%s Bey"
-msgstr "?female:Ĉefino"
 
 #: data/nation/ozite.ruleset:3
 #, fuzzy
@@ -34707,6 +34838,25 @@ msgstr "Dalai-Lamao"
 msgid "?female:Dalai Lama %s"
 msgstr "?female:Mahatmo"
 
+#: data/nation/timurid.ruleset:3
+msgid "Timurid"
+msgstr ""
+
+#: data/nation/timurid.ruleset:4
+#, fuzzy
+msgid "?plural:Timurids"
+msgstr "?plural:Kurdoj"
+
+#: data/nation/timurid.ruleset:6
+msgid ""
+"Timur was a military genius who claimed lineage from Chinggis Khan and from "
+"his capital in Samarkand conquered all of Central Asia as well as parts of "
+"the Middle East and India. The court culture of Timurid Empire was heavily "
+"Persianized, while the imperial administration and military organization "
+"displayed influences from the Timurid ruling elite's Mongolian and Turkic "
+"origins."
+msgstr ""
+
 #: data/nation/tocharian.ruleset:3
 msgid "Tocharian"
 msgstr ""
@@ -36195,10 +36345,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Mai %s"
 #~ msgstr "en %s"
-
-#, fuzzy
-#~ msgid "?female:Mai %s"
-#~ msgstr "?female:Mahatmo"
 
 #, fuzzy
 #~ msgid "Nabongo %s"

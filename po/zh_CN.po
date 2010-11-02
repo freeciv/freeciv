@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 22:18+0000\n"
+"POT-Creation-Date: 2010-11-02 15:18+0100\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -662,6 +662,16 @@ msgstr "年代进展"
 #, fuzzy, c-format
 msgid "%d %s"
 msgstr "%s%d %s"
+
+#: common/government.c:408
+#, fuzzy, c-format
+msgid "Mr. %s"
+msgstr "很少使用"
+
+#: common/government.c:410
+#, fuzzy, c-format
+msgid "Ms. %s"
+msgstr "陆战队"
 
 #: common/player.c:65
 msgid "Away"
@@ -3716,234 +3726,234 @@ msgstr "与 %s 的会晤已取消。"
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "您的外交使节被杀头了！"
 
-#: server/diplomats.c:108
+#: server/diplomats.c:111
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
 msgstr "您的 %s 不能向 %s 的水源投毒。"
 
-#: server/diplomats.c:123
+#: server/diplomats.c:126
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
 msgstr "您的 %s 对 %s 的水源投毒了。"
 
-#: server/diplomats.c:128
+#: server/diplomats.c:131
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "%s 被怀疑向 %s 的水源投毒了。"
 
-#: server/diplomats.c:273
+#: server/diplomats.c:280
 #, c-format
 msgid "Your %s was executed in %s by primitive %s."
 msgstr "您的 %s 在 %s 被原始的 %s 处死了。"
 
-#: server/diplomats.c:288
+#: server/diplomats.c:295
 #, c-format
 msgid "You have established an embassy in %s."
 msgstr "您在 %s 建立了使馆。"
 
-#: server/diplomats.c:292
+#: server/diplomats.c:299
 #, c-format
 msgid "The %s have established an embassy in %s."
 msgstr "%s 在 %s 建立了使馆。"
 
-#: server/diplomats.c:353
+#: server/diplomats.c:361
 #, fuzzy, c-format
 msgid "Your %s could not sabotage the %s %s."
 msgstr "您的 %s 不能破坏 %s 的 %s。"
 
-#: server/diplomats.c:376
+#: server/diplomats.c:384
 #, fuzzy, c-format
 msgid "Your %s succeeded in sabotaging the %s %s."
 msgstr "您的 %s 成功破坏了 %s 的 %s。"
 
 #. TRANS: ... the Poles!
-#: server/diplomats.c:383
+#: server/diplomats.c:391
 #, fuzzy, c-format
 msgid "Your %s was sabotaged by the %s!"
 msgstr "您的 %s 被 %s 破坏了！"
 
-#: server/diplomats.c:434
+#: server/diplomats.c:443
 msgid "You can't bribe a unit from this nation."
 msgstr "您不能贿赂这个民族的部队。"
 
-#: server/diplomats.c:448
+#: server/diplomats.c:454
 #, fuzzy, c-format
 msgid "You don't have enough gold to bribe the %s %s."
 msgstr "您没有足够的黄金用于贿赂 %s 的 %s。"
 
-#: server/diplomats.c:458
+#: server/diplomats.c:464
 #, fuzzy, c-format
 msgid "You cannot bribe the %s!"
 msgstr "您不能贿赂 %s！"
 
 #. TRANS: <diplomat> ... <unit>
-#: server/diplomats.c:473
+#: server/diplomats.c:482
 #, fuzzy, c-format
 msgid "Your %s succeeded in bribing the %s."
 msgstr "您的 %s 成功地贿赂了 的 %s。"
 
 #. TRANS: <unit> ... <Poles>
-#: server/diplomats.c:482
+#: server/diplomats.c:489
 #, fuzzy, c-format
 msgid "Your %s was bribed by the %s."
 msgstr "您的 %s 被 %s 贿赂了。"
 
-#: server/diplomats.c:613
+#: server/diplomats.c:620
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
 msgstr "%s 等着您再次尝试偷窃科技。您的 %s 被抓住并处死了。"
 
-#: server/diplomats.c:620
+#: server/diplomats.c:627
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "您的 %s 在试图从 %s 窃取科技时被抓到。"
 
-#: server/diplomats.c:627
+#: server/diplomats.c:634
 #, fuzzy, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr " %s 的 %s 从 %s 窃取科技失败。"
 
-#: server/diplomats.c:642
+#: server/diplomats.c:650
 #, c-format
 msgid "No new technology found in %s."
 msgstr "没有在 %s 发现新科技。"
 
-#: server/diplomats.c:699
+#: server/diplomats.c:708
 msgid "You can't subvert this city."
 msgstr "您不能颠覆这个城市。"
 
-#: server/diplomats.c:711
+#: server/diplomats.c:720
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "您没有足够的黄金用于颠覆 %s。"
 
-#: server/diplomats.c:729
+#: server/diplomats.c:738
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "您的 %s 在试图煽动起义时被抓到！"
 
-#: server/diplomats.c:734
+#: server/diplomats.c:743
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "您抓到了 %s %s 试图在 %s 煽动起义！"
 
-#: server/diplomats.c:758
+#: server/diplomats.c:767
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "成功在 %s 中发动起义，您现在统治该城市了！"
 
-#: server/diplomats.c:762
+#: server/diplomats.c:771
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "%s 发生了起义，怀疑是受了 %s 的影响。"
 
-#: server/diplomats.c:844
+#: server/diplomats.c:854
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "您的  %s 在进行工业破坏时被抓住了！"
 
-#: server/diplomats.c:849
+#: server/diplomats.c:859
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "您抓住了 %s %s 试图在 %s 进行破坏！"
 
-#: server/diplomats.c:884
+#: server/diplomats.c:894
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "您的 %s 未能在 %s 找到任何可破坏的东西。"
 
-#: server/diplomats.c:933
+#: server/diplomats.c:943
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "您不能破坏 %s！"
 
-#: server/diplomats.c:944
+#: server/diplomats.c:954
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "您的 %1$s 未能在 %3$s 中发现 %2$s 以进行破坏。"
 
-#: server/diplomats.c:969
+#: server/diplomats.c:979
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "您的 %1$s 成功地在 %3$s 中破坏了 %2$s 的生产。"
 
-#: server/diplomats.c:976
+#: server/diplomats.c:986
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "%2$s 中 %1$s 的生产被破坏了，怀疑是 %3$s 干的。"
 
-#: server/diplomats.c:999
+#: server/diplomats.c:1009
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "您的 %s 在试图进行破坏时被抓到了！"
 
-#: server/diplomats.c:1003
+#: server/diplomats.c:1013
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "您抓住了 %1$s %2$s 试图在 %4$s 破坏 %3$s ！"
 
-#: server/diplomats.c:1017
+#: server/diplomats.c:1027
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "您的 %1$s 摧毁了 %3$s 中的 %2$s。"
 
-#: server/diplomats.c:1023
+#: server/diplomats.c:1033
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "%1$s 在摧毁了 %3$s 中的 %2$s 。"
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1133
+#: server/diplomats.c:1144
 #, fuzzy, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "在防御 %2$s 中敌方的 %1$s 被消灭了。"
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1140
+#: server/diplomats.c:1151
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "您的 %s 在防守 %s 抵抗 %s 的过程中被消灭了。"
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1148
+#: server/diplomats.c:1159
 #, fuzzy, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "您的 %s 在防守 抵抗 %s 的过程中被消灭了。"
 
-#: server/diplomats.c:1162
+#: server/diplomats.c:1173
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "您的 %s 被防御的 %s 所消灭。"
 
-#: server/diplomats.c:1168
+#: server/diplomats.c:1179
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
 msgstr "消灭了试图潜入 %3$s 的 %1$s %2$s 。"
 
-#: server/diplomats.c:1174
+#: server/diplomats.c:1185
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "消灭了试图潜入我方部队的 %1$s %2$s 。"
 
-#: server/diplomats.c:1227
+#: server/diplomats.c:1238
 #, fuzzy, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "您的 %s 成功地完成了使命并完好地返回了 %s 。"
 
-#: server/diplomats.c:1246
+#: server/diplomats.c:1257
 #, fuzzy, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "您的 %s 在 %s 完成使命后被抓住了。"
 
-#: server/diplomats.c:1252
+#: server/diplomats.c:1263
 #, fuzzy, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "您的 %s 在完成使命后被抓住了。"
 
-#: server/diplomats.c:1286
+#: server/diplomats.c:1287
 #, fuzzy, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "您在贿赂 %s 的 %s 时引发了意外。"
@@ -3953,22 +3963,22 @@ msgstr "您在贿赂 %s 的 %s 时引发了意外。"
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s 在贿赂您的 %s 时引发了意外。"
 
-#: server/diplomats.c:1299
+#: server/diplomats.c:1298
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "您在从 %s 窃取科技时引发了意外。"
 
-#: server/diplomats.c:1304
+#: server/diplomats.c:1302
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s 在从您这里窃取科技时引发了意外。"
 
-#: server/diplomats.c:1311
+#: server/diplomats.c:1308
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "您在 %s 中煽动起义时引发了意外。"
 
-#: server/diplomats.c:1316
+#: server/diplomats.c:1312
 #, fuzzy, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr "%s 在 %s 中煽动起义时引发了意外。"
@@ -4256,6 +4266,37 @@ msgstr "回合超时超出了最大值，改正为其最大值"
 #: server/gamehand.c:425
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "回合超时小于0，改正为0 。"
+
+#: server/generator/mapgen_topology.c:231
+#, c-format
+msgid "Creating a map of size %d x %d = %d tiles (%d requested)."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:271
+#, c-format
+msgid "Creating a map of size %d x %d = %d tiles (map size: %d)."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:283
+#, c-format
+msgid ""
+"Map size calculated for %d (land) tiles per player and %d player(s) too "
+"small. Setting map size to the minimal size %d."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:288
+#, c-format
+msgid ""
+"Map size calculated for %d (land) tiles per player and %d player(s) too "
+"large. Setting map size to the maximal size %d."
+msgstr ""
+
+#: server/generator/mapgen_topology.c:293
+#, c-format
+msgid ""
+"Setting map size to %d (approx. %d (land) tiles for each of the %d player"
+"(s))."
+msgstr ""
 
 #: server/ggzserver.c:122
 msgid "Unable to make temporary directory for GGZ game.\n"
@@ -5040,8 +5081,8 @@ msgstr "警告： 不同的规则集合目录（“%s”和“%s”）不再支持。将使用“%s”。"
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Savegame 太陈旧，至少需要 1.9.0 版本。"
 
-#: server/savegame.c:5231 server/savegame2.c:2896 server/srv_main.c:1730
-#: server/srv_main.c:1734
+#: server/savegame.c:5231 server/savegame2.c:2896 server/srv_main.c:1731
+#: server/srv_main.c:1735
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s 已经作为 %s 级别的 AI 玩家加入。"
@@ -7143,109 +7184,109 @@ msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "没有来自首都的指引，%s 宇宙飞船失踪了！"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:276
+#: server/srv_main.c:277
 #, c-format
 msgid "?winners:, the %s"
 msgstr ""
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:280
+#: server/srv_main.c:281
 #, c-format
 msgid "?winners:the %s"
 msgstr ""
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:290
+#: server/srv_main.c:291
 #, fuzzy, c-format
 msgid "Scenario victory to %s."
 msgstr "团队胜利属于 %s"
 
-#: server/srv_main.c:300
+#: server/srv_main.c:301
 #, fuzzy
 msgid "Game ended in a draw as end turn exceeded."
 msgstr "游戏结束未分胜负，超过了结束年代"
 
-#: server/srv_main.c:333
+#: server/srv_main.c:334
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "%s 宇宙飞船已经到达半人马星座。"
 
-#: server/srv_main.c:351 server/srv_main.c:391
+#: server/srv_main.c:352 server/srv_main.c:392
 #, fuzzy, c-format
 msgid "Team victory to %s."
 msgstr "团队胜利属于 %s"
 
-#: server/srv_main.c:361 server/srv_main.c:407
+#: server/srv_main.c:362 server/srv_main.c:408
 #, fuzzy, c-format
 msgid "Game ended in victory for %s."
 msgstr "游戏以 %s 的胜利结束"
 
-#: server/srv_main.c:414 server/stdinhand.c:4098
+#: server/srv_main.c:415 server/stdinhand.c:4098
 msgid "Game ended in a draw."
 msgstr "游戏结束未分胜负"
 
-#: server/srv_main.c:530 server/srv_main.c:541
+#: server/srv_main.c:531 server/srv_main.c:542
 #, fuzzy, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "按照与 %2$s 的和平协定，您的 %1$s 部队 被解散了。"
 
-#: server/srv_main.c:580
+#: server/srv_main.c:581
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "忧虑的市民指出和 %s 的停火协定很快就会到期了。"
 
-#: server/srv_main.c:589 server/srv_main.c:594
+#: server/srv_main.c:590 server/srv_main.c:595
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "和 %s 的停火协定到期了。您现在与 %s 处于战争状态。"
 
-#: server/srv_main.c:612
+#: server/srv_main.c:613
 #, fuzzy, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with both."
 msgstr "您的团队伙伴 %s 对 %s 宣战了。您被迫取消了与 %s 的同盟。"
 
-#: server/srv_main.c:1082 server/srv_main.c:1085
+#: server/srv_main.c:1083 server/srv_main.c:1086
 #, fuzzy, c-format
 msgid "Unsupported compression type %d."
 msgstr "支持的选项：%s"
 
-#: server/srv_main.c:1115
+#: server/srv_main.c:1116
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "将游戏保存为 %s 失败"
 
-#: server/srv_main.c:1117
+#: server/srv_main.c:1118
 #, c-format
 msgid "Game saved as %s"
 msgstr "游戏已存为 %s"
 
-#: server/srv_main.c:1151
+#: server/srv_main.c:1152
 msgid "The game is already running."
 msgstr "游戏已经运行。"
 
-#: server/srv_main.c:1159
+#: server/srv_main.c:1160
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr "游戏开始时 %s 失去了控制命令级别。从现在开始使用投票。"
 
-#: server/srv_main.c:1166
+#: server/srv_main.c:1167
 msgid "Starting game."
 msgstr "正在启动游戏。"
 
-#: server/srv_main.c:1234
+#: server/srv_main.c:1235
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "未知的报告请求（类型 %d）"
 
-#: server/srv_main.c:1314
+#: server/srv_main.c:1315
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "警告： 拒绝旧的客户端 %s "
 
-#: server/srv_main.c:1324
+#: server/srv_main.c:1325
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -7253,56 +7294,56 @@ msgstr ""
 "您的客户端太旧了。要使用此服务器请升级您的客户端为晚于2003-11-28的CVS版本或 "
 "Freeciv 2.2 或更高。"
 
-#: server/srv_main.c:1382
+#: server/srv_main.c:1383
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "不允许您设置此选项。"
 
-#: server/srv_main.c:1588
+#: server/srv_main.c:1589
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "民族 %s 在这个情景中不能使用。"
 
-#: server/srv_main.c:1594
+#: server/srv_main.c:1595
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s 民族已经被使用了。"
 
-#: server/srv_main.c:1607
+#: server/srv_main.c:1608
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s 成为 %s 的统治者 %s 。"
 
-#: server/srv_main.c:1663
+#: server/srv_main.c:1664
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "等待游戏开始：%2$d 个玩家中的 %1$d 个已经准备就绪。"
 
-#: server/srv_main.c:1856 server/srv_main.c:1860
+#: server/srv_main.c:1857 server/srv_main.c:1861
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s 统治 %s。"
 
-#: server/srv_main.c:1996
+#: server/srv_main.c:1997
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2059
+#: server/srv_main.c:2060
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "将信息发送到元服务器 [%s]"
 
-#: server/srv_main.c:2063
+#: server/srv_main.c:2064
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2084
+#: server/srv_main.c:2085
 msgid "The game is over..."
 msgstr "游戏结束..."
 
-#: server/srv_main.c:2331
+#: server/srv_main.c:2332
 msgid "Now accepting new client connections."
 msgstr "现在接受新客户端的连接。"
 
@@ -8860,7 +8901,7 @@ msgstr "只有 %s 可以从海洋进行攻击。"
 msgid "Cannot attack from sea."
 msgstr "无法从海洋进行攻击。"
 
-#: server/unithand.c:1188 server/unittools.c:2313
+#: server/unithand.c:1188 server/unittools.c:2314
 msgid "Cannot attack unless you declare war first."
 msgstr "除非您首先宣战否则无法攻击。"
 
@@ -8874,7 +8915,7 @@ msgstr "%s 只能移动到您自己控制的区域。"
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1206 server/unittools.c:2319
+#: server/unithand.c:1206 server/unittools.c:2320
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "除非您首先宣战否则无法攻击。"
@@ -8898,83 +8939,83 @@ msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr "您必须先对 %s 宣战。请使用玩家对话框（F3）。"
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1371
+#: server/unithand.c:1375
 #, fuzzy, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "您的 %s 成功地贿赂了 的 %s。"
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1377
+#: server/unithand.c:1380
 #, fuzzy, c-format
 msgid "Your %s was captured by the %s."
 msgstr "您的 %s 被 %s 贿赂了。"
 
-#: server/unithand.c:1404
+#: server/unithand.c:1405
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "此部队正在被运输，所有不能进行攻击。"
 
-#: server/unithand.c:1416
+#: server/unithand.c:1417
 msgid "You can't attack there."
 msgstr "您不能攻击这里。"
 
-#: server/unithand.c:1452
+#: server/unithand.c:1453
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr "一个所运输的部队没有与目标方格的所有部队或城市结盟。"
 
-#: server/unithand.c:1500
+#: server/unithand.c:1501
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "您的 %1$s 在 %3$s 中帮助建造 %2$s (还剩 %4$d)。"
 
-#: server/unithand.c:1502
+#: server/unithand.c:1503
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "您的 %1$s 在 %3$s 中帮助建造 %2$s （剩余 %4$d ）。"
 
-#: server/unithand.c:1555
+#: server/unithand.c:1556
 #, fuzzy, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "抱歉，您的 %s 不能建立贸易路线，因为它没有基地城市。"
 
-#: server/unithand.c:1567
+#: server/unithand.c:1568
 #, fuzzy, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "抱歉，您的 %s 无法在 %s 和 %s 之间建立贸易路线！"
 
-#: server/unithand.c:1599 server/unithand.c:1620
+#: server/unithand.c:1600 server/unithand.c:1621
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "抱歉，您的 %s 无法在此处建立贸易路线！"
 
-#: server/unithand.c:1604 server/unithand.c:1625
+#: server/unithand.c:1605 server/unithand.c:1626
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      城市 %s 已经有 %d 条更好的贸易路线了！"
 
-#: server/unithand.c:1646
+#: server/unithand.c:1647
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
 msgstr "您来自 %2$s 的 %1$s 已经到达 %3$s，并从金钱和研究中获利 %4$d。"
 
-#: server/unithand.c:1669
+#: server/unithand.c:1670
 #, fuzzy, c-format
 msgid "New trade route established from %s to %s."
 msgstr "与 %s 建立了这些贸易路线：\n"
 
-#: server/unithand.c:1675
+#: server/unithand.c:1676
 #, fuzzy, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "抱歉，您的 %s 无法在 %s 和 %s 之间建立贸易路线！"
 
-#: server/unithand.c:1690 server/unithand.c:1712
+#: server/unithand.c:1691 server/unithand.c:1713
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr ""
 
-#: server/unithand.c:1697 server/unithand.c:1719
+#: server/unithand.c:1698 server/unithand.c:1720
 #, fuzzy, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "抱歉，%s 取消了从 %s 到您的城市 %s 的贸易路线。"
@@ -9042,25 +9083,25 @@ msgstr "%s 随 %s 的损失而损失。"
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s 从 %s 的解体中逃脱出来，并流亡到 %s。"
 
-#: server/unittools.c:1700
+#: server/unittools.c:1701
 #, fuzzy, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgstr "捕获野人头领，获得 %d 赎金。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1718
+#: server/unittools.c:1719
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "您的 %1$s 对 %2$s 的 %3$s 的攻击成功！"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1727 server/unittools.c:1790
+#: server/unittools.c:1728 server/unittools.c:1791
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "在 %2$s 的 %3$s 的攻击下损失了 %1$s 。"
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1765
+#: server/unittools.c:1766
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -9069,14 +9110,14 @@ msgstr[0] "您的 %s 对 %s 的 %s （以及 %d 其它部队）的攻击成功！"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1800
+#: server/unittools.c:1801
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "在 %2$s 的 %3$s 攻击 %4$s 的 %5$s 时损失了 %1$s 。"
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1816
+#: server/unittools.c:1817
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s %2$s 。"
@@ -9084,7 +9125,7 @@ msgstr "在 %3$s 的 %4$s 的攻击下损失了 %1$s %2$s 。"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1827
+#: server/unittools.c:1828
 #, fuzzy, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -9093,156 +9134,156 @@ msgstr[0] "在 %3$s 的 %4$s 的攻击下损失了 %2$s %1$d 。"
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1842
+#: server/unittools.c:1843
 #, fuzzy, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d 自动攻击： %s 的 %s 正在攻击 %s 的 %s"
 
-#: server/unittools.c:2113
+#: server/unittools.c:2114
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "您的 %s 被 %s “核”了。"
 
-#: server/unittools.c:2116 server/unittools.c:2136
+#: server/unittools.c:2117 server/unittools.c:2137
 msgid "yourself"
 msgstr "您自己"
 
-#: server/unittools.c:2120
+#: server/unittools.c:2121
 #, fuzzy, c-format
 msgid "The %s %s was nuked."
 msgstr "%s 的 %s 遭到核武器的攻击。"
 
-#: server/unittools.c:2133
+#: server/unittools.c:2134
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s 遭到 %s 的核武器的攻击。"
 
-#: server/unittools.c:2141
+#: server/unittools.c:2142
 #, c-format
 msgid "You nuked %s."
 msgstr "您以核武器攻击 %s。"
 
-#: server/unittools.c:2193
+#: server/unittools.c:2194
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s 引爆了核弹！"
 
-#: server/unittools.c:2217
+#: server/unittools.c:2218
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s 运输成功。"
 
-#: server/unittools.c:2276
+#: server/unittools.c:2277
 msgid "This unit type can not be paradropped."
 msgstr "这种类型的部队不能空降。"
 
-#: server/unittools.c:2286
+#: server/unittools.c:2287
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "您不能空降一个运输部队。"
 
-#: server/unittools.c:2292
+#: server/unittools.c:2293
 msgid "The destination location is not known."
 msgstr "目的位置未知。"
 
-#: server/unittools.c:2302
+#: server/unittools.c:2303
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "此部队不能空降到 %s。"
 
-#: server/unittools.c:2330
+#: server/unittools.c:2331
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "到目标的距离（%i）超出了部队的范围（%i）。"
 
-#: server/unittools.c:2341
+#: server/unittools.c:2342
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "您的 %s 被空降到 %s 并全部损失。"
 
-#: server/unittools.c:2354
+#: server/unittools.c:2355
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "您的 %s 在空降目的地被敌方部队杀死了。"
 
-#: server/unittools.c:2383 data/default/default.lua:22
+#: server/unittools.c:2384 data/default/default.lua:22
 #: data/multiplayer/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgstr "您找到 %d 黄金。"
 
-#: server/unittools.c:2389 data/default/default.lua:92
+#: server/unittools.c:2390 data/default/default.lua:92
 #: data/multiplayer/default.lua:92
 msgid "An abandoned village is here."
 msgstr "这里是一座废弃的村庄。"
 
-#: server/unittools.c:2392 data/default/default.lua:102
+#: server/unittools.c:2393 data/default/default.lua:102
 #: data/multiplayer/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "您的 %s 被野人杀死了！"
 
-#: server/unittools.c:2421
+#: server/unittools.c:2422
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "您在空中的飞过惊吓了部落；他们被吓得四下逃窜。"
 
-#: server/unittools.c:2666
+#: server/unittools.c:2667
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3192
+#: server/unittools.c:3193
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "因附近有部队而取消对 %s 的命令。"
 
-#: server/unittools.c:3243
+#: server/unittools.c:3244
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "因修建城市失败而取消对 %s 的命令。"
 
-#: server/unittools.c:3259
+#: server/unittools.c:3260
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s 的命令被取消因为它给出了无效的活动。"
 
-#: server/unittools.c:3278
+#: server/unittools.c:3279
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s 的命令被取消因为它给出了无效的位置。"
 
-#: server/unittools.c:3288
+#: server/unittools.c:3289
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "因有部队挡在路中而取消对 %s 的命令。"
 
-#: server/unittools.c:3313
+#: server/unittools.c:3314
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "因移动无效而取消对 %s 的命令。"
 
-#: server/unittools.c:3353
+#: server/unittools.c:3354
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "试图改变 %s 的基地城市失败。"
 
-#: server/unittools.c:3364
+#: server/unittools.c:3365
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "试图为 %s 建立贸易路线失败。"
 
-#: server/unittools.c:3376
+#: server/unittools.c:3377
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "试图为 %s 修建奇迹失败。"
 
-#: server/unittools.c:3385
+#: server/unittools.c:3386
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "您的 %s 得到了无效的命令。"
 
-#: server/unittools.c:3483
+#: server/unittools.c:3484
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
@@ -13502,7 +13543,7 @@ msgid "This unit cannot be bribed!"
 msgstr "此部队不能被贿赂！"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:97
-#: client/gui-sdl/diplomat_dialog.c:1410 client/gui-win32/dialogs.c:1380
+#: client/gui-sdl/diplomat_dialog.c:1404 client/gui-win32/dialogs.c:1380
 #: client/gui-xaw/diplomat_dialog.c:120
 #, c-format
 msgid ""
@@ -13513,13 +13554,13 @@ msgstr ""
 "国库有 %d 黄金。"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99
-#: client/gui-sdl/diplomat_dialog.c:711 client/gui-sdl/diplomat_dialog.c:1392
+#: client/gui-sdl/diplomat_dialog.c:705 client/gui-sdl/diplomat_dialog.c:1386
 #: client/gui-win32/dialogs.c:1382 data/Freeciv.in:2426 data/Freeciv.in:2439
 msgid "Bribe Enemy Unit"
 msgstr "贿赂敌方部队"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:105
-#: client/gui-sdl/diplomat_dialog.c:1459 client/gui-win32/dialogs.c:1388
+#: client/gui-sdl/diplomat_dialog.c:1453 client/gui-win32/dialogs.c:1388
 #: client/gui-xaw/diplomat_dialog.c:129
 #, c-format
 msgid ""
@@ -13530,81 +13571,81 @@ msgstr ""
 "国库只有 %d 黄金。"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:107
-#: client/gui-gtk-2.0/diplomat_dialog.c:570
-#: client/gui-sdl/diplomat_dialog.c:1265 client/gui-sdl/diplomat_dialog.c:1472
+#: client/gui-gtk-2.0/diplomat_dialog.c:566
+#: client/gui-sdl/diplomat_dialog.c:1259 client/gui-sdl/diplomat_dialog.c:1466
 #: client/gui-win32/dialogs.c:1392 client/gui-win32/dialogs.c:1577
 #: data/Freeciv.in:2461
 msgid "Traitors Demand Too Much!"
 msgstr "叛徒要求的太多了！"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:241
-#: client/gui-sdl/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1290
+#: client/gui-gtk-2.0/diplomat_dialog.c:237
+#: client/gui-sdl/diplomat_dialog.c:654 client/gui-win32/dialogs.c:1290
 #: data/Freeciv.in:2292 data/Freeciv.in:2325 data/Freeciv.in:2342
 msgid "Steal Technology"
 msgstr "窃取科技"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:246
+#: client/gui-gtk-2.0/diplomat_dialog.c:242
 msgid "_Steal"
 msgstr "窃取(_S)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:255
-#: client/gui-sdl/diplomat_dialog.c:261 client/gui-win32/dialogs.c:1300
+#: client/gui-gtk-2.0/diplomat_dialog.c:251
+#: client/gui-sdl/diplomat_dialog.c:255 client/gui-win32/dialogs.c:1300
 #: data/Freeciv.in:2357
 msgid "Select Advance to Steal"
 msgstr "请选择要窃取的进展"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:275
+#: client/gui-gtk-2.0/diplomat_dialog.c:271
 msgid "_Advances:"
 msgstr "进展(_A)："
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:315
-#: client/gui-gtk-2.0/diplomat_dialog.c:451
-#: client/gui-sdl/diplomat_dialog.c:345 client/gui-sdl/diplomat_dialog.c:941
+#: client/gui-gtk-2.0/diplomat_dialog.c:311
+#: client/gui-gtk-2.0/diplomat_dialog.c:447
+#: client/gui-sdl/diplomat_dialog.c:339 client/gui-sdl/diplomat_dialog.c:935
 #: client/gui-win32/dialogs.c:1205 client/gui-win32/dialogs.c:1416
-#: client/gui-xaw/diplomat_dialog.c:418 client/gui-xaw/diplomat_dialog.c:504
+#: client/gui-xaw/diplomat_dialog.c:414 client/gui-xaw/diplomat_dialog.c:500
 msgid "At Spy's Discretion"
 msgstr "由间谍处理"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:385 client/gui-win32/dialogs.c:1490
+#: client/gui-gtk-2.0/diplomat_dialog.c:381 client/gui-win32/dialogs.c:1490
 #: data/Freeciv.in:2384
 msgid "Sabotage Improvements"
 msgstr "破坏建筑"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:390
+#: client/gui-gtk-2.0/diplomat_dialog.c:386
 msgid "_Sabotage"
 msgstr "破坏(_S)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:399
-#: client/gui-sdl/diplomat_dialog.c:856 client/gui-win32/dialogs.c:1500
+#: client/gui-gtk-2.0/diplomat_dialog.c:395
+#: client/gui-sdl/diplomat_dialog.c:850 client/gui-win32/dialogs.c:1500
 #: data/Freeciv.in:2399
 msgid "Select Improvement to Sabotage"
 msgstr "选择要破坏的建筑"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:419
+#: client/gui-gtk-2.0/diplomat_dialog.c:415
 msgid "_Improvements:"
 msgstr "建筑(_I)："
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:438
-#: client/gui-sdl/diplomat_dialog.c:885 client/gui-win32/dialogs.c:1405
-#: client/gui-xaw/diplomat_dialog.c:493
+#: client/gui-gtk-2.0/diplomat_dialog.c:434
+#: client/gui-sdl/diplomat_dialog.c:879 client/gui-win32/dialogs.c:1405
+#: client/gui-xaw/diplomat_dialog.c:489
 msgid "City Production"
 msgstr "城市生产"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:552
-#: client/gui-sdl/diplomat_dialog.c:1180 client/gui-win32/dialogs.c:1560
-#: client/gui-xaw/diplomat_dialog.c:650
+#: client/gui-gtk-2.0/diplomat_dialog.c:548
+#: client/gui-sdl/diplomat_dialog.c:1174 client/gui-win32/dialogs.c:1560
+#: client/gui-xaw/diplomat_dialog.c:646
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "您不能在 %s 煽动起义。"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:554
-#: client/gui-sdl/diplomat_dialog.c:1191 client/gui-win32/dialogs.c:1562
+#: client/gui-gtk-2.0/diplomat_dialog.c:550
+#: client/gui-sdl/diplomat_dialog.c:1185 client/gui-win32/dialogs.c:1562
 msgid "City can't be incited!"
 msgstr "该城市不能被煽动！"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:560
-#: client/gui-sdl/diplomat_dialog.c:1200 client/gui-win32/dialogs.c:1566
-#: client/gui-xaw/diplomat_dialog.c:656
+#: client/gui-gtk-2.0/diplomat_dialog.c:556
+#: client/gui-sdl/diplomat_dialog.c:1194 client/gui-win32/dialogs.c:1566
+#: client/gui-xaw/diplomat_dialog.c:652
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -13613,15 +13654,15 @@ msgstr ""
 "花费 %d 黄金来煽动起义？\n"
 "国库有 %d 黄金。"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:562
-#: client/gui-sdl/diplomat_dialog.c:1147 client/gui-win32/dialogs.c:1569
+#: client/gui-gtk-2.0/diplomat_dialog.c:558
+#: client/gui-sdl/diplomat_dialog.c:1141 client/gui-win32/dialogs.c:1569
 #: data/Freeciv.in:2450
 msgid "Incite a Revolt!"
 msgstr "煽动起义！"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:568
-#: client/gui-sdl/diplomat_dialog.c:1251 client/gui-win32/dialogs.c:1574
-#: client/gui-xaw/diplomat_dialog.c:666
+#: client/gui-gtk-2.0/diplomat_dialog.c:564
+#: client/gui-sdl/diplomat_dialog.c:1245 client/gui-win32/dialogs.c:1574
+#: client/gui-xaw/diplomat_dialog.c:662
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -13630,8 +13671,8 @@ msgstr ""
 "煽动起义需要 %d 黄金。\n"
 "国库仅有 %d 黄金。"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:631 client/gui-win32/dialogs.c:1613
-#: client/gui-xaw/diplomat_dialog.c:726
+#: client/gui-gtk-2.0/diplomat_dialog.c:627 client/gui-win32/dialogs.c:1613
+#: client/gui-xaw/diplomat_dialog.c:722
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -13640,83 +13681,83 @@ msgstr ""
 "您的 %s 到达了 %s 。\n"
 "您有什么指示？"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:637
-#: client/gui-sdl/diplomat_dialog.c:566 client/gui-win32/dialogs.c:1619
+#: client/gui-gtk-2.0/diplomat_dialog.c:633
+#: client/gui-sdl/diplomat_dialog.c:560 client/gui-win32/dialogs.c:1619
 #: data/Freeciv.in:2280
 msgid "Choose Your Diplomat's Strategy"
 msgstr "选择您的外交战略"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:638
-#: client/gui-gtk-2.0/diplomat_dialog.c:662 client/gui-win32/dialogs.c:1620
+#: client/gui-gtk-2.0/diplomat_dialog.c:634
+#: client/gui-gtk-2.0/diplomat_dialog.c:658 client/gui-win32/dialogs.c:1620
 #: client/gui-win32/dialogs.c:1641
 msgid "Establish _Embassy"
 msgstr "建立使馆(_E)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:639
-#: client/gui-gtk-2.0/diplomat_dialog.c:663 client/gui-win32/dialogs.c:1621
+#: client/gui-gtk-2.0/diplomat_dialog.c:635
+#: client/gui-gtk-2.0/diplomat_dialog.c:659 client/gui-win32/dialogs.c:1621
 #: client/gui-win32/dialogs.c:1642
 msgid "_Investigate City"
 msgstr "侦察城市(_I)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:640 client/gui-win32/dialogs.c:1622
+#: client/gui-gtk-2.0/diplomat_dialog.c:636 client/gui-win32/dialogs.c:1622
 msgid "_Sabotage City"
 msgstr "破坏城市(_S)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:641
-#: client/gui-gtk-2.0/diplomat_dialog.c:666 client/gui-win32/dialogs.c:1623
+#: client/gui-gtk-2.0/diplomat_dialog.c:637
+#: client/gui-gtk-2.0/diplomat_dialog.c:662 client/gui-win32/dialogs.c:1623
 #: client/gui-win32/dialogs.c:1645
 msgid "Steal _Technology"
 msgstr "窃取科技(_T)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:642
-#: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-win32/dialogs.c:1624
+#: client/gui-gtk-2.0/diplomat_dialog.c:638
+#: client/gui-gtk-2.0/diplomat_dialog.c:663 client/gui-win32/dialogs.c:1624
 #: client/gui-win32/dialogs.c:1646
 msgid "Incite a _Revolt"
 msgstr "煽动起义(_R)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:643
-#: client/gui-gtk-2.0/diplomat_dialog.c:668
+#: client/gui-gtk-2.0/diplomat_dialog.c:639
+#: client/gui-gtk-2.0/diplomat_dialog.c:664
 #: client/gui-gtk-2.0/caravan_dialog.c:121 client/gui-win32/dialogs.c:1067
 msgid "_Keep moving"
 msgstr "继续前进(_K)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:661
-#: client/gui-sdl/diplomat_dialog.c:562 client/gui-win32/dialogs.c:1640
+#: client/gui-gtk-2.0/diplomat_dialog.c:657
+#: client/gui-sdl/diplomat_dialog.c:556 client/gui-win32/dialogs.c:1640
 #: data/Freeciv.in:2306
 msgid "Choose Your Spy's Strategy"
 msgstr "请选择您的间谍的策略"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:664 client/gui-win32/dialogs.c:1643
+#: client/gui-gtk-2.0/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1643
 msgid "_Poison City"
 msgstr "投毒(_P)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:665 client/gui-win32/dialogs.c:1644
+#: client/gui-gtk-2.0/diplomat_dialog.c:661 client/gui-win32/dialogs.c:1644
 msgid "Industrial _Sabotage"
 msgstr "工业破坏(_S)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:702
-#: client/gui-sdl/diplomat_dialog.c:571 client/gui-win32/dialogs.c:1671
+#: client/gui-gtk-2.0/diplomat_dialog.c:698
+#: client/gui-sdl/diplomat_dialog.c:565 client/gui-win32/dialogs.c:1671
 #: data/Freeciv.in:2437
 msgid "Subvert Enemy Unit"
 msgstr "颠覆敌方部队"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:704 client/gui-win32/dialogs.c:1673
-#: client/gui-xaw/diplomat_dialog.c:788
+#: client/gui-gtk-2.0/diplomat_dialog.c:700 client/gui-win32/dialogs.c:1673
+#: client/gui-xaw/diplomat_dialog.c:784
 #, fuzzy
 msgid "The diplomat is waiting for your command"
 msgstr "陛下，外交官正在等候命令"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:705 client/gui-win32/dialogs.c:1674
-#: client/gui-xaw/diplomat_dialog.c:789
+#: client/gui-gtk-2.0/diplomat_dialog.c:701 client/gui-win32/dialogs.c:1674
+#: client/gui-xaw/diplomat_dialog.c:785
 #, fuzzy
 msgid "The spy is waiting for your command"
 msgstr "陛下，间谍正在等候命令"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:706 client/gui-win32/dialogs.c:1675
+#: client/gui-gtk-2.0/diplomat_dialog.c:702 client/gui-win32/dialogs.c:1675
 msgid "_Bribe Enemy Unit"
 msgstr "贿赂敌人部队(_B)"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:707 client/gui-win32/dialogs.c:1676
+#: client/gui-gtk-2.0/diplomat_dialog.c:703 client/gui-win32/dialogs.c:1676
 msgid "_Sabotage Enemy Unit"
 msgstr "破坏敌人部队(_S)"
 
@@ -16719,7 +16760,7 @@ msgstr "进入市场"
 msgid "Help build Wonder"
 msgstr "帮助建筑奇迹"
 
-#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:689
+#: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:683
 #: data/Freeciv.in:2273 data/Freeciv.in:2297 data/Freeciv.in:2332
 msgid "Keep moving"
 msgstr "继续前进"
@@ -16729,9 +16770,9 @@ msgstr "继续前进"
 #: client/gui-sdl/dialogs.c:332 client/gui-sdl/dialogs.c:532
 #: client/gui-sdl/dialogs.c:897 client/gui-sdl/dialogs.c:1132
 #: client/gui-sdl/dialogs.c:1463 client/gui-sdl/dialogs.c:2028
-#: client/gui-sdl/diplomat_dialog.c:279 client/gui-sdl/diplomat_dialog.c:874
-#: client/gui-sdl/diplomat_dialog.c:1169 client/gui-sdl/diplomat_dialog.c:1239
-#: client/gui-sdl/diplomat_dialog.c:1447 client/gui-sdl/finddlg.c:149
+#: client/gui-sdl/diplomat_dialog.c:273 client/gui-sdl/diplomat_dialog.c:868
+#: client/gui-sdl/diplomat_dialog.c:1163 client/gui-sdl/diplomat_dialog.c:1233
+#: client/gui-sdl/diplomat_dialog.c:1441 client/gui-sdl/finddlg.c:149
 #: client/gui-sdl/gotodlg.c:257 client/gui-sdl/helpdlg.c:234
 #: client/gui-sdl/helpdlg.c:627 client/gui-sdl/helpdlg.c:1935
 #: client/gui-sdl/inteldlg.c:250 client/gui-sdl/optiondlg.c:783
@@ -16805,7 +16846,7 @@ msgstr "升级部队"
 #: client/gui-sdl/connectdlg.c:306 client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
 #: client/gui-sdl/dialogs.c:704 client/gui-sdl/dialogs.c:2365
-#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:741
+#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:735
 #: client/gui-sdl/mapctrl.c:2615 client/gui-win32/citydlg.c:1095
 #: client/gui-win32/cityrep.c:761 client/gui-win32/connectdlg.c:1033
 #: client/gui-win32/dialogs.c:1800 client/gui-win32/finddlg.c:132
@@ -16852,8 +16893,8 @@ msgid "Buy it?"
 msgstr "买下它！"
 
 #: client/gui-sdl/citydlg.c:1205 client/gui-sdl/cma_fe.c:329
-#: client/gui-sdl/diplodlg.c:1337 client/gui-sdl/diplomat_dialog.c:1224
-#: client/gui-sdl/diplomat_dialog.c:1432 client/gui-sdl/plrdlg.c:224
+#: client/gui-sdl/diplodlg.c:1337 client/gui-sdl/diplomat_dialog.c:1218
+#: client/gui-sdl/diplomat_dialog.c:1426 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:217 client/gui-sdl/repodlgs.c:1564
 #: client/gui-win32/repodlgs.c:584 client/gui-xaw/citydlg.c:2416
 #: client/gui-xaw/cityrep.c:668 client/gui-xaw/cma_fe.c:332
@@ -16867,8 +16908,8 @@ msgid "No"
 msgstr "否"
 
 #: client/gui-sdl/citydlg.c:1216 client/gui-sdl/cma_fe.c:320
-#: client/gui-sdl/diplodlg.c:1347 client/gui-sdl/diplomat_dialog.c:1213
-#: client/gui-sdl/diplomat_dialog.c:1422 client/gui-sdl/plrdlg.c:224
+#: client/gui-sdl/diplodlg.c:1347 client/gui-sdl/diplomat_dialog.c:1207
+#: client/gui-sdl/diplomat_dialog.c:1416 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:228 client/gui-win32/repodlgs.c:582
 #: client/gui-xaw/citydlg.c:2416 client/gui-xaw/cityrep.c:668
 #: client/gui-xaw/cma_fe.c:332 client/gui-xaw/cma_fe.c:522
@@ -17456,29 +17497,29 @@ msgstr "外交会议"
 msgid "Send him back"
 msgstr ""
 
-#: client/gui-sdl/diplomat_dialog.c:600 data/Freeciv.in:2285
+#: client/gui-sdl/diplomat_dialog.c:594 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
 msgid "Establish Embassy"
 msgstr "建立使馆"
 
-#: client/gui-sdl/diplomat_dialog.c:615 data/Freeciv.in:2287
+#: client/gui-sdl/diplomat_dialog.c:609 data/Freeciv.in:2287
 msgid "Investigate City"
 msgstr "侦察城市"
 
-#: client/gui-sdl/diplomat_dialog.c:630 data/Freeciv.in:2318
+#: client/gui-sdl/diplomat_dialog.c:624 data/Freeciv.in:2318
 msgid "Poison City"
 msgstr "给城市投毒"
 
-#: client/gui-sdl/diplomat_dialog.c:644 data/Freeciv.in:2290
+#: client/gui-sdl/diplomat_dialog.c:638 data/Freeciv.in:2290
 msgid "Sabotage City"
 msgstr "阴谋破坏城市"
 
-#: client/gui-sdl/diplomat_dialog.c:675 data/Freeciv.in:2295
+#: client/gui-sdl/diplomat_dialog.c:669 data/Freeciv.in:2295
 #: data/Freeciv.in:2328
 msgid "Incite a Revolt"
 msgstr "煽动起义"
 
-#: client/gui-sdl/diplomat_dialog.c:726 data/Freeciv.in:2441
+#: client/gui-sdl/diplomat_dialog.c:720 data/Freeciv.in:2441
 msgid "Sabotage Enemy Unit"
 msgstr "破坏敌方部队"
 
@@ -18787,7 +18828,7 @@ msgstr "城市风格(_C)："
 msgid "Unit Selection"
 msgstr "部队选择"
 
-#: client/gui-win32/dialogs.c:1210 client/gui-xaw/diplomat_dialog.c:405
+#: client/gui-win32/dialogs.c:1210 client/gui-xaw/diplomat_dialog.c:401
 msgid "NONE"
 msgstr "无"
 
@@ -27436,7 +27477,7 @@ msgid ""
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
 
-#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
 #: data/nation/belgian.ruleset:24 data/nation/bhutanese.ruleset:25
 #: data/nation/british.ruleset:23 data/nation/burmese.ruleset:21
@@ -27469,7 +27510,7 @@ msgstr ""
 msgid "Prime Minister %s"
 msgstr "首相"
 
-#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
 #: data/nation/belgian.ruleset:24 data/nation/bhutanese.ruleset:25
 #: data/nation/british.ruleset:23 data/nation/burmese.ruleset:21
@@ -27548,44 +27589,50 @@ msgid ""
 msgstr ""
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
-#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:71
-#: data/nation/arab.ruleset:23 data/nation/egyptianarab.ruleset:27
+#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
+#: data/nation/arab.ruleset:24 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:34
 #: data/nation/moroccan.ruleset:31 data/nation/saudi.ruleset:26
-#: data/nation/somali.ruleset:35 data/nation/tunisian.ruleset:30
+#: data/nation/somali.ruleset:35 data/nation/timurid.ruleset:28
+#: data/nation/tunisian.ruleset:30
 #, fuzzy, c-format
 msgid "Caliph %s"
 msgstr "哈里发"
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
-#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:71
-#: data/nation/arab.ruleset:23 data/nation/egyptianarab.ruleset:27
+#: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
+#: data/nation/arab.ruleset:24 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:34
 #: data/nation/moroccan.ruleset:31 data/nation/saudi.ruleset:26
-#: data/nation/somali.ruleset:35 data/nation/tunisian.ruleset:30
+#: data/nation/somali.ruleset:35 data/nation/timurid.ruleset:28
+#: data/nation/tunisian.ruleset:30
 #, fuzzy, c-format
 msgid "Calipha %s"
 msgstr "哈里发"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alandalus.ruleset:34
-#: data/nation/amazigh.ruleset:73 data/nation/arab.ruleset:22
+#: data/nation/amazigh.ruleset:74 data/nation/arab.ruleset:23
 #: data/nation/bashkir.ruleset:26 data/nation/egyptianarab.ruleset:26
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:33
+#: data/nation/kashmiri.ruleset:25 data/nation/khwarezmian.ruleset:28
 #: data/nation/malaysian.ruleset:21 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:28 data/nation/singaporean.ruleset:32
-#: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:24
+#: data/nation/mughal.ruleset:21 data/nation/omani.ruleset:28
+#: data/nation/singaporean.ruleset:32 data/nation/somali.ruleset:34
+#: data/nation/southyemeni.ruleset:24 data/nation/timurid.ruleset:27
 #: data/nation/turk.ruleset:23
 #, fuzzy, c-format
 msgid "Sultan %s"
 msgstr "苏丹"
 
 #: data/nation/acehnese.ruleset:28 data/nation/alandalus.ruleset:34
-#: data/nation/amazigh.ruleset:73 data/nation/arab.ruleset:22
+#: data/nation/amazigh.ruleset:74 data/nation/arab.ruleset:23
 #: data/nation/bashkir.ruleset:26 data/nation/egyptianarab.ruleset:26
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:33
+#: data/nation/kashmiri.ruleset:25 data/nation/khwarezmian.ruleset:28
 #: data/nation/malaysian.ruleset:21 data/nation/moroccan.ruleset:30
-#: data/nation/omani.ruleset:28 data/nation/singaporean.ruleset:32
-#: data/nation/somali.ruleset:34 data/nation/southyemeni.ruleset:24
+#: data/nation/mughal.ruleset:21 data/nation/omani.ruleset:28
+#: data/nation/singaporean.ruleset:32 data/nation/somali.ruleset:34
+#: data/nation/southyemeni.ruleset:24 data/nation/timurid.ruleset:27
 #: data/nation/turk.ruleset:23
 #, fuzzy, c-format
 msgid "Sultana %s"
@@ -27610,13 +27657,13 @@ msgid "?female:Governor %s"
 msgstr "总督"
 
 #: data/nation/acehnese.ruleset:30 data/nation/alandalus.ruleset:35
-#: data/nation/amazigh.ruleset:74 data/nation/moroccan.ruleset:32
+#: data/nation/amazigh.ruleset:75 data/nation/moroccan.ruleset:32
 #, fuzzy, c-format
 msgid "Amir Al-Muminin %s"
 msgstr "首相"
 
 #: data/nation/acehnese.ruleset:30 data/nation/alandalus.ruleset:35
-#: data/nation/amazigh.ruleset:74 data/nation/moroccan.ruleset:32
+#: data/nation/amazigh.ruleset:75 data/nation/moroccan.ruleset:32
 #, fuzzy, c-format
 msgid "Amirat Al-Muminin %s"
 msgstr "首相"
@@ -27638,35 +27685,37 @@ msgid ""
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
 
-#: data/nation/afghani.ruleset:24 data/nation/alandalus.ruleset:33
+#: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bashkir.ruleset:25 data/nation/chechen.ruleset:30
 #: data/nation/emirati.ruleset:25 data/nation/kurd.ruleset:29
 #: data/nation/lebanese.ruleset:29 data/nation/pashtun.ruleset:23
-#: data/nation/riffian.ruleset:20 data/nation/uzbek.ruleset:26
+#: data/nation/riffian.ruleset:20 data/nation/timurid.ruleset:26
+#: data/nation/uzbek.ruleset:24
 #, fuzzy, c-format
 msgid "Emir %s"
 msgstr "在 %s 中"
 
-#: data/nation/afghani.ruleset:24 data/nation/alandalus.ruleset:33
+#: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bashkir.ruleset:25 data/nation/chechen.ruleset:30
 #: data/nation/emirati.ruleset:25 data/nation/kurd.ruleset:29
 #: data/nation/lebanese.ruleset:29 data/nation/pashtun.ruleset:23
-#: data/nation/riffian.ruleset:20 data/nation/uzbek.ruleset:26
+#: data/nation/riffian.ruleset:20 data/nation/timurid.ruleset:26
+#: data/nation/uzbek.ruleset:24
 #, fuzzy, c-format
 msgid "Emira %s"
 msgstr "空军基地"
 
-#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/ottoman.ruleset:28
 #, fuzzy, c-format
 msgid "Padishah %s"
 msgstr "游击队"
 
-#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/ottoman.ruleset:28
 #, fuzzy, c-format
 msgid "?female:Padishah %s"
 msgstr "总理"
 
-#: data/nation/afghani.ruleset:26 data/nation/bashkir.ruleset:27
+#: data/nation/afghani.ruleset:25 data/nation/bashkir.ruleset:27
 #: data/nation/cypriot.ruleset:22 data/nation/slovakian.ruleset:26
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:27
 #: data/nation/yemeni.ruleset:22
@@ -27674,7 +27723,7 @@ msgstr "总理"
 msgid "General Secretary %s"
 msgstr "第一书记"
 
-#: data/nation/afghani.ruleset:26 data/nation/bashkir.ruleset:27
+#: data/nation/afghani.ruleset:25 data/nation/bashkir.ruleset:27
 #: data/nation/cypriot.ruleset:22 data/nation/slovakian.ruleset:26
 #: data/nation/southyemeni.ruleset:21 data/nation/soviet.ruleset:27
 #: data/nation/yemeni.ruleset:22
@@ -27682,12 +27731,12 @@ msgstr "第一书记"
 msgid "?female:General Secretary %s"
 msgstr "第一书记"
 
-#: data/nation/afghani.ruleset:27 data/nation/pashtun.ruleset:24
+#: data/nation/afghani.ruleset:26 data/nation/pashtun.ruleset:24
 #, c-format
 msgid "Mullah %s"
 msgstr ""
 
-#: data/nation/afghani.ruleset:27 data/nation/pashtun.ruleset:24
+#: data/nation/afghani.ruleset:26 data/nation/pashtun.ruleset:24
 #, fuzzy, c-format
 msgid "?female:Mullah %s"
 msgstr "王公"
@@ -27746,8 +27795,8 @@ msgid ""
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
 
-#: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:70
-#: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
+#: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
+#: data/nation/arab.ruleset:21 data/nation/emirati.ruleset:24
 #: data/nation/himyarite.ruleset:31 data/nation/kurd.ruleset:28
 #: data/nation/moroccan.ruleset:28 data/nation/omani.ruleset:30
 #: data/nation/palestinian.ruleset:22 data/nation/somali.ruleset:36
@@ -27756,7 +27805,7 @@ msgid "Sheikh %s"
 msgstr "瑞典人"
 
 #: data/nation/alandalus.ruleset:31 data/nation/algerian.ruleset:21
-#: data/nation/amazigh.ruleset:70 data/nation/arab.ruleset:20
+#: data/nation/amazigh.ruleset:71 data/nation/arab.ruleset:21
 #: data/nation/emirati.ruleset:24 data/nation/himyarite.ruleset:31
 #: data/nation/kurd.ruleset:28 data/nation/moroccan.ruleset:28
 #: data/nation/omani.ruleset:30 data/nation/somali.ruleset:36
@@ -27888,15 +27937,15 @@ msgstr "阿尔及利亚是北非的一个阿拉伯国家。历史上它曾经被柏柏尔人占据。"
 msgid "Sheik %s"
 msgstr "瑞典人"
 
-#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:72
-#: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:32
+#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:73
+#: data/nation/arab.ruleset:22 data/nation/himyarite.ruleset:32
 #: data/nation/moroccan.ruleset:29
 #, fuzzy, c-format
 msgid "Malik %s"
 msgstr "民兵"
 
-#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:72
-#: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:32
+#: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:73
+#: data/nation/arab.ruleset:22 data/nation/himyarite.ruleset:32
 #: data/nation/moroccan.ruleset:29
 #, fuzzy, c-format
 msgid "Malika %s"
@@ -28041,7 +28090,8 @@ msgstr "女独裁者"
 #: data/nation/mecklenburgian.ruleset:31 data/nation/monegasque.ruleset:30
 #: data/nation/moravian.ruleset:35 data/nation/newfoundland.ruleset:33
 #: data/nation/oldenburgian.ruleset:32 data/nation/panamanian.ruleset:30
-#: data/nation/polish.ruleset:27 data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/polish.ruleset:27 data/nation/saxon.ruleset:21
+#: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/transylvanian.ruleset:28 data/nation/venezuelan.ruleset:29
 #: data/nation/vincentian.ruleset:26 data/nation/westindian.ruleset:24
 #: data/nation/yucatecan.ruleset:31
@@ -28052,7 +28102,8 @@ msgstr "大主教"
 #: data/nation/andorran.ruleset:25 data/nation/liechtensteiner.ruleset:32
 #: data/nation/malawian.ruleset:20 data/nation/mecklenburgian.ruleset:31
 #: data/nation/newfoundland.ruleset:33 data/nation/oldenburgian.ruleset:32
-#: data/nation/polish.ruleset:27 data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/polish.ruleset:27 data/nation/saxon.ruleset:21
+#: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/transylvanian.ruleset:28 data/nation/vincentian.ruleset:26
 #: data/nation/westindian.ruleset:24
 #, fuzzy, c-format
@@ -28204,6 +28255,7 @@ msgstr ""
 #: data/nation/luxembourgish.ruleset:29 data/nation/oldenburgian.ruleset:31
 #: data/nation/piedmontese.ruleset:33 data/nation/sicilian.ruleset:29
 #: data/nation/tyrolian.ruleset:24 data/nation/walloon.ruleset:28
+#: data/nation/westphalian.ruleset:32
 #, fuzzy, c-format
 msgid "Count %s"
 msgstr "计数"
@@ -28213,6 +28265,7 @@ msgstr "计数"
 #: data/nation/luxembourgish.ruleset:29 data/nation/oldenburgian.ruleset:31
 #: data/nation/piedmontese.ruleset:33 data/nation/sicilian.ruleset:29
 #: data/nation/tyrolian.ruleset:24 data/nation/walloon.ruleset:28
+#: data/nation/westphalian.ruleset:32
 #, fuzzy, c-format
 msgid "Countess %s"
 msgstr "计数"
@@ -28549,9 +28602,10 @@ msgstr ""
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:30
-#: data/nation/tajik.ruleset:21 data/nation/tatar.ruleset:28
+#: data/nation/mughal.ruleset:19 data/nation/tajik.ruleset:21
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:22 data/nation/tuvan.ruleset:31
-#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:25
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #, fuzzy, c-format
 msgid "%s Khan"
 msgstr "可汗"
@@ -28560,21 +28614,22 @@ msgstr "可汗"
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:30
-#: data/nation/tajik.ruleset:21 data/nation/tatar.ruleset:28
+#: data/nation/mughal.ruleset:19 data/nation/tajik.ruleset:21
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
 #: data/nation/turkmen.ruleset:22 data/nation/tuvan.ruleset:31
-#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:25
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
 #, fuzzy, c-format
 msgid "%s Khatan"
 msgstr "可汗"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:40
-#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:21
 #, fuzzy, c-format
 msgid "%s Shah"
 msgstr "?伊朗王:沙"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:40
-#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:27 data/nation/persian.ruleset:21
 #, fuzzy, c-format
 msgid "%s Shahbanu"
 msgstr "?伊朗王:沙"
@@ -28790,8 +28845,9 @@ msgstr ""
 #: data/nation/panamanian.ruleset:31 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:41 data/nation/sammarinese.ruleset:26
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
-#: data/nation/schleswig-holsteinian.ruleset:28 data/nation/serbian.ruleset:34
-#: data/nation/siberian.ruleset:24 data/nation/teutonic.ruleset:30
+#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/serbian.ruleset:34 data/nation/siberian.ruleset:24
+#: data/nation/teutonic.ruleset:30 data/nation/westphalian.ruleset:34
 #, fuzzy, c-format
 msgid "Duke %s"
 msgstr "公爵"
@@ -28804,8 +28860,9 @@ msgstr "公爵"
 #: data/nation/panamanian.ruleset:31 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:41 data/nation/sammarinese.ruleset:26
 #: data/nation/samogitian.ruleset:21 data/nation/savoyard.ruleset:31
-#: data/nation/schleswig-holsteinian.ruleset:28 data/nation/serbian.ruleset:34
-#: data/nation/siberian.ruleset:24 data/nation/teutonic.ruleset:30
+#: data/nation/saxon.ruleset:20 data/nation/schleswig-holsteinian.ruleset:28
+#: data/nation/serbian.ruleset:34 data/nation/siberian.ruleset:24
+#: data/nation/teutonic.ruleset:30 data/nation/westphalian.ruleset:34
 #, fuzzy, c-format
 msgid "Duchess %s"
 msgstr "女大公爵"
@@ -28826,7 +28883,7 @@ msgstr "游击队"
 #: data/nation/byzantium.ruleset:26 data/nation/cossack.ruleset:31
 #: data/nation/holysee.ruleset:27 data/nation/nestorian.ruleset:28
 #: data/nation/russian.ruleset:43 data/nation/ruthenian.ruleset:30
-#: data/nation/siberian.ruleset:23 data/nation/slavic.ruleset:34
+#: data/nation/siberian.ruleset:23 data/nation/slavic.ruleset:35
 #: data/nation/ukrainian.ruleset:23 data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Patriarch %s"
@@ -28836,7 +28893,7 @@ msgstr "族长"
 #: data/nation/byzantium.ruleset:26 data/nation/cossack.ruleset:31
 #: data/nation/nestorian.ruleset:28 data/nation/russian.ruleset:43
 #: data/nation/ruthenian.ruleset:30 data/nation/siberian.ruleset:23
-#: data/nation/slavic.ruleset:34 data/nation/ukrainian.ruleset:23
+#: data/nation/slavic.ruleset:35 data/nation/ukrainian.ruleset:23
 #: data/nation/venetian.ruleset:27
 #, fuzzy, c-format
 msgid "Matriarch %s"
@@ -29197,7 +29254,7 @@ msgstr "女独裁者"
 #: data/nation/centralafrican.ruleset:22 data/nation/chinese.ruleset:27
 #: data/nation/ethiopian.ruleset:23 data/nation/haitian.ruleset:27
 #: data/nation/han.ruleset:26 data/nation/holyroman.ruleset:33
-#: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:23
+#: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:26
 #: data/nation/mexican.ruleset:53 data/nation/nestorian.ruleset:27
 #: data/nation/southvietnamese.ruleset:25 data/nation/taiwanese.ruleset:24
 #: data/nation/vietnamese.ruleset:22
@@ -29874,7 +29931,7 @@ msgstr ""
 "的中华民国政府在内战后逃往台湾岛。"
 
 #: data/nation/chinese.ruleset:27 data/nation/han.ruleset:26
-#: data/nation/manchu.ruleset:23 data/nation/taiwanese.ruleset:24
+#: data/nation/manchu.ruleset:26 data/nation/taiwanese.ruleset:24
 #, fuzzy, c-format
 msgid "Empress Dowager %s"
 msgstr "孀居贵妇"
@@ -29901,26 +29958,30 @@ msgid ""
 msgstr ""
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:27
+#: data/nation/indian.ruleset:19 data/nation/kashmiri.ruleset:23
+#: data/nation/majapahit.ruleset:27
 #, fuzzy, c-format
 msgid "Raja %s"
 msgstr "沙皇皇后"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:27
+#: data/nation/indian.ruleset:19 data/nation/kashmiri.ruleset:23
+#: data/nation/majapahit.ruleset:27
 #, fuzzy, c-format
 msgid "Rani %s"
 msgstr "铁路(_L)"
 
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
-#: data/nation/indian.ruleset:21 data/nation/majapahit.ruleset:28
+#: data/nation/indian.ruleset:21 data/nation/kashmiri.ruleset:24
+#: data/nation/majapahit.ruleset:28 data/nation/mughal.ruleset:20
 #: data/nation/sikh.ruleset:33 data/nation/srivijaya.ruleset:26
 #, fuzzy, c-format
 msgid "Maharaja %s"
 msgstr "王公"
 
 #: data/nation/chola.ruleset:26 data/nation/gupta.ruleset:22
-#: data/nation/indian.ruleset:21 data/nation/majapahit.ruleset:28
+#: data/nation/indian.ruleset:21 data/nation/kashmiri.ruleset:24
+#: data/nation/majapahit.ruleset:28 data/nation/mughal.ruleset:20
 #: data/nation/sikh.ruleset:33 data/nation/srivijaya.ruleset:26
 #, fuzzy, c-format
 msgid "Maharani %s"
@@ -30089,12 +30150,14 @@ msgid ""
 "organized in a military manner."
 msgstr ""
 
-#: data/nation/cossack.ruleset:29 data/nation/ukrainian.ruleset:21
+#: data/nation/cossack.ruleset:29 data/nation/lipkatatar.ruleset:30
+#: data/nation/ukrainian.ruleset:21
 #, fuzzy, c-format
 msgid "Hetman %s"
 msgstr "?哥萨克人的:酋长"
 
-#: data/nation/cossack.ruleset:29 data/nation/ukrainian.ruleset:21
+#: data/nation/cossack.ruleset:29 data/nation/lipkatatar.ruleset:30
+#: data/nation/ukrainian.ruleset:21
 #, fuzzy, c-format
 msgid "?female:Hetman %s"
 msgstr "红衣主教"
@@ -30171,14 +30234,14 @@ msgstr "可汗"
 msgid "?female:%s Khagan"
 msgstr "女"
 
-#: data/nation/crimeantatar.ruleset:41 data/nation/palestinian.ruleset:21
-#: data/nation/tatar.ruleset:30
+#: data/nation/crimeantatar.ruleset:41 data/nation/lipkatatar.ruleset:31
+#: data/nation/palestinian.ruleset:21 data/nation/tatar.ruleset:30
 #, fuzzy, c-format
 msgid "Grand Mufti %s"
 msgstr "谷仓"
 
-#: data/nation/crimeantatar.ruleset:41 data/nation/palestinian.ruleset:21
-#: data/nation/tatar.ruleset:30
+#: data/nation/crimeantatar.ruleset:41 data/nation/lipkatatar.ruleset:31
+#: data/nation/palestinian.ruleset:21 data/nation/tatar.ruleset:30
 #, fuzzy, c-format
 msgid "?female:Grand Mufti %s"
 msgstr "大头领"
@@ -30854,6 +30917,7 @@ msgstr "陆战队"
 #: data/nation/franconian.ruleset:26 data/nation/lorrain.ruleset:30
 #: data/nation/montenegrin.ruleset:28 data/nation/palatinate.ruleset:29
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
+#: data/nation/westphalian.ruleset:33
 #, fuzzy, c-format
 msgid "Prince-Bishop %s"
 msgstr "公主"
@@ -31374,11 +31438,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
+#: data/nation/westphalian.ruleset:35
 #, fuzzy, c-format
 msgid "Burgomaster %s"
 msgstr "缅甸人"
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
+#: data/nation/westphalian.ruleset:35
 #, fuzzy, c-format
 msgid "?female:Burgomaster %s"
 msgstr "Prymas"
@@ -32041,6 +32107,23 @@ msgid ""
 "the Finns."
 msgstr ""
 
+#: data/nation/kashmiri.ruleset:3
+#, fuzzy
+msgid "Kashmiri"
+msgstr "损耗"
+
+#: data/nation/kashmiri.ruleset:4
+#, fuzzy
+msgid "?plural:Kashmiris"
+msgstr "丹麦人"
+
+#: data/nation/kashmiri.ruleset:6
+msgid ""
+"The Kashmir valley is situated by the western foothills of the Himalayas. "
+"Having been inhabited for millennia, it is a melting pot of Hindu, Tibetan, "
+"and Islamic culture."
+msgstr ""
+
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
 msgstr ""
@@ -32391,6 +32474,47 @@ msgid ""
 "Schellenberg in 1719."
 msgstr ""
 
+#: data/nation/lipkatatar.ruleset:3
+#, fuzzy
+msgid "Lipka Tatar"
+msgstr "加拿大人"
+
+#: data/nation/lipkatatar.ruleset:4
+#, fuzzy
+msgid "?plural:Lipka Tatars"
+msgstr "玛雅人"
+
+#: data/nation/lipkatatar.ruleset:6
+msgid ""
+"The Lipka Tatars are descendants of Tatars who migrated to the Polish-"
+"Lithuanian Commonwealth from the Crimean Khanate and the Golden Horde. Their "
+"name comes from the Turkish name of Lithuania. In addition to Lithuania, "
+"they also live in Poland and Belarus. Some Lipka Tatars have preserved their "
+"culture and traditional religion to the present day."
+msgstr ""
+
+#: data/nation/lipkatatar.ruleset:28
+#, fuzzy, c-format
+msgid "Mirza %s"
+msgstr "空军基地"
+
+#: data/nation/lipkatatar.ruleset:28
+#, fuzzy, c-format
+msgid "?female:Mirza %s"
+msgstr "王公"
+
+#: data/nation/lipkatatar.ruleset:29 data/nation/ottoman.ruleset:27
+#: data/nation/tunisian.ruleset:28
+#, fuzzy, c-format
+msgid "%s Bey"
+msgstr "购买"
+
+#: data/nation/lipkatatar.ruleset:29 data/nation/ottoman.ruleset:27
+#: data/nation/tunisian.ruleset:28
+#, fuzzy, c-format
+msgid "?female:%s Bey"
+msgstr "女同志"
+
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
 msgstr "立陶宛人"
@@ -32458,6 +32582,7 @@ msgstr ""
 
 #: data/nation/lorrain.ruleset:30 data/nation/montenegrin.ruleset:28
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
+#: data/nation/westphalian.ruleset:33
 #, fuzzy, c-format
 msgid "Princess-Bishop %s"
 msgstr "公主"
@@ -33090,13 +33215,13 @@ msgstr ""
 
 #. TRANS: Voievod = Prince
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
-#: data/nation/transylvanian.ruleset:27
+#: data/nation/slavic.ruleset:34 data/nation/transylvanian.ruleset:27
 #, fuzzy, c-format
 msgid "Voivode %s"
 msgstr "主机：%s"
 
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
-#: data/nation/transylvanian.ruleset:27
+#: data/nation/slavic.ruleset:34 data/nation/transylvanian.ruleset:27
 #, fuzzy, c-format
 msgid "?female:Voivode %s"
 msgstr "女同志"
@@ -33144,7 +33269,7 @@ msgstr "蒙古人"
 msgid ""
 "In the centuries after their unification by Chinggis Khan, the Mongols "
 "conquered the largest empire in human history, encompassing most of the "
-"continent of Asia.  They became notorious for their utter ruthlessness in "
+"continent of Asia. They became notorious for their utter ruthlessness in "
 "warfare."
 msgstr ""
 "在被成吉思汗统一后的几个世纪中，蒙古人征服了人类历史上最大的帝国，包括了亚洲"
@@ -33253,6 +33378,22 @@ msgstr "马来西亚人"
 msgid ""
 "Mozambique is a country in Southeast Africa. It gained independence from "
 "Portugal in 1975."
+msgstr ""
+
+#: data/nation/mughal.ruleset:3
+#, fuzzy
+msgid "Mughal"
+msgstr "男"
+
+#: data/nation/mughal.ruleset:4
+#, fuzzy
+msgid "?plural:Mughals"
+msgstr "马来西亚人"
+
+#: data/nation/mughal.ruleset:6
+msgid ""
+"The Mughal Empire ruled most of the Indian subcontinent throughout the early "
+"modern era."
 msgstr ""
 
 #: data/nation/muskogee.ruleset:3
@@ -33883,16 +34024,6 @@ msgid ""
 "North Africa, making it a regional superpower until its dissolution in the "
 "aftermath of World War I."
 msgstr ""
-
-#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
-msgid "%s Bey"
-msgstr "购买"
-
-#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, fuzzy, c-format
-msgid "?female:%s Bey"
-msgstr "女同志"
 
 #: data/nation/ozite.ruleset:3
 #, fuzzy
@@ -35674,6 +35805,25 @@ msgstr "达赖喇嘛"
 msgid "?female:Dalai Lama %s"
 msgstr "王公"
 
+#: data/nation/timurid.ruleset:3
+msgid "Timurid"
+msgstr ""
+
+#: data/nation/timurid.ruleset:4
+#, fuzzy
+msgid "?plural:Timurids"
+msgstr "土耳其人"
+
+#: data/nation/timurid.ruleset:6
+msgid ""
+"Timur was a military genius who claimed lineage from Chinggis Khan and from "
+"his capital in Samarkand conquered all of Central Asia as well as parts of "
+"the Middle East and India. The court culture of Timurid Empire was heavily "
+"Persianized, while the imperial administration and military organization "
+"displayed influences from the Timurid ruling elite's Mongolian and Turkic "
+"origins."
+msgstr ""
+
 #: data/nation/tocharian.ruleset:3
 #, fuzzy
 msgid "Tocharian"
@@ -37180,10 +37330,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Mai %s"
 #~ msgstr "在 %s 中"
-
-#, fuzzy
-#~ msgid "?female:Mai %s"
-#~ msgstr "王公"
 
 #, fuzzy
 #~ msgid "Nabongo %s"
