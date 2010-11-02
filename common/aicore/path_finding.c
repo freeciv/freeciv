@@ -2898,32 +2898,33 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
 }
 
 
-/* ======================= pf_city map functions ========================= */
+/* ===================== pf_reverse_map functions ======================== */
 
-/* The path-finding city maps are used check the move costs that the units
- * needs to reach the cities. It stores a pf_map for every unit type. */
+/* The path-finding reverse maps are used check the move costs that the
+ * units needs to reach the start tile. It stores a pf_map for every unit
+ * type. */
 
 /* We will iterate this map at max to this cost. */
 #define MAX_COST 255
 
-/* The city map structure. */
-struct pf_city_map {
+/* The reverse map structure. */
+struct pf_reverse_map {
   struct pf_parameter param;    /* Keep a parameter ready for usage. */
   struct pf_map **maps;         /* A vector of pf_map for every unit_type. */
 };
 
 /****************************************************************************
-  This function estime the cost for unit moves to reach the city.
+  This function estime the cost for unit moves to reach the start tile.
 
   NB: The costs are calculated in the invert order because we want to know
-  how many costs needs the units to REACH the city, and not to leave it.
+  how many costs needs the units to REACH the tile, and not to leave it.
 ****************************************************************************/
-static int pf_city_map_get_costs(const struct tile *to_tile,
-                                 enum direction8 dir,
-                                 const struct tile *from_tile,
-                                 int to_cost, int to_extra,
-                                 int *from_cost, int *from_extra,
-                                 const struct pf_parameter *param)
+static int pf_reverse_map_get_costs(const struct tile *to_tile,
+                                    enum direction8 dir,
+                                    const struct tile *from_tile,
+                                    int to_cost, int to_extra,
+                                    int *from_cost, int *from_extra,
+                                    const struct pf_parameter *param)
 {
   int cost;
 
@@ -2956,61 +2957,90 @@ static int pf_city_map_get_costs(const struct tile *to_tile,
 }
 
 /****************************************************************************
-  'pf_city_map' constructor.
+  'pf_reverse_map' constructor.
 ****************************************************************************/
-struct pf_city_map *pf_city_map_new(const struct city *pcity)
+struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
+                                          struct tile *start_tile)
 {
-  struct pf_city_map *pfcm = fc_malloc(sizeof(struct pf_city_map));
+  struct pf_reverse_map *pfrm = fc_malloc(sizeof(struct pf_reverse_map));
 
   /* Initialize the parameter. */
-  memset(&pfcm->param, 0, sizeof(pfcm->param));
-  pfcm->param.get_costs = pf_city_map_get_costs;
-  pfcm->param.start_tile = city_tile(pcity);
-  pfcm->param.owner = city_owner(pcity);
-  pfcm->param.omniscience = !ai_handicap(city_owner(pcity), H_MAP);
+  memset(&pfrm->param, 0, sizeof(pfrm->param));
+  pfrm->param.get_costs = pf_reverse_map_get_costs;
+  pfrm->param.start_tile = start_tile;
+  pfrm->param.owner = pplayer;
+  pfrm->param.omniscience = !ai_handicap(pplayer, H_MAP);
 
   /* Initialize the map vector. */
-  pfcm->maps = fc_calloc(utype_count(), sizeof(struct pf_map *));
+  pfrm->maps = fc_calloc(utype_count(), sizeof(*pfrm->maps));
 
-  return pfcm;
+  return pfrm;
 }
 
 /****************************************************************************
-  'pf_city_map' destructor.
+  'pf_reverse_map' constructor for city.
 ****************************************************************************/
-void pf_city_map_destroy(struct pf_city_map *pfcm)
+struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity)
 {
+  return pf_reverse_map_new(city_owner(pcity), city_tile(pcity));
+}
+
+/****************************************************************************
+  'pf_reverse_map' constructor for unit.
+****************************************************************************/
+struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit)
+{
+  return pf_reverse_map_new(unit_owner(punit), unit_tile(punit));
+}
+
+/****************************************************************************
+  'pf_reverse_map' destructor.
+****************************************************************************/
+void pf_reverse_map_destroy(struct pf_reverse_map *pfrm)
+{
+  struct pf_map **ppfm;
   size_t i;
 
-  fc_assert_ret(NULL != pfcm);
+  fc_assert_ret(NULL != pfrm);
 
-  for (i = 0; i < utype_count(); i++) {
-    if (NULL != pfcm->maps[i]) {
-      pf_map_destroy(pfcm->maps[i]);
+  for (i = 0, ppfm = pfrm->maps; i < utype_count(); i++, ppfm++) {
+    if (NULL != *ppfm) {
+      pf_map_destroy(*ppfm);
     }
   }
-  free(pfcm->maps);
-  free(pfcm);
+  free(pfrm->maps);
+  free(pfrm);
 }
 
 /****************************************************************************
-  Get the move costs that unit needs to reach the city. Returns
+  Get the move costs that a unit type needs to reach the start tile. Returns
   PF_IMPOSSIBLE_MC if the tile is unreachable.
 ****************************************************************************/
-int pf_city_map_move_cost(struct pf_city_map *pfcm,
-                          const struct unit_type *punittype,
-                          struct tile *ptile)
+int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
+                                   const struct unit_type *punittype,
+                                   struct tile *ptile)
 {
   Unit_type_id index = utype_index(punittype);
-  struct pf_map *pfm = pfcm->maps[index];
+  struct pf_map *pfm = pfrm->maps[index];
 
   if (!pfm) {
     /* Not created yet. */
-    pfcm->param.uclass = utype_class(punittype);
-    pfcm->param.unit_flags = punittype->flags;
-    pfm = pf_map_new(&pfcm->param);
-    pfcm->maps[index] = pfm;
+    pfrm->param.uclass = utype_class(punittype);
+    pfrm->param.unit_flags = punittype->flags;
+    pfm = pf_map_new(&pfrm->param);
+    pfrm->maps[index] = pfm;
   }
 
   return pfm->get_move_cost(pfm, ptile);
+}
+
+/****************************************************************************
+  Get the move costs that a unit needs to reach the start tile. Returns
+  PF_IMPOSSIBLE_MC if the tile is unreachable.
+****************************************************************************/
+int pf_reverse_map_unit_move_cost(struct pf_reverse_map *pfrm,
+                                  struct unit *punit)
+{
+  return pf_reverse_map_utype_move_cost(pfrm, unit_type(punit),
+                                        unit_tile(punit));
 }
