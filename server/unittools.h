@@ -15,7 +15,6 @@
 
 #include "fc_types.h"
 
-#include "gotohand.h"
 #include "packets.h"		/* enum unit_info_use */
 #include "unitlist.h"
 

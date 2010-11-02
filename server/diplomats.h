@@ -15,8 +15,6 @@
 
 #include "fc_types.h"
 
-#include "gotohand.h"		/* enum goto_move_restriction */
-
 void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity);
 void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,

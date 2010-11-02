@@ -100,6 +100,7 @@
 #include "edithand.h"
 #include "gamehand.h"
 #include "ggzserver.h"
+#include "gotohand.h"
 #include "handchat.h"
 #include "maphand.h"
 #include "meta.h"
