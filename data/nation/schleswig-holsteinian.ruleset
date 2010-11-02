@@ -64,7 +64,6 @@ cities =
 "Wyk auf Föhr (ocean)",
 "Glückstadt",
 "Burg auf Fehmarn (ocean)",
-"Bad Segeberg",
 "Norburg",		;Danish Norborg
 "Westerland (ocean)",
 "Bargteheide",
@@ -82,7 +81,6 @@ cities =
 "Tönning",
 "Preetz",
 "Schwentinental",
-"Glückstadt",
 "Pattburg",		;Danish Padborg
 "Bad Bramstedt",
 "Wahlstedt",
@@ -99,6 +97,6 @@ cities =
 
 ;Duchy of Saxe-Lauenburg
 "Lauenburg/Elbe",
-"Ratzenburg",
+"Ratzeburg",
 "Geesthacht"
 

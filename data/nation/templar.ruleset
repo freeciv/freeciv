@@ -50,7 +50,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "german", "french"
+civilwar_nations="Holy Roman", "French"
 
 cities =
  "Jerusalem",
