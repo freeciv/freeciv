@@ -64,7 +64,7 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
   pft_fill_unit_parameter(&parameter, punit);
   pfm = pf_map_new(&parameter);
 
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, TRUE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
     if (move_cost > punit->moves_left) {
       /* Too far! */
       break;
@@ -72,12 +72,12 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
 
     if (is_airunit_refuel_point(ptile, pplayer, punittype, FALSE)) {
       if (path) {
-        *path = pf_map_get_path(pfm, ptile);
+        *path = pf_map_path(pfm, ptile);
       }
       pf_map_destroy(pfm);
       return ptile;
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 
   pf_map_destroy(pfm);
   return NULL;
@@ -199,7 +199,7 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
   pfm = pf_map_new(&parameter);
 
   /* Let's find something to bomb */
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     if (move_cost >= punit->moves_left) {
       /* Too far! */
       break;
@@ -228,14 +228,14 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
                   unit_rule_name(punit), TILE_XY(ptile));
       }
     }
-  } pf_map_iterate_positions_end;
+  } pf_map_positions_iterate_end;
 
   /* Return the best values. */
   if (pptile) {
     *pptile = best_tile;
   }
   if (path) {
-    *path = best_tile ? pf_map_get_path(pfm, best_tile) : NULL;
+    *path = best_tile ? pf_map_path(pfm, best_tile) : NULL;
   }
 
   pf_map_destroy(pfm);
@@ -260,7 +260,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
 
   pft_fill_unit_parameter(&parameter, punit);
   pfm = pf_map_new(&parameter);
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     if (move_cost >= punit->moves_left) {
       break; /* Too far! */
     }
@@ -291,7 +291,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
       best_tile = ptile;
       /* We can still look for something better. */
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 
   if (pvirtual) {
     destroy_unit_virtual(pvirtual);
@@ -299,7 +299,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
 
   if (path) {
     /* Stores the path. */
-    *path = best_tile ? pf_map_get_path(pfm, best_tile) : NULL;
+    *path = best_tile ? pf_map_path(pfm, best_tile) : NULL;
   }
   pf_map_destroy(pfm);
 
@@ -340,7 +340,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
         && is_airunit_refuel_point(punit->goto_tile, 
                                    pplayer, unit_type(punit), FALSE)) {
       pfm = pf_map_new(&parameter);
-      path = pf_map_get_path(pfm, punit->goto_tile);
+      path = pf_map_path(pfm, punit->goto_tile);
       if (path) {
         bool alive = adv_follow_path(punit, path, punit->goto_tile);
 

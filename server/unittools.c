@@ -351,7 +351,7 @@ void player_restore_units(struct player *pplayer)
           pft_fill_unit_parameter(&parameter, punit);
           pfm = pf_map_new(&parameter);
 
-          pf_map_iterate_move_costs(pfm, ptile, move_cost, TRUE) {
+          pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
             if (move_cost > punit->moves_left) {
               /* Too far */
               break;
@@ -367,7 +367,7 @@ void player_restore_units(struct player *pplayer)
                * we free them before engaging goto. */
               free_unit_orders(punit);
 
-              path = pf_map_get_path(pfm, ptile);
+              path = pf_map_path(pfm, ptile);
 
               alive = adv_follow_path(punit, path, ptile);
 
@@ -402,7 +402,7 @@ void player_restore_units(struct player *pplayer)
               pf_path_destroy(path);
               break;
             }
-          } pf_map_iterate_move_costs_end;
+          } pf_map_move_costs_iterate_end;
           pf_map_destroy(pfm);
 
           if (!alive) {

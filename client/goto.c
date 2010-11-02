@@ -173,7 +173,7 @@ static bool update_last_part(struct goto_map *goto_map,
 
   log_debug("update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
             TILE_XY(ptile), TILE_XY(p->start_tile), TILE_XY(p->end_tile));
-  new_path = pf_map_get_path(p->map, ptile);
+  new_path = pf_map_path(p->map, ptile);
 
   if (!new_path) {
     log_goto_path("  no path found");
@@ -256,16 +256,16 @@ static bool update_last_part(struct goto_map *goto_map,
   }
   p->path = new_path;
   p->end_tile = ptile;
-  p->end_moves_left = pf_path_get_last_position(p->path)->moves_left;
-  p->end_fuel_left = pf_path_get_last_position(p->path)->fuel_left;
+  p->end_moves_left = pf_path_last_position(p->path)->moves_left;
+  p->end_fuel_left = pf_path_last_position(p->path)->fuel_left;
 
-  p->mp = pf_path_get_last_position(p->path)->total_MC;
+  p->mp = pf_path_last_position(p->path)->total_MC;
   if (goto_map->num_parts == 1) {
     p->mp += goto_map->initial_mp;
   }
   log_goto_path("To (%d,%d) part %d: total_MC: %d, mp: %d",
                 TILE_XY(ptile), goto_map->num_parts,
-                pf_path_get_last_position(p->path)->total_MC, p->mp);
+                pf_path_last_position(p->path)->total_MC, p->mp);
 
   /* Refresh tiles so turn information is shown. */
   refresh_tile_mapcanvas(old_tile, FALSE, FALSE);
@@ -1049,7 +1049,7 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
 
   fill_client_goto_parameter(punit, &parameter, &dummy1, &dummy2);
   pfm = pf_map_new(&parameter);
-  path = pf_map_get_path(pfm, ptile);
+  path = pf_map_path(pfm, ptile);
   pf_map_destroy(pfm);
 
   if (path) {
@@ -1085,7 +1085,7 @@ void send_patrol_route(void)
     parameter.moves_left_initially = last_part->end_moves_left;
     parameter.fuel_left_initially = last_part->end_fuel_left;
     pfm = pf_map_new(&parameter);
-    return_path = pf_map_get_path(pfm, goto_map->parts[0].start_tile);
+    return_path = pf_map_path(pfm, goto_map->parts[0].start_tile);
     if (!return_path) {
       /* Cannot make a path */
       pf_map_destroy(pfm);
@@ -1252,12 +1252,12 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
   fill_client_goto_parameter(punit, &parameter, &dummy1, &dummy2);
   pfm = pf_map_new(&parameter);
 
-  pf_map_iterate_tiles(pfm, ptile, FALSE) {
+  pf_map_tiles_iterate(pfm, ptile, FALSE) {
     if (is_allied_city_tile(ptile, unit_owner(punit))) {
-      path = pf_map_get_path(pfm, ptile);
+      path = pf_map_path(pfm, ptile);
       break;
     }
-  } pf_map_iterate_tiles_end;
+  } pf_map_tiles_iterate_end;
 
   pf_map_destroy(pfm);
 

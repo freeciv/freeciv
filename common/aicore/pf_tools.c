@@ -1003,9 +1003,9 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
   } else {
     int old_length = dest_path->length;
 
-    fc_assert_ret_val(pf_path_get_last_position(dest_path)->tile
+    fc_assert_ret_val(pf_path_last_position(dest_path)->tile
                       == src_path->positions[0].tile, NULL);
-    fc_assert_ret_val(pf_path_get_last_position(dest_path)->moves_left
+    fc_assert_ret_val(pf_path_last_position(dest_path)->moves_left
                       == src_path->positions[0].moves_left, NULL);
     dest_path->length += src_path->length - 1;
     dest_path->positions =

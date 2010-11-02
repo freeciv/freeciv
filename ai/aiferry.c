@@ -448,7 +448,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
 
   search_map = pf_map_new(&param);
 
-  pf_map_iterate_positions(search_map, pos, TRUE) {
+  pf_map_positions_iterate(search_map, pos, TRUE) {
    /* Should this be !can_unit_exist_at_tile() instead of is_ocean() some day?
     * That would allow special units to wade in shallow coast waters to meet
     * ferry where deep sea starts. */
@@ -483,7 +483,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
              if (*path) {
                 pf_path_destroy(*path);
               }
-	      *path = pf_map_iterator_get_path(search_map);
+	      *path = pf_map_iter_path(search_map);
 	    }
             best_turns = turns;
             best_id = aunit->id;
@@ -491,7 +491,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
         }
       } unit_list_iterate_end;
     } square_iterate_end;
-  } pf_map_iterate_positions_end;
+  } pf_map_positions_iterate_end;
   pf_map_destroy(search_map);
 
   return best_id;
@@ -568,7 +568,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
   }
 
   pfm = pf_map_new(&parameter->combined);
-  path = pf_map_get_path(pfm, ptile);
+  path = pf_map_path(pfm, ptile);
 
   if (path) {
     ai_log_path(passenger, path, &parameter->combined);
@@ -821,7 +821,7 @@ static bool aiferry_findcargo(struct unit *pferry)
   parameter.get_TB = no_fights;
   
   pfm = pf_map_new(&parameter);
-  pf_map_iterate_tiles(pfm, ptile, TRUE) {
+  pf_map_tiles_iterate(pfm, ptile, TRUE) {
     unit_list_iterate(ptile->units, aunit) {
       struct unit_ai *unit_data = def_ai_unit_data(aunit);
 
@@ -840,7 +840,7 @@ static bool aiferry_findcargo(struct unit *pferry)
         return TRUE;
       }
     } unit_list_iterate_end;
-  } pf_map_iterate_tiles_end;
+  } pf_map_tiles_iterate_end;
 
   /* False positive can happen if we cannot find a route to the passenger
    * because of an internal sea or enemy blocking the route */
@@ -880,7 +880,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
   parameter.omniscience = FALSE;
   pfm = pf_map_new(&parameter);
 
-  pf_map_iterate_positions(pfm, pos, TRUE) {
+  pf_map_positions_iterate(pfm, pos, TRUE) {
     struct city *pcity;
 
     if (pos.turn >= turns_horizon) {
@@ -938,7 +938,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
         needed = TRUE;
       }
     }
-  } pf_map_iterate_positions_end;
+  } pf_map_positions_iterate_end;
 
   pf_map_destroy(pfm);
   return needed;

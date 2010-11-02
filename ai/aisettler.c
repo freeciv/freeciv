@@ -516,7 +516,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
   bool found = FALSE; /* The return value */
 
   pfm = pf_map_new(parameter);
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     int turns;
 
     if (is_ocean_tile(ptile)) {
@@ -571,7 +571,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
         && best_turn < turns /*+ game.info.min_dist_bw_cities*/) {
       break;
     }
-  } pf_map_iterate_positions_end;
+  } pf_map_positions_iterate_end;
 
   pf_map_destroy(pfm);
 
@@ -747,7 +747,7 @@ BUILD_CITY:
     best_impr = settler_evaluate_improvements(punit, &best_act, &best_tile, 
                                               &path, state);
     if (path) {
-      completion_time = pf_path_get_last_position(path)->turn;
+      completion_time = pf_path_last_position(path)->turn;
     }
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }

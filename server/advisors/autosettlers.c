@@ -358,7 +358,7 @@ int settler_evaluate_improvements(struct unit *punit,
                                         state[tile_index(ptile)].enroute);
       }
 
-      if (pf_map_get_position(pfm, ptile, &pos)) {
+      if (pf_map_position(pfm, ptile, &pos)) {
         int eta = FC_INFINITY, inbound_distance = FC_INFINITY, time;
 
         if (enroute) {
@@ -454,7 +454,7 @@ int settler_evaluate_improvements(struct unit *punit,
   }
 
   if (path) {
-    *path = *best_tile ? pf_map_get_path(pfm, *best_tile) : NULL;
+    *path = *best_tile ? pf_map_path(pfm, *best_tile) : NULL;
   }
 
   pf_map_destroy(pfm);
@@ -504,7 +504,7 @@ void auto_settler_findwork(struct player *pplayer,
     best_impr = settler_evaluate_improvements(punit, &best_act, &best_tile, 
                                               &path, state);
     if (path) {
-      completion_time = pf_path_get_last_position(path)->turn;
+      completion_time = pf_path_last_position(path)->turn;
     }
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
@@ -591,7 +591,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
       pft_fill_unit_parameter(&parameter, punit);
       parameter.can_invade_tile = autosettler_enter_territory;
       pfm = pf_map_new(&parameter);
-      path = pf_map_get_path(pfm, best_tile);
+      path = pf_map_path(pfm, best_tile);
     }
 
     if (path) {

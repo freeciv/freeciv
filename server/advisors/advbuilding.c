@@ -113,7 +113,7 @@ static void calculate_city_clusters(struct player *pplayer)
     pft_fill_unit_parameter(&parameter, ghost);
     pfm = pf_map_new(&parameter);
 
-    pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+    pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
       struct city *acity = tile_city(ptile);
 
       if (move_cost > range) {
@@ -125,7 +125,7 @@ static void calculate_city_clusters(struct player *pplayer)
       if (city_owner(acity) == pplayer) {
         city_data->downtown++;
       }
-    } pf_map_iterate_move_costs_end;
+    } pf_map_move_costs_iterate_end;
 
     pf_map_destroy(pfm);
   } city_list_iterate_end;
@@ -168,7 +168,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   pft_fill_unit_parameter(&parameter, ghost);
   pfm = pf_map_new(&parameter);
 
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     struct city *acity = tile_city(ptile);
 
     if (move_cost > maxrange) {
@@ -180,7 +180,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
     if (city_owner(acity) == pplayer) {
       def_ai_city_data(acity)->distance_to_wonder_city = move_cost;
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 
   pf_map_destroy(pfm);
   destroy_unit_virtual(ghost);

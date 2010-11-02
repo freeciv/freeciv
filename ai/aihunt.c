@@ -300,7 +300,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
       pft_fill_unit_parameter(&parameter, punit);
       pfm = pf_map_new(&parameter);
 
-      pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+      pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
         if (move_cost > missile->moves_left / SINGLE_MOVE) {
           break;
         }
@@ -336,7 +336,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
         if (sucker) {
           break; /* found something - kill it! */
         }
-      } pf_map_iterate_move_costs_end;
+      } pf_map_move_costs_iterate_end;
       pf_map_destroy(pfm);
       if (sucker) {
         if (game_unit_by_number(missile->transported_by)) {
@@ -414,7 +414,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
                         &original_threat, &original_cost);
   }
 
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     /* End faster if we have a target */
     if (move_cost > limit) {
       UNIT_LOG(LOGLEVEL_HUNT, punit, "gave up finding hunt target");
@@ -533,7 +533,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       /* Go towards it. */
-      path = pf_map_get_path(pfm, target->tile);
+      path = pf_map_path(pfm, target->tile);
       if (!adv_unit_execute_path(punit, path)) {
         pf_path_destroy(path);
         pf_map_destroy(pfm);
@@ -561,7 +561,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       unit_data->done = TRUE;
       return stackthreat; /* still have work to do */
     } unit_list_iterate_safe_end;
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 
   UNIT_LOG(LOGLEVEL_HUNT, punit, "ran out of map finding hunt target");
   pf_map_destroy(pfm);

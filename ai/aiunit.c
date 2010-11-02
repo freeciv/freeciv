@@ -640,7 +640,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
    */
 
   tgt_map = pf_map_new(&parameter);
-  pf_map_iterate_move_costs(tgt_map, iter_tile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(tgt_map, iter_tile, move_cost, FALSE) {
     int want;
     bool move_needed;
     int thresh;
@@ -671,11 +671,11 @@ static struct pf_path *find_rampage_target(struct unit *punit,
       max_want = want;
       ptile = iter_tile;
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 
   if (max_want > 0) {
     /* We found something */
-    path = pf_map_get_path(tgt_map, ptile);
+    path = pf_map_path(tgt_map, ptile);
     fc_assert(path != NULL);
   }
 

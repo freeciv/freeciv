@@ -331,7 +331,7 @@ struct tile *immediate_destination(struct unit *punit,
 
     pft_fill_unit_parameter(&parameter, punit);
     pfm = pf_map_new(&parameter);
-    path = pf_map_get_path(pfm, punit->goto_tile);
+    path = pf_map_path(pfm, punit->goto_tile);
 
     if (path) {
       for (i = 1; i < path->length; i++) {
@@ -372,7 +372,7 @@ struct tile *immediate_destination(struct unit *punit,
 void ai_log_path(struct unit *punit,
 		 struct pf_path *path, struct pf_parameter *parameter)
 {
-  const struct pf_position *last = pf_path_get_last_position(path);
+  const struct pf_position *last = pf_path_last_position(path);
   const int cc = PF_TURN_FACTOR * last->total_MC
                  + parameter->move_rate * last->total_EC;
   const int tc = cc / (PF_TURN_FACTOR *parameter->move_rate); 
@@ -424,7 +424,7 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   }
 
   pfm = pf_map_new(parameter);
-  path = pf_map_get_path(pfm, ptile);
+  path = pf_map_path(pfm, ptile);
 
   if (path) {
     ai_log_path(punit, path, parameter);

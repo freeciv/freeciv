@@ -370,7 +370,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
   *move_dist = -1;
   ai_calc_data(pplayer, NULL, &expenses);
 
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     struct city *acity;
     struct player *aplayer;
     bool can_incite;
@@ -409,7 +409,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
       *move_dist = move_cost;
       break;
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 }
 
 /**************************************************************************
@@ -432,7 +432,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
     return pcity;
   }
 
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     struct city *acity;
     struct player *aplayer;
     int dipls, urgency;
@@ -472,7 +472,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
       /* squelch divide-by-zero */
       best_dist = MAX(move_cost, 1);
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
 
   return ctarget;
 }
@@ -490,7 +490,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
   ai_calc_data(pplayer, NULL, &expenses);
   gold_avail = pplayer->economic.gold - expenses;
 
-  pf_map_iterate_positions(pfm, pos, FALSE) {
+  pf_map_positions_iterate(pfm, pos, FALSE) {
     struct tile *ptile = pos.tile;
     bool threat = FALSE;
     int newval, bestval = 0, cost;
@@ -551,7 +551,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       struct pf_path *path;
 
       ptile = mapstep(pos.tile, DIR_REVERSE(pos.dir_to_here));
-      path = pf_map_get_path(pfm, ptile);
+      path = pf_map_path(pfm, ptile);
       if (!path || !adv_unit_execute_path(punit, path) 
           || punit->moves_left <= 0) {
         pf_path_destroy(path);
@@ -576,7 +576,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
                " %d moves left", TILE_XY(pos.tile), punit->moves_left);
       return FALSE;
     }
-  } pf_map_iterate_positions_end;
+  } pf_map_positions_iterate_end;
 
   return (punit->moves_left > 0);
 }
@@ -637,7 +637,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     bool failure = FALSE;
 
     ctarget = tile_city(punit->goto_tile);
-    if (pf_map_get_position(pfm, punit->goto_tile, &pos)
+    if (pf_map_position(pfm, punit->goto_tile, &pos)
         && ctarget) {
       if (same_pos(ctarget->tile, punit->tile)) {
         failure = TRUE;
@@ -721,7 +721,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   if (!same_pos(punit->tile, ctarget->tile)) {
     struct pf_path *path;
 
-    path = pf_map_get_path(pfm, punit->goto_tile);
+    path = pf_map_path(pfm, punit->goto_tile);
     if (path && adv_unit_execute_path(punit, path) && punit->moves_left > 0) {
       /* Check if we can do something with our destination now. */
       if (punit->server.adv->role == AIUNIT_ATTACK) {

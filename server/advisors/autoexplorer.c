@@ -300,7 +300,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
   parameter.omniscience = FALSE;
 
   pfm = pf_map_new(&parameter);
-  pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     int desirable;
     double log_desirable;
 
@@ -354,7 +354,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
     if (move_cost > max_dist) {
       break;
     }
-  } pf_map_iterate_move_costs_end;
+  } pf_map_move_costs_iterate_end;
   pf_map_destroy(pfm);
 
   TIMING_LOG(AIT_EXPLORER, TIMER_STOP);

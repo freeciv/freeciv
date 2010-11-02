@@ -192,7 +192,7 @@ static void caravan_search_from(const struct unit *caravan,
      Do-while loop rather than while loop to make sure to process the
      start tile.
    */
-  pf_map_iterate_positions(pfm, pos, TRUE) {
+  pf_map_positions_iterate(pfm, pos, TRUE) {
     struct city *pcity;
 
     if (pos.turn > end_time) {
@@ -204,7 +204,7 @@ static void caravan_search_from(const struct unit *caravan,
 			  pos.moves_left)) {
       break;
     }
-  } pf_map_iterate_positions_end;
+  } pf_map_positions_iterate_end;
 
   pf_map_destroy(pfm);
 }
