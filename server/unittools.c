@@ -1638,11 +1638,10 @@ void wipe_unit(struct unit *punit)
 
 /****************************************************************************
   We don't really change owner of the unit, but create completely new
-  unit as it's copy. Thus pointer to original unit passed to this function
-  is no longer valid when this function returns.
+  unit as it's copy. The new pointer to 'punit' is returned.
 ****************************************************************************/
-void unit_change_owner(struct unit *punit, struct player *pplayer,
-                       int homecity)
+struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
+                               int homecity)
 {
   struct unit *gained_unit;
 
@@ -1672,6 +1671,8 @@ void unit_change_owner(struct unit *punit, struct player *pplayer,
 
   /* Be sure to wipe the converted unit! */
   wipe_unit(punit);
+
+  return gained_unit;   /* Returns the replacement. */
 }
 
 /**************************************************************************

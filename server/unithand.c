@@ -1356,28 +1356,29 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         sz_strlcpy(capturer_link, unit_link(punit));
 
         unit_list_iterate(pdesttile->units, to_capture) {
-          const char *victim_link = unit_link(to_capture);
           struct player *uplayer = unit_owner(to_capture);
+          const char *victim_link;
 
           unit_owner(to_capture)->score.units_lost++;
-          unit_change_owner(to_capture, pplayer,
-                            (game.server.homecaughtunits
-                             ? punit->homecity : IDENTITY_NUMBER_ZERO));
+          to_capture = unit_change_owner(to_capture, pplayer,
+                                         (game.server.homecaughtunits
+                                          ? punit->homecity
+                                          : IDENTITY_NUMBER_ZERO));
+          /* As unit_change_owner() currently remove the old unit and
+           * replace by a new one (with a new id), we want to make link to
+           * the new unit. */
+          victim_link = unit_link(to_capture);
 
           /* Notify players */
-          notify_player(pplayer, pdesttile, 
-                E_MY_DIPLOMAT_BRIBE, ftc_server,
-                /* TRANS: <unit> ... <unit> */
-                _("Your %s succeeded in capturing the %s."),
-                capturer_link,
-                victim_link);
+          notify_player(pplayer, pdesttile, E_MY_DIPLOMAT_BRIBE, ftc_server,
+                        /* TRANS: <unit> ... <unit> */
+                        _("Your %s succeeded in capturing the %s."),
+                        capturer_link, victim_link);
           notify_player(uplayer, pdesttile,
-                E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
-                /* TRANS: <unit> ... <Poles> */
-                _("Your %s was captured by the %s."),
-                victim_link,
-                capturer_nation);
-
+                        E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
+                        /* TRANS: <unit> ... <Poles> */
+                        _("Your %s was captured by the %s."),
+                        victim_link, capturer_nation);
         } unit_list_iterate_end;
 
         /* Subtract movement point from capturer */
