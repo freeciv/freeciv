@@ -2750,28 +2750,34 @@ static void load_ruleset_nations(struct section_file *file)
                                           "%s.flag_alt", sec_name));
 
     /* Ruler titles */
-    j = -1;
-    while ((name = secfile_lookup_str_default(file, NULL,
-                                              "%s.ruler_titles%d.government",
-                                              sec_name, ++j))) {
+    for (j = 0;; j++) {
       const char *male, *female;
+
+      name = secfile_lookup_str_default(file, NULL,
+                                        "%s.ruler_titles%d.government",
+                                        sec_name, j);
+      if (NULL == name) {
+        /* End of the list of ruler titles. */
+        break;
+      }
+
+      /* NB: even if the government doesn't exist, we load the entries for
+       * the ruler titles to avoid warnings about unused entries. */
+      male = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
+                                sec_name, j);
+      female = secfile_lookup_str(file, "%s.ruler_titles%d.female_title",
+                                  sec_name, j);
       gov = government_by_rule_name(name);
 
-      if (NULL != gov) {
-        if ((male = secfile_lookup_str(file, "%s.ruler_titles%d.male_title",
-                                       sec_name, j))
-            && (female = secfile_lookup_str(file,
-                                            "%s.ruler_titles%d.female_title",
-                                            sec_name, j))) {
-          (void) government_ruler_title_new(gov, pnation, male, female);
-        } else {
-          ruleset_error(LOG_ERROR, "%s", secfile_error());
-        }
-      } else {
+      if (NULL == gov) {
         /* log_verbose() rather than log_error() so that can use single
          * nation ruleset file with variety of government ruleset files: */
         log_verbose("Nation %s: government \"%s\" not found.",
                     nation_rule_name(pnation), name);
+      } else if (NULL != male && NULL != female) {
+        (void) government_ruler_title_new(gov, pnation, male, female);
+      } else {
+          ruleset_error(LOG_ERROR, "%s", secfile_error());
       }
     }
 
