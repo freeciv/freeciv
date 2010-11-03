@@ -93,8 +93,6 @@ const struct ft_color ftc_vote_failed   = FT_COLOR("#8B0000",   "#FFAAAA");
 const struct ft_color ftc_vote_yes      = FT_COLOR("#000000",   "#C8FFD5");
 const struct ft_color ftc_vote_no       = FT_COLOR("#000000",   "#FFD2D2");
 const struct ft_color ftc_vote_abstain  = FT_COLOR("#000000",   "#E8E8E8");
-#undef FT_COLOR
-
 
 /**************************************************************************
   Return the long name of the text tag type.
