@@ -414,9 +414,11 @@ static void check_units(const char *file, const char *function, int line)
 	SANITY_CHECK(transporter2 != NULL);
 
         /* Also in the list of owner? */
-        SANITY_CHECK(player_unit_by_number(unit_owner(transporter),
-                                           punit->transported_by) != NULL);
-        SANITY_CHECK(same_pos(ptile, transporter->tile));
+        if (NULL != transporter) {
+          SANITY_CHECK(player_unit_by_number(unit_owner(transporter),
+                                             punit->transported_by) != NULL);
+          SANITY_CHECK(same_pos(ptile, transporter->tile));
+        }
 
         /* Transporter capacity will be checked when transporter itself
 	 * is checked */
