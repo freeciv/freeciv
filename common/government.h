@@ -87,9 +87,9 @@ government_ruler_title_new(struct government *pgovern,
 const struct nation_type *
 ruler_title_nation(const struct ruler_title *pruler_title);
 const char *
-ruler_title_male_rule_name(const struct ruler_title *pruler_title);
+ruler_title_male_untranslated_name(const struct ruler_title *pruler_title);
 const char *
-ruler_title_female_rule_name(const struct ruler_title *pruler_title);
+ruler_title_female_untranslated_name(const struct ruler_title *pruler_title);
 
 const char *ruler_title_for_player(const struct player *pplayer,
                                    char *buf, size_t buf_len);

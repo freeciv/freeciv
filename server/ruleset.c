@@ -3796,9 +3796,10 @@ static void send_ruleset_governments(struct conn_list *dest)
 
       title.gov = government_number(g);
       title.nation = (NULL != pnation ? nation_number(pnation) : -1);
-      sz_strlcpy(title.male_title, ruler_title_male_rule_name(pruler_title));
+      sz_strlcpy(title.male_title,
+                 ruler_title_male_untranslated_name(pruler_title));
       sz_strlcpy(title.female_title,
-                 ruler_title_female_rule_name(pruler_title));
+                 ruler_title_female_untranslated_name(pruler_title));
       lsend_packet_ruleset_government_ruler_title(dest, &title);
     } ruler_titles_iterate_end;
   } governments_iterate_end;
