@@ -269,9 +269,7 @@ static bool ruler_title_check(const struct ruler_title *pruler_title)
     }
     ret = FALSE;
   }
-#ifdef ENABLE_NLS
-  if (rule_name(&pruler_title->male) != name_translation(&pruler_title->male)
-      && !formats_match(name_translation(&pruler_title->male), "%s")) {
+  if (!formats_match(name_translation(&pruler_title->male), "%s")) {
     if (NULL != pruler_title->pnation) {
       log_error("Translation of \"%s\" male ruler title for nation \"%s\" "
                 "(nb %d) is not a format (\"%s\"). It should match \"%%s\"",
@@ -287,9 +285,7 @@ static bool ruler_title_check(const struct ruler_title *pruler_title)
     }
     ret = FALSE;
   }
-  if (rule_name(&pruler_title->female)
-      != name_translation(&pruler_title->female)
-      && !formats_match(name_translation(&pruler_title->female), "%s")) {
+  if (!formats_match(name_translation(&pruler_title->female), "%s")) {
     if (NULL != pruler_title->pnation) {
       log_error("Translation of \"%s\" female ruler title for nation \"%s\" "
                 "(nb %d) is not a format (\"%s\"). It should match \"%%s\"",
@@ -305,7 +301,6 @@ static bool ruler_title_check(const struct ruler_title *pruler_title)
     }
     ret = FALSE;
   }
-#endif /* ENABLE_NLS */
   return ret;
 }
 
@@ -367,18 +362,18 @@ ruler_title_nation(const struct ruler_title *pruler_title)
   Return the male rule title name.
 ****************************************************************************/
 const char *
-ruler_title_male_rule_name(const struct ruler_title *pruler_title)
+ruler_title_male_untranslated_name(const struct ruler_title *pruler_title)
 {
-  return rule_name(&pruler_title->male);
+  return untranslated_name(&pruler_title->male);
 }
 
 /****************************************************************************
   Return the female rule title name.
 ****************************************************************************/
 const char *
-ruler_title_female_rule_name(const struct ruler_title *pruler_title)
+ruler_title_female_untranslated_name(const struct ruler_title *pruler_title)
 {
-  return rule_name(&pruler_title->female);
+  return untranslated_name(&pruler_title->female);
 }
 
 /****************************************************************************
