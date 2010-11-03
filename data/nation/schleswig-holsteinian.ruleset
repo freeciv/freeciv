@@ -29,7 +29,6 @@ ruler_titles = {
  "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="schleswig-holstein" 
 flag_alt = "-" 
 city_style = "european" 
