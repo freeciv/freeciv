@@ -165,7 +165,8 @@
 
 #include "registry.h"
 
-#define MAX_LEN_BUFFER 1024
+#define MAX_LEN_ERRORBUF 1024
+#define MAX_LEN_SECPATH 1024
 
 /* Set to FALSE for old-style savefiles. */
 #define SAVE_TABLES TRUE
@@ -217,7 +218,7 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs);
 static void entry_from_token(struct section *psection, const char *name,
                              const char *tok, struct inputfile *file);
 
-static char error_buffer[MAX_LEN_BUFFER] = "\0";
+static char error_buffer[MAX_LEN_ERRORBUF] = "\0";
 
 /**************************************************************************
   Returns the last error which occured in a string.  It never returns NULL.
@@ -235,7 +236,7 @@ static void secfile_log(const struct section_file *secfile,
                         const char *file, const char *function, int line,
                         const char *format, ...)
 {
-  char message[MAX_LEN_BUFFER];
+  char message[MAX_LEN_ERRORBUF];
   va_list args;
 
   va_start(args, format);
@@ -1013,7 +1014,7 @@ static struct section *secfile_insert_base(struct section_file *secfile,
                                            const char *path,
                                            const char **pent_name)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   char *ent_name;
   struct section *psection;
 
@@ -1045,7 +1046,7 @@ struct entry *secfile_insert_bool_full(struct section_file *secfile,
                                        bool allow_replace,
                                        const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const char *ent_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1096,7 +1097,7 @@ size_t secfile_insert_bool_vec_full(struct section_file *secfile,
                                     const char *comment, bool allow_replace,
                                     const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
   va_list args;
 
@@ -1132,7 +1133,7 @@ struct entry *secfile_insert_int_full(struct section_file *secfile,
                                       bool allow_replace,
                                       const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const char *ent_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1183,7 +1184,7 @@ size_t secfile_insert_int_vec_full(struct section_file *secfile,
                                    const char *comment, bool allow_replace,
                                    const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
   va_list args;
 
@@ -1220,7 +1221,7 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
                                       bool allow_replace,
                                       bool no_escape, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const char *ent_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1271,7 +1272,7 @@ size_t secfile_insert_str_vec_full(struct section_file *secfile,
                                    const char *comment, bool allow_replace,
                                    bool no_escape, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
   va_list args;
 
@@ -1310,7 +1311,7 @@ struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
                                              bool allow_replace,
                                              const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const char *string;
   const char *ent_name;
   struct section *psection;
@@ -1367,7 +1368,7 @@ size_t secfile_insert_plain_enum_vec_full(struct section_file *secfile,
                                           bool allow_replace,
                                           const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
   va_list args;
 
@@ -1416,7 +1417,7 @@ struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
                                                bool allow_replace,
                                                const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER], string[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH], string[MAX_LEN_SECPATH];
   const char *ent_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1492,7 +1493,7 @@ size_t secfile_insert_bitwise_enum_vec_full(struct section_file *secfile,
                                             bool allow_replace,
                                             const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
   va_list args;
 
@@ -1541,7 +1542,7 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
                                             bool allow_replace,
                                             const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER], string[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH], string[MAX_LEN_SECPATH];
   const char *ent_name, *val_name;
   struct section *psection;
   struct entry *pentry = NULL;
@@ -1620,7 +1621,7 @@ size_t secfile_insert_enum_vec_data_full(struct section_file *secfile,
                                          bool allow_replace,
                                          const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i, ret = 0;
   va_list args;
 
@@ -1658,7 +1659,7 @@ size_t secfile_insert_enum_vec_data_full(struct section_file *secfile,
 struct entry *secfile_entry_by_path(const struct section_file *secfile,
                                     const char *entry_path)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   char *ent_name;
   size_t len;
   struct section *psection;
@@ -1705,7 +1706,7 @@ struct entry *secfile_entry_by_path(const struct section_file *secfile,
 bool secfile_entry_delete(struct section_file *secfile,
                           const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   va_list args;
   struct entry *pentry;
 
@@ -1731,7 +1732,7 @@ bool secfile_entry_delete(struct section_file *secfile,
 struct entry *secfile_entry_lookup(const struct section_file *secfile,
                                    const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   va_list args;
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
@@ -1749,7 +1750,7 @@ struct entry *secfile_entry_lookup(const struct section_file *secfile,
 bool secfile_lookup_bool(const struct section_file *secfile, bool *bval,
                          const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   va_list args;
 
@@ -1774,7 +1775,7 @@ bool secfile_lookup_bool(const struct section_file *secfile, bool *bval,
 bool secfile_lookup_bool_default(const struct section_file *secfile,
                                  bool def, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   bool bval;
   va_list args;
@@ -1804,7 +1805,7 @@ bool secfile_lookup_bool_default(const struct section_file *secfile,
 bool *secfile_lookup_bool_vec(const struct section_file *secfile,
                               size_t *dim, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i = 0;
   bool *vec;
   va_list args;
@@ -1849,7 +1850,7 @@ bool *secfile_lookup_bool_vec(const struct section_file *secfile,
 bool secfile_lookup_int(const struct section_file *secfile, int *ival,
                         const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   va_list args;
 
@@ -1874,7 +1875,7 @@ bool secfile_lookup_int(const struct section_file *secfile, int *ival,
 int secfile_lookup_int_default(const struct section_file *secfile, int def,
                                const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   int ival;
   va_list args;
@@ -1905,7 +1906,7 @@ int secfile_lookup_int_def_min_max(const struct section_file *secfile,
                                    int defval, int minval, int maxval,
                                    const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   int value;
   va_list args;
@@ -1951,7 +1952,7 @@ int secfile_lookup_int_def_min_max(const struct section_file *secfile,
 int *secfile_lookup_int_vec(const struct section_file *secfile,
                             size_t *dim, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i = 0;
   int *vec;
   va_list args;
@@ -1996,7 +1997,7 @@ int *secfile_lookup_int_vec(const struct section_file *secfile,
 const char *secfile_lookup_str(const struct section_file *secfile,
                                const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str;
   va_list args;
@@ -2027,7 +2028,7 @@ const char *secfile_lookup_str_default(const struct section_file *secfile,
                                        const char *def,
                                        const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str;
   va_list args;
@@ -2058,7 +2059,7 @@ const char *secfile_lookup_str_default(const struct section_file *secfile,
 const char **secfile_lookup_str_vec(const struct section_file *secfile,
                                     size_t *dim, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i = 0;
   const char **vec;
   va_list args;
@@ -2107,7 +2108,7 @@ bool secfile_lookup_plain_enum_full(const struct section_file *secfile,
                                     secfile_enum_by_name_fn_t by_name_fn,
                                     const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str;
   va_list args;
@@ -2152,7 +2153,7 @@ int secfile_lookup_plain_enum_default_full(const struct section_file
                                            by_name_fn,
                                            const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str;
   int val;
@@ -2195,7 +2196,7 @@ int *secfile_lookup_plain_enum_vec_full(const struct section_file *secfile,
                                         by_name_fn,
                                         const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i = 0;
   int *vec;
   va_list args;
@@ -2247,10 +2248,10 @@ bool secfile_lookup_bitwise_enum_full(const struct section_file *secfile,
                                       secfile_enum_by_name_fn_t by_name_fn,
                                       const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str, *p;
-  char val_name[MAX_LEN_BUFFER];
+  char val_name[MAX_LEN_SECPATH];
   int val;
   va_list args;
 
@@ -2314,10 +2315,10 @@ int secfile_lookup_bitwise_enum_default_full(const struct section_file
                                              by_name_fn,
                                              const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str, *p;
-  char val_name[MAX_LEN_BUFFER];
+  char val_name[MAX_LEN_SECPATH];
   int val, full_val;
   va_list args;
 
@@ -2378,7 +2379,7 @@ int *secfile_lookup_bitwise_enum_vec_full(const struct section_file *secfile,
                                           by_name_fn,
                                           const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i = 0;
   int *vec;
   va_list args;
@@ -2429,10 +2430,10 @@ bool secfile_lookup_enum_data(const struct section_file *secfile,
                               secfile_enum_name_data_fn_t name_fn,
                               secfile_data_t data, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str, *p, *name;
-  char val_name[MAX_LEN_BUFFER];
+  char val_name[MAX_LEN_SECPATH];
   int val;
   va_list args;
 
@@ -2512,10 +2513,10 @@ int secfile_lookup_enum_default_data(const struct section_file *secfile,
                                      secfile_data_t data,
                                      const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   const struct entry *pentry;
   const char *str, *p, *name;
-  char val_name[MAX_LEN_BUFFER];
+  char val_name[MAX_LEN_SECPATH];
   int value, val;
   va_list args;
 
@@ -2594,7 +2595,7 @@ int *secfile_lookup_enum_vec_data(const struct section_file *secfile,
                                   secfile_enum_name_data_fn_t name_fn,
                                   secfile_data_t data, const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   size_t i = 0;
   int *vec;
   va_list args;
@@ -2658,7 +2659,7 @@ struct section *secfile_section_by_name(const struct section_file *secfile,
 struct section *secfile_section_lookup(const struct section_file *secfile,
                                        const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   va_list args;
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
@@ -2906,7 +2907,7 @@ struct entry *section_entry_by_name(const struct section *psection,
 struct entry *section_entry_lookup(const struct section *psection,
                                    const char *path, ...)
 {
-  char fullpath[MAX_LEN_BUFFER];
+  char fullpath[MAX_LEN_SECPATH];
   struct entry *pentry;
   va_list args;
 
