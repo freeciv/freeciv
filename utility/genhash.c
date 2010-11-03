@@ -50,8 +50,12 @@
    data_copy_func: same as 'key_copy_func', but for data.
    data_free_func: same as 'key_free_func', but for data.
 
-   Resize genhash table when deemed necessary by making and populating a new
-   table.
+   Implementation uses closed hashing with simple collision resolution.
+   Deleted elements are marked as BUCKET_DELETED rather than BUCKET_UNUSED
+   so that lookups on previously added entries work properly. Else, looking
+   up for a key would end before looking up potential collision resolution.
+   genhash_clear() reset all buckets to UNUSED state. Resize hash table when
+   deemed necessary by making and populating a new table.
 ****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -70,8 +74,15 @@
 #define FULL_RATIO 0.75         /* consider expanding when above this */
 #define MIN_RATIO 0.24          /* shrink when below this */
 
+typedef unsigned char genhash_bucket_state_t;
+enum {
+  BUCKET_UNUSED = 0,    /* Set by fc_calloc(). */
+  BUCKET_USED,
+  BUCKET_DELETED
+};
+
 struct genhash_bucket {
-  bool used;
+  genhash_bucket_state_t state;
   void *key;
   void *data;
   genhash_val_t hash_val; /* To avoid recalculating in lookup functions. */
@@ -375,7 +386,7 @@ static void genhash_resize_table(struct genhash *pgenhash,
 
   end = pgenhash->buckets + pgenhash->num_buckets;
   for(b = pgenhash->buckets; b < end; b++) {
-    if (b->used) {
+    if (BUCKET_USED == b->state) {
       success = genhash_insert(pgenhash_new, b->key, b->data);
       fc_assert(TRUE == success);
     }
@@ -442,17 +453,40 @@ static struct genhash_bucket *
 genhash_bucket_lookup(const struct genhash *pgenhash,
                       const void *key, genhash_val_t hash_val)
 {
-  struct genhash_bucket *b = pgenhash->buckets + hash_val;
+  struct genhash_bucket *b = pgenhash->buckets + hash_val, *deleted = NULL;
   const struct genhash_bucket *const start = b;
   const struct genhash_bucket *const end = (pgenhash->buckets
                                             + pgenhash->num_buckets);
 
   do {
-    if (!b->used) {
-      return b;
-    } else if (b->hash_val == hash_val
-               && pgenhash->key_comp_func(b->key, key)) {
-      return b;
+    switch (b->state) {
+    case BUCKET_UNUSED:
+      /* - Variant 1 'deleted' is not NULL: 'deleted' is the best place for
+       * this key. However, due to collision, we weren't sure that the key
+       * we were looking for was not in the following buckets. Now, we are
+       * sure it doesn't, because this bucket hasn't been used at all.
+       * - Variant 2: 'deleted' is NULL: key not found, take the first free
+       * bucket. */
+      return (NULL != deleted ? deleted : b);
+    case BUCKET_USED:
+      if (b->hash_val == hash_val
+          && pgenhash->key_comp_func(b->key, key)) {
+        /* This is the key we are looking for. */
+        return b;
+      }
+      break;
+    case BUCKET_DELETED:
+        /* This bucket is free. But, we need to be sure the key is not
+         * registred in following buckets due to the resolution of former
+         * collisions. We will be sure when we will meet a 'BUCKET_UNUSED'.
+         * See 'Variant 1'. */
+        if (NULL == deleted) {
+        deleted = b;
+      }
+      break;
+    default:
+      log_error("%s(): bad bucket state %d.", __FUNCTION__, (int) b->state);
+      break;
     }
     b++;
     if (b >= end) {
@@ -571,16 +605,21 @@ struct genhash *genhash_copy(const struct genhash *pgenhash)
     memcpy(new_genhash->buckets, pgenhash->buckets, size);
   } else {
     /* We have callbacks. */
-    struct genhash_bucket *b = new_genhash->buckets;
-    struct genhash_bucket *const end =
-        new_genhash->buckets + new_genhash->num_buckets;
     const struct genhash_bucket *src = pgenhash->buckets;
+    const struct genhash_bucket *const end =
+        pgenhash->buckets + pgenhash->num_buckets;
+    struct genhash_bucket *bucket;
 
-    memset(b, 0, size);
-    for (; b < end; b++, src++) {
-      if (src->used) {
-        genhash_bucket_set(new_genhash, b, src->key, src->data);
-        b->used = TRUE;
+    memset(new_genhash->buckets, 0, size); /* Set all buckets as unused. */
+    /* Let's re-insert all datas (we don't need to copy 'deleted' buckets).
+     * As the size is the same, the hash values are same too, don't
+     * recalculate them. */
+    for (; src < end; src++) {
+      if (BUCKET_USED == src->state) {
+        bucket = genhash_bucket_lookup(new_genhash, src->key, src->hash_val);
+        genhash_bucket_set(new_genhash, bucket, src->key, src->data);
+        bucket->hash_val = src->hash_val;
+        bucket->state = BUCKET_USED;
       }
     }
   }
@@ -603,11 +642,12 @@ void genhash_clear(struct genhash *pgenhash)
         pgenhash->buckets + pgenhash->num_buckets;
 
     for (; b < end; b++) {
-      if (b->used) {
+      if (BUCKET_USED == b->state) {
         genhash_bucket_free(pgenhash, b);
       }
     }
   }
+  /* Reset all buckets as BUCKET_UNUSED. */
   memset(pgenhash->buckets, 0,
          sizeof(*pgenhash->buckets) * pgenhash->num_buckets);
 
@@ -630,12 +670,12 @@ bool genhash_insert(struct genhash *pgenhash, const void *key,
   genhash_maybe_expand(pgenhash);
   hash_val = genhash_val_calc(pgenhash, key);
   bucket = genhash_bucket_lookup(pgenhash, key, hash_val);
-  if (bucket->used) {
+  if (BUCKET_USED == bucket->state) {
     return FALSE;
   } else {
     genhash_bucket_set(pgenhash, bucket, key, data);
     bucket->hash_val = hash_val;
-    bucket->used = TRUE;
+    bucket->state = BUCKET_USED;
     pgenhash->num_entries++;
     return TRUE;
   }
@@ -674,7 +714,7 @@ bool genhash_replace_full(struct genhash *pgenhash, const void *key,
   genhash_maybe_expand(pgenhash);
   hash_val = genhash_val_calc(pgenhash, key);
   bucket = genhash_bucket_lookup(pgenhash, key, hash_val);
-  if (bucket->used) {
+  if (BUCKET_USED == bucket->state) {
     /* Replace. */
     genhash_bucket_get(bucket, old_pkey, old_pdata);
     genhash_bucket_free(pgenhash, bucket);
@@ -686,7 +726,7 @@ bool genhash_replace_full(struct genhash *pgenhash, const void *key,
     genhash_default_get(old_pkey, old_pdata);
     genhash_bucket_set(pgenhash, bucket, key, data);
     bucket->hash_val = hash_val;
-    bucket->used = TRUE;
+    bucket->state = BUCKET_USED;
     pgenhash->num_entries++;
     return FALSE;
   }
@@ -706,7 +746,7 @@ bool genhash_lookup(const struct genhash *pgenhash, const void *key,
 
   bucket = genhash_bucket_lookup(pgenhash, key,
                                  genhash_val_calc(pgenhash, key));
-  if (bucket->used) {
+  if (BUCKET_USED == bucket->state) {
     genhash_bucket_get(bucket, NULL, pdata);
     return TRUE;
   } else {
@@ -742,9 +782,11 @@ bool genhash_remove_full(struct genhash *pgenhash, const void *key,
   genhash_maybe_shrink(pgenhash);
   bucket = genhash_bucket_lookup(pgenhash, key,
                                  genhash_val_calc(pgenhash, key));
-  if (bucket->used) {
+  if (BUCKET_USED == bucket->state) {
     genhash_bucket_get(bucket, deleted_pkey, deleted_pdata);
-    bucket->used = FALSE;
+    /* For later lookups, mark it as 'deleted'. See comments in
+     * genhash_bucket_lookup(). */
+    bucket->state = BUCKET_DELETED;
     fc_assert(0 < pgenhash->num_entries);
     pgenhash->num_entries--;
     return TRUE;
@@ -789,7 +831,7 @@ static void genhash_iter_next(struct iterator *genhash_iter)
   struct genhash_iter *iter = GENHASH_ITER(genhash_iter);
   do {
     iter->b++;
-  } while (iter->b < iter->end && !iter->b->used);
+  } while (iter->b < iter->end && BUCKET_USED != iter->b->state);
 }
 
 /****************************************************************************
