@@ -2,7 +2,7 @@
 
 name=_("Russian")
 plural=_("?plural:Russians")
-groups="Medieval", "Early Modern", "Modern", "European", "Asian"
+groups="Early Modern", "Modern", "European", "Asian"
 legend=_("According to legend, Slavic and Finnic tribes of Novgorod\
  invited in the year 862 the Varangian (Viking) king Rurik to bring order\
  to their land. Rurik established Kievan Rus' in this realm, the first\
