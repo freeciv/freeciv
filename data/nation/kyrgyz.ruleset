@@ -4,7 +4,7 @@ name=_("Kyrgyz")
 plural=_("?plural:Kyrgyzs")
 groups="Modern", "Asian"
 legend=_("Nation in Central Asia. Conquered by the Russian Empire\
- in 19th century, Kyrgyzstan got independence\
+ in the 19th century, Kyrgyzstan got independence\
  from the Soviet Union in 1991.")
 
 leaders = {

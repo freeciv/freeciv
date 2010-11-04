@@ -12,7 +12,7 @@ legend=_("Turkmen tribes were first united in the 11th century AD under\
 
 leaders = {
  "name",                  "sex"
- "Magtymguly Pyragy",
+ "Magtymguly Pyragy",     "Male"
  "Saparmyrat Nyýazow",    "Male" ; Post-independence president.
  "Muhammetnazar Gapurow", "Male"
  "Alp Arslan",            "Male" ; Seljuk ruler
