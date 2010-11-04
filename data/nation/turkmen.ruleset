@@ -3,24 +3,30 @@
 name=_("Turkmen")
 plural=_("?plural:Turkmens")
 groups="Modern", "Asian"
-legend=_("Nation in Central Asia. Conquered by the Russian Empire\
- in 19th century, Turkmenistan got independence\
- from the Soviet Union in 1991.")
+legend=_("Turkmen tribes were first united in the 11th century AD under\
+ Togrul Beg, second ruler of the Seljuk Empire. As the Seljuk state broke\
+ down under the pressure from encroaching Mongols, the Turkmens started\
+ a westward migration. They eventually settled in the lands between\
+ the Amu Darya river and the Caspian Sea, approximately the location of\
+ today's Turkmenistan.")
 
 leaders = {
- "name",                "sex"
- "Arsaces I",           "Male" ; Founder of the Parthian Empire.
- "Mithridates II",      "Male" ; Ruler of Pathria.
- "Ardashir-i Papagan",  "Male" ; Founder of Sassanid Empire
-                               ; (see persian.ruleset).
- "Seljuk",              "Male" ; Founder of Seljuk dynasty and the state.
- "Saparmyrat Nyýazow",  "Male" ; Post-independence president.
+ "name",                  "sex"
+ "Magtymguly Pyragy",
+ "Saparmyrat Nyýazow",    "Male" ; Post-independence president.
+ "Muhammetnazar Gapurow", "Male"
+ "Alp Arslan",            "Male" ; Seljuk ruler
+ "Togrul",                "Male" ; Seljuk ruler
+ "Seljuk",                "Male" ; Founder of Seljuk dynasty and the state.
 }
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("%s Khan"),      _("%s Khatan")
- "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("%s Khan"),            _("%s Khatan")
+ "Monarchy",        _("%s Beg"),             _("?female:%s Beg")
+ "Republic",        _("Sultan %s"),          _("Sultana %s")
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+ "Fundamentalism",  _("Turkmenbashi %s"),    _("?female:Turkmenbashi %s")
 }
 
 flag="turkmenistan"
@@ -32,24 +38,31 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "uzbek", "kazakh", "iranian", "persian", "Afghani"
+civilwar_nations="Uzbek", "Kazakh", "Turkish", "Azeri", "Kyrgyz"
 
 cities =
- "Ashgabat",
+ "Aşgabat",
+ "Türkmenabat",
+ "Daşoguz",
  "Mary",
- "Nebitdag",
- "Dashhowuz",
- "Chärjew",
- "Yerbent",
- "Gyzylgaya",
- "Kerki",
- "Gowurdak",
- "Gushgy",
+ "Balkanabat",
+ "Baýramaly",
+ "Türkmenbaşy",
+ "Magdanly",
  "Tejen",
- "Saragt",
- "Bayramaly",
- "Esenguly",
+ "Serdar",
+ "Abadan",
+ "Ýolöten",
+ "Kerki",
  "Gumdag",
- "Gyzylarbat",
- "Turkmenbashi",
- "Bekdash"
+ "Bäherden",
+ "Akdepe",
+ "Garabogaz",
+ "Esenguly",
+ "Serhetabat",
+ "Ýerbent",
+ "Gyzylgaya",
+ "Saragt",
+ "Darganata",
+ "Gyzyletrek",
+ "Tagtabazar"
