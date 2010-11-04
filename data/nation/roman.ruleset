@@ -62,8 +62,10 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-conflicts_with = "western roman", "byzantine"
-civilwar_nations = "western roman", "byzantine", "palmyrene"
+
+conflicts_with="Western Roman", "Byzantine", "Italian", "Spanish", "French",
+ "Portuguese", "Romanian"
+civilwar_nations="Western Roman", "Byzantine", "Palmyrene"
 
 cities =
   "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",

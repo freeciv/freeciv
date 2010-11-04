@@ -23,9 +23,9 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Similar flags
-conflicts_with="singaporean"
-civilwar_nations="acehnese", "east timorese"
+; Singapore has very similar flag
+conflicts_with="Singaporean", "Majapahit", "Sri Vijaya"
+civilwar_nations="Acehnese", "East Timorese"
 
 cities =
  "Jakarta",

@@ -31,7 +31,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="sudanese", "somali"
+
+civilwar_nations="Sudanese", "Somali", "Eritrean"
 
 cities =
   "Addis Abeba", "Dire Dawa", "Gonder", "Nazret", "Harer", "Mek'ele",
