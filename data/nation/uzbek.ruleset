@@ -3,15 +3,15 @@
 name=_("Uzbek")
 plural=_("?plural:Uzbeks")
 groups="Modern", "Asian"
-legend=_("Nation in Central Asia. Uzbekistan was the center of\
- ancient states such as Khoresm, the Khanate of Bukhara, the Khanate of\
- Kokand, and others. Conquered by the Russian Empire in 19th century,\
- Uzbekistan got independence from the Soviet Union in 1991.")
+legend=_("The Central Asian nation of Uzbekistan has been the site of many\
+ ancient states such as Khwarezm, the Khanate of Bukhara, and the Khanate of\
+ Kokand. The Uzbeks regards themselves as ancestors of Timur, founder of
+ the Timurid dynasty, who ruled from his capital at Samarkand.")
 
 leaders = {
  "name",                        "sex"
  "Shohruh",                     "Male" ; Khan of Kokand
- "Shayboniy",                   "Male"
+ "Shayboniy",                   "Male" ; a.k.a. Muhammad Shaybani
  "Temur",                       "Male" ; Founder of Timurid dynasty
  "Ulug'bek",                    "Male" ; Timurid ruler
  "Abdulla II",                  "Male" ; Khan of Bukhara
@@ -19,9 +19,10 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("%s Khan"),      _("%s Khatan")
- "Monarchy",        _("Emir %s"),      _("Emira %s")
+ "government",  "male_title",              "female_title"
+ "Despotism",   _("%s Khan"),              _("%s Khatan")
+ "Monarchy",    _("Emir %s"),              _("Emira %s")
+ "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
 }
 
 flag="uzbekistan"
@@ -34,7 +35,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="Timurid" ; Uzbeks considers Timur their founding father
-civilwar_nations="Turkmen", "Tajik", "Kazakh", "Kyrgyz", "Afghani"
+civilwar_nations="Turkmen", "Kazakh", "Kyrgyz", "Uyghur"
 
 cities =
  "Buxoro", ; Bukhara

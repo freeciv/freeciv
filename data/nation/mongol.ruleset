@@ -22,7 +22,7 @@ leaders = {
  "Mönkh", 	"Male" ; Mongke / Мөнх
  "Khubilai",	"Male" ; Kublai / Хубилай
  "Khülegü",	"Male" ; Hulagu / Хүлэгү
- "Sorkhagtani",  "Female" ; Sorghaghtani / Сорхагтани
+ "Mandukhai",   "Female" ; Мандухай
 }
 
 ruler_titles = {

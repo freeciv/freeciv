@@ -10,19 +10,20 @@ legend=_("Kazakhs are descendants of Turkic and Mongolian nomadic tribes.\
 
 leaders = {
  "name",                "sex"
- "Kerei",               "Male" ; Khan of Kazakh Khanate.
- "Zhanibek",            "Male" ; Khan of Kazakh Khanate.
- "Kasym",               "Male" ; Khan of Kazakh Khanate.
- "Abul Khair",          "Male" ; Ruler of Junior Jüz.
- "Ablai",               "Male" ; Ruler of Middle Jüz.
- "Kenesary Kasymov",   "Male"  ; Leader of uprising against Russians.
- "Dinmukhamed Konayev","Male"  ; Soviet time leader.
+ "Kerey",               "Male" ; Kerei, Khan of Kazakh Khanate.
+ "Jänibek",             "Male" ; Janybek, Khan of Kazakh Khanate.
+ "Qasım",               "Male" ; Kasym, Khan of Kazakh Khanate.
+ "Äbilqayır",           "Male" ; Abul Khair, Khan of Little jüz.
+ "Abılay",              "Male" ; Ablai, Khan of Middle jüz.
+ "Kenesarı",            "Male" ; Leader of uprising against Russians.
+ "Dinmuxammed Qonaev",  "Male" ; Soviet time leader.
 }
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("%s Khan"),      _("%s Khatan")
- "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("%s Khan"),            _("%s Khatan")
+ "Monarchy",        _("%s Khagan"),          _("?female:%s Khagan")
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
 }
 
 flag="kazakhstan"
@@ -34,47 +35,58 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="uzbek", "turkmen", "tajik", "kyrgyz", "russian"
+civilwar_nations="Uzbek", "Turkmen", "Kyrgyz", "Russian", "Uyghur"
 
 cities =
   "Taraz",
-  "Turkistan",
-  "Shymkent",
+  "Türkistan",
+  "Şımkent",
   "Oral",
   "Pavlodar", 
   "Semey",
-  "Petropavlovsk",
-  "Almaty",
+  "Petropavl",
+  "Almatı",
   "Astana",
-  "Kokshetau", 
-  "Qyzylorda",
-  "Oskemen",
-  "Aqtobe",
+  "Kökşetaw", 
+  "Qızılorda",
+  "Öskemen",
+  "Aqtöbe",
   "Qostanay",
-  "Atyrau", 
-  "Qaraghandy",
-  "Zharkent",
+  "Atıraw", 
+  "Qarağandı",
+  "Jarkent",
   "Atbasar",
-  "Temirtau",
-  "Balqash", 
-  "Taldyqorghan",
-  "Ayakoz",
+  "Temirtaw",
+  "Balqaş", 
+  "Taldıqorğan",
+  "Ayagoz",
   "Aral",
   "Ekibastuz",
-  "Zhezqazghan",
-  "Rudnyy",
-  "Aqtau",
-  "Bayqongyr",
+  "Jezqazğan",
+  "Rudnıy",
+  "Aqtaw",
+  "Bayqoñır",
   "Zaysan", 
-  "Arqalyq",
-  "Qapshaghay",
+  "Arqalıq",
   "Esil",
-  "Aqsay",
-  "Zhangatas", 
-  "Embi",
+  "Aksay",
   "Beyneu",
-  "Shu",
+  "Şw",
   "Maqat",
-  "Lepsi",
-  "Shalqar",
-  "Saryshaghan"
+  "Sätpaev",
+  "Kentaw",
+  "Jañaözen",
+  "Şaxtïnsk",
+  "Rïdder",
+  "Şwçïnsk",
+  "Saran",
+  "Stepnogorsk"
+
+; Could not confirm Kazakh spelling of the following cities.
+
+;  "Qapshaghay",
+;  "Zhangatas", 
+;  "Embi",
+;  "Lepsi",
+;  "Shalqar",
+;  "Saryshaghan"
