@@ -912,9 +912,9 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
     tile_type_vector_iterate(lattice, other) {
       if (tile_type_better(other, type)) {
         tile_type_vector_append(&type->better_types, other);
-        tile_type_vector_append(&type->worse_types, type);
+        tile_type_vector_append(&other->worse_types, type);
       } else if (tile_type_better(type, other)) {
-        tile_type_vector_append(&type->better_types, type);
+        tile_type_vector_append(&other->better_types, type);
         tile_type_vector_append(&type->worse_types, other);
       }
     } tile_type_vector_iterate_end;
@@ -1572,14 +1572,6 @@ static void init_min_production(struct cm_state *state)
      * absolute highest minimum possible.  However if the minimum we find
      * here is incorrectly too high, then the algorithm will fail. */
     int min;
-
-    if (o != O_SHIELD && o != O_FOOD) {
-      /* min-production calculations are only possible for food and
-       * shields.  The others depend on complex trade calculations
-       * that cannot be accounted for since the bonus from trade
-       * routes depends on the amount of trade in an unpredictable way. */
-      continue;
-    }
 
     /* 1.  Calculate the minimum final production that is needed.
      * 2.  Divide by the bonus (rounding down) to get the minimum citizen
