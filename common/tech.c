@@ -457,13 +457,12 @@ Tech_type_id player_research_step(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Returns pointer when the advance "exists" in this game,
-  returns NULL otherwise.
+  Returns pointer when the advance "exists" in this game, returns NULL
+  otherwise.
 
-  A tech doesn't exist for any of:
-   - the tech has been flagged as removed by setting its require values
-     to A_LAST (this function returns 0 if either req is A_LAST, rather
-     than both, to be on the safe side)
+  A tech doesn't exist if it has been flagged as removed by setting its
+  require values to A_NEVER. Note that this function returns NULL if either
+  of req values is A_NEVER, rather than both, to be on the safe side.
 **************************************************************************/
 struct advance *valid_advance(struct advance *padvance)
 {
