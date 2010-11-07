@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-31 00:38+0200\n"
-"PO-Revision-Date: 2010-10-31 00:33+0200\n"
+"POT-Creation-Date: 2010-11-07 19:43+0100\n"
+"PO-Revision-Date: 2010-11-06 23:27+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -741,13 +741,13 @@ msgstr "%s factible"
 msgid "City center tile"
 msgstr "Casella del centre de la ciutat"
 
-#: common/tech.c:813 client/gui-gtk-2.0/repodlgs.c:541
+#: common/tech.c:812 client/gui-gtk-2.0/repodlgs.c:541
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Tecnologia del futur %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:890 common/tech.c:894 server/settings.c:42
+#: common/tech.c:889 common/tech.c:893 server/settings.c:42
 #: client/gui-gtk-2.0/helpdlg.c:113 client/gui-sdl/citydlg.c:729
 #: client/gui-sdl/gui_tilespec.c:486 client/gui-sdl/helpdlg.c:374
 #: client/gui-sdl/helpdlg.c:798 client/gui-sdl/helpdlg.c:824
@@ -760,12 +760,12 @@ msgstr "Tecnologia del futur %d"
 msgid "None"
 msgstr "Cap"
 
-#: common/tech.c:898
+#: common/tech.c:897
 msgid "Future Tech."
 msgstr "Tecnologia del futur"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:903 client/gui-gtk-2.0/inteldlg.c:393
+#: common/tech.c:902 client/gui-gtk-2.0/inteldlg.c:393
 msgid "(Unknown)"
 msgstr "(Desconegut)"
 
@@ -6570,64 +6570,64 @@ msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "Sense el guiament de la capital, la nau espacial %s s'ha perdut!"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:261
+#: server/srv_main.c:260
 #, c-format
 msgid "?winners:, the %s"
 msgstr ", els %s"
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:265
+#: server/srv_main.c:264
 #, c-format
 msgid "?winners:the %s"
 msgstr "als %s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:275
+#: server/srv_main.c:274
 #, c-format
 msgid "Scenario victory to %s."
 msgstr "Victòria d'escenari per %s."
 
-#: server/srv_main.c:283
+#: server/srv_main.c:284
 msgid "Game ended in a draw as end turn exceeded"
 msgstr "La partida s'ha acabat en empat perque s'ha passat de l'últim torn"
 
-#: server/srv_main.c:316
+#: server/srv_main.c:317
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "La nau espacial %s ha arribat a Alpha Centauri."
 
-#: server/srv_main.c:334 server/srv_main.c:374
+#: server/srv_main.c:335 server/srv_main.c:375
 #, c-format
 msgid "Team victory to %s"
 msgstr "Victòria d'equip per a %s"
 
-#: server/srv_main.c:344 server/srv_main.c:390
+#: server/srv_main.c:345 server/srv_main.c:391
 #, c-format
 msgid "Game ended in victory for %s"
 msgstr "La partida s'ha acabat amb victòria de %s"
 
-#: server/srv_main.c:397
+#: server/srv_main.c:398
 msgid "Game ended in a draw"
 msgstr "La partida ha acabat en un empat"
 
-#: server/srv_main.c:514 server/srv_main.c:525
+#: server/srv_main.c:515 server/srv_main.c:526
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 "El teu %s s'ha desmantellat d'acord amb el teu tractat de pau amb els %s."
 
-#: server/srv_main.c:564
+#: server/srv_main.c:565
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Ciutadans preocupats avisen que l'alto el foc amb %s s'acabarà aviat."
 
-#: server/srv_main.c:573 server/srv_main.c:578
+#: server/srv_main.c:574 server/srv_main.c:579
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "L'alto el foc amb %s s'ha acabat. Ara estàs en guerra amb els %s."
 
-#: server/srv_main.c:596
+#: server/srv_main.c:597
 #, c-format
 msgid ""
 "Ceasefire between %s and %s has run out. They are at war. You cancel your "
@@ -6636,47 +6636,47 @@ msgstr ""
 "S'ha acabat l'alto el foc entre %s i %s. Estan en guerra. Cancel·les la teva "
 "aliança amb tots dos."
 
-#: server/srv_main.c:1063 server/srv_main.c:1066
+#: server/srv_main.c:1064 server/srv_main.c:1067
 #, c-format
 msgid "Unsupported compression type %d"
 msgstr "Tipus de compressió no suportat %d"
 
-#: server/srv_main.c:1096
+#: server/srv_main.c:1097
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "No s'ha pogut desar la partida com a %s"
 
-#: server/srv_main.c:1098
+#: server/srv_main.c:1099
 #, c-format
 msgid "Game saved as %s"
 msgstr "Partida desada com a %s"
 
-#: server/srv_main.c:1130
+#: server/srv_main.c:1131
 msgid "The game is already running."
 msgstr "La partida ja s'està jugant."
 
-#: server/srv_main.c:1138
+#: server/srv_main.c:1139
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s ha perdut el control cmdlevel en començar la partida. A partir d'ara, feu "
 "servir votacions."
 
-#: server/srv_main.c:1145
+#: server/srv_main.c:1146
 msgid "Starting game."
 msgstr "S'està iniciant la partida."
 
-#: server/srv_main.c:1215
+#: server/srv_main.c:1216
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "sol·licitud d'informe desconegut (tipus %d)"
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1295
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Avís: rebutjant client antic %s"
 
-#: server/srv_main.c:1303
+#: server/srv_main.c:1304
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -6684,65 +6684,65 @@ msgstr ""
 "El teu client és massa antic. Per utilitzar aquest servidor actualitza si us "
 "plau el teu client a Freeciv 2.2 o posterior."
 
-#: server/srv_main.c:1362
+#: server/srv_main.c:1363
 msgid "You are not allowed to edit."
 msgstr "No tens permís per editar."
 
-#: server/srv_main.c:1510
+#: server/srv_main.c:1511
 msgid "Please choose a non-blank name."
 msgstr "Si us plau, escull un nom no buit."
 
-#: server/srv_main.c:1526
+#: server/srv_main.c:1527
 msgid "That nation is already in use."
 msgstr "Aquesta nació ja està agafada."
 
-#: server/srv_main.c:1542
+#: server/srv_main.c:1543
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Un altre jugador ja té el nom '%s'.  Si us plau, escull un altre nom."
 
-#: server/srv_main.c:1563
+#: server/srv_main.c:1564
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Si us plau, escull un nom que contingui només caràcters ASCII"
 
-#: server/srv_main.c:1666
+#: server/srv_main.c:1667
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "La nació %s no està disponible en aquest escenari."
 
-#: server/srv_main.c:1672
+#: server/srv_main.c:1673
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nació %s ja està agafada."
 
-#: server/srv_main.c:1690
+#: server/srv_main.c:1691
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s és el dirigent %s %s."
 
-#: server/srv_main.c:1746
+#: server/srv_main.c:1747
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 "Esperant per començar la partida: %d de %d jugadors estan a punt per "
 "començar."
 
-#: server/srv_main.c:1813 server/srv_main.c:1817
+#: server/srv_main.c:1814 server/srv_main.c:1818
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s ha estat afegit com un jugador de nivell %s controlat per IA."
 
-#: server/srv_main.c:1956
+#: server/srv_main.c:1957
 #, c-format
 msgid "Player %d"
 msgstr "Jugador %d"
 
-#: server/srv_main.c:1966 server/srv_main.c:1970
+#: server/srv_main.c:1967 server/srv_main.c:1971
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s governa els %s."
 
-#: server/srv_main.c:2107
+#: server/srv_main.c:2108
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
@@ -6750,21 +6750,21 @@ msgstr ""
 "Aquest programa civserver té suport d'autenticació de jugadors, però ara "
 "mateix no es fa servir."
 
-#: server/srv_main.c:2169
+#: server/srv_main.c:2170
 #, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr "S'està enviant informació al metaservidor <%s>"
 
-#: server/srv_main.c:2174
+#: server/srv_main.c:2175
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "No es comença sense connexió de metaservidor sol·licitada explícitament."
 
-#: server/srv_main.c:2195
+#: server/srv_main.c:2196
 msgid "The game is over..."
 msgstr "La partida ha acabat..."
 
-#: server/srv_main.c:2429
+#: server/srv_main.c:2430
 msgid "Now accepting new client connections."
 msgstr "S'estan acceptant noves connexions de clients."
 
@@ -20324,12 +20324,12 @@ msgstr ""
 "Tenir una sola proporció no té impacte sobre l'or ni la ciència, perquè tant "
 "l'or com el progrés tecnològic són xifres d'àmbit imperial. El luxe és més "
 "problemàtic, però, perquè el seu efecte és local -- només afecta la ciutat "
-"que el produceix. Així, encara que seria pràctic que les ciutats "
-"descontentes invertissin tot el seu comerç en luxes mentre d'altres "
-"invertissin en ciència o impostos, hauràs de trobar un compromís entre les "
-"necessitats de totes les teves ciutats (encara que es poden fer ajustos "
-"locals assignant ciutadans perquè facin d'artistes). Veure la secció sobre "
-"Felicitat per més detalls sobre els efectes del luxe."
+"que el produeix. Així, encara que seria pràctic que les ciutats descontentes "
+"invertissin tot el seu comerç en luxes mentre d'altres invertissin en "
+"ciència o impostos, hauràs de trobar un compromís entre les necessitats de "
+"totes les teves ciutats (encara que es poden fer ajustos locals assignant "
+"ciutadans perquè facin d'artistes). Veure la secció sobre Felicitat per més "
+"detalls sobre els efectes del luxe."
 
 #: data/helpdata.txt:571
 msgid ""
