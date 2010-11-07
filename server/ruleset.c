@@ -943,7 +943,7 @@ restart:
      broken to fix by default, so die.
   */
   advance_iterate(A_FIRST, a) {
-    if (!valid_advance(a)) {
+    if (valid_advance(a)) {
       /* We check for recursive tech loops later,
        * in build_required_techs_helper. */
       if (!valid_advance(a->require[AR_ONE])) {
