@@ -238,7 +238,7 @@ static const struct sset_val_name *startpos_name(int startpos)
   NAME_CASE(MAPSTARTPOS_SINGLE, "SINGLE",
             N_("One player per continent"));
   NAME_CASE(MAPSTARTPOS_2or3, "2or3",
-            N_("Two on three players per continent"));
+            N_("Two or three players per continent"));
   NAME_CASE(MAPSTARTPOS_ALL, "ALL",
             N_("All players on a single continent"));
   NAME_CASE(MAPSTARTPOS_VARIABLE, "VARIABLE",
@@ -1509,14 +1509,14 @@ static struct setting settings[] = {
               SSET_TO_CLIENT, N_("Airlifting style"),
               /* TRANS: The strings between double quotes are also
                * translated separately (they must match!). The strings
-               * between paranthesis and in uppercase must not to be
+               * between parenthesis and in uppercase must not be
                * translated. */
               N_("This setting affects airlifting units between cities. It "
                  "can be a set of the following values:\n"
                  "- \"Allows units to be airlifted from allied cities\" "
                  "(FROM_ALLIES).\n"
-                 "- \"Allows units to be airlifted to allied citiess\" "
-                 "(TO_ALLIES)\n"
+                 "- \"Allows units to be airlifted to allied cities\" "
+                 "(TO_ALLIES).\n"
                  "- \"Unlimited units from source city\" (SRC_UNLIMITED): "
                  "note that airlifting from a city doesn't reduce the "
                  "airlifted counter, but still needs at least 1.\n"
