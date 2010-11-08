@@ -5,7 +5,7 @@ plural=_("?plural:Uzbeks")
 groups="Modern", "Asian"
 legend=_("The Central Asian nation of Uzbekistan has been the site of many\
  ancient states such as Khwarezm, the Khanate of Bukhara, and the Khanate of\
- Kokand. The Uzbeks regards themselves as ancestors of Timur, founder of
+ Kokand. The Uzbeks regard themselves as descendants of Timur, founder of\
  the Timurid dynasty, who ruled from his capital at Samarkand.")
 
 leaders = {

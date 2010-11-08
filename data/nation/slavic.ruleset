@@ -3,7 +3,7 @@
 name=_("Slavic")
 plural=_("?plural:Slavs")
 groups="Ancient", "European"
-legend=_("The Slavs are modern linguistic group of several nations in\
+legend=_("The Slavs are a modern linguistic group of several nations in\
  Eastern Europe with common historical roots.\
  The origin of the Slavs is not known precisely, therefore there are many\
  hypotheses trying to explain them.\
