@@ -476,11 +476,11 @@ genhash_bucket_lookup(const struct genhash *pgenhash,
       }
       break;
     case BUCKET_DELETED:
-        /* This bucket is free. But, we need to be sure the key is not
-         * registred in following buckets due to the resolution of former
-         * collisions. We will be sure when we will meet a 'BUCKET_UNUSED'.
-         * See 'Variant 1'. */
-        if (NULL == deleted) {
+      /* This bucket is free. But, we need to be sure the key is not
+       * registred in following buckets due to the resolution of former
+       * collisions. We will be sure when we will meet a 'BUCKET_UNUSED'.
+       * See 'Variant 1'. */
+      if (NULL == deleted) {
         deleted = b;
       }
       break;
@@ -493,6 +493,10 @@ genhash_bucket_lookup(const struct genhash *pgenhash,
       b = pgenhash->buckets;
     }
   } while (b != start); /* Catch loop all the way round. */
+
+  if (NULL != deleted) {
+    return deleted;
+  }
 
   fc_assert_msg(b != start, /* Always fails. */
                 "Full genhash table -- and somehow did not resize!!");
