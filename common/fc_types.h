@@ -38,6 +38,7 @@
 #define MAX_NUM_USER_UNIT_FLAGS 4
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS
 #define MAX_NUM_NATION_GROUPS 128
+#define MAX_NUM_STARTPOS_NATIONS 1024
 
 /* Changing these will probably break network compatability. */
 #define MAX_LEN_NAME     48
@@ -287,6 +288,7 @@ struct universal {
 struct ai_choice;			/* incorporates universals_u */
 
 BV_DEFINE(bv_bases, MAX_BASE_TYPES);
+BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 
 enum gui_type {
   GUI_STUB,

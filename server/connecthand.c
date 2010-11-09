@@ -35,6 +35,7 @@
 /* server */
 #include "auth.h"
 #include "diplhand.h"
+#include "edithand.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "meta.h"
@@ -583,6 +584,9 @@ static bool connection_attach_real(struct connection *pconn,
   case S_S_RUNNING:
     conn_compression_freeze(pconn);
     send_all_info(pconn->self);
+    if (game.info.is_edit_mode && can_conn_edit(pconn)) {
+      edithand_send_initial_packets(pconn->self);
+    }
     conn_compression_thaw(pconn);
     /* Enter C_S_RUNNING client state. */
     dsend_packet_start_phase(pconn, game.info.phase);
@@ -598,6 +602,9 @@ static bool connection_attach_real(struct connection *pconn,
   case S_S_OVER:
     conn_compression_freeze(pconn);
     send_all_info(pconn->self);
+    if (game.info.is_edit_mode && can_conn_edit(pconn)) {
+      edithand_send_initial_packets(pconn->self);
+    }
     conn_compression_thaw(pconn);
     report_final_scores(pconn->self);
     if (!connecting) {

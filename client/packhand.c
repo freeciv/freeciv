@@ -2328,7 +2328,6 @@ void handle_tile_info(const struct packet_tile_info *packet)
   struct resource *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
-  const struct nation_type *pnation;
 
   fc_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
   old_known = client_tile_get_known(ptile);
@@ -2461,24 +2460,6 @@ void handle_tile_info(const struct packet_tile_info *packet)
     if (ptile->spec_sprite) {
       free(ptile->spec_sprite);
       ptile->spec_sprite = NULL;
-      tile_changed = TRUE;
-    }
-  }
-
-  if (packet->nation_start == NATION_ANY) {
-    if (!map_has_startpos(ptile) || map_get_startpos(ptile) != NULL) {
-      map_set_startpos(ptile, NULL);
-      tile_changed = TRUE;
-    }
-  } else {
-    pnation = nation_by_number(packet->nation_start);
-    if (pnation == NULL) {
-      if (map_has_startpos(ptile)) {
-        map_clear_startpos(ptile);
-        tile_changed = TRUE;
-      }
-    } else if (map_get_startpos(ptile) != pnation) {
-      map_set_startpos(ptile, pnation);
       tile_changed = TRUE;
     }
   }
@@ -3297,6 +3278,75 @@ void handle_ruleset_effect_req
 void handle_edit_object_created(int tag, int id)
 {
   editgui_notify_object_created(tag, id);
+}
+
+ /****************************************************************************
+  Handle start position creation/removal.
+****************************************************************************/
+void handle_edit_startpos(const struct packet_edit_startpos *packet)
+{
+  struct tile *ptile = index_to_tile(packet->id);
+  bool changed = FALSE;
+
+  /* Check. */
+  if (NULL == ptile) {
+    log_error("%s(): invalid tile index %d.", __FUNCTION__, packet->id);
+    return;
+  }
+
+  /* Handle. */
+  if (packet->remove) {
+    changed = map_startpos_remove(ptile);
+  } else {
+    if (NULL != map_startpos_get(ptile)) {
+      changed = FALSE;
+    } else {
+      map_startpos_new(ptile);
+      changed = TRUE;
+    }
+  }
+
+  /* Notify. */
+  if (changed && can_client_change_view()) {
+    refresh_tile_mapcanvas(ptile, TRUE, FALSE);
+    if (packet->remove) {
+      editgui_notify_object_changed(OBJTYPE_STARTPOS,
+                                    packet->id, TRUE);
+    } else {
+      editgui_notify_object_created(packet->tag, packet->id);
+    }
+  }
+}
+
+/****************************************************************************
+  Handle start position internal information.
+****************************************************************************/
+void handle_edit_startpos_full(const struct packet_edit_startpos_full *
+                               packet)
+{
+  struct tile *ptile = index_to_tile(packet->id);
+  struct startpos *psp;
+
+  /* Check. */
+  if (NULL == ptile) {
+    log_error("%s(): invalid tile index %d.", __FUNCTION__, packet->id);
+    return;
+  }
+
+  psp = map_startpos_get(ptile);
+  if (NULL == psp) {
+    log_error("%s(): no start position at (%d, %d)",
+              __FUNCTION__, TILE_XY(ptile));
+    return;
+  }
+
+  /* Handle. */
+  if (startpos_unpack(psp, packet) && can_client_change_view()) {
+    /* Notify. */
+    refresh_tile_mapcanvas(ptile, TRUE, FALSE);
+    editgui_notify_object_changed(OBJTYPE_STARTPOS, startpos_number(psp),
+                                  FALSE);
+  }
 }
 
 /**************************************************************************

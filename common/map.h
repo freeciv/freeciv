@@ -17,6 +17,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "iterator.h"
 #include "log.h"                /* fc_assert */
 
 /* common */
@@ -37,6 +38,11 @@ miscellaneous terrain information
 *****************************************************************/
 #define terrain_misc packet_ruleset_terrain_control
 
+/* Some types used below. */
+struct nation_hash;
+struct nation_type;
+struct packet_edit_startpos_full;
+struct startpos;
 struct startpos_hash;
 
 enum mapsize_type {
@@ -95,16 +101,10 @@ struct civ_map {
       int temperature;
       int wetness;
       int steepness;
-      int num_start_positions;
       bool have_resources;
       bool ocean_resources;         /* Resources in the middle of the ocean */
       bool have_huts;
       bool have_rivers_overlay;	/* only applies if !have_resources */
-
-      struct start_position {
-        struct tile *tile;
-        struct nation_type *nation; /* May be NO_NATION_SELECTED. */
-      } *start_positions;	/* allocated at runtime */
     } server;
   };
 };
@@ -149,12 +149,62 @@ bool base_get_direction_for_step(const struct tile *src_tile,
 int get_direction_for_step(const struct tile *src_tile,
 			   const struct tile *dst_tile);
 
-bool map_startpositions_set(void);
-void map_set_startpos(const struct tile *ptile,
-                      const struct nation_type *pnation);
-bool map_has_startpos(const struct tile *ptile);
-const struct nation_type *map_get_startpos(const struct tile *ptile);
-void map_clear_startpos(const struct tile *ptile);
+
+/* Specific functions for start positions. */
+struct startpos *map_startpos_by_number(int id);
+int startpos_number(const struct startpos *psp);
+
+bool startpos_allow(struct startpos *psp, struct nation_type *pnation);
+bool startpos_disallow(struct startpos *psp, struct nation_type *pnation);
+
+struct tile *startpos_tile(const struct startpos *psp);
+bool startpos_nation_allowed(const struct startpos *psp,
+                             const struct nation_type *pnation);
+bool startpos_allows_all(const struct startpos *psp);
+
+bool startpos_pack(const struct startpos *psp,
+                   struct packet_edit_startpos_full *packet);
+bool startpos_unpack(struct startpos *psp,
+                     const struct packet_edit_startpos_full *packet);
+
+/* See comment in "common/map.c". */
+bool startpos_is_excluding(const struct startpos *psp);
+const struct nation_hash *startpos_raw_nations(const struct startpos *psp);
+
+/****************************************************************************
+  Iterate over all nations at the start position for which the function
+  startpos_nation_allowed() would return TRUE. This automatically takes into
+  account the value of startpos_is_excluding() and startpos_allows_all() to
+  iterate over the correct set of nations.
+****************************************************************************/
+struct startpos_iter;
+size_t startpos_iter_sizeof(void);
+struct iterator *startpos_iter_init(struct startpos_iter *it,
+                                    const struct startpos *psp);
+#define startpos_nations_iterate(ARG_psp, NAME_pnation)                     \
+  generic_iterate(struct startpos_iter, const struct nation_type *,         \
+                  NAME_pnation, startpos_iter_sizeof,                       \
+                  startpos_iter_init, (ARG_psp))
+#define startpos_nations_iterate_end generic_iterate_end
+
+
+/* General map start positions functions. */
+int map_startpos_count(void);
+struct startpos *map_startpos_new(struct tile *ptile);
+struct startpos *map_startpos_get(const struct tile *ptile);
+bool map_startpos_remove(struct tile *ptile);
+
+/****************************************************************************
+  Iterate over all start positions placed on the map.
+****************************************************************************/
+struct map_startpos_iter;
+size_t map_startpos_iter_sizeof(void);
+struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
+
+#define map_startpos_iterate(NAME_psp)                                      \
+  generic_iterate(struct map_startpos_iter, struct startpos *,              \
+                  NAME_psp, map_startpos_iter_sizeof, map_startpos_iter_init)
+#define map_startpos_iterate_end generic_iterate_end
 
 
 /* Number of index coordinates (for sanity checks and allocations) */

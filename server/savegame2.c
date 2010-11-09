@@ -448,9 +448,6 @@ static void sg_save_map_tiles_resources(struct savedata *saving);
 
 static void sg_load_map_startpos(struct loaddata *loading);
 static void sg_save_map_startpos(struct savedata *saving);
-static void sg_save_map_startpos_nation(struct savedata *saving, int nr,
-                                        const struct tile *ptile,
-                                        const struct nation_type *pnat);
 static void sg_load_map_owner(struct loaddata *loading);
 static void sg_save_map_owner(struct savedata *saving);
 static void sg_load_map_worked(struct loaddata *loading);
@@ -2339,9 +2336,14 @@ static void sg_save_map_tiles_resources(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map_startpos(struct loaddata *loading)
 {
-  int i, j;
+  struct nation_type *pnation;
+  struct startpos *psp;
+  struct tile *ptile;
+  const char SEPARATOR = '#';
+  const char *nation_names;
   int nat_x, nat_y;
-  int startpos_count;
+  bool exclude;
+  int i, startpos_count;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2349,118 +2351,119 @@ static void sg_load_map_startpos(struct loaddata *loading)
   startpos_count
     = secfile_lookup_int_default(loading->file, 0, "map.startpos_count");
 
-  if (startpos_count == 0) {
+  if (0 == startpos_count) {
     /* Nothing to do. */
-    map.server.num_start_positions = 0;
     return;
   }
 
-  {
-    /* TODO: cleanup of the code below. */
-    struct start_position start_positions[startpos_count];
-
-    for (i = j = 0; i < startpos_count; i++) {
-      const char *nation_name
-        = secfile_lookup_str(loading->file, "map.startpos%d.nation", i);
-      struct nation_type *pnation = NO_NATION_SELECTED;
-
-      if (nation_name != NULL && strlen(nation_name)) {
-        pnation = nation_by_rule_name(nation_name);
-        if (pnation == NO_NATION_SELECTED) {
-          log_sg("Warning: Unknown nation %s for starting position %d",
-                    nation_name, i);
-        }
-      }
-
-      if (!secfile_lookup_int(loading->file, &nat_x, "map.startpos%d.x", i)
-          || !secfile_lookup_int(loading->file, &nat_y, "map.startpos%d.y", i)) {
-        log_sg("Warning: Undefined coordinates for startpos %d", i);
-        continue;
-      }
-
-      map_set_startpos(native_pos_to_tile(nat_x, nat_y), pnation);
-
-      if (pnation != NO_NATION_SELECTED) {
-        start_positions[j].tile = native_pos_to_tile(nat_x, nat_y);
-        start_positions[j].nation = pnation;
-        j++;
-      }
+  for (i = 0; i < startpos_count; i++) {
+    if (!secfile_lookup_int(loading->file, &nat_x, "map.startpos%d.x", i)
+        || !secfile_lookup_int(loading->file, &nat_y,
+                               "map.startpos%d.y", i)) {
+      log_sg("Warning: Undefined coordinates for startpos %d", i);
+      continue;
     }
-    map.server.num_start_positions = j;
-    if (map.server.num_start_positions > 0) {
-      map.server.start_positions
-        = fc_realloc(map.server.start_positions,
-                     map.server.num_start_positions
-                     * sizeof(*map.server.start_positions));
-      for (i = 0; i < j; i++) {
-        map.server.start_positions[i] = start_positions[i];
+
+    ptile = native_pos_to_tile(nat_x, nat_y);
+    if (NULL == ptile) {
+      log_error("Start position native coordinates (%d, %d) do not exist "
+                "in this map. Skipping...", nat_x, nat_y);
+      continue;
+    }
+
+    if (!secfile_lookup_bool(loading->file, &exclude,
+                                    "map.startpos%d.exclude", i)) {
+      log_sg("Warning: Missing exclude info: %s", secfile_error());
+      exclude = FALSE;
+    }
+
+    psp = map_startpos_new(ptile);
+
+    nation_names = secfile_lookup_str(loading->file,
+                                      "map.startpos%d.nations", i);
+    if (NULL != nation_names && '\0' != nation_names[0]) {
+      const size_t size = strlen(nation_names) + 1;
+      char buf[size], *start, *end;
+
+      memcpy(buf, nation_names, size);
+      for (start = buf - 1; NULL != start; start = end) {
+        start++;
+        if ((end = strchr(start, SEPARATOR))) {
+          *end = '\0';
+        }
+
+        pnation = nation_by_rule_name(start);
+        if (NO_NATION_SELECTED != pnation) {
+          if (exclude) {
+            startpos_disallow(psp, pnation);
+          } else {
+            startpos_allow(psp, pnation);
+          }
+        } else {
+          log_verbose("Missing nation \"%s\".", start);
+        }
       }
     }
   }
 
-  if (map.server.num_start_positions != 0
-      && map.server.num_start_positions < game.server.max_players) {
+  if (0 < map_startpos_count()
+      && map_startpos_count() < game.server.max_players) {
     log_verbose("Number of starts (%d) are lower than rules.max_players "
                 "(%d), lowering rules.max_players.",
-                map.server.num_start_positions, game.server.max_players);
-    game.server.max_players = map.server.num_start_positions;
+                map_startpos_count(), game.server.max_players);
+    game.server.max_players = map_startpos_count();
   }
 }
 
 /****************************************************************************
-  ...
+  Save the map start positions.
 ****************************************************************************/
 static void sg_save_map_startpos(struct savedata *saving)
 {
+  struct tile *ptile;
+  const char SEPARATOR = '#';
   int i = 0;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (game.server.save_options.save_starts) {
-    if (map_startpositions_set()) {
-      /* Save starting positions from editor */
-      i = 0;
+  if (!game.server.save_options.save_starts) {
+    return;
+  }
 
-      whole_map_iterate(ptile) {
-        if (map_has_startpos(ptile)) {
-          sg_save_map_startpos_nation(saving, i, ptile,
-                                      map_get_startpos(ptile));
-          i++;
-        }
-      } whole_map_iterate_end;
+  secfile_insert_int(saving->file, map_startpos_count(),
+                     "map.startpos_count");
+
+  map_startpos_iterate(psp) {
+    ptile = startpos_tile(psp);
+
+    secfile_insert_int(saving->file, ptile->nat_x, "map.startpos%d.x", i);
+    secfile_insert_int(saving->file, ptile->nat_y, "map.startpos%d.y", i);
+    secfile_insert_bool(saving->file, startpos_is_excluding(psp),
+                        "map.startpos%d.exclude", i);
+    if (startpos_allows_all(psp)) {
+      secfile_insert_str(saving->file, "", "map.startpos%d.nations", i);
     } else {
-      /* Save starting positions generated by mapgenerator */
-      for (i = 0; i < map.server.num_start_positions; i++) {
-        /* TODO: save nations. */
-        sg_save_map_startpos_nation(saving, i,
-                                    map.server.start_positions[i].tile,
-                                    map.server.start_positions[i].nation);
-      }
+      const struct nation_hash *nations = startpos_raw_nations(psp);
+      char nation_names[MAX_LEN_NAME * nation_hash_size(nations)];
+
+      nation_names[0] = '\0';
+      nation_hash_iterate(nations, pnation) {
+        if ('\0' == nation_names[0]) {
+          fc_strlcpy(nation_names, nation_rule_name(pnation),
+                     sizeof(nation_names));
+        } else {
+          cat_snprintf(nation_names, sizeof(nation_names),
+                       "%c%s", SEPARATOR, nation_rule_name(pnation));
+        }
+      } nation_hash_iterate_end;
+      secfile_insert_str(saving->file, nation_names,
+                         "map.startpos%d.nations", i);
     }
-    secfile_insert_int(saving->file, i, "map.startpos_count");
-  }
-}
+    i++;
+  } map_startpos_iterate_end;
 
-/****************************************************************************
-  Save the start positions. sg_load_map_startpos_nation() is not defined.
-****************************************************************************/
-static void sg_save_map_startpos_nation(struct savedata *saving, int nr,
-                                        const struct tile *ptile,
-                                        const struct nation_type *pnat)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  secfile_insert_int(saving->file, ptile->nat_x, "map.startpos%d.x", nr);
-  secfile_insert_int(saving->file, ptile->nat_y, "map.startpos%d.y", nr);
-
-  if (pnat != NO_NATION_SELECTED) {
-    secfile_insert_str(saving->file, nation_rule_name(pnat),
-                       "map.startpos%d.nation", nr);
-  } else {
-    secfile_insert_str(saving->file, "", "map.startpos%d.nation", nr);
-  }
+  fc_assert(map_startpos_count() == i);
 }
 
 /****************************************************************************

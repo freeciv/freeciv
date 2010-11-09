@@ -387,7 +387,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                     bool send_unknown)
 {
   struct packet_tile_info info;
-  const struct nation_type *pnation;
   const struct player *owner;
 
   if (send_tile_suppressed) {
@@ -404,14 +403,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
   } else {
     info.spec_sprite[0] = '\0';
-  }
-
-  if (game.info.is_edit_mode) {
-    pnation = map_get_startpos(ptile);
-    info.nation_start = pnation ? nation_number(pnation)
-      : map_has_startpos(ptile) ? NATION_ANY : NATION_NONE;
-  } else {
-    info.nation_start = NATION_NONE;
   }
 
   info.special[S_OLD_FORTRESS] = FALSE;

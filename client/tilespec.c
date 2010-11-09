@@ -4683,7 +4683,8 @@ int fill_sprite_array(struct tileset *t,
         ADD_SPRITE_SIMPLE(t->sprites.city.unworked_tile_overlay.p[color]);
       }
 
-      if (map_has_startpos(ptile)) {
+      if (NULL != map_startpos_get(ptile)) {
+        /* FIXME: Use a more representative sprite. */
         ADD_SPRITE_SIMPLE(t->sprites.user.attention);
       }
     }

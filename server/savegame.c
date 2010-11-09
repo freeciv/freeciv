@@ -766,66 +766,58 @@ player.  This could be changed/improved in future.
 static void map_load_startpos(struct section_file *file)
 {
   int savegame_start_positions;
-  int i, j;
+  int i;
   int nat_x, nat_y;
-  
+
+  /* Count entries. */
   for (savegame_start_positions = 0;
        secfile_lookup_int_default(file, -1, "map.r%dsx",
                                   savegame_start_positions) != -1;
        savegame_start_positions++) {
     /* Nothing. */
   }
-  
-  
-  {
-    struct start_position start_positions[savegame_start_positions];
-    
-    for (i = j = 0; i < savegame_start_positions; i++) {
-      const char *nation_name = secfile_lookup_str(file,
-                                                   "map.r%dsnation", i);
-      struct nation_type *pnation = NO_NATION_SELECTED;
 
-      if (nation_name != NULL) {
-        pnation = nation_by_rule_name(nation_name);
-        if (pnation == NO_NATION_SELECTED) {
-          log_error("Warning: Unknown nation %s for starting position %d",
-                    nation_name, i);
-        }
-      }
+  /* Load entries */
+  for (i = 0; i < savegame_start_positions; i++) {
+    const char *nation_name = secfile_lookup_str(file,
+                                                 "map.r%dsnation", i);
+    struct nation_type *pnation = NO_NATION_SELECTED;
+    struct startpos *psp;
+    struct tile *ptile;
 
-      if (!secfile_lookup_int(file, &nat_x, "map.r%dsx", i)
-          || !secfile_lookup_int(file, &nat_y, "map.r%dsy", i)) {
-        log_error("%s", secfile_error());
-        continue;
-      }
-
-      map_set_startpos(native_pos_to_tile(nat_x, nat_y), pnation);
-
-      if (pnation != NO_NATION_SELECTED) {
-        start_positions[j].tile = native_pos_to_tile(nat_x, nat_y);
-        start_positions[j].nation = pnation;
-        j++;
+    if (NULL != nation_name) {
+      pnation = nation_by_rule_name(nation_name);
+      if (NO_NATION_SELECTED == pnation) {
+        log_error("Warning: Unknown nation %s for starting position %d",
+                  nation_name, i);
       }
     }
-    map.server.num_start_positions = j;
-    if (map.server.num_start_positions > 0) {
-      map.server.start_positions =
-        fc_realloc(map.server.start_positions,
-                   map.server.num_start_positions
-                   * sizeof(*map.server.start_positions));
-      for (i = 0; i < j; i++) {
-        map.server.start_positions[i] = start_positions[i];
-      }
+
+    if (!secfile_lookup_int(file, &nat_x, "map.r%dsx", i)
+        || !secfile_lookup_int(file, &nat_y, "map.r%dsy", i)) {
+      log_error("%s", secfile_error());
+      continue;
+    }
+
+    ptile = native_pos_to_tile(nat_x, nat_y);
+    if (NULL == ptile) {
+      log_error("Start position native coordinates (%d, %d) do not exist "
+                "in this map. Skipping...", nat_x, nat_y);
+      continue;
+    }
+
+    psp = map_startpos_new(native_pos_to_tile(nat_x, nat_y));
+    if (NO_NATION_SELECTED != pnation) {
+      startpos_allow(psp, pnation);
     }
   }
-  
 
-  if (map.server.num_start_positions
-      && map.server.num_start_positions < game.server.max_players) {
+  if (0 < map_startpos_count()
+      && map_startpos_count() < game.server.max_players) {
     log_verbose("Number of starts (%d) are lower than rules.max_players "
                 "(%d), lowering rules.max_players.",
-                map.server.num_start_positions, game.server.max_players);
-    game.server.max_players = map.server.num_start_positions;
+                map_startpos_count(), game.server.max_players);
+    game.server.max_players = map_startpos_count();
   }
 }
 
@@ -1149,8 +1141,6 @@ static void map_load(struct section_file *file,
   map_load_tiles(file);
   if (secfile_lookup_bool_default(file, TRUE, "game.save_starts")) {
     map_load_startpos(file);
-  } else {
-    map.server.num_start_positions = 0;
   }
 
   if (special_order) {
@@ -1342,47 +1332,38 @@ static void map_load_known(struct section_file *file,
 ***************************************************************/
 static void map_save(struct section_file *file, bool save_players)
 {
-  int i;
-
   /* map.xsize and map.ysize (saved as map.width and map.height)
-   * are now always saved in game_save()
-   */
+   * are now always saved in game_save(). */
 
   /* NB: Start positions are not players-depedent, so we are ignoring
    * save_players here. */
   secfile_insert_bool(file, game.server.save_options.save_starts,
                       "game.save_starts");
   if (game.server.save_options.save_starts) {
-    if (map_startpositions_set()) {
+    if (0 < map_startpos_count()) {
       /* Save starting positions from editor */
+      struct tile *ptile;
       int i = 0;
 
-      whole_map_iterate(ptile) {
-        if (map_has_startpos(ptile)) {
-          const struct nation_type *pnat = map_get_startpos(ptile);
-
-          secfile_insert_int(file, ptile->nat_x, "map.r%dsx", i);
-          secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
-          if (pnat != NULL) {
-            secfile_insert_str(file, nation_rule_name(pnat),
-                               "map.r%dsnation", i);
-          }
-          i++;
-        }
-      } whole_map_iterate_end;
-    } else {
-      /* Save starting positions generated by mapgenerator */
-      for (i = 0; i < map.server.num_start_positions; i++) {
-        struct tile *ptile = map.server.start_positions[i].tile;
+      map_startpos_iterate(psp) {
+        ptile = startpos_tile(psp);
 
         secfile_insert_int(file, ptile->nat_x, "map.r%dsx", i);
         secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
 
-        if (map.server.start_positions[i].nation != NO_NATION_SELECTED) {
-          secfile_insert_str(file, nation_rule_name(map.server.start_positions[i].nation),
-                             "map.r%dsnation", i);
+        if (!startpos_allows_all(psp)) {
+          /* Old format supports only 1 nation. Register the first
+           * allowed... */
+          nations_iterate(pnation) {
+            if (startpos_nation_allowed(psp, pnation)) {
+              secfile_insert_str(file, nation_rule_name(pnation),
+                                 "map.r%dsnation", i);
+              break;
+            }
+          } nations_iterate_end;
         }
-      }
+        i++;
+      } map_startpos_iterate_end;
     }
   }
 
@@ -5472,8 +5453,7 @@ void game_save(struct section_file *file, const char *save_reason,
   sz_strlcpy(options, savefile_options_default);
   if (game.info.is_new_game
       || (scenario && !game.scenario.players)) {
-    if (map.server.num_start_positions > 0
-        || map_startpositions_set()) {
+    if (0 < map_startpos_count()) {
       sz_strlcat(options, " startpos");
     }
   }

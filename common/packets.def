@@ -218,8 +218,9 @@ type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
 type BV_IMPRS           = bitvector(bv_imprs)
 type BV_PLAYER          = bitvector(bv_player)
 type BV_SPECIAL         = bitvector(bv_special)
+type BV_STARTPOS_NATIONS= bitvector(bv_startpos_nations)
 type BV_TECH_FLAGS      = bitvector(bv_tech_flags)
-type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
+type BV_TERRAIN_FLAGS   = bitvector(bv_terrain_flags)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
 type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
@@ -364,7 +365,6 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
   BOOL special[S_LAST];
   BV_BASES bases;
   STRING spec_sprite[MAX_LEN_NAME];
-  NATION nation_start;
 end
 
 # This packet used to have is_info set but that doesn't work with the
@@ -1594,12 +1594,19 @@ PACKET_EDIT_TILE_BASE = 203; cs, handle-per-conn, dsend
   UINT8 size;
 end
 
-PACKET_EDIT_STARTPOS = 204; cs, handle-per-conn, dsend
-  TILE tile; key
-  NATION nation; # NATION_NONE for erase
+PACKET_EDIT_STARTPOS = 204; cs, sc, dsend, handle-per-conn, handle-via-packet, no-delta
+  TILE id;
+  BOOL remove;
+  SINT32 tag;
 end
 
-PACKET_EDIT_TILE = 205; cs, handle-per-conn, handle-via-packet
+PACKET_EDIT_STARTPOS_FULL = 205; cs, sc, handle-per-conn, handle-via-packet, no-delta
+  TILE id;
+  BOOL exclude;
+  BV_STARTPOS_NATIONS nations;
+end
+
+PACKET_EDIT_TILE = 206; cs, handle-per-conn, handle-via-packet
   TILE tile; key
   BV_SPECIAL specials;
   BV_BASES bases;
@@ -1608,7 +1615,7 @@ PACKET_EDIT_TILE = 205; cs, handle-per-conn, handle-via-packet
   NATION startpos_nation;
 end
 
-PACKET_EDIT_UNIT_CREATE = 206; cs, handle-per-conn, dsend
+PACKET_EDIT_UNIT_CREATE = 207; cs, handle-per-conn, dsend
   PLAYER owner;
   TILE tile;
   UNIT_TYPE type;
@@ -1616,18 +1623,18 @@ PACKET_EDIT_UNIT_CREATE = 206; cs, handle-per-conn, dsend
   SINT32 tag;
 end
 
-PACKET_EDIT_UNIT_REMOVE = 207; cs, handle-per-conn, dsend
+PACKET_EDIT_UNIT_REMOVE = 208; cs, handle-per-conn, dsend
   PLAYER owner;
   TILE tile;
   UNIT_TYPE type;
   UINT8 count;
 end
 
-PACKET_EDIT_UNIT_REMOVE_BY_ID = 208; cs, handle-per-conn, dsend
+PACKET_EDIT_UNIT_REMOVE_BY_ID = 209; cs, handle-per-conn, dsend
   UNIT id;
 end
 
-PACKET_EDIT_UNIT = 209; cs, handle-per-conn, handle-via-packet
+PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   UNIT id; key
   UNIT_TYPE utype;
   PLAYER owner;
@@ -1646,18 +1653,18 @@ PACKET_EDIT_UNIT = 209; cs, handle-per-conn, handle-via-packet
   UNIT transported_by;
 end
 
-PACKET_EDIT_CITY_CREATE = 210; cs, handle-per-conn, dsend
+PACKET_EDIT_CITY_CREATE = 211; cs, handle-per-conn, dsend
   PLAYER owner;
   TILE tile;
   UINT8 size;
   SINT32 tag;
 end
 
-PACKET_EDIT_CITY_REMOVE = 211; cs, handle-per-conn, dsend
+PACKET_EDIT_CITY_REMOVE = 212; cs, handle-per-conn, dsend
   CITY id;
 end
 
-PACKET_EDIT_CITY = 212; cs, handle-per-conn, handle-via-packet
+PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   CITY id; key
   STRING name[MAX_LEN_NAME];
   PLAYER owner;
@@ -1685,15 +1692,15 @@ PACKET_EDIT_CITY = 212; cs, handle-per-conn, handle-via-packet
   BV_CITY_OPTIONS city_options;
 end
 
-PACKET_EDIT_PLAYER_CREATE = 213; cs, handle-per-conn, dsend
+PACKET_EDIT_PLAYER_CREATE = 214; cs, handle-per-conn, dsend
   SINT32 tag;
 end
 
-PACKET_EDIT_PLAYER_REMOVE = 214; cs, handle-per-conn, dsend
+PACKET_EDIT_PLAYER_REMOVE = 215; cs, handle-per-conn, dsend
   PLAYER id;
 end
 
-PACKET_EDIT_PLAYER = 215; cs, handle-per-conn, lsend
+PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
   PLAYER id; key 
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
@@ -1725,7 +1732,7 @@ PACKET_EDIT_PLAYER = 215; cs, handle-per-conn, lsend
   BOOL ai;
 end
 
-PACKET_EDIT_PLAYER_VISION = 216; cs, handle-per-conn, dsend
+PACKET_EDIT_PLAYER_VISION = 217; cs, handle-per-conn, dsend
   PLAYER player;
   TILE tile;
   BOOL known;
@@ -1735,7 +1742,7 @@ end
 /* Always keep this as the last edit type packet sent by
  * the client, so that the test in server/srv_main.c in
  * the function is_client_edit_packet() is easy to write. */
-PACKET_EDIT_GAME = 217; cs, handle-per-conn, handle-via-packet
+PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
   YEAR year;
   BOOL scenario;
   STRING scenario_name[256];
@@ -1745,7 +1752,7 @@ end
 
 /************** Server Editor Packets **********************/
 
-PACKET_EDIT_OBJECT_CREATED = 218; sc, dsend
+PACKET_EDIT_OBJECT_CREATED = 219; sc, dsend
   SINT32 tag;
   SINT32 id;
 end

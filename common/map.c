@@ -18,6 +18,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "iterator.h"
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
@@ -28,6 +29,7 @@
 #include "city.h"
 #include "game.h"
 #include "movement.h"
+#include "nation.h"
 #include "packets.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -37,11 +39,31 @@
 /* the very map */
 struct civ_map map;
 
+struct startpos {
+  struct tile *location;
+  bool exclude;
+  struct nation_hash *nations;
+};
+
+static struct startpos *startpos_new(struct tile *ptile);
+static void startpos_destroy(struct startpos *psp);
+
 /* struct startpos_hash and related functions. */
 #define SPECHASH_TAG startpos
 #define SPECHASH_KEY_TYPE const struct tile *
-#define SPECHASH_DATA_TYPE const struct nation_type *
+#define SPECHASH_DATA_TYPE struct startpos *
+#define SPECHASH_DATA_FREE startpos_destroy
 #include "spechash.h"
+
+/* Srart position iterator. */
+struct startpos_iter {
+  struct iterator vtable;
+  const struct startpos *psp;
+  /* 'struct nation_iter' really. See startpos_iter_sizeof(). */
+  struct iterator nation_iter;
+};
+
+#define STARTPOS_ITER(p) ((struct startpos_iter *) (p))
 
 
 /* these are initialized from the terrain ruleset */
@@ -158,7 +180,6 @@ void map_init(void)
     map.server.separatepoles = MAP_DEFAULT_SEPARATE_POLES;
     map.server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
     map.server.temperature = MAP_DEFAULT_TEMPERATURE;
-    map.server.num_start_positions = 0;
     map.server.have_resources = FALSE;
     map.server.have_rivers_overlay = FALSE;
     map.server.have_huts = FALSE;
@@ -1284,70 +1305,331 @@ bool is_singular_tile(const struct tile *ptile, int dist)
   } do_in_natural_pos_end;
 }
 
+
+/****************************************************************************
+  Create a new, empty start position.
+****************************************************************************/
+static struct startpos *startpos_new(struct tile *ptile)
+{
+  struct startpos *psp = fc_malloc(sizeof(*psp));
+
+  psp->location = ptile;
+  psp->exclude = FALSE;
+  psp->nations = nation_hash_new();
+
+  return psp;
+}
+
+/****************************************************************************
+  Free all memory allocated by the start position.
+****************************************************************************/
+static void startpos_destroy(struct startpos *psp)
+{
+  fc_assert_ret(NULL != psp);
+  nation_hash_destroy(psp->nations);
+  free(psp);
+}
+
+/****************************************************************************
+  Returns the start position associated to the given ID.
+****************************************************************************/
+struct startpos *map_startpos_by_number(int id)
+{
+  return map_startpos_get(index_to_tile(id));
+}
+
+/****************************************************************************
+  Returns the unique ID number for this start position. This is just the
+  tile index of the tile where this start position is located.
+****************************************************************************/
+int startpos_number(const struct startpos *psp)
+{
+  fc_assert_ret_val(NULL != psp, -1);
+  return tile_index(psp->location);
+}
+
+/****************************************************************************
+  Allow the nation to start at the start position.
+  NB: in "excluding" mode, this remove the nation from the excluded list.
+****************************************************************************/
+bool startpos_allow(struct startpos *psp, struct nation_type *pnation)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  fc_assert_ret_val(NULL != pnation, FALSE);
+
+  if (0 == nation_hash_size(psp->nations) || !psp->exclude) {
+    psp->exclude = FALSE; /* Disable "excluding" mode. */
+    return nation_hash_insert(psp->nations, pnation, NULL);
+  } else {
+    return nation_hash_remove(psp->nations, pnation);
+  }
+}
+
+/****************************************************************************
+  Disallow the nation to start at the start position.
+  NB: in "excluding" mode, this add the nation to the excluded list.
+****************************************************************************/
+bool startpos_disallow(struct startpos *psp, struct nation_type *pnation)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  fc_assert_ret_val(NULL != pnation, FALSE);
+
+  if (0 == nation_hash_size(psp->nations) || psp->exclude) {
+    psp->exclude = TRUE; /* Enable "excluding" mode. */
+    return nation_hash_remove(psp->nations, pnation);
+  } else {
+    return nation_hash_insert(psp->nations, pnation, NULL);
+  }
+}
+
+/****************************************************************************
+  Returns the tile where this start position is located.
+****************************************************************************/
+struct tile *startpos_tile(const struct startpos *psp)
+{
+  fc_assert_ret_val(NULL != psp, NULL);
+  return psp->location;
+}
+
+/****************************************************************************
+  Returns TRUE if the given nation can start here.
+****************************************************************************/
+bool startpos_nation_allowed(const struct startpos *psp,
+                             const struct nation_type *pnation)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  fc_assert_ret_val(NULL != pnation, FALSE);
+  return XOR(psp->exclude, nation_hash_lookup(psp->nations, pnation, NULL));
+}
+
+/****************************************************************************
+  Returns TRUE if any nation can start here.
+****************************************************************************/
+bool startpos_allows_all(const struct startpos *psp)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  return (0 == nation_hash_size(psp->nations));
+}
+
+/****************************************************************************
+  Fills the packet with all of the information at this start position.
+  Returns TRUE if the packet can be sent.
+****************************************************************************/
+bool startpos_pack(const struct startpos *psp,
+                   struct packet_edit_startpos_full *packet)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  fc_assert_ret_val(NULL != packet, FALSE);
+
+  packet->id = startpos_number(psp);
+  packet->exclude = psp->exclude;
+  BV_CLR_ALL(packet->nations);
+
+  nation_hash_iterate(psp->nations, pnation) {
+    BV_SET(packet->nations, nation_number(pnation));
+  } nation_hash_iterate_end;
+  return TRUE;
+}
+
+/****************************************************************************
+  Fills the start position with the nation information in the packet.
+  Returns TRUE if the start position was changed.
+****************************************************************************/
+bool startpos_unpack(struct startpos *psp,
+                     const struct packet_edit_startpos_full *packet)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  fc_assert_ret_val(NULL != packet, FALSE);
+
+  psp->exclude = packet->exclude;
+
+  nation_hash_clear(psp->nations);
+  if (!BV_ISSET_ANY(packet->nations)) {
+    return TRUE;
+  }
+  nations_iterate(pnation) {
+    if (BV_ISSET(packet->nations, nation_number(pnation))) {
+      nation_hash_insert(psp->nations, pnation, NULL);
+    }
+  } nations_iterate_end;
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if the nations returned by startpos_raw_nations()
+  are actually excluded from the nations allowed to start at this position.
+
+  FIXME: This function exposes the internal implementation and should be
+  removed when no longer needed by the property editor system.
+****************************************************************************/
+bool startpos_is_excluding(const struct startpos *psp)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  return psp->exclude;
+}
+
+/****************************************************************************
+  Return a the nations hash, used for the property editor.
+
+  FIXME: This function exposes the internal implementation and should be
+  removed when no longer needed by the property editor system.
+****************************************************************************/
+const struct nation_hash *startpos_raw_nations(const struct startpos *psp)
+{
+  fc_assert_ret_val(NULL != psp, FALSE);
+  return psp->nations;
+}
+
+/****************************************************************************
+  Implementation of iterator 'sizeof' function.
+
+  struct startpos_iter can be either a 'struct nation_hash_iter', a 'struct
+  nation_iter' or 'struct startpos_iter'.
+****************************************************************************/
+size_t startpos_iter_sizeof(void)
+{
+  return MAX(sizeof(struct startpos_iter) + nation_iter_sizeof()
+             - sizeof(struct iterator), nation_hash_iter_sizeof());
+}
+
+/****************************************************************************
+  Implementation of iterator 'next' function.
+
+  NB: This is only used for the case where 'exclude' is set in the start
+  position.
+****************************************************************************/
+static void startpos_exclude_iter_next(struct iterator *startpos_iter)
+{
+  struct startpos_iter *iter = STARTPOS_ITER(startpos_iter);
+
+  do {
+    iterator_next(&iter->nation_iter);
+  } while (iterator_valid(&iter->nation_iter)
+           || !nation_hash_lookup(iter->psp->nations,
+                                  iterator_get(&iter->nation_iter), NULL));
+}
+
+/****************************************************************************
+  Implementation of iterator 'get' function. Returns a struct nation_type
+  pointer.
+
+  NB: This is only used for the case where 'exclude' is set in the start
+  position.
+****************************************************************************/
+static void *startpos_exclude_iter_get(const struct iterator *startpos_iter)
+{
+  struct startpos_iter *iter = STARTPOS_ITER(startpos_iter);
+  return iterator_get(&iter->nation_iter);
+}
+
+/****************************************************************************
+  Implementation of iterator 'valid' function.
+****************************************************************************/
+static bool startpos_exclude_iter_valid(const struct iterator *startpos_iter)
+{
+  struct startpos_iter *iter = STARTPOS_ITER(startpos_iter);
+  return iterator_valid(&iter->nation_iter);
+}
+
+/****************************************************************************
+  Initialize and return an iterator for the nations at this start position.
+****************************************************************************/
+struct iterator *startpos_iter_init(struct startpos_iter *iter,
+                                    const struct startpos *psp)
+{
+  if (!psp) {
+    return invalid_iter_init(ITERATOR(iter));
+  }
+
+  if (startpos_allows_all(psp)) {
+    return nation_iter_init((struct nation_iter *) iter);
+  }
+
+  if (!psp->exclude) {
+    return nation_hash_key_iter_init((struct nation_hash_iter *) iter,
+                                     psp->nations);
+  }
+
+  iter->vtable.next = startpos_exclude_iter_next;
+  iter->vtable.get = startpos_exclude_iter_get;
+  iter->vtable.valid = startpos_exclude_iter_valid;
+  iter->psp = psp;
+  (void) nation_iter_init((struct nation_iter *) &iter->nation_iter);
+
+  return ITERATOR(iter);
+}
+
+
 /****************************************************************************
   Is there start positions set for map
 ****************************************************************************/
-bool map_startpositions_set(void)
+int map_startpos_count(void)
 {
-  if (!map.startpos_table) {
-    return FALSE;
+  if (NULL != map.startpos_table) {
+    return startpos_hash_size(map.startpos_table);
+  } else {
+    return 0;
   }
-
-  return (0 < startpos_hash_size(map.startpos_table));
 }
 
 /****************************************************************************
-  Set a start position at the given tile for the given nation. Clears any
-  existing start position at the tile.
+  Create a new start position at the given tile and return it. If a start
+  position already exists there, it is first removed.
 ****************************************************************************/
-void map_set_startpos(const struct tile *ptile,
-                      const struct nation_type *pnation)
+struct startpos *map_startpos_new(struct tile *ptile)
 {
-  if (!map.startpos_table || !ptile) {
-    return;
-  }
-  map_clear_startpos(ptile);
+  struct startpos *psp;
 
-  startpos_hash_insert(map.startpos_table, ptile, pnation);
+  fc_assert_ret_val(NULL != ptile, NULL);
+  fc_assert_ret_val(NULL != map.startpos_table, NULL);
+
+  psp = startpos_new(ptile);
+  startpos_hash_replace(map.startpos_table, ptile, psp);
+  return psp;
 }
 
 /****************************************************************************
-  Returns the nation of the start position at the given tile, or NULL if
-  none exists there.
+  Returns the start position at the given tile, or NULL if none exists
+  there.
 ****************************************************************************/
-bool map_has_startpos(const struct tile *ptile)
+struct startpos *map_startpos_get(const struct tile *ptile)
 {
-  if (!map.startpos_table || !ptile) {
-    return FALSE;
-  }
+  struct startpos *psp;
 
-  return startpos_hash_lookup(map.startpos_table, ptile, NULL);
+  fc_assert_ret_val(NULL != ptile, NULL);
+  fc_assert_ret_val(NULL != map.startpos_table, NULL);
+
+  startpos_hash_lookup(map.startpos_table, ptile, &psp);
+  return psp;
 }
 
 /****************************************************************************
-  Returns the nation of the start position at the given tile, or NULL if
-  none exists there.
+  Remove the start position at the given tile. Returns TRUE if the start
+  position was removed.
 ****************************************************************************/
-const struct nation_type *map_get_startpos(const struct tile *ptile)
+bool map_startpos_remove(struct tile *ptile)
 {
-  const struct nation_type *pnation;
+  fc_assert_ret_val(NULL != ptile, FALSE);
+  fc_assert_ret_val(NULL != map.startpos_table, FALSE);
 
-  if (!map.startpos_table || !ptile) {
-    return NULL;
-  }
-
-  startpos_hash_lookup(map.startpos_table, ptile, &pnation);
-  return pnation;
+  return startpos_hash_remove(map.startpos_table, ptile);
 }
 
 /****************************************************************************
-  Remove a start position at the given tile.
+  Implementation of iterator sizeof function.
+  NB: map_sp_iter just wraps startpos_hash_iter.
 ****************************************************************************/
-void map_clear_startpos(const struct tile *ptile)
+size_t map_startpos_iter_sizeof(void)
 {
-  if (!map.startpos_table || !ptile) {
-    return;
-  }
+  return startpos_hash_iter_sizeof();
+}
 
-  startpos_hash_remove(map.startpos_table, ptile);
+/****************************************************************************
+  Implementation of iterator init function.
+  NB: map_sp_iter just wraps startpos_hash_iter.
+****************************************************************************/
+struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter)
+{
+  return startpos_hash_value_iter_init((struct startpos_hash_iter *) iter,
+                                       map.startpos_table);
 }

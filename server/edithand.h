@@ -13,7 +13,11 @@
 #ifndef FC__EDITHAND_H
 #define FC__EDITHAND_H
 
+struct conn_list;
+
 void edithand_init(void);
 void edithand_free(void);
+
+void edithand_send_initial_packets(struct conn_list *dest);
 
 #endif /* FC__EDITHAND_H */
