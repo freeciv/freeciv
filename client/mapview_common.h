@@ -270,12 +270,12 @@ void toggle_unit_color(struct unit *punit);
 void put_nuke_mushroom_pixmaps(struct tile *ptile);
 
 void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
-		     struct tile *ptile,
-		     const struct tile_edge *pedge,
-		     const struct tile_corner *pcorner,
-		     const struct unit *punit, struct city *pcity,
-		     int canvas_x, int canvas_y,
-		     const struct city *citymode);
+                     const struct tile *ptile,
+                     const struct tile_edge *pedge,
+                     const struct tile_corner *pcorner,
+                     const struct unit *punit, const struct city *pcity,
+                     int canvas_x, int canvas_y,
+                     const struct city *citymode);
 
 void put_drawn_sprites(struct canvas *pcanvas,
                        int canvas_x, int canvas_y,

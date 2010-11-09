@@ -85,13 +85,12 @@ static int get_tile_value(struct tile *ptile)
 }
 
 struct start_filter_data {
-  int count;			/* Number of existing start positions. */
   int min_value;
   struct unit_type *initial_unit;
   int *value;
 };
 
-/**************************************************************************
+/****************************************************************************
   Return TRUE if (x,y) is a good starting position.
 
   Bad places:
@@ -100,13 +99,11 @@ struct start_filter_data {
   - On a hut;
   - Too close to another starter on the same continent:
     'dist' is too close (real_map_distance)
-    'nr' is the number of other start positions in
-    map.server.start_positions to check for too closeness.
-**************************************************************************/
+    'nr' is the number of other start positions to check for too closeness.
+****************************************************************************/
 static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
 {
   const struct start_filter_data *pdata = dataptr;
-  int i;
   struct islands_data_type *island;
   int cont_size, cont = tile_continent(ptile);
 
@@ -141,16 +138,16 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   /* Don't start too close to someone else. */
   cont_size = get_continent_size(cont);
   island = islands + islands_index[cont];
-  for (i = 0; i < pdata->count; i++) {
-    struct tile *tile1 = map.server.start_positions[i].tile;
+  map_startpos_iterate(psp) {
+    struct tile *tile1 = startpos_tile(psp);
 
     if ((tile_continent(ptile) == tile_continent(tile1)
-	 && (real_map_distance(ptile, tile1) * 1000 / pdata->min_value
-	     <= (sqrt(cont_size / island->total))))
-	|| (real_map_distance(ptile, tile1) * 1000 / pdata->min_value < 5)) {
+         && (real_map_distance(ptile, tile1) * 1000 / pdata->min_value
+             <= (sqrt(cont_size / island->total))))
+        || (real_map_distance(ptile, tile1) * 1000 / pdata->min_value < 5)) {
       return FALSE;
     }
-  }
+  } map_startpos_iterate_end;
   return TRUE;
 }
 
@@ -359,7 +356,6 @@ bool create_start_positions(enum map_startpos mode,
     }
   }
 
-  data.count = 0;
   data.value = tile_value;
   data.min_value = 900;
   data.initial_unit = initial_unit;
@@ -370,22 +366,16 @@ bool create_start_positions(enum map_startpos mode,
       log_verbose("starters on isle %i", k);
     }
   }
-  fc_assert_ret_val(player_count() <= data.count + sum, FALSE);
+  fc_assert_ret_val(player_count() <= sum, FALSE);
 
   /* now search for the best place and set start_positions */
-  map.server.start_positions =
-    fc_realloc(map.server.start_positions, player_count()
-               * sizeof(*map.server.start_positions));
-  while (data.count < player_count()) {
+  while (map_startpos_count() < player_count()) {
     if ((ptile = rand_map_pos_filtered(&data, is_valid_start_pos))) {
       islands[islands_index[(int) tile_continent(ptile)]].starters--;
-      map.server.start_positions[data.count].tile = ptile;
-      map.server.start_positions[data.count].nation = NO_NATION_SELECTED;
-      log_debug("Adding %d,%d as starting position %d, %d goodies on "
-                "islands.", TILE_XY(ptile), data.count,
+      log_debug("Adding (%d, %d) as starting position %d, %d goodies on "
+                "islands.", TILE_XY(ptile), map_startpos_count(),
                 islands[islands_index[(int) tile_continent(ptile)]].goodies);
-      data.count++;
-
+      (void) map_startpos_new(ptile);
     } else {
       data.min_value *= 0.95;
       if (data.min_value <= 10) {
@@ -399,7 +389,7 @@ bool create_start_positions(enum map_startpos mode,
       }
     }
   }
-  map.server.num_start_positions = player_count();
+  fc_assert(player_count() == map_startpos_count());
 
   free(islands);
   free(islands_index);

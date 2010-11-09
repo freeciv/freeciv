@@ -1865,6 +1865,10 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 {
   struct property_editor *pe;
 
+  if (!editor_is_active()) {
+    return;
+  }
+
   pe = editprop_get_property_editor();
   property_editor_handle_object_changed(pe, objtype, object_id, remove);
 }
@@ -1875,6 +1879,10 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 void editgui_notify_object_created(int tag, int id)
 {
   struct property_editor *pe;
+
+  if (!editor_is_active()) {
+    return;
+  }
 
   pe = editprop_get_property_editor();
   property_editor_handle_object_created(pe, tag, id);

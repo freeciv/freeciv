@@ -160,8 +160,11 @@ void editor_init(void)
             _("Create city.\nShortcut: c"));
   tool_init(ETT_VISION, _("Vision"), ETF_HAS_SIZE,
             _("Modify player's tile knowledge.\nShortcut: v"));
-  tool_init(ETT_STARTPOS, _("Start Position"), ETF_HAS_APPLIED_PLAYER,
-            _("Place a player start position.\nShortcut: p"));
+  tool_init(ETT_STARTPOS, _("Start Position"), ETF_NO_FLAGS,
+            _("Place a start position which allows any nation to "
+              "start at the tile. To allow only certain nations to "
+              "start there, middle click on the start position on "
+              "the map and use the property editor.\nShortcut: p"));
 
   tool_init(ETT_COPYPASTE, _("Copy/Paste"), ETF_HAS_SIZE,
             _("Copy and paste tiles.\n"
@@ -895,9 +898,7 @@ void editor_apply_tool(const struct tile *ptile,
     break;
 
   case ETT_STARTPOS:
-    dsend_packet_edit_startpos(my_conn, tile,
-                               erase ? NATION_NONE :
-                               nation_number(player_by_number(apno)->nation));
+    dsend_packet_edit_startpos(my_conn, tile, erase, 0);
     break;
 
   default:
@@ -1507,7 +1508,6 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
 {
   const struct resource *presource;
   const struct terrain *pterrain;
-  const struct nation_type *pnation;
 
   if (!packet || !ptile) {
     return;
@@ -1521,9 +1521,6 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
 
   pterrain = tile_terrain(ptile);
   packet->terrain = pterrain ? terrain_number(pterrain) : -1;
-
-  pnation = map_get_startpos(ptile);
-  packet->startpos_nation = pnation ? nation_number(pnation) : -1;
 }
 
 /****************************************************************************

@@ -49,6 +49,14 @@
 #define CHALLENGE_ROOT "challenge"
 
 
+#define SPECLIST_TAG startpos
+#define SPECLIST_TYPE struct startpos
+#include "speclist.h"
+#define startpos_list_iterate(list, plink, psp)                             \
+  TYPED_LIST_BOTH_ITERATE(struct startpos_list_link, struct startpos,       \
+                          list, plink, psp)
+#define startpos_list_iterate_end LIST_BOTH_ITERATE_END
+
 /****************************************************************************
   Get unit_type for given role character
 ****************************************************************************/
@@ -173,18 +181,18 @@ static struct tile *place_starting_unit(struct tile *starttile,
   Find a valid position not far from our starting position.
 ****************************************************************************/
 static struct tile *find_dispersed_position(struct player *pplayer,
-                                            struct start_position *p)
+                                            struct tile *pcenter)
 {
   struct tile *ptile;
   int x, y;
 
   do {
-    x = p->tile->x + fc_rand(2 * game.server.dispersion + 1) 
+    x = pcenter->x + fc_rand(2 * game.server.dispersion + 1) 
         - game.server.dispersion;
-    y = p->tile->y + fc_rand(2 * game.server.dispersion + 1)
+    y = pcenter->y + fc_rand(2 * game.server.dispersion + 1)
         - game.server.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
-             && tile_continent(p->tile) == tile_continent(ptile)
+             && tile_continent(pcenter) == tile_continent(ptile)
              && !is_ocean_tile(ptile)
              && !is_non_allied_unit_tile(ptile, pplayer)));
 
@@ -196,79 +204,184 @@ static struct tile *find_dispersed_position(struct player *pplayer,
 ****************************************************************************/
 void init_new_game(void)
 {
-  const int NO_START_POS = -1;
-  int start_pos[player_slot_count()];
+  struct startpos_list *impossible_list, *targeted_list, *flexible_list;
+  struct tile *player_startpos[player_slot_count()];
   int placed_units[player_slot_count()];
-  bool pos_used[map.server.num_start_positions];
-  int i, num_used = 0;
+  int players_to_place = player_count();
 
   randomize_base64url_string(server.game_identifier,
                              sizeof(server.game_identifier));
 
-  /* Shuffle starting positions around so that they match up with the
-   * desired players. */
+  fc_assert(player_count() <= map_startpos_count());
 
-  /* First set up some data fields. */
+  /* Convert the startposition hash table in a linked lists, as we mostly
+   * need now to iterate it now. And then, we will be able to remove the
+   * assigned start postions one by one. */
+  impossible_list = startpos_list_new();
+  targeted_list = startpos_list_new();
+  flexible_list = startpos_list_new();
+
+  map_startpos_iterate(psp) {
+    if (startpos_allows_all(psp)) {
+      startpos_list_append(flexible_list, psp);
+    } else {
+      startpos_list_append(targeted_list, psp);
+    }
+  } map_startpos_iterate_end;
+
+  fc_assert(startpos_list_size(targeted_list)
+            + startpos_list_size(flexible_list) == map_startpos_count());
+
+  memset(player_startpos, 0, sizeof(player_startpos));
   log_verbose("Placing players at start positions.");
-  for (i = 0; i < map.server.num_start_positions; i++) {
-    struct nation_type *n = map.server.start_positions[i].nation;
 
-    pos_used[i] = FALSE;
-    log_verbose("%3d : (%2d,%2d) : \"%s\" (%d)",
-                i, TILE_XY(map.server.start_positions[i].tile),
-                n ? nation_rule_name(n) : "", n ? nation_number(n) : -1);
+  /* First assign start positions which requires certain nations only this
+   * one. */
+  if (0 < startpos_list_size(targeted_list)) {
+    log_verbose("Assigning matching nations.");
+
+    startpos_list_shuffle(targeted_list); /* Randomize. */
+    do {
+      struct nation_type *pnation;
+      struct startpos_list_link *choice;
+      bool removed = FALSE;
+
+      /* Assign first players which can pick only one start position. */
+      players_iterate(pplayer) {
+        if (NULL != player_startpos[player_index(pplayer)]) {
+          /* Already assigned. */
+          continue;
+        }
+
+        pnation = nation_of_player(pplayer);
+        choice = NULL;
+        startpos_list_iterate(targeted_list, plink, psp) {
+          if (startpos_nation_allowed(psp, pnation)) {
+            if (NULL != choice) {
+              choice = NULL;
+              break; /* Many choices. */
+            } else {
+              choice = plink;
+            }
+          }
+        } startpos_list_iterate_end;
+
+        if (NULL != choice) {
+          struct tile *ptile =
+              startpos_tile(startpos_list_link_data(choice));
+
+          player_startpos[player_index(pplayer)] = ptile;
+          startpos_list_erase(targeted_list, choice);
+          players_to_place--;
+          removed = TRUE;
+          log_verbose("Start position (%d, %d) matches player %s (%s).",
+                      TILE_XY(ptile), player_name(pplayer),
+                      nation_rule_name(pnation));
+        }
+      } players_iterate_end;
+
+      if (!removed) {
+        /* Make arbitrary choice for a player. */
+        struct startpos *psp = startpos_list_back(targeted_list);
+        struct tile *ptile = startpos_tile(psp);
+        struct player *rand_plr = NULL;
+        int i = 0;
+
+        startpos_list_pop_back(targeted_list); /* Detach 'psp'. */
+        players_iterate(pplayer) {
+          if (NULL != player_startpos[player_index(pplayer)]) {
+            /* Already assigned. */
+            continue;
+          }
+
+          pnation = nation_of_player(pplayer);
+          if (startpos_nation_allowed(psp, pnation) && 0 == fc_rand(++i)) {
+            rand_plr = pplayer;
+          }
+        } players_iterate_end;
+
+        if (NULL != rand_plr) {
+          player_startpos[player_index(rand_plr)] = ptile;
+          players_to_place--;
+          log_verbose("Start position (%d, %d) matches player %s (%s).",
+                      TILE_XY(ptile), player_name(rand_plr),
+                      nation_rule_name(nation_of_player(rand_plr)));
+        } else {
+          /* This start position cannot be assigned. */
+          log_verbose("Start position (%d, %d) cannot be assigned for "
+                      "any player, keeping for the moment...",
+                      TILE_XY(ptile));
+          /* Keep it for later, we may need it. */
+          startpos_list_append(impossible_list, psp);
+        }
+      }
+    } while (0 < players_to_place && 0 < startpos_list_size(targeted_list));
   }
-  players_iterate(pplayer) {
-    start_pos[player_index(pplayer)] = NO_START_POS;
-  } players_iterate_end;
 
-  /* Second, assign a nation to a start position for that nation. */
-  log_verbose("Assigning matching nations.");
-  players_iterate(pplayer) {
-    for (i = 0; i < map.server.num_start_positions; i++) {
-      fc_assert_action(pplayer->nation != NO_NATION_SELECTED, continue);
-      if (pplayer->nation == map.server.start_positions[i].nation) {
-        log_verbose("Start_pos %d matches player %d (%s).",
-                    i, player_number(pplayer),
-                    nation_rule_name(nation_of_player(pplayer)));
-	start_pos[player_index(pplayer)] = i;
-	pos_used[i] = TRUE;
-	num_used++;
+  /* Now assign left start positions to every players. */
+  if (0 < players_to_place && 0 < startpos_list_size(flexible_list)) {
+    struct tile *ptile;
+
+    log_verbose("Assigning random start positions.");
+
+    startpos_list_shuffle(flexible_list); /* Randomize. */
+    players_iterate(pplayer) {
+      if (NULL != player_startpos[player_index(pplayer)]) {
+        /* Already assigned. */
+        continue;
       }
-    }
-  } players_iterate_end;
 
-  /* Third, assign players randomly to the remaining start positions. */
-  log_verbose("Assigning random nations.");
-  players_iterate(pplayer) {
-    if (start_pos[player_index(pplayer)] == NO_START_POS) {
-      int which = fc_rand(map.server.num_start_positions - num_used);
-
-      for (i = 0; i < map.server.num_start_positions; i++) {
-	if (!pos_used[i]) {
-	  if (which == 0) {
-            log_verbose("Randomly assigning player %d (%s) to pos %d.",
-                        player_number(pplayer),
-                        nation_rule_name(nation_of_player(pplayer)), i);
-	    start_pos[player_index(pplayer)] = i;
-	    pos_used[i] = TRUE;
-	    num_used++;
-	    break;
-	  }
-	  which--;
-	}
+      ptile = startpos_tile(startpos_list_front(flexible_list));
+      player_startpos[player_index(pplayer)] = ptile;
+      players_to_place--;
+      startpos_list_pop_front(flexible_list);
+      log_verbose("Start position (%d, %d) assigned randomly "
+                  "to player %s (%s).", TILE_XY(ptile), player_name(pplayer),
+                  nation_rule_name(nation_of_player(pplayer)));
+      if (0 == startpos_list_size(flexible_list)) {
+        break;
       }
-    }
-    fc_assert(start_pos[player_index(pplayer)] != NO_START_POS);
-  } players_iterate_end;
+    } players_iterate_end;
+  }
+
+  if (0 < players_to_place && 0 < startpos_list_size(impossible_list)) {
+    struct tile *ptile;
+
+    startpos_list_shuffle(impossible_list); /* Randomize. */
+    players_iterate(pplayer) {
+      if (NULL != player_startpos[player_index(pplayer)]) {
+        /* Already assigned. */
+        continue;
+      }
+
+      ptile = startpos_tile(startpos_list_front(impossible_list));
+      player_startpos[player_index(pplayer)] = ptile;
+      players_to_place--;
+      startpos_list_pop_front(impossible_list);
+      log_verbose("Start position (%d, %d) assigned by default "
+                  "to player %s (%s).", TILE_XY(ptile), player_name(pplayer),
+                  nation_rule_name(nation_of_player(pplayer)));
+      if (0 == startpos_list_size(impossible_list)) {
+        break;
+      }
+    } players_iterate_end;
+  }
+
+  fc_assert(0 == players_to_place);
+
+  startpos_list_destroy(impossible_list);
+  startpos_list_destroy(targeted_list);
+  startpos_list_destroy(flexible_list);
+
 
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
-    struct start_position pos
-      = map.server.start_positions[start_pos[player_index(pplayer)]];
+    struct tile *ptile = player_startpos[player_index(pplayer)];
+
+    fc_assert_action(NULL != ptile, continue);
 
     /* Place the first unit. */
-    if (place_starting_unit(pos.tile, pplayer,
+    if (place_starting_unit(ptile, pplayer,
                             game.server.start_units[0]) != NULL) {
       placed_units[player_index(pplayer)] = 1;
     } else {
@@ -279,17 +392,17 @@ void init_new_game(void)
   /* Place all other units. */
   players_iterate(pplayer) {
     int i;
-    struct tile *ptile;
+    struct tile *const ptile = player_startpos[player_index(pplayer)];
     struct nation_type *nation = nation_of_player(pplayer);
-    struct start_position p
-      = map.server.start_positions[start_pos[player_index(pplayer)]];
+
+    fc_assert_action(NULL != ptile, continue);
 
     /* Place global start units */
     for (i = 1; i < strlen(game.server.start_units); i++) {
-      ptile = find_dispersed_position(pplayer, &p);
+      struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
       /* Create the unit of an appropriate type. */
-      if (place_starting_unit(ptile, pplayer,
+      if (place_starting_unit(rand_tile, pplayer,
                               game.server.start_units[i]) != NULL) {
         placed_units[player_index(pplayer)]++;
       }
@@ -298,8 +411,9 @@ void init_new_game(void)
     /* Place nation specific start units (not role based!) */
     i = 0;
     while (NULL != nation->server.init_units[i] && MAX_NUM_UNIT_LIST > i) {
-      ptile = find_dispersed_position(pplayer, &p);
-      create_unit(pplayer, ptile, nation->server.init_units[i], FALSE, 0, 0);
+      struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
+
+      create_unit(pplayer, rand_tile, nation->server.init_units[i], FALSE, 0, 0);
       placed_units[player_index(pplayer)]++;
       i++;
     }

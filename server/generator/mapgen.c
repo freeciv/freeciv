@@ -1404,7 +1404,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 
   /* We don't want random start positions in a scenario which already
    * provides them. */
-  if (map.server.num_start_positions == 0) {
+  if (0 == map_startpos_count()) {
     enum map_startpos mode = MAPSTARTPOS_ALL;
     bool success;
     

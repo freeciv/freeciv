@@ -4288,16 +4288,16 @@ bool start_command(struct connection *caller, bool check, bool notify)
   case S_S_INITIAL:
     /* Sanity check scenario */
     if (game.info.is_new_game && !check) {
-      if (map.server.num_start_positions > 0
-          && game.server.max_players > map.server.num_start_positions) {
+      if (0 < map_startpos_count()
+          && game.server.max_players > map_startpos_count()) {
         /* If we load a pre-generated map (i.e., a scenario) it is possible
          * to increase the number of players beyond the number supported by
          * the scenario. The solution is a hack: cut the extra players
          * when the game starts. */
-        log_verbose("Reduced maxplayers from %i to %i to fit "
+        log_verbose("Reduced maxplayers from %d to %d to fit "
                     "to the number of start positions.",
-                    game.server.max_players, map.server.num_start_positions);
-        game.server.max_players = map.server.num_start_positions;
+                    game.server.max_players, map_startpos_count());
+        game.server.max_players = map_startpos_count();
       }
 
       if (player_count() > game.server.max_players) {

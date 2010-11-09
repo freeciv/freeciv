@@ -57,14 +57,14 @@ struct extviewer;
 /****************************************************************************
   Miscellaneous helpers.
 ****************************************************************************/
-static GdkPixbuf *create_pixbuf_from_layers(struct tile *ptile,
-                                            struct unit *punit,
-                                            struct city *pcity,
+static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
+                                            const struct unit *punit,
+                                            const struct city *pcity,
                                             int *layers,
                                             int num_layers);
-static GdkPixbuf *create_tile_pixbuf(struct tile *ptile);
-static GdkPixbuf *create_unit_pixbuf(struct unit *punit);
-static GdkPixbuf *create_city_pixbuf(struct city *pcity);
+static GdkPixbuf *create_tile_pixbuf(const struct tile *ptile);
+static GdkPixbuf *create_unit_pixbuf(const struct unit *punit);
+static GdkPixbuf *create_city_pixbuf(const struct city *pcity);
 
 static void add_column(GtkWidget *view,
                        int col_id,
@@ -97,6 +97,7 @@ static int get_next_unique_tag(void);
 union packetdata {
   gpointer v_pointer;
   struct packet_edit_tile *tile;
+  struct packet_edit_startpos_full *startpos;
   struct packet_edit_city *city;
   struct packet_edit_unit *unit;
   struct packet_edit_player *player;
@@ -166,10 +167,12 @@ static void property_filter_free(struct property_filter *pf);
 
 /* OBJTYPE_* enum values defined in client/editor.h */
 
-static const char *objtype_get_name(int objtype);
-static int objtype_get_id_from_object(int objtype, gpointer object);
-static gpointer objtype_get_object_from_id(int objtype, int id);
-static bool objtype_is_conserved(int objtype);
+static const char *objtype_get_name(enum editor_object_type objtype);
+static int objtype_get_id_from_object(enum editor_object_type objtype,
+                                      gpointer object);
+static gpointer objtype_get_object_from_id(enum editor_object_type objtype,
+                                           int id);
+static bool objtype_is_conserved(enum editor_object_type objtype);
 
 
 /****************************************************************************
@@ -197,10 +200,11 @@ enum value_types {
   VALTYPE_BV_SPECIAL,
   VALTYPE_BV_BASES,
   VALTYPE_NATION,
+  VALTYPE_NATION_HASH,        /* struct nation_hash */
   VALTYPE_TILE_VISION_DATA    /* struct tile_vision_data */
 };
 
-static const char *valtype_get_name(int valtype);
+static const char *valtype_get_name(enum value_types valtype);
 
 
 /****************************************************************************
@@ -222,13 +226,14 @@ union propval_data {
   bv_special v_bv_special;
   bv_bases v_bv_bases;
   struct nation_type *v_nation;
+  struct nation_hash *v_nation_hash;
   bool *v_inventions;
   struct tile_vision_data *v_tile_vision;
 };
 
 struct propval {
   union propval_data data;
-  int valtype;
+  enum value_types valtype;
   bool must_free;
 };
 
@@ -307,6 +312,11 @@ enum object_property_ids {
   OPID_TILE_BASES,
   OPID_TILE_VISION, /* tile_known and tile_seen */
 
+  OPID_STARTPOS_IMAGE,
+  OPID_STARTPOS_XY,
+  OPID_STARTPOS_EXCLUDE,
+  OPID_STARTPOS_NATIONS,
+
   OPID_UNIT_IMAGE,
   OPID_UNIT_ADDRESS,
   OPID_UNIT_TYPE,
@@ -344,16 +354,16 @@ enum object_property_ids {
 
 enum object_property_flags {
   OPF_NO_FLAGS    = 0,
-  OPF_EDITABLE    = 1<<0,
-  OPF_IN_LISTVIEW = 1<<1,
-  OPF_HAS_WIDGET  = 1<<2
+  OPF_EDITABLE    = 1 << 0,
+  OPF_IN_LISTVIEW = 1 << 1,
+  OPF_HAS_WIDGET  = 1 << 2
 };
 
 struct objprop {
   int id;
   const char *name;
-  int flags;
-  int valtype;
+  enum object_property_flags flags;
+  enum value_types valtype;
   int column_id;
   GtkTreeViewColumn *view_column;
   GtkWidget *widget;
@@ -363,13 +373,14 @@ struct objprop {
 
 static struct objprop *objprop_new(int id,
                                    const char *name,
-                                   int flags,
-                                   int valtype,
+                                   enum object_property_flags flags,
+                                   enum value_types valtype,
                                    struct property_page *parent);
 static int objprop_get_id(const struct objprop *op);
 static const char *objprop_get_name(const struct objprop *op);
-static int objprop_get_valtype(const struct objprop *op);
-static struct property_page *objprop_get_property_page(const struct objprop *op);
+static enum value_types objprop_get_valtype(const struct objprop *op);
+static struct property_page *
+objprop_get_property_page(const struct objprop *op);
 
 static bool objprop_show_in_listview(const struct objprop *op);
 static bool objprop_is_sortable(const struct objprop *op);
@@ -415,17 +426,17 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
   Objbind declarations.
 ****************************************************************************/
 struct objbind {
-  int objtype;
+  enum editor_object_type objtype;
   int object_id;
   struct property_page *parent_property_page;
   struct propstate_hash *propstate_table;
   GtkTreeRowReference *rowref;
 };
 
-static struct objbind *objbind_new(int objtype,
+static struct objbind *objbind_new(enum editor_object_type objtype,
                                    gpointer object);
 static void objbind_destroy(struct objbind *ob);
-static int objbind_get_objtype(const struct objbind *ob);
+static enum editor_object_type objbind_get_objtype(const struct objbind *ob);
 static void objbind_bind_properties(struct objbind *ob,
                                     struct property_page *pp);
 static gpointer objbind_get_object(struct objbind *ob);
@@ -508,7 +519,7 @@ static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
   Property page declarations.
 ****************************************************************************/
 struct property_page {
-  int objtype;
+  enum editor_object_type objtype;
 
   GtkWidget *widget;
   GtkListStore *object_store;
@@ -526,10 +537,12 @@ struct property_page {
 };
 
 static struct property_page *
-property_page_new(int objtype, struct property_editor *parent);
+property_page_new(enum editor_object_type objtype,
+                  struct property_editor *parent);
 static void property_page_setup_objprops(struct property_page *pp);
 static const char *property_page_get_name(const struct property_page *pp);
-static int property_page_get_objtype(const struct property_page *pp);
+static enum editor_object_type
+property_page_get_objtype(const struct property_page *pp);
 static void property_page_load_tiles(struct property_page *pp,
                                      const struct tile_list *tiles);
 static void property_page_add_objbinds_from_tile(struct property_page *pp,
@@ -613,9 +626,10 @@ struct property_editor {
 
 static struct property_editor *property_editor_new(void);
 static bool property_editor_add_page(struct property_editor *pe,
-                                     int objtype);
+                                     enum editor_object_type objtype);
 static struct property_page *
-property_editor_get_page(struct property_editor *pe, int objtype);
+property_editor_get_page(struct property_editor *pe,
+                         enum editor_object_type objtype);
 
 static struct property_editor *the_property_editor;
 
@@ -623,115 +637,87 @@ static struct property_editor *the_property_editor;
 /****************************************************************************
   Returns the translated name for the given object type.
 ****************************************************************************/
-static const char *objtype_get_name(int objtype)
+static const char *objtype_get_name(enum editor_object_type objtype)
 {
   switch (objtype) {
-
   case OBJTYPE_TILE:
     return _("Tile");
-    break;
-
+  case OBJTYPE_STARTPOS:
+    return _("Start Position");
   case OBJTYPE_UNIT:
     return _("Unit");
-    break;
-
   case OBJTYPE_CITY:
     return _("City");
-    break;
-
   case OBJTYPE_PLAYER:
     return _("Player");
-    break;
-
   case OBJTYPE_GAME:
     return Q_("?play:Game");
-    break;
-
-  default:
-    log_error("Unhandled request to get name of object type %d "
-              "in objtype_get_name().", objtype);
+  case NUM_OBJTYPES:
     break;
   }
 
+  log_error("%s() Unhandled request to get name of object type %d.",
+            __FUNCTION__, objtype);
   return "Unknown";
 }
 
 /****************************************************************************
   Returns the unique identifier value from the given object, assuming it
-  is of the 'objtype' object type. Valid IDs are always greater than zero.
+  is of the 'objtype' object type. Valid IDs are always greater than or
+  equal to zero.
 ****************************************************************************/
-static int objtype_get_id_from_object(int objtype, gpointer object)
+static int objtype_get_id_from_object(enum editor_object_type objtype,
+                                      gpointer object)
 {
-  struct tile *ptile;
-  struct unit *punit;
-  struct city *pcity;
-  struct player *pplayer;
-  int id = 0;
-
   switch (objtype) {
-
   case OBJTYPE_TILE:
-    ptile = object;
-    id = tile_index(ptile);
-    break;
-    
+    return tile_index((struct tile *) object);
+  case OBJTYPE_STARTPOS:
+    return startpos_number((struct startpos *) object);
   case OBJTYPE_UNIT:
-    punit = object;
-    id = punit->id;
-    break;
-    
+    return ((struct unit *) object)->id;
   case OBJTYPE_CITY:
-    pcity = object;
-    id = pcity->id;
-    break;
-
+    return ((struct city *) object)->id;
   case OBJTYPE_PLAYER:
-    pplayer = object;
-    id = player_number(pplayer);
-    break;
-
+    return player_number((struct player *) object);
   case OBJTYPE_GAME:
-    id = 1;
-    break;
-
-  default:
-    log_error("Unhandled request to get object ID from "
-              "object %p of type %d (%s) in objtype_get_id_from_object().",
-              object, objtype, objtype_get_name(objtype));
+    return 1;
+  case NUM_OBJTYPES:
     break;
   }
 
-  return id;
+  log_error("%s(): Unhandled request to get object ID from object %p of "
+            "type %d (%s).", __FUNCTION__, object, objtype,
+            objtype_get_name(objtype));
+  return -1;
 }
 
 /****************************************************************************
   Get the object of type 'objtype' uniquely identified by 'id'.
 ****************************************************************************/
-static gpointer objtype_get_object_from_id(int objtype, int id)
+static gpointer objtype_get_object_from_id(enum editor_object_type objtype,
+                                           int id)
 {
   switch (objtype) {
   case OBJTYPE_TILE:
     return index_to_tile(id);
-    break;
+  case OBJTYPE_STARTPOS:
+    return map_startpos_by_number(id);
   case OBJTYPE_UNIT:
     return game_unit_by_number(id);
-    break;
   case OBJTYPE_CITY:
     return game_city_by_number(id);
-    break;
   case OBJTYPE_PLAYER:
     return player_by_number(id);
-    break;
   case OBJTYPE_GAME:
     return &game;
-    break;
-  default:
-    log_error("Unhandled request to get object of type %d (%s) "
-              "with ID %d in objtype_get_object_from_id().",
-              objtype, objtype_get_name(objtype), id);
+  case NUM_OBJTYPES:
     break;
   }
 
+  log_error("%s(): Unhandled request to get object of type %d (%s) "
+            "with ID %d.", __FUNCTION__, objtype,
+            objtype_get_name(objtype), id);
   return NULL;
 }
 
@@ -740,71 +726,60 @@ static gpointer objtype_get_object_from_id(int objtype, int id)
   be created and destroyed (e.g. tiles, game), as opposed to those that can
   be (e.g. units, cities, players, etc.).
 ****************************************************************************/
-static bool objtype_is_conserved(int objtype)
+static bool objtype_is_conserved(enum editor_object_type objtype)
 {
   switch (objtype) {
   case OBJTYPE_TILE:
   case OBJTYPE_GAME:
     return TRUE;
-    break;
+  case OBJTYPE_STARTPOS:
   case OBJTYPE_UNIT:
   case OBJTYPE_CITY:
   case OBJTYPE_PLAYER:
     return FALSE;
-    break;
-  default:
-    log_error("Unhandled request for object type "
-              "%d (%s) in objtype_is_conserved().",
-              objtype, objtype_get_name(objtype));
+  case NUM_OBJTYPES:
     break;
   }
 
+  log_error("%s(): Unhandled request for object type %d (%s)).",
+            __FUNCTION__, objtype, objtype_get_name(objtype));
   return TRUE;
 }
 
 /****************************************************************************
   Returns the untranslated name for the given value type.
 ****************************************************************************/
-static const char *valtype_get_name(int valtype)
+static const char *valtype_get_name(enum value_types valtype)
 {
   switch (valtype) {
   case VALTYPE_NONE:
     return "none";
-    break;
   case VALTYPE_STRING:
     return "string";
-    break;
   case VALTYPE_INT:
     return "int";
-    break;
   case VALTYPE_BOOL:
     return "bool";
-    break;
   case VALTYPE_PIXBUF:
     return "pixbuf";
-    break;
   case VALTYPE_BUILT_ARRAY:
     return "struct built_status[B_LAST]";
-    break;
   case VALTYPE_INVENTIONS_ARRAY:
     return "bool[A_LAST]";
-    break;
   case VALTYPE_BV_SPECIAL:
     return "bv_special";
-    break;
   case VALTYPE_BV_BASES:
     return "bv_bases";
-    break;
   case VALTYPE_NATION:
     return "nation";
-    break;
+  case VALTYPE_NATION_HASH:
+    return "struct nation_hash";
   case VALTYPE_TILE_VISION_DATA:
     return "struct tile_vision_data";
-    break;
-  default:
-    break;
   }
-  return NULL;
+
+  log_error("%s(): unhandled value type %d.", __FUNCTION__, valtype);
+  return "void";
 }
 
 /****************************************************************************
@@ -855,37 +830,51 @@ static void add_column(GtkWidget *view,
 ****************************************************************************/
 static int propval_as_string(struct propval *pv, char *buf, int buflen)
 {
-  int id, ret = 0, count = 0;
-  int great_wonder_count = 0;
-  int small_wonder_count = 0;
-  int building_count = 0;
+  int count = 0;
 
-  if (!pv || buflen < 1) {
-    return 0;
-  }
+  fc_assert_ret_val(NULL != pv, 0);
+  fc_assert_ret_val(0 < buflen, 0);
 
   switch (pv->valtype) {
+  case VALTYPE_NONE:
+    buf[0] = '\0';
+    return 0;
+
+  case VALTYPE_INT:
+    return fc_snprintf(buf, buflen, "%d", pv->data.v_int);
+
+  case VALTYPE_BOOL:
+    return fc_snprintf(buf, buflen, "%s",
+                       pv->data.v_bool ? _("TRUE") : _("FALSE"));
+
+  case VALTYPE_NATION:
+    return fc_snprintf(buf, buflen, "%s",
+                       nation_adjective_translation(pv->data.v_nation));
 
   case VALTYPE_BUILT_ARRAY:
-    improvement_iterate(pimprove) {
-      id = improvement_index(pimprove);
-      if (pv->data.v_built[id].turn < 0) {
-        continue;
-      }
-      if (is_great_wonder(pimprove)) {
-        great_wonder_count++;
-      } else if (is_small_wonder(pimprove)) {
-        small_wonder_count++;
-      } else {
-        building_count++;
-      }
-    } improvement_iterate_end;
-    /* TRANS: "Number of buildings, number of small
-     * wonders (e.g. palace), number of great wonders." */
-    ret = fc_snprintf(buf, buflen, _("%db %ds %dW"),
-                      building_count, small_wonder_count,
-                      great_wonder_count);
-    break;
+    {
+      int great_wonder_count = 0, small_wonder_count = 0, building_count = 0;
+      int id;
+
+      improvement_iterate(pimprove) {
+        id = improvement_index(pimprove);
+        if (pv->data.v_built[id].turn < 0) {
+          continue;
+        }
+        if (is_great_wonder(pimprove)) {
+          great_wonder_count++;
+        } else if (is_small_wonder(pimprove)) {
+          small_wonder_count++;
+        } else {
+          building_count++;
+        }
+      } improvement_iterate_end;
+      /* TRANS: "Number of buildings, number of small
+       * wonders (e.g. palace), number of great wonders." */
+      return fc_snprintf(buf, buflen, _("%db %ds %dW"),
+                         building_count, small_wonder_count,
+                         great_wonder_count);
+    }
 
   case VALTYPE_INVENTIONS_ARRAY:
     advance_index_iterate(A_FIRST, tech) {
@@ -894,8 +883,7 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
       }
     } advance_index_iterate_end;
     /* TRANS: "Number of technologies known". */
-    ret = fc_snprintf(buf, buflen, _("%d known"), count);
-    break;
+    return fc_snprintf(buf, buflen, _("%d known"), count);
 
   case VALTYPE_BV_SPECIAL:
     tile_special_type_iterate(spe) {
@@ -905,8 +893,7 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
     } tile_special_type_iterate_end;
     /* TRANS: "The number of terrain specials (e.g. road,
      * rail, hut, etc.) present on a tile." */
-    ret = fc_snprintf(buf, buflen, _("%d present"), count);
-    break;
+    return fc_snprintf(buf, buflen, _("%d present"), count);
 
   case VALTYPE_BV_BASES:
     base_type_iterate(pbase) {
@@ -914,22 +901,32 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
         count++;
       }
     } base_type_iterate_end;
-    ret = fc_snprintf(buf, buflen, _("%d present"), count);
-    break;
+    return fc_snprintf(buf, buflen, _("%d present"), count);
+
+  case VALTYPE_NATION_HASH:
+    count = nation_hash_size(pv->data.v_nation_hash);
+    if (0 == count) {
+      return fc_snprintf(buf, buflen, "%s", _("All nations"));
+    } else {
+      return fc_snprintf(buf, buflen, PL_("%d nation", "%d nations",
+                                          count), count);
+    }
 
   case VALTYPE_STRING:
     /* Assume it is a very long string. */
     count = strlen(pv->data.v_const_string);
-    ret = fc_snprintf(buf, buflen, PL_("%d byte", "%d bytes", count),
-                      count);
-    break;
+    return fc_snprintf(buf, buflen, PL_("%d byte", "%d bytes", count),
+                       count);
 
-  default:
-    buf[0] = '\0';
+  case VALTYPE_PIXBUF:
+  case VALTYPE_TILE_VISION_DATA:
     break;
   }
 
-  return ret;
+  log_error("%s(): Unhandled value type %d for property value %p.",
+            __FUNCTION__, pv->valtype, pv);
+  buf[0] = '\0';
+  return 0;
 }
 
 /****************************************************************************
@@ -1015,27 +1012,49 @@ static struct propval *propval_copy(struct propval *pv)
   pv_copy->valtype = pv->valtype;
 
   switch (pv->valtype) {
+  case VALTYPE_NONE:
+    return pv_copy;
+  case VALTYPE_INT:
+    pv_copy->data.v_int = pv->data.v_int;
+    return pv_copy;
+  case VALTYPE_BOOL:
+    pv_copy->data.v_bool = pv->data.v_bool;
+    return pv_copy;
   case VALTYPE_STRING:
     pv_copy->data.v_string = fc_strdup(pv->data.v_string);
     pv_copy->must_free = TRUE;
-    break;
+    return pv_copy;
   case VALTYPE_PIXBUF:
     g_object_ref(pv->data.v_pixbuf);
     pv_copy->data.v_pixbuf = pv->data.v_pixbuf;
     pv_copy->must_free = TRUE;
-    break;
+    return pv_copy;
   case VALTYPE_BUILT_ARRAY:
     size = B_LAST * sizeof(struct built_status);
     pv_copy->data.v_pointer = fc_malloc(size);
     memcpy(pv_copy->data.v_pointer, pv->data.v_pointer, size);
     pv_copy->must_free = TRUE;
-    break;
+    return pv_copy;
+  case VALTYPE_BV_SPECIAL:
+    pv_copy->data.v_bv_special = pv->data.v_bv_special;
+    return pv_copy;
+  case VALTYPE_BV_BASES:
+    pv_copy->data.v_bv_bases = pv->data.v_bv_bases;
+    return pv_copy;
+  case VALTYPE_NATION:
+    pv_copy->data.v_nation = pv->data.v_nation;
+    return pv_copy;
+  case VALTYPE_NATION_HASH:
+    pv_copy->data.v_nation_hash
+      = nation_hash_copy(pv->data.v_nation_hash);
+    pv_copy->must_free = TRUE;
+    return pv_copy;
   case VALTYPE_INVENTIONS_ARRAY:
     size = A_LAST * sizeof(bool);
     pv_copy->data.v_pointer = fc_malloc(size);
     memcpy(pv_copy->data.v_pointer, pv->data.v_pointer, size);
     pv_copy->must_free = TRUE;
-    break;
+    return pv_copy;
   case VALTYPE_TILE_VISION_DATA:
     size = sizeof(struct tile_vision_data);
     pv_copy->data.v_tile_vision = fc_malloc(size);
@@ -1046,12 +1065,12 @@ static struct propval *propval_copy(struct propval *pv)
         = pv->data.v_tile_vision->tile_seen[v];
     } vision_layer_iterate_end;
     pv_copy->must_free = TRUE;
-    break;
-  default:
-    pv_copy->data = pv->data;
-    break;
+    return pv_copy;
   }
 
+  log_error("%s(): Unhandled value type %d for property value %p.",
+            __FUNCTION__, pv->valtype, pv);
+  pv_copy->data = pv->data;
   return pv_copy;
 }
 
@@ -1080,22 +1099,29 @@ static void propval_free_data(struct propval *pv)
   }
 
   switch (pv->valtype) {
+  case VALTYPE_NONE:
+  case VALTYPE_INT:
+  case VALTYPE_BOOL:
+  case VALTYPE_BV_SPECIAL:
+  case VALTYPE_BV_BASES:
+  case VALTYPE_NATION:
+    return;
   case VALTYPE_PIXBUF:
     g_object_unref(pv->data.v_pixbuf);
-    break;
+    return;
   case VALTYPE_STRING:
   case VALTYPE_BUILT_ARRAY:
   case VALTYPE_INVENTIONS_ARRAY:
   case VALTYPE_TILE_VISION_DATA:
     free(pv->data.v_pointer);
-    break;
-  default:
-    log_error("Unhandled request to free data %p "
-              "(type %s) in propval_free_data().",
-              pv->data.v_pointer, valtype_get_name(pv->valtype));
-    break;
+    return;
+  case VALTYPE_NATION_HASH:
+    nation_hash_destroy(pv->data.v_nation_hash);
+    return;
   }
-  pv->data.v_pointer = NULL;
+
+  log_error("%s(): Unhandled request to free data %p (type %s).",
+            __FUNCTION__, pv->data.v_pointer, valtype_get_name(pv->valtype));
 }
 
 /****************************************************************************
@@ -1113,17 +1139,27 @@ static bool propval_equal(struct propval *pva,
   }
 
   switch (pva->valtype) {
+  case VALTYPE_NONE:
+    return TRUE;
+  case VALTYPE_INT:
+    return pva->data.v_int == pvb->data.v_int;
+  case VALTYPE_BOOL:
+    return pva->data.v_bool == pvb->data.v_bool;
   case VALTYPE_STRING:
     if (pva->data.v_const_string && pvb->data.v_const_string) {
       return 0 == strcmp(pva->data.v_const_string,
                          pvb->data.v_const_string);
     }
-    break;
+    return pva->data.v_const_string == pvb->data.v_const_string;
+  case VALTYPE_PIXBUF:
+    return pva->data.v_pixbuf == pvb->data.v_pixbuf;
   case VALTYPE_BUILT_ARRAY:
-    if (pva->data.v_pointer == pvb->data.v_pointer
-        || !pva->data.v_pointer || !pvb->data.v_pointer) {
-      break;
+    if (pva->data.v_pointer == pvb->data.v_pointer) {
+      return TRUE;
+    } else if (!pva->data.v_pointer || !pvb->data.v_pointer) {
+      return FALSE;
     }
+
     improvement_iterate(pimprove) {
       int id, vatb, vbtb;
       id = improvement_index(pimprove);
@@ -1137,25 +1173,28 @@ static bool propval_equal(struct propval *pva,
       }
     } improvement_iterate_end;
     return TRUE;
-    break;
   case VALTYPE_INVENTIONS_ARRAY:
-    if (pva->data.v_pointer == pvb->data.v_pointer
-        || !pva->data.v_pointer || !pvb->data.v_pointer) {
-      break;
+    if (pva->data.v_pointer == pvb->data.v_pointer) {
+      return TRUE;
+    } else if (!pva->data.v_pointer || !pvb->data.v_pointer) {
+      return FALSE;
     }
+
     advance_index_iterate(A_FIRST, tech) {
       if (pva->data.v_inventions[tech] != pvb->data.v_inventions[tech]) {
         return FALSE;
       }
     } advance_index_iterate_end;
     return TRUE;
-    break;
   case VALTYPE_BV_SPECIAL:
     return BV_ARE_EQUAL(pva->data.v_bv_special, pvb->data.v_bv_special);
-    break;
   case VALTYPE_BV_BASES:
     return BV_ARE_EQUAL(pva->data.v_bv_bases, pvb->data.v_bv_bases);
-    break;
+  case VALTYPE_NATION:
+    return pva->data.v_nation == pvb->data.v_nation;
+  case VALTYPE_NATION_HASH:
+    return nation_hashs_are_equal(pva->data.v_nation_hash,
+                                  pvb->data.v_nation_hash);
   case VALTYPE_TILE_VISION_DATA:
     if (!BV_ARE_EQUAL(pva->data.v_tile_vision->tile_known,
                       pvb->data.v_tile_vision->tile_known)) {
@@ -1168,11 +1207,10 @@ static bool propval_equal(struct propval *pva,
       }
     } vision_layer_iterate_end;
     return TRUE;
-    break;
-  default:
-    break;
   }
 
+  log_error("%s(): Unhandled value type %d for property values %p and %p.",
+            __FUNCTION__, pva->valtype, pva, pvb);
   return pva->data.v_pointer == pvb->data.v_pointer;
 }
 
@@ -1256,7 +1294,8 @@ static struct propval *propstate_get_value(struct propstate *ps)
   Create a new object "bind". It serves to bind a set of object properties
   to an object instance.
 ****************************************************************************/
-static struct objbind *objbind_new(int objtype, gpointer object)
+static struct objbind *objbind_new(enum editor_object_type objtype,
+                                   gpointer object)
 {
   struct objbind *ob;
   int id;
@@ -1266,6 +1305,9 @@ static struct objbind *objbind_new(int objtype, gpointer object)
   }
 
   id = objtype_get_id_from_object(objtype, object);
+  if (id < 0) {
+    return NULL;
+  }
 
   ob = fc_calloc(1, sizeof(*ob));
   ob->object_id = id;
@@ -1291,12 +1333,12 @@ static gpointer objbind_get_object(struct objbind *ob)
 }
 
 /****************************************************************************
-  Returns the ID of the bound object, or zero if invalid.
+  Returns the ID of the bound object, or -1 if invalid.
 ****************************************************************************/
 static int objbind_get_object_id(struct objbind *ob)
 {
-  if (!ob) {
-    return 0;
+  if (NULL == ob) {
+    return -1;
   }
   return ob->object_id;
 }
@@ -1308,8 +1350,9 @@ static int objbind_get_object_id(struct objbind *ob)
 ****************************************************************************/
 static void objbind_request_destroy_object(struct objbind *ob)
 {
-  int objtype, id;
   struct connection *my_conn = &client.conn;
+  enum editor_object_type objtype;
+  int id;
 
   if (!ob) {
     return;
@@ -1323,22 +1366,27 @@ static void objbind_request_destroy_object(struct objbind *ob)
   id = objbind_get_object_id(ob);
 
   switch (objtype) {
+  case OBJTYPE_STARTPOS:
+    dsend_packet_edit_startpos(my_conn, id, TRUE, 0);
+    return;
   case OBJTYPE_UNIT:
     dsend_packet_edit_unit_remove_by_id(my_conn, id);
-    break;
+    return;
   case OBJTYPE_CITY:
     dsend_packet_edit_city_remove(my_conn, id);
-    break;
+    return;
   case OBJTYPE_PLAYER:
     dsend_packet_edit_player_remove(my_conn, id);
-    break;
-  default:
-    log_error("Unhandled request to destroy object %p (ID %d) "
-              "of type %d (%s) in objbind_request_destroy_object().",
-              objbind_get_object(ob), id, objtype,
-              objtype_get_name(objtype));
+    return;
+  case OBJTYPE_TILE:
+  case OBJTYPE_GAME:
+  case NUM_OBJTYPES:
     break;
   }
+
+  log_error("%s(): Unhandled request to destroy object %p (ID %d) of type "
+            "%d (%s).", __FUNCTION__, objbind_get_object(ob), id, objtype,
+            objtype_get_name(objtype));
 }
 
 /****************************************************************************
@@ -1351,12 +1399,11 @@ static void objbind_request_destroy_object(struct objbind *ob)
 static struct propval *objbind_get_value_from_object(struct objbind *ob,
                                                      struct objprop *op)
 {
-  int objtype, propid;
-  struct tile *ptile;
+  enum editor_object_type objtype;
+  enum object_property_ids propid;
   struct propval *pv;
-  size_t size;
 
-  if (!op || !ob) {
+  if (!ob || !op) {
     return NULL;
   }
 
@@ -1366,284 +1413,342 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
   pv = fc_calloc(1, sizeof(*pv));
   pv->valtype = objprop_get_valtype(op);
 
-  if (objtype == OBJTYPE_TILE) {
-    struct resource *presource;
-    struct terrain *pterrain;
+  switch (objtype) {
+  case OBJTYPE_TILE:
+    {
+      const struct tile *ptile = objbind_get_object(ob);
 
-    ptile = objbind_get_object(ob);
-    if (ptile == NULL) {
-      goto FAILED;
-    }
-
-    switch (propid) {
-    case OPID_TILE_IMAGE:
-      pv->data.v_pixbuf = create_tile_pixbuf(ptile);
-      pv->must_free = TRUE;
-      break;
-    case OPID_TILE_ADDRESS:
-      pv->data.v_string = g_strdup_printf("%p", ptile);
-      pv->must_free = TRUE;
-      break;
-    case OPID_TILE_TERRAIN:
-      pterrain = tile_terrain(ptile);
-      if (pterrain) {
-        pv->data.v_const_string = terrain_name_translation(pterrain);
-      } else {
-        pv->data.v_const_string = "";
+      if (NULL == ptile) {
+        goto FAILED;
       }
-      break;
-    case OPID_TILE_RESOURCE:
-      presource = tile_resource(ptile);
-      if (presource) {
-        pv->data.v_const_string = resource_name_translation(presource);
-      } else {
-        pv->data.v_const_string = "";
-      }
-      break;
-    case OPID_TILE_XY:
-      pv->data.v_string = g_strdup_printf("(%d, %d)", ptile->x, ptile->y);
-      pv->must_free = TRUE;
-      break;
-    case OPID_TILE_INDEX:
-      pv->data.v_int = tile_index(ptile);
-      break;
-    case OPID_TILE_X:
-      pv->data.v_int = ptile->x;
-      break;
-    case OPID_TILE_Y:
-      pv->data.v_int = ptile->y;
-      break;
-    case OPID_TILE_NAT_X:
-      pv->data.v_int = ptile->nat_x;
-      break;
-    case OPID_TILE_NAT_Y:
-      pv->data.v_int = ptile->nat_y;
-      break;
-    case OPID_TILE_CONTINENT:
-      pv->data.v_int = ptile->continent;
-      break;
-    case OPID_TILE_SPECIALS:
-      pv->data.v_bv_special = tile_specials(ptile);
-      break;
-    case OPID_TILE_BASES:
-      pv->data.v_bv_bases = tile_bases(ptile);
-      break;
-    case OPID_TILE_VISION:
-      size = sizeof(struct tile_vision_data);
-      pv->data.v_tile_vision = fc_malloc(size);
 
-      /* The server saves the known tiles and the player vision in special
-         bitvectors with the number of tiles as index. Here we want the
-         information for one tile. Thus, the data is transformed to
-         bitvectors with the number of player slots as index. */
-      BV_CLR_ALL(pv->data.v_tile_vision->tile_known);
-      players_iterate(pplayer) {
-        if (dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
-          BV_SET(pv->data.v_tile_vision->tile_known,
-                 player_index(pplayer));
+      switch (propid) {
+      case OPID_TILE_IMAGE:
+        pv->data.v_pixbuf = create_tile_pixbuf(ptile);
+        pv->must_free = TRUE;
+        break;
+      case OPID_TILE_ADDRESS:
+        pv->data.v_string = g_strdup_printf("%p", ptile);
+        pv->must_free = TRUE;
+        break;
+      case OPID_TILE_TERRAIN:
+        {
+          const struct terrain *pterrain = tile_terrain(ptile);
+
+          if (NULL != pterrain) {
+            pv->data.v_const_string = terrain_name_translation(pterrain);
+          } else {
+            pv->data.v_const_string = "";
+          }
         }
-      } players_iterate_end;
+        break;
+      case OPID_TILE_RESOURCE:
+        {
+          const struct resource *presource = tile_resource(ptile);
 
-      vision_layer_iterate(v) {
-        BV_CLR_ALL(pv->data.v_tile_vision->tile_seen[v]);
+          if (NULL != presource) {
+            pv->data.v_const_string = resource_name_translation(presource);
+          } else {
+            pv->data.v_const_string = "";
+          }
+        }
+        break;
+      case OPID_TILE_XY:
+        pv->data.v_string = g_strdup_printf("(%d, %d)", ptile->x, ptile->y);
+        pv->must_free = TRUE;
+        break;
+      case OPID_TILE_INDEX:
+        pv->data.v_int = tile_index(ptile);
+        break;
+      case OPID_TILE_X:
+        pv->data.v_int = ptile->x;
+        break;
+      case OPID_TILE_Y:
+        pv->data.v_int = ptile->y;
+        break;
+      case OPID_TILE_NAT_X:
+        pv->data.v_int = ptile->nat_x;
+        break;
+      case OPID_TILE_NAT_Y:
+        pv->data.v_int = ptile->nat_y;
+        break;
+      case OPID_TILE_CONTINENT:
+        pv->data.v_int = ptile->continent;
+        break;
+      case OPID_TILE_SPECIALS:
+        pv->data.v_bv_special = tile_specials(ptile);
+        break;
+      case OPID_TILE_BASES:
+        pv->data.v_bv_bases = tile_bases(ptile);
+        break;
+      case OPID_TILE_VISION:
+        pv->data.v_tile_vision = fc_malloc(sizeof(struct tile_vision_data));
+
+        /* The server saves the known tiles and the player vision in special
+         * bitvectors with the number of tiles as index. Here we want the
+         * information for one tile. Thus, the data is transformed to
+         * bitvectors with the number of player slots as index. */
+        BV_CLR_ALL(pv->data.v_tile_vision->tile_known);
         players_iterate(pplayer) {
-          if (fc_funcs->player_tile_vision_get(ptile, pplayer, v)) {
-            BV_SET(pv->data.v_tile_vision->tile_seen[v],
+          if (dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
+            BV_SET(pv->data.v_tile_vision->tile_known,
                    player_index(pplayer));
           }
         } players_iterate_end;
-      } vision_layer_iterate_end;
-      pv->must_free = TRUE;
-      break;
-    default:
-      log_error("Unhandled request for value of property %d "
-                "(%s) from object of type \"%s\" in "
-                "objbind_get_value_from_object().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      goto FAILED;
-      break;
+
+        vision_layer_iterate(v) {
+          BV_CLR_ALL(pv->data.v_tile_vision->tile_seen[v]);
+          players_iterate(pplayer) {
+            if (fc_funcs->player_tile_vision_get(ptile, pplayer, v)) {
+              BV_SET(pv->data.v_tile_vision->tile_seen[v],
+                     player_index(pplayer));
+            }
+          } players_iterate_end;
+        } vision_layer_iterate_end;
+        pv->must_free = TRUE;
+        break;
+      default:
+        log_error("%s(): Unhandled request for value of property %d "
+                  "(%s) from object of type \"%s\".", __FUNCTION__,
+                  propid, objprop_get_name(op), objtype_get_name(objtype));
+        goto FAILED;
+      }
     }
+    return pv;
 
-  } else if (objtype == OBJTYPE_UNIT) {
-    struct unit *punit = objbind_get_object(ob);
-    struct unit_type *putype;
-    
-    if (punit == NULL) {
-      goto FAILED;
+  case OBJTYPE_STARTPOS:
+    {
+      const struct startpos *psp = objbind_get_object(ob);
+      const struct tile *ptile;
+
+      if (NULL == psp) {
+        goto FAILED;
+      }
+
+      switch (propid) {
+      case OPID_STARTPOS_IMAGE:
+        ptile = startpos_tile(psp);
+        pv->data.v_pixbuf = create_tile_pixbuf(ptile);
+        pv->must_free = TRUE;
+        break;
+      case OPID_STARTPOS_XY:
+        ptile = startpos_tile(psp);
+        pv->data.v_string = g_strdup_printf("(%d, %d)", TILE_XY(ptile));
+        pv->must_free = TRUE;
+        break;
+      case OPID_STARTPOS_EXCLUDE:
+        pv->data.v_bool = startpos_is_excluding(psp);
+        break;
+      case OPID_STARTPOS_NATIONS:
+        pv->data.v_nation_hash = nation_hash_copy(startpos_raw_nations(psp));
+        pv->must_free = TRUE;
+        break;
+      default:
+        log_error("%s(): Unhandled request for value of property %d "
+                  "(%s) from object of type \"%s\".", __FUNCTION__,
+                  propid, objprop_get_name(op), objtype_get_name(objtype));
+        goto FAILED;
+      }
     }
+    return pv;
 
-    switch (propid) {
-    case OPID_UNIT_IMAGE:
-      pv->data.v_pixbuf = create_unit_pixbuf(punit);
-      pv->must_free = TRUE;      
-      break;
-    case OPID_UNIT_ADDRESS:
-      pv->data.v_string = g_strdup_printf("%p", punit);
-      pv->must_free = TRUE;
-      break;
-    case OPID_UNIT_XY:
-      ptile = unit_tile(punit);
-      pv->data.v_string = g_strdup_printf("(%d, %d)", ptile->x, ptile->y);
-      pv->must_free = TRUE;
-      break;
-    case OPID_UNIT_ID:
-      pv->data.v_int = punit->id;
-      break;
-    case OPID_UNIT_TYPE:
-      putype = unit_type(punit);
-      pv->data.v_const_string = utype_name_translation(putype);
-      break;
-    case OPID_UNIT_MOVES_LEFT:
-      pv->data.v_int = punit->moves_left;
-      break;
-    case OPID_UNIT_FUEL:
-      pv->data.v_int = punit->fuel;
-      break;
-    case OPID_UNIT_MOVED:
-      pv->data.v_bool = punit->moved;
-      break;
-    case OPID_UNIT_DONE_MOVING:
-      pv->data.v_bool = punit->done_moving;
-      break;
-    case OPID_UNIT_HP:
-      pv->data.v_int = punit->hp;
-      break;
-    case OPID_UNIT_VETERAN:
-      pv->data.v_int = punit->veteran;
-      break;
-    default:
-      log_error("Unhandled request for value of property %d "
-                "(%s) from object of type \"%s\" in "
-                "objbind_get_value_from_object().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      goto FAILED;
-      break;
+  case OBJTYPE_UNIT:
+    {
+      struct unit *punit = objbind_get_object(ob);
+
+      if (NULL == punit) {
+        goto FAILED;
+      }
+
+      switch (propid) {
+      case OPID_UNIT_IMAGE:
+        pv->data.v_pixbuf = create_unit_pixbuf(punit);
+        pv->must_free = TRUE;
+        break;
+      case OPID_UNIT_ADDRESS:
+        pv->data.v_string = g_strdup_printf("%p", punit);
+        pv->must_free = TRUE;
+        break;
+      case OPID_UNIT_XY:
+        {
+          const struct tile *ptile = unit_tile(punit);
+
+          pv->data.v_string = g_strdup_printf("(%d, %d)", TILE_XY(ptile));
+          pv->must_free = TRUE;
+        }
+        break;
+      case OPID_UNIT_ID:
+        pv->data.v_int = punit->id;
+        break;
+      case OPID_UNIT_TYPE:
+        {
+          const struct unit_type *putype = unit_type(punit);
+
+          pv->data.v_const_string = utype_name_translation(putype);
+        }
+        break;
+      case OPID_UNIT_MOVES_LEFT:
+        pv->data.v_int = punit->moves_left;
+        break;
+      case OPID_UNIT_FUEL:
+        pv->data.v_int = punit->fuel;
+        break;
+      case OPID_UNIT_MOVED:
+        pv->data.v_bool = punit->moved;
+        break;
+      case OPID_UNIT_DONE_MOVING:
+        pv->data.v_bool = punit->done_moving;
+        break;
+      case OPID_UNIT_HP:
+        pv->data.v_int = punit->hp;
+        break;
+      case OPID_UNIT_VETERAN:
+        pv->data.v_int = punit->veteran;
+        break;
+      default:
+        log_error("%s(): Unhandled request for value of property %d "
+                  "(%s) from object of type \"%s\".", __FUNCTION__,
+                  propid, objprop_get_name(op), objtype_get_name(objtype));
+        goto FAILED;
+      }
     }
+    return pv;
 
-  } else if (objtype == OBJTYPE_CITY) {
-    struct city *pcity = objbind_get_object(ob);
+  case OBJTYPE_CITY:
+    {
+      const struct city *pcity = objbind_get_object(ob);
 
-    if (pcity == NULL) {
-      goto FAILED;
+      if (NULL == pcity) {
+        goto FAILED;
+      }
+
+      switch (propid) {
+      case OPID_CITY_IMAGE:
+        pv->data.v_pixbuf = create_city_pixbuf(pcity);
+        pv->must_free = TRUE;
+        break;
+      case OPID_CITY_ADDRESS:
+        pv->data.v_string = g_strdup_printf("%p", pcity);
+        pv->must_free = TRUE;
+        break;
+      case OPID_CITY_XY:
+        {
+          const struct tile *ptile = city_tile(pcity);
+
+          pv->data.v_string = g_strdup_printf("(%d, %d)", TILE_XY(ptile));
+          pv->must_free = TRUE;
+        }
+        break;
+      case OPID_CITY_ID:
+        pv->data.v_int = pcity->id;
+        break;
+      case OPID_CITY_NAME:
+        pv->data.v_const_string = pcity->name;
+        break;
+      case OPID_CITY_SIZE:
+        pv->data.v_int = pcity->size;
+        break;
+      case OPID_CITY_BUILDINGS:
+        pv->data.v_built = fc_malloc(sizeof(pcity->built));
+        memcpy(pv->data.v_built, pcity->built, sizeof(pcity->built));
+        pv->must_free = TRUE;
+        break;
+      case OPID_CITY_FOOD_STOCK:
+        pv->data.v_int = pcity->food_stock;
+        break;
+      case OPID_CITY_SHIELD_STOCK:
+        pv->data.v_int = pcity->shield_stock;
+        break;
+      default:
+        log_error("%s(): Unhandled request for value of property %d "
+                  "(%s) from object of type \"%s\".", __FUNCTION__,
+                  propid, objprop_get_name(op), objtype_get_name(objtype));
+        goto FAILED;
+      }
     }
+    return pv;
 
-    switch (propid) {
-    case OPID_CITY_IMAGE:
-      pv->data.v_pixbuf = create_city_pixbuf(pcity);
-      pv->must_free = TRUE;
-      break;
-    case OPID_CITY_ADDRESS:
-      pv->data.v_string = g_strdup_printf("%p", pcity);
-      pv->must_free = TRUE;
-      break;
-    case OPID_CITY_XY:
-      ptile = city_tile(pcity);
-      pv->data.v_string = g_strdup_printf("(%d, %d)", ptile->x, ptile->y);
-      pv->must_free = TRUE;
-      break;
-    case OPID_CITY_ID:
-      pv->data.v_int = pcity->id;
-      break;
-    case OPID_CITY_NAME:
-      pv->data.v_const_string = pcity->name;
-      break;
-    case OPID_CITY_SIZE:
-      pv->data.v_int = pcity->size;
-      break;
-    case OPID_CITY_BUILDINGS:
-      pv->data.v_built = pcity->built;
-      break;
-    case OPID_CITY_FOOD_STOCK:
-      pv->data.v_int = pcity->food_stock;
-      break;
-    case OPID_CITY_SHIELD_STOCK:
-      pv->data.v_int = pcity->shield_stock;
-      break;
-    default:
-      log_error("Unhandled request for value of property %d "
-                "(%s) from object of type \"%s\" in "
-                "objbind_get_value_from_object().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      goto FAILED;
-      break;
+  case OBJTYPE_PLAYER:
+    {
+      const struct player *pplayer = objbind_get_object(ob);
+
+      if (NULL == pplayer) {
+        goto FAILED;
+      }
+
+      switch (propid) {
+      case OPID_PLAYER_NAME:
+        pv->data.v_const_string = pplayer->name;
+        break;
+      case OPID_PLAYER_NATION:
+        pv->data.v_nation = nation_of_player(pplayer);
+        break;
+      case OPID_PLAYER_ADDRESS:
+        pv->data.v_string = g_strdup_printf("%p", pplayer);
+        pv->must_free = TRUE;
+        break;
+      case OPID_PLAYER_INVENTIONS:
+        pv->data.v_inventions = fc_calloc(A_LAST, sizeof(bool));
+        advance_index_iterate(A_FIRST, tech) {
+          pv->data.v_inventions[tech]
+              = TECH_KNOWN == player_invention_state(pplayer, tech);
+        } advance_index_iterate_end;
+        pv->must_free = TRUE;
+        break;
+      case OPID_PLAYER_GOLD:
+        pv->data.v_int = pplayer->economic.gold;
+        break;
+      default:
+        log_error("%s(): Unhandled request for value of property %d "
+                  "(%s) from object of type \"%s\".", __FUNCTION__,
+                  propid, objprop_get_name(op), objtype_get_name(objtype));
+        goto FAILED;
+      }
     }
-  } else if (objtype == OBJTYPE_PLAYER) {
-    struct player *pplayer = objbind_get_object(ob);
+    return pv;
 
-    if (pplayer == NULL) {
-      goto FAILED;
+  case OBJTYPE_GAME:
+    {
+      const struct civ_game *pgame = objbind_get_object(ob);
+
+      if (NULL == pgame) {
+        goto FAILED;
+      }
+
+      switch (propid) {
+      case OPID_GAME_YEAR:
+        pv->data.v_int = pgame->info.year;
+        break;
+      case OPID_GAME_SCENARIO:
+        pv->data.v_bool = pgame->scenario.is_scenario;
+        break;
+      case OPID_GAME_SCENARIO_NAME:
+        pv->data.v_const_string = pgame->scenario.name;
+        break;
+      case OPID_GAME_SCENARIO_DESC:
+        pv->data.v_const_string = pgame->scenario.description;
+        break;
+      case OPID_GAME_SCENARIO_PLAYERS:
+        pv->data.v_bool = pgame->scenario.players;
+        break;
+      default:
+        log_error("%s(): Unhandled request for value of property %d "
+                  "(%s) from object of type \"%s\".", __FUNCTION__,
+                  propid, objprop_get_name(op), objtype_get_name(objtype));
+        goto FAILED;
+      }
     }
+    return pv;
 
-    switch (propid) {
-    case OPID_PLAYER_NAME:
-      pv->data.v_const_string = pplayer->name;
-      break;
-    case OPID_PLAYER_NATION:
-      pv->data.v_nation = nation_of_player(pplayer);
-      break;
-    case OPID_PLAYER_ADDRESS:
-      pv->data.v_string = g_strdup_printf("%p", pplayer);
-      pv->must_free = TRUE;
-      break;
-    case OPID_PLAYER_INVENTIONS:
-      pv->data.v_inventions = fc_calloc(A_LAST, sizeof(bool));
-      advance_index_iterate(A_FIRST, tech) {
-        pv->data.v_inventions[tech]
-            = TECH_KNOWN == player_invention_state(pplayer, tech);
-      } advance_index_iterate_end;
-      pv->must_free = TRUE;
-      break;
-    case OPID_PLAYER_GOLD:
-      pv->data.v_int = pplayer->economic.gold;
-      break;
-    default:
-      log_error("Unhandled request for value of property %d "
-                "(%s) from object of type \"%s\" in "
-                "objbind_get_value_from_object().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      goto FAILED;
-      break;
-    }
-
-  } else if (objtype == OBJTYPE_GAME) {
-    struct civ_game *pgame = objbind_get_object(ob);
-
-    if (pgame == NULL) {
-      goto FAILED;
-    }
-
-    switch (propid) {
-    case OPID_GAME_YEAR:
-      pv->data.v_int = pgame->info.year;
-      break;
-    case OPID_GAME_SCENARIO:
-      pv->data.v_bool = pgame->scenario.is_scenario;
-      break;
-    case OPID_GAME_SCENARIO_NAME:
-      pv->data.v_const_string = pgame->scenario.name;
-      break;
-    case OPID_GAME_SCENARIO_DESC:
-      pv->data.v_const_string = pgame->scenario.description;
-      break;
-    case OPID_GAME_SCENARIO_PLAYERS:
-      pv->data.v_bool = pgame->scenario.players;
-      break;
-    default:
-      log_error("Unhandled request for value of property %d "
-                "(%s) from object of type \"%s\" in "
-                "objbind_get_value_from_object().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      goto FAILED;
-      break;
-    }
-  } else {
-    goto FAILED;
+  case NUM_OBJTYPES:
+    break;
   }
 
-  return pv;
+  log_error("%s(): Unhandled request for object type \"%s\" (nb %d).",
+            __FUNCTION__, objtype_get_name(objtype), objtype);
 
 FAILED:
-  if (pv) {
+  if (NULL != pv) {
     free(pv);
   }
   return NULL;
@@ -1660,10 +1765,31 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
                                            double *pstep,
                                            double *pbig_step)
 {
-  int propid;
-  int objtype;
-  bool ok = TRUE;
-  double min = 0, max = 1, step = 1, big_step = 1;
+  enum editor_object_type objtype;
+  enum object_property_ids propid;
+  double dummy;
+
+  /* Fill the values with something. */
+  if (NULL != pmin) {
+    *pmin = 0;
+  } else {
+    pmin = &dummy;
+  }
+  if (NULL != pmax) {
+    *pmax = 1;
+  } else {
+    pmax = &dummy;
+  }
+  if (NULL != pstep) {
+    *pstep = 1;
+  } else {
+    pstep = &dummy;
+  }
+  if (NULL != pbig_step) {
+    *pbig_step = 1;
+  } else {
+    pbig_step = &dummy;
+  }
 
   if (!ob || !op) {
     return FALSE;
@@ -1672,155 +1798,146 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
   propid = objprop_get_id(op);
   objtype = objbind_get_objtype(ob);
 
-  if (objtype == OBJTYPE_UNIT) {
-    struct unit *punit = objbind_get_object(ob);
-    struct unit_type *putype;
+  switch (objtype) {
+  case OBJTYPE_TILE:
+  case OBJTYPE_STARTPOS:
+    log_error("%s(): Unhandled request for value range of property %d (%s) "
+              "from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return FALSE;
 
-    if (!punit) {
-      return FALSE;
-    }
+  case OBJTYPE_UNIT:
+    {
+      const struct unit *punit = objbind_get_object(ob);
+      const struct unit_type *putype;
 
-    putype = unit_type(punit);
-
-    switch (propid) {
-    case OPID_UNIT_MOVES_LEFT:
-      min = 0;
-      max = putype->move_rate;
-      step = 1;
-      big_step = 5;
-      break;
-    case OPID_UNIT_FUEL:
-      min = 0;
-      max = utype_fuel(putype);
-      step = 1;
-      big_step = 5;
-      break;
-    case OPID_UNIT_HP:
-      min = 1;
-      max = putype->hp;
-      step = 1;
-      big_step = 10;
-      break;
-    case OPID_UNIT_VETERAN:
-      min = 0;
-      if (unit_has_type_flag(punit, F_NO_VETERAN)) {
-        max = 0;
-      } else {
-        int i;
-        /* FIXME: The maximum veteran level is
-         * really not stored anywhere?? */
-        for (i = 1; i < MAX_VET_LEVELS; i++) {
-          if (putype->veteran[i].name[0] == '\0') {
-            break;
-          }
-        }
-        max = i - 1;
+      if (NULL == punit) {
+        return FALSE;
       }
-      step = 1;
-      big_step = 3;
-      break;
-    default:
-      log_error("Unhandled request for value range of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_get_allowed_value_span().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      ok = FALSE;
-      break;
+
+      putype = unit_type(punit);
+
+      switch (propid) {
+      case OPID_UNIT_MOVES_LEFT:
+        *pmin = 0;
+        *pmax = putype->move_rate;
+        *pstep = 1;
+        *pbig_step = 5;
+        return TRUE;
+      case OPID_UNIT_FUEL:
+        *pmin = 0;
+        *pmax = utype_fuel(putype);
+        *pstep = 1;
+        *pbig_step = 5;
+        return TRUE;
+      case OPID_UNIT_HP:
+        *pmin = 1;
+        *pmax = putype->hp;
+        *pstep = 1;
+        *pbig_step = 10;
+        return TRUE;
+      case OPID_UNIT_VETERAN:
+        *pmin = 0;
+        if (unit_has_type_flag(punit, F_NO_VETERAN)) {
+          *pmax = 0;
+        } else {
+          int i;
+          /* FIXME: The maximum veteran level is
+           * really not stored anywhere?? */
+          for (i = 1; i < MAX_VET_LEVELS; i++) {
+            if (putype->veteran[i].name[0] == '\0') {
+              break;
+            }
+          }
+          *pmax = i - 1;
+        }
+        *pstep = 1;
+        *pbig_step = 3;
+        return TRUE;
+      default:
+        break;
+      }
     }
+    log_error("%s(): Unhandled request for value range of property %d (%s) "
+              "from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return FALSE;
 
-  } else if (objtype == OBJTYPE_CITY) {
-    struct city *pcity = objbind_get_object(ob);
+  case OBJTYPE_CITY:
+    {
+      const struct city *pcity = objbind_get_object(ob);
 
-    if (!pcity) {
-      return FALSE;
+      if (NULL == pcity) {
+        return FALSE;
+      }
+
+      switch (propid) {
+      case OPID_CITY_SIZE:
+        *pmin = 1;
+        *pmax = MAX_CITY_SIZE;
+        *pstep = 1;
+        *pbig_step = 5;
+        return TRUE;
+      case OPID_CITY_FOOD_STOCK:
+        *pmin = 0;
+        *pmax = city_granary_size(pcity->size);
+        *pstep = 1;
+        *pbig_step = 5;
+        return TRUE;
+      case OPID_CITY_SHIELD_STOCK:
+        *pmin = 0;
+        *pmax = USHRT_MAX; /* Limited to uint16 by city info packet. */
+        *pstep = 1;
+        *pbig_step = 10;
+        return TRUE;
+      default:
+        break;
+      }
     }
+    log_error("%s(): Unhandled request for value range of property %d (%s) "
+              "from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return FALSE;
 
-    switch (propid) {
-    case OPID_CITY_SIZE:
-      min = 1;
-      max = MAX_CITY_SIZE;
-      step = 1;
-      big_step = 5;
-      break;
-    case OPID_CITY_FOOD_STOCK:
-      min = 0;
-      max = city_granary_size(pcity->size);
-      step = 1;
-      big_step = 5;
-      break;
-    case OPID_CITY_SHIELD_STOCK:
-      min = 0;
-      max = USHRT_MAX; /* Limited to uint16 by city info packet. */
-      step = 1;
-      big_step = 10;
-      break;
-    default:
-      log_error("Unhandled request for value range of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_get_allowed_value_span().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      ok = FALSE;
-      break;
-    }
-
-  } else if (objtype == OBJTYPE_PLAYER) {
-
+  case OBJTYPE_PLAYER:
     switch (propid) {
     case OPID_PLAYER_GOLD:
-      min = 0;
-      max = 1000000; /* Arbitrary. */
-      step = 1;
-      big_step = 100;
-      break;
+      *pmin = 0;
+      *pmax = 1000000; /* Arbitrary. */
+      *pstep = 1;
+      *pbig_step = 100;
+      return TRUE;
     default:
-      log_error("Unhandled request for value range of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_get_allowed_value_span().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      ok = FALSE;
       break;
     }
+    log_error("%s(): Unhandled request for value range of property %d (%s) "
+              "from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return FALSE;
 
-  } else if (objtype == OBJTYPE_GAME) {
-
+  case OBJTYPE_GAME:
     switch (propid) {
     case OPID_GAME_YEAR:
-      min = -30000;
-      max = 30000;
-      step = 1;
-      big_step = 25;
-      break;
+      *pmin = -30000;
+      *pmax = 30000;
+      *pstep = 1;
+      *pbig_step = 25;
+      return TRUE;
     default:
-      log_error("Unhandled request for value range of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_get_allowed_value_span().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      ok = FALSE;
       break;
     }
-
-  } else {
-    ok = FALSE;
-  }
-
-  if (!ok) {
+    log_error("%s(): Unhandled request for value range of property %d (%s) "
+              "from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
     return FALSE;
+
+  case NUM_OBJTYPES:
+    break;
   }
 
-  if (pmin) {   
-    *pmin = min;
-  }
-  if (pmax) {
-    *pmax = max;
-  }
-  if (pstep) {
-    *pstep = step;
-  }
-  if (pbig_step) {
-    *pbig_step = big_step;
-  }
-
-  return TRUE;
+  log_error("%s(): Unhandled request for object type \"%s\" (nb %d).",
+            __FUNCTION__, objtype_get_name(objtype), objtype);
+  return FALSE;
 }
 
 /****************************************************************************
@@ -1888,10 +2005,10 @@ static void objbind_set_modified_value(struct objbind *ob,
                                        struct propval *pv)
 {
   struct propstate *ps;
-  int valtype;
+  enum value_types valtype;
   bool equal;
   struct propval *pv_old, *pv_copy;
-  int propid;
+  enum object_property_ids propid;
 
   if (!ob || !op) {
     return;
@@ -1967,7 +2084,7 @@ static void objbind_destroy(struct objbind *ob)
 /****************************************************************************
   Returns the object type of the bound object.
 ****************************************************************************/
-static int objbind_get_objtype(const struct objbind *ob)
+static enum editor_object_type objbind_get_objtype(const struct objbind *ob)
 {
   if (!ob) {
     return NUM_OBJTYPES;
@@ -1995,7 +2112,7 @@ static void objbind_bind_properties(struct objbind *ob,
 static void objbind_pack_current_values(struct objbind *ob,
                                         union packetdata pd)
 {
-  int objtype;
+  enum editor_object_type objtype;
 
   if (!ob || !pd.v_pointer) {
     return;
@@ -2003,90 +2120,123 @@ static void objbind_pack_current_values(struct objbind *ob,
 
   objtype = objbind_get_objtype(ob);
 
-  if (objtype == OBJTYPE_TILE) {
-    struct packet_edit_tile *packet = pd.tile;
-    struct tile *ptile = objbind_get_object(ob);
+  switch (objtype) {
+  case OBJTYPE_TILE:
+    {
+      struct packet_edit_tile *packet = pd.tile;
+      const struct tile *ptile = objbind_get_object(ob);
 
-    if (!ptile) {
-      return;
+      if (NULL == ptile) {
+        return;
+      }
+
+      packet->tile = tile_index(ptile);
+      packet->specials = tile_specials(ptile);
+      packet->bases = tile_bases(ptile);
+      /* TODO: Set more packet fields. */
     }
+    return;
 
-    packet->tile = tile_index(ptile);
-    packet->specials = tile_specials(ptile);
-    packet->bases = tile_bases(ptile);
-    /* TODO: Set more packet fields. */
+  case OBJTYPE_STARTPOS:
+    {
+      struct packet_edit_startpos_full *packet = pd.startpos;
+      const struct startpos *psp = objbind_get_object(ob);
 
-  } else if (objtype == OBJTYPE_UNIT) {
-    struct packet_edit_unit *packet = pd.unit;
-    struct unit *punit = objbind_get_object(ob);
-
-    if (!punit) {
-      return;
+      if (NULL != psp) {
+        startpos_pack(psp, packet);
+      }
     }
+    return;
 
-    packet->id = punit->id;
-    packet->moves_left = punit->moves_left;
-    packet->fuel = punit->fuel;
-    packet->moved = punit->moved;
-    packet->done_moving = punit->done_moving;
-    packet->hp = punit->hp;
-    packet->veteran = punit->veteran;
-    /* TODO: Set more packet fields. */
+  case OBJTYPE_UNIT:
+    {
+      struct packet_edit_unit *packet = pd.unit;
+      const struct unit *punit = objbind_get_object(ob);
 
-  } else if (objtype == OBJTYPE_CITY) {
-    struct packet_edit_city *packet = pd.city;
-    struct city *pcity = objbind_get_object(ob);
-    int i;
+      if (NULL == punit) {
+        return;
+      }
 
-    if (!pcity) {
-      return;
+      packet->id = punit->id;
+      packet->moves_left = punit->moves_left;
+      packet->fuel = punit->fuel;
+      packet->moved = punit->moved;
+      packet->done_moving = punit->done_moving;
+      packet->hp = punit->hp;
+      packet->veteran = punit->veteran;
+      /* TODO: Set more packet fields. */
     }
-    
-    packet->id = pcity->id;
-    sz_strlcpy(packet->name, pcity->name);
-    packet->size = pcity->size;
-    for (i = 0; i < B_LAST; i++) {
-      packet->built[i] = pcity->built[i].turn;
+    return;
+
+  case OBJTYPE_CITY:
+    {
+      struct packet_edit_city *packet = pd.city;
+      const struct city *pcity = objbind_get_object(ob);
+      int i;
+
+      if (NULL == pcity) {
+        return;
+      }
+
+      packet->id = pcity->id;
+      sz_strlcpy(packet->name, pcity->name);
+      packet->size = pcity->size;
+      for (i = 0; i < B_LAST; i++) {
+        packet->built[i] = pcity->built[i].turn;
+      }
+      packet->food_stock = pcity->food_stock;
+      packet->shield_stock = pcity->shield_stock;
+      /* TODO: Set more packet fields. */
     }
-    packet->food_stock = pcity->food_stock;
-    packet->shield_stock = pcity->shield_stock;
-    /* TODO: Set more packet fields. */
+    return;
 
-  } else if (objtype == OBJTYPE_PLAYER) {
-    struct packet_edit_player *packet = pd.player;
-    struct player *pplayer = objbind_get_object(ob);
-    struct nation_type *pnation;
+  case OBJTYPE_PLAYER:
+    {
+      struct packet_edit_player *packet = pd.player;
+      const struct player *pplayer = objbind_get_object(ob);
+      const struct nation_type *pnation;
 
-    if (!pplayer) {
-      return;
+      if (NULL == pplayer) {
+        return;
+      }
+
+      packet->id = player_number(pplayer);
+      sz_strlcpy(packet->name, pplayer->name);
+      pnation = nation_of_player(pplayer);
+      packet->nation = nation_index(pnation);
+      advance_index_iterate(A_FIRST, tech) {
+        packet->inventions[tech]
+            = TECH_KNOWN == player_invention_state(pplayer, tech);
+      } advance_index_iterate_end;
+      packet->gold = pplayer->economic.gold;
+      /* TODO: Set more packet fields. */
     }
+    return;
 
-    packet->id = player_number(pplayer);
-    sz_strlcpy(packet->name, pplayer->name);
-    pnation = nation_of_player(pplayer);
-    packet->nation = nation_index(pnation);
-    advance_index_iterate(A_FIRST, tech) {
-      packet->inventions[tech]
-          = TECH_KNOWN == player_invention_state(pplayer, tech);
-    } advance_index_iterate_end;
-    packet->gold = pplayer->economic.gold;
-    /* TODO: Set more packet fields. */
+  case OBJTYPE_GAME:
+    {
+      struct packet_edit_game *packet = pd.game;
+      const struct civ_game *pgame = objbind_get_object(ob);
 
-  } else if (objtype == OBJTYPE_GAME) {
-    struct packet_edit_game *packet = pd.game;
-    struct civ_game *pgame = objbind_get_object(ob);
+      if (NULL == pgame) {
+        return;
+      }
 
-    if (!pgame) {
-      return;
+      packet->year = pgame->info.year;
+      packet->scenario = pgame->scenario.is_scenario;
+      sz_strlcpy(packet->scenario_name, pgame->scenario.name);
+      sz_strlcpy(packet->scenario_desc, pgame->scenario.description);
+      packet->scenario_players = pgame->scenario.players;
+      /* TODO: Set more packet fields. */
     }
+    return;
 
-    packet->year = pgame->info.year;
-    packet->scenario = pgame->scenario.is_scenario;
-    sz_strlcpy(packet->scenario_name, pgame->scenario.name);
-    sz_strlcpy(packet->scenario_desc, pgame->scenario.description);
-    packet->scenario_players = pgame->scenario.players;
-    /* TODO: Set more packet fields. */
+  case NUM_OBJTYPES:
+    break;
   }
+
+  log_error("%s(): Unhandled object type %s (nb %d).", __FUNCTION__,
+            objtype_get_name(objtype), objtype);
 }
 
 /****************************************************************************
@@ -2097,10 +2247,14 @@ static void objbind_pack_modified_value(struct objbind *ob,
                                         union packetdata pd)
 {
   struct propval *pv;
-  int objtype, propid;
-  int i;
+  enum editor_object_type objtype;
+  enum object_property_ids propid;
 
   if (!op || !ob || !pd.v_pointer) {
+    return;
+  }
+
+  if (NULL == objbind_get_object(ob)) {
     return;
   }
 
@@ -2116,155 +2270,181 @@ static void objbind_pack_modified_value(struct objbind *ob,
   objtype = objbind_get_objtype(ob);
   propid = objprop_get_id(op);
 
-  if (objtype == OBJTYPE_TILE) {
-    struct packet_edit_tile *packet = pd.tile;
-    struct tile *ptile = objbind_get_object(ob);
+  switch (objtype) {
+  case OBJTYPE_TILE:
+    {
+      struct packet_edit_tile *packet = pd.tile;
 
-    if (!ptile) {
-      return;
-    }
-
-    switch (propid) {
-    case OPID_TILE_SPECIALS:
-      packet->specials = pv->data.v_bv_special;
-      break;
-    case OPID_TILE_BASES:
-      packet->bases = pv->data.v_bv_bases;
-      break;
-    default:
-      log_error("Unhandled request to pack value of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_pack_modified_value().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      break;
-    }
-
-  } else if (objtype == OBJTYPE_UNIT) {
-    struct packet_edit_unit *packet = pd.unit;
-    struct unit *punit = objbind_get_object(ob);
-
-    if (!punit) {
-      return;
-    }
-
-    switch (propid) {
-    case OPID_UNIT_MOVES_LEFT:
-      packet->moves_left = pv->data.v_int;
-      break;
-    case OPID_UNIT_FUEL:
-      packet->fuel = pv->data.v_int;
-      break;
-    case OPID_UNIT_MOVED:
-      packet->moved = pv->data.v_bool;
-      break;
-    case OPID_UNIT_DONE_MOVING:
-      packet->done_moving = pv->data.v_bool;
-      break;
-    case OPID_UNIT_HP:
-      packet->hp = pv->data.v_int;
-      break;
-    case OPID_UNIT_VETERAN:
-      packet->veteran = pv->data.v_int;
-      break;
-    default:
-      log_error("Unhandled request to pack value of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_pack_modified_value().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      break;
-    }
-
-  } else if (objtype == OBJTYPE_CITY) {
-    struct packet_edit_city *packet = pd.city;
-    struct city *pcity = objbind_get_object(ob);
-
-    if (!pcity) {
-      return;
-    }
-
-    switch (propid) {
-    case OPID_CITY_NAME:
-      sz_strlcpy(packet->name, pv->data.v_string);
-      break;
-    case OPID_CITY_SIZE:
-      packet->size = pv->data.v_int;
-      break;
-    case OPID_CITY_FOOD_STOCK:
-      packet->food_stock = pv->data.v_int;
-      break;
-    case OPID_CITY_SHIELD_STOCK:
-      packet->shield_stock = pv->data.v_int;
-      break;
-    case OPID_CITY_BUILDINGS:
-      for (i = 0; i < B_LAST; i++) {
-        packet->built[i] = pv->data.v_built[i].turn;
+      switch (propid) {
+      case OPID_TILE_SPECIALS:
+        packet->specials = pv->data.v_bv_special;
+        return;
+      case OPID_TILE_BASES:
+        packet->bases = pv->data.v_bv_bases;
+        return;
+      default:
+        break;
       }
-      break;
-    default:
-      log_error("Unhandled request to pack value of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_pack_modified_value().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      break;
     }
-  } else if (objtype == OBJTYPE_PLAYER) {
-    struct packet_edit_player *packet = pd.player;
-    struct player *pplayer = objbind_get_object(ob);
+    log_error("%s(): Unhandled request to pack value of property "
+              "%d (%s) from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return;
 
-    if (!pplayer) {
-      return;
+  case OBJTYPE_STARTPOS:
+    {
+      struct packet_edit_startpos_full *packet = pd.startpos;
+
+      switch (propid) {
+      case OPID_STARTPOS_EXCLUDE:
+        packet->exclude = pv->data.v_bool;
+        return;
+      case OPID_STARTPOS_NATIONS:
+        BV_CLR_ALL(packet->nations);
+        nation_hash_iterate(pv->data.v_nation_hash, pnation) {
+          BV_SET(packet->nations, nation_number(pnation));
+        } nation_hash_iterate_end;
+        return;
+      default:
+        break;
+      }
     }
+    log_error("%s(): Unhandled request to pack value of property "
+              "%d (%s) from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return;
 
-    switch (propid) {
-    case OPID_PLAYER_NAME:
-      sz_strlcpy(packet->name, pv->data.v_string);
-      break;
-    case OPID_PLAYER_NATION:
-      packet->nation = nation_index(pv->data.v_nation);
-      break;
-    case OPID_PLAYER_INVENTIONS:
-      advance_index_iterate(A_FIRST, tech) {
-        packet->inventions[tech] = pv->data.v_inventions[tech];
-      } advance_index_iterate_end;
-      break;
-    case OPID_PLAYER_GOLD:
-      packet->gold = pv->data.v_int;
-      break;
-    default:
-      log_error("Unhandled request to pack value of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_pack_modified_value().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      break;
+  case OBJTYPE_UNIT:
+    {
+      struct packet_edit_unit *packet = pd.unit;
+
+      switch (propid) {
+      case OPID_UNIT_MOVES_LEFT:
+        packet->moves_left = pv->data.v_int;
+        return;
+      case OPID_UNIT_FUEL:
+        packet->fuel = pv->data.v_int;
+        return;
+      case OPID_UNIT_MOVED:
+        packet->moved = pv->data.v_bool;
+        return;
+      case OPID_UNIT_DONE_MOVING:
+        packet->done_moving = pv->data.v_bool;
+        return;
+      case OPID_UNIT_HP:
+        packet->hp = pv->data.v_int;
+        return;
+      case OPID_UNIT_VETERAN:
+        packet->veteran = pv->data.v_int;
+        return;
+      default:
+        break;
+      }
     }
+    log_error("%s(): Unhandled request to pack value of property "
+              "%d (%s) from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return;
 
-  } else if (objtype == OBJTYPE_GAME) {
-    struct packet_edit_game *packet = pd.game;
+  case OBJTYPE_CITY:
+    {
+      struct packet_edit_city *packet = pd.city;
 
-    switch (propid) {
-    case OPID_GAME_YEAR:
-      packet->year = pv->data.v_int;
-      break;
-    case OPID_GAME_SCENARIO:
-      packet->scenario = pv->data.v_bool;
-      break;
-    case OPID_GAME_SCENARIO_NAME:
-      sz_strlcpy(packet->scenario_name, pv->data.v_const_string);
-      break;
-    case OPID_GAME_SCENARIO_DESC:
-      sz_strlcpy(packet->scenario_desc, pv->data.v_const_string);
-      break;
-    case OPID_GAME_SCENARIO_PLAYERS:
-      packet->scenario_players = pv->data.v_bool;
-      break;
-    default:
-      log_error("Unhandled request to pack value of "
-                "property %d (%s) from object of type \"%s\" in "
-                "objbind_pack_modified_value().",
-                propid, objprop_get_name(op), objtype_get_name(objtype));
-      break;
+      switch (propid) {
+      case OPID_CITY_NAME:
+        sz_strlcpy(packet->name, pv->data.v_string);
+        return;
+      case OPID_CITY_SIZE:
+        packet->size = pv->data.v_int;
+        return;
+      case OPID_CITY_FOOD_STOCK:
+        packet->food_stock = pv->data.v_int;
+        return;
+      case OPID_CITY_SHIELD_STOCK:
+        packet->shield_stock = pv->data.v_int;
+        return;
+      case OPID_CITY_BUILDINGS:
+        {
+          int i;
+
+          for (i = 0; i < B_LAST; i++) {
+            packet->built[i] = pv->data.v_built[i].turn;
+          }
+        }
+        return;
+      default:
+          break;
+      }
     }
+    log_error("%s(): Unhandled request to pack value of property "
+              "%d (%s) from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return;
+
+  case OBJTYPE_PLAYER:
+    {
+      struct packet_edit_player *packet = pd.player;
+
+      switch (propid) {
+      case OPID_PLAYER_NAME:
+        sz_strlcpy(packet->name, pv->data.v_string);
+        return;
+      case OPID_PLAYER_NATION:
+        packet->nation = nation_index(pv->data.v_nation);
+        return;
+      case OPID_PLAYER_INVENTIONS:
+        advance_index_iterate(A_FIRST, tech) {
+          packet->inventions[tech] = pv->data.v_inventions[tech];
+        } advance_index_iterate_end;
+        return;
+      case OPID_PLAYER_GOLD:
+        packet->gold = pv->data.v_int;
+        return;
+      default:
+        break;
+      }
+    }
+    log_error("%s(): Unhandled request to pack value of property "
+              "%d (%s) from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return;
+
+  case OBJTYPE_GAME:
+    {
+      struct packet_edit_game *packet = pd.game;
+
+      switch (propid) {
+      case OPID_GAME_YEAR:
+        packet->year = pv->data.v_int;
+        return;
+      case OPID_GAME_SCENARIO:
+        packet->scenario = pv->data.v_bool;
+        return;
+      case OPID_GAME_SCENARIO_NAME:
+        sz_strlcpy(packet->scenario_name, pv->data.v_const_string);
+        return;
+      case OPID_GAME_SCENARIO_DESC:
+        sz_strlcpy(packet->scenario_desc, pv->data.v_const_string);
+        return;
+      case OPID_GAME_SCENARIO_PLAYERS:
+        packet->scenario_players = pv->data.v_bool;
+        return;
+      default:
+        break;
+      }
+    }
+    log_error("%s(): Unhandled request to pack value of property "
+              "%d (%s) from object of type \"%s\".", __FUNCTION__,
+              propid, objprop_get_name(op), objtype_get_name(objtype));
+    return;
+
+  case NUM_OBJTYPES:
+    break;
   }
+
+  log_error("%s(): Unhandled request for object type \"%s\" (nb %d).",
+            __FUNCTION__, objtype_get_name(objtype), objtype);
+
 }
 
 /****************************************************************************
@@ -2310,37 +2490,35 @@ static int objprop_get_id(const struct objprop *op)
 ****************************************************************************/
 static GType objprop_get_gtype(const struct objprop *op)
 {
-  if (!op) {
-    return G_TYPE_NONE;
-  }
+  fc_assert_ret_val(NULL != op, G_TYPE_NONE);
+
   switch (op->valtype) {
+  case VALTYPE_NONE:
+  case VALTYPE_TILE_VISION_DATA:
+    return G_TYPE_NONE;
   case VALTYPE_INT:
     return G_TYPE_INT;
-    break;
   case VALTYPE_BOOL:
     return G_TYPE_BOOLEAN;
-    break;
   case VALTYPE_STRING:
   case VALTYPE_BUILT_ARRAY:
   case VALTYPE_INVENTIONS_ARRAY:
   case VALTYPE_BV_SPECIAL:
   case VALTYPE_BV_BASES:
+  case VALTYPE_NATION_HASH:
     return G_TYPE_STRING;
-    break;
   case VALTYPE_PIXBUF:
   case VALTYPE_NATION:
     return GDK_TYPE_PIXBUF;
-    break;
-  default:
-    break;
   }
+  log_error("%s(): Unhandled value type %d.", __FUNCTION__, op->valtype);
   return G_TYPE_NONE;
 }
 
 /****************************************************************************
   Returns the value type of this property value (one of enum value_types).
 ****************************************************************************/
-static int objprop_get_valtype(const struct objprop *op)
+static enum value_types objprop_get_valtype(const struct objprop *op)
 {
   if (!op) {
     return VALTYPE_NONE;
@@ -2563,7 +2741,7 @@ static void objprop_setup_widget(struct objprop *op)
   GtkWidget *w = NULL;
   GtkWidget *hbox, *hbox2, *label, *image, *entry, *spin, *button;
   struct extviewer *ev = NULL;
-  int propid;
+  enum object_property_ids propid;
 
   if (!op) {
     return;
@@ -2585,7 +2763,6 @@ static void objprop_setup_widget(struct objprop *op)
   propid = objprop_get_id(op);
 
   switch (propid) {
-
   case OPID_TILE_ADDRESS:
   case OPID_TILE_INDEX:
   case OPID_TILE_X:
@@ -2596,6 +2773,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_TILE_TERRAIN:
   case OPID_TILE_RESOURCE:
   case OPID_TILE_XY:
+  case OPID_STARTPOS_XY:
   case OPID_UNIT_ADDRESS:
   case OPID_UNIT_ID:
   case OPID_UNIT_XY:
@@ -2608,16 +2786,17 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "value-label", label);
-    break;
+    return;
 
   case OPID_TILE_IMAGE:
+  case OPID_STARTPOS_IMAGE:
   case OPID_UNIT_IMAGE:
   case OPID_CITY_IMAGE:
     image = gtk_image_new();
     gtk_misc_set_alignment(GTK_MISC(image), 0.0, 0.5);
     gtk_box_pack_start(GTK_BOX(hbox), image, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "image", image);
-    break;
+    return;
 
   case OPID_CITY_NAME:
   case OPID_PLAYER_NAME:
@@ -2628,7 +2807,7 @@ static void objprop_setup_widget(struct objprop *op)
         G_CALLBACK(objprop_widget_entry_changed), op);
     gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "entry", entry);
-    break;
+    return;
 
   case OPID_CITY_SIZE:
   case OPID_CITY_SHIELD_STOCK:
@@ -2639,7 +2818,7 @@ static void objprop_setup_widget(struct objprop *op)
         G_CALLBACK(objprop_widget_spin_button_changed), op);
     gtk_box_pack_start(GTK_BOX(hbox), spin, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "spin", spin);
-    break;
+    return;
 
   case OPID_UNIT_MOVES_LEFT:
   case OPID_UNIT_FUEL:
@@ -2657,11 +2836,12 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_box_pack_start(GTK_BOX(hbox2), label, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "max-value-label", label);
-    break;
+    return;
 
   case OPID_TILE_SPECIALS:
   case OPID_TILE_BASES:
   case OPID_TILE_VISION:
+  case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
@@ -2671,8 +2851,9 @@ static void objprop_setup_widget(struct objprop *op)
     gtk_box_pack_start(GTK_BOX(hbox), extviewer_get_panel_widget(ev),
                        TRUE, TRUE, 0);
     property_page_add_extviewer(objprop_get_property_page(op), ev);
-    break;
+    return;
 
+  case OPID_STARTPOS_EXCLUDE:
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
   case OPID_GAME_SCENARIO:
@@ -2682,16 +2863,11 @@ static void objprop_setup_widget(struct objprop *op)
         G_CALLBACK(objprop_widget_toggle_button_changed), op);
     gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "checkbutton", button);
-    break;
-
-  default:
-    log_error("Unhandled request to create widget for "
-              "property %d (%s) in objprop_setup_widget().",
-              propid, objprop_get_name(op));
-    break;
+    return;
   }
 
-  return;
+  log_error("%s(): Unhandled request to create widget for property %d (%s).",
+            __FUNCTION__, propid, objprop_get_name(op));
 }
 
 /****************************************************************************
@@ -2709,7 +2885,7 @@ static void objprop_refresh_widget(struct objprop *op,
   struct extviewer *ev;
   struct propval *pv;
   bool modified;
-  int propid;
+  enum object_property_ids propid;
   double min, max, step, big_step;
   char buf[256];
 
@@ -2750,8 +2926,8 @@ static void objprop_refresh_widget(struct objprop *op,
   }
 
   switch (propid) {
-
   case OPID_TILE_IMAGE:
+  case OPID_STARTPOS_IMAGE:
   case OPID_UNIT_IMAGE:
   case OPID_CITY_IMAGE:
     image = objprop_get_child_widget(op, "image");
@@ -2766,6 +2942,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_TILE_XY:
   case OPID_TILE_TERRAIN:
   case OPID_TILE_RESOURCE:
+  case OPID_STARTPOS_XY:
   case OPID_UNIT_ADDRESS:
   case OPID_UNIT_XY:
   case OPID_UNIT_TYPE:
@@ -2863,6 +3040,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_TILE_SPECIALS:
   case OPID_TILE_BASES:
   case OPID_TILE_VISION:
+  case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_NATION:
   case OPID_PLAYER_INVENTIONS:
@@ -2875,6 +3053,7 @@ static void objprop_refresh_widget(struct objprop *op,
     }
     break;
 
+  case OPID_STARTPOS_EXCLUDE:
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
   case OPID_GAME_SCENARIO:
@@ -2891,12 +3070,6 @@ static void objprop_refresh_widget(struct objprop *op,
     enable_gobject_callback(G_OBJECT(button),
         G_CALLBACK(objprop_widget_toggle_button_changed));
     gtk_widget_set_sensitive(button, pv != NULL);
-    break;
-
-  default:
-    log_error("Widget refresh missing in "
-              "objprop_refresh_widget() for objprop id=%d "
-              "name \"%s\".", propid, objprop_get_name(op));
     break;
   }
 
@@ -3033,8 +3206,8 @@ static struct property_page *objprop_get_property_page(const struct objprop *op)
 ****************************************************************************/
 static struct objprop *objprop_new(int id,
                                    const char *name,
-                                   int flags,
-                                   int valtype,
+                                   enum object_property_flags flags,
+                                   enum value_types valtype,
                                    struct property_page *parent)
 {
   struct objprop *op;
@@ -3063,7 +3236,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
   GtkListStore *store = NULL;
   GtkTextBuffer *textbuf = NULL;
   GType *gtypes;
-  int propid, num_cols;
+  enum object_property_ids propid;
+  int num_cols;
 
   if (!op) {
     return NULL;
@@ -3080,6 +3254,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   switch (propid) {
   case OPID_TILE_SPECIALS:
   case OPID_TILE_BASES:
+  case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_INVENTIONS:
   case OPID_GAME_SCENARIO_DESC:
@@ -3163,6 +3338,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
     store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
                                G_TYPE_STRING, G_TYPE_STRING);
     break;
+  case OPID_STARTPOS_NATIONS:
   case OPID_PLAYER_NATION:
     store = gtk_list_store_new(4, G_TYPE_BOOLEAN, G_TYPE_INT,
                                GDK_TYPE_PIXBUF, G_TYPE_STRING);
@@ -3255,6 +3431,18 @@ static struct extviewer *extviewer_new(struct objprop *op)
                FALSE, FALSE, NULL, NULL);
     break;
 
+  case OPID_STARTPOS_NATIONS:
+    /* TRANS: As in "the player has set this nation". */
+    add_column(view, 0, _("Set"), G_TYPE_BOOLEAN, TRUE, FALSE,
+               G_CALLBACK(extviewer_view_cell_toggled), ev);
+    add_column(view, 1, _("ID"), G_TYPE_INT,
+               FALSE, FALSE, NULL, NULL);
+    add_column(view, 2, _("Flag"), GDK_TYPE_PIXBUF,
+               FALSE, FALSE, NULL, NULL);
+    add_column(view, 3, _("Name"), G_TYPE_STRING,
+               FALSE, FALSE, NULL, NULL);
+    break;
+
   case OPID_PLAYER_NATION:
     /* TRANS: As in "the player has set this nation". */
     add_column(view, 0, _("Set"), G_TYPE_BOOLEAN, TRUE, TRUE,
@@ -3337,9 +3525,10 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
                                       struct propval *pv)
 {
   struct objprop *op;
-  int propid, valtype;
+  enum object_property_ids propid;
+  enum value_types valtype;
   int id, turn_built;
-  bool present;
+  bool present, all;
   char buf[128];
   const char *name;
   GdkPixbuf *pixbuf;
@@ -3423,6 +3612,29 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     } player_slots_iterate_end;
     break;
 
+  case OPID_STARTPOS_NATIONS:
+    gtk_list_store_clear(store);
+    gtk_list_store_append(store, &iter);
+    all = (0 == nation_hash_size(pv->data.v_nation_hash));
+    gtk_list_store_set(store, &iter, 0, all, 1, -1, 3,
+                       _("All nations"), -1);
+    nations_iterate(pnation) {
+      present = (!all && nation_hash_lookup(pv->data.v_nation_hash,
+                                            pnation, NULL));
+      id = nation_number(pnation);
+      pixbuf = get_flag(pnation);
+      name = nation_adjective_translation(pnation);
+      gtk_list_store_append(store, &iter);
+      gtk_list_store_set(store, &iter, 0, present, 1, id,
+                         2, pixbuf, 3, name, -1);
+      if (pixbuf) {
+        g_object_unref(pixbuf);
+      }
+    } nations_iterate_end;
+    propval_as_string(pv, buf, sizeof(buf));
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+
   case OPID_CITY_BUILDINGS:
     gtk_list_store_clear(store);
     improvement_iterate(pimprove) {
@@ -3504,7 +3716,8 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 static void extviewer_clear_widgets(struct extviewer *ev)
 {
   struct objprop *op;
-  int propid, valtype;
+  enum object_property_ids propid;
+  enum value_types valtype;
 
   if (!ev) {
     return;
@@ -3525,6 +3738,7 @@ static void extviewer_clear_widgets(struct extviewer *ev)
   case OPID_TILE_SPECIALS:
   case OPID_TILE_BASES:
   case OPID_TILE_VISION:
+  case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
   case OPID_PLAYER_INVENTIONS:
     gtk_list_store_clear(ev->store);
@@ -3580,7 +3794,7 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
   struct extviewer *ev;
   struct objprop *op;
   struct property_page *pp;
-  int propid;
+  enum object_property_ids propid;
   GtkTreeModel *model;
   GtkTreeIter iter;
   int id, old_id, turn_built;
@@ -3639,6 +3853,49 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
       BV_CLR(pv->data.v_bv_bases, id);
     }
     gtk_list_store_set(ev->store, &iter, 0, present, -1);
+    propval_as_string(pv, buf, sizeof(buf));
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+
+  case OPID_STARTPOS_NATIONS:
+    gtk_tree_model_get(model, &iter, 1, &id, -1);
+    if (-1 > id && id >= nation_count()) {
+      return;
+    }
+
+    if (-1 == id) {
+      gtk_list_store_set(ev->store, &iter, 0, present, -1);
+      gtk_tree_model_get_iter_first(model, &iter);
+      if (present) {
+        while (gtk_tree_model_iter_next(model, &iter)) {
+          gtk_list_store_set(ev->store, &iter, 0, FALSE, -1);
+        }
+        nation_hash_clear(pv->data.v_nation_hash);
+      } else {
+        const struct nation_type *pnation;
+        int id2;
+
+        gtk_tree_model_iter_next(model, &iter);
+        gtk_tree_model_get(model, &iter, 0, &id2, -1);
+        gtk_list_store_set(ev->store, &iter, 0, TRUE, -1);
+        pnation = nation_by_number(id2);
+        nation_hash_insert(pv->data.v_nation_hash, pnation, NULL);
+      }
+    } else {
+      const struct nation_type *pnation;
+      bool all;
+
+      gtk_list_store_set(ev->store, &iter, 0, present, -1);
+      pnation = nation_by_number(id);
+      if (present) {
+        nation_hash_insert(pv->data.v_nation_hash, pnation, NULL);
+      } else {
+        nation_hash_remove(pv->data.v_nation_hash, pnation);
+      }
+      gtk_tree_model_get_iter_first(model, &iter);
+      all = (0 == nation_hash_size(pv->data.v_nation_hash));
+      gtk_list_store_set(ev->store, &iter, 0, all, -1);
+    }
     propval_as_string(pv, buf, sizeof(buf));
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
     break;
@@ -3706,7 +3963,7 @@ static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
   struct extviewer *ev;
   struct objprop *op;
   struct property_page *pp;
-  int propid;
+  enum object_property_ids propid;
   struct propval value = {{0,}, VALTYPE_STRING, FALSE}, *pv;
   GtkTextIter start, end;
   char buf[64], *text;
@@ -3748,7 +4005,6 @@ static void extviewer_textbuf_changed(GtkTextBuffer *textbuf,
 ****************************************************************************/
 static void property_page_setup_objprops(struct property_page *pp)
 {
-
 #define ADDPROP(ARG_id, ARG_name, ARG_flags, ARG_valtype) do {\
   struct objprop *MY_op = objprop_new(ARG_id, ARG_name,\
                                       ARG_flags, ARG_valtype, pp);\
@@ -3756,7 +4012,6 @@ static void property_page_setup_objprops(struct property_page *pp)
 } while (0)
 
   switch (property_page_get_objtype(pp)) {
-
   case OBJTYPE_TILE:
     ADDPROP(OPID_TILE_IMAGE, _("Image"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
@@ -3790,7 +4045,19 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_VISION, _("Vision"),
             OPF_HAS_WIDGET, VALTYPE_TILE_VISION_DATA);
-    break;
+    return;
+
+  case OBJTYPE_STARTPOS:
+    ADDPROP(OPID_STARTPOS_IMAGE, _("Image"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
+    ADDPROP(OPID_STARTPOS_XY, Q_("?coordinates:X,Y"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
+    ADDPROP(OPID_STARTPOS_EXCLUDE, _("Exclude Nations"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
+    ADDPROP(OPID_STARTPOS_NATIONS, _("Nations"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
+            VALTYPE_NATION_HASH);
+    return;
 
   case OBJTYPE_UNIT:
     ADDPROP(OPID_UNIT_IMAGE, _("Image"),
@@ -3816,7 +4083,7 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_UNIT_VETERAN, _("Veteran"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    break;
+    return;
 
   case OBJTYPE_CITY:
     ADDPROP(OPID_CITY_IMAGE, _("Image"),
@@ -3837,7 +4104,7 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_CITY_SHIELD_STOCK, _("Shield Stock"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    break;
+    return;
 
   case OBJTYPE_PLAYER:
     ADDPROP(OPID_PLAYER_NAME, _("Name"), OPF_IN_LISTVIEW
@@ -3850,7 +4117,7 @@ static void property_page_setup_objprops(struct property_page *pp)
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INVENTIONS_ARRAY);
     ADDPROP(OPID_PLAYER_GOLD, _("Gold"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
-    break;
+    return;
 
   case OBJTYPE_GAME:
     ADDPROP(OPID_GAME_YEAR, _("Year"), OPF_IN_LISTVIEW
@@ -3864,14 +4131,16 @@ static void property_page_setup_objprops(struct property_page *pp)
             VALTYPE_STRING);
     ADDPROP(OPID_GAME_SCENARIO_PLAYERS, _("Save Players"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
-    break;
+    return;
 
-  default:
+  case NUM_OBJTYPES:
     break;
   }
 
+  log_error("%s(): Unhandled page object type %s (nb %d).", __FUNCTION__,
+            objtype_get_name(property_page_get_objtype(pp)),
+            property_page_get_objtype(pp));
 #undef ADDPROP
-
 }
 
 /****************************************************************************
@@ -3999,7 +4268,8 @@ static void property_page_quick_find_entry_changed(GtkWidget *entry,
   Returns NULL if the page could not be created.
 ****************************************************************************/
 static struct property_page *
-property_page_new(int objtype, struct property_editor *pe)
+property_page_new(enum editor_object_type objtype,
+                  struct property_editor *pe)
 {
   struct property_page *pp;
   GtkWidget *vbox, *vbox2, *hbox, *hbox2, *paned, *frame, *w;
@@ -4300,7 +4570,8 @@ static const char *property_page_get_name(const struct property_page *pp)
 /****************************************************************************
   Returns the object type for this property page, or -1 if none.
 ****************************************************************************/
-static int property_page_get_objtype(const struct property_page *pp)
+static enum editor_object_type
+property_page_get_objtype(const struct property_page *pp)
 {
   if (!pp) {
     return -1;
@@ -4316,7 +4587,7 @@ static int property_page_get_objtype(const struct property_page *pp)
   NB: You must call g_object_unref on the non-NULL return value when you
   no longer need it.
 ****************************************************************************/
-static GdkPixbuf *create_tile_pixbuf(struct tile *ptile)
+static GdkPixbuf *create_tile_pixbuf(const struct tile *ptile)
 {
   int layers[] = {
     LAYER_BACKGROUND,
@@ -4341,7 +4612,7 @@ static GdkPixbuf *create_tile_pixbuf(struct tile *ptile)
   NB: You must call g_object_unref on the non-NULL return value when you
   no longer need it.
 ****************************************************************************/
-static GdkPixbuf *create_unit_pixbuf(struct unit *punit)
+static GdkPixbuf *create_unit_pixbuf(const struct unit *punit)
 {
   int layers[] = {
     LAYER_UNIT,
@@ -4360,7 +4631,7 @@ static GdkPixbuf *create_unit_pixbuf(struct unit *punit)
   NB: You must call g_object_unref on the non-NULL return value when you
   no longer need it.
 ****************************************************************************/
-static GdkPixbuf *create_city_pixbuf(struct city *pcity)
+static GdkPixbuf *create_city_pixbuf(const struct city *pcity)
 {
   int layers[] = {
     LAYER_BACKGROUND,
@@ -4389,9 +4660,9 @@ static GdkPixbuf *create_city_pixbuf(struct city *pcity)
   NB: You must call g_object_unref on the non-NULL return value when you
   no longer need it.
 ****************************************************************************/
-static GdkPixbuf *create_pixbuf_from_layers(struct tile *ptile,
-                                            struct unit *punit,
-                                            struct city *pcity,
+static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
+                                            const struct unit *punit,
+                                            const struct city *pcity,
                                             int *layers,
                                             int num_layers)
 {
@@ -4445,21 +4716,29 @@ static void property_page_add_objbind(struct property_page *pp,
                                       gpointer object_data)
 {
   struct objbind *ob;
-  int objtype;
+  enum editor_object_type objtype;
+  int id;
 
   if (!pp) {
     return;
   }
 
   objtype = property_page_get_objtype(pp);
-  if (objbind_hash_lookup(pp->objbind_table,
-                          objtype_get_id_from_object(objtype, object_data),
-                          NULL)) {
+  id = objtype_get_id_from_object(objtype, object_data);
+  if (id < 0) {
+    return;
+  }
+
+  if (objbind_hash_lookup(pp->objbind_table, id, NULL)) {
     /* Object already exists. */
     return;
   }
 
   ob = objbind_new(objtype, object_data);
+  if (!ob) {
+    return;
+  }
+
   objbind_bind_properties(ob, pp);
 
   objbind_hash_insert(pp->objbind_table, ob->object_id, ob);
@@ -4478,26 +4757,43 @@ static void property_page_add_objbinds_from_tile(struct property_page *pp,
   }
 
   switch (property_page_get_objtype(pp)) {
-
   case OBJTYPE_TILE:
     property_page_add_objbind(pp, (gpointer) ptile);
-    break;
+    return;
+
+  case OBJTYPE_STARTPOS:
+    {
+      struct startpos *psp = map_startpos_get(ptile);
+
+      if (NULL != psp) {
+        property_page_add_objbind(pp, map_startpos_get(ptile));
+      }
+    }
+    return;
 
   case OBJTYPE_UNIT:
     unit_list_iterate(ptile->units, punit) {
       property_page_add_objbind(pp, punit);
     } unit_list_iterate_end;
-    break;
+    return;
 
   case OBJTYPE_CITY:
     if (tile_city(ptile)) {
       property_page_add_objbind(pp, tile_city(ptile));
     }
-    break;
+    return;
 
-  default:
+  case OBJTYPE_PLAYER:
+  case OBJTYPE_GAME:
+    return;
+
+  case NUM_OBJTYPES:
     break;
   }
+
+  log_error("%s(): Unhandled page object type %s (nb %d).", __FUNCTION__,
+            objtype_get_name(property_page_get_objtype(pp)),
+            property_page_get_objtype(pp));
 }
 
 /****************************************************************************
@@ -4513,7 +4809,7 @@ static bool property_page_set_store_value(struct property_page *pp,
 {
   int col_id;
   struct propval *pv;
-  int valtype;
+  enum value_types valtype;
   char buf[128], *p;
   GdkPixbuf *pixbuf = NULL;
   GtkListStore *store;
@@ -4540,6 +4836,8 @@ static bool property_page_set_store_value(struct property_page *pp,
   store = pp->object_store;
 
   switch (valtype) {
+  case VALTYPE_NONE:
+    break;
   case VALTYPE_INT:
     gtk_list_store_set(store, iter, col_id, pv->data.v_int, -1);
     break;
@@ -4564,6 +4862,7 @@ static bool property_page_set_store_value(struct property_page *pp,
   case VALTYPE_INVENTIONS_ARRAY:
   case VALTYPE_BV_SPECIAL:
   case VALTYPE_BV_BASES:
+  case VALTYPE_NATION_HASH:
     propval_as_string(pv, buf, sizeof(buf));
     gtk_list_store_set(store, iter, col_id, buf, -1);
     break;
@@ -4574,7 +4873,7 @@ static bool property_page_set_store_value(struct property_page *pp,
       g_object_unref(pixbuf);
     }
     break;
-  default:
+  case VALTYPE_TILE_VISION_DATA:
     break;
   }
 
@@ -4812,6 +5111,9 @@ static union packetdata property_page_new_packet(struct property_page *pp)
   case OBJTYPE_TILE:
     packet.tile = fc_calloc(1, sizeof(*packet.tile));
     break;
+  case OBJTYPE_STARTPOS:
+    packet.startpos = fc_calloc(1, sizeof(*packet.startpos));
+    break;
   case OBJTYPE_UNIT:
     packet.unit = fc_calloc(1, sizeof(*packet.unit));
     break;
@@ -4824,7 +5126,7 @@ static union packetdata property_page_new_packet(struct property_page *pp)
   case OBJTYPE_GAME:
     packet.game = fc_calloc(1, sizeof(*packet.game));
     break;
-  default:
+  case NUM_OBJTYPES:
     break;
   }
 
@@ -4846,22 +5148,29 @@ static void property_page_send_packet(struct property_page *pp,
   switch (property_page_get_objtype(pp)) {
   case OBJTYPE_TILE:
     send_packet_edit_tile(my_conn, packet.tile);
-    break;
+    return;
+  case OBJTYPE_STARTPOS:
+    send_packet_edit_startpos_full(my_conn, packet.startpos);
+    return;
   case OBJTYPE_UNIT:
     send_packet_edit_unit(my_conn, packet.unit);
-    break;
+    return;
   case OBJTYPE_CITY:
     send_packet_edit_city(my_conn, packet.city);
-    break;
+    return;
   case OBJTYPE_PLAYER:
     send_packet_edit_player(my_conn, packet.player);
-    break;
+    return;
   case OBJTYPE_GAME:
     send_packet_edit_game(my_conn, packet.game);
-    break;
-  default:
+    return;
+  case NUM_OBJTYPES:
     break;
   }
+
+  log_error("%s(): Unhandled object type %s (nb %d).",
+            __FUNCTION__, objtype_get_name(property_page_get_objtype(pp)),
+            property_page_get_objtype(pp));
 }
 
 /****************************************************************************
@@ -4965,7 +5274,7 @@ static void property_page_destroy_objects(struct property_page *pp)
 static void property_page_create_objects(struct property_page *pp,
                                          struct tile_list *hint_tiles)
 {
-  int objtype;
+  enum editor_object_type objtype;
   int apno, value, count, size;
   int tag;
   struct connection *my_conn = &client.conn;
@@ -4985,6 +5294,26 @@ static void property_page_create_objects(struct property_page *pp,
   count = 1;
 
   switch (objtype) {
+  case OBJTYPE_STARTPOS:
+    if (hint_tiles) {
+      tile_list_iterate(hint_tiles, atile) {
+        if (NULL == map_startpos_get(atile)) {
+          ptile = atile;
+          break;
+        }
+      } tile_list_iterate_end;
+    }
+
+    if (NULL == ptile) {
+      ptile = get_center_tile_mapcanvas();
+    }
+
+    if (NULL == ptile) {
+      break;
+    }
+
+    dsend_packet_edit_startpos(my_conn, tile_index(ptile), FALSE, tag);
+    break;
 
   case OBJTYPE_UNIT:
     if (hint_tiles) {
@@ -5052,11 +5381,9 @@ static void property_page_create_objects(struct property_page *pp,
     dsend_packet_edit_player_create(my_conn, tag);
     break;
 
-  default:
-    log_error("Unhandled request to create objects of type "
-              "%d (%s) in property_page_create_objects().",
-              objtype, objtype_get_name(objtype));
-    return;
+  case OBJTYPE_TILE:
+  case OBJTYPE_GAME:
+  case NUM_OBJTYPES:
     break;
   }
 
@@ -5124,7 +5451,7 @@ static void property_page_object_created(struct property_page *pp,
                                          int tag, int object_id)
 {
   gpointer object;
-  int objtype;
+  enum editor_object_type objtype;
 
   if (!property_page_tag_is_known(pp, tag)) {
     return;
@@ -5315,7 +5642,7 @@ static void property_page_destroy_button_clicked(GtkButton *button,
   to the property editor. Returns TRUE if successful.
 ****************************************************************************/
 static bool property_editor_add_page(struct property_editor *pe,
-                                     int objtype)
+                                     enum editor_object_type objtype)
 {
   struct property_page *pp;
   GtkWidget *label;
@@ -5348,7 +5675,8 @@ static bool property_editor_add_page(struct property_editor *pe,
   Returns the property page for the given object type.
 ****************************************************************************/
 static struct property_page *
-property_editor_get_page(struct property_editor *pe, int objtype)
+property_editor_get_page(struct property_editor *pe,
+                         enum editor_object_type objtype)
 {
   if (!pe || !(0 <= objtype && objtype < NUM_OBJTYPES)) {
     return NULL;
@@ -5364,7 +5692,7 @@ static struct property_editor *property_editor_new(void)
 {
   struct property_editor *pe;
   GtkWidget *win, *notebook, *vbox;
-  int objtype;
+  enum editor_object_type objtype;
 
   pe = fc_calloc(1, sizeof(*pe));
 
@@ -5418,8 +5746,14 @@ void property_editor_load_tiles(struct property_editor *pe,
                                 const struct tile_list *tiles)
 {
   struct property_page *pp;
-  int objtype, i;
-  const int preferred[] = { OBJTYPE_CITY, OBJTYPE_UNIT, OBJTYPE_TILE };
+  enum editor_object_type objtype;
+  int i;
+  const enum editor_object_type preferred[] = {
+    OBJTYPE_CITY,
+    OBJTYPE_UNIT,
+    OBJTYPE_STARTPOS,
+    OBJTYPE_TILE
+  };
 
   if (!pe || !tiles) {
     return;
@@ -5444,7 +5778,8 @@ void property_editor_load_tiles(struct property_editor *pe,
   Show the property editor to the user, with given page corresponding to
   'objtype' in front (if a valid object type).
 ****************************************************************************/
-void property_editor_popup(struct property_editor *pe, int objtype)
+void property_editor_popup(struct property_editor *pe,
+                           enum editor_object_type objtype)
 {
   if (!pe || !pe->widget) {
     return;
@@ -5474,7 +5809,7 @@ void property_editor_popdown(struct property_editor *pe)
   state at the server side (including being removed).
 ****************************************************************************/
 void property_editor_handle_object_changed(struct property_editor *pe,
-                                           int objtype,
+                                           enum editor_object_type objtype,
                                            int object_id,
                                            bool remove)
 {
@@ -5498,7 +5833,7 @@ void property_editor_handle_object_changed(struct property_editor *pe,
 void property_editor_handle_object_created(struct property_editor *pe,
                                            int tag, int object_id)
 {
-  int objtype;
+  enum editor_object_type objtype;
   struct property_page *pp;
 
   for (objtype = 0; objtype < NUM_OBJTYPES; objtype++) {
@@ -5515,7 +5850,7 @@ void property_editor_handle_object_created(struct property_editor *pe,
 ****************************************************************************/
 void property_editor_clear(struct property_editor *pe)
 {
-  int objtype;
+  enum editor_object_type objtype;
   struct property_page *pp;
 
   if (!pe) {
@@ -5533,7 +5868,8 @@ void property_editor_clear(struct property_editor *pe)
   Clear and load objects into the property page corresponding to the given
   object type. Also, make it the current shown notebook page.
 ****************************************************************************/
-void property_editor_reload(struct property_editor *pe, int objtype)
+void property_editor_reload(struct property_editor *pe,
+                            enum editor_object_type objtype)
 {
   struct property_page *pp;
 
@@ -5557,7 +5893,11 @@ void property_editor_reload(struct property_editor *pe, int objtype)
   case OBJTYPE_GAME:
     property_page_add_objbind(pp, &game);
     break;
-  default:
+  case OBJTYPE_TILE:
+  case OBJTYPE_STARTPOS:
+  case OBJTYPE_UNIT:
+  case OBJTYPE_CITY:
+  case NUM_OBJTYPES:
     break;
   }
 
@@ -5738,16 +6078,13 @@ const char *vision_layer_get_name(enum vision_layer vl)
   case V_MAIN:
     /* TRANS: Vision layer name. Feel free to leave untranslated. */
     return _("Seen (Main)");
-    break;
   case V_INVIS:
     /* TRANS: Vision layer name. Feel free to leave untranslated. */
     return _("Seen (Invis)");
-    break;
-  default:
-    log_error("Unrecognized vision layer %d in vision_layer_get_name().",
-              vl);
+  case V_COUNT:
     break;
   }
 
+  log_error("%s(): Unrecognized vision layer %d.", __FUNCTION__, vl);
   return _("Unknown");
 }

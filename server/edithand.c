@@ -97,6 +97,35 @@ void edithand_free(void)
 }
 
 /****************************************************************************
+  Send the needed packets for connections entering in the editing mode.
+****************************************************************************/
+void edithand_send_initial_packets(struct conn_list *dest)
+{
+  struct packet_edit_startpos startpos;
+  struct packet_edit_startpos_full startpos_full;
+
+  if (NULL == dest) {
+    dest = game.est_connections;
+  }
+
+  /* Send map start positions. */
+  map_startpos_iterate(psp) {
+    startpos.id = tile_index(startpos_tile(psp));
+    startpos.remove = FALSE;
+    startpos.tag = 0;
+
+    startpos_pack(psp, &startpos_full);
+
+    conn_list_iterate(dest, pconn) {
+      if (can_conn_edit(pconn)) {
+        send_packet_edit_startpos(pconn, &startpos);
+        send_packet_edit_startpos_full(pconn, &startpos_full);
+      }
+    } conn_list_iterate_end;
+  } map_startpos_iterate_end;
+}
+
+/****************************************************************************
   Do the potentially slow checks required after some tile's terrain changes.
 ****************************************************************************/
 static void check_edited_tile_terrains(void)
@@ -166,15 +195,8 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
   if (game.info.is_edit_mode != is_edit_mode) {
     game.info.is_edit_mode = is_edit_mode;
 
-    /* We make startpos information available to clients only when in edit
-     * mode. */
-    whole_map_iterate(ptile) {
-      if (map_has_startpos(ptile)) {
-        send_tile_info(NULL, ptile, TRUE);
-      }
-    } whole_map_iterate_end;
-
     send_game_info(NULL);
+    edithand_send_initial_packets(NULL);
   }
 }
 
@@ -1299,41 +1321,78 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
 }
 
 /****************************************************************************
-  Set the given position to be the start position for the given nation.
+  Create or remove a start position at a tile.
 ****************************************************************************/
-void handle_edit_startpos(struct connection *pc, int tile,
-                          Nation_type_id nation)
+void handle_edit_startpos(struct connection *pconn,
+                          const struct packet_edit_startpos *packet)
 {
-  struct tile *ptile;
-  const struct nation_type *pnation, *old;
-  bool removed = FALSE;
+  struct tile *ptile = index_to_tile(packet->id);
+  bool changed;
 
-  ptile = index_to_tile(tile);
-  if (!ptile) {
-    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("Cannot place a start position because %d is not a valid "
-                  "tile index on this map!"), tile);
+  /* Check. */
+  if (NULL == ptile) {
+    notify_conn(pconn->self, NULL, E_BAD_COMMAND, ftc_editor,
+                _("Invalid tile index %d for start position."), packet->id);
     return;
   }
 
-  old = map_get_startpos(ptile);
-
-  if (nation == NATION_NONE) {
-    if (map_has_startpos(ptile)) {
-      map_clear_startpos(ptile);
-      removed = TRUE;
-    }
-    pnation = NULL;
-  } else if (nation == NATION_ANY) {
-    map_set_startpos(ptile, NULL);
-    pnation = NULL;
+  /* Handle. */
+  if (packet->remove) {
+    changed = map_startpos_remove(ptile);
   } else {
-    pnation = nation_by_number(nation);
-    map_set_startpos(ptile, pnation);
+    if (NULL != map_startpos_get(ptile)) {
+      changed = FALSE;
+    } else {
+      map_startpos_new(ptile);
+      changed = TRUE;
+    }
   }
 
-  if (old != pnation || removed) {
-    send_tile_info(NULL, ptile, FALSE);
+  /* Notify. */
+  if (changed) {
+    conn_list_iterate(game.est_connections, aconn) {
+      if (can_conn_edit(aconn)) {
+        send_packet_edit_startpos(aconn, packet);
+      }
+    } conn_list_iterate_end;
+  }
+}
+
+/****************************************************************************
+  Setup which nations can start at a start position.
+****************************************************************************/
+void handle_edit_startpos_full(struct connection *pconn,
+                               const struct packet_edit_startpos_full *
+                               packet)
+{
+  struct tile *ptile = index_to_tile(packet->id);
+  struct startpos *psp;
+
+  /* Check. */
+  if (NULL == ptile) {
+    notify_conn(pconn->self, NULL, E_BAD_COMMAND, ftc_editor,
+                _("Invalid tile index %d for start position."),
+                packet->id);
+    return;
+  }
+
+  psp = map_startpos_get(ptile);
+  if (NULL == psp) {
+    notify_conn(pconn->self, ptile, E_BAD_COMMAND, ftc_editor,
+                _("Cannot edit start position nations at (%d, %d) "
+                  "because there is no start position there."),
+                TILE_XY(ptile));
+    return;
+  }
+
+  /* Handle. */
+  if (startpos_unpack(psp, packet)) {
+    /* Notify. */
+    conn_list_iterate(game.est_connections, aconn) {
+      if (can_conn_edit(aconn)) {
+        send_packet_edit_startpos_full(aconn, packet);
+      }
+    } conn_list_iterate_end;
   }
 }
 

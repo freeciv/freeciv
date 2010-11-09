@@ -939,17 +939,17 @@ void put_drawn_sprites(struct canvas *pcanvas,
   canvas at the given position.
 **************************************************************************/
 void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
-		     struct tile *ptile,
-		     const struct tile_edge *pedge,
-		     const struct tile_corner *pcorner,
-		     const struct unit *punit, struct city *pcity,
-		     int canvas_x, int canvas_y,
-		     const struct city *citymode)
+                     const struct tile *ptile,
+                     const struct tile_edge *pedge,
+                     const struct tile_corner *pcorner,
+                     const struct unit *punit, const struct city *pcity,
+                     int canvas_x, int canvas_y,
+                     const struct city *citymode)
 {
   struct drawn_sprite tile_sprs[80];
   int count = fill_sprite_array(tileset, tile_sprs, layer,
-				ptile, pedge, pcorner,
-				punit, pcity, citymode);
+                                ptile, pedge, pcorner,
+                                punit, pcity, citymode);
   bool fog = (ptile && draw_fog_of_war
 	      && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile));
 

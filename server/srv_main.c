@@ -1501,60 +1501,43 @@ void check_for_full_turn_done(void)
 ****************************************************************************/
 void init_available_nations(void)
 {
-  bool start_nations;
-  int i;
-
-  if (map.server.num_start_positions > 0) {
-    start_nations = TRUE;
-
-    for (i = 0; i < map.server.num_start_positions; i++) {
-      if (map.server.start_positions[i].nation == NO_NATION_SELECTED) {
-	start_nations = FALSE;
-	break;
-      }
-    }
-  } else {
-    start_nations = FALSE;
-  }
-
-  if (start_nations) {
+  if (0 < map_startpos_count()) {
     nations_iterate(pnation) {
+      fc_assert_action_msg(NULL == pnation->player,
+        if (pnation->player->nation == pnation) {
+          /* At least assignment is consistent. Leave nation assigned,
+           * and make sure that nation is also marked available. */
+          pnation->is_available = TRUE;
+        } else if (NULL != pnation->player->nation) {
+          /* Not consistent. Just initialize the pointer and hope for the
+           * best. */
+          pnation->player->nation->player = NULL;
+          pnation->player = NULL;
+        } else {
+          /* Not consistent. Just initialize the pointer and hope for the
+           * best. */
+          pnation->player = NULL;
+        }, "Player assigned to nation before %s()!", __FUNCTION__);
+
       if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN) {
-        /* allow land and sea barbarians */
+        /* Always allow land and sea barbarians. */
         pnation->is_available = TRUE;
       } else {
         pnation->is_available = FALSE;
+        map_startpos_iterate(psp) {
+          if (startpos_nation_allowed(psp, pnation)) {
+            pnation->is_available = TRUE;
+            break;
+          }
+        } map_startpos_iterate_end;
       }
     } nations_iterate_end;
-
-    for (i = 0; i < map.server.num_start_positions; i++) {
-      map.server.start_positions[i].nation->is_available = TRUE;
-    }
+  } else {
+    /* No start positions, all nations are available. */
+    nations_iterate(pnation) {
+      pnation->is_available = TRUE;
+    } nations_iterate_end;
   }
-  nations_iterate(nation) {
-    /* Even though this function is called init_available_nations(),
-     * nation->player should never have value assigned to it
-     * (since it has beeen initialized in load_rulesets() ). */
-    if (nation->player != NULL) {
-
-      /* When we enter this execution branch, fc_assert() will always
-       * fail. This one just provides more informative message than
-       * simple fc_assert(FAIL); */
-      fc_assert_msg(nation->player == NULL,
-                    "Player assigned to nation before "
-                    "init_available_nations()");
-
-      /* Try to handle error situation as well as we can */
-      if (nation->player->nation == nation) {
-        /* At least assignment is consistent. Leave nation assigned,
-         * and make sure that nation is also marked available. */
-        nation->is_available = TRUE;
-      } else {
-        /* Not consistent. Just initialize the pointer and hope for the best */
-        nation->player = NULL;
-      }
-    }
-  } nations_iterate_end;
 }
 
 /**************************************************************************
@@ -1740,24 +1723,69 @@ void aifill(int amount)
   }
 }
 
-/**************************************************************************
-   Selects a nation for players created with "create <PlayerName>", or
-   with "set aifill <X>".
+/****************************************************************************
+  Tool for generate_players().
+****************************************************************************/
+#define SPECHASH_TAG startpos
+#define SPECHASH_KEY_TYPE struct startpos *
+#define SPECHASH_DATA_TYPE int
+#define SPECHASH_DATA_TO_PTR FC_INT_TO_PTR
+#define SPECHASH_PTR_TO_DATA FC_PTR_TO_INT
+#include "spechash.h"
+#define startpos_hash_iterate(hash, psp, c)                                 \
+  TYPED_HASH_ITERATE(struct startpos *, unsigned long, hash, psp, c)
+#define startpos_hash_iterate_end HASH_ITERATE_END
 
-   If <PlayerName> matches one of the leader names for some nation,
-   choose that nation.  For example, when the Zulus have not been chosen
-   by anyone else, "create Shaka" will make that AI player's nation the
-   Zulus.  Otherwise, pick an available nation at random.
-
-   If the AI player name is one of the leader names for the AI player's
-   nation, the player sex is set to the sex for that leader, else it
-   is chosen randomly.  (So if English are ruled by Elisabeth, she is
-   female, but if "Player 1" rules English, may be male or female.)
-**************************************************************************/
-static void generate_players(void)
+/****************************************************************************
+  Tool for generate_players().
+****************************************************************************/
+static void player_set_nation_full(struct player *pplayer,
+                                   struct nation_type *pnation)
 {
   struct nation_leader *pleader;
-  int i, c;
+
+  fc_assert(NO_NATION_SELECTED != pnation);
+  player_set_nation(pplayer, pnation);
+  fc_assert(pnation == pplayer->nation);
+
+  pplayer->city_style =
+      city_style_of_nation(nation_of_player(pplayer));
+
+  /* Don't change the name of a created player. */
+  if (!pplayer->was_created) {
+    server_player_set_name(pplayer, pick_random_player_name
+                           (nation_of_player(pplayer)));
+  }
+
+  if ((pleader = nation_leader_by_name(nation_of_player(pplayer),
+                                       player_name(pplayer)))) {
+    pplayer->is_male = nation_leader_is_male(pleader);
+  } else {
+    pplayer->is_male = (fc_rand(2) == 1);
+  }
+}
+
+/****************************************************************************
+  Selects a nation for players created with "create <PlayerName>", or
+  with "set aifill <X>".
+
+  If <PlayerName> matches one of the leader names for some nation,
+  choose that nation. For example, when the Zulus have not been chosen
+  by anyone else, "create Shaka" will make that AI player's nation the
+  Zulus.
+
+  If this is a scenario and the scenario has specific start positions for
+  the nations, try to pick those nations. Otherwise, pick an available
+  nation at random.
+
+  If the AI player name is one of the leader names for the AI player's
+  nation, the player sex is set to the sex for that leader, else it
+  is chosen randomly. (So if English are ruled by Elisabeth, she is
+  female, but if "Player 1" rules English, may be male or female.)
+****************************************************************************/
+static void generate_players(void)
+{
+  int nations_to_assign = 0;
 
   /* Select nations for AI players generated with server
    * 'create <name>' command or aifill. */
@@ -1769,7 +1797,9 @@ static void generate_players(void)
 
     /* See if the player name matches a known leader name. */
     nations_iterate(pnation) {
+      struct nation_leader *pleader;
       const char *name = player_name(pplayer);
+
       if (is_nation_playable(pnation)
           && pnation->is_available
           && NULL == pnation->player
@@ -1782,46 +1812,106 @@ static void generate_players(void)
     } nations_iterate_end;
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
-      continue;
-    }
-
-    /* Check for start positions of the scenario. */
-    for (i = 0, c = 0; i < map.server.num_start_positions; i++) {
-      struct nation_type *pnation = map.server.start_positions[i].nation;
-
-      if (NULL != pnation
-          && is_nation_playable(pnation)
-          && pnation->is_available
-          && NULL == pnation->player
-          && 0 == fc_rand(++c)) {
-        player_set_nation(pplayer, pnation);
-      }
-    }
-
-    /* Pick random race. */
-    if (NO_NATION_SELECTED == pplayer->nation) {
-      player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
-                                               NOT_A_BARBARIAN));
-    }
-
-    fc_assert(pplayer->nation != NO_NATION_SELECTED);
-    pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
-
-    /* don't change the name of a created player */
-    if (!pplayer->was_created) {
-      server_player_set_name(pplayer, pick_random_player_name
-                             (nation_of_player(pplayer)));
-    }
-
-    if ((pleader = nation_leader_by_name(nation_of_player(pplayer),
-                                         player_name(pplayer)))) {
-      pplayer->is_male = nation_leader_is_male(pleader);
     } else {
-      pplayer->is_male = (fc_rand(2) == 1);
+      nations_to_assign++;
     }
-
-    announce_player(pplayer);
   } players_iterate_end;
+
+  if (0 < nations_to_assign && 0 < map_startpos_count()) {
+    /* Check for start positions of the scenario. */
+    struct startpos_hash *hash = startpos_hash_new();
+    struct nation_type *picked;
+    int c, max = -1;
+    int i, min;
+
+    /* Initialization. */
+    map_startpos_iterate(psp) {
+      if (startpos_allows_all(psp)) {
+        continue;
+      }
+
+      /* Count the players which can use this start position. */
+      c = 0;
+      players_iterate(pplayer) {
+        if (NO_NATION_SELECTED != pplayer->nation
+            && startpos_nation_allowed(psp, pplayer->nation)) {
+          c++;
+        }
+      } players_iterate_end;
+
+      startpos_hash_insert(hash, psp, c);
+      if (c > max) {
+        max = c;
+      }
+    } map_startpos_iterate_end;
+
+    /* Try to assign a nation. */
+    players_iterate(pplayer) {
+      if (NO_NATION_SELECTED != pplayer->nation) {
+        continue;
+      }
+
+      picked = NO_NATION_SELECTED;
+      min = max;
+      i = 0;
+
+      nations_iterate(pnation) {
+        if (!is_nation_playable(pnation)
+            || !pnation->is_available
+            || NULL != pnation->player) {
+          /* Not available. */
+          continue;
+        }
+
+        startpos_hash_iterate(hash, psp, c) {
+          if (!startpos_nation_allowed(psp, pnation)) {
+            continue;
+          }
+
+          if (c < min) {
+            /* Pick this nation, less nations can use this start position. */
+            picked = pnation;
+            min = c;
+            i = 1;
+          } else if (c == min && 0 == fc_rand(++i)) {
+            /* Possible start position for the nation. */
+            picked = pnation;
+          }
+        } startpos_hash_iterate_end;
+      } nations_iterate_end;
+
+      if (NO_NATION_SELECTED != picked) {
+        player_set_nation_full(pplayer, picked);
+        nations_to_assign--;
+        announce_player(pplayer);
+        /* Update the count. */
+        startpos_hash_iterate(hash, psp, c) {
+          if (startpos_nation_allowed(psp, picked)) {
+            startpos_hash_replace(hash, psp, c + 1);
+          }
+        } startpos_hash_iterate_end;
+      } else {
+        /* No need to continue, as we fail to pick new nations. */
+        break;
+      }
+    } players_iterate_end;
+
+    startpos_hash_destroy(hash);
+  }
+
+  if (0 < nations_to_assign) {
+    players_iterate(pplayer) {
+      if (NO_NATION_SELECTED == pplayer->nation) {
+        /* Pick random race. */
+        player_set_nation_full(pplayer, pick_a_nation(NULL, FALSE, TRUE,
+                                                      NOT_A_BARBARIAN));
+        nations_to_assign--;
+        announce_player(pplayer);
+      }
+    } players_iterate_end;
+  }
+
+  fc_assert(0 == nations_to_assign);
 
   (void) send_server_info_to_metaserver(META_INFO);
 }

@@ -70,6 +70,15 @@ struct nation_type;
   TYPED_LIST_ITERATE(struct nation_type, nationlist, pnation)
 #define nation_list_iterate_end LIST_ITERATE_END
 
+/* Nation hash. */
+#define SPECHASH_TAG nation
+#define SPECHASH_KEY_TYPE struct nation_type *
+#define SPECHASH_DATA_TYPE void *
+#include "spechash.h"
+#define nation_hash_iterate(nationhash, pnation)                            \
+  TYPED_HASH_KEYS_ITERATE(struct nation_type *, nationhash, pnation)
+#define nation_hash_iterate_end HASH_KEYS_ITERATE_END
+
 /* Pointer values are allocated on load then freed in free_nations(). */
 struct nation_type {
   Nation_type_id item_number;
