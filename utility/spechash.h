@@ -38,6 +38,7 @@
  * SPECHASH_DATA_TYPE were 'data_t'.
  * including this file would provide a struct definition for:
  *    struct foo_hash;
+ *    struct foo_hash_iter;
  *
  * function typedefs:
  *    typedef genhash_val_t (*foo_hash_key_val_fn_t) (const key_t, size_t);
@@ -83,6 +84,14 @@
  *    bool foo_hash_remove_full(struct foo_hash *phash, const key_t key,
  *                              key_t *deleted_pkey, data_t *deleted_pdata);
  *
+ *    size_t foo_hash_iter_sizeof(void);
+ *    struct iterator *foo_hash_iter_init(struct foo_hash_iter *iter,
+ *                                        const struct foo_hash *phash);
+ *    struct iterator *foo_hash_key_iter_init(struct foo_hash_iter *iter,
+ *                                        const struct foo_hash *phash);
+ *    struct iterator *foo_hash_value_init(struct foo_hash_iter *iter,
+ *                                         const struct foo_hash *phash);
+ *
  * You should also define yourself (this file cannot do this for you):
  * #define foo_hash_data_iterate(phash, data)                               \
  *   TYPED_HASH_DATA_ITERATE(data_t, phash, data)
@@ -103,6 +112,7 @@
 
 /* utility */
 #include "genhash.h"
+#include "iterator.h"
 
 #ifndef SPECHASH_TAG
 #error Must define a SPECHASH_TAG to use this header
@@ -152,10 +162,14 @@
 #define SPECHASH_PASTE(x, y) SPECHASH_PASTE_(x, y)
 
 #define SPECHASH_HASH struct SPECHASH_PASTE(SPECHASH_TAG, _hash)
+#define SPECHASH_ITER struct SPECHASH_PASTE(SPECHASH_TAG, _hash_iter)
 #define SPECHASH_FOO(suffix) SPECHASH_PASTE(SPECHASH_TAG, suffix)
 
 /* Dummy type. Actually a genhash, and not defined anywhere. */
 SPECHASH_HASH;
+
+/* Dummy type. Actually a genhash_iter, and not defined anywhere. */
+SPECHASH_ITER;
 
 /* Function related typedefs. */
 typedef genhash_val_t
@@ -443,6 +457,47 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
   return ret;
 }
 
+/****************************************************************************
+  Remove the size of the iterator type.
+****************************************************************************/
+static inline size_t SPECHASH_FOO(_hash_iter_sizeof) (void)
+{
+  return genhash_iter_sizeof();
+}
+
+/****************************************************************************
+  Initialize an iterator.
+****************************************************************************/
+static inline struct iterator *
+SPECHASH_FOO(_hash_iter_init) (SPECHASH_ITER *iter,
+                               const SPECHASH_HASH *tthis)
+{
+  return genhash_iter_init((struct genhash_iter *) iter,
+                           (const struct genhash *) tthis);
+}
+
+/****************************************************************************
+  Initialize a key iterator.
+****************************************************************************/
+static inline struct iterator *
+SPECHASH_FOO(_hash_key_iter_init) (SPECHASH_ITER *iter,
+                                   const SPECHASH_HASH *tthis)
+{
+  return genhash_key_iter_init((struct genhash_iter *) iter,
+                               (const struct genhash *) tthis);
+}
+
+/****************************************************************************
+  Initialize a value iterator.
+****************************************************************************/
+static inline struct iterator *
+SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
+                                     const SPECHASH_HASH *tthis)
+{
+  return genhash_value_iter_init((struct genhash_iter *) iter,
+                                 (const struct genhash *) tthis);
+}
+
 #undef SPECHASH_TAG
 #undef SPECHASH_KEY_TYPE
 #undef SPECHASH_DATA_TYPE
@@ -459,6 +514,7 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
 #undef SPECHASH_PASTE_
 #undef SPECHASH_PASTE
 #undef SPECHASH_HASH
+#undef SPECHASH_ITER
 #undef SPECHASH_FOO
 
 
