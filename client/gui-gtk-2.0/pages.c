@@ -2571,10 +2571,11 @@ static void update_scenario_page(void)
       sdescription = secfile_lookup_str_default(sf, NULL,
                                                 "scenario.description");
       gtk_list_store_set(scenario_store, &it,
-			 0, sname && strlen(sname) ? Q_(sname) : pfile->name,
-			 1, pfile->fullname,
-			 2, sdescription ? Q_(sdescription) : "",
-			-1);
+                         0, sname && strlen(sname) ? Q_(sname) : pfile->name,
+                         1, pfile->fullname,
+                         2, (NULL != sdescription && '\0' != sdescription[0]
+                             ? Q_(sdescription) : ""),
+                         -1);
       secfile_destroy(sf);
     } else {
       log_error("Error loading '%s':\n%s", pfile->fullname, secfile_error());
