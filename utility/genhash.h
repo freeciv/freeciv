@@ -97,6 +97,12 @@ bool genhash_remove(struct genhash *pgenhash, const void *key);
 bool genhash_remove_full(struct genhash *pgenhash, const void *key,
                          void **deleted_pkey, void **deleted_pdata);
 
+bool genhashs_are_equal(const struct genhash *pgenhash1,
+                        const struct genhash *pgenhash2);
+bool genhashs_are_equal_full(const struct genhash *pgenhash1,
+                             const struct genhash *pgenhash2,
+                             genhash_comp_fn_t data_comp_func);
+
 
 /* Iteration. */
 struct genhash_iter;
