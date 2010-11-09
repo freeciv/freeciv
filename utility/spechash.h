@@ -26,6 +26,7 @@
  *   SPECHASH_KEY_COMP - The default hash key comparator function.
  *   SPECHASH_KEY_COPY - The default key copy function.
  *   SPECHASH_KEY_FREE - The default key free function.
+ *   SPECHASH_DATA_COMP - The default data comparator function.
  *   SPECHASH_DATA_COPY - The default data copy function.
  *   SPECHASH_DATA_FREE - The default data free function.
  *   SPECHASH_KEY_TO_PTR - A function or macro to convert a key to pointer.
@@ -45,6 +46,7 @@
  *    typedef bool (*foo_hash_key_comp_fn_t) (const key_t, const key_t);
  *    typedef key_t (*foo_hash_key_copy_fn_t) (const key_t);
  *    typedef void (*foo_hash_key_free_fn_t) (key_t);
+ *    typedef bool (*foo_hash_data_comp_fn_t) (const data_t, const data_t);
  *    typedef data_t (*foo_hash_data_copy_fn_t) (const data_t);
  *    typedef void (*foo_hash_data_free_fn_t) (data_t);
  *
@@ -83,6 +85,12 @@
  *    bool foo_hash_remove(struct foo_hash *phash, const key_t key);
  *    bool foo_hash_remove_full(struct foo_hash *phash, const key_t key,
  *                              key_t *deleted_pkey, data_t *deleted_pdata);
+ *
+ *    bool foo_hashs_are_equal(const struct foo_hash *phash1,
+ *                             const struct foo_hash *phash2);
+ *    bool foo_hashs_are_equal_full(const struct foo_hash *phash1,
+ *                                  const struct foo_hash *phash2,
+ *                                  foo_hash_data_comp_fn_t data_comp_func);
  *
  *    size_t foo_hash_iter_sizeof(void);
  *    struct iterator *foo_hash_iter_init(struct foo_hash_iter *iter,
@@ -137,6 +145,9 @@
 #ifndef SPECHASH_KEY_FREE
 #define SPECHASH_KEY_FREE NULL
 #endif
+#ifndef SPECHASH_DATA_COMP
+#define SPECHASH_DATA_COMP NULL
+#endif
 #ifndef SPECHASH_DATA_COPY
 #define SPECHASH_DATA_COPY NULL
 #endif
@@ -179,10 +190,12 @@ typedef bool (*SPECHASH_FOO(_hash_key_comp_fn_t)) (const SPECHASH_KEY_TYPE,
 typedef SPECHASH_KEY_TYPE
 (*SPECHASH_FOO(_hash_key_copy_fn_t)) (const SPECHASH_KEY_TYPE);
 typedef void (*SPECHASH_FOO(_hash_key_free_fn_t)) (SPECHASH_KEY_TYPE);
-typedef SPECHASH_KEY_TYPE
+typedef bool
+(*SPECHASH_FOO(_hash_data_comp_fn_t)) (const SPECHASH_DATA_TYPE,
+                                       const SPECHASH_DATA_TYPE);
+typedef SPECHASH_DATA_TYPE
 (*SPECHASH_FOO(_hash_data_copy_fn_t)) (const SPECHASH_DATA_TYPE);
 typedef void (*SPECHASH_FOO(_hash_data_free_fn_t)) (SPECHASH_DATA_TYPE);
-
 
 /****************************************************************************
   Create a new spechash.
@@ -457,6 +470,34 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
   return ret;
 }
 
+
+/****************************************************************************
+  Compare the specific hash tables.
+****************************************************************************/
+static inline bool
+SPECHASH_FOO(_hashs_are_equal) (const SPECHASH_HASH *phash1,
+                                const SPECHASH_HASH *phash2)
+{
+  return genhashs_are_equal_full((const struct genhash *) phash1,
+                                 (const struct genhash *) phash2,
+                                 (genhash_comp_fn_t) SPECHASH_DATA_COMP);
+}
+
+/****************************************************************************
+  Compare the specific hash tables.
+****************************************************************************/
+static inline bool
+SPECHASH_FOO(_hashs_are_equal_full) (const SPECHASH_HASH *phash1,
+                                     const SPECHASH_HASH *phash2,
+                                     SPECHASH_FOO(_hash_data_comp_fn_t)
+                                     data_comp_func)
+{
+  return genhashs_are_equal_full((const struct genhash *) phash1,
+                                 (const struct genhash *) phash2,
+                                 (genhash_comp_fn_t) data_comp_func);
+}
+
+
 /****************************************************************************
   Remove the size of the iterator type.
 ****************************************************************************/
@@ -505,6 +546,7 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
 #undef SPECHASH_KEY_COMP
 #undef SPECHASH_KEY_COPY
 #undef SPECHASH_KEY_FREE
+#undef SPECHASH_DATA_COMP
 #undef SPECHASH_DATA_COPY
 #undef SPECHASH_DATA_FREE
 #undef SPECHASH_KEY_TO_PTR
