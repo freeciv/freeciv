@@ -42,6 +42,7 @@
 #include "gui_main_g.h"
 #include "menu_g.h"
 #include "optiondlg_g.h"
+#include "repodlgs_g.h"
 #include "voteinfo_bar_g.h"
 
 /* client */
@@ -4916,14 +4917,12 @@ static void mapview_redraw_callback(struct option *poption)
 }
 
 /****************************************************************************
-   Callback when the reqtree  show icons option is changed.
-   The tree is recalculated.
+  Callback when the reqtree show icons option is changed. The tree is
+  recalculated.
 ****************************************************************************/
 static void reqtree_show_icons_callback(struct option *poption)
 {
-  /* This will close research dialog, when it's open again the techtree will
-   * be recalculated */
-  popdown_all_game_dialogs();
+  science_report_dialog_redraw();
 }
 
 /****************************************************************************

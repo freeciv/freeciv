@@ -81,3 +81,11 @@ void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
 {
   /* PORTME */
 }
+
+/****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_report_dialog_redraw(void)
+{
+  /* PORTME */
+}

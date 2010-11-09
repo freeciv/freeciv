@@ -3344,7 +3344,7 @@ void science_report_dialog_popup(bool raise)
 }
 
 /**************************************************************************
-  Popdow all the science reports (report, chnge tech, change goals).
+  Popdown all the science reports (report, change tech, change goals).
 **************************************************************************/
 void science_report_dialogs_popdown_all(void)
 {
@@ -3364,6 +3364,13 @@ void science_report_dialogs_popdown_all(void)
   }  
 }
 
+/****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_report_dialog_redraw(void)
+{
+  /* No requirement tree yet. */
+}
 
 /* ===================================================================== */
 /* ======================== Endgame Report ============================= */
