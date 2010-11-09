@@ -16,7 +16,6 @@
 #include "repodlgs_g.h"
 
 void science_report_dialog_popdown(void);
-void science_report_dialog_redraw(void);
 void economy_report_dialog_popdown(void);
 void units_report_dialog_popdown(void);
 

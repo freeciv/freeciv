@@ -822,6 +822,8 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_present(struct gui_dialog *dlg)
 {
+  fc_assert_ret(NULL != dlg);
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_widget_show(dlg->v.window);
@@ -852,6 +854,8 @@ void gui_dialog_present(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_raise(struct gui_dialog *dlg)
 {
+  fc_assert_ret(NULL != dlg);
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_window_present(GTK_WINDOW(dlg->v.window));
@@ -873,6 +877,8 @@ void gui_dialog_raise(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_alert(struct gui_dialog *dlg)
 {
+  fc_assert_ret(NULL != dlg);
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     break;
@@ -885,12 +891,12 @@ void gui_dialog_alert(struct gui_dialog *dlg)
       n = gtk_notebook_page_num(notebook, dlg->vbox);
 
       if (current != n) {
-	GtkWidget *label = dlg->v.tab.label;
-	GdkColormap *cmap = gtk_widget_get_default_colormap();
-	GdkColor color = {.red = 0, .green = 0, .blue = 255 << 8};
+        GtkWidget *label = dlg->v.tab.label;
+        GdkColormap *cmap = gtk_widget_get_default_colormap();
+        GdkColor color = {.red = 0, .green = 0, .blue = 255 << 8};
 
-	gdk_rgb_find_color(cmap, &color);
-	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
+        gdk_rgb_find_color(cmap, &color);
+        gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
       }
     }
     break;
