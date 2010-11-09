@@ -98,13 +98,23 @@
  *   TYPED_LIST_ITERATE_REV(foo_t, foolist, pfoo)
  * #define foo_list_iterate_rev_end LIST_ITERATE_REV_END
  *
- * #define foo_list_link_iterate(foolist, pfoo)                             \
- *   TYPED_LINK_ITERATE(foo_t, foolist, pfoo)
- * #define foo_list_link_iterate_end LINK_ITERATE_END
+ * #define foo_list_link_iterate(foolist, plink)                            \
+ *   TYPED_LIST_LINK_ITERATE(struct foo_list_link, foolist, plink)
+ * #define foo_list_link_iterate_end LIST_LINK_ITERATE_END
  *
- * #define foo_list_link_iterate_rev(foolist, pfoo)                         \
- *   TYPED_LINK_ITERATE_REV(foo_t, foolist, pfoo)
- * #define foo_list_link_iterate_rev_end LINK_ITERATE_REV_END
+ * #define foo_list_link_iterate_rev(foolist, plink)                        \
+ *   TYPED_LIST_LINK_ITERATE_REV(struct foo_list_link, foolist, plink)
+ * #define foo_list_link_iterate_rev_end LIST_LINK_ITERATE_REV_END
+ *
+ * #define foo_list_both_iterate(foolist, plink, pfoo)                      \
+ *   TYPED_LIST_BOTH_ITERATE(struct foo_list_link, foo_t,                   \
+                             foolist, plink, pfoo)
+ * #define foo_list_link_iterate_full_end LIST_BOTH_ITERATE_END
+ *
+ * #define foo_list_both_iterate_rev(foolist, pfoo)                         \
+ *   TYPED_LIST_BOTH_ITERATE_REV(struct foo_list_link, foo_t,               \
+                                 foolist, plink, pfoo)
+ * #define foo_list_both_iterate_rev_end LIST_BOTH_ITERATE_REV_END
  *
  * Note this is not protected against multiple inclusions; this is so that
  * you can have multiple different speclists. For each speclist, this file
@@ -524,10 +534,10 @@ SPECLIST_FOO(_list_link_next) (const SPECLIST_LINK *plink)
 #define FC__SPECLIST_H
 
 #ifdef DEBUG
-#  define TYPED_LIST_CHECK(NAME_list)                                       \
-  fc_assert_action(NULL != NAME_list, break)
+#  define TYPED_LIST_CHECK(ARG_list)                                       \
+  fc_assert_action(NULL != ARG_list, break)
 #else
-#  define TYPED_LIST_CHECK(NAME_list) /* Nothing. */
+#  define TYPED_LIST_CHECK(ARG_list) /* Nothing. */
 #endif /* DEBUG */
 
 /* Speclist data iterator.
@@ -538,15 +548,14 @@ SPECLIST_FOO(_list_link_next) (const SPECLIST_LINK *plink)
  * Using *_list_clear() will result to use freed data. It must be avoided!
  *
  * TYPE_data - The real type of the data in the genlist/speclist.
- * NAME_list - The speclist to iterate.
+ * ARG_list - The speclist to iterate.
  * NAME_data - The name of the data iterator (defined inside the macro). */
-#define TYPED_LIST_ITERATE(TYPE_data, NAME_list, NAME_data)                 \
+#define TYPED_LIST_ITERATE(TYPE_data, ARG_list, NAME_data)                  \
 do {                                                                        \
   const struct genlist_link *NAME_data##_iter;                              \
   TYPE_data *NAME_data;                                                     \
-                                                                            \
-  TYPED_LIST_CHECK(NAME_list);                                              \
-  NAME_data##_iter = genlist_head((const struct genlist *) NAME_list);      \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  NAME_data##_iter = genlist_head((const struct genlist *) ARG_list);       \
   while (NULL != NAME_data##_iter) {                                        \
     NAME_data = (TYPE_data *) genlist_link_data(NAME_data##_iter);          \
     NAME_data##_iter = genlist_link_next(NAME_data##_iter);
@@ -559,15 +568,14 @@ do {                                                                        \
 /* Same, but iterate backwards:
  *
  * TYPE_data - The real type of the data in the genlist/speclist.
- * NAME_list - The speclist to iterate.
+ * ARG_list - The speclist to iterate.
  * NAME_data - The name of the data iterator (defined inside the macro). */
-#define TYPED_LIST_ITERATE_REV(TYPE_data, NAME_list, NAME_data)             \
+#define TYPED_LIST_ITERATE_REV(TYPE_data, ARG_list, NAME_data)              \
 do {                                                                        \
   const struct genlist_link *NAME_data##_iter;                              \
   TYPE_data *NAME_data;                                                     \
-                                                                            \
-  TYPED_LIST_CHECK(NAME_list);                                              \
-  NAME_data##_iter = genlist_tail((const struct genlist *) NAME_list);      \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  NAME_data##_iter = genlist_tail((const struct genlist *) ARG_list);       \
   while (NULL != NAME_data##_iter) {                                        \
     NAME_data = (TYPE_data *) genlist_link_data(NAME_data##_iter);          \
     NAME_data##_iter = genlist_link_prev(NAME_data##_iter);
@@ -579,48 +587,103 @@ do {                                                                        \
 
 /* Speclist link iterator.
  *
- * Using *_list_erase(NAME_data) is safe in this loop.
+ * Using *_list_erase(NAME_link) is safe in this loop.
  * Using *_list_clear() will result to use freed data. It must be avoided!
  *
  * TYPE_link - The real type of the link.
- * NAME_list - The speclist to iterate.
+ * ARG_list - The speclist to iterate.
  * NAME_link - The name of the link iterator (defined inside the macro). */
-#define TYPED_LINK_ITERATE(TYPE_link, NAME_list, NAME_link)                 \
+#define TYPED_LIST_LINK_ITERATE(TYPE_link, ARG_list, NAME_link)             \
 do {                                                                        \
-  TYPE_link *NAME_link, *NAME_link##_next;                                  \
-                                                                            \
-  TYPED_LIST_CHECK(NAME_list);                                              \
-  for (NAME_link = ((TYPE_link *)                                           \
-                    genlist_head((const struct genlist *) NAME_list));      \
-       NULL != NAME_link; NAME_link = NAME_link##_next,                     \
-       NAME_link##_next = ((TYPE_link *)                                    \
-                           genlist_link_next((struct genlist_link *)        \
-                                             NAME_link))) {
+  TYPE_link *NAME_link = ((TYPE_link *)                                     \
+                          genlist_head((const struct genlist *) ARG_list)); \
+  TYPE_link *NAME_link##_next;                                              \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  for (; NULL != NAME_link; NAME_link = NAME_link##_next) {                 \
+    NAME_link##_next = ((TYPE_link *)                                       \
+                        genlist_link_next((struct genlist_link *)           \
+                                          NAME_link));
 
 /* Balance for above: */ 
-#define LINK_ITERATE_END                                                    \
+#define LIST_LINK_ITERATE_END                                               \
   }                                                                         \
 } while (FALSE);
 
 /* Same, but iterate backwards:
  *
  * TYPE_link - The real type of the link.
- * NAME_list - The speclist to iterate.
+ * ARG_list - The speclist to iterate.
  * NAME_link - The name of the link iterator (defined inside the macro). */
-#define TYPED_LINK_ITERATE_REV(TYPE_link, NAME_list, NAME_link)             \
+#define TYPED_LIST_LINK_ITERATE_REV(TYPE_link, ARG_list, NAME_link)         \
 do {                                                                        \
-  TYPE_link *NAME_link, *NAME_link##_prev;                                  \
-                                                                            \
-  TYPED_LIST_CHECK(NAME_list);                                              \
-  for (NAME_link = ((TYPE_link *)                                           \
-                    genlist_head((const struct genlist *) NAME_list));      \
-       NULL != NAME_link; NAME_link = NAME_link##_prev,                     \
-       NAME_link##_prev = ((TYPE_link *)                                    \
-                           genlist_link_prev((struct genlist_link *)        \
-                                             NAME_link))) {
+  TYPE_link *NAME_link = ((TYPE_link *)                                     \
+                          genlist_tail((const struct genlist *) ARG_list)); \
+  TYPE_link *NAME_link##_prev;                                              \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  for (; NULL != NAME_link; NAME_link = NAME_link##_prev) {                 \
+    NAME_link##_prev = ((TYPE_link *)                                       \
+                        genlist_link_prev((struct genlist_link *)           \
+                                          NAME_link));
 
 /* Balance for above: */ 
-#define LINK_ITERATE_REV_END                                                \
+#define LIST_LINK_ITERATE_REV_END                                           \
+  }                                                                         \
+} while (FALSE);
+
+/* Speclist link and data iterator.
+ *
+ * Using *_list_erase(NAME_link) is safe in this loop.
+ * Using *_list_clear() will result to use freed data. It must be avoided!
+ *
+ * TYPE_link - The real type of the link.
+ * TYPE_data - The real type of the data in the genlist/speclist.
+ * ARG_list - The speclist to iterate.
+ * NAME_link - The name of the link iterator (defined inside the macro).
+ * NAME_data - The name of the data iterator (defined inside the macro). */
+#define TYPED_LIST_BOTH_ITERATE(TYPE_link, TYPE_data,                       \
+                                ARG_list, NAME_link, NAME_data)             \
+do {                                                                        \
+  TYPE_link *NAME_link = ((TYPE_link *)                                     \
+                          genlist_head((const struct genlist *) ARG_list)); \
+  TYPE_link *NAME_link##_next;                                              \
+  TYPE_data *NAME_data;                                                     \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  for (; NULL != NAME_link; NAME_link = NAME_link##_next) {                 \
+    NAME_link##_next = ((TYPE_link *)                                       \
+                        genlist_link_next((struct genlist_link *)           \
+                                          NAME_link));                      \
+    NAME_data = ((TYPE_data *)                                              \
+                 genlist_link_data((struct genlist_link *) NAME_link));
+
+/* Balance for above: */ 
+#define LIST_BOTH_ITERATE_END                                               \
+  }                                                                         \
+} while (FALSE);
+
+/* Same, but iterate backwards:
+ *
+ * TYPE_link - The real type of the link.
+ * TYPE_data - The real type of the data in the genlist/speclist.
+ * ARG_list - The speclist to iterate.
+ * NAME_link - The name of the link iterator (defined inside the macro).
+ * NAME_data - The name of the data iterator (defined inside the macro). */
+#define TYPED_LIST_BOTH_ITERATE_REV(TYPE_link, TYPE_data,                   \
+                                ARG_list, NAME_link, NAME_data)             \
+do {                                                                        \
+  TYPE_link *NAME_link = ((TYPE_link *)                                     \
+                          genlist_tail((const struct genlist *) ARG_list)); \
+  TYPE_link *NAME_link##_prev;                                              \
+  TYPE_data *NAME_data;                                                     \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  for (; NULL != NAME_link; NAME_link = NAME_link##_prev) {                 \
+    NAME_link##_prev = ((TYPE_link *)                                       \
+                        genlist_link_prev((struct genlist_link *)           \
+                                          NAME_link));                      \
+    NAME_data = ((TYPE_data *)                                              \
+                 genlist_link_data((struct genlist_link *) NAME_link));
+
+/* Balance for above: */ 
+#define LIST_BOTH_ITERATE_REV_END                                           \
   }                                                                         \
 } while (FALSE);
 
