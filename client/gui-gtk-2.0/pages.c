@@ -1952,10 +1952,11 @@ static void scenario_insert_files(struct datafile_list *files)
 					       NULL, "scenario.description");
 
       gtk_list_store_set(scenario_store, &it,
-			 0, sname && strlen(sname) ? Q_(sname) : pfile->name,
-			 1, pfile->fullname,
-			 2, sdescription ? Q_(sdescription) : "",
-			-1);
+                         0, sname && strlen(sname) ? Q_(sname) : pfile->name,
+                         1, pfile->fullname,
+                         2, (NULL != sdescription && '\0' != sdescription[0]
+                             ? Q_(sdescription) : ""),
+                         -1);
       section_file_free(&sf);
     } else {
       gtk_list_store_set(scenario_store, &it,
