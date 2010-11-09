@@ -822,6 +822,8 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_present(struct gui_dialog *dlg)
 {
+  g_return_if_fail(NULL != dlg);
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_widget_show(dlg->v.window);
@@ -852,6 +854,8 @@ void gui_dialog_present(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_raise(struct gui_dialog *dlg)
 {
+  g_return_if_fail(NULL != dlg);
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_window_present(GTK_WINDOW(dlg->v.window));
@@ -873,6 +877,8 @@ void gui_dialog_raise(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_alert(struct gui_dialog *dlg)
 {
+  g_return_if_fail(NULL != dlg);
+
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     break;

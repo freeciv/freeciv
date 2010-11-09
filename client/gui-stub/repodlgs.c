@@ -102,3 +102,11 @@ void popup_settable_options_dialog(void)
 {
   /* PORTME */
 }
+
+/****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_dialog_redraw(void)
+{
+  /* PORTME */
+}

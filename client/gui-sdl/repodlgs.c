@@ -3359,7 +3359,15 @@ void popdown_all_science_dialogs(void)
     widget_mark_dirty(get_research_widget());
   }  
 }
-  
+
+/****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_dialog_redraw(void)
+{
+  /* No requirement tree yet. */
+}
+
 /**************************************************************************
   Update all report dialogs.
 **************************************************************************/

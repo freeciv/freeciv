@@ -603,6 +603,14 @@ void science_dialog_update(void)
   
 }
 
+/****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_dialog_redraw(void)
+{
+  /* No requirement tree yet. */
+}
+
 /****************************************************************
 
                       ECONOMY REPORT DIALOG
