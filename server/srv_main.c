@@ -255,17 +255,20 @@ bool game_was_started(void)
   return (!game.info.is_new_game || S_S_INITIAL != server_state());
 }
 
-/**************************************************************************
+/****************************************************************************
   Returns TRUE if any one game end condition is fulfilled, FALSE otherwise.
 
   This function will notify players but will not set the server_state(). The
   caller must set the server state to S_S_OVER if the function
   returns TRUE.
-**************************************************************************/
+****************************************************************************/
 bool check_for_game_over(void)
 {
-  int barbs = 0, alive = 0;
-  struct player *victor = NULL, *spacer = NULL;
+#define PLAYER_IS_CANDIDATE(pplayer)                                        \
+  ((pplayer)->is_alive && !player_status_check((pplayer), PSTATUS_SURRENDER))
+
+  int candidates, defeated;
+  struct player *victor;
   int winners = 0;
   struct astring str = ASTRING_INIT;
 
@@ -295,7 +298,176 @@ bool check_for_game_over(void)
   }
   astr_free(&str);
 
-  /* quit if we are past the turn limit */
+  /* Count candidates for the victory. */
+  candidates = 0;
+  defeated = 0;
+  victor = NULL;
+  players_iterate(pplayer) {
+    if (is_barbarian(pplayer)) {
+      continue;
+    }
+
+    if (PLAYER_IS_CANDIDATE(pplayer)) {
+      candidates++;
+      victor = pplayer;
+    } else {
+      defeated++;
+    }
+  } players_iterate_end;
+
+  if (0 == candidates) {
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                _("Game ended in a draw."));
+    ggz_report_victory();
+    return TRUE;
+  } else if (0 < defeated) {
+    /* If nobody conceded the game, it mays be a solo game or a single team
+     * game. */
+    fc_assert(NULL != victor);
+
+    /* Quit if we have team victory. */
+    if (1 < team_count()) {
+      teams_iterate(pteam) {
+        const struct player_list *members = team_members(pteam);
+        int team_candidates = 0, team_defeated = 0;
+
+        if (1 == player_list_size(members)) {
+          /* This is not really a team, single players are handled below. */
+          continue;
+        }
+
+        player_list_iterate(members, pplayer) {
+          if (PLAYER_IS_CANDIDATE(pplayer)) {
+            team_candidates++;
+          } else {
+            team_defeated++;
+          }
+        } player_list_iterate_end;
+
+        fc_assert(team_candidates + team_defeated
+                  == player_list_size(members));
+
+        if (team_candidates == candidates && team_defeated < defeated) {
+          /* We need a player in a other team to conced the game here. */
+          notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                      _("Team victory to %s."),
+                      team_name_translation(pteam));
+          /* All players of the team win, even dead and surrended ones. */
+          player_list_iterate(members, pplayer) {
+            ggz_report_victor(pplayer);
+          } player_list_iterate_end;
+          ggz_report_victory();
+          return TRUE;
+        }
+      } teams_iterate_end;
+    }
+
+    /* Check for allied victory. */
+    if (1 < candidates && game.server.allied_victory) {
+      struct player_list *winner_list = player_list_new();
+
+      /* Try to build a winner list. */
+      players_iterate(pplayer) {
+        if (is_barbarian(pplayer)
+            || !PLAYER_IS_CANDIDATE(pplayer)) {
+          continue;
+        }
+
+        player_list_iterate(winner_list, aplayer) {
+          if (!pplayers_allied(aplayer, pplayer)) {
+            player_list_destroy(winner_list);
+            winner_list = NULL;
+            break;
+          }
+        } player_list_iterate_end;
+
+        if (NULL == winner_list) {
+          break;
+        }
+        player_list_append(winner_list, pplayer);
+      } players_iterate_end;
+
+      if (NULL != winner_list) {
+        /* Now ensure a non allied has conceded the game. */
+        bool found = FALSE;
+
+        players_iterate(pplayer) {
+          if (is_barbarian(pplayer)
+              || PLAYER_IS_CANDIDATE(pplayer)) {
+            continue;
+          }
+
+          player_list_iterate(winner_list, aplayer) {
+            if (!pplayers_allied(aplayer, pplayer)) {
+              found = TRUE;
+              break;
+            }
+          } player_list_iterate_end;
+        } players_iterate_end;
+
+        if (!found) {
+          /* Seems all players are allied. */
+          player_list_destroy(winner_list);
+          winner_list = NULL;
+        }
+      }
+
+      if (NULL != winner_list) {
+        bool first = TRUE;
+
+        fc_assert(candidates == player_list_size(winner_list));
+
+        astr_init(&str);
+        player_list_iterate(winner_list, pplayer) {
+          if (first) {
+            /* TRANS: Beginning of the winners list ("the French") */
+            astr_add(&str, Q_("?winners:the %s"),
+                     nation_plural_for_player(pplayer));
+            first = FALSE;
+          } else {
+            /* TRANS: Another entry in winners list (", the Tibetans") */
+            astr_add(&str, Q_("?winners:, the %s"),
+                     nation_plural_for_player(pplayer));
+          }
+          ggz_report_victor(pplayer);
+        } player_list_iterate_end;
+        notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                    /* TRANS: There can be several winners listed */
+                    _("Allied victory to %s."), astr_str(&str));
+        ggz_report_victory();
+        astr_free(&str);
+        player_list_destroy(winner_list);
+        return TRUE;
+      }
+    }
+
+    /* Check for single player victory. */
+    if (1 == candidates && NULL != victor) {
+      bool found = FALSE; /* We need at least one enemy defeated. */
+
+      players_iterate(pplayer) {
+        if (pplayer != victor
+            && !is_barbarian(pplayer)
+            && !PLAYER_IS_CANDIDATE(pplayer)
+            && pplayer->team != victor->team
+            && (!game.server.allied_victory
+                || !pplayers_allied(victor, pplayer))) {
+          found = TRUE;
+          break;
+        }
+      } players_iterate_end;
+
+      if (found) {
+        notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                    _("Game ended in victory for %s."), player_name(victor));
+        ggz_report_victor(victor);
+        ggz_report_victory();
+        return TRUE;
+      }
+    }
+  }
+
+  /* Quit if we are past the turn limit. */
   if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game ended in a draw as end turn exceeded."));
@@ -303,121 +475,59 @@ bool check_for_game_over(void)
     return TRUE;
   }
 
-  /* count barbarians and observers */
-  players_iterate(pplayer) {
-    if (is_barbarian(pplayer)) {
-      barbs++;
-    }
-  } players_iterate_end;
+  /* Check for a spacerace win. */
+  while ((victor = check_spaceship_arrival())) {
+    const struct player_list *members;
+    bool win;
 
-  /* count the living */
-  players_iterate(pplayer) {
-    if (pplayer->is_alive
-        && !is_barbarian(pplayer)
-        && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
-      alive++;
-      victor = pplayer;
-    }
-  } players_iterate_end;
-
-  /* the game does not quit if we are playing solo */
-  if (player_count() == (barbs + 1) && alive >= 1) {
-    return FALSE;
-  }
-
-  /* check for a spacerace win */
-  if ((spacer = check_spaceship_arrival())) {
-    bool loner = TRUE;
-    victor = spacer;
- 
     notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
                   _("The %s spaceship has arrived at Alpha Centauri."),
                   nation_adjective_for_player(victor));
 
     if (!game.server.endspaceship) {
-      /* games does not end on spaceship arrival */
-      return FALSE;
-    }
-
-    /* this guy has won, now check if anybody else wins with him */
-    players_iterate(pplayer) {
-      if (pplayer->team == victor->team && pplayer != victor) {
-        loner = FALSE;
-        break;
-      }
-    } players_iterate_end;
-
-    if (!loner) {
-      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
-                  _("Team victory to %s."),
-                  team_name_translation(victor->team));
-      players_iterate(pplayer) {
-	if (pplayer->team == victor->team) {
-	  ggz_report_victor(pplayer);
-	}
-      } players_iterate_end;
-      ggz_report_victory();
-    } else {
-      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
-                  _("Game ended in victory for %s."),
-                  player_name(victor));
-      ggz_report_victor(victor);
-      ggz_report_victory();
-    }
-
-    return TRUE;
-  }
-
-  /* quit if we have team victory */
-  teams_iterate(pteam) {
-    bool win = TRUE; /* optimistic */
-
-    /* Teams-of-one are handled below */
-    if (player_list_size(team_members(pteam)) == 1) {
+      /* Games does not end on spaceship arrival. At least print all the
+       * arrival messages. */
       continue;
     }
 
-    /* If there are any players alive and unconceded outside our
-     * team, we have not yet won. */
-    players_iterate(pplayer) {
-      if (pplayer->is_alive
-          && !player_status_check(pplayer, PSTATUS_SURRENDER)
-          && pplayer->team != pteam) {
-        win = FALSE;
+    /* This guy has won, now check if anybody else wins with him. */
+    members = team_members(victor->team);
+    win = FALSE;
+    player_list_iterate(members, pplayer) {
+      if (PLAYER_IS_CANDIDATE(pplayer)) {
+        /* We need at least one player to be a winner candidate in the
+         * team. */
+        win = TRUE;
         break;
       }
-    } players_iterate_end;
-    if (win) {
-      notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                  _("Team victory to %s."),
-                  team_name_translation(pteam));
-      players_iterate(pplayer) {
-        if (pplayer->is_alive
-            && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
-          ggz_report_victor(pplayer);
-        }
-      } players_iterate_end;
-      ggz_report_victory();
-      return win; /* TRUE */
-    }
-  } teams_iterate_end;
+    } player_list_iterate_end;
 
-  /* quit if only one player is left alive */
-  if (alive == 1) {
-    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in victory for %s."),
-                player_name(victor));
-    ggz_report_victor(victor);
-    ggz_report_victory();
-    return TRUE;
-  } else if (alive == 0) {
-    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw."));
-    ggz_report_victory();
+    if (!win) {
+      /* Let's try next arrival. */
+      continue;
+    }
+
+    if (1 < player_list_size(members)) {
+      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
+                  _("Team victory to %s."),
+                  team_name_translation(victor->team));
+      /* All players of the team win, even dead and surrended ones. */
+      player_list_iterate(members, pplayer) {
+        ggz_report_victor(pplayer);
+      } player_list_iterate_end;
+      ggz_report_victory();
+    } else {
+      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
+                  _("Game ended in victory for %s."), player_name(victor));
+      ggz_report_victor(victor);
+      ggz_report_victory();
+    }
     return TRUE;
   }
 
   return FALSE;
+
+#undef PLAYER_IS_CANDIDATE
 }
 
 /**************************************************************************
