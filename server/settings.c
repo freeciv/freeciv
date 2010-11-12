@@ -1600,6 +1600,16 @@ static struct setting settings[] = {
               "subject to the killunhomed option."),
            NULL, NULL, GAME_DEFAULT_HOMECAUGHTUNITS)
 
+  GEN_BOOL("alliedvictory", game.server.allied_victory,
+           SSET_RULES_FLEXIBLE, SSET_MILITARY,
+           SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Whether allied players can win together"),
+           N_("If this is option is turned on and all players able to win "
+              "the game are allied, then the game will ends in a victory "
+              "for those players. Note it has no effect if all players of "
+              "the game are allied."),
+           NULL, NULL, GAME_DEFAULT_ALLIED_VICTORY)
+
   GEN_BOOL("naturalcitynames", game.server.natural_city_names,
            SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Whether to use natural city names"),

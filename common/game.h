@@ -79,13 +79,9 @@ struct civ_game {
 
       /* Defined in the ruleset. */
 
-      /* Game settings. */
-      bool foggedborders;
-      int killunhomed;    /* slowly killing unhomed units */
-      int unitwaittime;   /* minimal time between two movements of a unit */
+      /* Game settings & other data. */
 
-      /* Other game data. */
-
+      bool allied_victory;
       enum city_names_mode allowed_city_names;
       int aqueductloss;
       bool auto_ai_toggle;
@@ -103,11 +99,14 @@ struct civ_game {
       int end_turn;
       bool endspaceship;
       bool fixedlength;
+      bool foggedborders;
       int freecost;
       int incite_improvement_factor;
       int incite_total_factor;
       int incite_unit_factor;
       int init_vis_radius_sq;
+      int killunhomed;    /* slowly killing unhomed units */
+      int maxconnectionsperhost;
       int max_players;
       int mgr_distance;
       bool mgr_foodneeded;
@@ -140,6 +139,7 @@ struct civ_game {
       int tcptimeout;
       int techpenalty;
       bool turnblock;
+      int unitwaittime;   /* minimal time between two movements of a unit */
       int upgrade_veteran_loss;
       bool vision_reveal_tiles;
 
@@ -151,7 +151,6 @@ struct civ_game {
       int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
       int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
 
-      int maxconnectionsperhost;
       time_t last_ping;
       struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
       /* The game.info.phase_mode value indicates the phase mode currently in
@@ -531,6 +530,8 @@ extern struct civ_game game;
 #define GAME_DEFAULT_AIRLIFTINGSTYLE AIRLIFTING_CLASSICAL
 
 #define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
+
+#define GAME_DEFAULT_ALLIED_VICTORY TRUE
 
 /* ruleset settings */
 
