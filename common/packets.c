@@ -107,11 +107,66 @@ static inline int get_compression_level(void)
 
   return level;
 }
+
+/****************************************************************************
+  Send all waiting data. Return TRUE on success.
+****************************************************************************/
+static bool conn_compression_flush(struct connection *pconn)
+{
+  int compression_level = get_compression_level();
+  uLongf compressed_size = 12 + 1.001 * pconn->compression.queue.size;
+  int error;
+  Bytef compressed[compressed_size];
+
+  error = compress2(compressed, &compressed_size,
+                    pconn->compression.queue.p,
+                    pconn->compression.queue.size,
+                    compression_level);
+  fc_assert_ret_val(error == Z_OK, FALSE);
+  if (compressed_size + 2 < pconn->compression.queue.size) {
+    struct data_out dout;
+
+    log_compress("COMPRESS: compressed %lu bytes to %ld (level %d)",
+                 (unsigned long) pconn->compression.queue.size,
+                 compressed_size, compression_level);
+    stat_size_uncompressed += pconn->compression.queue.size;
+    stat_size_compressed += compressed_size;
+
+    if (compressed_size <= JUMBO_BORDER) {
+      unsigned char header[2];
+
+      log_compress("COMPRESS: sending %ld as normal", compressed_size);
+
+      dio_output_init(&dout, header, sizeof(header));
+      dio_put_uint16(&dout, 2 + compressed_size + COMPRESSION_BORDER);
+      send_connection_data(pconn, header, sizeof(header));
+      send_connection_data(pconn, compressed, compressed_size);
+    } else {
+      unsigned char header[6];
+
+      log_compress("COMPRESS: sending %ld as jumbo", compressed_size);
+      dio_output_init(&dout, header, sizeof(header));
+      dio_put_uint16(&dout, JUMBO_SIZE);
+      dio_put_uint32(&dout, 6 + compressed_size);
+      send_connection_data(pconn, header, sizeof(header));
+      send_connection_data(pconn, compressed, compressed_size);
+    }
+  } else {
+    log_compress("COMPRESS: would enlarging %lu bytes to %ld; "
+                 "sending uncompressed",
+                 (unsigned long) pconn->compression.queue.size,
+                 compressed_size);
+    send_connection_data(pconn, pconn->compression.queue.p,
+                         pconn->compression.queue.size);
+    stat_size_no_compression += pconn->compression.queue.size;
+  }
+  return pconn->used;
+}
 #endif /* USE_COMPRESSION */
 
 /****************************************************************************
   Thaw the connection. Then maybe compress the data waiting to send them
-  to the connection. Returns TRUE on sucess. See also
+  to the connection. Returns TRUE on success. See also
   conn_compression_freeze().
 ****************************************************************************/
 bool conn_compression_thaw(struct connection *pconn)
@@ -119,53 +174,7 @@ bool conn_compression_thaw(struct connection *pconn)
 #ifdef USE_COMPRESSION
   pconn->compression.frozen_level--;
   if (0 == pconn->compression.frozen_level) {
-    int compression_level = get_compression_level();
-    uLongf compressed_size = 12 + 1.001 * pconn->compression.queue.size;
-    int error;
-    Bytef compressed[compressed_size];
-
-    error = compress2(compressed, &compressed_size,
-                      pconn->compression.queue.p,
-                      pconn->compression.queue.size,
-                      compression_level);
-    fc_assert_ret_val(error == Z_OK, FALSE);
-    if (compressed_size + 2 < pconn->compression.queue.size) {
-      struct data_out dout;
-
-      log_compress("COMPRESS: compressed %lu bytes to %ld (level %d)",
-                   (unsigned long) pconn->compression.queue.size,
-                   compressed_size, compression_level);
-      stat_size_uncompressed += pconn->compression.queue.size;
-      stat_size_compressed += compressed_size;
-
-      if (compressed_size <= JUMBO_BORDER) {
-        unsigned char header[2];
-
-        log_compress("COMPRESS: sending %ld as normal", compressed_size);
-
-        dio_output_init(&dout, header, sizeof(header));
-        dio_put_uint16(&dout, 2 + compressed_size + COMPRESSION_BORDER);
-        send_connection_data(pconn, header, sizeof(header));
-        send_connection_data(pconn, compressed, compressed_size);
-      } else {
-        unsigned char header[6];
-
-        log_compress("COMPRESS: sending %ld as jumbo", compressed_size);
-        dio_output_init(&dout, header, sizeof(header));
-        dio_put_uint16(&dout, JUMBO_SIZE);
-        dio_put_uint32(&dout, 6 + compressed_size);
-        send_connection_data(pconn, header, sizeof(header));
-        send_connection_data(pconn, compressed, compressed_size);
-      }
-    } else {
-      log_compress("COMPRESS: would enlarging %lu bytes to %ld; "
-                   "sending uncompressed",
-                   (unsigned long) pconn->compression.queue.size,
-                   compressed_size);
-      send_connection_data(pconn, pconn->compression.queue.p,
-                           pconn->compression.queue.size);
-      stat_size_no_compression += pconn->compression.queue.size;
-    }
+    return conn_compression_flush(pconn);
   }
 #endif /* USE_COMPRESSION */
   return pconn->used;
@@ -207,6 +216,16 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
       memcpy(pc->compression.queue.p + old_size, data, len);
       log_compress2("COMPRESS: putting %s into the queue",
                     packet_name(packet_type));
+      if (MAX_LEN_BUFFER < byte_vector_size(&pc->compression.queue)) {
+        log_compress2("COMPRESS: huge queue, forcing to flush (%lu/%lu)",
+                      (long unsigned)
+                      byte_vector_size(&pc->compression.queue),
+                      (long unsigned) MAX_LEN_BUFFER);
+        if (!conn_compression_flush(pc)) {
+          return -1;
+        }
+        byte_vector_reserve(&pc->compression.queue, 0);
+      }
     } else {
       stat_size_alone += size;
       log_compress("COMPRESS: sending %s alone (%d bytes total)",
