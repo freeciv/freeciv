@@ -16,20 +16,26 @@
   by the mandatory option '+version2'. The main load function checks, if this
   option is present. If not, the old loading routines are used. With regard
   to creating a savegame, the option 'saveversion' defines the format
-  (version) of the savegame. This value (savegame.version) should be
+  (version) of the savegame. This value (savefile.version) should be
   increased every time the format is changed. If the change is not backwards
   compatible, please state the changes in the following list and update the
   compat functions at the end of this file.
+
+  The value is saved in the settings section of the savefile as well as an
+  integer (as savefile.version). Only the integer is used to determine the
+  version of the savefile. See sg_load_compat() and sg_save_compat().
 
   - that was added / removed
   - when was it added / removed (date and version)
   - when can additional capability checks be set to mandatory (version)
   - which compatibility checks are needed and till when (version)
 
-  freeciv       | svn   | what                             | date       | id
-  --------------+ ------+----------------------------------+------------+----
-  2.2.99        | 17538 | first release                    | 2010/07/05 |  1
-  2.3.0         |       |                                  | 2010/--/-- |  5
+  freeciv | what                                           | date       | id
+  --------+------------------------------------------------+------------+----
+  current | (mapped to current savegame format)            | ----/--/-- |  0
+          | first version (svn17538)                       | 2010/07/05 |  -
+  2.3.0   | 2.3.0 release                                  | 2010/11/?? |  3
+          |                                                |            |
 
   Structure of this file:
 
@@ -5216,44 +5222,53 @@ typedef void (*save_version_func_t) (struct savedata *saving);
 /****************************************************************************
   ...
 ****************************************************************************/
-static void compat_load_020299(struct loaddata *loading)
+static void compat_load_020300(struct loaddata *loading)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  log_verbose("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
+  log_debug("Load savegame version 2.3.0");
 }
 
 /****************************************************************************
   ...
 ****************************************************************************/
-static void compat_save_020299(struct savedata *saving)
+static void compat_save_020300(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  log_verbose("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
+  log_debug("Save savegame version 2.3.0");
 }
 
 struct compatibility {
+  int version;
   const struct sset_val_name name;
   const load_version_func_t load;
   const save_version_func_t save;
 };
 
-/* The current versions should be at the bottom. */
+/* The struct below contains the information about the savegame versions. It
+ * is identified by the version number (first element), which should be
+ * steadily increasing. It is saved as 'savefile.version'. Additionally, the
+ * support string (first element of 'name') is saved in the savegame. It is
+ * only used to present a version selection if 'help saveversion' is
+ * executed. For changes in the development version, edit the definitions
+ * above and add the needed code to save/load the old version below. Thus,
+ * old savegames can still be created and loaded while the main definition
+ * represents the current state of the art. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
-  { { "CURRENT", N_("current version") }, NULL, NULL },
-  /* freeciv 2.2.99 (trunk) */
-  { { "2.2.99", N_("freeciv 2.2.99") },
-    compat_load_020299, compat_save_020299 },
-  /* current savefile version as defined by the functions above */
-  { { "2.3.0", N_("freeciv 2.3.0") }, NULL, NULL },
+  { 0, { "CURRENT", N_("current version") }, NULL, NULL },
+  /* version 1 and 2 is not used */
+  { 3, { "2.3.0", N_("freeciv 2.3.0") },
+    compat_load_020300, compat_save_020300},
+  /* Current savefile version is listed above this line; it corresponds to
+     the definitions in this file. */
 };
 
 static const int compat_num = ARRAY_SIZE(compat);
-#define current_version (compat_num - 1)
+#define compat_current (compat_num - 1)
 
 /****************************************************************************
   Savefile version setting names accessor.
@@ -5288,11 +5303,14 @@ static void sg_load_compat(struct loaddata *loading)
 
   version = secfile_lookup_int_default(loading->file, -1,
                                        "savefile.version");
-  sg_failure_ret(saveversion_name(version) != NULL && version != -1,
+  sg_failure_ret(0 < version && version <= compat[compat_current].version,
                  "Unknown savefile format version.");
 
-  for (i = version; i < compat_num; i++) {
-    if (compat[i].load != NULL) {
+  for (i = 0; i < compat_num; i++) {
+    if (version < compat[i].version && compat[i].load != NULL) {
+      log_normal(_("Run compatibility function for version: <%d "
+                   "(save file: %d; server: %d)."), compat[i].version,
+                 version, compat[compat_current].version);
       compat[i].load(loading);
     }
   }
@@ -5312,22 +5330,25 @@ static void sg_save_compat(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (0 == game.server.saveversion) {
-    /* set to current save file format */
-    version = current_version;
-  } else {
-    version = game.server.saveversion;
-  }
-
-  sg_failure_ret(saveversion_name(version) != NULL && version != -1,
+  sg_failure_ret(saveversion_name(game.server.saveversion) != NULL,
                  "Unknown savefile format version.");
 
-  for (i = current_version; i >= version; i--) {
-    if (compat[i].save != NULL) {
+  if (0 == game.server.saveversion) {
+    /* A value of zero is set to current save file format */
+    version = compat[compat_current].version;
+  } else {
+    version = compat[game.server.saveversion].version;
+  }
+
+  for (i = compat_current; i >= 0; i--) {
+    if (compat[i].version > version && compat[i].save != NULL) {
+      log_normal(_("Run compatibility function for version: <%d "
+                   "(want: %d, server: %d)."), compat[i].version,
+                 version, compat[compat_current].version);
       compat[i].save(saving);
     }
   }
 
   /* update version information */
-  secfile_insert_int(saving->file, version, "savefile.version");
+  secfile_replace_int(saving->file, version, "savefile.version");
 }
