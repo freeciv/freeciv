@@ -124,16 +124,26 @@ static void close_socket_nomessage(struct connection *pc)
   set_client_state(C_S_DISCONNECTED);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static void close_socket_callback(struct connection *pc)
+/****************************************************************************
+  Client connection close socket callback. It shouldn't be called directy.
+  Use connection_close() instead.
+****************************************************************************/
+static void client_conn_close_callback(struct connection *pconn)
 {
-  close_socket_nomessage(pc);
-  /* If we lost connection to the internal server - kill him */
+  char reason[256];
+
+  if (NULL != pconn->closing_reason) {
+    fc_strlcpy(reason, pconn->closing_reason, sizeof(reason));
+  } else {
+    fc_strlcpy(reason, _("unknown reason"), sizeof(reason));
+  }
+
+  close_socket_nomessage(pconn);
+  /* If we lost connection to the internal server - kill it. */
   client_kill_server(TRUE);
-  log_error("Lost connection to server!");
-  output_window_append(ftc_client, _("Lost connection to server!"));
+  log_error("Lost connection to server: %s.", reason);
+  output_window_printf(ftc_client, _("Lost connection to server (%s)!"),
+                       reason);
   if (with_ggz) {
     client_exit();
   }
@@ -178,7 +188,7 @@ static int get_server_address(const char *hostname, int port,
 **************************************************************************/
 static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
-  close_socket_set_callback(close_socket_callback);
+  connections_set_close_callback(client_conn_close_callback);
 
   /* connection in progress? wait. */
   if (client.conn.used) {
@@ -283,23 +293,24 @@ void disconnect_from_server(void)
   }
 }  
 
-/**************************************************************************
-A wrapper around read_socket_data() which also handles the case the
-socket becomes writeable and there is still data which should be sent
-to the server.
+/****************************************************************************
+  A wrapper around read_socket_data() which also handles the case the
+  socket becomes writeable and there is still data which should be sent
+  to the server.
 
 Returns:
     -1  :  an error occurred - you should close the socket
+    -2  :  the connection was closed
     >0  :  number of bytes read
     =0  :  no data read, would block
-**************************************************************************/
+****************************************************************************/
 static int read_from_connection(struct connection *pc, bool block)
 {
   for (;;) {
     fd_set readfs, writefs, exceptfs;
     int socket_fd = pc->sock;
     bool have_data_for_server = (pc->used && pc->send_buffer
-				&& pc->send_buffer->ndata > 0);
+                                 && 0 < pc->send_buffer->ndata);
     int n;
     struct timeval tv;
 
@@ -315,17 +326,15 @@ static int read_from_connection(struct connection *pc, bool block)
     if (have_data_for_server) {
       FC_FD_ZERO(&writefs);
       FD_SET(socket_fd, &writefs);
-      n =
-	  fc_select(socket_fd + 1, &readfs, &writefs, &exceptfs,
-		    block ? NULL : &tv);
+      n = fc_select(socket_fd + 1, &readfs, &writefs, &exceptfs,
+                    block ? NULL : &tv);
     } else {
-      n =
-	  fc_select(socket_fd + 1, &readfs, NULL, &exceptfs,
-		    block ? NULL : &tv);
+      n = fc_select(socket_fd + 1, &readfs, NULL, &exceptfs,
+                    block ? NULL : &tv);
     }
 
     /* the socket is neither readable, writeable nor got an
-       exception */
+     * exception */
     if (n == 0) {
       return 0;
     }
@@ -363,9 +372,12 @@ static int read_from_connection(struct connection *pc, bool block)
 **************************************************************************/
 void input_from_server(int fd)
 {
+  int nb;
+
   fc_assert_ret(fd == client.conn.sock);
 
-  if (read_from_connection(&client.conn, FALSE) >= 0) {
+  nb = read_from_connection(&client.conn, FALSE);
+  if (0 <= nb) {
     enum packet_type type;
 
     agents_freeze_hint();
@@ -386,8 +398,10 @@ void input_from_server(int fd)
     if (client.conn.used) {
       agents_thaw_hint();
     }
+  } else if (-2 == nb) {
+    connection_close(&client.conn, _("server disconnected"));
   } else {
-    close_socket_callback(&client.conn);
+    connection_close(&client.conn, _("read error"));
   }
 }
 
@@ -407,7 +421,9 @@ void input_from_server_till_request_got_processed(int fd,
             "expected_request_id=%d)", expected_request_id);
 
   while (TRUE) {
-    if (read_from_connection(&client.conn, TRUE) >= 0) {
+    int nb = read_from_connection(&client.conn, TRUE);
+
+    if (0 <= nb) {
       enum packet_type type;
 
       while (TRUE) {
@@ -434,8 +450,11 @@ void input_from_server_till_request_got_processed(int fd,
 	  }
 	}
       }
+    } else if (-2 == nb) {
+      connection_close(&client.conn, _("server disconnected"));
+      break;
     } else {
-      close_socket_callback(&client.conn);
+      connection_close(&client.conn, _("read error"));
       break;
     }
   }

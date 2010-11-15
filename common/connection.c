@@ -48,45 +48,56 @@
 #include "connection.h"
 
 
-static void generic_close_callback(struct connection *pconn);
+static void default_conn_close_callback(struct connection *pconn);
 
 /* String used for connection.addr and related cases to indicate
  * blank/unknown/not-applicable address:
  */
 const char blank_addr_str[] = "---.---.---.---";
 
-/**************************************************************************
+/****************************************************************************
   This callback is used when an error occurs trying to write to the
-  connection.  The effect of the callback should be to close the
-  connection.  This is here so that the server and client can take
-  appropriate (different) actions: server lost a client, client lost
-  connection to server.
-**************************************************************************/
-static conn_close_fn_t close_callback = generic_close_callback;
+  connection. The effect of the callback should be to close the connection.
+  This is here so that the server and client can take appropriate
+  (different) actions: server lost a client, client lost connection to
+  server. Never attempt to call this function directly, call
+  connection_close() instead.
+****************************************************************************/
+static conn_close_fn_t conn_close_callback = default_conn_close_callback;
 
-/**************************************************************************
+/****************************************************************************
   Default 'conn_close_fn_t' to close a connection.
-**************************************************************************/
-static void generic_close_callback(struct connection *pconn)
+****************************************************************************/
+static void default_conn_close_callback(struct connection *pconn)
 {
-  /* Do nothing. */
+  fc_assert_msg(conn_close_callback != default_conn_close_callback,
+                "Closing a socket (%s) before calling "
+                "close_socket_set_callback().", conn_description(pconn));
 }
 
-/**************************************************************************
-  Register the close_callback:
-**************************************************************************/
-void close_socket_set_callback(conn_close_fn_t fun)
+/****************************************************************************
+  Register the close_callback.
+****************************************************************************/
+void connections_set_close_callback(conn_close_fn_t func)
 {
-  close_callback = fun;
+  conn_close_callback = func;
 }
 
-/**************************************************************************
-  Return the the close_callback.
-**************************************************************************/
-conn_close_fn_t close_socket_get_callback(void)
+/****************************************************************************
+  Call the conn_close_callback.
+****************************************************************************/
+void connection_close(struct connection *pconn, const char *reason)
 {
-  return close_callback;
+  fc_assert_ret(NULL != pconn);
+
+  if (NULL != reason && NULL == pconn->closing_reason) {
+    /* NB: we don't overwrite the original reason. */
+    pconn->closing_reason = fc_strdup(reason);
+  }
+
+  (*conn_close_callback) (pconn);
 }
+
 
 /**************************************************************************
 ...
@@ -111,6 +122,7 @@ static bool buffer_ensure_free_extra_space(struct socket_packet_buffer *buf,
   Read data from socket, and check if a packet is ready.
   Returns:
     -1  :  an error occurred - you should close the socket
+    -2  :  the connection was closed
     >0  :  number of bytes read
     =0  :  non-blocking sockets only; no data read, would block
 **************************************************************************/
@@ -134,7 +146,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
   }
   else if (didget == 0) {
     log_debug("EOF on socket read");
-    return -1;
+    return -2;
   }
 #ifdef NONBLOCKING_SOCKETS
   else if (errno == EWOULDBLOCK || errno == EAGAIN) {
@@ -179,7 +191,7 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
-      (*close_callback) (pc);
+      connection_close(pc, _("network exception"));
       return -1;
     }
 
@@ -193,7 +205,7 @@ static int write_socket_data(struct connection *pc,
 	  break;
 	}
 #endif
-        (*close_callback)(pc);
+        connection_close(pc, _("lagging connection"));
         return -1;
       }
       start += nput;
@@ -255,7 +267,7 @@ static bool add_connection_data(struct connection *pconn,
   buf = pconn->send_buffer;
   log_debug("add %d bytes to %d (space =%d)", len, buf->ndata, buf->nsize);
   if (!buffer_ensure_free_extra_space(buf, len)) {
-    (*close_callback) (pconn);
+    connection_close(pconn, _("buffer overflow"));
     return FALSE;
   }
 
@@ -280,16 +292,16 @@ bool connection_send_data(struct connection *pconn,
   if (0 < pconn->send_buffer->do_buffer_sends) {
     flush_connection_send_buffer_packets(pconn);
     if (!add_connection_data(pconn, data, len)) {
-      log_error("cut connection %s due to huge send buffer (1)",
-                conn_description(pconn));
+      log_verbose("cut connection %s due to huge send buffer (1)",
+                  conn_description(pconn));
       return FALSE;
     }
     flush_connection_send_buffer_packets(pconn);
   } else {
     flush_connection_send_buffer_all(pconn);
     if (!add_connection_data(pconn, data, len)) {
-      log_error("cut connection %s due to huge send buffer (2)",
-                conn_description(pconn));
+      log_verbose("cut connection %s due to huge send buffer (2)",
+                  conn_description(pconn));
       return FALSE;
     }
     flush_connection_send_buffer_all(pconn);
@@ -452,7 +464,10 @@ const char *conn_description(const struct connection *pconn)
   } else {
     sz_strlcpy(buffer, "server");
   }
-  if (!pconn->established) {
+  if (NULL != pconn->closing_reason) {
+    /* TRANS: Appending the reason why a connection has closed. */
+    cat_snprintf(buffer, sizeof(buffer), _(" (%s)"), pconn->closing_reason);
+  } else if (!pconn->established) {
     sz_strlcat(buffer, _(" (connection incomplete)"));
     return buffer;
   }
@@ -567,6 +582,7 @@ void connection_common_init(struct connection *pconn)
 {
   pconn->established = FALSE;
   pconn->used = TRUE;
+  pconn->closing_reason = NULL;
   pconn->last_write = NULL;
   pconn->buffer = new_socket_packet_buffer();
   pconn->send_buffer = new_socket_packet_buffer();
@@ -591,6 +607,9 @@ void connection_common_close(struct connection *pconn)
     fc_closesocket(pconn->sock);
     pconn->used = FALSE;
     pconn->established = FALSE;
+    if (NULL != pconn->closing_reason) {
+      free(pconn->closing_reason);
+    }
 
     free_socket_packet_buffer(pconn->buffer);
     pconn->buffer = NULL;

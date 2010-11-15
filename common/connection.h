@@ -123,6 +123,7 @@ struct connection {
   int sock;
   bool used;
   bool established;		/* have negotiated initial packets */
+  char *closing_reason;
 
   /* connection is "observer", not controller; may be observing
    * specific player, or all (implementation incomplete).
@@ -255,9 +256,9 @@ struct connection {
 };
 
 
-typedef void (*conn_close_fn_t) (struct connection *pc);
-void close_socket_set_callback(conn_close_fn_t func);
-conn_close_fn_t close_socket_get_callback(void);
+typedef void (*conn_close_fn_t) (struct connection *pconn);
+void connections_set_close_callback(conn_close_fn_t func);
+void connection_close(struct connection *pconn, const char *reason);
 
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 void flush_connection_send_buffer_all(struct connection *pc);

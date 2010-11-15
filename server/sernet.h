@@ -34,8 +34,7 @@ void flush_packets(void);
 void close_connections_and_socket(void);
 void init_connections(void);
 int server_make_connection(int new_sock,
-			   const char *client_addr, const char *client_ip);
-void server_break_connection(struct connection *pconn);
+                           const char *client_addr, const char *client_ip);
 void handle_conn_pong(struct connection *pconn);
 
 #endif  /* FC__SERNET_H */
