@@ -193,6 +193,82 @@ void astr_break_lines(struct astring *astr, size_t desired_len)
 }
 
 /****************************************************************************
+  Build a localized string with the given items. Items will be
+  "or"-separated.
+
+  See also astr_build_and_list(), strvec_to_or_list().
+****************************************************************************/
+const char *astr_build_or_list(struct astring *astr,
+                               const char *const *items, size_t number)
+{
+  fc_assert_ret_val(NULL != astr, NULL);
+  fc_assert_ret_val(0 < number, NULL);
+  fc_assert_ret_val(NULL != items, NULL);
+
+  if (1 == number) {
+    /* TRANS: "or"-separated string list with one single item. */
+    astr_set(astr, Q_("?or-list-single:%s"), *items);
+  } else if (2 == number) {
+    /* TRANS: "or"-separated string list with 2 items. */
+    astr_set(astr, Q_("?or-list:%s or %s"), items[0], items[1]);
+  } else {
+    /* Estimate the space we need. */
+    astr_reserve(astr, number * 64);
+    /* TRANS: start of the a "or"-separated string list with more than two
+     * items. */
+    astr_set(astr, Q_("?or-list:%s"), *items++);
+    while (1 < --number) {
+      /* TRANS: next elements of a "or"-separated string list with more
+       * than two items. */
+      astr_add(astr, Q_("?or-list:, %s"), *items++);
+    }
+    /* TRANS: end of the a "or"-separated string list with more than two
+     * items. */
+    astr_add(astr, Q_("?or-list:, or %s"), *items);
+  }
+
+  return astr->str;
+}
+
+/****************************************************************************
+  Build a localized string with the given items. Items will be
+  "and"-separated.
+
+  See also astr_build_or_list(), strvec_to_and_list().
+****************************************************************************/
+const char *astr_build_and_list(struct astring *astr,
+                                const char *const *items, size_t number)
+{
+  fc_assert_ret_val(NULL != astr, NULL);
+  fc_assert_ret_val(0 < number, NULL);
+  fc_assert_ret_val(NULL != items, NULL);
+
+  if (1 == number) {
+    /* TRANS: "and"-separated string list with one single item. */
+    astr_set(astr, Q_("?and-list-single:%s"), *items);
+  } else if (2 == number) {
+    /* TRANS: "and"-separated string list with 2 items. */
+    astr_set(astr, Q_("?and-list:%s and %s"), items[0], items[1]);
+  } else {
+    /* Estimate the space we need. */
+    astr_reserve(astr, number * 64);
+    /* TRANS: start of the a "and"-separated string list with more than two
+     * items. */
+    astr_set(astr, Q_("?and-list:%s"), *items++);
+    while (1 < --number) {
+      /* TRANS: next elements of a "and"-separated string list with more
+       * than two items. */
+      astr_add(astr, Q_("?and-list:, %s"), *items++);
+    }
+    /* TRANS: end of the a "and"-separated string list with more than two
+     * items. */
+    astr_add(astr, Q_("?and-list:, and %s"), *items);
+  }
+
+  return astr->str;
+}
+
+/****************************************************************************
   Copy one astring in another.
 ****************************************************************************/
 void astr_copy(struct astring *dest, const struct astring *src)

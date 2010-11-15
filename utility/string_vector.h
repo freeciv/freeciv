@@ -15,6 +15,9 @@
 
 #include "support.h"            /* bool type. */
 
+struct astring;
+
+
 struct strvec;                  /* Opaque. */
 
 struct strvec *strvec_new(void);
@@ -43,6 +46,10 @@ bool strvec_index_valid(const struct strvec *psv, size_t index);
 const char *strvec_get(const struct strvec *psv, size_t index);
 void strvec_to_str(const struct strvec *psv, char separator,
                    char *buf, size_t buf_len);
+const char *strvec_to_or_list(const struct strvec *psv,
+                              struct astring *astr);
+const char *strvec_to_and_list(const struct strvec *psv,
+                               struct astring *astr);
 
 /* Iteration macro. */
 #define strvec_iterate(psv, str) \
