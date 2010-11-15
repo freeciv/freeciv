@@ -1446,7 +1446,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
        * Use send_connection_data instead of send_packet_data to avoid
        * compression.
        */
-      send_connection_data(pconn, buffer, size);
+      connection_send_data(pconn, buffer, size);
     }
 
     return FALSE;

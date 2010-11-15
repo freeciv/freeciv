@@ -74,7 +74,8 @@ void conn_set_access(struct connection *pconn, enum cmdlevel new_level,
     pconn->server.granted_access_level = new_level;
   }
 
-  if (ALLOW_HACK == old_level || ALLOW_HACK == new_level) {
+  if (old_level != new_level
+      && (ALLOW_HACK == old_level || ALLOW_HACK == new_level)) {
     send_server_hack_level_settings(pconn->self);
   }
 }
@@ -378,26 +379,22 @@ bool handle_login_request(struct connection *pconn,
   }
 }
 
-/**************************************************************************
+/****************************************************************************
   High-level server stuff when connection to client is closed or lost.
   Reports loss to log, and to other players if the connection was a
-  player.  Also removes player in pregame, applies auto_toggle, and
+  player. Also removes player in pregame, applies auto_toggle, and
   does check for turn done (since can depend on connection/ai status).
-  Note caller should also call close_connection() after this, to do
-  lower-level close stuff.
-**************************************************************************/
+  Note you shouldn't this function directly. You should use
+  server_break_connection() if you want to close the connection.
+****************************************************************************/
 void lost_connection_to_client(struct connection *pconn)
 {
   const char *desc = conn_description(pconn);
 
+  fc_assert_ret(TRUE == pconn->server.is_closing);
+
   log_normal(_("Lost connection: %s."), desc);
 
-  /* _Must_ avoid sending to pconn, in case pconn connection is
-   * really lost (as opposed to server shutting it down) which would
-   * trigger an error on send and recurse back to here.
-   * Safe to unlink even if not in list: */
-  conn_list_remove(game.est_connections, pconn);
-  delayed_disconnect++;
   /* Special color (white on black) for player loss */
   notify_conn(game.est_connections, NULL, E_CONNECTION,
               conn_controls_player(pconn) ? ftc_player_lost : ftc_server,
@@ -408,8 +405,6 @@ void lost_connection_to_client(struct connection *pconn)
   notify_if_first_access_level_is_available();
 
   check_for_full_turn_done();
-
-  delayed_disconnect--;
 }
 
 /**************************************************************************
