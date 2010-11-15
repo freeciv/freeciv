@@ -20,6 +20,7 @@
 #include <string.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "rand.h"
@@ -540,13 +541,13 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     break;
   case AB_NOT_BUILD_UNIT:
     {
-      const char *us = role_units_translations(F_CITIES, TRUE);
-      if (us) {
+      struct astring astr = ASTRING_INIT;
+
+      if (role_units_translations(&astr, F_CITIES, TRUE)) {
         notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
-                      _("Only %s can build a city."),
-                      us);
-        free((void *) us);
+                      _("Only %s can build a city."), astr_str(&astr));
+        astr_free(&astr);
       } else {
         notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                       _("Can't build a city."));
@@ -555,13 +556,13 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     break;
   case AB_NOT_ADDABLE_UNIT:
     {
-      const char *us = role_units_translations(F_ADD_TO_CITY, TRUE);
-      if (us) {
+      struct astring astr = ASTRING_INIT;
+
+      if (role_units_translations(&astr, F_ADD_TO_CITY, TRUE)) {
         notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
-                      _("Only %s can add to a city."),
-                      us);
-        free((void *) us);
+                      _("Only %s can add to a city."), astr_str(&astr));
+        astr_free(&astr);
       } else {
         notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                       _("Can't add to a city."));
@@ -1168,20 +1169,20 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     break;
 
   case MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA:
-  {
-    const char *units_str = role_units_translations(F_MARINES, TRUE);
-    if (units_str) {
-      notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                    /* TRANS: %s is list of units separated by "or". */
-                    _("Only %s can attack from sea."),
-                    units_str);
-      free((void *) units_str);
-    } else {
-      notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
-                    _("Cannot attack from sea."));
+    {
+      struct astring astr = ASTRING_INIT;
+
+      if (role_units_translations(&astr, F_MARINES, TRUE)) {
+        notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
+                      /* TRANS: %s is list of units separated by "or". */
+                      _("Only %s can attack from sea."), astr_str(&astr));
+        astr_free(&astr);
+      } else {
+        notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
+                      _("Cannot attack from sea."));
+      }
     }
     break;
-  }
 
   case MR_NO_WAR:
     notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,

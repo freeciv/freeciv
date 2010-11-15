@@ -21,6 +21,7 @@
 #include "fc_types.h"
 #include "name_translation.h"
 
+struct astring;         /* Actually defined in "utility/astring.h". */
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 #define U_LAST MAX_NUM_ITEMS
@@ -310,7 +311,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
 					    int role);
 struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 					     int role);
-const char *role_units_translations(int flag, bool alts);
+bool role_units_translations(struct astring *astr, int flag, bool alts);
 
 /* General unit class routines */
 Unit_Class_id uclass_count(void);

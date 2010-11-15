@@ -425,59 +425,40 @@ const char *uclass_rule_name(const struct unit_class *pclass)
   return rule_name(&pclass->name);
 }
 
-/**************************************************************************
- Return a string with all the names of units with this flag
- If "alts" is set, separate with "or", otherwise "and".
- Return NULL if no unit with this flag exists.
- The string must be free'd
-
- TODO: if there are more than 4 units with this flag return
-       a fallback string (e.g. first unit name + "and similar units"
-**************************************************************************/
-const char *role_units_translations(int flag, bool alts)
+/****************************************************************************
+  Return a string with all the names of units with this flag. If "alts" is
+  set, separate with "or", otherwise "and". Return FALSE if no unit with
+  this flag exists.
+****************************************************************************/
+bool role_units_translations(struct astring *astr, int flag, bool alts)
 {
-  int count = num_role_units(flag);
+  const int count = num_role_units(flag);
 
-  if (count == 1) {
-    return fc_strdup(utype_name_translation(get_role_unit(flag, 0)));
-  }
-
-  if (count > 0) {
-    struct astring astr = ASTRING_INIT;
-
-    while ((count--) > 0) {
-      struct unit_type *u = get_role_unit(flag, count);
-      const char *unitname = utype_name_translation(u);
-
-      /* there should be something like astr_append() */
-      astr_add(&astr, "%s", unitname);
-
-      if (count == 1) {
-        if (alts) {
-          /* TRANS: List of units has this between last two elements */
-          astr_add(&astr, "%s", _(" or "));
-        } else {
-          /* TRANS: List of units has this between last two elements */
-          astr_add(&astr, "%s", _(" and "));
-        }
-      } else {
-        if (count != 0) {
-          if (alts) {
-            /* TRANS: List of units has this between all pairs of elements
-             * except last two */
-            astr_add(&astr, "%s", Q_("?or:, "));
-          } else {
-            /* TRANS: List of units has this between all pairs of elements
-             * except last two */
-            astr_add(&astr, "%s", Q_("?and:, "));
-          }
-        } else {
-          return astr_str(&astr);
-        }
-      }
+  if (4 < count) {
+    if (alts) {
+      astr_set(astr, _("%s or similar units"),
+               utype_name_translation(get_role_unit(flag, 0)));
+    } else {
+      astr_set(astr, _("%s and similar units"),
+               utype_name_translation(get_role_unit(flag, 0)));
     }
+    return TRUE;
+  } else if (0 < count) {
+    const char *vec[count];
+    int i;
+
+    for (i = 0; i < count; i++) {
+      vec[i] = utype_name_translation(get_role_unit(flag, i));
+    }
+
+    if (alts) {
+      astr_build_or_list(astr, vec, count);
+    } else {
+      astr_build_and_list(astr, vec, count);
+    }
+    return TRUE;
   }
-  return NULL;
+  return FALSE;
 }
 
 /**************************************************************************
