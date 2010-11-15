@@ -17,6 +17,8 @@
 #include <stdlib.h>             /* qsort() */
 #include <string.h>
 
+/* utility */
+#include "astring.h"
 #include "mem.h"
 #include "shared.h"
 #include "support.h"
@@ -394,4 +396,30 @@ void strvec_to_str(const struct strvec *psv, char separator,
   } strvec_iterate_end;
 
   buf[0] = '\0';
+}
+
+/****************************************************************************
+  Build a localized string with the elements of the string vector. Elements
+  will be "or"-separated.
+
+  See also astr_build_or_list(), strvec_to_and_list().
+****************************************************************************/
+const char *strvec_to_or_list(const struct strvec *psv,
+                              struct astring *astr)
+{
+  fc_assert_ret_val(NULL != psv, NULL);
+  return astr_build_or_list(astr, (const char **) psv->vec, psv->size);
+}
+
+/****************************************************************************
+  Build a localized string with the elements of the string vector. Elements
+  will be "and"-separated.
+
+  See also astr_build_and_list(), strvec_to_or_list().
+****************************************************************************/
+const char *strvec_to_and_list(const struct strvec *psv,
+                               struct astring *astr)
+{
+  fc_assert_ret_val(NULL != psv, NULL);
+  return astr_build_and_list(astr, (const char **) psv->vec, psv->size);
 }
