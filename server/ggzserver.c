@@ -182,8 +182,7 @@ static void handle_ggz_seat_event(GGZdMod *ggz, GGZdModEvent event,
     if (leaving) {
       log_debug("%s is leaving.", old_seat->name);
       leaving->sock = -1;
-      lost_connection_to_client(leaving);
-      close_connection(leaving);
+      server_break_connection(leaving);
     } else {
       log_error("Couldn't match player %s.", old_seat->name);
     }

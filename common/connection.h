@@ -155,12 +155,6 @@ struct connection {
    */
   enum cmdlevel access_level;
 
-  /* 
-   * Something has occurred that means the connection should be
-   * closed, but the closing has been postponed. 
-   */
-  bool delayed_disconnect;
-
   void (*notify_of_writable_data) (struct connection * pc,
                                    bool data_available_and_socket_full);
 
@@ -220,6 +214,10 @@ struct connection {
 
     /* The list of ignored connection patterns. */
     struct conn_pattern_list *ignore_list;
+
+    /* Something has occurred that means the connection should be closed,
+     * but the closing has been postponed. */
+    bool is_closing;
   } server;
 
   /*
@@ -257,14 +255,14 @@ struct connection {
 };
 
 
-typedef void (*CLOSE_FUN) (struct connection *pc);
-void close_socket_set_callback(CLOSE_FUN fun);
-CLOSE_FUN close_socket_get_callback(void);
+typedef void (*conn_close_fn_t) (struct connection *pc);
+void close_socket_set_callback(conn_close_fn_t func);
+conn_close_fn_t close_socket_get_callback(void);
 
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 void flush_connection_send_buffer_all(struct connection *pc);
-void send_connection_data(struct connection *pc, const unsigned char *data,
-			  int len);
+bool connection_send_data(struct connection *pconn,
+                          const unsigned char *data, int len);
 
 void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
@@ -304,7 +302,6 @@ int get_next_request_id(int old_request_id);
 
 extern const char blank_addr_str[];
 
-extern int delayed_disconnect;
 
 /* Connection patterns. */
 struct conn_pattern;

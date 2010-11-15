@@ -4404,8 +4404,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	    _("Cutting connection %s."), ptarget->username);
-  lost_connection_to_client(ptarget);
-  close_connection(ptarget);
+  server_break_connection(ptarget);
 
   /* if we cut the connection, unassign the login name */
   if (pplayer && was_connected && !pplayer->is_connected) {

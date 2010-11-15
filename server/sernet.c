@@ -193,18 +193,16 @@ static void handle_readline_input_callback(char *line)
 
   readline_handled_input = TRUE;
 }
-
 #endif /* HAVE_LIBREADLINE */
-/*****************************************************************************
-...
-*****************************************************************************/
-void close_connection(struct connection *pconn)
+
+/****************************************************************************
+  Close the connection (very low-level). See also server_break_connection.
+****************************************************************************/
+static void close_connection(struct connection *pconn)
 {
   if (!pconn) {
     return;
   }
-
-  cancel_connection_votes(pconn);
 
   if (pconn->server.ping_timers != NULL) {
     timer_list_iterate(pconn->server.ping_timers, timer) {
@@ -263,16 +261,50 @@ void close_connections_and_socket(void)
   fc_shutdown_network();
 }
 
-/*****************************************************************************
-  Used for errors and other strangeness.  As well as some direct uses, is
-  passed to packet routines as callback for when packet sending has a write
-  error.  Closes the connection cleanly, calling lost_connection_to_client()
-  to clean up server variables, notify other clients, etc.
-*****************************************************************************/
-static void close_socket_callback(struct connection *pc)
+/****************************************************************************
+  Now really close connections marked as 'is_closing'.
+  Do this here to avoid recursive sending.
+****************************************************************************/
+static void really_close_connections(void)
 {
-  lost_connection_to_client(pc);
-  close_connection(pc);
+  struct connection *closing[MAX_NUM_CONNECTIONS];
+  struct connection *pconn;
+  int i, num;
+
+  do {
+    num = 0;
+
+    for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
+      pconn = connections + i;
+      if (pconn->used && pconn->server.is_closing) {
+        closing[num++] = pconn;
+        /* Remove closing connections from the lists (hard detach)
+         * to avoid sending to closing connections. */
+        conn_list_remove(game.est_connections, pconn);
+        conn_list_remove(game.all_connections, pconn);
+        if (NULL != conn_get_player(pconn)) {
+          conn_list_remove(conn_get_player(pconn)->connections, pconn);
+        }
+      }
+    }
+
+    for (i = 0; i < num; i++) {
+      /* Now really close them. */
+      pconn = closing[i];
+      lost_connection_to_client(pconn);
+      close_connection(pconn);
+    }
+  } while (0 < num); /* May some errors occured, let's check. */
+}
+
+/****************************************************************************
+  Break a client connection. You should almost always use this function
+  instead of calling server_close_socket_callback directly.
+****************************************************************************/
+void server_break_connection(struct connection *pconn)
+{
+  /* Do as little as possible here to avoid recursive evil. */
+  pconn->server.is_closing = TRUE;
 }
 
 /****************************************************************************
@@ -281,7 +313,8 @@ static void close_socket_callback(struct connection *pc)
 ****************************************************************************/
 static void cut_lagging_connection(struct connection *pconn)
 {
-  if (game.server.tcptimeout != 0
+  if (!pconn->server.is_closing
+      && game.server.tcptimeout != 0
       && pconn->last_write
       && conn_list_size(game.all_connections) > 1
       && pconn->access_level != ALLOW_HACK
@@ -295,7 +328,7 @@ static void cut_lagging_connection(struct connection *pconn)
      * disconnected and reconnect. */
     log_error("connection (%s) cut due to lagging player",
               conn_description(pconn));
-    close_socket_callback(pconn);
+    server_break_connection(pconn);
   }
 }
 
@@ -326,7 +359,9 @@ void flush_packets(void)
 
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       struct connection *pconn = &connections[i];
-      if(pconn->used && pconn->send_buffer->ndata > 0) {
+      if (pconn->used
+          && !pconn->server.is_closing
+          && 0 < pconn->send_buffer->ndata) {
 	FD_SET(pconn->sock, &writefs);
 	FD_SET(pconn->sock, &exceptfs);
 	max_desc=MAX(pconn->sock, max_desc);
@@ -343,11 +378,11 @@ void flush_packets(void)
 
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {   /* check for freaky players */
       struct connection *pconn = &connections[i];
-      if(pconn->used) {
+      if (pconn->used && !pconn->server.is_closing) {
         if(FD_ISSET(pconn->sock, &exceptfs)) {
           log_error("connection (%s) cut due to exception data",
                     conn_description(pconn));
-          close_socket_callback(pconn);
+          server_break_connection(pconn);
         } else {
 	  if(pconn->send_buffer && pconn->send_buffer->ndata > 0) {
 	    if(FD_ISSET(pconn->sock, &writefs)) {
@@ -418,7 +453,7 @@ static void incoming_client_packets(struct connection *pconn)
 #endif
 
     if (!command_ok) {
-      close_connection(pconn);
+      server_break_connection(pconn);
     }
   }
 
@@ -507,10 +542,6 @@ enum server_events server_sniff_all_input(void)
 
             set_server_state(S_S_OVER);
             force_end_of_sniff = TRUE;
-            conn_list_iterate(game.est_connections, pconn) {
-              lost_connection_to_client(pconn);
-              close_connection(pconn);
-            } conn_list_iterate_end;
 
 	    if (srvarg.exit_on_end) {
 	      /* No need for anything more; just quit. */
@@ -540,7 +571,8 @@ enum server_events server_sniff_all_input(void)
       send_ping_times_to_all();
 
       conn_list_iterate(game.all_connections, pconn) {
-	if ((timer_list_size(pconn->server.ping_timers) > 0
+        if ((!pconn->server.is_closing
+             && 0 < timer_list_size(pconn->server.ping_timers)
 	     && read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
 	        > game.server.pingtimeout) 
             || pconn->ping_time > game.server.pingtimeout) {
@@ -551,7 +583,7 @@ enum server_events server_sniff_all_input(void)
           } else {
             log_error("connection (%s) cut due to ping timeout",
                       conn_description(pconn));
-            close_socket_callback(pconn);
+            server_break_connection(pconn);
 	  }
         } else {
           connection_ping(pconn);
@@ -562,7 +594,9 @@ enum server_events server_sniff_all_input(void)
 
     /* if we've waited long enough after a failure, respond to the client */
     conn_list_iterate(game.all_connections, pconn) {
-      if (srvarg.auth_enabled && pconn->server.status != AS_ESTABLISHED) {
+      if (srvarg.auth_enabled
+          && !pconn->server.is_closing
+          && pconn->server.status != AS_ESTABLISHED) {
         process_authentication_status(pconn);
       }
     } conn_list_iterate_end
@@ -604,13 +638,14 @@ enum server_events server_sniff_all_input(void)
     }
 
     for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
-      if (connections[i].used) {
-	FD_SET(connections[i].sock, &readfs);
-	if(connections[i].send_buffer->ndata > 0) {
-	  FD_SET(connections[i].sock, &writefs);
-	}
-	FD_SET(connections[i].sock, &exceptfs);
-        max_desc = MAX(connections[i].sock, max_desc);
+      struct connection *pconn = connections + i;
+      if (pconn->used && !pconn->server.is_closing) {
+        FD_SET(pconn->sock, &readfs);
+        if (0 < pconn->send_buffer->ndata) {
+          FD_SET(pconn->sock, &writefs);
+        }
+        FD_SET(pconn->sock, &exceptfs);
+        max_desc = MAX(pconn->sock, max_desc);
       }
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
@@ -652,7 +687,8 @@ enum server_events server_sniff_all_input(void)
 	}
 #else  /* !__VMS */
 #ifndef SOCKET_ZERO_ISNT_STDIN
-      continue;
+        really_close_connections();
+        continue;
 #endif /* SOCKET_ZERO_ISNT_STDIN */
 #endif /* !__VMS */
       }
@@ -677,10 +713,12 @@ enum server_events server_sniff_all_input(void)
       /* check for freaky players */
       struct connection *pconn = &connections[i];
 
-      if (pconn->used && FD_ISSET(pconn->sock, &exceptfs)) {
+      if (pconn->used
+          && !pconn->server.is_closing
+          && FD_ISSET(pconn->sock, &exceptfs)) {
         log_error("connection (%s) cut due to exception data",
                   conn_description(pconn));
-	close_socket_callback(pconn);
+        server_break_connection(pconn);
       }
     }
 #ifdef GGZ_SERVER
@@ -756,23 +794,27 @@ enum server_events server_sniff_all_input(void)
       for(i = 0; i < MAX_NUM_CONNECTIONS; i++) {
   	struct connection *pconn = &connections[i];
 
-        if (!pconn->used || !FD_ISSET(pconn->sock, &readfs)) {
+        if (!pconn->used
+            || pconn->server.is_closing
+            || !FD_ISSET(pconn->sock, &readfs)) {
           continue;
 	}
 
         if (read_socket_data(pconn->sock, pconn->buffer) >= 0) {
           /* We read packets; now handle them. */
           incoming_client_packets(pconn);
-	} else {
+        } else {
           /* Read failure; the connection is closed. */
-	  close_socket_callback(pconn);
-	}
+          server_break_connection(pconn);
+        }
       }
 
       for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
         struct connection *pconn = &connections[i];
 
-        if (pconn->used && pconn->send_buffer
+        if (pconn->used
+            && !pconn->server.is_closing
+            && pconn->send_buffer
 	    && pconn->send_buffer->ndata > 0) {
 	  if (FD_ISSET(pconn->sock, &writefs)) {
 	    flush_connection_send_buffer_all(pconn);
@@ -782,6 +824,7 @@ enum server_events server_sniff_all_input(void)
         }
       }
     }
+    really_close_connections();
     break;
   }
   con_prompt_off();
@@ -924,7 +967,6 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       pconn->playing = NULL;
       pconn->capability[0] = '\0';
       pconn->access_level = access_level_for_next_connection();
-      pconn->delayed_disconnect = FALSE;
       pconn->notify_of_writable_data = NULL;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
@@ -935,6 +977,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       pconn->server.granted_access_level = pconn->access_level;
       pconn->server.ignore_list =
           conn_pattern_list_new_full(conn_pattern_destroy);
+      pconn->server.is_closing = FALSE;
       pconn->ping_time = -1.0;
       pconn->incoming_packet_notify = NULL;
       pconn->outgoing_packet_notify = NULL;
@@ -1108,7 +1151,7 @@ int server_open_socket(void)
     }
   }
 
-  close_socket_set_callback(close_socket_callback);
+  close_socket_set_callback(server_break_connection);
 
   return 0;
 }

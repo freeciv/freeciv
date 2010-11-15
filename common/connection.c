@@ -47,17 +47,13 @@
 
 #include "connection.h"
 
+
+static void generic_close_callback(struct connection *pconn);
+
 /* String used for connection.addr and related cases to indicate
  * blank/unknown/not-applicable address:
  */
 const char blank_addr_str[] = "---.---.---.---";
-
-/* This is only used by the server.
-   If it is set the disconnection of conns is posponed. This is sometimes
-   neccesary as removing a random connection while we are iterating through
-   a connection list might corrupt the list. */
-int delayed_disconnect = 0;
-
 
 /**************************************************************************
   This callback is used when an error occurs trying to write to the
@@ -66,12 +62,20 @@ int delayed_disconnect = 0;
   appropriate (different) actions: server lost a client, client lost
   connection to server.
 **************************************************************************/
-static CLOSE_FUN close_callback;
+static conn_close_fn_t close_callback = generic_close_callback;
+
+/**************************************************************************
+  Default 'conn_close_fn_t' to close a connection.
+**************************************************************************/
+static void generic_close_callback(struct connection *pconn)
+{
+  /* Do nothing. */
+}
 
 /**************************************************************************
   Register the close_callback:
 **************************************************************************/
-void close_socket_set_callback(CLOSE_FUN fun)
+void close_socket_set_callback(conn_close_fn_t fun)
 {
   close_callback = fun;
 }
@@ -79,7 +83,7 @@ void close_socket_set_callback(CLOSE_FUN fun)
 /**************************************************************************
   Return the the close_callback.
 **************************************************************************/
-CLOSE_FUN close_socket_get_callback(void)
+conn_close_fn_t close_socket_get_callback(void)
 {
   return close_callback;
 }
@@ -149,15 +153,8 @@ static int write_socket_data(struct connection *pc,
 {
   int start, nput, nblock;
 
-  if (pc->delayed_disconnect) {
-    if (delayed_disconnect > 0) {
-      return 0;
-    } else {
-      if (close_callback) {
-	(*close_callback)(pc);
-      }
-      return -1;
-    }
+  if (is_server() && pc->server.is_closing) {
+    return 0;
   }
 
   for (start=0; buf->ndata-start>limit;) {
@@ -182,15 +179,8 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
-      if (delayed_disconnect > 0) {
-	pc->delayed_disconnect = TRUE;
-	return 0;
-      } else {
-	if (close_callback) {
-	  (*close_callback)(pc);
-	}
-	return -1;
-      }
+      (*close_callback) (pc);
+      return -1;
     }
 
     if (FD_ISSET(pc->sock, &writefs)) {
@@ -203,15 +193,8 @@ static int write_socket_data(struct connection *pc,
 	  break;
 	}
 #endif
-	if (delayed_disconnect > 0) {
-	  pc->delayed_disconnect = TRUE;
-	  return 0;
-	} else {
-	  if (close_callback) {
-	    (*close_callback)(pc);
-	  }
-	  return -1;
-	}
+        (*close_callback)(pc);
+        return -1;
       }
       start += nput;
     }
@@ -255,73 +238,63 @@ static void flush_connection_send_buffer_packets(struct connection *pc)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static bool add_connection_data(struct connection *pc,
-				const unsigned char *data, int len)
+/****************************************************************************
+  Add data to send to the connection.
+****************************************************************************/
+static bool add_connection_data(struct connection *pconn,
+                                const unsigned char *data, int len)
 {
-  if (pc && pc->delayed_disconnect) {
-    if (delayed_disconnect > 0) {
-      return TRUE;
-    } else {
-      if (close_callback) {
-	(*close_callback)(pc);
-      }
-      return FALSE;
-    }
-  }
+  struct socket_packet_buffer *buf;
 
-  if (pc && pc->used) {
-    struct socket_packet_buffer *buf;
-
-    buf = pc->send_buffer;
-
-    log_debug("add %d bytes to %d (space=%d)",
-              len, buf->ndata, buf->nsize);
-    if (!buffer_ensure_free_extra_space(buf, len)) {
-      if (delayed_disconnect > 0) {
-	pc->delayed_disconnect = TRUE;
-	return TRUE;
-      } else {
-	if (close_callback) {
-	  (*close_callback) (pc);
-	}
-	return FALSE;
-      }
-    }
-    memcpy(buf->data + buf->ndata, data, len);
-    buf->ndata += len;
+  if (NULL == pconn
+      || !pconn->used
+      || (is_server() && pconn->server.is_closing)) {
     return TRUE;
   }
+
+  buf = pconn->send_buffer;
+  log_debug("add %d bytes to %d (space =%d)", len, buf->ndata, buf->nsize);
+  if (!buffer_ensure_free_extra_space(buf, len)) {
+    (*close_callback) (pconn);
+    return FALSE;
+  }
+
+  memcpy(buf->data + buf->ndata, data, len);
+  buf->ndata += len;
   return TRUE;
 }
 
-/**************************************************************************
-  write data to socket
-**************************************************************************/
-void send_connection_data(struct connection *pc, const unsigned char *data,
-			  int len)
+/****************************************************************************
+  Write data to socket. Return TRUE on success.
+****************************************************************************/
+bool connection_send_data(struct connection *pconn,
+                          const unsigned char *data, int len)
 {
-  if (pc && pc->used) {
-    pc->statistics.bytes_send += len;
-    if(pc->send_buffer->do_buffer_sends > 0) {
-      flush_connection_send_buffer_packets(pc);
-      if (!add_connection_data(pc, data, len)) {
-        log_error("cut connection %s due to huge send buffer (1)",
-                  conn_description(pc));
-      }
-      flush_connection_send_buffer_packets(pc);
-    }
-    else {
-      flush_connection_send_buffer_all(pc);
-      if (!add_connection_data(pc, data, len)) {
-        log_error("cut connection %s due to huge send buffer (2)",
-                  conn_description(pc));
-      }
-      flush_connection_send_buffer_all(pc);
-    }
+  if (NULL == pconn
+      || !pconn->used
+      || (is_server() && pconn->server.is_closing)) {
+    return TRUE;
   }
+
+  pconn->statistics.bytes_send += len;
+  if (0 < pconn->send_buffer->do_buffer_sends) {
+    flush_connection_send_buffer_packets(pconn);
+    if (!add_connection_data(pconn, data, len)) {
+      log_error("cut connection %s due to huge send buffer (1)",
+                conn_description(pconn));
+      return FALSE;
+    }
+    flush_connection_send_buffer_packets(pconn);
+  } else {
+    flush_connection_send_buffer_all(pconn);
+    if (!add_connection_data(pconn, data, len)) {
+      log_error("cut connection %s due to huge send buffer (2)",
+                conn_description(pconn));
+      return FALSE;
+    }
+    flush_connection_send_buffer_all(pconn);
+  }
+  return TRUE;
 }
 
 /**************************************************************************
@@ -334,21 +307,25 @@ void connection_do_buffer(struct connection *pc)
   }
 }
 
-/**************************************************************************
+/****************************************************************************
   Turn off buffering if internal counter of number of times buffering
   was turned on falls to zero, to handle nested buffer/unbuffer pairs.
   When counter is zero, flush any pending data.
-**************************************************************************/
+***************************************************************************/
 void connection_do_unbuffer(struct connection *pc)
 {
-  if (pc && pc->used) {
-    pc->send_buffer->do_buffer_sends--;
-    if (pc->send_buffer->do_buffer_sends < 0) {
-      log_error("Too many calls to unbuffer %s!", pc->username);
-      pc->send_buffer->do_buffer_sends = 0;
-    }
-    if(pc->send_buffer->do_buffer_sends == 0)
-      flush_connection_send_buffer_all(pc);
+  if (NULL == pc || !pc->used || (is_server() && pc->server.is_closing)) {
+    return;
+  }
+
+  pc->send_buffer->do_buffer_sends--;
+  if (0 > pc->send_buffer->do_buffer_sends) {
+    log_error("Too many calls to unbuffer %s!", pc->username);
+    pc->send_buffer->do_buffer_sends = 0;
+  }
+
+  if (0 == pc->send_buffer->do_buffer_sends) {
+    flush_connection_send_buffer_all(pc);
   }
 }
 

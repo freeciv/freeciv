@@ -139,8 +139,8 @@ static bool conn_compression_flush(struct connection *pconn)
 
       dio_output_init(&dout, header, sizeof(header));
       dio_put_uint16(&dout, 2 + compressed_size + COMPRESSION_BORDER);
-      send_connection_data(pconn, header, sizeof(header));
-      send_connection_data(pconn, compressed, compressed_size);
+      connection_send_data(pconn, header, sizeof(header));
+      connection_send_data(pconn, compressed, compressed_size);
     } else {
       unsigned char header[6];
 
@@ -148,15 +148,15 @@ static bool conn_compression_flush(struct connection *pconn)
       dio_output_init(&dout, header, sizeof(header));
       dio_put_uint16(&dout, JUMBO_SIZE);
       dio_put_uint32(&dout, 6 + compressed_size);
-      send_connection_data(pconn, header, sizeof(header));
-      send_connection_data(pconn, compressed, compressed_size);
+      connection_send_data(pconn, header, sizeof(header));
+      connection_send_data(pconn, compressed, compressed_size);
     }
   } else {
     log_compress("COMPRESS: would enlarging %lu bytes to %ld; "
                  "sending uncompressed",
                  (unsigned long) pconn->compression.queue.size,
                  compressed_size);
-    send_connection_data(pconn, pconn->compression.queue.p,
+    connection_send_data(pconn, pconn->compression.queue.p,
                          pconn->compression.queue.size);
     stat_size_no_compression += pconn->compression.queue.size;
   }
@@ -230,7 +230,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
       stat_size_alone += size;
       log_compress("COMPRESS: sending %s alone (%d bytes total)",
                    packet_name(packet_type), stat_size_alone);
-      send_connection_data(pc, data, len);
+      connection_send_data(pc, data, len);
     }
 
     log_compress2("COMPRESS: STATS: alone=%d compression-expand=%d "
@@ -239,7 +239,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
                   stat_size_uncompressed, stat_size_compressed);
   }
 #else
-  send_connection_data(pc, data, len);
+  connection_send_data(pc, data, len);
 #endif
 
 #if PACKET_SIZE_STATISTICS
@@ -408,12 +408,12 @@ void *get_packet_from_connection(struct connection *pc,
 		   ADD_TO_POINTER(buffer->data, header_size), 
 		   compressed_size);
     if (error != Z_OK) {
-      CLOSE_FUN close_callback = close_socket_get_callback();
+      conn_close_fn_t close_callback = close_socket_get_callback();
 
       log_error("Uncompressing of the packet stream failed. "
                 "The connection will be closed now.");
       fc_assert_ret_val(close_callback, NULL);
-      (*close_callback) (pc);
+      (close_callback) (pc);
 
       return NULL;
     }
@@ -457,7 +457,7 @@ void *get_packet_from_connection(struct connection *pc,
    * to have to be at least 3 bytes in size.
    */
   if (whole_packet_len < 3) {
-    CLOSE_FUN close_callback = close_socket_get_callback();
+    conn_close_fn_t close_callback = close_socket_get_callback();
 
     log_error("The packet stream is corrupt. The connection "
               "will be closed now.");
