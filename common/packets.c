@@ -408,13 +408,9 @@ void *get_packet_from_connection(struct connection *pc,
 		   ADD_TO_POINTER(buffer->data, header_size), 
 		   compressed_size);
     if (error != Z_OK) {
-      conn_close_fn_t close_callback = close_socket_get_callback();
-
-      log_error("Uncompressing of the packet stream failed. "
-                "The connection will be closed now.");
-      fc_assert_ret_val(close_callback, NULL);
-      (close_callback) (pc);
-
+      log_verbose("Uncompressing of the packet stream failed. "
+                  "The connection will be closed now.");
+      connection_close(pc, _("decoding error"));
       return NULL;
     }
 
@@ -457,13 +453,9 @@ void *get_packet_from_connection(struct connection *pc,
    * to have to be at least 3 bytes in size.
    */
   if (whole_packet_len < 3) {
-    conn_close_fn_t close_callback = close_socket_get_callback();
-
-    log_error("The packet stream is corrupt. The connection "
-              "will be closed now.");
-    fc_assert_ret_val(close_callback, NULL);
-    (*close_callback) (pc);
-
+    log_verbose("The packet stream is corrupt. The connection "
+                "will be closed now.");
+    connection_close(pc, _("decoding error"));
     return NULL;
   }
 
