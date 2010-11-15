@@ -452,40 +452,22 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
   case VUT_UCFLAG:
     {
+      const char *classes[uclass_count()];
+      int i = 0;
       bool done = FALSE;
-      /* Unit class flags mean nothing to users. Explicitly list the unit
-       * classes with those flags. */
-      struct strvec *classes = strvec_new();
-      int j;
       struct astring list = ASTRING_INIT;
 
       unit_class_iterate(uclass) {
         if (uclass_has_flag(uclass, preq->source.value.unitclassflag)) {
-          strvec_append(classes, uclass_name_translation(uclass));
+          classes[i++] = uclass_name_translation(uclass);
         }
       } unit_class_iterate_end;
-      for (j = 0; j < strvec_size(classes); j++) {
-        const char *delim_str = NULL;
-        if (j == strvec_size(classes) - 2) {
-          /* TRANS: List of possible unit classes has this between last two
-           *        elements */
-          delim_str = _(" or ");
-        } else if (j < strvec_size(classes) - 1) {
-          /* TRANS: List of possible unit classes has this between all elements
-           *        except last two */
-          delim_str = Q_("?or:, ");
-        }
+      astr_build_or_list(&list, classes, i);
 
-        astr_add(&list, "%s%s", strvec_get(classes, j),
-                 NULL != delim_str ? delim_str : "");
-      }
-      strvec_destroy(classes);
-      
       switch (preq->range) {
       case REQ_RANGE_LOCAL:
         /* TRANS: %s is a list of unit classes separated by "or". */
-        cat_snprintf(buf, bufsz, _("Requires %s units.\n"),
-                     astr_str(&list));
+        cat_snprintf(buf, bufsz, _("Requires %s units.\n"), astr_str(&list));
         done = TRUE;
         break;
       case REQ_RANGE_ADJACENT:
@@ -1296,31 +1278,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  _("* Requires %d population to build.\n"),
                  utype->pop_cost);
   }
-  if (utype->transport_capacity > 0) {
-    struct strvec *classes = strvec_new();
-    int j;
+  if (0 < utype->transport_capacity) {
+    const char *classes[uclass_count()];
+    int i = 0;
     struct astring list = ASTRING_INIT;
 
     unit_class_iterate(uclass) {
       if (can_unit_type_transport(utype, uclass)) {
-        strvec_append(classes, uclass_name_translation(uclass));
+        classes[i++] = uclass_name_translation(uclass);
       }
     } unit_class_iterate_end;
-    for (j = 0; j < strvec_size(classes); j++) {
-      const char *delim_str = NULL;
-      if (j == strvec_size(classes) - 2) {
-        /* TRANS: List of possible unit classes has this between last two
-         *        elements */
-        delim_str = _(" or ");
-      } else if (j < strvec_size(classes) - 1) {
-        /* TRANS: List of possible unit classes has this between all elements
-         *        except last two */
-        delim_str = Q_("?or:, ");
-      }
-
-      astr_add(&list, "%s%s", strvec_get(classes, j),
-               NULL != delim_str ? delim_str : "");
-    }
+    astr_build_or_list(&list, classes, i);
 
     cat_snprintf(buf, bufsz,
                  /* TRANS: %s is a list of unit classes separated by "or". */
@@ -1329,7 +1297,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype->transport_capacity),
                  utype->transport_capacity, astr_str(&list));
     astr_free(&list);
-    strvec_destroy(classes);
   }
   if (utype_has_flag(utype, F_TRIREME)) {
     CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
@@ -1577,34 +1544,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   } unit_class_iterate_end;
   if (utype_fuel(utype)) {
-    struct strvec *allowed_units = strvec_new();
-    int j;
-    struct astring list = ASTRING_INIT;
+    const char *types[utype_count()];
+    int i = 0;
 
     unit_type_iterate(transport) {
       if (can_unit_type_transport(transport, utype_class(utype))) {
-        strvec_append(allowed_units, utype_name_translation(transport));
+        types[i++] = utype_name_translation(transport);
       }
     } unit_type_iterate_end;
 
-    for (j = 0; j < strvec_size(allowed_units); j++) {
-      const char *delim_str = NULL;
-
-      if (j == strvec_size(allowed_units) - 2) {
-        /* TRANS: List of possible unit types has this between
-         *        last two elements */
-        delim_str = _(" or ");
-      } else if (j < strvec_size(allowed_units) - 1) {
-        /* TRANS: List of possible unit types has this between all elements
-         *        except last two */
-        delim_str = Q_("?or:, ");
-      }
-
-      astr_add(&list, "%s%s", strvec_get(allowed_units, j),
-               NULL != delim_str ? delim_str : "");
-    }
-
-    if (strvec_size(allowed_units) == 0) {
+    if (0 == i) {
      cat_snprintf(buf, bufsz,
                    PL_("* Unit has to be in a city or a base"
                        " after %d turn.\n",
@@ -1613,6 +1562,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        utype_fuel(utype)),
                   utype_fuel(utype));
     } else {
+      struct astring list = ASTRING_INIT;
+
       cat_snprintf(buf, bufsz,
                    /* TRANS: %s is a list of unit types separated by "or" */
                    PL_("* Unit has to be in a city, a base, or on a %s"
@@ -1620,10 +1571,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        "* Unit has to be in a city, a base, or on a %s"
                        " after %d turns.\n",
                        utype_fuel(utype)),
-                   astr_str(&list), utype_fuel(utype));
+                   astr_build_or_list(&list, types, i), utype_fuel(utype));
+      astr_free(&list);
     }
-    astr_free(&list);
-    strvec_destroy(allowed_units);
   }
   if (strlen(buf) > 0) {
     CATLSTR(buf, bufsz, "\n");
@@ -1845,38 +1795,23 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   {
-    struct strvec *native_to = strvec_new();
-    int j;
-    struct astring list = ASTRING_INIT;
+    const char *classes[uclass_count()];
+    int i = 0;
 
     unit_class_iterate(uclass) {
       if (is_native_base_to_uclass(pbase, uclass)) {
-        strvec_append(native_to, uclass_name_translation(uclass));
+        classes[i++] = uclass_name_translation(uclass);
       }
     } unit_class_iterate_end;
-    for (j = 0; j < strvec_size(native_to); j++) {
-      const char *delim_str = NULL;
-      if (j == strvec_size(native_to) - 2) {
-        /* TRANS: List of possible unit classes has this between last two
-         *        elements */
-        delim_str = _(" and ");
-      } else if (j < strvec_size(native_to) - 1) {
-        /* TRANS: List of possible unit classes has this between all elements
-         *        except last two */
-        delim_str = Q_("?and:, ");
-      }
-      astr_add(&list, "%s%s", strvec_get(native_to, j),
-               NULL != delim_str ? delim_str : "");
-    }
 
-    if (strvec_size(native_to) > 0) {
-      cat_snprintf(buf, bufsz,
-                   /* TRANS: %s is a list of unit classes separated by "and". */
-                   _("* Native to %s units.\n"), astr_str(&list));
-    }
-    astr_free(&list);
+    if (0 < i) {
+      struct astring list = ASTRING_INIT;
 
-    if (strvec_size(native_to)) {
+      /* TRANS: %s is a list of unit classes separated by "and". */
+      cat_snprintf(buf, bufsz, _("* Native to %s units.\n"),
+                   astr_build_and_list(&list, classes, i));
+      astr_free(&list);
+
       if (base_has_flag(pbase, BF_NATIVE_TILE)) {
         CATLSTR(buf, bufsz,
                 _("  * Such units can move onto this tile even if it would "
@@ -1908,8 +1843,6 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
                   "diplomatic fights.\n"));
       }
     }
-
-    strvec_destroy(native_to);
   }
 
   if (!pbase->buildable) {
@@ -2028,12 +1961,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     struct unit_class *unitclass = NULL;
     struct unit_type *unittype = NULL;
     enum unit_flag_id unitflag = F_LAST;
+    struct strvec *outputs = strvec_new();
     struct astring outputs_or = ASTRING_INIT;
     struct astring outputs_and = ASTRING_INIT;
     bool extra_reqs = FALSE;
-
-    astr_clear(&outputs_or);
-    astr_clear(&outputs_and);
 
     /* Grab output type, if there is one */
     requirement_list_iterate(peffect->reqs, preq) {
@@ -2044,12 +1975,8 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
             * in one list in the first place (it simply makes no sense,
             * output cannot be of multiple types)
             * Ruleset loading code should check against that. */
-           const char *oname;
-
            output_type = preq->source.value.outputtype;
-           oname = get_output_name(output_type);
-           astr_add(&outputs_or, "%s", oname);
-           astr_add(&outputs_and, "%s", oname);
+           strvec_append(outputs, get_output_name(output_type));
          }
          break;
        case VUT_UCLASS:
@@ -2086,8 +2013,6 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       if (output_type == O_LAST) {
         /* There was no outputtype requirement. Effect is active for all
          * output types. Generate lists for that. */
-        const char *prev  = NULL;
-        const char *prev2 = NULL;
         bool harvested_only = TRUE; /* Consider only output types from fields */
 
         if (peffect->type == EFT_UPKEEP_FACTOR
@@ -2102,34 +2027,18 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           struct output_type *pot = get_output_type(ot);
 
           if (!harvested_only || pot->harvested) {
-            if (prev2 != NULL) {
-              astr_add(&outputs_or,  "%s", prev2);
-              astr_add(&outputs_or,  "%s", Q_("?or:, "));
-              astr_add(&outputs_and, "%s", prev2);
-              astr_add(&outputs_and, "%s", Q_("?and:, "));
-            }
-            prev2 = prev;
-            prev = _(pot->name);
+            strvec_append(outputs, _(pot->name));
           }
         } output_type_iterate_end;
-        if (prev2 != NULL) {
-          astr_add(&outputs_or, "%s", prev2);
-          /* TRANS: List of possible output types has this between
-           *        last two elements */
-          astr_add(&outputs_or,  "%s", _(" or "));
-          astr_add(&outputs_and, "%s", prev2);
-          /* TRANS: List of possible output types has this between
-           *        last two elements */
-          astr_add(&outputs_and, "%s", _(" and "));
-        }
-        if (prev != NULL) {
-          astr_add(&outputs_or,  "%s", prev);
-          astr_add(&outputs_and, "%s", prev);
-        } else {
-          /* TRANS: Empty output type list, should never happen. */
-          astr_add(&outputs_or,  "%s", Q_("?outputlist: Nothing "));
-          astr_add(&outputs_and, "%s", Q_("?outputlist: Nothing "));
-        }
+      }
+
+      if (0 == strvec_size(outputs)) {
+         /* TRANS: Empty output type list, should never happen. */
+        astr_set(&outputs_or, "%s", Q_("?outputlist: Nothing "));
+        astr_set(&outputs_and, "%s", Q_("?outputlist: Nothing "));
+      } else {
+        strvec_to_or_list(outputs, &outputs_or);
+        strvec_to_and_list(outputs, &outputs_and);
       }
 
       switch (peffect->type) {
@@ -2394,8 +2303,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       };
     }
 
-    astr_clear(&outputs_or);
-    astr_clear(&outputs_and);
+    strvec_destroy(outputs);
+    astr_free(&outputs_or);
+    astr_free(&outputs_and);
 
   } effect_list_iterate_end;
 

@@ -211,8 +211,8 @@ const char *popup_info_text(struct tile *ptile)
     struct player *owner = city_owner(pcity);
     struct player_diplstate *ds
       = player_diplstate_get(client.conn.playing, owner);
+    const char *improvements[improvement_count()];
     int has_improvements = 0;
-    struct impr_type *prev_impr = NULL;
 
     get_full_username(username, sizeof(username), owner);
     get_full_nation(nation, sizeof(nation), owner);
@@ -258,31 +258,18 @@ const char *popup_info_text(struct tile *ptile)
     improvement_iterate(pimprove) {
       if (is_improvement_visible(pimprove)
           && city_has_building(pcity, pimprove)) {
-        if (has_improvements++ > 1) {
-          /* TRANS: continue list, in case comma is not the separator of choice. */
-          astr_add(&str, Q_("?clistmore:, %s"),
-                   improvement_name_translation(prev_impr));
-        } else if (has_improvements == 1) {
-          astr_add_line(&str, "  ");
-          /* TRANS: previous lines gave other information about the city. */
-          astr_add(&str, Q_("?clistbegin: with %s"),
-                   improvement_name_translation(pimprove));
-        }
-        prev_impr = pimprove;
+        improvements[has_improvements++] =
+            improvement_name_translation(pimprove);
       }
     } improvement_iterate_end;
 
-    if (NULL != prev_impr) {
-      if (has_improvements > 2) {
-        /* TRANS: This appears with two or more previous entries in the list */
-        astr_add(&str, Q_("?clistlast:, and %s"),
-		 improvement_name_translation(prev_impr));
-      } else if (has_improvements > 1) {
-        /* TRANS: This appears with only one previous entry in the list */
-        astr_add(&str, Q_("?clistlast: and %s"),
-		 improvement_name_translation(prev_impr));
-      }
-      astr_add(&str, "%s", Q_("?clistend:."));
+    if (0 < has_improvements) {
+      struct astring list = ASTRING_INIT;
+
+      astr_build_and_list(&list, improvements, has_improvements);
+      /* TRANS: %s is a list of "and"-separated improvements. */
+      astr_add_line(&str, "   with %s.", astr_str(&list));
+      astr_free(&list);
     }
 
     unit_list_iterate(get_units_in_focus(), pfocus_unit) {
