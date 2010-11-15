@@ -29,6 +29,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "bitvector.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -1352,19 +1353,19 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
   /* A level name was supplied; set the level. */
   level = cmdlevel_by_name(arg[0], fc_strcasecmp);
   if (!cmdlevel_is_valid(level)) {
-    char buf[512];
+    const char *cmdlevel_names[cmdlevel_max()];
+    struct astring astr = ASTRING_INIT;
+    int i = 0;
 
-    buf[0] = '\0';
     for (level = cmdlevel_begin(); level != cmdlevel_end();
          level = cmdlevel_next(level)) {
-      cat_snprintf(buf, sizeof(buf), "%s'%s'%s",
-                   level == cmdlevel_max() ? Q_("?accslvllist:or ") : "",
-                   cmdlevel_name(level),
-                   level == cmdlevel_max() ? "" : ", ");
+      cmdlevel_names[i++] = cmdlevel_name(level);
     }
     cmd_reply(CMD_CMDLEVEL, caller, C_SYNTAX,
               /* TRANS: comma and 'or' separated list of access levels */
-              _("Error: command access level must be one of %s."), buf);
+              _("Command access level must be one of %s."),
+              astr_build_or_list(&astr, cmdlevel_names, i));
+    astr_free(&astr);
     goto CLEAN_UP;
   } else if (caller && level > conn_get_access(caller)) {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,

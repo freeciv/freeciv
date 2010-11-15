@@ -16,12 +16,14 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "game.h"
 #include "ioz.h"
 #include "log.h"
 #include "registry.h"
 #include "shared.h"
+#include "string_vector.h"
 
 /* common */
 #include "map.h"
@@ -2198,19 +2200,14 @@ static bool setting_match_prefix(const val_name_func_t name_fn,
     return TRUE;        /* Ok. */
   case M_PRE_AMBIGUOUS:
     {
-      char buf[num_matches * 64];
-      int i;
+      struct astring astr = ASTRING_INIT;
 
       fc_assert(2 <= num_matches);
-      sz_strlcpy(buf, matches[0]);
-      for (i = 1; i < num_matches - 1; i++) {
-        cat_snprintf(buf, sizeof(buf), Q_("?clistmore:, %s"), matches[i]);
-      }
-      cat_snprintf(buf, sizeof(buf), Q_("?clistlast:, and %s"), matches[i]);
-
       settings_snprintf(reject_msg, reject_msg_len,
-                        _("\"%s\" prefix is ambiguous. "
-                          "Candidates are: %s."), prefix, buf);
+                        _("\"%s\" prefix is ambiguous. Candidates are: %s."),
+                        prefix,
+                        astr_build_and_list(&astr, matches, num_matches));
+      astr_free(&astr);
     }
     return FALSE;
   case M_PRE_EMPTY:
@@ -2609,35 +2606,31 @@ static const char *setting_bitwise_to_str(const struct setting *pset,
   int bit;
 
   if (pretty) {
-    const char *prev = NULL;
+    char buf2[64];
+    struct astring astr = ASTRING_INIT;
+    struct strvec *vec = strvec_new();
     size_t len;
 
-    buf[0] = '\0';
     for (bit = 0; (name = pset->bitwise.name(bit)); bit++) {
       if ((1 << bit) & value) {
-        if (NULL != prev) {
-          if ('\0' == buf[0]) {
-            fc_snprintf(buf, buf_len, Q_("?clistbegin:\"%s\""), prev);
-          } else {
-            cat_snprintf(buf, buf_len, Q_("?clistmore:, \"%s\""), prev);
-          }
-        }
-        prev = Q_(name->pretty);
+        /* TRANS: only emphasizing a string. */
+        fc_snprintf(buf2, sizeof(buf2), _("\"%s\""), Q_(name->pretty));
+        strvec_append(vec, buf2);
       }
     }
-    if (NULL != prev) {
-      if ('\0' == buf[0]) {
-        fc_snprintf(buf, buf_len, Q_("?clistbegin:\"%s\""), prev);
-      } else {
-        cat_snprintf(buf, buf_len, Q_("?clistlast:, and \"%s\""), prev);
-      }
-    } else {
+
+    if (0 == strvec_size(vec)) {
       /* No value. */
       fc_assert(0 == value);
-      fc_assert('\0' == buf[0]);
-      fc_strlcpy(buf, Q_("?clistnone:none"), buf_len);
-      return old_buf;
+      fc_strlcpy(buf, _("no value"), buf_len);
+      strvec_destroy(vec);
+      return buf;
     }
+
+    strvec_to_and_list(vec, &astr);
+    strvec_destroy(vec);
+    fc_strlcpy(buf, astr_str(&astr), buf_len);
+    astr_free(&astr);
     fc_strlcat(buf, " (", buf_len);
     len = strlen(buf);
     buf += len;
