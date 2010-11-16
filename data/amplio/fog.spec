@@ -1,6 +1,6 @@
 [spec]
 
-options = "+spec3"
+options = "+Freeciv-2.3-spec"
 
 artists = "
     Brendon Oram (Yautja)

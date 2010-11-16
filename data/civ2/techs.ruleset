@@ -9,7 +9,7 @@
 
 [datafile]
 description="Civ2 technology data for Freeciv (incomplete)"
-options="1.9"
+options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings
 ;

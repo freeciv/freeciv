@@ -1,5 +1,5 @@
 [spec]
-options = "+spec3"
+options = "+Freeciv-2.3-spec"
 [info]
 artists = "
  Frederic Rodrigo 

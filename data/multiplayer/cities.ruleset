@@ -8,7 +8,7 @@
 
 [datafile]
 description="Cities data for Freeciv"
-options="1.9"
+options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings
 ;

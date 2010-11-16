@@ -14,7 +14,7 @@
 
 [datafile]
 description="Default buildings data for Freeciv"
-options="1.10.1"
+options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings
 ;

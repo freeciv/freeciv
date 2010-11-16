@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ1 tile_type data for Freeciv"
-options="1.9+2007.Oct.26"
+options="+Freeciv-2.3-ruleset"
 
 [options]
 may_road=1           ; 0 means no, 1 means yes
