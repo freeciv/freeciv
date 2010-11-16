@@ -835,8 +835,8 @@ static bool create_command(struct connection *caller, const char *arg,
   Try to add a player to a running game in the following order:
 
   1. Try to reuse the slot of a dead player with the username 'name'.
-  2. Try to use an empty player slot.
-  3. Try to reuse the slot of a dead player.
+  2. Try to reuse the slot of a dead player.
+  3. Try to use an empty player slot.
 
   If 'pnation' is defined this nation is used for the new player.
 **************************************************************************/
@@ -846,6 +846,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
                                         char *buf, size_t buflen)
 {
   struct player *pplayer = NULL;
+  bool new_slot = FALSE;
 
   /* Check player name. */
   if (!player_name_check(name, buf, buflen)) {
@@ -894,22 +895,20 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
 
     /* Return an empty string. */
     buf[0] = '\0';
+
     return C_OK;
   }
 
-  /* [1] Replace player. */
   if (pplayer) {
-    /* 'pplayer' was set above. */
+    /* [1] Replace a player. 'pplayer' was set above. */
     fc_snprintf(buf, buflen,
                 _("%s is replacing dead player %s as an AI-controlled "
                   "player."), name, player_name(pplayer));
     /* remove player and thus free a player slot */
     server_remove_player(pplayer);
     pplayer = NULL;
-  }
-
-  /* [3] All player slots are used; try to remove a dead player. */
-  if (player_count() == player_slot_count()) {
+  } else if (player_count() == player_slot_count()) {
+    /* [2] All player slots are used; try to remove a dead player. */
     players_iterate(aplayer) {
       if (!aplayer->is_alive) {
         fc_snprintf(buf, buflen,
@@ -919,13 +918,21 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
         server_remove_player(aplayer);
       }
     } players_iterate_end;
+  } else {
+    /* [3] An empty player slot must be used for the new player. */
+    new_slot = TRUE;
   }
 
-  /* [2] Check if there is an unused player slot. */
+  /* Create the new player. */
   pplayer = server_create_player(-1);
   if (!pplayer) {
     fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
     return C_FAIL;
+  }
+
+  if (new_slot) {
+    /* 'buf' must be set if a new player slot is used. */
+    fc_snprintf(buf, buflen, _("New player %s created."), name);
   }
 
   /* We have a player; now initialise all needed data. */
@@ -937,6 +944,10 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   player_set_nation(pplayer, pnation);
   pplayer->government = pnation->server.init_government;
   pplayer->target_government = pnation->server.init_government;
+
+  /* TRANS: keep one space at the beginning of the string. */
+  cat_snprintf(buf, buflen, _(" Nation of the new player: %s."),
+               nation_rule_name(pnation));
 
   init_tech(pplayer, TRUE);
   give_global_initial_techs(pplayer);
@@ -1008,7 +1019,11 @@ enum rfc_status create_command_pregame(const char *name, bool check,
   }
 
   if (check) {
+    /* All code below will change the game state. */
+
+    /* Return an empty string. */
     buf[0] = '\0';
+
     return C_OK;
   }
 

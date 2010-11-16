@@ -137,7 +137,7 @@ Player *api_actions_create_player(const char *username,
 {
   struct player *pplayer = NULL;
   enum rfc_status status;
-  char buf[128];
+  char buf[128] = "";
 
   SCRIPT_CHECK_ARG_NIL(username, 1, string, NULL);
 
