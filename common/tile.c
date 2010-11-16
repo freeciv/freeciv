@@ -477,7 +477,6 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 
   /* Clear mining/irrigation if resulting terrain type cannot support
    * that feature. */
-  
   if (pterrain->mining_result != pterrain) {
     tile_clear_special(ptile, S_MINE);
   }
@@ -786,16 +785,56 @@ bool tile_has_any_bases(const struct tile *ptile)
 }
 
 /****************************************************************************
-  Returns a completely blank virtual tile (except for the unit list
+  Returns a virtual tile. If ptile is given, the properties of this tile are
+  copied, else it is completely blank (except for the unit list
   vtile->units, which is created for you). Be sure to call virtual_tile_free
   on it when it is no longer needed.
 ****************************************************************************/
-struct tile *create_tile_virtual(void)
+struct tile *create_tile_virtual(const struct tile *ptile)
 {
   struct tile *vtile;
 
   vtile = fc_calloc(1, sizeof(*vtile));
+
+  /* initialise some values */
+  vtile->x = -1;
+  vtile->y = -1;
+  vtile->nat_x = -1;
+  vtile->nat_y = -1;
+  vtile->index = -1;
+  vtile->continent = -1;
+
+  BV_CLR_ALL(vtile->special);
+  BV_CLR_ALL(vtile->bases);
+  vtile->resource = NULL;
+  vtile->terrain = NULL;
   vtile->units = unit_list_new();
+  vtile->worked = NULL;
+  vtile->owner = NULL;
+  vtile->claimer = NULL;
+  vtile->spec_sprite = NULL;
+
+  if (ptile) {
+    /* Copy all but the unit list. */
+    tile_special_type_iterate(spe) {
+      if (BV_ISSET(ptile->special, spe)) {
+        BV_SET(vtile->special, spe);
+      }
+    } tile_special_type_iterate_end;
+
+    base_type_iterate(pbase) {
+      if (BV_ISSET(ptile->bases, base_number(pbase))) {
+        BV_SET(vtile->bases, base_number(pbase));
+      }
+    } base_type_iterate_end;
+
+    vtile->resource = ptile->resource;
+    vtile->terrain = ptile->terrain;
+    vtile->worked = ptile->worked;
+    vtile->owner = ptile->owner;
+    vtile->claimer = ptile->claimer;
+    vtile->spec_sprite = NULL;
+  }
 
   return vtile;
 }

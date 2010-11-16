@@ -150,7 +150,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act);
 const char *tile_get_info_text(const struct tile *ptile, int linebreaks);
 
 /* Virtual tiles are tiles that do not exist on the game map. */
-struct tile *create_tile_virtual(void);
+struct tile *create_tile_virtual(const struct tile *ptile);
 void destroy_tile_virtual(struct tile *vtile);
 
 #endif /* FC__TILE_H */
