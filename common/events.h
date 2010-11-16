@@ -137,12 +137,14 @@
 #define SPECENUM_VALUE107 E_VOTE_ABORTED
 /* Change of the city radius */
 #define SPECENUM_VALUE108 E_CITY_RADIUS_SQ
+/* A unit with population cost was build; the city shrinks. */
+#define SPECENUM_VALUE109 E_UNIT_BUILT_POP_COST
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in common/events.c using GEN_EV,
  * data/stdsoundes and to server/scripting/api.pkg
  */
-#define SPECENUM_VALUE109 E_LAST
+#define SPECENUM_VALUE110 E_LAST
 #include "specenum_gen.h"
 /* the maximum number of enumerators is set in generate_specnum.py */
 

@@ -1639,6 +1639,16 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
                     _("%s is finished building %s."),
                     city_link(pcity), utype_name_translation(utype));
 
+      if (pop_cost > 0) {
+        /* Additional message if the unit has population cost. */
+        notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT_POP_COST,
+                      ftc_server,
+                      /* TRANS: <unit> cost... <city> shrinks... */
+                      _("%s cost %d population. %s shrinks to size %d."),
+                      utype_name_translation(utype), pop_cost,
+                      city_link(pcity), pcity->size);
+      }
+
       script_signal_emit("unit_built", 2, API_TYPE_UNIT, punit,
                          API_TYPE_CITY, pcity);
 

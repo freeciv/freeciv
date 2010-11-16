@@ -295,6 +295,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_upgraded = ""
 ;e_unit_win = ""
 ;e_unit_win_att = ""
+;e_unit_build_pop_cost = ""
 ;e_uprising = ""
 ;e_vote_new = ""
 ;e_vote_resolved = ""
