@@ -47,16 +47,21 @@
 #include "tech.h"
 #include "unit.h"
 
+/* ai */
+#include "aiunit.h"     /* update_simple_ai_types */
+
 /* server */
 #include "citytools.h"
 #include "plrhand.h"
 #include "script.h"
 #include "settings.h"
-
-#include "aiunit.h"		/* update_simple_ai_types */
+#include "srv_main.h"
 
 #include "ruleset.h"
-#include "srv_main.h"
+
+
+/* Basic format for the ruleset files for Freeciv versions 2.3.x. */
+#define RULESET_CAPABILITIES "+Freeciv-2.3-ruleset"
 
 /* RULESET_SUFFIX already used, no leading dot here */
 #define RULES_SUFFIX "ruleset"
@@ -72,7 +77,6 @@
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define BASE_SECTION_PREFIX "base_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
-#define TERRAIN_CAPABILITY "+1.9+2007.Oct.26"
 #define TERRAIN_SECTION_PREFIX "terrain_"
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
@@ -830,7 +834,7 @@ static void load_ruleset_techs(struct section_file *file)
   struct advance *a_none = advance_by_number(A_NONE);
   const char *filename = secfile_name(file);
   
-  (void) check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
   num_techs = section_list_size(sec);
 
@@ -1053,7 +1057,7 @@ static void load_ruleset_units(struct section_file *file)
   const char **vnlist, **def_vnlist;
   int *vblist, *def_vblist;
 
-  (void) check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   /*
    * Load up expanded veteran system values.
@@ -1599,7 +1603,7 @@ static void load_ruleset_buildings(struct section_file *file)
   int i, nval;
   const char *filename = secfile_name(file);
 
-  (void) check_ruleset_capabilities(file, "+1.10.1", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   sec = secfile_sections_by_name_prefix(file, BUILDING_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
@@ -1825,7 +1829,7 @@ static void load_ruleset_terrain(struct section_file *file)
   const char **res;
   const char *filename = secfile_name(file);
   /* char *datafile_options = */ (void)
-    check_ruleset_capabilities(file, TERRAIN_CAPABILITY, filename);
+    check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   /* options */
   terrain_control.may_road =
@@ -2247,7 +2251,7 @@ static void load_ruleset_governments(struct section_file *file)
   struct section_list *sec;
   const char *filename = secfile_name(file);
 
-  (void) check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
@@ -2571,7 +2575,7 @@ static void load_ruleset_nations(struct section_file *file)
   const char *filename = secfile_name(file);
   struct section_list *sec;
 
-  (void) check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
   section_list_iterate(sec, psection) {
@@ -2904,7 +2908,7 @@ static void load_ruleset_cities(struct section_file *file)
   const char *item;
   struct section_list *sec;
 
-  (void) check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   /* Specialist options */
   sec = secfile_sections_by_name_prefix(file, SPECIALIST_SECTION_PREFIX);
@@ -3030,7 +3034,7 @@ static void load_ruleset_effects(struct section_file *file)
   const char *filename;
 
   filename = secfile_name(file);
-  (void) check_ruleset_capabilities(file, "+1.0", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
   /* Parse effects and add them to the effects ruleset cache. */
@@ -3132,7 +3136,7 @@ static void load_ruleset_game(void)
   filename = secfile_name(file);
 
   /* section: datafile */
-  (void) check_ruleset_capabilities(file, "+1.11.1", filename);
+  (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
 
   /* section: tileset */

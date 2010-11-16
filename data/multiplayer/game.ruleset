@@ -11,7 +11,7 @@
 
 [datafile]
 description="Multiplayer game rules for Freeciv"
-options="1.11.1"
+options="+Freeciv-2.3-ruleset"
 
 [about]
 ; Ruleset name

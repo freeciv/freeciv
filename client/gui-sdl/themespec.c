@@ -47,21 +47,22 @@
 
 #include "themespec.h"
 
-#define THEMESPEC_CAPSTR "+themespec3 duplicates_ok"
+#define THEMESPEC_CAPSTR "+Freeciv-2.3-themespec duplicates_ok"
 /*
  * Themespec capabilities acceptable to this program:
  *
- * +themespec3     -  basic format; required
+ * +Freeciv-2.3-themespec  -  basic format for Freeciv versions 2.3.x;
+ *                            required
  *
  * duplicates_ok  -  we can handle existence of duplicate tags
  *                   (lattermost tag which appears is used; themes which
- *		     have duplicates should specify "+duplicates_ok")
+ *                   have duplicates should specify "+duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+spec3"
+#define SPEC_CAPSTR "+Freeciv-2.3-spec"
 /*
  * Individual spec file capabilities acceptable to this program:
- * +spec3          -  basic format, required
+ * +Freeciv-2.3-spec  -  basic format for Freeciv versions 2.3.x; required
  */
 
 #define THEMESPEC_SUFFIX ".themespec"

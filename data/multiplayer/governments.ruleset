@@ -12,7 +12,7 @@
 
 [datafile]
 description="Multiplayer governments data for Freeciv (as Civ2, minus fundamentalism)"
-options="1.9"
+options="+Freeciv-2.3-ruleset"
 
 [governments]
 during_revolution="Anarchy"
