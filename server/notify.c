@@ -457,6 +457,11 @@ event_cache_data_new(const struct packet_chat_msg *packet, int turn,
   }
   RETURN_VAL_IF_FAIL(NULL != packet, NULL);
 
+  if (packet->event == E_MESSAGE_WALL) {
+    /* No popups at save game load. */
+    return NULL;
+  }
+
   if (!game.server.event_cache.chat && packet->event == E_CHAT_MSG) {
     /* chat messages should _not_ be saved */
     return NULL;
