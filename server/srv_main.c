@@ -2527,7 +2527,9 @@ void srv_main(void)
     }
 
     aifill(game.info.aifill);
-    event_cache_clear();
+    if (!game_was_started()) {
+      event_cache_clear();
+    }
 
     log_normal(_("Now accepting new client connections."));
     /* Remain in S_S_INITIAL until all players are ready. */
