@@ -90,6 +90,26 @@
 static enum cmdlevel default_access_level = ALLOW_BASIC;
 static enum cmdlevel first_access_level = ALLOW_BASIC;
 
+static time_t *time_duplicate(const time_t *t);
+
+/* 'struct kick_hash' and related functions. */
+#define SPECHASH_TAG kick
+#define SPECHASH_KEY_TYPE char *
+#define SPECHASH_DATA_TYPE time_t
+#define SPECHASH_KEY_VAL genhash_str_val_func
+#define SPECHASH_KEY_COMP genhash_str_comp_func
+#define SPECHASH_KEY_COPY genhash_str_copy_func
+#define SPECHASH_KEY_FREE genhash_str_free_func
+#define SPECHASH_DATA_COPY time_duplicate
+#define SPECHASH_DATA_FREE free
+#define SPECHASH_DATA_TO_PTR(t) (&(t))
+#define SPECHASH_PTR_TO_DATA(p) (NULL != p ? *(time_t *) (p) : 0)
+#include "spechash.h"
+
+static struct kick_hash *kick_table_by_addr = NULL;
+static struct kick_hash *kick_table_by_user = NULL;
+
+
 static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
 static bool show_help(struct connection *caller, char *arg);
@@ -117,6 +137,7 @@ static bool read_init_script_real(struct connection *caller,
 static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
 static bool lua_command(struct connection *caller, char *arg, bool check);
+static bool kick_command(struct connection *caller, char *name, bool check);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
 static bool player_name_check(const char* name, char *buf, size_t buflen);
@@ -187,7 +208,11 @@ static enum command_id command_named(const char *token, bool accept_ambiguity)
 **************************************************************************/
 void stdinhand_init(void)
 {
-  /* Nothing at the moment. */
+  fc_assert(NULL == kick_table_by_addr);
+  kick_table_by_addr = kick_hash_new();
+
+  fc_assert(NULL == kick_table_by_user);
+  kick_table_by_user = kick_hash_new();
 }
 
 /**************************************************************************
@@ -204,7 +229,17 @@ void stdinhand_turn(void)
 **************************************************************************/
 void stdinhand_free(void)
 {
-  /* Nothing at the moment. */
+  fc_assert(NULL != kick_table_by_addr);
+  if (NULL != kick_table_by_addr) {
+    kick_hash_destroy(kick_table_by_addr);
+    kick_table_by_addr = NULL;
+  }
+
+  fc_assert(NULL != kick_table_by_user);
+  if (NULL != kick_table_by_user) {
+    kick_hash_destroy(kick_table_by_user);
+    kick_table_by_user = NULL;
+  }
 }
 
 /**************************************************************************
@@ -4055,6 +4090,8 @@ static bool handle_stdin_input_real(struct connection *caller,
     return reset_command(caller, arg, check, read_recursion);
   case CMD_LUA:
     return lua_command(caller, arg, check);
+  case CMD_KICK:
+    return kick_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -4397,7 +4434,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
     return TRUE;
   }
 
-  if (NULL != ptarget->playing && !ptarget->observer) {
+  if (conn_controls_player(ptarget)) {
     /* If we cut the connection, unassign the login name.*/
     sz_strlcpy(ptarget->playing->username, ANON_USER_NAME);
   }
@@ -4408,6 +4445,145 @@ static bool cut_client_connection(struct connection *caller, char *name,
 
   return TRUE;
 }
+
+
+/****************************************************************************
+  Utility for 'kick_hash' tables.
+****************************************************************************/
+static time_t *time_duplicate(const time_t *t)
+{
+  time_t *d = fc_malloc(sizeof(*d));
+  *d = *t;
+  return d;
+}
+
+/****************************************************************************
+  Returns FALSE if the connection isn't kicked and can connect the server
+  normally.
+****************************************************************************/
+bool conn_is_kicked(struct connection *pconn, int *time_remaining)
+{
+  time_t time_of_addr_kick, time_of_user_kick;
+  time_t now, time_of_kick = 0;
+
+  if (NULL != time_remaining) {
+    *time_remaining = 0;
+  }
+
+  fc_assert_ret_val(NULL != kick_table_by_addr, FALSE);
+  fc_assert_ret_val(NULL != kick_table_by_user, FALSE);
+  fc_assert_ret_val(NULL != pconn, FALSE);
+
+  if (kick_hash_lookup(kick_table_by_addr, pconn->server.ipaddr,
+                       &time_of_addr_kick)) {
+    time_of_kick = time_of_addr_kick;
+  }
+  if (kick_hash_lookup(kick_table_by_user, pconn->username,
+                       &time_of_user_kick)
+      && time_of_user_kick > time_of_kick) {
+    time_of_kick = time_of_user_kick;
+  }
+
+  if (0 == time_of_kick) {
+    return FALSE; /* Not found. */
+  }
+
+  now = time(NULL);
+  if (now - time_of_kick > game.server.kick_time) {
+    /* Kick timeout expired. */
+    if (0 != time_of_addr_kick) {
+      kick_hash_remove(kick_table_by_addr, pconn->server.ipaddr);
+    }
+    if (0 != time_of_user_kick) {
+      kick_hash_remove(kick_table_by_user, pconn->username);
+    }
+    return FALSE;
+  }
+
+  if (NULL != time_remaining) {
+    *time_remaining = game.server.kick_time - (now - time_of_kick);
+  }
+  return TRUE;
+}
+
+/****************************************************************************
+  Kick command handler.
+****************************************************************************/
+static bool kick_command(struct connection *caller, char *name, bool check)
+{
+  char ipaddr[FC_MEMBER_SIZEOF(struct connection, server.ipaddr)];
+  struct connection *pconn;
+  enum m_pre_result match_result;
+  time_t now;
+
+  remove_leading_trailing_spaces(name);
+  pconn = conn_by_user_prefix(name, &match_result);
+  if (NULL == pconn) {
+    cmd_reply_no_such_conn(CMD_KICK, caller, name, match_result);
+    return FALSE;
+  }
+
+  if (NULL != caller && ALLOW_ADMIN > conn_get_access(caller)) {
+    const int MIN_UNIQUE_CONNS = 3;
+    const char *unique_ipaddr[MIN_UNIQUE_CONNS];
+    int i, num_unique_connections = 0;
+
+    if (pconn == caller) {
+      cmd_reply(CMD_KICK, caller, C_FAIL, _("You may not kick yourself."));
+      return FALSE;
+    }
+
+    conn_list_iterate(game.est_connections, aconn) {
+      for (i = 0; i < num_unique_connections; i++) {
+        if (0 == strcmp(unique_ipaddr[i], aconn->server.ipaddr)) {
+          /* Already listed. */
+          break;
+        }
+      }
+      if (i >= num_unique_connections) {
+        num_unique_connections++;
+        if (MIN_UNIQUE_CONNS <= num_unique_connections) {
+          /* We have enought already. */
+          break;
+        }
+        unique_ipaddr[num_unique_connections - 1] = aconn->server.ipaddr;
+      }
+    } conn_list_iterate_end;
+
+    if (MIN_UNIQUE_CONNS > num_unique_connections) {
+      cmd_reply(CMD_KICK, caller, C_FAIL,
+                _("There must be at least %d unique connections to the "
+                  "server for this command to be valid."), MIN_UNIQUE_CONNS);
+      return FALSE;
+    }
+  }
+
+  if (check) {
+    return TRUE;
+  }
+
+  sz_strlcpy(ipaddr, pconn->server.ipaddr);
+  now = time(NULL);
+  kick_hash_replace(kick_table_by_addr, ipaddr, now);
+
+  conn_list_iterate(game.all_connections, aconn) {
+    if (0 != strcmp(ipaddr, aconn->server.ipaddr)) {
+      continue;
+    }
+
+    if (conn_controls_player(aconn)) {
+      /* Unassign the username. */
+      sz_strlcpy(aconn->playing->username, ANON_USER_NAME);
+    }
+
+    kick_hash_replace(kick_table_by_user, aconn->username, now);
+
+    connection_close(aconn, _("kicked"));
+  } conn_list_iterate_end;
+
+  return TRUE;
+}
+
 
 /**************************************************************************
   Show caller introductory help about the server. help_cmd is the command
