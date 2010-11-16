@@ -359,8 +359,8 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 **************************************************************************/
 static bool is_wet(struct player *pplayer, struct tile *ptile)
 {
-  /* FIXME: this should check a handicap. */
-  if (!pplayer->ai_controlled && !map_is_known(ptile, pplayer)) {
+  if (!(pplayer->ai_controlled && !ai_handicap(pplayer, H_MAP))
+      && !map_is_known(ptile, pplayer)) {
     return FALSE;
   }
 
