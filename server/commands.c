@@ -522,6 +522,15 @@ static struct command commands[] = {
    N_("Evaluate a line of freeciv script in the current game."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
+  {"kick", ALLOW_CTRL,
+   /* TRANS: translate text between <> */
+    N_("kick <user>"),
+    N_("Cut a connection and disallow reconnect."),
+    N_("The connection given by the 'user' argument will be cut from the "
+       "server and not allowed to reconnect. The time the user wouldn't be "
+       "able to reconnect is controlled by the 'kicktime' setting."),
+   CMD_ECHO_ADMINS, VCF_NOPASSALONE, 50
+  },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    SYN_ORIG_("rfcstyle"),

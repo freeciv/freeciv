@@ -1970,6 +1970,14 @@ static struct setting settings[] = {
              "connections supported by the server."), NULL, NULL,
           GAME_MIN_MAXCONNECTIONSPERHOST, GAME_MAX_MAXCONNECTIONSPERHOST,
           GAME_DEFAULT_MAXCONNECTIONSPERHOST)
+
+  GEN_INT("kicktime", game.server.kick_time,
+          SSET_RULES_FLEXIBLE, SSET_NETWORK, SSET_RARE, SSET_SERVER_ONLY,
+          N_("Time before a kicked user can reconnect"),
+          N_("Gives the time in seconds before a user kicked using the "
+             "'kick' command may reconnect. Changing this setting will "
+             "affect users kicked in the past."), NULL, NULL,
+          GAME_MIN_KICK_TIME, GAME_MAX_KICK_TIME, GAME_DEFAULT_KICK_TIME)
 };
 
 #undef GEN_BOOL

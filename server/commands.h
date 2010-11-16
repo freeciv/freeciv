@@ -84,6 +84,7 @@ enum command_id {
   CMD_WRITE_SCRIPT,
   CMD_RESET,
   CMD_LUA,
+  CMD_KICK,
 
   /* undocumented */
   CMD_RFCSTYLE,

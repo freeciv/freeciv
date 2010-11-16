@@ -105,6 +105,7 @@ struct civ_game {
       int incite_total_factor;
       int incite_unit_factor;
       int init_vis_radius_sq;
+      int kick_time;
       int killunhomed;    /* slowly killing unhomed units */
       int maxconnectionsperhost;
       int max_players;
@@ -532,6 +533,10 @@ extern struct civ_game game;
 #define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
 
 #define GAME_DEFAULT_ALLIED_VICTORY TRUE
+
+#define GAME_DEFAULT_KICK_TIME 1800     /* 1800 seconds = 30 minutes. */
+#define GAME_MIN_KICK_TIME 0            /* 0 = disabling. */
+#define GAME_MAX_KICK_TIME 86400        /* 86400 seconds = 24 hours. */
 
 /* ruleset settings */
 

@@ -344,6 +344,7 @@ static void game_defaults(void)
     game.server.fogofwar_old      = game.info.fogofwar;
     game.server.freecost          = GAME_DEFAULT_FREECOST;
     game.server.homecaughtunits   = GAME_DEFAULT_HOMECAUGHTUNITS;
+    game.server.kick_time         = GAME_DEFAULT_KICK_TIME;
     game.server.killunhomed       = GAME_DEFAULT_KILLUNHOMED;
     game.server.maxconnectionsperhost = GAME_DEFAULT_MAXCONNECTIONSPERHOST;
     game.server.last_ping         = 0;

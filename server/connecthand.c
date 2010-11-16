@@ -300,6 +300,7 @@ bool handle_login_request(struct connection *pconn,
                           struct packet_server_join_req *req)
 {
   char msg[MAX_LEN_MSG];
+  int kick_time_remaining;
 
   log_normal(_("Connection request from %s from %s"),
              req->username, pconn->addr);
@@ -351,7 +352,18 @@ bool handle_login_request(struct connection *pconn,
     log_normal(_("%s was rejected: Invalid name [%s]."),
                req->username, pconn->addr);
     return FALSE;
-  } 
+  }
+
+  if (conn_is_kicked(pconn, &kick_time_remaining)) {
+    fc_snprintf(msg, sizeof(msg), _("You have been kicked from this server "
+                                    "and cannot reconnect for %d seconds."),
+                kick_time_remaining);
+    reject_new_connection(msg, pconn);
+    log_normal(_("%s was rejected: Connection kicked "
+                 "(%d seconds remaining)."),
+               req->username, kick_time_remaining);
+    return FALSE;
+  }
 
   /* don't allow duplicate logins */
   conn_list_iterate(game.all_connections, aconn) {
