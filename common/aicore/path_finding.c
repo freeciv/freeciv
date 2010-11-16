@@ -503,11 +503,11 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
     priority = params->get_costs(tile, dir, tile1, node->cost,
                                  node->extra_cost, &cost1,
                                  &extra_cost1, params);
-    node1->cost = cost1;
-    node1->extra_cost = extra_cost1;
     if (priority >= 0) {
       /* We found a better route to 'tile1', record it (the costs are
        * recorded already). Node status step A. to B. */
+      node1->cost = cost1;
+      node1->extra_cost = extra_cost1;
       node1->status = NS_NEW;
       node1->dir_to_here = dir;
       pq_insert(pfnm->queue, index1, -priority);
@@ -665,17 +665,19 @@ static inline bool pf_normal_map_iterate_until(struct pf_normal_map *pfnm,
   struct pf_map *pfm = PF_MAP(pfnm);
   struct pf_normal_node *node = pfnm->lattice + tile_index(ptile);
 
-  /* Start position is handled in every function calling this function. */
-  if (NS_UNINIT == node->status) {
-    /* Initialize the node, for doing the following tests. */
-    pf_normal_node_init(pfnm, node, ptile);
-  }
+  if (NULL == pf_map_parameter(pfm)->get_costs) {
+    /* Start position is handled in every function calling this function. */
+    if (NS_UNINIT == node->status) {
+      /* Initialize the node, for doing the following tests. */
+      pf_normal_node_init(pfnm, node, ptile);
+    }
 
-  /* Simpliciation: if we cannot enter this node at all, don't iterate the
-   * whole map. */
-  if (!CAN_ENTER_NODE(node)) {
-    return FALSE;
-  }
+    /* Simpliciation: if we cannot enter this node at all, don't iterate the
+     * whole map. */
+    if (!CAN_ENTER_NODE(node)) {
+      return FALSE;
+    }
+  } /* Else, this is a jumbo map, not dealing with normal nodes. */
 
   while (NS_PROCESSED != node->status) {
     if (!pf_map_iterate(pfm)) {
