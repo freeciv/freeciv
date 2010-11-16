@@ -2425,7 +2425,9 @@ void srv_main(void)
     }
 
     aifill(game.info.aifill);
-    event_cache_clear();
+    if (S_S_INITIAL == server_state() && game.info.is_new_game) {
+      event_cache_clear();
+    }
 
     freelog(LOG_NORMAL, _("Now accepting new client connections."));
     while (S_S_INITIAL == server_state()) {
