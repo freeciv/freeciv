@@ -2047,8 +2047,15 @@ static bool show_command(struct connection *caller, char *str, bool check)
 
 #define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
 
-#define OPTION_NAME_SPACE 13
-  /* under 16, so it fits into 80 cols more easily - rp */
+  /* Each option value will be displayed as:
+   *
+   * [OPTION_NAME_SPACE length for name] ## [value] ([min], [max])
+   *
+   * where '##' is a combination of ' ', '!' or '+' followed by ' ' or '=' with
+   *  - '!': the option is locked by the ruleset
+   *  - '+': you may change the option
+   *  - '=': the option is on its default value */
+#define OPTION_NAME_SPACE 25
 
   cmd_reply_show(horiz_line);
   switch(level) {
@@ -2076,11 +2083,13 @@ static bool show_command(struct connection *caller, char *str, bool check)
       /* nothing */
       break;
   }
-  cmd_reply_show(_("! means the option is locked by the ruleset"));
-  cmd_reply_show(_("+ means you may change the option"));
-  cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
-  cmd_reply(CMD_SHOW, caller, C_COMMENT, _("%-*s value   (min, max)"),
+  cmd_reply_show(_("In the column '##' the status of the option is shown:"));
+  cmd_reply_show(_(" - a '!' means the option is locked by the ruleset."));
+  cmd_reply_show(_(" - a '+' means you may change the option."));
+  cmd_reply_show(_(" - a '=' means the option is on its default value."));
+  cmd_reply_show(horiz_line);
+  cmd_reply(CMD_SHOW, caller, C_COMMENT, _("%-*s ## value (min, max)"),
             OPTION_NAME_SPACE, _("Option"));
   cmd_reply_show(horiz_line);
 
@@ -2124,10 +2133,13 @@ static bool show_command(struct connection *caller, char *str, bool check)
                    setting_int_min(pset), setting_int_max(pset));
     }
 
-    cmd_reply(CMD_SHOW, caller, C_COMMENT, "%-*s %c%c%s",
+    cmd_reply(CMD_SHOW, caller, C_COMMENT, "%-*s %c%c %s",
               OPTION_NAME_SPACE, setting_name(pset),
               setting_status(caller, pset), is_changed ? ' ' : '=', value);
   } settings_iterate_end;
+  cmd_reply_show(horiz_line);
+  cmd_reply_show(_("An help text for each option is available via 'help "
+                   "<option>'."));
   cmd_reply_show(horiz_line);
   if (level == SSET_VITAL) {
     cmd_reply_show(_("Try 'show situational' or 'show rare' to show "
