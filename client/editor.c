@@ -1424,7 +1424,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
     dx = 0;
     dy = 0;
   }
-  vtile = create_tile_virtual();
+  vtile = create_tile_virtual(NULL);
   vtile->x = dx;
   vtile->y = dy;
 

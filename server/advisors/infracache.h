@@ -29,7 +29,7 @@ void initialize_infrastructure_cache(struct player *pplayer);
 
 void ai_city_update(struct city *pcity);
 
-int city_tile_value(struct city *pcity, struct tile *ptile,
+int city_tile_value(const struct city *pcity, const struct tile *ptile,
                     int foodneed, int prodneed);
 
 void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
