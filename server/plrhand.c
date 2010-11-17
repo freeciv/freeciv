@@ -1703,6 +1703,9 @@ static struct player *split_player(struct player *pplayer)
 
   server_player_init(cplayer, TRUE, TRUE);
 
+  /* Send information about the used player slot to all connections. */
+  send_player_info_c(cplayer, NULL);
+
   /* Rebel will always be an AI player */
   player_set_nation(cplayer, pick_a_nation
       (nation_of_player(pplayer)->server.civilwar_nations,
