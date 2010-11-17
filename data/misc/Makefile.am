@@ -20,12 +20,14 @@ pkgdata_DATA =          \
 	cursors.spec	\
 	editor.png	\
 	editor.spec	\
+	flags-large.spec	\
 	flags.spec	\
 	icons.spec	\
 	intro.png	\
 	overlays.png	\
 	overlays.spec	\
 	radar.png	\
+	shields-large.spec	\
 	shields.spec	\
 	small.png	\
 	small.spec	\
