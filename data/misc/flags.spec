@@ -316,7 +316,7 @@ artists = "
    Sarmatia		Andrzej G.
    Saudi Arabia		Cezary Biele
    Savoy		J.M. Maalderink
-   Saxony 		Björn Adelberg
+   Saxony 		Sir Iain (Wikimedia Commons)
    Schleswig-Holstein	Madden and Drbashir117 (Wikimedia Commons)
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
