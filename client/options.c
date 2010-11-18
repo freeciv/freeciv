@@ -3676,8 +3676,7 @@ static bool server_option_bool_set(struct option *poption, bool val)
     return FALSE;
   }
 
-  send_chat_printf("/set %s %s", psoption->name,
-                   val ? "enabled" : "disabled");
+  send_chat_printf("/set %s %d", psoption->name, val ? 1 : 0);
   return TRUE;
 }
 
