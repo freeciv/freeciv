@@ -1651,7 +1651,7 @@ on its name. Also, you can control your setting from within the \
 city report, in the governor column. And you can change it from there \
 (use 'change' --> 'Citizen Governor'), if you have saved it as a preset.\
 "), _("\
-Use 'Game' --> 'Save Settings' to store your presets \
+Use 'Game' --> 'Options' --> 'Save Settings' to store your presets \
 permanently.\
 "), _("\
 But beware! If you use the governor for some of your cities, you will \
