@@ -396,10 +396,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       switch (pclause->type) {
       case CLAUSE_EMBASSY:
         establish_embassy(pdest, pgiver); /* sic */
-        notify_player(pgiver, NULL, E_TREATY_SHARED_VISION, ftc_server,
+        notify_player(pgiver, NULL, E_TREATY_EMBASSY, ftc_server,
                       _("You gave an embassy to %s."),
                       player_name(pdest));
-        notify_player(pdest, NULL, E_TREATY_SHARED_VISION, ftc_server,
+        notify_player(pdest, NULL, E_TREATY_EMBASSY, ftc_server,
                       _("%s allowed you to create an embassy!"),
                       player_name(pgiver));
         break;
