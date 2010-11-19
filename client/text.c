@@ -209,8 +209,6 @@ const char *popup_info_text(struct tile *ptile)
     /* Look at city owner, not tile owner (the two should be the same, if
      * borders are in use). */
     struct player *owner = city_owner(pcity);
-    struct player_diplstate *ds
-      = player_diplstate_get(client.conn.playing, owner);
     const char *improvements[improvement_count()];
     int has_improvements = 0;
 
@@ -222,6 +220,8 @@ const char *popup_info_text(struct tile *ptile)
       astr_add_line(&str, _("City: %s | %s (%s)"),
                     city_name(pcity), username, nation);
     } else {
+      struct player_diplstate *ds
+        = player_diplstate_get(client_player(), owner);
       if (ds->type == DS_CEASEFIRE) {
         int turns = ds->turns_left;
 
@@ -298,8 +298,6 @@ const char *popup_info_text(struct tile *ptile)
   }
   if (punit && !pcity) {
     struct player *owner = unit_owner(punit);
-    struct player_diplstate *ds
-      = player_diplstate_get(client.conn.playing, owner);
     struct unit_type *ptype = unit_type(punit);
 
     get_full_username(username, sizeof(username), owner);
@@ -320,6 +318,8 @@ const char *popup_info_text(struct tile *ptile)
                       utype_name_translation(ptype), username, nation);
       }
     } else if (NULL != owner) {
+      struct player_diplstate *ds = player_diplstate_get(client_player(),
+                                                         owner);
       if (ds->type == DS_CEASEFIRE) {
         int turns = ds->turns_left;
 
