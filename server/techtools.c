@@ -941,7 +941,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     stolen_tech = preferred;
   }
 
-  notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+  notify_player(pplayer, NULL, E_MY_DIPLOMAT_THEFT, ftc_server,
                 _("You steal %s from the %s."),
                 advance_name_for_player(pplayer, stolen_tech),
                 nation_plural_for_player(victim));
