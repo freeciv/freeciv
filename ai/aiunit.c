@@ -795,8 +795,9 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
       }
 
       def = (toughness - unit_def_rating_basic_sq(buddy));
-      /* This should have been catched above. */
-      fc_assert_action(0 < def, continue);
+      if (0 >= def) {
+        continue;
+      }
 
       if (0 == get_transporter_capacity(buddy)) {
         /* Reduce want based on move cost. We can't do this for
