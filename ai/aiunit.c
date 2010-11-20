@@ -2493,7 +2493,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   }
 
   /* Check for units we could fear. */
-  pfrm = pf_reverse_map_new_for_unit(leader);
+  pfrm = pf_reverse_map_new_for_unit(leader, 3);
   worst_danger = NULL;
   best_move_cost = FC_INFINITY;
 
@@ -2504,9 +2504,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 
     unit_list_iterate(other_player->units, punit) {
       if (!is_ground_unit(punit)
-          || tile_continent(unit_tile(punit)) != leader_cont
-          /* Let's say 8 tiles maximum to fear the danger. */
-          || 8 < real_map_distance(unit_tile(punit), leader_tile)) {
+          || tile_continent(unit_tile(punit)) != leader_cont) {
         continue;
       }
 

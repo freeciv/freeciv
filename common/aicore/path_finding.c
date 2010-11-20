@@ -2919,9 +2919,6 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
  * units needs to reach the start tile. It stores a pf_map for every unit
  * type. */
 
-/* We will iterate this map at max to this cost. */
-#define MAX_COST 255
-
 /* The reverse map structure. */
 struct pf_reverse_map {
   struct pf_parameter param;    /* Keep a parameter ready for usage. */
@@ -2959,7 +2956,7 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
     cost = SINGLE_MOVE;
   }
 
-  if (to_cost + cost > MAX_COST) {
+  if (to_cost + cost > FC_PTR_TO_INT(param->data)) {
     return -1;  /* We reached the maximum we wanted. */
   } else if (*from_cost == PF_IMPOSSIBLE_MC     /* Uninitialized yet. */
              || to_cost + cost < *from_cost) {
@@ -2972,19 +2969,23 @@ static int pf_reverse_map_get_costs(const struct tile *to_tile,
 }
 
 /****************************************************************************
-  'pf_reverse_map' constructor.
+  'pf_reverse_map' constructor. If 'max_turns' is positive, then it won't
+  try to iterate the maps beyond this number of turns.
 ****************************************************************************/
 struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
-                                          struct tile *start_tile)
+                                          struct tile *start_tile,
+                                          int max_turns)
 {
   struct pf_reverse_map *pfrm = fc_malloc(sizeof(struct pf_reverse_map));
+  struct pf_parameter *param = &pfrm->param;
 
   /* Initialize the parameter. */
-  memset(&pfrm->param, 0, sizeof(pfrm->param));
-  pfrm->param.get_costs = pf_reverse_map_get_costs;
-  pfrm->param.start_tile = start_tile;
-  pfrm->param.owner = pplayer;
-  pfrm->param.omniscience = !ai_handicap(pplayer, H_MAP);
+  memset(param, 0, sizeof(*param));
+  param->get_costs = pf_reverse_map_get_costs;
+  param->start_tile = start_tile;
+  param->owner = pplayer;
+  param->omniscience = !ai_handicap(pplayer, H_MAP);
+  param->data = FC_INT_TO_PTR(max_turns);
 
   /* Initialize the map vector. */
   pfrm->maps = fc_calloc(utype_count(), sizeof(*pfrm->maps));
@@ -2993,19 +2994,23 @@ struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
 }
 
 /****************************************************************************
-  'pf_reverse_map' constructor for city.
+  'pf_reverse_map' constructor for city. If 'max_turns' is positive, then
+  it won't try to iterate the maps beyond this number of turns.
 ****************************************************************************/
-struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity)
+struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
+                                                   int max_turns)
 {
-  return pf_reverse_map_new(city_owner(pcity), city_tile(pcity));
+  return pf_reverse_map_new(city_owner(pcity), city_tile(pcity), max_turns);
 }
 
 /****************************************************************************
-  'pf_reverse_map' constructor for unit.
+  'pf_reverse_map' constructor for unit. If 'max_turns' is positive, then
+  it won't try to iterate the maps beyond this number of turns.
 ****************************************************************************/
-struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit)
+struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit,
+                                                   int max_turns)
 {
-  return pf_reverse_map_new(unit_owner(punit), unit_tile(punit));
+  return pf_reverse_map_new(unit_owner(punit), unit_tile(punit), max_turns);
 }
 
 /****************************************************************************
@@ -3038,10 +3043,25 @@ pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
   struct pf_map *pfm = pfrm->maps[index];
 
   if (NULL == pfm) {
+    struct pf_parameter *param = &pfrm->param;
+    int max_turns = FC_PTR_TO_INT(param->data);
+
     /* Not created yet. */
-    pfrm->param.uclass = utype_class(punittype);
-    pfrm->param.unit_flags = punittype->flags;
-    pfm = pf_map_new(&pfrm->param);
+    param->uclass = utype_class(punittype);
+    param->unit_flags = punittype->flags;
+    param->move_rate = punittype->move_rate;
+    param->moves_left_initially = punittype->move_rate;
+    if (utype_fuel(punittype)) {
+      param->fuel = utype_fuel(punittype);
+      param->fuel_left_initially = utype_fuel(punittype);
+    } else {
+      param->fuel = 1;
+      param->fuel_left_initially = 1;
+    }
+    pfm = pf_map_new(param);
+    pfm->params.data =
+        FC_INT_TO_PTR(0 <= max_turns && FC_INFINITY > max_turns
+                      ? max_turns * param->move_rate : FC_INFINITY);
     pfrm->maps[index] = pfm;
   }
 
