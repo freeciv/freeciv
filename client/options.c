@@ -3676,7 +3676,8 @@ static bool server_option_bool_set(struct option *poption, bool val)
     return FALSE;
   }
 
-  send_chat_printf("/set %s %d", psoption->name, val ? 1 : 0);
+  send_chat_printf("/set %s %s", psoption->name,
+                   val ? "enabled" : "disabled");
   return TRUE;
 }
 
@@ -4311,7 +4312,7 @@ static void settable_options_load(struct section_file *sf)
     switch (entry_type(pentry)) {
     case ENTRY_BOOL:
       if (entry_bool_get(pentry, &bval)) {
-        fc_snprintf(buf, sizeof(buf), "%d", bval);
+        fc_strlcpy(buf, bval ? "enabled" : "disabled", sizeof(buf));
         string = buf;
       }
       break;
@@ -4367,9 +4368,11 @@ void desired_settable_options_update(void)
     def_val = NULL;
     switch (option_type(poption)) {
     case OT_BOOLEAN:
-      fc_snprintf(val_buf, sizeof(val_buf), "%d", option_bool_get(poption));
+      fc_strlcpy(val_buf, option_bool_get(poption) ? "enabled" : "disabled",
+                 sizeof(val_buf));
       value = val_buf;
-      fc_snprintf(def_buf, sizeof(def_buf), "%d", option_bool_def(poption));
+      fc_strlcpy(def_buf, option_bool_def(poption) ? "enabled" : "disabled",
+                 sizeof(def_buf));
       def_val = def_buf;
       break;
     case OT_INTEGER:
@@ -4453,7 +4456,8 @@ static void desired_settable_option_send(struct option *poption)
   value = NULL;
   switch (option_type(poption)) {
   case OT_BOOLEAN:
-    fc_snprintf(buf, sizeof(buf), "%d", option_bool_get(poption));
+    fc_strlcpy(buf, option_bool_get(poption) ? "enabled" : "disabled",
+               sizeof(buf));
     value = buf;
     break;
   case OT_INTEGER:
