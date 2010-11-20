@@ -3028,6 +3028,27 @@ void pf_reverse_map_destroy(struct pf_reverse_map *pfrm)
 }
 
 /****************************************************************************
+  Returns the map for the unit type. Creates it if needed.
+****************************************************************************/
+static inline struct pf_map *
+pf_reverse_map_utype_map(struct pf_reverse_map *pfrm,
+                         const struct unit_type *punittype)
+{
+  Unit_type_id index = utype_index(punittype);
+  struct pf_map *pfm = pfrm->maps[index];
+
+  if (NULL == pfm) {
+    /* Not created yet. */
+    pfrm->param.uclass = utype_class(punittype);
+    pfrm->param.unit_flags = punittype->flags;
+    pfm = pf_map_new(&pfrm->param);
+    pfrm->maps[index] = pfm;
+  }
+
+  return pfm;
+}
+
+/****************************************************************************
   Get the move costs that a unit type needs to reach the start tile. Returns
   PF_IMPOSSIBLE_MC if the tile is unreachable.
 ****************************************************************************/
@@ -3035,16 +3056,7 @@ int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
                                    const struct unit_type *punittype,
                                    struct tile *ptile)
 {
-  Unit_type_id index = utype_index(punittype);
-  struct pf_map *pfm = pfrm->maps[index];
-
-  if (!pfm) {
-    /* Not created yet. */
-    pfrm->param.uclass = utype_class(punittype);
-    pfrm->param.unit_flags = punittype->flags;
-    pfm = pf_map_new(&pfrm->param);
-    pfrm->maps[index] = pfm;
-  }
+  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, punittype);
 
   return pfm->get_move_cost(pfm, ptile);
 }
@@ -3054,8 +3066,59 @@ int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
   PF_IMPOSSIBLE_MC if the tile is unreachable.
 ****************************************************************************/
 int pf_reverse_map_unit_move_cost(struct pf_reverse_map *pfrm,
-                                  struct unit *punit)
+                                  const struct unit *punit)
 {
-  return pf_reverse_map_utype_move_cost(pfrm, unit_type(punit),
-                                        unit_tile(punit));
+  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, unit_type(punit));
+
+  return pfm->get_move_cost(pfm, unit_tile(punit));
+}
+
+/****************************************************************************
+  Get the path to the target from 'ptile'. Note that the path will be in
+  reverse order.
+****************************************************************************/
+struct pf_path *pf_reverse_map_utype_path(struct pf_reverse_map *pfrm,
+                                          const struct unit_type *punittype,
+                                          struct tile *ptile)
+{
+  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, punittype);
+
+  return pfm->get_path(pfm, ptile);
+}
+
+/****************************************************************************
+  Get the path to the target from 'punit'. Note that the path will be in
+  reverse order.
+****************************************************************************/
+struct pf_path *pf_reverse_map_unit_path(struct pf_reverse_map *pfrm,
+                                         const struct unit *punit)
+{
+  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, unit_type(punit));
+
+  return pfm->get_path(pfm, unit_tile(punit));
+}
+
+/****************************************************************************
+  Fill the position. Return TRUE if the tile is reachable.
+****************************************************************************/
+bool pf_reverse_map_utype_position(struct pf_reverse_map *pfrm,
+                                   const struct unit_type *punittype,
+                                   struct tile *ptile,
+                                   struct pf_position *pos)
+{
+  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, punittype);
+
+  return pfm->get_position(pfm, ptile, pos);
+}
+
+/****************************************************************************
+  Fill the position. Return TRUE if the tile is reachable.
+****************************************************************************/
+bool pf_reverse_map_unit_position(struct pf_reverse_map *pfrm,
+                                  const struct unit *punit,
+                                  struct pf_position *pos)
+{
+  struct pf_map *pfm = pf_reverse_map_utype_map(pfrm, unit_type(punit));
+
+  return pfm->get_position(pfm, unit_tile(punit), pos);
 }

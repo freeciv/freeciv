@@ -459,7 +459,19 @@ int pf_reverse_map_utype_move_cost(struct pf_reverse_map *pfrm,
                                    const struct unit_type *punittype,
                                    struct tile *ptile);
 int pf_reverse_map_unit_move_cost(struct pf_reverse_map *pfrm,
-                                  struct unit *punit);
+                                  const struct unit *punit);
+struct pf_path *pf_reverse_map_utype_path(struct pf_reverse_map *pfrm,
+                                          const struct unit_type *punittype,
+                                          struct tile *ptile);
+struct pf_path *pf_reverse_map_unit_path(struct pf_reverse_map *pfrm,
+                                         const struct unit *punit);
+bool pf_reverse_map_utype_position(struct pf_reverse_map *pfrm,
+                                   const struct unit_type *punittype,
+                                   struct tile *ptile,
+                                   struct pf_position *pos);
+bool pf_reverse_map_unit_position(struct pf_reverse_map *pfrm,
+                                  const struct unit *punit,
+                                  struct pf_position *pos);
 
 
 
