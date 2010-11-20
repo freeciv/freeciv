@@ -38,7 +38,6 @@
 
 /* server */
 #include "citytools.h"
-#include "gotohand.h"
 #include "maphand.h"
 #include "srv_log.h"
 #include "unithand.h"

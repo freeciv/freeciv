@@ -34,7 +34,6 @@
 
 /* server */
 #include "hand_gen.h"
-#include "gotohand.h"
 #include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"

@@ -41,7 +41,6 @@
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
-#include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "score.h"
@@ -438,6 +437,97 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   pf_map_destroy(pfm);
 
   return alive;
+}
+
+/****************************************************************************
+  Basic checks as to whether a GOTO is possible. The target 'ptile' should
+  be on the same continent as punit is, up to embarkation/disembarkation.
+****************************************************************************/
+bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct city *pcity = tile_city(ptile);
+  Continent_id my_cont = tile_continent(unit_tile(punit));
+  Continent_id target_cont = tile_continent(ptile);
+
+  if (same_pos(unit_tile(punit), ptile)) {
+    return TRUE;
+  }
+
+  if (!(omni || map_is_known_and_seen(ptile, pplayer, V_MAIN))) {
+    /* The destination is in unknown -- assume sane. */
+    return TRUE;
+  }
+
+  switch (uclass_move_type(unit_class(punit))) {
+  case LAND_MOVING:
+    if (is_ocean_tile(ptile)) {
+      /* Going to a sea tile, the target should be next to our continent
+       * and with a boat */
+      if (unit_class_transporter_capacity(ptile, pplayer,
+                                          unit_class(punit)) > 0) {
+        adjc_iterate(ptile, tmp_tile) {
+          if (tile_continent(tmp_tile) == my_cont) {
+            /* The target is adjacent to our continent! */
+            return TRUE;
+          }
+        } adjc_iterate_end;
+      }
+    } else {
+      /* Going to a land tile: better be our continent */
+      if (my_cont == target_cont) {
+        return TRUE;
+      } else {
+        /* Well, it's not our continent, but maybe we are on a boat
+         * adjacent to the target continent? */
+        adjc_iterate(punit->tile, tmp_tile) {
+          if (tile_continent(tmp_tile) == target_cont) {
+            return TRUE;
+          }
+        } adjc_iterate_end;
+      }
+    }
+    return FALSE;
+
+  case SEA_MOVING:
+    if (!is_ocean_tile(punit->tile)) {
+      /* Oops, we are not in the open waters.  Pick an ocean that we have
+       * access to.  We can assume we are in a city, and any oceans adjacent
+       * are connected, so it does not matter which one we pick. */
+      adjc_iterate(punit->tile, tmp_tile) {
+        if (is_ocean_tile(tmp_tile)) {
+          my_cont = tile_continent(tmp_tile);
+          break;
+        }
+      } adjc_iterate_end;
+    }
+    if (is_ocean_tile(ptile)) {
+      if (ai_channel(pplayer, target_cont, my_cont)) {
+        return TRUE; /* Ocean -> Ocean travel ok. */
+      }
+    } else if ((pcity && pplayers_allied(city_owner(pcity), pplayer))
+               || !unit_has_type_flag(punit, F_NO_LAND_ATTACK)) {
+      /* Not ocean, but allied city or can bombard, checking if there is
+       * good ocean adjacent */
+      adjc_iterate(ptile, tmp_tile) {
+        if (is_ocean_tile(tmp_tile)
+            && ai_channel(pplayer, my_cont, tile_continent(tmp_tile))) {
+          return TRUE;
+        }
+      } adjc_iterate_end;
+    }
+    return FALSE; /* Not ok. */
+
+  case BOTH_MOVING:
+    return TRUE;
+
+  case MOVETYPE_LAST:
+    break;
+  }
+
+  log_error("%s(): Move type %d not handled!", __FUNCTION__,
+            uclass_move_type(unit_class(punit)));
+  return FALSE;
 }
 
 

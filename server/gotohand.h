@@ -41,8 +41,6 @@ int air_can_move_between(int moves, struct tile *src_tile,
 #define THRESHOLD 12
 
 
-bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni);
-
 struct move_cost_map {
   unsigned char *cost;
   unsigned char *seacost;
