@@ -531,6 +531,15 @@ static struct command commands[] = {
        "able to reconnect is controlled by the 'kicktime' setting."),
    CMD_ECHO_ADMINS, VCF_NOPASSALONE, 50
   },
+#ifdef DEBUG
+  {"oldsave", ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("save\n"
+      "save <file-name>"),
+   N_("Save game to file using the old format."), NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 0
+  },
+#endif /* DEBUG */
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    SYN_ORIG_("rfcstyle"),

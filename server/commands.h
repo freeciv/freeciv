@@ -85,6 +85,9 @@ enum command_id {
   CMD_RESET,
   CMD_LUA,
   CMD_KICK,
+#ifdef DEBUG
+  CMD_OLDSAVE,
+#endif /* DEBUG */
 
   /* undocumented */
   CMD_RFCSTYLE,
