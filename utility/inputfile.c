@@ -494,14 +494,16 @@ static bool read_a_line(struct inputfile *inf)
     }
     astr_reserve(line, pos * 2);
   }
-  inf->line_num++;
-  inf->cur_line_pos = 0;
 
-  if (check_include(inf)) {
-    return read_a_line(inf);
-  }
+  if (!inf->at_eof) {
+    inf->line_num++;
+    inf->cur_line_pos = 0;
 
-  if (inf->at_eof) {
+    if (check_include(inf)) {
+      return read_a_line(inf);
+    }
+    return TRUE;
+  } else {
     astr_clear(line);
     if (inf->included_from) {
       /* Pop the include, and get next line from file above instead. */
@@ -513,8 +515,6 @@ static bool read_a_line(struct inputfile *inf)
       return read_a_line(inf);
     }
     return FALSE;
-  } else {
-    return TRUE;
   }
 }
 
