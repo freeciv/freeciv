@@ -490,17 +490,20 @@ static bool read_a_line(struct inputfile *inf)
     }
     astr_minsize(line, line->n*2);
   }
-  inf->line_num++;
-  inf->cur_line_pos = 0;
 
-  astr_minsize(&inf->copy_line, inf->cur_line.n + ((inf->cur_line.n == 0) ? 1 : 0));
-  strcpy(inf->copy_line.str, inf->cur_line.str);
+  if (!inf->at_eof) {
+    inf->line_num++;
+    inf->cur_line_pos = 0;
 
-  if (check_include(inf)) {
-    return read_a_line(inf);
-  }
+    astr_minsize(&inf->copy_line,
+                 inf->cur_line.n + ((inf->cur_line.n == 0) ? 1 : 0));
+    strcpy(inf->copy_line.str, inf->cur_line.str);
 
-  if (inf->at_eof) {
+    if (check_include(inf)) {
+      return read_a_line(inf);
+    }
+    return TRUE;
+  } else {
     line->str[0] = '\0';
     line->n = 0;
     if (inf->included_from) {
@@ -513,8 +516,6 @@ static bool read_a_line(struct inputfile *inf)
       return read_a_line(inf);
     }
     return FALSE;
-  } else {
-    return TRUE;
   }
 }
 
