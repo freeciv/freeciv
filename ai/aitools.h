@@ -81,6 +81,7 @@ void ai_log_path(struct unit *punit,
 bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
 			      struct pf_parameter *parameter);
 bool ai_unit_goto(struct unit *punit, struct tile *ptile);
+bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni);
 
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, 
                       struct tile *ptile);

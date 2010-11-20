@@ -59,7 +59,6 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
-#include "gotohand.h"
 #include "maphand.h"
 #include "srv_log.h"
 #include "unithand.h"
