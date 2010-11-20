@@ -2763,12 +2763,25 @@ bool pf_map_position(struct pf_map *pfm, struct tile *ptile,
 ****************************************************************************/
 bool pf_map_iterate(struct pf_map *pfm)
 {
-  if (pf_move_rate(pf_map_parameter(pfm)) <= 0) {
-    /* This unit cannot move by itself. */
+  if (NULL == pfm->tile) {
+    /* The end of the iteration was already reached. Don't try to iterate
+     * again. */
     return FALSE;
-  } else {
-    return pfm->iterate(pfm);
   }
+
+  if (0 >= pf_move_rate(pf_map_parameter(pfm))) {
+    /* The unit cannot moves itself. */
+    pfm->tile = NULL;
+    return FALSE;
+  }
+
+  if (!pfm->iterate(pfm)) {
+    /* End of iteration. */
+    pfm->tile = NULL;
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /****************************************************************************
