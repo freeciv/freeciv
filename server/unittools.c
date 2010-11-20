@@ -60,7 +60,6 @@
 #include "cityturn.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gotohand.h"
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"

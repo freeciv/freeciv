@@ -61,7 +61,6 @@
 #include "capstr.h"
 #include "dataio.h"
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
