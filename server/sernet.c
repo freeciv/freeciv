@@ -933,22 +933,20 @@ static int server_accept_connection(int sockfd)
   }
 
 #ifdef IPV6_SUPPORT
-  if (!getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
-                   service, NI_MAXSERV, NI_NUMERICSERV)) {
-    nameinfo = TRUE;
-  }
+  nameinfo = (0 == getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
+                               service, NI_MAXSERV, NI_NUMERICSERV)
+              && '\0' != host[0]);
 #else  /* IPv6 support */
-  from =
-    gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
-                  sizeof(fromend.saddr_in4.sin_addr), AF_INET);
-  if (from) {
+  from = gethostbyaddr((char *) &fromend.saddr_in4.sin_addr,
+                       sizeof(fromend.saddr_in4.sin_addr), AF_INET);
+  if (NULL != from && '\0' != from->h_name[0]) {
     host = from->h_name;
     nameinfo = TRUE;
   }
 #endif /* IPv6 support */
 
   return server_make_connection(new_sock,
-				(nameinfo ? host : dst), dst);
+                                (nameinfo ? host : dst), dst);
 }
 
 /********************************************************************
