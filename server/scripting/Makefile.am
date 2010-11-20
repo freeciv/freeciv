@@ -23,6 +23,8 @@ dist_libscripting_la_SOURCES = \
 		api_methods.h	\
 		api_notify.c	\
 		api_notify.h	\
+		api_specenum.c  \
+		api_specenum.h  \
 		api_utilities.c	\
 		api_utilities.h	\
 		api_types.h	\

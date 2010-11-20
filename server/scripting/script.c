@@ -29,6 +29,7 @@
 
 #include "api_gen.h"
 #include "api_types.h"
+#include "api_specenum.h"
 #include "script_signal.h"
 
 #include "script.h"
@@ -592,6 +593,8 @@ bool script_init(void)
     script_blacklist(state, script_unsafe_symbols);
 
     tolua_api_open(state);
+
+    api_specenum_open(state);
 
     script_code_init();
     script_vars_init();
