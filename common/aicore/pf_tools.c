@@ -737,6 +737,12 @@ static void pft_fill_utype_default_parameter(struct pf_parameter *parameter,
   }
   parameter->owner = powner;
 
+  if (!BV_ISSET(parameter->unit_flags, F_CIVILIAN)) {
+    parameter->can_invade_tile = player_can_invade_tile;
+  } else {
+    parameter->can_invade_tile = NULL;
+  }
+
   parameter->omniscience = !ai_handicap(powner, H_MAP);
 }
 
