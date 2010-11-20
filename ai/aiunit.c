@@ -87,7 +87,8 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
 
 static bool unit_role_defender(const struct unit_type *punittype);
-static int unit_def_rating_sq(struct unit *punit, struct unit *pdef);
+static int unit_def_rating_sq(const struct unit *punit,
+                              const struct unit *pdef);
 
 /*
  * Cached values. Updated by update_simple_ai_types.
@@ -278,9 +279,9 @@ int build_cost_balanced(const struct unit_type *punittype)
       (punittype->attack_strength + punittype->defense_strength);
 }
 
-/**************************************************************************
+/****************************************************************************
   Attack rating of this kind of unit.
-**************************************************************************/
+****************************************************************************/
 int unittype_att_rating(const struct unit_type *punittype, int veteran,
                         int moves_left, int hp)
 {
@@ -288,68 +289,69 @@ int unittype_att_rating(const struct unit_type *punittype, int veteran,
          * punittype->firepower / POWER_DIVIDER;
 }
 
-/********************************************************************** 
+/****************************************************************************
   Attack rating of this particular unit right now.
-***********************************************************************/
-static int unit_att_rating_now(struct unit *punit)
+****************************************************************************/
+static int unit_att_rating_now(const struct unit *punit)
 {
   return unittype_att_rating(unit_type(punit), punit->veteran,
                              punit->moves_left, punit->hp);
 }
 
-/********************************************************************** 
+/****************************************************************************
   Attack rating of this particular unit assuming that it has a
   complete move left.
-***********************************************************************/
-int unit_att_rating(struct unit *punit)
+****************************************************************************/
+int unit_att_rating(const struct unit *punit)
 {
   return unittype_att_rating(unit_type(punit), punit->veteran,
                              SINGLE_MOVE, punit->hp);
 }
 
-/********************************************************************** 
+/****************************************************************************
   Square of the previous function - used in actual computations.
-***********************************************************************/
-static int unit_att_rating_sq(struct unit *punit)
+****************************************************************************/
+static int unit_att_rating_sq(const struct unit *punit)
 {
   int v = unit_att_rating(punit);
   return v * v;
 }
 
-/********************************************************************** 
+/****************************************************************************
   Defence rating of this particular unit against this attacker.
-***********************************************************************/
-static int unit_def_rating(struct unit *attacker, struct unit *defender)
+****************************************************************************/
+static int unit_def_rating(const struct unit *attacker,
+                           const struct unit *defender)
 {
-  return get_total_defense_power(attacker, defender) *
-         (attacker->id != 0 ? defender->hp : unit_type(defender)->hp) *
-         unit_type(defender)->firepower / POWER_DIVIDER;
+  return (get_total_defense_power(attacker, defender)
+          * (attacker->id != 0 ? defender->hp : unit_type(defender)->hp)
+          * unit_type(defender)->firepower / POWER_DIVIDER);
 }
 
-/********************************************************************** 
+/****************************************************************************
   Square of the previous function - used in actual computations.
-***********************************************************************/
-static int unit_def_rating_sq(struct unit *attacker,
-                              struct unit *defender)
+****************************************************************************/
+static int unit_def_rating_sq(const struct unit *attacker,
+                              const struct unit *defender)
 {
   int v = unit_def_rating(attacker, defender);
   return v * v;
 }
 
-/********************************************************************** 
-  Basic (i.e. not taking attacker specific corections into account) 
-  defence rating of this particular unit.
-***********************************************************************/
-int unit_def_rating_basic(struct unit *punit)
+/****************************************************************************
+  Basic (i.e. not taking attacker specific corections into account)
+  defense rating of this particular unit.
+****************************************************************************/
+int unit_def_rating_basic(const struct unit *punit)
 {
   return base_get_defense_power(punit) * punit->hp *
     unit_type(punit)->firepower / POWER_DIVIDER;
 }
 
-/********************************************************************** 
+/****************************************************************************
   Square of the previous function - used in actual computations.
-***********************************************************************/
-int unit_def_rating_basic_sq(struct unit *punit)
+****************************************************************************/
+int unit_def_rating_basic_sq(const struct unit *punit)
 {
   int v = unit_def_rating_basic(punit);
   return v * v;
@@ -985,81 +987,6 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
   }
 }
 
-/***************************************************************************
- A rough estimate of time (measured in turns) to get to the enemy city, 
- taking into account ferry transfer.
- If boat == NULL, we will build a boat of type boattype right here, so
- we wouldn't have to walk to it.
-
- Requires ready warmap(s).  Assumes punit is ground or sailing.
-***************************************************************************/
-int turns_to_enemy_city(const struct unit_type *our_type, struct city *acity,
-                        int speed, bool go_by_boat, 
-                        struct unit *boat, const struct unit_type *boattype)
-{
-  struct unit_class *pclass = utype_class(our_type);
-
-  if (pclass->ai.sea_move == MOVE_NONE && go_by_boat) {
-    int boatspeed = boattype->move_rate;
-    int move_time = (WARMAP_SEACOST(acity->tile)) / boatspeed;
-      
-    if (utype_has_flag(boattype, F_TRIREME) && move_time > 2) {
-      /* Return something prohibitive */
-      return 999;
-    }
-    if (boat) {
-      /* Time to get to the boat */
-      move_time += (WARMAP_COST(boat->tile) + speed - 1) / speed;
-    }
-      
-    if (!utype_has_flag(our_type, F_MARINES)) {
-      /* Time to get off the boat (Marines do it from the vessel) */
-      move_time += 1;
-    }
-      
-    return move_time;
-  }
-
-  if (pclass->ai.land_move == MOVE_NONE
-      && pclass->ai.sea_move != MOVE_NONE) {
-    /* We are a boat: time to sail */
-    return (WARMAP_SEACOST(acity->tile) + speed - 1) / speed;
-  }
-
-  return (WARMAP_COST(acity->tile) + speed - 1) / speed;
-}
-
-/************************************************************************
- Rough estimate of time (in turns) to catch up with the enemy unit.  
- FIXME: Take enemy speed into account in a more sensible way
-
- Requires precomputed warmap.  Assumes punit is ground or sailing. 
-************************************************************************/ 
-int turns_to_enemy_unit(const struct unit_type *our_type,
-			int speed, struct tile *ptile,
-                        const struct unit_type *enemy_type)
-{
-  struct unit_class *pclass = utype_class(our_type);
-  int dist;
-
-  if (pclass->ai.land_move != MOVE_NONE) {
-    dist = WARMAP_COST(ptile);
-  } else {
-    dist = WARMAP_SEACOST(ptile);
-  }
-
-  /* if dist <= move_rate, we hit the enemy right now */    
-  if (dist > speed) { 
-    /* Weird attempt to take into account enemy running away... */
-    dist *= enemy_type->move_rate;
-    if (utype_has_flag(enemy_type, F_IGTER)) {
-      dist *= 3;
-    }
-  }
-  
-  return (dist + speed - 1) / speed;
-}
-
 /*************************************************************************
   Mark invasion possibilities of punit in the surrounding cities. The
   given radius limites the area which is searched for cities. The
@@ -1109,12 +1036,10 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 /****************************************************************************
   Returns TRUE if a beachhead as been found to reach 'dest_tile'.
 ****************************************************************************/
-static bool find_beachhead(const struct player *pplayer,
-                           struct pf_map *ferry_map,
-                           struct tile *dest_tile,
-                           const struct unit_type *cargo_type,
-                           struct tile **ferry_dest,
-                           struct tile **beachhead_tile)
+bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
+                    struct tile *dest_tile,
+                    const struct unit_type *cargo_type,
+                    struct tile **ferry_dest, struct tile **beachhead_tile)
 {
   if (NULL == tile_city(dest_tile)
       || utype_has_flag(cargo_type, F_MARINES)) {
@@ -1180,7 +1105,10 @@ static bool find_beachhead(const struct player *pplayer,
   punit->id == 0 means that the unit is virtual (considered to be built).
 ****************************************************************************/
 int find_something_to_kill(struct player *pplayer, struct unit *punit,
-                           struct tile **dest_tile)
+                           struct tile **pdest_tile, struct pf_path **ppath,
+                           struct pf_map **pferrymap,
+                           struct unit **pferryboat,
+                           struct unit_type **pboattype, int *pmove_time)
 {
   const int attack_value = unit_att_rating(punit);    /* basic attack. */
   struct pf_parameter parameter;
@@ -1215,9 +1143,25 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   int bk = 0; 
   int want;             /* Want (amortized) of the operaton. */
   int best = 0;         /* Best of all wants. */
+  struct tile *goto_dest_tile = NULL;
 
-  /* Very preliminary checks */
-  *dest_tile = punit_tile;
+  /* Very preliminary checks. */
+  *pdest_tile = punit_tile;
+  if (NULL != pferrymap) {
+    *pferrymap = NULL;
+  }
+  if (NULL != pferryboat) {
+    *pferryboat = NULL;
+  }
+  if (NULL != pboattype) {
+    *pboattype = NULL;
+  }
+  if (NULL != pmove_time) {
+    *pmove_time = 0;
+  }
+  if (NULL != ppath) {
+    *ppath = NULL;
+  }
 
   if (0 == attack_value) {
     /* A very poor attacker... probably low on HP. */
@@ -1451,7 +1395,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       /* AI was not sending enough reinforcements to totally wipe out a city
        * and conquer it in one turn.
        * This variable enables total carnage. -- Syela */
-      victim_count = unit_list_size(acity->tile->units) + 1;
+      victim_count = unit_list_size(atile->units) + 1;
 
       if (!unit_can_take_over(punit) && NULL == pdefender) {
         /* Nothing there to bash and we can't occupy!
@@ -1501,7 +1445,21 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                                      bcost_bal + needferry);
 
         if (bk_e > bk) {
-          *dest_tile = acity->tile;
+          *pdest_tile = atile;
+          if (NULL != pferrymap) {
+            *pferrymap = go_by_boat ? ferry_map : NULL;
+          }
+          if (NULL != pferryboat) {
+            *pferryboat = go_by_boat ? ferryboat : NULL;
+          }
+          if (NULL != pboattype) {
+            *pboattype = go_by_boat ? boattype : NULL;
+          }
+          if (NULL != pmove_time) {
+            *pmove_time = move_time;
+          }
+          goto_dest_tile = (go_by_boat && NULL != ferryboat
+                            ? unit_tile(ferryboat) : atile);
           bk = bk_e;
         }
       }
@@ -1521,7 +1479,21 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
         /* Yes, we like this target */
         best = want;
-        *dest_tile = atile;
+        *pdest_tile = atile;
+        if (NULL != pferrymap) {
+          *pferrymap = go_by_boat ? ferry_map : NULL;
+        }
+        if (NULL != pferryboat) {
+          *pferryboat = go_by_boat ? ferryboat : NULL;
+        }
+        if (NULL != pboattype) {
+          *pboattype = go_by_boat ? boattype : NULL;
+        }
+        if (NULL != pmove_time) {
+          *pmove_time = move_time;
+        }
+        goto_dest_tile = (go_by_boat && NULL != ferryboat
+                          ? unit_tile(ferryboat) : atile);
       }
     } city_list_iterate_end;
 
@@ -1583,13 +1555,32 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                                want, MAX(1, move_time), bcost_bal);
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
         best = want;
-        *dest_tile = atile;
+        *pdest_tile = atile;
+        if (NULL != pferrymap) {
+          *pferrymap = NULL;
+        }
+        if (NULL != pferryboat) {
+          *pferryboat = NULL;
+        }
+        if (NULL != pboattype) {
+          *pboattype = NULL;
+        }
+        if (NULL != pmove_time) {
+          *pmove_time = move_time;
+        }
+        goto_dest_tile = atile;
       }
     } unit_list_iterate_end;
   } players_iterate_end;
 
+  if (NULL != ppath) {
+    *ppath = (NULL != goto_dest_tile && goto_dest_tile != punit_tile
+              ? pf_map_path(punit_map, goto_dest_tile) : NULL);
+  }
+
   pf_map_destroy(punit_map);
-  if (NULL != ferry_map) {
+  if (NULL != ferry_map
+      && (NULL == pferrymap || *pferrymap != ferry_map)) {
     pf_map_destroy(ferry_map);
   }
 
@@ -1722,7 +1713,6 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int id = punit->id;
   int ct = 10;
   struct city *pcity = NULL;
-  struct tile *start_tile = punit->tile;
 
   CHECK_UNIT(punit);
 
@@ -1743,48 +1733,67 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
 
   /* Main attack loop */
   do {
-    /* Then find enemies the hard way */
-    find_something_to_kill(pplayer, punit, &dest_tile);
-    if (!same_pos(punit->tile, dest_tile)) {
+    struct tile *start_tile = unit_tile(punit);
+    struct pf_path *path;
+    struct unit *ferryboat;
 
-      if (!is_tiles_adjacent(punit->tile, dest_tile)
+    /* Then find enemies the hard way */
+    find_something_to_kill(pplayer, punit, &dest_tile, &path,
+                           NULL, &ferryboat, NULL, NULL);
+    if (!same_pos(unit_tile(punit), dest_tile)) {
+      if (!is_tiles_adjacent(unit_tile(punit), dest_tile)
           || !can_unit_attack_tile(punit, dest_tile)) {
+
         /* Adjacent and can't attack usually means we are not marines
          * and on a ferry. This fixes the problem (usually). */
-        UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> (%d,%d)", 
-                 dest_tile->x, dest_tile->y);
-        if (!ai_gothere(pplayer, punit, dest_tile)) {
-          /* Died or got stuck */
-          if (game_unit_by_number(id)
-	      && punit->moves_left && punit->tile != start_tile) {
-	    /* Got stuck. Possibly because of adjacency to an
-	     * enemy unit. Perhaps we are in luck and are now next to a
-	     * tempting target? Let's find out... */
-	    (void) ai_military_rampage(punit,
-				       RAMPAGE_ANYTHING, RAMPAGE_ANYTHING);
-	  }
+        UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> (%d, %d)",
+                 TILE_XY(dest_tile));
+        if (NULL != path && !adv_follow_path(punit, path, dest_tile)) {
+          /* Died. */
+          pf_path_destroy(path);
           return;
         }
-        if (punit->moves_left <= 0) {
+        if (NULL != ferryboat) {
+          /* Need a boat. */
+          aiferry_gobyboat(pplayer, punit, dest_tile);
+          pf_path_destroy(path);
           return;
         }
+        if (0 >= punit->moves_left) {
+          /* No moves left. */
+          pf_path_destroy(path);
+          return;
+        }
+
         /* Either we're adjacent or we sitting on the tile. We might be
          * sitting on the tile if the enemy that _was_ sitting there 
          * attacked us and died _and_ we had enough movement to get there */
         if (same_pos(punit->tile, dest_tile)) {
-          UNIT_LOG(LOG_DEBUG, punit, "mil att made it -> (%d,%d)",
-                 dest_tile->x, dest_tile->y);
+          UNIT_LOG(LOG_DEBUG, punit, "mil att made it -> (%d, %d)",
+                   TILE_XY(dest_tile));
+          pf_path_destroy(path);
           break;
         }
       }
-      
-      /* Close combat. fstk sometimes want us to attack an adjacent
-       * enemy that rampage wouldn't */
-      UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> %d, %d",
-	       dest_tile->x, dest_tile->y);
-      if (!ai_unit_attack(punit, dest_tile)) {
-        /* Died */
+
+      if (is_tiles_adjacent(unit_tile(punit), dest_tile)) {
+        /* Close combat. fstk sometimes want us to attack an adjacent
+         * enemy that rampage wouldn't */
+        UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> (%d, %d)",
+                 TILE_XY(dest_tile));
+        if (!ai_unit_attack(punit, dest_tile)) {
+          /* Died */
+          pf_path_destroy(path);
           return;
+        }
+      } else if (!same_pos(start_tile, unit_tile(punit))) {
+        /* Got stuck. Possibly because of adjacency to an
+         * enemy unit. Perhaps we are in luck and are now next to a
+         * tempting target? Let's find out... */
+        (void) ai_military_rampage(punit,
+                                   RAMPAGE_ANYTHING, RAMPAGE_ANYTHING);
+        pf_path_destroy(path);
+        return;
       }
 
     } else {
@@ -1793,6 +1802,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
       /* No worthy enemies found, so abort loop */
       ct = 0;
     }
+    pf_path_destroy(path);
 
     ct--; /* infinite loops from railroads must be stopped */
   } while (punit->moves_left > 0 && ct > 0);
