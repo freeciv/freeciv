@@ -447,11 +447,14 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
 
 /* Reverse map functions (Costs to go to start tile). */
 struct pf_reverse_map *pf_reverse_map_new(struct player *pplayer,
-                                          struct tile *start_tile)
+                                          struct tile *start_tile,
+                                          int max_turns)
                        fc__warn_unused_result;
-struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity)
+struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
+                                                   int max_turns)
                        fc__warn_unused_result;
-struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit)
+struct pf_reverse_map *pf_reverse_map_new_for_unit(const struct unit *punit,
+                                                   int max_turns)
                        fc__warn_unused_result;
 void pf_reverse_map_destroy(struct pf_reverse_map *prfm);
 
