@@ -20,7 +20,6 @@
 
 /* utility */
 #include "fcintl.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"

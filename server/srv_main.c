@@ -100,7 +100,6 @@
 #include "edithand.h"
 #include "gamehand.h"
 #include "ggzserver.h"
-#include "gotohand.h"
 #include "handchat.h"
 #include "maphand.h"
 #include "meta.h"
@@ -1292,9 +1291,6 @@ void server_quit(void)
   server_game_free();
   diplhand_free();
   voting_free();
-
-  /* Free all the warmap arrays */
-  free_mapqueue();
 
 #ifdef HAVE_AUTH
   if (srvarg.auth_enabled) {

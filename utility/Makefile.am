@@ -24,8 +24,6 @@ libcivutility_la_SOURCES = \
 		genhash.h	\
 		genlist.c	\
 		genlist.h	\
-		hash.c		\
-		hash.h		\
 		inputfile.c	\
 		inputfile.h	\
 		ioz.c		\
@@ -44,8 +42,6 @@ libcivutility_la_SOURCES = \
 		rand.h		\
 		registry.c	\
 		registry.h	\
-		sbuffer.c	\
-		sbuffer.h	\
 		shared.c	\
 		shared.h	\
 		specenum_gen.h	\

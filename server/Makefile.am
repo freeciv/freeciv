@@ -46,8 +46,6 @@ libfreeciv_srv_la_SOURCES = \
 		edithand.h	\
 		gamehand.c	\
 		gamehand.h	\
-		gotohand.c	\
-		gotohand.h	\
 		ggzserver.c	\
 		ggzserver.h	\
 		handchat.c	\

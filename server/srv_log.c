@@ -30,7 +30,6 @@
 #include "unit.h"
 
 /* server */
-#include "gotohand.h"
 #include "notify.h"
 #include "srv_main.h"
 

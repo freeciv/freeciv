@@ -20,7 +20,6 @@
 
 /* utility */
 #include "capability.h"
-#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "timing.h"
