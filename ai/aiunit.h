@@ -17,6 +17,9 @@
 #include "fc_types.h"
 #include "unittype.h"
 
+struct pf_map;
+struct pf_path;
+
 struct unit_ai {
   /* The following are unit ids or special indicator values (<=0) */
   int ferryboat; /* the ferryboat assigned to us */
@@ -84,21 +87,23 @@ int could_unit_move_to_tile(struct unit *punit, struct tile *dst_tile);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 
-int turns_to_enemy_city(const struct unit_type *our_type, struct city *acity,
-                        int speed, bool go_by_boat, 
-                        struct unit *boat, const struct unit_type *boattype);
-int turns_to_enemy_unit(const struct unit_type *our_type,
-			int speed, struct tile *ptile, 
-                        const struct unit_type *enemy_type);
-int find_something_to_kill(struct player *pplayer, struct unit *punit, 
-			   struct tile **ptile);
+bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
+                    struct tile *dest_tile,
+                    const struct unit_type *cargo_type,
+                    struct tile **ferry_dest, struct tile **beachhead_tile);
+int find_something_to_kill(struct player *pplayer, struct unit *punit,
+                           struct tile **pdest_tile, struct pf_path **ppath,
+                           struct pf_map **pferrymap,
+                           struct unit **pferryboat,
+                           struct unit_type **pboattype,
+                           int *pmove_time);
 
 int build_cost_balanced(const struct unit_type *punittype);
 int unittype_att_rating(const struct unit_type *punittype, int veteran,
                         int moves_left, int hp);
-int unit_att_rating(struct unit *punit);
-int unit_def_rating_basic(struct unit *punit);
-int unit_def_rating_basic_sq(struct unit *punit);
+int unit_att_rating(const struct unit *punit);
+int unit_def_rating_basic(const struct unit *punit);
+int unit_def_rating_basic_sq(const struct unit *punit);
 int unittype_def_rating_sq(const struct unit_type *att_type,
 			   const struct unit_type *def_type,
 			   const struct player *def_player,
