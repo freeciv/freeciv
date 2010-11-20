@@ -1611,7 +1611,7 @@ void check_for_full_turn_done(void)
 ****************************************************************************/
 void init_available_nations(void)
 {
-  if (0 < map_startpos_count()) {
+  if (!game_was_started() && 0 < map_startpos_count()) {
     nations_iterate(pnation) {
       fc_assert_action_msg(NULL == pnation->player,
         if (pnation->player->nation == pnation) {
