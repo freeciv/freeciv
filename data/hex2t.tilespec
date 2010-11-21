@@ -109,37 +109,7 @@ layer0_match_type = "water"
 layer0_match_with = "water"
 layer0_sprite_type = "corner"
 
-[tile_shelf]
-is_blended = 0
-num_layers = 1
-layer0_match_type = "water"
-layer0_match_with = "water"
-layer0_sprite_type = "corner"
-
 [tile_floor]
-is_blended = 0
-num_layers = 1
-layer0_match_type = "water"
-layer0_match_with = "water"
-layer0_sprite_type = "corner"
-
-[tile_trench]
-is_blended = 0
-num_layers = 1
-layer0_match_type = "water"
-layer0_match_with = "water"
-layer0_sprite_type = "corner"
-
-[tile_ridge]
-is_blended = 0
-num_layers = 2
-layer0_match_type = "water"
-layer0_match_with = "water"
-layer0_sprite_type = "corner"
-layer1_match_type = "steep"
-layer1_match_with = "steep"
-
-[tile_vent]
 is_blended = 0
 num_layers = 1
 layer0_match_type = "water"
