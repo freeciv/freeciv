@@ -368,6 +368,14 @@ static const char *cr_entry_trade_routes(const struct city *pcity,
   return buf;
 }
 
+static const char *cr_entry_build_slots(const struct city *pcity,
+                                        const void *data)
+{
+  static char buf[8];
+  fc_snprintf(buf, sizeof(buf), "%3d", city_build_slots(pcity));
+  return buf;
+}
+
 static const char *cr_entry_building(const struct city *pcity,
 				     const void *data)
 {
@@ -540,6 +548,9 @@ static const struct city_report_spec base_city_report_specs[] = {
   { FALSE, 15, 1, NULL, N_("?cma:Governor"), N_("Citizen Governor"),
     NULL, FUNC_TAG(cma) },
 
+  /* TRANS: "BS" = "build slots" */
+  { FALSE,  3, 1, NULL, N_("BS"), N_("Maximum units buildable per turn"),
+    NULL, FUNC_TAG(build_slots) },
   { TRUE,   9, 1, N_("Production"), N_("Turns/Buy"),
   /*N_("Turns or gold to complete production"), future menu needs translation */
     N_("Production"),

@@ -155,6 +155,7 @@ struct city_dialog {
   } overview;
 
   struct {
+    GtkWidget *production_label;
     GtkWidget *production_bar;
     GtkWidget *buy_command;
     GtkWidget *worklist;
@@ -986,15 +987,16 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
   /* stuff that's being currently built */
 
-  /* The label is set in city_dialog_update_building() */
   label = g_object_new(GTK_TYPE_LABEL,
 		       "label", _("Production:"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
+  pdialog->production.production_label = label;
   gtk_box_pack_start(GTK_BOX(page), label, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 2);
 
+  /* The label is set in city_dialog_update_building() */
   bar = gtk_progress_bar_new();
   pdialog->production.production_bar = bar;
   gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
@@ -1656,6 +1658,25 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
   gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
 
+  /* Make sure build slots info is up to date */
+  {
+    int build_slots = city_build_slots(pcity);
+    /* Only display extra info if more than one slot is available */
+    if (build_slots > 1) {
+      fc_snprintf(buf2, sizeof(buf2),
+                  /* TRANS: never actually used with built_slots<=1 */
+                  PL_("Production (up to %d unit per turn):",
+                      "Production (up to %d units per turn):", build_slots),
+                  build_slots);
+      gtk_label_set_text(
+        GTK_LABEL(pdialog->production.production_label), buf2);
+    } else {
+      gtk_label_set_text(
+        GTK_LABEL(pdialog->production.production_label), _("Production:"));
+    }
+  }
+
+  /* Update what the city is working on */
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (cost > 0) {

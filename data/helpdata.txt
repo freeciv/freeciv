@@ -515,6 +515,31 @@ improvements and wonders are added to their city's list of structures. \
 Any leftover production points remain available to be applied towards \
 the next project.\
 "), _("\
+In the default ruleset, a city can build at most one product per turn, \
+regardless of its production surplus. However, in some rulesets, \
+factors such as city size and technology may enable a single city to \
+produce more than one unit in a single turn under certain conditions. \
+A city with multiple \"build slots\", ordered to build a unit, can build \
+as many of that single kind of unit per turn as its production surplus \
+allows, up to the number of slots. Units which cost city population to \
+build are an exception to this rule; they can only be built singly, as \
+can buildings.\
+"), _("\
+A city can be given a list of several products to build in its \
+\"worklist\", avoiding the need to pay attention to it every few \
+turns. Each item on the worklist represents a single product (such as \
+a unit); the city will work through them in order. When a city has \
+finished all the work you have given it to do, it will try to build \
+the last item again if possible, otherwise it will choose a new target \
+itself. If a city is currently producing gold (building Coinage in the \
+default rules), an activity which never completes, putting an item on \
+its worklist will cause it to stop producing gold and start working on \
+the new item next turn. In rulesets which permit it, a city may take \
+several units of the same type off its worklist in a single turn, but \
+if a different kind of item is reached, production pauses until the \
+following turn. This can be used to limit the number of units produced \
+by highly productive cities.\
+"), _("\
 Each player is free to build any products that his technology has made \
 available, with a few restrictions; see the sections on Units, City \
 Improvements, and Wonders of the World for more information. Be \
@@ -618,9 +643,15 @@ with the loss of its last citizen a city disappears (in the default \
 ruleset, this can leave ruins, although these have no effect on \
 gameplay).\
 "), _("\
-Each city may work terrain within a fixed radius (approximately three \
-tiles). To extract resources from a tile you must have a citizen \
-working there. You cannot begin working a tile which a neighboring \
+Each city may work the terrain within its reach. In the default ruleset, \
+this is a fixed radius of approximately three tiles, giving access to \
+20 tiles on rectangular maps, or 18 tiles on hexagonal ones, in addition \
+to the city center tile. In other rulesets it may be different, and may \
+vary depending on factors such as the size of the city and known \
+technologies.\
+"), _("\
+To extract resources from a tile, you must have a citizen working \
+there. You cannot begin working a tile which a neighboring \
 city is already working, nor can you work terrain upon which an enemy \
 unit is standing, or terrain inside another player's borders. Thus you \
 can simulate conditions of siege by stationing your units atop \
@@ -1796,11 +1827,6 @@ the worklist and Delete to delete the selected item from the worklist.\
 "), _("\
 If you want to buy the unit that's first on the list, you can do that \
 from the City Overview window.\
-"), _("\
-If a city is currently producing gold (building Coinage in the default \
-rules), an activity which never completes, putting an item on its worklist \
-will cause it to stop producing gold and start working on that item next \
-turn.\
 ")
 
 [help_languages]
