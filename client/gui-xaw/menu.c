@@ -207,6 +207,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Go to/Airlift to City..."), 0 }, "t", MENU_ORDER_GOTO_CITY, 0 },
     { { N_("Return to Nearest City"), 0 },   "G", MENU_ORDER_RETURN, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
+    { { N_("Convert Unit"), 0         },     "O", MENU_ORDER_CONVERT, 0 },
     { { N_("Disband Unit"), 0         },     "D", MENU_ORDER_DISBAND, 0 },
     { { N_("Help Build Wonder"), 0    },     "b", MENU_ORDER_BUILD_WONDER, 0 },
     { { N_("Establish Trade Route"), 0 },    "r", MENU_ORDER_TRADE_ROUTE, 0 },
@@ -439,6 +440,8 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_SETTLER,
 			   can_units_do(punits, can_unit_do_autosettlers));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_ATTACK, false);
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONVERT,
+			   units_can_convert(punits));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DISBAND,
 			   units_have_flag(punits, F_UNDISBANDABLE, FALSE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
@@ -784,6 +787,9 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     unit_list_iterate(get_units_in_focus(), punit) {
       request_unit_return(punit);
     } unit_list_iterate_end;
+    break;
+  case MENU_ORDER_CONVERT:
+    key_unit_convert();
     break;
   case MENU_ORDER_DISBAND:
     key_unit_disband();
