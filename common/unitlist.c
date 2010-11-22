@@ -249,12 +249,12 @@ bool units_have_activity_on_tile(const struct unit_list *punits,
 }
 
 /****************************************************************************
-  Return TRUE iff any of the units can transform to another unit
+  Return TRUE iff any of the units can convert to another unit type
 ****************************************************************************/
-bool units_can_transform(const struct unit_list *punits)
+bool units_can_convert(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (test_unit_transform(punit)) {
+    if (test_unit_convert(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;

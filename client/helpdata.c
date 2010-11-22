@@ -1263,6 +1263,30 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_BARBARIAN_ONLY)) {
     CATLSTR(buf, bufsz, _("* Only barbarians may build this.\n"));
   }
+  {
+    const char *types[utype_count()];
+    int i = 0;
+    unit_type_iterate(utype2) {
+      if (utype2->converted_to == utype) {
+        types[i++] = utype_name_translation(utype2);
+      }
+    } unit_type_iterate_end;
+    if (i > 0) {
+      struct astring list = ASTRING_INIT;
+      astr_build_or_list(&list, types, i);
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a list of unit types separated by "or". */
+                   _("* May be obtained by conversion of %s.\n"),
+                   astr_str(&list));
+      astr_free(&list);
+    }
+  }
+  if (NULL != utype->converted_to) {
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: %s is a unit type. */
+                 _("* May be converted into %s.\n"),
+                 utype_name_translation(utype->converted_to));
+  }
   if (utype_has_flag(utype, F_NOHOME)) {
     CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
   }

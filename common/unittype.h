@@ -233,7 +233,7 @@ struct unit_type {
 
 #define U_NOT_OBSOLETED (NULL)
   struct unit_type *obsoleted_by;
-  struct unit_type *transformed_to;
+  struct unit_type *converted_to;
   int fuel;
 
   bv_unit_type_flags flags;

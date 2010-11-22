@@ -1267,10 +1267,11 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 }
 
 /**************************************************************************
-  Really transforms a single unit.
+  Really transforms a single unit to another type.
 
-  If calling this function for upgrade, you should use unit_upgrade
-  before to test if this is possible.
+  This function performs no checks. You should perform the appropriate
+  test first to check that the transformation is legal (test_unit_upgrade()
+  or test_unit_convert()).
 
   is_free: Does unit owner need to pay upgrade price.
 

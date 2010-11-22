@@ -1465,11 +1465,11 @@ void request_unit_upgrade(struct unit *punit)
 }
 
 /**************************************************************************
-  Sends unit transform packet.
+  Sends unit convert packet.
 **************************************************************************/
-void request_unit_transform(struct unit *punit)
+void request_unit_convert(struct unit *punit)
 {
-  dsend_packet_unit_transform(&client.conn, punit->id);
+  dsend_packet_unit_convert(&client.conn, punit->id);
 }
 
 /****************************************************************************
@@ -2713,12 +2713,12 @@ void key_unit_disband(void)
 }
 
 /**************************************************************************
-  Unit transform key pressed or respective menu entry selected.
+  Unit convert key pressed or respective menu entry selected.
 **************************************************************************/
-void key_unit_transform_unit(void)
+void key_unit_convert(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_transform(punit);
+    request_unit_convert(punit);
   } unit_list_iterate_end;
 }
 

@@ -954,11 +954,11 @@ static void unit_upgrade_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
-  Action "UNIT_TRANSFORM" callback.
+  Action "UNIT_CONVERT" callback.
 *****************************************************************/
-static void unit_transform_callback(GtkAction *action, gpointer data)
+static void unit_convert_callback(GtkAction *action, gpointer data)
 {
-  key_unit_transform_unit();
+  key_unit_convert();
 }
 
 /****************************************************************
@@ -1505,8 +1505,8 @@ static GtkActionGroup *get_unit_group(void)
        "h", NULL, G_CALLBACK(unit_homecity_callback)},
       {"UNIT_UPGRADE", NULL, _("Upgr_ade"),
        "<Shift>u", NULL, G_CALLBACK(unit_upgrade_callback)},
-      {"UNIT_TRANSFORM", NULL, _("Trans_form"),
-       "<Shift>f", NULL, G_CALLBACK(unit_transform_callback)},
+      {"UNIT_CONVERT", NULL, _("C_onvert"),
+       "<Shift>o", NULL, G_CALLBACK(unit_convert_callback)},
       {"UNIT_DISBAND", NULL, _("_Disband"),
        "<Shift>d", NULL, G_CALLBACK(unit_disband_callback)},
 
@@ -1880,9 +1880,9 @@ void real_menus_update(void)
   GtkActionGroup *playing_group;
   GtkActionGroup *player_group;
   struct unit_list *punits = NULL;
-  bool units_all_same_tile = TRUE;
+  bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   GtkMenu *menu;
-  char irrtext[128], mintext[128], transtext[128];
+  char convtext[128], irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
 
   if (NULL == ui_manager && !can_client_change_view()) {
@@ -1897,15 +1897,20 @@ void real_menus_update(void)
 
   if (get_num_units_in_focus() > 0) {
     const struct tile *ptile = NULL;
+    const struct unit_type *ptype = NULL;
     punits = get_units_in_focus();
     unit_list_iterate(punits, punit) {
-      if (ptile) {
+      fc_assert((ptile==NULL) == (ptype==NULL));
+      if (ptile || ptype) {
         if (punit->tile != ptile) {
           units_all_same_tile = FALSE;
-          break;
+        }
+        if (unit_type(punit) != ptype) {
+          units_all_same_type = FALSE;
         }
       } else {
         ptile = punit->tile;
+        ptype = unit_type(punit);
       }
     } unit_list_iterate_end;
   }
@@ -2005,6 +2010,7 @@ void real_menus_update(void)
                       units_have_flag(punits, F_UNDISBANDABLE, FALSE));
   menus_set_sensitive(unit_group, "UNIT_UPGRADE",
                       TRUE /* FIXME: what check should we do? */);
+  /* "UNIT_CONVERT" dealt with below */
   menus_set_sensitive(unit_group, "UNIT_HOMECITY",
                       can_units_do(punits, can_unit_change_homecity));
   menus_set_sensitive(unit_group, "UNIT_UNLOAD_TRANSPORTER",
@@ -2075,6 +2081,26 @@ void real_menus_update(void)
     }
   } else {
     menus_rename(unit_group, "BUILD_ROAD", _("Build _Road"));
+  }
+
+  if (units_can_convert(punits)) {
+    menus_set_sensitive(unit_group, "UNIT_CONVERT", TRUE);
+    if (units_all_same_type) {
+      struct unit *punit = unit_list_get(punits, 0);
+      /* TRANS: %s is a unit type. */
+      fc_snprintf(convtext, sizeof(convtext), _("C_onvert to %s"),
+                  utype_name_translation(unit_type(punit)->converted_to));
+    } else {
+      convtext[0] = '\0';
+    }
+  } else {
+    menus_set_sensitive(unit_group, "UNIT_CONVERT", FALSE);
+    convtext[0] = '\0';
+  }
+  if ('\0' != convtext[0]) {
+    menus_rename(unit_group, "UNIT_CONVERT", convtext);
+  } else {
+    menus_rename(unit_group, "UNIT_CONVERT", _("C_onvert"));
   }
 
   if (units_all_same_tile) {

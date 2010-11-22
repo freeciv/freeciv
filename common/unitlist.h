@@ -76,6 +76,6 @@ bool units_can_unload(const struct unit_list *punits);
 bool units_have_activity_on_tile(const struct unit_list *punits,
 				 enum unit_activity activity);
 
-bool units_can_transform(const struct unit_list *punits);
+bool units_can_convert(const struct unit_list *punits);
 
 #endif  /* FC__UNITLIST_H */
