@@ -705,7 +705,7 @@ bool city_production_build_units(const struct city *pcity,
 {
   struct unit_type *utype;
   struct universal target;
-  int build_slots = get_city_bonus(pcity, EFT_CITY_BUILD_SLOTS);
+  int build_slots = city_build_slots(pcity);
   int shields_left = pcity->shield_stock;
   int unit_shield_cost, i;
 
@@ -2648,6 +2648,14 @@ int city_illness_calc(const struct city *pcity, int *ill_base,
   }
 
   return CLIP(0, illness_base * illness_percent / 100 , 999);
+}
+
+/****************************************************************************
+  The maximum number of units a city can build per turn.
+****************************************************************************/
+int city_build_slots(const struct city *pcity)
+{
+  return get_city_bonus(pcity, EFT_CITY_BUILD_SLOTS);
 }
 
 /**************************************************************************

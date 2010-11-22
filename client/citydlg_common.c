@@ -205,7 +205,7 @@ char *city_production_cost_str(const struct city *pcity)
 {
   static char cost_str[50];
   int cost = city_production_build_shield_cost(pcity);
-  int build_slots = get_city_bonus(pcity, EFT_CITY_BUILD_SLOTS);
+  int build_slots = city_build_slots(pcity);
   int num_units;
 
   if (build_slots > 1
