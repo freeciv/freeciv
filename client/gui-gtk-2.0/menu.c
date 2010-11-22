@@ -1882,7 +1882,7 @@ void real_menus_update(void)
   struct unit_list *punits = NULL;
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   GtkMenu *menu;
-  char convtext[128], irrtext[128], mintext[128], transtext[128];
+  char acttext[128], irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
 
   if (NULL == ui_manager && !can_client_change_view()) {
@@ -2009,7 +2009,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "UNIT_DISBAND",
                       units_have_flag(punits, F_UNDISBANDABLE, FALSE));
   menus_set_sensitive(unit_group, "UNIT_UPGRADE",
-                      TRUE /* FIXME: what check should we do? */);
+                      units_can_upgrade(punits));
   /* "UNIT_CONVERT" dealt with below */
   menus_set_sensitive(unit_group, "UNIT_HOMECITY",
                       can_units_do(punits, can_unit_change_homecity));
@@ -2083,22 +2083,43 @@ void real_menus_update(void)
     menus_rename(unit_group, "BUILD_ROAD", _("Build _Road"));
   }
 
+  if (units_all_same_type) {
+    struct unit *punit = unit_list_get(punits, 0);
+    struct unit_type *to_unittype =
+      can_upgrade_unittype(client_player(), unit_type(punit));
+    if (to_unittype) {
+      /* TRANS: %s is a unit type. */
+      fc_snprintf(acttext, sizeof(acttext), _("Upgr_ade to %s"),
+                  utype_name_translation(
+                    can_upgrade_unittype(client_player(), unit_type(punit))));
+    } else {
+      acttext[0] = '\0';
+    }
+  } else {
+    acttext[0] = '\0';
+  }
+  if ('\0' != acttext[0]) {
+    menus_rename(unit_group, "UNIT_UPGRADE", acttext);
+  } else {
+    menus_rename(unit_group, "UNIT_UPGRADE", _("Upgr_ade"));
+  }
+
   if (units_can_convert(punits)) {
     menus_set_sensitive(unit_group, "UNIT_CONVERT", TRUE);
     if (units_all_same_type) {
       struct unit *punit = unit_list_get(punits, 0);
       /* TRANS: %s is a unit type. */
-      fc_snprintf(convtext, sizeof(convtext), _("C_onvert to %s"),
+      fc_snprintf(acttext, sizeof(acttext), _("C_onvert to %s"),
                   utype_name_translation(unit_type(punit)->converted_to));
     } else {
-      convtext[0] = '\0';
+      acttext[0] = '\0';
     }
   } else {
     menus_set_sensitive(unit_group, "UNIT_CONVERT", FALSE);
-    convtext[0] = '\0';
+    acttext[0] = '\0';
   }
-  if ('\0' != convtext[0]) {
-    menus_rename(unit_group, "UNIT_CONVERT", convtext);
+  if ('\0' != acttext[0]) {
+    menus_rename(unit_group, "UNIT_CONVERT", acttext);
   } else {
     menus_rename(unit_group, "UNIT_CONVERT", _("C_onvert"));
   }

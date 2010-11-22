@@ -249,6 +249,21 @@ bool units_have_activity_on_tile(const struct unit_list *punits,
 }
 
 /****************************************************************************
+  Return TRUE iff any of the units can be upgraded to another unit type
+  (for money)
+****************************************************************************/
+bool units_can_upgrade(const struct unit_list *punits)
+{
+  unit_list_iterate(punits, punit) {
+    if (test_unit_upgrade(punit, FALSE) == UR_OK) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Return TRUE iff any of the units can convert to another unit type
 ****************************************************************************/
 bool units_can_convert(const struct unit_list *punits)
