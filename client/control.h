@@ -86,7 +86,7 @@ struct unit *request_unit_unload_all(struct unit *punit);
 void request_unit_airlift(struct unit *punit, struct city *pcity);
 void request_unit_return(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
-void request_unit_transform(struct unit *punit);
+void request_unit_convert(struct unit *punit);
 void request_units_wait(struct unit_list *punits);
 void request_unit_wakeup(struct unit *punit);
 
@@ -201,7 +201,7 @@ void key_unit_build_wonder(void);
 void key_unit_connect(enum unit_activity activity);
 void key_unit_diplomat_actions(void);
 void key_unit_disband(void);
-void key_unit_transform_unit(void);
+void key_unit_convert(void);
 void key_unit_done(void);
 void key_unit_fallout(void);
 void key_unit_fortify(void);

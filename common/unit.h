@@ -329,7 +329,7 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 					   bool is_free);
 enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
 					       const struct unit *punit);
-bool test_unit_transform(const struct unit *punit);
+bool test_unit_convert(const struct unit *punit);
 
 bool is_losing_hp(const struct unit *punit);
 bool unit_type_is_losing_hp(const struct player *pplayer,

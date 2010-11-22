@@ -1746,11 +1746,11 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 }
 
 /**************************************************************************
-  Tests if unit can be transformed.
+  Tests if unit can be converted to another type.
 **************************************************************************/
-bool test_unit_transform(const struct unit *punit)
+bool test_unit_convert(const struct unit *punit)
 {
-  return unit_type(punit)->transformed_to != NULL;
+  return unit_type(punit)->converted_to != NULL;
 }
 
 /**************************************************************************
