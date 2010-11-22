@@ -443,6 +443,12 @@ static void xaw_key_unit_diplomat_spy_action(Widget w, XEvent *event, String *ar
     key_unit_diplomat_actions();
 }
 
+static void xaw_key_unit_convert(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONVERT))
+    key_unit_convert();
+}
+
 static void xaw_key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_DISBAND))
@@ -893,6 +899,7 @@ static XtActionsRec Actions[] = {
   { "key-unit-connect-road", xaw_key_unit_connect_road },
   { "key-unit-connect-rail", xaw_key_unit_connect_rail },
   { "key-unit-connect-irrigate", xaw_key_unit_connect_irrigate },
+  { "key-unit-convert", xaw_key_unit_convert },
   { "key-unit-diplomat-spy-action", xaw_key_unit_diplomat_spy_action },
   { "key-unit-disband", xaw_key_unit_disband },
   { "key-unit-done", xaw_key_unit_done },
