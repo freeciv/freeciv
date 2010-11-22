@@ -193,6 +193,9 @@ static int unit_order_callback(struct widget *pOrder_Widget)
     case ID_UNIT_ORDER_UPGRADE:
       popup_unit_upgrade_dlg(pUnit, FALSE);
       break;
+    case ID_UNIT_ORDER_CONVERT:
+      key_unit_convert();
+      break;
     case ID_UNIT_ORDER_DISBAND:
       key_unit_disband();
       break;
@@ -445,6 +448,19 @@ void create_units_order_widgets(void)
   pBuf->key = SDLK_u;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_UPGRADE, pBuf);
+  /* --------- */
+
+  /* Convert */
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Convert Unit"), "Shift+O");
+  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->key = SDLK_o;
+  pBuf->mod = KMOD_SHIFT;
+  add_to_gui_list(ID_UNIT_ORDER_CONVERT, pBuf);
   /* --------- */
 
   /* Return to nearest city */
@@ -1320,6 +1336,12 @@ void real_menus_update(void)
 	local_show(ID_UNIT_ORDER_UPGRADE);
       } else {
 	local_hide(ID_UNIT_ORDER_UPGRADE);
+      }
+
+      if (test_unit_convert(pUnit)) {
+	local_show(ID_UNIT_ORDER_CONVERT);
+      } else {
+	local_hide(ID_UNIT_ORDER_CONVERT);
       }
 
       set_new_order_widget_start_pos();
