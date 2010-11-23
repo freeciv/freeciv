@@ -73,7 +73,10 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
         city_name_suggestion(pplayer, unit_tile(punit)));
     break;
 
-  case UAB_NOT_BUILD_LOC:
+  case UAB_BAD_CITY_TERRAIN:
+  case UAB_BAD_UNIT_TERRAIN:
+  case UAB_BAD_BORDERS:
+  case UAB_NO_MIN_DIST:
   case UAB_NOT_BUILD_UNIT:
   case UAB_NO_MOVES_BUILD:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "

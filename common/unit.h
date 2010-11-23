@@ -73,8 +73,10 @@ enum goto_route_type {
 enum unit_add_build_city_result {
   UAB_BUILD_OK,         /* Unit OK to build city. */
   UAB_ADD_OK,           /* Unit OK to add to city. */
-  UAB_NOT_BUILD_LOC,    /* City is not allowed to be built at this
-                         * location. */
+  UAB_BAD_CITY_TERRAIN, /* Equivalent to 'CB_BAD_CITY_TERRAIN'. */
+  UAB_BAD_UNIT_TERRAIN, /* Equivalent to 'CB_BAD_UNIT_TERRAIN'. */
+  UAB_BAD_BORDERS,      /* Equivalent to 'CB_BAD_BORDERS'. */
+  UAB_NO_MIN_DIST,      /* Equivalent to 'CB_NO_MIN_DIST'. */
   UAB_NOT_ADDABLE_UNIT, /* Unit is not one that can be added to cities. */
   UAB_NOT_BUILD_UNIT,   /* Unit is not one that can build cities. */
   UAB_NO_MOVES_BUILD,   /* Unit does not have moves left to build a city. */
