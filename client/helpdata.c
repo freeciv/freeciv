@@ -57,7 +57,7 @@
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
   "Techs", "Terrain", "Bases", "Specialists", "Governments", "Ruleset",
-  NULL
+  "Nations", NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -881,6 +881,15 @@ void boot_help_texts(struct player *pplayer)
                   fc_strdup(_("Current ruleset contains no description."));
             }
             help_list_append(help_nodes, pitem);
+            break;
+          case HELP_NATIONS:
+            nations_iterate(pnation) {
+              pitem = new_help_item(current_type);
+              fc_snprintf(name, sizeof(name), " %s", nation_rule_name(pnation));
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
+              help_list_append(category_nodes, pitem);
+            } nations_iterate_end;
             break;
           default:
             log_error("Bad current_type: %d.", current_type);
@@ -2380,4 +2389,17 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
     fc_snprintf(buf, sizeof(buf), "%d", 0);
   }
   return buf;
+}
+
+/****************************************************************************
+  Returns nation legend
+****************************************************************************/
+void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
+		     const char *user_text)
+{
+  buf[0] = '\0';
+
+  if (pnation->legend[0] != '\0') {
+    sprintf(buf, "%s\n\n", _(pnation->legend));
+  }
 }

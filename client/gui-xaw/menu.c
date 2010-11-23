@@ -259,6 +259,7 @@ static struct MenuEntry help_menu_entries[]={
     { { N_("Technology"), 0           },      "", MENU_HELP_TECH, 0 },
     { { N_("Space Race"), 0           },      "", MENU_HELP_SPACE_RACE, 0 },
     { { N_("About Ruleset"), 0        },      "", MENU_HELP_RULESET, 0 },
+    { { N_("About Nations"), 0        },      "", MENU_HELP_NATIONS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Connecting"), 0           },      "", MENU_HELP_CONNECTING, 0 },
     { { N_("Controls"), 0             },      "", MENU_HELP_CONTROLS, 0 },
@@ -950,6 +951,9 @@ static void help_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_HELP_RULESET:
     popup_help_dialog_string(HELP_RULESET_ITEM);
+    break;
+  case MENU_HELP_NATIONS:
+    popup_help_dialog_string(HELP_NATIONS_ITEM);
     break;
   case MENU_HELP_COPYING:
     popup_help_dialog_string(HELP_COPYING_ITEM);

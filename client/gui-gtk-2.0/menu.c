@@ -437,6 +437,14 @@ static void help_space_rate_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "HELP_NATIONS" callback.
+*****************************************************************/
+static void help_nations_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_NATIONS_ITEM);
+}
+
+/****************************************************************
   Action "HELP_COPYING" callback.
 *****************************************************************/
 static void help_copying_callback(GtkAction *action, gpointer data)
@@ -1309,6 +1317,8 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_space_rate_callback)},
       {"HELP_RULESET", NULL, _("About Ruleset"),
        NULL, NULL, G_CALLBACK(help_ruleset_callback)},
+      {"HELP_NATIONS", NULL, _("About Nations"),
+       NULL, NULL, G_CALLBACK(help_nations_callback)},
 
       {"HELP_CONNECTING", NULL, _("Connecting"),
        NULL, NULL, G_CALLBACK(help_connecting_callback)},
