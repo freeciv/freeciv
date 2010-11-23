@@ -507,6 +507,9 @@ unit_move_to_tile_test(const struct unit_type *punittype,
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
 {
+  fc_assert_ret_val(transporter != NULL, FALSE);
+  fc_assert_ret_val(transported != NULL, FALSE);
+
   return can_unit_type_transport(unit_type(transporter), unit_class(transported));
 }
 
