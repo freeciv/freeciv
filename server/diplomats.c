@@ -1248,8 +1248,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
             notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                           _("Your %s eliminated %s %s while infiltrating "
                             "%s."), link_unit,
-                          nation_adjective_for_player(cplayer),
-                          link_city, link_diplomat);
+                          nation_adjective_for_player(pplayer),
+                          link_diplomat, link_city);
           }
         } else {
           if (uplayer == cplayer) {
@@ -1267,7 +1267,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                           /* TRANS: ... <unit> ... <diplomat> */
                           _("Your %s eliminated %s %s while infiltrating our "
                             "troops."), link_unit,
-                          nation_adjective_for_player(uplayer),
+                          nation_adjective_for_player(pplayer),
                           link_diplomat);
           }
         }
