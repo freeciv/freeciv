@@ -212,7 +212,7 @@ bool create_start_positions(enum map_startpos mode,
   int min_goodies_per_player = 1500;
   int total_goodies = 0;
   /* this is factor is used to maximize land used in extreme little maps */
-  float efactor =  player_count() / map.server.size / 4; 
+  float efactor =  player_count() / map_size_checked() / 4; 
   bool failure = FALSE;
   bool is_tmap = temperature_is_initialized();
 
