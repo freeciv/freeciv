@@ -238,6 +238,15 @@ enum city_updates {
   CU_POPUP_DIALOG       = 1 << 2
 };
 
+/* See city_build_here_test(). */
+enum city_build_result {
+  CB_OK,
+  CB_BAD_CITY_TERRAIN,
+  CB_BAD_UNIT_TERRAIN,
+  CB_BAD_BORDERS,
+  CB_NO_MIN_DIST
+};
+
 struct tile_cache; /* defined and only used within city.c */
 
 struct adv_city; /* defined in ./server/advisors/infracache.h */
@@ -554,7 +563,9 @@ bool base_city_can_work_tile(const struct player *restriction,
 bool city_can_work_tile(const struct city *pcity, const struct tile *ptile);
 
 bool city_can_be_built_here(const struct tile *ptile,
-			    const struct unit *punit);
+                            const struct unit *punit);
+enum city_build_result city_build_here_test(const struct tile *ptile,
+                                            const struct unit *punit);
 
 /* trade functions */
 bool can_cities_trade(const struct city *pc1, const struct city *pc2);

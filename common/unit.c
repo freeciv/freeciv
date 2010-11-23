@@ -423,22 +423,31 @@ unit_add_or_build_city_test(const struct unit *punit)
   bool is_add = unit_has_type_flag(punit, F_ADD_TO_CITY);
   int new_pop;
 
-  /* See if we can build */
-  if (!pcity) {
+  /* Test if we can build. */
+  if (NULL == pcity) {
     if (!is_build) {
       return UAB_NOT_BUILD_UNIT;
     }
     if (punit->moves_left == 0) {
       return UAB_NO_MOVES_BUILD;
     }
-    if (!city_can_be_built_here(ptile, punit)) {
-      return UAB_NOT_BUILD_LOC;
+    switch (city_build_here_test(ptile, punit)) {
+    case CB_OK:
+      return UAB_BUILD_OK;
+    case CB_BAD_CITY_TERRAIN:
+      return UAB_BAD_CITY_TERRAIN;
+    case CB_BAD_UNIT_TERRAIN:
+      return UAB_BAD_UNIT_TERRAIN;
+    case CB_BAD_BORDERS:
+      return UAB_BAD_BORDERS;
+    case CB_NO_MIN_DIST:
+      return UAB_NO_MIN_DIST;
     }
-    return UAB_BUILD_OK;
+    log_error("%s(): Internal error.", __FUNCTION__);
+    return UAB_NO_MOVES_BUILD; /* Returns something prohibitive. */
   }
-  
-  /* See if we can add */
 
+  /* Test if we can add. */
   if (!is_add) {
     return UAB_NOT_ADDABLE_UNIT;
   }

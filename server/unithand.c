@@ -529,26 +529,44 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
 void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                              enum unit_add_build_city_result res)
 {
-  /* Given that res came from test_unit_add_or_build_city, pcity will
-     be non-null for all required status values. */
-  struct city *pcity = tile_city(punit->tile);
+  /* Given that res came from unit_add_or_build_city_test(), pcity will
+   * be non-null for all required status values. */
+  struct tile *ptile = unit_tile(punit);
+  struct city *pcity = tile_city(ptile);
 
   switch (res) {
-  case UAB_NOT_BUILD_LOC:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("Can't place city here."));
+  case UAB_BAD_CITY_TERRAIN:
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  /* TRANS: <tile-terrain>. */
+                  _("Can't build a city on %s."),
+                  terrain_name_translation(tile_terrain(ptile)));
+    break;
+  case UAB_BAD_UNIT_TERRAIN:
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  /* TRANS: <unit> ... <tile-terrain>. */
+                  _("%s can't build a city on %s."), unit_link(punit),
+                  terrain_name_translation(tile_terrain(ptile)));
+    break;
+  case UAB_BAD_BORDERS:
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  _("Can't place a city inside foreigner borders."));
+    break;
+  case UAB_NO_MIN_DIST:
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  _("Can't place a city there because another city is too "
+                    "close."));
     break;
   case UAB_NOT_BUILD_UNIT:
     {
       struct astring astr = ASTRING_INIT;
 
       if (role_units_translations(&astr, F_CITIES, TRUE)) {
-        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can build a city."), astr_str(&astr));
         astr_free(&astr);
       } else {
-        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       _("Can't build a city."));
       }
     }
@@ -558,29 +576,28 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       struct astring astr = ASTRING_INIT;
 
       if (role_units_translations(&astr, F_ADD_TO_CITY, TRUE)) {
-        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can add to a city."), astr_str(&astr));
         astr_free(&astr);
       } else {
-        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+        notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                       _("Can't add to a city."));
       }
     }
     break;
   case UAB_NO_MOVES_ADD:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s unit has no moves left to add to %s."),
-                  unit_link(punit),
-                  city_link(pcity));
+                  unit_link(punit), city_link(pcity));
     break;
   case UAB_NO_MOVES_BUILD:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s unit has no moves left to build city."),
                   unit_link(punit));
     break;
   case UAB_NOT_OWNER:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   /* TRANS: <city> is owned by <nation>, cannot add <unit>. */
                   _("%s is owned by %s, cannot add %s."),
                   city_link(pcity),
@@ -588,27 +605,24 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                   unit_link(punit));
     break;
   case UAB_TOO_BIG:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s is too big to add %s."),
-                  city_link(pcity),
-                  unit_link(punit));
+                  city_link(pcity), unit_link(punit));
     break;
   case UAB_NO_SPACE:
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("%s needs an improvement to grow, so "
                     "you cannot add %s."),
-                  city_link(pcity),
-                  unit_link(punit));
+                  city_link(pcity), unit_link(punit));
     break;
   case UAB_BUILD_OK:
   case UAB_ADD_OK:
     /* Shouldn't happen */
     log_error("Cannot add %s to %s for unknown reason (%d)",
               unit_rule_name(punit), city_name(pcity), res);
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Can't add %s to %s."),
-                  unit_link(punit),
-                  city_link(pcity));
+                  unit_link(punit), city_link(pcity));
     break;
   }
 }

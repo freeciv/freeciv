@@ -1324,32 +1324,46 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
   return base_city_can_work_tile(city_owner(pcity), pcity, ptile);
 }
 
-/**************************************************************************
+/****************************************************************************
   Returns TRUE if the given unit can build a city at the given map
   coordinates.
 
-  punit is the founding unit.  It may be NULL if a city is built out of the
+  punit is the founding unit. It may be NULL if a city is built out of the
   blue (e.g., through editing).
-***************************************************************************/
-bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
+****************************************************************************/
+bool city_can_be_built_here(const struct tile *ptile,
+                            const struct unit *punit)
+{
+  return (CB_OK == city_build_here_test(ptile, punit));
+}
+
+/****************************************************************************
+  Returns CB_OK if the given unit can build a city at the given map
+  coordinates. Else, returns the reason of the failure.
+
+  punit is the founding unit. It may be NULL if a city is built out of the
+  blue (e.g., through editing).
+****************************************************************************/
+enum city_build_result city_build_here_test(const struct tile *ptile,
+                                            const struct unit *punit)
 {
   int citymindist;
 
   if (terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
     /* No cities on this terrain. */
-    return FALSE;
+    return CB_BAD_CITY_TERRAIN;
   }
 
   if (punit && !can_unit_exist_at_tile(punit, ptile)) {
     /* We allow land units to build land cities and sea units to build
      * ocean cities. Air units can build cities anywhere. */
-    return FALSE;
+    return CB_BAD_UNIT_TERRAIN;
   }
 
   if (punit && tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)) {
     /* Cannot steal borders by settling. This has to be settled by
      * force of arms. */
-    return FALSE;
+    return CB_BAD_BORDERS;
   }
 
   /* game.info.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
@@ -1359,11 +1373,11 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
   }
   square_iterate(ptile, citymindist - 1, ptile1) {
     if (tile_city(ptile1)) {
-      return FALSE;
+      return CB_NO_MIN_DIST;
     }
   } square_iterate_end;
 
-  return TRUE;
+  return CB_OK;
 }
 
 /**************************************************************************
