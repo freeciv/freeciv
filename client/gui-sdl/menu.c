@@ -1040,7 +1040,7 @@ void real_menus_update(void)
       /* Enable the button for adding to a city in all cases, so we
        * get an eventual error message from the server if we try. */
 
-      if (can_unit_add_or_build_city(pUnit)) {
+      if (unit_can_add_or_build_city(pUnit)) {
 	if(pCity) {
 	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
 	} else {
@@ -1338,10 +1338,10 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_UPGRADE);
       }
 
-      if (test_unit_convert(pUnit)) {
-	local_show(ID_UNIT_ORDER_CONVERT);
+      if (unit_can_convert(pUnit)) {
+        local_show(ID_UNIT_ORDER_CONVERT);
       } else {
-	local_hide(ID_UNIT_ORDER_CONVERT);
+        local_hide(ID_UNIT_ORDER_CONVERT);
       }
 
       set_new_order_widget_start_pos();

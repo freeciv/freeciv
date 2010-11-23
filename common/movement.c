@@ -376,18 +376,17 @@ bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile)
   Returns whether the unit can move from its current tile to the destination
   tile.
 
-  See test_unit_move_to_tile().
+  See unit_move_to_tile_test().
 ****************************************************************************/
-bool can_unit_move_to_tile(const struct unit *punit,
+bool unit_can_move_to_tile(const struct unit *punit,
                            const struct tile *dst_tile,
                            bool igzoc)
 {
-  return MR_OK == test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
-					 punit->activity,
-					 punit->tile, dst_tile,
-					 igzoc);
+  return (MR_OK == unit_move_to_tile_test(unit_type(punit),
+                                          unit_owner(punit),
+                                          punit->activity, unit_tile(punit),
+                                          dst_tile, igzoc));
 }
-
 
 /**************************************************************************
   Returns whether the unit can move from its current tile to the
@@ -408,12 +407,12 @@ bool can_unit_move_to_tile(const struct unit *punit,
    10) Triremes cannot move out of sight from land.
    11) It is not the territory of a player we are at peace with.
 **************************************************************************/
-enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
-					     const struct player *unit_owner,
-					     enum unit_activity activity,
-					     const struct tile *src_tile,
-					     const struct tile *dst_tile,
-					     bool igzoc)
+enum unit_move_result
+unit_move_to_tile_test(const struct unit_type *punittype,
+                       const struct player *unit_owner,
+                       enum unit_activity activity,
+                       const struct tile *src_tile,
+                       const struct tile *dst_tile, bool igzoc)
 {
   bool zoc;
   struct city *pcity;

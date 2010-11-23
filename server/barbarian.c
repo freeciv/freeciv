@@ -311,7 +311,7 @@ bool unleash_barbarians(struct tile *ptile)
              checked_count++) {
           int rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
-          if (can_unit_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
+          if (unit_can_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
             (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE);
             log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)", 
                       TILE_XY(ptile), TILE_XY(dir_tiles[rdir]));
@@ -354,7 +354,7 @@ bool unleash_barbarians(struct tile *ptile)
         /* We do have a boat. Try to get everybody in */
         unit_list_iterate_safe((ptile)->units, punit2) {
           if (unit_owner(punit2) == barbarians) {
-            if (can_unit_move_to_tile(punit2, btile, TRUE)) {
+            if (unit_can_move_to_tile(punit2, btile, TRUE)) {
               (void) unit_move_handling(punit2, btile, TRUE, FALSE);
             }
           }
@@ -375,7 +375,7 @@ bool unleash_barbarians(struct tile *ptile)
             int rdir;
             rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
-            if (can_unit_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
+            if (unit_can_move_to_tile(punit2, dir_tiles[rdir], TRUE)) {
               (void) unit_move_handling(punit2, dir_tiles[rdir], TRUE, FALSE);
               dest_found = TRUE;
             }

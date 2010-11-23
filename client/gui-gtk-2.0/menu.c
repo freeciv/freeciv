@@ -987,7 +987,7 @@ static void build_city_callback(GtkAction *action, gpointer data)
      * not good! */
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
-    if (can_unit_add_or_build_city(punit)) {
+    if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
     } else if (unit_has_type_flag(punit, F_HELP_WONDER)) {
       request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
@@ -1984,7 +1984,7 @@ void real_menus_update(void)
   /* Enable the button for adding to a city in all cases, so we
    * get an eventual error message from the server if we try. */
   menus_set_sensitive(unit_group, "BUILD_CITY",
-            (can_units_do(punits, can_unit_add_or_build_city)
+            (can_units_do(punits, unit_can_add_or_build_city)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
   menus_set_sensitive(unit_group, "GO_BUILD_CITY",
                       units_have_flag(punits, F_CITIES, TRUE));

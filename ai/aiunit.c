@@ -228,7 +228,7 @@ static bool could_be_my_zoc(struct unit *myunit, struct tile *ptile)
 int could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
 {
   enum unit_move_result reason =
-      test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
+      unit_move_to_tile_test(unit_type(punit), unit_owner(punit),
                              ACTIVITY_IDLE, punit->tile, 
                              dest_tile, unit_has_type_flag(punit, F_IGZOC));
   switch (reason) {

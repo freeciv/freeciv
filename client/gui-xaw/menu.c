@@ -401,7 +401,7 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_SELECT_SAME_TYPE, True);
 
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY,
-			   can_units_do(punits, can_unit_add_or_build_city));
+                           can_units_do(punits, unit_can_add_or_build_city));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_ROAD, 
 			   can_units_do_activity(punits, ACTIVITY_ROAD)
 			   || can_units_do_activity(punits,

@@ -70,32 +70,27 @@ enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
 
-enum add_build_city_result {
-  AB_BUILD_OK,			/* Unit OK to build city */
-  AB_ADD_OK,			/* Unit OK to add to city */
-  AB_NOT_BUILD_LOC,		/* City is not allowed to be built at
-				   this location */
-  AB_NOT_ADDABLE_UNIT,		/* Unit is not one that can be added
-				   to cities */
-  AB_NOT_BUILD_UNIT,		/* Unit is not one that can build
-				   cities */
-  AB_NO_MOVES_BUILD,		/* Unit does not have moves left to
-				   build a city */
-  AB_NO_MOVES_ADD,		/* Unit does not have moves left to
-				   add to city */
-  AB_NOT_OWNER,			/* Owner of unit is not owner of
-				   city */
-  AB_TOO_BIG,			/* City is too big to be added to */
-  AB_NO_SPACE			/* Adding takes city past limit */
+enum unit_add_build_city_result {
+  UAB_BUILD_OK,         /* Unit OK to build city. */
+  UAB_ADD_OK,           /* Unit OK to add to city. */
+  UAB_NOT_BUILD_LOC,    /* City is not allowed to be built at this
+                         * location. */
+  UAB_NOT_ADDABLE_UNIT, /* Unit is not one that can be added to cities. */
+  UAB_NOT_BUILD_UNIT,   /* Unit is not one that can build cities. */
+  UAB_NO_MOVES_BUILD,   /* Unit does not have moves left to build a city. */
+  UAB_NO_MOVES_ADD,     /* Unit does not have moves left to add to city. */
+  UAB_NOT_OWNER,        /* Owner of unit is not owner of city. */
+  UAB_TOO_BIG,          /* City is too big to be added to. */
+  UAB_NO_SPACE          /* Adding takes city past limit. */
 };
 
 enum unit_upgrade_result {
-  UR_OK,
-  UR_NO_UNITTYPE,
-  UR_NO_MONEY,
-  UR_NOT_IN_CITY,
-  UR_NOT_CITY_OWNER,
-  UR_NOT_ENOUGH_ROOM
+  UU_OK,
+  UU_NO_UNITTYPE,
+  UU_NO_MONEY,
+  UU_NOT_IN_CITY,
+  UU_NOT_CITY_OWNER,
+  UU_NOT_ENOUGH_ROOM
 };
 
 struct unit_adv {
@@ -281,11 +276,11 @@ bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
-bool can_unit_add_to_city (const struct unit *punit);
-bool can_unit_build_city (const struct unit *punit);
-bool can_unit_add_or_build_city (const struct unit *punit);
-enum add_build_city_result test_unit_add_or_build_city(const struct unit *
-						       punit);
+bool unit_can_add_to_city(const struct unit *punit);
+bool unit_can_build_city(const struct unit *punit);
+bool unit_can_add_or_build_city(const struct unit *punit);
+enum unit_add_build_city_result
+unit_add_or_build_city_test(const struct unit *punit);
 bool kills_citizen_after_attack(const struct unit *punit);
 
 struct astring; /* Forward declaration. */
@@ -325,11 +320,11 @@ void free_unit_orders(struct unit *punit);
 int get_transporter_occupancy(const struct unit *ptrans);
 struct unit *transporter_for_unit(const struct unit *pcargo);
 
-enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
-					   bool is_free);
-enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
-					       const struct unit *punit);
-bool test_unit_convert(const struct unit *punit);
+enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
+                                           bool is_free);
+enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
+                                           char *buf, size_t bufsz);
+bool unit_can_convert(const struct unit *punit);
 
 bool is_losing_hp(const struct unit *punit);
 bool unit_type_is_losing_hp(const struct player *pplayer,

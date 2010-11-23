@@ -54,7 +54,7 @@
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  enum add_build_city_result res;
+  enum unit_add_build_city_result res;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -63,30 +63,30 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     return;
   }
 
-  res = test_unit_add_or_build_city(punit);
+  res = unit_add_or_build_city_test(punit);
 
   switch (res) {
-  case AB_BUILD_OK:
+  case UAB_BUILD_OK:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));
     dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,
         city_name_suggestion(pplayer, unit_tile(punit)));
     break;
 
-  case AB_NOT_BUILD_LOC:
-  case AB_NOT_BUILD_UNIT:
-  case AB_NO_MOVES_BUILD:
+  case UAB_NOT_BUILD_LOC:
+  case UAB_NOT_BUILD_UNIT:
+  case UAB_NO_MOVES_BUILD:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
                 "cannot build there.", TILE_XY(unit_tile(punit)));
     city_add_or_build_error(pplayer, punit, res);       /* Message. */
     break;
 
-  case AB_ADD_OK:
-  case AB_NOT_ADDABLE_UNIT:
-  case AB_NO_MOVES_ADD:
-  case AB_NOT_OWNER:
-  case AB_TOO_BIG:
-  case AB_NO_SPACE:
+  case UAB_ADD_OK:
+  case UAB_NOT_ADDABLE_UNIT:
+  case UAB_NO_MOVES_ADD:
+  case UAB_NOT_OWNER:
+  case UAB_TOO_BIG:
+  case UAB_NO_SPACE:
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
                 "there is already a city there.", TILE_XY(unit_tile(punit)));
     /* Ignoring. */

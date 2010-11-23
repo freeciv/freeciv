@@ -380,77 +380,85 @@ bool kills_citizen_after_attack(const struct unit *punit)
                   uclass_move_type(unit_class(punit)));
 }
 
-/**************************************************************************
+/****************************************************************************
   Return TRUE iff this unit may be disbanded to add its pop_cost to a
   city at its current location.
-**************************************************************************/
-bool can_unit_add_to_city(const struct unit *punit)
+****************************************************************************/
+bool unit_can_add_to_city(const struct unit *punit)
 {
-  return (test_unit_add_or_build_city(punit) == AB_ADD_OK);
+  return (UAB_ADD_OK == unit_add_or_build_city_test(punit));
 }
 
-/**************************************************************************
+/****************************************************************************
   Return TRUE iff this unit is capable of building a new city at its
   current location.
-**************************************************************************/
-bool can_unit_build_city(const struct unit *punit)
+****************************************************************************/
+bool unit_can_build_city(const struct unit *punit)
 {
-  return (test_unit_add_or_build_city(punit) == AB_BUILD_OK);
+  return (UAB_BUILD_OK == unit_add_or_build_city_test(punit));
 }
 
-/**************************************************************************
+/****************************************************************************
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
-**************************************************************************/
-bool can_unit_add_or_build_city(const struct unit *punit)
+****************************************************************************/
+bool unit_can_add_or_build_city(const struct unit *punit)
 {
-  enum add_build_city_result r = test_unit_add_or_build_city(punit);
+  enum unit_add_build_city_result res = unit_add_or_build_city_test(punit);
 
-  return (r == AB_BUILD_OK || r == AB_ADD_OK);
+  return (UAB_BUILD_OK == res || UAB_ADD_OK == res);
 }
 
-/**************************************************************************
+/****************************************************************************
   See if the unit can add to an existing city or build a new city at
   its current location, and return a 'result' value telling what is
   allowed.
-**************************************************************************/
-enum add_build_city_result test_unit_add_or_build_city(const struct unit *
-						       punit)
+****************************************************************************/
+enum unit_add_build_city_result
+unit_add_or_build_city_test(const struct unit *punit)
 {
-  struct city *pcity = tile_city(punit->tile);
+  struct tile *ptile = unit_tile(punit);
+  struct city *pcity = tile_city(ptile);
   bool is_build = unit_has_type_flag(punit, F_CITIES);
   bool is_add = unit_has_type_flag(punit, F_ADD_TO_CITY);
   int new_pop;
 
   /* See if we can build */
   if (!pcity) {
-    if (!is_build)
-      return AB_NOT_BUILD_UNIT;
-    if (punit->moves_left == 0)
-      return AB_NO_MOVES_BUILD;
-    if (!city_can_be_built_here(punit->tile, punit)) {
-      return AB_NOT_BUILD_LOC;
+    if (!is_build) {
+      return UAB_NOT_BUILD_UNIT;
     }
-    return AB_BUILD_OK;
+    if (punit->moves_left == 0) {
+      return UAB_NO_MOVES_BUILD;
+    }
+    if (!city_can_be_built_here(ptile, punit)) {
+      return UAB_NOT_BUILD_LOC;
+    }
+    return UAB_BUILD_OK;
   }
   
   /* See if we can add */
 
-  if (!is_add)
-    return AB_NOT_ADDABLE_UNIT;
-  if (punit->moves_left == 0)
-    return AB_NO_MOVES_ADD;
+  if (!is_add) {
+    return UAB_NOT_ADDABLE_UNIT;
+  }
+  if (punit->moves_left == 0) {
+    return UAB_NO_MOVES_ADD;
+  }
 
   fc_assert(unit_pop_value(punit) > 0);
   new_pop = pcity->size + unit_pop_value(punit);
 
-  if (new_pop > game.info.add_to_size_limit)
-    return AB_TOO_BIG;
-  if (city_owner(pcity) != unit_owner(punit))
-    return AB_NOT_OWNER;
-  if (!city_can_grow_to(pcity, new_pop))
-    return AB_NO_SPACE;
-  return AB_ADD_OK;
+  if (new_pop > game.info.add_to_size_limit) {
+    return UAB_TOO_BIG;
+  }
+  if (city_owner(pcity) != unit_owner(punit)) {
+    return UAB_NOT_OWNER;
+  }
+  if (!city_can_grow_to(pcity, new_pop)) {
+    return UAB_NO_SPACE;
+  }
+  return UAB_ADD_OK;
 }
 
 /**************************************************************************
@@ -1698,17 +1706,17 @@ struct unit *transporter_for_unit(const struct unit *pcargo)
   return NULL;
 }
 
-/***************************************************************************
-  Tests if the unit could be updated. Returns UR_OK if is this is
+/****************************************************************************
+  Tests if the unit could be updated. Returns UU_OK if is this is
   possible.
 
   is_free should be set if the unit upgrade is "free" (e.g., Leonardo's).
   Otherwise money is needed and the unit must be in an owned city.
 
   Note that this function is strongly tied to unittools.c:upgrade_unit().
-***************************************************************************/
-enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
-					   bool is_free)
+****************************************************************************/
+enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
+                                           bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
   struct unit_type *to_unittype = can_upgrade_unittype(pplayer, unit_type(punit));
@@ -1716,22 +1724,22 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
   int cost;
 
   if (!to_unittype) {
-    return UR_NO_UNITTYPE;
+    return UU_NO_UNITTYPE;
   }
 
   if (!is_free) {
     cost = unit_upgrade_price(pplayer, unit_type(punit), to_unittype);
     if (pplayer->economic.gold < cost) {
-      return UR_NO_MONEY;
+      return UU_NO_MONEY;
     }
 
     pcity = tile_city(punit->tile);
     if (!pcity) {
-      return UR_NOT_IN_CITY;
+      return UU_NOT_IN_CITY;
     }
     if (city_owner(pcity) != pplayer) {
       /* TODO: should upgrades in allied cities be possible? */
-      return UR_NOT_CITY_OWNER;
+      return UU_NOT_CITY_OWNER;
     }
   }
 
@@ -1739,16 +1747,16 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
     /* TODO: allow transported units to be reassigned.  Check for
      * unit_class_transporter_capacity() here and make changes to
      * upgrade_unit. */
-    return UR_NOT_ENOUGH_ROOM;
+    return UU_NOT_ENOUGH_ROOM;
   }
 
-  return UR_OK;
+  return UU_OK;
 }
 
 /**************************************************************************
   Tests if unit can be converted to another type.
 **************************************************************************/
-bool test_unit_convert(const struct unit *punit)
+bool unit_can_convert(const struct unit *punit)
 {
   return unit_type(punit)->converted_to != NULL;
 }
@@ -1757,18 +1765,18 @@ bool test_unit_convert(const struct unit *punit)
   Find the result of trying to upgrade the unit, and a message that
   most callers can use directly.
 **************************************************************************/
-enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
-					       const struct unit *punit)
+enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
+                                           char *buf, size_t bufsz)
 {
   struct player *pplayer = unit_owner(punit);
-  enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
+  enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
   int upgrade_cost;
   struct unit_type *from_unittype = unit_type(punit);
   struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
-						  unit_type(punit));
+                                                       unit_type(punit));
 
   switch (result) {
-  case UR_OK:
+  case UU_OK:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     /* This message is targeted toward the GUI callers. */
     fc_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
@@ -1777,12 +1785,12 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
                 utype_name_translation(to_unittype),
                 upgrade_cost, pplayer->economic.gold);
     break;
-  case UR_NO_UNITTYPE:
+  case UU_NO_UNITTYPE:
     fc_snprintf(buf, bufsz,
                 _("Sorry, cannot upgrade %s (yet)."),
                 utype_name_translation(from_unittype));
     break;
-  case UR_NO_MONEY:
+  case UU_NO_MONEY:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     fc_snprintf(buf, bufsz,
                 _("Upgrading %s to %s costs %d gold.\n"
@@ -1791,12 +1799,12 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
                 utype_name_translation(to_unittype),
                 upgrade_cost, pplayer->economic.gold);
     break;
-  case UR_NOT_IN_CITY:
-  case UR_NOT_CITY_OWNER:
+  case UU_NOT_IN_CITY:
+  case UU_NOT_CITY_OWNER:
     fc_snprintf(buf, bufsz,
                 _("You can only upgrade units in your cities."));
     break;
-  case UR_NOT_ENOUGH_ROOM:
+  case UU_NOT_ENOUGH_ROOM:
     fc_snprintf(buf, bufsz,
                 _("Upgrading this %s would strand units it transports."),
                 utype_name_translation(from_unittype));

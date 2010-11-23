@@ -1062,16 +1062,15 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     fc_snprintf(buf, bufsz, _("No units to upgrade!"));
     return FALSE;
   } else if (unit_list_size(punits) == 1) {
-    return (get_unit_upgrade_info(buf, bufsz, unit_list_get(punits, 0))
-	    == UR_OK);
+    return (UU_OK == unit_upgrade_info(unit_list_front(punits), buf, bufsz));
   } else {
     int upgrade_cost = 0;
     int num_upgraded = 0;
     int min_upgrade_cost = FC_INFINITY;
 
     unit_list_iterate(punits, punit) {
-      if (unit_owner(punit) == client.conn.playing
-	  && test_unit_upgrade(punit, FALSE) == UR_OK) {
+      if (unit_owner(punit) == client_player()
+          && UU_OK == unit_upgrade_test(punit, FALSE)) {
 	struct unit_type *from_unittype = unit_type(punit);
 	struct unit_type *to_unittype = can_upgrade_unittype(client.conn.playing,
 							     unit_type(punit));

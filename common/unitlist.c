@@ -255,7 +255,7 @@ bool units_have_activity_on_tile(const struct unit_list *punits,
 bool units_can_upgrade(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (test_unit_upgrade(punit, FALSE) == UR_OK) {
+    if (UU_OK == unit_upgrade_test(punit, FALSE)) {
       return TRUE;
     }
   } unit_list_iterate_end;
@@ -269,7 +269,7 @@ bool units_can_upgrade(const struct unit_list *punits)
 bool units_can_convert(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (test_unit_convert(punit)) {
+    if (unit_can_convert(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;

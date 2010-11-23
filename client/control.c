@@ -1357,7 +1357,7 @@ all the server checks and messages here.)
 **************************************************************************/
 void request_unit_build_city(struct unit *punit)
 {
-  if (can_unit_build_city(punit)) {
+  if (unit_can_build_city(punit)) {
     dsend_packet_city_name_suggestion_req(&client.conn, punit->id);
     /* the reply will trigger a dialog to name the new city */
   } else {
