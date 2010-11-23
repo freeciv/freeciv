@@ -1989,7 +1989,7 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
     return;
   }
 
-  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+  if (UU_OK == unit_upgrade_info(punit, buf, sizeof(buf))) {
     popup_message_dialog(toplevel, "upgradedialog", buf,
 			 unitupgrade_callback_yes,
 			 INT_TO_XTPOINTER(punit->id), 0,

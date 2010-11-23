@@ -73,14 +73,16 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 			       const struct tile *src_tile,
 			       const struct tile *dst_tile);
 bool zoc_ok_move(const struct unit *punit, const struct tile *ptile);
-bool can_unit_move_to_tile(const struct unit *punit, const struct tile *ptile,
-			   bool igzoc);
-enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
-					     const struct player *unit_owner,
-					     enum unit_activity activity,
-					     const struct tile *src_tile,
-					     const struct tile *dst_tile,
-					     bool igzoc);
+bool unit_can_move_to_tile(const struct unit *punit,
+                           const struct tile *ptile,
+                           bool igzoc);
+enum unit_move_result
+unit_move_to_tile_test(const struct unit_type *punittype,
+                       const struct player *unit_owner,
+                       enum unit_activity activity,
+                       const struct tile *src_tile,
+                       const struct tile *dst_tile,
+                       bool igzoc);
 bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
 bool can_unit_type_transport(const struct unit_type *transporter,
                              const struct unit_class *transported);

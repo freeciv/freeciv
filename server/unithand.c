@@ -128,13 +128,13 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
   conn_list_do_buffer(pplayer->connections);
   unit_list_iterate(pplayer->units, punit) {
     if (unit_type(punit) == from_unittype) {
-      enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
+      enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
 
-      if (result == UR_OK) {
-	number_of_upgraded_units++;
-	transform_unit(punit, to_unittype, FALSE);
-      } else if (result == UR_NO_MONEY) {
-	break;
+      if (UU_OK == result) {
+        number_of_upgraded_units++;
+        transform_unit(punit, to_unittype, FALSE);
+      } else if (UU_NO_MONEY == result) {
+        break;
       }
     }
   } unit_list_iterate_end;
@@ -170,7 +170,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
     return;
   }
 
-  if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
+  if (UU_OK == unit_upgrade_info(punit, buf, sizeof(buf))) {
     struct unit_type *from_unit = unit_type(punit);
     struct unit_type *to_unit = can_upgrade_unittype(pplayer, from_unit);
     int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
@@ -205,7 +205,7 @@ void handle_unit_convert(struct player *pplayer, int unit_id)
   from_type = unit_type(punit);
   to_type = from_type->converted_to;
 
-  if (test_unit_convert(punit)) {
+  if (unit_can_convert(punit)) {
     transform_unit(punit, to_type, TRUE);
     notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
                   _("%s converted to %s."),
@@ -527,18 +527,18 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
  consistency checking.
 **************************************************************************/
 void city_add_or_build_error(struct player *pplayer, struct unit *punit,
-                             enum add_build_city_result res)
+                             enum unit_add_build_city_result res)
 {
   /* Given that res came from test_unit_add_or_build_city, pcity will
      be non-null for all required status values. */
   struct city *pcity = tile_city(punit->tile);
 
   switch (res) {
-  case AB_NOT_BUILD_LOC:
+  case UAB_NOT_BUILD_LOC:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Can't place city here."));
     break;
-  case AB_NOT_BUILD_UNIT:
+  case UAB_NOT_BUILD_UNIT:
     {
       struct astring astr = ASTRING_INIT;
 
@@ -553,7 +553,7 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       }
     }
     break;
-  case AB_NOT_ADDABLE_UNIT:
+  case UAB_NOT_ADDABLE_UNIT:
     {
       struct astring astr = ASTRING_INIT;
 
@@ -568,18 +568,18 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
       }
     }
     break;
-  case AB_NO_MOVES_ADD:
+  case UAB_NO_MOVES_ADD:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("%s unit has no moves left to add to %s."),
                   unit_link(punit),
                   city_link(pcity));
     break;
-  case AB_NO_MOVES_BUILD:
+  case UAB_NO_MOVES_BUILD:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("%s unit has no moves left to build city."),
                   unit_link(punit));
     break;
-  case AB_NOT_OWNER:
+  case UAB_NOT_OWNER:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   /* TRANS: <city> is owned by <nation>, cannot add <unit>. */
                   _("%s is owned by %s, cannot add %s."),
@@ -587,20 +587,21 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
                   nation_plural_for_player(city_owner(pcity)),
                   unit_link(punit));
     break;
-  case AB_TOO_BIG:
+  case UAB_TOO_BIG:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("%s is too big to add %s."),
                   city_link(pcity),
                   unit_link(punit));
     break;
-  case AB_NO_SPACE:
+  case UAB_NO_SPACE:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("%s needs an improvement to grow, so "
                     "you cannot add %s."),
                   city_link(pcity),
                   unit_link(punit));
     break;
-  default:
+  case UAB_BUILD_OK:
+  case UAB_ADD_OK:
     /* Shouldn't happen */
     log_error("Cannot add %s to %s for unknown reason (%d)",
               unit_rule_name(punit), city_name(pcity), res);
@@ -673,7 +674,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
 void handle_unit_build_city(struct player *pplayer, int unit_id,
                             const char *name)
 {
-  enum add_build_city_result res;
+  enum unit_add_build_city_result res;
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
   if (NULL == punit) {
@@ -687,11 +688,11 @@ void handle_unit_build_city(struct player *pplayer, int unit_id,
     return;
   }
 
-  res = test_unit_add_or_build_city(punit);
+  res = unit_add_or_build_city_test(punit);
 
-  if (res == AB_BUILD_OK) {
+  if (UAB_BUILD_OK == res) {
     city_build(pplayer, punit, name);
-  } else if (res == AB_ADD_OK) {
+  } else if (UAB_ADD_OK == res) {
     city_add_unit(pplayer, punit);
   } else {
     city_add_or_build_error(pplayer, punit, res);
@@ -1154,9 +1155,8 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 {
   struct tile *src_tile = punit->tile;
   enum unit_move_result reason =
-      test_unit_move_to_tile(unit_type(punit), unit_owner(punit),
-			     punit->activity,
-			     src_tile, dest_tile, igzoc);
+      unit_move_to_tile_test(unit_type(punit), unit_owner(punit),
+                             punit->activity, src_tile, dest_tile, igzoc);
 
   switch (reason) {
   case MR_OK:
@@ -1306,7 +1306,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 					   punit->id, target_id,
 					   0, DIPLOMAT_MOVE);
         return FALSE;
-      } else if (!can_unit_move_to_tile(punit, pdesttile, igzoc)) {
+      } else if (!unit_can_move_to_tile(punit, pdesttile, igzoc)) {
         if (can_unit_exist_at_tile(punit, punit->tile)) {
           notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                         _("No diplomat action possible."));

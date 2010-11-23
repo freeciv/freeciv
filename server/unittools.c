@@ -255,7 +255,7 @@ static void do_upgrade_effects(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     /* We have to be careful not to strand units at sea, for example by
      * upgrading a frigate to an ironclad while it was carrying a unit. */
-    if (test_unit_upgrade(punit, TRUE) == UR_OK) {
+    if (UU_OK == unit_upgrade_test(punit, TRUE)) {
       unit_list_prepend(candidates, punit);	/* Potential candidate :) */
     }
   } unit_list_iterate_end;

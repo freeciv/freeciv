@@ -670,8 +670,8 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
 
   pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  unit_upgrade_result = get_unit_upgrade_info(cBuf, sizeof(cBuf), pUnit);
- 
+  unit_upgrade_result = unit_upgrade_info(pUnit, cBuf, sizeof(cBuf));
+
   pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -709,8 +709,8 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   area.h += (pBuf->size.h + adj_size(20));
   
   add_to_gui_list(ID_BUTTON, pBuf);
-  
-  if (unit_upgrade_result == UR_OK) {
+
+  if (UU_OK == unit_upgrade_result) {
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Upgrade"), adj_font(12), 0);
         
@@ -754,8 +754,8 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   /* cancel button */
   pBuf = pWindow->prev;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
-  
-  if (unit_upgrade_result == UR_OK) {
+
+  if (UU_OK == unit_upgrade_result) {
     /* sell button */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(10))) / 2;

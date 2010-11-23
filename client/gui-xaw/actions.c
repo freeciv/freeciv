@@ -405,7 +405,7 @@ static void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardi
 static void xaw_key_unit_build_city_or_wonder(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_add_or_build_city(punit)) {
+    if (unit_can_add_or_build_city(punit)) {
       request_unit_build_city(punit);
     } else {
       request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
