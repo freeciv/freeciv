@@ -228,6 +228,12 @@ static void set_sizes(double size, int Xratio, int Yratio)
     log_error("Requested size of %d is too big for this topology.",
               map.server.size);
   }
+
+  /* xsize and ysize must be between MAP_MIN_LINEAR_SIZE and
+   * MAP_MAX_LINEAR_SIZE. */
+  map.xsize = CLIP(MAP_MIN_LINEAR_SIZE, map.xsize, MAP_MAX_LINEAR_SIZE);
+  map.ysize = CLIP(MAP_MIN_LINEAR_SIZE, map.ysize, MAP_MAX_LINEAR_SIZE);
+
   log_normal(_("Creating a map of size %d x %d = %d tiles (%d requested)."),
              map.xsize, map.ysize, map.xsize * map.ysize,
              map.server.size * 1000);

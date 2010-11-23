@@ -336,6 +336,7 @@ void base_map_distance_vector(int *dx, int *dy,
 void map_distance_vector(int *dx, int *dy, const struct tile *ptile0,
 			 const struct tile *ptile1);
 int map_num_tiles(void);
+#define map_size_checked()  MAX(map_num_tiles() / 1000, 1)
 
 struct tile *rand_neighbour(const struct tile *ptile);
 struct tile *rand_map_pos(void);
@@ -557,7 +558,7 @@ extern const int DIR_DY[8];
  * than 30 is dangerous, because some parts of the code (e.g. path finding)
  * assume the tile index is of type (signed short int). */
 #define MAP_DEFAULT_SIZE         4
-#define MAP_MIN_SIZE             1
+#define MAP_MIN_SIZE             0
 #define MAP_MAX_SIZE             128
 
 #define MAP_DEFAULT_TILESPERPLAYER      100
@@ -569,7 +570,7 @@ extern const int DIR_DY[8];
  * across the network. */
 #define MAP_DEFAULT_LINEAR_SIZE  64
 #define MAP_MAX_LINEAR_SIZE      512
-#define MAP_MIN_LINEAR_SIZE      8
+#define MAP_MIN_LINEAR_SIZE      16
 #define MAP_MAX_WIDTH            MAP_MAX_LINEAR_SIZE
 #define MAP_MAX_HEIGHT           MAP_MAX_LINEAR_SIZE
 
