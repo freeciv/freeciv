@@ -153,3 +153,14 @@ set =
       "int_set", 123, FALSE
       "str_set", "test", FALSE
     }
+
+----------------------------------------------------------------------
+Update information:
+-------------------
+
+The information about the changes in the definition of a ruleset between
+different versions of freeciv is keep in the wiki at http://freeciv.wikia.com.
+The urls below list the differences between the freeciv versions from 2.2.x
+to the current version:
+
+http://freeciv.wikia.com/wiki/How_to_update_a_ruleset_from_2.2_to_2.3
