@@ -137,6 +137,7 @@ struct unit_type *utype_by_number(const Unit_type_id id)
 **************************************************************************/
 struct unit_type *unit_type(const struct unit *punit)
 {
+  fc_assert_ret_val(NULL != punit, NULL);
   return punit->utype;
 }
 
