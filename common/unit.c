@@ -1759,6 +1759,11 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
     return UU_NOT_ENOUGH_ROOM;
   }
 
+  if (!can_exist_at_tile(to_unittype, unit_tile(punit))) {
+    /* The new unit type can't survive on this terrain. */
+    return UU_NOT_TERRAIN;
+  }
+
   return UU_OK;
 }
 
@@ -1817,6 +1822,13 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
     fc_snprintf(buf, bufsz,
                 _("Upgrading this %s would strand units it transports."),
                 utype_name_translation(from_unittype));
+    break;
+  case UU_NOT_TERRAIN:
+    fc_snprintf(buf, bufsz,
+                _("Upgrading this %s would result in a %s which can not "
+                  "survive at this place."),
+                utype_name_translation(from_unittype),
+                utype_name_translation(to_unittype));
     break;
   }
 
