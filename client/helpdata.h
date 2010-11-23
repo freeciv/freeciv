@@ -52,6 +52,8 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
                          const char *user_text, struct specialist *pspec);
 void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 			 const char *user_text, struct government *gov);
+void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
+		     const char *user_text);
 
 char *helptext_unit_upkeep_str(struct unit_type *punittype);
 

@@ -1130,6 +1130,24 @@ static void help_update_government(const struct help_item *pitem,
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
 
+/****************************************************************************
+  This is currently just a text page, with special text
+****************************************************************************/
+static void help_update_nation(const struct help_item *pitem, char *title,
+			       struct nation_type *pnation)
+{
+  char buf[4096];
+
+  if (!pnation) {
+    strcat(buf, pitem->text);
+  } else {
+    helptext_nation(buf, sizeof(buf), pnation, pitem->text);
+  }
+  create_help_page(HELP_TEXT);
+  set_title_topic(pitem);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1167,6 +1185,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top);
+    break;
+  case HELP_NATIONS:
+    help_update_nation(pitem, top, nation_by_rule_name(top));
     break;
   case HELP_TEXT:
   default:

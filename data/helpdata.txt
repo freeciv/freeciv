@@ -12,7 +12,7 @@
 ; 'generate' = means replace this node with generated list of game
 ;	       elements; current categories are: 
 ;	          "Units", "Improvements", "Wonders", "Techs", 
-;		  "Terrain", "Governments", "Ruleset"
+;		  "Terrain", "Governments", "Ruleset", "Nations"
 ;              As for 'name', the number of spaces before the category
 ;              name indicates nesting level for display.
 ;
@@ -1479,6 +1479,18 @@ their capital.\
 
 [help_gen_ruleset]
 generate = "Ruleset"
+
+[help_nations]
+name = _("Nations")
+text = _("\
+Each player in the game is represented by a nation. A nation can be a \
+modern-day nation state, a historical state or empire, an ethnic group, \
+or even a fictional nation. Nations are distinguished by their flags, \
+leaders and city names, but are identical in all other aspects and play \
+by the same rules.")
+
+[help_gen_nations]
+generate = "Nations"
 
 [help_connecting]
 name = _("Connecting")
