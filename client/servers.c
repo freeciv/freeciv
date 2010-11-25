@@ -410,8 +410,9 @@ static void meta_read_response(struct server_scan *scan)
 ****************************************************************************/
 static bool begin_metaserver_scan(struct server_scan *scan)
 {
-  union fc_sockaddr addr;
-  int s;
+  union fc_sockaddr names[2];
+  int i, name_count;
+  int s = -1;
 
   scan->meta.urlpath = fc_lookup_httpd(scan->meta.name, &scan->meta.port,
 				       metaserver);
@@ -422,33 +423,56 @@ static bool begin_metaserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-  if (!net_lookup_service(scan->meta.name, scan->meta.port, &addr, FALSE)) {
+  if (!net_lookup_service(scan->meta.name, scan->meta.port,
+                          &names[0], FALSE)) {
     scan->error_func(scan, _("Failed looking up metaserver's host"));
     return FALSE;
   }
+  name_count = 1;
+#ifdef IPV6_SUPPORT
+  if (names[0].saddr.sa_family == AF_INET6) {
+    /* net_lookup_service() prefers IPv6 address.
+     * Check if there is also IPv4 address.
+     * TODO: This would be easier using getaddrinfo() */
+    if (net_lookup_service(scan->meta.name, scan->meta.port,
+                           &names[1], TRUE /* force IPv4 */)) {
+      name_count = 2;
+    }
+  }
+#endif
+
+  /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */  
+  for (i = 0; i < name_count; i++) {
+    if ((s = socket(names[i].saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+      /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
+      continue;
+    }
+
+    fc_nonblock(s);
   
-  if ((s = socket(addr.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-    scan->error_func(scan, fc_strerror(fc_get_errno()));
-    return FALSE;
+    if (fc_connect(s, &names[i].saddr, sockaddr_size(&names[i])) == -1) {
+      if (errno == EINPROGRESS) {
+        /* With non-blocking sockets this is the expected result. */
+        scan->meta.state = META_CONNECTING;
+        scan->sock = s;
+        break;
+      } else {
+        fc_closesocket(s);
+        s = -1;
+        continue;
+      }
+    } else {
+      /* Instant connection?  Whoa. */
+      scan->sock = s;
+      scan->meta.state = META_CONNECTING;
+      meta_send_request(scan);
+      break;
+    }
   }
 
-  fc_nonblock(s);
-  
-  if (fc_connect(s, &addr.saddr, sockaddr_size(&addr)) == -1) {
-    if (errno == EINPROGRESS) {
-      /* With non-blocking sockets this is the expected result. */
-      scan->meta.state = META_CONNECTING;
-      scan->sock = s;
-    } else {
-      fc_closesocket(s);
-      scan->error_func(scan, fc_strerror(fc_get_errno()));
-      return FALSE;
-    }
-  } else {
-    /* Instant connection?  Whoa. */
-    scan->sock = s;
-    scan->meta.state = META_CONNECTING;
-    meta_send_request(scan);
+  if (s == -1) {
+    scan->error_func(scan, fc_strerror(fc_get_errno()));
+    return FALSE;
   }
 
   return TRUE;

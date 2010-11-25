@@ -65,7 +65,8 @@
 
 static bool server_is_open = FALSE;
 
-static union fc_sockaddr meta_addr;
+static union fc_sockaddr names[2];
+static int   name_count;
 static char  metaname[MAX_LEN_ADDR];
 static int   metaport;
 static char *metaserver_path;
@@ -225,28 +226,38 @@ static bool send_to_metaserver(enum meta_flag flag)
   static char msg[8192];
   static char str[8192];
   int rest = sizeof(str);
+  int i;
   int n = 0;
+  int sock = -1;
   char *s = str;
   char host[512];
   char state[20];
-  int sock;
 
   if (!server_is_open) {
     return FALSE;
   }
 
-  if ((sock = socket(meta_addr.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-    log_error("Metaserver: can't open stream socket: %s",
-              fc_strerror(fc_get_errno()));
-    metaserver_failed();
-    return FALSE;
+  /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */  
+  for (i = 0; i < name_count; i++) {
+    if ((sock = socket(names[i].saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+      /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
+      continue;
+    }
+
+    if (fc_connect(sock, &names[i].saddr,
+                   sockaddr_size(&names[i])) == -1) {
+      fc_closesocket(sock);
+      sock = -1;
+      continue;
+    } else {
+      /* We have a connection! */
+      break;
+    }
   }
 
-  if (fc_connect(sock, &meta_addr.saddr,
-                 sockaddr_size(&meta_addr)) == -1) {
-    log_error("Metaserver: connect failed: %s", fc_strerror(fc_get_errno()));
+  if (sock == -1) {
+    log_error("Metaserver: %s", fc_strerror(fc_get_errno()));
     metaserver_failed();
-    fc_closesocket(sock);
     return FALSE;
   }
 
@@ -460,11 +471,23 @@ bool server_open_meta(void)
   
   metaserver_path = fc_strdup(path);
 
-  if (!net_lookup_service(metaname, metaport, &meta_addr, FALSE)) {
+  if (!net_lookup_service(metaname, metaport, &names[0], FALSE)) {
     log_error(_("Metaserver: bad address: <%s %d>."), metaname, metaport);
     metaserver_failed();
     return FALSE;
   }
+  name_count = 1;
+#ifdef IPV6_SUPPORT
+  if (names[0].saddr.sa_family == AF_INET6) {
+    /* net_lookup_service() prefers IPv6 address.
+     * Check if there is also IPv4 address.
+     * TODO: This would be easier using getaddrinfo() */
+    if (net_lookup_service(metaname, metaport,
+                           &names[1], TRUE /* force IPv4 */)) {
+      name_count = 2;
+    }
+  }
+#endif
 
   if (meta_patches[0] == '\0') {
     set_meta_patches_string(default_meta_patches_string());
