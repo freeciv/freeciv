@@ -1,0 +1,26 @@
+----------------------------------------------------------------------
+                       Freeciv Tilesets
+----------------------------------------------------------------------
+
+Quickstart:
+-----------
+
+Tilesets are a collection of images which are needed to display the
+map.
+
+----------------------------------------------------------------------
+Update information:
+-------------------
+
+The information about the changes in the definition of a tileset between
+different versions of freeciv is keep in the wiki at http://freeciv.wikia.com.
+The urls below list the differences between the freeciv versions from 1.14.x
+to the current version:
+
+http://freeciv.wikia.com/wiki/How_to_update_a_tileset_from_2.2_to_2.3
+
+http://freeciv.wikia.com/wiki/How_to_update_a_tileset_from_2.1_to_2.2
+
+http://freeciv.wikia.com/wiki/How_to_update_a_tileset_from_2.0_to_2.1
+
+http://freeciv.wikia.com/wiki/How_to_update_a_tileset_from_1.14_to_2.0
