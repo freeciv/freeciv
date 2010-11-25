@@ -42,37 +42,31 @@ conflicts_with = "Roman"
 civilwar_nations = "Roman", "Holy Roman", "Swiss"
 
 cities =
- "Sanctus Petrus",
- "Sanctus Georgius",
- "Sanctus Daniel",
- "Sancta Lucia",
- "Sancta Monica",
- "Sancti Ancheli",
- "Sancti Martyres",
- "Sancts Severinus",
- "Sanctus Marcus",
- "Sanctus Andreas",
- "Sanctus Paulus",
- "Sanctus Lucas",
- "Sanctus Matthaeus",
- "Sanctus Archangelus",
- "Sanctus Patricius",
- "Sanctus Vitus",
- "Sanctus Ioannis",
- "Sanctus Bernardus",
- "Sancta Rosalia",
- "Sanctus Julius",
- "Sancti Gemini",
- "Sanctus Anthonius",
- "Sancta Rosa",
- "Sanctus Faustus",
- "Sanctus Tiberius",
- "Sancta Maria",
- "Sanctus Iosephus",
- "Sancta Martha",
- "Sancto Renatus",
- "Sanctus Remus",
- "Sancta Clara",
- "Sanctus Franciscus", 
- "Sanctus Laurentius",
- "Sanctus Achilles"
+ "Civitas Vaticana",	; Vatican City
+ "Viterbium",		; Viterbo
+ "Interamna",		; Terni
+ "Tholentinum",		; Tolentino
+ "Ancona",
+ "Ravenna",
+ "Nomentum",		; Mentana
+ "Reate",		; Rieti
+; "Castelfidardo",
+ "Velitrae",		; Velletri
+ "Tarracina",		; Terracina
+ "Centumcellae",	; Civitavecchia
+ "Spoletium",		; Spoleto
+ "Macerata",
+ "Urbinum",		; Urbino
+ "Pisaurum",		; Pesaro
+ "Ariminum",		; Rimini
+ "Forum Livii",		; Forlì
+ "Bononia",		; Bologna
+ "Ferraria",		; Ferrara
+ "Tuder",		; Todi
+ "Sutrium",		; Sutri
+ "Urbs Vetus",		; Orvieto
+ "Beneventum",		; Benevento
+; "Pontecorvo",
+; "Venasque",
+ "Carpentoracte",	; Carpentras
+ "Avennio"		; Avignon
