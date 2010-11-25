@@ -103,7 +103,8 @@
 /* In autoconnect mode, try to connect 100 times */
 #define MAX_AUTOCONNECT_ATTEMPTS	100
 
-static union fc_sockaddr server_addr;
+static union fc_sockaddr names[2];
+static int name_count;
 
 /*************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
@@ -146,7 +147,7 @@ static void close_socket_callback(struct connection *pc)
   Get ready to [try to] connect to a server:
    - translate HOSTNAME and PORT (with defaults of "localhost" and
      DEFAULT_SOCK_PORT respectively) to a raw IP address and port number, and
-     store them in the `server_addr' variable
+     store them in the `names' variable
    - return 0 on success
      or put an error message in ERRBUF and return -1 on failure
 **************************************************************************/
@@ -160,17 +161,29 @@ static int get_server_address(const char *hostname, int port,
   if (!hostname)
     hostname = "localhost";
 
-  if (!net_lookup_service(hostname, port, &server_addr, FALSE)) {
+  if (!net_lookup_service(hostname, port, &names[0], FALSE)) {
     (void) mystrlcpy(errbuf, _("Failed looking up host."), errbufsize);
     return -1;
   }
+  name_count = 1;
+#ifdef IPV6_SUPPORT
+  if (names[0].saddr.sa_family == AF_INET6) {
+    /* net_lookup_service() prefers IPv6 address.
+     * Check if there is also IPv4 address.
+     * TODO: This would be easier using getaddrinfo() */
+    if (net_lookup_service(hostname, port,
+                           &names[1], TRUE /* force IPv4 */)) {
+      name_count = 2;
+    }
+  }
+#endif
 
   return 0;
 }
 
 /**************************************************************************
   Try to connect to a server (get_server_address() must be called first!):
-   - try to create a TCP socket and connect it to `server_addr'
+   - try to create a TCP socket and connect it to `names'
    - if successful:
 	  - start monitoring the socket for packets from the server
 	  - send a "login request" packet to the server
@@ -181,6 +194,9 @@ static int get_server_address(const char *hostname, int port,
 **************************************************************************/
 static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
+  int i;
+  int sock = -1;
+
   close_socket_set_callback(close_socket_callback);
 
   /* connection in progress? wait. */
@@ -188,18 +204,29 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
     (void) mystrlcpy(errbuf, _("Connection in progress."), errbufsize);
     return -1;
   }
-  
-  if ((client.conn.sock = socket(server_addr.saddr.sa_family,
-                                 SOCK_STREAM, 0)) == -1) {
-    (void) mystrlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
-    return -1;
+
+  /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */
+  sock = -1;
+  for (i = 0; i < name_count; i++) {
+    if ((sock = socket(names[i].saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+      /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
+      continue;
+    }
+
+    if (fc_connect(sock, &names[i].saddr,
+                   sockaddr_size(&names[i])) == -1) {
+      fc_closesocket(sock);
+      sock = -1;
+      continue;
+    } else {
+      /* We have a connection! */
+      break;
+    }
   }
 
-  if (fc_connect(client.conn.sock, &server_addr.saddr,
-                 sockaddr_size(&server_addr)) == -1) {
+  client.conn.sock = sock;
+  if (client.conn.sock == -1) {
     (void) mystrlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
-    fc_closesocket(client.conn.sock);
-    client.conn.sock = -1;
 #ifdef HAVE_WINSOCK
     return -1;
 #else

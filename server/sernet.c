@@ -93,7 +93,8 @@ static struct connection connections[MAX_NUM_CONNECTIONS];
 TEndpointInfo serv_info;
 EndpointRef serv_ep;
 #else
-static int sock;
+static int *listen_socks;
+static int listen_count;
 static int socklan;
 #endif
 
@@ -245,7 +246,9 @@ void close_connections_and_socket(void)
   conn_list_free(game.all_connections);
   conn_list_free(game.est_connections);
 
-  fc_closesocket(sock);
+  for (i = 0; i < listen_count; i++) {
+    fc_closesocket(listen_socks[i]);
+  }
   fc_closesocket(socklan);
 
 #ifdef HAVE_LIBREADLINE
@@ -438,8 +441,9 @@ functions.  That is, other functions should not need to do so.  --dwp
 *****************************************************************************/
 enum server_events server_sniff_all_input(void)
 {
-  int i;
+  int i, s;
   int max_desc;
+  bool excepting;
   fd_set readfs, writefs, exceptfs;
   struct timeval tv;
 #ifdef SOCKET_ZERO_ISNT_STDIN
@@ -591,17 +595,20 @@ enum server_events server_sniff_all_input(void)
 #endif /* SOCKET_ZERO_ISNT_STDIN */
     }
 
+    max_desc = 0;
+    for (i = 0; i < listen_count; i++) {
+      FD_SET(listen_socks[i], &readfs);
+      FD_SET(listen_socks[i], &exceptfs);
+      max_desc = MAX(max_desc, listen_socks[i]);
+    }
+
     if (with_ggz) {
 #ifdef GGZ_SERVER
       int ggz_sock = get_ggz_socket();
 
       FD_SET(ggz_sock, &readfs);
-      max_desc = MAX(sock, ggz_sock);
+      max_desc = MAX(max_desc, ggz_sock);
 #endif /* GGZ_SERVER */
-    } else {
-      FD_SET(sock, &readfs);
-      FD_SET(sock, &exceptfs);
-      max_desc = sock;
     }
 
     for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
@@ -660,17 +667,27 @@ enum server_events server_sniff_all_input(void)
     }
 
     if (!with_ggz) { /* No listening socket when using GGZ. */
-      if (FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
+      excepting = FALSE;
+      for (i = 0; i < listen_count; i++) {
+        if (FD_ISSET(listen_socks[i], &exceptfs)) {
+          excepting = TRUE;
+          break;
+        }
+      }
+      if (excepting) {                  /* handle Ctrl-Z suspend/resume */
 	continue;
       }
-      if (FD_ISSET(sock, &readfs)) {    /* new players connects */
-        freelog(LOG_VERBOSE, "got new connection");
-        if (-1 == server_accept_connection(sock)) {
-          /* There will be a LOG_ERROR message from
-           * server_accept_connection() if something
-           * goes wrong, so no need to make another
-           * error-level message here. */
-          freelog(LOG_VERBOSE, "failed accepting connection");
+      for (i = 0; i < listen_count; i++) {
+        s = listen_socks[i];
+        if (FD_ISSET(s, &readfs)) {     /* new players connects */
+          freelog(LOG_VERBOSE, "got new connection");
+          if (-1 == server_accept_connection(s)) {
+            /* There will be a LOG_ERROR message from
+             * server_accept_connection() if something
+             * goes wrong, so no need to make another
+             * error-level message here. */
+            freelog(LOG_VERBOSE, "failed accepting connection");
+          }
         }
       }
     }
@@ -961,72 +978,112 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 int server_open_socket(void)
 {
   /* setup socket address */
-  union fc_sockaddr src;
+  union fc_sockaddr names[2];
   union fc_sockaddr addr;
   struct ip_mreq mreq4;
-  const char *group;
-  int opt;
+  const char *cause, *group;
+  int i, j, name_count, on, s;
   int lan_family;
 
 #ifdef IPV6_SUPPORT
   struct ipv6_mreq mreq6;
 #endif
 
-  if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src, FALSE)) {
+  /* Lookup addresses to bind. */
+  if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &names[0], FALSE)) {
     freelog(LOG_FATAL, _("Server: bad address: <%s:%d>."),
 	    srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
   }
-
-  /* Create socket for client connections. */
-  if((sock = socket(src.saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-    fc_errno error = fc_get_errno();
-
+  name_count = 1;
 #ifdef IPV6_SUPPORT
-#ifdef EAFNOSUPPORT
-    bool still_error = TRUE;
+  if (names[0].saddr.sa_family == AF_INET6) {
+    /* net_lookup_service() prefers IPv6 address.
+     * Check if there is also IPv4 address.
+     * TODO: This would be easier using getaddrinfo() */
+    if (net_lookup_service(srvarg.bind_addr, srvarg.port,
+                           &names[1], TRUE /* force IPv4 */)) {
+      name_count = 2;
+    }
+  }
+#endif
 
-    if (error == EAFNOSUPPORT && src.saddr.sa_family == AF_INET6 && srvarg.bind_addr == NULL) {
-      /* Let's try IPv4 socket instead */
-      freelog(LOG_NORMAL, _("Cannot open IPv6 socket, trying IPv4 instead"));
+  cause = NULL;
+  on = 1;
 
-      if (!net_lookup_service(NULL, srvarg.port, &src, TRUE)) {
-	freelog(LOG_FATAL, _("IPv4 service lookup failed <%d>."),
-		srvarg.port);
-	exit(EXIT_FAILURE);
+  /* Loop to create sockets, bind, listen. */
+  listen_socks = fc_calloc(name_count, sizeof(listen_socks[0]));
+  listen_count = 0;
+  for (i = 0; i < name_count; i++) {
+
+    /* Create socket for client connections. */
+    s = socket(names[i].saddr.sa_family, SOCK_STREAM, 0);
+    if (s == -1) {
+      /* Probably EAFNOSUPPORT or EPROTONOSUPPORT.
+       * Kernel might have disabled AF_INET6. */
+      cause = "socket";
+      continue;
+    }
+
+    if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, 
+                   (char *)&on, sizeof(on)) == -1) {
+      freelog(LOG_ERROR, "setsockopt SO_REUSEADDR failed: %s",
+              fc_strerror(fc_get_errno()));
+      sockaddr_debug(&names[i]);
+    }
+
+    /* AF_INET6 sockets should use IPv6 only,
+     * without stealing IPv4 from AF_INET sockets. */
+#ifdef IPV6_SUPPORT
+    if (names[i].saddr.sa_family == AF_INET6) {
+#ifdef IPV6_V6ONLY
+      if (setsockopt(s, IPPROTO_IPV6, IPV6_V6ONLY,
+                     (char *)&on, sizeof(on)) == -1) {
+        freelog(LOG_ERROR, "setsockopt IPV6_V6ONLY failed: %s",
+                fc_strerror(fc_get_errno()));
+        sockaddr_debug(&names[i]);
       }
+#endif
+    }
+#endif
 
-      /* Create socket for client connections. */
-      if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-	fc_errno error2 = fc_get_errno();
-	freelog(LOG_ERROR, "Even IPv4 socket failed: %s", fc_strerror(error2));
+    if (bind(s, &names[i].saddr, sockaddr_size(&names[i])) == -1) {
+      cause = "bind";
+
+      if (fc_get_errno() == EADDRNOTAVAIL) {
+        /* Close only this socket. This address is not available.
+         * This can happen with the IPv6 wildcard address if this
+         * machine has no IPv6 interfaces. */
+        fc_closesocket(s);
+        continue;
       } else {
-	still_error = FALSE;
+        /* Close all sockets. Another program might have bound to
+         * one of our addresses, and might hijack some of our
+         * connections. */
+        fc_closesocket(s);
+        for (j = 0; j < listen_count; j++) {
+          fc_closesocket(listen_socks[j]);
+        }
+        listen_count = 0;
+        break;
       }
     }
 
-    if (still_error)
-#endif /* EAFNOSUPPORT */
-#endif /* IPv6 support */
-    {
-      die("socket failed: %s", fc_strerror(error));
+    if (listen(s, MAX_NUM_CONNECTIONS) == -1) {
+      cause = "listen";
+      fc_closesocket(s);
+      continue;
     }
+
+    listen_socks[listen_count] = s;
+    listen_count++;
   }
 
-  opt = 1;
-  if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
-		(char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
-  }
-
-  if(bind(sock, &src.saddr, sockaddr_size(&src)) == -1) {
-    freelog(LOG_FATAL, "Server bind failed: %s", fc_strerror(fc_get_errno()));
-    sockaddr_debug(&src);
-    exit(EXIT_FAILURE);
-  }
-
-  if(listen(sock, MAX_NUM_CONNECTIONS) == -1) {
-    freelog(LOG_FATAL, "listen failed: %s", fc_strerror(fc_get_errno()));
+  if (listen_count == 0) {
+    freelog(LOG_FATAL, "%s failed: %s", cause, fc_strerror(fc_get_errno()));
+    for (i = 0; i < name_count; i++) {
+      sockaddr_debug(&names[i]);
+    }
     exit(EXIT_FAILURE);
   }
 
@@ -1049,7 +1106,7 @@ int server_open_socket(void)
   }
 
   if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
-                 (char *)&opt, sizeof(opt)) == -1) {
+                 (char *)&on, sizeof(on)) == -1) {
     freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
 
