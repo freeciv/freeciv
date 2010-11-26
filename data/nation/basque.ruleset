@@ -2,7 +2,7 @@
 
 name=_("Basque")
 plural=_("?plural:Basques")
-groups="Ancient", "Medieval", "European"
+groups="Medieval", "European"
 legend=_("The Basques have lived since times immemorial by the western\
  foothills of the Pyrenees.\
  By maintaining their age-old cultural traditions, and keeping their\
@@ -13,81 +13,71 @@ legend=_("The Basques have lived since times immemorial by the western\
 leaders = {
  "name",                        "sex"
  "Eneko Aritza",                "Male"
- "Antso III.a Gartzes Nagusia", "Male"
- "Katalina I.a Nafarroakoa",    "Female"
+ "Antso III Gartzes Nagusia",   "Male"
+ "Antso VII Indartsua",         "Male"
+ "Katalina I Nafarroakoa",      "Female"
+ "Joana III Albretekoa",        "Female"
  "Tomas Zumalakarregi",         "Male"
+ "Santa Kruz Apaiza",           "Male"
  "Sabino Arana",                "Male"
  "Dolores Ibarruri",            "Female"
  "Jose Antonio Agirre",         "Male"
- "Fernando Buesa",              "Male"
- "Patxi Iturrioz",              "Male"
- "Federiko Krutwig",            "Male"
  "Jesus Maria Leizaola",        "Male"
- "Mario Onaindia",              "Male"
- "Ramón Rubial Cavia",          "Male"
  "Juan José Ibarretxe",         "Male"
 }
 
 ruler_titles = {
- "government",     "male_title",        "female_title"
- ; /* TRANS: Lehendakari = Basque neologism equivalent with President */
- "Democracy",      _("Lehendakari %s"), _("?female:Lehendakari %s")
+ "government",     "male_title",          "female_title"
+ "Despotism",      _("?title:Leader %s"), _("?female:Leader %s")
 }
 
 flag="euskadi"
-flag_alt = "-"
-city_style = "Celtic"
+flag_alt="-"
+city_style="European"
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="spanish", "french"
+civilwar_nations="Spanish", "French"
 
 cities =
-;traditional capital
- "Gernika",		;Guernica
-
-;traditional provincial capitals
- "Bilbao (ocean)",	;Bilbao
- "Gasteiz",		;Vitoria
- "Iruñea",		;Pamplona
- "Donostia (ocean)",	;San Sebastián
- "Baiona (ocean)",	;Bayonne
- "Maule-Lextarre",	;Mauléon-Licharre
- "Donibane Garazi",	;Saint-Jean-Pied-de-Port
-
-;other large towns
- "Barakaldo",		;Baracaldo
- "Getxo",		;Guecho
- "Irun",		;Irún
- "Portugalete",		;Portugalete
- "Santurtzi",		;Santurce
- "Basauri",		;Basauri
- "Errenteria",		;Rentería
- "Angelu",		;Anglet
- "Leioa",		;Lejoa
- "Sestao",		;Sestao
- "Galdakao",		;Galdácano
- "Durango",		;Durango
- "Eibar",		;Éibar
- "Biarritz",		;Biarritz
- "Erandio",		;Erandio
- "Zarautz",		;Zarauz
- "Barañain",		;Barañáin
- "Arrasate",		;Mondragón
- "Hernani",		;Hernani
- "Burlata",		;Burlada
-
-;other towns
+ "Iruñea",
+ "Bilbao (ocean, river)",
+ "Vitoria-Gasteiz",
+ "Donostia (ocean, river)",
+ "Baiona (ocean, river)",
+ "Donibane Garazi",
+ "Maule", 
+ "Barakaldo",
+ "Getxo",
+ "Irun",
+ "Portugalete",
+ "Santurtzi (ocean)",
+ "Basauri",
+ "Errenteria",
+ "Angelu (ocean)",
+ "Leioa",
+ "Sestao",
+ "Galdakao",
+ "Durango",
+ "Eibar",
+ "Biarritz (ocean)",
+ "Erandio",
+ "Zarautz (ocean)",
+ "Barañain",
+ "Arrasate",
+ "Hernani",
+ "Burlata",
+ "Gernika",
  "Lasarte-Oria",
- "Hondarribia",
+ "Hondarribia (ocean)",
  "Bergara",
  "Andoain",
  "Azpeitia",
  "Lizarra",
- "Hendaia",
+ "Hendaia (ocean)",
  "Donibane Lohizune",
  "Zizur Nagusia",
  "Elgoibar",
@@ -106,7 +96,7 @@ cities =
  "Bidarte",
  "Lazkao",
  "Bidaxune",
- "Orio",
+ "Orio (ocean)",
  "Arreaga",
  "Laudio",
  "Tolosa",
@@ -118,11 +108,10 @@ cities =
  "Ordizia",
  "Donazaharre",
  "Legazpi",
- "Zumaia",
+ "Zumaia (ocean)",
  "Berriozar",
  "Baztan",
  "Urretxu",
- "Aretxabaleta",
  "Lezo",
  "Aranguren",
  "Peralta",
@@ -135,7 +124,7 @@ cities =
  "Atharratze-Sorholüze",
  "Astigarraga",
  "Azagra",
- "Plentzia",
+ "Plentzia (ocean)",
  "Urruña",
  "Bera",
  "Viana",
@@ -143,7 +132,7 @@ cities =
  "Zizurkil",
  "Etxarri-Aranatz",
  "Barkoxe",
- "Getaria",
+ "Getaria (ocean)",
  "Irurtzun",
  "Bokale",
  "Aiara",
@@ -168,7 +157,7 @@ cities =
  "Biasteri",
  "Mendaro",
  "Liginaga-Astüe",
- "Ziburru",
+ "Ziburu",
  "Legutiano",
  "Lumbier",
  "Galar",
@@ -208,9 +197,11 @@ cities =
  "Sara",
  "Elorrio",
  "Orduña",
- "Senperre",
- "Ürrustoi-Larrabile"
-
-
-
-
+ "Senpere",
+ "Ürrustoi-Larrabile",
+ "Deba (ocean)",
+ "Lekeitio (ocean)",
+ "Ondarroa (ocean)",
+ "Bermeo (ocean)",
+ "Ea (ocean)",
+ "Pasaia (ocean)"
