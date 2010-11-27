@@ -654,11 +654,13 @@ void connection_detach(struct connection *pconn)
 
     send_remove_team_votes(pconn);
     conn_list_remove(pplayer->connections, pconn);
+    pconn->playing = NULL;
+    pconn->observer = FALSE;
+    restore_access_level(pconn);
 
+    /* If any other (non-observing) conn is attached to  this player, the
+     * player is still connected. */
     pplayer->is_connected = FALSE;
-
-    /* If any other (non-observing) conn is attached to 
-     * this player, the player is still connected. */
     conn_list_iterate(pplayer->connections, aconn) {
       if (!aconn->observer) {
         pplayer->is_connected = TRUE;
@@ -671,13 +673,11 @@ void connection_detach(struct connection *pconn)
         /* Remove player. */
         conn_list_iterate(pplayer->connections, aconn) {
           /* Detach all. */
-          if (aconn != pconn) {
-            notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
-                        _("Detaching from %s."),
-                        player_name(pplayer));
-            /* Recursive... but shouldn't be problem. */
-            connection_detach(aconn);
-          }
+          fc_assert_action(aconn != pconn, continue);
+          notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
+                      _("Detaching from %s."), player_name(pplayer));
+          /* Recursive... but shouldn't be problem. */
+          connection_detach(aconn);
         } conn_list_iterate_end;
 
         /* Actually do the removal. */
@@ -702,12 +702,10 @@ void connection_detach(struct connection *pconn)
         }
       }
     }
-
-    pconn->playing = NULL;
+  } else {
+    pconn->observer = FALSE;
+    restore_access_level(pconn);
   }
-
-  pconn->observer = FALSE;
-  restore_access_level(pconn);
 
   cancel_connection_votes(pconn);
   send_updated_vote_totals(NULL);
