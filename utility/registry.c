@@ -3383,7 +3383,7 @@ static void entry_from_token(struct section *psection, const char *name,
   if (fc_isdigit(tok[0]) || ('-' == tok[0] && fc_isdigit(tok[1]))) {
     int value;
 
-    if (1 == sscanf(tok, "%d", &value)) {
+    if (str_to_int(tok, &value)) {
       (void) section_entry_int_new(psection, name, value);
       DEBUG_ENTRIES("entry %s %d", name, value);
       return;

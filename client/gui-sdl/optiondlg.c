@@ -696,7 +696,7 @@ static void option_widget_apply(struct option *poption)
       char *str = convert_to_chars(widget->string16->text);
       int value;
 
-      if (1 == sscanf(str, "%d", &value)) {
+      if (str_to_int(str, &value)) {
         (void) option_int_set(poption, value);
       }
       free(str);

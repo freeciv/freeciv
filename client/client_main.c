@@ -350,7 +350,7 @@ int client_main(int argc, char *argv[])
     } else if (is_option("--Fatal", argv[i])) {
       if (i + 1 >= argc || '-' == argv[i + 1][0]) {
         fatal_assertions = SIGABRT;
-      } else if (1 == sscanf(argv[i + 1], "%d", &fatal_assertions)) {
+      } else if (str_to_int(argv[i + 1], &fatal_assertions)) {
         i++;
       } else {
         fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
@@ -374,11 +374,11 @@ int client_main(int argc, char *argv[])
       sz_strlcpy(sound_plugin_name, option);
       free(option);
     } else if ((option = get_option_malloc("--port",argv,&i,argc))) {
-      if (sscanf(option, "%d", &server_port) != 1) {
-	fc_fprintf(stderr,
-		   _("Invalid port \"%s\" specified with --port option.\n"),
-		   option);
-	fc_fprintf(stderr, _("Try using --help.\n"));
+      if (!str_to_int(option, &server_port)) {
+        fc_fprintf(stderr,
+                   _("Invalid port \"%s\" specified with --port option.\n"),
+                   option);
+        fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
       free(option);

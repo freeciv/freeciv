@@ -96,10 +96,7 @@ static inline int get_compression_level(void)
   if (-2 == level) {
     const char *s = getenv("FREECIV_COMPRESSION_LEVEL");
 
-    if (NULL == s
-        || 1 != sscanf(s, "%d", &level)
-        || -1 > level
-        || 9 < level) {
+    if (NULL == s || !str_to_int(s, &level) || -1 > level || 9 < level) {
       level = -1;
     }
   }

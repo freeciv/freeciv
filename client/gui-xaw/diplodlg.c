@@ -964,7 +964,7 @@ void diplodlg_key_gold(Widget w)
     int amount;
     
     XtVaGetValues(w, XtNstring, &dp, NULL);
-    if (sscanf(dp, "%d", &amount) == 1 && amount >= 0
+    if (str_to_int(dp, &amount) && 0 <= amount
 	&& amount <= pgiver->economic.gold) {
       dsend_packet_diplomacy_create_clause_req(&client.conn,
 					       player_number(pdialog->treaty.plr1),

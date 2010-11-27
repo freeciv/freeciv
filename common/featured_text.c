@@ -277,7 +277,7 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
                               "city link without id.");
             return FALSE;
           }
-          if (1 != sscanf(buf, "%d", &ptag->link.id)) {
+          if (!str_to_int(buf, &ptag->link.id)) {
             log_featured_text("text_tag_init_from_sequence(): "
                               "city link without valid id (\"%s\").", buf);
             return FALSE;
@@ -301,7 +301,7 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
                               "tile link without x coordinate.");
             return FALSE;
           }
-          if (1 != sscanf(buf, "%d", &x)) {
+          if (!str_to_int(buf, &x)) {
             log_featured_text("text_tag_init_from_sequence(): "
                               "tile link without valid x coordinate "
                               "(\"%s\").", buf);
@@ -313,7 +313,7 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
                               "tile link without y coordinate.");
             return FALSE;
           }
-          if (1 != sscanf(buf, "%d", &y)) {
+          if (!str_to_int(buf, &y)) {
             log_featured_text("text_tag_init_from_sequence(): "
                               "tile link without valid y coordinate "
                               "(\"%s\").", buf);
@@ -339,7 +339,7 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
                               "unit link without id.");
             return FALSE;
           }
-          if (1 != sscanf(buf, "%d", &ptag->link.id)) {
+          if (!str_to_int(buf, &ptag->link.id)) {
             log_featured_text("text_tag_init_from_sequence(): "
                               "unit link without valid id (\"%s\").", buf);
             return FALSE;

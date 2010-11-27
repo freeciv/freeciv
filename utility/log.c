@@ -86,7 +86,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   }
   if (n == 0) {
     /* Global log level. */
-    if (sscanf(level_str, "%d", FC_ENUM_PTR(level)) != 1) {
+    if (!str_to_int(level_str, FC_ENUM_PTR(level))) {
       fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
       return FALSE;
     }
@@ -150,12 +150,12 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
       d = strchr(d + 1, ',');
       if (d && *pc != '\0' && d[1] != '\0') {
         d[0] = '\0';
-        if (sscanf(pc, "%d", &pfile->min) != 1) {
+        if (!str_to_int(pc, &pfile->min)) {
           fc_fprintf(stderr, _("Not an integer: '%s'\n"), pc);
           ret = FALSE;
           goto out;
         }
-        if (sscanf(d + 1, "%d", &pfile->max) != 1) {
+        if (!str_to_int(d + 1, &pfile->max)) {
           fc_fprintf(stderr, _("Not an integer: '%s'\n"), d + 1);
           ret = FALSE;
           goto out;

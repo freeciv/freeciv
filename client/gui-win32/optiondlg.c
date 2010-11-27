@@ -69,7 +69,7 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	  break;
 	case COT_INTEGER:
 	  GetWindowText((HWND)(gui_data),dp,sizeof(dp));
-          if (1 == sscanf(dp, "%d", &val)) {
+          if (str_to_int(dp, &val)) {
             (void) option_int_set(poption, val);
           }
 	  break;

@@ -966,12 +966,13 @@ static char *quote_block(const void *const data, int length)
 static int unquote_block(const char *const quoted_, void *dest,
                          int dest_length)
 {
-  int i, length, parsed, tmp;
+  int i, length, tmp;
   char *endptr;
   const char *quoted = quoted_;
+  bool parsed;
 
-  parsed = sscanf(quoted, "%d", &length);
-  fc_assert_ret_val(parsed == 1, 0);
+  parsed = str_to_int(quoted, &length);
+  fc_assert_ret_val(TRUE == parsed, 0);
 
   fc_assert_ret_val(length <= dest_length, 0);
   quoted = strchr(quoted, ':');
@@ -2494,7 +2495,7 @@ static void sg_load_map_owner(struct loaddata *loading)
       if (strcmp(token1, "-") == 0) {
         owner = NULL;
       } else {
-        sg_failure_ret(sscanf(token1, "%d", &number),
+        sg_failure_ret(str_to_int(token1, &number),
                        "Got map owner %s in (%d, %d).", token1, x, y);
         owner = player_by_number(number);
       }
@@ -2505,7 +2506,7 @@ static void sg_load_map_owner(struct loaddata *loading)
       if (strcmp(token2, "-") == 0) {
         claimer = NULL;
       } else {
-        sg_failure_ret(sscanf(token2, "%d", &number),
+        sg_failure_ret(str_to_int(token2, &number),
                        "Got map source %s in (%d, %d).", token2, x, y);
         claimer = index_to_tile(number);
       }
@@ -2607,7 +2608,7 @@ static void sg_load_map_worked(struct loaddata *loading)
       if (strcmp(token, "-") == 0) {
         number = -1;
       } else {
-        sg_failure_ret(1 == sscanf(token, "%d", &number) && 0 < number,
+        sg_failure_ret(str_to_int(token, &number) && 0 < number,
                        "Savegame corrupt - got tile worked by city "
                        "id=%s in (%d, %d).", token, x, y);
       }
@@ -4788,7 +4789,7 @@ static void sg_load_player_vision(struct loaddata *loading,
           continue;
         }
 
-        sg_failure_ret(1 == sscanf(token, "%d", &number),
+        sg_failure_ret(str_to_int(token, &number),
                        "Savegame corrupt - got tile owner=%s in (%d, %d).",
                        token, x, y);
         map_get_player_tile(ptile, plr)->owner = player_by_number(number);

@@ -209,8 +209,7 @@ int main(int argc, char *argv[])
     } else if (is_option("--Fatal", argv[inx])) {
       if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
         srvarg.fatal_assertions = SIGABRT;
-      } else if (1 == sscanf(argv[inx + 1],
-                             "%d", &srvarg.fatal_assertions)) {
+      } else if (str_to_int(argv[inx + 1], &srvarg.fatal_assertions)) {
         inx++;
       } else {
         fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
@@ -237,9 +236,9 @@ int main(int argc, char *argv[])
       sz_strlcpy(srvarg.metaserver_name, option);
       free(option);
     } else if ((option = get_option_malloc("--port", argv, &inx, argc))) {
-      if (sscanf(option, "%d", &srvarg.port) != 1) {
-	showhelp = TRUE;
-	break;
+      if (!str_to_int(option, &srvarg.port)) {
+        showhelp = TRUE;
+        break;
       }
       free(option);
     } else if ((option = get_option_malloc("--bind", argv, &inx, argc))) {
@@ -247,9 +246,9 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--read", argv, &inx, argc)))
       srvarg.script_filename = option; /* Never freed. */
     else if ((option = get_option_malloc("--quitidle", argv, &inx, argc))) {
-      if (sscanf(option, "%d", &srvarg.quitidle) != 1) {
-	showhelp = TRUE;
-	break;
+      if (!str_to_int(option, &srvarg.quitidle)) {
+        showhelp = TRUE;
+        break;
       }
       free(option);
     } else if (is_option("--exit-on-end", argv[inx])) {

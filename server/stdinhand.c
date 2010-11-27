@@ -1574,9 +1574,9 @@ static bool timeout_command(struct connection *caller, char *str, bool check)
   ntokens = get_tokens(buf, arg, 4, TOKEN_DELIMITERS);
 
   for (i = 0; i < ntokens; i++) {
-    if (sscanf(arg[i], "%d", timeouts[i]) != 1) {
+    if (!str_to_int(arg[i], timeouts[i])) {
       cmd_reply(CMD_TIMEOUT, caller, C_FAIL, _("Invalid argument %d."),
-		i + 1);
+                i + 1);
     }
     free(arg[i]);
   }
@@ -2210,7 +2210,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   if (NULL == tslot) {
     int teamno;
 
-    if (sscanf(arg[1], "%d", &teamno) == 1) {
+    if (str_to_int(arg[1], &teamno)) {
       tslot = team_slot_by_number(teamno);
     }
   }
@@ -2353,7 +2353,7 @@ static bool vote_command(struct connection *caller, char *str,
       goto CLEANUP;
     }
   } else {
-    if (sscanf(arg[1], "%d", &which) <= 0) {
+    if (!str_to_int(arg[1], &which)) {
       cmd_reply(CMD_VOTE, caller, C_SYNTAX, _("Value must be an integer."));
       goto CLEANUP;
     }
@@ -2445,7 +2445,7 @@ static bool cancelvote_command(struct connection *caller,
                 _("You are not allowed to use this command."));
       return FALSE;
     }
-  } else if (sscanf(arg, "%d", &vote_no) == 1) {
+  } else if (str_to_int(arg, &vote_no)) {
     /* Cancel one particular vote (needs some privileges if the vote
      * is not owned). */
     if (!(pvote = get_vote_by_no(vote_no))) {
@@ -2594,7 +2594,7 @@ static bool debug_command(struct connection *caller, char *str,
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
-    if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
+    if (!str_to_int(arg[1], &x) || !str_to_int(arg[2], &y)) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
       goto cleanup;
     }
@@ -2625,7 +2625,7 @@ static bool debug_command(struct connection *caller, char *str,
                 command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
-    if (sscanf(arg[1], "%d", &x) != 1 || sscanf(arg[2], "%d", &y) != 1) {
+    if (!str_to_int(arg[1], &x) || !str_to_int(arg[2], &y)) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
       goto cleanup;
     }
@@ -2667,7 +2667,7 @@ static bool debug_command(struct connection *caller, char *str,
               command_synopsis(command_by_number(CMD_DEBUG)));
       goto cleanup;
     }
-    if (sscanf(arg[1], "%d", &id) != 1) {
+    if (!str_to_int(arg[1], &id)) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 must be integer."));
       goto cleanup;
     }
@@ -2696,21 +2696,6 @@ static bool debug_command(struct connection *caller, char *str,
     free(arg[i]);
   }
   return TRUE;
-}
-
-/****************************************************************************
-  Returns TRUE if the string contains only digits.
-****************************************************************************/
-static inline bool string_contains_only_digits(const char *str)
-{
-  if ('-' == *str || '+' == *str) {
-    /* Ignore the sign. */
-    str++;
-  }
-  while (fc_isdigit(*str)) {
-    str++;
-  }
-  return ('\0' == *str);
 }
 
 /******************************************************************
@@ -2776,12 +2761,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     break;
 
   case SSET_INT:
-    if (sscanf(args[1], "%d", &val) != 1) {
-      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
-      goto cleanup;
-    }
-    /* Make sure the input string only contains digits. */
-    if (!string_contains_only_digits(args[1])) {
+    if (!str_to_int(args[1], &val)) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
                 _("The parameter %s should only contain +- and 0-9."),
                 setting_name(pset));
@@ -3750,8 +3730,7 @@ static bool unignore_command(struct connection *caller,
     *c++ = '\0';
     if ('\0' == buf[0]) {
       first = 1;
-    } else if (1 != sscanf(buf, "%d", &first)
-               || !string_contains_only_digits(buf)) {
+    } else if (!str_to_int(buf, &first)) {
       *--c = '-';
       cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
                 _("\"%s\" is not a valid range. Try /help unignore."), buf);
@@ -3759,16 +3738,14 @@ static bool unignore_command(struct connection *caller,
     }
     if ('\0' == *c) {
       last = n;
-    } else if (1 != sscanf(c, "%d", &last)
-               || !string_contains_only_digits(c)) {
+    } else if (!str_to_int(c, &last)) {
       *--c = '-';
       cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
                 _("\"%s\" is not a valid range. Try /help unignore."), buf);
       return FALSE;
     }
   } else {
-    if (1 != sscanf(buf, "%d", &first)
-        || !string_contains_only_digits(buf)) {
+    if (!str_to_int(buf, &first)) {
       cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
                 _("\"%s\" is not a valid range. Try /help unignore."), buf);
       return FALSE;
