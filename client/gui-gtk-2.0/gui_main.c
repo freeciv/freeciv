@@ -574,8 +574,10 @@ static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
                                            gpointer data)
 {
-  /* inputline history code */
-  if (!GTK_WIDGET_MAPPED(top_vbox) || inputline_has_focus()) {
+  /* Inputline history code. */
+  if (!GTK_WIDGET_MAPPED(top_vbox)
+      || inputline_has_focus()
+      || !can_client_change_view()) {
     return FALSE;
   }
 
