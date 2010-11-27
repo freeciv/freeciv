@@ -256,7 +256,7 @@ set =
     { "name", "value", "lock"
       "generator", "ISLAND", FALSE
       "topology", "WRAPX|WRAPY", FALSE
-      "startpos", "ONE_PER_CONT", FALSE
+      "startpos", "SINGLE", FALSE
       "tinyisles", FALSE, FALSE
       "alltemperate", TRUE, FALSE
       "separatepoles", FALSE, FALSE
@@ -266,7 +266,7 @@ set =
       "diplomacy", "DISABLED", FALSE
       "contactturns", 0, FALSE
       "revolen", 2, FALSE
-      "barbarians", "NO_BARBS", FALSE
+      "barbarians", "DISABLED", FALSE
       "techpenalty", 0, FALSE
       "startunits", "cccwwwxxxx", FALSE
       "specials", 350, FALSE
