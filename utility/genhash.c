@@ -788,6 +788,7 @@ bool genhash_remove_full(struct genhash *pgenhash, const void *key,
                                  genhash_val_calc(pgenhash, key));
   if (BUCKET_USED == bucket->state) {
     genhash_bucket_get(bucket, deleted_pkey, deleted_pdata);
+    genhash_bucket_free(pgenhash, bucket);
     /* For later lookups, mark it as 'deleted'. See comments in
      * genhash_bucket_lookup(). */
     bucket->state = BUCKET_DELETED;
