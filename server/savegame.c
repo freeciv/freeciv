@@ -2149,15 +2149,12 @@ static void player_load_main(struct player *plr, int plrno,
   int i, k, c_s;
   const char *p;
   const char *name;
-  struct ai_data *ai;
   struct government *gov;
   int id;
   struct player_research *research;
   struct nation_type *pnation;
 
   research = get_player_research(plr);
-
-  ai = ai_data_get(plr);
 
   plr->ai_data.barbarian_type = secfile_lookup_int_default(file, 0,
                                                     "player%d.ai.is_barbarian",
@@ -2326,26 +2323,37 @@ static void player_load_main(struct player *plr, int plrno,
   plr->is_alive=secfile_lookup_bool(file, "player%d.is_alive", plrno);
   /* "Old" observer players will still be loaded but are considered dead. */
   plr->ai_data.control = secfile_lookup_bool(file, "player%d.ai.control", plrno);
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    plr->ai_data.love[i]
-         = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
-    ai->diplomacy.player_intel[i].spam 
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
-    ai->diplomacy.player_intel[i].countdown
-         = secfile_lookup_int_default(file, -1, "player%d.ai%d.countdown", plrno, i);
-    ai->diplomacy.player_intel[i].war_reason
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.war_reason", plrno, i);
-    ai->diplomacy.player_intel[i].ally_patience
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.patience", plrno, i);
-    ai->diplomacy.player_intel[i].warned_about_space
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.warn_space", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_peace
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_peace", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_alliance
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_alliance", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_ceasefire
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
-  }
+  players_iterate(aplayer) {
+    struct ai_dip_intel *adip =
+        (struct ai_dip_intel *) ai_diplomacy_get(plr, aplayer);
+    i = player_index(aplayer);
+
+    plr->ai_data.love[i] =
+        secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
+    adip->spam =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
+    adip->countdown =
+        secfile_lookup_int_default(file, -1, "player%d.ai%d.countdown",
+                                   plrno, i);
+    adip->war_reason =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.war_reason",
+                                   plrno, i);
+    adip->ally_patience =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.patience",
+                                   plrno, i);
+    adip->warned_about_space =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.warn_space",
+                                   plrno, i);
+    adip->asked_about_peace =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_peace",
+                                   plrno, i);
+    adip->asked_about_alliance =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_alliance",
+                                   plrno, i);
+    adip->asked_about_ceasefire =
+        secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire",
+                                   plrno, i);
+  } players_iterate_end;
 
   /* Backwards-compatibility: the tech goal value is still stored in the
    * "ai" section even though it was moved into the research struct. */
