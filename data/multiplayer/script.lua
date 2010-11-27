@@ -25,9 +25,9 @@ darw_id = darw_btype.id
 function building_built_handler(btype, city)
   local player, id = city.owner, btype.id
   if id == darw_id then
-    if give_technology(player, tevo_tech) then
-      give_technology(player, nil)
-      give_technology(player, nil)
+    if give_technology(player, tevo_tech, "researched") then
+      give_technology(player, nil, "researched")
+      give_technology(player, nil, "researched")
     end
   end
 end
@@ -41,7 +41,7 @@ phil_id = phil_tech.id
 function tech_researched_handler(tech, player, how)
   local id = tech.id
   if id == phil_id and how == "researched" then
-    give_technology(player, nil)
+    give_technology(player, nil, "researched")
   end
 end 
 
