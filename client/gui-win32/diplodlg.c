@@ -257,7 +257,7 @@ static void handle_gold_entry(struct Diplomacy_dialog *pdialog,int plr)
 
     SetWindowText(edit, "");
     pgiver = plr ? pdialog->treaty.plr1 : pdialog->treaty.plr0;
-    if (sscanf(buf, "%d", &amount) == 1 && amount >= 0
+    if (str_to_int(buf, &amount) && 0 <= amount
 	&& amount <= pgiver->economic.gold) {
        dsend_packet_diplomacy_create_clause_req(&client.conn,
 					player_number(pdialog->treaty.plr1),

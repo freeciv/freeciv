@@ -499,7 +499,7 @@ const char *fc_lookup_httpd(char *server, int *port, const char *url)
   }
 
   /* snarf port. */
-  if (!pport || sscanf(pport+1, "%d", port) != 1) {
+  if (NULL == pport || !str_to_int(pport + 1, port)) {
     *port = 80;
   }
 

@@ -623,20 +623,21 @@ static char *quote_block(const void *const data, int length)
   return buffer;
 }
 
-/***************************************************************
-Unquote a string. The unquoted data is written into dest. If the
-unqoted data will be largern than dest_length the function aborts. It
-returns the actual length of the unquoted block.
-***************************************************************/
+/****************************************************************************
+  Unquote a string. The unquoted data is written into dest. If the unquoted
+  data will be largern than dest_length the function aborts. It returns the
+  actual length of the unquoted block.
+****************************************************************************/
 static int unquote_block(const char *const quoted_, void *dest,
-			 int dest_length)
+                         int dest_length)
 {
-  int i, length, parsed, tmp;
+  int i, length, tmp;
   char *endptr;
   const char *quoted = quoted_;
+  bool parsed;
 
-  parsed = sscanf(quoted, "%d", &length);
-  fc_assert_ret_val(parsed == 1, 0);
+  parsed = str_to_int(quoted, &length);
+  fc_assert_ret_val(TRUE == parsed, 0);
 
   fc_assert_ret_val(length <= dest_length, 0);
   quoted = strchr(quoted, ':');
@@ -1251,7 +1252,7 @@ static void map_load_owner(struct section_file *file,
         if (strcmp(token1, "-") == 0) {
           owner = NULL;
         } else {
-          fc_assert_exit_msg(1 == sscanf(token1, "%d", &number),
+          fc_assert_exit_msg(str_to_int(token1, &number),
                              "Savegame corrupt - got map owner %s "
                              "in (%d, %d).", token1, x, y);
           owner = player_by_number(number);
@@ -1259,7 +1260,7 @@ static void map_load_owner(struct section_file *file,
         if (strcmp(token2, "-") == 0) {
           claimer = NULL;
         } else {
-          fc_assert_exit_msg(1 == sscanf(token2, "%d", &number),
+          fc_assert_exit_msg(str_to_int(token2, &number),
                              "Savegame corrupt - got map source %s "
                              "in (%d, %d).", token2, x, y);
           claimer = index_to_tile(number);
@@ -2797,7 +2798,7 @@ static int *player_load_cities_worked_map(struct section_file *file,
       if (strcmp(token, "-") == 0) {
         number = -1;
       } else {
-        fc_assert_exit_msg(1 == sscanf(token, "%d", &number) && 0 < number,
+        fc_assert_exit_msg(str_to_int(token, &number) && 0 < number,
                            "Savegame corrupt - got tile worked by city "
                            "id=%s in (%d, %d).", token, x, y);
       }

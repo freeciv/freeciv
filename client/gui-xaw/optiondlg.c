@@ -402,7 +402,7 @@ static void option_dialog_option_apply(struct option *poption)
         int val;
 
         XtVaGetValues(widget, XtNstring, &dp, NULL);
-        if (1 == sscanf(dp, "%d", &val)) {
+        if (str_to_int(dp, &val)) {
           option_int_set(poption, val);
         }
       }

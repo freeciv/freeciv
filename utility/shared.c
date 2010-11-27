@@ -682,6 +682,39 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
   return fc_strlcpy(buffer, str, len);
 }
 
+/****************************************************************************
+  Convert 'str' to it's string reprentation if possible. 'pint' can be NULL,
+  then it will only test 'str' only contains a number.
+****************************************************************************/
+bool str_to_int(const char *str, int *pint)
+{
+  const char *start;
+
+  fc_assert_ret_val(NULL != str, FALSE);
+
+  while (fc_isspace(*str)) {
+    /* Skip leading spaces. */
+    str++;
+  }
+
+  start = str;
+  if ('-' == *str || '+' == *str) {
+    /* Handle sign. */
+    str++;
+  }
+  while (fc_isdigit(*str)) {
+    /* Digits. */
+    str++;
+  }
+
+  while (fc_isspace(*str)) {
+    /* Ignore trailing spaces. */
+    str++;
+  }
+
+  return ('\0' == *str && (NULL == pint || 1 == sscanf(start, "%d", pint)));
+}
+
 /***************************************************************************
   Returns string which gives users home dir, as specified by $HOME.
   Gets value once, and then caches result.
