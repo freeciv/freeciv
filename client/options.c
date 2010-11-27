@@ -4436,14 +4436,56 @@ void desired_settable_option_update(const char *op_name,
   }
 }
 
-/****************************************************************
+/****************************************************************************
+  Convert old integer to new values (Freeciv 2.2.x to Freeciv 2.3.x).
+  Very ugly hack. TODO: Remove this later.
+****************************************************************************/
+static bool settable_option_upgrade_value(const struct option *poption,
+                                          int old_value,
+                                          char *buf, size_t buf_len)
+{
+  const char *name = option_name(poption);
+
+#define SETTING_CASE(ARG_name, ...)                                         \
+  if (0 == strcmp(ARG_name, name)) {                                        \
+    static const char *values[] = { __VA_ARGS__ };                          \
+    if (0 <= old_value && old_value < ARRAY_SIZE(values)                    \
+        && NULL != values[old_value]) {                                     \
+      fc_strlcpy(buf, values[old_value], buf_len);                          \
+      return TRUE;                                                          \
+    } else {                                                                \
+      return FALSE;                                                         \
+    }                                                                       \
+  }
+
+  SETTING_CASE("topology", "", "WRAPX", "WRAPY", "WRAPX|WRAPY", "ISO",
+               "WRAPX|ISO", "WRAPY|ISO", "WRAPX|WRAPY|ISO", "HEX",
+               "WRAPX|HEX", "WRAPY|HEX", "WRAPX|WRAPY|HEX", "ISO|HEX",
+               "WRAPX|ISO|HEX", "WRAPY|ISO|HEX", "WRAPX|WRAPY|ISO|HEX");
+  SETTING_CASE("generator", NULL, "RANDOM", "FRACTAL", "ISLAND");
+  SETTING_CASE("startpos", "DEFAULT", "SINGLE", "2or3", "ALL", "VARIABLE");
+  SETTING_CASE("killcitizen", "", "LAND", "SEA", "LAND|SEA", "BOTH",
+               "LAND|BOTH", "SEA|BOTH", "LAND|SEA|BOTH");
+  SETTING_CASE("borders", "DISABLED", "ENABLED", "SEE_INSIDE", "EXPAND");
+  SETTING_CASE("diplomacy", "ALL", "HUMAN", "AI", "TEAM", "DISABLED");
+  SETTING_CASE("citynames", "NO_RESTRICTIONS", "PLAYER_UNIQUE",
+               "GLOBAL_UNIQUE", "NO_STEALING");
+  SETTING_CASE("barbarians", "DISABLED", "HUTS_ONLY", "NORMAL", "FREQUENT",
+               "HORDES");
+  SETTING_CASE("phasemode", "ALL", "PLAYER", "TEAM");
+  SETTING_CASE("compresstype", "PLAIN", "LIBZ", "BZIP2");
+
+#undef SETTING_CASE
+  return FALSE;
+}
+
+/****************************************************************************
   Send the desired server options to the server.
-*****************************************************************/
+****************************************************************************/
 static void desired_settable_option_send(struct option *poption)
 {
-  char buf[1024];
   char *desired;
-  const char *value;
+  int value;
 
   fc_assert_ret(NULL != settable_options_hash);
 
@@ -4453,39 +4495,73 @@ static void desired_settable_option_send(struct option *poption)
     return;
   }
 
-  value = NULL;
   switch (option_type(poption)) {
   case OT_BOOLEAN:
-    fc_strlcpy(buf, option_bool_get(poption) ? "enabled" : "disabled",
-               sizeof(buf));
-    value = buf;
-    break;
+    if ((0 == fc_strcasecmp("enabled", desired)
+         || (str_to_int(desired, &value) && 1 == value))
+        && !option_bool_get(poption)) {
+      send_chat_printf("/set %s enabled", option_name(poption));
+    } else if ((0 == fc_strcasecmp("disabled", desired)
+                || (str_to_int(desired, &value) && 0 == value))
+               && option_bool_get(poption)) {
+      send_chat_printf("/set %s disabled", option_name(poption));
+    }
+    return;
   case OT_INTEGER:
-    fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
-    value = buf;
-    break;
+    if (str_to_int(desired, &value) && value != option_int_get(poption)) {
+      send_chat_printf("/set %s %d", option_name(poption), value);
+    }
+    return;
   case OT_STRING:
-    value = option_str_get(poption);
-    break;
+    if (0 != strcmp(desired, option_str_get(poption))) {
+      send_chat_printf("/set %s \"%s\"", option_name(poption), desired);
+    }
+    return;
   case OT_ENUM:
-    server_option_enum_support_name(poption, &value, NULL);
-    break;
+    {
+      char desired_buf[256];
+      const char *value_str;
+
+      /* Handle old values. */
+      if (str_to_int(desired, &value)
+          && settable_option_upgrade_value(poption, value, desired_buf,
+                                           sizeof(desired_buf))) {
+        desired = desired_buf;
+      }
+
+      server_option_enum_support_name(poption, &value_str, NULL);
+      if (0 != strcmp(desired, value_str)) {
+        send_chat_printf("/set %s \"%s\"", option_name(poption), desired);
+      }
+    }
+    return;
   case OT_BITWISE:
-    server_option_bitwise_support_name(poption, buf, sizeof(buf), NULL, 0);
-    value = buf;
+    {
+      char desired_buf[256], value_buf[256];
+
+      /* Handle old values. */
+      if (str_to_int(desired, &value)
+          && settable_option_upgrade_value(poption, value, desired_buf,
+                                           sizeof(desired_buf))) {
+        desired = desired_buf;
+      }
+
+      server_option_bitwise_support_name(poption, value_buf,
+                                         sizeof(value_buf), NULL, 0);
+      if (0 != strcmp(desired, value_buf)) {
+        send_chat_printf("/set %s \"%s\"", option_name(poption), desired);
+      }
+    }
+    return;
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
     break;
   }
 
-  if (NULL == value) {
-    log_error("Option type %s (%d) not supported for '%s'.",
-              option_type_name(option_type(poption)), option_type(poption),
-              option_name(poption));
-  } else if (0 != strcmp(value, desired)) {
-    send_chat_printf("/set %s %s", option_name(poption), desired);
-  }
+  log_error("Option type %s (%d) not supported for '%s'.",
+            option_type_name(option_type(poption)), option_type(poption),
+            option_name(poption));
 }
 
 
