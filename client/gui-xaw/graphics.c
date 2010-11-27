@@ -358,7 +358,7 @@ struct sprite *load_gfxfile(const char *filename)
     exit(EXIT_FAILURE);
   }
   
-  if (setjmp(pngp->jmpbuf)) {
+  if (setjmp(png_jmpbuf(pngp))) {
     log_fatal("Failed while reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);
   }
