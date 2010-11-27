@@ -651,7 +651,9 @@ static void create_help_page(enum help_page_type type)
       (
        "help_terrain_resources",
        labelWidgetClass,
-       help_right_form,
+       help_right_form, 
+       XtNwidth, (w2-15)/2,
+       XtNjustify,XtJustifyCenter,
        NULL);
 
     help_terrain_road_result_time =
@@ -992,7 +994,12 @@ static void help_update_terrain(const struct help_item *pitem,
       struct resource **r;
 
       for (r = pterrain->resources; *r; r++) {
-	sprintf (buf + strlen (buf), " %s,", resource_name_translation(*r));
+        /* TRANS: " Whales (2/1/2)," */
+	sprintf (buf + strlen (buf), " %s (%d/%d/%d),",
+                 resource_name_translation(*r),
+                 pterrain->output[O_FOOD]   + (*r)->output[O_FOOD],
+                 pterrain->output[O_SHIELD] + (*r)->output[O_SHIELD],
+                 pterrain->output[O_TRADE]  + (*r)->output[O_TRADE]);
       }
       buf[strlen (buf) - 1] = '.';
     } else {
