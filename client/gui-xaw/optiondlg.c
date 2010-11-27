@@ -276,6 +276,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
                                          scrollform, XtNfromHoriz, label,
                                          NULL);
       }
+      option_set_gui_data(poption, widget);
       break;
     case OT_ENUM:
     case OT_BITWISE:
