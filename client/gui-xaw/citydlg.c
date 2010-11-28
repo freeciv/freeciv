@@ -200,13 +200,31 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
 {
   struct city *pcity;
   int pollution=0;
+  int corruption=0;
+  int waste=0;
+  int illness=0;
+  char buf[512];
 
   if (pdialog) {
     pcity=pdialog->pcity;
+    corruption=pcity->waste[O_TRADE];
+    waste=pcity->waste[O_SHIELD];
     pollution=pcity->pollution;
+    if (!game.info.illness_on) {
+      fc_snprintf(buf, sizeof(buf), " -.-");
+    } else {
+      illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
+      /* illness is in tenth of percent */
+      fc_snprintf(buf, sizeof(buf), "%4.1f",
+                  (float)illness / 10.0);
+    }
   }
 
-  fc_snprintf(retbuf, n, _("Pollution:    %3d"), pollution);
+  fc_snprintf(retbuf, n, _("Corruption:   %3d\n"
+                           "Waste:        %3d\n"
+                           "Pollution:    %3d\n"
+                           "Plague Risk:  %s"),
+              corruption, waste, pollution, buf);
 }
 
 /****************************************************************
@@ -218,16 +236,31 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
   struct city *pcity;
   int foodstock=0;
   int foodbox=0;
+  int granaryturns=0;
+  char buf[512];
 
   if (pdialog) {
     pcity=pdialog->pcity;
     foodstock=pcity->food_stock;
     foodbox=city_granary_size(pcity->size);
+    granaryturns = city_turns_to_grow(pcity);
+    if (granaryturns == 0) {
+      fc_snprintf(buf, sizeof(buf), _("blocked"));
+    } else if (granaryturns == FC_INFINITY) {
+      fc_snprintf(buf, sizeof(buf), _("never"));
+    } else {
+      /* A negative value means we'll have famine in that many turns.
+         But that's handled down below. */
+      fc_snprintf(buf, sizeof(buf),
+                  PL_("%d turn", "%d turns", abs(granaryturns)),
+                  abs(granaryturns));
+    }
   }
 
   /* We used to mark cities with a granary with a "*" here. */
-  fc_snprintf(retbuf, n, _("Granary:  %3d/%-3d"),
-	      foodstock, foodbox);
+  fc_snprintf(retbuf, n, _("Granary:  %3d/%-3d\n"
+                           "Change in : %s"),
+	      foodstock, foodbox, buf);
 }
 
 /****************************************************************
