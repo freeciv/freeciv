@@ -202,7 +202,7 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
   int corruption=0;
   int waste=0;
   int illness=0;
-  char buf[512]
+  char buf[512];
 
   if (pdialog) {
     pcity=pdialog->pcity;
