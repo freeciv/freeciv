@@ -1873,10 +1873,13 @@ static void base_callback(GtkMenuItem *item, gpointer data)
 static const char *get_tile_change_menu_text(struct tile *ptile,
                                              enum unit_activity activity)
 {
-  struct tile newtile = *ptile;
+  struct tile *newtile = tile_virtual_new(ptile);
+  const char *text;
 
-  tile_apply_activity(&newtile, activity);
-  return tile_get_info_text(&newtile, 0);
+  tile_apply_activity(newtile, activity);
+  text = tile_get_info_text(newtile, 0);
+  tile_virtual_destroy(newtile);
+  return text;
 }
 
 /****************************************************************
