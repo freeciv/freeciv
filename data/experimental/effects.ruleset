@@ -1284,7 +1284,6 @@ name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Building", "Factory", "City"
       "Building", "Mfg. Plant", "City"
       "OutputType", "Shield", "Local"
     }
