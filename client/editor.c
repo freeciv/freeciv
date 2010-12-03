@@ -1359,7 +1359,7 @@ void edit_buffer_free(struct edit_buffer *ebuf)
 
   if (ebuf->vtiles) {
     tile_list_iterate(ebuf->vtiles, vtile) {
-      destroy_tile_virtual(vtile);
+      tile_virtual_destroy(vtile);
     } tile_list_iterate_end;
     tile_list_destroy(ebuf->vtiles);
     ebuf->vtiles = NULL;
@@ -1377,7 +1377,7 @@ void edit_buffer_clear(struct edit_buffer *ebuf)
   }
 
   tile_list_iterate(ebuf->vtiles, vtile) {
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
   } tile_list_iterate_end;
   tile_list_clear(ebuf->vtiles);
 
@@ -1424,7 +1424,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
     dx = 0;
     dy = 0;
   }
-  vtile = create_tile_virtual(NULL);
+  vtile = tile_virtual_new(NULL);
   vtile->x = dx;
   vtile->y = dy;
 
@@ -1496,7 +1496,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
   if (copied) {
     tile_list_append(ebuf->vtiles, vtile);
   } else {
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
   }
 }
 

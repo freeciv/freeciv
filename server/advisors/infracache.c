@@ -79,11 +79,11 @@ static int ai_calc_irrigate(const struct city *pcity,
     }
     /* Irrigation would change the terrain type, clearing the mine
      * in the process.  Calculate the benefit of doing so. */
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     tile_change_terrain(vtile, new_terrain);
     tile_clear_special(vtile, S_MINE);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
     return goodness;
   } else if (old_terrain == new_terrain
              && !tile_has_special(ptile, S_IRRIGATION)
@@ -91,11 +91,11 @@ static int ai_calc_irrigate(const struct city *pcity,
     /* The tile is currently unirrigated; irrigating it would put an
      * S_IRRIGATE on it replacing any S_MINE already there.  Calculate
      * the benefit of doing so. */
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     tile_clear_special(vtile, S_MINE);
     tile_set_special(vtile, S_IRRIGATION);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
     return goodness;
   } else if (old_terrain == new_terrain
              && tile_has_special(ptile, S_IRRIGATION)
@@ -104,11 +104,11 @@ static int ai_calc_irrigate(const struct city *pcity,
              && is_wet_or_is_wet_cardinal_around(city_owner(pcity), ptile)) {
     /* The tile is currently irrigated; irrigating it more puts an
      * S_FARMLAND on it.  Calculate the benefit of doing so. */
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     fc_assert(!tile_has_special(vtile, S_MINE));
     tile_set_special(vtile, S_FARMLAND);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
     return goodness;
   } else {
     return -1;
@@ -140,24 +140,24 @@ static int ai_calc_mine(const struct city *pcity, const struct tile *ptile)
     }
     /* Mining would change the terrain type, clearing the irrigation
      * in the process.  Calculate the benefit of doing so. */
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     tile_change_terrain(vtile, new_terrain);
     tile_clear_special(vtile, S_IRRIGATION);
     tile_clear_special(vtile, S_FARMLAND);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
     return goodness;
   } else if (old_terrain == new_terrain
              && !tile_has_special(ptile, S_MINE)) {
     /* The tile is currently unmined; mining it would put an S_MINE on it
      * replacing any S_IRRIGATION/S_FARMLAND already there.  Calculate
      * the benefit of doing so. */
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     tile_clear_special(vtile, S_IRRIGATION);
     tile_clear_special(vtile, S_FARMLAND);
     tile_set_special(vtile, S_MINE);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
     return goodness;
   } else {
     return -1;
@@ -203,10 +203,10 @@ static int ai_calc_transform(const struct city *pcity,
     return -1;
   }
 
-  vtile = create_tile_virtual(ptile);
+  vtile = tile_virtual_new(ptile);
   tile_change_terrain(vtile, new_terrain);
   goodness = city_tile_value(pcity, vtile, 0, 0);
-  destroy_tile_virtual(vtile);
+  tile_virtual_destroy(vtile);
 
   return goodness;
 }
@@ -231,14 +231,14 @@ static int ai_calc_pollution(const struct city *pcity,
     return -1;
   }
 
-  vtile = create_tile_virtual(ptile);
+  vtile = tile_virtual_new(ptile);
   tile_clear_special(vtile, S_POLLUTION);
   goodness = city_tile_value(pcity, vtile, 0, 0);
 
   /* FIXME: need a better way to guarantee pollution is cleaned up. */
   goodness = (goodness + best + 50) * 2;
 
-  destroy_tile_virtual(vtile);
+  tile_virtual_destroy(vtile);
 
   return goodness;
 }
@@ -263,7 +263,7 @@ static int ai_calc_fallout(const struct city *pcity,
     return -1;
   }
 
-  vtile = create_tile_virtual(ptile);
+  vtile = tile_virtual_new(ptile);
   tile_clear_special(vtile, S_FALLOUT);
   goodness = city_tile_value(pcity, vtile, 0, 0);
 
@@ -272,7 +272,7 @@ static int ai_calc_fallout(const struct city *pcity,
     goodness = (goodness + best + 50) * 2;
   }
 
-  destroy_tile_virtual(vtile);
+  tile_virtual_destroy(vtile);
 
   return goodness;
 }
@@ -299,10 +299,10 @@ static int ai_calc_road(const struct city *pcity, const struct tile *ptile)
       && (!tile_has_special(ptile, S_RIVER)
           || player_knows_techs_with_flag(city_owner(pcity), TF_BRIDGE))
       && !tile_has_special(ptile, S_ROAD)) {
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     set_special(&vtile->special, S_ROAD);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
   }
 
   return goodness;
@@ -330,11 +330,11 @@ static int ai_calc_railroad(const struct city *pcity,
   if (!is_ocean_tile(ptile)
       && player_knows_techs_with_flag(city_owner(pcity), TF_RAILROAD)
       && !tile_has_special(ptile, S_RAILROAD)) {
-    struct tile *vtile = create_tile_virtual(ptile);
+    struct tile *vtile = tile_virtual_new(ptile);
     set_special(&vtile->special, S_ROAD);
     set_special(&vtile->special, S_RAILROAD);
     goodness = city_tile_value(pcity, vtile, 0, 0);
-    destroy_tile_virtual(vtile);
+    tile_virtual_destroy(vtile);
   }
 
   return goodness;
