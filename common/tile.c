@@ -800,7 +800,7 @@ bool tile_has_any_bases(const struct tile *ptile)
   vtile->units, which is created for you). Be sure to call virtual_tile_free
   on it when it is no longer needed.
 ****************************************************************************/
-struct tile *create_tile_virtual(const struct tile *ptile)
+struct tile *tile_virtual_new(const struct tile *ptile)
 {
   struct tile *vtile;
 
@@ -856,7 +856,7 @@ struct tile *create_tile_virtual(const struct tile *ptile)
 
   NB: Do not call this on real tiles!
 ****************************************************************************/
-void destroy_tile_virtual(struct tile *vtile)
+void tile_virtual_destroy(struct tile *vtile)
 {
   struct city *vcity;
 
