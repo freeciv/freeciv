@@ -863,6 +863,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   int saved_id = pcity->id;
   bool city_remains = TRUE;
   bool had_great_wonders = FALSE;
+  const int old_taker_content_citizens = player_content_citizens(ptaker);
+  const int old_giver_content_citizens = player_content_citizens(pgiver);
 
   assert(pgiver != ptaker);
 
@@ -1040,6 +1042,15 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     send_player_info(pgiver, NULL);
   }
 
+  /* We may cross the EFT_EMPIRE_SIZE_* effects, then we will have to
+   * refresh all cities for the player. */
+  if (old_taker_content_citizens != player_content_citizens(ptaker)) {
+    city_refresh_for_player(ptaker);
+  }
+  if (old_giver_content_citizens != player_content_citizens(pgiver)) {
+    city_refresh_for_player(pgiver);
+  }
+
   sync_cities();
 }
 
@@ -1131,6 +1142,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct tile *saved_claimer = tile_claimer(ptile);
   struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
+  const int old_content_citizens = player_content_citizens(pplayer);
 
   freelog(LOG_DEBUG, "create_city() %s", name);
 
@@ -1202,6 +1214,12 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   update_tile_knowledge(ptile);
 
+  if (old_content_citizens != player_content_citizens(pplayer)) {
+    /* We crossed the EFT_EMPIRE_SIZE_* effects, we have to refresh all
+     * cities for the player. */
+    city_refresh_for_player(pplayer);
+  }
+
   pcity->server.synced = FALSE;
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pwork. */
@@ -1243,6 +1261,7 @@ void remove_city(struct city *pcity)
   struct vision *old_vision;
   int id = pcity->id; /* We need this even after memory has been freed */
   bool had_great_wonders = FALSE;
+  const int old_content_citizens = player_content_citizens(powner);
 
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {
@@ -1377,6 +1396,12 @@ void remove_city(struct city *pcity)
   } else if (BV_ISSET_ANY(had_small_wonders)) {
     /* No need to send to detached connections. */
     send_player_info(powner, NULL);
+  }
+
+  if (old_content_citizens != player_content_citizens(powner)) {
+    /* We crossed the EFT_EMPIRE_SIZE_* effects, we have to refresh all
+     * cities for the player. */
+    city_refresh_for_player(powner);
   }
 
   sync_cities();
