@@ -90,21 +90,6 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 }
 
 /****************************************************************************
-  Called to find and choose (pick) a research target on the way to the
-  player's goal.  Return a tech iff the tech is set.
-****************************************************************************/
-Tech_type_id choose_goal_tech(struct player *plr)
-{
-  struct player_research *research = player_research_get(plr);
-  Tech_type_id sub_goal = player_research_step(plr, research->tech_goal);
-
-  if (sub_goal != A_UNSET) {
-    choose_tech(plr, sub_goal);
-  }
-  return sub_goal;
-}
-
-/****************************************************************************
   Player has researched a new technology
 ****************************************************************************/
 static void tech_researched(struct player *plr)
@@ -354,48 +339,56 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   }
 
   if (tech_found == research->researching) {
-    Tech_type_id next_tech = choose_goal_tech(plr);
-    /* try to pick new tech to research */
+    /* Try to pick new tech to research. */
+    Tech_type_id next_tech = player_research_step(plr, research->tech_goal);
 
-    if (next_tech != A_UNSET) {
+    /* As this function can be recursive, we need to print the messages
+     * before really picking the new technology. */
+    if (A_UNSET != next_tech) {
       notify_research(plr, E_TECH_LEARNED, ftc_server,
                       _("Learned %s. Our scientists focus on %s; "
                         "goal is %s."),
                       advance_name_for_player(plr, tech_found),
-                      advance_name_researching(plr),
+                      advance_name_for_player(plr, next_tech),
                       advance_name_for_player(plr, research->tech_goal));
     } else {
       if (plr->ai_controlled) {
-        choose_random_tech(plr);
+        next_tech = pick_random_tech(plr);
       } else if (is_future_tech(tech_found)) {
         /* Continue researching future tech. */
-        research->researching = A_FUTURE;
+        next_tech = A_FUTURE;
       } else {
-        research->researching = A_UNSET;
+        next_tech = A_UNSET;
       }
-      if (research->researching != A_UNSET 
-          && (!is_future_tech(research->researching)
-              || !is_future_tech(tech_found))) {
-        notify_research(plr, E_TECH_LEARNED, ftc_server,
-                        _("Learned %s. Scientists choose to research %s."),
-                        advance_name_for_player(plr, tech_found),
-                        advance_name_researching(plr));
-      } else if (research->researching != A_UNSET) {
-        char buffer1[300], buffer2[300];
 
-        fc_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
-                    advance_name_researching(plr));
-        research->future_tech++;
-        fc_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
-                    advance_name_researching(plr));
-        notify_research(plr, E_TECH_LEARNED, ftc_server,
-                        "%s%s", buffer1, buffer2);
-      } else {
+      if (A_UNSET == next_tech) {
         notify_research(plr, E_TECH_LEARNED, ftc_server,
                         _("Learned %s. Scientists "
                           "do not know what to research next."),
                         advance_name_for_player(plr, tech_found));
+      } else if (!is_future_tech(next_tech) || !is_future_tech(tech_found)) {
+        notify_research(plr, E_TECH_LEARNED, ftc_server,
+                        _("Learned %s. Scientists choose to research %s."),
+                        advance_name_for_player(plr, tech_found),
+                        advance_name_for_player(plr, next_tech));
+      } else {
+        char buffer1[300], buffer2[300];
+
+        /* FIXME: Handle the translation in a single string. */
+        fc_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
+                    advance_name_for_player(plr, tech_found));
+        research->future_tech++;
+        fc_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
+                    advance_name_for_player(plr, next_tech));
+        notify_research(plr, E_TECH_LEARNED, ftc_server,
+                        "%s%s", buffer1, buffer2);
       }
+    }
+
+    if (A_UNSET != next_tech) {
+      choose_tech(plr, next_tech);
+    } else {
+      research->researching = A_UNSET;
     }
   }
 
@@ -819,9 +812,15 @@ void init_tech(struct player *plr, bool update)
   research->techs_researched = 1;
 
   if (update) {
+    Tech_type_id next_tech;
+
     /* Mark the reachable techs */
     player_research_update(plr);
-    if (choose_goal_tech(plr) == A_UNSET) {
+
+    next_tech = player_research_step(plr, research->tech_goal);
+    if (A_UNSET != next_tech) {
+      choose_tech(plr, next_tech);
+    } else {
       choose_random_tech(plr);
     }
   }
