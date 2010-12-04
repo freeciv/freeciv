@@ -49,8 +49,6 @@ void send_player_diplstate_c(struct player *src, struct conn_list *dest);
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 
-void send_player_turn_notifications(struct conn_list *dest);
-
 void shuffle_players(void);
 void set_shuffled_players(int *shuffled_players);
 struct player *shuffled_player(int i);
