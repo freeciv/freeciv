@@ -27,7 +27,6 @@ void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, bool update);
 void choose_tech(struct player *plr, Tech_type_id tech);
 void choose_random_tech(struct player* plr);
-Tech_type_id choose_goal_tech(struct player *plr);
 void choose_tech_goal(struct player *plr, Tech_type_id tech);
 Tech_type_id steal_a_tech(struct player *pplayer, struct player *target,
                 Tech_type_id preferred);

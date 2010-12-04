@@ -845,8 +845,14 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (get_player_research(pplayer)->researching == A_UNSET) {
-      if (choose_goal_tech(pplayer) == A_UNSET) {
+    if (A_UNSET == get_player_research(pplayer)->researching) {
+      Tech_type_id next_tech =
+          player_research_step(pplayer,
+                               get_player_research(pplayer)->tech_goal);
+
+      if (A_UNSET != next_tech) {
+        choose_tech(pplayer, next_tech);
+      } else {
         choose_random_tech(pplayer);
       }
       update_tech(pplayer, 0);
