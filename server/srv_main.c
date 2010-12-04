@@ -960,8 +960,14 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (player_research_get(pplayer)->researching == A_UNSET) {
-      if (choose_goal_tech(pplayer) == A_UNSET) {
+    if (A_UNSET == player_research_get(pplayer)->researching) {
+      Tech_type_id next_tech =
+          player_research_step(pplayer,
+                               player_research_get(pplayer)->tech_goal);
+
+      if (A_UNSET != next_tech) {
+        choose_tech(pplayer, next_tech);
+      } else {
         choose_random_tech(pplayer);
       }
       /* add the researched bulbs to the pool; do *NOT* checvk for finished
