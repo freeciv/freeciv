@@ -358,11 +358,12 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     /* try to pick new tech to research */
 
     if (next_tech != A_UNSET) {
-      notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
-                  _("Learned %s. Our scientists focus on %s; goal is %s."),
-                  advance_name_for_player(plr, tech_found),
-                  advance_name_researching(plr),
-                  advance_name_for_player(plr, research->tech_goal));
+      notify_research(plr, E_TECH_LEARNED, ftc_server,
+                      _("Learned %s. Our scientists focus on %s; "
+                        "goal is %s."),
+                      advance_name_for_player(plr, tech_found),
+                      advance_name_researching(plr),
+                      advance_name_for_player(plr, research->tech_goal));
     } else {
       if (plr->ai_controlled) {
         choose_random_tech(plr);
@@ -374,11 +375,11 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       }
       if (research->researching != A_UNSET 
           && (!is_future_tech(research->researching)
-	      || !is_future_tech(tech_found))) {
-        notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
-                    _("Learned %s. Scientists choose to research %s."),
-                    advance_name_for_player(plr, tech_found),
-                    advance_name_researching(plr));
+              || !is_future_tech(tech_found))) {
+        notify_research(plr, E_TECH_LEARNED, ftc_server,
+                        _("Learned %s. Scientists choose to research %s."),
+                        advance_name_for_player(plr, tech_found),
+                        advance_name_researching(plr));
       } else if (research->researching != A_UNSET) {
         char buffer1[300], buffer2[300];
 
@@ -387,13 +388,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
         research->future_tech++;
         fc_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
                     advance_name_researching(plr));
-        notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
-                    "%s%s", buffer1, buffer2);
+        notify_research(plr, E_TECH_LEARNED, ftc_server,
+                        "%s%s", buffer1, buffer2);
       } else {
-        notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
-                    _("Learned %s. Scientists "
-                      "do not know what to research next."),
-                    advance_name_for_player(plr, tech_found));
+        notify_research(plr, E_TECH_LEARNED, ftc_server,
+                        _("Learned %s. Scientists "
+                          "do not know what to research next."),
+                        advance_name_for_player(plr, tech_found));
       }
     }
   }
@@ -404,13 +405,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   if (bonus_tech_hack) {
     if (advance_by_number(tech_found)->bonus_message) {
-      notify_team(plr, NULL, E_TECH_GAIN, ftc_server,
-                  "%s", _(advance_by_number(tech_found)->bonus_message));
+      notify_research(plr, E_TECH_GAIN, ftc_server,
+                      "%s", _(advance_by_number(tech_found)->bonus_message));
     } else {
-      notify_team(plr, NULL, E_TECH_GAIN, ftc_server,
-                  _("Great scientists from all the "
-                    "world join your civilization: you get "
-                    "an immediate advance."));
+      notify_research(plr, E_TECH_GAIN, ftc_server,
+                      _("Great scientists from all the "
+                        "world join your civilization: you get "
+                        "an immediate advance."));
     }
     
     if (research->researching == A_UNSET) {
