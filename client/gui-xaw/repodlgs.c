@@ -135,7 +135,7 @@ static const char *get_report_title_plus(const char *report_name,
 {
   char buf[512];
   
-  fc_snprintf(buf, sizeof(buf), "%s%s", get_report_title(report_name),
+  fc_snprintf(buf, sizeof(buf), "%s\n%s", get_report_title(report_name),
 	      additional);
 
   return create_centered_string(buf);

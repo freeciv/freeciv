@@ -220,9 +220,9 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
     }
   }
 
-  fc_snprintf(retbuf, n, _("Corruption:   %3d\n"
-                           "Waste:        %3d\n"
-                           "Pollution:    %3d\n"
+  fc_snprintf(retbuf, n, _("Corruption:   %4d\n"
+                           "Waste:        %4d\n"
+                           "Pollution:    %4d\n"
                            "Plague Risk:  %s"),
               corruption, waste, pollution, buf);
 }
@@ -258,8 +258,8 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
   }
 
   /* We used to mark cities with a granary with a "*" here. */
-  fc_snprintf(retbuf, n, _("Granary:  %3d/%-3d\n"
-                           "Change in : %s"),
+  fc_snprintf(retbuf, n, _("Granary:   %3d/%-3d\n"
+                           "Change in: %s"),
 	      foodstock, foodbox, buf);
 }
 
@@ -2417,7 +2417,7 @@ void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
 					XtPointer call_data);
 
 char *newcitizen_labels[] = {
-  N_("?city:Workers"),
+  N_("Workers"),
   N_("Scientists"),
   N_("Taxmen")
 };
