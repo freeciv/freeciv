@@ -36,8 +36,7 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
                       struct player *destroyer);
 void city_repair_size(struct city *pcity, int change);
 
-void send_global_city_turn_notifications(struct conn_list *dest);
-void send_city_turn_notifications(struct conn_list *dest, struct city *pcity);
+void send_city_turn_notifications(struct connection *pconn);
 void update_city_activities(struct player *pplayer);
 int city_incite_cost(struct player *pplayer, struct city *pcity);
 void remove_obsolete_buildings_city(struct city *pcity, bool refresh);

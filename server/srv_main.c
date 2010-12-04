@@ -423,7 +423,6 @@ void send_all_info(struct conn_list *dest, bool force)
   send_all_known_cities(dest);
   send_all_known_units(dest);
   send_spaceship_info(NULL, dest);
-  send_player_turn_notifications(dest);
 }
 
 /**************************************************************************
@@ -972,7 +971,7 @@ static void end_turn(void)
   settings_turn();
   stdinhand_turn();
   voting_turn();
-  send_player_turn_notifications(NULL);
+  send_city_turn_notifications(NULL);
 
   freelog(LOG_DEBUG, "Gamenextyear");
   game_advance_year();

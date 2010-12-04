@@ -78,36 +78,6 @@ static enum plr_info_level player_info_level(struct player *plr,
 static int shuffled_order[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 /**************************************************************************
-  Send end-of-turn notifications relevant to specified dests.
-  If dest is NULL, do all players, sending to pplayer->connections.
-**************************************************************************/
-void send_player_turn_notifications(struct conn_list *dest)
-{
-  if (dest) {
-    conn_list_iterate(dest, pconn) {
-      struct player *pplayer = pconn->playing;
-
-      if (NULL != pplayer) {
-	city_list_iterate(pplayer->cities, pcity) {
-	  send_city_turn_notifications(pconn->self, pcity);
-	}
-	city_list_iterate_end;
-      }
-    }
-    conn_list_iterate_end;
-  }
-  else {
-    players_iterate(pplayer) {
-      city_list_iterate(pplayer->cities, pcity) {
-	send_city_turn_notifications(pplayer->connections, pcity);
-      } city_list_iterate_end;
-    } players_iterate_end;
-  }
-
-  send_global_city_turn_notifications(dest);
-}
-
-/**************************************************************************
   Murder a player in cold blood.
 
   Called from srv_main kill_dying_players() and edit packet handler

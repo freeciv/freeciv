@@ -355,85 +355,118 @@ void auto_arrange_workers(struct city *pcity)
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_STOP);
 }
 
-/**************************************************************************
-Notices about cities that should be sent to all players.
-**************************************************************************/
-void send_global_city_turn_notifications(struct conn_list *dest)
+/****************************************************************************
+  Notices about cities that should be sent to all players.
+****************************************************************************/
+static void city_global_turn_notify(struct conn_list *dest)
 {
-  if (!dest) {
-    dest = game.all_connections;
-  }
+  cities_iterate(pcity) {
+    struct impr_type *pimprove = pcity->production.value.building;
 
-  players_iterate(pplayer) {
-    city_list_iterate(pplayer->cities, pcity) {
-      struct impr_type *pimprove = pcity->production.value.building;
-
-      /* can_player_build_improvement_now() checks whether wonder is build
-	 elsewhere (or destroyed) */
-      if (VUT_IMPROVEMENT == pcity->production.kind
-          && is_great_wonder(pimprove)
-	  && (city_production_turns_to_build(pcity, TRUE) <= 1)
-	  && can_player_build_improvement_now(city_owner(pcity), pimprove)) {
-        notify_conn(dest, city_tile(pcity),
-                    E_WONDER_WILL_BE_BUILT, ftc_server,
-                    _("Notice: Wonder %s in %s will be finished"
-                      " next turn."), 
-                    improvement_name_translation(pimprove),
-                    city_link(pcity));
-      }
-    } city_list_iterate_end;
-  } players_iterate_end;
+    /* can_player_build_improvement_now() checks whether wonder is build
+     * elsewhere (or destroyed). */
+    if (VUT_IMPROVEMENT == pcity->production.kind
+        && is_great_wonder(pimprove)
+        && (1 >= city_production_turns_to_build(pcity, TRUE))
+        && can_player_build_improvement_now(city_owner(pcity), pimprove)) {
+      notify_conn(dest, city_tile(pcity),
+                  E_WONDER_WILL_BE_BUILT, ftc_server,
+                  _("Notice: Wonder %s in %s will be finished next turn."),
+                  improvement_name_translation(pimprove), city_link(pcity));
+    }
+  } cities_iterate_end;
 }
 
-/**************************************************************************
+/****************************************************************************
   Send turn notifications for specified city to specified connections.
-  Neither dest nor pcity may be NULL.
-**************************************************************************/
-void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
+  If 'pplayer' is not NULL, the message will be cached for this player.
+****************************************************************************/
+static void city_turn_notify(const struct city *pcity,
+                             struct conn_list *dest,
+                             const struct player *cache_for_player)
 {
-  int turns_growth, turns_granary;
-  bool can_grow;
   struct impr_type *pimprove = pcity->production.value.building;
- 
-  if (pcity->surplus[O_FOOD] > 0) {
-    turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
-		   / pcity->surplus[O_FOOD];
+  struct packet_chat_msg packet;
+  int turns_growth, turns_granary;
 
-    if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
-	&& get_current_construction_bonus(pcity, EFT_GROWTH_FOOD,
-                                          RPT_CERTAIN) > 0
-	&& pcity->surplus[O_SHIELD] > 0) {
+  if (0 < pcity->surplus[O_FOOD]) {
+    turns_growth = ((city_granary_size(pcity->size) - pcity->food_stock - 1)
+                    / pcity->surplus[O_FOOD]);
+
+    if (0 == get_city_bonus(pcity, EFT_GROWTH_FOOD)
+        && 0 < get_current_construction_bonus(pcity, EFT_GROWTH_FOOD,
+                                              RPT_CERTAIN)
+        && 0 < pcity->surplus[O_SHIELD]) {
       /* From the check above, the surplus must always be positive. */
       turns_granary = (impr_build_shield_cost(pimprove)
-		       - pcity->shield_stock) / pcity->surplus[O_SHIELD];
-      /* if growth and granary completion occur simultaneously, granary
-	 preserves food.  -AJS */
-      if (turns_growth < 5 && turns_granary < 5
-	  && turns_growth < turns_granary) {
-        notify_conn(dest, city_tile(pcity), E_CITY_GRAN_THROTTLE, ftc_server,
-                    _("Suggest throttling growth in %s to use %s "
-                      "(being built) more effectively."),
-                    city_link(pcity),
-                    improvement_name_translation(pimprove));
+                       - pcity->shield_stock) / pcity->surplus[O_SHIELD];
+      /* If growth and granary completion occur simultaneously, granary
+       * preserves food.  -AJS. */
+      if (5 > turns_growth && 5 > turns_granary
+          && turns_growth < turns_granary) {
+        package_event(&packet, city_tile(pcity),
+                      E_CITY_GRAN_THROTTLE, ftc_server,
+                      _("Suggest throttling growth in %s to use %s "
+                        "(being built) more effectively."),
+                      city_link(pcity),
+                      improvement_name_translation(pimprove));
+        lsend_packet_chat_msg(dest, &packet);
+        if (NULL != cache_for_player) {
+          event_cache_add_for_player(&packet, cache_for_player);
+        }
       }
     }
 
-    can_grow = city_can_grow_to(pcity, pcity->size + 1);
-
-    if ((turns_growth <= 0) && !city_celebrating(pcity) && can_grow) {
-      notify_conn(dest, city_tile(pcity), E_CITY_MAY_SOON_GROW, ftc_server,
-                  _("%s may soon grow to size %i."),
-                  city_link(pcity), pcity->size + 1);
+    if (0 >= turns_growth && !city_celebrating(pcity)
+        && city_can_grow_to(pcity, pcity->size + 1)) {
+      package_event(&packet, city_tile(pcity),
+                    E_CITY_MAY_SOON_GROW, ftc_server,
+                    _("%s may soon grow to size %i."),
+                    city_link(pcity), pcity->size + 1);
+      lsend_packet_chat_msg(dest, &packet);
+      if (NULL != cache_for_player) {
+        event_cache_add_for_player(&packet, cache_for_player);
+      }
     }
   } else {
-    if (pcity->food_stock + pcity->surplus[O_FOOD] <= 0
-	&& pcity->surplus[O_FOOD] < 0) {
-      notify_conn(dest, city_tile(pcity), E_CITY_FAMINE_FEARED, ftc_server,
-                  _("Warning: Famine feared in %s."),
-                  city_link(pcity));
+    if (0 >= pcity->food_stock + pcity->surplus[O_FOOD]
+        && 0 > pcity->surplus[O_FOOD]) {
+      package_event(&packet, city_tile(pcity),
+                    E_CITY_FAMINE_FEARED, ftc_server,
+                    _("Warning: Famine feared in %s."), city_link(pcity));
+      lsend_packet_chat_msg(dest, &packet);
+      if (NULL != cache_for_player) {
+        event_cache_add_for_player(&packet, cache_for_player);
+      }
     }
   }
-  
+}
+
+/****************************************************************************
+  Send global and player specific city turn notifications. If 'pconn' is
+  NULL, it will send to all connections and cache the events.
+****************************************************************************/
+void send_city_turn_notifications(struct connection *pconn)
+{
+  if (NULL != pconn) {
+    struct player *pplayer = conn_get_player(pconn);
+
+    if (NULL != pplayer) {
+      city_list_iterate(pplayer->cities, pcity) {
+        city_turn_notify(pcity, pconn->self, NULL);
+      } city_list_iterate_end;
+    }
+    city_global_turn_notify(pconn->self);
+  } else {
+    players_iterate(pplayer) {
+      city_list_iterate(pplayer->cities, pcity) {
+        city_turn_notify(pcity, pplayer->connections, pplayer);
+      } city_list_iterate_end;
+    } players_iterate_end;
+    /* NB: notifications to 'game.est_connections' are automatically
+     * cached. */
+    city_global_turn_notify(game.est_connections);
+  }
 }
 
 /**************************************************************************
