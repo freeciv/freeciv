@@ -26,6 +26,7 @@
 #include "base.h"
 #include "effects.h"
 #include "fc_types.h"
+#include "game.h"
 #include "map.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -147,6 +148,46 @@ bool is_ground_unittype(const struct unit_type *punittype)
 }
 
 /****************************************************************************
+  Check for a city channel.
+****************************************************************************/
+static bool is_city_channel_tile(const struct unit_class *punitclass,
+                                 const struct tile *ptile)
+{
+  struct dbv tile_processed = { 0, NULL };
+  struct tile_list *process_queue = tile_list_new();
+  bool found = FALSE;
+
+  dbv_init(&tile_processed, map_num_tiles());
+  for (;;) {
+    dbv_set(&tile_processed, tile_index(ptile));
+    adjc_iterate(ptile, piter) {
+      if (dbv_isset(&tile_processed, tile_index(piter))) {
+        continue;
+      } else if (is_native_to_class(punitclass, tile_terrain(piter),
+                                    piter->special, piter->bases)) {
+        found = TRUE;
+        break;
+      } else if (NULL != tile_city(piter)) {
+        tile_list_append(process_queue, piter);
+      } else {
+        dbv_set(&tile_processed, tile_index(piter));
+      }
+    } adjc_iterate_end;
+
+    if (0 == tile_list_size(process_queue)) {
+      break; /* No more tile to process. */
+    } else {
+      ptile = tile_list_front(process_queue);
+      tile_list_pop_front(process_queue);
+    }
+  }
+
+  dbv_free(&tile_processed);
+  tile_list_destroy(process_queue);
+  return found;
+}
+
+/****************************************************************************
   Return TRUE iff a unit of the given unit type can "exist" at this location.
   This means it can physically be present on the tile (without the use of a
   transporter). See also can_unit_survive_at_tile.
@@ -156,10 +197,14 @@ bool can_exist_at_tile(const struct unit_type *utype,
 {
   /* Cities are safe havens except for units in the middle of non-native
    * terrain. This can happen if adjacent terrain is changed after unit
-   * arrived to city */
-  if (tile_city(ptile)
+   * arrived to city. */
+  if (NULL != tile_city(ptile)
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
-          || is_native_near_tile(utype, ptile))) {
+          || is_native_near_tile(utype, ptile)
+          || ((1 == game.info.citymindist
+               || (0 == game.info.citymindist
+                   && 1 == game.info.min_dist_bw_cities))
+              && is_city_channel_tile(utype_class(utype), ptile)))) {
     return TRUE;
   }
 
