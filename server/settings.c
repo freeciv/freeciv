@@ -463,7 +463,8 @@ static bool generator_validate(int value, struct connection *caller,
                                char *reject_msg, size_t reject_msg_len)
 {
   if (map_is_empty()) {
-    if (MAPGEN_SCENARIO == value) {
+    if (MAPGEN_SCENARIO == value
+        && (NULL != caller || !game.scenario.is_scenario)) {
       settings_snprintf(reject_msg, reject_msg_len,
                         _("You cannot disable the map generator."));
       return FALSE;

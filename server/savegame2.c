@@ -2048,10 +2048,17 @@ static void sg_load_settings(struct loaddata *loading)
 ****************************************************************************/
 static void sg_save_settings(struct savedata *saving)
 {
+  enum map_generator real_generator = map.server.generator;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
+  if (saving->scenario) {
+    map.server.generator = MAPGEN_SCENARIO; /* We want a scenario. */
+  }
   settings_game_save(saving->file, "settings");
+  /* Restore real map generator. */
+  map.server.generator = real_generator;
 
   /* Add all compatibility settings here. */
 }
