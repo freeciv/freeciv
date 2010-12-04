@@ -646,6 +646,7 @@ int city_pollution(const struct city *pcity, int shield_total);
 int city_illness_calc(const struct city *pcity, int *ill_base,
                       int *ill_size, int *ill_trade, int *ill_pollution);
 int city_build_slots(const struct city *pcity);
+int player_content_citizens(const struct player *pplayer);
 
 bool city_exist(int id);
 
