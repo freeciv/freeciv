@@ -261,7 +261,8 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void buy_callback(GtkWidget * w, gpointer data);
-static void change_production_callback(GtkWidget* w, struct city_dialog*);
+static void change_production_callback(GtkComboBox *combo,
+                                       struct city_dialog *pdialog);
 
 static void sell_callback(struct impr_type *pimprove, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
@@ -2586,21 +2587,20 @@ static void buy_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-static void change_production_callback(GtkWidget* w,
-                                       struct city_dialog* pdial)
+/****************************************************************************
+  Callback for the dropdown production menu.
+****************************************************************************/
+static void change_production_callback(GtkComboBox *combo,
+                                       struct city_dialog *pdialog)
 {
-    GtkTreeIter iter;
-    cid cid;
-    
-    if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(w), &iter)) {
-      gtk_tree_model_get(
-        GTK_TREE_MODEL(pdial->overview.change_production_store),
-        &iter, 2, &cid, -1);
-      city_change_production(pdial->pcity, cid_production(cid)); 
-    }
+  GtkTreeIter iter;
+  cid cid;
+
+  if (can_client_issue_orders()
+      && gtk_combo_box_get_active_iter(combo, &iter)) {
+    gtk_tree_model_get(gtk_combo_box_get_model(combo), &iter, 2, &cid, -1);
+    city_change_production(pdialog->pcity, cid_production(cid));
+  }
 }
 
 /****************************************************************
