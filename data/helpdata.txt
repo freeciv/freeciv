@@ -1481,7 +1481,7 @@ their capital.\
 generate = "Ruleset"
 
 [help_nations]
-name = _("Nations")
+name = _("About Nations")
 text = _("\
 Each player in the game is represented by a nation. A nation can be a \
 modern-day nation state, a historical state or empire, an ethnic group, \
