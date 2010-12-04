@@ -938,7 +938,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     /* Don't update the non-visible improvements, they could hide the
      * previously seen informations about the city (diplomat investigation).
      */
-    if (improvement_has_flag(pimprove, IF_VISIBLE_BY_OTHERS)) {
+    if (is_improvement_visible(pimprove)) {
       bool have = BV_ISSET(packet->improvements,
                            improvement_index(pimprove));
       update_improvement_from_packet(pcity, pimprove, have);
