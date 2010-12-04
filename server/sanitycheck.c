@@ -570,7 +570,8 @@ static void check_units(const char *file, int line) {
       /* Check for ground units in the ocean. */
       if (!can_unit_exist_at_tile(punit, ptile)) {
         SANITY_CHECK(punit->transported_by != -1);
-        SANITY_CHECK(can_unit_transport(transporter, punit));
+        SANITY_CHECK(transporter != NULL
+                     && can_unit_transport(transporter, punit));
       }
 
       /* Check for over-full transports. */

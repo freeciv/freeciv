@@ -17,20 +17,25 @@
 
 #include <assert.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "base.h"
 #include "effects.h"
 #include "fc_types.h"
+#include "game.h"
 #include "map.h"
-#include "movement.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"
 #include "terrain.h"
+
+#include "movement.h"
+
 
 static const char *move_type_names[] = {
   "Land", "Sea", "Both"
@@ -145,6 +150,45 @@ bool is_ground_unittype(const struct unit_type *punittype)
 }
 
 /****************************************************************************
+  Check for a city channel.
+****************************************************************************/
+static bool is_city_channel_tile(const struct unit_class *punitclass,
+                                 const struct tile *ptile)
+{
+  bool tile_processed[map_num_tiles()];
+  struct tile_list *process_queue = tile_list_new();
+  bool found = FALSE;
+
+  memset(tile_processed, 0, sizeof(tile_processed));
+  for (;;) {
+    tile_processed[tile_index(ptile)] = TRUE;
+    adjc_iterate(ptile, piter) {
+      if (tile_processed[tile_index(piter)]) {
+        continue;
+      } else if (is_native_to_class(punitclass, tile_terrain(piter),
+                                    piter->special, piter->bases)) {
+        found = TRUE;
+        break;
+      } else if (NULL != tile_city(piter)) {
+        tile_list_append(process_queue, piter);
+      } else {
+        tile_processed[tile_index(piter)] = TRUE;
+      }
+    } adjc_iterate_end;
+
+    if (0 == tile_list_size(process_queue)) {
+      break; /* No more tile to process. */
+    } else {
+      ptile = tile_list_get(process_queue, 0);
+      tile_list_unlink(process_queue, (struct tile *) ptile);
+    }
+  }
+
+  tile_list_free(process_queue);
+  return found;
+}
+
+/****************************************************************************
   Return TRUE iff a unit of the given unit type can "exist" at this location.
   This means it can physically be present on the tile (without the use of a
   transporter). See also can_unit_survive_at_tile.
@@ -154,10 +198,14 @@ bool can_exist_at_tile(const struct unit_type *utype,
 {
   /* Cities are safe havens except for units in the middle of non-native
    * terrain. This can happen if adjacent terrain is changed after unit
-   * arrived to city */
-  if (tile_city(ptile)
+   * arrived to city. */
+  if (NULL != tile_city(ptile)
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
-          || is_native_near_tile(utype, ptile))) {
+          || is_native_near_tile(utype, ptile)
+          || ((1 == game.info.citymindist
+               || (0 == game.info.citymindist
+                   && 1 == game.info.min_dist_bw_cities))
+              && is_city_channel_tile(utype_class(utype), ptile)))) {
     return TRUE;
   }
 
