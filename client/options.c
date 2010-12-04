@@ -116,7 +116,7 @@ bool draw_city_output = FALSE;
 bool draw_map_grid = FALSE;
 bool draw_city_names = TRUE;
 bool draw_city_growth = TRUE;
-bool draw_city_productions = FALSE;
+bool draw_city_productions = TRUE;
 bool draw_city_buycost = FALSE;
 bool draw_city_trade_routes = FALSE;
 bool draw_terrain = TRUE;
@@ -1720,7 +1720,7 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(draw_city_productions, N_("Draw the city productions"),
                   N_("Setting this option will draw what the cities are "
                      "currently building on the map."),
-                  COC_GRAPHICS, GUI_LAST, FALSE,
+                  COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_city_buycost, N_("Draw the city buy costs"),
                   N_("Setting this option will draw how much gold is "
