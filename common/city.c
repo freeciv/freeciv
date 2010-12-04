@@ -2026,10 +2026,10 @@ int city_granary_size(int city_size)
   return MAX(base_value * game.info.foodbox / 100, 1);
 }
 
-/**************************************************************************
+/****************************************************************************
   Give base number of content citizens in any city owner by pplayer.
-**************************************************************************/
-static int content_citizens(const struct player *pplayer)
+****************************************************************************/
+int player_content_citizens(const struct player *pplayer)
 {
   int cities = city_list_size(pplayer->cities);
   int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
@@ -2303,7 +2303,7 @@ static void citizen_base_mood(struct city *pcity)
   /* This is the number of citizens that may start out content, depending
    * on empire size and game's city unhappysize. This may be bigger than
    * the size of the city, since this is a potential. */
-  int base_content = content_citizens(pplayer);
+  int base_content = player_content_citizens(pplayer);
 
   /* Create content citizens. Take specialists from their ranks. */
   *content = MAX(0, MIN(size, base_content) - specialists);
