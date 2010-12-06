@@ -1369,18 +1369,18 @@ const char *get_report_title(const char *report_name)
 
     /* TRANS: <nation adjective> <government name>.
      * E.g. "Polish Republic". */
-    astr_add_line(&str, Q_("?nationgovernment:%s %s"),
+    astr_add_line(&str, _("?nationgovernment:%s %s"),
                   nation_adjective_for_player(pplayer),
                   government_name_for_player(pplayer));
 
     /* TRANS: Just happending 2 strings, using the correct localized
      * syntax. */
-    astr_add_line(&str, _("%s - %s"),
+    astr_add_line(&str, _("%s: %s"),
                   ruler_title_for_player(pplayer, buf, sizeof(buf)),
                   textyear(game.info.year));
   } else {
     /* TRANS: "Observer: 1985" */
-    astr_add_line(&str, _("Observer - %s"),
+    astr_add_line(&str, _("Observer: %s"),
 		  textyear(game.info.year));
   }
   return astr_str(&str);
