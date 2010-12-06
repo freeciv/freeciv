@@ -26,6 +26,7 @@
 
 /* utility */
 #include "astring.h"
+#include "fciconv.h"
 #include "fcintl.h"
 #include "genlist.h"
 #include "log.h"
@@ -139,6 +140,9 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
       if (0 != strlen(terrain_rule_name(pterrain))) {
 	char road_time[4], irrigation_time[4],
 	     mining_time[4], transform_time[4];
+        const char *terrain, *irrigation_result,
+                   *mining_result,*transform_result;
+
 	my_snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
 	my_snprintf(irrigation_time, sizeof(irrigation_time),
 		 "%d", pterrain->irrigation_time);
@@ -146,22 +150,34 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
 		 "%d", pterrain->mining_time);
 	my_snprintf(transform_time, sizeof(transform_time),
 		 "%d", pterrain->transform_time);
-	cat_snprintf(outbuf, outlen,
-		"%-10s %3s    %3s %-10s %3s %-10s %3s %-10s\n",
-		terrain_name_translation(pterrain),
-		(pterrain->road_time == 0) ? "-" : road_time,
-		(pterrain->irrigation_result == T_NONE) ? "-" : irrigation_time,
-		((pterrain->irrigation_result == pterrain
-		  || pterrain->irrigation_result == T_NONE) ? ""
-		 : terrain_name_translation(pterrain->irrigation_result)),
-		(pterrain->mining_result == T_NONE) ? "-" : mining_time,
-		((pterrain->mining_result == pterrain
-		  || pterrain->mining_result == T_NONE) ? ""
-		 : terrain_name_translation(pterrain->mining_result)),
-		(pterrain->transform_result == T_NONE) ? "-" : transform_time,
-		((pterrain->transform_result == pterrain
-		 || pterrain->transform_result == T_NONE) ? ""
-		 : terrain_name_translation(pterrain->transform_result)));
+        terrain = terrain_name_translation(pterrain);
+        irrigation_result = 
+          (pterrain->irrigation_result == pterrain
+           || pterrain->irrigation_result == T_NONE) ? ""
+          : terrain_name_translation(pterrain->irrigation_result);
+        mining_result =
+          (pterrain->mining_result == pterrain
+           || pterrain->mining_result == T_NONE) ? ""
+          : terrain_name_translation(pterrain->mining_result);
+        transform_result =
+          (pterrain->transform_result == pterrain
+           || pterrain->transform_result == T_NONE) ? ""
+          : terrain_name_translation(pterrain->transform_result);
+        /* Use get_internal_string_length() for correct alignment with
+         * multibyte character encodings */
+        cat_snprintf(outbuf, outlen,
+            "%s%*s %3s    %3s %s%*s %3s %s%*s %3s %s\n",
+            terrain,
+            MAX(0, 10 - (int)get_internal_string_length(terrain)), "",
+            (pterrain->road_time == 0) ? "-" : road_time,
+            (pterrain->irrigation_result == T_NONE) ? "-" : irrigation_time,
+            irrigation_result,
+            MAX(0, 10 - (int)get_internal_string_length(irrigation_result)), "",
+            (pterrain->mining_result == T_NONE) ? "-" : mining_time,
+            mining_result,
+            MAX(0, 10 - (int)get_internal_string_length(mining_result)), "",
+            (pterrain->transform_result == T_NONE) ? "-" : transform_time,
+            transform_result);
 
 	/* FIXME: properly handle the (uncommon) case where these are
 	 * terrain-dependent, instead of just silence */
@@ -216,9 +232,14 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
       base_type_iterate(b) {
-	if (b->buildable)
-	  cat_snprintf(outbuf, outlen,
-		       "\n%-18s %3d", base_name_translation(b), b->build_time);
+	if (b->buildable) {
+          const char *name = base_name_translation(b);
+          cat_snprintf(outbuf, outlen,
+                       "\n%s%*s %3d",
+                       name,
+                       MAX(0, 18 - (int)get_internal_string_length(name)), "",
+                       b->build_time);
+        }
       } base_type_iterate_end;
     }
   }
