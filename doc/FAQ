@@ -1253,7 +1253,7 @@ freeciv-gtk2.exe
 
    Then you have to unpack the tileset into the DATA or root directory in
    your Freeciv directory (so if your Freeciv directory is
-   C:\FREECIV-2.2.3, then you'd tell WinZip to extract to
+   C:\FREECIV-2.2.3, then you'd tell 7-Zip to extract to
    C:\FREECIV-2.2.3\DATA.) Make sure you tell your extraction program to
    extract into the subdirectories in the file.
 
