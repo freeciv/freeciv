@@ -252,8 +252,9 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
   }
 
   /* We used to mark cities with a granary with a "*" here. */
+  /* FIXME: actually use the "Change in:" info in buf[] */
   my_snprintf(retbuf, n, _("Granary:  %3d/%-3d"),
-	      foodstock, foodbox, buf);
+	      foodstock, foodbox);
 }
 
 /****************************************************************
