@@ -202,6 +202,7 @@ struct nation_group *nation_group_by_rule_name(const char *name);
 
 void nation_group_set_match(struct nation_group *pgroup, int match);
 
+const char *nation_group_untranslated_name(const struct nation_group *pgroup);
 const char *nation_group_rule_name(const struct nation_group *pgroup);
 const char *nation_group_name_translation(const struct nation_group *pgroup);
 

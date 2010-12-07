@@ -728,6 +728,18 @@ void nation_group_set_match(struct nation_group *pgroup, int match)
 }
 
 /****************************************************************************
+  Return the untranslated name of a group of the nation (including qualifier,
+  if any).
+  You usually want nation_group_rule_name() instead.
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *nation_group_untranslated_name(const struct nation_group *pgroup)
+{
+  fc_assert_ret_val(NULL != pgroup, NULL);
+  return untranslated_name(&pgroup->name);
+}
+
+/****************************************************************************
   Return the (untranslated) rule name of a group of the nation.
   You don't have to free the return pointer.
 ****************************************************************************/
