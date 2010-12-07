@@ -3562,7 +3562,7 @@ static void send_ruleset_specialists(struct conn_list *dest)
     packet.id = spec_id;
     sz_strlcpy(packet.plural_name, untranslated_name(&s->name));
     sz_strlcpy(packet.rule_name, rule_name(&s->name));
-    sz_strlcpy(packet.short_name, rule_name(&s->abbreviation));
+    sz_strlcpy(packet.short_name, untranslated_name(&s->abbreviation));
     j = 0;
     requirement_vector_iterate(&s->reqs, preq) {
       packet.reqs[j++] = *preq;
@@ -3828,7 +3828,8 @@ static void send_ruleset_nations(struct conn_list *dest)
   groups_packet.ngroups = nation_group_count();
   i = 0;
   nation_groups_iterate(pgroup) {
-    sz_strlcpy(groups_packet.groups[i++], nation_group_rule_name(pgroup));
+    sz_strlcpy(groups_packet.groups[i++],
+               nation_group_untranslated_name(pgroup));
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 
@@ -3836,7 +3837,7 @@ static void send_ruleset_nations(struct conn_list *dest)
     packet.id = nation_number(n);
     sz_strlcpy(packet.adjective, untranslated_name(&n->adjective));
     sz_strlcpy(packet.rule_name, rule_name(&n->adjective));
-    sz_strlcpy(packet.noun_plural, rule_name(&n->noun_plural));
+    sz_strlcpy(packet.noun_plural, untranslated_name(&n->noun_plural));
     sz_strlcpy(packet.graphic_str, n->flag_graphic_str);
     sz_strlcpy(packet.graphic_alt, n->flag_graphic_alt);
 
