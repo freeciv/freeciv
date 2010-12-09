@@ -35,11 +35,11 @@ init_units=""
 
 ; Should not appear with other Arabic nations from the beginning but...
 conflicts_with="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
- "Moroccan", "Tunisian", "Algerian", "Al-Andalus", "Saudi", "Palestinian",
+ "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
  "Yemeni", "South Yemeni", "Lebanese", "Emirati"
 ; ...civil war to them.
 civilwar_nations="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
- "Moroccan", "Tunisian", "Algerian", "Al-Andalus", "Saudi", "Palestinian",
+ "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
  "Yemeni", "Lebanese", "Emirati"
 
 ; Arab Peninsula and Near East.  City names are mostly from the Ummayyad 

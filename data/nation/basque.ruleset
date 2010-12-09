@@ -3,12 +3,13 @@
 name=_("Basque")
 plural=_("?plural:Basques")
 groups="Medieval", "European"
-legend=_("The Basques have lived since times immemorial by the western\
- foothills of the Pyrenees.\
- By maintaining their age-old cultural traditions, and keeping their\
- historic identity alive, the Basques provide a link with man's distant\
- past. Euskara, the language spoken by the Basque people, is probably the\
- oldest living language in Europe and has no known relatives.")
+legend=_("The Basques have lived since ancient times by the western\
+ foothills of the Pyrenees. The Kingdom of Navarre was the last\
+ independent Basque state, which fell to Aragon in the 16th century.\
+ Today, the Basque Country, or \"Euskal Herria\", lays right in the\
+ borderlands between Spain and France, divided into seven historical\
+ provinces. Their language, Euskara, has no known relatives and its\
+ origins are unknown.")
 
 leaders = {
  "name",                        "sex"
@@ -43,34 +44,35 @@ init_units=""
 civilwar_nations="Spanish", "French"
 
 cities =
- "Iruñea",
+;Spanish or French names in comment
+ "Iruñea",			;Pamplona
  "Bilbao (ocean, river)",
- "Vitoria-Gasteiz",
- "Donostia (ocean, river)",
- "Baiona (ocean, river)",
- "Donibane Garazi",
- "Maule", 
- "Barakaldo",
- "Getxo",
- "Irun",
+ "Gasteiz",			;Vitoria
+ "Donostia (ocean, river)",	;San Sebastián
+ "Baiona (ocean, river)",	;Bayonne
+ "Donibane Garazi",		;Saint-Jean-Pied-de-Port
+ "Maule", 			;Mauléon-Licharre
+ "Barakaldo",			;Baracaldo
+ "Getxo",			;Guecho
+ "Irun",			;Irún
  "Portugalete",
- "Santurtzi (ocean)",
+ "Santurtzi (ocean)",		;Santurce
  "Basauri",
- "Errenteria",
- "Angelu (ocean)",
- "Leioa",
+ "Errenteria",			;Rentería
+ "Angelu (ocean)",		;Anglet
+ "Leioa",			;Lejoa
  "Sestao",
- "Galdakao",
+ "Galdakao",			;Galdácano
  "Durango",
- "Eibar",
+ "Eibar",			;Éibar
  "Biarritz (ocean)",
  "Erandio",
- "Zarautz (ocean)",
- "Barañain",
- "Arrasate",
+ "Zarautz (ocean)",		;Zarauz
+ "Barañain",			;Barañain
+ "Arrasate",			;Mondragón
  "Hernani",
- "Burlata",
- "Gernika",
+ "Burlata",			;Burlada
+ "Gernika",			;Guernica
  "Lasarte-Oria",
  "Hondarribia (ocean)",
  "Bergara",
