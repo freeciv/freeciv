@@ -44,34 +44,35 @@ init_units=""
 civilwar_nations="Spanish", "French"
 
 cities =
- "Iruñea",
+;Spanish or French names in comment
+ "Iruñea",			;Pamplona
  "Bilbao (ocean, river)",
- "Vitoria-Gasteiz",
- "Donostia (ocean, river)",
- "Baiona (ocean, river)",
- "Donibane Garazi",
- "Maule", 
- "Barakaldo",
- "Getxo",
- "Irun",
+ "Gasteiz",			;Vitoria
+ "Donostia (ocean, river)",	;San Sebastián
+ "Baiona (ocean, river)",	;Bayonne
+ "Donibane Garazi",		;Saint-Jean-Pied-de-Port
+ "Maule", 			;Mauléon-Licharre
+ "Barakaldo",			;Baracaldo
+ "Getxo",			;Guecho
+ "Irun",			;Irún
  "Portugalete",
- "Santurtzi (ocean)",
+ "Santurtzi (ocean)",		;Santurce
  "Basauri",
- "Errenteria",
- "Angelu (ocean)",
- "Leioa",
+ "Errenteria",			;Rentería
+ "Angelu (ocean)",		;Anglet
+ "Leioa",			;Lejoa
  "Sestao",
- "Galdakao",
+ "Galdakao",			;Galdácano
  "Durango",
- "Eibar",
+ "Eibar",			;Éibar
  "Biarritz (ocean)",
  "Erandio",
- "Zarautz (ocean)",
- "Barañain",
- "Arrasate",
+ "Zarautz (ocean)",		;Zarauz
+ "Barañain",			;Barañain
+ "Arrasate",			;Mondragón
  "Hernani",
- "Burlata",
- "Gernika",
+ "Burlata",			;Burlada
+ "Gernika",			;Guernica
  "Lasarte-Oria",
  "Hondarribia (ocean)",
  "Bergara",
