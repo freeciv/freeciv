@@ -2,7 +2,7 @@
 
 name = _("Papal")
 plural = _("?plural:Papal States")
-groups="Medieval", "Early Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The Papal States were the territories on the Italian Peninsula\
  and elsewhere under the direct sovereign rule by the Roman Catholic popes.\
  Established in the 8th century AD from territory donated to the Church by\
