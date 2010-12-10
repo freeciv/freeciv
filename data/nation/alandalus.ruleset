@@ -1,7 +1,7 @@
 [nation_alandalus]
 
-name=_("Andalusi")
-plural=_("?plural:Andalusis")
+name=_("Al-Andalus")
+plural=_("?plural:Al-Andalus")
 groups="Medieval", "European"
 legend=_("Al-Andalus was the parts of the Iberian peninsula that was\
  under Muslim control during the Middle Ages. Muslim Andalusians are\
