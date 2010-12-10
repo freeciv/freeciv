@@ -632,13 +632,12 @@ static char *quote_block(const void *const data, int length)
 static int unquote_block(const char *const quoted_, void *dest,
                          int dest_length)
 {
-  int i, length, tmp;
+  int i, length, parsed, tmp;
   char *endptr;
   const char *quoted = quoted_;
-  bool parsed;
 
-  parsed = str_to_int(quoted, &length);
-  fc_assert_ret_val(TRUE == parsed, 0);
+  parsed = sscanf(quoted, "%d", &length);
+  fc_assert_ret_val(1 == parsed, 0);
 
   fc_assert_ret_val(length <= dest_length, 0);
   quoted = strchr(quoted, ':');
