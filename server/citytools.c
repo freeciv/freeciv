@@ -1073,9 +1073,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     city_thaw_workers(pcity);
     city_thaw_workers_queue();  /* after old city has a chance to work! */
     city_refresh_queue_add(pcity);
-    city_refresh_queue_processing();
-
-    send_city_info(NULL, pcity);
 
     sanity_check_city(pcity);
   }
@@ -1089,11 +1086,36 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     send_game_info(NULL);
     if (city_remains) {
       send_player_info_c(ptaker, NULL);
+
+      /* Refresh all cities of the taker to account for possible changes due
+       * to player wide effects. */
+      city_list_iterate(ptaker->cities, acity) {
+        city_refresh_queue_add(acity);
+      } city_list_iterate_end;
+    } else {
+      /* Refresh all cities to account for possible global effects. */
+      cities_iterate(acity) {
+        city_refresh_queue_add(acity);
+      } cities_iterate_end;
     }
   }
   if (BV_ISSET_ANY(had_small_wonders) || had_great_wonders) {
     /* No need to send to detached connections. */
     send_player_info_c(pgiver, NULL);
+
+    /* Refresh all cities of the giver to account for possible changes due
+     * to player wide effects. */
+    city_list_iterate(pgiver->cities, acity) {
+      city_refresh_queue_add(acity);
+    } city_list_iterate_end;
+  }
+
+  /* Refresh all cities in the queue. */
+  city_refresh_queue_processing();
+
+  if (city_remains) {
+    /* Send information about conquered city to all players. */
+    send_city_info(NULL, pcity);
   }
 
   /* We may cross the EFT_EMPIRE_SIZE_* effects, then we will have to
