@@ -2540,17 +2540,26 @@ static bool unit_survive_autoattack(struct unit *punit)
 
   unit_list_iterate_safe(autoattack, penemy) {
     int sanity2 = penemy->id;
-    struct unit *enemy_defender = get_defender(punit, penemy->tile);
-    struct unit *punit_defender = get_defender(penemy, punit->tile);
-    double punitwin = unit_win_chance(punit, enemy_defender);
-    double penemywin = unit_win_chance(penemy, punit_defender);
+    struct tile *ptile = unit_tile(penemy);
+    struct unit *enemy_defender = get_defender(punit, ptile);
+    struct unit *punit_defender = get_defender(penemy, unit_tile(punit));
+    double punitwin, penemywin;
     double threshold = 0.25;
-    struct tile *ptile = penemy->tile;
+
+    fc_assert_action(NULL != punit_defender, continue);
 
     if (tile_city(ptile) && unit_list_size(ptile->units) == 1) {
       /* Don't leave city defenseless */
       threshold = 0.90;
     }
+
+    if (NULL != enemy_defender) {
+      punitwin = unit_win_chance(punit, enemy_defender);
+    } else {
+      /* 'penemy' can attack 'punit' but it may be not reciproque. */
+      punitwin = 1.0;
+    }
+    penemywin = unit_win_chance(penemy, punit_defender);
 
     if ((penemywin > 1.0 - punitwin
          || unit_has_type_flag(punit, F_DIPLOMAT)
@@ -2565,16 +2574,15 @@ static bool unit_survive_autoattack(struct unit *punit)
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
       (void) unit_move_handling(penemy, punit->tile, FALSE, FALSE);
-    }
+    } else {
 #ifdef REALLY_DEBUG_THIS
-      else {
       log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
                unit_rule_name(penemy), unit_rule_name(punit),
-               TILE_XY(unit_tile(punit)), penemywin,
+               TILE_XY(unit_tile(punit)), penemywin,
                1.0 - punitwin, threshold);
+#endif
       continue;
     }
-#endif
 
     if (game_unit_by_number(sanity2)) {
       send_unit_info(NULL, penemy);
