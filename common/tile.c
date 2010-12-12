@@ -496,13 +496,6 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
       tile_remove_base(ptile, pbase);
     }
   } base_type_iterate_end;
-
-#ifndef NDEBUG
-  /* Check for units which can't survive on the new terrain. */
-  unit_list_iterate(ptile->units, punit) {
-    fc_assert_ret(can_unit_exist_at_tile(punit, ptile));
-  } unit_list_iterate_end
-#endif /* NDEBUG */
 }
 
 /****************************************************************************

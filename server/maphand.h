@@ -111,6 +111,7 @@ bool need_to_fix_terrain_change(const struct terrain *oldter,
                                 const struct terrain *newter);
 void fix_tile_on_terrain_change(struct tile *ptile,
                                 bool extend_rivers);
+void bounce_units_on_terrain_change(struct tile *ptile);
 
 void vision_change_sight(struct vision *vision,
                          const v_radius_t radius_sq);

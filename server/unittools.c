@@ -63,6 +63,7 @@
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "sanitycheck.h"
 #include "script_signal.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -787,8 +788,14 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity_done(ptile, ACTIVITY_IRRIGATE)) {
       struct terrain *old = tile_terrain(ptile);
 
+      /* The function below could change the terrain. Therefore, we have to
+       * check the units, check the terrain and also do a sanity check for
+       * the tile. */
       tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
+      bounce_units_on_terrain_change(ptile);
       check_terrain_change(ptile, old);
+      sanity_check_tile(ptile);
+
       unit_activity_done = TRUE;
     }
     break;
@@ -798,8 +805,14 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity_done(ptile, activity)) {
       struct terrain *old = tile_terrain(ptile);
 
+      /* The function below could change the terrain. Therefore, we have to
+       * check the units, check the terrain and also do a sanity check for
+       * the tile. */
       tile_apply_activity(ptile, activity);
+      bounce_units_on_terrain_change(ptile);
       check_terrain_change(ptile, old);
+      sanity_check_tile(ptile);
+
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
     }

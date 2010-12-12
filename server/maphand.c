@@ -45,6 +45,7 @@
 #include "cityturn.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "sanitycheck.h"
 #include "sernet.h"
 #include "srv_main.h"
 #include "unithand.h"
@@ -78,6 +79,7 @@ static inline int map_get_seen(const struct player *pplayer,
 static inline int map_get_own_seen(const struct player *pplayer,
                                    const struct tile *ptile,
                                    enum vision_layer vlayer);
+static void climate_change(bool warming, int effect);
 
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
@@ -89,89 +91,50 @@ static bool is_terrain_ecologically_wet(struct tile *ptile)
 }
 
 /**************************************************************************
-...
+  Wrapper for climate_change().
 **************************************************************************/
 void global_warming(int effect)
 {
-  int k = map_num_tiles();
-  bool used[k];
-  memset(used, 0, sizeof(used));
-
-  log_verbose("Global warming: %d", game.info.heating);
-
-  while (effect > 0 && (k--) > 0) {
-    struct terrain *old, *new;
-    struct tile *ptile;
-
-    do {
-      /* We want to transform a tile at most once by global warming. */
-      ptile = rand_map_pos();
-    } while (used[tile_index(ptile)]);
-    used[tile_index(ptile)] = TRUE;
-
-    old = tile_terrain(ptile);
-    if (is_terrain_ecologically_wet(ptile)) {
-      new = old->warmer_wetter_result;
-    } else {
-      new = old->warmer_drier_result;
-    }
-
-    if (tile_city(ptile) != NULL && new != T_NONE
-        && terrain_has_flag(new, TER_NO_CITIES)) {
-      /* do not change to a terrain with the flag TER_NO_CITIES if the tile
-       * has a city */
-      continue;
-    }
-
-    if (new != T_NONE && old != new) {
-      effect--;
-      tile_change_terrain(ptile, new);
-      check_terrain_change(ptile, old);
-      update_tile_knowledge(ptile);
-      unit_list_iterate(ptile->units, punit) {
-	if (!can_unit_continue_current_activity(punit)) {
-	  unit_activity_handling(punit, ACTIVITY_IDLE);
-	}
-      } unit_list_iterate_end;
-    } else if (old == new) {
-      /* This counts toward warming although nothing is changed. */
-      effect--;
-    }
-  }
-
-  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                _("Global warming has occurred!"));
-  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                _("Coastlines have been flooded and vast "
-                  "ranges of grassland have become deserts."));
+  climate_change(TRUE, effect);
 }
 
 /**************************************************************************
-...
+  Wrapper for climate_change().
 **************************************************************************/
 void nuclear_winter(int effect)
+{
+  climate_change(FALSE, effect);
+}
+
+/*****************************************************************************
+  Do a climate change. Global warming occured if 'warming' is TRUE else there is
+  a nuclear winter.
+*****************************************************************************/
+static void climate_change(bool warming, int effect)
 {
   int k = map_num_tiles();
   bool used[k];
   memset(used, 0, sizeof(used));
 
-  log_verbose("Nuclear winter: %d", game.info.cooling);
+  log_verbose("Klima change: %s (%d)",
+              warming ? "Global warming" : "Nuclear winter",
+              warming ? game.info.heating : game.info.cooling);
 
   while (effect > 0 && (k--) > 0) {
     struct terrain *old, *new;
     struct tile *ptile;
 
     do {
-      /* We want to transform a tile at most once by nuclear winter. */
+      /* We want to transform a tile at most once due to a climate change. */
       ptile = rand_map_pos();
     } while (used[tile_index(ptile)]);
     used[tile_index(ptile)] = TRUE;
 
     old = tile_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
-      new = old->cooler_wetter_result;
+      new = warming ? old->cooler_wetter_result : old->cooler_wetter_result;
     } else {
-      new = old->cooler_drier_result;
+      new = warming ? old->cooler_drier_result : old->cooler_drier_result;
     }
 
     if (tile_city(ptile) != NULL && new != T_NONE
@@ -183,25 +146,39 @@ void nuclear_winter(int effect)
 
     if (new != T_NONE && old != new) {
       effect--;
+
+      /* Really change the terrain. */
       tile_change_terrain(ptile, new);
+      bounce_units_on_terrain_change(ptile);
       check_terrain_change(ptile, old);
+      sanity_check_tile(ptile);
       update_tile_knowledge(ptile);
+
+      /* Check the unit activities. */
       unit_list_iterate(ptile->units, punit) {
-	if (!can_unit_continue_current_activity(punit)) {
-	  unit_activity_handling(punit, ACTIVITY_IDLE);
-	}
+        if (!can_unit_continue_current_activity(punit)) {
+          unit_activity_handling(punit, ACTIVITY_IDLE);
+        }
       } unit_list_iterate_end;
     } else if (old == new) {
-      /* This counts toward winter although nothing is changed. */
+      /* This counts toward a climate change although nothing is changed. */
       effect--;
     }
   }
 
-  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                _("Nuclear winter has occurred!"));
-  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                _("Wetlands have dried up and vast "
-                  "ranges of grassland have become tundra."));
+  if (warming) {
+    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                  _("Global warming has occurred!"));
+    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                  _("Coastlines have been flooded and vast "
+                    "ranges of grassland have become deserts."));
+  } else {
+    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                  _("Nuclear winter has occurred!"));
+    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                  _("Wetlands have dried up and vast "
+                    "ranges of grassland have become tundra."));
+  }
 }
 
 /***************************************************************
@@ -1436,7 +1413,7 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
   A helper function for check_terrain_change that moves units off of invalid
   terrain after it's been changed.
 ****************************************************************************/
-static void bounce_units_on_terrain_change(struct tile *ptile)
+void bounce_units_on_terrain_change(struct tile *ptile)
 {
   unit_list_iterate_safe(ptile->units, punit) {
     bool unit_alive = TRUE;
@@ -1513,7 +1490,6 @@ void fix_tile_on_terrain_change(struct tile *ptile,
     }
     city_landlocked_sell_coastal_improvements(ptile);
   }
-  bounce_units_on_terrain_change(ptile);
 }
 
 /****************************************************************************
