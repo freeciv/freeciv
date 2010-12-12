@@ -1205,6 +1205,11 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         }
 
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
+
+        /* Attacking unit became more experienced? */
+        if (maybe_make_veteran(pdiplomat)) {
+          notify_unit_experience(pdiplomat);
+        }
         send_unit_info(pplayer, pdiplomat);
         wipe_unit(punit);
         return FALSE;
