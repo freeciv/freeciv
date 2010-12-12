@@ -5289,8 +5289,20 @@ static void sg_load_compat(struct loaddata *loading)
 
   version = secfile_lookup_int_default(loading->file, -1,
                                        "savefile.version");
+#ifdef DEBUG
+  sg_failure_ret(0 < version, "Invalid savefile format version (%d).",
+                 version);
+  if (version > compat[compat_current].version) {
+    /* Debug build can (TRY TO!) load newer versions but ... */
+    log_error("Savegame version newer than this build found (%d > %d). "
+              "Trying to load the game nevertheless ...", version,
+              compat[compat_current].version);
+  }
+#else
   sg_failure_ret(0 < version && version <= compat[compat_current].version,
-                 "Unknown savefile format version.");
+                 "Unknown savefile format version (%d).", version);
+#endif /* DEBUG */
+
 
   for (i = 0; i < compat_num; i++) {
     if (version < compat[i].version && compat[i].load != NULL) {
