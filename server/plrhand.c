@@ -1431,7 +1431,8 @@ static struct player *split_player(struct player *pplayer)
   cplayer->is_connected = FALSE;
   cplayer->government = nation_of_player(cplayer)->init_government;
   assert(cplayer->revolution_finishes < 0);
-  cplayer->capital = TRUE;
+  /* No capital for the splitted player. */
+  cplayer->capital = FALSE;
 
   /* cplayer is not yet part of players_iterate which goes only
      to player_count(). */
