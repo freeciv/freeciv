@@ -2315,7 +2315,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
-  if (!player_can_invade_tile(pplayer, ptile)) {
+  if (is_military_unit(punit)
+      && !player_can_invade_tile(pplayer, ptile)) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Cannot invade unless you break peace with "
                     "%s first."),
