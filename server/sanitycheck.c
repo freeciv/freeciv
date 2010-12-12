@@ -571,4 +571,26 @@ void real_sanity_check(const char *file, const char *function, int line)
   check_connections(file, function, line);
 }
 
+/*****************************************************************************
+  Verify that the tile has sane values. This should be called after the
+  terrain is changed.
+*****************************************************************************/
+void real_sanity_check_tile(struct tile *ptile, const char *file,
+                            const char *function, int line)
+{
+  SANITY_CHECK(ptile != NULL);
+  SANITY_CHECK(ptile->terrain != NULL);
+
+  unit_list_iterate(ptile->units, punit) {
+    /* Check if the units can survive on the tile (terrain). Here only the
+     * 'easy' test if the unit is transported is done. A complete check is
+     * done by check_units() in real_sanity_check(). */
+    if (!can_unit_exist_at_tile(punit, ptile)
+        && punit->transported_by != -1) {
+      SANITY_("(%4d,%4d) %s can't survive on %s", TILE_XY(ptile),
+              unit_rule_name(punit), tile_get_info_text(ptile, 0));
+    }
+  } unit_list_iterate_end;
+}
+
 #endif /* SANITY_CHECKING */

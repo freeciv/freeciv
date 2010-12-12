@@ -47,6 +47,7 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "notify.h"
+#include "sanitycheck.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 #include "techtools.h"
@@ -136,6 +137,8 @@ static void check_edited_tile_terrains(void)
 
   tile_hash_iterate(unfixed_tile_table, ptile) {
     fix_tile_on_terrain_change(ptile, FALSE);
+    bounce_units_on_terrain_change(ptile);
+    sanity_check_tile(ptile);
   } tile_hash_iterate_end;
   tile_hash_clear(unfixed_tile_table);
 
