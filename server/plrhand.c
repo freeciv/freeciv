@@ -1687,10 +1687,9 @@ static struct player *split_player(struct player *pplayer)
   cplayer->is_connected = FALSE;
   cplayer->government = nation_of_player(cplayer)->server.init_government;
   fc_assert(cplayer->revolution_finishes < 0);
-  cplayer->server.capital = TRUE;
+  /* No capital for the splitted player. */
+  cplayer->server.capital = FALSE;
 
-  /* cplayer is not yet part of players_iterate which goes only
-     to player_count(). */
   players_iterate(other_player) {
     struct player_diplstate *ds_co
       = player_diplstate_get(cplayer, other_player);
