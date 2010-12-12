@@ -797,7 +797,7 @@ bool tile_has_any_bases(const struct tile *ptile)
 /****************************************************************************
   Returns a virtual tile. If ptile is given, the properties of this tile are
   copied, else it is completely blank (except for the unit list
-  vtile->units, which is created for you). Be sure to call virtual_tile_free
+  vtile->units, which is created for you). Be sure to call tile_virtual_free
   on it when it is no longer needed.
 ****************************************************************************/
 struct tile *tile_virtual_new(const struct tile *ptile)
