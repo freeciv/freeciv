@@ -943,7 +943,7 @@ static void process_attacker_want(struct city *pcity,
         if (pf_map_position(pfm, ptile, &pos)) {
           move_time = pos.turn;
         } else {
-          /* Unreachable. */
+          pf_map_destroy(pfm);
           continue;
         }
       }
