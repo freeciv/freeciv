@@ -3116,9 +3116,9 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
 
   if (can_client_issue_orders()) {
     improvement_iterate(pimprove) {
-      if (!BV_ISSET(improvements, improvement_index(pimprove))) {
-        update_improvement_from_packet(pcity, pimprove, FALSE);
-      }
+      update_improvement_from_packet(pcity, pimprove,
+                                     BV_ISSET(improvements,
+                                              improvement_index(pimprove)));
     } improvement_iterate_end;
 
     popup_sabotage_dialog(pcity);
