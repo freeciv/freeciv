@@ -321,6 +321,7 @@ artists = "
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
    Sakha		Zachary Harden
+   Seljuk		J.M. Maalderink
    Seleucid		J.M. Maalderink
    Senegal		SonofSenegal (Wikimedia Commons)
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
@@ -723,6 +724,7 @@ sprites =
 		"f.scotland", "flags/scotland"
 		"f.scythia", "flags/scythia"
 		"f.seleucid", "flags/seleucid"
+		"f.seljuk", "flags/seljuk"
 		"f.senegal", "flags/senegal"
 		"f.serbia", "flags/serbia"
 		"f.shawnee", "flags/shawnee"
