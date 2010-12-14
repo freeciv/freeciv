@@ -1240,7 +1240,7 @@ value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Genetic Lab", "City"
-      "MinSize", "13", "City"
+      "MinSize", "21", "City"
       "OutputType", "Food", "Local"
     }
 
