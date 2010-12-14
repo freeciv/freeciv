@@ -19,39 +19,53 @@ this file.
 1. Changes compared to the default ruleset
    ---------------------------------------
 
-- Plagues are activated. An Aqueduct or a Sewer System reduce the
-  possibility of an illness in the city. It is further reduced by an
-  Hospital or a Genetic Laboratory. Building the wonder 'Cure for Cancer'
-  further reduces the possibility of an illness.
+- Plagues are activated. Aqueducts and Sewer Systems reduce the chance
+  of plague in a city, as do the new Hospital and Genetic Laboratory
+  buildings. Building the wonder 'Cure for Cancer' further reduces the
+  possibility of plague for your entire empire (in combination with the
+  other buildings, plague can be eradicated in a city).
 
 - The Genetic Laboratory increases the food output by 25% if the city
   size exceeds 20.
 
 - Migration is activated and locked by the ruleset. Migration effects for
-  the different governments are defined.
+  the different governments are defined; cities belonging to more
+  representative governments are more attractive for cross-border migration.
 
-- After The Corporation is researched the upkeep for most modern military
-  units is changed from shield to gold.
+- After The Corporation is researched, the upkeep for most modern military
+  units (Musketeers onwards) is changed from shields to gold, and cities
+  no longer maintain any such units for free, regardless of government.
+  Gold upkeep for units is tallied empire-wide (unlike buildings), and if
+  funds run out, random units are disbanded.
 
-- An new unit class Big Land is introduced. Units of this type can not
-  move into mountains, ...
+- An new unit class Big Land is introduced, comprising all "siege" units
+  (Catapult, Cannon etc) and Freight. Units of this type are restricted
+  to flat terrain and cannot move into difficult terrain such as hills
+  and forest, unless roads are built.
 
-- Units of class trireme can move on rivers.
+- Triremes can move on rivers (but later ships cannot).
 
 - Activate variable city radii:
-    radius 1 (radis_sq =  2): start
-    radius 2 (radis_sq =  5): city size 3
-    radius 3 (radis_sq = 10): city size 10 + Railroad
-    radius 4 (radis_sq = 17): city size 30 + Railroad + Mass Transit + Super Highway
+    radius 1 (radius_sq =  2): start
+    radius 2 (radius_sq =  5): city size 3
+    radius 3 (radius_sq = 10): city size 10 + Railroad
+    radius 4 (radius_sq = 17): city size 30 + Railroad + Mass Transit +
+                               Super Highway
   The vision range of the city is adapted accordingly.
 
 - The number of build slots for units is increased at radius 3 and 4.
 
-- (Add and) Activate tech upkeep.
+- (Add and) Activate tech upkeep. Beyond a certain technology level, some
+  bulbs are required to maintain your civilization's existing knowledge,
+  and if not supplied, some techs may be lost. (However, technology is not
+  lost in this way during periods of Anarchy.)
 
-- Activate foggedborders; borders are not updated if they are not seen.
+- Activate server setting 'foggedborders': your view of foreign borders is
+  not updated if you can't currently see the territory.
 
-- Activated techloosing for tech exchange / diplomat actions.
+- Activated 'techlost_recv' and 'techlost_donor': whenever technologies are
+  transferred between civilizations, there is a small chance that each of
+  the parties will forget the technology in question.
 
 
 
