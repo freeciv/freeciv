@@ -664,6 +664,7 @@ reqs	=
       "Gov", "Communism", "Player"
       "Tech", "Communism", "Player"
       "Tech", "Gunpowder", "Player"
+      "Tech", "Guerilla Warfare", "World"
     }
 
 [effect_partisan_1]
@@ -674,6 +675,7 @@ reqs	=
       "Gov", "Democracy", "Player"
       "Tech", "Communism", "Player"
       "Tech", "Gunpowder", "Player"
+      "Tech", "Guerilla Warfare", "World"
     }
 
 [effect_airport]
