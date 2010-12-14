@@ -2647,6 +2647,8 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->cargo              = p->cargo;
   u->targets            = p->targets;
 
+  u->veteran_levels = 0; /* not used in the client */
+
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     sz_strlcpy(u->veteran[i].name, p->veteran_name[i]);
     u->veteran[i].power_fact = p->power_fact[i];
