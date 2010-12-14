@@ -199,7 +199,7 @@ static bool manual_command(void)
                       value, setting_enum_val(pset, i, TRUE));
             }
           }
-          /* Fall through. */
+          break;
         case SSET_BITWISE:
           {
             const char *value;
@@ -417,6 +417,10 @@ int main(int argc, char **argv)
 
   /* Initialize game with default values */
   game_init();
+
+  /* Imitate a server - this is needed for as some function only work if this
+   * is set. */
+  i_am_server();
 
   /* parse command-line arguments... */
   inx = 1;
