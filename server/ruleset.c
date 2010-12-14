@@ -1088,12 +1088,14 @@ if (_count > MAX_VET_LEVELS) {						\
       for (j = 0; j < vet_levels; j++) {
         sz_strlcpy(u->veteran[j].name, vnlist[j]);
       }
+      u->veteran_levels = vet_levels;
       free(vnlist);
     } else {
       /* apply defaults */  
       for (j = 0; j < vet_levels_default; j++) {
         sz_strlcpy(u->veteran[j].name, def_vnlist[j]);
       }
+      u->veteran_levels = vet_levels_default;
     }
     /* We check for this value to determine how many veteran levels
      * a unit type has */

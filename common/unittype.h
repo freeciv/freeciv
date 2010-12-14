@@ -247,6 +247,7 @@ struct unit_type {
   int paratroopers_mr_sub;
 
   /* Additional values for the expanded veteran system */
+  int veteran_levels; /* server only */
   struct veteran_type veteran[MAX_VET_LEVELS];
 
   /* Values for bombardment */
