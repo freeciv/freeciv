@@ -1499,7 +1499,7 @@ static struct setting settings[] = {
 
   GEN_BOOL("foggedborders", game.server.foggedborders,
            SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-           N_("Whether border changes are seen through fog of war"),
+           N_("Whether fog of war applies to border changes"),
            N_("If this setting is enabled, players will not be able "
               "to see changes in tile ownership if they do not have "
               "direct sight of the affected tiles. Otherwise, players "
