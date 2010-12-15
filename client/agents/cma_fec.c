@@ -23,6 +23,7 @@
 #include <string.h>
 
 /* utility */
+#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -360,11 +361,14 @@ const char *cmafec_get_result_descr(struct city *pcity,
                 "Production: %10s Luxury:  %10s\n"
                 "Trade:      %10s Science: %10s\n"
                 "\n"
-                "%20s: %s\n"
+                "%*s%s: %s\n"
                 "          City grows: %s\n"
                 "Production completed: %s"),
               buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
-              buf[O_TRADE], buf[O_SCIENCE], citizens, buf[6], buf[7], buf[8]);
+              buf[O_TRADE], buf[O_SCIENCE],
+              MAX(0, 20 - (int)get_internal_string_length(citizens)), "",
+              citizens,
+              buf[6], buf[7], buf[8]);
 
   log_debug("\n%s", buffer);
   return buffer;
