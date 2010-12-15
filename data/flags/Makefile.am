@@ -199,6 +199,7 @@ flag_files =				\
 		leon.png		\
 		libya.png		\
 		liechtenstein.png	\
+		liguria.png		\
 		lipkatatar.png		\
 		lithuania.png		\
 		lorraine.png		\
@@ -596,6 +597,7 @@ flag_files =				\
 		leon-large.png		\
 		libya-large.png		\
 		liechtenstein-large.png	\
+		liguria-large.png		\
 		lipkatatar-large.png		\
 		lithuania-large.png		\
 		lorraine-large.png		\
@@ -995,6 +997,7 @@ shield_files =					\
 		leon-shield.png			\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
+		liguria-shield.png		\
 		lipkatatar-shield.png		\
 		lithuania-shield.png		\
 		lorraine-shield.png		\
@@ -1392,6 +1395,7 @@ shield_files =					\
 		leon-shield-large.png			\
 		libya-shield-large.png		\
 		liechtenstein-shield-large.png	\
+		liguria-shield-large.png		\
 		lipkatatar-shield-large.png		\
 		lithuania-shield-large.png		\
 		lorraine-shield-large.png		\

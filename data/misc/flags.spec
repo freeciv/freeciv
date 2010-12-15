@@ -206,6 +206,7 @@ artists = "
    Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
+   Liguria		Flanker (Wikimedia Commons)
    Lipka Tatar		Aotearoa (Wikimedia Commons)
    Lithuania		Christian Schaller
    Lorraine		J.M. Maalderink
@@ -609,6 +610,7 @@ sprites =
 		"f.latvia", "flags/latvia"
 		"f.libya", "flags/libya"
 		"f.liechtenstein", "flags/liechtenstein"
+		"f.liguria", "flags/liguria"		; used by Genoese
 		"f.lipkatatar", "flags/lipkatatar"
 		"f.lithuania", "flags/lithuania"
 		"f.lorraine", "flags/lorraine"

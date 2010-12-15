@@ -53,9 +53,9 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="Neapolitan", "Sicilian", "Venetian", "Piedmontese",
- "Milanese"
+ "Milanese", "Genoese"
 civilwar_nations="Sicilian", "Papal", "Venetian", "Neapolitan",
- "Piedmontese", "Milanese"
+ "Piedmontese", "Milanese", "Genoese"
 
 cities =
   "Roma",
