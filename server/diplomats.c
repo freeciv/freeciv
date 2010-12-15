@@ -1232,17 +1232,17 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         if (pcity) {
           if (uplayer == cplayer) {
             notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("Eliminated %s %s while infiltrating %s."),
+                          _("Eliminated a %s %s while infiltrating %s."),
                           nation_adjective_for_player(pplayer),
                           link_diplomat, link_city);
           } else {
             notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("A %s %s eliminated %s %s while infiltrating "
+                          _("A %s %s eliminated a %s %s while infiltrating "
                             "%s."), nation_adjective_for_player(uplayer),
                           link_unit, nation_adjective_for_player(pplayer),
                           link_diplomat, link_city);
             notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("Your %s eliminated %s %s while infiltrating "
+                          _("Your %s eliminated a %s %s while infiltrating "
                             "%s."), link_unit,
                           nation_adjective_for_player(pplayer),
                           link_diplomat, link_city);
@@ -1250,18 +1250,18 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         } else {
           if (uplayer == cplayer) {
             notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("Eliminated %s %s while infiltrating our troops."),
+                          _("Eliminated a %s %s while infiltrating our troops."),
                           nation_adjective_for_player(pplayer),
                           link_diplomat);
           } else {
             notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("A %s %s eliminated %s %s while infiltrating our "
+                          _("A %s %s eliminated a %s %s while infiltrating our "
                             "troops."), nation_adjective_for_player(uplayer),
                           link_unit, nation_adjective_for_player(pplayer),
                           link_diplomat);
             notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                           /* TRANS: ... <unit> ... <diplomat> */
-                          _("Your %s eliminated %s %s while infiltrating our "
+                          _("Your %s eliminated a %s %s while infiltrating our "
                             "troops."), link_unit,
                           nation_adjective_for_player(pplayer),
                           link_diplomat);
