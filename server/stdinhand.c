@@ -2153,7 +2153,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
               setting_status(caller, pset), is_changed ? ' ' : '=', value);
   } settings_iterate_end;
   cmd_reply_show(horiz_line);
-  cmd_reply_show(_("An help text for each option is available via 'help "
+  cmd_reply_show(_("A help text for each option is available via 'help "
                    "<option>'."));
   cmd_reply_show(horiz_line);
   if (level == SSET_VITAL) {
