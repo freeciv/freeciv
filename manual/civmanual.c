@@ -21,6 +21,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+
 /* utility */
 #include "capability.h"
 #include "fciconv.h"
@@ -409,6 +413,45 @@ int main(int argc, char **argv)
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
+  /* Set the default log level. */
+  srvarg.loglevel = LOG_NORMAL;
+
+  /* parse command-line arguments... */
+  inx = 1;
+  while (inx < argc) {
+    if ((option = get_option_malloc("--ruleset", argv, &inx, argc))) {
+      sz_strlcpy(game.server.rulesetdir, option);
+      free(option);
+    } else if (is_option("--help", argv[inx])) {
+      showhelp = TRUE;
+      break;
+    } else if (is_option("--version", argv[inx])) {
+      showvers = TRUE;
+    } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
+      srvarg.log_filename = option; /* Never freed. */
+#ifndef NDEBUG
+    } else if (is_option("--Fatal", argv[inx])) {
+      if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
+        srvarg.fatal_assertions = SIGABRT;
+      } else if (str_to_int(argv[inx + 1], &srvarg.fatal_assertions)) {
+        inx++;
+      } else {
+        fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
+                   argv[inx + 1]);
+        inx++;
+        showhelp = TRUE;
+      }
+#endif
+    } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
+      if (!log_parse_level_str(option, &srvarg.loglevel)) {
+        showhelp = TRUE;
+        break;
+      }
+      free(option);
+    }
+    inx++;
+  }
+
   /* must be before con_log_init() */
   init_connections();
   con_log_init(srvarg.log_filename, srvarg.loglevel,
@@ -422,33 +465,29 @@ int main(int argc, char **argv)
    * is set. */
   i_am_server();
 
-  /* parse command-line arguments... */
-  inx = 1;
-  while (inx < argc) {
-    if ((option = get_option_malloc("--ruleset", argv, &inx, argc))) {
-      sz_strlcpy(game.server.rulesetdir, option);
-      free(option);
-    } else if (is_option("--help", argv[inx])) {
-      showhelp = TRUE;
-      break;
-    } else if (is_option("--version", argv[inx])) {
-      showvers = TRUE;
-    }
-    inx++;
-  }
-
   if (showvers && !showhelp) {
     fc_fprintf(stderr, "%s \n", freeciv_name_version());
     exit(EXIT_SUCCESS);
   } else if (showhelp) {
     fc_fprintf(stderr,
          _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fc_fprintf(stderr,
-         _("  -r, --ruleset RULESET  Make manual for RULESET\n"));
-    fc_fprintf(stderr,
-         _("  -h, --help             Print a summary of the options\n"));
-    fc_fprintf(stderr,
-         _("  -v, --version          Print the version number\n"));
+#ifdef DEBUG
+    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
+                         "%d, or %d:file1,min,max:...)\n"),
+               LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
+#else
+    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
+                         "%d)\n"), LOG_FATAL, LOG_VERBOSE);
+#endif
+#ifndef NDEBUG
+    fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
+                         "Raise a signal on failed assertion\n"));
+#endif
+    fc_fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
+    fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fc_fprintf(stderr, _("  -r, --ruleset RULESET\tMake manual for "
+                         "RULESET\n"));
+    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     /* TRANS: No full stop after the URL, could cause confusion. */
     fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
     exit(EXIT_SUCCESS);
