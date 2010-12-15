@@ -485,7 +485,8 @@ sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 Together with a Factory, a Manufacturing Plant increases the shield\
- production in a city by 100%.\
+ production in a city by 100%. A Manufacturing Plant on its own\
+ increases shield production by 50%.\
 ")
 
 [building_nuclear_plant]
