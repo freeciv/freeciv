@@ -1607,10 +1607,11 @@ static struct setting settings[] = {
            SSET_RULES_FLEXIBLE, SSET_MILITARY,
            SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Whether allied players can win together"),
-           N_("If this is option is turned on and all players able to win "
-              "the game are allied, then the game will ends in a victory "
-              "for those players. Note it has no effect if all players of "
-              "the game are allied."),
+           N_("If this is option is turned on and a point is reached where "
+              "all the players still able to win the game are allies, and "
+              "at least one defeated player is not part of this alliance, "
+              "then the game will end in an immediate shared victory for "
+              "the allied players."),
            NULL, NULL, GAME_DEFAULT_ALLIED_VICTORY)
 
   GEN_BOOL("naturalcitynames", game.server.natural_city_names,
