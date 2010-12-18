@@ -865,7 +865,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Michelangelo's Chapel", "Player"
+      "Building", "Michelangelo's Chapel", "Continent"
     }
 
 [effect_cathedral_1]
@@ -878,7 +878,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Michelangelo's Chapel", "Player"
+      "Building", "Michelangelo's Chapel", "Continent"
     }
 
 [effect_cathedral_2]
@@ -891,7 +891,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Michelangelo's Chapel", "Player"
+      "Building", "Michelangelo's Chapel", "Continent"
     }
 
 [effect_city_walls]
@@ -904,7 +904,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Great Wall", "Player"
+      "Building", "Great Wall", "Continent"
     }
 
 [effect_city_walls_0]
@@ -917,7 +917,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Great Wall", "Player"
+      "Building", "Great Wall", "Continent"
     }
 
 [effect_city_walls_1]
@@ -1051,7 +1051,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Nuclear Plant", "City"
       "Building", "Solar Plant", "City"
     }
@@ -1067,7 +1067,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Nuclear Plant", "City"
       "Building", "Solar Plant", "City"
     }
@@ -1083,7 +1083,7 @@ reqs	=
 nreqs	=
     { "type", "name", "range"
       "Building", "Recycling Center", "City"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Nuclear Plant", "City"
       "Building", "Solar Plant", "City"
     }
@@ -1099,7 +1099,7 @@ reqs	=
 nreqs	=
     { "type", "name", "range"
       "Building", "Recycling Center", "City"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Nuclear Plant", "City"
       "Building", "Solar Plant", "City"
     }
@@ -1159,7 +1159,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Solar Plant", "City"
     }
 
@@ -1174,7 +1174,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Solar Plant", "City"
     }
 
@@ -1189,7 +1189,7 @@ reqs	=
 nreqs	=
     { "type", "name", "range"
       "Building", "Recycling Center", "City"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Solar Plant", "City"
     }
 
@@ -1204,7 +1204,7 @@ reqs	=
 nreqs	=
     { "type", "name", "range"
       "Building", "Recycling Center", "City"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Solar Plant", "City"
     }
 
@@ -1289,7 +1289,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Women's Suffrage", "Player"
+      "Building", "Women's Suffrage", "Continent"
     }
 
 [effect_police_station_1]
@@ -1302,7 +1302,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Women's Suffrage", "Player"
+      "Building", "Women's Suffrage", "Continent"
     }
 
 [effect_port_facility]
@@ -1362,7 +1362,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Nuclear Plant", "City"
       "Building", "Hydro Plant", "City"
       "Building", "Solar Plant", "City"
@@ -1379,7 +1379,7 @@ reqs	=
     }
 nreqs	=
     { "type", "name", "range"
-      "Building", "Hoover Dam", "Player"
+      "Building", "Hoover Dam", "Continent"
       "Building", "Nuclear Plant", "City"
       "Building", "Hydro Plant", "City"
       "Building", "Solar Plant", "City"
