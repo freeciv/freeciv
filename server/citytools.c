@@ -725,7 +725,8 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
 }
 
 /**************************************************************************
-Create a palace in a random city. Used when the capital was conquered.
+  Create saved small wonders in a random city. Usually used to save the
+  palace when the capital was conquered.
 **************************************************************************/
 static void build_free_small_wonders(struct player *pplayer,
 				     const char *const old_capital_name,
@@ -739,7 +740,8 @@ static void build_free_small_wonders(struct player *pplayer,
   }
 
   impr_type_iterate(id) {
-    if (BV_ISSET(*had_small_wonders, id)) {
+    if (improvement_has_flag(id, IF_SAVE_SMALL_WONDER)
+        && BV_ISSET(*had_small_wonders, id)) {
       struct city *pnew_city;
 
       assert(find_city_from_small_wonder(pplayer, id) == NULL);
