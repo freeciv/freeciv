@@ -333,7 +333,8 @@ Settlers are one of the key units in the game. As well as building new\
 "), _("\
 Upkeep for Settlers is in food as well as production, and a Settler\
  can die if its supporting city runs out of food. Settlers in a\
- Republic or Democracy require twice as much food per turn.\
+ Republic or Democracy require twice as much food per turn, and in\
+ Fundamentalist societies, three times as much.\
 ")
 
 [unit_worker]
@@ -633,6 +634,8 @@ uk_gold       = 0
 flags         = "Fanatic"
 roles         = "DefendGood"
 helptext      = _("\
+Fanatics are warriors extremely devoted to a higher cause.\
+"), _("\
 Fundamentalist nations can maintain Fanatic units without\
  having to pay any shields for upkeep.\
 ")
@@ -932,6 +935,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
+helptext      = _("\
+Elephants are towering animals trained for war that are often used as\
+ powerful shock troops, but defend poorly against most other units.\
+")
 
 [unit_crusaders]
 name          = _("Crusaders")
@@ -960,6 +967,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
+helptext      = _("\
+Crusaders are highly disciplined mounted\
+ warriors driven by a higher cause.\
+")
 
 [unit_knights]
 name          = _("Knights")
@@ -1318,8 +1329,7 @@ helptext      = _("\
 The Helicopter is a very powerful unit, as it can both fly and\
  conquer cities.  Care must be exercised, because Helicopters lose a\
  small amount of health for every turn not spent in a city or airbase\
- or on a Carrier, unless you have the United Nations wonder, and\
- Helicopters may be attacked by ground units.\
+ or on a Carrier, and they may be attacked by ground units.\
 ")
 
 [unit_stealth_fighter]
@@ -2047,8 +2057,8 @@ uk_gold       = 0
 flags         = "HelpWonder", "IgZOC", "NonMil"
 roles         = ""
 helptext      = _("\
-A Caravan carries goods or material for trading with distant cities\
- and foreign countries, or to help build wonders in your cities.\
+A Caravan carries goods or material to help build wonders in your\
+ cities.\
 "), _("\
 Every Caravan that is used to build a wonder will add 30 shields\
  towards the production of the wonder.\

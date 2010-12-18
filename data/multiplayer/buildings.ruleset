@@ -91,7 +91,8 @@ sound		= "b_colosseum"
 sound_alt	= "b_generic"
 helptext	= _("\
 Entertains the citizens of a city, making 3 unhappy citizens content. \
- (Four after the discovery of Electricity.)\
+ (Four after the discovery of Electricity.)  However, it does not\
+ affect citizens made unhappy by military activity.\
 ")
 
 [building_aqueduct]
@@ -324,8 +325,7 @@ sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 Increases the shield production in a city by 50%.  This increase may\
- also contribute significantly to pollution. A factory is necessary\
- to build space ship parts.\
+ also contribute significantly to pollution.\
 ")
 
 [building_granary]
@@ -401,8 +401,7 @@ Increases the effect of Factory and Mfg. Plant on the shield\
  combination with a Power Plant.\
 "), _("\
 In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or\
- Solar Plant can take effect at any one time. A city can only build\
- a Hydro Plant if it is next to (or on) a Mountain or River tile.\
+ Solar Plant can take effect at any one time.\
 ")
 
 [building_library]
@@ -594,8 +593,8 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Reduces the unhappiness caused by aggressively deployed military\
  units owned by the city by 4 under Democracy and 2 under Republic\
- -- in other words, it neutralises the unhappiness caused by a single\
- military unit. This improvement has no effect under other governments.\
+ -- in other words, it neutralises the unhappiness caused by two\
+ military units. This improvement has no effect under other governments.\
 ")
 
 [building_port_facility]
@@ -815,8 +814,7 @@ Space Components can be differentiated into Propulsion and Fuel\
  time.  You can build up to 8 pairs.\
 "), _("\
 Before you can build any spaceship parts, you must build the\
- Apollo Program. For any city to build a spaceship part, it\
- needs to have a Factory.\
+ Apollo Program.\
 ")
 
 [building_space_module]
@@ -850,8 +848,7 @@ Space Modules are the most expensive parts of spaceships.  There\
 You can build up to 4 Space Modules of each kind.\
 "), _("\
 Before you can build any spaceship parts, you must build the\
- Apollo Program. For any city to build a spaceship part, it\
- needs to have a Factory.\
+ Apollo Program.\
 ")
 
 [building_space_structural]
@@ -876,8 +873,7 @@ Space Structurals form the base of your spaceship.  All other\
  function.  You can build up to 32 Space Structurals.\
 "), _("\
 Before you can build any spaceship parts, you must build the\
- Apollo Program. For any city to build a spaceship part, it\
- needs to have a Factory.\
+ Apollo Program.\
 ")
 
 [building_stock_exchange]
@@ -1088,9 +1084,12 @@ sabotage	= 0
 sound		= "w_cure_for_cancer"
 sound_alt	= "w_generic"
 helptext	= _("\
-This stunning technological achievement makes two citizens\
+This stunning technological achievement makes two content citizens\
  happy in all cities of all players who have researched Genetic\
- Engineering.\
+ Engineering. In the unlikely event where there are not enough\
+ content citizens to benefit from this effect in a city, the wonder\
+ applies to unhappy citizens (including those unhappy about military\
+ activity), making each content then happy.\
 ")
 
 [building_darwins_voyage]
@@ -1109,7 +1108,7 @@ sabotage	= 0
 sound		= "w_darwins_voyage"
 sound_alt	= "w_generic"
 helptext	= _("\
- Gives two immediate technology advances the first time it is\
+Gives two immediate technology advances the first time it is\
  built by each player.\
 ")
 
@@ -1190,6 +1189,10 @@ sound		= "w_hanging_gardens"
 sound_alt	= "w_generic"
 helptext	= _("\
 Makes two content citizens happy in every city on the same continent.\
+ In the unlikely event where there are no content citizens to get the\
+ effect of Hanging Gardens, the wonder applies to unhappy citizens\
+ (including those unhappy about military activity), making each content\
+ then happy.\
 ")
 
 [building_hoover_dam]
@@ -1251,8 +1254,8 @@ sabotage	= 0
 sound		= "w_js_bachs_cathedral"
 sound_alt	= "w_generic"
 helptext	= _("\
-Makes two unhappy citizens content in every city\
- on the same continent.\
+Makes two unhappy citizens content in every city on the same continent\
+ (including citizens unhappy about military activity).\
 ")
 
 [building_king_richards_crusade]
@@ -1291,8 +1294,7 @@ sabotage	= 0
 sound		= "w_leonardos_workshop"
 sound_alt	= "w_generic"
 helptext	= _("\
-Upgrades two obsolete units inside cities on the\
- same continent per game turn.\
+Upgrades two obsolete units per game turn.\
 ")
 
 [building_lighthouse]
@@ -1332,7 +1334,8 @@ sabotage	= 0
 sound		= "w_magellans_expedition"
 sound_alt	= "w_generic"
 helptext	= _("\
-All your new sea units start at the first veteran level.\
+All your new sea units built in cities on the same continent start at\
+ the first veteran level.\
 ")
 
 [building_manhattan_project]
@@ -1391,7 +1394,8 @@ sound		= "w_michelangelos_chapel"
 sound_alt	= "w_generic"
 helptext	= _("\
 Counts as having a Cathedral in each of your cities on the same\
- continent. This makes 3 unhappy citizens content in each city.\
+ continent. This makes 3 unhappy citizens content in each city;\
+ however, it does not affect citizens made unhappy by military activity.\
  The discovery of Theology increases the effect of a Cathedral,\
  making an additional unhappy citizen content. The discovery of\
  Communism lessens the effect of a Cathedral, reducing by one\
@@ -1415,7 +1419,8 @@ sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
 Makes two of your unhappy citizens content in every city\
- with a temple on the same continent.\
+ with a Temple on the same continent. Does not affect citizens made\
+ unhappy by military activity.\
 ")
 
 [building_pyramids]
@@ -1454,6 +1459,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "w_internet"
 sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Boosts science production in each city on the\
  same continent with a Research Lab by 100%.\
@@ -1517,9 +1523,9 @@ sabotage	= 0
 sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 helptext	= _("\
-All your new ground units produced in cities on the same\
+All your new military land units produced in cities on the same\
  continent start at the first veteran level. The chance\
- of a unit getting the next veteran level after a battle\
+ of a land unit getting the next veteran level after a battle\
  increases by half.\
 ")
 
@@ -1560,12 +1566,12 @@ sabotage	= 0
 sound		= "w_womens_suffrage"
 sound_alt	= "w_generic"
 helptext	= _("\
-Counts as a Police Station in every city. (That is, for each city, it\
- reduces the unhappiness caused by aggressively deployed military\
- units owned by that city by 4 under Democracy and 2 under Republic --\
- in other words, it neutralises the unhappiness caused by a single\
- military unit per city. This wonder has no effect under other\
- governments.)\
+Counts as a Police Station in every city on the same continent.\
+ (That is, for each city, it reduces the unhappiness caused by\
+ aggressively deployed military units owned by that city by 4 under\
+ Democracy and 2 under Republic -- in other words, it neutralises\
+ the unhappiness caused by two military units per city. This wonder\
+ has no effect under other governments.)\
 ")
 
 [building_capitalization]

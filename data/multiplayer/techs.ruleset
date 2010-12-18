@@ -8,7 +8,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Multiplayer technology data for Freeciv (as Civ2, minus a few)"
+description="Multiplayer technology data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings
@@ -242,7 +242,7 @@ req2     = "Magnetism"
 flags    = ""
 graphic     = "a.electricity"
 graphic_alt = "-"
-helptext = _("Improves the effect of Colosseums.")
+helptext = _("Improves the effect of Amphitheaters.")
 
 [advance_electronics]
 name     = _("Electronics")
@@ -301,7 +301,6 @@ req2     = "Theory of Gravity"
 flags    = "Build_Airborne"
 graphic     = "a.flight"
 graphic_alt = "-"
-helptext = _("Decreases one-time revenue from new trade routes.")
 
 [advance_fundamentalism]
 name     = _("Fundamentalism")
@@ -596,7 +595,6 @@ req2     = "Bridge Building"
 flags    = "Railroad"
 graphic     = "a.railroad"
 graphic_alt = "-"
-helptext = _("Decreases one-time revenue from new trade routes.")
 
 [advance_recycling]
 name     = _("Recycling")
