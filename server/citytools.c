@@ -802,7 +802,8 @@ static void reestablish_city_trade_routes(struct city *pcity)
 }
 
 /**************************************************************************
-Create a palace in a random city. Used when the capital was conquered.
+  Create saved small wonders in a random city. Usually used to save the
+  palace when the capital was conquered.
 **************************************************************************/
 static void build_free_small_wonders(struct player *pplayer,
 				     bv_imprs *had_small_wonders)
@@ -815,7 +816,8 @@ static void build_free_small_wonders(struct player *pplayer,
   }
 
   improvement_iterate(pimprove) {
-    if (BV_ISSET(*had_small_wonders, improvement_index(pimprove))) {
+    if (improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER)
+        && BV_ISSET(*had_small_wonders, improvement_index(pimprove))) {
       /* FIXME: instead, find central city */
       struct city *pnew_city = city_list_get(pplayer->cities, myrand(size));
 
