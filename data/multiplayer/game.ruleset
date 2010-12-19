@@ -18,8 +18,13 @@ options="+Freeciv-2.3-ruleset"
 name = _("Multiplayer ruleset")
 
 ; Description of the ruleset
-description = _("You are playing Freeciv with rules suitable for \
-multiplayer gaming.")
+description = _("\
+You are playing Freeciv with rules designed for multiplayer gaming. \
+The biggest differences from the default ruleset are that trade routes \
+are disabled, and that most wonders can be built once by each player, \
+and affect only cities on the same continent. A full description of \
+the differences can be found in README.ruleset_multiplayer.\
+")
 
 [options]
 global_init_techs=""

@@ -21,9 +21,12 @@ options="+Freeciv-2.3-ruleset"
 name = _("Experimental ruleset")
 
 ; Description of the ruleset
-description = _("You are playing with the experimental ruleset.\
- This showcases new or unusual features available in Freeciv without\
- regard for strict game balancing or playability.")
+description = _("\
+You are playing with the experimental ruleset. This showcases new or \
+unusual features available in Freeciv without regard for strict game \
+balancing or playability. A description of the differences from the \
+default ruleset can be found in README.ruleset_experimental.\
+")
 
 [options]
 global_init_techs=""
