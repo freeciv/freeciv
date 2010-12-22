@@ -1406,7 +1406,7 @@ static GtkActionGroup *get_safe_group(void)
       {"SHOW_BETTER_FOG_OF_WAR", NULL, _("Better Fog of War"),
        NULL, NULL, G_CALLBACK(show_better_fog_of_war_callback), FALSE},
 
-      {"FULL_SCREEN", NULL, _("_Full Screen"),
+      {"FULL_SCREEN", NULL, _("_Fullscreen"),
        "<Alt>Return", NULL, G_CALLBACK(full_screen_callback), FALSE}
     };
 
