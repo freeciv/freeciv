@@ -1824,7 +1824,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       }
       /* ---------------- */
       fc_snprintf(cBuf, sizeof(cBuf),
-            _("View Civiliopedia entry for %s"),
+            _("Look up \"%s\" in the Help Browser"),
             utype_name_translation(pUnitType));
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    cBuf, unit_help_callback);
