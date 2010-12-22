@@ -205,55 +205,55 @@ negative_label = _("BC")
 
 [teams]
 names =
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Red"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Blue"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Green"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:White"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Yellow"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Pink"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Orange"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Violet"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Turquoise"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Cyan"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Azure"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Dark White"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Fuchsia"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Indigo"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Lavender"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Magenta"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Silver"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Emerald"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Heliotrope"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Jade"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Khaki"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Nutmeg"),
-; /* TRANS: Name of a color */
- _("?team name:Quincy"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
+ _("?team name:Quince"),
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Ultramarine"),
-; /* TRANS: Name of a color */
+; /* TRANS: Name of a color; used as unique identifier for a team */
  _("?team name:Xanadu")
 
 [settings]
