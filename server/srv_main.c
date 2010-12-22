@@ -469,7 +469,7 @@ bool check_for_game_over(void)
   /* Quit if we are past the turn limit. */
   if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
-                _("Game ended in a draw as end turn exceeded."));
+                _("Game ended in a draw as the turn limit was exceeded."));
     ggz_report_victory();
     return TRUE;
   }
