@@ -2199,7 +2199,7 @@ static struct client_option client_options[] = {
                   "Serif 10", NULL),
 
   /* gui-sdl client specific options. */
-  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full screen"),
+  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Fullscreen"),
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing."),
                   COC_INTERFACE, GUI_SDL, FALSE, NULL),
