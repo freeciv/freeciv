@@ -2941,7 +2941,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     ASSERT_VISION(new_vision);
 
     /* Claim ownership of fortress? */
-    if (0 != BORDERS_DISABLED
+    if (BORDERS_DISABLED != game.info.borders
         && tile_has_claimable_base(pdesttile, unit_type(punit))
         && (!tile_owner(pdesttile)
             || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
