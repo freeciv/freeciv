@@ -1544,7 +1544,7 @@ bool unit_being_aggressive(const struct unit *punit)
   if (tile_city(punit->tile)) {
     return FALSE;
   }
-  if (0 != BORDERS_DISABLED
+  if (BORDERS_DISABLED != game.info.borders
       && game.info.happyborders
       && tile_owner(punit->tile) == unit_owner(punit)) {
     return FALSE;
