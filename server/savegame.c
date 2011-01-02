@@ -3637,7 +3637,7 @@ static void player_save_main(struct player *plr, int plrno,
 		     "player%d.government_name", plrno);
 
   if (plr->target_government) {
-    secfile_insert_str(file, government_rule_name(government_of_player(plr)),
+    secfile_insert_str(file, government_rule_name(plr->target_government),
 		       "player%d.target_government_name", plrno);
   }
 
