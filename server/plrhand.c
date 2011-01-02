@@ -1890,6 +1890,17 @@ void civil_war(struct player *pplayer)
     return;
   }
 
+  if (player_count() == game.server.max_players) {
+    /* 'maxplayers' must be increased to allow for a new player. */
+
+    /* This assert should never be called due to the first check above. */
+    fc_assert_ret(game.server.max_players < MAX_NUM_PLAYERS);
+
+    game.server.max_players++;
+    log_debug("Increase 'maxplayers' to allow the creation of a new player "
+              "due to civil war.");
+  }
+
   cplayer = split_player(pplayer);
 
   /* Before units, cities, so clients know name of new nation
