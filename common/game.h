@@ -653,9 +653,9 @@ extern struct civ_game game;
 #define RS_MIN_TECH_UPKEEP_STYLE         0
 #define RS_MAX_TECH_UPKEEP_STYLE         1
 
-#define RS_DEFAULT_TECH_UPKEEP_DIVIDER   500
+#define RS_DEFAULT_TECH_UPKEEP_DIVIDER   100
 #define RS_MIN_TECH_UPKEEP_DIVIDER       1
-#define RS_MAX_TECH_UPKEEP_DIVIDER       1000
+#define RS_MAX_TECH_UPKEEP_DIVIDER       100000
 
 #define RS_DEFAULT_BASE_TECH_COST                20
 #define RS_MIN_BASE_TECH_COST                    0

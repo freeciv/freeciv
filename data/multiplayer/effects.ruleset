@@ -84,7 +84,7 @@ reqs    =
 ; basic free tech upkeep
 [effect_upkeep_tech_free]
 name    = "Tech_Upkeep_Free"
-value   = 10
+value   = 3
 
 ; Fortress HP regen
 [effect_fortress_hp_regen]
