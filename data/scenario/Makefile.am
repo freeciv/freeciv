@@ -3,7 +3,7 @@
 zipped_files =					\
 	british-isles-85x80-v2.80.sav.gz	\
 	earth-160x90-v2.sav.gz			\
-	earth-80x50-v2.sav.gz			\
+	earth-80x50-v3.sav.gz			\
 	europe-200x100-v2.sav.gz		\
 	france-140x90-v2.sav.gz			\
 	hagworld-120x60-v1.2.sav.gz		\
@@ -16,7 +16,7 @@ zipped_files =					\
 unzipped_files =				\
 	british-isles-85x80-v2.80.sav		\
 	earth-160x90-v2.sav			\
-	earth-80x50-v2.sav			\
+	earth-80x50-v3.sav			\
 	europe-200x100-v2.sav			\
 	france-140x90-v2.sav			\
 	hagworld-120x60-v1.2.sav		\
