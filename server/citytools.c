@@ -2615,9 +2615,6 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
     if (arrange_workers) {
       auto_arrange_workers(pcity);
     }
-
-    /* sync city */
-    send_city_info(city_owner(pcity), pcity);
   } else {
     /* reduced number of city tiles */
     int workers = 0;
@@ -2664,13 +2661,13 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
     if (arrange_workers) {
       auto_arrange_workers(pcity);
     }
-
-    /* sync all cities */
-    sync_cities();
   }
 
   /* if city is under AI control update it */
   ai_city_update(pcity);
+
+  /* Force a sync of the city after the change. */
+  send_city_info(city_owner(pcity), pcity);
 
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),
