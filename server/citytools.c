@@ -82,6 +82,7 @@ static struct city_list *arrange_workers_queue = NULL;
 /* Suppress sending cities during game_load() and end_phase() */
 static bool send_city_suppressed = FALSE;
 
+static bool city_workers_queue_remove(struct city *pcity);
 
 /****************************************************************************
   Freeze the workers (citizens on tiles) for the city.  They will not be
@@ -144,6 +145,14 @@ void city_freeze_workers_queue(struct city *pcity)
   city_list_prepend(arrange_workers_queue, pcity);
   city_freeze_workers(pcity);
   pcity->server.needs_arrange = TRUE;
+}
+
+/****************************************************************************
+  Queue pending auto_arrange_workers() for later.
+****************************************************************************/
+static bool city_workers_queue_remove(struct city *pcity)
+{
+  return city_list_remove(arrange_workers_queue, pcity);
 }
 
 /****************************************************************************
@@ -1430,6 +1439,7 @@ void remove_city(struct city *pcity)
   }
 
   map_clear_border(pcenter);
+  city_workers_queue_remove(pcity);
   city_thaw_workers_queue();
   city_refresh_queue_processing();
 
