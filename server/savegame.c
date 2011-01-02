@@ -4559,6 +4559,12 @@ static void game_load_internal(struct section_file *file)
     exit(EXIT_FAILURE);
   }
 
+  if (game.scenario.is_scenario) {
+    /* Remove all defined players. They are recreated with the skill level
+     * defined by the scenario. */
+    aifill(0);
+  }
+
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),

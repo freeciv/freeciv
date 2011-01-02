@@ -2010,6 +2010,12 @@ static void sg_load_scenario(struct loaddata *loading)
   } else {
     game.scenario.is_scenario = FALSE;
   }
+
+  if (game.scenario.is_scenario) {
+    /* Remove all defined players. They are recreated with the skill level
+     * defined by the scenario. */
+    aifill(0);
+  }
 }
 
 /****************************************************************************
