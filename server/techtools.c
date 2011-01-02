@@ -1010,21 +1010,17 @@ void handle_player_research(struct player *pplayer, int tech)
 ****************************************************************************/
 void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 {
-  if (tech_goal != A_FUTURE && !valid_advance_by_number(tech_goal)) {
-    return;
-  }
-  
-  if (tech_goal != A_FUTURE
-   && !player_invention_reachable(pplayer, tech_goal)) {
-    return;
-  }
-  
-  if (tech_goal == A_NONE) {
-    /* A_NONE "exists" but is not allowed as a tech goal.  A_UNSET should
-     * be used instead.  However the above checks may prevent the client from
-     * ever setting the goal to A_UNSET, meaning once a goal is set it
-     * can't be removed. */
-    return;
+  /* Set the tech goal to a defined state if it is
+   * - not a future tech and not a valid goal
+   * - not a future tech and not a valid advance
+   * - not defined
+   * - known (i.e. due to EFT_GIVE_IMM_TECH). */
+  if ((tech_goal != A_FUTURE
+       && (!valid_advance_by_number(tech_goal)
+           || !player_invention_reachable(pplayer, tech_goal)))
+      || (tech_goal == A_NONE)
+      || (TECH_KNOWN == player_invention_state(pplayer, tech_goal))) {
+    tech_goal = A_UNSET;
   }
 
   choose_tech_goal(pplayer, tech_goal);
