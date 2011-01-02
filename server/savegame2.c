@@ -2164,11 +2164,6 @@ static void sg_load_map_tiles(struct loaddata *loading)
 
   /* Allocate map. */
   map_allocate();
-  players_iterate(pplayer) {
-    /* Allocate player private map here; it is needed in different modules
-     * (i.e. sg_load_map_known(), sg_load_player_*()). */
-    player_map_init(pplayer);
-  } players_iterate_end;
 
   /* get the terrain type */
   LOAD_MAP_CHAR(ch, ptile, ptile->terrain = char2terrain(ch), loading->file,
@@ -2681,6 +2676,12 @@ static void sg_load_map_known(struct loaddata *loading)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  players_iterate(pplayer) {
+    /* Allocate player private map here; it is needed in different modules
+     * besides this one ((i.e. sg_load_player_*()). */
+    player_map_init(pplayer);
+  } players_iterate_end;
 
   if (secfile_lookup_bool_default(loading->file, TRUE,
                                   "game.save_known")) {
@@ -5130,6 +5131,11 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  if (game.info.is_new_game) {
+    /* Nothing to do for new games (or not started scenarios). */
+    return;
+  }
 
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
