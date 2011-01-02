@@ -330,7 +330,7 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_CITYMINDIST     0
 #define GAME_MIN_CITYMINDIST         0 /* if 0, ruleset will overwrite this */
-#define GAME_MAX_CITYMINDIST         5
+#define GAME_MAX_CITYMINDIST         9
 
 #define GAME_DEFAULT_CIVILWARSIZE    10
 #define GAME_MIN_CIVILWARSIZE        6
