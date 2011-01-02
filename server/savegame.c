@@ -4549,6 +4549,16 @@ static void game_load_internal(struct section_file *file)
     tmp_server_state = S_S_INITIAL;
   }
 
+  if (game.scenario.is_scenario == TRUE
+      && (tmp_server_state != S_S_INITIAL
+          || (tmp_server_state == S_S_RUNNING
+              && game.scenario.players == TRUE))) {
+    log_fatal("Invalid scenario definition (server state '%d' and "
+              "players are %s).", tmp_server_state,
+              game.scenario.players ? "saved" : "not saved");
+    exit(EXIT_FAILURE);
+  }
+
   {
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),

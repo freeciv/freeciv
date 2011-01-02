@@ -5,7 +5,7 @@ description=_("Classic-style 100x100 map of Italy.")
 
 [game]
 version=11200
-server_state=2
+server_state=0
 metastring="Italy"
 metaserver="meta.freeciv.org:0"
 gold=50
