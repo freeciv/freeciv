@@ -7,7 +7,7 @@ description=_("Classic-style 120x60 map of the Earth.")
 
 [game]
 version=11105
-server_state=2
+server_state=0
 metastring=""
 metaserver=":0"
 gold=50

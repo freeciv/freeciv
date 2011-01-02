@@ -5,7 +5,7 @@ description=_("Classic-style 140x90 map of France.")
 
 [game]
 version=20000
-server_state=2
+server_state=0
 metapatches="none"
 metatopic=""
 metamessage="France"
