@@ -15,7 +15,7 @@ IS_BETA_VERSION=1
 NEXT_STABLE_VERSION="2.3.0"
 RELEASE_MONTH=3
 
-DATASUBDIR=dev
+DATASUBDIR=2.3
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
