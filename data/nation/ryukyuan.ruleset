@@ -17,11 +17,6 @@ leaders = {
  "Yosoidon",	"Female"
 }
 
-ruler_titles={
- "government",    "male_title",           "female_title"
- "Democracy",     _("Prime Minister %s"), _("?female:Prime Minister %s")
-}
-
 flag="ryukyu"
 flag_alt="-"
 city_style="Asian"

@@ -19,8 +19,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",        "female_title"
- ; /* TRANS: Noaidi = Shaman */
- "Fundamentalism",  _("Noaidi %s"),      _("?female:Noaidi %s")
+ "Fundamentalism",  _("Shaman %s"),      _("?female:Shaman %s")
  "Republic",        _("Spokesman %s"),   _("Spokeswoman %s")
 }
 

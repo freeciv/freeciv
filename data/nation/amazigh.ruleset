@@ -69,10 +69,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",            "female_title"
  "Despotism",       _("Sheikh %s"),          _("Shaykha %s")
- "Communism",       _("Caliph %s"),          _("Calipha %s")
- "Monarchy",        _("Malik %s"),           _("Malika %s")
- "Republic",        _("Sultan %s"),          _("Sultana %s")
- "Democracy",       _("Amir Al-Muminin %s"), _("Amirat Al-Muminin %s")
+ "Fundamentalism",  _("Caliph %s"),          _("Calipha %s")
 }
 
 flag= "amazigh"

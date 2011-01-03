@@ -17,8 +17,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",           "female_title"
+ "Anarchy",         _("Usurper %s"),        _("?female:Usurper %s")
  "Despotism",       _("Despot %s"),         _("?female:Despot %s")
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Fundamentalism",  _("Elder %s"),          _("?female:Elder %s")
 }
 
 flag="greece_ancient"

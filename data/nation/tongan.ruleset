@@ -18,8 +18,8 @@ leaders = {
 }
 
 ruler_titles = {
- "government",    "male_title",           "female_title"
- "Democracy",     _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "government",     "male_title",           "female_title"
+ "Fundamentalism", _("Elder %s"),          _("?female:Elder %s")
 }
 
 flag= "tonga"

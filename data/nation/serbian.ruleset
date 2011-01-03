@@ -32,6 +32,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",      "female_title"
  "Despotism",       _("Duke %s"),      _("Duchess %s")
+ "Fundamentalism",  _("Patriarch %s"), _("Matriarch %s")
 }
 
 flag="serbia"

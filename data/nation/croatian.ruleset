@@ -26,6 +26,12 @@ leaders = {
  "Franjo Tuđman",               "Male"
  "Josip Jelačić",               "Male"
 }
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ ; /* TRANS: Ban = Duke */
+ "Despotism",       _("Ban %s"),       _("?female:Ban %s")
+ "Fundamentalism",  _("Bishop %s"),    _("Mother Superior %s")
+}
 
 flag="croatia"
 flag_alt = "-"

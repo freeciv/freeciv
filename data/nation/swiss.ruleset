@@ -33,10 +33,9 @@ leaders = {
 }
 
 ruler_titles = {
- "government",  "male_title",             "female_title"
- "Anarchy",     _("General %s"),          _("?female:General %s")
- "Despotism",   _("Bailiff %s"),          _("?female:Bailiff %s")
- "Democracy", _("Federal Councillor %s"), _("?female:Federal Councillor %s")
+ "government",     "male_title",               "female_title"
+ "Despotism",      _("Bailiff %s"),            _("?female:Bailiff %s")
+ "Democracy",      _("Federal Councillor %s"), _("?female:Federal Councillor %s")
 }
 
 flag="switzerland"

@@ -26,9 +26,9 @@ leaders = {
 
 ruler_titles = {
  "government",     "male_title",          "female_title"
- "Despotism",      _("Master %s"),        _("Mistress %s")
+ "Despotism",      _("Duke %s"),          _("Duchess %s")
  "Fundamentalism", _("Bishop %s"),        _("Mother Superior %s")
- "Monarchy",       _("Duke %s"),          _("Duchess %s")
+ "Monarchy",       _("Grand Duke %s"),    _("Grand Duchess %s")
 }
 
 flag= "courland" 

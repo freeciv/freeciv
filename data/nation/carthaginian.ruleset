@@ -17,6 +17,11 @@ leaders = {
  "Dido",                "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Anarchy",         _("Usurper %s"),     _("?female:Usurper %s")
+}
+
 flag="cartago"
 flag_alt = "tunisia"	; Used previously
 city_style = "Classical"

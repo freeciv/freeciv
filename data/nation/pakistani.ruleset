@@ -14,7 +14,12 @@ leaders = {
  "Muhammad Ali Jinnah", "Male"
  "Khawaja Nazimuddin",  "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Raja %s"),      _("Rani %s")
+ "Fundamentalism",  _("Mullah %s"),    _("?female:Mullah %s")
+ "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
+}
 flag="pakistan"
 flag_alt="-"
 city_style = "Asian"

@@ -11,6 +11,12 @@ leaders = {
  "Tuxette",             "Female"
 }
 
+ruler_titles = {
+ "government",      "male_title",              "female_title"
+ "Monarchy",        _("Emperor %s"),           _("?female:Empress %s")
+}
+; emperor penguins
+
 flag="antarctica"
 flag_alt = "-"
 city_style = "Classical"

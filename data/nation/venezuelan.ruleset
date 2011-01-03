@@ -27,8 +27,6 @@ ruler_titles = {
  "government",     "male_title",       "female_title"
  "Despotism",      _("General %s"),    _("?female:General %s")
  "Fundamentalism", _("Bishop %s"),     _("Mother Superior %s")
- "Monarchy",       _("Dictador %s"),   _("Dictadora %s")
- "Democracy",      _("Presidente %s"), _("Presidenta %s")
 }
 
 flag="venezuela"

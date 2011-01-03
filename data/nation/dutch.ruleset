@@ -33,10 +33,10 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",           "female_title"
- "Republic",	    _("Stadtholder %s"),    _("Stadtholdress %s")
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
- "Fundamentalism",  _("Reverend %s"),       _("?female:Reverend %s")
+ "government",     "male_title",               "female_title"
+ "Despotism",      _("Prince %s"),             _("Princess %s")
+ "Fundamentalism", _("Reverend %s"),           _("?female:Reverend %s")
+ "Republic",	   _("Stadtholder %s"),        _("Stadtholdress %s")
 }
 
 flag="netherlands"

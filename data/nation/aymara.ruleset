@@ -24,11 +24,6 @@ leaders = {
  "Fausto Reynaga",      "Male" ; born José Félix
 }
 
-ruler_titles = {
- "government",      "male_title",         "female_title"
- "Republic",        _("Mallku %s"),       _("Ttalla %s")
-}
-
 flag="aymara"
 flag_alt = "-"
 city_style = "Tropical"

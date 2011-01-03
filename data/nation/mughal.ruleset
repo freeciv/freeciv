@@ -15,10 +15,10 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("%s Khan"),      _("%s Khatan")
- "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
- "Republic",        _("Sultan %s"),    _("Sultana %s")
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("%s Khan"),        _("%s Khatan")
+ "Monarchy",        _("Maharaja %s"),    _("Maharani %s")
+ "Fundamentalism",  _("Grand Mufti %s"), _("Grand Mufti %s")
 }
 
 flag="mughal"

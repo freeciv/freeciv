@@ -27,7 +27,9 @@ leaders = {
 
 ruler_titles = {
  "government",        "male_title",       "female_title"
+ "Anarchy",           _("Usurper %s"),    _("?female:Usurper %s") 
  "Fundamentalism",    _("Presbyter %s"),  _("?female:Presbyter %s") 
+ "Republic",          _("Consul %s"),     _("?female:Consul %s") 
 }
 
 flag= "valknut" 

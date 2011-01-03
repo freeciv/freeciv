@@ -20,11 +20,6 @@ leaders = {
  "Nvita a Nkanga",      "Male"
 }
 
-ruler_titles = {
- "government",      "male_title",        "female_title"
- "Monarchy",        _("Manikongo %s"),   _("?female:Manikongo %s")
-}
-
 flag         = "kongo"
 flag_alt     = "-"
 city_style   = "Tropical"

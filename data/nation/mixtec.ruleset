@@ -31,7 +31,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Monarchy",        _("Lord %s"),      _("Lady %s")
+ "Despotism",       _("Lord %s"),      _("Lady %s")
 }
 
 flag="mixtec"

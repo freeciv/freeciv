@@ -20,8 +20,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",       "female_title"
- "Despotism",       _("Chairperson %s"),_("?female:Chairperson %s")
- "Monarchy", _("Secretary-General %s"), _("?female:Secretary-General %s")
+ "Democracy",       _("Councillor %s"), _("?female:Councillor %s")
+ "Communism", _("Secretary-General %s"), _("?female:Secretary-General %s")
 }
 
 flag="united_nations"

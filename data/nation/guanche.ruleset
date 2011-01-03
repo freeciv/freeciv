@@ -19,11 +19,6 @@ leaders = {
  "Beneharo",            "Male"
 }
 
-ruler_titles = {
- "government", "male_title",   "female_title"
- "Monarchy",   _("Mencey %s"), _("?female:Mencey %s")
-}
-
 flag = "guanche"
 flag_alt = "-"
 city_style = "Babylonian"

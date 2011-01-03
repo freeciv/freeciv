@@ -17,6 +17,11 @@ leaders = {
  "Ferdinand Marcos",    "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Fundamentalism",  _("Cardinal %s"),       _("Mother Superior %s")
+ "Republic",	    _("Governor %s"),       _("Governor %s")
+}
 flag="philippines"
 flag_alt = "-"
 city_style = "Tropical"

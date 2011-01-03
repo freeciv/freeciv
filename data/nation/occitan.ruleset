@@ -24,9 +24,10 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",          "female_title"
- "Despotism",       _("Viscount %s"),         _("Viscountess %s")
- "Monarchy",        _("Duke %s"),             _("Duchess %s")
- "Fundamentalism",  _("Perfect %s"),          _("Perfectae %s")
+ "Democracy",       _("Chancellor %s"),    _("?female:Chancellor %s")
+ "Despotism",       _("Viscount %s"),      _("Viscountess %s")
+ "Monarchy",        _("Grand Duke %s"),    _("Grand Duchess %s")
+ "Fundamentalism",  _("Bishop %s"),        _("?female:Bishop %s")
 }
 
 flag="occitania"

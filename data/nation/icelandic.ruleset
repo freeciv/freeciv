@@ -17,7 +17,11 @@ leaders = {
  "Kristján Eldjárn",            "Male"
  "Vigdís Finnbogadóttir",       "Female"
 }
-
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Earl %s"),           _("?female:Earl %s")
+ "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
+}
 flag="iceland"
 flag_alt = "norway"
 city_style = "European"

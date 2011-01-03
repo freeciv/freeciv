@@ -29,7 +29,8 @@ leaders = {
 
 ruler_titles = {
  "government",     "male_title",          "female_title"
- "Despotism",      _("?title:Leader %s"), _("?female:Leader %s")
+ "Despotism",      _("Leader %s"),        _("?female:Leader %s")
+ "Republic",       _("Lehendakari %s"),   _("?female:Lehendakari %s")
 }
 
 flag="euskadi"

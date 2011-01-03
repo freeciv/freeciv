@@ -20,7 +20,6 @@ leaders = {
 ruler_titles = {
  "government", "male_title",              "female_title"
  "Republic",   _("High Commissioner %s"), _("?female:High Commissioner %s")
- "Democracy",  _("Prime Minister %s"),    _("?female:Prime Minister %s")
 }
 
 flag="madagascar"

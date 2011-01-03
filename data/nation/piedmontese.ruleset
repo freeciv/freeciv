@@ -29,9 +29,8 @@ leaders = {
 
 ruler_titles = {
  "government",     "male_title",           "female_title"
- "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
  "Despotism",      _("Count %s"),          _("Countess %s")
- "Fundamentalism", _("Friar %s"),          _("Mother Superior %s")
+ "Fundamentalism", _("Fra %s"),            _("Mother Superior %s")
 }
 
 flag = "piedmont"

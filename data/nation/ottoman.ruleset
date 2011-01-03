@@ -23,10 +23,11 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Monarchy" ,       _("%s Bey"),       _("?female:%s Bey")
- "Republic",        _("Padishah %s"),  _("?female:Padishah %s")
- "Democracy",       _("Imperator %s"), _("Imperatrix %s")
+ "government",      "male_title",     "female_title"
+ "Despotism",       _("%s Pasha"),    _("?female:%s Pasha")
+ "Fundamentalism" , _("Caliph %s"),   _("Calipha %s")
+ "Monarchy",        _("Padishah %s"), _("?female:Padishah %s")
+ "Republic",        _("Vizier %s"),   _("?female:Vizier %s")
 }
 
 flag ="ottoman"

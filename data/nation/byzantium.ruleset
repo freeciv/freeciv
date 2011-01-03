@@ -22,10 +22,11 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",        "female_title"
- "Despotism",       _("Imperator %s"),   _("Imperatrix %s")
+ "Anarchy",         _("Usurper %s"),     _("?female:Usurper %s")
+ "Despotism",       _("Despot %s"),      _("?female:Despot %s")
  "Fundamentalism",  _("Patriarch %s"),   _("Matriarch %s")
- ; /* TRANS: Basileus = Monarch */
- "Monarchy",        _("Basileus %s"),    _("Basilissa %s")
+ "Monarchy",        _("Emperor %s"),     _("Empress %s")
+ "Republic",        _("Consul %s"),      _("?female:Consul %s")
 }
 
 flag="byzantium"

@@ -25,7 +25,10 @@ leaders = {
  "Tuyaara",             "Female" ; Туйаара
  "Kùnnèy",              "Female" ; Күннэй
 }
-
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Fundamentalism",  _("Shaman %s"),          _("?female:Shaman %s")
+}
 flag="sakha"
 flag_alt = "-"
 city_style = "European"

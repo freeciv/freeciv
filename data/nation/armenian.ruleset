@@ -19,6 +19,12 @@ leaders = {
  "Zabel I",             "Female"
 }
 
+ruler_titles = {
+ "government",     "male_title",        "female_title"
+ "Anarchy",        _("Usurper %s"),     _("?female:Usurper %s")
+ "Fundamentalism", _("Patriarch %s"),   _("Matriarch %s")
+}
+
 flag="armenia"
 flag_alt = "-"
 city_style = "Classical"

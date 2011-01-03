@@ -21,7 +21,7 @@ leaders = {
  "Alfonso el Sabio",            "Male"
  "Sancho el Bravo",             "Male"
  "Enrique el Doliente",         "Male"
- "Isabella la Católica",        "Female"
+ "Isabel la Católica",          "Female"
  "Juana la Loca",               "Female"
  "Juan de Padilla",             "Male"
 }
@@ -29,7 +29,7 @@ leaders = {
 ruler_titles = {
  "government",     "male_title",     "female_title"
  "Despotism",      _("Count %s"),    _("Countess %s")
- "Fundamentalism", _("Cardinal %s"), _("?female:Cardinal %s")
+ "Fundamentalism", _("Cardinal %s"), _("Mother Superior %s")
 }
 
 flag="castile"

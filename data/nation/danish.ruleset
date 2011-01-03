@@ -32,8 +32,7 @@ leaders = {
 
 ruler_titles = {
  "government",   "male_title",           "female_title"
- "Despotism",    _("%s Jarl"),           _("?female:%s Jarl")
- "Democracy",    _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "Despotism",    _("Earl %s"),           _("?female:Earl %s")
 }
 
 flag="denmark"

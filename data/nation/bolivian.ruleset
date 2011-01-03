@@ -39,7 +39,6 @@ ruler_titles = {
  "Communism",      _("Comandante %s"),   _("Comandanta %s")
  "Despotism",      _("General %s"),      _("?female:General %s")
  "Fundamentalism", _("Archbishop %s"),   _("Mother Superior %s")
- "Republic",       _("Liberator %s"),    _("?female:Liberator %s")
 }
 
 flag="bolivia"

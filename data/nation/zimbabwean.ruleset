@@ -21,7 +21,10 @@ leaders = {
  "Chenjerai Hunzvi", "Male"
  "Robert Mugabe",    "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Fundamentalism",  _("Bishop %s"),    _("?female:Bishop %s")
+}
 flag="zimbabwe" 
 flag_alt = "-" 
 city_style = "tropical" 

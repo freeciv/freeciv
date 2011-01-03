@@ -21,38 +21,1386 @@ options="+Freeciv-2.3-ruleset"
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
 match=0
-[ngroup_medieval]
-name=_("?nationgroup:Medieval")
-match=0
 [ngroup_modern]
 name=_("?nationgroup:Modern")
 match=0
-[ngroup_african]
-name=_("?nationgroup:African")
-match=0
-[ngroup_american]
-name=_("?nationgroup:American")
-match=0
-[ngroup_asian]
-name=_("?nationgroup:Asian")
-match=0
-[ngroup_european]
-name=_("?nationgroup:European")
-match=0
 
-*include "nation/roman.ruleset"
-*include "nation/babylonian.ruleset"
-*include "nation/german.ruleset"
-*include "nation/egyptian.ruleset"
-*include "nation/american.ruleset"
-*include "nation/greek.ruleset"
-*include "nation/indian.ruleset"
-*include "nation/russian.ruleset"
-*include "nation/zulu.ruleset"
-*include "nation/french.ruleset"
-*include "nation/aztec.ruleset"
-*include "nation/chinese.ruleset"
-*include "nation/english.ruleset"
-*include "nation/mongol.ruleset"
+[nation_american]
+
+name=_("American")
+plural=_("?plural:Americans")
+groups="Modern"
+legend=_("Formally named the United States of America.  Independent from\
+ Great Britain after a revolution in 1776-1783 AD.")
+
+leaders = {
+ "name",                        "sex"
+ "Abraham Lincoln",             "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Republic",        _("Speaker %s"),      _("?female:Speaker %s")
+}
+
+flag="usa"
+flag_alt="-"
+city_style="Celtic"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Washington (ocean, river, swamp, !desert)", 
+ "New York (ocean, river, forest, !desert, !jungle)", 
+ "Boston (ocean, forest, !desert, !jungle)", 
+ "Philadelphia (ocean, river, forest, !desert)", 
+ "Los Angeles (ocean, desert, plains)",
+ "Atlanta (!ocean, forest, !desert)", 
+ "Chicago (!ocean, forest, !desert, !jungle)", 
+ "St. Louis (river, grassland, !desert)", 
+ "Detroit (!ocean, forest, !desert, !jungle)",
+ "New Orleans (ocean, river, swamp, !desert)", 
+ "Baltimore (ocean, river, swamp, !desert)", 
+ "Denver (!ocean, hills, mountains)", 
+ "Cincinnati (!ocean, forest, !desert)", 
+ "Dallas (!ocean, desert, plains)",
+ "Houston (ocean, desert, plains)", 
+ "San Antonio (!ocean, desert, plains)", 
+ "San Francisco (ocean, hills)",
+ "Fresno (hills, plains)", 
+ "Seattle (ocean, hills, forest, !desert, !jungle)",
+ "Portland (river, forest, !desert, !jungle)", 
+ "Miami (ocean, jungle, swamp, !desert, !tundra, !hills, !mountains)", 
+ "Las Vegas (!ocean, desert)",
+ "Cleveland (!ocean, forest, !desert)",
+ "Toledo (!ocean, forest, !desert)", 
+ "Pittsburgh (!ocean, river, forest, hills, !desert)",
+ "Salt Lake City (!ocean, plains, desert)", 
+ "San Diego (ocean, plains, desert)", 
+ "Phoenix (!ocean, desert)", 
+ "Minneapolis (!ocean, !hills, !mountains, !desert, !jungle)",
+ "St. Paul (!ocean, !hills, !mountains, !desert, !jungle)", 
+ "Kansas City (!ocean, river, !hills, !mountains)",
+ "Buffalo (!ocean, !desert, !jungle)",
+ "Syracuse (!ocean, !desert)", 
+ "Wichita (!ocean, !forest, !jungle, !hills, !mountains)", 
+ "Indianapolis (!ocean, forest, !desert)",
+ "Orlando (swamp, jungle, !hills, !mountains)", 
+ "Omaha (!ocean, river, !hills, !mountains)", 
+ "Baton Rouge (river, swamp, !desert, !hills, !mountains)", 
+ "Milwaukee (!ocean, !jungle, !desert)", 
+ "Honolulu (ocean, swamp, jungle, !desert)", 
+ "Boise (!ocean, hills, mountains, !jungle)", 
+ "Fargo (!ocean, tundra, !hills, !mountains, !jungle)", 
+ "Springfield (!ocean, !desert)",
+ "Nashville (!ocean, !desert)", 
+ "Hartford (ocean, !desert)", 
+ "Charlotte (forest, !desert)",
+ "Raleigh (forest, !desert)",
+ "Charleston (ocean, river, swamp, !desert)",
+ "Savannah (ocean, swamp, !desert)",
+ "Mobile (ocean, river, swamp, !desert)",
+ "El Paso (!ocean, desert, plains)", 
+ "Anchorage (ocean, tundra, !jungle)",
+ "Fairbanks (!ocean, tundra, !jungle)",
+ "Spokane (!ocean, plains, !jungle)", 
+ "Tacoma (ocean, river, swamp, forest, !desert, !jungle)", 
+ "Fort Worth (!ocean, desert, plains)", 
+ "Austin (!ocean, desert, plains)", 
+ "Sacramento (!ocean, grassland)", 
+ "Oklahoma City (!ocean, !forest, !hills, !mountains)",
+ "Jacksonville (jungle, swamp, !hills, !mountains)", 
+ "Sioux Falls (!ocean, !jungle)", 
+ "Madison (!ocean, !jungle)", 
+ "Lubbock (!ocean, desert, plains)",
+ "Amarillo (!ocean, desert, plains)", 
+ "Little Rock (!ocean, !desert)", 
+ "Tucson (!ocean, desert)",
+ "Erie (!ocean, !desert, !jungle)", 
+ "Flint (!ocean, !desert, !jungle)", 
+ "Trenton (ocean, forest, !desert)", 
+ "Newark (ocean, forest, !desert)",  
+ "Richmond (!ocean, forest, !desert)",
+ "Reno (!ocean, !forest, desert)",
+ "Santa Fe (!ocean, desert, hills, mountains)",
+ "San Jose (hills, plains)",
+ "Tulsa (!ocean, !forest, !hills, !mountains)", 
+ "Annapolis (ocean, river, swamp, forest, !desert)", 
+ "Akron (!ocean, forest, !desert)", 
+ "Urbana-Champaign (!ocean, forest, !desert)"
+
+[nation_aztec]
+
+name=_("Aztec")
+plural=_("?plural:Aztecs")
+groups="Ancient"
+; /* TRANS: The fifth letter in "Cortes" should be */
+; /* TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in */
+; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233. */
+legend=_("The Azteca, a Nahuatl speaking people from the Sonoran desert,\
+ seized control of the Toltec-derived civilizations of Central Mexico\
+ during the 15th century AD, reviving the practice of human sacrifice.\
+ They were conquered by the Spanish under Cortes in 1521.")
+
+leaders = {
+ "name",                        "sex"
+ "Motecuhzoma",                 "Male"
+}
+
+ruler_titles = {
+ "government",  "male_title",            "female_title"
+ "Republic",    _("Speaker %s"),         _("?female:Speaker %s")
+} 
+
+flag="aztec"
+flag_alt="-"
+city_style="Tropical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Mexihco Tenochtitlan (swamp, mountains, lake)",
+ "Tetzcoco (mountains)",
+ "Tlacopan (mountains, hills, lake)",
+ "Tlatelulco (swamp, lake)",
+ "Azcapotzalco (hills)",
+ "Iztapallapan (lake, hills)",
+ "Cuauhnanahuac (mountains, hills, forest, !ocean)",
+ "Tlachco (mountains)",
+ "Tollocan (mountains, plains)",
+ "Chapoltepec (hills, forest)",
+ "Coyohuacan (forest)",
+ "Culhuacan (swamp)",
+ "Huitzilipochco",
+ "Mexihcatzinco",
+ "Cuauhtitlan",
+ "Coacalco",
+ "Mixcoac",
+ "Petlacalco",
+ "Otompan (swamp)",
+ "Malinalco",
+ "Chalco (swamp)",
+ "Xochimilco (swamp)",
+ "Coatlichan",
+ "Teloloapan",
+ "Cuauhtinchan (river)",
+ "Tochpan (ocean)",
+ "Xiuhcoac",
+ "Huaxtepec",
+ "Xicotepec",
+ "Tzompanco (swamp)",
+ "Tlatauhquitepec",
+ "Cuitlahuac",
+ "Xico",
+ "Ahuilizapan (mountains)",
+ "Cuetlaxtlan",
+ "Xaltocan",
+ "Tenayuca",
+ "Tepeyacac",
+ "Tochtepec",
+ "Coaixtlahuacan",
+ "Tepozcolollan",
+ "Ixtapallocan",
+ "Tillantonco",
+ "Nonohualco",
+ "Huaxyacac",
+ "Tizapan",
+ "Mictlan",
+ "Ehecatepec",
+ "Oztoman",
+ "Hueypochtlan",
+ "Tlalnepantlan",
+ "Chiconautlan",
+ "Acolman",
+ "Coatlinchan",
+ "Naucalpan",
+ "Oxitipan",
+ "Xoconochco",
+ "Cihuatlan",
+ "Tlaxquiauhco",
+ "Huexotla",
+ "Tziuhcoac", 
+ "Ocuillan",
+ "Axocopan",
+ "Nopallan"
+
+[nation_babylonian]
+
+name=_("Babylonian")
+plural=_("?plural:Babylonians")
+groups="Ancient"
+legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
+ 7th centuries BC under a succession of peoples including Amorites,\
+ Kassites, Assyrians, and Chaldeans.")
+
+leaders = {
+ "name",                        "sex"
+ "Hammurabi",                   "Male"
+}
+
+ruler_titles =
+ { "government", "male_title",  "female_title"
+ ; /* TRANS: Lugal = Great Man */
+ "Monarchy",   _("%s Lugal"),   _("?female:%s Lugal")
+ "Communism",  _("%s Ensi"),    _("?female:%s Ensi")
+} 
+
+flag="babylon"
+flag_alt="-"
+city_style="Babylonian"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Babilum", ; Babylon
+ "Lagash",
+ "Nibbur", ; Nippur
+ "Ur",
+ "Kish",
+ "Shuruppak",
+ "Kisurra",
+ "Kutha",
+ "Adab",
+ "Umma",
+ "Akkad",
+ "Ea", ; Eridu
+ "Larsa",
+ "Borsippa",
+ "Sippar",
+ "Ninua", ; Nineveh
+ "Assur", ; Ashur
+ "Kalakh", ; Calach
+ "Karkar", ; Carcar
+ "Hamath", ; Hamat
+ "Upija", ; Opis
+ "Urum",
+ "Arbela",
+ "Nisibis",
+ "Harranu", ; Carrhae
+ "Seleukeia", ; Seleucia
+ "Kasfia", ; Ctesiphon
+ "Sattagu", ; Sittace
+ "Uruk", ; Orchoe
+ "Apameia" ; Apamea
+
+[nation_chinese]
+
+name=_("Chinese")
+plural=_("?plural:Chinese")
+groups="Modern"
+legend=_("China is the oldest major civilization that is still in\
+ existence today, with written records dating back over 3,500 years.\
+ After first being unified by the Qin dynasty in 221 BC, China alternated\
+ between periods of unity and disunity, and was occasionally conquered by\
+ external ethnicities. Today, the People's Republic of China, established\
+ by the Communists in 1949, occupies the mainland, while the former\
+ Nationalist government of the Republic of China governs the island of\
+ Taiwan.")
+
+leaders = {
+ "name",                "sex"
+ "Mao Zedong",          "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Emperor %s"),   _("Empress Dowager %s")
+ "Communism",       _("Chairman %s"),  _("Chairperson %s")
+}
+
+flag="han"
+flag_alt="-"
+city_style="Asian"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Beijing",
+ "Shanghai",
+ "Guangzhou",
+ "Tianjin",
+ "Nanjing", 
+ "Xi'an",
+ "Chongqing",
+ "Chengdu",
+ "Jinan",
+ "Shijiazhuang", 
+ "Taiyuan",
+ "Zhengzhou",
+ "Wuhan",
+ "Changsha",
+ "Nanchang", 
+ "Hangzhou",
+ "Fuzhou",
+ "Hefei",
+ "Guiyang",
+ "Lanzhou", 
+ "Kunming",
+ "Xining",
+ "Nanning",
+ "Yinchuan",
+ "Shenyang", 
+ "Changchun",
+ "Harbin",
+ "Luoyang",
+ "Kaifeng",
+ "Qingdao", 
+ "Suzhou",
+ "Wuxi",
+ "Xiamen",
+ "Haikou",
+ "Hong Kong", 
+ "Datong",
+ "Anyang",
+ "Shangqiu",
+ "Nanyang",
+ "Dengfeng", 
+ "Handan",
+ "Baoding",
+ "Chengde",
+ "Tangshan",
+ "Zhangjiakou", 
+ "Yantai",
+ "Zibo",
+ "Jining",
+ "Dezhou",
+ "Qinhuangdao", 
+ "Changshu",
+ "Gaoyou",
+ "Nantong",
+ "Zhenjiang",
+ "Lianyungang", 
+ "Yangzhou",
+ "Xuzhou",
+ "Changzhou",
+ "Wenzhou",
+ "Huzhou", 
+ "Shaoxing",
+ "Jiaxing",
+ "Ningbo",
+ "Zhangzhou",
+ "Quanzhou", 
+ "Shantou",
+ "Foshan",
+ "Shenzhen",
+ "Zhuhai",
+ "Zhongshan", 
+ "Huizhou",
+ "Chaozhou",
+ "Ganzhou",
+ "Jiujiang",
+ "Jingdezhen", 
+ "Zhanjiang",
+ "Liuzhou",
+ "Beihai",
+ "Guilin",
+ "Yichang", 
+ "Xiangtan",
+ "Zhuzhou",
+ "Shaoyang",
+ "Hengyang",
+ "Yueyang", 
+ "Mianyang",
+ "Zigong",
+ "Xianyang",
+ "Baoji",
+ "Gejiu", 
+ "Tianshui",
+ "Jiuquan",
+ "Baiyin",
+ "Dunhuang",
+ "Jiayuguan", 
+ "Dalian",
+ "Anshan",
+ "Fushun",
+ "Jilin",
+ "Mudanjiang", 
+ "Liaoyang",
+ "Dandong",
+ "Baotou",
+ "Heihe", 
+ "Bengbu",
+ "Wuhu",
+ "Anqing",
+ "Ma'anshan"
+
+[nation_egyptian]
+
+name=_("Egyptian")
+plural=_("?plural:Egyptians")
+groups="Ancient"
+legend=_("Egypt was the second-oldest of the world's civilizations.  Since\
+ ancient times it has been unusually urbanized, supporting a large\
+ population on silt deposited by the annual floodings of the Nile.")
+
+leaders = {
+ "name",                "sex"
+ "Ramesses II",         "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",          "female_title"
+ "Despotism",       _("Pharaoh %s"),       _("?female:Pharaoh %s")
+ "Monarchy",        _("Great Pharaoh %s"), _("?female:Great Pharaoh %s")
+}
+
+flag="egypt_ancient"
+flag_alt="-"
+city_style="Babylonian"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Waset",	; No-Amon, Diospolis Magna, Thebes, Luxor, Karnak
+ "Ineb-Hedj",	; Men-Nefer, Memphis, Mit Rahina
+ "Yunu",	; On, Heliopolis, el-Matariya
+ "Suentet",	; Syene, Asuan
+ "Sheresi",	; Merwer, Shedyt, Crokodilopolis, Arsinoe, Medinet el-Fayum
+ "Per-Bastet",	; Bubastis, Tell Basta
+ "Rakote",	; Alexandria
+ "Behdet",	; Sam-Behutkhet, Pa-khen-em-Amon, Hu, Diospolis Parva etc.
+ "Sa",		; Sais, San el-Hagar
+ "Hardai",	; Cynopolis
+ "This",	; Tjeny, Thinis, Girga
+ "Ipu",		; Ipu-Khent-Min, Khemmis Panopolis, Akhmim
+ "Djeuka",	; Antaeopolis, Kaw el-Kebir
+ "Yuni",	; Hermonthis, Armant
+ "Khem",	; Letopolis, Kom Ausim
+ "Henen-Nesut",	; Heracleopolis, Ehnasije el-Medine
+ "Per-Medjed",	; Oxyrynkhos, el-Bahnasa
+ "Per-Usiri",	; Djedu, Busiris, Taposiris Magna, Abusir Bana
+ "Imu",		; Kom el-Hisn
+ "Itji-Tawi",	; el-Lisht
+ "Sauti",	; Lycopolis, Asyut
+ "Akhet-Aton",	; el-Amarna
+ "Chaswu",	; Xois, Sakha
+ "Pi-Rameses",	; Qantir
+ "Abdju",	; Osiris, Abydos
+ "Djanenet",	; Hut-Waret, Tanis, Awaris, San el-Hagar
+ "Per-Banebdjedet", ; Mendes, Tema el-Amdid
+ "Tjeb-Neter",	; Sebennythos, Samanud
+ "Anpet-Djedet", ; Tmuis
+ "Gebtiu",	; Koptos, Kuft
+ "Taminhor", 	; Hermopolis Parva, Damanhur
+
+; Cities without Old Egyptian name; Probably founded by Greeks or Romans
+ "Pelusium",
+ "Canopus",
+ "Naucratis",
+ "Aphroditopolis",
+ "Ammonium",
+ "Acoris",
+ "Timonepsis",
+ "Nilopolis",
+ "Ibiu",
+ "Andropolis",
+ "Sele",
+ "Antiphrae",
+ "Apis"
+
+[nation_english]
+
+name=_("English")
+plural=_("?plural:English")
+groups="Modern"
+legend=_("England was unified by Alfred the Great of Wessex in the late\
+ 9th century AD, only to be conquered by William of Normandy a century\
+ later, in the last successful invasion of the country.")
+
+leaders = {
+ "name",                        "sex"
+ "Elizabeth I",                 "Female"
+}
+
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
+flag="england"
+flag_alt="-"
+city_style="European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "London",
+ "Westminster",
+ "Birmingham",
+ "Liverpool",
+ "Manchester",
+ "Leeds",
+ "York",
+ "Newcastle",
+ "Canterbury",
+ "Bradford",
+ "Derby",
+ "Southampton",
+ "Middlesbrough",
+ "Sheffield",
+ "Nottingham",
+ "Coventry",
+ "Bath",
+ "Bristol",
+ "Brighton",
+ "Portsmouth",
+ "Hull",
+ "Leicester",
+ "Plymouth",
+ "Bournemouth",
+ "Sunderland",
+ "Stoke-on-Trent",
+ "Bolton",
+ "Norwich",
+ "Oxford",
+ "Colchester",
+ "Reading",
+ "Cambridge",
+ "Gloucester",
+ "Blackpool",
+ "Stratford-upon-Avon",
+ "Durham",
+ "Eastleigh",
+ "Winchester",
+ "Folkestone",
+ "Dover",
+ "Huntingdon",
+ "Hereford",
+ "Ipswich",
+ "Kettering",
+ "King's Lynn",
+ "Kidderminster",
+ "Leek",
+ "Lincoln",
+ "Lutterworth",
+ "Macclesfield",
+ "Market Bosworth",
+ "Market Harborough",
+ "Melton Mowbray",
+ "Nuneaton",
+ "Oakham",
+ "Peterborough",
+ "Pickering",
+ "Preston",
+ "Poole",
+ "Rochester",
+ "Ramsgate",
+ "Southend",
+ "Stevenage",
+ "Ashford",
+ "Swindon",
+ "Torquay",
+ "Wolverhampton",
+ "Weymouth",
+ "Yeovil",
+ "Halifax",
+ "Oldham",
+ "Rochdale",
+ "Blackburn",
+ "Burnley",
+ "Lancaster",
+ "Northampton",
+ "Salisbury",
+ "Cowes"
+
+[nation_french]
+
+name=_("French")
+plural=_("?plural:French")
+groups="Modern"
+legend=_("France has long been a major power in Europe. French conquerors\
+ like Emperor Napoleon and King Charlemagne united large parts of\
+ Europe under the French flag.")
+
+leaders = {
+ "name",                "sex"
+ "Napoléon Bonaparte",  "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Chieftain %s"),    _("?female:Chieftain %s")
+ "Democracy",       _("Premier %s"),      _("?female:Premier %s")
+}
+
+flag="france_old"
+flag_alt="-"
+city_style="Celtic"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Paris",
+ "Lyon",
+ "Marseille (ocean)",
+ "Lille",
+ "Toulouse",
+ "Nice (ocean)",
+ "Bordeaux",
+ "Nantes (ocean)",
+ "Strasbourg",
+ "Toulon (ocean)",
+ "Rennes",
+ "Rouen",
+ "Grenoble (mountains)",
+ "Montpellier",
+ "Metz",
+ "Nancy",
+ "Clermont-Ferrand (!ocean)",
+ "Valenciennes",
+ "Tours",
+ "Caen",
+ "Orléans (!ocean)",
+ "Angers",
+ "Dijon (!ocean)",
+ "Saint-Étienne",
+ "Brest (ocean)",
+ "Le Havre (ocean)",
+ "Le Mans",
+ "Reims (!ocean)",
+ "Avignon",
+ "Mulhouse (!ocean)",
+ "Amiens",
+ "Béthune",
+ "Dunkerque (ocean)",
+ "Perpignan (ocean)",
+ "Limoges (mountains)",
+ "Besançon",
+ "Nîmes",
+ "Pau",
+ "Bayonne (ocean)",
+ "Annemasse",
+ "Poitiers",
+ "Annecy",
+ "Lorient (ocean)",
+ "Montbéliard",
+ "Saint-Denis",
+ "Troyes",
+ "Saint-Nazaire (ocean)",
+ "La Rochelle (ocean)",
+ "Valence",
+ "Thionville (ocean)",
+ "Angoulême",
+ "Boulogne-sur-Mer (ocean)",
+ "Chambéry",
+ "Chalon-sur-Saône (river)",
+ "Chartres",
+ "Saint-Pierre",
+ "Niort",
+ "Calais (ocean)",
+ "Béziers",
+ "Arras",
+ "Bourges",
+ "Lens",
+ "Saint-Brieuc (ocean)",
+ "Quimper",
+ "Vannes",
+ "Cherbourg (ocean)",
+ "Maubeuge",
+ "Aix-en-Provence (ocean, mountains)",
+ "Blois",
+ "Colmar",
+ "Tarbes",
+ "Compiègne",
+ "Charleville-Mézières",
+ "Belfort (mountains)",
+ "Roanne",
+ "Forbach",
+ "Saint-Quentin",
+ "Laval",
+ "Bourg-en-Bresse (!ocean)",
+ "Beauvais",
+ "Nevers",
+ "Villeurbanne",
+ "Boulogne",
+; Not in most inhabited cities
+ "Ajaccio (ocean, mountains)",
+ "Pointe-à-Pitre (ocean)",
+ "Cayenne (ocean)",
+ "Fort-de-France (ocean)",
+ "Saint-Denis (ocean)"
+
+[nation_german]
+
+name   = _("German")
+plural = _("?plural:Germans")
+groups  = "Modern"
+
+legend = _("Germany was united in 1871 by the Prussian military \
+force.  After World War I it became a republic, but fell into \
+Nazism 1933 and started World War II.  After the war it was split \
+into two states, which reunited in 1990 at the end of the Cold War.")
+
+leaders = {
+ "name",                        "sex"
+ "Friedrich II",                "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Democracy",       _("Chancellor %s"),      _("?female:Chancellor %s")
+ "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
+}
+
+flag         = "hre"
+flag_alt     = "-"
+city_style   = "European"
+
+init_techs = ""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Berlin (grassland, !mountains)", 
+ "Hamburg (grassland, swamp, ocean, river, !mountains)",
+ "München (hills, mountains, !ocean)", 
+ "Köln (plains, hills, river)", 
+ "Frankfurt am Main (grassland, hills, river, !ocean)",
+ "Essen (grassland, hills, !river)", 
+ "Dortmund (grassland, hills)",
+ "Stuttgart (hills, !ocean)", 
+ "Düsseldorf (grassland, hills, river)", 
+ "Bremen (grassland, plains, swamp, ocean, river, !mountains)",
+ "Duisburg (grassland, hills, river)",
+ "Hannover (grassland, plains, !mountains)",
+ "Nürnberg (hills, mountains, river, !ocean)", 
+ "Leipzig (grassland, plains, hills, !ocean)",
+ "Dresden (plains, hills, river, !ocean)",
+ "Bochum (grassland, plains, hills, !river)",
+ "Wuppertal (grassland, plains, hills, river)",
+ "Bielefeld (plains, forest, !mountains)",
+ "Mannheim (grassland, forest, river, !ocean)",
+ "Bonn (plains, forest, river)",
+ "Halle/Saale (grassland, plains, river, !ocean, !mountains)",
+ "Gelsenkirchen (grassland, plains, !mountains)",
+ "Chemnitz (hills, mountains, !ocean)",
+ "Karlsruhe (plains, forest, river, !ocean)",
+ "Wiesbaden (plains, hills, river, !ocean)",
+ "Magdeburg (grassland, plains, river)",
+ "Münster (grassland, plains, !river)",
+ "Mönchengladbach (grassland, plains, !river)", 
+ "Augsburg (forest, hills, mountains, river, !ocean)",
+ "Braunschweig (grassland, plains)",
+ "Krefeld (grassland, plains, !river)",
+ "Kiel (grassland, swamp, ocean, !mountains)",
+ "Aachen (plains, hills)",
+ "Rostock (grassland, ocean, river, !mountains)",
+ "Oberhausen (grassland, plains, river)",
+ "Lübeck (grassland, ocean, river, !mountains)",
+ "Hagen (plains, hills)",
+ "Kassel (plains, forest, !ocean)",
+ "Erfurt (hills, forest, !ocean)",
+ "Freiburg im Breisgau (plains, forest, hills, mountains, !ocean)",
+ "Saarbrücken (forest, hills, river, !ocean)",
+ "Mainz (plains, hills, river, !ocean)",
+ "Hamm (grassland, hills)",
+ "Herne (plains, hills)",
+ "Mülheim an der Ruhr (grassland, hills, river)",
+ "Ludwigshafen (grassland, forest, river, !ocean)",
+ "Osnabrück (grassland, plains, forest)",
+ "Solingen (plains, hills, !river)",
+ "Leverkusen (plains, hills, river)",
+ "Neuss (plains, hills, river)",
+ "Oldenburg (grassland, swamp, ocean, river, !mountains)",
+ "Darmstadt (grassland, forest, !ocean)",
+ "Heidelberg (forest, hills, river, !ocean)",
+ "Potsdam (grassland, swamp, !mountains)",
+ "Bremerhaven (grassland, swamp, ocean, river, !mountains)",
+ "Paderborn (plains, forest)",
+ "Würzburg (plains, forest, river, !ocean)",
+ "Göttingen (forest, hills, !ocean)",
+ "Cottbus (swamp, plains, forest, river)",
+ "Wolfsburg (grassland, plains)",
+ "Recklinghausen (grassland, plains, hills, !river)",
+ "Regensburg (forest, hills, river, !ocean)",
+ "Remscheid (plains, hills, !river)",
+ "Gera (forest, hills)",
+ "Heilbronn (plains, forest, river)",
+ "Schwerin (grassland, ocean, !mountains)",
+ "Bottrop (grassland, plains, hills)",
+ "Salzgitter (plains, forest, hills)",
+ "Pforzheim (grassland, forest, river, !ocean)",
+ "Offenbach am Main (grassland, hills, river, !ocean)",
+ "Ulm (forest, hills, river, !ocean)",
+ "Siegen (forest, hills, river)",
+ "Koblenz (forest, hills, river, !ocean)", 
+ "Ingolstadt (hills, river, !ocean)",
+ "Fürth (hills, !ocean)",
+ "Zwickau (forest, hills, !ocean)",
+ "Reutlingen (forest, hills, !ocean)",
+ "Moers (plains, hills)",
+ "Hildesheim (plains, hills)",
+ "Witten (grassland, hills, river)",
+ "Bergisch Gladbach (plains, hills, !river)",
+ "Erlangen (forest, hills, river, !ocean)",
+ "Kaiserslautern (plains, forest, !ocean)",
+ "Jena (hills, river, !ocean)",
+ "Trier (forest, river, !ocean)",
+ "Frankfurt/Oder (grassland, plains, swamp, river)",
+ "Fulda (hills, river, !ocean)",
+ "Bamberg (forest, hills, !ocean)",
+ "Marburg (hills, river, !ocean)",
+ "Wittenberg (grassland, plains, river, !mountains)",
+ "Weimar (plains, forest, !ocean)",
+ "Baden-Baden (forest, hills, mountains, !ocean)",
+ "Passau (hills, mountains, river, !ocean)",
+ "Verden (grassland, plains, swamp, ocean)",
+ "Wismar (grassland, ocean, !mountains)",
+ "Nördlingen (forest, hills, !river, !ocean)",
+ "Stralsund (grassland, ocean, !mountains)",
+ "Mansfeld (plains, hills, !ocean)",
+ "Donauwörth (hills, mountains, river)",
+ "Dessau (plains, forest)",
+ "Worms (plains, forest, river, !ocean)",
+ "Wittstock (grassland, plains, ocean, !mountains)",
+ "Mühlberg (plains, river, !ocean)",
+ "Speyer (plains, hills, river, !ocean)",
+ "Kleve (grassland, plains, river)",
+ "Landau in der Pfalz (forest, hills, !ocean)",
+ "Rosheim (forest, hills, !ocean)",
+ "Schmalkalden (forest, hills, !ocean)",
+ "Lutter (forest, hills)",
+ "Wiesloch (forest, hills, river, !ocean)",
+ "Rosslau (grassland, plains, river)",
+ "Minden (grassland, hills, swamp, river)",
+ "Sinsheim (forest, hills)",
+ "Gotha (forest, hills)",
+ "Philippsburg (grassland, forest, hills, !ocean)",
+ "Halberstadt (plains, hills)",
+ "Bad Hersfeld (forest, hills)",
+ "Altenburg (forest, hills, !ocean)"
+
+[nation_greek]
+
+name=_("Greek")
+plural=_("?plural:Greeks")
+groups="Modern"
+legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
+
+leaders = {
+ "name",                "sex"
+ "Megas Alexandros",    "Male" ; Alexander the Great
+}
+
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("Despot %s"),         _("?female:Despot %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
+}
+
+flag="greece_ancient"
+flag_alt="-"
+city_style="Classical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+; Original city list with native Greek orthography
+ "Athinai",
+ "Sparti",
+ "Thivai",
+ "Korinthos",
+ "Konstandinoupolis",
+ "Militos",
+ "Efesos",
+ "Peiraiefs (ocean)",
+ "Argos",
+ "Megalopolis",
+ "Elefsis",
+ "Chalkis",
+ "Eretreia",
+ "Thessaloniki (ocean)",
+ "Edessa",
+ "Nikopolis",
+ "Nafpaktos",
+ "Patrai (ocean)",
+ "Olymbia (mountains)",
+ "Pylos",
+ "Nafplion (ocean)",
+ "Mykinai",
+ "Epidavros (ocean)",
+ "Avlis",
+ "Orchomenos",
+ "Marathon",
+ "Delfoi",
+ "Thermopylai (hills)",
+ "Faliron",
+ "Nikaia",
+ "Iraklion (ocean)",
+ "Potidaia",
+ "Stagira",
+ "Olynthos",
+ "Kolofon",
+ "Fokaia",
+ "Amfissa",
+ "Atalanti",
+ "Oropos",
+ "Livadeia",
+ "Larisa (river)", 
+ "Iolkos",
+ "Amfiklaia",
+ "Kyzikos",
+ "Alikarnassos",
+ "Pergamos",
+ "Pydna",
+ "Filadelfeia",
+ "Thermi",
+ "Amfipolis",
+ "Kerkyra (ocean)",
+ "Ithaki",
+ "Thira (ocean)",
+ "Panormos",
+ "Ortygia",
+ "Milos (ocean)", 
+ "Lykosoura",
+ "Amyklai",
+ "Klazomenai",
+ "Kynos Kefalai",
+ "Distomon (hills, mountains)",
+; Additional cities sorted in joint population/chronology order
+ "Smyrni (ocean)",
+ "Alexandreia (ocean)", 
+ "Nikomideia",
+ "Trapezous (ocean)",
+ "Chania", 
+ "Knossos", 
+ "Pafos",
+ "Mitylini (ocean)",
+ "Chios", 
+ "Sinopi",
+ "Rodos (ocean)",
+ "Adrianoupolis (river)",
+ "Volos", 
+ "Neapolis",
+ "Ammostochos",
+ "Arta (river)", 
+ "Serrai",
+ "Katerini",
+ "Trikala",
+ "Lamia",
+ "Agrinion", 
+ "Xanthi",
+ "Veroia",
+ "Drama",
+ "Komotini", 
+ "Troia",
+ "Kozani", 
+ "Karditsa (!ocean)",
+ "Samos",
+ "Pirgos", 
+ "Tripolis (mountains)",
+ "Rethymnon",
+ "Kastoria",
+ "Ioannina (river)",
+ "Florina",
+ "Preveza",
+ "Kilkis",
+ "Ayios Nikolaos",
+ "Zakynthos (ocean)", 
+ "Igoumenotsa",
+ "Mesolongion",
+ "Lefkosia", 
+ "Grevena",
+ "Argostolion (ocean)",
+ "Karpenisi",
+ "Lefkas", 
+ "Militos",
+ "Polygyros",
+ "Kalamai", 
+ "Kariai (mountains)",
+ "Ermoupolis",
+ "Ydra (ocean)",
+ "Kavala (ocean)",
+ "Alexandroupolis (ocean)",
+ "Tembi (river)"
+
+[nation_indian]
+
+name=_("Indian")
+plural=_("?plural:Indians")
+groups="Modern"
+legend=_("The cradle of Ancient Indian civilization lay in the Indus river\
+ valley in modern-day Pakistan.")
+
+leaders = {
+ "name",                "sex"
+ "Mohandas Gandhi",     "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Raja %s"),      _("Rani %s")
+ "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
+ "Republic",        _("Mahatma %s"),   _("?female:Mahatma %s")
+}
+
+flag="india"
+flag_alt="-"
+city_style="Asian"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Delhi",
+ "Mumbai",		; Bombay
+ "Chennai",		; Madras
+ "Bangalore",
+ "Kolkata",		; Calcutta
+ "Ahmedabad",		; Ahmadabad
+ "Kanpur",
+ "Hyderabad",
+ "Lucknow",
+ "Varanasi",		; Benares
+ "Chandigarh",
+ "Madurai",
+ "Coimbatore",
+ "Kozhikode",		; Calicut
+ "Thiruvananthapuram",	; Trivandrum
+ "Nagpur",
+ "Amritsar",
+ "Srinagar",
+ "Agra",
+ "Bhopal",
+ "Patna",
+ "Surat",
+ "Jaipur",
+ "Varanasi",
+ "Allahabad",
+ "Indore",
+ "Mysore",
+ "Raipur",
+ "Gaya",
+ "Kanpur",		; Cawnpore
+ "Pune (hills)",	; Poona
+ "Ranchi",
+ "Bhubaneswar",
+ "Thiruvananthapuram",
+ "Tiruchirappalli",
+ "Dehradun",
+ "Aizawl",
+ "Gandhinagar",
+ "Imphal",
+ "Thane",
+ "Ludhiana",
+ "Pimpri-Chinchwad",
+ "Nashik",
+ "Vadodara",
+ "Faridabad",
+ "Ghaziabad",
+ "Rajkot",
+ "Meerut",
+ "Kalyan-Dombivali",
+ "Navi Mumbai",
+ "Aurangabad",
+ "Solapur",
+ "Jabalpur",
+ "Visakhapatnam",
+ "Howrah",
+ "Jodhpur",
+ "Guwahati",
+ "Vijayawada",
+ "Mira-Bhayandar",
+ "Gwalior",
+ "Hubballi-Dharwad"
+
+[nation_mongol]
+
+name=_("Mongol")
+plural=_("?plural:Mongols")
+groups="Modern"
+legend=_("In the centuries after their unification by Chinggis Khan, the\
+ Mongols conquered the largest empire in human history, encompassing most\
+ of the continent of Asia. They became notorious for their utter\
+ ruthlessness in warfare.")
+
+leaders = {
+ "name",        "sex"
+ "Chinggis",	"Male" ; Genghis / Чингис
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("%s Khan"),      _("%s Khatan")
+ "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
+}
+
+flag="mongolia"
+flag_alt="-"
+city_style="Asian"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities=
+ "Karakorum", ; Каракорум
+ "Ulaanbaatar", ; Улаанбаатар
+ "Sainshand", ; Сайншанд
+ "Ulaangom", ; Улаангом
+ "Khovd", ; Ховд
+ "Tsetserleg", ; Цэцэрлэг
+ "Altanbulag", ; Алтанбулаг
+ "Zuunmod", ; Зуунмод
+ "Bayankhongor", ; Баянхонгор
+ "Dalanzadgad", ; Даланзадгад
+ "Choibalsan", ; Чойбалсан
+ "Erdenet", ; Эрдэнэт
+ "Mandalgovi", ; Мандалговь
+ "Mörön", ; Мөрөн
+ "Sükhbaatar", ; Сүхбаатар
+ "Züünkharaa", ; Зүүнхараа
+ "Öndörkhaan", ; Өндөрхаан
+ "Ölgii", ; Өлгий
+ "Arvaikheer", ; Арвайхээр
+ "Bulgan", ; Булган
+ "Altai", ; Алтай
+ "Baruun-Urt", ; Баруун-Урт
+ "Choir", ; Чойр
+ "Darkhan", ; Дархан
+ "Bayan-Uul", ; Баян-Уул
+ "Nalaikh", ; Налайх
+ "Zamyn-Üüd", ; Замын-Үүд
+ "Khatgal", ; Хатгал
+ "Uliastai", ; Улиастай
+ "Khuld" ; Хулд
+
+[nation_roman]
+
+name=_("Roman")
+plural=_("?plural:Romans")
+groups="Ancient"
+legend=_("Rome was, in legend, founded by Romulus in 753 BC.  At its\
+ height, Rome controlled nearly all of Europe, northern Africa and\
+ Mesopotamia.")
+
+leaders = {
+ "name",                "sex"
+; Full name "Gaius Julius Caesar".
+ "Caesar",              "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Dictator %s"),  _("Dictatrix %s")
+ "Monarchy",        _("Imperator %s"), _("Imperatrix %s")
+ "Anarchy",         _("Usurper %s"),   _("?female:Usurper %s")
+}
+
+flag="rome"
+flag_alt="-"
+city_style = "Classical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+  "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",
+  "Tarentum", "Brundisium", "Ravenna", "Pisa", "Genova", "Mediolanum",
+  "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", "Agrigentum",
+  "Syracusae", "Neapolis", "Pompeii", "Salernum", "Tarraco",
+  "Carthago", "Barcino", "Bracara", "Carthago Nova", "Baiae",
+  "Noviomagus", "Vindobona", "Atuatuca", "Caesarea", "Ierusalem",
+  "Trapezus", "Durocortorum", "Lutetia", "Burdigala", "Portus Namnetum",
+  "Utica", "Lugdunum", "Londinium", "Aquae Sulis", "Camulodunum", "Dubris",
+  "Eburacum", "Coriovallum", "Perusia", "Leptis Magna", "Corduba", "Edessa",
+  "Ariminum", "Narbo Martius", "Pergamum", "Vienna", "Hispalis",
+  "Salonae", "Cyrenae", "Dyrrachium", "Luni", "Noreia", "Ephesus",
+  "Panoramus", "Ancyra", "Caralis", "Patavium", "Petra", "Tolosa",
+  "Pisae", "Palmyra", "Tyrus", "Cortona", "Arenate", "Brigantium",
+  "Lix", "Sala", "Berytus", "Naissus", "Nicomedia", "Berenice",
+  "Sabrata", "Attalea", "Sinope", "Hippo Regius", "Gesoriacum",
+  "Velia", "Segesta", "Gaza", "Aleria", "Colonia Agrippina",
+  "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
+
+[nation_russian]
+
+name=_("Russian")
+plural=_("?plural:Russians")
+groups="Modern"
+legend=_("According to legend, Slavic and Finnic tribes of Novgorod\
+ invited in the year 862 the Varangian (Viking) king Rurik to bring order\
+ to their land. Rurik established Kievan Rus' in this realm, the first\
+ Russian state. By the 11th century, Kievan Rus' had disintegrated into\
+ lesser princedoms, which were once again united into one state by Ivan\
+ III in the 15th century. After decisive victory over Sweden and large\
+ territorial gains, Peter I pronounced the Russian Empire in 1721. The\
+ Russian Empire lasted until 1917 when a socialist revolution dethroned\
+ the last Russian emperor. After USSR dissolution in 1991 Russia appeared\
+ on world map again, now as a federative republic.")
+
+leaders = {
+ "name",                        "sex"
+ "Iosif Stalin",                "Male"
+}
+
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Duke %s"),      _("Duchess %s")
+ "Monarchy",        _("Tsar %s"),      _("Tsaritsa %s")
+}
+
+flag="kiev"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Moskva",
+ "Sankt-Peterburg",
+ "Tver",
+ "Velikiy Novgorod",
+ "Yekaterinburg",
+ "Samara",
+ "Pskov",
+ "Ryazan",
+ "Vladimir",
+ "Yaroslavl",
+ "Novosibirsk",
+ "Smolensk",
+ "Briansk",
+ "Oriel",
+ "Voronezh",
+ "Saransk",
+ "Perm",
+ "Ufa",
+ "Saratov",
+ "Volgograd",
+ "Tomsk",
+ "Petrozavodsk",
+ "Rostov",
+ "Omsk",
+ "Chelyabinsk",
+ "Irkutsk",
+ "Vladivostok",
+ "Khabarovsk",
+ "Krasnoyarsk",
+ "Vologda",
+ "Murmansk",
+ "Arkhangelsk",
+ "Krasnodar",
+ "Stavropol",
+ "Murom",
+ "Kaluga",
+ "Tula",
+ "Kursk",
+ "Tambov",
+ "Lipetsk",
+ "Belgorod",
+ "Nizhny Novgorod",
+ "Kostroma",
+ "Izhevsk",
+ "Astrakhan",
+ "Orenburg",
+ "Kurgan",
+ "Tyumen",
+ "Kemerovo",
+ "Yakutsk",
+ "Chita",
+ "Magadan",
+ "Norilsk",
+ "Novokuznetsk"
+
+[nation_zulu]
+
+name=_("Zulu")
+plural=_("?plural:Zulus")
+groups="Ancient"
+legend=_("The Zulus are a warlike Bantu people who migrated from\
+ west-central Africa into southern Africa beginning in the early 1700s,\
+ conquering the native Khoisan peoples and clashing with European settlers.")
+
+leaders = {
+ "name",                        "sex"
+ "Shaka kaSenzangakhona",       "Male" ; Shaka Zulu
+}
+
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
+ "Republic",        _("Spokesman %s"),       _("Spokeswoman %s")
+ "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+}
+
+flag="zulu"
+flag_alt="-"
+city_style="Tropical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Zimbabwe",
+ "Ulundi",
+ "Ethekwini",	; Boer name: Durban
+ "Tshwane",	; Boer name: Pretoria
+ "Harare",
+ "Maputo",
+ "Bulaweyo",
+ "Mzizima",
+ "Luanda",
+ "Umgungundlovu", ; Boer name: Pietermaitzburg
+ "Matola",
+ "Benoni",
+ "Gabarone",
+ "Beira",
+ "Tembisa",
+ "Nampula",
+ "Chitungwiza",
+ "Mbabane",
+ "Arusha",
+ "Mbeya",
+ "Huambo",
+ "Molepolole",
+ "Epumalanga",
+ "Ladysmtih",
+ "KwaDukuza",
+ "Eshowe",
+ "Hlobane",
+ "Esikhawini",
+ "Empangeni",
+ "Nongoma",
+ "Magudu",
+ "Mondlo",
+ "Endumeni",
+ "Mtunzini",
+ "Tongati"
+
 *include "nation/barbarian.ruleset"
 *include "nation/pirate.ruleset"

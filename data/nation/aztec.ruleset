@@ -27,7 +27,8 @@ leaders = {
 
 ruler_titles = {
  "government",  "male_title",            "female_title"
- "Republic",    _("Speaker %s"),         _("?female:Speaker %s")
+ "Democracy",   _("Speaker %s"),         _("?female:Speaker %s")
+ "Monarchy",    _("Emperor %s"),         _("Empress %s")
 } 
 
 flag="aztec"

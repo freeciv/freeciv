@@ -17,11 +17,6 @@ leaders = {
  "Moshe Dayan",         "Male"
 }
 
-ruler_titles = {
- "government",      "male_title",           "female_title"
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
-}
-
 flag="israel"
 flag_alt = "-"
 city_style = "Babylonian"

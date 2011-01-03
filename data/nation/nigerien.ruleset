@@ -18,7 +18,11 @@ leaders = {
  "Ali Saibou",                  "Male"
  "Ibrahim Baré Maïnassara",     "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Despotism",        _("Colonel %s"),     _("?female:Colonel %s")
+ "Fundamentalism",   _("Grand Mufti %s"), _("?female:Grand Mufti %s")
+}
 flag = "niger"
 flag_alt = "-"
 city_style = "Celtic"

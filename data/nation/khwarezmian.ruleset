@@ -24,8 +24,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",        "female_title"
+ "Despotism",       _("Satrap %s"),      _("?female:Satrap %s")
  "Monarchy",        _("%s Shah"),        _("%s Shahbanu")
- "Republic",        _("Sultan %s"),      _("Sultana %s")
 }
 
 flag         = "khwarezm"

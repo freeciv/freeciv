@@ -28,6 +28,13 @@ leaders = {
  "Rhadamsades",         "Male"
 }
 
+ruler_titles =
+ { "government", "male_title",    "female_title"
+ "Anarchy",        _("Usurper %s"),     _("?female:Usurper %s")
+ "Despotism",      _("Despot %s"),      _("?female:Despot %s")
+ "Republic",       _("Consul %s"),      _("?female:Consul %s")
+} 
+
 flag = "bosporus"
 flag_alt = "-"
 city_style = "Classical"

@@ -21,8 +21,7 @@ ruler_titles = {
  "government",      "male_title",      "female_title"
  "Communism",      _("Comandante %s"), _("Comandanta %s")
  "Despotism",      _("Caudillo %s"),   _("Caudilla %s")
- "Democracy",      _("Presidente %s"), _("Presidenta %s")
- "Fundamentalism", _("Cardinal %s"),   _("?female:Cardinal %s")
+ "Fundamentalism", _("Cardinal %s"),   _("Mother Superior %s")
 }
 
 flag="cuba"

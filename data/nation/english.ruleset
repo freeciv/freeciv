@@ -22,8 +22,10 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",           "female_title"
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
- "Fundamentalism",  _("Lord Protector %s"), _("Lady Protector %s")
+ "Anarchy",         _("Pretender %s"),      _("?female:Pretender %s")
+ "Despotism",       _("Lord %s"),         _("Lady %s")
+ "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
+ "Republic",        _("Lord Protector %s"), _("Lady Protector %s")
 }
 
 flag="england"

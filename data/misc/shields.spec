@@ -128,7 +128,7 @@ sprites =
 		"f.shield.finland", "flags/finland-shield"
 		"f.shield.flanders", "flags/flanders-shield"
 		"f.shield.france", "flags/france-shield"
-;		"f.shield.france_old", "flags/france_old-shield"
+		"f.shield.france_old", "flags/france_old-shield"
 		"f.shield.franconia", "flags/franconia-shield"
 		"f.shield.frisia", "flags/frisia-shield"
 		"f.shield.gael", "flags/gael-shield"

@@ -25,8 +25,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",            "female_title"
- "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+ "Fundamentalism",  _("Great Shaman %s"),    _("?female:Great Shaman %s")
+ "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
 }
 
 flag="anishinaabe"

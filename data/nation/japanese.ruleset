@@ -19,7 +19,6 @@ ruler_titles = {
  "government",      "male_title",           "female_title"
  "Monarchy",        _("Emperor %s"),        _("Empress %s")
  "Republic",        _("Shogun %s"),         _("?female:Shogun %s")
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
 }
 
 flag="japan"

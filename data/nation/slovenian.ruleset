@@ -13,7 +13,11 @@ leaders = {
  "Kocelj",              "Male"
  "Primož Trubar",       "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Ban %s"),       _("?female:Ban %s")
+ "Fundamentalism",  _("Bishop %s"),    _("Mother Superior %s")
+}
 flag="slovenia"
 flag_alt = "-"
 city_style = "European"

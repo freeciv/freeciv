@@ -21,7 +21,6 @@ ruler_titles = {
  "government",          "male_title",      "female_title"
  "Despotism",           _("General %s"),   _("?female:General %s")
  "Fundamentalism",      _("Patriarch %s"), _("Matriarch %s")
- "Monarchy",            _("Duke %s"),      _("Duchess %s") 
  "Republic",            _("Governor %s"),  _("?female:Governor %s")
 } 
 

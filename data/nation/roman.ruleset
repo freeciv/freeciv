@@ -49,9 +49,11 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Despotism",       _("Dictator %s"),  _("Dictatrix %s")
- "Monarchy",        _("Imperator %s"), _("Imperatrix %s")
  "Anarchy",         _("Usurper %s"),   _("?female:Usurper %s")
+ "Democracy",       _("Tribune %s"),   _("?female:Tribune %s")
+ "Despotism",       _("Dictator %s"),  _("Dictatrix %s")
+ "Monarchy",        _("%s Augustus"),  _("%s Augusta")
+ "Republic",        _("Consul %s"),    _("?female:Consul %s")
 }
 
 flag = "rome"

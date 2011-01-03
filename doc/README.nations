@@ -272,10 +272,10 @@ Leader titles for each government type (including Despotism and
 Anarchy) may be specified in a separate tag. Only ASCII letters
 may be used in leader titles. If the male and female titles are
 identical in English, give the latter the ?female: qualifier. Use
-a unique title for each government. A nation may only introduce
-one new title, but is allowed to use any number that have already
-been defined by other nations. Titles from the default ruleset
-may not be used.
+a unique title for each government. Ruler titles should be in English,
+though exceptions are made for non English titles as long as they are
+understood outside of their own language regions and commonly used in
+non-academic contexts. Titles from the default ruleset may not be used.
 
 
 Flag

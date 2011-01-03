@@ -13,7 +13,10 @@ leaders = {
  "Abdou Diouf",                 "Male"
  "Mame Madior Boye",            "Female"
 }
-
+ruler_titles = {
+ "government",      "male_title",         "female_title"
+ "Fundamentalism",   _("Grand Mufti %s"), _("?female:Grand Mufti %s")
+}
 flag= "senegal"
 flag_alt = "-"
 city_style = "Tropical"

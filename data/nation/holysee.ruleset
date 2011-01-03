@@ -24,9 +24,13 @@ leaders = {
 }
 
 ruler_titles = {
- "government",     "male_title",      "female_title"
- "Anarchy",        _("Antipope %s"),  _("Antipopess %s")
- "Fundamentalism", _("Pope %s"),      _("Popess %s")
+ "government",     "male_title",         "female_title"
+ "Anarchy",        _("Antipope %s"),     _("Antipopess %s")
+ "Communism",      _("Brother %s"),      _("Sister %s")
+ "Democracy",      _("Chancellor %s"),   _("?female:Chancellor %s")
+ "Fundamentalism", _("Pope %s"),         _("Popess %s")
+ "Monarchy",       _("Grand Master %s"), _("Grand Mistress %s")
+ "Republic",       _("Consul %s"),       _("?female:Consul %s")
 }
 
 flag = "vatican"

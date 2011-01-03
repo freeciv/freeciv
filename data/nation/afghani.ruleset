@@ -21,10 +21,8 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",          "female_title"
  "Monarchy",        _("Emir %s"),          _("Emira %s")
- "Republic",        _("Padishah %s"),      _("?female:Padishah %s")
- "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
+ "Communism",       _("General Secretary %s"), _("?female:General Secretary %s")
  "Fundamentalism",  _("Mullah %s"),        _("?female:Mullah %s")
- "Democracy",       _("Prime Minister %s"),_("?female:Prime Minister %s")
 }
 
 flag="afghanistan"

@@ -18,6 +18,13 @@ leaders = {
  "Jan Smuts",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Despotism",       _("General %s"),         _("?female:General %s")
+ "Fundamentalism",  _("Reverend %s"),        _("?female:Reverend %s")
+ "Republic",        _("State President %s"), _("?female:State President %s")
+}
+
 flag="boer"
 flag_alt = "-"
 city_style = "Tropical"

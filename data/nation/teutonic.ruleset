@@ -27,8 +27,9 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",        "female_title"
  "Fundamentalism", _("Archbishop %s"),   _("Mother Superior %s")
- "Despotism",      _("Duke %s"),         _("Duchess %s")
+ "Despotism",      _("Master %s"),       _("Mistress %s")
  "Monarchy",       _("Grand Master %s"), _("Grand Mistress %s")
+ "Democracy",      _("Chancellor %s"),   _("?female:Chancellor %s")
 }
 
 flag="teutonic_order"

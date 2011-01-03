@@ -16,11 +16,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",          "female_title"
- "Anarchy",         _("Caudillo %s"),      _("Caudilla %s")
  "Communism",       _("Comandante %s"),    _("Comandanta %s")
- "Despotism",       _("General %s"),       _("?female:General %s")
+ "Despotism",       _("Caudillo %s"),      _("Caudilla %s")
  "Fundamentalism",  _("Archbishop %s"),    _("Madre %s")
- "Republic",    _("Secretary General %s"), _("?female:Secretary General %s")
 }
 
 flag="unasur"

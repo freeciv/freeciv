@@ -24,9 +24,9 @@ leaders = {
 }
 
 ruler_titles = {
- "government",    "male_title",           "female_title"
- "Despotism",     _("Sergeant %s"),       _("?female:Sergeant %s")
- "Republic",      _("Prime Minister %s"), _("?female:Prime Minister %s")
+ "government",     "male_title",           "female_title"
+ "Despotism",      _("Sergeant %s"),       _("?female:Sergeant %s")
+ "Fundamentalism", _("Reverend %s"),       _("?female:Reverend %s")
 }
 
 flag="suriname"

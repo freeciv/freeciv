@@ -18,6 +18,13 @@ leaders = {
  "Kitsepawit",  "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
+ "Fundamentalism",  _("Shaman %s"),          _("Shaman %s")
+ "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+}
+
 flag = "chumash"
 flag_alt = "-" 
 city_style = "Celtic" 

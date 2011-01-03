@@ -22,7 +22,6 @@ ruler_titles = {
  "government",      "male_title",      "female_title"
  "Despotism",       _("Raja %s"),      _("Rani %s")
  "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
- "Republic",        _("Sultan %s"),    _("Sultana %s")
 }
 
 flag="kashmir"

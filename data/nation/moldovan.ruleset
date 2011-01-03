@@ -20,8 +20,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",         "female_title"
- "Republic",        _("Voivode %s"),      _("?female:Voivode %s")
- "Democracy",       _("Presidente %s"),   _("Presidenta %s")
+ "Despotism",       _("Prince %s"),      _("Princess %s")
+ "Fundamentalism",  _("Patriarch %s"),   _("Matriarch %s")
 }
 
 flag="moldova"

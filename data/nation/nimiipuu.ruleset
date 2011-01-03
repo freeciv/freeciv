@@ -65,7 +65,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",         "female_title"
  "Monarchy",        _("Great Chief %s"),  _("?female:Great Chief %s")
- "Democracy",       _("Chairman %s"),     _("Chairwoman %s")
+ "Communism",       _("Chairman %s"),     _("Chairwoman %s")
 }
 
 flag="nez_perce"

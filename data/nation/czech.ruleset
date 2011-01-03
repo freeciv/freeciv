@@ -26,10 +26,12 @@ leaders = {
  "Václav Havel",        "Male"
 }
 
-; Thane = Vladyka, Prophetess = Vestkyne (Libuse)
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("Thane %s"),     _("Prophetess %s")
+ "government",      "male_title",        "female_title"
+ "Anarchy",         _("Usurper %s"),      _("?female:Usurper %s")
+ "Communism",       _("General Secretary %s"), _("?female:General Secretary %s")
+ "Despotism",       _("Voivode %s"),     _("?female:Voivode %s")
+ "Fundamentalism",  _("Prophet %s"),     _("Prophetess %s")
 }
 
 flag = "czech"

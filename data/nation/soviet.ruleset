@@ -23,9 +23,11 @@ leaders = {
 }
 
 ruler_titles = {
- "government",  "male_title",              "female_title",
- "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
- "Monarchy",    _("Great Leader %s"),      _("?female:Great Leader %s")
+ "government",  "male_title",                "female_title"
+ "Anarchy",     _("Enemy of the People %s"), _("?female:Enemy of the People %s")
+ "Communism",   _("General Secretary %s"),   _("?female:General Secretary %s")
+ "Despotism",   _("Commissar %s"),           _("?female:Commissar %s")
+ "Monarchy",    _("Great Leader %s"),        _("?female:Great Leader %s")
 }
 
 flag="soviet"

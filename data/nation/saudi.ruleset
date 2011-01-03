@@ -24,6 +24,7 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",      "female_title"
  "Fundamentalism",  _("Caliph %s"),    _("Calipha %s")
+ "Republic",        _("Vizier %s"),    _("?female:Vizier %s")
 }
 
 flag="saudi_arabia"

@@ -16,8 +16,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Despotism",       _("Corrector %s"),    _("Correctrix %s")
- "Monarchy",        _("%s Augustus"),     _("%s Augusta")
+ "Anarchy",         _("Usurper %s"),   _("Usurper %s")
+ "Despotism",       _("Dictator %s"),  _("Dictatrix %s")
+ "Republic",        _("Consul %s"),    _("Consul %s")
 }
 
 flag="palmyra"

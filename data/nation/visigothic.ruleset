@@ -32,7 +32,11 @@ leaders = {
  "Hroþareiks",          "Male" ; Roderic
  "Egilona",             "Female" ; Egilona
 }
-
+ruler_titles = {
+ "government",        "male_title",       "female_title"
+ "Anarchy",           _("Usurper %s"),    _("?female:Usurper %s") 
+ "Republic",          _("Consul %s"),     _("?female:Consul %s") 
+}
 flag= "visigoth" 
 flag_alt = "-" 
 city_style = "Celtic" 
@@ -44,7 +48,7 @@ init_units=""
 
 conflicts_with = "asturian", "leonese", "castilian", "galician", "aragonese", "catalan",
                  "occitan", "spanish", "portuguese"
-civilwar_nations="asturian", "andalusi", "basque", "vandalic", "ostrogothic" ;sarmatian
+civilwar_nations="asturian", "andalusi", "basque", "vandalic", "ostrogothic", "sarmatian"
 
 cities=
 "Tolosa",		;Toulouse (first capital)

@@ -19,8 +19,11 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = {
- "government",      "male_title",         "female_title"
- "Communism",       _("Great Leader %s"), _("?female:Great Leader %s")
+ "government",      "male_title",               "female_title"
+ "Anarchy",        _("Enemy of the People %s"), _("?female:Enemy of the People %s")
+ "Despotism",      _("Commissar %s"),           _("?female:Commissar %s")
+ "Fundamentalism", _("Dear Leader %s"),         _("?female:Dear Leader %s")
+ "Monarchy",       _("Great Leader %s"),        _("?female:Great Leader %s")
 }
 
 init_techs=""

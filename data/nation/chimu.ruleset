@@ -21,6 +21,11 @@ leaders = {
  "Fempellec",           "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Lord %s"),      _("Lady %s")
+}
+
 flag= "chimu" 
 flag_alt = "-" 
 city_style = "Babylonian" 

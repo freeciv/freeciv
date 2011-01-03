@@ -16,7 +16,10 @@ leaders = {
  "Mohamed Abdelaziz",           "Male"
  "Aminatou Haidar",             "Female"
 }
-
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Fundamentalism",  _("Caliph %s"),          _("Calipha %s")
+}
 flag="sadr"
 flag_alt = "-"
 city_style = "Babylonian"

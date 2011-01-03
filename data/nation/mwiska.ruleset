@@ -21,7 +21,10 @@ leaders = {
 "Tundama",              "Male"
 "Aquimin",              "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Despotism",       _("Cacique %s"),   _("?female:Cacique %s")
+}
 flag = "mwiska" 
 flag_alt = "-" 
 city_style = "Tropical" 

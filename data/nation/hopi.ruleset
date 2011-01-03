@@ -21,8 +21,11 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",        "female_title"
- "Despotism",       _("Kikmongwi %s"),   _("?female:Kikmongwi %s")
+ "government",      "male_title",            "female_title"
+ "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+ "Fundamentalism",  _("Shaman %s"),          _("?female:Shaman %s")
+ "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
+ "Republic",        _("Spokesman %s"),       _("Spokeswoman %s")
 }
 
 flag         = "hopi"

@@ -33,9 +33,8 @@ leaders = {
 ruler_titles = {
  "government",      "male_title",         "female_title"
  "Democracy",       _("Commissioner %s"), _("?female:Commissioner %s")
- "Monarchy",	    _("Count %s"),        _("Countess %s")
+ "Despotism",       _("Lord %s"),         _("Lady %s")
  "Republic",	    _("Stadtholder %s"),  _("Stadtholdress %s")
- "Despotism",	    _("Potestate %s"),    _("?female:Potestate %s")
 }
 
 flag="frisia"

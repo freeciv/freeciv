@@ -19,6 +19,11 @@ leaders = {
  "Sonni Ali",                   "Male"
  "Sunni Silman Dandi",          "Male"
 }
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Fundamentalism",  _("Caliph %s"),    _("Calipha %s")
+ "Monarchy",        _("Mansa %s"),     _("?female:Mansa %s")
+}
 
 flag="songhai"
 flag_alt="-"

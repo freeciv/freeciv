@@ -28,6 +28,7 @@ ruler_titles = {
  "government",     "male_title",       "female_title"
  "Despotism",      _("Chieftain %s"),  _("?female:Chieftain %s")
  "Fundamentalism", _("Druid %s"),      _("?female:Druid %s")
+ "Republic",       _("Consul %s"),     _("?female:Consul %s")
 } 
 
 flag="gaul"

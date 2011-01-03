@@ -531,7 +531,7 @@ sprites =
 		"f.finland", "flags/finland"
 		"f.flanders", "flags/flanders"
 		"f.france", "flags/france"
-		"f.france_old", "flags/france_old"	; alt Gallic
+		"f.france_old", "flags/france_old"
 		"f.franconia", "flags/franconia"
 		"f.frisia", "flags/frisia"
 		"f.galicia", "flags/galicia"

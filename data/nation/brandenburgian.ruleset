@@ -27,7 +27,7 @@ ruler_titles = {
  "Despotism",       _("Margrave %s"),        _("Margravine %s")
  "Fundamentalism",  _("Archbishop %s"),      _("Mother Superior %s")
  "Monarchy",        _("Elector %s"),         _("Electress %s")
- "Republic",  _("Minister-President %s"), _("?female:Minister-President %s")
+ "Democracy",  _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
 flag="brandenburg" 

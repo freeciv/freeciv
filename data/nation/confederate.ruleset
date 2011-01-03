@@ -23,9 +23,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
+ "Democracy",       _("Speaker %s"),   _("?female:Speaker %s")
  "Despotism",       _("General %s"),   _("?female:General %s")
  "Fundamentalism",  _("Reverend %s"),  _("?female:Reverend %s")
- "Republic",        _("Speaker %s"),   _("?female:Speaker %s")
 }
 
 flag="southern_cross"

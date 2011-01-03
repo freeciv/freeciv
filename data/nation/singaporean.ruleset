@@ -30,9 +30,6 @@ leaders = {
 ruler_titles = {
  "government",  "male_title",           "female_title"
  "Monarchy",    _("Sultan %s"),         _("Sultana %s")
- ; /* TRANS: Encik = Sir */
- "Communism",   _("Encik %s"),          _("?female:Encik %s")
- "Democracy",   _("Prime Minister %s"), _("?female:Prime Minister %s")
 }
 
 flag="singapore"

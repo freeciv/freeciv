@@ -21,9 +21,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",            "female_title"
- "Despotism",       _("Ratu %s"),            _("Adi %s")
  "Monarchy",        _("Paramount Chief %s"), _("?female:Paramount Chief %s")
- "Democracy",       _("Prime Minister %s"),  _("?female:Prime Minister %s")
 }
 
 flag="fiji"

@@ -17,7 +17,10 @@ leaders = {
  "Merab Kostava",               "Male"
  "Eduard Shevardnadze",         "Male"
 }
-
+ruler_titles = {
+ "government",     "male_title",        "female_title"
+ "Fundamentalism", _("Patriarch %s"),   _("Matriarch %s")
+}
 flag="georgia"
 flag_alt = "-"
 city_style = "European"

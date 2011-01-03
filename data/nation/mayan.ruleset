@@ -22,8 +22,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- ; /* TRANS: Ajaw = Lord */
- "Monarchy",        _("Ajaw %s"),         _("?female:Ajaw %s")
+ "Despotism",       _("Lord %s"),      _("?female:Lady %s")
+ "Fundamentalism",  _("Elder %s"),     _("?female:Elder %s")
 }
 
 flag = "maya"
@@ -45,7 +45,7 @@ cities =
  "Popo",			;Toniná
  "Ox Witz Ja'",			;Caracol
  "Ja'",				;Dos Pilas
- "Chi'che'e'n Itsa",		;Chichén Itzá
+ "Chi'che'en Itsa",		;Chichén Itzá
  "Oxwitik",			;Copán
  "Óox Máal",			;Uxmal
  "Q'umarkaj",			;Gumarcaj, Utatlán

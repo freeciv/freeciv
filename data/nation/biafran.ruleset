@@ -18,7 +18,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",       "female_title"
- "Republic",        _("Colonel %s"),    _("?female:Colonel %s")
+ "Despotism",       _("Colonel %s"),    _("?female:Colonel %s")
 }
 
 flag="biafra"

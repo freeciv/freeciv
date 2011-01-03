@@ -18,9 +18,10 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",          "female_title"
- "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
- "Fundamentalism",  _("Archbishop %s"),    _("?female:Archbishop %s")
+ "government",      "male_title",              "female_title"
+ "Communism",       _("General Secretary %s"), _("?female:General Secretary %s")
+ "Despotism",       _("Despot %s"),            _("?female:Despot %s")
+ "Fundamentalism",  _("Archbishop %s"),        _("Matriarch %s")
 }
 
 flag="cyprus"

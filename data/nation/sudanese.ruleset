@@ -13,7 +13,12 @@ leaders = {
  "Suwar al-Dahab",              "Male"
  "Ibrahim Abboud",              "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Despotism",       _("%s Pasha"),          _("?female:%s Pasha")
+ "Fundamentalism",  _("Mahdi %s"),          _("?female:Mahdi %s")
+ "Monarchy",        _("Sultan %s"),         _("Sultana %s")
+}
 flag="sudan"
 flag_alt = "-"
 city_style = "Classical"

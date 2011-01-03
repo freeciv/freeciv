@@ -19,10 +19,8 @@ leaders = {
 ruler_titles = {
  "government",     "male_title",           "female_title"
  "Communism",   _("General Secretary %s"), _("?female:General Secretary %s")
- "Democracy",      _("Prime Minister %s"), _("?female:Prime Minister %s")
  "Fundamentalism", _("Imam %s"),           _("Imama %s")
  "Monarchy",       _("Sultan %s"),         _("Sultana %s")
- "Republic",       _("Chairman %s"),       _("Chairwoman %s")
 }
 
 flag="south_yemen"

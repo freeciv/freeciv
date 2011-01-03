@@ -13,8 +13,8 @@ legend=_("Legend says that the Great Shaman Qitdlarssuaq lead the Inuit\
 leaders = {
  "name",                "sex"
  "Kuupik Kleist",       "Male"
- "Lena Pedersen",       "Male"
- "Eske Brun",           "Female"
+ "Lena Pedersen",       "Female"
+ "Eske Brun",           "Male"
  "Hinrich Rink",        "Male"
  "Poul Egede",          "Male"
  "Eirikr Thorvaldsson", "Male" ; Eric the Red
@@ -23,8 +23,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",           "female_title"
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
- "Fundamentalism",  _("Shaman %s"),         _("?female:Shaman %s")
+ "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
+ "Republic",        _("Governor %s"),       _("?female:Governor %s")
 }
 
 flag="greenland"

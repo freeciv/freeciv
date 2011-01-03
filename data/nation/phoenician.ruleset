@@ -22,7 +22,10 @@ leaders = {
  "Ithobaal",    "Male"
  "Abd'ashtart", "Male"
 }
-
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Anarchy",         _("Usurper %s"),     _("?female:Usurper %s")
+}
 flag="phoenicia"
 flag_alt = "-"
 city_style = "Classical"

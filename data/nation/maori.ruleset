@@ -20,9 +20,10 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",            "female_title"
- "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
+ "Monarchy",        _("Paramount Chief %s"), _("?female:Paramount Chief %s")
  "Republic",        _("Spokesman %s"),       _("Spokeswoman %s")
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+ "Fundamentalism",  _("Elder %s"),           _("?female:Elder %s")
 }
 
 flag="maori"

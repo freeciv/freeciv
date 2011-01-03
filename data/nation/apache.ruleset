@@ -20,6 +20,12 @@ leaders = {
  "Alchesay",    "Male" ; William Alchesay
 }
 
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Fundamentalism",  _("Great Shaman %s"),    _("?female:Great Shaman %s")
+ "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
+}
+
 flag = "apache"
 flag_alt = "-"
 city_style = "celtic"

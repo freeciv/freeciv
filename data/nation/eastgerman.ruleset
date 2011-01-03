@@ -23,9 +23,10 @@ leaders = {
 }
 
 ruler_titles = {
- "government",  "male_title",            "female_title"
- "Republic",    _("Prime Minister %s"),  _("?female:Prime Minister %s")
- "Communism",   _("First Secretary %s"), _("?female:First Secretary %s")
+ "government",  "male_title",                "female_title"
+ "Anarchy",     _("Enemy of the People %s"), _("?female:Enemy of the People %s")
+ "Communism",   _("First Secretary %s"),     _("?female:First Secretary %s")
+ "Despotism",   _("Commissar %s"),           _("?female:Commissar %s")
 }
 
 flag = "ddr"

@@ -18,11 +18,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",           "female_title"
- "Democracy",       _("Prime Minister %s"), _("?female:Prime Minister %s")
-; /* TRANS: The third letter in "Dona" should be U+00F1 LATIN SMALL LETTER */
-; /* TRANS: N WITH TILDE */
- "Despotism",       _("Don %s"),            _("Dona %s")
- "Republic",        _("Presidente %s"),     _("Presidenta %s")
+ "Despotism",       _("Lord %s"),           _("Lady %s")
+ "Fundamentalism",  _("Bishop %s"),         _("Mother Superior %s")
 }
 
 flag="galicia"

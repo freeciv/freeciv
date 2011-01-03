@@ -16,6 +16,12 @@ leaders = {
  "Lennart Meri",                "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Protector %s"),   _("?female:Protector %s")
+ "Fundamentalism",  _("Elder %s"),       _("?female:Elder %s")
+}
+
 flag="estonia"
 flag_alt = "-"
 city_style = "European"

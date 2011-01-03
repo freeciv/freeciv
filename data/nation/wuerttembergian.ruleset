@@ -19,7 +19,9 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",        "female_title"
- "Republic", _("Minister-President %s"), _("?female:Minister-President %s")
+ "Democracy", _("Minister-President %s"), _("?female:Minister-President %s")
+ "Despotism",       _("Duke %s"),        _("Duchess %s")
+ "Fundamentalism",  _("Bishop %s"),      _("?female:Bishop %s")
 }
 
 flag="wuerttemberg"

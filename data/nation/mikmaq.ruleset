@@ -15,6 +15,14 @@ leaders = {
  "So'sep Ku'l",         "Male"
  "Sa'n Teni",           "Male"
 }
+ruler_titles = {
+ "government",      "male_title",            "female_title"
+ "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
+ "Fundamentalism",  _("Shaman %s"),          _("?female:Shaman %s")
+ "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
+ "Republic",        _("Spokesman %s"),       _("Spokeswoman %s")
+}
+
 
 flag = "mikmaq" 
 flag_alt = "-" 

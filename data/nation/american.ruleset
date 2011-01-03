@@ -43,7 +43,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",         "female_title"
- "Republic",        _("Speaker %s"),      _("?female:Speaker %s")
+ "Democracy",       _("Speaker %s"),      _("?female:Speaker %s")
  "Fundamentalism",  _("Reverend %s"),     _("?female:Reverend %s")
 }
 

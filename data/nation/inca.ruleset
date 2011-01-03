@@ -30,7 +30,8 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Monarchy",        _("Sapa Inka %s"), _("Qoya %s")
+ "Despotism",       _("Inka %s"),      _("Qoya %s")
+ "Monarchy",        _("Sapa Inka %s"), _("Sapa Qoya %s")
 }
 
 flag="inca"

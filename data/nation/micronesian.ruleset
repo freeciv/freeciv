@@ -18,7 +18,7 @@ leaders = {
 
 ruler_titles = {
  "government",   "male_title",          "female_title"
- "Republic",     _("Commissioner %s"),  _("?female:Commissioner %s")
+ "Democracy",     _("Commissioner %s"),  _("?female:Commissioner %s")
 }
 
 flag="micronesia"

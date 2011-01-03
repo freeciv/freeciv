@@ -16,7 +16,13 @@ leaders = {
  "José Batlle y Ordóñez",       "Male"
  "Wilson Ferreira Aldunate",    "Male"
 }
-
+ruler_titles = {
+ "government",     "male_title",        "female_title"
+ "Communism",      _("Comandante %s"),  _("Comandanta %s")
+ "Democracy",      _("Councillor %s"),  _("?female:Councillor %s")
+ "Despotism",      _("General %s"),     _("?female:General %s")
+ "Fundamentalism", _("Bishop %s"),      _("Mother Superior %s")
+}
 flag="uruguay"
 flag_alt = "-"
 city_style = "European"

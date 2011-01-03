@@ -16,6 +16,10 @@ leaders = {
  "Davi Canabarro",              "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",   "female_title"
+ "Fundamentalism",  _("Bishop %s"), _("Mother Superior %s")
+}
 flag = "piratini"
 flag_alt = "-"
 city_style = "European"
