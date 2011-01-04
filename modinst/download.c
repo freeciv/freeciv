@@ -124,7 +124,7 @@ static bool download_file(const char *URL, const char *local_filename)
         fc_closesocket(sock);
         return FALSE;
       }
-      sleep(1);
+      fc_usleep(1000000);
     } else if (result > 0) {
       int left;
       int total_written = 0;
