@@ -85,8 +85,10 @@ if test x$ipv6 != xno ; then
 [], [ipv6_possible=false])
   if test x$ipv6_possible = xtrue ; then
     AC_MSG_CHECKING([for AF_INET6])
-    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <sys/socket.h>]],
-      [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+#include <sys/types.h>
+#include <sys/socket.h>
+      ]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
        [AC_MSG_RESULT([no])
         ipv6_possible=false])
   fi
