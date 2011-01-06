@@ -99,6 +99,7 @@ pkgdata_DATA = \
 		curonian.ruleset \
 		cypriot.ruleset \
 		czech.ruleset \
+		czechoslovak.ruleset \
 		dahomean.ruleset \
 		danish.ruleset \
 		dominican.ruleset \

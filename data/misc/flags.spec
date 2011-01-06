@@ -102,6 +102,7 @@ artists = "
    Cuba			Lauris Kaplinski
    Cyprus		Vzb83 (Wikimedia Commons)
    Czech		Lauris Kaplinski
+   Czechoslovakia	Tlusťa (Wikimedia Commons)
    Dahomey		Daniel Markstedt 
    DDR			Jwnabd (Wikimedia Commons)
    Denmark		Jens Bech Madsen
@@ -506,6 +507,7 @@ sprites =
 		"f.cuba", "flags/cuba"
 		"f.cyprus", "flags/cyprus"
 		"f.czech", "flags/czech"
+		"f.czechoslovakia", "flags/czechoslovakia"
 		"f.dahomey", "flags/dahomey"
 		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"

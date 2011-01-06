@@ -95,6 +95,7 @@ flag_files =				\
 		cuba.png		\
 		cyprus.png		\
 		czech.png		\
+		czechoslovakia.png	\
 		dahomey.png		\
 		ddr.png			\
 		denmark.png		\
@@ -493,6 +494,7 @@ flag_files =				\
 		cuba-large.png		\
 		cyprus-large.png		\
 		czech-large.png		\
+		czechoslovakia-large.png	\
 		dahomey-large.png		\
 		ddr-large.png			\
 		denmark-large.png		\
@@ -893,6 +895,7 @@ shield_files =					\
 		cuba-shield.png			\
 		cyprus-shield.png		\
 		czech-shield.png		\
+		czechoslovakia-shield.png	\
 		dahomey-shield.png		\
 		ddr-shield.png			\
 		denmark-shield.png		\
@@ -1291,6 +1294,7 @@ shield_files =					\
 		cuba-shield-large.png			\
 		cyprus-shield-large.png		\
 		czech-shield-large.png		\
+		czechoslovakia-shield-large.png		\
 		dahomey-shield-large.png		\
 		ddr-shield-large.png			\
 		denmark-shield-large.png		\
@@ -1691,6 +1695,7 @@ svg_files = 				\
 		cuba.svg		\
 		cyprus.svg		\
 		czech.svg		\
+		czechoslovakia.svg	\
 		dahomey.svg		\
 		ddr.svg			\
 		denmark.svg		\

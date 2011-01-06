@@ -104,6 +104,7 @@ sprites =
 		"f.cuba", "flags/cuba-large"
 		"f.cyprus", "flags/cyprus-large"
 		"f.czech", "flags/czech-large"
+		"f.czechoslovakia", "flags/czechoslovakia-large"
 		"f.dahomey", "flags/dahomey-large"
 		"f.ddr", "flags/ddr-large"
 		"f.denmark", "flags/denmark-large"
