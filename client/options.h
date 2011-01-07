@@ -189,8 +189,8 @@ void options_save(void);
 
 
 /* Option sets. */
-extern const struct option_set const *client_optset;
-extern const struct option_set const *server_optset;
+extern const struct option_set *client_optset;
+extern const struct option_set *server_optset;
 
 struct option *optset_option_by_number(const struct option_set *poptset,
                                        int id);
