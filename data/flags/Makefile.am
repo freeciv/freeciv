@@ -29,6 +29,7 @@ flag_files =				\
 		argentina.png		\
 		armenia.png		\
 		ashanti.png		\
+		assam.png		\
 		assyria.png		\
 		asturias.png		\
 		atlantis.png		\
@@ -428,6 +429,7 @@ flag_files =				\
 		argentina-large.png		\
 		armenia-large.png		\
 		ashanti-large.png		\
+		assam-large.png			\
 		assyria-large.png		\
 		asturias-large.png		\
 		atlantis-large.png		\
@@ -829,6 +831,7 @@ shield_files =					\
 		argentina-shield.png		\
 		armenia-shield.png		\
 		ashanti-shield.png		\
+		assam-shield.png		\
 		assyria-shield.png		\
 		asturias-shield.png		\
 		atlantis-shield.png		\
@@ -1228,6 +1231,7 @@ shield_files =					\
 		argentina-shield-large.png		\
 		armenia-shield-large.png		\
 		ashanti-shield-large.png		\
+		assam-shield-large.png			\
 		assyria-shield-large.png		\
 		asturias-shield-large.png		\
 		atlantis-shield-large.png		\
@@ -1629,6 +1633,7 @@ svg_files = 				\
 		argentina.svg		\
 		armenia.svg		\
 		ashanti.svg		\
+		assam.svg		\
 		assyria.svg		\
 		asturias.svg		\
 		atlantis.svg		\

@@ -32,7 +32,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="Gupta", "Chola", "Mughal"
-civilwar_nations="Lankese", "Bengali", "Sikh", "Kashmiri"
+civilwar_nations="Bengali", "Sikh", "Kashmiri", "Assamese"
 
 cities =
  "Delhi",

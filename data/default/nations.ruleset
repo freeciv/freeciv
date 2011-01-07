@@ -79,6 +79,7 @@ match=2
 *include "nation/argentine.ruleset"
 *include "nation/armenian.ruleset"
 *include "nation/ashanti.ruleset"
+*include "nation/assamese.ruleset"
 *include "nation/assyrian.ruleset"
 *include "nation/asturian.ruleset"
 *include "nation/atlantean.ruleset"

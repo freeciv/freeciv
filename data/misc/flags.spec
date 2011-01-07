@@ -37,6 +37,7 @@ artists = "
    Argentina		Sigge Kotliar
    Armenia		Jason Short
    Ashanti		Daniel Markstedt
+   Assam		Daniel Markstedt
    Assyria		Clevelander and Daniel Markstedt
    Asturias		Banderas (Wikimedia Commons)
    Atlantis		J.M. Maalderink
@@ -441,6 +442,7 @@ sprites =
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"
 		"f.ashanti", "flags/ashanti"
+		"f.assam", "flags/assam"
 		"f.assyria", "flags/assyria"
 		"f.asturias", "flags/asturias"
 		"f.atlantis", "flags/atlantis"
