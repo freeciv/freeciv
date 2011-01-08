@@ -1804,12 +1804,12 @@ void aifill(int amount)
     int filled = 1;
     struct player *pplayer;
 
-    pplayer = server_create_player(-1);
+    pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
     if (!pplayer) {
       break;
     }
-
     server_player_init(pplayer, FALSE, TRUE);
+
     player_set_nation(pplayer, NULL);
 
     do {

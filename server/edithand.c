@@ -39,6 +39,7 @@
 #include "utilities.h"
 
 /* server */
+#include "aiiface.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "connecthand.h"
@@ -992,14 +993,14 @@ void handle_edit_player_create(struct connection *pc, int tag)
   }
 
 
-  pplayer = server_create_player(-1);
+  pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
   if (!pplayer) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Player creation failed."));
     return;
   }
-
   server_player_init(pplayer, TRUE, TRUE);
+
   player_set_nation(pplayer, pnation);
   server_player_set_name(pplayer, pick_random_player_name(pnation));
   sz_strlcpy(pplayer->username, ANON_USER_NAME);

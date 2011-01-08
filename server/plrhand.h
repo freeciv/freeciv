@@ -19,9 +19,9 @@ struct conn_list;
 
 enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
-void server_player_init(struct player *pplayer,
-			bool initmap, bool needs_team);
-struct player *server_create_player(int player_id);
+void server_player_init(struct player *pplayer, bool initmap,
+                        bool needs_team);
+struct player *server_create_player(int player_id, const char *ai_type);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);

@@ -56,6 +56,7 @@
 #include "advmilitary.h"        /* assess_danger_player() */
 
 /* server */
+#include "aiiface.h"
 #include "citytools.h"
 #include "commands.h"
 #include "connecthand.h"
@@ -924,7 +925,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   }
 
   /* Create the new player. */
-  pplayer = server_create_player(-1);
+  pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
   if (!pplayer) {
     fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
     return C_FAIL;
@@ -996,12 +997,7 @@ enum rfc_status create_command_pregame(const char *name, bool check,
   }
 
   /* Search for first uncontrolled player */
-  players_iterate(played) {
-    if (!played->is_connected && !played->was_created) {
-      pplayer = played;
-      break;
-    }
-  } players_iterate_end;
+  pplayer = find_uncontrolled_player();
 
   if (NULL == pplayer) {
     /* Check that we are not going over max players setting */
@@ -1027,9 +1023,16 @@ enum rfc_status create_command_pregame(const char *name, bool check,
     return C_OK;
   }
 
-  if (NULL == pplayer) {
+  if (pplayer) {
+    fc_snprintf(buf, buflen,
+                /* TRANS: <name> replacing <name> ... */
+                _("%s replacing %s as an AI-controlled player."),
+                name, player_name(pplayer));
+
+    team_remove_player(pplayer);
+  } else {
     /* add new player */
-    pplayer = server_create_player(-1);
+    pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
     if (!pplayer) {
       fc_snprintf(buf, buflen,
                   _("Failed to create new player %s."), name);
@@ -1039,14 +1042,7 @@ enum rfc_status create_command_pregame(const char *name, bool check,
     fc_snprintf(buf, buflen,
                 _("%s has been added as an AI-controlled player."),
                 name);
-  } else {
-    fc_snprintf(buf, buflen,
-                /* TRANS: <name> replacing <name> ... */
-                _("%s replacing %s as an AI-controlled player."),
-                name, player_name(pplayer));
   }
-
-  team_remove_player(pplayer);
   server_player_init(pplayer, FALSE, TRUE);
 
   server_player_set_name(pplayer, name);

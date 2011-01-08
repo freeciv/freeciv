@@ -19,14 +19,13 @@
 #include "ai.h"
 #include "player.h"
 
-/* server */
-#include "aiiface.h"
-
 /* server/advisors */
 #include "autosettlers.h"
 
 /* ai */
 #include "defaultai.h"
+
+#include "aiiface.h"
 
 /**************************************************************************
   Initialize default ai_type.

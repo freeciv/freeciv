@@ -44,6 +44,7 @@
 #include "unitlist.h"
 
 /* server */
+#include "aiiface.h"
 #include "citytools.h"
 #include "gamehand.h"
 #include "maphand.h"
@@ -112,11 +113,10 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   } players_iterate_end;
 
   /* make a new player, or not */
-  barbarians = server_create_player(-1);
+  barbarians = server_create_player(-1, FC_AI_DEFAULT_NAME);
   if (!barbarians) {
     return NULL;
   }
-
   server_player_init(barbarians, TRUE, TRUE);
 
   nation = pick_a_nation(NULL, FALSE, TRUE, type);

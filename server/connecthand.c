@@ -33,6 +33,7 @@
 #include "version.h"
 
 /* server */
+#include "aiiface.h"
 #include "auth.h"
 #include "diplhand.h"
 #include "edithand.h"
@@ -531,13 +532,15 @@ static bool connection_attach_real(struct connection *pconn,
           return FALSE;
         }
         /* add new player, or not */
-        pplayer = server_create_player(-1);
+        pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
         if (!pplayer) {
           return FALSE;
         }
+      } else {
+        team_remove_player(pplayer);
       }
-      team_remove_player(pplayer);
       server_player_init(pplayer, FALSE, TRUE);
+
       /* Make it human! */
       pplayer->ai_controlled = FALSE;
     }

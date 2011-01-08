@@ -1066,8 +1066,8 @@ static void call_first_contact(struct player *pplayer, struct player *aplayer)
   The needs_team options should be set for players who should be assigned
   a team.  They will be put on their own newly-created team.
 ****************************************************************************/
-void server_player_init(struct player *pplayer,
-                        bool initmap, bool needs_team)
+void server_player_init(struct player *pplayer, bool initmap,
+                        bool needs_team)
 {
   player_status_reset(pplayer);
 
@@ -1101,7 +1101,7 @@ void server_player_init(struct player *pplayer,
 
   May return NULL if creation was not possible.
 ***********************************************************************/
-struct player *server_create_player(int player_id)
+struct player *server_create_player(int player_id, const char *ai_type)
 {
   struct player_slot *pslot;
   struct player *pplayer;
@@ -1114,7 +1114,7 @@ struct player *server_create_player(int player_id)
     return NULL;
   }
 
-  pplayer->ai = ai_type_by_name(FC_AI_DEFAULT_NAME);
+  pplayer->ai = ai_type_by_name(ai_type);
 
   if (pplayer->ai == NULL) {
     player_destroy(pplayer);
@@ -1666,11 +1666,10 @@ static struct player *split_player(struct player *pplayer)
   struct player *cplayer;
 
   /* make a new player, or not */
-  cplayer = server_create_player(-1);
+  cplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
   if (!cplayer) {
     return NULL;
   }
-
   server_player_init(cplayer, TRUE, TRUE);
 
   /* Send information about the used player slot to all connections. */

@@ -36,6 +36,7 @@
           | first version (svn17538)                       | 2010/07/05 |  -
   2.3.0   | 2.3.0 release                                  | 2010/11/?? |  3
   2.4.0   | 2.4.0 release (development)                    | 20../../.. | 10
+          | * player ai type                               |            |
           |                                                |            |
 
   Structure of this file:
@@ -118,6 +119,7 @@
 #include "unitlist.h"
 
 /* server */
+#include "aiiface.h"
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -2849,8 +2851,15 @@ static void sg_load_players_basic(struct loaddata *loading)
       continue;
     }
 
-    /* create player */
-    pplayer = server_create_player(player_slot_index(pslot));
+    /* Get player AI type. */
+    string = secfile_lookup_str(loading->file, "player%d.ai_type",
+                                player_slot_index(pslot));
+    sg_failure_ret(string != NULL, "%s", secfile_error());
+
+    /* Create player. */
+    pplayer = server_create_player(player_slot_index(pslot), string);
+    sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", string);
+
     server_player_init(pplayer, FALSE, FALSE);
   } player_slots_iterate_end;
 
@@ -3415,6 +3424,8 @@ static void sg_save_player_main(struct savedata *saving,
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
+  secfile_insert_str(saving->file, plr->ai->name,
+                     "player%d.ai_type", plrno);
   secfile_insert_str(saving->file, player_name(plr),
                      "player%d.name", plrno);
   secfile_insert_str(saving->file, plr->username,
@@ -5279,6 +5290,17 @@ static void compat_load_020400(struct loaddata *loading)
   sg_check_ret();
 
   log_debug("Load savegame version 2.4.0");
+
+  /* Add the default player AI. */
+  player_slots_iterate(pslot) {
+    if (NULL == secfile_section_lookup(loading->file, "player%d",
+                                       player_slot_index(pslot))) {
+      continue;
+    }
+
+    secfile_insert_str(loading->file, FC_AI_DEFAULT_NAME,
+                       "player%d.ai_type", player_slot_index(pslot));
+  } player_slots_iterate_end;
 }
 
 /****************************************************************************
@@ -5290,6 +5312,12 @@ static void compat_save_020400(struct savedata *saving)
   sg_check_ret();
 
   log_debug("Save savegame version 2.4.0");
+
+  /* Remove the definition of the AI type. */
+  player_slots_iterate(pslot) {
+    secfile_entry_delete(saving->file, "player%d.ai_type",
+                         player_slot_index(pslot));
+  } player_slots_iterate_end;
 }
 
 struct compatibility {

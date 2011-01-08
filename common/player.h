@@ -203,7 +203,7 @@ struct player {
 
   bool ai_controlled; /* 0: not automated; 1: automated */
   struct player_ai ai_common;
-  struct ai_type *ai;
+  const struct ai_type *ai;
 
   bool was_created;                    /* if the player was /created */
   bool is_connected;
