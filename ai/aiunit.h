@@ -13,12 +13,15 @@
 #ifndef FC__AIUNIT_H
 #define FC__AIUNIT_H
 
+/* common */
 #include "combat.h"
 #include "fc_types.h"
 #include "unittype.h"
 
 struct pf_map;
 struct pf_path;
+
+struct section_file;
 
 struct unit_ai {
   /* The following are unit ids or special indicator values (<=0) */
@@ -133,5 +136,10 @@ void ai_unit_close(struct unit *punit);
 #define simple_ai_unit_type_iterate_end					\
   }									\
 }
+
+void ai_unit_save(struct section_file *file, const struct unit *punit,
+                  const char *unitstr);
+void ai_unit_load(const struct section_file *file, struct unit *punit,
+                  const char *unitstr);
 
 #endif  /* FC__AIUNIT_H */

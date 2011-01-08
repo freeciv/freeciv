@@ -151,10 +151,6 @@
 /* server/scripting */
 #include "script.h"
 
-/* ai */
-#include "aiunit.h"
-#include "defaultai.h"
-
 #include "savegame2.h"
 
 #define log_sg log_error
@@ -4122,7 +4118,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
   enum tile_special_type target;
   struct base_type *pbase = NULL;
   int base;
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -4269,14 +4264,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                       unitstr);
   }
 
-  unit_data->passenger
-    = secfile_lookup_int_default(loading->file, 0, "%s.passenger", unitstr);
-  unit_data->ferryboat
-    = secfile_lookup_int_default(loading->file, 0, "%s.ferryboat", unitstr);
-  unit_data->charge
-    = secfile_lookup_int_default(loading->file, 0, "%s.charge", unitstr);
-  unit_data->bodyguard
-    = secfile_lookup_int_default(loading->file, 0, "%s.bodyguard", unitstr);
+  /* Load AI data of the unit. */
+  CALL_PLR_AI_FUNC(unit_load, plr, loading->file, punit, unitstr);
+
   sg_warn_ret_val(secfile_lookup_bool(loading->file,
                                       &punit->ai_controlled,
                                       "%s.ai", unitstr), FALSE,
@@ -4401,8 +4391,6 @@ static void sg_save_player_units(struct savedata *saving,
                      "player%d.nunits", player_number(plr));
 
   unit_list_iterate(plr->units, punit) {
-    struct unit_ai *unit_data = def_ai_unit_data(punit);
-
     char buf[32];
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
 
@@ -4454,14 +4442,10 @@ static void sg_save_player_units(struct savedata *saving,
 
     secfile_insert_bool(saving->file, punit->ai_controlled,
                         "%s.ai", buf);
-    secfile_insert_int(saving->file, unit_data->passenger,
-                       "%s.passenger", buf);
-    secfile_insert_int(saving->file, unit_data->ferryboat,
-                       "%s.ferryboat", buf);
-    secfile_insert_int(saving->file, unit_data->charge,
-                       "%s.charge", buf);
-    secfile_insert_int(saving->file, unit_data->bodyguard,
-                       "%s.bodyguard", buf);
+
+    /* Save AI data of the unit. */
+    CALL_PLR_AI_FUNC(unit_save, plr, saving->file, punit, buf);
+
     secfile_insert_int(saving->file, punit->server.ord_map,
                        "%s.ord_map", buf);
     secfile_insert_int(saving->file, punit->server.ord_city,

@@ -22,6 +22,7 @@
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
+#include "registry.h"
 #include "shared.h"
 #include "timing.h"
 
@@ -2756,4 +2757,36 @@ void ai_unit_close(struct unit *punit)
     unit_set_ai_data(punit, default_ai_get_self(), NULL);
     FC_FREE(unit_data);
   }
+}
+
+/**************************************************************************
+  Save AI data of a unit.
+**************************************************************************/
+void ai_unit_save(struct section_file *file, const struct unit *punit,
+                  const char *unitstr)
+{
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+  secfile_insert_int(file, unit_data->passenger, "%s.passenger", unitstr);
+  secfile_insert_int(file, unit_data->ferryboat, "%s.ferryboat", unitstr);
+  secfile_insert_int(file, unit_data->charge, "%s.charge", unitstr);
+  secfile_insert_int(file, unit_data->bodyguard, "%s.bodyguard", unitstr);
+}
+
+/**************************************************************************
+  Load AI data of a unit.
+**************************************************************************/
+void ai_unit_load(const struct section_file *file, struct unit *punit,
+                  const char *unitstr)
+{
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+  unit_data->passenger
+    = secfile_lookup_int_default(file, 0, "%s.passenger", unitstr);
+  unit_data->ferryboat
+    = secfile_lookup_int_default(file, 0, "%s.ferryboat", unitstr);
+  unit_data->charge
+    = secfile_lookup_int_default(file, 0, "%s.charge", unitstr);
+  unit_data->bodyguard
+    = secfile_lookup_int_default(file, 0, "%s.bodyguard", unitstr);
 }

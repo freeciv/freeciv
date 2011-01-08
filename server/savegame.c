@@ -79,10 +79,6 @@
 /* server/scripting */
 #include "script.h"
 
-/* ai */
-#include "aiunit.h"
-#include "defaultai.h"
-
 #include "savegame.h"
 
 #define TOKEN_SIZE 10
@@ -1911,7 +1907,7 @@ static void player_load_units(struct player *plr, int plrno,
     enum tile_special_type target;
     struct base_type *pbase = NULL;
     int base;
-    struct unit_ai *unit_data;
+    char unitstr[32];
 
     type_name = secfile_lookup_str(file, "player%d.u%d.type_by_name",
                                    plrno, i);
@@ -1941,8 +1937,6 @@ static void player_load_units(struct player *plr, int plrno,
                        "%s", secfile_error());
     identity_number_reserve(punit->id);
     idex_register_unit(punit);
-
-    unit_data = def_ai_unit_data(punit);
 
     fc_assert_exit_msg(secfile_lookup_int(file, &nat_x, "player%d.u%d.x",
                                           plrno, i), "%s", secfile_error());
@@ -2072,14 +2066,10 @@ static void player_load_units(struct player *plr, int plrno,
       punit->goto_tile = NULL;
     }
 
-    unit_data->passenger
-      = secfile_lookup_int_default(file, 0, "player%d.u%d.passenger", plrno, i);
-    unit_data->ferryboat
-      = secfile_lookup_int_default(file, 0, "player%d.u%d.ferryboat", plrno, i);
-    unit_data->charge
-      = secfile_lookup_int_default(file, 0, "player%d.u%d.charge", plrno, i);
-    unit_data->bodyguard
-      = secfile_lookup_int_default(file, 0, "player%d.u%d.bodyguard", plrno, i);
+    /* Load AI data of the unit. */
+    fc_snprintf(unitstr, sizeof(unitstr), "player%d.u%d", plrno, i);
+    CALL_PLR_AI_FUNC(unit_load, plr, file, punit, unitstr);
+
     fc_assert_exit_msg(secfile_lookup_bool(file, &punit->ai_controlled,
                                            "player%d.u%d.ai", plrno, i),
                        "%s", secfile_error());
@@ -3796,7 +3786,7 @@ static void player_save_units(struct player *plr, int plrno,
 
   unit_list_iterate(plr->units, punit) {
     int activity = punit->activity;
-    struct unit_ai *unit_data = def_ai_unit_data(punit);
+    char unitstr[32];
 
     i++;
 
@@ -3848,13 +3838,11 @@ static void player_save_units(struct player *plr, int plrno,
     }
 
     secfile_insert_bool(file, punit->ai_controlled, "player%d.u%d.ai", plrno, i);
-    secfile_insert_int(file, unit_data->passenger, "player%d.u%d.passenger", 
-                       plrno, i);
-    secfile_insert_int(file, unit_data->ferryboat, "player%d.u%d.ferryboat", 
-                       plrno, i);
-    secfile_insert_int(file, unit_data->charge, "player%d.u%d.charge", plrno, i);
-    secfile_insert_int(file, unit_data->bodyguard, "player%d.u%d.bodyguard", 
-                       plrno, i);
+
+    /* Save AI data of the unit. */
+    fc_snprintf(unitstr, sizeof(unitstr), "player%d.u%d", plrno, i);
+    CALL_PLR_AI_FUNC(unit_save, plr, file, punit, unitstr);
+
     secfile_insert_int(file, punit->server.ord_map, "player%d.u%d.ord_map", plrno, i);
     secfile_insert_int(file, punit->server.ord_city, "player%d.u%d.ord_city", plrno, i);
     secfile_insert_bool(file, punit->moved, "player%d.u%d.moved", plrno, i);

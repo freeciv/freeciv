@@ -74,6 +74,8 @@ void fc_ai_default_setup(struct ai_type *ai)
 
   ai->funcs.unit_turn_end = ai_unit_turn_end;
   ai->funcs.unit_move = ai_unit_move_or_attack;
+  ai->funcs.unit_save = ai_unit_save;
+  ai->funcs.unit_load = ai_unit_load;
 
   ai->funcs.auto_settler = ai_auto_settler;
 
