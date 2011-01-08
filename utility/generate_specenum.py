@@ -150,7 +150,7 @@ def make_macros(file):
 #define SPECENUM_FOO(suffix) SPECENUM_PASTE(SPECENUM_NAME, suffix)
 
 #ifndef SPECENUM_INVALID
-#define SPECENUM_INVALID (-1)
+#define SPECENUM_INVALID ((enum SPECENUM_NAME) -1)
 #endif
 
 #ifdef SPECENUM_BITWISE
@@ -327,9 +327,9 @@ static inline enum SPECENUM_NAME SPECENUM_FOO(_next)(enum SPECENUM_NAME e)
 {
   do {
 #ifdef SPECENUM_BITWISE
-    e <<= 1;
+    e = (enum SPECENUM_NAME)(e << 1);
 #else
-    e++;
+    e = (enum SPECENUM_NAME)(e + 1);
 #endif
 
     if (e > SPECENUM_FOO(_max)()) {
