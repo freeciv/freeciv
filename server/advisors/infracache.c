@@ -25,10 +25,6 @@
 #include "citytools.h"
 #include "maphand.h"
 
-/* ai */
-#include "aicity.h"
-#include "defaultai.h"
-
 #include "infracache.h"
 
 /* cache activities within the city map */
