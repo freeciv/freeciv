@@ -3101,7 +3101,6 @@ static void sg_load_player_main(struct loaddata *loading,
   struct government *gov;
   struct ai_data *ai;
   struct player_research *research;
-  enum ai_level skill_level;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3224,9 +3223,6 @@ static void sg_load_player_main(struct loaddata *loading,
                                       "%s.ask_ceasefire", buf);
   } players_iterate_end;
 
-  skill_level
-    = secfile_lookup_int_default(loading->file, game.info.skill_level,
-                                 "player%d.ai.skill_level", plrno);
   /* Some sane defaults */
   BV_CLR_ALL(plr->ai_common.handicaps);
   plr->ai_common.fuzzy = 0;
