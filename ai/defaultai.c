@@ -27,6 +27,7 @@
 #include "autosettlers.h"
 
 /* ai */
+#include "advdiplomacy.h"
 #include "aicity.h"
 #include "aihand.h"
 #include "aisettler.h"

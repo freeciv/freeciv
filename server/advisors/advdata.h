@@ -21,9 +21,6 @@
 #include "fc_types.h"
 #include "improvement.h"
 
-/* ai */
-#include "advdiplomacy.h"
-
 /* max size of a short */
 #define MAX_NUM_ID (1+MAX_UINT16)
 
@@ -32,6 +29,15 @@
  * and some of the functions that fill them with useful values at the 
  * start of every turn. 
  */
+
+enum war_reason {
+  WAR_REASON_BEHAVIOUR,
+  WAR_REASON_SPACE,
+  WAR_REASON_EXCUSE,
+  WAR_REASON_HATRED,
+  WAR_REASON_ALLIANCE,
+  WAR_REASON_NONE
+};
 
 enum ai_improvement_status {
   AI_IMPR_CALCULATE, /* Calculate exactly its effect */

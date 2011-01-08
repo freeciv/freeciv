@@ -48,6 +48,7 @@
 #include "advtools.h"
 
 /* ai */
+#include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "advspace.h"
 #include "aicity.h"

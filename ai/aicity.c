@@ -40,6 +40,7 @@
 #include "advbuilding.h"
 
 /* ai */
+#include "advdiplomacy.h"
 #include "advdomestic.h"
 #include "advmilitary.h"
 #include "aihand.h"
