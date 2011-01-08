@@ -45,9 +45,6 @@
 #include "unithand.h"
 #include "unittools.h"
 
-/* ai */
-#include "advdiplomacy.h"
-
 
 /****************************************************************************/
 
