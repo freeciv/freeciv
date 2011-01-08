@@ -32,6 +32,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "bitvector.h"
 #include "capability.h"
 #include "city.h"
@@ -79,7 +80,6 @@
 #include "script.h"
 
 /* ai */
-#include "aicity.h"
 #include "aiunit.h"
 #include "defaultai.h"
 
@@ -2821,7 +2821,7 @@ static void player_load_cities(struct player *plr, int plrno,
                                size_t improvement_order_size,
                                int *worked_tiles)
 {
-  char named[MAX_LEN_NAME];
+  char named[MAX_LEN_NAME], citystr[32];
   struct player *past;
   struct city *pcity;
   const char *kind;
@@ -2843,7 +2843,6 @@ static void player_load_cities(struct player *plr, int plrno,
     int specialists = 0, workers = 0;
     int nat_x, nat_y;
     struct tile *pcenter;
-    struct ai_city *city_data;
 
     fc_assert_exit_msg(secfile_lookup_int(file, &nat_x, "player%d.c%d.x",
                                           plrno, i),
@@ -2872,7 +2871,6 @@ static void player_load_cities(struct player *plr, int plrno,
     /* copied into city->name */
     pcity = create_city_virtual(plr, pcenter, name);
     adv_city_alloc(pcity);
-    city_data = def_ai_city_data(pcity);
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->id,
                                           "player%d.c%d.id", plrno, i),
@@ -3243,31 +3241,8 @@ static void player_load_cities(struct player *plr, int plrno,
       }
     }
 
-    /* FIXME: remove this when the urgency is properly recalculated. */
-    city_data->urgency =
-      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.urgency",
-                                 plrno, i);
-
-    /* avoid fc_rand recalculations on subsequent reload. */
-    city_data->building_turn =
-      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.building_turn",
-                                 plrno, i);
-    city_data->building_wait =
-      secfile_lookup_int_default(file, BUILDING_WAIT_MINIMUM,
-                                 "player%d.c%d.ai.building_wait",
-                                 plrno, i);
-
-    /* avoid fc_rand and expensive recalculations on subsequent reload. */
-    city_data->founder_turn =
-      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_turn",
-                                 plrno, i);
-    city_data->founder_want =
-      secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_want",
-                                 plrno, i);
-    city_data->founder_boat =
-      secfile_lookup_bool_default(file, (city_data->founder_want < 0),
-                                  "player%d.c%d.ai.founder_boat",
-                                  plrno, i);
+    fc_snprintf(citystr, sizeof(citystr), "player%d.c%d", plrno, i);
+    CALL_PLR_AI_FUNC(city_load, plr, file, pcity, citystr);
 
     /* After everything is loaded, but before vision. */
     map_claim_ownership(pcenter, plr, pcenter);
@@ -3961,6 +3936,7 @@ static void player_save_units(struct player *plr, int plrno,
 static void player_save_cities(struct player *plr, int plrno,
 			       struct section_file *file)
 {
+  char citystr[32];
   int wlist_max_length = 0;
   int i = -1;
 
@@ -3975,7 +3951,6 @@ static void player_save_cities(struct player *plr, int plrno,
     int j;
     char impr_buf[MAX_NUM_ITEMS + 1];
     struct tile *pcenter = city_tile(pcity);
-    struct ai_city *city_data = def_ai_city_data(pcity);
 
     i++;
     secfile_insert_int(file, pcenter->nat_y, "player%d.c%d.y", plrno, i);
@@ -4078,23 +4053,8 @@ static void player_save_cities(struct player *plr, int plrno,
 			  "player%d.c%d.option%d", plrno, i, j);
     }
 
-    /* FIXME: remove this when the urgency is properly recalculated. */
-    secfile_insert_int(file, city_data->urgency,
-		       "player%d.c%d.ai.urgency", plrno, i);
-
-    /* avoid fc_rand recalculations on subsequent reload. */
-    secfile_insert_int(file, city_data->building_turn,
-		       "player%d.c%d.ai.building_turn", plrno, i);
-    secfile_insert_int(file, city_data->building_wait,
-		       "player%d.c%d.ai.building_wait", plrno, i);
-
-    /* avoid fc_rand and expensive recalculations on subsequent reload. */
-    secfile_insert_int(file, city_data->founder_turn,
-		       "player%d.c%d.ai.founder_turn", plrno, i);
-    secfile_insert_int(file, city_data->founder_want,
-		       "player%d.c%d.ai.founder_want", plrno, i);
-    secfile_insert_bool(file, city_data->founder_boat,
-		       "player%d.c%d.ai.founder_boat", plrno, i);
+    fc_snprintf(citystr, sizeof(citystr), "player%d.c%d", plrno, i);
+    CALL_PLR_AI_FUNC(city_save, plr, file, pcity, citystr);
   } city_list_iterate_end;
 }
 

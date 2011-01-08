@@ -26,6 +26,7 @@ struct unit;
 struct tile;
 struct settlermap;
 struct pf_path;
+struct section_file;
 
 enum incident_type {
   INCIDENT_DIPLOMAT = 0, INCIDENT_WAR, INCIDENT_PILLAGE,
@@ -42,6 +43,10 @@ struct ai_type
     void (*city_free)(struct city *pcity);
     void (*city_got)(struct player *pplayer, struct city *pcity);
     void (*city_lost)(struct player *pplayer, struct city *pcity);
+    void (*city_save)(struct section_file *file, const struct city *pcity,
+                      const char *citystr);
+    void (*city_load)(const struct section_file *file, struct city *pcity,
+                      const char *citystr);
 
     void (*unit_alloc)(struct unit *punit);
     void (*unit_free)(struct unit *punit);

@@ -20,6 +20,7 @@
 
 /* utility */
 #include "rand.h"
+#include "registry.h"
 
 /* common */
 #include "game.h"
@@ -848,4 +849,59 @@ void ai_city_free(struct city *pcity)
     city_set_ai_data(pcity, default_ai_get_self(), NULL);
     FC_FREE(city_data);
   }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void ai_city_save(struct section_file *file, const struct city *pcity,
+                  const char *citystr)
+{
+  struct ai_city *city_data = def_ai_city_data(pcity);
+
+  /* FIXME: remove this when the urgency is properly recalculated. */
+  secfile_insert_int(file, city_data->urgency, "%s.ai.urgency", citystr);
+
+  /* avoid fc_rand recalculations on subsequent reload. */
+  secfile_insert_int(file, city_data->building_turn, "%s.ai.building_turn",
+                     citystr);
+  secfile_insert_int(file, city_data->building_wait, "%s.ai.building_wait",
+                     citystr);
+
+  /* avoid fc_rand and expensive recalculations on subsequent reload. */
+  secfile_insert_int(file, city_data->founder_turn, "%s.ai.founder_turn",
+                     citystr);
+  secfile_insert_int(file, city_data->founder_want, "%s.ai.founder_want",
+                     citystr);
+  secfile_insert_bool(file, city_data->founder_boat, "%s.ai.founder_boat",
+                      citystr);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void ai_city_load(const struct section_file *file, struct city *pcity,
+                  const char *citystr)
+{
+  struct ai_city *city_data = def_ai_city_data(pcity);
+
+  /* FIXME: remove this when the urgency is properly recalculated. */
+  city_data->urgency
+    = secfile_lookup_int_default(file, 0, "%s.ai.urgency", citystr);
+
+  /* avoid fc_rand recalculations on subsequent reload. */
+  city_data->building_turn
+    = secfile_lookup_int_default(file, 0, "%s.ai.building_turn", citystr);
+  city_data->building_wait
+    = secfile_lookup_int_default(file, BUILDING_WAIT_MINIMUM,
+                                 "%s.ai.building_wait", citystr);
+
+  /* avoid fc_rand and expensive recalculations on subsequent reload. */
+  city_data->founder_turn
+    = secfile_lookup_int_default(file, 0, "%s.ai.founder_turn", citystr);
+  city_data->founder_want
+    = secfile_lookup_int_default(file, 0, "%s.ai.founder_want", citystr);
+  city_data->founder_boat
+    = secfile_lookup_bool_default(file, (city_data->founder_want < 0),
+                                  "%s.ai.founder_boat", citystr);
 }

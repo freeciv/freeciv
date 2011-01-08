@@ -48,6 +48,8 @@ void fc_ai_default_setup(struct ai_type *ai)
 
   ai->funcs.city_alloc = ai_city_alloc;
   ai->funcs.city_free = ai_city_free;
+  ai->funcs.city_save = ai_city_save;
+  ai->funcs.city_load = ai_city_load;
 
   /*
     ai->funcs.city_got = NULL;

@@ -93,6 +93,12 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 void ai_city_alloc(struct city *pcity);
 void ai_city_free(struct city *pcity);
 
+struct section_file;
+void ai_city_save(struct section_file *file, const struct city *pcity,
+                  const char *citystr);
+void ai_city_load(const struct section_file *file, struct city *pcity,
+                  const char *citystr);
+
 void want_tech_for_improvement_effect(struct player *pplayer,
                                       const struct city *pcity,
                                       const struct impr_type *pimprove,
