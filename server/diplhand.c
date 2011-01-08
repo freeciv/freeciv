@@ -33,9 +33,6 @@
 #include "player.h"
 #include "unit.h"
 
-/* ai */
-#include "advdiplomacy.h"
-
 /* scripting */
 #include "script.h"
 
