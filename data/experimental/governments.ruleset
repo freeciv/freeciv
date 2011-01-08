@@ -153,7 +153,7 @@ graphic     = "gov.republic"
 graphic_alt = "-"
 
 ruler_male_title = _("President %s")
-ruler_female_title = _("?female:President %)
+ruler_female_title = _("?female:President %s")
 
 helptext = _("\
 Under a Republican government, citizens hold an election to select a\
