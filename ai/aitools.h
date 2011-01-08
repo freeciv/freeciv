@@ -33,18 +33,6 @@ struct pft_amphibious;
  */
 #define NORMAL_STACKING_FEARFULNESS ((double)PF_TURN_FACTOR / 36.0)
 
-#ifdef DEBUG
-#define CHECK_UNIT(punit)                                                   \
-  (fc_assert(punit != NULL),                                                \
-   fc_assert(unit_type(punit) != NULL),                                     \
-   fc_assert(unit_owner(punit) != NULL),                                    \
-   fc_assert(player_by_number(player_index(unit_owner(punit)))              \
-             == unit_owner(punit)),                                         \
-   fc_assert(game_unit_by_number(punit->id) != NULL))
-#else
-#define CHECK_UNIT(punit) /* Do nothing */
-#endif
-
 /*
  * Initialise using ai_avoid_risks()
  */
