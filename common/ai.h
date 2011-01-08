@@ -48,6 +48,8 @@ struct ai_type
     void (*city_load)(const struct section_file *file, struct city *pcity,
                       const char *citystr);
 
+    void (*units_ruleset_init)(void);
+
     void (*unit_alloc)(struct unit *punit);
     void (*unit_free)(struct unit *punit);
     void (*unit_got)(struct unit *punit);

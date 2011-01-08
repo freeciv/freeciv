@@ -116,12 +116,10 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 bool is_on_unit_upgrade_path(const struct unit_type *test,
 			     const struct unit_type *base);
 
-void update_simple_ai_types(void);
-
 bool enemies_at(struct unit *punit, struct tile *ptile);
 
 /* Call this after rulesets are loaded */
-void unit_class_ai_init(void);
+void ai_units_ruleset_init(void);
 
 void ai_unit_init(struct unit *punit);
 void ai_unit_turn_end(struct unit *punit);

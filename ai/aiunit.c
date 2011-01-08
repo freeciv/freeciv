@@ -2631,7 +2631,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
 /*************************************************************************
   Updates the global array simple_ai_types.
 **************************************************************************/
-void update_simple_ai_types(void)
+static void update_simple_ai_types(void)
 {
   int i = 0;
 
@@ -2651,9 +2651,9 @@ void update_simple_ai_types(void)
 }
 
 /****************************************************************************
-  Build cached values about unit classes for AI
+  Initialise the unit data from the ruleset for the AI.
 ****************************************************************************/
-void unit_class_ai_init(void)
+void ai_units_ruleset_init(void)
 {
   bv_special special;
   bv_bases bases;
@@ -2704,6 +2704,11 @@ void unit_class_ai_init(void)
     }
 
   } unit_class_iterate_end;
+
+  /* TODO: remove the simple_ai_types cache or merge it with a general ai
+   *       cache; see the comment to struct unit_type *simple_ai_types at
+   *       the beginning of this file. */
+  update_simple_ai_types();
 }
 
 /**************************************************************************

@@ -57,6 +57,8 @@ void fc_ai_default_setup(struct ai_type *ai)
     ai->funcs.city_lost = NULL;
   */
 
+  ai->funcs.units_ruleset_init = ai_units_ruleset_init;
+
   /* We should allocate memory only for units owned by
      default ai in unit_got. We track no data
      about enemy units.

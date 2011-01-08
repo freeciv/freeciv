@@ -31,6 +31,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "base.h"
 #include "capability.h"
 #include "city.h"
@@ -1554,8 +1555,6 @@ if (_count > MAX_VET_LEVELS) {						\
     ruleset_error(LOG_FATAL, "\"%s\": No role=sea raider barbarian units?",
                   filename);
   }
-
-  update_simple_ai_types();
 
   section_list_destroy(csec);
   section_list_destroy(sec);
@@ -4045,7 +4044,7 @@ void load_rulesets(void)
   openload_script_file("script");
 
   /* Build AI unit class cache corresponding to loaded rulesets */
-  unit_class_ai_init();
+  CALL_FUNC_EACH_AI(units_ruleset_init);
 
   /* We may need to adjust the number of AI players
    * if the number of available nations changed. */
