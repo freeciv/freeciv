@@ -76,14 +76,6 @@
 #include "unitlist.h"
 #include "version.h"
 
-/* ai */
-#include "advdiplomacy.h"
-#include "advmilitary.h"
-#include "aicity.h"
-#include "aihand.h"
-#include "aisettler.h"
-#include "citymap.h"
-
 /* generator */
 #include "mapgen.h"
 
