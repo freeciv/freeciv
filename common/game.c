@@ -629,22 +629,6 @@ const char *population_to_text(int thousand_citizen)
 }
 
 /****************************************************************************
-  Returns gui name string
-****************************************************************************/
-const char *gui_name(enum gui_type gui)
-{
-  /* This must be in same order as enum gui_type in fc_types.h */
-  const char *gui_names[] = {
-    "stub", "gtk2", "sdl", "xaw", "win32", "ftwl" };
-
-  if (gui < GUI_LAST) {
-    return gui_names[gui];
-  } else {
-    return "Unknown";
-  }
-}
-
-/****************************************************************************
   Produce a statically allocated textual representation of the given
   year.
 ****************************************************************************/

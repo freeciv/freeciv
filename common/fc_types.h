@@ -291,15 +291,21 @@ struct ai_choice;			/* incorporates universals_u */
 BV_DEFINE(bv_bases, MAX_BASE_TYPES);
 BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 
-enum gui_type {
-  GUI_STUB,
-  GUI_GTK2,
-  GUI_SDL,
-  GUI_XAW,
-  GUI_WIN32,
-  GUI_FTWL,
-  GUI_LAST
-};
+#define SPECENUM_NAME gui_type
+/* Used for options which do not belong to any gui. */
+#define SPECENUM_VALUE0 GUI_STUB
+#define SPECENUM_VALUE0NAME "stub"
+#define SPECENUM_VALUE1 GUI_GTK2
+#define SPECENUM_VALUE1NAME "gtk2"
+#define SPECENUM_VALUE2 GUI_SDL
+#define SPECENUM_VALUE2NAME "sdl"
+#define SPECENUM_VALUE3 GUI_XAW
+#define SPECENUM_VALUE3NAME "xaw"
+#define SPECENUM_VALUE4 GUI_WIN32
+#define SPECENUM_VALUE4NAME "win32"
+#define SPECENUM_VALUE5 GUI_FTWL
+#define SPECENUM_VALUE5NAME "ftwl"
+#include "specenum_gen.h"
 
 #define SPECENUM_NAME airlifting_style
 #define SPECENUM_BITWISE
