@@ -417,10 +417,10 @@ SPECHASH_FOO(_hash_replace_full) (SPECHASH_HASH *tthis,
                                   &key_ptr, &data_ptr);
 
   if (NULL != old_pkey) {
-    *old_pkey = SPECHASH_PTR_TO_KEY(key_ptr);
+    *old_pkey = (SPECHASH_KEY_TYPE) SPECHASH_PTR_TO_KEY(key_ptr);
   }
   if (NULL != old_pdata) {
-    *old_pdata = SPECHASH_PTR_TO_DATA(data_ptr);
+    *old_pdata = (SPECHASH_DATA_TYPE) SPECHASH_PTR_TO_DATA(data_ptr);
   }
   return ret;
 }
@@ -437,7 +437,7 @@ static inline bool SPECHASH_FOO(_hash_lookup) (const SPECHASH_HASH *tthis,
                             SPECHASH_KEY_TO_PTR(key), &data_ptr);
 
   if (NULL != pdata) {
-    *pdata = SPECHASH_PTR_TO_DATA(data_ptr);
+    *pdata = (SPECHASH_DATA_TYPE) SPECHASH_PTR_TO_DATA(data_ptr);
   }
   return ret;
 }
@@ -466,10 +466,10 @@ SPECHASH_FOO(_hash_remove_full) (SPECHASH_HASH *tthis,
                                  &key_ptr, &data_ptr);
 
   if (NULL != deleted_pkey) {
-    *deleted_pkey = SPECHASH_PTR_TO_KEY(key_ptr);
+    *deleted_pkey = (SPECHASH_KEY_TYPE) SPECHASH_PTR_TO_KEY(key_ptr);
   }
   if (NULL != deleted_pdata) {
-    *deleted_pdata = SPECHASH_PTR_TO_DATA(data_ptr);
+    *deleted_pdata = (SPECHASH_DATA_TYPE) SPECHASH_PTR_TO_DATA(data_ptr);
   }
   return ret;
 }
