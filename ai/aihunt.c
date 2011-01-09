@@ -238,9 +238,9 @@ void ai_hunter_choice(struct player *pplayer, struct city *pcity,
                       struct ai_choice *choice)
 {
   struct unit_type *best_land_hunter
-    = ai_hunter_guess_best(pcity, LAND_MOVING);
+    = ai_hunter_guess_best(pcity, UMT_LAND);
   struct unit_type *best_sea_hunter
-    = ai_hunter_guess_best(pcity, SEA_MOVING);
+    = ai_hunter_guess_best(pcity, UMT_SEA);
   struct unit *hunter = ai_hunter_find(pplayer, pcity);
 
   if ((!best_land_hunter && !best_sea_hunter)
@@ -324,8 +324,8 @@ static void ai_hunter_try_launch(struct player *pplayer,
           }
           if (ut->move_rate + victim->moves_left > move_cost
               && ATTACK_POWER(victim) > DEFENCE_POWER(punit)
-              && (utype_move_type(ut) == SEA_MOVING
-                  || utype_move_type(ut) == BOTH_MOVING)) {
+              && (utype_move_type(ut) == UMT_SEA
+                  || utype_move_type(ut) == UMT_BOTH)) {
             /* Threat to our carrier. Kill it. */
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",

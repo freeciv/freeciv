@@ -126,14 +126,15 @@ struct unit;
 typedef int Unit_Class_id;
 
 /* This has to be put here for now, otherwise movement.h and unittype.h
- * would have a recursive dependency.
- * Order must mach order in move_type_names array. */
-enum unit_move_type {
-  LAND_MOVING = 0,
-  SEA_MOVING,
-  BOTH_MOVING,
-  MOVETYPE_LAST
-};
+ * would have a recursive dependency. */
+#define SPECENUM_NAME unit_move_type
+#define SPECENUM_VALUE0 UMT_LAND
+#define SPECENUM_VALUE0NAME "Land"
+#define SPECENUM_VALUE1 UMT_SEA
+#define SPECENUM_VALUE1NAME "Sea"
+#define SPECENUM_VALUE2 UMT_BOTH
+#define SPECENUM_VALUE2NAME "Both"
+#include "specenum_gen.h"
 
 /* The direction8 gives the 8 possible directions.  These may be used in
  * a number of ways, for instance as an index into the DIR_DX/DIR_DY

@@ -379,7 +379,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
          * control over the seas, don't worry, keep attacking. */
         if (get_transporter_capacity(punit) > 0) {
           unit_class_iterate(punitclass) {
-            if (punitclass->move_type == LAND_MOVING
+            if (punitclass->move_type == UMT_LAND
                 && can_unit_type_transport(unit_type(punit), punitclass)) {
               /* Enemy can transport some land units! */
               ai->threats.invasions = TRUE;

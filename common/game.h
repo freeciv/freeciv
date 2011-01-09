@@ -382,7 +382,7 @@ extern struct civ_game game;
 #define GAME_MIN_AQUEDUCTLOSS        0
 #define GAME_MAX_AQUEDUCTLOSS        100
 
-#define GAME_DEFAULT_KILLCITIZEN     (1 << LAND_MOVING)
+#define GAME_DEFAULT_KILLCITIZEN     (1 << UMT_LAND)
 
 #define GAME_DEFAULT_KILLUNHOMED     0
 #define GAME_MIN_KILLUNHOMED         0

@@ -664,8 +664,8 @@ static enum unit_move_type lookup_move_type(struct section_file *file,
   enum unit_move_type mt;
   
   sval = secfile_lookup_str(file, "%s", entry);
-  mt = move_type_from_str(sval);
-  if (mt == MOVETYPE_LAST) {
+  mt = unit_move_type_by_name(sval, fc_strcasecmp);
+  if (!unit_move_type_is_valid(mt)) {
     ruleset_error(LOG_FATAL,
                   "\"%s\" %s: couldn't match \"%s\".",
                   filename, entry, sval);
@@ -1240,7 +1240,7 @@ if (_count > MAX_VET_LEVELS) {						\
           log_error("\"%s\" unit_class \"%s\": unit_type flag!",
                     filename, uclass_rule_name(ut));
         }
-      } else if (ut->move_type == SEA_MOVING
+      } else if (ut->move_type == UMT_SEA
                  && ( ival == UCF_ROAD_NATIVE || ival == UCF_RIVER_NATIVE)) {
         log_error("\"%s\" unit_class \"%s\": cannot give \"%s\" flag "
                   "to sea moving unit",
@@ -1478,7 +1478,7 @@ if (_count > MAX_VET_LEVELS) {						\
         log_error("\"%s\" unit_type \"%s\": bad role name \"%s\".",
                   filename, utype_rule_name(u), sval);
       } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)
-                 && u->uclass->move_type == LAND_MOVING) {
+                 && u->uclass->move_type == UMT_LAND) {
         log_error( "\"%s\" unit_type \"%s\": role \"%s\" "
                   "for land moving unit.",
                   filename, utype_rule_name(u), sval);
@@ -1543,7 +1543,7 @@ if (_count > MAX_VET_LEVELS) {						\
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian ship units?", filename);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     u = get_role_unit(L_BARBARIAN_BOAT,0);
-    if(utype_move_type(u) != SEA_MOVING) {
+    if(utype_move_type(u) != UMT_SEA) {
       ruleset_error(LOG_FATAL,
                     "\"%s\": Barbarian boat (%s) needs to be a sea unit.",
                     filename,
@@ -2024,11 +2024,11 @@ static void load_ruleset_terrain(struct section_file *file)
         ruleset_error(LOG_FATAL,
                       "\"%s\" [%s] is native to unknown unit class \"%s\".",
                       filename, tsection, slist[j]);
-      } else if (is_ocean(pterrain) && class->move_type == LAND_MOVING) {
+      } else if (is_ocean(pterrain) && class->move_type == UMT_LAND) {
         ruleset_error(LOG_FATAL,
                       "\"%s\" oceanic [%s] is native to land units.",
                       filename, tsection);
-      } else if (!is_ocean(pterrain) && class->move_type == SEA_MOVING) {
+      } else if (!is_ocean(pterrain) && class->move_type == UMT_SEA) {
         ruleset_error(LOG_FATAL,
                       "\"%s\" non-oceanic [%s] is native to sea units.",
                       filename, tsection);

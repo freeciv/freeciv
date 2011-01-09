@@ -91,6 +91,4 @@ int unit_class_transporter_capacity(const struct tile *ptile,
                                     const struct unit_class *pclass);
 struct unit *transport_from_tile(struct unit *punit, struct tile *ptile);
 
-enum unit_move_type move_type_from_str(const char *s);
-
 #endif  /* FC__MOVEMENT_H */

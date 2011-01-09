@@ -402,14 +402,12 @@ static int num_affected_units(const struct effect *peffect,
   if (uclass) {
     move = uclass_move_type(uclass);
     switch (move) {
-     case LAND_MOVING:
+     case UMT_LAND:
          return ai->stats.units.land;
-     case SEA_MOVING:
+     case UMT_SEA:
        return ai->stats.units.sea;
-     case BOTH_MOVING:
+     case UMT_BOTH:
        return ai->stats.units.amphibious;
-     case MOVETYPE_LAST:
-       break;
     }
   }
   return ai->stats.units.land + ai->stats.units.sea
@@ -434,7 +432,7 @@ static int improvement_effect_value(struct player *pplayer,
 {
   int amount = peffect->value;
   struct unit_class *uclass;
-  enum unit_move_type move = MOVETYPE_LAST;
+  enum unit_move_type move = unit_move_type_invalid();
   int num;
 
   switch (peffect->type) {
@@ -680,7 +678,7 @@ static int improvement_effect_value(struct player *pplayer,
       move = uclass_move_type(uclass);
     }
 
-    if (uclass == NULL || move == SEA_MOVING) {
+    if (uclass == NULL || move == UMT_SEA) {
       /* Helps against sea units */
       if (is_ocean_tile(pcity->tile)) {
         v += ai->threats.ocean[-tile_continent(pcity->tile)]
@@ -697,7 +695,7 @@ static int improvement_effect_value(struct player *pplayer,
       }
     }
     v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
-    if (capital || uclass == NULL || move != SEA_MOVING) {
+    if (capital || uclass == NULL || move != UMT_SEA) {
       if (ai->threats.continent[tile_continent(pcity->tile)]
           || capital
           || (ai->threats.invasions

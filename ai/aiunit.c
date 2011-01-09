@@ -734,7 +734,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 static bool unit_role_defender(const struct unit_type *punittype)
 {
-  if (utype_move_type(punittype) != LAND_MOVING) {
+  if (utype_move_type(punittype) != UMT_LAND) {
     return FALSE; /* temporary kluge */
   }
   return (utype_has_role(punittype, L_DEFEND_GOOD));
@@ -2218,10 +2218,10 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   if (get_transporter_capacity(punit) > 0) {
     unit_class_iterate(pclass) {
-      /* FIXME: BOTH_MOVING units need ferry only if they use fuel */
+      /* FIXME: UMT_BOTH units need ferry only if they use fuel */
       if (can_unit_type_transport(unit_type(punit), pclass)
-          && (pclass->move_type == LAND_MOVING
-              || (pclass->move_type == BOTH_MOVING
+          && (pclass->move_type == UMT_LAND
+              || (pclass->move_type == UMT_BOTH
                   && !uclass_has_flag(pclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;

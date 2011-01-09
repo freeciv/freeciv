@@ -519,7 +519,8 @@ Impr_type_id ai_find_source_building(struct city *pcity,
 
   /* There's no point in defining both of these as uclass is more restrictive
    * than move_type */
-  fc_assert_ret_val(uclass == NULL || move == MOVETYPE_LAST, B_LAST);
+  fc_assert_ret_val(uclass == NULL || move == unit_move_type_invalid(),
+                    B_LAST);
 
   effect_list_iterate(get_effects(effect_type), peffect) {
     if (peffect->value > greatest_value) {
@@ -538,7 +539,7 @@ Impr_type_id ai_find_source_building(struct city *pcity,
         }
         if (VUT_UCLASS == preq->source.kind) {
           if ((uclass != NULL && preq->source.value.uclass != uclass)
-              || (move != MOVETYPE_LAST
+              || (move != unit_move_type_invalid()
                   && uclass_move_type(preq->source.value.uclass) != move)) {
             /* Effect requires other kind of unit than what we are interested about */
             wrong_unit = TRUE;

@@ -255,12 +255,10 @@ static const struct sset_val_name *startpos_name(int startpos)
 static const struct sset_val_name *killcitizen_name(int killcitizen_bit)
 {
   switch (killcitizen_bit) {
-  NAME_CASE(LAND_MOVING, "LAND", N_("Land moving units"));
-  NAME_CASE(SEA_MOVING, "SEA", N_("Sea moving units"));
-  NAME_CASE(BOTH_MOVING, "BOTH",
+  NAME_CASE(UMT_LAND, "LAND", N_("Land moving units"));
+  NAME_CASE(UMT_SEA, "SEA", N_("Sea moving units"));
+  NAME_CASE(UMT_BOTH, "BOTH",
             N_("Units able to move both on land and sea"));
-  case MOVETYPE_LAST:
-    break;
   };
 
   return NULL;

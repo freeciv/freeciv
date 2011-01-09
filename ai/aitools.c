@@ -460,7 +460,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
   }
 
   switch (uclass_move_type(unit_class(punit))) {
-  case LAND_MOVING:
+  case UMT_LAND:
     if (is_ocean_tile(ptile)) {
       /* Going to a sea tile, the target should be next to our continent
        * and with a boat */
@@ -489,7 +489,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     }
     return FALSE;
 
-  case SEA_MOVING:
+  case UMT_SEA:
     if (!is_ocean_tile(punit->tile)) {
       /* Oops, we are not in the open waters.  Pick an ocean that we have
        * access to.  We can assume we are in a city, and any oceans adjacent
@@ -518,11 +518,8 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     }
     return FALSE; /* Not ok. */
 
-  case BOTH_MOVING:
+  case UMT_BOTH:
     return TRUE;
-
-  case MOVETYPE_LAST:
-    break;
   }
 
   log_error("%s(): Move type %d not handled!", __FUNCTION__,
@@ -701,10 +698,10 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   if (punit->server.adv->role != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
     unit_class_iterate(uclass) {
-      /* FIXME: BOTH_MOVING units need ferry only if they use fuel */
+      /* FIXME: UMT_BOTH units need ferry only if they use fuel */
       if (can_unit_type_transport(unit_type(punit), uclass)
-          && (uclass->move_type == LAND_MOVING
-              || (uclass->move_type == BOTH_MOVING
+          && (uclass->move_type == UMT_LAND
+              || (uclass->move_type == UMT_BOTH
                   && !uclass_has_flag(uclass, UCF_MISSILE)))) {
         is_ferry = TRUE;
         break;

@@ -35,10 +35,6 @@
 
 #include "movement.h"
 
-static const char *move_type_names[] = {
-  "Land", "Sea", "Both"
-};
-
 /****************************************************************************
   This function calculates the move rate of the unit, taking into 
   account the penalty for reduced hitpoints (affects sea and land 
@@ -92,7 +88,7 @@ bool unit_can_defend_here(const struct unit *punit)
 ****************************************************************************/
 bool can_attack_non_native(const struct unit_type *utype)
 {
-  return (utype_class(utype)->move_type == SEA_MOVING
+  return (utype_class(utype)->move_type == UMT_SEA
           && !utype_has_flag(utype, F_NO_LAND_ATTACK));
 }
 
@@ -102,13 +98,13 @@ bool can_attack_non_native(const struct unit_type *utype)
 ****************************************************************************/
 bool can_attack_from_non_native(const struct unit_type *utype)
 {
-  /* It's clear that LAND_MOVING should not be able to attack from
-   * non-native (unless F_MARINES) and it's clear that SEA_MOVING
+  /* It's clear that UMT_LAND should not be able to attack from
+   * non-native (unless F_MARINES) and it's clear that UMT_SEA
    * should be able to attack from non-native. It's not clear what to do
-   * with BOTH_MOVING. At the moment we return FALSE for
+   * with UMT_BOTH. At the moment we return FALSE for
    * them. One can always give "Marines" flag for them. This should be
    * generalized for unit_classes anyway. */
-  return (utype_class(utype)->move_type == SEA_MOVING
+  return (utype_class(utype)->move_type == UMT_SEA
           || utype_has_flag(utype, F_MARINES));
 }
 
@@ -117,7 +113,7 @@ bool can_attack_from_non_native(const struct unit_type *utype)
 ****************************************************************************/
 bool is_sailing_unit(const struct unit *punit)
 {
-  return (uclass_move_type(unit_class(punit)) == SEA_MOVING);
+  return (uclass_move_type(unit_class(punit)) == UMT_SEA);
 }
 
 
@@ -126,7 +122,7 @@ bool is_sailing_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_ground_unit(const struct unit *punit)
 {
-  return (uclass_move_type(unit_class(punit)) == LAND_MOVING);
+  return (uclass_move_type(unit_class(punit)) == UMT_LAND);
 }
 
 
@@ -135,7 +131,7 @@ bool is_ground_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_sailing_unittype(const struct unit_type *punittype)
 {
-  return (utype_move_type(punittype) == SEA_MOVING);
+  return (utype_move_type(punittype) == UMT_SEA);
 }
 
 
@@ -144,7 +140,7 @@ bool is_sailing_unittype(const struct unit_type *punittype)
 ****************************************************************************/
 bool is_ground_unittype(const struct unit_type *punittype)
 {
-  return (utype_move_type(punittype) == LAND_MOVING);
+  return (utype_move_type(punittype) == UMT_LAND);
 }
 
 /****************************************************************************
@@ -497,7 +493,7 @@ unit_move_to_tile_test(const struct unit_type *punittype,
     }
 
     /* 6) */
-    if (utype_move_type(punittype) == LAND_MOVING
+    if (utype_move_type(punittype) == UMT_LAND
         && is_ocean_tile(src_tile)      /* Moving from ocean */
         && !utype_has_flag(punittype, F_MARINES)) {
       /* Most ground units can't move into cities from ships. (Note this
@@ -569,22 +565,6 @@ bool can_unit_type_transport(const struct unit_type *transporter,
   }
 
   return BV_ISSET(transporter->cargo, uclass_index(transported));
-}
-
-/**************************************************************************
-  Convert move type names to enum; case insensitive;
-  returns MOVETYPE_LAST if can't match.
-**************************************************************************/
-enum unit_move_type move_type_from_str(const char *s)
-{
-  int i;
-
-  for (i = 0; i < MOVETYPE_LAST; i++) {
-    if (fc_strcasecmp(move_type_names[i], s)==0) {
-      return i;
-    }
-  }
-  return MOVETYPE_LAST;
 }
 
 /**************************************************************************

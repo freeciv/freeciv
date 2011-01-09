@@ -1176,14 +1176,14 @@ enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
     return UNIT_BG_HP_LOSS;
   }
 
-  if (pclass->move_type == LAND_MOVING) {
+  if (pclass->move_type == UMT_LAND) {
     return UNIT_BG_LAND;
   }
-  if (pclass->move_type == SEA_MOVING) {
+  if (pclass->move_type == UMT_SEA) {
     return UNIT_BG_SEA;
   }
 
-  fc_assert(pclass->move_type == BOTH_MOVING);
+  fc_assert(pclass->move_type == UMT_BOTH);
 
   if (uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     /* Unit moves on both sea and land by speed determined by terrain */
