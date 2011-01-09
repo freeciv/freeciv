@@ -2130,8 +2130,8 @@ static void load_ruleset_terrain(struct section_file *file)
     free(slist);
 
     gui_str = secfile_lookup_str(file,"%s.gui_type", section);
-    pbase->gui_type = base_gui_type_from_str(gui_str);
-    if (pbase->gui_type == BASE_GUI_LAST) {
+    pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
+    if (!base_gui_type_is_valid(pbase->gui_type)) {
       ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
                     filename,
                     base_rule_name(pbase),
@@ -2158,9 +2158,9 @@ static void load_ruleset_terrain(struct section_file *file)
     BV_CLR_ALL(pbase->flags);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
-      enum base_flag_id flag = base_flag_from_str(sval);
+      enum base_flag_id flag = base_flag_id_by_name(sval, fc_strcasecmp);
 
-      if (flag == BF_LAST) {
+      if (!base_flag_id_is_valid(flag)) {
         ruleset_error(LOG_FATAL, "\"%s\" base \"%s\": unknown flag \"%s\".",
                       filename,
                       base_rule_name(pbase),

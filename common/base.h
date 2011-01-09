@@ -22,25 +22,35 @@
 
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
-/* This must correspond to base_gui_type_names[] in base.c */
-enum base_gui_type {
-  BASE_GUI_FORTRESS = 0,
-  BASE_GUI_AIRBASE,
-  BASE_GUI_OTHER,
-  BASE_GUI_LAST
-};
+#define SPECENUM_NAME base_gui_type
+#define SPECENUM_VALUE0 BASE_GUI_FORTRESS
+#define SPECENUM_VALUE0NAME "Fortress"
+#define SPECENUM_VALUE1 BASE_GUI_AIRBASE
+#define SPECENUM_VALUE1NAME "Airbase"
+#define SPECENUM_VALUE2 BASE_GUI_OTHER
+#define SPECENUM_VALUE2NAME "Other"
+#include "specenum_gen.h"
 
-enum base_flag_id {
-  BF_NOT_AGGRESSIVE = 0, /* Unit inside are not considered aggressive
-                          * if base is close to city */
-  BF_NO_STACK_DEATH,     /* Units inside will not die all at once */
-  BF_DIPLOMAT_DEFENSE,   /* Base provides bonus for defending diplomat */
-  BF_PARADROP_FROM,      /* Paratroopers can use base for paradrop */
-  BF_NATIVE_TILE,        /* Makes tile native terrain for units */
-  BF_LAST                /* This has to be last */
-};
+#define SPECENUM_NAME base_flag_id
+/* Unit inside are not considered aggressive if base is close to city */
+#define SPECENUM_VALUE0 BF_NOT_AGGRESSIVE
+#define SPECENUM_VALUE0NAME "NoAggressive"
+/* Units inside will not die all at once */
+#define SPECENUM_VALUE1 BF_NO_STACK_DEATH
+#define SPECENUM_VALUE1NAME "NoStackDeath"
+/* Base provides bonus for defending diplomat */
+#define SPECENUM_VALUE2 BF_DIPLOMAT_DEFENSE
+#define SPECENUM_VALUE2NAME "DiplomatDefense"
+/* Paratroopers can use base for paradrop */
+#define SPECENUM_VALUE3 BF_PARADROP_FROM
+#define SPECENUM_VALUE3NAME "ParadropFrom"
+/* Makes tile native terrain for units */
+#define SPECENUM_VALUE4 BF_NATIVE_TILE
+#define SPECENUM_VALUE4NAME "NativeTile"
+#define SPECENUM_COUNT BF_COUNT
+#include "specenum_gen.h"
 
-BV_DEFINE(bv_base_flags, BF_LAST);
+BV_DEFINE(bv_base_flags, BF_COUNT);
 
 struct base_type {
   Base_type_id item_number;
@@ -94,13 +104,10 @@ bool is_native_base_to_utype(const struct base_type *pbase,
 bool is_native_tile_to_base(const struct base_type *pbase,
                             const struct tile *ptile);
 
-enum base_flag_id base_flag_from_str(const char *s);
-
 /* Ancillary functions */
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile);
 
-enum base_gui_type base_gui_type_from_str(const char *s);
 struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct unit *punit,
                                        const struct tile *ptile);
