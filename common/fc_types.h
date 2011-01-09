@@ -14,6 +14,10 @@
 #ifndef FC__FC_TYPES_H
 #define FC__FC_TYPES_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "bitvector.h"
 #include "shared.h"
 
@@ -343,5 +347,9 @@ enum diplomacy_mode {
   DIPLO_FOR_TEAMS,
   DIPLO_DISABLED,
 };
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__FC_TYPES_H */

@@ -13,6 +13,10 @@
 #ifndef FC__CAPSTR_H
 #define FC__CAPSTR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define NETWORK_CAPSTRING (NETWORK_CAPSTRING_MANDATORY " "	\
 			   NETWORK_CAPSTRING_OPTIONAL)
 
@@ -20,4 +24,8 @@ extern const char * const our_capability;
 
 void init_our_capability(void);
 
-#endif
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__CAPSTR_H */

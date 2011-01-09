@@ -13,6 +13,10 @@
 #ifndef FC__GENLIST_H
 #define FC__GENLIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /****************************************************************************
   MODULE: genlist
 
@@ -109,5 +113,9 @@ struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
                      fc__warn_unused_result;
 struct genlist_link *genlist_link_next(const struct genlist_link *plink)
                      fc__warn_unused_result;
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__GENLIST_H */

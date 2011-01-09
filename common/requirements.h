@@ -14,6 +14,10 @@
 #ifndef FC__REQUIREMENTS_H
 #define FC__REQUIREMENTS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 #include "tech.h"
@@ -117,5 +121,9 @@ const char *universal_name_translation(const struct universal *psource,
 const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct universal *target);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__REQUIREMENTS_H */

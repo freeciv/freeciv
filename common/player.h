@@ -13,6 +13,10 @@
 #ifndef FC__PLAYER_H
 #define FC__PLAYER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "bitvector.h"
 
@@ -392,5 +396,9 @@ const char *ai_level_name(enum ai_level level);
 const char *ai_level_cmd(enum ai_level level);
 bool is_settable_ai_level(enum ai_level level);
 int number_of_ai_levels(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__PLAYER_H */

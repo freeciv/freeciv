@@ -13,6 +13,10 @@
 #ifndef FC__ITERATOR_H
 #define FC__ITERATOR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h" /* bool */
 
 /***********************************************************************
@@ -95,5 +99,9 @@ do {\
   will fit into any iterator's allocated stack memory.
 ***************************************************************************/
 struct iterator *invalid_iter_init(struct iterator *it);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__ITERATOR_H */

@@ -13,6 +13,10 @@
 #ifndef FC__VISION_H
 #define FC__VISION_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 #include "improvement.h"		/* bv_imprs */
@@ -131,5 +135,9 @@ struct vision_site *create_vision_site(int identity, struct tile *location,
 struct vision_site *create_vision_site_from_city(const struct city *pcity);
 void update_vision_site_from_city(struct vision_site *psite,
 				  const struct city *pcity);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__VISION_H */

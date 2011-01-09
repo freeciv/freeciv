@@ -13,6 +13,10 @@
 #ifndef FC__FCICONV_H
 #define FC__FCICONV_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <stdio.h>
 
 #include "shared.h"
@@ -110,5 +114,9 @@ char *convert_string(const char *text,
 		     char *buf, size_t bufsz);
 
 size_t get_internal_string_length(const char *text);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__FCICONV_H */

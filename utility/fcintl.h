@@ -13,6 +13,10 @@
 #ifndef FC__FCINTL_H
 #define FC__FCINTL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #ifdef HAVE_CONFIG_H
 #ifndef FC_CONFIG_H		/* this should be defined in config.h */
 #error Files including fcintl.h should also include config.h directly
@@ -58,5 +62,9 @@
 #define Qn_(String) skip_intl_qualifier_prefix(String)
 
 const char *skip_intl_qualifier_prefix(const char *str);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__FCINTL_H */

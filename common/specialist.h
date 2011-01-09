@@ -14,6 +14,10 @@
 #ifndef FC__SPECIALIST_H
 #define FC__SPECIALIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "shared.h"
 
@@ -71,5 +75,9 @@ void specialists_free(void);
 #define specialist_type_iterate_end                                         \
   }                                                                         \
 }
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__SPECIALIST_H */

@@ -13,6 +13,10 @@
 #ifndef FC__BASE_H
 #define FC__BASE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "bitvector.h"
 
@@ -134,5 +138,8 @@ const struct base_type *base_array_last(void);
   }									\
 }
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__BASE_H */

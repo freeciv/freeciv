@@ -13,6 +13,10 @@
 #ifndef FC__GAME_H
 #define FC__GAME_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <time.h>	/* time_t */
 
 #ifdef HAVE_SYS_TIME_H
@@ -666,5 +670,9 @@ extern struct civ_game game;
 #define RS_DEFAULT_TECH_LEAKAGE                  0
 #define RS_MIN_TECH_LEAKAGE                      0
 #define RS_MAX_TECH_LEAKAGE                      3
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__GAME_H */

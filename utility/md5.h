@@ -18,6 +18,10 @@
 #ifndef _MD5_H
 #define _MD5_H 1
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <stdio.h>
 #include <limits.h>
 
@@ -131,5 +135,9 @@ extern void *md5_buffer (const char *buffer, size_t len, void *resblock);
 
 void create_md5sum(const char *input, int len,
                    char output[DIGEST_HEX_BYTES + 1]);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

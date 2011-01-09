@@ -14,6 +14,10 @@
 #ifndef FC__TILE_H
 #define FC__TILE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "bitvector.h"
 
@@ -152,5 +156,9 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks);
 /* Virtual tiles are tiles that do not exist on the game map. */
 struct tile *tile_virtual_new(const struct tile *ptile);
 void tile_virtual_destroy(struct tile *vtile);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__TILE_H */

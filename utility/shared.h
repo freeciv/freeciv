@@ -13,6 +13,10 @@
 #ifndef FC__SHARED_H
 #define FC__SHARED_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <stdlib.h>		/* size_t */
 #include <string.h>		/* memset */
 #include <time.h>		/* time_t */
@@ -373,5 +377,9 @@ static inline struct cf_sequence cf_end(void)
 }
 
 bool formats_match(const char *format1, const char *format2);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__SHARED_H */

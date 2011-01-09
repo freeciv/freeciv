@@ -14,6 +14,10 @@
 #ifndef FC__FC_UTF8_H
 #define FC__FC_UTF8_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /****************************************************************************
   This module provides tools to make safe operations on UTF-8 strings. All
   functions are prefixed with fc_utf8_*. There are two main categories of
@@ -90,5 +94,9 @@ int cat_utf8_snprintf_trunc(char *str, size_t n, const char *format, ...)
 int cat_utf8_snprintf_rep(char *str, size_t n, const char *format, ...)
     fc__attribute((__format__ (__printf__, 3, 4)))
     fc__attribute((nonnull (1, 3)));
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__FC_UTF8_H */

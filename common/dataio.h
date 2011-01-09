@@ -13,6 +13,10 @@
 #ifndef FC__DATAIO_H
 #define FC__DATAIO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "bitvector.h"
 #include "support.h"            /* bool type */
 
@@ -106,4 +110,8 @@ void dio_put_uint16_vec8(struct data_out *dout, int *values, int stop_value);
 #define DIO_BV_PUT(pdout, bv) \
   dio_put_memory((pdout), (bv).vec, sizeof((bv).vec))
 
-#endif  /* FC__PACKETS_H */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif  /* FC__DATAIO_H */

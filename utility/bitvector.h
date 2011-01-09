@@ -13,6 +13,10 @@
 #ifndef FC__BITVECTOR_H
 #define FC__BITVECTOR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <stdlib.h> /* size_t */
 #include <string.h> /* memset */
 
@@ -97,5 +101,9 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
 /* Used to make a BV typedef. Such types are usually called "bv_foo". */
 #define BV_DEFINE(name, bits)                                               \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__BITVECTOR_H */

@@ -134,6 +134,10 @@ def make_documentation(file):
 
 def make_macros(file):
     file.write('''
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "log.h"        /* fc_assert. */
 #include "support.h"    /* bool type. */
 
@@ -443,6 +447,12 @@ def main():
     make_name(output)
     make_by_name(output)
     make_undef(output)
+
+    output.write('''
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+''')
 
     output.close()
 

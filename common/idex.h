@@ -13,6 +13,10 @@
 #ifndef FC__IDEX_H
 #define FC__IDEX_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**************************************************************************
    idex = ident index: a lookup table for quick mapping of unit and city
    id values to unit and city pointers.
@@ -31,5 +35,9 @@ void idex_unregister_unit(struct unit *punit);
 
 struct city *idex_lookup_city(int id);
 struct unit *idex_lookup_unit(int id);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__IDEX_H */

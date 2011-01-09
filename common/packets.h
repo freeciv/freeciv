@@ -13,6 +13,10 @@
 #ifndef FC__PACKETS_H
 #define FC__PACKETS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct connection;
 struct data_in;
 
@@ -144,5 +148,9 @@ void check_packet(struct data_in *din, struct connection *pc);
   } else {                                                                  \
     strvec = NULL;                                                          \
   }
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__PACKETS_H */

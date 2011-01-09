@@ -13,6 +13,10 @@
 #ifndef FC__DIPTREATY_H
 #define FC__DIPTREATY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h"            /* bool type */
 
 enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
@@ -59,5 +63,9 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
 bool remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		  enum clause_type type, int val);
 void clear_treaty(struct Treaty *ptreaty);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__DIPTREATY_H */

@@ -13,6 +13,10 @@
 #ifndef FC__CONNECTION_H
 #define FC__CONNECTION_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <time.h>	/* time_t */
 
 #ifdef HAVE_SYS_TYPES_H
@@ -338,5 +342,9 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
                                               enum conn_pattern_type prefer,
                                               char *error_buf,
                                               size_t error_buf_len);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CONNECTION_H */

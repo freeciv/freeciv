@@ -13,6 +13,10 @@
 #ifndef FC__GOVERNMENT_H
 #define FC__GOVERNMENT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "shared.h"
 
@@ -111,5 +115,9 @@ struct iterator *government_iter_init(struct government_iter *it);
   generic_iterate(struct government_iter, struct government *,              \
                   NAME_pgov, government_iter_sizeof, government_iter_init)
 #define governments_iterate_end generic_iterate_end
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__GOVERNMENT_H */

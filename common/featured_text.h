@@ -13,6 +13,10 @@
 #ifndef FC__FEATURED_TEXT_H
 #define FC__FEATURED_TEXT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "support.h"            /* bool type. */
 
@@ -228,5 +232,9 @@ const char *city_tile_link(const struct city *pcity);
 const char *tile_link(const struct tile *ptile);
 const char *unit_link(const struct unit *punit);
 const char *unit_tile_link(const struct unit *punit);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__FEATURED_TEXT_H */

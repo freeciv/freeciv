@@ -13,6 +13,10 @@
 #ifndef FC__UNIT_H
 #define FC__UNIT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "bitvector.h"
 
@@ -350,5 +354,9 @@ bool unit_alive(int id);
 void *unit_ai_data(const struct unit *punit, const struct ai_type *ai);
 void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
                       void *data);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__UNIT_H */

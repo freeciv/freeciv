@@ -19,6 +19,10 @@
 #ifndef FC__ASTRING_H
 #define FC__ASTRING_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <string.h>             /* strlen() */
 
 /* utility */
@@ -121,5 +125,9 @@ static inline bool astr_empty(const struct astring *astr)
 #undef str
 #undef n
 #undef n_alloc
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__ASTRING_H */

@@ -1546,6 +1546,13 @@ def main():
     else:
         output_h=my_open(output_h_name)
 
+    output_h.write('''
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+''')
+
     # write structs
     for p in packets:
         output_h.write(p.get_struct())
@@ -1559,6 +1566,10 @@ def main():
 void delta_stats_report(void);
 void delta_stats_reset(void);
 void *get_packet_from_connection_helper(struct connection *pc, enum packet_type type);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 ''')
     output_h.close()
 

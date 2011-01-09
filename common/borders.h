@@ -13,11 +13,19 @@
 #ifndef FC__BORDERS_H
 #define FC__BORDERS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 bool is_border_source(struct tile *ptile);
 int tile_border_source_radius_sq(struct tile *ptile);
 int tile_border_source_strength(struct tile *ptile);
 int tile_border_strength(struct tile *ptile, struct tile *source);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__BORDERS_H */

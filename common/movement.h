@@ -13,6 +13,10 @@
 #ifndef FC__MOVEMENT_H
 #define FC__MOVEMENT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 #include "tile.h"
 
@@ -90,5 +94,9 @@ int unit_class_transporter_capacity(const struct tile *ptile,
                                     const struct player *pplayer,
                                     const struct unit_class *pclass);
 struct unit *transport_from_tile(struct unit *punit, struct tile *ptile);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__MOVEMENT_H */

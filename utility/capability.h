@@ -14,9 +14,17 @@
 #ifndef FC__CAPABILITY_H
 #define FC__CAPABILITY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h"            /* bool type */
 
 bool has_capability(const char *cap, const char *capstr);
 bool has_capabilities(const char *us, const char *them);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CAPABILITY_H */

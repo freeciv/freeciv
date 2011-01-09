@@ -13,6 +13,10 @@
 #ifndef FC__EVENTS_H
 #define FC__EVENTS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h"            /* bool type */
 
 #define SPECENUM_NAME event_type
@@ -175,5 +179,9 @@ void events_free(void);
     }                                                                        \
   }                                                                          \
 }
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__EVENTS_H */

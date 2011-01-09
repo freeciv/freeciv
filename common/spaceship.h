@@ -13,6 +13,10 @@
 #ifndef FC__SPACESHIP_H
 #define FC__SPACESHIP_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h"            /* bool type */
 
 /**********************************************************************
@@ -115,5 +119,9 @@ extern const struct sship_part_info modules_info[NUM_SS_MODULES];
 
 void spaceship_init(struct player_spaceship *ship);
 int num_spaceship_structurals_placed(const struct player_spaceship *ship);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__SPACESHIP_H */

@@ -14,7 +14,14 @@
 #ifndef FC__DISTRIBUTE_H
 #define FC__DISTRIBUTE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 void distribute(int number, int groups, int *ratios, int *result);
 
-#endif
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
+#endif /* FC__DISTRIBUTE_H */

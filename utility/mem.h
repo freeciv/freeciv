@@ -14,6 +14,10 @@
 #ifndef FC__MEM_H
 #define FC__MEM_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <stdlib.h>             /* size_t; actually stddef.h, but stdlib.h
                                  * might be more reliable? --dwp */
 
@@ -55,5 +59,9 @@ void *fc_real_calloc(size_t nelem, size_t elsize,
 char *real_fc_strdup(const char *str,
                      const char *called_as, int line, const char *file)
                      fc__warn_unused_result;
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__MEM_H */

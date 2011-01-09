@@ -14,6 +14,10 @@
 #ifndef FC__TEAM_H
 #define FC__TEAM_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 #include "tech.h"
@@ -79,5 +83,9 @@ void team_remove_player(struct player *pplayer);
     struct team *_pteam = team_slot_get_team(_tslot);
 #define teams_iterate_end                                                   \
   } team_slots_iterate_end;
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__TEAM_H */

@@ -13,6 +13,10 @@
 #ifndef FC__EFFECTS_H
 #define FC__EFFECTS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h"            /* bool type */
 #include "fc_types.h"
 
@@ -240,5 +244,9 @@ Impr_type_id ai_find_source_building(struct city *pcity,
 
 typedef bool (*iec_cb)(const struct effect*);
 bool iterate_effect_cache(iec_cb cb);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__EFFECTS_H */

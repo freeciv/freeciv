@@ -13,6 +13,10 @@
 #ifndef FC__REGISTRY_H
 #define FC__REGISTRY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "ioz.h"
 #include "support.h"            /* bool type and fc__attribute */
 
@@ -594,5 +598,9 @@ bool entry_str_get(const struct entry *pentry, const char **value);
 bool entry_str_set(struct entry *pentry, const char *value);
 bool entry_str_escaped(const struct entry *pentry);
 bool entry_str_set_escaped(struct entry *pentry, bool escaped);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__REGISTRY_H */

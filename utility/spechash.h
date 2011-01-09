@@ -118,6 +118,10 @@
  * should be included _once_, inside a .h file which _is_ itself protected
  * against multiple inclusions. */
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "genhash.h"
 #include "iterator.h"
@@ -609,3 +613,10 @@ SPECHASH_FOO(_hash_value_iter_init) (SPECHASH_ITER *iter,
   } genhash_iterate_end;
 
 #endif /* FC__SPECHASH_H */
+
+/* This is after #endif FC__SPECHASH_H on purpose.
+   extern "C" portion begins well before latter part of the header
+   is guarded against multiple inclusions. */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */

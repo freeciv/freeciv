@@ -13,6 +13,10 @@
 #ifndef FC__CITY_H
 #define FC__CITY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "bitvector.h"
 #include "log.h"
@@ -689,5 +693,9 @@ enum citytile_type citytile_by_rule_name(const char *name);
 void *city_ai_data(const struct city *pcity, const struct ai_type *ai);
 void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
                       void *data);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CITY_H */
