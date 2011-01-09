@@ -915,9 +915,8 @@ static void clear_double_messages_call(void)
 {
   int i;
   /* clear double call */
-  for(i=0; i<E_LAST; i++) {
-    if (messages_where[i] & MW_MESSAGES)
-    {
+  for(i = 0; i <= event_type_max(); i++) {
+    if (messages_where[i] & MW_MESSAGES) {
       messages_where[i] &= ~MW_OUTPUT;
     }
   }

@@ -929,7 +929,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
                                  * usable */
   bool shown = FALSE;           /* Message displayed somewhere at least */
 
-  if (event >= E_LAST)  {
+  if (!event_type_is_valid(event))  {
     /* Server may have added a new event; leave as MW_OUTPUT */
     log_verbose("Unknown event type %d!", event);
   } else if (event >= 0)  {

@@ -39,7 +39,7 @@
 #include "messagedlg.h"
 
 static HWND messageopt_dialog;
-static HWND messageopt_toggles[E_LAST][NUM_MW];
+static HWND messageopt_toggles[E_COUNT][NUM_MW];
 static HWND messageopt_pages[10];
 static HWND messageopt_tab;
 static int num_pages;
@@ -66,7 +66,8 @@ static LONG CALLBACK messageopt_proc(HWND dlg,UINT message,
   case WM_COMMAND:
     switch(LOWORD(wParam)) {
     case IDOK:
-      for(i=0;i<E_LAST;i++)  {
+      for(i = 0; i <= event_type_max(); i++)  {
+        /* initialise all (possible) events */
 	messages_where[i] = 0;
 	for(j=0; j<NUM_MW; j++) {
 	  if (Button_GetCheck(messageopt_toggles[i][j])==BST_CHECKED)
@@ -141,7 +142,7 @@ static void fillin_message_dlg(HWND win, int start, int stop)
   fcwin_box_add_static(table_vboxes[5],_("Out:"),0,SS_CENTER,TRUE,TRUE,0);
   fcwin_box_add_static(table_vboxes[6],_("Mes:"),0,SS_CENTER,TRUE,TRUE,0);
   fcwin_box_add_static(table_vboxes[7],_("Pop:"),0,SS_CENTER,TRUE,TRUE,0);
-  for(i=start;i<stop;i++) {
+  for(i = start; i <= stop; i++) {
     int is_col1 = (i-start)<((stop-start)/2);
     fcwin_box_add_static(table_vboxes[is_col1?0:4],
 			 get_event_message_text(sorted_events[i]),
@@ -184,7 +185,7 @@ static void create_messageopt_dialog()
 			 " Mes = Messages window,"
 			 " Pop = Popup individual window"),
 		       0,SS_CENTER,FALSE,FALSE,5);
-  num_pages = ((E_LAST + OPTIONS_PER_PAGE-1) / OPTIONS_PER_PAGE);
+  num_pages = ((event_type_max() + OPTIONS_PER_PAGE) / OPTIONS_PER_PAGE);
   if (num_pages > ARRAY_SIZE(wndprocs))
     num_pages = ARRAY_SIZE(wndprocs);
   for (i = 0; i<num_pages; i++) {
@@ -200,15 +201,15 @@ static void create_messageopt_dialog()
 				     messageopt_pages, titles,
 				     user_data, num_pages,
 				     0, 0, TRUE, TRUE, 0);
-  for(i = 0; i<num_pages; i++) {
+  for(i = 0; i < num_pages; i++) {
     int last;
     last = OPTIONS_PER_PAGE * (i + 1);
-    if (last > E_LAST)
-      last = E_LAST;
-    fillin_message_dlg(messageopt_pages[i], i * OPTIONS_PER_PAGE,
-		       last);
+    if (last > event_type_max()) {
+      last = event_type_max();
+    }
+    fillin_message_dlg(messageopt_pages[i], i * OPTIONS_PER_PAGE, last);
   }
-  
+
   hbox=fcwin_hbox_new(messageopt_dialog,TRUE);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   fcwin_box_add_button(hbox,_("Ok"),IDOK,0,TRUE,TRUE,5);
@@ -227,7 +228,7 @@ popup_messageopt_dialog(void)
     create_messageopt_dialog();
   if (!messageopt_dialog)
     return;
-  for(i=0; i<E_LAST; i++) {
+  for(i = 0; i < E_COUNT; i++) {
     for(j=0; j<NUM_MW; j++) {
       state = messages_where[i] & (1<<j);
       Button_SetCheck(messageopt_toggles[i][j],

@@ -144,12 +144,12 @@
  * to the events array in "common/events.c" using GEN_EV and
  * "data/stdsounds.soundspec"
  */
-#define SPECENUM_VALUE110 E_LAST
+#define SPECENUM_COUNT E_COUNT
 #include "specenum_gen.h"
 /* the maximum number of enumerators is set in generate_specnum.py */
 
-extern enum event_type sorted_events[]; /* [E_LAST], sorted by the
-					   translated message text */
+extern enum event_type sorted_events[]; /* [E_COUNT], sorted by the
+                                           translated message text */
 
 const char *get_event_message_text(enum event_type event);
 const char *get_event_sound_tag(enum event_type event);
@@ -161,19 +161,19 @@ void events_free(void);
 
 
 /* Iterates over all events, sorted by the message text string. */
-#define sorted_event_iterate(event)                                           \
-{                                                                             \
-  enum event_type event;                                                      \
-  enum event_type event##_index;                                              \
-  for (event##_index = 0;                                                     \
-       event##_index < E_LAST;                                                \
-       event##_index++) {                                                     \
-    event = sorted_events[event##_index];                                     \
+#define sorted_event_iterate(event)                                          \
+{                                                                            \
+  enum event_type event;                                                     \
+  enum event_type event##_index;                                             \
+  for (event##_index = event_type_begin();                                   \
+       event##_index != event_type_end();                                    \
+       event##_index = event_type_next(event##_index)) {                     \
+    event = sorted_events[event##_index];                                    \
     {
 
-#define sorted_event_iterate_end                                              \
-    }                                                                         \
-  }                                                                           \
+#define sorted_event_iterate_end                                             \
+    }                                                                        \
+  }                                                                          \
 }
 
 #endif /* FC__EVENTS_H */

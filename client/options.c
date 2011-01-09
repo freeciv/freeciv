@@ -3925,7 +3925,7 @@ static void server_option_bitwise_support_name(const struct option *poption,
 
 /** Message Options: **/
 
-int messages_where[E_LAST];
+int messages_where[E_COUNT];
 
 
 /****************************************************************
@@ -3950,7 +3950,8 @@ static void message_options_init(void)
   };
   int i;
 
-  for (i = 0; i < E_LAST; i++) {
+  for (i = 0; i <= event_type_max(); i++) {
+    /* Include possible undefined values. */
     messages_where[i] = MW_MESSAGES;
   }
   for (i = 0; i < ARRAY_SIZE(none); i++) {
@@ -4041,11 +4042,6 @@ static void message_options_load(struct section_file *file,
       continue;
     }
 
-    /* skip E_LAST */
-    if (event == E_LAST) {
-      continue;
-    }
-
     if (!secfile_lookup_int(file, &messages_where[event],
                             "messages.event%d.where", i)) {
       log_error("Corruption in file %s: %s",
@@ -4066,11 +4062,6 @@ static void message_options_save(struct section_file *file,
 
   for (event = event_type_begin(); event != event_type_end();
        event = event_type_next(event)) {
-    /* skip E_LAST */
-    if (event == E_LAST) {
-      continue;
-    }
-
     secfile_insert_str(file, event_type_name(event),
                        "messages.event%d.name", i);
     secfile_insert_int(file, messages_where[i],

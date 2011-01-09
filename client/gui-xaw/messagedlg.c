@@ -50,7 +50,7 @@ void messageopt_ok_command_callback(Widget w, XtPointer client_data,
 			               XtPointer call_data);
 void messageopt_cancel_command_callback(Widget w, XtPointer client_data, 
 					XtPointer call_data);
-static Widget messageopt_toggles[E_LAST][NUM_MW];
+static Widget messageopt_toggles[E_COUNT][NUM_MW];
 
 /**************************************************************************
 ... 
@@ -63,7 +63,7 @@ void popup_messageopt_dialog(void)
   shell=create_messageopt_dialog();
 
   /* Doing this here makes the "No"'s centered consistently */
-  for(i=0; i<E_LAST; i++) {
+  for(i = 0; i <= event_type_max(); i++) {
     for(j=0; j<NUM_MW; j++) {
       state = messages_where[i] & (1<<j);
       XtVaSetValues(messageopt_toggles[i][j],
@@ -84,7 +84,7 @@ Widget create_messageopt_dialog(void)
 {
   Widget shell, form, title, scrolled, explanation, ok, cancel, col;
   Widget colhead, space_head;
-  Widget label[E_LAST];
+  Widget label[E_COUNT];
   Widget longest_label = 0;
   Widget toggle = 0;
   int i, longest_len = 0;
@@ -118,7 +118,7 @@ Widget create_messageopt_dialog(void)
   colhead = I_L(XtVaCreateManagedWidget("messageoptcolhead", labelWidgetClass,
                                         col, NULL));
 
-  for(i = 0; i < E_LAST; i++)  {
+  for(i = 0; i <= event_type_max(); i++)  {
     const char *text = get_event_message_text(sorted_events[i]);
     int len = strlen(text);
 
@@ -144,7 +144,7 @@ Widget create_messageopt_dialog(void)
   XtVaSetValues(space_head, XtNwidth, width + 15, NULL);
   XtVaSetValues(colhead, XtNfromHoriz, space_head, NULL);
 
-  for (i = 0; i < E_LAST; i++) {
+  for (i = 0; i <= event_type_max(); i++) {
     int j;
 
     for (j = 0; j < NUM_MW; j++) {
@@ -201,7 +201,7 @@ void messageopt_ok_command_callback(Widget w, XtPointer client_data,
   
   XtSetSensitive(main_form, TRUE);
 
-  for(i=0;i<E_LAST;i++)  {
+  for(i = 0; i <= event_type_max(); i++)  {
     messages_where[i] = 0;
     for(j=0; j<NUM_MW; j++) {
       XtVaGetValues(messageopt_toggles[i][j], XtNstate, &b, NULL);
