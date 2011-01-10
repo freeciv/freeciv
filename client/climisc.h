@@ -13,6 +13,10 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* common */
 #include "fc_types.h"
 #include "featured_text.h"      /* struct ft_color */
@@ -128,5 +132,9 @@ void set_unit_focus_status(struct player *pplayer);
 void client_player_init(struct player *pplayer);
 
 void client_player_maps_reset(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CLIMISC_H */

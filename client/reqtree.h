@@ -14,6 +14,10 @@
 #ifndef FC__REQTREE_H
 #define FC__REQTREE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "canvas_g.h"
 
 /* Requirements Tree
@@ -47,4 +51,8 @@ Tech_type_id get_tech_on_reqtree(struct reqtree *tree, int x, int y);
 bool find_tech_on_reqtree(struct reqtree *tree, Tech_type_id tech,
 			  int *x, int *y, int *w, int *h);
 
-#endif
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__REQTREE_H */

@@ -13,6 +13,10 @@
 #ifndef FC__CONTROL_H
 #define FC__CONTROL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "packets.h"
 #include "unitlist.h"
 
@@ -234,5 +238,8 @@ void key_editor_toggle_fogofwar(void);
 
 extern int num_units_below;
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CONTROL_H */

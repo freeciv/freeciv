@@ -14,6 +14,10 @@
 #ifndef FC__CITYDLG_COMMON_H
 #define FC__CITYDLG_COMMON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include <stddef.h>		/* size_t */
 
 #include "support.h"            /* bool type */
@@ -77,5 +81,9 @@ int city_change_specialist(struct city *pcity, Specialist_type_id from,
                            Specialist_type_id to);
 int city_toggle_worker(struct city *pcity, int city_x, int city_y);
 int city_rename(struct city *pcity, const char *name);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__CITYDLG_COMMON_H */

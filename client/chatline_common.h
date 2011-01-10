@@ -13,6 +13,10 @@
 #ifndef FC__CHATLINE_COMMON_H
 #define FC__CHATLINE_COMMON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "support.h"            /* bool type */
 
@@ -35,5 +39,9 @@ void output_window_event(const char *plain_text,
 
 void chat_welcome_message(void);
 void write_chatline_content(const char *txt);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CHATLINE_COMMON_H */

@@ -13,6 +13,10 @@
 #ifndef FC__GLOBAL_WORKLIST_H
 #define FC__GLOBAL_WORKLIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "registry.h"
 #include "shared.h"
@@ -64,5 +68,9 @@ const char *global_worklist_name(const struct global_worklist *pgwl);
 #define global_worklists_iterate_end \
     } \
   } global_worklists_iterate_all_end;
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__GLOBAL_WORKLIST_H */

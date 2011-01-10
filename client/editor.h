@@ -14,6 +14,10 @@
 #ifndef FC__TOOLS_H
 #define FC__TOOLS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 /* See client/gui-gtk-2.0/editprop.c for instructions
@@ -184,5 +188,9 @@ do {\
 #define edit_buffer_type_iterate_end \
   }\
 } while (0)
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__TOOLS_H */

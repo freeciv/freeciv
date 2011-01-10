@@ -14,6 +14,10 @@
 #ifndef FC__TEXT_H
 #define FC__TEXT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 #include "unitlist.h"
 
@@ -52,5 +56,9 @@ const char *text_happiness_cities(const struct city *pcity);
 const char *text_happiness_luxuries(const struct city *pcity);
 const char *text_happiness_units(const struct city *pcity);
 const char *text_happiness_wonders(const struct city *pcity);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__TEXT_H */

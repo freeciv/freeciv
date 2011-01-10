@@ -13,6 +13,10 @@
 #ifndef FC__CITYREPDATA_H
 #define FC__CITYREPDATA_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "support.h"            /* bool type */
 
 #include "fc_types.h"
@@ -62,5 +66,9 @@ const char *city_report_spec_tagname(int i);
 void init_city_report_game_data(void);
 
 int cityrepfield_compare(const char *field1, const char *field2);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__CITYREPDATA_H */

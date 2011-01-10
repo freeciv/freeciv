@@ -18,6 +18,10 @@
 #ifndef FC__TILESPEC_H
 #define FC__TILESPEC_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "log.h"                /* enum log_level */
 
@@ -324,5 +328,9 @@ const char *tileset_mini_intro_filename(const struct tileset *t);
 int tileset_num_city_colors(const struct tileset *t);
 void tileset_use_prefered_theme(const struct tileset *t);
 bool tileset_use_hard_coded_fog(const struct tileset *t);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__TILESPEC_H */

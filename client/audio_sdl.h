@@ -13,6 +13,14 @@
 #ifndef FC__AUDIO_SDL_H
 #define FC__AUDIO_SDL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 void audio_sdl_init(void);
 
-#endif				/* FC__AUDIO_SDL_H */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__AUDIO_SDL_H */

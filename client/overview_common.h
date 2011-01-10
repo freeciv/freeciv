@@ -14,6 +14,10 @@
 #ifndef FC__OVERVIEW_COMMON_H
 #define FC__OVERVIEW_COMMON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 #include "canvas_g.h"
@@ -70,5 +74,9 @@ void center_tile_overviewcanvas(void);
 void flush_dirty_overview(void);
 
 void overview_redraw_callback(struct option *option);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__OVERVIEW_COMMON_H */

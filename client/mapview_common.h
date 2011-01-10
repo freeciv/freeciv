@@ -14,6 +14,10 @@
 #ifndef FC__MAPVIEW_COMMON_H
 #define FC__MAPVIEW_COMMON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "support.h"            /* bool type */
 
@@ -331,5 +335,9 @@ void link_marks_decrease_turn_counters(void);
 
 void link_mark_add_new(enum text_link_type type, int id);
 void link_mark_restore(enum text_link_type type, int id);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__MAPVIEW_COMMON_H */

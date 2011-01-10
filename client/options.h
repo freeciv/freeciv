@@ -13,6 +13,10 @@
 #ifndef FC__OPTIONS_H
 #define FC__OPTIONS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "support.h"            /* bool type */
 
@@ -328,4 +332,9 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 
 #define GUI_GTK_OVERVIEW_MIN_XSIZE      160
 #define GUI_GTK_OVERVIEW_MIN_YSIZE      100
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 #endif  /* FC__OPTIONS_H */

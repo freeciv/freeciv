@@ -13,6 +13,10 @@
 #ifndef FC__GGZCLIENT_H
 #define FC__GGZCLIENT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "shared.h"
 
 extern bool with_ggz;
@@ -28,13 +32,17 @@ bool user_get_rating(const char *name, int *rating);
 bool user_get_record(const char *name,
 		     int *wins, int *losses, int *ties, int *forfeits);
 
-#else
+#else  /* GGZ_CLIENT */
 
 #  define ggz_begin() (void)0
 #  define input_from_ggz(socket) (void)0
 #  define user_get_rating(p, r) (FALSE)
 #  define user_get_record(p, w, l, t, f) (FALSE)
 
-#endif
+#endif /* GGZ_CLIENT */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__GGZCLIENT_H */

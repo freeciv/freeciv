@@ -14,6 +14,10 @@
 #ifndef FC__CLIMAP_H
 #define FC__CLIMAP_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"           /* enum direction8, struct tile */
 #include "tile.h"               /* enum known_type */
 
@@ -28,4 +32,8 @@ struct tile *client_city_tile(const struct city *pcity);
 bool client_city_can_work_tile(const struct city *pcity,
                                const struct tile *ptile);
 
-#endif
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__CLIMAP_H */

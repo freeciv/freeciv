@@ -10,8 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__CIVCLIENT_H
-#define FC__CIVCLIENT_H
+#ifndef FC__CLIENT_MAIN_H
+#define FC__CLIENT_MAIN_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 #include "fc_types.h"
 
@@ -107,4 +111,8 @@ void client_exit(void);
 extern const char * const gui_character_encoding;
 extern const bool gui_use_transliteration;
 
-#endif  /* FC__CIVCLIENT_H */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif  /* FC__CLIENT_MAIN_H */

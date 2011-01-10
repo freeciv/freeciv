@@ -1704,6 +1704,10 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "shared.h"
 
@@ -1729,6 +1733,10 @@ bool client_handle_packet(enum packet_type type, const void *packet);
         else:
             f.write('void handle_%s(%s);\n'%(a,b))
     f.write('''
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 #endif /* FC__PACKHAND_GEN_H */
 ''')
     f.close()

@@ -11,8 +11,12 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__CLIENT_AGENTS_SIMPLE_HISTORIAN_H
-#define FC__CLIENT_AGENTS_SIMPLE_HISTORIAN_H
+#ifndef FC__AGENTS_SIMPLE_HISTORIAN_H
+#define FC__AGENTS_SIMPLE_HISTORIAN_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 void simple_historian_init(void);
 void simple_historian_done(void);
@@ -20,6 +24,8 @@ void simple_historian_done(void);
 struct tile* sha_tile_recall(struct tile *ptile);
 struct unit* sha_unit_recall(int id);
 
-#endif /* header guard */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
-
+#endif /* FC__AGENTS_SIMPLE_HISTORIAN */

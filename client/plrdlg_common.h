@@ -13,6 +13,10 @@
 #ifndef FC__PLRDLG_COMMON_H
 #define FC__PLRDLG_COMMON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* utility */
 #include "support.h"            /* bool type */
 
@@ -51,5 +55,9 @@ void init_player_dlg_common(void);
 int player_dlg_default_sort_column(void);
 
 const char *player_addr_hack(const struct player *pplayer);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif  /* FC__PLRDLG_COMMON_H */

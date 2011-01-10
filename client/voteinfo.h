@@ -13,6 +13,10 @@
 #ifndef FC__VOTEINFO_H
 #define FC__VOTEINFO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "fc_types.h"
 
 enum client_vote_type {
@@ -55,6 +59,10 @@ void voteinfo_queue_next(void);
 int voteinfo_queue_size(void);
 
 bool voteinfo_bar_can_be_shown(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__VOTEINFO_H */
 

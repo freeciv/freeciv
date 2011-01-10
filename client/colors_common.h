@@ -14,6 +14,10 @@
 #ifndef FC__COLORS_COMMON_H
 #define FC__COLORS_COMMON_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #include "registry.h"
 
 #include "fc_types.h"
@@ -85,5 +89,9 @@ void color_system_setup_terrain(struct color_system *colors,
 				const struct terrain *pterrain,
 				const char *tag);
 void color_system_free(struct color_system *colors);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__COLORS_COMMON_H */

@@ -13,6 +13,14 @@
 #ifndef FC__AUDIO_NONE_H
 #define FC__AUDIO_NONE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 void audio_none_init(void);
 
-#endif				/* FC__AUDIO_NONE_H */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__AUDIO_NONE_H */
