@@ -77,7 +77,7 @@ dnl no      - Legacy IPv4 support
 dnl test    - Try to enable IPv6 support
 AC_ARG_ENABLE(ipv6,
 [  --enable-ipv6=yes/no/test
-                          use IPv6 (WIP) [[test]]],
+                          use IPv6 [[test]]],
 [case "${enableval}" in
   yes|no|test) ipv6=${enableval} ;;
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
