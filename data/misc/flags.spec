@@ -401,6 +401,7 @@ artists = "
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
    Visigoth		J.M. Maalderink
+   Volga Bulgar		Óðinn (Wikimedia Commons) and Daniel Markstedt
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
    West Indies Fed.	Stepshep (Wikimedia Commons)
@@ -806,6 +807,7 @@ sprites =
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"
 		"f.visigoth", "flags/visigoth"
+		"f.volga_bulgar", "flags/volga_bulgar"
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
 		"f.west_indies_federation", "flags/west_indies_federation"

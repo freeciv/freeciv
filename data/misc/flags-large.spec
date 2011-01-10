@@ -402,6 +402,7 @@ sprites =
 		"f.vietnam", "flags/vietnam-large"
 		"f.viking", "flags/viking-large"
 		"f.visigoth", "flags/visigoth-large"
+		"f.volga_bulgar", "flags/volga_bulgar-large"
 		"f.wallonia", "flags/wallonia-large"
 		"f.wales", "flags/wales-large"
 		"f.west_indies_federation", "flags/west_indies_federation-large"

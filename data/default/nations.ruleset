@@ -431,6 +431,7 @@ match=2
 *include "nation/viking.ruleset"
 *include "nation/vincentian.ruleset"
 *include "nation/visigothic.ruleset"
+*include "nation/volgabulgar.ruleset"
 *include "nation/walloon.ruleset"
 *include "nation/welsh.ruleset"
 *include "nation/westernpomeranian.ruleset"

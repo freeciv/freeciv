@@ -393,6 +393,7 @@ flag_files =				\
 		vietnam.png		\
 		viking.png		\
 		visigoth.png		\
+		volga_bulgar.png		\
 		wales.png		\
 		wallonia.png		\
 		west_indies_federation.png	\
@@ -793,6 +794,7 @@ flag_files =				\
 		vietnam-large.png		\
 		viking-large.png		\
 		visigoth-large.png		\
+		volga_bulgar-large.png		\
 		wales-large.png		\
 		wallonia-large.png		\
 		west_indies_federation-large.png	\
@@ -1195,6 +1197,7 @@ shield_files =					\
 		vietnam-shield.png		\
 		viking-shield.png		\
 		visigoth-shield.png		\
+		volga_bulgar-shield.png		\
 		wales-shield.png		\
 		wallonia-shield.png		\
 		west_indies_federation-shield.png	\
@@ -1595,6 +1598,7 @@ shield_files =					\
 		vietnam-shield-large.png		\
 		viking-shield-large.png		\
 		visigoth-shield-large.png		\
+		volga_bulgar-shield-large.png		\
 		wales-shield-large.png		\
 		wallonia-shield-large.png		\
 		west_indies_federation-shield-large.png	\
@@ -1995,6 +1999,7 @@ svg_files = 				\
 		vietnam.svg		\
 		viking.svg		\
 		visigoth.svg		\
+		volga_bulgar.svg		\
 		wales.svg		\
 		wallonia.svg		\
 		west_indies_federation.svg	\

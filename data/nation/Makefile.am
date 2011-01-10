@@ -382,6 +382,7 @@ pkgdata_DATA = \
 		viking.ruleset \
 		vincentian.ruleset \
 		visigothic.ruleset \
+		volgabulgar.ruleset \
 		walloon.ruleset \
 		welsh.ruleset \
 		westernpomeranian.ruleset \
