@@ -547,6 +547,16 @@ if test "$ftwl" = opengl ; then
      FTWL_LIBS="$FTWL_LIBS "`sdl-config --libs`" -lpng "`freetype-config --libs -lGL -lGLU`
 fi
 
+dnl Check thread implementation
+AC_MSG_CHECKING([for threads implementation])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
+[[return pthread_create(NULL, NULL, NULL, NULL);]])],
+[AC_DEFINE([HAVE_PTHREAD], [1], [Can use pthreads as thread implementation])
+AC_MSG_RESULT([pthreads])
+CFLAGS="$CFLAGS -pthread"
+LIBS="$LIBS -lpthread"],
+[AC_MSG_RESULT([none])])
+
 dnl Check and choose clients
 if test "x$client" != "xno"; then
 
