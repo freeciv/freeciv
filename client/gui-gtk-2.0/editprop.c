@@ -3427,6 +3427,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
                FALSE, FALSE, NULL, NULL);
     add_column(view, 2, _("Name"), G_TYPE_STRING,
                FALSE, FALSE, NULL, NULL);
+    /* TRANS: As in "the turn when this building was built". */
     add_column(view, 3, _("Turn Built"), G_TYPE_STRING,
                FALSE, FALSE, NULL, NULL);
     break;

@@ -1167,8 +1167,8 @@ static void help_update_base(const struct help_item *pitem, char *title)
     strcat(buf, pitem->text);
   } else {
     /* Cost to build */
-    /* TRANS: "MP" = movement points */
     if (pbase->buildable) {
+      /* TRANS: "MP" = movement points */
       sprintf(buf, _("%d MP"), pbase->build_time);
     } else {
       sprintf(buf, "-");
