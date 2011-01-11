@@ -51,10 +51,10 @@
 /* ai */
 #include "aicity.h"
 #include "aiferry.h"
+#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "citymap.h"
-#include "defaultai.h"
 
 #include "aisettler.h"
 

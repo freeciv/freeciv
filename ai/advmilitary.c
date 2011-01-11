@@ -48,10 +48,10 @@
 #include "aihand.h"
 #include "aihunt.h"
 #include "aiparatrooper.h"
+#include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "advmilitary.h"
 

@@ -57,9 +57,9 @@
 #include "advmilitary.h"
 #include "aiferry.h"
 #include "aiguard.h"
+#include "aiplayer.h"
 #include "aitech.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "aitools.h"
 

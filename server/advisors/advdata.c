@@ -51,9 +51,9 @@
 #include "aicity.h"
 #include "aiferry.h"
 #include "aihand.h"
+#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "advdata.h"
 

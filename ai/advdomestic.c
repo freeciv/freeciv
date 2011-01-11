@@ -43,10 +43,10 @@
 /* ai */
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "advdomestic.h"
 

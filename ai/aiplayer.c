@@ -10,19 +10,32 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIIFACE_H
-#define FC__AIIFACE_H
 
-#include "ai.h" /* incident_type */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-/* Not part of ai.h as this must be server only */
-#define FC_AI_DEFAULT_NAME "default"
+/* common */
+#include "ai.h"
+#include "city.h"
+#include "unit.h"
 
-void ai_init(void);
+#include "aiplayer.h"
 
-bool load_ai_module(struct ai_type *ai, const char *filename);
+static struct ai_type *self = NULL;
 
-void call_incident(enum incident_type type, struct player *violator,
-                   struct player *victim);
+/**************************************************************************
+  Set pointer to ai type of the default ai.
+**************************************************************************/
+void default_ai_set_self(struct ai_type *ai)
+{
+  self = ai;
+}
 
-#endif /* FC__AIIFACE_H */
+/**************************************************************************
+  Get pointer to ai type of the default ai.
+**************************************************************************/
+struct ai_type *default_ai_get_self(void)
+{
+  return self;
+}

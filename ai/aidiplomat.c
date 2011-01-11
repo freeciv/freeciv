@@ -58,9 +58,9 @@
 #include "aicity.h"
 #include "aiguard.h"
 #include "aihand.h"
+#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "aidiplomat.h"
 

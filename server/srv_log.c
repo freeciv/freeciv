@@ -38,8 +38,8 @@
 
 /* ai */
 #include "aicity.h"
+#include "aiplayer.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "srv_log.h"
 

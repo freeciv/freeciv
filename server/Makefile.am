@@ -97,10 +97,16 @@ libfreeciv_srv_la_SOURCES = \
 # outside this directory (when building common) there's no point in
 # setting them to BUILT_SOURCES.
 
+if AI_MODULES
+da_libs =
+else
+da_libs = $(top_builddir)/ai/libdefaultai.la
+endif
+
 # FIXME: Server library is calling AI functions.
 #        We should get rid of this dependency.
 srvlibs = \
- $(top_builddir)/ai/libcivai.la \
+ $(top_builddir)/ai/libcivai.la $(da_libs) \
  $(top_builddir)/server/advisors/libadvisors.la \
  $(top_builddir)/server/generator/libgenerator.la \
  $(top_builddir)/server/scripting/libscripting.la

@@ -10,19 +10,21 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIIFACE_H
-#define FC__AIIFACE_H
+#ifndef FC__AIPLAYER_H
+#define FC__AIPLAYER_H
 
-#include "ai.h" /* incident_type */
+struct ai_type *default_ai_get_self(void);
 
-/* Not part of ai.h as this must be server only */
-#define FC_AI_DEFAULT_NAME "default"
+void default_ai_set_self(struct ai_type *ai);
 
-void ai_init(void);
+static inline struct ai_city *def_ai_city_data(const struct city *pcity)
+{
+  return (struct ai_city *)city_ai_data(pcity, default_ai_get_self());
+}
 
-bool load_ai_module(struct ai_type *ai, const char *filename);
+static inline struct unit_ai *def_ai_unit_data(const struct unit *punit)
+{
+  return (struct unit_ai *)unit_ai_data(punit, default_ai_get_self());
+}
 
-void call_incident(enum incident_type type, struct player *violator,
-                   struct player *victim);
-
-#endif /* FC__AIIFACE_H */
+#endif /* FC__AIPLAYER_H */

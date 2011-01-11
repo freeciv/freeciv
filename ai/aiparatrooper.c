@@ -42,9 +42,9 @@
 
 /* ai */
 #include "aicity.h"
+#include "aiplayer.h"
 #include "aiunit.h"
 #include "aitools.h"
-#include "defaultai.h"
 
 #include "aiparatrooper.h"
 

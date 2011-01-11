@@ -41,10 +41,10 @@
 
 /* ai */
 #include "aicity.h"
+#include "aiplayer.h"
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 /* server */
 #include "citytools.h"

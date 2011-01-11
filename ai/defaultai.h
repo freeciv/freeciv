@@ -14,22 +14,7 @@
 #define FC__DEFAULTAI_H
 
 struct ai_type;
-struct ai_city;
-struct unit_ai;
 
 void fc_ai_default_setup(struct ai_type *ai);
-
-struct ai_type *default_ai_get_self(void);
-
-static struct ai_city *def_ai_city_data(const struct city *pcity);
-static inline struct ai_city *def_ai_city_data(const struct city *pcity)
-{
-  return (struct ai_city *)city_ai_data(pcity, default_ai_get_self());
-}
-
-static inline struct unit_ai *def_ai_unit_data(const struct unit *punit)
-{
-  return (struct unit_ai *)unit_ai_data(punit, default_ai_get_self());
-}
 
 #endif /* FC__DEFAULTAI_H */

@@ -30,20 +30,19 @@
 #include "advdiplomacy.h"
 #include "aicity.h"
 #include "aihand.h"
+#include "aiplayer.h"
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
 
 #include "defaultai.h"
 
-static struct ai_type *self = NULL;
-
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
 void fc_ai_default_setup(struct ai_type *ai)
 {
-  self = ai;
+  default_ai_set_self(ai);
 
   strncpy(ai->name, FC_AI_DEFAULT_NAME, sizeof(ai->name));
 
@@ -90,12 +89,4 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.treaty_accepted = ai_treaty_accepted;
   ai->funcs.first_contact = ai_diplomacy_first_contact;
   ai->funcs.incident = ai_incident;
-}
-
-/**************************************************************************
-  Get pointer to ai type of the default ai.
-**************************************************************************/
-struct ai_type *default_ai_get_self(void)
-{
-  return self;
 }

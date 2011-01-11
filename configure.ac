@@ -236,6 +236,22 @@ AC_ARG_WITH(efence,
 	WITH_EFENCE=1
 )
 
+AC_ARG_ENABLE([aimodules],
+[  --enable-aimodules      support for ai modules [[default=false]]],
+[case "${enableval}" in
+  yes) aimodules=true ;;
+  no)  aimodules=false ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-aimodules]) ;;
+esac], [aimodules=false])
+aimoduledir="${libdir}/fcai"
+AC_SUBST(aimoduledir)
+AM_CONDITIONAL(AI_MODULES, test "$aimodules" = "true")
+if test $aimodules = true ; then
+  SERVER_LIBS="${SERVER_LIBS} -lltdl"
+  AC_DEFINE_UNQUOTED([AI_MODULES], [1], [Directory for ai modules])
+  CPPFLAGS="${CPPFLAGS} -DAI_MODULEDIR=\"\\\"${aimoduledir}\\\"\""
+fi
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
@@ -739,7 +755,7 @@ fi
 
 dnl Checks for additional server libraries:
 if test "x$server" = "xyes"; then
-    SERVER_LIBS=" -lm "
+    SERVER_LIBS="-lm ${SERVER_LIBS}"
 
     dnl Some systems (e.g., BeOS) need this lib
     AC_CHECK_LIB(bind, gethostbyaddr, SERVER_LIBS="-lbind $SERVER_LIBS")

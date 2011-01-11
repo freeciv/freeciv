@@ -44,10 +44,10 @@
 #include "advdomestic.h"
 #include "advmilitary.h"
 #include "aihand.h"
+#include "aiplayer.h"
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "aicity.h"
 

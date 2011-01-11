@@ -44,9 +44,9 @@
 
 /* ai */
 #include "aicity.h"
+#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "aihunt.h"
 

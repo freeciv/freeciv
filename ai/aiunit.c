@@ -52,8 +52,8 @@
 #include "aihand.h"
 #include "aihunt.h"
 #include "aiparatrooper.h"
+#include "aiplayer.h"
 #include "aitools.h"
-#include "defaultai.h"
 
 /* server */
 #include "barbarian.h"

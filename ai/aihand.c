@@ -52,10 +52,10 @@
 #include "advmilitary.h"
 #include "advspace.h"
 #include "aicity.h"
+#include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "defaultai.h"
 
 #include "aihand.h"
 
