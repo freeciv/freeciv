@@ -311,6 +311,7 @@ free; see the section on Cities for more detail.\
 generate = "Terrain"
 
 [help_terrain_alterations]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Terrain Alterations")
 text = _("\
 Settlers, Workers, and Engineers have the ability to alter terrain \
@@ -403,6 +404,7 @@ $TerrainAlterations\
 "
 
 [help_pillaging]
+; /* TRANS: Preserve the leading spaces: they control nesting */
 name = _("  Pillaging")
 text = _("\
 Many units -- in the default rules, all land units -- have the ability \
@@ -427,6 +429,7 @@ with a Settler, Worker, or Engineer.\
 ")
 
 [help_villages]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Villages")
 text = _("\
 Villages (also called \"huts\") are primitive communities spread \
@@ -443,6 +446,7 @@ by other aircraft will cause the villagers to take fright and disband.\
 ")
 
 [help_borders]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" National Borders")
 text = _("\
 If enabled on the server, each nation has borders, which can be seen \
@@ -477,6 +481,7 @@ with its properties, uses, and limitations.\
 ")
 
 [help_food]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Food")
 text = _("\
 Your population needs food to survive. Each citizen requires two food \
@@ -502,6 +507,7 @@ Happiness.)\
 ")
 
 [help_production]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Production")
 text = _("\
 Production points (also known as \"shields\") represent manufacturing \
@@ -544,6 +550,7 @@ section on Cities for more information.\
 ")
 
 [help_trade]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Trade")
 text = _("\
 Trade points reflect wealth generated in each city by external \
@@ -685,6 +692,7 @@ the World for more information.\
 ")
 
 [help_happiness]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Happiness")
 text = _("\
 Keeping your citizens happy (or at least content) is one of the most \
@@ -793,6 +801,7 @@ the mood of the citizenry and its causes.\
 ")
 
 [help_pollution]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Pollution")
 text = _("\
 Pollution can plague large cities, especially as your civilization \
@@ -825,6 +834,7 @@ all the more severe when it does occur.\
 ")
 
 [help_plague]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Plague")
 text = _("\
 Plague is a ruleset option, and is not enabled in the default \
@@ -845,6 +855,7 @@ those cities by a factor depending on the size of both cities.\
 ")
 
 [help_migration]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Migration")
 text = _("\
 Migration is the movement of citizens from one city to another based \
@@ -1127,6 +1138,7 @@ along with the defender.\
 ")
 
 [help_combat_modifying]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Modifying Combat Rules")
 text = _("Modifying Combat Rules\n----------------------"),
 _("\
@@ -1142,6 +1154,7 @@ strength.\
 ")
 
 [help_combat_example_1]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Combat example 1")
 text = _("\
 Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer \
@@ -1180,6 +1193,7 @@ it might even lose the battle.\
 ")
 
 [help_combat_example_2]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Combat example 2")
 text = _("\
 Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 \
@@ -1302,6 +1316,7 @@ you at an advantage.\
 ")
 
 [help_civil_war]
+; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Civil War")
 text = _("\
 Civil war is devastating to any empire, and is triggered by \

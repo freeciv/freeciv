@@ -370,8 +370,9 @@ void create_units_order_widgets(void)
   size_t len;
   
   /* No orders */
-  /* TRANS: keyboard */
-  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("No Orders"), _("Space"));
+  my_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("No Orders"),
+              /* TRANS: "Space" refers to the space bar on a keyboard. */
+              _("Space"));
   pBuf = create_themeicon(pTheme->ODone_Icon, Main.gui,
 			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
 			   WF_WIDGET_HAS_INFO_LABEL));
