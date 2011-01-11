@@ -950,7 +950,7 @@ const struct strvec *get_data_dirs(void)
     }
     if (NULL == path && (path = getenv(FREECIV_PATH)) && '\0' == path[0]) {
       /* TRANS: <FREECIV_PATH> configuration error */
-      log_error(("\"%s\" is set but empty; using default \"%s\" "
+      log_error(_("\"%s\" is set but empty; using default \"%s\" "
                  "data directories instead."),
                 FREECIV_PATH, DEFAULT_DATA_PATH);
       path = NULL;

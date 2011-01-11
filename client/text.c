@@ -268,7 +268,7 @@ const char *popup_info_text(struct tile *ptile)
 
       astr_build_and_list(&list, improvements, has_improvements);
       /* TRANS: %s is a list of "and"-separated improvements. */
-      astr_add_line(&str, "   with %s.", astr_str(&list));
+      astr_add_line(&str, _("   with %s."), astr_str(&list));
       astr_free(&list);
     }
 
