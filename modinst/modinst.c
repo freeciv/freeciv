@@ -28,7 +28,8 @@
 /* modinst */
 #include "download.h"
 
-#define EXAMPLE_URL "http://www.cazfi.net/freeciv/modinst/2.4/ancients.modpack"
+#define DEFAULT_URL_START "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/"
+#define EXAMPLE_URL DEFAULT_URL_START "ancients.modpack"
 
 static GtkWidget *statusbar;
 static GtkWidget *progressbar;
@@ -197,6 +198,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   URL_input = gtk_entry_new();
   gtk_entry_set_width_chars(GTK_ENTRY(URL_input),
                             strlen(EXAMPLE_URL));
+  gtk_entry_set_text(GTK_ENTRY(URL_input), DEFAULT_URL_START);
   g_signal_connect(URL_input, "activate",
 		   G_CALLBACK(URL_return), NULL);
 
