@@ -185,8 +185,8 @@
     }									\
   }									\
   if (_printed_warning) {						\
+    fc_assert(0);							\
     /* TRANS: Minor error message. */					\
-    fc_assert(0);\
     log_error(_("Saved game contains incomplete map data. This can"	\
               " happen with old saved games, or it may indicate an"	\
               " invalid saved game file. Proceed at your own risk."));	\

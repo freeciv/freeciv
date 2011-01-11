@@ -7,7 +7,6 @@ groups="Medieval", "American"
 ; /* TRANS: The eighth letter in "Michoacan" should be */
 ; /* TRANS: 00E1 LATIN SMALL LETTER O WITH ACUTE if available in */
 ; /* TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is E1. */
-
 legend=_("The P'urhepecha or Tarascans are a people native to the modern\
  Mexican state of Michoacan, the heart of a former empire known to them\
  as Irechikua Ts'intsuntsani, meaning the \"lands of Tzintzuntzan,\" their\

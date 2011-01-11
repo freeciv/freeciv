@@ -1,9 +1,8 @@
 [nation_otomi]
 
-; /* TRANS: The firth letter in "Otomi" and "Otomies" should be */
+; /* TRANS: The fifth letter in "Otomi" and "Otomies" should be */
 ; /* TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in */
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237. */
-
 name=_("Otomi")
 plural=_("?plural:Otomies")
 groups="American", "Ancient", "Medieval"
@@ -14,7 +13,6 @@ groups="American", "Ancient", "Medieval"
 ; /* TRANS: The third letter in "Hnahnu" should be */
 ; /* TRANS: U+00E4 LATIN SMALL LETTER A WITH DIAERESIS if available in */
 ; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 228. */
-
 legend=_("The Otomi are one of the most ancient peoples of Mexico. They\
  have lived in Central Mexico ever since the development of agriculture\
  or even longer. A warlike people, they served as mercenaries in the\

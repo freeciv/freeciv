@@ -113,6 +113,9 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "TerrainDefense"
 
 [unitclass_land_big]
+; /* TRANS: "Big Land" is a unit class, like Land or Sea. Big Land units */
+; /* TRANS: cannot move into rough terrain. Unit class names are used */
+; /* TRANS: adjectivally. */
 name          = _("Big Land")
 move_type     = "Land"
 min_speed     = 1

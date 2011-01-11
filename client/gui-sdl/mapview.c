@@ -646,9 +646,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 #endif
 	    
 	    if (pOwner && pOwner != client.conn.playing) {
-              /* TRANS: (<nation>,<diplomatic_state>)" */
               struct player_diplstate *ds
                 = player_diplstate_get(client.conn.playing, pOwner);
+              /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
                 nation_adjective_for_player(pOwner),
                 diplo_city_adjectives[ds->type]);

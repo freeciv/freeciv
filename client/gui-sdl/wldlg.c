@@ -966,6 +966,7 @@ static void refresh_worklist_count_label(void)
   char cBuf[64];
   SDL_Rect area;
 
+  /* TRANS: length of worklist */
   fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
   				worklist_length(&pEditor->worklist_copy));
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
@@ -1078,6 +1079,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
 
+  /* TRANS: length of worklist */
   fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
               worklist_length(&pEditor->worklist_copy));
   pStr = create_str16_from_char(cBuf, adj_font(10));
