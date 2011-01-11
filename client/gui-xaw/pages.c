@@ -52,11 +52,14 @@ static Widget start_page_viewport;
 static Widget start_page_players_list;
 static Widget start_page_cancel_command;
 static Widget start_page_nation_command;
+static Widget start_page_take_command;
 static Widget start_page_start_command;
 void start_page_cancel_callback(Widget w, XtPointer client_data,
 				XtPointer call_data);
 void start_page_nation_callback(Widget w, XtPointer client_data,
 				XtPointer call_data);
+void start_page_take_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data);
 void start_page_start_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data);
 
@@ -177,6 +180,12 @@ void create_start_page(void)
 				start_page_form,
 				NULL));
 
+  start_page_take_command =
+    I_L(XtVaCreateManagedWidget("startpagetakecommand",
+				commandWidgetClass,
+				start_page_form,
+				NULL));
+
   start_page_start_command =
     I_L(XtVaCreateManagedWidget("startpagestartcommand",
 				commandWidgetClass,
@@ -194,6 +203,10 @@ void create_start_page(void)
 
   XtAddCallback(start_page_nation_command, XtNcallback,
 		start_page_nation_callback,
+		NULL);
+
+  XtAddCallback(start_page_take_command, XtNcallback,
+		start_page_take_callback,
 		NULL);
 
   XtAddCallback(start_page_start_command, XtNcallback,
@@ -218,9 +231,11 @@ void update_start_page(void)
   if (!start_page_shell) {
     return;
   }
-  if (client_has_player() && C_S_RUNNING != client_state()) {
+  //if (client_has_player() && C_S_RUNNING != client_state()) {
+  if ( C_S_PREPARING == client_state()) {
     bool is_ready;
-    const char *name, *nation, *leader;
+    const char *nation, *leader;
+    char name[MAX_LEN_NAME + 8];
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
     int j;
@@ -229,10 +244,12 @@ void update_start_page(void)
     j = 0;
 
     players_iterate(pplayer) {
-      if (pplayer->ai_controlled) {
-	name = _("<AI>");
+      if (pplayer->ai_controlled && !pplayer->was_created
+          && !pplayer->is_connected) {
+        fc_snprintf(name, sizeof(name), _("<%s AI>"),
+                    ai_level_name(pplayer->ai_common.skill_level));
       } else {
-	name = pplayer->username;
+        sz_strlcpy(name, pplayer->username);
       }
       is_ready = pplayer->ai_controlled ? TRUE: pplayer->is_ready;
       if (pplayer->nation == NO_NATION_SELECTED) {
@@ -244,9 +261,9 @@ void update_start_page(void)
       }
 
       fc_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-		  "%-16s %-5s %-16s %-16s %4d",
+		  "%-16s %-5s %-16s %-16s %-4d ",
 		  name,
-		  is_ready ? " Yes " : " No  ",
+		  is_ready ? " Yes  " : " No   ",
 		  leader,
 		  nation,
 		  player_number(pplayer));
@@ -258,14 +275,14 @@ void update_start_page(void)
       if (NULL != pconn->playing && !pconn->observer) {
 	continue; /* Already listed above. */
       }
-      name = pconn->username;
+      sz_strlcpy(name, pconn->username);
       nation = "";
       leader = "";
 
       fc_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-		  "%-16s %-5s %-16s %-16s %4d",
+		  "%-16s %-5s %-16s %-16s %-4d ",
 		  name,
-		  " No   ",
+		  " No  ",
 		  leader,
 		  nation,
 		  -1);
@@ -305,6 +322,28 @@ void start_page_nation_callback(Widget w, XtPointer client_data,
 {
   if (NULL != client.conn.playing) {
     popup_races_dialog(client.conn.playing);
+  }
+}
+
+/**************************************************************************
+  Callback for start page "Take" button
+**************************************************************************/
+void start_page_take_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data)
+{
+  XawListReturnStruct *ret;
+  struct player *selected_plr;
+  ret=XawListShowCurrent(start_page_players_list);
+  if(ret->list_index!=XAW_LIST_NONE) {
+    selected_plr=player_by_number(ret->list_index);
+    if(NULL != selected_plr ) {
+      //log_error("player no : %s\n",player_name(selected_plr));
+      send_chat_printf("/take \"%s\"", player_name(selected_plr));
+      if(selected_plr != client_player() && selected_plr->ai_controlled) {
+        send_chat("/away");
+        send_chat_printf("/%s",ai_level_name(selected_plr->ai_common.skill_level));
+      }
+    }
   }
 }
 

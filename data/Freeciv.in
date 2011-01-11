@@ -3357,7 +3357,7 @@ Freeciv*startpagelabel.bottom:             chainTop
 Freeciv*startpagelabel.left:               chainLeft
 Freeciv*startpagelabel.right:              chainRight
 Freeciv*startpagelabel.label: _("\
-Name              Ready Leader          Nation          ")
+  Name             Ready  Leader           Nation          Team ")
 
 Freeciv*startpageviewport.resizable:       true
 Freeciv*startpageviewport.allowVert:       true
@@ -3394,8 +3394,16 @@ Freeciv*startpagenationcommand.bottom:        chainBottom
 Freeciv*startpagenationcommand.left:          chainLeft
 Freeciv*startpagenationcommand.right:         chainLeft
 
+Freeciv*startpagetakecommand.label:           _("Take Player")
+Freeciv*startpagetakecommand.fromHoriz:       startpagenationcommand
+Freeciv*startpagetakecommand.fromVert:        startpageviewport
+Freeciv*startpagetakecommand.top:             chainBottom
+Freeciv*startpagetakecommand.bottom:          chainBottom
+Freeciv*startpagetakecommand.left:            chainLeft
+Freeciv*startpagetakecommand.right:           chainLeft
+
 Freeciv*startpagestartcommand.label:          _("Start")
-Freeciv*startpagestartcommand.fromHoriz:      startpagenationcommand
+Freeciv*startpagestartcommand.fromHoriz:      startpagetakecommand
 Freeciv*startpagestartcommand.fromVert:       startpageviewport
 Freeciv*startpagestartcommand.top:            chainBottom
 Freeciv*startpagestartcommand.bottom:         chainBottom
