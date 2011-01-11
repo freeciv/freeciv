@@ -116,7 +116,7 @@ static void climate_change(bool warming, int effect)
   bool used[k];
   memset(used, 0, sizeof(used));
 
-  log_verbose("Klima change: %s (%d)",
+  log_verbose("Climate change: %s (%d)",
               warming ? "Global warming" : "Nuclear winter",
               warming ? game.info.heating : game.info.cooling);
 
@@ -132,9 +132,9 @@ static void climate_change(bool warming, int effect)
 
     old = tile_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
-      new = warming ? old->cooler_wetter_result : old->cooler_wetter_result;
+      new = warming ? old->warmer_wetter_result : old->cooler_wetter_result;
     } else {
-      new = warming ? old->cooler_drier_result : old->cooler_drier_result;
+      new = warming ? old->warmer_drier_result : old->cooler_drier_result;
     }
 
     if (tile_city(ptile) != NULL && new != T_NONE
