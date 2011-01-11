@@ -31,7 +31,7 @@ struct video_mode {
   int height;
 };
 #define VIDEO_MODE(ARG_width, ARG_height) \
-    { .width = ARG_width, .height = ARG_height }
+    { ARG_width, ARG_height }
 /****************************************************************************
   Constructor.
 ****************************************************************************/

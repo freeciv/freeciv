@@ -700,11 +700,11 @@ int generate_save_name(const char *format, char *buf, int buflen,
                        const char *reason)
 {
   struct cf_sequence sequences[] = {
-    CF_STR_SEQ('R', (reason == NULL) ? "auto" : reason),
-    CF_STR_SEQ('S', year_suffix()),
-    CF_INT_SEQ('T', game.info.turn),
-    CF_INT_SEQ('Y', game.info.year),
-    CF_END
+    cf_str_seq('R', (reason == NULL) ? "auto" : reason),
+    cf_str_seq('S', year_suffix()),
+    cf_int_seq('T', game.info.turn),
+    cf_int_seq('Y', game.info.year),
+    cf_end()
   };
 
   fc_vsnprintcf(buf, buflen, format, sequences, -1);

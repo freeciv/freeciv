@@ -142,7 +142,7 @@ struct ft_color {
   const char *foreground;
   const char *background;
 };
-#define FT_COLOR(fg, bg) { .foreground = fg, .background = bg }
+#define FT_COLOR(fg, bg) { fg, bg }
 /**************************************************************************
   Constructor.
 **************************************************************************/
