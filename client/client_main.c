@@ -1066,6 +1066,7 @@ static void fc_interface_init_client(void)
   struct functions *funcs = fc_interface_funcs();
 
   funcs->player_tile_vision_get = client_map_is_known_and_seen;
+  funcs->gui_color_free = color_free;
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */

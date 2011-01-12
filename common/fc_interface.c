@@ -57,6 +57,7 @@ void fc_interface_init(void)
 
   /* Test the existence of each function here! */
   fc_assert_exit(fc_funcs->player_tile_vision_get);
+  fc_assert_exit(fc_funcs->gui_color_free);
 
   fc_funcs_defined = TRUE;
 }

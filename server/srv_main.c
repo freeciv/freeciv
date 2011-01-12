@@ -2559,6 +2559,16 @@ void srv_main(void)
   /* Technically, we won't ever get here. We exit via server_quit. */
 }
 
+/***************************************************************
+  Initialize client specific functions.
+***************************************************************/
+struct color;
+static inline void server_gui_color_free(struct color *pcolor)
+{
+  fc_assert_ret(pcolor == NULL);
+
+  return;
+}
 
 /***************************************************************
   Initialize client specific functions.
@@ -2568,6 +2578,7 @@ static void fc_interface_init_server(void)
   struct functions *funcs = fc_interface_funcs();
 
   funcs->player_tile_vision_get = map_is_known_and_seen;
+  funcs->gui_color_free = server_gui_color_free;
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */
