@@ -565,13 +565,26 @@ fi
 
 dnl Check thread implementation
 AC_MSG_CHECKING([for threads implementation])
+thread_impl=none
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
-[[return pthread_create(NULL, NULL, NULL, NULL);]])],
-[AC_DEFINE([HAVE_PTHREAD], [1], [Can use pthreads as thread implementation])
-AC_MSG_RESULT([pthreads])
-CFLAGS="$CFLAGS -pthread"
-LIBS="$LIBS -lpthread"],
-[AC_MSG_RESULT([none])])
+  [[return pthread_create(NULL, NULL, NULL, NULL);]])],
+  [AC_DEFINE([HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
+  thread_impl=pthreads
+  AC_MSG_RESULT([pthreads])
+  CFLAGS="$CFLAGS -pthread"
+  LIBS="$LIBS -lpthread"])
+
+if test "x$thread_impl" = "xnone" ; then
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <windows.h>]],
+    [[CreateThread(NULL, 0, NULL, NULL, 0, NULL);]])],
+    [AC_DEFINE([HAVE_WINTHREADS], [1], [Use Windows threads as thread implementation])
+    thread_impl=windows
+    AC_MSG_RESULT([windows])])
+fi
+
+if test "x$thread_impl" = "xnone" ; then
+  AC_MSG_RESULT([none])
+fi
 
 dnl Check and choose clients
 if test "x$client" != "xno"; then
