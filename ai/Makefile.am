@@ -3,7 +3,7 @@
 LIBLIST = libcivai.la
 
 if AI_MODULES
-aimodule_LTLIBRARIES = fc_ai_default.la
+aimodule_LTLIBRARIES = fc_ai_default.la fc_ai_stub.la
 else
 LIBLIST += libdefaultai.la
 endif
@@ -58,6 +58,10 @@ if AI_MODULES
 fc_ai_default_la_SOURCES = $(da_sources)
 
 fc_ai_default_la_LDFLAGS = -module
+
+fc_ai_stub_la_SOURCES = stubai.c
+
+fc_ai_stub_la_LDFLAGS = -module
 else
 libdefaultai_la_SOURCES = $(da_sources)
 endif
