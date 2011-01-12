@@ -16,6 +16,9 @@ endif
 if CLIENT_GUI_XAW
 GUI_SUBDIRS += gui-xaw
 endif
+if CLIENT_GUI_QT
+GUI_SUBDIRS += gui-qt
+endif
 if CLIENT_GUI_STUB
 GUI_SUBDIRS += gui-stub
 endif
@@ -174,6 +177,20 @@ freeciv_xaw_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(GUI_xaw_LIBS)
+endif
+
+if CLIENT_GUI_QT
+bin_PROGRAMS += freeciv-qt
+noinst_LTLIBRARIES += libfcgui-qt.la
+libfcgui_qt_la_SOURCES = $(freeciv_client_src)
+libfcgui_qt_la_LIBADD = gui-qt/libgui-qt.la agents/libagents.la
+freeciv_qt_SOURCES = dummy.c
+freeciv_qt_LDFLAGS = $(GUI_qt_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_qt_LDADD = \
+ libfcgui-qt.la \
+ $(top_builddir)/common/libfreeciv.la \
+ $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
+ $(GUI_qt_LIBS)
 endif
 
 if CLIENT_GUI_FTWL

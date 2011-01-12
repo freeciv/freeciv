@@ -114,16 +114,17 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk/sdl/xaw/win32/ftwl/stub]
+[  --enable-client[=auto/all/gtk/sdl/xaw/qt/win32/ftwl/stub]
                           clients to compile [[auto]] (or list for multiple)
                           maintained clients: gtk/sdl/xaw/stub
-                          unmaintained clients: win32/ftwl],
+                          unmaintained clients: qt/win32/ftwl],
 [clients=${enableval}],
 [client=auto])
 
 gui_gtk2=no
 gui_sdl=no
 gui_xaw=no
+gui_qt=no
 gui_win32=no
 gui_ftwl=no
 gui_beos=no
@@ -615,6 +616,21 @@ if test "x$client" != "xno"; then
   dnl Xaw-specific overrides
   FC_XAW_CLIENT
 
+  dnl QT-specific overrides
+  if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
+    found_client=yes
+
+    if test "x$found_client" = "xyes"; then
+      gui_qt=yes
+      if test "x$client" = "xauto" ; then
+        client=yes
+      fi
+      GUI_qt_LIBS="-lm"
+    elif test "x$gui_qt" = "xyes"; then
+      AC_MSG_ERROR(specified client 'qt' not configurable)
+    fi
+  fi
+
   if test "x$gui_ftwl" = "xyes" || test "x$client" = "xall" ||
      test "x$client" = "xauto" ; then
     AC_MSG_CHECKING([will compile gui-ftwl])
@@ -685,6 +701,7 @@ if test "x$client" = "xall" ; then
   if test "x$gui_gtk2" = "xyes" ||
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_xaw" = "xyes" ||
+     test "x$gui_qt" = "xyes" ||
      test "x$gui_ftwl" = "xyes" ||
      test "x$gui_win32" = "xyes" ||
      test "x$gui_beos" = "xyes" ||
@@ -724,6 +741,10 @@ AC_SUBST([GUI_xaw_CFLAGS])
 AC_SUBST([GUI_xaw_CXXFLAGS])
 AC_SUBST([GUI_xaw_LIBS])
 AC_SUBST([GUI_xaw_LDFLAGS])
+AC_SUBST([GUI_qt_CFLAGS])
+AC_SUBST([GUI_qt_CXXFLAGS])
+AC_SUBST([GUI_qt_LIBS])
+AC_SUBST([GUI_qt_LDFLAGS])
 AC_SUBST([GUI_ftwl_CFLAGS])
 AC_SUBST([GUI_ftwl_CXXFLAGS])
 AC_SUBST([GUI_ftwl_LIBS])
@@ -750,6 +771,7 @@ AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_WIN32, test "x$gui_win32" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_FTWL, test "x$gui_ftwl" = "xyes")
@@ -1077,6 +1099,7 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-sdl/Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-xaw/Makefile
+          client/gui-qt/Makefile
 	  client/gui-win32/Makefile
 	  client/gui-ftwl/Makefile
 	  client/gui-stub/Makefile
@@ -1148,6 +1171,7 @@ AC_MSG_NOTICE([
     Gtk-2.0: $gui_gtk2
     SDL:     $gui_sdl
     Xaw:     $gui_xaw
+    QT:      $gui_qt
     Stub:    $gui_stub
 
   Not maintained client frontends:

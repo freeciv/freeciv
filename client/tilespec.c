@@ -5201,6 +5201,7 @@ void tileset_use_prefered_theme(const struct tileset *t)
     break;
   case GUI_STUB:
   case GUI_XAW:
+  case GUI_QT:
   case GUI_WIN32:
   case GUI_FTWL:
     break;
