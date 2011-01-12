@@ -231,7 +231,6 @@ void update_start_page(void)
   if (!start_page_shell) {
     return;
   }
-  //if (client_has_player() && C_S_RUNNING != client_state()) {
   if ( C_S_PREPARING == client_state()) {
     bool is_ready;
     const char *nation, *leader;
@@ -337,7 +336,6 @@ void start_page_take_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE) {
     selected_plr=player_by_number(ret->list_index);
     if(NULL != selected_plr ) {
-      //log_error("player no : %s\n",player_name(selected_plr));
       send_chat_printf("/take \"%s\"", player_name(selected_plr));
       if(selected_plr != client_player() && selected_plr->ai_controlled) {
         send_chat("/away");
