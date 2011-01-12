@@ -87,9 +87,9 @@ struct ai_type *ai_type_by_name(const char *search);
 /* FIXME: This should also check if player is ai controlled */
 #define CALL_PLR_AI_FUNC(_func, _player, ...)                           \
   do {                                                                  \
-    struct player *plr = _player; /* _player expanded just once */      \
-    if (plr && plr->ai && plr->ai->funcs._func) {                       \
-      plr->ai->funcs._func( __VA_ARGS__ );                              \
+    struct player *_plr_ = _player; /* _player expanded just once */    \
+    if (_plr_ && _plr_->ai && _plr_->ai->funcs._func) {                 \
+      _plr_->ai->funcs._func( __VA_ARGS__ );                            \
     }                                                                   \
   } while (FALSE)
 
