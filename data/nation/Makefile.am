@@ -134,6 +134,7 @@ pkgdata_DATA = \
 		genoese.ruleset \
 		georgian.ruleset \
 		german.ruleset \
+		ghana.ruleset \
 		ghanaian.ruleset \
 		gokturk.ruleset \
 		greaterpolish.ruleset \
