@@ -21,6 +21,7 @@
 
 /* common */
 #include "player.h"
+#include "rgbcolor.h"
 
 /* client/include */
 #include "colors_g.h"
@@ -29,18 +30,6 @@
 #include "tilespec.h"
 
 #include "colors_common.h"
-
-
-/* An RGBcolor contains the R,G,B bitvalues for a color.  The color itself
- * holds the color structure for this color but may be NULL (it's allocated
- * on demand at runtime). */
-struct rgbcolor {
-  int r, g, b;
-  struct color *color;
-};
-
-static struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgb);
-static void rgbcolor_destroy(struct rgbcolor *prgb);
 
 #define SPECHASH_TAG terrain_color
 #define SPECHASH_KEY_TYPE char *
@@ -54,7 +43,7 @@ static void rgbcolor_destroy(struct rgbcolor *prgb);
 #include "spechash.h"
 
 struct color_system {
-  struct rgbcolor colors[COLOR_LAST];
+  struct rgbcolor **stdcolors;
 
   int num_player_colors;
   struct rgbcolor *player_colors;
@@ -67,72 +56,6 @@ struct color_system {
   struct rgbcolor terrain_colors[MAX_NUM_TERRAINS];
 };
 
-char *color_names[] = {
-  /* Mapview */
-  "mapview_unknown",
-  "mapview_citytext",
-  "mapview_cityblocked",
-  "mapview_goto",
-  "mapview_selection",
-  "mapview_trade_route_line",
-  "mapview_trade_routes_all_built",
-  "mapview_trade_routes_some_built",
-  "mapview_trade_routes_no_built",
-  "mapview_city_link",
-  "mapview_tile_link",
-  "mapview_unit_link",
-
-  /* Spaceship */
-  "spaceship_background",
-
-  /* Overview */
-  "overview_unknown",
-  "overview_mycity",
-  "overview_alliedcity",
-  "overview_enemycity",
-  "overview_myunit",
-  "overview_alliedunit",
-  "overview_enemyunit",
-  "overview_ocean",
-  "overview_ground",
-  "overview_viewrect",
-
-  /* Reqtree */
-  "reqtree_researching",
-  "reqtree_known",
-  "reqtree_goal_prereqs_known",
-  "reqtree_goal_unknown",
-  "reqtree_prereqs_known",
-  "reqtree_unknown",
-  "reqtree_unreachable",
-  "reqtree_background",
-  "reqtree_text",
-  "reqtree_edge",
-
-  /* Player dialog */
-  "playerdlg_background"
-};
-
-/****************************************************************************
-  Duplicate a rgb color.
-****************************************************************************/
-static struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgb)
-{
-  struct rgbcolor *pnew = fc_malloc(sizeof(*pnew));
-
-  *pnew = *prgb;
-  return pnew;
-}
-
-/****************************************************************************
-  Free a rgb color.
-****************************************************************************/
-static void rgbcolor_destroy(struct rgbcolor *prgb)
-{
-  fc_assert_ret(NULL != prgb);
-  free(prgb);
-}
-
 /****************************************************************************
   Called when the client first starts to allocate the default colors.
 
@@ -143,21 +66,20 @@ struct color_system *color_system_read(struct section_file *file)
 {
   int i;
   struct color_system *colors = fc_malloc(sizeof(*colors));
+  enum color_std stdcolor;
 
-  fc_assert_ret_val(ARRAY_SIZE(color_names) == COLOR_LAST, NULL);
-  for (i = 0; i < COLOR_LAST; i++) {
-    if (!secfile_lookup_int(file, &colors->colors[i].r,
-                            "colors.%s0.r", color_names[i])
-        || !secfile_lookup_int(file, &colors->colors[i].g,
-                               "colors.%s0.g", color_names[i])
-        || !secfile_lookup_int(file, &colors->colors[i].b,
-                               "colors.%s0.b", color_names[i])) {
-      log_error("Color %s: %s", color_names[i], secfile_error());
-      colors->colors[i].r = 0;
-      colors->colors[i].g = 0;
-      colors->colors[i].b = 0;
+  colors->stdcolors = fc_calloc(COLOR_LAST, sizeof(*colors->stdcolors));
+
+  for (stdcolor= color_std_begin(); stdcolor!= color_std_end();
+       stdcolor= color_std_next(stdcolor)) {
+    struct rgbcolor *prgbcolor = NULL;
+    if (rgbcolor_load(file, &prgbcolor, "colors.%s0",
+                      color_std_name(stdcolor))) {
+      *(colors->stdcolors + stdcolor) = prgbcolor;
+    } else {
+      log_error("Color %s: %s", color_std_name(stdcolor), secfile_error());
+      *(colors->stdcolors + stdcolor) = rgbcolor_new(0, 0, 0);
     }
-    colors->colors[i].color = NULL;
   }
 
   for (i = 0; i < player_slot_count(); i++) {
@@ -245,12 +167,13 @@ void color_system_setup_terrain(struct color_system *colors,
 void color_system_free(struct color_system *colors)
 {
   int i;
+  enum color_std stdcolor;
 
-  for (i = 0; i < COLOR_LAST; i++) {
-    if (colors->colors[i].color) {
-      color_free(colors->colors[i].color);
-    }
+  for (stdcolor= color_std_begin(); stdcolor!= color_std_end();
+       stdcolor= color_std_next(stdcolor)) {
+    rgbcolor_destroy(*(colors->stdcolors + stdcolor));
   }
+
   for (i = 0; i < colors->num_player_colors; i++) {
     if (colors->player_colors[i].color) {
       color_free(colors->player_colors[i].color);
@@ -262,15 +185,19 @@ void color_system_free(struct color_system *colors)
       color_free(colors->terrain_colors[i].color);
     }
   }
+
   terrain_color_hash_destroy(colors->terrain_hash);
+
   free(colors);
 }
 
 /****************************************************************************
   Return the RGB color, allocating it if necessary.
 ****************************************************************************/
-static struct color *ensure_color(struct rgbcolor *rgb)
+struct color *ensure_color(struct rgbcolor *rgb)
 {
+  fc_assert_ret_val(rgb != NULL, NULL);
+
   if (!rgb->color) {
     rgb->color = color_alloc(rgb->r, rgb->g, rgb->b);
   }
@@ -280,9 +207,13 @@ static struct color *ensure_color(struct rgbcolor *rgb)
 /****************************************************************************
   Return a pointer to the given "standard" color.
 ****************************************************************************/
-struct color *get_color(const struct tileset *t, enum color_std color)
+struct color *get_color(const struct tileset *t, enum color_std stdcolor)
 {
-  return ensure_color(&get_color_system(t)->colors[color]);
+  struct color_system *colors = get_color_system(t);
+
+  fc_assert_ret_val(colors != NULL, NULL);
+
+  return ensure_color(*(colors->stdcolors + stdcolor));
 }
 
 /**********************************************************************
