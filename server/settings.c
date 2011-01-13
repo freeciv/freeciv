@@ -371,6 +371,9 @@ compresstype_name(enum fz_method compresstype)
 #ifdef HAVE_LIBBZ2
   NAME_CASE(FZ_BZIP2, "BZIP2", N_("Using bzip2"));
 #endif
+#ifdef HAVE_LIBLZMA
+  NAME_CASE(FZ_XZ, "XZ", N_("Using xz"));
+#endif
   }
   return NULL;
 }

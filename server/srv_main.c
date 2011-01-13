@@ -1188,6 +1188,12 @@ void save_game(const char *orig_filename, const char *save_reason,
       sz_strlcat(filepath, ".bz2");
       break;
 #endif
+#ifdef HAVE_LIBLZMA
+   case FZ_XZ:
+      /* Append ".xz" to filename. */
+      sz_strlcat(filepath, ".xz");
+      break;
+#endif
     case FZ_PLAIN:
       break;
     default:

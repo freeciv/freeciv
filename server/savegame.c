@@ -576,6 +576,13 @@ static inline enum fz_method int2fz_method(int magic)
     log_verbose("Not compiled with bzib2 support, reverting to default.");
     break;
 #endif /* HAVE_LIBZ */
+  case 3:
+#ifdef HAVE_LIBLZMA
+    return FZ_XZ;
+#else
+    log_verbose("Not compiled with xz support, reverting to default.");
+    break;
+#endif /* HAVE_LIBLZMA */
   }
   return GAME_DEFAULT_COMPRESS_TYPE;
 }
@@ -595,6 +602,10 @@ static inline int fz_method2int(enum fz_method method)
 #ifdef HAVE_LIBBZ2
   case FZ_BZIP2:
     return 2;
+#endif
+#ifdef HAVE_LIBLZMA
+  case FZ_XZ:
+    return 3;
 #endif
   }
   return 0;     /* Not supported, reverting to FZ_PLAIN. */

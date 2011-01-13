@@ -39,6 +39,9 @@ enum fz_method {
 #ifdef HAVE_LIBBZ2
   FZ_BZIP2,
 #endif
+#ifdef HAVE_LIBLZMA
+  FZ_XZ,
+#endif
 };
 
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,

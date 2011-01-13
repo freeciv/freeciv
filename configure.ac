@@ -545,11 +545,17 @@ if test "$GZIP" = "no"; then
   AC_MSG_ERROR([You need the gzip program for compilation.])
 fi
 
-dnl Check for libbzip2
+dnl Check for bzip2 compression
 AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
   [AC_CHECK_HEADERS([bzlib.h],
    [AC_DEFINE(HAVE_LIBBZ2, 1, [libbzip2 is available])
 UTILITY_LIBS="$UTILITY_LIBS -lbz2"])])
+
+dnl Check for xz compression
+AC_CHECK_LIB(lzma, lzma_code,
+  [AC_CHECK_HEADERS([lzma.h],
+   [AC_DEFINE(HAVE_LIBLZMA, 1, [liblzma is available])
+UTILITY_LIBS="${UTILITY_LIBS} -llzma"])])
 
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
@@ -1193,4 +1199,3 @@ AC_MSG_NOTICE([
     Profiling support:     $enable_gprof
     Auth database support: $auth
 ])
-
