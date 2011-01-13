@@ -14,6 +14,10 @@
 #ifndef FC__THREAD_H
 #define FC__THREAD_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 
@@ -40,5 +44,9 @@ void fc_init_mutex(fc_mutex *mutex);
 void fc_destroy_mutex(fc_mutex *mutex);
 void fc_allocate_mutex(fc_mutex *mutex);
 void fc_release_mutex(fc_mutex *mutex);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__THREAD_H */
