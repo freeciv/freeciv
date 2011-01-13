@@ -23,18 +23,19 @@ extern "C" {
 
 #define fc_thread pthread_t
 #define fc_mutex  pthread_mutex_t
-#else /* HAVE_PTHREAD */
-#ifdef HAVE_WINTHREADS
+
+#elif defined (HAVE_WINTHREADS)
 
 #include <windows.h>
-
 #define fc_thread HANDLE *
 #define fc_mutex HANDLE *
-#else /* HAVE_WINTHREADS */
+
+#else /* No pthreads nor winthreads */
+
 /* Dummy */
 #define fc_thread void
 #define fc_mutex void
-#endif /* HAVE_WINTHREADS */
+
 #endif /* HAVE_PTHREAD */
 
 int fc_thread_start(fc_thread *thread, void (*function) (void *arg), void *arg);

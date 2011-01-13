@@ -99,9 +99,7 @@ void fc_release_mutex(fc_mutex *mutex)
 {
   pthread_mutex_unlock(mutex);
 }
-#else /* HAVE_PTHREAD */
-
-#ifdef HAVE_WINTHREADS
+#elif defined(HAVE_WINTHREADS)
 
 struct fc_thread_wrap_data {
   void *arg;
@@ -191,5 +189,47 @@ void fc_release_mutex(fc_mutex *mutex)
 {
   ReleaseMutex(*mutex);
 }
-#endif /* HAVE_WINTHREADS */
-#endif /* HAVE_PTHREAD */
+
+#else /* No thread implementation */
+
+/**********************************************************************
+  Dummy fc_thread_start(). Just run given function in current thread.
+***********************************************************************/
+int fc_thread_start(fc_thread *thread, void (*function) (void *arg),
+                    void *arg)
+{
+  function(arg);
+
+  return 0;
+}
+
+/**********************************************************************
+  Dummy fc_thread_wait()
+***********************************************************************/
+void fc_thread_wait(fc_thread *thread)
+{}
+
+/**********************************************************************
+ Dummy fc_init_mutex()
+***********************************************************************/
+void fc_init_mutex(fc_mutex *mutex)
+{}
+
+/**********************************************************************
+  Dummy fc_destroy_mutex()
+***********************************************************************/
+void fc_destroy_mutex(fc_mutex *mutex)
+{}
+
+/**********************************************************************
+  Dummy fc_allocate_mutex()
+***********************************************************************/
+void fc_allocate_mutex(fc_mutex *mutex)
+{}
+
+/**********************************************************************
+  Dummy fc_release_mutex()
+***********************************************************************/
+void fc_release_mutex(fc_mutex *mutex)
+{}
+#endif /* HAVE_PTHREAD || HAVE_WINTHREADS */

@@ -592,6 +592,8 @@ fi
 
 if test "x$thread_impl" = "xnone" ; then
   AC_MSG_RESULT([none])
+else
+  AC_DEFINE([HAVE_THREADS], [1], [Defined if there is any thread implementation at all])
 fi
 
 dnl Check and choose clients
