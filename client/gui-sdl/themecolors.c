@@ -186,7 +186,7 @@ void theme_color_system_free(struct theme_color_system *colors)
 /****************************************************************************
   Return the RGBA color, allocating it if necessary.
 ****************************************************************************/
-static struct color *ensure_color(struct rgbacolor *rgba)
+static struct color *ensure_color_rgba(struct rgbacolor *rgba)
 {
   if (!rgba->color) {
     rgba->color = color_alloc_rgba(rgba->r, rgba->g, rgba->b, rgba->a);
@@ -199,5 +199,5 @@ static struct color *ensure_color(struct rgbacolor *rgba)
 ****************************************************************************/
 struct color *theme_get_color(const struct theme *t, enum theme_color color)
 {
-  return ensure_color(&theme_get_color_system(t)->colors[color]);
+  return ensure_color_rgba(&theme_get_color_system(t)->colors[color]);
 }
