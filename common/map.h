@@ -353,8 +353,10 @@ bool is_tiles_adjacent(const struct tile *ptile0, const struct tile *ptile1);
 bool is_move_cardinal(const struct tile *src_tile,
 		      const struct tile *dst_tile);
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile);
-int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1);
-int map_move_cost(const struct tile *src_tile, const struct tile *dst_tile);
+int map_move_cost_ai(const struct player *pplayer, const struct tile *tile0,
+                     const struct tile *tile1);
+int map_move_cost(const struct player *pplayer, const struct tile *src_tile,
+                  const struct tile *dst_tile);
 bool is_safe_ocean(const struct tile *ptile);
 bool is_cardinally_adj_to_ocean(const struct tile *ptile);
 bv_special get_tile_infrastructure_set(const struct tile *ptile,

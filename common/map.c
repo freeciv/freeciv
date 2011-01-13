@@ -87,7 +87,7 @@ struct terrain_misc terrain_control;
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
-static bool restrict_infra(const struct unit *punit, const struct tile *t1,
+static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
                            const struct tile *t2);
 
 /****************************************************************************
@@ -703,7 +703,8 @@ bool can_channel_land(const struct tile *ptile)
   May also be used with punit==NULL, in which case punit
   tests are not done (for unit-independent results).
 ***************************************************************/
-static int tile_move_cost_ptrs(struct unit *punit,
+static int tile_move_cost_ptrs(const struct unit *punit,
+                               const struct player *pplayer,
 			       const struct tile *t1, const struct tile *t2)
 {
   bool cardinal_move;
@@ -736,7 +737,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
    * leaving ships, so F_IGTER check has to be before native terrain
    * check. We want to give railroad bonus only to native units. */
   if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD)
-      && native && !restrict_infra(punit, t1, t2)) {
+      && native && !restrict_infra(pplayer, t1, t2)) {
     return MOVE_COST_RAIL;
   }
   if (punit && unit_has_type_flag(punit, F_IGTER)) {
@@ -747,7 +748,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
     return SINGLE_MOVE;
   }
   if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD)
-      && !restrict_infra(punit, t1, t2)) {
+      && !restrict_infra(pplayer, t1, t2)) {
     return MOVE_COST_ROAD;
   }
 
@@ -781,17 +782,17 @@ static int tile_move_cost_ptrs(struct unit *punit,
   nation. This means that one can not use of the infrastructure (road,
   railroad) on this tile.
 ****************************************************************************/
-static bool restrict_infra(const struct unit *punit, const struct tile *t1,
+static bool restrict_infra(const struct player *pplayer, const struct tile *t1,
                            const struct tile *t2)
 {
   struct player *plr1 = tile_owner(t1), *plr2 = tile_owner(t2);
 
-  if (!punit || !game.info.restrictinfra) {
+  if (!pplayer || !game.info.restrictinfra) {
     return FALSE;
   }
 
-  if ((plr1 && pplayers_at_war(plr1, unit_owner(punit)))
-      || (plr2 && pplayers_at_war(plr2, unit_owner(punit)))) {
+  if ((plr1 && pplayers_at_war(plr1, pplayer))
+      || (plr2 && pplayers_at_war(plr2, pplayer))) {
     return TRUE;
   }
 
@@ -811,7 +812,8 @@ static bool restrict_infra(const struct unit *punit, const struct tile *t1,
   FIXME: this function can't be used for air units because it returns
   sea<->land moves as impossible.
 ****************************************************************************/
-int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
+int map_move_cost_ai(const struct player *pplayer, const struct tile *tile0,
+                     const struct tile *tile1)
 {
   const int maxcost = 72; /* Arbitrary. */
 
@@ -845,7 +847,7 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
     return maxcost;
   }
 
-  return tile_move_cost_ptrs(NULL, tile0, tile1);
+  return tile_move_cost_ptrs(NULL, pplayer, tile0, tile1);
 }
 
 /***************************************************************
@@ -854,15 +856,17 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
 ***************************************************************/
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
-  return tile_move_cost_ptrs(punit, punit->tile, ptile);
+  return tile_move_cost_ptrs(punit, unit_owner(punit),
+                             punit->tile, ptile);
 }
 
 /***************************************************************
   Move cost between two tiles
 ***************************************************************/
-int map_move_cost(const struct tile *src_tile, const struct tile *dst_tile)
+int map_move_cost(const struct player *pplayer,
+                  const struct tile *src_tile, const struct tile *dst_tile)
 {
-  return tile_move_cost_ptrs(NULL, src_tile, dst_tile);
+  return tile_move_cost_ptrs(NULL, pplayer, src_tile, dst_tile);
 }
 
 /***************************************************************
