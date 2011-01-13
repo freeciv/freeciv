@@ -248,6 +248,13 @@ aimoduledir="${libdir}/fcai"
 AC_SUBST(aimoduledir)
 AM_CONDITIONAL(AI_MODULES, test "$aimodules" = "true")
 if test $aimodules = true ; then
+  LIBS_TMP=$LIBS
+  LIBS="$LIBS -lltdl"
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <ltdl.h>]],
+     [[lt_dlopenext(NULL);]])],
+     [],
+     [AC_MSG_ERROR([cannot build loadable AI modules as requested])])
+  LIBS=$LIBS_TMP
   SERVER_LIBS="${SERVER_LIBS} -lltdl"
   AC_DEFINE_UNQUOTED([AI_MODULES], [1], [Directory for ai modules])
   CPPFLAGS="${CPPFLAGS} -DAI_MODULEDIR=\"\\\"${aimoduledir}\\\"\""
