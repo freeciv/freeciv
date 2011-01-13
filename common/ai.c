@@ -79,6 +79,7 @@ struct ai_type *ai_type_by_name(const char *search)
 struct ai_type *ai_type_alloc(void)
 {
   if (ai_type_count >= FC_AI_LAST) {
+    log_error(_("Too many AI modules. Max is %d."), FC_AI_LAST);
     return NULL;
   }
 

@@ -50,6 +50,7 @@
 #include "version.h"
 
 /* server */
+#include "aiiface.h"
 #include "console.h"
 #include "ggzserver.h"
 #include "meta.h"
@@ -292,6 +293,14 @@ int main(int argc, char *argv[])
         log_error(_("Illegal value \"%s\" for --Announce"), option);
       }
       free(option);
+#ifdef AI_MODULES
+    } else if ((option = get_option_malloc("--LoadAI", argv, &inx, argc))) {
+      if (!load_ai_module(option)) {
+        fc_fprintf(stderr, _("Failed to load AI module \"%s\"\n"), option);
+        exit(EXIT_FAILURE);
+      }
+      free(option);
+#endif /* AI_MODULES */
     } else {
       fc_fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
       showhelp = TRUE;
@@ -359,6 +368,10 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fc_fprintf(stderr,
 	       _("  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"));
+#ifdef AI_MODULES
+    fc_fprintf(stderr,
+               _("  -L, --LoadAI MODULE\tLoad ai module MODULE. Can appear multiple times\n"));
+#endif /* AI_MODULES */
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     /* TRANS: No full stop after the URL, could cause confusion. */
     fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);

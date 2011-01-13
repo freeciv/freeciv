@@ -172,6 +172,11 @@ void srv_init(void)
   /* NLS init */
   init_nls();
 
+  /* This must be before command line argument parsing.
+     This allocates default ai, and we want that to take place before
+     loading additional ai modules from command line. */
+  ai_init();
+
   /* init server arguments... */
 
   srvarg.metaserver_no_send = DEFAULT_META_SERVER_NO_SEND;
@@ -2222,7 +2227,6 @@ static void srv_prepare(void)
   voting_init();
   diplhand_init();
   voting_init();
-  ai_init();
 
   server_game_init();
 

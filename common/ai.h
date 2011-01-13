@@ -20,7 +20,7 @@ extern "C" {
 /* common */
 #include "fc_types.h" /* MAX_LEN_NAME */
 
-#define FC_AI_LAST 1
+#define FC_AI_LAST 3
 
 struct Treaty;
 struct player;

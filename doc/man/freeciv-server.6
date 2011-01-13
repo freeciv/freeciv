@@ -39,7 +39,10 @@ Auth aware servers have additional parameters:
 [ \-N|\-\-Newusers ]
 
 IPv6 aware servers have additional parameter:
-.B [ \-A|\-\-announce \fIprotocol\fP ]
+.B [ \-A|\-\-Announce \fIprotocol\fP ]
+
+Server with AI module support has additional parameter:
+.B [ \-L|\-\-LoadAi \fImoduke\fP ]
 
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
@@ -145,6 +148,9 @@ Prints out a description of the command line options and exits.
 Reports the \fIaddress\fP to the metaserver.  Then, the metaserver will use
 this address to redirect the users.
 .TP
+.BI "\-L \fImodule\fP, \-\-LoadAI \fImodlue\fP"
+Loads AI module. This option can appear multiple times to load different
+modules.
 .BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
 Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
