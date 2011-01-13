@@ -217,12 +217,37 @@ static bool download_file(const char *URL, const char *local_filename)
 }
 
 /**************************************************************************
+  Return path to control directory
+**************************************************************************/
+static char *control_dir(void)
+{
+  const char *home;
+  static char controld[500] = { '\0' };
+
+  if (controld[0] != '\0') {
+    return controld;
+  }
+
+  home = getenv("HOME");
+  if (home == NULL) {
+    return NULL;
+  }
+
+  fc_snprintf(controld, sizeof(controld),
+              "%s/.freeciv/" DATASUBDIR "/control",
+              home);
+
+  return controld;
+}
+
+/**************************************************************************
   Download modpack from a given URL
 **************************************************************************/
 const char *download_modpack(const char *URL,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb)
 {
+  char *controld;
   char local_name[2048];
   const char *home;
   int start_idx;
@@ -256,15 +281,17 @@ const char *download_modpack(const char *URL,
     return _("Environment variable HOME not set");
   }
 
-  fc_snprintf(local_name, sizeof(local_name),
-              "%s/.freeciv/" DATASUBDIR "/control",
-              home);
+  controld = control_dir();
 
-  if (!make_dir(local_name)) {
+  if (controld == NULL) {
+    return _("Cannot determine control directory");
+  }
+
+  if (!make_dir(controld)) {
     return _("Cannot create required directories");
   }
 
-  cat_snprintf(local_name, sizeof(local_name), "/%s", URL + start_idx);
+  fc_snprintf(local_name, sizeof(local_name), "%s/%s", controld, URL + start_idx);
 
   if (mcb != NULL) {
     mcb(_("Downloading modpack control file."));
@@ -392,6 +419,66 @@ const char *download_modpack(const char *URL,
   if (partial_failure) {
     return _("Some parts of the modpack failed to install.");
   }
+
+  return NULL;
+}
+
+/**************************************************************************
+  Download modpack list
+**************************************************************************/
+const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb)
+{
+  const char *controld = control_dir();
+  char local_name[2048];
+  struct section_file *list_file;
+  const char *list_capstr;
+  const char *mpURL;
+  int modpack_count;
+
+  if (controld == NULL) {
+    return _("Cannot determine control directory");
+  }
+
+  if (!make_dir(controld)) {
+    return _("Cannot create required directories");
+  }
+
+  fc_snprintf(local_name, sizeof(local_name), "%s/modpack.list", controld);
+
+  if (!download_file(URL, local_name)) {
+    return _("Failed to download modpack list");
+  }
+
+  list_file = secfile_load(local_name, FALSE);
+
+  if (list_file == NULL) {
+    return _("Cannot parse modpack list");
+  }
+
+  list_capstr = secfile_lookup_str(list_file, "info.options");
+  if (list_capstr == NULL) {
+    secfile_destroy(list_file);
+    return _("Modpack list has no capability string");
+  }
+
+  if (!has_capabilities(MODLIST_CAPSTR, list_capstr)) {
+    log_error("Incompatible modpack list file:");
+    log_error("  list file options: %s", list_capstr);
+    log_error("  supported options: %s", MODLIST_CAPSTR);
+
+    secfile_destroy(list_file);
+
+    return _("Modpack list is incompatible");  
+  }
+
+  modpack_count = 0;
+  do {
+    mpURL = secfile_lookup_str_default(list_file, NULL, "modpacks.list%d.URL",
+                                       modpack_count++);
+    if (mpURL != NULL) {
+      cb(mpURL);
+    }
+  } while (mpURL != NULL);
 
   return NULL;
 }

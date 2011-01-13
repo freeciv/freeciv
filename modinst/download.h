@@ -16,6 +16,7 @@
 #define MODPACK_SUFFIX ".modpack"
 
 #define MODPACK_CAPSTR "+modpack-090810-2"
+#define MODLIST_CAPSTR "+modlist-100111"
 
 typedef void (*dl_msg_callback)(const char *msg);
 typedef void (*dl_pb_callback)(const double fraction);
@@ -23,5 +24,10 @@ typedef void (*dl_pb_callback)(const double fraction);
 const char *download_modpack(const char *URL,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb);
+
+typedef void (*modpack_list_setup_cb)(const char *URL);
+
+const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb);
+                                  
 
 #endif /* FC__MODPACK_DOWNLOAD_H */
