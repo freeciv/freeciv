@@ -787,8 +787,15 @@ static void populate_unit_pixmap_table(void)
   width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
                                                : GUI_GTK_OVERVIEW_MIN_XSIZE;
 
-  num_units_below = width / (int) tileset_tile_width(tileset);
-  num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
+  if (gui_gtk2_small_display_layout) {
+    /* We want arrow to appear if there is other units in addition
+       to active one in tile. Active unit is not counted, so there
+       can be 0 other units to not to display arrow. */
+    num_units_below = 1 - 1;
+  } else {
+    num_units_below = width / (int) tileset_tile_width(tileset);
+    num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
+  }
 
   gtk_table_resize(GTK_TABLE(table), 2, num_units_below);
 
