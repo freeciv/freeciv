@@ -22,7 +22,7 @@ flag_alt = "ghana"
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Ghana"),      _("?female:Ghana")
+                 "Monarchy",        _("Ghana %s"),      _("?female:Ghana %s")
 	       }
 
 init_techs=""
