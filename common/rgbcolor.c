@@ -18,7 +18,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "registry.c"
+#include "registry.h"
 
 /* common */
 #include "fc_interface.h"
