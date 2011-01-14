@@ -126,7 +126,7 @@ static bool show_command(struct connection *caller, char *str, bool check);
 static void show_changed(struct connection *caller, bool check,
                          int read_recursion);
 
-static bool create_command(struct connection *caller, const char *arg,
+static bool create_command(struct connection *caller, const char *str,
                            bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
@@ -805,17 +805,29 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
   (see creat_command_newcomer(). In the later case, first free player slots
   are used before the slots of dead players are (re)used.
 **************************************************************************/
-static bool create_command(struct connection *caller, const char *arg,
+static bool create_command(struct connection *caller, const char *str,
                            bool check)
 {
   enum rfc_status status;
-  char buf[128];
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char *arg[2];
+  int ntokens;
+  char *ai;
+
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
+
+  if (ntokens == 1) {
+    ai = FC_AI_DEFAULT_NAME;
+  } else {
+    ai = arg[1];
+  }
 
   if (game_was_started()) {
-    status = create_command_newcomer(arg, check, NULL, NULL, buf,
+    status = create_command_newcomer(arg[0], ai, check, NULL, NULL, buf,
                                      sizeof(buf));
   } else {
-    status = create_command_pregame(arg, check, NULL, buf, sizeof(buf));
+    status = create_command_pregame(arg[0], ai, check, NULL, buf, sizeof(buf));
   }
 
   if (status != C_OK) {
@@ -841,7 +853,9 @@ static bool create_command(struct connection *caller, const char *arg,
 
   If 'pnation' is defined this nation is used for the new player.
 **************************************************************************/
-enum rfc_status create_command_newcomer(const char *name, bool check,
+enum rfc_status create_command_newcomer(const char *name,
+                                        const char *ai,
+                                        bool check,
                                         struct nation_type *pnation,
                                         struct player **newplayer,
                                         char *buf, size_t buflen)
@@ -925,7 +939,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   }
 
   /* Create the new player. */
-  pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
+  pplayer = server_create_player(-1, ai);
   if (!pplayer) {
     fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
     return C_FAIL;
@@ -973,9 +987,11 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
 }
 
 /**************************************************************************
-  ...
+  Create player in pregame.
 **************************************************************************/
-enum rfc_status create_command_pregame(const char *name, bool check,
+enum rfc_status create_command_pregame(const char *name,
+                                       const char *ai,
+                                       bool check,
                                        struct player **newplayer,
                                        char *buf, size_t buflen)
 {
@@ -1014,6 +1030,16 @@ enum rfc_status create_command_pregame(const char *name, bool check,
     }
   }
 
+  if (pplayer) {
+    struct ai_type *ait = ai_type_by_name(ai);
+
+    if (ait == NULL) {
+      fc_snprintf(buf, buflen,
+                  _("There is no AI type %s."), ai);
+      return C_FAIL;
+    }
+  }
+
   if (check) {
     /* All code below will change the game state. */
 
@@ -1030,9 +1056,10 @@ enum rfc_status create_command_pregame(const char *name, bool check,
                 name, player_name(pplayer));
 
     team_remove_player(pplayer);
+    pplayer->ai = ai_type_by_name(ai);
   } else {
     /* add new player */
-    pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
+    pplayer = server_create_player(-1, ai);
     if (!pplayer) {
       fc_snprintf(buf, buflen,
                   _("Failed to create new player %s."), name);
@@ -3170,7 +3197,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   sz_strlcpy(buf, str);
   ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
-  
+
   /* check syntax */
   if (!caller && ntokens != 2) {
     cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage:\n%s"),

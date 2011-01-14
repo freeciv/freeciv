@@ -31,11 +31,15 @@ bool read_init_script(struct connection *caller, char *script_filename,
                       bool from_cmdline, bool check);
 void show_players(struct connection *caller);
 
-enum rfc_status create_command_newcomer(const char *name, bool check,
+enum rfc_status create_command_newcomer(const char *name,
+                                        const char *ai,
+                                        bool check,
                                         struct nation_type *pnation,
                                         struct player **newplayer,
                                         char *buf, size_t buflen);
-enum rfc_status create_command_pregame(const char *name, bool check,
+enum rfc_status create_command_pregame(const char *name,
+                                       const char *ai,
+                                       bool check,
                                        struct player **newplayer,
                                        char *buf, size_t buflen);
 
