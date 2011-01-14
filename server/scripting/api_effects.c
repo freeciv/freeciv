@@ -31,8 +31,8 @@ int api_effects_world_bonus(const char *effect_type)
   enum effect_type etype = EFT_LAST;
   SCRIPT_CHECK_ARG_NIL(effect_type, 1, string, 0);
 
-  etype = effect_type_from_str(effect_type);
-  if (etype == EFT_LAST) {
+  etype = effect_type_by_name(effect_type, fc_strcasecmp);
+  if (!effect_type_is_valid(etype)) {
     return 0;
   }
   return get_world_bonus(etype);
@@ -48,8 +48,8 @@ int api_effects_player_bonus(Player *pplayer, const char *effect_type)
   SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, 0);
   SCRIPT_CHECK_ARG_NIL(effect_type, 2, string, 0);
 
-  etype = effect_type_from_str(effect_type);
-  if (etype == EFT_LAST) {
+  etype = effect_type_by_name(effect_type, fc_strcasecmp);
+  if (!effect_type_is_valid(etype)) {
     return 0;
   }
   return get_player_bonus(pplayer, etype);
@@ -65,8 +65,8 @@ int api_effects_city_bonus(City *pcity, const char *effect_type)
   SCRIPT_CHECK_ARG_NIL(pcity, 1, City, 0);
   SCRIPT_CHECK_ARG_NIL(effect_type, 2, string, 0);
 
-  etype = effect_type_from_str(effect_type);
-  if (etype == EFT_LAST) {
+  etype = effect_type_by_name(effect_type, fc_strcasecmp);
+  if (!effect_type_is_valid(etype)) {
     return 0;
   }
   return get_city_bonus(pcity, etype);

@@ -24,107 +24,204 @@ extern "C" {
 
 struct requirement;
 
-/* Type of effects. (Used in effect.type field)
- * These must correspond to effect_type_names[] in effects.c. */
-enum effect_type {
-  EFT_TECH_PARASITE,
-  EFT_AIRLIFT,
-  EFT_ANY_GOVERNMENT,
-  EFT_CAPITAL_CITY,
-  EFT_ENABLE_NUKE,
-  EFT_ENABLE_SPACE,
-  EFT_SPECIALIST_OUTPUT,
-  EFT_OUTPUT_BONUS,
-  EFT_OUTPUT_BONUS_2,
-  EFT_OUTPUT_ADD_TILE,  /* add to each worked tile */
-  EFT_OUTPUT_INC_TILE,  /* add to each worked tile that already has output */
-  EFT_OUTPUT_PER_TILE,  /* increase tile output by given % */
-  EFT_OUTPUT_WASTE_PCT,
-  EFT_FORCE_CONTENT,
-  /* TODO: EFT_FORCE_CONTENT_PCT, */
-  EFT_GIVE_IMM_TECH,
-  EFT_GROWTH_FOOD,
-  EFT_HEALTH_PCT, /* reduced illness due to buildings, ... */
-  EFT_HAVE_EMBASSIES,
-  EFT_MAKE_CONTENT,
-  EFT_MAKE_CONTENT_MIL,
-  EFT_MAKE_CONTENT_MIL_PER,
-  /* TODO: EFT_MAKE_CONTENT_PCT, */
-  EFT_MAKE_HAPPY,
-  EFT_NO_ANARCHY,
-  EFT_NUKE_PROOF,
-  /* TODO: EFT_POLLU_ADJ, */
-  /* TODO: EFT_POLLU_PCT, */
-  /* TODO: EFT_POLLU_POP_ADJ, */
-  EFT_POLLU_POP_PCT,
-  /* TODO: EFT_POLLU_PROD_ADJ, */
-  EFT_POLLU_PROD_PCT,
-  /* TODO: EFT_PROD_PCT, */
-  EFT_REVEAL_CITIES,
-  EFT_REVEAL_MAP,
-  /* TODO: EFT_INCITE_DIST_ADJ, */
-  EFT_INCITE_COST_PCT,
-  EFT_SIZE_ADJ,
-  EFT_SIZE_UNLIMIT,
-  EFT_SS_STRUCTURAL,
-  EFT_SS_COMPONENT,
-  EFT_SS_MODULE,
-  EFT_SPY_RESISTANT,
-  EFT_MOVE_BONUS,
-  EFT_UNIT_NO_LOSE_POP,
-  EFT_UNIT_RECOVER,
-  EFT_UPGRADE_UNIT,
-  EFT_UPKEEP_FREE,
-  EFT_TECH_UPKEEP_FREE,
-  EFT_NO_UNHAPPY,
-  EFT_VETERAN_BUILD,
-  EFT_VETERAN_COMBAT,
-  EFT_HP_REGEN,
-  EFT_CITY_VISION_RADIUS_SQ,
-  EFT_UNIT_VISION_RADIUS_SQ,
-  EFT_DEFEND_BONUS, /* Interacts with F_BADWALLATTACKER, ignored by F_IGWALL */
-  EFT_NO_INCITE,
-  EFT_GAIN_AI_LOVE,
-  EFT_TURN_YEARS,
-  EFT_SLOW_DOWN_TIMELINE, /* Space module tech slowdown */
-  EFT_CIVIL_WAR_CHANCE,
-  EFT_MIGRATION_PCT, /* change of the migration score */
-  EFT_EMPIRE_SIZE_BASE, /* +1 unhappy when more than this cities */
-  EFT_EMPIRE_SIZE_STEP, /* adds additional +1 unhappy steps to above */
-  EFT_MAX_RATES,
-  EFT_MARTIAL_LAW_EACH,
-  EFT_MARTIAL_LAW_MAX,
-  EFT_RAPTURE_GROW,
-  EFT_UNBRIBABLE_UNITS,
-  EFT_REVOLUTION_WHEN_UNHAPPY,
-  EFT_HAS_SENATE,
-  EFT_INSPIRE_PARTISANS,
-  EFT_HAPPINESS_TO_GOLD,
-  EFT_FANATICS, /* stupid special case, we hatess it */
-  EFT_NO_DIPLOMACY,
-  EFT_TRADE_REVENUE_BONUS,
-  EFT_UNHAPPY_FACTOR, /* multiply unhappy upkeep by this effect */
-  EFT_UPKEEP_FACTOR,  /* multiply upkeep by this effect */
-  EFT_UNIT_UPKEEP_FREE_PER_CITY, /* this many units are free from upkeep */
-  EFT_OUTPUT_WASTE,
-  EFT_OUTPUT_WASTE_BY_DISTANCE,
-  EFT_OUTPUT_PENALTY_TILE, /* -1 penalty to tiles producing more than this */
-  EFT_OUTPUT_INC_TILE_CELEBRATE,
-  EFT_CITY_UNHAPPY_SIZE, /* all citizens after this are unhappy */
-  EFT_CITY_RADIUS_SQ, /* add to default squared city radius */
-  EFT_CITY_BUILD_SLOTS, /* slots to build units */
-  EFT_UPGRADE_PRICE_PCT,
-  EFT_VISIBLE_WALLS,     /* City should use walls gfx */
-  EFT_TECH_COST_FACTOR,
-  EFT_SHIELD2GOLD_FACTOR, /* [x%] gold upkeep instead of [1] shield upkeep
-                           * for units */
-  EFT_TILE_WORKABLE,
-  EFT_LAST	/* keep this last */
-};
-
-/* lookups */
-enum effect_type effect_type_from_str(const char *str);
-const char *effect_type_name(enum effect_type effect_type);
+/* Type of effects. Add new values via SPECENUM_VALUE%d and
+ * SPECENUM_VALUE%dNAME at the end of the list. */
+#define SPECENUM_NAME effect_type
+#define SPECENUM_VALUE0 EFT_TECH_PARASITE
+#define SPECENUM_VALUE0NAME "Tech_Parasite"
+#define SPECENUM_VALUE1 EFT_AIRLIFT
+#define SPECENUM_VALUE1NAME "Airlift"
+#define SPECENUM_VALUE2 EFT_ANY_GOVERNMENT
+#define SPECENUM_VALUE2NAME "Any_Government"
+#define SPECENUM_VALUE3 EFT_CAPITAL_CITY
+#define SPECENUM_VALUE3NAME "Capital_City"
+#define SPECENUM_VALUE4 EFT_ENABLE_NUKE
+#define SPECENUM_VALUE4NAME "Enable_Nuke"
+#define SPECENUM_VALUE5 EFT_ENABLE_SPACE
+#define SPECENUM_VALUE5NAME "Enable_Space"
+#define SPECENUM_VALUE6 EFT_SPECIALIST_OUTPUT
+#define SPECENUM_VALUE6NAME "Specialist_Output"
+#define SPECENUM_VALUE7 EFT_OUTPUT_BONUS
+#define SPECENUM_VALUE7NAME "Output_Bonus"
+#define SPECENUM_VALUE8 EFT_OUTPUT_BONUS_2
+#define SPECENUM_VALUE8NAME "Output_Bonus_2"
+/* add to each worked tile */
+#define SPECENUM_VALUE9 EFT_OUTPUT_ADD_TILE
+#define SPECENUM_VALUE9NAME "Output_Add_Tile"
+/* add to each worked tile that already has output */
+#define SPECENUM_VALUE10 EFT_OUTPUT_INC_TILE
+#define SPECENUM_VALUE10NAME "Output_Inc_Tile"
+/* increase tile output by given % */
+#define SPECENUM_VALUE11 EFT_OUTPUT_PER_TILE
+#define SPECENUM_VALUE11NAME "Output_Per_Tile"
+#define SPECENUM_VALUE12 EFT_OUTPUT_WASTE_PCT
+#define SPECENUM_VALUE12NAME "Output_Waste_Pct"
+#define SPECENUM_VALUE13 EFT_FORCE_CONTENT
+#define SPECENUM_VALUE13NAME "Force_Content"
+/* TODO: EFT_FORCE_CONTENT_PCT */
+#define SPECENUM_VALUE14 EFT_GIVE_IMM_TECH
+#define SPECENUM_VALUE14NAME "Give_Imm_Tech"
+#define SPECENUM_VALUE15 EFT_GROWTH_FOOD
+#define SPECENUM_VALUE15NAME "Growth_Food"
+/* reduced illness due to buildings ... */
+#define SPECENUM_VALUE16 EFT_HEALTH_PCT
+#define SPECENUM_VALUE16NAME "Health_Pct"
+#define SPECENUM_VALUE17 EFT_HAVE_EMBASSIES
+#define SPECENUM_VALUE17NAME "Have_Embassies"
+#define SPECENUM_VALUE18 EFT_MAKE_CONTENT
+#define SPECENUM_VALUE18NAME "Make_Content"
+#define SPECENUM_VALUE19 EFT_MAKE_CONTENT_MIL
+#define SPECENUM_VALUE19NAME "Make_Content_Mil"
+#define SPECENUM_VALUE20 EFT_MAKE_CONTENT_MIL_PER
+#define SPECENUM_VALUE20NAME "Make_Content_Mil_Per"
+/* TODO: EFT_MAKE_CONTENT_PCT */
+#define SPECENUM_VALUE21 EFT_MAKE_HAPPY
+#define SPECENUM_VALUE21NAME "Make_Happy"
+#define SPECENUM_VALUE22 EFT_NO_ANARCHY
+#define SPECENUM_VALUE22NAME "No_Anarchy"
+#define SPECENUM_VALUE23 EFT_NUKE_PROOF
+#define SPECENUM_VALUE23NAME "Nuke_Proof"
+/* TODO: EFT_POLLU_ADJ */
+/* TODO: EFT_POLLU_PCT */
+/* TODO: EFT_POLLU_POP_ADJ */
+#define SPECENUM_VALUE24 EFT_POLLU_POP_PCT
+#define SPECENUM_VALUE24NAME "Pollu_Pop_Pct"
+/* TODO: EFT_POLLU_PROD_ADJ */
+#define SPECENUM_VALUE25 EFT_POLLU_PROD_PCT
+#define SPECENUM_VALUE25NAME "Pollu_Prod_Pct"
+/* TODO: EFT_PROD_PCT */
+#define SPECENUM_VALUE26 EFT_REVEAL_CITIES
+#define SPECENUM_VALUE26NAME "Reveal_Cities"
+#define SPECENUM_VALUE27 EFT_REVEAL_MAP
+#define SPECENUM_VALUE27NAME "Reveal_Map"
+/* TODO: EFT_INCITE_DIST_ADJ */
+#define SPECENUM_VALUE28 EFT_INCITE_COST_PCT
+#define SPECENUM_VALUE28NAME "Incite_Cost_Pct"
+#define SPECENUM_VALUE29 EFT_SIZE_ADJ
+#define SPECENUM_VALUE29NAME "Size_Adj"
+#define SPECENUM_VALUE30 EFT_SIZE_UNLIMIT
+#define SPECENUM_VALUE30NAME "Size_Unlimit"
+#define SPECENUM_VALUE31 EFT_SS_STRUCTURAL
+#define SPECENUM_VALUE31NAME "SS_Structural"
+#define SPECENUM_VALUE32 EFT_SS_COMPONENT
+#define SPECENUM_VALUE32NAME "SS_Component"
+#define SPECENUM_VALUE33 EFT_SS_MODULE
+#define SPECENUM_VALUE33NAME "SS_Module"
+#define SPECENUM_VALUE34 EFT_SPY_RESISTANT
+#define SPECENUM_VALUE34NAME "Spy_Resistant"
+#define SPECENUM_VALUE35 EFT_MOVE_BONUS
+#define SPECENUM_VALUE35NAME "Move_Bonus"
+#define SPECENUM_VALUE36 EFT_UNIT_NO_LOSE_POP
+#define SPECENUM_VALUE36NAME "Unit_No_Lose_Pop"
+#define SPECENUM_VALUE37 EFT_UNIT_RECOVER
+#define SPECENUM_VALUE37NAME "Unit_Recover"
+#define SPECENUM_VALUE38 EFT_UPGRADE_UNIT
+#define SPECENUM_VALUE38NAME "Upgrade_Unit"
+#define SPECENUM_VALUE39 EFT_UPKEEP_FREE
+#define SPECENUM_VALUE39NAME "Upkeep_Free"
+#define SPECENUM_VALUE40 EFT_TECH_UPKEEP_FREE
+#define SPECENUM_VALUE40NAME "Tech_Upkeep_Free"
+#define SPECENUM_VALUE41 EFT_NO_UNHAPPY
+#define SPECENUM_VALUE41NAME "No_Unhappy"
+#define SPECENUM_VALUE42 EFT_VETERAN_BUILD
+#define SPECENUM_VALUE42NAME "Veteran_Build"
+#define SPECENUM_VALUE43 EFT_VETERAN_COMBAT
+#define SPECENUM_VALUE43NAME "Veteran_Combat"
+#define SPECENUM_VALUE44 EFT_HP_REGEN
+#define SPECENUM_VALUE44NAME "HP_Regen"
+#define SPECENUM_VALUE45 EFT_CITY_VISION_RADIUS_SQ
+#define SPECENUM_VALUE45NAME "City_Vision_Radius_Sq"
+#define SPECENUM_VALUE46 EFT_UNIT_VISION_RADIUS_SQ
+#define SPECENUM_VALUE46NAME "Unit_Vision_Radius_Sq"
+/* Interacts with F_BADWALLATTACKER, ignored by F_IGWALL */
+#define SPECENUM_VALUE47 EFT_DEFEND_BONUS
+#define SPECENUM_VALUE47NAME "Defend_Bonus"
+#define SPECENUM_VALUE48 EFT_NO_INCITE
+#define SPECENUM_VALUE48NAME "No_Incite"
+#define SPECENUM_VALUE49 EFT_GAIN_AI_LOVE
+#define SPECENUM_VALUE49NAME "Gain_AI_Love"
+#define SPECENUM_VALUE50 EFT_TURN_YEARS
+#define SPECENUM_VALUE50NAME "Turn_Years"
+#define SPECENUM_VALUE51 EFT_SLOW_DOWN_TIMELINE
+#define SPECENUM_VALUE51NAME "Slow_Down_Timeline"
+#define SPECENUM_VALUE52 EFT_CIVIL_WAR_CHANCE
+#define SPECENUM_VALUE52NAME "Civil_War_Chance"
+/* change of the migration score */
+#define SPECENUM_VALUE53 EFT_MIGRATION_PCT
+#define SPECENUM_VALUE53NAME "Migration_Pct"
+/* +1 unhappy when more than this cities */
+#define SPECENUM_VALUE54 EFT_EMPIRE_SIZE_BASE
+#define SPECENUM_VALUE54NAME "Empire_Size_Base"
+/* adds additional +1 unhappy steps to above */
+#define SPECENUM_VALUE55 EFT_EMPIRE_SIZE_STEP
+#define SPECENUM_VALUE55NAME "Empire_Size_Step"
+#define SPECENUM_VALUE56 EFT_MAX_RATES
+#define SPECENUM_VALUE56NAME "Max_Rates"
+#define SPECENUM_VALUE57 EFT_MARTIAL_LAW_EACH
+#define SPECENUM_VALUE57NAME "Martial_Law_Each"
+#define SPECENUM_VALUE58 EFT_MARTIAL_LAW_MAX
+#define SPECENUM_VALUE58NAME "Martial_Law_Max"
+#define SPECENUM_VALUE59 EFT_RAPTURE_GROW
+#define SPECENUM_VALUE59NAME "Rapture_Grow"
+#define SPECENUM_VALUE60 EFT_UNBRIBABLE_UNITS
+#define SPECENUM_VALUE60NAME "Unbribable_Units"
+#define SPECENUM_VALUE61 EFT_REVOLUTION_WHEN_UNHAPPY
+#define SPECENUM_VALUE61NAME "Revolution_When_Unhappy"
+#define SPECENUM_VALUE62 EFT_HAS_SENATE
+#define SPECENUM_VALUE62NAME "Has_Senate"
+#define SPECENUM_VALUE63 EFT_INSPIRE_PARTISANS
+#define SPECENUM_VALUE63NAME "Inspire_Partisans"
+#define SPECENUM_VALUE64 EFT_HAPPINESS_TO_GOLD
+#define SPECENUM_VALUE64NAME "Happiness_To_Gold"
+/* stupid special case; we hate it */
+#define SPECENUM_VALUE65 EFT_FANATICS
+#define SPECENUM_VALUE65NAME "Fanatics"
+#define SPECENUM_VALUE66 EFT_NO_DIPLOMACY
+#define SPECENUM_VALUE66NAME "No_Diplomacy"
+#define SPECENUM_VALUE67 EFT_TRADE_REVENUE_BONUS
+#define SPECENUM_VALUE67NAME "Trade_Revenue_Bonus"
+/* multiply unhappy upkeep by this effect */
+#define SPECENUM_VALUE68 EFT_UNHAPPY_FACTOR
+#define SPECENUM_VALUE68NAME "Unhappy_Factor"
+/* multiply upkeep by this effect */
+#define SPECENUM_VALUE69 EFT_UPKEEP_FACTOR
+#define SPECENUM_VALUE69NAME "Upkeep_Factor"
+/* this many units are free from upkeep */
+#define SPECENUM_VALUE70 EFT_UNIT_UPKEEP_FREE_PER_CITY
+#define SPECENUM_VALUE70NAME "Unit_Upkeep_Free_Per_City"
+#define SPECENUM_VALUE71 EFT_OUTPUT_WASTE
+#define SPECENUM_VALUE71NAME "Output_Waste"
+#define SPECENUM_VALUE72 EFT_OUTPUT_WASTE_BY_DISTANCE
+#define SPECENUM_VALUE72NAME "Output_Waste_By_Distance"
+/* -1 penalty to tiles producing more than this */
+#define SPECENUM_VALUE73 EFT_OUTPUT_PENALTY_TILE
+#define SPECENUM_VALUE73NAME "Output_Penalty_Tile"
+#define SPECENUM_VALUE74 EFT_OUTPUT_INC_TILE_CELEBRATE
+#define SPECENUM_VALUE74NAME "Output_Inc_Tile_Celebrate"
+/* all citizens after this are unhappy */
+#define SPECENUM_VALUE75 EFT_CITY_UNHAPPY_SIZE
+#define SPECENUM_VALUE75NAME "City_Unhappy_Size"
+/* add to default squared city radius */
+#define SPECENUM_VALUE76 EFT_CITY_RADIUS_SQ
+#define SPECENUM_VALUE76NAME "City_Radius_Sq"
+/* number of build slots for units */
+#define SPECENUM_VALUE77 EFT_CITY_BUILD_SLOTS
+#define SPECENUM_VALUE77NAME "City_Build_Slots"
+#define SPECENUM_VALUE78 EFT_UPGRADE_PRICE_PCT
+#define SPECENUM_VALUE78NAME "Upgrade_Price_Pct"
+/* City should use walls gfx */
+#define SPECENUM_VALUE79 EFT_VISIBLE_WALLS
+#define SPECENUM_VALUE79NAME "Visible_Walls"
+#define SPECENUM_VALUE80 EFT_TECH_COST_FACTOR
+#define SPECENUM_VALUE80NAME "Tech_Cost_Factor"
+/* [x%] gold upkeep instead of [1] shield upkeep for units */
+#define SPECENUM_VALUE81 EFT_SHIELD2GOLD_FACTOR
+#define SPECENUM_VALUE81NAME "Shield2Gold_Factor"
+#define SPECENUM_VALUE82 EFT_TILE_WORKABLE
+#define SPECENUM_VALUE82NAME "Tile_Workable"
+/* keep this last */
+#define SPECENUM_VALUE83 EFT_LAST
+#include "specenum_gen.h"
 
 /* An effect is provided by a source.  If the source is present, and the
  * other conditions (described below) are met, the effect will be active.

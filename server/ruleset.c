@@ -3047,8 +3047,13 @@ static void load_ruleset_effects(struct section_file *file)
     const char *sec_name = section_name(psection);
 
     type = secfile_lookup_str(file, "%s.name", sec_name);
+    if (!type) {
+      log_error("\"%s\" [%s] missing effect name.", filename, sec_name);
+      continue;
+    }
 
-    if ((eff = effect_type_from_str(type)) == EFT_LAST) {
+    eff = effect_type_by_name(type, fc_strcasecmp);
+    if (!effect_type_is_valid(eff)) {
       log_error("\"%s\" [%s] lists unknown effect type \"%s\".",
                 filename, sec_name, type);
       continue;
