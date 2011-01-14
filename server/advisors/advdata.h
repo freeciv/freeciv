@@ -171,7 +171,10 @@ struct ai_data {
   
   /* If the ai doesn't want/need any research */
   bool wants_no_science;
-  
+
+  /* If the AI celebrates. */
+  bool celebrate;
+
   /* AI doesn't like having more than this number of cities */
   int max_num_cities;
 };

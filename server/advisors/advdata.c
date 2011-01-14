@@ -809,6 +809,7 @@ void ai_data_default(struct player *pplayer)
   } players_iterate_end;
 
   ai->wants_no_science = FALSE;
+  ai->celebrate = FALSE;
   ai->max_num_cities = 10000;
 }
 
