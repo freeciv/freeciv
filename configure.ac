@@ -238,16 +238,16 @@ AC_ARG_WITH(efence,
 )
 
 AC_ARG_ENABLE([aimodules],
-[  --enable-aimodules      support for ai modules [[default=false]]],
+[  --enable-aimodules      support for ai modules [[default=no]]],
 [case "${enableval}" in
-  yes) aimodules=true ;;
-  no)  aimodules=false ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-aimodules]) ;;
-esac], [aimodules=false])
+  yes) enable_aimodules=yes ;;
+  no)  enable_aimodules=no ;;
+  *)   AC_MSG_ERROR([bad value ${enable_aimodules} for --enable-aimodules]) ;;
+esac], [enable_aimodules=no])
 aimoduledir="${libdir}/fcai"
 AC_SUBST(aimoduledir)
-AM_CONDITIONAL(AI_MODULES, test "$aimodules" = "true")
-if test $aimodules = true ; then
+AM_CONDITIONAL(AI_MODULES, test "$enable_aimodules" = "yes")
+if test $enable_aimodules = yes ; then
   LIBS_TMP=$LIBS
   LIBS="$LIBS -lltdl"
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <ltdl.h>]],
@@ -1187,5 +1187,6 @@ AC_MSG_NOTICE([
   Build freeciv server:  $server
     Debugging support:     $enable_debug
     Profiling support:     $enable_gprof
+    AI modules support:    $enable_aimodules
     Auth database support: $auth
 ])
