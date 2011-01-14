@@ -1507,7 +1507,7 @@ leaders and city names, but are identical in all other aspects and play \
 by the same rules.")
 
 [help_gen_nations]
-generate = "Nations"
+generate = " Nations"
 
 [help_connecting]
 name = _("Connecting")
