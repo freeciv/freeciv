@@ -825,7 +825,7 @@ void boot_help_texts(struct player *pplayer)
          case HELP_RULESET:
            pitem = new_help_item(HELP_RULESET);
            /*           pitem->topic = mystrdup(_(game.control.name)); */
-           pitem->topic = mystrdup(_(HELP_RULESET_ITEM));
+           pitem->topic = mystrdup(Q_(HELP_RULESET_ITEM));
            if (game.control.description[0] != '\0') {
              pitem->text = mystrdup(_(game.control.description));
            } else {
@@ -850,7 +850,7 @@ void boot_help_texts(struct player *pplayer)
     /* It wasn't a "generate" node: */
     
     pitem = new_help_item(HELP_TEXT);
-    pitem->topic = mystrdup(_(secfile_lookup_str(sf, "%s.name", sec[isec])));
+    pitem->topic = mystrdup(Q_(secfile_lookup_str(sf, "%s.name", sec[isec])));
 
     paras = secfile_lookup_str_vec(sf, &npara, "%s.text", sec[isec]);
 
