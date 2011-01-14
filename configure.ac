@@ -632,19 +632,7 @@ if test "x$client" != "xno"; then
   FC_XAW_CLIENT
 
   dnl QT-specific overrides
-  if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
-    found_client=yes
-
-    if test "x$found_client" = "xyes"; then
-      gui_qt=yes
-      if test "x$client" = "xauto" ; then
-        client=yes
-      fi
-      GUI_qt_LIBS="-lm"
-    elif test "x$gui_qt" = "xyes"; then
-      AC_MSG_ERROR(specified client 'qt' not configurable)
-    fi
-  fi
+  FC_QT_CLIENT
 
   if test "x$gui_ftwl" = "xyes" || test "x$client" = "xall" ||
      test "x$client" = "xauto" ; then
