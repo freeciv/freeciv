@@ -2883,6 +2883,10 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 int city_waste(const struct city *pcity, Output_type_id otype, int total)
 {
   int penalty = 0;
+  int penalty_size = 0;  /* separate notradesize/fulltradeisze from normal
+                          * corruption */
+  int total_eft = total; /* normal corruption calculated on total reduced by
+                          * possible size penalty */
   int waste_level = get_city_output_bonus(pcity, get_output_type(otype),
                                           EFT_OUTPUT_WASTE);
   int waste_by_dist = get_city_output_bonus(pcity, get_output_type(otype),
@@ -2902,10 +2906,10 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
     if (pcity->size <= notradesize) {
       return total; /* Then no trade income. */
     } else if (pcity->size >= fulltradesize) {
-      penalty = 0;
-    } else {
-      penalty = total * (fulltradesize - pcity->size)
-	/ (fulltradesize - notradesize);
+      penalty_size = 0;
+     } else {
+      penalty_size = total_eft * (fulltradesize - pcity->size)
+                     / (fulltradesize - notradesize);
     }
   }
 
@@ -2915,16 +2919,24 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
     if (!capital) {
       return total; /* no capital - no income */
     } else {
-      waste_level += waste_by_dist 
+      waste_level += waste_by_dist
                      * real_map_distance(capital->tile, pcity->tile);
     }
   }
 
+  /* reduce the amount subjected to corruption */
+  total_eft -= penalty_size;
+
+  /* corruption/waste calculated only for the actually produced amount */
   if (waste_level > 0) {
-    penalty += total * waste_level / 100;
+    penalty += total_eft * waste_level / 100;
   }
 
+  /* bonus calculated only for the actually produced amount */
   penalty -= penalty * waste_pct / 100;
+
+  /* add up total penalty */
+  penalty += penalty_size;
 
   return MIN(MAX(penalty, 0), total);
 }
