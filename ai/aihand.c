@@ -101,7 +101,7 @@ static void ai_manage_spaceship(struct player *pplayer)
   Returns the total amount of trade generated (trade) and total amount of
   gold needed as upkeep (expenses).
 ***************************************************************************/
-void ai_calc_data(struct player *pplayer, int *trade, int *expenses)
+void ai_calc_data(const struct player *pplayer, int *trade, int *expenses)
 {
   if (NULL != trade) {
     *trade = 0;
@@ -120,6 +120,14 @@ void ai_calc_data(struct player *pplayer, int *trade, int *expenses)
       *expenses += pcity->usage[O_GOLD];
     }
   } city_list_iterate_end;
+
+  if (game.info.gold_upkeep_style > 0) {
+    /* Account for units with gold upkeep paid for by the nation.
+     * (game.info.gold_upkeep_style = 1 & 2) */
+    unit_list_iterate(pplayer->units, punit) {
+      *expenses += punit->upkeep[O_GOLD];
+    } unit_list_iterate_end;
+  }
 }
 
 /**************************************************************************
@@ -153,14 +161,6 @@ static void ai_manage_taxes(struct player *pplayer)
   }
 
   ai_calc_data(pplayer, &trade, &expenses);
-
-  if (game.info.gold_upkeep_style > 0) {
-    /* Account for units with gold upkeep paid for by the nation.
-     * (game.info.gold_upkeep_style = 1,2) */
-    unit_list_iterate(pplayer->units, punit) {
-      expenses += punit->upkeep[O_GOLD];
-    } unit_list_iterate_end;
-  }
 
   /* Find minimum tax rate which gives us a positive balance. We assume
    * that we want science most and luxuries least here, and reverse or 
