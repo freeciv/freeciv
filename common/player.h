@@ -236,6 +236,11 @@ struct player {
       bv_debug debug;
 
       struct ai_data *aidata;
+
+      /* Delegation to this user. */
+      char delegate_to[MAX_LEN_NAME];
+      /* Set if the delegation is active. */
+      char orig_username[MAX_LEN_NAME];
     } server;
 
     struct {

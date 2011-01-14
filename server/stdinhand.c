@@ -139,9 +139,14 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
 static bool lua_command(struct connection *caller, char *arg, bool check);
 static bool kick_command(struct connection *caller, char *name, bool check);
+static bool delegate_command(struct connection *caller, char *arg,
+                             bool check);
+static const char *delegate_player_str(struct player *pplayer, bool observer);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
 static bool player_name_check(const char* name, char *buf, size_t buflen);
+
+static void show_delegations(struct connection *caller);
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -4134,6 +4139,8 @@ static bool handle_stdin_input_real(struct connection *caller,
     return lua_command(caller, arg, check);
   case CMD_KICK:
     return kick_command(caller, arg, check);
+  case CMD_DELEGATE:
+    return delegate_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -4346,6 +4353,391 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
   return script_do_string(arg);
 }
 
+/* Define the possible arguments to the delegation command */
+#define SPECENUM_NAME delegate_args
+#define SPECENUM_VALUE0     DELEGATE_CANCEL
+#define SPECENUM_VALUE0NAME "cancel"
+#define SPECENUM_VALUE1     DELEGATE_RESTORE
+#define SPECENUM_VALUE1NAME "restore"
+#define SPECENUM_VALUE2     DELEGATE_SHOW
+#define SPECENUM_VALUE2NAME "show"
+#define SPECENUM_VALUE3     DELEGATE_TAKE
+#define SPECENUM_VALUE3NAME "take"
+#define SPECENUM_VALUE4     DELEGATE_TO
+#define SPECENUM_VALUE4NAME "to"
+#include "specenum_gen.h"
+
+/*****************************************************************************
+  Returns possible parameters for the reset command.
+*****************************************************************************/
+static const char *delegate_accessor(int i)
+{
+  i = CLIP(0, i, delegate_args_max());
+  return delegate_args_name((enum delegate_args) i);
+}
+
+/*****************************************************************************
+  Handle delegation of control.
+*****************************************************************************/
+static bool delegate_command(struct connection *caller, char *arg,
+                             bool check)
+{
+  char *tokens[3];
+  int ntokens, ind;
+  enum m_pre_result result;
+  bool ret = FALSE;
+  const char *username = NULL;
+  struct player *dplayer = NULL;
+
+  if (!game_was_started()) {
+    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Game was not started - "
+                                            "delegation not possible."));
+    return FALSE;
+  }
+
+  ntokens = get_tokens(arg, tokens, 3, TOKEN_DELIMITERS);
+
+  if (ntokens > 0) {
+    /* match the argument */
+    result = match_prefix(delegate_accessor, delegate_args_max() + 1, 0,
+                          fc_strncasecmp, NULL, tokens[0], &ind);
+
+    switch (result) {
+    case M_PRE_EXACT:
+    case M_PRE_ONLY:
+      /* we have a match */
+      break;
+    case M_PRE_EMPTY:
+      /* Use 'delegate show' as default. */
+      ind = DELEGATE_SHOW;
+      break;
+    case M_PRE_AMBIGUOUS:
+    case M_PRE_LONG:
+    case M_PRE_FAIL:
+    case M_PRE_LAST:
+      {
+        char buf[256] = "";
+        enum delegate_args valid_args;
+
+        for (valid_args = delegate_args_begin();
+             valid_args != delegate_args_end();
+             valid_args = delegate_args_next(valid_args)) {
+          cat_snprintf(buf, sizeof(buf), "'%s'",
+                       delegate_args_name(valid_args));
+          if (valid_args != delegate_args_max()) {
+            cat_snprintf(buf, sizeof(buf), ", ");
+          }
+        }
+
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  /* TRANS: do not translate the command 'delegate'. */
+                  _("Valid arguments for 'delegate' are: %s."), buf);
+        ret =  FALSE;
+        goto cleanup;
+      }
+      break;
+    }
+  } else {
+    /* Use 'delegate show' as default. */
+    ind = DELEGATE_SHOW;
+  }
+
+  /* Get the data (player, username for delegation). */
+  switch (ind) {
+  case DELEGATE_CANCEL:
+    /* delegate cancel [player] */
+    if ((!caller || conn_get_access(caller) >= ALLOW_ADMIN) && ntokens > 1) {
+      dplayer = player_by_name_prefix(tokens[1], &result);
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Unknown player name: '%s'"), tokens[1]);
+        ret = FALSE;
+        goto cleanup;
+      }
+    } else {
+      dplayer = conn_get_player(caller);
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Please define a player for whom the delegation should "
+                    "be canceled."));
+        ret = FALSE;
+        goto cleanup;
+      }
+    }
+    break;
+  case DELEGATE_RESTORE:
+    /* delegate restore */
+    if (!caller) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("You can't restore control of a player from the console."));
+      ret = FALSE;
+      goto cleanup;
+    }
+    break;
+  case DELEGATE_SHOW:
+    /* delegate show [player] */
+    if (ntokens > 1) {
+      dplayer = player_by_name_prefix(tokens[1], &result);
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Unknown player name: '%s'"), tokens[1]);
+        ret = FALSE;
+        goto cleanup;
+      }
+    } else {
+      dplayer = conn_get_player(caller);
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Please define a player for whom the delegation should "
+                    "be shown."));
+        ret = FALSE;
+        goto cleanup;
+      }
+    }
+    break;
+  case DELEGATE_TAKE:
+    /* delegate take <player> */
+    if (!caller) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("You can't take a player from the console."));
+      ret = FALSE;
+      goto cleanup;
+    }
+    if (ntokens > 1) {
+      dplayer = player_by_name_prefix(tokens[1], &result);
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Unknown player name: '%s'"), tokens[1]);
+        ret = FALSE;
+        goto cleanup;
+      }
+    } else {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Please define a player to take control of."));
+      ret = FALSE;
+      goto cleanup;
+    }
+    break;
+  case DELEGATE_TO:
+    /* delegate to <username> [player] */
+    if (ntokens > 1) {
+      username = tokens[1];
+    } else {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Please define a username to whom the control is "
+                  "delegated."));
+      ret = FALSE;
+      goto cleanup;
+    }
+    if ((!caller || conn_get_access(caller) >= ALLOW_ADMIN) && ntokens > 2) {
+      dplayer = player_by_name_prefix(tokens[2], &result);
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("Unknown player name: '%s'"), tokens[2]);
+        ret = FALSE;
+        goto cleanup;
+      }
+    } else {
+      dplayer = conn_controls_player(caller) ? conn_get_player(caller) : NULL;
+      if (!dplayer) {
+        cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                  _("You do not control a player."));
+        ret = FALSE;
+        goto cleanup;
+      }
+    }
+    break;
+  }
+
+  if (check) {
+    ret = TRUE;
+    goto cleanup;
+  }
+
+  switch (ind) {
+  case DELEGATE_TO:
+    /* Delegate to another player. */
+    fc_assert_ret_val(dplayer, FALSE);
+    fc_assert_ret_val(username != '\0', FALSE);
+
+    if (caller && strcmp(caller->username, username) == 0) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Delegation to yourself?"));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    if (conn_get_player(caller) == dplayer
+        && caller->server.delegation.playing != NULL) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("You can't define a delegation if you are in delegation "
+                  "mode. See '/list delegation'"));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    player_delegation_set(dplayer, username);
+    cmd_reply(CMD_DELEGATE, caller, C_OK,
+              _("Define delegation for player '%s' to user '%s'."),
+              player_name(dplayer), username);
+    ret = TRUE;
+    goto cleanup;
+    break;
+
+  case DELEGATE_SHOW:
+    /* Show delegations. */
+    fc_assert_ret_val(dplayer, FALSE);
+
+    if (player_delegation_get(dplayer) == NULL) {
+      /* No delegation set. */
+      cmd_reply(CMD_DELEGATE, caller, C_OK,
+                _("No delegation defined for %s."),
+                player_name(dplayer));
+    } else {
+      cmd_reply(CMD_DELEGATE, caller, C_OK,
+                  _("Control of player '%s' delegated to user '%s'."),
+                  player_name(dplayer), player_delegation_get(dplayer));
+    }
+    ret = TRUE;
+    goto cleanup;
+    break;
+
+  case DELEGATE_CANCEL:
+    if (player_delegation_get(dplayer) == NULL) {
+      /* No delegation set. */
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("No delegation defined for %s."),
+                player_name(dplayer));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    player_delegation_set(dplayer, NULL);
+    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Delegation canceld."));
+    ret = TRUE;
+    goto cleanup;
+    break;
+
+  case DELEGATE_TAKE:
+    /* Try to take another player. */
+    fc_assert_ret_val(dplayer, FALSE);
+    fc_assert_ret_val(caller, FALSE);
+
+    if (caller->server.delegation.status) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Please restore first your original connection."));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    if (player_delegation_get(conn_get_player(caller)) != NULL) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Please cancel first your own delegation."));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    /* Taking your own player makes no sense. */
+    if (dplayer == conn_get_player(caller)) {
+      cmd_reply(CMD_TAKE, caller, C_FAIL, _("You already controls %s."),
+                player_name(conn_get_player(caller)));
+      ret =  FALSE;
+      goto cleanup;
+    }
+
+    /* If the player is controlled by another user, fail. */
+    if (dplayer->is_connected) {
+      cmd_reply(CMD_TAKE, caller, C_FAIL,
+                _("A user is connect to player '%s'."),
+                player_name(dplayer));
+      ret =  FALSE;
+      goto cleanup;
+    }
+
+    /* No chain of delegations. */
+    if (caller->server.delegation.status == TRUE) {
+      cmd_reply(CMD_TAKE, caller, C_FAIL,
+                _("You currently are using a delegation. Cancel it first."));
+      ret =  FALSE;
+      goto cleanup;
+    }
+
+    if (!connection_delegate_take(caller, dplayer)) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Failed to take control of '%s'."), player_name(dplayer));
+      ret =  FALSE;
+      goto cleanup;
+    }
+
+    cmd_reply(CMD_DELEGATE, caller, C_OK,
+              _("'%s' is now controlling player '%s'."), caller->username,
+              player_name(conn_get_player(caller)));
+    ret = TRUE;
+    goto cleanup;
+    break;
+
+  case DELEGATE_RESTORE:
+    /* Restore the original player. */
+    fc_assert_ret_val(caller, FALSE);
+
+    if (caller->server.delegation.status == FALSE) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("There is no original player to restore."));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    if (caller->server.delegation.playing
+        && strcmp(caller->server.delegation.playing->server.orig_username,
+                  caller->username) != 0) {
+      /* This is _not_ the original connection. */
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Player data does not match."));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    if (!connection_delegate_restore(caller)) {
+      cmd_reply(CMD_DELEGATE, caller, C_FAIL,
+                _("Failed to restore control over '%s'."),
+                player_name(caller->server.delegation.playing));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    cmd_reply(CMD_DELEGATE, caller, C_OK,
+              _("'%s' is now connected as: %s."), caller->username,
+              delegate_player_str(conn_get_player(caller), caller->observer));
+    ret = TRUE;
+    goto cleanup;
+    break;
+  }
+
+ cleanup:
+  free_tokens(tokens, ntokens);
+  return ret;
+}
+
+/*****************************************************************************
+ Send start command related message
+*****************************************************************************/
+static const char *delegate_player_str(struct player *pplayer, bool observer)
+{
+  static char buf[128];
+
+  if (pplayer) {
+    if (observer) {
+      fc_snprintf(buf, sizeof(buf), "%s (observer)", player_name(pplayer));
+    } else {
+      fc_snprintf(buf, sizeof(buf), "%s", player_name(pplayer));
+    }
+  } else {
+    sz_strlcpy(buf, "global observer");
+  }
+
+  return buf;
+}
+
 /**************************************************************************
  Send start command related message
 **************************************************************************/
@@ -4483,7 +4875,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
             _("Cutting connection %s."), ptarget->username);
-  connection_close(ptarget, _("connection cut"));
+  connection_close_server(ptarget, _("connection cut"));
 
   return TRUE;
 }
@@ -4620,7 +5012,7 @@ static bool kick_command(struct connection *caller, char *name, bool check)
 
     kick_hash_replace(kick_table_by_user, aconn->username, now);
 
-    connection_close(aconn, _("kicked"));
+    connection_close_server(aconn, _("kicked"));
   } conn_list_iterate_end;
 
   return TRUE;
@@ -4904,6 +5296,34 @@ static void show_connections(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
+/*****************************************************************************
+  List all delegations of the current game.
+*****************************************************************************/
+static void show_delegations(struct connection *caller)
+{
+  bool empty = TRUE;
+
+  cmd_reply(CMD_DELEGATE, caller, C_COMMENT, _("List of all delegations:"));
+  cmd_reply(CMD_DELEGATE, caller, C_COMMENT, horiz_line);
+
+  players_iterate(pplayer) {
+    const char *delegate_to = player_delegation_get(pplayer);
+    if (delegate_to != NULL) {
+      cmd_reply(CMD_DELEGATE, caller, C_COMMENT,
+                _("Control over player '%s' delegated to user '%s'%s."),
+                player_name(pplayer), delegate_to,
+                player_delegation_active(pplayer) ? _(" (active)") : "");
+      empty = FALSE;
+    }
+  } players_iterate_end;
+
+  if (empty) {
+    cmd_reply(CMD_DELEGATE, caller, C_COMMENT, _("No delegations defined."));
+  }
+
+  cmd_reply(CMD_DELEGATE, caller, C_COMMENT, horiz_line);
+}
+
 /****************************************************************************
   Show the ignore list of the 
 ****************************************************************************/
@@ -5085,16 +5505,18 @@ static void show_teams(struct connection *caller)
 #define SPECENUM_NAME list_args
 #define SPECENUM_VALUE0     LIST_CONNECTIONS
 #define SPECENUM_VALUE0NAME "connections"
-#define SPECENUM_VALUE1     LIST_IGNORE
-#define SPECENUM_VALUE1NAME "ignored users"
-#define SPECENUM_VALUE2     LIST_PLAYERS
-#define SPECENUM_VALUE2NAME "players"
-#define SPECENUM_VALUE3     LIST_SCENARIOS
-#define SPECENUM_VALUE3NAME "scenarios"
-#define SPECENUM_VALUE4     LIST_TEAMS
-#define SPECENUM_VALUE4NAME "teams"
-#define SPECENUM_VALUE5     LIST_VOTES
-#define SPECENUM_VALUE5NAME "votes"
+#define SPECENUM_VALUE1     LIST_DELEGATIONS
+#define SPECENUM_VALUE1NAME "delegations"
+#define SPECENUM_VALUE2     LIST_IGNORE
+#define SPECENUM_VALUE2NAME "ignored users"
+#define SPECENUM_VALUE3     LIST_PLAYERS
+#define SPECENUM_VALUE3NAME "players"
+#define SPECENUM_VALUE4     LIST_SCENARIOS
+#define SPECENUM_VALUE4NAME "scenarios"
+#define SPECENUM_VALUE5     LIST_TEAMS
+#define SPECENUM_VALUE5NAME "teams"
+#define SPECENUM_VALUE6     LIST_VOTES
+#define SPECENUM_VALUE6NAME "votes"
 #include "specenum_gen.h"
 
 /**************************************************************************
@@ -5134,6 +5556,9 @@ static bool show_list(struct connection *caller, char *arg)
   switch(ind) {
   case LIST_CONNECTIONS:
     show_connections(caller);
+    return TRUE;
+  case LIST_DELEGATIONS:
+    show_delegations(caller);
     return TRUE;
   case LIST_IGNORE:
     return show_ignore(caller);

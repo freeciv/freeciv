@@ -544,6 +544,20 @@ static struct command commands[] = {
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
 #endif /* DEBUG */
+  {"delegate", ALLOW_BASIC,
+   /* TRANS: translate only text between [] and <> */
+   N_("delegate cancel [player-name]\n"
+      "delegate restore\n"
+      "delegate show <player-name>\n"
+      "delegate take <player-name>\n"
+      "delegate to <username> [player-name]"),
+   N_("Delegate control to another user."),
+   N_("This command can be used to delegate the control over a player. The "
+      "[player-name] argument can only be used by connections with the "
+      "cmdlevel 'admin' or above to force the corresponding change of the "
+      "delegation status."),
+   CMD_ECHO_NONE, VCF_NONE, 0
+  },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    SYN_ORIG_("rfcstyle"),

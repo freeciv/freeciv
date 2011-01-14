@@ -88,6 +88,7 @@ enum command_id {
 #ifdef DEBUG
   CMD_OLDSAVE,
 #endif /* DEBUG */
+  CMD_DELEGATE,
 
   /* undocumented */
   CMD_RFCSTYLE,

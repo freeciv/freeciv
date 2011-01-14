@@ -145,6 +145,10 @@ void establish_new_connection(struct connection *pconn)
   pconn->established = TRUE;
   pconn->server.status = AS_ESTABLISHED;
 
+  pconn->server.delegation.status = FALSE;
+  pconn->server.delegation.playing = NULL;
+  pconn->server.delegation.observer = FALSE;
+
   conn_list_append(game.est_connections, pconn);
   if (conn_list_size(game.est_connections) == 1) {
     /* First connection
@@ -714,4 +718,112 @@ void connection_detach(struct connection *pconn)
   send_updated_vote_totals(NULL);
 
   send_conn_info(pconn->self, game.est_connections);
+}
+
+/*****************************************************************************
+ Use a delegation to get control over another player.
+*****************************************************************************/
+bool connection_delegate_take(struct connection *pconn,
+                              struct player *pplayer)
+{
+  fc_assert_ret_val(pconn->server.delegation.status == FALSE, FALSE);
+
+  /* Save the original player of this connection and the original username of
+   * the player. */
+  pconn->server.delegation.status = TRUE;
+  pconn->server.delegation.playing = conn_get_player(pconn);
+  pconn->server.delegation.observer = pconn->observer;
+  if (conn_get_player(pconn) != NULL) {
+    struct player *plr = conn_get_player(pconn);
+    fc_assert_ret_val(strlen(plr->server.orig_username) == 0, FALSE);
+    sz_strlcpy(plr->server.orig_username, plr->username);
+  }
+  fc_assert_ret_val(strlen(pplayer->server.orig_username) == 0, FALSE);
+  sz_strlcpy(pplayer->server.orig_username, pplayer->username);
+
+  /* Detach the current connection. */
+  if (NULL != pconn->playing || pconn->observer) {
+    connection_detach(pconn);
+  }
+
+  /* Try to attach to the new player */
+  if (!connection_attach(pconn, pplayer, FALSE)) {
+
+    /* Restore original connection. */
+    fc_assert_ret_val(connection_attach(pconn,
+                                        pconn->server.delegation.playing,
+                                        pconn->server.delegation.observer),
+                      FALSE);
+
+    /* Reset all changes done above. */
+    pconn->server.delegation.status = FALSE;
+    pconn->server.delegation.playing = NULL;
+    pconn->server.delegation.observer = FALSE;
+    if (conn_get_player(pconn) != NULL) {
+      struct player *plr = conn_get_player(pconn);
+      plr->server.orig_username[0] = '\0';
+    }
+    pplayer->server.orig_username[0] = '\0';
+
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*****************************************************************************
+ Restore the original status after using a delegation.
+*****************************************************************************/
+bool connection_delegate_restore(struct connection *pconn)
+{
+  struct player *pplayer;
+
+  if (!pconn->server.delegation.status) {
+    return FALSE;
+  }
+
+  /* Save the current player. */
+  pplayer = conn_get_player(pconn);
+
+  /* There should be a player connected to pconn. */
+  fc_assert_ret_val(pplayer, FALSE);
+
+  /* Detach the current connection. */
+  if (NULL != pconn->playing || pconn->observer) {
+    connection_detach(pconn);
+  }
+
+  /* Try to attach to the original player */
+  if (!connection_attach(pconn, pconn->server.delegation.playing,
+                         pconn->server.delegation.observer)) {
+    return FALSE;
+  }
+
+  /* Reset data. */
+  pconn->server.delegation.status = FALSE;
+  pconn->server.delegation.playing = NULL;
+  pconn->server.delegation.observer = FALSE;
+  if (conn_get_player(pconn) != NULL) {
+    struct player *plr = conn_get_player(pconn);
+    plr->server.orig_username[0] = '\0';
+  }
+
+  /* Restore the username of the player which delegated control. */
+  sz_strlcpy(pplayer->username, pplayer->server.orig_username);
+  pplayer->server.orig_username[0] = '\0';
+  /* Send updated username to all connections. */
+  send_player_info_c(pplayer, NULL);
+
+  return TRUE;
+}
+
+/*****************************************************************************
+ Close a connection. Use this in the server to take care of delegation stuff
+ (reset the username of the controlled connection).
+*****************************************************************************/
+void connection_close_server(struct connection *pconn, const char *reason)
+{
+  /* Restore possible delegations before the connection is closed. */
+  connection_delegate_restore(pconn);
+  connection_close(pconn, reason);
 }

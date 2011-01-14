@@ -211,6 +211,14 @@ struct connection {
       /* Something has occurred that means the connection should be closed,
        * but the closing has been postponed. */
       bool is_closing;
+
+      /* If we use delegation the original player (playing) is replaced. Save
+       * it here to easily restore it. */
+      struct {
+        bool status;
+        struct player *playing;
+        bool observer;
+      } delegation;
     } server;
   };
 

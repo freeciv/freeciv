@@ -302,8 +302,8 @@ static void really_close_connections(void)
 }
 
 /****************************************************************************
-  Break a client connection. You should almost always use connection_close()
-  instead of calling this function directly.
+  Break a client connection. You should almost always use
+  connection_close_server() instead of calling this function directly.
 ****************************************************************************/
 static void server_conn_close_callback(struct connection *pconn)
 {
@@ -332,7 +332,7 @@ static void cut_lagging_connection(struct connection *pconn)
      * disconnected and reconnect. */
     log_verbose("connection (%s) cut due to lagging player",
                 conn_description(pconn));
-    connection_close(pconn, _("lagging connection"));
+    connection_close_server(pconn, _("lagging connection"));
   }
 }
 
@@ -386,7 +386,7 @@ void flush_packets(void)
         if(FD_ISSET(pconn->sock, &exceptfs)) {
           log_verbose("connection (%s) cut due to exception data",
                       conn_description(pconn));
-          connection_close(pconn, _("network exception"));
+          connection_close_server(pconn, _("network exception"));
         } else {
 	  if(pconn->send_buffer && pconn->send_buffer->ndata > 0) {
 	    if(FD_ISSET(pconn->sock, &writefs)) {
@@ -457,7 +457,7 @@ static void incoming_client_packets(struct connection *pconn)
 #endif
 
     if (!command_ok) {
-      connection_close(pconn, _("rejected"));
+      connection_close_server(pconn, _("rejected"));
     }
   }
 
@@ -588,7 +588,7 @@ enum server_events server_sniff_all_input(void)
           } else {
             log_verbose("connection (%s) cut due to ping timeout",
                         conn_description(pconn));
-            connection_close(pconn, _("ping timeout"));
+            connection_close_server(pconn, _("ping timeout"));
           }
         } else {
           connection_ping(pconn);
@@ -736,7 +736,7 @@ enum server_events server_sniff_all_input(void)
           && FD_ISSET(pconn->sock, &exceptfs)) {
         log_verbose("connection (%s) cut due to exception data",
                     conn_description(pconn));
-        connection_close(pconn, _("network exception"));
+        connection_close_server(pconn, _("network exception"));
       }
     }
 #ifdef GGZ_SERVER
@@ -824,10 +824,10 @@ enum server_events server_sniff_all_input(void)
           /* We read packets; now handle them. */
           incoming_client_packets(pconn);
         } else if (-2 == nb) {
-          connection_close(pconn, _("client disconnected"));
+          connection_close_server(pconn, _("client disconnected"));
         } else {
           /* Read failure; the connection is closed. */
-          connection_close(pconn, _("read error"));
+          connection_close_server(pconn, _("read error"));
         }
       }
 

@@ -93,4 +93,8 @@ void player_status_add(struct player *plr, enum player_status status);
 bool player_status_check(struct player *plr, enum player_status status);
 void player_status_reset(struct player *plr);
 
+const char *player_delegation_get(const struct player *pplayer);
+void player_delegation_set(struct player *pplayer, const char *username);
+bool player_delegation_active(const struct player *pplayer);
+
 #endif  /* FC__PLRHAND_H */

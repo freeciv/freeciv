@@ -37,6 +37,7 @@
   2.3.0   | 2.3.0 release                                  | 2010/11/?? |  3
   2.4.0   | 2.4.0 release (development)                    | 20../../.. | 10
           | * player ai type                               |            |
+          | * delegation                                   |            |
           |                                                |            |
 
   Structure of this file:
@@ -3116,6 +3117,13 @@ static void sg_load_player_main(struct loaddata *loading,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.ranked_username",
                                         plrno));
+  string = secfile_lookup_str_default(loading->file, "",
+                                      "player%d.delegation_username",
+                                      plrno);
+  /* Defaults to no delegation. */
+  if (strlen(string)) {
+    player_delegation_set(plr, string);
+  }
 
   /* Nation */
   string = secfile_lookup_str(loading->file, "player%d.nation", plrno);
@@ -3424,6 +3432,10 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.username", plrno);
   secfile_insert_str(saving->file, plr->ranked_username,
                      "player%d.ranked_username", plrno);
+  secfile_insert_str(saving->file,
+                     player_delegation_get(plr) ? player_delegation_get(plr)
+                                                : "",
+                     "player%d.delegation_username", plrno);
   secfile_insert_str(saving->file, nation_rule_name(nation_of_player(plr)),
                      "player%d.nation", plrno);
   secfile_insert_int(saving->file, plr->team ? team_index(plr->team) : -1,
@@ -5253,10 +5265,20 @@ static void compat_save_020400(struct savedata *saving)
 
   log_debug("Save savegame version 2.4.0");
 
-  /* Remove the definition of the AI type. */
+  /* Iterate over all players. */
   player_slots_iterate(pslot) {
-    secfile_entry_delete(saving->file, "player%d.ai_type",
-                         player_slot_index(pslot));
+    int plrno = player_slot_index(pslot);
+
+    if (NULL == secfile_section_lookup(saving->file, "player%d",
+                                       player_slot_index(pslot))) {
+      continue;
+    }
+
+    /* Remove the definition of the AI type. */
+    secfile_entry_delete(saving->file, "player%d.ai_type", plrno);
+
+    /* Remove delegation information. */
+    secfile_entry_delete(saving->file, "player%d.delegation_username", plrno);
   } player_slots_iterate_end;
 }
 

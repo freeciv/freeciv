@@ -1092,6 +1092,10 @@ void server_player_init(struct player *pplayer, bool initmap,
   pplayer->score.units_built = 0;
   pplayer->score.units_killed = 0;
   pplayer->score.units_lost = 0;
+
+  /* No delegation. */
+  pplayer->server.delegate_to[0] = '\0';
+  pplayer->server.orig_username[0] = '\0';
 }
 
 /********************************************************************** 
@@ -2043,4 +2047,39 @@ void player_status_reset(struct player *plr)
 {
   BV_CLR_ALL(plr->server.status);
   player_status_add(plr, PSTATUS_NORMAL);
+}
+
+/**************************************************************************
+  Returns the username the control of the player is delegated to.
+**************************************************************************/
+const char *player_delegation_get(const struct player *pplayer)
+{
+  if (pplayer == NULL || strlen(pplayer->server.delegate_to) == 0) {
+    /* No delegation if there is no player. */
+    return NULL;
+  } else {
+    return pplayer->server.delegate_to;
+  }
+}
+
+/**************************************************************************
+  Define a delegation.
+**************************************************************************/
+void player_delegation_set(struct player *pplayer, const char *username)
+{
+  fc_assert_ret(pplayer != NULL);
+
+  if (username == NULL || strlen(username) == 0) {
+    pplayer->server.delegate_to[0] = '\0';
+  } else {
+    sz_strlcpy(pplayer->server.delegate_to, username);
+  }
+}
+
+/*****************************************************************************
+ Returns TRUE if a delegation is active.
+*****************************************************************************/
+bool player_delegation_active(const struct player *pplayer)
+{
+  return (pplayer && strlen(pplayer->server.orig_username) != 0);
 }

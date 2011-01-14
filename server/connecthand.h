@@ -42,4 +42,10 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
                        bool observing);
 void connection_detach(struct connection *pconn);
 
+bool connection_delegate_take(struct connection *pconn,
+                              struct player *pplayer);
+bool connection_delegate_restore(struct connection *pconn);
+
+void connection_close_server(struct connection *pconn, const char *reason);
+
 #endif /* FC__CONNECTHAND_H */
