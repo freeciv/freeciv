@@ -338,7 +338,7 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
   struct player *pplayer = city_owner(pcity);
   int expenses;
 
-  ai_calc_data(pplayer, NULL, &expenses);
+  ai_calc_data(pplayer, NULL, &expenses, NULL);
 
   unit_list_iterate(pcity->tile->units, punit) {
     if (pcity->owner == punit->owner) {
@@ -401,7 +401,7 @@ static void ai_spend_gold(struct player *pplayer)
     } unit_list_iterate_safe_end;
   } city_list_iterate_end;
 
-  ai_calc_data(pplayer, NULL, &expenses);
+  ai_calc_data(pplayer, NULL, &expenses, NULL);
 
   do {
     bool expensive; /* don't buy when it costs x2 unless we must */

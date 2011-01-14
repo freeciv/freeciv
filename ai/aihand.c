@@ -101,13 +101,17 @@ static void ai_manage_spaceship(struct player *pplayer)
   Returns the total amount of trade generated (trade) and total amount of
   gold needed as upkeep (expenses).
 ***************************************************************************/
-void ai_calc_data(const struct player *pplayer, int *trade, int *expenses)
+void ai_calc_data(const struct player *pplayer, int *trade, int *expenses,
+                  int *income)
 {
   if (NULL != trade) {
     *trade = 0;
   }
   if (NULL != expenses) {
     *expenses = 0;
+  }
+  if (NULL != income) {
+    *income = 0;
   }
 
   /* Find total trade surplus and gold expenses */
@@ -118,6 +122,10 @@ void ai_calc_data(const struct player *pplayer, int *trade, int *expenses)
 
     if (NULL != expenses) {
       *expenses += pcity->usage[O_GOLD];
+    }
+
+    if (NULL != income) {
+      *income += pcity->surplus[O_GOLD];
     }
   } city_list_iterate_end;
 
@@ -160,7 +168,7 @@ static void ai_manage_taxes(struct player *pplayer)
     return; /* This government does not support changing tax rates. */
   }
 
-  ai_calc_data(pplayer, &trade, &expenses);
+  ai_calc_data(pplayer, &trade, &expenses, NULL);
 
   /* Find minimum tax rate which gives us a positive balance. We assume
    * that we want science most and luxuries least here, and reverse or 

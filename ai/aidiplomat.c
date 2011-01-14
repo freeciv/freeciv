@@ -167,7 +167,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
   struct ai_data *ai = ai_data_get(pplayer);
   int expenses;
 
-  ai_calc_data(pplayer, NULL, &expenses);
+  ai_calc_data(pplayer, NULL, &expenses, NULL);
 
   if (!ut) {
     /* We don't know diplomats yet! */
@@ -329,7 +329,7 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   }
 
   incite_cost = city_incite_cost(pplayer, ctarget);
-  ai_calc_data(pplayer, NULL, &expenses);
+  ai_calc_data(pplayer, NULL, &expenses, NULL);
 
   if (incite_cost <= pplayer->economic.gold - 2 * expenses) {
     T(DIPLOMAT_INCITE,0);
@@ -368,7 +368,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
   fc_assert_ret(punit != NULL);
   *ctarget = NULL;
   *move_dist = -1;
-  ai_calc_data(pplayer, NULL, &expenses);
+  ai_calc_data(pplayer, NULL, &expenses, NULL);
 
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
     struct city *acity;
@@ -487,7 +487,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 {
   int gold_avail, expenses;
 
-  ai_calc_data(pplayer, NULL, &expenses);
+  ai_calc_data(pplayer, NULL, &expenses, NULL);
   gold_avail = pplayer->economic.gold - expenses;
 
   pf_map_positions_iterate(pfm, pos, FALSE) {
