@@ -1106,6 +1106,8 @@ AC_CONFIG_FILES([Makefile
 	  common/Makefile
 	  common/aicore/Makefile
 	  ai/Makefile
+          ai/default/Makefile
+          ai/stub/Makefile
 	  tests/Makefile
   	  win32/Makefile
 	  client/Makefile

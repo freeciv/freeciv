@@ -1,16 +1,16 @@
 ## Process this file with automake to produce Makefile.in
 
-LIBLIST = libcivai.la
-
 if AI_MODULES
-aimodule_LTLIBRARIES = fc_ai_default.la fc_ai_stub.la
+module_dirs = stub
 else
-LIBLIST += libdefaultai.la
+module_dirs =
 endif
 
-noinst_LTLIBRARIES = $(LIBLIST)
+SUBDIRS = default $(module_dirs)
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server/generator
+noinst_LTLIBRARIES = libcivai.la
+
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server/generator -I$(srcdir)/default
 
 libcivai_la_SOURCES = \
 		advdomestic.c	\
@@ -49,19 +49,3 @@ libcivai_la_SOURCES = \
 		aidiplomat.h
 
 libcivai_la_LIBADD = -lm
-
-da_sources = \
-		defaultai.c	\
-		defaultai.h
-
-if AI_MODULES
-fc_ai_default_la_SOURCES = $(da_sources)
-
-fc_ai_default_la_LDFLAGS = -module
-
-fc_ai_stub_la_SOURCES = stubai.c
-
-fc_ai_stub_la_LDFLAGS = -module
-else
-libdefaultai_la_SOURCES = $(da_sources)
-endif

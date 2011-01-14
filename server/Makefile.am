@@ -6,6 +6,7 @@ bin_PROGRAMS = freeciv-server
 lib_LTLIBRARIES = libfreeciv-srv.la
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
+	-I$(top_srcdir)/ai/default \
 	-I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
 	-I$(srcdir)/advisors \
@@ -100,7 +101,7 @@ libfreeciv_srv_la_SOURCES = \
 if AI_MODULES
 da_libs =
 else
-da_libs = $(top_builddir)/ai/libdefaultai.la
+da_libs = $(top_builddir)/ai/default/libdefaultai.la
 endif
 
 # FIXME: Server library is calling AI functions.
