@@ -32,8 +32,8 @@ options="1.9"
 ; helptext	= optional help text string (set units ruleset for examples)
 ; bonus_message = text seen when a player is the first to 
 ;                 discover an bonus tech.
-; cost		= if tech_cost_style is set to 3, this field is read for
-;		  information on how much a tech costs
+; cost          = if tech_cost_style is set to 2, this field is read for
+;                 information on how much a tech costs
 ;
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 
