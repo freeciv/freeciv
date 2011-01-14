@@ -308,6 +308,20 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } else if (player_invention_state(pplayer, pclause->value) != TECH_KNOWN) {
       worth += compute_tech_sell_price(aplayer, pplayer, pclause->value,
                                        &is_dangerous);
+
+      if (game.info.tech_upkeep_style == 1) {
+        /* Consider the upkeep costs! Thus, one can not get an AI player by
+         * - given AI lots of techs for gold/cities etc.
+         * - AI losses tech due to high upkeep. 
+         * FIXME: Is there a better way for this? */
+        struct player_research *research = player_research_get(pplayer);
+        int limit = MAX(1, research->tech_upkeep
+                           / research->techs_researched);
+
+        if (pplayer->bulbs_last_turn < limit) {
+          worth /= 2;
+        }
+      }
     }
     DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "%s clause worth %d",
               advance_name_by_player(pplayer, pclause->value), worth);
