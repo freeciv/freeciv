@@ -3254,6 +3254,14 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /******** PART II: do the attaching ********/
 
+  /* Take not possible if there is a delegation. */
+  if (player_delegation_active(pplayer)) {
+    cmd_reply(CMD_TAKE, caller, C_FAIL, "A delegation is active for player "
+                                        "'%s'. /take not possible.",
+              player_name(pplayer));
+    goto end;
+  }
+
   /* check allowtake for permission */
   if (!is_allowed_to_take(pplayer, FALSE, msg, sizeof(msg))) {
     cmd_reply(CMD_TAKE, caller, C_FAIL, "%s", msg);
