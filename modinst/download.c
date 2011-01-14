@@ -432,8 +432,8 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb)
   char local_name[2048];
   struct section_file *list_file;
   const char *list_capstr;
-  const char *mpURL;
   int modpack_count;
+  const char *mp_name;
 
   if (controld == NULL) {
     return _("Cannot determine control directory");
@@ -473,12 +473,17 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb)
 
   modpack_count = 0;
   do {
+    const char *mpURL;
+
+    mp_name = secfile_lookup_str_default(list_file, NULL,
+                                         "modpacks.list%d.name", modpack_count);
     mpURL = secfile_lookup_str_default(list_file, NULL, "modpacks.list%d.URL",
-                                       modpack_count++);
-    if (mpURL != NULL) {
-      cb(mpURL);
+                                       modpack_count);
+    if (mp_name != NULL) {
+      cb(mp_name, mpURL);
+      modpack_count++;
     }
-  } while (mpURL != NULL);
+  } while (mp_name != NULL);
 
   return NULL;
 }
