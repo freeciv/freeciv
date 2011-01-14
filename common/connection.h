@@ -163,67 +163,56 @@ struct connection {
   void (*notify_of_writable_data) (struct connection * pc,
                                    bool data_available_and_socket_full);
 
-  struct {
-    /* 
-     * Increases for every packet send to the server.
-     */
-    int last_request_id_used;
+  union {
+    struct {
+      /* Increases for every packet send to the server. */
+      int last_request_id_used;
 
-    /* 
-     * Increases for every received PACKET_PROCESSING_FINISHED packet.
-     */
-    int last_processed_request_id_seen;
+      /* Increases for every received PACKET_PROCESSING_FINISHED packet. */
+      int last_processed_request_id_seen;
 
-    /* 
-     * Holds the id of the request which caused this packet. Can be
-     * zero.
-     */
-    int request_id_of_currently_handled_packet;
-  } client;
+      /* Holds the id of the request which caused this packet. Can be zero. */
+      int request_id_of_currently_handled_packet;
+    } client;
 
-  struct {
-    /* 
-     * Holds the id of the request which is processed now. Can be
-     * zero.
-     */
-    int currently_processed_request_id;
+    struct {
+      /* Holds the id of the request which is processed now. Can be zero. */
+      int currently_processed_request_id;
 
-    /* 
-     * Will increase for every received packet.
-     */
-    int last_request_id_seen;
+      /* Will increase for every received packet. */
+      int last_request_id_seen;
 
-    /* 
-     * The start times of the PACKET_CONN_PING which have been sent
-     * but weren't PACKET_CONN_PONGed yet? 
-     */
-    struct timer_list *ping_timers;
-   
-    /* Holds number of tries for authentication from client. */
-    int auth_tries;
+      /* The start times of the PACKET_CONN_PING which have been sent but
+       * weren't PACKET_CONN_PONGed yet? */
+      struct timer_list *ping_timers;
 
-    /* the time that the server will respond after receiving an auth reply.
-     * this is used to throttle the connection. Also used to reject a 
-     * connection if we've waited too long for a password. */
-    time_t auth_settime;
+      /* Holds number of tries for authentication from client. */
+      int auth_tries;
 
-    /* used to follow where the connection is in the authentication process */
-    enum auth_status status;
-    char password[MAX_LEN_PASSWORD];
+      /* the time that the server will respond after receiving an auth reply.
+       * this is used to throttle the connection. Also used to reject a 
+       * connection if we've waited too long for a password. */
+      time_t auth_settime;
 
-    /* for reverse lookup and blacklisting in db */
-    char ipaddr[MAX_LEN_ADDR];
+      /* used to follow where the connection is in the authentication
+       * process */
+      enum auth_status status;
+      char password[MAX_LEN_PASSWORD];
 
-    /* The access level initially given to the client upon connection. */
-    enum cmdlevel granted_access_level;
+      /* for reverse lookup and blacklisting in db */
+      char ipaddr[MAX_LEN_ADDR];
 
-    /* The list of ignored connection patterns. */
-    struct conn_pattern_list *ignore_list;
+      /* The access level initially given to the client upon connection. */
+      enum cmdlevel granted_access_level;
 
-    /* Something has occurred that means the connection should be closed,
-     * but the closing has been postponed. */
-    bool is_closing;
-  } server;
+      /* The list of ignored connection patterns. */
+      struct conn_pattern_list *ignore_list;
+
+      /* Something has occurred that means the connection should be closed,
+       * but the closing has been postponed. */
+      bool is_closing;
+    } server;
+  };
 
   /*
    * Called before an incoming packet is processed. The packet_type
