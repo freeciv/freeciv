@@ -99,4 +99,6 @@ bool player_delegation_active(const struct player *pplayer);
 
 void send_delegation_info(const struct connection *pconn);
 
+struct player *player_by_user_delegated(const char *name);
+
 #endif  /* FC__PLRHAND_H */

@@ -2110,3 +2110,18 @@ void send_delegation_info(const struct connection *pconn)
     }
   } players_iterate_end;
 }
+
+/*****************************************************************************
+  Check for a playe in delegated state by its user name. See also
+  player_by_user().
+*****************************************************************************/
+struct player *player_by_user_delegated(const char *name)
+{
+  players_iterate(pplayer) {
+    if (fc_strcasecmp(name, pplayer->server.orig_username) == 0) {
+      return pplayer;
+    }
+  } players_iterate_end;
+
+  return NULL;
+}

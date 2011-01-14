@@ -128,6 +128,7 @@ void establish_new_connection(struct connection *pconn)
   struct packet_server_join_reply packet;
   struct packet_chat_msg connect_info;
   char hostname[512];
+  bool delegation_error = FALSE;
 
   /* zero out the password */
   memset(pconn->server.password, 0, sizeof(pconn->server.password));
@@ -181,26 +182,45 @@ void establish_new_connection(struct connection *pconn)
   send_scenario_info(dest);
   send_game_info(dest);
 
-  if ((pplayer = player_by_user(pconn->username))
-      && connection_attach_real(pconn, pplayer, FALSE, TRUE)) {
-    /* a player has already been created for this user, reconnect */
+  if ((pplayer = player_by_user_delegated(pconn->username))) {
+    /* Force our control over the player. */
+    struct connection *pdelegate = conn_by_user(pplayer->server.delegate_to);
 
-    if (S_S_INITIAL == server_state()) {
+    if (pdelegate && connection_delegate_restore(pdelegate)) {
+        notify_conn(pdelegate->self, NULL, E_CONNECTION, ftc_server,
+                    _("Player '%s' did reconnect. Restore player state."),
+                    player_name(pplayer));
+    } else {
+      notify_conn(dest, NULL, E_CONNECTION, ftc_server,
+                  _("Couldn't get control from delegation to %s."),
+                  pdelegate->username);
+      log_verbose("%s can't take control over its player %s from delegation.",
+                  pconn->username, player_name(pplayer));
+      delegation_error = TRUE;
+    }
+  }
+
+  if (!delegation_error) {
+    if ((pplayer = player_by_user(pconn->username))
+        && connection_attach_real(pconn, pplayer, FALSE, TRUE)) {
+      /* a player has already been created for this user, reconnect */
+
+      if (S_S_INITIAL == server_state()) {
+        send_player_info_c(NULL, dest);
+      }
+    } else {
+      if (!game_was_started()) {
+        if (!connection_attach(pconn, NULL, FALSE)) {
+          notify_conn(dest, NULL, E_CONNECTION, ftc_server,
+                      _("Couldn't attach your connection to new player."));
+          log_verbose("%s is not attached to a player", pconn->username);
+        }
+      }
       send_player_info_c(NULL, dest);
     }
-    send_conn_info(game.est_connections, dest);
-
-  } else {
-    if (!game_was_started()) {
-      if (!connection_attach(pconn, NULL, FALSE)) {
-        notify_conn(dest, NULL, E_CONNECTION, ftc_server,
-                    _("Couldn't attach your connection to new player."));
-        log_verbose("%s is not attached to a player", pconn->username);
-      }
-    }
-    send_player_info_c(NULL, dest);
-    send_conn_info(game.est_connections, dest);
   }
+
+  send_conn_info(game.est_connections, dest);
 
   send_pending_events(pconn, TRUE);
   send_running_votes(pconn, FALSE);
