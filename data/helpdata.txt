@@ -34,7 +34,8 @@
 ; complaining about stray single-quote characters.
 
 [help_overview]
-name = _("Overview")
+; /* TRANS: "Overview" topic in built-in help */
+name = _("?help:Overview")
 text = _("\
 Freeciv is a turn-based strategy game, in which each player becomes \
 the leader of a civilization. You compete against several opponents to \

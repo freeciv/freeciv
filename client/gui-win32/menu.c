@@ -421,7 +421,8 @@ static struct my_menu main_menu[] = {
 
 
   {N_("Help"),					IDM_SUBMENU},
-  {N_("Overview"),				IDM_HELP_OVERVIEW},
+  /* TRANS: "Overview" topic in built-in help */
+  {N_("?help:Overview"),			IDM_HELP_OVERVIEW},
   {N_("Strategy and Tactics"),			IDM_HELP_PLAYING},
   {N_("Terrain"),				IDM_HELP_TERRAIN},
   {N_("Economy"),				IDM_HELP_ECONOMY},
