@@ -72,6 +72,7 @@ static void set_socket_errno(void)
     case WSAEWOULDBLOCK:
     case WSAECONNRESET:
     case WSAECONNREFUSED:
+    case WSAETIMEDOUT:
       errno = WSAGetLastError();
       return;
     default:
