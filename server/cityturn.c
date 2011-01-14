@@ -96,17 +96,18 @@ struct cityimpr {
   struct impr_type *pimprove;
 };
 
-#define SPECVEC_TAG cityimpr
-#define SPECVEC_TYPE struct cityimpr
-#include "specvec.h"
+#define SPECLIST_TAG cityimpr
+#define SPECLIST_TYPE struct cityimpr
+#include "speclist.h"
 
-static bool sell_random_buildings(struct player *pplayer,
-                                  struct cityimpr_vector *imprs);
-static bool sell_random_units(struct player *pplayer,
-                              struct unit_list *punitlist);
+static bool sell_random_building(struct player *pplayer,
+                                 struct cityimpr_list *imprs);
+static bool sell_random_unit(struct player *pplayer,
+                             struct unit_list *punitlist);
 static bool city_balance_treasury_buildings(struct city *pcity);
 static bool city_balance_treasury_units(struct city *pcity);
-static bool player_balance_treasury_buildings(struct player *pplayer);
+static bool player_balance_treasury_units_and_buildings
+            (struct player *pplayer);
 static bool player_balance_treasury_units(struct player *pplayer);
 
 static bool disband_city(struct city *pcity);
@@ -497,7 +498,8 @@ void update_city_activities(struct player *pplayer)
      *     (this is done in update_city_activity()).
      * 1 - Each city tries to balance its upkeep for buildings individually;
      *     the upkeep for units is paid by the nation.
-     * 2 - The nation as a whole balances the treasury. */
+     * 2 - The nation as a whole balances the treasury. If the treasury is
+     *     not balance units and buildings are sold. */
 
     /* Iterate over cities in a random order. */
     while (i > 0) {
@@ -511,9 +513,9 @@ void update_city_activities(struct player *pplayer)
     if (pplayer->economic.gold < 0 && game.info.gold_upkeep_style > 0) {
       switch (game.info.gold_upkeep_style) {
         case 2:
-          /* nation pays for buildings (and units) */
-          player_balance_treasury_buildings(pplayer);
-          /* no break */
+          /* nation pays for units and buildings */
+          player_balance_treasury_units_and_buildings(pplayer);
+          break;
         case 1:
           /* nation pays for units */
           player_balance_treasury_units(pplayer);
@@ -543,6 +545,8 @@ void update_city_activities(struct player *pplayer)
     pplayer->research->researched = 0;
   }
 #endif
+
+  city_refresh_queue_processing();
 }
 
 /**************************************************************************
@@ -1733,9 +1737,8 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-  Randomly sell buildings from the given vector until the player has
-  a non-negative amount of gold left in the treasury. Returns TRUE if
-  enough buildings were sold to pay the deficit.
+  Randomly sell a building from the given list. Returns TRUE if a building
+  was sold.
 
   NB: It is assumed that gold upkeep for the buildings has already been
   paid this turn, hence when a building is sold its upkeep is given back
@@ -1743,43 +1746,42 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
   NB: The contents of 'imprs' are usually mangled by this function.
   NB: It is assumed that all buildings in 'imprs' can be sold.
 **************************************************************************/
-static bool sell_random_buildings(struct player *pplayer,
-                                  struct cityimpr_vector *imprs)
+static bool sell_random_building(struct player *pplayer,
+                                 struct cityimpr_list *imprs)
 {
-  struct city *pcity;
-  struct impr_type *pimprove;
-  int n, r;
+  struct cityimpr *pcityimpr;
+  int r;
 
   fc_assert_ret_val(pplayer != NULL, FALSE);
 
-  n = imprs ? cityimpr_vector_size(imprs) : 0;
-  while (pplayer->economic.gold < 0 && n > 0) {
-    r = fc_rand(n);
-    pcity = imprs->p[r].pcity;
-    pimprove = imprs->p[r].pimprove;
-
-    notify_player(pplayer, city_tile(pcity), E_IMP_AUCTIONED, ftc_server,
-                  _("Can't afford to maintain %s in %s, building sold!"),
-                  improvement_name_translation(pimprove), city_link(pcity));
-
-    do_sell_building(pplayer, pcity, pimprove);
-    city_refresh_queue_add(pcity);
-
-    /* Get back the gold upkeep that was already paid this turn. */
-    pplayer->economic.gold += city_improvement_upkeep(pcity, pimprove);
-
-    imprs->p[r] = imprs->p[--n];
+  if (!imprs || cityimpr_list_size(imprs) == 0) {
+    return FALSE;
   }
 
-  return pplayer->economic.gold >= 0;
+  r = fc_rand(cityimpr_list_size(imprs));
+  pcityimpr = cityimpr_list_get(imprs, r);
 
-  city_refresh_queue_processing();
+  notify_player(pplayer, city_tile(pcityimpr->pcity), E_IMP_AUCTIONED,
+                ftc_server,
+                _("Can't afford to maintain %s in %s, building sold!"),
+                improvement_name_translation(pcityimpr->pimprove),
+                city_link(pcityimpr->pcity));
+
+  do_sell_building(pplayer, pcityimpr->pcity, pcityimpr->pimprove);
+  cityimpr_list_remove(imprs, pcityimpr);
+
+  /* Get back the gold upkeep that was already paid this turn. */
+  pplayer->economic.gold += city_improvement_upkeep(pcityimpr->pcity,
+                                                    pcityimpr->pimprove);
+
+  city_refresh_queue_add(pcityimpr->pcity);
+
+  return TRUE;
 }
 
 /**************************************************************************
-  Randomly "sell" units from the given vector until the player has a
-  a non-negative amount of gold left in the treasury. Returns TRUE if
-  enough units were sold to pay the deficit.
+  Randomly "sell" a unit from the given list. Returns TRUE if a unit was
+  sold.
 
   NB: It is assumed that gold upkeep for the units has already been paid
   this turn, hence when a unit is "sold" its upkeep is given back to the
@@ -1787,68 +1789,95 @@ static bool sell_random_buildings(struct player *pplayer,
   NB: The contents of 'units' are usually mangled by this function.
   NB: It is assumed that all units in 'units' have positive gold upkeep.
 **************************************************************************/
-static bool sell_random_units(struct player *pplayer,
-                              struct unit_list *punitlist)
+static bool sell_random_unit(struct player *pplayer,
+                             struct unit_list *punitlist)
 {
   struct unit *punit;
-  int gold_upkeep, n, r;
+  int gold_upkeep, r;
 
   fc_assert_ret_val(pplayer != NULL, FALSE);
 
-  n = punitlist ? unit_list_size(punitlist) : 0;
-  while (pplayer->economic.gold < 0 && n > 0) {
-    r = fc_rand(n);
-    punit = unit_list_get(punitlist, r);
-    gold_upkeep = punit->upkeep[O_GOLD];
-
-    notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
-                  _("Not enough gold. %s disbanded."),
-                  unit_tile_link(punit));
-    unit_list_remove(punitlist, punit);
-    pplayer->score.units_lost++;
-    wipe_unit(punit);
-
-    /* Get the upkeep gold back. */
-    pplayer->economic.gold += gold_upkeep;
-
-    n--;
+  if (!punitlist || unit_list_size(punitlist) == 0) {
+    return FALSE;
   }
 
-  return pplayer->economic.gold >= 0;
+  r = fc_rand(unit_list_size(punitlist));
+  punit = unit_list_get(punitlist, r);
+  gold_upkeep = punit->upkeep[O_GOLD];
+
+  /* All units in punitlist shopuld have gold upkeep! */
+  fc_assert_ret_val(gold_upkeep > 0, FALSE);
+
+  notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
+                _("Not enough gold. %s disbanded."),
+                unit_tile_link(punit));
+  unit_list_remove(punitlist, punit);
+  pplayer->score.units_lost++;
+  wipe_unit(punit);
+
+  /* Get the upkeep gold back. */
+  pplayer->economic.gold += gold_upkeep;
+
+  return TRUE;
 }
 
 /**************************************************************************
-  Balance the gold of a nation by selling some random buildings.
+  Balance the gold of a nation by selling some random units and buildings.
 **************************************************************************/
-static bool player_balance_treasury_buildings(struct player *pplayer)
+static bool player_balance_treasury_units_and_buildings
+            (struct player *pplayer)
 {
-  struct cityimpr_vector imprs;
+  struct cityimpr_list *pimprlist;
   struct cityimpr ci;
+  struct unit_list *punitlist;
+  int impr_count = 0, unit_count = 0;
+  bool sell_unit = TRUE;
 
   if (!pplayer) {
     return FALSE;
   }
 
-  cityimpr_vector_init(&imprs);
+  pimprlist = cityimpr_list_new();
+  punitlist = unit_list_new();
 
   city_list_iterate(pplayer->cities, pcity) {
     city_built_iterate(pcity, pimprove) {
       if (can_city_sell_building(pcity, pimprove)) {
         ci.pcity = pcity;
         ci.pimprove = pimprove;
-        cityimpr_vector_append(&imprs, ci);
+        cityimpr_list_append(pimprlist, &ci);
       }
     } city_built_iterate_end;
+
+    unit_list_iterate(pcity->units_supported, punit) {
+      if (punit->upkeep[O_GOLD] > 0) {
+        unit_list_append(punitlist, punit);
+      }
+    } unit_list_iterate_end;
   } city_list_iterate_end;
 
-  if (!sell_random_buildings(pplayer, &imprs)) {
+  while (pplayer->economic.gold < 0
+         && (cityimpr_list_size(pimprlist) != impr_count
+             || unit_list_size(punitlist) != unit_count)) {
+    if (!sell_unit) {
+      sell_random_building(pplayer, pimprlist);
+      impr_count = cityimpr_list_size(pimprlist);
+    } else {
+      sell_random_unit(pplayer, punitlist);
+      unit_count = unit_list_size(punitlist);
+    }
+    sell_unit = !sell_unit;
+  }
+
+  if (pplayer->economic.gold < 0) {
     /* If we get here it means the player has
      * negative gold. This should never happen. */
     fc_assert_msg(FALSE, "Player %s (nb %d) cannot have negative gold!",
                   player_name(pplayer), player_number(pplayer));
   }
 
-  cityimpr_vector_free(&imprs);
+  cityimpr_list_destroy(pimprlist);
+  unit_list_destroy(punitlist);
 
   return pplayer->economic.gold >= 0;
 }
@@ -1874,7 +1903,12 @@ static bool player_balance_treasury_units(struct player *pplayer)
     } unit_list_iterate_end;
   } city_list_iterate_end;
 
-  if (!sell_random_units(pplayer, punitlist)) {
+  while (pplayer->economic.gold < 0
+         && sell_random_unit(pplayer, punitlist)) {
+    /* all done in sell_random_unit() */
+  }
+
+  if (pplayer->economic.gold < 0) {
     /* If we get here it means the player has
      * negative gold. This should never happen. */
     fc_assert_msg(FALSE, "Player %s (nb %d) cannot have negative gold!",
@@ -1892,7 +1926,7 @@ static bool player_balance_treasury_units(struct player *pplayer)
 static bool city_balance_treasury_buildings(struct city *pcity)
 {
   struct player *pplayer;
-  struct cityimpr_vector imprs;
+  struct cityimpr_list *pimprlist;
   struct cityimpr ci;
 
   if (!pcity) {
@@ -1900,24 +1934,27 @@ static bool city_balance_treasury_buildings(struct city *pcity)
   }
 
   pplayer = city_owner(pcity);
-  cityimpr_vector_init(&imprs);
+  pimprlist = cityimpr_list_new();
 
   /* Create a vector of all buildings that can be sold. */
   city_built_iterate(pcity, pimprove) {
     if (can_city_sell_building(pcity, pimprove)) {
       ci.pcity = pcity;
       ci.pimprove = pimprove;
-      cityimpr_vector_append(&imprs, ci);
+      cityimpr_list_append(pimprlist, &ci);
     }
   } city_built_iterate_end;
 
   /* Try to sell some buildings. */
-  sell_random_buildings(pplayer, &imprs);
+  while (pplayer->economic.gold < 0
+         && sell_random_building(pplayer, pimprlist)) {
+    /* all done in sell_random_building */
+  }
 
   /* If we get here the player has negative gold, but hopefully
    * another city will be able to pay the deficit, so continue. */
 
-  cityimpr_vector_free(&imprs);
+  cityimpr_list_destroy(pimprlist);
 
   return pplayer->economic.gold >= 0;
 }
@@ -1950,7 +1987,10 @@ static bool city_balance_treasury_units(struct city *pcity)
   } unit_list_iterate_end;
 
   /* Still not enough gold, so try "selling" some units. */
-  sell_random_units(pplayer, punitlist);
+  while (pplayer->economic.gold < 0
+         && sell_random_unit(pplayer, punitlist)) {
+    /* all done in sell_random_unit() */
+  }
 
   /* If we get here the player has negative gold, but hopefully
    * another city will be able to pay the deficit, so continue. */

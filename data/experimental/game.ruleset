@@ -100,8 +100,9 @@ pillage_select           = 1
 ;     are disbanded.
 ; 2 - Gold upkeep for all buildings and units is paid in a lump sum after
 ;     all cities have been processed. If the player does not have enough
-;     gold, random buildings from random cities are sold. If still more
-;     gold is needed, then random units with gold upkeep are disbanded.
+;     gold, alternatively a random buildings from a random cities is sold
+;     and a random units with gold upkeep is disbanded till the treasury is
+;     balanced.
 gold_upkeep_style = 1
 
 ; Method of calculating technology costs
