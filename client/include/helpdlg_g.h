@@ -23,7 +23,8 @@ void popup_help_dialog_string(const char *item);
 void popup_help_dialog_typed(const char *item, enum help_page_type);
 void popdown_help_dialog(void);
 
-#define HELP_OVERVIEW_ITEM N_("Overview")
+/* TRANS: "Overview" topic in built-in help */
+#define HELP_OVERVIEW_ITEM N_("?help:Overview")
 #define HELP_PLAYING_ITEM N_("Strategy and tactics")
 #define HELP_LANGUAGES_ITEM N_("Languages")
 #define HELP_CONNECTING_ITEM N_("Connecting")
