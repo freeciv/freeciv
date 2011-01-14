@@ -1287,7 +1287,8 @@ static GtkActionGroup *get_safe_group(void)
        "F11", NULL, G_CALLBACK(report_demographic_callback)},
 
       /* Help menu. */
-      {"HELP_OVERVIEW", NULL, _("Overview"),
+      /* TRANS: "Overview" topic in built-in help */
+      {"HELP_OVERVIEW", NULL, Q_("?help:Overview"),
        NULL, NULL, G_CALLBACK(help_overview_callback)},
       {"HELP_PLAYING", NULL, _("Strategy and Tactics"),
        NULL, NULL, G_CALLBACK(help_playing_callback)},

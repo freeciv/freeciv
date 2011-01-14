@@ -244,7 +244,8 @@ static struct MenuEntry editor_menu_entries[] = {
 };
 
 static struct MenuEntry help_menu_entries[]={
-    { { N_("Overview"), 0             },      "", MENU_HELP_OVERVIEW, 0 },
+    /* TRANS: "Overview" topic in built-in help */
+    { { N_("?help:Overview"), 0       },      "", MENU_HELP_OVERVIEW, 0 },
     { { N_("Strategy and Tactics"), 0 },      "", MENU_HELP_PLAYING, 0 },
     { { N_("Terrain"), 0              },      "", MENU_HELP_TERRAIN, 0 },
     { { N_("Economy"), 0              },      "", MENU_HELP_ECONOMY, 0 },
@@ -1037,7 +1038,7 @@ void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[],
 	lacel=lstr;
       }
       for (j = 0; entries[i].text[j]; j++) {
-	xlt=_(entries[i].text[j]);
+	xlt=Q_(entries[i].text[j]);
 	lstr=strlen(xlt);
 	if (strstr(xlt, "%s")) {
 	  lstr+=MAX_LEN_TERR_NAME_DISP;
@@ -1125,7 +1126,7 @@ static char *menu_entry_text(enum MenuIndex menu, int ent, int var,
   char tmp[256];
   const char *xlt;
 
-  xlt=_(pmenu->entries[ent].text[var]);
+  xlt=Q_(pmenu->entries[ent].text[var]);
 
   if (strstr(xlt, "%s")) {
     fc_snprintf(tmp, sizeof(tmp), xlt, terr);

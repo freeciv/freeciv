@@ -747,6 +747,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   GtkCellRenderer *rend;
   GtkListStore *store;
   GtkListStore *production_store;
+  /* TRANS: Overview tab in city dialog */
   const char *tab_title = _("_Overview");
   int unit_height = tileset_tile_height(tileset) * 3 / 2;
 

@@ -204,6 +204,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_container_set_border_width(GTK_CONTAINER(alignment), 6);
   gtk_container_add(GTK_CONTAINER(alignment), table);
 
+  /* TRANS: Overview tab of foreign intelligence report dialog */
   label = gtk_label_new_with_mnemonic(_("_Overview"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
 
