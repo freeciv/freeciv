@@ -19,6 +19,9 @@
 #include <ltdl.h>
 #endif
 
+/* utility */
+#include "support.h"
+
 /* common */
 #include "ai.h"
 #include "player.h"
@@ -103,9 +106,21 @@ void ai_init(void)
     failure = TRUE;
   }
   if (!failure) {
-    /* First search ai modules under directory ai under current directory.
-       This allows us to run freeciv without installing it. */
-    lt_dladdsearchdir("ai"); 
+
+#ifdef DEBUG
+    /* First search ai modules under directory ai/<module> under
+       current directory. This allows us to run freeciv without
+       installing it. */
+    const char *moduledirs[] = { "default", "stub", NULL };
+    int i;
+
+    for (i = 0; moduledirs[i] != NULL ; i++) {
+      char buf[2048];
+
+      fc_snprintf(buf, sizeof(buf), "ai/%s", moduledirs[i]);
+      lt_dladdsearchdir(buf);
+    }
+#endif /* DEBUG */
 
     /* Then search ai modules from their installation directory. */
     lt_dladdsearchdir(AI_MODULEDIR);
