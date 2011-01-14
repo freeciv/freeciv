@@ -2083,3 +2083,30 @@ bool player_delegation_active(const struct player *pplayer)
 {
   return (pplayer && strlen(pplayer->server.orig_username) != 0);
 }
+
+/*****************************************************************************
+ Send information about delegations.
+*****************************************************************************/
+void send_delegation_info(const struct connection *pconn)
+{
+  if (game.info.is_new_game
+      || !pconn->playing) {
+    return;
+  }
+
+  if (player_delegation_get(pconn->playing) != NULL) {
+    notify_conn(pconn->self, NULL, E_CONNECTION, ftc_server,
+                _("Delegation to user '%s' defined."),
+                player_delegation_get(pconn->playing));
+  }
+
+  players_iterate(aplayer) {
+    if (player_delegation_get(aplayer) != NULL
+        && strcmp(player_delegation_get(aplayer),
+                  pconn->playing->username) == 0) {
+      notify_conn(pconn->self, NULL, E_CONNECTION, ftc_server,
+                  _("Control of player '%s' delegated to you."),
+                  player_name(aplayer));
+    }
+  } players_iterate_end;
+}

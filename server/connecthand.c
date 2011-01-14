@@ -228,6 +228,9 @@ void establish_new_connection(struct connection *pconn)
                 player_name(pconn->playing));
   }
 
+  /* Send information about delegation(s). */
+  send_delegation_info(pconn);
+
   /* Notify the *other* established connections that you are connected, and
    * add the info for all in event cache. Note we must to do it after we
    * sent the pending events to pconn (from this function and also
@@ -625,6 +628,8 @@ static bool connection_attach_real(struct connection *pconn,
       /* Those will be sent later in establish_new_connection(). */
       send_pending_events(pconn, FALSE);
       send_running_votes(pconn, TRUE);
+      /* Send information about delegation(s). */
+      send_delegation_info(pconn);
     }
     break;
   }
