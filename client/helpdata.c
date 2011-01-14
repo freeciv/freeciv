@@ -892,7 +892,7 @@ void boot_help_texts(struct player *pplayer)
             pitem = new_help_item(HELP_RULESET);
             /*           pitem->topic = fc_strdup(_(game.control.name)); */
             fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                        _(HELP_RULESET_ITEM));
+                        Q_(HELP_RULESET_ITEM));
             pitem->topic = fc_strdup(name);
             if (game.control.description[0] != '\0') {
               pitem->text = fc_strdup(_(game.control.description));
@@ -927,8 +927,8 @@ void boot_help_texts(struct player *pplayer)
       /* It wasn't a "generate" node: */
       
       pitem = new_help_item(HELP_TEXT);
-      pitem->topic = fc_strdup(_(secfile_lookup_str(sf, "%s.name",
-                                                    sec_name)));
+      pitem->topic = fc_strdup(Q_(secfile_lookup_str(sf, "%s.name",
+                                                     sec_name)));
 
       paras = secfile_lookup_str_vec(sf, &npara, "%s.text", sec_name);
 

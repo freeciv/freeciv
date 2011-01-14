@@ -28,7 +28,7 @@
 **************************************************************************/
 void popup_help_dialog_string(const char *item)
 {
-  popup_help_dialog_typed(_(item), HELP_ANY);
+  popup_help_dialog_typed(Q_(item), HELP_ANY);
 }
 
 /**************************************************************************
