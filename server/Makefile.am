@@ -10,7 +10,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
 	-I$(srcdir)/advisors \
-	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) @AUTH_CFLAGS@
+	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) @AUTH_CFLAGS@ \
+	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 
 if MINGW32
 SERVERICON=../win32/servericon.o
@@ -121,7 +122,7 @@ libfreeciv_srv_la_LIBADD = \
 freeciv_server_DEPENDENCIES = \
  $(top_builddir)/common/libfreeciv.la \
  ./libfreeciv-srv.la \
- $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY)
+ $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) $(LUASQL_AS_DEPENDENCY)
 
 freeciv_server_LDFLAGS = $(GGZDMOD_LDFLAGS)
 
@@ -132,7 +133,8 @@ freeciv_server_LDADD = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) \
- $(LUA_LIBS) $(TOLUA_LIBS) \
+ $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+ $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
 desktopfiledir = $(prefix)/share/applications

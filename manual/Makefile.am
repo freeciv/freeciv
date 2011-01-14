@@ -12,13 +12,14 @@ freeciv_manual_DEPENDENCIES = \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/client/helpdata.lo \
- $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY)
+ $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) $(LUASQL_AS_DEPENDENCY)
 
 freeciv_manual_LDFLAGS = $(GGZDMOD_LDFLAGS)
 
 freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
- $(LUA_LIBS) $(TOLUA_LIBS) \
  $(top_builddir)/common/libfreeciv.la $(INTLLIBS) \
+ $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
+ $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(AUTH_LIBS) $(LIB_GGZDMOD)

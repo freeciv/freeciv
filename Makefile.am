@@ -57,11 +57,13 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/config.rpath		\
 		m4/ac_path_lib.m4		\
 		m4/alsa.m4			\
-		m4/auth.m4			\
 		m4/c99.m4			\
 		m4/codeset.m4			\
 		m4/compiler.m4			\
 		m4/debug.m4			\
+		m4/fcdb-mysql.m4		\
+		m4/fcdb-postgres.m4		\
+		m4/fcdb-sqlite3.m4		\
 		m4/freetype2.m4			\
 		m4/gettimeofday.m4		\
 		m4/ggz.m4			\
@@ -79,14 +81,17 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/lib-link.m4			\
 		m4/lib-prefix.m4		\
 		m4/locale.m4			\
+		m4/mysql.m4			\
 		m4/ngettext.m4			\
 		m4/no-client.m4			\
 		m4/pkg.m4			\
+		m4/postgres.m4			\
 		m4/progtest.m4			\
 		m4/qt-client.m4			\
 		m4/readline.m4			\
 		m4/sdl-client.m4		\
 		m4/sdl.m4			\
+		m4/sqlite3.m4			\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\
 		m4/win32-client.m4		\

@@ -1,0 +1,20 @@
+LuaSQL 2.1
+http://www.keplerproject.org/luasql/
+
+LuaSQL is a simple interface from Lua to a DBMS. It enables a Lua program to:
+
+    * Connect to ODBC, ADO, Oracle, MySQL, SQLite and PostgreSQL databases;
+    * Execute arbitrary SQL statements;
+    * Retrieve results in a row-by-row cursor fashion.
+
+LuaSQL is free software and uses the same license as Lua 5.1. 
+
+
+Source code for LuaSQL can be downloaded from the LuaForge page.
+
+If you are using LuaBinaries a Windows binary version of LuaSQL can be found at the same LuaForge page.
+
+LuaSQL 2.1.1 [29/Oct/2007]
+* Fixed a bug in the SQLite3 error handling (patch by David Burgess)
+* Fixed bug [#1834] for SQLite 3 (found by Savin Zlobec, patch by Marc Nijdam)
+* Fixed bug [#1770] for SQLite 3 (found by Enrico Tassi, patch by Marc Nijdam)

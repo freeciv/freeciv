@@ -62,6 +62,64 @@ ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 dnl checks for mysql, sets AUTH_LIBS, AUTH_CFLAGS
 FC_CHECK_AUTH
 
+dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
+dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
+dnl of the clients and the database setting.
+ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
+
+dnl checks for databases
+dnl all:                  Autodetect as many as possible [default].
+dnl mysql:                use mysql database
+dnl postgres:             use postgres database
+dnl comma-separated-list: Detect these or abort.
+AC_ARG_ENABLE(fcdb,
+[  --enable-fcdb[=no/all/mysql/postgres/sqlite3]
+                          database backends [[default=all]]
+                          (no, or list)],
+[databases=${enableval}],
+[fcdb_all=yes])
+
+fcdb_all=yes
+fcdb_mysql=no
+fcdb_postgres=no
+fcdb_sqlite3=no
+
+for db in $(echo $databases | $SED 's/,/ /g') ; do
+  if test "x$db" = "xall" ; then
+    fcdb_all=yes
+  elif test "x$db" = "xno" ; then
+    fcdb_all=no
+  elif test "x$db" = "xmysql" ; then
+    fcdb_mysql=yes
+  elif test "x$db" = "xpostgres" ; then
+    fcdb_postgres=yes
+  elif test "x$db" = "xsqlite3" ; then
+    fcdb_sqlite3=yes
+  fi
+done
+
+dnl checks for database mysql
+dnl sets FCDB_MYSQL(conditional), FCDB_MYSQL_CFLAGS, FCDB_MYSQL_LDFLAGS
+FC_FCDB_MYSQL
+
+dnl checks for database postgres
+dnl sets FCDB_POSTGRES(conditional), FCDB_POSTGRES_CFLAGS, FCDB_POSTGRES_LDFLAGS
+FC_FCDB_POSTGRES
+
+dnl checks for database sqlite3
+dnl sets FCDB_SQLITE3(conditional), FCDB_SQLITE3_CFLAGS, FCDB_SQLITE3_LDFLAGS
+FC_FCDB_SQLITE3
+
+dnl check if a database backend is available
+if test "x$fcdb_mysql" = "xyes" || test "x$fcdb_postgres" = "xyes" \
+   || test "x$fcdb_sqlite" = "xyes"; then
+  enable_fcdb=yes
+  AC_DEFINE(HAVE_FCDB,1,[ ])
+else
+  enable_fcdb=no
+fi
+AM_CONDITIONAL(FCDB_DB, test "x$enable_fcdb" = "xyes")
+
 dnl  no=do not compile server,  yes=compile server,  *=error
 AC_ARG_ENABLE(server,
 [  --disable-server        do not compile the server],
@@ -129,10 +187,6 @@ gui_win32=no
 gui_ftwl=no
 gui_beos=no
 gui_stub=no
-
-dnl AC_PROG_SED is available only in autoconf 2.60 and later.
-dnl With older autoconf, assume that 'sed' is ok.
-ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
 for gui in $(echo $clients | $SED 's/,/ /g') ; do
   if test "x$gui" = "xno" ; then
@@ -939,6 +993,24 @@ AC_SUBST([LUA_CFLAGS])
 AC_SUBST([LUA_LIBS])
 AC_SUBST([LUA_AS_DEPENDENCY])
 
+if test x$enable_fcdb = xyes ; then
+  LUASQL_CFLAGS="-I\$(top_srcdir)/dependencies/luasql-2.1.1/src"
+  LUASQL_LIBS=""
+  if test x$fcdb_mysql = xyes ; then
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_mysql.a"
+  fi
+  if test x$fcdb_postgres = xyes ; then
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_postgres.a"
+  fi
+  if test x$fcdb_sqlite3 = xyes ; then
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql-2.1.1/src/libluasql_sqlite3.a"
+  fi
+  LUASQL_AS_DEPENDENCY="$LUASQL_LIBS"
+
+  AC_SUBST([LUASQL_CFLAGS])
+  AC_SUBST([LUASQL_LIBS])
+  AC_SUBST([LUASQL_AS_DEPENDENCY])
+fi
 
 TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.1/include"
 TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.1/src/lib/libtolua.a"
@@ -1091,6 +1163,8 @@ AC_CONFIG_FILES([Makefile
 	  dependencies/tolua-5.1/src/Makefile
 	  dependencies/tolua-5.1/src/lib/Makefile
           dependencies/tolua-5.1/src/bin/Makefile
+          dependencies/luasql-2.1.1/Makefile
+          dependencies/luasql-2.1.1/src/Makefile
 	  common/Makefile
 	  common/aicore/Makefile
 	  ai/Makefile
@@ -1189,4 +1263,8 @@ AC_MSG_NOTICE([
     Profiling support:     $enable_gprof
     AI modules support:    $enable_aimodules
     Auth database support: $auth
+    Database support:      $enable_fcdb
+      mysql:                 $fcdb_mysql
+      postgres:              $fcdb_postgres
+      sqlite3:               $fcdb_sqlite3
 ])
