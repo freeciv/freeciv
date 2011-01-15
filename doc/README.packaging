@@ -3,7 +3,7 @@
 ----------------------------------------------------------------------
 
 This file is meant to help those people wanting to package Freeciv
-for their distribtion, and, to some degree, those people who want to
+for their distribution, and, to some degree, those people who want to
 create Freeciv fork.
 
 ----------------------------------------------------------------------
@@ -81,7 +81,7 @@ its savegames. See server setting "compresstype".
 * bzip2 compression is built into Freeciv if bzip2 libraries and
   headers are present at configure time
 
-While this feature is called "savegame compression support" it actually
+While this feature is called "Savegame compression support" it actually
 applies to loading of all the section files: savegames, rulesets, tileset
 spec files... If compression support is built into Freeciv, you can
 compress any of these files and Freeciv can still load them. Freeciv ships
@@ -91,7 +91,7 @@ with all the data files uncompressed, except scenarios which are gzipped.
 Public servers
 --------------
 Sadly we have not resources to keep public servers for many different
-Freeciv servers running. To give your users ability to play on public
+Freeciv versions running. To give your users ability to play on public
 servers, try to provide them as current Freeciv version as possible.
 To see list of currently running public servers, see
 "http://meta.freeciv.org/metaserver.phtml" Note that from the web you
