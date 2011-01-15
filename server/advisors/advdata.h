@@ -70,7 +70,7 @@ struct ai_dip_intel {
   signed char warned_about_space;
 };
 
-struct settlermap; /* see aisettler.c */
+struct ai_settler; /* see aisettler.c */
 
 BV_DEFINE(bv_id, MAX_NUM_ID);
 struct ai_data {
@@ -181,7 +181,7 @@ struct ai_data {
   int max_num_cities;
 
   /* Cache map for AI settlers; defined in aisettler.c. */
-  struct tile_data_cache *settler_map;
+  struct ai_settler *settler;
 };
 
 void ai_data_init(struct player *pplayer);
