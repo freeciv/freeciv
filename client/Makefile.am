@@ -184,7 +184,7 @@ bin_PROGRAMS += freeciv-qt
 noinst_LTLIBRARIES += libfcgui-qt.la
 libfcgui_qt_la_SOURCES = $(freeciv_client_src)
 libfcgui_qt_la_LIBADD = gui-qt/libgui-qt.la agents/libagents.la
-freeciv_qt_SOURCES = dummy.c
+freeciv_qt_SOURCES = dummycxx.cpp
 freeciv_qt_LDFLAGS = $(GUI_qt_LDFLAGS) $(GGZMOD_LDFLAGS)
 freeciv_qt_LDADD = \
  libfcgui-qt.la \
