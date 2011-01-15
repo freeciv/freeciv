@@ -27,9 +27,10 @@ struct citytile {
   int food, shield, trade, reserved;
 };
 
-void ai_settler_init(struct player *pplayer);
-void ai_auto_settler(struct player *pplayer, struct unit *punit,
-                     struct settlermap *state);
+void ai_auto_settler_init(struct player *pplayer);
+void ai_auto_settler_run(struct player *pplayer, struct unit *punit,
+                         struct settlermap *state);
+void ai_auto_settler_free(struct player *pplayer);
 
 void contemplate_new_city(struct city *pcity);
 

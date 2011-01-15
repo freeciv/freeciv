@@ -66,13 +66,14 @@ struct ai_type
     void (*unit_load)(const struct section_file *file, struct unit *punit,
                       const char *unitstr);
 
-    void (*auto_settler)(struct player *pplayer, struct unit *punit,
-                         struct settlermap *state);
+    void (*auto_settler_init)(struct player *pplayer);
+    void (*auto_settler_run)(struct player *pplayer, struct unit *punit,
+                             struct settlermap *state);
+    void (*auto_settler_free)(struct player *pplayer);
 
     void (*first_activities)(struct player *pplayer);
     void (*diplomacy_actions)(struct player *pplayer);
     void (*last_activities)(struct player *pplayer);
-    void (*before_auto_settlers)(struct player *pplayer);
     void (*treaty_evaluate)(struct player *pplayer, struct player *aplayer,
                             struct Treaty *ptreaty);
     void (*treaty_accepted)(struct player *pplayer, struct player *aplayer,

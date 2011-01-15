@@ -983,9 +983,6 @@ static void end_phase(void)
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_controlled) {
-      CALL_PLR_AI_FUNC(before_auto_settlers, pplayer, pplayer);
-    }
     auto_settlers_player(pplayer);
     if (pplayer->ai_controlled) {
       CALL_PLR_AI_FUNC(last_activities, pplayer, pplayer);

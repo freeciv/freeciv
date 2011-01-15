@@ -70,6 +70,8 @@ struct ai_dip_intel {
   signed char warned_about_space;
 };
 
+struct settlermap; /* see aisettler.c */
+
 BV_DEFINE(bv_id, MAX_NUM_ID);
 struct ai_data {
   /* Whether ai_data_phase_init() has been called or not. */
@@ -177,6 +179,9 @@ struct ai_data {
 
   /* AI doesn't like having more than this number of cities */
   int max_num_cities;
+
+  /* Cache map for AI settlers; defined in aisettler.c. */
+  struct settlermap *settler_map;
 };
 
 void ai_data_init(struct player *pplayer);

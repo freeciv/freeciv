@@ -670,6 +670,8 @@ void ai_manage_cities(struct player *pplayer)
 
   /* Initialize the infrastructure cache, which is used shortly. */
   initialize_infrastructure_cache(pplayer);
+  /* Needed by contemplate_new_city(). */
+  ai_auto_settler_init(pplayer);
   city_list_iterate(pplayer->cities, pcity) {
     struct ai_city *city_data = def_ai_city_data(pcity);
     /* Note that this function mungs the seamap, but we don't care */
@@ -698,6 +700,7 @@ void ai_manage_cities(struct player *pplayer)
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_STOP);
     ASSERT_CHOICE(city_data->choice);
   } city_list_iterate_end;
+  ai_auto_settler_free(pplayer);
 
   city_list_iterate(pplayer->cities, pcity) {
     ai_city_choose_build(pplayer, pcity);

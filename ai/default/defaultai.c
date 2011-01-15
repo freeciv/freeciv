@@ -79,12 +79,13 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.unit_save = ai_unit_save;
   ai->funcs.unit_load = ai_unit_load;
 
-  ai->funcs.auto_settler = ai_auto_settler;
+  ai->funcs.auto_settler_init = ai_auto_settler_init;
+  ai->funcs.auto_settler_run = ai_auto_settler_run;
+  ai->funcs.auto_settler_free = ai_auto_settler_free;
 
   ai->funcs.first_activities = ai_do_first_activities;
   ai->funcs.diplomacy_actions = ai_diplomacy_actions;
   ai->funcs.last_activities = ai_do_last_activities;
-  ai->funcs.before_auto_settlers = ai_settler_init;
   ai->funcs.treaty_evaluate = ai_treaty_evaluate;
   ai->funcs.treaty_accepted = ai_treaty_accepted;
   ai->funcs.first_contact = ai_diplomacy_first_contact;

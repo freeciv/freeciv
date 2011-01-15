@@ -656,17 +656,20 @@ void auto_settlers_player(struct player *pplayer)
    * player auto-settler mode) or if the player is an AI.  But don't
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
+  if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(auto_settler_init, pplayer, pplayer);
+  }
   unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ai_controlled || pplayer->ai_controlled)
-	&& (unit_has_type_flag(punit, F_SETTLERS)
-	    || unit_has_type_flag(punit, F_CITIES))
-	&& !unit_has_orders(punit)
+        && (unit_has_type_flag(punit, F_SETTLERS)
+            || unit_has_type_flag(punit, F_CITIES))
+        && !unit_has_orders(punit)
         && punit->moves_left > 0) {
       log_debug("%s settler at (%d, %d) is ai controlled.",
                 nation_rule_name(nation_of_player(pplayer)),
                 TILE_XY(punit->tile)); 
       if (punit->activity == ACTIVITY_SENTRY) {
-	unit_activity_handling(punit, ACTIVITY_IDLE);
+        unit_activity_handling(punit, ACTIVITY_IDLE);
       }
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0) {
         unit_activity_handling(punit, ACTIVITY_IDLE);
@@ -675,11 +678,14 @@ void auto_settlers_player(struct player *pplayer)
         if (!pplayer->ai_controlled) {
           auto_settler_findwork(pplayer, punit, state, 0);
         } else {
-          CALL_PLR_AI_FUNC(auto_settler, pplayer, pplayer, punit, state);
+          CALL_PLR_AI_FUNC(auto_settler_run, pplayer, pplayer, punit, state);
         }
       }
     }
   } unit_list_iterate_safe_end;
+  if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(auto_settler_free, pplayer, pplayer);
+  }
 
   if (timer_in_use(t)) {
     log_verbose("%s autosettlers consumed %g milliseconds.",

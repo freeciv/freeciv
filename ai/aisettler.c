@@ -122,12 +122,12 @@ struct cityresult {
   int city_radius_sq;     /* current squared radius of the city */
 };
 
-static struct {
+struct settlermap {
   int sum;
   char food;
   char trade;
   char shield;
-} *cachemap;
+};
 
 static void cityresult_fill(struct player *pplayer,
                             struct cityresult *result);
@@ -159,6 +159,7 @@ static void cityresult_fill(struct player *pplayer,
   struct ai_data *ai = ai_data_get(pplayer);
 
   fc_assert_ret(ai != NULL);
+  fc_assert_ret(ai->settler_map != NULL);
 
   pplayer->government = ai->goal.govt.gov;
 
@@ -184,8 +185,10 @@ static void cityresult_fill(struct player *pplayer,
 
   city_tile_iterate_index(result->city_radius_sq, result->tile, ptile,
                           cindex) {
-    int i, j;
+    int i, j, tindex;
+
     city_tile_index_to_xy(&i, &j, cindex, result->city_radius_sq);
+    tindex = tile_index(ptile);
 
     int reserved = citymap_read(ptile);
     bool city_center = (result->tile == ptile); /*is_city_center()*/
@@ -198,7 +201,7 @@ static void cityresult_fill(struct player *pplayer,
       result->citymap[i][j].trade = 0;
       result->citymap[i][j].food = 0;
       sum = 0;
-    } else if (cachemap[tile_index(ptile)].sum <= 0 || city_center) {
+    } else if (ai->settler_map[tindex].sum <= 0 || city_center) {
       /* We cannot read city center from cache */
 
       /* Food */
@@ -226,16 +229,16 @@ static void cityresult_fill(struct player *pplayer,
       if (!city_center && virtual_city) {
         /* real cities and any city center will give us spossibly
          * skewed results */
-        cachemap[tile_index(ptile)].sum = sum;
-        cachemap[tile_index(ptile)].trade = result->citymap[i][j].trade;
-        cachemap[tile_index(ptile)].shield = result->citymap[i][j].shield;
-        cachemap[tile_index(ptile)].food = result->citymap[i][j].food;
+        ai->settler_map[tindex].sum = sum;
+        ai->settler_map[tindex].trade = result->citymap[i][j].trade;
+        ai->settler_map[tindex].shield = result->citymap[i][j].shield;
+        ai->settler_map[tindex].food = result->citymap[i][j].food;
       }
     } else {
-      sum = cachemap[tile_index(ptile)].sum;
-      result->citymap[i][j].shield = cachemap[tile_index(ptile)].shield;
-      result->citymap[i][j].trade = cachemap[tile_index(ptile)].trade;
-      result->citymap[i][j].food = cachemap[tile_index(ptile)].food;
+      sum = ai->settler_map[tile_index(ptile)].sum;
+      result->citymap[i][j].shield = ai->settler_map[tindex].shield;
+      result->citymap[i][j].trade = ai->settler_map[tindex].trade;
+      result->citymap[i][j].food = ai->settler_map[tindex].food;
     }
     result->citymap[i][j].reserved = reserved;
 
@@ -512,15 +515,6 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
 }
 
 /**************************************************************************
-  Prime settler engine.
-**************************************************************************/
-void ai_settler_init(struct player *pplayer)
-{
-  cachemap = fc_realloc(cachemap, MAP_INDEX_SIZE * sizeof(*cachemap));
-  memset(cachemap, -1, MAP_INDEX_SIZE * sizeof(*cachemap));
-}
-
-/**************************************************************************
   Find nearest and best city placement in a PF iteration according to 
   "parameter".  The value in "boat_cost" is both the penalty to pay for 
   using a boat and an indicator (boat_cost!=0) if a boat was used at all. 
@@ -708,10 +702,24 @@ static void find_best_city_placement(struct unit *punit,
 }
 
 /**************************************************************************
+  Initialize ai settler engine.
+**************************************************************************/
+void ai_auto_settler_init(struct player *pplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  fc_assert_ret(ai != NULL);
+  fc_assert_ret(ai->settler_map == NULL);
+
+  ai->settler_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*ai->settler_map));
+  memset(ai->settler_map, -1, MAP_INDEX_SIZE * sizeof(*ai->settler_map));
+}
+
+/**************************************************************************
   Auto settler that can also build cities.
 **************************************************************************/
-void ai_auto_settler(struct player *pplayer, struct unit *punit,
-                     struct settlermap *state)
+void ai_auto_settler_run(struct player *pplayer, struct unit *punit,
+                         struct settlermap *state)
 {
   struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
@@ -754,7 +762,7 @@ BUILD_CITY:
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any
            * serious recursion. */
-          ai_auto_settler(pplayer, punit, state);
+          ai_auto_settler_run(pplayer, punit, state);
 
           return;
        } else {
@@ -836,6 +844,21 @@ CLEANUP:
   if (NULL != path) {
     pf_path_destroy(path);
   }
+}
+
+/**************************************************************************
+  Deinitialize ai settler engine.
+**************************************************************************/
+void ai_auto_settler_free(struct player *pplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  fc_assert_ret(ai != NULL);
+
+  if (ai->settler_map) {
+    free(ai->settler_map);
+  }
+  ai->settler_map = NULL;
 }
 
 /**************************************************************************
