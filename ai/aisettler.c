@@ -111,6 +111,8 @@ struct tile_data_cache {
   char shield;  /* shield output of the tile */
 
   int sum;      /* weighted sum of the tile output (used by AI) */
+
+  int reserved; /* reservation for this tile; used by print_citymap() */
 };
 
 struct cityresult {
@@ -122,13 +124,12 @@ struct cityresult {
   bool virt_boat;         /* virtual boat was used in search, 
                            * so need to build one */
   struct tile *other_tile;/* coords to best other tile */
-  int o_x, o_y;           /* city-relative coords for other tile */
+  int o_cindex;           /* city-relative index for other tile */
   int city_center;        /* value of city center */
   int best_other;         /* value of best other tile */
   int remaining;          /* value of all other tiles */
-  struct tile_data_cache citymap[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
+  struct tile_data_cache *citymap; /* dynamically allocated */
   int city_radius_sq;     /* current squared radius of the city */
-  int reserved[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE]; 
 };
 
 static struct cityresult *cityresult_new();
@@ -169,6 +170,8 @@ static struct cityresult *cityresult_new()
   */
 
   result->city_radius_sq = game.info.init_city_radius_sq;
+  result->citymap = fc_calloc(city_map_tiles(result->city_radius_sq),
+                              sizeof(*result->citymap));
 
   return result;
 }
@@ -179,6 +182,9 @@ static struct cityresult *cityresult_new()
 static void cityresult_destroy(struct cityresult *result)
 {
   if (result != NULL) {
+    if (result->citymap != NULL) {
+      free(result->citymap);
+    }
     free(result);
   }
 }
@@ -209,8 +215,7 @@ static void cityresult_fill(struct player *pplayer,
 
   result->best_other = 0;
   result->other_tile = NULL;
-  result->o_x = -1; /* as other_x but city-relative */
-  result->o_y = -1;
+  result->o_cindex = -1;
   result->remaining = 0;
   result->overseas = FALSE;
   result->virt_boat = FALSE;
@@ -226,13 +231,13 @@ static void cityresult_fill(struct player *pplayer,
   }
 
   result->city_radius_sq = city_map_radius_sq_get(pcity);
+  result->citymap = fc_realloc(result->citymap,
+                               city_map_tiles(result->city_radius_sq)
+                               * sizeof(*result->citymap));
 
   city_tile_iterate_index(result->city_radius_sq, result->tile, ptile,
                           cindex) {
-    int i, j, tindex;
-
-    city_tile_index_to_xy(&i, &j, cindex, result->city_radius_sq);
-    tindex = tile_index(ptile);
+    int tindex = tile_index(ptile);
 
     int reserved = citymap_read(ptile);
     bool city_center = (result->tile == ptile); /*is_city_center()*/
@@ -241,76 +246,75 @@ static void cityresult_fill(struct player *pplayer,
         || (handicap && !map_is_known(ptile, pplayer))
         || NULL != tile_worked(ptile)) {
       /* Tile is reserved or we can't see it */
-      result->citymap[i][j].shield = 0;
-      result->citymap[i][j].trade = 0;
-      result->citymap[i][j].food = 0;
-      result->citymap[i][j].sum = 0;
+      result->citymap[cindex].shield = 0;
+      result->citymap[cindex].trade = 0;
+      result->citymap[cindex].food = 0;
+      result->citymap[cindex].sum = 0;
     } else if (ai->settler_map[tindex].sum <= 0 || city_center) {
       /* We cannot read city center from cache */
 
       /* Food */
-      result->citymap[i][j].food
-	= city_tile_output(pcity, ptile, FALSE, O_FOOD);
+      result->citymap[cindex].food
+        = city_tile_output(pcity, ptile, FALSE, O_FOOD);
 
       /* Shields */
-      result->citymap[i][j].shield
-	= city_tile_output(pcity, ptile, FALSE, O_SHIELD);
+      result->citymap[cindex].shield
+        = city_tile_output(pcity, ptile, FALSE, O_SHIELD);
 
       /* Trade */
-      result->citymap[i][j].trade
-	= city_tile_output(pcity, ptile, FALSE, O_TRADE);
+      result->citymap[cindex].trade
+        = city_tile_output(pcity, ptile, FALSE, O_TRADE);
 
-      result->citymap[i][j].sum
-         = result->citymap[i][j].food * ai->food_priority
-           + result->citymap[i][j].trade * ai->science_priority
-           + result->citymap[i][j].shield * ai->shield_priority;
+      result->citymap[cindex].sum
+        = result->citymap[cindex].food * ai->food_priority
+          + result->citymap[cindex].trade * ai->science_priority
+          + result->citymap[cindex].shield * ai->shield_priority;
 
       /* Balance perfection */
-      result->citymap[i][j].sum *= PERFECTION / 2;
-      if (result->citymap[i][j].food >= 2) {
-        result->citymap[i][j].sum *= 2; /* we need this to grow */
+      result->citymap[cindex].sum *= PERFECTION / 2;
+      if (result->citymap[cindex].food >= 2) {
+        result->citymap[cindex].sum *= 2; /* we need this to grow */
       }
 
       if (!city_center && virtual_city) {
         /* real cities and any city center will give us spossibly
          * skewed results */
-        ai->settler_map[tindex].sum = result->citymap[i][j].sum;
-        ai->settler_map[tindex].trade = result->citymap[i][j].trade;
-        ai->settler_map[tindex].shield = result->citymap[i][j].shield;
-        ai->settler_map[tindex].food = result->citymap[i][j].food;
+        ai->settler_map[tindex].sum = result->citymap[cindex].sum;
+        ai->settler_map[tindex].trade = result->citymap[cindex].trade;
+        ai->settler_map[tindex].shield = result->citymap[cindex].shield;
+        ai->settler_map[tindex].food = result->citymap[cindex].food;
       }
     } else {
-      result->citymap[i][j].sum = ai->settler_map[tindex].sum;
-      result->citymap[i][j].shield = ai->settler_map[tindex].shield;
-      result->citymap[i][j].trade = ai->settler_map[tindex].trade;
-      result->citymap[i][j].food = ai->settler_map[tindex].food;
+      result->citymap[cindex].sum = ai->settler_map[tindex].sum;
+      result->citymap[cindex].shield = ai->settler_map[tindex].shield;
+      result->citymap[cindex].trade = ai->settler_map[tindex].trade;
+      result->citymap[cindex].food = ai->settler_map[tindex].food;
     }
 
     /* Save reservation status for debugging. */
-    result->reserved[i][j] = reserved;
+    result->citymap[cindex].reserved = reserved;
 
     /* Avoid crowdedness, except for city center. */
-    if (result->citymap[i][j].sum > 0) {
-      result->citymap[i][j].sum -= MIN(reserved * GROWTH_PRIORITY,
-                                       result->citymap[i][j].sum - 1);
+    if (result->citymap[cindex].sum > 0) {
+      result->citymap[cindex].sum -= MIN(reserved * GROWTH_PRIORITY,
+                                         result->citymap[cindex].sum - 1);
     }
 
     /* Calculate city center and best other than city center */
     if (city_center) {
-      result->city_center = result->citymap[i][j].sum;
-    } else if (result->citymap[i][j].sum > result->best_other) {
+      result->city_center = result->citymap[cindex].sum;
+    } else if (result->citymap[cindex].sum > result->best_other) {
       /* First add other other to remaining */
       result->remaining += result->best_other
                            / GROWTH_POTENTIAL_DEEMPHASIS;
       /* Then make new best other */
-      result->best_other = result->citymap[i][j].sum;
+      result->best_other = result->citymap[cindex].sum;
       result->other_tile = ptile;
-      result->o_x = i;
-      result->o_y = j;
+      result->o_cindex = cindex;
     } else {
       /* Save total remaining calculation, divided by crowdedness
        * of the area and the emphasis placed on space for growth. */
-      result->remaining += result->citymap[i][j].sum
+      result->remaining += result->citymap[cindex].sum
                            / GROWTH_POTENTIAL_DEEMPHASIS;
     }
   } city_tile_iterate_index_end;
@@ -332,33 +336,32 @@ static void cityresult_fill(struct player *pplayer,
     /* Corruption and waste of a size one city deducted. Notice that we
      * don't do this if 'fulltradesize' is changed, since then we'd
      * never make cities. */
-#define CMMR CITY_MAP_MAX_RADIUS
+    /* 'cindex' = 0 is the city center */
     if (game.info.fulltradesize == 1) {
       result->corruption = ai->science_priority
         * city_waste(pcity, O_TRADE,
-                     result->citymap[result->o_x][result->o_y].trade
-                     + result->citymap[CMMR][CMMR].trade);
+                     result->citymap[result->o_cindex].trade
+                     + result->citymap[0].trade);
     } else {
       result->corruption = 0;
     }
 
     result->waste = ai->shield_priority
       * city_waste(pcity, O_SHIELD,
-                   result->citymap[result->o_x][result->o_y].shield
-                   + result->citymap[CMMR][CMMR].shield);
-#undef CMMR
+                   result->citymap[result->o_cindex].shield
+                   + result->citymap[0].shield);
   } else {
     /* Deduct difference in corruption and waste for real cities. Note that it
      * is possible (with notradesize) that we _gain_ value here. */
     pcity->size++;
     result->corruption = ai->science_priority
       * (city_waste(pcity, O_TRADE,
-		    result->citymap[result->o_x][result->o_y].trade)
-	 - pcity->waste[O_TRADE]);
+                    result->citymap[result->o_cindex].trade)
+         - pcity->waste[O_TRADE]);
     result->waste = ai->shield_priority
       * (city_waste(pcity, O_SHIELD,
-		    result->citymap[result->o_x][result->o_y].shield)
-	 - pcity->waste[O_SHIELD]);
+                    result->citymap[result->o_cindex].shield)
+         - pcity->waste[O_SHIELD]);
     pcity->size--;
   }
   result->total -= result->corruption;
@@ -381,8 +384,8 @@ static void cityresult_fill(struct player *pplayer,
 static bool food_starvation(const struct cityresult *result)
 {
   /* Avoid starvation: We must have enough food to grow. */
-  return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].food
-          + result->citymap[result->o_x][result->o_y].food < 3);
+  return (result->citymap[0].food
+          + result->citymap[result->o_cindex].food < 3);
 }
 
 /**************************************************************************
@@ -391,8 +394,8 @@ static bool food_starvation(const struct cityresult *result)
 static bool shield_starvation(const struct cityresult *result)
 {
   /* Avoid resource starvation. */
-  return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].shield
-          + result->citymap[result->o_x][result->o_y].shield == 0);
+  return (result->citymap[0].shield
+          + result->citymap[result->o_cindex].shield == 0);
 }
 
 /**************************************************************************
@@ -439,32 +442,32 @@ static void print_cityresult(struct player *pplayer,
                             sizeof(*city_map_data));
 
   /* print reservations */
-  city_map_iterate(cr->city_radius_sq, index, x, y) {
-    city_map_data[index] = cr->reserved[x][y];
+  city_map_iterate(cr->city_radius_sq, cindex, x, y) {
+    city_map_data[cindex] = cr->citymap[cindex].reserved;
   } city_map_iterate_end;
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Reservations:",
            cr->tile->x, cr->tile->y, cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
 
   /* print food */
-  city_map_iterate(cr->city_radius_sq, index, x, y) {
-    city_map_data[index] = cr->citymap[x][y].food;
+  city_map_iterate(cr->city_radius_sq, cindex, x, y) {
+    city_map_data[cindex] = cr->citymap[cindex].food;
   } city_map_iterate_end;
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Food:",
            cr->tile->x, cr->tile->y, cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
 
   /* print shield */
-  city_map_iterate(cr->city_radius_sq, index, x, y) {
-    city_map_data[index] = cr->citymap[x][y].shield;
+  city_map_iterate(cr->city_radius_sq, cindex, x, y) {
+    city_map_data[cindex] = cr->citymap[cindex].shield;
   } city_map_iterate_end;
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Shield:",
            cr->tile->x, cr->tile->y, cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
 
   /* print trade */
-  city_map_iterate(cr->city_radius_sq, index, x, y) {
-    city_map_data[index] = cr->citymap[x][y].trade;
+  city_map_iterate(cr->city_radius_sq, cindex, x, y) {
+    city_map_data[cindex] = cr->citymap[cindex].trade;
   } city_map_iterate_end;
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Trade:",
            cr->tile->x, cr->tile->y, cr->city_radius_sq);
@@ -473,8 +476,8 @@ static void print_cityresult(struct player *pplayer,
   FC_FREE(city_map_data);
 
   log_test("city center (%d, %d) %d + best other (abs: %d, %d)"
-           " (rel: %d,%d) %d", cr->tile->x, cr->tile->y, cr->city_center,
-           cr->other_tile->x, cr->other_tile->y, cr->o_x, cr->o_y,
+           " (cindex: %d) %d", cr->tile->x, cr->tile->y, cr->city_center,
+           cr->other_tile->x, cr->other_tile->y, cr->o_cindex,
            cr->best_other);
   log_test("- corr %d - waste %d + remaining %d"
            " + defense bonus %d + naval bonus %d", cr->corruption,
