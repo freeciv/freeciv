@@ -38,6 +38,7 @@
 #include "advdata.h"
 #include "autosettlers.h"
 #include "advbuilding.h"
+#include "infracache.h"
 
 /* ai */
 #include "advdiplomacy.h"

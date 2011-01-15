@@ -47,6 +47,7 @@
 #include "advdata.h"
 #include "advtools.h"
 #include "autosettlers.h"
+#include "infracache.h"
 
 /* ai */
 #include "aicity.h"
@@ -104,12 +105,36 @@
  * This is % of defense % to increase want by. */
 #define DEFENSE_EMPHASIS 20
 
+struct cityresult {
+  struct tile *tile;
+  int total;              /* total value of position */
+  int result;             /* amortized and adjusted total value */
+  int corruption, waste;
+  bool overseas;          /* have to use boat to get there */
+  bool virt_boat;         /* virtual boat was used in search, 
+                           * so need to build one */
+  struct tile *other_tile;/* coords to best other tile */
+  int o_x, o_y;           /* city-relative coords for other tile */
+  int city_center;        /* value of city center */
+  int best_other;         /* value of best other tile */
+  int remaining;          /* value of all other tiles */
+  struct citytile citymap[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
+  int city_radius_sq;     /* current squared radius of the city */
+};
+
 static struct {
   int sum;
   char food;
   char trade;
   char shield;
 } *cachemap;
+
+static void cityresult_fill(struct player *pplayer,
+                            struct cityresult *result);
+static void print_cityresult(struct player *pplayer, struct cityresult *cr);
+static void find_best_city_placement(struct unit *punit,
+                                     struct cityresult *best, 
+                                     bool look_for_boat, bool use_virt_boat);
 
 static bool ai_do_build_city(struct player *pplayer, struct unit *punit);
 
@@ -121,9 +146,8 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit);
 
   We always return valid other_x and other_y if total > 0.
 **************************************************************************/
-void cityresult_fill(struct player *pplayer,
-                     struct ai_data *ai,
-                     struct cityresult *result)
+static void cityresult_fill(struct player *pplayer,
+                            struct cityresult *result)
 {
   struct city *pcity = tile_city(result->tile);
   struct government *curr_govt = government_of_player(pplayer);
@@ -132,6 +156,9 @@ void cityresult_fill(struct player *pplayer,
   int sum = 0;
   bool virtual_city = FALSE;
   bool handicap = ai_handicap(pplayer, H_MAP);
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  fc_assert_ret(ai != NULL);
 
   pplayer->government = ai->goal.govt.gov;
 
@@ -320,7 +347,7 @@ static bool shield_starvation(struct cityresult *result)
   Calculate defense bonus, which is a % of total results equal to a
   given % of the defense bonus %.
 **************************************************************************/
-static int defense_bonus(struct cityresult *result, struct ai_data *ai)
+static int defense_bonus(struct cityresult *result)
 {
   /* Defense modification (as tie breaker mostly) */
   int defense_bonus = 
@@ -336,7 +363,7 @@ static int defense_bonus(struct cityresult *result, struct ai_data *ai)
 /**************************************************************************
   Add bonus for coast.
 **************************************************************************/
-static int naval_bonus(struct cityresult *result, struct ai_data *ai)
+static int naval_bonus(struct cityresult *result)
 {
   bool ocean_adjacent = is_ocean_near_tile(result->tile);
 
@@ -351,10 +378,12 @@ static int naval_bonus(struct cityresult *result, struct ai_data *ai)
 /**************************************************************************
   For debugging, print the city result table.
 **************************************************************************/
-void print_cityresult(struct player *pplayer, struct cityresult *cr,
-                      struct ai_data *ai)
+static void print_cityresult(struct player *pplayer, struct cityresult *cr)
 {
   int *city_map_data;
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  fc_assert_ret(ai != NULL);
 
   city_map_data = fc_calloc(city_map_tiles(cr->city_radius_sq),
                             sizeof(*city_map_data));
@@ -399,8 +428,8 @@ void print_cityresult(struct player *pplayer, struct cityresult *cr,
            cr->best_other);
   log_test("- corr %d - waste %d + remaining %d"
            " + defense bonus %d + naval bonus %d", cr->corruption,
-           cr->waste, cr->remaining, defense_bonus(cr, ai),
-           naval_bonus(cr, ai));
+           cr->waste, cr->remaining, defense_bonus(cr),
+           naval_bonus(cr));
   log_test("= %d (%d)", cr->total, cr->result);
 
   if (food_starvation(cr)) {
@@ -454,7 +483,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
     return; /* reserved, go away */
   }
 
-  cityresult_fill(pplayer, ai, result); /* Burn CPU, burn! */
+  cityresult_fill(pplayer, result); /* Burn CPU, burn! */
   if (result->total == 0) {
     /* Failed to find a good spot */
     return;
@@ -471,8 +500,8 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
     result->total = 0;
     return;
   }
-  result->total += defense_bonus(result, ai);
-  result->total += naval_bonus(result, ai);
+  result->total += defense_bonus(result);
+  result->total += naval_bonus(result);
 
   /* Add remaining points, which is our potential */
   result->total += result->remaining;
@@ -589,8 +618,9 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
   If (!look_for_boat && !use_virt_boat), will not consider placements
   overseas.
 **************************************************************************/
-void find_best_city_placement(struct unit *punit, struct cityresult *best,
-			      bool look_for_boat, bool use_virt_boat)
+static void find_best_city_placement(struct unit *punit,
+                                     struct cityresult *best, 
+                                     bool look_for_boat, bool use_virt_boat)
 {
   struct pf_parameter parameter;
   struct player *pplayer = unit_owner(punit);
@@ -688,7 +718,6 @@ void ai_auto_settler(struct player *pplayer, struct unit *punit,
   enum unit_activity best_act;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
-  struct ai_data *ai = ai_data_get(pplayer);
 
   /* time it will take worker to complete its given task */
   int completion_time = 0;
@@ -767,7 +796,7 @@ BUILD_CITY:
         UNIT_LOG(LOG_DEBUG, punit, "makes city at (%d, %d)", 
                  TILE_XY(result.tile));
         if (punit->server.debug) {
-          print_cityresult(pplayer, &result, ai);
+          print_cityresult(pplayer, &result);
         }
       }
       /* Go make a city! */

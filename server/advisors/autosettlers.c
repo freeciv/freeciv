@@ -34,7 +34,7 @@
 #include "packets.h"
 #include "unitlist.h"
 
-/* aicore */
+/* common/aicore */
 #include "citymap.h"
 #include "path_finding.h"
 #include "pf_tools.h"
@@ -54,7 +54,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
-/* advisors */
+/* server/advisors */
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
@@ -75,12 +75,9 @@
 #define WORKER_FEAR_FACTOR 2
 
 struct settlermap {
-
   int enroute; /* unit ID of settler en route to this tile */
   int eta; /* estimated number of turns until enroute arrives */
-
 };
-
 
 /**************************************************************************
   Manages settlers.
@@ -471,7 +468,6 @@ void auto_settler_findwork(struct player *pplayer,
                            struct settlermap *state,
                            int recursion)
 {
-  struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
   struct tile *best_tile = NULL;
@@ -489,9 +485,6 @@ void auto_settler_findwork(struct player *pplayer,
   }
 
   CHECK_UNIT(punit);
-
-  result.total = 0;
-  result.result = 0;
 
   fc_assert_ret(pplayer && punit);
   fc_assert_ret(unit_has_type_flag(punit, F_CITIES)

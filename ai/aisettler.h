@@ -27,32 +27,7 @@ struct citytile {
   int food, shield, trade, reserved;
 };
 
-struct cityresult {
-  struct tile *tile;
-  int total;              /* total value of position */
-  int result;             /* amortized and adjusted total value */
-  int corruption, waste;
-  bool overseas;          /* have to use boat to get there */
-  bool virt_boat;         /* virtual boat was used in search, 
-			   * so need to build one */
-  struct tile *other_tile;/* coords to best other tile */
-  int o_x, o_y;           /* city-relative coords for other tile */
-  int city_center;        /* value of city center */
-  int best_other;         /* value of best other tile */
-  int remaining;          /* value of all other tiles */
-  struct citytile citymap[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
-  int city_radius_sq;     /* current squared radius of the city */
-};
-
-void cityresult_fill(struct player *pplayer,
-                     struct ai_data *ai,
-                     struct cityresult *result);
-void find_best_city_placement(struct unit *punit, struct cityresult *best, 
-			      bool look_for_boat, bool use_virt_boat);
 void ai_settler_init(struct player *pplayer);
-void print_cityresult(struct player *pplayer, struct cityresult *cr,
-                      struct ai_data *ai);
-
 void ai_auto_settler(struct player *pplayer, struct unit *punit,
                      struct settlermap *state);
 
