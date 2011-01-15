@@ -181,7 +181,7 @@ struct ai_data {
   int max_num_cities;
 
   /* Cache map for AI settlers; defined in aisettler.c. */
-  struct settlermap *settler_map;
+  struct tile_data_cache *settler_map;
 };
 
 void ai_data_init(struct player *pplayer);

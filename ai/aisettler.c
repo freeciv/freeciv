@@ -105,6 +105,14 @@
  * This is % of defense % to increase want by. */
 #define DEFENSE_EMPHASIS 20
 
+struct tile_data_cache {
+  char food;    /* food output of the tile */
+  char trade;   /* trade output of the tile */
+  char shield;  /* shield output of the tile */
+
+  int sum;      /* weighted sum of the tile output (used by AI) */
+};
+
 struct cityresult {
   struct tile *tile;
   int total;              /* total value of position */
@@ -118,15 +126,9 @@ struct cityresult {
   int city_center;        /* value of city center */
   int best_other;         /* value of best other tile */
   int remaining;          /* value of all other tiles */
-  struct citytile citymap[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
+  struct tile_data_cache citymap[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
   int city_radius_sq;     /* current squared radius of the city */
-};
-
-struct settlermap {
-  int sum;
-  char food;
-  char trade;
-  char shield;
+  int reserved[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE]; 
 };
 
 static void cityresult_fill(struct player *pplayer,
@@ -153,7 +155,6 @@ static void cityresult_fill(struct player *pplayer,
   struct government *curr_govt = government_of_player(pplayer);
   struct player *saved_owner = NULL;
   struct tile *saved_claimer = NULL;
-  int sum = 0;
   bool virtual_city = FALSE;
   bool handicap = ai_handicap(pplayer, H_MAP);
   struct ai_data *ai = ai_data_get(pplayer);
@@ -200,7 +201,7 @@ static void cityresult_fill(struct player *pplayer,
       result->citymap[i][j].shield = 0;
       result->citymap[i][j].trade = 0;
       result->citymap[i][j].food = 0;
-      sum = 0;
+      result->citymap[i][j].sum = 0;
     } else if (ai->settler_map[tindex].sum <= 0 || city_center) {
       /* We cannot read city center from cache */
 
@@ -216,53 +217,58 @@ static void cityresult_fill(struct player *pplayer,
       result->citymap[i][j].trade
 	= city_tile_output(pcity, ptile, FALSE, O_TRADE);
 
-      sum = result->citymap[i][j].food * ai->food_priority
-            + result->citymap[i][j].trade * ai->science_priority
-            + result->citymap[i][j].shield * ai->shield_priority;
+      result->citymap[i][j].sum
+         = result->citymap[i][j].food * ai->food_priority
+           + result->citymap[i][j].trade * ai->science_priority
+           + result->citymap[i][j].shield * ai->shield_priority;
 
       /* Balance perfection */
-      sum *= PERFECTION / 2;
+      result->citymap[i][j].sum *= PERFECTION / 2;
       if (result->citymap[i][j].food >= 2) {
-        sum *= 2; /* we need this to grow */
+        result->citymap[i][j].sum *= 2; /* we need this to grow */
       }
 
       if (!city_center && virtual_city) {
         /* real cities and any city center will give us spossibly
          * skewed results */
-        ai->settler_map[tindex].sum = sum;
+        ai->settler_map[tindex].sum = result->citymap[i][j].sum;
         ai->settler_map[tindex].trade = result->citymap[i][j].trade;
         ai->settler_map[tindex].shield = result->citymap[i][j].shield;
         ai->settler_map[tindex].food = result->citymap[i][j].food;
       }
     } else {
-      sum = ai->settler_map[tile_index(ptile)].sum;
+      result->citymap[i][j].sum = ai->settler_map[tindex].sum;
       result->citymap[i][j].shield = ai->settler_map[tindex].shield;
       result->citymap[i][j].trade = ai->settler_map[tindex].trade;
       result->citymap[i][j].food = ai->settler_map[tindex].food;
     }
-    result->citymap[i][j].reserved = reserved;
+
+    /* Save reservation status for debugging. */
+    result->reserved[i][j] = reserved;
 
     /* Avoid crowdedness, except for city center. */
-    if (sum > 0) {
-      sum -= MIN(reserved * GROWTH_PRIORITY, sum - 1);
+    if (result->citymap[i][j].sum > 0) {
+      result->citymap[i][j].sum -= MIN(reserved * GROWTH_PRIORITY,
+                                       result->citymap[i][j].sum - 1);
     }
 
     /* Calculate city center and best other than city center */
     if (city_center) {
-      result->city_center = sum;
-    } else if (sum > result->best_other) {
+      result->city_center = result->citymap[i][j].sum;
+    } else if (result->citymap[i][j].sum > result->best_other) {
       /* First add other other to remaining */
       result->remaining += result->best_other
                            / GROWTH_POTENTIAL_DEEMPHASIS;
       /* Then make new best other */
-      result->best_other = sum;
+      result->best_other = result->citymap[i][j].sum;
       result->other_tile = ptile;
       result->o_x = i;
       result->o_y = j;
     } else {
       /* Save total remaining calculation, divided by crowdedness
        * of the area and the emphasis placed on space for growth. */
-      result->remaining += sum / GROWTH_POTENTIAL_DEEMPHASIS;
+      result->remaining += result->citymap[i][j].sum
+                           / GROWTH_POTENTIAL_DEEMPHASIS;
     }
   } city_tile_iterate_index_end;
 
@@ -384,16 +390,13 @@ static int naval_bonus(struct cityresult *result)
 static void print_cityresult(struct player *pplayer, struct cityresult *cr)
 {
   int *city_map_data;
-  struct ai_data *ai = ai_data_get(pplayer);
-
-  fc_assert_ret(ai != NULL);
 
   city_map_data = fc_calloc(city_map_tiles(cr->city_radius_sq),
                             sizeof(*city_map_data));
 
   /* print reservations */
   city_map_iterate(cr->city_radius_sq, index, x, y) {
-    city_map_data[index] = cr->citymap[x][y].reserved;
+    city_map_data[index] = cr->reserved[x][y];
   } city_map_iterate_end;
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Reservations:",
            cr->tile->x, cr->tile->y, cr->city_radius_sq);
