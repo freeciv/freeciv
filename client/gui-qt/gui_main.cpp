@@ -21,6 +21,11 @@
 
 #include <stdio.h>
 
+// Qt
+#include <QApplication>
+#include <QGraphicsView>
+#include <QMainWindow>
+
 // utility
 #include "fciconv.h"
 #include "log.h"
@@ -33,6 +38,9 @@
 
 // gui-qt
 #include "qtg_cxxside.h"
+
+static QApplication *freeciv_qt;
+static QMainWindow *main_window;
 
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
@@ -49,9 +57,7 @@ void qtg_set_city_names_font_sizes(int my_city_names_font_size,
   Do any necessary pre-initialization of the UI, if necessary.
 **************************************************************************/
 void qtg_ui_init()
-{
-  /* PORTME */
-}
+{}
 
 /**************************************************************************
   Entry point for whole freeciv client program.
@@ -69,8 +75,16 @@ int main(int argc, char **argv)
 **************************************************************************/
 void qtg_ui_main(int argc, char *argv[])
 {
-  /* PORTME */
-  fc_fprintf(stderr, "Freeciv rules!\n");
+  QGraphicsView *central;
+
+  freeciv_qt = new QApplication(argc, argv);
+  main_window = new QMainWindow;
+  central = new QGraphicsView;
+
+  main_window->setCentralWidget(central);
+  main_window->setVisible(true);
+
+  freeciv_qt->exec();
 }
 
 /****************************************************************************
@@ -86,7 +100,8 @@ void qtg_gui_options_extra_init()
 **************************************************************************/
 void qtg_ui_exit()
 {
-  /* PORTME */
+  delete main_window;
+  delete freeciv_qt;
 }
 
 /**************************************************************************
