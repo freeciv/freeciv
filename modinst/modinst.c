@@ -278,7 +278,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   gtk_container_add(GTK_CONTAINER(toplevel), mbox);
 
   main_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
-  errmsg = download_modpack_list(MODPACK_LIST_URL, &setup_modpack_list);
+  errmsg = download_modpack_list(MODPACK_LIST_URL, setup_modpack_list,
+                                 msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 
   g_object_unref(main_store);

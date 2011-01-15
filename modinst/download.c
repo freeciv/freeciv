@@ -426,13 +426,15 @@ const char *download_modpack(const char *URL,
 /**************************************************************************
   Download modpack list
 **************************************************************************/
-const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb)
+const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
+                                  dl_msg_callback mcb)
 {
   const char *controld = control_dir();
   char local_name[2048];
   struct section_file *list_file;
   const char *list_capstr;
   int modpack_count;
+  const char *msg;
   const char *mp_name;
 
   if (controld == NULL) {
@@ -469,6 +471,12 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb)
     secfile_destroy(list_file);
 
     return _("Modpack list is incompatible");  
+  }
+
+  msg = secfile_lookup_str_default(list_file, NULL, "info.message");
+
+  if (msg != NULL) {
+    mcb(msg);
   }
 
   modpack_count = 0;
