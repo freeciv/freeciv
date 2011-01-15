@@ -133,11 +133,22 @@ struct cityresult {
 
 static void cityresult_fill(struct player *pplayer,
                             struct cityresult *result);
-static void print_cityresult(struct player *pplayer, struct cityresult *cr);
+static bool food_starvation(const struct cityresult *result);
+static bool shield_starvation(const struct cityresult *result);
+static int defense_bonus(const struct cityresult *result);
+static int naval_bonus(const struct cityresult *result);
+static void print_cityresult(struct player *pplayer,
+                             const struct cityresult *cr);
+static void city_desirability(struct player *pplayer, struct ai_data *ai,
+                              struct unit *punit, struct tile *ptile,
+                              struct cityresult *result);
+static bool settler_map_iterate(struct pf_parameter *parameter,
+                                struct unit *punit,
+                                struct cityresult *best,
+                                int boat_cost);
 static void find_best_city_placement(struct unit *punit,
                                      struct cityresult *best, 
                                      bool look_for_boat, bool use_virt_boat);
-
 static bool ai_do_build_city(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
@@ -335,7 +346,7 @@ static void cityresult_fill(struct player *pplayer,
 /**************************************************************************
   Check if a city on this location would starve.
 **************************************************************************/
-static bool food_starvation(struct cityresult *result)
+static bool food_starvation(const struct cityresult *result)
 {
   /* Avoid starvation: We must have enough food to grow. */
   return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].food
@@ -345,7 +356,7 @@ static bool food_starvation(struct cityresult *result)
 /**************************************************************************
   Check if a city on this location would lack shields.
 **************************************************************************/
-static bool shield_starvation(struct cityresult *result)
+static bool shield_starvation(const struct cityresult *result)
 {
   /* Avoid resource starvation. */
   return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].shield
@@ -356,7 +367,7 @@ static bool shield_starvation(struct cityresult *result)
   Calculate defense bonus, which is a % of total results equal to a
   given % of the defense bonus %.
 **************************************************************************/
-static int defense_bonus(struct cityresult *result)
+static int defense_bonus(const struct cityresult *result)
 {
   /* Defense modification (as tie breaker mostly) */
   int defense_bonus = 
@@ -372,7 +383,7 @@ static int defense_bonus(struct cityresult *result)
 /**************************************************************************
   Add bonus for coast.
 **************************************************************************/
-static int naval_bonus(struct cityresult *result)
+static int naval_bonus(const struct cityresult *result)
 {
   bool ocean_adjacent = is_ocean_near_tile(result->tile);
 
@@ -387,7 +398,8 @@ static int naval_bonus(struct cityresult *result)
 /**************************************************************************
   For debugging, print the city result table.
 **************************************************************************/
-static void print_cityresult(struct player *pplayer, struct cityresult *cr)
+static void print_cityresult(struct player *pplayer,
+                             const struct cityresult *cr)
 {
   int *city_map_data;
 
