@@ -815,17 +815,29 @@ static bool create_command(struct connection *caller, const char *str,
 {
   enum rfc_status status;
   char buf[MAX_LEN_CONSOLE_LINE];
-  char *arg[2];
+
+  /* 2 legal arguments, and extra space for stuffing illegal part */
+  char *arg[3];
   int ntokens;
   char *ai;
 
   sz_strlcpy(buf, str);
-  ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
+  ntokens = get_tokens(buf, arg, 3, TOKEN_DELIMITERS);
 
   if (ntokens == 1) {
     ai = FC_AI_DEFAULT_NAME;
-  } else {
+  } else if (ntokens == 2) {
+#ifdef AI_MODULES
     ai = arg[1];
+#else  /* AI_MODULES */
+    cmd_reply(CMD_CREATE, caller, C_SYNTAX,
+              _("AI module support not built in, ai type name argument not supported"));
+    return FALSE;
+#endif /* AI_MODULES */
+  } else {
+    cmd_reply(CMD_CREATE, caller, C_SYNTAX,
+              _("Wrong number of arguments to create command."));
+    return FALSE;
   }
 
   if (game_was_started()) {
