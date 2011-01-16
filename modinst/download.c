@@ -482,13 +482,17 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
   modpack_count = 0;
   do {
     const char *mpURL;
+    const char *mpver;
 
     mp_name = secfile_lookup_str_default(list_file, NULL,
                                          "modpacks.list%d.name", modpack_count);
-    mpURL = secfile_lookup_str_default(list_file, NULL, "modpacks.list%d.URL",
+    mpURL = secfile_lookup_str_default(list_file, NULL,
+                                       "modpacks.list%d.URL", modpack_count);
+    mpver = secfile_lookup_str_default(list_file, NULL,
+                                       "modpacks.list%d.version",
                                        modpack_count);
     if (mp_name != NULL) {
-      cb(mp_name, mpURL);
+      cb(mp_name, mpURL, mpver);
       modpack_count++;
     }
   } while (mp_name != NULL);
