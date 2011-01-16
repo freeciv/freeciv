@@ -12,7 +12,7 @@ legend=_("Moscow emerged as a regional power and successor to the Kievan\
 leaders = {
  "name",                        "sex"
  "Ivan IV Vasilyevich",         "Male"
- "Ivan III Vasilevich",         "Male"
+ "Ivan III Vasilyevich",        "Male"
  "Dmitry Ivanovich Donskoy",    "Male"
  "Ivan I Danilovich Kalita",    "Male"
  "Daniil Aleksandrovich",       "Male"
