@@ -240,6 +240,7 @@ flag_files =				\
 		moravia.png		\
 		mordovia.png		\
 		morocco.png		\
+		moscow.png		\
 		mozambique.png		\
 		mughal.png		\
 		muskogee.png		\
@@ -642,6 +643,7 @@ flag_files =				\
 		moravia-large.png		\
 		mordovia-large.png		\
 		morocco-large.png		\
+		moscow-large.png		\
 		mozambique-large.png		\
 		mughal-large.png		\
 		muskogee-large.png		\
@@ -1046,6 +1048,7 @@ shield_files =					\
 		moravia-shield.png		\
 		mordovia-shield.png		\
 		morocco-shield.png		\
+		moscow-shield.png		\
 		mozambique-shield.png		\
 		mughal-shield.png		\
 		muskogee-shield.png		\
@@ -1448,6 +1451,7 @@ shield_files =					\
 		moravia-shield-large.png		\
 		mordovia-shield-large.png		\
 		morocco-shield-large.png		\
+		moscow-shield-large.png			\
 		mozambique-shield-large.png		\
 		mughal-shield-large.png		\
 		muskogee-shield-large.png		\
@@ -1851,6 +1855,7 @@ svg_files = 				\
 		moravia.svg		\
 		mordovia.svg		\
 		morocco.svg		\
+		moscow.svg		\
 		mozambique.svg		\
 		mughal.svg		\
 		muskogee.svg		\

@@ -247,6 +247,7 @@ artists = "
    Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
    Mordovia		Fibonacci (Wikimedia Commons)
    Morocco		Xiquet, Flad (Wikimedia Commons)
+   Moscow		Oren neu dag (Wikimedia Commons
    Mozambique		Tobias Jakobs
    Mughal		Orange Tuesday (Wikimedia Commons)
    Muskogee		Daniel Markstedt
@@ -655,6 +656,7 @@ sprites =
 		"f.moravia", "flags/moravia"
 		"f.mordovia", "flags/mordovia"
 		"f.morocco", "flags/morocco"
+		"f.moscow", "flags/moscow"
 		"f.mozambique", "flags/mozambique"
 		"f.mughal", "flags/mughal"
 		"f.muskogee", "flags/muskogee"

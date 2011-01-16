@@ -249,6 +249,7 @@ sprites =
 		"f.moravia", "flags/moravia-large"
 		"f.mordovia", "flags/mordovia-large"
 		"f.morocco", "flags/morocco-large"
+		"f.moscow", "flags/moscow-large"
 		"f.mozambique", "flags/mozambique-large"
 		"f.mughal", "flags/mughal-large"
 		"f.muskogee", "flags/muskogee-large"

@@ -242,6 +242,7 @@ pkgdata_DATA = \
 		mozambican.ruleset \
 		mughal.ruleset \
 		muskogee.ruleset \
+		muskovite.ruleset \
 		mwiska.ruleset \
 		namibian.ruleset \
 		navajo.ruleset \
