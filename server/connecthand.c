@@ -411,7 +411,7 @@ bool handle_login_request(struct connection *pconn,
   }
 
   if (srvarg.auth_enabled) {
-    return authenticate_user(pconn, req->username);
+    return auth_user(pconn, req->username);
   } else {
     sz_strlcpy(pconn->username, req->username);
     establish_new_connection(pconn);

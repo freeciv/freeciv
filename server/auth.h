@@ -17,14 +17,15 @@
 
 struct connection;
 
-bool is_guest_name(const char *name);
-void get_unique_guest_name(char *name);
+bool auth_user(struct connection *pconn, char *username);
+void auth_process_status(struct connection *pconn);
+bool auth_handle_reply(struct connection *pconn, char *password);
 
-bool authenticate_user(struct connection *pconn, char *username);
-void process_authentication_status(struct connection *pconn);
-bool handle_authentication_reply(struct connection *pc, char *password);
-
-bool auth_init(const char *conf_file);
-void auth_free(void);
+const char *auth_get_username(struct connection *pconn);
+const char *auth_get_ipaddr(struct connection *pconn);
+bool auth_set_password(struct connection *pconn, const char *password);
+const char *auth_get_password(struct connection *pconn);
+bool auth_set_salt(struct connection *pconn, int salt);
+int auth_get_salt(struct connection *pconn);
 
 #endif /* FC__AUTH_H */

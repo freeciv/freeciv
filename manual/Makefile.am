@@ -22,4 +22,4 @@ freeciv_manual_LDADD = \
  $(top_builddir)/common/libfreeciv.la $(INTLLIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
- $(SERVER_LIBS) $(AUTH_LIBS) $(LIB_GGZDMOD)
+ $(SERVER_LIBS) $(LIB_GGZDMOD)

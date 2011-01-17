@@ -10,7 +10,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
 	-I$(srcdir)/advisors \
-	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) @AUTH_CFLAGS@ \
+	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 
 if MINGW32
@@ -139,7 +139,7 @@ freeciv_server_LDADD = \
  $(INTLLIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
- $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
+ $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
 
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = \

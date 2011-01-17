@@ -59,9 +59,6 @@ dnl Use Automake 1.11 silent rules by default if available
 dnl verbose build using  make V=1
 ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-dnl checks for mysql, sets AUTH_LIBS, AUTH_CFLAGS
-FC_CHECK_AUTH
-
 dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
 dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
 dnl of the clients and the database setting.

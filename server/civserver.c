@@ -264,11 +264,8 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--Database", argv, &inx, argc))) {
       srvarg.fcdb_enabled = TRUE;
       srvarg.fcdb_conf = option;
-#endif
-#ifdef HAVE_AUTH
-    } else if ((option = get_option_malloc("--auth", argv, &inx, argc))) {
+    } else if (is_option("--auth", argv[inx])) {
       srvarg.auth_enabled = TRUE;
-      srvarg.auth_conf = option;
     } else if (is_option("--Guests", argv[inx])) {
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
@@ -331,10 +328,8 @@ int main(int argc, char *argv[])
 #ifdef HAVE_FCDB
     fc_fprintf(stderr, _("  -D  --Database FILE\tEnable database connection "
                          "with configuration from FILE.\n"));
-#endif
-#ifdef HAVE_AUTH
-    fc_fprintf(stderr, _("  -a  --auth FILE\tEnable server authentication "
-                         "with configuration from FILE.\n"));
+    fc_fprintf(stderr, _("  -a  --auth\t\tEnable server authentication "
+                         "(requires --Database).\n"));
     fc_fprintf(stderr, _("  -G  --Guests\t\tAllow guests to "
 			 "login if auth is enabled.\n"));
     fc_fprintf(stderr, _("  -N  --Newusers\tAllow new users to "

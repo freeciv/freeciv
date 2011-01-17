@@ -206,7 +206,6 @@ void srv_init(void)
   srvarg.fcdb_enabled = FALSE;
   srvarg.fcdb_conf = NULL;
   srvarg.auth_enabled = FALSE;
-  srvarg.auth_conf = NULL;
   srvarg.auth_allow_guests = FALSE;
   srvarg.auth_allow_newusers = FALSE;
 
@@ -1303,12 +1302,6 @@ void server_quit(void)
   diplhand_free();
   voting_free();
 
-#ifdef HAVE_AUTH
-  if (srvarg.auth_enabled) {
-    /* If auth has been initialized */
-    auth_free();
-  }
-#endif /* HAVE_AUTH */
 #ifdef HAVE_FCDB
   if (srvarg.fcdb_enabled) {
     /* If freeciv database has been initialized */
@@ -1472,7 +1465,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 
   /* May be received on a non-established connection. */
   if (type == PACKET_AUTHENTICATION_REPLY) {
-    return handle_authentication_reply(pconn,
+    return auth_handle_reply(pconn,
 				((struct packet_authentication_reply *)
 				 packet)->password);
   }
@@ -2205,11 +2198,13 @@ static void srv_running(void)
 **************************************************************************/
 static void srv_prepare(void)
 {
-#ifdef HAVE_AUTH
+#ifdef HAVE_FCDB
   if (!srvarg.auth_enabled) {
-    con_write(C_COMMENT, _("This freeciv-server program has player authentication support, but it's currently not in use."));
+    con_write(C_COMMENT, _("This freeciv-server program has player "
+                           "authentication support, but it's currently not "
+                           "in use."));
   }
-#endif /* HAVE_AUTH */
+#endif /* HAVE_FCDB */
 
   /* make sure it's initialized */
   if (!has_been_srv_init) {
@@ -2244,19 +2239,6 @@ static void srv_prepare(void)
   voting_init();
 
   server_game_init();
-
-#ifdef HAVE_AUTH
-  if (srvarg.auth_enabled) {
-    bool success;
-
-    success = auth_init(srvarg.auth_conf);
-    free(srvarg.auth_conf); /* Never needed again */
-    srvarg.auth_conf = NULL;
-    if (!success) {
-      exit(EXIT_FAILURE);
-    }
-  }
-#endif /* HAVE_AUTH */
 
 #ifdef HAVE_FCDB
   if (srvarg.fcdb_enabled) {

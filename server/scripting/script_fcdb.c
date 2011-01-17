@@ -55,6 +55,8 @@
 
 #ifdef HAVE_FCDB
 
+#define SCRIPT_FCDB_LUA_FILE "database.lua"
+
 static struct fcdb_func *fcdb_func_new(int nargs, enum api_types *parg_types);
 static void fcdb_func_destroy(struct fcdb_func *pfcdb_func);
 
@@ -175,6 +177,10 @@ static void script_fcdb_functions_define(void)
 {
   script_fcdb_add_func("database_init", 0);
   script_fcdb_add_func("database_free", 0);
+
+  script_fcdb_add_func("user_load", 1, API_TYPE_CONECTION);
+  script_fcdb_add_func("user_save", 1, API_TYPE_CONECTION);
+  script_fcdb_add_func("user_log", 2, API_TYPE_CONECTION, API_TYPE_BOOL);
 }
 
 /****************************************************************************
@@ -249,6 +255,11 @@ bool script_fcdb_init(const char *fcdb_luafile)
   if (state) {
     /* state is defined. */
     return TRUE;
+  }
+
+  if (!fcdb_luafile) {
+    /* Use default freeciv database lua file. */
+    fcdb_luafile = fileinfoname(get_data_dirs(), SCRIPT_FCDB_LUA_FILE);
   }
 
   if (!fcdb_luafile) {

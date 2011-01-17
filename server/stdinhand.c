@@ -4832,8 +4832,9 @@ static bool fcdb_command(struct connection *caller, char *arg, bool check)
   }
 
   if (fc_strcasecmp(arg, "reload") == 0) {
-    fcdb_free();
-    fcdb_init(NULL);
+    /* reload database lua scrip */
+    script_fcdb_free();
+    script_fcdb_init(NULL);
   }
 
   return TRUE;

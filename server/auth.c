@@ -19,10 +19,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_AUTH
-  #include <mysql/mysql.h>
-#endif
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -37,52 +33,16 @@
 
 /* server */
 #include "connecthand.h"
+#include "fcdb.h"
 #include "notify.h"
 #include "sernet.h"
 #include "srv_main.h"
 
+/* server/scripting */
+#include "script_fcdb.h"
+#include "script_types.h"
+
 #include "auth.h"
-
-/* where our mysql database is located and how to get to it */
-#define DEFAULT_AUTH_HOST     "localhost"
-#define DEFAULT_AUTH_PORT     "3306"
-#define DEFAULT_AUTH_USER     "anonymous"
-#define DEFAULT_AUTH_PASSWORD ""
-
-/* the database where our table is located */
-#define DEFAULT_AUTH_DATABASE "test"
-
-/* the tables where we will do our lookups and inserts.
- * the tables can be created with the following:
- *
- * CREATE TABLE auth (
- *   id int(11) NOT NULL auto_increment,
- *   name varchar(32) default NULL,
- *   password varchar(32) default NULL,
- *   email varchar(128) default NULL,
- *   createtime int(11) default NULL,
- *   accesstime int(11) default NULL,
- *   address varchar(255) default NULL,
- *   createaddress varchar(15) default NULL,
- *   logincount int(11) default '0',
- *   PRIMARY KEY  (id),
- *   UNIQUE KEY name (name)
- * ) TYPE=MyISAM;
- * 
- * CREATE TABLE loginlog (
- *   id int(11) NOT NULL auto_increment,
- *   name varchar(32) default NULL,
- *   logintime int(11) default NULL,
- *   address varchar(255) default NULL,
- *   succeed enum('S','F') default 'S',
- *   PRIMARY KEY  (id)
- * ) TYPE=MyISAM;
- *
- * N.B. if the tables are not of this format, then the select,insert,
- *      and update syntax in the auth_db_* functions below must be changed.
- */
-#define DEFAULT_AUTH_TABLE           "auth"
-#define DEFAULT_AUTH_LOGIN_TABLE     "loginlog"
 
 #define GUEST_NAME "guest"
 
@@ -97,294 +57,20 @@
  * many seconds to reply to the client */
 static const int auth_fail_wait[] = { 1, 1, 2, 3 };
 
-/**************************************************
- The auth db statuses are:
-
- 1: an error occurred, possibly we couldn't access the database file.
- 2: we were able to successfully insert an entry. or we found the entry 
-    we were searching for
- 3: the user we were searching for was not found.
-***************************************************/
-enum authdb_status {
-  AUTH_DB_ERROR,
-  AUTH_DB_SUCCESS,
-  AUTH_DB_NOT_FOUND
-};
-
+static bool auth_check_password(struct connection *pconn,
+                                const char *password, int len);
+static bool is_guest_name(const char *name);
+static void get_unique_guest_name(char *name);
 static bool is_good_password(const char *password, char *msg);
 
-static bool authdb_check_password(struct connection *pconn,
-                           const char *password, int len);
-static enum authdb_status auth_db_load(struct connection *pconn);
-static bool auth_db_save(struct connection *pconn);
+/****************************************************************************
+  Handle authentication of a user; called by handle_login_request() if
+  authentication is enabled.
 
-#ifdef HAVE_AUTH
-static char *alloc_escaped_string(MYSQL *mysql, const char *orig);
-static void free_escaped_string(char *str);
-#endif /* HAVE_AUTH */
-
-#ifdef HAVE_AUTH
-
-enum auth_option_source {
-  AOS_DEFAULT,  /* Internal default         */
-  AOS_FILE,     /* Read from config file    */
-  AOS_SET       /* Set, currently not used  */
-};
-
-struct auth_option {
-  const char              *name;
-  char                    *value;
-  enum auth_option_source source;
-};
-
-static struct authentication_conf {
-  struct auth_option host;
-  struct auth_option port;
-  struct auth_option user;
-  struct auth_option password;
-  struct auth_option database;
-  struct auth_option table;
-  struct auth_option login_table;
-} auth_config;
-
-/* How much information dump functions show */
-enum show_source_type {
-  SST_NONE,
-  SST_DEFAULT,
-  SST_ALL
-};
-
-/**************************************************************************
-  Output information about one auth option.
-**************************************************************************/
-static void print_auth_option(enum log_level level,
-                              enum show_source_type show_source,
-                              bool show_value,
-                              const struct auth_option *target)
-{
-  char buffer[512];
-  bool real_show_source;
-
-  buffer[0] = '\0';
-
-  real_show_source = (show_source == SST_ALL
-                      || (show_source == SST_DEFAULT && target->source == AOS_DEFAULT));
-
-  if (show_value || real_show_source) {
-    /* We will print this line. Begin it. */
-    /* TRANS: Further information about option will follow. */
-    fc_snprintf(buffer, sizeof(buffer), _("Auth option \"%s\":"),
-                target->name);
-  }
-
-  if (show_value) {
-    cat_snprintf(buffer, sizeof(buffer), " \"%s\"", target->value);
-  }
-  if (real_show_source) {
-    switch(target->source) {
-     case AOS_DEFAULT:
-       if (show_source == SST_DEFAULT) {
-         cat_snprintf(buffer, sizeof(buffer),
-		      /* TRANS: After 'Auth option "user":'. Option value
-			 may have been inserted between these. */
-                      _(" missing from config file (using default)"));
-       } else {
-         /* TRANS: auth option originates from internal default */
-         cat_snprintf(buffer, sizeof(buffer), _(" (default)"));
-       }
-       break;
-     case AOS_FILE:
-       /* TRANS: auth option originates from config file */
-       cat_snprintf(buffer, sizeof(buffer), _(" (config)"));
-       break;
-     case AOS_SET:
-       /* TRANS: auth option has been set from prompt */
-       cat_snprintf(buffer, sizeof(buffer), _(" (set)"));
-       break;
-    }
-  }
-
-  if (buffer[0] != '\0') {
-    /* There is line to print */
-    log_base(level, "%s", buffer);
-  }
-}
-
-/**************************************************************************
-  Output auth config information.
-**************************************************************************/
-static void print_auth_config(enum log_level level,
-                              enum show_source_type show_source,
-                              bool show_value)
-{
-  print_auth_option(level, show_source, show_value, &auth_config.host);
-  print_auth_option(level, show_source, show_value, &auth_config.port);
-  print_auth_option(level, show_source, show_value, &auth_config.user);
-  print_auth_option(level, show_source, FALSE, &auth_config.password);
-  print_auth_option(level, show_source, show_value, &auth_config.database);
-  print_auth_option(level, show_source, show_value, &auth_config.table);
-  print_auth_option(level, show_source, show_value, &auth_config.login_table);
-}
-
-/**************************************************************************
-  Set one auth option.
-**************************************************************************/
-static bool set_auth_option(struct auth_option *target, const char *value,
-                            enum auth_option_source source)
-{
-  if (value != NULL
-      && !strcmp(target->name, "port")) {
-    /* Port value must be all numeric. */
-    int i;
-
-    for (i = 0; value[i] != '\0'; i++) {
-      if (value[i] < '0' || value[i] > '9') {
-        log_error(_("Illegal value for auth port: \"%s\""), value);
-        return FALSE;
-      }
-    }
-  }
-
-  if (value == NULL) {
-    if (target->value != NULL) {
-      free(target->value);
-    }
-    target->value = NULL;
-  } else {
-    target->value = fc_realloc(target->value, strlen(value) + 1);
-    memcpy(target->value, value, strlen(value) + 1);
-  }
-  target->source = source;
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Load value for one auth option from section_file.
-**************************************************************************/
-static void load_auth_option(struct section_file *secfile,
-                             struct auth_option *target)
-{
-  const char *value = secfile_lookup_str(secfile, "auth.%s", target->name);
-
-  if (NULL != value) {
-    /* We really loaded something from file */
-    set_auth_option(target, value, AOS_FILE);
-  }
-}
-
-/**************************************************************************
-  Load auth configuration from file.
-  We use filename just like user gave it to us.
-  No searching from datadirs, if file with same name exist there!
-**************************************************************************/
-static bool load_auth_config(const char *filename)
-{
-  struct section_file *secfile;
-
-  fc_assert_ret_val(NULL != filename, FALSE);
-
-  if (!(secfile = secfile_load(filename, FALSE))) {
-    log_error(_("Cannot load auth config file '%s':\n%s"), filename,
-              secfile_error());
-    return FALSE;
-  }
-
-  load_auth_option(secfile, &auth_config.host);
-  load_auth_option(secfile, &auth_config.port);
-  load_auth_option(secfile, &auth_config.user);
-  load_auth_option(secfile, &auth_config.password);
-  load_auth_option(secfile, &auth_config.database);
-  load_auth_option(secfile, &auth_config.table);
-  load_auth_option(secfile, &auth_config.login_table);
-
-  secfile_check_unused(secfile);
-  secfile_destroy(secfile);
-
-  return TRUE;
-}
-#endif /* HAVE_AUTH */
-
-/**************************************************************************
-  Initialize authentication system
-**************************************************************************/
-bool auth_init(const char *conf_file)
-{
-#ifdef HAVE_AUTH
-  static bool first_init = TRUE;
-
-  if (first_init) {
-    /* Run just once when program starts */
-    auth_config.host.value        = NULL;
-    auth_config.port.value        = NULL;
-    auth_config.user.value        = NULL;
-    auth_config.password.value    = NULL;
-    auth_config.database.value    = NULL;
-    auth_config.table.value       = NULL;
-    auth_config.login_table.value = NULL;
-
-    auth_config.host.name         = "host";
-    auth_config.port.name         = "port";
-    auth_config.user.name         = "user";
-    auth_config.password.name     = "password";
-    auth_config.database.name     = "database";
-    auth_config.table.name        = "table";
-    auth_config.login_table.name  = "login_table";
-
-    first_init = FALSE;
-  }
-
-  set_auth_option(&auth_config.host, DEFAULT_AUTH_HOST, AOS_DEFAULT);
-  set_auth_option(&auth_config.port, DEFAULT_AUTH_PORT, AOS_DEFAULT);
-  set_auth_option(&auth_config.user, DEFAULT_AUTH_USER, AOS_DEFAULT);
-  set_auth_option(&auth_config.password, DEFAULT_AUTH_PASSWORD, AOS_DEFAULT);
-  set_auth_option(&auth_config.database, DEFAULT_AUTH_DATABASE, AOS_DEFAULT);
-  set_auth_option(&auth_config.table, DEFAULT_AUTH_TABLE, AOS_DEFAULT);
-  set_auth_option(&auth_config.login_table, DEFAULT_AUTH_LOGIN_TABLE, AOS_DEFAULT);
-
-  if (strcmp(conf_file, "-")) {
-    if (!load_auth_config(conf_file)) {
-      return FALSE;
-    }
-
-    /* Print all options in LOG_DEBUG level... */
-    print_auth_config(LOG_DEBUG, SST_ALL, TRUE);
-
-    /* ...and those missing from config file with LOG_NORMAL too */
-    print_auth_config(LOG_NORMAL, SST_DEFAULT, FALSE);
-
-  } else {
-    log_debug("No auth config file. Using defaults");
-  }
-
-#endif /* HAVE_AUTH */
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Free resources allocated by auth system.
-**************************************************************************/
-void auth_free(void)
-{
-#ifdef HAVE_AUTH
-  set_auth_option(&auth_config.host, NULL, AOS_DEFAULT);
-  set_auth_option(&auth_config.port, NULL, AOS_DEFAULT);
-  set_auth_option(&auth_config.user, NULL, AOS_DEFAULT);
-  set_auth_option(&auth_config.password, NULL, AOS_DEFAULT);
-  set_auth_option(&auth_config.database, NULL, AOS_DEFAULT);
-  set_auth_option(&auth_config.table, NULL, AOS_DEFAULT);
-  set_auth_option(&auth_config.login_table, NULL, AOS_DEFAULT);
-#endif /* HAVE_AUTH */
-}
-
-/**************************************************************************
-  handle authentication of a user; called by handle_login_request()
-  if authentication is enabled.
-
-  if the connection is rejected right away, return FALSE, otherwise return TRUE
-**************************************************************************/
-bool authenticate_user(struct connection *pconn, char *username)
+  If the connection is rejected right away, return FALSE, otherwise this
+  function will return TRUE.
+****************************************************************************/
+bool auth_user(struct connection *pconn, char *username)
 {
   char tmpname[MAX_LEN_NAME] = "\0";
 
@@ -415,8 +101,8 @@ bool authenticate_user(struct connection *pconn, char *username)
 
     sz_strlcpy(pconn->username, username);
 
-    switch(auth_db_load(pconn)) {
-    case AUTH_DB_ERROR:
+    switch(script_fcdb_call("user_load", 1, API_TYPE_CONECTION, pconn)) {
+    case FCDB_ERROR:
       if (srvarg.auth_allow_guests) {
         sz_strlcpy(tmpname, pconn->username);
         get_unique_guest_name(tmpname); /* don't pass pconn->username here */
@@ -425,19 +111,19 @@ bool authenticate_user(struct connection *pconn, char *username)
         log_error("Error reading database; connection -> guest");
         notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
                     _("There was an error reading the user "
-                      "database, logging in as guest connection '%s'."), 
+                      "database, logging in as guest connection '%s'."),
                     pconn->username);
         establish_new_connection(pconn);
       } else {
         reject_new_connection(_("There was an error reading the user database "
-                                "and guest logins are not allowed. Sorry"), 
+                                "and guest logins are not allowed. Sorry"),
                               pconn);
         log_normal(_("%s was rejected: Database error and guests not "
                      "allowed."), pconn->username);
         return FALSE;
       }
       break;
-    case AUTH_DB_SUCCESS:
+    case FCDB_SUCCESS_TRUE:
       /* we found a user */
       fc_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
                   pconn->username);
@@ -445,7 +131,7 @@ bool authenticate_user(struct connection *pconn, char *username)
       pconn->server.auth_settime = time(NULL);
       pconn->server.status = AS_REQUESTING_OLD_PASS;
       break;
-    case AUTH_DB_NOT_FOUND:
+    case FCDB_SUCCESS_FALSE:
       /* we couldn't find the user, he is new */
       if (srvarg.auth_allow_newusers) {
         sz_strlcpy(buffer, _("Enter a new password (and remember it)."));
@@ -471,10 +157,10 @@ bool authenticate_user(struct connection *pconn, char *username)
   return TRUE;
 }
 
-/**************************************************************************
+/****************************************************************************
   Receives a password from a client and verifies it.
-**************************************************************************/
-bool handle_authentication_reply(struct connection *pconn, char *password)
+****************************************************************************/
+bool auth_handle_reply(struct connection *pconn, char *password)
 {
   char msg[MAX_LEN_MSG];
 
@@ -487,10 +173,10 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
         log_normal(_("%s was rejected: Too many wrong password "
                      "verifies for new user."), pconn->username);
 
-	return FALSE;
+        return FALSE;
       } else {
         dsend_packet_authentication_req(pconn, AUTH_NEWUSER_RETRY, msg);
-	return TRUE;
+        return TRUE;
       }
     }
 
@@ -498,16 +184,17 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
      * this user; we establish the connection in handle_db_lookup */
     sz_strlcpy(pconn->server.password, password);
 
-    if (!auth_db_save(pconn)) {
+    if (script_fcdb_call("user_save", 1, API_TYPE_CONECTION, pconn)
+        != FCDB_SUCCESS_TRUE) {
       notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
-		  _("Warning: There was an error in saving to the database. "
+                  _("Warning: There was an error in saving to the database. "
                     "Continuing, but your stats will not be saved."));
       log_error("Error writing to database for: %s", pconn->username);
     }
 
     establish_new_connection(pconn);
-  } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) { 
-    if (authdb_check_password(pconn, password, strlen(password)) == 1) {
+  } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) {
+    if (auth_check_password(pconn, password, strlen(password)) == 1) {
       establish_new_connection(pconn);
     } else {
       pconn->server.status = AS_FAILED;
@@ -523,10 +210,10 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
   return TRUE;
 }
 
-/**************************************************************************
- checks on where in the authentication process we are.
-**************************************************************************/
-void process_authentication_status(struct connection *pconn)
+/****************************************************************************
+  Checks on where in the authentication process we are.
+****************************************************************************/
+void auth_process_status(struct connection *pconn)
 {
   switch(pconn->server.status) {
   case AS_NOT_ESTABLISHED:
@@ -574,29 +261,50 @@ void process_authentication_status(struct connection *pconn)
 }
 
 /**************************************************************************
-  see if the name qualifies as a guest login name
-**************************************************************************/
-bool is_guest_name(const char *name)
+  Check if the password with length len matches that given in
+  pconn->server.password.
+***************************************************************************/
+static bool auth_check_password(struct connection *pconn,
+                                const char *password, int len)
+{
+  bool ok = FALSE;
+  char checksum[DIGEST_HEX_BYTES + 1];
+
+  /* do the password checking right here */
+  create_md5sum(password, len, checksum);
+  ok = (strncmp(checksum, pconn->server.password, DIGEST_HEX_BYTES) == 0)
+                                                              ? TRUE : FALSE;
+
+  script_fcdb_call("user_log", 2, API_TYPE_CONECTION, pconn, API_TYPE_BOOL,
+                   ok);
+
+  return ok;
+}
+
+/****************************************************************************
+  See if the name qualifies as a guest login name
+****************************************************************************/
+static bool is_guest_name(const char *name)
 {
   return (fc_strncasecmp(name, GUEST_NAME, strlen(GUEST_NAME)) == 0);
 }
 
-/**************************************************************************
-  return a unique guest name
+/****************************************************************************
+  Return a unique guest name
   WARNING: do not pass pconn->username to this function: it won't return!
-**************************************************************************/
-void get_unique_guest_name(char *name)
+****************************************************************************/
+static void get_unique_guest_name(char *name)
 {
   unsigned int i;
 
   /* first see if the given name is suitable */
-  if (is_guest_name(name) && NULL == conn_by_user(name)) {
+  if (is_guest_name(name) && !conn_by_user(name)) {
     return;
   }
 
   /* next try bare guest name */
   fc_strlcpy(name, GUEST_NAME, MAX_LEN_NAME);
-  if (NULL == conn_by_user(name)) {
+  if (!conn_by_user(name)) {
     return;
   }
 
@@ -604,24 +312,26 @@ void get_unique_guest_name(char *name)
   for (i = 1; ; i++) {
     fc_snprintf(name, MAX_LEN_NAME, "%s%u", GUEST_NAME, i);
 
-
     /* attempt to find this name; if we can't we're good to go */
-    if (NULL == conn_by_user(name)) {
+    if (!conn_by_user(name)) {
       break;
     }
+
+    /* Prevent endless loops. */
+    fc_assert_ret(i < 2 * MAX_NUM_PLAYERS);
   }
 }
 
-/**************************************************************************
- Verifies that a password is valid. Does some [very] rudimentary safety 
- checks. TODO: do we want to frown on non-printing characters?
- Fill the msg (length MAX_LEN_MSG) with any worthwhile information that 
- the client ought to know. 
-**************************************************************************/
+/****************************************************************************
+  Verifies that a password is valid. Does some [very] rudimentary safety
+  checks. TODO: do we want to frown on non-printing characters?
+  Fill the msg (length MAX_LEN_MSG) with any worthwhile information that
+  the client ought to know.
+****************************************************************************/
 static bool is_good_password(const char *password, char *msg)
 {
   int i, num_caps = 0, num_nums = 0;
-   
+
   /* check password length */
   if (strlen(password) < MIN_PASSWORD_LEN) {
     fc_snprintf(msg, MAX_LEN_MSG,
@@ -629,7 +339,7 @@ static bool is_good_password(const char *password, char *msg)
                   "Try again."), MIN_PASSWORD_LEN);
     return FALSE;
   }
- 
+
   fc_snprintf(msg, MAX_LEN_MSG,
               _("The password must have at least %d capital letters, %d "
                 "numbers, and be at minimum %d [printable] characters long. "
@@ -662,257 +372,45 @@ static bool is_good_password(const char *password, char *msg)
   return TRUE;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
+const char *auth_get_username(struct connection *pconn)
+{
+  fc_assert_ret_val(pconn != NULL, NULL);
+
+  return pconn->username;
+}
 
 /**************************************************************************
-  Check if the password with length len matches that given in 
-  pconn->server.password.
-***************************************************************************/
-static bool authdb_check_password(struct connection *pconn, 
-                                  const char *password, int len)
+  ...
+**************************************************************************/
+const char *auth_get_ipaddr(struct connection *pconn)
 {
-#ifdef HAVE_AUTH
-  bool ok = FALSE;
-  char buffer[512] = "";
-  const int bufsize = sizeof(buffer);
-  char checksum[DIGEST_HEX_BYTES + 1];
-  MYSQL *sock, mysql;
+  fc_assert_ret_val(pconn != NULL, NULL);
 
-  /* do the password checking right here */
-  create_md5sum(password, len, checksum);
-  ok = (strncmp(checksum, pconn->server.password, DIGEST_HEX_BYTES) == 0)
-                                                              ? TRUE : FALSE;
+  return pconn->server.ipaddr;
+}
 
-  /* we don't really need the stuff below here to 
-   * verify password, this is just logging */
-  mysql_init(&mysql);
+/**************************************************************************
+  ...
+**************************************************************************/
+bool auth_set_password(struct connection *pconn, const char *password)
+{
+  fc_assert_ret_val(pconn != NULL, FALSE);
+  fc_assert_ret_val(password != NULL, FALSE);
 
-  /* attempt to connect to the server */
-  if ((sock = mysql_real_connect(&mysql, auth_config.host.value,
-                                 auth_config.user.value, auth_config.password.value, 
-                                 auth_config.database.value,
-                                 atoi(auth_config.port.value), NULL, 0))) {
-    char *name_buffer = alloc_escaped_string(&mysql, pconn->username);
-    int str_result;
+  sz_strlcpy(pconn->server.password, password);
 
-    if (name_buffer != NULL) {
-      /* insert an entry into our log */
-      str_result = fc_snprintf(buffer, bufsize,
-                               "insert into %s (name, logintime, address, succeed) "
-                               "values ('%s',unix_timestamp(),'%s','%s')",
-                               auth_config.login_table.value,
-                               name_buffer, pconn->server.ipaddr, ok ? "S" : "F");
-
-      if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
-        log_error("check_pass insert loginlog failed for user: %s (%s)",
-                  pconn->username, mysql_error(sock));
-      }
-      free_escaped_string(name_buffer);
-      name_buffer = NULL;
-    }
-    mysql_close(sock);
-  } else {
-    log_error("Can't connect to server! (%s)", mysql_error(&mysql));
-  }
-
-  return ok;
-#else  /* HAVE_AUTH */
   return TRUE;
-#endif /* HAVE_AUTH */
 }
 
 /**************************************************************************
- Loads a user from the database.
+  ...
 **************************************************************************/
-static enum authdb_status auth_db_load(struct connection *pconn)
+const char *auth_get_password(struct connection *pconn)
 {
-#ifdef HAVE_AUTH
-  char buffer[512] = "";
-  const int bufsize = sizeof(buffer);
-  int num_rows = 0;
-  MYSQL *sock, mysql;
-  MYSQL_RES *res;
-  MYSQL_ROW row;
-  char *name_buffer;
-  int str_result;
+  fc_assert_ret_val(pconn != NULL, NULL);
 
-  mysql_init(&mysql);
-
-  /* attempt to connect to the server */
-  if (!(sock = mysql_real_connect(&mysql, auth_config.host.value,
-                                  auth_config.user.value,
-                                  auth_config.password.value,
-                                  auth_config.database.value,
-                                  atoi(auth_config.port.value),
-                                  NULL, 0))) {
-    log_error("Can't connect to server! (%s)", mysql_error(&mysql));
-    return AUTH_DB_ERROR;
-  }
-
-  name_buffer = alloc_escaped_string(&mysql, pconn->username);
-
-  if (name_buffer != NULL) {
-    /* select the password from the entry */
-    str_result = fc_snprintf(buffer, bufsize,
-                             "select password from %s where name = '%s'",
-                             auth_config.table.value, name_buffer);
-
-    if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
-      log_error("db_load query failed for user: %s (%s)",
-                pconn->username, mysql_error(sock));
-      free_escaped_string(name_buffer);
-      mysql_close(sock);
-      return AUTH_DB_ERROR;
-    }
-
-    res = mysql_store_result(sock);
-    num_rows = mysql_num_rows(res);
-  
-    /* if num_rows = 0, then we could find no such user */
-    if (num_rows < 1) {
-      mysql_free_result(res);
-      free_escaped_string(name_buffer);
-      mysql_close(sock);
-
-      return AUTH_DB_NOT_FOUND;
-    }
-  
-    /* if there are more than one row that matches this name, it's an error 
-     * continue anyway though */
-    if (num_rows > 1) {
-      log_error("db_load query found multiple entries (%d) for user: %s",
-                num_rows, pconn->username);
-    }
-
-    /* if there are rows, then fetch them and use the first one */
-    row = mysql_fetch_row(res);
-    fc_strlcpy(pconn->server.password, row[0], sizeof(pconn->server.password));
-    mysql_free_result(res);
-
-    /* update the access time for this user */
-    memset(buffer, 0, bufsize);
-    str_result = fc_snprintf(buffer, bufsize,
-                             "update %s set accesstime=unix_timestamp(), "
-                             "address='%s', logincount=logincount+1 "
-                             "where strcmp(name, '%s') = 0",
-                             auth_config.table.value, pconn->server.ipaddr,
-                             name_buffer);
-
-    free_escaped_string(name_buffer);
-    name_buffer = NULL;
-
-    if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
-      log_error("db_load update accesstime failed for user: %s (%s)",
-                pconn->username, mysql_error(sock));
-    }
-  }
-
-  mysql_close(sock);
-#endif
-  return AUTH_DB_SUCCESS;
-}
-
-#ifdef HAVE_AUTH
-/**************************************************************************
- Creates escaped version of string.
-**************************************************************************/
-static char *alloc_escaped_string(MYSQL *mysql, const char *orig)
-{
-  int orig_len = strlen(orig);
-  char *escaped = fc_malloc(orig_len*2+1);
-
-  if (escaped == NULL) {
-    log_error("Failed to allocate memory for escaped string %s", orig);
-  } else {
-    mysql_real_escape_string(mysql, escaped, orig, orig_len);
-  }
-
-  return escaped;
-}
-
-/**************************************************************************
- Frees escaped string created by alloc_escaped_string()
-**************************************************************************/
-static void free_escaped_string(char *str)
-{
-  if (str != NULL) {
-    FC_FREE(str);
-  }
-}
-#endif /* HAVE_AUTH */
-
-/**************************************************************************
- Saves pconn fields to the database. If the username already exists, 
- replace the data.
-**************************************************************************/
-static bool auth_db_save(struct connection *pconn)
-{
-#ifdef HAVE_AUTH
-  char buffer[1024] = "";
-  const int bufsize = sizeof(buffer);
-  char *name_buffer = NULL;
-  char *pw_buffer = NULL;
-  MYSQL *sock, mysql;
-  int str_result;
-
-  mysql_init(&mysql);
-
-  /* attempt to connect to the server */
-  if (!(sock = mysql_real_connect(&mysql, auth_config.host.value,
-                                  auth_config.user.value, auth_config.password.value,
-                                  auth_config.database.value,
-                                  atoi(auth_config.port.value),
-                                  NULL, 0))) {
-    log_error("Can't connect to server! (%s)", mysql_error(&mysql));
-    return FALSE;
-  }
-
-  name_buffer = alloc_escaped_string(&mysql, pconn->username);
-  pw_buffer = alloc_escaped_string(&mysql, pconn->server.password);
-  if (name_buffer == NULL || pw_buffer == NULL) {
-    free_escaped_string(name_buffer);
-    mysql_close(sock);
-    return FALSE;
-  }
-
-  /* insert new user into table. we insert the following things: name
-   * md5sum of the password, the creation time in seconds, the accesstime
-   * also in seconds from 1970, the users address (twice) and the logincount */
-  str_result = fc_snprintf(buffer, bufsize,
-                           "insert into %s values "
-                           "(NULL, '%s', md5('%s'), NULL, "
-                           "unix_timestamp(), unix_timestamp(),"
-                           "'%s', '%s', 0)",
-                           auth_config.table.value, name_buffer, pw_buffer,
-                           pconn->server.ipaddr, pconn->server.ipaddr);
-
-  /* Password is not needed for further queries. */
-  free_escaped_string(pw_buffer);
-  pw_buffer = NULL;
-
-  if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
-    log_error("db_save insert failed for new user: %s (%s)",
-              pconn->username, mysql_error(sock));
-    mysql_close(sock);
-    return FALSE;
-  }
-
-  /* insert an entry into our log */
-  memset(buffer, 0, bufsize);
-  str_result = fc_snprintf(buffer, bufsize,
-                           "insert into %s (name, logintime, address, succeed) "
-                           "values ('%s',unix_timestamp(),'%s', 'S')",
-                           auth_config.login_table.value,
-                           name_buffer, pconn->server.ipaddr);
-
-  free_escaped_string(name_buffer);
-  name_buffer = 0;
-
-  if (str_result < 0 || str_result >= bufsize || mysql_query(sock, buffer)) {
-    log_error("db_load insert loginlog failed for user: %s (%s)",
-              pconn->username, mysql_error(sock));
-  }
-
-  mysql_close(sock);
-#endif
-  return TRUE;
+  return pconn->server.password;
 }

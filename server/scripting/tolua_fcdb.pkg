@@ -23,9 +23,19 @@ $#include <config.h>
 $#endif
 
 $#include "api_fcdb.h"
+$#include "api_auth.h"
 
 $#include "script_fcdb.h"
 $#include "script_types.h"
+
+/* Authentication module. */
+module auth {
+  const char *api_auth_get_username @ get_username(Connection *pconn);
+  const char *api_auth_get_ipaddr @ get_ipaddr(Connection *pconn);
+  bool api_auth_set_password
+    @ set_password(Connection *pconn, const char *password);
+  const char *api_auth_get_password @ get_password(Connection *pconn);
+}
 
 /* Freeciv database (fcdb) module. */
 module fcdb {

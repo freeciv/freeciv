@@ -605,7 +605,7 @@ enum server_events server_sniff_all_input(void)
       if (srvarg.auth_enabled
           && !pconn->server.is_closing
           && pconn->server.status != AS_ESTABLISHED) {
-        process_authentication_status(pconn);
+        auth_process_status(pconn);
       }
     } conn_list_iterate_end
 

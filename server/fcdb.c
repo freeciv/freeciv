@@ -47,8 +47,6 @@
  * some dummy functions are defiend. */
 #ifdef HAVE_FCDB
 
-#define FCDB_LUA_SCRIPT "database.lua"
-
 /* where our mysql database is located and how to get to it */
 #define DEFAULT_FCDB_HOST     "localhost"
 #define DEFAULT_FCDB_PORT     "3306"
@@ -256,7 +254,6 @@ static bool fcdb_load_config(const char *filename)
 bool fcdb_init(const char *conf_file)
 {
   static bool first_init = TRUE;
-  const char *fcdb_luafile;
 
   if (first_init) {
     enum fcdb_option_type type;
@@ -300,8 +297,7 @@ bool fcdb_init(const char *conf_file)
     log_debug("No fcdb config file. Using defaults");
   }
 
-  fcdb_luafile = fileinfoname(get_data_dirs(), FCDB_LUA_SCRIPT);
-  return script_fcdb_init(fcdb_luafile);
+  return script_fcdb_init(NULL);
 }
 
 /****************************************************************************

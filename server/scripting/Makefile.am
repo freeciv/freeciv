@@ -48,6 +48,8 @@ dist_libscripting_game_la_SOURCES = \
 		tolua_game_gen.h
 
 dist_libscripting_fcdb_la_SOURCES = \
+		api_auth.c	\
+		api_auth.h	\
 		api_fcdb.c	\
 		api_fcdb.h	\
 		script_fcdb.c	\
