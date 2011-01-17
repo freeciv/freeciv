@@ -148,10 +148,15 @@ void city_freeze_workers_queue(struct city *pcity)
 }
 
 /****************************************************************************
-  Queue pending auto_arrange_workers() for later.
+  Remove a city from the queue for later calls to auto_arrange_workers().
+  Reterns TRUE if the city was found in the queue.
 ****************************************************************************/
 static bool city_workers_queue_remove(struct city *pcity)
 {
+  if (arrange_workers_queue == NULL) {
+    return FALSE;
+  }
+
   return city_list_remove(arrange_workers_queue, pcity);
 }
 
