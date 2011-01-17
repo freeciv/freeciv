@@ -147,7 +147,7 @@ set={"name","value","gamestart"
 "compress",6,6
 "compresstype","BZIP2","BZIP2"
 "saveversion","CURRENT","CURRENT"
-"savename","civgame","civgame"
+"savename","freeciv-earth","freeciv-earth"
 "scorelog",FALSE,FALSE
 "scorefile","freeciv-score.log","freeciv-score.log"
 "maxconnectionsperhost",4,4
