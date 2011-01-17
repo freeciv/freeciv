@@ -44,7 +44,8 @@ static gboolean quit_dialog_callback(void);
 
 #define ML_COL_NAME 0
 #define ML_COL_VER  1
-#define ML_COL_URL  2
+#define ML_COL_TYPE 2
+#define ML_COL_URL  3
 
 /****************************************************************
   freeciv-modpack quit
@@ -188,7 +189,7 @@ static void URL_return(GtkEntry *w, gpointer data)
   Build main modpack list view
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
-                               const char *version)
+                               const char *version, const char *type)
 {
   GtkTreeIter iter;
 
@@ -196,6 +197,7 @@ static void setup_modpack_list(const char *name, const char *URL,
   gtk_list_store_set(main_store, &iter,
                      ML_COL_NAME, name,
                      ML_COL_VER, version,
+                     ML_COL_TYPE, type,
                      ML_COL_URL, URL,
                      -1);
 }
@@ -245,8 +247,13 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
+                                              ML_COL_TYPE,
+                                              "Type", renderer, "text", 2,
+                                              NULL);
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_URL,
-                                              "URL", renderer, "text", 2,
+                                              "URL", renderer, "text", 3,
                                               NULL);
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(main_list));
   g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), NULL);
@@ -285,8 +292,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   gtk_container_add(GTK_CONTAINER(toplevel), mbox);
 
-  main_store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING,
-                                  G_TYPE_STRING);
+  main_store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING,
+                                  G_TYPE_STRING, G_TYPE_STRING);
   errmsg = download_modpack_list(MODPACK_LIST_URL, setup_modpack_list,
                                  msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));

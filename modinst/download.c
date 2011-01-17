@@ -483,16 +483,31 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
   do {
     const char *mpURL;
     const char *mpver;
+    const char *mp_type;
 
     mp_name = secfile_lookup_str_default(list_file, NULL,
                                          "modpacks.list%d.name", modpack_count);
-    mpURL = secfile_lookup_str_default(list_file, NULL,
-                                       "modpacks.list%d.URL", modpack_count);
     mpver = secfile_lookup_str_default(list_file, NULL,
                                        "modpacks.list%d.version",
                                        modpack_count);
-    if (mp_name != NULL) {
-      cb(mp_name, mpURL, mpver);
+    mp_type = secfile_lookup_str_default(list_file, NULL,
+                                         "modpacks.list%d.type",
+                                         modpack_count);
+    mpURL = secfile_lookup_str_default(list_file, NULL,
+                                       "modpacks.list%d.URL", modpack_count);
+
+    if (mp_name != NULL && mpURL != NULL) {
+      if (mp_type == NULL
+          || (strcmp("Ruleset", mp_type)
+              && strcmp("Tileset", mp_type)
+              && strcmp("Modpack", mp_type))) {
+        log_error("Illegal modpack type \"%s\"", mp_type ? mp_type : "NULL");
+        mp_type = "?";
+      }
+      if (mpver == NULL) {
+        mpver = "-";
+      }
+      cb(mp_name, mpURL, mpver, mp_type);
       modpack_count++;
     }
   } while (mp_name != NULL);
