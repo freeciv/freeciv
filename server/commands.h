@@ -84,6 +84,7 @@ enum command_id {
   CMD_WRITE_SCRIPT,
   CMD_RESET,
   CMD_LUA,
+  CMD_LUAFILE,
   CMD_KICK,
 #ifdef DEBUG
   CMD_OLDSAVE,

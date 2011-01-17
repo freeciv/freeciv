@@ -138,6 +138,7 @@ static bool read_init_script_real(struct connection *caller,
 static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
 static bool lua_command(struct connection *caller, char *arg, bool check);
+static bool luafile_command(struct connection *caller, char *arg, bool check);
 static bool kick_command(struct connection *caller, char *name, bool check);
 static bool delegate_command(struct connection *caller, char *arg,
                              bool check);
@@ -4157,6 +4158,8 @@ static bool handle_stdin_input_real(struct connection *caller,
     return reset_command(caller, arg, check, read_recursion);
   case CMD_LUA:
     return lua_command(caller, arg, check);
+  case CMD_LUAFILE:
+    return luafile_command(caller, arg, check);
   case CMD_KICK:
     return kick_command(caller, arg, check);
   case CMD_DELEGATE:
@@ -4756,6 +4759,63 @@ static const char *delegate_player_str(struct player *pplayer, bool observer)
   }
 
   return buf;
+}
+
+/*****************************************************************************
+  Evaluate a line of lua script
+*****************************************************************************/
+static bool luafile_command(struct connection *caller, char *arg, bool check)
+{
+  FILE *script_file;
+  const char extension[] = ".lua";
+  char luafile[4096], tile_filename[4096];
+  const char *real_filename;
+
+  /* abuse real_filename to find if we already have a .serv extension */
+  real_filename = arg + strlen(arg) - MIN(strlen(extension), strlen(arg));
+  if (strcmp(real_filename, extension) != 0) {
+    fc_snprintf(luafile, sizeof(luafile), "%s%s", arg, extension);
+  } else {
+    sz_strlcpy(luafile, arg);
+  }
+
+  if (is_restricted(caller)) {
+    if (!is_safe_filename(luafile)) {
+      cmd_reply(CMD_LUAFILE, caller, C_FAIL,
+                _("Freeciv script '%s' disallowed for security reasons."),
+                luafile);
+      return FALSE;
+    }
+    sz_strlcpy(tile_filename, luafile);
+  } else {
+    interpret_tilde(tile_filename, sizeof(tile_filename), luafile);
+  }
+
+  real_filename = fileinfoname(get_data_dirs(), tile_filename);
+  if (!real_filename) {
+    if (is_restricted(caller)) {
+      cmd_reply(CMD_LUAFILE, caller, C_FAIL,
+                _("No Freeciv script found by the name '%s'."), 
+                tile_filename);
+      return FALSE;
+    }
+    /* File is outside data directories */
+    real_filename = tile_filename;
+  }
+
+  log_normal(_("Loading Freeciv script file '%s'."), real_filename);
+
+  if (is_reg_file_for_access(real_filename, FALSE)
+      && (script_file = fc_fopen(real_filename, "r"))) {
+    return script_do_file(real_filename);
+  } else {
+    cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
+              _("Cannot read Freeciv script '%s'."), real_filename);
+    if (NULL != caller) {
+      log_error(_("Could not read Freeciv script '%s'."), real_filename);
+    }
+    return FALSE;
+  }
 }
 
 /**************************************************************************

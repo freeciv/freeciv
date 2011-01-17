@@ -526,6 +526,12 @@ static struct command commands[] = {
    N_("Evaluate a line of freeciv script in the current game."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
+  {"luafile", ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("luafile <file>"),
+   N_("Evaluate a freeciv script file in the current game."), NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 0
+  },
   {"kick", ALLOW_CTRL,
    /* TRANS: translate text between <> */
     N_("kick <user>"),
