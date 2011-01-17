@@ -46,6 +46,8 @@ libfreeciv_srv_la_SOURCES = \
 		diplomats.h	\
 		edithand.c	\
 		edithand.h	\
+		fcdb.c		\
+		fcdb.h		\
 		gamehand.c	\
 		gamehand.h	\
 		ggzserver.c	\
@@ -112,6 +114,7 @@ srvlibs = \
  $(top_builddir)/server/advisors/libadvisors.la \
  $(top_builddir)/server/generator/libgenerator.la \
  $(top_builddir)/server/scripting/libscripting_common.la \
+ $(top_builddir)/server/scripting/libscripting_fcdb.la \
  $(top_builddir)/server/scripting/libscripting_game.la
 
 libfreeciv_srv_la_DEPENDENCIES = \

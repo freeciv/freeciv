@@ -564,6 +564,12 @@ static struct command commands[] = {
       "delegation status."),
    CMD_ECHO_NONE, VCF_NONE, 0
   },
+  {"fcdb", ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("fcdb [reload]"),
+   N_("Reload the freeciv database script."), NULL,
+   CMD_ECHO_ADMINS, VCF_NONE, 0
+  },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    SYN_ORIG_("rfcstyle"),

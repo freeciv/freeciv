@@ -2,6 +2,7 @@
 
 noinst_LTLIBRARIES = \
 		libscripting_common.la	\
+		libscripting_fcdb.la	\
 		libscripting_game.la
 
 AM_CPPFLAGS = \
@@ -10,7 +11,7 @@ AM_CPPFLAGS = \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE_CFLAGS) \
 	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS)
 
-# tolua_common_gen.[ch] and tolua_game_gen.[ch] are now
+# tolua_common_gen.[ch], tolua_fcdb_gen.[ch] and tolua_game_gen.[ch] are now
 # distributed to aid in cross-compiling. See PR#13571.
 dist_libscripting_common_la_SOURCES = \
 		api_intl.c	\
@@ -46,9 +47,19 @@ dist_libscripting_game_la_SOURCES = \
 		tolua_game_gen.c	\
 		tolua_game_gen.h
 
+dist_libscripting_fcdb_la_SOURCES = \
+		api_fcdb.c	\
+		api_fcdb.h	\
+		script_fcdb.c	\
+		script_fcdb.h	\
+		script_types.h	\
+		tolua_fcdb_gen.c	\
+		tolua_fcdb_gen.h
+
 EXTRA_DIST = \
 		tolua_common_a.pkg	\
 		tolua_common_z.pkg	\
+		tolua_fcdb.pkg		\
 		tolua_game.pkg
 
 BUILT_SOURCES = \
@@ -56,6 +67,8 @@ BUILT_SOURCES = \
 		tolua_common_a_gen.h	\
 		tolua_common_z_gen.c	\
 		tolua_common_z_gen.h	\
+		tolua_fcdb_gen.c	\
+		tolua_fcdb_gen.h	\
 		tolua_game_gen.c	\
 		tolua_game_gen.h
 
@@ -66,6 +79,10 @@ tolua_common_a_gen.c tolua_common_a_gen.h: tolua_common_a.pkg
 tolua_common_z_gen.c tolua_common_z_gen.h: tolua_common_z.pkg
 	$(TOLUA) -n common_z -o $(srcdir)/tolua_common_z_gen.c \
 	-H $(srcdir)/tolua_common_z_gen.h $(srcdir)/tolua_common_z.pkg
+
+tolua_fcdb_gen.c tolua_fcdb_gen.h: tolua_fcdb.pkg
+	$(TOLUA) -n auth -o $(srcdir)/tolua_fcdb_gen.c \
+	-H $(srcdir)/tolua_fcdb_gen.h $(srcdir)/tolua_fcdb.pkg
 
 tolua_game_gen.c tolua_game_gen.h: tolua_game.pkg
 	$(TOLUA) -n game -o $(srcdir)/tolua_game_gen.c \

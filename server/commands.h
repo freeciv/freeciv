@@ -90,6 +90,7 @@ enum command_id {
   CMD_OLDSAVE,
 #endif /* DEBUG */
   CMD_DELEGATE,
+  CMD_FCDB,
 
   /* undocumented */
   CMD_RFCSTYLE,

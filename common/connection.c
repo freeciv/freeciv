@@ -886,3 +886,12 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
 
   return  conn_pattern_new(type, p);
 }
+
+/**************************************************************************
+  Returns TRUE if the connection is valid, i.e. not NULL, not closed, not
+  closing, etc.
+**************************************************************************/
+bool conn_is_valid(const struct connection *pconn)
+{
+  return (pconn && pconn->used && !pconn->server.is_closing);
+}

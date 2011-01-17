@@ -211,6 +211,7 @@ modinst/download.c
 modinst/modinst.c
 data/Freeciv.in
 data/helpdata.txt
+data/database.lua
 data/civ1/buildings.ruleset
 data/civ1/governments.ruleset
 data/civ1/techs.ruleset

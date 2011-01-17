@@ -92,6 +92,7 @@
 #include "cityturn.h"
 #include "connecthand.h"
 #include "console.h"
+#include "fcdb.h"
 #include "diplhand.h"
 #include "edithand.h"
 #include "gamehand.h"
@@ -202,6 +203,8 @@ void srv_init(void)
 
   srvarg.quitidle = 0;
 
+  srvarg.fcdb_enabled = FALSE;
+  srvarg.fcdb_conf = NULL;
   srvarg.auth_enabled = FALSE;
   srvarg.auth_conf = NULL;
   srvarg.auth_allow_guests = FALSE;
@@ -1306,6 +1309,12 @@ void server_quit(void)
     auth_free();
   }
 #endif /* HAVE_AUTH */
+#ifdef HAVE_FCDB
+  if (srvarg.fcdb_enabled) {
+    /* If freeciv database has been initialized */
+    fcdb_free();
+  }
+#endif /* HAVE_FCDB */
 
   settings_free();
   stdinhand_free();
@@ -2248,6 +2257,19 @@ static void srv_prepare(void)
     }
   }
 #endif /* HAVE_AUTH */
+
+#ifdef HAVE_FCDB
+  if (srvarg.fcdb_enabled) {
+    bool success;
+
+    success = fcdb_init(srvarg.fcdb_conf);
+    free(srvarg.fcdb_conf); /* Never needed again */
+    srvarg.fcdb_conf = NULL;
+    if (!success) {
+      exit(EXIT_FAILURE);
+    }
+  }
+#endif /* HAVE_FCDB */
 
   /* load a saved game */
   if ('\0' == srvarg.load_filename[0]

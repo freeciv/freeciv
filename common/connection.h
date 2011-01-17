@@ -340,6 +340,8 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
                                               char *error_buf,
                                               size_t error_buf_len);
 
+bool conn_is_valid(const struct connection *pconn);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

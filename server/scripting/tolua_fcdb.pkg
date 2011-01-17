@@ -1,0 +1,53 @@
+/****************************************************************************
+ Freeciv - Copyright (C) 2005 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+****************************************************************************/
+
+/****************************************************************************
+  ADVERTISEMENT: do not attempt to change the name of the API functions.
+  They *must* be compatible between the minor Freeciv versions within the
+  same major version. If you really like to change a function name, be sure
+  to keep also the old one running.
+****************************************************************************/
+
+$#ifdef HAVE_CONFIG_H
+$#include <config.h>
+$#endif
+
+$#include "api_fcdb.h"
+
+$#include "script_fcdb.h"
+$#include "script_types.h"
+
+/* Freeciv database (fcdb) module. */
+module fcdb {
+  module param {
+    enum fcdb_option_type {
+      FCDB_OPTION_TYPE_HOST @ HOST,
+      FCDB_OPTION_TYPE_USER @ USER,
+      FCDB_OPTION_TYPE_PORT @ PORT,
+      FCDB_OPTION_TYPE_PASSWORD @ PASSWORD,
+      FCDB_OPTION_TYPE_DATABASE @ DATABASE,
+      FCDB_OPTION_TYPE_TABLE_USER @ TABLE_USER,
+      FCDB_OPTION_TYPE_TABLE_LOG @ TABLE_LOG
+    };
+  }
+
+  module status {
+    enum fcdb_status {
+      FCDB_ERROR @ ERROR,
+      FCDB_SUCCESS_TRUE @ TRUE,
+      FCDB_SUCCESS_FALSE @ FALSE
+    };
+  }
+
+  const char *api_fcdb_option @ option(int type);
+}

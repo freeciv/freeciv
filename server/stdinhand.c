@@ -83,6 +83,7 @@
 
 /* server/scripting */
 #include "script_game.h"
+#include "script_fcdb.h"
 
 #include "stdinhand.h"
 
@@ -143,6 +144,7 @@ static bool kick_command(struct connection *caller, char *name, bool check);
 static bool delegate_command(struct connection *caller, char *arg,
                              bool check);
 static const char *delegate_player_str(struct player *pplayer, bool observer);
+static bool fcdb_command(struct connection *caller, char *arg, bool check);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
 static bool player_name_check(const char* name, char *buf, size_t buflen);
@@ -4164,6 +4166,8 @@ static bool handle_stdin_input_real(struct connection *caller,
     return kick_command(caller, arg, check);
   case CMD_DELEGATE:
     return delegate_command(caller, arg, check);
+  case CMD_FCDB:
+    return fcdb_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -4816,6 +4820,23 @@ static bool luafile_command(struct connection *caller, char *arg, bool check)
     }
     return FALSE;
   }
+}
+
+/**************************************************************************
+  Handle the freeciv database script module.
+**************************************************************************/
+static bool fcdb_command(struct connection *caller, char *arg, bool check)
+{
+  if (check) {
+    return TRUE;
+  }
+
+  if (fc_strcasecmp(arg, "reload") == 0) {
+    fcdb_free();
+    fcdb_init(NULL);
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************

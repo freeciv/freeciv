@@ -260,6 +260,11 @@ int main(int argc, char *argv[])
         break;
       }
       free(option);
+#ifdef HAVE_FCDB
+    } else if ((option = get_option_malloc("--Database", argv, &inx, argc))) {
+      srvarg.fcdb_enabled = TRUE;
+      srvarg.fcdb_conf = option;
+#endif
 #ifdef HAVE_AUTH
     } else if ((option = get_option_malloc("--auth", argv, &inx, argc))) {
       srvarg.auth_enabled = TRUE;
@@ -321,7 +326,12 @@ int main(int argc, char *argv[])
   if (showhelp) {
     fc_fprintf(stderr,
 	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fc_fprintf(stderr, _("  -A  --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
+    fc_fprintf(stderr, _("  -A  --Announce PROTO\tAnnounce game in LAN "
+                         "using protocol PROTO (IPv4/IPv6/none)\n"));
+#ifdef HAVE_FCDB
+    fc_fprintf(stderr, _("  -D  --Database FILE\tEnable database connection "
+                         "with configuration from FILE.\n"));
+#endif
 #ifdef HAVE_AUTH
     fc_fprintf(stderr, _("  -a  --auth FILE\tEnable server authentication "
                          "with configuration from FILE.\n"));

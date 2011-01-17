@@ -49,6 +49,8 @@ struct server_arguments {
   /* exit the server on game ending */
   bool exit_on_end;
   /* authentication options */
+  bool fcdb_enabled;            /* defaults to FALSE */
+  char *fcdb_conf;              /* freeciv database configuration file */
   bool auth_enabled;            /* defaults to FALSE */
   char *auth_conf;              /* auth configuration file */
   bool auth_allow_guests;       /* defaults to TRUE */
