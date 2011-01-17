@@ -398,6 +398,7 @@ static bool manual_command(void)
 
     fprintf(doc, TAIL);
     fclose(doc);
+    log_normal(_("Manual file %s successful written."), filename);
   } /* manuals */
 
   return TRUE;
