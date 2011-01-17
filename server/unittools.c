@@ -469,8 +469,10 @@ static void unit_restore_hitpoints(struct unit *punit)
   /* Bonus recovery HP (traditionally from the United Nations) */
   punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
 
-  if (!punit->homecity && 0 < game.server.killunhomed) {
+  if (!punit->homecity && 0 < game.server.killunhomed
+      && !unit_has_type_flag(punit, F_GAMELOSS)) {
     /* Hit point loss of units without homecity; at least 1 hp! */
+    /* Gameloss units are immune to this effect. */
     int hp_loss = MAX(unit_type(punit)->hp * game.server.killunhomed / 100,
                       1);
     punit->hp = MIN(punit->hp - hp_loss, save_hp - 1);
