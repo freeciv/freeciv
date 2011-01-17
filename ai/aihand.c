@@ -654,9 +654,9 @@ static void ai_manage_taxes(struct player *pplayer)
 
 #ifdef DEBUG
   stop_timer(taxtimer);
-  log_error("Tax calculation for %s (player %d) in %.3f seconds.",
-            player_name(pplayer), player_index(pplayer),
-            read_timer_seconds(taxtimer));
+  log_base(LOGLEVEL_TAX, "Tax calculation for %s (player %d) in %.3f "
+                         "seconds.", player_name(pplayer),
+           player_index(pplayer), read_timer_seconds(taxtimer));
   free_timer(taxtimer);
 #endif
 }
