@@ -473,6 +473,8 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
       notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
                     _("Insufficient science output. We lost Future Tech. %d."),
                     research->future_tech);
+      log_debug("%s: tech loss (future tech %d)", player_name(plr),
+                research->future_tech);
       research->future_tech--;
     } else {
       Tech_type_id tech = pick_random_tech_researched(plr);
@@ -480,6 +482,8 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
         notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
                       _("Insufficient science output. We lost %s."),
                       advance_name_for_player(plr, tech));
+        log_debug("%s: tech loss (%s)", player_name(plr),
+                  advance_name_for_player(plr, tech));
         player_tech_lost(plr, tech);
       }
     }

@@ -1766,6 +1766,8 @@ static bool sell_random_building(struct player *pplayer,
                 _("Can't afford to maintain %s in %s, building sold!"),
                 improvement_name_translation(pcityimpr->pimprove),
                 city_link(pcityimpr->pcity));
+  log_debug("%s: sold building (%s)", player_name(pplayer),
+            improvement_name_translation(pcityimpr->pimprove));
 
   do_sell_building(pplayer, pcityimpr->pcity, pcityimpr->pimprove);
   cityimpr_list_remove(imprs, pcityimpr);
@@ -1811,6 +1813,9 @@ static bool sell_random_unit(struct player *pplayer,
   notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                 _("Not enough gold. %s disbanded."),
                 unit_tile_link(punit));
+  log_debug("%s: unit sold (%s)", player_name(pplayer),
+            unit_name_translation(punit));
+
   unit_list_remove(punitlist, punit);
   pplayer->score.units_lost++;
   wipe_unit(punit);
