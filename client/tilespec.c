@@ -40,6 +40,7 @@
 
 /* common */
 #include "base.h"
+#include "effects.h"
 #include "game.h"		/* game.control.styles_count */
 #include "government.h"
 #include "map.h"
@@ -154,7 +155,6 @@ struct drawing_data {
 };
 
 struct city_style_threshold {
-  int city_size;
   struct sprite *sprite;
 };
 
@@ -2057,7 +2057,7 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
   int style = style_of_city(pcity);
   int num_thresholds;
   struct city_style_threshold *thresholds;
-  int t;
+  int img_index;
 
   fc_assert_ret_val(style < city_sprite->num_styles, NULL);
 
@@ -2074,15 +2074,11 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
     return NULL;
   }
 
-  /* We find the sprite with the largest threshold value that's no bigger
-   * than this city size. */
-  for (t = 0; t < num_thresholds; t++) {
-    if (pcity->size < thresholds[t].city_size) {
-      break;
-    }
-  }
+  /* Get the sprite with the index defined by the effects. */
+  img_index = get_city_bonus(pcity, EFT_CITY_IMAGE);
+  img_index = CLIP(0, img_index, num_thresholds - 1);
 
-  return thresholds[MAX(t - 1, 0)].sprite;
+  return thresholds[img_index].sprite;
 }
 
 /****************************************************************************
@@ -2106,7 +2102,6 @@ static int load_city_thresholds_sprites(struct tileset *t, const char *tag,
     if ((sprite = load_sprite(t, buffer))) {
       num_thresholds++;
       *thresholds = fc_realloc(*thresholds, num_thresholds * sizeof(**thresholds));
-      (*thresholds)[num_thresholds - 1].city_size = size;
       (*thresholds)[num_thresholds - 1].sprite = sprite;
     } else if (size == 0) {
       if (gfx_in_use == graphic) {

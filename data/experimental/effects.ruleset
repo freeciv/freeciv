@@ -2367,6 +2367,14 @@ reqs    =
       "MinSize", "3", "City"
     }
 
+[effect_city_image_1]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "3", "City"
+    }
+
 ; City radius 2 - radius of vision is sqrt(2+3) = 2.24
 [effect_city_vision_1]
 name    = "City_Vision_Radius_Sq"
@@ -2380,6 +2388,15 @@ reqs    =
 [effect_city_radius_2]
 name    = "City_Radius_Sq"
 value   = 5
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "10", "City"
+      "Tech", "Railroad", "Player"
+    }
+
+[effect_city_image_2]
+name    = "City_Image"
+value   = 1
 reqs    =
     { "type", "name", "range"
       "MinSize", "10", "City"
@@ -2418,6 +2435,17 @@ reqs    =
       "Building", "Super Highways", "City"
     }
 
+[effect_city_image_3]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "30", "City"
+      "Tech", "Railroad", "Player"
+      "Building", "Mass Transit", "City"
+      "Building", "Super Highways", "City"
+    }
+
 ; City radius 4 - radius of vision is sqrt(2+3+5+7) = 4.12
 [effect_city_vision_3]
 name    = "City_Vision_Radius_Sq"
@@ -2437,6 +2465,17 @@ value   = 1
 reqs    =
     { "type", "name", "range"
       "MinSize", "30", "City"
+      "Tech", "Railroad", "Player"
+      "Building", "Mass Transit", "City"
+      "Building", "Super Highways", "City"
+    }
+
+[effect_city_image_4]
+name    = "City_Image"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "MinSize", "50", "City"
       "Tech", "Railroad", "Player"
       "Building", "Mass Transit", "City"
       "Building", "Super Highways", "City"

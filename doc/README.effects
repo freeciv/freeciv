@@ -334,3 +334,6 @@ City_Radius_Sq
 City_Build_Slots
     Increase the number of units with no population cost a city can build in
     a turn if there are enough shields.
+
+City_Image
+    The index for the city image of the given city style.

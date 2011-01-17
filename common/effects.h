@@ -219,8 +219,11 @@ struct requirement;
 #define SPECENUM_VALUE81NAME "Shield2Gold_Factor"
 #define SPECENUM_VALUE82 EFT_TILE_WORKABLE
 #define SPECENUM_VALUE82NAME "Tile_Workable"
+/* The index for the city image of the given city style. */
+#define SPECENUM_VALUE83 EFT_CITY_IMAGE
+#define SPECENUM_VALUE83NAME "City_Image"
 /* keep this last */
-#define SPECENUM_VALUE83 EFT_LAST
+#define SPECENUM_VALUE84 EFT_LAST
 #include "specenum_gen.h"
 
 /* An effect is provided by a source.  If the source is present, and the
