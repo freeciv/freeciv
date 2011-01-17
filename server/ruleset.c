@@ -54,7 +54,7 @@
 /* server */
 #include "citytools.h"
 #include "plrhand.h"
-#include "script.h"
+#include "script_game.h"
 #include "settings.h"
 #include "srv_main.h"
 

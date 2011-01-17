@@ -11,11 +11,12 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__SCRIPT_H
-#define FC__SCRIPT_H
+#ifndef FC__SCRIPT_GAME_H
+#define FC__SCRIPT_GAME_H
 
 /* server/scripting */
 #include "script_signal.h"
+#include "script_types.h"
 
 /* utility */
 #include "support.h"            /* fc__attribute() */
@@ -23,14 +24,14 @@
 struct section_file;
 
 /* internal api error functions */
-int script_error(const char *fmt, ...)
+int script_error(const char *format, ...)
     fc__attribute((__format__ (__printf__, 1, 2)));
 
 int script_arg_error(int narg, const char *msg);
 
 /* callback invocation function. */
-bool script_callback_invoke(const char *callback_name,
-			    int nargs, va_list args);
+bool script_callback_invoke(const char *callback_name, int nargs,
+                            enum api_types *parg_types, va_list args);
 
 void script_remove_exported_object(void *object);
 
@@ -88,5 +89,5 @@ void script_state_save(struct section_file *file);
     return SCRIPT_ASSERT_CAT(, __VA_ARGS__);                                \
   }
 
-#endif /* FC__SCRIPT_H */
+#endif /* FC__SCRIPT_GAME_H */
 

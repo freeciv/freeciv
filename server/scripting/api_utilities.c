@@ -34,18 +34,10 @@ int api_utilities_random(int min, int max)
   return (min + floor(roll * (max - min + 1)));
 }
 
-/************************************************************************
-  Error message from script to log
-************************************************************************/
-void api_utilities_error_log(const char *msg)
+/**************************************************************************
+  One log message. This module is used by script_game and script_auth.
+**************************************************************************/
+void api_utilities_log_base(int level, const char *message)
 {
-  log_error("%s", msg);
-}
-
-/************************************************************************
-  Debug message from script to log
-************************************************************************/
-void api_utilities_debug_log(const char *msg)
-{
-  log_debug("%s", msg);
+  log_base(level, "%s", message);
 }

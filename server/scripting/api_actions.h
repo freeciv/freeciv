@@ -14,7 +14,7 @@
 #ifndef FC__API_ACTIONS_H
 #define FC__API_ACTIONS_H
 
-#include "api_types.h"
+#include "script_types.h"
 
 bool api_actions_unleash_barbarians(Tile *ptile);
 void api_actions_place_partisans(Tile *ptile, Player *pplayer,

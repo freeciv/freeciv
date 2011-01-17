@@ -19,7 +19,7 @@
 #include "effects.h"
 
 /* server/scripting */
-#include "script.h"
+#include "script_game.h"
 
 #include "api_effects.h"
 

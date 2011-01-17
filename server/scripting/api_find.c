@@ -21,7 +21,7 @@
 
 /* server/scripting */
 #include "api_find.h"
-#include "script.h"
+#include "script_game.h"
 
 
 /**************************************************************************

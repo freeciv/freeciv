@@ -53,6 +53,11 @@
 #include "aiferry.h"
 #include "aitools.h"
 
+/* server/scripting */
+#include "script_game.h"
+#include "script_signal.h"
+#include "script_types.h"
+
 /* server */
 #include "aiiface.h"
 #include "barbarian.h"
@@ -64,20 +69,17 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
-#include "script_signal.h"
 #include "sernet.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "unithand.h"
-#include "unittools.h"
 
 /* server/advisors */
 #include "advgoto.h"
 #include "autoexplorer.h"
 #include "autosettlers.h"
 
-/* server/scripting */
-#include "script.h"
+#include "unittools.h"
 
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;

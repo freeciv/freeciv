@@ -59,21 +59,24 @@
 #include <winsock.h>
 #endif
 
-#include "fciconv.h"
-
+/* utility */
 #include "capability.h"
-#include "dataio.h"
-#include "events.h"
+#include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
-#include "packets.h"
 #include "shared.h"
 #include "support.h"
 #include "timing.h"
 
+/* common */
+#include "dataio.h"
+#include "events.h"
+#include "game.h"
+#include "packets.h"
+
+/* server */
 #include "auth.h"
 #include "connecthand.h"
 #include "console.h"

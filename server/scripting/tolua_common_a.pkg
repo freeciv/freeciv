@@ -1,0 +1,177 @@
+/****************************************************************************
+ Freeciv - Copyright (C) 2005 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+****************************************************************************/
+
+/****************************************************************************
+  ADVERTISEMENT: do not attempt to change the name of the API functions.
+  They *must* be compatible between the minor Freeciv versions within the
+  same major version. If you really like to change a function name, be sure
+  to keep also the old one running.
+****************************************************************************/
+
+$#ifdef HAVE_CONFIG_H
+$#include <config.h>
+$#endif
+
+$#include "api_intl.h"
+$#include "api_utilities.h"
+
+$#include "script_types.h"
+
+/* Classes. */
+struct Player {
+  const char *name;
+  Nation_Type *nation;
+  bool ai_controlled;
+};
+
+struct City {
+  const char *name;
+  Player *owner;
+  Player *original;
+  Tile *tile;
+  int size;
+
+  const int id;
+};
+
+struct Connection {
+  const int id;
+};
+
+struct Unit {
+  Unit_Type *utype;
+  Player *owner;
+
+  /* This used to be @ homecity_id, but it does not work with toluaxx. */
+  int homecity;
+  Tile *tile;
+
+  const int id;
+};
+
+struct Tile {
+  const int nat_x;
+  const int nat_y;
+
+  Terrain *terrain;
+
+  const int index @ id;
+};
+
+struct Government {
+  const int item_number @ id;
+};
+
+struct Nation_Type {
+  const int item_number @ id;
+};
+
+struct Building_Type {
+  int build_cost;
+
+  const int item_number @ id;
+};
+
+struct Unit_Type {
+  int build_cost;
+
+  const int item_number @ id;
+};
+
+struct Tech_Type {
+  const int item_number @ id;
+};
+
+struct Terrain {
+  const int item_number @ id;
+};
+
+struct Unit_List_Link {
+};
+
+struct City_List_Link {
+};
+
+struct Nonexistent {
+};
+
+/* Intl module. */
+const char *api_intl__ @ _ (const char *untranslated);
+const char *api_intl_N_ @ N_ (const char *untranslated);
+const char *api_intl_Q_ @ Q_ (const char *untranslated);
+const char *api_intl_PL_ @ PL_ (const char *singular, const char *plural,
+                                int n);
+
+/* Log module. */
+module log {
+  module level {
+    enum log_level {
+      LOG_FATAL @ FATAL,
+      LOG_ERROR @ ERROR,
+      LOG_NORMAL @ NORMAL,
+      LOG_VERBOSE @ VERBOSE,
+      LOG_DEBUG @ DEBUG
+    };
+  }
+
+  void api_utilities_log_base @ base (int log_level, const char *message);
+}
+
+$[
+-- Log module implementation.
+
+function log.fatal(...)
+  log.base(log.level.FATAL, string.format(unpack(arg)))
+end
+
+function log.error(...)
+  log.base(log.level.ERROR, string.format(unpack(arg)))
+end
+
+function log.normal(...)
+  log.base(log.level.NORMAL, string.format(unpack(arg)))
+end
+
+function log.verbose(...)
+  log.base(log.level.VERBOSE, string.format(unpack(arg)))
+end
+
+function log.debug(...)
+  log.base(log.level.DEBUG, string.format(unpack(arg)))
+end
+
+-- **************************************************************************
+-- Old logging functions
+-- Deprecated. New logging functions are listed above.
+-- **************************************************************************
+function error_log(msg)
+  log.error(msg)
+end
+
+function debug_log(msg)
+  log.debug(msg)
+end
+
+$]
+
+/* Utilities module. */
+int api_utilities_random @ random (int min, int max);
+
+$[
+
+-- Nonexistent methods.
+function Nonexistent:exists()
+  return false
+end
+
+$]

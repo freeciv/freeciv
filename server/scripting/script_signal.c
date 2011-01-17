@@ -49,7 +49,8 @@
 #include "registry.h"
 
 /* scripting */
-#include "script.h"
+#include "script_types.h"
+#include "script_game.h"
 
 #include "script_signal.h"
 
@@ -70,6 +71,7 @@ struct signal_callback;
 **************************************************************************/
 struct signal {
   int nargs;                              /* number of arguments to pass */
+  enum api_types *arg_types;              /* argument types */
   struct signal_callback_list *callbacks; /* connected callbacks */
 };
 
@@ -97,37 +99,6 @@ struct signal_callback {
 
 static struct signal_hash *signals;
 
-/**************************************************************************
-  Api type names.
-**************************************************************************/
-static const char *api_type_names[] = {
-  NULL, NULL, NULL,
-
-  "Player",
-  "City",
-  "Unit",
-  "Tile",
-
-  "Government",
-  "Building_Type",
-  "Nation_Type",
-  "Unit_Type",
-  "Tech_Type",
-  "Terrain"
-};
-
-/**************************************************************************
-  Api type names.
-**************************************************************************/
-const char *get_api_type_name(enum api_types id)
-{
-  if (id >= 0 && id < API_TYPE_LAST) {
-    return api_type_names[id];
-  } else {
-    return NULL;
-  }
-}
-
 /****************************************************************************
   Create a new signal callback.
 ****************************************************************************/
@@ -151,11 +122,12 @@ static void signal_callback_destroy(struct signal_callback *pcallback)
 /****************************************************************************
   Create a new signal.
 ****************************************************************************/
-static struct signal *signal_new(int nargs)
+static struct signal *signal_new(int nargs, enum api_types *parg_types)
 {
   struct signal *psignal = fc_malloc(sizeof(*psignal));
 
   psignal->nargs = nargs;
+  psignal->arg_types = parg_types;
   psignal->callbacks =
       signal_callback_list_new_full(signal_callback_destroy);
   return psignal;
@@ -166,10 +138,12 @@ static struct signal *signal_new(int nargs)
 ****************************************************************************/
 static void signal_destroy(struct signal *psignal)
 {
+  if (psignal->arg_types) {
+    free(psignal->arg_types);
+  }
   signal_callback_list_destroy(psignal->callbacks);
   free(psignal);
 }
-
 
 /**************************************************************************
   Declare any new signal types you need here.
@@ -233,10 +207,11 @@ void script_signal_emit(const char *signal_name, int nargs, ...)
     } else {
       signal_callback_list_iterate(psignal->callbacks, pcallback) {
         va_start(args, nargs);
-	if (script_callback_invoke(pcallback->name, nargs, args)) {
+        if (script_callback_invoke(pcallback->name, nargs, psignal->arg_types,
+                                   args)) {
           va_end(args);
-	  break;
-	}
+          break;
+        }
         va_end(args);
       } signal_callback_list_iterate_end;
     }
@@ -249,22 +224,21 @@ void script_signal_emit(const char *signal_name, int nargs, ...)
 /**************************************************************************
   Create a new signal type.
 **************************************************************************/
-void script_signal_create_valist(const char *signal_name,
-                                 int nargs, va_list args)
+void script_signal_create_valist(const char *signal_name, int nargs,
+                                 va_list args)
 {
   struct signal *psignal;
 
   if (signal_hash_lookup(signals, signal_name, &psignal)) {
     log_error("Signal \"%s\" was already created.", signal_name);
   } else {
-    enum api_types args_array[nargs];
+    enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
     int i;
 
     for (i = 0; i < nargs; i++) {
-      args_array[i] = va_arg(args, int);
+      *(parg_types + i) = va_arg(args, int);
     }
-    /* FIXME: do something with those values. */
-    signal_hash_insert(signals, signal_name, signal_new(nargs));
+    signal_hash_insert(signals, signal_name, signal_new(nargs, parg_types));
   }
 }
 
@@ -283,7 +257,8 @@ void script_signal_create(const char *signal_name, int nargs, ...)
 /**************************************************************************
   Connects a callback function to a certain signal.
 **************************************************************************/
-void script_signal_connect(const char *signal_name, const char *callback_name)
+void script_signal_connect(const char *signal_name,
+                           const char *callback_name)
 {
   SCRIPT_CHECK_ARG_NIL(signal_name, 1, string);
   SCRIPT_CHECK_ARG_NIL(callback_name, 2, string);
@@ -321,8 +296,6 @@ void script_signals_init(void)
 {
   if (NULL == signals) {
     signals = signal_hash_new();
-
-    fc_assert(ARRAY_SIZE(api_type_names) == API_TYPE_LAST);
 
     signals_create();
   }

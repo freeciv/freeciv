@@ -79,6 +79,10 @@
 /* generator */
 #include "mapgen.h"
 
+/* server/scripting */
+#include "script_signal.h"
+#include "script_types.h"
+
 /* server */
 #include "aiiface.h"
 #include "auth.h"
@@ -102,7 +106,6 @@
 #include "sanitycheck.h"
 #include "savegame2.h"
 #include "score.h"
-#include "script_signal.h"
 #include "sernet.h"
 #include "settings.h"
 #include "spacerace.h"

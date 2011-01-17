@@ -111,7 +111,8 @@ srvlibs = \
  $(top_builddir)/ai/libcivai.la $(da_libs) \
  $(top_builddir)/server/advisors/libadvisors.la \
  $(top_builddir)/server/generator/libgenerator.la \
- $(top_builddir)/server/scripting/libscripting.la
+ $(top_builddir)/server/scripting/libscripting_common.la \
+ $(top_builddir)/server/scripting/libscripting_game.la
 
 libfreeciv_srv_la_DEPENDENCIES = \
  $(srvlibs)

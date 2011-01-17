@@ -41,7 +41,8 @@
 #include "unitlist.h"
 
 /* scripting */
-#include "script.h"
+#include "script_game.h"
+#include "script_types.h"
 
 /* server */
 #include "citytools.h"

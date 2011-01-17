@@ -34,8 +34,9 @@
 
 /* server/scripting */
 #include "api_find.h"
-#include "script.h"
+#include "script_game.h"
 #include "script_signal.h"
+#include "script_types.h"
 
 #include "api_actions.h"
 

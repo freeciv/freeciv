@@ -38,7 +38,7 @@
 #include "unitlist.h"
 
 /* scripting */
-#include "script.h"
+#include "script_game.h"
 
 /* server */
 #include "aiiface.h"
