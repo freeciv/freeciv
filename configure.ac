@@ -141,22 +141,22 @@ AC_ARG_ENABLE(ipv6,
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ipv6) ;;
 esac], [ipv6=test])
 if test x$ipv6 != xno ; then
-  ipv6_possible=true
+  enable_ipv6=yes
   AC_CHECK_FUNCS([gethostbyname2 inet_pton inet_ntop getnameinfo],
-[], [ipv6_possible=false])
-  if test x$ipv6_possible = xtrue ; then
+[], [enable_ipv6=no])
+  if test x$enable_ipv6 = xyes ; then
     AC_MSG_CHECKING([for AF_INET6])
     AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <sys/types.h>
 #include <sys/socket.h>
       ]], [[return AF_INET6;]])], [AC_MSG_RESULT([yes])],
        [AC_MSG_RESULT([no])
-        ipv6_possible=false])
+        enable_ipv6=no])
   fi
-  if test x$ipv6_possible = xfalse && test x$ipv6 = xyes ; then
+  if test x$enable_ipv6 = xyes && test x$ipv6 = xyes ; then
     AC_MSG_ERROR([Cannot enable IPv6 functionality])
   fi
-  if test x$ipv6_possible = xtrue ; then
+  if test x$enable_ipv6 = xyes ; then
     AC_DEFINE([IPV6_SUPPORT], [1], [IPv6 Support built in])
   fi
 fi
@@ -1242,9 +1242,14 @@ AC_OUTPUT
 AC_MSG_NOTICE([
 ****************** Configuration Summary ******************
 
+  == General build options ==
+  Shared libraries:      $enable_shared
+  Debugging support:     $enable_debug
+  Profiling support:     $enable_gprof
+  IPv6 support:          $enable_ipv6
+
+  == Client ==
   Build freeciv client:  $client
-    Debugging support:     $enable_debug
-    Profiling support:     $enable_gprof
 
   Maintained client frontends:
     Gtk-2.0: $gui_gtk2
@@ -1258,9 +1263,8 @@ AC_MSG_NOTICE([
     Win32:   $gui_win32
     FTWL:    $gui_ftwl
 
+  == Server ==
   Build freeciv server:  $server
-    Debugging support:     $enable_debug
-    Profiling support:     $enable_gprof
     AI modules support:    $enable_aimodules
     Auth database support: $auth
     Database support:      $enable_fcdb
