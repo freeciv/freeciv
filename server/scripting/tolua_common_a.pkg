@@ -22,6 +22,9 @@ $#ifdef HAVE_CONFIG_H
 $#include <config.h>
 $#endif
 
+$#include "commands.h"
+$#include "console.h"
+
 $#include "api_intl.h"
 $#include "api_utilities.h"
 
@@ -160,6 +163,51 @@ end
 
 function debug_log(msg)
   log.debug(msg)
+end
+
+$]
+
+
+/* Commands module. */
+module cmd {
+  /* This list command_id's allowed to use from a lua script. See also
+   * api_utilities.c. */
+  module id {
+    enum command_id {
+      CMD_FCDB @ FCDB
+    };
+  }
+
+  module status {
+    enum rfc_status {
+      C_IGNORE @ IGNORE,
+      C_COMMENT @ COMMENT,
+      C_VERSION @ VERSION,
+      C_DEBUG @ DEBUG,
+      C_LOG_BASE @ LOG_BASE,
+      C_OK @ OK,
+      C_CONNECTION @ CONNECTION,
+      C_DISCONNECTED @ DISCONNECTED,
+      C_REJECTED @ REJECTED,
+      C_FAIL @ FAIL,
+      C_METAERROR @ METAERROR,
+      C_SYNTAX @ SYNTAX,
+      C_BOUNCE @ BOUNCE,
+      C_GENFAIL @ GENFAIL,
+      C_WARNING @ WARNING,
+      C_READY @ READY
+    };
+  }
+
+  void api_utilities_cmd_reply @ reply_base (int cmdid, Connection *caller,
+                                             int rfc_status, const char *msg);
+}
+
+$[
+-- Command module implementation.
+
+function cmd.reply(cmdid, caller, rfc_status, ...)
+  cmd.reply_base(cmdid, caller, rfc_status, string.format(unpack(arg)))
 end
 
 $]

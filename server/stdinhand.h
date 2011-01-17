@@ -13,8 +13,13 @@
 #ifndef FC__STDINHAND_H
 #define FC__STDINHAND_H
 
+/* common */
 #include "connection.h"         /* enum cmdlevel */
 #include "fc_types.h"
+
+/* server */
+#include "commands.h"
+#include "console.h"
 
 #define SERVER_COMMAND_PREFIX '/'
   /* the character to mark chatlines as server commands */
@@ -22,6 +27,10 @@
 void stdinhand_init(void);
 void stdinhand_turn(void);
 void stdinhand_free(void);
+
+void cmd_reply(enum command_id cmd, struct connection *caller,
+               enum rfc_status rfc_status, const char *format, ...)
+               fc__attribute((__format__ (__printf__, 4, 5)));
 
 bool handle_stdin_input(struct connection *caller, const char *str,
                         bool check);

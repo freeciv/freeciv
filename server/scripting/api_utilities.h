@@ -18,4 +18,7 @@ int api_utilities_random(int min, int max);
 
 void api_utilities_log_base(int level, const char *message);
 
+void api_utilities_cmd_reply(int cmdid, struct connection *caller,
+                             int rfc_status, const char *msg);
+
 #endif
