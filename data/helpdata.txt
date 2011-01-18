@@ -1449,6 +1449,16 @@ in the default ruleset, from scientist specialists (see the Specialists \
 section). While it is possible to change which advance you are \
 currently researching, by default all progress is lost by doing so.\
 "), _("\
+While the majority of the resulting research output (\"bulbs\") \
+usually goes toward advancing technology, in some rulesets (but not \
+the default), some of it may be diverted to maintain expertise in \
+existing technologies; the quantity required for technology upkeep \
+increases with the total research cost of all advances known to you. \
+The state of advancement at which you start paying this upkeep may \
+depend on factors such as your government type. If research output \
+drops below that required for upkeep, your civilization will forget \
+a random advance, requiring it to be researched again.\
+"), _("\
 Technological advances can render units, city improvements, and \
 wonders obsolete. While obsolete units merely become impossible for \
 you to make -- leaving the ones you have already made intact -- \

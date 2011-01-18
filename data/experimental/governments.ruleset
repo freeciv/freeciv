@@ -74,6 +74,8 @@ Anarchy is simply the absence of any recognizable government.\
 "), _("\
 Anarchy offers slightly less corruption than Despotism,\
  but slightly more unhappiness.\
+"), _("\
+Under Anarchy, technology cannot be lost due to lack of upkeep.\
 ")
 
 ;------------------------------------------------------------------------
