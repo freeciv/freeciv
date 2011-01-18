@@ -107,6 +107,9 @@ else
 da_libs = $(top_builddir)/ai/default/libdefaultai.la
 endif
 
+# These files are not generated to builddir, but to srcdir */
+MAINTAINERCLEANFILES = $(srcdir)/hand_gen.c $(srcdir)/hand_gen.h
+
 # FIXME: Server library is calling AI functions.
 #        We should get rid of this dependency.
 srvlibs = \
