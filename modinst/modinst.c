@@ -28,14 +28,24 @@
 /* modinst */
 #include "download.h"
 
+#define MODPACK_LIST_URL "http://download.gna.org/freeciv/modinst/" DATASUBDIR "/modpack.list"
+
 #define DEFAULT_URL_START "http://download.gna.org/freeciv/modinst/" DATASUBDIR "/"
 #define EXAMPLE_URL DEFAULT_URL_START "ancients.modpack"
 
 static GtkWidget *statusbar;
 static GtkWidget *progressbar;
+static GtkWidget *main_list;
+static GtkListStore *main_store;
+static GtkWidget *URL_input;
 static gboolean downloading = FALSE;
 
 static gboolean quit_dialog_callback(void);
+
+#define ML_COL_NAME 0
+#define ML_COL_VER  1
+#define ML_COL_TYPE 2
+#define ML_COL_URL  3
 
 /****************************************************************
   freeciv-modpack quit
@@ -158,8 +168,8 @@ static void gui_download_modpack(const char *URL)
 **************************************************************************/
 static void install_clicked(GtkWidget *w, gpointer data)
 {
-  GtkEntry *URL_input = data;
-  const char *URL = gtk_entry_get_text(URL_input);
+  GtkEntry *URL_in = data;
+  const char *URL = gtk_entry_get_text(URL_in);
 
   gui_download_modpack(URL);
 }
@@ -176,15 +186,77 @@ static void URL_return(GtkEntry *w, gpointer data)
 }
 
 /**************************************************************************
+  Build main modpack list view
+**************************************************************************/
+static void setup_modpack_list(const char *name, const char *URL,
+                               const char *version, const char *type)
+{
+  GtkTreeIter iter;
+
+  gtk_list_store_append(main_store, &iter);
+  gtk_list_store_set(main_store, &iter,
+                     ML_COL_NAME, name,
+                     ML_COL_VER, version,
+                     ML_COL_TYPE, type,
+                     ML_COL_URL, URL,
+                     -1);
+}
+
+/**************************************************************************
+  Callback called when entry from main modpack list selected
+**************************************************************************/
+static void select_from_list(GtkTreeSelection *select, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  const char *URL;
+
+  if (!gtk_tree_selection_get_selected(select, &model, &it)) {
+    return;
+  }
+
+  gtk_tree_model_get(model, &it, ML_COL_URL, &URL, -1);
+
+  gtk_entry_set_text(GTK_ENTRY(URL_input), URL);
+}
+
+/**************************************************************************
   Build widgets
 **************************************************************************/
 static void modinst_setup_widgets(GtkWidget *toplevel)
 {
   GtkWidget *mbox, *Ubox;
   GtkWidget *install_button, *install_label;
-  GtkWidget *URL_label, *URL_input;
+  GtkWidget *URL_label;
+  GtkCellRenderer *renderer;
+  GtkTreeSelection *selection;
+  const char *errmsg;
 
   mbox = gtk_vbox_new(FALSE, 4);
+
+  main_list = gtk_tree_view_new();
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
+                                              ML_COL_NAME,      
+                                              "Name", renderer, "text", 0,
+                                              NULL);
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
+                                              ML_COL_VER,
+                                              "Version", renderer, "text", 1,
+                                              NULL);
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
+                                              ML_COL_TYPE,
+                                              "Type", renderer, "text", 2,
+                                              NULL);
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
+                                              ML_COL_URL,
+                                              "URL", renderer, "text", 3,
+                                              NULL);
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(main_list));
+  g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), NULL);
 
   install_button = gtk_button_new();
   install_label = gtk_label_new(_("Install modpack"));
@@ -212,12 +284,25 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   statusbar = gtk_label_new(_("Select modpack to install"));
 
+  gtk_box_pack_start(GTK_BOX(mbox), main_list, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), Ubox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), install_button, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), progressbar, TRUE, TRUE, 0);
   gtk_box_pack_end(GTK_BOX(mbox), statusbar, TRUE, TRUE, 0);
 
   gtk_container_add(GTK_CONTAINER(toplevel), mbox);
+
+  main_store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING,
+                                  G_TYPE_STRING, G_TYPE_STRING);
+  errmsg = download_modpack_list(MODPACK_LIST_URL, setup_modpack_list,
+                                 msg_callback);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
+
+  g_object_unref(main_store);
+
+  if (errmsg != NULL) {
+    gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
+  }
 }
 
 /**************************************************************************
