@@ -23,8 +23,6 @@
 
 // Qt
 #include <QApplication>
-#include <QGraphicsView>
-#include <QMainWindow>
 
 // utility
 #include "fciconv.h"
@@ -37,10 +35,11 @@
 #include "options.h"
 
 // gui-qt
+#include "fc_client.h"
 #include "qtg_cxxside.h"
 
-static QApplication *freeciv_qt;
-static QMainWindow *main_window;
+static fc_client *freeciv_qt;
+static QApplication *qapp;
 
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
@@ -75,16 +74,10 @@ int main(int argc, char **argv)
 **************************************************************************/
 void qtg_ui_main(int argc, char *argv[])
 {
-  QGraphicsView *central;
+  qapp = new QApplication(argc, argv);
+  freeciv_qt = new fc_client();
 
-  freeciv_qt = new QApplication(argc, argv);
-  main_window = new QMainWindow;
-  central = new QGraphicsView;
-
-  main_window->setCentralWidget(central);
-  main_window->setVisible(true);
-
-  freeciv_qt->exec();
+  freeciv_qt->main(qapp);
 }
 
 /****************************************************************************
@@ -100,8 +93,8 @@ void qtg_gui_options_extra_init()
 **************************************************************************/
 void qtg_ui_exit()
 {
-  delete main_window;
   delete freeciv_qt;
+  delete qapp;
 }
 
 /**************************************************************************

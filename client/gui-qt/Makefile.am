@@ -23,6 +23,8 @@ libgui_qt_la_SOURCES = \
 	dialogs.h	\
 	diplodlg.cpp	\
 	diplodlg.h	\
+	fc_client.cpp	\
+	fc_client.h	\
 	finddlg.cpp	\
 	finddlg.h	\
 	gotodlg.cpp	\
