@@ -1,6 +1,12 @@
 /Makefile
 /Makefile.in
-/api_gen.c
-/api_gen.h
+/tolua_common_a_gen.c
+/tolua_common_a_gen.h
+/tolua_common_z_gen.c
+/tolua_common_z_gen.h
+/tolua_game_gen.c
+/tolua_game_gen.h
+/tolua_fcdb_gen.c
+/tolua_fcdb_gen.h
 /.deps
 /libscripting.a
