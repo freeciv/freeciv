@@ -113,7 +113,12 @@ static const char *help_tlabel_name[4][5] =
 };
 
 static const char *help_blabel_name[4] =
-{ N_("Build:"), NULL, N_("Conflicts with:"), NULL };
+/* TRANS: Label for build cost for bases in help. Will be followed by
+ * something like "3 MP" (where MP = Movement Points) */
+{ N_("Build:"), NULL,
+/* TRANS: Base conflicts in help. Will be followed by a list of bases
+ * that can't be built on the same tile as this one. */
+  N_("Conflicts with:"), NULL };
 
 #define REQ_LABEL_NONE _("None")
 #define REQ_LABEL_NEVER _("(Never)")
