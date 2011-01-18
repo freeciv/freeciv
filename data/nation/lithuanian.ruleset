@@ -40,7 +40,7 @@ init_units=""
 
 ; Similar flags
 conflicts_with="bulgarian"
-civilwar_nations = "latvian", "polish", "prussian"
+civilwar_nations = "latvian", "polish", "old prussian"
 
 cities =
   "Vilnius", "Kaunas", "Klaipėda", "Šiauliai",

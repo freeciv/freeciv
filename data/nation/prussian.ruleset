@@ -19,6 +19,7 @@ leaders = {
  "Albrecht Friedrich",  "Male"
  "Friedrich Wilhelm",   "Male"
  "Friedrich I",         "Male"
+ "Otto von Bismarck",   "Male"
 }
 
 ruler_titles = {
@@ -83,28 +84,36 @@ cities =
  "Berlin",
  "Potsdam",
  "Posen",
- "Breslau",
  "Frankfurt/Oder",
  "Cottbus",
  "Brandenburg an der Havel",
- "Schneidemühl",
  "Charlottenburg",
  "Halle/Saale",
-; Other territories
+ "Küstrin",
+; Later additions
+ "Breslau",
  "Magdeburg",
  "Münster",
  "Köln",
  "Koblenz",
  "Kleve",
  "Sigmaringen",
+ "Schneidemühl",
  "Oppeln",
  "Essen",
  "Düsseldorf",
  "Dortmund",
+ "Greifswald",
+ "Grünberg",
+ "Trier",
+ "Emden",
+ "Bromberg",
  "Kiel",
  "Kassel",
  "Hannover",
  "Frankfurt am Main",
  "Wiesbaden",
  "Schleswig",
+; Additions after German unification
+ "Ratzeburg",
  "Arolsen"

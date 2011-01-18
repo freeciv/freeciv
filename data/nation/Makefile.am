@@ -265,6 +265,7 @@ pkgdata_DATA = \
 		occitan.ruleset \
 		ohlone.ruleset \
 		oldenburgian.ruleset \
+		oldprussian.ruleset \
 		omani.ruleset \
 		otomi.ruleset \
 		ossetian.ruleset \

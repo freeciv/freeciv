@@ -302,6 +302,7 @@ sprites =
 		"f.shield.polynesian", "flags/polynesian-shield-large"
 		"f.shield.pomerania", "flags/pomerania-shield-large"
 		"f.shield.portugal", "flags/portugal-shield-large"
+		"f.shield.prusai", "flags/prusai-shield-large"
 		"f.shield.prussia", "flags/prussia-shield-large"
 		"f.shield.puerto_rico", "flags/puerto_rico-shield-large"
 		"f.shield.purhepecha", "flags/purhepecha-shield-large"
