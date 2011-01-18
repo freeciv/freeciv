@@ -2520,15 +2520,15 @@ static int newcity_ok_callback(struct widget *pOk_Button)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *input =
             convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
-    
-    dsend_packet_unit_build_city(&client.conn, pOk_Button->data.unit->id,
-                                 input);
+
+    finish_city(pOk_Button->data.tile, input);
+
     FC_FREE(input);
   
     popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
                                 pNewCity_Dlg->pEndWidgetList);
     FC_FREE(pNewCity_Dlg);
-    
+
     FC_FREE(pSuggestedCityName);
     
     flush_dirty();
@@ -2544,10 +2544,13 @@ static int newcity_cancel_callback(struct widget *pCancel_Button)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
                                 pNewCity_Dlg->pEndWidgetList);
+
+    cancel_city(pCancel_Button->data.tile);
+
     FC_FREE(pNewCity_Dlg);
-    
-    FC_FREE(pSuggestedCityName);  
-    
+
+    FC_FREE(pSuggestedCityName);
+
     flush_dirty();
   }
   return -1;
@@ -2605,21 +2608,22 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
 					  _("OK"), adj_font(10), 0);
   pOK_Button->action = newcity_ok_callback;
   pOK_Button->key = SDLK_RETURN;  
-  pOK_Button->data.unit = pUnit;  
+  pOK_Button->data.tile = pUnit->tile;  
 
   area.h += pOK_Button->size.h;
-  
+
   /* create cancel button */
   pCancel_Button =
       create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
   			pWindow->dst, _("Cancel"), adj_font(10), 0);
   pCancel_Button->action = newcity_cancel_callback;
-  pCancel_Button->key = SDLK_ESCAPE;  
+  pCancel_Button->key = SDLK_ESCAPE; 
+  pCancel_Button->data.tile = pUnit->tile; 
 
   /* correct sizes */
   pCancel_Button->size.w += adj_size(5);
   pOK_Button->size.w = pCancel_Button->size.w;
-  
+
   /* create text label */
   pStr = create_str16_from_char(_("What should we call our new city?"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
