@@ -161,13 +161,19 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
   mapdeco_clear_gotoroutes();
 }
 
- /**************************************************************************
-...
+/**************************************************************************
+  Callback from city name dialog for new city.
 **************************************************************************/
 static void name_new_city_callback(GtkWidget * w, gpointer data)
 {
-  dsend_packet_unit_build_city(&client.conn, GPOINTER_TO_INT(data),
-			       input_dialog_get_input(w));
+  int idx = GPOINTER_TO_INT(data);
+
+  if (idx < 0) {
+    cancel_city(index_to_tile(-idx-1));
+  } else {
+    finish_city(index_to_tile(idx), input_dialog_get_input(w));
+  }
+
   input_dialog_destroy(w);
 }
 
@@ -182,9 +188,9 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 		     _("Build New City"),
 		     _("What should we call our new city?"), suggestname,
 		     G_CALLBACK(name_new_city_callback),
-                     GINT_TO_POINTER(punit->id),
+                     GINT_TO_POINTER(tile_index(punit->tile)),
 		     G_CALLBACK(name_new_city_callback),
-                     GINT_TO_POINTER(0));
+                      GINT_TO_POINTER(-tile_index(punit->tile)-1));
 }
 
 /**************************************************************************

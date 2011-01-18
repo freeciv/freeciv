@@ -3117,3 +3117,31 @@ void key_editor_toggle_fogofwar(void)
     dsend_packet_edit_toggle_fogofwar(&client.conn, client_player_number());
   }
 }
+
+/**************************************************************************
+  All units ready to build city to the tile should now proceed.
+**************************************************************************/
+void finish_city(struct tile *ptile, const char *name)
+{
+  unit_list_iterate(ptile->units, punit) {
+    if (punit->client.asking_city_name) {
+      /* Unit will disappear only in case city building still success.
+       * Cancel city building status just in case something has changed
+       * to prevent city building in the meanwhile and unit will remain
+       * alive. */
+      punit->client.asking_city_name = FALSE;
+      dsend_packet_unit_build_city(&client.conn, punit->id, name);
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
+  Do not build city after all. Cancel city building mark from all units
+  prepared for it.
+**************************************************************************/
+void cancel_city(struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit) {
+    punit->client.asking_city_name = FALSE;
+  } unit_list_iterate_end;
+}

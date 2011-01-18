@@ -69,11 +69,12 @@ static void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointe
 static void name_new_city_callback(Widget w, XtPointer client_data, 
 				   XtPointer call_data)
 {
-  size_t unit_id=(size_t)client_data;
-  
-  if (unit_id) {
-    dsend_packet_unit_build_city(&client.conn, unit_id,
-				 input_dialog_get_input(w));
+  int idx = XTPOINTER_TO_INT(client_data);
+
+  if (idx < 0) {
+    cancel_city(index_to_tile(-idx-1));
+  } else {
+    finish_city(index_to_tile(idx), input_dialog_get_input(w));
   }
     
   input_dialog_destroy(w);
@@ -88,8 +89,10 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   input_dialog_create(toplevel, "shellnewcityname",
 		      _("What should we call our new city?"), suggestname,
-		      name_new_city_callback, INT_TO_XTPOINTER(punit->id),
-		      name_new_city_callback, INT_TO_XTPOINTER(0));
+		      name_new_city_callback,
+                      INT_TO_XTPOINTER(tile_index(punit->tile)),
+		      name_new_city_callback,
+                      INT_TO_XTPOINTER(-tile_index(punit->tile)-1));
 }
 
 /**************************************************************************

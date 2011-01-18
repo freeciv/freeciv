@@ -186,6 +186,8 @@ struct unit {
     /* Equivalent to pcity->client.color.  Only for F_CITIES units. */
     bool colored;
     int color_index;
+
+    bool asking_city_name;
   } client;
   struct {
     struct vision *vision;
