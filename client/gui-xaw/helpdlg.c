@@ -1074,9 +1074,11 @@ static void help_update_base(const struct help_item *pitem,
     const char *sep = "";
     buf[0] = '\0';
     if (pbase->buildable) {
-      /* TRANS: "MP" = movement points */
+      /* TRANS: Build cost for bases in help. "MP" = movement points */
       sprintf(buf, _("Build: %d MP\n"), pbase->build_time);
     }
+    /* TRANS: Base conflicts in help. Will be followed by a list of bases
+     * that can't be built on the same tile as this one. */
     sprintf(buf + strlen(buf), _("Conflicts with: "));
     base_type_iterate(pbase2) {
       if (!can_bases_coexist(pbase, pbase2)) {
