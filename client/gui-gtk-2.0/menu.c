@@ -1677,7 +1677,8 @@ GtkWidget *setup_menus(GtkWidget *window)
 
   /* Creates the UI manager. */
   ui_manager = gtk_ui_manager_new();
-  gtk_ui_manager_set_add_tearoffs(ui_manager, TRUE);
+  /* FIXME - following line commented out due to Gna bug #17162 */
+  /* gtk_ui_manager_set_add_tearoffs(ui_manager, TRUE); */
   g_signal_connect(ui_manager, "add_widget",
                    G_CALLBACK(add_widget_callback), menubar);
 
