@@ -69,3 +69,6 @@ specenum_gen.h: specenum_generate
 specenum_generate: generate_specenum.py
 	cd $(srcdir) && ./generate_specenum.py
 	touch specenum_generate
+
+# These files are not generated to builddir, but to srcdir */
+MAINTAINERCLEANFILES = $(srcdir)/specenum_gen.h

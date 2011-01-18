@@ -102,7 +102,7 @@ BUILT_SOURCES = packets_gen.c packets_gen.h
 # build. We need dependency for that first build.
 %.o : packets_gen.h
 
-# ./generate_packets makes both packets_gen.[ch]
+# ./generate_packets.py makes both packets_gen.[ch]
 #
 # Feed the dependence through a fake intermediate file to avoid
 # a race condition in a parallel build (like make -j2).
@@ -115,6 +115,9 @@ packets_gen.h packets_gen.c: packets_generate
 packets_generate: packets.def generate_packets.py
 	cd $(srcdir) && ./generate_packets.py
 	touch packets_generate
+
+# These files are not generated to builddir, but to srcdir */
+MAINTAINERCLEANFILES = $(srcdir)/packets_gen.h $(srcdir)/packets_gen.c
 
 if SVNREV
 BUILT_SOURCES += fc_svnrev_gen.h

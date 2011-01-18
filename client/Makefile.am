@@ -129,6 +129,9 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 # generated outside this directory (when building common) there's no point in
 # setting them to BUILT_SOURCES.
 
+# These files are not generated to builddir, but to srcdir */
+MAINTAINERCLEANFILES = $(srcdir)/packhand_gen.c $(srcdir)/packhand_gen.h
+
 bin_PROGRAMS =
 noinst_LTLIBRARIES =
 

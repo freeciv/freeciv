@@ -97,6 +97,9 @@ libfreeciv_srv_la_SOURCES = \
 # outside this directory (when building common) there's no point in
 # setting them to BUILT_SOURCES.
 
+# These files are not generated to builddir, but to srcdir */
+MAINTAINERCLEANFILES = $(srcdir)/hand_gen.c $(srcdir)/hand_gen.h
+
 # FIXME: Server library is calling AI functions.
 #        We should get rid of this dependency.
 srvlibs = \
