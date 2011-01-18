@@ -227,7 +227,9 @@ static bool send_to_metaserver(enum meta_flag flag)
   static char str[8192];
   int rest = sizeof(str);
   int i;
-  int n = 0;
+  int players = 0;
+  int humans = 0;
+  int len;
   int sock = -1;
   char *s = str;
   char host[512];
@@ -311,7 +313,8 @@ static bool send_to_metaserver(enum meta_flag flag)
       fc_strlcpy(s, "dropplrs=1&", rest);
       s = end_of_strn(s, &rest);
     } else {
-      n = 0; /* a counter for players_available */
+      players = 0; /* a counter for players_available */
+      humans = 0;
 
       players_iterate(plr) {
         bool is_player_available = TRUE;
@@ -369,12 +372,18 @@ static bool send_to_metaserver(enum meta_flag flag)
         }
 
         if (is_player_available) {
-          n++;
+          players++;
+        }
+          
+        if (!plr->ai_controlled && plr->is_alive) {
+          humans++;
         }
       } players_iterate_end;
 
       /* send the number of available players. */
-      fc_snprintf(s, rest, "available=%d&", n);
+      fc_snprintf(s, rest, "available=%d&", players);
+      s = end_of_strn(s, &rest);
+      fc_snprintf(s, rest, "humans=%d&", humans);
       s = end_of_strn(s, &rest);
     }
 
@@ -424,7 +433,7 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
   }
 
-  n = fc_snprintf(msg, sizeof(msg),
+  len = fc_snprintf(msg, sizeof(msg),
     "POST %s HTTP/1.1\r\n"
     "Host: %s:%d\r\n"
     "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
@@ -438,7 +447,7 @@ static bool send_to_metaserver(enum meta_flag flag)
     str
   );
 
-  fc_writesocket(sock, msg, n);
+  fc_writesocket(sock, msg, len);
 
   fc_closesocket(sock);
 
