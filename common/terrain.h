@@ -104,8 +104,10 @@ struct resource {
 
 #define SPECENUM_NAME terrain_class
 #define SPECENUM_VALUE0 TC_LAND
+/* TRANS: terrain class: used adjectivally */
 #define SPECENUM_VALUE0NAME N_("Land")
 #define SPECENUM_VALUE1 TC_OCEAN
+/* TRANS: terrain class: used adjectivally */
 #define SPECENUM_VALUE1NAME N_("Oceanic")
 #include "specenum_gen.h"
 
@@ -115,13 +117,13 @@ struct resource {
 #define SPECENUM_NAME terrain_alteration
 /* Can build irrigation without changing terrain */
 #define SPECENUM_VALUE0 TA_CAN_IRRIGATE
-#define SPECENUM_VALUE0NAME N_("CanIrrigate")
+#define SPECENUM_VALUE0NAME "CanIrrigate"
 /* Can build mine without changing terrain */
 #define SPECENUM_VALUE1 TA_CAN_MINE
-#define SPECENUM_VALUE1NAME N_("CanMine")
+#define SPECENUM_VALUE1NAME "CanMine"
 /* Can build roads and/or railroads */
 #define SPECENUM_VALUE2 TA_CAN_ROAD
-#define SPECENUM_VALUE2NAME N_("CanRoad")
+#define SPECENUM_VALUE2NAME "CanRoad"
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME terrain_flag_id
