@@ -23,6 +23,11 @@ Updating from 2.2 to 2.3
 * Default (see server setting "savename") savegame name now starts
   with "freeciv". Used to be "civgame".
 * There is new binary called "freeciv-modpack"
+* Default tileset is now "amplio2". We don't ship previous default, "amplio",
+  any more.
+  Users may have "amplio" saved in their preferences as preferred tileset,
+  but that's harmless as freeciv will use amplio2 instead when it cannot
+  find tileset mentioned in preferences.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
