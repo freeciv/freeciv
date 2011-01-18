@@ -150,3 +150,62 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 
   return TRUE;
 }
+
+/**************************************************************************
+  Similar to is_my_zoc(), but with some changes:
+  - destination (x0,y0) need not be adjacent?
+  - don't care about some directions?
+  
+  Note this function only makes sense for ground units.
+
+  Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela
+**************************************************************************/
+static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
+{
+  fc_assert_ret_val(is_ground_unit(myunit), TRUE);
+
+  if (same_pos(ptile, myunit->tile))
+    return FALSE; /* can't be my zoc */
+  if (is_tiles_adjacent(ptile, myunit->tile)
+      && !is_non_allied_unit_tile(ptile, unit_owner(myunit)))
+    return FALSE;
+
+  adjc_iterate(ptile, atile) {
+    if (!is_ocean_tile(atile)
+	&& is_non_allied_unit_tile(atile, unit_owner(myunit))) {
+      return FALSE;
+    }
+  } adjc_iterate_end;
+  
+  return TRUE;
+}
+
+/**************************************************************************
+  returns:
+    0 if can't move
+    1 if zoc_ok
+   -1 if zoc could be ok?
+
+  see also unithand can_unit_move_to_tile_with_notify()
+**************************************************************************/
+int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
+{
+  enum unit_move_result reason =
+      unit_move_to_tile_test(unit_type(punit), unit_owner(punit),
+                             ACTIVITY_IDLE, punit->tile, 
+                             dest_tile, unit_has_type_flag(punit, F_IGZOC));
+  switch (reason) {
+  case MR_OK:
+    return 1;
+
+  case MR_ZOC:
+    if (adv_could_be_my_zoc(punit, punit->tile)) {
+      return -1;
+    }
+    break;
+
+  default:
+    break;
+  };
+  return 0;
+}

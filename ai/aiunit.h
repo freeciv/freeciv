@@ -86,7 +86,6 @@ void ai_manage_units(struct player *pplayer);
 void ai_manage_unit(struct player *pplayer, struct unit *punit);
 void ai_manage_military(struct player *pplayer,struct unit *punit);
 struct city *find_nearest_safe_city(struct unit *punit);
-int could_unit_move_to_tile(struct unit *punit, struct tile *dst_tile);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 

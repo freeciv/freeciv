@@ -49,7 +49,6 @@
 
 /* ai */
 #include "aicity.h"
-#include "aiunit.h"
 
 /* scripting */
 #include "script_game.h"
@@ -71,6 +70,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advgoto.h"
 #include "autosettlers.h"
 #include "infracache.h"
 
@@ -1392,7 +1392,7 @@ void remove_city(struct city *pcity)
     moved = FALSE;
     adjc_iterate(pcenter, tile1) {
       if (!moved && is_native_tile(punittype, tile1)) {
-	if (could_unit_move_to_tile(punit, tile1) == 1) {
+        if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = unit_move_handling(punit, tile1, FALSE, TRUE);
 	  if (moved) {
             notify_player(unit_owner(punit), tile1,

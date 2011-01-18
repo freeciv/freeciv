@@ -17,4 +17,6 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
                      struct tile *ptile);
 bool adv_unit_execute_path(struct unit *punit, struct pf_path *path);
 
+int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dst_tile);
+
 #endif   /* FC__ADVGOTO_H */
