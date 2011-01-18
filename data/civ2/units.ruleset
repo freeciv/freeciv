@@ -80,6 +80,7 @@ veteran_move_bonus = 0, 0
 ;                       still work that tile
 
 [unitclass_missile]
+; /* TRANS: Unit class: used adjectivally */
 name          = _("Missile")
 move_type     = "Both"
 min_speed     = 1
@@ -88,7 +89,8 @@ hut_behavior  = "Frighten"
 flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 
 [unitclass_land]
-name          = _("Land")
+; /* TRANS: Unit class: used adjectivally */
+name          = _("?unitclass:Land")
 move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
@@ -97,6 +99,7 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "TerrainDefense"
 
 [unitclass_sea]
+; /* TRANS: Unit class: used adjectivally */
 name          = _("Sea")
 move_type     = "Sea"
 min_speed     = 2
@@ -104,6 +107,7 @@ hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_heli]
+; /* TRANS: Unit class: used adjectivally */
 name          = _("Helicopter")
 move_type     = "Both"
 min_speed     = 1
@@ -111,6 +115,7 @@ hp_loss_pct   = 10
 flags         = "CanOccupyCity", "CollectRansom"
 
 [unitclass_air]
+; /* TRANS: Unit class: used adjectivally */
 name          = _("Air")
 move_type     = "Both"
 min_speed     = 1
@@ -1136,6 +1141,7 @@ Bombers are specialized airborne units that may\
 ")
 
 [unit_helicopter]
+; /* TRANS: unit type */
 name          = _("Helicopter")
 class         = "Helicopter"
 tech_req      = "Combined Arms"
@@ -1236,6 +1242,7 @@ An improved Bomber, with improved attack and a higher movement\
 ")
 
 [unit_trireme]
+; /* TRANS: unit type */
 name          = _("Trireme")
 class         = "Sea"
 tech_req      = "Map Making"
