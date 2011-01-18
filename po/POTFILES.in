@@ -13,6 +13,7 @@ common/requirements.c
 common/team.c
 common/tech.c
 common/terrain.c
+common/terrain.h
 common/unit.c
 common/unittype.c
 common/version.c
