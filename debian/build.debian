@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+VERSION_FILE=fc_version
+
 if [ `whoami` != "root" ]
 then
 	echo "You need to either run this script as root, or run it using the"
@@ -41,9 +43,9 @@ then
 fi
 lastversion="`dpkg-parsechangelog -ldebian/changelog.save |grep Version |cut -f 2 -d " "`"
 
-MAJOR_VERSION=`grep "MAJOR_VERSION=" version.in | sed -e 's/MAJOR_VERSION="//' -e 's/"//'`
-MINOR_VERSION=`grep "MINOR_VERSION=" version.in | sed -e 's/MINOR_VERSION="//' -e 's/"//'`
-PATCH_VERSION=`grep "PATCH_VERSION=" version.in | sed -e 's/PATCH_VERSION="//' -e 's/"//'`
+MAJOR_VERSION=`grep "MAJOR_VERSION=" $VERSION_FILE | sed -e 's/MAJOR_VERSION="//' -e 's/"//'`
+MINOR_VERSION=`grep "MINOR_VERSION=" $VERSION_FILE | sed -e 's/MINOR_VERSION="//' -e 's/"//'`
+PATCH_VERSION=`grep "PATCH_VERSION=" $VERSION_FILE | sed -e 's/PATCH_VERSION="//' -e 's/"//'`
 SVN_REVISION=`svn info | grep "^Revision: " | sed 's/Revision: //'`
 snapversion="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}-r${SVN_REVISION}"
 
