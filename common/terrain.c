@@ -47,9 +47,9 @@ static const char *terrain_class_names[] = {
 };
 
 static const char *terrain_alteration_names[] = {
-  N_("CanIrrigate"),
-  N_("CanMine"),
-  N_("CanRoad")
+  "CanIrrigate",
+  "CanMine",
+  "CanRoad"
 };
 
 /* T_UNKNOWN isn't allowed here. */
