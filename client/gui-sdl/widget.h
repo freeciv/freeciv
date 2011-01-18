@@ -128,6 +128,7 @@ struct widget {
     struct city *city;
     struct unit *unit;
     struct player *player;
+    struct tile *tile;
     struct widget *widget;
     void *ptr;
   } data;

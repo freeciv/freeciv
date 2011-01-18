@@ -229,6 +229,9 @@ void key_editor_toggle(void);
 void key_editor_recalculate_borders(void);
 void key_editor_toggle_fogofwar(void);
 
+void finish_city(struct tile *ptile, const char *name);
+void cancel_city(struct tile *ptile);
+
 /* don't change this unless you also put more entries in data/Freeciv */
 #define MAX_NUM_UNITS_BELOW 4
 

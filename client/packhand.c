@@ -201,6 +201,9 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
       punit->orders.list[i].base = packet->orders_bases[i];
     }
   }
+
+  punit->client.asking_city_name = FALSE;
+
   return punit;
 }
 
@@ -3054,9 +3057,19 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 
   if (punit) {
     if (ask_city_name) {
-      popup_newcity_dialog(punit, name);
+      bool other_asking = FALSE;
+      unit_list_iterate(punit->tile->units, other) {
+        if (other->client.asking_city_name) {
+          other_asking = TRUE;
+        }
+      } unit_list_iterate_end;
+      punit->client.asking_city_name = TRUE;
+
+      if (!other_asking) {
+        popup_newcity_dialog(punit, name);
+      }
     } else {
-      dsend_packet_unit_build_city(&client.conn, unit_id,name);
+      dsend_packet_unit_build_city(&client.conn, unit_id, name);
     }
   }
 }
