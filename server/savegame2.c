@@ -2211,6 +2211,11 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
+  if (game.info.is_new_game) {
+    /* No bases information for a new game / scenario. */
+    return;
+  }
+
   /* Load bases. */
   halfbyte_iterate_bases(j, loading->base.size) {
     LOAD_MAP_CHAR(ch, ptile, sg_bases_set(&ptile->bases, ch,
@@ -2226,6 +2231,11 @@ static void sg_save_map_tiles_bases(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  if (saving->scenario && !saving->save_players) {
+    /* Nothing to do for a scenario without saved players. */
+    return;
+  }
 
   /* Save bases. */
   halfbyte_iterate_bases(j, game.control.num_base_types) {
@@ -2488,6 +2498,11 @@ static void sg_load_map_owner(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
+  if (game.info.is_new_game) {
+    /* No owner/source information for a new game / scenario. */
+    return;
+  }
+
   /* Owner and ownership source are stored as plain numbers */
   for (y = 0; y < map.ysize; y++) {
     const char *buffer1 = secfile_lookup_str(loading->file,
@@ -2543,10 +2558,12 @@ static void sg_save_map_owner(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  /* Store owner and ownership source as plain numbers.
-   *
-   * Note: even if save_players is off we need to save it (but set all tiles
-   * without owner) because servers cannot load a map without owners. */
+  if (saving->scenario && !saving->save_players) {
+    /* Nothing to do for a scenario without saved players. */
+    return;
+  }
+
+  /* Store owner and ownership source as plain numbers. */
   for (y = 0; y < map.ysize; y++) {
     char line[map.xsize * TOKEN_SIZE];
 
@@ -2644,6 +2661,11 @@ static void sg_save_map_worked(struct savedata *saving)
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  if (saving->scenario && !saving->save_players) {
+    /* Nothing to do for a scenario without saved players. */
+    return;
+  }
 
   /* additionally save the tiles worked by the cities */
   for (y = 0; y < map.ysize; y++) {
@@ -3021,11 +3043,12 @@ static void sg_save_players(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  secfile_insert_int(saving->file, player_count(), "players.nplayers");
-
-  if (!saving->save_players) {
+  if (saving->scenario && !saving->save_players) {
+    /* Nothing to do for a scenario without saved players. */
     return;
   }
+
+  secfile_insert_int(saving->file, player_count(), "players.nplayers");
 
   /* Save destroyed wonders as bitvector. Note that improvement order
    * is saved in 'savefile.improvement.order'. */
@@ -5116,6 +5139,11 @@ static void sg_save_event_cache(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  if (saving->scenario) {
+    /* Do _not_ save events in a scenario. */
+    return;
+  }
 
   event_cache_save(saving->file, "event_cache");
 }
