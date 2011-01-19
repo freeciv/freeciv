@@ -369,7 +369,7 @@ const char *popup_info_text(struct tile *ptile)
 		  ptype->attack_strength, 
 		  ptype->defense_strength, ptype->firepower, punit->hp, 
 		  ptype->hp,
-		  _(ptype->veteran[punit->veteran].name));
+                  name_translation(&ptype->veteran[punit->veteran].name));
 
     if ((NULL == client.conn.playing || owner == client.conn.playing)
 	&& unit_list_size(ptile->units) >= 2) {
@@ -524,8 +524,8 @@ const char *unit_description(struct unit *punit)
 
   astr_add(&str, "%s", utype_name_translation(ptype));
 
-  if (ptype->veteran[punit->veteran].name[0] != '\0') {
-    astr_add(&str, " (%s)", _(ptype->veteran[punit->veteran].name));
+  if (rule_name(&ptype->veteran[punit->veteran].name)[0] != '\0') {
+    astr_add(&str, " (%s)", name_translation(&ptype->veteran[punit->veteran].name));
   }
 
   if (pplayer == unit_owner(punit)) {

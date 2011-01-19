@@ -2653,7 +2653,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->veteran_levels = 0; /* not used in the client */
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
-    sz_strlcpy(u->veteran[i].name, p->veteran_name[i]);
+    names_set(&u->veteran[i].name, p->veteran_name[i], NULL);
     u->veteran[i].power_fact = p->power_fact[i];
     u->veteran[i].move_bonus = p->move_bonus[i];
   }

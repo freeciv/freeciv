@@ -1845,7 +1845,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
           /* FIXME: The maximum veteran level is
            * really not stored anywhere?? */
           for (i = 1; i < MAX_VET_LEVELS; i++) {
-            if (putype->veteran[i].name[0] == '\0') {
+            if (rule_name(&putype->veteran[i].name)[0] == '\0') {
               break;
             }
           }

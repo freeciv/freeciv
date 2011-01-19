@@ -162,7 +162,7 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
 bool maybe_make_veteran(struct unit *punit)
 {
   if (punit->veteran + 1 >= MAX_VET_LEVELS
-      || unit_type(punit)->veteran[punit->veteran].name[0] == '\0'
+      || rule_name(&unit_type(punit)->veteran[punit->veteran].name)[0] == '\0'
       || unit_has_type_flag(punit, F_NO_VETERAN)) {
     return FALSE;
   } else {
@@ -622,7 +622,7 @@ static bool total_activity_done(struct tile *ptile, enum unit_activity act)
 static bool maybe_settler_become_veteran(struct unit *punit)
 {
   if (punit->veteran + 1 >= MAX_VET_LEVELS
-      || unit_type(punit)->veteran[punit->veteran].name[0] == '\0'
+      || rule_name(&unit_type(punit)->veteran[punit->veteran].name)[0] == '\0'
       || unit_has_type_flag(punit, F_NO_VETERAN)) {
     return FALSE;
   }
@@ -646,8 +646,9 @@ void notify_unit_experience(struct unit *punit)
   notify_player(unit_owner(punit), unit_tile(punit),
                 E_UNIT_BECAME_VET, ftc_server,
                 /* TRANS: Your <unit> became ... */
-                _("Your %s became more experienced!"),
-                unit_link(punit));
+                _("Your %s became more experienced and became %s."),
+                unit_link(punit),
+                name_translation(&unit_type(punit)->veteran[punit->veteran].name));
 }
 
 /**************************************************************************
