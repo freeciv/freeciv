@@ -2609,11 +2609,9 @@ static bool do_city_migration(struct city *pcity_from,
     city_refresh_vision(pcity_from);
     city_refresh(pcity_from);
   }
-  /* raise size of receiver city */
-  city_increase_size(pcity_to);
-  city_refresh_vision(pcity_to);
-  city_refresh(pcity_to);
 
+  /* This should be _before_ the size of the city is increased. Thus, the
+   * order of the messages is correct (1: migration; 2: increased size). */
   if (pplayer_from == pplayer_to) {
     /* migration between one nation */
     notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER, ftc_server,
@@ -2633,6 +2631,11 @@ static bool do_city_migration(struct city *pcity_from,
                     "better life."),
                   name_from, nation_from, name_to);
   }
+
+  /* raise size of receiver city */
+  city_increase_size(pcity_to);
+  city_refresh_vision(pcity_to);
+  city_refresh(pcity_to);
 
   log_debug("[M] T%d migration successful (%s -> %s)",
             game.info.turn, name_from, name_to);
