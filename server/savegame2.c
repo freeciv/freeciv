@@ -611,6 +611,7 @@ static void savegame2_load_real(struct section_file *file)
 
   if (!sg_success) {
     log_error("Failure loading savegame!");
+    game_reset();
   }
 }
 
