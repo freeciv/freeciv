@@ -24,10 +24,10 @@ flag= "epirus"
 flag_alt = "greece" 
 city_style = "Classical" 
 
-ruler_titles = { "government", "male_title",  "female_title"
-                 "Anarchy",    _("Usurper"),  _("?female:Usurper")
-                 "Democracy",  _("Speaker"),  _("Speaker") 
-                 "Despotism",  _("Tyrant"),   _("?female:Tyrant")
+ruler_titles = { "government", "male_title",     "female_title"
+                 "Anarchy",    _("Usurper %s"),  _("?female:Usurper %s")
+                 "Democracy",  _("Speaker %s"),  _("Speaker %s") 
+                 "Despotism",  _("Tyrant %s"),   _("?female:Tyrant %s")
 }
 
 init_techs="" 
