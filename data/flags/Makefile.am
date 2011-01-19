@@ -111,6 +111,7 @@ flag_files =				\
 		elam.png		\
 		el_salvador.png		\
 		england.png		\
+		epirus.png		\
 		esperanto.png		\
 		estonia.png		\
 		eritrea.png		\
@@ -515,6 +516,7 @@ flag_files =				\
 		elam-large.png		\
 		el_salvador-large.png		\
 		england-large.png		\
+		epirus-large.png		\
 		esperanto-large.png		\
 		estonia-large.png		\
 		eritrea-large.png		\
@@ -921,6 +923,7 @@ shield_files =					\
 		elam-shield.png			\
 		el_salvador-shield.png		\
 		england-shield.png		\
+		epirus-shield.png		\
 		esperanto-shield.png		\
 		estonia-shield.png		\
 		eritrea-shield.png		\
@@ -1325,6 +1328,7 @@ shield_files =					\
 		elam-shield-large.png			\
 		el_salvador-shield-large.png		\
 		england-shield-large.png		\
+		epirus-shield-large.png			\
 		esperanto-shield-large.png		\
 		estonia-shield-large.png		\
 		eritrea-shield-large.png		\
@@ -1731,6 +1735,7 @@ svg_files = 				\
 		elam.svg		\
 		el_salvador.svg		\
 		england.svg		\
+		epirus.svg		\
 		esperanto.svg		\
 		estonia.svg		\
 		eritrea.svg		\

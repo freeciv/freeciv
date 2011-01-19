@@ -120,6 +120,7 @@ sprites =
 		"f.elam", "flags/elam-large"
 		"f.el_salvador", "flags/el_salvador-large"
 		"f.england", "flags/england-large"
+		"f.epirus", "flags/epirus-large"
 		"f.esperanto", "flags/esperanto-large"
 		"f.estonia", "flags/estonia-large"
 		"f.eritrea", "flags/eritrea-large"

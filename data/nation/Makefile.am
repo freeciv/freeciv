@@ -115,6 +115,7 @@ pkgdata_DATA = \
 		elamite.ruleset \
 		emirati.ruleset \
 		english.ruleset \
+		epirote.ruleset \
 		esperant.ruleset \
 		estonian.ruleset \
 		eritrean.ruleset \

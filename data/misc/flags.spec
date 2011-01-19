@@ -118,6 +118,7 @@ artists = "
    Elam			Patricia Fidi and J.M. Maalderink
    El Salvador		Vzb83 (Wikimedia Commons)
    England		Thom Sanders
+   Epirus		Flanker (Wikimedia Commons) and Daniel Markstedt
    Esperanto		Gabriel Ehrnst Grundin
    Estonia		Daniel Markstedt
    Eritrea		Andrew Duhan
@@ -528,6 +529,7 @@ sprites =
 		"f.elam", "flags/elam"
 		"f.el_salvador", "flags/el_salvador"
 		"f.england", "flags/england"
+		"f.epirus", "flags/epirus"
 		"f.esperanto", "flags/esperanto"
 		"f.estonia", "flags/estonia"
 		"f.eritrea", "flags/eritrea"

@@ -164,6 +164,7 @@ match=2
 *include "nation/elamite.ruleset"
 *include "nation/emirati.ruleset"
 *include "nation/english.ruleset"
+*include "nation/epirote.ruleset"
 *include "nation/esperant.ruleset"
 *include "nation/estonian.ruleset"
 *include "nation/eritrean.ruleset"
