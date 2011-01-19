@@ -15,12 +15,15 @@
 #include <config.h>
 #endif
 
+// client
+#include "client_main.h"
+
 #include "fc_client.h"
 
 /****************************************************************************
   Constructor
 ****************************************************************************/
-fc_client::fc_client()
+fc_client::fc_client() : QObject()
 {
   main_window = new QMainWindow;
   central_wdg = new QGraphicsView;
@@ -42,5 +45,20 @@ fc_client::~fc_client()
 ****************************************************************************/
 void fc_client::main(QApplication *qapp)
 {
+  startTimer(TIMER_INTERVAL);
+
   qapp->exec();
+}
+
+/****************************************************************************
+  Timer event handling
+****************************************************************************/
+void fc_client::timerEvent(QTimerEvent *event)
+{
+  // Prevent current timer from repeating with possibly wrong interval
+  killTimer(event->timerId());
+
+  // Call timer callback in client common code and
+  // start new timer with correct interval
+  startTimer(real_timer_callback() * 1000);
 }

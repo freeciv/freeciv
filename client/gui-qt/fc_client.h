@@ -18,17 +18,22 @@
 #include <QApplication>
 #include <QGraphicsView>
 #include <QMainWindow>
+#include <QObject>
 
-class fc_client
+class fc_client : public QObject
 {
  public:
   fc_client();
   ~fc_client();
 
   void main(QApplication *qapp);
+
  private:
   QMainWindow *main_window;
   QGraphicsView *central_wdg;
+
+protected:
+  void timerEvent(QTimerEvent *event);
 };
 
 #endif /* FC__FC_CLIENT_H */
