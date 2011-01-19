@@ -717,12 +717,6 @@ static bool xsize_callback(int value, struct connection *caller,
 {
   int size = value * map.ysize;
 
-  if (value % 2 != 0) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("The map width must be an even value."));
-    return FALSE;
-  }
-
   if (size < MAP_MIN_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("The map size (%d * %d = %d) must be larger than "
@@ -747,12 +741,6 @@ static bool ysize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)
 {
   int size = map.xsize * value;
-
-  if (value % 2 != 0) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("The map height must be an even value."));
-    return FALSE;
-  }
 
   if (size < MAP_MIN_SIZE * 1000) {
     settings_snprintf(reject_msg, reject_msg_len,
