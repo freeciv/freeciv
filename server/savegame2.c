@@ -2123,9 +2123,9 @@ static void sg_load_map(struct loaddata *loading)
   sg_load_map_tiles_bases(loading);
   sg_load_map_tiles_specials(loading, FALSE);
   sg_load_map_tiles_resources(loading);
+  sg_load_map_known(loading);
   sg_load_map_owner(loading);
   sg_load_map_worked(loading);
-  sg_load_map_known(loading);
 }
 
 /****************************************************************************
