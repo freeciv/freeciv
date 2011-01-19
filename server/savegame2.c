@@ -2012,7 +2012,7 @@ static void sg_save_scenario(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (!saving->scenario) {
+  if (!saving->scenario && !game.scenario.is_scenario) {
     return;
   }
 
@@ -3043,8 +3043,10 @@ static void sg_save_players(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (saving->scenario && !saving->save_players) {
-    /* Nothing to do for a scenario without saved players. */
+  if ((saving->scenario && !saving->save_players)
+      || !game_was_started()) {
+    /* Nothing to do for a scenario without saved players or a game in
+     * INITIAL state. */
     return;
   }
 
