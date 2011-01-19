@@ -198,8 +198,8 @@ BV_DEFINE(bv_unit_type_flags, F_MAX);
 BV_DEFINE(bv_unit_type_roles, L_MAX);
 
 struct veteran_type {
-    /* client */
-    char name[MAX_LEN_NAME];			/* level/rank name */
+
+    struct name_translation name;
 
     /* server */
     double power_fact;				/* combat/work speed/diplomatic

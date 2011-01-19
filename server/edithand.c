@@ -717,7 +717,7 @@ void handle_edit_unit(struct connection *pc,
   if (packet->veteran != punit->veteran
       && !unit_has_type_flag(punit, F_NO_VETERAN)) {
     int v = packet->veteran;
-    if (putype->veteran[v].name[0] == '\0') {
+    if (rule_name(&putype->veteran[v].name) == '\0') {
       notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                   _("Invalid veteran level %d for unit %d (%s)."),
                   v, id, unit_link(punit));

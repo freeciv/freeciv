@@ -1086,21 +1086,21 @@ if (_count > MAX_VET_LEVELS) {						\
     if (vnlist) {
       /* unit has own veterancy settings */
       for (j = 0; j < vet_levels; j++) {
-        sz_strlcpy(u->veteran[j].name, vnlist[j]);
+        names_set(&u->veteran[j].name, vnlist[j], NULL);
       }
       u->veteran_levels = vet_levels;
       free(vnlist);
     } else {
       /* apply defaults */  
       for (j = 0; j < vet_levels_default; j++) {
-        sz_strlcpy(u->veteran[j].name, def_vnlist[j]);
+        names_set(&u->veteran[j].name, def_vnlist[j], NULL);
       }
       u->veteran_levels = vet_levels_default;
     }
     /* We check for this value to determine how many veteran levels
      * a unit type has */
     for (; j < MAX_VET_LEVELS; j++) {
-      u->veteran[j].name[0] = '\0';
+      names_set(&u->veteran[j].name, "", NULL);
     }
   } unit_type_iterate_end;
   free(def_vnlist);
@@ -3539,7 +3539,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.cargo = u->cargo;
     packet.targets = u->targets;
     for (i = 0; i < MAX_VET_LEVELS; i++) {
-      sz_strlcpy(packet.veteran_name[i], u->veteran[i].name);
+      sz_strlcpy(packet.veteran_name[i], untranslated_name(&u->veteran[i].name));
       packet.power_fact[i] = u->veteran[i].power_fact;
       packet.move_bonus[i] = u->veteran[i].move_bonus;
     }
