@@ -2581,10 +2581,6 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 
 /**************************************************************************
   Are there dangerous enemies at or adjacent to the tile 'ptile'?
-
-  N.B. This function should only be used by (cheating) AI, as it iterates
-  through all units stacked on the tiles, an info not normally available
-  to the human player.
 **************************************************************************/
 bool enemies_at(struct unit *punit, struct tile *ptile)
 {
