@@ -1036,6 +1036,8 @@ struct vision_site *map_get_player_site(const struct tile *ptile,
 struct player_tile *map_get_player_tile(const struct tile *ptile,
 					const struct player *pplayer)
 {
+  fc_assert_ret_val(pplayer->server.private_map, NULL);
+
   return pplayer->server.private_map + tile_index(ptile);
 }
 
