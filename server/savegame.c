@@ -4821,6 +4821,9 @@ static void game_load_internal(struct section_file *file)
     game.server.onsetbarbarian =
       secfile_lookup_int_default(file, game.server.onsetbarbarian,
                                  "game.onsetbarbs");
+    /* old savegames use the year while newer savegames use the turn. */
+    game.server.onsetbarbarian = MIN(0, game.server.onsetbarbarian);
+
     game.server.revolution_length =
       secfile_lookup_int_default(file, game.server.revolution_length,
                                  "game.revolen");
