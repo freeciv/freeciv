@@ -45,6 +45,8 @@ fc_client::~fc_client()
 ****************************************************************************/
 void fc_client::main(QApplication *qapp)
 {
+  set_client_state(C_S_DISCONNECTED);
+
   startTimer(TIMER_INTERVAL);
 
   qapp->exec();
