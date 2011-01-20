@@ -2079,7 +2079,7 @@ static void player_load_units(struct player *plr, int plrno,
 
     /* Load AI data of the unit. */
     fc_snprintf(unitstr, sizeof(unitstr), "player%d.u%d", plrno, i);
-    CALL_PLR_AI_FUNC(unit_load, plr, file, punit, unitstr);
+    CALL_FUNC_EACH_AI(unit_load, file, punit, unitstr);
 
     fc_assert_exit_msg(secfile_lookup_bool(file, &punit->ai_controlled,
                                            "player%d.u%d.ai", plrno, i),
@@ -3243,7 +3243,7 @@ static void player_load_cities(struct player *plr, int plrno,
     }
 
     fc_snprintf(citystr, sizeof(citystr), "player%d.c%d", plrno, i);
-    CALL_PLR_AI_FUNC(city_load, plr, file, pcity, citystr);
+    CALL_FUNC_EACH_AI(city_load, file, pcity, citystr);
 
     /* After everything is loaded, but before vision. */
     map_claim_ownership(pcenter, plr, pcenter);
@@ -3852,7 +3852,7 @@ static void player_save_units(struct player *plr, int plrno,
 
     /* Save AI data of the unit. */
     fc_snprintf(unitstr, sizeof(unitstr), "player%d.u%d", plrno, i);
-    CALL_PLR_AI_FUNC(unit_save, plr, file, punit, unitstr);
+    CALL_FUNC_EACH_AI(unit_save, file, punit, unitstr);
 
     secfile_insert_int(file, punit->server.ord_map, "player%d.u%d.ord_map", plrno, i);
     secfile_insert_int(file, punit->server.ord_city, "player%d.u%d.ord_city", plrno, i);
@@ -4053,7 +4053,7 @@ static void player_save_cities(struct player *plr, int plrno,
     }
 
     fc_snprintf(citystr, sizeof(citystr), "player%d.c%d", plrno, i);
-    CALL_PLR_AI_FUNC(city_save, plr, file, pcity, citystr);
+    CALL_FUNC_EACH_AI(city_save, file, pcity, citystr);
   } city_list_iterate_end;
 }
 

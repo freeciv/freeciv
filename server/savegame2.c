@@ -3927,7 +3927,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     }
   }
 
-  CALL_PLR_AI_FUNC(city_load, plr, loading->file, pcity, citystr);
+  CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 
   return TRUE;
 }
@@ -4061,7 +4061,7 @@ static void sg_save_player_cities(struct savedata *saving,
                           "%s.option%d", buf, j);
     }
 
-    CALL_PLR_AI_FUNC(city_save, plr, saving->file, pcity, buf);
+    CALL_FUNC_EACH_AI(city_save, saving->file, pcity, buf);
 
     i++;
   } city_list_iterate_end;
@@ -4299,7 +4299,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   }
 
   /* Load AI data of the unit. */
-  CALL_PLR_AI_FUNC(unit_load, plr, loading->file, punit, unitstr);
+  CALL_FUNC_EACH_AI(unit_load, loading->file, punit, unitstr);
 
   sg_warn_ret_val(secfile_lookup_bool(loading->file,
                                       &punit->ai_controlled,
@@ -4478,7 +4478,7 @@ static void sg_save_player_units(struct savedata *saving,
                         "%s.ai", buf);
 
     /* Save AI data of the unit. */
-    CALL_PLR_AI_FUNC(unit_save, plr, saving->file, punit, buf);
+    CALL_FUNC_EACH_AI(unit_save, saving->file, punit, buf);
 
     secfile_insert_int(saving->file, punit->server.ord_map,
                        "%s.ord_map", buf);
