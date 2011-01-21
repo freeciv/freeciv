@@ -65,7 +65,6 @@
 
 /* ai */
 #include "advdiplomacy.h"
-#include "advmilitary.h"
 
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);
@@ -1784,9 +1783,9 @@ static struct player *split_player(struct player *pplayer)
   /* Not sure if this is necessary, but might be a good idea
    * to avoid doing some ai calculations with bogus data. */
   ai_data_phase_init(cplayer, TRUE);
-  assess_danger_player(cplayer);
+  CALL_PLR_AI_FUNC(gained_control, cplayer, cplayer);
   if (pplayer->ai_controlled) {
-    assess_danger_player(pplayer);
+    CALL_PLR_AI_FUNC(split_by_civil_war, pplayer, pplayer);
   }
 
   return cplayer;

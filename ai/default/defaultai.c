@@ -28,6 +28,7 @@
 
 /* ai */
 #include "advdiplomacy.h"
+#include "advmilitary.h"
 #include "aicity.h"
 #include "aihand.h"
 #include "aiplayer.h"
@@ -45,6 +46,9 @@ void fc_ai_default_setup(struct ai_type *ai)
   default_ai_set_self(ai);
 
   strncpy(ai->name, FC_AI_DEFAULT_NAME, sizeof(ai->name));
+
+  ai->funcs.gained_control = assess_danger_player;
+  ai->funcs.split_by_civil_war = assess_danger_player;
 
   ai->funcs.city_alloc = ai_city_alloc;
   ai->funcs.city_free = ai_city_free;

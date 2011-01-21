@@ -43,6 +43,9 @@ struct ai_type
   char name[MAX_LEN_NAME];
 
   struct {
+    void (*gained_control)(struct player *pplayer);
+    void (*split_by_civil_war)(struct player *pplayer);
+
     void (*city_alloc)(struct city *pcity);
     void (*city_free)(struct city *pcity);
     void (*city_got)(struct player *pplayer, struct city *pcity);

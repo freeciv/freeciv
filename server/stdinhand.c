@@ -52,9 +52,6 @@
 #include "unitlist.h"
 #include "version.h"
 
-/* ai */
-#include "advmilitary.h"        /* assess_danger_player() */
-
 /* server */
 #include "aiiface.h"
 #include "citytools.h"
@@ -762,7 +759,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     /* The following is sometimes necessary to avoid using
        uninitialized data... */
     if (S_S_RUNNING == server_state()) {
-      assess_danger_player(pplayer);
+      CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
 
       /* In case this was last player who has not pressed turn done. */
       check_for_full_turn_done();
