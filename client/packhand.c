@@ -1912,6 +1912,10 @@ void handle_player_info(const struct packet_player_info *pinfo)
       update_turn_done_button_state();
     }
     science_report_dialog_update();
+    if (new_tech) {
+      /* If we got a new tech the tech tree news an update. */
+      science_report_dialog_redraw();
+    }
     economy_report_dialog_update();
     units_report_dialog_update();
     city_report_dialog_update();
