@@ -157,6 +157,8 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks);
 struct tile *tile_virtual_new(const struct tile *ptile);
 void tile_virtual_destroy(struct tile *vtile);
 
+void *tile_hash_key(const struct tile *ptile);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
