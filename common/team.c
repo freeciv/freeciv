@@ -236,7 +236,11 @@ const char *team_slot_rule_name(const struct team_slot *tslot)
   fc_assert_ret_val(NULL != tslot, NULL);
 
   if (NULL == tslot->rule_name) {
-    team_slot_create_default_name((struct team_slot *) tslot);
+    /* Get the team slot as changeable (not _const_) struct. */
+    struct team_slot *changeable
+      = team_slot_by_number(team_slot_index(tslot));
+    team_slot_create_default_name(changeable);
+    return changeable->rule_name;
   }
 
   return tslot->rule_name;
@@ -253,7 +257,11 @@ const char *team_slot_name_translation(const struct team_slot *tslot)
   fc_assert_ret_val(NULL != tslot, NULL);
 
   if (NULL == tslot->name_translation) {
-    team_slot_create_default_name((struct team_slot *) tslot);
+    /* Get the team slot as changeable (not _const_) struct. */
+    struct team_slot *changeable
+      = team_slot_by_number(team_slot_index(tslot));
+    team_slot_create_default_name(changeable);
+    return changeable->name_translation;
   }
 
   return tslot->name_translation;
