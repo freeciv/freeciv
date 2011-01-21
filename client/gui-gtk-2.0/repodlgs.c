@@ -69,11 +69,39 @@ struct science_report {
   struct gui_dialog *shell;
   GtkComboBox *reachable_techs;
   GtkComboBox *reachable_goals;
+  GtkWidget *button_reachable;
   GtkLabel *main_label;         /* Gets science_dialog_text(). */
   GtkProgressBar *progress_bar;
   GtkLabel *goal_label;
   GtkLayout *drawing_area;
 };
+
+static GtkListStore *science_report_store_new(void);
+static inline void science_report_store_set(GtkListStore *store,
+                                            GtkTreeIter *iter,
+                                            Tech_type_id tech);
+static bool science_report_combo_get_active(GtkComboBox *combo,
+                                            Tech_type_id *tech,
+                                            const char **name);
+static void science_report_combo_set_active(GtkComboBox *combo,
+                                            Tech_type_id tech);
+static void science_diagram_button_release_callback(GtkWidget *widget,
+                                                    GdkEventButton *event,
+                                                    gpointer data);
+static void science_diagram_update(GtkWidget *widget, gpointer data);
+static GtkWidget *science_diagram_new(void);
+static void science_diagram_data(GtkWidget *widget, bool reachable);
+static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech);
+static void science_report_redraw(struct science_report *preport);
+static gint cmp_func(gconstpointer a_p, gconstpointer b_p);
+static void science_report_update(struct science_report *preport);
+static void science_report_current_callback(GtkComboBox *combo,
+                                            gpointer data);
+static void science_report_unreachable_callback(GtkComboBox *combo,
+                                                gpointer data);
+static void science_report_goal_callback(GtkComboBox *combo, gpointer data);
+static void science_report_init(struct science_report *preport);
+static void science_report_free(struct science_report *preport);
 
 static struct science_report science_report = { NULL, };
 static bool science_report_no_combo_callback = FALSE;
@@ -217,26 +245,12 @@ static void science_diagram_update(GtkWidget *widget, gpointer data)
 ****************************************************************************/
 static GtkWidget *science_diagram_new(void)
 {
-  struct reqtree *reqtree;
   GtkWidget *diagram;
-  int width, height;
-
-  if (can_conn_edit(&client.conn)) {
-    /* Show all techs in editor mode, not only currently reachable ones */
-    reqtree = create_reqtree(NULL);
-  } else {
-    /* Show only at some point reachable techs */
-    reqtree = create_reqtree(client_player());
-  }
 
   diagram = gtk_layout_new(NULL, NULL);
-  get_reqtree_dimensions(reqtree, &width, &height);
-  gtk_layout_set_size(GTK_LAYOUT(diagram), width, height);
   gtk_widget_add_events(diagram,
                         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
                         | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK);
-  g_object_set_data_full(G_OBJECT(diagram), "reqtree", reqtree,
-                         (GDestroyNotify) destroy_reqtree);
   g_signal_connect(diagram, "expose-event",
                    G_CALLBACK(science_diagram_update), NULL);
   g_signal_connect(diagram, "button-release-event",
@@ -244,6 +258,28 @@ static GtkWidget *science_diagram_new(void)
                    NULL);
 
   return diagram;
+}
+
+/****************************************************************************
+  Recreate the req tree.
+****************************************************************************/
+static void science_diagram_data(GtkWidget *widget, bool reachable)
+{
+  struct reqtree *reqtree;
+  int width, height;
+
+  if (can_conn_edit(&client.conn)) {
+    /* Show all techs in editor mode, not only currently reachable ones */
+    reqtree = create_reqtree(NULL, FALSE);
+  } else {
+    /* Show only at some point reachable techs */
+    reqtree = create_reqtree(client_player(), reachable);
+  }
+
+  get_reqtree_dimensions(reqtree, &width, &height);
+  gtk_layout_set_size(GTK_LAYOUT(widget), width, height);
+  g_object_set_data_full(G_OBJECT(widget), "reqtree", reqtree,
+                         (GDestroyNotify) destroy_reqtree);
 }
 
 /****************************************************************************
@@ -274,25 +310,13 @@ static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
 ****************************************************************************/
 static void science_report_redraw(struct science_report *preport)
 {
-  struct reqtree *reqtree;
   Tech_type_id researching;
-  int width, height;
 
   fc_assert_ret(NULL != preport);
 
-  if (can_conn_edit(&client.conn)) {
-    /* Show all techs in editor mode, not only currently reachable ones */
-    reqtree = create_reqtree(NULL);
-  } else {
-    /* Show only at some point reachable techs */
-    reqtree = create_reqtree(client_player());
-  }
-
-  get_reqtree_dimensions(reqtree, &width, &height);
-  gtk_layout_set_size(preport->drawing_area, width, height);
-  g_object_set_data_full(G_OBJECT(preport->drawing_area), "reqtree", reqtree,
-                         (GDestroyNotify) destroy_reqtree);
-
+  science_diagram_data(GTK_WIDGET(preport->drawing_area),
+                       !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+                         preport->button_reachable)));
   gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 
   if (client_has_player()) {
@@ -438,6 +462,17 @@ static void science_report_current_callback(GtkComboBox *combo,
 }
 
 /****************************************************************************
+  Show or hide unreachable techs.
+****************************************************************************/
+static void science_report_unreachable_callback(GtkComboBox *combo,
+                                                gpointer data)
+{
+  struct science_report *preport = (struct science_report *) data;
+
+  science_report_redraw(preport);
+}
+
+/****************************************************************************
   Actived item in the reachable goals combo box.
 ****************************************************************************/
 static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
@@ -464,7 +499,7 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
 ****************************************************************************/
 static void science_report_init(struct science_report *preport)
 {
-  GtkWidget *frame, *table, *help_button, *sw, *w;
+  GtkWidget *frame, *table, *help_button, *reachable_button, *sw, *w;
   GtkBox *vbox;
   GtkListStore *store;
   GtkCellRenderer *renderer;
@@ -544,9 +579,16 @@ static void science_report_init(struct science_report *preport)
   gtk_widget_set_size_request(w, -1, 25);
   preport->goal_label = GTK_LABEL(w);
 
-  /* Empty label. */
-  w = gtk_label_new(NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), w, 5, 6, 0, 1);
+  /* Toggle unreachable button. */
+  /* TRANS: As in 'Show all (even currently not reachable) techs'. */
+  reachable_button = gtk_toggle_button_new_with_label(_("Show all"));
+  gtk_table_attach(GTK_TABLE(table), reachable_button, 5, 6, 0, 1, 0, 0, 0,
+                   0);
+  g_signal_connect(reachable_button, "toggled",
+                   G_CALLBACK(science_report_unreachable_callback), preport);
+  gtk_widget_set_sensitive(reachable_button, can_client_issue_orders()
+                                             && !client_is_global_observer());
+  preport->button_reachable = reachable_button;
 
   /* Science diagram. */
   sw = gtk_scrolled_window_new(NULL, NULL);
@@ -557,6 +599,9 @@ static void science_report_init(struct science_report *preport)
   w = science_diagram_new();
   gtk_container_add(GTK_CONTAINER(sw), w);
   preport->drawing_area = GTK_LAYOUT(w);
+  science_diagram_data(GTK_WIDGET(preport->drawing_area),
+                       gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+                         preport->button_reachable)));
 
   if (client_has_player()) {
     researching = player_research_get(client_player())->researching;
