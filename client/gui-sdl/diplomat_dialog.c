@@ -225,7 +225,7 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i)
+    if (player_invention_reachable(client.conn.playing, i, FALSE)
      && TECH_KNOWN == player_invention_state(pVictim, i)
      && (TECH_UNKNOWN == player_invention_state(client.conn.playing, i)
          || TECH_PREREQS_KNOWN ==
@@ -310,7 +310,7 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count = 0;
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i)
+    if (player_invention_reachable(client.conn.playing, i, FALSE)
      && TECH_KNOWN == player_invention_state(pVictim, i)
      && (TECH_UNKNOWN == player_invention_state(client.conn.playing, i)
          || TECH_PREREQS_KNOWN ==

@@ -215,7 +215,7 @@ static void build_required_techs_helper(struct player *pplayer,
 {
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
-  if (!player_invention_reachable(pplayer, tech)
+  if (!player_invention_reachable(pplayer, tech, FALSE)
       || player_invention_state(pplayer, tech) == TECH_KNOWN
       || is_tech_a_req_for_goal(pplayer, tech, goal)) {
     return;
@@ -283,13 +283,15 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 
 /**************************************************************************
   Returns TRUE iff the given tech is ever reachable by the given player
-  by checking tech tree limitations.
+  by checking tech tree limitations. If allow_prereqs is TRUE check if the
+  player can ever reach this tech.
 
   pplayer may be NULL in which case a simplified result is returned
   (used by the client).
 **************************************************************************/
 bool player_invention_reachable(const struct player *pplayer,
-                                const Tech_type_id tech)
+                                const Tech_type_id tech,
+                                bool allow_prereqs)
 {
   Tech_type_id root;
 
@@ -298,15 +300,29 @@ bool player_invention_reachable(const struct player *pplayer,
   }
 
   root = advance_required(tech, AR_ROOT);
-  if (A_NONE != root
-      && (TECH_KNOWN != player_invention_state(pplayer, root)
-          || !player_invention_reachable(pplayer,
-                                         advance_required(tech, AR_ONE))
-          || !player_invention_reachable(pplayer,
-                                         advance_required(tech, AR_TWO)))) {
-    /* This tech requires knowledge of another tech before being
-     * available. Prevents sharing of untransferable techs. */
-    return FALSE;
+  if (A_NONE != root) {
+    if (allow_prereqs) {
+      /* Recursive check if the player can ever reach this tech (root tech
+       * and both requirements). */
+      return (player_invention_reachable(pplayer, root, TRUE)
+              && player_invention_reachable(pplayer,
+                                            advance_required(tech, AR_ONE),
+                                            allow_prereqs)
+              && player_invention_reachable(pplayer,
+                                            advance_required(tech, AR_TWO),
+                                            allow_prereqs));
+    } else if (TECH_KNOWN != player_invention_state(pplayer, root)
+               || !player_invention_reachable(pplayer,
+                                              advance_required(tech, AR_ONE),
+                                              allow_prereqs)
+               || !player_invention_reachable(pplayer,
+                                              advance_required(tech, AR_TWO),
+                                              allow_prereqs)) {
+      /* This tech requires knowledge of another tech (root tech or recursive
+       * a root tech of a requirement) before being available. Prevents
+       * sharing of untransferable techs. */
+      return FALSE;
+    }
   }
 
   return TRUE;
@@ -331,18 +347,20 @@ void player_research_update(struct player *pplayer)
   player_invention_set(pplayer, A_NONE, TECH_KNOWN);
 
   advance_index_iterate(A_FIRST, i) {
-    if (!player_invention_reachable(pplayer, i)) {
+    if (!player_invention_reachable(pplayer, i, FALSE)) {
       player_invention_set(pplayer, i, TECH_UNKNOWN);
     } else {
       if (player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
-	player_invention_set(pplayer, i, TECH_UNKNOWN);
+        player_invention_set(pplayer, i, TECH_UNKNOWN);
       }
 
       if (player_invention_state(pplayer, i) == TECH_UNKNOWN
-	  && player_invention_state(pplayer, advance_required(i, AR_ONE)) == TECH_KNOWN
-	  && player_invention_state(pplayer, advance_required(i, AR_TWO)) == TECH_KNOWN) {
-	player_invention_set(pplayer, i, TECH_PREREQS_KNOWN);
-	researchable++;
+          && player_invention_state(pplayer, advance_required(i, AR_ONE))
+             == TECH_KNOWN
+          && player_invention_state(pplayer, advance_required(i, AR_TWO))
+             == TECH_KNOWN) {
+        player_invention_set(pplayer, i, TECH_PREREQS_KNOWN);
+        researchable++;
       }
     }
     build_required_techs(pplayer, i);
@@ -465,7 +483,7 @@ Tech_type_id player_research_step(const struct player *pplayer,
 {
   Tech_type_id sub_goal;
 
-  if (!player_invention_reachable(pplayer, goal)) {
+  if (!player_invention_reachable(pplayer, goal, FALSE)) {
     return A_UNSET;
   }
   switch (player_invention_state(pplayer, goal)) {

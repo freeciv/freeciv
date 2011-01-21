@@ -150,7 +150,7 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
   enum tech_state state = player_invention_state(pplayer, tech);
 
   if (TECH_KNOWN == state
-      || ! player_invention_reachable(pplayer, tech)) {
+      || ! player_invention_reachable(pplayer, tech, FALSE)) {
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
@@ -1050,7 +1050,7 @@ static void suggest_tech_exchange(struct player* player1,
   advance_index_iterate(A_FIRST, tech) {
     if (player_invention_state(player1, tech) == TECH_KNOWN) {
       if (player_invention_state(player2, tech) != TECH_KNOWN
-          && player_invention_reachable(player2, tech)) {
+          && player_invention_reachable(player2, tech, FALSE)) {
         worth[tech] = -compute_tech_sell_price(player1, player2, tech,
 	                                       &is_dangerous);
 	if (is_dangerous) {
@@ -1062,7 +1062,7 @@ static void suggest_tech_exchange(struct player* player1,
       }
     } else {
       if (player_invention_state(player2, tech) == TECH_KNOWN
-          && player_invention_reachable(player1, tech)) {
+          && player_invention_reachable(player1, tech, FALSE)) {
         worth[tech] = compute_tech_sell_price(player2, player1, tech,
 	                                      &is_dangerous);
 	if (is_dangerous) {
@@ -1115,11 +1115,11 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
     advance_index_iterate(A_FIRST, index) {
       if ((player_invention_state(pplayer, index) != TECH_KNOWN)
           && (player_invention_state(aplayer, index) == TECH_KNOWN)
-          && player_invention_reachable(pplayer, index)) {
+          && player_invention_reachable(pplayer, index, FALSE)) {
        ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);
       } else if ((player_invention_state(pplayer, index) == TECH_KNOWN)
                  && (player_invention_state(aplayer, index) != TECH_KNOWN)
-                 && player_invention_reachable(aplayer, index)) {
+                 && player_invention_reachable(aplayer, index, FALSE)) {
         ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ADVANCE, index);
       }
     } advance_index_iterate_end;

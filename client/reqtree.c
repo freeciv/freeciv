@@ -399,7 +399,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
       nodes[tech] = NULL;
       continue;
     }
-    if (pplayer && !player_invention_reachable(pplayer, tech)) {
+    if (pplayer && !player_invention_reachable(pplayer, tech, FALSE)) {
       /* Reqtree requested for particular player and this tech is
        * unreachable to him/her. */
       nodes[tech] = NULL;
@@ -870,7 +870,7 @@ static enum color_std node_color(struct tree_node *node)
       return COLOR_REQTREE_KNOWN;
     }
 
-    if (!player_invention_reachable(client.conn.playing, node->tech)) {
+    if (!player_invention_reachable(client.conn.playing, node->tech, FALSE)) {
       return COLOR_REQTREE_UNREACHABLE;
     }
 

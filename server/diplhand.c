@@ -184,7 +184,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           }
           break;
 	case CLAUSE_ADVANCE:
-          if (!player_invention_reachable(pother, pclause->value)) {
+          if (!player_invention_reachable(pother, pclause->value, FALSE)) {
 	    /* It is impossible to give a technology to a civilization that
 	     * can never possess it (the client should enforce this). */
             log_error("Treaty: %s can't have tech %s",

@@ -177,7 +177,7 @@ static void popup_tech_menu(struct Diplomacy_dialog *pdialog,int plr)
 
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(plr0, i) == TECH_KNOWN
-        && player_invention_reachable(plr1, i)
+        && player_invention_reachable(plr1, i, FALSE)
         && (player_invention_state(plr1, i) == TECH_UNKNOWN
             || player_invention_state(plr1, i) == TECH_PREREQS_KNOWN)) {
       AppendMenu(menu,MF_STRING,ID_ADVANCES_BASE+i,

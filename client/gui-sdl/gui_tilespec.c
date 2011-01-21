@@ -558,7 +558,7 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
 **************************************************************************/
 SDL_Color * get_tech_color(Tech_type_id tech_id)
 {
-  if (player_invention_reachable(client.conn.playing, tech_id))
+  if (player_invention_reachable(client.conn.playing, tech_id, FALSE))
   {
     switch (player_invention_state(client.conn.playing, tech_id))
     {
