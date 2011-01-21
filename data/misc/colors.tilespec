@@ -161,7 +161,7 @@ reqtree_goal_unknown = {"r", "g", "b"
     85,  120, 180
 }
 reqtree_unreachable = {"r", "g", "b"
-    190, 150, 110
+    225, 150, 110
 }
 reqtree_background = {"r", "g", "b"
     0,   0,   0
