@@ -289,19 +289,27 @@ static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
 {
   GtkScrolledWindow *sw = GTK_SCROLLED_WINDOW(gtk_widget_get_parent(diagram));
   struct reqtree *reqtree;
-  int x, y;
+  int x, y, width, height;
 
   if (!GTK_IS_SCROLLED_WINDOW(sw)) {
     return;
   }
 
   reqtree = g_object_get_data(G_OBJECT(diagram), "reqtree");
+  get_reqtree_dimensions(reqtree, &width, &height);
   if (find_tech_on_reqtree(reqtree, tech, &x, &y, NULL, NULL)) {
-    /* FIXME: Those are approximations. */
-    gtk_adjustment_set_value(gtk_scrolled_window_get_hadjustment(sw),
-                             x - 300);
-    gtk_adjustment_set_value(gtk_scrolled_window_get_vadjustment(sw),
-                             y - 100);
+    GtkAdjustment *adjust = NULL;
+    gdouble value;
+
+    adjust = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
+    value = (adjust->lower + adjust->upper - adjust->page_size) / width * x;
+    gtk_adjustment_set_value(adjust, value);
+    gtk_adjustment_value_changed(adjust);
+
+    adjust = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
+    value = (adjust->lower + adjust->upper - adjust->page_size) / height * y;
+    gtk_adjustment_set_value(adjust, value);
+    gtk_adjustment_value_changed(adjust);
   }
 }
 
@@ -317,7 +325,6 @@ static void science_report_redraw(struct science_report *preport)
   science_diagram_data(GTK_WIDGET(preport->drawing_area),
                        !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
                          preport->button_reachable)));
-  gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 
   if (client_has_player()) {
     researching = player_research_get(client_player())->researching;
@@ -325,6 +332,8 @@ static void science_report_redraw(struct science_report *preport)
     researching = A_UNSET;
   }
   science_diagram_center(GTK_WIDGET(preport->drawing_area), researching);
+
+  gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 }
 
 /****************************************************************************
@@ -503,7 +512,6 @@ static void science_report_init(struct science_report *preport)
   GtkBox *vbox;
   GtkListStore *store;
   GtkCellRenderer *renderer;
-  Tech_type_id researching;
 
   fc_assert_ret(NULL != preport);
 
@@ -599,19 +607,12 @@ static void science_report_init(struct science_report *preport)
   w = science_diagram_new();
   gtk_container_add(GTK_CONTAINER(sw), w);
   preport->drawing_area = GTK_LAYOUT(w);
-  science_diagram_data(GTK_WIDGET(preport->drawing_area),
-                       gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
-                         preport->button_reachable)));
-
-  if (client_has_player()) {
-    researching = player_research_get(client_player())->researching;
-  } else {
-    researching = A_UNSET;
-  }
-  science_diagram_center(w, researching);
 
   science_report_update(preport);
   gui_dialog_show_all(preport->shell);
+
+  /* This must be _after_ the dialog is drawn to really center it ... */
+  science_report_redraw(preport);
 }
 
 /****************************************************************************
