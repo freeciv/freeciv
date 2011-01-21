@@ -61,6 +61,8 @@ struct ai_type
     void (*unit_turn_end)(struct unit *punit);
     void (*unit_move)(struct unit *punit, struct tile *ptile,
                       struct pf_path *path, int step);
+    void (*unit_task)(struct unit *punit, enum adv_unit_task task,
+                      struct tile *ptile);
     void (*unit_save)(struct section_file *file, const struct unit *punit,
                       const char *unitstr);
     void (*unit_load)(const struct section_file *file, struct unit *punit,

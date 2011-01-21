@@ -60,10 +60,6 @@ enum diplomat_actions {
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 
-enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
-                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT, 
-                    AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER };
-
 enum goto_move_restriction {
   GOTO_MOVE_ANY,
   GOTO_MOVE_CARDINAL_ONLY, /* No diagonal moves.  */
@@ -101,7 +97,7 @@ enum unit_upgrade_result {
 };
 
 struct unit_adv {
-  enum ai_unit_task role;
+  enum adv_unit_task task;
 };
 
 struct unit_order {

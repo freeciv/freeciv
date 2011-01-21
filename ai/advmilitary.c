@@ -749,7 +749,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
       int tech_cost = total_bulbs_required_for_goal(pplayer,
 			advance_number(punittype->require_advance)) / 4
 		      / city_list_size(pplayer->cities);
-        
+
       /* Contrary to the above, we don't care if walls are actually built 
        * - we're looking into the future now. */
       if (move_type == UMT_LAND) {

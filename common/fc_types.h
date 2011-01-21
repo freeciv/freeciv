@@ -91,6 +91,8 @@ enum unit_activity {
   ACTIVITY_LAST   /* leave this one last */
 };
 
+enum adv_unit_task { AUT_NONE, AUT_AUTO_SETTLER, AUT_BUILD_CITY };
+
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
 typedef int Resource_type_id;

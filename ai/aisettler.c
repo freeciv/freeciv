@@ -991,14 +991,14 @@ void ai_auto_settler_run(struct player *pplayer, struct unit *punit,
 
 BUILD_CITY:
 
-  if (punit->server.adv->role == AIUNIT_BUILD_CITY) {
+  if (def_ai_unit_data(punit)->task == AIUNIT_BUILD_CITY) {
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
 
     /* Check that the mission is still possible.  If the tile has become
      * unavailable, call it off. */
     if (!city_can_be_built_here(ptile, punit)) {
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
       set_unit_activity(punit, ACTIVITY_IDLE);
       send_unit_info(NULL, punit);
       return; /* avoid recursion at all cost */
@@ -1013,7 +1013,7 @@ BUILD_CITY:
         if (!ai_do_build_city(pplayer, punit)) {
           UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
                    tile_get_info_text(punit->tile, 0));
-          ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+          ai_unit_new_task(punit, AIUNIT_NONE, NULL);
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any
            * serious recursion. */
@@ -1065,10 +1065,10 @@ BUILD_CITY:
         }
       }
       /* Go make a city! */
-      ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result->tile);
+      adv_unit_new_task(punit, AUT_BUILD_CITY, result->tile);
       if (result->best_other.tile) {
         /* Reserve best other tile (if there is one). It is the tile where the
-         * first citicen of the city is working. */
+         * first citizen of the city is working. */
         citymap_reserve_tile(result->best_other.tile, punit->id);
       }
       punit->goto_tile = result->tile; /* TMP */
@@ -1083,15 +1083,15 @@ BUILD_CITY:
       UNIT_LOG(LOG_DEBUG, punit, "improves terrain instead of founding");
       /* Terrain improvements follows the old model, and is recalculated
        * each turn. */
-      ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
+      adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "cannot find work");
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
       goto CLEANUP;
     }
   } else {
     /* We are a worker or engineer */
-    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
+    adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
   }
 
   auto_settler_setup_work(pplayer, punit, state, 0, path,
@@ -1142,7 +1142,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   unit_activity_handling(punit, ACTIVITY_IDLE);
 
   /* Free city reservations */
-  ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  ai_unit_new_task(punit, AIUNIT_NONE, NULL);
 
   pcity = tile_city(ptile);
   if (pcity) {

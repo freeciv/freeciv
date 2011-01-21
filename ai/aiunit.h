@@ -23,6 +23,10 @@ struct pf_path;
 
 struct section_file;
 
+enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
+                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_ESCORT, 
+                    AIUNIT_EXPLORE, AIUNIT_RECOVER, AIUNIT_HUNTER };
+
 struct unit_ai {
   /* The following are unit ids or special indicator values (<=0) */
   int ferryboat; /* the ferryboat assigned to us */
@@ -36,6 +40,8 @@ struct unit_ai {
   int target; /* target we hunt */
   bv_player hunted; /* if a player is hunting us, set by that player */
   bool done;  /* we are done controlling this unit this turn */
+
+  enum ai_unit_task task;
 };
 
 /*

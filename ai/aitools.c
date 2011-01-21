@@ -52,6 +52,7 @@
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
+#include "autosettlers.h"
 
 /* ai */
 #include "advmilitary.h"
@@ -694,8 +695,9 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   const bool barbarian = is_barbarian(unit_owner(punit));
   const bool is_ai = unit_owner(punit)->ai_controlled;
   bool is_ferry = FALSE;
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
 
-  if (punit->server.adv->role != AIUNIT_HUNTER
+  if (unit_data->task != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
     unit_class_iterate(uclass) {
       /* FIXME: UMT_BOTH units need ferry only if they use fuel */
@@ -715,10 +717,10 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     pft_fill_unit_overlap_param(parameter, punit);
   } else if (is_ai && !utype_fuel(unit_type(punit))
              && is_military_unit(punit)
-             && (punit->server.adv->role == AIUNIT_DEFEND_HOME
-                 || punit->server.adv->role == AIUNIT_ATTACK
-                 || punit->server.adv->role ==  AIUNIT_ESCORT
-                 || punit->server.adv->role == AIUNIT_HUNTER)) {
+             && (unit_data->task == AIUNIT_DEFEND_HOME
+                 || unit_data->task == AIUNIT_ATTACK
+                 || unit_data->task ==  AIUNIT_ESCORT
+                 || unit_data->task == AIUNIT_HUNTER)) {
     /* Use attack movement for defenders and escorts so they can
      * make defensive attacks */
     pft_fill_unit_attack_param(parameter, punit);
@@ -795,7 +797,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     /* Losing hitpoints over time (helicopter in default rules) */
     /* Default tile behaviour */
   } else if (is_military_unit(punit)) {
-    switch (punit->server.adv->role) {
+    switch (unit_data->task) {
     case AIUNIT_AUTO_SETTLER:
     case AIUNIT_BUILD_CITY:
       /* Strange, but not impossible */
@@ -841,13 +843,33 @@ bool ai_unit_goto(struct unit *punit, struct tile *ptile)
 }
 
 /**************************************************************************
+  Adviser task for unit has been changed.
+**************************************************************************/
+void ai_unit_new_adv_task(struct unit *punit, enum adv_unit_task task,
+                          struct tile *ptile)
+{
+  /* Keep ai_unit_task in sync with adv task */
+  switch(task) {
+   case AUT_AUTO_SETTLER:
+     ai_unit_new_task(punit, AIUNIT_AUTO_SETTLER, ptile);
+     break;
+   case AUT_BUILD_CITY:
+     ai_unit_new_task(punit, AIUNIT_BUILD_CITY, ptile);
+     break;
+   case AUT_NONE:
+     ai_unit_new_task(punit, AIUNIT_NONE, ptile);
+     break;
+  }
+}
+
+/**************************************************************************
   Ensure unit sanity by telling charge that we won't bodyguard it anymore,
   tell bodyguard it can roam free if our job is done, add and remove city 
   spot reservation, and set destination. If we set a unit to hunter, also
   reserve its target, and try to load it with cruise missiles or nukes
   to bring along.
 **************************************************************************/
-void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
+void ai_unit_new_task(struct unit *punit, enum ai_unit_task task,
 		      struct tile *ptile)
 {
   struct unit *bodyguard = aiguard_guard_of(punit);
@@ -857,8 +879,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
    * Allow removal of old role with AIUNIT_NONE. */
   fc_assert_ret(!unit_has_orders(punit) || task == AIUNIT_NONE);
 
-  UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
-           ai_unit_task_rule_name(punit->server.adv->role),
+  UNIT_LOG(LOG_DEBUG, punit, "changing task from %s to %s",
+           ai_unit_task_rule_name(unit_data->task),
            ai_unit_task_rule_name(task));
 
   /* Free our ferry.  Most likely it has been done already. */
@@ -871,7 +893,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 
-  if (punit->server.adv->role == AIUNIT_BUILD_CITY) {
+  if (unit_data->task == AIUNIT_BUILD_CITY) {
     if (punit->goto_tile) {
       citymap_free_city_spot(punit->goto_tile, punit->id);
     } else {
@@ -884,14 +906,14 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     }
   }
 
-  if (punit->server.adv->role == AIUNIT_HUNTER) {
+  if (unit_data->task == AIUNIT_HUNTER) {
     /* Clear victim's hunted bit - we're no longer chasing. */
     struct unit *target = game_unit_by_number(unit_data->target);
 
     if (target) {
       BV_CLR(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
-      UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new role %d, old %d)",
-               task, punit->server.adv->role);
+      UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new task %d, old %d)",
+               task, unit_data->task);
     }
   }
 
@@ -901,21 +923,21 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     aiguard_assign_guard_city(tile_city(ptile), punit);
   }
 
-  punit->server.adv->role = task;
+  unit_data->task = task;
 
   /* Verify and set the goto destination.  Eventually this can be a lot more
    * stringent, but for now we don't want to break things too badly. */
   punit->goto_tile = ptile; /* May be NULL. */
 
-  if (punit->server.adv->role == AIUNIT_NONE && bodyguard) {
-    ai_unit_new_role(bodyguard, AIUNIT_NONE, NULL);
+  if (unit_data->task == AIUNIT_NONE && bodyguard) {
+    ai_unit_new_task(bodyguard, AIUNIT_NONE, NULL);
   }
 
   /* Reserve city spot, _unless_ we want to add ourselves to a city. */
-  if (punit->server.adv->role == AIUNIT_BUILD_CITY && !tile_city(ptile)) {
+  if (unit_data->task == AIUNIT_BUILD_CITY && !tile_city(ptile)) {
     citymap_reserve_city_spot(ptile, punit->id);
   }
-  if (punit->server.adv->role == AIUNIT_HUNTER) {
+  if (unit_data->task == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */
     struct unit *target = game_unit_by_number(unit_data->target);
 
@@ -925,16 +947,31 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
     /* Grab missiles lying around and bring them along */
     unit_list_iterate(punit->tile->units, missile) {
-      if (missile->server.adv->role != AIUNIT_ESCORT
+      if (unit_owner(missile) == unit_owner(punit)
+          && def_ai_unit_data(missile)->task != AIUNIT_ESCORT
           && missile->transported_by == -1
           && unit_owner(missile) == unit_owner(punit)
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
-        ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);
+        ai_unit_new_task(missile, AIUNIT_ESCORT, target->tile);
         load_unit_onto_transporter(missile, punit);
       }
     } unit_list_iterate_end;
+  }
+
+  /* Map ai tasks to advisor tasks. For most ai tasks there is
+     no advisor, so AUT_NONE is set. */
+  switch(unit_data->task) {
+   case AIUNIT_AUTO_SETTLER:
+     punit->server.adv->task = AUT_AUTO_SETTLER;
+     break;
+   case AIUNIT_BUILD_CITY:
+     punit->server.adv->task = AUT_BUILD_CITY;
+     break;
+   default:
+     punit->server.adv->task = AUT_NONE;
+     break;
   }
 }
 

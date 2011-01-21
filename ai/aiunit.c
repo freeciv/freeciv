@@ -167,13 +167,14 @@ static void ai_airlift(struct player *pplayer)
 
       if (pcity) {
         struct ai_city *city_data = def_ai_city_data(pcity);
+        struct unit_ai *unit_data = def_ai_unit_data(punit);
 
         if (city_data->urgency == 0
             && city_data->danger - DEFENCE_POWER(punit) < comparison
             && unit_can_airlift_to(punit, most_needed)
             && DEFENCE_POWER(punit) > 2
-            && (punit->server.adv->role == AIUNIT_NONE
-                || punit->server.adv->role == AIUNIT_DEFEND_HOME)
+            && (unit_data->task == AIUNIT_NONE
+                || unit_data->task == AIUNIT_DEFEND_HOME)
             && IS_ATTACKER(punit)) {
           comparison = city_data->danger;
           transported = punit;
@@ -643,7 +644,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   } else {
     /* should be impossible */
     BODYGUARD_LOG(LOG_DEBUG, punit, "we lost our charge");
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    ai_unit_new_task(punit, AIUNIT_NONE, NULL);
     return;
   }
 
@@ -658,7 +659,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
       }
     } else {
       BODYGUARD_LOG(LOG_DEBUG, punit, "can not meet charge");
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
     }
   }
   /* We might have stopped because of an enemy nearby.
@@ -765,7 +766,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
           && (0 < best_data->grave_danger
               || best_data->urgency > data->urgency
               || ((best_data->danger > data->danger
-                   || AIUNIT_DEFEND_HOME == punit->server.adv->role)
+                   || AIUNIT_DEFEND_HOME == def_ai_unit_data(punit)->task)
                   && 0 == data->grave_danger))) {
         /* Chances are we'll be between cities when we are needed the most!
          * Resuming pf_map_move_costs_iterate()... */
@@ -805,6 +806,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
   struct unit_type *punittype = unit_type(punit);
+  struct unit_ai *unit_data;
 
   CHECK_UNIT(punit);
 
@@ -815,17 +817,19 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
       /* land barbarians pillage */
       unit_activity_handling(punit, ACTIVITY_PILLAGE);
     }
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    ai_unit_new_task(punit, AIUNIT_NONE, NULL);
     return;
   }
 
+  unit_data = def_ai_unit_data(punit);
+
   /* If I am a bodyguard, check whether I can do my job. */
-  if (punit->server.adv->role == AIUNIT_ESCORT
-      || punit->server.adv->role == AIUNIT_DEFEND_HOME) {
+  if (unit_data->task == AIUNIT_ESCORT
+      || unit_data->task == AIUNIT_DEFEND_HOME) {
     aiguard_update_charge(punit);
   }
   if (aiguard_has_charge(punit)
-      && punit->server.adv->role == AIUNIT_ESCORT) {
+      && unit_data->task == AIUNIT_ESCORT) {
     struct unit *aunit = aiguard_charge_unit(punit);
     struct city *acity = aiguard_charge_city(punit);
     struct ai_city *city_data = NULL;
@@ -843,16 +847,16 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
             && city_data->danger > assess_defense_quadratic(acity))) {
       return; /* Yep! */
     } else {
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL); /* Nope! */
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL); /* Nope! */
     }
   }
 
   /* Is the unit badly damaged? */
-  if ((punit->server.adv->role == AIUNIT_RECOVER
+  if ((unit_data->task == AIUNIT_RECOVER
        && punit->hp < punittype->hp)
       || punit->hp < punittype->hp * 0.25) { /* WAG */
     UNIT_LOG(LOGLEVEL_RECOVERY, punit, "set to hp recovery");
-    ai_unit_new_role(punit, AIUNIT_RECOVER, NULL);
+    ai_unit_new_task(punit, AIUNIT_RECOVER, NULL);
     return;
   }
 
@@ -866,11 +870,11 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
     look_for_charge(pplayer, punit, &aunit, &acity);
     if (acity) {
-      ai_unit_new_role(punit, AIUNIT_ESCORT, acity->tile);
+      ai_unit_new_task(punit, AIUNIT_ESCORT, acity->tile);
       aiguard_assign_guard_city(acity, punit);
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend city");
     } else if (aunit) {
-      ai_unit_new_role(punit, AIUNIT_ESCORT, aunit->tile);
+      ai_unit_new_task(punit, AIUNIT_ESCORT, aunit->tile);
       aiguard_assign_guard_unit(aunit, punit);
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend unit");
     }
@@ -1870,7 +1874,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (punit->server.adv->role != AIUNIT_NONE) {
+  if (def_ai_unit_data(punit)->task != AIUNIT_NONE) {
     return;
   }
 
@@ -1937,7 +1941,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
     } else {
       /* oops */
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "didn't find a city to recover in!");
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
       ai_military_attack(pplayer, punit);
       return;
     }
@@ -1947,7 +1951,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
   if (punit->hp == punittype->hp) {
     /* we are ready to go out and kick ass again */
     UNIT_LOG(LOGLEVEL_RECOVERY, punit, "ready to kick ass again!");
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);  
+    ai_unit_new_task(punit, AIUNIT_NONE, NULL);  
     return;
   } else {
     def_ai_unit_data(punit)->done = TRUE; /* sit tight */
@@ -1960,6 +1964,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
 **************************************************************************/
 void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
   int id = punit->id;
 
   CHECK_UNIT(punit);
@@ -1967,7 +1972,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   /* "Escorting" aircraft should not do anything. They are activated
    * by their transport or charge.  We do _NOT_ set them to 'done'
    * since they may need be activated once our charge moves. */
-  if (punit->server.adv->role == AIUNIT_ESCORT
+  if (unit_data->task == AIUNIT_ESCORT
       && utype_fuel(unit_type(punit))) {
     return;
   }
@@ -1977,7 +1982,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
       && ai_handicap(pplayer, H_AWAY)) {
     /* Don't move sentried or fortified units controlled by a player
      * in away mode. */
-    def_ai_unit_data(punit)->done = TRUE;
+    unit_data->done = TRUE;
     return;
   }
 
@@ -2003,12 +2008,12 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     } else if (result >= 1) {
       TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return; /* Done moving */
-    } else if (punit->server.adv->role == AIUNIT_HUNTER) {
+    } else if (unit_data->task == AIUNIT_HUNTER) {
       /* This should be very rare */
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
     }
-  } else if (punit->server.adv->role == AIUNIT_HUNTER) {
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  } else if (unit_data->task == AIUNIT_HUNTER) {
+    ai_unit_new_task(punit, AIUNIT_NONE, NULL);
   }
   TIMING_LOG(AIT_HUNTER, TIMER_STOP);
 
@@ -2016,7 +2021,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
    * to attack. */
   ai_military_findjob(pplayer, punit);
 
-  switch (punit->server.adv->role) {
+  switch (unit_data->task) {
   case AIUNIT_AUTO_SETTLER:
   case AIUNIT_BUILD_CITY:
     fc_assert(FALSE); /* This is not the place for this role */
@@ -2065,15 +2070,16 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
 
   /* If we are still alive, either sentry or fortify. */
   if ((punit = game_unit_by_number(id))) {
+    struct unit_ai *unit_data = def_ai_unit_data(punit);
     struct city *pcity = tile_city(punit->tile);
 
     if (unit_list_find(punit->tile->units,
-                       def_ai_unit_data(punit)->ferryboat)) {
+                       unit_data->ferryboat)) {
       unit_activity_handling(punit, ACTIVITY_SENTRY);
     } else if (pcity || punit->activity == ACTIVITY_IDLE) {
       /* We do not need to fortify in cities - we fortify and sentry
        * according to home defense setup, for easy debugging. */
-      if (!pcity || punit->server.adv->role == AIUNIT_DEFEND_HOME) {
+      if (!pcity || unit_data->task == AIUNIT_DEFEND_HOME) {
         if (punit->activity == ACTIVITY_IDLE
             || punit->activity == ACTIVITY_SENTRY) {
           unit_activity_handling(punit, ACTIVITY_FORTIFYING);
@@ -2121,6 +2127,7 @@ static bool unit_can_be_retired(struct unit *punit)
 **************************************************************************/
 void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
+  struct unit_ai *unit_data;
   struct unit *bodyguard = aiguard_guard_of(punit);
   bool is_ferry = FALSE;
 
@@ -2128,9 +2135,11 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   /* Don't manage the unit if it is under human orders. */
   if (unit_has_orders(punit)) {
+    struct unit_ai *unit_data = def_ai_unit_data(punit);
+
     UNIT_LOG(LOG_VERBOSE, punit, "is under human orders, aborting AI control.");
-    punit->server.adv->role = AIUNIT_NONE;
-    def_ai_unit_data(punit)->done = TRUE;
+    ai_unit_new_task(punit, AIUNIT_NONE, NULL);
+    unit_data->done = TRUE;
     return;
   }
 
@@ -2149,11 +2158,13 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
   if (!bodyguard && aiguard_has_guard(punit)) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "lost bodyguard, asking for new");
     aiguard_request_guard(punit);
-  }  
+  }
+
+  unit_data = def_ai_unit_data(punit);
 
   if (punit->moves_left <= 0) {
     /* Can do nothing */
-    def_ai_unit_data(punit)->done = TRUE;
+    unit_data->done = TRUE;
     return;
   }
 
@@ -2192,13 +2203,13 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (unit_has_type_flag(punit, F_PARATROOPERS)) {
     ai_manage_paratrooper(pplayer, punit);
     return;
-  } else if (is_ferry && punit->server.adv->role != AIUNIT_HUNTER) {
+  } else if (is_ferry && unit_data->task != AIUNIT_HUNTER) {
     TIMING_LOG(AIT_FERRY, TIMER_START);
     ai_manage_ferryboat(pplayer, punit);
     TIMING_LOG(AIT_FERRY, TIMER_STOP);
     return;
   } else if (utype_fuel(unit_type(punit))
-             && punit->server.adv->role != AIUNIT_ESCORT) {
+             && unit_data->task != AIUNIT_ESCORT) {
     TIMING_LOG(AIT_AIRUNIT, TIMER_START);
     ai_manage_airunit(pplayer, punit);
     TIMING_LOG(AIT_AIRUNIT, TIMER_STOP);
@@ -2208,7 +2219,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
     /* TODO: We can try using air-unit code for helicopters, just
      * pretend they have fuel = HP / 3 or something. */
-    def_ai_unit_data(punit)->done = TRUE; /* we did our best, which was ... 
+    unit_data->done = TRUE; /* we did our best, which was ... 
                                              nothing */
     return;
   } else if (is_military_unit(punit)) {
@@ -2228,7 +2239,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
       break;
     default:
       UNIT_LOG(LOG_DEBUG, punit, "fell through all unit tasks, defending");
-      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, NULL);
+      ai_unit_new_task(punit, AIUNIT_DEFEND_HOME, NULL);
       ai_military_defend(pplayer, punit);
       break;
     };
@@ -2257,8 +2268,10 @@ static void ai_set_defenders(struct player *pplayer)
       struct unit *best = NULL;
 
       unit_list_iterate(pcity->tile->units, punit) {
-       if ((punit->server.adv->role == AIUNIT_NONE || emergency)
-           && punit->server.adv->role != AIUNIT_DEFEND_HOME
+        struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+       if ((unit_data->task == AIUNIT_NONE || emergency)
+           && unit_data->task != AIUNIT_DEFEND_HOME
            && unit_owner(punit) == pplayer) {
           int want = assess_defense_unit(pcity, punit, FALSE);
 
@@ -2280,7 +2293,7 @@ static void ai_set_defenders(struct player *pplayer)
 
         total_defense += best_want;
         UNIT_LOG(loglevel, best, "Defending city");
-        ai_unit_new_role(best, AIUNIT_DEFEND_HOME, pcity->tile);
+        ai_unit_new_task(best, AIUNIT_DEFEND_HOME, pcity->tile);
         count++;
       }
     }
@@ -2306,9 +2319,11 @@ void ai_manage_units(struct player *pplayer)
 
   /* Clear previous orders, if desirable, here. */
   unit_list_iterate(pplayer->units, punit) {
-    def_ai_unit_data(punit)->done = FALSE;
-    if (punit->server.adv->role == AIUNIT_DEFEND_HOME) {
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+    unit_data->done = FALSE;
+    if (unit_data->task == AIUNIT_DEFEND_HOME) {
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
     }
   } unit_list_iterate_end;
 

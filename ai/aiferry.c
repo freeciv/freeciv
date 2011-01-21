@@ -31,6 +31,7 @@
 /* server/advisors */
 #include "advgoto.h"
 #include "autoexplorer.h"
+#include "autosettlers.h"
 
 /* server */
 #include "hand_gen.h"
@@ -759,7 +760,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
           /* Crap bodyguard. Got stuck somewhere. Ditch it! */
           UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "ditching useless bodyguard");
           aiguard_request_guard(punit);
-          ai_unit_new_role(bodyguard, AIUNIT_NONE, NULL);
+          ai_unit_new_task(bodyguard, AIUNIT_NONE, NULL);
           bodyguard = NULL;
         }
       }
@@ -1011,7 +1012,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
           continue;
         }
 
-        if (aunit->server.adv->role != AIUNIT_ESCORT) {
+        if (def_ai_unit_data(aunit)->task != AIUNIT_ESCORT) {
           candidate = aunit;
           break;
         } else {
@@ -1072,7 +1073,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
      /* AI used to build frigates to attack and then use them as ferries 
       * -- Syela */
-     ai_unit_new_role(punit, AIUNIT_ATTACK, NULL);
+     ai_unit_new_task(punit, AIUNIT_ATTACK, NULL);
      UNIT_LOG(LOGLEVEL_FERRY, punit, "passing ferry over to attack code");
      ai_manage_military(pplayer, punit);
      return;
@@ -1082,7 +1083,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 	   "(moves left: %d).", punit->moves_left);
   aiferry_make_available(punit);
   unit_activity_handling(punit, ACTIVITY_IDLE);
-  ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  ai_unit_new_task(punit, AIUNIT_NONE, NULL);
   CHECK_UNIT(punit);
 
   /* Try to find passengers */
@@ -1137,7 +1138,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_tile = pcity->tile;
       UNIT_LOG(LOGLEVEL_FERRY, punit, "No work, going home");
       unit_data->done = TRUE;
-      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
       (void) ai_unit_goto(punit, pcity->tile);
     }
   }

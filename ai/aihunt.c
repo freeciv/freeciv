@@ -41,6 +41,7 @@
 #include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
+#include "autosettlers.h"
 
 /* ai */
 #include "aicity.h"
@@ -519,7 +520,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       /* This assigns missiles to us */
-      ai_unit_new_role(punit, AIUNIT_HUNTER, target->tile);
+      ai_unit_new_task(punit, AIUNIT_HUNTER, target->tile);
 
       /* Check if we can nuke it */
       ai_hunter_try_launch(pplayer, punit, target);
@@ -527,7 +528,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       /* Check if we have nuked it */
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (pre)");
-        ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+        ai_unit_new_task(punit, AIUNIT_NONE, NULL);
         pf_map_destroy(pfm);
         return -1; /* try again */
       }
@@ -543,7 +544,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
-        ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+        ai_unit_new_task(punit, AIUNIT_NONE, NULL);
         pf_map_destroy(pfm);
         return -1; /* try again */
       }
@@ -552,7 +553,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       ai_hunter_try_launch(pplayer, punit, target);
       if (target != game_unit_by_number(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished by cargo (post)");
-        ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+        ai_unit_new_task(punit, AIUNIT_NONE, NULL);
         pf_map_destroy(pfm);
         return -1; /* try again */
       }

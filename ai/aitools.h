@@ -22,6 +22,7 @@
 
 /* ai */
 #include "aicity.h"
+#include "aiunit.h"
 
 struct pf_path;
 struct pf_parameter;
@@ -71,8 +72,10 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
 bool ai_unit_goto(struct unit *punit, struct tile *ptile);
 bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni);
 
-void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, 
+void ai_unit_new_task(struct unit *punit, enum ai_unit_task task, 
                       struct tile *ptile);
+void ai_unit_new_adv_task(struct unit *punit, enum adv_unit_task task,
+                          struct tile *ptile);
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity);
 bool ai_unit_attack(struct unit *punit, struct tile *ptile);
 bool ai_unit_move(struct unit *punit, struct tile *ptile);

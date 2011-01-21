@@ -84,11 +84,13 @@ struct settlermap {
 **************************************************************************/
 void ai_manage_settler(struct player *pplayer, struct unit *punit)
 {
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
+
   punit->ai_controlled = TRUE;
-  def_ai_unit_data(punit)->done = TRUE; /* we will manage this unit later... ugh */
+  unit_data->done = TRUE; /* we will manage this unit later... ugh */
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
-  if (punit->server.adv->role == AIUNIT_NONE) {
-    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, NULL);
+  if (unit_data->task == AIUNIT_NONE) {
+    adv_unit_new_task(punit, AUT_AUTO_SETTLER, NULL);
   }
   return;
 }
@@ -478,7 +480,7 @@ void auto_settler_findwork(struct player *pplayer,
 
   if (recursion > unit_list_size(pplayer->units)) {
     fc_assert(recursion <= unit_list_size(pplayer->units));
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    adv_unit_new_task(punit, AUT_NONE, NULL);
     set_unit_activity(punit, ACTIVITY_IDLE);
     send_unit_info(NULL, punit);
     return; /* avoid further recursion. */
@@ -502,7 +504,7 @@ void auto_settler_findwork(struct player *pplayer,
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
-  ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
+  adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
 
   auto_settler_setup_work(pplayer, punit, state, recursion, path,
                           best_tile, best_act,
@@ -524,7 +526,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                              int completion_time)
 {
   /* Run the "autosettler" program */
-  if (punit->server.adv->role == AIUNIT_AUTO_SETTLER) {
+  if (punit->server.adv->task == AUT_AUTO_SETTLER) {
     struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
 
@@ -692,4 +694,20 @@ void auto_settlers_player(struct player *pplayer)
                 nation_rule_name(nation_of_player(pplayer)),
                 1000.0 * read_timer_seconds(t));
   }
+}
+
+/************************************************************************** 
+  Change unit's advisor task.
+**************************************************************************/
+void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
+                       struct tile *ptile)
+{
+  if (punit->server.adv->task == task) {
+    /* Already that task */
+    return;
+  }
+
+  punit->server.adv->task = task;
+
+  CALL_PLR_AI_FUNC(unit_task, unit_owner(punit), punit, task, ptile);
 }

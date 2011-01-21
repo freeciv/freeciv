@@ -535,7 +535,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)tile_continent(punit->tile)]++;
     }
-    if (unit_has_type_flag(punit, F_DIPLOMAT) && punit->server.adv->role == AIUNIT_ATTACK) {
+    if (unit_has_type_flag(punit, F_DIPLOMAT) && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
       struct city *pcity = tile_city(punit->goto_tile);
 
