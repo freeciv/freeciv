@@ -4340,6 +4340,10 @@ static void settable_options_save(struct section_file *sf)
   fc_assert_ret(NULL != settable_options_hash);
 
   settable_options_hash_iterate(settable_options_hash, name, value) {
+    if (fc_strcasecmp(name, "gameseed") || fc_strcasecmp(name, "mapseed")) {
+      /* Do not save mapseed or gameseed. */
+      continue;
+    }
     secfile_insert_str(sf, value, "server.%s", name);
   } settable_options_hash_iterate_end;
 }
