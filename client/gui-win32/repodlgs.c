@@ -157,7 +157,7 @@ science_dialog_update(void)
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
   advance_index_iterate(A_FIRST, tech_id) {
-    if (player_invention_reachable(client.conn.playing, tech_id)
+    if (player_invention_reachable(client.conn.playing, tech_id, FALSE)
         && TECH_KNOWN != player_invention_state(client.conn.playing, tech_id)
         && (11 > num_unknown_techs_for_goal(client.conn.playing, tech_id)
 	    || tech_id == player_research_get(client.conn.playing)->tech_goal)) {

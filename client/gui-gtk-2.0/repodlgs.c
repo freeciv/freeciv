@@ -391,7 +391,7 @@ static void science_report_update(struct science_report *preport)
 
   /* Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client_player(), i)
+    if (player_invention_reachable(client_player(), i, FALSE)
         && TECH_KNOWN != presearch->inventions[i].state
         && (i == presearch->tech_goal
             || 10 >= presearch->inventions[i].num_required_techs)) {

@@ -606,7 +606,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     advance_index_iterate(A_FIRST, i) {
       if (player_invention_state(pPlayer0, i) == TECH_KNOWN &&
-         player_invention_reachable(pPlayer1, i) &&
+         player_invention_reachable(pPlayer1, i, FALSE) &&
 	(player_invention_state(pPlayer1, i) == TECH_UNKNOWN || 
 	 player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
 	     
@@ -638,7 +638,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     if(flag > A_NONE) {
       advance_index_iterate(flag, i) {
 	if (player_invention_state(pPlayer0, i) == TECH_KNOWN &&
-	   player_invention_reachable(pPlayer1, i) &&
+	   player_invention_reachable(pPlayer1, i, FALSE) &&
 	  (player_invention_state(pPlayer1, i) == TECH_UNKNOWN || 
 	   player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
 	     

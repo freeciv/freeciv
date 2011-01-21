@@ -335,7 +335,7 @@ void create_science_dialog(bool make_modal)
 
     flag = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_reachable(client.conn.playing, i)
+      if (player_invention_reachable(client.conn.playing, i, FALSE)
 	  && TECH_KNOWN != player_invention_state(client.conn.playing, i)
 	  && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	      || i == research->tech_goal)) {
@@ -551,7 +551,7 @@ void real_science_report_dialog_update(void)
     
     flag=0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_reachable(client.conn.playing, i)
+      if (player_invention_reachable(client.conn.playing, i, FALSE)
 	  && TECH_KNOWN != player_invention_state(client.conn.playing, i)
 	  && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
 	      || i == research->tech_goal)) {

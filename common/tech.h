@@ -173,7 +173,8 @@ enum tech_state player_invention_set(struct player *pplayer,
 				     Tech_type_id tech,
 				     enum tech_state value);
 bool player_invention_reachable(const struct player *pplayer,
-                                const Tech_type_id tech);
+                                const Tech_type_id tech,
+                                bool allow_prereqs);
 
 Tech_type_id player_research_step(const struct player *pplayer,
 				  Tech_type_id goal);

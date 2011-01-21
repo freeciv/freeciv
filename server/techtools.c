@@ -152,7 +152,7 @@ void do_tech_parasite_effect(struct player *pplayer)
     } effect_list_iterate_end;
 
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_reachable(pplayer, i)
+      if (player_invention_reachable(pplayer, i, FALSE)
           && player_invention_state(pplayer, i) != TECH_KNOWN) {
         int num_research = 0;
 
@@ -898,7 +898,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
   if (preferred == A_UNSET) {
     int j = 0;
     advance_index_iterate(A_FIRST, i) {
-      if (player_invention_reachable(pplayer, i)
+      if (player_invention_reachable(pplayer, i, FALSE)
 	  && player_invention_state(pplayer, i) != TECH_KNOWN
 	  && player_invention_state(victim, i) == TECH_KNOWN) {
         j++;
@@ -919,7 +919,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       j = fc_rand(j) + 1;
       stolen_tech = A_NONE; /* avoid compiler warning */
       advance_index_iterate(A_FIRST, i) {
-        if (player_invention_reachable(pplayer, i)
+        if (player_invention_reachable(pplayer, i, FALSE)
 	    && player_invention_state(pplayer, i) != TECH_KNOWN
 	    && player_invention_state(victim, i) == TECH_KNOWN) {
 	  j--;
@@ -1017,7 +1017,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
    * - known (i.e. due to EFT_GIVE_IMM_TECH). */
   if ((tech_goal != A_FUTURE
        && (!valid_advance_by_number(tech_goal)
-           || !player_invention_reachable(pplayer, tech_goal)))
+           || !player_invention_reachable(pplayer, tech_goal, FALSE)))
       || (tech_goal == A_NONE)
       || (TECH_KNOWN == player_invention_state(pplayer, tech_goal))) {
     tech_goal = A_UNSET;

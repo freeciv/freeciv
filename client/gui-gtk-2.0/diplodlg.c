@@ -262,7 +262,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       Tech_type_id i = advance_number(padvance);
 
       if (player_invention_state(pgiver, i) == TECH_KNOWN
-          && player_invention_reachable(pother, i)
+          && player_invention_reachable(pother, i, FALSE)
           && (player_invention_state(pother, i) == TECH_UNKNOWN
               || player_invention_state(pother, i) == TECH_PREREQS_KNOWN)) {
         sorting_list = g_list_prepend(sorting_list, padvance);
@@ -769,7 +769,7 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
       Tech_type_id i = advance_number(padvance);
 
       if (player_invention_state(pgiver, i) == TECH_KNOWN
-          && player_invention_reachable(pdest, i)
+          && player_invention_reachable(pdest, i, FALSE)
           && (player_invention_state(pdest, i) == TECH_UNKNOWN
               || player_invention_state(pdest, i) == TECH_PREREQS_KNOWN)) {
         dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,

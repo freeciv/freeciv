@@ -340,7 +340,7 @@ void update_intel_dialog(struct player *p)
     pLast = pBuf;
     advance_index_iterate(A_FIRST, i) {
       if (TECH_KNOWN == player_invention_state(p, i)
-       && player_invention_reachable(client.conn.playing, i)
+       && player_invention_reachable(client.conn.playing, i, FALSE)
        && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
 
         pBuf = create_icon2(get_tech_icon(i), pWindow->dst,

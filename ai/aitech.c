@@ -143,12 +143,12 @@ static void ai_select_tech(struct player *pplayer,
   advance_index_iterate(A_FIRST, i) {
     if (valid_advance_by_number(i)) {
       if (values[i] > values[newtech]
-	  && player_invention_reachable(pplayer, i)
-	  && player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
-	newtech = i;
+          && player_invention_reachable(pplayer, i, FALSE)
+          && player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
+        newtech = i;
       }
       if (goal_values[i] > goal_values[newgoal]
-	  && player_invention_reachable(pplayer, i)) {
+	  && player_invention_reachable(pplayer, i, FALSE)) {
 	newgoal = i;
       }
     }
@@ -296,7 +296,7 @@ struct unit_type *ai_wants_role_unit(struct player *pplayer,
       }
 
       if (cost < best_cost
-       && player_invention_reachable(pplayer, advance_number(itech))) {
+       && player_invention_reachable(pplayer, advance_number(itech), FALSE)) {
         best_tech = itech;
         best_cost = cost;
         best_unit = iunit;
