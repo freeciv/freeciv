@@ -34,6 +34,10 @@
 
 #include "tech.h"
 
+/* Define this for additional debug information about the tech status
+ * (in player_research_update()). */
+#undef DEBUG_TECH
+
 /* the advances array is now setup in:
  * server/ruleset.c (for the server)
  * client/packhand.c (for the client)
@@ -343,7 +347,27 @@ void player_research_update(struct player *pplayer)
     }
     build_required_techs(pplayer, i);
   } advance_index_iterate_end;
-  
+
+#ifdef DEBUG_TECH
+  advance_index_iterate(A_FIRST, i) {
+    char buf[advance_count() + 1];
+
+    advance_index_iterate(A_NONE, j) {
+      if (BV_ISSET(research->inventions[i].required_techs, j)) {
+        buf[j] = '1';
+      } else {
+        buf[j] = '0';
+      }
+    } advance_index_iterate_end;
+    buf[advance_count()] = '\0';
+
+    log_debug("%s: [%3d] %-25s => %s", player_name(pplayer), i,
+              advance_rule_name(advance_by_number(i)),
+              tech_state_name(player_invention_state(pplayer, i)));
+    log_debug("%s: [%3d] %s", player_name(pplayer), i, buf);
+  } advance_index_iterate_end;
+#endif /* DEBUG */
+
   /* No techs we can research? Mark A_FUTURE as researchable */
   if (researchable == 0) {
     player_invention_set(pplayer, A_FUTURE, TECH_PREREQS_KNOWN);
