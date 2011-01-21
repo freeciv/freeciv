@@ -387,7 +387,8 @@ static void calculate_diagram_layout(struct reqtree *tree)
 
   If pplayer is given, add only techs reachable by that player to tree.
 *************************************************************************/
-static struct reqtree *create_dummy_reqtree(struct player *pplayer)
+static struct reqtree *create_dummy_reqtree(struct player *pplayer,
+                                            bool reachable)
 {
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   int j;
@@ -399,7 +400,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
       nodes[tech] = NULL;
       continue;
     }
-    if (pplayer && !player_invention_reachable(pplayer, tech, FALSE)) {
+    if (pplayer && !player_invention_reachable(pplayer, tech, !reachable)) {
       /* Reqtree requested for particular player and this tech is
        * unreachable to him/her. */
       nodes[tech] = NULL;
@@ -412,6 +413,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
 
   advance_index_iterate(A_FIRST, tech) {
     struct advance *padvance = valid_advance_by_number(tech);
+    Tech_type_id tech_one, tech_two;
 
     if (!padvance) {
       continue;
@@ -420,16 +422,25 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
       continue;
     }
 
+    tech_one = advance_required(tech, AR_ONE);
+    tech_two = advance_required(tech, AR_TWO);
+
+    if (reachable && A_NONE != tech_one
+        && A_LAST != tech_two && A_NONE != tech_two
+        && (nodes[tech_one] == NULL || nodes[tech_two] == NULL)) {
+      /* Print only reachable techs. */
+      continue;
+    }
+
     /* Formerly, we used to remove the redundant requirement nodes (the
      * technologies already included in the requirements of the other
      * requirement).  However, it doesn't look like a good idea, because
      * a player can steal any technology independently of the technology
      * tree. */
-    if (A_NONE != advance_required(tech, AR_ONE)
-        && A_LAST != advance_required(tech, AR_TWO)) {
-      add_requirement(nodes[tech], nodes[advance_required(tech, AR_ONE)]);
-      if (A_NONE != advance_required(tech, AR_TWO)) {
-        add_requirement(nodes[tech], nodes[advance_required(tech, AR_TWO)]);
+    if (A_NONE != tech_one && A_LAST != tech_two) {
+      add_requirement(nodes[tech], nodes[tech_one]);
+      if (A_NONE != tech_two) {
+        add_requirement(nodes[tech], nodes[tech_two]);
       }
     }
   } advance_index_iterate_end;
@@ -816,12 +827,12 @@ static void improve(struct reqtree *tree)
 
   If pplayer is not NULL, techs unreachable to that player are not shown.
 *************************************************************************/
-struct reqtree *create_reqtree(struct player *pplayer)
+struct reqtree *create_reqtree(struct player *pplayer, bool reachable)
 {
   struct reqtree *tree1, *tree2;
   int i, j;
 
-  tree1 = create_dummy_reqtree(pplayer);
+  tree1 = create_dummy_reqtree(pplayer, reachable);
   longest_path_layering(tree1);
   tree2 = add_dummy_nodes(tree1);
   destroy_reqtree(tree1);
