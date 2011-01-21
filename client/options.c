@@ -1827,8 +1827,14 @@ static void settable_options_save(struct section_file *sf)
   RETURN_IF_FAIL(NULL != settable_options_hash);
 
   hash_iterate(settable_options_hash, iter) {
+    const char *name = (const char *) hash_iter_get_key(iter);
+    if (mystrcasecmp(name, "gameseed") || mystrcasecmp(name, "mapseed")) {
+      /* Do not save mapseed or gameseed. */
+      continue;
+    }
+
     secfile_insert_str(sf, (const char *) hash_iter_get_value(iter),
-                       "server.%s", (const char *) hash_iter_get_key(iter));
+                       "server.%s", name);
   } hash_iterate_end;
 }
 
