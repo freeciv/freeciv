@@ -21,6 +21,7 @@
 #include "ggz_g.h"
 #include "options.h"
 
+#include "chatline_g.h"
 #include "citydlg_g.h"
 #include "connectdlg_g.h"
 #include "editgui_g.h"
@@ -69,6 +70,16 @@ void ui_main(int argc, char *argv[])
 void ui_exit(void)
 {
   funcs.ui_exit();
+}
+
+/**************************************************************************
+  Call c++ real_output_window_append
+**************************************************************************/
+void real_output_window_append(const char *astring,
+                               const struct text_tag_list *tags,
+                               int conn_id)
+{
+  funcs.real_output_window_append(astring, tags, conn_id);
 }
 
 /**************************************************************************

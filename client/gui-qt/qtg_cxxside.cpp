@@ -29,6 +29,8 @@ void setup_gui_funcs()
   funcs->ui_main = qtg_ui_main;
   funcs->ui_exit = qtg_ui_exit;
 
+  funcs->real_output_window_append = qtg_real_output_window_append;
+
   funcs->isometric_view_supported = qtg_isometric_view_supported;
   funcs->overhead_view_supported = qtg_overhead_view_supported;
   funcs->free_intro_radar_sprites = qtg_free_intro_radar_sprites;

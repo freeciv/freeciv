@@ -27,8 +27,12 @@ fc_client::fc_client() : QObject()
 {
   main_window = new QMainWindow;
   central_wdg = new QGraphicsView;
+  output_window = new QTextEdit;
 
-  main_window->setCentralWidget(central_wdg);
+  output_window->setReadOnly(true);
+
+  // main_window->setCentralWidget(central_wdg);
+  main_window->setCentralWidget(output_window);
   main_window->setVisible(true);
 }
 
@@ -50,6 +54,14 @@ void fc_client::main(QApplication *qapp)
   startTimer(TIMER_INTERVAL);
 
   qapp->exec();
+}
+
+/****************************************************************************
+  New line of text for output window received
+****************************************************************************/
+void fc_client::append_output_window(const QString &str)
+{
+  output_window->append(str);
 }
 
 /****************************************************************************

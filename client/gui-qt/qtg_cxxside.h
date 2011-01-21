@@ -20,6 +20,10 @@ void qtg_ui_init();
 void qtg_ui_main(int argc, char *argv[]);
 void qtg_ui_exit();
 
+void qtg_real_output_window_append(const char *astring,
+                                   const struct text_tag_list *tags,
+                                   int conn_id);
+
 bool qtg_isometric_view_supported();
 bool qtg_overhead_view_supported();
 void qtg_free_intro_radar_sprites();

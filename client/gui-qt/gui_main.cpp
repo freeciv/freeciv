@@ -42,6 +42,14 @@ static fc_client *freeciv_qt;
 static QApplication *qapp;
 
 /****************************************************************************
+  Return fc_client instance
+****************************************************************************/
+class fc_client *gui()
+{
+  return freeciv_qt;
+}
+
+/****************************************************************************
   Called by the tileset code to set the font size that should be used to
   draw the city names and productions.
 ****************************************************************************/

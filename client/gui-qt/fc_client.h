@@ -19,6 +19,8 @@
 #include <QGraphicsView>
 #include <QMainWindow>
 #include <QObject>
+#include <QString>
+#include <QTextEdit>
 
 class fc_client : public QObject
 {
@@ -28,12 +30,18 @@ class fc_client : public QObject
 
   void main(QApplication *qapp);
 
+  void append_output_window(const QString &str);
+
  private:
   QMainWindow *main_window;
   QGraphicsView *central_wdg;
+  QTextEdit *output_window;
 
 protected:
   void timerEvent(QTimerEvent *event);
 };
+
+// Return fc_client instance. Implementation in gui_main.cpp
+class fc_client *gui();
 
 #endif /* FC__FC_CLIENT_H */
