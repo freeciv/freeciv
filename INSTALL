@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 22-Oct-09.
+Last minor update was 14-Jan-11.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -15,6 +15,7 @@ This document contains sections and subsections as follows:
           1a. Prerequisites for the Gtk+ client:
           1b. Prerequisites for the SDL client:
           1c. Prerequisites for the Xaw client:
+          1d. Prerequisites for the Qt client:
      2. Generating Makefiles
           2a. Generating the Makefile for svn versions:
           2b. Generating the Makefile for release versions:
@@ -104,6 +105,7 @@ The Freeciv client comes in the following forms:
 * Native Microsoft Windows Common Controls ("Win32").
 * X Athena Widgets library ("Xaw").
 * SDL
+* Qt
 
 These forms have different prerequisites, explained separately below.
 
@@ -273,6 +275,16 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
    If you have problems installing libXpm on Solaris, or don't want to
    install it as root, see Reinier's libXpm Solaris Installation Notes
    section near the end of this file.
+
+1d. Prerequisites for the Qt client:
+====================================
+
+ - C++ compiler.
+
+   Qt-client is written in C++, so you need appropriate compiler.
+   In Freeciv development, g++ has been used.
+
+ - QtCore & QtGui libraries and headers
 
 
 2. Generating Makefiles
