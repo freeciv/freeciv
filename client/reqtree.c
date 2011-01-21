@@ -122,6 +122,9 @@ enum reqtree_edge_type {
 *************************************************************************/
 static void add_requirement(struct tree_node *node, struct tree_node *req)
 {
+  fc_assert_ret(node != NULL);
+  fc_assert_ret(req != NULL);
+
   node->require =
       fc_realloc(node->require,
 		 sizeof(*node->require) * (node->nrequire + 1));

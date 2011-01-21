@@ -295,11 +295,16 @@ bool player_invention_reachable(const struct player *pplayer,
 
   root = advance_required(tech, AR_ROOT);
   if (A_NONE != root
-   && TECH_KNOWN != player_invention_state(pplayer, root)) {
-    /* This tech requires knowledge of another tech before being 
+      && (TECH_KNOWN != player_invention_state(pplayer, root)
+          || !player_invention_reachable(pplayer,
+                                         advance_required(tech, AR_ONE))
+          || !player_invention_reachable(pplayer,
+                                         advance_required(tech, AR_TWO)))) {
+    /* This tech requires knowledge of another tech before being
      * available. Prevents sharing of untransferable techs. */
     return FALSE;
   }
+
   return TRUE;
 }
 
