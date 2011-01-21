@@ -1662,7 +1662,7 @@ void destroy_unit_virtual(struct unit *punit)
   CALL_PLR_AI_FUNC(unit_lost, punit->owner, punit);
   CALL_FUNC_EACH_AI(unit_free, punit);
 
-  if (punit->server.adv) {
+  if (is_server() && punit->server.adv) {
     FC_FREE(punit->server.adv);
   }
 
