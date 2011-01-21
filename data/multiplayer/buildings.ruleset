@@ -813,8 +813,8 @@ Space Components can be differentiated into Propulsion and Fuel\
  Components.  Each pair of them reduces your spaceship's travel\
  time.  You can build up to 8 pairs.\
 "), _("\
-Before you can build any spaceship parts, you must build the\
- Apollo Program.\
+Before you can build any spaceship parts, the Apollo Program wonder\
+ must have been built by any player.\
 ")
 
 [building_space_module]
@@ -847,8 +847,8 @@ Space Modules are the most expensive parts of spaceships.  There\
 "), _("\
 You can build up to 4 Space Modules of each kind.\
 "), _("\
-Before you can build any spaceship parts, you must build the\
- Apollo Program.\
+Before you can build any spaceship parts, the Apollo Program wonder\
+ must have been built by any player.\
 ")
 
 [building_space_structural]
@@ -872,8 +872,8 @@ Space Structurals form the base of your spaceship.  All other\
  spaceship parts need to be connected to Structurals in order to\
  function.  You can build up to 32 Space Structurals.\
 "), _("\
-Before you can build any spaceship parts, you must build the\
- Apollo Program.\
+Before you can build any spaceship parts, the Apollo Program wonder\
+ must have been built by any player.\
 ")
 
 [building_stock_exchange]
@@ -989,7 +989,7 @@ Together with a Library, a University increases the science\
 
 [building_apollo_program]
 name		= _("Apollo Program")
-genus		= "SmallWonder"
+genus		= "GreatWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Space Flight", "Player"
@@ -1003,8 +1003,8 @@ sabotage	= 0
 sound		= "w_apollo_program"
 sound_alt	= "w_generic"
 helptext	= _("\
-Allows you to start building spaceship parts in cities\
- with factories (assuming you have researched the necessary\
+Allows everyone to start building spaceship parts in cities\
+ with factories (assuming they have researched the necessary\
  technologies).\
 ")
 
