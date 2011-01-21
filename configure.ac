@@ -1264,7 +1264,6 @@ AC_MSG_NOTICE([
   == Server ==
   Build freeciv server:  $server
     AI modules support:    $enable_aimodules
-    Auth database support: $auth
     Database support:      $enable_fcdb
       mysql:                 $fcdb_mysql
       postgres:              $fcdb_postgres
