@@ -29,6 +29,7 @@ leaders = {
  "Dinizulu kaCetshwayo",        "Male"
  "Solomon kaDinizulu",          "Male"
  "Cyprian Bhekuzulu kaSolomon", "Male"
+ "Nandi",                       "Female"
 }
 
 ruler_titles = {

@@ -19,6 +19,7 @@ leaders = {
  "Waneta",              "Male" ; literally "The Charger"
  "Napeshneeduta",       "Male" ; literally "Red man who flees not"
  "Tasunkakokipapi",     "Male" ; literally "Young Man Afraid of His Horses"
+ "Black Shawl",         "Female"
 }
 
 ruler_titles = {

@@ -24,6 +24,7 @@ leaders = {
  "Ferdinandus I",               "Male"
  "Carolus VII Albertus",        "Male"
  "Franciscus II",               "Male"
+ "Maria Theresia",              "Female"
 }
 
 ruler_titles = {

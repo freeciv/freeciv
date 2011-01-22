@@ -11,6 +11,7 @@ legend=_("In the centuries after their unification by Chinggis Khan, the\
 leaders = {
  "name",        "sex"
  "Chinggis",	"Male" ; Genghis / Чингис
+ "Börte",       "Female" ; Bortei / Бөртэ
  "Ögedei",	"Male" ; Өгэдэй
  "Bat",		"Male" ; Batu / Бат
  "Tsagadai",	"Male" ; Chagatai / Цагадай

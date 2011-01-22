@@ -13,6 +13,7 @@ leaders = {
  "Hirohito",            "Male"
  "Oda Nobunaga",        "Male"
  "Tokugawa Ieyasu",     "Male"
+ "Suiko",               "Female"
 }
 
 ruler_titles = {

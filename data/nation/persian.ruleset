@@ -14,6 +14,7 @@ leaders = {
  "Ardashir I",          "Male"
  "Khosrau I",           "Male"
  "Shapur I",            "Male"
+ "Purandokht",          "Female"
 }
 
 ruler_titles = {
