@@ -235,6 +235,7 @@ flag_files =				\
 		miskito.png		\
 		mixtec.png		\
 		moldova.png		\
+		mon.png			\
 		monaco_alternative.png	\
 		mongolia.png		\
 		montenegro.png		\
@@ -641,6 +642,7 @@ flag_files =				\
 		miskito-large.png		\
 		mixtec-large.png		\
 		moldova-large.png		\
+		mon-large.png			\
 		monaco_alternative-large.png	\
 		mongolia-large.png		\
 		montenegro-large.png		\
@@ -1049,6 +1051,7 @@ shield_files =					\
 		miskito-shield.png		\
 		mixtec-shield.png		\
 		moldova-shield.png		\
+		mon-shield.png			\
 		monaco_alternative-shield.png	\
 		mongolia-shield.png		\
 		montenegro-shield.png		\
@@ -1455,6 +1458,7 @@ shield_files =					\
 		miskito-shield-large.png		\
 		mixtec-shield-large.png		\
 		moldova-shield-large.png		\
+		mon-shield-large.png			\
 		monaco_alternative-shield-large.png	\
 		mongolia-shield-large.png		\
 		montenegro-shield-large.png		\
@@ -1862,6 +1866,7 @@ svg_files = 				\
 		miskito.svg		\
 		mixtec.svg		\
 		moldova.svg		\
+		mon.svg			\
 		monaco_alternative.svg	\
 		mongolia.svg		\
 		montenegro.svg		\

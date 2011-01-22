@@ -242,6 +242,7 @@ artists = "
    Miskito		Daniel Markstedt
    Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
+   Mon			Stefan Fussan (Wikimedia Commons)
    Monaco (alternative)	Zachary Harden
    Mongolia		Sebastian Koppehel
    Montenegro		Bugoslav (Wikimedia Commons)
@@ -654,6 +655,7 @@ sprites =
 		"f.miskito", "flags/miskito"
 		"f.mixtec", "flags/mixtec"
 		"f.moldova", "flags/moldova"
+		"f.mon", "flags/mon"
 		"f.monaco_alternative", "flags/monaco_alternative"
 		"f.mongolia", "flags/mongolia"
 		"f.montenegro", "flags/montenegro"

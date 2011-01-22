@@ -244,6 +244,7 @@ sprites =
 		"f.shield.miskito", "flags/miskito-shield-large"
 		"f.shield.mixtec", "flags/mixtec-shield-large"
 		"f.shield.moldova", "flags/moldova-shield-large"
+		"f.shield.mon", "flags/mon-shield-large"
 		"f.shield.monaco_alternative", "flags/monaco_alternative-shield-large"
 		"f.shield.mongolia", "flags/mongolia-shield-large"
 		"f.shield.montenegro", "flags/montenegro-shield-large"
