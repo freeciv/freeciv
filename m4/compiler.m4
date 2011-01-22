@@ -88,3 +88,26 @@ FC_ADD_WORDS_TO_VAR([$3], [$accepted_flags])
 
 LDFLAGS="$flags_save"
 ])
+
+# Does current C++ compiler work.
+# Sets variable cxx_works accordingly. Setups also EXTRA_DEBUG_CXXFLAGS
+AC_DEFUN([FC_WORKING_CXX],
+[
+AC_MSG_CHECKING([whether C++ compiler works])
+
+AC_LANG_PUSH([C++])
+
+EXTRA_DEBUG_CXXFLAGS=""
+
+AC_LINK_IFELSE([AC_LANG_PROGRAM([], [])],
+[
+AC_MSG_RESULT([yes])
+cxx_works=yes
+FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
+             [], [EXTRA_DEBUG_CXXFLAGS])],
+[
+AC_MSG_RESULT([not])
+cxx_works=no])
+
+AC_LANG_POP([C++])
+])

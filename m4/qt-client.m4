@@ -5,16 +5,22 @@ dnl Test for Qt and needed libraries for gui-qt
 
 AC_DEFUN([FC_QT_CLIENT],
 [
-  if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
-     test "x$client" = "xauto" ; then
+if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
+   test "x$client" = "xauto" ; then
 
-     AC_LANG_PUSH([C++])
+  AC_PROG_CXX
 
-     AC_MSG_CHECKING([Qt headers])
+  FC_WORKING_CXX
 
-     AC_ARG_WITH([qt-includes],
-                 [  --with-qt-includes path to Qt includes],
-                 [FC_QT_CLIENT_COMPILETEST([$withval])],
+  AC_LANG_PUSH([C++])
+
+  if test "x$cxx_works" = xyes ; then
+
+    AC_MSG_CHECKING([Qt headers])
+
+    AC_ARG_WITH([qt-includes],
+                [  --with-qt-includes path to Qt includes],
+                [FC_QT_CLIENT_COMPILETEST([$withval])],
 [POTENTIAL_PATHS="/usr/include /usr/include/qt4"
 dnl First test without any additional include paths to see if it works already
 FC_QT_CLIENT_COMPILETEST
@@ -24,14 +30,15 @@ do
     FC_QT_CLIENT_COMPILETEST($TEST_PATH)
   fi
 done])
+  fi
 
-     if test "x$qt_headers" = "xyes" ; then
-       AC_MSG_RESULT([found])
+  if test "x$qt_headers" = "xyes" ; then
+    AC_MSG_RESULT([found])
 
-       AC_MSG_CHECKING([Qt libraries])
-       AC_ARG_WITH([qt-libs],
-                   [  --with-qt-libs path to Qt libraries],
-                   [FC_QT_CLIENT_LINKTEST([$withval])],
+    AC_MSG_CHECKING([Qt libraries])
+    AC_ARG_WITH([qt-libs],
+                [  --with-qt-libs path to Qt libraries],
+                [FC_QT_CLIENT_LINKTEST([$withval])],
 [POTENTIAL_PATHS="/usr/lib/qt4"
 dnl First test without any additional library paths to see if it works already
 FC_QT_CLIENT_LINKTEST
@@ -42,26 +49,26 @@ do
   fi
 done])
 
-     if test "x$qt_libs" = "xyes" ; then
-       AC_MSG_RESULT([found])
-     else
-       AC_MSG_RESULT([not found])
-     fi
-   else
-     AC_MSG_RESULT([not found])
-   fi
-
-   if test "$qt_libs" = yes ; then
-      gui_qt=yes
-      if test "x$client" = "xauto" ; then
-        client=yes
-      fi
-    elif test "x$gui_qt" = "xyes" ; then
-      AC_MSG_ERROR([selected client 'qt' cannot be built])
+    if test "x$qt_libs" = "xyes" ; then
+      AC_MSG_RESULT([found])
+    else
+      AC_MSG_RESULT([not found])
     fi
-
-    AC_LANG_POP([C++])
+  else
+    AC_MSG_RESULT([not found])
   fi
+
+  if test "x$qt_libs" = xyes ; then
+    gui_qt=yes
+    if test "x$client" = "xauto" ; then
+      client=yes
+    fi
+  elif test "x$gui_qt" = "xyes" ; then
+    AC_MSG_ERROR([selected client 'qt' cannot be built])
+  fi
+
+  AC_LANG_POP([C++])
+fi
 ])
 
 dnl Test if Qt headers are found from given path
