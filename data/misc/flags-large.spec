@@ -418,6 +418,7 @@ sprites =
 		"f.yucatan", "flags/yucatan-large"
 		"f.yugoslavia", "flags/yugoslavia-large"
 		"f.zapotec", "flags/zapotec-large"
+		"f.zhuang", "flags/zhuang-large"
 		"f.zimbabwe", "flags/zimbabwe-large"
 		"f.zulu", "flags/zulu-large"
 	}

@@ -450,5 +450,6 @@ match=2
 *include "nation/yucatecan.ruleset"
 *include "nation/yugoslav.ruleset"
 *include "nation/zapotec.ruleset"
+*include "nation/zhuang.ruleset"
 *include "nation/zimbabwean.ruleset"
 *include "nation/zulu.ruleset"

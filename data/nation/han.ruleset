@@ -37,7 +37,13 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="Chinese"
-civilwar_nations="Miao", "Korean", "Vietnamese"
+civilwar_nations=
+; People's Republic of China
+"Chinese",
+; Republic of China
+"Taiwanese",
+
+"Korean", "Vietnamese", "Miao", "Zhuang"
 
 cities =
 ; Xia dynasty

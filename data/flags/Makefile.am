@@ -409,6 +409,7 @@ flag_files =				\
 		yucatan.png		\
 		yugoslavia.png		\
 		zapotec.png		\
+		zhuang.png		\
 		zimbabwe.png		\
 		zulu.png		\
 		abkhazia-large.png		\
@@ -816,6 +817,7 @@ flag_files =				\
 		yucatan-large.png		\
 		yugoslavia-large.png		\
 		zapotec-large.png		\
+		zhuang-large.png		\
 		zimbabwe-large.png		\
 		zulu-large.png
 
@@ -1225,6 +1227,7 @@ shield_files =					\
 		yucatan-shield.png		\
 		yugoslavia-shield.png		\
 		zapotec-shield.png		\
+		zhuang-shield.png		\
 		zimbabwe-shield.png		\
 		zulu-shield.png			\
 		abkhazia-shield-large.png		\
@@ -1632,6 +1635,7 @@ shield_files =					\
 		yucatan-shield-large.png		\
 		yugoslavia-shield-large.png		\
 		zapotec-shield-large.png		\
+		zhuang-shield-large.png		\
 		zimbabwe-shield-large.png		\
 		zulu-shield-large.png
 
@@ -2039,6 +2043,7 @@ svg_files = 				\
 		yucatan.svg		\
 		yugoslavia.svg		\
 		zapotec.svg		\
+		zhuang.svg		\
 		zimbabwe.svg		\
 		zulu.svg
 
