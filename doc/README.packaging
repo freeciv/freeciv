@@ -28,6 +28,14 @@ Updating from 2.2 to 2.3
   Users may have "amplio" saved in their preferences as preferred tileset,
   but that's harmless as freeciv will use amplio2 instead when it cannot
   find tileset mentioned in preferences.
+* C++ compiler is not needed. We no longer need toluaxx app and not
+  build it. C++ compiler is not needed at all when compiling freeciv 2.3
+  Note that this will change somewhat again in future. In current
+  development version development of new Qt-client has been started.
+  Compiling that client will require C++ compiler. Of course compiling
+  that client, like any client, is fully optional. As Qt-client
+  development has just been started, it will take some time before
+  it's suitable for end users.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

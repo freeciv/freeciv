@@ -240,7 +240,6 @@ dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_CPP
-AC_PROG_CXX
 AC_MSG_CHECKING([whether the C++ compiler works])
 AC_LANG_PUSH([C++])
 AC_COMPILE_IFELSE(
@@ -406,11 +405,8 @@ fi
 
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
-EXTRA_DEBUG_CXXFLAGS=""
 FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
  [], [EXTRA_DEBUG_CFLAGS])
-FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
- [], [EXTRA_DEBUG_CXXFLAGS])
 
 dnl check debugging
 FC_DEBUG
@@ -674,31 +670,24 @@ dnl freeciv-modpack has same requirements as gtk-client
 AM_CONDITIONAL([MODINST], [test "x$gui_gtk2" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
-AC_SUBST([GUI_gtk2_CXXFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
 AC_SUBST([GUI_gtk2_LDFLAGS])
 AC_SUBST([GUI_sdl_CFLAGS])
-AC_SUBST([GUI_sdl_CXXFLAGS])
 AC_SUBST([GUI_sdl_LIBS])
 AC_SUBST([GUI_sdl_LDFLAGS])
 AC_SUBST([GUI_xaw_CFLAGS])
-AC_SUBST([GUI_xaw_CXXFLAGS])
 AC_SUBST([GUI_xaw_LIBS])
 AC_SUBST([GUI_xaw_LDFLAGS])
 AC_SUBST([GUI_ftwl_CFLAGS])
-AC_SUBST([GUI_ftwl_CXXFLAGS])
 AC_SUBST([GUI_ftwl_LIBS])
 AC_SUBST([GUI_ftwl_LDFLAGS])
 AC_SUBST([GUI_win32_CFLAGS])
-AC_SUBST([GUI_win32_CXXFLAGS])
 AC_SUBST([GUI_win32_LIBS])
 AC_SUBST([GUI_win32_LDFLAGS])
 AC_SUBST([GUI_stub_CFLAGS])
-AC_SUBST([GUI_stub_CXXFLAGS])
 AC_SUBST([GUI_stub_LIBS])
 AC_SUBST([GUI_stub_LDFLAGS])
 AC_SUBST([GUI_beos_CFLAGS])
-AC_SUBST([GUI_beos_CXXFLAGS])
 AC_SUBST([GUI_beos_LIBS])
 AC_SUBST([GUI_beos_LDFLAGS])
 AC_SUBST([SOUND_CFLAGS])
@@ -953,12 +942,11 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
    fi]],[[]])
 
 CFLAGS="$EXTRA_DEBUG_CFLAGS $CFLAGS"
-CXXFLAGS="$EXTRA_DEBUG_CXXFLAGS $CXXFLAGS"
 
 dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version"])
 
-dnl Make sure that config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
+dnl Make sure that config.h changes when ever CPPFLAGS or CFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here
 dnl since change in it should not cause recompilation, only relinking.
 dnl Note: Variables are named FC_STORE_* instead of FC_*_STORE in order to
@@ -968,8 +956,6 @@ AC_DEFINE_UNQUOTED([FC_STORE_CPPFLAGS], ['$CPPFLAGS'],
                    [These are the CPPFLAGS used in compilation])
 AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ['$CFLAGS'],
                    [These are the CFLAGS used in compilation])
-AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ['$CXXFLAGS'],
-                   [These are the CXXFLAGS used in compilation])
 
 AC_CONFIG_FILES([Makefile
           data/Makefile
