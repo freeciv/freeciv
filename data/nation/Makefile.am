@@ -318,6 +318,7 @@ pkgdata_DATA = \
 		seljuk.ruleset \
 		senegalese.ruleset \
 		serbian.ruleset \
+		shan.ruleset \
 		shawnee.ruleset \
 		siberian.ruleset \
 		sicilian.ruleset \

@@ -332,6 +332,7 @@ artists = "
    Seleucid		J.M. Maalderink
    Senegal		SonofSenegal (Wikimedia Commons)
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
+   Shan			Daniel Markstedt
    Shawnee		Daniel Markstedt
    Siberia		Daniel Markstedt
    Sicily		Lexicon (Wikimedia Commons)
@@ -742,6 +743,7 @@ sprites =
 		"f.seljuk", "flags/seljuk"
 		"f.senegal", "flags/senegal"
 		"f.serbia", "flags/serbia"
+		"f.shan", "flags/shan"
 		"f.shawnee", "flags/shawnee"
 		"f.siberia", "flags/siberia"
 		"f.sicily", "flags/sicily"

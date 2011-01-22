@@ -324,6 +324,7 @@ flag_files =				\
 		seljuk.png		\
 		senegal.png		\
 		serbia.png		\
+		shan.png		\
 		shawnee.png		\
 		siberia.png		\
 		sicily.png		\
@@ -729,6 +730,7 @@ flag_files =				\
 		seljuk-large.png		\
 		senegal-large.png		\
 		serbia-large.png		\
+		shan-large.png			\
 		shawnee-large.png		\
 		siberia-large.png		\
 		sicily-large.png		\
@@ -1136,6 +1138,7 @@ shield_files =					\
 		seljuk-shield.png		\
 		senegal-shield.png		\
 		serbia-shield.png		\
+		shan-shield.png			\
 		shawnee-shield.png		\
 		siberia-shield.png		\
 		sicily-shield.png		\
@@ -1541,6 +1544,7 @@ shield_files =					\
 		seljuk-shield-large.png			\
 		senegal-shield-large.png		\
 		serbia-shield-large.png		\
+		shan-shield-large.png			\
 		shawnee-shield-large.png		\
 		siberia-shield-large.png		\
 		sicily-shield-large.png		\
@@ -1946,6 +1950,7 @@ svg_files = 				\
 		seleucid.svg		\
 		senegal.svg		\
 		serbia.svg		\
+		shan.svg		\
 		shawnee.svg		\
 		siberia.svg		\
 		sicily.svg		\
