@@ -30,6 +30,7 @@
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aiferry.h"
 #include "aihand.h"
 #include "aiplayer.h"
 #include "aisettler.h"
@@ -77,6 +78,7 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.unit_free = ai_unit_close;
   ai->funcs.unit_got = NULL;
   ai->funcs.unit_lost = NULL;
+  ai->funcs.unit_created = aiferry_init_ferry;
 
   ai->funcs.unit_turn_end = ai_unit_turn_end;
   ai->funcs.unit_move = ai_unit_move_or_attack;

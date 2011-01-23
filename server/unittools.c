@@ -50,7 +50,6 @@
 
 /* ai */
 #include "advdiplomacy.h"
-#include "aiferry.h"
 #include "aitools.h"
 
 /* server/scripting */
@@ -1422,8 +1421,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   city_map_update_tile_now(ptile);
   sync_cities();
 
-  /* Initialize aiferry stuff for new unit */
-  aiferry_init_ferry(punit);
+  CALL_PLR_AI_FUNC(unit_created, unit_owner(punit), punit);
 
   return punit;
 }

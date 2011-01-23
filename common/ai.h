@@ -61,6 +61,7 @@ struct ai_type
     void (*unit_free)(struct unit *punit);
     void (*unit_got)(struct unit *punit);
     void (*unit_lost)(struct unit *punit);
+    void (*unit_created)(struct unit *punit);
     void (*unit_turn_end)(struct unit *punit);
     void (*unit_move)(struct unit *punit, struct tile *ptile,
                       struct pf_path *path, int step);
