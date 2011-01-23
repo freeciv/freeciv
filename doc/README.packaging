@@ -19,6 +19,7 @@ Updating from 2.3 to 2.4
 * There is new savegame compression method xz
 * Support for loadable AI modules optionally built in
 * Development of new qt-client started. It can be built with --enable-client=qt
+* libcurl is new dependency
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

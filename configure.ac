@@ -478,6 +478,12 @@ else
   AC_SUBST([POFILES])
 fi
 
+PKG_PROG_PKG_CONFIG
+PKG_CHECK_MODULES([CURL], [libcurl],,
+    [AC_MSG_ERROR([libcurl development files required])])
+CFLAGS="$CFLAGS $CURL_CFLAGS"
+LIBS="$LIBS $CURL_LIBS"
+
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
 FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],

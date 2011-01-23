@@ -6,7 +6,7 @@ Maintainer: Jules Bean <jules@debian.org>
 Package: freeciv-common
 Architecture: any
 Depends: ${shlibs:Depends}
-Build-Depends: python
+Build-Depends: python libcurl-dev
 Recommends: freeciv-client
 Description: Turn-based strategy game inspired by the history of human civilization.
  Freeciv is distributed under the GPL and implemented for X.
