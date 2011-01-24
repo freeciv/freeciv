@@ -2535,15 +2535,14 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   pf_map_destroy(pfm);
 }
 
-
 /**************************************************************************
   Are there dangerous enemies at or adjacent to the tile 'ptile'?
 
-  N.B. This function should only be used by (cheating) AI, as it iterates
-  through all units stacked on the tiles, an info not normally available
-  to the human player.
+  Always override advisor danger detection since we are omniscient and
+  advisor is not.
 **************************************************************************/
-bool enemies_at(struct unit *punit, struct tile *ptile)
+void ai_consider_dangerous(struct tile *ptile, struct unit *punit,
+                           enum danger_consideration *result)
 {
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
@@ -2552,7 +2551,8 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
   if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
       && !is_non_allied_unit_tile(ptile, pplayer)) {
     /* We will be safe in a friendly city */
-    return FALSE;
+    *result = DANG_NOT;
+    return;
   }
 
   /* Calculate how well we can defend at (x,y) */
@@ -2575,13 +2575,14 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
         a += unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */
-          return TRUE;
+          *result = DANG_YES;
+          return;
         }
       }
     } unit_list_iterate_end;
   } adjc_iterate_end;
 
-  return FALSE; /* as good a quick'n'dirty should be -- Syela */
+  *result = DANG_NOT;
 }
 
 /*************************************************************************

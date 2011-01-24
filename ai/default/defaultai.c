@@ -98,4 +98,6 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.treaty_accepted = ai_treaty_accepted;
   ai->funcs.first_contact = ai_diplomacy_first_contact;
   ai->funcs.incident = ai_incident;
+
+  ai->funcs.consider_dangerous = ai_consider_dangerous;
 }

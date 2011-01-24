@@ -38,6 +38,8 @@ enum incident_type {
   INCIDENT_NUCLEAR_SELF, INCIDENT_LAST
 };
 
+enum danger_consideration { DANG_UNDECIDED, DANG_NOT, DANG_YES };
+
 struct ai_type
 {
   char name[MAX_LEN_NAME];
@@ -87,6 +89,9 @@ struct ai_type
     void (*first_contact)(struct player *pplayer, struct player *aplayer);
     void (*incident)(enum incident_type type, struct player *violator,
                      struct player *victim);
+
+    void (*consider_dangerous)(struct tile *ptile, struct unit *punit,
+                               enum danger_consideration *result);
   } funcs;
 };
 

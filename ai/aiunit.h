@@ -121,7 +121,8 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 bool is_on_unit_upgrade_path(const struct unit_type *test,
 			     const struct unit_type *base);
 
-bool enemies_at(struct unit *punit, struct tile *ptile);
+void ai_consider_dangerous(struct tile *ptile, struct unit *punit,
+                           enum danger_consideration *result);
 
 /* Call this after rulesets are loaded */
 void ai_units_ruleset_init(void);

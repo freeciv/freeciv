@@ -45,6 +45,7 @@
 
 /* server/advisors */
 #include "advdata.h"
+#include "advgoto.h"
 #include "advtools.h"
 #include "autosettlers.h"
 #include "infracache.h"
@@ -686,7 +687,7 @@ struct cityresult *city_desirability(struct player *pplayer,
     }
   } square_iterate_end;
 
-  if (enemies_at(punit, ptile)) {
+  if (adv_danger_at(punit, ptile)) {
     return NULL;
   }
 
