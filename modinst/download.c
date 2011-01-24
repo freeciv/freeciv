@@ -29,6 +29,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "netintf.h"
+#include "netfile.h"
 #include "registry.h"
 
 /* modinst */
@@ -241,6 +242,16 @@ static char *control_dir(void)
 }
 
 /**************************************************************************
+  Message callback called by netfile module when downloading files.
+**************************************************************************/
+static void nf_cb(const char *msg, void *data)
+{
+  dl_msg_callback mcb = (dl_msg_callback) data;
+
+  mcb(msg);
+}
+
+/**************************************************************************
   Download modpack from a given URL
 **************************************************************************/
 const char *download_modpack(const char *URL,
@@ -291,19 +302,14 @@ const char *download_modpack(const char *URL,
     return _("Cannot create required directories");
   }
 
-  fc_snprintf(local_name, sizeof(local_name), "%s/%s", controld, URL + start_idx);
-
   if (mcb != NULL) {
     mcb(_("Downloading modpack control file."));
   }
-  if (!download_file(URL, local_name)) {
-    return _("Failed to download modpack control file from given URL");
-  }
 
-  control = secfile_load(local_name, FALSE);
+  control = netfile_get_section_file(URL, nf_cb, mcb);
 
   if (control == NULL) {
-    return _("Cannot parse modpack control file");
+    return _("Failed to get and parse modpack control file");
   }
 
   control_capstr = secfile_lookup_str(control, "info.options");
@@ -430,7 +436,6 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
                                   dl_msg_callback mcb)
 {
   const char *controld = control_dir();
-  char local_name[2048];
   struct section_file *list_file;
   const char *list_capstr;
   int modpack_count;
@@ -445,16 +450,10 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
     return _("Cannot create required directories");
   }
 
-  fc_snprintf(local_name, sizeof(local_name), "%s/modpack.list", controld);
-
-  if (!download_file(URL, local_name)) {
-    return _("Failed to download modpack list");
-  }
-
-  list_file = secfile_load(local_name, FALSE);
+  list_file = netfile_get_section_file(URL, nf_cb, mcb);
 
   if (list_file == NULL) {
-    return _("Cannot parse modpack list");
+    return _("Cannot fetch and parse modpack list");
   }
 
   list_capstr = secfile_lookup_str(list_file, "info.options");
