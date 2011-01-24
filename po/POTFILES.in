@@ -1,5 +1,6 @@
 # List of source files containing translatable strings.
 # (Filenames relative to top-level directory.)
+common/ai.c
 common/city.c
 common/connection.c
 common/effects.c
@@ -24,12 +25,14 @@ utility/inputfile.c
 utility/ioz.c
 utility/log.c
 utility/mem.c
+utility/netfile.c
 utility/netintf.c
 utility/registry.c
 utility/shared.c
 utility/support.c
 ai/aicity.c
 ai/advdiplomacy.c
+server/aiiface.c
 server/auth.c
 server/barbarian.c
 server/cityhand.c
@@ -42,6 +45,7 @@ server/console.c
 server/diplhand.c
 server/diplomats.c
 server/edithand.c
+server/fcdb.c
 server/gamehand.c
 server/generator/mapgen_topology.c
 server/ggzserver.c
@@ -125,6 +129,8 @@ client/gui-gtk-2.0/theme_dlg.c
 client/gui-gtk-2.0/tileset_dlg.c
 client/gui-gtk-2.0/wldlg.c
 client/gui-gtk-2.0/voteinfo_bar.c
+client/gui-qt/chatline.cpp
+client/gui-qt/mapview.cpp
 client/gui-sdl/caravan_dialog.c
 client/gui-sdl/chatline.c
 client/gui-sdl/citydlg.c
