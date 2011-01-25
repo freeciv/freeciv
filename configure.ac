@@ -74,9 +74,9 @@ AC_ARG_ENABLE(fcdb,
                           database backends [[default=all]]
                           (no, or list)],
 [databases=${enableval}],
-[fcdb_all=yes])
+[fcdb_all=no])
 
-fcdb_all=yes
+fcdb_all=no
 fcdb_mysql=no
 fcdb_postgres=no
 fcdb_sqlite3=no
