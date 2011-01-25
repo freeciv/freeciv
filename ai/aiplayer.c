@@ -20,6 +20,9 @@
 #include "city.h"
 #include "unit.h"
 
+/* ai */
+#include "aidata.h"
+
 #include "aiplayer.h"
 
 static struct ai_type *self = NULL;
@@ -38,4 +41,28 @@ void default_ai_set_self(struct ai_type *ai)
 struct ai_type *default_ai_get_self(void)
 {
   return self;
+}
+
+/**************************************************************************
+  Initialize player for use with default AI. Note that this is called
+  for all players, not just for those default AI is controlling.
+**************************************************************************/
+void ai_player_alloc(struct player *pplayer)
+{
+  struct ai_plr *player_data = fc_calloc(1, sizeof(struct ai_plr));
+
+  player_set_ai_data(pplayer, default_ai_get_self(), player_data);
+}
+
+/**************************************************************************
+  Free player from use with default AI.
+**************************************************************************/
+void ai_player_free(struct player *pplayer)
+{
+  struct ai_plr *player_data = def_ai_player_data(pplayer);
+
+  if (player_data != NULL) {
+    player_set_ai_data(pplayer, default_ai_get_self(), NULL);
+    FC_FREE(player_data);
+  }
 }

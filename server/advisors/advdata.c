@@ -76,7 +76,7 @@ static void ai_diplomacy_new(const struct player *plr1,
   fc_assert_ret(plr2 != NULL);
 
   const struct ai_dip_intel **player_intel_slot
-    = plr1->server.aidata->diplomacy.player_intel_slots
+    = plr1->server.adv->diplomacy.player_intel_slots
       + player_index(plr2);
 
   fc_assert_ret(*player_intel_slot == NULL);
@@ -117,7 +117,7 @@ struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
   fc_assert_ret_val(plr2 != NULL, NULL);
 
   const struct ai_dip_intel **player_intel_slot
-    = plr1->server.aidata->diplomacy.player_intel_slots
+    = plr1->server.adv->diplomacy.player_intel_slots
       + player_index(plr2);
 
   fc_assert_ret_val(player_intel_slot != NULL, NULL);
@@ -135,7 +135,7 @@ static void ai_diplomacy_destroy(const struct player *plr1,
   fc_assert_ret(plr2 != NULL);
 
   const struct ai_dip_intel **player_intel_slot
-    = plr1->server.aidata->diplomacy.player_intel_slots
+    = plr1->server.adv->diplomacy.player_intel_slots
       + player_index(plr2);
 
   if (*player_intel_slot != NULL) {
@@ -267,7 +267,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 **************************************************************************/
 void ai_data_analyze_rulesets(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.aidata;
+  struct ai_data *ai = pplayer->server.adv;
 
   fc_assert_ret(ai != NULL);
 
@@ -326,7 +326,7 @@ static void count_my_units(struct player *pplayer)
 **************************************************************************/
 void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
-  struct ai_data *ai = pplayer->server.aidata;
+  struct ai_data *ai = pplayer->server.adv;
   int i, j, k;
   int nuke_units;
   bool danger_of_nukes;
@@ -688,7 +688,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 **************************************************************************/
 void ai_data_phase_done(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.aidata;
+  struct ai_data *ai = pplayer->server.adv;
 
   fc_assert_ret(ai != NULL);
 
@@ -728,7 +728,7 @@ void ai_data_phase_done(struct player *pplayer)
 **************************************************************************/
 struct ai_data *ai_data_get(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.aidata;
+  struct ai_data *ai = pplayer->server.adv;
 
   fc_assert_ret_val(ai != NULL, NULL);
 
@@ -742,16 +742,16 @@ struct ai_data *ai_data_get(struct player *pplayer)
 }
 
 /**************************************************************************
-  Allocate memory for ai data. Save to call multiple times.
+  Allocate memory for advisor data. Save to call multiple times.
 **************************************************************************/
-void ai_data_init(struct player *pplayer)
+void adv_data_init(struct player *pplayer)
 {
   struct ai_data *ai;
 
-  if (pplayer->server.aidata == NULL) {
-    pplayer->server.aidata = fc_calloc(1, sizeof(*pplayer->server.aidata));
+  if (pplayer->server.adv == NULL) {
+    pplayer->server.adv = fc_calloc(1, sizeof(*pplayer->server.adv));
   }
-  ai = pplayer->server.aidata;
+  ai = pplayer->server.adv;
 
   ai->diplomacy.player_intel_slots
     = fc_calloc(player_slot_count(),
@@ -784,7 +784,7 @@ void ai_data_init(struct player *pplayer)
 **************************************************************************/
 void ai_data_default(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.aidata;
+  struct ai_data *ai = pplayer->server.adv;
 
   fc_assert_ret(ai != NULL);
 
@@ -816,11 +816,11 @@ void ai_data_default(struct player *pplayer)
 }
 
 /**************************************************************************
-  Free memory for ai data.
+  Free memory for advisor data.
 **************************************************************************/
-void ai_data_close(struct player *pplayer)
+void adv_data_close(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.aidata;
+  struct ai_data *ai = pplayer->server.adv;
 
   fc_assert_ret(NULL != ai);
 

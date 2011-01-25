@@ -21,6 +21,7 @@ extern "C" {
 #include "bitvector.h"
 
 /* common */
+#include "ai.h" /* FC_AI_LAST */
 #include "city.h"
 #include "connection.h"
 #include "fc_types.h"
@@ -235,7 +236,9 @@ struct player {
 
       bv_debug debug;
 
-      struct ai_data *aidata;
+      struct ai_data *adv;
+
+      void *ais[FC_AI_LAST];
 
       /* Delegation to this user. */
       char delegate_to[MAX_LEN_NAME];
@@ -401,6 +404,10 @@ const char *ai_level_name(enum ai_level level);
 const char *ai_level_cmd(enum ai_level level);
 bool is_settable_ai_level(enum ai_level level);
 int number_of_ai_levels(void);
+
+void *player_ai_data(const struct player *pplayer, const struct ai_type *ai);
+void player_set_ai_data(struct player *pplayer, const struct ai_type *ai,
+                        void *data);
 
 #ifdef __cplusplus
 }

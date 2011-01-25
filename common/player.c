@@ -1428,3 +1428,20 @@ int number_of_ai_levels(void)
 
   return count;
 }
+
+/**************************************************************************
+  Return pointer to ai data of given player and ai type.
+**************************************************************************/
+void *player_ai_data(const struct player *pplayer, const struct ai_type *ai)
+{
+  return pplayer->server.ais[ai_type_number(ai)];
+}
+
+/**************************************************************************
+  Attach ai data to player
+**************************************************************************/
+void player_set_ai_data(struct player *pplayer, const struct ai_type *ai,
+                        void *data)
+{
+  pplayer->server.ais[ai_type_number(ai)] = data;
+}

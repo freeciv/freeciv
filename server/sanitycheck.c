@@ -454,7 +454,7 @@ static void check_players(const char *file, const char *function, int line)
       continue;
     }
 
-    SANITY_CHECK(pplayer->server.aidata != NULL);
+    SANITY_CHECK(pplayer->server.adv != NULL);
     SANITY_CHECK(!pplayer->nation || pplayer->nation->player == pplayer);
     SANITY_CHECK(player_list_search(team_members(pplayer->team), pplayer));
 

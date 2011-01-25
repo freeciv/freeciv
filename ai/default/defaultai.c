@@ -48,6 +48,8 @@ void fc_ai_default_setup(struct ai_type *ai)
 
   strncpy(ai->name, FC_AI_DEFAULT_NAME, sizeof(ai->name));
 
+  ai->funcs.player_alloc = ai_player_alloc;
+  ai->funcs.player_free = ai_player_free;
   ai->funcs.gained_control = assess_danger_player;
   ai->funcs.split_by_civil_war = assess_danger_player;
 

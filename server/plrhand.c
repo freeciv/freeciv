@@ -1124,7 +1124,9 @@ struct player *server_create_player(int player_id, const char *ai_type)
     return NULL;
   }
 
-  ai_data_init(pplayer);
+  adv_data_init(pplayer);
+
+  CALL_FUNC_EACH_AI(player_alloc, pplayer);
 
   server_player_init(pplayer, FALSE, FALSE);
 
@@ -1179,7 +1181,9 @@ void server_remove_player(struct player *pplayer)
   player_map_free(pplayer);
 
   /* Destroy advisor and ai data. */
-  ai_data_close(pplayer);
+  CALL_FUNC_EACH_AI(player_free, pplayer);
+
+  adv_data_close(pplayer);
   player_destroy(pplayer);
 
   send_updated_vote_totals(NULL);
