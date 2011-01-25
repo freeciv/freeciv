@@ -2,13 +2,20 @@
 
 name=_("Norwegian")
 plural=_("?plural:Norwegians")
-groups="Modern", "European"
+groups="Medieval", "Modern", "European"
 legend=_("After centuries of Danish rule, the Norwegians made their\
  own constitution in Eidsvoll, 1814 AD. Finally, in 1905 AD the Norwegians\
  got their independence after a union with Sweden.")
 
 leaders = {
  "name",                        "sex"
+ "Harald Hårfagre",             "Male" ; Norwegian king (9th century)
+ "Olav Trygvasson",             "Male" ; Norwegian royalty (10th century)
+ "Olav Haraldsson",             "Male" ; Norwegian king (11th century)
+ "Harald Hardråde",             "Male" ; Norwegian king (11th century)
+ "Sigurd Jorsalfare",           "Male" ; Norwegian king (12th century)
+ "Magnus Berrføtt",             "Male" ; Norwegian king (12th century)
+ "Magnus Lagabøter",            "Male" ; Norwegian king (13th century)
  "Johan Nygaardsvold",          "Male"
  "Einar Gerhardsen",            "Male"
  "Trygve Bratteli",             "Male"
@@ -32,7 +39,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="icelandic", "sami"
+civilwar_nations="Icelandic", "Sami"
 
 ; Norwegian places listed up in the order it struck my mind.
 
