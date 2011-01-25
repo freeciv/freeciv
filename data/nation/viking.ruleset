@@ -9,21 +9,17 @@ legend=_("The Vikings raided and traded along the coasts of Europe\
 
 leaders = {
  "name",                "sex"
- "Aud Ivarsdottir",     "Female" ; Danish royalty (7th century)
- "Rørik",               "Male" ; Swedish viking and founder of Kiev
-                               ; (9th century)
- "Gudfred",             "Male" ; Danish royalty (9th century)
- "Harald Hårfagre",     "Male" ; Norwegian king (9th century)
- "Hrolf Gangr",         "Male" ; Viking king of Normandy a.k.a "Rollo"
-                               ; (9th century)
- "Styrbjörn Sterki",    "Male" ; Swedish royalty (10th century)
- "Erik Blodøks",        "Male" ; Norwegian king (10th century)
- "Olav Trygvasson",     "Male" ; Norwegian royalty (10th century)
- "Olav Haraldsson",     "Male" ; Norwegian king (11th century)
- "Harald Hardråde",     "Male" ; Norwegian king (11th century)
- "Sigurd Jorsalfare",   "Male" ; Norwegian king (12th century)
- "Magnus Berrføtt",     "Male" ; Norwegian king (12th century)
- "Magnus Lagabøter",    "Male" ; Norwegian king (13th century)
+ "Aud Ivarsdottir",     "Female"
+ "Rörikr",              "Male" ; Rurik
+ "Gudfred",             "Male"
+ "Hrolf Gangr",         "Male" ; Rollo
+ "Gunnhildr",           "Female" ; Gunnhild
+ "Styrbjörn Sterki",    "Male" ; Styrbjörn the Strong
+ "Eiríkr",              "Male" ; Eric Bloodaxe
+ "Gormr Gamli",         "Male" ; Gorm the Old
+ "Haraldr Gormsson",    "Male" ; Harald I
+ "Sveinn Tjúguskegg",   "Male" ; Sweyn Forkbeard
+ "Knutr",               "Male" ; Cnut the Great
 }
 
 ruler_titles = {
@@ -41,58 +37,52 @@ init_government="Despotism"
 init_units=""
 
 ; We do not want the Vikings to start together with any Scandinavian nation.
-conflicts_with="danish", "icelandic", "norwegian", "swedish"
+conflicts_with="Danish", "Icelandic", "Norwegian", "Swedish"
 
 civilwar_nations=
 ; Scandinavian nations
- "danish", "icelandic", "norwegian", "swedish",
+ "Danish", "Icelandic", "Norwegian", "Swedish",
 ; Other nations claiming viking heritage
- "finnish", "ruthenian", "scottish", "norman"
+ "Finnish", "Ruthenian", "Scottish", "Norman"
 
 cities =
- "Skiringssal",		; Viking era name for Kaupang, Norway
- "Birka",
- "Ribe",
- "Hedeby",
- "Nidaros",
- "Reykjavik (ocean)",
- "Torshavn (ocean)",
- "Bjørgvin",
- "Jorvik (ocean)",
- "Fjaler",
- "Vikarskeid",
- "Hvitaby",
- "Torsberg (mountains)",
- "Bålagardsida",
- "Odinsøy",
- "Trasvik (ocean)",
- "Steinvågen",
- "Folland",
- "Medalhus",
- "Vendelskage",
- "Vigra",
- "Haugseid",
- "Sudatorp",
- "Omd",
- "Håstein",
- "Fyrileiv",
- "Kjarrekstader",
- "Gresvik (ocean)",
- "Valsnes (river)",
- "Lusbrei",
- "Åros",
- "Rossanes",
- "Kantaraborg (grassland)",
- "Lejre",
- "Kongssund (ocean)",
- "Anger",
- "Gaular",
- "Vardynjar",
- "Dimun",
- "Dingenes (ocean)",
- "Brekke",
- "Florvåg",
- "Aldeigjuborg (grassland)",
- "Bøle",
- "Jungufurda",
- "Apardjon"
+; In Scandinavia
+ "Skíringssalr", ; Kaupang, Norway
+ "Sigtún", ; Sigtuna, Sweden
+ "Heiðabýr", ; Hedeby, Denmark (formerly)
+ "Hlaðir", ; Lade, Denmark
+ "Hleiðra", ; Lejre, Denmark
+ "Niðarós", ; Trondheim, Norway
+ "Stafangr", ; Stavanger, Norway
+ "Skálaholt", ; Skálholt, Iceland
+ "Svǫlver", ; Svolvær, Norway
+ "Þórshöfn (ocean)", ; Tórshavn, Faroes
+ "Bergvin", ; Bergen, Norway
+ "Hrafnista", ; Ramsta, Norway
+ "Fjalir", ; Fjaler, Norway
+ "Omd", ; Andøya, Norway
+ "Bólmr", ; Bolmsö, Sweden
+
+; Outside Scandinavia
+ "Kirkjuvagr", ; Kirkwall, Scotland
+ "Hlymrekr", ; Limerick, Ireland
+ "Jórvík (ocean)", ; York, England
+ "Skarðaborg", ; Scarborough, England
+ "Melr (ocean)", ; Meols, England
+ "Holmgarðr", ; Veliky Novgorod, Russia
+ "Aldeigjuborg", ; Staraya Ladoga, Russia
+ "Brattahlíð", ; Brattahlid, Greenland
+ "Garðar", ; Gardar, Greenland
+ "Eystribygð", ; Eastern Settlement, Greenland
+ "Vestribyggð", ; Western Settlement, Greenland
+ "Þórs-á (river)", ; Thurso, Scotland
+ "Veðrafjǫrðr (river)", ; Waterford, Ireland
+ "Veisafjǫrðr (river)", ; Wexford, Ireland
+ "Arnkell-lág", ; Arklow, Ireland
+ "Vík (ocean)", ; Wick, Scotland
+
+; No attested Old Norse form
+ "Alabu", ; Aalborg, Denmark
+ "Birka", ; Björkö, Sweden
+ "Agnafit", ; Stockholm, Sweden
+ "Dorestad" ; Wijk bij Duurstede, Netherlands
