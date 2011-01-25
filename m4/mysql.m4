@@ -36,9 +36,6 @@ AC_DEFUN([FC_CHECK_MYSQL],
     dnl AC_MSG_RESULT([$MYSQL_CFLAGS])
     dnl AC_MSG_CHECKING([for $MYSQL_CONFIG --libs])
     dnl AC_MSG_RESULT([$MYSQL_LDFLAGS])
-  else
-    found_mysql="no"
-    AC_MSG_RESULT([no])
   fi
 
   dnl

@@ -36,9 +36,6 @@ AC_DEFUN([FC_CHECK_POSTGRES],
     dnl AC_MSG_RESULT([$POSTGRESQL_CFLAGS])
     dnl AC_MSG_CHECKING([for $PG_CONFIG --libdir])
     dnl AC_MSG_RESULT([$POSTGRESQL_LDFLAGS])
-  else
-    found_postgresql="no"
-    AC_MSG_RESULT([no])
   fi
 
   dnl
