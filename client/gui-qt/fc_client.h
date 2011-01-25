@@ -19,25 +19,34 @@
 #include <QGraphicsView>
 #include <QMainWindow>
 #include <QObject>
+#include <QSocketNotifier>
 #include <QString>
 #include <QTextEdit>
 
 class fc_client : public QObject
 {
+  Q_OBJECT
+
  public:
   fc_client();
   ~fc_client();
 
   void main(QApplication *qapp);
 
+  void add_server_source(int sock);
+
   void append_output_window(const QString &str);
+
+ private slots:
+  void server_input(int sock);
 
  private:
   QMainWindow *main_window;
   QGraphicsView *central_wdg;
   QTextEdit *output_window;
+  QSocketNotifier *server_notifier;
 
-protected:
+ protected:
   void timerEvent(QTimerEvent *event);
 };
 

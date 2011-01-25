@@ -7,6 +7,9 @@ AM_CFLAGS = $(GUI_qt_CFLAGS) $(SOUND_CFLAGS)
 
 AM_CXXFLAGS = $(GUI_qt_CXXFLAGS) $(SOUND_CFLAGS)
 
+MOC_FILES = \
+	meta_fc_client.cpp
+
 libgui_qt_la_SOURCES = \
 	canvas.cpp	\
 	canvas.h	\
@@ -68,4 +71,11 @@ libgui_qt_la_SOURCES = \
 	voteinfo_bar.cpp \
 	voteinfo_bar.h	\
 	wldlg.cpp	\
-	wldlg.h
+	wldlg.h		\
+	$(MOC_FILES)
+
+# Generate meta object source from header
+meta_%.cpp: %.h
+	moc -o $@ $<
+
+CLEANFILES = $(MOC_FILES)

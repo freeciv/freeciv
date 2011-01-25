@@ -17,6 +17,7 @@
 
 // client
 #include "client_main.h"
+#include "clinet.h"
 
 #include "fc_client.h"
 
@@ -62,6 +63,24 @@ void fc_client::main(QApplication *qapp)
 void fc_client::append_output_window(const QString &str)
 {
   output_window->append(str);
+}
+
+/****************************************************************************
+  Add notifier for server input
+****************************************************************************/
+void fc_client::add_server_source(int sock)
+{
+  server_notifier = new QSocketNotifier(sock, QSocketNotifier::Read);
+
+  connect(server_notifier, SIGNAL(activated(int)), this, SLOT(server_input(int)));
+}
+
+/****************************************************************************
+  There is input from server
+****************************************************************************/
+void fc_client::server_input(int sock)
+{
+  input_from_server(sock);
 }
 
 /****************************************************************************
