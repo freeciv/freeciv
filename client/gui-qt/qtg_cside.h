@@ -30,6 +30,13 @@ struct gui_funcs {
   bool (*isometric_view_supported)(void);
   bool (*overhead_view_supported)(void);
   void (*free_intro_radar_sprites)(void);
+  struct sprite * (*load_gfxfile)(const char *filename);
+  void (*get_sprite_dimensions)(struct sprite *sprite, int *width, int *height);
+  struct sprite * (*crop_sprite)(struct sprite *source,
+                                 int x, int y, int width, int height,
+                                 struct sprite *mask,
+                                 int mask_offset_x, int mask_offset_y);
+  void (*free_sprite)(struct sprite *s);
 
   void (*gui_set_rulesets)(int num_rulesets, char **rulesets);
   void (*gui_options_extra_init)(void);

@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 // gui-qt
+#include "fc_client.h"
 #include "qtg_cxxside.h"
 
 #include "sprite.h"
@@ -46,10 +47,9 @@ const char **gfx_fileextensions(void)
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
 ****************************************************************************/
-struct sprite *load_gfxfile(const char *filename)
+struct sprite *qtg_load_gfxfile(const char *filename)
 {
-  /* PORTME */
-  return NULL;
+  return gui()->load_gfxfile(filename);
 }
 
 /****************************************************************************
@@ -73,31 +73,33 @@ struct sprite *load_gfxfile(const char *filename)
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
 ****************************************************************************/
-struct sprite *crop_sprite(struct sprite *source,
-			   int x, int y, int width, int height,
-			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y)
+struct sprite *qtg_crop_sprite(struct sprite *source,
+                               int x, int y, int width, int height,
+                               struct sprite *mask,
+                               int mask_offset_x, int mask_offset_y)
 {
-  /* PORTME */
-  return NULL;
+  sprite *cropped = new sprite;
+
+  /* FIXME: Add mask handling */
+
+  cropped->pm = source->pm.copy(x, y, width, height);
+
+  return cropped;
 }
 
 /****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
-void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
+void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
-  /* PORTME */
-#if 0
-  *width = sprite->width;
-  *height = sprite->height;
-#endif
+  *width = sprite->pm.width();
+  *height = sprite->pm.height();
 }
 
 /****************************************************************************
   Free a sprite and all associated image data.
 ****************************************************************************/
-void free_sprite(struct sprite *s)
+void qtg_free_sprite(struct sprite *s)
 {
-  /* PORTME */
+  delete s;
 }

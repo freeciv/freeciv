@@ -115,6 +115,42 @@ void free_intro_radar_sprites(void)
 }
 
 /**************************************************************************
+  Call c++ load_gfxfile
+**************************************************************************/
+struct sprite *load_gfxfile(const char *filename)
+{
+  return funcs.load_gfxfile(filename);
+}
+
+/**************************************************************************
+  Call c++ get_sprite_dimensions
+**************************************************************************/
+void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
+{
+  funcs.get_sprite_dimensions(sprite, width, height);
+}
+
+/**************************************************************************
+  Call c++ crop_sprite
+**************************************************************************/
+struct sprite *crop_sprite(struct sprite *source,
+			   int x, int y, int width, int height,
+			   struct sprite *mask,
+			   int mask_offset_x, int mask_offset_y)
+{
+  return funcs.crop_sprite(source, x, y, width, height, mask,
+                           mask_offset_x, mask_offset_y);
+}
+
+/**************************************************************************
+  Call c++ free_sprite
+**************************************************************************/
+void free_sprite(struct sprite *s)
+{
+  funcs.free_sprite(s);
+}
+
+/**************************************************************************
   Call c++ gui_set_rulesets
 **************************************************************************/
 void gui_set_rulesets(int num_rulesets, char **rulesets)

@@ -34,6 +34,10 @@ void setup_gui_funcs()
   funcs->isometric_view_supported = qtg_isometric_view_supported;
   funcs->overhead_view_supported = qtg_overhead_view_supported;
   funcs->free_intro_radar_sprites = qtg_free_intro_radar_sprites;
+  funcs->load_gfxfile = qtg_load_gfxfile;
+  funcs->get_sprite_dimensions = qtg_get_sprite_dimensions;
+  funcs->crop_sprite = qtg_crop_sprite;
+  funcs->free_sprite = qtg_free_sprite;
 
   funcs->gui_set_rulesets = qtg_gui_set_rulesets;
   funcs->gui_options_extra_init = qtg_gui_options_extra_init;

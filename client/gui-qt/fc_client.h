@@ -37,6 +37,8 @@ class fc_client : public QObject
 
   void append_output_window(const QString &str);
 
+  struct sprite *load_gfxfile(const QString &filename);
+
  private slots:
   void server_input(int sock);
 

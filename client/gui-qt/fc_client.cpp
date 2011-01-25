@@ -19,6 +19,9 @@
 #include "client_main.h"
 #include "clinet.h"
 
+// gui-qt
+#include "sprite.h"
+
 #include "fc_client.h"
 
 /****************************************************************************
@@ -81,6 +84,20 @@ void fc_client::add_server_source(int sock)
 void fc_client::server_input(int sock)
 {
   input_from_server(sock);
+}
+
+/****************************************************************************
+  Load the given graphics file into a sprite.  This function loads an
+  entire image file, which may later be broken up into individual sprites
+  with crop_sprite.
+****************************************************************************/
+struct sprite *fc_client::load_gfxfile(const QString &filename)
+{
+  sprite *entire = new sprite;
+
+  entire->pm.load(filename);
+
+  return entire;
 }
 
 /****************************************************************************

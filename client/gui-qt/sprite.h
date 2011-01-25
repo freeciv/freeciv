@@ -18,4 +18,11 @@ extern "C" {
 #include "sprite_g.h"
 }
 
+#include <QPixmap>
+
+struct sprite
+{
+  QPixmap pm;
+};
+
 #endif /* FC__SPRITE_H */
