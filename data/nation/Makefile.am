@@ -184,6 +184,7 @@ pkgdata_DATA = \
 		kanem-bornu.ruleset \
 		karelian.ruleset \
 		kashmiri.ruleset \
+		kashubian.ruleset \
 		kazakh.ruleset \
 		kenyan.ruleset \
 		khazar.ruleset \

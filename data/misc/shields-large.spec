@@ -192,6 +192,7 @@ sprites =
 		"f.shield.kanem-bornu", "flags/kanem-bornu-shield-large"
 		"f.shield.karelia", "flags/karelia-shield-large"
 		"f.shield.kashmir", "flags/kashmir-shield-large"
+		"f.shield.kashubia", "flags/kashubia-shield-large"
 		"f.shield.kazakhstan", "flags/kazakhstan-shield-large"
 		"f.shield.keetoowah", "flags/keetoowah-shield-large"
 		"f.shield.kenya", "flags/kenya-shield-large"

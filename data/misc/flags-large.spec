@@ -192,6 +192,7 @@ sprites =
 		"f.kanem-bornu", "flags/kanem-bornu-large"
 		"f.karelia", "flags/karelia-large"
 		"f.kashmir", "flags/kashmir-large"
+		"f.kashubia", "flags/kashubia-large"
 		"f.kazakhstan", "flags/kazakhstan-large"
 		"f.keetoowah", "flags/keetoowah-large"	; used by Cherokee
 		"f.kenya", "flags/kenya-large"

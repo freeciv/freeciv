@@ -41,7 +41,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "german"
-civilwar_nations = "polish", "greater polish", "prussian"
+civilwar_nations = "polish", "greater polish", "prussian", "kashubian"
 
 cities =
   "Szczecin",

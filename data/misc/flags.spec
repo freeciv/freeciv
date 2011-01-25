@@ -190,6 +190,7 @@ artists = "
    Kanem-Bornu		Daniel Markstedt
    Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons)
    Kashmir		Nichalp (Wikimedia Commons)
+   Kashubia		Krun (Wikimedia Commons)
    Kazakhstan		-xfi-
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
@@ -605,6 +606,7 @@ sprites =
 		"f.kanem-bornu", "flags/kanem-bornu"
 		"f.karelia", "flags/karelia"
 		"f.kashmir", "flags/kashmir"
+		"f.kashubia", "flags/kashubia"
 		"f.kazakhstan", "flags/kazakhstan"
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"

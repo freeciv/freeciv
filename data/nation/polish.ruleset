@@ -62,11 +62,12 @@ civilwar_nations =
  "Lendian",
  "Lipka Tatar",
  "Belarusian",
- "Ukrainian"
-; "Kashubian",
+ "Ukrainian",
+ "Kashubian",
+ "Old Prussian"
 ; "Rusyn",
 ; "Polanian",
-; "Old Prussian"
+
 
 cities =
 ; Te bedą pierwsze, bo tak pasuje
