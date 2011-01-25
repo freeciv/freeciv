@@ -214,6 +214,7 @@ sprites =
 		"f.shield.liechtenstein", "flags/liechtenstein-shield-large"
 		"f.shield.liguria", "flags/liguria-shield-large"
 		"f.shield.lipkatatar", "flags/lipkatatar-shield-large"
+		"f.shield.lippe", "flags/lippe-shield-large"
 		"f.shield.lithuania", "flags/lithuania-shield-large"
 		"f.shield.lorraine", "flags/lorraine-shield-large"
 		"f.shield.lusatia", "flags/lusatia-shield-large"

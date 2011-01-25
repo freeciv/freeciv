@@ -211,6 +211,7 @@ artists = "
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
    Liguria		Flanker (Wikimedia Commons)
+   Lippe		ludger1961 (Wikimedia Commons) and J.M. Maalderink
    Lipka Tatar		Aotearoa (Wikimedia Commons)
    Lithuania		Christian Schaller
    Lorraine		J.M. Maalderink
@@ -626,6 +627,7 @@ sprites =
 		"f.liechtenstein", "flags/liechtenstein"
 		"f.liguria", "flags/liguria"		; used by Genoese
 		"f.lipkatatar", "flags/lipkatatar"
+		"f.lippe", "flags/lippe"
 		"f.lithuania", "flags/lithuania"
 		"f.lorraine", "flags/lorraine"
 		"f.lusatia", "flags/lusatia"
