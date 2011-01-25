@@ -299,12 +299,17 @@ aimoduledir="${libdir}/fcai"
 AC_SUBST(aimoduledir)
 AM_CONDITIONAL(AI_MODULES, test "$enable_aimodules" = "yes")
 if test $enable_aimodules = yes ; then
+  if test x$enable_shared != xyes ; then
+    AC_MSG_ERROR([cannot enable ai module support if also build of shared libraries is not enabled with --enable-shared])
+  fi
   LIBS_TMP=$LIBS
   LIBS="$LIBS -lltdl"
+  AC_MSG_CHECKING([whether can build modules])
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <ltdl.h>]],
      [[lt_dlopenext(NULL);]])],
-     [],
-     [AC_MSG_ERROR([cannot build loadable AI modules as requested])])
+     [AC_MSG_RESULT([yes])],
+     [AC_MSG_RESULT([no])
+      AC_MSG_ERROR([cannot build loadable AI modules as requested])])
   LIBS=$LIBS_TMP
   SERVER_LIBS="${SERVER_LIBS} -lltdl"
   AC_DEFINE_UNQUOTED([AI_MODULES], [1], [Directory for ai modules])
