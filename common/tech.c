@@ -301,7 +301,11 @@ bool player_invention_reachable(const struct player *pplayer,
 
   root = advance_required(tech, AR_ROOT);
   if (A_NONE != root) {
-    if (allow_prereqs) {
+    if (root == tech) {
+      /* This tech requires itself; it can only be reached by special means
+       * (lua script). */
+      return FALSE;
+    } else if (allow_prereqs) {
       /* Recursive check if the player can ever reach this tech (root tech
        * and both requirements). */
       return (player_invention_reachable(pplayer, root, TRUE)
