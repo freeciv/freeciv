@@ -19,6 +19,7 @@
 
 /* utility */
 #include "ioz.h"
+#include "rand.h"
 #include "registry.h"
 
 #include "netfile.h"
