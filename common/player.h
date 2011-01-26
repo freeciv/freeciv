@@ -313,8 +313,6 @@ int num_known_tech_with_flag(const struct player *pplayer,
 			     enum tech_flag_id flag);
 int player_get_expected_income(const struct player *pplayer);
 
-struct player_economic player_limit_to_max_rates(struct player *pplayer);
-
 struct city *player_palace(const struct player *pplayer);
 
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype);

@@ -26,6 +26,8 @@ void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
 
+struct player_economic player_limit_to_max_rates(struct player *pplayer);
+
 void server_player_set_name(struct player *pplayer, const char *name);
 bool server_player_set_name_full(const struct connection *caller,
                                  struct player *pplayer,
