@@ -1718,7 +1718,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
 
   packet->id = pdcity->identity;
-  packet->owner = player_number(vision_owner(pdcity));
+  packet->owner = player_number(vision_site_owner(pdcity));
 
   packet->tile = tile_index(ptile);
   sz_strlcpy(packet->name, pdcity->name);
@@ -2085,7 +2085,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   } improvement_iterate_end;
 
   if (NULL == pdcity) {
-    pdcity = create_vision_site_from_city(pcity);
+    pdcity = vision_site_new_from_city(pcity);
     change_playertile_site(map_get_player_tile(pcenter, pplayer), pdcity);
   } else if (pdcity->location != pcenter) {
     log_error("Trying to update bad city (wrong location) "
@@ -2103,12 +2103,12 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 	  && pdcity->unhappy == unhappy
 	  && BV_ARE_EQUAL(pdcity->improvements, improvements)
 	  && pdcity->size == pcity->size
-	  && vision_owner(pdcity) == city_owner(pcity)
+	  && vision_site_owner(pdcity) == city_owner(pcity)
 	  && 0 == strcmp(pdcity->name, city_name(pcity))) {
     return FALSE;
   }
 
-  update_vision_site_from_city(pdcity, pcity);
+  vision_site_update_from_city(pdcity, pcity);
   pdcity->occupied = occupied;
   pdcity->walls = walls;
   pdcity->happy = happy;
@@ -2134,7 +2134,7 @@ void reality_check_city(struct player *pplayer,struct tile *ptile)
       dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
       fc_assert_ret(playtile->site == pdcity);
       playtile->site = NULL;
-      free_vision_site(pdcity);
+      vision_site_destroy(pdcity);
     }
   }
 }
@@ -2152,7 +2152,7 @@ void remove_dumb_city(struct player *pplayer, struct tile *ptile)
     dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
     fc_assert_ret(playtile->site == pdcity);
     playtile->site = NULL;
-    free_vision_site(pdcity);
+    vision_site_destroy(pdcity);
   }
 }
 

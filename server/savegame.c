@@ -3471,8 +3471,8 @@ static void player_load_vision(struct player *plr, int plrno,
 		  ascii_hex2bin(ch, 3));
 
     for (i = 0; i < total_ncities; i++) {
-      /* similar to create_vision_site() */
-      struct vision_site *pdcity = create_vision_site(0, NULL, NULL);
+      /* similar to vision_site_new() */
+      struct vision_site *pdcity = vision_site_new(0, NULL, NULL);
 
       fc_assert_exit_msg(secfile_lookup_int(file, &nat_x, "player%d.dc%d.x",
                                             plrno, i),
@@ -3512,7 +3512,7 @@ static void player_load_vision(struct player *plr, int plrno,
       }
 
       pdcity->owner = player_by_number(id);
-      if (NULL == vision_owner(pdcity)) {
+      if (NULL == vision_site_owner(pdcity)) {
         log_error("player%d.dc%d has invalid owner (%d); skipping.",
                   plrno, i, id);
         free(pdcity);
@@ -4130,14 +4130,14 @@ static void player_save_vision(struct player *plr, int plrno,
   whole_map_iterate(ptile) {
     struct vision_site *pdcity = map_get_player_city(ptile, plr);
 
-    if (NULL != pdcity && plr != vision_owner(pdcity)) {
+    if (NULL != pdcity && plr != vision_site_owner(pdcity)) {
       secfile_insert_int(file, ptile->nat_y,
                          "player%d.dc%d.y", plrno, i);
       secfile_insert_int(file, ptile->nat_x,
                          "player%d.dc%d.x", plrno, i);
       secfile_insert_int(file, pdcity->identity,
                          "player%d.dc%d.id", plrno, i);
-      secfile_insert_int(file, player_number(vision_owner(pdcity)),
+      secfile_insert_int(file, player_number(vision_site_owner(pdcity)),
                          "player%d.dc%d.owner", plrno, i);
 
       secfile_insert_int(file, pdcity->size,

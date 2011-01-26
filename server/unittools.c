@@ -3147,7 +3147,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
     struct vision_site *pdcity = map_get_player_site(ptile, pplayer);
 
     if ((penemy && can_player_see_unit(pplayer, penemy))
-	|| (pdcity && !pplayers_allied(pplayer, vision_owner(pdcity))
+	|| (pdcity && !pplayers_allied(pplayer, vision_site_owner(pdcity))
 	    && pdcity->occupied)) {
       cancel = TRUE;
       break;

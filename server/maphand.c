@@ -893,7 +893,7 @@ void change_playertile_site(struct player_tile *ptile,
 
   if (ptile->site != NULL) {
     /* Releasing old site from tile */
-    free_vision_site(ptile->site);
+    vision_site_destroy(ptile->site);
   }
 
   ptile->site = new_site;
@@ -972,7 +972,7 @@ void player_map_free(struct player *pplayer)
     struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
     if (NULL != psite) {
-      free_vision_site(psite);
+      vision_site_destroy(psite);
     }
 
     /* clear players knowledge */
@@ -1163,7 +1163,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	if (!dest_tile->site) {
           /* We cannot assign new vision site with change_playertile_site(),
            * since location is not yet set up for new site */
-          dest_tile->site = create_vision_site(0, ptile, NULL);
+          dest_tile->site = vision_site_new(0, ptile, NULL);
           *dest_tile->site = *from_tile->site;
 	}
         /* Note that we don't care if receiver knows vision source city

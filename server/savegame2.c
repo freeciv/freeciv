@@ -4846,7 +4846,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     char buf[32];
     fc_snprintf(buf, sizeof(buf), "player%d.dc%d", plrno, i);
 
-    pdcity = create_vision_site(0, NULL, NULL);
+    pdcity = vision_site_new(0, NULL, NULL);
     if (sg_load_player_vision_city(loading, plr, pdcity, buf)) {
       change_playertile_site(map_get_player_tile(pdcity->location, plr),
                              pdcity);
@@ -4855,7 +4855,7 @@ static void sg_load_player_vision(struct loaddata *loading,
       /* Error loading the data. */
       log_sg("Skipping seen city %d for player %d.", i, plrno);
       if (pdcity != NULL) {
-        free_vision_site(pdcity);
+        vision_site_destroy(pdcity);
       }
     }
   }
@@ -5062,11 +5062,11 @@ static void sg_save_player_vision(struct savedata *saving,
 
     fc_snprintf(buf, sizeof(buf), "player%d.dc%d", plrno, i);
 
-    if (NULL != pdcity && plr != vision_owner(pdcity)) {
+    if (NULL != pdcity && plr != vision_site_owner(pdcity)) {
       secfile_insert_int(saving->file, ptile->nat_y, "%s.y", buf);
       secfile_insert_int(saving->file, ptile->nat_x, "%s.x", buf);
       secfile_insert_int(saving->file, pdcity->identity, "%s.id", buf);
-      secfile_insert_int(saving->file, player_number(vision_owner(pdcity)),
+      secfile_insert_int(saving->file, player_number(vision_site_owner(pdcity)),
                          "%s.owner", buf);
 
       secfile_insert_int(saving->file, pdcity->size, "%s.size", buf);
