@@ -230,11 +230,11 @@ static gint plrdlg_sort_func(GtkTreeModel *model,
 
   n = GPOINTER_TO_INT(data);
 
-  gtk_tree_model_get_value(model, a, num_player_dlg_columns + 2, &value);
+  gtk_tree_model_get_value(model, a, PLR_DLG_COL_ID, &value);
   player1 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
   
-  gtk_tree_model_get_value(model, b, num_player_dlg_columns + 2, &value);
+  gtk_tree_model_get_value(model, b, PLR_DLG_COL_ID, &value);
   player2 = player_by_number(g_value_get_int(&value));
   g_value_unset(&value);
   
@@ -460,8 +460,8 @@ void create_players_dialog(void)
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
 	  "text", i,
-	  "style", num_player_dlg_columns,
-	  "weight", num_player_dlg_columns + 1,
+	  "style", PLR_DLG_COL_STYLE,
+	  "weight", PLR_DLG_COL_WEIGHT,
 	  NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
       break;
@@ -471,8 +471,8 @@ void create_players_dialog(void)
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
 	  "text", i,
-	  "style", num_player_dlg_columns,
-	  "weight", num_player_dlg_columns + 1,
+	  "style", PLR_DLG_COL_STYLE,
+	  "weight", PLR_DLG_COL_WEIGHT,
 	  NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
 
