@@ -114,11 +114,11 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
  */
 struct vision_site {
   char name[MAX_LEN_NAME];
-  struct tile *location;		/* Cannot be NULL */
-  struct player *owner;			/* May be NULL, always check! */
+  struct tile *location; /* Cannot be NULL */
+  struct player *owner;  /* May be NULL, always check! */
 
-  int identity;				/* city > IDENTITY_NUMBER_ZERO */
-  int size;				/* city size */
+  int identity;          /* city > IDENTITY_NUMBER_ZERO */
+  citizens size;         /* city size (0 <= size <= MAX_CITY_SIZE = 250) */
 
   bool occupied;
   bool walls;
@@ -135,6 +135,9 @@ struct vision_site *vision_site_new(int identity, struct tile *location,
 struct vision_site *vision_site_new_from_city(const struct city *pcity);
 void vision_site_update_from_city(struct vision_site *psite,
                                   const struct city *pcity);
+
+citizens vision_site_size_get(const struct vision_site *psite);
+void vision_site_size_set(struct vision_site *psite, citizens size);
 
 #ifdef __cplusplus
 }

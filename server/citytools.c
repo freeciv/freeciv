@@ -1723,7 +1723,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->tile = tile_index(ptile);
   sz_strlcpy(packet->name, pdcity->name);
 
-  packet->size = pdcity->size;
+  packet->size = vision_site_size_get(pdcity);
 
   packet->occupied = pdcity->occupied;
   packet->walls = pdcity->walls;
@@ -2102,7 +2102,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 	  && pdcity->happy == happy
 	  && pdcity->unhappy == unhappy
 	  && BV_ARE_EQUAL(pdcity->improvements, improvements)
-	  && pdcity->size == pcity->size
+          && vision_site_size_get(pdcity) == pcity->size
 	  && vision_site_owner(pdcity) == city_owner(pcity)
 	  && 0 == strcmp(pdcity->name, city_name(pcity))) {
     return FALSE;

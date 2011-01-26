@@ -82,6 +82,9 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
  * Size of the biggest possible city.
  *
  * The constant may be changed since it isn't externally visible.
+ *
+ * The city size is saved as unsigned char. Therefore, MAX_CITY_SIZE should
+ * be below 255!
  */
 #define MAX_CITY_SIZE		250
 

@@ -3519,9 +3519,19 @@ static void player_load_vision(struct player *plr, int plrno,
         continue;
       }
 
-      fc_assert_exit_msg(secfile_lookup_int(file, &pdcity->size,
-                                            "player%d.dc%d.size", plrno, i),
+      {
+        int size;
+        citizens city_size;
+        fc_assert_exit_msg(secfile_lookup_int(file, &size,
+                                              "player%d.dc%d.size", plrno, i),
                          "%s", secfile_error());
+        city_size = (citizens)size; /* set the correct type */
+        if (size != (int)city_size) {
+          log_error("Invalid city size: %d; set to %d.", size, city_size);
+        }
+        vision_site_size_set(pdcity, size);
+      }
+
       pdcity->occupied = secfile_lookup_bool_default(file, FALSE,
                                       "player%d.dc%d.occupied", plrno, i);
       pdcity->walls = secfile_lookup_bool_default(file, FALSE,
@@ -4140,7 +4150,7 @@ static void player_save_vision(struct player *plr, int plrno,
       secfile_insert_int(file, player_number(vision_site_owner(pdcity)),
                          "player%d.dc%d.owner", plrno, i);
 
-      secfile_insert_int(file, pdcity->size,
+      secfile_insert_int(file, vision_site_size_get(pdcity),
                          "player%d.dc%d.size", plrno, i);
       secfile_insert_bool(file, pdcity->occupied,
                           "player%d.dc%d.occupied", plrno, i);

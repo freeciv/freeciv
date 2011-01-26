@@ -104,6 +104,7 @@ typedef enum unit_activity Activity_type_id;
 typedef int Nation_type_id;
 typedef int Unit_type_id;
 typedef int Base_type_id;
+typedef unsigned char citizens;
 
 struct advance;
 struct city;

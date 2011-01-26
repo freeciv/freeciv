@@ -4884,7 +4884,8 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
                                        const char *citystr)
 {
   const char *string;
-  int i, id;
+  int i, id, size;
+  citizens city_size;
   int nat_x, nat_y;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x",
@@ -4910,9 +4911,13 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   sg_warn_ret_val(IDENTITY_NUMBER_ZERO < pdcity->identity, FALSE,
                   "%s has invalid id (%d); skipping.", citystr, id);
 
-  sg_warn_ret_val(secfile_lookup_int(loading->file, &pdcity->size,
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &size,
                                      "%s.size", citystr),
                   FALSE, "%s", secfile_error());
+  city_size = (citizens)size; /* set the correct type */
+  sg_warn_ret_val(size == (int)city_size, FALSE,
+                  "Invalid city size: %d; set to %d.", size, city_size);
+  vision_site_size_set(pdcity, city_size);
 
   /* Initialise list of improvements */
   BV_CLR_ALL(pdcity->improvements);
@@ -5069,7 +5074,8 @@ static void sg_save_player_vision(struct savedata *saving,
       secfile_insert_int(saving->file, player_number(vision_site_owner(pdcity)),
                          "%s.owner", buf);
 
-      secfile_insert_int(saving->file, pdcity->size, "%s.size", buf);
+      secfile_insert_int(saving->file, vision_site_size_get(pdcity),
+                         "%s.size", buf);
       secfile_insert_bool(saving->file, pdcity->occupied,
                           "%s.occupied", buf);
       secfile_insert_bool(saving->file, pdcity->walls, "%s.walls", buf);

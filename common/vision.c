@@ -96,7 +96,7 @@ struct vision_site *vision_site_new_from_city(const struct city *pcity)
   struct vision_site *psite =
     vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
 
-  psite->size = pcity->size;
+  vision_site_size_set(psite, pcity->size);
   sz_strlcpy(psite->name, city_name(pcity));
 
   return psite;
@@ -114,6 +114,27 @@ void vision_site_update_from_city(struct vision_site *psite,
 
   psite->owner = city_owner(pcity);
 
-  psite->size = pcity->size;
+  vision_site_size_set(psite, pcity->size);
   sz_strlcpy(psite->name, city_name(pcity));
+}
+
+/*****************************************************************************
+  Get the city size.
+*****************************************************************************/
+citizens vision_site_size_get(const struct vision_site *psite)
+{
+  fc_assert_ret_val(psite != NULL, 0);
+
+  return psite->size;
+}
+
+/*****************************************************************************
+  Set the city size.
+*****************************************************************************/
+void vision_site_size_set(struct vision_site *psite, citizens size)
+{
+  fc_assert_ret(psite != NULL);
+  fc_assert_ret(size <= MAX_CITY_SIZE);
+
+  psite->size = size;
 }
