@@ -115,8 +115,10 @@ void kill_player(struct player *pplayer)
 
   cancel_all_meetings(pplayer);
 
-  /* Show entire map for players who are *not* in a team. */
-  if (player_list_size(team_members(pplayer->team)) == 1) {
+  /* Show entire map for players who are *not* in a team if revealmap is set
+   * to REVEAL_MAP_DEAD. */
+  if (game.server.revealmap & REVEAL_MAP_DEAD
+      && player_list_size(team_members(pplayer->team)) == 1) {
     map_know_and_see_all(pplayer);
   }
 

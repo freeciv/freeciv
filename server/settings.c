@@ -326,6 +326,18 @@ static const struct sset_val_name *barbarians_name(int barbarians)
 }
 
 /****************************************************************************
+  Revealmap setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *revealmap_name(int bit)
+{
+  switch (1 << bit) {
+  NAME_CASE(REVEAL_MAP_START, "MAP_START", N_("Reveal map at game start"));
+  NAME_CASE(REVEAL_MAP_DEAD, "MAP_DEAD", N_("Unfog map for dead players"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Airlifting style setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *airliftingstyle_name(int bit)
@@ -1752,6 +1764,21 @@ static struct setting settings[] = {
           N_("The game will end at the end of the given turn."),
           endturn_callback, NULL,
           GAME_MIN_END_TURN, GAME_MAX_END_TURN, GAME_DEFAULT_END_TURN)
+
+  GEN_BITWISE("revealmap", game.server.revealmap, SSET_GAME_INIT,
+              SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+              N_("Reveal the map"),
+                 /* TRANS: The strings between double quotes are also
+                  * translated separately (they must match!). The strings
+                  * between parenthesis and in uppercase must not be
+                  * translated. */
+              N_("If this option is set to \"Reveal map at game start\" "
+                 "(MAP_SEEN), the entire map will be known to all players "
+                 "from the start of the game, though it will still be fogged "
+                 "(depending on the fogofwar setting). If this option is set "
+                 "to \"Unfog map for dead players\" (MAP_DEAD) dead players "
+                 "can see the entire map if they are alone in their team."),
+             NULL, NULL, revealmap_name, GAME_DEFAULT_REVEALMAP)
 
   GEN_INT("timeout", game.info.timeout,
           SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,

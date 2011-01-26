@@ -331,6 +331,16 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #define SPECENUM_VALUE3 AIRLIFTING_UNLIMITED_DEST
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME reval_map
+#define SPECENUM_BITWISE
+/* Reveal only the area around the first units at the beginning. */
+#define SPECENUM_ZERO   REVEAL_MAP_NONE
+/* Reveal the (fogged) map at the beginning of the game. */
+#define SPECENUM_VALUE0 REVEAL_MAP_START
+/* Reveal (and unfog) the map for dead players. */
+#define SPECENUM_VALUE1 REVEAL_MAP_DEAD
+#include "specenum_gen.h"
+
 enum phase_mode_types {
   PMT_CONCURRENT = 0,
   PMT_PLAYERS_ALTERNATE,

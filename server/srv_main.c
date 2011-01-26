@@ -2454,6 +2454,12 @@ static void srv_ready(void)
   if (game.info.is_new_game) {
     init_new_game();
   }
+
+  if (game.server.revealmap & REVEAL_MAP_START) {
+    players_iterate(pplayer) {
+      map_show_all(pplayer);
+    } players_iterate_end;
+  }
 }
 
 /**************************************************************************

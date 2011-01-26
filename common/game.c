@@ -366,6 +366,7 @@ static void game_defaults(void)
     game.server.pingtime          = GAME_DEFAULT_PINGTIME;
     game.server.pingtimeout       = GAME_DEFAULT_PINGTIMEOUT;
     game.server.razechance        = GAME_DEFAULT_RAZECHANCE;
+    game.server.revealmap         = GAME_DEFAULT_REVEALMAP;
     game.server.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
     sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
     game.server.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
