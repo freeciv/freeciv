@@ -383,6 +383,7 @@ pkgdata_DATA = \
 		uzbek.ruleset \
 		vampire.ruleset \
 		vandalic.ruleset \
+		vedic.ruleset \
 		venetian.ruleset \
 		venezuelan.ruleset \
 		vermont.ruleset \

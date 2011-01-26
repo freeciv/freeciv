@@ -403,6 +403,7 @@ artists = "
    Vampire		Ann Barcomb
    Vandal		J.M. Maalderink
    Vatican		Flanker (Wikimedia Commons)
+   Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
    Venezuela		Zachary Harden et al.
    Venice		Daniel Markstedt
    Vermont		Mysid (Wikipedia)
@@ -818,6 +819,7 @@ sprites =
 		"f.vampire", "flags/vampire"
 		"f.vandal", "flags/vandal"
 		"f.vatican", "flags/vatican"
+		"f.vedic", "flags/vedic"
 		"f.venezuela", "flags/venezuela"
 		"f.venice", "flags/venice"
 		"f.vermont", "flags/vermont"

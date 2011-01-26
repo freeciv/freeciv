@@ -2,15 +2,20 @@
 
 name=_("Indian")
 plural=_("?plural:Indians")
-groups="Ancient", "Medieval", "Modern", "Asian"
-legend=_("The cradle of Ancient Indian civilization lay in the Indus river\
- valley in modern-day Pakistan.")
+groups="Modern", "Asian"
+legend=_("The Republic of India was created in 1950 following a\
+ non-violent independence movement led by Mahatma Gandhi. With more\
+ than a billion inhabitants it is the world's second most populous\
+ country as well as the world's largest democracy.")
 
 leaders = {
  "name",                "sex"
- "Mohandas Gandhi",     "Male"
- "Ashoka",              "Male"
  "Chandragupta",        "Male"
+ "Ashoka",              "Male"
+ "Shivaji",             "Male"
+ "Subhas Chandra Bose", "Male"
+ "Mohandas Gandhi",     "Male"
+ "Jawaharlal Nehru",    "Male"
  "Indira Gandhi",       "Female"
 }
 
