@@ -511,7 +511,6 @@ static void player_defaults(struct player *pplayer)
   pplayer->economic.tax     = PLAYER_DEFAULT_TAX_RATE;
   pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
   pplayer->economic.luxury  = PLAYER_DEFAULT_LUXURY_RATE;
-  pplayer->economic = player_limit_to_max_rates(pplayer);
 
   spaceship_init(&pplayer->spaceship);
 
@@ -1004,63 +1003,6 @@ bool player_knows_techs_with_flag(const struct player *pplayer,
 				  enum tech_flag_id flag)
 {
   return num_known_tech_with_flag(pplayer, flag) > 0;
-}
-
-/**************************************************************************
-The following limits a player's rates to those that are acceptable for the
-present form of government.  If a rate exceeds maxrate for this government,
-it adjusts rates automatically adding the extra to the 2nd highest rate,
-preferring science to taxes and taxes to luxuries.
-(It assumes that for any government maxrate>=50)
-Returns actual max rate used.
-**************************************************************************/
-struct player_economic player_limit_to_max_rates(struct player *pplayer)
-{
-  int maxrate, surplus;
-  struct player_economic economic;
-
-  /* ai players allowed to cheat */
-  if (pplayer->ai_controlled) {
-    return pplayer->economic;
-  }
-
-  economic = pplayer->economic;
-
-  maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
-  if (maxrate == 0) {
-    maxrate = 100; /* effects not initialized yet */
-  }
-
-  surplus = 0;
-  if (economic.luxury > maxrate) {
-    surplus += economic.luxury - maxrate;
-    economic.luxury = maxrate;
-  }
-  if (economic.tax > maxrate) {
-    surplus += economic.tax - maxrate;
-    economic.tax = maxrate;
-  }
-  if (economic.science > maxrate) {
-    surplus += economic.science - maxrate;
-    economic.science = maxrate;
-  }
-
-  fc_assert(surplus % 10 == 0);
-  while (surplus > 0) {
-    if (economic.science < maxrate) {
-      economic.science += 10;
-    } else if (economic.tax < maxrate) {
-      economic.tax += 10;
-    } else if (economic.luxury < maxrate) {
-      economic.luxury += 10;
-    } else {
-      fc_assert_msg(FALSE, "Failed to distribute the surplus. "
-                    "maxrate = %d.", maxrate);
-    }
-    surplus -= 10;
-  }
-
-  return economic;
 }
 
 /**************************************************************************
