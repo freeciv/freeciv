@@ -199,8 +199,8 @@ start_year = -4000
 skip_year_0 = 1
 
 ; What labels are used of positive and negative years.
-positive_label = _("AD")
-negative_label = _("BC")
+positive_label = _("CE")
+negative_label = _("BCE")
 
 [teams]
 ; freeciv optional team names definition.
