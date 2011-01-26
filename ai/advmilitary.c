@@ -1227,7 +1227,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                           L_FERRYBOAT, choice->want, TRUE);
       if (UMT_SEA == utype_move_type(choice->value.utype)) {
 #ifdef DEBUG
-        struct ai_data *ai = ai_data_get(pplayer);
+        struct adv_data *ai = adv_data_get(pplayer);
 #endif
 
         log_debug("kill_something_with() %s has chosen attacker ferry, "
@@ -1316,7 +1316,7 @@ void military_advisor_choose_build(struct player *pplayer,
                                    struct city *pcity,
                                    struct ai_choice *choice)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   struct unit_type *punittype;
   unsigned int our_def, urgency;
   struct tile *ptile = pcity->tile;

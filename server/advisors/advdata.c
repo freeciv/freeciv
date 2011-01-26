@@ -153,7 +153,7 @@ static void ai_diplomacy_destroy(const struct player *plr1,
   Then we find the largest range of calculatable effects in the
   improvement and record it for later use.
 **************************************************************************/
-static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
+static void ai_data_city_impr_calc(struct player *pplayer, struct adv_data *ai)
 {
   int count[AI_IMPR_LAST];
 
@@ -267,7 +267,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 **************************************************************************/
 void ai_data_analyze_rulesets(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.adv;
+  struct adv_data *ai = pplayer->server.adv;
 
   fc_assert_ret(ai != NULL);
 
@@ -279,7 +279,7 @@ void ai_data_analyze_rulesets(struct player *pplayer)
 **************************************************************************/
 static void count_my_units(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
 
   memset(&ai->stats.units, 0, sizeof(ai->stats.units));
 
@@ -324,9 +324,9 @@ static void count_my_units(struct player *pplayer)
   defending units, and ignore enemy units that are incapable of harming 
   us, instead of just checking attack strength > 1.
 **************************************************************************/
-void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
+void adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
-  struct ai_data *ai = pplayer->server.adv;
+  struct adv_data *ai = pplayer->server.adv;
   int i, j, k;
   int nuke_units;
   bool danger_of_nukes;
@@ -686,9 +686,9 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 /**************************************************************************
   Clean up our mess.
 **************************************************************************/
-void ai_data_phase_done(struct player *pplayer)
+void adv_data_phase_done(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.adv;
+  struct adv_data *ai = pplayer->server.adv;
 
   fc_assert_ret(ai != NULL);
 
@@ -726,19 +726,19 @@ void ai_data_phase_done(struct player *pplayer)
 /**************************************************************************
   Return a pointer to our data
 **************************************************************************/
-struct ai_data *ai_data_get(struct player *pplayer)
+struct adv_data *adv_data_get(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.adv;
+  struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret_val(ai != NULL, NULL);
+  fc_assert_ret_val(adv != NULL, NULL);
 
-  if (ai->num_continents != map.num_continents
-      || ai->num_oceans != map.num_oceans) {
+  if (adv->num_continents != map.num_continents
+      || adv->num_oceans != map.num_oceans) {
     /* we discovered more continents, recalculate! */
-    ai_data_phase_done(pplayer);
-    ai_data_phase_init(pplayer, FALSE);
+    adv_data_phase_done(pplayer);
+    adv_data_phase_init(pplayer, FALSE);
   }
-  return ai;
+  return adv;
 }
 
 /**************************************************************************
@@ -746,7 +746,7 @@ struct ai_data *ai_data_get(struct player *pplayer)
 **************************************************************************/
 void adv_data_init(struct player *pplayer)
 {
-  struct ai_data *ai;
+  struct adv_data *ai;
 
   if (pplayer->server.adv == NULL) {
     pplayer->server.adv = fc_calloc(1, sizeof(*pplayer->server.adv));
@@ -784,7 +784,7 @@ void adv_data_init(struct player *pplayer)
 **************************************************************************/
 void ai_data_default(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.adv;
+  struct adv_data *ai = pplayer->server.adv;
 
   fc_assert_ret(ai != NULL);
 
@@ -820,11 +820,11 @@ void ai_data_default(struct player *pplayer)
 **************************************************************************/
 void adv_data_close(struct player *pplayer)
 {
-  struct ai_data *ai = pplayer->server.adv;
+  struct adv_data *ai = pplayer->server.adv;
 
   fc_assert_ret(NULL != ai);
 
-  ai_data_phase_done(pplayer);
+  adv_data_phase_done(pplayer);
 
   if (ai->diplomacy.player_intel_slots != NULL) {
     players_iterate(aplayer) {
@@ -854,7 +854,7 @@ void adv_data_close(struct player *pplayer)
 **************************************************************************/
 bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
 
   if (c1 >= 0 || c2 >= 0) {
     return FALSE;

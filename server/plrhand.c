@@ -1786,7 +1786,8 @@ static struct player *split_player(struct player *pplayer)
 
   /* Not sure if this is necessary, but might be a good idea
    * to avoid doing some ai calculations with bogus data. */
-  ai_data_phase_init(cplayer, TRUE);
+  adv_data_phase_init(cplayer, TRUE);
+  CALL_PLR_AI_FUNC(phase_begin, cplayer, cplayer, TRUE);
   CALL_PLR_AI_FUNC(gained_control, cplayer, cplayer);
   if (pplayer->ai_controlled) {
     CALL_PLR_AI_FUNC(split_by_civil_war, pplayer, pplayer);

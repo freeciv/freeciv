@@ -264,7 +264,7 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
   struct tile *saved_claimer = NULL;
   bool virtual_city = FALSE;
   bool handicap = ai_handicap(pplayer, H_MAP);
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   struct cityresult *result;
 
   fc_assert_ret_val(ai != NULL, NULL);
@@ -485,7 +485,7 @@ static void tile_data_cache_destroy(struct tile_data_cache *ptdc)
 static const struct tile_data_cache *tdc_plr_get(struct player *plr,
                                                  int tindex)
 {
-  struct ai_data *ai = ai_data_get(plr);
+  struct adv_data *ai = adv_data_get(plr);
 
   fc_assert_ret_val(ai != NULL, NULL);
   fc_assert_ret_val(ai->settler != NULL, NULL);
@@ -519,7 +519,7 @@ static const struct tile_data_cache *tdc_plr_get(struct player *plr,
 static void tdc_plr_set(struct player *plr, int tindex,
                          const struct tile_data_cache *ptdc)
 {
-  struct ai_data *ai = ai_data_get(plr);
+  struct adv_data *ai = adv_data_get(plr);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
@@ -667,7 +667,7 @@ struct cityresult *city_desirability(struct player *pplayer,
                                      struct unit *punit, struct tile *ptile)
 {
   struct city *pcity = tile_city(ptile);
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   struct cityresult *cr = NULL;
 
   fc_assert_ret_val(punit, NULL);
@@ -956,7 +956,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
 **************************************************************************/
 void ai_auto_settler_init(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler == NULL);
@@ -1111,7 +1111,7 @@ CLEANUP:
 **************************************************************************/
 void ai_auto_settler_free(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
 
   fc_assert_ret(ai != NULL);
 

@@ -897,7 +897,8 @@ static void begin_phase(bool is_new_phase)
     log_debug("beginning player turn for #%d (%s)",
               player_number(pplayer), player_name(pplayer));
     /* human players also need this for building advice */
-    ai_data_phase_init(pplayer, is_new_phase);
+    adv_data_phase_init(pplayer, is_new_phase);
+    CALL_PLR_AI_FUNC(phase_begin, pplayer, pplayer, is_new_phase);
     if (!pplayer->ai_controlled) {
       building_advisor(pplayer);
     }
@@ -1012,9 +1013,10 @@ static void end_phase(void)
 
   phase_players_iterate(pplayer) {
     if (pplayer->ai_controlled) {
+      CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
       /* This has to be after new units have been built in case
-       * ai_data_get() gets called for new unit leading to memory leak */
-      ai_data_phase_done(pplayer);
+       * adv_data_get() gets called for new unit leading to memory leak */
+      adv_data_phase_done(pplayer);
     }
   } phase_players_iterate_end;
 

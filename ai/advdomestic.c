@@ -59,7 +59,7 @@
  ***************************************************************************/
 static void ai_choose_help_wonder(struct city *pcity,
 				  struct ai_choice *choice,
-                                  struct ai_data *ai)
+                                  struct adv_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
   Continent_id continent = tile_continent(pcity->tile);
@@ -149,7 +149,7 @@ static void ai_choose_help_wonder(struct city *pcity,
  ***************************************************************************/
 static void ai_choose_trade_route(struct city *pcity,
 				  struct ai_choice *choice,
-                                  struct ai_data *ai)
+                                  struct adv_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
   struct unit_type *unit_type;
@@ -259,7 +259,7 @@ static void ai_choose_trade_route(struct city *pcity,
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   /* Unit type with certain role */
   struct unit_type *settler_type;
   struct unit_type *founder_type;
@@ -330,7 +330,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       /* We need boats to colonize! */
       /* We might need boats even if there are boats free,
        * if they are blockaded or in inland seas. */
-      struct ai_data *ai = ai_data_get(pplayer);
+      struct adv_data *ai = adv_data_get(pplayer);
 
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a new boat (%d of %d free)",

@@ -236,7 +236,7 @@ struct player {
 
       bv_debug debug;
 
-      struct ai_data *adv;
+      struct adv_data *adv;
 
       void *ais[FC_AI_LAST];
 

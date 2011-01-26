@@ -137,7 +137,7 @@ static void calculate_city_clusters(struct player *pplayer)
   Calculate walking distances to wonder city from nearby cities.
 **************************************************************************/
 static void calculate_wonder_helpers(struct player *pplayer, 
-                                     struct ai_data *ai)
+                                     struct adv_data *ai)
 {
   struct pf_map *pfm;
   struct pf_parameter parameter;
@@ -193,7 +193,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   base want of a city.
 **************************************************************************/
 static inline int city_want(struct player *pplayer, struct city *acity, 
-                            struct ai_data *ai, struct impr_type *pimprove)
+                            struct adv_data *ai, struct impr_type *pimprove)
 {
   int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST], i;
 
@@ -260,7 +260,7 @@ static inline int city_want(struct player *pplayer, struct city *acity,
 static int base_want(struct player *pplayer, struct city *pcity, 
                      struct impr_type *pimprove)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   int final_want = 0;
   int wonder_player_id = WONDER_NOT_OWNED;
   int wonder_city_id = WONDER_NOT_BUILT;
@@ -393,7 +393,7 @@ static struct unit_class *affected_unit_class(const struct effect *peffect)
   Number of AI stats units affected by effect
 **************************************************************************/
 static int num_affected_units(const struct effect *peffect,
-                              const struct ai_data *ai)
+                              const struct adv_data *ai)
 {
   struct unit_class *uclass;
   enum unit_move_type move;
@@ -421,7 +421,7 @@ static int num_affected_units(const struct effect *peffect,
 **************************************************************************/
 static int improvement_effect_value(struct player *pplayer,
 				    struct government *gov,
-				    const struct ai_data *ai,
+				    const struct adv_data *ai,
 				    const struct city *pcity,
 				    const bool capital, 
 				    const struct impr_type *pimprove,
@@ -913,7 +913,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
   int v = 0;
   int cities[REQ_RANGE_COUNT];
   int nplayers = normal_player_count();
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   bool capital = is_capital(pcity);
   bool can_build = TRUE;
   struct government *gov = government_of_player(pplayer);
@@ -1215,7 +1215,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
 **************************************************************************/
 void building_advisor(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   struct city *wonder_city = game_city_by_number(ai->wonder_city);
 
   if (wonder_city && city_owner(wonder_city) != pplayer) {

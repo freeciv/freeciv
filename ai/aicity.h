@@ -16,6 +16,8 @@
 /* common */
 #include "fc_types.h"
 
+struct adv_data;
+
 enum choice_type {
   CT_NONE = 0,
   CT_BUILDING = 1,
@@ -88,7 +90,7 @@ struct ai_city {
 
 void ai_manage_cities(struct player *pplayer);
 
-int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
+int ai_eval_calc_city(struct city *pcity, struct adv_data *ai);
 
 void ai_city_alloc(struct city *pcity);
 void ai_city_free(struct city *pcity);

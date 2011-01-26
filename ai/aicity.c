@@ -90,7 +90,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
   another player's ai_data structure here for evaluation by different
   priorities.
 **************************************************************************/
-int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
+int ai_eval_calc_city(struct city *pcity, struct adv_data *ai)
 {
   int i = (pcity->surplus[O_FOOD] * ai->food_priority
            + pcity->surplus[O_SHIELD] * ai->shield_priority
@@ -205,7 +205,7 @@ static void ai_barbarian_choose_build(struct player *pplayer,
 static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice newchoice;
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   struct ai_city *city_data = def_ai_city_data(pcity);
 
   init_choice(&newchoice);
@@ -599,7 +599,7 @@ static void contemplate_terrain_improvements(struct city *pcity)
   struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   struct unit_type *unit_type = best_role_unit(pcity, F_SETTLERS);
   Continent_id place = tile_continent(pcenter);
 

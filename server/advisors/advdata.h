@@ -73,8 +73,8 @@ struct ai_dip_intel {
 struct ai_settler; /* see aisettler.c */
 
 BV_DEFINE(bv_id, MAX_NUM_ID);
-struct ai_data {
-  /* Whether ai_data_phase_init() has been called or not. */
+struct adv_data {
+  /* Whether adv_data_phase_init() has been called or not. */
   bool phase_is_initialized;
 
   /* The Wonder City */
@@ -188,12 +188,12 @@ void adv_data_init(struct player *pplayer);
 void ai_data_default(struct player *pplayer);
 void adv_data_close(struct player *pplayer);
 
-void ai_data_phase_init(struct player *pplayer, bool is_new_phase);
-void ai_data_phase_done(struct player *pplayer);
+void adv_data_phase_init(struct player *pplayer, bool is_new_phase);
+void adv_data_phase_done(struct player *pplayer);
 
 void ai_data_analyze_rulesets(struct player *pplayer);
 
-struct ai_data *ai_data_get(struct player *pplayer);
+struct adv_data *adv_data_get(struct player *pplayer);
 struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
                                       const struct player *plr2);
 

@@ -309,7 +309,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
     }
   } square_iterate_end;
   
-  total = ai_data_get(pplayer)->stats.units.paratroopers;
+  total = adv_data_get(pplayer)->stats.units.paratroopers;
   total_cities = city_list_size(pplayer->cities);
   
   if (total > total_cities) {

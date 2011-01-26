@@ -129,7 +129,7 @@ const char *ai_choice_rule_name(const struct ai_choice *choice)
 int military_amortize(struct player *pplayer, struct city *pcity,
                       int value, int delay, int build_cost)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   int city_output = (pcity ? pcity->surplus[O_SHIELD] : 1);
   int output = MAX(city_output, ai->stats.average_production);
   int build_time = build_cost / MAX(output, 1);
@@ -1340,5 +1340,5 @@ bool ai_assess_military_unhappiness(struct city *pcity)
 **************************************************************************/
 bool ai_wants_no_science(struct player *pplayer)
 {
-  return ai_data_get(pplayer)->wants_no_science;
+  return adv_data_get(pplayer)->wants_no_science;
 }

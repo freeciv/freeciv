@@ -560,7 +560,8 @@ static void try_summon_barbarians(void)
     if (!barbarians) {
       return;
     }
-    ai_data_phase_init(barbarians, TRUE); /* Created ferry may need ai data */
+    adv_data_phase_init(barbarians, TRUE); /* Created ferry may need ai data */
+    CALL_PLR_AI_FUNC(phase_begin, barbarians, barbarians, TRUE);
 
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
 
@@ -592,7 +593,8 @@ static void try_summon_barbarians(void)
       }
     }
 
-    ai_data_phase_done(barbarians);
+    CALL_PLR_AI_FUNC(phase_finished, barbarians, barbarians);
+    adv_data_phase_done(barbarians);
   }
 
   if (really_created == 0) {

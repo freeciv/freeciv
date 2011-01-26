@@ -204,7 +204,7 @@ static void ai_manage_taxes(struct player *pplayer)
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
   struct player_research *research = player_research_get(pplayer);
   enum celebration celebrate = AI_CELEBRATION_UNCHECKED;
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   int can_celebrate = 0, total_cities = 0;
   int trade = 0;         /* total amount of trade generated */
   int expenses = 0;      /* total amount of gold upkeep */
@@ -678,7 +678,7 @@ static void ai_manage_taxes(struct player *pplayer)
 **************************************************************************/
 void ai_best_government(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   int best_val = 0;
   int bonus = 0; /* in percentage */
   struct government *current_gov = government_of_player(pplayer);
@@ -781,7 +781,7 @@ void ai_best_government(struct player *pplayer)
 **************************************************************************/
 static void ai_manage_government(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
 
   if (!pplayer->is_alive || ai_handicap(pplayer, H_AWAY)) {
     return;
