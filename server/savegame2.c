@@ -167,6 +167,10 @@ static bool sg_success;
     return _val;                                                            \
   }
 
+#define sg_warn(condition, message, ...)                                    \
+  if (!(condition)) {                                                       \
+    log_sg(message, ## __VA_ARGS__);                                        \
+  }
 #define sg_warn_ret(condition, message, ...)                                \
   if (!(condition)) {                                                       \
     log_sg(message, ## __VA_ARGS__);                                        \
