@@ -1646,7 +1646,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         pv->data.v_const_string = pcity->name;
         break;
       case OPID_CITY_SIZE:
-        pv->data.v_int = pcity->size;
+        pv->data.v_int = city_size_get(pcity);
         break;
       case OPID_CITY_BUILDINGS:
         pv->data.v_built = fc_malloc(sizeof(pcity->built));
@@ -1880,7 +1880,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
         return TRUE;
       case OPID_CITY_FOOD_STOCK:
         *pmin = 0;
-        *pmax = city_granary_size(pcity->size);
+        *pmax = city_granary_size(city_size_get(pcity));
         *pstep = 1;
         *pbig_step = 5;
         return TRUE;
@@ -2180,7 +2180,7 @@ static void objbind_pack_current_values(struct objbind *ob,
 
       packet->id = pcity->id;
       sz_strlcpy(packet->name, pcity->name);
-      packet->size = pcity->size;
+      packet->size = city_size_get(pcity);
       for (i = 0; i < B_LAST; i++) {
         packet->built[i] = pcity->built[i].turn;
       }

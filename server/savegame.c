@@ -2702,15 +2702,17 @@ static bool player_load_city_tile_S22(int plrno, int i, struct city *pcity,
       log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
                  "(%d, %d) \"%s\"[%d], ignoring",
                  plrno, i, x, y, tile_status,
-                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+                 TILE_XY(city_tile(pcity)), city_name(pcity),
+                 city_size_get(pcity));
     } else if (NULL != (pwork = tile_worked(ptile))) {
       log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
                  "(%d, %d) for (%d ,%d) \"%s\"[%d] with (%d, %d) "
                  "\"%s\"[%d], converting to unavailable",
                  plrno, i, x, y, tile_status, TILE_XY(ptile),
-                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size,
+                 TILE_XY(city_tile(pcity)), city_name(pcity),
+                 city_size_get(pcity),
                  TILE_XY(city_tile(pwork)), city_name(pwork),
-                 pwork->size);
+                 city_size_get(pwork));
     }
     break;
 
@@ -2719,15 +2721,17 @@ static bool player_load_city_tile_S22(int plrno, int i, struct city *pcity,
       log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
                  "(%d, %d) \"%s\"[%d], ignoring",
                  plrno, i, x, y, tile_status,
-                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+                 TILE_XY(city_tile(pcity)), city_name(pcity),
+                 city_size_get(pcity));
     } else if (NULL != (pwork = tile_worked(ptile))) {
       log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
                  "(%d, %d) for (%d, %d) \"%s\"[%d] with (%d, %d) "
                  "\"%s\"[%d], converting to default specialist",
                  plrno, i, x, y, tile_status, TILE_XY(ptile),
-                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size,
+                 TILE_XY(city_tile(pcity)), city_name(pcity),
+                 city_size_get(pcity),
                  TILE_XY(city_tile(pwork)), city_name(pwork),
-                 pwork->size);
+                 city_size_get(pwork));
 
       pcity->specialists[DEFAULT_SPECIALIST]++;
       auto_arrange_workers(pcity);
@@ -2749,14 +2753,14 @@ static bool player_load_city_tile_S22(int plrno, int i, struct city *pcity,
       log_worker("player%d.c%d.workers {%d, %d} '%c' not valid at "
                  "(%d, %d) for (%d, %d) \"%s\"[%d], converting to "
                  "unavailable", plrno, i, x, y, tile_status, TILE_XY(ptile),
-                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+                 TILE_XY(city_tile(pcity)), city_name(pcity), city_size_get(pcity));
     }
     break;
 
   default:
     log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
                "(%d, %d) \"%s\"[%d], ignoring", plrno, i, x, y, tile_status,
-               TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+               TILE_XY(city_tile(pcity)), city_name(pcity), city_size_get(pcity));
     break;
   };
 
@@ -2888,16 +2892,31 @@ static void player_load_cities(struct player *plr, int plrno,
 
     /* no city_choose_build_default(), values loaded below! */
 
-    fc_assert_exit_msg(secfile_lookup_int(file, &pcity->size,
-                                          "player%d.c%d.size", plrno, i),
-                       "%s", secfile_error());
+    {
+      int value;
+      citizens size;
+      fc_assert_exit_msg(secfile_lookup_int(file, &value,
+                                            "player%d.c%d.size", plrno, i),
+                         "%s", secfile_error());
+      size = (citizens)value; /* set the correct type */
+      if (value != (int)size) {
+        log_error("Invalid city size: %d; set to %d.", value, size);
+      }
+      city_size_set(pcity, size);
+    }
 
     specialist_type_iterate(sp) {
-      fc_assert_exit_msg(secfile_lookup_int(file, &pcity->specialists[sp],
+      int value;
+      fc_assert_exit_msg(secfile_lookup_int(file, &value,
                                             "player%d.c%d.n%s", plrno, i,
                                             specialist_rule_name
                                             (specialist_by_number(sp))),
                          "%s", secfile_error());
+      pcity->specialists[sp] = (citizens)value; /* set the correct type */
+      if (value != (int)pcity->specialists[sp]) {
+        log_error("Invalid number of specialists: %d; set to %d.", value,
+                  pcity->specialists[sp]);
+      }
       specialists += pcity->specialists[sp];
     } specialist_type_iterate_end;
 
@@ -3159,8 +3178,9 @@ static void player_load_cities(struct player *plr, int plrno,
       if (NULL != pwork) {
         log_error("[player%d.c%d] city center of '%s' (%d,%d) [%d] is "
                   "worked by '%s' (%d,%d) [%d]; repairing ", plrno, i,
-                  city_name(pcity), TILE_XY(pcenter), pcity->size,
-                  city_name(pwork), TILE_XY(city_tile(pwork)), pwork->size);
+                  city_name(pcity), TILE_XY(pcenter), city_size_get(pcity),
+                  city_name(pwork), TILE_XY(city_tile(pwork)),
+                  city_size_get(pwork));
 
         tile_set_worked(pcenter, NULL); /* remove tile from pwork */
         pwork->specialists[DEFAULT_SPECIALIST]++;
@@ -3168,7 +3188,7 @@ static void player_load_cities(struct player *plr, int plrno,
       } else {
         log_error("[player%d.c%d] city center of '%s' (%d,%d) [%d] is "
                   "empty; repairing ", plrno, i, city_name(pcity),
-                  TILE_XY(pcenter), pcity->size);
+                  TILE_XY(pcenter), city_size_get(pcity));
       }
 
       /* repair pcity */
@@ -3176,12 +3196,13 @@ static void player_load_cities(struct player *plr, int plrno,
       city_repair_size(pcity, -1);
     }
 
-    k = pcity->size - specialists - (workers - FREE_WORKED_TILES);
+    k = city_size_get(pcity) - specialists - (workers - FREE_WORKED_TILES);
     if (0 != k) {
       log_error("[player%d.c%d] size mismatch for '%s' (%d,%d): "
                 "size [%d] != (workers [%d] - free worked tiles [%d]) + "
                 "specialists [%d]",
-                plrno, i, city_name(pcity), TILE_XY(pcenter), pcity->size,
+                plrno, i, city_name(pcity), TILE_XY(pcenter),
+                city_size_get(pcity),
                 workers, FREE_WORKED_TILES, specialists);
 
       /* repair pcity */
@@ -3969,7 +3990,8 @@ static void player_save_cities(struct player *plr, int plrno,
     secfile_insert_int(file, player_number(pcity->original),
 		       "player%d.c%d.original", plrno, i);
 
-    secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
+    secfile_insert_int(file, city_size_get(pcity), "player%d.c%d.size",
+                       plrno, i);
 
     specialist_type_iterate(sp) {
       secfile_insert_int(file, pcity->specialists[sp],

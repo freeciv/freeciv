@@ -285,7 +285,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);  
 
     /* ----------- */
-    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", city_size_get(pCity));
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -932,7 +932,7 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
    
   /* city size */
   pWidget = pWidget->prev;
-  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", city_size_get(pCity));
   copy_chars_to_string16(pWidget->string16, cBuf);
       
   /* cma check box */

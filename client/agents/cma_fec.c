@@ -259,7 +259,7 @@ static const char *get_city_growth_string(struct city *pcity, int surplus)
   }
 
   stock = pcity->food_stock;
-  cost = city_granary_size(pcity->size);
+  cost = city_granary_size(city_size_get(pcity));
 
   stock += surplus;
 
@@ -343,7 +343,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
     } output_type_iterate_end;
 
     fc_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
-                pcity->size - cm_result_specialists(result),
+                city_size_get(pcity) - cm_result_specialists(result),
                 specialists_string(result->specialists),
                 result->happy ? _(" happy") : "");
 

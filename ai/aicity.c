@@ -468,8 +468,8 @@ static void ai_spend_gold(struct player *pplayer)
     if (is_unit_choice_type(bestchoice.type)
         && utype_has_flag(bestchoice.value.utype, F_CITIES)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
-          && pcity->size == 1
-          && city_granary_size(pcity->size)
+          && city_size_get(pcity) == 1
+          && city_granary_size(city_size_get(pcity))
              > pcity->food_stock + pcity->surplus[O_FOOD]) {
         /* Don't buy settlers in size 1 cities unless we grow next turn */
         continue;
@@ -578,7 +578,7 @@ static int unit_foodbox_cost(struct unit *punit)
 
     foodloss_pct = CLIP(0, foodloss_pct, 100);
     fc_assert_ret_val(pcity != NULL, -1);
-    cost = city_granary_size(pcity->size);
+    cost = city_granary_size(city_size_get(pcity));
     cost = cost * foodloss_pct / 100;
   }
 

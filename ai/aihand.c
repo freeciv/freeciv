@@ -463,8 +463,8 @@ static void ai_manage_taxes(struct player *pplayer)
 
       if (cmr->found_a_valid
           && pcity->surplus[O_FOOD] > 0
-          && pcity->size >= game.info.celebratesize
-          && city_can_grow_to(pcity, pcity->size + 1)) {
+          && city_size_get(pcity) >= game.info.celebratesize
+          && city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
         city_data->celebrate = TRUE;
         can_celebrate++;
       } else {

@@ -1476,7 +1476,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
         fc_snprintf(name, sizeof(name), "Copy of %s",
                     city_name(pcity));
         vcity = create_city_virtual(city_owner(pcity), NULL, name);
-        vcity->size = pcity->size;
+        city_size_set(vcity, city_size_get(pcity));
         improvement_iterate(pimprove) {
           if (!is_improvement(pimprove)
               || !city_has_building(pcity, pimprove)) {
@@ -1582,7 +1582,7 @@ static void paste_tile(struct edit_buffer *ebuf,
         continue;
       }
       owner = player_number(city_owner(vcity));
-      value = vcity->size;
+      value = city_size_get(vcity);
       dsend_packet_edit_city_create(my_conn, owner, tile, value, 0);
       break;
     default:

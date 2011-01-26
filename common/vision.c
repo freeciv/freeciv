@@ -96,7 +96,7 @@ struct vision_site *vision_site_new_from_city(const struct city *pcity)
   struct vision_site *psite =
     vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
 
-  vision_site_size_set(psite, pcity->size);
+  vision_site_size_set(psite, city_size_get(pcity));
   sz_strlcpy(psite->name, city_name(pcity));
 
   return psite;
@@ -114,7 +114,7 @@ void vision_site_update_from_city(struct vision_site *psite,
 
   psite->owner = city_owner(pcity);
 
-  vision_site_size_set(psite, pcity->size);
+  vision_site_size_set(psite, city_size_get(pcity));
   sz_strlcpy(psite->name, city_name(pcity));
 }
 

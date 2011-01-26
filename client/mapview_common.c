@@ -1454,7 +1454,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 				   growth, sizeof(growth), &growth_color);
 
   if (draw_city_names) {
-    fc_snprintf(size, sizeof(size), "%d", pcity->size);
+    fc_snprintf(size, sizeof(size), "%d", city_size_get(pcity));
 
     get_text_size(&size_rect.w, &size_rect.h, FONT_CITY_SIZE, size);
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);

@@ -1018,7 +1018,8 @@ bool is_req_active(const struct player *target_player,
 	    && target_specialist == req->source.value.specialist);
     break;
   case VUT_MINSIZE:
-    eval = target_city && target_city->size >= req->source.value.minsize;
+    eval = target_city && (city_size_get(target_city)
+                           >= req->source.value.minsize);
     break;
   case VUT_AI_LEVEL:
     eval = target_player

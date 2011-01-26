@@ -689,7 +689,7 @@ void update_city_cma_dialog(void)
 
   if(result->found_a_valid) {
     /* redraw Citizens */
-    count = pCma->pCity->size;
+    count = city_size_get(pCma->pCity);
     
     pText = get_tax_surface(O_LUXURY);
     step = (pBuf->size.w - adj_size(20)) / pText->w;

@@ -104,7 +104,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   log_debug("poison: infiltrated");
 
   /* If city is too small, can't poison. */
-  if (pcity->size < 2) {
+  if (city_size_get(pcity) < 2) {
     notify_player(pplayer, city_tile(pcity),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s could not poison the water"
@@ -753,7 +753,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   /* Subvert the city to your cause... */
 
   /* City loses some population. */
-  if (pcity->size > 1) {
+  if (city_size_get(pcity) > 1) {
     city_reduce_size(pcity, 1, pplayer);
   }
 

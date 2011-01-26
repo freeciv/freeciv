@@ -105,6 +105,10 @@ static bool sell_random_building(struct player *pplayer,
                                  struct cityimpr_list *imprs);
 static bool sell_random_unit(struct player *pplayer,
                              struct unit_list *punitlist);
+
+static citizens city_reduce_specialists(struct city *pcity, citizens change);
+static citizens city_reduce_workers(struct city *pcity, citizens change);
+
 static bool city_balance_treasury_buildings(struct city *pcity);
 static bool city_balance_treasury_units(struct city *pcity);
 static bool player_balance_treasury_units_and_buildings
@@ -293,8 +297,8 @@ void auto_arrange_workers(struct city *pcity)
    * to be used here.  However that doesn't work at all because those values
    * are on a different scale.  Later the ai may wish to adjust its
    * priorities - this should be done via a separate set of variables. */
-  if (pcity->size > 1) {
-    if (pcity->size <= game.info.notradesize) {
+  if (city_size_get(pcity) > 1) {
+    if (city_size_get(pcity) <= game.info.notradesize) {
       cmp.factor[O_FOOD] = 15;
     } else {
       cmp.factor[O_FOOD] = 10;
@@ -391,8 +395,8 @@ static void city_turn_notify(const struct city *pcity,
   int turns_growth, turns_granary;
 
   if (0 < pcity->surplus[O_FOOD]) {
-    turns_growth = ((city_granary_size(pcity->size) - pcity->food_stock - 1)
-                    / pcity->surplus[O_FOOD]);
+    turns_growth = (city_granary_size(city_size_get(pcity))
+                    - pcity->food_stock - 1) / pcity->surplus[O_FOOD];
 
     if (0 == get_city_bonus(pcity, EFT_GROWTH_FOOD)
         && 0 < get_current_construction_bonus(pcity, EFT_GROWTH_FOOD,
@@ -419,7 +423,7 @@ static void city_turn_notify(const struct city *pcity,
     }
 
     if (0 >= turns_growth && !city_celebrating(pcity)
-        && city_can_grow_to(pcity, pcity->size + 1)) {
+        && city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
       package_event(&packet, city_tile(pcity),
                     E_CITY_MAY_SOON_GROW, ftc_server,
                     _("%s may soon grow to size %i."),
@@ -554,14 +558,14 @@ void update_city_activities(struct player *pplayer)
   Reduce the city specialists by some (positive) value.
   Return the amount of reduction.
 **************************************************************************/
-static int city_reduce_specialists(struct city *pcity, int change)
+static citizens city_reduce_specialists(struct city *pcity, citizens change)
 {
-  int want = change;
+  citizens want = change;
 
   fc_assert_ret_val(0 < change, 0);
 
   specialist_type_iterate(sp) {
-    int fix = MIN(want, pcity->specialists[sp]);
+    citizens fix = MIN(want, pcity->specialists[sp]);
 
     pcity->specialists[sp] -= fix;
     want -= fix;
@@ -574,7 +578,7 @@ static int city_reduce_specialists(struct city *pcity, int change)
   Reduce the city workers by some (positive) value.
   Return the amount of reduction.
 **************************************************************************/
-static int city_reduce_workers(struct city *pcity, int change)
+static citizens city_reduce_workers(struct city *pcity, citizens change)
 {
   struct tile *pcenter = city_tile(pcity);
   int want = change;
@@ -596,17 +600,17 @@ static int city_reduce_workers(struct city *pcity, int change)
   Reduce the city size.  Return TRUE if the city survives the population
   loss.
 **************************************************************************/
-bool city_reduce_size(struct city *pcity, int pop_loss,
+bool city_reduce_size(struct city *pcity, citizens pop_loss,
                       struct player *destroyer)
 {
-  int loss_remain;
+  citizens loss_remain;
   int i;
 
   if (pop_loss == 0) {
     return TRUE;
   }
 
-  if (pcity->size <= pop_loss) {
+  if (city_size_get(pcity) <= pop_loss) {
 
     script_signal_emit("city_destroyed", 3,
                        API_TYPE_CITY, pcity,
@@ -617,19 +621,19 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
     return FALSE;
   }
   map_clear_border(pcity->tile);
-  pcity->size -= pop_loss;
+  city_size_add(pcity, -pop_loss);
   map_claim_border(pcity->tile, pcity->owner);
 
   /* Cap the food stock at the new granary size. */
-  if (pcity->food_stock > city_granary_size(pcity->size)) {
-    pcity->food_stock = city_granary_size(pcity->size);
+  if (pcity->food_stock > city_granary_size(city_size_get(pcity))) {
+    pcity->food_stock = city_granary_size(city_size_get(pcity));
   }
 
   /* First try to kill off the specialists */
   loss_remain = pop_loss - city_reduce_specialists(pcity, pop_loss);
 
   /* Update number of people in each feelings category.
-   * This must be after new pcity->size and specialists counts
+   * This must be after new city size and specialists counts
    * have been set, and before any auto_arrange_workers() */
   city_refresh(pcity);
 
@@ -648,7 +652,7 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
                         "city_reduce_size() has remaining"
                         "%d of %d for \"%s\"[%d]",
                         loss_remain, pop_loss,
-                        city_name(pcity), pcity->size);
+                        city_name(pcity), city_size_get(pcity));
 
   /* check squared city radius */
   if (city_map_update_radius_sq(pcity, TRUE)) {
@@ -672,12 +676,12 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
   Repair the city population without affecting city size.
   Used by savegame.c and sanitycheck.c
 **************************************************************************/
-void city_repair_size(struct city *pcity, int change)
+void city_repair_size(struct city *pcity, citizens change)
 {
   if (change > 0) {
     pcity->specialists[DEFAULT_SPECIALIST] += change;
   } else if (change < 0) {
-    int need = change + city_reduce_specialists(pcity, -change);
+    citizens need = change + city_reduce_specialists(pcity, -change);
 
     if (0 > need) {
       need += city_reduce_workers(pcity, -need);
@@ -685,7 +689,7 @@ void city_repair_size(struct city *pcity, int change)
 
     fc_assert_msg(0 == need,
                   "city_repair_size() has remaining %d of %d for \"%s\"[%d]",
-                  need, change, city_name(pcity), pcity->size);
+                  need, change, city_name(pcity), city_size_get(pcity));
   }
 }
 
@@ -718,34 +722,35 @@ static bool city_increase_size(struct city *pcity)
   struct impr_type *pimprove = pcity->production.value.building;
   int saved_id = pcity->id;
 
-  if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
+  if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
+    /* need improvement */
     if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ, RPT_CERTAIN) > 0
         || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT, RPT_CERTAIN) > 0) {
       notify_player(powner, city_tile(pcity), E_CITY_AQ_BUILDING, ftc_server,
                     _("%s needs %s (being built) to grow beyond size %d."),
                     city_link(pcity),
                     improvement_name_translation(pimprove),
-                    pcity->size);
+                    city_size_get(pcity));
     } else {
       notify_player(powner, city_tile(pcity), E_CITY_AQUEDUCT, ftc_server,
                     _("%s needs an improvement to grow beyond size %d."),
-                    city_link(pcity), pcity->size);
+                    city_link(pcity), city_size_get(pcity));
     }
     /* Granary can only hold so much */
-    new_food = (city_granary_size(pcity->size)
+    new_food = (city_granary_size(city_size_get(pcity))
                 * (100 * 100 - game.server.aqueductloss * (100 - savings_pct))
                 / (100 * 100));
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return FALSE;
   }
 
-  pcity->size++;
+  city_size_add(pcity, 1);
 
   /* Do not empty food stock if city is growing by celebrating */
   if (rapture_grow) {
-    new_food = city_granary_size(pcity->size);
+    new_food = city_granary_size(city_size_get(pcity));
   } else {
-    new_food = city_granary_size(pcity->size) * savings_pct / 100;
+    new_food = city_granary_size(city_size_get(pcity)) * savings_pct / 100;
   }
   pcity->food_stock = MIN(pcity->food_stock, new_food);
 
@@ -788,9 +793,9 @@ static bool city_increase_size(struct city *pcity)
 
   notify_player(powner, city_tile(pcity), E_CITY_GROWTH, ftc_server,
                 _("%s grows to size %d."),
-                city_link(pcity), pcity->size);
-  script_signal_emit("city_growth", 2,
-                     API_TYPE_CITY, pcity, API_TYPE_INT, pcity->size);
+                city_link(pcity), city_size_get(pcity));
+  script_signal_emit("city_growth", 2, API_TYPE_CITY, pcity,
+                     API_TYPE_INT, city_size_get(pcity));
   if (city_exist(saved_id)) {
     /* Script didn't destroy this city */
     sanity_check_city(pcity);
@@ -803,18 +808,18 @@ static bool city_increase_size(struct city *pcity)
 /****************************************************************************
   Change the city size.  Return TRUE iff the city is still alive afterwards.
 ****************************************************************************/
-bool city_change_size(struct city *pcity, int size)
+bool city_change_size(struct city *pcity, citizens size)
 {
   fc_assert_ret_val(size >= 0 && size <= MAX_CITY_SIZE, TRUE);
 
-  if (size > pcity->size) {
+  if (size > city_size_get(pcity)) {
     /* Increase city size until size reached, or increase fails */
-    while (size > pcity->size && city_increase_size(pcity)) ;
-  } else if (size < pcity->size) {
+    while (size > city_size_get(pcity) && city_increase_size(pcity)) ;
+  } else if (size < city_size_get(pcity)) {
     /* We assume that city_change_size() is never called because
      * of enemy actions. If that changes, enemy must be passed
      * to city_reduce_size() */
-    return city_reduce_size(pcity, pcity->size - size, NULL);
+    return city_reduce_size(pcity, city_size_get(pcity) - size, NULL);
   }
 
   map_claim_border(pcity->tile, pcity->owner);
@@ -831,7 +836,7 @@ static void city_populate(struct city *pcity)
   int saved_id = pcity->id;
 
   pcity->food_stock += pcity->surplus[O_FOOD];
-  if (pcity->food_stock >= city_granary_size(pcity->size) 
+  if (pcity->food_stock >= city_granary_size(city_size_get(pcity)) 
      || city_rapture_grow(pcity)) {
     city_increase_size(pcity);
     map_claim_border(pcity->tile, pcity->owner);
@@ -856,13 +861,13 @@ static void city_populate(struct city *pcity)
         wipe_unit(punit);
 
         if (city_exist(saved_id)) {
-          pcity->food_stock = (city_granary_size(pcity->size)
+          pcity->food_stock = (city_granary_size(city_size_get(pcity))
                                * granary_savings(pcity)) / 100;
         }
 	return;
       }
     } unit_list_iterate_safe_end;
-    if (pcity->size > 1) {
+    if (city_size_get(pcity) > 1) {
       notify_player(city_owner(pcity), city_tile(pcity),
                     E_CITY_FAMINE, ftc_server,
                     _("Famine causes population loss in %s."),
@@ -873,7 +878,7 @@ static void city_populate(struct city *pcity)
 		    _("Famine destroys %s entirely."),
 		    city_link(pcity));
     }
-    pcity->food_stock = (city_granary_size(pcity->size - 1)
+    pcity->food_stock = (city_granary_size(city_size_get(pcity) - 1)
 			 * granary_savings(pcity)) / 100;
     city_reduce_size(pcity, 1, NULL);
   }
@@ -1631,12 +1636,12 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     int saved_city_id = pcity->id;
 
     /* Should we disband the city? -- Massimo */
-    if (pcity->size == pop_cost
+    if (city_size_get(pcity) == pop_cost
 	&& is_city_option_set(pcity, CITYO_DISBAND)) {
       return !disband_city(pcity);
     }
 
-    if (pcity->size <= pop_cost) {
+    if (city_size_get(pcity) <= pop_cost) {
       notify_player(pplayer, city_tile(pcity), E_CITY_CANTBUILD, ftc_server,
                     _("%s can't build %s yet."),
                     city_link(pcity), utype_name_translation(utype));
@@ -1647,7 +1652,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
       return TRUE;
     }
 
-    fc_assert(pop_cost == 0 || pcity->size >= pop_cost);
+    fc_assert(pop_cost == 0 || city_size_get(pcity) >= pop_cost);
 
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.info.turn;
@@ -1684,7 +1689,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
                       /* TRANS: <unit> cost... <city> shrinks... */
                       _("%s cost %d population. %s shrinks to size %d."),
                       utype_name_translation(utype), pop_cost,
-                      city_link(pcity), pcity->size);
+                      city_link(pcity), city_size_get(pcity));
       }
 
       script_signal_emit("unit_built", 2, API_TYPE_UNIT, punit,
@@ -2104,7 +2109,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
     dist = 32;
   }
 
-  size = MAX(1, pcity->size
+  size = MAX(1, city_size_get(pcity)
                 + pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
                 - pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]
                 - pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] * 3);
@@ -2412,7 +2417,8 @@ static float city_migration_score(struct city *pcity)
   }
 
   /* feeling of the citizens */
-  score = (pcity->size + 1.00 * pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
+  score = (city_size_get(pcity)
+           + 1.00 * pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
            + 0.00 * pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]
            - 0.25 * pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]
            - 0.50 * pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
@@ -2546,7 +2552,7 @@ static bool do_city_migration(struct city *pcity_from,
     }
   }
 
-  if (!city_can_grow_to(pcity_to, pcity_to->size + 1)) {
+  if (!city_can_grow_to(pcity_to, city_size_get(pcity_to) + 1)) {
     /* receiver city can't grow  */
     if (pplayer_from == pplayer_to) {
       /* migration between one nation */
@@ -2573,7 +2579,7 @@ static bool do_city_migration(struct city *pcity_from,
   }
 
   /* reduce size of giver */
-  if (pcity_from->size == 1) {
+  if (city_size_get(pcity_from) == 1) {
     /* do not destroy wonders */
     city_built_iterate(pcity_from, pimprove) {
       if (is_wonder(pimprove)) {

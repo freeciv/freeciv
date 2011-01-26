@@ -242,7 +242,7 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
   if (pdialog) {
     pcity=pdialog->pcity;
     foodstock=pcity->food_stock;
-    foodbox=city_granary_size(pcity->size);
+    foodbox=city_granary_size(city_size_get(pcity));
     granaryturns = city_turns_to_grow(pcity);
     if (granaryturns == 0) {
       fc_snprintf(buf, sizeof(buf), _("blocked"));
@@ -1587,12 +1587,12 @@ static void citizen_callback(Widget w, XtPointer client_data,
   int i;
 
   /* HACK: figure out which figure was clicked. */
-  for (i = 0; i < pdialog->pcity->size; i++) {
+  for (i = 0; i < city_size_get(pdialog->pcity); i++) {
     if (pdialog->citizen_labels[i] == w) {
       break;
     }
   }
-  fc_assert(i < pdialog->pcity->size);
+  fc_assert(i < city_size_get(pdialog->pcity));
 
   city_rotate_specialist(pdialog->pcity, i);
 }

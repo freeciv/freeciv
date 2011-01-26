@@ -86,7 +86,7 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
  * The city size is saved as unsigned char. Therefore, MAX_CITY_SIZE should
  * be below 255!
  */
-#define MAX_CITY_SIZE		250
+#define MAX_CITY_SIZE		0xFF
 
 /* Iterate a city map, from the center (the city) outwards */
 struct iter_index {
@@ -266,11 +266,14 @@ struct city {
   int id;
 
   /* the people */
-  int size;
-  int feel[CITIZEN_LAST][FEELING_LAST];
+  citizens size;
+  citizens feel[CITIZEN_LAST][FEELING_LAST];
 
   /* Specialists */
-  int specialists[SP_MAX];
+  citizens specialists[SP_MAX];
+
+  citizens martial_law;       /* Citizens pacified by martial law. */
+  citizens unit_happy_upkeep; /* Citizens angered by military action. */
 
   /* trade routes */
   int trade[NUM_TRADE_ROUTES], trade_value[NUM_TRADE_ROUTES];
@@ -293,9 +296,6 @@ struct city {
 
   /* Cached values for CPU savings. */
   int bonus[O_LAST];
-
-  int martial_law; /* Number of citizens pacified by martial law. */
-  int unit_happy_upkeep; /* Number of citizens angered by military action. */
 
   /* the physics */
   int food_stock;
@@ -466,10 +466,18 @@ const char *city_name(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
 struct tile *city_tile(const struct city *pcity);
 
+citizens city_size_get(const struct city *pcity);
+void city_size_add(struct city *pcity, int add);
+void city_size_set(struct city *pcity, citizens size);
+
+citizens city_specialists(const struct city *pcity);
+
+citizens player_content_citizens(const struct player *pplayer);
+
 int city_population(const struct city *pcity);
 int city_total_impr_gold_upkeep(const struct city *pcity);
 int city_total_unit_gold_upkeep(const struct city *pcity);
-int city_unit_unhappiness(struct unit *punit, int *free_happy);
+int city_unit_unhappiness(struct unit *punit, int *free_unhappy);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
 bool city_unhappy(const struct city *pcity);                /* anarchy??? */
 bool base_city_celebrating(const struct city *pcity);
@@ -628,7 +636,6 @@ void city_remove_improvement(struct city *pcity,
 void city_refresh_from_main_map(struct city *pcity, bool *workers_map);
 
 int city_waste(const struct city *pcity, Output_type_id otype, int total);
-int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
 Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);
 int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype);
@@ -653,7 +660,6 @@ int city_pollution(const struct city *pcity, int shield_total);
 int city_illness_calc(const struct city *pcity, int *ill_base,
                       int *ill_size, int *ill_trade, int *ill_pollution);
 int city_build_slots(const struct city *pcity);
-int player_content_citizens(const struct player *pplayer);
 
 bool city_exist(int id);
 

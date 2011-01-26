@@ -597,8 +597,8 @@ static int improvement_effect_value(struct player *pplayer,
     break;  /* Useless for AI */
   case EFT_NUKE_PROOF:
     if (ai->threats.nuclear) {
-      v += pcity->size * unit_list_size(pcity->tile->units) * (capital + 1)
-	* amount / 100;
+      v += city_size_get(pcity) * unit_list_size(pcity->tile->units)
+           * (capital + 1) * amount / 100;
     }
     break;
   case EFT_REVEAL_MAP:
@@ -617,9 +617,9 @@ static int improvement_effect_value(struct player *pplayer,
     if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
       const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
 
-      if (!city_can_grow_to(pcity, pcity->size + 1)) {
+      if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
 	v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
-	if (pcity->size == aqueduct_size) {
+	if (city_size_get(pcity) == aqueduct_size) {
 	  v += 30 * pcity->surplus[O_FOOD];
 	}
       }

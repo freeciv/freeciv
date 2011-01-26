@@ -741,7 +741,7 @@ static int ai_war_desire(struct player *pplayer, struct player *target)
 
   city_list_iterate(target->cities, pcity) {
     want += 100; /* base city want */
-    want += pcity->size * 20;
+    want += city_size_get(pcity) * 20;
     want += pcity->surplus[O_SHIELD] * 8;
     want += pcity->surplus[O_TRADE] * 6;
 

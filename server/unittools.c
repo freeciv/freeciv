@@ -2157,7 +2157,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                     city_link(pcity));
     }
 
-    city_reduce_size(pcity, pcity->size / 2, pplayer);
+    city_reduce_size(pcity, city_size_get(pcity) / 2, pplayer);
   }
 
   if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)

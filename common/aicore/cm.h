@@ -51,7 +51,7 @@ struct cm_result {
 
   int city_radius_sq;
   bool *worker_positions;
-  int specialists[SP_MAX];
+  citizens specialists[SP_MAX];
 };
 
 void cm_init(void);

@@ -100,10 +100,11 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
                                       city_owner(pcity))) {
         return TRUE;
       }
-      if(action==SPY_POISON &&
-	 pcity->size>1 &&
-	 unit_has_type_flag(pdiplomat, F_SPY))
-	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
+      if(action == SPY_POISON
+         && city_size_get(pcity) > 1
+         && unit_has_type_flag(pdiplomat, F_SPY)) {
+        return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
+      }
       if(action==DIPLOMAT_INVESTIGATE)
         return TRUE;
       if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity))) {
@@ -456,7 +457,7 @@ unit_add_or_build_city_test(const struct unit *punit)
   }
 
   fc_assert(unit_pop_value(punit) > 0);
-  new_pop = pcity->size + unit_pop_value(punit);
+  new_pop = city_size_get(pcity) + unit_pop_value(punit);
 
   if (new_pop > game.info.add_to_size_limit) {
     return UAB_TOO_BIG;

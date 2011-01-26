@@ -316,7 +316,8 @@ void report_top_five_cities(struct conn_list *dest)
 
   shuffled_players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      int value_of_pcity = pcity->size + nr_wonders(pcity) * WONDER_FACTOR;
+      int value_of_pcity = city_size_get(pcity)
+                           + nr_wonders(pcity) * WONDER_FACTOR;
 
       if (value_of_pcity > size[NUM_BEST_CITIES - 1].value) {
         size[NUM_BEST_CITIES - 1].value = value_of_pcity;
@@ -348,12 +349,13 @@ void report_top_five_cities(struct conn_list *dest)
                    /* TRANS:"The French City of Lyon (team 3) of size 18". */
                    _("%2d: The %s City of %s (%s) of size %d, "), i + 1,
                    nation_adjective_for_player(city_owner(size[i].city)),
-                   city_name(size[i].city), team_name, size[i].city->size);
+                   city_name(size[i].city), team_name,
+                   city_size_get(size[i].city));
     } else {
       cat_snprintf(buffer, sizeof(buffer),
                    _("%2d: The %s City of %s of size %d, "), i + 1,
                    nation_adjective_for_player(city_owner(size[i].city)),
-                   city_name(size[i].city), size[i].city->size);
+                   city_name(size[i].city), city_size_get(size[i].city));
     }
 
     wonders = nr_wonders(size[i].city);

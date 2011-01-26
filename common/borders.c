@@ -44,7 +44,7 @@ int tile_border_source_radius_sq(struct tile *ptile)
     radius_sq = game.info.border_city_radius_sq;
     /* Limit the addition due to the city size. A city size of 60 or more is
      * possible with a city radius of 5 (radius_sq = 26). */
-    radius_sq += MIN(pcity->size, CITY_MAP_MAX_RADIUS_SQ)
+    radius_sq += MIN(city_size_get(pcity), CITY_MAP_MAX_RADIUS_SQ)
                  * game.info.border_size_effect;
   } else {
     base_type_iterate(pbase) {
@@ -73,7 +73,7 @@ int tile_border_source_strength(struct tile *ptile)
   pcity = tile_city(ptile);
 
   if (pcity) {
-    strength = pcity->size + 2;
+    strength = city_size_get(pcity) + 2;
   } else {
     base_type_iterate(pbase) {
       if (tile_has_base(ptile, pbase) && territory_claiming_base(pbase)) {

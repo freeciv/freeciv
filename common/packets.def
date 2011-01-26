@@ -254,6 +254,7 @@ type PHASE              = SINT16
 type TURN               = SINT16
 type XYSIZE             = UINT16
 type YEAR               = SINT16
+type CITIZENS           = UINT8
 
 /****************************************************
 The remaining lines are the definition of the packets. These are
@@ -504,13 +505,16 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   TILE tile;
 
   PLAYER owner;
-  UINT8 size;
+  CITIZENS size;
   UINT8 city_radius_sq;
 
-  UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
+  CITIZENS ppl_happy[FEELING_LAST];
+  CITIZENS ppl_content[FEELING_LAST];
+  CITIZENS ppl_unhappy[FEELING_LAST];
+  CITIZENS ppl_angry[FEELING_LAST];
 
   UINT8 specialists_size;
-  UINT8 specialists[SP_MAX:specialists_size];
+  CITIZENS specialists[SP_MAX:specialists_size];
 
   SINT16 surplus[O_LAST];
   UINT16 waste[O_LAST];

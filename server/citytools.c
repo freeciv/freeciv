@@ -937,8 +937,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   int saved_id = pcity->id;
   bool city_remains = TRUE;
   bool had_great_wonders = FALSE;
-  const int old_taker_content_citizens = player_content_citizens(ptaker);
-  const int old_giver_content_citizens = player_content_citizens(pgiver);
+  const citizens old_taker_content_citizens = player_content_citizens(ptaker);
+  const citizens old_giver_content_citizens = player_content_citizens(pgiver);
 
   fc_assert_ret(pgiver != ptaker);
 
@@ -1235,7 +1235,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct tile *saved_claimer = tile_claimer(ptile);
   struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
-  const int old_content_citizens = player_content_citizens(pplayer);
+  const citizens old_content_citizens = player_content_citizens(pplayer);
 
   log_debug("create_city() %s", name);
 
@@ -1355,7 +1355,7 @@ void remove_city(struct city *pcity)
   struct vision *old_vision;
   int id = pcity->id; /* We need this even after memory has been freed */
   bool had_great_wonders = FALSE;
-  const int old_content_citizens = player_content_citizens(powner);
+  const citizens old_content_citizens = player_content_citizens(powner);
 
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {
@@ -1562,7 +1562,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
    * We later remove a citizen. Lets check if we can save this since
    * the city will be destroyed.
    */
-  if (pcity->size <= 1) {
+  if (city_size_get(pcity) <= 1) {
     int saved_id = pcity->id;
 
     notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
@@ -1588,7 +1588,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
 
   coins = cplayer->economic.gold;
-  coins = fc_rand((coins / 20) + 1) + (coins * (pcity->size)) / 200;
+  coins = fc_rand((coins / 20) + 1) + (coins * (city_size_get(pcity))) / 200;
   pplayer->economic.gold += coins;
   cplayer->economic.gold -= coins;
   send_player_info_c(cplayer, cplayer->connections);
@@ -1666,7 +1666,8 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     }
   } players_iterate_end;
 
-  fc_assert(pcity->size > 1); /* reduce size should not destroy this city */
+  /* reduce size should not destroy this city */
+  fc_assert(city_size_get(pcity) > 1);
   city_reduce_size(pcity, 1, pplayer);
   send_player_info_c(pplayer, pplayer->connections); /* Update techs */
 
@@ -1955,7 +1956,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->tile = tile_index(city_tile(pcity));
   sz_strlcpy(packet->name, city_name(pcity));
 
-  packet->size=pcity->size;
+  packet->size = city_size_get(pcity);
   for (i = 0; i < FEELING_LAST; i++) {
     packet->ppl_happy[i] = pcity->feel[CITIZEN_HAPPY][i];
     packet->ppl_content[i] = pcity->feel[CITIZEN_CONTENT][i];
@@ -2102,7 +2103,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
 	  && pdcity->happy == happy
 	  && pdcity->unhappy == unhappy
 	  && BV_ARE_EQUAL(pdcity->improvements, improvements)
-          && vision_site_size_get(pdcity) == pcity->size
+          && vision_site_size_get(pdcity) == city_size_get(pcity)
 	  && vision_site_owner(pdcity) == city_owner(pcity)
 	  && 0 == strcmp(pdcity->name, city_name(pcity))) {
     return FALSE;
@@ -2619,7 +2620,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
 
   /* workers map before */
   log_debug("[%s (%d)] city size: %d; specialists: %d (before change)",
-            city_name(pcity), pcity->id, pcity->size,
+            city_name(pcity), pcity->id, city_size_get(pcity),
             city_specialists(pcity));
   citylog_map_workers(LOG_DEBUG, pcity);
 
@@ -2693,7 +2694,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
 
   /* workers map after */
   log_debug("[%s (%d)] city size: %d; specialists: %d (after change)",
-            city_name(pcity), pcity->id, pcity->size,
+            city_name(pcity), pcity->id, city_size_get(pcity),
             city_specialists(pcity));
   citylog_map_workers(LOG_DEBUG, pcity);
 

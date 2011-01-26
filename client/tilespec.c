@@ -4613,14 +4613,14 @@ int fill_sprite_array(struct tileset *t,
     if (pcity && draw_cities && !draw_full_citybar) {
       bool warn = FALSE;
 
-      ADD_SPRITE(t->sprites.city.size[pcity->size % 10],
+      ADD_SPRITE(t->sprites.city.size[city_size_get(pcity) % 10],
                  FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-      if (10 <= pcity->size) {
-        ADD_SPRITE(t->sprites.city.size_tens[(pcity->size / 10) % 10],
-                   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-        if (100 <= pcity->size) {
+      if (10 <= city_size_get(pcity)) {
+        ADD_SPRITE(t->sprites.city.size_tens[(city_size_get(pcity) / 10)
+                   % 10], FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+        if (100 <= city_size_get(pcity)) {
           struct sprite *sprite =
-              t->sprites.city.size_hundreds[(pcity->size / 100) % 10];
+              t->sprites.city.size_hundreds[(city_size_get(pcity) / 100) % 10];
 
           if (NULL != sprite) {
             ADD_SPRITE(sprite, FALSE,
@@ -4628,7 +4628,7 @@ int fill_sprite_array(struct tileset *t,
           } else {
             warn = TRUE;
           }
-          if (1000 <= pcity->size) {
+          if (1000 <= city_size_get(pcity)) {
             warn = TRUE;
           }
         }
@@ -4641,7 +4641,7 @@ int fill_sprite_array(struct tileset *t,
         if (0 != strcmp(last_reported, t->name)) {
           log_normal(_("Tileset \"%s\" doesn't support big cities size, "
                        "such as %d. Size not displayed as expected."),
-                     t->name, pcity->size);
+                     t->name, city_size_get(pcity));
           sz_strlcpy(last_reported, t->name);
         }
       }
@@ -4898,7 +4898,7 @@ struct sprite *get_spaceship_sprite(const struct tileset *t,
 
 /**************************************************************************
   Return a sprite for the given citizen.  The citizen's type is given,
-  as well as their index (in the range [0..pcity->size)).  The
+  as well as their index (in the range [0..city_size_get(pcity))).  The
   citizen's city can be used to determine which sprite to use (a NULL
   value indicates there is no city; i.e., the sprite is just being
   used as a picture).

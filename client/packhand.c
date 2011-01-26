@@ -573,7 +573,7 @@ void handle_city_info(const struct packet_city_info *packet)
   sz_strlcpy(pcity->name, packet->name);
   
   /* check data */
-  pcity->size = 0;
+  city_size_set(pcity, 0);
   for (i = 0; i < FEELING_LAST; i++) {
     pcity->feel[CITIZEN_HAPPY][i] = packet->ppl_happy[i];
     pcity->feel[CITIZEN_CONTENT][i] = packet->ppl_content[i];
@@ -581,18 +581,18 @@ void handle_city_info(const struct packet_city_info *packet)
     pcity->feel[CITIZEN_ANGRY][i] = packet->ppl_angry[i];
   }
   for (i = 0; i < CITIZEN_LAST; i++) {
-    pcity->size += pcity->feel[i][FEELING_FINAL];
+    city_size_add(pcity, pcity->feel[i][FEELING_FINAL]);
   }
   specialist_type_iterate(sp) {
-    pcity->size +=
     pcity->specialists[sp] = packet->specialists[sp];
+    city_size_add(pcity, pcity->specialists[sp]);
   } specialist_type_iterate_end;
 
-  if (pcity->size != packet->size) {
+  if (city_size_get(pcity) != packet->size) {
     log_error("handle_city_info() "
               "%d citizens not equal %d city size in \"%s\".",
-              pcity->size, packet->size, city_name(pcity));
-    pcity->size = packet->size;
+              city_size_get(pcity), packet->size, city_name(pcity));
+    city_size_set(pcity, packet->size);
   }
 
   pcity->city_radius_sq = packet->city_radius_sq;
@@ -922,7 +922,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   }
 
   pcity->specialists[DEFAULT_SPECIALIST] = packet->size;
-  pcity->size = packet->size;
+  city_size_set(pcity, packet->size);
 
   /* We can't actually see the internals of the city, but the server tells
    * us this much. */

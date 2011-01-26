@@ -3003,7 +3003,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
 
-  count = (city_granary_size(pCity->size)) / 10;
+  count = (city_granary_size(city_size_get(pCity))) / 10;
 
   if (count > 12) {
     step = (adj_size(168) - pIcons->pBIG_Food->h) / adj_size((11 + count - 12));
@@ -3068,7 +3068,7 @@ static void redraw_city_dialog(struct city *pCity)
              get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME));
 
     /* draw stocks icons */
-    cost = city_granary_size(pCity->size);
+    cost = city_granary_size(city_size_get(pCity));
     if (pCity->food_stock + pCity->surplus[O_FOOD] > cost) {
       count = cost;
     } else {
@@ -3162,7 +3162,7 @@ static void redraw_city_dialog(struct city *pCity)
              get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME));
 
     /* draw icons */
-    cost = city_granary_size(pCity->size);
+    cost = city_granary_size(city_size_get(pCity));
     if (pCity->food_stock + pCity->surplus[O_FOOD] > cost) {
       count = cost;
     } else {

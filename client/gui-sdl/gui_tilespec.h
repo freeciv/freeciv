@@ -211,7 +211,7 @@ SDL_Color * get_tech_color(Tech_type_id tech_id);
 
 /**************************************************************************
   Return a surface for the given citizen.  The citizen's type is given,
-  as well as their index (in the range [0..pcity->size)).
+  as well as their index (in the range [0..city_size_get(pcity))).
 **************************************************************************/
 static inline SDL_Surface *get_citizen_surface(enum citizen_category type,
                                                int citizen_index)

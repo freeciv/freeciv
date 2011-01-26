@@ -840,7 +840,7 @@ void handle_edit_city(struct connection *pc,
   }
 
   /* Handle size change. */
-  if (packet->size != pcity->size) {
+  if (packet->size != city_size_get(pcity)) {
     if (!(0 < packet->size && packet->size <= MAX_CITY_SIZE)) {
       notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                   _("Invalid city size %d for city %s."),
@@ -906,7 +906,7 @@ void handle_edit_city(struct connection *pc,
  
   /* Handle food stock change. */
   if (packet->food_stock != pcity->food_stock) {
-    int max = city_granary_size(pcity->size);
+    int max = city_granary_size(city_size_get(pcity));
     if (!(0 <= packet->food_stock && packet->food_stock <= max)) {
       notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                   _("Invalid city food stock amount %d for city %s "

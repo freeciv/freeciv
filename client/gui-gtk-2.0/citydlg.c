@@ -1535,7 +1535,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   fc_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%3d",
               pcity->prod[O_SCIENCE]);
   fc_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%4d/%-4d",
-              pcity->food_stock, city_granary_size(pcity->size));
+              pcity->food_stock, city_granary_size(city_size_get(pcity)));
 
   granaryturns = city_turns_to_grow(pcity);
   if (granaryturns == 0) {
@@ -2519,11 +2519,11 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
   }
 
   tlen = tileset_small_sprite_width(tileset);
-  len = (pcity->size - 1) * pdialog->cwidth + tlen;
+  len = (city_size_get(pcity) - 1) * pdialog->cwidth + tlen;
   if (ev->x > len) {
     return FALSE;		/* no citizen that far to the right */
   }
-  citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
+  citnum = MIN(city_size_get(pcity) - 1, ev->x / pdialog->cwidth);
 
   city_rotate_specialist(pcity, citnum);
 

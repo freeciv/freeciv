@@ -161,9 +161,10 @@ void popup_find_dialog(void)
   
   players_iterate(pPlayer) {
     city_list_iterate(pPlayer->cities, pCity) {
-    
-      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name(pCity), pCity->size);
-      
+
+      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name(pCity),
+                  city_size_get(pCity));
+
       pStr = create_str16_from_char(cBuf , adj_font(10));
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    

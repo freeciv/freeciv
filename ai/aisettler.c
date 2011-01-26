@@ -410,14 +410,14 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
   } else {
     /* Deduct difference in corruption and waste for real cities. Note that it
      * is possible (with notradesize) that we _gain_ value here. */
-    pcity->size++;
+    city_size_add(pcity, 1);
     result->corruption = ai->science_priority
       * (city_waste(pcity, O_TRADE, result->best_other.tdc->trade)
          - pcity->waste[O_TRADE]);
     result->waste = ai->shield_priority
       * (city_waste(pcity, O_SHIELD, result->best_other.tdc->shield)
          - pcity->waste[O_SHIELD]);
-    pcity->size--;
+    city_size_add(pcity, -1);
   }
   result->total -= result->corruption;
   result->total -= result->waste;
@@ -691,8 +691,8 @@ struct cityresult *city_desirability(struct player *pplayer,
     return NULL;
   }
 
-  if (pcity && (pcity->size + unit_pop_value(punit)
-		> game.info.add_to_size_limit)) {
+  if (pcity && (city_size_get(pcity) + unit_pop_value(punit)
+                > game.info.add_to_size_limit)) {
     /* Can't exceed population limit. */
     return NULL;
   }

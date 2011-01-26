@@ -1058,13 +1058,50 @@ struct tile *city_tile(const struct city *pcity)
 }
 #endif
 
+
+/*****************************************************************************
+  Get the city size.
+*****************************************************************************/
+citizens city_size_get(const struct city *pcity)
+{
+  fc_assert_ret_val(pcity != NULL, 0);
+
+  return pcity->size;
+}
+
+/*****************************************************************************
+  Add a (positive or negative) value to the city size. As citizens is an
+  unsigned value use int for the parameter 'add'.
+*****************************************************************************/
+void city_size_add(struct city *pcity, int add)
+{
+  citizens size = city_size_get(pcity);
+
+  fc_assert_ret(pcity != NULL);
+  fc_assert_ret(MAX_CITY_SIZE - size > add);
+  fc_assert_ret(size >= -add);
+
+  city_size_set(pcity, city_size_get(pcity) + add);
+}
+
+/*****************************************************************************
+  Set the city size.
+*****************************************************************************/
+void city_size_set(struct city *pcity, citizens size)
+{
+  fc_assert_ret(pcity != NULL);
+
+  /* Set city size. */
+  pcity->size = size;
+}
+
 /**************************************************************************
  Returns how many thousand citizen live in this city.
 **************************************************************************/
 int city_population(const struct city *pcity)
 {
   /*  Sum_{i=1}^{n} i  ==  n*(n+1)/2  */
-  return pcity->size * (pcity->size + 1) * 5;
+  return city_size_get(pcity) * (city_size_get(pcity) + 1) * 5;
 }
 
 /**************************************************************************
@@ -1468,7 +1505,8 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
 
   if (NULL != pc1 && NULL != pc1->tile
       && NULL != pc2 && NULL != pc2->tile) {
-    bonus = real_map_distance(pc1->tile, pc2->tile) + pc1->size + pc2->size;
+    bonus = real_map_distance(pc1->tile, pc2->tile)
+            + city_size_get(pc1) + city_size_get(pc2);
 
     if (tile_continent(pc1->tile) != tile_continent(pc2->tile)) {
       bonus *= 2;
@@ -1581,10 +1619,10 @@ bool city_got_defense_effect(const struct city *pcity,
 **************************************************************************/
 bool city_happy(const struct city *pcity)
 {
-  return (pcity->size >= game.info.celebratesize
+  return (city_size_get(pcity) >= game.info.celebratesize
 	  && pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] == 0
 	  && pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] == 0
-	  && pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] >= (pcity->size + 1) / 2);
+	  && pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] >= (city_size_get(pcity) + 1) / 2);
 }
 
 /**************************************************************************
@@ -1604,7 +1642,7 @@ bool city_unhappy(const struct city *pcity)
 **************************************************************************/
 bool base_city_celebrating(const struct city *pcity)
 {
-  return (pcity->size >= game.info.celebratesize && pcity->was_happy);
+  return (city_size_get(pcity) >= game.info.celebratesize && pcity->was_happy);
 }
 
 /**************************************************************************
@@ -1884,7 +1922,7 @@ int city_turns_to_build(const struct city *pcity,
 int city_turns_to_grow(const struct city *pcity)
 {
   if (pcity->surplus[O_FOOD] > 0) {
-    return (city_granary_size(pcity->size) - pcity->food_stock +
+    return (city_granary_size(city_size_get(pcity)) - pcity->food_stock +
 	    pcity->surplus[O_FOOD] - 1) / pcity->surplus[O_FOOD];
   } else if (pcity->surplus[O_FOOD] < 0) {
     /* turns before famine loss */
@@ -2029,7 +2067,7 @@ int city_granary_size(int city_size)
 /****************************************************************************
   Give base number of content citizens in any city owner by pplayer.
 ****************************************************************************/
-int player_content_citizens(const struct player *pplayer)
+citizens player_content_citizens(const struct player *pplayer)
 {
   int cities = city_list_size(pplayer->cities);
   int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
@@ -2037,7 +2075,8 @@ int player_content_citizens(const struct player *pplayer)
   int step = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
 
   if (basis + step <= 0) {
-    return content; /* Value of zero means effect is inactive */
+    /* Value of zero means effect is inactive */
+    return CLIP(0, content, MAX_CITY_SIZE);
   }
 
   if (cities > basis) {
@@ -2048,7 +2087,7 @@ int player_content_citizens(const struct player *pplayer)
       content -= (cities - basis - 1) / step;
     }
   }
-  return content;
+  return CLIP(0, content, MAX_CITY_SIZE);
 }
 
 /**************************************************************************
@@ -2279,7 +2318,8 @@ static void happy_copy(struct city *pcity, enum citizen_feeling i)
   will make up to 1 angry citizen unhappy.  The number converted will be
   returned.
 **************************************************************************/
-static inline int make_citizens_happy(int *from, int *to, int count)
+static inline citizens make_citizens_happy(citizens *from, citizens *to,
+                                           citizens count)
 {
   count = MIN(count, *from);
   *from -= count;
@@ -2293,17 +2333,17 @@ static inline int make_citizens_happy(int *from, int *to, int count)
 static void citizen_base_mood(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_BASE];
-  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_BASE];
-  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_BASE];
-  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_BASE];
-  int size = pcity->size;
-  int specialists = city_specialists(pcity);
+  citizens *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_BASE];
+  citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_BASE];
+  citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_BASE];
+  citizens *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_BASE];
+  citizens size = city_size_get(pcity);
+  citizens specialists = city_specialists(pcity);
 
   /* This is the number of citizens that may start out content, depending
    * on empire size and game's city unhappysize. This may be bigger than
    * the size of the city, since this is a potential. */
-  int base_content = player_content_citizens(pplayer);
+  citizens base_content = player_content_citizens(pplayer);
 
   /* Create content citizens. Take specialists from their ranks. */
   *content = MAX(0, MIN(size, base_content) - specialists);
@@ -2333,10 +2373,10 @@ static void citizen_base_mood(struct city *pcity)
 **************************************************************************/
 static inline void citizen_luxury_happy(struct city *pcity, int *luxuries)
 {
-  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_LUXURY];
-  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_LUXURY];
-  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_LUXURY];
-  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_LUXURY];
+  citizens *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_LUXURY];
+  citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_LUXURY];
+  citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_LUXURY];
+  citizens *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_LUXURY];
 
   while (*luxuries >= game.info.happy_cost && *angry > 0) {
     /* Upgrade angry to unhappy: costs HAPPY_COST each. */
@@ -2380,9 +2420,9 @@ static inline void citizen_happy_luxury(struct city *pcity)
 **************************************************************************/
 static inline void citizen_content_buildings(struct city *pcity)
 {
-  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_EFFECT];
-  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_EFFECT];
-  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_EFFECT];
+  citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_EFFECT];
+  citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_EFFECT];
+  citizens *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_EFFECT];
   int faces = get_city_bonus(pcity, EFT_MAKE_CONTENT);
 
   /* make people content (but not happy):
@@ -2407,11 +2447,11 @@ static inline void citizen_content_buildings(struct city *pcity)
 **************************************************************************/
 static inline void citizen_happy_units(struct city *pcity)
 {
-  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_MARTIAL];
-  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_MARTIAL];
-  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_MARTIAL];
-  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_MARTIAL];
-  int amt = pcity->martial_law;
+  citizens *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_MARTIAL];
+  citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_MARTIAL];
+  citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_MARTIAL];
+  citizens *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_MARTIAL];
+  citizens  amt = pcity->martial_law;
 
   /* Pacify discontent citizens through martial law.  First convert
    * angry => unhappy, then unhappy => content. */
@@ -2455,10 +2495,10 @@ static inline void citizen_happy_units(struct city *pcity)
 **************************************************************************/
 static inline void citizen_happy_wonders(struct city *pcity)
 {
-  int *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_FINAL];
-  int *content = &pcity->feel[CITIZEN_CONTENT][FEELING_FINAL];
-  int *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL];
-  int *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_FINAL];
+  citizens *happy = &pcity->feel[CITIZEN_HAPPY][FEELING_FINAL];
+  citizens *content = &pcity->feel[CITIZEN_CONTENT][FEELING_FINAL];
+  citizens *unhappy = &pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL];
+  citizens *angry = &pcity->feel[CITIZEN_ANGRY][FEELING_FINAL];
   int bonus = get_city_bonus(pcity, EFT_MAKE_HAPPY);
 
   /* First create happy citizens from content, then from unhappy
@@ -2540,7 +2580,7 @@ int city_pollution_types(const struct city *pcity, int shield_total,
 
   /* Add one 1/4 pollution per citizen per tech, multiplied by the bonus. */
   pop = 100 + get_city_bonus(pcity, EFT_POLLU_POP_PCT);
-  pop = (pcity->size
+  pop = (city_size_get(pcity)
 	 * num_known_tech_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)
 	 * MAX(pop, 0)) / (4 * 100);
 
@@ -2586,8 +2626,8 @@ static int get_trade_illness(const struct city *pcity)
         && trade_city->turn_plague != -1
         && game.info.turn - trade_city->turn_plague < 5) {
       illness_trade += (float)game.info.illness_trade_infection
-                       * sqrt(1.0 * pcity->size * trade_city->size)
-                       / 100.0;
+                       * sqrt(1.0 * city_size_get(pcity)
+                              * city_size_get(trade_city)) / 100.0;
     }
   }
 
@@ -2621,9 +2661,9 @@ int city_illness_calc(const struct city *pcity, int *ill_base,
   int illness_size = 0, illness_trade = 0, illness_pollution = 0;
   int illness_base, illness_percent;
 
-  if (pcity->size > game.info.illness_min_size) {
+  if (city_size_get(pcity) > game.info.illness_min_size) {
     /* offset the city size by game.info.illness_min_size */
-    int use_size = pcity->size - game.info.illness_min_size;
+    int use_size = city_size_get(pcity) - game.info.illness_min_size;
 
     illness_size = (int)((1.0 - exp(- (float)use_size / 10.0))
                          * 10.0 * game.info.illness_base_factor);
@@ -2770,7 +2810,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 **************************************************************************/
 static inline void city_support(struct city *pcity)
 {
-  int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+  int free_unhappy, martial_law_each;
 
   /* Clear all usage values. */
   memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
@@ -2795,24 +2835,27 @@ static inline void city_support(struct city *pcity)
     break;
   }
   /* Food consumption by citizens. */
-  pcity->usage[O_FOOD] += game.info.food_cost * pcity->size;
+  pcity->usage[O_FOOD] += game.info.food_cost * city_size_get(pcity);
 
   /* military units in this city (need _not_ be home city) can make
-     unhappy citizens content
-   */
-  if (get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH) > 0) {
-    int max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
+   * unhappy citizens content */
+  martial_law_each = get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
+  if (martial_law_each > 0) {
+    int count = 0;
+    int martial_law_max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
 
     unit_list_iterate(pcity->tile->units, punit) {
-      if ((pcity->martial_law < max || max == 0)
-	  && is_military_unit(punit)
-	  && unit_owner(punit) == city_owner(pcity)) {
-	pcity->martial_law++;
+      if ((pcity->martial_law < martial_law_max || martial_law_max == 0)
+          && is_military_unit(punit)
+          && unit_owner(punit) == city_owner(pcity)) {
+        count++;
       }
     } unit_list_iterate_end;
-    pcity->martial_law *= get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
+
+    pcity->martial_law = CLIP(0, count * martial_law_each, MAX_CITY_SIZE);
   }
 
+  free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
   unit_list_iterate(pcity->units_supported, punit) {
     pcity->unit_happy_upkeep += city_unit_unhappiness(punit, &free_unhappy);
     output_type_iterate(o) {
@@ -2903,12 +2946,12 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
     int notradesize = MIN(game.info.notradesize, game.info.fulltradesize);
     int fulltradesize = MAX(game.info.notradesize, game.info.fulltradesize);
 
-    if (pcity->size <= notradesize) {
+    if (city_size_get(pcity) <= notradesize) {
       return total; /* Then no trade income. */
-    } else if (pcity->size >= fulltradesize) {
+    } else if (city_size_get(pcity) >= fulltradesize) {
       penalty_size = 0;
      } else {
-      penalty_size = total_eft * (fulltradesize - pcity->size)
+      penalty_size = total_eft * (fulltradesize - city_size_get(pcity))
                      / (fulltradesize - notradesize);
     }
   }
@@ -2944,11 +2987,12 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
 /**************************************************************************
   Give the number of specialists in a city.
 **************************************************************************/
-int city_specialists(const struct city *pcity)
+citizens city_specialists(const struct city *pcity)
 {
-  int count = 0;
+  citizens count = 0;
 
   specialist_type_iterate(sp) {
+    fc_assert_ret_val(MAX_CITY_SIZE - count > pcity->specialists[sp], 0);
     count += pcity->specialists[sp];
   } specialist_type_iterate_end;
 
@@ -3077,7 +3121,7 @@ struct city *create_city_virtual(struct player *pplayer,
    * zero. There is no need to initialize it a second time. */
 
   /* Now set some usefull default values. */
-  pcity->size = 1;
+  city_size_set(pcity, 1);
   pcity->specialists[DEFAULT_SPECIALIST] = 1;
 
   output_type_iterate(o) {

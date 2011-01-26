@@ -116,7 +116,7 @@ int city_gold_worth(struct city *pcity)
   if (u) {
     worth += utype_buy_gold_cost(u, 0); /* cost of settler */
   }
-  for (i = 1; i < pcity->size; i++) {
+  for (i = 1; i < city_size_get(pcity); i++) {
     worth += city_granary_size(i); /* cost of growing city */
   }
   output_type_iterate(o) {

@@ -186,7 +186,7 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_buffer(&client.conn);
 
   /* Do checks */
-  if (pcity->size != cm_result_citizens(result)) {
+  if (city_size_get(pcity) != cm_result_citizens(result)) {
     log_error("apply_result_on_server(city %d=\"%s\") bad result!",
               pcity->id, city_name(pcity));
     cm_print_city(pcity);

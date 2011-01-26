@@ -3703,8 +3703,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 {
   struct player *past;
   const char *kind, *name, *string;
-  int id, i, repair, specialists = 0, workers = 0;
+  int id, i, repair, specialists = 0, workers = 0, value;
   int nat_x, nat_y;
+  citizens size;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -3730,15 +3731,22 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     pcity->original = past;
   }
 
-  sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->size, "%s.size",
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &value, "%s.size",
                                      citystr), FALSE, "%s", secfile_error());
+  size = (citizens)value; /* set the correct type */
+  sg_warn_ret_val(value == (int)size, FALSE,
+                  "Invalid city size: %d, set to %d", value, size);
+  city_size_set(pcity, size);
 
   specialist_type_iterate(sp) {
     sg_warn_ret_val(
-        secfile_lookup_int(loading->file, &pcity->specialists[sp],
-                           "%s.n%s", citystr,
+        secfile_lookup_int(loading->file, &value, "%s.n%s", citystr,
                            specialist_rule_name(specialist_by_number(sp))),
         FALSE, "%s", secfile_error());
+    pcity->specialists[sp] = (citizens)value; /* set the correct type */
+    sg_warn_ret_val(value == (int)pcity->specialists[sp], FALSE,
+                    "Invalid number of specialists: %d, set to %d.", value,
+                    pcity->specialists[sp]);
     specialists += pcity->specialists[sp];
   } specialist_type_iterate_end;
 
@@ -3888,8 +3896,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     if (NULL != pwork) {
       log_sg("[%s] city center of '%s' (%d,%d) [%d] is worked by '%s' "
              "(%d,%d) [%d]; repairing ", citystr, city_name(pcity),
-             TILE_XY(city_tile(pcity)), pcity->size, city_name(pwork),
-             TILE_XY(city_tile(pwork)), pwork->size);
+             TILE_XY(city_tile(pcity)), city_size_get(pcity), city_name(pwork),
+             TILE_XY(city_tile(pwork)), city_size_get(pwork));
 
       tile_set_worked(city_tile(pcity), NULL); /* remove tile from pwork */
       pwork->specialists[DEFAULT_SPECIALIST]++;
@@ -3897,7 +3905,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     } else {
       log_sg("[%s] city center of '%s' (%d,%d) [%d] is empty; repairing ",
              citystr, city_name(pcity), TILE_XY(city_tile(pcity)),
-             pcity->size);
+             city_size_get(pcity));
     }
 
     /* repair pcity */
@@ -3905,11 +3913,11 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     city_repair_size(pcity, -1);
   }
 
-  repair = pcity->size - specialists - (workers - FREE_WORKED_TILES);
+  repair = city_size_get(pcity) - specialists - (workers - FREE_WORKED_TILES);
   if (0 != repair) {
     log_sg("[%s] size mismatch for '%s' (%d,%d): size [%d] != "
            "(workers [%d] - free worked tiles [%d]) + specialists [%d]",
-           citystr, city_name(pcity), TILE_XY(city_tile(pcity)), pcity->size,
+           citystr, city_name(pcity), TILE_XY(city_tile(pcity)), city_size_get(pcity),
            workers, FREE_WORKED_TILES, specialists);
 
     /* repair pcity */
@@ -3970,7 +3978,7 @@ static void sg_save_player_cities(struct savedata *saving,
 
     secfile_insert_int(saving->file, player_number(pcity->original),
                        "%s.original", buf);
-    secfile_insert_int(saving->file, pcity->size, "%s.size", buf);
+    secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
 
     specialist_type_iterate(sp) {
       secfile_insert_int(saving->file, pcity->specialists[sp], "%s.n%s", buf,

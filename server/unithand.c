@@ -637,7 +637,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   struct city *pcity = tile_city(punit->tile);
 
   fc_assert_ret(unit_pop_value(punit) > 0);
-  pcity->size += unit_pop_value(punit);
+  city_size_add(pcity, unit_pop_value(punit));
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
   /* update squared city radius; no worker arrangement needed - it is done
@@ -957,7 +957,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   unit_forget_last_activity(punit);
   
   if (pcity
-      && pcity->size > 1
+      && city_size_get(pcity) > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
       && kills_citizen_after_attack(punit)) {
     city_reduce_size(pcity, 1, pplayer);
@@ -1056,7 +1056,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
   if (punit->hp > 0
       && (pcity = tile_city(def_tile))
-      && pcity->size > 1
+      && city_size_get(pcity) > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
       && kills_citizen_after_attack(punit)) {
     city_reduce_size(pcity, 1, pplayer);

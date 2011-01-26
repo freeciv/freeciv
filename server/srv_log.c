@@ -135,7 +135,7 @@ void real_city_log(const char *file, const char *function, int line,
   fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
-              TILE_XY(pcity->tile), pcity->size,
+              TILE_XY(pcity->tile), city_size_get(pcity),
               city_data->danger, city_data->urgency,
               city_data->grave_danger);
 
