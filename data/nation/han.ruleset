@@ -38,9 +38,9 @@ init_units=""
 
 conflicts_with="Chinese"
 civilwar_nations=
-; People's Republic of China
+; /* People's Republic of China */
 "Chinese",
-; Republic of China
+; /* Republic of China */
 "Taiwanese",
 
 "Korean", "Vietnamese", "Miao", "Zhuang"

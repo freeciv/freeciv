@@ -30,7 +30,7 @@ init_units=""
 civilwar_nations="Assamese", "Laotian", "Thai"
 
 cities =
-; Historical polities; in most cases also modern settlements
+; /* Historical polities; in most cases also modern settlements */
  "Mong Yang",
  "Mong Kawng",
  "Hsenwi",
@@ -41,7 +41,7 @@ cities =
  "Yawnghwe",
  "Mong Pai",
  "Mong Pawn",
-; Modern settlements in Myanmar's Shan State
+; /* Modern settlements in Myanmar's Shan State */
  "Lashio",
  "Kengtung",
  "Namhkam",
