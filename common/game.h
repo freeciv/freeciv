@@ -672,7 +672,7 @@ extern struct civ_game game;
 
 #define RS_DEFAULT_TECH_COST_STYLE               0
 #define RS_MIN_TECH_COST_STYLE                   0
-#define RS_MAX_TECH_COST_STYLE                   2
+#define RS_MAX_TECH_COST_STYLE                   4
 
 #define RS_DEFAULT_TECH_LEAKAGE                  0
 #define RS_MIN_TECH_LEAKAGE                      0
