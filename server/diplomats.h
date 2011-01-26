@@ -35,6 +35,5 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       struct city *pcity, Impr_type_id improvement);
 
 int count_diplomats_on_tile(struct tile *ptile);
-int unit_bribe_cost(struct unit *punit);
 
 #endif  /* FC__DIPLOMATS_H */

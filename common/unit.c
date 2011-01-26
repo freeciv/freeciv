@@ -1900,3 +1900,50 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
 {
   punit->server.ais[ai_type_number(ai)] = data;
 }
+
+
+
+/*****************************************************************************
+  Calculate how expensive it is to bribe the unit. The cost depends on the
+  distance to the capital and government form. For a damaged unit the price is
+  reduced.
+
+  The bribe cost for settlers are halved.
+**************************************************************************/
+int unit_bribe_cost(struct unit *punit)
+{
+  int cost, default_hp, dist = 0;
+  struct city *capital;
+
+  fc_assert_ret_val(punit != NULL, 0);
+
+  default_hp = unit_type(punit)->hp;
+  cost = unit_owner(punit)->economic.gold + game.info.base_bribe_cost;
+  capital = player_palace(unit_owner(punit));
+
+  /* Consider the distance to the capital. */
+  if (capital != NULL) {
+    dist = MIN(GAME_UNIT_BRIBE_DIST_MAX,
+               map_distance(capital->tile, punit->tile));
+  } else {
+    dist = GAME_UNIT_BRIBE_DIST_MAX;
+  }
+  cost /= dist + 2;
+
+  /* Consider the build cost. */
+  cost *= unit_build_shield_cost(punit) / 10;
+
+  /* FIXME: This is a weird one - should be replaced. */
+  if (unit_has_type_flag(punit, F_CITIES)) {
+    cost /= 2;
+  }
+
+  /* Veterans are not cheap. */
+  /* FIXME: Should this depend on the veteran level? */
+  cost += cost * punit->veteran / 3;
+
+  /* Cost now contains the basic bribe cost.  We now reduce it by:
+   *    bribecost = cost/2 + cost/2 * damage/hp
+   *              = cost/2 * (1 + damage/hp) */
+  return ((float)cost / 2 * (1.0 + punit->hp / default_hp));
+}

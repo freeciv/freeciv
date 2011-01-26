@@ -3192,7 +3192,7 @@ static void load_ruleset_game(void)
                                          RS_MAX_FOOD_COST,
                                          "civstyle.food_cost");
   /* TODO: move to global_unit_options */
-  game.server.base_bribe_cost
+  game.info.base_bribe_cost
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_BASE_BRIBE_COST,
                                          RS_MIN_BASE_BRIBE_COST,

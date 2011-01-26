@@ -382,6 +382,7 @@ PACKET_GAME_INFO = 16; sc
   UINT8 border_city_radius_sq;
   UINT8 border_size_effect;
   BORDERS_MODE borders;
+  UINT32 base_bribe_cost;
   BOOL calendar_skip_0;
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;

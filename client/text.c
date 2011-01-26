@@ -366,13 +366,22 @@ const char *popup_info_text(struct tile *ptile)
     /* TRANS: A is attack power, D is defense power, FP is firepower,
      * HP is hitpoints (current and max). */
     astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d (%s)"),
-		  ptype->attack_strength, 
-		  ptype->defense_strength, ptype->firepower, punit->hp, 
-		  ptype->hp,
+                  ptype->attack_strength, ptype->defense_strength,
+                  ptype->firepower, punit->hp, ptype->hp,
                   name_translation(&ptype->veteran[punit->veteran].name));
 
+    if (unit_owner(punit) == client_player()
+        || client_is_global_observer()) {
+      /* Show bribe cost for own units. */
+      astr_add_line(&str, _("Bribe cost: %d"), unit_bribe_cost(punit));
+    } else {
+      /* We can only give an (lower) boundary for units of other players. */
+      astr_add_line(&str, _("Estimated bribe cost: > %d"),
+                    unit_bribe_cost(punit));
+    }
+
     if ((NULL == client.conn.playing || owner == client.conn.playing)
-	&& unit_list_size(ptile->units) >= 2) {
+        && unit_list_size(ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
       astr_add(&str, _("  (%d more)"), unit_list_size(ptile->units) - 1);
     }

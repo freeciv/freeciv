@@ -353,6 +353,8 @@ void *unit_ai_data(const struct unit *punit, const struct ai_type *ai);
 void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
                       void *data);
 
+int unit_bribe_cost(struct unit *punit);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

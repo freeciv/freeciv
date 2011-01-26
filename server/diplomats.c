@@ -1412,50 +1412,6 @@ static void maybe_cause_incident(enum diplomat_actions action,
   return;
 }
 
-
-/**************************************************************************
- calculate how expensive it is to bribe the unit
- depends on distance to the capital, and government form
- settlers are half price
-
- Plus, the damage to the unit reduces the price.
-**************************************************************************/
-int unit_bribe_cost(struct unit *punit)
-{  
-  int cost;
-  struct city *capital;
-  int dist;
-  int default_hp = unit_type(punit)->hp;
-
-  cost = unit_owner(punit)->economic.gold + game.server.base_bribe_cost;
-  capital = player_palace(unit_owner(punit));
-  if (capital) {
-    int tmp = map_distance(capital->tile, punit->tile);
-    dist=MIN(32, tmp);
-  }
-  else
-    dist=32;
-  cost /= dist + 2;
-
-  cost *= unit_build_shield_cost(punit) / 10;
-
-  /* FIXME: This is a weird one - should be replaced */
-  if (unit_has_type_flag(punit, F_CITIES)) 
-    cost/=2;
-
-  cost += cost * punit->veteran / 3; /* Extra cost for veterans */
-
-  /* Cost now contains the basic bribe cost.  We now reduce it by:
-
-     cost = basecost/2 + basecost/2 * damage/hp
-     
-   */
-  
-  cost = (int)((float)cost/(float)2 + ((float)punit->hp/(float)default_hp) * ((float)cost/(float)2));
-  
-  return cost;
-}
-
 /**************************************************************************
  return number of diplomats on this square.  AJS 20000130
 **************************************************************************/

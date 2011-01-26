@@ -92,7 +92,6 @@ struct civ_game {
       bool autoattack;
       int autoupgrade_veteran_loss;
       enum barbarians_rate barbarianrate;
-      int base_bribe_cost;
       int base_incite_cost;
       int civilwarsize;
       int conquercost;
@@ -544,6 +543,9 @@ extern struct civ_game game;
 #define GAME_DEFAULT_KICK_TIME 1800     /* 1800 seconds = 30 minutes. */
 #define GAME_MIN_KICK_TIME 0            /* 0 = disabling. */
 #define GAME_MAX_KICK_TIME 86400        /* 86400 seconds = 24 hours. */
+
+/* Max distance from the capital used to calculat the bribe cost. */
+#define GAME_UNIT_BRIBE_DIST_MAX 32
 
 /* ruleset settings */
 
