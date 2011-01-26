@@ -63,6 +63,7 @@ struct gui_funcs {
 
   void (*gui_ggz_embed_ensure_server)(void);
   void (*gui_ggz_embed_leave_table)(void);
+  void (*add_ggz_input)(int sock);
   void (*remove_ggz_input)(void);
 
   void (*update_timeout_label)(void);

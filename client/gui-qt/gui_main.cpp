@@ -147,7 +147,7 @@ void qtg_remove_net_input()
 /**************************************************************************
   Called to monitor a GGZ socket.
 **************************************************************************/
-void add_ggz_input(int sock)
+void qtg_add_ggz_input(int sock)
 {
   /* PORTME */
 }

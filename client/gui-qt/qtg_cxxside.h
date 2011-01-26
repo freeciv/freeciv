@@ -60,6 +60,7 @@ void qtg_editgui_popdown_all();
 
 void qtg_gui_ggz_embed_ensure_server();
 void qtg_gui_ggz_embed_leave_table();
+void qtg_add_ggz_input(int sock);
 void qtg_remove_ggz_input();
 
 void qtg_update_timeout_label();

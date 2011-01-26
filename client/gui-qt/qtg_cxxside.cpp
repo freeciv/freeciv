@@ -63,6 +63,7 @@ void setup_gui_funcs()
 
   funcs->gui_ggz_embed_ensure_server = qtg_gui_ggz_embed_ensure_server;
   funcs->gui_ggz_embed_leave_table = qtg_gui_ggz_embed_leave_table;
+  funcs->add_ggz_input = qtg_add_ggz_input;
   funcs->remove_ggz_input = qtg_remove_ggz_input;
 
   funcs->update_timeout_label = qtg_update_timeout_label;
