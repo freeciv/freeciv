@@ -35,188 +35,6 @@
 /* modinst */
 #include "download.h"
 
-
-#define PROTOCOL_STRING "HTTP/1.1 "
-#define UNKNOWN_CONTENT_LENGTH -1
-
-
-static char *lookup_header_entry(char *headers, char *entry)
-{
-  int i, j;
-  int len = strlen(entry);
-
-  for (i = 0; headers[i] != '\0' ; i += j) {
-    for (j = 0; headers[i + j] != '\0' && headers[i + j] != '\n'; j++) {
-      /* Nothing, we just searched for end of line */
-    }
-    if (headers[i + j] == '\n') {
-      if (!strncmp(&headers[i + j + 1], entry, len)) {
-        return &headers[i + j + 1 + len];
-      }
-
-      /* Get over newline character */
-      j++;
-    }
-  }
-
-  return NULL;
-}
-
-static bool download_file(const char *URL, const char *local_filename)
-{
-  const char *path;
-  char srvname[MAX_LEN_ADDR];
-  int port;
-  static union fc_sockaddr addr;
-  int sock;
-  char buf[50000];
-  char hdr_buf[2048];
-  int hdr_idx = 0;
-  int msglen;
-  int result;
-  FILE *fp;
-  int header_end_chars = 0;
-  int clen = UNKNOWN_CONTENT_LENGTH;
-  int cread = 0;
-
-  path = fc_lookup_httpd(srvname, &port, URL);
-  if (path == NULL) {
-    return FALSE;
-  }
-
-  if (!net_lookup_service(srvname, port, &addr, FALSE)) {
-    return FALSE;
-  }
-
-  sock = socket(addr.saddr.sa_family, SOCK_STREAM, 0);
-  if (sock == -1) {
-    return FALSE;
-  }
-
-  if (fc_connect(sock, &addr.saddr, sockaddr_size(&addr)) == -1) {
-    fc_closesocket(sock);
-    return FALSE;
-  }
-
-  msglen = fc_snprintf(buf, sizeof(buf),
-                       "GET %s HTTP/1.1\r\n"
-                       "HOST: %s:%d\r\n"
-                       "User-Agent: Freeciv-modpack/%s\r\n"
-                       "Content-Length: 0\r\n"
-                       "\r\n",
-                       path, srvname, port, VERSION_STRING);
-  if (fc_writesocket(sock, buf, msglen) != msglen) {
-    fc_closesocket(sock);
-    return FALSE;
-  }
-
-  fp = fopen(local_filename, "w+b");
-  if (fp == NULL) {
-    fc_closesocket(sock);
-    return FALSE;
-  }
-
-  result = 1;
-  while (result && (clen == UNKNOWN_CONTENT_LENGTH || clen > cread)) {
-    result = fc_readsocket(sock, buf, sizeof(buf));
-
-    if (result < 0) {
-      if (errno != EAGAIN && errno != EINTR && errno != EWOULDBLOCK) {
-        fc_closesocket(sock);
-        return FALSE;
-      }
-      fc_usleep(1000000);
-    } else if (result > 0) {
-      int left;
-      int total_written = 0;
-      int i;
-
-      for (i = 0; i < result && header_end_chars < 4; i++) {
-        if (hdr_idx < sizeof(hdr_buf)) {
-          hdr_buf[hdr_idx++] = buf[i];
-        }
-        switch (header_end_chars) {
-         case 0:
-         case 2:
-           if (buf[i] == '\r') {
-             header_end_chars++;
-           } else {
-             header_end_chars =  0;
-           }
-           break;
-         case 1:
-         case 3:
-           if (buf[i] == '\n') {
-             header_end_chars++;
-             if (header_end_chars >= 3) {
-               if (hdr_idx < sizeof(hdr_buf)) {
-                 int httpret;
-                 char *clenstr;
-                 int protolen = strlen(PROTOCOL_STRING);
-
-                 hdr_buf[hdr_idx] = '\0';
-
-                 if (strncmp(hdr_buf, PROTOCOL_STRING, protolen)) {
-                   /* Not valid HTTP header */
-                   fclose(fp);
-                   fc_closesocket(sock);
-                   return FALSE;
-                 }
-                 httpret = atoi(hdr_buf + protolen);
-
-                 if (httpret != 200) {
-                   /* Error document */
-                   fclose(fp);
-                   fc_closesocket(sock);
-                   return FALSE;
-                 }
-
-                 clenstr = lookup_header_entry(hdr_buf, "Content-Length: ");
-                 if (clenstr != NULL) {
-                   clen = atoi(clenstr);
-                 }
-               } else {
-                 /* Too long header */
-                 fclose(fp);
-                 fc_closesocket(sock);
-                 return FALSE;
-               }
-             }
-           } else {
-             header_end_chars =  0;
-           }
-           break;
-        }
-      }
-
-      left = result - i;
-      total_written = i;
-
-      if (left > 0) {
-        cread += left;
-      }
-
-      while (left > 0) {
-        int written;
-
-        written = fwrite(buf + total_written, 1, left, fp);
-        if (written <= 0) {
-          fclose(fp);
-          fc_closesocket(sock);
-          return FALSE;
-        }
-        left -= written;
-        total_written += written;
-      }
-    }
-  }
-
-  fclose(fp);
-
-  fc_closesocket(sock);
-  return TRUE;
-}
-
 /**************************************************************************
   Return path to control directory
 **************************************************************************/
@@ -248,7 +66,9 @@ static void nf_cb(const char *msg, void *data)
 {
   dl_msg_callback mcb = (dl_msg_callback) data;
 
-  mcb(msg);
+  if (mcb != NULL) {
+    mcb(msg);
+  }
 }
 
 /**************************************************************************
@@ -400,7 +220,7 @@ const char *download_modpack(const char *URL,
       }
 
       fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
-      if (!download_file(fileURL, local_name)) {
+      if (!netfile_download_file(fileURL, local_name, nf_cb, mcb)) {
         if (mcb != NULL) {
           char buf[2048];
 

@@ -28,14 +28,12 @@
 static CURL *handle = NULL;
 
 /********************************************************************** 
-  Fetch section file from net
+  Fetch file from given URL to given file stream. This is core
+  function of netfile module.
 ***********************************************************************/
-struct section_file *netfile_get_section_file(const char *URL,
-                                              nf_errmsg cb, void *data)
+static bool netfile_download_file_core(const char *URL, FILE *fp,
+                                       nf_errmsg cb, void *data)
 {
-  struct section_file *out = NULL;
-  fz_FILE *file;
-  FILE *fp;
   CURLcode curlret;
 
   if (handle == NULL) {
@@ -43,6 +41,35 @@ struct section_file *netfile_get_section_file(const char *URL,
   }
 
   curl_easy_setopt(handle, CURLOPT_URL, URL);
+  curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp);
+
+  curlret = curl_easy_perform(handle);
+
+  if (curlret != CURLE_OK) {
+    if (cb != NULL) {
+      char buf[2048];
+
+      fc_snprintf(buf, sizeof(buf),
+                  _("Failed to fetch %s"), URL);
+      cb(buf, data);
+    }
+
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/********************************************************************** 
+  Fetch section file from net
+***********************************************************************/
+struct section_file *netfile_get_section_file(const char *URL,
+                                              nf_errmsg cb, void *data)
+{
+  bool success;
+  struct section_file *out = NULL;
+  fz_FILE *file;
+  FILE *fp;
 
 #ifdef WIN32_NATIVE
   {
@@ -64,11 +91,9 @@ struct section_file *netfile_get_section_file(const char *URL,
     return NULL;
   }
 
-  curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp);
+  success = netfile_download_file_core(URL, fp, cb, data);
 
-  curlret = curl_easy_perform(handle);
-
-  if (curlret == CURLE_OK) {
+  if (success) {
     rewind(fp);
 
     file = fz_from_stream(fp);
@@ -77,15 +102,36 @@ struct section_file *netfile_get_section_file(const char *URL,
   } else {
 
     fclose(fp);
+  }
 
+  return out;
+}
+
+/********************************************************************** 
+  Fetch file from given URL and save as given filename.
+***********************************************************************/
+bool netfile_download_file(const char *URL, const char *filename,
+                           nf_errmsg cb, void *data)
+{
+  bool success;
+  FILE *fp;
+
+  fp = fc_fopen(filename, "w+b");
+
+  if (fp == NULL) {
     if (cb != NULL) {
       char buf[2048];
 
       fc_snprintf(buf, sizeof(buf),
-                  _("Failed to fetch %s"), URL);
+                  _("Could not open %s for writing"), filename);
       cb(buf, data);
     }
+    return FALSE;
   }
 
-  return out;
+  success = netfile_download_file_core(URL, fp, cb, data);
+
+  fclose(fp);
+
+  return success;
 }

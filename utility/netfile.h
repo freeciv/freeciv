@@ -20,8 +20,11 @@ extern "C" {
 
 typedef void (*nf_errmsg)(const char *msg, void *data);
 
-  struct section_file *netfile_get_section_file(const char *URL,
-                                                nf_errmsg cb, void *data);
+struct section_file *netfile_get_section_file(const char *URL,
+                                              nf_errmsg cb, void *data);
+
+bool netfile_download_file(const char *URL, const char *filename,
+                           nf_errmsg cb, void *data);
 
 #ifdef __cplusplus
 }
