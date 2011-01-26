@@ -274,7 +274,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_ANGRYCITIZEN TRUE
 
 #define GAME_DEFAULT_END_TURN    5000
-#define GAME_MIN_END_TURN        -32768
+#define GAME_MIN_END_TURN        0
 #define GAME_MAX_END_TURN        32767
 
 #define GAME_DEFAULT_MIN_PLAYERS     1
