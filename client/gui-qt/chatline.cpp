@@ -32,7 +32,7 @@ void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,
                                    int conn_id)
 {
-  gui()->append_output_window(astring);
+  gui()->append_output_window(QString::fromUtf8(astring));
 }
 
 /**************************************************************************
