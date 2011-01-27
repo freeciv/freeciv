@@ -49,13 +49,17 @@
 /****************************************************************************/
 
 static void diplomat_charge_movement (struct unit *pdiplomat,
-				      struct tile *ptile);
+                                      struct tile *ptile);
 static bool diplomat_success_vs_defender(struct unit *patt, struct unit *pdef,
-  						struct tile *pdefender_tile);
-static bool diplomat_infiltrate_tile(struct player *pplayer, struct player *cplayer,
-				     struct unit *pdiplomat, struct tile *ptile);
+                                         struct tile *pdefender_tile);
+static int diplomat_add_chance_veteran(int base_chance,
+                                       const struct unit *punit);
+static bool diplomat_infiltrate_tile(struct player *pplayer,
+                                     struct player *cplayer,
+                                     struct unit *pdiplomat,
+                                     struct tile *ptile);
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
-			    const struct city *pcity);
+                            const struct city *pcity);
 static void maybe_cause_incident(enum diplomat_actions action,
                                  struct player *offender,
                                  struct player *victim_player,
@@ -1093,10 +1097,8 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   }
 
   /* Add or remove up to 20% for veteran level. */
-  chance += 20 * pattacker->veteran
-            / utype_veteran_levels(unit_type(pattacker));
-  chance -= 20 * pdefender->veteran
-            / utype_veteran_levels(unit_type(pdefender));
+  chance += diplomat_add_chance_veteran(20, pattacker);
+  chance -= diplomat_add_chance_veteran(20, pdefender);
 
   if (tile_city(pdefender_tile)) {
     /* Reduce the chance of an attack by EFT_SPY_RESISTANCE percent. */
@@ -1111,6 +1113,40 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   }
 
   return fc_rand(100) < chance;
+}
+
+/*****************************************************************************
+  Calculate the additional chance due to veteran levels. It is given by:
+
+  chance = base chance * (veteran level * power factor of veteran level)
+           / (max veteran level * power factor of max veteran level);
+*****************************************************************************/
+static int diplomat_add_chance_veteran(int base_chance,
+                                       const struct unit *punit)
+{
+  const struct veteran_system *vsystem;
+  const struct veteran_level *vlevel, *vlevel_max;
+  int chance;
+
+  fc_assert_ret_val(punit != NULL, 0);
+
+  vsystem = utype_veteran_system(unit_type(punit));
+
+  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  fc_assert_ret_val(vlevel != NULL, 0);
+
+  vlevel_max = utype_veteran_level(unit_type(punit), vsystem->levels - 1);
+  fc_assert_ret_val(vlevel_max != NULL, 0);
+
+  chance = (float)base_chance * (punit->veteran * vlevel->power_fact)
+           / (vsystem->levels * vlevel_max->power_fact);
+
+  log_debug("add chance for %s [level %d]: %d = %d * (%d * %d) / (%d * %d)",
+            unit_name_translation(punit), punit->veteran, chance, base_chance,
+            punit->veteran, vlevel->power_fact, vsystem->levels,
+            vlevel_max->power_fact);
+
+  return chance;
 }
 
 /**************************************************************************
