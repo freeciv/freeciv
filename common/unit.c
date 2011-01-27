@@ -511,7 +511,15 @@ bool can_unit_change_homecity(const struct unit *punit)
 **************************************************************************/
 int get_activity_rate(const struct unit *punit)
 {
-  double fact = unit_type(punit)->veteran[punit->veteran].power_fact;
+  double fact;
+  const struct veteran_level *vlevel;
+
+  fc_assert_ret_val(punit != NULL, 0);
+
+  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  fc_assert_ret_val(vlevel != NULL, 0);
+
+  fact = vlevel->power_fact;
 
   /* The speed of the settler depends on its base move_rate, not on
    * the number of moves actually remaining or the adjusted move rate.

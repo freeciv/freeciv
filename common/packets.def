@@ -1133,9 +1133,10 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 paratroopers_mr_req;
   UINT8 paratroopers_mr_sub;
 
-  STRING veteran_name[MAX_VET_LEVELS][MAX_LEN_NAME];
-  FLOAT power_fact[MAX_VET_LEVELS];
-  UINT8 move_bonus[MAX_VET_LEVELS];
+  UINT8 veteran_levels;
+  STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
+  FLOAT power_fact[MAX_VET_LEVELS:veteran_levels];
+  UINT8 move_bonus[MAX_VET_LEVELS:veteran_levels];
 
   UINT8 bombard_rate;
   UINT8 city_size;
@@ -1153,8 +1154,11 @@ PACKET_RULESET_GAME = 141; sc, lsend
   UINT8 default_specialist;
 
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
-  UINT8 work_veteran_chance[MAX_VET_LEVELS];
-  UINT8 veteran_chance[MAX_VET_LEVELS];
+
+  UINT8 veteran_levels;
+  STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
+  FLOAT power_fact[MAX_VET_LEVELS:veteran_levels];
+  UINT8 move_bonus[MAX_VET_LEVELS:veteran_levels];
 end
 
 PACKET_RULESET_SPECIALIST = 142; sc, lsend

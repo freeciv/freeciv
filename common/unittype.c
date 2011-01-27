@@ -962,6 +962,7 @@ void unit_types_init(void)
    * num_unit_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
     unit_types[i].item_number = i;
+    unit_types[i].veteran = NULL;
   }
 }
 
@@ -973,6 +974,7 @@ static void unit_type_free(struct unit_type *punittype)
   if (NULL != punittype->helptext) {
     strvec_destroy(punittype->helptext);
     punittype->helptext = NULL;
+    veteran_system_destroy(punittype->veteran);
   }
 }
 
@@ -1092,4 +1094,100 @@ void unit_classes_init(void)
   for (i = 0; i < ARRAY_SIZE(unit_classes); i++) {
     unit_classes[i].item_number = i;
   }
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+const struct veteran_system *
+  utype_veteran_system(const struct unit_type *punittype)
+{
+  fc_assert_ret_val(punittype != NULL, NULL);
+
+  if (punittype->veteran) {
+    return punittype->veteran;
+  }
+
+  fc_assert_ret_val(game.veteran != NULL, NULL);
+  return game.veteran;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+const struct veteran_level *
+  utype_veteran_level(const struct unit_type *punittype, int level)
+{
+  const struct veteran_system *vsystem = utype_veteran_system(punittype);
+
+  fc_assert_ret_val(vsystem != NULL, NULL);
+  fc_assert_ret_val(vsystem->definitions != NULL, NULL);
+  fc_assert_ret_val(vsystem->levels > level, NULL);
+
+  return (vsystem->definitions + level);
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+int utype_veteran_levels(const struct unit_type *punittype)
+{
+  const struct veteran_system *vsystem = utype_veteran_system(punittype);
+
+  fc_assert_ret_val(vsystem != NULL, 1);
+
+  return vsystem->levels;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+struct veteran_system *veteran_system_new(int count)
+{
+  struct veteran_system *vsystem;
+
+  /* There must be at least one level. */
+  fc_assert_ret_val(count > 0, NULL);
+
+  vsystem = fc_calloc(1, sizeof(*vsystem));
+  vsystem->levels = count;
+  vsystem->definitions = fc_calloc(vsystem->levels,
+                                   sizeof(*vsystem->definitions));
+
+  return vsystem;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+void veteran_system_destroy(struct veteran_system *vsystem)
+{
+  if (vsystem) {
+    if (vsystem->definitions) {
+      free(vsystem->definitions);
+    }
+    free(vsystem);
+  }
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+void veteran_system_definition(struct veteran_system *vsystem, int level,
+                               const char *vlist_name, int vlist_power,
+                               int vlist_move, int vlist_raise,
+                               int vlist_wraise)
+{
+  struct veteran_level *vlevel;
+
+  fc_assert_ret(vsystem != NULL);
+  fc_assert_ret(vsystem->levels > level);
+
+  vlevel = vsystem->definitions + level;
+
+  names_set(&vlevel->name, vlist_name, NULL);
+  vlevel->power_fact = vlist_power;
+  vlevel->move_bonus = vlist_move;
+  vlevel->raise_chance = vlist_raise;
+  vlevel->work_raise_chance = vlist_wraise;
 }

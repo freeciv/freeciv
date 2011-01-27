@@ -68,8 +68,7 @@ struct civ_game {
   struct conn_list *all_connections;   /* including not yet established */
   struct conn_list *est_connections;   /* all established client conns */
 
-  int work_veteran_chance[MAX_VET_LEVELS];
-  int veteran_chance[MAX_VET_LEVELS];
+  struct veteran_system *veteran; /* veteran system */
 
   union {
     struct {

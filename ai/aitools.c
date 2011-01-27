@@ -199,7 +199,8 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   struct city *dcity;
   struct tile *ptile;
   struct unit *guard = aiguard_guard_of(punit);
-  
+  const struct veteran_level *vlevel;
+
   if (is_barbarian(unit_owner(punit))) {
     /* barbarians must have more courage (ie less brains) */
     aiguard_clear_guard(punit);
@@ -234,14 +235,16 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
     danger /= 1.5;
   }
 
+  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  fc_assert_ret(vlevel != NULL);
+
   ptile = punit->tile;
   /* We look for the bodyguard where we stand. */
   if (guard == NULL || guard->tile != punit->tile) {
-    int my_def = (punit->hp 
-                  * unit_type(punit)->veteran[punit->veteran].power_fact
-		  * unit_type(punit)->defense_strength
+    int my_def = (punit->hp * vlevel->power_fact
+                  * unit_type(punit)->defense_strength
                   * POWER_FACTOR);
-    
+
     if (danger >= my_def) {
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 

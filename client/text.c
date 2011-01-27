@@ -365,10 +365,16 @@ const char *popup_info_text(struct tile *ptile)
 
     /* TRANS: A is attack power, D is defense power, FP is firepower,
      * HP is hitpoints (current and max). */
-    astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d (%s)"),
-                  ptype->attack_strength, ptype->defense_strength,
-                  ptype->firepower, punit->hp, ptype->hp,
-                  name_translation(&ptype->veteran[punit->veteran].name));
+    {
+      const struct veteran_level *vlevel
+        = utype_veteran_level(ptype, punit->veteran);
+
+      fc_assert(vlevel != NULL);
+      astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d (%s)"),
+                    ptype->attack_strength, ptype->defense_strength,
+                    ptype->firepower, punit->hp, ptype->hp,
+                    vlevel ? name_translation(&vlevel->name) : "?");
+    }
 
     if (unit_owner(punit) == client_player()
         || client_is_global_observer()) {
@@ -533,8 +539,11 @@ const char *unit_description(struct unit *punit)
 
   astr_add(&str, "%s", utype_name_translation(ptype));
 
-  if (rule_name(&ptype->veteran[punit->veteran].name)[0] != '\0') {
-    astr_add(&str, " (%s)", name_translation(&ptype->veteran[punit->veteran].name));
+  if (punit->veteran < utype_veteran_levels(ptype)) {
+    const struct veteran_level *vlevel
+      = utype_veteran_level(ptype, punit->veteran);
+
+    astr_add(&str, " (%s)", vlevel ? name_translation(&vlevel->name) : "?");
   }
 
   if (pplayer == unit_owner(punit)) {

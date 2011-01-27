@@ -2654,12 +2654,15 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->cargo              = p->cargo;
   u->targets            = p->targets;
 
-  u->veteran_levels = 0; /* not used in the client */
+  if (p->veteran_levels == 0) {
+    u->veteran = NULL;
+  } else {
+    u->veteran = veteran_system_new(p->veteran_levels);
 
-  for (i = 0; i < MAX_VET_LEVELS; i++) {
-    names_set(&u->veteran[i].name, p->veteran_name[i], NULL);
-    u->veteran[i].power_fact = p->power_fact[i];
-    u->veteran[i].move_bonus = p->move_bonus[i];
+    for (i = 0; i < p->veteran_levels; i++) {
+      veteran_system_definition(u->veteran, i, p->veteran_name[i],
+                                p->power_fact[i], 0, 0, p->move_bonus[i]);
+    }
   }
 
   PACKET_STRVEC_EXTRACT(u->helptext, p->helptext);
@@ -3019,9 +3022,15 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
   /* Must set num_specialist_types before iterating over them. */
   DEFAULT_SPECIALIST = packet->default_specialist;
 
-  for (i = 0; i < MAX_VET_LEVELS; i++) {
-    game.work_veteran_chance[i] = packet->work_veteran_chance[i];
-    game.veteran_chance[i] = packet->work_veteran_chance[i];
+  fc_assert_ret(packet->veteran_levels > 0);
+
+  game.veteran = veteran_system_new(packet->veteran_levels);
+  game.veteran->levels = packet->veteran_levels;
+
+  for (i = 0; i < packet->veteran_levels; i++) {
+    veteran_system_definition(game.veteran, i, packet->veteran_name[i],
+                              packet->power_fact[i], 0, 0,
+                              packet->move_bonus[i]);
   }
 }
 

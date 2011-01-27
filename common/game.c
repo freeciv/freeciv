@@ -314,6 +314,9 @@ static void game_defaults(void)
   game.scenario.name[0] = '\0';
   game.scenario.players = TRUE;
 
+  /* Veteran system. */
+  game.veteran = NULL;
+
   if (is_server()) {
     /* All settings only used by the server (./server/ and ./ai/ */
     sz_strlcpy(game.server.allow_take, GAME_DEFAULT_ALLOW_TAKE);
@@ -502,8 +505,11 @@ void game_ruleset_free(void)
   terrains_free();
   ruleset_cache_free();
   nation_groups_free();
-}
 
+  /* Destroy the default veteran system. */
+  veteran_system_destroy(game.veteran);
+  game.veteran = NULL;
+}
 
 /***************************************************************
 ...

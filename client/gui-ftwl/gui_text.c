@@ -397,8 +397,13 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
   INIT;
 
   add("%s", utype_name_translation(ptype));
-  if (ptype->veteran[punit->veteran].name[0] != '\0') {
-    add(" (%s)", ptype->veteran[punit->veteran].name);
+  if (punit->veteran >= 0 && punit->veteran < utype_veteran_levels(ptype)) {
+    const struct veteran_level *vlevel
+      = utype_veteran_level(ptype, punit->veteran);
+
+    fc_assert(vlevel != NULL);
+
+    add(" (%s)", vlevel ? name_translation(vlevel->name) : "?");
   }
   add("\n");
   add_line("%s", unit_activity_text(punit));

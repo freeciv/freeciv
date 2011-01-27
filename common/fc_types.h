@@ -37,7 +37,7 @@ extern "C" {
 #define MAX_NUM_UNIT_LIST 10
 #define MAX_NUM_BUILDING_LIST 10
 #define MAX_LEN_VET_SHORT_NAME 8
-#define MAX_VET_LEVELS 10
+#define MAX_VET_LEVELS 20 /* see diplomat_success_vs_defender() */
 #define MAX_BASE_TYPES 32
 #define MAX_NUM_USER_UNIT_FLAGS 4
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS

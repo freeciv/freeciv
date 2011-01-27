@@ -170,6 +170,15 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; cargo         = Unit classes this unit can transport
 ; city_size     = Initial size of the cities Settlers type unit builds
 ; flags         = special flag strings
+;
+; veteran_names = Special veteran level for this unit. See the definitions in
+;                 game.ruleset. All of the veteran_* entries have to have the
+;                 same length!
+; veteran_raise_chance =
+; veteran_work_raise_chance =
+; veteran_power_fact =
+; veteran_move_bonus =
+;
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
 ; sound_move_alt= optional alternative sound effect if above not

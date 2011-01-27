@@ -1093,8 +1093,10 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   }
 
   /* Add or remove up to 20% for veteran level. */
-  chance += 20 * pattacker->veteran / unit_type(pattacker)->veteran_levels;
-  chance -= 20 * pdefender->veteran / unit_type(pdefender)->veteran_levels;
+  chance += 20 * pattacker->veteran
+            / utype_veteran_levels(unit_type(pattacker));
+  chance -= 20 * pdefender->veteran
+            / utype_veteran_levels(unit_type(pdefender));
 
   if (tile_city(pdefender_tile)) {
     /* Reduce the chance of an attack by EFT_SPY_RESISTANCE percent. */

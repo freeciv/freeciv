@@ -44,11 +44,19 @@
 int unit_move_rate(const struct unit *punit)
 {
   int move_rate = 0;
-  int base_move_rate = unit_type(punit)->move_rate 
-    + unit_type(punit)->veteran[punit->veteran].move_bonus;
-  struct unit_class *pclass = unit_class(punit);
+  int base_move_rate;
+  struct unit_class *pclass;
+  const struct veteran_level *vlevel;
 
+  fc_assert_ret_val(punit != NULL, 0);
+
+  vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
+  fc_assert_ret_val(vlevel != NULL, 0);
+
+  base_move_rate = unit_type(punit)->move_rate + vlevel->move_bonus;
   move_rate = base_move_rate;
+
+  pclass = unit_class(punit);
 
   if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
     /* Scale the MP based on how many HP the unit has. */

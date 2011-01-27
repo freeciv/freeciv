@@ -201,14 +201,18 @@ enum unit_role_id {
 BV_DEFINE(bv_unit_type_flags, F_MAX);
 BV_DEFINE(bv_unit_type_roles, L_MAX);
 
-struct veteran_type {
+struct veteran_level {
+  struct name_translation name; /* level/rank name */
+  double power_fact; /* combat/work speed/diplomatic power factor */
+  int move_bonus;
+  int raise_chance;
+  int work_raise_chance;
+};
 
-    struct name_translation name;
+struct veteran_system {
+  int levels;
 
-    /* server */
-    double power_fact;				/* combat/work speed/diplomatic
-  						   power factor */
-    int move_bonus;
+  struct veteran_level *definitions;
 };
 
 struct unit_type {
@@ -251,8 +255,7 @@ struct unit_type {
   int paratroopers_mr_sub;
 
   /* Additional values for the expanded veteran system */
-  int veteran_levels; /* server only */
-  struct veteran_type veteran[MAX_VET_LEVELS];
+  struct veteran_system *veteran;
 
   /* Values for bombardment */
   int bombard_rate;
@@ -341,6 +344,19 @@ int utype_build_shield_cost(const struct unit_type *punittype);
 
 int utype_buy_gold_cost(const struct unit_type *punittype,
 			int shields_in_stock);
+
+const struct veteran_system *
+  utype_veteran_system(const struct unit_type *punittype);
+int utype_veteran_levels(const struct unit_type *punittype);
+const struct veteran_level *
+  utype_veteran_level(const struct unit_type *punittype, int level);
+
+struct veteran_system *veteran_system_new(int count);
+void veteran_system_destroy(struct veteran_system *vsystem);
+void veteran_system_definition(struct veteran_system *vsystem, int level,
+                               const char *vlist_name, int vlist_power,
+                               int vlist_move, int vlist_raise,
+                               int vlist_wraise);
 
 int unit_disband_shields(const struct unit *punit);
 int utype_disband_shields(const struct unit_type *punittype);
