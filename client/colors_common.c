@@ -31,29 +31,11 @@
 
 #include "colors_common.h"
 
-#define SPECHASH_TAG terrain_color
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct rgbcolor *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_COPY rgbcolor_copy
-#define SPECHASH_DATA_FREE rgbcolor_destroy
-#include "spechash.h"
-
 struct color_system {
   struct rgbcolor **stdcolors;
 
   int num_player_colors;
   struct rgbcolor *player_colors;
-
-  /* Terrain colors: we have one color per terrain. These are stored in a
-   * larger-than-necessary array. There's also a hash that is used to store
-   * all colors; this is created when the tileset toplevel is read and later
-   * used when the rulesets are received. */
-  struct terrain_color_hash *terrain_hash;
-  struct rgbcolor terrain_colors[MAX_NUM_TERRAINS];
 };
 
 /****************************************************************************
@@ -113,52 +95,7 @@ struct color_system *color_system_read(struct section_file *file)
     }
   }
 
-  for (i = 0; i < ARRAY_SIZE(colors->terrain_colors); i++) {
-    struct rgbcolor *rgb = &colors->terrain_colors[i];
-
-    rgb->r = rgb->g = rgb->b = 0;
-    rgb->color = NULL;
-  }
-  colors->terrain_hash = terrain_color_hash_new();
-  for (i = 0; ; i++) {
-    struct rgbcolor rgb;
-    const char *key;
-
-    if (!secfile_lookup_int(file, &rgb.r, "colors.tiles%d.r", i)
-        || !secfile_lookup_int(file, &rgb.g, "colors.tiles%d.g", i)
-        || !secfile_lookup_int(file, &rgb.b, "colors.tiles%d.b", i)) {
-      break;
-    }
-
-    rgb.color = NULL;
-    key = secfile_lookup_str(file, "colors.tiles%d.tag", i);
-
-    if (NULL == key) {
-      log_error("warning: tag for tiles %d: %s", i, secfile_error());
-    } else if (!terrain_color_hash_insert(colors->terrain_hash, key, &rgb)) {
-      log_error("warning: already have a color for %s", key);
-    }
-  }
-
   return colors;
-}
-
-/****************************************************************************
-  Called when terrain info is received from the server.
-****************************************************************************/
-void color_system_setup_terrain(struct color_system *colors,
-                                const struct terrain *pterrain,
-                                const char *tag)
-{
-  struct rgbcolor *rgb;
-
-  if (terrain_color_hash_lookup(colors->terrain_hash, tag, &rgb)) {
-    colors->terrain_colors[terrain_index(pterrain)] = *rgb;
-  } else {
-    log_error("[colors] missing [tile_%s] for \"%s\".",
-              tag, terrain_rule_name(pterrain));
-    /* Fallback: the color remains black. */
-  }
 }
 
 /****************************************************************************
@@ -180,13 +117,6 @@ void color_system_free(struct color_system *colors)
     }
   }
   free(colors->player_colors);
-  for (i = 0; i < ARRAY_SIZE(colors->terrain_colors); i++) {
-    if (colors->terrain_colors[i].color) {
-      color_free(colors->terrain_colors[i].color);
-    }
-  }
-
-  terrain_color_hash_destroy(colors->terrain_hash);
 
   free(colors);
 }
@@ -244,20 +174,12 @@ struct color *get_player_color(const struct tileset *t,
 
 /****************************************************************************
   Return a pointer to the given "terrain" color.
-
-  Each terrain has a color associated.  This is usually used to draw the
-  overview.
 ****************************************************************************/
 struct color *get_terrain_color(const struct tileset *t,
-				const struct terrain *pterrain)
+                                const struct terrain *pterrain)
 {
-  if (pterrain) {
-    struct color_system *colors = get_color_system(t);
+  fc_assert_ret_val(pterrain != NULL, NULL);
+  fc_assert_ret_val(pterrain->rgb != NULL, NULL);
 
-    return ensure_color(&colors->terrain_colors[terrain_index(pterrain)]);
-  } else {
-    /* Always fails. */
-    fc_assert(NULL != pterrain);
-    return NULL;
-  }
+  return ensure_color(pterrain->rgb);
 }

@@ -1327,7 +1327,11 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   UINT8 rail_time;
   UINT8 clean_pollution_time;
   UINT8 clean_fallout_time;
-  
+
+  UINT8 color_red;
+  UINT8 color_green;
+  UINT8 color_blue;
+
   STRING helptext[MAX_LEN_PACKET];
 end
 

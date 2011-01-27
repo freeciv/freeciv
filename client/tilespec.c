@@ -3149,8 +3149,6 @@ void tileset_setup_tile_type(struct tileset *t,
   }
 
   t->sprites.drawing[terrain_index(pterrain)] = draw;
-
-  color_system_setup_terrain(t->color_system, pterrain, draw->name);
 }
 
 /**********************************************************************

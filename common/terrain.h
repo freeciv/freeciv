@@ -28,6 +28,7 @@ extern "C" {
 
 struct base_type;
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
+struct rgbcolor;
 
 enum special_river_move {
   RMV_NORMAL = 0,
@@ -240,6 +241,8 @@ struct terrain {
   bv_unit_classes native_to;
 
   bv_terrain_flags flags;
+
+  struct rgbcolor *rgb;
 
   struct strvec *helptext;
 };

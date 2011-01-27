@@ -119,9 +119,6 @@ struct color *ensure_color(struct rgbcolor *rgb);
 
 /* Functions used by the tileset to allocate the color system. */
 struct color_system *color_system_read(struct section_file *file);
-void color_system_setup_terrain(struct color_system *colors,
-				const struct terrain *pterrain,
-				const char *tag);
 void color_system_free(struct color_system *colors);
 
 #ifdef __cplusplus

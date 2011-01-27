@@ -27,6 +27,7 @@
 /* common */
 #include "game.h"
 #include "map.h"
+#include "rgbcolor.h"
 
 #include "terrain.h"
 
@@ -54,6 +55,7 @@ void terrains_init(void)
   for (i = 0; i < ARRAY_SIZE(civ_terrains); i++) {
     /* Can't use terrain_by_number here because it does a bounds check. */
     civ_terrains[i].item_number = i;
+    civ_terrains[i].rgb = NULL;
   }
   for (i = 0; i < ARRAY_SIZE(civ_resources); i++) {
     civ_resources[i].item_number = i;
@@ -75,6 +77,12 @@ void terrains_free(void)
        * ruleset packet is received. */
       free(pterrain->resources);
       pterrain->resources = NULL;
+    }
+    if (pterrain->rgb != NULL) {
+      /* Server allocates this on ruleset loading, client when
+       * ruleset packet is received. */
+      rgbcolor_destroy(pterrain->rgb);
+      pterrain->rgb = NULL;
     }
   } terrain_type_iterate_end;
 }

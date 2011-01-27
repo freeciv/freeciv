@@ -39,6 +39,7 @@
 #include "packets.h"
 #include "player.h"
 #include "research.h"
+#include "rgbcolor.h"
 #include "spaceship.h"
 #include "specialist.h"
 #include "unit.h"
@@ -2856,6 +2857,9 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   pterrain->clean_fallout_time = p->clean_fallout_time;
 
   pterrain->flags = p->flags;
+
+  fc_assert_ret(pterrain->rgb == NULL);
+  pterrain->rgb = rgbcolor_new(p->color_red, p->color_green, p->color_blue);
 
   PACKET_STRVEC_EXTRACT(pterrain->helptext, p->helptext);
 

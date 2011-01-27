@@ -44,6 +44,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "requirements.h"
+#include "rgbcolor.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"
@@ -2049,6 +2050,15 @@ static void load_ruleset_terrain(struct section_file *file)
     }
     free(slist);
 
+    /* get terrain color */
+    {
+      fc_assert_ret(pterrain->rgb == NULL);
+      if (!rgbcolor_load(file, &pterrain->rgb, "%s.color", tsection)) {
+        ruleset_error(LOG_FATAL, "Missing terrain color definition: %s",
+                      secfile_error());
+      }
+    }
+
     pterrain->helptext = lookup_strvec(file, tsection, "helptext");
   } terrain_type_iterate_end;
 
@@ -3732,6 +3742,11 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.clean_fallout_time = pterrain->clean_fallout_time;
 
     packet.flags = pterrain->flags;
+
+    packet.color_red = pterrain->rgb->r;
+    packet.color_green = pterrain->rgb->g;
+    packet.color_blue = pterrain->rgb->b;
+
     PACKET_STRVEC_COMPUTE(packet.helptext, pterrain->helptext);
 
     lsend_packet_ruleset_terrain(dest, &packet);
