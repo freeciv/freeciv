@@ -15,6 +15,9 @@
 #include <config.h>
 #endif
 
+// client
+#include "chatline_common.h"
+
 // gui-qt
 #include "qtg_cxxside.h"
 
@@ -23,9 +26,20 @@
 /**************************************************************************
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
-void real_set_client_page(enum client_pages page)
+void qtg_real_set_client_page(enum client_pages page)
 {
-  /* PORTME */
+  static bool obs_cmd_given = false;
+
+  switch (page) {
+   case PAGE_START:
+     if (!obs_cmd_given) {
+       send_chat("/observe");
+       obs_cmd_given = true;
+     }
+     break;
+   default:
+     break;
+  }
 }
 
 /****************************************************************************

@@ -14,6 +14,8 @@
 #ifndef FC__QTG_CXXSIDE_H
 #define FC__QTG_CXXSIDE_H
 
+#include "pages.h"
+
 void setup_gui_funcs();
 
 void qtg_ui_init();
@@ -44,6 +46,8 @@ void qtg_real_conn_list_dialog_update();
 void qtg_close_connection_dialog();
 void qtg_add_idle_callback(void (callback)(void *), void *data);
 void qtg_sound_bell();
+
+void qtg_real_set_client_page(enum client_pages page);
 
 void qtg_set_unit_icon(int idx, struct unit *punit);
 void qtg_set_unit_icons_more_arrow(bool onoff);

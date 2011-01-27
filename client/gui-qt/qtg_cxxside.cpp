@@ -49,6 +49,8 @@ void setup_gui_funcs()
   funcs->add_idle_callback = qtg_add_idle_callback;
   funcs->sound_bell = qtg_sound_bell;
 
+  funcs->real_set_client_page = qtg_real_set_client_page;
+
   funcs->set_unit_icon = qtg_set_unit_icon;
   funcs->set_unit_icons_more_arrow = qtg_set_unit_icons_more_arrow;
   funcs->gui_update_font = qtg_gui_update_font;

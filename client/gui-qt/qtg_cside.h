@@ -18,6 +18,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "pages_g.h"
+
 struct gui_funcs {
   void (*ui_init)(void);
   void (*ui_main)(int argc, char *argv[]);
@@ -47,6 +49,8 @@ struct gui_funcs {
   void (*close_connection_dialog)(void);
   void (*add_idle_callback)(void (callback)(void *), void *data);
   void (*sound_bell)(void);
+
+  void (*real_set_client_page)(enum client_pages page);
 
   void (*set_unit_icon)(int idx, struct unit *punit);
   void (*set_unit_icons_more_arrow)(bool onoff);

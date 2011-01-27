@@ -223,6 +223,14 @@ void sound_bell(void)
 }
 
 /**************************************************************************
+  Call c++ real_set_client_page
+**************************************************************************/
+void real_set_client_page(enum client_pages page)
+{
+  funcs.real_set_client_page(page);
+}
+
+/**************************************************************************
   Call c++ set_unit_icon
 **************************************************************************/
 void set_unit_icon(int idx, struct unit *punit)
