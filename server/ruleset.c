@@ -65,8 +65,16 @@
 #include "ruleset.h"
 
 
-/* Basic format for the ruleset files for Freeciv versions 2.3.x. */
-#define RULESET_CAPABILITIES "+Freeciv-2.3-ruleset"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Jan.27"
+/*
+ * Ruleset capabilities acceptable to this program:
+ *
+ * +Freeciv-2.3-ruleset
+ *    - basic ruleset format for Freeciv versions 2.3.x; required
+ *
+ * +Freeciv-tilespec-Devel-YYYY.MMM.DD
+ *    - ruleset of the development version at the given data
+ */
 
 /* RULESET_SUFFIX already used, no leading dot here */
 #define RULES_SUFFIX "ruleset"

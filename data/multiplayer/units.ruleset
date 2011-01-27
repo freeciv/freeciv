@@ -16,7 +16,7 @@
 
 [datafile]
 description="Unit definitions for the multiplayer ruleset."
-options="+Freeciv-2.3-ruleset"
+options="+Freeciv-ruleset-Devel-2011.Jan.27"
 
 [flags]
 ; Names for custom unit type flags.

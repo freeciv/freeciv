@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-2.3-tilespec"
+options = "+Freeciv-tilespec-Devel-2011.Jan.27"
 
 ; A simple name for the tileset specified by this file:
 name = "hex-2 tileset"

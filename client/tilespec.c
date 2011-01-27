@@ -72,12 +72,15 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-2.3-tilespec duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Jan.27 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
- * +Freeciv-2.3-tilespec  -  basic format for Freeciv versions 2.3.x;
- *                           required
+ * +Freeciv-2.3-tilespec
+ *    - basic format for Freeciv versions 2.3.x; required
+ *
+ * +Freeciv-tilespec-Devel-YYYY.MMM.DD
+ *    - tilespec of the development version at the given data
  *
  * duplicates_ok  -  we can handle existence of duplicate tags (lattermost
  *                   tag which appears is used; tilesets which have

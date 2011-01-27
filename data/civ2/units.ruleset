@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ2 unit_type data for Freeciv (approximate)"
-options="+Freeciv-2.3-ruleset"
+options="+Freeciv-ruleset-Devel-2011.Jan.27"
 
 [flags]
 ; Names for custom unit type flags.

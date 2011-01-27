@@ -16,7 +16,7 @@
 
 [datafile]
 description="Default unit_type data for Freeciv"
-options="+Freeciv-2.3-ruleset"
+options="+Freeciv-ruleset-Devel-2011.Jan.27"
 
 [flags]
 ; Names for custom unit type flags.
