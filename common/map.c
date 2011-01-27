@@ -437,14 +437,20 @@ struct tile *index_to_tile(int index)
 }
 
 /***************************************************************
-...
+  Free memory associated with one tile.
 ***************************************************************/
 static void tile_free(struct tile *ptile)
 {
   unit_list_destroy(ptile->units);
+
   if (ptile->spec_sprite) {
     free(ptile->spec_sprite);
     ptile->spec_sprite = NULL;
+  }
+
+  if (ptile->label) {
+    FC_FREE(ptile->label);
+    ptile->label = NULL;
   }
 }
 

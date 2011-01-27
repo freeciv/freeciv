@@ -78,8 +78,9 @@ static void base_canvas_to_map_pos(int *map_x, int *map_y,
 enum update_type {
   /* Masks */
   UPDATE_NONE = 0,
-  UPDATE_CITY_DESCRIPTIONS = 1,
-  UPDATE_MAP_CANVAS_VISIBLE = 2
+  UPDATE_CITY_DESCRIPTIONS  = 1,
+  UPDATE_MAP_CANVAS_VISIBLE = 2,
+  UPDATE_TILE_LABELS        = 4
 };
 
 /* A tile update has a tile associated with it as well as an area type.
@@ -90,6 +91,7 @@ enum tile_update_type {
   TILE_UPDATE_UNIT,
   TILE_UPDATE_CITY_DESC,
   TILE_UPDATE_CITYMAP,
+  TILE_UPDATE_TILE_LABEL,
   TILE_UPDATE_COUNT
 };
 static void queue_mapview_update(enum update_type update);
@@ -1307,6 +1309,9 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 		       canvas_x, canvas_y, width, height);
 
   mapview_layer_iterate(layer) {
+    if (layer == LAYER_TILELABEL) {
+      show_tile_labels(canvas_x, canvas_y, width, height);
+    }
     if (layer == LAYER_CITYBAR) {
       show_city_descriptions(canvas_x, canvas_y, width, height);
       continue;
@@ -1384,12 +1389,23 @@ void update_map_canvas_visible(void)
  * next redraw. */
 static int max_desc_width = 0, max_desc_height = 0;
 
+/* Same for tile labels */
+static int max_label_width = 0, max_label_height = 0 ;
+
 /**************************************************************************
   Update the city description for the given city.
 **************************************************************************/
 void update_city_description(struct city *pcity)
 {
   queue_mapview_tile_update(pcity->tile, TILE_UPDATE_CITY_DESC);
+}
+
+/**************************************************************************
+  Update the label for the given tile
+**************************************************************************/
+void update_tile_label(struct tile *ptile)
+{
+  queue_mapview_tile_update(ptile, TILE_UPDATE_TILE_LABEL);
 }
 
 /****************************************************************************
@@ -1766,7 +1782,7 @@ static void show_small_citybar(struct canvas *pcanvas,
   (canvas_x, canvas_y) gives the location on the given canvas at which to
   draw the description.  This is the location of the city itself so the
   text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_ctiy_desc to contain the
+  while (*width, *height) should be set by show_city_desc to contain the
   width and height of the text block (centered directly underneath the
   city's tile).
 ****************************************************************************/
@@ -1779,6 +1795,33 @@ static void show_city_desc(struct canvas *pcanvas,
   } else {
     show_small_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
   }
+}
+
+/****************************************************************************
+  Draw a label for the given tile.
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the label.  This is the location of the tile itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_tile_label to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+static void show_tile_label(struct canvas *pcanvas,
+			   int canvas_x, int canvas_y,
+			   struct tile *ptile, int *width, int *height)
+{
+  const enum client_font FONT_TILE_LABEL = FONT_CITY_NAME; /* TODO: new font */
+#define COLOR_MAPVIEW_TILELABEL COLOR_MAPVIEW_CITYTEXT
+
+  canvas_x += tileset_tile_width(tileset) / 2;
+
+  get_text_size(width, height, FONT_TILE_LABEL, ptile->label);
+
+  canvas_put_text(pcanvas, canvas_x - *width / 2, canvas_y,
+                  FONT_TILE_LABEL,
+                  get_color(tileset, COLOR_MAPVIEW_TILELABEL), ptile->label);
+#undef COLOR_MAPVIEW_TILELABEL
 }
 
 /**************************************************************************
@@ -1852,6 +1895,48 @@ void show_city_descriptions(int canvas_x, int canvas_y,
    * check above to see what cities need redrawing will be complete. */
   max_desc_width = MAX(max_desc_width, new_max_width);
   max_desc_height = MAX(max_desc_height, new_max_height);
+}
+
+/**************************************************************************
+  Show labels for all tiles visible on the map canvas.
+**************************************************************************/
+void show_tile_labels(int canvas_x, int canvas_y,
+                      int width, int height)
+{
+  const int dx = max_label_width - tileset_tile_width(tileset), dy = max_label_height;
+  int new_max_width = max_label_width, new_max_height = max_label_height;
+
+  gui_rect_iterate(mapview.gui_x0 + canvas_x - dx / 2,
+		   mapview.gui_y0 + canvas_y - dy,
+		   width + dx, height + dy,
+		   ptile, pedge, pcorner, gui_x, gui_y) {
+    const int canvas_x = gui_x - mapview.gui_x0;
+    const int canvas_y = gui_y - mapview.gui_y0;
+
+    if (ptile && ptile->label != NULL) {
+      int width = 0, height = 0;
+
+      show_tile_label(mapview.store, canvas_x, canvas_y,
+                      ptile, &width, &height);
+      log_debug("Drawing label %s.", ptile->label);
+
+      if (width > max_label_width || height > max_label_height) {
+        /* The update was incomplete! We queue a new update. Note that
+         * this is recursively queueing an update within a dequeuing of an
+         * update. This is allowed specifically because of the code in
+         * unqueue_mapview_updates. See that function for more. */
+        log_debug("Re-queuing tile label %s drawing.", ptile->label);
+        update_tile_label(ptile);
+      }
+      new_max_width = MAX(width, new_max_width);
+      new_max_height = MAX(height, new_max_height);
+    }
+  } gui_rect_iterate_end;
+
+  /* We don't update the new max values until the end, so that the
+   * check above to see what cities need redrawing will be complete. */
+  max_label_width = MAX(max_label_width, new_max_width);
+  max_label_height = MAX(max_label_height, new_max_height);
 }
 
 /****************************************************************************
@@ -2401,7 +2486,8 @@ void unqueue_mapview_updates(bool write_to_screen)
     {-W / 2, -H / 2, 2 * W, 2 * H},
     {(W - UW) / 2, H - UH, UW, UH},
     {-(max_desc_width - W) / 2, H, max_desc_width, max_desc_height},
-    {-(city_width - W) / 2, -(city_height - H) / 2, city_width, city_height}
+    {-(city_width - W) / 2, -(city_height - H) / 2, city_width, city_height},
+    {-(max_label_width - W) / 2, H, max_label_width, max_label_height}
   };
   struct tile_list *my_tile_updates[TILE_UPDATE_COUNT];
 
@@ -2426,7 +2512,8 @@ void unqueue_mapview_updates(bool write_to_screen)
 
   if (map_exists()) {
     if ((needed_updates & UPDATE_MAP_CANVAS_VISIBLE)
-	|| (needed_updates & UPDATE_CITY_DESCRIPTIONS)) {
+	|| (needed_updates & UPDATE_CITY_DESCRIPTIONS)
+        || (needed_updates & UPDATE_TILE_LABELS)) {
       dirty_all();
       update_map_canvas(0, 0, mapview.store_width,
 			mapview.store_height);

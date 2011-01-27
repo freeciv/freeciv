@@ -890,3 +890,18 @@ void *tile_hash_key(const struct tile *ptile)
 
   return key;
 }
+
+/****************************************************************************
+  Sets label for tile.
+****************************************************************************/
+void tile_set_label(struct tile *ptile, const char *label)
+{
+  if (ptile->label != NULL) {
+    FC_FREE(ptile->label);
+    ptile->label = NULL;
+  }
+
+  if (label != NULL) {
+    ptile->label = fc_strdup(label);
+  }
+}

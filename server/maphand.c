@@ -413,6 +413,12 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       } tile_special_type_iterate_end;
       info.bases = ptile->bases;
 
+      if (ptile->label != NULL) {
+        strncpy(info.label, ptile->label, sizeof(info.label));
+      } else {
+        info.label[0] = '\0';
+      }
+
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
@@ -440,6 +446,13 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       } tile_special_type_iterate_end;
       info.bases = plrtile->bases;
 
+      /* Labels never change, so they are not subject to fog of war */
+      if (ptile->label != NULL) {
+        strncpy(info.label, ptile->label, sizeof(info.label));
+      } else {
+        info.label[0] = '\0';
+      }
+
       send_packet_tile_info(pconn, &info);
     } else if (send_unknown) {
       info.known = TILE_UNKNOWN;
@@ -454,6 +467,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
         info.special[spe] = FALSE;
       } tile_special_type_iterate_end;
       BV_CLR_ALL(info.bases);
+
+      info.label[0] = '\0';
 
       send_packet_tile_info(pconn, &info);
     }

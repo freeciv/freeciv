@@ -366,6 +366,7 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
   BOOL special[S_LAST];
   BV_BASES bases;
   STRING spec_sprite[MAX_LEN_NAME];
+  STRING label[MAX_LEN_NAME];
 end
 
 # This packet used to have is_info set but that doesn't work with the

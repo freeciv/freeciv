@@ -289,9 +289,12 @@ void put_drawn_sprites(struct canvas *pcanvas,
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);
 void update_city_description(struct city *pcity);
+void update_tile_label(struct tile *ptile);
 
 void show_city_descriptions(int canvas_x, int canvas_y,
 			    int width, int height);
+void show_tile_labels(int canvas_x, int canvas_y,
+                      int width, int height);
 bool show_unit_orders(struct unit *punit);
 
 void draw_segment(struct tile *ptile, enum direction8 dir);

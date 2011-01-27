@@ -2516,6 +2516,17 @@ void handle_tile_info(const struct packet_tile_info *packet)
   ptile->continent = packet->continent;
   map.num_continents = MAX(ptile->continent, map.num_continents);
 
+  if (packet->label[0] == '\0') {
+    if (ptile->label != NULL) {
+      FC_FREE(ptile->label);
+      ptile->label = NULL;
+      tile_changed = TRUE;
+    }
+  } else if (ptile->label == NULL || strcmp(packet->label, ptile->label)) {
+      tile_set_label(ptile, packet->label);
+      tile_changed = TRUE;
+  }
+
   if (known_changed || tile_changed) {
     /* 
      * A tile can only change if it was known before and is still

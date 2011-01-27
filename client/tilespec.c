@@ -4603,6 +4603,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_CITYBAR:
+  case LAYER_TILELABEL:
     /* Nothing.  This is just a placeholder. */
     break;
 

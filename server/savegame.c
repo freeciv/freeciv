@@ -831,7 +831,7 @@ static void map_load_startpos(struct section_file *file)
 }
 
 /***************************************************************
-load the tile map from a savegame file
+  Load the tile map from a savegame file
 ***************************************************************/
 static void map_load_tiles(struct section_file *file)
 {
@@ -862,8 +862,14 @@ static void map_load_tiles(struct section_file *file)
     const char *spec_sprite = secfile_lookup_str(file,
                                                  "map.spec_sprite_%d_%d",
                                                  ptile->nat_x, ptile->nat_y);
+    const char *label = secfile_lookup_str_default(file, NULL,
+                                                   "map.label_%d_%d",
+                                                   ptile->nat_x, ptile->nat_y);
     if (NULL != ptile->spec_sprite) {
       ptile->spec_sprite = fc_strdup(spec_sprite);
+    }
+    if (label != NULL) {
+      tile_set_label(ptile, label);
     }
   } whole_map_iterate_end;
 }
@@ -1380,6 +1386,10 @@ static void map_save(struct section_file *file, bool save_players)
     if (ptile->spec_sprite) {
       secfile_insert_str(file, ptile->spec_sprite, "map.spec_sprite_%d_%d",
                          ptile->nat_x, ptile->nat_y);
+    }
+    if (ptile->label != NULL) {
+      secfile_insert_str(file, ptile->label,
+                         "map.label_%d_%d", ptile->nat_x, ptile->nat_y);
     }
   } whole_map_iterate_end;
     

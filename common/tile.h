@@ -53,6 +53,7 @@ struct tile {
   struct city *worked;			/* NULL for not worked */
   struct player *owner;			/* NULL for not owned */
   struct tile *claimer;
+  char *label;                          /* NULL for no label */
   char *spec_sprite;
 };
 
@@ -158,6 +159,8 @@ struct tile *tile_virtual_new(const struct tile *ptile);
 void tile_virtual_destroy(struct tile *vtile);
 
 void *tile_hash_key(const struct tile *ptile);
+
+void tile_set_label(struct tile *ptile, const char *label);
 
 #ifdef __cplusplus
 }

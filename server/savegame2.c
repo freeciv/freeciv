@@ -2197,14 +2197,20 @@ static void sg_load_map_tiles(struct loaddata *loading)
     const char *spec_sprite = secfile_lookup_str(loading->file,
                                                  "map.spec_sprite_%d_%d",
                                                  ptile->nat_x, ptile->nat_y);
+    const char *label = secfile_lookup_str_default(loading->file, NULL,
+                                                   "map.label_%d_%d",
+                                                   ptile->nat_x, ptile->nat_y);
     if (NULL != ptile->spec_sprite) {
       ptile->spec_sprite = fc_strdup(spec_sprite);
+    }
+    if (label != NULL) {
+      tile_set_label(ptile, label);
     }
   } whole_map_iterate_end;
 }
 
 /****************************************************************************
-  ...
+  Save all map tiles
 ****************************************************************************/
 static void sg_save_map_tiles(struct savedata *saving)
 {
@@ -2221,6 +2227,10 @@ static void sg_save_map_tiles(struct savedata *saving)
       secfile_insert_str(saving->file, ptile->spec_sprite,
                          "map.spec_sprite_%d_%d", ptile->nat_x,
                          ptile->nat_y);
+    }
+    if (ptile->label != NULL) {
+      secfile_insert_str(saving->file, ptile->label,
+                         "map.label_%d_%d", ptile->nat_x, ptile->nat_y);
     }
   } whole_map_iterate_end;
 }
