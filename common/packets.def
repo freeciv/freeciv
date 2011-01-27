@@ -517,6 +517,10 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UINT8 specialists_size;
   CITIZENS specialists[SP_MAX:specialists_size];
 
+  UINT8 nationalities_count;
+  PLAYER nation_id[MAX_NUM_PLAYER_SLOTS:nationalities_count];
+  CITIZENS nation_citizens[MAX_NUM_PLAYER_SLOTS:nationalities_count];
+
   SINT16 surplus[O_LAST];
   UINT16 waste[O_LAST];
   SINT16 unhappy_penalty[O_LAST];

@@ -28,6 +28,7 @@
 
 /* common */
 #include "capstr.h"
+#include "citizens.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -593,6 +594,16 @@ void handle_city_info(const struct packet_city_info *packet)
               "%d citizens not equal %d city size in \"%s\".",
               city_size_get(pcity), packet->size, city_name(pcity));
     city_size_set(pcity, packet->size);
+  }
+
+  /* The nationality of the citizens. */
+  if (game.info.citizen_nationality == TRUE) {
+    citizens_init(pcity);
+    for (i = 0; i < packet->nationalities_count; i++) {
+      citizens_nation_set(pcity, player_slot_by_number(packet->nation_id[i]),
+                          packet->nation_citizens[i]);
+    }
+    fc_assert(citizens_count(pcity) == city_size_get(pcity));
   }
 
   pcity->city_radius_sq = packet->city_radius_sq;

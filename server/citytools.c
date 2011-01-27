@@ -1982,6 +1982,24 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     ppl += packet->specialists[sp];
   } specialist_type_iterate_end;
 
+  /* The nationality of the citizens. */
+  packet->nationalities_count = 0;
+  if (game.info.citizen_nationality == TRUE) {
+    player_slots_iterate(pslot) {
+      citizens nationality = citizens_nation_get(pcity, pslot);
+      if (nationality != 0) {
+        /* This player should exist! */
+        fc_assert(player_slot_get_player(pslot) != NULL);
+
+        packet->nation_id[packet->nationalities_count]
+          = player_slot_index(pslot);
+        packet->nation_citizens[packet->nationalities_count]
+          = nationality;
+        packet->nationalities_count++;
+      }
+    } player_slots_iterate_end;
+  }
+
   if (packet->size != ppl) {
     static bool recursion = FALSE;
 
