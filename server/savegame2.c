@@ -38,6 +38,7 @@
   2.4.0   | 2.4.0 release (development)                    | 20../../.. | 10
           | * player ai type                               |            |
           | * delegation                                   |            |
+          | * citizens                                     |            |
           |                                                |            |
 
   Structure of this file:
@@ -109,6 +110,7 @@
 #include "ai.h"
 #include "bitvector.h"
 #include "capability.h"
+#include "citizens.h"
 #include "city.h"
 #include "game.h"
 #include "government.h"
@@ -123,6 +125,7 @@
 /* server */
 #include "aiiface.h"
 #include "barbarian.h"
+#include "citizenshand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
@@ -3942,6 +3945,37 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 
+  /* Nation of citizens. */
+  if (game.info.citizen_nationality == TRUE) {
+    citizens_init(pcity);
+    player_slots_iterate(pslot) {
+      int nationality;
+
+      nationality = secfile_lookup_int_default(loading->file, -1,
+                                               "%s.citizen%d", citystr,
+                                               player_slot_index(pslot));
+      if (nationality > 0 && !player_slot_is_used(pslot)) {
+        log_sg("Citizens of an invalid nation for %s (player slot %d)!",
+                city_name(pcity), player_slot_index(pslot));
+        continue;
+      }
+
+      if (nationality != -1 && player_slot_is_used(pslot)) {
+        sg_warn(nationality >= 0 && nationality <= MAX_CITY_SIZE,
+                "Invalid value for citizens of player %d in %s: %d.",
+                player_slot_index(pslot), city_name(pcity), nationality);
+        citizens_nation_set(pcity, pslot, nationality);
+      }
+    } player_slots_iterate_end;
+    /* Sanity check. */
+    size = citizens_count(pcity);
+    if (size != city_size_get(pcity)) {
+      log_sg("City size and number of citizens does not match (%d != %d)! "
+             "Repairing ...", city_size_get(pcity), size);
+      citizens_update(pcity);
+    }
+  }
+
   return TRUE;
 }
 
@@ -3954,6 +3988,7 @@ static void sg_save_player_cities(struct savedata *saving,
   int wlist_max_length = 0;
   int i = 0;
   int plrno = player_number(plr);
+  bool nations[MAX_NUM_PLAYER_SLOTS];
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -3961,10 +3996,27 @@ static void sg_save_player_cities(struct savedata *saving,
   secfile_insert_int(saving->file, city_list_size(plr->cities),
                      "player%d.ncities", plrno);
 
-  /* First determine lenght of longest worklist */
+  if (game.info.citizen_nationality == TRUE) {
+    /* Initialise the nation list for the citizens information. */
+    player_slots_iterate(pslot) {
+      nations[player_slot_index(pslot)] = FALSE;
+    } player_slots_iterate_end;
+  }
+
+  /* First determine lenght of longest worklist and the nations we have. */
   city_list_iterate(plr->cities, pcity) {
     if (pcity->worklist.length > wlist_max_length) {
       wlist_max_length = pcity->worklist.length;
+    }
+
+    if (game.info.citizen_nationality == TRUE) {
+      /* Find all nations of the citizens,*/
+      players_iterate(pplayer) {
+        if (!nations[player_index(pplayer)]
+            && citizens_nation_get(pcity, pplayer->slot) != 0) {
+          nations[player_index(pplayer)] = TRUE;
+        }
+      } players_iterate_end;
     }
   } city_list_iterate_end;
 
@@ -4075,6 +4127,17 @@ static void sg_save_player_cities(struct savedata *saving,
     }
 
     CALL_FUNC_EACH_AI(city_save, saving->file, pcity, buf);
+
+    if (game.info.citizen_nationality == TRUE) {
+      /* Save nationality of the citizens,*/
+      players_iterate(pplayer) {
+        if (nations[player_index(pplayer)]) {
+          secfile_insert_int(saving->file,
+                             citizens_nation_get(pcity, pplayer->slot),
+                             "%s.citizen%d", buf, player_index(pplayer));
+        }
+      } players_iterate_end;
+    }
 
     i++;
   } city_list_iterate_end;
@@ -5329,6 +5392,26 @@ static void compat_save_020400(struct savedata *saving)
 
     /* Remove delegation information. */
     secfile_entry_delete(saving->file, "player%d.delegation_username", plrno);
+  } player_slots_iterate_end;
+
+  /* Remove citizens informations. */
+  player_slots_iterate(pslot) {
+    int ncities, i;
+
+    if (NULL == secfile_section_lookup(saving->file, "player%d",
+                                       player_slot_index(pslot))) {
+      continue;
+    }
+
+    ncities = secfile_lookup_int_default(saving->file, 0, "player%d.ncities",
+                                         player_slot_index(pslot));
+    for (i = 0; i < ncities; i++) {
+      player_slots_iterate(pslot2) {
+        secfile_entry_delete(saving->file, "player%d.c%d.citizen%d",
+                             player_slot_index(pslot), i,
+                             player_slot_index(pslot2));
+      } player_slots_iterate_end;
+    }
   } player_slots_iterate_end;
 }
 
