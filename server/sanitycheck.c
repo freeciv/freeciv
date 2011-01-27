@@ -69,6 +69,8 @@
     }                                                                       \
   } while(0)
 
+static void check_city_feelings(const struct city *pcity, const char *file,
+                                const char *function, int line);
 
 /**************************************************************************
   Sanity checking on map (tile) specials.
@@ -306,34 +308,21 @@ static void check_city_size(struct city *pcity, const char *file,
   Verify that the number of people with feelings + specialists equal
   city size.
 **************************************************************************/
-void real_sanity_check_feelings(const struct city *pcity,
-                                const char *file,
+static void check_city_feelings(const struct city *pcity, const char *file,
                                 const char *function, int line)
 {
-  int ccategory;
+  int feel;
   int spe = city_specialists(pcity);
 
-  for (ccategory = CITIZEN_HAPPY; ccategory < CITIZEN_LAST; ccategory++) {
+  for (feel = FEELING_BASE; feel < FEELING_LAST; feel++) {
     int sum = 0;
-    int feel;
+    int ccategory;
 
-    for (feel = FEELING_BASE; feel < FEELING_LAST; feel++) {
+    for (ccategory = CITIZEN_HAPPY; ccategory < CITIZEN_LAST; ccategory++) {
       sum += pcity->feel[ccategory][feel];
     }
 
     SANITY_CITY(pcity, city_size_get(pcity) - spe == sum);
-  }
-}
-
-/**************************************************************************
-  Verify that the city has sane values.
-**************************************************************************/
-void real_sanity_check_city_all(struct city *pcity, const char *file,
-                                const char *function, int line)
-{
-  if (check_city_good(pcity, file, function, line)) {
-    check_city_size(pcity, file, function, line);
-    /* TODO: check_feelings. Currently fails far too often to be included. */
   }
 }
 
@@ -345,6 +334,7 @@ void real_sanity_check_city(struct city *pcity, const char *file,
 {
   if (check_city_good(pcity, file, function, line)) {
     check_city_size(pcity, file, function, line);
+    check_city_feelings(pcity, file, function, line);
   }
 }
 

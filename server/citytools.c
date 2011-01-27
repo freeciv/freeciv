@@ -1092,8 +1092,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     city_thaw_workers(pcity);
     city_thaw_workers_queue();  /* after old city has a chance to work! */
     city_refresh_queue_add(pcity);
-
-    sanity_check_city(pcity);
+    /* no sanity check here as the city is not refreshed! */
   }
 
   /* Remove the sight points from the giver. */
@@ -1131,6 +1130,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Refresh all cities in the queue. */
   city_refresh_queue_processing();
+  /* After the refresh the sanity check can be done. */
+  sanity_check_city(pcity);
 
   if (city_remains) {
     /* Send information about conquered city to all players. */
@@ -1340,6 +1341,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
     /* Update happiness (the unit may no longer cause unrest). */
     if (home) {
       city_refresh(home);
+      sanity_check_city(home);
       send_city_info(city_owner(home), home);
     }
   } unit_list_iterate_end;

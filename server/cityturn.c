@@ -287,6 +287,7 @@ void auto_arrange_workers(struct city *pcity)
   city_thaw_workers(pcity);
 
   /* Now start actually rearranging. */
+  city_refresh(pcity);
   sanity_check_city(pcity);
   cm_clear_cache(pcity);
 
@@ -354,9 +355,14 @@ void auto_arrange_workers(struct city *pcity)
 
   apply_cmresult_to_city(pcity, cmr);
 
-  sanity_check_city_all(pcity);
+  if (pcity->server.debug) {
+    /* Print debug output if requested. */
+    cm_print_city(pcity);
+    cm_print_result(cmr);
+  }
 
   city_refresh(pcity);
+  sanity_check_city(pcity);
 
   cm_result_destroy(cmr);
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_STOP);
@@ -643,24 +649,24 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   if (loss_remain > 0) {
     /* Take it out on workers */
     loss_remain -= city_reduce_workers(pcity, loss_remain);
-
-    /* Then rearrange workers */
-    auto_arrange_workers(pcity);
-    sync_cities();
-  } else {
-    send_city_info(city_owner(pcity), pcity);
   }
+
+  /* check squared city radius */
+  if (city_map_update_radius_sq(pcity, TRUE)) {
+    city_refresh(pcity);
+  }
+
+  /* Rearrange workers. */
+  auto_arrange_workers(pcity);
+  /* Send city data. */
+  send_city_info(city_owner(pcity), pcity);
+  sync_cities();
 
   fc_assert_ret_val_msg(0 == loss_remain, TRUE,
                         "city_reduce_size() has remaining"
                         "%d of %d for \"%s\"[%d]",
                         loss_remain, pop_loss,
                         city_name(pcity), city_size_get(pcity));
-
-  /* check squared city radius */
-  if (city_map_update_radius_sq(pcity, TRUE)) {
-    city_refresh(pcity);
-  }
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
@@ -778,11 +784,12 @@ static bool city_increase_size(struct city *pcity)
     pcity->specialists[best_specialist(O_GOLD, pcity)]++;
   } else {
     pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
-    auto_arrange_workers(pcity);
   }
 
-  /* check squared city radius */
+  /* Check squared city radius */
   city_map_update_radius_sq(pcity, TRUE);
+  /* Update workers. */
+  auto_arrange_workers(pcity);
 
   city_refresh(pcity);
 
@@ -2287,6 +2294,7 @@ static void update_city_activity(struct city *pcity)
                     government_name_translation(gov));
       handle_player_change_government(pplayer, government_number(gov));
     }
+    city_refresh(pcity);
     sanity_check_city(pcity);
   }
 }
