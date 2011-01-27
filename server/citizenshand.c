@@ -26,6 +26,10 @@
 #include "game.h"
 #include "player.h"
 
+/* server */
+#include "cityturn.h"
+#include "sanitycheck.h"
+
 
 #include "citizenshand.h"
 
@@ -53,6 +57,10 @@ void citizens_update(struct city *pcity)
     /* before */
     citizens_print(pcity);
   }
+
+  /* Update feelings. */
+  city_refresh(pcity);
+  sanity_check_city(pcity);
 
   if (game.info.citizen_nationality != TRUE) {
     return;

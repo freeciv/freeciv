@@ -630,7 +630,6 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   }
   map_clear_border(pcity->tile);
   city_size_add(pcity, -pop_loss);
-  citizens_update(pcity);
   map_claim_border(pcity->tile, pcity->owner);
 
   /* Cap the food stock at the new granary size. */
@@ -656,6 +655,8 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
     city_refresh(pcity);
   }
 
+  /* Update citizens. */
+  citizens_update(pcity);
   /* Rearrange workers. */
   auto_arrange_workers(pcity);
   /* Send city data. */
@@ -754,7 +755,6 @@ static bool city_increase_size(struct city *pcity)
   }
 
   city_size_add(pcity, 1);
-  citizens_update(pcity);
 
   /* Do not empty food stock if city is growing by celebrating */
   if (rapture_grow) {
@@ -788,6 +788,8 @@ static bool city_increase_size(struct city *pcity)
 
   /* Check squared city radius */
   city_map_update_radius_sq(pcity, TRUE);
+  /* Update citizens. */
+  citizens_update(pcity);
   /* Update workers. */
   auto_arrange_workers(pcity);
 

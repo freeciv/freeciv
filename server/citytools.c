@@ -1256,7 +1256,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Set up citizens nationality. */
   citizens_init(pcity);
-  citizens_update(pcity);
 
   /* Place a worker at the is_city_center() is_free_worked().
    * It is possible to build a city on a tile that is already worked;
@@ -1272,6 +1271,9 @@ void create_city(struct player *pplayer, struct tile *ptile,
     pwork->server.synced = FALSE;
     city_freeze_workers_queue(pwork);
   }
+
+  /* Update citizens. */
+  citizens_update(pcity);
 
   /* Claim the ground we stand on */
   tile_set_owner(ptile, saved_owner, saved_claimer);

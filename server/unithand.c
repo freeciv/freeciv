@@ -53,6 +53,7 @@
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
+#include "sanitycheck.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "techtools.h"
@@ -639,9 +640,9 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 
   fc_assert_ret(unit_pop_value(punit) > 0);
   city_size_add(pcity, unit_pop_value(punit));
-  citizens_update(pcity);
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
+  citizens_update(pcity);
   /* update squared city radius; no worker arrangement needed - it is done
    * unconditionally below */
   city_map_update_radius_sq(pcity, FALSE);
@@ -651,6 +652,9 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
                 unit_tile_link(punit),
                 city_link(pcity));
   wipe_unit(punit);
+
+  sanity_check_city(pcity);
+
   send_city_info(NULL, pcity);
 }
 

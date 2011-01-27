@@ -134,6 +134,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "ruleset.h"
+#include "sanitycheck.h"
 #include "savegame.h"
 #include "score.h"
 #include "settings.h"
@@ -3975,6 +3976,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       citizens_update(pcity);
     }
   }
+
+  sanity_check_city(pcity);
 
   return TRUE;
 }
