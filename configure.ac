@@ -109,7 +109,7 @@ FC_FCDB_SQLITE3
 
 dnl check if a database backend is available
 if test "x$fcdb_mysql" = "xyes" || test "x$fcdb_postgres" = "xyes" \
-   || test "x$fcdb_sqlite" = "xyes"; then
+   || test "x$fcdb_sqlite3" = "xyes"; then
   enable_fcdb=yes
   AC_DEFINE(HAVE_FCDB,1,[ ])
 else
