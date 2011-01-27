@@ -65,6 +65,7 @@ pkgdata_DATA = \
 		burkinabe.ruleset \
 		burmese.ruleset \
 		burundi.ruleset \
+		buryat.ruleset \
 		byzantium.ruleset \
 		californian.ruleset \
 		cambodian.ruleset \

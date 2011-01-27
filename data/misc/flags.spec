@@ -70,6 +70,7 @@ artists = "
    Burgundy		Daniel Markstedt
    Burkina Faso		Gabbe (Wikimedia Commons)
    Burundi		Sebastian Koppehel
+   Buryatia		Urmas (Wikimedia Commons)
    Byzantium		Dragases
    Caddo		Daniel Markstedt
    California		Devin Cook (Wikimedia Commons)
@@ -486,6 +487,7 @@ sprites =
 		"f.burgundy", "flags/burgundy"
 		"f.burkina_faso", "flags/burkina_faso"
 		"f.burundi", "flags/burundi"
+		"f.buryatia", "flags/buryatia"
 		"f.byzantium", "flags/byzantium"
 		"f.caddo", "flags/caddo"
 		"f.california", "flags/california"

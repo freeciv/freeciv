@@ -62,6 +62,7 @@ flag_files =				\
 		burgundy.png		\
 		burkina_faso.png	\
 		burundi.png		\
+		buryatia.png		\
 		byzantium.png		\
 		caddo.png		\
 		california.png		\
@@ -473,6 +474,7 @@ flag_files =				\
 		burgundy-large.png		\
 		burkina_faso-large.png	\
 		burundi-large.png		\
+		buryatia-large.png		\
 		byzantium-large.png		\
 		caddo-large.png		\
 		california-large.png		\
@@ -886,6 +888,7 @@ shield_files =					\
 		burgundy-shield.png		\
 		burkina_faso-shield.png		\
 		burundi-shield.png		\
+		buryatia-shield.png		\
 		byzantium-shield.png		\
 		caddo-shield.png		\
 		california-shield.png		\
@@ -1297,6 +1300,7 @@ shield_files =					\
 		burgundy-shield-large.png		\
 		burkina_faso-shield-large.png		\
 		burundi-shield-large.png		\
+		buryatia-shield-large.png			\
 		byzantium-shield-large.png		\
 		caddo-shield-large.png		\
 		california-shield-large.png		\
@@ -1710,6 +1714,7 @@ svg_files = 				\
 		burgundy.svg		\
 		burkina_faso.svg	\
 		burundi.svg		\
+		buryatia.svg		\
 		byzantium.svg		\
 		caddo.svg		\
 		california.svg		\

@@ -114,6 +114,7 @@ match=2
 *include "nation/burkinabe.ruleset"
 *include "nation/burmese.ruleset"
 *include "nation/burundi.ruleset"
+*include "nation/buryat.ruleset"
 *include "nation/byzantium.ruleset"
 *include "nation/californian.ruleset"
 *include "nation/cambodian.ruleset"

@@ -71,6 +71,7 @@ sprites =
 		"f.burgundy", "flags/burgundy-large"
 		"f.burkina_faso", "flags/burkina_faso-large"
 		"f.burundi", "flags/burundi-large"
+		"f.buryatia", "flags/buryatia-large"
 		"f.byzantium", "flags/byzantium-large"
 		"f.caddo", "flags/caddo-large"
 		"f.california", "flags/california-large"
