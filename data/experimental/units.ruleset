@@ -392,6 +392,11 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "Airbase", "NoVeteran"
+veteran_names             = _("journeyman"), _("working man"), _("foreman")
+veteran_raise_chance      = 40, 20, 0
+veteran_work_raise_chance = 66, 33, 0
+veteran_power_fact        = 100, 150, 200
+veteran_move_bonus        = 0, 0, 0
 roles         = "Settlers"
 helptext      = _("\
 Workers are similar to Settlers in that they can improve terrain --\
