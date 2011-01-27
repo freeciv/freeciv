@@ -52,6 +52,7 @@
 #include "cma_fec.h" 
 
 /* client/gui-gtk-2.0 */
+#include "citizensinfo.h"
 #include "cityrep.h"
 #include "cma_fe.h"
 #include "dialogs.h"
@@ -167,6 +168,7 @@ struct city_dialog {
     GtkWidget *widget;
     GtkWidget *info_ebox[NUM_INFO_FIELDS];
     GtkWidget *info_label[NUM_INFO_FIELDS];
+    GtkWidget *citizens;
   } happiness;
 
   struct cma_dialog *cma_editor;
@@ -462,6 +464,9 @@ void real_city_dialog_refresh(struct city *pcity)
     city_dialog_update_information(pdialog->happiness.info_ebox,
 				   pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
+    if (game.info.citizen_nationality == TRUE) {
+      citizens_dialog_refresh(pdialog->pcity);
+    }
 
     if (!client_is_observer()) {
       refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
@@ -1027,17 +1032,17 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
 /***************************************************************************
                      **** Happiness Page ****
- +- GtkWidget *page -----+-------------------------------------------+
- | +- GtkWidget *left -+ | +- GtkWidget *right --------------------+ |
- | | Info              | | | City map                              | |
- | |                   | | +- GtkWidget pdialog->happiness.widget -+ |
- | |                   | | | Happiness                             | |
- | +-------------------+ | +---------------------------------------+ |
- +--------+--------------+-------------------------------------------+
+ +- GtkWidget *page ----------+-------------------------------------------+
+ | +- GtkWidget *left ------+ | +- GtkWidget *right --------------------+ |
+ | | Info                   | | | City map                              | |
+ | +- GtkWidget *citizens --+ | +- GtkWidget pdialog->happiness.widget -+ |
+ | | Citizens data          | | | Happiness                             | |
+ | +------------------------+ | +---------------------------------------+ |
+ +----------------------------+-------------------------------------------+
 ****************************************************************************/
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *label, *table, *align, *right, *frame;
+  GtkWidget *page, *label, *table, *align, *right, *left, *frame;
   const char *tab_title = _("Happ_iness");
 
   /* main page */
@@ -1046,9 +1051,13 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  /* left: info */
+  /* left: info, citizens */
+  left = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(page), left, FALSE, TRUE, 0);
+
+  /* upper left: info */
   frame = gtk_frame_new(_("Info"));
-  gtk_box_pack_start(GTK_BOX(page), frame, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(left), frame, FALSE, TRUE, 0);
 
   align = gtk_alignment_new(0.5, 0, 0, 0);
   gtk_container_add(GTK_CONTAINER(frame), align);
@@ -1057,6 +1066,16 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
                                  pdialog->happiness.info_ebox,
                                  pdialog->happiness.info_label);
   gtk_container_add(GTK_CONTAINER(align), table);
+
+  /* lower left: citizens */
+  if (game.info.citizen_nationality == TRUE) {
+    pdialog->happiness.citizens = gtk_vbox_new(FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(left), pdialog->happiness.citizens,
+                       TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(pdialog->happiness.citizens),
+                       citizens_dialog_display(pdialog->pcity),
+                       TRUE, TRUE, 0);
+  }
 
   /* right: city map, happiness */
   right = gtk_vbox_new(FALSE, 0);
@@ -1266,6 +1285,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->happiness.map_canvas.sw = NULL;      /* make sure NULL if spy */
   pdialog->happiness.map_canvas.ebox = NULL;    /* ditto */
   pdialog->happiness.map_canvas.pixmap = NULL;  /* ditto */
+  pdialog->happiness.citizens = NULL;           /* ditto */
   pdialog->map_canvas_store = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
 					     CITYMAP_WIDTH, CITYMAP_HEIGHT);
   pdialog->map_pixbuf_unscaled = NULL;
@@ -2883,6 +2903,9 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   gtk_widget_hide(pdialog->shell);
 
+  if (game.info.citizen_nationality == TRUE) {
+    citizens_dialog_close(pdialog->pcity);
+  }
   close_happiness_dialog(pdialog->pcity);
   close_cma_dialog(pdialog->pcity);
 
@@ -2999,13 +3022,21 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   }
 
   /* cleanup happiness dialog */
+  if (game.info.citizen_nationality == TRUE) {
+    citizens_dialog_close(pdialog->pcity);
+  }
   close_happiness_dialog(pdialog->pcity);
 
   pdialog->pcity = new_pcity;
 
   /* reinitialize happiness, and cma dialogs */
+  if (game.info.citizen_nationality == TRUE) {
+    gtk_box_pack_start(GTK_BOX(pdialog->happiness.citizens),
+                       citizens_dialog_display(pdialog->pcity),
+                       TRUE, TRUE, 0);
+  }
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
-		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
+                     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->cma_editor->pcity = new_pcity;
 
   reset_city_worklist(pdialog->production.worklist, pdialog->pcity);

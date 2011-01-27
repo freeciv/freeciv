@@ -71,6 +71,7 @@
 
 /* gui-gtk-2.0 */
 #include "chatline.h"
+#include "citizensinfo.h"
 #include "connectdlg.h"
 #include "cma_fe.h"
 #include "dialogs.h"
@@ -1628,6 +1629,7 @@ void ui_main(int argc, char **argv)
   cma_fe_init();
   diplomacy_dialog_init();
   happiness_dialog_init();
+  citizens_dialog_init();
   intel_dialog_init();
   spaceship_dialog_init();
   chatline_init();
@@ -1647,6 +1649,7 @@ void ui_main(int argc, char **argv)
 
   spaceship_dialog_done();
   intel_dialog_done();
+  citizens_dialog_done();
   happiness_dialog_done();
   diplomacy_dialog_done();
   cma_fe_done();
