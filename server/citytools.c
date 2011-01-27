@@ -31,6 +31,7 @@
 /* common */
 #include "ai.h"
 #include "base.h"
+#include "citizens.h"
 #include "city.h"
 #include "events.h"
 #include "game.h"
@@ -56,6 +57,7 @@
 
 /* server */
 #include "barbarian.h"
+#include "citizenshand.h"
 #include "cityturn.h"
 #include "gamehand.h"           /* send_game_info() */
 #include "maphand.h"
@@ -1250,6 +1252,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
     city_build_free_buildings(pcity);
     fc_assert(TRUE == pplayer->server.capital);
   }
+
+  /* Set up citizens nationality. */
+  citizens_init(pcity);
+  citizens_update(pcity);
 
   /* Place a worker at the is_city_center() is_free_worked().
    * It is possible to build a city on a tile that is already worked;

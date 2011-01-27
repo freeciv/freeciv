@@ -2989,6 +2989,10 @@ static void load_ruleset_cities(struct section_file *file)
   game.server.vision_reveal_tiles =
     secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
 
+  /* Citizens configuration. */
+  game.info.citizen_nationality =
+    secfile_lookup_bool_default(file, FALSE,
+                                "citizen.nationality");
   /* City Styles ... */
 
   sec = secfile_sections_by_name_prefix(file, CITYSTYLE_SECTION_PREFIX);

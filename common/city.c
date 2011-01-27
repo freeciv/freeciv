@@ -28,6 +28,7 @@
 
 /* common */
 #include "ai.h"
+#include "citizens.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
@@ -3172,6 +3173,8 @@ void destroy_city_virtual(struct city *pcity)
 {
   CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
   CALL_FUNC_EACH_AI(city_free, pcity);
+
+  citizens_free(pcity);
 
   unit_list_destroy(pcity->units_supported);
   if (pcity->tile_cache != NULL) {

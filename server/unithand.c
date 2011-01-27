@@ -46,6 +46,7 @@
 
 /* server */
 #include "barbarian.h"
+#include "citizenshand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
@@ -638,6 +639,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 
   fc_assert_ret(unit_pop_value(punit) > 0);
   city_size_add(pcity, unit_pop_value(punit));
+  citizens_update(pcity);
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
   /* update squared city radius; no worker arrangement needed - it is done

@@ -275,6 +275,8 @@ struct city {
   citizens martial_law;       /* Citizens pacified by martial law. */
   citizens unit_happy_upkeep; /* Citizens angered by military action. */
 
+  citizens *nationality;      /* Nationality of the citizens. */
+
   /* trade routes */
   int trade[NUM_TRADE_ROUTES], trade_value[NUM_TRADE_ROUTES];
 

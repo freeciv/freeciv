@@ -28,6 +28,8 @@ libfreeciv_srv_la_SOURCES = \
 		auth.h		\
 		barbarian.c	\
 		barbarian.h	\
+		citizenshand.c	\
+		citizenshand.h	\
 		cityhand.c	\
 		cityhand.h	\
 		citytools.c	\

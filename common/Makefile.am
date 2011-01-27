@@ -15,6 +15,8 @@ libfreeciv_la_SOURCES = \
 		borders.h	\
 		capstr.c	\
 		capstr.h	\
+		citizens.c	\
+		citizens.h	\
 		city.c		\
 		city.h		\
 		combat.c	\

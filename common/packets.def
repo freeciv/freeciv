@@ -388,6 +388,7 @@ PACKET_GAME_INFO = 16; sc
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;
   BOOL changable_tax;
+  BOOL citizen_nationality;
   UINT8 citymindist;
   UINT32 cooling;
   UINT32 coolinglevel;

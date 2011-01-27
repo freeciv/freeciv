@@ -45,6 +45,7 @@
 #include "script_types.h"
 
 /* server */
+#include "citizenshand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "maphand.h"
@@ -622,6 +623,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   }
   map_clear_border(pcity->tile);
   city_size_add(pcity, -pop_loss);
+  citizens_update(pcity);
   map_claim_border(pcity->tile, pcity->owner);
 
   /* Cap the food stock at the new granary size. */
@@ -745,6 +747,7 @@ static bool city_increase_size(struct city *pcity)
   }
 
   city_size_add(pcity, 1);
+  citizens_update(pcity);
 
   /* Do not empty food stock if city is growing by celebrating */
   if (rapture_grow) {

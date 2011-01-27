@@ -27,6 +27,7 @@
 #include "support.h"
 
 /* common */
+#include "citizens.h"
 #include "diptreaty.h"
 #include "game.h"
 #include "government.h"
@@ -1180,6 +1181,27 @@ void server_remove_player(struct player *pplayer)
       remove_shared_vision(aplayer, pplayer);
     }
   } players_iterate_end;
+
+  /* Remove citizens of this player from the cities of all other players. */
+  /* FIXME: add a special case if the server quits - no need to run this for
+   *        each player in that case. */
+  if (game.info.citizen_nationality == TRUE) {
+    cities_iterate(pcity) {
+      if (city_owner(pcity) != pplayer) {
+        citizens nationality = citizens_nation_get(pcity, pplayer->slot);
+        if (nationality != 0) {
+          /* Change nationality of the citizens to the nationality of the
+           * city owner. */
+          citizens_nation_move(pcity, pplayer->slot, city_owner(pcity)->slot,
+                               nationality);
+          city_refresh_queue_add(pcity);
+        }
+      }
+    } cities_iterate_end
+
+    city_refresh_queue_processing();
+  }
+
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
   player_clear(pplayer, TRUE);
