@@ -203,7 +203,7 @@ BV_DEFINE(bv_unit_type_roles, L_MAX);
 
 struct veteran_level {
   struct name_translation name; /* level/rank name */
-  double power_fact; /* combat/work speed/diplomatic power factor */
+  int power_fact; /* combat/work speed/diplomatic power factor (in %) */
   int move_bonus;
   int raise_chance;
   int work_raise_chance;

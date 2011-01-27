@@ -241,9 +241,8 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   ptile = punit->tile;
   /* We look for the bodyguard where we stand. */
   if (guard == NULL || guard->tile != punit->tile) {
-    int my_def = (punit->hp * vlevel->power_fact
-                  * unit_type(punit)->defense_strength
-                  * POWER_FACTOR);
+    int my_def = (punit->hp * unit_type(punit)->defense_strength
+                  * POWER_FACTOR * vlevel->power_fact / 100);
 
     if (danger >= my_def) {
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 

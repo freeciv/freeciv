@@ -420,8 +420,8 @@ int base_get_attack_power(const struct unit_type *punittype,
   vlevel = utype_veteran_level(punittype, veteran);
   fc_assert_ret_val(vlevel != NULL, 0);
 
-  power = punittype->attack_strength * POWER_FACTOR;
-  power *= vlevel->power_fact;
+  power = punittype->attack_strength * POWER_FACTOR
+          * vlevel->power_fact / 100;
 
   if (game.info.tired_attack && moves_left < SINGLE_MOVE) {
     power = (power * moves_left) / SINGLE_MOVE;
@@ -443,7 +443,7 @@ int base_get_defense_power(const struct unit *punit)
   fc_assert_ret_val(vlevel != NULL, 0);
 
   return unit_type(punit)->defense_strength * POWER_FACTOR
-          * vlevel->power_fact;
+         * vlevel->power_fact / 100;
 }
 
 /**************************************************************************
@@ -564,7 +564,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
   defensepower *= db;
-  defensepower *= vlevel->power_fact;
+  defensepower *= vlevel->power_fact / 100;
 
   return defense_multiplication(att_type, def_type, def_player,
                                 ptile, defensepower,
