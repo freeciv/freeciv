@@ -327,7 +327,7 @@ static void count_my_units(struct player *pplayer)
 void adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
   struct adv_data *ai = pplayer->server.adv;
-  int i, j, k;
+  int i;
   int nuke_units;
   bool danger_of_nukes;
 
@@ -429,53 +429,8 @@ void adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   } players_iterate_end;
 
   /* Increase from fear to terror if opponent actually has nukes */
-  if (danger_of_nukes) ai->threats.nuclear++; /* sum of both fears */
-
-  /*** Channels ***/
-
-  /* Ways to cross from one ocean to another through a city. */
-  ai->channels = fc_calloc((ai->num_oceans + 1) * (ai->num_oceans + 1), sizeof(int));
-  players_iterate(aplayer) {
-    if (pplayers_allied(pplayer, aplayer)) {
-      city_list_iterate(aplayer->cities, pcity) {
-        adjc_iterate(pcity->tile, tile1) {
-          if (is_ocean_tile(tile1)) {
-            adjc_iterate(pcity->tile, tile2) {
-              if (is_ocean_tile(tile2) 
-                  && tile_continent(tile1) != tile_continent(tile2)) {
-                ai->channels[(-tile_continent(tile1)) * ai->num_oceans
-                             + (-tile_continent(tile2))] = TRUE;
-                ai->channels[(-tile_continent(tile2)) * ai->num_oceans
-                             + (-tile_continent(tile1))] = TRUE;
-              }
-            } adjc_iterate_end;
-          }
-        } adjc_iterate_end;
-      } city_list_iterate_end;
-    }
-  } players_iterate_end;
-
-  /* If we can go i -> j and j -> k, we can also go i -> k. */
-  for(i = 1; i <= ai->num_oceans; i++) {
-    for(j = 1; j <= ai->num_oceans; j++) {
-      if (ai->channels[i * ai->num_oceans + j]) {
-        for(k = 1; k <= ai->num_oceans; k++) {
-          ai->channels[i * ai->num_oceans + k] |= 
-            ai->channels[j * ai->num_oceans + k];
-        }
-      }
-    }
-  }
-
-  if (game.server.debug[DEBUG_FERRIES]) {
-    for(i = 1; i <= ai->num_oceans; i++) {
-      for(j = 1; j <= ai->num_oceans; j++) {
-        if (ai->channels[i * ai->num_oceans + j]) {
-          log_test("%s: oceans %d and %d are connected",
-                   player_name(pplayer), i, j);
-       }
-      }
-    }
+  if (danger_of_nukes) {
+    ai->threats.nuclear++; /* sum of both fears */
   }
 
   /*** Exploration ***/
@@ -714,9 +669,6 @@ void adv_data_phase_done(struct player *pplayer)
   free(ai->stats.cities);
   ai->stats.cities = NULL;
 
-  free(ai->channels);
-  ai->channels = NULL;
-
   ai->num_continents = 0;
   ai->num_oceans     = 0;
 
@@ -792,7 +744,6 @@ void ai_data_default(struct player *pplayer)
   memset(ai->government_want, 0,
          (government_count() + 1) * sizeof(*ai->government_want));
 
-  ai->channels = NULL;
   ai->wonder_city = 0;
   ai->diplomacy.strategy = WIN_OPEN;
   ai->diplomacy.timer = 0;
@@ -846,18 +797,4 @@ void adv_data_close(struct player *pplayer)
     free(ai);
   }
   pplayer->ai = NULL;
-}
-
-/**************************************************************************
-  Is there a channel going from ocean c1 to ocean c2?
-  Returns FALSE if either is not an ocean.
-**************************************************************************/
-bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2)
-{
-  struct adv_data *ai = adv_data_get(pplayer);
-
-  if (c1 >= 0 || c2 >= 0) {
-    return FALSE;
-  }
-  return (c1 == c2 || ai->channels[(-c1) * ai->num_oceans + (-c2)]);
 }

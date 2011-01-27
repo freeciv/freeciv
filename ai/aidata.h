@@ -21,6 +21,9 @@ struct player;
 struct ai_plr
 {
   bool phase_initialized;
+
+  /* Keep track of available ocean channels */
+  bool *channels;
 };
 
 void ai_data_init(struct player *pplayer);
@@ -30,5 +33,7 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase);
 void ai_data_phase_finished(struct player *pplayer);
 
 struct ai_plr *ai_plr_data_get(struct player *pplayer);
+
+bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
 
 #endif /* FC__AIDATA_H */

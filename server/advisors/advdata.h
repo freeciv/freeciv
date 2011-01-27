@@ -115,9 +115,6 @@ struct adv_data {
     bool sea_done;    /* nothing more to explore at sea */
   } explore;
 
-  /* Keep track of available ocean channels */
-  bool *channels;
-
   /* This struct is used for statistical unit building, eg to ensure
    * that we don't build too few or too many units of a given type. */
   struct {
@@ -196,7 +193,5 @@ void ai_data_analyze_rulesets(struct player *pplayer);
 struct adv_data *adv_data_get(struct player *pplayer);
 struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
                                       const struct player *plr2);
-
-bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
 
 #endif /* FC__ADVDATA_H */
