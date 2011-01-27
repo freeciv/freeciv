@@ -29,6 +29,7 @@
 #include "support.h"
 
 /* common */
+#include "citizens.h"
 #include "city.h"
 #include "events.h"
 #include "game.h"
@@ -2482,7 +2483,7 @@ static float city_migration_score(struct city *pcity)
 static bool do_city_migration(struct city *pcity_from,
                               struct city *pcity_to)
 {
-  struct player *pplayer_from, *pplayer_to;
+  struct player *pplayer_from, *pplayer_to, *pplayer_citizen;
   struct tile *ptile_from, *ptile_to;
   char name_from[MAX_LEN_LINK], name_to[MAX_LEN_LINK];
   const char *nation_from, *nation_to;
@@ -2493,6 +2494,7 @@ static bool do_city_migration(struct city *pcity_from,
   }
 
   pplayer_from = city_owner(pcity_from);
+  pplayer_citizen = pplayer_from;
   pplayer_to = city_owner(pcity_to);
   /* We copy that, because city_link always returns the same pointer. */
   sz_strlcpy(name_from, city_link(pcity_from));
@@ -2620,6 +2622,14 @@ static bool do_city_migration(struct city *pcity_from,
      * migration -> grow -> migration -> ... cycles) */
     pcity_from->food_stock /= 2;
 
+    if (game.info.citizen_nationality == TRUE) {
+      /* Can citizens go to a city of their original nation? */
+      if (citizens_nation_get(pcity_from, pplayer_to->slot) > 0) {
+        pplayer_citizen = pplayer_to;
+      }
+      /* This should be followed by city_reduce_size(). */
+      citizens_nation_add(pcity_from, pplayer_citizen->slot, -1);
+    }
     city_reduce_size(pcity_from, 1, pplayer_from);
     city_refresh_vision(pcity_from);
     city_refresh(pcity_from);
@@ -2648,6 +2658,11 @@ static bool do_city_migration(struct city *pcity_from,
   }
 
   /* raise size of receiver city */
+  if (game.info.citizen_nationality == TRUE) {
+    /* Add one citizens; this must be followed by city_increase_size(). */
+    fc_assert_ret_val(pplayer_citizen != NULL, FALSE);
+    citizens_nation_add(pcity_to, pplayer_citizen->slot, 1);
+  }
   city_increase_size(pcity_to);
   city_refresh_vision(pcity_to);
   city_refresh(pcity_to);
@@ -2795,6 +2810,14 @@ static void check_city_migrations_player(const struct player *pplayer)
       } else if (game.server.mgr_worldchance > 0
                  && city_owner(acity) != pplayer) {
         /* migration between cities of different owners */
+        if (game.info.citizen_nationality == TRUE) {
+          /* Modify the score if citizens could migrate to a city of their
+           * original nation. */
+          if (citizens_nation_get(pcity, city_owner(acity)->slot) > 0) {
+            score_tmp *= 2;
+          }
+        }
+
         if (score_tmp > score_from && score_tmp > best_city_world_score) {
           /* select the best! */
           best_city_world_score = score_tmp;
