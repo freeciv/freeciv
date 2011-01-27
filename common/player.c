@@ -32,6 +32,7 @@
 #include "improvement.h"
 #include "map.h"
 #include "research.h"
+#include "rgbcolor.h"
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -542,10 +543,27 @@ static void player_defaults(struct player *pplayer)
   pplayer->tile_known.vec = NULL;
   pplayer->tile_known.bits = 0;
 
+  pplayer->rgb = NULL;
+
   /* pplayer->server is initialised in
       ./server/plrhand.c:server_player_init()
      and pplayer->client in
       ./client/climisc.c:client_player_init() */
+}
+
+/****************************************************************************
+  Set the player's color.
+****************************************************************************/
+void player_set_color(struct player *pplayer,
+                      const struct rgbcolor *prgbcolor)
+{
+  fc_assert_ret(prgbcolor != NULL);
+
+  if (pplayer->rgb != NULL) {
+    rgbcolor_destroy(pplayer->rgb);
+  }
+
+  pplayer->rgb = rgbcolor_copy(prgbcolor);
 }
 
 /****************************************************************************
@@ -623,6 +641,11 @@ void player_destroy(struct player *pplayer)
     }
   } players_iterate_end;
   free(pplayer->diplstates);
+
+  /* Clear player color. */
+  if (pplayer->rgb) {
+    rgbcolor_destroy(pplayer->rgb);
+  }
 
   free(pplayer);
   pslot->player = NULL;

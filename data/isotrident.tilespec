@@ -56,8 +56,7 @@ minimap_intro_file = "misc/radar"
 ; the data path. Order may be important for color allocation on 
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
-files = 
-  "misc/colors.spec",
+files =
   "misc/overlays.spec",
   "misc/citybar.spec",
   "isotrident/terrain1.spec",

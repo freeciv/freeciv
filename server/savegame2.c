@@ -2885,7 +2885,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     sg_failure_ret(string != NULL, "%s", secfile_error());
 
     /* Create player. */
-    pplayer = server_create_player(player_slot_index(pslot), string);
+    pplayer = server_create_player(player_slot_index(pslot), string, NULL);
     sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", string);
 
     server_player_init(pplayer, FALSE, FALSE);

@@ -60,7 +60,7 @@ minimap_intro_file = "misc/radar"
 ; the data path. Order may be important for color allocation on 
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
-files = 
+files =
   "amplio2/terrain1.spec",
   "amplio2/terrain2.spec",
   "amplio2/hills.spec",
@@ -85,7 +85,6 @@ files =
   "amplio2/select.spec",
   "amplio2/grid.spec",
   "misc/cursors.spec",
-  "misc/colors.spec",
   "misc/overlays.spec",
   "misc/citybar.spec",
   "misc/shields.spec",

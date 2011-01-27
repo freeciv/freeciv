@@ -14,14 +14,16 @@
 #define FC__SPRITE_G_H
 
 struct sprite;			/* opaque type, real type is gui-dep */
+struct color;
 
 const char **gfx_fileextensions(void);
 
 struct sprite *load_gfxfile(const char *filename);
 struct sprite *crop_sprite(struct sprite *source,
-			   int x, int y, int width, int height,
-			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y);
+                           int x, int y, int width, int height,
+                           struct sprite *mask,
+                           int mask_offset_x, int mask_offset_y);
+struct sprite *create_sprite(int width, int height, struct color *pcolor);
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height);
 void free_sprite(struct sprite *s);
 

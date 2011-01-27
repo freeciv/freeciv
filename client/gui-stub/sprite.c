@@ -80,6 +80,15 @@ struct sprite *crop_sprite(struct sprite *source,
 }
 
 /****************************************************************************
+  Create a new sprite with the given height, width and color.
+****************************************************************************/
+struct sprite *create_sprite(int width, int height, struct color *pcolor)
+{
+  /* PORTME */
+  return NULL;
+}
+
+/****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)

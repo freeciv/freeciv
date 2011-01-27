@@ -36,12 +36,17 @@
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Color * get_game_colorRGB(enum color_std color_offset)
+SDL_Color * get_game_colorRGB(int color_id)
 {
-  if (color_offset >= COLOR_LAST) {
-    return theme_get_color(theme, (color_offset - COLOR_LAST))->color;
+  if (color_id >= color_std_max()) {
+    enum theme_color themecolor = color_id - COLOR_LAST;
+    return theme_get_color(theme, themecolor)->color;
   } else {
-    return get_color(tileset, color_offset)->color;
+    enum color_std stdcolor = color_id;
+
+    fc_assert_ret_val(color_std_is_valid(stdcolor), NULL);
+
+    return get_color(tileset, stdcolor)->color;
   }
 }
 
@@ -79,6 +84,12 @@ struct color *color_alloc(int r, int g, int b) {
 }
 
 void color_free(struct color *pcolor) {
-  free(pcolor->color);
+  if (!pcolor) {
+    return;
+  }
+
+  if (pcolor->color) {
+    free(pcolor->color);
+  }
   free(pcolor);
 }

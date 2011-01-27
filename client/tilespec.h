@@ -154,6 +154,11 @@ void tileset_setup_nation_flag(struct tileset *t,
 			       struct nation_type *nation);
 void tileset_setup_city_tiles(struct tileset *t, int style);
 
+void tileset_player_init(struct tileset *t, struct player *pplayer);
+void tileset_player_free(struct tileset *t, struct player *pplayer);
+void tileset_background_init(struct tileset *t);
+void tileset_background_free(struct tileset *t);
+
 /* Gfx support */
 
 int fill_sprite_array(struct tileset *t,

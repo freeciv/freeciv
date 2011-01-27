@@ -61,7 +61,9 @@ void rgbcolor_destroy(struct rgbcolor *prgbcolor)
     return;
   }
 
-  fc_funcs->gui_color_free(prgbcolor->color);
+  if (prgbcolor->color) {
+    fc_funcs->gui_color_free(prgbcolor->color);
+  }
   free(prgbcolor);
 }
 

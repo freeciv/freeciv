@@ -13,8 +13,6 @@ pkgdata_DATA =          \
 	citybar.spec	\
 	cityicon.png	\
 	civicon.png	\
-	colors.png	\
-	colors.spec	\
 	colors.tilespec \
 	cursors.png	\
 	cursors.spec	\

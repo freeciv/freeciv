@@ -1811,7 +1811,7 @@ void aifill(int amount)
     int filled = 1;
     struct player *pplayer;
 
-    pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
+    pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME, NULL);
     if (!pplayer) {
       break;
     }
@@ -2425,6 +2425,12 @@ static void srv_ready(void)
       } players_iterate_end;
     } players_iterate_end;
 
+    /* (Re-)Assign each player a color using the color definitions
+     * from the current ruleset. */
+    players_iterate(pplayer) {
+      server_player_set_color(pplayer, NULL);
+    } players_iterate_end;
+
     /* Save all settings for the 'reset game' command. */
     settings_game_start();
   }
@@ -2476,6 +2482,7 @@ void server_game_init(void)
   identity_number_reserve(IDENTITY_NUMBER_ZERO);
 
   event_cache_init();
+  playercolor_init();
   game_init();
 }
 
@@ -2519,6 +2526,7 @@ void server_game_free(void)
 
   event_cache_free();
   log_civ_score_free();
+  playercolor_free();
   game_free();
 }
 

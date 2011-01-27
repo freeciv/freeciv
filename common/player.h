@@ -222,6 +222,8 @@ struct player {
 
   struct dbv tile_known;
 
+  struct rgbcolor *rgb;
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */
@@ -273,6 +275,8 @@ struct player_slot *player_slot_by_number(int player_id);
 
 /* General player accessor functions. */
 struct player *player_new(struct player_slot *pslot);
+void player_set_color(struct player *pplayer,
+                      const struct rgbcolor *prgbcolor);
 void player_clear(struct player *pplayer, bool full);
 void player_destroy(struct player *pplayer);
 

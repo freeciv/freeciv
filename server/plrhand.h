@@ -16,12 +16,17 @@
 struct section_file;
 struct connection;
 struct conn_list;
+struct rgbcolor;
+struct player;
 
 enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
+struct player *server_create_player(int player_id, const char *ai_type,
+                                    struct rgbcolor *prgbcolor);
+void server_player_set_color(struct player *pplayer,
+                             struct rgbcolor *prgbcolor);
 void server_player_init(struct player *pplayer, bool initmap,
                         bool needs_team);
-struct player *server_create_player(int player_id, const char *ai_type);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
@@ -102,5 +107,13 @@ bool player_delegation_active(const struct player *pplayer);
 void send_delegation_info(const struct connection *pconn);
 
 struct player *player_by_user_delegated(const char *name);
+
+/* player colors */
+void playercolor_init(void);
+void playercolor_free(void);
+
+int playercolor_count(void);
+void playercolor_add(struct rgbcolor *prgbcolor);
+struct rgbcolor *playercolor_get(int id);
 
 #endif  /* FC__PLRHAND_H */

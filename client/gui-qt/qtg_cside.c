@@ -432,3 +432,11 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
   return funcs.get_useable_themes_in_directory(directory, count);
 }
 
+/****************************************************************************
+  Create a new sprite with the given height, width and color.
+****************************************************************************/
+struct sprite *create_sprite(int width, int height, struct color *pcolor)
+{
+  /* PORTME */
+  return NULL;
+}

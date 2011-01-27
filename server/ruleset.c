@@ -36,6 +36,7 @@
 #include "capability.h"
 #include "city.h"
 #include "effects.h"
+#include "fc_types.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -43,6 +44,7 @@
 #include "name_translation.h"
 #include "nation.h"
 #include "packets.h"
+#include "player.h"
 #include "requirements.h"
 #include "rgbcolor.h"
 #include "specialist.h"
@@ -3476,6 +3478,39 @@ static void load_ruleset_game(void)
                                           RS_DEFAULT_NEG_YEAR_LABEL,
                                           "calendar.negative_label")));
 
+  /* section playercolors */
+  {
+    struct rgbcolor *prgbcolor = NULL;
+    bool read = TRUE;
+
+    /* Check if the player list is defined and empty. */
+    fc_assert_ret(playercolor_count() == 0);
+    i = 0;
+    while (read) {
+      prgbcolor = NULL;
+
+      read = rgbcolor_load(file, &prgbcolor, "playercolors.colorlist%d", i);
+      if (read) {
+        playercolor_add(prgbcolor);
+      }
+
+      i++;
+    }
+
+    if (playercolor_count() == 0) {
+      ruleset_error(LOG_FATAL, "No player colors defined!");
+    }
+
+    if (game.plr_bg_color != NULL) {
+      rgbcolor_destroy(game.plr_bg_color);
+      game.plr_bg_color = NULL;
+    }
+    if (!rgbcolor_load(file, &game.plr_bg_color, "playercolors.background")) {
+      ruleset_error(LOG_FATAL, "No background player color defined! (%s)",
+                    secfile_error());
+    }
+  }
+
   /* section: teams */
   svec = secfile_lookup_str_vec(file, &teams, "teams.names");
   if (team_slot_count() < teams) {
@@ -3977,6 +4012,12 @@ static void send_ruleset_game(struct conn_list *dest)
 
   misc_p.default_specialist = DEFAULT_SPECIALIST;
 
+  fc_assert_ret(game.plr_bg_color != NULL);
+
+  misc_p.background_red = game.plr_bg_color->r;
+  misc_p.background_green = game.plr_bg_color->g;
+  misc_p.background_blue = game.plr_bg_color->b;
+
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 
@@ -4034,6 +4075,9 @@ void load_rulesets(void)
   log_normal(_("Loading rulesets."));
 
   game_ruleset_free();
+  /* Reset the list of available player colors. */
+  playercolor_free();
+  playercolor_init();
   game_ruleset_init();
 
   reset_player_nations();

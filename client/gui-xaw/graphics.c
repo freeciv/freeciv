@@ -216,6 +216,41 @@ struct sprite *crop_sprite(struct sprite *source,
 }
 
 /****************************************************************************
+  Create a sprite with the given height, width and color.
+****************************************************************************/
+struct sprite *create_sprite(int width, int height, struct color *pcolor)
+{
+  struct sprite *plrcolor;
+
+  fc_assert_ret_val(width > 0, NULL);
+  fc_assert_ret_val(height > 0, NULL);
+  fc_assert_ret_val(pcolor != NULL, NULL);
+
+  {
+    /* FIXME: I do not know why it works but the code below allows the creation
+     *        of the needed player color sprites. */
+    fc_assert_ret_val(tileset != NULL, NULL);
+    struct sprite *psprite_dummy = get_basic_fog_sprite(tileset);
+    Pixmap mypixmap, mymask;
+    GC plane_gc;
+
+    mypixmap = XCreatePixmap(display, root_window, width, height,
+                             display_depth);
+    mymask = XCreatePixmap(display, root_window, width, height, 1);
+    plane_gc = XCreateGC(display, mymask, 0, NULL);
+    XCopyArea(display, psprite_dummy->mask, mymask, plane_gc,
+              0, 0, width, height, 0, 0);
+    XFreeGC(display, plane_gc);
+    plrcolor = ctor_sprite_mask(mypixmap, mymask, width, height);
+  }
+
+  XSetForeground(display, fill_bg_gc, pcolor->color.pixel);
+  XFillRectangle(display, plrcolor->pixmap, fill_bg_gc, 0, 0, width, height);
+
+  return plrcolor;
+}
+
+/****************************************************************************
   Find the dimensions of the sprite.
 ****************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
@@ -260,6 +295,7 @@ static struct sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
   mysprite->pixmap=mypixmap;
   mysprite->width=width;
   mysprite->height=height;
+  mysprite->ncols = 0;
   mysprite->pcolorarray = NULL;
   mysprite->has_mask=0;
   return mysprite;

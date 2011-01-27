@@ -1747,6 +1747,9 @@ void handle_player_remove(int playerno)
   } conn_list_iterate_end;
   conn_list_clear(pplayer->connections);
 
+  /* Free the memory allocated for the player color. */
+  tileset_player_free(tileset, pplayer);
+
   player_destroy(pplayer);
 
   players_dialog_update();
@@ -1779,6 +1782,20 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pslot = player_slot_by_number(pinfo->playerno);
   fc_assert(NULL != pslot);
   pplayer = player_new(pslot);
+
+  if (pplayer->rgb == NULL || (pplayer->rgb->r != pinfo->color_red
+                               || pplayer->rgb->g != pinfo->color_green
+                               || pplayer->rgb->b != pinfo->color_blue)) {
+    struct rgbcolor *prgbcolor = rgbcolor_new(pinfo->color_red,
+                                              pinfo->color_green,
+                                              pinfo->color_blue);
+    fc_assert_ret(prgbcolor != NULL);
+
+    player_set_color(pplayer, prgbcolor);
+    tileset_player_init(tileset, pplayer);
+
+    rgbcolor_destroy(prgbcolor);
+  }
 
   /* Team. */
   tslot = team_slot_by_number(pinfo->team);
@@ -3047,6 +3064,16 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
                               packet->power_fact[i], 0, 0,
                               packet->move_bonus[i]);
   }
+
+  if (game.plr_bg_color) {
+    rgbcolor_destroy(game.plr_bg_color);
+  }
+
+  game.plr_bg_color = rgbcolor_new(packet->background_red,
+                                   packet->background_green,
+                                   packet->background_blue);
+
+  tileset_background_init(tileset);
 }
 
 /****************************************************************************

@@ -951,7 +951,7 @@ enum rfc_status create_command_newcomer(const char *name,
   }
 
   /* Create the new player. */
-  pplayer = server_create_player(-1, ai);
+  pplayer = server_create_player(-1, ai, NULL);
   if (!pplayer) {
     fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
     return C_FAIL;
@@ -1071,7 +1071,7 @@ enum rfc_status create_command_pregame(const char *name,
     pplayer->ai = ai_type_by_name(ai);
   } else {
     /* add new player */
-    pplayer = server_create_player(-1, ai);
+    pplayer = server_create_player(-1, ai, NULL);
     if (!pplayer) {
       fc_snprintf(buf, buflen,
                   _("Failed to create new player %s."), name);

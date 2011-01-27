@@ -31,6 +31,6 @@ struct color {
 };
 
 struct color *color_alloc_rgba(int r, int g, int b, int a);
-SDL_Color * get_game_colorRGB(enum color_std color_offset);
+SDL_Color * get_game_colorRGB(int color_id);
 
 #endif	/* FC__COLORS_H */

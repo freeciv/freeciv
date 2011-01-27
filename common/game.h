@@ -70,6 +70,8 @@ struct civ_game {
 
   struct veteran_system *veteran; /* veteran system */
 
+  struct rgbcolor *plr_bg_color;
+
   union {
     struct {
       /* Only used at the client (./client/). */
@@ -178,6 +180,8 @@ struct civ_game {
       char allow_take[MAX_LEN_ALLOW_TAKE];
 
       bool settings_gamestart_valid; /* Valid settings from the game start. */
+
+      struct rgbcolor_list *plr_colors;
 
       struct {
         int turns;

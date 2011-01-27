@@ -35,6 +35,7 @@
 #include "packets.h"
 #include "player.h"
 #include "research.h"
+#include "rgbcolor.h"
 #include "tech.h"
 #include "unitlist.h"
 
@@ -66,6 +67,8 @@
 
 /* ai */
 #include "advdiplomacy.h"
+
+struct rgbcolor;
 
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);
@@ -857,6 +860,17 @@ static void package_player_info(struct player *plr,
     }
   } players_iterate_end;
 
+  if (plr->rgb != NULL) {
+    packet->color_red = plr->rgb->r;
+    packet->color_green = plr->rgb->g;
+    packet->color_blue = plr->rgb->b;
+  } else {
+    /* Use dummy values. */
+    packet->color_red = 0;
+    packet->color_green = 0;
+    packet->color_blue = 0;
+  }
+
   /* Only send score if we have contact */
   if (info_level >= INFO_MEETING) {
     packet->score = plr->score.game;
@@ -1103,6 +1117,30 @@ void server_player_init(struct player *pplayer, bool initmap,
   pplayer->server.orig_username[0] = '\0';
 }
 
+/****************************************************************************
+  Set the player's color. If 'prgbcolor' is not NULL the called should free
+  the pointer as player_set_color() copies the data.
+****************************************************************************/
+void server_player_set_color(struct player *pplayer,
+                             struct rgbcolor *prgbcolor)
+{
+  struct rgbcolor *plrcolor;
+
+  if (prgbcolor == NULL) {
+    int colorid;
+
+    colorid = player_index(pplayer) % playercolor_count();
+    plrcolor = playercolor_get(colorid);
+  } else {
+    plrcolor = prgbcolor;
+  }
+
+  fc_assert_ret(plrcolor != NULL);
+
+  /* 'plrcolor' will be copied into the player struct. */
+  player_set_color(pplayer, plrcolor);
+}
+
 /********************************************************************** 
   Creates a new, uninitialized, used player slot. You should probably
   call server_player_init() to initialize it, and send_player_info_c()
@@ -1110,7 +1148,8 @@ void server_player_init(struct player *pplayer, bool initmap,
 
   May return NULL if creation was not possible.
 ***********************************************************************/
-struct player *server_create_player(int player_id, const char *ai_type)
+struct player *server_create_player(int player_id, const char *ai_type,
+                                    struct rgbcolor *prgbcolor)
 {
   struct player_slot *pslot;
   struct player *pplayer;
@@ -1135,6 +1174,11 @@ struct player *server_create_player(int player_id, const char *ai_type)
   CALL_FUNC_EACH_AI(player_alloc, pplayer);
 
   server_player_init(pplayer, FALSE, FALSE);
+  if (game_was_started()) {
+    /* This function uses fc_rand which is initialised at game start. The
+     * player colors will be reset at game start. */
+    server_player_set_color(pplayer, prgbcolor);
+  }
 
   return pplayer;
 }
@@ -1759,7 +1803,7 @@ static struct player *split_player(struct player *pplayer)
   struct player *cplayer;
 
   /* make a new player, or not */
-  cplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
+  cplayer = server_create_player(-1, FC_AI_DEFAULT_NAME, NULL);
   if (!cplayer) {
     return NULL;
   }
@@ -2214,4 +2258,62 @@ struct player *player_by_user_delegated(const char *name)
   } players_iterate_end;
 
   return NULL;
+}
+
+/****************************************************************************
+  Initialise the player colors.
+****************************************************************************/
+void playercolor_init(void)
+{
+  fc_assert_ret(game.server.plr_colors == NULL);
+  game.server.plr_colors = rgbcolor_list_new();
+}
+
+/****************************************************************************
+  Free the memory allocated for the player color.
+****************************************************************************/
+void playercolor_free(void)
+{
+  if (game.server.plr_colors == NULL) {
+    return;
+  }
+
+  if (rgbcolor_list_size(game.server.plr_colors) > 0) {
+    rgbcolor_list_iterate(game.server.plr_colors, prgbcolor) {
+      rgbcolor_list_remove(game.server.plr_colors, prgbcolor);
+      rgbcolor_destroy(prgbcolor);
+    } rgbcolor_list_iterate_end;
+  };
+  rgbcolor_list_destroy(game.server.plr_colors);
+  game.server.plr_colors = NULL;
+}
+
+/****************************************************************************
+  Add a color to the list of all available player colors.
+****************************************************************************/
+void playercolor_add(struct rgbcolor *prgbcolor)
+{
+  fc_assert_ret(game.server.plr_colors != NULL);
+
+  rgbcolor_list_append(game.server.plr_colors, prgbcolor);
+}
+
+/****************************************************************************
+  Get the player color with the index 'id'.
+****************************************************************************/
+struct rgbcolor *playercolor_get(int id)
+{
+  fc_assert_ret_val(game.server.plr_colors != NULL, NULL);
+
+  return rgbcolor_list_get(game.server.plr_colors, id);
+}
+
+/****************************************************************************
+  Number of player colors defined.
+****************************************************************************/
+int playercolor_count(void)
+{
+  fc_assert_ret_val(game.server.plr_colors != NULL, -1);
+
+  return rgbcolor_list_size(game.server.plr_colors);
 }

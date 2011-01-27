@@ -317,6 +317,9 @@ static void game_defaults(void)
   /* Veteran system. */
   game.veteran = NULL;
 
+  /* player colors */
+  game.plr_bg_color = NULL;
+
   if (is_server()) {
     /* All settings only used by the server (./server/ and ./ai/ */
     sz_strlcpy(game.server.allow_take, GAME_DEFAULT_ALLOW_TAKE);
@@ -399,6 +402,7 @@ static void game_defaults(void)
     game.server.timeoutintinc     = GAME_DEFAULT_TIMEOUTINTINC;
     game.server.turnblock         = GAME_DEFAULT_TURNBLOCK;
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
+    game.server.plr_colors        = NULL;
   }
 
   terrain_control.river_help_text[0] = '\0';

@@ -24,6 +24,7 @@
 #include "mem.h"
 
 /* client/gui-sdl */
+#include "colors.h"
 #include "graphics.h"
 
 #include "sprite.h"
@@ -111,6 +112,27 @@ struct sprite *crop_sprite(struct sprite *source,
   }
 
   return ctor_sprite(pSrc);
+}
+
+/****************************************************************************
+  Create a sprite with the given height, width and color.
+****************************************************************************/
+struct sprite *create_sprite(int width, int height, struct color *pcolor)
+{
+  SDL_Surface *mypixbuf = NULL;
+  SDL_Surface *pmask = NULL;
+
+  fc_assert_ret_val(width > 0, NULL);
+  fc_assert_ret_val(height > 0, NULL);
+  fc_assert_ret_val(pcolor != NULL, NULL);
+
+  mypixbuf = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32,
+                                  0x00ff0000, 0x0000ff00, 0x000000ff,
+                                  0xff000000);
+  pmask = SDL_DisplayFormatAlpha(mypixbuf);
+  SDL_FillRect(mypixbuf, NULL, map_rgba(pmask->format, *pcolor->color));
+
+  return ctor_sprite(mypixbuf);
 }
 
 /****************************************************************************

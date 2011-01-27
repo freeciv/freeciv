@@ -33,9 +33,6 @@
 
 struct color_system {
   struct rgbcolor **stdcolors;
-
-  int num_player_colors;
-  struct rgbcolor *player_colors;
 };
 
 /****************************************************************************
@@ -46,7 +43,6 @@ struct color_system {
 ****************************************************************************/
 struct color_system *color_system_read(struct section_file *file)
 {
-  int i;
   struct color_system *colors = fc_malloc(sizeof(*colors));
   enum color_std stdcolor;
 
@@ -64,37 +60,6 @@ struct color_system *color_system_read(struct section_file *file)
     }
   }
 
-  for (i = 0; i < player_slot_count(); i++) {
-    if (NULL == secfile_entry_lookup(file, "colors.player%d.r", i)) {
-      break;
-    }
-  }
-  colors->num_player_colors = MAX(i, 1);
-  colors->player_colors = fc_malloc(colors->num_player_colors
-				    * sizeof(*colors->player_colors));
-  if (i == 0) {
-    /* Use a simple fallback. */
-    log_error("Missing colors.player. See misc/colors.tilespec.");
-    colors->player_colors[0].r = 128;
-    colors->player_colors[0].g = 0;
-    colors->player_colors[0].b = 0;
-    colors->player_colors[0].color = NULL;
-  } else {
-    for (i = 0; i < colors->num_player_colors; i++) {
-      struct rgbcolor *rgb = &colors->player_colors[i];
-
-      if (!secfile_lookup_int(file, &rgb->r, "colors.player%d.r", i)
-          || !secfile_lookup_int(file, &rgb->g, "colors.player%d.g", i)
-          || !secfile_lookup_int(file, &rgb->b, "colors.player%d.b", i)) {
-        log_error("Player color %d: %s", i, secfile_error());
-        rgb->r = 0;
-        rgb->g = 0;
-        rgb->b = 0;
-      }
-      rgb->color = NULL;
-    }
-  }
-
   return colors;
 }
 
@@ -103,20 +68,12 @@ struct color_system *color_system_read(struct section_file *file)
 ****************************************************************************/
 void color_system_free(struct color_system *colors)
 {
-  int i;
   enum color_std stdcolor;
 
   for (stdcolor= color_std_begin(); stdcolor!= color_std_end();
        stdcolor= color_std_next(stdcolor)) {
     rgbcolor_destroy(*(colors->stdcolors + stdcolor));
   }
-
-  for (i = 0; i < colors->num_player_colors; i++) {
-    if (colors->player_colors[i].color) {
-      color_free(colors->player_colors[i].color);
-    }
-  }
-  free(colors->player_colors);
 
   free(colors);
 }
@@ -147,29 +104,15 @@ struct color *get_color(const struct tileset *t, enum color_std stdcolor)
 }
 
 /**********************************************************************
-  Not sure which module to put this in...
-  It used to be that each nation had a color, when there was
-  fixed number of nations.  Now base on player number instead,
-  since still limited to less than 14.  Could possibly improve
-  to allow players to choose their preferred color etc.
-  A hack added to avoid returning more that COLOR_STD_RACE13.
-  But really there should be more colors available -- jk.
+  Return the color of the player.
 ***********************************************************************/
 struct color *get_player_color(const struct tileset *t,
-			       const struct player *pplayer)
+                               const struct player *pplayer)
 {
-  if (pplayer) {
-    struct color_system *colors = get_color_system(t);
-    int index = player_index(pplayer);
+  fc_assert_ret_val(pplayer != NULL, NULL);
+  fc_assert_ret_val(pplayer->rgb != NULL, NULL);
 
-    fc_assert_ret_val(index >= 0 && colors->num_player_colors > 0, NULL);
-    index %= colors->num_player_colors;
-    return ensure_color(&colors->player_colors[index]);
-  } else {
-    /* Always fails. */
-    fc_assert(NULL != pplayer);
-    return NULL;
-  }
+  return ensure_color(pplayer->rgb);
 }
 
 /****************************************************************************

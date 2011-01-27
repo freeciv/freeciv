@@ -559,7 +559,7 @@ static bool connection_attach_real(struct connection *pconn,
           return FALSE;
         }
         /* add new player, or not */
-        pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME);
+        pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME, NULL);
         if (!pplayer) {
           return FALSE;
         }
