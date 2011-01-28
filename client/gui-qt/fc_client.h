@@ -44,8 +44,10 @@ class fc_client : public QObject
 
  private:
   QMainWindow *main_window;
-  QGraphicsView *central_wdg;
+  QWidget *central_wdg;
+  QGraphicsView *mapview_wdg;
   QTextEdit *output_window;
+  QTextEdit *chat_input;
   QSocketNotifier *server_notifier;
 
  protected:

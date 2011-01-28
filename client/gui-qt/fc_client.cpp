@@ -24,19 +24,43 @@
 
 #include "fc_client.h"
 
+// Layout
+const int MAPVIEW_X = 0;
+const int MAPVIEW_Y = 0;
+const int TOTAL_WIDTH = 1000;
+const int MAPVIEW_WIDTH = TOTAL_WIDTH;
+const int MAPVIEW_HEIGHT = 600;
+const int OUTPUT_X = 0;
+const int OUTPUT_Y = MAPVIEW_Y + MAPVIEW_HEIGHT;
+const int OUTPUT_WIDTH = TOTAL_WIDTH;
+const int OUTPUT_HEIGHT = 200;
+const int CHAT_X = 0;
+const int CHAT_Y = OUTPUT_Y + OUTPUT_HEIGHT;
+const int CHAT_WIDTH = TOTAL_WIDTH;
+const int CHAT_HEIGHT = 30;
+const int TOTAL_HEIGHT = CHAT_Y + CHAT_HEIGHT;
+
 /****************************************************************************
   Constructor
 ****************************************************************************/
 fc_client::fc_client() : QObject()
 {
   main_window = new QMainWindow;
-  central_wdg = new QGraphicsView;
-  output_window = new QTextEdit;
+  central_wdg = new QWidget;
+  mapview_wdg = new QGraphicsView(central_wdg);
+  output_window = new QTextEdit(central_wdg);
+  chat_input = new QTextEdit(central_wdg);
+
+  main_window->setGeometry(0, 0, TOTAL_WIDTH, TOTAL_HEIGHT);
+
+  mapview_wdg->setGeometry(MAPVIEW_X, MAPVIEW_Y, MAPVIEW_WIDTH, MAPVIEW_HEIGHT);
 
   output_window->setReadOnly(true);
+  output_window->setGeometry(OUTPUT_X, OUTPUT_Y, OUTPUT_WIDTH, OUTPUT_HEIGHT);
 
-  // main_window->setCentralWidget(central_wdg);
-  main_window->setCentralWidget(output_window);
+  chat_input->setGeometry(CHAT_X, CHAT_Y, CHAT_WIDTH, CHAT_HEIGHT);
+
+  main_window->setCentralWidget(central_wdg);
   main_window->setVisible(true);
 }
 
