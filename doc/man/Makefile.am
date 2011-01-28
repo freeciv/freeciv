@@ -14,4 +14,4 @@ MAN_LINKS = 			\
 
 man_MANS = $(MAN_PAGES) $(MAN_LINKS)
 
-EXTRA_DIST = $(man_MANS)
+EXTRA_DIST = $(man_LINKS)

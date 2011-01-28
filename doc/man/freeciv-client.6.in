@@ -319,20 +319,20 @@ Specifies the username of the current user.
 .SH BUGS
 Please report bugs to
 .UR
-http://bugs.freeciv.org/
+@BUG_URL@
 .UE
 \.
 
 .SH "MORE INFO"
 The Freeciv homepage is located at
 .UR
-http://www.freeciv.org/
+@WIKI_URL@
 .UE
 \.
 
 Updates and new info is first posted there.
 .SH AUTHORS
-The Freeciv Team <freeciv-dev AT freeciv.org>.
+The Freeciv Team <@MAIL_ADDRESS@>.
 
 This manpage was originally put together by Florian Ernst 
 <florian_ernst AT gmx.net> using the Client Manual and the comments in the 
