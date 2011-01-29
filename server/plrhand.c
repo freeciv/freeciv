@@ -1129,7 +1129,23 @@ void server_player_set_color(struct player *pplayer,
   if (prgbcolor == NULL) {
     int colorid;
 
-    colorid = player_index(pplayer) % playercolor_count();
+    switch (game.server.plrcolormode) {
+    default:
+      log_error("Invalid value for 'game.server.plrcolormode' (%d)!",
+                game.server.plrcolormode);
+      /* no break - using 'PLRCOL_PLR_ORDER' as fallback */
+    case PLRCOL_PLR_ORDER: /* player color (ordered) */
+      colorid = player_index(pplayer) % playercolor_count();
+      break;
+    case PLRCOL_PLR_RANDOM: /* player color (random) */
+    case PLRCOL_PLR_SET: /* player color (set) */
+      colorid = fc_rand(playercolor_count());
+      break;
+    case PLRCOL_TEAM_ORDER: /* team color (ordered) */
+      colorid = team_index(pplayer->team) % playercolor_count();
+      break;
+    }
+
     plrcolor = playercolor_get(colorid);
   } else {
     plrcolor = prgbcolor;
@@ -1137,8 +1153,14 @@ void server_player_set_color(struct player *pplayer,
 
   fc_assert_ret(plrcolor != NULL);
 
-  /* 'plrcolor' will be copied into the player struct. */
-  player_set_color(pplayer, plrcolor);
+  /* Set the color for 'game.server.plrcolormode' = 'PLRCOL_PLR_ORDER',
+   * 'PLRCOL_PLR_RANDOM' and 'PLRCOL_TEAM_ORDER'. If
+   * 'game.server.plrcolormode' is equal to 'PLRCOL_PLR_SET' the color is
+   * only set if 'prgbcolor' is not NULL. */
+  if (game.server.plrcolormode != PLRCOL_PLR_SET || prgbcolor != NULL) {
+    /* 'plrcolor' will be copied into the player struct. */
+    player_set_color(pplayer, plrcolor);
+  }
 }
 
 /********************************************************************** 

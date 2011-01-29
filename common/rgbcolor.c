@@ -119,3 +119,52 @@ void rgbcolor_save(struct section_file *file,
   secfile_insert_int(file, prgbcolor->g, "%s.g", colorpath);
   secfile_insert_int(file, prgbcolor->b, "%s.b", colorpath);
 }
+
+/****************************************************************************
+  Convert a rgb color to a hex string (like 0xff0000 for red [255,  0,  0]).
+****************************************************************************/
+bool rgbcolor_to_hex(const struct rgbcolor *prgbcolor, char *hex,
+                     size_t hex_len)
+{
+  fc_assert_ret_val(prgbcolor != NULL, FALSE);
+  /* Needs a length greater than 7 ('#' + 6 hex digites and '\0'). */
+  fc_assert_ret_val(hex_len > 7, FALSE);
+
+  fc_assert_ret_val(0 <= prgbcolor->r && prgbcolor->r <= 255, FALSE);
+  fc_assert_ret_val(0 <= prgbcolor->g && prgbcolor->g <= 255, FALSE);
+  fc_assert_ret_val(0 <= prgbcolor->b && prgbcolor->b <= 255, FALSE);
+
+  fc_snprintf(hex, hex_len, "#%06x",
+              (prgbcolor->r * 256 + prgbcolor->g) * 256 + prgbcolor->b);
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Convert a hex string into a rgb color
+****************************************************************************/
+bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
+{
+  int rgb, r, g, b;
+  char hex2[16];
+
+  fc_assert_ret_val(*prgbcolor == NULL, FALSE);
+  fc_assert_ret_val(hex != NULL, FALSE);
+
+  if (strlen(hex) != 7 || hex[0]!= '#') {
+    return FALSE;
+  }
+
+  fc_snprintf(hex2, sizeof(hex2), "0x%s", hex + 1);
+  if (!sscanf(hex2, "%x", &rgb)) {
+    return FALSE;
+  }
+
+  r = rgb / 256 / 256;
+  g = (rgb - r * 256 * 256) / 256;
+  b = rgb % 256;
+
+  *prgbcolor = rgbcolor_new(r, g, b);
+
+  return TRUE;
+}

@@ -77,6 +77,7 @@ static struct command commands[] = {
   {"list",	ALLOW_INFO,
    /* no translatable parameters */
    SYN_ORIG_("list\n"
+             "list colors\n"
              "list connections\n"
              "list ignored users\n"
              "list players\n"
@@ -84,10 +85,16 @@ static struct command commands[] = {
              "list teams\n"
              "list votes\n"),
    N_("Show a list of various things."),
-   N_("Show a list of connections to the server, your ignore list, "
-      "the list of the players in the game, the available scenarios, "
-      "the teams of players, or the running votes. The argument may be "
-      "abbreviated, and defaults to 'players' if absent."),
+   N_("Show a list of:\n"
+      " - the player colors,\n"
+      " - connections to the server,\n"
+      " - your ignore list,\n"
+      " - the list of the players in the game,\n"
+      " - the available scenarios,\n"
+      " - the teams of players or\n"
+      " - the running votes.\n"
+      "The argument may be abbreviated, and defaults to 'players' if "
+      "absent."),
    CMD_ECHO_NONE, VCF_NONE, 0
   },
   {"quit",	ALLOW_HACK,
@@ -449,6 +456,26 @@ static struct command commands[] = {
       "assumed to be 1, if the last is ommitted, it is assumed to be "
       "the last valid ignore list index. To access your current ignore "
       "list, issue \"/list ignore\"."),
+   CMD_ECHO_NONE, VCF_NONE, 0
+  },
+  {"playercolor", ALLOW_ADMIN,
+   /* TRANS: translate text between <> */
+   N_("playercolor <player-name> <color>\n"
+      "playercolor <player-name> reset"),
+   N_("Define the color of a player."),
+   N_("This command is used to set the color of a player's nation. The "
+      "color ist defined using a hexadecimal notation (HEX) for the "
+      "combination of Red, Green, and Blue color values (RGB). The lowest "
+      "value is 0 (in HEX: 00). The highest value is 255 (in HEX: FF). The "
+      "color definition starts with a '#' sign followed be the HEX values "
+      "for the three colors, i.e '#ff0000' for red. In server scripts, the "
+      "'#' sign must be escaped or the color definition must be quoted.\n"
+      "In initial game state the color can only be defined if the "
+      "'plrcolormode' setting is set to 'PLR_SET'. The "
+      "defined color can be removed using the reset argument.\n"
+      "For a running game, this command redefines the player color. The "
+      "change will be visible in the following turn.\n"
+      "To list the player color use 'list colors'."),
    CMD_ECHO_NONE, VCF_NONE, 0
   },
   {"endgame",	ALLOW_ADMIN,

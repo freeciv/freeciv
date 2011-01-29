@@ -365,6 +365,7 @@ static void game_defaults(void)
     game.server.migration         = GAME_DEFAULT_MIGRATION;
     game.server.min_players       = GAME_DEFAULT_MIN_PLAYERS;
     game.server.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
+    game.server.plrcolormode      = GAME_DEFAULT_PLRCOLORMODE;
     game.server.netwait           = GAME_DEFAULT_NETWAIT;
     game.server.occupychance      = GAME_DEFAULT_OCCUPYCHANCE;
     game.server.onsetbarbarian    = GAME_DEFAULT_ONSETBARBARIAN;

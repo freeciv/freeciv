@@ -39,6 +39,13 @@ extern "C" {
 #define ANON_PLAYER_NAME "noname"
 #define ANON_USER_NAME "Unassigned"
 
+enum plrcolor_mode {
+  PLRCOL_PLR_ORDER,
+  PLRCOL_PLR_RANDOM,
+  PLRCOL_PLR_SET,
+  PLRCOL_TEAM_ORDER
+};
+
 struct player_slot;
 
 enum handicap_type {
@@ -277,6 +284,7 @@ struct player_slot *player_slot_by_number(int player_id);
 struct player *player_new(struct player_slot *pslot);
 void player_set_color(struct player *pplayer,
                       const struct rgbcolor *prgbcolor);
+const char *player_color_ftstr(struct player *pplayer);
 void player_clear(struct player *pplayer, bool full);
 void player_destroy(struct player *pplayer);
 

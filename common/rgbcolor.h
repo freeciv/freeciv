@@ -74,6 +74,10 @@ void rgbcolor_save(struct section_file *file,
                    const struct rgbcolor *prgbcolor, char *path, ...)
                    fc__attribute((__format__ (__printf__, 3, 4)));
 
+bool rgbcolor_to_hex(const struct rgbcolor *prgbcolor, char *hex,
+                     size_t hex_len);
+bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

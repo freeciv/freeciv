@@ -26,6 +26,7 @@
 /* common */
 #include "city.h"
 #include "fc_interface.h"
+#include "featured_text.h"
 #include "game.h"
 #include "government.h"
 #include "idex.h"
@@ -564,6 +565,30 @@ void player_set_color(struct player *pplayer,
   }
 
   pplayer->rgb = rgbcolor_copy(prgbcolor);
+}
+
+/****************************************************************************
+  Return the player color as featured text string.
+****************************************************************************/
+const char *player_color_ftstr(struct player *pplayer)
+{
+  static char buf[64];
+  char hex[16];
+
+  fc_assert_ret_val(pplayer != NULL, NULL);
+
+  buf[0] = '\0';
+  if (pplayer->rgb != NULL
+      && rgbcolor_to_hex(pplayer->rgb, hex, sizeof(hex))) {
+    struct ft_color plrcolor = FT_COLOR("#000000", hex);
+
+    featured_text_apply_tag(hex, buf, sizeof(buf), TTT_COLOR, 0,
+                            FT_OFFSET_UNSET, plrcolor);
+  } else {
+    cat_snprintf(buf, sizeof(buf), _("no color"));
+  }
+
+  return buf;
 }
 
 /****************************************************************************

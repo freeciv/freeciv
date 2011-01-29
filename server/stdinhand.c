@@ -49,6 +49,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "rgbcolor.h"
 #include "unitlist.h"
 #include "version.h"
 
@@ -111,6 +112,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
 static bool show_help(struct connection *caller, char *arg);
 static bool show_list(struct connection *caller, char *arg);
+static void show_colors(struct connection *caller);
 static bool set_ai_level_named(struct connection *caller, const char *name,
                                const char *level_name, bool check);
 static bool set_ai_level(struct connection *caller, const char *name,
@@ -143,6 +145,8 @@ static bool fcdb_command(struct connection *caller, char *arg, bool check);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
 static bool player_name_check(const char* name, char *buf, size_t buflen);
+static bool playercolor_command(struct connection *caller,
+                                char *str, bool check);
 
 static void show_delegations(struct connection *caller);
 
@@ -3829,6 +3833,89 @@ static bool unignore_command(struct connection *caller,
   return TRUE;
 }
 
+/****************************************************************************
+  /playercolor command handler.
+****************************************************************************/
+static bool playercolor_command(struct connection *caller,
+                                char *str, bool check)
+{
+  enum m_pre_result match_result;
+  struct player *pplayer;
+  struct rgbcolor *prgbcolor = NULL;
+  int ntokens = 0;
+  char *token[2];
+  bool ret = TRUE;
+
+  ntokens = get_tokens(str, token, 2, TOKEN_DELIMITERS);
+
+  if (ntokens != 2) {
+    if (!check) {
+      cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+                _("Two arguments needed. See '/help playercolor'."));
+    }
+
+    ret = FALSE;
+    goto cleanup;
+  }
+
+  pplayer = player_by_name_prefix(token[0], &match_result);
+
+  if (!pplayer) {
+    if (!check) {
+      cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+                _("No player with the name '%s' found or ambiguous name."),
+                token[0]);
+    }
+    ret = FALSE;
+    goto cleanup;
+  }
+
+  if (0 == fc_strcasecmp(token[1], "reset")) {
+    if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
+      if (!check) {
+        rgbcolor_destroy(pplayer->rgb);
+      }
+      goto cleanup;
+    } else {
+      if (!check) {
+        cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+                  _("A player color can only be reset if the game is in the "
+                    "initial state and 'plrcolormode' is set to PLR_SET."));
+      }
+      ret = FALSE;
+      goto cleanup;
+    }
+  }
+
+  if (!rgbcolor_from_hex(&prgbcolor, token[1])) {
+    cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+              _("Invalid player color definition. See '/help playercolor'."));
+    ret = FALSE;
+    goto cleanup;
+  }
+
+  if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
+    cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
+              _("Please set 'plrcolormode' to PLR_SET to define the color "
+                "for the player %s before the game was started."),
+              player_name(pplayer));
+    ret = FALSE;
+    goto cleanup;
+  }
+
+  server_player_set_color(pplayer, prgbcolor);
+  cmd_reply(CMD_PLAYERCOLOR, caller, C_OK,
+            _("Color of player %s set to [%s]."), player_name(pplayer),
+            player_color_ftstr(pplayer));
+
+ cleanup:
+
+  rgbcolor_destroy(prgbcolor);
+  free_tokens(token, ntokens);
+
+  return ret;
+}
+
 /**************************************************************************
   Cutting away a trailing comment by putting a '\0' on the '#'. The
   method handles # in single or double quotes. It also takes care of
@@ -4181,6 +4268,8 @@ static bool handle_stdin_input_real(struct connection *caller,
     return ignore_command(caller, arg, check);
   case CMD_UNIGNORE:
     return unignore_command(caller, arg, check);
+  case CMD_PLAYERCOLOR:
+    return playercolor_command(caller, arg, check);
   case CMD_NUM:
   case CMD_UNRECOGNIZED:
   case CMD_AMBIGUOUS:
@@ -5594,23 +5683,44 @@ static void show_teams(struct connection *caller)
 }
 
 /****************************************************************************
+  Show a list of all players with the assigned color.
+****************************************************************************/
+static void show_colors(struct connection *caller)
+{
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of player colors:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  if (player_count() == 0) {
+    cmd_reply(CMD_LIST, caller, C_COMMENT, _("<no players>"));
+  } else {
+    players_iterate(pplayer) {
+      cmd_reply(CMD_LIST, caller, C_COMMENT, _("%s (user %s): [%s]"),
+                player_name(pplayer), pplayer->username,
+                player_color_ftstr(pplayer));
+    } players_iterate_end;
+  }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/****************************************************************************
   '/list' arguments
 **************************************************************************/
 #define SPECENUM_NAME list_args
-#define SPECENUM_VALUE0     LIST_CONNECTIONS
-#define SPECENUM_VALUE0NAME "connections"
-#define SPECENUM_VALUE1     LIST_DELEGATIONS
-#define SPECENUM_VALUE1NAME "delegations"
-#define SPECENUM_VALUE2     LIST_IGNORE
-#define SPECENUM_VALUE2NAME "ignored users"
-#define SPECENUM_VALUE3     LIST_PLAYERS
-#define SPECENUM_VALUE3NAME "players"
-#define SPECENUM_VALUE4     LIST_SCENARIOS
-#define SPECENUM_VALUE4NAME "scenarios"
-#define SPECENUM_VALUE5     LIST_TEAMS
-#define SPECENUM_VALUE5NAME "teams"
-#define SPECENUM_VALUE6     LIST_VOTES
-#define SPECENUM_VALUE6NAME "votes"
+#define SPECENUM_VALUE0     LIST_COLORS
+#define SPECENUM_VALUE0NAME "colors"
+#define SPECENUM_VALUE1     LIST_CONNECTIONS
+#define SPECENUM_VALUE1NAME "connections"
+#define SPECENUM_VALUE2     LIST_DELEGATIONS
+#define SPECENUM_VALUE2NAME "delegations"
+#define SPECENUM_VALUE3     LIST_IGNORE
+#define SPECENUM_VALUE3NAME "ignored users"
+#define SPECENUM_VALUE4     LIST_PLAYERS
+#define SPECENUM_VALUE4NAME "players"
+#define SPECENUM_VALUE5     LIST_SCENARIOS
+#define SPECENUM_VALUE5NAME "scenarios"
+#define SPECENUM_VALUE6     LIST_TEAMS
+#define SPECENUM_VALUE6NAME "teams"
+#define SPECENUM_VALUE7     LIST_VOTES
+#define SPECENUM_VALUE7NAME "votes"
 #include "specenum_gen.h"
 
 /**************************************************************************
@@ -5648,6 +5758,9 @@ static bool show_list(struct connection *caller, char *arg)
   }
 
   switch(ind) {
+  case LIST_COLORS:
+    show_colors(caller);
+    return TRUE;
   case LIST_CONNECTIONS:
     show_connections(caller);
     return TRUE;

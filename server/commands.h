@@ -73,6 +73,7 @@ enum command_id {
   CMD_CANCELVOTE,
   CMD_IGNORE,
   CMD_UNIGNORE,
+  CMD_PLAYERCOLOR,
 
   /* potentially harmful: */
   CMD_END_GAME,

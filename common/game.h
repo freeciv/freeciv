@@ -88,6 +88,7 @@ struct civ_game {
 
       bool allied_victory;
       enum city_names_mode allowed_city_names;
+      enum plrcolor_mode plrcolormode;
       int aqueductloss;
       bool auto_ai_toggle;
       bool autoattack;
@@ -530,6 +531,8 @@ extern struct civ_game game;
 #endif
 
 #define GAME_DEFAULT_ALLOWED_CITY_NAMES CNM_PLAYER_UNIQUE
+
+#define GAME_DEFAULT_PLRCOLORMODE PLRCOL_PLR_ORDER
 
 #define GAME_DEFAULT_REVOLUTION_LENGTH 0
 #define GAME_MIN_REVOLUTION_LENGTH 0

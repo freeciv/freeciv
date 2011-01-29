@@ -281,6 +281,20 @@ static const struct sset_val_name *borders_name(int borders)
 }
 
 /****************************************************************************
+  Player colors configuration setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *plrcol_name(int plrcol)
+{
+  switch (plrcol) {
+  NAME_CASE(PLRCOL_PLR_ORDER, "PLR_ORDER",  N_("player color (ordered)"));
+  NAME_CASE(PLRCOL_PLR_RANDOM, "PLR_RANDOM", N_("player color (random)"));
+  NAME_CASE(PLRCOL_PLR_SET, "PLR_SET",    N_("player color (set/random)"));
+  NAME_CASE(PLRCOL_TEAM_ORDER, "TEAM_ORDER", N_("team color (ordered)"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
   Diplomacy setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *diplomacy_name(int diplomacy)
@@ -1449,6 +1463,25 @@ static struct setting settings[] = {
               "default city name of another nations unless it is a default "
               "for their nation also."),
            NULL, NULL, citynames_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
+
+  GEN_ENUM("plrcolormode", game.server.plrcolormode,
+           SSET_RULES, SSET_INTERNAL, SSET_RARE, SSET_TO_CLIENT,
+           N_("How to pick the player color"),
+           /* TRANS: The strings between double quotes are also translated
+            * separately (they must match!). The strings between paranthesis
+            * and in uppercase must not to be translated. */
+           N_("- \"player color (ordered)\" (PLR_ORDER): select the color "
+              "for each player according to the order of the color "
+              "definition.\n"
+              "- \"player color (random)\" (PLR_RANDOM): select a random "
+              "color for each player.\n"
+              "- \"player color (set/random)\" (PLR_SET): use the color set "
+              "via the playercolor command. For players without a color a "
+              "random value will be selected.\n"
+              "- \"team color (ordered)\" (TEAM_ORDER): select the color "
+              "for one team depending on the order of the color "
+              "definition."),
+           NULL, NULL, plrcol_name, GAME_DEFAULT_PLRCOLORMODE)
 
   /* Flexible rules: these can be changed after the game has started.
    *
