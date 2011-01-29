@@ -39,6 +39,7 @@
           | * player ai type                               |            |
           | * delegation                                   |            |
           | * citizens                                     |            |
+          | * save player color                            |            |
           |                                                |            |
 
   Structure of this file:
@@ -119,6 +120,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "research.h"
+#include "rgbcolor.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -2891,9 +2893,11 @@ static void sg_load_players_basic(struct loaddata *loading)
   /* Now, load the players from the savefile. */
   player_slots_iterate(pslot) {
     struct player *pplayer;
+    struct rgbcolor *prgbcolor = NULL;
+    int pslot_id = player_slot_index(pslot);
 
     if (NULL == secfile_section_lookup(loading->file, "player%d",
-                                       player_slot_index(pslot))) {
+                                       pslot_id)) {
       continue;
     }
 
@@ -2902,11 +2906,21 @@ static void sg_load_players_basic(struct loaddata *loading)
                                 player_slot_index(pslot));
     sg_failure_ret(string != NULL, "%s", secfile_error());
 
+    /* Get player color */
+    if (!rgbcolor_load(loading->file, &prgbcolor, "player%d.color",
+                       pslot_id)) {
+      log_verbose("No color defined for player %d.", pslot_id);
+    }
+
     /* Create player. */
-    pplayer = server_create_player(player_slot_index(pslot), string, NULL);
+    pplayer = server_create_player(player_slot_index(pslot), string,
+                                   prgbcolor);
     sg_failure_ret(pplayer != NULL, "Invalid AI type: '%s'!", string);
 
     server_player_init(pplayer, FALSE, FALSE);
+
+    /* Free the color definition. */
+    rgbcolor_destroy(prgbcolor);
   } player_slots_iterate_end;
 
   /* check number of players */
@@ -3483,6 +3497,7 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.name", plrno);
   secfile_insert_str(saving->file, plr->username,
                      "player%d.username", plrno);
+  rgbcolor_save(saving->file, plr->rgb, "player%d.color", plrno);
   secfile_insert_str(saving->file, plr->ranked_username,
                      "player%d.ranked_username", plrno);
   secfile_insert_str(saving->file,
@@ -5452,6 +5467,8 @@ static void compat_load_020400(struct loaddata *loading)
     secfile_insert_str(loading->file, FC_AI_DEFAULT_NAME,
                        "player%d.ai_type", player_slot_index(pslot));
   } player_slots_iterate_end;
+
+  /* Player colors are assigned automatically. */
 }
 
 /****************************************************************************
@@ -5480,24 +5497,27 @@ static void compat_save_020400(struct savedata *saving)
     secfile_entry_delete(saving->file, "player%d.delegation_username", plrno);
   } player_slots_iterate_end;
 
-  /* Remove citizens informations. */
   player_slots_iterate(pslot) {
-    int ncities, i;
+    int ncities, i, plrid = player_slot_index(pslot);
 
-    if (NULL == secfile_section_lookup(saving->file, "player%d",
-                                       player_slot_index(pslot))) {
+    if (NULL == secfile_section_lookup(saving->file, "player%d", plrid)) {
       continue;
     }
 
+    /* Remove citizens informations. */
     ncities = secfile_lookup_int_default(saving->file, 0, "player%d.ncities",
-                                         player_slot_index(pslot));
+                                         plrid);
     for (i = 0; i < ncities; i++) {
       player_slots_iterate(pslot2) {
         secfile_entry_delete(saving->file, "player%d.c%d.citizen%d",
-                             player_slot_index(pslot), i,
-                             player_slot_index(pslot2));
+                             plrid, i, player_slot_index(pslot2));
       } player_slots_iterate_end;
     }
+
+    /* Delete player colors. */
+    secfile_entry_delete(saving->file, "player%d.color.red", plrid);
+    secfile_entry_delete(saving->file, "player%d.color.green", plrid);
+    secfile_entry_delete(saving->file, "player%d.color.blue", plrid);
   } player_slots_iterate_end;
 }
 
