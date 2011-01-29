@@ -100,26 +100,26 @@ static int redraw_icon2(struct widget *pIcon)
     putframe(pIcon->dst->surface,
              dest.x + 1, dest.y + 1,
              dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-             get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+             get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
   }
 
   if (state == FC_WS_PRESSED) {
     putframe(pIcon->dst->surface,
              dest.x + 1, dest.y + 1,
              dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-             get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+             get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
 
     putframe(pIcon->dst->surface,
              dest.x, dest.y,
              dest.x + dest.w + adj_size(3), dest.y + dest.h + adj_size(3),
-             get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
+             get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
   }
 
   if (state == FC_WS_DISABLED) {
     putframe(pIcon->dst->surface,
              dest.x + 1, dest.y + 1,
              dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-             get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT));
+             get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
   }
   dest.x += adj_size(2);
   dest.y += adj_size(2);
@@ -166,7 +166,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   /* draw sellect frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
-           get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+           get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
@@ -174,12 +174,12 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   /* draw sellect frame */
   putframe(pTheme,
            dest.x - 1, dest.y - 1, dest.x + src.w, dest.y + src.h,
-           get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
+           get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
   /* draw press frame */
   putframe(pTheme,
            dest.x - adj_size(2), dest.y - adj_size(2),
            dest.x + (src.w + 1), dest.y + (src.h + 1),
-           get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
+           get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
 
   /* disabled */
   dest.x += (src.w + adj_size(4));

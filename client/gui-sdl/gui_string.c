@@ -176,7 +176,7 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
 
   str->style = TTF_STYLE_NORMAL;
   str->bgcol = (SDL_Color) {0, 0, 0, 0};
-  str->fgcol = *get_game_colorRGB(COLOR_THEME_TEXT);
+  str->fgcol = *get_theme_color(COLOR_THEME_TEXT);
   str->render = 2;
 
   /* pInTextString must be allocated in memory (MALLOC/fc_calloc) */

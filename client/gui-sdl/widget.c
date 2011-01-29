@@ -479,7 +479,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     color = pWidget->info_label->fgcol;
     pWidget->info_label->style |= TTF_STYLE_BOLD;
     pWidget->info_label->fgcol =
-        *get_game_colorRGB(COLOR_THEME_QUICK_INFO_TEXT);
+        *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
 
     /* create string and bcgd theme */
     pText = create_text_surf_from_str16(pWidget->info_label);
@@ -487,7 +487,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pWidget->info_label->fgcol = color;
 
     pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
-              SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO_BG), TRUE);
+              SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG), TRUE);
     
     /* calculate start position */
     if ((pWidget->dst->dest_rect.y + pWidget->size.y) - pBcgd->h - adj_size(6) < 0) {
@@ -520,7 +520,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     /* draw frame */
     putframe(pInfo_Label,
              0, 0, pInfo_Label->w - 1, pInfo_Label->h - 1,
-             get_game_colorRGB(COLOR_THEME_QUICK_INFO_FRAME));
+             get_theme_color(COLOR_THEME_QUICK_INFO_FRAME));
     
   }
 

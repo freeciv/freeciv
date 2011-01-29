@@ -204,7 +204,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     /* create text label */
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
+    pStr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
     
     pText = create_text_surf_from_str16(pStr);
     FREESTRING16(pStr);
@@ -241,7 +241,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     
     pUnits_Upg_Dlg->pBeginWidgetList = pBuf;
 
-    resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+    resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pWindow->size.w - pWindow->area.w) + area.w,
                   (pWindow->size.h - pWindow->area.h) + area.h);
 
@@ -458,11 +458,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       if(upgrade) {
-	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
+	pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 	pBuf->action = popup_upgrade_unit_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
       } else {
-        pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITSREP_TEXT);
+        pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_UNITSREP_TEXT);
       }
       pBuf->string16->style &= ~SF_CENTER;
       if(count > adj_size(72)) {
@@ -627,7 +627,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - pText3->w) / 2;
@@ -669,7 +669,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- pText4->w) / 2;
@@ -685,7 +685,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
     
   dst.x += adj_size(3);
   alphablit(pText1, NULL, pWindow->theme, &dst);
@@ -702,7 +702,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
   
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Shield->w) / 2);
@@ -718,7 +718,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
   
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
@@ -734,7 +734,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
   
   dst.y = area.y + adj_size(3);
   dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
@@ -751,7 +751,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 			  
   dst.x += adj_size(3);
   alphablit(pText2, NULL, pWindow->theme, &dst);
@@ -766,7 +766,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME));
+           get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 			  
   dst.x += adj_size(3);
   alphablit(pText5, NULL, pWindow->theme, &dst);
@@ -898,7 +898,7 @@ void real_units_report_dialog_update(void)
 
             pBuf = pBuf->prev; /* unit type name */
             if(upgrade) {
-              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
+              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
               pBuf->action = popup_upgrade_unit_callback;
               set_wstate(pBuf, FC_WS_NORMAL);
             }
@@ -1551,7 +1551,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     /* create text label */
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SELLIMPR_TEXT);
+    pStr->fgcol = *get_theme_color(COLOR_THEME_SELLIMPR_TEXT);
     
     pText = create_text_surf_from_str16(pStr);
     FREESTRING16(pStr);
@@ -1589,7 +1589,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     
     pEconomy_Sell_Dlg->pBeginWidgetList = pBuf;
     
-    resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+    resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pWindow->size.w - pWindow->area.w) + area.w,
                   (pWindow->size.h - pWindow->area.h) + area.h);
     
@@ -1675,9 +1675,9 @@ void real_economy_report_dialog_update(void)
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
     if(tax - total < 0) {
-      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
+      pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
     } else {
-      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_TEXT);
+      pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_ECONOMYDLG_TEXT);
     }
   
   
@@ -1871,7 +1871,7 @@ void economy_report_dialog_popup(bool make_modal)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   if(tax - total < 0) {
-    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
+    pStr->fgcol = *get_theme_color(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
   }
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
@@ -2016,7 +2016,7 @@ void economy_report_dialog_popup(bool make_modal)
     SDL_FillRect(pBackground, NULL, map_rgba(pBackground->format, bg_color));
     putframe(pBackground,
              0, 0, pBackground->w - 1, pBackground->h - 1,
-             get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME));
+             get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
     
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -2198,7 +2198,7 @@ void economy_report_dialog_popup(bool make_modal)
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME));
+           get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
   
   /* draw statical strings */
   dst.x = area.x + adj_size(10);
@@ -2246,7 +2246,7 @@ void economy_report_dialog_popup(bool make_modal)
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME));
+           get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
   
   /* lock icon */
   pBuf = pBuf->prev;
@@ -2270,7 +2270,7 @@ void economy_report_dialog_popup(bool make_modal)
   
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME));
+           get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
   
   /* science lock icon */
   pBuf = pBuf->prev;
@@ -2342,7 +2342,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       w = adj_size(135);
       break;
     case MED_MODE:
-      color = *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_MED_TECHICON_BG);
+      color = *get_theme_color(COLOR_THEME_SCIENCEDLG_MED_TECHICON_BG);
     default:
       h = adj_size(200);
       w = adj_size(100);
@@ -2364,7 +2364,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, color));
   putframe(pSurf,
            0,0, pSurf->w - 1, pSurf->h - 1,
-           get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME));
+           get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
   
   pTmp = get_tech_icon(tech_id);
   
@@ -2562,7 +2562,7 @@ void real_science_report_dialog_update(void)
     /* research progress text */
     pStr = create_str16_from_char(science_dialog_text(), adj_font(12));
     pStr->style |= SF_CENTER;
-    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_TEXT);
+    pStr->fgcol = *get_theme_color(COLOR_THEME_SCIENCEDLG_TEXT);
   
     pSurf = create_text_surf_from_str16(pStr);
       
@@ -2579,7 +2579,7 @@ void real_science_report_dialog_update(void)
     /* separator */
     putline(pWindow->dst->surface,
             dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
-            get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME));
+            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
     dest.y += adj_size(6);
     
@@ -2619,7 +2619,7 @@ void real_science_report_dialog_update(void)
   
     putframe(pWindow->dst->surface,
              dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-             get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME));
+             get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
   
     if (cost > adj_size(286))
     {
@@ -2682,7 +2682,7 @@ void real_science_report_dialog_update(void)
 
     putline(pWindow->dst->surface,
             dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
-            get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME));
+            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
     
     dest.x = pChangeResearchButton->size.x;
     dest.y += adj_size(6);

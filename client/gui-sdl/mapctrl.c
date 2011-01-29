@@ -744,7 +744,7 @@ static void popup_minimap_scale_dialog(void)
   
   area.h += adj_size(20); 
 
-  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+  resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
 
@@ -1086,7 +1086,7 @@ static void popup_unitinfo_scale_dialog(void)
   area.h += pBuf->size.h + adj_size(10);
   area.w = MAX(area.w, pBuf->size.w + adj_size(20));
   
-  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+  resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
 
@@ -2627,7 +2627,7 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   /* create text label */
   pStr = create_str16_from_char(_("What should we call our new city?"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NEWCITYDLG_TEXT);
+  pStr->fgcol = *get_theme_color(COLOR_THEME_NEWCITYDLG_TEXT);
   pLabel = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
   
   area.h += pLabel->size.h;

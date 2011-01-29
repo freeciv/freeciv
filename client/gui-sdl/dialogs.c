@@ -565,7 +565,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     area.h += pLines->h + adj_size(10);
   }
   
-  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+  resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
 
@@ -691,7 +691,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   /* create text label */
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
+  pStr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -728,7 +728,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   
   pUnit_Upgrade_Dlg->pBeginWidgetList = pBuf;
   
-  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+  resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
   
@@ -1113,7 +1113,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   area.w = MAX(area.w, pBuf->size.w + adj_size(20));
   area.h = MAX(area.h, pBuf->size.h);
 
-  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+  resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                 (pWindow->size.w - pWindow->area.w) + area.w,
                 (pWindow->size.h - pWindow->area.h) + area.h);
 
@@ -1683,21 +1683,21 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
             cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                att_chance, def_chance);
 	  }
-	  
-	  if (pAttacker && pAttacker == pUnit) {
-	    pStr->fgcol = *(get_game_colorRGB(COLOR_OVERVIEW_ENEMY_UNIT));		  
-	    reset = TRUE;
-	  } else {
-	    if (pDefender && pDefender == pUnit) {
-	      pStr->fgcol = *(get_game_colorRGB(COLOR_OVERVIEW_MY_UNIT));			
-	      reset = TRUE;
-	    }
-	  }
-	  
+
+          if (pAttacker && pAttacker == pUnit) {
+            pStr->fgcol = *(get_game_color(COLOR_OVERVIEW_ENEMY_UNIT));
+            reset = TRUE;
+          } else {
+            if (pDefender && pDefender == pUnit) {
+              pStr->fgcol = *(get_game_color(COLOR_OVERVIEW_MY_UNIT));
+              reset = TRUE;
+            }
+          }
+
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
           
 	  if (reset) {
-	    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT);
+	    pStr->fgcol = *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT);
 	    reset = FALSE;
 	  }
 	  
@@ -1899,7 +1899,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       area2.w = pBuf->size.w - adj_size(20);
       
       SDL_FillRect(pBuf->theme, &area2, map_rgba(pBuf->theme->format,
-                    *get_game_colorRGB(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
+                    *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
     }
     
     if(pBuf == pAdvanced_Terrain_Dlg->pBeginWidgetList || 
@@ -2354,7 +2354,7 @@ void popup_revolution_dialog(void)
   /* create text label */
   pStr = create_str16_from_char(_("You say you wanna revolution?"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_REVOLUTIONDLG_TEXT);
+  pStr->fgcol = *get_theme_color(COLOR_THEME_REVOLUTIONDLG_TEXT);
   pLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
   add_to_gui_list(ID_REVOLUTION_DLG_LABEL, pLabel);
 
@@ -2767,7 +2767,7 @@ static int nation_button_callback(struct widget *pNationButton)
       pStr = create_str16_from_char(_("SORRY... NO INFO"), adj_font(12));
     }
     
-    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_LEGEND);
+    pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_LEGEND);
     pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
   
     copy_chars_to_string16(pStr, nation_plural_translation(pNation));
@@ -2782,7 +2782,7 @@ static int nation_button_callback(struct widget *pNationButton)
     area.h = MAX(area.h, adj_size(9) + pText2->h + adj_size(10) + pText->h
                          + adj_size(10) + pOK_Button->size.h + adj_size(10));
 
-    resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+    resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pWindow->size.w - pWindow->area.w) + area.w,
                   (pWindow->size.h - pWindow->area.h) + area.h);
 
@@ -2974,7 +2974,7 @@ void popup_races_dialog(struct player *pplayer)
   SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
   putframe(pMain_Bg,
            0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
-           get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME));
+           get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -3063,7 +3063,7 @@ void popup_races_dialog(struct player *pplayer)
   copy_chars_to_string16(pStr, nation_plural_translation(nation_by_number(pSetup->nation)));
   change_ptsize16(pStr, adj_font(24));
   pStr->render = 2;
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_TEXT);
+  pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_TEXT);
   
   pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(nation_by_number(pSetup->nation)));
   
@@ -3219,7 +3219,7 @@ void popup_races_dialog(struct player *pplayer)
     SDL_FillRectAlpha(pWindow->theme, &area2, &bg_color);
     putframe(pWindow->theme,
              area2.x, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
-             get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME));
+             get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   }
    
   /* Sellected Nation Name */
@@ -3265,7 +3265,7 @@ void popup_races_dialog(struct player *pplayer)
           area.y + area.h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
           area.w - 1, 
           area.y + area.h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
-          get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME));
+          get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
   
   /* Disconnect Button */
   pBuf = pBuf->prev;

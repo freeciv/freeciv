@@ -436,14 +436,14 @@ void popup_connection_dialog(bool lan_scan)
   
   putframe(pWindow->dst->surface,
            area2.x - 1, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
-           get_game_colorRGB(COLOR_THEME_CONNECTDLG_INNERFRAME));
+           get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
   
   redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, 0);
 
   putframe(pWindow->dst->surface,
            pWindow->size.x, pWindow->size.y,
            area.x + area.w - 1, area.y + area.h - 1,
-           get_game_colorRGB(COLOR_THEME_CONNECTDLG_FRAME));
+           get_theme_color(COLOR_THEME_CONNECTDLG_FRAME));
     
   widget_flush(pWindow);
 }
@@ -553,7 +553,7 @@ void popup_join_game_dialog()
   
   /* player name label */
   pPlayer_name = create_str16_from_char(_("Player Name :"), adj_font(10));
-  pPlayer_name->fgcol = *get_game_colorRGB(COLOR_THEME_JOINGAMEDLG_TEXT);
+  pPlayer_name->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, pPlayer_name,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
@@ -569,7 +569,7 @@ void popup_join_game_dialog()
 
   /* server name label */
   pServer_name = create_str16_from_char(_("Freeciv Server :"), adj_font(10));
-  pServer_name->fgcol = *get_game_colorRGB(COLOR_THEME_JOINGAMEDLG_TEXT);
+  pServer_name->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, pServer_name,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
@@ -586,7 +586,7 @@ void popup_join_game_dialog()
 
   /* port label */
   pPort_nr = create_str16_from_char(_("Port :"), adj_font(10));
-  pPort_nr->fgcol = *get_game_colorRGB(COLOR_THEME_JOINGAMEDLG_TEXT);
+  pPort_nr->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, pPort_nr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
@@ -773,7 +773,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   
   /* text label */
   pLabelStr = create_str16_from_char(pMessage, adj_font(12));
-  pLabelStr->fgcol = *get_game_colorRGB(COLOR_THEME_USERPASSWDDLG_TEXT);
+  pLabelStr->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, pLabelStr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
@@ -781,7 +781,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   
   /* password edit */
   pPasswdStr = create_str16_from_char(pMessage, adj_font(16));
-  pPasswdStr->fgcol = *get_game_colorRGB(COLOR_THEME_TEXT);
+  pPasswdStr->fgcol = *get_theme_color(COLOR_THEME_TEXT);
   pBuf = create_edit(NULL, pWindow->dst, pPasswdStr, adj_size(210),
 		(WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_passwd_callback;
@@ -948,7 +948,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   
   /* text label */
   pLabelStr = create_str16_from_char(pMessage, adj_font(12));
-  pLabelStr->fgcol = *get_game_colorRGB(COLOR_THEME_USERPASSWDDLG_TEXT);
+  pLabelStr->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
   pBuf = create_iconlabel(NULL, pWindow->dst, pLabelStr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
@@ -956,7 +956,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
   /* password edit */
   pPasswdStr = create_str16_from_char(pMessage, adj_font(16));
-  pPasswdStr->fgcol = *get_game_colorRGB(COLOR_THEME_TEXT);
+  pPasswdStr->fgcol = *get_theme_color(COLOR_THEME_TEXT);
   pPasswdStr->n_alloc = 0;  
   pBuf = create_edit(NULL, pWindow->dst, pPasswdStr, adj_size(210),
 		(WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));

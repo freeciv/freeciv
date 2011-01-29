@@ -1021,7 +1021,7 @@ void popup_sabotage_dialog(struct city *pCity)
       area2.y = pBuf->size.h / 2 - 1;
       area2.w = pBuf->size.w - adj_size(20);
       
-      SDL_FillRect(pBuf->theme , &area2, map_rgba(pBuf->theme->format, *get_game_colorRGB(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
+      SDL_FillRect(pBuf->theme , &area2, map_rgba(pBuf->theme->format, *get_theme_color(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
     }
     
     if (pBuf == pLast) {

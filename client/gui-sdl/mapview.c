@@ -404,7 +404,7 @@ void update_info_label(void)
 
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;
-  pText->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_TEXT);
+  pText->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_INFO_TEXT);
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (NULL != client.conn.playing) {
@@ -441,18 +441,18 @@ void update_info_label(void)
     /* Horizontal lines */
     putline(Main.gui->surface,
                area.x + 1, area.y, area.x + area.w - 2, area.y,
-               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
+               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
     putline(Main.gui->surface,
                area.x + 1, area.y + area.h - 1, area.x + area.w - 2, area.y + area.h - 1,
-               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
+               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
   
     /* vertical lines */
     putline(Main.gui->surface,
                area.x + area.w - 1, area.y + 1, area.x + area.w - 1, area.y + area.h - 2,
-               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
+               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
     putline(Main.gui->surface,
                area.x, area.y + 1, area.x, area.y + area.h - 2,
-               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
+               get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
   
     /* blit text to screen */  
     blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
@@ -535,9 +535,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       if(pUnit->veteran) {
 	copy_chars_to_string16(pStr, _("veteran"));
         change_ptsize16(pStr, adj_font(10));
-	pStr->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
+	pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
         pVet_Name = create_text_surf_from_str16(pStr);
-        pStr->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
+        pStr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
       }
 
       /* get and draw other info (MP, terran, city, etc.) */
@@ -1104,7 +1104,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   /* PORTME */
   putframe(Main.map,
            canvas_x, canvas_y, canvas_x + w, canvas_y + h,
-           get_game_colorRGB(COLOR_THEME_SELECTIONRECTANGLE));
+           get_theme_color(COLOR_THEME_SELECTIONRECTANGLE));
 }
 
 /**************************************************************************

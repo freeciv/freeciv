@@ -108,7 +108,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
       putline(pEdt->pWidget->dst->surface,
               Dest.x - 1, Dest.y + (pEdt->pBg->h / 8),
               Dest.x - 1, Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
-              get_game_colorRGB(COLOR_THEME_EDITFIELD_CARET));
+              get_theme_color(COLOR_THEME_EDITFIELD_CARET));
       /* save active element position */
       pEdt->InputChain_X = Dest_Copy.x;
     }

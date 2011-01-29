@@ -159,7 +159,7 @@ static void redraw_impr_info_dlg(void)
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
+           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -249,7 +249,7 @@ void popup_impr_info(Impr_type_id impr)
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
     putframe(pBackgroundTmpl,
              0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
-             get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
+             get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     impr_type_count = 0;
     improvement_iterate(pImprove) {
@@ -310,7 +310,7 @@ void popup_impr_info(Impr_type_id impr)
 #endif
 
     widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton->string16->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
     add_to_gui_list(ID_BUTTON, pListToggleButton);
 
@@ -551,7 +551,7 @@ static void redraw_unit_info_dlg(void)
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
+           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -644,7 +644,7 @@ void popup_unit_info(Unit_type_id type_id)
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
     putframe(pBackgroundTmpl,
              0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
-             get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
+             get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     utype_count = 0;
     unit_type_iterate(ut) {
@@ -703,7 +703,7 @@ void popup_unit_info(Unit_type_id type_id)
 #endif
 
     widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton->string16->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
     add_to_gui_list(ID_BUTTON, pListToggleButton);
 
@@ -984,7 +984,7 @@ static void redraw_tech_info_dlg(void)
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
+           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -1175,7 +1175,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
         set_wstate(pWidget, FC_WS_NORMAL);
         if (is_wonder(pImprove))
         {
-               pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_LUX);
+               pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
         }
         pWidget->action = change_impr_callback;
         pWidget->ID = MAX_ID - improvement_number(pImprove);
@@ -1331,7 +1331,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 
 static void redraw_tech_tree_dlg(void)
 {
-  SDL_Color *line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
+  SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
   SDL_Color bg_color = {255, 255, 255, 64};
 
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
@@ -1352,7 +1352,7 @@ static void redraw_tech_tree_dlg(void)
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
   putframe(pWindow->dst->surface,
            dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
-           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
+           get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /* Draw Req arrows */
   i = 0;
@@ -1486,13 +1486,13 @@ static void redraw_tech_tree_dlg(void)
     switch((i % mod))
     {
       case 2:
-        line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE2);
+        line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE2);
       break;
       case 1:
-        line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE3);
+        line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE3);
       break;
       default:
-        line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
+        line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
       break;
     }
 
@@ -1986,7 +1986,7 @@ void popup_tech_info(Tech_type_id tech)
       set_wstate(pListToggleButton, FC_WS_NORMAL);
     }
     widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
+    pListToggleButton->string16->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
     add_to_gui_list(ID_BUTTON, pListToggleButton);
 

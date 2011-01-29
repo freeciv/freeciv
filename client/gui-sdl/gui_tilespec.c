@@ -180,16 +180,16 @@ void tilespec_setup_city_icons(void)
 		  SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
   putframe(pIcons->pWorklist,
            0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
-           get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+           get_theme_color(COLOR_THEME_CITYREP_FRAME));
   putline(pIcons->pWorklist,
           3, 2, 5, 2,
-          get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+          get_theme_color(COLOR_THEME_CITYREP_FRAME));
   putline(pIcons->pWorklist,
           3, 4, 7, 4,
-          get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+          get_theme_color(COLOR_THEME_CITYREP_FRAME));
   putline(pIcons->pWorklist,
           3, 6, 6, 6,
-          get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+          get_theme_color(COLOR_THEME_CITYREP_FRAME));
   
   /* ================================================================= */
   
@@ -492,7 +492,7 @@ void setup_auxiliary_tech_icons(void)
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
   putframe(pSurf,
            0 , 0, pSurf->w - 1, pSurf->h - 1,
-           get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME));
+           get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
   pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
   pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    
@@ -563,16 +563,16 @@ SDL_Color * get_tech_color(Tech_type_id tech_id)
     switch (player_invention_state(client.conn.playing, tech_id))
     {
       case TECH_UNKNOWN:
-        return get_game_colorRGB(COLOR_REQTREE_UNKNOWN);
+        return get_game_color(COLOR_REQTREE_UNKNOWN);
       case TECH_KNOWN:
-        return get_game_colorRGB(COLOR_REQTREE_KNOWN);
+        return get_game_color(COLOR_REQTREE_KNOWN);
       case TECH_PREREQS_KNOWN:
-        return get_game_colorRGB(COLOR_REQTREE_PREREQS_KNOWN);
+        return get_game_color(COLOR_REQTREE_PREREQS_KNOWN);
       default:
-        return get_game_colorRGB(COLOR_REQTREE_BACKGROUND);
+        return get_game_color(COLOR_REQTREE_BACKGROUND);
     }
   }
-  return get_game_colorRGB(COLOR_REQTREE_UNREACHABLE);
+  return get_game_color(COLOR_REQTREE_UNREACHABLE);
 }
 
 /**************************************************************************

@@ -58,7 +58,7 @@ static int redraw_label(struct widget *pLabel)
 {
   int ret;
   SDL_Rect area = pLabel->size;
-  SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
+  SDL_Color bar_color = *get_theme_color(COLOR_THEME_LABEL_BAR);
   SDL_Color backup_color = {0, 0, 0, 0};
 
   ret = (*baseclass_redraw)(pLabel);
@@ -242,7 +242,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   SDL_Surface *pBuf = NULL, *pTheme = NULL;
   SDL_Rect area;
   SDL_Color store = {0, 0, 0, 0};
-  SDL_Color bg_color = *get_game_colorRGB(COLOR_THEME_THEMELABEL2_BG);
+  SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey;
   
   if (!pIcon && !pText) {
@@ -321,7 +321,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
 {
   SDL_Rect start, area;
   SDL_Color store = {0, 0, 0, 0};
-  SDL_Color bg_color = *get_game_colorRGB(COLOR_THEME_THEMELABEL2_BG);
+  SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey, flags = get_wflags(pIconLabel);
   SDL_Surface *pDest, *pTheme, *pBuf = create_surf_alpha(pIconLabel->size.w,
 				  pIconLabel->size.h * 2, SDL_SWSURFACE);

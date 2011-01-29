@@ -1051,7 +1051,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
   putframe(pMain,
            0, 0, pMain->w - 1, pMain->h - 1,
-           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+           get_theme_color(COLOR_THEME_WLDLG_FRAME));
     
   /* ---------------- */
   /* Create Main Window */
@@ -1616,13 +1616,13 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   dst.h = adj_size(145);
   
   SDL_FillRect(pWindow->theme, &dst,
-    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_BACKGROUND)));
+    map_rgba(pWindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+           get_theme_color(COLOR_THEME_WLDLG_FRAME));
   putframe(pWindow->theme,
            dst.x + 2, dst.y + 2, dst.x + dst.w - 3, dst.y + dst.h - 3,
-           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+           get_theme_color(COLOR_THEME_WLDLG_FRAME));
   
   dst.x = area.x;
   dst.y += dst.h + adj_size(2);
@@ -1631,7 +1631,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
   putframe(pWindow->theme,
            dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+           get_theme_color(COLOR_THEME_WLDLG_FRAME));
   
   if(pEditor->pGlobal) {
     dst.x = area.x;
@@ -1640,14 +1640,14 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     dst.h = pWindow->size.h - dst.y - adj_size(4);
 
     SDL_FillRect(pWindow->theme, &dst,
-      map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_BACKGROUND)));
+      map_rgba(pWindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
     putframe(pWindow->theme,
              dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-             get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+             get_theme_color(COLOR_THEME_WLDLG_FRAME));
     putframe(pWindow->theme,
              dst.x + adj_size(2), dst.y + adj_size(2),
              dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3),
-             get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+             get_theme_color(COLOR_THEME_WLDLG_FRAME));
   }
 
   widget_set_position(pWindow,

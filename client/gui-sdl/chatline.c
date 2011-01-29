@@ -701,7 +701,7 @@ static void popup_conn_list_dialog(void)
   SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
   putframe(pWindow->theme,
            area.x - 1, area.y - 1, area.x + area.w, area.y + area.h,
-           get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME));
+           get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
   
   /* user list background */
   area.x = pWindow->size.w - adj_size(130);
@@ -711,7 +711,7 @@ static void popup_conn_list_dialog(void)
   SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
   putframe(pWindow->theme,
            area.x - 1, area.y - 1, area.x + area.w, area.y + area.h,
-           get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME));
+           get_theme_color(COLOR_THEME_CONNLISTDLG_FRAME));
   
   draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
     

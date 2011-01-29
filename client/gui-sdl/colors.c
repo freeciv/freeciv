@@ -36,18 +36,17 @@
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Color * get_game_colorRGB(int color_id)
+SDL_Color *get_theme_color(enum theme_color themecolor)
 {
-  if (color_id >= color_std_max()) {
-    enum theme_color themecolor = color_id - COLOR_LAST;
-    return theme_get_color(theme, themecolor)->color;
-  } else {
-    enum color_std stdcolor = color_id;
+  return theme_get_color(theme, themecolor)->color;
+}
 
-    fc_assert_ret_val(color_std_is_valid(stdcolor), NULL);
-
-    return get_color(tileset, stdcolor)->color;
-  }
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Color *get_game_color(enum color_std stdcolor)
+{
+  return get_color(tileset, stdcolor)->color;
 }
 
 /**************************************************************************

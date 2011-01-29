@@ -64,7 +64,7 @@ static int msg_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int message_index = *(int*)pWidget->data.ptr;
       
-    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+    pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
     unsellect_widget_action();
 
     meswin_double_click(message_index);
@@ -156,9 +156,9 @@ void real_meswin_dialog_update(void)
             if(pMsg->tile) {
               set_wstate(pBuf, FC_WS_NORMAL);
               if (pMsg->visited) {
-                pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+                pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
               } else {
-                pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+                pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
               }
             }
             
@@ -196,9 +196,9 @@ void real_meswin_dialog_update(void)
           if(pMsg->tile) {
             set_wstate(pBuf, FC_WS_NORMAL);
             if (pMsg->visited) {
-              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
             } else {
-              pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+              pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
             }
           }
           
