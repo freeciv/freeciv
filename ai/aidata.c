@@ -132,16 +132,24 @@ void ai_data_phase_finished(struct player *pplayer)
   ai->phase_initialized = FALSE;
 }
 
-/**************************************************************************
-  Return a pointer to our data
-**************************************************************************/
+/****************************************************************************
+  Get current default ai data related to player
+****************************************************************************/
 struct ai_plr *ai_plr_data_get(struct player *pplayer)
 {
-  struct ai_plr *data = def_ai_player_data(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer);
 
-  fc_assert_ret_val(data != NULL, NULL);
+  fc_assert_ret_val(ai != NULL, NULL);
 
-  return data;
+  if (adv->num_continents != map.num_continents
+      || adv->num_oceans != map.num_oceans) {
+    /* We discovered more continents, recalculate! */
+    ai_data_phase_finished(pplayer);
+    ai_data_phase_begin(pplayer, FALSE);
+  }
+
+  return ai;
 }
 
 /**************************************************************************
