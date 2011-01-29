@@ -168,7 +168,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 }
 
 /****************************************************************
-popup the dialog 10% inside the main-window 
+  Popup the dialog 10% inside the main-window 
 *****************************************************************/
 static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
 {
@@ -394,21 +394,28 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /* Pacts. */
   if (pgiver == pdialog->treaty.plr0) {
+    enum diplstate_type ds;
+
+    ds = pplayer_get_diplstate(pgiver, pother)->type;
+
     menu = gtk_menu_new();
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Cease-fire"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_ceasefire_callback), pdialog);
+    gtk_widget_set_sensitive(item, ds != DS_CEASEFIRE);
 
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Peace"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_peace_callback), pdialog);
+    gtk_widget_set_sensitive(item, ds != DS_PEACE);
 
     item = gtk_menu_item_new_with_mnemonic(Q_("?diplomatic_state:Alliance"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(diplomacy_dialog_alliance_callback), pdialog);
+    gtk_widget_set_sensitive(item, ds != DS_ALLIANCE);
 
     item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
@@ -482,7 +489,7 @@ static void diplomacy_response(struct gui_dialog *dlg, int response,
 }
 
 /****************************************************************
-...
+  Setups diplomacy dialog widgets.
 *****************************************************************/
 static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 							struct player *plr1)
