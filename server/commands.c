@@ -80,6 +80,7 @@ static struct command commands[] = {
              "list colors\n"
              "list connections\n"
              "list ignored users\n"
+             "list map image definitions\n"
              "list players\n"
              "list scenarios\n"
              "list teams\n"
@@ -89,6 +90,7 @@ static struct command commands[] = {
       " - the player colors,\n"
       " - connections to the server,\n"
       " - your ignore list,\n"
+      " - the list of defined map images,\n"
       " - the list of the players in the game,\n"
       " - the available scenarios,\n"
       " - the teams of players or\n"
@@ -596,6 +598,25 @@ static struct command commands[] = {
    N_("fcdb [reload]"),
    N_("Reload the freeciv database script."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
+  },
+  {"mapimg",   ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("mapimg colortest\n"
+      "mapimg create <id>|all\n"
+      "mapimg define <mapdef>\n"
+      "mapimg delete <id>|all\n"
+      "mapimg show <id>|all\n"
+      "mapimg help"),
+   N_("Create image files of the world/player map."),
+   N_("This command allows the creation of map images. Supported "
+      "arguments:\n"
+      "  colortest        - create a image to showing all colors\n"
+      "  create <id>|all  - create a specific or all map images\n"
+      "  define <mapdef>  - define a map image\n"
+      "  delete <id>|all  - delete a specific or all map images\n"
+      "  help             - more information about the definition\n"
+      "  show <id>|all    - shown a specific or all map images"),
+   CMD_ECHO_ADMINS, VCF_NONE, 50
   },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */

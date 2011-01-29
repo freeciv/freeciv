@@ -68,6 +68,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "mapimg.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -127,6 +128,25 @@
 static void end_turn(void);
 static void announce_player(struct player *pplayer);
 static void fc_interface_init_server(void);
+
+static enum known_type mapimg_server_tile_known(const struct tile *ptile,
+                                                const struct player *pplayer,
+                                                bool knowledge);
+static struct terrain
+  *mapimg_server_tile_terrain(const struct tile *ptile,
+                              const struct player *pplayer, bool knowledge);
+static struct player *mapimg_server_tile_owner(const struct tile *ptile,
+                                               const struct player *pplayer,
+                                               bool knowledge);
+static struct player *mapimg_server_tile_city(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge);
+static struct player *mapimg_server_tile_unit(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge);
+
+static int mapimg_server_plrcolor_count(void);
+static struct rgbcolor *mapimg_server_plrcolor_get(int i);
 
 /* command-line arguments to server */
 struct server_arguments srvarg;
@@ -1300,6 +1320,7 @@ void start_game(void)
 void server_quit(void)
 {
   set_server_state(S_S_OVER);
+  mapimg_free();
   server_game_free();
   diplhand_free();
   voting_free();
@@ -2076,7 +2097,7 @@ static void announce_player(struct player *pplayer)
 static void srv_running(void)
 {
   struct timer *eot_timer;	/* time server processing at end-of-turn */
-  int save_counter = 0;
+  int save_counter = 0, i;
   bool is_new_turn = game.info.is_new_game;
   bool need_send_pending_events = !game.info.is_new_game;
 
@@ -2150,6 +2171,16 @@ static void srv_running(void)
 	  save_game_auto("Autosave", NULL);
 	}
 	save_counter++;
+      }
+
+      /* save map image(s) */
+      for (i = 0; i < mapimg_count(); i++) {
+        struct mapdef *pmapdef = mapimg_isvalid(i);
+        if (pmapdef != NULL) {
+          mapimg_create(pmapdef, FALSE, game.server.save_name);
+        } else {
+          log_error("%s", mapimg_error());
+        }
       }
 
       log_debug("sniffingpackets");
@@ -2241,6 +2272,10 @@ static void srv_prepare(void)
   voting_init();
 
   server_game_init();
+  mapimg_init(mapimg_server_tile_known, mapimg_server_tile_terrain,
+              mapimg_server_tile_owner, mapimg_server_tile_city,
+              mapimg_server_tile_unit, mapimg_server_plrcolor_count,
+              mapimg_server_plrcolor_get);
 
 #ifdef HAVE_FCDB
   if (srvarg.fcdb_enabled) {
@@ -2582,6 +2617,7 @@ void srv_main(void)
     /* Reset server */
     server_game_free();
     server_game_init();
+    mapimg_reset();
     load_rulesets();
     game.info.is_new_game = TRUE;
   } while (TRUE);
@@ -2613,4 +2649,112 @@ static void fc_interface_init_server(void)
   /* Keep this function call at the end. It checks if all required functions
      are defined. */
   fc_interface_init();
+}
+
+/***************************************************************************
+  Helper function for the mapimg module - tile knowledge.
+****************************************************************************/
+static enum known_type mapimg_server_tile_known(const struct tile *ptile,
+                                                const struct player *pplayer,
+                                                bool knowledge)
+{
+  if (knowledge && pplayer) {
+    return tile_get_known(ptile, pplayer);
+  }
+
+  return TILE_KNOWN_SEEN;
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - tile terrain.
+****************************************************************************/
+static struct terrain
+  *mapimg_server_tile_terrain(const struct tile *ptile,
+                              const struct player *pplayer, bool knowledge)
+{
+  if (knowledge && pplayer) {
+    struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+    return plrtile->terrain;
+  }
+
+  return tile_terrain(ptile);
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - tile owner.
+****************************************************************************/
+static struct player *mapimg_server_tile_owner(const struct tile *ptile,
+                                               const struct player *pplayer,
+                                               bool knowledge)
+{
+  if (knowledge && pplayer
+      && tile_get_known(ptile, pplayer) != TILE_KNOWN_SEEN) {
+    struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+    return plrtile->owner;
+  }
+
+  return tile_owner(ptile);
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - city owner.
+****************************************************************************/
+static struct player *mapimg_server_tile_city(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge)
+{
+  struct city *pcity = tile_city(ptile);
+
+  if (!pcity) {
+    return NULL;
+  }
+
+  if (knowledge && pplayer) {
+    struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
+
+    if (pdcity) {
+      return pdcity->owner;
+    } else {
+      return NULL;
+    }
+  }
+
+  return city_owner(tile_city(ptile));
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - unit owner.
+****************************************************************************/
+static struct player *mapimg_server_tile_unit(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge)
+{
+  int unit_count = unit_list_size(ptile->units);
+
+  if (unit_count == 0) {
+    return NULL;
+  }
+
+  if (knowledge && pplayer
+      && tile_get_known(ptile, pplayer) != TILE_KNOWN_SEEN) {
+    return NULL;
+  }
+
+  return unit_owner(unit_list_get(ptile->units, 0));
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - number of player colors.
+****************************************************************************/
+static int mapimg_server_plrcolor_count(void)
+{
+  return playercolor_count();
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - one player color.
+****************************************************************************/
+static struct rgbcolor *mapimg_server_plrcolor_get(int i)
+{
+  return playercolor_get(i);
 }

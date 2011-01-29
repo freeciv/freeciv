@@ -92,6 +92,7 @@ enum command_id {
 #endif /* DEBUG */
   CMD_DELEGATE,
   CMD_FCDB,
+  CMD_MAPIMG,
 
   /* undocumented */
   CMD_RFCSTYLE,

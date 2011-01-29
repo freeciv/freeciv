@@ -47,6 +47,8 @@ libfreeciv_la_SOURCES = \
 		improvement.h	\
 		map.c		\
 		map.h		\
+		mapimg.c	\
+		mapimg.h	\
 		movement.c	\
 		movement.h	\
 		name_translation.h \

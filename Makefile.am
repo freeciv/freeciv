@@ -82,6 +82,8 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/lib-prefix.m4		\
 		m4/locale.m4			\
 		m4/mysql.m4			\
+		m4/magickwand.m4		\
+		m4/mapimg-magickwand.m4		\
 		m4/ngettext.m4			\
 		m4/no-client.m4			\
 		m4/pkg.m4			\

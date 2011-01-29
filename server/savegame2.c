@@ -115,6 +115,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "mapimg.h"
 #include "movement.h"
 #include "packets.h"
 #include "research.h"
@@ -506,6 +507,9 @@ static void sg_save_player_vision(struct savedata *saving,
 static void sg_load_event_cache(struct loaddata *loading);
 static void sg_save_event_cache(struct savedata *saving);
 
+static void sg_load_mapimg(struct loaddata *loading);
+static void sg_save_mapimg(struct savedata *saving);
+
 static void sg_load_sanitycheck(struct loaddata *loading);
 static void sg_save_sanitycheck(struct savedata *saving);
 
@@ -622,6 +626,8 @@ static void savegame2_load_real(struct section_file *file)
   sg_load_players(loading);
   /* [event_cache] */
   sg_load_event_cache(loading);
+  /* [mapimg] */
+  sg_load_mapimg(loading);
 
   /* Sanity checks for the loaded game. */
   sg_load_sanitycheck(loading);
@@ -668,6 +674,8 @@ static void savegame2_save_real(struct section_file *file,
   sg_save_players(saving);
   /* [event_cache] */
   sg_save_event_cache(saving);
+  /* [mapimg] */
+  sg_save_mapimg(saving);
 
   /* Sanity checks for the saved game. */
   sg_save_sanitycheck(saving);
@@ -5221,6 +5229,71 @@ static void sg_save_event_cache(struct savedata *saving)
   }
 
   event_cache_save(saving->file, "event_cache");
+}
+
+/* =======================================================================
+ * Load / save the mapimg definitions.
+ * ======================================================================= */
+
+/****************************************************************************
+  Load '[mapimg]'.
+****************************************************************************/
+static void sg_load_mapimg(struct loaddata *loading)
+{
+  int mapdef_count, i;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  /* Clear all defined map images. */
+  while (mapimg_count() > 0) {
+    mapimg_delete(0);
+  }
+
+  mapdef_count = secfile_lookup_int_default(loading->file, 0,
+                                            "mapimg.count");
+  log_verbose("Saved map image definitions: %d.", mapdef_count);
+
+  if (0 >= mapdef_count) {
+    return;
+  }
+
+  for (i = 0; i < mapdef_count; i++) {
+    const char *p;
+
+    p = secfile_lookup_str(loading->file, "mapimg.mapdef%d", i);
+    if (NULL == p) {
+      log_verbose("[Mapimg %4d] Missing definition.", i);
+      continue;
+    }
+
+    if (!mapimg_define(p, FALSE)) {
+      log_error("Invalid map image definition %4d: %s.", i, p);
+    }
+
+    log_verbose("Mapimg %4d loaded.", i);
+  }
+}
+
+/****************************************************************************
+  Save '[mapimg]'.
+****************************************************************************/
+static void sg_save_mapimg(struct savedata *saving)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  secfile_insert_int(saving->file, mapimg_count(), "mapimg.count");
+  if (mapimg_count() > 0) {
+    int i;
+
+    for (i = 0; i < mapimg_count(); i++) {
+      char buf[MAX_LEN_MAPDEF];
+
+      mapimg_id2str(i, buf, sizeof(buf));
+      secfile_insert_str(saving->file, buf, "mapimg.mapdef%d", i);
+    }
+  }
 }
 
 /* =======================================================================

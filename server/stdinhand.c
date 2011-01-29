@@ -47,6 +47,7 @@
 #include "featured_text.h"
 #include "game.h"
 #include "map.h"
+#include "mapimg.h"
 #include "packets.h"
 #include "player.h"
 #include "rgbcolor.h"
@@ -123,6 +124,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 static bool show_command(struct connection *caller, char *str, bool check);
 static void show_changed(struct connection *caller, bool check,
                          int read_recursion);
+static void show_mapimg(struct connection *caller, enum command_id cmd);
 
 static bool create_command(struct connection *caller, const char *str,
                            bool check);
@@ -147,6 +149,8 @@ static char setting_status(struct connection *caller,
 static bool player_name_check(const char* name, char *buf, size_t buflen);
 static bool playercolor_command(struct connection *caller,
                                 char *str, bool check);
+static bool mapimg_command(struct connection *caller, char *arg, bool check);
+static const char *mapimg_accessor(int i);
 
 static void show_delegations(struct connection *caller);
 
@@ -4247,6 +4251,8 @@ static bool handle_stdin_input_real(struct connection *caller,
     return delegate_command(caller, arg, check);
   case CMD_FCDB:
     return fcdb_command(caller, arg, check);
+  case CMD_MAPIMG:
+    return mapimg_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -4901,6 +4907,261 @@ static bool luafile_command(struct connection *caller, char *arg, bool check)
     }
     return FALSE;
   }
+}
+
+/* Define the possible arguments to the mapimg command */
+/* map image layers */
+#define SPECENUM_NAME mapimg_args
+#define SPECENUM_VALUE0     MAPIMG_COLORTEST
+#define SPECENUM_VALUE0NAME "colortest"
+#define SPECENUM_VALUE1     MAPIMG_CREATE
+#define SPECENUM_VALUE1NAME "create"
+#define SPECENUM_VALUE2     MAPIMG_DEFINE
+#define SPECENUM_VALUE2NAME "define"
+#define SPECENUM_VALUE3     MAPIMG_DELETE
+#define SPECENUM_VALUE3NAME "delete"
+#define SPECENUM_VALUE4     MAPIMG_HELP
+#define SPECENUM_VALUE4NAME "help"
+#define SPECENUM_VALUE5     MAPIMG_SHOW
+#define SPECENUM_VALUE5NAME "show"
+#define SPECENUM_COUNT      MAPIMG_COUNT
+#include "specenum_gen.h"
+
+/**************************************************************************
+  Returns possible parameters for the mapimg command.
+**************************************************************************/
+static const char *mapimg_accessor(int i)
+{
+  i = CLIP(0, i, mapimg_args_max());
+  return mapimg_args_name((enum mapimg_args) i);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static bool mapimg_command(struct connection *caller, char *arg, bool check)
+{
+  enum m_pre_result result;
+  int ind, ntokens, id;
+  char *token[2];
+  bool ret = TRUE;
+
+  ntokens = get_tokens(arg, token, 2, TOKEN_DELIMITERS);
+
+  if (ntokens > 0) {
+    /* match the argument */
+    result = match_prefix(mapimg_accessor, MAPIMG_COUNT, 0,
+                          fc_strncasecmp, NULL, token[0], &ind);
+
+    switch (result) {
+    case M_PRE_EXACT:
+    case M_PRE_ONLY:
+      /* we have a match */
+      break;
+    case M_PRE_AMBIGUOUS:
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Ambiguous mapimg command."));
+      ret =  FALSE;
+      goto cleanup;
+      break;
+    case M_PRE_EMPTY:
+      /* use 'show' as default */
+      ind = MAPIMG_SHOW;
+      break;
+    case M_PRE_LONG:
+    case M_PRE_FAIL:
+    case M_PRE_LAST:
+      {
+        char buf[256] = "";
+        enum mapimg_args valid_args;
+
+        for (valid_args = mapimg_args_begin();
+             valid_args != mapimg_args_end();
+             valid_args = mapimg_args_next(valid_args)) {
+          cat_snprintf(buf, sizeof(buf), "'%s'",
+                       mapimg_args_name(valid_args));
+          if (valid_args != mapimg_args_max()) {
+            cat_snprintf(buf, sizeof(buf), ", ");
+          }
+        }
+
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                  _("The valid arguments are: %s."), buf);
+        ret =  FALSE;
+        goto cleanup;
+      }
+      break;
+    }
+  } else {
+    /* use 'show' as default */
+    ind = MAPIMG_SHOW;
+  }
+
+  switch (ind) {
+  case MAPIMG_DEFINE:
+    if (ntokens == 1) {
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Missing argument for 'mapimg create'"));
+      ret = FALSE;
+    } else {
+      /* 'mapimg create <mapstr>' */
+      if (!mapimg_define(token[1], check)) {
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        ret = FALSE;
+      } else if (!check && game_was_started()
+                 && mapimg_isvalid(mapimg_count() - 1) == NULL) {
+        /* game was started - error while map image definition check */
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        ret = FALSE;
+      } else {
+        int id = mapimg_count() - 1;
+        char str[MAX_LEN_MAPDEF];
+
+        mapimg_id2str(id, str, sizeof(str));
+        cmd_reply(CMD_MAPIMG, caller, C_OK, _("Defined as map imgage "
+                                              "definition %d: '%s'"),
+                  id, str);
+      }
+    }
+    break;
+
+  case MAPIMG_DELETE:
+    if (ntokens == 1) {
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Missing argument for 'mapimg delete'"));
+      ret = FALSE;
+    } else if (ntokens == 2 && strcmp(token[1], "all") == 0) {
+      /* 'mapimg delete all' */
+      if (check) {
+        goto cleanup;
+      }
+
+      for (id = 0; id < mapimg_count(); id++) {
+        mapimg_delete(id);
+      }
+      cmd_reply(CMD_MAPIMG, caller, C_OK, _("All map image definitions "
+                                            "deleted."));
+    } else if (ntokens == 2 && sscanf(token[1], "%d", &id) != 0) {
+      /* 'mapimg delete <id>' */
+      if (check) {
+        goto cleanup;
+      }
+
+      if (mapimg_count() != 0 && !mapimg_delete(id)) {
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        ret = FALSE;
+      } else {
+        cmd_reply(CMD_MAPIMG, caller, C_OK, _("Map image definition %d "
+                                              "deleted."), id);
+      }
+    } else {
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Bad argument for 'mapimg delete': '%s'"), token[1]);
+      ret = FALSE;
+    }
+    break;
+
+  case MAPIMG_HELP:
+    show_help(caller, "mapimg");
+    cmd_reply(CMD_MAPIMG, caller, C_COMMENT, horiz_line);
+    cmd_reply(CMD_MAPIMG, caller, C_COMMENT, "%s", mapimg_help());
+    cmd_reply(CMD_MAPIMG, caller, C_COMMENT, horiz_line);
+    break;
+
+  case MAPIMG_SHOW:
+    if (ntokens < 2 || (ntokens == 2 && strcmp(token[1], "all") == 0)) {
+      /* 'mapimg show' or 'mapimg show all' */
+      if (check) {
+        goto cleanup;
+      }
+
+      if (mapimg_count() == 0) {
+        cmd_reply(CMD_MAPIMG, caller, C_OK, _("no map images defined"));
+      } else {
+        show_mapimg(caller, CMD_MAPIMG);
+      }
+    } else if (ntokens == 2 && sscanf(token[1], "%d", &id) != 0) {
+      char str[2048];
+      /* 'mapimg show <id>' */
+      if (check) {
+        goto cleanup;
+      }
+
+      if (mapimg_show(id, str, sizeof(str), TRUE)) {
+        cmd_reply(CMD_MAPIMG, caller, C_OK, "%s", str);
+      } else {
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        ret = FALSE;
+      }
+    } else {
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Bad argument for 'mapimg show': '%s'"), token[1]);
+      ret = FALSE;
+    }
+    break;
+
+  case MAPIMG_COLORTEST:
+    if (check) {
+      goto cleanup;
+    }
+
+    mapimg_colortest(game.server.save_name);
+    cmd_reply(CMD_MAPIMG, caller, C_OK, _("Map color test images created."));
+    break;
+
+  case MAPIMG_CREATE:
+    if (ntokens < 2) {
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Missing argument for 'mapimg create'"));
+      ret = FALSE;
+      goto cleanup;
+    }
+
+    if (strcmp(token[1], "all") == 0) {
+      /* 'mapimg create all' */
+      if (check) {
+        goto cleanup;
+      }
+
+      for (id = 0; id < mapimg_count(); id++) {
+        struct mapdef *pmapdef = mapimg_isvalid(id);
+        if (pmapdef != NULL) {
+          mapimg_create(pmapdef, TRUE, game.server.save_name);
+        } else {
+          cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Error creating map image %d: %s"), id, mapimg_error());
+          ret = FALSE;
+        }
+      }
+    } else if (sscanf(token[1], "%d", &id) != 0) {
+      struct mapdef *pmapdef;
+
+      /* 'mapimg create <id>' */
+      if (check) {
+        goto cleanup;
+      }
+
+      pmapdef = mapimg_isvalid(id);
+      if (pmapdef != NULL) {
+        mapimg_create(pmapdef, TRUE, game.server.save_name);
+      } else {
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+              _("Error creating map image %d: %s"), id, mapimg_error());
+        ret = FALSE;
+      }
+    } else {
+      cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                _("Bad argument for 'mapimg create': '%s'"), token[1]);
+      ret = FALSE;
+    }
+    break;
+  }
+
+  cleanup:
+
+  free_tokens(token, ntokens);
+
+  return ret;
 }
 
 /**************************************************************************
@@ -5684,6 +5945,23 @@ static void show_teams(struct connection *caller)
 }
 
 /****************************************************************************
+  Show a list of all map image defintions on the command line.
+****************************************************************************/
+static void show_mapimg(struct connection *caller, enum command_id cmd)
+{
+  int id;
+
+  cmd_reply(cmd, caller, C_COMMENT, _("List of map image definitions:"));
+  cmd_reply(cmd, caller, C_COMMENT, horiz_line);
+  for (id = 0; id < mapimg_count(); id++) {
+    char str[MAX_LEN_MAPDEF] = "";
+    mapimg_show(id, str, sizeof(str), FALSE);
+    cmd_reply(cmd, caller, C_COMMENT, _("[%2d] %s"), id, str);
+  }
+  cmd_reply(cmd, caller, C_COMMENT, horiz_line);
+}
+
+/****************************************************************************
   Show a list of all players with the assigned color.
 ****************************************************************************/
 static void show_colors(struct connection *caller)
@@ -5714,14 +5992,16 @@ static void show_colors(struct connection *caller)
 #define SPECENUM_VALUE2NAME "delegations"
 #define SPECENUM_VALUE3     LIST_IGNORE
 #define SPECENUM_VALUE3NAME "ignored users"
-#define SPECENUM_VALUE4     LIST_PLAYERS
-#define SPECENUM_VALUE4NAME "players"
-#define SPECENUM_VALUE5     LIST_SCENARIOS
-#define SPECENUM_VALUE5NAME "scenarios"
-#define SPECENUM_VALUE6     LIST_TEAMS
-#define SPECENUM_VALUE6NAME "teams"
-#define SPECENUM_VALUE7     LIST_VOTES
-#define SPECENUM_VALUE7NAME "votes"
+#define SPECENUM_VALUE4     LIST_MAPIMG
+#define SPECENUM_VALUE4NAME "map image definitions"
+#define SPECENUM_VALUE5     LIST_PLAYERS
+#define SPECENUM_VALUE5NAME "players"
+#define SPECENUM_VALUE6     LIST_SCENARIOS
+#define SPECENUM_VALUE6NAME "scenarios"
+#define SPECENUM_VALUE7     LIST_TEAMS
+#define SPECENUM_VALUE7NAME "teams"
+#define SPECENUM_VALUE8     LIST_VOTES
+#define SPECENUM_VALUE8NAME "votes"
 #include "specenum_gen.h"
 
 /**************************************************************************
@@ -5770,6 +6050,9 @@ static bool show_list(struct connection *caller, char *arg)
     return TRUE;
   case LIST_IGNORE:
     return show_ignore(caller);
+  case LIST_MAPIMG:
+    show_mapimg(caller, CMD_LIST);
+    return TRUE;
   case LIST_PLAYERS:
     show_players(caller);
     return TRUE;
