@@ -271,8 +271,6 @@ int main(int argc, char *argv[])
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
 #endif
-    } else if (is_option("--Ppm", argv[inx])) {
-      srvarg.save_ppm = TRUE;
     } else if ((option = get_option_malloc("--Serverid", argv, &inx, argc))) {
       sz_strlcpy(srvarg.serverid, option);
       free(option);
@@ -368,8 +366,6 @@ int main(int argc, char *argv[])
 	       _("  -s, --saves DIR\tSave games to directory DIR\n"));
     fc_fprintf(stderr,
 	       _("  -S, --Serverid ID\tSets the server id to ID\n"));
-    fc_fprintf(stderr,
-	     _("  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"));
     fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fc_fprintf(stderr,
 	       _("  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"));
