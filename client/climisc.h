@@ -133,6 +133,9 @@ void client_player_init(struct player *pplayer);
 
 void client_player_maps_reset(void);
 
+bool mapimg_client_define(void);
+bool mapimg_client_createmap(const char *filename);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

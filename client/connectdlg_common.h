@@ -30,7 +30,7 @@ bool is_server_running(void);
 bool can_client_access_hack(void);
 
 void send_client_wants_hack(const char *filename);
-void send_save_game(char *filename);
+void send_save_game(const char *filename);
 
 void set_ruleset(const char *ruleset);
 

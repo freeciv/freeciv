@@ -157,7 +157,23 @@ static void save_game_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void save_game_as_callback(GtkAction *action, gpointer data)
 {
-  popup_save_dialog(FALSE);
+  save_game_dialog_popup();
+}
+
+/****************************************************************************
+  Action "SAVE_MAPIMG" callback.
+****************************************************************************/
+static void save_mapimg_callback(GtkAction *action, gpointer data)
+{
+  mapimg_client_save(NULL);
+}
+
+/****************************************************************************
+  Action "SAVE_MAPIMG_AS" callback.
+****************************************************************************/
+static void save_mapimg_as_callback(GtkAction *action, gpointer data)
+{
+  save_mapimg_dialog_popup();
 }
 
 /****************************************************************
@@ -797,7 +813,7 @@ static void scenario_properties_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void save_scenario_callback(GtkAction *action, gpointer data)
 {
-  popup_save_dialog(TRUE);
+  save_scenario_dialog_popup();
 }
 
 /****************************************************************
@@ -1256,6 +1272,10 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(save_game_callback)},
       {"GAME_SAVE_AS", GTK_STOCK_SAVE_AS, _("Save Game _As..."),
        NULL, NULL, G_CALLBACK(save_game_as_callback)},
+      {"MAPIMG_SAVE", NULL, _("Save Map _Image"),
+       NULL, NULL, G_CALLBACK(save_mapimg_callback)},
+      {"MAPIMG_SAVE_AS", NULL, _("Save _Map Image As ..."),
+       NULL, NULL, G_CALLBACK(save_mapimg_as_callback)},
       {"LEAVE", NULL, _("_Leave"),
        NULL, NULL, G_CALLBACK(leave_callback)},
       {"QUIT", GTK_STOCK_QUIT, _("_Quit"),

@@ -14,6 +14,8 @@
       <menuitem action="RELOAD_TILESET" />
       <menuitem action="GAME_SAVE" />
       <menuitem action="GAME_SAVE_AS" />
+      <menuitem action="MAPIMG_SAVE" />
+      <menuitem action="MAPIMG_SAVE_AS" />
       <separator />
       <menuitem action="LEAVE" />
       <menuitem action="QUIT" />

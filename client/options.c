@@ -49,6 +49,7 @@
 #include "audio.h"
 #include "cityrepdata.h"
 #include "client_main.h"
+#include "climisc.h"
 #include "connectdlg_common.h"
 #include "global_worklist.h"
 #include "mapview_common.h"
@@ -137,6 +138,21 @@ bool draw_unit_shields = TRUE;
 bool player_dlg_show_dead_players = TRUE;
 bool reqtree_show_icons = TRUE;
 bool reqtree_curved_lines = FALSE;
+
+/* options for map images */
+char mapimg_format[64];
+int mapimg_zoom = 2;
+/* See the definition of MAPIMG_LAYER in mapimg.h. */
+bool mapimg_layer[MAPIMG_LAYER_COUNT] = {
+  FALSE, /* a - MAPIMG_LAYER_AREA */
+  TRUE,  /* b - MAPIMG_LAYER_BORDERS */
+  TRUE,  /* c - MAPIMG_LAYER_CITIES */
+  TRUE,  /* f - MAPIMG_LAYER_FOGOFWAR */
+  TRUE,  /* k - MAPIMG_LAYER_KNOWLEDGE */
+  TRUE,  /* t - MAPIMG_LAYER_TERRAIN */
+  TRUE   /* u - MAPIMG_LAYER_UNITS */
+};
+char mapimg_filename[512];
 
 /* gui-gtk-2.0 client specific options. */
 char gui_gtk2_default_theme_name[512] = FC_GTK_DEFAULT_THEME_NAME;
@@ -1180,6 +1196,7 @@ enum client_option_category {
   COC_OVERVIEW,
   COC_SOUND,
   COC_INTERFACE,
+  COC_MAPIMG,
   COC_NETWORK,
   COC_FONT,
   COC_MAX
@@ -1622,6 +1639,7 @@ static void view_option_changed_callback(struct option *poption);
 static void mapview_redraw_callback(struct option *poption);
 static void voteinfo_bar_callback(struct option *poption);
 static void font_changed_callback(struct option *poption);
+static void mapimg_changed_callback(struct option *poption);
 
 static struct client_option client_options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -1996,6 +2014,52 @@ static struct client_option client_options[] = {
                      "overview."),
                   COC_OVERVIEW, GUI_STUB, TRUE, overview_redraw_callback),
 
+  /* options for map images */
+  GEN_STR_LIST_OPTION(mapimg_format,
+                      N_("Image Format"),
+                      N_("The toolkit and the image format used for map "
+                         "images."),
+                      COC_MAPIMG, GUI_STUB, NULL, mapimg_get_format_list,
+                      NULL),
+  GEN_INT_OPTION(mapimg_zoom,
+                 N_("Zoom factor for map images"),
+                 N_("This value defines the zoom for map images."),
+                 COC_MAPIMG, GUI_STUB, 2, 1, 5, mapimg_changed_callback),
+  GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_AREA],
+                  N_("Show area within borders"),
+                  N_("If this value is activated, the area of all nation "
+                     "are displayed in the color of the nation."),
+                  COC_MAPIMG, GUI_STUB, FALSE, mapimg_changed_callback),
+  GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_BORDERS],
+                  N_("Show borders"),
+                  N_("If this value is activated, the border of the "
+                     "territories are displayed in the map image."),
+                  COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
+  GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_CITIES],
+                  N_("Show cities"),
+                  N_("If this value is activated, the cities are displayed "
+                     "in the map image."),
+                  COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
+  GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_FOGOFWAR],
+                  N_("Show fogofwar"),
+                  N_("If this value is activated, the map image shows the "
+                     "range of teh for of war."),
+                  COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
+  GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_TERRAIN],
+                  N_("Show full terrain"),
+                  N_("If this value is activated, the different terrains "
+                     "are displayed."),
+                  COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
+  GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_UNITS],
+                  N_("Show units"),
+                  N_("If this value is activated, the units are displayed "
+                     "in the map image."),
+                  COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
+  GEN_STR_OPTION(mapimg_filename,
+                 N_("Map image file name"),
+                 N_("The file name for the map image."),
+                 COC_MAPIMG, GUI_STUB, GUI_DEFAULT_MAPIMG_FILENAME, NULL),
+
   /* gui-gtk-2.0 client specific options. */
   GEN_BOOL_OPTION(gui_gtk2_map_scrollbars, N_("Show map scrollbars"),
                   N_("Disable this option to hide the scrollbars on the "
@@ -2309,6 +2373,8 @@ static const char *client_optset_category_name(int category)
     return _("Sound");
   case COC_INTERFACE:
     return _("Interface");
+  case COC_MAPIMG:
+    return _("Map Image");
   case COC_NETWORK:
     return _("Network");
   case COC_FONT:
@@ -5025,4 +5091,19 @@ static void font_changed_callback(struct option *poption)
 {
   fc_assert_ret(OT_FONT == option_type(OPTION(poption)));
   gui_update_font(option_font_target(poption), option_font_get(poption));
+}
+
+/****************************************************************************
+  Callback for mapimg options.
+****************************************************************************/
+static void mapimg_changed_callback(struct option *poption)
+{
+  if (!mapimg_client_define()) {
+    log_normal("Error setting the value for %s (%s). Restoring the default "
+               "value.", option_name(poption), mapimg_error());
+
+    /* Reset the value to the default value. */
+    fc_assert_ret(TRUE == option_reset(poption));
+    fc_assert_ret(TRUE == mapimg_client_define());
+  }
 }

@@ -44,6 +44,7 @@
 #include "game.h"
 #include "idex.h"
 #include "map.h"
+#include "mapimg.h"
 #include "netintf.h"
 #include "packets.h"
 #include "player.h"
@@ -91,6 +92,25 @@
 #include "voteinfo.h"
 
 #include "client_main.h"
+
+
+static enum known_type mapimg_client_tile_known(const struct tile *ptile,
+                                                const struct player *pplayer,
+                                                bool knowledge);
+static struct terrain
+  *mapimg_client_tile_terrain(const struct tile *ptile,
+                              const struct player *pplayer, bool knowledge);
+static struct player *mapimg_client_tile_owner(const struct tile *ptile,
+                                               const struct player *pplayer,
+                                               bool knowledge);
+static struct player *mapimg_client_tile_city(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge);
+static struct player *mapimg_client_tile_unit(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge);
+static int mapimg_client_plrcolor_count(void);
+static struct rgbcolor *mapimg_client_plrcolor_get(int i);
 
 static void fc_interface_init_client(void);
 
@@ -202,6 +222,10 @@ static void client_game_init(void)
   voteinfo_queue_init();
   server_options_init();
   update_queue_init();
+  mapimg_init(mapimg_client_tile_known, mapimg_client_tile_terrain,
+              mapimg_client_tile_owner, mapimg_client_tile_city,
+              mapimg_client_tile_unit, mapimg_client_plrcolor_count,
+              mapimg_client_plrcolor_get);
 }
 
 /**************************************************************************
@@ -211,6 +235,7 @@ static void client_game_free(void)
 {
   editgui_popdown_all();
 
+  mapimg_free();
   packhand_free();
   server_options_free();
   voteinfo_queue_free();
@@ -244,6 +269,7 @@ static void client_game_reset(void)
   agents_free();
 
   game_reset();
+  mapimg_reset();
 
   attribute_init();
   agents_init();
@@ -1072,4 +1098,100 @@ static void fc_interface_init_client(void)
   /* Keep this function call at the end. It checks if all required functions
      are defined. */
   fc_interface_init();
+}
+
+/***************************************************************************
+  Helper function for the mapimg module - tile knowledge.
+****************************************************************************/
+static enum known_type mapimg_client_tile_known(const struct tile *ptile,
+                                                const struct player *pplayer,
+                                                bool knowledge)
+{
+  if (client_is_global_observer()) {
+    return TILE_KNOWN_SEEN;
+  }
+
+  return tile_get_known(ptile, pplayer);
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - tile terrain.
+****************************************************************************/
+static struct terrain *
+  mapimg_client_tile_terrain(const struct tile *ptile,
+                             const struct player *pplayer, bool knowledge)
+{
+  return tile_terrain(ptile);
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - tile owner.
+****************************************************************************/
+static struct player *mapimg_client_tile_owner(const struct tile *ptile,
+                                               const struct player *pplayer,
+                                               bool knowledge)
+{
+  return tile_owner(ptile);
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - city owner.
+****************************************************************************/
+static struct player *mapimg_client_tile_city(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge)
+{
+  struct city *pcity = tile_city(ptile);
+
+  if (!pcity) {
+    return NULL;
+  }
+
+  return city_owner(tile_city(ptile));
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - unit owner.
+****************************************************************************/
+static struct player *mapimg_client_tile_unit(const struct tile *ptile,
+                                              const struct player *pplayer,
+                                              bool knowledge)
+{
+  int unit_count = unit_list_size(ptile->units);
+
+  if (unit_count == 0) {
+    return NULL;
+  }
+
+  return unit_owner(unit_list_get(ptile->units, 0));
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - number of player colors.
+****************************************************************************/
+static int mapimg_client_plrcolor_count(void)
+{
+  return player_count();
+}
+
+/****************************************************************************
+  Helper function for the mapimg module - one player color. For the client
+  only the colors of the defined players are shown.
+****************************************************************************/
+static struct rgbcolor *mapimg_client_plrcolor_get(int i)
+{
+  int count = 0;
+
+  if (0 > i || i > player_count()) {
+    return NULL;
+  }
+
+  players_iterate(pplayer) {
+    if (count == i) {
+      return pplayer->rgb;
+    }
+    count++;
+  } players_iterate_end;
+
+  return NULL;
 }

@@ -24,6 +24,7 @@ extern "C" {
 #include "events.h"
 #include "fc_types.h"           /* enum gui_type */
 #include "featured_text.h"      /* struct ft_color */
+#include "mapimg.h"
 
 
 struct video_mode {
@@ -113,6 +114,12 @@ extern bool draw_unit_shields;
 extern bool player_dlg_show_dead_players;
 extern bool reqtree_show_icons;
 extern bool reqtree_curved_lines;
+
+/* options for map images */
+extern char mapimg_format[64];
+extern int mapimg_zoom;
+extern bool mapimg_layer[MAPIMG_LAYER_COUNT];
+extern char mapimg_filename[512];
 
 /* gui-gtk-2.0 client specific options. */
 #define FC_GTK_DEFAULT_THEME_NAME "Freeciv"
@@ -329,9 +336,10 @@ extern int messages_where[];	/* OR-ed MW_ values [E_COUNT] */
 #define GUI_GTK2_CITYDLG_MIN_YSIZE      128
 #define GUI_GTK2_CITYDLG_MAX_YSIZE      4096
 
-
 #define GUI_GTK_OVERVIEW_MIN_XSIZE      160
 #define GUI_GTK_OVERVIEW_MIN_YSIZE      100
+
+#define GUI_DEFAULT_MAPIMG_FILENAME     "freeciv"
 
 #ifdef __cplusplus
 }

@@ -29,7 +29,11 @@ GtkWidget *create_network_page(void);
 
 GtkWidget *create_statusbar(void);
 void append_network_statusbar(const char *text, bool force);
-void popup_save_dialog(bool scenario);
+
+void save_game_dialog_popup(void);
+void save_scenario_dialog_popup(void);
+void save_mapimg_dialog_popup(void);
+void mapimg_client_save(const char *filename);
 
 #endif  /* FC__PAGES_H */
 

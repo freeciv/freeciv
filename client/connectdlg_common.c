@@ -516,7 +516,7 @@ void handle_single_want_hack_reply(bool you_have_hack)
 /**************************************************************** 
 send server command to save game.
 *****************************************************************/ 
-void send_save_game(char *filename)
+void send_save_game(const char *filename)
 {   
   if (filename) {
     send_chat_printf("/save %s", filename);
