@@ -15,6 +15,10 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_MAPIMG_MAGICKWAND
+  #include <wand/MagickWand.h>
+#endif /* HAVE_MAPIMG_MAGICKWAND */
+
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
@@ -327,6 +331,13 @@ static void mapdef_destroy(struct mapdef *pmapdef);
 /* == images == */
 struct mapdef;
 
+/* Some lengths used for the images created by the magickwand toolkit. */
+#define IMG_BORDER_HEIGHT 5
+#define IMG_BORDER_WIDTH IMG_BORDER_HEIGHT
+#define IMG_SPACER_HEIGHT 5
+#define IMG_LINE_HEIGHT 5
+#define IMG_TEXT_HEIGHT 12
+
 struct img {
   struct mapdef *def; /* map definition */
   int turn; /* save turn */
@@ -363,6 +374,10 @@ static void img_plot(struct img *pimg, const struct tile *ptile,
                      const struct rgbcolor *pcolor, const bv_pixel pixel);
 static bool img_save(const struct img *pimg, const char *mapimgfile);
 static bool img_save_ppm(const struct img *pimg, const char *mapimgfile);
+#ifdef HAVE_MAPIMG_MAGICKWAND
+static bool img_save_magickwand(const struct img *pimg,
+                                const char *mapimgfile);
+#endif /* HAVE_MAPIMG_MAGICKWAND */
 static bool img_filename(const char *mapimgfile, enum imageformat format,
                          char *filename, size_t filename_len);
 static void img_createmap(struct img *pimg);
@@ -386,12 +401,23 @@ static struct toolkit img_toolkits[] = {
   GEN_TOOLKIT(IMGTOOL_PPM, IMGFORMAT_PPM, IMGFORMAT_PPM,
               img_save_ppm,
               N_("Standard ppm files"))
+#ifdef HAVE_MAPIMG_MAGICKWAND
+  GEN_TOOLKIT(IMGTOOL_MAGICKWAND, IMGFORMAT_GIF,
+              IMGFORMAT_GIF + IMGFORMAT_PNG + IMGFORMAT_PPM + IMGFORMAT_JPG,
+              img_save_magickwand,
+              N_("ImageMagick"))
+#endif /* HAVE_MAPIMG_MAGICKWAND */
 };
 
 static const int img_toolkits_count = ARRAY_SIZE(img_toolkits);
 
-#define MAPIMG_DEFAULT_IMGFORMAT IMGFORMAT_PPM
-#define MAPIMG_DEFAULT_IMGTOOL   IMGTOOL_PPM
+#ifdef HAVE_MAPIMG_MAGICKWAND
+  #define MAPIMG_DEFAULT_IMGFORMAT IMGFORMAT_GIF
+  #define MAPIMG_DEFAULT_IMGTOOL   IMGTOOL_MAGICKWAND
+#else
+  #define MAPIMG_DEFAULT_IMGFORMAT IMGFORMAT_PPM
+  #define MAPIMG_DEFAULT_IMGTOOL   IMGTOOL_PPM
+#endif /* HAVE_MAPIMG_MAGICKWAND */
 
 static const struct toolkit *img_toolkit_get(enum imagetool tool);
 
@@ -1941,6 +1967,238 @@ static bool img_save(const struct img *pimg, const char *mapimgfile)
 
   return toolkit->img_save(pimg, mapimgfile);
 }
+
+/****************************************************************************
+  Save an image using magickwand as toolkit. This allows different file
+  formats.
+
+  Image structure:
+
+  [             0]
+                    border
+  [+IMG_BORDER_HEIGHT]
+                    title
+  [+  IMG_TEXT_HEIGHT]
+                    space (only if count(displayed players) > 0)
+  [+IMG_SPACER_HEIGHT]
+                    player line (only if count(displayed players) > 0)
+  [+  IMG_LINE_HEIGHT]
+                    space
+  [+IMG_SPACER_HEIGHT]
+                    map
+  [+   map_height]
+                    border
+  [+IMG_BORDER_HEIGHT]
+
+****************************************************************************/
+#ifdef HAVE_MAPIMG_MAGICKWAND
+#define SET_COLOR(str, pcolor)                                              \
+  fc_snprintf(str, sizeof(str), "rgb(%d,%d,%d)",                            \
+              pcolor->r, pcolor->g, pcolor->b);
+static bool img_save_magickwand(const struct img *pimg,
+                                const char *mapimgfile)
+{
+  const struct rgbcolor *pcolor = NULL;
+  struct player *pplr_now = NULL, *pplr_only = NULL;
+  bool ret = TRUE;
+  char imagefile[MAX_LEN_PATH];
+  char str_color[32], comment[2048] = "", title[258];
+  unsigned long img_width, img_height, map_width, map_height;
+  int x, y, xxx, yyy, row, i, index, plrwidth, plroffset, textoffset;
+  bool withplr = BV_ISSET_ANY(pimg->def->player.checked_plrbv);
+
+  if (!img_filename(mapimgfile, pimg->def->format, imagefile,
+                    sizeof(imagefile))) {
+    MAPIMG_LOG(_("Error generating the file name."));
+    return FALSE;
+  }
+
+  MagickWand *mw;
+  PixelIterator *imw;
+  PixelWand **pmw, *pw;
+  DrawingWand *dw;
+
+  MagickWandGenesis();
+
+  mw = NewMagickWand();
+  dw = NewDrawingWand();
+  pw = NewPixelWand();
+
+  map_width = pimg->imgsize.x * pimg->def->zoom;
+  map_height = pimg->imgsize.y * pimg->def->zoom;
+
+  img_width = map_width + 2 * IMG_BORDER_WIDTH;
+  img_height = map_height + 2 * IMG_BORDER_HEIGHT + IMG_TEXT_HEIGHT
+               + IMG_SPACER_HEIGHT + (withplr ? 2 * IMG_SPACER_HEIGHT : 0);
+
+  fc_snprintf(title, sizeof(title), "%s (%s)", pimg->title, mapimgfile);
+
+  SET_COLOR(str_color, imgcolor_special(IMGCOLOR_BACKGROUND));
+  PixelSetColor(pw, str_color);
+  MagickNewImage(mw, img_width, img_height, pw);
+
+  textoffset = 0;
+  if (withplr) {
+    if (bvplayers_count(pimg->def) == 1) {
+      /* only one player */
+      for (i = 0; i < player_slot_count(); i++) {
+        if (BV_ISSET(pimg->def->player.checked_plrbv, i)) {
+          pplr_only = player_by_number(i);
+          break;
+        }
+      }
+    }
+
+    if (pplr_only) {
+      unsigned long plr_color_square = IMG_TEXT_HEIGHT;
+
+      textoffset += IMG_TEXT_HEIGHT + IMG_BORDER_HEIGHT;
+
+      pcolor = imgcolor_player(player_index(pplr_only));
+      SET_COLOR(str_color, pcolor);
+
+      /* Show the color of the selected player. */
+      imw = NewPixelRegionIterator(mw, IMG_BORDER_WIDTH, IMG_BORDER_HEIGHT,
+                                   IMG_TEXT_HEIGHT, IMG_TEXT_HEIGHT);
+      /* y coordinate */
+      for (y = 0; y < IMG_TEXT_HEIGHT; y++) {
+        pmw = PixelGetNextIteratorRow(imw, &plr_color_square);
+        /* x coordinate */
+        for (x = 0; x < IMG_TEXT_HEIGHT; x++) {
+          PixelSetColor(pmw[x], str_color);
+        }
+        PixelSyncIterator(imw);
+      }
+      DestroyPixelIterator(imw);
+    }
+
+    /* Show a line displaying the colors of alive players */
+    plrwidth = map_width / player_slot_count();
+    plroffset = (map_width - plrwidth * player_slot_count()) / 2;
+
+    imw = NewPixelRegionIterator(mw, IMG_BORDER_WIDTH,
+                                 IMG_BORDER_HEIGHT + IMG_TEXT_HEIGHT
+                                 + IMG_SPACER_HEIGHT, map_width,
+                                 IMG_LINE_HEIGHT);
+    /* y coordinate */
+    for (y = 0; y < IMG_LINE_HEIGHT; y++) {
+      pmw = PixelGetNextIteratorRow(imw, &map_width);
+
+      /* x coordinate */
+      for (x = plroffset; x < map_width; x++) {
+        i = (x - plroffset) / plrwidth;
+        pplr_now = player_by_number(i);
+
+        if (i > player_count() || pplr_now == NULL || !pplr_now->is_alive) {
+          continue;
+        }
+
+        if (BV_ISSET(pimg->def->player.checked_plrbv, i)) {
+          /* The selected player is alive - display it. */
+          pcolor = imgcolor_player(i);
+          SET_COLOR(str_color, pcolor);
+          PixelSetColor(pmw[x], str_color);
+        } else if (pplr_only != NULL) {
+          /* Display the state between pplr_only and pplr_now:
+           *  - if allied:
+           *      - show each second pixel
+           *  - if pplr_now does shares map with pplr_onlyus:
+           *      - show every other line of pixels
+           * This results in the following patterns (# = color):
+           *   ######      # # #       ######
+           *                # # #       # # #
+           *   ######      # # #       ######
+           *                # # #       # # #
+           *   shared      allied      shared vision
+           *   vision                   + allied */
+          if ((pplayers_allied(pplr_now, pplr_only) && (x + y) % 2 == 0)
+              || (y % 2 == 0 && gives_shared_vision(pplr_now, pplr_only))) {
+            pcolor = imgcolor_player(i);
+            SET_COLOR(str_color, pcolor);
+            PixelSetColor(pmw[x], str_color);
+          }
+        }
+      }
+      PixelSyncIterator(imw);
+    }
+    DestroyPixelIterator(imw);
+  }
+
+  /* Display the image name. */
+  SET_COLOR(str_color, imgcolor_special(IMGCOLOR_TEXT));
+  PixelSetColor(pw, str_color);
+  DrawSetFillColor(dw, pw);
+  DrawSetFont(dw, "Times-New-Roman");
+  DrawSetFontSize(dw, IMG_TEXT_HEIGHT);
+  DrawAnnotation(dw, IMG_BORDER_WIDTH + textoffset,
+                 IMG_TEXT_HEIGHT + IMG_BORDER_HEIGHT,
+                 (unsigned char *)title);
+  MagickDrawImage(mw, dw);
+
+  /* Display the map. */
+  imw = NewPixelRegionIterator(mw, IMG_BORDER_WIDTH,
+                               IMG_BORDER_HEIGHT + IMG_TEXT_HEIGHT
+                               + IMG_SPACER_HEIGHT
+                               + (withplr ? (IMG_LINE_HEIGHT + IMG_SPACER_HEIGHT)
+                                          : 0), map_width, map_height);
+  /* y coordinate */
+  for (y = 0; y < pimg->imgsize.y; y++) {
+    /* zoom for y */
+    for (yyy = 0; yyy < pimg->def->zoom; yyy++) {
+
+      pmw = PixelGetNextIteratorRow(imw, &map_width);
+
+      /* x coordinate */
+      for (x = 0; x < pimg->imgsize.x; x++) {
+        index = img_index(x, y, pimg);
+        pcolor = pimg->map[index];
+
+        if (pcolor != NULL) {
+          SET_COLOR(str_color, pcolor);
+
+          /* zoom for x */
+          for (xxx = 0; xxx < pimg->def->zoom; xxx++) {
+            row = x * pimg->def->zoom + xxx;
+            PixelSetColor(pmw[row], str_color);
+          }
+        }
+      }
+      PixelSyncIterator(imw);
+    }
+  }
+  DestroyPixelIterator(imw);
+
+  cat_snprintf(comment, sizeof(comment), "map definition: %s\n",
+               pimg->def->maparg);
+  if (BV_ISSET_ANY(pimg->def->player.checked_plrbv)) {
+    players_iterate(pplayer) {
+      if (!BV_ISSET(pimg->def->player.checked_plrbv, player_index(pplayer))) {
+        continue;
+      }
+
+      pcolor = imgcolor_player(player_index(pplayer));
+      cat_snprintf(comment, sizeof(comment), "%s\n", img_playerstr(pplayer));
+    } players_iterate_end;
+  }
+  MagickCommentImage(mw, comment);
+
+  if (!MagickWriteImage(mw, imagefile)) {
+    MAPIMG_LOG(_("Error saving map image '%s'."), imagefile);
+    ret = FALSE;
+  } else {
+    log_verbose("Map image saved as '%s'.", imagefile);
+  }
+
+  DestroyDrawingWand(dw);
+  DestroyPixelWand(pw);
+  DestroyMagickWand(mw);
+
+  MagickWandTerminus();
+
+  return ret;
+}
+#undef SET_COLOR
+#endif /* HAVE_MAPIMG_MAGICKWAND */
 
 /****************************************************************************
   Save an image as ppm file (toolkit: ppm).

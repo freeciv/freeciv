@@ -4,7 +4,9 @@ SUBDIRS = aicore
 
 lib_LTLIBRARIES = libfreeciv.la
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/aicore
+AM_CPPFLAGS = \
+	$(MAPIMG_WAND_CFLAGS) \
+	-I$(top_srcdir)/utility -I$(srcdir)/aicore
 
 libfreeciv_la_SOURCES = \
 		ai.c		\

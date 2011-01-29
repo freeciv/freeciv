@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
 	-I$(srcdir)/advisors \
+	$(MAPIMG_WAND_CFLAGS) \
 	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES) \
 	$(FCDB_MYSQL_CFLAGS) $(FCDB_POSTGRES_CFLAGS) $(FCDB_SQLITE3_CFLAGS)
 
@@ -142,6 +143,7 @@ freeciv_server_LDADD = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) \
+ $(MAPIMG_WAND_LIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)

@@ -172,6 +172,40 @@ WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
+dnl map images
+dnl all:                  Autodetect as many as possible [default].
+dnl no:                   No additional toolkits.
+dnl magickwand:           compile magickwand (imagemagick) support.
+dnl comma-separated-list: Detect these or abort.
+AC_ARG_ENABLE(mapimg-toolkit,
+[  --enable-mapimg-toolkit[=no/all/magickwand]
+                          additional map image toolkits to compile
+                          [[default=all]] (no, or list)],
+[toolkits=${enableval}],
+[mapimg_all=yes])
+
+mapimg_all=yes
+mapimg_magickwand=no
+
+dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
+dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
+dnl of the clients and the mapimg toolkits.
+ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
+
+for toolkit in $(echo $toolkits | $SED 's/,/ /g') ; do
+  if test "x$toolkit" = "xall" ; then
+    mapimg_all=yes
+  elif test "x$toolkit" = "xno" ; then
+    mapimg_all=no
+  elif test "x$toolkit" = "xmagickwand" ; then
+    mapimg_magickwand=yes
+  fi
+done
+
+dnl checks for MagickWand mapimg support
+dnl sets MAPIMG_WAND_CFLAGS, MAPIMG_WAND_LIBS
+FC_MAPIMG_MAGICKWAND
+
 dnl no:   Do not compile client.
 dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
@@ -1278,4 +1312,8 @@ AC_MSG_NOTICE([
       mysql:                 $fcdb_mysql
       postgres:              $fcdb_postgres
       sqlite3:               $fcdb_sqlite3
+
+  Map image toolkits:
+    ppm:        built-in
+    MagickWand: $mapimg_magickwand
 ])

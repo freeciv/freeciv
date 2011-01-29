@@ -11,4 +11,7 @@ freeciv_modpack_SOURCES = \
 
 freeciv_modpack_LDFLAGS = $(GUI_gtk2_LDFLAGS)
 
-freeciv_modpack_LDADD = $(top_builddir)/common/libfreeciv.la $(GUI_gtk2_LIBS)
+freeciv_modpack_LDADD = \
+		$(top_builddir)/common/libfreeciv.la \
+		$(MAPIMG_WAND_LIBS) \
+		$(GUI_gtk2_LIBS)
