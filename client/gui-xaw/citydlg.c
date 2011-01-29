@@ -1543,7 +1543,11 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
 
   XtSetSensitive(pdialog->buy_command, city_can_buy(pcity));
-  XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
+  /* FIXME: Should not pass NULL as improvement
+   * to test_player_sell_building_now(). It skips many tests. */
+  XtSetSensitive(pdialog->sell_command,
+                 test_player_sell_building_now(client.conn.playing,
+                                               pcity, NULL) == TR_SUCCESS);
 
   xaw_set_label(pdialog->building_label,
 		city_production_name_translation(pcity));

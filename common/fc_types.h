@@ -367,4 +367,10 @@ enum diplomacy_mode {
 }
 #endif /* __cplusplus */
 
+enum test_result {
+  TR_SUCCESS,
+  TR_OTHER_FAILURE,
+  TR_ALREADY_SOLD
+};
+
 #endif /* FC__FC_TYPES_H */

@@ -2669,12 +2669,8 @@ static void sell_callback(struct impr_type *pimprove, gpointer data)
     return;
   }
 
-  if (pdialog->pcity->did_sell
-      || city_owner(pdialog->pcity) != client.conn.playing) {
-    return;
-  }
-  
-  if (!can_city_sell_building(pdialog->pcity, pimprove)) {
+  if (test_player_sell_building_now(client.conn.playing, pdialog->pcity,
+                                    pimprove) != TR_SUCCESS) {
     return;
   }
 

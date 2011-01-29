@@ -1494,14 +1494,21 @@ void enable_city_dlg_widgets(void)
         set_wstate(pCityDlg->pImprv->pScroll->pDown_Right_Button, FC_WS_NORMAL); /* down */
       }
 
-      if (pCityDlg->pCity->did_sell) {
+      /* There is common function test_player_sell_building_now(),
+       * but we are not using it here, since we want to use set_group_state()
+       * when possible */
+      if (pCityDlg->pCity->did_sell
+          || pCityDlg->pCity->owner != client.conn.playing) {
         set_group_state(pCityDlg->pImprv->pBeginActiveWidgetList,
 		      pCityDlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
       } else {
         struct widget *pTmpWidget = pCityDlg->pImprv->pEndActiveWidgetList;
 
         while (TRUE) {
-	  if (is_wonder(improvement_by_number(MAX_ID - 3000 - pTmpWidget->ID))) {
+          struct impr_type *pimpr = improvement_by_number(MAX_ID - 3000 -
+                                                          pTmpWidget->ID);
+
+          if (!can_city_sell_building(pCityDlg->pCity, pimpr)) {
 	    set_wstate(pTmpWidget, FC_WS_DISABLED);
 	  } else {
 	    set_wstate(pTmpWidget, FC_WS_NORMAL);

@@ -415,7 +415,12 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   const char *descr = city_production_name_translation(pcity);
   
   EnableWindow(pdialog->buy_but, city_can_buy(pcity));
-  EnableWindow(pdialog->sell_but, !pcity->did_sell);
+
+ /* FIXME: Should not pass NULL as improvement
+  * to test_player_sell_building_now(). It skips many tests. */
+  EnableWindow(pdialog->sell_but,
+               test_player_sell_building_now(client.conn.playing,
+                                             pcity, NULL) == TR_SUCCESS);
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
   

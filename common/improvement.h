@@ -127,6 +127,9 @@ bool is_special_improvement(const struct impr_type *pimprove);
 bool can_sell_building(struct impr_type *pimprove);
 bool can_city_sell_building(const struct city *pcity,
 			    struct impr_type *pimprove);
+enum test_result test_player_sell_building_now(struct player *pplayer,
+                                               struct city *pcity,
+                                               struct impr_type *pimprove);
 
 /* Macros for struct packet_game_info::great_wonder_owners[]. */
 #define WONDER_DESTROYED -2     /* Used as player id. */

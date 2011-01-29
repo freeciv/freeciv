@@ -251,14 +251,19 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 			     struct impr_type *pimprove)
 {
-  if (pcity->did_sell) {
+  enum test_result sell_result;
+
+  sell_result = test_player_sell_building_now(pplayer, pcity, pimprove);
+
+  if (sell_result == TR_ALREADY_SOLD) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
 		  _("You have already sold something here this turn."));
     return;
   }
 
-  if (!can_city_sell_building(pcity, pimprove))
+  if (sell_result != TR_SUCCESS) {
     return;
+  }
 
   pcity->did_sell=TRUE;
   notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
