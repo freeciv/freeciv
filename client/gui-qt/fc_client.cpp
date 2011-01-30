@@ -21,6 +21,7 @@
 #include "clinet.h"
 
 // gui-qt
+#include "chatline.h"
 #include "sprite.h"
 
 #include "fc_client.h"
@@ -79,6 +80,9 @@ fc_client::~fc_client()
 ****************************************************************************/
 void fc_client::main(QApplication *qapp)
 {
+  real_output_window_append(_("This is Qt-client for Freeciv."), NULL, NULL);
+  chat_welcome_message();
+
   set_client_state(C_S_DISCONNECTED);
 
   startTimer(TIMER_INTERVAL);
