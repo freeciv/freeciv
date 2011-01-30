@@ -120,6 +120,7 @@ flag_files =				\
 		etruscan.png		\
 		europe.png		\
 		euskadi.png		\
+		evenkia.png		\
 		fiji.png		\
 		finland.png		\
 		flanders.png		\
@@ -532,6 +533,7 @@ flag_files =				\
 		etruscan-large.png		\
 		europe-large.png		\
 		euskadi-large.png		\
+		evenkia-large.png		\
 		fiji-large.png		\
 		finland-large.png		\
 		flanders-large.png		\
@@ -946,6 +948,7 @@ shield_files =					\
 		etruscan-shield.png		\
 		europe-shield.png		\
 		euskadi-shield.png		\
+		evenkia-shield.png		\
 		fiji-shield.png			\
 		finland-shield.png		\
 		flanders-shield.png		\
@@ -1358,6 +1361,7 @@ shield_files =					\
 		etruscan-shield-large.png		\
 		europe-shield-large.png		\
 		euskadi-shield-large.png		\
+		evenkia-shield-large.png		\
 		fiji-shield-large.png			\
 		finland-shield-large.png		\
 		flanders-shield-large.png		\
@@ -1772,6 +1776,7 @@ svg_files = 				\
 		etruscan.svg		\
 		europe.svg		\
 		euskadi.svg		\
+		evenkia.svg		\
 		fiji.svg		\
 		finland.svg		\
 		flanders.svg		\

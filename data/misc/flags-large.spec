@@ -129,6 +129,7 @@ sprites =
 		"f.etruscan", "flags/etruscan-large"
 		"f.europe", "flags/europe-large"
 		"f.euskadi", "flags/euskadi-large"
+		"f.evenkia", "flags/evenkia-large"
 		"f.fiji", "flags/fiji-large"
 		"f.finland", "flags/finland-large"
 		"f.flanders", "flags/flanders-large"

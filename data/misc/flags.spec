@@ -127,6 +127,7 @@ artists = "
    Etruscan		J.M. Maalderink
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
+   Evenkia		Mysid (Wikimedia Commons)
    Fiji			Denelson83, Vzb83, Zachary Harden, et al. (Wikimedia Commons)
    Finland		SKopp (Wikimedia Commons)
    Flanders		Cedric de Launois (Open Clip Art)
@@ -545,6 +546,7 @@ sprites =
 		"f.etruscan", "flags/etruscan"
 		"f.europe", "flags/europe"
 		"f.euskadi", "flags/euskadi"
+		"f.evenkia", "flags/evenkia"
 		"f.fiji", "flags/fiji"
 		"f.finland", "flags/finland"
 		"f.flanders", "flags/flanders"
