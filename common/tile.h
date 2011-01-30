@@ -160,7 +160,7 @@ void tile_virtual_destroy(struct tile *vtile);
 
 void *tile_hash_key(const struct tile *ptile);
 
-void tile_set_label(struct tile *ptile, const char *label);
+bool tile_set_label(struct tile *ptile, const char *label);
 
 #ifdef __cplusplus
 }

@@ -1640,6 +1640,7 @@ PACKET_EDIT_TILE = 206; cs, handle-per-conn, handle-via-packet
   RESOURCE resource;
   TERRAIN terrain;
   NATION startpos_nation;
+  STRING label[MAX_LEN_NAME];
 end
 
 PACKET_EDIT_UNIT_CREATE = 207; cs, handle-per-conn, dsend

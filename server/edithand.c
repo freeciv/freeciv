@@ -487,6 +487,11 @@ void handle_edit_tile(struct connection *pc,
     changed = TRUE;
   }
 
+  /* Handle changes in label */
+  if (tile_set_label(ptile, packet->label)) {
+    changed = TRUE;
+  }
+
   /* TODO: Handle more property edits. */
 
 

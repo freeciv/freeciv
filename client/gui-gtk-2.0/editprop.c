@@ -311,6 +311,7 @@ enum object_property_ids {
   OPID_TILE_SPECIALS,
   OPID_TILE_BASES,
   OPID_TILE_VISION, /* tile_known and tile_seen */
+  OPID_TILE_LABEL,
 
   OPID_STARTPOS_IMAGE,
   OPID_STARTPOS_XY,
@@ -1507,6 +1508,13 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         } vision_layer_iterate_end;
         pv->must_free = TRUE;
         break;
+      case OPID_TILE_LABEL:
+        if (ptile->label != NULL) {
+          pv->data.v_const_string = ptile->label;
+        } else {
+          pv->data.v_const_string = "";
+        }
+        break;
       default:
         log_error("%s(): Unhandled request for value of property %d "
                   "(%s) from object of type \"%s\".", __FUNCTION__,
@@ -2274,6 +2282,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       case OPID_TILE_BASES:
         packet->bases = pv->data.v_bv_bases;
         return;
+      case OPID_TILE_LABEL:
+        sz_strlcpy(packet->label, pv->data.v_string);
+        return;
       default:
         break;
       }
@@ -2793,6 +2804,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_NAME:
   case OPID_PLAYER_NAME:
   case OPID_GAME_SCENARIO_NAME:
+  case OPID_TILE_LABEL:
     entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(entry), 8);
     g_signal_connect(entry, "changed",
@@ -2970,6 +2982,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_CITY_NAME:
   case OPID_PLAYER_NAME:
   case OPID_GAME_SCENARIO_NAME:
+  case OPID_TILE_LABEL:
     entry = objprop_get_child_widget(op, "entry");
     if (pv) {
       gtk_entry_set_text(GTK_ENTRY(entry), pv->data.v_string);
@@ -4038,6 +4051,9 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_VISION, _("Vision"),
             OPF_HAS_WIDGET, VALTYPE_TILE_VISION_DATA);
+    /* TRANS: Tile property "Label" label in editor */
+    ADDPROP(OPID_TILE_LABEL, Q_("?property:Label"),
+            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
     return;
 
   case OBJTYPE_STARTPOS:
@@ -5694,7 +5710,7 @@ static struct property_editor *property_editor_new(void)
   win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title(GTK_WINDOW(win), _("Property Editor"));
   gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
-  gtk_window_set_default_size(GTK_WINDOW(win), 780, 500);
+  gtk_window_set_default_size(GTK_WINDOW(win), 780, 560);
   gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_transient_for(GTK_WINDOW(win), GTK_WINDOW(toplevel));
   gtk_window_set_destroy_with_parent(GTK_WINDOW(win), TRUE);

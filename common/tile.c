@@ -892,16 +892,30 @@ void *tile_hash_key(const struct tile *ptile)
 }
 
 /****************************************************************************
-  Sets label for tile.
+  Sets label for tile. Returns whether label changed.
 ****************************************************************************/
-void tile_set_label(struct tile *ptile, const char *label)
+bool tile_set_label(struct tile *ptile, const char *label)
 {
+  bool changed = FALSE;
+
+  /* Handle empty label as NULL label */
+  if (label != NULL && label[0] == '\0') {
+    label = NULL;
+  }
+
   if (ptile->label != NULL) {
+    if (label == NULL) {
+      changed = TRUE;
+    }
     FC_FREE(ptile->label);
     ptile->label = NULL;
+  } else if (label != NULL) {
+    changed = TRUE;
   }
 
   if (label != NULL) {
     ptile->label = fc_strdup(label);
   }
+
+  return changed;
 }
