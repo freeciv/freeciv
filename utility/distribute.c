@@ -116,6 +116,5 @@ void distribute(int number, int groups, int *ratios, int *result)
     number -= result[i];
   }
   fc_assert(number == 0);
-#endif
+#endif /* DEBUG */
 }
-

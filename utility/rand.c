@@ -35,6 +35,7 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "log.h"
 #include "support.h"            /* TRUE, FALSE */
 

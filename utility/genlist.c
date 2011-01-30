@@ -85,7 +85,7 @@ struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
   pgenlist->nelements = 0;
   pgenlist->head_link = NULL;
   pgenlist->tail_link = NULL;
-#endif
+#endif /* ZERO_VARIABLES_FOR_SEARCHING */
   pgenlist->free_data_func = (free_data_func ? free_data_func
                               : genlist_default_free_data_func);
 

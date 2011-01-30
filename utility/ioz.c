@@ -50,6 +50,7 @@
 #include <lzma.h>
 #endif
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -352,7 +353,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp = NULL;
     }
     return fp;
-#endif
+#endif /* HAVE_LIBBZ2 */
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     /*  gz files are binary files, so we should add "b" to mode! */
@@ -366,7 +367,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp = NULL;
     }
     return fp;
-#endif
+#endif /* HAVE_LIBZ */
   case FZ_PLAIN:
     fp->u.plain = fc_fopen(filename, mode);
     if (!fp->u.plain) {
@@ -437,13 +438,13 @@ int fz_fclose(fz_FILE *fp)
     fclose(fp->u.bz2.plain);
     free(fp);
     return BZ_OK == error ? 0 : 1;
-#endif
+#endif /* HAVE_LIBBZ2 */
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     error = gzclose(fp->u.zlib);
     free(fp);
     return 0 > error ? error : 0; /* Only negative Z values are errors. */
-#endif
+#endif /* HAVE_LIBZ */
   case FZ_PLAIN:
     error = fclose(fp->u.plain);
     free(fp);
@@ -596,11 +597,11 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
       buffer[i] = '\0';
       return retval;
     }
-#endif
+#endif /* HAVE_LIBBZ2 */
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     return gzgets(fp->u.zlib, buffer, size);
-#endif
+#endif /* HAVE_LIBZ */
   case FZ_PLAIN:
     return fgets(buffer, size, fp->u.plain);
   }
@@ -613,6 +614,10 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 
 #ifdef HAVE_LIBLZMA
 
+/***************************************************************
+  Helper function to do given compression action and writing
+  results from output buffer to file.
+***************************************************************/
 static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
 {
   do {
@@ -705,7 +710,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
         return strlen(buffer);
       }
     }
-#endif
+#endif /* HAVE_LIBBZ2 */
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     {
@@ -720,7 +725,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
       }
       return gzwrite(fp->u.zlib, buffer, (unsigned int)strlen(buffer));
     }
-#endif
+#endif /* HAVE_LIBZ */
   case FZ_PLAIN:
     va_start(ap, format);
     num = vfprintf(fp->u.plain, format, ap);
@@ -757,7 +762,7 @@ int fz_ferror(fz_FILE *fp)
   case FZ_BZIP2:
     return (BZ_OK != fp->u.bz2.error
             && BZ_STREAM_END != fp->u.bz2.error);
-#endif
+#endif /* HAVE_LIBBZ2 */
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     {
@@ -766,7 +771,7 @@ int fz_ferror(fz_FILE *fp)
       (void) gzerror(fp->u.zlib, &error); /* Ignore string result here. */
       return 0 > error ? error : 0; /* Only negative Z values are errors. */
     }
-#endif
+#endif /* HAVE_LIBZ */
   case FZ_PLAIN:
     return ferror(fp->u.plain);
     break;
@@ -909,7 +914,7 @@ const char *fz_strerror(fz_FILE *fp)
       }
       return bzip2error;
     }
-#endif
+#endif /* HAVE_LIBBZ2 */
 #ifdef HAVE_LIBZ
   case FZ_ZLIB:
     {
@@ -918,7 +923,7 @@ const char *fz_strerror(fz_FILE *fp)
 
       return Z_ERRNO == errnum ? fc_strerror(fc_get_errno()) : estr;
     }
-#endif
+#endif /* HAVE_LIBZ */
   case FZ_PLAIN:
     return fc_strerror(fc_get_errno());
   }

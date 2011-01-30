@@ -198,8 +198,9 @@ int md5_stream(FILE * stream, void *resblock)
 process_partial_block:;
 
   /* Process any remaining bytes.  */
-  if (sum > 0)
+  if (sum > 0) {
     md5_process_bytes(buffer, sum, &ctx);
+  }
 
   /* Construct result in desired memory.  */
   md5_finish_ctx(&ctx, resblock);
@@ -228,7 +229,7 @@ void *md5_buffer(const char *buffer, size_t len, void *resblock)
 
 
 /**************************************************************************
-  ...
+  Add len bytes from buffer for processing, and process as much as possible.
 **************************************************************************/
 void md5_process_bytes(const void *buffer, size_t len, struct md5_ctx *ctx)
 {

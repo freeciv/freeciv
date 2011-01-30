@@ -50,6 +50,7 @@
 #include <windows.h>	/* GetTempPath */
 #endif
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
@@ -97,7 +98,7 @@ int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
   if (result == -1) {
     set_socket_errno();
   }
-#endif
+#endif /* HAVE_WINSOCK */
 
   return result;
 }
@@ -116,7 +117,7 @@ int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
   if (result == -1) {
     set_socket_errno();
   }
-#endif
+#endif /* HAVE_WINSOCK */
 
   return result;       
 }
@@ -133,9 +134,9 @@ int fc_readsocket(int sock, void *buf, size_t size)
   if (result == -1) {
     set_socket_errno();
   }
-#else
+#else  /* HAVE_WINSOCK */
   result = read(sock, buf, size);
-#endif
+#endif /* HAVE_WINSOCK */
 
   return result;
 }
@@ -152,10 +153,10 @@ int fc_writesocket(int sock, const void *buf, size_t size)
   if (result == -1) {
     set_socket_errno();
   }
-#else
+#else  /* HAVE_WINSOCK */
 #  ifdef MSG_NOSIGNAL
   result = send(sock, buf, size, MSG_NOSIGNAL);
-#  else
+#  else  /* MSG_NOSIGNAL */
   result = write(sock, buf, size);
 #  endif /* MSG_NOSIGNAL */
 #endif /* HAVE_WINSOCK */
@@ -186,7 +187,7 @@ void fc_init_network(void)
   if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
     log_error("no usable WINSOCK.DLL: %s", fc_strerror(fc_get_errno()));
   }
-#endif
+#endif /* HAVE_WINSOCK */
 
   /* broken pipes are ignored. */
 #ifdef HAVE_SIGPIPE
@@ -213,7 +214,7 @@ void fc_nonblock(int sockfd)
 #ifdef HAVE_WINSOCK
   unsigned long b = 1;
   ioctlsocket(sockfd, FIONBIO, &b);
-#else
+#else  /* HAVE_WINSOCK */
 #ifdef HAVE_FCNTL
   int f_set;
 
@@ -226,19 +227,19 @@ void fc_nonblock(int sockfd)
   if (fcntl(sockfd, F_SETFL, f_set) == -1) {
     log_error("fcntl F_SETFL failed: %s", fc_strerror(fc_get_errno()));
   }
-#else
+#else  /* HAVE_FCNTL */
 #ifdef HAVE_IOCTL
   long value=1;
 
   if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
     log_error("ioctl failed: %s", fc_strerror(fc_get_errno()));
   }
-#endif
-#endif
-#endif
-#else
+#endif /* HAVE_IOCTL */
+#endif /* HAVE_FCNTL */
+#endif /* HAVE_WINSOCK */
+#else  /* NONBLOCKING_SOCKETS */
   log_debug("NONBLOCKING_SOCKETS not available");
-#endif
+#endif /* NONBLOCKING_SOCKETS */
 }
 
 /***************************************************************************
@@ -402,7 +403,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
   /* we don't use fc_closesocket on sock here since when fp is closed
    * sock will also be closed. fdopen doesn't dup the socket descriptor. */
-#else
+#else  /* HAVE_FDOPEN */
   {
     char tmp[4096];
     int n;
@@ -418,11 +419,11 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
       fp = fc_fopen(filename, "w+b");
     }
-#else
+#else  /* WIN32_NATIVE */
 
     fp = tmpfile();
 
-#endif
+#endif /* WIN32_NATIVE */
 
     if (fp == NULL) {
       return NULL;
@@ -441,7 +442,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
     rewind(fp);
   }
-#endif
+#endif /* HAVE_FDOPEN */
 
   return fz_from_stream(fp);
 }

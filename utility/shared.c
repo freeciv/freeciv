@@ -217,7 +217,8 @@ char *get_option_malloc(const char *option_name,
 }
 
 /***************************************************************
-...
+  Is option some form of option_name. option_name must be
+  full length long version such as "--help"
 ***************************************************************/
 bool is_option(const char *option_name,char *option)
 {
@@ -725,7 +726,7 @@ char *user_home_dir(void)
 {
 #ifdef AMIGA
   return "PROGDIR:";
-#else
+#else  /* AMIGA */
   static bool init = FALSE;
   static char *home_dir = NULL;
 
@@ -778,16 +779,16 @@ char *user_home_dir(void)
         log_error("Could not find home directory "
                   "(SHGetSpecialFolderLocation() failed).");
       }
-#else
+#else  /* WIN32_NATIVE */
       log_error("Could not find home directory (HOME is not set).");
       home_dir = NULL;
-#endif
+#endif /* WIN32_NATIVE */
     }
     init = TRUE;
   }
 
   return home_dir;
-#endif
+#endif /* AMIGA */
 }
 
 /***************************************************************************
@@ -832,7 +833,7 @@ char *user_username(char *buf, size_t bufsz)
       }
     }
   }
-#endif
+#endif /* HAVE_GETPWUID */
 
 #ifdef WIN32_NATIVE
   /* On win32 the GetUserName function will give us the login name. */
@@ -848,7 +849,7 @@ char *user_username(char *buf, size_t bufsz)
       }
     }
   }
-#endif
+#endif /* WIN32_NATIVE */
 
 #ifdef ALWAYS_ROOT
   fc_strlcpy(buf, "name", bufsz);
@@ -1472,7 +1473,7 @@ void init_nls(void)
     fc_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
     putenv(envstr);
   }
-#endif
+#endif /* WIN32_NATIVE */
 
   (void) setlocale(LC_ALL, "");
   (void) bindtextdomain(PACKAGE, LOCALEDIR);
@@ -1509,7 +1510,7 @@ void init_nls(void)
     free(grouping_sep);
     grouping_sep = fc_strdup(lc->thousands_sep);
   }
-#endif
+#endif /* ENABLE_NLS */
 }
 
 /***************************************************************************
@@ -1544,7 +1545,7 @@ void dont_run_as_root(const char *argv0, const char *fallback)
     fc_fprintf(stderr, _("Use a non-privileged account instead.\n"));
     exit(EXIT_FAILURE);
   }
-#endif
+#endif /* ALWAYS_ROOT */
 }
 
 /***************************************************************************
@@ -1792,11 +1793,11 @@ bool path_is_absolute(const char *filename)
   if (strchr(filename, ':')) {
     return TRUE;
   }
-#else
+#else  /* WIN32_NATIVE */
   if (filename[0] == '/') {
     return TRUE;
   }
-#endif
+#endif /* WIN32_NATIVE */
 
   return FALSE;
 }

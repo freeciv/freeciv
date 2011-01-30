@@ -116,7 +116,7 @@ int fc_strcasecmp(const char *str0, const char *str1)
 
   return ((int) (unsigned char) fc_tolower(*str0))
     - ((int) (unsigned char) fc_tolower(*str1));
-#endif
+#endif /* HAVE_STRCASECMP */
 }
 
 /***************************************************************
@@ -148,7 +148,7 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
   else
     return ((int) (unsigned char) fc_tolower(*str0))
       - ((int) (unsigned char) fc_tolower(*str1));
-#endif
+#endif /* HAVE_STRNCASECMP */
 }
 
 /***************************************************************
@@ -261,7 +261,7 @@ char *fc_strcasestr(const char *haystack, const char *needle)
     }
   }
   return NULL;
-#endif
+#endif /* HAVE_STRCASESTR */
 }
 
 /****************************************************************************
@@ -307,9 +307,9 @@ FILE *fc_fopen(const char *filename, const char *opentype)
 	result = fopen(filename_in_local_encoding, opentype);
 	free(filename_in_local_encoding);
 	return result;
-#else
+#else  /* WIN32_NATIVE */
 	return fopen(filename, opentype);
-#endif
+#endif /* WIN32_NATIVE */
 }
 
 /*****************************************************************
@@ -326,11 +326,11 @@ FILE *fc_gzopen(const char *filename, const char *opentype)
 	result = gzopen(filename_in_local_encoding, opentype);
 	free(filename_in_local_encoding);
 	return result;
-#else
+#else  /* WIN32_NATIVE */
 	return gzopen(filename, opentype);
-#endif
+#endif /* WIN32_NATIVE */
 }
-#endif
+#endif /* HAVE_LIBZ */
 
 /******************************************************************
   Wrapper function for opendir() with filename conversion to local
@@ -345,9 +345,9 @@ DIR *fc_opendir(const char *dirname)
 	result = opendir(dirname_in_local_encoding);
 	free(dirname_in_local_encoding);
 	return result;
-#else
+#else  /* WIN32_NATIVE */
 	return opendir(dirname);
-#endif
+#endif /* WIN32_NATIVE */
 }
 
 /*****************************************************************
@@ -363,9 +363,9 @@ int fc_remove(const char *filename)
 	result = remove(filename_in_local_encoding);
 	free(filename_in_local_encoding);
 	return result;
-#else
+#else  /* WIN32_NATIVE */
 	return remove(filename);
-#endif
+#endif /* WIN32_NATIVE */
 }
 
 /*****************************************************************
@@ -381,9 +381,9 @@ int fc_stat(const char *filename, struct stat *buf)
 	result = stat(filename_in_local_encoding, buf);
 	free(filename_in_local_encoding);
 	return result;
-#else
+#else  /* WIN32_NATIVE */
 	return stat(filename, buf);
-#endif
+#endif /* WIN32_NATIVE */
 }
 
 /***************************************************************
@@ -417,20 +417,20 @@ const char *fc_strerror(fc_errno err)
 		_("error %ld (failed FormatMessage)"), err);
   }
   return buf;
-#else
+#else  /* WIN32_NATIVE */
 #ifdef HAVE_STRERROR
   static char buf[256];
 
   return local_to_internal_string_buffer(strerror(err),
                                          buf, sizeof(buf));
-#else
+#else  /* HAVE_STRERROR */
   static char buf[64];
 
   fc_snprintf(buf, sizeof(buf),
 	      _("error %d (compiled without strerror)"), err);
   return buf;
-#endif
-#endif
+#endif /* HAVE_STRERROR */
+#endif /* WIN32_NATIVE */
 }
 
 
@@ -441,30 +441,30 @@ void fc_usleep(unsigned long usec)
 {
 #ifdef HAVE_USLEEP
   usleep(usec);
-#else
+#else  /* HAVE_USLEEP */
 #ifdef HAVE_SNOOZE		/* BeOS */
   snooze(usec);
-#else
+#else  /* HAVE_SNOOZE */
 #ifdef GENERATING_MAC
   EventRecord the_event;	/* dummy - always be a null event */
   usec /= 16666;		/* microseconds to 1/60th seconds */
   if (usec < 1) usec = 1;
   /* suposed to give other application processor time for the mac */
   WaitNextEvent(0, &the_event, usec, 0L);
-#else
+#else  /* GENERATING_MAC */
 #ifdef WIN32_NATIVE
   Sleep(usec / 1000);
-#else
+#else  /* WIN32_NATIVE */
   struct timeval tv;
   tv.tv_sec=0;
   tv.tv_usec=usec;
   /* FIXME: an interrupt can cause an EINTR return here.  In that case we
    * need to have another select call. */
   fc_select(0, NULL, NULL, NULL, &tv);
-#endif
-#endif
-#endif
-#endif
+#endif /* WIN32_NATIVE */
+#endif /* GENERATING_MAC */
+#endif /* HAVE_SNOOZE */
+#endif /* HAVE_USLEEP */
 }
 
 /**************************************************************************
@@ -585,7 +585,7 @@ size_t fc_strlcpy(char *dest, const char *src, size_t n)
     dest[num_to_copy] = '\0';
     return len;
   }
-#endif
+#endif /* HAVE_STRLCPY */
 }
 
 /****************************************************************************
@@ -620,7 +620,7 @@ size_t fc_strlcat(char *dest, const char *src, size_t n)
     dest[num_to_copy] = '\0';
     return len_dest + len_src;
   }
-#endif
+#endif /* HAVE_STRLCAT */
 }
 
 /****************************************************************************
@@ -696,7 +696,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     return -1;
 
   return r;
-#else
+#else  /* HAVE_WORKING_VSNPRINTF */
   {
     /* Don't use fc_malloc() or log_*() here, since they may call
        fc_vsnprintf() if it fails.  */
@@ -717,7 +717,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     r = vsnprintf(buf, n, format, ap);
 #else
     r = vsprintf(buf, format, ap);
-#endif
+#endif /* HAVE_VSNPRINTF */
     buf[VSNP_BUF_SIZE - 1] = '\0';
     len = strlen(buf);
 
@@ -735,7 +735,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
       return -1;
     }
   }
-#endif  
+#endif /* HAVE_WORKING_VSNPRINTF */
 }
 
 /****************************************************************************
@@ -821,7 +821,7 @@ static unsigned int WINAPI thread_proc(LPVOID data)
   }
   return 0;
 }
-#endif
+#endif /* WIN32_NATIVE */
 
 /**********************************************************************
   Initialize console I/O in case SOCKET_ZERO_ISNT_STDIN.
@@ -836,7 +836,7 @@ void fc_init_console(void)
 
   mybuf[0] = '\0';
   mythread = (HANDLE)_beginthreadex(NULL, 0, thread_proc, NULL, 0, &threadid);
-#else
+#else  /* WIN32_NATIVE */
   static int initialized = 0;
   if (!initialized) {
     initialized = 1;
@@ -844,7 +844,7 @@ void fc_init_console(void)
     fc_nonblock(fileno(stdin));
 #endif
   }
-#endif
+#endif /* WIN32_NATIVE */
 }
 
 /**********************************************************************
@@ -863,7 +863,7 @@ char *fc_read_console(void)
     return mybuf;
   }
   return NULL;
-#else
+#else  /* WIN32_NATIVE */
   if (!feof(stdin)) {    /* input from server operator */
     static char *bufptr = mybuf;
     /* fetch chars until \n, or run out of space in buffer */
@@ -878,10 +878,10 @@ char *fc_read_console(void)
     }
   }
   return NULL;
-#endif
+#endif /* WIN32_NATIVE */
 }
 
-#endif
+#endif /* SOCKET_ZERO_ISNT_STDIN */
 
 /**********************************************************************
   Returns TRUE iff the file is a regular file or a link to a regular

@@ -243,7 +243,8 @@ bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
 }
 
 /***************************************************************************
-  ...
+  Compares elements of two bitvectors. Both vectors are expected to have
+  same number of elements, i.e. , size1 must be equal to size2.
 ***************************************************************************/
 bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
                   size_t size1, size_t size2)
