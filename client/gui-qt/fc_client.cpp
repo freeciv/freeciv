@@ -16,6 +16,7 @@
 #endif
 
 // client
+#include "chatline_common.h"
 #include "client_main.h"
 #include "clinet.h"
 
@@ -49,7 +50,7 @@ fc_client::fc_client() : QObject()
   central_wdg = new QWidget;
   mapview_wdg = new QGraphicsView(central_wdg);
   output_window = new QTextEdit(central_wdg);
-  chat_input = new QTextEdit(central_wdg);
+  chat_line = new QLineEdit(central_wdg);
 
   main_window->setGeometry(0, 0, TOTAL_WIDTH, TOTAL_HEIGHT);
 
@@ -58,7 +59,8 @@ fc_client::fc_client() : QObject()
   output_window->setReadOnly(true);
   output_window->setGeometry(OUTPUT_X, OUTPUT_Y, OUTPUT_WIDTH, OUTPUT_HEIGHT);
 
-  chat_input->setGeometry(CHAT_X, CHAT_Y, CHAT_WIDTH, CHAT_HEIGHT);
+  chat_line->setGeometry(CHAT_X, CHAT_Y, CHAT_WIDTH, CHAT_HEIGHT);
+  connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
 
   main_window->setCentralWidget(central_wdg);
   main_window->setVisible(true);
@@ -108,6 +110,15 @@ void fc_client::add_server_source(int sock)
 void fc_client::server_input(int sock)
 {
   input_from_server(sock);
+}
+
+/****************************************************************************
+  Enter pressed on chatline
+****************************************************************************/
+void fc_client::chat()
+{
+  send_chat(chat_line->text().toUtf8().data());
+  chat_line->clear();
 }
 
 /****************************************************************************

@@ -17,6 +17,7 @@
 // Qt
 #include <QApplication>
 #include <QGraphicsView>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QObject>
 #include <QSocketNotifier>
@@ -41,13 +42,14 @@ class fc_client : public QObject
 
  private slots:
   void server_input(int sock);
+  void chat();
 
  private:
   QMainWindow *main_window;
   QWidget *central_wdg;
   QGraphicsView *mapview_wdg;
   QTextEdit *output_window;
-  QTextEdit *chat_input;
+  QLineEdit *chat_line;
   QSocketNotifier *server_notifier;
 
  protected:
