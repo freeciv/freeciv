@@ -10,7 +10,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Default technology data for Freeciv (as Civ2, minus a few)"
+description="Experimental technology data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings

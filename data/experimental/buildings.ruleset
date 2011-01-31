@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Default buildings data for Freeciv"
+description="Experimental buildings data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings

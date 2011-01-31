@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Default effects data for Freeciv"
+description="Experimental effects data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 ; /* <-- avoid gettext warnings

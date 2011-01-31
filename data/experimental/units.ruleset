@@ -18,7 +18,7 @@
 ; then the first unit with this role will be chosen.
 
 [datafile]
-description="Default unit_type data for Freeciv"
+description="Experimental unit_type data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 [flags]

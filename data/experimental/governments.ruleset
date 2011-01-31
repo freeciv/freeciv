@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Default governments data for Freeciv (as Civ2, minus fundamentalism)"
+description="Experimental governments data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 [governments]

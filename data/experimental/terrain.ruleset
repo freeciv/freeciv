@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Default tile_type data for Freeciv"
+description="Experimental terrain data for Freeciv"
 options="+Freeciv-2.3-ruleset"
 
 [options]
