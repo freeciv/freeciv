@@ -753,12 +753,12 @@ msgstr "Méid %d"
 #: common/requirements.c:1310 common/requirements.c:1319
 #, c-format
 msgid "\"%s\" units"
-msgstr ""
+msgstr "Aonaid \"%s\""
 
 #: common/requirements.c:1315
 #, c-format
 msgid "%s units"
-msgstr ""
+msgstr "Aonaid %s"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1337
@@ -32011,12 +32011,12 @@ msgstr ""
 #: data/nation/monegasque.ruleset:29
 #, c-format
 msgid "Minister of State %s"
-msgstr ""
+msgstr "Aire Stáit %s"
 
 #: data/nation/monegasque.ruleset:29
 #, c-format
 msgid "?female:Minister of State %s"
-msgstr ""
+msgstr "?female:Aire Stáit %s"
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -32161,11 +32161,11 @@ msgstr ""
 
 #: data/nation/mwiska.ruleset:3
 msgid "Mwiska"
-msgstr ""
+msgstr "Muisceach"
 
 #: data/nation/mwiska.ruleset:4
 msgid "?plural:Mwiska"
-msgstr ""
+msgstr "?plural:Muiscigh"
 
 #: data/nation/mwiska.ruleset:6
 msgid ""
@@ -32271,7 +32271,7 @@ msgstr "as Talamh an Éisc"
 
 #: data/nation/newfoundland.ruleset:4
 msgid "?plural:Newfoundlanders"
-msgstr ""
+msgstr "?plural:daoine as Talamh an Éisc"
 
 #: data/nation/newfoundland.ruleset:7
 msgid ""
@@ -32600,12 +32600,12 @@ msgstr ""
 #: data/nation/omani.ruleset:32
 #, c-format
 msgid "General Commander %s"
-msgstr ""
+msgstr "Ard-Cheannasaí %s"
 
 #: data/nation/omani.ruleset:32
 #, c-format
 msgid "?female:General Commander %s"
-msgstr ""
+msgstr "?female:Ard-Cheannasaí %s"
 
 #: data/nation/oldenburgian.ruleset:3
 msgid "Oldenburgian"
@@ -32768,7 +32768,7 @@ msgstr "Palaitíneach"
 
 #: data/nation/palatinate.ruleset:4
 msgid "?plural:Palatinate Germans"
-msgstr ""
+msgstr "?plural:Gearmánaigh Phalaitíneacha"
 
 #: data/nation/palatinate.ruleset:6
 msgid ""
@@ -32784,12 +32784,12 @@ msgstr ""
 #: data/nation/palatinate.ruleset:28
 #, c-format
 msgid "Count Palatine %s"
-msgstr ""
+msgstr "Cunta Palaitíneach %s"
 
 #: data/nation/palatinate.ruleset:28
 #, c-format
 msgid "Countess Palatine %s"
-msgstr ""
+msgstr "Cuntaois Phalaitíneach %s"
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
@@ -32808,7 +32808,7 @@ msgstr ""
 #: data/nation/palestinian.ruleset:22
 #, c-format
 msgid "?female:Sheikh %s"
-msgstr ""
+msgstr "?female:Síc %s"
 
 #: data/nation/palmyrene.ruleset:3
 msgid "Palmyrene"
@@ -32832,17 +32832,17 @@ msgstr "Ceartaitheoir %s"
 #: data/nation/palmyrene.ruleset:19
 #, c-format
 msgid "Correctrix %s"
-msgstr ""
+msgstr "Bancheartaitheoir %s"
 
 #: data/nation/palmyrene.ruleset:20 data/nation/westernroman.ruleset:31
 #, c-format
 msgid "%s Augustus"
-msgstr ""
+msgstr "%s Ágastas"
 
 #: data/nation/palmyrene.ruleset:20 data/nation/westernroman.ruleset:31
 #, c-format
 msgid "%s Augusta"
-msgstr ""
+msgstr "%s Ágasta"
 
 #: data/nation/panamanian.ruleset:3
 msgid "Panamanian"
@@ -33142,11 +33142,11 @@ msgstr ""
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1.
 #: data/nation/raramuri.ruleset:6
 msgid "Raramuri"
-msgstr ""
+msgstr "Raramúrach"
 
 #: data/nation/raramuri.ruleset:7
 msgid "?plural:Raramuris"
-msgstr ""
+msgstr "?plural:Raramúraigh"
 
 #: data/nation/raramuri.ruleset:9
 msgid ""
@@ -33176,12 +33176,12 @@ msgstr ""
 #: data/nation/riffian.ruleset:21
 #, c-format
 msgid "%s Basha"
-msgstr ""
+msgstr "%s Basha"
 
 #: data/nation/riffian.ruleset:21
 #, c-format
 msgid "?female:%s Basha"
-msgstr ""
+msgstr "?female:%s Basha"
 
 #: data/nation/riograndense.ruleset:3
 msgid "Rio-Grandense"
@@ -33408,12 +33408,12 @@ msgstr "?female:Seansailéir %s"
 #: data/nation/sammarinese.ruleset:27
 #, c-format
 msgid "Captain-Regent %s"
-msgstr ""
+msgstr "Captaen-Leasrí %s"
 
 #: data/nation/sammarinese.ruleset:27
 #, c-format
 msgid "?female:Captain-Regent %s"
-msgstr ""
+msgstr "?female:Captaen-Leasrí %s"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
@@ -33497,11 +33497,11 @@ msgstr ""
 
 #: data/nation/schleswig-holsteinian.ruleset:3
 msgid "Schleswig-Holsteinian"
-msgstr ""
+msgstr "Schleswig-Holstaghanach"
 
 #: data/nation/schleswig-holsteinian.ruleset:4
 msgid "?plural:Schleswig-Holsteinians"
-msgstr ""
+msgstr "?plural:Schleswig-Holstaghanaigh"
 
 #: data/nation/schleswig-holsteinian.ruleset:6
 msgid ""
@@ -33618,11 +33618,11 @@ msgstr ""
 
 #: data/nation/shawnee.ruleset:3
 msgid "Shawnee"
-msgstr ""
+msgstr "Seáiníneach"
 
 #: data/nation/shawnee.ruleset:4
 msgid "?plural:Shawnee"
-msgstr ""
+msgstr "?plural:Seáinínigh"
 
 #: data/nation/shawnee.ruleset:6
 msgid ""
@@ -33684,11 +33684,11 @@ msgstr ""
 
 #: data/nation/sikkimese.ruleset:3
 msgid "Sikkimese"
-msgstr ""
+msgstr "Sicimeach"
 
 #: data/nation/sikkimese.ruleset:4
 msgid "?plural:Sikkimese"
-msgstr ""
+msgstr "?plural:Sicimigh"
 
 #: data/nation/sikkimese.ruleset:6
 msgid ""
@@ -33765,11 +33765,11 @@ msgstr ""
 
 #: data/nation/slavic.ruleset:3
 msgid "Slavic"
-msgstr ""
+msgstr "Slavach"
 
 #: data/nation/slavic.ruleset:4
 msgid "?plural:Slavs"
-msgstr ""
+msgstr "?plural:Slavaigh"
 
 #: data/nation/slavic.ruleset:6
 msgid ""
@@ -33833,11 +33833,11 @@ msgstr ""
 
 #: data/nation/songhai.ruleset:3
 msgid "Songhai"
-msgstr ""
+msgstr "Songach"
 
 #: data/nation/songhai.ruleset:4
 msgid "?plural:Songhai"
-msgstr ""
+msgstr "?plural:Songaigh"
 
 #: data/nation/songhai.ruleset:6
 msgid ""
@@ -33851,11 +33851,11 @@ msgstr ""
 
 #: data/nation/sorbian.ruleset:3
 msgid "Sorbian"
-msgstr ""
+msgstr "Sorbach"
 
 #: data/nation/sorbian.ruleset:4
 msgid "?plural:Sorbs"
-msgstr ""
+msgstr "?plural:Sorbaigh"
 
 #: data/nation/sorbian.ruleset:6
 msgid ""
@@ -33886,7 +33886,7 @@ msgstr ""
 
 #: data/nation/southamerican.ruleset:3
 msgid "South American"
-msgstr ""
+msgstr "Meiriceánach Theas"
 
 #: data/nation/southamerican.ruleset:4
 msgid "?plural:South Americans"
@@ -33918,7 +33918,7 @@ msgstr ""
 
 #: data/nation/southvietnamese.ruleset:3
 msgid "South Vietnamese"
-msgstr ""
+msgstr "Vítneamach Theas"
 
 #: data/nation/southvietnamese.ruleset:4
 msgid "?plural:South Vietnamese"
@@ -33938,11 +33938,11 @@ msgstr ""
 
 #: data/nation/southyemeni.ruleset:3
 msgid "South Yemeni"
-msgstr ""
+msgstr "Éimineach Theas"
 
 #: data/nation/southyemeni.ruleset:4
 msgid "?plural:South Yemenis"
-msgstr ""
+msgstr "?plural:Éiminigh Theas"
 
 #: data/nation/southyemeni.ruleset:6
 msgid ""
@@ -34043,11 +34043,11 @@ msgstr ""
 
 #: data/nation/surinamese.ruleset:3
 msgid "Surinamese"
-msgstr ""
+msgstr "Suranamach"
 
 #: data/nation/surinamese.ruleset:4
 msgid "?plural:Surinamese"
-msgstr ""
+msgstr "?plural:Suranamaigh"
 
 #: data/nation/surinamese.ruleset:7
 msgid ""
@@ -34225,11 +34225,11 @@ msgstr ""
 
 #: data/nation/tanzanian.ruleset:3
 msgid "Tanzanian"
-msgstr ""
+msgstr "Tansánach"
 
 #: data/nation/tanzanian.ruleset:4
 msgid "?plural:Tanzanians"
-msgstr ""
+msgstr "?plural:Tansánaigh"
 
 #: data/nation/tanzanian.ruleset:6
 msgid ""
@@ -34241,11 +34241,11 @@ msgstr ""
 
 #: data/nation/tatar.ruleset:3
 msgid "Tatar"
-msgstr ""
+msgstr "Tatarach"
 
 #: data/nation/tatar.ruleset:4
 msgid "?plural:Tatars"
-msgstr ""
+msgstr "?plural:Tataraigh"
 
 #: data/nation/tatar.ruleset:7
 msgid ""
@@ -34274,11 +34274,11 @@ msgstr ""
 
 #: data/nation/teutonic.ruleset:3
 msgid "Teutonic"
-msgstr ""
+msgstr "Teotanach"
 
 #: data/nation/teutonic.ruleset:4
 msgid "?plural:Teutonic Order"
-msgstr ""
+msgstr "?plural:Teotanaigh"
 
 #: data/nation/teutonic.ruleset:6
 msgid ""
@@ -34370,11 +34370,11 @@ msgstr "?female:Dalaí Láma %s"
 
 #: data/nation/timurid.ruleset:3
 msgid "Timurid"
-msgstr ""
+msgstr "Tiomuirideach"
 
 #: data/nation/timurid.ruleset:4
 msgid "?plural:Timurids"
-msgstr ""
+msgstr "?plural:Tiomuiridigh"
 
 #: data/nation/timurid.ruleset:6
 msgid ""
@@ -34414,11 +34414,11 @@ msgstr ""
 
 #: data/nation/togolese.ruleset:3
 msgid "Togolese"
-msgstr ""
+msgstr "Tógalannach"
 
 #: data/nation/togolese.ruleset:4
 msgid "?plural:Togolese"
-msgstr ""
+msgstr "?plural:Tógalannaigh"
 
 #: data/nation/togolese.ruleset:6
 msgid ""
@@ -34430,11 +34430,11 @@ msgstr ""
 
 #: data/nation/toltec.ruleset:3
 msgid "Toltec"
-msgstr ""
+msgstr "Tóiltéiceach"
 
 #: data/nation/toltec.ruleset:4
 msgid "?plural:Toltecs"
-msgstr ""
+msgstr "?plural:Tóiltéicigh"
 
 #: data/nation/toltec.ruleset:6
 msgid ""
@@ -34455,11 +34455,11 @@ msgstr ""
 
 #: data/nation/tongan.ruleset:3
 msgid "Tongan"
-msgstr ""
+msgstr "Tongach"
 
 #: data/nation/tongan.ruleset:4
 msgid "?plural:Tongans"
-msgstr ""
+msgstr "?plural:Tongaigh"
 
 #: data/nation/tongan.ruleset:6
 msgid ""
@@ -34471,7 +34471,7 @@ msgstr ""
 
 #: data/nation/transylvanian.ruleset:3
 msgid "Transylvanian"
-msgstr ""
+msgstr "Trasalvánach"
 
 #: data/nation/transylvanian.ruleset:4
 msgid "?plural:Transylvanians"
@@ -34580,11 +34580,11 @@ msgstr ""
 
 #: data/nation/tuvan.ruleset:3
 msgid "Tuvan"
-msgstr ""
+msgstr "Túvach"
 
 #: data/nation/tuvan.ruleset:4
 msgid "?plural:Tuvans"
-msgstr ""
+msgstr "?plural:Túvaigh"
 
 #: data/nation/tuvan.ruleset:6
 msgid ""
@@ -34599,11 +34599,11 @@ msgstr ""
 
 #: data/nation/tyrolian.ruleset:3
 msgid "Tyrolian"
-msgstr ""
+msgstr "Tiorólach"
 
 #: data/nation/tyrolian.ruleset:4
 msgid "?plural:Tyrolians"
-msgstr ""
+msgstr "?plural:Tiorólaigh"
 
 #: data/nation/tyrolian.ruleset:6
 msgid ""
@@ -34628,11 +34628,11 @@ msgstr ""
 
 #: data/nation/ugandan.ruleset:3
 msgid "Ugandan"
-msgstr ""
+msgstr "Ugandach"
 
 #: data/nation/ugandan.ruleset:4
 msgid "?plural:Ugandans"
-msgstr ""
+msgstr "?plural:Ugandaigh"
 
 #: data/nation/ugandan.ruleset:6
 msgid ""
@@ -34742,11 +34742,11 @@ msgstr ""
 
 #: data/nation/vampire.ruleset:4
 msgid "Vampire"
-msgstr ""
+msgstr "Vaimpíreach"
 
 #: data/nation/vampire.ruleset:5
 msgid "?plural:Vampires"
-msgstr ""
+msgstr "?plural:Vaimpírí"
 
 #: data/nation/vampire.ruleset:7
 msgid "Bloodsucking creatures of legend."
@@ -34754,11 +34754,11 @@ msgstr ""
 
 #: data/nation/vandalic.ruleset:3
 msgid "Vandalic"
-msgstr ""
+msgstr "Vandalach"
 
 #: data/nation/vandalic.ruleset:4
 msgid "?plural:Vandals"
-msgstr ""
+msgstr "?plural:Vandalaigh"
 
 #: data/nation/vandalic.ruleset:6
 msgid ""
@@ -34771,11 +34771,11 @@ msgstr ""
 
 #: data/nation/venetian.ruleset:3
 msgid "Venetian"
-msgstr ""
+msgstr "Veinéiseach"
 
 #: data/nation/venetian.ruleset:4
 msgid "?plural:Venetians"
-msgstr ""
+msgstr "?plural:Veinéisigh"
 
 #: data/nation/venetian.ruleset:6
 msgid ""
@@ -34791,12 +34791,12 @@ msgstr ""
 #: data/nation/venetian.ruleset:29
 #, c-format
 msgid "Doge %s"
-msgstr ""
+msgstr "Diúc %s"
 
 #: data/nation/venetian.ruleset:29
 #, c-format
 msgid "Dogaressa %s"
-msgstr ""
+msgstr "Bandiúc %s"
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
@@ -34829,11 +34829,11 @@ msgstr "Bandeachtóir %s"
 
 #: data/nation/vermont.ruleset:3
 msgid "Vermont"
-msgstr ""
+msgstr "Vermont"
 
 #: data/nation/vermont.ruleset:4
 msgid "?plural:Vermonters"
-msgstr ""
+msgstr "?plural:daoine as Vermont"
 
 #: data/nation/vermont.ruleset:6
 msgid ""
@@ -34874,11 +34874,11 @@ msgstr ""
 
 #: data/nation/vincentian.ruleset:3
 msgid "Vincentian"
-msgstr ""
+msgstr "Uinseannach"
 
 #: data/nation/vincentian.ruleset:4
 msgid "?plural:Vincentians"
-msgstr ""
+msgstr "?plural:Uinseannaigh"
 
 #: data/nation/vincentian.ruleset:6
 msgid ""
@@ -34892,11 +34892,11 @@ msgstr ""
 
 #: data/nation/visigothic.ruleset:3
 msgid "Visigothic"
-msgstr ""
+msgstr "Viseagotach"
 
 #: data/nation/visigothic.ruleset:4
 msgid "?plural:Visigoths"
-msgstr ""
+msgstr "?plural:Viseagotaigh"
 
 #: data/nation/visigothic.ruleset:6
 msgid ""
@@ -34913,11 +34913,11 @@ msgstr ""
 
 #: data/nation/walloon.ruleset:3
 msgid "Walloon"
-msgstr ""
+msgstr "Vallúnach"
 
 #: data/nation/walloon.ruleset:4
 msgid "?plural:Walloons"
-msgstr ""
+msgstr "?plural:Vallúnaigh"
 
 #: data/nation/walloon.ruleset:6
 msgid ""
@@ -34962,11 +34962,11 @@ msgstr ""
 
 #: data/nation/westernroman.ruleset:3
 msgid "Western Roman"
-msgstr ""
+msgstr "Iar-Rómhánach"
 
 #: data/nation/westernroman.ruleset:4
 msgid "?plural:West Romans"
-msgstr ""
+msgstr "?plural:Iar-Rómhánaigh"
 
 #: data/nation/westernroman.ruleset:6
 msgid ""
@@ -34989,11 +34989,11 @@ msgstr ""
 
 #: data/nation/westindian.ruleset:3
 msgid "West Indian"
-msgstr ""
+msgstr "Iar-Indiach"
 
 #: data/nation/westindian.ruleset:4
 msgid "?plural:West Indians"
-msgstr ""
+msgstr "?plural:Iar-Indiaigh"
 
 #: data/nation/westindian.ruleset:6
 msgid ""
@@ -35022,7 +35022,7 @@ msgstr ""
 
 #: data/nation/wuerttembergian.ruleset:3
 msgid "Wuerttembergian"
-msgstr ""
+msgstr "Württamburgach"
 
 #: data/nation/wuerttembergian.ruleset:4
 msgid "?plural:Wuerttembergians"
@@ -35037,11 +35037,11 @@ msgstr ""
 
 #: data/nation/yakut.ruleset:3
 msgid "Yakut"
-msgstr ""
+msgstr "Iacútach"
 
 #: data/nation/yakut.ruleset:4
 msgid "?plural:Yakuts"
-msgstr ""
+msgstr "?plural:Iacútaigh"
 
 #: data/nation/yakut.ruleset:6
 msgid ""
@@ -35059,11 +35059,11 @@ msgstr ""
 
 #: data/nation/yemeni.ruleset:3
 msgid "Yemeni"
-msgstr ""
+msgstr "Éimineach"
 
 #: data/nation/yemeni.ruleset:4
 msgid "?plural:Yemenis"
-msgstr ""
+msgstr "?plural:Éiminigh"
 
 #: data/nation/yemeni.ruleset:6
 msgid ""
@@ -35074,11 +35074,11 @@ msgstr ""
 
 #: data/nation/yucatecan.ruleset:3
 msgid "Yucatecan"
-msgstr ""
+msgstr "Iúcatánach"
 
 #: data/nation/yucatecan.ruleset:4
 msgid "?plural:Yucatecans"
-msgstr ""
+msgstr "?plural:Iúcatánaigh"
 
 #. TRANS: The sixth letter in "Yucatan" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -35094,11 +35094,11 @@ msgstr ""
 
 #: data/nation/yugoslav.ruleset:3
 msgid "Yugoslav"
-msgstr ""
+msgstr "Iúgslavach"
 
 #: data/nation/yugoslav.ruleset:4
 msgid "?plural:Yugoslavs"
-msgstr ""
+msgstr "?plural:Iúgslavaigh"
 
 #: data/nation/yugoslav.ruleset:6
 msgid ""
@@ -35111,11 +35111,11 @@ msgstr ""
 
 #: data/nation/zapotec.ruleset:3
 msgid "Zapotec"
-msgstr ""
+msgstr "Zapatach"
 
 #: data/nation/zapotec.ruleset:4
 msgid "?plural:Zapotecs"
-msgstr ""
+msgstr "?plural:Zapataigh"
 
 #. TRANS: The last letter in "Binniza", the fourth letter in
 #. TRANS: "Alban" and and the third letter in "Juarez" should be
@@ -35131,11 +35131,11 @@ msgstr ""
 
 #: data/nation/zimbabwean.ruleset:3
 msgid "Zimbabwean"
-msgstr ""
+msgstr "Siombábach"
 
 #: data/nation/zimbabwean.ruleset:4
 msgid "?plural:Zimbabweans"
-msgstr ""
+msgstr "?plural:Siombábaigh"
 
 #: data/nation/zimbabwean.ruleset:6
 msgid ""
