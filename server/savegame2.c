@@ -3729,11 +3729,16 @@ static void sg_load_player_cities(struct loaddata *loading,
     if (city_map_update_radius_sq(pcity, FALSE)) {
       /* squared city radius has been changed - repair the city */
       auto_arrange_workers(pcity);
-      city_refresh(pcity);
     }
 
     city_list_append(plr->cities, pcity);
   }
+
+  /* Check the sanity of the cities. */
+  city_list_iterate(plr->cities, pcity) {
+    city_refresh(pcity);
+    sanity_check_city(pcity);
+  } city_list_iterate_end;
 }
 
 /****************************************************************************
@@ -4010,8 +4015,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     }
   }
 
-  sanity_check_city(pcity);
-
   return TRUE;
 }
 
@@ -4041,6 +4044,10 @@ static void sg_save_player_cities(struct savedata *saving,
 
   /* First determine lenght of longest worklist and the nations we have. */
   city_list_iterate(plr->cities, pcity) {
+    /* Check the sanity of the city. */
+    city_refresh(pcity);
+    sanity_check_city(pcity);
+
     if (pcity->worklist.length > wlist_max_length) {
       wlist_max_length = pcity->worklist.length;
     }
