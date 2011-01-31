@@ -20,6 +20,10 @@ extern "C" {
 /* common */
 #include "fc_types.h" /* MAX_LEN_NAME */
 
+/* Update this capability string when ever there is changes to ai_type
+   structure below */
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Jan.22"
+
 #define FC_AI_LAST 3
 
 struct Treaty;

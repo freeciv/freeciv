@@ -18,7 +18,16 @@
 /* common */
 #include "ai.h"
 
+const char *fc_ai_stub_capstr(void);
 void fc_ai_stub_setup(struct ai_type *ai);
+
+/**************************************************************************
+  Return module capability string
+**************************************************************************/
+const char *fc_ai_stub_capstr(void)
+{
+  return FC_AI_MOD_CAPSTR;
+}
 
 /**************************************************************************
   Setup player ai_funcs function pointers.

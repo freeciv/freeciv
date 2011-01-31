@@ -61,6 +61,8 @@ bool load_ai_module(const char *filename)
 #ifdef AI_MODULES
   lt_dlhandle handle;
   void (*setup_func)(struct ai_type *ai);
+  const char *(*capstr_func)(void);
+  const char *capstr;
   char buffer[2048];
 #endif /* AI_MODULES */
 
@@ -77,6 +79,24 @@ bool load_ai_module(const char *filename)
     log_error(_("Cannot open AI module %s (%s)"), filename, fc_module_error());
     return FALSE;
   }
+
+  fc_snprintf(buffer, sizeof(buffer), "%s_capstr", filename);
+  capstr_func = lt_dlsym(handle, buffer);
+  if (capstr_func == NULL) {
+    log_error(_("Cannot find capstr function from ai module %s (%s)"),
+              filename, fc_module_error());
+    return FALSE;
+  }
+
+  capstr = capstr_func();
+  if (strcmp(FC_AI_MOD_CAPSTR, capstr)) {
+    log_error(_("Incompatible ai module %s:"), filename);
+    log_error(_("  Module options:    %s"), capstr);
+    log_error(_("  Supported options: %s"), FC_AI_MOD_CAPSTR);
+
+    return FALSE;
+  }
+
   fc_snprintf(buffer, sizeof(buffer), "%s_setup", filename);
   setup_func = lt_dlsym(handle, buffer);
   if (setup_func == NULL) {

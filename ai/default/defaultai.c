@@ -40,6 +40,18 @@
 
 #include "defaultai.h"
 
+/* This function is only needed as symbol in module. Nevertheless
+   gcc requires that there is prior prototype. */
+const char *fc_ai_default_capstr(void);
+
+/**************************************************************************
+  Return module capability string
+**************************************************************************/
+const char *fc_ai_default_capstr(void)
+{
+  return FC_AI_MOD_CAPSTR;
+}
+
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
