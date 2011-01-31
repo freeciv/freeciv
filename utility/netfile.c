@@ -19,10 +19,16 @@
 
 /* utility */
 #include "ioz.h"
+#include "mem.h"
 #include "rand.h"
 #include "registry.h"
 
 #include "netfile.h"
+
+struct netfile_post {
+  struct curl_httppost *first;
+  struct curl_httppost *last;
+};
 
 /* Consecutive transfers can use same handle for better performance */
 static CURL *handle = NULL;
@@ -134,4 +140,85 @@ bool netfile_download_file(const char *URL, const char *filename,
   fclose(fp);
 
   return success;
+}
+
+/********************************************************************** 
+  Allocate netfile_post
+***********************************************************************/
+struct netfile_post *netfile_start_post(void)
+{
+  return fc_calloc(1, sizeof(struct netfile_post));
+}
+
+/********************************************************************** 
+  Add one entry to netfile post form
+***********************************************************************/
+void netfile_add_form_str(struct netfile_post *post,
+                          const char *name, const char *val)
+{
+  curl_formadd(&post->first, &post->last,
+               CURLFORM_COPYNAME, name,
+               CURLFORM_COPYCONTENTS, val,
+               CURLFORM_END);
+}
+
+/********************************************************************** 
+  Add one integer entry to netfile post form
+***********************************************************************/
+void netfile_add_form_int(struct netfile_post *post,
+                          const char *name, const int val)
+{
+  char buf[50];
+
+  fc_snprintf(buf, sizeof(buf), "%d", val);
+  netfile_add_form_str(post, name, buf);
+}
+
+/********************************************************************** 
+  Free netfile_post resources
+***********************************************************************/
+void netfile_close_post(struct netfile_post *post)
+{
+  curl_formfree(post->first);
+  FC_FREE(post);
+}
+
+/********************************************************************** 
+  Dummy write callback used only to make sure curl's default write
+  function does not get used as we don't want reply to stdout
+***********************************************************************/
+static size_t dummy_write(void *buffer, size_t size, size_t nmemb, void *userp)
+{
+  return nmemb;
+}
+
+/********************************************************************** 
+  Send HTTP POST
+***********************************************************************/
+bool netfile_send_post(const char *URL, struct netfile_post *post)
+{
+  CURLcode curlret;
+  long http_resp;
+
+  if (handle == NULL) {
+    handle = curl_easy_init();
+  }
+
+  curl_easy_setopt(handle, CURLOPT_URL, URL);
+  curl_easy_setopt(handle, CURLOPT_HTTPPOST, post->first);
+  curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, dummy_write); 
+
+  curlret = curl_easy_perform(handle);
+
+  if (curlret != CURLE_OK) {
+    return FALSE;
+  }
+
+  curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &http_resp);
+
+  if (http_resp != 200) {
+    return FALSE;
+  }
+
+  return TRUE;
 }

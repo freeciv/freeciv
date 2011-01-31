@@ -18,6 +18,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+struct netfile_post;
+
 typedef void (*nf_errmsg)(const char *msg, void *data);
 
 struct section_file *netfile_get_section_file(const char *URL,
@@ -25,6 +27,15 @@ struct section_file *netfile_get_section_file(const char *URL,
 
 bool netfile_download_file(const char *URL, const char *filename,
                            nf_errmsg cb, void *data);
+
+struct netfile_post *netfile_start_post(void);
+void netfile_add_form_str(struct netfile_post *post,
+                          const char *name, const char *val);
+void netfile_add_form_int(struct netfile_post *post,
+                          const char *name, const int val);
+void netfile_close_post(struct netfile_post *post);
+
+bool netfile_send_post(const char *URL, struct netfile_post *post);
 
 #ifdef __cplusplus
 }
