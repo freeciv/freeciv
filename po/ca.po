@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-21 15:16+0100\n"
+"POT-Creation-Date: 2011-01-30 18:40-0800\n"
 "PO-Revision-Date: 2011-01-21 15:27+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: KBabel 1.11.4\n"
 
@@ -638,81 +638,81 @@ msgstr "Trampós"
 msgid "Experimental"
 msgstr "Experimental"
 
-#: common/player.c:1133
+#: common/player.c:1075
 msgid "?attitude:Genocidal"
 msgstr "Genocida"
 
-#: common/player.c:1135
+#: common/player.c:1077
 msgid "?attitude:Belligerent"
 msgstr "Bel·ligerant"
 
-#: common/player.c:1137
+#: common/player.c:1079
 msgid "?attitude:Hostile"
 msgstr "Hostil"
 
-#: common/player.c:1139
+#: common/player.c:1081
 msgid "?attitude:Uncooperative"
 msgstr "No cooperativa"
 
-#: common/player.c:1141
+#: common/player.c:1083
 msgid "?attitude:Uneasy"
 msgstr "Intranquil·la"
 
-#: common/player.c:1143
+#: common/player.c:1085
 msgid "?attitude:Neutral"
 msgstr "Neutral"
 
-#: common/player.c:1145
+#: common/player.c:1087
 msgid "?attitude:Respectful"
 msgstr "Respectuosa"
 
-#: common/player.c:1147
+#: common/player.c:1089
 msgid "?attitude:Helpful"
 msgstr "Col·laboració"
 
-#: common/player.c:1149
+#: common/player.c:1091
 msgid "?attitude:Enthusiastic"
 msgstr "Entusiasta"
 
-#: common/player.c:1151
+#: common/player.c:1093
 msgid "?attitude:Admiring"
 msgstr "Admiració"
 
-#: common/player.c:1154
+#: common/player.c:1096
 msgid "?attitude:Worshipful"
 msgstr "Veneració"
 
-#: common/player.c:1165
+#: common/player.c:1107
 msgid "?diplomatic_state:Armistice"
 msgstr "Armistici"
 
-#: common/player.c:1166
+#: common/player.c:1108
 msgid "?diplomatic_state:War"
 msgstr "Guerra"
 
-#: common/player.c:1167 client/gui-gtk-2.0/diplodlg.c:398
+#: common/player.c:1109 client/gui-gtk-2.0/diplodlg.c:402
 #: client/gui-sdl/diplodlg.c:463 client/gui-win32/diplodlg.c:312
 #: client/gui-xaw/diplodlg.c:546
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Alto el foc"
 
-#: common/player.c:1168 client/gui-gtk-2.0/diplodlg.c:403
+#: common/player.c:1110 client/gui-gtk-2.0/diplodlg.c:408
 #: client/gui-sdl/diplodlg.c:477 client/gui-win32/diplodlg.c:313
 #: client/gui-xaw/diplodlg.c:550
 msgid "?diplomatic_state:Peace"
 msgstr "Pau"
 
-#: common/player.c:1169 client/gui-gtk-2.0/diplodlg.c:408
+#: common/player.c:1111 client/gui-gtk-2.0/diplodlg.c:414
 #: client/gui-sdl/diplodlg.c:492 client/gui-win32/diplodlg.c:314
 #: client/gui-xaw/diplodlg.c:554
 msgid "?diplomatic_state:Alliance"
 msgstr "Aliança"
 
-#: common/player.c:1170
+#: common/player.c:1112
 msgid "?diplomatic_state:Never met"
 msgstr "Sense contacte"
 
-#: common/player.c:1171
+#: common/player.c:1113
 msgid "?diplomatic_state:Team"
 msgstr "Equip"
 
@@ -814,13 +814,13 @@ msgstr "equip %s"
 msgid "team %d"
 msgstr "equip %d"
 
-#: common/tech.c:882
+#: common/tech.c:886
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Tecnologia del futur %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:953 common/tech.c:956 client/gui-gtk-2.0/helpdlg.c:123
+#: common/tech.c:957 common/tech.c:960 client/gui-gtk-2.0/helpdlg.c:123
 #: client/gui-sdl/citydlg.c:730 client/gui-sdl/gui_tilespec.c:486
 #: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:802
 #: client/gui-sdl/helpdlg.c:828 client/gui-sdl/mapview.c:318
@@ -833,12 +833,12 @@ msgstr "Tecnologia del futur %d"
 msgid "None"
 msgstr "Cap"
 
-#: common/tech.c:959
+#: common/tech.c:963
 msgid "Future Tech."
 msgstr "Tecnologia del futur"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:963 client/gui-gtk-2.0/inteldlg.c:403
+#: common/tech.c:967 client/gui-gtk-2.0/inteldlg.c:403
 msgid "(Unknown)"
 msgstr "(Desconegut)"
 
@@ -989,7 +989,8 @@ msgstr "Millorar aquest %s deixaria penjades unitats que està transportant."
 
 #: common/unit.c:1828
 #, c-format
-msgid "Upgrading this %s would result in a %s which can not survive at this place."
+msgid ""
+"Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Millorar aquest %s tindria com a resultat un %s, que no pot sobreviure en "
 "aquest lloc."
@@ -1292,7 +1293,8 @@ msgstr "Error: crides recursives al registre.\n"
 #: utility/log.c:354
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr "No s'ha pogut obrir el fitxer de registre: %s per afegir-hi dades \"%s\".\n"
+msgstr ""
+"No s'ha pogut obrir el fitxer de registre: %s per afegir-hi dades \"%s\".\n"
 
 #: utility/log.c:370 utility/log.c:392
 #, c-format
@@ -1352,7 +1354,8 @@ msgstr ""
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1059
 #, c-format
-msgid "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
+msgid ""
+"\"%s\" is set but empty; using default \"%s\" scenario directories instead."
 msgstr ""
 "\"%s\" està inicialitzat però és buit; en comptes d'aquest, es faran servir "
 "els directoris d'escenari per defecte \"%s\"."
@@ -1482,9 +1485,10 @@ msgstr "*%s (IA)* Primer trenca l'aliança amb %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
-msgstr "*%s (IA)* M'agradaria que mantinguessis les distàncies amb %s una estona, %s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
+msgstr ""
+"*%s (IA)* M'agradaria que mantinguessis les distàncies amb %s una estona, %s."
 
 #: ai/advdiplomacy.c:355
 #, c-format
@@ -1496,7 +1500,8 @@ msgstr "*%s (IA)* Primer aturem les hostilitats, %s."
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
-msgstr "*%s (IA)* Abans, vull que mantinguis l'alto el foc actual una mica més, %s."
+msgstr ""
+"*%s (IA)* Abans, vull que mantinguis l'alto el foc actual una mica més, %s."
 
 #: ai/advdiplomacy.c:383
 #, c-format
@@ -1557,7 +1562,8 @@ msgstr "*%s (IA)* L'espai no serà mai teu. "
 #: ai/advdiplomacy.c:1160
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "*%s (AI)* Ja en tinc prou de les teves tàctiques retorçades! A la guerra!"
+msgstr ""
+"*%s (AI)* Ja en tinc prou de les teves tàctiques retorçades! A la guerra!"
 
 #: ai/advdiplomacy.c:1166
 #, c-format
@@ -1645,7 +1651,8 @@ msgstr[1] ""
 
 #: ai/advdiplomacy.c:1304
 #, c-format
-msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
+msgid ""
+"*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Si vols compartir el botí, apunta't a la festa!"
 
 #: ai/advdiplomacy.c:1309
@@ -1744,8 +1751,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutacions aliat, veig que encara no has declarat la guerra al "
 "nostre enemic %s. Com és que t'he de recordar les teves promeses?"
@@ -1773,7 +1780,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1663
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
-msgstr "*%s (IA)* Salutacions veí, ens permets suggerir relacions més pacífiques?"
+msgstr ""
+"*%s (IA)* Salutacions veí, ens permets suggerir relacions més pacífiques?"
 
 #: ai/advdiplomacy.c:1678
 #, c-format
@@ -1837,7 +1845,8 @@ msgstr ""
 #: server/auth.c:400
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-msgstr "Atenció: ja s'ha usat el nom de convidat '%s', renomenant a usuari '%s'."
+msgstr ""
+"Atenció: ja s'ha usat el nom de convidat '%s', renomenant a usuari '%s'."
 
 #: server/auth.c:406
 msgid "Guests are not allowed on this server. Sorry."
@@ -1927,7 +1936,8 @@ msgstr "Ho sento, temps de connexió excedit..."
 #: server/auth.c:564
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr "%s ha estat refusat: Temps de connexió excedit esperant la contrasenya."
+msgstr ""
+"%s ha estat refusat: Temps de connexió excedit esperant la contrasenya."
 
 #: server/auth.c:628
 #, c-format
@@ -2019,7 +2029,8 @@ msgstr "No pots utilitzar %s com a nom de ciutat. Està reservat per a %s."
 
 #: server/citytools.c:402
 #, c-format
-msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
+msgid ""
+"%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
 "%s no és un nom vàlid. Només es permeten noms ASCII o trets de les regles "
 "per les ciutats."
@@ -2093,7 +2104,8 @@ msgstr ""
 
 #: server/citytools.c:1412
 #, c-format
-msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
+msgid ""
+"When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 "Quan %s ha estat desmantellada %s no ha pogut sortir-ne, i per tant, s'ha "
 "perdut."
@@ -2196,7 +2208,8 @@ msgstr "Avís: La Meravella %s de %s s'acabarà el proper torn."
 
 #: server/cityturn.c:409
 #, c-format
-msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
+msgid ""
+"Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr "Ajusta el creixement de %s per aprofitar millor %s (en construcció)."
 
 #: server/cityturn.c:424
@@ -2246,7 +2259,8 @@ msgstr "%s queda destruïda per la fam."
 
 #: server/cityturn.c:971
 #, c-format
-msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, la tecnologia encara no està "
 "disponible.  S'ajorna..."
@@ -2273,43 +2287,50 @@ msgstr ""
 
 #: server/cityturn.c:1073
 #, c-format
-msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
-msgstr "%s no pot construir %s de la llista de treball, cal tenir %s.  S'ajorna..."
+msgid ""
+"%s can't build %s from the worklist; need to have %s first.  Postponing..."
+msgstr ""
+"%s no pot construir %s de la llista de treball, cal tenir %s.  S'ajorna..."
 
 #: server/cityturn.c:1087
 #, c-format
-msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, necessita govern %s.  "
 "S'ajorna..."
 
 #: server/cityturn.c:1100
 #, c-format
-msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, cal una casella amb %s.  "
 "S'ajorna..."
 
 #: server/cityturn.c:1113
 #, c-format
-msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball, cal terreny de %s.  "
 "S'ajorna..."
 
 #: server/cityturn.c:1128
 #, c-format
-msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball; només %s pot construir-ho.  "
 "S'ajorna..."
 
 #: server/cityturn.c:1141
 #, c-format
-msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida "
-"%d.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida %"
+"d.  S'ajorna..."
 
 #: server/cityturn.c:1156
 #, c-format
@@ -2326,12 +2347,13 @@ msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, necessita classe de terreny "
-"%s.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, necessita classe de terreny %"
+"s.  S'ajorna..."
 
 #: server/cityturn.c:1196
 #, c-format
-msgid "%s can't build %s from the worklist; only available from %s.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; only available from %s.  Postponing..."
 msgstr ""
 "%s no pot construir %s de la llista de treball; només és disponible a partir "
 "de %s. S'ajorna..."
@@ -2474,7 +2496,8 @@ msgstr "%s desmantellada en %s."
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2522
 #, c-format
-msgid "Migrants from %s can't go to %s because there is not enough food available!"
+msgid ""
+"Migrants from %s can't go to %s because there is not enough food available!"
 msgstr "Els emigrants de %s no poden anar a %s perquè no hi ha prou menjar!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
@@ -2483,7 +2506,8 @@ msgstr "Els emigrants de %s no poden anar a %s perquè no hi ha prou menjar!"
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
 "available!"
-msgstr "Els emigrants de %s no poden anar a %s (%s) perquè no hi ha prou menjar!"
+msgstr ""
+"Els emigrants de %s no poden anar a %s (%s) perquè no hi ha prou menjar!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2534
@@ -2491,12 +2515,14 @@ msgstr "Els emigrants de %s no poden anar a %s (%s) perquè no hi ha prou menjar
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
 "available!"
-msgstr "Els emigrants de %s (%s) no poden anar a %s perquè no hi ha prou menjar!"
+msgstr ""
+"Els emigrants de %s (%s) no poden anar a %s perquè no hi ha prou menjar!"
 
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2549
 #, c-format
-msgid "Migrants from %s can't go to %s because it needs an improvement to grow!"
+msgid ""
+"Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 "Els emigrants de %s no poden anar a %s perquè necessita una millora per "
 "créixer!"
@@ -2504,7 +2530,8 @@ msgstr ""
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
 #: server/cityturn.c:2556
 #, c-format
-msgid "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
+msgid ""
+"Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 "Els emigrants de %s no poden anar a %s (%s) perquè necessita una millora per "
 "créixer!"
@@ -2512,7 +2539,8 @@ msgstr ""
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2561
 #, c-format
-msgid "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
+msgid ""
+"Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 "Els emigrants de %s (%s) no poden anar a %s perquè necessita una millora per "
 "créixer!"
@@ -2550,7 +2578,8 @@ msgstr ""
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
 #: server/cityturn.c:2825
 #, c-format
-msgid "Citizens of %s are thinking about migrating to %s (%s) for a better life."
+msgid ""
+"Citizens of %s are thinking about migrating to %s (%s) for a better life."
 msgstr ""
 "Ciutadans de %s s'estan pensant d'emigrar a %s (%s) per millorar la seva "
 "qualitat de vida."
@@ -2591,7 +2620,8 @@ msgstr "Número de senyal de sistema no vàlid \"%s\".\n"
 #: server/civserver.c:224
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr "Atenció: l'opció %s és obsoleta.  Usa -m per activar el metaservidor.\n"
+msgstr ""
+"Atenció: l'opció %s és obsoleta.  Usa -m per activar el metaservidor.\n"
 
 #: server/civserver.c:292
 #, c-format
@@ -2641,11 +2671,13 @@ msgstr ""
 
 #: server/civserver.c:319
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
-msgstr "  -G  --Guests\t\tPermetre que els convidats entrin si auth està permès.\n"
+msgstr ""
+"  -G  --Guests\t\tPermetre que els convidats entrin si auth està permès.\n"
 
 #: server/civserver.c:321
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
-msgstr "  -N  -Newusers\tPermet als nous usuaris d'entrar si auth està permès \n"
+msgstr ""
+"  -N  -Newusers\tPermet als nous usuaris d'entrar si auth està permès \n"
 
 #: server/civserver.c:324
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
@@ -2653,7 +2685,8 @@ msgstr "  -b, --bind ADDR\tEscolta els clients a ADDR\n"
 
 #: server/civserver.c:326 client/client_main.c:305 manual/civmanual.c:475
 #, c-format
-msgid "  -d, --debug NUM\tSet debug log level (%d to %d, or %d:file1,min,max:...)\n"
+msgid ""
+"  -d, --debug NUM\tSet debug log level (%d to %d, or %d:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d, o %d:fitx1,"
 "mín,màx:...)\n"
@@ -2665,7 +2698,8 @@ msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d)\n"
 
 #: server/civserver.c:334 client/client_main.c:313 manual/civmanual.c:483
 msgid "  -F, --Fatal [SIGNAL]\tRaise a signal on failed assertion\n"
-msgstr "  -F, --Fatal [SENYAL]\tEnviar un senyal en cas que falli una asserció\n"
+msgstr ""
+"  -F, --Fatal [SENYAL]\tEnviar un senyal en cas que falli una asserció\n"
 
 #: server/civserver.c:337
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
@@ -2703,7 +2737,8 @@ msgstr "  -q, --quitidle TEMPS\tSurt si no hi ha jugadors en TEMPS segons\n"
 
 #: server/civserver.c:351
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr "  -e, --exit-on-end\tQuan una partida acaba, sortir en comptes de reiniciar\n"
+msgstr ""
+"  -e, --exit-on-end\tQuan una partida acaba, sortir en comptes de reiniciar\n"
 
 #: server/civserver.c:354
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
@@ -2723,7 +2758,8 @@ msgstr "  -r, --read FITXER\tLlegeix script d'inici FITXER\n"
 
 #: server/civserver.c:361
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "  -R, --Ranklog FITXER\tUsa FITXER com a fitxer de registre de rànquings\n"
+msgstr ""
+"  -R, --Ranklog FITXER\tUsa FITXER com a fitxer de registre de rànquings\n"
 
 #: server/civserver.c:362 client/client_main.c:336 manual/civmanual.c:490
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -2920,8 +2956,10 @@ msgid "Send message to all connections."
 msgstr "Envia un missatge a totes les connexions."
 
 #: server/commands.c:147
-msgid "For each connected client, pops up a window showing the message entered."
-msgstr "Per cada client connectat, mostra una finestra emergent amb el missatge."
+msgid ""
+"For each connected client, pops up a window showing the message entered."
+msgstr ""
+"Per cada client connectat, mostra una finestra emergent amb el missatge."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:153
@@ -3545,9 +3583,9 @@ msgid ""
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Desar la partida actual al fitxer <nom-fitxer>. Si no s'especifica cap nom "
-"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[."
-"gz]\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar "
-"el servidor amb l'argument de la línia de comanda: \n"
+"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]"
+"\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar el "
+"servidor amb l'argument de la línia de comanda: \n"
 "    '--file <nomfitxer>' o '-f <nomfitxer>'\n"
 "i usar la comanda 'start' un cop els jugadors s'hagin reconnectat."
 
@@ -3751,7 +3789,8 @@ msgstr "%s s'ha refusat. Nom invàlid [%s]."
 
 #: server/connecthand.c:358
 #, c-format
-msgid "You have been kicked from this server and cannot reconnect for %d seconds."
+msgid ""
+"You have been kicked from this server and cannot reconnect for %d seconds."
 msgstr ""
 "Has estat expulsat d'aquest servidor i no et pots tornar a connectar en %d "
 "segons."
@@ -3805,7 +3844,8 @@ msgstr "No tens la tecnologia %s, no pots acceptar el tractat."
 
 #: server/diplhand.c:216
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr "La ciutat que intentes donar ja no existeix, no pots acceptar el tractat."
+msgstr ""
+"La ciutat que intentes donar ja no existeix, no pots acceptar el tractat."
 
 #: server/diplhand.c:222
 #, c-format
@@ -3836,7 +3876,8 @@ msgstr[1] "S'ha acordat un tractat que conté %d clàusules."
 #: server/diplhand.c:314 server/diplhand.c:318
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr "Una de les ciutats que %s està donant és destruïda! Tractat cancel·lat!"
+msgstr ""
+"Una de les ciutats que %s està donant és destruïda! Tractat cancel·lat!"
 
 #: server/diplhand.c:325 server/diplhand.c:330
 #, c-format
@@ -4206,8 +4247,10 @@ msgstr ""
 
 #: server/diplomats.c:1319
 #, c-format
-msgid "Your %s has successfully completed the mission and returned unharmed to %s."
-msgstr "El teu %s ha acomplert la seva missió amb èxit i ha tornat indemne a %s."
+msgid ""
+"Your %s has successfully completed the mission and returned unharmed to %s."
+msgstr ""
+"El teu %s ha acomplert la seva missió amb èxit i ha tornat indemne a %s."
 
 #: server/diplomats.c:1338
 #, c-format
@@ -4270,7 +4313,8 @@ msgstr ""
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:345
 #, c-format
-msgid "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
+msgid ""
+"Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
 "No es pot modificar el terreny per la casella %s perquè %d no és un "
 "identificador de terreny vàlid."
@@ -4288,7 +4332,8 @@ msgstr ""
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:440
 #, c-format
-msgid "Cannot modify base for the tile %s because %d is not a valid base type id."
+msgid ""
+"Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 "No es pot modificar la base de la casella %s perquè %d no és un "
 "identificador vàlid de tipus de base."
@@ -4303,7 +4348,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:526
 #, c-format
-msgid "Cannot create a unit at %s because the given unit type id %d is invalid."
+msgid ""
+"Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr ""
 "No es pot crear una unitat a %s perquè l'identificador de tipus d'unitat %d "
 "no és vàlid."
@@ -4342,7 +4388,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:614
 #, c-format
-msgid "Cannot remove a unit at %s because the given unit type id %d is invalid."
+msgid ""
+"Cannot remove a unit at %s because the given unit type id %d is invalid."
 msgstr ""
 "No es pot treure una unitat de %s perquè l'identificador de tipus d'unitat "
 "donat %d no és vàlid."
@@ -4378,7 +4425,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:762
 #, c-format
-msgid "Cannot create a city at %s because the given owner's player id %d is invalid"
+msgid ""
+"Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 "No es pot crear una ciutat a %s perquè l'identificador de jugador %d del "
 "propietari que s'ha donat no és vàlid."
@@ -4411,14 +4459,16 @@ msgstr "És impossible que una ciutat tingui %s!"
 
 #: server/edithand.c:911
 #, c-format
-msgid "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
+msgid ""
+"Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 "Quantitat de menjar acumulat %d no vàlida per a la ciutat %s (el rang permès "
 "és de %d a %d)."
 
 #: server/edithand.c:925
 #, c-format
-msgid "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
+msgid ""
+"Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 "Quantitat de producció acumulada %d no vàlida per a la ciutat %s (el rang "
 "permès és de %d a %d)."
@@ -4429,8 +4479,8 @@ msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
-"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors "
-"(%d)."
+"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors (%"
+"d)."
 
 #: server/edithand.c:980
 #, c-format
@@ -4438,12 +4488,13 @@ msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
-"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir "
-"%d)."
+"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir %"
+"d)."
 
 #: server/edithand.c:989
 msgid "Player cannot be created because random nation selection failed."
-msgstr "Els jugador no es pot crear perquè ha fallat la selecció aleatòria de nació."
+msgstr ""
+"Els jugador no es pot crear perquè ha fallat la selecció aleatòria de nació."
 
 #: server/edithand.c:998
 msgid "Player creation failed."
@@ -4501,7 +4552,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:1203
 #, c-format
-msgid "Cannot edit vision for the tile at %s because given player id %d is invalid."
+msgid ""
+"Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 "No es pot editar la visió per la casella situada a %s perquè l'identificador "
 "de jugador donat %d no és vàlid."
@@ -4552,7 +4604,8 @@ msgstr "Informació d'escenari no inicialitzada. No es pot desar l'escenari."
 #: server/gamehand.c:167
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr "Les unitats marines d'inici encara no estan suportades. Ningú no obté %s."
+msgstr ""
+"Les unitats marines d'inici encara no estan suportades. Ningú no obté %s."
 
 #: server/gamehand.c:424
 #, c-format
@@ -4679,7 +4732,8 @@ msgstr "Ha ocorregut l'escalfament global!"
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr "Les costes s'han inundat i grans quantitats de prats s'han desertitzat."
+msgstr ""
+"Les costes s'han inundat i grans quantitats de prats s'han desertitzat."
 
 #: server/maphand.c:177
 msgid "Nuclear winter has occurred!"
@@ -4818,8 +4872,10 @@ msgstr ""
 
 #: server/plrhand.c:553
 #, c-format
-msgid "The senate passes your bill because of the constant provocations of the %s."
-msgstr "El senat aprova la teva moció degut a les constants provocacions dels %s."
+msgid ""
+"The senate passes your bill because of the constant provocations of the %s."
+msgstr ""
+"El senat aprova la teva moció degut a les constants provocacions dels %s."
 
 #: server/plrhand.c:558
 #, c-format
@@ -4846,8 +4902,10 @@ msgstr ""
 
 #: server/plrhand.c:615
 #, c-format
-msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
-msgstr "%s ha atacat el teu aliat %s! Cancel·les la teva aliança amb l'agressor."
+msgid ""
+"%s has attacked your ally %s! You cancel your alliance to the aggressor."
+msgstr ""
+"%s ha atacat el teu aliat %s! Cancel·les la teva aliança amb l'agressor."
 
 #: server/plrhand.c:627
 #, c-format
@@ -4858,79 +4916,79 @@ msgstr ""
 "El teu company d'equip %s ha declarat la guerra a %s. Estàs obligat a "
 "cancel·lar l'aliança amb %s."
 
-#: server/plrhand.c:1146
+#: server/plrhand.c:1149
 #, c-format
 msgid "Removing player %s."
 msgstr "S'elimina el jugador %s."
 
-#: server/plrhand.c:1149
+#: server/plrhand.c:1152
 msgid "You've been removed from the game!"
 msgstr "Has estat eliminat de la partida!"
 
-#: server/plrhand.c:1152
+#: server/plrhand.c:1155
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s ha estat eliminat de la partida."
 
-#: server/plrhand.c:1199
+#: server/plrhand.c:1261
 msgid "Please choose a non-blank name."
 msgstr "Si us plau, escull un nom no buit."
 
-#: server/plrhand.c:1212
+#: server/plrhand.c:1274
 msgid "That nation is already in use."
 msgstr "Aquesta nació ja està agafada."
 
-#: server/plrhand.c:1217
+#: server/plrhand.c:1279
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Un altre jugador ja té el nom '%s'. Si us plau, escull un altre nom."
 
-#: server/plrhand.c:1241
+#: server/plrhand.c:1303
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Si us plau, escull un nom que contingui només caràcters ASCII"
 
-#: server/plrhand.c:1316 server/plrhand.c:1330
+#: server/plrhand.c:1378 server/plrhand.c:1392
 #, c-format
 msgid "Player no. %d"
 msgstr "Jugador número %d"
 
-#: server/plrhand.c:1345
+#: server/plrhand.c:1407
 msgid "A poorly-named player"
 msgstr "Un jugador amb un nom desafortunat"
 
-#: server/plrhand.c:1415 server/plrhand.c:1419
+#: server/plrhand.c:1477 server/plrhand.c:1481
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Has contactat amb els %s, governats per %s."
 
-#: server/plrhand.c:1882
+#: server/plrhand.c:1944
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "No s'ha pogut posar els %s en guerra civil - massa jugadors."
 
-#: server/plrhand.c:1888
+#: server/plrhand.c:1950
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "No s'ha pogut posar els %s en guerra civil - no queden nacions."
 
-#: server/plrhand.c:1918
+#: server/plrhand.c:1980
 msgid "Your nation is thrust into civil war."
 msgstr "La teva nació es veu abocada a una guerra civil."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:1922
+#: server/plrhand.c:1984
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s és el líder rebel dels %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:1942
+#: server/plrhand.c:2004
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s declara la seva lleialtat als %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:1960
+#: server/plrhand.c:2022
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -4947,21 +5005,23 @@ msgstr "L'informe de %2$s sobre les civilitzacions MÉS RIQUES del món el %1$s.
 #: server/report.c:86
 #, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "L'informe de %2$s sobre les civilitzacions MÉS AVANÇADES del món el %1$s."
+msgstr ""
+"L'informe de %2$s sobre les civilitzacions MÉS AVANÇADES del món el %1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:88
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
 msgstr ""
-"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el "
-"%1$s."
+"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el %1"
+"$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:90
 #, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "L'informe de %2$s sobre les civilitzacions MÉS FELICES del món el %1$s."
+msgstr ""
+"L'informe de %2$s sobre les civilitzacions MÉS FELICES del món el %1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:92
@@ -5380,7 +5440,8 @@ msgstr ""
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4451
-msgid "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
+msgid ""
+"Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "La partida desada fa servir el joc de regles de terreny \"clàssic\", i ja no "
 "està suportat."
@@ -5426,7 +5487,8 @@ msgstr "freeciv 2.3.0"
 
 #: server/savegame2.c:5360
 #, c-format
-msgid "Run compatibility function for version: <%d (save file: %d; server: %d)."
+msgid ""
+"Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
 "Executa funció de compatibilitat per a versió: <%d (fitxer desat: %d; "
 "servidor: %d)."
@@ -5434,7 +5496,8 @@ msgstr ""
 #: server/savegame2.c:5394
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
-msgstr "Executa funció de compatibilitat per a versió: <%d (vols: %d, servidor: %d)."
+msgstr ""
+"Executa funció de compatibilitat per a versió: <%d (vols: %d, servidor: %d)."
 
 #: server/settings.c:197
 msgid "Number of tiles"
@@ -5665,8 +5728,8 @@ msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"help "
 "allowtake\"."
 msgstr ""
-"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: "
-"'%c'. Prova \"help allowtake\"."
+"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: '%"
+"c'. Prova \"help allowtake\"."
 
 #: server/settings.c:594
 #, c-format
@@ -5708,7 +5771,8 @@ msgid "You are not allowed to set timeout values less than 30 seconds."
 msgstr "No està permès de posar temporitzadors a valors de menys de 30 segons"
 
 #: server/settings.c:669 server/settings.c:695
-msgid "For autogames ('timeout' = -1) 'unitwaittime' should be deactivated (= 0)."
+msgid ""
+"For autogames ('timeout' = -1) 'unitwaittime' should be deactivated (= 0)."
 msgstr ""
 "Per partides automàtiques ('timeout = -1) 'unitwaittime' s'hauria de "
 "desactivar (= 0)."
@@ -5951,7 +6015,8 @@ msgstr "Si els pols són continents separats"
 
 #: server/settings.c:949
 msgid "If this setting is disabled, the continents may attach to poles."
-msgstr "Si es desactiva aquesta opció, els continents poden enganxar-se amb els pols."
+msgstr ""
+"Si es desactiva aquesta opció, els continents poden enganxar-se amb els pols."
 
 #: server/settings.c:954
 msgid "All the map is temperate"
@@ -6002,7 +6067,8 @@ msgstr "Percentatge del mapa que és terra"
 msgid ""
 "This setting gives the approximate percentage of the map that will be made "
 "into land."
-msgstr "Aquesta variable dóna el percentatge aproximat del mapa que serà terra."
+msgstr ""
+"Aquesta variable dóna el percentatge aproximat del mapa que serà terra."
 
 #: server/settings.c:987
 msgid "Amount of hills/mountains"
@@ -6045,7 +6111,8 @@ msgid "Nuclear winter"
 msgstr "Hivern nuclear"
 
 #: server/settings.c:1011
-msgid "If turned off, nuclear winter will not occur as a result of nuclear war."
+msgid ""
+"If turned off, nuclear winter will not occur as a result of nuclear war."
 msgstr ""
 "Si es desactiva, no ocorrerà l'hivern nuclear com a conseqüència d'una "
 "guerra nuclear."
@@ -6169,7 +6236,8 @@ msgstr "Desar els missatges de xat a la cache d'esdeveniments"
 
 #: server/settings.c:1108
 msgid "If turned on, chat messages will be saved in the event cache."
-msgstr "Si s'activa, els missatges de xat es desaran a la cache d'esdeveniments."
+msgstr ""
+"Si s'activa, els missatges de xat es desaran a la cache d'esdeveniments."
 
 #: server/settings.c:1113
 msgid "Print turn and time for each cached event"
@@ -6230,7 +6298,8 @@ msgstr "Or inicial per a cada jugador"
 
 #: server/settings.c:1152
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr "Al principi de la partida, cada jugador rep aquesta quantitat de peces d'or."
+msgstr ""
+"Al principi de la partida, cada jugador rep aquesta quantitat de peces d'or."
 
 #: server/settings.c:1158
 msgid "Number of initial techs per player"
@@ -6459,7 +6528,8 @@ msgid "Technology trading"
 msgstr "Intercanvi de Tecnologia"
 
 #: server/settings.c:1316
-msgid "If turned off, trading technologies in the diplomacy dialog is not allowed."
+msgid ""
+"If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr ""
 "Si es desactiva, no es permet l'intercanvi de tecnologies en el diàleg de "
 "diplomàcia."
@@ -6470,7 +6540,8 @@ msgstr "Intercanvi d'or"
 
 #: server/settings.c:1323
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
-msgstr "Si es desactiva, no es permet l'intercanvi d'or en el diàleg de diplomàcia."
+msgstr ""
+"Si es desactiva, no es permet l'intercanvi d'or en el diàleg de diplomàcia."
 
 #: server/settings.c:1329
 msgid "City trading"
@@ -6567,7 +6638,8 @@ msgstr ""
 
 #: server/settings.c:1391
 msgid "Slowly kill units without home cities (e.g., starting units)"
-msgstr "Matar lentament unitats que no tenen ciutat origen (p.ex. unitats d'inici)"
+msgstr ""
+"Matar lentament unitats que no tenen ciutat origen (p.ex. unitats d'inici)"
 
 #: server/settings.c:1392
 msgid ""
@@ -6611,7 +6683,8 @@ msgstr "Capacitat d'exercir diplomàcia amb altres jugadors"
 
 #: server/settings.c:1418
 msgid "This setting controls the ability to do diplomacy with other players."
-msgstr "Aquesta opció controla la capacitat d'exercir diplomàcia amb altres jugadors"
+msgstr ""
+"Aquesta opció controla la capacitat d'exercir diplomàcia amb altres jugadors"
 
 #: server/settings.c:1424
 msgid "Allowed city names"
@@ -6760,7 +6833,8 @@ msgstr "Si es permet la carrera espacial"
 
 #: server/settings.c:1531
 msgid "If this option is enabled, players can build spaceships."
-msgstr "Si aquesta opció està activa, els jugadors poden construir naus espacials. "
+msgstr ""
+"Si aquesta opció està activa, els jugadors poden construir naus espacials. "
 
 #: server/settings.c:1536
 msgid "Should the game end if the spaceship arrives?"
@@ -7210,7 +7284,8 @@ msgid "Time to cut a client"
 msgstr "Temps per tallar a un client"
 
 #: server/settings.c:1835
-msgid "If a client doesn't reply to a PING in this time the client is disconnected."
+msgid ""
+"If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr "Si un client no respon a un PING en aquest temps, se'l desconnectarà."
 
 #: server/settings.c:1841
@@ -7408,7 +7483,8 @@ msgstr ""
 
 #: server/settings.c:1966
 msgid "Time before a kicked user can reconnect"
-msgstr "Temps que ha de passar perquè un usuari expulsat pugui tornar-se a connectar."
+msgstr ""
+"Temps que ha de passar perquè un usuari expulsat pugui tornar-se a connectar."
 
 #: server/settings.c:1967
 msgid ""
@@ -7584,7 +7660,8 @@ msgstr ""
 
 #: server/spacerace.c:208
 msgid "Spaceship action received, but you don't have a spaceship!"
-msgstr "S'ha rebut una acció de la nau espacial, però tu no tens cap nau espacial!"
+msgstr ""
+"S'ha rebut una acció de la nau espacial, però tu no tens cap nau espacial!"
 
 #: server/spacerace.c:214
 msgid "You can't modify your spaceship after launch!"
@@ -7604,7 +7681,8 @@ msgstr "No tens cap Component Espacial sense col·locar!"
 
 #: server/spacerace.c:247
 msgid "Your spaceship already has the maximum number of Fuel Components!"
-msgstr "La teva nau espacial ja té el nombre màxim de components de combustible!"
+msgstr ""
+"La teva nau espacial ja té el nombre màxim de components de combustible!"
 
 #: server/spacerace.c:268
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
@@ -7681,11 +7759,13 @@ msgstr "La nau espacial %s ha arribat a Alpha Centauri."
 #: server/srv_main.c:639 server/srv_main.c:650
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "El teu %s s'ha desmantellat d'acord amb el teu tractat de pau amb els %s."
+msgstr ""
+"El teu %s s'ha desmantellat d'acord amb el teu tractat de pau amb els %s."
 
 #: server/srv_main.c:689
 #, c-format
-msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
+msgid ""
+"Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Ciutadans preocupats avisen que l'alto el foc amb %s s'acabarà aviat."
 
 #: server/srv_main.c:698 server/srv_main.c:703
@@ -7796,7 +7876,8 @@ msgstr "S'està enviant informació al metaservidor <%s>."
 
 #: server/srv_main.c:2265
 msgid "Not starting without explicitly requested metaserver connection."
-msgstr "No es comença sense connexió de metaservidor sol·licitada explícitament."
+msgstr ""
+"No es comença sense connexió de metaservidor sol·licitada explícitament."
 
 #: server/srv_main.c:2286
 msgid "The game is over..."
@@ -7912,7 +7993,8 @@ msgstr "Cadena de pegats de metaserver fixada a '%s'."
 #: server/stdinhand.c:554
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
-msgstr "Cadena de pegats de metaserver fixada a '%s', sense reportar al metaserver."
+msgstr ""
+"Cadena de pegats de metaserver fixada a '%s', sense reportar al metaserver."
 
 #: server/stdinhand.c:575
 #, c-format
@@ -8070,8 +8152,8 @@ msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
-"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió "
-"'%s'; només tens '%s'."
+"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió '%"
+"s'; només tens '%s'."
 
 #: server/stdinhand.c:1314
 #, c-format
@@ -8080,7 +8162,8 @@ msgstr "Nivell d'accés de comanda fixat a '%s' per a connexió %s."
 
 #: server/stdinhand.c:1363
 #, c-format
-msgid "Anyone can now become game organizer '%s' by issuing the 'first' command."
+msgid ""
+"Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 "Ara qualsevol pot convertir-se en organitzador de la partida '%s' llançant "
 "la comanda 'first'."
@@ -8107,7 +8190,8 @@ msgstr "El nivell d'accés de comandes ha de ser un dels següents: %s."
 
 #: server/stdinhand.c:1422
 #, c-format
-msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
+msgid ""
+"Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "No es pot augmentar nivell d'accés de comanda a '%s'; només tens '%s'."
 
 #: server/stdinhand.c:1449 server/stdinhand.c:1463 server/stdinhand.c:1484
@@ -8118,11 +8202,13 @@ msgstr "Nivell d'accés de comanda fixat a '%s' per a nous jugadors."
 #: server/stdinhand.c:1454 server/stdinhand.c:1468 server/stdinhand.c:1478
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr "Nivell d'accés de comanda fixat a '%s' per al primer jugador que l'agafi."
+msgstr ""
+"Nivell d'accés de comanda fixat a '%s' per al primer jugador que l'agafi."
 
 #: server/stdinhand.c:1513
 msgid "The 'first' command makes no sense from the server command line."
-msgstr "La comanda 'first' no té sentit des de la línia de comandes del servidor."
+msgstr ""
+"La comanda 'first' no té sentit des de la línia de comandes del servidor."
 
 #: server/stdinhand.c:1517
 #, c-format
@@ -8362,7 +8448,8 @@ msgstr ""
 #: server/stdinhand.c:2219
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
-msgstr "No existeix l'equip %s. Si us plau dóna un nom o nombre d'equip vàlids."
+msgstr ""
+"No existeix l'equip %s. Si us plau dóna un nom o nombre d'equip vàlids."
 
 #: server/stdinhand.c:2226
 msgid "Cannot team a barbarian."
@@ -8389,8 +8476,8 @@ msgstr "Votació"
 #: server/stdinhand.c:2263
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (cal %0.0f%%%s): %d a favor, %d en contra, i %d abstencions "
 "sobre %d jugadors."
@@ -8602,7 +8689,8 @@ msgstr[1] ""
 
 #: server/stdinhand.c:2924
 msgid "You cannot take a new player because there are no free player slots."
-msgstr "No pots agafar un nou jugador perquè no queden posicions de jugador lliures."
+msgstr ""
+"No pots agafar un nou jugador perquè no queden posicions de jugador lliures."
 
 #: server/stdinhand.c:2936
 msgid "Sorry, one can't observe barbarians in this game."
@@ -8646,7 +8734,8 @@ msgstr "Ho sento, en aquesta partida no es poden prendre jugadors."
 
 #: server/stdinhand.c:3001
 msgid "Sorry, one can't take players already connected in this game."
-msgstr "Ho sento, en aquesta partida no es poden prendre els jugadors ja connectats."
+msgstr ""
+"Ho sento, en aquesta partida no es poden prendre els jugadors ja connectats."
 
 #: server/stdinhand.c:3038 server/stdinhand.c:3187
 msgid "Only the player name form is allowed."
@@ -8883,7 +8972,8 @@ msgid "(server prompt)"
 msgstr "(prompt del servidor)"
 
 #: server/stdinhand.c:4145
-msgid "Ending the game. The server will restart once all clients have disconnected."
+msgid ""
+"Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Finalitzant partida. El servidor rearrancarà un cop s'hagin desconnectat "
 "tots els clients."
@@ -8953,7 +9043,8 @@ msgstr "No hi ha jugadors; la partida no començarà."
 
 #: server/stdinhand.c:4385
 msgid "Not enough nations for all players; game will not start."
-msgstr "No hi ha prou nacions per a tots els jugadors; la partida no començarà."
+msgstr ""
+"No hi ha prou nacions per a tots els jugadors; la partida no començarà."
 
 #: server/stdinhand.c:4394
 msgid "All players are ready; starting game."
@@ -8961,7 +9052,8 @@ msgstr "Tots els jugadors estan a punt; començant la partida"
 
 #. TRANS: given when /start is invoked during gameover.
 #: server/stdinhand.c:4410
-msgid "Cannot start the game: the game is waiting for all clients to disconnect."
+msgid ""
+"Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "No es pot iniciar la partida: la partida està esperant que es desconnectin "
 "tots els clients."
@@ -9201,7 +9293,8 @@ msgstr ""
 #: server/techtools.c:366
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
-msgstr "S'ha descobert %s. Els científics no saben què investigar a partir d'ara."
+msgstr ""
+"S'ha descobert %s. Els científics no saben què investigar a partir d'ara."
 
 #: server/techtools.c:371
 #, c-format
@@ -9282,7 +9375,8 @@ msgstr "Els %s han robat %s dels %s."
 #: server/techtools.c:1075
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
-msgstr "Llàstima! Has comès un error en transferir la tecnologia %s i l'has perduda."
+msgstr ""
+"Llàstima! Has comès un error en transferir la tecnologia %s i l'has perduda."
 
 #: server/unithand.c:119
 #, c-format
@@ -9336,7 +9430,8 @@ msgstr "No es pot ubicar una ciutat dins de territori estranger."
 
 #: server/unithand.c:556
 msgid "Can't place a city there because another city is too close."
-msgstr "No s'hi pot ubicar una ciutat perquè hi ha una altra ciutat massa a prop."
+msgstr ""
+"No s'hi pot ubicar una ciutat perquè hi ha una altra ciutat massa a prop."
 
 #. TRANS: %s is list of units separated by "or".
 #: server/unithand.c:566
@@ -9507,7 +9602,8 @@ msgstr "La teva %s ajuda a construir %s a %s (excedent %d)."
 
 #: server/unithand.c:1570
 #, c-format
-msgid "Sorry, your %s cannot establish a trade route because it has no home city."
+msgid ""
+"Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr ""
 "Ho sento, el teu %s no pot establir una ruta comercial perquè no té ciutat "
 "d'origen."
@@ -9609,7 +9705,8 @@ msgstr "No es pot defensar %s, %s ha perdut la partida."
 #: server/unittools.c:1490
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
-msgstr "La pèrdua de %s significa perdre la partida! Vigila més la propera vegada!"
+msgstr ""
+"La pèrdua de %s significa perdre la partida! Vigila més la propera vegada!"
 
 #: server/unittools.c:1533
 #, c-format
@@ -9642,9 +9739,12 @@ msgstr "%1$s perdut en un atac del %3$s %2$s."
 #: server/unittools.c:1782
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
-msgid_plural "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "El teu %1$s ha guanyat l'atac contra el %3$s %2$s (i %4$d unitat més)!"
-msgstr[1] "El teu %1$s ha guanyat l'atac contra el %3$s %2$s (i %4$d unitats més)!"
+msgid_plural ""
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] ""
+"El teu %1$s ha guanyat l'atac contra el %3$s %2$s (i %4$d unitat més)!"
+msgstr[1] ""
+"El teu %1$s ha guanyat l'atac contra el %3$s %2$s (i %4$d unitats més)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -9720,7 +9820,8 @@ msgstr "Aquest tipus d'unitat no pot ser llançat amb paracaigudes."
 
 #: server/unittools.c:2303
 msgid "You cannot paradrop a unit that is transporting other units."
-msgstr "No es pot llançar en paracaigudes una unitat que en transporta d'altres."
+msgstr ""
+"No es pot llançar en paracaigudes una unitat que en transporta d'altres."
 
 #: server/unittools.c:2309
 msgid "The destination location is not known."
@@ -9734,7 +9835,8 @@ msgstr "Aquesta unitat no es pot llançar en paracaigudes a %s."
 #: server/unittools.c:2348
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr "La distància a l'objectiu (%i) és més gran que el rang de la unitat (%i)."
+msgstr ""
+"La distància a l'objectiu (%i) és més gran que el rang de la unitat (%i)."
 
 #: server/unittools.c:2359
 #, c-format
@@ -9744,7 +9846,8 @@ msgstr "El teu %s s'ha llançat en paracaigudes a %s i ha mort."
 #: server/unittools.c:2372
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr "El teu %s ha estat mort per unitats enemigues a la destinació de llançament."
+msgstr ""
+"El teu %s ha estat mort per unitats enemigues a la destinació de llançament."
 
 #: server/unittools.c:2401 data/default/default.lua:22
 #: data/multiplayer/default.lua:22
@@ -9780,12 +9883,14 @@ msgstr "Les ordres per %s s'han avortat perquè hi ha unitats a la vora."
 #: server/unittools.c:3269
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr "Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
+msgstr ""
+"Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
 
 #: server/unittools.c:3285
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
-msgstr "Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
+msgstr ""
+"Les ordres per %s s'han avortat perquè provoquen una activitat no vàlida."
 
 #: server/unittools.c:3304
 #, c-format
@@ -9824,7 +9929,8 @@ msgstr "El teu %s té ordres incorrectes"
 
 #: server/unittools.c:3509
 #, c-format
-msgid "Your unit may not move for another %s this turn. See /help unitwaittime."
+msgid ""
+"Your unit may not move for another %s this turn. See /help unitwaittime."
 msgstr ""
 "La teva unitat encara no es pot moure aquest torn i fins d'aquí %s. Veure /"
 "help unitwaittime."
@@ -9832,8 +9938,10 @@ msgstr ""
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..."
 #: server/voting.c:523
 #, c-format
-msgid "%s %d \"%s\" is passed %d to %d with %d abstentions and %d who did not vote."
-msgstr "%s %d \"%s\" s'aprova per %d a %d amb %d abstencions i %d que no han votat."
+msgid ""
+"%s %d \"%s\" is passed %d to %d with %d abstentions and %d who did not vote."
+msgstr ""
+"%s %d \"%s\" s'aprova per %d a %d amb %d abstencions i %d que no han votat."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" failed ..."
 #: server/voting.c:530
@@ -9903,7 +10011,8 @@ msgstr ""
 " Potser hi ha massa jugadors per aquest mapa."
 
 #: client/attribute.c:368
-msgid "There has been a CMA error. Your citizen governor settings may be broken."
+msgid ""
+"There has been a CMA error. Your citizen governor settings may be broken."
 msgstr ""
 "Hi ha hagut un error d'AGC. La teva configuració de gestor de ciutadans pot "
 "estar espatllada."
@@ -10501,7 +10610,8 @@ msgstr "  -n, --name NOM\tUsa NOM com a nom\n"
 
 #: client/client_main.c:324
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
-msgstr "  -p, --port PORT\tConnecta al port del servidor PORT (normalment amb -a)\n"
+msgstr ""
+"  -p, --port PORT\tConnecta al port del servidor PORT (normalment amb -a)\n"
 
 #: client/client_main.c:326
 #, c-format
@@ -10524,7 +10634,8 @@ msgstr "  -S, --Sound FITXER\tLlegir marcadors de so des de FITXER\n"
 
 #: client/client_main.c:334
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
-msgstr "  -t, --tiles FITXER\tUsar fitxer de dades FITXER.tilespec per caselles\n"
+msgstr ""
+"  -t, --tiles FITXER\tUsar fitxer de dades FITXER.tilespec per caselles\n"
 
 #: client/client_main.c:337
 #, c-format
@@ -10547,7 +10658,8 @@ msgstr "Port no vàlid \"%s\" especificat amb l'opció --port.\n"
 #: client/client_main.c:393
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr "Nivell de depuració incorrecte \"%s\" especificat amb l'opció --debug.\n"
+msgstr ""
+"Nivell de depuració incorrecte \"%s\" especificat amb l'opció --debug.\n"
 
 #: client/client_main.c:413
 #, c-format
@@ -10571,7 +10683,8 @@ msgstr "S'ha fixat el metaservidor per defecte a \"%s\"."
 
 #: client/client_main.c:627
 msgid "There was an error while auto connecting; aborting."
-msgstr "Hi ha hagut un error mentre em connectava automàticament; s'està avortant."
+msgstr ""
+"Hi ha hagut un error mentre em connectava automàticament; s'està avortant."
 
 #: client/client_main.c:705
 msgid "Game started."
@@ -10704,8 +10817,8 @@ msgstr "servidor desconnectat"
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
-"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de "
-"%d intents"
+"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de %"
+"d intents"
 
 #: client/clinet.c:525
 msgid "Connection to server refused. Please start the server."
@@ -10750,7 +10863,8 @@ msgid "We probably couldn't start it from here."
 msgstr "Probablement no podríem engegar-lo des d'aquí."
 
 #: client/connectdlg_common.c:503
-msgid "Established control over the server. You have command access level 'hack'."
+msgid ""
+"Established control over the server. You have command access level 'hack'."
 msgstr "Tenim el control del servidor. Tens nivell d'accés a comandes 'hack'."
 
 #: client/connectdlg_common.c:509
@@ -11039,7 +11153,8 @@ msgstr "Requereix el govern %s.\n"
 #: client/helpdata.c:301
 #, c-format
 msgid "Requires that the %s wonder has been built by any player.\n"
-msgstr "Requereix que la meravella %s s'hagi construït per qualsevol jugador.\n"
+msgstr ""
+"Requereix que la meravella %s s'hagi construït per qualsevol jugador.\n"
 
 #: client/helpdata.c:310
 #, c-format
@@ -11049,7 +11164,8 @@ msgstr "Requereix que tinguis la meravella %s.\n"
 #: client/helpdata.c:319
 #, c-format
 msgid "Requires the %s wonder to be owned by you and on the same continent.\n"
-msgstr "Requereix que tinguis la meravella %s i que sigui al mateix continent.\n"
+msgstr ""
+"Requereix que tinguis la meravella %s i que sigui al mateix continent.\n"
 
 #: client/helpdata.c:328
 #, c-format
@@ -11150,7 +11266,8 @@ msgstr "Requereix que haguem arribat a l'any %d.\n"
 #: client/helpdata.c:581
 #, c-format
 msgid "Requires terrain on which %s can be built on tile.\n"
-msgstr "Requereix que la casella sigui d'un terreny on es pugui construir %s.\n"
+msgstr ""
+"Requereix que la casella sigui d'un terreny on es pugui construir %s.\n"
 
 #: client/helpdata.c:597
 msgid "Applies only to city centers.\n"
@@ -11202,7 +11319,8 @@ msgstr "* El descobriment de %s farà que %s sigui obsolet.\n"
 #: client/helpdata.c:1148
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr "* Permet a tots els jugadors amb coneixement de %s construir unitats %s.\n"
+msgstr ""
+"* Permet a tots els jugadors amb coneixement de %s construir unitats %s.\n"
 
 #: client/helpdata.c:1161
 #, c-format
@@ -11258,7 +11376,8 @@ msgstr "  * Pot saquejar millores de caselles.\n"
 
 #: client/helpdata.c:1275
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
-msgstr "  * No impedeix que les ciutats enemigues treballin a la casella on és.\n"
+msgstr ""
+"  * No impedeix que les ciutats enemigues treballin a la casella on és.\n"
 
 #: client/helpdata.c:1280
 #, c-format
@@ -11416,7 +11535,8 @@ msgstr "* No pot ser subornat.\n"
 
 #: client/helpdata.c:1443
 msgid "* Is invisible except when next to an enemy unit or city.\n"
-msgstr "* És invisible excepte quan és al costat d'una unitat o ciutat enemiga.\n"
+msgstr ""
+"* És invisible excepte quan és al costat d'una unitat o ciutat enemiga.\n"
 
 #: client/helpdata.c:1447
 msgid "* Can only attack units on ocean tiles (no land attacks).\n"
@@ -11492,7 +11612,8 @@ msgstr "* Obté una defensa quintuplicada contra míssils i avions.\n"
 
 #: client/helpdata.c:1509
 msgid "* Ignores terrain effects (treats all tiles as roads).\n"
-msgstr "* Ignora l'efecte del terreny (tracta totes les caselles com a camins).\n"
+msgstr ""
+"* Ignora l'efecte del terreny (tracta totes les caselles com a camins).\n"
 
 #: client/helpdata.c:1512
 msgid "* Ignores zones of control.\n"
@@ -11581,8 +11702,10 @@ msgstr "* Pot atacar unitats %s, que normalment no són accessibles.\n"
 #, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
-msgstr[0] "* La unitat ha de ser en una ciutat o en una base al cap d'%d torn.\n"
-msgstr[1] "* La unitat ha de ser en una ciutat o en una base al cap de %d torns.\n"
+msgstr[0] ""
+"* La unitat ha de ser en una ciutat o en una base al cap d'%d torn.\n"
+msgstr[1] ""
+"* La unitat ha de ser en una ciutat o en una base al cap de %d torns.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:1623
@@ -11734,14 +11857,16 @@ msgid "* Can be pillaged by units.\n"
 msgstr "* Pot ser sabotejat per unitats.\n"
 
 #: client/helpdata.c:1913
-msgid "* Defeat of one unit does not cause death of all other units on this tile.\n"
+msgid ""
+"* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 "* La derrota d'una unitat no provoca la mort de totes les altres unitats "
 "d'aquesta casella.\n"
 
 #: client/helpdata.c:1918
 msgid "* Units can paradrop from this tile.\n"
-msgstr "* Les unitats poden llançar-se en paracaigudes des d'aquesta casella.\n"
+msgstr ""
+"* Les unitats poden llançar-se en paracaigudes des d'aquesta casella.\n"
 
 #: client/helpdata.c:1922
 msgid "* Extends national borders of the building nation.\n"
@@ -11807,7 +11932,8 @@ msgstr ""
 #: client/helpdata.c:2124
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
-msgstr "* Pagues %d vegades el manteniment normal en %s per les teves unitats.\n"
+msgstr ""
+"* Pagues %d vegades el manteniment normal en %s per les teves unitats.\n"
 
 #: client/helpdata.c:2128
 #, c-format
@@ -11870,8 +11996,10 @@ msgstr ""
 
 #: client/helpdata.c:2182
 #, c-format
-msgid "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr "* La proporció màxima que pots fixar per ciència, or o luxes és del %d%%.\n"
+msgid ""
+"* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
+msgstr ""
+"* La proporció màxima que pots fixar per ciència, or o luxes és del %d%%.\n"
 
 #: client/helpdata.c:2187
 msgid "* Has unlimited science/gold/luxuries rates.\n"
@@ -11896,8 +12024,10 @@ msgstr[1] ""
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr[0] "* Un màxim de %d unitat a cada ciutat pot imposar la llei marcial.\n"
-msgstr[1] "* Un màxim de %d unitats a cada ciutat poden imposar la llei marcial.\n"
+msgstr[0] ""
+"* Un màxim de %d unitat a cada ciutat pot imposar la llei marcial.\n"
+msgstr[1] ""
+"* Un màxim de %d unitats a cada ciutat poden imposar la llei marcial.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:2215
@@ -12219,7 +12349,8 @@ msgstr "Dibuixar producció de ciutat"
 
 #: client/options.c:1695
 msgid "Setting this option will draw city output for every citizen."
-msgstr "Seleccionar aquesta opció farà que es dibuixi la producció de cada ciutadà."
+msgstr ""
+"Seleccionar aquesta opció farà que es dibuixi la producció de cada ciutadà."
 
 #: client/options.c:1699
 msgid "Draw the map grid"
@@ -12314,7 +12445,8 @@ msgid "Draw the coast line"
 msgstr "Dibuixar la línia de costa"
 
 #: client/options.c:1740
-msgid "Setting this option will draw a line to separate the land from the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Seleccionar aquesta opció farà dibuixar una línia que separi la terra de "
 "l'oceà."
@@ -12325,7 +12457,8 @@ msgstr "Dibuixar els camins i els ferrocarrils"
 
 #: client/options.c:1745
 msgid "Setting this option will draw the roads and the railroads on the map."
-msgstr "Seleccionar aquesta opció dibuixarà els camins i els ferrocarrils al mapa."
+msgstr ""
+"Seleccionar aquesta opció dibuixarà els camins i els ferrocarrils al mapa."
 
 #: client/options.c:1749
 msgid "Draw the irrigation"
@@ -12357,7 +12490,8 @@ msgstr "Dibuixar els recursos especials"
 
 #: client/options.c:1763
 msgid "Setting this option will draw the specials on the map."
-msgstr "Seleccionar aquesta opció farà dibuixar els recursos especials al mapa."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar els recursos especials al mapa."
 
 #: client/options.c:1767
 msgid "Draw the pollution/nuclear fallout"
@@ -12822,7 +12956,8 @@ msgid "Borders layer"
 msgstr "Capa de fronteres"
 
 #: client/options.c:1975
-msgid "The borders layer of the overview shows which tiles are owned by each player."
+msgid ""
+"The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 "La capa de fronteres del resum mostra quines caselles pertanyen a cada "
 "jugador."
@@ -13081,7 +13216,8 @@ msgstr "Amplada del diàleg de ciutat"
 
 #: client/options.c:2110
 msgid "This value is only used if the width of the city dialog is saved."
-msgstr "Aquest valor només es fa servir si es desa l'amplada del diàleg de ciutat."
+msgstr ""
+"Aquest valor només es fa servir si es desa l'amplada del diàleg de ciutat."
 
 #: client/options.c:2116
 msgid "Height of the city dialog"
@@ -13089,7 +13225,8 @@ msgstr "Alçada del diàleg de ciutat"
 
 #: client/options.c:2117
 msgid "This value is only used if the height of the city dialog is saved."
-msgstr "Aquest valor només es fa servir si es desa l'alçada del diàleg de ciutat."
+msgstr ""
+"Aquest valor només es fa servir si es desa l'alçada del diàleg de ciutat."
 
 #: client/options.c:2123
 msgid "City Label"
@@ -13220,7 +13357,8 @@ msgid "Requirement Tree"
 msgstr "Arbre de Requeriments"
 
 #: client/options.c:2196
-msgid "This font is used to the display the requirement tree in the science report."
+msgid ""
+"This font is used to the display the requirement tree in the science report."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar l'arbre de requeriments a "
 "l'informe de ciència."
@@ -13230,7 +13368,8 @@ msgid "Fullscreen"
 msgstr "Pantalla completa"
 
 #: client/options.c:2203
-msgid "If this option is set the client will use the whole screen area for drawing."
+msgid ""
+"If this option is set the client will use the whole screen area for drawing."
 msgstr ""
 "Si se selecciona aquesta opció, el client farà servir tota l'àrea de "
 "pantalla per dibuixar."
@@ -13248,7 +13387,8 @@ msgid "Do cursor animation"
 msgstr "Fer animació de cursor"
 
 #: client/options.c:2211
-msgid "If this option is disabled, the cursor will always be displayed as static."
+msgid ""
+"If this option is disabled, the cursor will always be displayed as static."
 msgstr "Si es desactiva aquesta opció, el cursor sempre es mostrarà estàtic."
 
 #: client/options.c:2214
@@ -13259,7 +13399,8 @@ msgstr "Utilitzar cursors de colors"
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
-msgstr "Si es desactiva aquesta opció, el cursor sempre es mostrarà en blanc i negre."
+msgstr ""
+"Si es desactiva aquesta opció, el cursor sempre es mostrarà en blanc i negre."
 
 #: client/options.c:2227
 msgid "Enable alpha blending"
@@ -13489,7 +13630,8 @@ msgstr ""
 
 #: client/servers.c:421
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
-msgstr "Valor de metaservidor o $http_proxy invàlids, ha de començar amb 'http://'"
+msgstr ""
+"Valor de metaservidor o $http_proxy invàlids, ha de començar amb 'http://'"
 
 #: client/servers.c:428
 msgid "Failed looking up metaserver's host"
@@ -14248,7 +14390,8 @@ msgstr ""
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
 "have a look."
-msgstr "El gestor de ciutadans s'ha confós a %s. Val més que hi donis un cop d'ull."
+msgstr ""
+"El gestor de ciutadans s'ha confós a %s. Val més que hi donis un cop d'ull."
 
 #: client/agents/cma_fec.c:226 client/gui-gtk-2.0/cityrep.c:755
 #: client/gui-gtk-2.0/cityrep.c:781 client/gui-sdl/citydlg.c:2016
@@ -15361,40 +15504,40 @@ msgstr "_Donar visió compartida"
 msgid "Give _embassy"
 msgstr "Donar A_mbaixada"
 
-#: client/gui-gtk-2.0/diplodlg.c:413
+#: client/gui-gtk-2.0/diplodlg.c:420
 msgid "_Pacts"
 msgstr "_Pactes"
 
-#: client/gui-gtk-2.0/diplodlg.c:506
+#: client/gui-gtk-2.0/diplodlg.c:513
 #, c-format
 msgid "Diplomacy: %s"
 msgstr "Diplomàcia: %s"
 
-#: client/gui-gtk-2.0/diplodlg.c:513
+#: client/gui-gtk-2.0/diplodlg.c:520
 msgid "_Cancel meeting"
 msgstr "_Cancel·lar la cimera"
 
-#: client/gui-gtk-2.0/diplodlg.c:515
+#: client/gui-gtk-2.0/diplodlg.c:522
 msgid "Accept _treaty"
 msgstr "Acceptar _tractat"
 
-#: client/gui-gtk-2.0/diplodlg.c:543
+#: client/gui-gtk-2.0/diplodlg.c:550
 msgid "C_lauses:"
 msgstr "C_làusules:"
 
-#: client/gui-gtk-2.0/diplodlg.c:607 client/gui-gtk-2.0/diplodlg.c:678
+#: client/gui-gtk-2.0/diplodlg.c:614 client/gui-gtk-2.0/diplodlg.c:685
 msgid "_Gold:"
 msgstr "_Or:"
 
-#: client/gui-gtk-2.0/diplodlg.c:618 client/gui-gtk-2.0/diplodlg.c:689
+#: client/gui-gtk-2.0/diplodlg.c:625 client/gui-gtk-2.0/diplodlg.c:696
 msgid "_Add Clause..."
 msgstr "_Afegir clàusula..."
 
-#: client/gui-gtk-2.0/diplodlg.c:734
+#: client/gui-gtk-2.0/diplodlg.c:741
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Tractat en blanc. Si us plau, afegeix clàusules. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:964 client/gui-sdl/diplodlg.c:376
+#: client/gui-gtk-2.0/diplodlg.c:971 client/gui-sdl/diplodlg.c:376
 #: client/gui-win32/diplodlg.c:268 client/gui-xaw/diplodlg.c:976
 msgid "Invalid amount of gold specified."
 msgstr "La quantitat d'or especificada no és vàlida."
@@ -15935,7 +16078,8 @@ msgstr "Felicitat"
 #. TRANS: the width of this text defines the width of the city dialog.
 #: client/gui-gtk-2.0/happiness.c:252
 msgid "Additional information is available via left click on the citizens."
-msgstr "Es pot obtenir més informació fent clic esquerre al damunt dels ciutadans."
+msgstr ""
+"Es pot obtenir més informació fent clic esquerre al damunt dels ciutadans."
 
 #: client/gui-gtk-2.0/helpdlg.c:93 client/gui-gtk-2.0/helpdlg.c:96
 #: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:349
@@ -18198,8 +18342,8 @@ msgstr "No s'ha pogut convertir la imatge des de l'arxiu %s al format %d."
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
-"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format "
-"%d"
+"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format %"
+"d"
 
 #: client/gui-sdl/graphics.c:556
 #, c-format
@@ -19314,7 +19458,8 @@ msgstr "Disponible per construir"
 
 #: client/gui-win32/cityrep.c:690
 msgid "Select a unit or improvement to change production from."
-msgstr "Seleccionar una unitat o millora des de la qual es canviarà la producció"
+msgstr ""
+"Seleccionar una unitat o millora des de la qual es canviarà la producció"
 
 #: client/gui-win32/cityrep.c:700
 msgid "Select a unit or improvement to change production to."
@@ -19977,7 +20122,8 @@ msgstr "No hi ha número de versió en recursos."
 
 #: client/gui-xaw/gui_main.c:344
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr "Probablement tens un arxiu de recursos Freeciv vell (V1.0) en algun lloc."
+msgstr ""
+"Probablement tens un arxiu de recursos Freeciv vell (V1.0) en algun lloc."
 
 #: client/gui-xaw/gui_main.c:352
 msgid "Game version does not match Resource version."
@@ -19990,7 +20136,8 @@ msgstr "Versió del joc: %s - Versió dels recursos %s"
 
 #: client/gui-xaw/gui_main.c:355
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr "Potser tens un arxiu de recursos Freeciv vell a /usr/lib/X11/app-defaults"
+msgstr ""
+"Potser tens un arxiu de recursos Freeciv vell a /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:361
 msgid "Using fallback resources - which is OK"
@@ -22601,7 +22748,8 @@ msgstr ""
 
 #: data/helpdata.txt:929
 msgid " - Food surplus. (A food deficit reduces the desirability of a city.)"
-msgstr " - Excedent de menjar. (Un dèficit de menjar en redueix la desitjabilitat)."
+msgstr ""
+" - Excedent de menjar. (Un dèficit de menjar en redueix la desitjabilitat)."
 
 #: data/helpdata.txt:931
 msgid ""
@@ -22622,8 +22770,10 @@ msgid " - Luxury and science output."
 msgstr " - El nivell de luxes i de ciència."
 
 #: data/helpdata.txt:939
-msgid " - The quantity of city improvements (and wonders), measured by build cost."
-msgstr " - La quantitat de millores (i meravelles), mesurades en cost de construcció."
+msgid ""
+" - The quantity of city improvements (and wonders), measured by build cost."
+msgstr ""
+" - La quantitat de millores (i meravelles), mesurades en cost de construcció."
 
 #: data/helpdata.txt:942
 msgid ""
@@ -22974,8 +23124,10 @@ msgstr ""
 "SAM i l'atacant és una unitat aèria (que no sigui Helicòpter o un míssil)."
 
 #: data/helpdata.txt:1117
-msgid " - An SDI Defense doubles the defender's strength against missile attacks."
-msgstr " - Una defensa SDI duplica la força del defensor contra atacs amb míssils."
+msgid ""
+" - An SDI Defense doubles the defender's strength against missile attacks."
+msgstr ""
+" - Una defensa SDI duplica la força del defensor contra atacs amb míssils."
 
 #: data/helpdata.txt:1120
 msgid ""
@@ -23632,8 +23784,15 @@ msgid ""
 "If research output drops below that required for upkeep, your civilization "
 "will forget a random advance, requiring it to be researched again."
 msgstr ""
-"Mentre que la major part dels punts de recerca resultants (\"bombetes\") normalment es destina a fer avançar la tecnologia, en alguns jocs de regles (però no el determinat), alguna part es pot desviar per mantenir el domini de les tecnologies existents; la quantitat requerida per al manteniment de la tecnologia augmenta amb el cost total de recerca de tots els avenços que coneixes. El nivell d'avanç a partir del qual comences a pagar aquest manteniment pot dependre de factors com el tipus de govern. "
-"Si els teus punts de recerca baixen del nivell requerit per al manteniment, la teva civilització oblidarà un avenç a l'atzar, i caldrà tornar-lo a investigar."
+"Mentre que la major part dels punts de recerca resultants (\"bombetes\") "
+"normalment es destina a fer avançar la tecnologia, en alguns jocs de regles "
+"(però no el determinat), alguna part es pot desviar per mantenir el domini "
+"de les tecnologies existents; la quantitat requerida per al manteniment de "
+"la tecnologia augmenta amb el cost total de recerca de tots els avenços que "
+"coneixes. El nivell d'avanç a partir del qual comences a pagar aquest "
+"manteniment pot dependre de factors com el tipus de govern. Si els teus "
+"punts de recerca baixen del nivell requerit per al manteniment, la teva "
+"civilització oblidarà un avenç a l'atzar, i caldrà tornar-lo a investigar."
 
 #: data/helpdata.txt:1461
 msgid ""
@@ -24486,8 +24645,10 @@ msgstr ""
 "instruccions a:"
 
 #: data/helpdata.txt:1887
-msgid "You are also welcome to send any questions to the translation mailing list:"
-msgstr "També pots enviar qualsevol pregunta a la llista de correu dels traductors:"
+msgid ""
+"You are also welcome to send any questions to the translation mailing list:"
+msgstr ""
+"També pots enviar qualsevol pregunta a la llista de correu dels traductors:"
 
 #: data/helpdata.txt:1903
 msgid "Freeciv is covered by the GPL, which is included here: "
@@ -24777,7 +24938,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:411 data/civ1/buildings.ruleset:471
 msgid "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
-msgstr "Una ciutat només pot tenir una Central: Hidroelèctrica, Tèrmica o Nuclear."
+msgstr ""
+"Una ciutat només pot tenir una Central: Hidroelèctrica, Tèrmica o Nuclear."
 
 #: data/civ1/buildings.ruleset:420 data/civ2/buildings.ruleset:518
 #: data/default/buildings.ruleset:555 data/experimental/buildings.ruleset:604
@@ -24923,7 +25085,8 @@ msgstr ""
 #: data/default/buildings.ruleset:857 data/experimental/buildings.ruleset:906
 #: data/multiplayer/buildings.ruleset:839
 msgid "- Habitation Module: provides living space for 10,000 people."
-msgstr "- Mòdul Habitable: proporciona espai perquè hi visquin 10.000 persones."
+msgstr ""
+"- Mòdul Habitable: proporciona espai perquè hi visquin 10.000 persones."
 
 #: data/civ1/buildings.ruleset:563 data/civ2/buildings.ruleset:801
 #: data/default/buildings.ruleset:859 data/experimental/buildings.ruleset:908
@@ -24938,7 +25101,8 @@ msgstr ""
 #: data/civ1/buildings.ruleset:566 data/civ2/buildings.ruleset:804
 #: data/default/buildings.ruleset:862 data/experimental/buildings.ruleset:911
 #: data/multiplayer/buildings.ruleset:844
-msgid "- Solar Panels: provides the energy needed for any two of the other  Modules."
+msgid ""
+"- Solar Panels: provides the energy needed for any two of the other  Modules."
 msgstr ""
 "- Panells Solars: proporciona l'energia que necessita qualsevol parella dels "
 "altres Mòduls."
@@ -25051,7 +25215,8 @@ msgstr "Observatori de Copèrnic"
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1028
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
-msgstr "Augmenta en un 50% la producció de ciència a la ciutat on es construeix."
+msgstr ""
+"Augmenta en un 50% la producció de ciència a la ciutat on es construeix."
 
 #: data/civ1/buildings.ruleset:706 data/civ2/buildings.ruleset:1033
 #: data/default/buildings.ruleset:1094
@@ -25167,7 +25332,8 @@ msgstr "Facultat d'Isaac Newton"
 #: data/multiplayer/buildings.ruleset:1067
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr "Augmenta en un 100% la producció de ciència a la ciutat on es construeix."
+msgstr ""
+"Augmenta en un 100% la producció de ciència a la ciutat on es construeix."
 
 #: data/civ1/buildings.ruleset:853 data/civ2/buildings.ruleset:1201
 #: data/default/buildings.ruleset:1268
@@ -25195,7 +25361,8 @@ msgstr "Far"
 
 #: data/civ1/buildings.ruleset:888 data/multiplayer/buildings.ruleset:1316
 msgid "Gives all your sea units 1 additional movement point."
-msgstr "Dóna a totes les teves unitats marítimes 1 punt de moviment addicional."
+msgstr ""
+"Dóna a totes les teves unitats marítimes 1 punt de moviment addicional."
 
 #: data/civ1/buildings.ruleset:893 data/civ2/buildings.ruleset:1280
 #: data/default/buildings.ruleset:1348
@@ -25402,7 +25569,8 @@ msgstr ""
 #: data/civ1/governments.ruleset:91 data/default/governments.ruleset:92
 #: data/experimental/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:92
-msgid "Despotism suffers the highest level of corruption of all forms of government."
+msgid ""
+"Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
 "El Despotisme pateix el nivell de corrupció més elevat de totes les formes "
 "de govern."
@@ -25446,7 +25614,8 @@ msgstr ""
 #: data/civ1/governments.ruleset:113 data/default/governments.ruleset:114
 #: data/experimental/governments.ruleset:118
 #: data/multiplayer/governments.ruleset:114
-msgid "Monarchy suffers the same small amount of corruption that the Republic does."
+msgid ""
+"Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
 "La Monarquia pateix la mateixa quantitat reduïda de corrupció que la "
 "República."
@@ -26047,7 +26216,8 @@ msgstr "Turons"
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
-msgstr "A més a més de permetre l'agricultura, els turons solen ser rics en recursos."
+msgstr ""
+"A més a més de permetre l'agricultura, els turons solen ser rics en recursos."
 
 #: data/civ1/terrain.ruleset:386 data/civ2/terrain.ruleset:395
 #: data/default/terrain.ruleset:489 data/experimental/terrain.ruleset:491
@@ -26059,7 +26229,8 @@ msgstr "Jungla"
 #: data/default/terrain.ruleset:521 data/experimental/terrain.ruleset:523
 #: data/multiplayer/terrain.ruleset:521
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
-msgstr "Les Jungles tenen molta vegetació, fent que l'agricultura sigui problemàtica."
+msgstr ""
+"Les Jungles tenen molta vegetació, fent que l'agricultura sigui problemàtica."
 
 #: data/civ1/terrain.ruleset:419 data/civ2/terrain.ruleset:430
 #: data/default/terrain.ruleset:527 data/experimental/terrain.ruleset:529
@@ -26118,7 +26289,8 @@ msgstr "Tundra"
 #: data/civ1/terrain.ruleset:547 data/civ2/terrain.ruleset:561
 #: data/default/terrain.ruleset:669 data/experimental/terrain.ruleset:671
 #: data/multiplayer/terrain.ruleset:669
-msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
+msgid ""
+"Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "Les tundres són regions amples i fredes apropiades per una mica "
 "d'agricultura i poc més."
@@ -26302,7 +26474,8 @@ msgstr "Fusellers"
 #: data/civ1/units.ruleset:382 data/civ2/units.ruleset:600
 #: data/default/units.ruleset:712 data/experimental/units.ruleset:727
 #: data/multiplayer/units.ruleset:748
-msgid "Riflemen are World War-era infantry, very good at defending your cities."
+msgid ""
+"Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 "Els Fusellers són infanteria de l'època de les guerres mundials, molt bons "
 "per la defensa de les teves ciutats."
@@ -26359,7 +26532,8 @@ msgstr "Cavallers"
 #: data/default/units.ruleset:909 data/experimental/units.ruleset:924
 #: data/multiplayer/units.ruleset:1009
 msgid "Knights are mounted and heavily armored warriors."
-msgstr "Els Cavallers són guerrers muntats i fortament protegits amb armadures."
+msgstr ""
+"Els Cavallers són guerrers muntats i fortament protegits amb armadures."
 
 #: data/civ1/units.ruleset:518 data/civ2/units.ruleset:929
 #: data/default/units.ruleset:977 data/experimental/units.ruleset:992
@@ -26486,7 +26660,8 @@ msgid "Sail"
 msgstr "Vela"
 
 #: data/civ1/units.ruleset:778
-msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
+msgid ""
+"The Sail replaces the Trireme and is much more reliable on the open seas."
 msgstr "La Vela substitueix el Trirrem i és molt més segura a mar obert."
 
 #: data/civ1/units.ruleset:784 data/civ2/units.ruleset:1363
@@ -26601,7 +26776,8 @@ msgstr "Transport"
 msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
-msgstr "El Transport no pot atacar per si sol, però pot defensar-se quan l'ataquen."
+msgstr ""
+"El Transport no pot atacar per si sol, però pot defensar-se quan l'ataquen."
 
 #: data/civ1/units.ruleset:1016 data/civ2/units.ruleset:1698
 #: data/default/units.ruleset:1746 data/experimental/units.ruleset:1761
@@ -27001,7 +27177,8 @@ msgstr "Defensa costanera"
 msgid ""
 "Increases the defense strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
-msgstr "Duplica la defensa de les unitats contra els bombardejos de vaixells enemics."
+msgstr ""
+"Duplica la defensa de les unitats contra els bombardejos de vaixells enemics."
 
 #: data/civ2/buildings.ruleset:252
 msgid ""
@@ -27391,7 +27568,8 @@ msgstr "Ambaixada de Marco Polo"
 #: data/civ2/buildings.ruleset:1331 data/default/buildings.ruleset:1400
 #: data/experimental/buildings.ruleset:1452
 msgid "The player who owns it gets an embassy with all players."
-msgstr "EL jugador que la té obté una ambaixada amb cadascun dels altres jugadors."
+msgstr ""
+"EL jugador que la té obté una ambaixada amb cadascun dels altres jugadors."
 
 #: data/civ2/buildings.ruleset:1350 data/default/buildings.ruleset:1419
 #: data/experimental/buildings.ruleset:1471
@@ -27501,8 +27679,10 @@ msgid "?Scientist:S"
 msgstr "C"
 
 #: data/civ2/cities.ruleset:62
-msgid "Each scientist adds two points to your empire's research output per turn."
-msgstr "Cada científic afegeix dos punts a la recerca del teu imperi a cada torn."
+msgid ""
+"Each scientist adds two points to your empire's research output per turn."
+msgstr ""
+"Cada científic afegeix dos punts a la recerca del teu imperi a cada torn."
 
 #: data/civ2/cities.ruleset:70 data/default/cities.ruleset:70
 #: data/experimental/cities.ruleset:72 data/multiplayer/cities.ruleset:69
@@ -28147,7 +28327,8 @@ msgid "Crusaders"
 msgstr "Croats"
 
 #: data/civ2/units.ruleset:828 data/multiplayer/units.ruleset:976
-msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
+msgid ""
+"Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
 "Els Croats són guerrers a cavall molt disciplinats, motivats per una causa "
 "superior."
@@ -28231,7 +28412,8 @@ msgid "Caravel"
 msgstr "Caravel·la"
 
 #: data/civ2/units.ruleset:1323
-msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
+msgid ""
+"The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr "La Caravel·la substitueix el Trirrem i és molt més segura a mar obert."
 
 #: data/civ2/units.ruleset:1329 data/default/units.ruleset:1377
@@ -28274,8 +28456,10 @@ msgstr "Creuer AEGIS"
 
 #: data/civ2/units.ruleset:1521 data/default/units.ruleset:1569
 #: data/experimental/units.ruleset:1584 data/multiplayer/units.ruleset:1668
-msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
-msgstr "El Creuer AEGIS està equipat amb un sistema defensiu de míssils molt avançat."
+msgid ""
+"The AEGIS Cruiser is equipped with an advanced defensive missile system."
+msgstr ""
+"El Creuer AEGIS està equipat amb un sistema defensiu de míssils molt avançat."
 
 #: data/civ2/units.ruleset:1663 data/default/units.ruleset:1711
 #: data/experimental/units.ruleset:1726 data/multiplayer/units.ruleset:1810
@@ -28334,7 +28518,8 @@ msgstr "Espia"
 
 #: data/civ2/units.ruleset:1867 data/default/units.ruleset:1915
 #: data/experimental/units.ruleset:1930 data/multiplayer/units.ruleset:2014
-msgid "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
+msgid ""
+"A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
 msgstr ""
 "Un Espia és molt més destre en les arts de l'espionatge que el seu "
 "predecessor, el Diplomàtic."
@@ -28637,7 +28822,8 @@ msgstr ""
 #: data/default/buildings.ruleset:1154
 #: data/experimental/buildings.ruleset:1206
 #, no-c-format
-msgid "Your reputation and goodwill among other nations is recovered twice as fast."
+msgid ""
+"Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
 "La teva reputació i bona voluntat entre les altres nacions es recupera el "
 "doble de ràpid que no ho faria normalment."
@@ -28665,7 +28851,8 @@ msgstr ""
 #: data/default/buildings.ruleset:1363
 #: data/experimental/buildings.ruleset:1415
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "Dóna a totes les teves unitats marítimes 2 punts de moviment addicionals."
+msgstr ""
+"Dóna a totes les teves unitats marítimes 2 punts de moviment addicionals."
 
 #: data/default/buildings.ruleset:1466
 #: data/experimental/buildings.ruleset:1518
@@ -28758,12 +28945,15 @@ msgstr "Imaginaris"
 
 #: data/default/cities.ruleset:62 data/experimental/cities.ruleset:64
 #: data/multiplayer/cities.ruleset:61
-msgid "Each scientist adds three points to your empire's research output per turn."
-msgstr "Cada científic afegeix tres punts a la recerca del teu imperi a cada torn."
+msgid ""
+"Each scientist adds three points to your empire's research output per turn."
+msgstr ""
+"Cada científic afegeix tres punts a la recerca del teu imperi a cada torn."
 
 #: data/default/cities.ruleset:75 data/experimental/cities.ruleset:77
 #: data/multiplayer/cities.ruleset:74
-msgid "Each tax collector produces three extra gold for your treasury per turn."
+msgid ""
+"Each tax collector produces three extra gold for your treasury per turn."
 msgstr ""
 "Cada recaptador d'impostos genera tres peces d'or addicionals per al teu "
 "tresor a cada torn."
@@ -28970,7 +29160,8 @@ msgstr ""
 #: data/default/units.ruleset:1371 data/experimental/units.ruleset:1386
 #: data/multiplayer/units.ruleset:1470
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
-msgstr "La Caravel·la substitueix el Trirrem i pot anar per qualsevol casella d'oceà."
+msgstr ""
+"La Caravel·la substitueix el Trirrem i pot anar per qualsevol casella d'oceà."
 
 #: data/default/units.ruleset:1780 data/experimental/units.ruleset:1795
 #: data/multiplayer/units.ruleset:1879
@@ -29158,7 +29349,9 @@ msgstr ""
 msgid ""
 "Allows everyone to start building spaceship parts in cities with factories "
 "(assuming they have researched the necessary technologies)."
-msgstr "Permet a tothom de començar a construir peces de nau espacial en ciutats amb fàbriques (suposant que hagin investigat les tecnologies que calguin)."
+msgstr ""
+"Permet a tothom de començar a construir peces de nau espacial en ciutats amb "
+"fàbriques (suposant que hagin investigat les tecnologies que calguin)."
 
 #: data/multiplayer/buildings.ruleset:1026
 msgid ""
@@ -29194,7 +29387,8 @@ msgstr ""
 
 #: data/multiplayer/buildings.ruleset:1131
 #, no-c-format
-msgid "Each city on the same continent may support one unit free of shield upkeep."
+msgid ""
+"Each city on the same continent may support one unit free of shield upkeep."
 msgstr ""
 "Cada ciutat del mateix continent pot suportar una unitat de franc sense "
 "gastar escuts."
@@ -29202,7 +29396,8 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:1152
 #, no-c-format
 msgid "Reduces corruption by 50% in all cities on the same continent."
-msgstr "Redueix la corrupció en un 50% a totes les ciutats del mateix continent."
+msgstr ""
+"Redueix la corrupció en un 50% a totes les ciutats del mateix continent."
 
 #: data/multiplayer/buildings.ruleset:1171
 msgid "Works as a City Wall in all your cities on the same continent."
@@ -29262,7 +29457,8 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:1375
 #, no-c-format
 msgid "Increases trade output by 40% in all cities on the same continent."
-msgstr "Incrementa el comerç en un 40% a totes les ciutats del mateix continent."
+msgstr ""
+"Incrementa el comerç en un 40% a totes les ciutats del mateix continent."
 
 #: data/multiplayer/buildings.ruleset:1395
 msgid ""
@@ -29516,7 +29712,8 @@ msgid "Theory of Evolution"
 msgstr "Teoria de l'Evolució"
 
 #: data/multiplayer/techs.ruleset:788
-msgid "This technology is only acquired the first time you build Darwin's Voyage."
+msgid ""
+"This technology is only acquired the first time you build Darwin's Voyage."
 msgstr ""
 "Aquesta tecnologia només s'adquireix el primer cop que fas el Viatge de "
 "Darwin."
@@ -29547,7 +29744,8 @@ msgstr ""
 "per unitats terrestres."
 
 #: data/multiplayer/units.ruleset:2067
-msgid "A Caravan carries goods or material to help build wonders in your cities."
+msgid ""
+"A Caravan carries goods or material to help build wonders in your cities."
 msgstr ""
 "Una Caravana porta béns o material per ajudar a construir meravelles a les "
 "teves ciutats."
@@ -29669,7 +29867,7 @@ msgstr ""
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:23
 #: data/nation/maltese.ruleset:26 data/nation/neapolitan.ruleset:25
 #: data/nation/nepali.ruleset:29 data/nation/newfoundland.ruleset:32
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:23
+#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/piedmontese.ruleset:32
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
@@ -29677,7 +29875,7 @@ msgstr ""
 #: data/nation/southyemeni.ruleset:22 data/nation/spanish.ruleset:29
 #: data/nation/surinamese.ruleset:29 data/nation/swedish.ruleset:33
 #: data/nation/tibetan.ruleset:28 data/nation/tongan.ruleset:22
-#: data/nation/viking.ruleset:32 data/nation/vincentian.ruleset:25
+#: data/nation/viking.ruleset:28 data/nation/vincentian.ruleset:25
 #: data/nation/walloon.ruleset:26 data/nation/welsh.ruleset:22
 #: data/nation/westindian.ruleset:23
 #, c-format
@@ -29702,7 +29900,7 @@ msgstr "Primer ministre %s"
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:23
 #: data/nation/maltese.ruleset:26 data/nation/neapolitan.ruleset:25
 #: data/nation/nepali.ruleset:29 data/nation/newfoundland.ruleset:32
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:23
+#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/piedmontese.ruleset:32
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
@@ -29710,7 +29908,7 @@ msgstr "Primer ministre %s"
 #: data/nation/southyemeni.ruleset:22 data/nation/spanish.ruleset:29
 #: data/nation/surinamese.ruleset:29 data/nation/swedish.ruleset:33
 #: data/nation/tibetan.ruleset:28 data/nation/tongan.ruleset:22
-#: data/nation/viking.ruleset:32 data/nation/vincentian.ruleset:25
+#: data/nation/viking.ruleset:28 data/nation/vincentian.ruleset:25
 #: data/nation/walloon.ruleset:26 data/nation/welsh.ruleset:22
 #: data/nation/westindian.ruleset:23
 #, c-format
@@ -30651,7 +30849,8 @@ msgid "?plural:Assyrians"
 msgstr "Assiris"
 
 #: data/nation/assyrian.ruleset:6
-msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
+msgid ""
+"Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
 "Assíria va ser un imperi del nord de Mesopotàmia, anomenat així per la seva "
 "capital Ashur."
@@ -32230,7 +32429,8 @@ msgstr "?plural:Cherokees"
 msgid ""
 "The Cherokee nation is the largest Native American nation in North America "
 "today."
-msgstr "La nació Cherokee és la nació indígena més gran de Nordamèrica avui en dia."
+msgstr ""
+"La nació Cherokee és la nació indígena més gran de Nordamèrica avui en dia."
 
 #: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
 #: data/nation/maori.ruleset:24 data/nation/muskogee.ruleset:31
@@ -32418,8 +32618,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -32852,17 +33052,17 @@ msgstr ""
 "C."
 
 #: data/nation/danish.ruleset:35 data/nation/norman.ruleset:23
-#: data/nation/norwegian.ruleset:22
+#: data/nation/norwegian.ruleset:29
 #: data/nation/schleswig-holsteinian.ruleset:26 data/nation/swedish.ruleset:32
-#: data/nation/viking.ruleset:31
+#: data/nation/viking.ruleset:27
 #, c-format
 msgid "%s Jarl"
 msgstr "%s Jarl"
 
 #: data/nation/danish.ruleset:35 data/nation/norman.ruleset:23
-#: data/nation/norwegian.ruleset:22
+#: data/nation/norwegian.ruleset:29
 #: data/nation/schleswig-holsteinian.ruleset:26 data/nation/swedish.ruleset:32
-#: data/nation/viking.ruleset:31
+#: data/nation/viking.ruleset:27
 #, c-format
 msgid "?female:%s Jarl"
 msgstr "%s Jarl"
@@ -33168,7 +33368,8 @@ msgstr "Esperantistes"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
-msgstr "Els Esperantistes són una comunitat mundial unida per la llengua esperanto."
+msgstr ""
+"Els Esperantistes són una comunitat mundial unida per la llengua esperanto."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -34836,7 +35037,8 @@ msgstr "Kenyans"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr "Kenya va obtenir la independència de Gran Bretanya el desembre de 1963."
+msgstr ""
+"Kenya va obtenir la independència de Gran Bretanya el desembre de 1963."
 
 #: data/nation/khazar.ruleset:3
 msgid "Khazar"
@@ -38235,7 +38437,8 @@ msgstr "Silesis"
 msgid ""
 "Silesia is a region of southern Poland that was at one time an independent "
 "kingdom."
-msgstr "Silèsia és una regió del sud de Polònia que havia estat un regne independent."
+msgstr ""
+"Silèsia és una regió del sud de Polònia que havia estat un regne independent."
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
@@ -39432,8 +39635,10 @@ msgid "?plural:UN"
 msgstr "NU"
 
 #: data/nation/un.ruleset:6
-msgid "The United Nations believe in human rights and the protection of the weak."
-msgstr "Les Nacions Unides creuen en els drets humans i la protecció dels dèbils."
+msgid ""
+"The United Nations believe in human rights and the protection of the weak."
+msgstr ""
+"Les Nacions Unides creuen en els drets humans i la protecció dels dèbils."
 
 #: data/nation/un.ruleset:23
 #, c-format
@@ -40142,7 +40347,8 @@ msgstr "Aprenentatge"
 
 #: data/scenario/tutorial.sav:4
 msgid "Play this tutorial scenario to get an introduction to Freeciv."
-msgstr "Juga amb aquest escenari d'aprenentatge per introduir-te en el Freeciv."
+msgstr ""
+"Juga amb aquest escenari d'aprenentatge per introduir-te en el Freeciv."
 
 #: data/scenario/tutorial.sav:19
 msgid ""
@@ -40738,4 +40944,3 @@ msgstr "Joc de regles predeterminat"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "Estàs jugant al Freeciv amb les regles predeterminades."
-

@@ -15,14 +15,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-21 16:48+0200\n"
+"POT-Creation-Date: 2011-01-30 18:40-0800\n"
 "PO-Revision-Date: 2011-01-30 23:56+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
@@ -650,81 +650,81 @@ msgstr "Tricheur"
 msgid "Experimental"
 msgstr "Expérimental"
 
-#: common/player.c:1133
+#: common/player.c:1075
 msgid "?attitude:Genocidal"
 msgstr "Tueur"
 
-#: common/player.c:1135
+#: common/player.c:1077
 msgid "?attitude:Belligerent"
 msgstr "Belliqueux"
 
-#: common/player.c:1137
+#: common/player.c:1079
 msgid "?attitude:Hostile"
 msgstr "Hostile"
 
-#: common/player.c:1139
+#: common/player.c:1081
 msgid "?attitude:Uncooperative"
 msgstr "Pas commode"
 
-#: common/player.c:1141
+#: common/player.c:1083
 msgid "?attitude:Uneasy"
 msgstr "Équivoque"
 
-#: common/player.c:1143
+#: common/player.c:1085
 msgid "?attitude:Neutral"
 msgstr "Neutre"
 
-#: common/player.c:1145
+#: common/player.c:1087
 msgid "?attitude:Respectful"
 msgstr "Respectueux"
 
-#: common/player.c:1147
+#: common/player.c:1089
 msgid "?attitude:Helpful"
 msgstr "Coopératif"
 
-#: common/player.c:1149
+#: common/player.c:1091
 msgid "?attitude:Enthusiastic"
 msgstr "Enthousiaste"
 
-#: common/player.c:1151
+#: common/player.c:1093
 msgid "?attitude:Admiring"
 msgstr "Admiratif"
 
-#: common/player.c:1154
+#: common/player.c:1096
 msgid "?attitude:Worshipful"
 msgstr "Idolâtre"
 
-#: common/player.c:1165
+#: common/player.c:1107
 msgid "?diplomatic_state:Armistice"
 msgstr "Armistice"
 
-#: common/player.c:1166
+#: common/player.c:1108
 msgid "?diplomatic_state:War"
 msgstr "Guerre"
 
-#: common/player.c:1167 client/gui-gtk-2.0/diplodlg.c:398
+#: common/player.c:1109 client/gui-gtk-2.0/diplodlg.c:402
 #: client/gui-sdl/diplodlg.c:463 client/gui-win32/diplodlg.c:312
 #: client/gui-xaw/diplodlg.c:546
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Cessez-le-feu"
 
-#: common/player.c:1168 client/gui-gtk-2.0/diplodlg.c:403
+#: common/player.c:1110 client/gui-gtk-2.0/diplodlg.c:408
 #: client/gui-sdl/diplodlg.c:477 client/gui-win32/diplodlg.c:313
 #: client/gui-xaw/diplodlg.c:550
 msgid "?diplomatic_state:Peace"
 msgstr "Paix"
 
-#: common/player.c:1169 client/gui-gtk-2.0/diplodlg.c:408
+#: common/player.c:1111 client/gui-gtk-2.0/diplodlg.c:414
 #: client/gui-sdl/diplodlg.c:492 client/gui-win32/diplodlg.c:314
 #: client/gui-xaw/diplodlg.c:554
 msgid "?diplomatic_state:Alliance"
 msgstr "Alliance"
 
-#: common/player.c:1170
+#: common/player.c:1112
 msgid "?diplomatic_state:Never met"
 msgstr "Jamais rencontré"
 
-#: common/player.c:1171
+#: common/player.c:1113
 msgid "?diplomatic_state:Team"
 msgstr "Partenariat"
 
@@ -831,13 +831,13 @@ msgstr "%s, équipe %s"
 msgid "team %d"
 msgstr "Fin de flux"
 
-#: common/tech.c:882
+#: common/tech.c:886
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Techno. Future %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:953 common/tech.c:956 client/gui-gtk-2.0/helpdlg.c:123
+#: common/tech.c:957 common/tech.c:960 client/gui-gtk-2.0/helpdlg.c:123
 #: client/gui-sdl/citydlg.c:730 client/gui-sdl/gui_tilespec.c:486
 #: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:802
 #: client/gui-sdl/helpdlg.c:828 client/gui-sdl/mapview.c:318
@@ -850,12 +850,12 @@ msgstr "Techno. Future %d"
 msgid "None"
 msgstr "Aucun"
 
-#: common/tech.c:959
+#: common/tech.c:963
 msgid "Future Tech."
 msgstr "Techno. Future"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:963 client/gui-gtk-2.0/inteldlg.c:403
+#: common/tech.c:967 client/gui-gtk-2.0/inteldlg.c:403
 msgid "(Unknown)"
 msgstr "(Inconnu)"
 
@@ -1517,8 +1517,8 @@ msgstr "*%s (IA)* Rompez d'abord votre alliance avec %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IA)* J'aurais aimé vous voir garder vos distances avec %s pour quelques "
 "temps, %s."
@@ -1784,8 +1784,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutations allié, je vois que vous n'avez pas encore déclaré la "
 "guerre à notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
@@ -3764,7 +3764,10 @@ msgid ""
 "The connection given by the 'user' argument will be cut from the server and "
 "not allowed to reconnect. The time the user wouldn't be able to reconnect is "
 "controlled by the 'kicktime' setting."
-msgstr "La connexion donnée par l'argument 'utilisateur' sera coupée du serveur et interdite de se reconnecter. Le temps pendant lequel l'utilisateur sera empêché de se reconnecter est contrôlé par l'option 'kicktime'."
+msgstr ""
+"La connexion donnée par l'argument 'utilisateur' sera coupée du serveur et "
+"interdite de se reconnecter. Le temps pendant lequel l'utilisateur sera "
+"empêché de se reconnecter est contrôlé par l'option 'kicktime'."
 
 # AR
 #: server/commands.c:537
@@ -3882,7 +3885,9 @@ msgstr "%s a été rejeté : nom invalide [%s]."
 #, c-format
 msgid ""
 "You have been kicked from this server and cannot reconnect for %d seconds."
-msgstr "You avez été éjecté de ce serveur et ne pouvez pas vous y reconnecter pendant %d secondes."
+msgstr ""
+"You avez été éjecté de ce serveur et ne pouvez pas vous y reconnecter "
+"pendant %d secondes."
 
 #: server/connecthand.c:362
 #, fuzzy, c-format
@@ -4616,8 +4621,8 @@ msgstr "Impossible d'éditer un joueur avec un ID invalide (%d)."
 #, fuzzy, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr ""
-"Impossible de changer le nom du joueur (%d) '%s' à '%s' : un autre joueur "
-"(%d) possède déjà ce nom."
+"Impossible de changer le nom du joueur (%d) '%s' à '%s' : un autre joueur (%"
+"d) possède déjà ce nom."
 
 #: server/edithand.c:1093
 #, c-format
@@ -4676,8 +4681,8 @@ msgstr ""
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
-"Impossible de basculer le brouillard de guerre pour un joueur non-valide ID "
-"%d."
+"Impossible de basculer le brouillard de guerre pour un joueur non-valide ID %"
+"d."
 
 #: server/edithand.c:1338 server/edithand.c:1377
 #, fuzzy, c-format
@@ -5032,80 +5037,80 @@ msgstr ""
 "Votre coéquipier %s a déclaré la guerre avec %s. Vous êtes obligé d'annuler "
 "votre alliance avec %s."
 
-#: server/plrhand.c:1146
+#: server/plrhand.c:1149
 #, c-format
 msgid "Removing player %s."
 msgstr "Joueur %s retiré."
 
-#: server/plrhand.c:1149
+#: server/plrhand.c:1152
 msgid "You've been removed from the game!"
 msgstr "Vous avez été retiré de la partie !"
 
-#: server/plrhand.c:1152
+#: server/plrhand.c:1155
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s a été retiré de la partie."
 
-#: server/plrhand.c:1199
+#: server/plrhand.c:1261
 msgid "Please choose a non-blank name."
 msgstr "Veuillez choisir un nom non vide."
 
-#: server/plrhand.c:1212
+#: server/plrhand.c:1274
 msgid "That nation is already in use."
 msgstr "Cette nation est déjà prise."
 
-#: server/plrhand.c:1217
+#: server/plrhand.c:1279
 #, fuzzy, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Un autre joueur a déjà le nom \"%s\". Veuillez choisir un autre nom."
 
-#: server/plrhand.c:1241
+#: server/plrhand.c:1303
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Veuillez choisir un nom ne contenant que des caractères ASCII."
 
-#: server/plrhand.c:1316 server/plrhand.c:1330
+#: server/plrhand.c:1378 server/plrhand.c:1392
 #, fuzzy, c-format
 msgid "Player no. %d"
 msgstr "Joueur %d"
 
-#: server/plrhand.c:1345
+#: server/plrhand.c:1407
 #, fuzzy
 msgid "A poorly-named player"
 msgstr "Une ville mal nommée"
 
-#: server/plrhand.c:1415 server/plrhand.c:1419
+#: server/plrhand.c:1477 server/plrhand.c:1481
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Vous avez établi un contact avec les %s, dirigés par %s."
 
-#: server/plrhand.c:1882
+#: server/plrhand.c:1944
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Impossible de plonger %s dans une guerre civile - trop de joueurs"
 
-#: server/plrhand.c:1888
+#: server/plrhand.c:1950
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Impossible de plonger %s dans une guerre civile - pas assez de nations"
 
-#: server/plrhand.c:1918
+#: server/plrhand.c:1980
 msgid "Your nation is thrust into civil war."
 msgstr "Votre nation plonge dans la guerre civile."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:1922
+#: server/plrhand.c:1984
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s est déclaré chef des États rebelles %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:1942
+#: server/plrhand.c:2004
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s fait allégeance à %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:1960
+#: server/plrhand.c:2022
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -5623,12 +5628,16 @@ msgstr "Freeciv 2.3.0"
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
-msgstr "Lancer la fonction de compatibilité de version : <%d (fichier de sauvegarde : %d ; serveur : %d)."
+msgstr ""
+"Lancer la fonction de compatibilité de version : <%d (fichier de "
+"sauvegarde : %d ; serveur : %d)."
 
 #: server/savegame2.c:5394
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
-msgstr "Lancer la fonction de compatibilité de version : <%d (voulu : %d ; serveur : %d)."
+msgstr ""
+"Lancer la fonction de compatibilité de version : <%d (voulu : %d ; serveur : "
+"%d)."
 
 #: server/settings.c:197
 msgid "Number of tiles"
@@ -6401,8 +6410,8 @@ msgid ""
 "event like '(T2 - 15:29:52)'."
 msgstr ""
 "Si cette option est activée, tous les messages-événements stockés seront "
-"précédés du tour et de l'heure où ils se sont produits comme \"(T2 - "
-"15:29:52\"."
+"précédés du tour et de l'heure où ils se sont produits comme \"(T2 - 15:29:52"
+"\"."
 
 #: server/settings.c:1126
 msgid "List of players' initial units"
@@ -6937,7 +6946,8 @@ msgstr ""
 
 #: server/settings.c:1490
 msgid "Whether fog of war applies to border changes"
-msgstr "Est-ce que le brouillard de guerre s'applique aux changements de frontières"
+msgstr ""
+"Est-ce que le brouillard de guerre s'applique aux changements de frontières"
 
 #: server/settings.c:1491
 msgid ""
@@ -7119,7 +7129,11 @@ msgid ""
 "still able to win the game are allies, and at least one defeated player is "
 "not part of this alliance, then the game will end in an immediate shared "
 "victory for the allied players."
-msgstr "Si cette option est activée et qu'un point est atteint où tous les joueurs encore à même de gagner le jeu sont alliés, et qu'au moins un des joueurs vaincus ne fait pas partie de cette alliance, alors, le jeu se terminera immédiatement par une victoire partagée par tous les joueurs alliés."
+msgstr ""
+"Si cette option est activée et qu'un point est atteint où tous les joueurs "
+"encore à même de gagner le jeu sont alliés, et qu'au moins un des joueurs "
+"vaincus ne fait pas partie de cette alliance, alors, le jeu se terminera "
+"immédiatement par une victoire partagée par tous les joueurs alliés."
 
 #: server/settings.c:1607
 msgid "Whether to use natural city names"
@@ -7634,8 +7648,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+04Y%S-%R' => 'civgame-T0302-A+1716AD-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T"
-"%04T-Y%+04Y%S-%R' est ajouté à la valeur de cette option."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T%"
+"04T-Y%+04Y%S-%R' est ajouté à la valeur de cette option."
 
 #: server/settings.c:1940
 msgid "Whether to log player statistics"
@@ -7686,7 +7700,10 @@ msgstr "Temps avant qu'un joueur éjecté puisse se reconnecter"
 msgid ""
 "Gives the time in seconds before a user kicked using the 'kick' command may "
 "reconnect. Changing this setting will affect users kicked in the past."
-msgstr "Donne le temps en seconde avant qu'un joueur éjecté en utilisant la commande 'kick' soit autorisé à se reconnecter. Modifier cette option affectera les joueurs éjectés par le passé."
+msgstr ""
+"Donne le temps en seconde avant qu'un joueur éjecté en utilisant la commande "
+"'kick' soit autorisé à se reconnecter. Modifier cette option affectera les "
+"joueurs éjectés par le passé."
 
 #: server/settings.c:2066
 #, fuzzy, c-format
@@ -8635,7 +8652,9 @@ msgstr "Option"
 
 #: server/stdinhand.c:2156
 msgid "A help text for each option is available via 'help <option>'."
-msgstr "Un texte d'aide pour chaque option est disponible via la commande 'help <option>'."
+msgstr ""
+"Un texte d'aide pour chaque option est disponible via la commande 'help "
+"<option>'."
 
 #: server/stdinhand.c:2160
 msgid ""
@@ -8695,8 +8714,8 @@ msgstr "Vote"
 #: server/stdinhand.c:2263
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (besoin : %0.0f%%%s): %d pour, %d contre, et %d blancs pour un "
 "total de %d joueurs."
@@ -9319,7 +9338,9 @@ msgstr "Vous devez choisir entre homme ou femme."
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
-msgstr "Il doit y avoir au moins %d connexions différentes au serveur pour que cette commande soit valide."
+msgstr ""
+"Il doit y avoir au moins %d connexions différentes au serveur pour que cette "
+"commande soit valide."
 
 #: server/stdinhand.c:4586
 msgid "kicked"
@@ -9668,7 +9689,8 @@ msgstr "Impossible de placer une ville ici."
 
 #: server/unithand.c:556
 msgid "Can't place a city there because another city is too close."
-msgstr "Impossible de placer une ville ici car une autre ville est trop proche."
+msgstr ""
+"Impossible de placer une ville ici car une autre ville est trop proche."
 
 #. TRANS: %s is list of units separated by "or".
 #: server/unithand.c:566
@@ -11263,7 +11285,10 @@ msgid ""
 "position on the map and use the property editor.\n"
 "Shortcut: p"
 msgstr ""
-"Place une position de départ qui permet à n'importe quelle nation de commencer sur cette case. Pour ne permettre qu'à certaines nations de commencer ici, faites un clic-milieu sur la position de départ sur la carte et utilisez l'éditeur de propriétés.\n"
+"Place une position de départ qui permet à n'importe quelle nation de "
+"commencer sur cette case. Pour ne permettre qu'à certaines nations de "
+"commencer ici, faites un clic-milieu sur la position de départ sur la carte "
+"et utilisez l'éditeur de propriétés.\n"
 "Raccourci : p"
 
 #: client/editor.c:169
@@ -15790,40 +15815,40 @@ msgstr "_Donne la vue partagée"
 msgid "Give _embassy"
 msgstr "Donn_e une ambassade"
 
-#: client/gui-gtk-2.0/diplodlg.c:413
+#: client/gui-gtk-2.0/diplodlg.c:420
 msgid "_Pacts"
 msgstr "_Pactes"
 
-#: client/gui-gtk-2.0/diplodlg.c:506
+#: client/gui-gtk-2.0/diplodlg.c:513
 #, c-format
 msgid "Diplomacy: %s"
 msgstr "Diplomatie : %s"
 
-#: client/gui-gtk-2.0/diplodlg.c:513
+#: client/gui-gtk-2.0/diplodlg.c:520
 msgid "_Cancel meeting"
 msgstr "Annuler la ren_contre"
 
-#: client/gui-gtk-2.0/diplodlg.c:515
+#: client/gui-gtk-2.0/diplodlg.c:522
 msgid "Accept _treaty"
 msgstr "Accepter le _traité"
 
-#: client/gui-gtk-2.0/diplodlg.c:543
+#: client/gui-gtk-2.0/diplodlg.c:550
 msgid "C_lauses:"
 msgstr "C_lauses :"
 
-#: client/gui-gtk-2.0/diplodlg.c:607 client/gui-gtk-2.0/diplodlg.c:678
+#: client/gui-gtk-2.0/diplodlg.c:614 client/gui-gtk-2.0/diplodlg.c:685
 msgid "_Gold:"
 msgstr "_Or :"
 
-#: client/gui-gtk-2.0/diplodlg.c:618 client/gui-gtk-2.0/diplodlg.c:689
+#: client/gui-gtk-2.0/diplodlg.c:625 client/gui-gtk-2.0/diplodlg.c:696
 msgid "_Add Clause..."
 msgstr "_Ajouter une Clause ..."
 
-#: client/gui-gtk-2.0/diplodlg.c:734
+#: client/gui-gtk-2.0/diplodlg.c:741
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Ce traité est vide. Veuillez ajouter des clauses. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:964 client/gui-sdl/diplodlg.c:376
+#: client/gui-gtk-2.0/diplodlg.c:971 client/gui-sdl/diplodlg.c:376
 #: client/gui-win32/diplodlg.c:268 client/gui-xaw/diplodlg.c:976
 msgid "Invalid amount of gold specified."
 msgstr "Quantité d'or non valide."
@@ -22270,7 +22295,17 @@ msgid ""
 "single kind of unit per turn as its production surplus allows, up to the "
 "number of slots. Units which cost city population to build are an exception "
 "to this rule; they can only be built singly, as can buildings."
-msgstr "Dans le jeu de règles par défaut, une ville ne peut construire qu'un seul produit par tour, quel que soit son surplus de production. Cependant, dans certains jeux de règles, des facteurs comme la taille de la ville et la technologie peuvent permettre à une ville seule de produire plus d'une unité en un seul tour dans certaines conditions. Une ville avec des \"Créneaux de Construction\" multiples qui construit une unité peut construire autant de ce type d'unités par tour que son surplus de production lui permet, jusqu'au nombre de créneaux. Les unités qui coûtent de la population à construire sont une exception à cette règle - elles ne peuvent être construites qu'unitairement, ainsi que le sont les bâtiments."
+msgstr ""
+"Dans le jeu de règles par défaut, une ville ne peut construire qu'un seul "
+"produit par tour, quel que soit son surplus de production. Cependant, dans "
+"certains jeux de règles, des facteurs comme la taille de la ville et la "
+"technologie peuvent permettre à une ville seule de produire plus d'une unité "
+"en un seul tour dans certaines conditions. Une ville avec des \"Créneaux de "
+"Construction\" multiples qui construit une unité peut construire autant de "
+"ce type d'unités par tour que son surplus de production lui permet, jusqu'au "
+"nombre de créneaux. Les unités qui coûtent de la population à construire "
+"sont une exception à cette règle - elles ne peuvent être construites "
+"qu'unitairement, ainsi que le sont les bâtiments."
 
 #: data/helpdata.txt:534
 msgid ""
@@ -22287,7 +22322,22 @@ msgid ""
 "but if a different kind of item is reached, production pauses until the "
 "following turn. This can be used to limit the number of units produced by "
 "highly productive cities."
-msgstr "Il est possible d'attribuer une liste de plusieurs produits à construire à une ville dans la \"liste de travail\", ce qui évite d'avoir à s'en occuper tous les quelques tours. Chaque entrée dans la liste de travail représente un seul produit (comme une unité) ; la ville les fabriquera dans l'ordre. Quand une ville a terminé tout le travail que vous lui avez donné à faire, elle tentera de construire à nouveau la dernière entrée si possible, sinon elle choisira un nouvel objectif elle-même. Si une ville produit actuellement de l'or (Capitalisation dans les règles par défaut), activité qui ne se termine jamais, mettre une entrée dans la liste de travail la fera arrêter de produire de l'or et commencer à travailler sur la nouvelle entrée au prochain tour. Si le jeu de règles le permet, une ville peut retirer plusieurs unités du même type de sa liste de travail en un seul tour, mais si un type d'entrée différent est atteint, la production sera mise en pause jusqu'au tour suivant. Ceci peut être utilisé pour limiter le nombre d'unités produites par des villes hautement productives."
+msgstr ""
+"Il est possible d'attribuer une liste de plusieurs produits à construire à "
+"une ville dans la \"liste de travail\", ce qui évite d'avoir à s'en occuper "
+"tous les quelques tours. Chaque entrée dans la liste de travail représente "
+"un seul produit (comme une unité) ; la ville les fabriquera dans l'ordre. "
+"Quand une ville a terminé tout le travail que vous lui avez donné à faire, "
+"elle tentera de construire à nouveau la dernière entrée si possible, sinon "
+"elle choisira un nouvel objectif elle-même. Si une ville produit "
+"actuellement de l'or (Capitalisation dans les règles par défaut), activité "
+"qui ne se termine jamais, mettre une entrée dans la liste de travail la fera "
+"arrêter de produire de l'or et commencer à travailler sur la nouvelle entrée "
+"au prochain tour. Si le jeu de règles le permet, une ville peut retirer "
+"plusieurs unités du même type de sa liste de travail en un seul tour, mais "
+"si un type d'entrée différent est atteint, la production sera mise en pause "
+"jusqu'au tour suivant. Ceci peut être utilisé pour limiter le nombre "
+"d'unités produites par des villes hautement productives."
 
 #: data/helpdata.txt:549
 msgid ""
@@ -22531,7 +22581,13 @@ msgid ""
 "tiles on rectangular maps, or 18 tiles on hexagonal ones, in addition to the "
 "city center tile. In other rulesets it may be different, and may vary "
 "depending on factors such as the size of the city and known technologies."
-msgstr "Chaque ville peut travailler les terres à sa portée. Dans le jeu de règles par défaut, c'est un rayon fixe d'à peu près trois cases, donnant accès à 20 cases sur les cartes rectangulaires ou 18 sur les hexagonales, en plus de la case centrale. Dans d'autres jeux de règles, cela peut être différent, et peut varier en fonction de facteurs comme la taille de la ville ou les technologies connues."
+msgstr ""
+"Chaque ville peut travailler les terres à sa portée. Dans le jeu de règles "
+"par défaut, c'est un rayon fixe d'à peu près trois cases, donnant accès à 20 "
+"cases sur les cartes rectangulaires ou 18 sur les hexagonales, en plus de la "
+"case centrale. Dans d'autres jeux de règles, cela peut être différent, et "
+"peut varier en fonction de facteurs comme la taille de la ville ou les "
+"technologies connues."
 
 #: data/helpdata.txt:660
 #, fuzzy
@@ -24160,7 +24216,17 @@ msgid ""
 "start paying this upkeep may depend on factors such as your government type. "
 "If research output drops below that required for upkeep, your civilization "
 "will forget a random advance, requiring it to be researched again."
-msgstr "Alors que la majorité de la production totale de recherche (\"ampoules\") est en général utilisée pour faire avancer la technologie, certains jeux de règles (mais pas celui par défaut), une partie peut être détournée pour maintenir l'expertise dans les technologies existantes ; la quantité requise pour le maintien de la technologie augmente avec le coût total de toutes les découvertes que vous possédez. le niveau d'avancement à partir duquel vous commencez à payer ce maintien peut dépendre de facteurs comme votre type de gouvernement. Si la production de recherche chute en deçà de ce qui est requis pour le maintien, votre civilisation perdra une avance aléatoire, ce qui obligera à la chercher à nouveau."
+msgstr ""
+"Alors que la majorité de la production totale de recherche (\"ampoules\") "
+"est en général utilisée pour faire avancer la technologie, certains jeux de "
+"règles (mais pas celui par défaut), une partie peut être détournée pour "
+"maintenir l'expertise dans les technologies existantes ; la quantité requise "
+"pour le maintien de la technologie augmente avec le coût total de toutes les "
+"découvertes que vous possédez. le niveau d'avancement à partir duquel vous "
+"commencez à payer ce maintien peut dépendre de facteurs comme votre type de "
+"gouvernement. Si la production de recherche chute en deçà de ce qui est "
+"requis pour le maintien, votre civilisation perdra une avance aléatoire, ce "
+"qui obligera à la chercher à nouveau."
 
 #: data/helpdata.txt:1461
 msgid ""
@@ -24252,7 +24318,12 @@ msgid ""
 "day nation state, a historical state or empire, an ethnic group, or even a "
 "fictional nation. Nations are distinguished by their flags, leaders and city "
 "names, but are identical in all other aspects and play by the same rules."
-msgstr "Chaque joueur dans le jeu est représenté par une nation. Une nation peut être une état des temps modernes, un état ou un empire historique, un groupe ethnique ou même une nation fictive. Les nations sont distinguées par leur drapeau, leur chef et leurs noms de villes, mais sont identiques dans tous les autres aspects et jouent avec les mêmes règles."
+msgstr ""
+"Chaque joueur dans le jeu est représenté par une nation. Une nation peut "
+"être une état des temps modernes, un état ou un empire historique, un groupe "
+"ethnique ou même une nation fictive. Les nations sont distinguées par leur "
+"drapeau, leur chef et leurs noms de villes, mais sont identiques dans tous "
+"les autres aspects et jouent avec les mêmes règles."
 
 #: data/helpdata.txt:1524
 msgid ""
@@ -29833,7 +29904,9 @@ msgstr "Équipe 3"
 
 #: data/experimental/governments.ruleset:77
 msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
-msgstr "Sous un régime anarchique, de la technologie peut être perdue par manque de maintien."
+msgstr ""
+"Sous un régime anarchique, de la technologie peut être perdue par manque de "
+"maintien."
 
 #. TRANS: "Big Land" is a unit class, like Land or Sea. Big Land units
 #. TRANS: cannot move into rough terrain. Unit class names are used
@@ -30094,7 +30167,13 @@ msgid ""
 "disabled, and that most wonders can be built once by each player, and affect "
 "only cities on the same continent. A full description of the differences can "
 "be found in README.ruleset_multiplayer."
-msgstr "Vous jouez à Freeciv avec des règles conçues pour le jeu multijoueur. Les principales différences avec le jeu de règles par défaut est que les routes commerciales sont désactivées, et que la plupart des merveilles peuvent être construites une fois par chaque joueur, et affectent uniquement les villes du même contient. Une description complète des différences peut être trouvée dans le fichier README.ruleset_multiplayer."
+msgstr ""
+"Vous jouez à Freeciv avec des règles conçues pour le jeu multijoueur. Les "
+"principales différences avec le jeu de règles par défaut est que les routes "
+"commerciales sont désactivées, et que la plupart des merveilles peuvent être "
+"construites une fois par chaque joueur, et affectent uniquement les villes "
+"du même contient. Une description complète des différences peut être trouvée "
+"dans le fichier README.ruleset_multiplayer."
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:210
@@ -30409,7 +30488,7 @@ msgstr ""
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:23
 #: data/nation/maltese.ruleset:26 data/nation/neapolitan.ruleset:25
 #: data/nation/nepali.ruleset:29 data/nation/newfoundland.ruleset:32
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:23
+#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/piedmontese.ruleset:32
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
@@ -30417,7 +30496,7 @@ msgstr ""
 #: data/nation/southyemeni.ruleset:22 data/nation/spanish.ruleset:29
 #: data/nation/surinamese.ruleset:29 data/nation/swedish.ruleset:33
 #: data/nation/tibetan.ruleset:28 data/nation/tongan.ruleset:22
-#: data/nation/viking.ruleset:32 data/nation/vincentian.ruleset:25
+#: data/nation/viking.ruleset:28 data/nation/vincentian.ruleset:25
 #: data/nation/walloon.ruleset:26 data/nation/welsh.ruleset:22
 #: data/nation/westindian.ruleset:23
 #, c-format
@@ -30442,7 +30521,7 @@ msgstr "Premier Ministre %s"
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:23
 #: data/nation/maltese.ruleset:26 data/nation/neapolitan.ruleset:25
 #: data/nation/nepali.ruleset:29 data/nation/newfoundland.ruleset:32
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:23
+#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:30
 #: data/nation/omani.ruleset:31 data/nation/piedmontese.ruleset:32
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/savoyard.ruleset:32 data/nation/silesian.ruleset:23
@@ -30450,7 +30529,7 @@ msgstr "Premier Ministre %s"
 #: data/nation/southyemeni.ruleset:22 data/nation/spanish.ruleset:29
 #: data/nation/surinamese.ruleset:29 data/nation/swedish.ruleset:33
 #: data/nation/tibetan.ruleset:28 data/nation/tongan.ruleset:22
-#: data/nation/viking.ruleset:32 data/nation/vincentian.ruleset:25
+#: data/nation/viking.ruleset:28 data/nation/vincentian.ruleset:25
 #: data/nation/walloon.ruleset:26 data/nation/welsh.ruleset:22
 #: data/nation/westindian.ruleset:23
 #, c-format
@@ -31817,7 +31896,14 @@ msgid ""
 "\"Euskal Herria\", lays right in the borderlands between Spain and France, "
 "divided into seven historical provinces. Their language, Euskara, has no "
 "known relatives and its origins are unknown."
-msgstr "Les basques ont vécu depuis les temps antiques dans le piedmont occidental des Pyrénées. Le Royaume de Navarre a été le dernier état basque indépendant, et est tombé aux mains de la Navarre au XVIème siècle. De nos jours, le Pays Basque, ou \"Euskal Herria\" se place pile dans les terres frontières entre la France et l'Espagne, divisé en sept provinces historiques. Leur langue, l'Euskara, n'a pas de parenté connue et ses origines sont inconnues."
+msgstr ""
+"Les basques ont vécu depuis les temps antiques dans le piedmont occidental "
+"des Pyrénées. Le Royaume de Navarre a été le dernier état basque "
+"indépendant, et est tombé aux mains de la Navarre au XVIème siècle. De nos "
+"jours, le Pays Basque, ou \"Euskal Herria\" se place pile dans les terres "
+"frontières entre la France et l'Espagne, divisé en sept provinces "
+"historiques. Leur langue, l'Euskara, n'a pas de parenté connue et ses "
+"origines sont inconnues."
 
 #: data/nation/basque.ruleset:32 data/nation/slovakian.ruleset:23
 #, fuzzy, c-format
@@ -33178,8 +33264,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -33617,17 +33703,17 @@ msgstr ""
 "Danemark."
 
 #: data/nation/danish.ruleset:35 data/nation/norman.ruleset:23
-#: data/nation/norwegian.ruleset:22
+#: data/nation/norwegian.ruleset:29
 #: data/nation/schleswig-holsteinian.ruleset:26 data/nation/swedish.ruleset:32
-#: data/nation/viking.ruleset:31
+#: data/nation/viking.ruleset:27
 #, c-format
 msgid "%s Jarl"
 msgstr "Jarl %s"
 
 #: data/nation/danish.ruleset:35 data/nation/norman.ruleset:23
-#: data/nation/norwegian.ruleset:22
+#: data/nation/norwegian.ruleset:29
 #: data/nation/schleswig-holsteinian.ruleset:26 data/nation/swedish.ruleset:32
-#: data/nation/viking.ruleset:31
+#: data/nation/viking.ruleset:27
 #, c-format
 msgid "?female:%s Jarl"
 msgstr "Jarl %s"
@@ -33670,7 +33756,11 @@ msgid ""
 "island of Hispaniola. Its capital - Santo Domingo - became the first "
 "permanent European settlement in the Americas when it was founded by "
 "Bartholomew Columbus in 1498."
-msgstr "La République Dominicaine est située aux deux tiers orientaux de l'île caribéenne d'Hispaniola. Sa capitale - Saint Domingue - est devenue la première implantation européenne aux Amériques quand elle fut fondée par Bartolomeo Colomb en 1498."
+msgstr ""
+"La République Dominicaine est située aux deux tiers orientaux de l'île "
+"caribéenne d'Hispaniola. Sa capitale - Saint Domingue - est devenue la "
+"première implantation européenne aux Amériques quand elle fut fondée par "
+"Bartolomeo Colomb en 1498."
 
 #: data/nation/dryad.ruleset:3
 msgid "Dryad"
@@ -33685,7 +33775,11 @@ msgid ""
 "Dryads are creatures of Greek myth; they are a type of nymph associated with "
 "trees. Dryads were generally considered to be shy and long-lived. They are "
 "usually female and are often depicted as beautiful young women."
-msgstr "Les dryades sont des créatures du mythe hellénique ; elles sont un type de nymphe associé avec les arbres. Les dryades sont considérée généralement comme étant timides et vivant longtemps. Elles sont usuellement femelles et sontsouvent décrites comme des jeunes femmes très belles."
+msgstr ""
+"Les dryades sont des créatures du mythe hellénique ; elles sont un type de "
+"nymphe associé avec les arbres. Les dryades sont considérée généralement "
+"comme étant timides et vivant longtemps. Elles sont usuellement femelles et "
+"sontsouvent décrites comme des jeunes femmes très belles."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -33723,7 +33817,13 @@ msgid ""
 "internal security apparatus, the Stasi. In 1989 the communist regime "
 "collapsed and one year later it was annexed to the Federal Republic of "
 "Germany."
-msgstr "La République Démocratique Allemande a été fondée dans la Zone d'occupation Soviétique de l'Allemagne d'après-guerre en 1949. Elle fit patie du bloc de l'Est dominée par les soviets durant la Guerre Froide. La RDA a été connue pour le Mur de Berlin et son vaste appareil de securité interne, la Stasi. En 1989, le régime communiste s'effondra et un an plus tard, elle fut annexée par la République Fédérale Allemande."
+msgstr ""
+"La République Démocratique Allemande a été fondée dans la Zone d'occupation "
+"Soviétique de l'Allemagne d'après-guerre en 1949. Elle fit patie du bloc de "
+"l'Est dominée par les soviets durant la Guerre Froide. La RDA a été connue "
+"pour le Mur de Berlin et son vaste appareil de securité interne, la Stasi. "
+"En 1989, le régime communiste s'effondra et un an plus tard, elle fut "
+"annexée par la République Fédérale Allemande."
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
@@ -33739,7 +33839,11 @@ msgid ""
 "overrun by Indonesian forces shortly thereafter. East Timor became the first "
 "newly sovereign state of the 21st century when Indonesia relinquished "
 "control on May 20, 2002."
-msgstr "Ancienne colonie portugaise, le Timor Oriental a déclaré son indépendance en 1975, mais a été envahi par les forces indonésiennes peu après. Le Timor Oriental est devenu le premier état à acquérir sa souveraineté du XXIème siècle quand l'Indonésie renonça à son contrôle le 20 mai 2002."
+msgstr ""
+"Ancienne colonie portugaise, le Timor Oriental a déclaré son indépendance en "
+"1975, mais a été envahi par les forces indonésiennes peu après. Le Timor "
+"Oriental est devenu le premier état à acquérir sa souveraineté du XXIème "
+"siècle quand l'Indonésie renonça à son contrôle le 20 mai 2002."
 
 #: data/nation/ecuadorian.ruleset:3
 msgid "Ecuadorian"
@@ -33762,7 +33866,16 @@ msgid ""
 "coast (Guayaquil) and the mountains (Quito). It also fought numerous border "
 "wars with both Colombia and Peru. Nowadays Ecuador is one of the main oil "
 "producing countries of South America."
-msgstr "L'Équateur est un pays de l'Amérique du Sud occidentale. Il est divisé en trois régions géographiques  très distinctes : les basses-terres littorales, les montagnes des Andes, et la jungle de l'Oriente. Les îles Galápagos font aussi partie de l'Équateur. Le pays a gagné son indépendance de l'Espagne en 1821 et de la Colombie en 1830. L'histoire de l'Équateur est marquée par la rivalité entre la côte (Guayaquil et les montagnes (Quito). Il a également mené de nombreuses guerres frontalières contre la Colombie et le Pérou. De nos jours, l'Équateur est l'un des plus gros producteurs de pétrole d'Amérique du Sud."
+msgstr ""
+"L'Équateur est un pays de l'Amérique du Sud occidentale. Il est divisé en "
+"trois régions géographiques  très distinctes : les basses-terres littorales, "
+"les montagnes des Andes, et la jungle de l'Oriente. Les îles Galápagos font "
+"aussi partie de l'Équateur. Le pays a gagné son indépendance de l'Espagne en "
+"1821 et de la Colombie en 1830. L'histoire de l'Équateur est marquée par la "
+"rivalité entre la côte (Guayaquil et les montagnes (Quito). Il a également "
+"mené de nombreuses guerres frontalières contre la Colombie et le Pérou. De "
+"nos jours, l'Équateur est l'un des plus gros producteurs de pétrole "
+"d'Amérique du Sud."
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
@@ -33815,7 +33928,10 @@ msgid ""
 "Modern Egypt is the most populous Middle Eastern country as well as one of "
 "the most populous in Africa. It is located on the site of one of the world's "
 "most ancient civilizations."
-msgstr "L'Égyote moderne est le pays le plus peuplé du Moyen-Orient, ainsi que le plus peuplé d'Afrique. Il est situé sur le site de l'une des plus antiques civilisations du monde."
+msgstr ""
+"L'Égyote moderne est le pays le plus peuplé du Moyen-Orient, ainsi que le "
+"plus peuplé d'Afrique. Il est situé sur le site de l'une des plus antiques "
+"civilisations du monde."
 
 #: data/nation/egyptianarab.ruleset:25 data/nation/guyanese.ruleset:25
 #: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:68
@@ -33840,7 +33956,12 @@ msgid ""
 "Iran, which arose around 3100 BC. The Elamite language, written in "
 "cuneiform, is of unkown origin. In 643 BC the Elamite civilization was "
 "destroyed by the Assyrians under Assurbanipal."
-msgstr "L'Élam était une civilisation antique, située dans la zone sud-ouest de l'Iran moderne, qui est apparue aux alentours des 3100 avant JC. La langue élamite, écrite en cunéiforme, est d'origine inconnue. En 643 avant JC, la civilisation élamite fut détruite par les assyriens sous les ordres de Assurbanipal."
+msgstr ""
+"L'Élam était une civilisation antique, située dans la zone sud-ouest de "
+"l'Iran moderne, qui est apparue aux alentours des 3100 avant JC. La langue "
+"élamite, écrite en cunéiforme, est d'origine inconnue. En 643 avant JC, la "
+"civilisation élamite fut détruite par les assyriens sous les ordres de "
+"Assurbanipal."
 
 #: data/nation/emirati.ruleset:3
 msgid "Emirati"
@@ -33934,7 +34055,13 @@ msgid ""
 "In 1951 it was federated with Ethiopia, which led to the development of an "
 "independence movement in the 1960s. In 1991 the 31-year war ended with "
 "Eritrea gaining independence."
-msgstr "L'Érythrée est un pays en Afrique Orientale qui borde le Soudan, l'Éthiopie et Djibouti. Elle était autrefois le Royaume de D'mt et fut plus tard conquise par l'Italie. En 1951, elle fut fédérée avec l'Éthiopie, ce qui conduisit au développement d'un mouvement d'indépendance dans les années 1960. En 1991, les 31 ans de guerre de terminèrent avec l'accession de l'Érythrée à l'indépendance."
+msgstr ""
+"L'Érythrée est un pays en Afrique Orientale qui borde le Soudan, l'Éthiopie "
+"et Djibouti. Elle était autrefois le Royaume de D'mt et fut plus tard "
+"conquise par l'Italie. En 1951, elle fut fédérée avec l'Éthiopie, ce qui "
+"conduisit au développement d'un mouvement d'indépendance dans les années "
+"1960. En 1991, les 31 ans de guerre de terminèrent avec l'accession de "
+"l'Érythrée à l'indépendance."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -33971,7 +34098,17 @@ msgid ""
 "Etruscan domination. As a result, Roman sources often put the Etruscans in a "
 "negative light, depicting them as a sexually licentious culture. However, "
 "Roman civilization owes a lot to their Etruscan predecessors."
-msgstr "Les Étrusques étaient une civilisation antique d'Étrurie, en Italie, connue pour ses réalisations artistiques et ses constructions de nécropoles. Leur langue n'est que partiellement décryptée et leurs origines encore débattues. Ils se nommaient eux-mêmes les Rasna et formaient une confédération de douze cités. Au VIème siècle, la civilisation étrusque commença à se désagréger après des inscursions romaines et gauloises. Rome elle-même fut probablement une ville-état qui se libéra de la domination étrusque. Suite à cela, les sources romaines voient souvent les étrusques sous un jour négatif, les décrivant comme une culture sexuellement licencieuse. Cependant, la civilisation romaine doit beaucoup à ses prédécesseurs étrusques."
+msgstr ""
+"Les Étrusques étaient une civilisation antique d'Étrurie, en Italie, connue "
+"pour ses réalisations artistiques et ses constructions de nécropoles. Leur "
+"langue n'est que partiellement décryptée et leurs origines encore débattues. "
+"Ils se nommaient eux-mêmes les Rasna et formaient une confédération de douze "
+"cités. Au VIème siècle, la civilisation étrusque commença à se désagréger "
+"après des inscursions romaines et gauloises. Rome elle-même fut probablement "
+"une ville-état qui se libéra de la domination étrusque. Suite à cela, les "
+"sources romaines voient souvent les étrusques sous un jour négatif, les "
+"décrivant comme une culture sexuellement licencieuse. Cependant, la "
+"civilisation romaine doit beaucoup à ses prédécesseurs étrusques."
 
 #: data/nation/european.ruleset:3
 msgid "European"
@@ -34034,7 +34171,13 @@ msgid ""
 "independent from Britain since 1970. Since then the country's politics have "
 "been characterized by ethnic tensions between Indo-Fijians and indigenous "
 "Fijians."
-msgstr "Fidji est le plus peuplé des petits états insulaires d'Océanie. Elle consiste en Viti Levu, Vanua Levu et des centaines d'îles plus petites. Colonisée par les polynésiens, elle devint une colonie britanique au XIXème siècle. Fidji est indépendante de la Grande-Bretagne depuis 1970. Depuis lors, la politique du pays a été caractérisée par des tensions ethniques entre les indo-fidjiens et les fidjiens indigènes."
+msgstr ""
+"Fidji est le plus peuplé des petits états insulaires d'Océanie. Elle "
+"consiste en Viti Levu, Vanua Levu et des centaines d'îles plus petites. "
+"Colonisée par les polynésiens, elle devint une colonie britanique au XIXème "
+"siècle. Fidji est indépendante de la Grande-Bretagne depuis 1970. Depuis "
+"lors, la politique du pays a été caractérisée par des tensions ethniques "
+"entre les indo-fidjiens et les fidjiens indigènes."
 
 #: data/nation/fijian.ruleset:24
 #, c-format
@@ -34121,7 +34264,12 @@ msgid ""
 "and subsequently it became one of the Seventeen Netherlands. Only after its "
 "conquest by Revolutionary France was the county legally dissolved. Nowadays "
 "the name is applied to the Dutch (or Flemish) speaking part of Belgium."
-msgstr "Au moyen-âge, les Flandres étaient un pays à la frontière de la France et Saint Empire Romain Germanique. Au XVème siècle, il tomba sous la domination des Habsbourg et devint donc l'un des dix sept Pays-Bas. Le comté ne fut dissout qu'après sa conquête par la France révolutionnaire. De nos jours, ce nom est donné à la partie de la Belgique qui parle néerlandais (ou Flamand)."
+msgstr ""
+"Au moyen-âge, les Flandres étaient un pays à la frontière de la France et "
+"Saint Empire Romain Germanique. Au XVème siècle, il tomba sous la domination "
+"des Habsbourg et devint donc l'un des dix sept Pays-Bas. Le comté ne fut "
+"dissout qu'après sa conquête par la France révolutionnaire. De nos jours, ce "
+"nom est donné à la partie de la Belgique qui parle néerlandais (ou Flamand)."
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
@@ -34138,7 +34286,12 @@ msgid ""
 "consolidate itself and by the 12th century it had completely dissappeared. "
 "Franconia continues to exist as a cultural region in the modern states of "
 "Bavaria, Thuringia and Baden-Wuerttemberg."
-msgstr "La Franconie était l'un des duchés souche du Saint Empire Romain Germanique. Fondé au IXème siècle, à l'inverse des autres duchés fondateurs, il ne parvint pas à se consolider et il avait complètement disparu aux alentours du XIIème siècle. La Franconie continue d'exister comme une région culturelle dans les états modernes de Bavière, Thuringe et Bade-Wurtemberg."
+msgstr ""
+"La Franconie était l'un des duchés souche du Saint Empire Romain Germanique. "
+"Fondé au IXème siècle, à l'inverse des autres duchés fondateurs, il ne "
+"parvint pas à se consolider et il avait complètement disparu aux alentours "
+"du XIIème siècle. La Franconie continue d'exister comme une région "
+"culturelle dans les états modernes de Bavière, Thuringe et Bade-Wurtemberg."
 
 #: data/nation/franconian.ruleset:24 data/nation/hessian.ruleset:27
 #, c-format
@@ -34205,7 +34358,16 @@ msgid ""
 "becoming a province of the United Netherlands. In 1782 the Estates of "
 "Friesland was the first foreign government to recognize the independence of "
 "the United States of America."
-msgstr "Les romains firent déjà mention de Frisii, mais les historiens ne sont pas sûrs qu'il s'agisse des ancêtres des actuels Frisons. Au début du moyen-âge, les Frisons contrôllaient un royaume qui s'étendait de l'Escaut au Jutland. Bien que finalement défaits par les Francs, ils continuèrent à jouir de la fameuse liberté frisonne, refusant de reconnaitre l'autorité de quelque seigneur féodal. Aux XVème et XVIème siècles, le territoire frison fut finalement morcelé, le coeur devenant une province des Pays-Bas. En 1782, les états de Frise furent le premier gouvernement étranger à reconnaitre l'indépendance des États-Unis d'Amérique."
+msgstr ""
+"Les romains firent déjà mention de Frisii, mais les historiens ne sont pas "
+"sûrs qu'il s'agisse des ancêtres des actuels Frisons. Au début du moyen-âge, "
+"les Frisons contrôllaient un royaume qui s'étendait de l'Escaut au Jutland. "
+"Bien que finalement défaits par les Francs, ils continuèrent à jouir de la "
+"fameuse liberté frisonne, refusant de reconnaitre l'autorité de quelque "
+"seigneur féodal. Aux XVème et XVIème siècles, le territoire frison fut "
+"finalement morcelé, le coeur devenant une province des Pays-Bas. En 1782, "
+"les états de Frise furent le premier gouvernement étranger à reconnaitre "
+"l'indépendance des États-Unis d'Amérique."
 
 #: data/nation/frisian.ruleset:38
 #, c-format
@@ -34232,7 +34394,14 @@ msgid ""
 "to Scotland. They are the ancestors of the modern Irish, Scots and Manx. "
 "Today, Gaelic speaking areas remain in Ireland, Scotland, the Isle of Man "
 "and the Canadian province of Nova Scotia."
-msgstr "Les Gaëls étaient un peuple celtique, il se peut qu'ils aient été originaires d'Espagne, mais ils furent signalés pour la première fois en Irlande. Pendant la Période de Migration, les Gaëls partirent aussi vers l'Écosse.Ils sont les ancêtres des Irlandais, des Écossais et des Mannois modernes. De nos jours, des zones où l'on parle gaëlique perdurent en Irlande, en Écosse, sur l'Île de Man et dans la province canadienne de la Nouvelle-Écosse."
+msgstr ""
+"Les Gaëls étaient un peuple celtique, il se peut qu'ils aient été "
+"originaires d'Espagne, mais ils furent signalés pour la première fois en "
+"Irlande. Pendant la Période de Migration, les Gaëls partirent aussi vers "
+"l'Écosse.Ils sont les ancêtres des Irlandais, des Écossais et des Mannois "
+"modernes. De nos jours, des zones où l'on parle gaëlique perdurent en "
+"Irlande, en Écosse, sur l'Île de Man et dans la province canadienne de la "
+"Nouvelle-Écosse."
 
 #. TRANS: Taoiseach = Prime Minister
 #: data/nation/gaelic.ruleset:28 data/nation/irish.ruleset:44
@@ -34351,7 +34520,12 @@ msgid ""
 "the Europeans, the Portuguese, Dutch and Swedes founded outposts but in the "
 "19th century Ghana became a British colony. In 1957 Kwame Nkrumah proclaimed "
 "Ghana's independence."
-msgstr "Le Ghana doit son nom à l'ancien Empire du Ghana. Connu sous le nom de la Côte-de-l'Or par les Européens, les Portugais, les Hollandais et les Suédois y fondèrent des avant-postes, mais au XIXème siècle, le Ghana devint une colonie Britanique. En 1957, Kwame Nkrumah a proclamé l'independance du Ghana."
+msgstr ""
+"Le Ghana doit son nom à l'ancien Empire du Ghana. Connu sous le nom de la "
+"Côte-de-l'Or par les Européens, les Portugais, les Hollandais et les Suédois "
+"y fondèrent des avant-postes, mais au XIXème siècle, le Ghana devint une "
+"colonie Britanique. En 1957, Kwame Nkrumah a proclamé l'independance du "
+"Ghana."
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
@@ -34374,7 +34548,12 @@ msgid ""
 "ancestors of the modern Turkic nations in Asia and Eastern Europe. They were "
 "the creators of a vast military empire, which covered the steppe areas from "
 "the Kuban river in the West to Korea in the East."
-msgstr "Le Göktürk ou Ancien Khanagat Turc était dirigé par la dynastie Ashina qui tirait ses origines légendaire de la louve rousse. Les Göktürks furent les ancêtres des nations turques modernes d'Asie et d'Europe de l'Est. Ils furent les créateurs d'un vaste empire militaire, qui recouvrait la steppe du fleuve Kouban à l'Ouest à la Corée à l'Est."
+msgstr ""
+"Le Göktürk ou Ancien Khanagat Turc était dirigé par la dynastie Ashina qui "
+"tirait ses origines légendaire de la louve rousse. Les Göktürks furent les "
+"ancêtres des nations turques modernes d'Asie et d'Europe de l'Est. Ils "
+"furent les créateurs d'un vaste empire militaire, qui recouvrait la steppe "
+"du fleuve Kouban à l'Ouest à la Corée à l'Est."
 
 #: data/nation/gokturk.ruleset:46 data/nation/tuvan.ruleset:33
 #, c-format
@@ -34398,7 +34577,9 @@ msgstr "Grand-Polonais"
 msgid ""
 "Greater Poland or Wielkopolska is a historic and geographic region of "
 "central-western Poland."
-msgstr "La Grande-Pologne ou Wielkopolska est une région historique et géographique de Pologne centre-occidentale."
+msgstr ""
+"La Grande-Pologne ou Wielkopolska est une région historique et géographique "
+"de Pologne centre-occidentale."
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -34440,7 +34621,12 @@ msgid ""
 "the same time, Scandinavian settlers arrived at the fjords on the "
 "southwestern tip of the island. Today, Greenland is a self-governing country "
 "within the Kingdom of Denmark with mixed Inuit and Scaninavian population."
-msgstr "La légende raconte que le Grand Chaman Qitdlarssuaq conduisit le peuple Inuit vers Thulé (Qaanaaq) sur la côte ouest du Gorenland au Xième siècle. À peu près au même moment, les colons scandinaves arrivèrent sur les fjords de la pointe sud-ouest de l'île. De nos jour, le Groenland est un pays autonome dans le royaume du Danemark, avec une population mixte Inuit et Scandinave."
+msgstr ""
+"La légende raconte que le Grand Chaman Qitdlarssuaq conduisit le peuple "
+"Inuit vers Thulé (Qaanaaq) sur la côte ouest du Gorenland au Xième siècle. À "
+"peu près au même moment, les colons scandinaves arrivèrent sur les fjords de "
+"la pointe sud-ouest de l'île. De nos jour, le Groenland est un pays autonome "
+"dans le royaume du Danemark, avec une population mixte Inuit et Scandinave."
 
 #: data/nation/grenadian.ruleset:3
 msgid "Grenadian"
@@ -34455,7 +34641,10 @@ msgid ""
 "Grenada is an island nation in the Caribbean. It gained independence from "
 "the United Kingdom in 1974. The main island was known as Camahogne by the "
 "indigenous Caribs."
-msgstr "Grenade est une île des Caraïbes. Elle gagna son indépendance du Royaume Uni en 1974. L'île principale était connue sous le nom de Camahogne par les Caribéens indigènes."
+msgstr ""
+"Grenade est une île des Caraïbes. Elle gagna son indépendance du Royaume Uni "
+"en 1974. L'île principale était connue sous le nom de Camahogne par les "
+"Caribéens indigènes."
 
 #: data/nation/guanche.ruleset:3
 msgid "Guanche"
@@ -34470,7 +34659,10 @@ msgid ""
 "The Guanches were the original inhabitants of the Canary Islands. Little is "
 "known of their origins, but it appears that they were related to the "
 "Berbers. In the 15th century they were subjugated by Castile."
-msgstr "Les Guanches étaient les habitants originels des îles Canaries. On en sait peu sur leurs origines, mais il semblent qu'ils soient apparentés aux berbères. Au XVème siècle, ils furent par la Castille."
+msgstr ""
+"Les Guanches étaient les habitants originels des îles Canaries. On en sait "
+"peu sur leurs origines, mais il semblent qu'ils soient apparentés aux "
+"berbères. Au XVème siècle, ils furent par la Castille."
 
 #: data/nation/guanche.ruleset:24
 #, c-format
@@ -34496,7 +34688,12 @@ msgid ""
 "the Aba (more popularly known as Guarani) lived primarily in what is now "
 "Paraguay in agricultural villages. Today their Guarani language is spoken by "
 "over 4 million people and is an official language of the nation of Paraguay."
-msgstr "Comptant peut-être 400.000 représentants au moment du contact avec les européens, les Abas (plus connus sous le nom de Guaranís) vivaient à l'origine dans ce qui est maintenant le Paraguay dans des villages agricoles. De nos jours, leur langue guarani est parlée par plus de 4 millions de personnes et est la langue officielle du Paraguay."
+msgstr ""
+"Comptant peut-être 400.000 représentants au moment du contact avec les "
+"européens, les Abas (plus connus sous le nom de Guaranís) vivaient à "
+"l'origine dans ce qui est maintenant le Paraguay dans des villages "
+"agricoles. De nos jours, leur langue guarani est parlée par plus de 4 "
+"millions de personnes et est la langue officielle du Paraguay."
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
@@ -34514,7 +34711,13 @@ msgid ""
 "turmoil for much of its history. Guatemala lived through one of the most "
 "brutal civil wars of the 20th century until a peace agreement was signed in "
 "1996."
-msgstr "Au coeur des antiques terres des Mayas, le Guatemala a été conquis par les Espagnols au XVIème siècle. Il devint indépendant en 1821, mais fit partie des Provinces Unies d'Amérique Centrale jusqu'en 1840. Il a subi une agitation politique pendant une bonne part de son histoire. Le Guatemala a traversé d'une des guerres civiles les plus brutales du XXème siècle jusqu'à ce qu'un accord de paix soit signé en 1996."
+msgstr ""
+"Au coeur des antiques terres des Mayas, le Guatemala a été conquis par les "
+"Espagnols au XVIème siècle. Il devint indépendant en 1821, mais fit partie "
+"des Provinces Unies d'Amérique Centrale jusqu'en 1840. Il a subi une "
+"agitation politique pendant une bonne part de son histoire. Le Guatemala a "
+"traversé d'une des guerres civiles les plus brutales du XXème siècle jusqu'à "
+"ce qu'un accord de paix soit signé en 1996."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -34546,7 +34749,12 @@ msgid ""
 "became a British colony after the Napoleonic Wars. It gained independence in "
 "1966. Under Forbes Burnham Guyana became a Marxist oriented country, but in "
 "the 1980s it started its transition to a market democracy."
-msgstr "Habité à l'origine par les Arawaks, le Guyana fut colonisé par les hollandais, pas devint une colonie britanique après les guerres napoléoniennes. Il gagna son indépendance en 1966. Sous la présidence de Forbes Burnham, le Guyana devint un pays à orientation marxiste, mais dans les années 80, il entama sa transition vers une démocracie de marché."
+msgstr ""
+"Habité à l'origine par les Arawaks, le Guyana fut colonisé par les "
+"hollandais, pas devint une colonie britanique après les guerres "
+"napoléoniennes. Il gagna son indépendance en 1966. Sous la présidence de "
+"Forbes Burnham, le Guyana devint un pays à orientation marxiste, mais dans "
+"les années 80, il entama sa transition vers une démocracie de marché."
 
 #: data/nation/guyanese.ruleset:28
 #, c-format
@@ -34603,7 +34811,10 @@ msgid ""
 "A slave rebellion led Haiti to independence in 1804. It was the first "
 "independent black republic and the second independent country in the "
 "Americas."
-msgstr "Une rebellion d'esclaves menèrent Haïti à l'indépendance en 1804. Elle fut la première république noire indépendante, et le second pays indépendant des Amériques."
+msgstr ""
+"Une rebellion d'esclaves menèrent Haïti à l'indépendance en 1804. Elle fut "
+"la première république noire indépendante, et le second pays indépendant des "
+"Amériques."
 
 #: data/nation/haitian.ruleset:26
 #, c-format
@@ -34629,7 +34840,10 @@ msgid ""
 "The Han people are the majority ethnic group in China, tracing their lineage "
 "back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the Yellow Emperor), "
 "legendary god-kings of prehistory."
-msgstr "Le peuple Han sont le groupe ethnique majoritaire en Chine, leur lignée remontant à \"Yandi\" (l'Empereur Yan) et \"Huangdi\" (L'Empereur Jaune), rois-dieux légendaires de la préhsitoire."
+msgstr ""
+"Le peuple Han sont le groupe ethnique majoritaire en Chine, leur lignée "
+"remontant à \"Yandi\" (l'Empereur Yan) et \"Huangdi\" (L'Empereur Jaune), "
+"rois-dieux légendaires de la préhsitoire."
 
 #: data/nation/hanoverian.ruleset:3
 msgid "Hanoverian"
@@ -34644,7 +34858,10 @@ msgid ""
 "Hanover was a state in Northern Germany, in current Lower Saxony. From 1714 "
 "to 1837 Hanover and the United Kingdom were united in a personal union. In "
 "1866 it was gobbled up by Prussia."
-msgstr "Hanovre était un état d'Allemagne septentrionale, dans la Basse-Saxe actuelle. De 1714 à 1837, Hanovre et le Royaume-Uni étaient unis de façon personnelle. En 1866, il a été absorbé par la Prusse."
+msgstr ""
+"Hanovre était un état d'Allemagne septentrionale, dans la Basse-Saxe "
+"actuelle. De 1714 à 1837, Hanovre et le Royaume-Uni étaient unis de façon "
+"personnelle. En 1866, il a été absorbé par la Prusse."
 
 #: data/nation/hansa.ruleset:3
 msgid "Hanseatic"
@@ -34661,7 +34878,12 @@ msgid ""
 "the 12th to the 19th century. Hanseatic cities were found in the North Sea "
 "and Baltic region. Members of the league had their own law system and "
 "occasionaly the Hansa went to war with rivalling powers."
-msgstr "La Ligue Hanséatique était une puissante alliance de villes marchandes qui a existé du XIIème au XIXème siècle. Les ville hanséatiques se trouvaient dans les régions de la Mer du Nord et de la Baltique. Les membres de la ligue avaient leur propre système de lois et la Hanse entra à l'occasion en guerre contre des puissances rivales."
+msgstr ""
+"La Ligue Hanséatique était une puissante alliance de villes marchandes qui a "
+"existé du XIIème au XIXème siècle. Les ville hanséatiques se trouvaient dans "
+"les régions de la Mer du Nord et de la Baltique. Les membres de la ligue "
+"avaient leur propre système de lois et la Hanse entra à l'occasion en guerre "
+"contre des puissances rivales."
 
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
 #: data/nation/westphalian.ruleset:35
@@ -34691,7 +34913,14 @@ msgid ""
 "polities of the America Southwest, their cultural ties were more strongly in "
 "line with the other mound-building cultures of the Southeast. The word Texas "
 "derived from Caddoan word for \"Friend.\""
-msgstr "Ligue politique caddoane de l'est du Texas, la Confédération Hasinaise consistait en un groupe de villages agricoles. Bien qu'ils aient pris part à des réseaux commerciaux qui les liaient avec des peuples aussi lontains que les états Pueblos du Sud-ouest de l'Amérique, leurs liens culturels étaient plus étroitement en ligne avec les autres cultures qui construisaient des tumulus dans le Sud-Est. Le mot texas est dérivé du mot caddoane signifiant \"ami\"."
+msgstr ""
+"Ligue politique caddoane de l'est du Texas, la Confédération Hasinaise "
+"consistait en un groupe de villages agricoles. Bien qu'ils aient pris part à "
+"des réseaux commerciaux qui les liaient avec des peuples aussi lontains que "
+"les états Pueblos du Sud-ouest de l'Amérique, leurs liens culturels étaient "
+"plus étroitement en ligne avec les autres cultures qui construisaient des "
+"tumulus dans le Sud-Est. Le mot texas est dérivé du mot caddoane signifiant "
+"\"ami\"."
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
@@ -34742,7 +34971,12 @@ msgid ""
 "the 16th century it splintered into a a number of smaller territories. Many "
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
-msgstr "La Hesse devint un landgraviat su Saint Empire Romain Germanique au XIIIème siècle. Au XVIème siècle, il éclata en un nombre de territoires plus petits. Beaucoup de Hessiens combattirent des deux côtés de la Révolution Américaine en tant que mercenaires. Actuellement, la Hesse est l'un des états de la République Fédérale d'Allemagne."
+msgstr ""
+"La Hesse devint un landgraviat su Saint Empire Romain Germanique au XIIIème "
+"siècle. Au XVIème siècle, il éclata en un nombre de territoires plus petits. "
+"Beaucoup de Hessiens combattirent des deux côtés de la Révolution Américaine "
+"en tant que mercenaires. Actuellement, la Hesse est l'un des états de la "
+"République Fédérale d'Allemagne."
 
 #: data/nation/himyarite.ruleset:3
 msgid "Himyarite"
@@ -34819,7 +35053,15 @@ msgid ""
 "of an uncountable number of counties, duchies, electorates, imperial free "
 "cities and other territories. In 1806 it was dissolved by Napoleon and "
 "replaced by the Confederation of the Rhine."
-msgstr "Le Saint Empire Romain Germanique était considéré comme le successeur de l'Empire Romain, mais comme le railla une fois Voltaire, il n'était ni Saint, ni Romain et encore moins un Empire. Néanmoins, il s'avéra être extrêment durable, et ne perdit des territoires que très lentement. Pendant la plupart de son existance, ce fut un assemblage complexe d'innombrables comtés, duchés, électorats, villes franches impériales et autres territoires. En 1806, il fut dissout par Napoléon et remplacé par le COnfédération du Rhin."
+msgstr ""
+"Le Saint Empire Romain Germanique était considéré comme le successeur de "
+"l'Empire Romain, mais comme le railla une fois Voltaire, il n'était ni "
+"Saint, ni Romain et encore moins un Empire. Néanmoins, il s'avéra être "
+"extrêment durable, et ne perdit des territoires que très lentement. Pendant "
+"la plupart de son existance, ce fut un assemblage complexe d'innombrables "
+"comtés, duchés, électorats, villes franches impériales et autres "
+"territoires. En 1806, il fut dissout par Napoléon et remplacé par le "
+"COnfédération du Rhin."
 
 #: data/nation/holyroman.ruleset:32
 #, c-format
@@ -34846,7 +35088,12 @@ msgid ""
 "the 8th century AD from territory donated to the Church by the pious and the "
 "wealthy, the Papal States grew to become the dominant power in Italy for "
 "centuries."
-msgstr "Les États Papaux étaient des territoires dans la péninsule italienne et ailleurs sous la régence souveraine directe des papes Romains Catholiques. Établis au VIIIème siècle après JC dans des territoires donnés par les pieux et les riches, les États Papaux se développèrent jusqu'à devenir un pouvoir dominant en Italie pendant des siècles."
+msgstr ""
+"Les États Papaux étaient des territoires dans la péninsule italienne et "
+"ailleurs sous la régence souveraine directe des papes Romains Catholiques. "
+"Établis au VIIIème siècle après JC dans des territoires donnés par les pieux "
+"et les riches, les États Papaux se développèrent jusqu'à devenir un pouvoir "
+"dominant en Italie pendant des siècles."
 
 #: data/nation/holysee.ruleset:28
 #, c-format
@@ -34872,7 +35119,12 @@ msgid ""
 "Central American Federation in 1840. The archetypical 'banana republic', "
 "periods of dictatorship and of more or less democratic rule have followed "
 "each other. Its current constitution was adopted in 1982."
-msgstr "Le Honduras a été une république indépendante depuis la dissolution de la Fédération d'Amérique Centrale en 1840. Des périodes de dictature typiques d'une \"république bananière\" et des gouvernements plus ou moins démocratiques se sont succédés. Sa constitution actuelle a été adoptée en 1982."
+msgstr ""
+"Le Honduras a été une république indépendante depuis la dissolution de la "
+"Fédération d'Amérique Centrale en 1840. Des périodes de dictature typiques "
+"d'une \"république bananière\" et des gouvernements plus ou moins "
+"démocratiques se sont succédés. Sa constitution actuelle a été adoptée en "
+"1982."
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
@@ -34928,7 +35180,10 @@ msgid ""
 "The Iberians were non-Indo-European inhabitants of the ancient Iberian "
 "Peninsula. Very little is known about their history. They were subjugated by "
 "Rome in the last centuries BC."
-msgstr "Les ibériens étaient des habitants non indo-européens de l'antique péninsule ibérienne. Leur histoire est très peu connue. Il furent soumis par Rome dans les derniers siècles avant JC."
+msgstr ""
+"Les ibériens étaient des habitants non indo-européens de l'antique péninsule "
+"ibérienne. Leur histoire est très peu connue. Il furent soumis par Rome dans "
+"les derniers siècles avant JC."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -35090,7 +35345,11 @@ msgid ""
 "America and Siberia. The Canadian territory of Nunavut has a majority "
 "population of Inuits; the name of the territory means \"our land\" in "
 "Inuktitut."
-msgstr "Les Inuits sont un ensemble de peuples habitant les zones artiques de l'Amérique du Nord et de la Sibérie. Le territoire canadien de Nunavut comporte une majorité de population Inuit ; le nom de ce territoire signifie \"notre terre\" en Inuktitut."
+msgstr ""
+"Les Inuits sont un ensemble de peuples habitant les zones artiques de "
+"l'Amérique du Nord et de la Sibérie. Le territoire canadien de Nunavut "
+"comporte une majorité de population Inuit ; le nom de ce territoire signifie "
+"\"notre terre\" en Inuktitut."
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
@@ -35252,7 +35511,10 @@ msgid ""
 "Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
 "relatively stable compared to other West African countries, but in the 2000s "
 "it lived through a civil war."
-msgstr "La Côte d'Ivoire accéda à l'indépendance en 1960. Elle a été relativement stable en comparaison des autres pays d'Afrique Occidentale, mais a traversé une guerre civile dans les années 2000."
+msgstr ""
+"La Côte d'Ivoire accéda à l'indépendance en 1960. Elle a été relativement "
+"stable en comparaison des autres pays d'Afrique Occidentale, mais a traversé "
+"une guerre civile dans les années 2000."
 
 #: data/nation/jamaican.ruleset:3
 msgid "Jamaican"
@@ -35270,7 +35532,13 @@ msgid ""
 "became an independent country within the Commonwealth in 1962. Jamaica is "
 "famous around the world for its music; genres such as reggae and ska "
 "originated on the island."
-msgstr "Colomb posa le pied en Jamaïque en 1494. L'île a été colonisée par les espagnols mais, en 1655, elle fut conquise par les Anglais, qui firent de l'île une économie de plantations basées sur l'esclavage. L'esclavage a été aboli en 1834. Le pays devint un pays indépendant du Commonwealth en 1962. La Jamaïque est connue dans le monde entier pour sa musique ; des genres comme le reggae et le ska sont originaires de l'île."
+msgstr ""
+"Colomb posa le pied en Jamaïque en 1494. L'île a été colonisée par les "
+"espagnols mais, en 1655, elle fut conquise par les Anglais, qui firent de "
+"l'île une économie de plantations basées sur l'esclavage. L'esclavage a été "
+"aboli en 1834. Le pays devint un pays indépendant du Commonwealth en 1962. "
+"La Jamaïque est connue dans le monde entier pour sa musique ; des genres "
+"comme le reggae et le ska sont originaires de l'île."
 
 #: data/nation/jamaican.ruleset:26
 #, c-format
@@ -35328,7 +35596,18 @@ msgid ""
 "another, with their heads assuming the powers of Burba Jolof. The 19th "
 "century brought with it French colonization and a conversion to Islam fueled "
 "in large part by anti-European sentiment."
-msgstr "Aussi appelé Wolof, le Royaume fut formé entre les fleuves Sénégal et Gambie au XIVème siècle. Le roi, ou Bourba Djolof, était obligé envers une poignée de puissants nobles régionaux ayant un lien de parenté avec le roi, mais qui développaient également les bases d'un pouvoir personnel. Au début des années 1500, le Bourba Djolof pouvait aligner 100.000 fantassins et 10.000 cavaliers. Les incursions peules et berbères ajoutées à la faiblesse politique érodèrent le pouvoir du Bourba Djolof. Plusieurs états parlant le Wolof établirent des unions entre eux, leur dirigeants assumant le pouvoir du Bourba Djolof. Le XIXème siècle amena avec lui la colonisation française et une conversion à l'Islam nourrie en grande partie par un sentiment anti-européen."
+msgstr ""
+"Aussi appelé Wolof, le Royaume fut formé entre les fleuves Sénégal et Gambie "
+"au XIVème siècle. Le roi, ou Bourba Djolof, était obligé envers une poignée "
+"de puissants nobles régionaux ayant un lien de parenté avec le roi, mais qui "
+"développaient également les bases d'un pouvoir personnel. Au début des "
+"années 1500, le Bourba Djolof pouvait aligner 100.000 fantassins et 10.000 "
+"cavaliers. Les incursions peules et berbères ajoutées à la faiblesse "
+"politique érodèrent le pouvoir du Bourba Djolof. Plusieurs états parlant le "
+"Wolof établirent des unions entre eux, leur dirigeants assumant le pouvoir "
+"du Bourba Djolof. Le XIXème siècle amena avec lui la colonisation française "
+"et une conversion à l'Islam nourrie en grande partie par un sentiment anti-"
+"européen."
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
@@ -35344,7 +35623,11 @@ msgid ""
 "southern Russia. They migrated to the Caspian plains in the 17th century and "
 "formed a khanate that was allied with Russia. The Kalmyks are the only "
 "Buddhist nation of Europe."
-msgstr "Les Kalmouks étaient un groupe ethnique de la Mongolie occidentale qui vivait en Kalmoukie au sud de la Russie. Ils migrèrent vers les plaines caspiennes au XVIIème siècle et formèrent un khanat qui était allié avec la Russie. Les Kalmouks sont la seule nation bouddhiste d'Europe."
+msgstr ""
+"Les Kalmouks étaient un groupe ethnique de la Mongolie occidentale qui "
+"vivait en Kalmoukie au sud de la Russie. Ils migrèrent vers les plaines "
+"caspiennes au XVIIème siècle et formèrent un khanat qui était allié avec la "
+"Russie. Les Kalmouks sont la seule nation bouddhiste d'Europe."
 
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
@@ -35376,7 +35659,10 @@ msgid ""
 "The Karelians are a Finno-Ugric people inhabiting Karelia, a region "
 "currently divided between Finland and Russia. They are closely related to "
 "the Finns."
-msgstr "Les Caréliens sont un peuple finno-ougrien qui habite la Carélie, une région actuellement divisée entre la Finlande et la Russie. Ils sont étroitement apparentés aux Finois."
+msgstr ""
+"Les Caréliens sont un peuple finno-ougrien qui habite la Carélie, une région "
+"actuellement divisée entre la Finlande et la Russie. Ils sont étroitement "
+"apparentés aux Finois."
 
 #: data/nation/kashmiri.ruleset:3
 msgid "Kashmiri"
@@ -35391,7 +35677,10 @@ msgid ""
 "The Kashmir valley is situated by the western foothills of the Himalayas. "
 "Having been inhabited for millennia, it is a melting pot of Hindu, Tibetan, "
 "and Islamic culture."
-msgstr "La vallée du Cachemire est située dans les piedmonts occidentaux de l'Himalaya. Ayant été inhabitée pendant des millénaires, c'est un creuset des cultures hindoues, tibétaines et islamiques."
+msgstr ""
+"La vallée du Cachemire est située dans les piedmonts occidentaux de "
+"l'Himalaya. Ayant été inhabitée pendant des millénaires, c'est un creuset "
+"des cultures hindoues, tibétaines et islamiques."
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
@@ -35438,7 +35727,10 @@ msgid ""
 "The Khazars founded a steppe empire on the plains of Southern Russia in the "
 "Early Middle Ages. Originally shamanists, they adopted Judaism as their "
 "state religion."
-msgstr "Les Khazars fondèrent un empire de steppes dans les plaines de la Russie méridionale au moyen âge. Chamanistes à l'originr, ils adoptèrent le judaïsme comme religion d'état."
+msgstr ""
+"Les Khazars fondèrent un empire de steppes dans les plaines de la Russie "
+"méridionale au moyen âge. Chamanistes à l'originr, ils adoptèrent le "
+"judaïsme comme religion d'état."
 
 #: data/nation/khazar.ruleset:34
 #, c-format
@@ -35556,7 +35848,10 @@ msgid ""
 "Kosovo is a country on the Balkans. It declared independence in 2008. Serbia "
 "claims Kosovo as a province and its independence is not universally "
 "recognized."
-msgstr "Le Kosovo est un pays des Balkans. Il déclara son indépendance en 2008. La Serbie revendique le Kosovo comme l'une de ses provinces, et son indépendance n'est pas reconnue universellement."
+msgstr ""
+"Le Kosovo est un pays des Balkans. Il déclara son indépendance en 2008. La "
+"Serbie revendique le Kosovo comme l'une de ses provinces, et son "
+"indépendance n'est pas reconnue universellement."
 
 #: data/nation/kurd.ruleset:3
 msgid "Kurdish"
@@ -35694,7 +35989,13 @@ msgid ""
 "the Phoenicians, Lebanon has since been ruled by many empires. It was part "
 "of the Ottoman Empire for over four centuries and became a French mandate "
 "after World War I. Lebanon proclaimed its independence in 1943."
-msgstr "Situé dans le Levantin, la côte Est de la mer Méditerranée, le Liban héberge quelques unes des plus anciennes traces de la civilisation humaine. Ancienne patrie des Phéniciens, le Liban a, depuis cette époque, été dirigé par bien des empires. Il a fait partie de l'Empire Ottoman pendant plus de quatre siècles, et est devenu un mandat français après la première guerre mondiale. Le Liban proclama son indépendance en 1943."
+msgstr ""
+"Situé dans le Levantin, la côte Est de la mer Méditerranée, le Liban héberge "
+"quelques unes des plus anciennes traces de la civilisation humaine. Ancienne "
+"patrie des Phéniciens, le Liban a, depuis cette époque, été dirigé par bien "
+"des empires. Il a fait partie de l'Empire Ottoman pendant plus de quatre "
+"siècles, et est devenu un mandat français après la première guerre mondiale. "
+"Le Liban proclama son indépendance en 1943."
 
 #: data/nation/lebanese.ruleset:27 data/nation/southamerican.ruleset:23
 #, c-format
@@ -35722,7 +36023,13 @@ msgid ""
 "early Piast dynasty. The Lendians succumbed to Ruthenization as a result of "
 "deportation actions organized by Kievan princes and the activities of the "
 "Orthodox Church."
-msgstr "Les Lendizis étaient une confédération de tribus slaves occidentales, léchitiques, habitant les régions frontalières de la Pologne et de l'Ukraine actuelles. Leurs terres faisaient l'objet de rivalité entre la Pologne et la Rus' de Kiev du temps de la dynastie Piast. Les Lendizis succombèrent à la Ruthénisation suite aux actions de déportation organisées par les princes de Kiev, les activités de l'Église Orthodoxe."
+msgstr ""
+"Les Lendizis étaient une confédération de tribus slaves occidentales, "
+"léchitiques, habitant les régions frontalières de la Pologne et de l'Ukraine "
+"actuelles. Leurs terres faisaient l'objet de rivalité entre la Pologne et la "
+"Rus' de Kiev du temps de la dynastie Piast. Les Lendizis succombèrent à la "
+"Ruthénisation suite aux actions de déportation organisées par les princes de "
+"Kiev, les activités de l'Église Orthodoxe."
 
 #: data/nation/leonese.ruleset:3
 msgid "Leonese"
@@ -35737,7 +36044,10 @@ msgid ""
 "Leon was a medieval kingdom in the northwestern part of the Iberian "
 "peninsula. Currently Leon is part of the Spanish autonomous community of "
 "Castile and Leon."
-msgstr "Le León était un royaume médiéval du nord-ouest de la péninsule ibérique. Actuellement le León fait partie de la communauté autonome espagnole de Castille-et-León."
+msgstr ""
+"Le León était un royaume médiéval du nord-ouest de la péninsule ibérique. "
+"Actuellement le León fait partie de la communauté autonome espagnole de "
+"Castille-et-León."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -35774,7 +36084,10 @@ msgid ""
 "country in Western Europe, bordered by Switzerland to its west and by "
 "Austria to its east. The Principality was formed by the merger of Vaduz and "
 "Schellenberg in 1719."
-msgstr "La principauté du Liechtenstein est un pays alpin minuscule enclavé d'Europe de l'ouest, bordé par la Suisse à l'Ouest et par l'Autriche à l'Est. La principauté fut formée par la fusion de Vaduz et de Schellenberg en 1719."
+msgstr ""
+"La principauté du Liechtenstein est un pays alpin minuscule enclavé d'Europe "
+"de l'ouest, bordé par la Suisse à l'Ouest et par l'Autriche à l'Est. La "
+"principauté fut formée par la fusion de Vaduz et de Schellenberg en 1719."
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
@@ -35791,7 +36104,12 @@ msgid ""
 "name comes from the Turkish name of Lithuania. In addition to Lithuania, "
 "they also live in Poland and Belarus. Some Lipka Tatars have preserved their "
 "culture and traditional religion to the present day."
-msgstr "Les Tatars Lipka sont les descendants des Tatars qui émigrèrent dans le Commonwealth Polono-Lituanien depuis le khanat de Crimée et la Horde d'Or. Leur nom vient du mot truc pour Lituanie. En plus de la Lituanie, ils vivent également en Pologne et en Biélorussie. Certains Tatars Lipka ont préservé leur culture et leur religion traditionnelle jusqu'à nos jours."
+msgstr ""
+"Les Tatars Lipka sont les descendants des Tatars qui émigrèrent dans le "
+"Commonwealth Polono-Lituanien depuis le khanat de Crimée et la Horde d'Or. "
+"Leur nom vient du mot truc pour Lituanie. En plus de la Lituanie, ils vivent "
+"également en Pologne et en Biélorussie. Certains Tatars Lipka ont préservé "
+"leur culture et leur religion traditionnelle jusqu'à nos jours."
 
 #: data/nation/lipkatatar.ruleset:28
 #, c-format
@@ -35828,7 +36146,10 @@ msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
-msgstr "La Lituanie est un petit pays sur la côte sud de la mer Baltique, au nord-est de la Pologne. Le lituanien est la langue la plus archaïque et la plus complexe de toutes les langues indo-européennes du nord."
+msgstr ""
+"La Lituanie est un petit pays sur la côte sud de la mer Baltique, au nord-"
+"est de la Pologne. Le lituanien est la langue la plus archaïque et la plus "
+"complexe de toutes les langues indo-européennes du nord."
 
 #: data/nation/lithuanian.ruleset:29
 #, c-format
@@ -35876,7 +36197,13 @@ msgid ""
 "the various Frankish dynasties. What was left of Lorraine became a duchy "
 "that both France and Germany were continuously eyeing for. Lorraine became a "
 "province of France in 1766."
-msgstr "La Lorraine ou Lothringe fut constitué comme le royaume du milieu lorsque l'empire franc fut découpé en trois en 843. S'étirant initialement de la mer du Nord à la Méditerrannée, son territoire fut au cours des luttes entre les diverses dynasties franches. Ce qui resta de la Lorraine devint un duché sur lequel la France et l'Allemagne lorgnaient continuellement. La Lorraine devint une province française en 1766."
+msgstr ""
+"La Lorraine ou Lothringe fut constitué comme le royaume du milieu lorsque "
+"l'empire franc fut découpé en trois en 843. S'étirant initialement de la mer "
+"du Nord à la Méditerrannée, son territoire fut au cours des luttes entre les "
+"diverses dynasties franches. Ce qui resta de la Lorraine devint un duché sur "
+"lequel la France et l'Allemagne lorgnaient continuellement. La Lorraine "
+"devint une province française en 1766."
 
 #: data/nation/lorrain.ruleset:30 data/nation/montenegrin.ruleset:28
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:27
@@ -35898,7 +36225,10 @@ msgid ""
 "One of Europe's smaller countries, Luxembourg was founded as a county in "
 "963. In 1815 it was elevated to a Grand Duchy in a personal union with the "
 "Netherlands, which was severed in 1890."
-msgstr "L'un des plus petits pays d'Europe, le Luxembourg fut fondé comme un comté en 963. En 1815, il fut élevé au rang de Grand Duché dans une union avec les Pays-Bas, qui fut rompue en 1890."
+msgstr ""
+"L'un des plus petits pays d'Europe, le Luxembourg fut fondé comme un comté "
+"en 963. En 1815, il fut élevé au rang de Grand Duché dans une union avec les "
+"Pays-Bas, qui fut rompue en 1890."
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
@@ -35914,7 +36244,12 @@ msgid ""
 "located in Kenya and northern Tanzania. Due to their distinctive customs and "
 "dress and residence near the many game parks of East Africa, they are among "
 "the most well known of African ethnic groups."
-msgstr "Les Maasaïs sont un groupe ethnique indigène africain de peuples semi-nomades situés au Kenya et au nord de la Tanzanie. Grâce à leurs coutumes et leurs vêtements typiques et leur résidence proche des nombreux parcs de jeux d'Afrique Orientale, ils font partie des groupes ethniques africainx les plus connus."
+msgstr ""
+"Les Maasaïs sont un groupe ethnique indigène africain de peuples semi-"
+"nomades situés au Kenya et au nord de la Tanzanie. Grâce à leurs coutumes et "
+"leurs vêtements typiques et leur résidence proche des nombreux parcs de jeux "
+"d'Afrique Orientale, ils font partie des groupes ethniques africainx les "
+"plus connus."
 
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
@@ -35930,7 +36265,11 @@ msgid ""
 "Alexander the Great it became one of the most powerful states in the world "
 "but it splintered into several states after Alexander's death. Macedonia was "
 "eventually conquered by Rome in 146 BC. "
-msgstr "Le Royaume de Macédoine était situé dans le sud des Balkans. Sous Alexandre le Grand, il devint l'un des états les plus puissants du monde, mais fut éclaté en plusieurs états à la mort d'Alexandre. La Macédoine fut finalement conquise par Romme en 146 avant JC."
+msgstr ""
+"Le Royaume de Macédoine était situé dans le sud des Balkans. Sous Alexandre "
+"le Grand, il devint l'un des états les plus puissants du monde, mais fut "
+"éclaté en plusieurs états à la mort d'Alexandre. La Macédoine fut finalement "
+"conquise par Romme en 146 avant JC."
 
 #: data/nation/macedon.ruleset:23
 #, c-format
@@ -35954,7 +36293,10 @@ msgstr "Macédoniens"
 msgid ""
 "The Republic of Macedonia is located in the south-central part of the Balkan "
 "peninsula. It declared independence from Yugoslavia in 1991."
-msgstr "La République de Macédoine est située dans la partie centre-sud de la péninsule des Balkans. Elle déclara son indépendance de la Yougoslavie en 1991."
+msgstr ""
+"La République de Macédoine est située dans la partie centre-sud de la "
+"péninsule des Balkans. Elle déclara son indépendance de la Yougoslavie en "
+"1991."
 
 #: data/nation/majapahit.ruleset:3
 msgid "Majapahit"
@@ -36026,7 +36368,11 @@ msgid ""
 "to the old Maravi Empire upon independence in 1964. The country's politics "
 "were dominated by Dr. Hastings Banda for three decades, until he was "
 "stripped of his titles in 1993."
-msgstr "Appelé Nyasaland par les britaniques, le Malawi adopta son nom actuel, en référence au vieil empire Maravi, lors de son indépendance en 1964. La politique du pays fut dominée par le Dr. Hastings Banda pendant trois décades, jusqu'à ce qu'il soit démis de ses titres en 1993."
+msgstr ""
+"Appelé Nyasaland par les britaniques, le Malawi adopta son nom actuel, en "
+"référence au vieil empire Maravi, lors de son indépendance en 1964. La "
+"politique du pays fut dominée par le Dr. Hastings Banda pendant trois "
+"décades, jusqu'à ce qu'il soit démis de ses titres en 1993."
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -36103,7 +36449,9 @@ msgstr "Maliens"
 msgid ""
 "Mali is a large country in Western Africa. Once part of French Sudan, it "
 "gained independence together with Senegal in 1959."
-msgstr "Le Mali est un grand pays d'Afrique Occidentale. Autrefois part du Soudan français, il a gagné son indépendance en même temps que le Sénégal en 1959."
+msgstr ""
+"Le Mali est un grand pays d'Afrique Occidentale. Autrefois part du Soudan "
+"français, il a gagné son indépendance en même temps que le Sénégal en 1959."
 
 #: data/nation/maltese.ruleset:3
 msgid "Maltese"
@@ -36119,7 +36467,12 @@ msgid ""
 "been ruled by the Phoenicians, Romans, Fatimids, Sicilians, Knights "
 "Hospitaller, French, and British. Malta became independent in 1964 and "
 "joined the EU in 2004."
-msgstr "Malte fut colonisée pour la première fois en 5200 avant JC. Au cours des siècles, les îles ont été dirigées par les Phéniciens, les Romains, les Fatimides, les Siciliens, les Chevaliers de l'Hôpital, les Français et les Britaniques. Malte devint indépendante en 1964 et rejoignit l'Union Européenne en 2004."
+msgstr ""
+"Malte fut colonisée pour la première fois en 5200 avant JC. Au cours des "
+"siècles, les îles ont été dirigées par les Phéniciens, les Romains, les "
+"Fatimides, les Siciliens, les Chevaliers de l'Hôpital, les Français et les "
+"Britaniques. Malte devint indépendante en 1964 et rejoignit l'Union "
+"Européenne en 2004."
 
 #: data/nation/maltese.ruleset:29 data/nation/templar.ruleset:41
 #: data/nation/teutonic.ruleset:31
@@ -36168,7 +36521,14 @@ msgid ""
 "noted for having the oldest still functioning parliament in the world, the "
 "Tynwald, which exists since 979 AD. Since 1765 the island depends on Great "
 "Britain."
-msgstr "L'Île de Man est une île des Îles Britaniques située entre la Grande-Bretagne et l'Irlande. Formellement, elle ne fait pas partie du Royaume Uni, mais est une dépendance autonome de la couronne britanique. Au moyen âge, elle était le centre du Royaume de Man et des Îles, et devint plus tard le Duché de Man. Man est connu pour posséder le plus vieux parlement encore en fonction au monde, le Tynwald, qui existe depuis 979 après JC. Depuis 1765, l'île dépend de la Grande-Bretagne."
+msgstr ""
+"L'Île de Man est une île des Îles Britaniques située entre la Grande-"
+"Bretagne et l'Irlande. Formellement, elle ne fait pas partie du Royaume Uni, "
+"mais est une dépendance autonome de la couronne britanique. Au moyen âge, "
+"elle était le centre du Royaume de Man et des Îles, et devint plus tard le "
+"Duché de Man. Man est connu pour posséder le plus vieux parlement encore en "
+"fonction au monde, le Tynwald, qui existe depuis 979 après JC. Depuis 1765, "
+"l'île dépend de la Grande-Bretagne."
 
 #: data/nation/manx.ruleset:35
 #, c-format
@@ -36289,7 +36649,9 @@ msgstr "Mazoviens"
 
 #: data/nation/mazovian.ruleset:6
 msgid "Mazovia is a historic and geographic region of central-eastern Poland."
-msgstr "La Mazovie est une région historique et géographique du centre-est de la Pologne."
+msgstr ""
+"La Mazovie est une région historique et géographique du centre-est de la "
+"Pologne."
 
 #: data/nation/mecklenburgian.ruleset:3
 msgid "Mecklenburgian"
@@ -36309,7 +36671,15 @@ msgid ""
 "states; its feudal institutions were abolished only at the downfall of the "
 "monarchy in 1918. Currently Mecklenburg forms the western two thirds of the "
 "German state of Mecklenburg-Cispomerania."
-msgstr "Le Mecklembourg fut érigé au XIIème siècle. La maison dirigeante, les Obordites, étaient d'origine slave - chose unique parmi les états allemands. La dynastie resta au pouvoir pendant huit siècles. Le duché fut divisé en Mecklembourg-Strelitz et Mecklembourg-Schwerin. Au XIXème siècle, le Mecklembourg avait la réputation d'être le plus rétrograde des états allemands ; ses institutions féodales ne furent abolies qu'à la chute de la monarchie en 1918. Actuellement, le Mecklembourg forme les deux tiers occidentaux de l'état allemand de Mecklembourg-Poméranie-Occidentale."
+msgstr ""
+"Le Mecklembourg fut érigé au XIIème siècle. La maison dirigeante, les "
+"Obordites, étaient d'origine slave - chose unique parmi les états allemands. "
+"La dynastie resta au pouvoir pendant huit siècles. Le duché fut divisé en "
+"Mecklembourg-Strelitz et Mecklembourg-Schwerin. Au XIXème siècle, le "
+"Mecklembourg avait la réputation d'être le plus rétrograde des états "
+"allemands ; ses institutions féodales ne furent abolies qu'à la chute de la "
+"monarchie en 1918. Actuellement, le Mecklembourg forme les deux tiers "
+"occidentaux de l'état allemand de Mecklembourg-Poméranie-Occidentale."
 
 #: data/nation/metis.ruleset:3
 msgid "Metis"
@@ -36329,7 +36699,13 @@ msgid ""
 "Together with the First Nations and the Inuit they form one of the three "
 "indigenous groups of Canada. In the 19th century the Metis repeatedly "
 "rebelled against the British and Canadian authorities."
-msgstr "Les Métis sont un peuple d'ascendance mixte entre les Premières Nations (amérindiens) et les Européens (majoritairement Français), qui vivent principalement dans les provinces de prairie du Canada. Avec les Premières Nations et les Inuits, ils forment l'un des trois groupes indigènes du Canada. Au XIXème siècle, les Métis se rebellèrent régulièrement contre les autorités britaniques et canadiennes."
+msgstr ""
+"Les Métis sont un peuple d'ascendance mixte entre les Premières Nations "
+"(amérindiens) et les Européens (majoritairement Français), qui vivent "
+"principalement dans les provinces de prairie du Canada. Avec les Premières "
+"Nations et les Inuits, ils forment l'un des trois groupes indigènes du "
+"Canada. Au XIXème siècle, les Métis se rebellèrent régulièrement contre les "
+"autorités britaniques et canadiennes."
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -36354,7 +36730,21 @@ msgid ""
 "million dead. The Revolution led to the establishment of a corporatist one "
 "party state in 1929. Only in 2000 did Mexico see its first democratic "
 "transfer of power."
-msgstr "Le Mexique tire sont nom du peuple Mexica, un autre nom des Aztèques. Il obteint son indépendance de L'Espagne en 1821. Pendant la plupart du XIXème siècle, le pays a été dévasté par les rébellions et les invasions étrangères, sédant plus de la moitié de son territoire aux États-Unis. Une constituion libérale a été proclamée en 1857, conduisant à dix ans de guerre civile entre les libéraux et les conservateurs, qui finirent par couronner Maximilien d'Autriche comme empereur pendant l'occupation française. Les français et les conservateurs furent finalement battus par les libéraux de Benito Juárez en 1867. Le Mexique entra dans l'ère moderne avec Porfirio Díaz (1876-1911), mais les inégalités sociales et la répression politique conduisirent à la Révolution Mexicaine de 1910 qui laissa plus d'un million de morts. La Révolution mena à l'établissement d'un état corporatiste unipartite en 1929. Le Mexique ne vit son premier transfert de pouvoir démocratique qu'en l'an 2000."
+msgstr ""
+"Le Mexique tire sont nom du peuple Mexica, un autre nom des Aztèques. Il "
+"obteint son indépendance de L'Espagne en 1821. Pendant la plupart du XIXème "
+"siècle, le pays a été dévasté par les rébellions et les invasions "
+"étrangères, sédant plus de la moitié de son territoire aux États-Unis. Une "
+"constituion libérale a été proclamée en 1857, conduisant à dix ans de guerre "
+"civile entre les libéraux et les conservateurs, qui finirent par couronner "
+"Maximilien d'Autriche comme empereur pendant l'occupation française. Les "
+"français et les conservateurs furent finalement battus par les libéraux de "
+"Benito Juárez en 1867. Le Mexique entra dans l'ère moderne avec Porfirio "
+"Díaz (1876-1911), mais les inégalités sociales et la répression politique "
+"conduisirent à la Révolution Mexicaine de 1910 qui laissa plus d'un million "
+"de morts. La Révolution mena à l'établissement d'un état corporatiste "
+"unipartite en 1929. Le Mexique ne vit son premier transfert de pouvoir "
+"démocratique qu'en l'an 2000."
 
 #: data/nation/mexican.ruleset:52 data/nation/nicaraguan.ruleset:33
 #, c-format
@@ -36384,7 +36774,14 @@ msgid ""
 "their nation. Most Miao live in southern China, but there is a significant "
 "disapora in southeast Asian countries as well as Europe and North America, "
 "of which many belong to the \"Hmong\" sub-group."
-msgstr "Selon la légende chinoise, l'Empereur Jaune Huáxià combattit et vainquit Chiyou, chef des tribus Jiuli à la bataille de Zhuolu au XXVIème siècle avant JC. Pour les peuples Miao de la Chine moderne, Chiyou, qu'ils appellent \"Txiv Yawg\", est un roi mythique et un père fondateur de leur nation. La plupart des Miaos vivent au sud de la Chine, mais il y en a une diaspora notable dans les pays d'Asie du Sud-Est, ainsi qu'en Europe et en Amérique du Nord, dont beaucoup appartiennent au sous-groupe \"Hmong\"."
+msgstr ""
+"Selon la légende chinoise, l'Empereur Jaune Huáxià combattit et vainquit "
+"Chiyou, chef des tribus Jiuli à la bataille de Zhuolu au XXVIème siècle "
+"avant JC. Pour les peuples Miao de la Chine moderne, Chiyou, qu'ils "
+"appellent \"Txiv Yawg\", est un roi mythique et un père fondateur de leur "
+"nation. La plupart des Miaos vivent au sud de la Chine, mais il y en a une "
+"diaspora notable dans les pays d'Asie du Sud-Est, ainsi qu'en Europe et en "
+"Amérique du Nord, dont beaucoup appartiennent au sous-groupe \"Hmong\"."
 
 #: data/nation/micronesian.ruleset:3
 msgid "Micronesian"
@@ -36399,7 +36796,10 @@ msgid ""
 "Micronesia is located in the Central Western Pacific. The site of several "
 "ancient seafaring cultures, nowadays most of the region is governed by the "
 "Federated States of Micronesia."
-msgstr "La Micronésie est située au milieu du Pacifique Ouest. Site de plusieurs antiques cultures de marins, la plupart de la région est maintenant gouvertnée par les États Fédérés de Micronésie."
+msgstr ""
+"La Micronésie est située au milieu du Pacifique Ouest. Site de plusieurs "
+"antiques cultures de marins, la plupart de la région est maintenant "
+"gouvertnée par les États Fédérés de Micronésie."
 
 #: data/nation/mikmaq.ruleset:3
 msgid "Mi'kmaq"
@@ -36415,7 +36815,11 @@ msgid ""
 "to) Nova Scotia. The first Mi'kmaq to convert to Christianity did so in 1610 "
 "under French suzerainty. French rule gave way to English and English to "
 "Canadian."
-msgstr "Au nombre d'environ 25.000 de nos jours, les Micmacs habitaient (et continuent largement à) la Nouvelle Écosse. Les premiers Micmacs à se convertir au Christianisme le firent en 1610 sous la suzeraineté française. La dirigeance française céda à l'anglaise, et l'anglaise à la canadienne."
+msgstr ""
+"Au nombre d'environ 25.000 de nos jours, les Micmacs habitaient (et "
+"continuent largement à) la Nouvelle Écosse. Les premiers Micmacs à se "
+"convertir au Christianisme le firent en 1610 sous la suzeraineté française. "
+"La dirigeance française céda à l'anglaise, et l'anglaise à la canadienne."
 
 #: data/nation/milanese.ruleset:3
 msgid "Milanese"
@@ -36430,7 +36834,11 @@ msgid ""
 "Milan is the capital of Lombardy, a region in Northern Italy. From 1395 to "
 "1797 it was the seat of the Duchy of Milan. Lombardy came under Austrian "
 "domination after the Napoleonic War. In 1859 it was annexed by Italy."
-msgstr "Milan est la capitale de la Lombardie, une région du Nord de l'Italie. De 1395 à 1797, elle était le siège du Duché de Milan. La Lombardie tomba sous domination autrichienne après les guerres napoléoniennes. En 1859, elle fut annexée par l'Italie."
+msgstr ""
+"Milan est la capitale de la Lombardie, une région du Nord de l'Italie. De "
+"1395 à 1797, elle était le siège du Duché de Milan. La Lombardie tomba sous "
+"domination autrichienne après les guerres napoléoniennes. En 1859, elle fut "
+"annexée par l'Italie."
 
 #: data/nation/milanese.ruleset:26 data/nation/piedmontese.ruleset:34
 #: data/nation/sicilian.ruleset:30
@@ -36466,7 +36874,16 @@ msgid ""
 "established by kings who went by English names and came under formal British "
 "protectorate status in 1740. Official protectorate status ended a century "
 "later and in 1894 the Nicaraguan government incorporated the territory."
-msgstr "Vivant le long de la Côte Misquito éponyme du Nicarague et du Honduras, les Misquitos comptent maintenant aux environs des 200.000 individus. En 1625, les Misquitos amorcèrent une relation politique durable avec l'empire bitanique, dont les intérêts dans les Caraïbes étaient opposés à ceux de l'empire espagnol. Un 'royaume' Misquito vaguement bâti fut formé cette année là, et une dynastie fut fondée par des rois qui portaient des noms anglais et prit le statut de protectorat britanique en 1740. Le statut de protectorat officiel prit fin un siècle plus tard, et en 1894, le gouvernement nicaraguayen annexa le territoire."
+msgstr ""
+"Vivant le long de la Côte Misquito éponyme du Nicarague et du Honduras, les "
+"Misquitos comptent maintenant aux environs des 200.000 individus. En 1625, "
+"les Misquitos amorcèrent une relation politique durable avec l'empire "
+"bitanique, dont les intérêts dans les Caraïbes étaient opposés à ceux de "
+"l'empire espagnol. Un 'royaume' Misquito vaguement bâti fut formé cette "
+"année là, et une dynastie fut fondée par des rois qui portaient des noms "
+"anglais et prit le statut de protectorat britanique en 1740. Le statut de "
+"protectorat officiel prit fin un siècle plus tard, et en 1894, le "
+"gouvernement nicaraguayen annexa le territoire."
 
 #: data/nation/mixtec.ruleset:3
 msgid "Mixtec"
@@ -36489,7 +36906,16 @@ msgid ""
 "until the arrival of the Spanish. Nowadays there are about 700.000 Mixtecs "
 "living in the Mexican states of Oaxaca, Guerrero and Puebla, as well as in "
 "emigrant communities in Northern Mexico and the US."
-msgstr "Les Mixtèques ou Ñuu Savi étaient l'un des civilisations mésoaméricaines majeures. Le territoire mixtèque était formé de nombreses villes-états. Le dirigeant mixtèque Huit-Cerf Griffe d'Ocelot, qui dirigeait Tilantongo aux alentours des 1100 après JC, était connu dans tout l'ancien Mexique. À la fin du XVème siècle, la plupart du territoire mixtèque était occupé par les Aztèques, bien que des parties soient restées indépendantes jusqu'à l'arrivée des espagnols. De nos jours, il y a environ 700.000 Mixtèques qui vivent dans les états mexicains de Oaxaca, Guerrero et Puela, ainsi que dans les communautés émigrées du Nord du Mexique et des États-Unis."
+msgstr ""
+"Les Mixtèques ou Ñuu Savi étaient l'un des civilisations mésoaméricaines "
+"majeures. Le territoire mixtèque était formé de nombreses villes-états. Le "
+"dirigeant mixtèque Huit-Cerf Griffe d'Ocelot, qui dirigeait Tilantongo aux "
+"alentours des 1100 après JC, était connu dans tout l'ancien Mexique. À la "
+"fin du XVème siècle, la plupart du territoire mixtèque était occupé par les "
+"Aztèques, bien que des parties soient restées indépendantes jusqu'à "
+"l'arrivée des espagnols. De nos jours, il y a environ 700.000 Mixtèques qui "
+"vivent dans les états mexicains de Oaxaca, Guerrero et Puela, ainsi que dans "
+"les communautés émigrées du Nord du Mexique et des États-Unis."
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
@@ -36542,7 +36968,14 @@ msgid ""
 "taxes, its casino and its Formula 1 track. Foreigners make up more than 80 "
 "percent of the population. In terms of GDP per capita Monaco is the "
 "wealthiest country in the world by a large margin."
-msgstr "Avec seulement deux kilomètres carrés, Monaco est le second plus petit état au monde. Il a été dirigé par la dynastie Grimaldi depuis sa fondation en 1297. En 1861, Monaco perdit plus de 95% de son territoire en faveur de la France. La principauté est connue pour son absence d'impôts sur le revenu, son casino et son circuit de Formule 1. Les étrangers constituent plus de 80 pourcents de la population. En terme de PNB par tête, Monaco est le pays le plus riche du monde avec une large avance."
+msgstr ""
+"Avec seulement deux kilomètres carrés, Monaco est le second plus petit état "
+"au monde. Il a été dirigé par la dynastie Grimaldi depuis sa fondation en "
+"1297. En 1861, Monaco perdit plus de 95% de son territoire en faveur de la "
+"France. La principauté est connue pour son absence d'impôts sur le revenu, "
+"son casino et son circuit de Formule 1. Les étrangers constituent plus de 80 "
+"pourcents de la population. En terme de PNB par tête, Monaco est le pays le "
+"plus riche du monde avec une large avance."
 
 #: data/nation/monegasque.ruleset:29
 #, c-format
@@ -36587,7 +37020,11 @@ msgid ""
 "Montenegro is a small country on the Balkans, the last to be conquered by "
 "the Ottomans and the first to become independent again. Part of Yugoslavia "
 "in the 20th century, it dissolved its union with Serbia in 2006."
-msgstr "Le Monténégro est un petit pays des Balkans, la dernier à avoir été conquis par les Ottomans, et le premier à être redevenu indépendant. Il faisait partie de la Yougoslavie au XXème siècle, et a dissout son union avec la Serbie en 2006."
+msgstr ""
+"Le Monténégro est un petit pays des Balkans, la dernier à avoir été conquis "
+"par les Ottomans, et le premier à être redevenu indépendant. Il faisait "
+"partie de la Yougoslavie au XXème siècle, et a dissout son union avec la "
+"Serbie en 2006."
 
 #: data/nation/moravian.ruleset:3
 msgid "Moravian"
@@ -36607,7 +37044,16 @@ msgid ""
 "invasion from eastern steppes. After the defeat of the Hungarians by the "
 "Holy Roman Empire Moravia was turned into a principality, which was in a "
 "personal union with Bohemia for most of its history."
-msgstr "La Grande Moravie était une monarchie médiévale slave, dont le centre était situé dans la région de la Moravie moderne en République Tchèque. La Moravie conquit des zones de la Bohème, de la Slovaquie, de la Pannonie et de grandes parties du sud de la Polone et de la Lusace. Le premier dirigeant et fondateur de cet état fut le duc Mojmír Ier. L'état de la Grande Moravie fut détruit suite à l'invasion hongroise depuis les steppes de l'Est. Après la défaite des hongrois par le Saint Empire Romain Germanique, la Moravie fut changée en une principauté, en union personelle avec la Bohême pendant la majeure partie de son histoire."
+msgstr ""
+"La Grande Moravie était une monarchie médiévale slave, dont le centre était "
+"situé dans la région de la Moravie moderne en République Tchèque. La Moravie "
+"conquit des zones de la Bohème, de la Slovaquie, de la Pannonie et de "
+"grandes parties du sud de la Polone et de la Lusace. Le premier dirigeant et "
+"fondateur de cet état fut le duc Mojmír Ier. L'état de la Grande Moravie fut "
+"détruit suite à l'invasion hongroise depuis les steppes de l'Est. Après la "
+"défaite des hongrois par le Saint Empire Romain Germanique, la Moravie fut "
+"changée en une principauté, en union personelle avec la Bohême pendant la "
+"majeure partie de son histoire."
 
 #: data/nation/mordvin.ruleset:3
 msgid "Mordvin"
@@ -36622,7 +37068,10 @@ msgid ""
 "The Mordvins are a Finnic people consisting of two subgroups: the Erzya and "
 "the Moksha. Mordvins live mainly in the Republic of Mordovia, a subdivision "
 "of the Russian Federation."
-msgstr "Les Mordves sont un peuple finnois qui consiste en deux sous-groupes : les Erzianes et les Mokchanes. Les Mordves vivent principalement en République de Mordovie, une sous-division de la Fédération Russe."
+msgstr ""
+"Les Mordves sont un peuple finnois qui consiste en deux sous-groupes : les "
+"Erzianes et les Mokchanes. Les Mordves vivent principalement en République "
+"de Mordovie, une sous-division de la Fédération Russe."
 
 #: data/nation/motswana.ruleset:3
 msgid "Motswana"
@@ -36638,7 +37087,11 @@ msgid ""
 "The Republic of Botswana is a country in Southern Africa. It gained "
 "independence from the UK in 1966. Botswana is considered the least corrupt "
 "country in Africa and it has a rapidly developing economy."
-msgstr "La République du Botswana est un pays d'Afrique australe. Il obtint son indépendance du Royaume Uni en 1966. Le Botswana est considéré comme le pays africain le moins corrompu, et possède une économie qui se développe rapidement."
+msgstr ""
+"La République du Botswana est un pays d'Afrique australe. Il obtint son "
+"indépendance du Royaume Uni en 1966. Le Botswana est considéré comme le pays "
+"africain le moins corrompu, et possède une économie qui se développe "
+"rapidement."
 
 #: data/nation/moroccan.ruleset:3
 msgid "Moroccan"
@@ -36653,7 +37106,10 @@ msgid ""
 "Modern Morocco gained independence in 1956.  However, the area has been "
 "inhabited since at least 8000 BC.  In classical times the region was known "
 "as Mauretania."
-msgstr "Le Maroc moderne a gagné son indépendance en 1956. Cependant, la région a été habitée au moins depuis 8000 avant JC. À l'époque classique, la région était connue sous le nom de Mauritanie."
+msgstr ""
+"Le Maroc moderne a gagné son indépendance en 1956. Cependant, la région a "
+"été habitée au moins depuis 8000 avant JC. À l'époque classique, la région "
+"était connue sous le nom de Mauritanie."
 
 #: data/nation/mozambican.ruleset:3
 msgid "Mozambican"
@@ -36667,7 +37123,9 @@ msgstr "Mozambicains"
 msgid ""
 "Mozambique is a country in Southeast Africa. It gained independence from "
 "Portugal in 1975."
-msgstr "Le Mozambique est un pays du sud-est de l'Afrique. Il gagna son indépendance du Portugal en 1975."
+msgstr ""
+"Le Mozambique est un pays du sud-est de l'Afrique. Il gagna son indépendance "
+"du Portugal en 1975."
 
 #: data/nation/mughal.ruleset:3
 msgid "Mughal"
@@ -36681,7 +37139,9 @@ msgstr "Moghols"
 msgid ""
 "The Mughal Empire ruled most of the Indian subcontinent throughout the early "
 "modern era."
-msgstr "L'empire Moghol dirigea la plupart du subcontinent indien pendant la majorité du début des temps modernes."
+msgstr ""
+"L'empire Moghol dirigea la plupart du subcontinent indien pendant la "
+"majorité du début des temps modernes."
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -36723,7 +37183,14 @@ msgid ""
 "came on the scene, with the former being more successful than the latter. "
 "Spanish conquest was fairly quick, however, and no rebellion took place "
 "after 1541 and the language went extinct in the 18th century."
-msgstr "Formés de cinq états, décrits de manière variable comme des chefferies et des royaumes, les Muiscas comptaient probablement entre un demi million et un million d'individus au moment de la conquête espagnole. Les deux plus grand états muiscas, Zipa et Zaque, étaient en conflit lorsque les espagnols entrèrent en scène, le premier ayant plus de succès que le dernier. La conquête espagnole fut néanmoins assez rapide, et aucune rebellion n'eut lieu après 1541, et la langue s'éteint au XVIIIème siècle."
+msgstr ""
+"Formés de cinq états, décrits de manière variable comme des chefferies et "
+"des royaumes, les Muiscas comptaient probablement entre un demi million et "
+"un million d'individus au moment de la conquête espagnole. Les deux plus "
+"grand états muiscas, Zipa et Zaque, étaient en conflit lorsque les espagnols "
+"entrèrent en scène, le premier ayant plus de succès que le dernier. La "
+"conquête espagnole fut néanmoins assez rapide, et aucune rebellion n'eut "
+"lieu après 1541, et la langue s'éteint au XVIIIème siècle."
 
 #: data/nation/namibian.ruleset:3
 msgid "Namibian"
@@ -36740,7 +37207,12 @@ msgid ""
 "After losing World War I, the territory became a mandate under the "
 "responsibility of the Union of South Africa. It finally became independent "
 "in 1990, under the name of Namibia."
-msgstr "Bien que les puissances européennes aient longtemps négligé la désertique Afrique du Sud-Ouest, l'Empire Germanique y établit une colonie à la fin du XIXème siècle. Après la perte de la Première Guerre Mondiale, le territoire devint un mandat sous la responsabilité de l'Union Sud-Africaine. Il devint finalement indépendant en 1990, sous le nom de Namibie."
+msgstr ""
+"Bien que les puissances européennes aient longtemps négligé la désertique "
+"Afrique du Sud-Ouest, l'Empire Germanique y établit une colonie à la fin du "
+"XIXème siècle. Après la perte de la Première Guerre Mondiale, le territoire "
+"devint un mandat sous la responsabilité de l'Union Sud-Africaine. Il devint "
+"finalement indépendant en 1990, sous le nom de Namibie."
 
 #: data/nation/navajo.ruleset:3
 msgid "Navajo"
@@ -36758,7 +37230,10 @@ msgid ""
 "The Navajo or Dine are the most populous Native American nation of the "
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
-msgstr "Les Navajos, ou Diné, sont la nation amérindienne la plus nombreuse des États-Unis. Ils sont apparentés aux Apaches. Leur langue est célèbre pour être l'une des plus complexes au monde."
+msgstr ""
+"Les Navajos, ou Diné, sont la nation amérindienne la plus nombreuse des "
+"États-Unis. Ils sont apparentés aux Apaches. Leur langue est célèbre pour "
+"être l'une des plus complexes au monde."
 
 #: data/nation/neapolitan.ruleset:3
 msgid "Neapolitan"
@@ -36774,7 +37249,11 @@ msgid ""
 "Peninsula. Many European powers showed interest in the kingdom and its "
 "throne changed hands many times. After the Napoleonic Era it was merged with "
 "the Kingdom of Sicily."
-msgstr "Pendant des siècles, le Royaume de Naples a été le plus grand pays de la péninsule italienne. Bien des puissances européennes furent intéressées par le royaume, et son trône changea de mains de nombreuses fois. Après l'ère napoléonienne, il fut fusionné avec le Royaume de Sicile."
+msgstr ""
+"Pendant des siècles, le Royaume de Naples a été le plus grand pays de la "
+"péninsule italienne. Bien des puissances européennes furent intéressées par "
+"le royaume, et son trône changea de mains de nombreuses fois. Après l'ère "
+"napoléonienne, il fut fusionné avec le Royaume de Sicile."
 
 #: data/nation/nepali.ruleset:3
 msgid "Nepali"
@@ -36790,7 +37269,11 @@ msgid ""
 "cultural and multi-lingual nation, its history is characterized by its "
 "location between India and China. The Nepalese principalities were united "
 "into one kingdom in the 18th century. Nepal became a republic in 2008."
-msgstr "Le Népal est un pays enclavé situé dans l'Himalaya. Pendant bien longtemps nation multi-culturelle et multilingue, son histoire est caractérisée par sa position entre l'Inde et la Chine. Les principautés népalaises furent unies en un roayme au XVIIIème siècle. Le Népal devint une république en 2008."
+msgstr ""
+"Le Népal est un pays enclavé situé dans l'Himalaya. Pendant bien longtemps "
+"nation multi-culturelle et multilingue, son histoire est caractérisée par sa "
+"position entre l'Inde et la Chine. Les principautés népalaises furent unies "
+"en un roayme au XVIIIème siècle. Le Népal devint une république en 2008."
 
 #: data/nation/nestorian.ruleset:5
 msgid "Nestorian"
@@ -36810,7 +37293,16 @@ msgid ""
 "the country was believed to be on the other side of the Muslim world, many "
 "Europeans hoped Prester John would be a valuable ally in their quest to end "
 "Muslim rule of the Holy Land."
-msgstr "Les légende du Prêtre Jean ont circulé en Europe du XIIème au XVIIème siècle. Ces histoires parlaient d'une nation chrétienne nestorienne au-delà des frontières du monde européen ; avec le temps, la position du royaume de déplaça d'Inde en Asie Centrale, puis en Ethiopie. Le pays aurait contenu des richesses et des créatures incroyables, et aurait jouxté le Paradis Terrestre. Puisque le pays était supposé être de l'autre côté du monde musulman, beaucoup d'européens espéraient que le Prêtre Jean serait un allié de valeur dans leur quête d'en finir avec la domination musulmane sur la Terre Sainte."
+msgstr ""
+"Les légende du Prêtre Jean ont circulé en Europe du XIIème au XVIIème "
+"siècle. Ces histoires parlaient d'une nation chrétienne nestorienne au-delà "
+"des frontières du monde européen ; avec le temps, la position du royaume de "
+"déplaça d'Inde en Asie Centrale, puis en Ethiopie. Le pays aurait contenu "
+"des richesses et des créatures incroyables, et aurait jouxté le Paradis "
+"Terrestre. Puisque le pays était supposé être de l'autre côté du monde "
+"musulman, beaucoup d'européens espéraient que le Prêtre Jean serait un allié "
+"de valeur dans leur quête d'en finir avec la domination musulmane sur la "
+"Terre Sainte."
 
 #: data/nation/newfoundland.ruleset:3
 msgid "Newfoundland"
@@ -45069,8 +45561,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
 #~ msgstr ""
-#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi "
-#~ "%s).\n"
+#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi %"
+#~ "s).\n"
 
 #~ msgid "* Can build airbases.\n"
 #~ msgstr "* Peut construire des bases aériennes.\n"
@@ -45196,8 +45688,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
 #~ "when not celebrating.\n"
 #~ msgstr ""
-#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1 quand la ville n'est pas en extase.\n"
+#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1 quand la ville n'est pas en extase.\n"
 
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it when "
@@ -48053,8 +48545,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr ""
-#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion "
-#~ "%s."
+#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion %"
+#~ "s."
 
 #~ msgid "Observers cannot vote."
 #~ msgstr "Les observateurs ne peuvent pas voter."
@@ -48190,8 +48682,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Votre %1$s a réussi à soudoyer %3$s de %2$s et a acquis de l'expérience."
 
 #~ msgid ""
-#~ "Your %s has successfully completed her mission and returned unharmed to "
-#~ "%s and has become more experienced."
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s and has become more experienced."
 #~ msgstr ""
 #~ "Votre %s a rempli sa mission avec succès, est revenu sain et sauf à %s et "
 #~ "a acquis de l'expérience."
@@ -48222,8 +48714,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 #~ "became more experienced!"
 #~ msgstr[0] ""
-#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre "
-#~ "unité)%5$s et a acquis de l'expérience !"
+#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre unité)%"
+#~ "5$s et a acquis de l'expérience !"
 #~ msgstr[1] ""
 #~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autres "
 #~ "unités)%5$s et a acquis de l'expérience !"
@@ -48338,8 +48830,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgstr "Impossible de copier le texte sur l'affichage : %s"
 
 #~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: "
-#~ "%s"
+#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
+#~ "s"
 #~ msgstr ""
 #~ "Erreur dans SDL_create_str16_surf : impossible de convertir le texte au "
 #~ "format d'affichage : %s"
@@ -49283,8 +49775,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Couldn't open gamelogfile \"%s\" for appending."
 #~ msgstr ""
-#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter "
-#~ "\"%s\"."
+#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter \"%"
+#~ "s\"."
 
 #~ msgid "Detail level for logging game events"
 #~ msgstr "Niveau de détail pour la journalisation"
@@ -49480,8 +49972,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 #~ msgstr ""
-#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1.\n"
+#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1.\n"
 
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
