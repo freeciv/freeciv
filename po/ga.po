@@ -26497,11 +26497,11 @@ msgstr ""
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
-msgstr ""
+msgstr "Abcáiseach"
 
 #: data/nation/abkhaz.ruleset:4
 msgid "?plural:Abkhazians"
-msgstr ""
+msgstr "?plural:Abcáisigh"
 
 #: data/nation/abkhaz.ruleset:7
 msgid ""
@@ -26545,11 +26545,11 @@ msgstr ""
 
 #: data/nation/acadian.ruleset:3
 msgid "Acadian"
-msgstr ""
+msgstr "Acadach"
 
 #: data/nation/acadian.ruleset:4
 msgid "?plural:Acadians"
-msgstr ""
+msgstr "?plural:Acadaigh"
 
 #: data/nation/acadian.ruleset:6
 msgid ""
@@ -26895,11 +26895,11 @@ msgstr "Bansíc %s"
 
 #: data/nation/albanian.ruleset:3
 msgid "Albanian"
-msgstr ""
+msgstr "Albánach"
 
 #: data/nation/albanian.ruleset:4
 msgid "?plural:Albanians"
-msgstr ""
+msgstr "?plural:Albánaigh"
 
 #. TRANS: The fourth letter in "Enver" should be
 #. TRANS: U+00EB LATIN SMALL LETTER E WITH DIAERESIS if available in
@@ -26967,11 +26967,11 @@ msgstr "?female:Céad-Rúnaí %s"
 
 #: data/nation/aleut.ruleset:3
 msgid "Aleut"
-msgstr ""
+msgstr "Ailiúiteach"
 
 #: data/nation/aleut.ruleset:4
 msgid "?plural:Aleuts"
-msgstr ""
+msgstr "?plural:Ailiúitigh"
 
 #: data/nation/aleut.ruleset:6
 msgid ""
@@ -27045,11 +27045,11 @@ msgstr "?female:Dey %s"
 
 #: data/nation/amazigh.ruleset:3
 msgid "Amazigh"
-msgstr ""
+msgstr "Amaiseach"
 
 #: data/nation/amazigh.ruleset:4
 msgid "?plural:Imazighen"
-msgstr ""
+msgstr "?plural:Amaisigh"
 
 #: data/nation/amazigh.ruleset:6
 msgid ""
@@ -27065,11 +27065,11 @@ msgstr ""
 
 #: data/nation/amazonian.ruleset:3
 msgid "Amazonian"
-msgstr ""
+msgstr "Amasónach"
 
 #: data/nation/amazonian.ruleset:4
 msgid "?plural:Amazons"
-msgstr ""
+msgstr "?plural:Amasónaigh"
 
 #: data/nation/amazonian.ruleset:6
 msgid ""
@@ -27125,11 +27125,11 @@ msgstr "?female:Oirmhinneach %s"
 
 #: data/nation/andorran.ruleset:3
 msgid "Andorran"
-msgstr ""
+msgstr "Andórach"
 
 #: data/nation/andorran.ruleset:4
 msgid "?plural:Andorrans"
-msgstr ""
+msgstr "?plural:Andóraigh"
 
 #: data/nation/andorran.ruleset:6
 msgid ""
@@ -27185,11 +27185,11 @@ msgstr "?female:Easpag %s"
 
 #: data/nation/angolan.ruleset:3
 msgid "Angolan"
-msgstr ""
+msgstr "Angólach"
 
 #: data/nation/angolan.ruleset:4
 msgid "?plural:Angolans"
-msgstr ""
+msgstr "?plural:Angólaigh"
 
 #: data/nation/angolan.ruleset:6
 msgid ""
@@ -27204,11 +27204,11 @@ msgstr ""
 
 #: data/nation/anishinaabe.ruleset:3
 msgid "Anishinaabe"
-msgstr ""
+msgstr "Óisibeach"
 
 #: data/nation/anishinaabe.ruleset:4
 msgid "?plural:Anishinaabeg"
-msgstr ""
+msgstr "?plural:Óisibigh"
 
 #: data/nation/anishinaabe.ruleset:6
 msgid ""
@@ -27298,11 +27298,11 @@ msgstr ""
 
 #: data/nation/aragonese.ruleset:3
 msgid "Aragonese"
-msgstr ""
+msgstr "Aragónach"
 
 #: data/nation/aragonese.ruleset:4
 msgid "?plural:Aragonese"
-msgstr ""
+msgstr "?plural:Aragónaigh"
 
 #: data/nation/aragonese.ruleset:6
 msgid ""
@@ -27438,11 +27438,11 @@ msgstr ""
 
 #: data/nation/ashanti.ruleset:3
 msgid "Ashanti"
-msgstr ""
+msgstr "Asantaech"
 
 #: data/nation/ashanti.ruleset:4
 msgid "?plural:Ashantis"
-msgstr ""
+msgstr "?plural:Asantaeigh"
 
 #: data/nation/ashanti.ruleset:6
 msgid ""
@@ -27453,7 +27453,7 @@ msgstr ""
 #: data/nation/ashanti.ruleset:34
 #, c-format
 msgid "Asantehene %s"
-msgstr ""
+msgstr "Asantehene %s"
 
 #: data/nation/ashanti.ruleset:34
 #, c-format
@@ -27475,11 +27475,11 @@ msgstr ""
 
 #: data/nation/asturian.ruleset:3
 msgid "Asturian"
-msgstr ""
+msgstr "Astúrach"
 
 #: data/nation/asturian.ruleset:4
 msgid "?plural:Asturians"
-msgstr ""
+msgstr "?plural:Astúraigh"
 
 #: data/nation/asturian.ruleset:6
 msgid ""
@@ -27495,11 +27495,11 @@ msgstr ""
 
 #: data/nation/atlantean.ruleset:3
 msgid "Atlantean"
-msgstr ""
+msgstr "Atlantiach"
 
 #: data/nation/atlantean.ruleset:4
 msgid "?plural:Atlantean"
-msgstr ""
+msgstr "?plural:Atlantiaigh"
 
 #: data/nation/atlantean.ruleset:6
 msgid "The mythical continent of Atlantis"
@@ -27739,11 +27739,11 @@ msgstr "?female:%s Ensi"
 
 #: data/nation/badian.ruleset:3
 msgid "Badian"
-msgstr ""
+msgstr "Bádanach"
 
 #: data/nation/badian.ruleset:4
 msgid "?plural:Badians"
-msgstr ""
+msgstr "?plural:Bádanaigh"
 
 #: data/nation/badian.ruleset:6
 msgid ""
@@ -28011,11 +28011,11 @@ msgstr ""
 
 #: data/nation/bhutanese.ruleset:3
 msgid "Bhutanese"
-msgstr ""
+msgstr "Bútánach"
 
 #: data/nation/bhutanese.ruleset:4
 msgid "?plural:Bhutanese"
-msgstr ""
+msgstr "?plural:Bútánaigh"
 
 #: data/nation/bhutanese.ruleset:6
 msgid ""
@@ -28048,11 +28048,11 @@ msgstr ""
 
 #: data/nation/biafran.ruleset:3
 msgid "Biafran"
-msgstr ""
+msgstr "Biafrach"
 
 #: data/nation/biafran.ruleset:4
 msgid "?plural:Biafrans"
-msgstr ""
+msgstr "?plural:Biafraigh"
 
 #: data/nation/biafran.ruleset:6
 msgid ""
@@ -28090,11 +28090,11 @@ msgstr ""
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
-msgstr ""
+msgstr "Bolavach"
 
 #: data/nation/bolivian.ruleset:4
 msgid "?plural:Bolivians"
-msgstr ""
+msgstr "?plural:Bolavaigh"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -28191,15 +28191,15 @@ msgstr ""
 #: data/nation/bosnia.ruleset:25
 #, c-format
 msgid "?female:Ban %s"
-msgstr ""
+msgstr "?female:Bandiúc %s"
 
 #: data/nation/bosporan.ruleset:3
 msgid "Bosporan"
-msgstr ""
+msgstr "Bosparach"
 
 #: data/nation/bosporan.ruleset:4
 msgid "?plural:Bosporans"
-msgstr ""
+msgstr "?plural:Bosparaigh"
 
 #: data/nation/bosporan.ruleset:6
 msgid ""
@@ -28209,11 +28209,11 @@ msgstr ""
 
 #: data/nation/brandenburgian.ruleset:3
 msgid "Brandenburgian"
-msgstr ""
+msgstr "Breandánbhurgach"
 
 #: data/nation/brandenburgian.ruleset:4
 msgid "?plural:Brandenburgians"
-msgstr ""
+msgstr "?plural:Breandánbhurgaigh"
 
 #: data/nation/brandenburgian.ruleset:6
 msgid ""
@@ -28342,7 +28342,7 @@ msgstr "Briotanach"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:British"
-msgstr ""
+msgstr "?plural:Briotanaigh"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -28443,11 +28443,11 @@ msgstr ""
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
 #: data/nation/burkinabe.ruleset:6
 msgid "Burkinabe"
-msgstr ""
+msgstr "Buircíneach"
 
 #: data/nation/burkinabe.ruleset:7
 msgid "?plural:Burkinabes"
-msgstr ""
+msgstr "?plural:Buircínigh"
 
 #: data/nation/burkinabe.ruleset:9
 msgid ""
@@ -28471,11 +28471,11 @@ msgstr ""
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundian"
-msgstr ""
+msgstr "Burúnach"
 
 #: data/nation/burundi.ruleset:4
 msgid "?plural:Burundians"
-msgstr ""
+msgstr "?plural:Burúnaigh"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -28543,11 +28543,11 @@ msgstr "Banríon %s"
 
 #: data/nation/californian.ruleset:3
 msgid "Californian"
-msgstr ""
+msgstr "Calafóirneach"
 
 #: data/nation/californian.ruleset:4
 msgid "?plural:Californians"
-msgstr ""
+msgstr "?plural:Calafóirnigh"
 
 #: data/nation/californian.ruleset:6
 msgid ""
@@ -28598,11 +28598,11 @@ msgstr "Deirfiúr %s"
 
 #: data/nation/cameroonian.ruleset:3
 msgid "Cameroonian"
-msgstr ""
+msgstr "Camarúnach"
 
 #: data/nation/cameroonian.ruleset:4
 msgid "?plural:Cameroonians"
-msgstr ""
+msgstr "?plural:Camarúnaigh"
 
 #: data/nation/cameroonian.ruleset:6
 msgid ""
@@ -28642,11 +28642,11 @@ msgstr ""
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
-msgstr ""
+msgstr "Caistíleach"
 
 #: data/nation/castilian.ruleset:4
 msgid "?plural:Castilians"
-msgstr ""
+msgstr "?plural:Caistíligh"
 
 #: data/nation/castilian.ruleset:6
 msgid ""
@@ -28679,11 +28679,11 @@ msgstr ""
 
 #: data/nation/celtiberian.ruleset:3
 msgid "Celtiberian"
-msgstr ""
+msgstr "Ceiltibéarach"
 
 #: data/nation/celtiberian.ruleset:4
 msgid "?plural:Celtiberians"
-msgstr ""
+msgstr "?plural:Ceiltibéaraigh"
 
 #: data/nation/celtiberian.ruleset:6
 msgid ""
@@ -28694,7 +28694,7 @@ msgstr ""
 
 #: data/nation/centralafrican.ruleset:3
 msgid "Central African"
-msgstr ""
+msgstr "Lár-Afracach"
 
 #: data/nation/centralafrican.ruleset:4
 msgid "?plural:Central Africans"
@@ -28710,7 +28710,7 @@ msgstr ""
 
 #: data/nation/centralamerican.ruleset:3
 msgid "Central American"
-msgstr ""
+msgstr "Lár-Mheiriceánach"
 
 #: data/nation/centralamerican.ruleset:4
 msgid "?plural:Central Americans"
@@ -28760,11 +28760,11 @@ msgstr ""
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
-msgstr ""
+msgstr "Seisniach"
 
 #: data/nation/chechen.ruleset:4
 msgid "?plural:Chechens"
-msgstr ""
+msgstr "?plural:Seisniaigh"
 
 #: data/nation/chechen.ruleset:7
 msgid ""
@@ -28799,7 +28799,7 @@ msgstr ""
 #: data/nation/chananean.ruleset:32
 #, c-format
 msgid "%s Alpha"
-msgstr ""
+msgstr "%s Alfa"
 
 #: data/nation/chananean.ruleset:32
 #, c-format
@@ -28879,7 +28879,7 @@ msgstr ""
 
 #: data/nation/chimu.ruleset:4
 msgid "?plural:Chimu"
-msgstr ""
+msgstr "?plural:Síomúigh"
 
 #: data/nation/chimu.ruleset:6
 msgid ""
@@ -29036,11 +29036,11 @@ msgstr ""
 
 #: data/nation/congolese.ruleset:3
 msgid "Congolese"
-msgstr ""
+msgstr "Congólach"
 
 #: data/nation/congolese.ruleset:4
 msgid "?plural:Congolese"
-msgstr ""
+msgstr "?plural:Congólaigh"
 
 #. TRANS: The second letter in "Leopold" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -29132,11 +29132,11 @@ msgstr "?female:Hetman %s"
 
 #: data/nation/costarican.ruleset:3
 msgid "Costa Rican"
-msgstr ""
+msgstr "Cósta Ríceach"
 
 #: data/nation/costarican.ruleset:4
 msgid "?plural:Costa Ricans"
-msgstr ""
+msgstr "?plural:Cósta Rícigh"
 
 #: data/nation/costarican.ruleset:6
 msgid ""
@@ -29163,11 +29163,11 @@ msgstr ""
 
 #: data/nation/crimeantatar.ruleset:3
 msgid "Crimean Tatar"
-msgstr ""
+msgstr "Tatarach Criméach"
 
 #: data/nation/crimeantatar.ruleset:4
 msgid "?plural:Crimean Tatars"
-msgstr ""
+msgstr "?plural:Tataraigh Chriméacha"
 
 #: data/nation/crimeantatar.ruleset:6
 msgid ""
@@ -29239,11 +29239,11 @@ msgstr ""
 
 #: data/nation/curonian.ruleset:3
 msgid "Curonian"
-msgstr ""
+msgstr "Cúrónach"
 
 #: data/nation/curonian.ruleset:4
 msgid "?plural:Curonians"
-msgstr ""
+msgstr "?plural:Cúrónaigh"
 
 #: data/nation/curonian.ruleset:6
 msgid ""
@@ -29285,7 +29285,7 @@ msgstr ""
 #: data/nation/czech.ruleset:32
 #, c-format
 msgid "Thane %s"
-msgstr ""
+msgstr "Taen %s"
 
 #: data/nation/czech.ruleset:32 data/nation/moravian.ruleset:35
 #, c-format
@@ -29294,11 +29294,11 @@ msgstr "Banfháidh %s"
 
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
-msgstr ""
+msgstr "Dahómach"
 
 #: data/nation/dahomean.ruleset:4
 msgid "?plural:Dahomeans"
-msgstr ""
+msgstr "?plural:Dahómaigh"
 
 #: data/nation/dahomean.ruleset:6
 msgid ""
@@ -29363,11 +29363,11 @@ msgstr ""
 
 #: data/nation/dominicano.ruleset:3
 msgid "Dominicano"
-msgstr ""
+msgstr "Doiminiceach"
 
 #: data/nation/dominicano.ruleset:4
 msgid "?plural:Dominicanos"
-msgstr ""
+msgstr "?plural:Doiminicigh"
 
 #: data/nation/dominicano.ruleset:6
 msgid ""
@@ -29379,11 +29379,11 @@ msgstr ""
 
 #: data/nation/dryad.ruleset:3
 msgid "Dryad"
-msgstr ""
+msgstr "Driad"
 
 #: data/nation/dryad.ruleset:4
 msgid "?plural:Dryads"
-msgstr ""
+msgstr "?plural:Driada"
 
 #: data/nation/dryad.ruleset:6
 msgid ""
@@ -29410,11 +29410,11 @@ msgstr ""
 
 #: data/nation/eastgerman.ruleset:3
 msgid "East German"
-msgstr ""
+msgstr "Oir-Ghearmánach"
 
 #: data/nation/eastgerman.ruleset:4
 msgid "?plural:East Germans"
-msgstr ""
+msgstr "?plural:Oir-Ghearmánaigh"
 
 #: data/nation/eastgerman.ruleset:6
 msgid ""
@@ -29428,11 +29428,11 @@ msgstr ""
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
-msgstr ""
+msgstr "Oir-Thíomórach"
 
 #: data/nation/easttimorese.ruleset:4
 msgid "?plural:East Timorese"
-msgstr ""
+msgstr "?plural:Oir-Thíomóraigh"
 
 #: data/nation/easttimorese.ruleset:6
 msgid ""
@@ -29444,11 +29444,11 @@ msgstr ""
 
 #: data/nation/ecuadorian.ruleset:3
 msgid "Ecuadorian"
-msgstr ""
+msgstr "Eacuadórach"
 
 #: data/nation/ecuadorian.ruleset:4
 msgid "?plural:Ecuadorians"
-msgstr ""
+msgstr "?plural:Eacuadóraigh"
 
 #. TRANS: The fourth letter in "Galapagos" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -29526,11 +29526,11 @@ msgstr "Cathaoirleach %s"
 
 #: data/nation/elamite.ruleset:3
 msgid "Elamite"
-msgstr ""
+msgstr "Éalámach"
 
 #: data/nation/elamite.ruleset:4
 msgid "?plural:Elamites"
-msgstr ""
+msgstr "?plural:Éalámaigh"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
@@ -29609,11 +29609,11 @@ msgstr ""
 
 #: data/nation/eritrean.ruleset:3
 msgid "Eritrean"
-msgstr ""
+msgstr "Eiritréach"
 
 #: data/nation/eritrean.ruleset:4
 msgid "?plural:Eritreans"
-msgstr ""
+msgstr "?plural:Eiritréigh"
 
 #: data/nation/eritrean.ruleset:6
 msgid ""
@@ -29640,11 +29640,11 @@ msgstr ""
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
-msgstr ""
+msgstr "Éatrúscach"
 
 #: data/nation/etruscan.ruleset:4
 msgid "?plural:Etruscans"
-msgstr ""
+msgstr "?plural:Éatrúscaigh"
 
 #: data/nation/etruscan.ruleset:6
 msgid ""
@@ -29784,11 +29784,11 @@ msgstr ""
 
 #: data/nation/flemish.ruleset:3
 msgid "Flemish"
-msgstr ""
+msgstr "Pléimeannach"
 
 #: data/nation/flemish.ruleset:4
 msgid "?plural:Flemings"
-msgstr ""
+msgstr "?plural:Pléimeannaigh"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
@@ -29801,11 +29801,11 @@ msgstr ""
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
-msgstr ""
+msgstr "Francóiniach"
 
 #: data/nation/franconian.ruleset:4
 msgid "?plural:Franconians"
-msgstr ""
+msgstr "?plural:Francóiniaigh"
 
 #: data/nation/franconian.ruleset:6
 msgid ""
@@ -29940,7 +29940,7 @@ msgstr ""
 #: data/nation/galician.ruleset:24
 #, c-format
 msgid "Dona %s"
-msgstr ""
+msgstr "Banuasal %s"
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
@@ -29994,11 +29994,11 @@ msgstr ""
 
 #: data/nation/ghanaian.ruleset:3
 msgid "Ghanaian"
-msgstr ""
+msgstr "Gánach"
 
 #: data/nation/ghanaian.ruleset:4
 msgid "?plural:Ghanaian"
-msgstr ""
+msgstr "?plural:Gánaigh"
 
 #: data/nation/ghanaian.ruleset:6
 msgid ""
@@ -30010,11 +30010,11 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
-msgstr ""
+msgstr "Gocturcach"
 
 #: data/nation/gokturk.ruleset:4
 msgid "?plural:Gokturks"
-msgstr ""
+msgstr "?plural:Gocturcaigh"
 
 #. TRANS: The second letter in "Gokturk" should be
 #. TRANS: U+00F6 LATIN SMALL LETTER O WITH DIAERESIS if available in
@@ -30043,11 +30043,11 @@ msgstr "?female:Seaman Mór %s"
 
 #: data/nation/greaterpolish.ruleset:3
 msgid "Greater Polish"
-msgstr ""
+msgstr "Mór-Pholannach"
 
 #: data/nation/greaterpolish.ruleset:4
 msgid "?plural:Greater Poles"
-msgstr ""
+msgstr "?plural:Mór-Pholannaigh"
 
 #: data/nation/greaterpolish.ruleset:6
 msgid ""
@@ -30081,11 +30081,11 @@ msgstr "?female:Forlámhaí %s"
 
 #: data/nation/greenlander.ruleset:3
 msgid "Greenlander"
-msgstr ""
+msgstr "Graonlannach"
 
 #: data/nation/greenlander.ruleset:4
 msgid "?plural:Greenlanders"
-msgstr ""
+msgstr "?plural:Graonlannaigh"
 
 #: data/nation/greenlander.ruleset:6
 msgid ""
@@ -30098,11 +30098,11 @@ msgstr ""
 
 #: data/nation/grenadian.ruleset:3
 msgid "Grenadian"
-msgstr ""
+msgstr "Greanádach"
 
 #: data/nation/grenadian.ruleset:4
 msgid "?plural:Grenadians"
-msgstr ""
+msgstr "?plural:Greanádaigh"
 
 #: data/nation/grenadian.ruleset:6
 msgid ""
@@ -30113,11 +30113,11 @@ msgstr ""
 
 #: data/nation/guanche.ruleset:3
 msgid "Guanche"
-msgstr ""
+msgstr "Guánchéach"
 
 #: data/nation/guanche.ruleset:4
 msgid "?plural:Guanches"
-msgstr ""
+msgstr "?plural:Guánchéigh"
 
 #: data/nation/guanche.ruleset:6
 msgid ""
@@ -30154,11 +30154,11 @@ msgstr ""
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
-msgstr ""
+msgstr "Guatamalach"
 
 #: data/nation/guatemalan.ruleset:4
 msgid "?plural:Guatemalans"
-msgstr ""
+msgstr "?plural:Guatamalaigh"
 
 #: data/nation/guatemalan.ruleset:6
 msgid ""
@@ -30186,11 +30186,11 @@ msgstr ""
 
 #: data/nation/guyanese.ruleset:3
 msgid "Guyanese"
-msgstr ""
+msgstr "Guánach"
 
 #: data/nation/guyanese.ruleset:4
 msgid "?plural:Guyanese"
-msgstr ""
+msgstr "?plural:Guánaigh"
 
 #: data/nation/guyanese.ruleset:7
 msgid ""
@@ -30244,11 +30244,11 @@ msgstr "?female:1337 %s"
 
 #: data/nation/haitian.ruleset:3
 msgid "Haitian"
-msgstr ""
+msgstr "Háitíoch"
 
 #: data/nation/haitian.ruleset:4
 msgid "?plural:Haitians"
-msgstr ""
+msgstr "?plural:Háítígh"
 
 #: data/nation/haitian.ruleset:6
 msgid ""
@@ -30284,11 +30284,11 @@ msgstr ""
 
 #: data/nation/hanoverian.ruleset:3
 msgid "Hanoverian"
-msgstr ""
+msgstr "Hanóvarach"
 
 #: data/nation/hanoverian.ruleset:4
 msgid "?plural:Hanoverians"
-msgstr ""
+msgstr "?plural:Hanóvaraigh"
 
 #: data/nation/hanoverian.ruleset:6
 msgid ""
@@ -30299,11 +30299,11 @@ msgstr ""
 
 #: data/nation/hansa.ruleset:3
 msgid "Hanseatic"
-msgstr ""
+msgstr "Hainseatach"
 
 #: data/nation/hansa.ruleset:4
 msgid "?plural:Hanseatic League"
-msgstr ""
+msgstr "?plural:Hainseataigh"
 
 #: data/nation/hansa.ruleset:6
 msgid ""
@@ -30374,11 +30374,11 @@ msgstr ""
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
-msgstr ""
+msgstr "Heiseánach"
 
 #: data/nation/hessian.ruleset:4
 msgid "?plural:Hessians"
-msgstr ""
+msgstr "?plural:Heiseánaigh"
 
 #: data/nation/hessian.ruleset:6
 msgid ""
@@ -30430,11 +30430,11 @@ msgstr ""
 
 #: data/nation/holyroman.ruleset:3
 msgid "Holy Roman"
-msgstr ""
+msgstr "Rómhánach Naofa"
 
 #: data/nation/holyroman.ruleset:4
 msgid "?plural:Holy Romans"
-msgstr ""
+msgstr "?plural:Rómhánaigh Naofa"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -30459,11 +30459,11 @@ msgstr "?female:Banimpire %s"
 
 #: data/nation/holysee.ruleset:3
 msgid "Papal"
-msgstr ""
+msgstr "Pápach"
 
 #: data/nation/holysee.ruleset:4
 msgid "?plural:Papal States"
-msgstr ""
+msgstr "?plural:Stáit Phápacha"
 
 #: data/nation/holysee.ruleset:6
 msgid ""
@@ -30486,11 +30486,11 @@ msgstr "Frith-bhanphápa %s"
 
 #: data/nation/honduran.ruleset:3
 msgid "Honduran"
-msgstr ""
+msgstr "Hondúrach"
 
 #: data/nation/honduran.ruleset:4
 msgid "?plural:Hondurans"
-msgstr ""
+msgstr "?plural:Hondúraigh"
 
 #: data/nation/honduran.ruleset:7
 msgid ""
@@ -30539,11 +30539,11 @@ msgstr ""
 
 #: data/nation/iberian.ruleset:3
 msgid "Iberian"
-msgstr ""
+msgstr "Ibéarach"
 
 #: data/nation/iberian.ruleset:4
 msgid "?plural:Iberians"
-msgstr ""
+msgstr "?plural:Ibéarach"
 
 #: data/nation/iberian.ruleset:6
 msgid ""
@@ -30804,11 +30804,11 @@ msgstr "?female:Bandiúc %s"
 
 #: data/nation/ivoirian.ruleset:3
 msgid "Ivoirian"
-msgstr ""
+msgstr "Eabharach"
 
 #: data/nation/ivoirian.ruleset:4
 msgid "?plural:Ivoirian"
-msgstr ""
+msgstr "?plural:Eabharaigh"
 
 #. TRANS: The second letter in "Cote" should be
 #. TRANS: U+00F4 LATIN SMALL LETTER O WITH CIRCUMFLEX if available in
@@ -30822,11 +30822,11 @@ msgstr ""
 
 #: data/nation/jamaican.ruleset:3
 msgid "Jamaican"
-msgstr ""
+msgstr "Iamácach"
 
 #: data/nation/jamaican.ruleset:4
 msgid "?plural:Jamaican"
-msgstr ""
+msgstr "?plural:Iamácaigh"
 
 #: data/nation/jamaican.ruleset:6
 msgid ""
@@ -30841,7 +30841,7 @@ msgstr ""
 #: data/nation/jamaican.ruleset:26
 #, c-format
 msgid "Rasta %s"
-msgstr ""
+msgstr "Rasta %s"
 
 #: data/nation/jamaican.ruleset:26
 #, c-format
@@ -30874,11 +30874,11 @@ msgstr "?female:Seogain %s"
 
 #: data/nation/jolof.ruleset:3
 msgid "Jolof"
-msgstr ""
+msgstr "Volafach"
 
 #: data/nation/jolof.ruleset:4
 msgid "?plural:Jolof"
-msgstr ""
+msgstr "?plural:Volafaigh"
 
 #: data/nation/jolof.ruleset:6
 msgid ""
@@ -30896,11 +30896,11 @@ msgstr ""
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
-msgstr ""
+msgstr "Cailmíceach"
 
 #: data/nation/kalmyk.ruleset:4
 msgid "?plural:Kalmyks"
-msgstr ""
+msgstr "?plural:Cailmícigh"
 
 #: data/nation/kalmyk.ruleset:6
 msgid ""
@@ -30926,11 +30926,11 @@ msgstr ""
 
 #: data/nation/karelian.ruleset:3
 msgid "Karelian"
-msgstr ""
+msgstr "Cairéalach"
 
 #: data/nation/karelian.ruleset:4
 msgid "?plural:Karelians"
-msgstr ""
+msgstr "?plural:Cairéalaigh"
 
 #: data/nation/karelian.ruleset:6
 msgid ""
@@ -31083,11 +31083,11 @@ msgstr ""
 
 #: data/nation/kosovar.ruleset:3
 msgid "Kosovar"
-msgstr ""
+msgstr "Cosavach"
 
 #: data/nation/kosovar.ruleset:4
 msgid "?plural:Kosovars"
-msgstr ""
+msgstr "?plural:Cosavaigh"
 
 #: data/nation/kosovar.ruleset:6
 msgid ""
@@ -31193,11 +31193,11 @@ msgstr ""
 
 #: data/nation/lebanese.ruleset:3
 msgid "Lebanese"
-msgstr ""
+msgstr "Liobánach"
 
 #: data/nation/lebanese.ruleset:4
 msgid "?plural:Lebanese"
-msgstr ""
+msgstr "?plural:Liobánaigh"
 
 #: data/nation/lebanese.ruleset:6
 msgid ""
@@ -31238,11 +31238,11 @@ msgstr ""
 
 #: data/nation/leonese.ruleset:3
 msgid "Leonese"
-msgstr ""
+msgstr "Leonach"
 
 #: data/nation/leonese.ruleset:4
 msgid "?plural:Leonese"
-msgstr ""
+msgstr "?plural:Leonaigh"
 
 #: data/nation/leonese.ruleset:6
 msgid ""
@@ -31269,7 +31269,7 @@ msgstr ""
 
 #: data/nation/liechtensteiner.ruleset:3
 msgid "Liechtensteiner"
-msgstr ""
+msgstr "Lichtinstéanach"
 
 #: data/nation/liechtensteiner.ruleset:4
 msgid "?plural:Liechtensteiners"
@@ -31285,11 +31285,11 @@ msgstr ""
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
-msgstr ""
+msgstr "Tatarach Lipka"
 
 #: data/nation/lipkatatar.ruleset:4
 msgid "?plural:Lipka Tatars"
-msgstr ""
+msgstr "?plural:Tataraigh Lipka"
 
 #: data/nation/lipkatatar.ruleset:6
 msgid ""
@@ -31365,11 +31365,11 @@ msgstr ""
 
 #: data/nation/lorrain.ruleset:3
 msgid "Lorrain"
-msgstr ""
+msgstr "Lorránach"
 
 #: data/nation/lorrain.ruleset:4
 msgid "?plural:Lorrains"
-msgstr ""
+msgstr "?plural:Lorránaigh"
 
 #: data/nation/lorrain.ruleset:6
 msgid ""
@@ -31390,7 +31390,7 @@ msgstr "Banphrionsa-Easpag %s"
 
 #: data/nation/luxembourgish.ruleset:3
 msgid "Luxembourgish"
-msgstr ""
+msgstr "Lucsamburgach"
 
 #: data/nation/luxembourgish.ruleset:4
 msgid "?plural:Luxembourgians"
@@ -31405,11 +31405,11 @@ msgstr ""
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
-msgstr ""
+msgstr "Másaíoch"
 
 #: data/nation/maasai.ruleset:4
 msgid "?plural:Maasais"
-msgstr ""
+msgstr "?plural:Másaígh"
 
 #: data/nation/maasai.ruleset:6
 msgid ""
@@ -31421,11 +31421,11 @@ msgstr ""
 
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
-msgstr ""
+msgstr "Macadónach"
 
 #: data/nation/macedon.ruleset:4
 msgid "?plural:Macedons"
-msgstr ""
+msgstr "?plural:Macadónaigh"
 
 #: data/nation/macedon.ruleset:6
 msgid ""
