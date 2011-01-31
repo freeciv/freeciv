@@ -1335,6 +1335,7 @@ void server_quit(void)
   voting_free();
   close_connections_and_socket();
   free_nls();
+  con_log_close();
   exit(EXIT_SUCCESS);
 }
 

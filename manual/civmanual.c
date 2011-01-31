@@ -442,7 +442,7 @@ int main(int argc, char **argv)
         inx++;
         showhelp = TRUE;
       }
-#endif
+#endif /* NDEBUG */
     } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
       if (!log_parse_level_str(option, &srvarg.loglevel)) {
         showhelp = TRUE;
@@ -495,6 +495,7 @@ int main(int argc, char **argv)
   }
 
   manual_command();
+  con_log_close();
 
-  return 0;
+  return EXIT_SUCCESS;
 }

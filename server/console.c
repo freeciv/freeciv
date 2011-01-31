@@ -137,6 +137,14 @@ void con_log_init(const char *log_filename, enum log_level level,
 #endif /* DEBUG */
 }
 
+/************************************************************************
+  Deinitialize logging
+************************************************************************/
+void con_log_close(void)
+{
+  log_close();
+}
+
 #ifndef HAVE_LIBREADLINE
 /************************************************************************
 Write to console without line-break, don't print prompt.
@@ -161,7 +169,7 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...)
   console_prompt_is_showing = FALSE;
   return (int) strlen(buf);
 }
-#endif
+#endif /* HAVE_LIBREADLINE */
 
 /************************************************************************
 Write to console and add line-break, and show prompt if required.

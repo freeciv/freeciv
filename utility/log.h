@@ -45,6 +45,7 @@ typedef const char *(*log_prefix_fn)(void);
 void log_init(const char *filename, enum log_level initial_level,
               log_callback_fn callback, log_prefix_fn prefix,
               int fatal_assertions);
+void log_close(void);
 bool log_parse_level_str(const char *level_str, enum log_level *ret_level);
 
 log_callback_fn log_set_callback(log_callback_fn callback);

@@ -53,6 +53,7 @@ enum rfc_status {
 /* initialize logging via console */
 void con_log_init(const char *log_filename, enum log_level level,
                   int fatal_assertions);
+void con_log_close(void);
 
 /* write to console and add line-break, and show prompt if required. */
 void con_write(enum rfc_status rfc_status, const char *message, ...)

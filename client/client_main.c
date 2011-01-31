@@ -536,7 +536,7 @@ int client_main(int argc, char *argv[])
 
   /* termination */
   client_exit();
-  
+
   /* not reached */
   return EXIT_SUCCESS;
 }
@@ -569,6 +569,8 @@ void client_exit(void)
   conn_list_destroy(game.est_connections);
 
   free_nls();
+
+  log_close();
 
   exit(EXIT_SUCCESS);
 }
