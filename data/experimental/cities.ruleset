@@ -10,7 +10,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Cities data for Freeciv"
+description="Experimental cities data for Freeciv"
 options="+Freeciv-ruleset-Devel-2011.Jan.27"
 
 ; /* <-- avoid gettext warnings
