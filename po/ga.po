@@ -50,11 +50,11 @@ msgstr "Eolaíocht"
 
 #: common/city.c:636
 msgid "?wonder:W"
-msgstr ""
+msgstr "?wonder:I"
 
 #: common/city.c:638
 msgid "?destroyed:D"
-msgstr ""
+msgstr "?destroyed:S"
 
 #: common/city.c:640
 msgid "?built:B"
@@ -107,15 +107,15 @@ msgstr " (breathnóir)"
 #: common/connection.c:858
 #, c-format
 msgid "\"%s\" is not a valid pattern type"
-msgstr ""
+msgstr "Ní cineál bailí patrúin é \"%s\""
 
 #: common/connection.c:869
 msgid "Missing pattern type"
-msgstr ""
+msgstr "Cineál patrúin ar iarraidh"
 
 #: common/connection.c:882
 msgid "Missing pattern"
-msgstr ""
+msgstr "Patrún ar iarraidh"
 
 #: common/events.c:50
 #, c-format
@@ -475,17 +475,17 @@ msgstr ""
 #. TRANS: "vote" as a process
 #: common/events.c:164 server/stdinhand.c:3958
 msgid "New vote"
-msgstr ""
+msgstr "Toghchán nua"
 
 #. TRANS: "Vote" as a process
 #: common/events.c:166
 msgid "Vote resolved"
-msgstr ""
+msgstr "Toghchán réitithe"
 
 #. TRANS: "Vote" as a process
 #: common/events.c:168
 msgid "Vote canceled"
-msgstr ""
+msgstr "Toghchán cealaithe"
 
 #: common/events.c:169
 msgid "Finished"
@@ -3007,12 +3007,12 @@ msgstr ""
 #. TRANS: translate text between [] only; "vote" is as a process
 #: server/commands.c:161
 msgid "vote yes|no|abstain [vote number]"
-msgstr "vote yes|no|abstain [uimhir an vóta]"
+msgstr "vote yes|no|abstain [uimhir an toghcháin]"
 
 #. TRANS: "vote" as an instance of voting
 #: server/commands.c:163
 msgid "Cast a vote."
-msgstr ""
+msgstr "Caith vóta."
 
 #: server/commands.c:165
 #, no-c-format
@@ -3393,11 +3393,14 @@ msgid ""
 "cancelvote <vote number>\n"
 "cancelvote all\n"
 msgstr ""
+"cancelvote\n"
+"cancelvote <uimhir an toghcháin>\n"
+"cancelvote all\n"
 
 #. TRANS: "vote" as a process
 #: server/commands.c:417
 msgid "Cancel a running vote.\n"
-msgstr ""
+msgstr "Cealaigh toghchán atá ar siúl.\n"
 
 #. TRANS: "vote" as a process
 #: server/commands.c:419
@@ -7846,12 +7849,12 @@ msgstr ""
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2260 server/voting.c:511
 msgid "Teamvote"
-msgstr ""
+msgstr "Toghchán foirne"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2260 server/voting.c:516
 msgid "Vote"
-msgstr ""
+msgstr "Toghchán"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
 #: server/stdinhand.c:2263
@@ -7867,20 +7870,20 @@ msgstr ""
 
 #: server/stdinhand.c:2275
 msgid "There are no votes going on."
-msgstr ""
+msgstr "Níl aon toghcháin ar siúl."
 
 #: server/stdinhand.c:2320 server/stdinhand.c:2445 server/stdinhand.c:3985
 msgid "You are not allowed to use this command."
-msgstr ""
+msgstr "Níl cead agat an t-ordú seo a úsáid."
 
 #: server/stdinhand.c:2329
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
-msgstr ""
+msgstr "Tá argóint \"%s\" débhríoch."
 
 #: server/stdinhand.c:2346
 msgid "There are no votes running."
-msgstr ""
+msgstr "Níl aon toghcháin ar siúl."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2349
@@ -7891,11 +7894,11 @@ msgstr ""
 #: server/stdinhand.c:2350
 msgid "other vote running"
 msgid_plural "other votes running"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "toghchán eile ar siúl"
+msgstr[1] "toghcháin eile ar siúl"
+msgstr[2] "toghcháin eile ar siúl"
+msgstr[3] "toghcháin eile ar siúl"
+msgstr[4] "toghcháin eile ar siúl"
 
 #: server/stdinhand.c:2357
 msgid "Value must be an integer."
@@ -7905,67 +7908,67 @@ msgstr ""
 #: server/stdinhand.c:2364 server/stdinhand.c:2454
 #, c-format
 msgid "No such vote (%d)."
-msgstr ""
+msgstr "Níl a leithéid de thoghchán ann (%d)."
 
 #: server/stdinhand.c:2370
 msgid "You are not allowed to vote on that."
-msgstr ""
+msgstr "Níl cead agat vóta a chaitheamh air sin."
 
 #: server/stdinhand.c:2375
 #, c-format
 msgid "You voted for \"%s\""
-msgstr ""
+msgstr "Vótáil tú le \"%s\""
 
 #: server/stdinhand.c:2379
 #, c-format
 msgid "You voted against \"%s\""
-msgstr ""
+msgstr "Vótáil tú in aghaidh \"%s\""
 
 #: server/stdinhand.c:2384
 #, c-format
 msgid "You abstained from voting on \"%s\""
-msgstr ""
+msgstr "Staon tú sa vótáil ar \"%s\""
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2421
 msgid "Missing argument <vote number> or the string \"all\"."
-msgstr ""
+msgstr "Argóint ar iarraidh: <uimhir an toghcháin> nó an teaghrán \"all\"."
 
 #: server/stdinhand.c:2428
 msgid "You don't have any vote going on."
-msgstr ""
+msgstr "Níl aon toghchán ar siúl agat."
 
 #: server/stdinhand.c:2435
 msgid "There isn't any vote going on."
-msgstr ""
+msgstr "Níl aon toghchán ar siúl."
 
 #. TRANS: "votes" as a process
 #: server/stdinhand.c:2441
 msgid "All votes have been removed."
-msgstr ""
+msgstr "Baineadh gach toghchán."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2460
 #, c-format
 msgid "You are not allowed to cancel this vote (%d)."
-msgstr ""
+msgstr "Níl cead agat an toghchán seo a chealú (%d)."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2467
 msgid "Usage: /cancelvote [<vote number>|all]"
-msgstr ""
+msgstr "Úsáid: /cancelvote [<uimhir an toghcháin>|all]"
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2477
 #, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
-msgstr ""
+msgstr "Chealaigh %s an toghchán \"%s\" (uimhir %d)."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2484
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
-msgstr ""
+msgstr "Cealaíodh toghchán \"%s\" (uimhir %d)."
 
 #: server/stdinhand.c:2505
 msgid "Can only use this command once game has begun."
@@ -7994,7 +7997,7 @@ msgstr ""
 #: server/stdinhand.c:2581 server/stdinhand.c:2584
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
-msgstr ""
+msgstr "imreoirí=%d cathracha=%d saoránaigh=%d aonaid=%d"
 
 #: server/stdinhand.c:2598 server/stdinhand.c:2629
 msgid "Value 2 & 3 must be integer."
@@ -8324,19 +8327,19 @@ msgstr ""
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:3946
 msgid "Your new vote canceled your previous vote."
-msgstr ""
+msgstr "Bhí do thoghchán roimhe seo cealaithe ag do thoghchán nua."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:3953
 msgid "New teamvote"
-msgstr ""
+msgstr "Toghchán nua foirne"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
 #: server/stdinhand.c:3965
 #, c-format
 msgid "%s (number %d) by %s: %s"
-msgstr ""
+msgstr "%s (uimhir %d) le %s: %s"
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:3975
@@ -8346,7 +8349,7 @@ msgstr ""
 
 #: server/stdinhand.c:4018
 msgid "(server prompt)"
-msgstr ""
+msgstr "(leid freastalaí)"
 
 #: server/stdinhand.c:4145
 msgid ""
@@ -8445,7 +8448,7 @@ msgstr "ceangal briste"
 
 #: server/stdinhand.c:4537
 msgid "You may not kick yourself."
-msgstr ""
+msgstr "Ní féidir cosc a chur ort féin."
 
 #: server/stdinhand.c:4560
 #, c-format
@@ -8493,7 +8496,7 @@ msgstr "Ordú: %s"
 
 #: server/stdinhand.c:4650
 msgid "Synopsis: "
-msgstr ""
+msgstr "Achoimre: "
 
 #: server/stdinhand.c:4659
 #, c-format
@@ -8502,7 +8505,7 @@ msgstr "Leibhéal: %s"
 
 #: server/stdinhand.c:4681
 msgid "The following server commands are available:"
-msgstr ""
+msgstr "Tá na horduithe seo a leanas ar fáil ar an bhfreastalaí seo:"
 
 #: server/stdinhand.c:4742
 #, c-format
@@ -8533,20 +8536,20 @@ msgstr ""
 
 #: server/stdinhand.c:4908
 msgid "List of players:"
-msgstr ""
+msgstr "Liosta imreoirí:"
 
 #: server/stdinhand.c:4913
 msgid "<no players>"
-msgstr ""
+msgstr "<gan imreoirí>"
 
 #: server/stdinhand.c:4930
 #, c-format
 msgid "user %s, "
-msgstr ""
+msgstr "úsáideoir %s, "
 
 #: server/stdinhand.c:4941
 msgid ", Dead"
-msgstr ""
+msgstr ", Marbh"
 
 #: server/stdinhand.c:4944
 #, c-format
@@ -8572,11 +8575,11 @@ msgstr ""
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] " %d cheangal:"
+msgstr[1] " %d cheangal:"
+msgstr[2] " %d cheangal:"
+msgstr[3] " %d gceangal:"
+msgstr[4] " %d ceangal:"
 
 #: server/stdinhand.c:4978
 #, c-format
@@ -8600,11 +8603,11 @@ msgstr "Liosta foirne:"
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "%2d : '%s' : %d imreoir :"
+msgstr[1] "%2d : '%s' : %d imreoir :"
+msgstr[2] "%2d : '%s' : %d imreoir :"
+msgstr[3] "%2d : '%s' : %d n-imreoir :"
+msgstr[4] "%2d : '%s' : %d imreoir :"
 
 #: server/stdinhand.c:5088
 #, c-format
@@ -8614,7 +8617,7 @@ msgstr ""
 #: server/techtools.c:102
 #, c-format
 msgid "The %s have researched %s."
-msgstr ""
+msgstr "Rinne na %s taighde ar %s."
 
 #: server/techtools.c:108
 #, c-format
@@ -8624,7 +8627,7 @@ msgstr ""
 #: server/techtools.c:166
 #, c-format
 msgid "%s acquired from %s!"
-msgstr ""
+msgstr "Fuarthas %s ó %s!"
 
 #: server/techtools.c:220
 #, c-format
@@ -8761,13 +8764,13 @@ msgstr ""
 #: server/unithand.c:541
 #, c-format
 msgid "Can't build a city on %s."
-msgstr ""
+msgstr "Ní féidir cathair a thógáil ar %s."
 
 #. TRANS: <unit> ... <tile-terrain>.
 #: server/unithand.c:547
 #, c-format
 msgid "%s can't build a city on %s."
-msgstr ""
+msgstr "Ní féidir le %s cathair a thógáil ar %s."
 
 #: server/unithand.c:552
 msgid "Can't place a city inside foreigner borders."
@@ -8785,7 +8788,7 @@ msgstr ""
 
 #: server/unithand.c:570
 msgid "Can't build a city."
-msgstr ""
+msgstr "Ní féidir cathair a thógáil."
 
 #. TRANS: %s is list of units separated by "or".
 #: server/unithand.c:581
@@ -8795,7 +8798,7 @@ msgstr ""
 
 #: server/unithand.c:585
 msgid "Can't add to a city."
-msgstr ""
+msgstr "Ní féidir cur le cathair."
 
 #: server/unithand.c:591
 #, c-format
@@ -8811,7 +8814,7 @@ msgstr ""
 #: server/unithand.c:602
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
-msgstr ""
+msgstr "Is le %2$s é %1$s; ní féidir %3$s a chur leis."
 
 #: server/unithand.c:609
 #, c-format
@@ -8826,7 +8829,7 @@ msgstr ""
 #: server/unithand.c:624
 #, c-format
 msgid "Can't add %s to %s."
-msgstr ""
+msgstr "Ní féidir %s a chur le %s."
 
 #: server/unithand.c:648
 #, c-format
@@ -9433,11 +9436,11 @@ msgstr ""
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "%3d bhabhta"
+msgstr[1] "%3d bhabhta"
+msgstr[2] "%3d bhabhta"
+msgstr[3] "%3d mbabhta"
+msgstr[4] "%3d babhta"
 
 #: client/citydlg_common.c:280 client/citydlg_common.c:333
 #: client/citydlg_common.c:424 client/text.c:753 client/agents/cma_fec.c:257
@@ -10989,7 +10992,7 @@ msgstr[4] ""
 
 #: client/helpdata.c:1687
 msgid "You cannot research this technology."
-msgstr ""
+msgstr "Ní féidir leat taighde a dhéanamh ar an teicneolaíocht seo."
 
 #: client/helpdata.c:1692
 msgid " This number may vary depending on what other players research.\n"
@@ -11404,7 +11407,7 @@ msgstr ""
 #: client/mapctrl_common.c:403
 #, c-format
 msgid "Copy %s to clipboard."
-msgstr ""
+msgstr "Cóipeáil %s go dtí an ghearrthaisce."
 
 #: client/mapctrl_common.c:418
 msgid "Clipboard is empty."
@@ -11423,7 +11426,7 @@ msgstr ""
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1612
 msgid "Merged"
-msgstr ""
+msgstr "Cumaiscthe"
 
 #: client/options.c:1628
 msgid "Login name"
@@ -11468,7 +11471,7 @@ msgstr ""
 
 #: client/options.c:1653
 msgid "Soundset"
-msgstr ""
+msgstr "Tacar fuaimeanna"
 
 #: client/options.c:1654
 msgid ""
@@ -11489,11 +11492,11 @@ msgstr ""
 
 #: client/options.c:1666
 msgid "The chat log file"
-msgstr ""
+msgstr "Logchomhad comhráite"
 
 #: client/options.c:1667
 msgid "The name of the chat log file."
-msgstr ""
+msgstr "Ainm an logchomhaid comhráite"
 
 #: client/options.c:1672 client/options.c:1677
 msgid "Theme"
@@ -11505,7 +11508,7 @@ msgstr ""
 
 #: client/options.c:1682
 msgid "Tileset"
-msgstr ""
+msgstr "Tacar tíleanna"
 
 #: client/options.c:1683
 msgid ""
@@ -12502,7 +12505,7 @@ msgstr "R.I.P."
 
 #: client/plrdlg_common.c:182
 msgid "waiting"
-msgstr ""
+msgstr "fanacht"
 
 #: client/plrdlg_common.c:184 client/gui-sdl/plrdlg.c:652
 msgid "done"
@@ -12510,7 +12513,7 @@ msgstr "críochnaithe"
 
 #: client/plrdlg_common.c:186 client/gui-sdl/plrdlg.c:654
 msgid "moving"
-msgstr ""
+msgstr "bogadh"
 
 #: client/plrdlg_common.c:229
 msgid "?Player:Name"
@@ -12569,7 +12572,7 @@ msgstr ""
 
 #: client/repodlgs_common.c:162
 msgid "You cannot sell improvements."
-msgstr ""
+msgstr "Níl cead agat feabhsúcháin a dhíol."
 
 #: client/repodlgs_common.c:178 client/gui-gtk-2.0/cityrep.c:634
 #, c-format
@@ -12603,7 +12606,7 @@ msgstr ""
 
 #: client/servers.c:341
 msgid "Could not open temp file."
-msgstr ""
+msgstr "Níorbh fhéidir comhad sealadach a oscailt."
 
 #: client/servers.c:365
 #, c-format
@@ -12951,21 +12954,21 @@ msgstr "%d/%d (riamh)"
 #, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "%d chéim"
+msgstr[1] "%d chéim"
+msgstr[2] "%d chéim"
+msgstr[3] "%d gcéim"
+msgstr[4] "%d céim"
 
 #: client/text.c:747
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "%d bholgán"
+msgstr[1] "%d bholgán"
+msgstr[2] "%d bholgán"
+msgstr[3] "%d mbolgán"
+msgstr[4] "%d bolgán"
 
 #: client/text.c:773
 #, c-format
@@ -13090,11 +13093,11 @@ msgstr ""
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Roghnaíodh %d aonad"
+msgstr[1] "Roghnaíodh %d aonad"
+msgstr[2] "Roghnaíodh %d aonad"
+msgstr[3] "Roghnaíodh %d n-aonad"
+msgstr[4] "Roghnaíodh %d aonad"
 
 #: client/text.c:948
 msgid "No units selected."
@@ -13207,11 +13210,11 @@ msgstr "Cumhacht:        %5d %%"
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Mais:           %5d tonna"
+msgstr[1] "Mais:           %5d thonna"
+msgstr[2] "Mais:           %5d thonna"
+msgstr[3] "Mais:           %5d dtonna"
+msgstr[4] "Mais:           %5d tonna"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1234
@@ -13445,7 +13448,7 @@ msgstr "saincheaptha"
 #: client/agents/cma_fec.c:334
 #, c-format
 msgid "People (W/%s)"
-msgstr ""
+msgstr "Daoine (O/%s)"
 
 #: client/agents/cma_fec.c:348
 msgid " happy"
@@ -13751,7 +13754,7 @@ msgstr "Moltaí: %s."
 
 #: client/gui-gtk-2.0/chatline.c:462
 msgid "No visible unit on this tile."
-msgstr ""
+msgstr "Níl aon aonad infheicthe ar an tíl seo."
 
 #: client/gui-gtk-2.0/chatline.c:609
 msgid "This city isn't known!"
@@ -13759,7 +13762,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/chatline.c:618
 msgid "This tile doesn't exist in this game!"
-msgstr ""
+msgstr "Níl an tíl seo sa chluiche seo!"
 
 #: client/gui-gtk-2.0/chatline.c:628
 msgid "This unit isn't known!"
@@ -13778,11 +13781,11 @@ msgstr "Roghnaigh dath an %s"
 
 #: client/gui-gtk-2.0/chatline.c:1332
 msgid "Bold (Ctrl-B)"
-msgstr ""
+msgstr "Trom (Ctrl-B)"
 
 #: client/gui-gtk-2.0/chatline.c:1341
 msgid "Italic (Ctrl-I)"
-msgstr ""
+msgstr "Iodálach (Ctrl-I)"
 
 #: client/gui-gtk-2.0/chatline.c:1350
 msgid "Strikethrough (Ctrl-S)"
@@ -13790,11 +13793,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/chatline.c:1359
 msgid "Underline (Ctrl-U)"
-msgstr ""
+msgstr "Líne Faoi (Ctrl-U)"
 
 #: client/gui-gtk-2.0/chatline.c:1368
 msgid "Color (Ctrl-C)"
-msgstr ""
+msgstr "Dath (Ctrl-C)"
 
 #: client/gui-gtk-2.0/chatline.c:1378
 msgid "foreground"
@@ -13810,7 +13813,7 @@ msgstr "cúlra"
 
 #: client/gui-gtk-2.0/chatline.c:1399 client/gui-gtk-2.0/optiondlg.c:635
 msgid "Select the background color"
-msgstr ""
+msgstr "Roghnaigh dath an chúlra"
 
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-2.0/chatline.c:1417
@@ -13819,7 +13822,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/chatline.c:1434
 msgid "Chat tools"
-msgstr ""
+msgstr "Uirlisí comhráite"
 
 #: client/gui-gtk-2.0/citydlg.c:672 client/gui-win32/citydlg.c:685
 msgid "Food:"
@@ -14135,7 +14138,7 @@ msgstr "Cad é an t-ainm nua ar an gcathair?"
 #: client/gui-gtk-2.0/cityrep.c:621
 #, c-format
 msgid "Are you sure you want to sell those %s?"
-msgstr ""
+msgstr "An bhfuil tú cinnte gur mhaith leat na %s sin a dhíol?"
 
 #: client/gui-gtk-2.0/cityrep.c:959
 msgid "(no worklists defined)"
@@ -14362,7 +14365,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:656
 msgid "Remove this preset?"
-msgstr ""
+msgstr "An bhfuil fonn ort an réamhshocrú a bhaint?"
 
 #: client/gui-gtk-2.0/dialogs.c:210 client/gui-gtk-2.0/messagewin.c:354
 msgid "Goto _Location"
@@ -14405,7 +14408,7 @@ msgstr "Ainm"
 
 #: client/gui-gtk-2.0/dialogs.c:592 client/gui-sdl/dialogs.c:879
 msgid "Unit selection"
-msgstr ""
+msgstr "Aonad a roghnú"
 
 #: client/gui-gtk-2.0/dialogs.c:655
 msgid "_Ready all"
@@ -14417,7 +14420,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:671
 msgid "Select _all"
-msgstr ""
+msgstr "Roghnaigh _uile"
 
 #: client/gui-gtk-2.0/dialogs.c:799
 msgid "Nation _Groups:"
@@ -14429,7 +14432,7 @@ msgstr "Uile"
 
 #: client/gui-gtk-2.0/dialogs.c:848
 msgid "Edit Nation"
-msgstr ""
+msgstr "Cuir Náisiún in Eagar"
 
 #: client/gui-gtk-2.0/dialogs.c:850 data/Freeciv.in:3137
 msgid "What Nation Will You Be?"
@@ -14438,23 +14441,23 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:852 client/gui-sdl/chatline.c:797
 #: client/gui-win32/connectdlg.c:1030 data/Freeciv.in:3389
 msgid "Pick Nation"
-msgstr ""
+msgstr "Roghnaigh Náisiún"
 
 #: client/gui-gtk-2.0/dialogs.c:860
 msgid "_Random Nation"
-msgstr ""
+msgstr "Náisiún _Randamach"
 
 #: client/gui-gtk-2.0/dialogs.c:872 client/gui-win32/dialogs.c:533
 msgid "Select a nation"
-msgstr ""
+msgstr "Roghnaigh náisiún"
 
 #: client/gui-gtk-2.0/dialogs.c:890
 msgid "_Properties"
-msgstr ""
+msgstr "_Airíonna"
 
 #: client/gui-gtk-2.0/dialogs.c:910
 msgid "_Leader:"
-msgstr ""
+msgstr "_Ceannaire:"
 
 #: client/gui-gtk-2.0/dialogs.c:917
 msgid "_Female"
@@ -14470,7 +14473,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:988
 msgid "_Description"
-msgstr ""
+msgstr "_Cur Síos"
 
 #: client/gui-gtk-2.0/dialogs.c:1332 client/gui-xaw/dialogs.c:1508
 msgid "You must select your sex."
@@ -14488,7 +14491,7 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:1388 client/gui-win32/citydlg.c:1443
 #: data/Freeciv.in:2491
 msgid "Upgrade Unit!"
-msgstr ""
+msgstr "Nuashonraigh Aonad!"
 
 #: client/gui-gtk-2.0/dialogs.c:1397 client/gui-gtk-2.0/repodlgs.c:1485
 #: client/gui-sdl/dialogs.c:675 client/gui-sdl/repodlgs.c:188
@@ -14597,7 +14600,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:1177
 msgid "Editor Tool"
-msgstr ""
+msgstr "Uirlis Eagarthóireachta"
 
 #: client/gui-gtk-2.0/editgui.c:1191
 msgid "Click to change value if applicable."
@@ -14763,13 +14766,13 @@ msgstr "?coordinate:Y"
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-2.0/editprop.c:4031
 msgid "NAT X"
-msgstr ""
+msgstr "X DÚCH"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-2.0/editprop.c:4035
 msgid "NAT Y"
-msgstr ""
+msgstr "Y DÚCH"
 
 #: client/gui-gtk-2.0/editprop.c:4037
 msgid "Continent"
