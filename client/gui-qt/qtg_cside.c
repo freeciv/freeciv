@@ -122,6 +122,14 @@ struct sprite *load_gfxfile(const char *filename)
   return funcs.load_gfxfile(filename);
 }
 
+/****************************************************************************
+  Call c++ create_sprite
+****************************************************************************/
+struct sprite *create_sprite(int width, int height, struct color *pcolor)
+{
+  return funcs.create_sprite(width, height, pcolor);
+}
+
 /**************************************************************************
   Call c++ get_sprite_dimensions
 **************************************************************************/
@@ -148,6 +156,22 @@ struct sprite *crop_sprite(struct sprite *source,
 void free_sprite(struct sprite *s)
 {
   funcs.free_sprite(s);
+}
+
+/**************************************************************************
+  Call c++ color_alloc
+**************************************************************************/
+struct color *color_alloc(int r, int g, int b)
+{
+  return funcs.color_alloc(r, g, b);
+}
+
+/**************************************************************************
+  Call c++ color_free
+**************************************************************************/
+void color_free(struct color *pcolor)
+{
+  return funcs.color_free(pcolor);
 }
 
 /**************************************************************************
@@ -430,13 +454,4 @@ char **get_gui_specific_themes_directories(int *count)
 char **get_useable_themes_in_directory(const char *directory, int *count)
 {
   return funcs.get_useable_themes_in_directory(directory, count);
-}
-
-/****************************************************************************
-  Create a new sprite with the given height, width and color.
-****************************************************************************/
-struct sprite *create_sprite(int width, int height, struct color *pcolor)
-{
-  /* PORTME */
-  return NULL;
 }

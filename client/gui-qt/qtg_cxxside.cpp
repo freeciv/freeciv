@@ -35,9 +35,13 @@ void setup_gui_funcs()
   funcs->overhead_view_supported = qtg_overhead_view_supported;
   funcs->free_intro_radar_sprites = qtg_free_intro_radar_sprites;
   funcs->load_gfxfile = qtg_load_gfxfile;
+  funcs->create_sprite = qtg_create_sprite;
   funcs->get_sprite_dimensions = qtg_get_sprite_dimensions;
   funcs->crop_sprite = qtg_crop_sprite;
   funcs->free_sprite = qtg_free_sprite;
+
+  funcs->color_alloc = qtg_color_alloc;
+  funcs->color_free = qtg_color_free;
 
   funcs->gui_set_rulesets = qtg_gui_set_rulesets;
   funcs->gui_options_extra_init = qtg_gui_options_extra_init;

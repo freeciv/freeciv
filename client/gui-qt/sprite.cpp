@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 // gui-qt
+#include "colors.h"
 #include "fc_client.h"
 #include "qtg_cxxside.h"
 
@@ -49,7 +50,11 @@ const char **gfx_fileextensions(void)
 ****************************************************************************/
 struct sprite *qtg_load_gfxfile(const char *filename)
 {
-  return gui()->load_gfxfile(filename);
+  sprite *entire = new sprite;
+
+  entire->pm = new QPixmap(filename);
+
+  return entire;
 }
 
 /****************************************************************************
@@ -78,11 +83,13 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
                                struct sprite *mask,
                                int mask_offset_x, int mask_offset_y)
 {
-  sprite *cropped = new sprite;
-
   /* FIXME: Add mask handling */
 
-  cropped->pm = source->pm.copy(x, y, width, height);
+  sprite *cropped = new sprite;
+
+  cropped->pm = new QPixmap;
+
+  *cropped->pm = source->pm->copy(x, y, width, height);
 
   return cropped;
 }
@@ -92,8 +99,8 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
 ****************************************************************************/
 void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
-  *width = sprite->pm.width();
-  *height = sprite->pm.height();
+  *width = sprite->pm->width();
+  *height = sprite->pm->height();
 }
 
 /****************************************************************************
@@ -101,5 +108,20 @@ void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 ****************************************************************************/
 void qtg_free_sprite(struct sprite *s)
 {
+  delete s->pm;
   delete s;
+}
+
+/****************************************************************************
+  Create a new sprite with the given height, width and color.
+****************************************************************************/
+struct sprite *qtg_create_sprite(int width, int height, struct color *pcolor)
+{
+  struct sprite *created = new sprite;
+
+  created->pm = new QPixmap(width, height);
+
+  created->pm->fill(pcolor->qcolor);
+
+  return created;
 }

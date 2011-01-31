@@ -22,7 +22,7 @@ extern "C" {
 
 struct sprite
 {
-  QPixmap pm;
+  QPixmap *pm;
 };
 
 #endif /* FC__SPRITE_H */

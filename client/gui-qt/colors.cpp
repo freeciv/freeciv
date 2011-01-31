@@ -27,23 +27,19 @@
   Allocate a color (adjusting it for our colormap if necessary on paletted
   systems) and return a pointer to it.
 ****************************************************************************/
-struct color *color_alloc(int r, int g, int b)
+struct color *qtg_color_alloc(int r, int g, int b)
 {
-  struct color *color = (struct color *) fc_malloc(sizeof(*color));
+  struct color *pcolor = new color;
 
-  /* PORTME */
-  color->r = r;
-  color->g = g;
-  color->b = b;
+  pcolor->qcolor.setRgb(r, g, b);
 
-  return color;
+  return pcolor;
 }
 
 /****************************************************************************
-  Free a previously allocated color.  See color_alloc.
+  Free a previously allocated color.  See qtg_color_alloc.
 ****************************************************************************/
-void color_free(struct color *color)
+void qtg_color_free(struct color *pcolor)
 {
-  /* PORTME */
-  free(color);
+  delete pcolor;
 }

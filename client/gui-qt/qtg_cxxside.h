@@ -30,12 +30,16 @@ bool qtg_isometric_view_supported();
 bool qtg_overhead_view_supported();
 void qtg_free_intro_radar_sprites();
 struct sprite *qtg_load_gfxfile(const char *filename);
+struct sprite *qtg_create_sprite(int width, int height, struct color *pcolor);
 void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height);
 struct sprite *qtg_crop_sprite(struct sprite *source,
                                int x, int y, int width, int height,
                                struct sprite *mask,
                                int mask_offset_x, int mask_offset_y);
 void qtg_free_sprite(struct sprite *s);
+
+struct color *qtg_color_alloc(int r, int g, int b);
+void qtg_color_free(struct color *pcolor);
 
 void qtg_gui_set_rulesets(int num_rulesets, char **rulesets);
 void qtg_gui_options_extra_init();

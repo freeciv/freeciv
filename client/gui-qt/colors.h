@@ -18,9 +18,11 @@ extern "C" {
 #include "colors_g.h"
 }
 
+// Qt
+#include "QColor"
+
 struct color {
-  /* PORTME: color structure */
-  int r, g, b;
+  QColor qcolor;
 };
 
 #endif /* FC__COLORS_H */
