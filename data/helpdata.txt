@@ -178,9 +178,10 @@ rearranged to maximize food production.\
 _("\
     The golden rule of taking care of a city is that there should be \
 at least as many happy citizens as unhappy citizens.  A city \
-where this is not so is labeled with a lightning bolt.  Take \
-care not to let this happen to any of your cities, as unhappy \
-cities produce nothing, and will soon revolt.\
+where this is not so falls into disorder; such cities are labeled \
+with a raised fist or a lightning bolt (depending on the tileset).  \
+Take care not to let this happen to any of your cities, as cities in \
+disorder produce nothing, and are prone to revolt.\
 "), _("\
  7. Interacting with other players (diplomacy).\
 \n\n\
