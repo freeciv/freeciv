@@ -1,10 +1,9 @@
 # Irish Translation
-# Working on trunk.   2.2 branch has more strings, about 5200 as of 2010-04-01
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Kevin Scannell <kscanne@gmail.com>, 2010, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv\n"
+"Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-21 15:29+0100\n"
 "PO-Revision-Date: 2011-01-29 07:42-0500\n"
