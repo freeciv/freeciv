@@ -1904,7 +1904,9 @@ msgstr ""
 msgid ""
 "Cannot load auth config file '%s':\n"
 "%s"
-msgstr "Ní féidir comhad cumraíochta údaraithe '%s' a luchtú:\n%s"
+msgstr ""
+"Ní féidir comhad cumraíochta údaraithe '%s' a luchtú:\n"
+"%s"
 
 #: server/auth.c:400
 #, c-format
@@ -5487,7 +5489,7 @@ msgstr ""
 
 #: server/settings.c:369
 msgid "No compression"
-msgstr ""
+msgstr "Gan comhbhrú"
 
 #: server/settings.c:371
 msgid "Using zlib (gzip format)"
@@ -11416,12 +11418,12 @@ msgstr "Tá an ghearrthaisce folamh."
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1608
 msgid "Split"
-msgstr ""
+msgstr "Roinnte"
 
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1610
 msgid "Separate"
-msgstr ""
+msgstr "Leithleach"
 
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1612
@@ -15190,7 +15192,7 @@ msgstr "Tógáil:"
 #. * that can't be built on the same tile as this one.
 #: client/gui-gtk-2.0/helpdlg.c:121
 msgid "Conflicts with:"
-msgstr ""
+msgstr "Tagann sé salach ar:"
 
 #: client/gui-gtk-2.0/helpdlg.c:124 client/gui-win32/helpdlg.c:167
 #: client/gui-win32/helpdlg.c:504 client/gui-win32/helpdlg.c:554
@@ -15520,7 +15522,7 @@ msgstr "Maidir le Náisiúin"
 #: client/gui-xaw/menu.c:265 client/include/helpdlg_g.h:30
 #: data/helpdata.txt:1523
 msgid "Connecting"
-msgstr ""
+msgstr "Ag Ceangal"
 
 #: client/gui-gtk-2.0/menu.c:1326 client/gui-win32/menu.c:442
 #: client/gui-xaw/menu.c:266 client/include/helpdlg_g.h:34
@@ -16243,7 +16245,7 @@ msgstr "Randamach"
 
 #: client/gui-gtk-2.0/pages.c:1998 client/gui-gtk-2.0/pages.c:2055
 msgid "Observer"
-msgstr ""
+msgstr "Breathnóir"
 
 #: client/gui-gtk-2.0/pages.c:2080
 msgid "Detached"
@@ -16355,7 +16357,7 @@ msgstr "Sprioc"
 #. TRANS: As in 'Show all (even currently not reachable) techs'.
 #: client/gui-gtk-2.0/repodlgs.c:592
 msgid "Show all"
-msgstr ""
+msgstr "Taispeáin uile"
 
 #: client/gui-gtk-2.0/repodlgs.c:750
 msgid "?Building or Unit type:Name"
@@ -17935,7 +17937,7 @@ msgstr "Scoir"
 
 #: client/gui-sdl/optiondlg.c:988
 msgid "Apply changes"
-msgstr ""
+msgstr "Cuir na hathruithe i bhfeidhm"
 
 #: client/gui-sdl/optiondlg.c:1101 client/gui-win32/wldlg.c:303
 #: client/gui-xaw/wldlg.c:659
@@ -19606,7 +19608,7 @@ msgstr "Cuir Réamhshocrú Leis"
 
 #: data/Freeciv.in:1469
 msgid "Remove Preset"
-msgstr ""
+msgstr "Bain an Réamhshocrú"
 
 #: data/Freeciv.in:1471
 msgid "Control City"
@@ -27267,11 +27269,11 @@ msgstr "An Mol Theas Neamhspleách, tír na bpiongainí."
 
 #: data/nation/apache.ruleset:3
 msgid "Apache"
-msgstr ""
+msgstr "Apáiseach"
 
 #: data/nation/apache.ruleset:4
 msgid "?plural:Apaches"
-msgstr ""
+msgstr "?plural:Apáisigh"
 
 #: data/nation/apache.ruleset:6
 msgid ""
@@ -27796,11 +27798,11 @@ msgstr ""
 
 #: data/nation/bashkir.ruleset:3
 msgid "Bashkir"
-msgstr ""
+msgstr "Baiscíreach"
 
 #: data/nation/bashkir.ruleset:4
 msgid "?plural:Bashkirs"
-msgstr ""
+msgstr "?plural:Baiscírigh"
 
 #: data/nation/bashkir.ruleset:6
 msgid ""
@@ -27990,11 +27992,11 @@ msgstr "?female:Nabob %s"
 
 #: data/nation/benin.ruleset:3
 msgid "Benin"
-msgstr ""
+msgstr "Beinineach"
 
 #: data/nation/benin.ruleset:4
 msgid "?plural:Benin"
-msgstr ""
+msgstr "?plural:Beininigh"
 
 #: data/nation/benin.ruleset:6
 msgid ""
@@ -29073,11 +29075,11 @@ msgstr ""
 
 #: data/nation/corsican.ruleset:3
 msgid "Corsican"
-msgstr ""
+msgstr "Corsacach"
 
 #: data/nation/corsican.ruleset:4
 msgid "?plural:Corsicans"
-msgstr ""
+msgstr "?plural:Corsacaigh"
 
 #: data/nation/corsican.ruleset:6
 msgid ""
@@ -29253,11 +29255,11 @@ msgstr ""
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
-msgstr ""
+msgstr "Cipireach"
 
 #: data/nation/cypriot.ruleset:4
 msgid "?plural:Cypriots"
-msgstr ""
+msgstr "?plural:Cipirigh"
 
 #: data/nation/cypriot.ruleset:6
 msgid ""
@@ -29700,11 +29702,11 @@ msgstr "?female:Coimisinéir %s"
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
-msgstr ""
+msgstr "Fidsíoch"
 
 #: data/nation/fijian.ruleset:4
 msgid "?plural:Fijians"
-msgstr ""
+msgstr "?plural:Fidsígh"
 
 #: data/nation/fijian.ruleset:6
 msgid ""
@@ -29859,11 +29861,11 @@ msgstr "?female:Príomhaire %s"
 
 #: data/nation/frisian.ruleset:3
 msgid "Frisian"
-msgstr ""
+msgstr "Freaslannach"
 
 #: data/nation/frisian.ruleset:4
 msgid "?plural:Frisians"
-msgstr ""
+msgstr "?plural:Freaslannaigh"
 
 #: data/nation/frisian.ruleset:6
 msgid ""
@@ -30136,11 +30138,11 @@ msgstr ""
 
 #: data/nation/guarani.ruleset:3
 msgid "Guarani"
-msgstr ""
+msgstr "Guaránach"
 
 #: data/nation/guarani.ruleset:4
 msgid "?plural:Guarani"
-msgstr ""
+msgstr "?plural:Guaránaigh"
 
 #: data/nation/guarani.ruleset:6
 msgid ""
@@ -30267,11 +30269,11 @@ msgstr "?female:Uachtarán-don-Saol %s"
 
 #: data/nation/han.ruleset:3
 msgid "Han"
-msgstr ""
+msgstr "Han"
 
 #: data/nation/han.ruleset:4
 msgid "?plural:Han"
-msgstr ""
+msgstr "?plural:Han"
 
 #: data/nation/han.ruleset:6
 msgid ""
@@ -30939,11 +30941,11 @@ msgstr ""
 
 #: data/nation/kashmiri.ruleset:3
 msgid "Kashmiri"
-msgstr ""
+msgstr "Caismíreach"
 
 #: data/nation/kashmiri.ruleset:4
 msgid "?plural:Kashmiris"
-msgstr ""
+msgstr "?plural:Caismírigh"
 
 #: data/nation/kashmiri.ruleset:6
 msgid ""
@@ -31543,11 +31545,11 @@ msgstr "?female:Tun %s"
 
 #: data/nation/mali.ruleset:3
 msgid "Mali"
-msgstr ""
+msgstr "Mailíoch"
 
 #: data/nation/mali.ruleset:4
 msgid "?plural:Malis"
-msgstr ""
+msgstr "?plural:Mailígh"
 
 #: data/nation/mali.ruleset:6
 msgid ""
@@ -31629,11 +31631,11 @@ msgstr ""
 
 #: data/nation/manx.ruleset:3
 msgid "Manx"
-msgstr ""
+msgstr "Manannach"
 
 #: data/nation/manx.ruleset:4
 msgid "?plural:Manx"
-msgstr ""
+msgstr "?plural:Manannaigh"
 
 #: data/nation/manx.ruleset:6
 msgid ""
@@ -32195,11 +32197,11 @@ msgstr ""
 
 #: data/nation/navajo.ruleset:3
 msgid "Navajo"
-msgstr ""
+msgstr "Navachóch"
 
 #: data/nation/navajo.ruleset:4
 msgid "?plural:Navajo"
-msgstr ""
+msgstr "?plural:Navachóigh"
 
 #. TRANS: The last letter in "Dine" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -32229,11 +32231,11 @@ msgstr ""
 
 #: data/nation/nepali.ruleset:3
 msgid "Nepali"
-msgstr ""
+msgstr "Neipealach"
 
 #: data/nation/nepali.ruleset:4
 msgid "?plural:Nepalis"
-msgstr ""
+msgstr "?plural:Neipealaigh"
 
 #: data/nation/nepali.ruleset:6
 msgid ""
@@ -32523,11 +32525,11 @@ msgstr ""
 
 #: data/nation/occitan.ruleset:3
 msgid "Occitan"
-msgstr ""
+msgstr "Ocatánach"
 
 #: data/nation/occitan.ruleset:4
 msgid "?plural:Occitans"
-msgstr ""
+msgstr "?plural:Ocatánaigh"
 
 #: data/nation/occitan.ruleset:6
 msgid ""
@@ -32791,11 +32793,11 @@ msgstr ""
 
 #: data/nation/palestinian.ruleset:3
 msgid "Palestinian"
-msgstr ""
+msgstr "Palaistíneach"
 
 #: data/nation/palestinian.ruleset:4
 msgid "?plural:Palestinian"
-msgstr ""
+msgstr "?plural:Palaistínigh"
 
 #: data/nation/palestinian.ruleset:6
 msgid ""
@@ -33813,11 +33815,11 @@ msgstr ""
 
 #: data/nation/somali.ruleset:3
 msgid "Somali"
-msgstr ""
+msgstr "Somálach"
 
 #: data/nation/somali.ruleset:4
 msgid "?plural:Somalis"
-msgstr ""
+msgstr "?plural:Somálaigh"
 
 #: data/nation/somali.ruleset:6
 msgid ""
