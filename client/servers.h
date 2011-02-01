@@ -38,6 +38,7 @@ struct server
   } *players;
 
   int nplayers;
+  int humans;
 };
 
 #define SPECLIST_TAG server

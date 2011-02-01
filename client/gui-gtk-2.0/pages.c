@@ -184,7 +184,7 @@ static void ggz_login(void)
 {
   set_client_page(PAGE_GGZ);
 }
-#endif
+#endif /* GGZ_GTK */
 
 /**************************************************************************
   create the main page.
@@ -222,7 +222,7 @@ GtkWidget *create_main_page(void)
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
   }
-#endif
+#endif /* IS_BETA_VERSION */
 
   table = gtk_table_new(3, 2, TRUE);
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
@@ -324,14 +324,26 @@ static void update_server_list(enum server_scan_type sstype,
 
   server_list_iterate(list, pserver) {
     gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it,
-                       0, pserver->host,
-                       1, pserver->port,
-                       2, pserver->version,
-                       3, _(pserver->state),
-                       4, pserver->nplayers,
-                       5, pserver->message,
-                       -1);
+    if (sstype == SERVER_SCAN_GLOBAL) {
+      gtk_list_store_set(store, &it,
+                         0, pserver->host,
+                         1, pserver->port,
+                         2, pserver->version,
+                         3, _(pserver->state),
+                         4, pserver->nplayers,
+                         5, pserver->humans,
+                         6, pserver->message,
+                         -1);
+    } else {
+      gtk_list_store_set(store, &it,
+                         0, pserver->host,
+                         1, pserver->port,
+                         2, pserver->version,
+                         3, _(pserver->state),
+                         4, pserver->nplayers,
+                         5, pserver->message,
+                         -1);
+    }
     if (strcmp(host, pserver->host) == 0 && port == pserver->port) {
       gtk_tree_selection_select_iter(sel, &it);
     }
@@ -816,11 +828,12 @@ GtkWidget *create_network_page(void)
 
 
   /* Metaserver pane. */
-  meta_store = gtk_list_store_new(6, G_TYPE_STRING, /* host */
+  meta_store = gtk_list_store_new(7, G_TYPE_STRING, /* host */
                                   G_TYPE_INT,       /* port */
                                   G_TYPE_STRING,    /* version */
                                   G_TYPE_STRING,    /* state */
                                   G_TYPE_INT,       /* nplayers */
+                                  G_TYPE_INT,       /* humans */
                                   G_TYPE_STRING);   /* message */
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(meta_store));
@@ -842,7 +855,8 @@ GtkWidget *create_network_page(void)
   add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
   add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
   add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
-  add_treeview_column(view, _("Comment"), G_TYPE_STRING, 5);
+  add_treeview_column(view, _("Humans"), G_TYPE_INT, 5);
+  add_treeview_column(view, _("Comment"), G_TYPE_STRING, 6);
 
   label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
 
