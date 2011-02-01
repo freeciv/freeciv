@@ -18,7 +18,7 @@ AC_DEFUN([FC_MAPIMG_MAGICKWAND],
       mapimg_magickwand=yes
     ],
     [
-      if "x$mapimg_magickwand" = "xyes" ; then
+      if test "x$mapimg_magickwand" = "xyes" ; then
         AC_MSG_ERROR([mapimg toolkit magickwandclient not available])
       fi
       mapimg_magickwand=no
