@@ -49,13 +49,25 @@ static void *fc_thread_wrapper(void *arg)
 int fc_thread_start(fc_thread *thread, void (*function) (void *arg),
                     void *arg)
 {
+  int ret;
+  pthread_attr_t attr;
+
   /* Freed by child thread once it's finished with data */
   struct fc_thread_wrap_data *data = fc_malloc(sizeof(data));
 
   data->arg = arg;
   data->func = function;
 
-  return pthread_create(thread, NULL, &fc_thread_wrapper, data);
+  /* Explicitly set thread as joinable to maximize portability
+     between pthread implementations */
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+  ret = pthread_create(thread, &attr, &fc_thread_wrapper, data);
+
+  pthread_attr_destroy(&attr);
+
+  return ret;
 }
 
 /**********************************************************************
