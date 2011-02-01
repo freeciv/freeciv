@@ -19,7 +19,7 @@ struct connection;
 
 #define SERVER_LAN_PORT 4555
 #define SERVER_LAN_TTL 1
-#define SERVER_LAN_VERSION 1
+#define SERVER_LAN_VERSION 2
 
 enum server_events {
   S_E_END_OF_TURN_TIMEOUT,

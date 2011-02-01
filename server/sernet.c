@@ -1396,6 +1396,8 @@ static void send_lanserver_response(void)
   char port[256];
   char version[256];
   char players[256];
+  int nhumans;
+  char humans[256];
   char status[256];
   struct data_out dout;
   union fc_sockaddr addr;
@@ -1462,6 +1464,15 @@ static void send_lanserver_response(void)
 
    fc_snprintf(players, sizeof(players), "%d",
                normal_player_count());
+
+   nhumans = 0;
+   players_iterate(pplayer) {
+     if (pplayer->is_alive && !pplayer->ai_controlled) {
+       nhumans++;
+     }
+   } players_iterate_end;
+   fc_snprintf(humans, sizeof(humans), "%d", nhumans);
+
    fc_snprintf(port, sizeof(port), "%d",
               srvarg.port );
 
@@ -1472,6 +1483,7 @@ static void send_lanserver_response(void)
   dio_put_string(&dout, version);
   dio_put_string(&dout, status);
   dio_put_string(&dout, players);
+  dio_put_string(&dout, humans);
   dio_put_string(&dout, get_meta_message_string());
   size = dio_output_used(&dout);
 

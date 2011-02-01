@@ -20,7 +20,7 @@ extern "C" {
 
 #define SERVER_LAN_PORT 4555
 #define SERVER_LAN_TTL 1
-#define SERVER_LAN_VERSION 1
+#define SERVER_LAN_VERSION 2
 
 struct server
 {
@@ -42,6 +42,7 @@ struct server
   } *players;
 
   int nplayers;
+  int humans;
 };
 
 #define SPECLIST_TAG server

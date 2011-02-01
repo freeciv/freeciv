@@ -119,7 +119,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   nservers = secfile_lookup_int_default(file, 0, "main.nservers");
 
   for (i = 0; i < nservers; i++) {
-    const char *host, *port, *version, *state, *message, *nplayers;
+    const char *host, *port, *version, *state, *message, *nplayers, *nhumans;
     int n;
     struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
 
@@ -142,13 +142,17 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     n = atoi(nplayers);
     pserver->nplayers = n;
 
-    if (n > 0) {
-      pserver->players = fc_malloc(n * sizeof(*pserver->players));
+    nhumans = secfile_lookup_str_default(file, "-1", "server%d.humans", i);
+    n = atoi(nhumans);
+    pserver->humans = n;
+
+    if (pserver->nplayers > 0) {
+      pserver->players = fc_malloc(pserver->nplayers * sizeof(*pserver->players));
     } else {
       pserver->players = NULL;
     }
-      
-    for (j = 0; j < n; j++) {
+
+    for (j = 0; j < pserver->nplayers ; j++) {
       const char *name, *nation, *type, *host;
 
       name = secfile_lookup_str_default(file, "", 
@@ -757,6 +761,7 @@ get_lan_server_list(struct server_scan *scan)
   char version[256];
   char status[256];
   char players[256];
+  char humans[256];
   char message[1024];
   bool found_new = FALSE;
 
@@ -784,6 +789,7 @@ get_lan_server_list(struct server_scan *scan)
     dio_get_string(&din, version, sizeof(version));
     dio_get_string(&din, status, sizeof(status));
     dio_get_string(&din, players, sizeof(players));
+    dio_get_string(&din, humans, sizeof(humans));
     dio_get_string(&din, message, sizeof(message));
 
     if (!fc_strcasecmp("none", servername)) {
@@ -829,7 +835,7 @@ get_lan_server_list(struct server_scan *scan)
           && aserver->port == port) {
 	duplicate = TRUE;
 	break;
-      } 
+      }
     } server_list_iterate_end;
     if (duplicate) {
       continue;
@@ -843,6 +849,7 @@ get_lan_server_list(struct server_scan *scan)
     pserver->version = fc_strdup(version);
     pserver->state = fc_strdup(status);
     pserver->nplayers = atoi(players);
+    pserver->humans = atoi(humans);
     pserver->message = fc_strdup(message);
     pserver->players = NULL;
     found_new = TRUE;
