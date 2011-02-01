@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2011.Jan.27"
+options = "+Freeciv-tilespec-Devel-2011.Jan.28"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"
@@ -42,6 +42,9 @@ unit_offset_y = 0
 
 ; offset the citybar text by this amount (from the city tile origin)
 citybar_offset_y = 27
+
+; offset the tile label text by this amount
+tilelabel_offset_y = 10
 
 ; Font size (points) to use to draw city names and productions:
 city_names_font_size = 10

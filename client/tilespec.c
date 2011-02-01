@@ -72,12 +72,12 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Jan.27 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Jan.28 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
- * +Freeciv-2.3-tilespec
- *    - basic format for Freeciv versions 2.3.x; required
+ * +Freeciv-2.4-tilespec
+ *    - basic format for Freeciv versions 2.4.x; required
  *
  * +Freeciv-tilespec-Devel-YYYY.MMM.DD
  *    - tilespec of the development version at the given data
@@ -455,6 +455,7 @@ struct tileset {
   int unit_offset_x, unit_offset_y;
 
   int citybar_offset_y;
+  int tilelabel_offset_y;
 
 #define NUM_CORNER_DIRS 4
 #define TILES_PER_CORNER 4
@@ -650,6 +651,15 @@ int tileset_small_sprite_width(const struct tileset *t)
 int tileset_citybar_offset_y(const struct tileset *t)
 {
   return t->citybar_offset_y;
+}
+
+/****************************************************************************
+  Return the offset from the origin of the tile at which to place the
+  label text.
+****************************************************************************/
+int tileset_tilelabel_offset_y(const struct tileset *t)
+{
+  return t->tilelabel_offset_y;
 }
 
 /****************************************************************************
@@ -1531,6 +1541,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
                              "tilespec.unit_offset_y")
       || !secfile_lookup_int(file, &t->citybar_offset_y,
                              "tilespec.citybar_offset_y")
+      || !secfile_lookup_int(file, &t->tilelabel_offset_y,
+                             "tilespec.tilelabel_offset_y")
       || !secfile_lookup_int(file, &t->city_names_font_size,
                              "tilespec.city_names_font_size")
       || !secfile_lookup_int(file, &t->city_productions_font_size,

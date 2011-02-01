@@ -1815,6 +1815,7 @@ static void show_tile_label(struct canvas *pcanvas,
 #define COLOR_MAPVIEW_TILELABEL COLOR_MAPVIEW_CITYTEXT
 
   canvas_x += tileset_tile_width(tileset) / 2;
+  canvas_y += tileset_tilelabel_offset_y(tileset);
 
   get_text_size(width, height, FONT_TILE_LABEL, ptile->label);
 
