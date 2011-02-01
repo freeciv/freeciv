@@ -547,7 +547,6 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   int db;
   const struct veteran_level *vlevel;
 
-  fc_assert_ret_val(att_type != NULL, 0);
   fc_assert_ret_val(def_type != NULL, 0);
 
   if (utype_move_type(def_type) == UMT_LAND
