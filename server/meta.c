@@ -42,6 +42,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "fcthread.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -68,6 +69,8 @@ static bool server_is_open = FALSE;
 
 static char meta_patches[256] = "";
 static char meta_message[256] = "";
+
+static fc_thread *meta_srv_thread = NULL;
 
 /*************************************************************************
  the default metaserver patches for this server
@@ -214,6 +217,21 @@ static inline bool meta_insert_setting(struct netfile_post *post,
 }
 
 /*************************************************************************
+  Send POST to metaserver. This runs in its own thread.
+*************************************************************************/
+static void send_metaserver_post(void *arg)
+{
+  struct netfile_post *post = (struct netfile_post *) arg;
+
+  if (!netfile_send_post(srvarg.metaserver_addr, post)) {
+    con_puts(C_METAERROR, _("Error connecting metaserver"));
+    metaserver_failed();
+  }
+
+  netfile_close_post(post);
+}
+
+/*************************************************************************
  construct the POST message and send info to metaserver.
 *************************************************************************/
 static bool send_to_metaserver(enum meta_flag flag)
@@ -223,10 +241,6 @@ static bool send_to_metaserver(enum meta_flag flag)
   char host[512];
   char state[20];
   struct netfile_post *post;
-
-  if (!server_is_open) {
-    return FALSE;
-  }
 
   switch(server_state()) {
   case S_S_INITIAL:
@@ -247,7 +261,9 @@ static bool send_to_metaserver(enum meta_flag flag)
     sz_strlcpy(host, "unknown");
   }
 
+  /* Freed in metaserver thread function send_metaserver_post() */
   post = netfile_start_post();
+
   netfile_add_form_str(post, "host", host);
   netfile_add_form_int(post, "port", srvarg.port);
   netfile_add_form_str(post, "state", state);
@@ -365,14 +381,15 @@ static bool send_to_metaserver(enum meta_flag flag)
     netfile_add_form_int(post, "vv[]", game.info.year);
   }
 
-  if (!netfile_send_post(srvarg.metaserver_addr, post)) {
-    netfile_close_post(post);
-    con_puts(C_METAERROR, _("Error connecting metaserver"));
-    metaserver_failed();
-    return FALSE;
+  if (meta_srv_thread != NULL) {
+    /* Previously started thread */
+    fc_thread_wait(meta_srv_thread);
+  } else {
+    meta_srv_thread = fc_malloc(sizeof(meta_srv_thread));
   }
 
-  netfile_close_post(post);
+  /* Send POST in new thread */
+  fc_thread_start(meta_srv_thread, &send_metaserver_post, post);
 
   return TRUE;
 }
@@ -418,13 +435,23 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
   static struct timer *last_send_timer = NULL;
   static bool want_update;
 
+  if (!server_is_open) {
+    return FALSE;
+  }
+
   /* if we're bidding farewell, ignore all timers */
   if (flag == META_GOODBYE) { 
     if (last_send_timer) {
       free_timer(last_send_timer);
       last_send_timer = NULL;
     }
-    return send_to_metaserver(flag);
+    send_to_metaserver(flag);
+
+    /* Wait metaserver thread to finish */
+    fc_thread_wait(meta_srv_thread);
+    meta_srv_thread = NULL;
+
+    return TRUE;
   }
 
   /* don't allow the user to spam the metaserver with updates */
@@ -450,5 +477,6 @@ bool send_server_info_to_metaserver(enum meta_flag flag)
 
   clear_timer_start(last_send_timer);
   want_update = FALSE;
+
   return send_to_metaserver(flag);
 }
