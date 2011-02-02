@@ -18,10 +18,10 @@ leaders = {
  "Yitzhak Rabin",	"Male"
  "Shimon Peres",	"Male"
 }
-ruler_titles = { "government",     "male_title",    "female_title"
-                 "Communism",      _("Kibbutznik"), _("?female:Kibbutznik")
-                 "Despotism",      _("General"),    _("?female:General")
-                 "Fundamentalism", _("Rabbi"),      _("?female:Rabbi")
+ruler_titles = { "government",     "male_title",       "female_title"
+                 "Communism",      _("Kibbutznik %s"), _("?female:Kibbutznik %s")
+                 "Despotism",      _("General %s"),    _("?female:General %s")
+                 "Fundamentalism", _("Rabbi %s"),      _("?female:Rabbi %s")
 	       }
 
 flag="israel"

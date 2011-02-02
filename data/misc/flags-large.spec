@@ -137,6 +137,7 @@ sprites =
 		"f.france_old", "flags/france_old-large"	; alt Gallic
 		"f.franconia", "flags/franconia-large"
 		"f.frisia", "flags/frisia-large"
+		"f.friuli", "flags/friuli-large"
 		"f.galicia", "flags/galicia-large"
 		"f.gael", "flags/gael-large"
 		"f.gaul", "flags/gaul-large"
