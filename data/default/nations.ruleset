@@ -239,6 +239,7 @@ match=2
 *include "nation/kazakh.ruleset"
 *include "nation/kenyan.ruleset"
 *include "nation/khazar.ruleset"
+*include "nation/khmer.ruleset"
 *include "nation/khwarezmian.ruleset"
 *include "nation/kongo.ruleset"
 *include "nation/korean.ruleset"

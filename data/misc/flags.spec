@@ -197,6 +197,7 @@ artists = "
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
    Khazaria		J.M. Maalderink
+   Khmer		Caleb Moore and Daniel Markstedt
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kiev			Maxim (http://logograd.narod.ru/)
    Kongo		Daniel Markstedt
@@ -616,6 +617,7 @@ sprites =
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"
 		"f.khazaria", "flags/khazaria"
+		"f.khmer", "flags/khmer"
 		"f.khwarezm", "flags/khwarezm"
 		"f.kiev", "flags/kiev"
 		"f.kongo", "flags/kongo"

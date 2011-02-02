@@ -190,6 +190,7 @@ flag_files =				\
 		keetoowah.png		\
 		kenya.png		\
 		khazaria.png		\
+		khmer.png		\
 		khwarezm.png		\
 		kiev.png		\
 		kongo.png		\
@@ -603,6 +604,7 @@ flag_files =				\
 		keetoowah-large.png		\
 		kenya-large.png		\
 		khazaria-large.png		\
+		khmer-large.png			\
 		khwarezm-large.png		\
 		kiev-large.png		\
 		kongo-large.png		\
@@ -1018,6 +1020,7 @@ shield_files =					\
 		keetoowah-shield.png		\
 		kenya-shield.png		\
 		khazaria-shield.png		\
+		khmer-shield.png		\
 		khwarezm-shield.png		\
 		kiev-shield.png			\
 		kongo-shield.png		\
@@ -1431,6 +1434,7 @@ shield_files =					\
 		keetoowah-shield-large.png		\
 		kenya-shield-large.png		\
 		khazaria-shield-large.png		\
+		khmer-shield-large.png			\
 		khwarezm-shield-large.png		\
 		kiev-shield-large.png			\
 		kongo-shield-large.png		\
@@ -1846,6 +1850,7 @@ svg_files = 				\
 		keetoowah.svg		\
 		kenya.svg		\
 		khazaria.svg		\
+		khmer.svg		\
 		khwarezm.svg		\
 		kiev.svg		\
 		kongo.svg		\
