@@ -137,7 +137,7 @@ enum tech_state player_invention_state(const struct player *pplayer,
 }
 
 /**************************************************************************
-...
+  Set player knowledge about tech to given state.
 **************************************************************************/
 enum tech_state player_invention_set(struct player *pplayer,
 				     Tech_type_id tech,

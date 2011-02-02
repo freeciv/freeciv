@@ -227,7 +227,8 @@ bool player_can_invade_tile(const struct player *pplayer,
 }
 
 /****************************************************************************
-  ...
+  Allocate new diplstate structure for tracking state between given two
+  players.
 ****************************************************************************/
 static void player_diplstate_new(const struct player *plr1,
                                  const struct player *plr2)
@@ -247,7 +248,7 @@ static void player_diplstate_new(const struct player *plr1,
 }
 
 /****************************************************************************
-  ...
+  Set diplstate between given two players to default values.
 ****************************************************************************/
 static void player_diplstate_defaults(const struct player *plr1,
                                       const struct player *plr2)
@@ -283,7 +284,7 @@ struct player_diplstate *player_diplstate_get(const struct player *plr1,
 }
 
 /****************************************************************************
-  ...
+  Free resources used by diplstate between given two players.
 ****************************************************************************/
 static void player_diplstate_destroy(const struct player *plr1,
                                      const struct player *plr2)
@@ -320,7 +321,7 @@ void player_slots_init(void)
 }
 
 /***************************************************************
-  ...
+  Return whether player slots are already initialized.
 ***************************************************************/
 bool player_slots_initialised(void)
 {
@@ -474,7 +475,7 @@ struct player *player_new(struct player_slot *pslot)
 }
 
 /****************************************************************************
-  ...
+  Set player structure to its default values.
 ****************************************************************************/
 static void player_defaults(struct player *pplayer)
 {
@@ -740,7 +741,7 @@ bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
 }
 
 /***************************************************************
-...
+  Find player by given name.
 ***************************************************************/
 struct player *player_by_name(const char *name)
 {
@@ -1265,6 +1266,9 @@ bool players_on_same_team(const struct player *pplayer1,
   return (pplayer1->team && pplayer1->team == pplayer2->team);
 }
 
+/**************************************************************************
+  Return TRUE iff player is any kind of barbarian
+**************************************************************************/
 bool is_barbarian(const struct player *pplayer)
 {
   return pplayer->ai_common.barbarian_type != NOT_A_BARBARIAN;

@@ -242,7 +242,8 @@ int impr_sell_gold(const struct impr_type *pimprove)
 }
 
 /**************************************************************************
-...
+  Returns whether improvement is some kind of wonder. Both great wonders
+  and small wonders count.
 **************************************************************************/
 bool is_wonder(const struct impr_type *pimprove)
 {

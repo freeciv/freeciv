@@ -27,7 +27,7 @@
 #include "rgbcolor.h"
 
 /****************************************************************************
-  ...
+  Allocate new rgbcolor structure.
 ****************************************************************************/
 struct rgbcolor *rgbcolor_new(int r, int g, int b)
 {
@@ -43,7 +43,8 @@ struct rgbcolor *rgbcolor_new(int r, int g, int b)
 }
 
 /****************************************************************************
-  ...
+  Allocate new rgbcolor structure and make it copy of one given as input.
+  Return new one.
 ****************************************************************************/
 struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
 {
@@ -53,7 +54,7 @@ struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
 }
 
 /****************************************************************************
-  ...
+  Free rgbcolor structure.
 ****************************************************************************/
 void rgbcolor_destroy(struct rgbcolor *prgbcolor)
 {

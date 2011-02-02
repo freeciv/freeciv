@@ -100,7 +100,8 @@ void connection_close(struct connection *pconn, const char *reason)
 
 
 /**************************************************************************
-...
+  Make sure that there is at least extra_space bytes free space in buffer,
+  allocating more memory if needed.
 **************************************************************************/
 static bool buffer_ensure_free_extra_space(struct socket_packet_buffer *buf,
 					   int extra_space)
@@ -515,7 +516,7 @@ int get_next_request_id(int old_request_id)
 }
 
 /**************************************************************************
- ...
+  Free compression queue for given connection.
 **************************************************************************/
 void free_compression_queue(struct connection *pc)
 {
@@ -525,7 +526,7 @@ void free_compression_queue(struct connection *pc)
 }
 
 /**************************************************************************
- ...
+  Allocate and initialize packet hashs for given connection.
 **************************************************************************/
 static void init_packet_hashs(struct connection *pc)
 {
@@ -543,7 +544,7 @@ static void init_packet_hashs(struct connection *pc)
 }
 
 /**************************************************************************
- ...
+  Free packet hash resources from given connection.
 **************************************************************************/
 static void free_packet_hashes(struct connection *pc)
 {
@@ -576,7 +577,8 @@ static void free_packet_hashes(struct connection *pc)
 }
 
 /**************************************************************************
- ...
+  Initialize common part of connection structure. This is used by
+  both server and client.
 **************************************************************************/
 void connection_common_init(struct connection *pconn)
 {
@@ -597,7 +599,7 @@ void connection_common_init(struct connection *pconn)
 }
 
 /**************************************************************************
- ...
+   Connection closing part common to server and client.
 **************************************************************************/
 void connection_common_close(struct connection *pconn)
 {

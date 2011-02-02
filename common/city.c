@@ -889,7 +889,7 @@ bool can_city_build_unit_now(const struct city *pcity,
 }
 
 /**************************************************************************
-  Return whether player can eventually build given unit in the city;
+  Returns whether player can eventually build given unit in the city;
   returns FALSE if unit can never possibly be built in this city.
 **************************************************************************/
 bool can_city_build_unit_later(const struct city *pcity,
@@ -911,7 +911,8 @@ bool can_city_build_unit_later(const struct city *pcity,
 }
 
 /**************************************************************************
-  ...
+  Returns whether city can immediately build given target,
+  unit or improvement. This considers obsolete targets still buildable.
 **************************************************************************/
 bool can_city_build_direct(const struct city *pcity,
 			   struct universal target)
@@ -928,7 +929,8 @@ bool can_city_build_direct(const struct city *pcity,
 }
 
 /**************************************************************************
-  ...
+  Returns whether city can immediately build given target,
+  unit or improvement. This considers obsolete targets no longer buildable.
 **************************************************************************/
 bool can_city_build_now(const struct city *pcity,
 			struct universal target)
@@ -945,7 +947,7 @@ bool can_city_build_now(const struct city *pcity,
 }
 
 /**************************************************************************
-  ...
+  Returns whether city can ever build given target, unit or improvement. 
 **************************************************************************/
 bool can_city_build_later(const struct city *pcity,
 			  struct universal target)
@@ -1655,18 +1657,19 @@ bool city_celebrating(const struct city *pcity)
 }
 
 /**************************************************************************
-.rapture is checked instead of city_celebrating() because this function is
-called after .was_happy was updated.
+  Returns whether city is growing by rapture.
 **************************************************************************/
 bool city_rapture_grow(const struct city *pcity)
 {
+  /* .rapture is checked instead of city_celebrating() because this
+     function is called after .was_happy was updated. */
   return (pcity->rapture > 0 && pcity->surplus[O_FOOD] > 0
 	  && (pcity->rapture % game.info.rapturedelay) == 0
           && get_city_bonus(pcity, EFT_RAPTURE_GROW) > 0);
 }
 
 /**************************************************************************
-...
+  Find city with given id from list.
 **************************************************************************/
 struct city *city_list_find_number(struct city_list *This, int id)
 {
@@ -1682,7 +1685,7 @@ struct city *city_list_find_number(struct city_list *This, int id)
 }
 
 /**************************************************************************
-...
+  Find city with given name from list.
 **************************************************************************/
 struct city *city_list_find_name(struct city_list *This, const char *name)
 {

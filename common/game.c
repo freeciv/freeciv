@@ -113,7 +113,7 @@ int civ_population(const struct player *pplayer)
 
 
 /**************************************************************************
-...
+  Find city with given name from any player.
 **************************************************************************/
 struct city *game_city_by_name(const char *name)
 {
@@ -198,7 +198,7 @@ void game_remove_unit(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Remove city from game.
 **************************************************************************/
 void game_remove_city(struct city *pcity)
 {
@@ -517,7 +517,7 @@ void game_ruleset_free(void)
 }
 
 /***************************************************************
-...
+  Initialize wonder information.
 ***************************************************************/
 void initialize_globals(void)
 {

@@ -305,7 +305,7 @@ int unit_disband_shields(const struct unit *punit)
 }
 
 /**************************************************************************
-...
+  How much city shrinks when it builds unit of this type.
 **************************************************************************/
 int utype_pop_value(const struct unit_type *punittype)
 {
@@ -313,7 +313,7 @@ int utype_pop_value(const struct unit_type *punittype)
 }
 
 /**************************************************************************
-...
+  How much population is put to building this unit.
 **************************************************************************/
 int unit_pop_value(const struct unit *punit)
 {
@@ -373,7 +373,8 @@ const char *unit_rule_name(const struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Return string describing unit type values.
+  String is static buffer that gets reused when function is called again.
 **************************************************************************/
 const char *utype_values_string(const struct unit_type *punittype)
 {
@@ -395,7 +396,8 @@ const char *utype_values_string(const struct unit_type *punittype)
 }
 
 /**************************************************************************
-...
+  Return string with translated unit name and list of its values.
+  String is static buffer that gets reused when function is called again.
 **************************************************************************/
 const char *utype_values_translation(const struct unit_type *punittype)
 {
@@ -1097,7 +1099,7 @@ void unit_classes_init(void)
 }
 
 /****************************************************************************
-  ...
+  Return veteran system used for this unit type.
 ****************************************************************************/
 const struct veteran_system *
   utype_veteran_system(const struct unit_type *punittype)
@@ -1113,7 +1115,7 @@ const struct veteran_system *
 }
 
 /****************************************************************************
-  ...
+  Return veteran level properties of given unit in given veterancy level.
 ****************************************************************************/
 const struct veteran_level *
   utype_veteran_level(const struct unit_type *punittype, int level)
@@ -1128,7 +1130,7 @@ const struct veteran_level *
 }
 
 /****************************************************************************
-  ...
+  Return veteran levels of the given unit type.
 ****************************************************************************/
 int utype_veteran_levels(const struct unit_type *punittype)
 {
@@ -1140,7 +1142,7 @@ int utype_veteran_levels(const struct unit_type *punittype)
 }
 
 /****************************************************************************
-  ...
+  Allocate new veteran system structure with given veteran level count.
 ****************************************************************************/
 struct veteran_system *veteran_system_new(int count)
 {
@@ -1158,7 +1160,7 @@ struct veteran_system *veteran_system_new(int count)
 }
 
 /****************************************************************************
-  ...
+  Free veteran system
 ****************************************************************************/
 void veteran_system_destroy(struct veteran_system *vsystem)
 {
@@ -1171,7 +1173,7 @@ void veteran_system_destroy(struct veteran_system *vsystem)
 }
 
 /****************************************************************************
-  ...
+  Fill veteran level in given veteran system with given information.
 ****************************************************************************/
 void veteran_system_definition(struct veteran_system *vsystem, int level,
                                const char *vlist_name, int vlist_power,

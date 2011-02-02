@@ -3153,7 +3153,7 @@ static int bvplayers_count(const struct mapdef *pmapdef)
  */
 
 /****************************************************************************
-  ...
+  Return rgbcolor for img_special
 ****************************************************************************/
 static const struct rgbcolor *imgcolor_special(enum img_special imgcolor)
 {
@@ -3174,7 +3174,7 @@ static const struct rgbcolor *imgcolor_special(enum img_special imgcolor)
 }
 
 /****************************************************************************
-  ...
+  Return rgbcolor for player.
 
   FIXME: nearly identical with get_player_color() in colors_common.c.
 ****************************************************************************/
@@ -3190,7 +3190,7 @@ static const struct rgbcolor *imgcolor_player(int plr_id)
 }
 
 /****************************************************************************
-  ...
+  Return rgbcolor for terrain.
 
   FIXME: nearly identical with get_terrain_color() in colors_common.c.
 ****************************************************************************/

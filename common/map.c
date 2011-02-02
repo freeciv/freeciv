@@ -329,7 +329,7 @@ void map_init_topology(bool set_sizes)
 }
 
 /***************************************************************
-...
+  Initialize tile structure
 ***************************************************************/
 static void tile_init(struct tile *ptile)
 {
@@ -582,7 +582,7 @@ int map_vector_to_sq_distance(int dx, int dy)
 }
 
 /***************************************************************
-...
+  Return real distance between two tiles.
 ***************************************************************/
 int real_map_distance(const struct tile *tile0, const struct tile *tile1)
 {
@@ -593,7 +593,7 @@ int real_map_distance(const struct tile *tile0, const struct tile *tile1)
 }
 
 /***************************************************************
-...
+  Return squared distance between two tiles.
 ***************************************************************/
 int sq_map_distance(const struct tile *tile0, const struct tile *tile1)
 {
@@ -606,7 +606,7 @@ int sq_map_distance(const struct tile *tile0, const struct tile *tile1)
 }
 
 /***************************************************************
-...
+  Return Manhattan distance between two tiles.
 ***************************************************************/
 int map_distance(const struct tile *tile0, const struct tile *tile1)
 {
@@ -643,7 +643,9 @@ bool is_safe_ocean(const struct tile *ptile)
 }
 
 /***************************************************************
-...
+  Is there any kind of water known to be in tile or any of
+  adjacent tiles. Rivers, irrigation and oceanic terrains are
+  considered water tiles.
 ***************************************************************/
 bool is_water_adjacent_to_tile(const struct tile *ptile)
 {
@@ -876,7 +878,7 @@ int map_move_cost(const struct player *pplayer,
 }
 
 /***************************************************************
-...
+  Are two tiles adjacent to each other.
 ***************************************************************/
 bool is_tiles_adjacent(const struct tile *tile0, const struct tile *tile1)
 {
@@ -893,6 +895,9 @@ bool same_pos(const struct tile *tile1, const struct tile *tile2)
   return (tile1 == tile2);
 }
 
+/***************************************************************
+  Is given position real position
+***************************************************************/
 bool is_real_map_pos(int x, int y)
 {
   return normalize_map_pos(&x, &y);

@@ -234,9 +234,9 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
                   stat_size_alone, stat_size_no_compression,
                   stat_size_uncompressed, stat_size_compressed);
   }
-#else
+#else  /* USE_COMPRESSION */
   connection_send_data(pc, data, len);
-#endif
+#endif /* USE_COMPRESSION */
 
 #if PACKET_SIZE_STATISTICS
   {
@@ -381,7 +381,7 @@ void *get_packet_from_connection(struct connection *pc,
     log_compress("COMPRESS: got a normal packet of size %d",
                  whole_packet_len);
   }
-#endif
+#endif /* USE_COMPRESSION */
 
   if ((unsigned)whole_packet_len > pc->buffer->ndata) {
     return NULL;		/* not all data has been read */
@@ -442,7 +442,7 @@ void *get_packet_from_connection(struct connection *pc,
 
     return get_packet_from_connection(pc, ptype, presult);
   }
-#endif
+#endif /* USE_COMPRESSION */
 
   /*
    * At this point the packet is a plain uncompressed one. These have
@@ -510,7 +510,7 @@ void *get_packet_from_connection(struct connection *pc,
                sum, packet_counter, sum / packet_counter);
     }
   }
-#endif
+#endif /* PACKET_SIZE_STATISTICS */
   return get_packet_from_connection_helper(pc, utype.type);
 }
 
@@ -531,7 +531,7 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 }
 
 /**************************************************************************
-  ...
+  Sanity check packet
 **************************************************************************/
 void check_packet(struct data_in *din, struct connection *pc)
 {

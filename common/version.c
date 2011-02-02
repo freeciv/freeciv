@@ -15,10 +15,13 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "fcintl.h"
-#include "fc_types.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "fc_types.h"
 
 #include "version.h"
 
@@ -28,7 +31,7 @@
 
 
 /**********************************************************************
-  ...
+  Return string containing both name of Freeciv and version.
 ***********************************************************************/
 const char *freeciv_name_version(void)
 {
@@ -49,7 +52,7 @@ const char *freeciv_name_version(void)
 }
 
 /**********************************************************************
-  ...
+  Return string describing version type.
 ***********************************************************************/
 const char *word_version(void)
 {
