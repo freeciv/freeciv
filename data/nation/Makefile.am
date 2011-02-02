@@ -177,6 +177,7 @@ pkgdata_DATA = \
 		irish.ruleset \
 		iroquois.ruleset \
 		israeli.ruleset \
+		israelite.ruleset \
 		italian.ruleset \
 		ivoirian.ruleset \
 		jamaican.ruleset \

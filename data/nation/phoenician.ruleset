@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="turkish", "carthaginian", "israeli"
+civilwar_nations="aramean", "carthaginian", "israelite"
 
 cities =
  "Sur", 	; English: "Tyre"

@@ -31,7 +31,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "byzantine", "syrian", "aramean"
-civilwar_nations = "roman", "aramean", "israeli"
+civilwar_nations = "roman", "aramean", "israelite"
 
 cities =
  "Palmyra",

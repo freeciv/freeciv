@@ -174,6 +174,7 @@ flag_files =				\
 		ireland.png		\
 		iroquois.png		\
 		israel.png		\
+		israel_ancient.png	\
 		italy.png		\
 		ivory_coast.png		\
 		jamaica.png		\
@@ -589,6 +590,7 @@ flag_files =				\
 		ireland-large.png		\
 		iroquois-large.png		\
 		israel-large.png		\
+		israel_ancient.png		\
 		italy-large.png		\
 		ivory_coast-large.png		\
 		jamaica-large.png		\
@@ -1006,6 +1008,7 @@ shield_files =					\
 		ireland-shield.png		\
 		iroquois-shield.png		\
 		israel-shield.png		\
+		israel_ancient-shield.png	\
 		italy-shield.png		\
 		ivory_coast-shield.png		\
 		jamaica-shield.png		\
@@ -1421,6 +1424,7 @@ shield_files =					\
 		ireland-shield-large.png		\
 		iroquois-shield-large.png		\
 		israel-shield-large.png		\
+		israel_ancient-shield-large.png		\
 		italy-shield-large.png		\
 		ivory_coast-shield-large.png		\
 		jamaica-shield-large.png		\
@@ -1838,6 +1842,7 @@ svg_files = 				\
 		ireland.svg		\
 		iroquois.svg		\
 		israel.svg		\
+		israel_ancient.svg	\
 		italy.svg		\
 		ivory_coast.svg		\
 		jamaica.svg		\

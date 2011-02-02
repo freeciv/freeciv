@@ -31,7 +31,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "israeli", "persian", "aramean", "sumerian", "assyrian"
+civilwar_nations = "israelite", "persian", "aramean", "sumerian", "assyrian"
 
 cities =
  "Babilum", ; Babylon

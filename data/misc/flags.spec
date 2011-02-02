@@ -181,6 +181,7 @@ artists = "
    Ireland		Lauris Kaplinski
    Iroquois		Daniel Markstedt
    Israel		John C Meuser
+   Israel (ancient)	Tonyjeff (Wikimedia Commons) and J.M. Maalderink
    Italy		Lauris Kaplinski
    Ivory Coast		J.M. Maalderink
    Jamaica		J.M. Maalderink
@@ -602,6 +603,7 @@ sprites =
 		"f.ireland", "flags/ireland"
 		"f.iroquois", "flags/iroquois"
 		"f.israel", "flags/israel"
+		"f.israel_ancient", "flags/israel_ancient"
 		"f.italy", "flags/italy"
 		"f.ivory_coast", "flags/ivory_coast"
 		"f.jamaica", "flags/jamaica"

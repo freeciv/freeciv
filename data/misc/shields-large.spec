@@ -183,6 +183,7 @@ sprites =
 		"f.shield.ireland", "flags/ireland-shield-large"
 		"f.shield.iroquois", "flags/iroquois-shield-large"
 		"f.shield.israel", "flags/israel-shield-large"
+		"f.shield.israel_ancient", "flags/israel_ancient-shield-large"
 		"f.shield.italy", "flags/italy-shield-large"
 		"f.shield.ivory_coast", "flags/ivory_coast-shield-large"
 		"f.shield.jamaica", "flags/jamaica-shield-large"

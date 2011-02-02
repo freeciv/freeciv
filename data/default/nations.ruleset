@@ -226,6 +226,7 @@ match=2
 *include "nation/irish.ruleset"
 *include "nation/iroquois.ruleset"
 *include "nation/israeli.ruleset"
+*include "nation/israelite.ruleset"
 *include "nation/italian.ruleset"
 *include "nation/ivoirian.ruleset"
 *include "nation/jamaican.ruleset"
