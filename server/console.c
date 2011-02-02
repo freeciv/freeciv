@@ -109,6 +109,8 @@ static void con_update_prompt(void)
 static const char *log_prefix(void)
 {
   static char buf[128];
+
+#ifdef LOG_TIMERS
   char timestr[32];
   time_t timestamp;
 
@@ -117,6 +119,10 @@ static const char *log_prefix(void)
            localtime(&timestamp));
 
   fc_snprintf(buf, sizeof(buf), "T%03d - %s", game.info.turn, timestr);
+
+#else  /* LOG_TIMERS */
+  fc_snprintf(buf, sizeof(buf), "T%03d", game.info.turn);
+#endif /* LOG_TIMERS */
 
   return buf;
 }

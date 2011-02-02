@@ -1259,8 +1259,11 @@ void save_game(const char *orig_filename, const char *save_reason,
 
   secfile_destroy(file);
 
+#ifdef LOG_TIMERS
   log_verbose("Save time: %g seconds (%g apparent)",
               read_timer_seconds(timer_cpu), read_timer_seconds(timer_user));
+#endif
+
   free_timer(timer_cpu);
   free_timer(timer_user);
 
@@ -2154,9 +2157,11 @@ static void srv_running(void)
        */
       lsend_packet_thaw_client(game.est_connections);
 
+#ifdef LOG_TIMERS
       /* Before sniff (human player activites), report time to now: */
       log_verbose("End/start-turn server/ai activities: %g seconds",
                   read_timer_seconds(eot_timer));
+#endif
 
       /* Do auto-saves just before starting server_sniff_all_input(), so that
        * autosave happens effectively "at the same time" as manual

@@ -217,7 +217,11 @@ static void ai_manage_taxes(struct player *pplayer)
   int rate_sci_balance = RATE_NOT_SET;
   int rate_lux_min_celebrate = maxrate;
   int delta_tax = 0, delta_sci = 0;
+
+#ifdef DEBUG_TIMERS
   struct timer *taxtimer= NULL;
+#endif
+
   struct cm_parameter cmp;
 
   if (!game.info.changable_tax) {
@@ -228,7 +232,7 @@ static void ai_manage_taxes(struct player *pplayer)
     return; /* This government does not support changing tax rates. */
   }
 
-#ifdef DEBUG
+#ifdef DEBUG_TIMERS
   taxtimer= new_timer_start(TIMER_CPU, TIMER_DEBUG);
 #endif
 
@@ -652,13 +656,13 @@ static void ai_manage_taxes(struct player *pplayer)
 
   send_player_info_c(pplayer, pplayer->connections);
 
-#ifdef DEBUG
+#ifdef DEBUG_TIMERS
   stop_timer(taxtimer);
   log_base(LOGLEVEL_TAX, "Tax calculation for %s (player %d) in %.3f "
                          "seconds.", player_name(pplayer),
            player_index(pplayer), read_timer_seconds(taxtimer));
   free_timer(taxtimer);
-#endif
+#endif /* DEBUG_TIMERS */
 }
 #undef RATE_NOT_SET
 #undef RATE_VALID
