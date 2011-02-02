@@ -19,6 +19,8 @@
 #include "chatline_common.h"
 #include "client_main.h"
 #include "clinet.h"
+#include "mapview_common.h"
+#include "tilespec.h"
 
 // gui-qt
 #include "chatline.h"
@@ -83,11 +85,19 @@ void fc_client::main(QApplication *qapp)
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, NULL);
   chat_welcome_message();
 
+  tileset_init(tileset);
+  tileset_load_tiles(tileset);
+
+  init_mapcanvas_and_overview();
+  map_canvas_resized(MAPVIEW_WIDTH, MAPVIEW_HEIGHT);
+
   set_client_state(C_S_DISCONNECTED);
 
   startTimer(TIMER_INTERVAL);
 
   qapp->exec();
+
+  tileset_free_tiles(tileset);
 }
 
 /****************************************************************************
