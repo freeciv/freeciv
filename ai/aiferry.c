@@ -122,7 +122,7 @@ void aiferry_init_stats(struct player *pplayer)
 #ifdef LOGLEVEL_FERRY_STATS
 static void aiferry_print_stats(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
+  struct adv_data *ai = adv_data_get(pplayer);
   int n = 1;
 
   log_base(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]",
@@ -136,7 +136,8 @@ static void aiferry_print_stats(struct player *pplayer)
               && can_unit_type_transport(unit_type(punit), punitclass)) {
             /* Can transport some land units. */
             log_base(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d", n,
-                     unit_rule_name(punit), punit->id, punit->server.ai->passenger);
+                     unit_rule_name(punit), punit->id,
+                     def_ai_unit_data(punit)->passenger);
             n++;
             break;
           }
@@ -274,7 +275,7 @@ static int aiferry_avail_boats(struct player *pplayer)
 
   unit_list_iterate(pplayer->units, punit) {
     if (is_sailing_unit(punit)
-        && punit->server.ai->passenger == FERRY_AVAILABLE) {
+        && def_ai_unit_data(punit)->passenger == FERRY_AVAILABLE) {
       unit_class_iterate(punitclass) {
         if (punitclass->move_type == UMT_LAND
             && can_unit_type_transport(unit_type(punit), punitclass)) {
