@@ -303,6 +303,7 @@ match=2
 *include "nation/namibian.ruleset"
 *include "nation/navajo.ruleset"
 *include "nation/neapolitan.ruleset"
+*include "nation/nenets.ruleset"
 *include "nation/nepali.ruleset"
 *include "nation/nestorian.ruleset"
 *include "nation/newfoundland.ruleset"

@@ -265,6 +265,7 @@ artists = "
    Naples		J.M. Maalderink
    NATO			Christian Schaller
    Navajo		Daniel Markstedt and J.M.Maalderink
+   Nenetsia		Conscious (Wikimedia Commons)
    Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
    Netherlands		Marc Maurer
@@ -684,6 +685,7 @@ sprites =
 		"f.naples", "flags/naples"
 ;		"f.nato", "flags/nato"
 		"f.navajo", "flags/navajo"
+		"f.nenetsia", "flags/nenetsia"
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"
 		"f.netherlands", "flags/netherlands"

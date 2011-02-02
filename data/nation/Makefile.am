@@ -254,6 +254,7 @@ pkgdata_DATA = \
 		namibian.ruleset \
 		navajo.ruleset \
 		neapolitan.ruleset \
+		nenets.ruleset \
 		nepali.ruleset \
 		nestorian.ruleset \
 		newfoundland.ruleset \

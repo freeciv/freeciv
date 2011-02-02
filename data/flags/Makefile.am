@@ -257,6 +257,7 @@ flag_files =				\
 		naples.png		\
 		nato.png		\
 		navajo.png		\
+		nenetsia.png		\
 		nepal.png		\
 		nestoria.png		\
 		netherlands.png		\
@@ -671,6 +672,7 @@ flag_files =				\
 		naples-large.png		\
 		nato-large.png		\
 		navajo-large.png		\
+		nenetsia-large.png		\
 		nepal-large.png		\
 		nestoria-large.png		\
 		netherlands-large.png		\
@@ -1087,6 +1089,7 @@ shield_files =					\
 		naples-shield.png		\
 		nato-shield.png			\
 		navajo-shield.png		\
+		nenetsia-shield.png		\
 		nepal-shield.png		\
 		nestoria-shield.png		\
 		netherlands-shield.png		\
@@ -1501,6 +1504,7 @@ shield_files =					\
 		naples-shield-large.png		\
 		nato-shield-large.png			\
 		navajo-shield-large.png		\
+		nenetsia-shield-large.png		\
 		nepal-shield-large.png		\
 		nestoria-shield-large.png		\
 		netherlands-shield-large.png		\
@@ -1916,6 +1920,7 @@ svg_files = 				\
 		naples.svg		\
 		nato.svg		\
 		navajo.svg		\
+		nenetsia.svg		\
 		nepal.svg		\
 		nestoria.svg		\
 		netherlands.svg		\
