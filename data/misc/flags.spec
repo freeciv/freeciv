@@ -320,6 +320,7 @@ artists = "
    Qing			Caleb Moore
    Quebec		Patrick Guimond
    Raramuri		J.M. Maalderink
+   Rhineland		J.M. Maalderink
    Rif			Mysid (Wikipedia)
    Romania		Daniel McRae
    Rome			Vasco Alexandre Da Silva Costa, Patricia Fidi
@@ -744,6 +745,7 @@ sprites =
 ;		"f.qing", "flags/qing"			; alt Manchu
 		"f.quebec", "flags/quebec"
 		"f.raramuri", "flags/raramuri"
+		"f.rhineland", "flags/rhineland"
 		"f.rif", "flags/rif"
 		"f.romania", "flags/romania"
 		"f.rome", "flags/rome"			; Roman republic flag

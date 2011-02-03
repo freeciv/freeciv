@@ -39,7 +39,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="bavarian", "hanoverian", "badian", "palatinate"
+civilwar_nations="hanoverian", "badian", "palatinate", "rhenish"
 
 cities =
  "Kassel",
@@ -51,6 +51,7 @@ cities =
  "Nassau",
  "Offenbach am Main",
  "Hanau",
+ "Mainz",
  "Weilburg",
  "Gießen",
  "Fulda",
@@ -58,12 +59,15 @@ cities =
  "Wetzlar",
  "Rodgau",
  "Oberursel",
+ "Worms",
  "Dreieich",
  "Bensheim",
  "Hofheim",
+ "Arolsen",
  "Maintal",
  "Langen",
  "Neu-Isenburg",
+ "Bingen",
  "Mörfelden-Walldorf",
  "Limburg",
  "Dietzenbach",
@@ -72,6 +76,7 @@ cities =
  "Vilbel",
  "Lampertheim",
  "Hersfeld",
+ "Alzey",
  "Taunusstein",
  "Friedberg",
  "Baunatal",
@@ -80,6 +85,7 @@ cities =
  "Griesheim",
  "Hattersheim",
  "Heppenheim",
+ "Nieder-Olm",
  "Butzbach",
  "Pfungstadt",
  "Korbach",
@@ -89,6 +95,7 @@ cities =
  "Obertshausen",
  "Groß-Gerau",
  "Idstein",
+ "Ingelheim",
  "Karben",
  "Stadtallendorf",
  "Gelnhausen",

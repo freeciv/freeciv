@@ -45,10 +45,10 @@ init_units=""
 
 conflicts_with= "badian", "bavarian", "brandenburgian", "franconian", "hanoverian",
  "hessian", "lippian", "mecklenburgian", "oldenburgian", "palatinate", "prussian",
- "saxon", "schleswig-holsteinian", "westphalian", "wuerttembergian"
+ "rhenish", "saxon", "schleswig-holsteinian", "westphalian", "wuerttembergian"
 civilwar_nations= "badian", "bavarian", "brandenburgian", "franconian", "hanoverian",
  "hessian", "lippian", "mecklenburgian", "oldenburgian", "palatinate", "prussian",
- "saxon", "schleswig-holsteinian", "westphalian", "wuerttembergian",
+ "rhenish", "saxon", "schleswig-holsteinian", "westphalian", "wuerttembergian",
  "austrian", "east german"
 
 cities =

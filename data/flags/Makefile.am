@@ -312,6 +312,7 @@ flag_files =				\
 		qing.png		\
 		quebec.png		\
 		raramuri.png		\
+		rhineland.png		\
 		rif.png			\
 		romania.png		\
 		rome.png		\
@@ -731,6 +732,7 @@ flag_files =				\
 		qing-large.png		\
 		quebec-large.png		\
 		raramuri-large.png		\
+		rhineland-large.png		\
 		rif-large.png			\
 		romania-large.png		\
 		rome-large.png		\
@@ -1152,6 +1154,7 @@ shield_files =					\
 		qing-shield.png			\
 		quebec-shield.png		\
 		raramuri-shield.png		\
+		rhineland-shield.png		\
 		rif-shield.png			\
 		romania-shield.png		\
 		rome-shield.png			\
@@ -1571,6 +1574,7 @@ shield_files =					\
 		qing-shield-large.png			\
 		quebec-shield-large.png		\
 		raramuri-shield-large.png		\
+		rhineland-shield-large.png		\
 		rif-shield-large.png			\
 		romania-shield-large.png		\
 		rome-shield-large.png			\
@@ -1990,6 +1994,7 @@ svg_files = 				\
 		purhepecha.svg		\
 		qing.svg		\
 		quebec.svg		\
+		rhineland.svg		\
 		rif.svg			\
 		raramuri.svg		\
 		romania.svg		\

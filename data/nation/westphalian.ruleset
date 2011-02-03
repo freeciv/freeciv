@@ -40,7 +40,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Hanoverian", "Lippian", "Saxon"
+civilwar_nations="Hanoverian", "Lippian", "Saxon", "Rhenish"
 
 cities =
  "Münster",
@@ -88,4 +88,7 @@ cities =
  "Dorsten",
  "Herten",
  "Marl",
- "Bad Oeynhausen"
+ "Bad Oeynhausen",
+ "Winterberg",
+ "Warstein"
+

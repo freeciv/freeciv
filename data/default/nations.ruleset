@@ -354,6 +354,7 @@ match=2
 *include "nation/purhepecha.ruleset"
 *include "nation/quebecois.ruleset"
 *include "nation/raramuri.ruleset"
+*include "nation/rhenish.ruleset"
 *include "nation/riffian.ruleset"
 *include "nation/riograndense.ruleset"
 *include "nation/romanian.ruleset"

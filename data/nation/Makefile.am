@@ -305,6 +305,7 @@ pkgdata_DATA = \
 		purhepecha.ruleset \
 		quebecois.ruleset \
 		raramuri.ruleset \
+		rhenish.ruleset \
 		riffian.ruleset \
 		riograndense.ruleset \
 		romanian.ruleset \
