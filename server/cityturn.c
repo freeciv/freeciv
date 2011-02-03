@@ -435,7 +435,7 @@ static void city_turn_notify(const struct city *pcity,
       package_event(&packet, city_tile(pcity),
                     E_CITY_MAY_SOON_GROW, ftc_server,
                     _("%s may soon grow to size %i."),
-                    city_link(pcity), pcity->size + 1);
+                    city_link(pcity), city_size_get(pcity) + 1);
       lsend_packet_chat_msg(dest, &packet);
       if (NULL != cache_for_player) {
         event_cache_add_for_player(&packet, cache_for_player);
