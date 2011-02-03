@@ -595,8 +595,12 @@ static struct command commands[] = {
   },
   {"fcdb", ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
-   N_("fcdb [reload]"),
-   N_("Reload the freeciv database script."), NULL,
+   N_("fcdb [reload]\n"
+      "fcdb [lua] <script>"),
+   N_("Commands related to the freeciv database support. The argument "
+      "[reload] allows a reset of the script file after a change while the "
+      "argument [lua] allows to evaluate a line of lua script in the contex "
+      "of the lua instance for the freeciv database."), NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
   {"mapimg",   ALLOW_ADMIN,

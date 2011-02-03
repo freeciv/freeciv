@@ -391,3 +391,16 @@ void script_fcdb_free(void)
   }
 #endif /* HAVE_FCDB */
 }
+
+/*****************************************************************************
+  Parse and execute the script in str in the lua instance for the freeciv database.
+*****************************************************************************/
+bool script_fcdb_do_string(const char *str)
+{
+#ifdef HAVE_FCDB
+  int status = luascript_do_string(state, str, "cmd");
+  return (status == 0);
+#else
+  return TRUE;
+#endif /* HAVE_FCDB */
+}

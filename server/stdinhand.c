@@ -144,6 +144,7 @@ static bool delegate_command(struct connection *caller, char *arg,
                              bool check);
 static const char *delegate_player_str(struct player *pplayer, bool observer);
 static bool fcdb_command(struct connection *caller, char *arg, bool check);
+static const char *fcdb_accessor(int i);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
 static bool player_name_check(const char* name, char *buf, size_t buflen);
@@ -5164,22 +5165,111 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
   return ret;
 }
 
+/* Define the possible arguments to the fcdb command */
+#define SPECENUM_NAME fcdb_args
+#define SPECENUM_VALUE0     FCDB_RELOAD
+#define SPECENUM_VALUE0NAME "reload"
+#define SPECENUM_VALUE1     FCDB_LUA
+#define SPECENUM_VALUE1NAME "lua"
+#define SPECENUM_COUNT      FCDB_COUNT
+#include "specenum_gen.h"
+
+/**************************************************************************
+  Returns possible parameters for the fcdb command.
+**************************************************************************/
+static const char *fcdb_accessor(int i)
+{
+  i = CLIP(0, i, fcdb_args_max());
+  return fcdb_args_name((enum fcdb_args) i);
+}
+
 /**************************************************************************
   Handle the freeciv database script module.
 **************************************************************************/
 static bool fcdb_command(struct connection *caller, char *arg, bool check)
 {
-  if (check) {
-    return TRUE;
+  enum m_pre_result result;
+  int ind, ntokens;
+  char *token[1];
+  bool ret = TRUE;
+  bool usage = FALSE;
+
+  ntokens = get_tokens(arg, token, 1, TOKEN_DELIMITERS);
+
+  if (ntokens > 0) {
+    /* match the argument */
+    result = match_prefix(fcdb_accessor, FCDB_COUNT, 0,
+                          fc_strncasecmp, NULL, token[0], &ind);
+
+    switch (result) {
+    case M_PRE_EXACT:
+    case M_PRE_ONLY:
+      /* we have a match */
+      break;
+    case M_PRE_AMBIGUOUS:
+      cmd_reply(CMD_FCDB, caller, C_FAIL,
+                _("Ambiguous fcdb command."));
+      ret =  FALSE;
+      goto cleanup;
+      break;
+    case M_PRE_EMPTY:
+    case M_PRE_LONG:
+    case M_PRE_FAIL:
+    case M_PRE_LAST:
+      usage = TRUE;
+      break;
+    }
+  } else {
+    usage = TRUE;
   }
 
-  if (fc_strcasecmp(arg, "reload") == 0) {
-    /* reload database lua scrip */
+  if (usage) {
+    char buf[256] = "";
+    enum fcdb_args valid_args;
+
+    for (valid_args = fcdb_args_begin();
+        valid_args != fcdb_args_end();
+        valid_args = fcdb_args_next(valid_args)) {
+      cat_snprintf(buf, sizeof(buf), "'%s'",
+                   fcdb_args_name(valid_args));
+      if (valid_args != fcdb_args_max()) {
+        cat_snprintf(buf, sizeof(buf), ", ");
+      }
+    }
+
+    cmd_reply(CMD_FCDB, caller, C_FAIL,
+              _("The valid arguments are: %s."), buf);
+    ret =  FALSE;
+    goto cleanup;
+  }
+
+  if (check) {
+    ret = TRUE;
+    goto cleanup;
+  }
+
+  switch (ind) {
+  case FCDB_RELOAD:
+    /* Reload database lua script. */
     script_fcdb_free();
     script_fcdb_init(NULL);
+    break;
+
+  case FCDB_LUA:
+    /* Skip whitespaces. */
+    arg = skip_leading_spaces(arg);
+    /* Skip the base argument 'lua'. */
+    arg += 3;
+    /* Now execute the scriptlet. */
+    ret = script_fcdb_do_string(arg);
+    break;
   }
 
-  return TRUE;
+  cleanup:
+
+  free_tokens(token, ntokens);
+
+  return ret;
 }
 
 /**************************************************************************

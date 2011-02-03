@@ -41,6 +41,8 @@ bool script_fcdb_init(const char *fcdb_luafile);
 enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...);
 void script_fcdb_free(void);
 
+bool script_fcdb_do_string(const char *str);
+
 /* Returns additional arguments on failure. */
 #define SCRIPT_FCDB_ASSERT_CAT(str1, str2) str1 ## str2
 
