@@ -18,4 +18,10 @@ extern "C" {
 #include "canvas_g.h"
 }
 
+#include "QGraphicsScene"
+
+struct canvas {
+  QGraphicsScene scene;
+};
+
 #endif /* FC__CANVAS_H */

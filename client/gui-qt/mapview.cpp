@@ -29,6 +29,7 @@
 #include "mapctrl_common.h"
 
 // qui-qt
+#include "fc_client.h"
 #include "qtg_cxxside.h"
 
 #include "mapview.h"

@@ -43,6 +43,20 @@ void setup_gui_funcs()
   funcs->color_alloc = qtg_color_alloc;
   funcs->color_free = qtg_color_free;
 
+  funcs->canvas_create = qtg_canvas_create;
+  funcs->canvas_free = qtg_canvas_free;
+  funcs->canvas_copy = qtg_canvas_copy;
+  funcs->canvas_put_sprite = qtg_canvas_put_sprite;
+  funcs->canvas_put_sprite_full = qtg_canvas_put_sprite_full;
+  funcs->canvas_put_sprite_fogged = qtg_canvas_put_sprite_fogged;
+  funcs->canvas_put_rectangle = qtg_canvas_put_rectangle;
+  funcs->canvas_fill_sprite_area = qtg_canvas_fill_sprite_area;
+  funcs->canvas_fog_sprite_area = qtg_canvas_fog_sprite_area;
+  funcs->canvas_put_line = qtg_canvas_put_line;
+  funcs->canvas_put_curved_line = qtg_canvas_put_curved_line;
+  funcs->get_text_size = qtg_get_text_size;
+  funcs->canvas_put_text = qtg_canvas_put_text;
+
   funcs->gui_set_rulesets = qtg_gui_set_rulesets;
   funcs->gui_options_extra_init = qtg_gui_options_extra_init;
   funcs->gui_server_connect = qtg_gui_server_connect;

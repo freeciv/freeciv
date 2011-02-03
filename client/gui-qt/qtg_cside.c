@@ -175,6 +175,136 @@ void color_free(struct color *pcolor)
 }
 
 /**************************************************************************
+  Call c++ canvas_create
+**************************************************************************/
+struct canvas *canvas_create(int width, int height)
+{
+  return funcs.canvas_create(width, height);
+}
+
+/**************************************************************************
+  Call c++ canvas_free
+**************************************************************************/
+void canvas_free(struct canvas *store)
+{
+  funcs.canvas_free(store);
+}
+
+/**************************************************************************
+  Call c++ canvas_copy
+**************************************************************************/
+void canvas_copy(struct canvas *dest, struct canvas *src,
+		     int src_x, int src_y, int dest_x, int dest_y, int width,
+		     int height)
+{
+  funcs.canvas_copy(dest, src, src_x, src_y, dest_x, dest_y, width, height);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_sprite
+**************************************************************************/
+void canvas_put_sprite(struct canvas *pcanvas,
+                       int canvas_x, int canvas_y,
+                       struct sprite *psprite,
+                       int offset_x, int offset_y, int width, int height)
+{
+  funcs.canvas_put_sprite(pcanvas, canvas_x, canvas_y, psprite,
+                          offset_x, offset_y, width, height);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_sprite_full
+**************************************************************************/
+void canvas_put_sprite_full(struct canvas *pcanvas,
+                            int canvas_x, int canvas_y,
+                            struct sprite *psprite)
+{
+  funcs.canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, psprite);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_sprite_fogged
+**************************************************************************/
+void canvas_put_sprite_fogged(struct canvas *pcanvas,
+			      int canvas_x, int canvas_y,
+			      struct sprite *psprite,
+			      bool fog, int fog_x, int fog_y)
+{
+  funcs.canvas_put_sprite_fogged(pcanvas, canvas_x, canvas_y,
+                                 psprite, fog, fog_x, fog_y);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_rectangle
+**************************************************************************/
+void canvas_put_rectangle(struct canvas *pcanvas,
+                          struct color *pcolor,
+                          int canvas_x, int canvas_y, int width, int height)
+{
+  funcs.canvas_put_rectangle(pcanvas, pcolor, canvas_x, canvas_y,
+                             width, height);
+}
+
+/**************************************************************************
+  Call c++ canvas_fill_sprite_area
+**************************************************************************/
+void canvas_fill_sprite_area(struct canvas *pcanvas,
+			     struct sprite *psprite, struct color *pcolor,
+			     int canvas_x, int canvas_y)
+{
+  funcs.canvas_fill_sprite_area(pcanvas, psprite, pcolor, canvas_x, canvas_y);
+}
+
+/**************************************************************************
+  Call c++ canvas_fog_sprite_area
+**************************************************************************/
+void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
+			    int canvas_x, int canvas_y)
+{
+  funcs.canvas_fog_sprite_area(pcanvas, psprite, canvas_x, canvas_y);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_line
+**************************************************************************/
+void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
+                     enum line_type ltype, int start_x, int start_y,
+                     int dx, int dy)
+{
+  funcs.canvas_put_line(pcanvas, pcolor, ltype, start_x, start_y, dx, dy);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_curved_line
+**************************************************************************/
+void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
+                            enum line_type ltype, int start_x, int start_y,
+                            int dx, int dy)
+{
+  funcs.canvas_put_curved_line(pcanvas, pcolor, ltype, start_x, start_y,
+                               dx, dy);
+}
+
+/**************************************************************************
+  Call c++ get_text_size
+**************************************************************************/
+void get_text_size(int *width, int *height,
+		   enum client_font font, const char *text)
+{
+  funcs.get_text_size(width, height, font, text);
+}
+
+/**************************************************************************
+  Call c++ canvas_put_text
+**************************************************************************/
+void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		     enum client_font font, struct color *pcolor,
+		     const char *text)
+{
+  funcs.canvas_put_text(pcanvas, canvas_x, canvas_y, font, pcolor, text);
+}
+
+/**************************************************************************
   Call c++ gui_set_rulesets
 **************************************************************************/
 void gui_set_rulesets(int num_rulesets, char **rulesets)

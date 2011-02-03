@@ -18,6 +18,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "canvas_g.h"
 #include "pages_g.h"
 
 struct gui_funcs {
@@ -43,6 +44,44 @@ struct gui_funcs {
 
   struct color *(*color_alloc)(int r, int g, int b);
   void (*color_free)(struct color *pcolor);
+
+  struct canvas *(*canvas_create)(int width, int height);
+  void (*canvas_free)(struct canvas *store);
+  void (*canvas_copy)(struct canvas *dest, struct canvas *src,
+                      int src_x, int src_y, int dest_x, int dest_y, int width,
+                      int height);
+  void (*canvas_put_sprite)(struct canvas *pcanvas,
+                            int canvas_x, int canvas_y,
+                            struct sprite *psprite,
+                            int offset_x, int offset_y, int width, int height);
+  void (*canvas_put_sprite_full)(struct canvas *pcanvas,
+                                 int canvas_x, int canvas_y,
+                                 struct sprite *psprite);
+  void (*canvas_put_sprite_fogged)(struct canvas *pcanvas,
+                                   int canvas_x, int canvas_y,
+                                   struct sprite *psprite,
+                                   bool fog, int fog_x, int fog_y);
+  void (*canvas_put_rectangle)(struct canvas *pcanvas,
+                               struct color *pcolor,
+                               int canvas_x, int canvas_y,
+                               int width, int height);
+  void (*canvas_fill_sprite_area)(struct canvas *pcanvas,
+                                  struct sprite *psprite, struct color *pcolor,
+                                  int canvas_x, int canvas_y);
+  void (*canvas_fog_sprite_area)(struct canvas *pcanvas,
+                                 struct sprite *psprite,
+                                 int canvas_x, int canvas_y);
+  void (*canvas_put_line)(struct canvas *pcanvas, struct color *pcolor,
+                          enum line_type ltype, int start_x, int start_y,
+                          int dx, int dy);
+  void (*canvas_put_curved_line)(struct canvas *pcanvas, struct color *pcolor,
+                                 enum line_type ltype, int start_x, int start_y,
+                                 int dx, int dy);
+  void (*get_text_size)(int *width, int *height,
+                        enum client_font font, const char *text);
+  void (*canvas_put_text)(struct canvas *pcanvas, int canvas_x, int canvas_y,
+                          enum client_font font, struct color *pcolor,
+                          const char *text);
 
   void (*gui_set_rulesets)(int num_rulesets, char **rulesets);
   void (*gui_options_extra_init)(void);
