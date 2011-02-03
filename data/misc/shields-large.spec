@@ -272,6 +272,7 @@ sprites =
 		"f.shield.nepal", "flags/nepal-shield-large"
 		"f.shield.nestoria", "flags/nestoria-shield-large"
 		"f.shield.netherlands", "flags/netherlands-shield-large"
+		"f.shield.netherlands_antilles", "flags/netherlands_antilles-shield-large"
 		"f.shield.newfoundland", "flags/newfoundland-shield-large"
 		"f.shield.newzealand", "flags/newzealand-shield-large"
 		"f.shield.nez_perce", "flags/nez_perce-shield-large"

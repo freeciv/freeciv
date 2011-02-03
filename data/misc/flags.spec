@@ -271,6 +271,7 @@ artists = "
    Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
    Netherlands		Marc Maurer
+   Netherlands Antilles	J.M. Maalderink
    Newfoundland		J.M. Maalderink
    New Zealand		Daniel McRae
    Nez Perce		Daniel Markstedt
@@ -693,6 +694,7 @@ sprites =
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"
 		"f.netherlands", "flags/netherlands"
+		"f.netherlands_antilles", "flags/netherlands_antilles"
 		"f.newfoundland", "flags/newfoundland"
 		"f.newzealand", "flags/newzealand"
 		"f.nez_perce", "flags/nez_perce"

@@ -263,6 +263,7 @@ flag_files =				\
 		nepal.png		\
 		nestoria.png		\
 		netherlands.png		\
+		netherlands_antilles.png	\
 		newfoundland.png	\
 		newzealand.png		\
 		nez_perce.png		\
@@ -680,6 +681,7 @@ flag_files =				\
 		nepal-large.png		\
 		nestoria-large.png		\
 		netherlands-large.png		\
+		netherlands_antilles-large.png	\
 		newfoundland-large.png	\
 		newzealand-large.png		\
 		nez_perce-large.png		\
@@ -1099,6 +1101,7 @@ shield_files =					\
 		nepal-shield.png		\
 		nestoria-shield.png		\
 		netherlands-shield.png		\
+		netherlands_antilles-shield.png	\
 		newfoundland-shield.png		\
 		newzealand-shield.png		\
 		nez_perce-shield.png		\
@@ -1516,6 +1519,7 @@ shield_files =					\
 		nepal-shield-large.png		\
 		nestoria-shield-large.png		\
 		netherlands-shield-large.png		\
+		netherlands_antilles-shield-large.png	\
 		newfoundland-shield-large.png		\
 		newzealand-shield-large.png		\
 		nez_perce-shield-large.png		\
@@ -1934,6 +1938,7 @@ svg_files = 				\
 		nepal.svg		\
 		nestoria.svg		\
 		netherlands.svg		\
+		netherlands_antilles.svg	\
 		newfoundland.svg	\
 		newzealand.svg		\
 		nez_perce.svg		\
