@@ -5194,6 +5194,12 @@ static bool fcdb_command(struct connection *caller, char *arg, bool check)
   bool ret = TRUE;
   bool usage = FALSE;
 
+#ifndef HAVE_FCDB
+  cmd_reply(CMD_FCDB, caller, C_FAIL,
+            _("Freeciv database script deactivated at compile time."));
+  return FALSE;
+#endif
+
   ntokens = get_tokens(arg, token, 1, TOKEN_DELIMITERS);
 
   if (ntokens > 0) {
