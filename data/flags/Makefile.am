@@ -188,6 +188,7 @@ flag_files =				\
 		karelia.png		\
 		kashmir.png		\
 		kashubia.png		\
+		katanga.png		\
 		kazakhstan.png		\
 		keetoowah.png		\
 		kenya.png		\
@@ -606,6 +607,7 @@ flag_files =				\
 		karelia-large.png		\
 		kashmir-large.png		\
 		kashubia-large.png		\
+		katanga-large.png		\
 		kazakhstan-large.png		\
 		keetoowah-large.png		\
 		kenya-large.png		\
@@ -1026,6 +1028,7 @@ shield_files =					\
 		karelia-shield.png		\
 		kashmir-shield.png		\
 		kashubia-shield.png		\
+		katanga-shield.png		\
 		kazakhstan-shield.png		\
 		keetoowah-shield.png		\
 		kenya-shield.png		\
@@ -1444,6 +1447,7 @@ shield_files =					\
 		karelia-shield-large.png		\
 		kashmir-shield-large.png		\
 		kashubia-shield-large.png		\
+		katanga-shield-large.png		\
 		kazakhstan-shield-large.png		\
 		keetoowah-shield-large.png		\
 		kenya-shield-large.png		\
@@ -1864,6 +1868,7 @@ svg_files = 				\
 		karelia.svg		\
 		kashmir.svg		\
 		kashubia.svg		\
+		katanga.svg		\
 		kazakhstan.svg		\
 		keetoowah.svg		\
 		kenya.svg		\

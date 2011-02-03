@@ -195,6 +195,7 @@ artists = "
    Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons)
    Kashmir		Nichalp (Wikimedia Commons)
    Kashubia		Krun (Wikimedia Commons)
+   Katanga		Lexicon and Froztbyte (Wikimedia Commons)
    Kazakhstan		-xfi-
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
@@ -619,6 +620,7 @@ sprites =
 		"f.karelia", "flags/karelia"
 		"f.kashmir", "flags/kashmir"
 		"f.kashubia", "flags/kashubia"
+		"f.katanga", "flags/katanga"
 		"f.kazakhstan", "flags/kazakhstan"
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"

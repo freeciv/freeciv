@@ -190,6 +190,7 @@ pkgdata_DATA = \
 		karelian.ruleset \
 		kashmiri.ruleset \
 		kashubian.ruleset \
+		katangan.ruleset \
 		kazakh.ruleset \
 		kenyan.ruleset \
 		khazar.ruleset \
