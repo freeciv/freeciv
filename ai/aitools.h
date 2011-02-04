@@ -92,7 +92,7 @@ bool is_unit_choice_type(enum choice_type type);
 bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
                          struct ai_choice *choice, enum choice_type type,
                          int role, int want, bool need_boat);
-void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice);
+void ai_build_adv_override(struct city *pcity, struct ai_choice *choice);
 bool ai_assess_military_unhappiness(struct city *pcity);
 
 bool ai_wants_no_science(struct player *pplayer);

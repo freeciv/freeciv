@@ -73,6 +73,7 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.city_free = ai_city_free;
   ai->funcs.city_save = ai_city_save;
   ai->funcs.city_load = ai_city_load;
+  ai->funcs.choose_building = ai_build_adv_override;
 
   /*
     ai->funcs.city_got = NULL;

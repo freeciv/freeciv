@@ -1306,3 +1306,79 @@ void building_advisor(struct player *pplayer)
     }
   } city_list_iterate_end;
 }
+
+/**************************************************************************
+  Choose improvement we like most and put it into ai_choice.
+
+ "I prefer the ai_choice as a return value; gcc prefers it as an arg" 
+  -- Syela 
+**************************************************************************/
+void building_advisor_choose(struct city *pcity, struct ai_choice *choice)
+{
+  struct player *plr = city_owner(pcity);
+  struct impr_type *chosen = NULL;
+  int want = 0;
+  struct ai_city *city_data = def_ai_city_data(pcity);
+
+  improvement_iterate(pimprove) {
+    if (is_wonder(pimprove)) {
+      continue; /* Humans should not be advised to build wonders or palace */
+    }
+    if (city_data->building_want[improvement_index(pimprove)] > want
+          && can_city_build_improvement_now(pcity, pimprove)) {
+      want = city_data->building_want[improvement_index(pimprove)];
+      chosen = pimprove;
+    }
+  } improvement_iterate_end;
+
+  choice->want = want;
+  choice->value.building = chosen;
+
+  if (chosen) {
+    choice->type = CT_BUILDING;
+
+    CITY_LOG(LOG_DEBUG, pcity, "wants most to build %s at %d",
+             improvement_rule_name(chosen),
+             want);
+  } else {
+    choice->type = CT_NONE;
+  }
+  choice->need_boat = FALSE;
+
+  /* Allow ai to override */
+  CALL_PLR_AI_FUNC(choose_building, plr, pcity, choice);
+}
+
+/**************************************************************************
+  Setup improvement building
+**************************************************************************/
+void advisor_choose_build(struct player *pplayer, struct city *pcity)
+{
+  struct ai_choice choice;
+
+  building_advisor_choose(pcity, &choice);
+
+  if (valid_improvement(choice.value.building)) {
+    struct universal target = {
+      .kind = VUT_IMPROVEMENT,
+      .value = {.building = choice.value.building}
+    };
+
+    change_build_target(pplayer, pcity, target, E_IMP_AUTO);
+    return;
+  }
+
+  /* Build the first thing we can think of (except a new palace). */
+  improvement_iterate(pimprove) {
+    if (can_city_build_improvement_now(pcity, pimprove)
+	&& !building_has_effect(pimprove, EFT_CAPITAL_CITY)) {
+      struct universal target = {
+        .kind = VUT_IMPROVEMENT,
+        .value = {.building = pimprove}
+      };
+
+      change_build_target(pplayer, pcity, target, E_IMP_AUTO);
+      return;
+    }
+  } improvement_iterate_end;
+}

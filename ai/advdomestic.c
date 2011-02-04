@@ -37,6 +37,7 @@
 #include "srv_log.h"
 
 /* server/advisors */
+#include "advbuilding.h"
 #include "advdata.h"
 #include "autosettlers.h"
 
@@ -363,7 +364,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     init_choice(&cur);
     /* Consider city improvements */
-    ai_advisor_choose_building(pcity, &cur);
+    building_advisor_choose(pcity, &cur);
     copy_if_better_choice(&cur, choice);
 
     init_choice(&cur);

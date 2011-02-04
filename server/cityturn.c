@@ -61,6 +61,7 @@
 #include "unithand.h"
 
 /* server/advisors */
+#include "advbuilding.h"
 #include "advdata.h"
 #include "autosettlers.h"
 
@@ -68,7 +69,6 @@
 
 /* ai */
 #include "advdomestic.h"
-#include "aitools.h"
 
 
 /* Queue for pending city_refresh() */
@@ -895,41 +895,6 @@ static void city_populate(struct city *pcity)
 			 * granary_savings(pcity)) / 100;
     city_reduce_size(pcity, 1, NULL);
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void advisor_choose_build(struct player *pplayer, struct city *pcity)
-{
-  struct ai_choice choice;
-
-  /* See what AI has to say */
-  ai_advisor_choose_building(pcity, &choice);
-
-  if (valid_improvement(choice.value.building)) {
-    struct universal target = {
-      .kind = VUT_IMPROVEMENT,
-      .value = {.building = choice.value.building}
-    };
-
-    change_build_target(pplayer, pcity, target, E_IMP_AUTO);
-    return;
-  }
-
-  /* Build the first thing we can think of (except a new palace). */
-  improvement_iterate(pimprove) {
-    if (can_city_build_improvement_now(pcity, pimprove)
-	&& !building_has_effect(pimprove, EFT_CAPITAL_CITY)) {
-      struct universal target = {
-        .kind = VUT_IMPROVEMENT,
-        .value = {.building = pimprove}
-      };
-
-      change_build_target(pplayer, pcity, target, E_IMP_AUTO);
-      return;
-    }
-  } improvement_iterate_end;
 }
 
 /**************************************************************************

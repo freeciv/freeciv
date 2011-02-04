@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Jan.22"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.05"
 
 #define FC_AI_LAST 3
 
@@ -65,6 +65,7 @@ struct ai_type
                       const char *citystr);
     void (*city_load)(const struct section_file *file, struct city *pcity,
                       const char *citystr);
+    void (*choose_building)(struct city *pcity, struct ai_choice *choice);
 
     void (*units_ruleset_init)(void);
 

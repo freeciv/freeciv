@@ -1267,26 +1267,30 @@ bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-  Choose improvement we like most and put it into ai_choice.
-
- "I prefer the ai_choice as a return value; gcc prefers it as an arg" 
-  -- Syela 
+  Consider overriding building target selected by common advisor code.
 **************************************************************************/
-void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
+void ai_build_adv_override(struct city *pcity, struct ai_choice *choice)
 {
-  struct impr_type *chosen = NULL;
-  int want = 0;
-  struct player *plr = city_owner(pcity);
+  struct impr_type *chosen;
+  int want;
   struct ai_city *city_data = def_ai_city_data(pcity);
 
+  if (choice->type == CT_NONE) {
+    want = 0;
+    chosen = NULL;
+  } else {
+    want = choice->want;
+    chosen = choice->value.building;
+  }
+
   improvement_iterate(pimprove) {
-    if (!plr->ai_controlled && is_wonder(pimprove)) {
-      continue; /* Humans should not be advised to build wonders or palace */
-    }
-    if (city_data->building_want[improvement_index(pimprove)] > want
-        && can_city_build_improvement_now(pcity, pimprove)) {
-      want = city_data->building_want[improvement_index(pimprove)];
-      chosen = pimprove;
+    /* Advisor code did not consider wonders, let's do it here */
+    if (is_wonder(pimprove)) {
+      if (city_data->building_want[improvement_index(pimprove)] > want
+          && can_city_build_improvement_now(pcity, pimprove)) {
+        want = city_data->building_want[improvement_index(pimprove)];
+        chosen = pimprove;
+      }
     }
   } improvement_iterate_end;
 
@@ -1294,15 +1298,12 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   choice->value.building = chosen;
 
   if (chosen) {
-    choice->type = CT_BUILDING;
+    choice->type = CT_BUILDING; /* In case advisor had not chosen anything */
 
-    CITY_LOG(LOG_DEBUG, pcity, "wants most to build %s at %d",
+    CITY_LOG(LOG_DEBUG, pcity, "ai wants most to build %s at %d",
              improvement_rule_name(chosen),
              want);
-  } else {
-    choice->type = CT_NONE;
   }
-  choice->need_boat = FALSE;
 }
 
 /**********************************************************************

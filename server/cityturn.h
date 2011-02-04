@@ -42,7 +42,6 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh);
 void remove_obsolete_buildings(struct player *pplayer);
 
 void choose_build_target(struct player *pplayer, struct city *pcity);
-void advisor_choose_build(struct player *pplayer, struct city *pcity);
 
 void nullify_prechange_production(struct city *pcity);
 
