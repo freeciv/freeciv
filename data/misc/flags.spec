@@ -54,6 +54,7 @@ artists = "
    Bavarian		Jörgen Scheibengruber
    Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
+   Bengal		Daniel Markstedt
    Benin (ancient)	Orange Tuesday (Wikimedia Commons)
    Bhutan		Denelson83 and Zachary Harden (Wikimedia Commons)
    Biafra		J.M. Maalderink
@@ -479,6 +480,7 @@ sprites =
 		"f.bavarian", "flags/bavarian"
 		"f.belarus", "flags/belarus"
 		"f.belgium", "flags/belgium"
+		"f.bengal", "flags/bengal"
 		"f.benin_ancient", "flags/benin_ancient"
 		"f.bhutan", "flags/bhutan"
 		"f.biafra", "flags/biafra"
