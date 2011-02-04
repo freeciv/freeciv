@@ -35,7 +35,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Nuu-chah-nulth", "Nimiipuu" ;Chinook
+civilwar_nations="Nuu-chah-nulth", "Nimiipuu", "Chinook"
 
 cities =
 ; Names based on tribes, bands and assorted geographical names. Tried to be

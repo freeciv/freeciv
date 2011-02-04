@@ -135,6 +135,7 @@ match=2
 *include "nation/chilean.ruleset"
 *include "nation/chimu.ruleset"
 *include "nation/chinese.ruleset"
+*include "nation/chinook.ruleset"
 *include "nation/chola.ruleset"
 *include "nation/chumash.ruleset"
 *include "nation/colombian.ruleset"
