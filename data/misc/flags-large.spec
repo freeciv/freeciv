@@ -332,6 +332,7 @@ sprites =
 		"f.ryukyu", "flags/ryukyu-large"
 		"f.sadr", "flags/sadr-large"
 		"f.sakha", "flags/sakha-large"
+		"f.salish", "flags/salish-large"
 		"f.samogitia", "flags/samogitia-large"
 		"f.san_marino", "flags/san_marino-large"
 		"f.sapmi", "flags/sapmi-large"

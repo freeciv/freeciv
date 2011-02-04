@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="cherokee", "sioux"
+civilwar_nations="salishan", "sioux"
 
 cities =
  "Ahousaht",

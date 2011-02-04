@@ -323,6 +323,7 @@ flag_files =				\
 		ryukyu.png		\
 		sadr.png		\
 		sakha.png		\
+		salish.png		\
 		samogitia.png		\
 		san_marino.png		\
 		sapmi.png		\
@@ -744,6 +745,7 @@ flag_files =				\
 		ryukyu-large.png		\
 		sadr-large.png		\
 		sakha-large.png		\
+		salish-large.png		\
 		samogitia-large.png		\
 		san_marino-large.png		\
 		sapmi-large.png		\
@@ -1167,6 +1169,7 @@ shield_files =					\
 		ryukyu-shield.png		\
 		sadr-shield.png			\
 		sakha-shield.png		\
+		salish-shield.png		\
 		samogitia-shield.png		\
 		san_marino-shield.png		\
 		sapmi-shield.png		\
@@ -1588,6 +1591,7 @@ shield_files =					\
 		ryukyu-shield-large.png		\
 		sadr-shield-large.png			\
 		sakha-shield-large.png		\
+		salish-shield-large.png			\
 		samogitia-shield-large.png		\
 		san_marino-shield-large.png		\
 		sapmi-shield-large.png		\
@@ -2010,6 +2014,7 @@ svg_files = 				\
 		ryukyu.svg		\
 		sadr.svg		\
 		sakha.svg		\
+		salish.svg		\
 		samogitia.svg		\
 		san_marino.svg		\
 		sapmi.svg		\

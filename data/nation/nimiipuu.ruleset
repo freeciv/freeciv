@@ -77,7 +77,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "American", "Sioux", "Nuu-chah-nulth"
+civilwar_nations = "Salishan", "Sioux", "Nuu-chah-nulth"
 
 cities =
 ; Modern communities
