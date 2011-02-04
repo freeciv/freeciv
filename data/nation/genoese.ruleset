@@ -2,7 +2,7 @@
 
 name=_("Genoese")
 plural=_("?plural:Genoese")
-groups="Modern", "Medieval", "Early Modern", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("The Most Serene Republic of Genoa (Italian: Repubblica di Genova)\
  was an independent state in Liguria on the northwestern Italian coast from\
  the 11th century to 1797, when it was invaded by armies of Revolutionary\
