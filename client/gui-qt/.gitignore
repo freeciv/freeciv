@@ -1,3 +1,4 @@
 /Makefile.in
 /Makefile
 /.deps
+/meta_fc_client.cpp
