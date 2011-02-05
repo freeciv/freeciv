@@ -145,4 +145,3 @@ int city_gold_worth(struct city *pcity)
   }
   return worth;
 }
-

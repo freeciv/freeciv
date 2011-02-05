@@ -18,14 +18,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "city.h"
-#include "game.h"
-#ifdef DEBUG
+/* utility */
 #include "log.h"
-#endif
-#include "map.h"
 #include "mem.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "map.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"

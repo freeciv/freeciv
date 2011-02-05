@@ -296,7 +296,7 @@ static int reverse_move_unit(const struct tile *tile0,
 
   return move_cost;
 }
-#endif
+#endif /* UNUSED */
 
 /************************************************************ 
   IGTER_MOVE cost function for a unit 
@@ -361,7 +361,7 @@ static int reverse_igter_move_unit(const struct tile *tile0,
   }
   return move_cost;
 }
-#endif
+#endif /* UNUSED */
 
 
 /****************************************************************************
@@ -430,7 +430,7 @@ static int afraid_of_dark_forest(const struct tile *ptile,
 
   return 0;
 }
-#endif
+#endif /* UNUSED */
 
 /****************************************************************************
   Extra cost call back for amphibious movement

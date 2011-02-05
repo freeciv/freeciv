@@ -106,7 +106,7 @@ static struct {
 } performance;
 
 static void print_performance(struct one_perf *counts);
-#endif
+#endif /* GATHER_TIME_STATS */
 
 /* Fitness of a solution.  */
 struct cm_fitness {
@@ -270,6 +270,10 @@ static void real_print_partial_solution(enum log_level level,
 static void cm_result_copy(struct cm_result *result,
                            const struct city *pcity, bool *workers_map);
 
+static double estimate_fitness(const struct cm_state *state,
+			       const int production[]);
+static bool choice_is_promising(struct cm_state *state, int newchoice);
+
 /****************************************************************************
   Initialize the CM data at the start of each game.  Note the citymap
   indices will not have been initialized yet (cm_init_citymap is called
@@ -286,7 +290,7 @@ void cm_init(void)
 
   performance.opt.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
   performance.opt.name = "opt";
-#endif
+#endif /* GATHER_TIME_STATS */
 }
 
 /****************************************************************************
@@ -319,7 +323,7 @@ void cm_free(void)
   free_timer(performance.greedy.wall_timer);
   free_timer(performance.opt.wall_timer);
   memset(&performance, 0, sizeof(performance));
-#endif
+#endif /* GATHER_TIME_STATS */
 }
 
 /****************************************************************************
@@ -1127,9 +1131,6 @@ static void clean_lattice(struct tile_type_vector *lattice,
   estimate_fitness is later, in a section of code that isolates
   much of the domain-specific knowledge.
 ****************************************************************************/
-static double estimate_fitness(const struct cm_state *state,
-			       const int production[]);
-
 static void sort_lattice_by_fitness(const struct cm_state *state,
 				    struct tile_type_vector *lattice)
 {
@@ -1326,8 +1327,6 @@ static bool prereqs_filled(const struct partial_solution *soln, int type,
     solution so far.
   If oldchoice == -1 then we return the first possible choice.
 ****************************************************************************/
-static bool choice_is_promising(struct cm_state *state, int newchoice);
-
 static int next_choice(struct cm_state *state, int oldchoice)
 {
   int newchoice;
@@ -1777,7 +1776,7 @@ static void end_search(struct cm_state *state)
 #endif
 
   performance.current = NULL;
-#endif
+#endif /* GATHER_TIME_STATS */
 }
 
 /****************************************************************************
@@ -2130,7 +2129,7 @@ static void print_performance(struct one_perf *counts)
            "CM-%s: overall=%fs queries=%d %fms / query, %d applies",
            counts->name, s, queries, ms / q, applies);
 }
-#endif
+#endif /* GATHER_TIME_STATS */
 
 /****************************************************************************
   Print debugging information about one city.
