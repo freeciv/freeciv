@@ -558,7 +558,8 @@ void client_packet_input(void *packet, int type)
       && PACKET_PROCESSING_STARTED != type
       && PACKET_PROCESSING_FINISHED != type
       && PACKET_SERVER_JOIN_REPLY != type
-      && PACKET_AUTHENTICATION_REQ != type) {
+      && PACKET_AUTHENTICATION_REQ != type
+      && PACKET_CONNECT_MSG != type) {
     log_error("Received packet %s (%d) before establishing connection!",
               packet_name(type), type);
     disconnect_from_server();
