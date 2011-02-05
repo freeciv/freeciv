@@ -36,6 +36,9 @@ void ai_data_init(struct player *pplayer)
 
   ai->phase_initialized = FALSE;
 
+  ai->last_num_continents = -1;
+  ai->last_num_oceans = -1;
+
   ai->channels = NULL;
 }
 
@@ -52,6 +55,12 @@ void ai_data_close(struct player *pplayer)
 void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
+
+  /* Note that this refreshes advisor data if needed. ai_plr_data_get()
+     is expected to refresh advisor data if needed, and ai_plr_data_get()
+     depends on this call
+     ai_plr_data_get()->ai_data_phase_begin()->adv_data_get() to do it.
+     If you change this, you may need to adjust ai_plr_data_get() also. */
   struct adv_data *adv = adv_data_get(pplayer);
   int i;
 
@@ -60,6 +69,11 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
   }
 
   ai->phase_initialized = TRUE;
+
+  /* Store current number of known continents and oceans so we can compare
+     against it later in order to see if ai data needs refreshing. */
+  ai->last_num_continents = adv->num_continents;
+  ai->last_num_oceans = adv->num_oceans;
 
   /*** Channels ***/
 
@@ -138,13 +152,12 @@ void ai_data_phase_finished(struct player *pplayer)
 struct ai_plr *ai_plr_data_get(struct player *pplayer)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
-  struct adv_data *adv = adv_data_get(pplayer);
 
   fc_assert_ret_val(ai != NULL, NULL);
 
-  if (adv->num_continents != map.num_continents
-      || adv->num_oceans != map.num_oceans) {
-    /* We discovered more continents, recalculate! */
+  if (ai->last_num_continents != map.num_continents
+      || ai->last_num_oceans != map.num_oceans) {
+    /* We have discovered more continents, recalculate! */
     ai_data_phase_finished(pplayer);
     ai_data_phase_begin(pplayer, FALSE);
   }

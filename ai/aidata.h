@@ -22,6 +22,9 @@ struct ai_plr
 {
   bool phase_initialized;
 
+  int last_num_continents;
+  int last_num_oceans;
+
   /* Keep track of available ocean channels */
   bool *channels;
 };
