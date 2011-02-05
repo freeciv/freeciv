@@ -5235,6 +5235,7 @@ static void game_load_internal(struct section_file *file)
         log_normal(_("%s has been added as %s level AI-controlled player."),
                    player_name(pplayer),
                    ai_level_name(pplayer->ai_common.skill_level));
+        CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
       } else {
         log_normal(_("%s has been added as human player."),
                    player_name(pplayer));

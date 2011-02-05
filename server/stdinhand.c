@@ -765,11 +765,10 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
                  pplayer->ai_common.skill_level, FALSE);
     /* the AI can't do active diplomacy */
     cancel_all_meetings(pplayer);
-    /* The following is sometimes necessary to avoid using
-       uninitialized data... */
-    if (S_S_RUNNING == server_state()) {
-      CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
 
+    CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
+
+    if (S_S_RUNNING == server_state()) {
       /* In case this was last player who has not pressed turn done. */
       check_for_full_turn_done();
     }
@@ -777,6 +776,8 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under human control."),
 	      player_name(pplayer));
+
+    CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
 
     /* because the AI `cheats' with government rates but humans shouldn't */
     if (!game.info.is_new_game) {
@@ -996,6 +997,8 @@ enum rfc_status create_command_newcomer(const char *name,
   pplayer->ai_controlled = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
 
+  CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
+
   send_player_info_c(pplayer, NULL);
   /* Send updated diplstate information to all players. */
   send_player_diplstate_c(NULL, NULL);
@@ -1099,6 +1102,7 @@ enum rfc_status create_command_pregame(const char *name,
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
   pplayer->ai_controlled = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
+  CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
   send_player_info_c(pplayer, game.est_connections);
 
   aifill(game.info.aifill);

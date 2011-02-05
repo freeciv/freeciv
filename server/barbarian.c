@@ -151,6 +151,8 @@ static struct player *create_barbarian_player(enum barbarian_type type)
     }
   } players_iterate_end;
 
+  CALL_PLR_AI_FUNC(gained_control, barbarians, barbarians);
+
   log_verbose("Created barbarian %s, player %d", player_name(barbarians),
               player_number(barbarians));
   notify_player(NULL, NULL, E_UPRISING, ftc_server,

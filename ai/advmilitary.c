@@ -35,6 +35,7 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "srv_log.h"
+#include "srv_main.h"
 
 /* server/advisors */
 #include "advdata.h"
@@ -379,9 +380,12 @@ static unsigned int assess_danger_unit(const struct city *pcity,
 ****************************************************************************/
 void assess_danger_player(struct player *pplayer)
 {
-  city_list_iterate(pplayer->cities, pcity) {
-    (void) assess_danger(pcity);
-  } city_list_iterate_end;
+  /* Do nothing if game is not running */
+  if (S_S_RUNNING == server_state()) {
+    city_list_iterate(pplayer->cities, pcity) {
+      (void) assess_danger(pcity);
+    } city_list_iterate_end;
+  }
 }
 
 /********************************************************************** 

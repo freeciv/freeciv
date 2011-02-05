@@ -3306,15 +3306,17 @@ static void sg_load_player_main(struct loaddata *loading,
   plr->ai_common.skill_level =
     secfile_lookup_int_default(loading->file, game.info.skill_level,
                                "player%d.ai.skill_level", plrno);
-  if (plr->ai_controlled) {
-    set_ai_level_directer(plr, plr->ai_common.skill_level);
-  }
 
   plr->ai_common.barbarian_type
     = secfile_lookup_int_default(loading->file, 0,
                                  "player%d.ai.is_barbarian", plrno);
   if (is_barbarian(plr)) {
     server.nbarbarians++;
+  }
+
+  if (plr->ai_controlled) {
+    set_ai_level_directer(plr, plr->ai_common.skill_level);
+    CALL_PLR_AI_FUNC(gained_control, plr, plr);
   }
 
   /* Load city style. */

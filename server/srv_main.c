@@ -1851,6 +1851,8 @@ void aifill(int amount)
     pplayer->ai_controlled = TRUE;
     set_ai_level_directer(pplayer, game.info.skill_level);
 
+    CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
+
     log_normal(_("%s has been added as %s level AI-controlled player."),
                player_name(pplayer),
                ai_level_name(pplayer->ai_common.skill_level));
