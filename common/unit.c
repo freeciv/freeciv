@@ -622,10 +622,11 @@ bool can_unit_do_autosettlers(const struct unit *punit)
 bool is_real_activity(enum unit_activity activity)
 {
   /* ACTIVITY_FORTRESS and ACTIVITY_AIRBASE are deprecated */
-  return activity != ACTIVITY_FORTRESS
-    && activity != ACTIVITY_AIRBASE
-    && activity != ACTIVITY_UNKNOWN
-    && activity != ACTIVITY_PATROL_UNUSED;
+  return (0 <= activity && activity < ACTIVITY_LAST)
+          && activity != ACTIVITY_FORTRESS
+          && activity != ACTIVITY_AIRBASE
+          && activity != ACTIVITY_UNKNOWN
+          && activity != ACTIVITY_PATROL_UNUSED;
 }
 
 /**************************************************************************
