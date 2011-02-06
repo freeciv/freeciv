@@ -713,6 +713,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
       3, GTK_SORT_ASCENDING);
 
   list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_tree_view_set_search_column(GTK_TREE_VIEW(list), 3);
   races_nation_list[index] = list;
   g_object_unref(store);
 
