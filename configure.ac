@@ -72,6 +72,12 @@ dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
 dnl of the clients and the database setting.
 ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
+dnl set default values
+fcdb_all=no
+fcdb_mysql=no
+fcdb_postgres=no
+fcdb_sqlite3=no
+
 dnl checks for databases
 dnl all:                  Autodetect as many as possible [default].
 dnl mysql:                use mysql database
@@ -83,11 +89,6 @@ AC_ARG_ENABLE(fcdb,
                           (no, or list)],
 [databases=${enableval}],
 [fcdb_all=no])
-
-fcdb_all=no
-fcdb_mysql=no
-fcdb_postgres=no
-fcdb_sqlite3=no
 
 for db in $(echo $databases | $SED 's/,/ /g') ; do
   if test "x$db" = "xall" ; then
