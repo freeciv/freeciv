@@ -173,20 +173,21 @@ WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
+dnl set default values
+mapimg_all=auto
+mapimg_magickwand=no
+
 dnl map images
 dnl all:                  Autodetect as many as possible [default].
 dnl no:                   No additional toolkits.
 dnl magickwand:           compile magickwand (imagemagick) support.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(mapimg-toolkit,
-[  --enable-mapimg-toolkit[=no/all/magickwand]
+[  --enable-mapimg[=no/auto/magickwand]
                           additional map image toolkits to compile
-                          [[default=all]] (no, or list)],
+                          [[default=auto]] (no, or list)],
 [toolkits=${enableval}],
-[mapimg_all=yes])
-
-mapimg_all=yes
-mapimg_magickwand=no
+[enable_mapimg=auto])
 
 dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
 dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
@@ -194,10 +195,10 @@ dnl of the clients and the mapimg toolkits.
 ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
 for toolkit in $(echo $toolkits | $SED 's/,/ /g') ; do
-  if test "x$toolkit" = "xall" ; then
-    mapimg_all=yes
+  if test "x$toolkit" = "xauto" ; then
+    enable_mapimg=yes
   elif test "x$toolkit" = "xno" ; then
-    mapimg_all=no
+    enable_mapimg=no
   elif test "x$toolkit" = "xmagickwand" ; then
     mapimg_magickwand=yes
   fi
@@ -1290,6 +1291,9 @@ AC_MSG_NOTICE([
   Debugging support:     $enable_debug
   Profiling support:     $enable_gprof
   IPv6 support:          $enable_ipv6
+  Map image toolkits:    $enable_mapimg
+    ppm:                   built-in
+    MagickWand:            $mapimg_magickwand
 
   == Client ==
   Build freeciv client:  $client
@@ -1313,8 +1317,4 @@ AC_MSG_NOTICE([
       mysql:                 $fcdb_mysql
       postgres:              $fcdb_postgres
       sqlite3:               $fcdb_sqlite3
-
-  Map image toolkits:
-    ppm:        built-in
-    MagickWand: $mapimg_magickwand
 ])
