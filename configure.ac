@@ -182,7 +182,7 @@ dnl all:                  Autodetect as many as possible [default].
 dnl no:                   No additional toolkits.
 dnl magickwand:           compile magickwand (imagemagick) support.
 dnl comma-separated-list: Detect these or abort.
-AC_ARG_ENABLE(mapimg-toolkit,
+AC_ARG_ENABLE(mapimg,
 [  --enable-mapimg[=no/auto/magickwand]
                           additional map image toolkits to compile
                           [[default=auto]] (no, or list)],
@@ -196,10 +196,14 @@ ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
 for toolkit in $(echo $toolkits | $SED 's/,/ /g') ; do
   if test "x$toolkit" = "xauto" ; then
-    enable_mapimg=yes
+    enable_mapimg=auto
   elif test "x$toolkit" = "xno" ; then
     enable_mapimg=no
-  elif test "x$toolkit" = "xmagickwand" ; then
+  else
+    enable_mapimg=selected
+  fi
+
+  if test "x$toolkit" = "xmagickwand" ; then
     mapimg_magickwand=yes
   fi
 done

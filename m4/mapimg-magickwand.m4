@@ -4,7 +4,7 @@
 
 AC_DEFUN([FC_MAPIMG_MAGICKWAND],
 [
-  if test "x$enable_mapimg" = "xyes" || test "x$mapimg_magickwand" = "xyes" ; then
+  if test "x$enable_mapimg" = "xauto" || test "x$mapimg_magickwand" = "xyes" ; then
 
     FC_CHECK_MAGICKWAND(
     [
