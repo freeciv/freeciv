@@ -1008,6 +1008,9 @@ void tilespec_reread(const char *new_tileset_name)
    */
   tileset_free_tiles(tileset);
   tileset_free_toplevel(tileset);
+  players_iterate(pplayer) {
+    tileset_player_free(tileset, pplayer);
+  } players_iterate_end;
 
   /* Step 2:  Read.
    *
@@ -1023,6 +1026,9 @@ void tilespec_reread(const char *new_tileset_name)
   sz_strlcpy(default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
+  players_iterate(pplayer) {
+    tileset_player_init(tileset, pplayer);
+  } players_iterate_end;
 
   /* Step 3: Setup
    *
