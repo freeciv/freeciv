@@ -475,11 +475,8 @@ void create_players_dialog(void)
 	  "weight", PLR_DLG_COL_WEIGHT,
 	  NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
-
-      if (pcol->type == COL_RIGHT_TEXT) {
-	g_object_set(renderer, "xalign", 1.0, NULL);
-	gtk_tree_view_column_set_alignment(col, 1.0);
-      }
+      g_object_set(renderer, "xalign", 1.0, NULL);
+      gtk_tree_view_column_set_alignment(col, 1.0);
       break;
     }
     
