@@ -178,9 +178,13 @@ void aiferry_clear_boat(struct unit *punit)
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
   if (unit_data->ferryboat == FERRY_WANTED) {
-    struct ai_data *ai = ai_data_get(unit_owner(punit));
+    struct player *pplayer = unit_owner(punit);
 
-    ai->stats.passengers--;
+    if (is_ai_data_phase_open(pplayer)) {
+      struct ai_data *ai = ai_data_get(unit_owner(punit));
+
+      ai->stats.passengers--;
+    }
   } else {
     struct unit *ferry = game_unit_by_number(unit_data->ferryboat);
 
@@ -189,7 +193,11 @@ void aiferry_clear_boat(struct unit *punit)
 
       if (ferry_data->passenger == punit->id) {
         /* punit doesn't want us anymore */
-        ai_data_get(unit_owner(ferry))->stats.available_boats++;
+        struct player *pplayer = unit_owner(ferry);
+
+        if (is_ai_data_phase_open(pplayer)) {
+          ai_data_get(pplayer)->stats.available_boats++;
+        }
         ferry_data->passenger = FERRY_AVAILABLE;
       }
     }

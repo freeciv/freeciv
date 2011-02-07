@@ -174,8 +174,9 @@ void ai_data_init(struct player *pplayer);
 void ai_data_default(struct player *pplayer);
 void ai_data_close(struct player *pplayer);
 
-void ai_data_phase_init(struct player *pplayer, bool is_new_phase);
+bool ai_data_phase_init(struct player *pplayer, bool is_new_phase);
 void ai_data_phase_done(struct player *pplayer);
+bool is_ai_data_phase_open(struct player *pplayer);
 
 void ai_data_analyze_rulesets(struct player *pplayer);
 

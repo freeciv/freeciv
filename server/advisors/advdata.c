@@ -314,7 +314,20 @@ static void count_my_units(struct player *pplayer)
 }
 
 /**************************************************************************
+  Return whether data phase is currently open. Data phase is open
+  between adv_data_phase_init() and adv_data_phase_done() calls.
+**************************************************************************/
+bool is_ai_data_phase_open(struct player *pplayer)
+{
+  struct ai_data *ai = pplayer->server.aidata;
+
+  return ai->phase_is_initialized;
+}
+
+/**************************************************************************
   Make and cache lots of calculations needed for other functions.
+
+  Returns TRUE if new data was created, FALSE if data existed already.
 
   Note: We use map.num_continents here rather than pplayer->num_continents
   because we are omniscient and don't care about such trivialities as who
@@ -324,17 +337,17 @@ static void count_my_units(struct player *pplayer)
   defending units, and ignore enemy units that are incapable of harming 
   us, instead of just checking attack strength > 1.
 **************************************************************************/
-void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
+bool ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
   struct ai_data *ai = pplayer->server.aidata;
   int i, j, k;
   int nuke_units;
   bool danger_of_nukes;
 
-  fc_assert_ret(ai != NULL);
+  fc_assert_ret_val(ai != NULL, FALSE);
 
   if (ai->phase_is_initialized) {
-    return;
+    return FALSE;
   }
   ai->phase_is_initialized = TRUE;
 
@@ -681,6 +694,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   TIMING_LOG(AIT_GOVERNMENT, TIMER_START);
   ai_best_government(pplayer);
   TIMING_LOG(AIT_GOVERNMENT, TIMER_STOP);
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -731,6 +746,40 @@ struct ai_data *ai_data_get(struct player *pplayer)
   struct ai_data *ai = pplayer->server.aidata;
 
   fc_assert_ret_val(ai != NULL, NULL);
+
+  /* It's certainly indication of bug causing problems
+     if this ai_data_get() gets called between ai_data_phase_done() and
+     ai_data_phase_init(), since we may end up calling those
+     functions if number of known continents has changed.
+
+     Consider following case:
+       Correct call order would be:
+       a) ai_data_phase_init()
+       b)   ai_data_get() -> ai_data_phase_done()
+       c)   ai_data_get() -> ai_data_phase_init()
+       d) ai_data_phase_done()
+       e) do something
+       f) ai_data_phase_init()
+
+       In (e) data phase would be closed and data would be
+       correctly initialized at (f), which is probably beginning
+       next turn.
+
+       Buggy version where ai_data_get() (b&c) gets called after (d):
+       a) ai_data_phase_init()
+       d) ai_data_phase_done()
+       b)   ai_data_get() -> ai_data_phase_done()
+       c)   ai_data_get() -> ai_data_phase_init()
+       e) do something
+       f) ai_data_phase_init()
+
+       Now in (e) data phase would be open. When ai_data_phase_init()
+       then finally gets called and it really should recreate data
+       to match situation of new turn, it detects that data phase
+       is already initialized and does nothing.
+
+       So, this assertion is here for a reason! */
+  fc_assert(ai->phase_is_initialized);
 
   if (ai->num_continents != map.num_continents
       || ai->num_oceans != map.num_oceans) {
