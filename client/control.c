@@ -2465,7 +2465,7 @@ void key_cancel_action(void)
 **************************************************************************/
 void key_center_capital(void)
 {
-  struct city *capital = player_palace(client_player());
+  struct city *capital = player_capital(client_player());
 
   if (capital)  {
     /* Center on the tile, and pop up the crosshair overlay. */

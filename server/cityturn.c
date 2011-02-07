@@ -2078,7 +2078,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Distance from capital */
-  capital = player_palace(city_owner(pcity));
+  capital = player_capital(city_owner(pcity));
   if (capital) {
     int tmp = map_distance(capital->tile, pcity->tile);
     dist = MIN(32, tmp);

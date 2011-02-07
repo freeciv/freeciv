@@ -337,7 +337,7 @@ int num_known_tech_with_flag(const struct player *pplayer,
 			     enum tech_flag_id flag);
 int player_get_expected_income(const struct player *pplayer);
 
-struct city *player_palace(const struct player *pplayer);
+struct city *player_capital(const struct player *pplayer);
 
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype);
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision);

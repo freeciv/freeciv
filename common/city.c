@@ -2961,7 +2961,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
   }
 
   if (waste_by_dist > 0) {
-    const struct city *capital = player_palace(city_owner(pcity));
+    const struct city *capital = player_capital(city_owner(pcity));
 
     if (!capital) {
       return total; /* no capital - no income */

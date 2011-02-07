@@ -419,7 +419,7 @@ void center_on_something(void)
   if (get_num_units_in_focus() > 0) {
     center_tile_mapcanvas(head_of_units_in_focus()->tile);
   } else if (client_has_player()
-             && NULL != (pcity = player_palace(client_player()))) {
+             && NULL != (pcity = player_capital(client_player()))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);
   } else if (NULL != client.conn.playing

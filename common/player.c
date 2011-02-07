@@ -1055,9 +1055,9 @@ bool player_knows_techs_with_flag(const struct player *pplayer,
 }
 
 /**************************************************************************
-Locate the city where the players palace is located, (NULL Otherwise) 
+  Locate the player capital city, (NULL Otherwise) 
 **************************************************************************/
-struct city *player_palace(const struct player *pplayer)
+struct city *player_capital(const struct player *pplayer)
 {
   if (!pplayer) {
     /* The client depends on this behavior in some places. */
