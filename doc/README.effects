@@ -30,7 +30,8 @@ taking effect.
 Value is integral amount parameter for many effects (must be in the range 
 -32767 to 32767).
 
-Requirement range may be one of: "None", "Local", "Adjacent", "City", 
+Requirement range may be one of: "None", "Local",
+"CAdjacent" (Cardinally Adjacent), "Adjacent", "City", 
 "Continent", "Player", "World". Some requirement types may only work at 
 certain ranges; this is not yet documented. In particular, at present, 
 "Continent" effects can affect only cities and units in cities.
@@ -323,6 +324,10 @@ Shield2Gold_Factor
 
 Tile_Workable
     If value != 0, city can work target tile.
+
+Irrig_Possible
+    If value > 0, unit can irrigate target tile. In addition to requirements given
+    to this effect, unit must also have Settlers flag.
 
 Migration_Pct
     Increase the calculated migration score for the a city by amount in

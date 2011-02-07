@@ -348,6 +348,8 @@ struct tile *rand_map_pos_filtered(void *data,
 				   bool (*filter)(const struct tile *ptile,
 						  const void *data));
 
+bool can_be_irrigated(const struct tile *ptile,
+                      const struct unit *punit);
 bool is_water_adjacent_to_tile(const struct tile *ptile);
 bool is_tiles_adjacent(const struct tile *ptile0, const struct tile *ptile1);
 bool is_move_cardinal(const struct tile *src_tile,

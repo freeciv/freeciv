@@ -699,6 +699,8 @@ static int improvement_effect_value(struct player *pplayer,
       if (ai->threats.continent[tile_continent(pcity->tile)]
           || capital
           || (ai->threats.invasions
+              /* FIXME: Is irrigation or river really an invasion threat?
+                        Should check against oceanic terrains only! */
               && is_water_adjacent_to_tile(pcity->tile))) {
         if (ai->threats.continent[tile_continent(pcity->tile)]) {
           v += amount;
@@ -754,6 +756,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_OUTPUT_INC_TILE_CELEBRATE:
   case EFT_TRADE_REVENUE_BONUS:
   case EFT_TILE_WORKABLE:
+   case EFT_IRRIG_POSSIBLE:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

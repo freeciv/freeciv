@@ -643,6 +643,22 @@ bool is_safe_ocean(const struct tile *ptile)
 }
 
 /***************************************************************
+  Can tile be irrigated by given unit? Unit can be NULL to check if
+  any settler type unit of any player can irrigate.
+***************************************************************/
+bool can_be_irrigated(const struct tile *ptile,
+                      const struct unit *punit)
+{
+  struct terrain* pterrain = tile_terrain(ptile);
+
+  if (T_UNKNOWN == pterrain) {
+    return FALSE;
+  }
+
+  return get_tile_bonus(ptile, punit, EFT_IRRIG_POSSIBLE) > 0;
+}
+
+/***************************************************************
   Is there any kind of water known to be in tile or any of
   adjacent tiles. Rivers, irrigation and oceanic terrains are
   considered water tiles.

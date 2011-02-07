@@ -130,6 +130,20 @@ struct base_type *base_type_by_translated_name(const char *name)
 }
 
 /****************************************************************************
+  Is there base of the given type cardinally near tile?
+****************************************************************************/
+bool is_base_card_near(const struct tile *ptile, const struct base_type *pbase)
+{
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_base(adjc_tile, pbase)) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Is there base of the given type near tile?
 ****************************************************************************/
 bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase)

@@ -957,7 +957,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	    || (!tile_has_special(ptile, S_FARMLAND)
 		&& player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
 	&& ((pterrain == pterrain->irrigation_result
-	     && is_water_adjacent_to_tile(ptile))
+             && can_be_irrigated(ptile, punit))
 	    || (pterrain != pterrain->irrigation_result
 		&& pterrain->irrigation_result != T_NONE
 		&& (!is_ocean(pterrain)

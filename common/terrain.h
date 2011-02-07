@@ -268,6 +268,8 @@ const char *terrain_name_translation(const struct terrain *pterrain);
 
 int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int bufsize);
 
+bool is_terrain_flag_card_near(const struct tile *ptile,
+			       enum terrain_flag_id flag);
 bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag);
 int count_terrain_flag_near_tile(const struct tile *ptile,
@@ -279,6 +281,8 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 			    && terrain_has_flag((pterrain), TER_OCEANIC))
 #define is_ocean_tile(ptile) \
   is_ocean(tile_terrain(ptile))
+#define is_ocean_card_near(ptile) \
+  is_terrain_flag_card_near(ptile, TER_OCEANIC)
 #define is_ocean_near_tile(ptile) \
   is_terrain_flag_near_tile(ptile, TER_OCEANIC)
 #define count_ocean_near_tile(ptile, cardinal_only, percentage)		\
@@ -288,6 +292,9 @@ bool terrain_has_resource(const struct terrain *pterrain,
 			  const struct resource *presource);
 
 /* Functions to operate on a general terrain type. */
+bool is_terrain_card_near(const struct tile *ptile,
+			  const struct terrain *pterrain,
+                          bool check_self);
 bool is_terrain_near_tile(const struct tile *ptile,
 			  const struct terrain *pterrain,
                           bool check_self);
@@ -334,6 +341,9 @@ int get_preferred_pillage(bv_special pset,
                           bv_bases bases);
 
 /* Functions to operate on a terrain special. */
+bool is_special_card_near(const struct tile *ptile,
+                          enum tile_special_type spe,
+                          bool check_self);
 bool is_special_near_tile(const struct tile *ptile,
 			  enum tile_special_type spe,
                           bool check_self);
@@ -346,6 +356,7 @@ const char *terrain_class_name_translation(enum terrain_class tclass);
 
 bool terrain_belongs_to_class(const struct terrain *pterrain,
                               enum terrain_class tclass);
+bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class tclass);
 bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class tclass);
 
 /* Functions to deal with possible terrain alterations. */

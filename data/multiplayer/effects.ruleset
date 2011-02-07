@@ -2284,3 +2284,27 @@ reqs    =
     { "type", "name", "range"
       "MinSize", "16", "City"
     }
+
+[effect_irrigate_src_ocean]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "TerrainClass", "Oceanic", "CAdjacent"
+    }
+
+[effect_irrigate_src_river]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Special", "River", "CAdjacent"
+    }
+
+[effect_irrigate_src_irrigation]
+name    = "Irrig_Possible"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Special", "Irrigation", "CAdjacent"
+    }

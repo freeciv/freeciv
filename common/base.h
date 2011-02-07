@@ -94,6 +94,7 @@ const char *base_name_translation(const struct base_type *pbase);
 struct base_type *base_type_by_rule_name(const char *name);
 struct base_type *base_type_by_translated_name(const char *name);
 
+bool is_base_card_near(const struct tile *ptile, const struct base_type *pbase);
 bool is_base_near_tile(const struct tile *ptile, const struct base_type *pbase);
 
 /* Functions to operate on a base flag. */

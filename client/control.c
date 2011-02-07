@@ -1102,7 +1102,7 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
 	    && unit_has_type_flag(punit, F_SETTLERS)
 	    && (tile_has_special(punit->tile, S_IRRIGATION)
 		|| (pterrain == pterrain->irrigation_result
-		    && is_water_adjacent_to_tile(punit->tile)
+		    && can_be_irrigated(punit->tile, punit)
 		    && !is_activity_on_tile(punit->tile, ACTIVITY_MINE))));
   default:
     break;

@@ -408,6 +408,7 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_TERRAINCLASS:
   case VUT_BASE:
     invalid = (req.range != REQ_RANGE_LOCAL
+               && req.range != REQ_RANGE_CADJACENT
 	       && req.range != REQ_RANGE_ADJACENT);
     break;
   case VUT_ADVANCE:
@@ -648,6 +649,7 @@ static int count_buildings_in_range(const struct player *target_player,
       /* TODO: other local targets */
       return 0;
     }
+  case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
     return 0;
   case REQ_RANGE_COUNT:
@@ -678,6 +680,7 @@ static bool is_tech_in_range(const struct player *target_player,
   case REQ_RANGE_WORLD:
     return game.info.global_advances[tech];
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
@@ -700,6 +703,8 @@ static bool is_special_in_range(const struct tile *target_tile,
   switch (range) {
   case REQ_RANGE_LOCAL:
     return target_tile && tile_has_special(target_tile, special);
+  case REQ_RANGE_CADJACENT:
+    return target_tile && is_special_card_near(target_tile, special, TRUE);
   case REQ_RANGE_ADJACENT:
     return target_tile && is_special_near_tile(target_tile, special, TRUE);
   case REQ_RANGE_CITY:
@@ -729,6 +734,8 @@ static bool is_terrain_in_range(const struct tile *target_tile,
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain. */
     return pterrain && tile_terrain(target_tile) == pterrain;
+  case REQ_RANGE_CADJACENT:
+    return pterrain && is_terrain_card_near(target_tile, pterrain, TRUE);
   case REQ_RANGE_ADJACENT:
     return pterrain && is_terrain_near_tile(target_tile, pterrain, TRUE);
   case REQ_RANGE_CITY:
@@ -758,6 +765,8 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain of correct class. */
     return terrain_belongs_to_class(tile_terrain(target_tile), class);
+  case REQ_RANGE_CADJACENT:
+    return is_terrain_class_card_near(target_tile, class);
   case REQ_RANGE_ADJACENT:
     return is_terrain_class_near_tile(target_tile, class);
   case REQ_RANGE_CITY:
@@ -787,6 +796,8 @@ static bool is_base_type_in_range(const struct tile *target_tile,
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has base of requested type. */
     return tile_has_base(target_tile, pbase);
+  case REQ_RANGE_CADJACENT:
+    return is_base_card_near(target_tile, pbase);
   case REQ_RANGE_ADJACENT:
     return is_base_near_tile(target_tile, pbase);
   case REQ_RANGE_CITY:
@@ -817,6 +828,7 @@ static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
   case REQ_RANGE_LOCAL:
     return terrain_can_support_alteration(tile_terrain(target_tile),
                                           alteration);
+  case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT: /* XXX Could in principle support ADJACENT. */
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
@@ -844,6 +856,7 @@ static bool is_nation_in_range(const struct player *target_player,
     return (NULL != nation->player
             && (survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:

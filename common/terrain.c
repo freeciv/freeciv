@@ -417,6 +417,25 @@ const char *resource_rule_name(const struct resource *presource)
   } adjc_dirlist_iterate_end;						\
 }
 
+/****************************************************************************
+  Returns TRUE iff any cardinally adjacent tile contains the given terrain.
+****************************************************************************/
+bool is_terrain_card_near(const struct tile *ptile,
+			  const struct terrain *pterrain,
+                          bool check_self)
+{
+  if (!pterrain) {
+    return FALSE;
+  }
+
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_terrain(adjc_tile) == pterrain) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return check_self && ptile->terrain == pterrain;
+}
 
 /****************************************************************************
   Returns TRUE iff any adjacent tile contains the given terrain.
@@ -632,6 +651,22 @@ bool is_native_tile_to_special(enum tile_special_type special,
 }
 
 /****************************************************************************
+  Returns TRUE iff any cardinally tile adjacent to (map_x,map_y) has the
+  given special.
+****************************************************************************/
+bool is_special_card_near(const struct tile *ptile, enum tile_special_type spe,
+                          bool check_self)
+{
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_special(adjc_tile, spe)) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return check_self && tile_has_special(ptile, spe);
+}
+
+/****************************************************************************
   Returns TRUE iff any tile adjacent to (map_x,map_y) has the given special.
 ****************************************************************************/
 bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe,
@@ -666,6 +701,24 @@ int count_special_near_tile(const struct tile *ptile,
     count = count * 100 / total;
   }
   return count;
+}
+
+/****************************************************************************
+  Returns TRUE iff any cardinally adjacent tile contains terrain with the
+  given flag.
+****************************************************************************/
+bool is_terrain_flag_card_near(const struct tile *ptile,
+			       enum terrain_flag_id flag)
+{
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    struct terrain* pterrain = tile_terrain(adjc_tile);
+    if (T_UNKNOWN != pterrain
+	&& terrain_has_flag(pterrain, flag)) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return FALSE;
 }
 
 /****************************************************************************
@@ -811,6 +864,29 @@ bool terrain_belongs_to_class(const struct terrain *pterrain,
      return !is_ocean(pterrain);
    case TC_OCEAN:
      return is_ocean(pterrain);
+  }
+
+  fc_assert(FALSE);
+  return FALSE;
+}
+
+/****************************************************************************
+  Is there terrain of the given class cardinally near tile?
+****************************************************************************/
+bool is_terrain_class_card_near(const struct tile *ptile, enum terrain_class class)
+{
+  switch(class) {
+   case TC_LAND:
+     cardinal_adjc_iterate(ptile, adjc_tile) {
+       struct terrain* pterrain = tile_terrain(adjc_tile);
+       if (T_UNKNOWN != pterrain
+           && !terrain_has_flag(pterrain, TER_OCEANIC)) {
+         return TRUE;
+       }
+     } cardinal_adjc_iterate_end;
+     return FALSE;
+   case TC_OCEAN:
+     return is_ocean_card_near(ptile);
   }
 
   fc_assert(FALSE);

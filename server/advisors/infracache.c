@@ -45,10 +45,6 @@ static int ai_calc_road(const struct city *pcity, const struct tile *ptile);
 static int ai_calc_railroad(const struct city *pcity,
                             const struct tile *ptile);
 
-static bool is_wet(const struct player *pplayer, const struct tile *ptile);
-static bool is_wet_or_is_wet_cardinal_around(const struct player *pplayer,
-                                             const struct tile *ptile);
-
 /**************************************************************************
   Calculate the benefit of irrigating the given tile.
 
@@ -82,8 +78,7 @@ static int ai_calc_irrigate(const struct city *pcity,
     tile_virtual_destroy(vtile);
     return goodness;
   } else if (old_terrain == new_terrain
-             && !tile_has_special(ptile, S_IRRIGATION)
-             && is_wet_or_is_wet_cardinal_around(city_owner(pcity), ptile)) {
+             && !tile_has_special(ptile, S_IRRIGATION)) {
     /* The tile is currently unirrigated; irrigating it would put an
      * S_IRRIGATE on it replacing any S_MINE already there.  Calculate
      * the benefit of doing so. */
@@ -96,8 +91,7 @@ static int ai_calc_irrigate(const struct city *pcity,
   } else if (old_terrain == new_terrain
              && tile_has_special(ptile, S_IRRIGATION)
              && !tile_has_special(ptile, S_FARMLAND)
-             && player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)
-             && is_wet_or_is_wet_cardinal_around(city_owner(pcity), ptile)) {
+             && player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
     /* The tile is currently irrigated; irrigating it more puts an
      * S_FARMLAND on it.  Calculate the benefit of doing so. */
     struct tile *vtile = tile_virtual_new(ptile);
@@ -334,58 +328,6 @@ static int ai_calc_railroad(const struct city *pcity,
   }
 
   return goodness;
-}
-
-/**************************************************************************
-  Returns TRUE if tile at (map_x,map_y) is useful as a source of
-  irrigation.  This takes player vision into account, but allows the AI
-  to cheat.
-
-  This function should probably only be used by
-  is_wet_or_is_wet_cardinal_around, below.
-**************************************************************************/
-static bool is_wet(const struct player *pplayer, const struct tile *ptile)
-{
-  if (!(pplayer->ai_controlled && !ai_handicap(pplayer, H_MAP))
-      && !map_is_known(ptile, pplayer)) {
-    return FALSE;
-  }
-
-  if (is_ocean_tile(ptile)) {
-    /* TODO: perhaps salt water should not be usable for irrigation? */
-    return TRUE;
-  }
-
-  if (tile_has_special(ptile, S_RIVER)
-      || tile_has_special(ptile, S_IRRIGATION)) {
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Returns TRUE if there is an irrigation source adjacent to the given x, y
-  position.  This takes player vision into account, but allows the AI to
-  cheat. (See is_wet() for the definition of an irrigation source.)
-
-  This function exactly mimics is_water_adjacent_to_tile, except that it
-  checks vision.
-**************************************************************************/
-static bool is_wet_or_is_wet_cardinal_around(const struct player *pplayer,
-                                             const struct tile *ptile)
-{
-  if (is_wet(pplayer, ptile)) {
-    return TRUE;
-  }
-
-  cardinal_adjc_iterate(ptile, tile1) {
-    if (is_wet(pplayer, tile1)) {
-      return TRUE;
-    }
-  } cardinal_adjc_iterate_end;
-
-  return FALSE;
 }
 
 /**************************************************************************

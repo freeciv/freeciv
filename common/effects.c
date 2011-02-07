@@ -838,7 +838,7 @@ int get_unittype_bonus(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Returns the effect bonus at a building.
+  Returns the effect bonus at an unit
 **************************************************************************/
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 {
@@ -853,6 +853,36 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 				  NULL, punit->tile,
 				  unit_type(punit), NULL, NULL,
 				  effect_type);
+}
+
+/**************************************************************************
+  Returns the effect bonus at an tile
+**************************************************************************/
+int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
+                   enum effect_type etype)
+{
+  struct player *pplayer = NULL;
+  struct unit_type *utype = NULL;
+
+  if (!initialized) {
+    return 0;
+  }
+
+  fc_assert_ret_val(ptile != NULL, 0);
+
+  if (punit != NULL) {
+    pplayer = unit_owner(punit);
+    utype = unit_type(punit);
+  }
+
+  return get_target_bonus_effects(NULL,
+                                  pplayer,
+                                  tile_city(ptile),
+                                  NULL,
+                                  ptile,
+                                  utype,
+                                  NULL, NULL,
+                                  etype);
 }
 
 /**************************************************************************
