@@ -49,6 +49,17 @@ void ai_data_close(struct player *pplayer)
 {
 }
 
+/**************************************************************************
+  Return whether data phase is currently open. Data phase is open
+  between ai_data_phase_begin() and ai_data_phase_finished() calls.
+**************************************************************************/
+bool is_ai_data_phase_open(struct player *pplayer)
+{
+  struct ai_plr *ai = def_ai_player_data(pplayer);
+
+  return ai->phase_initialized;
+}
+
 /****************************************************************************
   Make and cache lots of calculations needed for other functions.
 ****************************************************************************/
@@ -154,6 +165,10 @@ struct ai_plr *ai_plr_data_get(struct player *pplayer)
   struct ai_plr *ai = def_ai_player_data(pplayer);
 
   fc_assert_ret_val(ai != NULL, NULL);
+
+  /* This assert really is required. See longer comment
+     in adv_data_get() for equivalent code. */
+  fc_assert(ai->phase_initialized);
 
   if (ai->last_num_continents != map.num_continents
       || ai->last_num_oceans != map.num_oceans) {

@@ -557,13 +557,25 @@ static void try_summon_barbarians(void)
   } else {                   /* sea raiders - their units will be veteran */
     struct unit *ptrans;
     struct unit_type *boat;
+    bool miniphase;
 
     barbarians = create_barbarian_player(SEA_BARBARIAN);
     if (!barbarians) {
       return;
     }
-    adv_data_phase_init(barbarians, TRUE); /* Created ferry may need ai data */
-    CALL_PLR_AI_FUNC(phase_begin, barbarians, barbarians, TRUE);
+    /* Setup data phase if it's not already set up. Created ferries may
+       need that data.
+       We don't know if create_barbarian_player() above created completely
+       new player or did it just return existing one. If it was existing
+       one, phase has already been set up at turn begin and will be closed
+       at turn end. If this is completely new player, we have to take care
+       of both opening and closing the data phase. Return value of
+       adv_data_phase_init() tells us if data phase was already initialized
+       at turn beginning. */
+    miniphase = adv_data_phase_init(barbarians, TRUE);
+    if (miniphase) {
+      CALL_PLR_AI_FUNC(phase_begin, barbarians, barbarians, TRUE);
+    }
 
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
 
@@ -595,8 +607,10 @@ static void try_summon_barbarians(void)
       }
     }
 
-    CALL_PLR_AI_FUNC(phase_finished, barbarians, barbarians);
-    adv_data_phase_done(barbarians);
+    if (miniphase) {
+      CALL_PLR_AI_FUNC(phase_finished, barbarians, barbarians);
+      adv_data_phase_done(barbarians);
+    }
   }
 
   if (really_created == 0) {

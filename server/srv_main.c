@@ -1029,15 +1029,6 @@ static void end_phase(void)
     flush_packets();
   } phase_players_iterate_end;
 
-  phase_players_iterate(pplayer) {
-    if (pplayer->ai_controlled) {
-      CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
-      /* This has to be after new units have been built in case
-       * adv_data_get() gets called for new unit leading to memory leak */
-      adv_data_phase_done(pplayer);
-    }
-  } phase_players_iterate_end;
-
   kill_dying_players();
 
   /* Unfreeze sending of cities. */
@@ -1050,6 +1041,14 @@ static void end_phase(void)
 
   do_reveal_effects();
   do_have_embassies_effect();
+
+  phase_players_iterate(pplayer) {
+    CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
+    /* This has to be after all access to advisor data. */
+    /* We used to run this for ai players only, but data phase
+       is initialized for human players also. */
+    adv_data_phase_done(pplayer);
+  } phase_players_iterate_end;
 }
 
 /**************************************************************************
