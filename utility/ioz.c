@@ -30,7 +30,7 @@
 **********************************************************************/
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 #include <errno.h>

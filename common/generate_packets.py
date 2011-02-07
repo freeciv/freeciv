@@ -1582,7 +1582,7 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 
     output_c.write('''
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 #include <string.h>
@@ -1745,7 +1745,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
     f.write('''
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 /* common */
@@ -1801,7 +1801,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
     f.write('''
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 /* common */

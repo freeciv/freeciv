@@ -18,7 +18,7 @@ Programming in FTWL is quite simple. Here is an annotated example:
 
 ==========================
 
-	#include <config.h>
+	#include <fc_config.h>
 
    Always remember this one, folks, otherwise you end up with bugs 
    that are horribly difficult to figure out.  I speak from 

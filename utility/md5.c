@@ -16,7 +16,7 @@
    M. Kaufman <kaufman@orion.physics.wisc edut>, 2004
 ***********************************************************************/
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 #include "md5.h"

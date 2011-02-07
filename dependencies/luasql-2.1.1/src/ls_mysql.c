@@ -6,12 +6,12 @@
 */
 
 /* This file is slightly addapted for use in the freeciv project:
- * - include config.h
+ * - include fc_config.h
  * - add function conn_escape()
  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 #include <assert.h>

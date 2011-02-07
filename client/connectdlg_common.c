@@ -11,7 +11,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
    GNU General Public License for more details.
 ***********************************************************************/ 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include <fc_config.h>
 #endif
 
 #include <fcntl.h>
