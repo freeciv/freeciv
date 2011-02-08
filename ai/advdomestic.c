@@ -44,6 +44,7 @@
 /* ai */
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
@@ -331,7 +332,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       /* We need boats to colonize! */
       /* We might need boats even if there are boats free,
        * if they are blockaded or in inland seas. */
-      struct adv_data *ai = adv_data_get(pplayer);
+      struct ai_plr *ai = ai_plr_data_get(pplayer);
 
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a new boat (%d of %d free)",

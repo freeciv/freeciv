@@ -44,6 +44,7 @@
 /* ai */
 #include "aiair.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aidiplomat.h"
 #include "aiferry.h"
 #include "aihand.h"
@@ -1231,8 +1232,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                           L_FERRYBOAT, choice->want, TRUE);
       if (UMT_SEA == utype_move_type(choice->value.utype)) {
 #ifdef DEBUG
-        struct adv_data *ai = adv_data_get(pplayer);
-#endif
+        struct ai_plr *ai = ai_plr_data_get(pplayer);
 
         log_debug("kill_something_with() %s has chosen attacker ferry, "
                   "%s, want=%d, %d of %d free",
@@ -1240,6 +1240,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                   utype_rule_name(choice->value.utype),
                   choice->want,
                   ai->stats.available_boats, ai->stats.boats);
+#endif /* DEBUG */
       } /* else can not build ferries yet */
     }
   }

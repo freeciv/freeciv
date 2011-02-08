@@ -23,6 +23,7 @@
 #include "advdata.h"
 
 /* ai */
+#include "aiferry.h"
 #include "aiplayer.h"
 
 #include "aidata.h"
@@ -138,6 +139,8 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
       }
     }
   }
+
+  aiferry_init_stats(pplayer);
 }
 
 /****************************************************************************

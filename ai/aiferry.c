@@ -43,6 +43,7 @@
 #include "advdata.h"
 
 /* ai */
+#include "aidata.h"
 #include "aiguard.h"
 #include "aiplayer.h"
 #include "aitools.h"
@@ -87,7 +88,13 @@
 **************************************************************************/
 void aiferry_init_stats(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  /* def_ai_player_data() instead of ai_plr_data_get() is deliberate.
+     We are only initializing player data structures and ai_plre_data_get()
+     would try to use it uninitialized. We are only setting values to
+     data structure, not reading them, so we have no need for extra
+     arrangements ai_plr_data_get() would do compared to def_ai_player_data()
+  */
+  struct ai_plr *ai = def_ai_player_data(pplayer);
 
   ai->stats.passengers = 0;
   ai->stats.boats = 0;
@@ -122,7 +129,7 @@ void aiferry_init_stats(struct player *pplayer)
 #ifdef LOGLEVEL_FERRY_STATS
 static void aiferry_print_stats(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
   int n = 1;
 
   log_base(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]",
@@ -159,7 +166,7 @@ void aiferry_init_ferry(struct unit *ferry)
       if (punitclass->move_type == UMT_LAND
           && can_unit_type_transport(unit_type(ferry), punitclass)) {
         /* Can transport some land units, so is consider ferry */
-        struct adv_data *ai = adv_data_get(unit_owner(ferry));
+        struct ai_plr *ai = ai_plr_data_get(unit_owner(ferry));
 
         unit_data->passenger = FERRY_AVAILABLE;
         ai->stats.boats++;
@@ -182,8 +189,8 @@ void aiferry_clear_boat(struct unit *punit)
   if (unit_data->ferryboat == FERRY_WANTED) {
     struct player *pplayer = unit_owner(punit);
 
-    if (is_adv_data_phase_open(pplayer)) {
-      struct adv_data *ai = adv_data_get(unit_owner(punit));
+    if (is_ai_data_phase_open(pplayer)) {
+      struct ai_plr *ai = ai_plr_data_get(unit_owner(punit));
 
       ai->stats.passengers--;
     }
@@ -197,8 +204,8 @@ void aiferry_clear_boat(struct unit *punit)
         /* punit doesn't want us anymore */
         struct player *pplayer = unit_owner(ferry);
 
-        if (is_adv_data_phase_open(pplayer)) {
-          adv_data_get(pplayer)->stats.available_boats++;
+        if (is_ai_data_phase_open(pplayer)) {
+          ai_plr_data_get(pplayer)->stats.available_boats++;
         }
         ferry_data->passenger = FERRY_AVAILABLE;
       }
@@ -214,7 +221,7 @@ void aiferry_clear_boat(struct unit *punit)
 **************************************************************************/
 static void aiferry_request_boat(struct unit *punit)
 {
-  struct adv_data *ai = adv_data_get(unit_owner(punit));
+  struct ai_plr *ai = ai_plr_data_get(unit_owner(punit));
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
   /* First clear the previous assignments (just in case). */
@@ -245,7 +252,7 @@ static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 
   /* If ferry was available, update the stats */
   if (ferry_data->passenger == FERRY_AVAILABLE) {
-    adv_data_get(unit_owner(pferry))->stats.available_boats--;
+    ai_plr_data_get(unit_owner(pferry))->stats.available_boats--;
   }
 
   /* Exchange the phone numbers */
@@ -261,7 +268,7 @@ static void aiferry_make_available(struct unit *pferry)
   struct unit_ai *ferry_data = def_ai_unit_data(pferry);
 
   if (ferry_data->passenger != FERRY_AVAILABLE) {
-    adv_data_get(unit_owner(pferry))->stats.available_boats++;
+    ai_plr_data_get(unit_owner(pferry))->stats.available_boats++;
     ferry_data->passenger = FERRY_AVAILABLE;
   }
 }
@@ -272,7 +279,7 @@ static void aiferry_make_available(struct unit *pferry)
 **************************************************************************/
 static int aiferry_avail_boats(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
 
   /* To developer: Switch this checking on when testing some new 
    * ferry code. */
@@ -816,7 +823,7 @@ static bool aiferry_findcargo(struct unit *pferry)
   /* Path-finding stuff */
   struct pf_map *pfm;
   struct pf_parameter parameter;
-  int passengers = adv_data_get(unit_owner(pferry))->stats.passengers;
+  int passengers = ai_plr_data_get(unit_owner(pferry))->stats.passengers;
 
   if (passengers <= 0) {
     /* No passangers anywhere */

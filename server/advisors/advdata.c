@@ -49,7 +49,6 @@
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
-#include "aiferry.h"
 #include "aihand.h"
 #include "aiplayer.h"
 #include "aitools.h"
@@ -512,7 +511,6 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
     }
   } unit_list_iterate_end;
-  aiferry_init_stats(pplayer);
 
   /*** Diplomacy ***/
 

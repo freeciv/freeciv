@@ -133,9 +133,6 @@ struct adv_data {
     } units;
     int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities we have on continent */
-    int passengers;   /* number of passengers waiting for boats */
-    int boats;
-    int available_boats;
     int average_production;
     bv_id diplomat_reservations;
   } stats;

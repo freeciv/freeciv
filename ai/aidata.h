@@ -27,6 +27,12 @@ struct ai_plr
 
   /* Keep track of available ocean channels */
   bool *channels;
+
+  struct {
+    int passengers;   /* number of passengers waiting for boats */
+    int boats;
+    int available_boats;
+  } stats;
 };
 
 void ai_data_init(struct player *pplayer);
