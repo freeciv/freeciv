@@ -223,7 +223,7 @@ static void send_metaserver_post(void *arg)
 {
   struct netfile_post *post = (struct netfile_post *) arg;
 
-  if (!netfile_send_post(srvarg.metaserver_addr, post)) {
+  if (!netfile_send_post(srvarg.metaserver_addr, post, NULL)) {
     con_puts(C_METAERROR, _("Error connecting metaserver"));
     metaserver_failed();
   }

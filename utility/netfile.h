@@ -35,7 +35,8 @@ void netfile_add_form_int(struct netfile_post *post,
                           const char *name, const int val);
 void netfile_close_post(struct netfile_post *post);
 
-bool netfile_send_post(const char *URL, struct netfile_post *post);
+bool netfile_send_post(const char *URL, struct netfile_post *post,
+                       FILE *reply_fp);
 
 #ifdef __cplusplus
 }
