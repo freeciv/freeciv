@@ -2398,9 +2398,32 @@ static void srv_ready(void)
   if (map_is_empty()
       || (MAPGEN_SCENARIO == map.server.generator
           && game.info.is_new_game)) {
+    int i;
+    bool random_seed = map.server.seed == 0 ? TRUE : FALSE;
+    int max = random_seed ? 2 : 1;
+    bool created = FALSE;
     struct unit_type *utype = crole_to_unit_type(game.server.start_units[0], NULL);
+    for (i = 0; !created && i < max ; i++) {
+      created = map_fractal_generate(TRUE, utype);
+      if (!created) {
+        if (i == 0 && random_seed) {
+          log_error(_("Failed to create suitable map, retrying with another mapseed"));
+        }
+        /* Reset mapseed so generator knows to use new one */
+        map.server.seed = 0;
 
-    map_fractal_generate(TRUE, utype);
+        /* Remove starting positions already placed to old map */
+        whole_map_iterate(ptile) {
+          map_startpos_remove(ptile);
+        } whole_map_iterate_end;
+      }
+    }
+    if (!created) {
+      log_error(_("Cannot create suitable map with given settings."));
+       /* TRANS: No full stop after the URL, could cause confusion. */
+      log_error(_("Please report this message at %s"), BUG_URL);
+      exit(EXIT_FAILURE);
+    }
     game_map_init();
   }
 

@@ -1301,7 +1301,7 @@ FIXME: Some continent numbers are unused at the end of this function, fx
   based on the map.server.size server parameter and the specified topology.
   If not map.xsize and map.ysize will be used.
 **************************************************************************/
-void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
+bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 {
   /* save the current random state: */
   RANDOM_STATE rstate = fc_rand_state();
@@ -1319,7 +1319,10 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.server.generator != MAPGEN_SCENARIO) {
     generator_init_topology(autosize);
-    map_allocate();
+    /* Map can be already allocated, if we failed first map generation */
+    if (map_is_empty()) {
+      map_allocate();
+    }
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
@@ -1406,8 +1409,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
    * provides them. */
   if (0 == map_startpos_count()) {
     enum map_startpos mode = MAPSTARTPOS_ALL;
-    bool success;
-    
+
     switch (map.server.generator) {
     case MAPGEN_SCENARIO:
     case MAPGEN_RANDOM:
@@ -1428,13 +1430,15 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       }
       break;
     }
-    
+
     for(;;) {
+      bool success;
+
       success = create_start_positions(mode, initial_unit);
       if (success) {
         break;
       }
-      
+
       switch(mode) {
         case MAPSTARTPOS_SINGLE:
           mode = MAPSTARTPOS_2or3;
@@ -1446,8 +1450,9 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
           mode = MAPSTARTPOS_VARIABLE;
           break;
         default:
-          fc_assert_exit_msg(FALSE, "The server couldn't allocate "
-                             "starting positions.");
+          log_error(_("The server couldn't allocate starting positions."));
+          destroy_tmap();
+          return FALSE;
       }
     }
   }
@@ -1456,6 +1461,8 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   destroy_tmap();
 
   print_mapgen_map();
+
+  return TRUE;
 }
 
 /**************************************************************************
