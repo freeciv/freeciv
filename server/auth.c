@@ -373,7 +373,7 @@ static bool is_good_password(const char *password, char *msg)
 }
 
 /**************************************************************************
-  ...
+  Get username for connection
 **************************************************************************/
 const char *auth_get_username(struct connection *pconn)
 {
@@ -383,7 +383,7 @@ const char *auth_get_username(struct connection *pconn)
 }
 
 /**************************************************************************
-  ...
+  Get connection ip address
 **************************************************************************/
 const char *auth_get_ipaddr(struct connection *pconn)
 {
@@ -393,7 +393,7 @@ const char *auth_get_ipaddr(struct connection *pconn)
 }
 
 /**************************************************************************
-  ...
+  Set password for connection
 **************************************************************************/
 bool auth_set_password(struct connection *pconn, const char *password)
 {
@@ -406,7 +406,7 @@ bool auth_set_password(struct connection *pconn, const char *password)
 }
 
 /**************************************************************************
-  ...
+  Get connection password
 **************************************************************************/
 const char *auth_get_password(struct connection *pconn)
 {

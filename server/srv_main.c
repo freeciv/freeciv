@@ -187,11 +187,11 @@ void init_game_seed(void)
 }
 
 /**************************************************************************
-...
+  Initialize freeciv server.
 **************************************************************************/
 void srv_init(void)
 {
-  i_am_server(); /* Tell to libcivcommon that we are server */
+  i_am_server(); /* Tell to libfreeciv that we are server */
 
   /* NLS init */
   init_nls();
@@ -251,7 +251,7 @@ void handle_client_info(struct connection *pc, enum gui_type gui)
 }
 
 /**************************************************************************
-...
+  Return current server state.
 **************************************************************************/
 enum server_states server_state(void)
 {
@@ -259,7 +259,7 @@ enum server_states server_state(void)
 }
 
 /**************************************************************************
-...
+  Set current server state.
 **************************************************************************/
 void set_server_state(enum server_states newstate)
 {
@@ -613,7 +613,7 @@ static void do_have_embassies_effect(void)
 }
 
 /**************************************************************************
-...
+  Handle environmental upsets, meaning currently pollution or fallout.
 **************************************************************************/
 static void update_environmental_upset(enum tile_special_type cause,
 				       int *current, int *accum, int *level,
@@ -1284,7 +1284,7 @@ void save_game_auto(const char *save_reason, const char *reason_filename)
 }
 
 /**************************************************************************
-...
+  Start actual game. Everything has been set up already.
 **************************************************************************/
 void start_game(void)
 {
@@ -1342,7 +1342,7 @@ void server_quit(void)
 }
 
 /**************************************************************************
-...
+  Handle request asking report to be sent to client.
 **************************************************************************/
 void handle_report_req(struct connection *pconn, enum report_type type)
 {
@@ -1375,7 +1375,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
 }
 
 /**************************************************************************
-...
+  Mark identity number free.
 **************************************************************************/
 void identity_number_release(int id)
 {
@@ -1383,7 +1383,7 @@ void identity_number_release(int id)
 }
 
 /**************************************************************************
-...
+  Marko identity number allocated.
 **************************************************************************/
 void identity_number_reserve(int id)
 {
@@ -1391,7 +1391,7 @@ void identity_number_reserve(int id)
 }
 
 /**************************************************************************
-...
+  Check whether identity number is currently allocated.
 **************************************************************************/
 static bool identity_number_is_used(int id)
 {
@@ -1585,7 +1585,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 }
 
 /**************************************************************************
-...
+  Check if turn is really done. Returns nothing, but as a side effect sets
+  force_end_of_sniff if no more input is expected this turn (i.e. turn done)
 **************************************************************************/
 void check_for_full_turn_done(void)
 {
@@ -2081,7 +2082,7 @@ const char *pick_random_player_name(const struct nation_type *pnation)
 }
 
 /*************************************************************************
-...
+  Announce what nation player rules to everyone.
 *************************************************************************/
 static void announce_player(struct player *pplayer)
 {

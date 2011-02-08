@@ -325,7 +325,7 @@ void fcdb_free(void)
   }
 }
 
-#else
+#else  /* HAVE_FCDB */
 
 /****************************************************************************
   Dummy function - Initialize freeciv database system

@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
         inx++;
         showhelp = TRUE;
       }
-#endif
+#endif /* NDEBUG */
     } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
       srvarg.ranklog_filename = option; /* Never freed. */
     } else if (is_option("--nometa", argv[inx])) {
@@ -270,7 +270,7 @@ int main(int argc, char *argv[])
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
-#endif
+#endif /* HAVE_FCDB */
     } else if ((option = get_option_malloc("--Serverid", argv, &inx, argc))) {
       sz_strlcpy(srvarg.serverid, option);
       free(option);
@@ -332,16 +332,16 @@ int main(int argc, char *argv[])
 			 "login if auth is enabled.\n"));
     fc_fprintf(stderr, _("  -N  --Newusers\tAllow new users to "
 			 "login if auth is enabled.\n"));
-#endif
+#endif /* HAVE_FCDB */
     fc_fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
 #ifdef DEBUG
     fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
                          "%d, or %d:file1,min,max:...)\n"),
                LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
-#else
+#else  /* DEBUG */
     fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
                          "%d)\n"), LOG_FATAL, LOG_VERBOSE);
-#endif
+#endif /* DEBUG */
 #ifndef NDEBUG
     fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
                          "Raise a signal on failed assertion\n"));

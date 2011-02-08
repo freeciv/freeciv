@@ -807,7 +807,8 @@ static void ruleset_load_names(struct name_translation *pname,
 }
 
 /**************************************************************************
-  ...
+  Load names of technologies so other rulesets can refer to techs with
+  their name.
 **************************************************************************/
 static void load_tech_names(struct section_file *file)
 {
@@ -842,7 +843,7 @@ static void load_tech_names(struct section_file *file)
 }
 
 /**************************************************************************
-  ...
+  Load technologies related ruleset data
 **************************************************************************/
 static void load_ruleset_techs(struct section_file *file)
 {
@@ -989,7 +990,8 @@ restart:
 }
 
 /**************************************************************************
-  ...  
+  Load names of units so other rulesets can refer to units with
+  their name.
 **************************************************************************/
 static void load_unit_names(struct section_file *file)
 {
@@ -1183,7 +1185,7 @@ static bool load_ruleset_veteran(struct section_file *file,
 }
 
 /**************************************************************************
-  ...
+  Load units related ruleset data.
 **************************************************************************/
 static void load_ruleset_units(struct section_file *file)
 {
@@ -1585,7 +1587,8 @@ static void load_ruleset_units(struct section_file *file)
 }
 
 /**************************************************************************
-  ...  
+  Load names of buildings so other rulesets can refer to buildings with
+  their name.
 **************************************************************************/
 static void load_building_names(struct section_file *file)
 {
@@ -1617,7 +1620,7 @@ static void load_building_names(struct section_file *file)
 }
 
 /**************************************************************************
-...  
+  Load buildings related ruleset data
 **************************************************************************/
 static void load_ruleset_buildings(struct section_file *file)
 {
@@ -1739,7 +1742,8 @@ static void load_ruleset_buildings(struct section_file *file)
 }
 
 /**************************************************************************
-  ...  
+  Load names of terrain types so other rulesets can refer to terrains with
+  their name.
 **************************************************************************/
 static void load_terrain_names(struct section_file *file)
 {
@@ -1842,7 +1846,7 @@ static void load_terrain_names(struct section_file *file)
 }
 
 /**************************************************************************
-...  
+  Load terrain types related ruleset data
 **************************************************************************/
 static void load_ruleset_terrain(struct section_file *file)
 {
@@ -2242,7 +2246,8 @@ static void load_ruleset_terrain(struct section_file *file)
 }
 
 /**************************************************************************
-  ...  
+  Load names of governments so other rulesets can refer to governments with
+  their name.
 **************************************************************************/
 static void load_government_names(struct section_file *file)
 {
@@ -2408,7 +2413,8 @@ static const char *check_leader_names(struct nation_type *pnation,
 }
 
 /**************************************************************************
-  ...
+  Load names of nations so other rulesets can refer to nations with
+  their name.
 **************************************************************************/
 static void load_nation_names(struct section_file *file)
 {
@@ -2906,7 +2912,8 @@ static void load_ruleset_nations(struct section_file *file)
 }
 
 /**************************************************************************
-  ...
+  Load names of city styles so other rulesets can refer to city styles with
+  their name.
 **************************************************************************/
 static void load_citystyle_names(struct section_file *file)
 {

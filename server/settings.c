@@ -665,7 +665,7 @@ static bool maxplayers_callback(int value, struct connection *caller,
                       _("Cannot change maxplayers in GGZ mode."));
     return FALSE;
   }
-#endif
+#endif /* GGZ_SERVER */
   if (value < player_count()) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Number of players (%d) is higher than requested "
@@ -736,7 +736,7 @@ static bool unitwaittime_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
- ...
+  xsize setting validation callback.
 *************************************************************************/
 static bool xsize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)
@@ -761,7 +761,7 @@ static bool xsize_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
-  ...
+  ysize setting validation callback.
 *************************************************************************/
 static bool ysize_callback(int value, struct connection *caller,
                            char *reject_msg, size_t reject_msg_len)

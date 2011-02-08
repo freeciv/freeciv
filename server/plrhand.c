@@ -1033,7 +1033,7 @@ static void package_player_diplstate(struct player *plr1,
 }
 
 /**************************************************************************
-  ...
+  Return level of information player should receive about another.
 **************************************************************************/
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver)

@@ -15,10 +15,13 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
 #include "fcintl.h"
 
+/* common */
 #include "connection.h"
 
+/* server */
 #include "commands.h"
 #include "voting.h"
 
@@ -638,7 +641,7 @@ static struct command commands[] = {
 
 
 /**************************************************************************
-  ...
+  Return command by its number.
 **************************************************************************/
 const struct command *command_by_number(int i)
 {
@@ -647,7 +650,7 @@ const struct command *command_by_number(int i)
 }
 
 /**************************************************************************
-  ...
+  Return name of the command
 **************************************************************************/
 const char *command_name(const struct command *pcommand)
 {
@@ -655,7 +658,7 @@ const char *command_name(const struct command *pcommand)
 }
 
 /**************************************************************************
-  ...
+  Return name of the command by commands number.
 **************************************************************************/
 const char *command_name_by_number(int i)
 {

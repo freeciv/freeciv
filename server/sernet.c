@@ -172,7 +172,7 @@ static bool readline_handled_input = FALSE;
 static bool readline_initialized = FALSE;
 
 /*****************************************************************************
-...
+  Readline callback for input.
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
 {
@@ -232,7 +232,8 @@ static void close_connection(struct connection *pconn)
 }
 
 /*****************************************************************************
-...
+  Close all network stuff: connections, listening sockets, metaserver
+  connection...
 *****************************************************************************/
 void close_connections_and_socket(void)
 {
@@ -1058,7 +1059,7 @@ int server_open_socket(void)
       name_count = 2;
     }
   }
-#endif
+#endif /* IPv6 support */
 
   cause = NULL;
   on = 1;
@@ -1095,9 +1096,9 @@ int server_open_socket(void)
                   fc_strerror(fc_get_errno()));
         sockaddr_debug(&names[i]);
       }
-#endif
+#endif /* IPV6_V6ONLY */
     }
-#endif
+#endif /* IPv6 support */
 
     if (bind(s, &names[i].saddr, sockaddr_size(&names[i])) == -1) {
       cause = "bind";
@@ -1146,7 +1147,7 @@ int server_open_socket(void)
   if (srvarg.announce == ANNOUNCE_IPV6) {
     lan_family = AF_INET6;
   } else
-#endif /* IPV6 used */
+#endif /* IPV6 support */
   {
     lan_family = AF_INET;
   }
@@ -1248,7 +1249,7 @@ void init_connections(void)
 }
 
 /**************************************************************************
-...
+  Starts processing of request packet from client.
 **************************************************************************/
 static void start_processing_request(struct connection *pconn,
                                      int request_id)
@@ -1263,7 +1264,7 @@ static void start_processing_request(struct connection *pconn,
 }
 
 /**************************************************************************
-...
+  Finish processing of request packet from client.
 **************************************************************************/
 static void finish_processing_request(struct connection *pconn)
 {
@@ -1291,7 +1292,7 @@ static void connection_ping(struct connection *pconn)
 }
 
 /**************************************************************************
-...
+  Handle response to ping.
 **************************************************************************/
 void handle_conn_pong(struct connection *pconn)
 {
@@ -1312,7 +1313,7 @@ void handle_conn_pong(struct connection *pconn)
 }
 
 /**************************************************************************
-...
+  Send ping time info about all connections to all connections.
 **************************************************************************/
 static void send_ping_times_to_all(void)
 {
@@ -1431,7 +1432,7 @@ static void send_lanserver_response(void)
     log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return;
   }
-#endif
+#endif /* HAVE_WINSOCK */
 
   if (setsockopt(socksend, SOL_SOCKET, SO_BROADCAST, 
                  (const char*)&setting, sizeof(setting))) {

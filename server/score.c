@@ -62,6 +62,10 @@ Land Area Debug...
 
 #if LAND_AREA_DEBUG >= 2
 
+/**************************************************************************
+  Return one character representation of the turn number 'when'.
+  If value of 'when' is out of supported range, '?' is returned.
+**************************************************************************/
 static char when_char(int when)
 {
   static char list[] = {
@@ -148,7 +152,7 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
   WRITE_MAP_DATA("%c", when_char(pcmap->claims[map_pos_to_index(x, y)].when));
 }
 
-#endif
+#endif /* LAND_AREA_DEBUG > 2 */
 
 /****************************************************************************
   Count landarea, settled area, and claims map for all players.

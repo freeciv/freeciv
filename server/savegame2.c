@@ -694,7 +694,7 @@ static void savegame2_save_real(struct section_file *file,
 }
 
 /****************************************************************************
-  ...
+  Create new loaddata item for given section file.
 ****************************************************************************/
 struct loaddata *loaddata_new(struct section_file *file)
 {
@@ -719,7 +719,7 @@ struct loaddata *loaddata_new(struct section_file *file)
 }
 
 /****************************************************************************
-  ...
+  Free resources allocated for loaddata item.
 ****************************************************************************/
 void loaddata_destroy(struct loaddata *loading)
 {
@@ -747,7 +747,7 @@ void loaddata_destroy(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Create new savedata item for given file.
 ****************************************************************************/
 struct savedata *savedata_new(struct section_file *file,
                               const char *save_reason,
@@ -767,7 +767,7 @@ struct savedata *savedata_new(struct section_file *file,
 }
 
 /****************************************************************************
-  ...
+  Free resources allocated for savedata item
 ****************************************************************************/
 void savedata_destroy(struct savedata *saving)
 {
@@ -2246,7 +2246,7 @@ static void sg_save_map_tiles(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Load bases to map
 ****************************************************************************/
 static void sg_load_map_tiles_bases(struct loaddata *loading)
 {
@@ -2267,7 +2267,7 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Save information about bases on map
 ****************************************************************************/
 static void sg_save_map_tiles_bases(struct savedata *saving)
 {
@@ -2297,7 +2297,7 @@ static void sg_save_map_tiles_bases(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Load information about specials on map
 ****************************************************************************/
 static void sg_load_map_tiles_specials(struct loaddata *loading,
                                        bool rivers_overlay)
@@ -2328,7 +2328,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
 }
 
 /****************************************************************************
-  ...
+  Save information about specials on map.
 ****************************************************************************/
 static void sg_save_map_tiles_specials(struct savedata *saving,
                                        bool rivers_overlay)
@@ -2355,7 +2355,7 @@ static void sg_save_map_tiles_specials(struct savedata *saving,
 }
 
 /****************************************************************************
-  ...
+  Load information about resources on map.
 ****************************************************************************/
 static void sg_load_map_tiles_resources(struct loaddata *loading)
 {
@@ -2381,7 +2381,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Load information about resources on map.
 ****************************************************************************/
 static void sg_save_map_tiles_resources(struct savedata *saving)
 {
@@ -2529,7 +2529,7 @@ static void sg_save_map_startpos(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Load tile owner information
 ****************************************************************************/
 static void sg_load_map_owner(struct loaddata *loading)
 {
@@ -2591,7 +2591,7 @@ static void sg_load_map_owner(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Save tile owner information
 ****************************************************************************/
 static void sg_save_map_owner(struct savedata *saving)
 {
@@ -2651,7 +2651,7 @@ static void sg_save_map_owner(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Save worked tiles information
 ****************************************************************************/
 static void sg_load_map_worked(struct loaddata *loading)
 {
@@ -2695,7 +2695,7 @@ static void sg_load_map_worked(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Save worked tiles information
 ****************************************************************************/
 static void sg_save_map_worked(struct savedata *saving)
 {
@@ -2734,7 +2734,7 @@ static void sg_save_map_worked(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Load tile known status
 ****************************************************************************/
 static void sg_load_map_known(struct loaddata *loading)
 {
@@ -2786,7 +2786,7 @@ static void sg_load_map_known(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Save tile known status for whole map and all players
 ****************************************************************************/
 static void sg_save_map_known(struct savedata *saving)
 {
@@ -3158,7 +3158,7 @@ static void sg_save_players(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Main player data loading function
 ****************************************************************************/
 static void sg_load_player_main(struct loaddata *loading,
                                 struct player *plr)
@@ -3482,7 +3482,7 @@ static void sg_load_player_main(struct loaddata *loading,
 }
 
 /****************************************************************************
-  ...
+  Main player data saving function.
 ****************************************************************************/
 static void sg_save_player_main(struct savedata *saving,
                                 struct player *plr)
@@ -3679,7 +3679,7 @@ static void sg_save_player_main(struct savedata *saving,
 }
 
 /****************************************************************************
-  ...
+  Load city data
 ****************************************************************************/
 static void sg_load_player_cities(struct loaddata *loading,
                                   struct player *plr)
@@ -4021,7 +4021,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 }
 
 /****************************************************************************
-  ...
+  Save cities data
 ****************************************************************************/
 static void sg_save_player_cities(struct savedata *saving,
                                   struct player *plr)
@@ -4189,7 +4189,7 @@ static void sg_save_player_cities(struct savedata *saving,
 }
 
 /****************************************************************************
-  ...
+  Load unit data
 ****************************************************************************/
 static void sg_load_player_units(struct loaddata *loading,
                                  struct player *plr)
@@ -4532,7 +4532,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
 }
 
 /****************************************************************************
-  ...
+  Save unit data
 ****************************************************************************/
 static void sg_save_player_units(struct savedata *saving,
                                  struct player *plr)
@@ -4674,7 +4674,7 @@ static void sg_save_player_units(struct savedata *saving,
 }
 
 /****************************************************************************
-  ...
+  Load player (client) attributes data
 ****************************************************************************/
 static void sg_load_player_attributes(struct loaddata *loading,
                                       struct player *plr)
@@ -4751,7 +4751,7 @@ static void sg_load_player_attributes(struct loaddata *loading,
 }
 
 /****************************************************************************
-  ...
+  Save player (client) attributes data.
 ****************************************************************************/
 static void sg_save_player_attributes(struct savedata *saving,
                                       struct player *plr)
@@ -4834,7 +4834,7 @@ static void sg_save_player_attributes(struct savedata *saving,
 }
 
 /****************************************************************************
-  ...
+  Load vision data
 ****************************************************************************/
 static void sg_load_player_vision(struct loaddata *loading,
                                   struct player *plr)
@@ -4849,7 +4849,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   sg_check_ret();
 
   if (!plr->is_alive) {
-    /* Reval all for dead players. */
+    /* Reveal all for dead players. */
     map_know_and_see_all(plr);
   }
 
@@ -5078,7 +5078,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
 }
 
 /****************************************************************************
-  ...
+  Save vision data
 ****************************************************************************/
 static void sg_save_player_vision(struct savedata *saving,
                                   struct player *plr)
@@ -5435,7 +5435,7 @@ typedef void (*load_version_func_t) (struct loaddata *loading);
 typedef void (*save_version_func_t) (struct savedata *saving);
 
 /****************************************************************************
-  ...
+  Load savegame that is of 2.3 format.
 ****************************************************************************/
 static void compat_load_020300(struct loaddata *loading)
 {
@@ -5446,7 +5446,7 @@ static void compat_load_020300(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Save game in 2.3 format.
 ****************************************************************************/
 static void compat_save_020300(struct savedata *saving)
 {
@@ -5457,7 +5457,7 @@ static void compat_save_020300(struct savedata *saving)
 }
 
 /****************************************************************************
-  ...
+  Load savegame that is of 2.4 format.
 ****************************************************************************/
 static void compat_load_020400(struct loaddata *loading)
 {
@@ -5481,7 +5481,7 @@ static void compat_load_020400(struct loaddata *loading)
 }
 
 /****************************************************************************
-  ...
+  Save game in 2.4 format.
 ****************************************************************************/
 static void compat_save_020400(struct savedata *saving)
 {

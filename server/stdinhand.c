@@ -405,7 +405,8 @@ void cmd_reply(enum command_id cmd, struct connection *caller,
 }
 
 /**************************************************************************
-...
+  Command specific argument parsing has detected that player argument
+  is invalid. This function is common handling for that situation.
 **************************************************************************/
 static void cmd_reply_no_such_player(enum command_id cmd,
 				     struct connection *caller,
@@ -439,7 +440,8 @@ static void cmd_reply_no_such_player(enum command_id cmd,
 }
 
 /**************************************************************************
-...
+  Command specific argument parsing has detected that connection argument
+  is invalid. This function is common handling for that situation.
 **************************************************************************/
 static void cmd_reply_no_such_conn(enum command_id cmd,
 				   struct connection *caller,
@@ -473,7 +475,7 @@ static void cmd_reply_no_such_conn(enum command_id cmd,
 }
 
 /**************************************************************************
-...
+  Start sending game info to metaserver.
 **************************************************************************/
 static void open_metaserver_connection(struct connection *caller)
 {
@@ -486,7 +488,7 @@ static void open_metaserver_connection(struct connection *caller)
 }
 
 /**************************************************************************
-...
+  Stop sending game info to metaserver.
 **************************************************************************/
 static void close_metaserver_connection(struct connection *caller)
 {
@@ -499,7 +501,7 @@ static void close_metaserver_connection(struct connection *caller)
 }
 
 /**************************************************************************
-...
+  Handle metaconnection command.
 **************************************************************************/
 static bool metaconnection_command(struct connection *caller, char *arg, 
                                    bool check)
@@ -544,7 +546,7 @@ static bool metaconnection_command(struct connection *caller, char *arg,
 }
 
 /**************************************************************************
-...
+  Handle metapatches command.
 **************************************************************************/
 static bool metapatches_command(struct connection *caller, 
                                 char *arg, bool check)
@@ -569,7 +571,7 @@ static bool metapatches_command(struct connection *caller,
 }
 
 /**************************************************************************
-...
+  Handle metamessage command.
 **************************************************************************/
 static bool metamessage_command(struct connection *caller, 
                                 char *arg, bool check)
@@ -593,7 +595,7 @@ static bool metamessage_command(struct connection *caller,
 }
 
 /**************************************************************************
-...
+  Handle metaserver command.
 **************************************************************************/
 static bool metaserver_command(struct connection *caller, char *arg, 
                                bool check)
@@ -739,7 +741,7 @@ static bool save_command(struct connection *caller, char *arg, bool check)
 }
 
 /**************************************************************************
-...
+  Handle ai player ai toggling.
 **************************************************************************/
 void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 {
@@ -790,7 +792,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 }
 
 /**************************************************************************
-...
+  Handle aitoggle command.
 **************************************************************************/
 static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 {
@@ -1116,9 +1118,10 @@ enum rfc_status create_command_pregame(const char *name,
 }
 
 /**************************************************************************
-...
+  Handle remove command.
 **************************************************************************/
-static bool remove_player(struct connection *caller, char *arg, bool check)
+static bool remove_player_command(struct connection *caller, char *arg,
+                                  bool check)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -1257,8 +1260,9 @@ static bool read_init_script_real(struct connection *caller,
 }
 
 /**************************************************************************
-...
-(Should this take a 'caller' argument for output? --dwp)
+  Write current settings to new init script.
+
+  (Should this take a 'caller' argument for output? --dwp)
 **************************************************************************/
 static void write_init_script(char *script_filename)
 {
@@ -1374,9 +1378,9 @@ static bool a_connection_exists(void)
 }
 
 /********************************************************************
-...
+  Return whether first access level is already taken.
 *********************************************************************/
-static bool first_access_level_is_taken(void)
+static bool is_first_access_level_taken(void)
 {
   conn_list_iterate(game.est_connections, pconn) {
     if (pconn->access_level >= first_access_level) {
@@ -1388,7 +1392,7 @@ static bool first_access_level_is_taken(void)
 }
 
 /********************************************************************
-...
+  Return access level for next connection
 *********************************************************************/
 enum cmdlevel access_level_for_next_connection(void)
 {
@@ -1401,12 +1405,13 @@ enum cmdlevel access_level_for_next_connection(void)
 }
 
 /********************************************************************
-...
+  Check if first access level is available and if it is, notify
+  connections about it.
 *********************************************************************/
 void notify_if_first_access_level_is_available(void)
 {
   if (first_access_level > default_access_level
-      && !first_access_level_is_taken()) {
+      && !is_first_access_level_taken()) {
     notify_conn(NULL, NULL, E_SETTING, ftc_any,
                 _("Anyone can now become game organizer "
                   "'%s' by issuing the 'first' command."),
@@ -1565,7 +1570,7 @@ static bool firstlevel_command(struct connection *caller, bool check)
 	_("You already have command access level '%s' or better."),
 		cmdlevel_name(first_access_level));
     return FALSE;
-  } else if (first_access_level_is_taken()) {
+  } else if (is_first_access_level_taken()) {
     cmd_reply(CMD_FIRSTLEVEL, caller, C_FAIL,
 	_("Someone else is already game organizer."));
     return FALSE;
@@ -1813,7 +1818,7 @@ static void show_help_option_list(struct connection *caller,
 }
 
 /**************************************************************************
- ...
+  Handle explain command
 **************************************************************************/
 static bool explain_option(struct connection *caller, char *str, bool check)
 {
@@ -2219,7 +2224,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 }
 
 /******************************************************************
-...
+  Handle team command
 ******************************************************************/
 static bool team_command(struct connection *caller, char *str, bool check)
 {
@@ -2747,7 +2752,7 @@ static bool debug_command(struct connection *caller, char *str,
 }
 
 /******************************************************************
-  ...
+  Handle set command
 ******************************************************************/
 static bool set_command(struct connection *caller, char *str, bool check)
 {
@@ -3952,7 +3957,7 @@ static void cut_comment(char *str)
 }
 
 /**************************************************************************
-...
+  Handle quit command
 **************************************************************************/
 static bool quit_game(struct connection *caller, bool check)
 {
@@ -4164,7 +4169,7 @@ static bool handle_stdin_input_real(struct connection *caller,
 
   switch(cmd) {
   case CMD_REMOVE:
-    return remove_player(caller, arg, check);
+    return remove_player_command(caller, arg, check);
   case CMD_SAVE:
     return save_command(caller,arg, check);
 #ifdef DEBUG
@@ -4942,7 +4947,7 @@ static const char *mapimg_accessor(int i)
 }
 
 /**************************************************************************
-  ...
+  Handle mapimg command
 **************************************************************************/
 static bool mapimg_command(struct connection *caller, char *arg, bool check)
 {
@@ -5395,7 +5400,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
 }
 
 /**************************************************************************
-...
+  Handle cut command
 **************************************************************************/
 static bool cut_client_connection(struct connection *caller, char *name, 
                                   bool check)
@@ -5753,7 +5758,7 @@ static const char *helparg_accessor(int i)
 }
 
 /**************************************************************************
-...
+  Handle help command
 **************************************************************************/
 static bool show_help(struct connection *caller, char *arg)
 {
@@ -6250,7 +6255,7 @@ static char *olevel_generator(const char *text, int state)
 }
 
 /**************************************************************************
-  The player names.
+  Access player name.
 **************************************************************************/
 static const char *playername_accessor(int idx)
 {
@@ -6263,6 +6268,9 @@ static const char *playername_accessor(int idx)
   return player_name(player_slot_get_player(pslot));
 }
 
+/**************************************************************************
+  The valid playername arguments.
+**************************************************************************/
 static char *player_generator(const char *text, int state)
 {
   return generic_generator(text, state, player_slot_count(),
@@ -6270,12 +6278,16 @@ static char *player_generator(const char *text, int state)
 }
 
 /**************************************************************************
-The connection user names, from game.all_connections.
+  Access connection user name, from game.all_connections.
 **************************************************************************/
 static const char *connection_name_accessor(int idx)
 {
   return conn_list_get(game.all_connections, idx)->username;
 }
+
+/**************************************************************************
+  The valid connection user name arguments.
+**************************************************************************/
 static char *connection_generator(const char *text, int state)
 {
   return generic_generator(text, state, conn_list_size(game.all_connections),
@@ -6283,13 +6295,16 @@ static char *connection_generator(const char *text, int state)
 }
 
 /**************************************************************************
-The valid arguments for the first argument to "cmdlevel".
-Extra accessor function since cmdlevel_name() takes enum argument, not int.
+  Extra accessor function since cmdlevel_name() takes enum argument, not int.
 **************************************************************************/
 static const char *cmdlevel_arg1_accessor(int idx)
 {
   return cmdlevel_name(idx);
 }
+
+/**************************************************************************
+  The valid first argument to "cmdlevel"
+**************************************************************************/
 static char *cmdlevel_arg1_generator(const char *text, int state)
 {
   return generic_generator(text, state, cmdlevel_max()+1,
@@ -6297,8 +6312,8 @@ static char *cmdlevel_arg1_generator(const char *text, int state)
 }
 
 /**************************************************************************
-The valid arguments for the second argument to "cmdlevel":
-"first" or "new" or a connection name.
+  Accessor for the second argument to "cmdlevel": "first" or "new" or
+  a connection name.
 **************************************************************************/
 static const char *cmdlevel_arg2_accessor(int idx)
 {
@@ -6306,9 +6321,14 @@ static const char *cmdlevel_arg2_accessor(int idx)
 	  (idx==1) ? "new" :
 	  connection_name_accessor(idx-2));
 }
+
+/**************************************************************************
+  The valid arguments for the second argument to "cmdlevel".
+**************************************************************************/
 static char *cmdlevel_arg2_generator(const char *text, int state)
 {
   return generic_generator(text, state,
+                           /* "first", "new", connection names */
 			   2 + conn_list_size(game.all_connections),
 			   cmdlevel_arg2_accessor);
 }
@@ -6365,7 +6385,8 @@ static bool contains_str_before_start(int start, const char *cmd, bool allow_flu
 }
 
 /**************************************************************************
-...
+  Return whether we are completing command name. This can be either
+  command itself, or argument to 'help'.
 **************************************************************************/
 static bool is_command(int start)
 {
@@ -6426,7 +6447,7 @@ static int num_tokens(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing player name argument.
 **************************************************************************/
 static bool is_player(int start)
 {
@@ -6443,7 +6464,7 @@ static bool is_player(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing connection name argument.
 **************************************************************************/
 static bool is_connection(int start)
 {
@@ -6451,7 +6472,7 @@ static bool is_connection(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing cmdlevel command argument 2.
 **************************************************************************/
 static bool is_cmdlevel_arg2(int start)
 {
@@ -6460,7 +6481,7 @@ static bool is_cmdlevel_arg2(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing cmdlevel command argument.
 **************************************************************************/
 static bool is_cmdlevel_arg1(int start)
 {
@@ -6537,7 +6558,7 @@ static const int filename_cmd[] = {
 };
 
 /**************************************************************************
-...
+  Return whether we are completing filename.
 **************************************************************************/
 static bool is_filename(int start)
 {
@@ -6554,7 +6575,7 @@ static bool is_filename(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing help command argument.
 **************************************************************************/
 static bool is_help(int start)
 {
@@ -6562,7 +6583,7 @@ static bool is_help(int start)
 }
 
 /**************************************************************************
-...
+  Return whether we are completing list command argument.
 **************************************************************************/
 static bool is_list(int start)
 {
@@ -6615,4 +6636,3 @@ char **freeciv_completion(char *text, int start, int end)
 }
 
 #endif /* HAVE_LIBREADLINE */
-

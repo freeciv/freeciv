@@ -1343,7 +1343,7 @@ static void map_load_known(struct section_file *file,
 }
 
 /***************************************************************
-...
+  Main map data saving function
 ***************************************************************/
 static void map_save(struct section_file *file, bool save_players)
 {
@@ -3298,7 +3298,7 @@ static void player_load_cities(struct player *plr, int plrno,
 }
 
 /****************************************************************************
-...
+  Load player custom (client specific) attribute data
 ****************************************************************************/
 static void player_load_attributes(struct player *plr, int plrno,
 				   struct section_file *file)
@@ -3632,7 +3632,7 @@ static void player_load_vision(struct player *plr, int plrno,
 }
 
 /****************************************************************************
-...
+  Main player data saving function
 ****************************************************************************/
 static void player_save_main(struct player *plr, int plrno,
 			     struct section_file *file)
@@ -3971,7 +3971,7 @@ static void player_save_units(struct player *plr, int plrno,
 }
 
 /****************************************************************************
-...
+  Save cities data
 ****************************************************************************/
 static void player_save_cities(struct player *plr, int plrno,
 			       struct section_file *file)
@@ -4217,7 +4217,7 @@ static void player_save_vision(struct player *plr, int plrno,
 }
 
 /****************************************************************************
-...
+  Save player custom (client specific) attribute data
 ****************************************************************************/
 static void player_save_attributes(struct player *plr, int plrno,
 				   struct section_file *file)
@@ -5650,7 +5650,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.server.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.server.razechance, "game.razechance");
 
-  /* Write civstyle for compatibility with old servers */
+  /* Write civstyle for compatibility with ancient servers */
   secfile_insert_int(file, 2, "game.civstyle");
   secfile_insert_int(file, game.server.save_nturns, "game.save_nturns");
   secfile_insert_str(file, game.server.save_name, "game.save_name");

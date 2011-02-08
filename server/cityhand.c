@@ -98,7 +98,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
-...
+  Handle request to change specialist type
 **************************************************************************/
 void handle_city_change_specialist(struct player *pplayer, int city_id,
 				   Specialist_type_id from,
@@ -129,7 +129,7 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
 }
 
 /**************************************************************************
-...
+  Handle request to change city worker in to specialist.
 **************************************************************************/
 void handle_city_make_specialist(struct player *pplayer, int city_id,
                                  int worker_x, int worker_y)
@@ -177,7 +177,9 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
 }
 
 /**************************************************************************
-...
+  Handle request to turn specialist in to city worker. Client cannot
+  tell which kind of specialist is to be taken, but this just makes worker
+  from first available specialist.
 **************************************************************************/
 void handle_city_make_worker(struct player *pplayer, int city_id,
 			     int worker_x, int worker_y)
@@ -246,7 +248,8 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 }
 
 /**************************************************************************
-...
+  Handle improvement selling request. Caller is responsible to validate
+  input before passing to this function if it comes from untrusted source.
 **************************************************************************/
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 			     struct impr_type *pimprove)
@@ -281,7 +284,8 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-...
+  Handle improvement selling request. This function does check its
+  parameters as they may come from untrusted source over the network.
 **************************************************************************/
 void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 {
@@ -295,7 +299,8 @@ void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 }
 
 /**************************************************************************
-...
+  Handle buying request. Caller is responsible to validate input before
+  passing to this function if it comes from untrusted source.
 **************************************************************************/
 void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
@@ -375,7 +380,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Handle city worklist update request
 **************************************************************************/
 void handle_city_worklist(struct player *pplayer, int city_id,
                           const struct worklist *worklist)
@@ -392,7 +397,8 @@ void handle_city_worklist(struct player *pplayer, int city_id,
 }
 
 /**************************************************************************
-...
+  Handle buying request. This function does properly check its input as
+  it may come from untrusted source over the network.
 **************************************************************************/
 void handle_city_buy(struct player *pplayer, int city_id)
 {
@@ -406,7 +412,7 @@ void handle_city_buy(struct player *pplayer, int city_id)
 }
 
 /**************************************************************************
-...
+  Handle city refresh request
 **************************************************************************/
 void handle_city_refresh(struct player *pplayer, int city_id)
 {
@@ -425,7 +431,7 @@ void handle_city_refresh(struct player *pplayer, int city_id)
 }
 
 /**************************************************************************
-...
+  Handle request to change current production.
 **************************************************************************/
 void handle_city_change(struct player *pplayer, int city_id,
 			int production_kind, int production_value)

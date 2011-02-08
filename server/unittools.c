@@ -154,7 +154,8 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
 }
 
 /*****************************************************************************
-  ...
+  Unit has a chance to become veteran. This should not be used for settlers
+  for the work they do.
 *****************************************************************************/
 bool maybe_make_veteran(struct unit *punit)
 {
@@ -972,7 +973,8 @@ void unit_assign_specific_activity_target(struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Return what kind of path should be selected for unit doing activity when
+  it moves.
 **************************************************************************/
 enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity)
 {
@@ -1002,7 +1004,8 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 }
 
 /**************************************************************************
-...
+  Find place to place partisans. Returns whether such spot was found, and
+  if it has been found, dst_tile contains that tile.
 **************************************************************************/
 static bool find_a_good_partisan_spot(struct tile *pcenter,
                                       struct player *powner,
@@ -1277,7 +1280,7 @@ bool is_unit_being_refueled(const struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Can unit refuel on tile. Considers also carrier capacity on tile.
 **************************************************************************/
 bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 			     const struct unit_type *type,
@@ -2022,7 +2025,7 @@ void package_short_unit(struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Handle situation where unit goes out of player sight.
 **************************************************************************/
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
 {
@@ -2273,7 +2276,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
 }
 
 /**************************************************************************
-  ...
+  Autoexplore with unit.
 **************************************************************************/
 void do_explore(struct unit *punit)
 {

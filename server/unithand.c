@@ -78,7 +78,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
 /**************************************************************************
-...
+  Handle airlift request.
 **************************************************************************/
 void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 {
@@ -285,7 +285,7 @@ void handle_unit_diplomat_query(struct connection *pc,
 }
 
 /**************************************************************************
-...
+  Handle diplomat action request.
 **************************************************************************/
 void handle_unit_diplomat_action(struct player *pplayer,
 				 int diplomat_id,
@@ -689,7 +689,8 @@ static void city_build(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Handle city building request. Can result in adding to existing city
+  also.
 **************************************************************************/
 void handle_unit_build_city(struct player *pplayer, int unit_id,
                             const char *name)
@@ -784,7 +785,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 }
 
 /**************************************************************************
-...
+  Handle unit move request.
 **************************************************************************/
 void handle_unit_move(struct player *pplayer, int unit_id, int tile)
 {
@@ -1489,7 +1490,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 }
 
 /**************************************************************************
-...
+  Handle request to help in wonder building.
 **************************************************************************/
 void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 {
@@ -1536,7 +1537,8 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
-...
+  Handle request to establish traderoute. If pcity_dest is NULL, assumes
+  that unit is inside target city.
 **************************************************************************/
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest)
 {
@@ -1833,7 +1835,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 }
 
 /**************************************************************************
-...
+  Handle request to establish traderoute between unit homecity and the
+  city its currently in.
 **************************************************************************/
 void handle_unit_establish_trade(struct player *pplayer, int unit_id)
 {
@@ -1861,7 +1864,7 @@ void handle_unit_battlegroup(struct player *pplayer,
 }
 
 /**************************************************************************
-...
+  Handle request to set unit to autosettler mode.
 **************************************************************************/
 void handle_unit_autosettlers(struct player *pplayer, int unit_id)
 {
@@ -1881,7 +1884,8 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
-...
+  Update everything that needs changing when unit activity changes from
+  old activity to new one.
 **************************************************************************/
 static void unit_activity_dependencies(struct unit *punit,
 				       enum unit_activity old_activity,
@@ -1925,7 +1929,7 @@ static void unit_activity_dependencies(struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Handle request for changing activity.
 **************************************************************************/
 void unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity)
@@ -2075,7 +2079,7 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
-...
+  Handle paradrop request.
 **************************************************************************/
 void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int tile)
 {

@@ -28,6 +28,9 @@
 #include "shared.h"
 #include "support.h"
 
+/* common/aicore */
+#include "cm.h"
+
 /* common */
 #include "citizens.h"
 #include "city.h"
@@ -64,8 +67,6 @@
 #include "advbuilding.h"
 #include "advdata.h"
 #include "autosettlers.h"
-
-#include "cm.h"
 
 /* ai */
 #include "advdomestic.h"
@@ -130,7 +131,7 @@ static bool do_city_migration(struct city *pcity_from,
 static void check_city_migrations_player(const struct player *pplayer);
 
 /**************************************************************************
-...
+  Updates unit upkeeps and city internal cached data.
 **************************************************************************/
 void city_refresh(struct city *pcity)
 {
@@ -190,7 +191,7 @@ void city_refresh_queue_processing(void)
 }
 
 /**************************************************************************
-...
+  Automatically sells obsolete buildings from city.
 **************************************************************************/
 void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 {
@@ -218,7 +219,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 }
 
 /**************************************************************************
-...
+  Sell obsolete buildings from all cities of the player
 **************************************************************************/
 void remove_obsolete_buildings(struct player *pplayer)
 {
@@ -2123,7 +2124,7 @@ static void define_orig_production_values(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Let the advisor set up city building target.
 **************************************************************************/
 static void nullify_caravan_and_disband_plus(struct city *pcity)
 {
@@ -2132,7 +2133,8 @@ static void nullify_caravan_and_disband_plus(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Initialize all variables containing information about production
+  before it was changed.
 **************************************************************************/
 void nullify_prechange_production(struct city *pcity)
 {

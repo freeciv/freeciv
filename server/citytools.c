@@ -1836,7 +1836,7 @@ void send_all_known_cities(struct conn_list *dest)
 }
 
 /**************************************************************************
-...
+  Send information about all his/her cities to player
 **************************************************************************/
 void send_player_cities(struct player *pplayer)
 {
@@ -1954,7 +1954,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 }
 
 /**************************************************************************
-...
+  Fill city info packet with information about given city.
 **************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
 		  bool dipl_invest)
@@ -2509,7 +2509,8 @@ bool city_map_update_tile_now(struct tile *ptile)
 }
 
 /**************************************************************************
-...
+  Make sure all players (clients) have up-to-date information about all
+  their cities.
 **************************************************************************/
 void sync_cities(void)
 {
@@ -2542,7 +2543,7 @@ void city_map_update_all(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Update worked map of all cities of given player
 **************************************************************************/
 void city_map_update_all_cities_for_player(struct player *pplayer)
 {

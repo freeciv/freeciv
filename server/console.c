@@ -93,10 +93,10 @@ static void con_update_prompt(void)
   } else {
     rl_forced_update_display();
   }
-#else
+#else  /* HAVE_LIBREADLINE */
   con_dump(C_READY,"> ");
   con_flush();
-#endif
+#endif /* HAVE_LIBREADLINE */
 
   console_prompt_is_showing = TRUE;
 }

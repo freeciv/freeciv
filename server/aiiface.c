@@ -29,7 +29,7 @@
 /* server/advisors */
 #include "autosettlers.h"
 
-/* ai */
+/* ai/default */
 #include "defaultai.h"
 
 #include "aiiface.h"

@@ -228,7 +228,7 @@ bool really_gives_vision(struct player *me, struct player *them)
 }
 
 /**************************************************************************
-...
+  Start buffering shared vision
 **************************************************************************/
 static void buffer_shared_vision(struct player *pplayer)
 {
@@ -240,7 +240,7 @@ static void buffer_shared_vision(struct player *pplayer)
 }
 
 /**************************************************************************
-...
+  Stop buffering shared vision
 **************************************************************************/
 static void unbuffer_shared_vision(struct player *pplayer)
 {
@@ -252,7 +252,7 @@ static void unbuffer_shared_vision(struct player *pplayer)
 }
 
 /**************************************************************************
-...
+  Give information about whole map (all tiles) from player to player.
 **************************************************************************/
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest)
 {
@@ -268,7 +268,7 @@ void give_map_from_player_to_player(struct player *pfrom, struct player *pdest)
 }
 
 /**************************************************************************
-...
+  Give information about all oceanic tiles from player to player
 **************************************************************************/
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest)
 {
@@ -286,7 +286,7 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 }
 
 /**************************************************************************
-...
+  Give information about tiles within city radius from player to player
 **************************************************************************/
 void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest)
@@ -915,7 +915,7 @@ void change_playertile_site(struct player_tile *ptile,
 }
 
 /***************************************************************
-...
+  Set known status of the tile.
 ***************************************************************/
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
@@ -923,7 +923,7 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 }
 
 /***************************************************************
-...
+  Clear known status of the tile.
 ***************************************************************/
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
@@ -1118,7 +1118,11 @@ void update_tile_knowledge(struct tile *ptile)
 }
 
 /***************************************************************
-...
+  Remember that tile was last seen this year.
+
+  FIXME: Should last_updated be turn rather than year? Turn is
+         guaranteed to go forward when game proceeds, but year
+         is not (it can remain same or even go backwards)
 ***************************************************************/
 void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile)
 {
@@ -1126,7 +1130,7 @@ void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile)
 }
 
 /***************************************************************
-...
+  Give tile information from one player to one player.
 ***************************************************************/
 static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 							struct player *pdest,
@@ -1192,7 +1196,8 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 }
 
 /***************************************************************
-...
+  Give tile information from player to player. Handles chains of
+  shared vision so that receiver may give information forward.
 ***************************************************************/
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
@@ -1244,7 +1249,7 @@ static void create_vision_dependencies(void)
 }
 
 /***************************************************************
-...
+  Starts shared vision between two players.
 ***************************************************************/
 void give_shared_vision(struct player *pfrom, struct player *pto)
 {
@@ -1299,7 +1304,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 }
 
 /***************************************************************
-...
+  Removes shared vision from between two players.
 ***************************************************************/
 void remove_shared_vision(struct player *pfrom, struct player *pto)
 {
@@ -1351,7 +1356,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 }
 
 /*************************************************************************
-...
+  Turns FoW on for player
 *************************************************************************/
 void enable_fog_of_war_player(struct player *pplayer)
 {
@@ -1365,7 +1370,7 @@ void enable_fog_of_war_player(struct player *pplayer)
 }
 
 /*************************************************************************
-...
+  Turns FoW on for everyone.
 *************************************************************************/
 void enable_fog_of_war(void)
 {
@@ -1375,7 +1380,7 @@ void enable_fog_of_war(void)
 }
 
 /*************************************************************************
-...
+  Turns FoW off for player
 *************************************************************************/
 void disable_fog_of_war_player(struct player *pplayer)
 {
@@ -1389,7 +1394,7 @@ void disable_fog_of_war_player(struct player *pplayer)
 }
 
 /*************************************************************************
-...
+  Turns FoW off for everyone
 *************************************************************************/
 void disable_fog_of_war(void)
 {

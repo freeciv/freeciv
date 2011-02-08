@@ -55,7 +55,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech);
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 
 /**************************************************************************
-...
+  Reduce dipl cost bulbs from player.
 **************************************************************************/
 void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
 {
@@ -67,7 +67,7 @@ void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
 }
 
 /**************************************************************************
-...
+  Reduce free cost bulbs from player.
 **************************************************************************/
 void do_free_cost(struct player *pplayer, Tech_type_id tech)
 {
@@ -79,7 +79,7 @@ void do_free_cost(struct player *pplayer, Tech_type_id tech)
 }
 
 /**************************************************************************
-...
+  Reduce conquer cost bulbs from player.
 **************************************************************************/
 void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 {
@@ -838,7 +838,7 @@ void init_tech(struct player *plr, bool update)
       game.info.global_advances[i] = global_state[i];
     } advance_index_iterate_end;
   }
-#endif
+#endif /* TECH_UPKEEP_DEBUGGING */
 
   research->techs_researched = 1;
 

@@ -181,7 +181,7 @@ void set_user_meta_message_string(const char *string)
 }
 
 /*************************************************************************
-...
+  Return string describing both metaserver name and port.
 *************************************************************************/
 char *meta_addr_port(void)
 {
@@ -395,7 +395,7 @@ static bool send_to_metaserver(enum meta_flag flag)
 }
 
 /*************************************************************************
- 
+  Stop sending updates to metaserver
 *************************************************************************/
 void server_close_meta(void)
 {
