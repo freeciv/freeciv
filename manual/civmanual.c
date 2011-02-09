@@ -209,7 +209,7 @@ static bool manual_command(void)
             const char *value;
 
             fprintf(doc, "<p class=\"bounds\">%s</p>\n",
-                    _("Possible values:"));
+                    _("Possible values (option can take any number of these):"));
             for (i = 0; (value = setting_bitwise_bit(pset, i, FALSE)); i++) {
               fprintf(doc, "<p class=\"bounds\"><li/> %s: \"%s\"</p>\n",
                       value, setting_bitwise_bit(pset, i, TRUE));

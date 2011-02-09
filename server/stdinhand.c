@@ -1764,7 +1764,8 @@ static void show_help_option(struct connection *caller,
         int i;
         const char *value;
 
-        cmd_reply(help_cmd, caller, C_COMMENT, _("Possible values:"));
+        cmd_reply(help_cmd, caller, C_COMMENT,
+                  _("Possible values (option can take any number of these):"));
         for (i = 0; (value = setting_bitwise_bit(pset, i, FALSE)); i++) {
           cmd_reply(help_cmd, caller, C_COMMENT, "- %s: \"%s\"",
                     value, setting_bitwise_bit(pset, i, TRUE));
