@@ -191,7 +191,14 @@ static struct command commands[] = {
   {"set",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("set <option-name> <value>"),
-   N_("Set server option."), NULL,
+   N_("Set server option."),
+   /* TRANS: don't translate text in '' */
+   N_("Set an option on the server. The syntax and legal values depend "
+      "on the option; see the help for each option. Some options are "
+      "\"bitwise\", in that they consist of a choice from a set of values; "
+      "separate these with |, for instance, '/set topology wrapx|iso'. For "
+      "these options, use syntax like '/set topology \"\"' to set no "
+      "values."),
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"team",	ALLOW_CTRL,
