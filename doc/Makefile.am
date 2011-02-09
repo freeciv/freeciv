@@ -19,6 +19,8 @@ EXTRA_DIST =			\
 	README.graphics		\
 	README.nations		\
 	README.packaging	\
+	README.ruleset_experimental \
+	README.ruleset_multiplayer \
 	README.rulesets		\
 	README.scorelog		\
 	README.SDLClient	\
