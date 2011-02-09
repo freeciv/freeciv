@@ -56,6 +56,7 @@
 /* ai */
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aiguard.h"
 #include "aihand.h"
 #include "aiplayer.h"

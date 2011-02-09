@@ -159,6 +159,9 @@
 /* server/scripting */
 #include "script_game.h"
 
+/* ai */
+#include "aidata.h"
+
 #include "savegame2.h"
 
 #define log_sg log_error

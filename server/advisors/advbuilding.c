@@ -579,7 +579,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_ENABLE_SPACE:
     if (game.info.spacerace) {
       v += 5;
-      if (ai->diplomacy.production_leader == pplayer) {
+      if (ai->dipl.production_leader == pplayer) {
 	v += 100;
       }
     }
@@ -632,8 +632,8 @@ static int improvement_effect_value(struct player *pplayer,
     if (game.info.spacerace
 	/* If someone has started building spaceship already or
 	 * we have chance to win a spacerace */
-	&& (ai->diplomacy.spacerace_leader
-	    || ai->diplomacy.production_leader == pplayer)) {
+	&& (ai->dipl.spacerace_leader
+	    || ai->dipl.production_leader == pplayer)) {
       v += 95;
     }
     break;

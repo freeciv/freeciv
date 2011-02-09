@@ -30,44 +30,11 @@
  * start of every turn. 
  */
 
-enum war_reason {
-  WAR_REASON_BEHAVIOUR,
-  WAR_REASON_SPACE,
-  WAR_REASON_EXCUSE,
-  WAR_REASON_HATRED,
-  WAR_REASON_ALLIANCE,
-  WAR_REASON_NONE
-};
-
 enum ai_improvement_status {
   AI_IMPR_CALCULATE, /* Calculate exactly its effect */
   AI_IMPR_CALCULATE_FULL, /* Calculate including tile changes */
   AI_IMPR_ESTIMATE,  /* Estimate its effect using wild guesses */
   AI_IMPR_LAST
-};
-
-enum winning_strategy {
-  WIN_OPEN,     /* still undetermined */
-  WIN_WAR,      /* we have no other choice than to crush all opposition */
-  WIN_SPACE,    /* we will race for space, peace very important */
-  WIN_CAPITAL   /* we cannot win unless we take war_target's capital */
-};
-
-struct ai_dip_intel {
-  /* Remember one example of each for text spam purposes. */
-  struct player *is_allied_with_enemy;
-  struct player *at_war_with_ally;
-  struct player *is_allied_with_ally;
-
-  signed char spam;      /* timer to avoid spamming a player with chat */
-  int distance;   /* average distance to that player's cities */
-  int countdown;  /* we're on a countdown to war declaration */
-  enum war_reason war_reason; /* why we declare war */
-  signed char ally_patience; /* we EXPECT our allies to help us! */
-  signed char asked_about_peace;     /* don't ask again */
-  signed char asked_about_alliance;  /* don't nag! */
-  signed char asked_about_ceasefire; /* don't ... you get the point */
-  signed char warned_about_space;
 };
 
 struct ai_settler; /* see aisettler.c */
@@ -83,19 +50,6 @@ struct adv_data {
   /* Precalculated info about city improvements */
   enum ai_improvement_status impr_calc[MAX_NUM_ITEMS];
   enum req_range impr_range[MAX_NUM_ITEMS];
-
-  /* AI diplomacy and opinions on other players */
-  struct {
-    const struct ai_dip_intel **player_intel_slots;
-    enum winning_strategy strategy;
-    int timer; /* pursue our goals with some stubbornness, in turns */
-    char love_coeff;          /* Reduce love with this % each turn */
-    char love_incr;           /* Modify love with this fixed amount */
-    int req_love_for_peace;
-    int req_love_for_alliance;
-    struct player *spacerace_leader; /* who is leading the space pack */
-    struct player *production_leader;
-  } diplomacy;
 
   /* Long-term threats, not to be confused with short-term danger */
   struct {
@@ -136,6 +90,11 @@ struct adv_data {
     int average_production;
     bv_id diplomat_reservations;
   } stats;
+
+  struct {
+    struct player *spacerace_leader; /* who is leading the space pack */
+    struct player *production_leader;
+  } dipl;
 
   int num_continents; /* last time we updated our continent data */
   int num_oceans; /* last time we updated our continent data */
@@ -189,7 +148,5 @@ bool is_adv_data_phase_open(struct player *pplayer);
 void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct adv_data *adv_data_get(struct player *pplayer);
-struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
-                                      const struct player *plr2);
 
 #endif /* FC__ADVDATA_H */

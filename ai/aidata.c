@@ -23,10 +23,18 @@
 #include "advdata.h"
 
 /* ai */
+#include "advdiplomacy.h"
 #include "aiferry.h"
 #include "aiplayer.h"
 
 #include "aidata.h"
+
+static void ai_diplomacy_new(const struct player *plr1,
+                             const struct player *plr2);
+static void ai_diplomacy_defaults(const struct player *plr1,
+                                  const struct player *plr2);
+static void ai_diplomacy_destroy(const struct player *plr1,
+                                 const struct player *plr2);
 
 /****************************************************************************
   Initialize ai data structure
@@ -41,6 +49,33 @@ void ai_data_init(struct player *pplayer)
   ai->last_num_oceans = -1;
 
   ai->channels = NULL;
+
+  ai->diplomacy.player_intel_slots
+    = fc_calloc(player_slot_count(),
+                sizeof(*ai->diplomacy.player_intel_slots));
+  player_slots_iterate(pslot) {
+    const struct ai_dip_intel **player_intel_slot
+      = ai->diplomacy.player_intel_slots + player_slot_index(pslot);
+    *player_intel_slot = NULL;
+  } player_slots_iterate_end;
+
+  players_iterate(aplayer) {
+    /* create ai diplomacy states for all other players */
+    ai_diplomacy_new(pplayer, aplayer);
+    ai_diplomacy_defaults(pplayer, aplayer);
+    /* create ai diplomacy state of this player */
+    if (aplayer != pplayer) {
+      ai_diplomacy_new(aplayer, pplayer);
+      ai_diplomacy_defaults(aplayer, pplayer);
+    }
+  } players_iterate_end;
+
+  ai->diplomacy.strategy = WIN_OPEN;
+  ai->diplomacy.timer = 0;
+  ai->diplomacy.love_coeff = 4; /* 4% */
+  ai->diplomacy.love_incr = MAX_AI_LOVE * 3 / 100;
+  ai->diplomacy.req_love_for_peace = MAX_AI_LOVE / 8;
+  ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE / 4;
 }
 
 /****************************************************************************
@@ -48,6 +83,19 @@ void ai_data_init(struct player *pplayer)
 ****************************************************************************/
 void ai_data_close(struct player *pplayer)
 {
+  struct ai_plr *ai = def_ai_player_data(pplayer);
+
+  if (ai->diplomacy.player_intel_slots != NULL) {
+    players_iterate(aplayer) {
+      /* destroy the ai diplomacy states of this player with others ... */
+      ai_diplomacy_destroy(pplayer, aplayer);
+      /* and of others with this player. */
+      if (aplayer != pplayer) {
+        ai_diplomacy_destroy(aplayer, pplayer);
+      }
+    } players_iterate_end;
+    free(ai->diplomacy.player_intel_slots);
+  }
 }
 
 /**************************************************************************
@@ -86,6 +134,42 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
      against it later in order to see if ai data needs refreshing. */
   ai->last_num_continents = adv->num_continents;
   ai->last_num_oceans = adv->num_oceans;
+
+  /*** Diplomacy ***/
+  if (pplayer->ai_controlled && !is_barbarian(pplayer) && is_new_phase) {
+    ai_diplomacy_begin_new_phase(pplayer);
+  }
+
+  /* Set per-player variables. We must set all players, since players
+   * can be created during a turn, and we don't want those to have
+   * invalid values. */
+  players_iterate(aplayer) {
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
+
+    adip->is_allied_with_enemy = NULL;
+    adip->at_war_with_ally = NULL;
+    adip->is_allied_with_ally = NULL;
+
+    players_iterate(check_pl) {
+      if (check_pl == pplayer
+          || check_pl == aplayer
+          || !check_pl->is_alive) {
+        continue;
+      }
+      if (pplayers_allied(aplayer, check_pl)
+          && player_diplstate_get(pplayer, check_pl)->type == DS_WAR) {
+       adip->is_allied_with_enemy = check_pl;
+      }
+      if (pplayers_allied(pplayer, check_pl)
+          && player_diplstate_get(aplayer, check_pl)->type == DS_WAR) {
+        adip->at_war_with_ally = check_pl;
+      }
+      if (pplayers_allied(aplayer, check_pl)
+          && pplayers_allied(pplayer, check_pl)) {
+        adip->is_allied_with_ally = check_pl;
+      }
+    } players_iterate_end;
+  } players_iterate_end;
 
   /*** Channels ***/
 
@@ -197,4 +281,85 @@ bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2)
   }
 
   return (c1 == c2 || ai->channels[(-c1) * adv->num_oceans + (-c2)]);
+}
+
+/****************************************************************************
+  Allocate new ai diplomacy slot
+****************************************************************************/
+static void ai_diplomacy_new(const struct player *plr1,
+                             const struct player *plr2)
+{
+  struct ai_dip_intel *player_intel;
+
+  fc_assert_ret(plr1 != NULL);
+  fc_assert_ret(plr2 != NULL);
+
+  const struct ai_dip_intel **player_intel_slot
+    = def_ai_player_data(plr1)->diplomacy.player_intel_slots
+      + player_index(plr2);
+
+  fc_assert_ret(*player_intel_slot == NULL);
+
+  player_intel = fc_calloc(1, sizeof(*player_intel));
+  *player_intel_slot = player_intel;
+}
+
+/****************************************************************************
+  Set diplomacy data between two players to its default values.
+****************************************************************************/
+static void ai_diplomacy_defaults(const struct player *plr1,
+                                  const struct player *plr2)
+{
+  struct ai_dip_intel *player_intel = ai_diplomacy_get(plr1, plr2);
+
+  fc_assert_ret(player_intel != NULL);
+
+  /* pseudorandom value */
+  player_intel->spam = (player_index(plr1) + player_index(plr2)) % 5;
+  player_intel->countdown = -1;
+  player_intel->war_reason = WAR_REASON_NONE;
+  player_intel->distance = 1;
+  player_intel->ally_patience = 0;
+  player_intel->asked_about_peace = 0;
+  player_intel->asked_about_alliance = 0;
+  player_intel->asked_about_ceasefire = 0;
+  player_intel->warned_about_space = 0;
+}
+
+/***************************************************************
+  Returns diplomatic state type between two players
+***************************************************************/
+struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
+                                      const struct player *plr2)
+{
+  fc_assert_ret_val(plr1 != NULL, NULL);
+  fc_assert_ret_val(plr2 != NULL, NULL);
+
+  const struct ai_dip_intel **player_intel_slot
+    = def_ai_player_data(plr1)->diplomacy.player_intel_slots
+      + player_index(plr2);
+
+  fc_assert_ret_val(player_intel_slot != NULL, NULL);
+
+  return (struct ai_dip_intel *) *player_intel_slot;
+}
+
+/****************************************************************************
+  Free resources allocated for diplomacy information between two players.
+****************************************************************************/
+static void ai_diplomacy_destroy(const struct player *plr1,
+                                 const struct player *plr2)
+{
+  fc_assert_ret(plr1 != NULL);
+  fc_assert_ret(plr2 != NULL);
+
+  const struct ai_dip_intel **player_intel_slot
+    = def_ai_player_data(plr1)->diplomacy.player_intel_slots
+      + player_index(plr2);
+
+  if (*player_intel_slot != NULL) {
+    free(ai_diplomacy_get(plr1, plr2));
+  }
+
+  *player_intel_slot = NULL;
 }

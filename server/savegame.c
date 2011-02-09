@@ -79,6 +79,9 @@
 /* server/scripting */
 #include "script_game.h"
 
+/* ai */
+#include "aidata.h"
+
 #include "savegame.h"
 
 #define TOKEN_SIZE 10

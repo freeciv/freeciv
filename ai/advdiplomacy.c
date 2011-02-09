@@ -53,6 +53,9 @@
 
 /* ai */
 #include "aicity.h"
+#include "aidata.h"
+#include "ailog.h"
+#include "aiplayer.h"
 #include "aiunit.h"
 #include "aitools.h"
 #include "advmilitary.h"
@@ -283,7 +286,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
                                bool verbose,
                                enum diplstate_type ds_after)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
   struct player *giver;
@@ -684,7 +687,7 @@ static void ai_treaty_react(struct player *pplayer,
 void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
                         struct Treaty *ptreaty)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
   int total_balance = 0;
   bool gift = TRUE;
   enum diplstate_type ds_after =
@@ -735,7 +738,8 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
 ***********************************************************************/
 static int ai_war_desire(struct player *pplayer, struct player *target)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer);
   int want = 0, fear = 0, distance = 0, settlers = 0, cities = 0;
   struct player_spaceship *ship = &target->spaceship;
 
@@ -807,7 +811,7 @@ static int ai_war_desire(struct player *pplayer, struct player *target)
   if (ship->state >= SSHIP_STARTED) {
     want *= 2;
   }
-  if (ai->diplomacy.spacerace_leader == target) {
+  if (adv->dipl.spacerace_leader == target) {
     ai->diplomacy.strategy = WIN_CAPITAL;
     return BIG_NUMBER; /* do NOT amortize this number! */
   }
@@ -904,7 +908,8 @@ void ai_diplomacy_first_contact(struct player *pplayer,
 ***********************************************************************/
 void ai_diplomacy_begin_new_phase(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer);
   int war_desire[player_slot_count()];
   int best_desire = 0;
   struct player *best_target = NULL;
@@ -1007,7 +1012,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer)
   } players_iterate_end;
 
   /* Can we win by space race? */
-  if (ai->diplomacy.spacerace_leader == pplayer) {
+  if (adv->dipl.spacerace_leader == pplayer) {
     log_base(LOG_DIPL2, "%s going for space race victory!",
              player_name(pplayer));
     ai->diplomacy.strategy = WIN_SPACE; /* Yes! */
@@ -1372,7 +1377,7 @@ void static war_countdown(struct player *pplayer, struct player *target,
 ***********************************************************************/
 void ai_diplomacy_actions(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
   bool need_targets = TRUE;
   struct player *target = NULL;
   int most_hatred = MAX_AI_LOVE;
@@ -1397,6 +1402,8 @@ void ai_diplomacy_actions(struct player *pplayer)
   /*** Stop other players from winning by space race ***/
 
   if (ai->diplomacy.strategy != WIN_SPACE) {
+    struct adv_data *adv = adv_data_get(pplayer);
+
     players_iterate(aplayer) {
       struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
       struct player_spaceship *ship = &aplayer->spaceship;
@@ -1411,7 +1418,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       /* A spaceship victory is always one single player's or team's victory */
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
-          && ai->diplomacy.spacerace_leader == aplayer
+          && adv->dipl.spacerace_leader == aplayer
           && pplayers_allied(pplayer, aplayer)) {
         notify(aplayer, _("*%s (AI)* Your attempt to conquer space for "
                "yourself alone betrays your true intentions, and I "
@@ -1436,7 +1443,7 @@ void ai_diplomacy_actions(struct player *pplayer)
                player_name(pplayer));
       }
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
-          && aplayer == ai->diplomacy.spacerace_leader) {
+          && aplayer == adv->dipl.spacerace_leader) {
         /* This means war!!! */
         pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 2;
         DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "plans war due to spaceship");
