@@ -245,3 +245,15 @@ void fc_allocate_mutex(fc_mutex *mutex)
 void fc_release_mutex(fc_mutex *mutex)
 {}
 #endif /* HAVE_PTHREAD || HAVE_WINTHREADS */
+
+/**********************************************************************
+  Has freeciv any kind of real thread implementation
+***********************************************************************/
+bool has_thread_impl(void)
+{
+#ifdef HAVE_THREADS
+  return TRUE;
+#else
+  return FALSE;
+#endif
+}

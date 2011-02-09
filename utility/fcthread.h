@@ -18,6 +18,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "support.h" /* bool */
+
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 
@@ -46,6 +48,8 @@ void fc_init_mutex(fc_mutex *mutex);
 void fc_destroy_mutex(fc_mutex *mutex);
 void fc_allocate_mutex(fc_mutex *mutex);
 void fc_release_mutex(fc_mutex *mutex);
+
+bool has_thread_impl(void);
 
 #ifdef __cplusplus
 }
