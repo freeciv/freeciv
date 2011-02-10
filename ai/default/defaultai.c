@@ -63,6 +63,8 @@ bool fc_ai_default_setup(struct ai_type *ai)
 
   ai->funcs.player_alloc = ai_player_alloc;
   ai->funcs.player_free = ai_player_free;
+  ai->funcs.player_save = ai_player_save;
+  ai->funcs.player_load = ai_player_load;
   ai->funcs.gained_control = assess_danger_player;
   /* ai->funcs.lost_control = NULL; */
   ai->funcs.split_by_civil_war = assess_danger_player;

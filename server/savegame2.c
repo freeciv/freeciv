@@ -159,9 +159,6 @@
 /* server/scripting */
 #include "script_game.h"
 
-/* ai */
-#include "aidata.h"
-
 #include "savegame2.h"
 
 #define log_sg log_error
@@ -3268,38 +3265,15 @@ static void sg_load_player_main(struct loaddata *loading,
   /* load ai data */
   players_iterate(aplayer) {
     char buf[32];
-    struct ai_dip_intel *adip = ai_diplomacy_get(plr, aplayer);
 
     fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
                 player_index(aplayer));
 
     plr->ai_common.love[player_index(aplayer)] =
         secfile_lookup_int_default(loading->file, 1, "%s.love", buf);
-    adip->spam
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.spam", buf);
-    adip->countdown
-         = secfile_lookup_int_default(loading->file, -1,
-                                      "%s.countdown", buf);
-    adip->war_reason
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.war_reason", buf);
-    adip->ally_patience
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.patience", buf);
-    adip->warned_about_space
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.warn_space", buf);
-    adip->asked_about_peace
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.ask_peace", buf);
-    adip->asked_about_alliance
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.ask_alliance", buf);
-    adip->asked_about_ceasefire
-         = secfile_lookup_int_default(loading->file, 0,
-                                      "%s.ask_ceasefire", buf);
   } players_iterate_end;
+
+  CALL_FUNC_EACH_AI(player_load, plr, loading->file, plrno);
 
   /* Some sane defaults */
   BV_CLR_ALL(plr->ai_common.handicaps);
@@ -3561,29 +3535,13 @@ static void sg_save_player_main(struct savedata *saving,
   } players_iterate_end;
 
   players_iterate(aplayer) {
-    struct ai_dip_intel *adip = ai_diplomacy_get(plr, aplayer);
-
     i = player_index(aplayer);
     /* save ai data */
     secfile_insert_int(saving->file, plr->ai_common.love[i],
                        "player%d.ai%d.love", plrno, i);
-    secfile_insert_int(saving->file, adip->spam,
-                       "player%d.ai%d.spam", plrno, i);
-    secfile_insert_int(saving->file, adip->countdown,
-                       "player%d.ai%d.countdown", plrno, i);
-    secfile_insert_int(saving->file, adip->war_reason,
-                       "player%d.ai%d.war_reason", plrno, i);
-    secfile_insert_int(saving->file, adip->ally_patience,
-                       "player%d.ai%d.patience", plrno, i);
-    secfile_insert_int(saving->file, adip->warned_about_space,
-                       "player%d.ai%d.warn_space", plrno, i);
-    secfile_insert_int(saving->file, adip->asked_about_peace,
-                       "player%d.ai%d.ask_peace", plrno, i);
-    secfile_insert_int(saving->file, adip->asked_about_alliance,
-                       "player%d.ai%d.ask_alliance", plrno, i);
-    secfile_insert_int(saving->file, adip->asked_about_ceasefire,
-                       "player%d.ai%d.ask_ceasefire", plrno, i);
   } players_iterate_end;
+
+  CALL_FUNC_EACH_AI(player_save, plr, saving->file, plrno);
 
   secfile_insert_int(saving->file, plr->ai_common.skill_level,
                      "player%d.ai.skill_level", plrno);

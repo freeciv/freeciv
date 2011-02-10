@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.11"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.11b"
 
 #define FC_AI_LAST 3
 
@@ -51,6 +51,10 @@ struct ai_type
   struct {
     void (*player_alloc)(struct player *pplayer);
     void (*player_free)(struct player *pplayer);
+    void (*player_save)(struct player *pplayer, struct section_file *file,
+                        int plrno);
+    void (*player_load)(struct player *pplayer, struct section_file *file,
+                        int plrno);
     void (*gained_control)(struct player *pplayer);
     void (*lost_control)(struct player *pplayer);
     void (*split_by_civil_war)(struct player *pplayer);

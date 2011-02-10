@@ -70,3 +70,65 @@ void ai_player_free(struct player *pplayer)
     FC_FREE(player_data);
   }
 }
+
+/**************************************************************************
+  Store player specific data to savegame
+**************************************************************************/
+void ai_player_save(struct player *pplayer, struct section_file *file, int plrno)
+{
+  players_iterate(aplayer) {
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
+    char buf[32];
+
+    fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
+                player_index(aplayer));
+
+    secfile_insert_int(file, adip->spam,
+                       "%s.spam", buf);
+    secfile_insert_int(file, adip->countdown,
+                       "%s.countdown", buf);
+    secfile_insert_int(file, adip->war_reason,
+                       "%s.war_reason", buf);
+    secfile_insert_int(file, adip->ally_patience,
+                       "%s.patience", buf);
+    secfile_insert_int(file, adip->warned_about_space,
+                       "%s.warn_space", buf);
+    secfile_insert_int(file, adip->asked_about_peace,
+                       "%s.ask_peace", buf);
+    secfile_insert_int(file, adip->asked_about_alliance,
+                       "%s.ask_alliance", buf);
+    secfile_insert_int(file, adip->asked_about_ceasefire,
+                       "%s.ask_ceasefire", buf);
+  } players_iterate_end;
+}
+
+/**************************************************************************
+  Load player specific data from savegame
+**************************************************************************/
+void ai_player_load(struct player *pplayer, struct section_file *file, int plrno)
+{
+  players_iterate(aplayer) {
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
+    char buf[32];
+
+    fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
+                player_index(aplayer));
+
+    adip->spam
+         = secfile_lookup_int_default(file, 0, "%s.spam", buf);
+    adip->countdown
+         = secfile_lookup_int_default(file, -1, "%s.countdown", buf);
+    adip->war_reason
+         = secfile_lookup_int_default(file, 0, "%s.war_reason", buf);
+    adip->ally_patience
+         = secfile_lookup_int_default(file, 0, "%s.patience", buf);
+    adip->warned_about_space
+         = secfile_lookup_int_default(file, 0, "%s.warn_space", buf);
+    adip->asked_about_peace
+         = secfile_lookup_int_default(file, 0, "%s.ask_peace", buf);
+    adip->asked_about_alliance
+         = secfile_lookup_int_default(file, 0, "%s.ask_alliance", buf);
+    adip->asked_about_ceasefire
+         = secfile_lookup_int_default(file, 0, "%s.ask_ceasefire", buf);
+  } players_iterate_end;
+}
