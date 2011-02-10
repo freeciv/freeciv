@@ -1712,6 +1712,7 @@ void handle_player_remove(int playerno)
 {
   struct player_slot *pslot;
   struct player *pplayer;
+  int plr_nbr;
 
   pslot = player_slot_by_number(playerno);
 
@@ -1735,14 +1736,15 @@ void handle_player_remove(int playerno)
   } conn_list_iterate_end;
   conn_list_clear(pplayer->connections);
 
+  /* Save player number before player is freed */
+  plr_nbr = player_number(pplayer);
   player_destroy(pplayer);
 
   players_dialog_update();
   conn_list_dialog_update();
 
   editgui_refresh();
-  editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
-                                TRUE);
+  editgui_notify_object_changed(OBJTYPE_PLAYER, plr_nbr, TRUE);
 }
 
 /****************************************************************************
