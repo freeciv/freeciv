@@ -560,7 +560,7 @@ struct city *city_from_wonder(const struct player *pplayer,
                 "%s (nb %d), it points to city nb %d.",
                 player_name(pplayer), player_number(pplayer),
                 improvement_rule_name(pimprove),
-                improvement_number(pimprove), pcity->id);
+                improvement_number(pimprove), city_id);
     } else if (!city_has_building(pcity, pimprove)) {
       log_error("Player %s (nb %d) has outdated wonder info for "
                 "%s (nb %d), the city %s (nb %d) doesn't have this wonder.",
