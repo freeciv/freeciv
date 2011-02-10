@@ -19,7 +19,7 @@
 #include "ai.h"
 
 const char *fc_ai_stub_capstr(void);
-void fc_ai_stub_setup(struct ai_type *ai);
+bool fc_ai_stub_setup(struct ai_type *ai);
 
 /**************************************************************************
   Return module capability string
@@ -32,7 +32,9 @@ const char *fc_ai_stub_capstr(void)
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
-void fc_ai_stub_setup(struct ai_type *ai)
+bool fc_ai_stub_setup(struct ai_type *ai)
 {
   strncpy(ai->name, "stub", sizeof(ai->name));
+
+  return TRUE;
 }

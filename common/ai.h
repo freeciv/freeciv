@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.05b"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.11"
 
 #define FC_AI_LAST 3
 

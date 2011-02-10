@@ -55,7 +55,7 @@ const char *fc_ai_default_capstr(void)
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
-void fc_ai_default_setup(struct ai_type *ai)
+bool fc_ai_default_setup(struct ai_type *ai)
 {
   default_ai_set_self(ai);
 
@@ -120,4 +120,6 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.incident = ai_incident;
 
   ai->funcs.consider_dangerous = ai_consider_dangerous;
+
+  return TRUE;
 }

@@ -57,10 +57,11 @@ static const char *fc_module_error(void)
 bool load_ai_module(const char *filename)
 {
   struct ai_type *ai = ai_type_alloc();
+  bool setup_success;
 
 #ifdef AI_MODULES
   lt_dlhandle handle;
-  void (*setup_func)(struct ai_type *ai);
+  bool (*setup_func)(struct ai_type *ai);
   const char *(*capstr_func)(void);
   const char *capstr;
   char buffer[2048];
@@ -104,10 +105,19 @@ bool load_ai_module(const char *filename)
               filename, fc_module_error());
     return FALSE;
   }
-  setup_func(ai);
+  setup_success = setup_func(ai);
+
+  if (!setup_success) {
+    log_error(_("Setup of ai module %s failed."), filename);
+    return FALSE;
+  }
 #else  /* AI_MODULES */
 
-  fc_ai_default_setup(ai);
+  setup_success = fc_ai_default_setup(ai);
+
+  if (!setup_success) {
+    return FALSE;
+  }
 
 #endif /* AI_MODULES */
 
