@@ -1092,7 +1092,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct city *acity;
   /* Type of the boat (real or a future one) */
   struct unit_type *boattype;
-  struct pf_map *ferry_map;
+  struct pf_map *ferry_map = NULL;
   int move_time;
   struct ai_choice best_choice;
   struct ai_city *city_data = def_ai_city_data(pcity);
@@ -1107,7 +1107,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   if (city_data->danger != 0 && assess_defense(pcity) == 0) {
     /* Defence comes first! */
-    return;
+    goto cleanup;
   }
 
   if (!is_ground_unit(myunit) && !is_sailing_unit(myunit)) {
@@ -1122,14 +1122,14 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   if (NULL == ptile
       || ptile == unit_tile(myunit)
       || !can_unit_attack_tile(myunit, ptile)) {
-    return;
+    goto cleanup;
   }
 
   acity = tile_city(ptile);
 
   if (myunit->id != 0) {
     log_error("%s(): non-virtual unit!", __FUNCTION__);
-    return;
+    goto cleanup;
   }
 
   attack = unit_att_rating(myunit);
@@ -1145,7 +1145,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     if (!HOSTILE_PLAYER(pplayer, city_owner(acity))) {
       /* Not a valid target */
-      return;
+      goto cleanup;
     }
 
     def_type = ai_choose_defender_versus(acity, myunit);
@@ -1191,7 +1191,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     pdef = get_defender(myunit, ptile);
     if (!pdef) {
       /* Nobody to attack! */
-      return;
+      goto cleanup;
     }
 
     benefit = unit_build_shield_cost(pdef);
@@ -1245,6 +1245,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     }
   }
 
+cleanup:
   if (NULL != ferry_map) {
     pf_map_destroy(ferry_map);
   }
