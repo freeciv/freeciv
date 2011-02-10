@@ -101,3 +101,13 @@
    fun:rl_initialize_funmap
    fun:rl_initialize
 }
+
+
+# Suppression for zlib version 1.2.3.4 problem.
+# This is reportedly fixed in latest zlib versions.
+{
+   zlib suppression
+   Memcheck:Cond
+   fun:inflateReset2
+   fun:inflateInit2_
+}
