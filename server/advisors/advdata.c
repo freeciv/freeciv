@@ -561,6 +561,11 @@ bool ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Diplomacy ***/
 
+  /* This must be before ai_diplomacy_begin_new_phase() so that
+     it notices immediately if we have gained leading position in
+     spacerace */
+  ai->diplomacy.spacerace_leader = player_leading_spacerace();
+
   if (pplayer->ai_controlled && !is_barbarian(pplayer) && is_new_phase) {
     ai_diplomacy_begin_new_phase(pplayer);
   }
@@ -595,7 +600,6 @@ bool ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
     } players_iterate_end;
   } players_iterate_end;
-  ai->diplomacy.spacerace_leader = player_leading_spacerace();
 
   ai->diplomacy.production_leader = NULL;
   players_iterate(aplayer) {
