@@ -1138,11 +1138,34 @@ const char *get_bulb_tooltip(void)
     if (research->researching == A_UNSET) {
       astr_add_line(&str, _("no research target."));
     } else {
+      int turns = 0;
+      int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
+      int done = research->bulbs_researched;
+      int total = total_bulbs_required(client_player());
+      char buf1[128], buf2[128];
+
+      if (perturn > 0) {
+        turns = MAX(1, ceil((double) (total - done) / perturn));
+      } else if (perturn < 0 ) {
+        turns = ceil((double) done / -perturn);
+      }
+
+      if (turns == 0) {
+        fc_snprintf(buf1, sizeof(buf1), _("No progress"));
+      } else {
+        fc_snprintf(buf1, sizeof(buf1), PL_("%d turn", "%d turns", turns),
+                    turns);
+      }
+
+      /* TRANS: <perturn> bulbs/turn */
+      fc_snprintf(buf2, sizeof(buf2), PL_("%d bulb/turn", "%d bulbs/turn",
+                                        perturn), perturn);
+
       /* TRANS: <tech>: <amount>/<total bulbs> */
-      astr_add_line(&str, _("%s: %d/%d."),
-		    advance_name_researching(client.conn.playing),
-		    research->bulbs_researched,
-		    total_bulbs_required(client.conn.playing));
+      astr_add_line(&str, _("%s: %d/%d (%s, %s)."),
+                    advance_name_researching(client.conn.playing),
+                    research->bulbs_researched,
+                    total_bulbs_required(client.conn.playing), buf1, buf2);
     }
   }
   return astr_str(&str);
