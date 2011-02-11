@@ -205,7 +205,7 @@ function unit_built_callback(unit)
   end
   if has_unit_type_name(unit, 'Settlers') then
     if settlersbuilt == 0 then
-      notify.event(unit.owner, unit.tile, E.SCRIPT,
+      notify.event(unit.owner, unit:tile(), E.SCRIPT,
 _("You have built a settler unit.  Settlers are best used to build \n\
 new cities, so as to expand your civilization.  Move your settler\n\
 away from your existing cities to find a spot for a new city.  When\n\
@@ -219,7 +219,7 @@ tundra, and mountains generally provide little output and are not\n\
 of much use to small cities.  See the help on Terrain for more\n\
 information about terrain specs."))
     elseif settlersbuilt == 1 then
-      notify.event(unit.owner, unit.tile, E.SCRIPT,
+      notify.event(unit.owner, unit:tile(), E.SCRIPT,
 _("Your second Settlers should also be used to build a new city.\n\
 Notice how when you move the Settlers away from your existing cities\n\
 an outline is drawn around them.  This shows the area that would be\n\
@@ -362,7 +362,7 @@ function hut_entered_callback(unit)
     return
   end
   if not hutmsg then
-    notify.event(unit.owner, unit.tile, E.SCRIPT,
+    notify.event(unit.owner, unit:tile(), E.SCRIPT,
 _("Your unit has found a Hut.  These are small villages scattered across\n\
 the landscape.  When a unit enters one, several things may happen.  The\n\
 most likely outcome is that you will find resources worth a small\n\

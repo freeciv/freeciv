@@ -19,7 +19,7 @@
 function default_hut_get_gold(unit, gold)
   local owner = unit.owner
 
-  notify.event(owner, unit.tile, E.HUT_GOLD, _("You found %d gold."), gold)
+  notify.event(owner, unit:tile(), E.HUT_GOLD, _("You found %d gold."), gold)
   change_gold(owner, gold)
 end
 
@@ -29,10 +29,10 @@ function default_hut_get_tech(unit)
   local tech = give_technology(owner, nil, "hut")
 
   if tech then
-    notify.event(owner, unit.tile, E.HUT_TECH,
+    notify.event(owner, unit:tile(), E.HUT_TECH,
                  _("You found %s in ancient scrolls of wisdom."),
                  tech:name_translation())
-    notify.embassies(owner, unit.tile, E.HUT_TECH,
+    notify.embassies(owner, unit:tile(), E.HUT_TECH,
                  _("The %s have acquired %s from ancient scrolls of wisdom."),
                  owner.nation:plural_translation(),
                  tech:name_translation())
@@ -52,9 +52,9 @@ function default_hut_get_mercenaries(unit)
   end
 
   if type then
-    notify.event(owner, unit.tile, E.HUT_MERC,
+    notify.event(owner, unit:tile(), E.HUT_MERC,
                  _("A band of friendly mercenaries joins your cause."))
-    create_unit(owner, unit.tile, type, 0, unit:get_homecity(), -1)
+    create_unit(owner, unit:tile(), type, 0, unit:get_homecity(), -1)
     return true
   else
     return false
@@ -67,14 +67,14 @@ function default_hut_get_city(unit)
   local settlers = find.role_unit_type('Cities', owner)
 
   if unit:is_on_possible_city_tile() then
-    create_city(owner, unit.tile, "")
-    notify.event(owner, unit.tile, E.HUT_CITY,
+    create_city(owner, unit:tile(), "")
+    notify.event(owner, unit:tile(), E.HUT_CITY,
                  _("You found a friendly city."))
   else
     if settlers then
-      notify.event(owner, unit.tile, E.HUT_SETTLER,
+      notify.event(owner, unit:tile(), E.HUT_SETTLER,
                    _("Friendly nomads are impressed by you, and join you."))
-      create_unit(owner, unit.tile, settlers, 0, unit:get_homecity(), -1)
+      create_unit(owner, unit:tile(), settlers, 0, unit:get_homecity(), -1)
     end
   end
 end
@@ -82,13 +82,13 @@ end
 -- Get barbarians from hut, unless close to a city or king enters
 -- Unit may die: returns true if unit is alive
 function default_hut_get_barbarians(unit)
-  local tile = unit.tile
+  local tile = unit:tile()
   local type = unit.utype
   local owner = unit.owner
 
-  if unit.tile:city_exists_within_max_city_map(true)
+  if unit:tile():city_exists_within_max_city_map(true)
     or type:has_flag('Gameloss') then
-    notify.event(owner, unit.tile, E.HUT_BARB_CITY_NEAR,
+    notify.event(owner, unit:tile(), E.HUT_BARB_CITY_NEAR,
                  _("An abandoned village is here."))
     return true
   end

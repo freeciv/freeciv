@@ -420,6 +420,14 @@ bool api_methods_unit_city_can_be_built_here(Unit *punit)
   return city_can_be_built_here(unit_tile(punit), punit);
 }
 
+/**************************************************************************
+  Return the tile of the unit.
+**************************************************************************/
+Tile *api_methods_unit_tile_get(Unit *punit)
+{
+  SCRIPT_CHECK_SELF(punit, NULL);
+  return unit_tile(punit);
+}
 
 /**************************************************************************
   Return TRUE if punit_type has flag.
