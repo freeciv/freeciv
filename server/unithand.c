@@ -1453,7 +1453,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         TRUE);
 
       if (unit_has_type_flag(punit, F_NUCLEAR)) {
-        if (move_unit(punit, pcity->tile, 0)) {
+        if (unit_move(punit, pcity->tile, 0)) {
           /* Survived dangers of moving */
           unit_attack_handling(punit, punit); /* Boom! */
         }
@@ -1484,7 +1484,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc)) {
     int move_cost = map_move_cost_unit(punit, pdesttile);
 
-    move_unit(punit, pdesttile, move_cost);
+    unit_move(punit, pdesttile, move_cost);
 
     return TRUE;
   } else {

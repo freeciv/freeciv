@@ -1455,7 +1455,7 @@ void bounce_units_on_terrain_change(struct tile *ptile)
                         E_UNIT_RELOCATED, ftc_server,
                         _("Moved your %s due to changing terrain."),
                         unit_link(punit));
-	  unit_alive = move_unit(punit, ptile2, 0);
+	  unit_alive = unit_move(punit, ptile2, 0);
 	  if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
 	    unit_activity_handling(punit, ACTIVITY_IDLE);
 	  }

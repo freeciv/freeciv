@@ -91,7 +91,7 @@ void do_explore(struct unit *punit);
 bool do_paradrop(struct unit *punit, struct tile *ptile);
 void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
 void unload_unit_from_transporter(struct unit *punit);
-bool move_unit(struct unit *punit, struct tile *ptile, int move_cost);
+bool unit_move(struct unit *punit, struct tile *ptile, int move_cost);
 bool execute_orders(struct unit *punit);
 
 bool unit_can_do_action_now(const struct unit *punit);

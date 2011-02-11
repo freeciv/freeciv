@@ -1100,7 +1100,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 
     if (move_cost == -1)
       move_cost = punit->moves_left;
-    move_unit(punit, dst_tile, move_cost);
+    unit_move(punit, dst_tile, move_cost);
     return TRUE;
   }
   return FALSE;
@@ -1156,7 +1156,7 @@ void bounce_unit(struct unit *punit, bool verbose)
                     _("Moved your %s."),
                     unit_link(punit));
     }
-    move_unit(punit, ptile, 0);
+    unit_move(punit, ptile, 0);
     return;
   }
 
@@ -2262,7 +2262,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
                 _("%s transported successfully."),
                 unit_link(punit));
 
-  move_unit(punit, pdest_city->tile, punit->moves_left);
+  unit_move(punit, pdest_city->tile, punit->moves_left);
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2408,7 +2408,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   {
     int move_cost = unit_type(punit)->paratroopers_mr_sub;
     punit->paradropped = TRUE;
-    move_unit(punit, ptile, move_cost);
+    unit_move(punit, ptile, move_cost);
     return TRUE;
   }
 }
@@ -2888,7 +2888,7 @@ static void check_unit_activity(struct unit *punit)
 
   Returns TRUE iff unit still alive.
 **************************************************************************/
-bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
+bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 {
   struct player *pplayer = unit_owner(punit);
   struct tile *psrctile = unit_tile(punit);
@@ -3133,7 +3133,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     }
   }
 
-  /* Note, an individual call to move_unit may leave things in an unstable
+  /* Note, an individual call to unit_move may leave things in an unstable
    * state (e.g., negative transporter capacity) if more than one unit is
    * being moved at a time (e.g., bounce unit) and they are not done in the
    * right order.  This is probably not a bug. */
