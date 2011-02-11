@@ -210,7 +210,7 @@ static inline bool meta_insert_setting(struct netfile_post *post,
 
   fc_assert_ret_val_msg(NULL != pset, FALSE,
                         "Setting \"%s\" not found!", set_name);
-  netfile_add_form_str(post, "vn[]", fc_url_encode(setting_name(pset)));
+  netfile_add_form_str(post, "vn[]", setting_name(pset));
   netfile_add_form_str(post, "vv[]",
                        setting_value_name(pset, FALSE, buf, sizeof(buf)));
   return TRUE;
@@ -271,14 +271,14 @@ static bool send_to_metaserver(enum meta_flag flag)
   if (flag == META_GOODBYE) {
     netfile_add_form_int(post, "bye", 1);
   } else {
-    netfile_add_form_str(post, "version", fc_url_encode(VERSION_STRING));
+    netfile_add_form_str(post, "version", VERSION_STRING);
     netfile_add_form_str(post, "patches",
-                         fc_url_encode(get_meta_patches_string()));
-    netfile_add_form_str(post, "capability", fc_url_encode(our_capability));
+                         get_meta_patches_string());
+    netfile_add_form_str(post, "capability", our_capability);
 
-    netfile_add_form_str(post, "serverid", fc_url_encode(srvarg.serverid));
+    netfile_add_form_str(post, "serverid", srvarg.serverid);
     netfile_add_form_str(post, "message",
-                         fc_url_encode(get_meta_message_string()));
+                         get_meta_message_string());
 
     /* NOTE: send info for ALL players or none at all. */
     if (normal_player_count() == 0) {
@@ -302,15 +302,15 @@ static bool send_to_metaserver(enum meta_flag flag)
           sz_strlcpy(type, "Human");
         }
 
-        netfile_add_form_str(post, "plu[]", fc_url_encode(plr->username));
+        netfile_add_form_str(post, "plu[]", plr->username);
         netfile_add_form_str(post, "plt[]", type);
-        netfile_add_form_str(post, "pll[]", fc_url_encode(player_name(plr)));
+        netfile_add_form_str(post, "pll[]", player_name(plr));
         netfile_add_form_str(post, "pln[]",
                              fc_url_encode(plr->nation != NO_NATION_SELECTED 
                                            ? nation_plural_for_player(plr)
                                            : "none"));
         netfile_add_form_str(post, "plh[]",
-                             pconn ? fc_url_encode(pconn->addr) : "");
+                             pconn ? pconn->addr : "");
 
         /* is this player available to take?
          * TODO: there's some duplication here with 
@@ -375,9 +375,9 @@ static bool send_to_metaserver(enum meta_flag flag)
     }
 
     /* Turn and year. */
-    netfile_add_form_str(post, "vn[]", fc_url_encode("turn"));
+    netfile_add_form_str(post, "vn[]", "turn");
     netfile_add_form_int(post, "vv[]", game.info.turn);
-    netfile_add_form_str(post, "vn[]", fc_url_encode("year"));
+    netfile_add_form_str(post, "vn[]", "year");
     netfile_add_form_int(post, "vv[]", game.info.year);
   }
 
