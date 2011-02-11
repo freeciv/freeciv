@@ -51,6 +51,7 @@
 #include "infracache.h"
 
 /* ai */
+#include "aidata.h"
 #include "aicity.h"
 #include "aiferry.h"
 #include "aiplayer.h"
@@ -264,13 +265,14 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
   struct tile *saved_claimer = NULL;
   bool virtual_city = FALSE;
   bool handicap = ai_handicap(pplayer, H_MAP);
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
   struct cityresult *result;
 
   fc_assert_ret_val(ai != NULL, NULL);
   fc_assert_ret_val(ptile != NULL, NULL)
 
-  pplayer->government = ai->goal.govt.gov;
+  pplayer->government = adv->goal.govt.gov;
 
   /* Create a city result and set default values. */
   result = cityresult_new(ptile);
@@ -317,9 +319,9 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
         /* Trade */
         ptdc->trade = city_tile_output(pcity, ptile, FALSE, O_TRADE);
         /* Weighted sum */
-        ptdc->sum = ptdc->food * ai->food_priority
-                    + ptdc->trade * ai->science_priority
-                    + ptdc->shield * ai->shield_priority;
+        ptdc->sum = ptdc->food * adv->food_priority
+                    + ptdc->trade * adv->science_priority
+                    + ptdc->shield * adv->shield_priority;
         /* Balance perfection */
         ptdc->sum *= PERFECTION / 2;
         if (ptdc->food >= 2) {
@@ -396,13 +398,13 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
      * never make cities. */
     int shield = result->city_center.tdc->shield
                  + result->best_other.tdc->shield;
-    result->waste = ai->shield_priority
+    result->waste = adv->shield_priority
                     * city_waste(pcity, O_SHIELD, shield);
 
     if (game.info.fulltradesize == 1) {
       int trade = result->city_center.tdc->trade
                   + result->best_other.tdc->trade;
-      result->corruption = ai->science_priority
+      result->corruption = adv->science_priority
                            * city_waste(pcity, O_TRADE, trade);
     } else {
       result->corruption = 0;
@@ -411,10 +413,10 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
     /* Deduct difference in corruption and waste for real cities. Note that it
      * is possible (with notradesize) that we _gain_ value here. */
     city_size_add(pcity, 1);
-    result->corruption = ai->science_priority
+    result->corruption = adv->science_priority
       * (city_waste(pcity, O_TRADE, result->best_other.tdc->trade)
          - pcity->waste[O_TRADE]);
-    result->waste = ai->shield_priority
+    result->waste = adv->shield_priority
       * (city_waste(pcity, O_SHIELD, result->best_other.tdc->shield)
          - pcity->waste[O_SHIELD]);
     city_size_add(pcity, -1);
@@ -485,7 +487,7 @@ static void tile_data_cache_destroy(struct tile_data_cache *ptdc)
 static const struct tile_data_cache *tdc_plr_get(struct player *plr,
                                                  int tindex)
 {
-  struct adv_data *ai = adv_data_get(plr);
+  struct ai_plr *ai = ai_plr_data_get(plr);
 
   fc_assert_ret_val(ai != NULL, NULL);
   fc_assert_ret_val(ai->settler != NULL, NULL);
@@ -519,7 +521,7 @@ static const struct tile_data_cache *tdc_plr_get(struct player *plr,
 static void tdc_plr_set(struct player *plr, int tindex,
                          const struct tile_data_cache *ptdc)
 {
-  struct adv_data *ai = adv_data_get(plr);
+  struct ai_plr *ai = ai_plr_data_get(plr);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
@@ -956,7 +958,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
 **************************************************************************/
 void ai_auto_settler_init(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler == NULL);
@@ -1107,20 +1109,39 @@ CLEANUP:
 }
 
 /**************************************************************************
-  Deinitialize ai settler engine.
+  Reset ai settler engine.
 **************************************************************************/
-void ai_auto_settler_free(struct player *pplayer)
+void ai_auto_settler_reset(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
 
   fc_assert_ret(ai != NULL);
+  fc_assert_ret(ai->settler != NULL);
+  fc_assert_ret(ai->settler->tdc_hash != NULL);
 
 #ifdef DEBUG
   log_debug("[aisettler cache for %s] save: %d, miss: %d, old: %d, hit: %d",
             player_name(pplayer), ai->settler->cache.save,
             ai->settler->cache.miss, ai->settler->cache.old,
             ai->settler->cache.hit);
+
+  ai->settler->cache.hit = 0;
+  ai->settler->cache.old = 0;
+  ai->settler->cache.miss = 0;
+  ai->settler->cache.save = 0;
 #endif /* DEBUG */
+
+  tile_data_cache_hash_clear(ai->settler->tdc_hash);
+}
+
+/**************************************************************************
+  Deinitialize ai settler engine.
+**************************************************************************/
+void ai_auto_settler_free(struct player *pplayer)
+{
+  struct ai_plr *ai = ai_plr_data_get(pplayer);
+
+  fc_assert_ret(ai != NULL);
 
   if (ai->settler) {
     if (ai->settler->tdc_hash) {

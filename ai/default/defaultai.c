@@ -109,9 +109,8 @@ bool fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.unit_save = ai_unit_save;
   ai->funcs.unit_load = ai_unit_load;
 
-  ai->funcs.auto_settler_init = ai_auto_settler_init;
-  ai->funcs.auto_settler_run = ai_auto_settler_run;
-  ai->funcs.auto_settler_free = ai_auto_settler_free;
+  ai->funcs.settler_reset = ai_auto_settler_reset;
+  ai->funcs.settler_run = ai_auto_settler_run;
 
   ai->funcs.first_activities = ai_do_first_activities;
   ai->funcs.diplomacy_actions = ai_diplomacy_actions;

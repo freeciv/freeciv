@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.11b"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.11c"
 
 #define FC_AI_LAST 3
 
@@ -89,10 +89,9 @@ struct ai_type
     void (*unit_load)(const struct section_file *file, struct unit *punit,
                       const char *unitstr);
 
-    void (*auto_settler_init)(struct player *pplayer);
-    void (*auto_settler_run)(struct player *pplayer, struct unit *punit,
-                             struct settlermap *state);
-    void (*auto_settler_free)(struct player *pplayer);
+    void (*settler_reset)(struct player *pplayer);
+    void (*settler_run)(struct player *pplayer, struct unit *punit,
+                        struct settlermap *state);
 
     void (*first_activities)(struct player *pplayer);
     void (*diplomacy_actions)(struct player *pplayer);

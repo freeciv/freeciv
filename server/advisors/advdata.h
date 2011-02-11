@@ -132,9 +132,6 @@ struct adv_data {
 
   /* AI doesn't like having more than this number of cities */
   int max_num_cities;
-
-  /* Cache map for AI settlers; defined in aisettler.c. */
-  struct ai_settler *settler;
 };
 
 void adv_data_init(struct player *pplayer);

@@ -76,6 +76,8 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.love_incr = MAX_AI_LOVE * 3 / 100;
   ai->diplomacy.req_love_for_peace = MAX_AI_LOVE / 8;
   ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE / 4;
+
+  ai->settler = NULL;
 }
 
 /****************************************************************************

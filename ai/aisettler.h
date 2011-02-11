@@ -24,6 +24,7 @@ struct ai_data;
 struct tile_data_cache;
 
 void ai_auto_settler_init(struct player *pplayer);
+void ai_auto_settler_reset(struct player *pplayer);
 void ai_auto_settler_run(struct player *pplayer, struct unit *punit,
                          struct settlermap *state);
 void ai_auto_settler_free(struct player *pplayer);

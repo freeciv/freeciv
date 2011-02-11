@@ -80,6 +80,9 @@ struct ai_plr
     int req_love_for_peace;
     int req_love_for_alliance;
   } diplomacy;
+
+  /* Cache map for AI settlers; defined in aisettler.c. */
+  struct ai_settler *settler;
 };
 
 void ai_data_init(struct player *pplayer);

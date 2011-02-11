@@ -659,7 +659,7 @@ void auto_settlers_player(struct player *pplayer)
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   if (pplayer->ai_controlled) {
-    CALL_PLR_AI_FUNC(auto_settler_init, pplayer, pplayer);
+    CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
   }
   unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ai_controlled || pplayer->ai_controlled)
@@ -680,14 +680,11 @@ void auto_settlers_player(struct player *pplayer)
         if (!pplayer->ai_controlled) {
           auto_settler_findwork(pplayer, punit, state, 0);
         } else {
-          CALL_PLR_AI_FUNC(auto_settler_run, pplayer, pplayer, punit, state);
+          CALL_PLR_AI_FUNC(settler_run, pplayer, pplayer, punit, state);
         }
       }
     }
   } unit_list_iterate_safe_end;
-  if (pplayer->ai_controlled) {
-    CALL_PLR_AI_FUNC(auto_settler_free, pplayer, pplayer);
-  }
 
   if (timer_in_use(t)) {
 

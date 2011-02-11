@@ -634,8 +634,6 @@ void adv_data_init(struct player *pplayer)
   ai->government_want = fc_calloc(government_count() + 1,
                                   sizeof(*ai->government_want));
 
-  ai->settler = NULL;
-
   ai_data_default(pplayer);
 }
 
