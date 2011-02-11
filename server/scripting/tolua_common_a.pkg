@@ -42,7 +42,7 @@ struct City {
   Player *owner;
   Player *original;
   Tile *tile;
-  int size;
+  int size;   /* Depreciated! Use city:size() to access the city size. */
 
   const int id;
 };

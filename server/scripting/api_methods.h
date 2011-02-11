@@ -28,6 +28,7 @@ const char *api_methods_building_type_name_translation(Building_Type
 /* City */
 bool api_methods_city_has_building(City *pcity, Building_Type *building);
 int api_methods_city_map_sq_radius(City *pcity);
+int api_methods_city_size_get(City *pcity);
 
 /* Government */
 const char *api_methods_government_rule_name(Government *pgovernment);

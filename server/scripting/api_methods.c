@@ -112,6 +112,14 @@ int api_methods_city_map_sq_radius(City *pcity)
   return city_map_radius_sq_get(pcity);
 }
 
+/**************************************************************************
+  Return the size of the city.
+**************************************************************************/
+int api_methods_city_size_get(City *pcity)
+{
+  SCRIPT_CHECK_SELF(pcity, 0);
+  return city_size_get(pcity);
+}
 
 /**************************************************************************
   Return rule name for Government

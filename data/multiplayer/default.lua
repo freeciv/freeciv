@@ -161,7 +161,7 @@ function default_make_partisans_callback(city, loser, winner)
     return
   end
 
-  local partisans = random(0, 1 + (city.size + 1) / 2) + 1
+  local partisans = random(0, 1 + (city:size() + 1) / 2) + 1
   if partisans > 8 then
     partisans = 8
   end

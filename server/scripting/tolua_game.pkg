@@ -69,6 +69,8 @@ module City {
     @ has_building(City *self, Building_Type *building);
   int api_methods_city_map_sq_radius
     @ map_sq_radius(City *self);
+  int api_methods_city_size_get
+    @ size(City *self);
 }
 
 /* Module Unit. */
