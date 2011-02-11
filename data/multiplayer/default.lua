@@ -165,10 +165,10 @@ function default_make_partisans_callback(city, loser, winner)
   if partisans > 8 then
     partisans = 8
   end
-  place_partisans(city.tile, loser, partisans, city:map_sq_radius())
-  notify.event(loser, city.tile, E.CITY_LOST,
+  place_partisans(city:tile(), loser, partisans, city:map_sq_radius())
+  notify.event(loser, city:tile(), E.CITY_LOST,
       _("The loss of %s has inspired partisans!"), city.name)
-  notify.event(winner, city.tile, E.UNIT_WIN_ATT,
+  notify.event(winner, city:tile(), E.UNIT_WIN_ATT,
       _("The loss of %s has inspired partisans!"), city.name)
 end
 

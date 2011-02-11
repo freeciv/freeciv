@@ -122,6 +122,15 @@ int api_methods_city_size_get(City *pcity)
 }
 
 /**************************************************************************
+  Return the tile of the city.
+**************************************************************************/
+Tile *api_methods_city_tile_get(City *pcity)
+{
+  SCRIPT_CHECK_SELF(pcity, NULL);
+  return pcity->tile;
+}
+
+/**************************************************************************
   Return rule name for Government
 **************************************************************************/
 const char *api_methods_government_rule_name(Government *pgovernment)

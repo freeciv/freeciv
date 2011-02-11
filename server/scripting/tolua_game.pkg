@@ -71,6 +71,8 @@ module City {
     @ map_sq_radius(City *self);
   int api_methods_city_size_get
     @ size(City *self);
+  Tile *api_methods_city_tile_get
+    @ tile(City *self);
 }
 
 /* Module Unit. */

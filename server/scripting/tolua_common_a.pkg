@@ -41,7 +41,7 @@ struct City {
   const char *name;
   Player *owner;
   Player *original;
-  Tile *tile;
+  Tile *tile; /* Depreciated! Use city:tile() to access the city tile. */
   int size;   /* Depreciated! Use city:size() to access the city size. */
 
   const int id;
