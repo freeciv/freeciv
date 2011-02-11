@@ -960,7 +960,7 @@ void ai_unit_new_task(struct unit *punit, enum ai_unit_task task,
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
         ai_unit_new_task(missile, AIUNIT_ESCORT, unit_tile(target));
-        load_unit_onto_transporter(missile, punit);
+        unit_transport_load_send(missile, punit);
       }
     } unit_list_iterate_end;
   }

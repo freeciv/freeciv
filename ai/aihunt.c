@@ -341,7 +341,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
       pf_map_destroy(pfm);
       if (sucker) {
         if (game_unit_by_number(missile->transported_by)) {
-          unload_unit_from_transporter(missile);
+          unit_transport_unload_send(missile);
         }
         missile->goto_tile = unit_tile(sucker);
         ai_unit_goto(missile, unit_tile(sucker));

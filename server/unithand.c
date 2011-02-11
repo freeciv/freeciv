@@ -2023,7 +2023,7 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
   }
 
   /* Load the unit and send out info to clients. */
-  load_unit_onto_transporter(pcargo, ptrans);
+  unit_transport_load_send(pcargo, ptrans);
 }
 
 /****************************************************************************
@@ -2062,7 +2062,7 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
   }
 
   /* Unload the unit and send out info to clients. */
-  unload_unit_from_transporter(pcargo);
+  unit_transport_unload_send(pcargo);
 }
 
 /**************************************************************************

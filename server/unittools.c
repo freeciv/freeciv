@@ -1579,7 +1579,7 @@ void wipe_unit(struct unit *punit)
   if (get_transporter_capacity(punit) > 0) {
     unit_list_iterate(ptile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
-	/* Could use unload_unit_from_transporter here, but that would
+	/* Could use unit_transport_unload_send here, but that would
 	 * call send_unit_info for the transporter unnecessarily. */
 	pull_unit_from_transporter(pcargo, punit);
         if (!can_unit_exist_at_tile(pcargo, ptile)) {
@@ -2505,7 +2505,7 @@ static void pull_unit_from_transporter(struct unit *punit,
 /****************************************************************************
   Put the unit onto the transporter, and tell everyone.
 ****************************************************************************/
-void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
+void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
 {
   put_unit_onto_transporter(punit, ptrans);
   send_unit_info(NULL, punit);
@@ -2515,7 +2515,7 @@ void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
 /****************************************************************************
   Pull the unit off of the transporter, and tell everyone.
 ****************************************************************************/
-void unload_unit_from_transporter(struct unit *punit)
+void unit_transport_unload_send(struct unit *punit)
 {
   struct unit *ptrans = game_unit_by_number(punit->transported_by);
 

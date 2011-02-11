@@ -89,8 +89,8 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile);
 bool do_airline(struct unit *punit, struct city *city2);
 void do_explore(struct unit *punit);
 bool do_paradrop(struct unit *punit, struct tile *ptile);
-void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
-void unload_unit_from_transporter(struct unit *punit);
+void unit_transport_load_send(struct unit *punit, struct unit *ptrans);
+void unit_transport_unload_send(struct unit *punit);
 bool unit_move(struct unit *punit, struct tile *ptile, int move_cost);
 bool execute_orders(struct unit *punit);
 
