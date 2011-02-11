@@ -75,6 +75,8 @@
       <menuitem action="SELECT_SAME_TYPE_CONT" />
       <menuitem action="SELECT_SAME_TYPE" />
       <separator />
+      <menuitem action="SELECT_DLG" />
+      <separator />
       <menuitem action="UNIT_WAIT" />
       <menuitem action="UNIT_DONE" />
     </menu>

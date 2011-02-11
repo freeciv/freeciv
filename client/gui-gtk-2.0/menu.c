@@ -59,6 +59,7 @@
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
+#include "unitselect.h"
 #include "wldlg.h"
 
 #include "menu.h"
@@ -856,6 +857,14 @@ static void select_same_type_callback(GtkAction *action, gpointer data)
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_ALL);
 }
 
+/*****************************************************************************
+  Open unit selection dialog.
+*****************************************************************************/
+static void select_dialog_callback(GtkAction *action, gpointer data)
+{
+  unit_select_dialog_popup(NULL);
+}
+
 /****************************************************************
   Action "UNIT_WAIT" callback.
 *****************************************************************/
@@ -1502,6 +1511,9 @@ static GtkActionGroup *get_unit_group(void)
        "<shift>c", NULL, G_CALLBACK(select_same_type_cont_callback)},
       {"SELECT_SAME_TYPE", NULL, _("Same Type _Everywhere"),
        "<shift>x", NULL, G_CALLBACK(select_same_type_callback)},
+
+      {"SELECT_DLG", NULL, _("Unit selection dialog"),
+       NULL, NULL, G_CALLBACK(select_dialog_callback)},
 
       {"UNIT_WAIT", NULL, _("_Wait"),
        "w", NULL, G_CALLBACK(unit_wait_callback)},

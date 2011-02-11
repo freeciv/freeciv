@@ -99,6 +99,8 @@ libgui_gtk2_la_SOURCES = \
 	theme_dlg.c	\
 	themes.c	\
 	tileset_dlg.c	\
+	unitselect.h	\
+	unitselect.c	\
 	voteinfo_bar.c	\
 	voteinfo_bar.h	\
 	wldlg.c		\
