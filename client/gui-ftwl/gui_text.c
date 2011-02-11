@@ -209,7 +209,7 @@ static const char *format_effect(enum unit_activity activity,
   int n = 0;
   INIT;
 
-  calc_effect(activity, punit->tile, diff);
+  calc_effect(activity, unit_tile(punit), diff);
 
   if (diff[0] != 0) {
     fc_snprintf(parts[n], sizeof(parts[n]), _("%+d food"), diff[0]);
@@ -280,19 +280,19 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
   } else if (strcmp(action, "unit_road") == 0) {
     add_line(_("Build road%s"), shortcut);
     add_line(_("Time: %d turns"),
-          get_turns_for_activity_at(punit, ACTIVITY_ROAD, punit->tile));
+          get_turns_for_activity_at(punit, ACTIVITY_ROAD, unit_tile(punit)));
     add_line(_("Effect: %s"),
 	     format_effect(ACTIVITY_ROAD, punit));
   } else if (strcmp(action, "unit_irrigate") == 0) {
     add_line(_("Build irrigation%s"),shortcut);
     add_line(_("Time: %d turns"),
-      get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, punit->tile));
+      get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, unit_tile(punit)));
     add_line(_("Effect: %s"),
 	     format_effect(ACTIVITY_IRRIGATE, punit));
   } else if (strcmp(action, "unit_mine") == 0) {
     add_line(_("Build mine%s"),shortcut);
     add_line(_("Time: %d turns"),
-	 get_turns_for_activity_at(punit, ACTIVITY_MINE, punit->tile));
+	 get_turns_for_activity_at(punit, ACTIVITY_MINE, unit_tile(punit)));
     add_line(_("Effect: %s"),
 	     format_effect(ACTIVITY_MINE, punit));
   } else if (strcmp(action, "unit_auto_settler") == 0) {
@@ -301,13 +301,13 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
     add_line(_("Effect: the computer performs settler activities"));
   } else {
 #if 0
-  ttype = tile_terrain(punit->tile);
+  ttype = tile_terrain(unit_tile(punit));
   tinfo = terrain_by_number(ttype);
   if ((tinfo->irrigation_result != T_LAST)
       && (tinfo->irrigation_result != ttype)) {
     fc_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		terrain_name_translation(tinfo->irrigation_result));
-  } else if (tile_has_special(punit->tile, S_IRRIGATION)
+  } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
 	     && player_knows_techs_with_flag(client.conn.playing, TF_FARMLAND)) {
     sz_strlcpy(irrtext, _("Bu_ild Farmland"));
   }
@@ -419,7 +419,7 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
 ****************************************************************************/
 const char *mapview_get_unit_info_text(struct unit *punit)
 {
-  struct tile *ptile = punit->tile;
+  struct tile *ptile = unit_tile(punit);
   const char *activity_text = concat_tile_activity_text(ptile);
   INIT;
 

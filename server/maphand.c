@@ -1440,7 +1440,7 @@ void bounce_units_on_terrain_change(struct tile *ptile)
   unit_list_iterate_safe(ptile->units, punit) {
     bool unit_alive = TRUE;
 
-    if (punit->tile == ptile
+    if (unit_tile(punit) == ptile
 	&& punit->transported_by == -1
 	&& !can_unit_exist_at_tile(punit, ptile)) {
       /* look for a nearby safe tile */
@@ -1450,7 +1450,7 @@ void bounce_units_on_terrain_change(struct tile *ptile)
             && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
           log_verbose("Moved %s %s due to changing terrain at (%d,%d).",
                       nation_rule_name(nation_of_unit(punit)),
-                      unit_rule_name(punit), TILE_XY(punit->tile));
+                      unit_rule_name(punit), TILE_XY(unit_tile(punit)));
           notify_player(unit_owner(punit), unit_tile(punit),
                         E_UNIT_RELOCATED, ftc_server,
                         _("Moved your %s due to changing terrain."),
@@ -1462,7 +1462,7 @@ void bounce_units_on_terrain_change(struct tile *ptile)
 	  break;
 	}
       } adjc_iterate_end;
-      if (unit_alive && punit->tile == ptile) {
+      if (unit_alive && unit_tile(punit) == ptile) {
         /* If we get here we could not move punit. */
         log_verbose("Disbanded %s %s due to changing land "
                     " to sea at (%d, %d).",

@@ -315,11 +315,11 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
         if (unit_type(punit)->attack_strength > 1) {
-	  if (is_ocean_tile(punit->tile)) {
-	    Continent_id continent = tile_continent(punit->tile);
+	  if (is_ocean_tile(unit_tile(punit))) {
+	    Continent_id continent = tile_continent(unit_tile(punit));
 	    ai->threats.ocean[-continent] = TRUE;
 	  } else {
-	    adjc_iterate(punit->tile, tile2) {
+	    adjc_iterate(unit_tile(punit), tile2) {
 	      if (is_ocean_tile(tile2)) {
 	        Continent_id continent = tile_continent(tile2);
 	        ai->threats.ocean[-continent] = TRUE;
@@ -409,10 +409,10 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
-    struct tile *ptile = punit->tile;
+    struct tile *ptile = unit_tile(punit);
 
     if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, F_SETTLERS)) {
-      ai->stats.workers[(int)tile_continent(punit->tile)]++;
+      ai->stats.workers[(int)tile_continent(unit_tile(punit))]++;
     }
     if (unit_has_type_flag(punit, F_DIPLOMAT) && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
@@ -479,7 +479,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         unit_data->prev_struct = unit_data->cur_struct;
         unit_data->prev_pos = &unit_data->prev_struct;
       }
-      *unit_data->cur_pos = punit->tile;
+      *unit_data->cur_pos = unit_tile(punit);
     } unit_list_iterate_end;
   } players_iterate_end;
   

@@ -1414,7 +1414,7 @@ static void fill_actions(void)
     }
 
     if (can_unit_add_or_build_city(punit)) {
-      if (tile_city(punit->tile)) {
+      if (tile_city(unit_tile(punit))) {
 	ADD("unit_add_to_city");
       } else {
 	ADD("unit_build_city");
@@ -1432,7 +1432,7 @@ static void fill_actions(void)
     if (get_transporter_occupancy(punit) > 0) {
       ADD("unit_unload");
     }
-    if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile)) {
+    if (is_unit_activity_on_tile(ACTIVITY_SENTRY, unit_tile(punit))) {
       ADD("unit_wake_others");
     }
     if (can_unit_do_connect(punit, ACTIVITY_IDLE)) {
@@ -1449,7 +1449,7 @@ static void fill_actions(void)
     }
     if ((is_diplomat_unit(punit)
 	 && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-				   punit->tile))) {
+				   unit_tile(punit)))) {
       ADD("unit_spy");
     }
     

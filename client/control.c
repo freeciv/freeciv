@@ -265,7 +265,7 @@ bool unit_is_in_focus(const struct unit *punit)
 struct unit *get_focus_unit_on_tile(const struct tile *ptile)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (punit->tile == ptile) {
+    if (unit_tile(punit) == ptile) {
       return punit;
     }
   } unit_list_iterate_end;
@@ -289,9 +289,9 @@ static struct tile *find_a_focus_unit_tile_to_center_on(void)
   struct unit *punit;
 
   if (NULL != (punit = get_focus_unit_on_tile(get_center_tile_mapcanvas()))) {
-    return punit->tile;
+    return unit_tile(punit);
   } else if (get_num_units_in_focus() > 0) {
-    return head_of_units_in_focus()->tile;
+    return unit_tile(head_of_units_in_focus());
   } else {
     return NULL;
   }
@@ -318,7 +318,7 @@ static void current_focus_append(struct unit *punit)
   unit_list_append(current_focus, punit);
 
   punit->client.focus_status = FOCUS_AVAIL;
-  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
 
   if (unit_selection_clears_orders) {
     clear_unit_orders(punit);
@@ -376,7 +376,7 @@ void set_unit_focus(struct unit *punit)
   /* Redraw the old focus unit (to fix blinking or remove the selection
    * circle). */
   unit_list_iterate(current_focus, punit_old) {
-    refresh_unit_mapcanvas(punit_old, punit_old->tile, TRUE, FALSE);
+    refresh_unit_mapcanvas(punit_old, unit_tile(punit_old), TRUE, FALSE);
   } unit_list_iterate_end;
   unit_list_clear(current_focus);
 
@@ -438,7 +438,7 @@ void set_unit_focus_and_select(struct unit *punit)
 {
   set_unit_focus(punit);
   if (punit) {
-    put_cross_overlay_tile(punit->tile);
+    put_cross_overlay_tile(unit_tile(punit));
   }
 }
 
@@ -455,7 +455,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
     struct unit *pfirst = head_of_units_in_focus();
 
     if (pfirst) {
-      ptile = pfirst->tile;
+      ptile = unit_tile(pfirst);
     }
   }
 
@@ -516,7 +516,7 @@ void advance_unit_focus(void)
     if (get_num_units_in_focus() > 0) {
       /* Rarely, more than one unit on the same tile will be in the list. */
       unit_list_iterate(urgent_focus_queue, punit) {
-        if (head_of_units_in_focus()->tile == punit->tile) {
+        if (unit_tile(head_of_units_in_focus()) == unit_tile(punit)) {
           /* Use the first one found */
           candidate = punit;
           break;
@@ -527,8 +527,8 @@ void advance_unit_focus(void)
 
     /* Autocenter on Wakeup, regardless of the local option 
      * "auto_center_on_unit". */
-    if (!tile_visible_and_not_on_border_mapcanvas(candidate->tile)) {
-      center_tile_mapcanvas(candidate->tile);
+    if (!tile_visible_and_not_on_border_mapcanvas(unit_tile(candidate))) {
+      center_tile_mapcanvas(unit_tile(candidate));
     }
   } else {
     candidate = find_best_focus_candidate(FALSE);
@@ -607,14 +607,14 @@ struct unit *find_visible_unit(struct tile *ptile)
   }
 
   /* If a unit is attacking we should show that on top */
-  if (punit_attacking && same_pos(punit_attacking->tile, ptile)) {
+  if (punit_attacking && same_pos(unit_tile(punit_attacking), ptile)) {
     unit_list_iterate(ptile->units, punit)
       if(punit == punit_attacking) return punit;
     unit_list_iterate_end;
   }
 
   /* If a unit is defending we should show that on top */
-  if (punit_defending && same_pos(punit_defending->tile, ptile)) {
+  if (punit_defending && same_pos(unit_tile(punit_defending), ptile)) {
     unit_list_iterate(ptile->units, punit)
       if(punit == punit_defending) return punit;
     unit_list_iterate_end;
@@ -678,7 +678,7 @@ double blink_active_unit(void)
 	/* We flush to screen directly here.  This is most likely faster
 	 * since these drawing operations are all small but may be spread
 	 * out widely. */
-	refresh_unit_mapcanvas(punit, punit->tile, FALSE, TRUE);
+	refresh_unit_mapcanvas(punit, unit_tile(punit), FALSE, TRUE);
       } unit_list_iterate_end;
     }
 
@@ -757,7 +757,7 @@ void update_unit_pix_label(struct unit_list *punitlist)
     set_unit_icon(-1, punit);
 
     i = 0;			/* index into unit_below_canvas */
-    unit_list_iterate(punit->tile->units, aunit) {
+    unit_list_iterate(unit_tile(punit)->units, aunit) {
       if (aunit != punit) {
 	if (i < num_units_below) {
 	  set_unit_icon(i, aunit);
@@ -894,10 +894,10 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 
     if (punit
 	&& is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					punit->tile)
+					unit_tile(punit))
 	&& diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-				  punit->tile)) {
-      popup_diplomat_dialog(pdiplomat, punit->tile);
+				  unit_tile(punit))) {
+      popup_diplomat_dialog(pdiplomat, unit_tile(punit));
       return;
     } else if (pcity
 	       && is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
@@ -1071,7 +1071,7 @@ static bool is_activity_on_tile(struct tile *ptile,
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
-  struct terrain *pterrain = tile_terrain(punit->tile);
+  struct terrain *pterrain = tile_terrain(unit_tile(punit));
 
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that
@@ -1084,9 +1084,9 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
   case ACTIVITY_ROAD:
     return terrain_control.may_road
       && unit_has_type_flag(punit, F_SETTLERS)
-      && (tile_has_special(punit->tile, S_ROAD)
+      && (tile_has_special(unit_tile(punit), S_ROAD)
 	  || (pterrain->road_time != 0
-	      && (!tile_has_special(punit->tile, S_RIVER)
+	      && (!tile_has_special(unit_tile(punit), S_RIVER)
 		  || player_knows_techs_with_flag(pplayer, TF_BRIDGE))));
   case ACTIVITY_RAILROAD:
     /* There is no check for existing road/rail; the connect is allowed
@@ -1099,11 +1099,12 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
     return (terrain_control.may_irrigate
-	    && unit_has_type_flag(punit, F_SETTLERS)
-	    && (tile_has_special(punit->tile, S_IRRIGATION)
-		|| (pterrain == pterrain->irrigation_result
-		    && can_be_irrigated(punit->tile, punit)
-		    && !is_activity_on_tile(punit->tile, ACTIVITY_MINE))));
+            && unit_has_type_flag(punit, F_SETTLERS)
+            && (tile_has_special(unit_tile(punit), S_IRRIGATION)
+                || (pterrain == pterrain->irrigation_result
+                    && can_be_irrigated(unit_tile(punit), punit)
+                    && !is_activity_on_tile(unit_tile(punit),
+                                            ACTIVITY_MINE))));
   default:
     break;
   }
@@ -1140,11 +1141,11 @@ void request_unit_connect(enum unit_activity activity)
 **************************************************************************/
 struct unit *request_unit_unload_all(struct unit *punit)
 {
-  struct tile *ptile = punit->tile;
+  struct tile *ptile = unit_tile(punit);
   struct unit *plast = NULL;
 
   if (get_transporter_capacity(punit) == 0) {
-    create_event(punit->tile, E_BAD_COMMAND, ftc_client,
+    create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
                  _("Only transporter units can be unloaded."));
     return NULL;
   }
@@ -1224,7 +1225,7 @@ void wakeup_sentried_units(struct tile *ptile)
 **************************************************************************/
 void request_unit_wakeup(struct unit *punit)
 {
-  wakeup_sentried_units(punit->tile);
+  wakeup_sentried_units(unit_tile(punit));
 }
 
 /****************************************************************************
@@ -1380,7 +1381,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   struct tile *dest_tile;
 
   /* Catches attempts to move off map */
-  dest_tile = mapstep(punit->tile, dir);
+  dest_tile = mapstep(unit_tile(punit), dir);
   if (!dest_tile) {
     return;
   }
@@ -1445,7 +1446,7 @@ void request_unit_disband(struct unit *punit)
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
-  struct city *pcity=tile_city(punit->tile);
+  struct city *pcity=tile_city(unit_tile(punit));
   
   if (pcity) {
     dsend_packet_unit_change_homecity(&client.conn, punit->id, pcity->id);
@@ -1457,7 +1458,7 @@ void request_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
-  struct city *pcity=tile_city(punit->tile);
+  struct city *pcity=tile_city(unit_tile(punit));
 
   if (pcity) {
     dsend_packet_unit_upgrade(&client.conn, punit->id);
@@ -1481,7 +1482,7 @@ void request_unit_autosettlers(const struct unit *punit)
   if (punit && can_unit_do_autosettlers(punit)) {
     dsend_packet_unit_autosettlers(&client.conn, punit->id);
   } else if (punit) {
-    create_event(punit->tile, E_BAD_COMMAND, ftc_client,
+    create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
                  _("Only settler units can be put into auto mode."));
   }
 }
@@ -1520,7 +1521,7 @@ void request_unit_unload(struct unit *pcargo)
   if (can_client_issue_orders()
       && ptrans
       && can_unit_unload(pcargo, ptrans)
-      && can_unit_survive_at_tile(pcargo, pcargo->tile)) {
+      && can_unit_survive_at_tile(pcargo, unit_tile(pcargo))) {
     dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
 
     if (unit_owner(pcargo) == client.conn.playing
@@ -1537,7 +1538,7 @@ void request_unit_unload(struct unit *pcargo)
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
-  if (!tile_city(punit->tile)) {
+  if (!tile_city(unit_tile(punit))) {
     return;
   }
 
@@ -1567,7 +1568,7 @@ void request_unit_nuke(struct unit_list *punits)
       break;
     }
     if (!offender) { /* Take first offender tile/unit */
-      offender = punit->tile;
+      offender = unit_tile(punit);
     }
   } unit_list_iterate_end;
   if (can) {
@@ -1597,7 +1598,7 @@ void request_unit_paradrop(struct unit_list *punits)
       break;
     }
     if (!offender) { /* Take first offender tile/unit */
-      offender = punit->tile;
+      offender = unit_tile(punit);
     }
   } unit_list_iterate_end;
   if (can) {
@@ -1661,7 +1662,7 @@ void request_unit_pillage(struct unit *punit)
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, S_LAST,
                                        BASE_NONE);
   } else {
-    struct tile *ptile = punit->tile;
+    struct tile *ptile = unit_tile(punit);
     bv_special pspossible;
     bv_bases bspossible;
     int count = 0;
@@ -2072,7 +2073,8 @@ void request_unit_move_done(void)
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct unit *target_unit)
 {
-  struct tile *src_tile = punit->tile, *dst_tile = target_unit->tile;
+  struct tile *src_tile = unit_tile(punit);
+  struct tile *dst_tile = unit_tile(target_unit);
   bool was_teleported, do_animation;
 
   was_teleported = !is_tiles_adjacent(src_tile, dst_tile);
@@ -2098,7 +2100,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   /* Set the tile before the movement animation is done, so that everything
    * drawn there will be up-to-date. */
-  punit->tile = dst_tile;
+  unit_tile_set(punit, dst_tile);
 
   if (punit->transported_by == -1) {
     /* We have to refresh the tile before moving.  This will draw
@@ -2158,12 +2160,12 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       break;
     case HOVER_NUKE:
       unit_list_iterate(punits, punit) {
-	if (SINGLE_MOVE * real_map_distance(punit->tile, ptile)
+	if (SINGLE_MOVE * real_map_distance(unit_tile(punit), ptile)
 	    <= punit->moves_left) {
 	  possible = TRUE;
 	  break;
 	}
-	offender = punit->tile;
+	offender = unit_tile(punit);
       } unit_list_iterate_end;
       if (!possible) {
         create_event(offender, E_BAD_COMMAND, ftc_client,
@@ -2556,10 +2558,10 @@ void key_unit_diplomat_actions(void)
   struct city *pcity;		/* need pcity->id */
   unit_list_iterate(get_units_in_focus(), punit) {
     if (is_diplomat_unit(punit)
-	&& (pcity = tile_city(punit->tile))
+	&& (pcity = tile_city(unit_tile(punit)))
 	&& diplomat_handled_in_diplomat_dialog() != -1    /* confusing otherwise? */
 	&& diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-				  punit->tile)) {
+				  unit_tile(punit))) {
       process_diplomat_arrival(punit, pcity->id);
       return;
       /* FIXME: diplomat dialog for more than one unit at a time. */
@@ -2669,7 +2671,7 @@ void key_unit_airbase(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct base_type *pbase =
-      get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
+      get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
 
     if (pbase) {
       request_new_unit_activity_base(punit, pbase);
@@ -2753,7 +2755,7 @@ void key_unit_fortress(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct base_type *pbase =
-      get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
+      get_base_by_gui_type(BASE_GUI_FORTRESS, punit, unit_tile(punit));
 
     if (pbase) {
       request_new_unit_activity_base(punit, pbase);
@@ -2870,7 +2872,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 	  punit->battlegroup = BATTLEGROUP_NONE;
 	  dsend_packet_unit_battlegroup(&client.conn,
 					punit->id, BATTLEGROUP_NONE);
-	  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+	  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
 	  unit_list_remove(battlegroups[battlegroup], punit);
 	}
       } unit_list_iterate_safe_end;
@@ -2885,7 +2887,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 	dsend_packet_unit_battlegroup(&client.conn,
 				      punit->id, battlegroup);
 	unit_list_append(battlegroups[battlegroup], punit);
-	refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+	refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
       }
     } unit_list_iterate_end;
     unit_list_iterate(battlegroups[battlegroup], punit) {

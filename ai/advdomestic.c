@@ -91,7 +91,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_has_type_flag(punit, F_HELP_WONDER)
-        && tile_continent(punit->tile) == continent)
+        && tile_continent(unit_tile(punit)) == continent)
       caravans++;
   } unit_list_iterate_end;
 

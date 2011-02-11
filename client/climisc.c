@@ -71,7 +71,7 @@ used throughout the client.
 void client_remove_unit(struct unit *punit)
 {
   struct city *pcity;
-  struct tile *ptile = punit->tile;
+  struct tile *ptile = unit_tile(punit);
   int hc = punit->homecity;
   struct unit old_unit = *punit;
   int old = get_num_units_in_focus();
@@ -81,7 +81,7 @@ void client_remove_unit(struct unit *punit)
             punit->id, nation_rule_name(nation_of_unit(punit)),
             unit_rule_name(punit), TILE_XY(unit_tile(punit)), hc);
 
-  update = (get_focus_unit_on_tile(punit->tile) != NULL);
+  update = (get_focus_unit_on_tile(unit_tile(punit)) != NULL);
   control_unit_killed(punit);
   game_remove_unit(punit);
   punit = NULL;
@@ -417,7 +417,7 @@ void center_on_something(void)
 
   can_slide = FALSE;
   if (get_num_units_in_focus() > 0) {
-    center_tile_mapcanvas(head_of_units_in_focus()->tile);
+    center_tile_mapcanvas(unit_tile(head_of_units_in_focus()));
   } else if (client_has_player()
              && NULL != (pcity = player_capital(client_player()))) {
     /* Else focus on the capital. */
@@ -433,7 +433,7 @@ void center_on_something(void)
     /* Just focus on any unit. */
     punit = unit_list_get(client.conn.playing->units, 0);
     fc_assert_ret(punit != NULL);
-    center_tile_mapcanvas(punit->tile);
+    center_tile_mapcanvas(unit_tile(punit));
   } else {
     struct tile *ctile = native_pos_to_tile(map.xsize / 2, map.ysize / 2);
 
@@ -1062,14 +1062,14 @@ struct city *get_nearest_city(const struct unit *punit, int *sq_dist)
   struct city *pcity_near;
   int pcity_near_dist;
 
-  if ((pcity_near = tile_city(punit->tile))) {
+  if ((pcity_near = tile_city(unit_tile(punit)))) {
     pcity_near_dist = 0;
   } else {
     pcity_near = NULL;
     pcity_near_dist = -1;
     players_iterate(pplayer) {
       city_list_iterate(pplayer->cities, pcity_current) {
-        int dist = sq_map_distance(pcity_current->tile, punit->tile);
+        int dist = sq_map_distance(pcity_current->tile, unit_tile(punit));
         if (pcity_near_dist == -1 || dist < pcity_near_dist
 	    || (dist == pcity_near_dist
 		&& unit_owner(punit) == city_owner(pcity_current))) {

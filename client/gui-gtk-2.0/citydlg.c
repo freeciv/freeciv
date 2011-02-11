@@ -490,7 +490,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup = game_city_by_number(punit->homecity);
-  pcity_pre = tile_city(punit->tile);
+  pcity_pre = tile_city(unit_tile(punit));
 
   if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog);
@@ -2196,7 +2196,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
     player_unit_by_number(client_player(), (size_t) data);
 
   if (NULL != punit
-   && NULL != (pcity = tile_city(punit->tile))
+   && NULL != (pcity = tile_city(unit_tile(punit)))
    && NULL != (pdialog = get_city_dialog(pcity))) {
 
     if (ev->type != GDK_BUTTON_PRESS || ev->button == 2 || ev->button == 3
@@ -2238,7 +2238,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (!can_unit_unload(punit, game_unit_by_number(punit->transported_by))
-        || !can_unit_exist_at_tile(punit, punit->tile)) {
+        || !can_unit_exist_at_tile(punit, unit_tile(punit))) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 
@@ -2309,7 +2309,7 @@ static gboolean present_unit_middle_callback(GtkWidget * w,
     player_unit_by_number(client_player(), (size_t) data);
 
   if (NULL != punit
-   && NULL != (pcity = tile_city(punit->tile))
+   && NULL != (pcity = tile_city(unit_tile(punit)))
    && NULL != (pdialog = get_city_dialog(pcity))
    && can_client_issue_orders()) {
 
@@ -2361,7 +2361,7 @@ static void unit_center_callback(GtkWidget * w, gpointer data)
     player_unit_by_number(client_player(), (size_t)data);
 
   if (NULL != punit) {
-    center_tile_mapcanvas(punit->tile);
+    center_tile_mapcanvas(unit_tile(punit));
   }
 }
 
@@ -2412,7 +2412,7 @@ static void present_unit_activate_close_callback(GtkWidget * w,
     player_unit_by_number(client_player(), (size_t)data);
 
   if (NULL != punit) {
-    struct city *pcity = tile_city(punit->tile);
+    struct city *pcity = tile_city(unit_tile(punit));
 
     set_unit_focus(punit);
     if (NULL != pcity) {

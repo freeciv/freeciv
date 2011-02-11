@@ -96,7 +96,7 @@ Unit *api_actions_create_unit_full(Player *pplayer, Tile *ptile,
     int ret;
     struct unit *pvirt = create_unit_virtual(pplayer, NULL, ptype,
                                              veteran_level);
-    pvirt->tile = ptile;
+    unit_tile_set(pvirt, ptile);
     pvirt->homecity = homecity ? homecity->id : 0;
     ret = can_unit_load(pvirt, ptransport);
     destroy_unit_virtual(pvirt);

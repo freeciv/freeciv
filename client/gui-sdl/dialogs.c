@@ -739,7 +739,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
     window_y = Main.event.motion.y;
   } else {
     put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                             pUnit->tile);
+                             unit_tile(pUnit));
   }
   
   widget_set_position(pWindow, window_x, window_y);
@@ -978,8 +978,8 @@ void popup_unit_select_dialog(struct tile *ptile)
   area = pWindow->area;
   
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           pUnit->tile);
-  
+                           unit_tile(pUnit));
+
   w = area.w;
   
   if(pUnit_Select_Dlg->pScroll) {
@@ -1291,7 +1291,7 @@ static int adv_unit_select_all_callback(struct widget *pWidget)
     popdown_advanced_terrain_dialog();
     
     if (pUnit) {
-      activate_all_units(pUnit->tile);
+      activate_all_units(unit_tile(pUnit));
     }
   }
   return -1;
@@ -1308,7 +1308,7 @@ static int adv_unit_sentry_idle_callback(struct widget *pWidget)
     popdown_advanced_terrain_dialog();
     
     if (pUnit) {
-      struct tile *ptile = pUnit->tile;
+      struct tile *ptile = unit_tile(pUnit);
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == client.conn.playing
          && ACTIVITY_IDLE == punit->activity
@@ -1548,8 +1548,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     
   }
   /* ---------- */
-  
-  if(pFocus_Unit && (pFocus_Unit->tile->x != ptile->x || pFocus_Unit->tile->y != ptile->y)) {
+
+  if(pFocus_Unit && (unit_tile(pFocus_Unit)->x != ptile->x
+                     || unit_tile(pFocus_Unit)->y != ptile->y)) {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
     
@@ -1600,8 +1601,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       !(((pCity && pplayers_non_attack(client.conn.playing, city_owner(pCity)))
       || is_non_attack_unit_tile(ptile, client.conn.playing))) &&
       (unit_type(pFocus_Unit)->paratroopers_range >=
-	    real_map_distance(pFocus_Unit->tile, ptile))) {
-	      
+            real_map_distance(unit_tile(pFocus_Unit), ptile))) {
+
       create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Paradrop here"),
 						    paradrop_here_callback);
       pBuf->data.cont = pCont;
@@ -2073,7 +2074,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   area = pWindow->area;
   
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           pUnit->tile);
+                           unit_tile(pUnit));
   
   /* setup widget size and start position */
 

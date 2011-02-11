@@ -1357,7 +1357,7 @@ static void present_units_activate_close_callback(HWND w, void * data)
   destroy_message_dialog(w);
 
   if (NULL != punit) {
-    struct city *pcity = tile_city(punit->tile);
+    struct city *pcity = tile_city(unit_tile(punit));
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1492,7 +1492,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
     player_find_unit_by_id(client.conn.playing, pdialog->present_unit_ids[n]);
 
   if (NULL != punit
-      && (pcity=tile_city(punit->tile))
+      && (pcity=tile_city(unit_tile(punit)))
       && (pdialog=get_city_dialog(pcity))) { /* ??? */
      HWND wd = popup_message_dialog(NULL,
                            /*"presentunitsdialog"*/_("Unit Commands"),
@@ -1929,7 +1929,7 @@ void citydlg_tileset_change(void)
 void refresh_unit_city_dialogs(struct unit *punit)
 {
   struct city_dialog *pdialog;
-  struct city *pcity_pre = tile_city(punit->tile);
+  struct city *pcity_pre = tile_city(unit_tile(punit));
   struct city *pcity_sup =
     player_find_city_by_id(client.conn.playing, punit->homecity);
   

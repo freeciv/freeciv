@@ -972,10 +972,12 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     struct city *pcity = player_city_by_number(unit_owner(punit),
                                                punit->homecity);
 
-    astr_add_line(&str, "%s", tile_get_info_text(punit->tile, linebreaks));
+    astr_add_line(&str, "%s", tile_get_info_text(unit_tile(punit),
+                                                 linebreaks));
     {
-      const char *infratext = get_infrastructure_text(punit->tile->special,
-                                                      punit->tile->bases);
+      const char *infratext
+        = get_infrastructure_text(unit_tile(punit)->special,
+                                  unit_tile(punit)->bases);
       if (*infratext != '\0') {
         astr_add_line(&str, "%s", infratext);
       } else {

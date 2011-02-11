@@ -162,7 +162,7 @@ void game_remove_unit(struct unit *punit)
 
     log_debug("game_remove_unit()"
               " at (%d,%d) unit %d, %s %s home (%d,%d) city %d, %s %s",
-              TILE_XY(punit->tile),
+              TILE_XY(unit_tile(punit)),
               punit->id, 
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
@@ -172,21 +172,21 @@ void game_remove_unit(struct unit *punit)
               city_name(pcity));
   } else if (IDENTITY_NUMBER_ZERO == punit->homecity) {
     log_debug("game_remove_unit() at (%d,%d) unit %d, %s %s home %d",
-              TILE_XY(punit->tile),
+              TILE_XY(unit_tile(punit)),
               punit->id, 
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->homecity);
   } else {
     log_error("game_remove_unit() at (%d,%d) unit %d, %s %s home %d invalid",
-              TILE_XY(punit->tile),
+              TILE_XY(unit_tile(punit)),
               punit->id, 
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->homecity);
   }
 
-  unit_list_remove(punit->tile->units, punit);
+  unit_list_remove(unit_tile(punit)->units, punit);
   unit_list_remove(unit_owner(punit)->units, punit);
 
   idex_unregister_unit(punit);

@@ -1963,8 +1963,8 @@ static void player_load_units(struct player *plr, int plrno,
                                           plrno, i), "%s", secfile_error());
     fc_assert_exit_msg(secfile_lookup_int(file, &nat_y, "player%d.u%d.y",
                                           plrno, i), "%s", secfile_error());
-    punit->tile = native_pos_to_tile(nat_x, nat_y);
-    if (NULL == punit->tile) {
+    unit_tile_set(punit, native_pos_to_tile(nat_x, nat_y));
+    if (NULL == unit_tile(punit)) {
       log_fatal("player%d.u%d invalid tile (%d, %d)",
                 plrno, i, nat_x, nat_y);
       exit(EXIT_FAILURE);
@@ -2027,10 +2027,10 @@ static void player_load_units(struct player *plr, int plrno,
 
     if (activity == ACTIVITY_FORTRESS) {
       activity = ACTIVITY_BASE;
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, unit_tile(punit));
     } else if (activity == ACTIVITY_AIRBASE) {
       activity = ACTIVITY_BASE;
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
     }
 
     if (activity == ACTIVITY_BASE) {
@@ -2210,7 +2210,7 @@ static void player_load_units(struct player *plr, int plrno,
     }
 
     /* allocate the unit's contribution to fog of war */
-    punit->server.vision = vision_new(unit_owner(punit), punit->tile);
+    punit->server.vision = vision_new(unit_owner(punit), unit_tile(punit));
     unit_refresh_vision(punit);
     /* NOTE: There used to be some map_set_known calls here.  These were
      * unneeded since unfogging the tile when the unit sees it will
@@ -2218,15 +2218,15 @@ static void player_load_units(struct player *plr, int plrno,
 
     unit_list_append(plr->units, punit);
 
-    unit_list_prepend(punit->tile->units, punit);
+    unit_list_prepend(unit_tile(punit)->units, punit);
 
     /* Claim ownership of fortress? */
-    if (tile_has_claimable_base(punit->tile, unit_type(punit))
-        && (!tile_owner(punit->tile)
-            || (tile_owner(punit->tile)
-                && pplayers_at_war(tile_owner(punit->tile), plr)))) {
-      map_claim_ownership(punit->tile, plr, punit->tile);
-      map_claim_border(punit->tile, plr);
+    if (tile_has_claimable_base(unit_tile(punit), unit_type(punit))
+        && (!tile_owner(unit_tile(punit))
+            || (tile_owner(unit_tile(punit))
+                && pplayers_at_war(tile_owner(unit_tile(punit)), plr)))) {
+      map_claim_ownership(unit_tile(punit), plr, unit_tile(punit));
+      map_claim_border(unit_tile(punit), plr);
       /* city_thaw_workers_queue() later */
       /* city_refresh() later */
     }
@@ -3812,8 +3812,8 @@ static void player_save_units(struct player *plr, int plrno,
     i++;
 
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
-    secfile_insert_int(file, punit->tile->nat_x, "player%d.u%d.x", plrno, i);
-    secfile_insert_int(file, punit->tile->nat_y, "player%d.u%d.y", plrno, i);
+    secfile_insert_int(file, unit_tile(punit)->nat_x, "player%d.u%d.x", plrno, i);
+    secfile_insert_int(file, unit_tile(punit)->nat_y, "player%d.u%d.y", plrno, i);
     secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
 				plrno, i);
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
@@ -5367,11 +5367,11 @@ static void game_load_internal(struct section_file *file)
     unit_list_iterate_safe(pplayer->units, punit) {
       struct unit *ferry = game_unit_by_number(punit->transported_by);
 
-      if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
+      if (!ferry && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
         log_error("Removing %s unferried %s in %s at (%d, %d)",
                   nation_rule_name(nation_of_player(pplayer)),
                   unit_rule_name(punit),
-                  terrain_rule_name(punit->tile->terrain),
+                  terrain_rule_name(unit_tile(punit)->terrain),
                   TILE_XY(unit_tile(punit)));
         bounce_unit(punit, TRUE);
       }

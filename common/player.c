@@ -868,7 +868,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
 bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit)
 {
-  return can_player_see_unit_at(pplayer, punit, punit->tile);
+  return can_player_see_unit_at(pplayer, punit, unit_tile(punit));
 }
 
 /****************************************************************************
@@ -1312,7 +1312,7 @@ int player_in_territory(const struct player *pplayer,
    * to see if they're owned by the enemy. */
   unit_list_iterate(pplayer2->units, punit) {
     /* Get the owner of the tile/territory. */
-    struct player *owner = tile_owner(punit->tile);
+    struct player *owner = tile_owner(unit_tile(punit));
 
     if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
       /* Found one! */

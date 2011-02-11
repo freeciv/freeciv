@@ -309,6 +309,7 @@ int get_transporter_capacity(const struct unit *punit);
 
 struct player *unit_owner(const struct unit *punit);
 struct tile *unit_tile(const struct unit *punit);
+void unit_tile_set(struct unit *punit, struct tile *ptile);
 
 struct unit *is_allied_unit_tile(const struct tile *ptile,
 				 const struct player *pplayer);

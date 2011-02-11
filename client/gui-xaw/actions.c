@@ -477,7 +477,7 @@ static void xaw_key_unit_fortify_or_fortress(Widget w, XEvent *event, String *ar
 {
   unit_list_iterate(get_units_in_focus(), punit) {
     struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
-                                                   punit, punit->tile);
+                                                   punit, unit_tile(punit));
     if (pbase != NULL) {
       key_unit_fortress();
     } else {

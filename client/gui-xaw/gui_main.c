@@ -1069,7 +1069,7 @@ void add_unit_to_battlegroup(int battlegroup)
     if (punit && punit->battlegroup == battlegroup) {
       /* If top unit already in the same battlegroup, detach it */
       unit_change_battlegroup(punit, BATTLEGROUP_NONE);
-      refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+      refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
     } else {
       key_unit_assign_battlegroup(battlegroup, TRUE);
     }

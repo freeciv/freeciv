@@ -400,7 +400,7 @@ int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2)
 bool api_methods_unit_city_can_be_built_here(Unit *punit)
 {
   SCRIPT_CHECK_SELF(punit, FALSE);
-  return city_can_be_built_here(punit->tile, punit);
+  return city_can_be_built_here(unit_tile(punit), punit);
 }
 
 

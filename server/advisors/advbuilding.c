@@ -109,7 +109,7 @@ static void calculate_city_clusters(struct player *pplayer)
     struct pf_map *pfm;
     struct ai_city *city_data = def_ai_city_data(pcity);
 
-    ghost->tile = pcity->tile;
+    unit_tile_set(ghost, pcity->tile);
     pft_fill_unit_parameter(&parameter, ghost);
     pfm = pf_map_new(&parameter);
 

@@ -513,7 +513,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       int sy, y, width, height, n;
       bool right;
       char buffer[512];
-      struct tile *pTile = pUnit->tile;
+      struct tile *pTile = unit_tile(pUnit);
 
       /* get and draw unit name (with veteran status) */
       pStr = create_str16_from_char(unit_name_translation(pUnit), adj_font(12));
@@ -660,7 +660,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	if (pInfo_Window->size.h > 
             4 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
-				get_tile_output_text(pUnit->tile));
+				get_tile_output_text(unit_tile(pUnit)));
 	}
 	
 	copy_chars_to_string16(pStr, buffer);

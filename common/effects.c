@@ -848,11 +848,12 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 
   fc_assert_ret_val(punit != NULL, 0);
   return get_target_bonus_effects(NULL,
-				  unit_owner(punit),
-				  punit->tile ? tile_city(punit->tile) : NULL,
-				  NULL, punit->tile,
-				  unit_type(punit), NULL, NULL,
-				  effect_type);
+                                  unit_owner(punit),
+                                  unit_tile(punit)
+                                    ? tile_city(unit_tile(punit)) : NULL,
+                                  NULL, unit_tile(punit),
+                                  unit_type(punit), NULL, NULL,
+                                  effect_type);
 }
 
 /**************************************************************************

@@ -4199,22 +4199,22 @@ static void sg_load_player_units(struct loaddata *loading,
     }
 
     /* allocate the unit's contribution to fog of war */
-    punit->server.vision = vision_new(unit_owner(punit), punit->tile);
+    punit->server.vision = vision_new(unit_owner(punit), unit_tile(punit));
     unit_refresh_vision(punit);
     /* NOTE: There used to be some map_set_known calls here.  These were
      * unneeded since unfogging the tile when the unit sees it will
      * automatically reveal that tile. */
 
     unit_list_append(plr->units, punit);
-    unit_list_prepend(punit->tile->units, punit);
+    unit_list_prepend(unit_tile(punit)->units, punit);
 
     /* Claim ownership of fortress? */
-    if (tile_has_claimable_base(punit->tile, unit_type(punit))
-        && (!tile_owner(punit->tile)
-            || (tile_owner(punit->tile)
-                && pplayers_at_war(tile_owner(punit->tile), plr)))) {
-      map_claim_ownership(punit->tile, plr, punit->tile);
-      map_claim_border(punit->tile, plr);
+    if (tile_has_claimable_base(unit_tile(punit), unit_type(punit))
+        && (!tile_owner(unit_tile(punit))
+            || (tile_owner(unit_tile(punit))
+                && pplayers_at_war(tile_owner(unit_tile(punit)), plr)))) {
+      map_claim_ownership(unit_tile(punit), plr, unit_tile(punit));
+      map_claim_border(unit_tile(punit), plr);
       /* city_thaw_workers_queue() later */
       /* city_refresh() later */
     }
@@ -4233,6 +4233,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int nat_x, nat_y;
   enum tile_special_type target;
   struct base_type *pbase = NULL;
+  struct tile *ptile;
   int base;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
@@ -4241,9 +4242,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
                   FALSE, "%s", secfile_error());
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_y, "%s.y", unitstr),
                   FALSE, "%s", secfile_error());
-  punit->tile = native_pos_to_tile(nat_x, nat_y);
-  sg_warn_ret_val(NULL != punit->tile, FALSE, "%s invalid tile (%d, %d)",
+
+  ptile = native_pos_to_tile(nat_x, nat_y);
+  sg_warn_ret_val(NULL != ptile, FALSE, "%s invalid tile (%d, %d)",
                   unitstr, nat_x, nat_y);
+  unit_tile_set(punit, ptile);
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->homecity,
                                      "%s.homecity", unitstr), FALSE,
@@ -4290,10 +4293,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
   if (activity == ACTIVITY_FORTRESS) {
     activity = ACTIVITY_BASE;
-    pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
+    pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, unit_tile(punit));
   } else if (activity == ACTIVITY_AIRBASE) {
     activity = ACTIVITY_BASE;
-    pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
+    pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
   }
 
   /* We need changed_from == ACTIVITY_IDLE by now so that
@@ -4511,8 +4514,8 @@ static void sg_save_player_units(struct savedata *saving,
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
 
     secfile_insert_int(saving->file, punit->id, "%s.id", buf);
-    secfile_insert_int(saving->file, punit->tile->nat_x, "%s.x", buf);
-    secfile_insert_int(saving->file, punit->tile->nat_y, "%s.y", buf);
+    secfile_insert_int(saving->file, unit_tile(punit)->nat_x, "%s.x", buf);
+    secfile_insert_int(saving->file, unit_tile(punit)->nat_y, "%s.y", buf);
     secfile_insert_int(saving->file, punit->veteran, "%s.veteran", buf);
     secfile_insert_int(saving->file, punit->hp, "%s.hp", buf);
     secfile_insert_int(saving->file, punit->homecity, "%s.homecity", buf);
@@ -5303,11 +5306,11 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     unit_list_iterate_safe(pplayer->units, punit) {
       struct unit *ferry = game_unit_by_number(punit->transported_by);
 
-      if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
+      if (!ferry && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
         log_sg("Removing %s unferried %s in %s at (%d, %d)",
                nation_rule_name(nation_of_player(pplayer)),
                unit_rule_name(punit),
-               terrain_rule_name(punit->tile->terrain),
+               terrain_rule_name(unit_tile(punit)->terrain),
                TILE_XY(unit_tile(punit)));
         bounce_unit(punit, TRUE);
       }

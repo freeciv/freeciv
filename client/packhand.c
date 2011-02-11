@@ -159,7 +159,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   /* Owner, veteran, and type fields are already filled in by
    * create_unit_virtual. */
   punit->id = packet->id;
-  punit->tile = index_to_tile(packet->tile);
+  unit_tile_set(punit, index_to_tile(packet->tile));
   punit->homecity = packet->homecity;
   output_type_iterate(o) {
     punit->upkeep[o] = packet->upkeep[o];
@@ -227,7 +227,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
 
   /* Owner and type fields are already filled in by create_unit_virtual. */
   punit->id = packet->id;
-  punit->tile = index_to_tile(packet->tile);
+  unit_tile_set(punit, index_to_tile(packet->tile));
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
@@ -395,14 +395,14 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
   struct unit *punit1 = game_unit_by_number(defender_unit_id);
 
   if (punit0 && punit1) {
-    if (tile_visible_mapcanvas(punit0->tile) &&
-	tile_visible_mapcanvas(punit1->tile)) {
+    if (tile_visible_mapcanvas(unit_tile(punit0)) &&
+	tile_visible_mapcanvas(unit_tile(punit1))) {
       show_combat = TRUE;
     } else if (auto_center_on_combat) {
       if (unit_owner(punit0) == client.conn.playing)
-	center_tile_mapcanvas(punit0->tile);
+	center_tile_mapcanvas(unit_tile(punit0));
       else
-	center_tile_mapcanvas(punit1->tile);
+	center_tile_mapcanvas(unit_tile(punit1));
       show_combat = TRUE;
     }
 
@@ -421,15 +421,15 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
-	refresh_unit_mapcanvas(punit0, punit0->tile, TRUE, FALSE);
-	refresh_unit_mapcanvas(punit1, punit1->tile, TRUE, FALSE);
+	refresh_unit_mapcanvas(punit0, unit_tile(punit0), TRUE, FALSE);
+	refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
       }
     }
     if (make_winner_veteran) {
       struct unit *pwinner = (defender_hp == 0 ? punit0 : punit1);
 
       pwinner->veteran++;
-      refresh_unit_mapcanvas(pwinner, pwinner->tile, TRUE, FALSE);
+      refresh_unit_mapcanvas(pwinner, unit_tile(pwinner), TRUE, FALSE);
     }
   }
 }
@@ -1268,7 +1268,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       punit->transported_by = packet_unit->transported_by;
       if (punit->occupy != packet_unit->occupy
-          && get_focus_unit_on_tile(packet_unit->tile)) {
+          && get_focus_unit_on_tile(unit_tile(packet_unit))) {
         /* Special case: (un)loading a unit in a transporter on the
          * same tile as the focus unit may (dis)allow the focus unit to be
          * loaded.  Thus the orders->(un)load menu item needs updating. */
@@ -1324,7 +1324,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->utype != unit_type(packet_unit)) {
       /* Unit type has changed (been upgraded) */
-      struct city *pcity = tile_city(punit->tile);
+      struct city *pcity = tile_city(unit_tile(punit));
       
       punit->utype = unit_type(packet_unit);
       repaint_unit = TRUE;
@@ -1345,11 +1345,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       check_focus = TRUE;
     }
 
-    if (!same_pos(punit->tile, packet_unit->tile)) { 
+    if (!same_pos(unit_tile(punit), unit_tile(packet_unit))) {
       /*** Change position ***/
-      struct city *pcity = tile_city(punit->tile);
+      struct city *pcity = tile_city(unit_tile(punit));
 
-      old_tile = punit->tile;
+      old_tile = unit_tile(punit);
       moved = TRUE;
 
       /* Show where the unit is going. */
@@ -1425,9 +1425,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if ((pcity = game_city_by_number(punit->homecity))) {
 	refresh_city_dialog(pcity);
       }
-      if (repaint_unit && tile_city(punit->tile) && tile_city(punit->tile) != pcity) {
-	/* Refresh the city we're occupying too. */
-	refresh_city_dialog(tile_city(punit->tile));
+      if (repaint_unit && tile_city(unit_tile(punit))
+          && tile_city(unit_tile(punit)) != pcity) {
+        /* Refresh the city we're occupying too. */
+        refresh_city_dialog(tile_city(unit_tile(punit)));
       }
     }
 
@@ -1457,7 +1458,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     idex_register_unit(punit);
 
     unit_list_prepend(unit_owner(punit)->units, punit);
-    unit_list_prepend(punit->tile->units, punit);
+    unit_list_prepend(unit_tile(punit)->units, punit);
 
     unit_register_battlegroup(punit);
 
@@ -1474,7 +1475,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
 
-    if ((pcity = tile_city(punit->tile))) {
+    if ((pcity = tile_city(unit_tile(punit)))) {
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
     }
@@ -1485,13 +1486,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   fc_assert_ret_val(punit != NULL, ret);
 
   if (unit_is_in_focus(punit)
-      || get_focus_unit_on_tile(punit->tile)
+      || get_focus_unit_on_tile(unit_tile(punit))
       || (moved && get_focus_unit_on_tile(old_tile))) {
     update_unit_info_label(get_units_in_focus());
   }
 
   if (repaint_unit) {
-    refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+    refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
   }
 
   if ((check_focus || get_num_units_in_focus() == 0)
@@ -3126,7 +3127,7 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
   if (punit) {
     if (ask_city_name) {
       bool other_asking = FALSE;
-      unit_list_iterate(punit->tile->units, other) {
+      unit_list_iterate(unit_tile(punit)->units, other) {
         if (other->client.asking_city_name) {
           other_asking = TRUE;
         }

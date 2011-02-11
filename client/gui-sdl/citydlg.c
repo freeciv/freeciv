@@ -289,8 +289,8 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButt
       pCityDlg->pEndCityMenuWidgetList = NULL;
       
       popdown_city_dialog(pCityDlg->pCity);
-      
-      center_tile_mapcanvas(pUnit->tile);
+
+      center_tile_mapcanvas(unit_tile(pUnit));
       set_unit_focus(pUnit);
     }
   }
@@ -411,7 +411,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     
     if(Main.event.button.button == SDL_BUTTON_RIGHT) {
       popdown_city_dialog(pCityDlg->pCity);
-      center_tile_mapcanvas(pUnit->tile);
+      center_tile_mapcanvas(unit_tile(pUnit));
       set_unit_focus(pUnit);
       return -1;
     }
@@ -3937,7 +3937,7 @@ void refresh_unit_city_dialogs(struct unit *pUnit)
 {
 
   struct city *pCity_sup = game_city_by_number(pUnit->homecity);
-  struct city *pCity_pre = tile_city(pUnit->tile);
+  struct city *pCity_pre = tile_city(unit_tile(pUnit));
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)
 		   || (pCityDlg->pCity == pCity_pre))) {

@@ -499,7 +499,7 @@ void agents_unit_changed(struct unit *punit)
   int i;
 
   log_debug("A: agents_unit_changed(unit=%d) type=%s pos=(%d,%d) owner=%s",
-            punit->id, unit_rule_name(punit), TILE_XY(punit->tile),
+            punit->id, unit_rule_name(punit), TILE_XY(unit_tile(punit)),
             player_name(unit_owner(punit)));
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -524,7 +524,7 @@ void agents_unit_new(struct unit *punit)
   int i;
 
   log_debug("A: agents_new_unit(unit=%d) type=%s pos=(%d,%d) owner=%s",
-            punit->id, unit_rule_name(punit), TILE_XY(punit->tile),
+            punit->id, unit_rule_name(punit), TILE_XY(unit_tile(punit)),
             player_name(unit_owner(punit)));
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -550,7 +550,7 @@ void agents_unit_remove(struct unit *punit)
   int i;
 
   log_debug("A: agents_remove_unit(unit=%d) type=%s pos=(%d,%d) owner=%s",
-            punit->id, unit_rule_name(punit), TILE_XY(punit->tile),
+            punit->id, unit_rule_name(punit), TILE_XY(unit_tile(punit)),
             player_name(unit_owner(punit)));
 
   for (i = 0; i < agents.entries_used; i++) {

@@ -571,7 +571,7 @@ static int unit_foodbox_cost(struct unit *punit)
 
   if (punit->id == 0) {
     /* It is a virtual unit, so must start in a city... */
-    struct city *pcity = tile_city(punit->tile);
+    struct city *pcity = tile_city(unit_tile(punit));
 
     /* The default is to lose 100%.  The growth bonus reduces this. */
     int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
@@ -612,7 +612,7 @@ static void contemplate_terrain_improvements(struct city *pcity)
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   /* Advisors data space not allocated as it's not needed in the
      lifetime of the virtualunit. */
-  virtualunit->tile = pcenter;
+  unit_tile_set(virtualunit, pcenter);
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_tile,
                                        NULL, NULL);
   want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100

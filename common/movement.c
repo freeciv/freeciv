@@ -87,7 +87,7 @@ bool unit_can_defend_here(const struct unit *punit)
   /* Do not just check if unit is transported.
    * Even transported units may step out from transport to fight,
    * if this is their native terrain. */
-  return can_unit_exist_at_tile(punit, punit->tile);
+  return can_unit_exist_at_tile(punit, unit_tile(punit));
 }
 
 /****************************************************************************
@@ -417,7 +417,7 @@ static bool zoc_ok_move_gen(const struct unit *punit,
 ****************************************************************************/
 bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile)
 {
-  return zoc_ok_move_gen(punit, punit->tile, dst_tile);
+  return zoc_ok_move_gen(punit, unit_tile(punit), dst_tile);
 }
 
 

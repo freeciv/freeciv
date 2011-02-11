@@ -282,7 +282,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
                             unit_type(punit), punit->veteran);
     }
 
-    pvirtual->tile = ptile;
+    unit_tile_set(pvirtual, ptile);
     target_worth = find_something_to_bomb(pvirtual, NULL, NULL);
     if (target_worth > best_worth) {
       /* It's either a first find or it's better than the previous. */
@@ -320,7 +320,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
 ***********************************************************************/
 void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 {
-  struct tile *dst_tile = punit->tile;
+  struct tile *dst_tile = unit_tile(punit);
   /* Loop prevention */
   int moves = punit->moves_left;
   int id = punit->id;

@@ -622,7 +622,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
       if (!can_unit_continue_current_activity(punit)) {
         log_debug("lost technology for activity of unit %s of %s (%d, %d)",
                   unit_name_translation(punit), player_name(plr),
-                  TILE_XY(punit->tile));
+                  TILE_XY(unit_tile(punit)));
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
     } unit_list_iterate_end;

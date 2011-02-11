@@ -754,7 +754,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           pUnit->tile);
+                           unit_tile(pUnit));
  
   /* setup widget size and start position */
     
@@ -969,7 +969,7 @@ void popup_sabotage_dialog(struct city *pCity)
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           pUnit->tile);        
+                           unit_tile(pUnit));
   
   w = area.w;
   
@@ -1482,8 +1482,8 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           pDiplomatUnit->tile);      
-  
+                           unit_tile(pDiplomatUnit));
+
   /* setup widget size and start position */
   pBuf = pWindow;
   

@@ -2007,7 +2007,7 @@ struct city *is_non_allied_city_tile(const struct tile *ptile,
 **************************************************************************/
 bool is_unit_near_a_friendly_city(const struct unit *punit)
 {
-  return is_friendly_city_near(unit_owner(punit), punit->tile);
+  return is_friendly_city_near(unit_owner(punit), unit_tile(punit));
 }
 
 /**************************************************************************

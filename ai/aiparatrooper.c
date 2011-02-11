@@ -64,7 +64,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
   struct player* pplayer = unit_owner(punit);
 
   /* First, we search for undefended cities in danger */
-  square_iterate(punit->tile, range, ptile) {
+  square_iterate(unit_tile(punit), range, ptile) {
     if (!map_is_known(ptile, pplayer)) {
       continue;
     }
@@ -90,7 +90,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
   }
 
   /* Second, we search for undefended enemy cities */
-  square_iterate(punit->tile, range, ptile) {
+  square_iterate(unit_tile(punit), range, ptile) {
     acity = tile_city(ptile);
     if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity)) &&
         (unit_list_size(ptile->units) == 0)) {
@@ -100,7 +100,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
       }
       /* Prefer big cities on other continents */
       val = city_size_get(acity)
-            + (tile_continent(punit->tile) != tile_continent(ptile));
+            + (tile_continent(unit_tile(punit)) != tile_continent(ptile));
       if (val > best) {
         best = val;
 	best_tile = ptile;
@@ -117,7 +117,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
   }
 
   /* Jump to kill adjacent units */
-  square_iterate(punit->tile, range, ptile) {
+  square_iterate(unit_tile(punit), range, ptile) {
     struct terrain *pterrain = tile_terrain(ptile);
     if (is_ocean(pterrain)) {
       continue;
@@ -179,7 +179,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
 **********************************************************************/
 void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
 {
-  struct city *pcity = tile_city(punit->tile);
+  struct city *pcity = tile_city(unit_tile(punit));
   struct tile *ptile_dest = NULL;
 
   int sanity = punit->id;
@@ -202,7 +202,7 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
     return;
   }
   
-  if (pcity && unit_list_size(punit->tile->units) == 1) {
+  if (pcity && unit_list_size(unit_tile(punit)->units) == 1) {
     UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Defending the city.");
     return;
   }

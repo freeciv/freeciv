@@ -230,7 +230,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
               struct unit *pUnit;
               struct city *pCity;
               if (NULL != (pUnit = head_of_units_in_focus()) && 
-                (pCity = tile_city(pUnit->tile)) != NULL &&
+                (pCity = tile_city(unit_tile(pUnit))) != NULL &&
                 city_owner(pCity) == client.conn.playing) {
                 popup_city_dialog(pCity);
               }

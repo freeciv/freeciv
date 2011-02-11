@@ -239,9 +239,9 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
   fc_assert_ret(vlevel != NULL);
 
-  ptile = punit->tile;
+  ptile = unit_tile(punit);
   /* We look for the bodyguard where we stand. */
-  if (guard == NULL || guard->tile != punit->tile) {
+  if (guard == NULL || unit_tile(guard) != unit_tile(punit)) {
     int my_def = (punit->hp * unit_type(punit)->defense_strength
                   * POWER_FACTOR * vlevel->power_fact / 100);
 
@@ -273,7 +273,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 {
   CHECK_UNIT(punit);
 
-  if (same_pos(dest_tile, punit->tile) || punit->moves_left <= 0) {
+  if (same_pos(dest_tile, unit_tile(punit)) || punit->moves_left <= 0) {
     /* Nowhere to go */
     return TRUE;
   }
@@ -314,8 +314,8 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   /* Dead unit shouldn't reach this point */
   CHECK_UNIT(punit);
 
-  return (same_pos(punit->tile, dest_tile) 
-          || is_tiles_adjacent(punit->tile, dest_tile));
+  return (same_pos(unit_tile(punit), dest_tile)
+          || is_tiles_adjacent(unit_tile(punit), dest_tile));
 }
 
 /**************************************************************************
@@ -326,7 +326,8 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 struct tile *immediate_destination(struct unit *punit,
                                    struct tile *dest_tile)
 {
-  if (!same_pos(punit->tile, dest_tile) && utype_fuel(unit_type(punit))) {
+  if (!same_pos(unit_tile(punit), dest_tile)
+      && utype_fuel(unit_type(punit))) {
     struct pf_parameter parameter;
     struct pf_map *pfm;
     struct pf_path *path;
@@ -359,10 +360,10 @@ struct tile *immediate_destination(struct unit *punit,
                 nation_rule_name(nation_of_unit(punit)),
                 unit_rule_name(punit),
                 punit->id,
-                TILE_XY(punit->tile),
+                TILE_XY(unit_tile(punit)),
                 TILE_XY(dest_tile));
     /* Prevent take off */
-    return punit->tile;
+    return unit_tile(punit);
   }
 
   /* else does not need way-points */
@@ -409,7 +410,7 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   UNIT_LOG(LOG_DEBUG, punit, "constrained goto: let's go to %d,%d",
 	   ptile->x, ptile->y);
 
-  if (same_pos(punit->tile, ptile)) {
+  if (same_pos(unit_tile(punit), ptile)) {
     /* Not an error; sometimes immediate_destination instructs the unit
      * to stay here. For example, to refuel.*/
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: already there!");
@@ -484,7 +485,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
       } else {
         /* Well, it's not our continent, but maybe we are on a boat
          * adjacent to the target continent? */
-        adjc_iterate(punit->tile, tmp_tile) {
+        adjc_iterate(unit_tile(punit), tmp_tile) {
           if (tile_continent(tmp_tile) == target_cont) {
             return TRUE;
           }
@@ -494,11 +495,11 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return FALSE;
 
   case UMT_SEA:
-    if (!is_ocean_tile(punit->tile)) {
+    if (!is_ocean_tile(unit_tile(punit))) {
       /* Oops, we are not in the open waters.  Pick an ocean that we have
        * access to.  We can assume we are in a city, and any oceans adjacent
        * are connected, so it does not matter which one we pick. */
-      adjc_iterate(punit->tile, tmp_tile) {
+      adjc_iterate(unit_tile(punit), tmp_tile) {
         if (is_ocean_tile(tmp_tile)) {
           my_cont = tile_continent(tmp_tile);
           break;
@@ -692,9 +693,10 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 			struct ai_risk_cost *risk_cost,
 			struct unit *punit, struct tile *ptile)
 {
-  const bool long_path = LONG_TIME < (map_distance(punit->tile, punit->tile)
-				      * SINGLE_MOVE
-				      / unit_type(punit)->move_rate);
+  const bool long_path = LONG_TIME < (map_distance(unit_tile(punit),
+                                                   unit_tile(punit))
+                                      * SINGLE_MOVE
+                                      / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
   const bool is_ai = unit_owner(punit)->ai_controlled;
   bool is_ferry = FALSE;
@@ -949,7 +951,7 @@ void ai_unit_new_task(struct unit *punit, enum ai_unit_task task,
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
     /* Grab missiles lying around and bring them along */
-    unit_list_iterate(punit->tile->units, missile) {
+    unit_list_iterate(unit_tile(punit)->units, missile) {
       if (unit_owner(missile) == unit_owner(punit)
           && def_ai_unit_data(missile)->task != AIUNIT_ESCORT
           && missile->transported_by == -1
@@ -957,7 +959,7 @@ void ai_unit_new_task(struct unit *punit, enum ai_unit_task task,
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
-        ai_unit_new_task(missile, AIUNIT_ESCORT, target->tile);
+        ai_unit_new_task(missile, AIUNIT_ESCORT, unit_tile(target));
         load_unit_onto_transporter(missile, punit);
       }
     } unit_list_iterate_end;
@@ -1024,7 +1026,7 @@ static void ai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
   CHECK_GUARD(bodyguard);
   CHECK_CHARGE_UNIT(punit);
 
-  if (!is_tiles_adjacent(ptile, bodyguard->tile)) {
+  if (!is_tiles_adjacent(ptile, unit_tile(bodyguard))) {
     return;
   }
 
@@ -1049,13 +1051,13 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
 
   CHECK_UNIT(punit);
   fc_assert_ret_val(unit_owner(punit)->ai_controlled, TRUE);
-  fc_assert_ret_val(is_tiles_adjacent(punit->tile, ptile), TRUE);
+  fc_assert_ret_val(is_tiles_adjacent(unit_tile(punit), ptile), TRUE);
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
   (void) unit_move_handling(punit, ptile, FALSE, FALSE);
   alive = (game_unit_by_number(sanity) != NULL);
 
-  if (alive && same_pos(ptile, punit->tile)
+  if (alive && same_pos(ptile, unit_tile(punit))
       && bodyguard != NULL  && def_ai_unit_data(bodyguard)->charge == punit->id) {
     ai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
@@ -1116,7 +1118,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   /* don't leave bodyguard behind */
   if (is_ai
       && (bodyguard = aiguard_guard_of(punit))
-      && same_pos(punit->tile, bodyguard->tile)
+      && same_pos(unit_tile(punit), unit_tile(bodyguard))
       && bodyguard->moves_left == 0) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "does not want to leave "
              "its bodyguard");
@@ -1127,7 +1129,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   if (punit->moves_left <= map_move_cost_unit(punit, ptile)
       && unit_move_rate(punit) > map_move_cost_unit(punit, ptile)
       && adv_danger_at(punit, ptile)
-      && !adv_danger_at(punit, punit->tile)) {
+      && !adv_danger_at(punit,  unit_tile(punit))) {
     UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
     return FALSE;
   }
@@ -1137,7 +1139,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   (void) unit_move_handling(punit, ptile, FALSE, TRUE);
 
   /* handle the results */
-  if (game_unit_by_number(sanity) && same_pos(ptile, punit->tile)) {
+  if (game_unit_by_number(sanity) && same_pos(ptile, unit_tile(punit))) {
     struct unit *bodyguard = aiguard_guard_of(punit);
     if (is_ai && bodyguard != NULL
         && def_ai_unit_data(bodyguard)->charge == punit->id) {

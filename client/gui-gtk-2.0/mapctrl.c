@@ -187,9 +187,9 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 		     _("Build New City"),
 		     _("What should we call our new city?"), suggestname,
 		     G_CALLBACK(name_new_city_callback),
-                     GINT_TO_POINTER(tile_index(punit->tile)),
-		     G_CALLBACK(name_new_city_callback),
-                      GINT_TO_POINTER(-tile_index(punit->tile)-1));
+                     GINT_TO_POINTER(tile_index(unit_tile(punit))),
+                     G_CALLBACK(name_new_city_callback),
+                     GINT_TO_POINTER(-tile_index(unit_tile(punit)) - 1));
 }
 
 /**************************************************************************

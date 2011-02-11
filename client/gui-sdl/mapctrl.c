@@ -2608,7 +2608,7 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
 					  _("OK"), adj_font(10), 0);
   pOK_Button->action = newcity_ok_callback;
   pOK_Button->key = SDLK_RETURN;  
-  pOK_Button->data.tile = pUnit->tile;  
+  pOK_Button->data.tile = unit_tile(pUnit);
 
   area.h += pOK_Button->size.h;
 
@@ -2618,7 +2618,7 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   			pWindow->dst, _("Cancel"), adj_font(10), 0);
   pCancel_Button->action = newcity_cancel_callback;
   pCancel_Button->key = SDLK_ESCAPE; 
-  pCancel_Button->data.tile = pUnit->tile; 
+  pCancel_Button->data.tile = unit_tile(pUnit);
 
   /* correct sizes */
   pCancel_Button->size.w += adj_size(5);

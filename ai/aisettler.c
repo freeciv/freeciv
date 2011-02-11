@@ -760,7 +760,7 @@ static struct cityresult *settler_map_iterate(struct pf_parameter *parameter,
       continue; /* This can happen if there is a ferry near shore. */
     }
     if (boat_cost == 0
-        && tile_continent(ptile) != tile_continent(punit->tile)) {
+        && tile_continent(ptile) != tile_continent(unit_tile(punit))) {
       /* We have an accidential land bridge. Ignore it. It will in all
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
@@ -878,8 +878,8 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
     ferry = game_unit_by_number(ferry_id);
   }
 
-  if (ferry || (use_virt_boat && is_ocean_near_tile(punit->tile)
-                && tile_city(punit->tile))) {
+  if (ferry || (use_virt_boat && is_ocean_near_tile(unit_tile(punit))
+                && tile_city(unit_tile(punit)))) {
     if (!ferry) {
       /* No boat?  Get a virtual one! */
       struct unit_type *boattype
@@ -902,7 +902,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
         return cr1;
       }
       ferry = create_unit_virtual(pplayer, NULL, boattype, 0);
-      ferry->tile = punit->tile;
+      unit_tile_set(ferry, unit_tile(punit));
     }
 
     ferry_class = unit_class(ferry);
@@ -1012,10 +1012,10 @@ BUILD_CITY:
           || punit->moves_left <= 0) {
         return;
       }
-      if (same_pos(punit->tile, ptile)) {
+      if (same_pos(unit_tile(punit), ptile)) {
         if (!ai_do_build_city(pplayer, punit)) {
           UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
-                   tile_get_info_text(punit->tile, 0));
+                   tile_get_info_text(unit_tile(punit), 0));
           ai_unit_new_task(punit, AIUNIT_NONE, NULL);
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any
@@ -1157,7 +1157,7 @@ void ai_auto_settler_free(struct player *pplayer)
 **************************************************************************/
 static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
-  struct tile *ptile = punit->tile;
+  struct tile *ptile = unit_tile(punit);
   struct city *pcity;
 
   fc_assert_ret_val(pplayer == unit_owner(punit), FALSE);
@@ -1213,7 +1213,7 @@ void contemplate_new_city(struct city *pcity)
 
   /* Create a localized "virtual" unit to do operations with. */
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
-  virtualunit->tile = pcenter;
+  unit_tile_set(virtualunit, pcenter);
 
   fc_assert_ret(pplayer->ai_controlled);
 

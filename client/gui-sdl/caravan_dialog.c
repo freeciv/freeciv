@@ -215,8 +215,8 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
-                           pUnit->tile);
-  
+                           unit_tile(pUnit));
+
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;

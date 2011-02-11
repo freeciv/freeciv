@@ -1077,7 +1077,7 @@ void toggle_unit_color(struct unit *punit)
     color_index = (color_index + 1) % NUM_CITY_COLORS;
   }
 
-  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
 }
 
 /****************************************************************************
@@ -1948,7 +1948,7 @@ void show_tile_labels(int canvas_x, int canvas_y,
 bool show_unit_orders(struct unit *punit)
 {
   if (punit && unit_has_orders(punit)) {
-    struct tile *ptile = punit->tile;
+    struct tile *ptile = unit_tile(punit);
     int i;
 
     for (i = 0; i < punit->orders.length; i++) {
@@ -2050,10 +2050,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     if (fc_rand(diff0 + diff1) < diff0) {
       punit0->hp--;
-      refresh_unit_mapcanvas(punit0, punit0->tile, FALSE, FALSE);
+      refresh_unit_mapcanvas(punit0, unit_tile(punit0), FALSE, FALSE);
     } else {
       punit1->hp--;
-      refresh_unit_mapcanvas(punit1, punit1->tile, FALSE, FALSE);
+      refresh_unit_mapcanvas(punit1, unit_tile(punit1), FALSE, FALSE);
     }
 
     unqueue_mapview_updates(TRUE);
@@ -2064,8 +2064,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   if (num_tiles_explode_unit > 0
       && tile_to_canvas_pos(&canvas_x, &canvas_y,
-			   losing_unit->tile)) {
-    refresh_unit_mapcanvas(losing_unit, losing_unit->tile, FALSE, FALSE);
+			   unit_tile(losing_unit))) {
+    refresh_unit_mapcanvas(losing_unit, unit_tile(losing_unit), FALSE, FALSE);
     unqueue_mapview_updates(FALSE);
     canvas_copy(mapview.tmp_store, mapview.store,
 		canvas_x, canvas_y, canvas_x, canvas_y,
@@ -2098,8 +2098,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   }
 
   set_units_in_combat(NULL, NULL);
-  refresh_unit_mapcanvas(punit0, punit0->tile, TRUE, FALSE);
-  refresh_unit_mapcanvas(punit1, punit1->tile, TRUE, FALSE);
+  refresh_unit_mapcanvas(punit0, unit_tile(punit0), TRUE, FALSE);
+  refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
 }
 
 /**************************************************************************
@@ -2251,19 +2251,19 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 
   /* check within maximum (squared) city radius */
   city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, tile1) {
-      unit_list_iterate(tile1->units, psettler) {
-	if ((NULL == client.conn.playing
-	     || unit_owner(psettler) == client.conn.playing)
-	    && unit_has_type_flag(psettler, F_CITIES)
-	    && city_can_be_built_here(psettler->tile, psettler)) {
-	  if (!closest_settler) {
-	    closest_settler = psettler;
-	  }
-	  if (!best_settler && psettler->client.colored) {
-	    best_settler = psettler;
-	  }
-	}
-      } unit_list_iterate_end;
+    unit_list_iterate(tile1->units, psettler) {
+      if ((NULL == client.conn.playing
+           || unit_owner(psettler) == client.conn.playing)
+          && unit_has_type_flag(psettler, F_CITIES)
+          && city_can_be_built_here(unit_tile(psettler), psettler)) {
+        if (!closest_settler) {
+          closest_settler = psettler;
+        }
+        if (!best_settler && psettler->client.colored) {
+          best_settler = psettler;
+        }
+      }
+    } unit_list_iterate_end;
   } city_tile_iterate_end;
 
   if (best_settler) {
@@ -3202,7 +3202,7 @@ static struct tile *link_mark_tile(const struct link_mark *pmark)
   case TLT_UNIT:
     {
       struct unit *punit = game_unit_by_number(pmark->id);
-      return punit ? punit->tile : NULL;
+      return punit ? unit_tile(punit) : NULL;
     }
   }
   return NULL;

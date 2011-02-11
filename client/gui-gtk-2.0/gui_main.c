@@ -1752,7 +1752,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
     punit = game_unit_by_number(unit_id_top);
     if (punit && unit_is_in_focus(punit)) {
       /* Clicking on the currently selected unit will center it. */
-      center_tile_mapcanvas(punit->tile);
+      center_tile_mapcanvas(unit_tile(punit));
     }
     return TRUE;
   }
@@ -1779,7 +1779,7 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   struct unit *punit = game_unit_by_number(unit_id_top);
 
   if (punit) {
-    popup_unit_select_dialog(punit->tile);
+    popup_unit_select_dialog(unit_tile(punit));
   }
 
   return TRUE;

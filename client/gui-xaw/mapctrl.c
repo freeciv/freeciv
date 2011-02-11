@@ -89,9 +89,9 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
   input_dialog_create(toplevel, "shellnewcityname",
 		      _("What should we call our new city?"), suggestname,
 		      name_new_city_callback,
-                      INT_TO_XTPOINTER(tile_index(punit->tile)),
-		      name_new_city_callback,
-                      INT_TO_XTPOINTER(-tile_index(punit->tile)-1));
+                      INT_TO_XTPOINTER(tile_index(unit_tile(punit))),
+                      name_new_city_callback,
+                      INT_TO_XTPOINTER(-tile_index(unit_tile(punit)) - 1));
 }
 
 /**************************************************************************

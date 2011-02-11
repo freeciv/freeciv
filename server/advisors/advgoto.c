@@ -84,7 +84,7 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
     struct tile *ptile = path->positions[i].tile;
     int id = punit->id;
 
-    if (same_pos(punit->tile, ptile)) {
+    if (same_pos(unit_tile(punit), ptile)) {
       UNIT_LOG(LOG_DEBUG, punit, "execute_path: waiting this turn");
       return TRUE;
     }
@@ -107,7 +107,7 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
       return FALSE;
     }
 
-    if (!same_pos(punit->tile, ptile) || punit->moves_left <= 0) {
+    if (!same_pos(unit_tile(punit), ptile) || punit->moves_left <= 0) {
       /* Stopped (or maybe fought) or ran out of moves */
       return TRUE;
     }
@@ -140,7 +140,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   if (punit->moves_left <= map_move_cost_unit(punit, ptile)
       && unit_move_rate(punit) > map_move_cost_unit(punit, ptile)
       && adv_danger_at(punit, ptile)
-      && !adv_danger_at(punit, punit->tile)) {
+      && !adv_danger_at(punit, unit_tile(punit))) {
     UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
     return FALSE;
   }
@@ -165,9 +165,9 @@ static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
 {
   fc_assert_ret_val(is_ground_unit(myunit), TRUE);
 
-  if (same_pos(ptile, myunit->tile))
+  if (same_pos(ptile, unit_tile(myunit)))
     return FALSE; /* can't be my zoc */
-  if (is_tiles_adjacent(ptile, myunit->tile)
+  if (is_tiles_adjacent(ptile, unit_tile(myunit))
       && !is_non_allied_unit_tile(ptile, unit_owner(myunit)))
     return FALSE;
 
@@ -193,14 +193,14 @@ int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
 {
   enum unit_move_result reason =
       unit_move_to_tile_test(unit_type(punit), unit_owner(punit),
-                             ACTIVITY_IDLE, punit->tile, 
+                             ACTIVITY_IDLE, unit_tile(punit),
                              dest_tile, unit_has_type_flag(punit, F_IGZOC));
   switch (reason) {
   case MR_OK:
     return 1;
 
   case MR_ZOC:
-    if (adv_could_be_my_zoc(punit, punit->tile)) {
+    if (adv_could_be_my_zoc(punit, unit_tile(punit))) {
       return -1;
     }
     break;

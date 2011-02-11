@@ -371,7 +371,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, uplayer, pdiplomat, 
-                                pvictim->tile)) {
+                                unit_tile(pvictim))) {
     return;
   }
 
@@ -471,7 +471,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("bribe-unit: succeeded");
 
-  victim_tile = pvictim->tile;
+  victim_tile = unit_tile(pvictim);
   pvictim = unit_change_owner(pvictim, pplayer, pdiplomat->homecity);
 
   /* N.B.: unit_link always returns the same pointer. As unit_change_owner()
@@ -1334,13 +1334,13 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
   struct city *spyhome;
 
   escapechance = game.server.diplchance + pdiplomat->veteran * 5;
-  
+
   if (pcity) {
     ptile = pcity->tile;
   } else {
-    ptile = pdiplomat->tile;
+    ptile = unit_tile(pdiplomat);
   }
-  
+
   /* find closest city for escape target */
   spyhome = find_closest_city(ptile, NULL, unit_owner(pdiplomat), FALSE,
                               FALSE, FALSE, TRUE, FALSE);

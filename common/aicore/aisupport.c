@@ -123,7 +123,7 @@ int city_gold_worth(struct city *pcity)
     worth += pcity->prod[o] * 10;
   } output_type_iterate_end;
   unit_list_iterate(pcity->units_supported, punit) {
-    if (same_pos(punit->tile, pcity->tile)) {
+    if (same_pos(unit_tile(punit), pcity->tile)) {
       struct unit_type *punittype = unit_type(punit)->obsoleted_by;
 
       if (punittype && can_city_build_unit_direct(pcity, punittype)) {

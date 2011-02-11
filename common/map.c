@@ -881,7 +881,7 @@ int map_move_cost_ai(const struct player *pplayer, const struct tile *tile0,
 int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
   return tile_move_cost_ptrs(punit, unit_owner(punit),
-                             punit->tile, ptile);
+                             unit_tile(punit), ptile);
 }
 
 /***************************************************************

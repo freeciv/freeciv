@@ -1025,7 +1025,7 @@ void real_menus_update(void)
     if (pUnit && !pUnit->ai_controlled) {
       struct city *pHomecity;
       int time;
-      struct tile *pTile = pUnit->tile;
+      struct tile *pTile = unit_tile(pUnit);
       struct city *pCity = tile_city(pTile);
       struct terrain *pTerrain = tile_terrain(pTile);
       struct base_type *pbase;
@@ -1063,13 +1063,13 @@ void real_menus_update(void)
       time = can_unit_do_activity(pUnit, ACTIVITY_RAILROAD);
       if (can_unit_do_activity(pUnit, ACTIVITY_ROAD) || time) {
 	if(time) {
-	  time = tile_activity_time(ACTIVITY_RAILROAD, pUnit->tile);
+	  time = tile_activity_time(ACTIVITY_RAILROAD, unit_tile(pUnit));
 	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
 			_("Build Railroad"), "R", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
-	  time = tile_activity_time(ACTIVITY_ROAD, pUnit->tile);
+	  time = tile_activity_time(ACTIVITY_ROAD, unit_tile(pUnit));
 	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
 			_("Build Road"), "R", time , 
 			PL_("turn", "turns", time));
@@ -1107,7 +1107,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
-	time = tile_activity_time(ACTIVITY_IRRIGATE, pUnit->tile);
+	time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit));
 
         if (!strcmp(terrain_rule_name(pTerrain), "Forest") ||
           !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
@@ -1138,7 +1138,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
-	time = tile_activity_time(ACTIVITY_MINE, pUnit->tile);
+	time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit));
 
 	/* FIXME: THIS CODE IS WRONG */
    if (!strcmp(terrain_rule_name(pTerrain), "Forest")) {  
@@ -1173,7 +1173,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
-	time = tile_activity_time(ACTIVITY_TRANSFORM, pUnit->tile);
+	time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit));
 	fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
 	  _("Transform to"),
 	  terrain_name_translation(pTerrain->transform_result),
@@ -1185,7 +1185,7 @@ void real_menus_update(void)
 	set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, pUnit->tile);
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, unit_tile(pUnit));
       if (!pCity && pbase) {
 	local_show(ID_UNIT_ORDER_FORTRESS);
       } else {
@@ -1198,7 +1198,7 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, pUnit->tile);
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, unit_tile(pUnit));
       if (!pCity && pbase) {
 	local_show(ID_UNIT_ORDER_AIRBASE);
       } else {
@@ -1260,7 +1260,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_UNLOAD);
       }
       
-      if (is_unit_activity_on_tile(ACTIVITY_SENTRY, pUnit->tile)) {
+      if (is_unit_activity_on_tile(ACTIVITY_SENTRY, unit_tile(pUnit))) {
 	local_show(ID_UNIT_ORDER_WAKEUP_OTHERS);
       } else {
 	local_hide(ID_UNIT_ORDER_WAKEUP_OTHERS);
@@ -1312,7 +1312,7 @@ void real_menus_update(void)
       }
 
       if (is_diplomat_unit(pUnit) &&
-	  diplomat_can_do_action(pUnit, DIPLOMAT_ANY_ACTION, pUnit->tile)) {
+	  diplomat_can_do_action(pUnit, DIPLOMAT_ANY_ACTION, unit_tile(pUnit))) {
 	local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
       } else {
 	local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);

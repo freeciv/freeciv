@@ -141,7 +141,7 @@ void real_unit_log(const char *file, const char *function, int line,
               unit_rule_name(punit),
               punit->id,
 	      get_activity_text(punit->activity),
-	      TILE_XY(punit->tile),
+	      TILE_XY(unit_tile(punit)),
 	      gx, gy,
               unit_data->bodyguard, unit_data->ferryboat);
 
@@ -180,8 +180,8 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   pcity = game_city_by_number(unit_data->charge);
   pcharge = game_unit_by_number(unit_data->charge);
   if (pcharge) {
-    charge_x = pcharge->tile->x;
-    charge_y = pcharge->tile->y;
+    charge_x = unit_tile(pcharge)->x;
+    charge_y = unit_tile(pcharge)->y;
     id = pcharge->id;
     type = "bodyguard";
     s = unit_rule_name(pcharge);
@@ -200,7 +200,7 @@ void real_bodyguard_log(const char *file, const char *function, int line,
               unit_rule_name(punit),
               punit->id,
               type,
-              TILE_XY(punit->tile),
+              TILE_XY(unit_tile(punit)),
               s, id, charge_x, charge_y);
 
   va_start(ap, msg);

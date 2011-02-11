@@ -1128,7 +1128,7 @@ static void build_fortress_callback(GtkAction *action, gpointer data)
     /* FIXME: this can provide different actions for different units...
      * not good! */
     struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
-                                                   punit, punit->tile);
+                                                   punit, unit_tile(punit));
 
     if (pbase && can_unit_do_activity_base(punit, pbase->item_number)) {
       request_new_unit_activity_base(punit, pbase);
@@ -1937,14 +1937,14 @@ void real_menus_update(void)
     unit_list_iterate(punits, punit) {
       fc_assert((ptile==NULL) == (ptype==NULL));
       if (ptile || ptype) {
-        if (punit->tile != ptile) {
+        if (unit_tile(punit) != ptile) {
           units_all_same_tile = FALSE;
         }
         if (unit_type(punit) != ptype) {
           units_all_same_type = FALSE;
         }
       } else {
-        ptile = punit->tile;
+        ptile = unit_tile(punit);
         ptype = unit_type(punit);
       }
     } unit_list_iterate_end;
@@ -2081,7 +2081,7 @@ void real_menus_update(void)
     /* FIXME: this overloading doesn't work well with multiple focus
      * units. */
     unit_list_iterate(punits, punit) {
-      if (tile_city(punit->tile)) {
+      if (tile_city(unit_tile(punit))) {
         city_on_tile = TRUE;
         break;
       }
@@ -2103,7 +2103,7 @@ void real_menus_update(void)
     /* FIXME: this overloading doesn't work well with multiple focus
      * units. */
     unit_list_iterate(punits, punit) {
-      if (tile_has_special(punit->tile, S_ROAD)) {
+      if (tile_has_special(unit_tile(punit), S_ROAD)) {
         has_road = TRUE;
         break;
       }
@@ -2162,13 +2162,13 @@ void real_menus_update(void)
   if (units_all_same_tile) {
     struct unit *punit = unit_list_get(punits, 0);
 
-    pterrain = tile_terrain(punit->tile);
+    pterrain = tile_terrain(unit_tile(punit));
     if (pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_result != pterrain) {
       fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s (_I)"),
-                  get_tile_change_menu_text(punit->tile,
+                  get_tile_change_menu_text(unit_tile(punit),
                                             ACTIVITY_IRRIGATE));
-    } else if (tile_has_special(punit->tile, S_IRRIGATION)
+    } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
                && player_knows_techs_with_flag(unit_owner(punit),
                                                TF_FARMLAND)) {
       sz_strlcpy(irrtext, _("Bu_ild Farmland"));
@@ -2179,7 +2179,7 @@ void real_menus_update(void)
     if (pterrain->mining_result != T_NONE
         && pterrain->mining_result != pterrain) {
       fc_snprintf(mintext, sizeof(mintext), _("Change to %s (_M)"),
-                  get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
+                  get_tile_change_menu_text(unit_tile(punit), ACTIVITY_MINE));
     } else {
       sz_strlcpy(mintext, _("Build _Mine"));
     }
@@ -2187,7 +2187,7 @@ void real_menus_update(void)
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_result != pterrain) {
       fc_snprintf(transtext, sizeof(transtext), _("Transf_orm to %s"),
-                  get_tile_change_menu_text(punit->tile,
+                  get_tile_change_menu_text(unit_tile(punit),
                                             ACTIVITY_TRANSFORM));
     } else {
       sz_strlcpy(transtext, _("Transf_orm Terrain"));

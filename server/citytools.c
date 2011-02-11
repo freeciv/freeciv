@@ -581,7 +581,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		    city_link(tocity));
     }
   } else {
-    struct city *in_city = tile_city(punit->tile);
+    struct city *in_city = tile_city(unit_tile(punit));
     if (in_city) {
       log_verbose("Transferred %s in %s from %s to %s",
                   unit_rule_name(punit), city_name(in_city),
@@ -687,18 +687,18 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   /* Any remaining units supported by the city are either given new home
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
-    struct city *new_home_city = tile_city(vunit->tile);
+    struct city *new_home_city = tile_city(unit_tile(vunit));
     if (new_home_city && new_home_city != exclude_city
 	&& city_owner(new_home_city) == unit_owner(vunit)) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       transfer_unit(vunit, new_home_city, verbose);
     } else if ((kill_outside == -1
-                || real_map_distance(vunit->tile, ptile) <= kill_outside)
+                || real_map_distance(unit_tile(vunit), ptile) <= kill_outside)
                && saved_id) {
       /* else transfer to specified city. */
       transfer_unit(vunit, pcity, verbose);
-      if (vunit->tile == ptile && !pplayers_allied(pplayer, pvictim)) {
+      if (unit_tile(vunit) == ptile && !pplayers_allied(pplayer, pvictim)) {
         /* Unit is inside city being transferred, bounce it */
         bounce_unit(vunit, TRUE);
       }
@@ -1381,7 +1381,7 @@ void remove_city(struct city *pcity)
 
   /* Rehome units in other cities */
   unit_list_iterate_safe(pcity->units_supported, punit) {
-    struct city *new_home_city = tile_city(punit->tile);
+    struct city *new_home_city = tile_city(unit_tile(punit));
 
     if (new_home_city
 	&& new_home_city != pcity

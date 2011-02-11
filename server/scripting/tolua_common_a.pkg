@@ -57,7 +57,8 @@ struct Unit {
 
   /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
-  Tile *tile;
+  Tile *tile; /* only read_only access! NULL is a possible value for
+               * transported units! */
 
   const int id;
 };

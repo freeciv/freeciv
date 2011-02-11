@@ -443,8 +443,8 @@ int settler_evaluate_improvements(struct unit *punit,
 
   if (best_newv > 0) {
     log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
-              punit->id, TILE_XY(punit->tile), get_activity_text(*best_act),
-              TILE_XY(*best_tile), best_newv);
+              punit->id, TILE_XY(unit_tile(punit)),
+              get_activity_text(*best_act), TILE_XY(*best_tile), best_newv);
   } else {
     /* Fill in dummy values.  The callers should check if the return value
      * is > 0 but this will avoid confusing them. */
@@ -545,14 +545,15 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
       fc_assert(state[tile_index(best_tile)].enroute == displaced->id);
       fc_assert(state[tile_index(best_tile)].eta > completion_time
                 || (state[tile_index(best_tile)].eta == completion_time
-                    && (real_map_distance(best_tile, punit->tile)
-                        < real_map_distance(best_tile, displaced->tile))));
+                    && (real_map_distance(best_tile, unit_tile(punit))
+                        < real_map_distance(best_tile,
+                                            unit_tile(displaced)))));
       UNIT_LOG(LOG_DEBUG, punit,
                "%d (%d,%d) has displaced %d (%d,%d) on %d,%d",
                punit->id, completion_time,
-               real_map_distance(best_tile, punit->tile),
+               real_map_distance(best_tile, unit_tile(punit)),
                displaced->id, state[tile_index(best_tile)].eta,
-               real_map_distance(best_tile, displaced->tile),
+               real_map_distance(best_tile, unit_tile(displaced)),
                TILE_XY(best_tile));
     }
 
@@ -594,7 +595,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 
       alive = adv_follow_path(punit, path, best_tile);
 
-      if (alive && same_pos(punit->tile, best_tile)
+      if (alive && same_pos(unit_tile(punit), best_tile)
 	  && punit->moves_left > 0) {
 	/* Reached destination and can start working immediately */
         unit_activity_handling(punit, best_act);
@@ -669,7 +670,7 @@ void auto_settlers_player(struct player *pplayer)
         && punit->moves_left > 0) {
       log_debug("%s settler at (%d, %d) is ai controlled.",
                 nation_rule_name(nation_of_player(pplayer)),
-                TILE_XY(punit->tile)); 
+                TILE_XY(unit_tile(punit)));
       if (punit->activity == ACTIVITY_SENTRY) {
         unit_activity_handling(punit, ACTIVITY_IDLE);
       }

@@ -439,7 +439,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup = player_city_by_number(client_player(), punit->homecity);
-  pcity_pre=tile_city(punit->tile);
+  pcity_pre=tile_city(unit_tile(punit));
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog, 0);
@@ -1183,7 +1183,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
     player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
-    struct city *pcity = tile_city(punit->tile);
+    struct city *pcity = tile_city(unit_tile(punit));
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1209,7 +1209,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
     player_unit_by_number(client_player(), (size_t) client_data);
 
   if (NULL != punit) {
-    struct city *pcity = tile_city(punit->tile);
+    struct city *pcity = tile_city(unit_tile(punit));
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1238,7 +1238,7 @@ static void present_units_activate_close_callback(Widget w,
   destroy_message_dialog(w);
 
   if (NULL != punit) {
-    struct city *pcity = tile_city(punit->tile);
+    struct city *pcity = tile_city(unit_tile(punit));
 
     set_unit_focus(punit);
     if (NULL != pcity) {
@@ -1374,7 +1374,7 @@ void present_units_callback(Widget w, XtPointer client_data,
        || (can_conn_edit(&client.conn)
            && NULL == client.conn.playing
            && (punit = game_unit_by_number((size_t) client_data))))
-      && (pcity = tile_city(punit->tile))
+      && (pcity = tile_city(unit_tile(punit)))
       && (pdialog = get_city_dialog(pcity))) {
     
     if(e->type==ButtonRelease && e->xbutton.button==Button2)  {

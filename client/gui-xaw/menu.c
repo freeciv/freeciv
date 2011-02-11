@@ -470,7 +470,7 @@ void real_menus_update(void)
 
       /* FiXME: very odd, iterating for the first entry! */
       unit_list_iterate(punits, punit) {
-	ptile = punit->tile;
+	ptile = unit_tile(punit);
 	break;
       } unit_list_iterate_end;
 

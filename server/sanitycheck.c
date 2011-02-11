@@ -199,7 +199,7 @@ static void check_map(const char *file, const char *function, int line)
     }
 
     unit_list_iterate(ptile->units, punit) {
-      SANITY_TILE(ptile, same_pos(punit->tile, ptile));
+      SANITY_TILE(ptile, same_pos(unit_tile(punit), ptile));
 
       /* Check diplomatic status of stacked units. */
       unit_list_iterate(ptile->units, punit2) {
@@ -359,7 +359,7 @@ static void check_units(const char *file, const char *function, int line)
 {
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
-      struct tile *ptile = punit->tile;
+      struct tile *ptile = unit_tile(punit);
       struct city *pcity;
       struct city *phome;
       struct unit *transporter = NULL, *transporter2 = NULL;
@@ -396,7 +396,7 @@ static void check_units(const char *file, const char *function, int line)
         SANITY_CHECK(transporter != NULL);
 
 	/* Make sure the transporter is on the tile. */
-	unit_list_iterate(punit->tile->units, tile_unit) {
+	unit_list_iterate(unit_tile(punit)->units, tile_unit) {
 	  if (tile_unit == transporter) {
 	    transporter2 = tile_unit;
 	  }
@@ -407,7 +407,7 @@ static void check_units(const char *file, const char *function, int line)
         if (NULL != transporter) {
           SANITY_CHECK(player_unit_by_number(unit_owner(transporter),
                                              punit->transported_by) != NULL);
-          SANITY_CHECK(same_pos(ptile, transporter->tile));
+          SANITY_CHECK(same_pos(ptile, unit_tile(transporter)));
         }
 
         /* Transporter capacity will be checked when transporter itself

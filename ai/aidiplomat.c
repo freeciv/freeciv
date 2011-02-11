@@ -424,7 +424,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;
   struct city *ctarget = NULL;
-  struct city *pcity = tile_city(punit->tile);
+  struct city *pcity = tile_city(unit_tile(punit));
 
   if (pcity 
       && count_diplomats_on_tile(pcity->tile) == 1
@@ -451,7 +451,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
     city_data = def_ai_city_data(acity);
     urgency = city_data->urgency;
     dipls = (count_diplomats_on_tile(ptile)
-             - (same_pos(ptile, punit->tile) ? 1 : 0));
+             - (same_pos(ptile, unit_tile(punit)) ? 1 : 0));
     if (dipls == 0 && city_data->diplomat_threat) {
       /* We are _really_ needed there */
       urgency = (urgency + 1) * 5;
@@ -607,7 +607,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   parameter.get_zoc = NULL; /* kludge */
   pfm = pf_map_new(&parameter);
 
-  pcity = tile_city(punit->tile);
+  pcity = tile_city(unit_tile(punit));
 
   /* Look for someone to bribe */
   if (!ai_diplomat_bribe_nearby(pplayer, punit, pfm)) {
@@ -617,11 +617,11 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   }
 
   /* If we are the only diplomat in a threatened city, then stay to defend */
-  pcity = tile_city(punit->tile); /* we may have moved */
+  pcity = tile_city(unit_tile(punit)); /* we may have moved */
   if (pcity) {
     struct ai_city *city_data = def_ai_city_data(pcity);
 
-    if (count_diplomats_on_tile(punit->tile) == 1
+    if (count_diplomats_on_tile(unit_tile(punit)) == 1
         && (city_data->diplomat_threat
             || city_data->urgency > 0)) {
       UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
@@ -643,7 +643,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     ctarget = tile_city(punit->goto_tile);
     if (pf_map_position(pfm, punit->goto_tile, &pos)
         && ctarget) {
-      if (same_pos(ctarget->tile, punit->tile)) {
+      if (same_pos(ctarget->tile, unit_tile(punit))) {
         failure = TRUE;
       } else if (pplayers_allied(pplayer, city_owner(ctarget))
           && unit_data->task == AIUNIT_ATTACK
@@ -668,7 +668,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   /* We may need a new map now. Both because we cannot get paths from an 
    * old map, and we need paths to move, and because fctd below requires
    * a new map for its iterator. */
-  if (!same_pos(parameter.start_tile, punit->tile)
+  if (!same_pos(parameter.start_tile, unit_tile(punit))
       || unit_data->task == AIUNIT_NONE) {
     pf_map_destroy(pfm);
     pft_fill_unit_parameter(&parameter, punit);
@@ -693,8 +693,8 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s",
                city_name(ctarget));
-    } else if ((ctarget = find_closest_city(punit->tile, NULL, pplayer, TRUE,
-                                            FALSE, FALSE, TRUE, FALSE))
+    } else if ((ctarget = find_closest_city(unit_tile(punit), NULL, pplayer,
+                                            TRUE, FALSE, FALSE, TRUE, FALSE))
                != NULL) {
       /* This should only happen if the entire continent was suddenly
        * conquered. So we head for closest coastal city and wait for someone
@@ -722,14 +722,14 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   }
 
   /* GOTO unless we want to stay */
-  if (!same_pos(punit->tile, ctarget->tile)) {
+  if (!same_pos(unit_tile(punit), ctarget->tile)) {
     struct pf_path *path;
 
     path = pf_map_path(pfm, punit->goto_tile);
     if (path && adv_unit_execute_path(punit, path) && punit->moves_left > 0) {
       /* Check if we can do something with our destination now. */
       if (unit_data->task == AIUNIT_ATTACK) {
-        int dist  = real_map_distance(punit->tile, punit->goto_tile);
+        int dist  = real_map_distance(unit_tile(punit), punit->goto_tile);
         UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s",
                  dist, ctarget ? city_name(ctarget) : "(none)");
         if (dist == 1) {
