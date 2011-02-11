@@ -188,7 +188,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     int want, loss, p_success, p_failure, time_to_dest;
     int gain_incite = 0, gain_theft = 0, gain = 1;
     int incite_cost;
-    struct unit *punit = create_unit_virtual(pplayer, pcity, ut,
+    struct unit *punit = unit_virtual_create(pplayer, pcity, ut,
                                              do_make_unit_veteran(pcity, ut));
 
     pft_fill_unit_parameter(&parameter, punit);
@@ -197,7 +197,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest, pfm);
 
     pf_map_destroy(pfm);
-    destroy_unit_virtual(punit);
+    unit_virtual_destroy(punit);
 
     if (acity == NULL
 	|| BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {

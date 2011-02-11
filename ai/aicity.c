@@ -609,7 +609,7 @@ static void contemplate_terrain_improvements(struct city *pcity)
   }
 
   /* Create a localized "virtual" unit to do operations with. */
-  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
+  virtualunit = unit_virtual_create(pplayer, pcity, unit_type, 0);
   /* Advisors data space not allocated as it's not needed in the
      lifetime of the virtualunit. */
   unit_tile_set(virtualunit, pcenter);
@@ -617,7 +617,7 @@ static void contemplate_terrain_improvements(struct city *pcity)
                                        NULL, NULL);
   want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
          / (40 + unit_foodbox_cost(virtualunit));
-  destroy_unit_virtual(virtualunit);
+  unit_virtual_destroy(virtualunit);
 
   /* Massage our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in

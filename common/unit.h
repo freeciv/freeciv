@@ -328,10 +328,10 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 
 bool is_build_or_clean_activity(enum unit_activity activity);
 
-struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
+struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
                                  struct unit_type *punittype,
 				 int veteran_level);
-void destroy_unit_virtual(struct unit *punit);
+void unit_virtual_destroy(struct unit *punit);
 bool unit_is_virtual(const struct unit *punit);
 void free_unit_orders(struct unit *punit);
 

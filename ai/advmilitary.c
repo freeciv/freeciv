@@ -81,7 +81,7 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
       int veteran = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
                                        EFT_VETERAN_BUILD);
 
-      defender = create_unit_virtual(pplayer, pcity, punittype, veteran);
+      defender = unit_virtual_create(pplayer, pcity, punittype, veteran);
       defense = get_total_defense_power(attacker, defender);
       attack = get_total_attack_power(attacker, defender);
       get_modified_firepower(attacker, defender, &fpatt, &fpdef);
@@ -103,7 +103,7 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
         bestunit = punittype;
         best_cost = cost;
       }
-      destroy_unit_virtual(defender);
+      unit_virtual_destroy(defender);
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -1265,7 +1265,7 @@ static void ai_unit_consider_bodyguard(struct city *pcity,
   struct unit *aunit = NULL;
   struct city *acity = NULL;
 
-  virtualunit = create_unit_virtual(pplayer, pcity, punittype,
+  virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                     do_make_unit_veteran(pcity, punittype));
 
   if (choice->want < 100) {
@@ -1277,7 +1277,7 @@ static void ai_unit_consider_bodyguard(struct city *pcity,
       choice->type = CT_DEFENDER;
     }
   }
-  destroy_unit_virtual(virtualunit);
+  unit_virtual_destroy(virtualunit);
 }
 
 /*********************************************************************
@@ -1467,10 +1467,10 @@ void military_advisor_choose_build(struct player *pplayer,
      before we mung the seamap */
   punittype = ai_choose_attacker(pcity, UMT_SEA);
   if (punittype) {
-    virtualunit = create_unit_virtual(pplayer, pcity, punittype,
+    virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
     kill_something_with(pplayer, pcity, virtualunit, choice);
-    destroy_unit_virtual(virtualunit);
+    unit_virtual_destroy(virtualunit);
   }
 
   /* Consider a land attacker or a ferried land attacker
@@ -1478,9 +1478,9 @@ void military_advisor_choose_build(struct player *pplayer,
    */
   punittype = ai_choose_attacker(pcity, UMT_LAND);
   if (punittype) {
-    virtualunit = create_unit_virtual(pplayer, pcity, punittype, 1);
+    virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
     kill_something_with(pplayer, pcity, virtualunit, choice);
-    destroy_unit_virtual(virtualunit);
+    unit_virtual_destroy(virtualunit);
   }
 
   /* Consider a hunter */

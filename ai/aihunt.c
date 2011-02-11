@@ -220,9 +220,9 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
   struct unit *virtualunit;
   int want = 0;
 
-  virtualunit = create_unit_virtual(pplayer, pcity, best_type, veteran);
+  virtualunit = unit_virtual_create(pplayer, pcity, best_type, veteran);
   want = ai_hunter_manage(pplayer, virtualunit);
-  destroy_unit_virtual(virtualunit);
+  unit_virtual_destroy(virtualunit);
   if (want > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri hunter w/ want %d", want);
     choice->value.utype = best_type;

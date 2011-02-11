@@ -367,10 +367,10 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     }
 
     /* it's worth building that unit? */
-    virtual_unit = create_unit_virtual(pplayer, pcity, u_type,
+    virtual_unit = unit_virtual_create(pplayer, pcity, u_type,
                                        do_make_unit_veteran(pcity, u_type));
     profit = calculate_want_for_paratrooper(virtual_unit, pcity->tile);
-    destroy_unit_virtual(virtual_unit);
+    unit_virtual_destroy(virtual_unit);
 
     /* update choise struct if it's worth */
     if (profit > choice->want) {

@@ -3160,9 +3160,9 @@ struct city *create_city_virtual(struct player *pplayer,
     CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
   } else {
     pcity->client.info_units_supported =
-        unit_list_new_full(destroy_unit_virtual);
+        unit_list_new_full(unit_virtual_destroy);
     pcity->client.info_units_present =
-        unit_list_new_full(destroy_unit_virtual);
+        unit_list_new_full(unit_virtual_destroy);
   }
 
   return pcity;

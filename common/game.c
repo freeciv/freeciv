@@ -194,7 +194,7 @@ void game_remove_unit(struct unit *punit)
   if (game.callbacks.unit_deallocate) {
     (game.callbacks.unit_deallocate)(punit->id);
   }
-  destroy_unit_virtual(punit);
+  unit_virtual_destroy(punit);
 }
 
 /**************************************************************************

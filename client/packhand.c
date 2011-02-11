@@ -151,13 +151,13 @@ static void packhand_init(void)
 ****************************************************************************/
 static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 {
-  struct unit *punit = create_unit_virtual(player_by_number(packet->owner),
+  struct unit *punit = unit_virtual_create(player_by_number(packet->owner),
 					   NULL,
 					   utype_by_number(packet->type),
 					   packet->veteran);
 
   /* Owner, veteran, and type fields are already filled in by
-   * create_unit_virtual. */
+   * unit_virtual_create. */
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
   punit->homecity = packet->homecity;
@@ -220,12 +220,12 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 static struct unit *
 unpackage_short_unit(const struct packet_unit_short_info *packet)
 {
-  struct unit *punit = create_unit_virtual(player_by_number(packet->owner),
+  struct unit *punit = unit_virtual_create(player_by_number(packet->owner),
 					   NULL,
 					   utype_by_number(packet->type),
 					   FALSE);
 
-  /* Owner and type fields are already filled in by create_unit_virtual. */
+  /* Owner and type fields are already filled in by unit_virtual_create. */
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
   punit->veteran = packet->veteran;

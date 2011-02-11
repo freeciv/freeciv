@@ -1951,7 +1951,7 @@ static void player_load_units(struct player *plr, int plrno,
       exit(EXIT_FAILURE);
     }
     
-    punit = create_unit_virtual(plr, NULL, type,
+    punit = unit_virtual_create(plr, NULL, type,
       secfile_lookup_int_default(file, 0, "player%d.u%d.veteran", plrno, i));
     fc_assert_exit_msg(secfile_lookup_int(file, &punit->id,
                                           "player%d.u%d.id", plrno, i),

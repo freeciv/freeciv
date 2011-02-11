@@ -1297,7 +1297,7 @@ int editor_selection_count(void)
 }
 
 /****************************************************************************
-  Creates a virtual unit (like create_unit_virtual) based on the current
+  Creates a virtual unit (like unit_virtual_create) based on the current
   editor state. You should free() the unit when it is no longer needed.
   If creation is not possible, then NULL is returned.
 
@@ -1305,7 +1305,7 @@ int editor_selection_count(void)
   corresponding to the current 'applied player' parameter and has unit type
   given by the sub-value of the unit tool (ETT_UNIT).
 ****************************************************************************/
-struct unit *editor_create_unit_virtual(void)
+struct unit *editor_unit_virtual_create(void)
 {
   struct unit *vunit;
   struct player *pplayer;
@@ -1325,7 +1325,7 @@ struct unit *editor_create_unit_virtual(void)
     return NULL;
   }
 
-  vunit = create_unit_virtual(pplayer, NULL, putype, 0);
+  vunit = unit_virtual_create(pplayer, NULL, putype, 0);
 
   return vunit;
 }
@@ -1459,7 +1459,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
         if (!punit) {
           continue;
         }
-        vunit = create_unit_virtual(unit_owner(punit), NULL,
+        vunit = unit_virtual_create(unit_owner(punit), NULL,
                                     unit_type(punit), punit->veteran);
         vunit->homecity = punit->homecity;
         vunit->hp = punit->hp;

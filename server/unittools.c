@@ -1385,7 +1385,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
                               int homecity_id, int moves_left, int hp_left,
 			      struct unit *ptrans)
 {
-  struct unit *punit = create_unit_virtual(pplayer, NULL, type, veteran_level);
+  struct unit *punit = unit_virtual_create(pplayer, NULL, type, veteran_level);
   struct city *pcity;
 
   /* Register unit */

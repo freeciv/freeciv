@@ -901,7 +901,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
         /* return the result from the search on our current continent */
         return cr1;
       }
-      ferry = create_unit_virtual(pplayer, NULL, boattype, 0);
+      ferry = unit_virtual_create(pplayer, NULL, boattype, 0);
       unit_tile_set(ferry, unit_tile(punit));
     }
 
@@ -923,7 +923,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
     }
 
     if (ferry->id == 0) {
-      destroy_unit_virtual(ferry);
+      unit_virtual_destroy(ferry);
     }
 
     /* If we use a virtual boat, we must have permission and be emigrating: */
@@ -1212,7 +1212,7 @@ void contemplate_new_city(struct city *pcity)
   }
 
   /* Create a localized "virtual" unit to do operations with. */
-  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
+  virtualunit = unit_virtual_create(pplayer, pcity, unit_type, 0);
   unit_tile_set(virtualunit, pcenter);
 
   fc_assert_ret(pplayer->ai_controlled);
@@ -1242,5 +1242,5 @@ void contemplate_new_city(struct city *pcity)
       CITY_LOG(LOG_DEBUG, pcity, "want no city");
     }
   }
-  destroy_unit_virtual(virtualunit);
+  unit_virtual_destroy(virtualunit);
 }

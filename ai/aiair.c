@@ -277,7 +277,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
 
     if (!pvirtual) {
       pvirtual =
-        create_unit_virtual(pplayer,
+        unit_virtual_create(pplayer,
                             player_city_by_number(pplayer, punit->homecity),
                             unit_type(punit), punit->veteran);
     }
@@ -293,7 +293,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
   } pf_map_move_costs_iterate_end;
 
   if (pvirtual) {
-    destroy_unit_virtual(pvirtual);
+    unit_virtual_destroy(pvirtual);
   }
 
   if (path) {
@@ -453,7 +453,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
     }
     if (can_city_build_unit_now(pcity, punittype)) {
       struct unit *virtual_unit = 
-	create_unit_virtual(pplayer, pcity, punittype, 
+	unit_virtual_create(pplayer, pcity, punittype,
                             do_make_unit_veteran(pcity, punittype));
       int profit = find_something_to_bomb(virtual_unit, NULL, NULL);
 
@@ -470,7 +470,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
         log_debug("%s doesn't want to build %s (want=%d)",
                   city_name(pcity), utype_rule_name(punittype), profit);
       }
-      destroy_unit_virtual(virtual_unit);
+      unit_virtual_destroy(virtual_unit);
     }
   } unit_type_iterate_end;
 

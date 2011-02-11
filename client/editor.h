@@ -140,7 +140,7 @@ void editor_apply_tool_to_selection(void);
 int editor_selection_count(void);
 const struct tile *editor_get_selection_center(void);
 
-struct unit *editor_create_unit_virtual(void);
+struct unit *editor_unit_virtual_create(void);
 
 
 /* These type flags determine what an edit buffer

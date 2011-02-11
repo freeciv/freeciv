@@ -74,7 +74,7 @@ static void sha_unit_change(int id)
 static void sha_unit_new(int id)
 {
   struct unit *punit = game_unit_by_number(id);
-  struct unit *pold_unit = create_unit_virtual(unit_owner(punit), NULL, 0, 0);
+  struct unit *pold_unit = unit_virtual_create(unit_owner(punit), NULL, 0, 0);
 
   log_debug("sha got unit: %d", id);
 
@@ -93,7 +93,7 @@ static void sha_unit_remove(int id)
 
   fc_assert_ret(NULL != pold_unit);
   unit_list_remove(previous_units, pold_unit);
-  /* list pointers were struct copied, cannot destroy_unit_virtual() */
+  /* list pointers were struct copied, cannot unit_virtual_destroy() */
   memset(pold_unit, 0, sizeof(*pold_unit)); /* ensure no pointers remain */
   free(pold_unit);
 }

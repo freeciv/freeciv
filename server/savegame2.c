@@ -4182,9 +4182,9 @@ static void sg_load_player_units(struct loaddata *loading,
     sg_failure_ret(type != NULL, "%s: unknown unit type \"%s\".", buf, name);
 
     /* Create a dummy unit. */
-    punit = create_unit_virtual(plr, NULL, type, 0);
+    punit = unit_virtual_create(plr, NULL, type, 0);
     if (!sg_load_player_unit(loading, plr, punit, buf)) {
-      destroy_unit_virtual(punit);
+      unit_virtual_destroy(punit);
       sg_failure_ret(FALSE, "Error loading unit %d of player %d.", i, plrno);
     }
 

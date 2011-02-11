@@ -860,7 +860,7 @@ void tile_virtual_destroy(struct tile *vtile)
   if (vtile->units) {
     unit_list_iterate(vtile->units, vunit) {
       if (unit_is_virtual(vunit)) {
-        destroy_unit_virtual(vunit);
+        unit_virtual_destroy(vunit);
       }
     } unit_list_iterate_end;
     unit_list_destroy(vtile->units);

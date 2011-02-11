@@ -955,7 +955,7 @@ static int built_status_to_string(char *buf, int buflen,
 
 /****************************************************************************
   Returns TRUE if a unit can be created at the given tile based on the
-  state of the editor (see editor_create_unit_virtual).
+  state of the editor (see editor_unit_virtual_create).
 ****************************************************************************/
 static bool can_create_unit_at_tile(struct tile *ptile)
 {
@@ -968,7 +968,7 @@ static bool can_create_unit_at_tile(struct tile *ptile)
     return FALSE;
   }
 
-  vunit = editor_create_unit_virtual();
+  vunit = editor_unit_virtual_create();
   if (!vunit) {
     return FALSE;
   }

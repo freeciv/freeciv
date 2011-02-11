@@ -68,11 +68,11 @@ Unit *api_find_transport_unit(Player *pplayer, Unit_Type *ptype,
 
   {
     struct unit *ptransport;
-    struct unit *pvirt = create_unit_virtual(pplayer, NULL, ptype, 0);
+    struct unit *pvirt = unit_virtual_create(pplayer, NULL, ptype, 0);
     unit_tile_set(pvirt, ptile);
     pvirt->homecity = 0;
     ptransport = transport_from_tile(pvirt, ptile);
-    destroy_unit_virtual(pvirt);
+    unit_virtual_destroy(pvirt);
     return ptransport;
   }
 }

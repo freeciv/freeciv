@@ -1602,7 +1602,7 @@ bool is_build_or_clean_activity(enum unit_activity activity)
   Create a virtual unit skeleton. pcity can be NULL, but then you need
   to set tile and homecity yourself.
 **************************************************************************/
-struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
+struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
                                  struct unit_type *punittype,
                                  int veteran_level)
 {
@@ -1673,7 +1673,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   Free the memory used by virtual unit. By the time this function is
   called, you should already have unregistered it everywhere.
 **************************************************************************/
-void destroy_unit_virtual(struct unit *punit)
+void unit_virtual_destroy(struct unit *punit)
 {
   free_unit_orders(punit);
 

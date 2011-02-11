@@ -94,12 +94,12 @@ Unit *api_actions_create_unit_full(Player *pplayer, Tile *ptile,
   if (ptransport) {
     /* Extensive check to see if transport and unit are compatible */
     int ret;
-    struct unit *pvirt = create_unit_virtual(pplayer, NULL, ptype,
+    struct unit *pvirt = unit_virtual_create(pplayer, NULL, ptype,
                                              veteran_level);
     unit_tile_set(pvirt, ptile);
     pvirt->homecity = homecity ? homecity->id : 0;
     ret = can_unit_load(pvirt, ptransport);
-    destroy_unit_virtual(pvirt);
+    unit_virtual_destroy(pvirt);
     if (!ret) {
       log_error("create_unit_full: '%s' cannot transport '%s' here",
                 utype_rule_name(unit_type(ptransport)),

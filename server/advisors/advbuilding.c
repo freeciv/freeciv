@@ -101,7 +101,7 @@ static void calculate_city_clusters(struct player *pplayer)
   if (!punittype) {
     punittype = get_role_unit(F_HELP_WONDER, 0); /* simulate future unit */
   }
-  ghost = create_unit_virtual(pplayer, NULL, punittype, 0);
+  ghost = unit_virtual_create(pplayer, NULL, punittype, 0);
   range = unit_move_rate(ghost) * 4;
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -130,7 +130,7 @@ static void calculate_city_clusters(struct player *pplayer)
     pf_map_destroy(pfm);
   } city_list_iterate_end;
 
-  destroy_unit_virtual(ghost);
+  unit_virtual_destroy(ghost);
 }
 
 /**************************************************************************
@@ -162,7 +162,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   if (!punittype) {
     return;
   }
-  ghost = create_unit_virtual(pplayer, wonder_city, punittype, 0);
+  ghost = unit_virtual_create(pplayer, wonder_city, punittype, 0);
   maxrange = unit_move_rate(ghost) * 7;
 
   pft_fill_unit_parameter(&parameter, ghost);
@@ -183,7 +183,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   } pf_map_move_costs_iterate_end;
 
   pf_map_destroy(pfm);
-  destroy_unit_virtual(ghost);
+  unit_virtual_destroy(ghost);
 }
 
 
