@@ -390,6 +390,7 @@ match=2
 *include "nation/sikkimese.ruleset"
 *include "nation/silesian.ruleset"
 *include "nation/singaporean.ruleset"
+*include "nation/sinhalese.ruleset"
 *include "nation/sioux.ruleset"
 *include "nation/slavic.ruleset"
 *include "nation/slovakian.ruleset"

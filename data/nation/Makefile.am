@@ -341,6 +341,7 @@ pkgdata_DATA = \
 		sikkimese.ruleset \
 		silesian.ruleset \
 		singaporean.ruleset \
+		sinhalese.ruleset \
 		sioux.ruleset \
 		slavic.ruleset \
 		slovakian.ruleset \

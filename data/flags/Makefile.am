@@ -347,6 +347,7 @@ flag_files =				\
 		sikkim.png		\
 		silesia.png		\
 		singapore.png		\
+		sinhalese.png		\
 		slavic.png		\
 		slovakia.png		\
 		slovenia.png		\
@@ -770,6 +771,7 @@ flag_files =				\
 		sikkim-large.png		\
 		silesia-large.png		\
 		singapore-large.png		\
+		sinhalese-large.png		\
 		slavic-large.png		\
 		slovakia-large.png		\
 		slovenia-large.png		\
@@ -1195,6 +1197,7 @@ shield_files =					\
 		sikkim-shield.png		\
 		silesia-shield.png		\
 		singapore-shield.png		\
+		sinhalese-shield.png		\
 		slavic-shield.png		\
 		slovakia-shield.png		\
 		slovenia-shield.png		\
@@ -1618,6 +1621,7 @@ shield_files =					\
 		sikkim-shield-large.png		\
 		silesia-shield-large.png		\
 		singapore-shield-large.png		\
+		sinhalese-shield-large.png		\
 		slavic-shield-large.png		\
 		slovakia-shield-large.png		\
 		slovenia-shield-large.png		\
@@ -2041,6 +2045,7 @@ svg_files = 				\
 		sikkim.svg		\
 		silesia.svg		\
 		singapore.svg		\
+		sinhalese.svg		\
 		slavic.svg		\
 		slovakia.svg		\
 		slovenia.svg		\

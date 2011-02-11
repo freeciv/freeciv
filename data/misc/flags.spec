@@ -355,6 +355,7 @@ artists = "
    Sikkim		Nichalp (Wikimedia Commons)
    Silesia		Vasco Alexandre Da Silva Costa
    Singapore		Lauris Kaplinski
+   Sinhalese		Uvants2 (Wikimedia Commons)
    Slavic		J.M. Maalderink
    Slovakia		Lauris Kaplinski
    Slovenia		Matthew Gatto
@@ -783,6 +784,7 @@ sprites =
 		"f.sikkim", "flags/sikkim"
 		"f.silesia", "flags/silesia"
 		"f.singapore", "flags/singapore"
+		"f.sinhalese", "flags/sinhalese"
 		"f.slavic", "flags/slavic"
 		"f.slovakia", "flags/slovakia"
 		"f.slovenia", "flags/slovenia"

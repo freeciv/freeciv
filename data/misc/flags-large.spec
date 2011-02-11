@@ -356,6 +356,7 @@ sprites =
 		"f.sikkim", "flags/sikkim-large"
 		"f.silesia", "flags/silesia-large"
 		"f.singapore", "flags/singapore-large"
+		"f.sinhalese", "flags/sinhalese-large"
 		"f.slavic", "flags/slavic-large"
 		"f.slovakia", "flags/slovakia-large"
 		"f.slovenia", "flags/slovenia-large"
