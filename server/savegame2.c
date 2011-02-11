@@ -481,6 +481,10 @@ static void sg_load_player_cities(struct loaddata *loading,
                                   struct player *plr);
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                 struct city *pcity, const char *citystr);
+static void sg_load_player_city_citizens(struct loaddata *loading,
+                                         struct player *plr,
+                                         struct city *pcity,
+                                         const char *citystr);
 static void sg_load_player_units(struct loaddata *loading,
                                  struct player *plr);
 static bool sg_load_player_unit(struct loaddata *loading,
@@ -3678,6 +3682,11 @@ static void sg_load_player_cities(struct loaddata *loading,
     identity_number_reserve(pcity->id);
     idex_register_city(pcity);
 
+    /* Load the information about the nationality of citizens. This is done
+     * here because the city sanity check called by citizens_update() requires
+     * that the city is registered. */
+    sg_load_player_city_citizens(loading, plr, pcity, buf);
+
     /* After everything is loaded, but before vision. */
     map_claim_ownership(city_tile(pcity), plr, city_tile(pcity));
 
@@ -3947,8 +3956,20 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
 
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 
-  /* Nation of citizens. */
+  return TRUE;
+}
+
+/****************************************************************************
+  Load nationality data for one city.
+****************************************************************************/
+static void sg_load_player_city_citizens(struct loaddata *loading,
+                                         struct player *plr,
+                                         struct city *pcity,
+                                         const char *citystr)
+{
   if (game.info.citizen_nationality == TRUE) {
+    citizens size;
+
     citizens_init(pcity);
     player_slots_iterate(pslot) {
       int nationality;
@@ -3972,13 +3993,12 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     /* Sanity check. */
     size = citizens_count(pcity);
     if (size != city_size_get(pcity)) {
-      log_sg("City size and number of citizens does not match (%d != %d)! "
-             "Repairing ...", city_size_get(pcity), size);
+      log_sg("City size and number of citizens does not match in %s "
+             "(%d != %d)! Repairing ...", city_name(pcity),
+             city_size_get(pcity), size);
       citizens_update(pcity);
     }
   }
-
-  return TRUE;
 }
 
 /****************************************************************************
@@ -5432,13 +5452,32 @@ static void compat_load_020400(struct loaddata *loading)
 
   /* Add the default player AI. */
   player_slots_iterate(pslot) {
-    if (NULL == secfile_section_lookup(loading->file, "player%d",
-                                       player_slot_index(pslot))) {
+    int ncities, i, plrno = player_slot_index(pslot);
+
+    if (NULL == secfile_section_lookup(loading->file, "player%d", plrno)) {
       continue;
     }
 
     secfile_insert_str(loading->file, FC_AI_DEFAULT_NAME,
                        "player%d.ai_type", player_slot_index(pslot));
+
+    /* Create dummy citizens informations. We do not know if citizens are
+     * activated due to the fact that this information
+     * (game.info.citizen_nationality) is not available, but adding the
+     * information does no harm. */
+    ncities = secfile_lookup_int_default(loading->file, 0,
+                                         "player%d.ncities", plrno);
+    if (ncities > 0) {
+      for (i = 0; i < ncities; i++) {
+        int size = secfile_lookup_int_default(loading->file, 0,
+                                              "player%d.c%d.size", plrno, i);
+        if (size > 0) {
+          secfile_insert_int(loading->file, size,
+                             "player%d.c%d.citizen%d", plrno, i, plrno);
+        }
+      }
+    }
+
   } player_slots_iterate_end;
 
   /* Player colors are assigned automatically. */
