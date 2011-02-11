@@ -830,7 +830,7 @@ static int unit_select_callback( struct widget *pWidget )
     popdown_unit_select_dialog();
     if (pUnit) {
       request_new_unit_activity(pUnit, ACTIVITY_IDLE);
-      set_unit_focus(pUnit);
+      unit_focus_set(pUnit);
     }
   }
   return -1;
@@ -1274,7 +1274,7 @@ static int adv_unit_select_callback(struct widget *pWidget)
     
     if (pUnit) {
       request_new_unit_activity(pUnit, ACTIVITY_IDLE);
-      set_unit_focus(pUnit);
+      unit_focus_set(pUnit);
     }
   }
   return -1;

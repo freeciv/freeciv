@@ -547,7 +547,7 @@ static void handle_numpad(int code)
     key_unit_move(DIR8_WEST);
     break;
   case IDM_NUMPAD_BASE + 5:
-    advance_unit_focus();
+    unit_focus_advance();
     break;
   case IDM_NUMPAD_BASE + 6:
     key_unit_move(DIR8_EAST);

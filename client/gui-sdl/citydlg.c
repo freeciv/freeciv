@@ -268,7 +268,7 @@ static int activate_units_orders_city_dlg_callback(struct widget *pButton)
   
     popdown_city_menu_dlg(TRUE);
     if(pUnit) {
-      set_unit_focus(pUnit);
+      unit_focus_set(pUnit);
     }
   }
   return -1;
@@ -291,7 +291,7 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButt
       popdown_city_dialog(pCityDlg->pCity);
 
       center_tile_mapcanvas(unit_tile(pUnit));
-      set_unit_focus(pUnit);
+      unit_focus_set(pUnit);
     }
   }
   return -1;
@@ -408,14 +408,14 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     if(!pUnit || !can_client_issue_orders()) {
       return -1;
     }
-    
+
     if(Main.event.button.button == SDL_BUTTON_RIGHT) {
       popdown_city_dialog(pCityDlg->pCity);
       center_tile_mapcanvas(unit_tile(pUnit));
-      set_unit_focus(pUnit);
+      unit_focus_set(pUnit);
       return -1;
     }
-      
+
     /* Disable city dlg */
     unsellect_widget_action();
     disable_city_dlg_widgets();

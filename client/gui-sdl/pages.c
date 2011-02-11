@@ -365,7 +365,7 @@ void real_set_client_page(enum client_pages page)
       show_game_page();
       enable_main_widgets();
       update_info_label();
-      update_unit_focus();
+      unit_focus_update();
       update_unit_info_label(get_units_in_focus());
       update_turn_done_button_state();
       refresh_overview();

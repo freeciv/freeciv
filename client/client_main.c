@@ -686,7 +686,7 @@ void set_client_state(enum client_states newstate)
     meswin_clear();
 
     if (oldstate > C_S_DISCONNECTED) {
-      set_unit_focus(NULL);
+      unit_focus_set(NULL);
       agents_disconnect();
       global_worklists_unbuild();
       client_remove_all_cli_conn();
@@ -716,7 +716,7 @@ void set_client_state(enum client_states newstate)
       options_dialogs_update();
     }
 
-    set_unit_focus(NULL);
+    unit_focus_set(NULL);
 
     if (get_client_page() != PAGE_SCENARIO
         && get_client_page() != PAGE_LOAD) {
@@ -741,7 +741,7 @@ void set_client_state(enum client_states newstate)
     boot_help_texts(pplayer);   /* reboot with player */
     global_worklists_build();
     can_slide = FALSE;
-    update_unit_focus();
+    unit_focus_update();
     can_slide = TRUE;
     set_client_page(PAGE_GAME);
     /* Find something sensible to display instead of the intro gfx. */
@@ -754,7 +754,7 @@ void set_client_state(enum client_states newstate)
     refresh_overview_canvas();
 
     update_info_label();        /* get initial population right */
-    update_unit_focus();
+    unit_focus_update();
     update_unit_info_label(get_units_in_focus());
 
     if (auto_center_each_turn) {
@@ -775,7 +775,7 @@ void set_client_state(enum client_states newstate)
       popdown_all_city_dialogs();
       close_all_diplomacy_dialogs();
       popdown_all_game_dialogs();
-      set_unit_focus(NULL);
+      unit_focus_set(NULL);
     } else {
       /* From C_S_PREPARING. */
       init_city_report_game_data();
@@ -787,14 +787,14 @@ void set_client_state(enum client_states newstate)
       role_unit_precalcs();
       boot_help_texts(pplayer);            /* reboot */
       global_worklists_build();
-      set_unit_focus(NULL);
+      unit_focus_set(NULL);
       set_client_page(PAGE_GAME);
       center_on_something();
     }
     refresh_overview_canvas();
 
     update_info_label();
-    update_unit_focus();
+    unit_focus_update();
     update_unit_info_label(NULL);
 
     break;

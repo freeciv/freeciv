@@ -701,7 +701,7 @@ void activate_all_units(struct tile *ptile)
   } unit_list_iterate_end;
   if (pmyunit) {
     /* Put the focus on one of the activated units. */
-    set_unit_focus(pmyunit);
+    unit_focus_set(pmyunit);
   }
 }
 

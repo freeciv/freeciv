@@ -550,7 +550,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
   if (punit) { /* should always be true at this point */
     if (unit_owner(punit) == client.conn.playing) {
       /* may be non-true if alliance */
-      set_unit_focus(punit);
+      unit_focus_set(punit);
     }
   }
 }

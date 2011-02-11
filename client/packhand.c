@@ -987,7 +987,7 @@ void handle_new_year(int year, int turn)
   fc_assert(game.info.turn == turn);
   update_info_label();
 
-  update_unit_focus();
+  unit_focus_update();
   auto_center_on_focus_unit();
 
   update_unit_info_label(get_units_in_focus());
@@ -1071,7 +1071,7 @@ void handle_start_phase(int phase)
       user_ended_turn();
     }
 
-    set_unit_focus_status(client.conn.playing);
+    unit_focus_set_status(client.conn.playing);
 
     city_list_iterate(client.conn.playing->cities, pcity) {
       pcity->client.colored = FALSE;
@@ -1258,7 +1258,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           && !unit_is_in_focus(punit)
           && is_player_phase(client.conn.playing, game.info.phase)) {
         /* many wakeup units per tile are handled */
-        urgent_unit_focus(punit);
+        unit_focus_urgent(punit);
         check_focus = FALSE; /* and keep it */
       }
 
@@ -1499,7 +1499,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       && NULL != client.conn.playing
       && !client.conn.playing->ai_controlled
       && is_player_phase(client.conn.playing, game.info.phase)) {
-    update_unit_focus();
+    unit_focus_update();
   }
 
   if (need_menus_update) {
@@ -1650,7 +1650,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   if (boot_help) {
     boot_help_texts(client.conn.playing); /* reboot, after setting game.spacerace */
   }
-  update_unit_focus();
+  unit_focus_update();
   menus_update();
   players_dialog_update();
   if (update_aifill_button) {

@@ -710,7 +710,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	    struct unit *punit = player_find_unit_by_id(client.conn.playing,
 							unit_select_ids[i]);
 	    if(punit) {
-	      set_unit_focus(punit);
+	      unit_focus_set(punit);
 	    }
 	  }  
 	  break;
@@ -721,7 +721,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	      struct unit *punit = player_find_unit_by_id(client.conn.playing,
 							  unit_select_ids[id]);
 	      if (NULL != punit && unit_owner(punit) == client.conn.playing) {
-		set_unit_focus(punit);
+		unit_focus_set(punit);
 	      }   
 	    }
 	  break;

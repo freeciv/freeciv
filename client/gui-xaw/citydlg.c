@@ -55,7 +55,7 @@
 #include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
-#include "control.h"	/* request_xxx and set_unit_focus */
+#include "control.h"	/* request_xxx and unit_focus_set */
 #include "options.h"
 #include "text.h"
 #include "tilespec.h"
@@ -1185,7 +1185,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -1211,7 +1211,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -1240,7 +1240,7 @@ static void present_units_activate_close_callback(Widget w,
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -1267,7 +1267,7 @@ static void supported_units_activate_close_callback(Widget w,
     struct city *pcity =
       player_city_by_number(client_player(), punit->homecity);
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -1378,12 +1378,12 @@ void present_units_callback(Widget w, XtPointer client_data,
       && (pdialog = get_city_dialog(pcity))) {
     
     if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
       close_city_dialog(pdialog);
       return;
     }
     if(e->type==ButtonRelease && e->xbutton.button==Button3)  {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
       return;
     }
 
@@ -1658,12 +1658,12 @@ static void support_units_callback(Widget w, XtPointer client_data,
 
       if ( NULL != pdialog) {
 	if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
-	  set_unit_focus(punit);
+	  unit_focus_set(punit);
 	  close_city_dialog(pdialog);
 	  return;
 	}
 	if(e->type==ButtonRelease && e->xbutton.button==Button3)  {
-	  set_unit_focus(punit);
+	  unit_focus_set(punit);
 	  return;
 	}
 	wd = popup_message_dialog(pdialog->shell,

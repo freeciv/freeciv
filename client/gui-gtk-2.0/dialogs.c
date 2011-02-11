@@ -407,7 +407,7 @@ static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
   gtk_tree_model_get(GTK_TREE_MODEL(unit_select_store), &it, 0, &id, -1);
  
   if ((punit = player_unit_by_number(client_player(), id))) {
-    set_unit_focus(punit);
+    unit_focus_set(punit);
   }
 
   gtk_widget_destroy(unit_select_dialog_shell);
@@ -523,7 +523,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
 
       if (pmyunit) {
         /* Put the focus on one of the activated units. */
-        set_unit_focus(pmyunit);
+        unit_focus_set(pmyunit);
       }
     }
     break;
@@ -549,7 +549,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
           if (punit->activity == ACTIVITY_IDLE &&
               !punit->ai_controlled) {
             /* Give focus to it */
-            add_unit_focus(punit);
+            unit_focus_add(punit);
           }
         }
       } unit_list_iterate_end;

@@ -669,12 +669,12 @@ static void update_focus_tile_list2(void)
   int i;
   struct tile *ptile;
 
-  set_unit_focus(NULL);
+  unit_focus_set(NULL);
 
   ptile = get_focus_tile();
   unit_list_iterate(ptile->units, aunit) {
     if (unit_owner(aunit) == client.conn.playing) {
-      set_unit_focus(aunit);
+      unit_focus_set(aunit);
       break;
     }
   } unit_list_iterate_end;

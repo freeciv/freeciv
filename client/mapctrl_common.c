@@ -171,11 +171,11 @@ static void define_tiles_within_rectangle(void)
       && unit_list_size(units) > 0) {
     if (!rectangle_append) {
       struct unit *punit = unit_list_get(units, 0);
-      set_unit_focus(punit);
+      unit_focus_set(punit);
       unit_list_remove(units, punit);
     }
     unit_list_iterate(units, punit) {
-      add_unit_focus(punit);
+      unit_focus_add(punit);
     } unit_list_iterate_end;
   }
   unit_list_destroy(units);

@@ -1763,7 +1763,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   punit = game_unit_by_number(unit_ids[i]);
   if (NULL != punit && unit_owner(punit) == client.conn.playing) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
-    set_unit_focus(punit);
+    unit_focus_set(punit);
   }
 
   return TRUE;

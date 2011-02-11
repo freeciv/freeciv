@@ -152,7 +152,7 @@ static void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *ar
 
 static void xaw_key_focus_to_next_unit(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  advance_unit_focus();
+  unit_focus_advance();
 }
 
 static void xaw_key_map_grid_toggle(Widget w, XEvent *event, String *argv, Cardinal *argc)

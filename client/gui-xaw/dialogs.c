@@ -53,7 +53,7 @@
 #include "cityrep.h"    /* city_report_dialog_popdown() */
 #include "client_main.h"
 #include "climisc.h"
-#include "control.h" /* request_xxx and set_unit_focus */
+#include "control.h" /* request_xxx and unit_focus_set */
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -846,7 +846,7 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
     struct unit *punit = player_unit_by_number(client_player(),
                                                unit_select_ids[i]);
     if(punit) {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
     }
   }
 }
@@ -868,7 +868,7 @@ void unit_select_callback(Widget w, XtPointer client_data,
       struct unit *punit = player_unit_by_number(client_player(),
                                                  unit_select_ids[i]);
       if(punit) {
-	set_unit_focus(punit);
+	unit_focus_set(punit);
       }
       return;
     }

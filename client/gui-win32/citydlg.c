@@ -1263,7 +1263,7 @@ static void supported_units_activate_close_callback(HWND w, void * data)
     struct city *pcity =
       player_find_city_by_id(client.conn.playing, punit->homecity);
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -1340,7 +1340,7 @@ static void present_units_activate_callback(HWND w, void * data)
     player_find_unit_by_id(client.conn.playing, (size_t)data);
 
   if (NULL != punit) {
-    set_unit_focus(punit);
+    unit_focus_set(punit);
   }
 
   destroy_message_dialog(w);
@@ -1359,7 +1359,7 @@ static void present_units_activate_close_callback(HWND w, void * data)
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 

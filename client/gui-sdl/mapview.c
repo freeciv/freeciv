@@ -480,7 +480,7 @@ static int fucus_units_info_callback(struct widget *pWidget)
     struct unit *pUnit = pWidget->data.unit;
     if (pUnit) {
       request_new_unit_activity(pUnit, ACTIVITY_IDLE);
-      set_unit_focus(pUnit);
+      unit_focus_set(pUnit);
     }
   }
   return -1;

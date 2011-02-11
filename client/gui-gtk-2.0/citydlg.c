@@ -2314,9 +2314,9 @@ static gboolean present_unit_middle_callback(GtkWidget * w,
    && can_client_issue_orders()) {
 
     if (ev->button == 3) {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
     } else if (ev->button == 2) {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
       close_city_dialog(pdialog);
     }
   }
@@ -2342,9 +2342,9 @@ static gboolean supported_unit_middle_callback(GtkWidget * w,
    && can_client_issue_orders()) {
 
     if (ev->button == 3) {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
     } else if (ev->button == 2) {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
       close_city_dialog(pdialog);
     }
   }
@@ -2374,7 +2374,7 @@ static void unit_activate_callback(GtkWidget * w, gpointer data)
     player_unit_by_number(client_player(), (size_t)data);
 
   if (NULL != punit) {
-    set_unit_focus(punit);
+    unit_focus_set(punit);
   }
 }
 
@@ -2391,7 +2391,7 @@ static void supported_unit_activate_close_callback(GtkWidget * w,
     struct city *pcity =
       player_city_by_number(client_player(), punit->homecity);
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -2414,7 +2414,7 @@ static void present_unit_activate_close_callback(GtkWidget * w,
   if (NULL != punit) {
     struct city *pcity = tile_city(unit_tile(punit));
 
-    set_unit_focus(punit);
+    unit_focus_set(punit);
     if (NULL != pcity) {
       struct city_dialog *pdialog = get_city_dialog(pcity);
 

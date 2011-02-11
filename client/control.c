@@ -59,7 +59,7 @@ static struct unit_list *current_focus = NULL;
  * with keypad 5 (or the equivalent). */
 static struct unit_list *previous_focus = NULL;
 
-/* The priority unit(s) for advance_unit_focus(). */
+/* The priority unit(s) for unit_focus_advance(). */
 static struct unit_list *urgent_focus_queue = NULL;
 
 /* These should be set via set_hover_state() */
@@ -171,7 +171,7 @@ static void store_previous_focus(void)
 /****************************************************************************
   Store a priority focus unit.
 ****************************************************************************/
-void urgent_unit_focus(struct unit *punit)
+void unit_focus_urgent(struct unit *punit)
 {
   unit_list_append(urgent_focus_queue, punit);
 }
@@ -326,6 +326,15 @@ static void current_focus_append(struct unit *punit)
 }
 
 /**************************************************************************
+  Remove focus from unit.
+**************************************************************************/
+static void current_focus_remove(struct unit *punit)
+{
+  unit_list_remove(current_focus, punit);
+  refresh_unit_mapcanvas(punit, unit_tile(punit), TRUE, FALSE);
+}
+
+/**************************************************************************
   Clear all orders for the given unit.
 **************************************************************************/
 void clear_unit_orders(struct unit *punit)
@@ -353,7 +362,7 @@ void clear_unit_orders(struct unit *punit)
   happens immediately as a result of a client action.  Other times it
   happens because of a server-sent packet that wakes up a unit.
 **************************************************************************/
-void set_unit_focus(struct unit *punit)
+void unit_focus_set(struct unit *punit)
 {
   bool focus_changed = FALSE;
 
@@ -403,7 +412,7 @@ void set_unit_focus(struct unit *punit)
 /**************************************************************************
   Adds this unit to the list of units in focus.
 **************************************************************************/
-void add_unit_focus(struct unit *punit)
+void unit_focus_add(struct unit *punit)
 {
   if (NULL != punit
       && NULL != client.conn.playing
@@ -432,11 +441,36 @@ void add_unit_focus(struct unit *punit)
 }
 
 /**************************************************************************
+  Removes this unit from the list of units in focus.
+**************************************************************************/
+void unit_focus_remove(struct unit *punit)
+{
+  if (NULL != punit
+      && NULL != client.conn.playing
+      && unit_owner(punit) != client.conn.playing) {
+    /* Callers should make sure this never happens. */
+    return;
+  }
+
+  if (NULL == punit || !can_client_change_view()) {
+    return;
+  }
+
+  if (!unit_is_in_focus(punit)) {
+    return;
+  }
+
+  current_focus_remove(punit);
+  update_unit_info_label(current_focus);
+  menus_update();
+}
+
+/**************************************************************************
  The only difference is that here we draw the "cross".
 **************************************************************************/
-void set_unit_focus_and_select(struct unit *punit)
+void unit_focus_set_and_select(struct unit *punit)
 {
-  set_unit_focus(punit);
+  unit_focus_set(punit);
   if (punit) {
     put_cross_overlay_tile(unit_tile(punit));
   }
@@ -478,13 +512,13 @@ static struct unit *find_best_focus_candidate(bool accept_current)
 }
 
 /**************************************************************************
- This function may be called from packhand.c, via update_unit_focus(),
+ This function may be called from packhand.c, via unit_focus_update(),
  as a result of packets indicating change in activity for a unit. Also
  called when user press the "Wait" command.
  
  FIXME: Add feature to focus only units of a certain category.
 **************************************************************************/
-void advance_unit_focus(void)
+void unit_focus_advance(void)
 {
   struct unit *candidate = NULL;
   const int num_units_in_old_focus = get_num_units_in_focus();
@@ -492,7 +526,7 @@ void advance_unit_focus(void)
   if (NULL == client.conn.playing
       || !is_player_phase(client.conn.playing, game.info.phase)
       || !can_client_change_view()) {
-    set_unit_focus(NULL);
+    unit_focus_set(NULL);
     return;
   }
 
@@ -549,7 +583,7 @@ void advance_unit_focus(void)
     }
   }
 
-  set_unit_focus(candidate);
+  unit_focus_set(candidate);
 
   /* 
    * Handle auto-turn-done mode: If a unit was in focus (did move),
@@ -571,7 +605,7 @@ void advance_unit_focus(void)
  We let GOTO-ing units stay in focus, so that if they have moves left
  at the end of the goto, then they are still in focus.
 **************************************************************************/
-void update_unit_focus(void)
+void unit_focus_update(void)
 {
   if (NULL == client.conn.playing || !can_client_change_view()) {
     return;
@@ -590,7 +624,7 @@ void update_unit_focus(void)
     }
   } unit_list_iterate_end;
 
-  advance_unit_focus();
+  unit_focus_advance();
 }
 
 /**************************************************************************
@@ -1265,7 +1299,7 @@ void request_unit_select(struct unit_list *punits,
   punit_first = unit_list_get(punits, 0);
 
   if (seltype == SELTYPE_SINGLE) {
-    set_unit_focus(punit_first);
+    unit_focus_add(punit_first);
     return;
   }
 
@@ -1297,7 +1331,7 @@ void request_unit_select(struct unit_list *punits,
             && !unit_type_hash_lookup(type_table, unit_type(punit), NULL)) {
           continue;
         }
-        add_unit_focus(punit);
+        unit_focus_add(punit);
       } unit_list_iterate_end;
     } tile_hash_iterate_end;
   } else {
@@ -1311,7 +1345,7 @@ void request_unit_select(struct unit_list *punits,
         continue;
       }
 
-      add_unit_focus(punit);
+      unit_focus_add(punit);
     } unit_list_iterate_end;
   }
 
@@ -2038,7 +2072,7 @@ void request_units_wait(struct unit_list *punits)
     punit->client.focus_status = FOCUS_WAIT;
   } unit_list_iterate_end;
   if (punits == get_units_in_focus()) {
-    advance_unit_focus();
+    unit_focus_advance();
   }
 }
 
@@ -2061,7 +2095,7 @@ void request_unit_move_done(void)
       punit->client.focus_status = new_status;
     } unit_list_iterate_end;
     if (new_status == FOCUS_DONE) {
-      advance_unit_focus();
+      unit_focus_advance();
     }
   }
 }
@@ -2201,7 +2235,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   else if (qtype != SELECT_POPUP && qtype != SELECT_APPEND) {
     struct unit *qunit = quickselect(ptile, qtype);
     if (qunit) {
-      set_unit_focus_and_select(qunit);
+      unit_focus_set_and_select(qunit);
       maybe_goto = keyboardless_goto;
     }
   }
@@ -2223,9 +2257,9 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = keyboardless_goto;
 	if (qtype == SELECT_APPEND) {
-	  add_unit_focus(punit);
+	  unit_focus_add(punit);
 	} else {
-	  set_unit_focus_and_select(punit);
+	  unit_focus_set_and_select(punit);
 	}
       }
     } else if (pcity) {
@@ -2499,9 +2533,9 @@ void key_recall_previous_focus_unit(void)
    * removed from focus... */
   unit_list_iterate_safe(previous_focus, punit) {
     if (i == 0) {
-      set_unit_focus(punit);
+      unit_focus_set(punit);
     } else {
-      add_unit_focus(punit);
+      unit_focus_add(punit);
     }
     i++;
   } unit_list_iterate_safe_end;
@@ -2642,7 +2676,7 @@ void key_unit_unload_all(void)
        * don't do anything. */
       punit->client.focus_status = FOCUS_WAIT;
     } unit_list_iterate_end;
-    set_unit_focus(pnext_focus);
+    unit_focus_set(pnext_focus);
   }
 }
 
@@ -2891,7 +2925,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
       }
     } unit_list_iterate_end;
     unit_list_iterate(battlegroups[battlegroup], punit) {
-      add_unit_focus(punit);
+      unit_focus_add(punit);
     } unit_list_iterate_end;
   }
 }
@@ -2906,16 +2940,16 @@ void key_unit_select_battlegroup(int battlegroup, bool append)
     int i = 0;
 
     if (unit_list_size(battlegroups[battlegroup]) == 0 && !append) {
-      set_unit_focus(NULL);
+      unit_focus_set(NULL);
       return;
     }
 
     /* FIXME: this is very inefficient and can be improved. */
     unit_list_iterate(battlegroups[battlegroup], punit) {
       if (i == 0 && !append) {
-	set_unit_focus(punit);
+	unit_focus_set(punit);
       } else {
-	add_unit_focus(punit);
+	unit_focus_add(punit);
       }
       i++;
     } unit_list_iterate_end;
