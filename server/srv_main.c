@@ -2168,23 +2168,24 @@ static void srv_running(void)
       /* Do auto-saves just before starting server_sniff_all_input(), so that
        * autosave happens effectively "at the same time" as manual
        * saves, from the point of view of restarting and AI players.
-       * Post-increment so we don't count the first loop.
-       */
+       * Post-increment so we don't count the first loop. */
       if (game.info.phase == 0) {
-	if (save_counter >= game.server.save_nturns && game.server.save_nturns > 0) {
+        /* Create autosaves if requested. */
+        if (save_counter >= game.server.save_nturns
+            && game.server.save_nturns > 0) {
 	  save_counter = 0;
 	  save_game_auto("Autosave", NULL);
 	}
 	save_counter++;
-      }
 
-      /* save map image(s) */
-      for (i = 0; i < mapimg_count(); i++) {
-        struct mapdef *pmapdef = mapimg_isvalid(i);
-        if (pmapdef != NULL) {
-          mapimg_create(pmapdef, FALSE, game.server.save_name);
-        } else {
-          log_error("%s", mapimg_error());
+        /* Save map image(s). */
+        for (i = 0; i < mapimg_count(); i++) {
+          struct mapdef *pmapdef = mapimg_isvalid(i);
+          if (pmapdef != NULL) {
+            mapimg_create(pmapdef, FALSE, game.server.save_name);
+          } else {
+            log_error("%s", mapimg_error());
+          }
         }
       }
 
