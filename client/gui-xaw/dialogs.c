@@ -718,7 +718,7 @@ static int number_of_rows(int n)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_unit_select_dialog(struct tile *ptile)
+void unit_select_dialog_popup(struct tile *ptile)
 {
   int i,n,r;
   char buffer[512];

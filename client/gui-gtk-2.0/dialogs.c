@@ -468,7 +468,7 @@ static void unit_select_recurse(int root_id, GtkTreeIter *it_root)
 /**************************************************************************
 ...
 **************************************************************************/
-static void refresh_unit_select_dialog(void)
+static void unit_select_dialog_refresh(void)
 {
   if (unit_select_dialog_shell) {
     gtk_tree_store_clear(unit_select_store);
@@ -568,7 +568,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
 *****************************************************************/
 #define NUM_UNIT_SELECT_COLUMNS 2
 
-void popup_unit_select_dialog(struct tile *ptile)
+void unit_select_dialog_popup(struct tile *ptile)
 {
   if (!unit_select_dialog_shell) {
     GtkTreeStore *store;
@@ -685,7 +685,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   }
 
   unit_select_ptile = ptile;
-  refresh_unit_select_dialog();
+  unit_select_dialog_refresh();
 
   gtk_window_present(GTK_WINDOW(unit_select_dialog_shell));
 }

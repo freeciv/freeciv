@@ -1290,7 +1290,7 @@ static void show_units_callback(struct city_dialog *pdialog)
   struct tile *ptile = pdialog->pcity->tile;
  
   if(unit_list_size(ptile->units))
-    popup_unit_select_dialog(ptile);
+    unit_select_dialog_popup(ptile);
 }
 
 /**************************************************************************

@@ -673,7 +673,7 @@ static int number_of_rows(int n)
 /**************************************************************************
 
 **************************************************************************/     
-static void popdown_unit_select_dialog(void)
+static void unit_select_dialog_popdown(void)
 {
   if (unit_select_main)
     DestroyWindow(unit_select_main);
@@ -690,7 +690,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
   switch(message)
     {
     case WM_CLOSE:
-      popdown_unit_select_dialog();
+      unit_select_dialog_popdown();
       return TRUE;
       break;
     case WM_DESTROY:
@@ -726,7 +726,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	    }
 	  break;
 	}
-      popdown_unit_select_dialog();
+      unit_select_dialog_popdown();
       break;
     default:
       return DefWindowProc(hWnd,message,wParam,lParam);
@@ -768,7 +768,7 @@ BOOL unitselect_init(HINSTANCE hInstance)
 
 **************************************************************************/
 void
-popup_unit_select_dialog(struct tile *ptile)
+unit_select_dialog_popup(struct tile *ptile)
 {
   int i,n,r,c;
   int max_width,max_height;
@@ -787,7 +787,7 @@ popup_unit_select_dialog(struct tile *ptile)
   
   /* unit select box might already be open; if so, close it */
   if (unit_select_main) {
-    popdown_unit_select_dialog ();
+    unit_select_dialog_popdown ();
   }
   
   GetCursorPos(&pt);

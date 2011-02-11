@@ -88,7 +88,7 @@ int exit_advanced_terrain_dlg_callback(struct widget *pWidget);
 
 static char *pLeaderName = NULL;
 
-static void popdown_unit_select_dialog(void);
+static void unit_select_dialog_popdown(void);
 static void popdown_terrain_info_dialog(void);
 static void popdown_pillage_dialog(void);
 static void popdown_connect_dialog(void);
@@ -144,7 +144,7 @@ void put_window_near_map_tile(struct widget *pWindow,
 void popdown_all_game_dialogs(void)
 {
   popdown_caravan_dialog();  
-  popdown_unit_select_dialog();
+  unit_select_dialog_popdown();
   popdown_advanced_terrain_dialog();
   popdown_terrain_info_dialog();
   popdown_newcity_dialog();
@@ -812,7 +812,7 @@ static int unit_select_window_callback(struct widget *pWindow)
 static int exit_unit_select_callback( struct widget *pWidget )
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_unit_select_dialog();
+    unit_select_dialog_popdown();
     is_unit_move_blocked = FALSE;
   }
   return -1;
@@ -827,7 +827,7 @@ static int unit_select_callback( struct widget *pWidget )
     struct unit *pUnit =
       player_unit_by_number(client_player(), MAX_ID - pWidget->ID);
   
-    popdown_unit_select_dialog();
+    unit_select_dialog_popdown();
     if (pUnit) {
       request_new_unit_activity(pUnit, ACTIVITY_IDLE);
       unit_focus_set(pUnit);
@@ -839,7 +839,7 @@ static int unit_select_callback( struct widget *pWidget )
 /**************************************************************************
   Popdown a dialog window to select units on a particular tile.
 **************************************************************************/
-static void popdown_unit_select_dialog(void)
+static void unit_select_dialog_popdown(void)
 {
   if (pUnit_Select_Dlg) {
     is_unit_move_blocked = FALSE;
@@ -855,7 +855,7 @@ static void popdown_unit_select_dialog(void)
 /**************************************************************************
   Popup a dialog window to select units on a particular tile.
 **************************************************************************/
-void popup_unit_select_dialog(struct tile *ptile)
+void unit_select_dialog_popup(struct tile *ptile)
 {
   struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;

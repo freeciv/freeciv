@@ -2264,7 +2264,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       }
     } else if (pcity) {
       /* Don't hide the unit in the city. */
-      popup_unit_select_dialog(ptile);
+      unit_select_dialog_popup(ptile);
     }
   }
   else if(unit_list_size(ptile->units) > 0) {
@@ -2274,7 +2274,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
      * owned a unit on the tile.  This gave cheating clients an advantage,
      * and also showed you allied units if (and only if) you had a unit on
      * the tile (inconsistent). */
-    popup_unit_select_dialog(ptile);
+    unit_select_dialog_popup(ptile);
   }
 
   /* See mapctrl_common.c */

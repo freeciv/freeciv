@@ -73,7 +73,7 @@ void popdown_races_dialog(void)
 /**************************************************************************
   Popup a dialog window to select units on a particular tile.
 **************************************************************************/
-void popup_unit_select_dialog(struct tile *ptile)
+void unit_select_dialog_popup(struct tile *ptile)
 {
   /* PORTME */
 }

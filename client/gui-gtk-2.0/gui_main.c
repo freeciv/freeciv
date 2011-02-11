@@ -1779,7 +1779,7 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   struct unit *punit = game_unit_by_number(unit_id_top);
 
   if (punit) {
-    popup_unit_select_dialog(unit_tile(punit));
+    unit_select_dialog_popup(unit_tile(punit));
   }
 
   return TRUE;
