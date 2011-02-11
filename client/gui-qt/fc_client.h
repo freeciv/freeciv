@@ -41,8 +41,11 @@ class fc_client : public QObject
  private slots:
   void server_input(int sock);
   void chat();
+  void menu_copying();
 
  private:
+  void setup_menus();
+
   QMainWindow *main_window;
   QWidget *central_wdg;
   QGraphicsView *mapview_wdg;

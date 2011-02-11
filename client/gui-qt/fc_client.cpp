@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QMenuBar>
+
 // client
 #include "chatline_common.h"
 #include "client_main.h"
@@ -65,6 +68,7 @@ fc_client::fc_client() : QObject()
   chat_line->setGeometry(CHAT_X, CHAT_Y, CHAT_WIDTH, CHAT_HEIGHT);
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
 
+  setup_menus();
   main_window->setCentralWidget(central_wdg);
   main_window->setVisible(true);
 }
@@ -75,6 +79,19 @@ fc_client::fc_client() : QObject()
 fc_client::~fc_client()
 {
   delete main_window;
+}
+
+/****************************************************************************
+  Initializes menu system
+****************************************************************************/
+void fc_client::setup_menus()
+{
+  QMenu *help_menu;
+  QAction *act;
+
+  help_menu = main_window->menuBar()->addMenu(_("Help"));
+  act = help_menu->addAction(_("Copying"));
+  connect(act, SIGNAL(triggered()), this, SLOT(menu_copying()));
 }
 
 /****************************************************************************
@@ -133,6 +150,16 @@ void fc_client::chat()
 {
   send_chat(chat_line->text().toUtf8().data());
   chat_line->clear();
+}
+
+/****************************************************************************
+  Copying item selected from Help menu.
+****************************************************************************/
+void fc_client::menu_copying()
+{
+  real_output_window_append(_("Freeciv is covered by the GPL."), NULL, NULL);
+  real_output_window_append(_("See file COPYING distributed with "
+                              "freeciv for full license text."), NULL, NULL);
 }
 
 /****************************************************************************
