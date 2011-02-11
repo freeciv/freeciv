@@ -845,6 +845,9 @@ const char *get_info_label_text_popup(void)
   astr_add_line(&str, _("Turn: %d"), game.info.turn);
 
   if (NULL != client.conn.playing) {
+    int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
+    int upkeep = player_research_get(client_player())->tech_upkeep;
+
     astr_add_line(&str, _("Gold: %d"),
 		  client.conn.playing->economic.gold);
     astr_add_line(&str, _("Net Income: %d"),
@@ -857,14 +860,9 @@ const char *get_info_label_text_popup(void)
     astr_add_line(&str, _("Researching %s: %s"),
 		  advance_name_researching(client.conn.playing),
 		  get_science_target_text(NULL));
-    if (game.info.tech_upkeep_style == 1) {
-      int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-      int upkeep = player_research_get(client_player())->tech_upkeep;
-
-      /* perturn is defined as: (bulbs produced) - upkeep */
-      astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
-                    upkeep, perturn);
-    }
+    /* perturn is defined as: (bulbs produced) - upkeep */
+    astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
+                  upkeep, perturn);
   }
 
   /* See also get_global_warming_tooltip and get_nuclear_winter_tooltip. */
