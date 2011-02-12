@@ -483,31 +483,28 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
   do {
     const char *mpURL;
     const char *mpver;
-    const char *mp_type;
+    const char *mp_type_str;
 
     mp_name = secfile_lookup_str_default(list_file, NULL,
                                          "modpacks.list%d.name", modpack_count);
     mpver = secfile_lookup_str_default(list_file, NULL,
                                        "modpacks.list%d.version",
                                        modpack_count);
-    mp_type = secfile_lookup_str_default(list_file, NULL,
-                                         "modpacks.list%d.type",
-                                         modpack_count);
+    mp_type_str = secfile_lookup_str_default(list_file, NULL,
+                                             "modpacks.list%d.type",
+                                             modpack_count);
     mpURL = secfile_lookup_str_default(list_file, NULL,
                                        "modpacks.list%d.URL", modpack_count);
 
     if (mp_name != NULL && mpURL != NULL) {
-      if (mp_type == NULL
-          || (strcmp("Ruleset", mp_type)
-              && strcmp("Tileset", mp_type)
-              && strcmp("Modpack", mp_type))) {
-        log_error("Illegal modpack type \"%s\"", mp_type ? mp_type : "NULL");
-        mp_type = "?";
+      enum modpack_type type = modpack_type_by_name(mp_type_str, fc_strcasecmp);
+      if (!modpack_type_is_valid(type)) {
+        log_error("Illegal modpack type \"%s\"", mp_type_str ? mp_type_str : "NULL");
       }
       if (mpver == NULL) {
         mpver = "-";
       }
-      cb(mp_name, mpURL, mpver, mp_type);
+      cb(mp_name, mpURL, mpver, type);
       modpack_count++;
     }
   } while (mp_name != NULL);

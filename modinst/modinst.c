@@ -189,15 +189,23 @@ static void URL_return(GtkEntry *w, gpointer data)
   Build main modpack list view
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
-                               const char *version, const char *type)
+                               const char *version, enum modpack_type type)
 {
   GtkTreeIter iter;
+  char *type_str;
+
+  if (modpack_type_is_valid(type)) {
+    type_str = _(modpack_type_name(type));
+  } else {
+    /* TRANS: Unknown modpack type */
+    type_str = _("?");
+  }
 
   gtk_list_store_append(main_store, &iter);
   gtk_list_store_set(main_store, &iter,
                      ML_COL_NAME, name,
                      ML_COL_VER, version,
-                     ML_COL_TYPE, type,
+                     ML_COL_TYPE, type_str,
                      ML_COL_URL, URL,
                      -1);
 }
