@@ -146,4 +146,6 @@ void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct adv_data *adv_data_get(struct player *pplayer);
 
+void adv_best_government(struct player *pplayer);
+
 #endif /* FC__ADVDATA_H */
