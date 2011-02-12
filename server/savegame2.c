@@ -3223,10 +3223,6 @@ static void sg_load_player_main(struct loaddata *loading,
                  "%s", secfile_error());
 
 
-  /* Advisor data.
-     FIXME: Results are not used at all.
-     Do we need this call for side effects? */
-  adv_data_get(plr);
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_controlled,
                                      "player%d.ai.control", plrno),
                  "%s", secfile_error());
