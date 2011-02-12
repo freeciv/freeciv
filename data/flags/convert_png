@@ -6,15 +6,15 @@ files="$@"
 #SODIPODI="sodipodi"
 RENDERER="inkscape"
 
-# Target width: 29px is regular, 46px is large (height is then calculated
+# Target width: 29px is regular, 44px is large (height is then calculated
 # automatically).
 TARGET_WIDTH=29
-TARGET_WIDTH_LARGE=46
+TARGET_WIDTH_LARGE=44
 
 SHIELD_WIDTH=14
 SHIELD_HEIGHT=14
-SHIELD_WIDTH_LARGE=21
-SHIELD_HEIGHT_LARGE=21
+SHIELD_WIDTH_LARGE=19
+SHIELD_HEIGHT_LARGE=19
 
 which $RENDERER >/dev/null \
   || (echo "You need $RENDERER to render the SVG files.")

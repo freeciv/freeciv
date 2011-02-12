@@ -74,7 +74,7 @@ files =
   "amplio2/fog.spec",
   "misc/small.spec",
   "amplio2/units.spec",
-  "misc/flags.spec",
+  "misc/flags-large.spec",
   "misc/buildings-large.spec",
   "misc/wonders-large.spec",
   "misc/space.spec",
@@ -90,7 +90,7 @@ files =
   "misc/cursors.spec",
   "misc/overlays.spec",
   "misc/citybar.spec",
-  "misc/shields.spec",
+  "misc/shields-large.spec",
   "misc/editor.spec",
   "misc/icons.spec"
 
