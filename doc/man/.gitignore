@@ -1,3 +1,5 @@
 /Makefile
 /Makefile.in
 /.deps
+/freeciv-server.6
+/freeciv-client.6

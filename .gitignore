@@ -22,8 +22,8 @@
 /config.cache
 /Makefile
 /Makefile.in
-/config.h
-/config.h.in
+/fc_config.h
+/fc_config.h.in
 /config.log
 /config.status
 /configure
