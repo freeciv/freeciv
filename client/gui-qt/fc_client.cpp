@@ -54,19 +54,51 @@ fc_client::fc_client() : QObject()
 {
   main_window = new QMainWindow;
   central_wdg = new QWidget;
-  mapview_wdg = new QGraphicsView(central_wdg);
-  output_window = new QTextEdit(central_wdg);
-  chat_line = new QLineEdit(central_wdg);
 
-  main_window->setGeometry(0, 0, TOTAL_WIDTH, TOTAL_HEIGHT);
+  // PAGE_MAIN
+  pages[PAGE_MAIN] = new QWidget(central_wdg);
+
+  page = PAGE_MAIN;
+
+  // PAGE_START
+  pages[PAGE_START] = new QWidget(central_wdg);
+
+  pages[PAGE_START]->setVisible(false);
+
+  // PAGE_SCENARIO
+  pages[PAGE_SCENARIO] = NULL;
+
+  // PAGE_LOAD
+  pages[PAGE_LOAD] = NULL;
+
+  // PAGE_NETWORK
+  pages[PAGE_NETWORK] = NULL;
+
+  // PAGE_GAME
+  pages[PAGE_GAME] = new QWidget(central_wdg);
+
+  pages[PAGE_GAME]->setVisible(false);
+
+  mapview_wdg = new QGraphicsView(pages[PAGE_GAME]);
 
   mapview_wdg->setGeometry(MAPVIEW_X, MAPVIEW_Y, MAPVIEW_WIDTH, MAPVIEW_HEIGHT);
+
+  // PAGE_GGZ
+  pages[PAGE_GGZ] = NULL;
+
+
+  // General part not related to any single page
+  main_window->setGeometry(0, 0, TOTAL_WIDTH, TOTAL_HEIGHT);
+
+  output_window = new QTextEdit(central_wdg);
+  chat_line = new QLineEdit(central_wdg);
 
   output_window->setReadOnly(true);
   output_window->setGeometry(OUTPUT_X, OUTPUT_Y, OUTPUT_WIDTH, OUTPUT_HEIGHT);
 
   chat_line->setGeometry(CHAT_X, CHAT_Y, CHAT_WIDTH, CHAT_HEIGHT);
   connect(chat_line, SIGNAL(returnPressed()), this, SLOT(chat()));
+  chat_line->setReadOnly(true);
 
   setup_menus();
   main_window->setCentralWidget(central_wdg);
@@ -102,6 +134,10 @@ void fc_client::main(QApplication *qapp)
   real_output_window_append(_("This is Qt-client for Freeciv."), NULL, NULL);
   chat_welcome_message();
 
+  real_output_window_append(_("In this early Qt-client development phase "
+                              "the only way to connect server is via commandline "
+                              "autoconnect parameter \"-a\""), NULL, NULL);
+
   tileset_init(tileset);
   tileset_load_tiles(tileset);
 
@@ -123,6 +159,53 @@ void fc_client::main(QApplication *qapp)
 void fc_client::append_output_window(const QString &str)
 {
   output_window->append(str);
+}
+
+/****************************************************************************
+  Return whether chatline should be active on page.
+****************************************************************************/
+bool fc_client::chat_active_on_page(enum client_pages check)
+{
+  if (check == PAGE_START || check == PAGE_GAME) {
+    return true;
+  }
+
+  return false;
+}
+
+/****************************************************************************
+  Switch from one client page to another.
+****************************************************************************/
+void fc_client::switch_page(enum client_pages new_page)
+{
+  bool chat_old_act;
+  bool chat_new_act;
+
+  if (page == new_page || !pages[new_page]) {
+    return;
+  }
+
+  chat_old_act = chat_active_on_page(page);
+  chat_new_act = chat_active_on_page(new_page);
+
+  pages[new_page]->setVisible(true);
+  if (chat_new_act && !chat_old_act) {
+    chat_line->setReadOnly(false);
+  }
+  pages[page]->setVisible(false);
+  if (!chat_new_act && chat_old_act) {
+    chat_line->setReadOnly(true);
+  }
+
+  page = new_page;
+}
+
+/****************************************************************************
+  Returns currently open page
+****************************************************************************/
+enum client_pages fc_client::current_page()
+{
+  return page;
 }
 
 /****************************************************************************

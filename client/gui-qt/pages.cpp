@@ -19,6 +19,7 @@
 #include "chatline_common.h"
 
 // gui-qt
+#include "fc_client.h"
 #include "qtg_cxxside.h"
 
 #include "pages.h"
@@ -29,6 +30,8 @@
 void qtg_real_set_client_page(enum client_pages page)
 {
   static bool obs_cmd_given = false;
+
+  gui()->switch_page(page);
 
   switch (page) {
    case PAGE_START:
@@ -55,10 +58,9 @@ void qtg_gui_set_rulesets(int num_rulesets, char **rulesets)
 /**************************************************************************
   Returns current client page
 **************************************************************************/
-enum client_pages get_current_client_page(void)
+enum client_pages qtg_get_current_client_page()
 {
-  /* PORTME */
-  return PAGE_MAIN;
+  return gui()->current_page();
 }
 
 /**************************************************************************

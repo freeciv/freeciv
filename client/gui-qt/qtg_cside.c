@@ -385,6 +385,14 @@ void real_set_client_page(enum client_pages page)
 }
 
 /**************************************************************************
+  Call c++ get_current_client_page
+**************************************************************************/
+enum client_pages get_current_client_page(void)
+{
+  return funcs.get_current_client_page();
+}
+
+/**************************************************************************
   Call c++ set_unit_icon
 **************************************************************************/
 void set_unit_icon(int idx, struct unit *punit)

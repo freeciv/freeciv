@@ -68,6 +68,7 @@ void setup_gui_funcs()
   funcs->sound_bell = qtg_sound_bell;
 
   funcs->real_set_client_page = qtg_real_set_client_page;
+  funcs->get_current_client_page = qtg_get_current_client_page;
 
   funcs->set_unit_icon = qtg_set_unit_icon;
   funcs->set_unit_icons_more_arrow = qtg_set_unit_icons_more_arrow;

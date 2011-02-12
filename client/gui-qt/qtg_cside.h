@@ -94,6 +94,7 @@ struct gui_funcs {
   void (*sound_bell)(void);
 
   void (*real_set_client_page)(enum client_pages page);
+  enum client_pages (*get_current_client_page)(void);
 
   void (*set_unit_icon)(int idx, struct unit *punit);
   void (*set_unit_icons_more_arrow)(bool onoff);
