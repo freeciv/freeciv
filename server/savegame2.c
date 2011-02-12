@@ -3105,7 +3105,6 @@ static void sg_load_player_main(struct loaddata *loading,
   int i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
-  struct ai_data *ai;
   struct player_research *research;
   enum ai_level skill_level;
 
@@ -3153,8 +3152,6 @@ static void sg_load_player_main(struct loaddata *loading,
                  "%s", secfile_error());
 
 
-  /* AI data. */
-  ai = ai_data_get(plr);
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_controlled,
                                      "player%d.ai.control", plrno),
                  "%s", secfile_error());
