@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 if AI_MODULES
-module_dirs = stub
+module_dirs = stub threaded
 else
 module_dirs =
 endif

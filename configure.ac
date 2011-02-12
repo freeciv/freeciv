@@ -1216,6 +1216,7 @@ AC_CONFIG_FILES([Makefile
 	  ai/Makefile
           ai/default/Makefile
           ai/stub/Makefile
+          ai/threaded/Makefile
 	  tests/Makefile
   	  win32/Makefile
 	  client/Makefile
