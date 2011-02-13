@@ -5361,7 +5361,11 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     /* Recalculate for all players. */
     pplayer->ai_controlled = FALSE;
 
+    /* Building advisor needs data phase open in order to work */
+    adv_data_phase_init(pplayer, FALSE);
     building_advisor(pplayer);
+    /* Close data phase again so it can be opened again when game starts. */
+    adv_data_phase_done(pplayer);
 
     pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
