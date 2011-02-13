@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.11c"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.13"
 
 #define FC_AI_LAST 3
 
@@ -49,6 +49,8 @@ struct ai_type
   char name[MAX_LEN_NAME];
 
   struct {
+    void (*game_free)(void);
+
     void (*player_alloc)(struct player *pplayer);
     void (*player_free)(struct player *pplayer);
     void (*player_save)(struct player *pplayer, struct section_file *file,

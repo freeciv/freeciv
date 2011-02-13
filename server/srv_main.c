@@ -2557,6 +2557,8 @@ void server_game_init(void)
 **************************************************************************/
 void server_game_free(void)
 {
+  CALL_FUNC_EACH_AI(game_free);
+
   /* Free all the treaties that were left open when game finished. */
   free_treaties();
 
