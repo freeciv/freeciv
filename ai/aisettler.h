@@ -50,6 +50,7 @@ void cityresult_fill(struct player *pplayer,
 void find_best_city_placement(struct unit *punit, struct cityresult *best, 
 			      bool look_for_boat, bool use_virt_boat);
 void ai_settler_init(struct player *pplayer);
+void ai_settler_system_free(void);
 void print_cityresult(struct player *pplayer, struct cityresult *cr,
                       struct ai_data *ai);
 

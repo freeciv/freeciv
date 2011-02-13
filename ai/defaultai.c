@@ -46,6 +46,7 @@ void fc_ai_default_setup(struct ai_type *ai)
 
   strncpy(ai->name, FC_AI_DEFAULT_NAME, sizeof(ai->name));
 
+  ai->funcs.game_free = ai_settler_system_free;
   ai->funcs.city_alloc = ai_city_alloc;
   ai->funcs.city_free = ai_city_free;
 

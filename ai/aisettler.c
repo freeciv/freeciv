@@ -492,6 +492,14 @@ void ai_settler_init(struct player *pplayer)
 }
 
 /**************************************************************************
+  Free resources allocated for ai settlers.
+**************************************************************************/
+void ai_settler_system_free(void)
+{
+  FC_FREE(cachemap);
+}
+
+/**************************************************************************
   Find nearest and best city placement in a PF iteration according to 
   "parameter".  The value in "boat_cost" is both the penalty to pay for 
   using a boat and an indicator (boat_cost!=0) if a boat was used at all. 
