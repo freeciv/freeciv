@@ -5208,7 +5208,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     /* Recalculate for all players. */
     pplayer->ai_controlled = FALSE;
 
+    ai_data_phase_init(pplayer, FALSE);
     building_advisor(pplayer);
+    ai_data_phase_done(pplayer);
 
     pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
