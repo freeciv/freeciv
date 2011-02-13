@@ -8,6 +8,7 @@ common/events.c
 common/game.c
 common/government.c
 common/map.c
+common/mapimg.c
 common/packets.c
 common/player.c
 common/requirements.c
@@ -98,6 +99,7 @@ client/gui-gtk-2.0/connectdlg.c
 client/gui-gtk-2.0/diplomat_dialog.c
 client/gui-gtk-2.0/caravan_dialog.c
 client/gui-gtk-2.0/chatline.c
+client/gui-gtk-2.0/citizensinfo.c
 client/gui-gtk-2.0/citydlg.c
 client/gui-gtk-2.0/cityrep.c
 client/gui-gtk-2.0/cma_fe.c
@@ -127,9 +129,11 @@ client/gui-gtk-2.0/repodlgs.c
 client/gui-gtk-2.0/spaceshipdlg.c
 client/gui-gtk-2.0/theme_dlg.c
 client/gui-gtk-2.0/tileset_dlg.c
+client/gui-gtk-2.0/unitselect.c
 client/gui-gtk-2.0/wldlg.c
 client/gui-gtk-2.0/voteinfo_bar.c
 client/gui-qt/chatline.cpp
+client/gui-qt/fc_client.cpp
 client/gui-qt/mapview.cpp
 client/gui-sdl/caravan_dialog.c
 client/gui-sdl/chatline.c
