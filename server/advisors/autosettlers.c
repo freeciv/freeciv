@@ -40,10 +40,7 @@
 #include "pf_tools.h"
 
 /* ai */
-#include "aicity.h"
 #include "aiplayer.h"
-#include "aisettler.h"
-#include "aitools.h"
 #include "aiunit.h"
 
 /* server */

@@ -49,12 +49,8 @@
 #include "autosettlers.h"
 
 /* ai */
-#include "advdiplomacy.h"
-#include "advmilitary.h"
-#include "aicity.h"
 #include "aiplayer.h"
 #include "aitools.h"
-#include "aiunit.h"
 
 #include "advdata.h"
 

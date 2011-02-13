@@ -41,7 +41,6 @@
 #include "advtools.h"
 
 /* ai */
-#include "aicity.h"
 #include "aiplayer.h"
 #include "aitools.h"
 
