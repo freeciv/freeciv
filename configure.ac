@@ -337,15 +337,18 @@ AC_ARG_WITH(efence,
 )
 
 AC_ARG_ENABLE([aimodules],
-[  --enable-aimodules      support for ai modules [[default=no]]],
+[  --enable-aimodules      support for ai modules [[yes/no/experimental]]
+                          [[default=no]]],
 [case "${enableval}" in
   yes) enable_aimodules=yes ;;
   no)  enable_aimodules=no ;;
+  experimental) enable_aimodules=yes
+                exp_aimodules=yes ;;
   *)   AC_MSG_ERROR([bad value ${enable_aimodules} for --enable-aimodules]) ;;
 esac], [enable_aimodules=no])
 aimoduledir="${libdir}/fcai"
 AC_SUBST(aimoduledir)
-AM_CONDITIONAL(AI_MODULES, test "$enable_aimodules" = "yes")
+AM_CONDITIONAL(AI_MODULES, test "x$enable_aimodules" = "xyes")
 if test $enable_aimodules = yes ; then
   if test x$enable_shared != xyes ; then
     AC_MSG_ERROR([cannot enable ai module support if also build of shared libraries is not enabled with --enable-shared])
@@ -363,6 +366,7 @@ if test $enable_aimodules = yes ; then
   AC_DEFINE_UNQUOTED([AI_MODULES], [1], [Directory for ai modules])
   CPPFLAGS="${CPPFLAGS} -DAI_MODULEDIR=\"\\\"${aimoduledir}\\\"\""
 fi
+AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 
 dnl Checks for programs.
 AC_PROG_AWK
