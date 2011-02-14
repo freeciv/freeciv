@@ -1738,6 +1738,8 @@ void handle_player_remove(int playerno)
 
   /* Save player number before player is freed */
   plr_nbr = player_number(pplayer);
+
+  client_player_destroy(pplayer);
   player_destroy(pplayer);
 
   players_dialog_update();
@@ -1758,6 +1760,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   bool new_tech = FALSE;
   bool poptechup = FALSE;
   bool turn_done_changed = FALSE;
+  bool new_player = FALSE;
   int i;
   struct player_research *research;
   struct player *pplayer, *my_player;
@@ -1766,9 +1769,17 @@ void handle_player_info(const struct packet_player_info *pinfo)
   struct player_slot *pslot;
   struct team_slot *tslot;
 
+  /* Player. */
   pslot = player_slot_by_number(pinfo->playerno);
   fc_assert(NULL != pslot);
+  new_player = !player_slot_is_used(pslot);
   pplayer = player_new(pslot);
+
+  if (new_player) {
+    /* Initialise client side player data (tile vision). At the moment
+     * redundant as the values are initialised with 0 due to fc_calloc(). */
+    client_player_init(pplayer);
+  }
 
   /* Team. */
   tslot = team_slot_by_number(pinfo->team);

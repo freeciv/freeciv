@@ -624,6 +624,8 @@ void player_destroy(struct player *pplayer)
   } players_iterate_end;
   free(pplayer->diplstates);
 
+  dbv_free(&pplayer->tile_known);
+
   free(pplayer);
   pslot->player = NULL;
   player_slots.used_slots--;
