@@ -97,7 +97,7 @@ static bool set_ai_level_named(struct connection *caller, const char *name,
 static bool set_ai_level(struct connection *caller, const char *name,
                          enum ai_level level, bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
-
+static bool set_command(struct connection *caller, char *str, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 static bool handle_stdin_input_real(struct connection *caller, char *str,
@@ -1401,6 +1401,11 @@ static enum sset_level lookup_option_level(const char *name)
   return SSET_NONE;
 }
 
+/* Special return values of lookup options */
+#define LOOKUP_OPTION_NO_RESULT   -1
+#define LOOKUP_OPTION_AMBIGUOUS   -2
+#define LOOKUP_OPTION_LEVEL_NAME  -3
+
 /**************************************************************************
 Find option index by name. Return index (>=0) on success, -1 if no
 suitable options were found, -2 if several matches were found.
@@ -1412,14 +1417,15 @@ static int lookup_option(const char *name)
 
   /* Check for option levels, first off */
   if (lookup_option_level(name) != SSET_NONE) {
-    return -3;
+    return LOOKUP_OPTION_LEVEL_NAME;
   }
 
   result = match_prefix(optname_accessor, SETTINGS_NUM, 0, mystrncasecmp,
 			NULL, name, &ind);
 
   return ((result < M_PRE_AMBIGUOUS) ? ind :
-	  (result == M_PRE_AMBIGUOUS) ? -2 : -1);
+          (result == M_PRE_AMBIGUOUS) ? LOOKUP_OPTION_AMBIGUOUS
+                                      : LOOKUP_OPTION_NO_RESULT);
 }
 
 /**************************************************************************
@@ -1530,11 +1536,12 @@ static bool explain_option(struct connection *caller, char *str, bool check)
     cmd = lookup_option(str);
     if (cmd >= 0 && cmd < SETTINGS_NUM) {
       show_help_option(caller, CMD_EXPLAIN, cmd);
-    } else if (cmd == -1 || cmd == -3) {
+    } else if (cmd == LOOKUP_OPTION_NO_RESULT
+               || cmd == LOOKUP_OPTION_LEVEL_NAME) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL,
 		_("No explanation for that yet."));
       return FALSE;
-    } else if (cmd == -2) {
+    } else if (cmd == LOOKUP_OPTION_AMBIGUOUS) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return FALSE;
     } else {
@@ -1778,23 +1785,31 @@ static bool show_command(struct connection *caller, char *str, bool check)
         return FALSE;
       }
     }
-    if (cmd == -1) {
+
+    /* Valid negative values for 'cmd' are defined as LOOKUP_OPTION_*. */
+    switch (cmd) {
+    case LOOKUP_OPTION_NO_RESULT:
       cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), str);
       return FALSE;
-    }
-    if (cmd == -2) {
-      /* allow ambiguous: show all matching */
+    case LOOKUP_OPTION_AMBIGUOUS:
+      /* Allow ambiguous: show all matching. */
       clen = strlen(str);
-    }
-    if (cmd == -3) {
-      /* Option level */
+      break;
+    case LOOKUP_OPTION_LEVEL_NAME:
+      /* Option level. */
       level = lookup_option_level(str);
+      break;
     }
   } else {
-    cmd = -1;  /* to indicate that no comannd was specified */
+    /* to indicate that no command was specified */
+    cmd = LOOKUP_OPTION_NO_RESULT;
     /* Use vital level by default. */
     level = SSET_VITAL;
   }
+
+  assert(cmd > 0 || cmd == LOOKUP_OPTION_AMBIGUOUS
+         || cmd == LOOKUP_OPTION_LEVEL_NAME
+         || cmd == LOOKUP_OPTION_NO_RESULT);
 
 #define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
 
@@ -2477,13 +2492,20 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   cmd = lookup_option(args[0]);
-  if (-1 == cmd) {
-    cmd_reply(CMD_SET, caller, C_SYNTAX,
-              _("Option '%s' not recognized."), args[0]);
-    goto cleanup;
-  }
-  if (-2 == cmd) {
-    cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
+  if (cmd < 0) {
+    switch (cmd) {
+    case LOOKUP_OPTION_NO_RESULT:
+    case LOOKUP_OPTION_LEVEL_NAME:
+      cmd_reply(CMD_SET, caller, C_SYNTAX,
+                _("Option '%s' not recognized."), args[0]);
+      break;
+    case LOOKUP_OPTION_AMBIGUOUS:
+      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
+      break;
+    default:
+      assert(cmd >= LOOKUP_OPTION_LEVEL_NAME);
+      break;
+    }
     goto cleanup;
   }
 
