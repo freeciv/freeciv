@@ -265,6 +265,9 @@ bool unleash_barbarians(struct tile *ptile)
     return FALSE;
   }
 
+  adv_data_phase_init(barbarians, TRUE);
+  CALL_PLR_AI_FUNC(phase_begin, barbarians, barbarians, TRUE);
+
   unit_cnt = 3 + fc_rand(4);
   for (i = 0; i < unit_cnt; i++) {
     struct unit_type *punittype
