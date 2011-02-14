@@ -124,6 +124,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
 static bool show_command(struct connection *caller, char *str, bool check);
 static void show_changed(struct connection *caller, bool check,
                          int read_recursion);
+static bool set_command(struct connection *caller, char *str, bool check);
 
 static bool create_command(struct connection *caller, const char *arg,
                            bool check);
@@ -1615,6 +1616,12 @@ static enum sset_level lookup_option_level(const char *name)
   return SSET_NONE;
 }
 
+/* Special return values of lookup options */
+#define LOOKUP_OPTION_NO_RESULT   -1
+#define LOOKUP_OPTION_AMBIGUOUS   -2
+#define LOOKUP_OPTION_LEVEL_NAME  -3
+#define LOOKUP_OPTION_RULESETDIR  -4
+
 /**************************************************************************
 Find option index by name. Return index (>=0) on success, -1 if no
 suitable options were found, -2 if several matches were found.
@@ -1626,7 +1633,7 @@ static int lookup_option(const char *name)
 
   /* Check for option levels, first off */
   if (lookup_option_level(name) != SSET_NONE) {
-    return -3;
+    return LOOKUP_OPTION_LEVEL_NAME;
   }
 
   result = match_prefix(optname_accessor, settings_number(),
@@ -1634,12 +1641,12 @@ static int lookup_option(const char *name)
   if (M_PRE_AMBIGUOUS > result) {
     return ind;
   } else if (M_PRE_AMBIGUOUS == result) {
-    return -2;
+    return LOOKUP_OPTION_AMBIGUOUS;
   } else if ('\0' != name[0]
              && 0 == fc_strncasecmp("rulesetdir", name, strlen(name))) {
-    return -4;
+    return LOOKUP_OPTION_RULESETDIR;
   } else {
-    return -1;
+    return LOOKUP_OPTION_NO_RESULT;
   }
 }
 
@@ -1778,11 +1785,13 @@ static bool explain_option(struct connection *caller, char *str, bool check)
     cmd = lookup_option(str);
     if (cmd >= 0 && cmd < settings_number()) {
       show_help_option(caller, CMD_EXPLAIN, cmd);
-    } else if (cmd == -1 || cmd == -3 || cmd == -4) {
+    } else if (cmd == LOOKUP_OPTION_NO_RESULT
+               || cmd == LOOKUP_OPTION_LEVEL_NAME
+               || cmd == LOOKUP_OPTION_RULESETDIR) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL,
                 _("No explanation for that yet."));
       return FALSE;
-    } else if (cmd == -2) {
+    } else if (cmd == LOOKUP_OPTION_AMBIGUOUS) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return FALSE;
     } else {
@@ -2039,16 +2048,21 @@ static bool show_command(struct connection *caller, char *str, bool check)
         return FALSE;
       }
     }
-    if (cmd == -1) {
+
+    /* Valid negative values for 'cmd' are defined as LOOKUP_OPTION_*. */
+    switch (cmd) {
+    case LOOKUP_OPTION_NO_RESULT:
       cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), str);
       return FALSE;
-    } else if (-2 == cmd) {
+    case LOOKUP_OPTION_AMBIGUOUS:
       /* Allow ambiguous: show all matching. */
       clen = strlen(str);
-    } else if (-3 == cmd) {
+      break;
+    case LOOKUP_OPTION_LEVEL_NAME:
       /* Option level. */
       level = lookup_option_level(str);
-    } else if (-4 == cmd) {
+      break;
+    case LOOKUP_OPTION_RULESETDIR:
       /* Ruleset. */
       cmd_reply(CMD_SHOW, caller, C_COMMENT,
                 _("Current ruleset directory is \"%s\""),
@@ -2056,10 +2070,15 @@ static bool show_command(struct connection *caller, char *str, bool check)
       return TRUE;
     }
   } else {
-    cmd = -1;  /* to indicate that no comannd was specified */
+    /* to indicate that no command was specified */
+    cmd = LOOKUP_OPTION_NO_RESULT;
     /* Use vital level by default. */
     level = SSET_VITAL;
   }
+
+  fc_assert_ret_val(cmd > 0 || cmd == LOOKUP_OPTION_AMBIGUOUS
+                    || cmd == LOOKUP_OPTION_LEVEL_NAME
+                    || cmd == LOOKUP_OPTION_NO_RESULT, FALSE);
 
 #define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
 
@@ -2121,7 +2140,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
       if (cmd != setting_number(pset)) {
         continue;
       }
-    } else if (-2 == cmd
+    } else if (LOOKUP_OPTION_AMBIGUOUS == cmd
                && 0 != fc_strncasecmp(setting_name(pset), str, clen)) {
       continue;
     } else if (SSET_CHANGED == level) {
@@ -2722,13 +2741,26 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   cmd = lookup_option(args[0]);
-  if (-1 == cmd) {
-    cmd_reply(CMD_SET, caller, C_SYNTAX,
-              _("Option '%s' not recognized."), args[0]);
-    goto cleanup;
-  }
-  if (-2 == cmd) {
-    cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
+  if (cmd < 0) {
+    switch (cmd) {
+    case LOOKUP_OPTION_NO_RESULT:
+    case LOOKUP_OPTION_LEVEL_NAME:
+      cmd_reply(CMD_SET, caller, C_SYNTAX,
+                _("Option '%s' not recognized."), args[0]);
+      break;
+    case LOOKUP_OPTION_AMBIGUOUS:
+      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Ambiguous option name."));
+      break;
+    case LOOKUP_OPTION_RULESETDIR:
+      cmd_reply(CMD_SET, caller, C_SYNTAX,
+                /* TRANS: 'rulesetdir' is the command. Do not translate. */
+                _("Use the '%srulesetdir' command to change the ruleset "
+                  "directory."), caller ? "/" : "");
+      break;
+    default:
+      fc_assert_ret_val(cmd >= LOOKUP_OPTION_RULESETDIR, FALSE);
+      break;
+    }
     goto cleanup;
   }
 
