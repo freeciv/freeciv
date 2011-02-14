@@ -26,6 +26,7 @@
 #include "advdiplomacy.h"
 #include "aiferry.h"
 #include "aiplayer.h"
+#include "aisettler.h"
 
 #include "aidata.h"
 
@@ -78,6 +79,9 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE / 4;
 
   ai->settler = NULL;
+
+  /* Initialise autosettler. */
+  ai_auto_settler_init(ai);
 }
 
 /****************************************************************************
@@ -86,6 +90,9 @@ void ai_data_init(struct player *pplayer)
 void ai_data_close(struct player *pplayer)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
+
+  /* Free autosettler. */
+  ai_auto_settler_free(ai);
 
   if (ai->diplomacy.player_intel_slots != NULL) {
     players_iterate(aplayer) {

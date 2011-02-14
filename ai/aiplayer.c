@@ -22,7 +22,6 @@
 
 /* ai */
 #include "aidata.h"
-#include "aisettler.h"
 
 #include "aiplayer.h"
 
@@ -55,9 +54,6 @@ void ai_player_alloc(struct player *pplayer)
   player_set_ai_data(pplayer, default_ai_get_self(), player_data);
 
   ai_data_init(pplayer);
-
-  /* Initialise autosettler. */
-  ai_auto_settler_init(pplayer);
 }
 
 /**************************************************************************
@@ -66,11 +62,6 @@ void ai_player_alloc(struct player *pplayer)
 void ai_player_free(struct player *pplayer)
 {
   struct ai_plr *player_data = def_ai_player_data(pplayer);
-
-  /* Reset autosettler to a defined state. */
-  ai_auto_settler_reset(pplayer);
-  /* Free autosettler. */
-  ai_auto_settler_free(pplayer);
 
   ai_data_close(pplayer);
 

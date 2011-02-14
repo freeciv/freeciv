@@ -956,10 +956,8 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
 /**************************************************************************
   Initialize ai settler engine.
 **************************************************************************/
-void ai_auto_settler_init(struct player *pplayer)
+void ai_auto_settler_init(struct ai_plr *ai)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
-
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler == NULL);
 
@@ -1137,10 +1135,8 @@ void ai_auto_settler_reset(struct player *pplayer)
 /**************************************************************************
   Deinitialize ai settler engine.
 **************************************************************************/
-void ai_auto_settler_free(struct player *pplayer)
+void ai_auto_settler_free(struct ai_plr *ai)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
-
   fc_assert_ret(ai != NULL);
 
   if (ai->settler) {

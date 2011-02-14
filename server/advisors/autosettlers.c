@@ -656,9 +656,6 @@ void auto_settlers_player(struct player *pplayer)
    * player auto-settler mode) or if the player is an AI.  But don't
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
-  if (pplayer->ai_controlled) {
-    CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
-  }
   unit_list_iterate_safe(pplayer->units, punit) {
     if ((punit->ai_controlled || pplayer->ai_controlled)
         && (unit_has_type_flag(punit, F_SETTLERS)
@@ -683,6 +680,10 @@ void auto_settlers_player(struct player *pplayer)
       }
     }
   } unit_list_iterate_safe_end;
+  /* Reset auto settler state for the next run. */
+  if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(settler_reset, pplayer, pplayer);
+  }
 
   if (timer_in_use(t)) {
 
