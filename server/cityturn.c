@@ -258,7 +258,7 @@ void apply_cmresult_to_city(struct city *pcity,
 void auto_arrange_workers(struct city *pcity)
 {
   struct cm_parameter cmp;
-  struct cm_result *cmr = cm_result_new(pcity);
+  struct cm_result *cmr;
 
   /* See comment in freeze_workers(): we can't rearrange while
    * workers are frozen (i.e. multiple updates need to be done). */
@@ -267,6 +267,8 @@ void auto_arrange_workers(struct city *pcity)
     return;
   }
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_START);
+
+  cmr = cm_result_new(pcity);
 
   /* Freeze the workers and make sure all the tiles around the city
    * are up to date.  Then thaw, but hackishly make sure that thaw
