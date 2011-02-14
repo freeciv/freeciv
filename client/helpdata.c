@@ -2107,14 +2107,20 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case EFT_MAKE_CONTENT:
         cat_snprintf(buf, bufsz,
-                     _("* Each of your cities will avoid %d unhappiness,"
-                       " not including that caused by units.\n"),
+                     PL_("* Each of your cities will avoid %d unhappiness,"
+                         " not including that caused by units.\n",
+                         "* Each of your cities will avoid %d unhappiness,"
+                         " not including that caused by units.\n",
+                         peffect->value),
                      peffect->value);
         break;
       case EFT_FORCE_CONTENT:
         cat_snprintf(buf, bufsz,
-                     _("* Each of your cities will avoid %d unhappiness,"
-                       " including unhappiness caused by units.\n"),
+                     PL_("* Each of your cities will avoid %d unhappiness,"
+                         " including unhappiness caused by units.\n",
+                         "* Each of your cities will avoid %d unhappiness,"
+                         " including unhappiness caused by units.\n",
+                         peffect->value),
                      peffect->value);
         break;
       case EFT_UPKEEP_FACTOR:
