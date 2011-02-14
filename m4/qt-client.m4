@@ -5,8 +5,14 @@ dnl Test for Qt and needed libraries for gui-qt
 
 AC_DEFUN([FC_QT_CLIENT],
 [
-if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
-   test "x$client" = "xauto" ; then
+
+dnl FIXME: In its current state Qt-client is never selected automatically.
+dnl        When Qt-client matures to usable state enable auto-selection by
+dnl        replacing below if-check with one that is currently commented out.
+dnl if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
+dnl   test "x$client" = "xauto" ; then
+
+if test "x$gui_qt" = "xyes" || test "x$client" = "all" ; then
 
   AC_PROG_CXX
 
