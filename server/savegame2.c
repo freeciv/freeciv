@@ -12,20 +12,26 @@
 ***********************************************************************/
 
 /*
-  This file includes the definition of a new savegame format. It is defined
-  by the mandatory option '+version2'. The main load function checks, if this
-  option is present. If not, the old loading routines are used. With regard
-  to creating a savegame, the option 'saveversion' defines the format
-  (version) of the savegame. This value (savefile.version) should be
-  increased every time the format is changed. If the change is not backwards
-  compatible, please state the changes in the following list and update the
-  compat functions at the end of this file.
+  This file includes the definition of a new savegame format introduced with
+  2.3.0. It is defined by the mandatory option '+version2'. The main load
+  function checks if this option is present. If not, the old (pre-2.3.0)
+  loading routines are used. With regard to creating a savegame, the server
+  option 'saveversion' defines the format (version) of the savegame.
+  The version is also saved in the settings section of the savefile, as an
+  integer (savefile.version). The integer is used to determine the version
+  of the savefile.
+  
+  For each savefile format after 2.3.0, compatibility functions are defined
+  which translate secfile structures between that version and the next
+  older version; all necessary compat functions are called in order to
+  translate between the file and current version. See sg_load_compat() and
+  sg_save_compat().
+ 
+  The integer version ID should be increased every time the format is changed.
+  If the change is not backwards compatible, please state the changes in the
+  following list and update the compat functions at the end of this file.
 
-  The value is saved in the settings section of the savefile as well as an
-  integer (as savefile.version). Only the integer is used to determine the
-  version of the savefile. See sg_load_compat() and sg_save_compat().
-
-  - that was added / removed
+  - what was added / removed
   - when was it added / removed (date and version)
   - when can additional capability checks be set to mandatory (version)
   - which compatibility checks are needed and till when (version)
@@ -45,13 +51,13 @@
   Structure of this file:
 
   - The main functions are savegame2_load() and savegame2_save(). Within
-    these function the savegame version or the setting of 'saveold' are
+    these functions the savegame version or the setting of 'saveversion' are
     tested and the requested savegame version is loaded / saved.
 
   - The real work is done by savegame2_load_real() and savegame2_save_real().
     This function call all submodules (settings, players, etc.)
 
-  - The remaining part of this file is splitted into several sections:
+  - The remaining part of this file is split into several sections:
      * helper functions
      * save / load functions for all submodules (and their subsubmodules)
 
@@ -5419,36 +5425,14 @@ typedef void (*load_version_func_t) (struct loaddata *loading);
 typedef void (*save_version_func_t) (struct savedata *saving);
 
 /****************************************************************************
-  Load savegame that is of 2.3 format.
-****************************************************************************/
-static void compat_load_020300(struct loaddata *loading)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_debug("Load savegame version 2.3.0");
-}
-
-/****************************************************************************
-  Save game in 2.3 format.
-****************************************************************************/
-static void compat_save_020300(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_debug("Save savegame version 2.3.0");
-}
-
-/****************************************************************************
-  Load savegame that is of 2.4 format.
+  Translate savegame secfile data from 2.3.x to 2.4.0 format.
 ****************************************************************************/
 static void compat_load_020400(struct loaddata *loading)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  log_debug("Load savegame version 2.4.0");
+  log_debug("Upgrading data from savegame to version 2.4.0");
 
   /* Add the default player AI. */
   player_slots_iterate(pslot) {
@@ -5484,14 +5468,14 @@ static void compat_load_020400(struct loaddata *loading)
 }
 
 /****************************************************************************
-  Save game in 2.4 format.
+  Translate savegame secfile data from 2.4.0 to 2.3.x format.
 ****************************************************************************/
 static void compat_save_020400(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  log_debug("Save savegame version 2.4.0");
+  log_debug("Downgrading data from version 2.4.0 for savegame");
 
   /* Iterate over all players. */
   player_slots_iterate(pslot) {
@@ -5542,12 +5526,15 @@ struct compatibility {
 
 /* The struct below contains the information about the savegame versions. It
  * is identified by the version number (first element), which should be
- * steadily increasing. It is saved as 'savefile.version'. Additionally, the
- * support string (first element of 'name') is saved in the savegame. It is
- * only used to present a version selection if 'help saveversion' is
- * executed. For changes in the development version, edit the definitions
- * above and add the needed code to save/load the old version below. Thus,
- * old savegames can still be created and loaded while the main definition
+ * steadily increasing. It is saved as 'savefile.version'. The support
+ * string (first element of 'name') is not saved in the savegame; it is
+ * used as a value for the 'saveversion' option entered at the server prompt
+ * and saved in settings files (so, once assigned, cannot be changed). The
+ * 'pretty' string (second element of 'name') is presented in places like
+ * 'help saveversion' output, and can be changed if necessary
+ * For changes in the development version, edit the definitions above and
+ * add the needed code to save/load the old version below. Thus, old
+ * savegames can still be created and loaded while the main definition
  * represents the current state of the art. */
 /* While developing freeciv 2.4.0, add the compatibility functions to
  * - compat_load_020400 to load old savegame, and to
@@ -5556,9 +5543,10 @@ static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
   { 0, { "CURRENT", N_("current version") }, NULL, NULL },
   /* version 1 and 2 is not used */
-  { 3, { "2.3.0", N_("freeciv 2.3.0") },
-    compat_load_020300, compat_save_020300},
-  /* version 4 to 9 are reserves for possible changes in 2.3.x */
+  /* version 3: first savegame2 format, so no compat functions for translation
+   * from previous format */
+  { 3, { "2.3.0", N_("freeciv 2.3.0") }, NULL, NULL },
+  /* version 4 to 9 are reserved for possible changes in 2.3.x */
   { 10, { "2.4.0", N_("freeciv 2.4.0 (development)") },
     compat_load_020400, compat_save_020400},
   /* Current savefile version is listed above this line; it corresponds to
