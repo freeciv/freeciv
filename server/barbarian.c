@@ -263,6 +263,8 @@ bool unleash_barbarians(struct tile *ptile)
     return FALSE;
   }
 
+  ai_data_phase_init(barbarians, TRUE);
+
   unit_cnt = 3 + fc_rand(4);
   for (i = 0; i < unit_cnt; i++) {
     struct unit_type *punittype
