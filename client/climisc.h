@@ -130,6 +130,7 @@ void buy_production_in_selected_cities(void);
 void unit_focus_set_status(struct player *pplayer);
 
 void client_player_init(struct player *pplayer);
+void client_player_destroy(struct player *pplayer);
 
 void client_player_maps_reset(void);
 

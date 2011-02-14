@@ -1262,7 +1262,7 @@ void unit_focus_set_status(struct player *pplayer)
 }
 
 /***************************************************************
-  ...
+  Initialise a player on the client side.
 ***************************************************************/
 void client_player_init(struct player *pplayer)
 {
@@ -1273,7 +1273,17 @@ void client_player_init(struct player *pplayer)
 }
 
 /***************************************************************
-  ...
+ Destroy a player on the client side.
+***************************************************************/
+void client_player_destroy(struct player *pplayer)
+{
+  vision_layer_iterate(v) {
+    dbv_free(&pplayer->client.tile_vision[v]);
+  } vision_layer_iterate_end;
+}
+
+/***************************************************************
+  Reset the private map of a player.
 ***************************************************************/
 void client_player_maps_reset(void)
 {

@@ -673,6 +673,8 @@ void player_destroy(struct player *pplayer)
     rgbcolor_destroy(pplayer->rgb);
   }
 
+  dbv_free(&pplayer->tile_known);
+
   free(pplayer);
   pslot->player = NULL;
   player_slots.used_slots--;
