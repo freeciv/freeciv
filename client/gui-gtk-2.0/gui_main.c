@@ -797,8 +797,9 @@ static void populate_unit_pixmap_table(void)
     num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
   }
 
-  gtk_table_resize(GTK_TABLE(table), 2, num_units_below);
+  gtk_table_resize(GTK_TABLE(table), 2, MAX(1,num_units_below));
 
+  /* Top row: the active unit. */
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
   unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset), tileset_unit_height(tileset));
@@ -813,6 +814,7 @@ static void populate_unit_pixmap_table(void)
 		   GINT_TO_POINTER(-1));
 
   if (!gui_gtk2_small_display_layout) {
+    /* Bottom row: other units in the same tile. */
     for (i = 0; i < num_units_below; i++) {
       unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
                                              tileset_unit_height(tileset));
@@ -845,11 +847,13 @@ static void populate_unit_pixmap_table(void)
                    G_CALLBACK(select_more_arrow_pixmap_callback), NULL);
 
   if (!gui_gtk2_small_display_layout) {
+    /* Display on bottom row. */
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_button,
-                              4, 5, 1, 2);
+                              MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 1, 2);
   } else {
+    /* Display on top row (there is no bottom row). */
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_button,
-                              4, 5, 0, 1);
+                              MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 0, 1);
   }
 
   gtk_widget_show_all(table);
