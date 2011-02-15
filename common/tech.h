@@ -142,7 +142,7 @@ struct advance {
   int num_reqs;
 };
 
-BV_DEFINE(tech_vector, A_LAST);
+BV_DEFINE(bv_techs, A_LAST);
 
 /* General advance/technology accessor functions. */
 Tech_type_id advance_count(void);
