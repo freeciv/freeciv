@@ -95,4 +95,10 @@ tiles = { "row", "column", "tag"
  7,  2, "city.tropical_city_2"
  7,  3, "city.tropical_wall_0"
  7,  4, "city.tropical_occupied_0"
+
+ 8,  0, "city.electricage_city_0"
+ 8,  1, "city.electricage_city_1"
+ 8,  2, "city.electricage_city_2"
+ 8,  3, "city.electricage_wall_0"
+ 8,  4, "city.electricage_occupied_0"
 }
