@@ -101,10 +101,15 @@ void ai_city_save(struct section_file *file, const struct city *pcity,
 void ai_city_load(const struct section_file *file, struct city *pcity,
                   const char *citystr);
 
-void want_tech_for_improvement_effect(struct player *pplayer,
-                                      const struct city *pcity,
-                                      const struct impr_type *pimprove,
-                                      const struct advance *tech,
-                                      int building_want);
+void want_techs_for_improvement_effect(struct player *pplayer,
+                                       const struct city *pcity,
+                                       const struct impr_type *pimprove,
+                                       struct tech_vector *needed_techs,
+                                       int building_want);
+
+void dont_want_tech_obsoleting_impr(struct player *pplayer,
+                                    const struct city *pcity,
+                                    const struct impr_type *pimprove,
+                                    int building_want);
 
 #endif  /* FC__AICITY_H */

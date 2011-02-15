@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.13"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.15"
 
 #define FC_AI_LAST 3
 
@@ -35,6 +35,7 @@ struct tile;
 struct settlermap;
 struct pf_path;
 struct section_file;
+struct tech_vector;
 
 enum incident_type {
   INCIDENT_DIPLOMAT = 0, INCIDENT_WAR, INCIDENT_PILLAGE,
@@ -73,6 +74,11 @@ struct ai_type
     void (*city_load)(const struct section_file *file, struct city *pcity,
                       const char *citystr);
     void (*choose_building)(struct city *pcity, struct ai_choice *choice);
+    void (*impr_want)(struct player *pplayer, const struct city *pcity,
+                      const struct impr_type *pimprove,
+                      struct tech_vector *needed_techs, int building_want);
+    void (*impr_keep_want)(struct player *pplayer, const struct city *pcity,
+                           const struct impr_type *pimprove, int building_want);
 
     void (*units_ruleset_init)(void);
 

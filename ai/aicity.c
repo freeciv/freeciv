@@ -60,6 +60,10 @@
           -kauf  */
 #define AI_CITY_RECALC_SPEED 5
 
+#define SPECVEC_TAG tech
+#define SPECVEC_TYPE struct advance *
+#include "specvec.h"
+
 #define CITY_EMERGENCY(pcity)						\
  (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)			\
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
@@ -79,7 +83,7 @@
         fc_assert(_uindex >= 0 && _uindex < utype_count());              \
       }                                                                  \
     }                                                                    \
-  } while(0);
+  } while(FALSE);
 #endif /* NDEBUG */
 
 static void ai_sell_obsolete_buildings(struct city *pcity);
@@ -122,11 +126,11 @@ int ai_eval_calc_city(struct city *pcity, struct adv_data *ai)
   We put this conversion in a function because the 'want' scales are
   unclear and kludged. Consequently, this conversion might require tweaking.
 **************************************************************************/
-void want_tech_for_improvement_effect(struct player *pplayer,
-                                      const struct city *pcity,
-                                      const struct impr_type *pimprove,
-                                      const struct advance *tech,
-                                      int building_want)
+static void want_tech_for_improvement_effect(struct player *pplayer,
+                                             const struct city *pcity,
+                                             const struct impr_type *pimprove,
+                                             const struct advance *tech,
+                                             int building_want)
 {
   /* The conversion factor was determined by experiment,
    * and might need adjustment.
@@ -140,9 +144,44 @@ void want_tech_for_improvement_effect(struct player *pplayer,
     "wanted by %s for building: %d -> %d",
     city_name(pcity), improvement_rule_name(pimprove),
     building_want, tech_want);
-#endif
+#endif /* 0 */
   if (tech) {
     pplayer->ai_common.tech_want[advance_index(tech)] += tech_want;
+  }
+}
+
+/************************************************************************** 
+  Increase want for a technologies because of the value of that technology
+  in providing an improvement effect.
+**************************************************************************/
+void want_techs_for_improvement_effect(struct player *pplayer,
+                                       const struct city *pcity,
+                                       const struct impr_type *pimprove,
+                                       struct tech_vector *needed_techs,
+                                       int building_want)
+{
+  int t;
+  int n_needed_techs = tech_vector_size(needed_techs);
+
+  for (t = 0; t < n_needed_techs; t++) {
+    want_tech_for_improvement_effect(pplayer, pcity, pimprove,
+                                     *tech_vector_get(needed_techs, t),
+                                     building_want);
+  }
+}
+
+/************************************************************************** 
+  Decrease want for a technology because of the value of that technology
+  in obsoleting an improvement effect.
+**************************************************************************/
+void dont_want_tech_obsoleting_impr(struct player *pplayer,
+                                    const struct city *pcity,
+                                    const struct impr_type *pimprove,
+                                    int building_want)
+{
+  if (valid_advance(pimprove->obsolete_by)) {
+    want_tech_for_improvement_effect(pplayer, pcity, pimprove, pimprove->obsolete_by,
+                                     -building_want);
   }
 }
 

@@ -838,15 +838,11 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
    */
   n_needed_techs = tech_vector_size(&needed_techs);
   if (0 < v && 0 < n_needed_techs) {
-    /* Because we want this improvements,
-     * we want the techs that will make it possible */
+    /* Tell AI module how much we want this improvement and what techs are
+     * required to get it. */
     const int dv = v / n_needed_techs;
-    int t;
 
-    for (t = 0; t < n_needed_techs; t++) {
-      want_tech_for_improvement_effect(pplayer, pcity, pimprove,
-                                       *tech_vector_get(&needed_techs, t), dv);
-    }
+    CALL_PLR_AI_FUNC(impr_want, pplayer, pplayer, pcity, pimprove, &needed_techs, dv);
   }
 
   /* If v is negative, the improvement is not worth building,
@@ -1035,25 +1031,21 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
 	 */
         const int a = already? 5: 4; /* WAG */
         const int dv = (v1 - v) * a / (4 * n_needed_techs);
-	int t;
-	for (t = 0; t < n_needed_techs; t++) {
-	  want_tech_for_improvement_effect(pplayer, pcity, pimprove,
-                                           *tech_vector_get(&needed_techs, t),
-                                           dv);
-	}
+
+        CALL_PLR_AI_FUNC(impr_want, pplayer, pplayer, pcity, pimprove, &needed_techs, dv);
       }
     }
 
     tech_vector_free(&needed_techs);
   } effect_list_iterate_end;
 
-  if (already && valid_advance(pimprove->obsolete_by)) {
+  if (already) {
     /* Discourage research of the technology that would make this building
      * obsolete. The bigger the desire for this building, the more
      * we want to discourage the technology. */
-    want_tech_for_improvement_effect(pplayer, pcity, pimprove,
-				     pimprove->obsolete_by, -v);
-  } else if (!already) {
+    CALL_PLR_AI_FUNC(impr_keep_want, pplayer, pplayer, pcity, pimprove, v);
+
+  } else {
     /* Increase the want for technologies that will enable
      * construction of this improvement, if necessary.
      */
