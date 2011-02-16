@@ -247,7 +247,7 @@ struct player_dlg_column player_dlg_columns[] = {
 const int num_player_dlg_columns = ARRAY_SIZE(player_dlg_columns);
 
 /******************************************************************
- ...
+  Return default player dlg sorting column.
 *******************************************************************/
 int player_dlg_default_sort_column(void)
 {

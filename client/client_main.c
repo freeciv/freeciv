@@ -50,7 +50,7 @@
 #include "player.h"
 #include "version.h"
 
-/* include */
+/* client/include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "connectdlg_g.h"
@@ -296,10 +296,10 @@ int client_main(int argc, char *argv[])
   if (LoadLibrary("exchndl.dll") == NULL) {
 #  ifdef DEBUG
     fprintf(stderr, "exchndl.dll could not be loaded, no crash debugger\n");
-#  endif
+#  endif /* DEBUG */
   }
-# endif
-#endif
+# endif /* NDEBUG */
+#endif /* WIN32_NATIVE */
 
   i_am_client(); /* Tell to libfreeciv that we are client */
 
@@ -384,7 +384,7 @@ int client_main(int argc, char *argv[])
         fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
-#endif
+#endif /* NDEBUG */
     } else  if ((option = get_option_malloc("--read", argv, &i, argc))) {
       scriptfile = option; /* never free()d */
     } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
@@ -542,7 +542,8 @@ int client_main(int argc, char *argv[])
 }
 
 /**************************************************************************
-...
+  Main client execution stop function. This calls ui_exit() and not the
+  other way around.
 **************************************************************************/
 void client_exit(void)
 {
@@ -577,7 +578,7 @@ void client_exit(void)
 
 
 /**************************************************************************
-...
+  Handle packet received from server.
 **************************************************************************/
 void client_packet_input(void *packet, int type)
 {
@@ -599,7 +600,7 @@ void client_packet_input(void *packet, int type)
 }
 
 /**************************************************************************
-...
+  Handle user ending his/her turn.
 **************************************************************************/
 void user_ended_turn(void)
 {
@@ -607,7 +608,7 @@ void user_ended_turn(void)
 }
 
 /**************************************************************************
-...
+  Send information about player having finished his/her turn to server.
 **************************************************************************/
 void send_turn_done(void)
 {
@@ -637,7 +638,7 @@ void send_turn_done(void)
 }
 
 /**************************************************************************
-...
+  Send request for some report to server
 **************************************************************************/
 void send_report_request(enum report_type type)
 {
@@ -645,7 +646,7 @@ void send_report_request(enum report_type type)
 }
 
 /**************************************************************************
-  ...
+  Change client state.
 **************************************************************************/
 void set_client_state(enum client_states newstate)
 {
@@ -812,7 +813,7 @@ void set_client_state(enum client_states newstate)
 }
 
 /**************************************************************************
-  ...
+  Return current client state.
 **************************************************************************/
 enum client_states client_state(void)
 {
@@ -846,7 +847,7 @@ void client_remove_all_cli_conn(void)
 }
 
 /**************************************************************************
-..
+  Send attribute block.
 **************************************************************************/
 void send_attribute_block_request()
 {
@@ -854,7 +855,7 @@ void send_attribute_block_request()
 }
 
 /**************************************************************************
-..
+  Wait until server has responsed to given request id.
 **************************************************************************/
 void wait_till_request_got_processed(int request_id)
 {
@@ -863,7 +864,7 @@ void wait_till_request_got_processed(int request_id)
 }
 
 /**************************************************************************
-..
+  Returns whether client is observer.
 **************************************************************************/
 bool client_is_observer(void)
 {
@@ -1043,7 +1044,7 @@ bool is_server_busy(void)
 }
 
 /****************************************************************************
-  ...
+  Returns whether client is global observer
 ****************************************************************************/
 bool client_is_global_observer(void)
 {
@@ -1051,7 +1052,7 @@ bool client_is_global_observer(void)
 }
 
 /****************************************************************************
-  ...
+  Returns number of player attached to client.
 ****************************************************************************/
 int client_player_number(void)
 {

@@ -278,9 +278,9 @@ static void my_uname(char *buf, size_t len)
     fc_snprintf(buf, len, "%s %ld.%ld [%s]",
                 osname, osvi.dwMajorVersion, osvi.dwMinorVersion, cpuname);
   }
-#else
+#else  /* WIN32_NATIVE */
   fc_snprintf(buf, len, "unknown unknown [unknown]");
-#endif
+#endif /* WIN32_NATIVE */
 #endif /* HAVE_UNAME */
 }
 
@@ -339,7 +339,7 @@ static void meta_read_response(struct server_scan *scan)
     scan->meta.fp = fc_fopen(filename, "w+b");
 #else
     scan->meta.fp = tmpfile();
-#endif
+#endif /* WIN32_NATIVE */
 
     if (!scan->meta.fp) {
       scan->error_func(scan, _("Could not open temp file."));
@@ -443,7 +443,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
       name_count = 2;
     }
   }
-#endif
+#endif /* IPv6 support */
 
   /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */  
   for (i = 0; i < name_count; i++) {
@@ -602,7 +602,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   if (announce == ANNOUNCE_IPV6) {
     family = AF_INET6;
   } else
-#endif
+#endif /* IPv6 support */
   {
     family = AF_INET;
   }

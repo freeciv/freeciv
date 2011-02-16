@@ -46,7 +46,7 @@
 #include "unitlist.h"
 #include "worklist.h"
 
-/* include */
+/* client/include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
@@ -661,7 +661,7 @@ void handle_city_info(const struct packet_city_info *packet)
       pcity->built[i].turn = I_NEVER;
     }
   }
-#endif
+#endif /* DONE_BY_create_city_virtual */
 
   worklist_copy(&pcity->worklist, &packet->worklist);
 
@@ -976,7 +976,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 }
 
 /**************************************************************************
-...
+  Handle turn and year advancement.
 **************************************************************************/
 void handle_new_year(int year, int turn)
 {
@@ -1112,7 +1112,7 @@ void handle_end_turn(void)
 }
 
 /**************************************************************************
-...
+  Plays sound associated with event
 **************************************************************************/
 void play_sound_for_event(enum event_type type)
 {
@@ -1665,7 +1665,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 }
 
 /**************************************************************************
-...
+  Sets player inventions to values specified in inventions array
 **************************************************************************/
 static bool read_player_info_techs(struct player *pplayer,
                                    const char *inventions)
@@ -2794,7 +2794,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
       }
     } improvement_iterate_end;
   }
-#endif
+#endif /* DEBUG */
 
   b->allows_units = FALSE;
   unit_type_iterate(ut) {
@@ -3125,7 +3125,7 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
 }
 
 /**************************************************************************
-...
+  Handle reply to our city name request.
 **************************************************************************/
 void handle_city_name_suggestion_info(int unit_id, const char *name)
 {
@@ -3155,7 +3155,7 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 }
 
 /**************************************************************************
-...
+  Handle reply to diplomat action request
 **************************************************************************/
 void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
                                  enum diplomat_actions action_type)
@@ -3197,7 +3197,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
 }
 
 /**************************************************************************
-...
+  Handle list of potenttial buildings to sabotage.
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
                                bv_imprs improvements)
@@ -3249,7 +3249,7 @@ void handle_player_attribute_chunk
 }
 
 /**************************************************************************
-...
+  Handle request to start processing packet.
 **************************************************************************/
 void handle_processing_started(void)
 {
@@ -3267,7 +3267,7 @@ void handle_processing_started(void)
 }
 
 /**************************************************************************
-...
+  Handle request to stop processing packet.
 **************************************************************************/
 void handle_processing_finished(void)
 {
@@ -3287,7 +3287,7 @@ void handle_processing_finished(void)
 }
 
 /**************************************************************************
-...
+  Notify interested parties about incoming packet.
 **************************************************************************/
 void notify_about_incoming_packet(struct connection *pc,
                                   int packet_type, int size)
@@ -3297,7 +3297,7 @@ void notify_about_incoming_packet(struct connection *pc,
 }
 
 /**************************************************************************
-...
+  Notify interested parties about outgoing packet.
 **************************************************************************/
 void notify_about_outgoing_packet(struct connection *pc,
                                   int packet_type, int size,
@@ -3332,7 +3332,7 @@ void handle_thaw_client(void)
 }
 
 /**************************************************************************
-...
+  Reply to 'ping' packet with 'pong'
 **************************************************************************/
 void handle_conn_ping(void)
 {
@@ -3340,7 +3340,7 @@ void handle_conn_ping(void)
 }
 
 /**************************************************************************
-...
+  Handle server shutdown.
 **************************************************************************/
 void handle_server_shutdown(void)
 {

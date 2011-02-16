@@ -38,6 +38,7 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
+/* client/include */
 #include "editgui_g.h"
 #include "mapview_g.h"
 

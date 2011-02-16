@@ -36,7 +36,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <sys/wait.h>
 #endif
 
-/* common & utility */
+/* utility */
 #include "capability.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -165,7 +165,7 @@ void client_kill_server(bool force)
       kill(server_pid, SIGTERM);
       waitpid(server_pid, NULL, WUNTRACED);
       server_pid = -1;
-#endif
+#endif /* WIN32_NATIVE || HAVE_WORKING_FORK */
     }
   }
   client_has_hack = FALSE;

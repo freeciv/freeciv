@@ -182,7 +182,7 @@ static int get_server_address(const char *hostname, int port,
       name_count = 2;
     }
   }
-#endif
+#endif /* IPv6 support */
 
   return 0;
 }
@@ -294,7 +294,8 @@ void make_connection(int socket, const char *username)
 }
 
 /**************************************************************************
-...
+  Get rid of server connection. This also kills internal server if it's
+  used.
 **************************************************************************/
 void disconnect_from_server(void)
 {
@@ -502,7 +503,7 @@ double try_to_autoconnect(void)
   if (!autoconnecting) {
     return FC_INFINITY;
   }
-  
+
   count++;
 
   if (count >= MAX_AUTOCONNECT_ATTEMPTS) {
@@ -528,7 +529,7 @@ double try_to_autoconnect(void)
     }
     /* Try again in 0.5 seconds */
     return 0.001 * AUTOCONNECT_INTERVAL;
-#endif
+#endif /* WIN32_NATIVE */
   default:			/* All other errors are fatal */
     log_fatal(_("Error contacting server \"%s\" at port %d "
                 "as \"%s\":\n %s\n"),

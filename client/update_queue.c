@@ -537,7 +537,7 @@ static void cities_update_callback(void *data)
     action;                                                                 \
     need_update &= ~city_update;                                            \
   }
-#else
+#else  /* DEBUG */
 #define NEED_UPDATE(city_update, action)                                    \
   if (city_update & need_update) {                                          \
     action;                                                                 \

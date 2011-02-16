@@ -44,7 +44,7 @@ used throughout the client.
 #include "spaceship.h"
 #include "unitlist.h"
 
-/* include */
+/* client/include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
@@ -66,7 +66,7 @@ used throughout the client.
 
 
 /**************************************************************************
-...
+  Remove unit, client end version
 **************************************************************************/
 void client_remove_unit(struct unit *punit)
 {
@@ -118,7 +118,7 @@ void client_remove_unit(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Remove city, client end version.
 **************************************************************************/
 void client_remove_city(struct city *pcity)
 {
@@ -884,7 +884,8 @@ int collect_already_built_targets(struct universal *targets,
 }
 
 /**************************************************************************
-...
+  Returns number of units known to be supported by city. This might not real
+  number of units in case of enemy city.
 **************************************************************************/
 int num_supported_units_in_city(struct city *pcity)
 {
@@ -901,7 +902,8 @@ int num_supported_units_in_city(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Returns number of units known to be in city. This might not real
+  number of units in case of enemy city.
 **************************************************************************/
 int num_present_units_in_city(struct city *pcity)
 {
@@ -1116,6 +1118,9 @@ void cityrep_buy(struct city *pcity)
   }
 }
 
+/**************************************************************************
+  Switch between tax/sci/lux at given slot.
+**************************************************************************/
 void common_taxrates_callback(int i)
 {
   int tax_end, lux_end, sci_end, tax, lux, sci;
@@ -1252,7 +1257,7 @@ void buy_production_in_selected_cities(void)
 }
 
 /***************************************************************
-  ...
+  Set focus status of all player units to FOCUS_AVAIL.
 ***************************************************************/
 void unit_focus_set_status(struct player *pplayer)
 {
@@ -1262,7 +1267,7 @@ void unit_focus_set_status(struct player *pplayer)
 }
 
 /***************************************************************
-  Initialise a player on the client side.
+  Initialize a player on the client side.
 ***************************************************************/
 void client_player_init(struct player *pplayer)
 {
@@ -1283,7 +1288,7 @@ void client_player_destroy(struct player *pplayer)
 }
 
 /***************************************************************
-  Reset the private map of a player.
+  Reset the private maps of all players.
 ***************************************************************/
 void client_player_maps_reset(void)
 {

@@ -139,7 +139,7 @@ void control_free(void)
 }
 
 /**************************************************************************
-...
+  Returns list of units currently in focus.
 **************************************************************************/
 struct unit_list *get_units_in_focus(void)
 {
@@ -311,7 +311,7 @@ void auto_center_on_focus_unit(void)
 }
 
 /**************************************************************************
-  ...
+  Add unit to list of units currently in focus.
 **************************************************************************/
 static void current_focus_append(struct unit *punit)
 {
@@ -818,7 +818,7 @@ void update_unit_pix_label(struct unit_list *punitlist)
 }
 
 /**************************************************************************
-...
+  Adjusts way combatants are displayed suitable for combat.
 **************************************************************************/
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 {
@@ -1202,11 +1202,11 @@ struct unit *request_unit_unload_all(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Send unit airlift request to server.
 **************************************************************************/
 void request_unit_airlift(struct unit *punit, struct city *pcity)
 {
-  dsend_packet_unit_airlift(&client.conn, punit->id,pcity->id);
+  dsend_packet_unit_airlift(&client.conn, punit->id, pcity->id);
 }
 
 /**************************************************************************
@@ -1238,7 +1238,7 @@ void request_unit_return(struct unit *punit)
 }
 
 /**************************************************************************
-  ...
+  Wakes all owned sentried units on tile.
 **************************************************************************/
 void wakeup_sentried_units(struct tile *ptile)
 {
@@ -1429,7 +1429,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
 }
 
 /**************************************************************************
-...
+  Send request for unit activity changing to server. If activity has
+  target, use request_new_unit_activity_targeted() instead.
 **************************************************************************/
 void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 {
@@ -1442,7 +1443,8 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 }
 
 /**************************************************************************
-...
+  Send request for unit activity changing to server. This is for
+  activities that are targeted to certain special or base type.
 **************************************************************************/
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
@@ -1468,7 +1470,7 @@ void request_new_unit_activity_base(struct unit *punit,
 }
 
 /**************************************************************************
-...
+  Send request to disband unit to server.
 **************************************************************************/
 void request_unit_disband(struct unit *punit)
 {
@@ -1476,19 +1478,19 @@ void request_unit_disband(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Send request to change unit homecity to server.
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
   struct city *pcity=tile_city(unit_tile(punit));
-  
+
   if (pcity) {
     dsend_packet_unit_change_homecity(&client.conn, punit->id, pcity->id);
   }
 }
 
 /**************************************************************************
-...
+  Send request to upgrade unit to server.
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
@@ -1568,7 +1570,8 @@ void request_unit_unload(struct unit *pcargo)
 }
 
 /**************************************************************************
-...
+  Send request to do caravan action - establishing traderoute or
+  helping in wonder building - to server.
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
@@ -1616,7 +1619,7 @@ void request_unit_nuke(struct unit_list *punits)
 }
 
 /**************************************************************************
-...
+  Send paradrop request to server.
 **************************************************************************/
 void request_unit_paradrop(struct unit_list *punits)
 {
@@ -1645,7 +1648,7 @@ void request_unit_paradrop(struct unit_list *punits)
 }
 
 /**************************************************************************
-...
+  Either start new patrol route planning, or add waypoint to current one.
 **************************************************************************/
 void request_unit_patrol(void)
 {
@@ -1667,7 +1670,7 @@ void request_unit_patrol(void)
 }
 
 /****************************************************************
-...
+  Try to sentry unit.
 *****************************************************************/
 void request_unit_sentry(struct unit *punit)
 {
@@ -1677,7 +1680,7 @@ void request_unit_sentry(struct unit *punit)
 }
 
 /****************************************************************
-...
+  Try to fortify unit.
 *****************************************************************/
 void request_unit_fortify(struct unit *punit)
 {
@@ -1687,7 +1690,7 @@ void request_unit_fortify(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Send pillage request to server.
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
@@ -2052,7 +2055,7 @@ void request_toggle_fog_of_war(void)
 }
 
 /**************************************************************************
-...
+  Center to focus unit.
 **************************************************************************/
 void request_center_focus_unit(void)
 {
@@ -2064,7 +2067,8 @@ void request_center_focus_unit(void)
 }
 
 /**************************************************************************
-...
+  Set units in list to waiting focus. If they are current focus units,
+  advance focus.
 **************************************************************************/
 void request_units_wait(struct unit_list *punits)
 {
@@ -2077,7 +2081,7 @@ void request_units_wait(struct unit_list *punits)
 }
 
 /**************************************************************************
-...
+  Set focus units to FOCUS_DONE state.
 **************************************************************************/
 void request_unit_move_done(void)
 {
@@ -2514,7 +2518,7 @@ void key_center_capital(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'end turn' input.
 **************************************************************************/
 void key_end_turn(void)
 {
@@ -2555,7 +2559,7 @@ void key_unit_move(enum direction8 gui_dir)
 }
 
 /**************************************************************************
-...
+  Handle use 'build city' input.
 **************************************************************************/
 void key_unit_build_city(void)
 {
@@ -2565,7 +2569,7 @@ void key_unit_build_city(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'help build wonder' input
 **************************************************************************/
 void key_unit_build_wonder(void)
 {
@@ -2585,7 +2589,7 @@ void key_unit_connect(enum unit_activity activity)
 }
 
 /**************************************************************************
-...
+  Handle user 'diplomatic actions' input
 **************************************************************************/
 void key_unit_diplomat_actions(void)
 {
@@ -2604,7 +2608,7 @@ void key_unit_diplomat_actions(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'unit done' input
 **************************************************************************/
 void key_unit_done(void)
 {
@@ -2612,7 +2616,7 @@ void key_unit_done(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'unit goto' input
 **************************************************************************/
 void key_unit_goto(void)
 {
@@ -2628,7 +2632,7 @@ void key_unit_nuke(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'paradrop' input
 **************************************************************************/
 void key_unit_paradrop(void)
 {
@@ -2636,7 +2640,7 @@ void key_unit_paradrop(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'patrol' input
 **************************************************************************/
 void key_unit_patrol(void)
 {
@@ -2644,7 +2648,7 @@ void key_unit_patrol(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'establish traderoute' input
 **************************************************************************/
 void key_unit_trade_route(void)
 {
@@ -2656,7 +2660,7 @@ void key_unit_trade_route(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'unload all' input
 **************************************************************************/
 void key_unit_unload_all(void)
 {
@@ -2681,7 +2685,7 @@ void key_unit_unload_all(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'wait' input
 **************************************************************************/
 void key_unit_wait(void)
 {
@@ -2689,7 +2693,7 @@ void key_unit_wait(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'wakeup others' input
 ***************************************************************************/
 void key_unit_wakeup_others(void)
 {
@@ -2699,7 +2703,7 @@ void key_unit_wakeup_others(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'build base of class airbase' input
 **************************************************************************/
 void key_unit_airbase(void)
 {
@@ -2714,7 +2718,7 @@ void key_unit_airbase(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'autoexplore' input
 **************************************************************************/
 void key_unit_auto_explore(void)
 {
@@ -2739,7 +2743,7 @@ void key_unit_auto_settle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'disband' input
 **************************************************************************/
 void key_unit_disband(void)
 {
@@ -2759,7 +2763,7 @@ void key_unit_convert(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'clean fallout' input
 **************************************************************************/
 void key_unit_fallout(void)
 {
@@ -2771,7 +2775,7 @@ void key_unit_fallout(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'fortify' input
 **************************************************************************/
 void key_unit_fortify(void)
 {
@@ -2783,7 +2787,7 @@ void key_unit_fortify(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'build base of class fortress' input
 **************************************************************************/
 void key_unit_fortress(void)
 {
@@ -2798,7 +2802,7 @@ void key_unit_fortress(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'change homecity' input
 **************************************************************************/
 void key_unit_homecity(void)
 {
@@ -2808,7 +2812,7 @@ void key_unit_homecity(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'irrigate' input
 **************************************************************************/
 void key_unit_irrigate(void)
 {
@@ -2820,7 +2824,7 @@ void key_unit_irrigate(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'build mine' input
 **************************************************************************/
 void key_unit_mine(void)
 {
@@ -2832,7 +2836,7 @@ void key_unit_mine(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'pillage' input
 **************************************************************************/
 void key_unit_pillage(void)
 {
@@ -2844,7 +2848,7 @@ void key_unit_pillage(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'clean pollution' input
 **************************************************************************/
 void key_unit_pollution(void)
 {
@@ -2856,7 +2860,7 @@ void key_unit_pollution(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'build road or railroad' input
 **************************************************************************/
 void key_unit_road(void)
 {
@@ -2870,7 +2874,7 @@ void key_unit_road(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'sentry' input
 **************************************************************************/
 void key_unit_sentry(void)
 {
@@ -2882,7 +2886,7 @@ void key_unit_sentry(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'transform unit' input
 **************************************************************************/
 void key_unit_transform(void)
 {
@@ -2973,7 +2977,7 @@ void key_city_output_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle map grid' input
 **************************************************************************/
 void key_map_grid_toggle(void)
 {
@@ -2997,7 +3001,7 @@ void key_city_full_bar_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle city names display' input
 **************************************************************************/
 void key_city_names_toggle(void)
 {
@@ -3023,7 +3027,7 @@ void key_city_buycost_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle city production display' input
 **************************************************************************/
 void key_city_productions_toggle(void)
 {
@@ -3040,7 +3044,7 @@ void key_city_trade_routes_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle terrain display' input
 **************************************************************************/
 void key_terrain_toggle(void)
 {
@@ -3048,7 +3052,7 @@ void key_terrain_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle coastline display' input
 **************************************************************************/
 void key_coastline_toggle(void)
 {
@@ -3056,7 +3060,7 @@ void key_coastline_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle road/railroad display' input
 **************************************************************************/
 void key_roads_rails_toggle(void)
 {
@@ -3064,7 +3068,7 @@ void key_roads_rails_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle irrigation display' input
 **************************************************************************/
 void key_irrigation_toggle(void)
 {
@@ -3072,7 +3076,7 @@ void key_irrigation_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle mine display' input
 **************************************************************************/
 void key_mines_toggle(void)
 {
@@ -3080,7 +3084,7 @@ void key_mines_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle bases display' input
 **************************************************************************/
 void key_fortress_airbase_toggle(void)
 {
@@ -3088,7 +3092,7 @@ void key_fortress_airbase_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle specials display' input
 **************************************************************************/
 void key_specials_toggle(void)
 {
@@ -3096,7 +3100,7 @@ void key_specials_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle pollution display' input
 **************************************************************************/
 void key_pollution_toggle(void)
 {
@@ -3104,7 +3108,7 @@ void key_pollution_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle cities display' input
 **************************************************************************/
 void key_cities_toggle(void)
 {
@@ -3112,7 +3116,7 @@ void key_cities_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle units display' input
 **************************************************************************/
 void key_units_toggle(void)
 {
@@ -3136,7 +3140,7 @@ void key_unit_shields_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle key units display' input
 **************************************************************************/
 void key_focus_unit_toggle(void)
 {
@@ -3144,7 +3148,7 @@ void key_focus_unit_toggle(void)
 }
 
 /**************************************************************************
-...
+  Handle user 'toggle fog of war display' input
 **************************************************************************/
 void key_fog_of_war_toggle(void)
 {

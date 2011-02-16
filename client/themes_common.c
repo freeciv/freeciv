@@ -25,7 +25,7 @@
 #include "string_vector.h"
 #include "support.h"
 
-/* include */
+/* client/include */
 #include "themes_g.h"
 
 /* client */

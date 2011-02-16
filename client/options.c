@@ -4035,7 +4035,7 @@ static void message_options_init(void)
 }
 
 /****************************************************************
-... 
+  Free resources allocated for message options system
 *****************************************************************/
 static void message_options_free(void)
 {

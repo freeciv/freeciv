@@ -26,6 +26,7 @@
 #include "specialist.h"
 #include "unitlist.h"
 
+/* client/include */
 #include "citydlg_g.h"
 #include "mapview_g.h"
 

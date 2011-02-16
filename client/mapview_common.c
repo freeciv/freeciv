@@ -28,7 +28,7 @@
 #include "map.h"
 #include "unitlist.h"
 
-/* include */
+/* client/include */
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "mapctrl_g.h"

@@ -697,7 +697,7 @@ static void insert_allows(struct universal *psource,
 }
 
 /****************************************************************
-...
+  Allocate and initialize new help item
 *****************************************************************/
 static struct help_item *new_help_item(int type)
 {

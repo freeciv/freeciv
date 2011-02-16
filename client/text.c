@@ -1063,7 +1063,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   } else {
     astr_add_line(&str, " ");
   }
-#endif
+#endif /* DEBUG */
 
   return astr_str(&str);
 }

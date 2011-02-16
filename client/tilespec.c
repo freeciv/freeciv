@@ -51,7 +51,7 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* include */
+/* client/include */
 #include "dialogs_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
@@ -4716,6 +4716,9 @@ void reset_focus_unit_state(struct tileset *t)
   focus_unit_state = 0;
 }
 
+/****************************************************************************
+  Setup tileset for showing combat where focus unit participates.
+****************************************************************************/
 void focus_unit_in_combat(struct tileset *t)
 {
   if (!t->sprites.unit.select[0]) {
@@ -4738,7 +4741,7 @@ void toggle_focus_unit_state(struct tileset *t)
 }
 
 /**********************************************************************
-...
+  Find unit that we can display from given tile.
 ***********************************************************************/
 struct unit *get_drawable_unit(const struct tileset *t,
 			       struct tile *ptile,
@@ -4775,7 +4778,7 @@ static void unload_all_sprites(struct tileset *t)
 }
 
 /**********************************************************************
-...
+  Free all sprites from tileset.
 ***********************************************************************/
 void tileset_free_tiles(struct tileset *t)
 {

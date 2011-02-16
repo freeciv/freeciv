@@ -57,6 +57,10 @@ static const char *cr_entry_cityname(const struct city *pcity,
   return city_name(pcity);
 }
 
+/************************************************************************
+  Returns city size written to string. Returned string is statically
+  allocated and its contents change when this function is called again.
+*************************************************************************/
 static const char *cr_entry_size(const struct city *pcity,
 				 const void *data)
 {
@@ -65,6 +69,11 @@ static const char *cr_entry_size(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns concise city happiness state written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_hstate_concise(const struct city *pcity,
 					   const void *data)
 {
@@ -75,6 +84,11 @@ static const char *cr_entry_hstate_concise(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns verbose city happiness state written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_hstate_verbose(const struct city *pcity,
 					   const void *data)
 {
@@ -86,6 +100,11 @@ static const char *cr_entry_hstate_verbose(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of citizens of each happiness state written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_workers(const struct city *pcity,
 				    const void *data)
 {
@@ -98,6 +117,11 @@ static const char *cr_entry_workers(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of happy citizens written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_happy(const struct city *pcity,
 				  const void *data)
 {
@@ -107,6 +131,11 @@ static const char *cr_entry_happy(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of content citizens written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_content(const struct city *pcity,
 				    const void *data)
 {
@@ -116,6 +145,11 @@ static const char *cr_entry_content(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of unhappy citizens written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_unhappy(const struct city *pcity,
 				    const void *data)
 {
@@ -125,6 +159,11 @@ static const char *cr_entry_unhappy(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of angry citizens written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_angry(const struct city *pcity,
 				  const void *data)
 {
@@ -134,12 +173,22 @@ static const char *cr_entry_angry(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns list of specialists written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_specialists(const struct city *pcity,
 					const void *data)
 {
   return specialists_string(pcity->specialists);
 }
 
+/************************************************************************
+  Returns number of specialists of type given as data written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_specialist(const struct city *pcity,
 				       const void *data)
 {
@@ -151,6 +200,11 @@ static const char *cr_entry_specialist(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns string with best attack values of units in city.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_attack(const struct city *pcity,
 				   const void *data)
 {
@@ -183,6 +237,11 @@ static const char *cr_entry_attack(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns string with best defend values of units in city.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_defense(const struct city *pcity,
 				    const void *data)
 {
@@ -215,6 +274,11 @@ static const char *cr_entry_defense(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of supported units written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_supported(const struct city *pcity,
 				      const void *data)
 {
@@ -230,6 +294,11 @@ static const char *cr_entry_supported(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of present units written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_present(const struct city *pcity,
 				    const void *data)
 {
@@ -245,6 +314,11 @@ static const char *cr_entry_present(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns string listing amounts of resources.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_resources(const struct city *pcity,
 				      const void *data)
 {
@@ -256,6 +330,11 @@ static const char *cr_entry_resources(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns food surplus written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_foodplus(const struct city *pcity,
 				     const void *data)
 {
@@ -264,6 +343,11 @@ static const char *cr_entry_foodplus(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns production surplus written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_prodplus(const struct city *pcity,
 				     const void *data)
 {
@@ -272,6 +356,11 @@ static const char *cr_entry_prodplus(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns trade surplus written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_tradeplus(const struct city *pcity,
 				      const void *data)
 {
@@ -280,6 +369,11 @@ static const char *cr_entry_tradeplus(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns string describing resource output.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_output(const struct city *pcity,
 				   const void *data)
 {
@@ -291,6 +385,11 @@ static const char *cr_entry_output(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns gold surplus written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_gold(const struct city *pcity,
 				 const void *data)
 {
@@ -304,6 +403,11 @@ static const char *cr_entry_gold(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns luxury output written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_luxury(const struct city *pcity,
 				   const void *data)
 {
@@ -312,6 +416,11 @@ static const char *cr_entry_luxury(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns science output written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_science(const struct city *pcity,
 				    const void *data)
 {
@@ -320,6 +429,11 @@ static const char *cr_entry_science(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of turns before city grows written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_growturns(const struct city *pcity,
 				      const void *data)
 {
@@ -340,6 +454,11 @@ static const char *cr_entry_growturns(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns pollution output written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_pollution(const struct city *pcity,
 				      const void *data)
 {
@@ -348,6 +467,11 @@ static const char *cr_entry_pollution(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number and output of trade routes written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_trade_routes(const struct city *pcity,
                                          const void *data)
 {
@@ -369,6 +493,11 @@ static const char *cr_entry_trade_routes(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns number of build slots written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_build_slots(const struct city *pcity,
                                         const void *data)
 {
@@ -377,6 +506,11 @@ static const char *cr_entry_build_slots(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns name of current production.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_building(const struct city *pcity,
 				     const void *data)
 {
@@ -400,6 +534,11 @@ static const char *cr_entry_building(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns cost of buying current production and turns to completion
+  written to string. Returned string is statically allocated and its
+  contents change when this function is called again.
+*************************************************************************/
 static const char *cr_entry_build_cost(const struct city *pcity,
 				  const void *data)
 {
@@ -430,6 +569,11 @@ static const char *cr_entry_build_cost(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns corruption amount written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_corruption(const struct city *pcity,
 				       const void *data)
 {
@@ -438,6 +582,11 @@ static const char *cr_entry_corruption(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns waste amount written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_waste(const struct city *pcity,
 				  const void *data)
 {
@@ -446,6 +595,11 @@ static const char *cr_entry_waste(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns risk percentage of plague written to string.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_plague_risk(const struct city *pcity,
                                         const void *data)
 {
@@ -459,6 +613,11 @@ static const char *cr_entry_plague_risk(const struct city *pcity,
   return buf;
 }
 
+/************************************************************************
+  Returns city cma description.
+  Returned string is statically allocated and its contents change when
+  this function is called again.
+*************************************************************************/
 static const char *cr_entry_cma(const struct city *pcity,
 				const void *data)
 {

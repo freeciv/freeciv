@@ -25,7 +25,7 @@
 #include "featured_text.h"
 #include "map.h"
 
-/* include */
+/* client/include */
 #include "citydlg_g.h"
 #include "mapview_g.h"
 #include "messagewin_g.h"

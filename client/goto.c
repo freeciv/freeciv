@@ -29,11 +29,12 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* client */
+/* client/include */
 #include "client_main.h"
 #include "control.h"
 #include "mapview_g.h"
 
+/* client */
 #include "goto.h"
 #include "mapctrl_common.h"
 
