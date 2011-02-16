@@ -18,6 +18,9 @@
 /* common */
 #include "ai.h"
 
+/* threaded ai */
+#include "taiplayer.h"
+
 const char *fc_ai_threaded_capstr(void);
 bool fc_ai_threaded_setup(struct ai_type *ai);
 
@@ -34,7 +37,20 @@ const char *fc_ai_threaded_capstr(void)
 **************************************************************************/
 bool fc_ai_threaded_setup(struct ai_type *ai)
 {
+  if (!has_thread_impl()) {
+    log_error(_("This Freeciv compilation has no thread implementation, "
+                "threaded ai cannot be used."));
+    return FALSE;
+  }
+
   strncpy(ai->name, "threaded", sizeof(ai->name));
+
+  tai_set_self(ai);
+
+  ai->funcs.player_alloc = tai_player_alloc;
+  ai->funcs.player_free = tai_player_free;
+  ai->funcs.gained_control = tai_control_gained;
+  ai->funcs.lost_control = tai_control_lost;
 
   return TRUE;
 }
