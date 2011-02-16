@@ -658,42 +658,6 @@ bool can_be_irrigated(const struct tile *ptile,
   return get_tile_bonus(ptile, punit, EFT_IRRIG_POSSIBLE) > 0;
 }
 
-/***************************************************************
-  Is there any kind of water known to be in tile or any of
-  adjacent tiles. Rivers, irrigation and oceanic terrains are
-  considered water tiles.
-***************************************************************/
-bool is_water_adjacent_to_tile(const struct tile *ptile)
-{
-  struct terrain* pterrain = tile_terrain(ptile);
-
-  if (T_UNKNOWN == pterrain) {
-    return FALSE;
-  }
-
-  if (tile_has_special(ptile, S_RIVER)
-   || tile_has_special(ptile, S_IRRIGATION)
-   || terrain_has_flag(pterrain, TER_OCEANIC)) {
-    return TRUE;
-  }
-
-  cardinal_adjc_iterate(ptile, tile1) {
-    struct terrain* pterrain1 = tile_terrain(tile1);
-
-    if (T_UNKNOWN == pterrain1) {
-      continue;
-    }
-
-    if (tile_has_special(tile1, S_RIVER)
-     || tile_has_special(tile1, S_IRRIGATION)
-     || terrain_has_flag(pterrain1, TER_OCEANIC)) {
-      return TRUE;
-    }
-  } cardinal_adjc_iterate_end;
-
-  return FALSE;
-}
-
 /**************************************************************************
 This function returns true if the tile at the given location can be
 "reclaimed" from ocean into land.  This is the case only when there are

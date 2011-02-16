@@ -698,9 +698,10 @@ static int improvement_effect_value(struct player *pplayer,
       if (ai->threats.continent[tile_continent(pcity->tile)]
           || capital
           || (ai->threats.invasions
-              /* FIXME: Is irrigation or river really an invasion threat?
-                        Should check against oceanic terrains only! */
-              && is_water_adjacent_to_tile(pcity->tile))) {
+              /* FIXME: This ignores riverboats on some rulesets.
+                        We should analyze rulesets when game starts
+                        and have relevant checks here. */
+              && is_ocean_near_tile(pcity->tile))) {
         if (ai->threats.continent[tile_continent(pcity->tile)]) {
           v += amount;
         } else {
