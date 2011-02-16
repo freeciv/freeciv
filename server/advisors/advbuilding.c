@@ -701,7 +701,7 @@ static int improvement_effect_value(struct player *pplayer,
       if (ai->threats.continent[tile_continent(pcity->tile)]
           || capital
           || (ai->threats.invasions
-              && is_water_adjacent_to_tile(pcity->tile))) {
+              && is_ocean_near_tile(pcity->tile))) {
         if (ai->threats.continent[tile_continent(pcity->tile)]) {
           v += amount;
         } else {
