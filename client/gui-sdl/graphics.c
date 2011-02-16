@@ -207,7 +207,7 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
                           int mask_offset_x, int mask_offset_y)
 {
   SDL_Surface *pDest = NULL;
-  
+
   int row, col;  
   bool free_pMask = FALSE;
   Uint32 *pSrc_Pixel = NULL;
@@ -262,10 +262,17 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
 
 SDL_Surface *blend_surface(SDL_Surface *pSrc, unsigned char alpha)
 {
+  SDL_Surface *ret;
+
   SDL_Surface *pMask = SDL_DisplayFormatAlpha(pSrc);
   SDL_Color c = {255, 255, 255, alpha}; 
   SDL_FillRect(pMask, NULL, map_rgba(pMask->format, c));
-  return mask_surface(pSrc, pMask, 0, 0);   
+
+  ret = mask_surface(pSrc, pMask, 0, 0);
+
+  FREESURFACE(pMask);
+
+  return ret;
 }
 
 /**************************************************************************
