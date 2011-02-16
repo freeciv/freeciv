@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 14-Jan-11.
+Last minor update was 14-Feb-11.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -171,12 +171,12 @@ will need to have the appropriate "development" packages installed.
      "GdkPixbuf":
        Provides image loading/saving facilities.
 
-   Freeciv requires a version of "Gtk+" greater or equal to 2.6.0.
+   Freeciv requires a version of "Gtk+" greater or equal to 2.12.0.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.6/gtk+-2.6.9.tar.bz2
+     ftp://ftp.gtk.org/pub/gtk/2.24/gtk+-2.24.0.tar.bz2
 
    "Gtk+" depends on the "Glib", "Atk" and "Pango" libraries.
 
