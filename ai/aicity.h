@@ -47,13 +47,6 @@ struct ai_city {
   int building_wait;            /* for weighting values */
 #define BUILDING_WAIT_MINIMUM (1)
 
-  /* building desirabilities - easiest to handle them here -- Syela */
-  /* The units of building_want are output
-   * (shields/gold/luxuries) multiplied by a priority
-   * (SHIELD_WEIGHTING, etc or ai->shields_priority, etc)
-   */
-  int building_want[B_LAST];
-
   struct ai_choice choice;      /* to spend gold in the right place only */
 
   int worth; /* Cache city worth here, sum of all weighted incomes */

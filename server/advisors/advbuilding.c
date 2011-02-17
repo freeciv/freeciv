@@ -39,6 +39,7 @@
 /* server/advisors */
 #include "advdata.h"
 #include "advtools.h"
+#include "infracache.h" /* adv_city */
 
 /* ai */
 #include "aiplayer.h"
@@ -1057,7 +1058,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
   if (is_coinage && can_build) {
     /* Could have a negative want for coinage,
      * if we have some stock in a building already. */
-    def_ai_city_data(pcity)->building_want[improvement_index(pimprove)] += v;
+    pcity->server.adv->building_want[improvement_index(pimprove)] += v;
   } else if (!already && can_build) {
     /* Convert the base 'want' into a building want
      * by applying various adjustments */
@@ -1083,7 +1084,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
     }
 
     /* Set */
-    def_ai_city_data(pcity)->building_want[improvement_index(pimprove)] += v;
+    pcity->server.adv->building_want[improvement_index(pimprove)] += v;
   }
   /* Else we either have the improvement already,
    * or we can not build it (yet) */
@@ -1126,12 +1127,12 @@ static void adjust_wants_by_effects(struct player *pplayer,
     if (!pplayer->ai_controlled) {
       /* For a human player, any building is worth building until discarded */
       improvement_iterate(pimprove) {
-        city_data->building_want[improvement_index(pimprove)] = 1;
+        pcity->server.adv->building_want[improvement_index(pimprove)] = 1;
       } improvement_iterate_end;
     } else if (city_data->building_turn <= game.info.turn) {
       /* Do a scheduled recalculation this turn */
       improvement_iterate(pimprove) {
-        city_data->building_want[improvement_index(pimprove)] = 0;
+        pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
       } improvement_iterate_end;
     } else if (should_force_recalc(pcity)) {
       /* Do an emergency recalculation this turn. */
@@ -1140,7 +1141,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
       city_data->building_turn = game.info.turn;
 
       improvement_iterate(pimprove) {
-        city_data->building_want[improvement_index(pimprove)] = 0;
+        pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
       } improvement_iterate_end;
     }
   } city_list_iterate_end;
@@ -1156,12 +1157,12 @@ static void adjust_wants_by_effects(struct player *pplayer,
 
         if (pcity != wonder_city && is_wonder(pimprove)) {
           /* Only wonder city should build wonders! */
-          city_data->building_want[improvement_index(pimprove)] = 0;
+          pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         } else if ((!is_coinage
                     && !can_city_build_improvement_later(pcity, pimprove))
                    || is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
           /* Don't consider impossible or redundant buildings */
-          city_data->building_want[improvement_index(pimprove)] = 0;
+          pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         } else if (pplayer->ai_controlled
                    && city_data->building_turn <= game.info.turn) {
           /* Building wants vary relatively slowly, so not worthwhile
@@ -1174,18 +1175,17 @@ static void adjust_wants_by_effects(struct player *pplayer,
                                               pimprove, already);
 
           fc_assert(!(already
-                      && 0 < city_data->building_want
-                      [improvement_index(pimprove)]));
+                      && 0 < pcity->server.adv->building_want[improvement_index(pimprove)]));
         } else if (city_has_building(pcity, pimprove)) {
           /* Never want to build something we already have. */
-          city_data->building_want[improvement_index(pimprove)] = 0;
+          pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         }
         /* else wait until a later turn */
       } city_list_iterate_end;
     } else {
       /* An impossible improvement */
       city_list_iterate(pplayer->cities, pcity) {
-        def_ai_city_data(pcity)->building_want[improvement_index(pimprove)] = 0;
+        pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
       } city_list_iterate_end;
     }
   } improvement_iterate_end;
@@ -1193,12 +1193,11 @@ static void adjust_wants_by_effects(struct player *pplayer,
 #ifdef DEBUG
   /* This logging is relatively expensive, so activate only if necessary */
   city_list_iterate(pplayer->cities, pcity) {
-    struct ai_city *city_data = def_ai_city_data(pcity);
     improvement_iterate(pimprove) {
-      if (city_data->building_want[improvement_index(pimprove)] != 0) {
+      if (pcity->server.adv->building_want[improvement_index(pimprove)] != 0) {
         CITY_LOG(LOG_DEBUG, pcity, "want to build %s with %d", 
                  improvement_rule_name(pimprove),
-                 city_data->building_want[improvement_index(pimprove)]);
+                 pcity->server.adv->building_want[improvement_index(pimprove)]);
       }
     } improvement_iterate_end;
   } city_list_iterate_end;
@@ -1313,15 +1312,14 @@ void building_advisor_choose(struct city *pcity, struct ai_choice *choice)
   struct player *plr = city_owner(pcity);
   struct impr_type *chosen = NULL;
   int want = 0;
-  struct ai_city *city_data = def_ai_city_data(pcity);
 
   improvement_iterate(pimprove) {
     if (is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
-    if (city_data->building_want[improvement_index(pimprove)] > want
+    if (pcity->server.adv->building_want[improvement_index(pimprove)] > want
           && can_city_build_improvement_now(pcity, pimprove)) {
-      want = city_data->building_want[improvement_index(pimprove)];
+      want = pcity->server.adv->building_want[improvement_index(pimprove)];
       chosen = pimprove;
     }
   } improvement_iterate_end;

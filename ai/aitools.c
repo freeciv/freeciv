@@ -53,6 +53,7 @@
 #include "advgoto.h"
 #include "advtools.h"
 #include "autosettlers.h"
+#include "infracache.h" /* adv_city */
 
 /* ai */
 #include "advmilitary.h"
@@ -1275,7 +1276,6 @@ void ai_build_adv_override(struct city *pcity, struct ai_choice *choice)
 {
   struct impr_type *chosen;
   int want;
-  struct ai_city *city_data = def_ai_city_data(pcity);
 
   if (choice->type == CT_NONE) {
     want = 0;
@@ -1288,9 +1288,9 @@ void ai_build_adv_override(struct city *pcity, struct ai_choice *choice)
   improvement_iterate(pimprove) {
     /* Advisor code did not consider wonders, let's do it here */
     if (is_wonder(pimprove)) {
-      if (city_data->building_want[improvement_index(pimprove)] > want
+      if (pcity->server.adv->building_want[improvement_index(pimprove)] > want
           && can_city_build_improvement_now(pcity, pimprove)) {
-        want = city_data->building_want[improvement_index(pimprove)];
+        want = pcity->server.adv->building_want[improvement_index(pimprove)];
         chosen = pimprove;
       }
     }

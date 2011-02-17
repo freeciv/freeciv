@@ -40,6 +40,7 @@
 #include "advbuilding.h"
 #include "advdata.h"
 #include "autosettlers.h"
+#include "infracache.h" /* adv_city */
 
 /* ai */
 #include "advmilitary.h"
@@ -116,8 +117,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   if (build_points_left(wonder_city) 
       > utype_build_shield_cost(unit_type) * caravans) {
     struct impr_type *wonder = wonder_city->production.value.building;
-    struct ai_city *wdr_data = def_ai_city_data(wonder_city);
-    int want = wdr_data->building_want[improvement_index(wonder)];
+    int want = wonder_city->server.adv->building_want[improvement_index(wonder)];
     int dist = city_data->distance_to_wonder_city /
                unit_type->move_rate;
 

@@ -40,6 +40,7 @@
 /* server/advisors */
 #include "advdata.h"
 #include "autosettlers.h"
+#include "infracache.h" /* adv_city */
 
 /* ai */
 #include "aiair.h"
@@ -590,7 +591,7 @@ static unsigned int assess_danger(struct city *pcity)
 
   for (i = 0; i < B_LAST; i++) {
     if (0 < danger_reduced[i]) {
-      ai_reevaluate_building(pcity, &city_data->building_want[i],
+      ai_reevaluate_building(pcity, &pcity->server.adv->building_want[i],
                              urgency, danger_reduced[i], defense);
     }
   }
@@ -1382,7 +1383,7 @@ void military_advisor_choose_build(struct player *pplayer,
     pimprove = improvement_by_number(wall_id);
 
     if (wall_id != B_LAST
-	&& city_data->building_want[wall_id] != 0 && our_def != 0 
+	&& pcity->server.adv->building_want[wall_id] != 0 && our_def != 0 
         && can_city_build_improvement_now(pcity, pimprove)
         && (danger < 101 || num_defenders > 1
             || (city_data->grave_danger == 0 
@@ -1391,7 +1392,7 @@ void military_advisor_choose_build(struct player *pplayer,
       /* NB: great wall is under domestic */
       choice->value.building = pimprove;
       /* building_want is hacked by assess_danger */
-      choice->want = city_data->building_want[wall_id];
+      choice->want = pcity->server.adv->building_want[wall_id];
       if (urgency == 0 && choice->want > 100) {
         choice->want = 100;
       }
