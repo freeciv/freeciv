@@ -13,8 +13,8 @@ AC_DEFUN([FC_GTK2_CLIENT],
         if test "x$client" = "xauto" ; then
           client=yes
         fi
-        GUI_gtk2_CFLAGS="$GTK_CFLAGS"
-        GUI_gtk2_LIBS="$GTK_LIBS"
+        GUI_gtk2_CFLAGS="$GTK2_CFLAGS"
+        GUI_gtk2_LIBS="$GTK2_LIBS"
         if test "x$MINGW32" = "xyes"; then
           dnl Required to compile gtk2 on Windows platform
           GUI_gtk2_CFLAGS="$GUI_gtk2_CFLAGS -mms-bitfields"

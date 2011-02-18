@@ -2,7 +2,7 @@
 # Owen Taylor     1997-2001
 
 dnl AM_PATH_GTK_2_0([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND [, MODULES]]]])
-dnl Test for GTK+, and define GTK_CFLAGS and GTK_LIBS, if gthread is specified in MODULES, 
+dnl Test for GTK+, and define GTK2_CFLAGS and GTK2_LIBS, if gthread is specified in MODULES, 
 dnl pass to pkg-config
 dnl
 AC_DEFUN([AM_PATH_GTK_2_0],
@@ -56,8 +56,8 @@ AC_ARG_ENABLE(gtktest, [  --disable-gtktest       do not try to compile and run 
   fi
 
   if test x"$no_gtk" = x ; then
-    GTK_CFLAGS=`$PKG_CONFIG $pkg_config_args --cflags`
-    GTK_LIBS=`$PKG_CONFIG $pkg_config_args --libs`
+    GTK2_CFLAGS=`$PKG_CONFIG $pkg_config_args --cflags`
+    GTK2_LIBS=`$PKG_CONFIG $pkg_config_args --libs`
     gtk_config_major_version=`$PKG_CONFIG --modversion gtk+-2.0 | \
            sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
     gtk_config_minor_version=`$PKG_CONFIG --modversion gtk+-2.0 | \
@@ -67,8 +67,8 @@ AC_ARG_ENABLE(gtktest, [  --disable-gtktest       do not try to compile and run 
     if test "x$enable_gtktest" = "xyes" ; then
       ac_save_CFLAGS="$CFLAGS"
       ac_save_LIBS="$LIBS"
-      CFLAGS="$CFLAGS $GTK_CFLAGS"
-      LIBS="$GTK_LIBS $LIBS"
+      CFLAGS="$CFLAGS $GTK2_CFLAGS"
+      LIBS="$GTK2_LIBS $LIBS"
 dnl
 dnl Now check if the installed GTK+ is sufficiently new. (Also sanity
 dnl checks the results of pkg-config to some extent)
@@ -165,7 +165,7 @@ main ()
           echo "*** Could not run GTK+ test program, checking why..."
 	  ac_save_CFLAGS="$CFLAGS"
 	  ac_save_LIBS="$LIBS"
-          CFLAGS="$CFLAGS $GTK_CFLAGS"
+          CFLAGS="$CFLAGS $GTK2_CFLAGS"
           LIBS="$LIBS $GTK_LIBS"
           AC_TRY_LINK([
 #include <gtk/gtk.h>
@@ -186,11 +186,11 @@ main ()
           LIBS="$ac_save_LIBS"
        fi
      fi
-     GTK_CFLAGS=""
-     GTK_LIBS=""
+     GTK2_CFLAGS=""
+     GTK2_LIBS=""
      ifelse([$3], , :, [$3])
   fi
-  AC_SUBST(GTK_CFLAGS)
-  AC_SUBST(GTK_LIBS)
+  AC_SUBST(GTK2_CFLAGS)
+  AC_SUBST(GTK2_LIBS)
   rm -f conf.gtktest
 ])
