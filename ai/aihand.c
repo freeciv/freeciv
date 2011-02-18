@@ -560,7 +560,7 @@ static void ai_manage_taxes(struct player *pplayer)
                rates[AI_RATE_LUX], rates[AI_RATE_TAX]);
     } else {
       /* We need more trade to get a positive gold and science balance. */
-      if (ai_wants_no_science(pplayer) || ai_on_war_footing(pplayer)) {
+      if (!adv_wants_science(pplayer) || ai_on_war_footing(pplayer)) {
         /* Go for gold (improvements and units) and risk the loss of a
          * tech. */
         rates[AI_RATE_TAX] = maxrate;
@@ -584,7 +584,7 @@ static void ai_manage_taxes(struct player *pplayer)
   }
 
   /* Put the remaining to tax or science. */
-  if (ai_wants_no_science(pplayer) || ai_on_war_footing(pplayer)) {
+  if (!adv_wants_science(pplayer) || ai_on_war_footing(pplayer)) {
     rates[AI_RATE_TAX] = MIN(maxrate, rates[AI_RATE_TAX]
                                       + RATE_REMAINS(rates));
     rates[AI_RATE_LUX] = MIN(maxrate, rates[AI_RATE_LUX]

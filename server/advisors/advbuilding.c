@@ -585,7 +585,7 @@ static int improvement_effect_value(struct player *pplayer,
     }
     break;
   case EFT_GIVE_IMM_TECH:
-    if (!ai_wants_no_science(pplayer)) {
+    if (adv_wants_science(pplayer)) {
       v += amount * (game.info.sciencebox + 1);
     }
     break;

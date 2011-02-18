@@ -1340,11 +1340,3 @@ bool ai_assess_military_unhappiness(struct city *pcity)
   }
   return (unhap > 0);
 }
-
-/**************************************************************************
-  AI doesn't want the score for future techs.
-**************************************************************************/
-bool ai_wants_no_science(struct player *pplayer)
-{
-  return adv_data_get(pplayer)->wants_no_science;
-}

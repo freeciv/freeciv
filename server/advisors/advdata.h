@@ -124,8 +124,8 @@ struct adv_data {
     struct government *revolution;   /* The best gov of the now available */
   } goal;
   
-  /* If the ai doesn't want/need any research */
-  bool wants_no_science;
+  /* Whether science would benefit player at all */
+  bool wants_science;
 
   /* If the AI celebrates. */
   bool celebrate;
@@ -147,5 +147,7 @@ void ai_data_analyze_rulesets(struct player *pplayer);
 struct adv_data *adv_data_get(struct player *pplayer);
 
 void adv_best_government(struct player *pplayer);
+
+bool adv_wants_science(struct player *pplayer);
 
 #endif /* FC__ADVDATA_H */

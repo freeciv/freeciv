@@ -443,12 +443,12 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
    * are all WAGs. */
   ai->food_priority = FOOD_WEIGHTING;
   ai->shield_priority = SHIELD_WEIGHTING;
-  if (ai_wants_no_science(pplayer)) {
-    ai->luxury_priority = TRADE_WEIGHTING;
-    ai->science_priority = 1;
-  } else {
+  if (adv_wants_science(pplayer)) {
     ai->luxury_priority = 1;
     ai->science_priority = TRADE_WEIGHTING;
+  } else {
+    ai->luxury_priority = TRADE_WEIGHTING;
+    ai->science_priority = 1;
   }
   ai->gold_priority = TRADE_WEIGHTING;
   ai->happy_priority = 1;
@@ -484,9 +484,9 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   /* Research want */
   if (is_future_tech(player_research_get(pplayer)->researching)
       || player_has_really_useful_tech_parasite(pplayer)) {
-    ai->wants_no_science = TRUE;
+    ai->wants_science = FALSE;
   } else {
-    ai->wants_no_science = FALSE;
+    ai->wants_science = TRUE;
   }
   
   /* max num cities
@@ -650,7 +650,7 @@ void ai_data_default(struct player *pplayer)
 
   ai->wonder_city = 0;
 
-  ai->wants_no_science = FALSE;
+  ai->wants_science = TRUE;
   ai->celebrate = FALSE;
   ai->max_num_cities = 10000;
 }
@@ -786,4 +786,12 @@ void adv_best_government(struct player *pplayer)
   /* Goodness of the ideal gov is calculated relative to the goodness of the
    * best of the available ones. */
   adv->goal.govt.val -= best_val;
+}
+
+/**************************************************************************
+  Return whether science would help us at all.
+**************************************************************************/
+bool adv_wants_science(struct player *pplayer)
+{
+  return adv_data_get(pplayer)->wants_science;
 }

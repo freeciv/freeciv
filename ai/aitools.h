@@ -95,8 +95,6 @@ bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 void ai_build_adv_override(struct city *pcity, struct ai_choice *choice);
 bool ai_assess_military_unhappiness(struct city *pcity);
 
-bool ai_wants_no_science(struct player *pplayer);
-
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer);
 
 #endif  /* FC__AITOOLS_H */
