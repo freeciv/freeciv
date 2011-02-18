@@ -2921,7 +2921,7 @@ static bool setting_ruleset_one(struct section_file *file,
             || pset->boolean.validate(val, NULL, reject_msg,
                                       sizeof(reject_msg))) {
           *pset->boolean.pvalue = val;
-          log_normal(_("Option: %s has been set to %s."),
+          log_normal(_("Ruleset: '%s' has been set to %s."),
                      setting_name(pset),
                      setting_value_name(pset, TRUE, buf, sizeof(buf)));
         } else {
@@ -2941,7 +2941,7 @@ static bool setting_ruleset_one(struct section_file *file,
       } else if (val != *pset->integer.pvalue) {
         if (setting_int_set(pset, val, NULL, reject_msg,
                             sizeof(reject_msg))) {
-          log_normal(_("Option: %s has been set to %s."),
+          log_normal(_("Ruleset: '%s' has been set to %s."),
                      setting_name(pset),
                      setting_value_name(pset, TRUE, buf, sizeof(buf)));
         } else {
@@ -2961,7 +2961,7 @@ static bool setting_ruleset_one(struct section_file *file,
       } else if (0 != strcmp(val, pset->string.value)) {
         if (setting_str_set(pset, val, NULL, reject_msg,
                             sizeof(reject_msg))) {
-          log_normal(_("Option: %s has been set to %s."),
+          log_normal(_("Ruleset: '%s' has been set to %s."),
                      setting_name(pset),
                      setting_value_name(pset, TRUE, buf, sizeof(buf)));
         } else {
@@ -2985,7 +2985,7 @@ static bool setting_ruleset_one(struct section_file *file,
             || pset->enumerator.validate(val, NULL, reject_msg,
                                          sizeof(reject_msg))) {
           *pset->enumerator.pvalue = val;
-          log_normal(_("Option: %s has been set to %s."),
+          log_normal(_("Ruleset: '%s' has been set to %s."),
                      setting_name(pset),
                      setting_value_name(pset, TRUE, buf, sizeof(buf)));
         } else {
@@ -3009,7 +3009,7 @@ static bool setting_ruleset_one(struct section_file *file,
             || pset->bitwise.validate((unsigned) val, NULL,
                                       reject_msg, sizeof(reject_msg))) {
           *pset->bitwise.pvalue = val;
-          log_normal(_("Option: %s has been set to %s."),
+          log_normal(_("Ruleset: '%s' has been set to %s."),
                      setting_name(pset),
                      setting_value_name(pset, TRUE, buf, sizeof(buf)));
         } else {
@@ -3026,7 +3026,7 @@ static bool setting_ruleset_one(struct section_file *file,
   } else if (lock) {
     /* set lock */
     setting_lock_set(pset, lock);
-    log_normal(_("Option: %s has been locked by the ruleset."),
+    log_normal(_("Ruleset: '%s' has been locked by the ruleset."),
                setting_name(pset));
   }
 
