@@ -2884,7 +2884,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     struct packet_chat_msg packet;
 
     package_event(&packet, NULL, E_SETTING, ftc_server,
-                  _("Option: %s has been set to %s."), setting_name(pset),
+                  _("Console: '%s' has been set to %s."), setting_name(pset),
                   setting_value_name(pset, TRUE, buf, sizeof(buf)));
     conn_list_iterate(game.est_connections, pconn) {
       if (setting_is_visible(pset, pconn)) {
