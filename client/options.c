@@ -1828,7 +1828,7 @@ static void settable_options_save(struct section_file *sf)
 
   hash_iterate(settable_options_hash, iter) {
     const char *name = (const char *) hash_iter_get_key(iter);
-    if (mystrcasecmp(name, "gameseed") || mystrcasecmp(name, "mapseed")) {
+    if (!mystrcasecmp(name, "gameseed") || !mystrcasecmp(name, "mapseed")) {
       /* Do not save mapseed or gameseed. */
       continue;
     }
