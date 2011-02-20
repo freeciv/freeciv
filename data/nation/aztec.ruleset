@@ -24,12 +24,6 @@ flag="aztec"
 flag_alt = "mexico"	; Used previously
 city_style = "Tropical"
 
-ruler_titles = { "government",	"male_title",	"female_title"
-		 ; /* TRANS: Tlahtoani = Speaker */
-		 ; /* TRANS: Cihua = Female */
-		 "Despotism",	_("Tlahtoani"),  _("Cihualahtoani")
-	       } 
-
 init_techs=""
 init_buildings=""
 init_government="Despotism"
