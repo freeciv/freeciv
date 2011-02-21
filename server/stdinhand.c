@@ -2129,7 +2129,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
     level = SSET_VITAL;
   }
 
-  fc_assert_ret_val(cmd > 0 || cmd == LOOKUP_OPTION_AMBIGUOUS
+  fc_assert_ret_val(cmd >= 0 || cmd == LOOKUP_OPTION_AMBIGUOUS
                     || cmd == LOOKUP_OPTION_LEVEL_NAME
                     || cmd == LOOKUP_OPTION_NO_RESULT, FALSE);
 
