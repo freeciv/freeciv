@@ -1,5 +1,5 @@
 # Finnish translation
-# Copyright (C) 2002 2003 2005 2006 2007 2008 2009
+# Copyright (C) 2002 2003 2005 2006 2007 2008 2009 2011
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>, Jarkko Siekkinen
 # <jarkko.siekkinen@evl.fi>, Juhani Heino <juhani.heino@vtt.fi>,
 # Timo Jyrinki <timo.jyrinki@iki.fi> & helpers.
@@ -7,16 +7,16 @@
 #
 # Prioritizing stable branch for translations; merge to trunk when feeling
 # like it. Moving to 2.2 once it's forked. Until then, merge with 
-#   msgmerge --compendium=fi.po.trunk fi.po.s2_1 freeciv.pot -o fi.po.newtrunk
-# where fi.po.trunk is current trunk version, fi.po.s2_1 the improved branch
+#   msgmerge --compendium=fi.po.trunk fi.po.s2_2 freeciv.pot -o fi.po.newtrunk
+# where fi.po.trunk is current trunk version, fi.po.s2_2 the improved branch
 # version, freeciv.pot an up-to-date POT for the trunk. Then upload the resulting
 # fi.po.newtrunk to trunk.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-11 04:31+0200\n"
-"PO-Revision-Date: 2011-02-11 23:02+0200\n"
+"POT-Creation-Date: 2011-02-13 04:45+0200\n"
+"PO-Revision-Date: 2011-02-20 22:08+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -59,11 +59,11 @@ msgstr "Tiede"
 
 #: common/city.c:304
 msgid "?wonder:W"
-msgstr "?ihme:i"
+msgstr "?ihme:I"
 
 #: common/city.c:306
 msgid "?destroyed:D"
-msgstr "(tuhoutunut)"
+msgstr "X"
 
 #: common/city.c:308
 msgid "?built:B"
@@ -71,7 +71,7 @@ msgstr "?rakennettu:R"
 
 #: common/city.c:315
 msgid "?obsolete:O"
-msgstr "?vanhentunut:v"
+msgstr "?vanhentunut:V"
 
 #: common/city.c:318
 msgid "?redundant:*"
@@ -935,10 +935,12 @@ msgstr " ja "
 msgid "?and:, "
 msgstr ", "
 
+# Remove 'version' as unnecessary and confusing, particularly when (beta
+# version) is included.
 #: common/version.c:38
 #, c-format
 msgid "Freeciv version %s %s"
-msgstr "Freeciv versio %s %s"
+msgstr "Freeciv %s %s"
 
 #: common/version.c:39
 msgid "(beta version)"
@@ -947,12 +949,12 @@ msgstr "(beta-versio)"
 #: common/version.c:41
 #, c-format
 msgid "Freeciv version %s (%s)"
-msgstr "Freeciv-versio %s (%s)"
+msgstr "Freeciv %s (%s)"
 
 #: common/version.c:44
 #, c-format
 msgid "Freeciv version %s"
-msgstr "Freeciv-versio %s"
+msgstr "Freeciv %s"
 
 #: common/version.c:57
 msgid "betatest version "
@@ -1150,12 +1152,14 @@ msgstr "Lokitarkkuuden tiedostonimi-argumentti on tyhjä (\"%s\").\n"
 #: utility/log.c:161
 #, c-format
 msgid "Duplicate filename \"%s\" in log level argument.\n"
-msgstr "Sama tiedostonimi \"%s\" annettu kahdesti lokitarkkuuden määrittelyssä.\n"
+msgstr ""
+"Sama tiedostonimi \"%s\" annettu kahdesti lokitarkkuuden määrittelyssä.\n"
 
 #: utility/log.c:293
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr "Lokitiedoston %s avaaminen tekstin \"%s\" liittämistä varten epäonnistui.\n"
+msgstr ""
+"Lokitiedoston %s avaaminen tekstin \"%s\" liittämistä varten epäonnistui.\n"
 
 #: utility/log.c:307 utility/log.c:326
 #, c-format
@@ -1302,7 +1306,9 @@ msgstr "*%s (AI)* Pura ensin liittosi pelaajan %s kanssa, %s."
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
 "%s."
-msgstr "*%s (AI)* Haluan ensin odottaa varmistuakseni että sinä ja %s ette enää ole yhteistyössä, %s."
+msgstr ""
+"*%s (AI)* Haluan ensin odottaa varmistuakseni että sinä ja %s ette enää ole "
+"yhteistyössä, %s."
 
 #: ai/advdiplomacy.c:349
 #, c-format
@@ -2016,7 +2022,9 @@ msgstr "VAROITUS %s, rahavaramme ovat vähissä!"
 #: server/cityturn.c:725
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
-msgstr "%1$s ei voi kasvaa kokoa %3$d suuremmaksi ennen kuin %2$s (rakenteilla) on valmistunut."
+msgstr ""
+"%1$s ei voi kasvaa kokoa %3$d suuremmaksi ennen kuin %2$s (rakenteilla) on "
+"valmistunut."
 
 #: server/cityturn.c:731
 #, c-format
@@ -2682,7 +2690,14 @@ msgid ""
 "or options with that prefix. With \"all\", it shows all options. With \"vital"
 "\", \"situational\" or \"rare\", a set of options with this level. With "
 "\"changed\", it shows only the options which have been modified."
-msgstr "Ilman parametrejä tämä komento näyttää tärkeät palvelimen asetusvaihtoehdot, tai saatavilla olevat asetukset, jos se ajetaan asiakasohjelmista käsin. Jos parametrina annetaan asetuksen nimi, näytetään vain kyseinen asetus, tai asetukset jotka alkavat annetulla tavalla. Jos parametrina annetaan \"all\", näytetään kaikki asetukset. Parametreilla \"vital\", \"situational\" tai \"rare\" näyttää kyseisen tasoiset asetukset. Parametrilla \"changed\" näytetään vain muutetut asetukset."
+msgstr ""
+"Ilman parametrejä tämä komento näyttää tärkeät palvelimen asetusvaihtoehdot, "
+"tai saatavilla olevat asetukset, jos se ajetaan asiakasohjelmista käsin. Jos "
+"parametrina annetaan asetuksen nimi, näytetään vain kyseinen asetus, tai "
+"asetukset jotka alkavat annetulla tavalla. Jos parametrina annetaan \"all\", "
+"näytetään kaikki asetukset. Parametreilla \"vital\", \"situational\" tai "
+"\"rare\" näyttää kyseisen tasoiset asetukset. Parametrilla \"changed\" "
+"näytetään vain muutetut asetukset."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:138
@@ -2714,7 +2729,8 @@ msgid ""
 "Set message to send to clients when they connect.\n"
 "Empty message means that no message is sent."
 msgstr ""
-"Aseta viesti, joka lähetetään asiakasohjelmille kun ne muodostavat yhteyttä.\n"
+"Aseta viesti, joka lähetetään asiakasohjelmille kun ne muodostavat "
+"yhteyttä.\n"
 "Tyhjä viesti tarkoittaa että minkäänlaista viestiä ei lähetetä."
 
 #. TRANS: translate text between [] only; "vote" is as a process
@@ -2737,7 +2753,16 @@ msgid ""
 "suggest one vote at a time.  The vote will pass immediately if more than "
 "half of the voters who have not abstained vote for it, or fail immediately "
 "if at least half of the voters who have not abstained vote against it."
-msgstr "Pelaaja, joka on basic-komentotasolla ja ajaa kontrollitason komennon, aloittaa äänestyksen komennosta. Vote-komento, jonka parametriksi annetaan \"yes\" (kyllä), \"no\" (ei) tai \"abstain\" (tyhjä ääni), sekä mahdollisesti myös äänestyksen numero, antaa äänen. Jos äänestyksen numeroa ei anneta, ääni koskee niistä viimeisintä. Voit ehdottaa vain yhtä äänestystä kerrallaan. Äänestyksen tulos on myönteinen välittömästi jos yli puolet tyhjää äänestämättömistä pelaajista äänestää sen puolesta, tai kielteinen mikäli ainakin puolet tyhjää äänestämättömistä pelaajista äänestää sitä vastaan."
+msgstr ""
+"Pelaaja, joka on basic-komentotasolla ja ajaa kontrollitason komennon, "
+"aloittaa äänestyksen komennosta. Vote-komento, jonka parametriksi annetaan "
+"\"yes\" (kyllä), \"no\" (ei) tai \"abstain\" (tyhjä ääni), sekä "
+"mahdollisesti myös äänestyksen numero, antaa äänen. Jos äänestyksen numeroa "
+"ei anneta, ääni koskee niistä viimeisintä. Voit ehdottaa vain yhtä "
+"äänestystä kerrallaan. Äänestyksen tulos on myönteinen välittömästi jos yli "
+"puolet tyhjää äänestämättömistä pelaajista äänestää sen puolesta, tai "
+"kielteinen mikäli ainakin puolet tyhjää äänestämättömistä pelaajista "
+"äänestää sitä vastaan."
 
 #: server/commands.c:173
 msgid "Turn on or off AI debugging of given entity."
@@ -3304,7 +3329,7 @@ msgid ""
 "given with the --read server argument. "
 msgstr ""
 "Aseta kaikki asetukset oletusarvoihinsa ja suorita uudestaan komentotiedosto, \n"
-"jos sellainen oli --read argumentilla annettu."
+"jos sellainen oli --read -parametrilla annettu."
 
 #: server/commands.c:478
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -3804,14 +3829,16 @@ msgstr "Puolustava %s kaupungissa %s tuhoutui, kun %s yritti tunkeutua sinne."
 #: server/diplomats.c:1189
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
-msgstr "Puolustava %s %s kaupungissa %s tuhoutui, kun %s yritti tunkeutua sinne."
+msgstr ""
+"Puolustava %s %s kaupungissa %s tuhoutui, kun %s yritti tunkeutua sinne."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:1196
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
-msgstr "Puolustava %s %s kaupungissa %s tuhoutui, kun %s yritti tunkeutua sinne."
+msgstr ""
+"Puolustava %s %s kaupungissa %s tuhoutui, kun %s yritti tunkeutua sinne."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
@@ -3932,7 +3959,9 @@ msgstr "Ruutua (%d, %d) ei voi muokata - se ei ole kartalla!"
 #, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
-msgstr "Ruudun %s maastotyypin muokkaus ei onnistunut - %d ei ole kelvollinen maastotyypin tunniste."
+msgstr ""
+"Ruudun %s maastotyypin muokkaus ei onnistunut - %d ei ole kelvollinen "
+"maastotyypin tunniste."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:380
@@ -3940,14 +3969,16 @@ msgstr "Ruudun %s maastotyypin muokkaus ei onnistunut - %d ei ole kelvollinen ma
 msgid ""
 "Cannot modify specials for the tile %s because %d is not a valid terrain "
 "special id."
-msgstr "Ruudun %s maastomodifikaation muokkaus ei onnistunut - %d ei ole kelvollinen maastomodifikaation tunniste."
+msgstr "Ruudun %s erityispiirteen muokkaus ei onnistunut - %d ei ole kelvollinen erityispiirteen tunniste."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:415
 #, c-format
 msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
-msgstr "Ruudun %s tukikohdan muokkaus ei onnistunut - %d ei ole kelvollinen tukikohtatyypin tunniste."
+msgstr ""
+"Ruudun %s tukikohdan muokkaus ei onnistunut - %d ei ole kelvollinen "
+"tukikohtatyypin tunniste."
 
 #: server/edithand.c:443
 #, c-format
@@ -3964,7 +3995,9 @@ msgstr "Ruudulle (%d, %d) ei voi luoda yksiköitä - se ei ole kartalla!"
 #, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
-msgstr "Yksikön luonti ruudulle %s epäonnistui - %d ei ole kelvollinen yksikkötyypin tunniste."
+msgstr ""
+"Yksikön luonti ruudulle %s epäonnistui - %d ei ole kelvollinen yksikkötyypin "
+"tunniste."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
 #: server/edithand.c:521
@@ -3972,7 +4005,9 @@ msgstr "Yksikön luonti ruudulle %s epäonnistui - %d ei ole kelvollinen yksikk�
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
-msgstr "Yksikön (tyyppi %s) luonti ruudulle %s epäonnistui - %d ei ole kelvollinen omistajapelaajan tunniste."
+msgstr ""
+"Yksikön (tyyppi %s) luonti ruudulle %s epäonnistui - %d ei ole kelvollinen "
+"omistajapelaajan tunniste."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
@@ -3998,7 +4033,9 @@ msgstr "Ruudulta (%d, %d) ei voi poistaa yksiköitä - se ei ole kartalla!"
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
-msgstr "Yksikön poisto ruudulta %s epäonnistui - %d ei ole kelvollinen yksikkötyypin tunniste."
+msgstr ""
+"Yksikön poisto ruudulta %s epäonnistui - %d ei ole kelvollinen yksikkötyypin "
+"tunniste."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
@@ -4007,7 +4044,9 @@ msgstr "Yksikön poisto ruudulta %s epäonnistui - %d ei ole kelvollinen yksikk�
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
-msgstr "Yksikön (tyyppi %s) poisto ruudulta %s epäonnistui - %d ei ole kelvollinen omistajapelaajan tunniste."
+msgstr ""
+"Yksikön (tyyppi %s) poisto ruudulta %s epäonnistui - %d ei ole kelvollinen "
+"omistajapelaajan tunniste."
 
 #: server/edithand.c:640 server/edithand.c:665
 #, c-format
@@ -4029,7 +4068,9 @@ msgstr "Ruudulle (%d, %d) ei voi luoda kaupunkia - se ei ole kartalla!"
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
-msgstr "Kaupungin luonti ruudulle %s epäonnistui - %d ei ole kelvollinen tunniste omistajapelaajalle."
+msgstr ""
+"Kaupungin luonti ruudulle %s epäonnistui - %d ei ole kelvollinen tunniste "
+"omistajapelaajalle."
 
 #. TRANS: ..." at <tile-coordinates>."
 #: server/edithand.c:758
@@ -4162,7 +4203,9 @@ msgstr ""
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
-msgstr "Ruudun %s näkymän muokkaus epäonnistui - annettu pelaajan tunniste %d ei kelpaa."
+msgstr ""
+"Ruudun %s näkymän muokkaus epäonnistui - annettu pelaajan tunniste %d ei "
+"kelpaa."
 
 #: server/edithand.c:1279
 #, c-format
@@ -5265,17 +5308,16 @@ msgstr ""
 "Valinnalla 0 (oletus) tekijä valitaan kellonajan perusteella. Tämä asetus on "
 "yleensä mielenkiintoinen vain pelin toimintaa tutkittaessa."
 
+# Not really specials, but resources, apparently.
 #: server/settings.c:409
 msgid "Amount of \"special\" resource tiles"
-msgstr "Erityisluonnonvaroja sisältävien ruutujen suht. määrä"
+msgstr "Erityisiä luonnonvaroja sisältävien ruutujen suht. määrä"
 
 #: server/settings.c:410
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
-msgstr ""
-"Erityisluonnonvarat parantavat maa-aluetta jolla ne ovat. Palvelinmuuttujan "
-"yksikkö on promille (tuhannesosa)."
+msgstr "Erityisluonnonvarat parantavat maa-aluetta jolla ne ovat. Palvelinmuuttujan yksikkö on promille (tuhannesosa)."
 
 #: server/settings.c:417
 msgid "Amount of huts (minor tribe villages)"
@@ -5338,7 +5380,9 @@ msgstr "Viestipuskuri näin moneksi vuoroksi"
 msgid ""
 "Event messages are saved for this number of turns. A value of 0 deactivates "
 "the event cache."
-msgstr "Viestit talletetaan näin monelta kierrokselta. Arvo 0 poistaa puskurin käytöstä."
+msgstr ""
+"Viestit talletetaan näin monelta kierrokselta. Arvo 0 poistaa puskurin "
+"käytöstä."
 
 #: server/settings.c:466
 msgid "Size of the event cache"
@@ -5364,7 +5408,9 @@ msgstr "Tulosta puskuroitujen viestin tapahtumisvuoro ja -aika"
 msgid ""
 "If set to 1 all cached events will be marked by the turn and time of the "
 "event like '(T2 - 15:29:52)'."
-msgstr "Jos 1, kaikki viestipuskurin viestit merkitään tapahtumavuoron ja -ajan mukaan. Esimerkiksi '(T2 - 15:29:52)'."
+msgstr ""
+"Jos 1, kaikki viestipuskurin viestit merkitään tapahtumavuoron ja -ajan "
+"mukaan. Esimerkiksi '(T2 - 15:29:52)'."
 
 #: server/settings.c:491
 msgid "List of players' initial units"
@@ -5605,7 +5651,9 @@ msgid ""
 "they must be at least this far apart on the map. For square grids, the "
 "distance is calculated as \"Manhattan distance\", that is, the sum of the "
 "displacements along the x and y directions."
-msgstr "Kahden samalle kansalle kuuluvan kaupungin välisen kauppareitin avaamiseksi niiden pitää olla vähintään näin monen ruudun päässä toisistaan."
+msgstr ""
+"Kahden samalle kansalle kuuluvan kaupungin välisen kauppareitin avaamiseksi "
+"niiden pitää olla vähintään näin monen ruudun päässä toisistaan."
 
 #: server/settings.c:665
 msgid "Number of turns between rapture effect"
@@ -5674,7 +5722,9 @@ msgid ""
 "  2 = sea moving units\n"
 "  4 = units able to move both on land and sea"
 msgstr ""
-"Tämä arvo määrittelee, väheneekö kaupungin väestö onnistuneen vihollishyökkäyksen jälkeen, hyökkääjän liikkumistyypistä riippuen (OR-operaatio, esim. 1|2=3: maa JA meri).\n"
+"Tämä arvo määrittelee, väheneekö kaupungin väestö onnistuneen "
+"vihollishyökkäyksen jälkeen, hyökkääjän liikkumistyypistä riippuen (OR-"
+"operaatio, esim. 1|2=3: maa JA meri).\n"
 "  1 = maalla liikkuvat yksiköt\n"
 "  2 = merellä liikkuvat yksiköt\n"
 "  4 = yksiköt, jotka pystyvät liikkumaan sekä maalla että merellä"
@@ -5814,7 +5864,7 @@ msgstr ""
 
 #: server/settings.c:809
 msgid "Whether fog of war applies to border changes"
-msgstr ""
+msgstr "Rajoitetaanko myös valtiorajojen muutosten näkyminen"
 
 #: server/settings.c:810
 msgid ""
@@ -6176,7 +6226,10 @@ msgid ""
 "If a network connection is blocking for a time greater than this value, then "
 "the connection is closed. Zero means there is no timeout (although "
 "connections will be automatically disconnected eventually)."
-msgstr "Jos TCP-yhteys ei reagoi pidempään aikaan kuin tänä sekuntimääränä, yhteys suljetaan. Jos arvo on nolla, yhteyttä ei suljeta tällä perusteella (tosin yhteydet sulkeutuvat automaattisesti lopulta joka tapauksessa)."
+msgstr ""
+"Jos TCP-yhteys ei reagoi pidempään aikaan kuin tänä sekuntimääränä, yhteys "
+"suljetaan. Jos arvo on nolla, yhteyttä ei suljeta tällä perusteella (tosin "
+"yhteydet sulkeutuvat automaattisesti lopulta joka tapauksessa)."
 
 #: server/settings.c:1061
 msgid "Max seconds for network buffers to drain"
@@ -6200,7 +6253,7 @@ msgstr "Tauko PINGausten välillä (s)"
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses."
-msgstr "freeciv-server lähettää PING-pyynnön asiakasohjelmille joka kerta kun tämä aika on kulunut."
+msgstr "freeciv-palvelin lähettää PING-pyynnön asiakasohjelmille joka kerta kun tämä aika on kulunut."
 
 #: server/settings.c:1078
 msgid "Time to cut a client"
@@ -6396,7 +6449,8 @@ msgstr "Käynnistetään uudelleen koska pelissä ei ole pelaajia"
 #: server/sernet.c:530
 #, c-format
 msgid "restarting in %d seconds for lack of players"
-msgstr "käynnistetään %d sekunnin päästä uudelleen koska pelissä ei ole pelaajia"
+msgstr ""
+"käynnistetään %d sekunnin päästä uudelleen koska pelissä ei ole pelaajia"
 
 #: server/sernet.c:533
 msgid "restarting soon for lack of players"
@@ -6679,7 +6733,7 @@ msgstr "%s sai johtaakseen %s."
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
-msgstr "Tämä freeciv-server tukee käyttäjien kirjautumista (autentikaatiota), mutta se ei ole tällä hetkellä käytössä."
+msgstr "Tämä freeciv-palvelin tukee käyttäjien kirjautumista (autentikaatiota), mutta se ei ole tällä hetkellä käytössä."
 
 #: server/srv_main.c:2175
 #, c-format
@@ -7319,13 +7373,14 @@ msgstr "Yhtään äänestystä ei ole käynnissä."
 #. TRANS: "votes" as a process
 #: server/stdinhand.c:2196
 msgid "All votes have been removed."
-msgstr "Kaikki äänestyksen on peruutettu."
+msgstr "Kaikki äänestykset on peruttu."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2215
 #, c-format
 msgid "You are not allowed to cancel this vote (%d)."
-msgstr "Sinulla ei ole tarvittavia oikeuksia tämän äänestyksen (%d) peruuttamiseen."
+msgstr ""
+"Sinulla ei ole tarvittavia oikeuksia tämän äänestyksen (%d) peruuttamiseen."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:2222
@@ -8854,11 +8909,11 @@ msgstr "%+4d : Saastemodifikaattori\n"
 
 #: client/cityrepdata.c:82
 msgid "?city_state:Celebrating"
-msgstr "?city_state:Juhliva"
+msgstr "?city_state:Juhlii"
 
 #: client/cityrepdata.c:83
 msgid "?city_state:Disorder"
-msgstr "?city_state:Kapinoiva"
+msgstr "?city_state:Kapinoi"
 
 #: client/cityrepdata.c:84
 msgid "?city_state:Peace"
@@ -8892,15 +8947,15 @@ msgstr "Tila"
 
 #: client/cityrepdata.c:463
 msgid "Celebrating/Peace/Disorder"
-msgstr "Juhliva/Rauhallinen/Kapinoiva"
+msgstr "Juhlii/Rauhallinen/Kapinoi"
 
 #: client/cityrepdata.c:465
 msgid "Concise *=Celebrating, X=Disorder"
-msgstr "Lyhyesti +=Hurmoksessa, -=Kapinoiva"
+msgstr "Lyhyesti *=Juhlii, X=Kapinoi"
 
 #: client/cityrepdata.c:469
 msgid "Special"
-msgstr "Erikoisuudet"
+msgstr "Erityispiirteet"
 
 #: client/cityrepdata.c:470
 msgid "?entertainers/scientists/taxmen:E/S/T"
@@ -9137,11 +9192,11 @@ msgstr "Rut"
 
 #: client/cityrepdata.c:534
 msgid "(%)"
-msgstr ""
+msgstr "(%)"
 
 #: client/cityrepdata.c:534
 msgid "Plague risk"
-msgstr "Ruttoriski:"
+msgstr "Ruttoriski"
 
 #: client/cityrepdata.c:536
 msgid "?cma:Governor"
@@ -9685,14 +9740,18 @@ msgstr "Työ                 Aika\n"
 msgid ""
 "\n"
 "Railroad           %3d"
-msgstr "\nRautatie           %3d"
+msgstr ""
+"\n"
+"Rautatie           %3d"
 
 #: client/helpdata.c:230
 #, c-format
 msgid ""
 "\n"
 "Clean pollution    %3d"
-msgstr "\nSaasteiden siivous %3d"
+msgstr ""
+"\n"
+"Saasteiden siivous %3d"
 
 #: client/helpdata.c:233
 #, c-format
@@ -9744,12 +9803,12 @@ msgstr "Pätee vain rakennukseen \"%s\".\n"
 #: client/helpdata.c:348
 #, c-format
 msgid "Requires the %s terrain special on the tile.\n"
-msgstr "Edellyttää maastolisän %s samassa ruudussa.\n"
+msgstr "Edellyttää erityispiirteen %s samassa ruudussa.\n"
 
 #: client/helpdata.c:353
 #, c-format
 msgid "Requires the %s terrain special on the tile or an adjacent tile.\n"
-msgstr "Edellyttää maastolisän %s samassa tai viereisessä ruudussa.\n"
+msgstr "Edellyttää erityispiirteen %s samassa tai viereisessä ruudussa.\n"
 
 #: client/helpdata.c:370
 #, c-format
@@ -9926,7 +9985,9 @@ msgstr "  * Voi linnoittautua ja saada täten 50% bonuksen puolustukseensa.\n"
 
 #: client/helpdata.c:1186
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
-msgstr "  * On ulottumattomissa. Useimmat yksiköt eivät voi hyökätä tämän yksikön kimppuun.\n"
+msgstr ""
+"  * On ulottumattomissa. Useimmat yksiköt eivät voi hyökätä tämän yksikön "
+"kimppuun.\n"
 
 #: client/helpdata.c:1190
 msgid "  * Can pillage tile improvements.\n"
@@ -9994,7 +10055,10 @@ msgstr ""
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least %d tiles [in Manhattan distance] from this unit's home city).\n"
-msgstr "* Voi aloittaa kauppareittejä - kulkemalla kohdekaupunkiin, joka on vähintään %d ruudun päässä Manhattan-etäisyydellä (ruutujen reunoja, ei diagonaaleja pitkin laskien) yksikön kotikaupungista.\n"
+msgstr ""
+"* Voi aloittaa kauppareittejä - kulkemalla kohdekaupunkiin, joka on "
+"vähintään %d ruudun päässä Manhattan-etäisyydellä (ruutujen reunoja, ei "
+"diagonaaleja pitkin laskien) yksikön kotikaupungista.\n"
 
 #: client/helpdata.c:1258
 #, c-format
@@ -10105,7 +10169,9 @@ msgstr ""
 #, c-format
 msgid ""
 "* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
-msgstr "* Voidaan pudottaa laskuvarjolla ystävällismielisestä kaupungista tai soveltuvasta tukikohdasta (toimintasäde: %d).\n"
+msgstr ""
+"* Voidaan pudottaa laskuvarjolla ystävällismielisestä kaupungista tai "
+"soveltuvasta tukikohdasta (toimintasäde: %d).\n"
 
 #: client/helpdata.c:1352
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -10226,7 +10292,9 @@ msgstr "* Voidaan harjoittaa veteraaniksi rakennusvaiheessa.\n"
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
-msgstr "* Tietyin edellytyksin yksikön ylläpitokustannukset voidaan maksaa kultana tuotannon sijaan.\n"
+msgstr ""
+"* Tietyin edellytyksin yksikön ylläpitokustannukset voidaan maksaa kultana "
+"tuotannon sijaan.\n"
 
 #: client/helpdata.c:1479
 #, c-format
@@ -10278,7 +10346,9 @@ msgid ""
 msgid_plural ""
 "To reach %s you need to obtain %d other technologies first. The whole "
 "project will require %d bulbs to complete."
-msgstr[0] "Jotta %s saavutettaisiin, %d muu teknologia pitää keksiä ensin. Koko projekti vaatii %d lamppua."
+msgstr[0] ""
+"Jotta %s saavutettaisiin, %d muu teknologia pitää keksiä ensin. Koko "
+"projekti vaatii %d lamppua."
 msgstr[1] ""
 "Jotta %s saavutettaisiin, %d muuta teknologiaa pitää keksiä ensin. Koko "
 "projekti vaatii %d lamppua."
@@ -10289,12 +10359,15 @@ msgstr "Et voi tutkia tätä teknologiaa."
 
 #: client/helpdata.c:1601
 msgid " This number may vary depending on what other players research.\n"
-msgstr " Lamppujen määrä voi vaihdella riippuen siitä mitä muut pelaajat tutkivat.\n"
+msgstr ""
+" Lamppujen määrä voi vaihdella riippuen siitä mitä muut pelaajat tutkivat.\n"
 
 #: client/helpdata.c:1613
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr "* Ensimmäinen pelaaja joka saavuttaa teknologian %s saa välittömästi ylimääräisen teknologian.\n"
+msgstr ""
+"* Ensimmäinen pelaaja joka saavuttaa teknologian %s saa välittömästi "
+"ylimääräisen teknologian.\n"
 
 #: client/helpdata.c:1619
 msgid "* Increases the pollution generated by the population.\n"
@@ -10352,15 +10425,21 @@ msgid ""
 msgid_plural ""
 "* Military units away from home and field units will each cause %d citizens "
 "to become unhappy.\n"
-msgstr[0] "* Poissa kotoa olevat sotilasyksiköt ja kenttäyksiköt tekevät %d asukkaan tyytymättömäksi.\n"
-msgstr[1] "* Poissa kotoa olevat sotilasyksiköt ja kenttäyksiköt tekevät %d asukasta tyytymättömäksi.\n"
+msgstr[0] ""
+"* Poissa kotoa olevat sotilasyksiköt ja kenttäyksiköt tekevät %d asukkaan "
+"tyytymättömäksi.\n"
+msgstr[1] ""
+"* Poissa kotoa olevat sotilasyksiköt ja kenttäyksiköt tekevät %d asukasta "
+"tyytymättömäksi.\n"
 
 #: client/helpdata.c:1867
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by units.\n"
-msgstr "* Kukin kaupungeistasi välttää %d asukkaan tyytymättömyyden. Yksiköiden aiheuttamaa tyytymättömyyttä tämä ei pysty poistamaan.\n"
+msgstr ""
+"* Kukin kaupungeistasi välttää %d asukkaan tyytymättömyyden. Yksiköiden "
+"aiheuttamaa tyytymättömyyttä tämä ei pysty poistamaan.\n"
 
 # gna bug #17705
 #: client/helpdata.c:1873
@@ -10596,27 +10675,37 @@ msgstr "* Vähentää ruton vaaraa kaupungeissasi.\n"
 #: client/helpdata.c:2093
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
-msgstr "* Tuotteiden %s hukka lisääntyy nopeasti etäisyyden pääkaupungista kasvaessa.\n"
+msgstr ""
+"* Tuotteiden %s hukka lisääntyy nopeasti etäisyyden pääkaupungista "
+"kasvaessa.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:2099
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
-msgstr "* Tuotteiden %s hukka on sitä suurempi mitä kauempana pääkaupungista ollaan.\n"
+msgstr ""
+"* Tuotteiden %s hukka on sitä suurempi mitä kauempana pääkaupungista "
+"ollaan.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:2105
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
-msgstr "* Tuotteiden %s hukka lisääntyy hitaasti etäisyyden pääkaupungista kasvaessa.\n"
+msgstr ""
+"* Tuotteiden %s hukka lisääntyy hitaasti etäisyyden pääkaupungista "
+"kasvaessa.\n"
 
 #: client/helpdata.c:2111
 msgid "* Increases the chance of migration into your cities.\n"
-msgstr "* Lisää todennäköisyyttä ihmisten muuttaa kaupunkeihisi toisista kaupungeista.\n"
+msgstr ""
+"* Lisää todennäköisyyttä ihmisten muuttaa kaupunkeihisi toisista "
+"kaupungeista.\n"
 
 #: client/helpdata.c:2114
 msgid "* Decreases the chance of migration into your cities.\n"
-msgstr "* Vähentää todennäköisyyttä ihmisten muuttaa kaupunkeihisi toisista kaupungeista.\n"
+msgstr ""
+"* Vähentää todennäköisyyttä ihmisten muuttaa kaupunkeihisi toisista "
+"kaupungeista.\n"
 
 #: client/helpdata.c:2131
 #, c-format
@@ -10747,7 +10836,9 @@ msgstr "Ruutuasetus"
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
-msgstr "Asetuksen muutos vaihtaa käytössä olevaa grafiikkasettiä, ja sen vaikutus on sama kuin komentoriviparametrin -t käytöllä."
+msgstr ""
+"Asetuksen muutos vaihtaa käytössä olevaa grafiikkasettiä, ja sen vaikutus on "
+"sama kuin komentoriviparametrin -t käytöllä."
 
 #: client/options.c:497
 msgid "Draw city outlines"
@@ -10755,7 +10846,9 @@ msgstr "Kaupunkien ääriviivat"
 
 #: client/options.c:498
 msgid "Setting this option will draw a line at the city workable limit."
-msgstr "Asetuksen päällä ollessa piirretään kaupungin käytettävissä olevan alueen raja näkyviin."
+msgstr ""
+"Asetuksen päällä ollessa piirretään kaupungin käytettävissä olevan alueen "
+"raja näkyviin."
 
 #: client/options.c:502
 msgid "Draw city output"
@@ -10763,7 +10856,9 @@ msgstr "Kaupungin tuotanto"
 
 #: client/options.c:503
 msgid "Setting this option will draw city output for every citizen."
-msgstr "Asetuksen päällä ollessa kaikkien kaupungin työläisten tuotanto piirretään näkyviin."
+msgstr ""
+"Asetuksen päällä ollessa kaikkien kaupungin työläisten tuotanto piirretään "
+"näkyviin."
 
 #: client/options.c:507
 msgid "Draw the map grid"
@@ -10803,7 +10898,9 @@ msgstr "Piirrä kaupunkien kasvuaikaennuste"
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
-msgstr "Asetuksen ollessa päällä piirretään kartalle tieto siitä monenko kierroksen päästä kaupungin oletetaan kasvavan tai pienentyvän."
+msgstr ""
+"Asetuksen ollessa päällä piirretään kartalle tieto siitä monenko kierroksen "
+"päästä kaupungin oletetaan kasvavan tai pienentyvän."
 
 #: client/options.c:528
 msgid "Draw the city productions"
@@ -10813,7 +10910,9 @@ msgstr "Piirrä kaupunkien tuotanto"
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
-msgstr "Asetuksen ollessa päällä kartalle piirretään mitä kaupungit ovat parhaillaan rakentamassa."
+msgstr ""
+"Asetuksen ollessa päällä kartalle piirretään mitä kaupungit ovat parhaillaan "
+"rakentamassa."
 
 #: client/options.c:533
 msgid "Draw the city buy costs"
@@ -10823,7 +10922,9 @@ msgstr "Piirrä tuotannon ostohinta"
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
-msgstr "Asetuksen ollessa päällä kartalle piirretään paljonko maksaisi kaupungin ostaa rakenteilla oleva tuotantonsa."
+msgstr ""
+"Asetuksen ollessa päällä kartalle piirretään paljonko maksaisi kaupungin "
+"ostaa rakenteilla oleva tuotantonsa."
 
 #: client/options.c:538
 msgid "Draw the city trade routes"
@@ -10833,7 +10934,9 @@ msgstr "Piirrä kauppareitit"
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
-msgstr "Asetuksen ollessa päällä kauppareittejä kuvaavat viivat piirretään kaupunkien välille."
+msgstr ""
+"Asetuksen ollessa päällä kauppareittejä kuvaavat viivat piirretään "
+"kaupunkien välille."
 
 #: client/options.c:543
 msgid "Draw the terrain"
@@ -10886,11 +10989,11 @@ msgstr "Asetuksen ollessa päällä tukikohdat piirretään kartalle."
 
 #: client/options.c:570
 msgid "Draw the specials"
-msgstr "Piirrä erikoisluonnonvarat"
+msgstr "Piirrä erityispiirteet"
 
 #: client/options.c:571
 msgid "Setting this option will draw the specials on the map."
-msgstr "Asetuksen ollessa päällä erikoisluonnonvarat piirretään kartalle."
+msgstr "Asetuksen ollessa päällä maaston erityispiirteet piirretään kartalle."
 
 #: client/options.c:575
 msgid "Draw the pollution/nuclear fallout"
@@ -10948,15 +11051,19 @@ msgstr "Piirrä valitut yksiköt"
 msgid ""
 "Setting this option will draw the units in focus, including the case the "
 "other units wouldn't be drawn."
-msgstr "Asetuksen ollessa päällä valitut yksiköt piirretään näkyviin siinäkin tapauksessa että muita yksiköitä ei piirretä."
+msgstr ""
+"Asetuksen ollessa päällä valitut yksiköt piirretään näkyviin siinäkin "
+"tapauksessa että muita yksiköitä ei piirretä."
 
 #: client/options.c:606
 msgid "Draw the fog of war"
-msgstr "Piirrä näkökyvyn rajat"
+msgstr "Piirrä näkyvyyden rajat"
 
 #: client/options.c:607
 msgid "Setting this option will draw the fog of war."
-msgstr "Asetuksen ollessa päällä tunnetut, mutta paraikaa näkymättömissä olevat ruudut piirretään näkyvistä ruuduista erottuvina, esimerkiksi tummempina."
+msgstr ""
+"Asetuksen ollessa päällä tunnetut, mutta paraikaa näkymättömissä olevat "
+"ruudut piirretään näkyvistä ruuduista erottuvina, esimerkiksi tummempina."
 
 #: client/options.c:610
 msgid "Draw the borders"
@@ -10974,7 +11081,8 @@ msgstr "Listaa kuolleet pelaajat kansojen luettelossa."
 msgid ""
 "Setting this option will draw the players already dead in the nation report "
 "page."
-msgstr "Asetuksen ollessa päällä jo kuolleet pelaajat listataan kansojen luettelossa."
+msgstr ""
+"Asetuksen ollessa päällä jo kuolleet pelaajat listataan kansojen luettelossa."
 
 #: client/options.c:620 client/gui-sdl/optiondlg.c:914
 msgid "Sound bell at new turn"
@@ -11221,7 +11329,13 @@ msgid ""
 "which action should be performed. Disabling this option means you will have "
 "to do the action manually by pressing either 'r' (for a trade route) or "
 "'b' (for building a wonder) when the caravan is in the city."
-msgstr "Jos tämä asetus on valittuna, karavaanin saapuminen kaupunkiin, johon se voi perustaa vakituisen kauppareitin tai jossa se voi auttaa rakentamaan ihmettä, avaa ikkunan, joka kysyy, mitä tehdään. Jos asetus ei ole valittuna, nämä toiminnot pitää käskyttää erikseen painamalla 'r' (kauppareitille) tai 'b' (ihmeen rakentamiselle), kun karavaani on sisällä kaupungissa."
+msgstr ""
+"Jos tämä asetus on valittuna, karavaanin saapuminen kaupunkiin, johon se voi "
+"perustaa vakituisen kauppareitin tai jossa se voi auttaa rakentamaan "
+"ihmettä, avaa ikkunan, joka kysyy, mitä tehdään. Jos asetus ei ole "
+"valittuna, nämä toiminnot pitää käskyttää erikseen painamalla "
+"'r' (kauppareitille) tai 'b' (ihmeen rakentamiselle), kun karavaani on "
+"sisällä kaupungissa."
 
 #: client/options.c:730
 msgid "Enable cursor changing"
@@ -11260,7 +11374,12 @@ msgid ""
 "stop their current activity when selected. Giving them new orders will clear "
 "their current ones; pressing <space> once will clear their orders and leave "
 "them selected, and pressing <space> a second time will dismiss them."
-msgstr "Jos tämä asetus on valittu, yksiköt unohtavat vanhat komentonsa kun ne valitaan joko yksin tai osana joukkoa. Jos asetusta ei ole valittu, yksikön valinta ei saa sitä keskeyttämään komentojensa toteuttamista. Sen sijaan se unohtaa vanhat käskynsä vasta saadessaan uudet tai jos painat kerran välilyöntiä. Toinen välilyönnin painaminen poistaa ne valinnasta."
+msgstr ""
+"Jos tämä asetus on valittu, yksiköt unohtavat vanhat komentonsa kun ne "
+"valitaan joko yksin tai osana joukkoa. Jos asetusta ei ole valittu, yksikön "
+"valinta ei saa sitä keskeyttämään komentojensa toteuttamista. Sen sijaan se "
+"unohtaa vanhat käskynsä vasta saadessaan uudet tai jos painat kerran "
+"välilyöntiä. Toinen välilyönnin painaminen poistaa ne valinnasta."
 
 #: client/options.c:752
 msgid "Enable vote bar"
@@ -11290,7 +11409,9 @@ msgstr ""
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
-msgstr "Jos tämä asetus on päällä, äänestyspalkkia ei näytetä jos olet vain pelin seuraaja."
+msgstr ""
+"Jos tämä asetus on päällä, äänestyspalkkia ei näytetä jos olet vain pelin "
+"seuraaja."
 
 #: client/options.c:767
 msgid "Set new votes at front"
@@ -11300,7 +11421,8 @@ msgstr "Uudet äänestykset listan alkuun"
 msgid ""
 "If this option is enabled, then the new votes will go to the front of the "
 "vote list"
-msgstr "Jos tämä asetus on valittu, uudet äänestykset lisätään äänestyslistan alkuun"
+msgstr ""
+"Jos tämä asetus on valittu, uudet äänestykset lisätään äänestyslistan alkuun"
 
 #: client/options.c:773
 msgid "Background layer"
@@ -11456,7 +11578,9 @@ msgstr "Lisää uudet viestitapahtumat listan alkuun"
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
-msgstr "Jos tämä asetus on valittu, uudet tapahtumat viesti-ikkunassa näytetään listan alussa, muussa tapauksessa ne lisätään listan loppuun."
+msgstr ""
+"Jos tämä asetus on valittu, uudet tapahtumat viesti-ikkunassa näytetään "
+"listan alussa, muussa tapauksessa ne lisätään listan loppuun."
 
 #: client/options.c:855
 msgid "Show extra message window buttons"
@@ -11538,7 +11662,10 @@ msgid ""
 "If this option is enabled, the message notebook will be merged into the "
 "world map notebook. Thus, the size needed for the main window will be "
 "reduced. This option requires a restart in order to take effect."
-msgstr "Jos tämä asetus on valittu, viestialue yhdistetään kartta-alueeseen pienentäen pääikkunan tilantarvetta. Tämän asetuksen muutos tulee voimaan vasta Freecivin uudelleenkäynnistämisen jälkeen."
+msgstr ""
+"Jos tämä asetus on valittu, viestialue yhdistetään kartta-alueeseen "
+"pienentäen pääikkunan tilantarvetta. Tämän asetuksen muutos tulee voimaan "
+"vasta Freecivin uudelleenkäynnistämisen jälkeen."
 
 #: client/options.c:902
 msgid "Mouse over the map widget selects it automatically"
@@ -11549,7 +11676,9 @@ msgstr "Kartta-alue tulee aktiivisesti osoittimen liikkuessa sen päälle"
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse will "
 "be floating over it."
-msgstr "Jos tämä asetus on käytössä, kartta-alue muuttuu automaattisesti aktiiviseksi heti kun osoitin siirretään sen päälle."
+msgstr ""
+"Jos tämä asetus on käytössä, kartta-alue muuttuu automaattisesti "
+"aktiiviseksi heti kun osoitin siirretään sen päälle."
 
 #: client/options.c:907
 msgid "Width of the city dialog"
@@ -11679,7 +11808,8 @@ msgstr "Edellytyspuu"
 #: client/options.c:994
 msgid ""
 "This font is used to the display the requirement tree in the science report."
-msgstr "Fonttia käytetään tiederaportin tekniikoiden edellytyksiä kuvaavassa puussa."
+msgstr ""
+"Fonttia käytetään tiederaportin tekniikoiden edellytyksiä kuvaavassa puussa."
 
 #: client/options.c:1000
 msgid "Full Screen"
@@ -12950,7 +13080,7 @@ msgstr "Karavaanisi on saapunut perille"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:118 client/gui-win32/dialogs.c:1063
 msgid "Establish _Trade route"
-msgstr "Perusta vakinainen kaupparei_tti"
+msgstr "Perusta kaupparei_tti"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:119 client/gui-win32/dialogs.c:1064
 msgid "Enter Marketplace"
@@ -13375,7 +13505,7 @@ msgstr "_Käskynhaltija"
 
 #: client/gui-gtk-2.0/cityrep.c:1016
 msgid "S_ell"
-msgstr "Myy"
+msgstr "_Myy"
 
 #: client/gui-gtk-2.0/cityrep.c:1021 client/gui-gtk-2.0/menu.c:1442
 msgid "_Select"
@@ -14216,7 +14346,7 @@ msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:1244
 msgid "?noun:View"
-msgstr ""
+msgstr "Näkymä"
 
 #: client/gui-gtk-2.0/gui_main.c:1356
 msgid "Chat"
@@ -14568,7 +14698,7 @@ msgstr "_Muokkaa"
 
 #: client/gui-gtk-2.0/menu.c:1211 client/gui-win32/menu.c:342
 msgid "?verb:_View"
-msgstr "Katso"
+msgstr "_Näytä"
 
 #: client/gui-gtk-2.0/menu.c:1212
 msgid "_Improvements"
@@ -14640,7 +14770,7 @@ msgstr "_Etsi kaupunki"
 
 #: client/gui-gtk-2.0/menu.c:1250 client/gui-win32/menu.c:333
 msgid "Work_lists"
-msgstr "Työlistat"
+msgstr "_Työlistat"
 
 #: client/gui-gtk-2.0/menu.c:1254
 msgid "?noun:_View"
@@ -14657,7 +14787,7 @@ msgstr "Maailman _ihmeet"
 
 #: client/gui-gtk-2.0/menu.c:1261 client/gui-win32/menu.c:416
 msgid "Top _Five Cities"
-msgstr "Viisi parasta kaupunkia"
+msgstr "Viisi parasta ka_upunkia"
 
 #: client/gui-gtk-2.0/menu.c:1263 client/gui-win32/menu.c:417
 msgid "_Messages"
@@ -14765,7 +14895,7 @@ msgstr "Kopiointi"
 #: client/gui-xaw/menu.c:271 client/include/helpdlg_g.h:48
 #: data/helpdata.txt:2150
 msgid "About Freeciv"
-msgstr "Freeciv"
+msgstr "Tietoja Freecivistä"
 
 #: client/gui-gtk-2.0/menu.c:1322
 msgid "Save Options on _Exit"
@@ -14773,11 +14903,11 @@ msgstr "Tallenna valinnat p_oistuttaessa"
 
 #: client/gui-gtk-2.0/menu.c:1326
 msgid "_Editing Mode"
-msgstr "Muokkaustila"
+msgstr "_Muokkaustila"
 
 #: client/gui-gtk-2.0/menu.c:1330
 msgid "Cit_y Outlines"
-msgstr "Kaupunkien ääriviivat"
+msgstr "Kaupunkien ääri_viivat"
 
 #: client/gui-gtk-2.0/menu.c:1332 client/gui-sdl/optiondlg.c:1591
 msgid "City Output"
@@ -14785,11 +14915,11 @@ msgstr "Kaupungin tuotanto"
 
 #: client/gui-gtk-2.0/menu.c:1334 client/gui-win32/menu.c:343
 msgid "Map _Grid"
-msgstr "Koordinaatisto"
+msgstr "Koor_dinaatisto"
 
 #: client/gui-gtk-2.0/menu.c:1336 client/gui-win32/menu.c:344
 msgid "National _Borders"
-msgstr "Valtioiden rajat"
+msgstr "Valtioiden ra_jat"
 
 #: client/gui-gtk-2.0/menu.c:1339
 msgid "City Full Bar"
@@ -14797,15 +14927,15 @@ msgstr "Täydellinen kaupunki-info"
 
 #: client/gui-gtk-2.0/menu.c:1341 client/gui-win32/menu.c:345
 msgid "City _Names"
-msgstr "Kaupunkien nimet"
+msgstr "Kaupunkien _nimet"
 
 #: client/gui-gtk-2.0/menu.c:1343 client/gui-win32/menu.c:346
 msgid "City G_rowth"
-msgstr "Kaupunkien kasvu"
+msgstr "Kaupunkien kasv_u"
 
 #: client/gui-gtk-2.0/menu.c:1345 client/gui-win32/menu.c:347
 msgid "City _Production Levels"
-msgstr "Kaupunkien tuotanto"
+msgstr "Kaupunkien _tuotanto"
 
 #: client/gui-gtk-2.0/menu.c:1348
 msgid "City Buy Cost"
@@ -14813,7 +14943,7 @@ msgstr "Kaupunkien ostohinnat"
 
 #: client/gui-gtk-2.0/menu.c:1350
 msgid "City Tra_deroutes"
-msgstr "Kaupunkien kauppareitit"
+msgstr "Kaupunkien kauppar_eitit"
 
 #: client/gui-gtk-2.0/menu.c:1354
 msgid "_Terrain"
@@ -14821,37 +14951,35 @@ msgstr "_Maasto"
 
 #: client/gui-gtk-2.0/menu.c:1356
 msgid "C_oastline"
-msgstr "Rantaviiva"
+msgstr "Ra_ntaviiva"
 
 #: client/gui-gtk-2.0/menu.c:1359
 msgid "_Roads & Rails"
-msgstr "Tiet ja rautatiet"
+msgstr "Tiet ja _rautatiet"
 
 #: client/gui-gtk-2.0/menu.c:1361
 msgid "_Irrigation"
-msgstr "Kasteluverkosto"
+msgstr "Kaste_luverkosto"
 
 #: client/gui-gtk-2.0/menu.c:1363
 msgid "_Mines"
-msgstr "Kaivokset"
+msgstr "_Kaivokset"
 
 #: client/gui-gtk-2.0/menu.c:1365
 msgid "_Fortress & Airbase"
-msgstr "Tukikohdat"
+msgstr "Tukik_ohdat"
 
 #: client/gui-gtk-2.0/menu.c:1368
 msgid "_Specials"
-msgstr "Erityisluonnonvarat"
+msgstr "Erit_yispiirteet"
 
-# *** Depends too much on the context, phenomenom pollution & 'substance' pollution
-# aren't the same. ***
 #: client/gui-gtk-2.0/menu.c:1370
 msgid "Po_llution & Fallout"
-msgstr "Saasteet & laskeuma"
+msgstr "_Saasteet & laskeuma"
 
 #: client/gui-gtk-2.0/menu.c:1372
 msgid "Citi_es"
-msgstr "Kaupungit"
+msgstr "Kaupun_git"
 
 #: client/gui-gtk-2.0/menu.c:1374 client/gui-gtk-2.0/menu.c:1598
 #: client/gui-win32/menu.c:407
@@ -14868,19 +14996,19 @@ msgstr "Yksiköiden vaakuna"
 
 #: client/gui-gtk-2.0/menu.c:1380
 msgid "Focu_s Unit"
-msgstr "Valittu yksikkö"
+msgstr "_Valittu yksikkö"
 
 #: client/gui-gtk-2.0/menu.c:1382
 msgid "Fog of _War"
-msgstr "Näkökyvyn rajat"
+msgstr "Nä_kyvyyden rajat"
 
 #: client/gui-gtk-2.0/menu.c:1384
 msgid "Better Fog of War"
-msgstr "Parempi näkökyvyn rajojen esitys"
+msgstr "Parempi näkyvyysrajojen esitys"
 
 #: client/gui-gtk-2.0/menu.c:1387
 msgid "_Full Screen"
-msgstr "_Kokoruututila"
+msgstr "K_okoruututila"
 
 #: client/gui-gtk-2.0/menu.c:1414
 msgid "Recalculate _Borders"
@@ -14888,7 +15016,7 @@ msgstr "Laske rajat _uudelleen"
 
 #: client/gui-gtk-2.0/menu.c:1416
 msgid "Toggle Fog of _War"
-msgstr "Näkökyvyn rajoitukset on/off"
+msgstr "Näkyvyyden rajoitusten käyttöönotto"
 
 #: client/gui-gtk-2.0/menu.c:1418
 msgid "Game/Scenario Properties"
@@ -14908,7 +15036,7 @@ msgstr "_Työt"
 
 #: client/gui-gtk-2.0/menu.c:1445
 msgid "_Combat"
-msgstr "Taistelu"
+msgstr "Taistel_u"
 
 #: client/gui-gtk-2.0/menu.c:1446
 msgid "Build _Base"
@@ -14916,23 +15044,23 @@ msgstr "Rakenna tukikohta"
 
 #: client/gui-gtk-2.0/menu.c:1451
 msgid "_Single Unit (Unselect Others)"
-msgstr "Yksi ainoa yksikkö"
+msgstr "_Vain yksi yksikkö"
 
 #: client/gui-gtk-2.0/menu.c:1453
 msgid "_All On Tile"
-msgstr "Kaikki ruudusta"
+msgstr "K_aikki ruudusta"
 
 #: client/gui-gtk-2.0/menu.c:1456
 msgid "Same Type on _Tile"
-msgstr "Saman tyyppiset ruudusta"
+msgstr "Saman tyyppiset r_uudusta"
 
 #: client/gui-gtk-2.0/menu.c:1458
 msgid "Same Type on _Continent"
-msgstr "Saman tyyppiset mantereelta"
+msgstr "Saman tyyppiset _mantereelta"
 
 #: client/gui-gtk-2.0/menu.c:1460
 msgid "Same Type _Everywhere"
-msgstr "Saman tyyppiset kaikkialta"
+msgstr "Saman tyyppiset ka_ikkialta"
 
 #: client/gui-gtk-2.0/menu.c:1463 client/gui-win32/menu.c:401
 msgid "_Wait"
@@ -14940,130 +15068,130 @@ msgstr "O_dota"
 
 #: client/gui-gtk-2.0/menu.c:1465
 msgid "_Done"
-msgstr "Valmis"
+msgstr "Valmi_s"
 
 #: client/gui-gtk-2.0/menu.c:1469
 msgid "_Go to"
-msgstr "Mene"
+msgstr "M_ene"
 
 #: client/gui-gtk-2.0/menu.c:1471 client/gui-win32/menu.c:394
 msgid "Go _to/Airlift to City..."
-msgstr "Mene/Lennätä kaupunkiin"
+msgstr "Me_ne/Lennätä kaupunkiin"
 
 #: client/gui-gtk-2.0/menu.c:1473
 msgid "_Return to Nearest City"
-msgstr "Palaa lähimpään kaupunkiin"
+msgstr "P_alaa lähimpään kaupunkiin"
 
 #: client/gui-gtk-2.0/menu.c:1475 client/gui-win32/menu.c:386
 msgid "Auto E_xplore"
-msgstr "Kartoita automaattisesti"
+msgstr "Ka_rtoita automaattisesti"
 
 #: client/gui-gtk-2.0/menu.c:1477
 msgid "_Patrol"
-msgstr "Partioi"
+msgstr "_Partioi"
 
 #: client/gui-gtk-2.0/menu.c:1480 client/gui-win32/menu.c:377
 msgid "_Sentry"
-msgstr "Leiriydy"
+msgstr "_Leiriydy"
 
 #: client/gui-gtk-2.0/menu.c:1482 client/gui-win32/menu.c:383
 msgid "Uns_entry All On Tile"
-msgstr "Herätä kaikki ruudussa"
+msgstr "Herä_tä kaikki ruudussa"
 
 #: client/gui-gtk-2.0/menu.c:1485 client/gui-win32/menu.c:381
 msgid "_Load"
-msgstr "_Lastaa"
+msgstr "La_staa"
 
 #: client/gui-gtk-2.0/menu.c:1487 client/gui-win32/menu.c:382
 msgid "_Unload"
-msgstr "Pura lasti"
+msgstr "P_ura lasti"
 
 #: client/gui-gtk-2.0/menu.c:1489
 msgid "U_nload All From Transporter"
-msgstr "Pura kuljetusalus"
+msgstr "Pura k_oko kuljetusalus"
 
 #: client/gui-gtk-2.0/menu.c:1494
 msgid "Upgr_ade"
-msgstr "Ajanmukaista"
+msgstr "_Ajanmukaista"
 
 #: client/gui-gtk-2.0/menu.c:1496
 msgid "_Disband"
-msgstr "Lakkauta yksikkö"
+msgstr "Lakkauta _yksikkö"
 
 #: client/gui-gtk-2.0/menu.c:1500 client/gui-gtk-2.0/menu.c:2154
 #: client/gui-win32/menu.c:367
 msgid "_Build City"
-msgstr "Perusta kaupunki"
+msgstr "_Perusta kaupunki"
 
 #: client/gui-gtk-2.0/menu.c:1502
 msgid "Go _to and Build city"
-msgstr "Mene ja _Perusta kaupunki"
+msgstr "Mene _ja Perusta kaupunki"
 
 #: client/gui-gtk-2.0/menu.c:1504
 msgid "_Auto Settler"
-msgstr "Automaattinen uudisraivaaja"
+msgstr "_Automaattinen uudisraivaaja"
 
 #: client/gui-gtk-2.0/menu.c:1507 client/gui-gtk-2.0/menu.c:2175
 #: client/gui-gtk-2.0/menu.c:2178 client/gui-win32/menu.c:368
 msgid "Build _Road"
-msgstr "Rakenna tie"
+msgstr "_Rakenna tie"
 
 #: client/gui-gtk-2.0/menu.c:1509 client/gui-gtk-2.0/menu.c:2195
 #: client/gui-gtk-2.0/menu.c:2215 client/gui-win32/menu.c:369
 msgid "Build _Irrigation"
-msgstr "Rakenna kasteluverkosto"
+msgstr "Rakenna _kasteluverkosto"
 
 #: client/gui-gtk-2.0/menu.c:1511 client/gui-gtk-2.0/menu.c:2203
 #: client/gui-gtk-2.0/menu.c:2216 client/gui-win32/menu.c:370
 msgid "Build _Mine"
-msgstr "Perusta kaivos"
+msgstr "Perusta kai_vos"
 
 #: client/gui-gtk-2.0/menu.c:1514
 msgid "Connect With Roa_d"
-msgstr "Mene tietä rakentaen"
+msgstr "Mene _tietä rakentaen"
 
 #: client/gui-gtk-2.0/menu.c:1516
 msgid "Connect With Rai_l"
-msgstr "Mene rautatietä rakentaen"
+msgstr "Mene _rautatietä rakentaen"
 
 #: client/gui-gtk-2.0/menu.c:1518
 msgid "Connect With Irri_gation"
-msgstr "Mene kasteluverkostoa tehden"
+msgstr "Mene k_asteluverkostoa tehden"
 
 #: client/gui-gtk-2.0/menu.c:1521 client/gui-gtk-2.0/menu.c:2212
 #: client/gui-gtk-2.0/menu.c:2217
 msgid "Transf_orm Terrain"
-msgstr "Muuta maastotyyppiä"
+msgstr "Muuta maastot_yyppiä"
 
 #: client/gui-gtk-2.0/menu.c:1523 client/gui-gtk-2.0/menu.c:2233
 #: client/gui-win32/menu.c:374
 msgid "Clean _Pollution"
-msgstr "Puhdista saasteet"
+msgstr "_Puhdista saasteet"
 
 #: client/gui-gtk-2.0/menu.c:1525 client/gui-win32/menu.c:375
 msgid "Clean _Nuclear Fallout"
-msgstr "Puhdista ydinlaskeuma"
+msgstr "Puhdista y_dinlaskeuma"
 
 #: client/gui-gtk-2.0/menu.c:1529 client/gui-gtk-2.0/menu.c:2227
 #: client/gui-win32/menu.c:372
 msgid "Build _Fortress"
-msgstr "Rakenna linnoitus"
+msgstr "Rakenna li_nnoitus"
 
 #: client/gui-gtk-2.0/menu.c:1531 client/gui-win32/menu.c:373
 msgid "Build Airbas_e"
-msgstr "Rakenna lentokenttä"
+msgstr "Rakenna l_entokenttä"
 
 #: client/gui-gtk-2.0/menu.c:1534
 msgid "_Pillage"
-msgstr "Turmele"
+msgstr "Tu_rmele"
 
 #: client/gui-gtk-2.0/menu.c:1536
 msgid "_Diplomat/Spy Actions"
-msgstr "Diplomaatin/vakoojan toiminnot"
+msgstr "_Diplomaatin/vakoojan toiminnot"
 
 #: client/gui-gtk-2.0/menu.c:1538
 msgid "Explode _Nuclear"
-msgstr "Räjäytä ydinlataus"
+msgstr "Rä_jäytä ydinlataus"
 
 #: client/gui-gtk-2.0/menu.c:1563 client/gui-win32/menu.c:335
 msgid "_Government"
@@ -15110,7 +15238,7 @@ msgstr "Lisää tähän kaupunkiin (_B)"
 
 #: client/gui-gtk-2.0/menu.c:2159
 msgid "Establish Trade _Route"
-msgstr "Perusta vakinainen kaupparei_tti"
+msgstr "Perusta kaupparei_tti"
 
 #: client/gui-gtk-2.0/menu.c:2173
 msgid "Build _Railroad"
@@ -16969,7 +17097,7 @@ msgstr "Lakkauta yksikkö"
 
 #: client/gui-sdl/menu.c:439
 msgid "Upgrade Unit"
-msgstr "Ajanmukaista!"
+msgstr "Ajanmukaista"
 
 #: client/gui-sdl/menu.c:452 client/gui-win32/menu.c:395
 #: client/gui-xaw/menu.c:208
@@ -17056,7 +17184,7 @@ msgstr "Laskuvarjohyppy"
 #: client/gui-sdl/menu.c:697 client/gui-win32/menu.c:1307
 #: client/gui-xaw/menu.c:184
 msgid "Clean Pollution"
-msgstr "Korjaa ympäristötuhoja"
+msgstr "Siivoa saasteita"
 
 #: client/gui-sdl/menu.c:709 client/gui-xaw/menu.c:183
 msgid "Build Airbase"
@@ -17232,7 +17360,7 @@ msgstr "Linnoitus ja lentotukikohta"
 #: client/gui-sdl/optiondlg.c:1996 client/gui-win32/menu.c:361
 #: client/gui-xaw/menu.c:164
 msgid "Fog of War"
-msgstr "Rajoitettu näkymä"
+msgstr "Näkyvyyden rajat"
 
 #: client/gui-sdl/optiondlg.c:2025
 msgid "Civ3 city text style"
@@ -18350,7 +18478,7 @@ msgstr "(tekeillä)"
 #: client/gui-xaw/citydlg.c:1481
 #, c-format
 msgid "These trade routes have been established with %s:\n"
-msgstr "Nämä vakiintuneet kauppareitit meillä on kaupunkiin %s:\n"
+msgstr "Nämä kauppareitit meillä on kaupunkiin %s:\n"
 
 #: client/gui-xaw/citydlg.c:1491 client/gui-xaw/citydlg.c:1495
 #, c-format
@@ -18697,11 +18825,11 @@ msgstr "Rautatie"
 
 #: manual/civmanual.c:247
 msgid "Clean pollution"
-msgstr "Poista saasteita"
+msgstr "Siivoa saasteita"
 
 #: manual/civmanual.c:247
 msgid "Clean fallout"
-msgstr "Poista laskeumaa"
+msgstr "Laskeuman siivous"
 
 #: manual/civmanual.c:282 manual/civmanual.c:292
 msgid "impossible"
@@ -19266,7 +19394,13 @@ msgid ""
 msgstr ""
 " 3. Ensimmäisten tuotettavien yksiköiden valinta.\n"
 "\n"
-"    Kun olet tuottanut yhden tai kaksi sotilasyksikköä, ala tuottaa uudisraivaajia. Toista uudisraivaajaa voidaan käyttää rakentamaan teitä ja kastelujärjestelmiä kaupungin lähelle, ja kolmatta voidaan käyttää uuden kaupungin perustamiseen. Tai voit käyttää toista uudisraivaajaa perustamaan kaupungin ja kolmatta viljelysmaan parantamiseen kaupunkien ympärillä. Muista, että suuri asukasluku nostaa sekä tuotannon määrää että sivilisaatiosi tieteen tasoa."
+"    Kun olet tuottanut yhden tai kaksi sotilasyksikköä, ala tuottaa "
+"uudisraivaajia. Toista uudisraivaajaa voidaan käyttää rakentamaan teitä ja "
+"kastelujärjestelmiä kaupungin lähelle, ja kolmatta voidaan käyttää uuden "
+"kaupungin perustamiseen. Tai voit käyttää toista uudisraivaajaa perustamaan "
+"kaupungin ja kolmatta viljelysmaan parantamiseen kaupunkien ympärillä. "
+"Muista, että suuri asukasluku nostaa sekä tuotannon määrää että "
+"sivilisaatiosi tieteen tasoa."
 
 #: data/helpdata.txt:138
 msgid ""
@@ -19353,7 +19487,13 @@ msgid ""
 "lightning bolt (depending on the tileset).  Take care not to let this happen "
 "to any of your cities, as cities in disorder produce nothing, and are prone "
 "to revolt."
-msgstr "    Kaupungista huolehtimisen kultainen sääntö on, että siellä pitäisi olla ainakin yhtä monta onnellista kuin tyytymätöntä asukasta. Muuten kaupungissa alkavat mellakat. Mellakoivat kaupungit on merkitty salamalla tai nyrkillä, käytössä olevasta grafiikkasetistä riippuen. Älä anna tämän tapahtua yhdellekään kaupungillesi, koska mellakoivat kaupungit eivät tuota mitään, ja ennen pitkää kapinoivat."
+msgstr ""
+"    Kaupungista huolehtimisen kultainen sääntö on, että siellä pitäisi olla "
+"ainakin yhtä monta onnellista kuin tyytymätöntä asukasta. Muuten kaupungissa "
+"alkavat mellakat. Mellakoivat kaupungit on merkitty salamalla tai nyrkillä, "
+"käytössä olevasta grafiikkasetistä riippuen. Älä anna tämän tapahtua "
+"yhdellekään kaupungillesi, koska mellakoivat kaupungit eivät tuota mitään, "
+"ja ennen pitkää kapinoivat."
 
 #: data/helpdata.txt:183
 msgid ""
@@ -19847,7 +19987,9 @@ msgstr ""
 #: data/helpdata.txt:467
 msgid ""
 "In the default ruleset, occupied fortresses also extend national borders."
-msgstr "Oletussääntökokoelmassa miehitetyt linnoitukset myös laajentavat valtion rajoja."
+msgstr ""
+"Oletussääntökokoelmassa miehitetyt linnoitukset myös laajentavat valtion "
+"rajoja."
 
 #: data/helpdata.txt:470
 msgid ""
@@ -22443,7 +22585,11 @@ msgid ""
 "by the city by 2 under Democracy and 1 under Republic -- in other words, it "
 "neutralises the unhappiness caused by a single military unit. This "
 "improvement has no effect under other governments."
-msgstr "Vähentää kaupungin aggressiivisesti sijoitetuista sotilasyksiköistä johtuvaa tyytymättömyyttä kahdella Demokratiassa ja yhdellä Tasavallassa, eli molemmissa tapauksissa neutraloi yhden sotilasyksikön aiheuttaman tyytymättömyyden. Ei vaikutusta muissa hallitusmuodoissa."
+msgstr ""
+"Vähentää kaupungin aggressiivisesti sijoitetuista sotilasyksiköistä johtuvaa "
+"tyytymättömyyttä kahdella Demokratiassa ja yhdellä Tasavallassa, eli "
+"molemmissa tapauksissa neutraloi yhden sotilasyksikön aiheuttaman "
+"tyytymättömyyden. Ei vaikutusta muissa hallitusmuodoissa."
 
 #: data/default/buildings.ruleset:607 data/civ2/buildings.ruleset:568
 msgid "Port Facility"
@@ -22522,7 +22668,9 @@ msgstr "Ilmatorjuntaohjuspatteri"
 msgid ""
 "Doubles the defense of all units inside the city when attacked by aircraft "
 "(not including helicopters or missiles)."
-msgstr "Kaksinkertaistaa kaikkien kaupungissa olevien yksiköiden puolustuskyvyn ilmaiskuja vastaan. Ei tehoa helikoptereita tai ohjuksia vastaan."
+msgstr ""
+"Kaksinkertaistaa kaikkien kaupungissa olevien yksiköiden puolustuskyvyn "
+"ilmaiskuja vastaan. Ei tehoa helikoptereita tai ohjuksia vastaan."
 
 #: data/default/buildings.ruleset:727 data/civ2/buildings.ruleset:683
 #: data/civ1/buildings.ruleset:498
@@ -23624,7 +23772,7 @@ msgstr "Teollinen"
 
 #: data/default/cities.ruleset:142
 msgid "?citystyle:ElectricAge"
-msgstr "Sähkön aika"
+msgstr "Sähköaika"
 
 #: data/default/cities.ruleset:153 data/civ2/cities.ruleset:152
 msgid "?citystyle:Modern"
@@ -26400,7 +26548,6 @@ msgid "?plural:Aztecs"
 msgstr "?plural:asteekit"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
@@ -26415,14 +26562,12 @@ msgstr ""
 #. TRANS: Tlahtoani = Speaker
 #. TRANS: Cihua = Female
 #: data/nation/aztec.ruleset:30
-#, fuzzy
 msgid "Tlahtoani"
-msgstr "Tlatoani"
+msgstr "Tlàtoani"
 
 #: data/nation/aztec.ruleset:30
-#, fuzzy
 msgid "Cihualahtoani"
-msgstr "Tlatoani"
+msgstr "Cihuatlàtoani"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -26447,9 +26592,8 @@ msgid "Lugal"
 msgstr "Lugal"
 
 #: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:27
-#, fuzzy
 msgid "?female:Lugal"
-msgstr "Toveri"
+msgstr "Lugal"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -26503,7 +26647,6 @@ msgid "?plural:Bavarians"
 msgstr "?plural:baijerilaiset"
 
 #: data/nation/bavarian.ruleset:6
-#, fuzzy
 msgid ""
 "Bavaria, before national unification in 1870 AD, was one of the largest of "
 "the German kingdoms."
@@ -26525,7 +26668,7 @@ msgid ""
 "subsequently Lithuania, Rzeczpospolita, the Russian Empire and the Soviet "
 "Union. Belarus became independent in 1991 with the dissolution of the Soviet "
 "Union."
-msgstr ""
+msgstr "Valkovenäjä oli Kiovan venäjän (Kiovan Rusj) ammoinen slaaviosavaltio, ja sen jälkeen osa Liettuaa, Rzeczpospolitaa, Venäjän keisarikuntaa ja Neuvostoliittoa. Valkovenäjä itsenäistyi 1991 Neuvostoliiton hajottua."
 
 #: data/nation/belarusian.ruleset:21 data/nation/burgundian.ruleset:32
 #: data/nation/norman.ruleset:23 data/nation/prussian.ruleset:26
@@ -26619,16 +26762,11 @@ msgid "?plural:Boers"
 msgstr "?plural:buurit"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from 1650 "
 "AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
-msgstr ""
-"Buurit olivat hollantilaisia uudisraivaajia brittien hallitsemassa Etelä-"
-"Afrikassa vuonna 1650 jKr.  He hallitsivat lyhyen ajan kahta tasavaltaa, "
-"Transvaalia ja Oranjen vapaavaltiota, ennen häviötään briteille vuosien "
-"1899-1902 sodassa."
+msgstr "Buurit olivat hollantilaisia uudisraivaajia brittien hallitsemassa Etelä-Afrikassa vuodesta 1650 jKr.  He hallitsivat lyhyen ajan kahta tasavaltaa, Transvaalia ja Oranjen vapaavaltiota, ennen häviötään briteille vuosien 1899-1902 sodassa."
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
@@ -26653,9 +26791,8 @@ msgid "Ban"
 msgstr "Ban"
 
 #: data/nation/bosnia.ruleset:27
-#, fuzzy
 msgid "?female:Ban"
-msgstr "Rani"
+msgstr "Ban"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -26723,7 +26860,6 @@ msgid "?plural:Bretons"
 msgstr "bretonit"
 
 #: data/nation/breton.ruleset:6
-#, fuzzy
 msgid ""
 "Known to the Romans as Armorica, Brittany had been Celtic speaking for many "
 "centuries before Britons arrived in the peninsula as mercenaries, colonists "
@@ -26921,9 +27057,8 @@ msgid "Basileus"
 msgstr "Basileus"
 
 #: data/nation/byzantium.ruleset:28
-#, fuzzy
 msgid "Basilissa"
-msgstr "Basileus"
+msgstr "Basilissa"
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
@@ -26963,13 +27098,10 @@ msgid "?plural:Canadians"
 msgstr "?plural:kanadalaiset"
 
 #: data/nation/canadian.ruleset:7
-#, fuzzy
 msgid ""
 "Geographically, Canada is the second largest country in world. The magnetic "
 "north pole currently lies on Canadian territory."
-msgstr ""
-"Kanada on maantieteellisesti pohjoisin valtio maailmassa: magneettinen "
-"pohjoisnapa on tällä hetkellä Kanadan alueella."
+msgstr "Kanada on maa-alaltaan maailman toiseksi suurin valtio. Magneettinen pohjoisnapa on tällä hetkellä Kanadan alueella."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -26980,7 +27112,6 @@ msgid "?plural:Carthaginians"
 msgstr "?plural:karthagolaiset"
 
 #: data/nation/carthaginian.ruleset:8
-#, fuzzy
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed "
@@ -26999,7 +27130,6 @@ msgid "?plural:Catalans"
 msgstr "?plural:katalonialaiset"
 
 #: data/nation/catalan.ruleset:6
-#, fuzzy
 msgid ""
 "During the Middle Ages, Catalan kings conquered and presided over several "
 "kingdoms on the shores of the Mediterranean Sea, from the Iberian peninsula "
@@ -27010,12 +27140,7 @@ msgid ""
 "Succession War. In 1713, England signed the Treaty of Utrecht and dropped "
 "out of the alliance, and the Catalans were finally defeated in 1714, losing "
 "their national rights as a result."
-msgstr ""
-"Katalaanikuninkaat valloittivat ja hallitsivat keskiajalla useita "
-"kuningaskuntia Välimeren rannoilla, Iberian niemimaalla sekä erinäisissä "
-"osissa Italiaa ja Kreikkaa. Tämä Aragonian kanssa yhdistynyt liittovalta "
-"muodosti huomattavan meri- ja kauppavoiman Välimeren alueella. Katalaanit "
-"säilyttivät itsemääräämisoikeutensa "
+msgstr "Katalaanikuninkaat valloittivat ja hallitsivat keskiajalla useita kuningaskuntia Välimeren rannoilla, Iberian niemimaalta Italian ja Kreikan osiin. Katalaanit säilyttivät itsehallintonsa liityttyään saman dynastian alle viereisen Kastilian kuningaskunnan kanssa. He taistelivat Englannin ja Itävallan puolella Ranskaa ja Kastiliaa vastaan Espanjan perimyssodassa. Englanti allekirjoitti Utrechtin sopimuksen vuonna 1713, ja irtautui liitosta; katalaanit joutuivat tappiolle lopulta 1714, ja menettivät tällöin kansallisoikeutensa."
 
 #: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:28
 msgid "Dictador"
@@ -27044,20 +27169,18 @@ msgid "Gran Bruixa"
 msgstr "Arkkipiispa"
 
 #: data/nation/cherokee.ruleset:3
-#, fuzzy
 msgid "Cherokee"
-msgstr "Aikaista"
+msgstr "cherokeiden"
 
 #: data/nation/cherokee.ruleset:4
-#, fuzzy
 msgid "?plural:Cherokees"
-msgstr "?plural:kreikkalaiset"
+msgstr "cherokeet"
 
 #: data/nation/cherokee.ruleset:6
 msgid ""
 "The Cherokee nation is the largest Native American nation in North America "
 "today."
-msgstr ""
+msgstr "Cherokeet ovat nykyään Pohjois-Amerikan suurin alkuperäiskansa."
 
 #: data/nation/cherokee.ruleset:22 data/nation/iroquois.ruleset:26
 #: data/nation/maori.ruleset:24 data/nation/muskogee.ruleset:32
@@ -27088,21 +27211,20 @@ msgstr "Puhemies"
 msgid "Spokeswoman"
 msgstr "Puhenainen"
 
+# Slight bonus interpretation made here.
 #: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
 #: data/nation/maori.ruleset:26 data/nation/muskogee.ruleset:34
 #: data/nation/polynesian.ruleset:20 data/nation/sioux.ruleset:30
 #: data/nation/swazi.ruleset:25 data/nation/zulu.ruleset:40
-#, fuzzy
 msgid "Principal Chief"
-msgstr "Suuri päällikkö"
+msgstr "Rauhanpäällikkö"
 
 #: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
 #: data/nation/maori.ruleset:26 data/nation/muskogee.ruleset:34
 #: data/nation/polynesian.ruleset:20 data/nation/sioux.ruleset:30
 #: data/nation/swazi.ruleset:25 data/nation/zulu.ruleset:40
-#, fuzzy
 msgid "?female:Principal Chief"
-msgstr "Presidentti"
+msgstr "Rauhanpäällikkö"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -27118,12 +27240,11 @@ msgstr "Chile sijaitsee Etelä-Amerikan lounaisrannikolla."
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr "Kenraali"
+msgstr "Kenraalikapteeni"
 
 #: data/nation/chilean.ruleset:24
-#, fuzzy
 msgid "?female:Captain General"
-msgstr "Kenraali"
+msgstr "Kenraalikapteeni"
 
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
 #: data/nation/german.ruleset:34 data/nation/irish.ruleset:46
@@ -27148,8 +27269,8 @@ msgstr "kiinalaisten"
 msgid "?plural:Chinese"
 msgstr "?plural:kiinalaiset"
 
+# Mental note: yes, nationalist = nationalisti. o.O
 #: data/nation/chinese.ruleset:6
-#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
 "with written records dating back over 3,500 years.  After first being "
@@ -27158,14 +27279,7 @@ msgid ""
 "the People's Republic of China, established by the Communists in 1949, "
 "occupies the mainland, while the former Nationalist government of the "
 "Republic of China had fled to the island of Taiwan after the civil war."
-msgstr ""
-"Kiina on maailman vanhin jatkuva merkittävä sivilisaatio. Sen kirjalliset "
-"lähteet yltävät 3 500 vuoden päähän. Qin-dynastia yhdisti Kiinan ensimmäistä "
-"kertaa vuonna 221 eaa., jonka jälkeen Kiina koki yhtenäisyyden ja "
-"erillisyyden kausia, ja ulkoiset etniset ryhmät valloittivat sen moneen "
-"kertaan. Nykyään Kiinan kansantasavalta, jonka Kiinan kommunistinen puolue "
-"perusti 1949, on vallassa mannermaalla, kun taas entinen "
-"nationalistihallinto on pakeni Taiwanin saarelle sisällissodan jälkeen."
+msgstr "Kiina on maailman vanhin suuri ja yhä olemassaoleva sivilisaatio. Sen kirjalliset lähteet yltävät 3 500 vuoden päähän. Qin-dynastia yhdisti Kiinan ensimmäistä kertaa vuonna 221 eaa., minkä jälkeen Kiina kävi läpi yhtenäisyyden ja erillisyyden kausia; lisäksi ulkoiset etniset ryhmät valloittivat alueen moneen kertaan. Nykyään Kiinan kansantasavalta, jonka Kiinan kommunistinen puolue perusti 1949, on vallassa mannermaalla, kun taas entinen nationalistihallinto pakeni Taiwanin saarelle sisällissodan jälkeen."
 
 #: data/nation/chinese.ruleset:31 data/nation/ethiopian.ruleset:24
 #: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:21
@@ -27178,14 +27292,12 @@ msgid "Dowager"
 msgstr "Keisarinna"
 
 #: data/nation/chola.ruleset:3
-#, fuzzy
 msgid "Chola"
-msgstr "hiiltä"
+msgstr "cholien"
 
 #: data/nation/chola.ruleset:4
-#, fuzzy
 msgid "?plural:Cholas"
-msgstr "?plural:chileläiset"
+msgstr "cholat"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -27196,7 +27308,7 @@ msgid ""
 "north as Bengal, as well as against the Maldives, Sri Lanka and even the "
 "Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s as "
 "other southern Indian states rose up."
-msgstr ""
+msgstr "Chola-dynastia oli tamilidynastia, joka hallitsi etenkin Etelä-Intiaa. Valtakunta sai alkunsa Palan valtakunnan osana, mutta kasvoi mahtavammaksi 800-luvulla. 1000-luvun aikana cholat lähettivät voittoisia retkikuntia muihin Intian osavaltioihin, joista pohjoisimmat olivat Bengalissa, minkä lisäksi he hyökkäsivät Malediiveille, Sri Lankaan ja jopa indonesialaiseen Srivijayan kuningaskuntaan. Valtakunta kuitenkin hajosi 1250-luvulla muiden Intian osavaltioiden vahvistuessa."
 
 #: data/nation/chola.ruleset:24 data/nation/gupta.ruleset:20
 #: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
@@ -27205,9 +27317,8 @@ msgstr "Radža"
 
 #: data/nation/chola.ruleset:24 data/nation/gupta.ruleset:20
 #: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
-#, fuzzy
 msgid "Rani"
-msgstr "Rautatie"
+msgstr "Rani"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
 #: data/nation/indian.ruleset:20 data/nation/majapahit.ruleset:27
@@ -27216,9 +27327,8 @@ msgstr "Maharadža"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
 #: data/nation/indian.ruleset:20 data/nation/majapahit.ruleset:27
-#, fuzzy
 msgid "Maharani"
-msgstr "Maharadža"
+msgstr "Maharani"
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
@@ -27241,14 +27351,12 @@ msgstr ""
 "aikoihin. Vuonna 1819 Kolumbian tasavalta itsenäistyi."
 
 #: data/nation/colombian.ruleset:28
-#, fuzzy
 msgid "Comandante"
-msgstr "Toveri"
+msgstr "Kommendantti"
 
 #: data/nation/colombian.ruleset:28
-#, fuzzy
 msgid "Comandanta"
-msgstr "kanadalaisten"
+msgstr "Kommendantti"
 
 #: data/nation/colombian.ruleset:29 data/nation/swiss.ruleset:19
 msgid "General"
@@ -27315,14 +27423,12 @@ msgid "High Queen"
 msgstr "Korkea kuningatar"
 
 #: data/nation/cree.ruleset:3
-#, fuzzy
 msgid "Cree"
-msgstr "Aikaista"
+msgstr "creiden"
 
 #: data/nation/cree.ruleset:4
-#, fuzzy
 msgid "?plural:Cree"
-msgstr "?plural:kreikkalaiset"
+msgstr "creet"
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -27330,17 +27436,17 @@ msgid ""
 "who speak an Algonquian language and often call themselves \"Iiyiyuu\" or "
 "\"Iinuu,\" meaning \"people.\" They originally inhabited much of Quebec, "
 "Labrador, Alberta, Saskatchewan, Ontario and Manitoba."
-msgstr ""
+msgstr "Creet ovat Kanadan suurin alkuperäiskansa, johon kuuluu yli 200 000 jäsentä. Creen kielet kuuluvat algonkin-kieliryhmään; creet kutsuvat itseään mm. nimillä \"Iiyiyuu\" tai \"Iinuu\", jotka tarkoittavat ihmistä. Creet asuttivat alkujaan suurta osaa Quebecistä, Labradorista, Albertasta, Saskatchewanista, Ontariosta ja Manitobasta."
 
 #. TRANS: Uchimaahkaan = Chief
 #. TRANS: Uchimaahkaaniskweu = Chief's wife
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaan"
-msgstr ""
+msgstr "Uchimaahkaan"
 
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaaniskweu"
-msgstr ""
+msgstr "Uchimaahkaaniskweu"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -27416,7 +27522,6 @@ msgstr "?plural:tanskalaiset"
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:9
-#, fuzzy
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blatand, who unified what is now Denmark between 958 AD and 988 AD."
@@ -27425,14 +27530,12 @@ msgstr ""
 "nykyisen Tanskan alueen vuosina 958-988."
 
 #: data/nation/dominican.ruleset:3
-#, fuzzy
 msgid "Dominican"
-msgstr "roomalaisten"
+msgstr "dominicalaisten"
 
 #: data/nation/dominican.ruleset:4
-#, fuzzy
 msgid "?plural:Dominicans"
-msgstr "?plural:roomalaiset"
+msgstr "dominicalaiset"
 
 #: data/nation/dominican.ruleset:6
 msgid ""
@@ -27441,7 +27544,7 @@ msgid ""
 "of its first sighting was a Sunday. Officially the \"Commonwealth of Dominica"
 "\", the country should not be confused with the Dominican Republic, another "
 "Caribbean nation."
-msgstr ""
+msgstr "Dominican saari tuli eurooppalaisten, mukaan lukien Kristoffer Kolumbuksen, tietoisuuteen vuonna 1493. Tarinan mukaan saari nimettiin löytöpäivänsä sunnuntain mukaan. Dominican liittovaltiota ei tule sekoittaa Dominikaaniseen tasavaltaan, joka on toinen Karibianmeren valtio."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -27496,15 +27599,14 @@ msgstr "Suuri Faarao"
 msgid "?female:Great Pharaoh"
 msgstr "Suuri Faarao"
 
+# Somewhat questionable word for the resident, I think, but translated literally.
 #: data/nation/emirati.ruleset:3
-#, fuzzy
 msgid "Emirati"
-msgstr "Lentotukikohta"
+msgstr "emiraattien"
 
 #: data/nation/emirati.ruleset:4
-#, fuzzy
 msgid "?plural:Emiratis"
-msgstr "?plural:irlantilaiset"
+msgstr "emiraatit"
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -27512,7 +27614,7 @@ msgid ""
 "19th century the Emirates became a dependency of the United Kingdom. In 1971 "
 "six emirates joined in a federative state as the United Arab Emirates. The "
 "following year, the seventh member emirate joined them."
-msgstr ""
+msgstr "Yhdistyneiden arabiemiirikuntien historia ulottuu 600-luvulle. 1800-luvulla alueesta tuli Iso-Britannian protektoraatti. Vuonna 1971 kuusi entistä sheikkikuntaa julistautui emiirikunniksi, ja liittyi valtioksi  nimeltä Arabiemiirikunnat. Seuraavana vuonna seitsemäs emiirikunta liittyi mukaan."
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -27723,7 +27825,7 @@ msgid ""
 "another million out of an original population of three million.  The Gauls "
 "united and rallied under Vercingetorix, who defeated Caesar at the battle of "
 "Gergovia, but was later crushed by him at the battle of Alesia."
-msgstr ""
+msgstr "Gallialaiset olivat kelttikansa, joka asutti nykyisen Ranskan ja Belgian aluetta. Kansakunta koostui päälliköiden hallitsemista yhteisöistä, joista valta kuitenkin keskittyi ja kerrostui reaktiona kreikkalaisten ja roomalaisten kauppiaiden ja sotilaiden saapumiseen Galliaan. Julius Caesar aloitti kahdeksanvuotisen Gallian valloituksensa vuonna 59 eKr. Hän väitti tappaneensa miljoona ihmistä ja orjuuttaneensa toisen miljoonan, kaksi kolmannesta alkuperäisestä kolmen miljoonan hengen väestöstä. Gallialaiset yhdistyivät yhden johtajan, Vercingétorixin, alle. Vercingétorix voittikin Caesarin joukot Gergovian taistelussa, mutta koki murskatappion Alesian kaupungissa."
 
 #: data/nation/gallic.ruleset:30
 msgid "Druid"
@@ -27811,17 +27913,17 @@ msgstr "Yksinvaltias"
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
-msgstr ""
+msgstr "guptien"
 
 #: data/nation/gupta.ruleset:4
 msgid "?plural:Gupta"
-msgstr ""
+msgstr "guptat"
 
 #: data/nation/gupta.ruleset:7
 msgid ""
 "The Gupta Empire was one of the great classical empires. It ruled northern "
 "India from around 240 to 550 AD."
-msgstr ""
+msgstr "Gupta-valtakunta oli yksi suurista klassisista valtakunnista. Se hallitsi Pohjois-Intiaa noin 240-550 jKr."
 
 # Taivutus villiä päättelyä.
 #. TRANS: Maharajadhiraja = Great King of Kings
@@ -27829,11 +27931,9 @@ msgstr ""
 msgid "Maharajadhiraja"
 msgstr "Maharadžadhiradža"
 
-# Taivutus villiä päättelyä.
 #: data/nation/gupta.ruleset:23
-#, fuzzy
 msgid "Maharanidhirani"
-msgstr "Maharadžadhiradža"
+msgstr "Maharanidhirani"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
@@ -27857,28 +27957,26 @@ msgstr "Hakkeri"
 
 #: data/nation/hacker.ruleset:40
 msgid "?title:1337"
-msgstr ""
+msgstr "1337"
 
 #: data/nation/hacker.ruleset:40
-#, fuzzy
 msgid "?female:1337"
-msgstr "Rani"
+msgstr "1337"
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
-msgstr ""
+msgstr "havajilaisten"
 
 #: data/nation/hawaiian.ruleset:4
-#, fuzzy
 msgid "?plural:Hawaiians"
-msgstr "?plural:baijerilaiset"
+msgstr "havajilaiset"
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
 "The Kingdom of Hawaii was established in 1810 by King Kamehameha the Great. "
 "Abolished in 1893, and subsequently annexed to the United States, the former "
 "kingdom became the 50th state of the United States on August 21, 1959."
-msgstr ""
+msgstr "Kuningas Kamehameha Suuri perusti Havaijin kuningaskunnan vuonna 1810. Kuningasvalta syrjäytettiin 1893, ja Havaiji julistettiin Yhdysvaltojen protektoraatiksi. 21. elokuuta 1959 siitä tuli Yhdysvaltojen 50. osavaltio."
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -27898,12 +27996,11 @@ msgstr ""
 
 #: data/nation/himyarite.ruleset:3
 msgid "Himyarite"
-msgstr ""
+msgstr "himyarien"
 
 #: data/nation/himyarite.ruleset:4
-#, fuzzy
 msgid "?plural:Himyar"
-msgstr "?plural:arabit"
+msgstr "himyarit"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -27919,7 +28016,7 @@ msgid ""
 "to Sassanid in 575 and in 628, the fifth Sassanid satrap of \"al-Yaman\" "
 "converted to Islam and Southern Arabia was incorporated into the new, "
 "expanding Muslim empire."
-msgstr ""
+msgstr "Himyarit olivat alkujaan vuoristoheimo nykyisen Jemenin alueella. Himyarit valloittivat muita Etelä-Arabian kuningaskuntia, kuten hajustekaupalla rikastuneen Saban 115 eKr. Himyarit olivat linnanrakentajia, ja pystyttivät linnoituksia puolustaakseen alueitaan beduiinien ryöstöretkiä vastaan. Etiopialainen Aksumin kuningaskunta hallitsi Sabaa 340-378 jKr., mutta himyarien joukot valloittivat alueen takaisin vuonna 525. Valtakunnan tuho oli hidas murentuminen, johon vaikuttivat yhtäältä Aksumin kristityt osat ja Bysantin valtakunta, toisaalta Persiaa hallinnut mandealainen Sassanidien dynastia, ja lisäksi eteläarabialaisia ryhmittymiä molemmilla puolilla. Maa siirtyi Aksumien hallinnasta Sassanidien valtaan vuonna 575, ja vuonna 628 viides Sassanidien \"al-Yamanin\" satraappi kääntyi islaminuskoon, jolloin Etelä-Arabia liitettiin osaksi uutta, laajentuvaa muslimivaltakuntaa."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
@@ -27943,29 +28040,26 @@ msgstr ""
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
-msgstr ""
+msgstr "hopien"
 
 #: data/nation/hopi.ruleset:4
-#, fuzzy
 msgid "?plural:Hopis"
-msgstr "?plural:cornwallilaiset"
+msgstr "hopit"
 
 #: data/nation/hopi.ruleset:7
 msgid ""
 "A matrilineal culture in North America, who claim descent from the "
 "Hisatsinom. The Hopi live today on the Hopi Reservation in northeastern "
 "Arizona."
-msgstr ""
+msgstr "Hopit ovat Pohjois-Amerikan alueen alkuperäiskansa, jotka elävät nykyään Arizonan koillisosan reservaatissa. Hopi-yhteisöt ovat matrilineaarisia: niissä sukulinja määritellään äidin suvun mukaisesti."
 
 #: data/nation/hopi.ruleset:28
-#, fuzzy
 msgid "Kikmongwi"
-msgstr "Kuningas"
+msgstr "Kikmongwi"
 
 #: data/nation/hopi.ruleset:28
-#, fuzzy
 msgid "?female:Kikmongwi"
-msgstr "Majuri"
+msgstr "Kikmongwi"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -28046,7 +28140,7 @@ msgid ""
 "war between Atawallpa and Waskhar. They were the sons of the late ruler "
 "Wayna Qhapaq, who had died from disease - likely smallpox - that was "
 "sweeping through the land."
-msgstr ""
+msgstr "Inkat olivat pohjois-Andien intiaanikansa, jotka valloittivat imperiumikseen Etelä-Amerikan länsirannikon nykyisestä Etelä-Chilestä lähes päiväntasaajalle. Ajoitus vain oli huono - muutaman vuosikymmenen kuluttua, 1500-luvun puolivälissä, espanjalaiset konkistadorit saapuivat tähän maailmankolkkaan. Tässä lyhyessä ajassa inkat saivat rakennettua yli 15 000 km tieverkostoa valtakuntaansa. Inkavaltio oli ennen Espanjan valloitusjoukkojen saapumista Amerikkojen suurin, ja sitä ylläpidettiin monimutkaisen, hierarkkisen ja pragmaattisen hallintojärjestelmän avulla. Inkat kärsivät tästä huolimatta monien kuningaskuntien tapaan kruununperimykseen liittyvistä kriiseistä. Espanjalaisten saapuessa inkat olivat juuri keskellä tällaista kriisiä - Atahualpan ja Huascarin käydessä sotaa kruunusta. Molemmat olivat edesmenneen hallitsijan, Huayana Capacin, poikia. Huayana oli kuollut sairauteen - todennäköisesti kyseessä oli alueella epidemiana riehunut isorokko."
 
 #: data/nation/inca.ruleset:34
 msgid "Sapa Inka"
@@ -28054,7 +28148,7 @@ msgstr "Sapa Inka"
 
 #: data/nation/inca.ruleset:34
 msgid "Qoya"
-msgstr ""
+msgstr "Qoya"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
@@ -28112,7 +28206,7 @@ msgid ""
 "Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west "
 "coast of Greenland in the 10th century. All Inuit of today are descendents "
 "of the Thule culture."
-msgstr ""
+msgstr "Inuitit asuttavat pohjoista Kanadaa ja Grönlantia. Tarinan mukaan suurshamaani Qitdlarssuaq johti kansansa Thuleen (Qaanaaq), Grönlannin länsirannikolle, 900-luvulla. Kaikki nykyinuitit periytyvät tästä Thulen kulttuurista."
 
 #: data/nation/inuit.ruleset:20
 msgid "Shaman"
@@ -28131,31 +28225,28 @@ msgid "?female:Great Shaman"
 msgstr "Suuršamaani"
 
 #: data/nation/iranian.ruleset:3
-#, fuzzy
 msgid "Iranian"
-msgstr "intialaisten"
+msgstr "iranialaisten"
 
 #: data/nation/iranian.ruleset:4
-#, fuzzy
 msgid "?plural:Iranians"
-msgstr "?plural:intialaiset"
+msgstr "iranialaiset"
 
 #: data/nation/iranian.ruleset:6
 msgid ""
 "Iran means \"Land of the Aryans\" - long known as Persia in the Western "
 "world. The country is today an Islamic Republic and a major power in the "
 "Middle East."
-msgstr ""
+msgstr "Iran tarkoittaa \"Arjalaisten maata\" - joka on pitkään tunnettu Persiana länsimaissa. Maa on nykyään islamilainen tasavalta, ja keskeinen toimija Lähi-idässä."
 
 #. TRANS: Raiis Jomhoor = President
 #: data/nation/iranian.ruleset:45
 msgid "Raiis Jomhoor"
-msgstr ""
+msgstr "Raiis Jomhoor"
 
 #: data/nation/iranian.ruleset:45
-#, fuzzy
 msgid "?female:Raiis Jomhoor"
-msgstr "Majuri"
+msgstr "Raiis Jomhoor"
 
 #: data/nation/iranian.ruleset:46 data/nation/persian.ruleset:22
 msgid "Ayatollah"
@@ -28163,9 +28254,8 @@ msgstr "Ajatollah"
 
 # Taoiseach *vastaa* pääministeriä, mutta sille ei liene suomenkielistä nimeä.
 #: data/nation/iranian.ruleset:46 data/nation/persian.ruleset:22
-#, fuzzy
 msgid "?female:Ayatollah"
-msgstr "Taoiseach"
+msgstr "Ajatollah"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
@@ -28278,7 +28368,6 @@ msgid "?plural:Italians"
 msgstr "?plural:italialaiset"
 
 #: data/nation/italian.ruleset:6
-#, fuzzy
 msgid ""
 "The Italian nation was unified in 1870 AD after decades of campaigning by "
 "indigenous nationalists. It was a monarchy under the House of Savoy until "
@@ -28311,19 +28400,16 @@ msgid "Shogun"
 msgstr "Shogun"
 
 #: data/nation/japanese.ruleset:21
-#, fuzzy
 msgid "?female:Shogun"
-msgstr "Šamaani"
+msgstr "Shogun"
 
 #: data/nation/kanem-bornu.ruleset:3
-#, fuzzy
 msgid "Kanem-Bornu"
-msgstr "?plural:korealaiset"
+msgstr ""
 
 #: data/nation/kanem-bornu.ruleset:4
-#, fuzzy
 msgid "?plural:Kanem-Bornu"
-msgstr "?plural:korealaiset"
+msgstr ""
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid ""
@@ -31512,10 +31598,6 @@ msgstr "eKr."
 #~ msgid "CanRoad"
 #~ msgstr "VoiVetääTien"
 
-#, fuzzy
-#~ msgid "Whether border changes are seen through fog of war"
-#~ msgstr "Rajoita näkyvyyttä (\"fog of war\")"
-
 #~ msgid "Pollution:    %3d"
 #~ msgstr "Saasteet:     %3d"
 
@@ -31572,12 +31654,6 @@ msgstr "eKr."
 
 #~ msgid "?city_state:Rapture"
 #~ msgstr "?city_state:Hurmoksessa"
-
-#, fuzzy
-#~ msgid "Requires the %s terrain special near the tile.\n"
-#~ msgstr ""
-#~ "Edellyttää erikoismaastotyypin %s.\n"
-#~ "\n"
 
 #, fuzzy
 #~ msgid "Requires the %s terrain near the tile.\n"
@@ -31671,25 +31747,6 @@ msgstr "eKr."
 #~ "tutkimusta jne. Useimmista hankkeista aiheutuu ylläpitokustannuksia, "
 #~ "jotka on maksettava joka kierroksella. Jos sinulla ei ole varaa ylläpitää "
 #~ "jotain rakennusta, se myydään automaattisesti."
-
-#, fuzzy
-#~ msgid ""
-#~ "City centers (the tile a city is on) are special. A city center is worked "
-#~ "for free in the default rules. When a city is built a road is "
-#~ "automatically put on the city, and a railroad will also be placed there "
-#~ "whenever possible. City centers are auto-irrigated: they get the benefits "
-#~ "of irrigation, although they are not actually irrigated -- they cannot "
-#~ "serve as the water source for other irrigation systems. Finally, the city "
-#~ "center may have a ruleset-dependent minimum for food, shield, and trade "
-#~ "output."
-#~ msgstr ""
-#~ "Kaupungin keskus (ruutu, jolla kaupunki on) on erikoinen. Kaupungin "
-#~ "keskuksessa työtä tehdään oletussäännöissä ilmaiseksi. Kun kaupunki on "
-#~ "rakennettu, kaupunkiruudulle asetetaan automaattisesti tie, ja mikäli "
-#~ "mahdollista, myös rautatie. Kaupunkien keskukset saavat automaattisesti "
-#~ "kastelujärjestelmän hyödyt, vaikka eivät ole oikeastaan kasteltuja. "
-#~ "Lisäksi kaupungin keskuksella voi olla sääntökokoelmasta riippuva ruuan, "
-#~ "tuotannon ja kaupan minimituotto."
 
 #~ msgid ""
 #~ "Corruption is the loss of trade due to inefficiency and greed. Under most "
