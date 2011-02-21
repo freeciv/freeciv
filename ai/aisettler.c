@@ -386,6 +386,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
                               struct cityresult *result)
 {  
   struct city *pcity = tile_city(ptile);
+  int min_dist;
 
   assert(punit && ai && pplayer && result);
 
@@ -398,8 +399,13 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
     return;
   }
 
+  min_dist = game.info.citymindist;
+  if (min_dist == 0) {
+    min_dist = game.info.min_dist_bw_cities;
+  }
+
   /* Check if another settler has taken a spot within mindist */
-  square_iterate(ptile, game.info.min_dist_bw_cities-1, tile1) {
+  square_iterate(ptile, min_dist-1, tile1) {
     if (citymap_is_reserved(tile1)) {
       return;
     }
