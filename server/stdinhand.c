@@ -1807,7 +1807,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
     level = SSET_VITAL;
   }
 
-  assert(cmd > 0 || cmd == LOOKUP_OPTION_AMBIGUOUS
+  assert(cmd >= 0 || cmd == LOOKUP_OPTION_AMBIGUOUS
          || cmd == LOOKUP_OPTION_LEVEL_NAME
          || cmd == LOOKUP_OPTION_NO_RESULT);
 
