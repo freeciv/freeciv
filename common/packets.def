@@ -428,7 +428,6 @@ PACKET_GAME_INFO = 16; sc
   UINT8 killcitizen;
   BOOL killstack;
   UINT8 min_city_center_output[O_LAST];
-  UINT8 min_dist_bw_cities;
   STRING negative_year_label[MAX_LEN_NAME];
   UINT8 notradesize;
   BOOL nuclear_winter;

@@ -205,9 +205,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
   if (NULL != tile_city(ptile)
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
           || is_native_near_tile(utype, ptile)
-          || ((1 == game.info.citymindist
-               || (0 == game.info.citymindist
-                   && 1 == game.info.min_dist_bw_cities))
+          || (1 == game.info.citymindist
               && is_city_channel_tile(utype_class(utype), ptile)))) {
     return TRUE;
   }

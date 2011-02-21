@@ -683,7 +683,7 @@ struct cityresult *city_desirability(struct player *pplayer,
   }
 
   /* Check if another settler has taken a spot within mindist */
-  square_iterate(ptile, game.info.min_dist_bw_cities-1, tile1) {
+  square_iterate(ptile, game.info.citymindist-1, tile1) {
     if (citymap_is_reserved(tile1)) {
       return NULL;
     }

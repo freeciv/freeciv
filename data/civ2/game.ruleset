@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ2-style game rules for Freeciv"
-options="+Freeciv-ruleset-Devel-2011.Jan.27"
+options="+Freeciv-ruleset-Devel-2011.Feb.21"
 
 [about]
 ; Ruleset name
@@ -40,11 +40,7 @@ min_city_center_food    = 1
 min_city_center_shield  = 1
 min_city_center_trade   = 0
 
-; Minimum distance between cities (move distance).
-; (Minimum value for this is 1, which means adjacent is okay.)
-min_dist_bw_cities      = 2
-
-; Square of initially city radius
+; Square of initial city radius
 init_city_radius_sq     = 5
 
 ; Square of initially visible radius (true distance).

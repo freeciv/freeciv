@@ -334,8 +334,8 @@ extern struct civ_game game;
 #define GAME_MIN_CONQUERCOST         0
 #define GAME_MAX_CONQUERCOST         100
 
-#define GAME_DEFAULT_CITYMINDIST     0
-#define GAME_MIN_CITYMINDIST         0 /* if 0, ruleset will overwrite this */
+#define GAME_DEFAULT_CITYMINDIST     2
+#define GAME_MIN_CITYMINDIST         1
 #define GAME_MAX_CITYMINDIST         9
 
 #define GAME_DEFAULT_CIVILWARSIZE    10

@@ -1331,8 +1331,7 @@ static struct setting settings[] = {
 	  N_("When a player attempts to found a new city, there may be "
 	     "no other city in this distance. For example, when "
 	     "this value is 3, there have to be at least two empty "
-	     "fields between two cities in every direction. If set "
-	     "to 0 (default), the ruleset value will be used."),
+	     "fields between two cities in every direction."),
           NULL, NULL,
 	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
 	  GAME_DEFAULT_CITYMINDIST)

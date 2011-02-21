@@ -65,7 +65,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Jan.27"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Feb.21"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -3333,13 +3333,6 @@ static void load_ruleset_game(void)
     game.server.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
-  /* This only takes effect if citymindist is set to 0. */
-  game.info.min_dist_bw_cities
-    = secfile_lookup_int_default_min_max(file,
-                                         RS_DEFAULT_CITIES_MIN_DIST,
-                                         RS_MIN_CITIES_MIN_DIST,
-                                         RS_MAX_CITIES_MIN_DIST,
-                                         "civstyle.min_dist_bw_cities");
   game.server.init_vis_radius_sq
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_VIS_RADIUS_SQ,

@@ -1406,11 +1406,8 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
     return CB_BAD_BORDERS;
   }
 
-  /* game.info.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
+  /* citymindist minimum is 1, meaning adjacent is okay */
   citymindist = game.info.citymindist;
-  if (citymindist == 0) {
-    citymindist = game.info.min_dist_bw_cities;
-  }
   square_iterate(ptile, citymindist - 1, ptile1) {
     if (tile_city(ptile1)) {
       return CB_NO_MIN_DIST;
