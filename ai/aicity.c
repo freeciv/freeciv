@@ -89,31 +89,6 @@
 static void ai_sell_obsolete_buildings(struct city *pcity);
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
 
-/**************************************************************************
-  This calculates the usefulness of pcity to us. Note that you can pass
-  another player's ai_data structure here for evaluation by different
-  priorities.
-**************************************************************************/
-int ai_eval_calc_city(struct city *pcity, struct adv_data *ai)
-{
-  int i = (pcity->surplus[O_FOOD] * ai->food_priority
-           + pcity->surplus[O_SHIELD] * ai->shield_priority
-           + pcity->prod[O_LUXURY] * ai->luxury_priority
-           + pcity->prod[O_GOLD] * ai->gold_priority
-           + pcity->prod[O_SCIENCE] * ai->science_priority
-           + pcity->feel[CITIZEN_HAPPY][FEELING_FINAL] * ai->happy_priority
-           - pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL] * ai->unhappy_priority
-           - pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] * ai->angry_priority
-           - pcity->pollution * ai->pollution_priority);
-
-  if (pcity->surplus[O_FOOD] < 0 || pcity->surplus[O_SHIELD] < 0) {
-    /* The city is unmaintainable, it can't be good */
-    i = MIN(i, 0);
-  }
-
-  return i;
-}
-
 /************************************************************************** 
   Increase want for a technology because of the value of that technology
   in providing an improvement effect.

@@ -45,6 +45,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advcity.h"
 #include "advtools.h"
 #include "autosettlers.h"
 
@@ -724,7 +725,7 @@ void adv_best_government(struct player *pplayer)
         auto_arrange_workers(acity);
       } city_list_iterate_end;
       city_list_iterate(pplayer->cities, pcity) {
-        val += ai_eval_calc_city(pcity, adv);
+        val += adv_eval_calc_city(pcity, adv);
       } city_list_iterate_end;
 
       /* Bonuses for non-economic abilities. We increase val by

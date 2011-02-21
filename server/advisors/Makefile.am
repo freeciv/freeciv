@@ -11,6 +11,8 @@ AM_CPPFLAGS = \
 libadvisors_la_SOURCES = \
 	advbuilding.c	\
 	advbuilding.h	\
+	advcity.c	\
+	advcity.h	\
 	advdata.c	\
 	advdata.h	\
 	advgoto.c	\
