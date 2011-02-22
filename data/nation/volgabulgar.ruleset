@@ -23,10 +23,10 @@ flag_alt = "-"
 city_style = "celtic" 
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("Tarkhan %s"),   _("?female:Tarkhan %s")
- "Fundamentalism",  _("Grand Mufti"),  _("Grand Mufti")  
- "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
+ "government",      "male_title",        "female_title"
+ "Despotism",       _("Tarkhan %s"),     _("?female:Tarkhan %s")
+ "Fundamentalism",  _("Grand Mufti %s"), _("?female:Grand Mufti %s")
+ "Monarchy",        _("%s Khagan"),      _("?female:%s Khagan")
 }
 
 init_techs="" 
