@@ -1167,6 +1167,14 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		 improvement_name_translation(pimprove));
   }
 
+  if (is_small_wonder(pimprove)) {
+    cat_snprintf(buf, bufsz,
+                 _("* A 'small wonder': at most one of your cities may "
+                   "possess this improvement.\n"));
+  }
+  /* (Great wonders are in their own help section explaining their
+   * uniqueness, so we don't mention it here.) */
+
   if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
       && num_role_units(F_NUCLEAR) > 0) {
     struct unit_type *u = get_role_unit(F_NUCLEAR, 0);
@@ -1197,6 +1205,14 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       }
     }
   } unit_type_iterate_end;
+
+  if (improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER)) {
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: don't translate 'savepalace' */
+                 _("* If you lose the city containing this improvement, "
+                   "it will be rebuilt for free in another of your cities "
+                   "(if the 'savepalace' server setting is enabled).\n"));
+  }
 
   if (user_text && user_text[0] != '\0') {
     cat_snprintf(buf, bufsz, "\n\n%s", user_text);
