@@ -15,11 +15,17 @@
 #define FC__SPRITE_H
 
 #include "sprite_g.h"
+#include "graphics.h"
 
 struct sprite {
   struct SDL_Surface *psurface;
 };
 
-#define GET_SURF(m_sprite)	(m_sprite->psurface)
+/* Use this when sure that m_sprite is not NULL, to avoid risk of freeing
+ * Main.dummy */
+#define GET_SURF_REAL(m_sprite)  ((m_sprite)->psurface)
+
+/* If m_sprite is NULL, return a dummy (small, empty) surface instead */
+#define GET_SURF(m_sprite)  ((m_sprite) ? GET_SURF_REAL(m_sprite) : Main.dummy)
 
 #endif				/* FC__SPRITE_H */

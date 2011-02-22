@@ -149,7 +149,8 @@ void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 ****************************************************************************/
 void free_sprite(struct sprite *s)
 {
-  FREESURFACE(GET_SURF(s));
+  fc_assert_ret(s != NULL);
+  FREESURFACE(GET_SURF_REAL(s));
   FC_FREE(s);
 }
 
