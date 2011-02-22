@@ -51,6 +51,13 @@ enum barbarians_rate {
   BARBS_HORDES
 };
 
+enum autosave_type {
+  AS_TURN = 0,
+  AS_GAME_OVER,
+  AS_QUITIDLE,
+  AS_INTERRUPT
+};
+
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
@@ -137,6 +144,8 @@ struct civ_game {
       enum fz_method save_compress_type;
       int saveversion; /* save game version to use */
       int save_nturns;
+      unsigned autosaves; /* FIXME: char would be enough, but current settings.c code wants to
+                             write sizeof(unsigned) bytes */
       bool savepalace;
       bool homecaughtunits;
       char start_units[MAX_LEN_STARTUNIT];
@@ -495,8 +504,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_SAVEVERSION     0
 #define GAME_DEFAULT_SAVE_NAME       "freeciv"
 #define GAME_DEFAULT_SAVETURNS       1
-#define GAME_MIN_SAVETURNS           0
+#define GAME_MIN_SAVETURNS           1
 #define GAME_MAX_SAVETURNS           200
+
+#define GAME_DEFAULT_AUTOSAVES       (1 << AS_TURN | 1 << AS_GAME_OVER | 1 << AS_QUITIDLE | 1 << AS_INTERRUPT)
 
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */

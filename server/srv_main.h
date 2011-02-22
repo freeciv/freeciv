@@ -19,6 +19,7 @@
 
 /* common */
 #include "fc_types.h"
+#include "game.h"
 
 struct conn_list;
 
@@ -85,7 +86,7 @@ void init_game_seed(void);
 void srv_init(void);
 void srv_main(void);
 void server_quit(void);
-void save_game_auto(const char *save_reason, const char *reason_filename);
+void save_game_auto(const char *save_reason, enum autosave_type type);
 
 enum server_states server_state(void);
 void set_server_state(enum server_states newstate);

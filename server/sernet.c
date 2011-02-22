@@ -544,7 +544,7 @@ enum server_events server_sniff_all_input(void)
       if (connections && conn_list_size(game.est_connections) == 0) {
 	if (last_noplayers != 0) {
 	  if (time(NULL) > last_noplayers + srvarg.quitidle) {
-	    save_game_auto("Lost all connections", "quitidle");
+	    save_game_auto("Lost all connections", AS_QUITIDLE);
             log_normal(_("Restarting for lack of players."));
             set_meta_message_string("restarting for lack of players");
 	    (void) send_server_info_to_metaserver(META_INFO);

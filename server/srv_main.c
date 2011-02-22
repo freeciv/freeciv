@@ -1272,9 +1272,29 @@ void save_game(const char *orig_filename, const char *save_reason,
 /**************************************************************************
 Save game with autosave filename
 **************************************************************************/
-void save_game_auto(const char *save_reason, const char *reason_filename)
+void save_game_auto(const char *save_reason, enum autosave_type type)
 {
   char filename[512];
+  const char *reason_filename = NULL;
+
+  if (!(game.server.autosaves & (1 << type))) {
+    return;
+  }
+
+  switch (type) {
+   case AS_TURN:
+     reason_filename = NULL;
+     break;
+   case AS_GAME_OVER:
+     reason_filename = "final";
+     break;
+   case AS_QUITIDLE:
+     reason_filename = "quitidle";
+     break;
+   case AS_INTERRUPT:
+     reason_filename = "interrupted";
+     break;
+  }
 
   fc_assert(256 > strlen(game.server.save_name));
 
@@ -2174,7 +2194,7 @@ static void srv_running(void)
         if (save_counter >= game.server.save_nturns
             && game.server.save_nturns > 0) {
 	  save_counter = 0;
-	  save_game_auto("Autosave", NULL);
+	  save_game_auto("Autosave", AS_TURN);
 	}
 	save_counter++;
 
@@ -2339,7 +2359,7 @@ static void srv_scores(void)
       && conn_list_size(game.est_connections) > 0) {
     /* Save game on game_over, but not when the gameover was caused by
      * the -q parameter. */
-    save_game_auto("Game over", "final");
+    save_game_auto("Game over", AS_GAME_OVER);
   }
 }
 

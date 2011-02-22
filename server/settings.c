@@ -265,6 +265,21 @@ static const struct sset_val_name *killcitizen_name(int killcitizen_bit)
 }
 
 /****************************************************************************
+  Autosaves setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *autosaves_name(int autosaves_bit)
+{
+  switch (autosaves_bit) {
+  NAME_CASE(AS_TURN, "TURN", N_("New turn"));
+  NAME_CASE(AS_GAME_OVER, "GAMEOVER", N_("Game over"));
+  NAME_CASE(AS_QUITIDLE, "QUITIDLE", N_("No player connections"));
+  NAME_CASE(AS_INTERRUPT, "INTERRUPT", N_("Server interrupted"));
+  };
+
+  return NULL;
+}
+
+/****************************************************************************
   Borders setting names accessor.
 ****************************************************************************/
 static const struct sset_val_name *borders_name(int borders)
@@ -1945,8 +1960,24 @@ static struct setting settings[] = {
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
 	  N_("Turns per auto-save"),
 	  N_("The game will be automatically saved per this number of "
-             "turns. Zero means never auto-save."), NULL, NULL,
+             "turns. See also setting 'autosaves'."), NULL, NULL,
           GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
+
+  GEN_BITWISE("autosaves", game.server.autosaves,
+              SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
+              N_("Which savegames are generated automatically"),
+              /* TRANS: The strings between double quotes are also translated
+               * separately (they must match!). The strings between single
+               * quotes are setting names and shouldn't be translated. The
+               * strings between paranthesis and in uppercase must stay as
+               * untranslated. */
+              N_("This setting controls which autosave types get generated:\n"
+                 "- \"New turn\" (TURN): Save when turn begins, once every 'saveturns' turns.\n"
+                 "- \"Game over\" (GAMEOVER) : Final save when game ends.\n"
+                 "- \"No player connections\" (QUITIDLE) : "
+                 "Save before server restarts due to lack of players.\n"
+                 "- \"Server interrupted\" (INTERRUPT) : Save when server quits due to interrupt."),
+              NULL, NULL, autosaves_name, GAME_DEFAULT_AUTOSAVES)
 
   GEN_INT("compress", game.server.save_compress_level,
           SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,

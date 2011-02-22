@@ -70,7 +70,7 @@ static void Mac_options(int argc);  /* don't need argv */
 #ifdef USE_INTERRUPT_HANDLERS
 #define save_and_exit(sig)              \
 if (S_S_RUNNING == server_state()) {    \
-  save_game_auto(#sig, "interrupted");  \
+  save_game_auto(#sig, AS_INTERRUPT);   \
 }                                       \
 exit(EXIT_SUCCESS);
 
