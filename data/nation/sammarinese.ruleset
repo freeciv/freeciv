@@ -36,7 +36,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="italian", "holy"
+civilwar_nations="Italian", "Papal"
 
 cities =
  "San Marino",
