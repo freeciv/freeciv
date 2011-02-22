@@ -14,6 +14,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+#include <assert.h>
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -128,7 +129,8 @@ void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 ****************************************************************************/
 void free_sprite(struct sprite *s)
 {
-  FREESURFACE(GET_SURF(s));
+  assert(s != NULL);
+  FREESURFACE(GET_SURF_REAL(s));
   FC_FREE(s);
 }
 

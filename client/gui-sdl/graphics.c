@@ -553,6 +553,7 @@ void init_sdl(int iFlags)
   Main.guis = NULL;
   Main.gui = NULL;
   Main.map = NULL;
+  Main.dummy = NULL; /* can't create yet -- hope we don't need it */
   Main.rects_count = 0;
   Main.guis_count = 0;
 
@@ -587,6 +588,7 @@ void quit_sdl(void)
   FC_FREE(Main.guis);
   gui_layer_destroy(&Main.gui);
   FREESURFACE(Main.map);
+  FREESURFACE(Main.dummy);
 }
 
 /**************************************************************************
@@ -628,6 +630,12 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   freelog(LOG_DEBUG, _("Setting resolution to: %d x %d %d bpp"),
 	  					iWidth, iHeight, iDepth);
   }
+
+  /* Create a dummy surface to be used when sprites are missing, etc.
+   * Various things (such as zoomSurfaceRGBA() don't cope well with a
+   * zero-sized surface, so we use a transparent 1x1 surface. */
+  FREESURFACE(Main.dummy);
+  Main.dummy = create_surf_alpha(1, 1, SDL_SWSURFACE);
 
   FREESURFACE(Main.map);
   Main.map = SDL_DisplayFormat(Main.screen);

@@ -186,6 +186,7 @@ struct main {
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
   SDL_Surface *screen;		/* main screen buffer */
   SDL_Surface *map;		/* map buffer */
+  SDL_Surface *dummy;           /* dummy surface for missing sprites */
   struct canvas map_canvas;
   struct gui_layer *gui;        /* gui buffer */
   struct gui_layer **guis;      /* gui buffers used by sdlclient widgets window menager */
