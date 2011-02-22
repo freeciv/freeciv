@@ -152,7 +152,6 @@ GtkWidget *unit_info_label;
 GtkWidget *unit_info_box;
 GtkWidget *unit_info_frame;
 
-GtkTooltips *main_tips;
 GtkWidget *econ_ebox;
 GtkWidget *bulb_ebox;
 GtkWidget *sun_ebox;
@@ -989,8 +988,6 @@ static void setup_widgets(void)
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_network_page(), NULL);
 
-  main_tips = gtk_tooltips_new();
-
   editgui_create_widgets();
 
   ingame_votebar = voteinfo_bar_new(FALSE);
@@ -1196,7 +1193,7 @@ static void setup_widgets(void)
 
   fc_snprintf(buf, sizeof(buf), "%s:\n%s",
               _("Turn Done"), _("Shift+Return"));
-  gtk_tooltips_set_tip(main_tips, turn_done_button, buf, "");
+  gtk_widget_set_tooltip_text(turn_done_button, buf);
 
   /* Selected unit status */
 

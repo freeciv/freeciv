@@ -172,17 +172,14 @@ void update_info_label(void)
   update_timeout_label();
 
   /* update tooltips. */
-  gtk_tooltips_set_tip(main_tips, econ_ebox,
+  gtk_widget_set_tooltip_text(econ_ebox,
 		       _("Shows your current luxury/science/tax rates;"
-			 "click to toggle them."), "");
+			 "click to toggle them."));
 
-  gtk_tooltips_set_tip(main_tips, bulb_ebox, get_bulb_tooltip(), "");
-  gtk_tooltips_set_tip(main_tips, sun_ebox, get_global_warming_tooltip(),
-		       "");
-  gtk_tooltips_set_tip(main_tips, flake_ebox, get_nuclear_winter_tooltip(),
-		       "");
-  gtk_tooltips_set_tip(main_tips, government_ebox, get_government_tooltip(),
-		       "");
+  gtk_widget_set_tooltip_text(bulb_ebox, get_bulb_tooltip());
+  gtk_widget_set_tooltip_text(sun_ebox, get_global_warming_tooltip());
+  gtk_widget_set_tooltip_text(flake_ebox, get_nuclear_winter_tooltip());
+  gtk_widget_set_tooltip_text(government_ebox, get_government_tooltip());
 }
 
 /**************************************************************************

@@ -117,8 +117,6 @@ static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
-  g_object_unref(pdialog->tips);
-
   dialog_list_remove(dialog_list, pdialog);
   free(pdialog);
 }
@@ -224,10 +222,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_signal_connect(pdialog->shell, "destroy",
 		   G_CALLBACK(cma_dialog_destroy_callback), pdialog);
 
-  pdialog->tips = gtk_tooltips_new();
-  g_object_ref(pdialog->tips);
-  gtk_object_sink(GTK_OBJECT(pdialog->tips));
-
   page = gtk_hbox_new(FALSE, 12);
   gtk_box_pack_start(GTK_BOX(pdialog->shell), page, TRUE, TRUE, 0);
 
@@ -252,12 +246,11 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_signal_connect(pdialog->preset_list, "button_press_event",
       		   G_CALLBACK(button_press_callback), pdialog);
 
-  gtk_tooltips_set_tip(pdialog->tips, view,
-		       _("For information on\n"
-		         "the citizen governor and governor presets,\n"
-			 "including sample presets,\n"
-		         "see README.cma."),
-		       "");
+  gtk_widget_set_tooltip_text(view,
+                              _("For information on\n"
+                                "the citizen governor and governor presets,\n"
+                                "including sample presets,\n"
+                                "see README.cma."));
 
   rend = gtk_cell_renderer_text_new();
   column = gtk_tree_view_column_new_with_attributes(NULL, rend,
@@ -492,15 +485,11 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
 
   /* Append the presets */
   if (cmafec_preset_num()) {
-    gtk_tooltips_disable(pdialog->tips);
-
     for (i = 0; i < cmafec_preset_num(); i++) {
       fc_strlcpy(buf, cmafec_preset_get_descr(i), sizeof(buf));
       gtk_list_store_append(pdialog->store, &it);
       gtk_list_store_set(pdialog->store, &it, 0, buf, -1);
     }
-  } else {
-    gtk_tooltips_enable(pdialog->tips);
   }
 }
 

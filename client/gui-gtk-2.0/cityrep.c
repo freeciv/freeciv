@@ -1114,14 +1114,6 @@ static gint cityrep_sort_func(GtkTreeModel *model, GtkTreeIter *a,
 }
 
 /****************************************************************
-  Clean up when city report tree view is destroyed
-*****************************************************************/
-static void city_view_destroyed(GtkObject *object, gpointer column_tooltips)
-{
-  gtk_object_destroy(column_tooltips);
-}
-
-/****************************************************************
 ...
 *****************************************************************/
 static void create_city_report_dialog(bool make_modal)
@@ -1131,7 +1123,6 @@ static void create_city_report_dialog(bool make_modal)
   struct city_report_spec *spec;
 
   GtkWidget *w, *sw, *menubar;
-  GtkTooltips *column_tooltips = gtk_tooltips_new();
   int i;
 
   gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
@@ -1191,10 +1182,6 @@ static void create_city_report_dialog(bool make_modal)
   g_signal_connect(city_selection, "changed",
 	G_CALLBACK(city_selection_changed_callback), NULL);
 
-  /* Ensure column_tooltips gets cleaned up */
-  g_signal_connect(city_view, "destroy",
-                   G_CALLBACK(city_view_destroyed), column_tooltips);
-
   for (i = 0, spec = city_report_specs; i < NUM_CREPORT_COLS; i++, spec++) {
     GtkWidget *header;
     GtkCellRenderer *renderer;
@@ -1204,7 +1191,7 @@ static void create_city_report_dialog(bool make_modal)
     col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
                                                    "text", i, NULL);
     header = gtk_label_new(titles[i]);
-    gtk_tooltips_set_tip(column_tooltips, header, spec->explanation, NULL);
+    gtk_widget_set_tooltip_text(header, spec->explanation);
     gtk_widget_show(header);
     gtk_tree_view_column_set_widget(col, header);
     gtk_tree_view_column_set_visible(col, spec->show);

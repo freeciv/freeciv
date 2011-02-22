@@ -128,7 +128,6 @@ struct city_dialog {
   GdkPixmap *map_canvas_store_unscaled;
   GtkWidget *notebook;
 
-  GtkTooltips *tips;
   GtkWidget *popup_menu;
   GtkWidget *citizen_pixmap;
 
@@ -788,9 +787,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_set_name(view, "small_font");
   pdialog->overview.improvement_list = view;
 
-  gtk_tooltips_set_tip(pdialog->tips, view,
-                       _("Press ENTER or double-click to sell an improvement."),
-                       "");
+  gtk_widget_set_tooltip_text(view,
+                     _("Press ENTER or double-click to sell an improvement."));
 
   rend = gtk_cell_renderer_pixbuf_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
@@ -1316,10 +1314,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
                               gui_gtk2_citydlg_xsize,
                               gui_gtk2_citydlg_ysize);
-
-  pdialog->tips = gtk_tooltips_new();
-  g_object_ref(pdialog->tips);
-  gtk_object_sink(GTK_OBJECT(pdialog->tips));
 
   pdialog->popup_menu = gtk_menu_new();
 
@@ -1859,8 +1853,6 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     }
   }
 
-  gtk_tooltips_disable(pdialog->tips);
-
   i = 0;
   unit_list_iterate(units, punit) {
     struct unit_node *pnode;
@@ -1887,8 +1879,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 	  G_SIGNAL_MATCH_FUNC,
 	  0, 0, NULL, supported_unit_middle_callback, NULL);
 
-      gtk_tooltips_set_tip(pdialog->tips,
-	  cmd, unit_description(punit), "");
+      gtk_widget_set_tooltip_text(cmd, unit_description(punit));
 
       g_signal_connect(cmd, "button_press_event",
 	  G_CALLBACK(supported_unit_callback),
@@ -1909,9 +1900,6 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     }
     i++;
   } unit_list_iterate_end;
-
-  gtk_tooltips_enable(pdialog->tips);
-
 
   fc_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.supported_units_frame), buf);
@@ -1976,8 +1964,6 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     }
   }
 
-  gtk_tooltips_disable(pdialog->tips);
-
   i = 0;
   unit_list_iterate(units, punit) {
     struct unit_node *pnode;
@@ -1999,8 +1985,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 	  G_SIGNAL_MATCH_FUNC,
 	  0, 0, NULL, present_unit_middle_callback, NULL);
 
-      gtk_tooltips_set_tip(pdialog->tips,
-	  cmd, unit_description(punit), "");
+      gtk_widget_set_tooltip_text(cmd, unit_description(punit));
 
       g_signal_connect(cmd, "button_press_event",
 	  G_CALLBACK(present_unit_callback),
@@ -2021,9 +2006,6 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     }
     i++;
   } unit_list_iterate_end;
-
-  gtk_tooltips_enable(pdialog->tips);
-
 
   fc_snprintf(buf, sizeof(buf), _("Present units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.present_units_frame), buf);
@@ -2921,8 +2903,6 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 				       G_SIGNAL_MATCH_FUNC,
 				       0, 0, NULL, switch_page_callback,
 				       pdialog);
-
-  g_object_unref(pdialog->tips);
 
   if (pdialog->popup_menu)
     gtk_widget_destroy(pdialog->popup_menu);
