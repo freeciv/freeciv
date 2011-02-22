@@ -1581,7 +1581,9 @@ static struct setting settings[] = {
            N_("If this is turned on, when the capital is conquered the "
               "palace is automatically rebuilt for free in another randomly "
               "chosen city. This is significant because the technology "
-              "requirement for building a palace will be ignored."),
+              "requirement for building a palace will be ignored. (In "
+              "some rulesets, buildings other than the palace are affected "
+              "by this setting.)"),
            NULL, NULL, GAME_DEFAULT_SAVEPALACE)
 
   GEN_BOOL("homecaughtunits", game.server.homecaughtunits,
