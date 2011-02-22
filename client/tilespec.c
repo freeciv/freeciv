@@ -152,6 +152,10 @@ struct drawing_data {
     struct sprite_vector base;
     struct sprite *match[MAX_INDEX_CARDINAL];
     struct sprite **cells;
+
+    /* List of those sprites in 'cells' that are allocated by some other
+     * means than load_sprite() and thus are not freed by unload_all_sprites(). */
+    struct sprite_vector allocated;
   } layer[MAX_NUM_LAYERS];
 
   bool is_reversed;
@@ -523,7 +527,15 @@ static void drawing_data_destroy(struct drawing_data *draw)
     }
   }
   for (i = 0; i < draw->num_layers; i++) {
+    int vec_size = sprite_vector_size(&draw->layer[i].allocated);
+    int j;
+
+    for (j = 0; j < vec_size; j++) {
+      free_sprite(draw->layer[i].allocated.p[j]);
+    }
+
     sprite_vector_free(&draw->layer[i].base);
+    sprite_vector_free(&draw->layer[i].allocated);
   }
   free(draw);
 }
@@ -2880,6 +2892,7 @@ void tileset_setup_tile_type(struct tileset *t,
     struct drawing_layer *dlp = &draw->layer[l];
     struct tileset_layer *tslp = &t->layers[l];
     sprite_vector_init(&dlp->base);
+    sprite_vector_init(&dlp->allocated);
 
     switch (dlp->sprite_type) {
     case CELL_WHOLE:
@@ -3031,6 +3044,8 @@ void tileset_setup_tile_type(struct tileset *t,
 
 	      if (sprite) {
 		/* Crop the sprite to separate this cell. */
+                int vec_size = sprite_vector_size(&dlp->allocated);
+
 		const int W = t->normal_tile_width;
 		const int H = t->normal_tile_height;
 		int x[4] = {W / 4, W / 4, 0, W / 2};
@@ -3042,6 +3057,11 @@ void tileset_setup_tile_type(struct tileset *t,
 				     x[dir], y[dir], W / 2, H / 2,
 				     t->sprites.mask.tile,
 				     xo[dir], yo[dir]);
+
+                /* We allocated new sprite with crop_sprite. Store its
+                 * address so we can free it. */
+                sprite_vector_reserve(&dlp->allocated, vec_size + 1);
+                dlp->allocated.p[vec_size] = sprite;
 	      } else {
                 log_error("Terrain graphics tag \"%s\" missing.", buffer);
 	      }
