@@ -413,8 +413,13 @@ void popup_players_dialog(bool raise)
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
     pLogo = get_nation_flag_surface(nation_of_player(pPlayer));
-    pZoomed = zoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
-            
+    {
+      /* Aim for a flag height of 60 pixels, but draw smaller flags if there
+       * are more players */
+      double zoom = DEFAULT_ZOOM * (60.0 - n) / pLogo->h;
+      pZoomed = zoomSurface(pLogo, zoom, zoom, 1);
+    }
+
     pBuf = create_icon2(pZoomed, pWindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
