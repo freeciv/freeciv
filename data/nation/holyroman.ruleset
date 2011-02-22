@@ -43,7 +43,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "German", "Roman", "East German"
-civilwar_nations = "German", "Austrian", "Holy"
+civilwar_nations = "German", "Austrian", "Papal"
 
 cities =
  "Augusta Vindelicorum (forest, hills, mountains, river, !ocean)", 	;Augsburg

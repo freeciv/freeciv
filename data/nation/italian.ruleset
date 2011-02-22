@@ -54,7 +54,7 @@ init_units=""
 
 conflicts_with="Neapolitan", "Sicilian", "Venetian", "Piedmontese",
  "Milanese"
-civilwar_nations="Sicilian", "Holy", "Venetian", "Neapolitan",
+civilwar_nations="Sicilian", "Papal", "Venetian", "Neapolitan",
  "Piedmontese", "Milanese"
 
 cities =
