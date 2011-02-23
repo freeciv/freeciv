@@ -288,7 +288,7 @@ static void option_color_set_button_color(GtkButton *button,
     pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
     gdk_gc_set_foreground(fill_bg_gc, current_color);
     gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
-    child = gtk_pixmap_new(pixmap, NULL);
+    child = gtk_image_new_from_pixmap(pixmap, NULL);
     gtk_container_add(GTK_CONTAINER(button), child);
     gtk_widget_show(child);
     g_object_unref(G_OBJECT(pixmap));
