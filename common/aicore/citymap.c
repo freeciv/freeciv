@@ -49,7 +49,7 @@
  * which has a negative value.
  */
 
-static int *citymap;
+static int *citymap = NULL;
 
 #define log_citymap log_debug
 
