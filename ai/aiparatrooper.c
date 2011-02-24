@@ -25,7 +25,7 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* aicore */
+/* common/aicore */
 #include "pf_tools.h"
 
 /* server */
@@ -37,7 +37,7 @@
 /* server/advisors */
 #include "advdata.h"
 
-/* generator */
+/* server/generator */
 #include "utilities.h"
 
 /* ai */

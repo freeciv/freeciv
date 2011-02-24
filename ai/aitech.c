@@ -161,7 +161,7 @@ static void ai_select_tech(struct player *pplayer,
               "turn end want: %d", values[id]);
     }
   } advance_index_iterate_end;
-#endif
+#endif /* REALLY_DEBUG_THIS */
   if (choice) {
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;

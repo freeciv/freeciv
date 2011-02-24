@@ -38,7 +38,7 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* aicore */
+/* common/aicore */
 #include "caravan.h"
 #include "pf_tools.h"
 

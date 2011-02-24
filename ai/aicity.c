@@ -320,7 +320,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 }
 
 /************************************************************************** 
-...
+  Sell building from city
 **************************************************************************/
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
@@ -723,7 +723,7 @@ void ai_manage_cities(struct player *pplayer)
 }
 
 /**************************************************************************
-... 
+  Are effects provided by this building not needed?
 **************************************************************************/
 static bool building_unwanted(struct player *plr, struct impr_type *pimprove)
 {
@@ -870,7 +870,7 @@ void ai_city_free(struct city *pcity)
 }
 
 /**************************************************************************
-  ...
+  Write ai city segments to savefile
 **************************************************************************/
 void ai_city_save(struct section_file *file, const struct city *pcity,
                   const char *citystr)
@@ -896,7 +896,7 @@ void ai_city_save(struct section_file *file, const struct city *pcity,
 }
 
 /**************************************************************************
-  ...
+  Load ai city segment from savefile
 **************************************************************************/
 void ai_city_load(const struct section_file *file, struct city *pcity,
                   const char *citystr)

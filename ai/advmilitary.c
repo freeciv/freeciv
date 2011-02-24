@@ -302,7 +302,7 @@ static int assess_defense_backend(struct city *pcity, bool igwall)
 }
 
 /************************************************************************** 
-...
+  Estimate defense strength of city
 **************************************************************************/
 int assess_defense(struct city *pcity)
 {
@@ -310,7 +310,8 @@ int assess_defense(struct city *pcity)
 }
 
 /************************************************************************** 
-...
+  Estimate defense strength of city without considering how buildings
+  help defense
 **************************************************************************/
 static int assess_defense_igwall(struct city *pcity)
 {

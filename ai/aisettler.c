@@ -33,7 +33,7 @@
 #include "packets.h"
 #include "player.h"
 
-/* aicore */
+/* common/aicore */
 #include "pf_tools.h"
 
 /* server */
@@ -438,7 +438,7 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
 }
 
 /*****************************************************************************
-  ...
+  Allocate tile data cache
 *****************************************************************************/
 struct tile_data_cache *tile_data_cache_new(void)
 {
@@ -451,7 +451,7 @@ struct tile_data_cache *tile_data_cache_new(void)
 }
 
 /*****************************************************************************
-  ...
+  Make copy of tile data cache
 *****************************************************************************/
 struct tile_data_cache *
   tile_data_cache_copy(const struct tile_data_cache *ptdc)
@@ -472,7 +472,7 @@ struct tile_data_cache *
 }
 
 /*****************************************************************************
-  ...
+  Free resources allocated for tile data cache
 *****************************************************************************/
 static void tile_data_cache_destroy(struct tile_data_cache *ptdc)
 {
@@ -482,7 +482,7 @@ static void tile_data_cache_destroy(struct tile_data_cache *ptdc)
 }
 
 /*****************************************************************************
-  ...
+  Return player's tile data cache
 *****************************************************************************/
 static const struct tile_data_cache *tdc_plr_get(struct player *plr,
                                                  int tindex)
@@ -516,7 +516,7 @@ static const struct tile_data_cache *tdc_plr_get(struct player *plr,
 }
 
 /*****************************************************************************
-  ...
+  Store player's tile data cache
 *****************************************************************************/
 static void tdc_plr_set(struct player *plr, int tindex,
                          const struct tile_data_cache *ptdc)

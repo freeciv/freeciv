@@ -32,7 +32,7 @@
 #include "research.h"
 #include "unit.h"
 
-/* aicore */
+/* common/aicore */
 #include "cm.h"
 
 /* server */

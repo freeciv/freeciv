@@ -33,7 +33,7 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* aicore */
+/* common/aicore */
 #include "citymap.h"
 #include "pf_tools.h"
 
@@ -1223,7 +1223,7 @@ void adjust_choice(int value, struct ai_choice *choice)
 }
 
 /**************************************************************************
-...
+  After call to this function best is better of cur and best 
 **************************************************************************/
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 {
@@ -1239,7 +1239,7 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 }
 
 /**************************************************************************
-  ...
+  Does choice type refer to unit
 **************************************************************************/
 bool is_unit_choice_type(enum choice_type type)
 {
