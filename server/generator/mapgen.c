@@ -1603,7 +1603,7 @@ static struct tile *get_random_map_position_from_state(
 }
 
 /**************************************************************************
-  ...
+  Allocate and initialize new terrain_select structure.
 **************************************************************************/
 static struct terrain_select *tersel_new(int weight,
                                          enum mapgen_terrain_property target,
@@ -1625,7 +1625,7 @@ static struct terrain_select *tersel_new(int weight,
 }
 
 /**************************************************************************
-  ...
+  Free resources allocated for terrain_select structure.
 **************************************************************************/
 static void tersel_free(struct terrain_select *ptersel)
 {
@@ -2398,7 +2398,7 @@ static void mapgenerator3(void)
 }
 
 /**************************************************************************
-...
+  Generator for placing a couple of players to each island.
 **************************************************************************/
 static void mapgenerator4(void)
 {

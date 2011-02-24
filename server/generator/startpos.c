@@ -27,6 +27,7 @@
 /* server */
 #include "maphand.h"
 
+/* server/generator */
 #include "mapgen_topology.h"
 #include "startpos.h"
 #include "temperature_map.h"

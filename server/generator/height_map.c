@@ -14,8 +14,11 @@
 #include <fc_config.h>
 #endif
 
-#include "map.h"
+/* utility */
 #include "rand.h"
+
+/* common */
+#include "map.h"
 
 #include "height_map.h"
 #include "mapgen_topology.h"
