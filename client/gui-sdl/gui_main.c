@@ -1048,8 +1048,8 @@ void ui_main(int argc, char *argv[])
   /* SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv")); */
 
   /* this need correct Main.screen size */
-  init_mapcanvas_and_overview();    
-  
+  init_mapcanvas_and_overview();
+
   set_client_state(C_S_DISCONNECTED);
 
   /* Main game loop */
@@ -1064,11 +1064,13 @@ void ui_main(int argc, char *argv[])
 **************************************************************************/
 void ui_exit()
 {
-  
+
 #if defined UNDER_CE && defined SMALL_SCREEN
   /* change back to window mode to restore the title bar */
   set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
 #endif
+
+  free_mapcanvas_and_overview();
   
   free_auxiliary_tech_icons();
   free_intro_radar_sprites();

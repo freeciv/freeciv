@@ -3044,6 +3044,15 @@ void init_mapcanvas_and_overview(void)
   map_canvas_resized(1, 1);
 }
 
+/**************************************************************************
+  Frees resources allocated for mapview and overview
+**************************************************************************/
+void free_mapcanvas_and_overview(void)
+{
+  canvas_free(mapview.store);
+  canvas_free(mapview.tmp_store);
+}
+
 /****************************************************************************
   Return the desired width of the spaceship canvas.
 ****************************************************************************/

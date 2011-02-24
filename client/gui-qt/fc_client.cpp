@@ -150,6 +150,7 @@ void fc_client::main(QApplication *qapp)
 
   qapp->exec();
 
+  free_mapcanvas_and_overview();
   tileset_free_tiles(tileset);
 }
 

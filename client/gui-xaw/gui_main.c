@@ -743,6 +743,7 @@ void setup_widgets(void)
 **************************************************************************/
 void xaw_ui_exit(void)
 {
+  free_mapcanvas_and_overview();
   tileset_free_tiles(tileset);
   client_exit();
 }
