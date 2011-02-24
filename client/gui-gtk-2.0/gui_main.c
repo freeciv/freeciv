@@ -1649,6 +1649,7 @@ void ui_main(int argc, char **argv)
 
   gtk_main();
 
+  free_mapcanvas_and_overview();
   spaceship_dialog_done();
   intel_dialog_done();
   happiness_dialog_done();

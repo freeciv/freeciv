@@ -317,6 +317,7 @@ void get_city_mapview_trade_routes(struct city *pcity,
 
 bool map_canvas_resized(int width, int height);
 void init_mapcanvas_and_overview(void);
+void free_mapcanvas_and_overview(void);
 
 void get_spaceship_dimensions(int *width, int *height);
 void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
