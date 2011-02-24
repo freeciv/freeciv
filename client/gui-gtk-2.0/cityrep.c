@@ -342,7 +342,6 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     ""
   };
 
-  gtk_menu_item_remove_submenu(parent_item);
   menu = gtk_menu_new();
   gtk_menu_item_set_submenu(parent_item, menu);
 
@@ -744,8 +743,8 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     return;
   }
 
-  gtk_menu_item_remove_submenu(parent_item);
   if (!can_client_issue_orders()) {
+    gtk_menu_item_set_submenu(parent_item, NULL);
     return;
   }
   menu = gtk_menu_new();
