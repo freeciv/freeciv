@@ -126,6 +126,9 @@
 #include "advbuilding.h"
 #include "infracache.h"
 
+/* server/scripting */
+#include "script.h"
+
 #include "srv_main.h"
 
 static void end_turn(void);
@@ -2506,6 +2509,7 @@ void server_game_free(void)
 
   event_cache_free();
   log_civ_score_free();
+  script_free();
   game_free();
 }
 
