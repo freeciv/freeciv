@@ -803,10 +803,10 @@ static void populate_unit_pixmap_table(void)
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
   unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset), tileset_unit_height(tileset));
-  gtk_widget_ref(unit_pixmap);
+  g_object_ref(unit_pixmap);
   gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
   unit_pixmap_button = gtk_event_box_new();
-  gtk_widget_ref(unit_pixmap_button);
+  g_object_ref(unit_pixmap_button);
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
   g_signal_connect(unit_pixmap_button, "button_press_event",
@@ -818,9 +818,9 @@ static void populate_unit_pixmap_table(void)
     for (i = 0; i < num_units_below; i++) {
       unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
                                              tileset_unit_height(tileset));
-      gtk_widget_ref(unit_below_pixmap[i]);
+      g_object_ref(unit_below_pixmap[i]);
       unit_below_pixmap_button[i] = gtk_event_box_new();
-      gtk_widget_ref(unit_below_pixmap_button[i]);
+      g_object_ref(unit_below_pixmap_button[i]);
       gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
                         unit_below_pixmap[i]);
       g_signal_connect(unit_below_pixmap_button[i],
@@ -837,9 +837,9 @@ static void populate_unit_pixmap_table(void)
   /* create arrow (popup for all units on the selected tile) */
   more_arrow_pixmap = gtk_image_new_from_pixbuf(
           sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT)));
-  gtk_widget_ref(more_arrow_pixmap);
+  g_object_ref(more_arrow_pixmap);
   more_arrow_pixmap_button = gtk_event_box_new();
-  gtk_widget_ref(more_arrow_pixmap_button);
+  g_object_ref(more_arrow_pixmap_button);
   gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_button),
                     more_arrow_pixmap);
   g_signal_connect(more_arrow_pixmap_button,
@@ -873,20 +873,20 @@ void reset_unit_table(void)
      * populatate_unit_pixmap_table. */
     gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                          unit_pixmap_button);
-    gtk_widget_unref(unit_pixmap);
-    gtk_widget_unref(unit_pixmap_button);
+    g_object_unref(unit_pixmap);
+    g_object_unref(unit_pixmap_button);
     if (!gui_gtk2_small_display_layout) {
       for (i = 0; i < num_units_below; i++) {
         gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                              unit_below_pixmap_button[i]);
-        gtk_widget_unref(unit_below_pixmap[i]);
-        gtk_widget_unref(unit_below_pixmap_button[i]);
+        g_object_unref(unit_below_pixmap[i]);
+        g_object_unref(unit_below_pixmap_button[i]);
       }
     }
     gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                          more_arrow_pixmap_button);
-    gtk_widget_unref(more_arrow_pixmap);
-    gtk_widget_unref(more_arrow_pixmap_button);
+    g_object_unref(more_arrow_pixmap);
+    g_object_unref(more_arrow_pixmap_button);
   }
 
   populate_unit_pixmap_table();
