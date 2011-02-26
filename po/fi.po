@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-25 01:14+0000\n"
-"PO-Revision-Date: 2011-02-26 20:23+0200\n"
+"PO-Revision-Date: 2011-02-27 01:15+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "MIME-Version: 1.0\n"
@@ -559,9 +559,10 @@ msgstr "Vuorokello"
 msgid "Scenario/ruleset script message"
 msgstr "Skenaarion/sääntökokoelman skriptiviesti"
 
+# Settings for messages for when the year advances
 #: common/events.c:190
 msgid "Year Advance"
-msgstr "Vuosi - edistysaskel"
+msgstr "Vuoden vaihdos"
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
@@ -10734,24 +10735,24 @@ msgstr "* Vähentää ruton vaaraa kaupungeissasi.\n"
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr ""
-"* Tuotteiden %s hukka lisääntyy nopeasti etäisyyden pääkaupungista "
-"kasvaessa.\n"
+"* Vaikutuksenalaisten tuotteiden (%s) hukka lisääntyy nopeasti etäisyyden "
+"pääkaupungista kasvaessa.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:2099
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr ""
-"* Tuotteiden %s hukka on sitä suurempi mitä kauempana pääkaupungista "
-"ollaan.\n"
+"* Vaikutuksenalaisten tuotteiden (%s) hukka on sitä suurempi mitä kauempana "
+"pääkaupungista ollaan.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:2105
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr ""
-"* Tuotteiden %s hukka lisääntyy hitaasti etäisyyden pääkaupungista "
-"kasvaessa.\n"
+"* Vaikutuksenalaisten tuotteiden (%s) hukka lisääntyy hitaasti etäisyyden "
+"pääkaupungista kasvaessa.\n"
 
 #: client/helpdata.c:2111
 msgid "* Increases the chance of migration into your cities.\n"
