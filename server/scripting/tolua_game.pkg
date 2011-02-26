@@ -81,6 +81,8 @@ module Unit {
     @ is_on_possible_city_tile (Unit *self);
   Tile *api_methods_unit_tile_get
     @ tile(Unit *self);
+  bool api_methods_unit_teleport
+    @ teleport(Unit *self, Tile *dest);
 }
 
 /* Module Tile. */

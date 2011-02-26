@@ -30,6 +30,7 @@
 /* server */
 #include "score.h"
 #include "plrhand.h"
+#include "unittools.h"
 
 /* server/scripting */
 #include "script_game.h"
@@ -427,6 +428,30 @@ Tile *api_methods_unit_tile_get(Unit *punit)
 {
   SCRIPT_CHECK_SELF(punit, NULL);
   return unit_tile(punit);
+}
+
+/**************************************************************************
+  Teleport unit to destination tile
+**************************************************************************/
+bool api_methods_unit_teleport(Unit *punit, Tile *dest)
+{
+  bool alive;
+
+  /* Teleport first so destination is revealed even if unit dies */
+  alive = unit_move(punit, dest, 0);
+  if (alive) {
+    struct player *owner = unit_owner(punit);
+    struct city *pcity = tile_city(dest);
+
+    if (!can_unit_exist_at_tile(punit, dest)
+        || is_non_allied_unit_tile(dest, owner)
+        || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
+      wipe_unit(punit);
+      return FALSE;
+    }
+  }
+
+  return alive;
 }
 
 /**************************************************************************
