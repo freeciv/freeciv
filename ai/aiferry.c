@@ -641,8 +641,8 @@ bool aiferry_goto_amphibious(struct unit *ferry,
 			     struct unit *passenger, struct tile *ptile)
 {
   struct pft_amphibious parameter;
-  struct ai_risk_cost land_risk_cost;
-  struct ai_risk_cost sea_risk_cost;
+  struct adv_risk_cost land_risk_cost;
+  struct adv_risk_cost sea_risk_cost;
 
   ai_fill_unit_param(&parameter.land, &land_risk_cost, passenger, ptile);
   if (parameter.land.get_TB != no_fights) {

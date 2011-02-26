@@ -262,3 +262,137 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
 
   return FALSE; /* as good a quick'n'dirty should be -- Syela */
 }
+
+/*********************************************************************
+  The value of the units belonging to a given player on a given tile.
+*********************************************************************/
+static int stack_value(const struct tile *ptile,
+		       const struct player *pplayer)
+{
+  int cost = 0;
+
+  if (is_stack_vulnerable(ptile)) {
+    unit_list_iterate(ptile->units, punit) {
+      if (unit_owner(punit) == pplayer) {
+	cost += unit_build_shield_cost(punit);
+      }
+    } unit_list_iterate_end;
+  }
+
+  return cost;
+}
+
+
+/*********************************************************************
+  How dangerous would it be stop on a particular tile,
+  because of enemy attacks,
+  expressed as the probability of being killed.
+
+  TODO: This implementation is a kludge until we compute a more accurate
+  probability using the movemap.
+  Also, we should take into account the reduced probability of death
+  if we have a bodyguard travelling with us.
+*********************************************************************/
+static double chance_killed_at(const struct tile *ptile,
+                               struct adv_risk_cost *risk_cost,
+                               const struct pf_parameter *param)
+{
+  double db;
+  /* Compute the basic probability */
+  /* WAG */
+  /* In the early stages of a typical game, ferries
+   * are effectively invulnerable (not until Frigates set sail),
+   * so we make seas appear safer.
+   * If we don't do this, the amphibious movement code has too strong a
+   * desire to minimise the length of the path,
+   * leading to poor choice for landing beaches */
+  double p = is_ocean_tile(ptile)? 0.05: 0.15;
+
+  /* If we are on defensive terrain, we are more likely to survive */
+  db = 10 + tile_terrain(ptile)->defense_bonus / 10;
+  if (tile_has_special(ptile, S_RIVER)) {
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  }
+  p *= 10.0 / db;
+
+  return p;
+}
+
+/*********************************************************************
+  PF stack risk cost. How undesirable is passing through a tile
+  because of risks?
+  Weight by the cost of destruction, for risks that can kill the unit.
+
+  Why use the build cost when assessing the cost of destruction?
+  The reasoning is thus.
+  - Assume that all our units are doing necessary jobs;
+    none are surplus to requirements.
+    If that is not the case, we have problems elsewhere :-)
+  - Then any units that are destroyed will have to be replaced.
+  - The cost of replacing them will be their build cost.
+  - Therefore the total (re)build cost is a good representation of the
+    the cost of destruction.
+*********************************************************************/
+static int stack_risk(const struct tile *ptile,
+                      struct adv_risk_cost *risk_cost,
+                      const struct pf_parameter *param)
+{
+  double risk = 0;
+  /* Compute the risk of destruction, assuming we will stop at this tile */
+  const double value = risk_cost->base_value
+                       + stack_value(ptile, param->owner);
+  const double p_killed = chance_killed_at(ptile, risk_cost, param);
+  double danger = value * p_killed;
+
+  /* Adjust for the fact that we might not stop at this tile,
+   * and for our fearfulness */
+  risk += danger * risk_cost->fearfulness;
+
+  /* Adjust for the risk that we might become stuck (for an indefinite period)
+   * if we enter or try to enter the tile. */
+  if (risk_cost->enemy_zoc_cost != 0
+      && (is_non_allied_city_tile(ptile, param->owner)
+	  || !is_my_zoc(param->owner, ptile)
+	  || is_non_allied_unit_tile(ptile, param->owner))) {
+    /* We could become stuck. */
+    risk += risk_cost->enemy_zoc_cost;
+  }
+
+  return risk;
+}
+
+/*********************************************************************
+  PF extra cost call back to avoid creating tall stacks or
+  crossing dangerous tiles.
+  By setting this as an extra-cost call-back, paths will avoid tall stacks.
+  Avoiding tall stacks *all* along a path is useful because a unit following a
+  path might have to stop early because of ZoCs.
+*********************************************************************/
+static int prefer_short_stacks(const struct tile *ptile,
+                               enum known_type known,
+                               const struct pf_parameter *param)
+{
+  return stack_risk(ptile, (struct adv_risk_cost *)param->data, param);
+}
+
+/**********************************************************************
+  Set PF call-backs to favour paths that do not create tall stacks
+  or cross dangerous tiles.
+***********************************************************************/
+void adv_avoid_risks(struct pf_parameter *parameter,
+                     struct adv_risk_cost *risk_cost,
+                     struct unit *punit,
+                     const double fearfulness)
+{
+  /* If we stay a short time on each tile, the danger of each individual tile
+   * is reduced. If we do not do this,
+   * we will not favour longer but faster routs. */
+  const double linger_fraction = (double)SINGLE_MOVE / parameter->move_rate;
+
+  parameter->data = risk_cost;
+  parameter->get_EC = prefer_short_stacks;
+  risk_cost->base_value = unit_build_shield_cost(punit);
+  risk_cost->fearfulness = fearfulness * linger_fraction;
+
+  risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;
+}

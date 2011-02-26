@@ -534,139 +534,6 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
 }
 
 
-/*********************************************************************
-  The value of the units belonging to a given player on a given tile.
-*********************************************************************/
-static int stack_value(const struct tile *ptile,
-		       const struct player *pplayer)
-{
-  int cost = 0;
-
-  if (is_stack_vulnerable(ptile)) {
-    unit_list_iterate(ptile->units, punit) {
-      if (unit_owner(punit) == pplayer) {
-	cost += unit_build_shield_cost(punit);
-      }
-    } unit_list_iterate_end;
-  }
-
-  return cost;
-}
-
-/*********************************************************************
-  How dangerous would it be stop on a particular tile,
-  because of enemy attacks,
-  expressed as the probability of being killed.
-
-  TODO: This implementation is a kludge until we compute a more accurate
-  probability using the movemap.
-  Also, we should take into account the reduced probability of death
-  if we have a bodyguard travelling with us.
-*********************************************************************/
-static double chance_killed_at(const struct tile *ptile,
-                               struct ai_risk_cost *risk_cost,
-                               const struct pf_parameter *param)
-{
-  double db;
-  /* Compute the basic probability */
-  /* WAG */
-  /* In the early stages of a typical game, ferries
-   * are effectively invulnerable (not until Frigates set sail),
-   * so we make seas appear safer.
-   * If we don't do this, the amphibious movement code has too strong a
-   * desire to minimise the length of the path,
-   * leading to poor choice for landing beaches */
-  double p = is_ocean_tile(ptile)? 0.05: 0.15;
-
-  /* If we are on defensive terrain, we are more likely to survive */
-  db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-  if (tile_has_special(ptile, S_RIVER)) {
-    db += (db * terrain_control.river_defense_bonus) / 100;
-  }
-  p *= 10.0 / db;
-
-  return p;
-}
-
-/*********************************************************************
-  PF stack risk cost. How undesirable is passing through a tile
-  because of risks?
-  Weight by the cost of destruction, for risks that can kill the unit.
-
-  Why use the build cost when assessing the cost of destruction?
-  The reasoning is thus.
-  - Assume that all our units are doing necessary jobs;
-    none are surplus to requirements.
-    If that is not the case, we have problems elsewhere :-)
-  - Then any units that are destroyed will have to be replaced.
-  - The cost of replacing them will be their build cost.
-  - Therefore the total (re)build cost is a good representation of the
-    the cost of destruction.
-*********************************************************************/
-static int stack_risk(const struct tile *ptile,
-                      struct ai_risk_cost *risk_cost,
-                      const struct pf_parameter *param)
-{
-  double risk = 0;
-  /* Compute the risk of destruction, assuming we will stop at this tile */
-  const double value = risk_cost->base_value
-                       + stack_value(ptile, param->owner);
-  const double p_killed = chance_killed_at(ptile, risk_cost, param);
-  double danger = value * p_killed;
-
-  /* Adjust for the fact that we might not stop at this tile,
-   * and for our fearfulness */
-  risk += danger * risk_cost->fearfulness;
-
-  /* Adjust for the risk that we might become stuck (for an indefinite period)
-   * if we enter or try to enter the tile. */
-  if (risk_cost->enemy_zoc_cost != 0
-      && (is_non_allied_city_tile(ptile, param->owner)
-	  || !is_my_zoc(param->owner, ptile)
-	  || is_non_allied_unit_tile(ptile, param->owner))) {
-    /* We could become stuck. */
-    risk += risk_cost->enemy_zoc_cost;
-  }
-
-  return risk;
-}
-
-/*********************************************************************
-  PF extra cost call back to avoid creating tall stacks or
-  crossing dangerous tiles.
-  By setting this as an extra-cost call-back, paths will avoid tall stacks.
-  Avoiding tall stacks *all* along a path is useful because a unit following a
-  path might have to stop early because of ZoCs.
-*********************************************************************/
-static int prefer_short_stacks(const struct tile *ptile,
-                               enum known_type known,
-                               const struct pf_parameter *param)
-{
-  return stack_risk(ptile, (struct ai_risk_cost *)param->data, param);
-}
-
-/**********************************************************************
-  Set PF call-backs to favour paths that do not create tall stacks
-  or cross dangerous tiles.
-***********************************************************************/
-void ai_avoid_risks(struct pf_parameter *parameter,
-		    struct ai_risk_cost *risk_cost,
-		    struct unit *punit,
-		    const double fearfulness)
-{
-  /* If we stay a short time on each tile, the danger of each individual tile
-   * is reduced. If we do not do this,
-   * we will not favour longer but faster routs. */
-  const double linger_fraction = (double)SINGLE_MOVE / parameter->move_rate;
-
-  parameter->data = risk_cost;
-  parameter->get_EC = prefer_short_stacks;
-  risk_cost->base_value = unit_build_shield_cost(punit);
-  risk_cost->fearfulness = fearfulness * linger_fraction;
-
-  risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;
-}
-
 /*
  * The length of time, in turns, which is long enough to be optimistic
  * that enemy units will have moved from their current position.
@@ -674,12 +541,7 @@ void ai_avoid_risks(struct pf_parameter *parameter,
  */
 #define LONG_TIME 4
 /**************************************************************************
-  Set up the constraints on a path for an AI unit,
-  of for a unit (such as an auto-explorer) temporarily under AI control.
-
-  For non-AI units, take care to prevent cheats, because the AI is 
-  omniscient but the players are not. (Ideally, this code should not
-  be used by non-AI units at all, though.)
+  Set up the constraints on a path for an AI unit.
 
   parameter:
      constraints (output)
@@ -691,7 +553,7 @@ void ai_avoid_risks(struct pf_parameter *parameter,
      in which case the ferry should stop on an adjacent tile.
 **************************************************************************/
 void ai_fill_unit_param(struct pf_parameter *parameter,
-			struct ai_risk_cost *risk_cost,
+			struct adv_risk_cost *risk_cost,
 			struct unit *punit, struct tile *ptile)
 {
   const bool long_path = LONG_TIME < (map_distance(unit_tile(punit),
@@ -699,9 +561,12 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
                                       * SINGLE_MOVE
                                       / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
-  const bool is_ai = unit_owner(punit)->ai_controlled;
   bool is_ferry = FALSE;
   struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+  /* This function is now always omniscient and should not be used
+   * for human players any more. */
+  fc_assert(unit_owner(punit)->ai_controlled);
 
   if (unit_data->task != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
@@ -721,7 +586,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     /* The destination may be a coastal land tile,
      * in which case the ferry should stop on an adjacent tile. */
     pft_fill_unit_overlap_param(parameter, punit);
-  } else if (is_ai && !utype_fuel(unit_type(punit))
+  } else if (!utype_fuel(unit_type(punit))
              && is_military_unit(punit)
              && (unit_data->task == AIUNIT_DEFEND_HOME
                  || unit_data->task == AIUNIT_ATTACK
@@ -739,9 +604,9 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
    * human-player units under temporary AI control.
    * Barbarians bravely/stupidly ignore risks
    */
-  if (is_ai && !uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)
+  if (!uclass_has_flag(unit_class(punit), UCF_UNREACHABLE)
       && !barbarian) {
-    ai_avoid_risks(parameter, risk_cost, punit, NORMAL_STACKING_FEARFULNESS);
+    adv_avoid_risks(parameter, risk_cost, punit, NORMAL_STACKING_FEARFULNESS);
   }
 
   /* Should we absolutely forbid ending a turn on a dangerous tile?
@@ -751,11 +616,11 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
    * TODO: This is compatible with old code,
    * but probably ought to be more cautious for non military units
    */
-  if (is_ai && !is_ferry && !utype_fuel(unit_type(punit))) {
+  if (!is_ferry && !utype_fuel(unit_type(punit))) {
     parameter->get_moves_left_req = NULL;
   }
 
-  if (is_ai && long_path) {
+  if (long_path) {
     /* Move as far along the path to the destination as we can;
      * that is, ignore the presence of enemy units when computing the
      * path.
@@ -771,12 +636,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     parameter->get_zoc = NULL;
   }
 
-  if (!is_ai) {
-    /* Do not annoy human players by killing their units for them.
-     * Do not cheat by using information about tiles unknown to the player.
-     */
-    parameter->get_TB = no_fights_or_unknown;
-  } else if ((unit_has_type_flag(punit, F_DIPLOMAT))
+  if ((unit_has_type_flag(punit, F_DIPLOMAT))
       || (unit_has_type_flag(punit, F_SPY))) {
     /* Default tile behaviour */
   } else if (unit_has_type_flag(punit, F_SETTLERS)) {
@@ -841,7 +701,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 bool ai_unit_goto(struct unit *punit, struct tile *ptile)
 {
   struct pf_parameter parameter;
-  struct ai_risk_cost risk_cost;
+  struct adv_risk_cost risk_cost;
 
   UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", ptile->x, ptile->y);
   ai_fill_unit_param(&parameter, &risk_cost, punit, ptile);

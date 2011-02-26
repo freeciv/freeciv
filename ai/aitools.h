@@ -20,6 +20,9 @@
 #include "fc_types.h"
 #include "unit.h"		/* enum ai_unit_task */
 
+/* server/advisors */
+#include "advgoto.h"
+
 /* ai */
 #include "aicity.h"
 #include "aiunit.h"
@@ -27,22 +30,6 @@
 struct pf_path;
 struct pf_parameter;
 struct pft_amphibious;
-
-/*
- * WAGs: how hard to avoid tall stacks of units.
- * Pass as fearfulness values to ai_avoid_risks.
- */
-#define NORMAL_STACKING_FEARFULNESS ((double)PF_TURN_FACTOR / 36.0)
-
-/*
- * Initialise using ai_avoid_risks()
- */
-struct ai_risk_cost
-{
-  double base_value;
-  double fearfulness;
-  double enemy_zoc_cost;
-};
 
 const char *ai_unit_task_rule_name(const enum ai_unit_task task);
 const char *ai_choice_rule_name(const struct ai_choice *choice);
@@ -54,12 +41,8 @@ int stack_cost(struct unit *pattacker, struct unit *pdefender);
 void ai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
                             struct pf_path *path, int step);
 
-void ai_avoid_risks(struct pf_parameter *parameter,
-		    struct ai_risk_cost *risk_cost,
-		    struct unit *punit,
-		    const double fearfulness);
 void ai_fill_unit_param(struct pf_parameter *parameter,
-			struct ai_risk_cost *risk_cost,
+			struct adv_risk_cost *risk_cost,
 			struct unit *punit, struct tile *ptile);
 bool ai_gothere(struct player *pplayer, struct unit *punit, 
                 struct tile *dst_tile);
