@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 14-Feb-11.
+Last minor update was 22-Feb-11.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -92,7 +92,7 @@ contains the generated files.
 
    Autoconf is required to create configure from configure.ac.
 
- - GNU automake version 1.6 or better
+ - GNU automake version 1.7 or better
 
    Automake is required to create the various Makefile.in from
    Makefile.am.
