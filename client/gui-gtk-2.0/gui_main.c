@@ -179,7 +179,9 @@ static GtkWidget *allied_chat_toggle_button;
 
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
-static guint input_id, ggz_input_id;
+static GIOChannel *srv_channel;
+static GIOChannel *ggz_channel;
+static guint srv_id, ggz_id;
 gint cur_x, cur_y;
 
 
@@ -187,7 +189,8 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpoin
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 static void end_turn_callback(GtkWidget *w, gpointer data);
-static void get_net_input(gpointer data, gint fid, GdkInputCondition condition);
+static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
+                              gpointer data);
 static void set_wait_for_writable_socket(struct connection *pc,
                                          bool socket_writable);
 
@@ -1840,17 +1843,23 @@ static void end_turn_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static void get_net_input(gpointer data, gint fid, GdkInputCondition condition)
+static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
+                              gpointer data)
 {
-  input_from_server(fid);
+  input_from_server(g_io_channel_unix_get_fd(source));
+
+  return TRUE;
 }
 
 /**************************************************************************
   Callback for when the GGZ socket has data pending.
 **************************************************************************/
-static void get_ggz_input(gpointer data, gint fid, GdkInputCondition condition)
+static gboolean get_ggz_input(GIOChannel *source, GIOCondition condition,
+                              gpointer data)
 {
-  input_from_ggz(fid);
+  input_from_ggz(g_io_channel_unix_get_fd(source));
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1867,11 +1876,13 @@ static void set_wait_for_writable_socket(struct connection *pc,
     return;
 
   log_debug("set_wait_for_writable_socket(%d)", socket_writable);
-  gtk_input_remove(input_id);
-  input_id = gtk_input_add_full(client.conn.sock, GDK_INPUT_READ
-				| (socket_writable ? GDK_INPUT_WRITE : 0)
-				| GDK_INPUT_EXCEPTION,
-				get_net_input, NULL, NULL, NULL);
+
+  g_source_remove(srv_id);
+  srv_id = g_io_add_watch(srv_channel,
+                          G_IO_IN | (socket_writable ? G_IO_OUT : 0) | G_IO_ERR,
+                          get_net_input,
+                          NULL);
+
   previous_state = socket_writable;
 }
 
@@ -1881,8 +1892,15 @@ static void set_wait_for_writable_socket(struct connection *pc,
 **************************************************************************/
 void add_net_input(int sock)
 {
-  input_id = gtk_input_add_full(sock, GDK_INPUT_READ | GDK_INPUT_EXCEPTION,
-				get_net_input, NULL, NULL, NULL);
+#ifdef WIN32_NATIVE
+  srv_channel = g_io_channel_win32_new_socket(sock);
+#else
+  srv_channel = g_io_channel_unix_new(sock);
+#endif
+  srv_id = g_io_add_watch(srv_channel,
+                          G_IO_IN | G_IO_ERR,
+                          get_net_input,
+                          NULL);
   client.conn.notify_of_writable_data = set_wait_for_writable_socket;
 }
 
@@ -1892,7 +1910,8 @@ void add_net_input(int sock)
 **************************************************************************/
 void remove_net_input(void)
 {
-  gtk_input_remove(input_id);
+  g_source_remove(srv_id);
+  g_io_channel_unref(srv_channel);
   gdk_window_set_cursor(root_window, NULL);
 }
 
@@ -1901,8 +1920,15 @@ void remove_net_input(void)
 **************************************************************************/
 void add_ggz_input(int sock)
 {
-  ggz_input_id = gtk_input_add_full(sock, GDK_INPUT_READ, get_ggz_input,
-				    NULL, NULL, NULL);
+#ifdef WIN32_NATIVE
+  ggz_channel = g_io_channel_win32_new_socket(sock);
+#else
+  ggz_channel = g_io_channel_unix_new(sock);
+#endif
+  srv_id = g_io_add_watch(ggz_channel,
+                          G_IO_IN,
+                          get_ggz_input,
+                          NULL);
 }
 
 /**************************************************************************
@@ -1911,7 +1937,8 @@ void add_ggz_input(int sock)
 **************************************************************************/
 void remove_ggz_input(void)
 {
-  gtk_input_remove(ggz_input_id);
+  g_source_remove(ggz_id);
+  g_io_channel_unref(ggz_channel);
 }
 
 /****************************************************************
