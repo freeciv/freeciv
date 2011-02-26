@@ -28,6 +28,7 @@
 #include "game.h"
 #include "map.h"
 #include "rgbcolor.h"
+#include "road.h"
 
 #include "terrain.h"
 
@@ -507,9 +508,9 @@ int count_terrain_property_near_tile(const struct tile *ptile,
  */
 static const char *tile_special_type_names[] =
 {
-  N_("Road"),
+  NULL,
   N_("Irrigation"),
-  N_("Railroad"),
+  NULL,
   N_("Mine"),
   N_("Pollution"),
   N_("Hut"),
@@ -528,10 +529,17 @@ enum tile_special_type special_by_rule_name(const char *name)
   fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, S_LAST);
 
   tile_special_type_iterate(i) {
-    if (0 == strcmp(tile_special_type_names[i], name)) {
+    if (tile_special_type_names[i] != NULL
+        && 0 == strcmp(tile_special_type_names[i], name)) {
       return i;
     }
   } tile_special_type_iterate_end;
+
+  road_type_iterate(road) {
+    if (0 == strcmp(road_rule_name(road), name)) {
+      return road_special(road);
+    }
+  } road_type_iterate_end;
 
   return S_LAST;
 }
@@ -541,8 +549,16 @@ enum tile_special_type special_by_rule_name(const char *name)
 ****************************************************************************/
 const char *special_name_translation(enum tile_special_type type)
 {
+  struct road_type *road;
+
   fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
   fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
+
+  road = road_by_special(type);
+  if (road != NULL) {
+    return road_name_translation(road);
+  }
+
   return _(tile_special_type_names[type]);
 }
 
@@ -551,8 +567,16 @@ const char *special_name_translation(enum tile_special_type type)
 ****************************************************************************/
 const char *special_rule_name(enum tile_special_type type)
 {
+  struct road_type *road;
+
   fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
   fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
+
+  road = road_by_special(type);
+  if (road != NULL) {
+    return road_rule_name(road);
+  }
+
   return tile_special_type_names[type];
 }
 

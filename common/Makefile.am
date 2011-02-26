@@ -69,6 +69,8 @@ libfreeciv_la_SOURCES = \
 		research.h	\
 		rgbcolor.c	\
 		rgbcolor.h	\
+		road.c		\
+		road.h		\
 		spaceship.c	\
 		spaceship.h	\
 		specialist.c	\

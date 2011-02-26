@@ -363,6 +363,24 @@ enum diplomacy_mode {
   DIPLO_DISABLED,
 };
 
+enum tile_special_type {
+  S_ROAD,
+  S_IRRIGATION,
+  S_RAILROAD,
+  S_MINE,
+  S_POLLUTION,
+  S_HUT,
+  S_OLD_FORTRESS,
+  S_RIVER,
+  S_FARMLAND,
+  S_OLD_AIRBASE,
+  S_FALLOUT,
+
+  /* internal values not saved */
+  S_LAST,
+  S_RESOURCE_VALID = S_LAST,
+};
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

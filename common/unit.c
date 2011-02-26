@@ -33,6 +33,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "road.h"
 #include "tech.h"
 #include "unitlist.h"
 
@@ -643,7 +644,8 @@ const char *get_activity_text(enum unit_activity activity)
   case ACTIVITY_POLLUTION:
     return _("Pollution");
   case ACTIVITY_ROAD:
-    return _("Road");
+  case ACTIVITY_RAILROAD:
+    return road_activity_text(road_by_activity(activity));
   case ACTIVITY_MINE:
     return _("Mine");
   case ACTIVITY_IRRIGATE:
@@ -656,8 +658,6 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Fortress");
   case ACTIVITY_SENTRY:
     return _("Sentry");
-  case ACTIVITY_RAILROAD:
-    return _("Railroad");
   case ACTIVITY_PILLAGE:
     return _("Pillage");
   case ACTIVITY_GOTO:
