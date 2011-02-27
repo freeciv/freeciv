@@ -1667,8 +1667,8 @@ struct player *shuffled_player(int i)
   struct player *pplayer;
 
   pplayer = player_by_number(shuffled_order[i]);
-  log_debug("shuffled_player(%d) = %d (%p %s)",
-            i, shuffled_order[i], pplayer, player_name(pplayer));
+  log_debug("shuffled_player(%d) = %d (%s)",
+            i, shuffled_order[i], player_name(pplayer));
   return pplayer;
 }
 
