@@ -15,14 +15,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-21 12:58+0200\n"
+"POT-Creation-Date: 2011-02-27 12:53-0800\n"
 "PO-Revision-Date: 2011-02-21 19:48+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
@@ -1170,7 +1170,7 @@ msgstr[1] " (total : %d répétitions)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/netintf.c:85 utility/registry.c:869 server/console.c:67
-#: server/generator/startpos.c:393 client/tilespec.c:4242
+#: server/generator/startpos.c:393 client/tilespec.c:4262
 #: client/agents/cma_core.c:438 client/gui-sdl/mapview.c:160
 #, c-format
 msgid "Please report this message at %s"
@@ -1298,8 +1298,8 @@ msgstr "*%s (IA)* Rompez d'abord votre alliance avec %s, %s."
 #: ai/advdiplomacy.c:336
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IA)* J'aurais aimé vous voir garder vos distances avec %s pour quelques "
 "temps, %s."
@@ -1565,8 +1565,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutations allié, je vois que vous n'avez pas encore déclaré la "
 "guerre à notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
@@ -4231,8 +4231,8 @@ msgid ""
 "Cannot change name of player (%d) '%s' to '%s': another player (%d) already "
 "has that name."
 msgstr ""
-"Impossible de changer le nom du joueur (%d) '%s' à '%s' : un autre joueur "
-"(%d) possède déjà ce nom."
+"Impossible de changer le nom du joueur (%d) '%s' à '%s' : un autre joueur (%"
+"d) possède déjà ce nom."
 
 #: server/edithand.c:1096
 #, c-format
@@ -4292,8 +4292,8 @@ msgstr ""
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
-"Impossible de basculer le brouillard de guerre pour un joueur non-valide ID "
-"%d."
+"Impossible de basculer le brouillard de guerre pour un joueur non-valide ID %"
+"d."
 
 #: server/edithand.c:1342
 #, c-format
@@ -5510,8 +5510,8 @@ msgid ""
 "event like '(T2 - 15:29:52)'."
 msgstr ""
 "Si cette option est activée, tous les messages-événements stockés seront "
-"précédés du tour et de l'heure où ils se sont produits comme \"(T2 - "
-"15:29:52\"."
+"précédés du tour et de l'heure où ils se sont produits comme \"(T2 - 15:29:52"
+"\"."
 
 #: server/settings.c:491
 msgid "List of players' initial units"
@@ -5978,7 +5978,8 @@ msgstr ""
 
 #: server/settings.c:809
 msgid "Whether fog of war applies to border changes"
-msgstr "Est-ce que le brouillard de guerre s'applique aux changements de frontières"
+msgstr ""
+"Est-ce que le brouillard de guerre s'applique aux changements de frontières"
 
 #: server/settings.c:810
 msgid ""
@@ -6540,8 +6541,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+04Y%S-%R' => 'civgame-T0302-A+1716AD-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T"
-"%04T-Y%+04Y%S-%R' est ajouté à la valeur de cette option."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T%"
+"04T-Y%+04Y%S-%R' est ajouté à la valeur de cette option."
 
 #: server/settings.c:1172
 msgid "Whether to log player statistics"
@@ -7457,8 +7458,8 @@ msgstr "Vote"
 #: server/stdinhand.c:2034
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (besoin : %0.0f%%%s): %d pour, %d contre, et %d blancs pour un "
 "total de %d joueurs."
@@ -12961,36 +12962,36 @@ msgstr "La présence d'unités militaires n'a pas d'effet sur le bonheur. "
 msgid "Luxury: %d total."
 msgstr "Luxe : %d au total."
 
-#: client/tilespec.c:909
+#: client/tilespec.c:921
 msgid "No usable default tileset found, aborting!"
 msgstr "Aucun jeu de textures par défaut utilisable, annulation!"
 
-#: client/tilespec.c:941
+#: client/tilespec.c:953
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Chargement des jeux de textures \"%s\"."
 
 # AR
-#: client/tilespec.c:1092 client/tilespec.c:1126
+#: client/tilespec.c:1104 client/tilespec.c:1138
 #: client/gui-sdl/themespec.c:475 client/gui-sdl/themespec.c:509
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Impossible d'ouvrir \"%s\"."
 
-#: client/tilespec.c:1371
+#: client/tilespec.c:1383
 msgid "Client does not support isometric tilesets."
 msgstr "Le client ne supporte pas les jeux de textures isométriques."
 
-#: client/tilespec.c:1372 client/tilespec.c:1381
+#: client/tilespec.c:1384 client/tilespec.c:1393
 msgid "Using default tileset instead."
 msgstr "Utilisation du jeu de textures standard à la place."
 
-#: client/tilespec.c:1380
+#: client/tilespec.c:1392
 msgid "Client does not support overhead view tilesets."
 msgstr ""
 "Le client ne supporte pas les jeux de textures de vue par dessus la tête."
 
-#: client/tilespec.c:4239
+#: client/tilespec.c:4259
 msgid "Paths longer than 99 turns are not supported."
 msgstr "Les chemins plus longs que 99 tours ne sont pas supportés."
 
@@ -16931,31 +16932,31 @@ msgstr ""
 "Impossible de créer le sprite (surface) de la taille %d x %d %d bits au "
 "format %d"
 
-#: client/gui-sdl/graphics.c:565
+#: client/gui-sdl/graphics.c:566
 #, c-format
 msgid "Unable to initialize SDL library: %s"
 msgstr "Impossible d'initialiser la bibliothèque SDL : %s"
 
-#: client/gui-sdl/graphics.c:574
+#: client/gui-sdl/graphics.c:575
 #, c-format
 msgid "Unable to initialize SDL_ttf library: %s"
 msgstr "Impossible d'initialiser la bibliothèque SDL_ttf : %s"
 
-#: client/gui-sdl/graphics.c:611
+#: client/gui-sdl/graphics.c:613
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
 msgstr "Pas de mode disponible pour cette résolution : %d x %d %d bpp"
 
-#: client/gui-sdl/graphics.c:614
+#: client/gui-sdl/graphics.c:616
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
 msgstr "Utilisation de la résolution par défaut : 640 x 480 16 bpp SW"
 
-#: client/gui-sdl/graphics.c:621
+#: client/gui-sdl/graphics.c:623
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
 msgstr "Impossible d'utiliser cette résolution : %d x %d %d bpp %s"
 
-#: client/gui-sdl/graphics.c:628
+#: client/gui-sdl/graphics.c:630
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "Utilisation de la résolution : %d x %d %d bpp"
@@ -17787,7 +17788,7 @@ msgstr "Vaisseau spatial %s"
 msgid "Launch"
 msgstr "Lancer"
 
-#: client/gui-sdl/sprite.c:60
+#: client/gui-sdl/sprite.c:61
 #, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
 msgstr "load_gfxfile: impossible de charger le fichier de graphisme %s !"
@@ -19755,7 +19756,13 @@ msgid ""
 "lightning bolt (depending on the tileset).  Take care not to let this happen "
 "to any of your cities, as cities in disorder produce nothing, and are prone "
 "to revolt."
-msgstr "    La règle d'or pour prendre soin d'une ville est d'avoir au moins autant d'habitants heureux que d'habitants mécontents. Une ville qui ne respecte pas cette règle sombre dans les troubles ; de telles villes sont signalée par un poing levé ou un éclair (en fonction du jeu de tuiles). Prenez garde que cela n'arrive à aucune de vos villes, car les villes en troubles ne produisent rien, et ont tendance à se révolter."
+msgstr ""
+"    La règle d'or pour prendre soin d'une ville est d'avoir au moins autant "
+"d'habitants heureux que d'habitants mécontents. Une ville qui ne respecte "
+"pas cette règle sombre dans les troubles ; de telles villes sont signalée "
+"par un poing levé ou un éclair (en fonction du jeu de tuiles). Prenez garde "
+"que cela n'arrive à aucune de vos villes, car les villes en troubles ne "
+"produisent rien, et ont tendance à se révolter."
 
 #: data/helpdata.txt:183
 msgid ""
@@ -23449,7 +23456,9 @@ msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%. A Manufacturing Plant on its own increases "
 "shield production by 50%."
-msgstr "Avec une Fabrique, une Usine accroît de 100% la production d'une ville. Une Usine seule augmente la production de 50%."
+msgstr ""
+"Avec une Fabrique, une Usine accroît de 100% la production d'une ville. Une "
+"Usine seule augmente la production de 50%."
 
 #: data/default/buildings.ruleset:491 data/civ2/buildings.ruleset:464
 #: data/civ1/buildings.ruleset:388
@@ -34171,8 +34180,8 @@ msgstr "avant J.-C."
 
 #~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
 #~ msgstr ""
-#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi "
-#~ "%s).\n"
+#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi %"
+#~ "s).\n"
 
 #~ msgid "* Can build airbases.\n"
 #~ msgstr "* Peut construire des bases aériennes.\n"
@@ -34298,8 +34307,8 @@ msgstr "avant J.-C."
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
 #~ "when not celebrating.\n"
 #~ msgstr ""
-#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1 quand la ville n'est pas en extase.\n"
+#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1 quand la ville n'est pas en extase.\n"
 
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it when "
@@ -37366,8 +37375,8 @@ msgstr "avant J.-C."
 
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr ""
-#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion "
-#~ "%s."
+#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion %"
+#~ "s."
 
 #~ msgid "Observers cannot vote."
 #~ msgstr "Les observateurs ne peuvent pas voter."
@@ -37509,8 +37518,8 @@ msgstr "avant J.-C."
 #~ "Votre %1$s a réussi à soudoyer %3$s de %2$s et a acquis de l'expérience."
 
 #~ msgid ""
-#~ "Your %s has successfully completed her mission and returned unharmed to "
-#~ "%s and has become more experienced."
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s and has become more experienced."
 #~ msgstr ""
 #~ "Votre %s a rempli sa mission avec succès, est revenu sain et sauf à %s et "
 #~ "a acquis de l'expérience."
@@ -37544,8 +37553,8 @@ msgstr "avant J.-C."
 #~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 #~ "became more experienced!"
 #~ msgstr[0] ""
-#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre "
-#~ "unité)%5$s et a acquis de l'expérience !"
+#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre unité)%"
+#~ "5$s et a acquis de l'expérience !"
 #~ msgstr[1] ""
 #~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autres "
 #~ "unités)%5$s et a acquis de l'expérience !"
@@ -37660,8 +37669,8 @@ msgstr "avant J.-C."
 #~ msgstr "Impossible de copier le texte sur l'affichage : %s"
 
 #~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: "
-#~ "%s"
+#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
+#~ "s"
 #~ msgstr ""
 #~ "Erreur dans SDL_create_str16_surf : impossible de convertir le texte au "
 #~ "format d'affichage : %s"
@@ -38611,8 +38620,8 @@ msgstr "avant J.-C."
 
 #~ msgid "Couldn't open gamelogfile \"%s\" for appending."
 #~ msgstr ""
-#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter "
-#~ "\"%s\"."
+#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter \"%"
+#~ "s\"."
 
 #~ msgid "Detail level for logging game events"
 #~ msgstr "Niveau de détail pour la journalisation"
@@ -38814,8 +38823,8 @@ msgstr "avant J.-C."
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 #~ msgstr ""
-#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1.\n"
+#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1.\n"
 
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "

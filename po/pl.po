@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-21 11:19-0800\n"
+"POT-Creation-Date: 2011-02-27 12:53-0800\n"
 "PO-Revision-Date: 2011-02-21 14:58+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
@@ -1189,7 +1189,7 @@ msgstr[2] " (łącznie %d powtórzeń)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/netintf.c:85 utility/registry.c:869 server/console.c:67
-#: server/generator/startpos.c:393 client/tilespec.c:4242
+#: server/generator/startpos.c:393 client/tilespec.c:4262
 #: client/agents/cma_core.c:438 client/gui-sdl/mapview.c:160
 #, c-format
 msgid "Please report this message at %s"
@@ -12799,34 +12799,34 @@ msgstr "Jednostki zbrojne nie mają wpływu na zadowolenie. "
 msgid "Luxury: %d total."
 msgstr "Luksus: ogółem %d."
 
-#: client/tilespec.c:909
+#: client/tilespec.c:921
 msgid "No usable default tileset found, aborting!"
 msgstr "Nie znalazłem odpowiedniego zestawu graficznego, kończę pracę!"
 
-#: client/tilespec.c:941
+#: client/tilespec.c:953
 #, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Wczytuję zasady \"%s\"."
 
-#: client/tilespec.c:1092 client/tilespec.c:1126
+#: client/tilespec.c:1104 client/tilespec.c:1138
 #: client/gui-sdl/themespec.c:475 client/gui-sdl/themespec.c:509
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Nie mogę otworzyć \"%s\"."
 
-#: client/tilespec.c:1371
+#: client/tilespec.c:1383
 msgid "Client does not support isometric tilesets."
 msgstr "Klient nie obsługuje izometrycznej grafiki."
 
-#: client/tilespec.c:1372 client/tilespec.c:1381
+#: client/tilespec.c:1384 client/tilespec.c:1393
 msgid "Using default tileset instead."
 msgstr "Używam domyślnego zestawu."
 
-#: client/tilespec.c:1380
+#: client/tilespec.c:1392
 msgid "Client does not support overhead view tilesets."
 msgstr "Klient nie obsługuje 'wystającej' grafiki."
 
-#: client/tilespec.c:4239
+#: client/tilespec.c:4259
 msgid "Paths longer than 99 turns are not supported."
 msgstr "Ścieżki dłuższe niż 99 tur nie są obsługiwane."
 
@@ -16757,31 +16757,31 @@ msgstr ""
 "Nie można stworzyć obrazka (Surface) o rozmiarze %d x %d %d bitów w formacie "
 "%d"
 
-#: client/gui-sdl/graphics.c:565
+#: client/gui-sdl/graphics.c:566
 #, c-format
 msgid "Unable to initialize SDL library: %s"
 msgstr "Nie można uruchomić biblioteki SDL: %s"
 
-#: client/gui-sdl/graphics.c:574
+#: client/gui-sdl/graphics.c:575
 #, c-format
 msgid "Unable to initialize SDL_ttf library: %s"
 msgstr "Nie można uruchomić biblioteki SDL_ttf: %s"
 
-#: client/gui-sdl/graphics.c:611
+#: client/gui-sdl/graphics.c:613
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
 msgstr "Brak dostępnych trybów dla rozdzielczości : %d x %d %d bpp"
 
-#: client/gui-sdl/graphics.c:614
+#: client/gui-sdl/graphics.c:616
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
 msgstr "Ustawiam domyślną rozdzielczość na : 640 x 480 bpp SW"
 
-#: client/gui-sdl/graphics.c:621
+#: client/gui-sdl/graphics.c:623
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
 msgstr "Nie można ustawić rozdzielczości na: %d x %d %d bpp %s"
 
-#: client/gui-sdl/graphics.c:628
+#: client/gui-sdl/graphics.c:630
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
 msgstr "Ustawiam rozdzielczość na: %d x %d %d bpp"
@@ -17618,7 +17618,7 @@ msgstr "Statek kosmiczny %s"
 msgid "Launch"
 msgstr "Wystrzel"
 
-#: client/gui-sdl/sprite.c:60
+#: client/gui-sdl/sprite.c:61
 #, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
 msgstr "load_gfxfile: Nie można wczytać pliku graficznego %s!"
