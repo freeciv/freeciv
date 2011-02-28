@@ -57,6 +57,15 @@ static const char *cr_entry_cityname(const struct city *pcity,
   return city_name(pcity);
 }
 
+/************************************************************************
+  Translated name of nation who owns this city.
+*************************************************************************/
+static const char *cr_entry_nation(const struct city *pcity,
+                                   const void *data)
+{
+  return nation_adjective_for_player(city_owner(pcity));
+}
+
 static const char *cr_entry_size(const struct city *pcity,
 				 const void *data)
 {
@@ -476,6 +485,8 @@ static const char *cr_entry_cma(const struct city *pcity,
 static const struct city_report_spec base_city_report_specs[] = {
   { TRUE, -15, 0, NULL,  N_("?city:Name"), N_("City Name"),
     NULL, FUNC_TAG(cityname) },
+  { FALSE, -15, 0, NULL, N_("Nation"),  N_("Nation"),
+    NULL, FUNC_TAG(nation) },
   { TRUE,   2, 1, NULL,  N_("?size [short]:Sz"), N_("Size"),
     NULL, FUNC_TAG(size) },
   { TRUE,  -8, 1, NULL,  N_("State"),   N_("Celebrating/Peace/Disorder"),
