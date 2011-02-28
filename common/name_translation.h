@@ -47,7 +47,8 @@ static inline void name_init(struct name_translation *ptrans)
 
 /****************************************************************************
   Set the untranslated and rule names of the name translation structure.
-  If rule_name is NULL, use vernacular_name for it.
+  If rule_name is NULL, use vernacular_name for it (after removing any i18n
+  qualifier).
 ****************************************************************************/
 static inline void names_set(struct name_translation *ptrans,
                              const char *vernacular_name,
@@ -67,7 +68,7 @@ static inline void names_set(struct name_translation *ptrans,
 
 /****************************************************************************
   Set the untranslated name of the name translation structure.
-  Assumes the rule name should be the same as the vernacular.
+  Assumes the rule name should be based on the vernacular.
 ****************************************************************************/
 static inline void name_set(struct name_translation *ptrans,
                             const char *vernacular_name)
