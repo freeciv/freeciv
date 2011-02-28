@@ -401,14 +401,15 @@ static GdkRectangle dirty_rects[MAX_DIRTY_RECTS];
 static bool is_flush_queued = FALSE;
 
 /**************************************************************************
-  A callback invoked as a result of gtk_idle_add, this function simply
+  A callback invoked as a result of g_idle_add, this function simply
   flushes the mapview canvas.
 **************************************************************************/
-static gint unqueue_flush(gpointer data)
+static gboolean unqueue_flush(gpointer data)
 {
   flush_dirty();
   is_flush_queued = FALSE;
-  return 0;
+
+  return FALSE;
 }
 
 /**************************************************************************
@@ -419,7 +420,7 @@ static gint unqueue_flush(gpointer data)
 static void queue_flush(void)
 {
   if (!is_flush_queued) {
-    gtk_idle_add(unqueue_flush, NULL);
+    g_idle_add(unqueue_flush, NULL);
     is_flush_queued = TRUE;
   }
 }

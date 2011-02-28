@@ -1998,13 +1998,14 @@ struct callback {
 /****************************************************************************
   A wrapper for the callback called through add_idle_callback.
 ****************************************************************************/
-static gint idle_callback_wrapper(gpointer data)
+static gboolean idle_callback_wrapper(gpointer data)
 {
   struct callback *cb = data;
 
   (cb->callback)(cb->data);
   free(cb);
-  return 0;
+
+  return FALSE;
 }
 
 /****************************************************************************
@@ -2018,7 +2019,7 @@ void add_idle_callback(void (callback)(void *), void *data)
 
   cb->callback = callback;
   cb->data = data;
-  gtk_idle_add(idle_callback_wrapper, cb);
+  g_idle_add(idle_callback_wrapper, cb);
 }
 
 /****************************************************************************
