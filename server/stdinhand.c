@@ -2092,31 +2092,37 @@ static bool show_command(struct connection *caller, char *str, bool check)
    *  - '=': the option is on its default value */
 #define OPTION_NAME_SPACE 25
 
-  cmd_reply_show(horiz_line);
-  switch(level) {
-    case SSET_NONE:
-      break;
-    case SSET_CHANGED:
-      cmd_reply_show(_("All options with non-default values"));
-      break;
-    case SSET_ALL:
-      cmd_reply_show(_("All options"));
-      break;
-    case SSET_VITAL:
-      cmd_reply_show(_("Vital options"));
-      break;
-    case SSET_SITUATIONAL:
-      cmd_reply_show(_("Situational options"));
-      break;
-    case SSET_RARE:
-      cmd_reply_show(_("Rarely used options"));
-      break;
-    case SSET_LOCKED:
-      cmd_reply_show(_("Options locked by the ruleset"));
-      break;
-    case OLEVELS_NUM:
-      /* nothing */
-      break;
+  {
+    const char *heading = NULL;
+    switch(level) {
+      case SSET_NONE:
+        break;
+      case SSET_CHANGED:
+        heading = _("All options with non-default values");
+        break;
+      case SSET_ALL:
+        heading = _("All options");
+        break;
+      case SSET_VITAL:
+        heading = _("Vital options");
+        break;
+      case SSET_SITUATIONAL:
+        heading = _("Situational options");
+        break;
+      case SSET_RARE:
+        heading = _("Rarely used options");
+        break;
+      case SSET_LOCKED:
+        heading = _("Options locked by the ruleset");
+        break;
+      case OLEVELS_NUM:
+        /* nothing */
+        break;
+    }
+    if (heading) {
+      cmd_reply_show(horiz_line);
+      cmd_reply_show(heading);
+    }
   }
   cmd_reply_show(horiz_line);
   cmd_reply_show(_("In the column '##' the status of the option is shown:"));
