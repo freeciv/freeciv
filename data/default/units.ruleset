@@ -94,7 +94,7 @@ veteran_move_bonus = 0, 0, 0, 0
 
 [unitclass_missile]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Missile")
+name          = _("?unitclass:Missile")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 0
@@ -113,7 +113,7 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Sea")
+name          = _("?unitclass:Sea")
 move_type     = "Sea"
 min_speed     = 2
 hp_loss_pct   = 0
@@ -121,7 +121,7 @@ flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Trireme")
+name          = _("?unitclass:Trireme")
 move_type     = "Sea"
 min_speed     = 2
 hp_loss_pct   = 0
@@ -129,7 +129,7 @@ flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_heli]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Helicopter")
+name          = _("?unitclass:Helicopter")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 10
@@ -137,7 +137,7 @@ flags         = "CanOccupyCity", "CollectRansom"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Air")
+name          = _("?unitclass:Air")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 0

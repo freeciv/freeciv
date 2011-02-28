@@ -94,7 +94,7 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Sea")
+name          = _("?unitclass:Sea")
 move_type     = "Sea"
 min_speed     = 2
 hp_loss_pct   = 0
@@ -102,7 +102,7 @@ flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Air")
+name          = _("?unitclass:Air")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 0
@@ -111,7 +111,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 
 [unitclass_missile]
 ; /* TRANS: Unit class: used adjectivally */
-name          = _("Missile")
+name          = _("?unitclass:Missile")
 move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 0
