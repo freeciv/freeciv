@@ -70,6 +70,7 @@ civ.serv) with lines such as the following:
 # set timeout 3         # run a client/server autogame
 set timeout -1          # run a server only autogame
 set minplayers 0        # no human player needed
+set ec_turns 0          # avoid timestamps in savegames
 set aifill 7            # fill to 7 players
 hard                    # make the AI do complex things
 create Caesar           # first player (with known name) created and 
