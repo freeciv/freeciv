@@ -158,6 +158,8 @@ bool improvement_obsolete(const struct player *pplayer,
 			  const struct impr_type *pimprove);
 bool impr_provides_buildable_units(const struct player *pplayer,
                                    const struct impr_type *pimprove);
+bool is_improvement_redundant(const struct city *pcity,
+                              struct impr_type *pimprove);
 
 bool can_player_build_improvement_direct(const struct player *p,
 					 struct impr_type *pimprove);

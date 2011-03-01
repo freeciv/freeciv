@@ -1165,7 +1165,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
           city_data->building_want[improvement_index(pimprove)] = 0;
         } else if ((!is_coinage
                     && !can_city_build_improvement_later(pcity, pimprove))
-                   || is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
+                   || is_improvement_redundant(pcity, pimprove)) {
           /* Don't consider impossible or redundant buildings */
           city_data->building_want[improvement_index(pimprove)] = 0;
         } else if (pplayer->ai_controlled
@@ -1234,11 +1234,8 @@ void building_advisor(struct player *pplayer)
    || !is_wonder(wonder_city->production.value.building)
    || !can_city_build_improvement_now(wonder_city, 
                                       wonder_city->production.value.building)
-   || improvement_obsolete(pplayer,
-                           wonder_city->production.value.building)
-   || is_building_replaced(wonder_city, 
-                           wonder_city->production.value.building,
-                           RPT_CERTAIN)
+   || is_improvement_redundant(wonder_city, 
+                               wonder_city->production.value.building)
       ) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;

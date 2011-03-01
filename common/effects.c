@@ -731,11 +731,6 @@ bool is_building_replaced(const struct city *pcity,
     .value = {.building = pimprove}
   };
 
-  /* A capitalization production is never redundant. */
-  if (improvement_has_flag(pimprove, IF_GOLD)) {
-    return FALSE;
-  }
-
   plist = get_req_source_effects(&source);
 
   /* A building with no effects and no flags is always redundant! */

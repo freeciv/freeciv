@@ -645,8 +645,7 @@ const char *city_improvement_name_translation(const struct city *pcity,
 
     if (improvement_obsolete(pplayer, pimprove)) {
       state = Q_("?obsolete:O");
-    } else if (is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
-      /* Mark building redundant only if we are CERTAIN that it has no use. */
+    } else if (is_improvement_redundant(pcity, pimprove)) {
       state = Q_("?redundant:*");
     }
   }

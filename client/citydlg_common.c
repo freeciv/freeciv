@@ -367,7 +367,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
       int upkeep = pcity ? city_improvement_upkeep(pcity, pimprove)
                          : pimprove->upkeep;
       /* from city.c city_improvement_name_translation() */
-      if (pcity && is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
+      if (pcity && is_improvement_redundant(pcity, pimprove)) {
         fc_snprintf(buf[1], column_size, "%d*", upkeep);
       } else {
 	const char *state = NULL;
