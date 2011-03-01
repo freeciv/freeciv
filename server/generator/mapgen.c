@@ -1415,18 +1415,27 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       break;
     case MAPGEN_FRACTAL:
       if (map.server.startpos == MAPSTARTPOS_DEFAULT) {
+        log_verbose("Map generator chose startpos=ALL");
         mode = MAPSTARTPOS_ALL;
       } else {
         mode = map.server.startpos;
       }
       break;
     case MAPGEN_ISLAND:
-      if (map.server.startpos == MAPSTARTPOS_DEFAULT
-          || map.server.startpos == MAPSTARTPOS_SINGLE
-          || map.server.startpos == MAPSTARTPOS_VARIABLE) {
+      switch(map.server.startpos) {
+      case MAPSTARTPOS_DEFAULT:
+      case MAPSTARTPOS_VARIABLE:
+        log_verbose("Map generator chose startpos=SINGLE");
+        /* fallthrough */
+      case MAPSTARTPOS_SINGLE:
         mode = MAPSTARTPOS_SINGLE;
-      } else {
+        break;
+      default:
+        log_verbose("Map generator chose startpos=2or3");
+        /* fallthrough */
+      case MAPSTARTPOS_2or3:
         mode = MAPSTARTPOS_2or3;
+        break;
       }
       break;
     }
@@ -1439,12 +1448,15 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       
       switch(mode) {
         case MAPSTARTPOS_SINGLE:
+          log_verbose("Falling back to startpos=2or3");
           mode = MAPSTARTPOS_2or3;
           continue;
         case MAPSTARTPOS_2or3:
+          log_verbose("Falling back to startpos=ALL");
           mode = MAPSTARTPOS_ALL;
           break;
         case MAPSTARTPOS_ALL:
+          log_verbose("Falling back to startpos=VARIABLE");
           mode = MAPSTARTPOS_VARIABLE;
           break;
         default:
@@ -2223,6 +2235,7 @@ static void mapgenerator2(void)
   int bigfrac = 70, midfrac = 20, smallfrac = 10;
 
   if (map.server.landpercent > 85) {
+    log_verbose("ISLAND generator: falling back to RANDOM generator");
     map.server.generator = MAPGEN_RANDOM;
     return;
   }
@@ -2268,7 +2281,7 @@ static void mapgenerator2(void)
 
   if (bigfrac <= midfrac) {
     /* We could never make adequately big islands. */
-    log_normal(_("Falling back to generator %d."), 1);
+    log_verbose("ISLAND generator: falling back to RANDOM generator");
     map.server.generator = MAPGEN_RANDOM;
 
     /* init world created this map, destroy it before abort */
@@ -2312,6 +2325,7 @@ static void mapgenerator3(void)
   struct gen234_state *pstate = &state;
 
   if (map.server.landpercent > 80) {
+    log_verbose("ISLAND generator: falling back to FRACTAL generator");
     map.server.generator = MAPGEN_FRACTAL;
     return;
   }
@@ -2337,7 +2351,7 @@ static void mapgenerator3(void)
   }
 
   if (map.xsize < 40 || map.ysize < 40 || map.server.landpercent > 80) { 
-    log_normal(_("Falling back to generator %d."), 2); 
+    log_verbose("ISLAND generator: falling back to FRACTAL generator");
     map.server.generator = MAPGEN_FRACTAL;
     return; 
   }
@@ -2408,6 +2422,7 @@ static void mapgenerator4(void)
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
   if (player_count() < 2 || map.server.landpercent > 80) {
+    log_verbose("ISLAND generator: falling back to startpos=SINGLE");
     map.server.startpos = MAPSTARTPOS_SINGLE;
     return;
   }

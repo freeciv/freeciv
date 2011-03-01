@@ -227,6 +227,7 @@ bool create_start_positions(enum map_startpos mode,
 
   /* If the default is given, just use MAPSTARTPOS_VARIABLE. */
   if (MAPSTARTPOS_DEFAULT == mode) {
+    log_verbose("Using startpos=VARIABLE");
     mode = MAPSTARTPOS_VARIABLE;
   }
 
@@ -281,11 +282,13 @@ bool create_start_positions(enum map_startpos mode,
    * choice. */
   if (MAPSTARTPOS_SINGLE == mode
       && map.num_continents < player_count() + 3) {
+    log_verbose("Not enough continents; falling back to startpos=2or3");
     mode = MAPSTARTPOS_2or3;
   }
 
   if (MAPSTARTPOS_2or3 == mode
       && map.num_continents < player_count() / 2 + 4) {
+    log_verbose("Not enough continents; falling back to startpos=VARIABLE");
     mode = MAPSTARTPOS_VARIABLE;
   }
 
@@ -293,10 +296,11 @@ bool create_start_positions(enum map_startpos mode,
       && (islands[1].goodies < player_count() * min_goodies_per_player
 	  || islands[1].goodies < total_goodies * (0.5 + 0.8 * efactor)
 	  / (1 + efactor))) {
+    log_verbose("No good enough island; falling back to startpos=VARIABLE");
     mode = MAPSTARTPOS_VARIABLE;
   }
 
-  /* the variable way is the last posibility */
+  /* the variable way is the last possibility */
   if (MAPSTARTPOS_VARIABLE == mode) {
     min_goodies_per_player = total_goodies * (0.65 + 0.8 * efactor) 
       / (1 + efactor)  / player_count();
