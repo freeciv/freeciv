@@ -241,7 +241,7 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
       
       /* Don't risk it falling into enemy hands */
       if (pplayers_allied(taker, eplayer) &&
-          is_player_dangerous(giver, eplayer)) {
+          adv_is_player_dangerous(giver, eplayer)) {
         *is_dangerous = TRUE;
       }
       

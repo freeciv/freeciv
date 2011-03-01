@@ -436,7 +436,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       struct unit_ai *target_data;
 
       /* Note that we need not (yet) be at war with aplayer */
-      if (!is_player_dangerous(pplayer, aplayer)) {
+      if (!adv_is_player_dangerous(pplayer, aplayer)) {
         continue;
       }
 

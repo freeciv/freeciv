@@ -222,7 +222,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   enum danger_consideration dc = DANG_UNDECIDED;
 
   /* Give AI code possibility to decide itself */
-  CALL_PLR_AI_FUNC(consider_dangerous, unit_owner(punit), ptile, punit, &dc);
+  CALL_PLR_AI_FUNC(consider_tile_dangerous, unit_owner(punit), ptile, punit, &dc);
   if (dc == DANG_YES) {
     return TRUE;
   } else if (dc == DANG_NOT) {

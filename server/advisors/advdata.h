@@ -39,7 +39,13 @@ enum ai_improvement_status {
 
 struct ai_settler; /* see aisettler.c */
 
+struct adv_dipl {
+  /* Remember one example of each for text spam purposes. */
+  bool allied_with_enemy;
+};
+
 BV_DEFINE(bv_id, MAX_NUM_ID);
+
 struct adv_data {
   /* Whether adv_data_phase_init() has been called or not. */
   bool phase_is_initialized;
@@ -92,6 +98,8 @@ struct adv_data {
   } stats;
 
   struct {
+    struct adv_dipl **adv_dipl_slots;
+
     struct player *spacerace_leader; /* who is leading the space pack */
     struct player *production_leader;
   } dipl;
@@ -135,7 +143,7 @@ struct adv_data {
 };
 
 void adv_data_init(struct player *pplayer);
-void ai_data_default(struct player *pplayer);
+void adv_data_default(struct player *pplayer);
 void adv_data_close(struct player *pplayer);
 
 bool adv_data_phase_init(struct player *pplayer, bool is_new_phase);
@@ -149,5 +157,8 @@ struct adv_data *adv_data_get(struct player *pplayer);
 void adv_best_government(struct player *pplayer);
 
 bool adv_wants_science(struct player *pplayer);
+
+bool adv_is_player_dangerous(struct player *pplayer,
+                             struct player *aplayer);
 
 #endif /* FC__ADVDATA_H */

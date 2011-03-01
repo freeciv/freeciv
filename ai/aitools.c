@@ -152,41 +152,17 @@ int military_amortize(struct player *pplayer, struct city *pcity,
   This function is used for example to check if pplayer can leave
   his city undefended when aplayer's units are near it.
 ***********************************************************************/
-bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
+void ai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
+                               enum danger_consideration *result)
 {
   struct ai_dip_intel *adip;
-  enum diplstate_type ds;
 
-  if (pplayer == aplayer) {
-    /* We always trust ourself */
-    return FALSE;
-  }
-  
-  ds = player_diplstate_get(pplayer, aplayer)->type;
-  
-  if (ds == DS_WAR || ds == DS_CEASEFIRE) {
-    /* It's already a war or aplayer can declare it soon */
-    return TRUE;
-  }
+  adip = ai_diplomacy_get(plr1, plr2);
 
-  adip = ai_diplomacy_get(pplayer, aplayer);
-
-  if (adip->countdown >= 0 || adip->is_allied_with_enemy) {
-    /* Don't trust our war target or someone who will declare war on us soon */
-    return TRUE;
+  if (adip->countdown >= 0) {
+    /* Don't trust our war target */
+    *result = DANG_YES;
   }
-
-  if (player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel > 0) {
-    return TRUE;
-  }
-
-  if (pplayer->ai_common.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
-    /* We don't trust players who we don't like. Note that 
-     * aplayer's units inside pplayer's borders decreases AI's love */
-    return TRUE;
-  }
-  
-  return FALSE;
 }
 
 /****************************************************************************

@@ -55,6 +55,13 @@
 
 #include "advdata.h"
 
+static void adv_dipl_new(const struct player *plr1,
+                         const struct player *plr2);
+static void adv_dipl_free(const struct player *plr1,
+                          const struct player *plr2);
+static struct adv_dipl *adv_dipl_get(const struct player *plr1,
+                                     const struct player *plr2);
+
 /**************************************************************************
   Precalculates some important data about the improvements in the game
   that we use later in ai/aicity.c.  We mark improvements as 'calculate'
@@ -277,7 +284,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->threats.igwall    = FALSE;
 
   players_iterate(aplayer) {
-    if (!is_player_dangerous(pplayer, aplayer)) {
+    if (!adv_is_player_dangerous(pplayer, aplayer)) {
       continue;
     }
 
@@ -424,6 +431,18 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   } unit_list_iterate_end;
 
   /*** Diplomacy ***/
+
+  players_iterate(aplayer) {
+    struct adv_dipl *dip = adv_dipl_get(pplayer, aplayer);
+
+    dip->allied_with_enemy = FALSE;
+    players_iterate(check_pl) {
+      if (pplayers_allied(aplayer, check_pl)
+          && player_diplstate_get(pplayer, check_pl)->type == DS_WAR) {
+        dip->allied_with_enemy = TRUE;
+      }
+    } players_iterate_end;
+  } players_iterate_end;
 
   ai->dipl.spacerace_leader = player_leading_spacerace();
 
@@ -623,23 +642,38 @@ struct adv_data *adv_data_get(struct player *pplayer)
 **************************************************************************/
 void adv_data_init(struct player *pplayer)
 {
-  struct adv_data *ai;
+  struct adv_data *adv;
 
   if (pplayer->server.adv == NULL) {
     pplayer->server.adv = fc_calloc(1, sizeof(*pplayer->server.adv));
   }
-  ai = pplayer->server.adv;
+  adv = pplayer->server.adv;
 
-  ai->government_want = fc_calloc(government_count() + 1,
-                                  sizeof(*ai->government_want));
+  adv->government_want = fc_calloc(government_count() + 1,
+                                   sizeof(*adv->government_want));
 
-  ai_data_default(pplayer);
+  adv->dipl.adv_dipl_slots = fc_calloc(player_slot_count(),
+                                       sizeof(*adv->dipl.adv_dipl_slots));
+  player_slots_iterate(pslot) {
+    struct adv_dipl **dip_slot =
+      adv->dipl.adv_dipl_slots + player_slot_index(pslot);
+    *dip_slot = NULL;
+  } player_slots_iterate_end;
+
+  players_iterate(aplayer) {
+    adv_dipl_new(pplayer, aplayer);
+    if (aplayer != pplayer) {
+      adv_dipl_new(aplayer, pplayer);
+    }
+  } players_iterate_end;
+
+  adv_data_default(pplayer);
 }
 
 /**************************************************************************
   Initialize with sane values.
 **************************************************************************/
-void ai_data_default(struct player *pplayer)
+void adv_data_default(struct player *pplayer)
 {
   struct adv_data *ai = pplayer->server.adv;
 
@@ -661,20 +695,70 @@ void ai_data_default(struct player *pplayer)
 **************************************************************************/
 void adv_data_close(struct player *pplayer)
 {
-  struct adv_data *ai = pplayer->server.adv;
+  struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(NULL != ai);
+  fc_assert_ret(NULL != adv);
 
   adv_data_phase_done(pplayer);
 
-  if (ai->government_want != NULL) {
-    free(ai->government_want);
+  if (adv->government_want != NULL) {
+    free(adv->government_want);
   }
 
-  if (ai != NULL) {
-    free(ai);
+  if (adv->dipl.adv_dipl_slots != NULL) {
+    players_iterate(aplayer) {
+      adv_dipl_free(pplayer, aplayer);
+      if (aplayer != pplayer) {
+        adv_dipl_free(aplayer, pplayer);
+      }
+    } players_iterate_end;
+    FC_FREE(adv->dipl.adv_dipl_slots);
   }
-  pplayer->ai = NULL;
+
+  if (adv != NULL) {
+    free(adv);
+  }
+
+  pplayer->server.adv = NULL;
+}
+
+/****************************************************************************
+  Allocate new advisor diplomacy slot
+****************************************************************************/
+static void adv_dipl_new(const struct player *plr1,
+                         const struct player *plr2)
+{
+  struct adv_dipl **dip_slot =
+    plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
+
+  *dip_slot = fc_calloc(1, sizeof(struct adv_dipl));
+}
+
+/****************************************************************************
+  Free resources allocated for diplomacy information between two players.
+****************************************************************************/
+static void adv_dipl_free(const struct player *plr1,
+                          const struct player *plr2)
+{
+  struct adv_dipl **dip_slot =
+    plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
+
+  if (*dip_slot != NULL) {
+    FC_FREE(*dip_slot);
+    *dip_slot = NULL;
+  }
+}
+
+/**************************************************************************
+  Returns diplomatic state type between two players
+**************************************************************************/
+static struct adv_dipl *adv_dipl_get(const struct player *plr1,
+                                     const struct player *plr2)
+{
+  struct adv_dipl **dip_slot =
+    plr1->server.adv->dipl.adv_dipl_slots + player_index(plr2);
+
+  return *dip_slot;
 }
 
 /**************************************************************************
@@ -795,4 +879,63 @@ void adv_best_government(struct player *pplayer)
 bool adv_wants_science(struct player *pplayer)
 {
   return adv_data_get(pplayer)->wants_science;
+}
+
+
+/**********************************************************************
+  There are some signs that a player might be dangerous: We are at 
+  war with him, he has done lots of ignoble things to us, he is an 
+  ally of one of our enemies (a ticking bomb to be sure), we don't like him,
+  diplomatic state is neutral or we have cease fire.
+***********************************************************************/
+bool adv_is_player_dangerous(struct player *pplayer,
+                             struct player *aplayer)
+{
+  struct adv_dipl *dip;
+  enum diplstate_type ds;
+  enum danger_consideration dang = DANG_UNDECIDED;
+
+  if (pplayer->ai_controlled) {
+    /* Give AI code possibility to decide itself */
+    CALL_PLR_AI_FUNC(consider_plr_dangerous, pplayer, pplayer, aplayer, &dang);
+  }
+
+  if (dang == DANG_NOT) {
+    return FALSE;
+  }
+
+  if (dang == DANG_YES) {
+    return TRUE;;
+  }
+
+  if (pplayer == aplayer) {
+    /* We always trust ourself */
+    return FALSE;
+  }
+  
+  ds = player_diplstate_get(pplayer, aplayer)->type;
+  
+  if (ds == DS_WAR || ds == DS_CEASEFIRE) {
+    /* It's already a war or aplayer can declare it soon */
+    return TRUE;
+  }
+
+  dip = adv_dipl_get(pplayer, aplayer);
+
+  if (dip->allied_with_enemy) {
+    /* Don't trust someone who will declare war on us soon */
+    return TRUE;
+  }
+
+  if (player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel > 0) {
+    return TRUE;
+  }
+
+  if (pplayer->ai_common.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
+    /* We don't trust players who we don't like. Note that 
+     * aplayer's units inside pplayer's borders decreases AI's love */
+    return TRUE;
+  }
+  
+  return FALSE;
 }

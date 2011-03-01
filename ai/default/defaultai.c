@@ -123,7 +123,8 @@ bool fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.first_contact = ai_diplomacy_first_contact;
   ai->funcs.incident = ai_incident;
 
-  ai->funcs.consider_dangerous = ai_consider_dangerous;
+  ai->funcs.consider_plr_dangerous = ai_consider_plr_dangerous;
+  ai->funcs.consider_tile_dangerous = ai_consider_tile_dangerous;
 
   return TRUE;
 }

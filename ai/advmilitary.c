@@ -487,7 +487,7 @@ static unsigned int assess_danger(struct city *pcity)
 
   /* Check. */
   players_iterate(aplayer) {
-    if (!is_player_dangerous(city_owner(pcity), aplayer)) {
+    if (!adv_is_player_dangerous(city_owner(pcity), aplayer)) {
       continue;
     }
     /* Note that we still consider the units of players we are not (yet)

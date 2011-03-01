@@ -1104,7 +1104,7 @@ void server_player_init(struct player *pplayer, bool initmap,
   /* This must be done after team information are initialised. */
   pplayer->economic = player_limit_to_max_rates(pplayer);
 
-  ai_data_default(pplayer);
+  adv_data_default(pplayer);
 
   /* We don't push this in calc_civ_score(), or it will be reset
    * every turn. */

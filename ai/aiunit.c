@@ -2543,8 +2543,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   Always override advisor danger detection since we are omniscient and
   advisor is not.
 **************************************************************************/
-void ai_consider_dangerous(struct tile *ptile, struct unit *punit,
-                           enum danger_consideration *result)
+void ai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
+                                enum danger_consideration *result)
 {
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);

@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Feb.15"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Mar.01"
 
 #define FC_AI_LAST 3
 
@@ -112,8 +112,10 @@ struct ai_type
     void (*incident)(enum incident_type type, struct player *violator,
                      struct player *victim);
 
-    void (*consider_dangerous)(struct tile *ptile, struct unit *punit,
-                               enum danger_consideration *result);
+    void (*consider_plr_dangerous)(struct player *plr1, struct player *plr2,
+                                   enum danger_consideration *result);
+    void (*consider_tile_dangerous)(struct tile *ptile, struct unit *punit,
+                                    enum danger_consideration *result);
   } funcs;
 };
 

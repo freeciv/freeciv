@@ -2533,7 +2533,7 @@ static void srv_ready(void)
   } else {
     players_iterate(pplayer) {
       /* Initialize this again to be sure */
-      ai_data_default(pplayer);
+      adv_data_default(pplayer);
     } players_iterate_end;
   }
 
