@@ -688,6 +688,15 @@ static bool maxplayers_callback(int value, struct connection *caller,
                       value);
     return FALSE;
   }
+  /* If any start positions are defined by a scenario, we can only
+   * accommodate as many players as we have start positions. */
+  if (0 < map_startpos_count() && value > map_startpos_count()) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Requested value (%d) is greater than number of "
+                        "available start positions (%d). Keeping old value."),
+                      value, map_startpos_count());
+    return FALSE;
+  }
 
   return TRUE;
 }
@@ -1112,7 +1121,11 @@ static struct setting settings[] = {
           N_("The maximal number of human and AI players who can be in "
              "the game. When this number of players are connected in "
              "the pregame state, any new players who try to connect "
-             "will be rejected."), maxplayers_callback, NULL,
+             "will be rejected.\n"
+             "When playing a scenario which defines player start positions, "
+             "this setting cannot be set to greater than the number of "
+             "defined start positions."),
+          maxplayers_callback, NULL,
 	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS)
 
   GEN_INT("aifill", game.info.aifill,
