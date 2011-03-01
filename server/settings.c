@@ -959,17 +959,30 @@ static struct setting settings[] = {
            N_("Method used to generate map"),
            /* TRANS: The strings between double quotes are also translated
             * separately (they must match!). The strings between single
-            * quotes are setting names and shouldn't be translated. The
-            * strings between paranthesis and in uppercase must stay as
-            * untranslated. */
-           N_("If the default value of startpos is used then a startpos "
-              "setting will be chosen based on the generator:\n"
-              "- \"Fully random height\" (RANDOM): depending on continent "
-              "size.\n"
-              "- \"Pseudo-fractal height\" (FRACTAL): all on a single "
-              "continent.\n"
-              "- \"Island-based\" (ISLAND): one player per continent.\n"
-              "See the 'startpos' setting."),
+            * quotes (except 'fair') are setting names and shouldn't be
+            * translated. The strings between parentheses and in uppercase
+            * must stay as untranslated. */
+           N_("Specifies the algorithm used to generate the map. If the "
+              "default value of the 'startpos' option is used, then the "
+              "chosen generator chooses an appropriate 'startpos' setting; "
+              "otherwise, the generated map tries to accommodate the "
+              "chosen 'startpos' setting.\n"
+              "- \"Scenario map\" (SCENARIO): indicates a pre-generated map. "
+              "By default, if the scenario does not specify start positions, "
+              "they will be allocated depending on the size of continents.\n"
+              "- \"Fully random height\" (RANDOM): generates maps with a "
+              "number of equally spaced, relatively small islands. By default, "
+              "start positions are allocated depending on continent size.\n"
+              "- \"Pseudo-fractal height\" (FRACTAL): generates Earthlike "
+              "worlds with one or more large continents and a scattering of "
+              "smaller islands. By default, players are all placed on a "
+              "single continent.\n"
+              "- \"Island-based\" (ISLAND): generates 'fair' maps with a "
+              "number of similarly-sized and -shaped islands, each with "
+              "approximately the same ratios of terrain types. By default, "
+              "each player gets their own island.\n"
+              "If the requested generator is incompatible with other server "
+              "settings, the server may fall back to another generator."),
            generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
 
   GEN_ENUM("startpos", map.server.startpos,
@@ -977,15 +990,35 @@ static struct setting settings[] = {
            N_("Method used to choose start positions"),
            /* TRANS: The strings between double quotes are also translated
             * separately (they must match!). The strings between single
-            * quotes are setting names and shouldn't be translated. The
-            * strings between paranthesis and in uppercase must stay as
-            * untranslated. */
-           N_("Selecting \"Generator's choice\" (DEFAULT) means the default "
-              "value will be picked based on the generator chosen. See the "
+            * quotes (except 'best') are setting names and shouldn't be
+            * translated. The strings between parentheses and in uppercase
+            * must stay as untranslated. */
+           N_("The method used to choose where each player's initial units "
+              "start on the map. (For scenarios which include pre-set "
+              "start positions, this setting is ignored.)\n"
+              "- \"Generator's choice\" (DEFAULT): the start position "
+              "placement will depend on the map generator chosen. See the "
               "'generator' setting.\n"
-              "Note: generators try to create the right number of "
-              "continents for the choice of start pos and to the number "
-              "of players"), NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
+              "- \"One player per continent\" (SINGLE): one player is "
+              "placed on each of a set of continents of approximately "
+              "equivalent value (if possible).\n"
+              "- \"Two or three players per continent\" (2or3): similar "
+              "to SINGLE except that two players will be placed on each "
+              "continent, with three on the 'best' continent if there is an "
+              "odd number of players.\n"
+              "- \"All players on a single continent\" (ALL): all players "
+              "will start on the 'best' available continent.\n"
+              "- \"Depending on size of continents\" (VARIABLE): players "
+              "will be placed on the 'best' available continents such that, "
+              "as far as possible, the number of players on each continent "
+              "is proportional to its value.\n"
+              "If the server cannot satisfy the requested setting due to "
+              "there being too many players for continents, it may fall "
+              "back to one of the others. (However, map generators try to "
+              "create the right number of continents for the choice of this "
+              "'startpos' setting and the number of players, so this is "
+              "unlikely to occur.)"),
+           NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
 
   GEN_BOOL("tinyisles", map.server.tinyisles,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
