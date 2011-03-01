@@ -166,8 +166,7 @@ void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
   city_list_iterate(client.conn.playing->cities, pcity) {
     if (!pcity->did_sell && city_has_building(pcity, pimprove)
 	&& (!obsolete_only
-	    || improvement_obsolete(client.conn.playing, pimprove)
-	    || is_building_replaced(pcity, pimprove, RPT_CERTAIN))) {
+	    || is_improvement_redundant(pcity, pimprove))) {
       count++;
       gold += impr_sell_gold(pimprove);
       city_sell_improvement(pcity, improvement_number(pimprove));

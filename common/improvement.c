@@ -343,6 +343,39 @@ bool impr_provides_buildable_units(const struct player *pplayer,
 }
 
 /**************************************************************************
+  Returns TRUE if an improvement in a city is redundant, that is, the
+  city wouldn't lose anything by losing the improvement, or gain anything
+  by building it. This means:
+   - all of its effects (if any) are provided by other means, or it's
+     obsolete (and thus assumed to have no effect); and
+   - it's not enabling the city to build some kind of units; and
+   - it's not Coinage (IF_GOLD).
+  (Note that it's not impossible that this improvement could become useful
+  if circumstances changed, say if a new government enabled the building
+  of its special units.)
+**************************************************************************/
+bool is_improvement_redundant(const struct city *pcity,
+                              struct impr_type *pimprove)
+{
+  /* A capitalization production is never redundant. */
+  if (improvement_has_flag(pimprove, IF_GOLD)) {
+    return FALSE;
+  }
+
+  /* If an improvement allows building of units, don't claim it's redundant.
+   * (FIXME: if enabling units were done via the effects system, then we
+   * could decide which of two improvements enabling a unit was "better".) */
+  if (impr_provides_buildable_units(city_owner(pcity), pimprove)) {
+    return FALSE;
+  }
+
+  /* Otherwise, it's redundant if its effects are available by other means,
+   * or if it's an obsolete wonder (great or small). */
+  return is_building_replaced(pcity, pimprove, RPT_CERTAIN)
+      || improvement_obsolete(city_owner(pcity), pimprove);
+}
+
+/**************************************************************************
    Whether player can build given building somewhere, ignoring whether it
    is obsolete.
 **************************************************************************/

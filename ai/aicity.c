@@ -745,7 +745,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
     if (can_city_sell_building(pcity, pimprove) 
        && !building_has_effect(pimprove, EFT_DEFEND_BONUS)
 	      /* selling city walls is really, really dumb -- Syela */
-       && (is_building_replaced(pcity, pimprove, RPT_CERTAIN)
+       && (is_improvement_redundant(pcity, pimprove)
 	   || building_unwanted(pplayer, pimprove))) {
       do_sell_building(pplayer, pcity, pimprove);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
