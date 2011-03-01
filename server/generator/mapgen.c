@@ -1416,14 +1416,16 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       mode = map.server.startpos;
       break;
     case MAPGEN_FRACTAL:
-      if (map.server.startpos == 0) {
+      if (map.server.startpos == MAPSTARTPOS_DEFAULT) {
         mode = MAPSTARTPOS_ALL;
       } else {
         mode = map.server.startpos;
       }
       break;
     case MAPGEN_ISLAND:
-      if (map.server.startpos <= 1 || (map.server.startpos == 4)) {
+      if (map.server.startpos == MAPSTARTPOS_DEFAULT
+          || map.server.startpos == MAPSTARTPOS_SINGLE
+          || map.server.startpos == MAPSTARTPOS_VARIABLE) {
         mode = MAPSTARTPOS_SINGLE;
       } else {
         mode = MAPSTARTPOS_2or3;
