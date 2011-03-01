@@ -310,7 +310,10 @@ bool create_start_positions(enum map_startpos mode,
       islands_index[islands[nr].id] = nr;
     }
 
-    /* searh for best first island for fairness */    
+    /* When placing a fixed number of players per island, for fairness, try
+     * to avoid sets of populated islands where there is more than 10%
+     * variation in "goodness" within the entire set. (Fallback if that fails:
+     * place players on the worst available islands.) */
     if (MAPSTARTPOS_SINGLE == mode || MAPSTARTPOS_2or3 == mode) {
       float var_goodies, best = HUGE_VAL;
       int num_islands = (MAPSTARTPOS_SINGLE == mode
