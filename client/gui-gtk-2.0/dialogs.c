@@ -67,7 +67,6 @@ static GtkWidget  *races_shell;
 struct player *races_player;
 static GtkWidget  *races_nation_list[MAX_NUM_NATION_GROUPS + 1];
 static GtkWidget  *races_leader;
-static GList      *races_leader_list;
 static GtkWidget  *races_sex[2];
 static GtkWidget  *races_city_style_list;
 static GtkTextBuffer *races_text;
@@ -901,13 +900,11 @@ static void create_races_dialog(struct player *pplayer)
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
   /* Leader. */ 
-  combo = gtk_combo_new();
+  combo = gtk_combo_box_entry_new_text();
   races_leader = combo;
-  gtk_combo_disable_activate(GTK_COMBO(combo));
-  gtk_combo_set_value_in_list(GTK_COMBO(combo), FALSE, FALSE);
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
-      "mnemonic-widget", GTK_COMBO(combo)->entry,
+      "mnemonic-widget", GTK_COMBO_BOX(combo),
       "label", _("_Leader:"),
       "xalign", 0.0,
       "yalign", 0.5,
@@ -1008,7 +1005,7 @@ static void create_races_dialog(struct player *pplayer)
   g_signal_connect(shell, "response",
       G_CALLBACK(races_response), NULL);
 
-  g_signal_connect(GTK_COMBO(races_leader)->list, "select_child",
+  g_signal_connect(GTK_COMBO_BOX(races_leader), "changed",
       G_CALLBACK(races_leader_callback), NULL);
 
   g_signal_connect(races_sex[0], "toggled",
@@ -1069,67 +1066,30 @@ void popdown_races_dialog(void)
  *****************************************************************/
 static void races_destroy_callback(GtkWidget *w, gpointer data)
 {
-  g_list_free(races_leader_list);
-  races_leader_list = NULL;
-
   races_shell = NULL;
 }
 
 /****************************************************************
-  ...
- *****************************************************************/
-static gint cmp_func(gconstpointer ap, gconstpointer bp)
-{
-  return strcmp((const char *)ap, (const char *)bp);
-}
-
-/****************************************************************
-  Selects a leader.
-  Updates the gui elements.
- *****************************************************************/
-static void select_random_leader(void)
+  Populates leader list.
+*****************************************************************/
+static void populate_leader_list(void)
 {
   int i;
-  GList *items = NULL;
-  GtkWidget *text, *list;
-  gchar *name;
-  bool unique;
-
-  text = GTK_COMBO(races_leader)->entry;
-  list = GTK_COMBO(races_leader)->list;
-  name = gtk_editable_get_chars(GTK_EDITABLE(text), 0, -1);
-
-  if (name[0] == '\0'
-      || g_list_find_custom(races_leader_list, name, cmp_func)) {
-    unique = FALSE;
-  } else {
-    unique = TRUE;
-  }
+  int idx;
 
   i = 0;
   nation_leader_list_iterate(nation_leaders(nation_by_number
                                             (selected_nation)), pleader) {
-    items = g_list_prepend(items, (gpointer) nation_leader_name(pleader));
+    const char *leader_name = nation_leader_name(pleader);
+
+    gtk_combo_box_insert_text(GTK_COMBO_BOX(races_leader), i,
+                              leader_name);
     i++;
-  } nation_leader_list_iterate_end
+  } nation_leader_list_iterate_end;
 
-  /* Populate combo box with minimum signal noise. */
-  g_signal_handlers_block_by_func(list, races_leader_callback, NULL);
-  gtk_combo_set_popdown_strings(GTK_COMBO(races_leader), items);
-  gtk_entry_set_text(GTK_ENTRY(text), "");
-  g_signal_handlers_unblock_by_func(list, races_leader_callback, NULL);
+  idx = fc_rand(i);
 
-  g_list_free(races_leader_list);
-  races_leader_list = items;
-
-  if (unique) {
-    gtk_entry_set_text(GTK_ENTRY(text), name);
-  } else {
-    i = fc_rand(i);
-    gtk_entry_set_text(GTK_ENTRY(text), g_list_nth_data(items, i));
-  }
-
-  g_free(name);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(races_leader), idx);
 }
 
 /**************************************************************************
@@ -1225,9 +1185,9 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
         }
       }
       selected_nation = selected_nation_copy;
-      
-      select_random_leader();
-      
+
+      populate_leader_list();
+
       /* Select city style for chosen nation. */
       cs = city_style_of_nation(nation_by_number(selected_nation));
       for (i = 0, j = 0; i < game.control.styles_count; i++) {
@@ -1268,10 +1228,11 @@ static void races_leader_callback(void)
   const struct nation_leader *pleader;
   const gchar *name;
 
-  name = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
+  name = gtk_combo_box_get_active_text(GTK_COMBO_BOX(races_leader));
 
-  if ((pleader = nation_leader_by_name(nation_by_number(selected_nation),
-                                       name))) {
+  if (selected_nation != -1
+      &&(pleader = nation_leader_by_name(nation_by_number(selected_nation),
+                                         name))) {
     selected_sex = nation_leader_is_male(pleader);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[selected_sex]),
                                  TRUE);
@@ -1339,7 +1300,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
       return;
     }
 
-    s = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
+    s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(races_leader));
 
     /* Perform a minimum of sanity test on the name. */
     /* This could call is_allowed_player_name if it were available. */
