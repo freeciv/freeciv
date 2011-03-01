@@ -822,26 +822,28 @@ static struct setting settings[] = {
            * quotes are setting names and shouldn't be translated. The
            * strings between paranthesis and in uppercase must stay as
            * untranslated. */
-          N_("The map size can be defined using different options:\n"
-             "- \"Number of tiles\" (FULLSIZE): Map size (option 'size').\n"
+          N_("Chooses the method used to define the map size. Other options "
+             "specify the parameters for each method.\n"
+             "- \"Number of tiles\" (FULLSIZE): Map area (option 'size').\n"
              "- \"Tiles per player\" (PLAYER): Number of (land) tiles per "
              "player (option 'tilesperplayer').\n"
              "- \"Width and height\" (XYSIZE): Map width and height in "
-             "squares (options 'xsize' and 'ysize')."),
+             "tiles (options 'xsize' and 'ysize')."),
           NULL, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
 
   GEN_INT("size", map.server.size, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-          N_("Map size (in thousands of tiles)"),
+          N_("Map area (in thousands of tiles)"),
           /* TRANS: The strings between double quotes are also translated
            * separately (they must match!). The strings between single
            * quotes are setting names and shouldn't be translated. The
            * strings between paranthesis and in uppercase must stay as
            * untranslated. */
-          N_("This value is used to determine the map dimensions.\n"
+          N_("This value is used to determine the map area.\n"
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
              "  size = 20 is a huge map of 20,000 tiles\n"
-             "To use this option, set 'mapsize' to \"Number of tiles\" "
+             "For this option to take effect, the \"Map size definition\" "
+             "option ('mapsize') must be set to \"Number of tiles\" "
              "(FULLSIZE)."), NULL, NULL,
           MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
 
@@ -851,38 +853,43 @@ static struct setting settings[] = {
           /* TRANS: The strings between double quotes are also translated
            * separately (they must match!). The strings between single
            * quotes are setting names and shouldn't be translated. The
-           * strings between paranthesis and in uppercase must stay as
+           * strings between parentheses and in uppercase must stay as
            * untranslated. */
           N_("This value is used to determine the map dimensions. It "
              "calculates the map size at game start based on the number "
-             "of players and the value of the setting 'landmass'. "
-             "To use this option, set 'mapsize' to \"Tiles per player\" "
+             "of players and the value of the setting 'landmass'.\n"
+             "For this option to take effect, the \"Map size definition\" "
+             "option ('mapsize') must be set to \"Tiles per player\" "
              "(PLAYER)."),
           NULL, NULL, MAP_MIN_TILESPERPLAYER,
           MAP_MAX_TILESPERPLAYER, MAP_DEFAULT_TILESPERPLAYER)
 
   GEN_INT("xsize", map.xsize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-          N_("Map width in squares"),
+          N_("Map width in tiles"),
           /* TRANS: The strings between double quotes are also translated
            * separately (they must match!). The strings between single
            * quotes are setting names and shouldn't be translated. The
-           * strings between paranthesis and in uppercase must stay as
+           * strings between parentheses and in uppercase must stay as
            * untranslated. */
-          N_("Defines the map width. To use this option, set "
-             "'mapsize' to \"Width and height\" (XYSIZE)."),
+          N_("Defines the map width.\n"
+             "For this option to take effect, the \"Map size definition\" "
+             "option ('mapsize') must be set to \"Width and height\" "
+             "(XYSIZE)."),
           xsize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
   GEN_INT("ysize", map.ysize, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-          N_("Map height in squares"),
+          N_("Map height in tiles"),
           /* TRANS: The strings between double quotes are also translated
            * separately (they must match!). The strings between single
            * quotes are setting names and shouldn't be translated. The
-           * strings between paranthesis and in uppercase must stay as
+           * strings between parentheses and in uppercase must stay as
            * untranslated. */
-          N_("Defines the map height. To use this option, set "
-             "'mapsize' to \"Width and height\" (XYSIZE)."),
+          N_("Defines the map height.\n"
+             "For this option to take effect, the \"Map size definition\" "
+             "option ('mapsize') must be set to \"Width and height\" "
+             "(XYSIZE)."),
           ysize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
 
