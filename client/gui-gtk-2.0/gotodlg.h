@@ -15,6 +15,4 @@
 
 #include "gotodlg_g.h"
 
-void popup_goto_dialog_action(void);
-
 #endif  /* FC__GOTODLG_H */
