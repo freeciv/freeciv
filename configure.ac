@@ -835,7 +835,7 @@ FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 if test x"$MINGW32" = xyes; then
   DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
   DEFAULT_SAVE_PATH=".;~/.freeciv/saves"
-  DEFAULT_SCENARIO_PATH=".;data/scenario;~/.freeciv/scenario;$datadir/freeciv/scenario"
+  DEFAULT_SCENARIO_PATH=".;data/scenario;~/.freeciv/scenarios;$datadir/freeciv/scenario"
 else
   DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
   DEFAULT_SAVE_PATH=".:~/.freeciv/saves"
