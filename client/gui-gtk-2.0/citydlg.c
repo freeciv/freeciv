@@ -774,8 +774,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(middle), vbox, TRUE, TRUE, 0);
 
-  store = gtk_list_store_new(4, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
-                             G_TYPE_STRING, G_TYPE_INT);
+  store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
+                             G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   g_object_unref(store);
@@ -792,11 +792,13 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                                               rend, "pixbuf", 1, NULL);
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
-                                              rend, "text", 2, NULL);
+                                              rend, "text", 2,
+                                              "strikethrough", 4, NULL);
   rend = gtk_cell_renderer_text_new();
   g_object_set(rend, "xalign", 1.0, NULL);
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
-                                              rend, "text", 3, NULL);
+                                              rend, "text", 3,
+                                              "strikethrough", 4, NULL);
 
   g_signal_connect(view, "row_activated", G_CALLBACK(impr_callback),
                    pdialog);
@@ -808,8 +810,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   hbox = gtk_hbox_new(FALSE, 10);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  production_store = gtk_list_store_new(3, GDK_TYPE_PIXBUF, G_TYPE_STRING,
-                                        G_TYPE_INT);
+  production_store = gtk_list_store_new(4, GDK_TYPE_PIXBUF, G_TYPE_STRING,
+                                        G_TYPE_INT, G_TYPE_BOOLEAN);
   pdialog->overview.change_production_store = production_store;
 
   production_combo =
@@ -830,7 +832,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   rend = gtk_cell_renderer_text_new();
   gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(production_combo), rend, TRUE);
   gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(production_combo),
-                                 rend, "text", 1, NULL);
+                                 rend, "text", 1, "strikethrough", 3, NULL);
 
   bar = gtk_progress_bar_new();
   pdialog->overview.production_bar = bar;
@@ -1716,17 +1718,21 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       const char* name;
       struct sprite* sprite;
       struct universal target = items[item].item;
+      bool useless;
 
       if (VUT_UTYPE == target.kind) {
 	name = utype_name_translation(target.value.utype);
 	sprite = get_unittype_sprite(tileset, target.value.utype);
+        useless = FALSE;
       } else {
 	name = improvement_name_translation(target.value.building);
 	sprite = get_building_sprite(tileset, target.value.building);
+        useless = is_improvement_redundant(pcity, target.value.building);
       }
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, sprite_get_pixbuf(sprite),
-                         1, name, 2, (gint)cid_encode(items[item].item), -1);
+                         1, name, 3, useless,
+                         2, (gint)cid_encode(items[item].item),-1);
     }
   }
 
@@ -1773,6 +1779,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 		       1, sprite_get_pixbuf(sprite),
 	2, items[item].descr,
 	3, upkeep,
+        4, is_improvement_redundant(pdialog->pcity, target.value.building),
 	-1);
 
     total += upkeep;
