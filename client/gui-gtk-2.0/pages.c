@@ -628,6 +628,13 @@ static void update_server_list(enum server_scan_type sstype,
   port = atoi(portstr);
 
   server_list_iterate(list, pserver) {
+    char buf[20];
+
+    if (pserver->humans >= 0) {
+      fc_snprintf(buf, sizeof(buf), "%d", pserver->humans);
+    } else {
+      strncpy(buf, "Unknown", sizeof(buf));
+    }
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
                        0, pserver->host,
@@ -635,7 +642,7 @@ static void update_server_list(enum server_scan_type sstype,
                        2, pserver->version,
                        3, _(pserver->state),
                        4, pserver->nplayers,
-                       5, pserver->humans,
+                       5, buf,
                        6, pserver->message,
                        -1);
     if (strcmp(host, pserver->host) == 0 && port == pserver->port) {
@@ -1086,7 +1093,7 @@ GtkWidget *create_network_page(void)
                                  G_TYPE_STRING,    /* version */
                                  G_TYPE_STRING,    /* state */
                                  G_TYPE_INT,       /* nplayers */
-                                 G_TYPE_INT,       /* humans */
+                                 G_TYPE_STRING,    /* humans */
                                  G_TYPE_STRING);   /* message */
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(lan_store));
@@ -1108,7 +1115,7 @@ GtkWidget *create_network_page(void)
   add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
   add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
   add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
-  add_treeview_column(view, _("Humans"), G_TYPE_INT, 5);
+  add_treeview_column(view, _("Humans"), G_TYPE_STRING, 5);
   add_treeview_column(view, _("Comment"), G_TYPE_STRING, 6);
 
   label = gtk_label_new_with_mnemonic(_("Local _Area Network"));
@@ -1129,7 +1136,7 @@ GtkWidget *create_network_page(void)
                                   G_TYPE_STRING,    /* version */
                                   G_TYPE_STRING,    /* state */
                                   G_TYPE_INT,       /* nplayers */
-                                  G_TYPE_INT,       /* humans */
+                                  G_TYPE_STRING,    /* humans */
                                   G_TYPE_STRING);   /* message */
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(meta_store));
@@ -1151,7 +1158,7 @@ GtkWidget *create_network_page(void)
   add_treeview_column(view, _("Version"), G_TYPE_STRING, 2);
   add_treeview_column(view, _("Status"), G_TYPE_STRING, 3);
   add_treeview_column(view, _("Players"), G_TYPE_INT, 4);
-  add_treeview_column(view, _("Humans"), G_TYPE_INT, 5);
+  add_treeview_column(view, _("Humans"), G_TYPE_STRING, 5);
   add_treeview_column(view, _("Comment"), G_TYPE_STRING, 6);
 
   label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
