@@ -331,7 +331,7 @@ void agents_init(void)
 }
 
 /***********************************************************************
- ...
+ Free resources allocated for agents framework
 ***********************************************************************/
 void agents_free(void)
 {

@@ -89,7 +89,7 @@ void cmafec_init(void)
 }
 
 /**************************************************************************
- ...
+  Free resources allocated for presets system.
 **************************************************************************/
 void cmafec_free(void)
 {
@@ -216,7 +216,7 @@ int cmafec_preset_num(void)
 }
 
 /**************************************************************************
-...
+  Return short description of city governor preset
 **************************************************************************/
 const char *cmafec_get_short_descr_of_city(const struct city *pcity)
 {
@@ -246,7 +246,7 @@ const char *cmafec_get_short_descr(const struct cm_parameter *const
 }
 
 /**************************************************************************
-...
+  Return string describing when city is assumed to grow.
 **************************************************************************/
 static const char *get_city_growth_string(struct city *pcity, int surplus)
 {
@@ -280,7 +280,7 @@ static const char *get_city_growth_string(struct city *pcity, int surplus)
 }
 
 /**************************************************************************
-...
+  Return string describing when city is assumed to finish current production
 **************************************************************************/
 static const char *get_prod_complete_string(struct city *pcity, int surplus)
 {
@@ -317,7 +317,7 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
 }
 
 /**************************************************************************
-...
+  Return string describing result
 **************************************************************************/
 const char *cmafec_get_result_descr(struct city *pcity,
                                     const struct cm_result *result,

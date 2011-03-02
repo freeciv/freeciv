@@ -42,7 +42,7 @@ static struct tile *previous_tiles = NULL;
 static struct unit_list *previous_units;
 
 /**************************************************************************
-...
+  Tile changed callback
 **************************************************************************/
 static void sha_tile_update(struct tile *ptile)
 {
@@ -55,7 +55,7 @@ static void sha_tile_update(struct tile *ptile)
 }
 
 /**************************************************************************
-...
+  Unit changed callback
 **************************************************************************/
 static void sha_unit_change(int id)
 {
@@ -69,7 +69,7 @@ static void sha_unit_change(int id)
 }
 
 /**************************************************************************
-...
+  New unit callback
 **************************************************************************/
 static void sha_unit_new(int id)
 {
@@ -83,7 +83,7 @@ static void sha_unit_new(int id)
 }
 
 /**************************************************************************
-...
+  Unit removed callback
 **************************************************************************/
 static void sha_unit_remove(int id)
 {
@@ -99,7 +99,7 @@ static void sha_unit_remove(int id)
 }
 
 /**************************************************************************
-...
+  Initialize simple historian agent
 **************************************************************************/
 void simple_historian_init(void)
 {
@@ -125,7 +125,7 @@ void simple_historian_init(void)
 }
 
 /**************************************************************************
-...
+  Free resources allocated for simple historian agent.
 **************************************************************************/
 void simple_historian_done(void)
 {
@@ -137,7 +137,7 @@ Public interface
 **************************************************************************/
 
 /**************************************************************************
-...
+  Return pointer to tile as it was last reported to us.
 **************************************************************************/
 struct tile *sha_tile_recall(struct tile *ptile)
 {
@@ -145,7 +145,7 @@ struct tile *sha_tile_recall(struct tile *ptile)
 }
 
 /**************************************************************************
-...
+  Report pointer to unit as it was last reported to us.
 **************************************************************************/
 struct unit *sha_unit_recall(int id)
 {
