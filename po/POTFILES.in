@@ -12,6 +12,7 @@ common/mapimg.c
 common/packets.c
 common/player.c
 common/requirements.c
+common/road.c
 common/team.c
 common/tech.c
 common/terrain.c
@@ -31,6 +32,7 @@ utility/netintf.c
 utility/registry.c
 utility/shared.c
 utility/support.c
+ai/threaded/threadedai.c
 ai/aicity.c
 ai/advdiplomacy.c
 server/aiiface.c
