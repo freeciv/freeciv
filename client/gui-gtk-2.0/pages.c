@@ -1472,17 +1472,41 @@ static void ai_skill_callback(GtkWidget *w, gpointer data)
 static bool no_ruleset_callback = FALSE;
 
 /**************************************************************************
-  Ruleset setting callback
+  Ruleset name has been given
 **************************************************************************/
-static void ruleset_callback(GtkWidget *w, gpointer data)
+static void ruleset_selected(const char *name)
 {
-  const char *name;
-
-  name = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry));
-
   if (name && name[0] != '\0' && !no_ruleset_callback) {
     set_ruleset(name);
   }
+}
+
+/**************************************************************************
+  Ruleset selection callback. Note that this gets also called when ever
+  user types to entry box. In that case we don't want to set_ruleset()
+  after each letter.
+**************************************************************************/
+static void ruleset_entry_changed(GtkWidget *w, gpointer data)
+{
+  const char *name = NULL;
+
+  if (gtk_combo_box_get_active(GTK_COMBO_BOX(ruleset_combo)) != -1) {
+    name = gtk_combo_box_get_active_text(GTK_COMBO_BOX(ruleset_combo));
+  }
+
+  ruleset_selected(name);
+}
+
+/**************************************************************************
+  Ruleset name has been typed in completely
+**************************************************************************/
+static void ruleset_enter(GtkWidget *w, gpointer data)
+{
+  const char *name = NULL;
+
+  name = gtk_combo_box_get_active_text(GTK_COMBO_BOX(ruleset_combo));
+
+  ruleset_selected(name);
 }
 
 /**************************************************************************
@@ -2462,6 +2486,7 @@ GtkWidget *create_start_page(void)
   GtkWidget *box, *sbox, *table, *align, *vbox;
   GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
+  GtkWidget *rs_entry;
   GtkTreeSelection *selection;
   enum ai_level level;
 
@@ -2530,17 +2555,21 @@ GtkWidget *create_start_page(void)
                        NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
 
-  ruleset_combo = gtk_combo_new();
-  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry), "default");
-  g_signal_connect(GTK_COMBO(ruleset_combo)->entry, "changed",
-                   G_CALLBACK(ruleset_callback),
-                   GUINT_TO_POINTER(AI_LEVEL_LAST));
+  ruleset_combo = gtk_combo_box_entry_new_text();
+
+  g_signal_connect(GTK_COMBO_BOX_ENTRY(ruleset_combo), "changed",
+                   G_CALLBACK(ruleset_entry_changed), NULL);
+  
+  rs_entry = gtk_bin_get_child(GTK_BIN(ruleset_combo));
+  g_signal_connect(GTK_ENTRY(rs_entry), "activate",
+                   G_CALLBACK(ruleset_enter),
+                   NULL);
 
   gtk_table_attach_defaults(GTK_TABLE(table), ruleset_combo, 1, 2, 2, 3);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
-		       "mnemonic-widget", GTK_COMBO(ruleset_combo)->entry,
+		       "mnemonic-widget", GTK_COMBO_BOX(ruleset_combo),
                        "label", _("Ruleset _Version:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
@@ -3241,19 +3270,19 @@ void mapimg_client_save(const char *filename)
 void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   int i;
-  GList *opts = NULL;
+  int def_idx = -1;
 
   for (i = 0; i < num_rulesets; i++){
-    opts = g_list_append(opts, rulesets[i]);
+    gtk_combo_box_insert_text(GTK_COMBO_BOX(ruleset_combo), i, rulesets[i]);
+    if (!strcmp("default", rulesets[i])) {
+      def_idx = i;
+    }
   }
 
   no_ruleset_callback = TRUE;
-  gtk_combo_set_popdown_strings(GTK_COMBO(ruleset_combo), opts);
 
   /* HACK: server should tell us the current ruleset. */
-  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry),
-		     "default");
-  no_ruleset_callback = FALSE;
+  gtk_combo_box_set_active(GTK_COMBO_BOX(ruleset_combo), def_idx);
 
-  g_list_free(opts);
+  no_ruleset_callback = FALSE;
 }
