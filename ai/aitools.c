@@ -188,7 +188,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   /* Estimate enemy attack power. */
   unit_list_iterate(dest_tile->units, aunit) {
     if (HOSTILE_PLAYER(pplayer, unit_owner(aunit))) {
-      danger += unit_att_rating(aunit);
+      danger += adv_unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
   dcity = tile_city(dest_tile);
@@ -198,9 +198,9 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 
     if (d_type) {
       /* Enemy really can build something */
-      danger += 
-        unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
-                            SINGLE_MOVE, d_type->hp);
+      danger +=
+        adv_unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
+                                SINGLE_MOVE, d_type->hp);
     }
   }
   danger *= POWER_DIVIDER;

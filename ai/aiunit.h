@@ -107,11 +107,6 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                            int *pmove_time);
 
 int build_cost_balanced(const struct unit_type *punittype);
-int unittype_att_rating(const struct unit_type *punittype, int veteran,
-                        int moves_left, int hp);
-int unit_att_rating(const struct unit *punit);
-int unit_def_rating_basic(const struct unit *punit);
-int unit_def_rating_basic_sq(const struct unit *punit);
 int unittype_def_rating_sq(const struct unit_type *att_type,
 			   const struct unit_type *def_type,
 			   const struct player *def_player,

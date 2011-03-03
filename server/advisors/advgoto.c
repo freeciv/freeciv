@@ -211,6 +211,45 @@ int adv_could_unit_move_to_tile(struct unit *punit, struct tile *dest_tile)
   return 0;
 }
 
+/****************************************************************************
+  Attack rating of this kind of unit.
+****************************************************************************/
+int adv_unittype_att_rating(const struct unit_type *punittype, int veteran,
+                            int moves_left, int hp)
+{
+  return base_get_attack_power(punittype, veteran, moves_left) * hp
+         * punittype->firepower / POWER_DIVIDER;
+}
+
+/****************************************************************************
+  Attack rating of this particular unit assuming that it has a
+  complete move left.
+****************************************************************************/
+int adv_unit_att_rating(const struct unit *punit)
+{
+  return adv_unittype_att_rating(unit_type(punit), punit->veteran,
+                                 SINGLE_MOVE, punit->hp);
+}
+
+/****************************************************************************
+  Basic (i.e. not taking attacker specific corections into account)
+  defense rating of this particular unit.
+****************************************************************************/
+int adv_unit_def_rating_basic(const struct unit *punit)
+{
+  return base_get_defense_power(punit) * punit->hp *
+    unit_type(punit)->firepower / POWER_DIVIDER;
+}
+
+/****************************************************************************
+  Square of the previous function - used in actual computations.
+****************************************************************************/
+int adv_unit_def_rating_basic_sq(const struct unit *punit)
+{
+  int v = adv_unit_def_rating_basic(punit);
+  return v * v;
+}
+
 /**************************************************************************
   Are there dangerous enemies at or adjacent to the tile 'ptile'?
 **************************************************************************/
@@ -240,7 +279,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
-  d = unit_def_rating_basic_sq(punit) * db;
+  d = adv_unit_def_rating_basic_sq(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
     if (!map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
@@ -251,7 +290,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
       if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) 
           && can_unit_attack_unit_at_tile(enemy, punit, ptile)
           && can_unit_attack_units_at_tile(enemy, ptile)) {
-        a += unit_att_rating(enemy);
+        a += adv_unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */
           return TRUE;

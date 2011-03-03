@@ -43,4 +43,10 @@ void adv_avoid_risks(struct pf_parameter *parameter,
                      struct unit *punit,
                      const double fearfulness);
 
+int adv_unittype_att_rating(const struct unit_type *punittype, int veteran,
+                            int moves_left, int hp);
+int adv_unit_att_rating(const struct unit *punit);
+int adv_unit_def_rating_basic(const struct unit *punit);
+int adv_unit_def_rating_basic_sq(const struct unit *punit);
+
 #endif   /* FC__ADVGOTO_H */

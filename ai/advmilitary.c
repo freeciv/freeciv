@@ -370,7 +370,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
     return 0;
   }
 
-  danger = unit_att_rating(punit);
+  danger = adv_unit_att_rating(punit);
   mod = 100 + get_unittype_bonus(city_owner(pcity), ptile,
                                  punittype, EFT_DEFEND_BONUS);
   return danger * 100 / MAX(mod, 1);
@@ -903,9 +903,9 @@ static void process_attacker_want(struct city *pcity,
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
       int bcost = utype_build_shield_cost(punittype);
-      int attack = unittype_att_rating(punittype, will_be_veteran,
-                                       SINGLE_MOVE,
-                                       punittype->hp);
+      int attack = adv_unittype_att_rating(punittype, will_be_veteran,
+                                           SINGLE_MOVE,
+                                           punittype->hp);
 
       /* Take into account reinforcements strength */
       if (acity) {
@@ -1134,7 +1134,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     goto cleanup;
   }
 
-  attack = unit_att_rating(myunit);
+  attack = adv_unit_att_rating(myunit);
   if (acity) {
     acity_data = def_ai_city_data(acity);
     attack += acity_data->attack;

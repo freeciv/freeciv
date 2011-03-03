@@ -222,40 +222,20 @@ int build_cost_balanced(const struct unit_type *punittype)
 }
 
 /****************************************************************************
-  Attack rating of this kind of unit.
-****************************************************************************/
-int unittype_att_rating(const struct unit_type *punittype, int veteran,
-                        int moves_left, int hp)
-{
-  return base_get_attack_power(punittype, veteran, moves_left) * hp
-         * punittype->firepower / POWER_DIVIDER;
-}
-
-/****************************************************************************
   Attack rating of this particular unit right now.
 ****************************************************************************/
 static int unit_att_rating_now(const struct unit *punit)
 {
-  return unittype_att_rating(unit_type(punit), punit->veteran,
-                             punit->moves_left, punit->hp);
+  return adv_unittype_att_rating(unit_type(punit), punit->veteran,
+                                 punit->moves_left, punit->hp);
 }
 
 /****************************************************************************
-  Attack rating of this particular unit assuming that it has a
-  complete move left.
-****************************************************************************/
-int unit_att_rating(const struct unit *punit)
-{
-  return unittype_att_rating(unit_type(punit), punit->veteran,
-                             SINGLE_MOVE, punit->hp);
-}
-
-/****************************************************************************
-  Square of the previous function - used in actual computations.
+  Square of the adv_unit_att_rating() function - used in actual computations.
 ****************************************************************************/
 static int unit_att_rating_sq(const struct unit *punit)
 {
-  int v = unit_att_rating(punit);
+  int v = adv_unit_att_rating(punit);
   return v * v;
 }
 
@@ -277,25 +257,6 @@ static int unit_def_rating_sq(const struct unit *attacker,
                               const struct unit *defender)
 {
   int v = unit_def_rating(attacker, defender);
-  return v * v;
-}
-
-/****************************************************************************
-  Basic (i.e. not taking attacker specific corections into account)
-  defense rating of this particular unit.
-****************************************************************************/
-int unit_def_rating_basic(const struct unit *punit)
-{
-  return base_get_defense_power(punit) * punit->hp *
-    unit_type(punit)->firepower / POWER_DIVIDER;
-}
-
-/****************************************************************************
-  Square of the previous function - used in actual computations.
-****************************************************************************/
-int unit_def_rating_basic_sq(const struct unit *punit)
-{
-  int v = unit_def_rating_basic(punit);
   return v * v;
 }
 
@@ -382,7 +343,7 @@ static void reinforcements_cost_and_value(struct unit *punit,
     unit_list_iterate(ptile->units, aunit) {
       if (aunit != punit
 	  && pplayers_allied(unit_owner(punit), unit_owner(aunit))) {
-        int val = unit_att_rating(aunit);
+        int val = adv_unit_att_rating(aunit);
 
         if (val != 0) {
           *value += val;
@@ -701,7 +662,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
   struct pf_map *pfm;
   struct city *pcity;
   struct ai_city *data, *best_data = NULL;
-  const int toughness = unit_def_rating_basic_sq(punit);
+  const int toughness = adv_unit_def_rating_basic_sq(punit);
   int def, best_def = -1;
   /* Arbitrary: 3 turns. */
   const int max_move_cost = 3 * unit_move_rate(punit);
@@ -740,7 +701,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      def = (toughness - unit_def_rating_basic_sq(buddy));
+      def = (toughness - adv_unit_def_rating_basic_sq(buddy));
       if (0 >= def) {
         continue;
       }
@@ -843,7 +804,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     /* Check if the city we are on our way to rescue is still in danger,
      * or the unit we should protect is still alive... */
     if ((aunit && (aiguard_has_guard(aunit) || aiguard_wanted(aunit))
-         && unit_def_rating_basic(punit) > unit_def_rating_basic(aunit)) 
+         && adv_unit_def_rating_basic(punit) > adv_unit_def_rating_basic(aunit)) 
         || (acity && city_owner(acity) == unit_owner(punit)
             && city_data->urgency != 0 
             && city_data->danger > assess_defense_quadratic(acity))) {
@@ -1057,7 +1018,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                            struct unit **pferryboat,
                            struct unit_type **pboattype, int *pmove_time)
 {
-  const int attack_value = unit_att_rating(punit);    /* basic attack. */
+  const int attack_value = adv_unit_att_rating(punit);    /* basic attack. */
   struct pf_parameter parameter;
   struct pf_map *punit_map, *ferry_map;
   struct pf_position pos;
@@ -1158,7 +1119,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         if ((pcity = tile_city(aunit->goto_tile))) {
           struct ai_city *city_data = def_ai_city_data(pcity);
 
-          city_data->attack += unit_att_rating(aunit);
+          city_data->attack += adv_unit_att_rating(aunit);
           city_data->bcost += unit_build_shield_cost(aunit);
         } 
       }
@@ -2562,7 +2523,7 @@ void ai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
-  d = unit_def_rating_basic_sq(punit) * db;
+  d = adv_unit_def_rating_basic_sq(punit) * db;
 
   adjc_iterate(ptile, ptile1) {
     if (ai_handicap(pplayer, H_FOG)
@@ -2574,7 +2535,7 @@ void ai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
       if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) 
           && can_unit_attack_unit_at_tile(enemy, punit, ptile)
           && can_unit_attack_units_at_tile(enemy, ptile)) {
-        a += unit_att_rating(enemy);
+        a += adv_unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */
           *result = DANG_YES;
