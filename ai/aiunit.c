@@ -52,6 +52,7 @@
 #include "aiguard.h"
 #include "aihand.h"
 #include "aihunt.h"
+#include "ailog.h"
 #include "aiparatrooper.h"
 #include "aiplayer.h"
 #include "aitools.h"

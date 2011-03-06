@@ -35,4 +35,19 @@ void real_diplo_log(const char *file, const char *function, int line,
   }                                                                         \
 }
 
+void real_bodyguard_log(const char *file, const char *function, int line,
+                        enum log_level level,  bool notify,
+                        const struct unit *punit, const char *msg, ...)
+                        fc__attribute((__format__ (__printf__, 7, 8)));
+#define BODYGUARD_LOG(loglevel, punit, msg, ...)                            \
+{                                                                           \
+  bool notify = punit->server.debug;                                        \
+  enum log_level level = (notify ? LOG_AI_TEST                              \
+                          : MIN(loglevel, LOGLEVEL_BODYGUARD));             \
+  if (log_do_output_for_level(level)) {                                     \
+    real_bodyguard_log(__FILE__, __FUNCTION__, __LINE__, level, notify,     \
+                       punit, msg, ## __VA_ARGS__);                         \
+  }                                                                         \
+}
+
 #endif /* FC__AILOG_H */

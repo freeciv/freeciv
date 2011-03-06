@@ -60,6 +60,7 @@
 #include "aidata.h"
 #include "aiferry.h"
 #include "aiguard.h"
+#include "ailog.h"
 #include "aiplayer.h"
 #include "aitech.h"
 #include "aiunit.h"

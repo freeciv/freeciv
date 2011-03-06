@@ -157,64 +157,6 @@ void real_unit_log(const char *file, const char *function, int line,
 }
 
 /**************************************************************************
-  Log message for bodyguards. They will appear like this
-    2: Polish Mech. Inf.[485] bodyguard (38,22){Riflemen:574@37,23} was ...
-  note that these messages are likely to wrap if long.
-**************************************************************************/
-void real_bodyguard_log(const char *file, const char *function, int line,
-                        enum log_level level,  bool notify,
-                        const struct unit *punit, const char *msg, ...)
-{
-  char buffer[500];
-  char buffer2[500];
-  va_list ap;
-  const struct unit *pcharge;
-  const struct city *pcity;
-  int id = -1;
-  int charge_x = -1;
-  int charge_y = -1;
-  const char *type = "guard";
-  const char *s = "none";
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
-
-  pcity = game_city_by_number(unit_data->charge);
-  pcharge = game_unit_by_number(unit_data->charge);
-  if (pcharge) {
-    charge_x = unit_tile(pcharge)->x;
-    charge_y = unit_tile(pcharge)->y;
-    id = pcharge->id;
-    type = "bodyguard";
-    s = unit_rule_name(pcharge);
-  } else if (pcity) {
-    charge_x = pcity->tile->x;
-    charge_y = pcity->tile->y;
-    id = pcity->id;
-    type = "cityguard";
-    s = city_name(pcity);
-  }
-  /* else perhaps the charge died */
-
-  fc_snprintf(buffer, sizeof(buffer),
-              "%s %s[%d] %s (%d,%d){%s:%d@%d,%d} ",
-              nation_rule_name(nation_of_unit(punit)),
-              unit_rule_name(punit),
-              punit->id,
-              type,
-              TILE_XY(unit_tile(punit)),
-              s, id, charge_x, charge_y);
-
-  va_start(ap, msg);
-  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
-  va_end(ap);
-
-  cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
-  if (notify) {
-    notify_conn(NULL, NULL, E_AI_DEBUG, ftc_log, "%s", buffer);
-  }
-  do_log(file, function, line, FALSE, level, "%s", buffer);
-}
-
-/**************************************************************************
   Measure the time between the calls.  Used to see where in the AI too
   much CPU is being used.
 **************************************************************************/
