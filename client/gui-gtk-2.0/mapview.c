@@ -185,7 +185,7 @@ void update_info_label(void)
 /**************************************************************************
   This function is used to animate the mouse cursor. 
 **************************************************************************/
-static gint anim_cursor_cb(gpointer data)
+static gboolean anim_cursor_cb(gpointer data)
 {
   if (!cursor_timer_id) {
     return FALSE;
@@ -215,7 +215,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
 {
   cursor_type = new_cursor_type;
   if (!cursor_timer_id) {
-    cursor_timer_id = gtk_timeout_add(CURSOR_INTERVAL, anim_cursor_cb, NULL);
+    cursor_timer_id = g_timeout_add(CURSOR_INTERVAL, anim_cursor_cb, NULL);
   }
 }
 
