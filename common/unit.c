@@ -142,89 +142,133 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 
 /****************************************************************************
   Determines if punit can be airlifted to dest_city now!  So punit needs
-  to be in a city now.  The 'restriction' parameter simulate the client
-  knownledge (one player only).
+  to be in a city now.
+  If pdest_city is NULL, just indicate whether it's possible for the unit
+  to be airlifted at all from its current position.
+  The 'restriction' parameter specifies which player's knowledge this is
+  based on -- one player can't see whether another's cities are currently
+  able to airlift.  (Clients other than global observers should only call
+  this with a non-NULL 'restriction'.)
 ****************************************************************************/
-bool base_unit_can_airlift_to(const struct player *restriction,
-                              const struct unit *punit,
-                              const struct city *pdest_city)
+enum unit_airlift_result
+    test_unit_can_airlift_to(const struct player *restriction,
+                             const struct unit *punit,
+                             const struct city *pdest_city)
 {
   const struct city *psrc_city = tile_city(punit->tile);
   const struct player *punit_owner;
-  const struct player *pdest_city_owner;
-  const struct player *psrc_city_owner;
+  enum unit_airlift_result ok_result = AR_OK;
 
   if (0 == punit->moves_left) {
     /* No moves left. */
-    return FALSE;
+    return AR_NO_MOVES;
   }
 
   if (!is_ground_unit(punit)) {
-    /* Only ground units can be airlifted currently. */
-    return FALSE;
+    /* Only land units can be airlifted currently. */
+    return AR_WRONG_UNITTYPE;
+  }
+
+  if (0 < get_transporter_occupancy(punit)) {
+    /* Units with occupants can't be airlifted currently. */
+    return AR_OCCUPIED;
   }
 
   if (NULL == psrc_city) {
     /* No city there. */
-    return FALSE;
+    return AR_NOT_IN_CITY;
   }
 
   if (psrc_city == pdest_city) {
     /* Airlifting to our current position doesn't make sense. */
-    return FALSE;
-  }
-
-   psrc_city_owner = city_owner(psrc_city);
-
-  if ((NULL == restriction || psrc_city_owner == restriction)
-      && 0 >= psrc_city->airlift) {
-    /* The source cannot airlift for this turn (maybe already airlifed
-     * or no airport).
-     *
-     * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-     * is not handled here because it always needs an airport to airlift.
-     * See also do_airline() in server/unittools.h. */
-    return FALSE;
-  }
-
-  pdest_city_owner = city_owner(pdest_city);
-
-  if ((NULL == restriction || pdest_city_owner == restriction)
-      && 0 >= pdest_city->airlift
-      && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
-    /* The destination cannot support airlifted units for this turn
-     * (maybe already airlifed or no airport).
-     * See also do_airline() in server/unittools.h. */
-    return FALSE;
+    return AR_BAD_DST_CITY;
   }
 
   punit_owner = unit_owner(punit);
 
-  if (punit_owner != psrc_city_owner
+  /* Check validity of both source and destination before checking capacity,
+   * to avoid misleadingly optimistic returns. */
+
+  if (punit_owner != city_owner(psrc_city)
       && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
-           && pplayers_allied(punit_owner, psrc_city_owner))) {
+           && pplayers_allied(punit_owner, city_owner(psrc_city)))) {
     /* Not allowed to airlift from this source. */
-    return FALSE;
+    return AR_BAD_SRC_CITY;
   }
 
-  if (punit_owner != pdest_city_owner
+  if (pdest_city &&
+      punit_owner != city_owner(pdest_city)
       && !(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
-           && pplayers_allied(punit_owner, pdest_city_owner))) {
+           && pplayers_allied(punit_owner, city_owner(pdest_city)))) {
     /* Not allowed to airlift to this destination. */
-    return FALSE;
+    return AR_BAD_DST_CITY;
   }
 
-  return TRUE;
+  if (NULL == restriction || city_owner(psrc_city) == restriction) {
+    /* We know for sure whether or not src can airlift this turn. */
+    if (0 >= psrc_city->airlift) {
+      /* The source cannot airlift for this turn (maybe already airlifted
+       * or no airport).
+       *
+       * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+       * is not handled here because it always needs an airport to airlift.
+       * See also do_airline() in server/unittools.h. */
+      return AR_SRC_NO_FLIGHTS;
+    } /* else, there is capacity; continue to other checks */
+  } else {
+    /* We don't have access to the 'airlift' field. Assume it's OK; can
+     * only find out for sure by trying it. */
+    ok_result = AR_OK_SRC_UNKNOWN;
+  }
+
+  if (pdest_city) {
+    if (NULL == restriction || city_owner(pdest_city) == restriction) {
+      if (0 >= pdest_city->airlift
+          && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
+        /* The destination cannot support airlifted units for this turn
+         * (maybe already airlifed or no airport).
+         * See also do_airline() in server/unittools.h. */
+        return AR_DST_NO_FLIGHTS;
+      } /* else continue */
+    } else {
+      ok_result = AR_OK_DST_UNKNOWN;
+    }
+  }
+
+  return ok_result;
+}
+
+/****************************************************************************
+  Encapsulates whether a return from test_unit_can_airlift_to() should be
+  treated as a successful result.
+****************************************************************************/
+bool is_successful_airlift_result(enum unit_airlift_result result)
+{
+  switch (result) {
+  case AR_OK:
+  case AR_OK_SRC_UNKNOWN:
+  case AR_OK_DST_UNKNOWN:
+    return TRUE;
+  default:  /* everything else is failure */
+    return FALSE;
+  }
 }
 
 /****************************************************************************
   Determines if punit can be airlifted to dest_city now!  So punit needs
   to be in a city now.
+  On the server this gives correct information; on the client it errs on the
+  side of saying airlifting is possible even if it's not certain given
+  player knowledge.
 ****************************************************************************/
 bool unit_can_airlift_to(const struct unit *punit,
                          const struct city *pdest_city)
 {
-  return base_unit_can_airlift_to(NULL, punit, pdest_city);
+  /* FIXME: really we want client_player(), not unit_owner(). */
+  struct player *restriction = is_server() ? NULL : unit_owner(punit);
+  fc_assert_ret_val(pdest_city, FALSE);
+  return is_successful_airlift_result(
+      test_unit_can_airlift_to(restriction, punit, pdest_city));
 }
 
 /****************************************************************************

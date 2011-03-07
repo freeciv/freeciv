@@ -96,6 +96,22 @@ enum unit_upgrade_result {
   UU_NOT_TERRAIN        /* The upgraded unit could not survive. */
 };
 
+enum unit_airlift_result {
+  /* Codes treated as success: */
+  AR_OK,                /* This will definitely work */
+  AR_OK_SRC_UNKNOWN,    /* Source city's airlift capability is unknown */
+  AR_OK_DST_UNKNOWN,    /* Dest city's airlift capability is unknown */
+  /* Codes treated as failure: */
+  AR_NO_MOVES,          /* Unit has no moves left */
+  AR_WRONG_UNITTYPE,    /* Can't airlift this type of unit */
+  AR_OCCUPIED,          /* Can't airlift units with passengers */
+  AR_NOT_IN_CITY,       /* Unit not in a city */
+  AR_BAD_SRC_CITY,      /* Can't airlift from this src city */
+  AR_BAD_DST_CITY,      /* Can't airlift to this dst city */
+  AR_SRC_NO_FLIGHTS,    /* No flights available from src */
+  AR_DST_NO_FLIGHTS     /* No flights available to dst */
+};
+
 struct unit_adv {
   enum ai_unit_task role;
 };
@@ -227,9 +243,11 @@ bool unit_can_help_build_wonder(const struct unit *punit,
 				const struct city *pcity);
 bool unit_can_help_build_wonder_here(const struct unit *punit);
 bool unit_can_est_trade_route_here(const struct unit *punit);
-bool base_unit_can_airlift_to(const struct player *restriction,
-                              const struct unit *punit,
-                              const struct city *pcity);
+enum unit_airlift_result
+    test_unit_can_airlift_to(const struct player *restriction,
+                             const struct unit *punit,
+                             const struct city *pdest_city);
+bool is_successful_airlift_result(enum unit_airlift_result result);
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
 bool unit_has_orders(const struct unit *punit);
 

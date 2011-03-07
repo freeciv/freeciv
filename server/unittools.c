@@ -2213,20 +2213,49 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 
 /**************************************************************************
   go by airline, if both cities have an airport and neither has been used this
-  turn the unit will be transported by it and have it's moves set to 0
+  turn the unit will be transported by it and have its moves set to 0
 **************************************************************************/
 bool do_airline(struct unit *punit, struct city *pdest_city)
 {
   struct city *psrc_city = tile_city(unit_tile(punit));
 
-  if (NULL == psrc_city) {
-    return FALSE;
-  }
-  if (!unit_can_airlift_to(punit, pdest_city)) {
-    return FALSE;
-  }
-  if (0 < get_transporter_occupancy(punit)) {
-    return FALSE;
+  {
+    enum unit_airlift_result result =
+      test_unit_can_airlift_to(NULL, punit, pdest_city);
+    if (!is_successful_airlift_result(result)) {
+      switch (result) {
+      /* These two can happen through no fault of the client (for allied
+       * airlifts), so we give useful messages. */
+      case AR_SRC_NO_FLIGHTS:
+        notify_player(unit_owner(punit), unit_tile(punit),
+                      E_UNIT_RELOCATED, ftc_server,
+                      /* TRANS: Airlift failure message.
+                       * "Paris has no capacity to transport Warriors." */
+                      _("%s has no capacity to transport %s."),
+                      city_link(psrc_city), unit_link(punit));
+        break;
+      case AR_DST_NO_FLIGHTS:
+        notify_player(unit_owner(punit), unit_tile(punit),
+                      E_UNIT_RELOCATED, ftc_server,
+                      /* TRANS: Airlift failure message.
+                       * "Paris has no capacity to transport Warriors." */
+                      _("%s has no capacity to transport %s."),
+                      city_link(pdest_city), unit_link(punit));
+        break;
+      default:
+        /* The client should have been able to foresee all the other
+         * causes of failure, so it's not worth having specific messages for
+         * all of them. */
+        notify_player(unit_owner(punit), unit_tile(punit),
+                      E_UNIT_RELOCATED, ftc_server,
+                      /* TRANS: Airlift failure message.
+                       * "Warriors cannot be transported to Paris." */
+                      _("%s cannot be transported to %s."),
+                      unit_link(punit), city_link(pdest_city));
+        break;
+      }
+      return FALSE;
+    }
   }
 
   notify_player(unit_owner(punit), city_tile(pdest_city),

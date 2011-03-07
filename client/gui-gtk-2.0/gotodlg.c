@@ -100,7 +100,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 
       if (pdestcity) {
         unit_list_iterate(get_units_in_focus(), punit) {
-          if (base_unit_can_airlift_to(client_player(), punit, pdestcity)) {
+          if (unit_can_airlift_to(punit, pdestcity)) {
             request_unit_airlift(punit, pdestcity);
           }
         } unit_list_iterate_end;
@@ -326,8 +326,9 @@ static void goto_selection_callback(GtkTreeSelection *selection,
 
     center_tile_mapcanvas(city_tile(pdestcity));
 
+    /* Allow action if any of the selected units can airlift. */
     unit_list_iterate(get_units_in_focus(), punit) {
-      if (base_unit_can_airlift_to(client_player(), punit, pdestcity)) {
+      if (unit_can_airlift_to(punit, pdestcity)) {
         can_airlift = TRUE;
         break;
       }
