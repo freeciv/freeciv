@@ -2,7 +2,7 @@ dnl configure.ac for freeciv
 dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
-AC_INIT([freeciv], [m4_esyscmd([./fc_version | tr -d '\n'])])
+AC_INIT([freeciv], m4_esyscmd([./fc_version | tr -d '\n']))
 AC_PREREQ(2.58)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
