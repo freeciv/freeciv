@@ -1462,11 +1462,17 @@ static void game_options_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void ai_skill_callback(GtkWidget *w, gpointer data)
 {
+  enum ai_level level;
+  enum ai_level *levels = (enum ai_level *)data;
   const char *name;
-  enum ai_level level = GPOINTER_TO_UINT(data);
+  int i;
 
-  if (level == AI_LEVEL_LAST) {
+  i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+
+  if (i == -1) {
     level = AI_LEVEL_DEFAULT;
+  } else {
+    level = levels[i];
   }
 
   name = ai_level_cmd(level);
@@ -2491,11 +2497,16 @@ static void add_tree_col(GtkWidget *treeview, GType gtype,
 GtkWidget *create_start_page(void)
 {
   GtkWidget *box, *sbox, *table, *align, *vbox;
-  GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *option;
-  GtkWidget *label, *menu, *item;
+  GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *ai_lvl_combobox;
+  GtkWidget *label;
   GtkWidget *rs_entry;
   GtkTreeSelection *selection;
   enum ai_level level;
+  /* There's less than AI_LEVEL_LAST entries as not all levels have
+     entries (that's the whole point of this array: index != value),
+     but this is set safely to the max */
+  static enum ai_level levels[AI_LEVEL_LAST];
+  int i = 0;
 
   box = gtk_vbox_new(FALSE, 8);
   gtk_container_set_border_width(GTK_CONTAINER(box), 4);
@@ -2535,27 +2546,25 @@ GtkWidget *create_start_page(void)
                        NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 
-  option = gtk_option_menu_new();
+  ai_lvl_combobox = gtk_combo_box_new_text();
 
-  menu = gtk_menu_new();
   for (level = 0; level < AI_LEVEL_LAST; level++) {
     if (is_settable_ai_level(level)) {
       const char *level_name = ai_level_name(level);
 
-      item = gtk_menu_item_new_with_label(level_name);
-      g_signal_connect(item, "activate",
-                       G_CALLBACK(ai_skill_callback), GUINT_TO_POINTER(level));
-
-      gtk_widget_show(item);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      gtk_combo_box_insert_text(GTK_COMBO_BOX(ai_lvl_combobox), i, level_name);
+      levels[i] = level;
+      i++;
     }
   }
-  gtk_option_menu_set_menu(GTK_OPTION_MENU(option), menu);
-  gtk_table_attach_defaults(GTK_TABLE(table), option, 1, 2, 1, 2);
+  g_signal_connect(ai_lvl_combobox, "changed",
+                   G_CALLBACK(ai_skill_callback), levels);
+
+  gtk_table_attach_defaults(GTK_TABLE(table), ai_lvl_combobox, 1, 2, 1, 2);
 
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
-		       "mnemonic-widget", option,
+		       "mnemonic-widget", ai_lvl_combobox,
                        "label", _("AI Skill _Level:"),
                        "xalign", 0.0,
                        "yalign", 0.5,
