@@ -19,6 +19,9 @@
 
 struct player;
 
+void dai_city_log(char *buffer, int buflength, const struct city *pcity);
+void dai_unit_log(char *buffer, int buflength, const struct unit *punit);
+
 void real_diplo_log(const char *file, const char *function, int line,
                     enum log_level level, bool notify,
                     const struct player *pplayer,

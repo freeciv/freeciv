@@ -36,11 +36,6 @@
 /* server/advisors */
 #include "advdata.h"
 
-/* ai */
-#include "aicity.h"
-#include "aiplayer.h"
-#include "aiunit.h"
-
 #include "srv_log.h"
 
 static struct timer *aitimer[AIT_LAST][2];
@@ -92,14 +87,15 @@ void real_city_log(const char *file, const char *function, int line,
   char buffer[500];
   char buffer2[500];
   va_list ap;
-  struct ai_city *city_data = def_ai_city_data(pcity);
+  char aibuf[500] = "\0";
 
-  fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
+  CALL_PLR_AI_FUNC(log_fragment_city, city_owner(pcity), aibuf, sizeof(aibuf), pcity);
+
+  fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d] {%s} ",
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
               TILE_XY(pcity->tile), city_size_get(pcity),
-              city_data->danger, city_data->urgency,
-              city_data->grave_danger);
+              aibuf);
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
@@ -126,7 +122,9 @@ void real_unit_log(const char *file, const char *function, int line,
   char buffer2[500];
   va_list ap;
   int gx, gy;
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
+  char aibuf[500] = "\0";
+
+  CALL_PLR_AI_FUNC(log_fragment_unit, unit_owner(punit), aibuf, sizeof(aibuf), punit);
 
   if (punit->goto_tile) {
     gx = punit->goto_tile->x;
@@ -134,16 +132,15 @@ void real_unit_log(const char *file, const char *function, int line,
   } else {
     gx = gy = -1;
   }
-  
+
   fc_snprintf(buffer, sizeof(buffer),
-	      "%s %s[%d] %s (%d,%d)->(%d,%d){%d,%d} ",
+	      "%s %s[%d] %s (%d,%d)->(%d,%d){%s} ",
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->id,
 	      get_activity_text(punit->activity),
 	      TILE_XY(unit_tile(punit)),
-	      gx, gy,
-              unit_data->bodyguard, unit_data->ferryboat);
+	      gx, gy, aibuf);
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);

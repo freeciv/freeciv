@@ -22,12 +22,36 @@
 #include "notify.h"
 
 /* ai */
+#include "aicity.h"
 #include "aidata.h"
 #include "aiplayer.h"
 #include "aiunit.h"
 
 #include "ailog.h"
 
+
+/**************************************************************************
+  Produce logline fragment for srv_log.
+**************************************************************************/
+void dai_city_log(char *buffer, int buflength, const struct city *pcity)
+{
+  struct ai_city *city_data = def_ai_city_data(pcity);
+
+  fc_snprintf(buffer, buflength, "d%d u%d g%d",
+              city_data->danger, city_data->urgency,
+              city_data->grave_danger);
+}
+
+/**************************************************************************
+  Produce logline fragment for srv_log.
+**************************************************************************/
+void dai_unit_log(char *buffer, int buflength, const struct unit *punit)
+{
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+  fc_snprintf(buffer, buflength, "%d %d",
+              unit_data->bodyguard, unit_data->ferryboat);
+}
 
 /**************************************************************************
   Log player messages, they will appear like this

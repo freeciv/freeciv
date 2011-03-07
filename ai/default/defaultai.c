@@ -33,6 +33,7 @@
 #include "aidata.h"
 #include "aiferry.h"
 #include "aihand.h"
+#include "ailog.h"
 #include "aiplayer.h"
 #include "aisettler.h"
 #include "aitools.h"
@@ -122,6 +123,9 @@ bool fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.treaty_accepted = ai_treaty_accepted;
   ai->funcs.first_contact = ai_diplomacy_first_contact;
   ai->funcs.incident = ai_incident;
+
+  ai->funcs.log_fragment_city = dai_city_log;
+  ai->funcs.log_fragment_unit = dai_unit_log;
 
   ai->funcs.consider_plr_dangerous = ai_consider_plr_dangerous;
   ai->funcs.consider_tile_dangerous = ai_consider_tile_dangerous;
