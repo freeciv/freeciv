@@ -1697,8 +1697,10 @@ reqs	=
 name	= "Enable_Space"
 value	= 1
 reqs	=
-    { "type", "name", "range", "survives"
-      "Building", "Apollo Program", "World", 1
+; Ideally we'd want this to be a "surviving" effect, but these aren't
+; currently supported for small wonders. Instead we use SaveSmallWonder.
+    { "type", "name", "range"
+      "Building", "Apollo Program", "Player"
     }
 
 [effect_asmiths_trading_co]

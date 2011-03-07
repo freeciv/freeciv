@@ -277,4 +277,6 @@ set =
       "startunits", "cccwwwxxxx", FALSE
       "specials", 350, FALSE
       "borders", "DISABLED", FALSE
+; For Apollo Program (remove when surviving effect is possible)
+      "savepalace", TRUE, FALSE
     }
