@@ -632,6 +632,15 @@ reqs	=
       "OutputType", "Trade", "Local"
     }
 
+[effect_gov_tile_bonus_6]
+name    = "Output_Inc_Tile_Celebrate"
+value   = 1
+reqs  =
+    { "type",       "name",      "range"
+      "Gov", "Fundamentalism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
 [effect_revolution_0]
 name    = "Revolution_When_Unhappy"
 value   = 1
@@ -984,17 +993,18 @@ nreqs	=
       "Building", "Palace", "City"
     }
 
-;[effect_courthouse_1]
-;name	= "Waste_Pct"
-;value	= 50
-;reqs	=
-;    { "type", "name", "range"
-;      "Building", "Courthouse", "City"
-;    }
-;nreqs	=
-;    { "type", "name", "range"
-;      "Building", "Palace", "City"
-;    }
+[effect_courthouse_1]
+name	= "Output_Waste_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Courthouse", "City"
+      "OutputType", "shield", "local"
+    }
+nreqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+    }
 
 [effect_courthouse_2]
 name	= "Make_Content"
@@ -1227,13 +1237,14 @@ reqs	=
       "OutputType", "Trade", "Local"
     }
 
-;[effect_palace_1]
-;name	= "Waste_Pct"
-;value	= 50
-;reqs	=
-;    { "type", "name", "range"
-;      "Building", "Palace", "City"
-;    }
+[effect_palace_1]
+name	= "Output_Waste_Pct"
+value	= 50
+reqs	=
+    { "type", "name", "range"
+      "Building", "Palace", "City"
+      "OutputType", "shield", "local"
+    }
 
 [effect_palace_2]
 name	= "Spy_Resistant"
