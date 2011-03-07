@@ -1524,9 +1524,7 @@ sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 helptext	= _("\
 All your new military land units produced in cities on the same\
- continent start at the first veteran level. The chance\
- of a land unit getting the next veteran level after a battle\
- increases by half.\
+ continent start at the first veteran level.\
 ")
 
 [building_united_nations]
