@@ -2050,19 +2050,6 @@ nreqs   =
       "UnitFlag", "NoVeteran", "Local"
     }
 
-[effect_sun_tzus_war_academy_1]
-name	= "Veteran_Combat"
-value	= 50
-reqs	=
-    { "type", "name", "range"
-      "Building", "Sun Tzu's War Academy", "Continent"
-      "UnitClass", "Land", "Local"
-    }
-nreqs   =
-    { "type", "name", "range"
-      "UnitFlag", "Diplomat", "Local"
-    }
-
 [effect_united_nations]
 name	= "Has_Senate"
 value	= 1
