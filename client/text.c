@@ -551,6 +551,109 @@ const char *unit_description(struct unit *punit)
 }
 
 /****************************************************************************
+  Describe the airlift capacity of a city for the given units (from their
+  current positions).
+  If pdest is non-NULL, describe its capacity as a destination, otherwise
+  describe the capacity of the city the unit's currently in (if any) as a
+  source. (If the units in the list are in different cities, this will
+  probably not give a useful result in this case.)
+  If not all of the listed units can be airlifted, return the description
+  for those that can.
+  Returns NULL if an airlift is not possible for any of the units.
+****************************************************************************/
+const char *get_airlift_text(const struct unit_list *punits,
+                             const struct city *pdest)
+{
+  static struct astring str = ASTRING_INIT;
+  bool src = (pdest == NULL);
+  enum texttype { AL_IMPOSSIBLE, AL_UNKNOWN, AL_FINITE, AL_INFINITE }
+      best = AL_IMPOSSIBLE;
+  int cur = 0, max = 0;
+
+  unit_list_iterate(punits, punit) {
+    enum texttype this = AL_IMPOSSIBLE;
+    enum unit_airlift_result result;
+
+    /* NULL will tell us about the capability of airlifting from source */
+    result = test_unit_can_airlift_to(client_player(), punit, pdest);
+
+    switch(result) {
+    case AR_NO_MOVES:
+    case AR_WRONG_UNITTYPE:
+    case AR_OCCUPIED:
+    case AR_NOT_IN_CITY:
+    case AR_BAD_SRC_CITY:
+    case AR_BAD_DST_CITY:
+      /* No chance of an airlift. */
+      this = AL_IMPOSSIBLE;
+      break;
+    case AR_OK:
+    case AR_OK_SRC_UNKNOWN:
+    case AR_OK_DST_UNKNOWN:
+    case AR_SRC_NO_FLIGHTS:
+    case AR_DST_NO_FLIGHTS:
+      /* May or may not be able to airlift now, but there's a chance we could
+       * later */
+      {
+        const struct city *pcity = src ? tile_city(unit_tile(punit)) : pdest;
+        fc_assert_ret_val(pcity != NULL, fc_strdup("-"));
+        if (!src && (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
+          /* No restrictions on destination (and we can infer this even for
+           * other players' cities). */
+          this = AL_INFINITE;
+        } else if (client_player() == city_owner(pcity)) {
+          /* A city we know about. */
+          int this_cur = pcity->airlift, this_max = city_airlift_max(pcity);
+          if (this_max <= 0) {
+            /* City known not to be airlift-capable. */
+            this = AL_IMPOSSIBLE;
+          } else {
+            if (src
+                && (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
+              /* Unlimited capacity. */
+              this = AL_INFINITE;
+            } else {
+              /* Limited capacity (possibly zero right now). */
+              this = AL_FINITE;
+              /* Store the numbers. This whole setup assumes that numeric
+               * capacity isn't unit-dependent. */
+              if (best == AL_FINITE) {
+                fc_assert(cur == this_cur && max == this_max);
+              }
+              cur = this_cur;
+              max = this_max;
+            }
+          }
+        } else {
+          /* Unknown capacity. */
+          this = AL_UNKNOWN;
+        }
+      }
+      break;
+    }
+
+    /* Now take the most optimistic view. */
+    best = MAX(best, this);
+  } unit_list_iterate_end;
+
+  switch(best) {
+  case AL_IMPOSSIBLE:
+    return NULL;
+  case AL_UNKNOWN:
+    astr_set(&str, "?");
+    break;
+  case AL_FINITE:
+    astr_set(&str, "%d/%d", cur, max);
+    break;
+  case AL_INFINITE:
+    astr_set(&str, _("Yes"));
+    break;
+  }
+
+  return astr_str(&str);
+}
+
+/****************************************************************************
   Return total expected bulbs.
 ****************************************************************************/
 static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)

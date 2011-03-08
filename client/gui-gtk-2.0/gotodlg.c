@@ -23,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
@@ -40,6 +41,7 @@
 #include "control.h"
 #include "goto.h"
 #include "options.h"
+#include "text.h"
 
 /* clien/gui-gtk-2.0 */
 #include "plrdlg.h"
@@ -53,12 +55,15 @@
 
 static GtkWidget *dshell = NULL;
 static GtkWidget *view;
+static GtkWidget *source;
 static GtkWidget *all_toggle;
 static GtkListStore *store;
 static GtkTreeSelection *selection;
 struct tile *original_tile;
 
 static void update_goto_dialog(GtkToggleButton *button);
+static void update_source_label(void);
+static void refresh_airlift_column(void);
 static void refresh_airlift_button(void);
 static void goto_selection_callback(GtkTreeSelection *selection, gpointer data);
 
@@ -73,6 +78,7 @@ enum {
   GD_COL_CITY_NAME,
   GD_COL_FLAG,
   GD_COL_NATION,
+  GD_COL_AIRLIFT,
 
   GD_COL_NUM
 };
@@ -135,7 +141,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 **************************************************************************/
 static void create_goto_dialog(void)
 {
-  GtkWidget *sw, *label, *vbox;
+  GtkWidget *sw, *label, *frame, *vbox;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
 
@@ -157,15 +163,28 @@ static void create_goto_dialog(void)
   g_signal_connect(dshell, "response",
                    G_CALLBACK(goto_cmd_callback), NULL);
 
-  label = gtk_frame_new(_("Select destination"));
+  source = gtk_label_new("" /* filled in later */);
+  gtk_label_set_line_wrap(GTK_LABEL(source), TRUE);
+  gtk_label_set_justify(GTK_LABEL(source), GTK_JUSTIFY_CENTER);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dshell)->vbox),
-	label, TRUE, TRUE, 0);
+        source, FALSE, FALSE, 0);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+    "use-underline", TRUE,
+    "label", _("Select destination ci_ty"),
+    "xalign", 0.0,
+    "yalign", 0.5,
+    NULL);
+  frame = gtk_frame_new("");
+  gtk_frame_set_label_widget(GTK_FRAME(frame), label);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dshell)->vbox),
+        frame, TRUE, TRUE, 0);
 
   vbox = gtk_vbox_new(FALSE, 6);
-  gtk_container_add(GTK_CONTAINER(label), vbox);
+  gtk_container_add(GTK_CONTAINER(frame), vbox);
 
   store = gtk_list_store_new(GD_COL_NUM, G_TYPE_INT, G_TYPE_STRING,
-                             GDK_TYPE_PIXBUF, G_TYPE_STRING);
+                             GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
     GD_COL_CITY_NAME, GTK_SORT_ASCENDING);
 
@@ -175,6 +194,9 @@ static void create_goto_dialog(void)
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(view), GD_COL_CITY_NAME);
   gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view), TRUE);
+
+  /* Set the mnemonic in the frame label to focus the city list */
+  gtk_label_set_mnemonic_widget(GTK_LABEL(label), view);
 
 #ifdef DEBUG
   rend = gtk_cell_renderer_text_new();
@@ -201,20 +223,17 @@ static void create_goto_dialog(void)
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   gtk_tree_view_column_set_sort_column_id(col, GD_COL_NATION);
 
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(_("Airlift"), rend,
+    "text", GD_COL_AIRLIFT, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+  gtk_tree_view_column_set_sort_column_id(col, GD_COL_AIRLIFT);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
     GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_widget_set_size_request(sw, -1, 200);
-
-  label = g_object_new(GTK_TYPE_LABEL,
-    "use-underline", TRUE,
-    "mnemonic-widget", view,
-    "label", _("Ci_ties:"),
-    "xalign", 0.0,
-    "yalign", 0.5,
-    NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
@@ -232,6 +251,7 @@ static void create_goto_dialog(void)
 
   original_tile = get_center_tile_mapcanvas();
 
+  update_source_label();
   update_goto_dialog(GTK_TOGGLE_BUTTON(all_toggle));
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
@@ -289,13 +309,116 @@ static void list_store_append_player_cities(GtkListStore *store,
                        GD_COL_CITY_NAME, city_name(pcity),
                        GD_COL_FLAG, pixbuf,
                        GD_COL_NATION, nation,
+                       /* GD_COL_AIRLIFT is populated later */
                        -1);
   } city_list_iterate_end;
   g_object_unref(pixbuf);
 }
 
 /**************************************************************************
-...
+  Refresh the label that shows where the selected unit(s) currently are
+  (and the relevant cities' airlift capacities, if relevant).
+**************************************************************************/
+static void update_source_label(void)
+{
+  /* Arbitrary limit to stop the label getting ridiculously long */
+  static const int max_cities = 10;
+  struct {
+    const struct city *city;
+    struct unit_list *units;
+  } cities[max_cities];
+  int ncities = 0;
+  bool too_many = FALSE;
+  bool no_city = FALSE; /* any units not in a city? */
+  struct astring strs[max_cities];
+  int nstrs;
+  char *last_str;
+  const char *descriptions[max_cities+1];
+  int i;
+
+  /* Sanity check: if no units selected, give up */
+  if (unit_list_size(get_units_in_focus()) == 0) {
+    gtk_label_set_text(GTK_LABEL(source), _("No units selected."));
+    return;
+  }
+
+  /* Divide selected units up into a list of unique cities */
+  unit_list_iterate(get_units_in_focus(), punit) {
+    const struct city *pcity = tile_city(unit_tile(punit));
+    if (pcity) {
+      /* Inefficient, but it's not a long list */
+      for (i = 0; i < ncities; i++) {
+        if (cities[i].city == pcity) {
+          unit_list_append(cities[i].units, punit);
+          break;
+        }
+      }
+      if (i == ncities) {
+        if (ncities < max_cities) {
+          cities[ncities].city = pcity;
+          cities[ncities].units = unit_list_new();
+          unit_list_append(cities[ncities].units, punit);
+          ncities++;
+        } else {
+          too_many = TRUE;
+          break;
+        }
+      }
+    } else {
+      no_city = TRUE;
+    }
+  } unit_list_iterate_end;
+
+  /* Describe the individual cities. */
+  for (i = 0; i < ncities; i++) {
+    const char *air_text = get_airlift_text(cities[i].units, NULL);
+    astr_init(&strs[i]);
+    astr_add(&strs[i], 
+             /* TRANS: goto/airlift dialog. "Paris (airlift: 2/4)".
+              * A set of these appear in an "and"-separated list. */
+             air_text ? _("%s (airlift: %s)") : "%s",
+             city_name(cities[i].city), air_text);
+    /* FIXME: free air_text */
+    descriptions[i] = astr_str(&strs[i]);
+    unit_list_destroy(cities[i].units);
+  }
+  if (too_many) {
+    /* TRANS: goto/airlift dialog. Too many cities to list, some omitted.
+     * Appears at the end of an "and"-separated list. */
+    descriptions[ncities] = last_str = fc_strdup(Q_("?gotodlg:more"));
+    nstrs = ncities+1;
+  } else if (no_city) {
+    /* TRANS: goto/airlift dialog. For units not currently in a city.
+     * Appears at the end of an "and"-separated list. */
+    descriptions[ncities] = last_str = fc_strdup(Q_("?gotodlg:no city"));
+    nstrs = ncities+1;
+  } else {
+    last_str = NULL;
+    nstrs = ncities;
+  }
+
+  /* Finally, update the label. */
+  {
+    struct astring label = ASTRING_INIT, list = ASTRING_INIT;
+    astr_set(&label, 
+             /* TRANS: goto/airlift dialog. Current location of units; %s is an
+              * "and"-separated list of cities and associated info */
+             _("Currently in: %s"),
+             astr_build_and_list(&list, descriptions, nstrs));
+    astr_free(&list);
+    gtk_label_set_text(GTK_LABEL(source), astr_str(&label));
+    astr_free(&label);
+  }
+
+  /* Clear up. */
+  for (i = 0; i < ncities; i++) {
+    astr_free(&strs[i]);
+  }
+  free(last_str); /* might have been NULL */
+}
+
+/**************************************************************************
+  Refresh city list (in response to "all cities" checkbox changing).
 **************************************************************************/
 static void update_goto_dialog(GtkToggleButton *button)
 {
@@ -313,6 +436,31 @@ static void update_goto_dialog(GtkToggleButton *button)
   } else {
     list_store_append_player_cities(store, client_player());
   }
+  refresh_airlift_column();
+}
+
+/**************************************************************************
+  Refresh airlift column in city list (without tearing everything down).
+**************************************************************************/
+static void refresh_airlift_column(void)
+{
+  GtkTreeIter iter;
+  bool valid;
+  valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter);
+  while (valid) {
+    int city_id;
+    const struct city *pcity;
+    const char *air_text;
+    gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+                       GD_COL_CITY_ID, &city_id, -1);
+    pcity = game_city_by_number(city_id);
+    fc_assert_ret(pcity != NULL);
+    air_text = get_airlift_text(get_units_in_focus(), pcity);
+    gtk_list_store_set(GTK_LIST_STORE(store), &iter,
+                       GD_COL_AIRLIFT, air_text ? air_text : "-", -1);
+    /* FIXME: FC_FREE(air_text); */
+    valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
+  }
 }
 
 /**************************************************************************
@@ -325,8 +473,6 @@ static void refresh_airlift_button(void)
 
   if (NULL != pdestcity) {
     bool can_airlift = FALSE;
-
-    center_tile_mapcanvas(city_tile(pdestcity));
 
     /* Allow action if any of the selected units can airlift. */
     unit_list_iterate(get_units_in_focus(), punit) {
@@ -351,6 +497,10 @@ static void refresh_airlift_button(void)
 static void goto_selection_callback(GtkTreeSelection *selection,
                                     gpointer data)
 {
+  struct city *pdestcity = get_selected_city();
+  if (NULL != pdestcity) {
+    center_tile_mapcanvas(city_tile(pdestcity));
+  }
   refresh_airlift_button();
 }
 
@@ -361,7 +511,9 @@ void goto_dialog_focus_units_changed(void)
 {
   /* Is the dialog currently being displayed? */
   if (dshell) {
-    /* Ability of current set of units to airlift may have changed */
+    /* Location of current units and ability to airlift may have changed */
+    update_source_label();
+    refresh_airlift_column();
     refresh_airlift_button();
   }
 }

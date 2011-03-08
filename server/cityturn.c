@@ -2223,7 +2223,7 @@ static void update_city_activity(struct city *pcity)
 
     pcity->did_sell = FALSE;
     pcity->did_buy = FALSE;
-    pcity->airlift = get_city_bonus(pcity, EFT_AIRLIFT);
+    pcity->airlift = city_airlift_max(pcity);
     update_bulbs(pplayer, pcity->prod[O_SCIENCE], FALSE);
 
     /* Update the treasury. */
