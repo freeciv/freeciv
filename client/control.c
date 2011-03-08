@@ -1054,7 +1054,7 @@ static bool is_activity_on_tile(struct tile *ptile,
 				enum unit_activity activity)
 {
   unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_MINE) {
+    if (punit->activity == activity) {
       return TRUE;
     }
   } unit_list_iterate_end;
