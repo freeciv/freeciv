@@ -99,9 +99,9 @@ dnl Test Qt application linking with current flags
 AC_DEFUN([FC_QT_CLIENT_LINKTEST],
 [
   if test "x$1" != "x" ; then
-    LIBSADD=" -L$1 -lQtGui"
+    LIBSADD=" -L$1 -lQtGui -lQtCore"
   else
-    LIBSADD=" -lQtGui"
+    LIBSADD=" -lQtGui -lQtCore"
   fi
 
   CPPFLAGS_SAVE="$CPPFLAGS"
