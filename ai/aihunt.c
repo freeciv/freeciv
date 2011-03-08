@@ -279,7 +279,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
   struct pf_parameter parameter;
   struct pf_map *pfm;
 
-  unit_list_iterate(punit->tile->units, missile) {
+  unit_list_iterate_safe(punit->tile->units, missile) {
     struct unit *sucker = NULL;
 
     if (unit_owner(missile) == pplayer
@@ -331,16 +331,18 @@ static void ai_hunter_try_launch(struct player *pplayer,
           unload_unit_from_transporter(missile);
         }
         missile->goto_tile = sucker->tile;
-        ai_unit_goto(missile, sucker->tile);
-        sucker = game_find_unit_by_number(target_sanity); /* Sanity */
-        if (sucker && is_tiles_adjacent(sucker->tile, missile->tile)) {
-          ai_unit_attack(missile, sucker->tile);
+        if (ai_unit_goto(missile, sucker->tile)) {
+          /* We survived; did they? */
+          sucker = game_find_unit_by_number(target_sanity); /* Sanity */
+          if (sucker && is_tiles_adjacent(sucker->tile, missile->tile)) {
+            ai_unit_attack(missile, sucker->tile);
+          }
         }
         target = game_find_unit_by_number(target_sanity); /* Sanity */
         break; /* try next missile, if any */
       }
     } /* if */
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
