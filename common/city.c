@@ -2712,6 +2712,16 @@ int city_build_slots(const struct city *pcity)
   return get_city_bonus(pcity, EFT_CITY_BUILD_SLOTS);
 }
 
+/****************************************************************************
+  A city's maximum airlift capacity.
+  (Note, this still returns a finite number even if airliftingstyle allows
+  unlimited airlifts)
+****************************************************************************/
+int city_airlift_max(const struct city *pcity)
+{
+  return get_city_bonus(pcity, EFT_AIRLIFT);
+}
+
 /**************************************************************************
    Set food, trade and shields production in a city.
 
