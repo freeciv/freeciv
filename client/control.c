@@ -177,6 +177,17 @@ void urgent_unit_focus(struct unit *punit)
 }
 
 /**************************************************************************
+  Do various updates required when the set of units in focus changes.
+**************************************************************************/
+static void focus_units_changed(void)
+{
+  update_unit_info_label(get_units_in_focus());
+  menus_update();
+  /* Notify the GUI */
+  real_focus_units_changed();
+}
+
+/**************************************************************************
   Called when a unit is killed; this removes it from the control lists.
 **************************************************************************/
 void control_unit_killed(struct unit *punit)
@@ -189,7 +200,6 @@ void control_unit_killed(struct unit *punit)
   if (get_num_units_in_focus() < 1) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
-  update_unit_info_label(get_units_in_focus());
 
   unit_list_remove(previous_focus, punit);
   unit_list_remove(urgent_focus_queue, punit);
@@ -197,6 +207,8 @@ void control_unit_killed(struct unit *punit)
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_remove(battlegroups[i], punit);
   }
+
+  focus_units_changed();
 }
 
 /**************************************************************************
@@ -394,10 +406,8 @@ void set_unit_focus(struct unit *punit)
 
   if (focus_changed) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    focus_units_changed();
   }
-
-  update_unit_info_label(current_focus);
-  menus_update();
 }
 
 /**************************************************************************
@@ -427,8 +437,7 @@ void add_unit_focus(struct unit *punit)
   }
 
   current_focus_append(punit);
-  update_unit_info_label(current_focus);
-  menus_update();
+  focus_units_changed();
 }
 
 /**************************************************************************

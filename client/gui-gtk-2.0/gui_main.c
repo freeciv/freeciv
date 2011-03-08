@@ -1741,6 +1741,17 @@ void set_unit_icons_more_arrow(bool onoff)
   }
 }
 
+/****************************************************************************
+  Called when the set of units in focus (get_units_in_focus()) changes.
+  Standard updates like update_unit_info_label() are handled in the platform-
+  independent code; we use this to keep the goto/airlift dialog up to date,
+  if it's visible.
+****************************************************************************/
+void real_focus_units_changed(void)
+{
+  goto_dialog_focus_units_changed();
+}
+
 /**************************************************************************
  callback for clicking a unit icon underneath unit info box.
  these are the units on the same tile as the focus unit.

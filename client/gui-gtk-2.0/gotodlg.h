@@ -16,5 +16,6 @@
 #include "gotodlg_g.h"
 
 void popup_goto_dialog_action(void);
+void goto_dialog_focus_units_changed(void);
 
 #endif  /* FC__GOTODLG_H */

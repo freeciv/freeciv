@@ -943,6 +943,16 @@ void set_unit_icons_more_arrow(bool onoff)
 /* Balast */
 }
 
+/****************************************************************************
+  Called when the set of units in focus (get_units_in_focus()) changes.
+  Standard updates like update_unit_info_label() are handled in the platform-
+  independent code, so some clients will not need to do anything here.
+****************************************************************************/
+void real_focus_units_changed(void)
+{
+  /* Nothing to do */
+}
+
 /**************************************************************************
   Update the information label which gives info on the current unit and
   the square under the current unit, for specified unit.  Note that in
