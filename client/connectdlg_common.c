@@ -174,8 +174,6 @@ void client_kill_server(bool force)
 /**************************************************************** 
 forks a server if it can. returns FALSE is we find we couldn't start
 the server.
-This is so system-intensive that it's *nix only.  VMS and Windows 
-code will come later 
 *****************************************************************/ 
 bool client_start_server(void)
 {
@@ -190,6 +188,7 @@ bool client_start_server(void)
   PROCESS_INFORMATION pi;
 
   char savesdir[MAX_LEN_PATH];
+  char scensdir[MAX_LEN_PATH];
   char options[512];
   char cmdline1[512];
   char cmdline2[512];
@@ -197,6 +196,7 @@ bool client_start_server(void)
   char logcmdline[512];
   char scriptcmdline[512];
   char savescmdline[512];
+  char scenscmdline[512];
 # endif /* WIN32_NATIVE */
 
   /* only one server (forked from this client) shall be running at a time */
@@ -319,8 +319,13 @@ bool client_start_server(void)
   interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
   internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
 
-  fc_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s --saves \"%s\"",
-              internal_server_port, logcmdline, scriptcmdline, savescmdline);
+  interpret_tilde(scensdir, sizeof(scensdir), "~/.freeciv/scenarios");
+  internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
+
+  fc_snprintf(options, sizeof(options),
+              "-p %d -q 1 -e%s%s --saves \"%s\" --scenarios \"%s\"",
+              internal_server_port, logcmdline, scriptcmdline, savescmdline,
+              scenscmdline);
   fc_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
   fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
