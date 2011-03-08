@@ -51,7 +51,7 @@
 #include "gotodlg.h"
 
 
-static GtkWidget *dshell;
+static GtkWidget *dshell = NULL;
 static GtkWidget *view;
 static GtkWidget *all_toggle;
 static GtkListStore *store;
@@ -59,6 +59,7 @@ static GtkTreeSelection *selection;
 struct tile *original_tile;
 
 static void update_goto_dialog(GtkToggleButton *button);
+static void refresh_airlift_button(void);
 static void goto_selection_callback(GtkTreeSelection *selection, gpointer data);
 
 static struct city *get_selected_city(void);
@@ -117,6 +118,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
   }
 
   gtk_widget_destroy(dlg);
+  dshell = NULL;
 }
 
 
@@ -306,10 +308,10 @@ static void update_goto_dialog(GtkToggleButton *button)
 }
 
 /**************************************************************************
-...
+  Refresh the state of the "Airlift" button for the currently selected
+  unit(s) and city.
 **************************************************************************/
-static void goto_selection_callback(GtkTreeSelection *selection,
-                                    gpointer data)
+static void refresh_airlift_button(void)
 {
   struct city *pdestcity = get_selected_city();
 
@@ -333,4 +335,25 @@ static void goto_selection_callback(GtkTreeSelection *selection,
     }
   }
   gtk_dialog_set_response_sensitive(GTK_DIALOG(dshell), CMD_AIRLIFT, FALSE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void goto_selection_callback(GtkTreeSelection *selection,
+                                    gpointer data)
+{
+  refresh_airlift_button();
+}
+
+/**************************************************************************
+  Called when the set of units in focus has changed; updates airlift info
+**************************************************************************/
+void goto_dialog_focus_units_changed(void)
+{
+  /* Is the dialog currently being displayed? */
+  if (dshell) {
+    /* Ability of current set of units to airlift may have changed */
+    refresh_airlift_button();
+  }
 }

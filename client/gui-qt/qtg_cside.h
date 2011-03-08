@@ -98,6 +98,7 @@ struct gui_funcs {
 
   void (*set_unit_icon)(int idx, struct unit *punit);
   void (*set_unit_icons_more_arrow)(bool onoff);
+  void (*real_focus_units_changed)(void);
   void (*gui_update_font)(const char *font_name, const char *font_value);
   void (*set_city_names_font_sizes)(int my_city_names_font_size,
                                     int my_city_productions_font_size);

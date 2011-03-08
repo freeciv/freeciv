@@ -401,6 +401,14 @@ void set_unit_icon(int idx, struct unit *punit)
 }
 
 /**************************************************************************
+  Call c++ real_focus_units_changed
+**************************************************************************/
+void real_focus_units_changed(void)
+{
+  funcs.real_focus_units_changed();
+}
+
+/**************************************************************************
   Call c++ set_unit_icons_more_arrow
 **************************************************************************/
 void set_unit_icons_more_arrow(bool onoff)

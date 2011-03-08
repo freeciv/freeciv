@@ -190,6 +190,16 @@ void qtg_set_unit_icons_more_arrow(bool onoff)
 }
 
 /****************************************************************************
+  Called when the set of units in focus (get_units_in_focus()) changes.
+  Standard updates like update_unit_info_label() are handled in the platform-
+  independent code, so some clients will not need to do anything here.
+****************************************************************************/
+void qtg_real_focus_units_changed(void)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
   Enqueue a callback to be called during an idle moment.  The 'callback'
   function should be called sometimes soon, and passed the 'data' pointer
   as its data.

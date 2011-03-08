@@ -94,6 +94,7 @@ enum client_pages qtg_get_current_client_page();
 
 void qtg_set_unit_icon(int idx, struct unit *punit);
 void qtg_set_unit_icons_more_arrow(bool onoff);
+void qtg_real_focus_units_changed(void);
 void qtg_gui_update_font(const char *font_name, const char *font_value);
 void qtg_set_city_names_font_sizes(int my_city_names_font_size,
                                    int my_city_productions_font_size);
