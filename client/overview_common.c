@@ -169,15 +169,28 @@ static struct color *overview_tile_color(struct tile *ptile)
 }
 
 /**************************************************************************
+  Copies the current centred image + viewrect unchanged to the client's
+  overview window (for expose events etc).
+**************************************************************************/
+void refresh_overview_from_canvas(void)
+{
+  struct canvas *dest = get_overview_window();
+  if (!dest) {
+    return;
+  }
+  canvas_copy(dest, overview.window,
+              0, 0, 0, 0, overview.width, overview.height);
+}
+
+/**************************************************************************
   Copies the overview image from the backing store to the window and
   draws the viewrect on top of it.
 **************************************************************************/
 static void redraw_overview(void)
 {
-  struct canvas *dest = get_overview_window();
   int i, x[4], y[4];
 
-  if (!dest || !overview.map) {
+  if (!overview.map) {
     return;
   }
 
@@ -216,8 +229,7 @@ static void redraw_overview(void)
 		    src_x, src_y, dst_x - src_x, dst_y - src_y);
   }
 
-  canvas_copy(dest, overview.window,
-	      0, 0, 0, 0, overview.width, overview.height);
+  refresh_overview_from_canvas();
 
   overview_dirty = FALSE;
 }

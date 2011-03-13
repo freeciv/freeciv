@@ -301,7 +301,7 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 
   XtVaGetValues(w, XtNheight, &height, XtNwidth, &width, NULL);
   
-  refresh_overview_canvas();
+  refresh_overview_from_canvas();
 }
 
 /**************************************************************************
