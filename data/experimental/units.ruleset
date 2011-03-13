@@ -630,7 +630,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Shield2Gold"
+flags         = ""
 roles         = "DefendGood", "FirstBuild", "HutTech",
                 "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
 helptext      = _("\
@@ -736,7 +736,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "Shield2Gold"
 roles         = "DefendGood", "FirstBuild"
 helptext      = _("\
 Riflemen are World War-era infantry, very good\
@@ -996,7 +996,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "Shield2Gold"
 roles         = "AttackFast", "Hunter"
 helptext      = _("\
 Cavalry are mounted and highly trained soldiers.\
