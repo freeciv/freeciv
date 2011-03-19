@@ -80,6 +80,7 @@ pkgdata_DATA = \
 		celtiberian.ruleset \
 		centralafrican.ruleset \
 		centralamerican.ruleset \
+		chadian.ruleset \
 		cham.ruleset \
 		chananean.ruleset \
 		chechen.ruleset \

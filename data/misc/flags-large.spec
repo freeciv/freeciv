@@ -85,6 +85,7 @@ sprites =
 		"f.catalan", "flags/catalan-large"
 		"f.celtiberian", "flags/celtiberian-large"
 		"f.central_america", "flags/central_america-large"
+		"f.chad", "flags/chad-large"
 		"f.cham", "flags/cham-large"
 		"f.chananea", "flags/chananea-large"
 		"f.chechnya", "flags/chechnya-large"

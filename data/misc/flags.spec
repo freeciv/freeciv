@@ -83,6 +83,7 @@ artists = "
    Catalan		Xavier Conde Rueda
    Celtiberian		J.M. Maalderink
    Central America	Connormah (Wikimedia Commons) and J.M. Maalderink
+   Chad			J.M. Maalderink
    Cham			Daniel Markstedt
    Chananea		Daniel Markstedt
    Chechnya		Lokal Profil (Wikimedia Commons)
@@ -516,6 +517,7 @@ sprites =
 		"f.catalan", "flags/catalan"
 		"f.celtiberian", "flags/celtiberian"
 		"f.central_america", "flags/central_america"
+		"f.chad", "flags/chad"
 		"f.cham", "flags/cham"
 		"f.chananea", "flags/chananea"
 		"f.chechnya", "flags/chechnya"
