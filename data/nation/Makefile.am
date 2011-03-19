@@ -412,6 +412,7 @@ pkgdata_DATA = \
 		volgabulgar.ruleset \
 		walloon.ruleset \
 		welsh.ruleset \
+		werewolf.ruleset \
 		westernpomeranian.ruleset \
 		westernroman.ruleset \
 		westindian.ruleset \

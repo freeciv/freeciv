@@ -226,6 +226,7 @@ artists = "
    Lipka Tatar		Aotearoa (Wikimedia Commons)
    Lithuania		Christian Schaller
    Lorraine		J.M. Maalderink
+   Luna			Daniel Markstedt
    Lusatia		J.M. Maalderink
    Luxembourg		J.M. Maalderink
    Maasai		James Ots and J.M. Maalderink
@@ -662,6 +663,7 @@ sprites =
 		"f.lippe", "flags/lippe"
 		"f.lithuania", "flags/lithuania"
 		"f.lorraine", "flags/lorraine"
+		"f.luna", "flags/luna"
 		"f.lusatia", "flags/lusatia"
 		"f.luxembourg", "flags/luxembourg"
 		"f.maasai", "flags/maasai"

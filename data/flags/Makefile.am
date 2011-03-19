@@ -219,6 +219,7 @@ flag_files =				\
 		lippe.png		\
 		lithuania.png		\
 		lorraine.png		\
+		luna.png		\
 		lusatia.png		\
 		luxembourg.png		\
 		maasai.png		\
@@ -648,6 +649,7 @@ flag_files =				\
 		lippe-large.png			\
 		lithuania-large.png		\
 		lorraine-large.png		\
+		luna-large.png			\
 		lusatia-large.png		\
 		luxembourg-large.png		\
 		maasai-large.png		\
@@ -1079,6 +1081,7 @@ shield_files =					\
 		lippe-shield.png		\
 		lithuania-shield.png		\
 		lorraine-shield.png		\
+		luna-shield.png			\
 		lusatia-shield.png		\
 		luxembourg-shield.png		\
 		maasai-shield.png		\
@@ -1508,6 +1511,7 @@ shield_files =					\
 		lippe-shield-large.png			\
 		lithuania-shield-large.png		\
 		lorraine-shield-large.png		\
+		luna-shield-large.png			\
 		lusatia-shield-large.png		\
 		luxembourg-shield-large.png		\
 		maasai-shield-large.png		\
@@ -1938,6 +1942,7 @@ svg_files = 				\
 		lippe.svg		\
 		lithuania.svg		\
 		lorraine.svg		\
+		luna.svg		\
 		lusatia.svg		\
 		luxembourg.svg		\
 		maasai.svg		\

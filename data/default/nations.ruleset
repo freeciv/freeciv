@@ -461,6 +461,7 @@ match=2
 *include "nation/volgabulgar.ruleset"
 *include "nation/walloon.ruleset"
 *include "nation/welsh.ruleset"
+*include "nation/werewolf.ruleset"
 *include "nation/westernpomeranian.ruleset"
 *include "nation/westernroman.ruleset"
 *include "nation/westindian.ruleset"
