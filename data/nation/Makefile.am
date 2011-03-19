@@ -330,6 +330,7 @@ pkgdata_DATA = \
 		saudi.ruleset \
 		savoyard.ruleset \
 		saxon.ruleset \
+		scanian.ruleset \
 		schleswig-holsteinian.ruleset \
 		scottish.ruleset \
 		scythian.ruleset \

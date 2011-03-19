@@ -346,6 +346,7 @@ sprites =
 		"f.saudi_arabia", "flags/saudi_arabia-large"
 		"f.savoy", "flags/savoy-large"
 		"f.saxony", "flags/saxony-large"
+		"f.scania", "flags/scania-large"
 		"f.schleswig-holstein", "flags/schleswig-holstein-large"
 		"f.scotland", "flags/scotland-large"
 		"f.scythia", "flags/scythia-large"

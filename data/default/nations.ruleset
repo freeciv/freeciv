@@ -379,6 +379,7 @@ match=2
 *include "nation/saudi.ruleset"
 *include "nation/savoyard.ruleset"
 *include "nation/saxon.ruleset"
+*include "nation/scanian.ruleset"
 *include "nation/schleswig-holsteinian.ruleset"
 *include "nation/scottish.ruleset"
 *include "nation/scythian.ruleset"

@@ -344,6 +344,7 @@ artists = "
    Saudi Arabia		Cezary Biele
    Savoy		J.M. Maalderink
    Saxony 		Sir Iain (Wikimedia Commons)
+   Scania		Daniel Markstedt
    Schleswig-Holstein	Madden and Drbashir117 (Wikimedia Commons)
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
@@ -781,6 +782,7 @@ sprites =
 		"f.saudi_arabia", "flags/saudi_arabia"
 		"f.savoy", "flags/savoy"
 		"f.saxony", "flags/saxony"
+		"f.scania", "flags/scania"
 		"f.schleswig-holstein", "flags/schleswig-holstein"
 		"f.scotland", "flags/scotland"
 		"f.scythia", "flags/scythia"

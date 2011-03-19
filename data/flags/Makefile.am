@@ -336,6 +336,7 @@ flag_files =				\
 		saudi_arabia.png	\
 		savoy.png		\
 		saxony.png		\
+		scania.png		\
 		schleswig-holstein.png	\
 		scotland.png		\
 		scythia.png		\
@@ -766,6 +767,7 @@ flag_files =				\
 		saudi_arabia-large.png	\
 		savoy-large.png		\
 		saxony-large.png		\
+		scania-large.png		\
 		schleswig-holstein-large.png	\
 		scotland-large.png		\
 		scythia-large.png		\
@@ -1198,6 +1200,7 @@ shield_files =					\
 		saudi_arabia-shield.png		\
 		savoy-shield.png		\
 		saxony-shield.png		\
+		scania-shield.png		\
 		schleswig-holstein-shield.png	\
 		scotland-shield.png		\
 		scythia-shield.png		\
@@ -1628,6 +1631,7 @@ shield_files =					\
 		saudi_arabia-shield-large.png		\
 		savoy-shield-large.png		\
 		saxony-shield-large.png		\
+		scania-shield-large.png			\
 		schleswig-holstein-shield-large.png	\
 		scotland-shield-large.png		\
 		scythia-shield-large.png		\
@@ -2059,6 +2063,7 @@ svg_files = 				\
 		savoy.svg		\
 		saudi_arabia.svg	\
 		saxony.svg		\
+		scania.svg		\
 		schleswig-holstein.svg	\
 		scotland.svg		\
 		scythia.svg		\
