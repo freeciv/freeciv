@@ -404,6 +404,7 @@ pkgdata_DATA = \
 		viking.ruleset \
 		vincentian.ruleset \
 		visigothic.ruleset \
+		vistulan.ruleset \
 		volgabulgar.ruleset \
 		walloon.ruleset \
 		welsh.ruleset \

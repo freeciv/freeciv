@@ -423,6 +423,7 @@ artists = "
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
    Visigoth		J.M. Maalderink
+   Vistulan		Kuba (Open Clip Art) and Hubert Kobalewski
    Volga Bulgar		Óðinn (Wikimedia Commons) and Daniel Markstedt
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
@@ -852,6 +853,7 @@ sprites =
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"
 		"f.visigoth", "flags/visigoth"
+		"f.vistulan", "flags/vistulan"
 		"f.volga_bulgar", "flags/volga_bulgar"
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
