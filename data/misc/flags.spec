@@ -434,6 +434,7 @@ artists = "
    Yemen		J.M. Maalderink
    Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
+   Zambia		Tobias Jakobs
    Zapotec		J.M. Maalderink
    Zhuang		Daniel Markstedt
    Zimbabwe		Madden (Wikimedia Commons)
@@ -865,6 +866,7 @@ sprites =
 		"f.yemen", "flags/yemen"
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
+		"f.zambia", "flags/zambia"
 		"f.zapotec", "flags/zapotec"
 		"f.zhuang", "flags/zhuang"
 		"f.zimbabwe", "flags/zimbabwe"

@@ -435,6 +435,7 @@ sprites =
 		"f.yemen", "flags/yemen-large"
 		"f.yucatan", "flags/yucatan-large"
 		"f.yugoslavia", "flags/yugoslavia-large"
+		"f.zambia", "flags/zambia-large"
 		"f.zapotec", "flags/zapotec-large"
 		"f.zhuang", "flags/zhuang-large"
 		"f.zimbabwe", "flags/zimbabwe-large"

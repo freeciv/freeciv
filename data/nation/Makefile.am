@@ -418,6 +418,7 @@ pkgdata_DATA = \
 		yemeni.ruleset \
 		yucatecan.ruleset \
 		yugoslav.ruleset \
+		zambian.ruleset \
 		zapotec.ruleset \
 		zhuang.ruleset \
 		zimbabwean.ruleset \

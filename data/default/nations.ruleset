@@ -467,6 +467,7 @@ match=2
 *include "nation/yemeni.ruleset"
 *include "nation/yucatecan.ruleset"
 *include "nation/yugoslav.ruleset"
+*include "nation/zambian.ruleset"
 *include "nation/zapotec.ruleset"
 *include "nation/zhuang.ruleset"
 *include "nation/zimbabwean.ruleset"
