@@ -405,6 +405,7 @@ sprites =
 		"f.tonga", "flags/tonga-large"
 		"f.transnistria", "flags/transnistria-large"
 		"f.transylvania", "flags/transylvania-large"
+		"f.trnc", "flags/trnc-large"
 		"f.tunisia", "flags/tunisia-large"
 		"f.tupi", "flags/tupi-large"
 		"f.turkey", "flags/turkey-large"

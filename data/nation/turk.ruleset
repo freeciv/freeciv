@@ -10,12 +10,17 @@ legend=_("Modern Turkey is the successor state of the Ottoman Empire, which\
 
 leaders = {
  "name",                "sex"
+ "Selçuk Bey",          "Male"
+ "Alp Arslan",          "Male"
+ "Kılıçarslan",         "Male"
+ "Osman I",             "Male"
+ "Fatih Mehmed",        "Male"
+ "Kanuni Süleyman",     "Male"
+ "İsmail Enver",        "Male"
  "Kemal Atatürk",       "Male"
  "İsmet İnönü",         "Male"
- "Alparslan",           "Male"
- "Enver Paşa",          "Male"
- "Selçuk Bey",          "Male"
- "Kılıçarslan",         "Male"
+ "Süleyman Demirel",    "Male"
+ "Tansu Çiller",        "Female"
 }
 
 ruler_titles = {
@@ -34,7 +39,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Tatar", "Azeri"
+civilwar_nations="Tatar", "Azeri", "Turkish Cypriot", "Kurdish"
 
 cities =
  "Ankara (grassland, !mountains, plains, !ocean)",

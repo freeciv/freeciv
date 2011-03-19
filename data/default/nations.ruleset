@@ -442,6 +442,7 @@ match=2
 *include "nation/tupi.ruleset"
 *include "nation/turkmen.ruleset"
 *include "nation/turk.ruleset"
+*include "nation/turkishcypriot.ruleset"
 *include "nation/tuvan.ruleset"
 *include "nation/tyrolian.ruleset"
 *include "nation/ugandan.ruleset"
