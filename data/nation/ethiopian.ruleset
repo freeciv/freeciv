@@ -2,20 +2,21 @@
 
 name=_("Ethiopian")
 plural=_("?plural:Ethiopians")
-groups="Modern", "Early Modern", "Ancient", "African"
+groups="African", "Modern"
 legend=_("Ethiopia is the oldest nation in Africa and the only one to\
  remain independent during European colonialism.")
 
 leaders = {
- "name",                "sex"
- "Zara Yakob",          "Male"
- "Menelik II",          "Male"
- "Haile Selassies",     "Male"
- "Zoskales",            "Male"
- "Gedara",              "Male"
- "Lalibela",            "Male"
- "Yekuno Amlak",        "Male"
- "Tewodros II",         "Male"
+ "name",                  "sex"
+ "Yekuno Amlak",          "Male"
+ "Zoskales",              "Male"
+ "Gedara",                "Male"
+ "Lalibela",              "Male"
+ "Zara Yakob",            "Male"
+ "Tewodros II",           "Male"
+ "Menelik II",            "Male"
+ "Haile Selassie",        "Male"
+ "Mengistu Haile Mariam", "Male"
 }
 
 ruler_titles = {
@@ -36,8 +37,35 @@ init_units=""
 civilwar_nations="Sudanese", "Somali", "Eritrean"
 
 cities =
-  "Addis Abeba", "Dire Dawa", "Gonder", "Nazret", "Harer", "Mek'ele",
-  "Jima", "Dese", "Bahir Dar (river)", "Jijiga", "Gambela", "Werder",
-  "Moyale", "Dolo Odo", "Weldiya", "Kelem", "Awasa", "Debre Mark'os",
-  "Nek'ernte", "Asosa", "Gore", "Goba", "Asela", "Arba Minch'",
-  "Debre Zevit", "Geladi", "Imi", "Degeh Bur"
+ "Addis Abeba",
+ "Dire Dawa",
+ "Gonder",
+ "Nazret",
+ "Harer",
+ "Mek'ele",
+ "Jima",
+ "Dese",
+ "Bahir Dar (river)",
+ "Jijiga",
+ "Gambela",
+ "Werder",
+ "Moyale",
+ "Dolo Odo",
+ "Weldiya",
+ "Kelem",
+ "Awasa",
+ "Debre Mark'os",
+ "Nek'ernte",
+ "Asosa",
+ "Gore",
+ "Goba",
+ "Asela",
+ "Arba Minch'",
+ "Debre Zevit",
+ "Geladi",
+ "Imi",
+ "Degeh Bur",
+ "Irgalem",
+ "Metu",
+ "Chencha",
+ "Arba Minch"

@@ -119,6 +119,7 @@ flag_files =				\
 		estonia.png		\
 		eritrea.png		\
 		ethiopia.png		\
+		ethiopia_old.png	\
 		etruscan.png		\
 		europe.png		\
 		euskadi.png		\
@@ -544,6 +545,7 @@ flag_files =				\
 		estonia-large.png		\
 		eritrea-large.png		\
 		ethiopia-large.png		\
+		ethiopia_old-large.png		\
 		etruscan-large.png		\
 		europe-large.png		\
 		euskadi-large.png		\
@@ -971,6 +973,7 @@ shield_files =					\
 		estonia-shield.png		\
 		eritrea-shield.png		\
 		ethiopia-shield.png		\
+		ethiopia_old-shield.png		\
 		etruscan-shield.png		\
 		europe-shield.png		\
 		euskadi-shield.png		\
@@ -1396,6 +1399,7 @@ shield_files =					\
 		estonia-shield-large.png		\
 		eritrea-shield-large.png		\
 		ethiopia-shield-large.png		\
+		ethiopia_old-shield-large.png		\
 		etruscan-shield-large.png		\
 		europe-shield-large.png		\
 		euskadi-shield-large.png		\
@@ -1823,6 +1827,7 @@ svg_files = 				\
 		estonia.svg		\
 		eritrea.svg		\
 		ethiopia.svg		\
+		ethiopia_old.svg	\
 		etruscan.svg		\
 		europe.svg		\
 		euskadi.svg		\

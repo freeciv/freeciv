@@ -262,6 +262,7 @@ data/multiplayer/terrain.ruleset
 data/multiplayer/units.ruleset
 data/nation/abkhaz.ruleset
 data/nation/aborigines.ruleset
+data/nation/abyssinian.ruleset
 data/nation/acadian.ruleset
 data/nation/acehnese.ruleset
 data/nation/afghani.ruleset

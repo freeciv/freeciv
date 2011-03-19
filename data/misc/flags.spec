@@ -126,6 +126,7 @@ artists = "
    Estonia		Daniel Markstedt
    Eritrea		Andrew Duhan
    Ethiopia		Lauris Kaplinski and Christian Schaller
+   Ethiopia (old)	Oren neu dag (Wikimedia Commons)
    Etruscan		J.M. Maalderink
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
@@ -557,6 +558,7 @@ sprites =
 		"f.estonia", "flags/estonia"
 		"f.eritrea", "flags/eritrea"
 		"f.ethiopia", "flags/ethiopia"
+		"f.ethiopia_old", "flags/ethiopia_old"
 		"f.etruscan", "flags/etruscan"
 		"f.europe", "flags/europe"
 		"f.euskadi", "flags/euskadi"

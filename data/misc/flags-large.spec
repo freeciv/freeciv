@@ -128,6 +128,7 @@ sprites =
 		"f.estonia", "flags/estonia-large"
 		"f.eritrea", "flags/eritrea-large"
 		"f.ethiopia", "flags/ethiopia-large"
+		"f.ethiopia_old", "flags/ethiopia_old-large"
 		"f.etruscan", "flags/etruscan-large"
 		"f.europe", "flags/europe-large"
 		"f.euskadi", "flags/euskadi-large"
