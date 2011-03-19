@@ -253,6 +253,7 @@ sprites =
 		"f.shield.mikmaq", "flags/mikmaq-shield"
 		"f.shield.milan", "flags/milan-shield"
 		"f.shield.miskito", "flags/miskito-shield"
+		"f.shield.mitanni", "flags/mitanni-shield"
 		"f.shield.mixtec", "flags/mixtec-shield"
 		"f.shield.moldova", "flags/moldova-shield"
 		"f.shield.mon", "flags/mon-shield"

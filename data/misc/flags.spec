@@ -252,6 +252,7 @@ artists = "
    Mikmaq		Daniel Markstedt
    Milan		Flanker (Wikimedia Commons)
    Miskito		Daniel Markstedt
+   Mitanni		Snubcube (Wikimedia Commons) and J.M. Maalderink
    Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
    Mon			Stefan Fussan (Wikimedia Commons)
@@ -686,6 +687,7 @@ sprites =
 		"f.mikmaq", "flags/mikmaq"
 		"f.milan", "flags/milan"
 		"f.miskito", "flags/miskito"
+		"f.mitanni", "flags/mitanni"
 		"f.mixtec", "flags/mixtec"
 		"f.moldova", "flags/moldova"
 		"f.mon", "flags/mon"

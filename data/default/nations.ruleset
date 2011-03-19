@@ -293,6 +293,7 @@ match=2
 *include "nation/mikmaq.ruleset"
 *include "nation/milanese.ruleset"
 *include "nation/miskito.ruleset"
+*include "nation/mitanni.ruleset"
 *include "nation/mixtec.ruleset"
 *include "nation/moldovan.ruleset"
 *include "nation/mon.ruleset"

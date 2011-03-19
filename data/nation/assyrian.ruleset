@@ -29,11 +29,37 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="babylonian", "israeli", "aramean"
+civilwar_nations="babylonian", "israelite", "aramean", "mitanni"
 
 cities =
-  "Ashur", "Nineveh", "Kalhu", "Arbela", "Edessa", "Osrhoene",
-  "Nisibin", "Alqosh", "Urmia", "Kirkuk", "Akkad", "Mosul", "Dohuk",
-  "Aqra", "Zibar", "Supna", "Zakho", "Hakkari", "Bohtan", "Ayn-Slibo",
-  "Omed", "Tur-Abdin", "Merdo", "Tella-Shleela", "Kharput", "Perin", 
-  "Urhoy", "Ayn-Towo", "Salamas", "Khabour", "Malatya"
+ "Ashur",
+ "Nineveh",
+ "Kalhu",
+ "Arbela",
+ "Edessa",
+ "Osrhoene",
+ "Nisibin",
+ "Alqosh",
+ "Urmia",
+ "Kirkuk",
+ "Akkad",
+ "Mosul",
+ "Dohuk",
+ "Aqra",
+ "Zibar",
+ "Supna",
+ "Zakho",
+ "Hakkari",
+ "Bohtan",
+ "Ayn-Slibo",
+ "Omed",
+ "Tur-Abdin",
+ "Merdo",
+ "Tella-Shleela",
+ "Kharput",
+ "Perin",
+ "Urhoy",
+ "Ayn-Towo",
+ "Salamas",
+ "Khabour",
+ "Malatya"

@@ -245,6 +245,7 @@ flag_files =				\
 		mikmaq.png		\
 		milan.png		\
 		miskito.png		\
+		mitanni.png		\
 		mixtec.png		\
 		moldova.png		\
 		mon.png			\
@@ -673,6 +674,7 @@ flag_files =				\
 		mikmaq-large.png		\
 		milan-large.png		\
 		miskito-large.png		\
+		mitanni-large.png		\
 		mixtec-large.png		\
 		moldova-large.png		\
 		mon-large.png			\
@@ -1103,6 +1105,7 @@ shield_files =					\
 		mikmaq-shield.png		\
 		milan-shield.png		\
 		miskito-shield.png		\
+		mitanni-shield.png		\
 		mixtec-shield.png		\
 		moldova-shield.png		\
 		mon-shield.png			\
@@ -1531,6 +1534,7 @@ shield_files =					\
 		mikmaq-shield-large.png		\
 		milan-shield-large.png		\
 		miskito-shield-large.png		\
+		mitanni-shield-large.png		\
 		mixtec-shield-large.png		\
 		moldova-shield-large.png		\
 		mon-shield-large.png			\
@@ -1960,6 +1964,7 @@ svg_files = 				\
 		mikmaq.svg		\
 		milan.svg		\
 		miskito.svg		\
+		mitanni.svg		\
 		mixtec.svg		\
 		moldova.svg		\
 		mon.svg			\

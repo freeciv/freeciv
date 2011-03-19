@@ -244,6 +244,7 @@ pkgdata_DATA = \
 		mikmaq.ruleset \
 		milanese.ruleset \
 		miskito.ruleset \
+		mitanni.ruleset \
 		mixtec.ruleset \
 		moldovan.ruleset \
 		mon.ruleset \

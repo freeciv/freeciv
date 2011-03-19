@@ -36,7 +36,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "babylonian", "sumerian", "assyrian"
+civilwar_nations = "babylonian", "sumerian", "assyrian", "mitanni"
 
 cities =
  "Nesa",
