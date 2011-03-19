@@ -312,6 +312,7 @@ sprites =
 		"f.peru", "flags/peru-large"
 		"f.philippines", "flags/philippines-large"
 		"f.phoenicia", "flags/phoenicia-large"
+		"f.pict", "flags/pict-large"
 		"f.piedmont", "flags/piedmont-large"
 		"f.pirate", "flags/pirate-large"
 		"f.piratini", "flags/piratini-large"

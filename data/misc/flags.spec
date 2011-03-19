@@ -311,6 +311,7 @@ artists = "
    Peru			Brett Roper
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
+   Pict			J.M. Maalderink
    Piedmont		Orzetto (Wikimedia Commons)
    Pirate		Tobias Jakobs
    Piratini		Felipe Fontoura (Wikimedia Commons)
@@ -745,6 +746,7 @@ sprites =
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"
+		"f.pict", "flags/pict"
 		"f.piedmont", "flags/piedmont"
 		"f.pirate", "flags/pirate"
 		"f.piratini", "flags/piratini"
