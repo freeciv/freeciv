@@ -262,6 +262,7 @@ flag_files =				\
 		muskogee.png		\
 		mwiska.png		\
 		myanmar.png		\
+		nagorno_karabakh.png	\
 		namibia.png		\
 		naples.png		\
 		nato.png		\
@@ -693,6 +694,7 @@ flag_files =				\
 		muskogee-large.png		\
 		mwiska-large.png		\
 		myanmar-large.png		\
+		nagorno_karabakh-large.png	\
 		namibia-large.png		\
 		naples-large.png		\
 		nato-large.png		\
@@ -1126,6 +1128,7 @@ shield_files =					\
 		muskogee-shield.png		\
 		mwiska-shield.png		\
 		myanmar-shield.png		\
+		nagorno_karabakh-shield.png	\
 		namibia-shield.png		\
 		naples-shield.png		\
 		nato-shield.png			\
@@ -1557,6 +1560,7 @@ shield_files =					\
 		muskogee-shield-large.png		\
 		mwiska-shield-large.png		\
 		myanmar-shield-large.png		\
+		nagorno_karabakh-shield-large.png	\
 		namibia-shield-large.png		\
 		naples-shield-large.png		\
 		nato-shield-large.png			\
@@ -1989,6 +1993,7 @@ svg_files = 				\
 		muskogee.svg		\
 		mwiska.svg		\
 		myanmar.svg		\
+		nagorno_karabakh.svg	\
 		namibia.svg		\
 		naples.svg		\
 		nato.svg		\

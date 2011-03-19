@@ -271,6 +271,7 @@ sprites =
 		"f.muskogee", "flags/muskogee-large"
 		"f.mwiska", "flags/mwiska-large"
 		"f.myanmar", "flags/myanmar-large"
+		"f.nagorno_karabakh", "flags/nagorno_karabakh-large"
 		"f.namibia", "flags/namibia-large"
 		"f.naples", "flags/naples-large"
 ;		"f.nato", "flags/nato-large"

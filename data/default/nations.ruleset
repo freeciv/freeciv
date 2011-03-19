@@ -240,6 +240,7 @@ match=2
 *include "nation/jolof.ruleset"
 *include "nation/kalmyk.ruleset"
 *include "nation/kanem-bornu.ruleset"
+*include "nation/karabakhi.ruleset"
 *include "nation/karelian.ruleset"
 *include "nation/kashmiri.ruleset"
 *include "nation/kashubian.ruleset"

@@ -46,7 +46,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="soviet"
-civilwar_nations="turkish", "persian", "armenian"
+civilwar_nations="turkish", "persian", "karabakhi"
 
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Aserbaidschan
 cities =

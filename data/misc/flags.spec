@@ -270,6 +270,7 @@ artists = "
    Mwiska		Daniel Markstedt
    Myanmar		Zachary Harden
    Myanmar (old)	Caleb Moore
+   Nagorno Karabakh	J.M. Maalderink
    Namibia		Vzb83 and Madden (Wikimedia Commons)
    Naples		J.M. Maalderink
    NATO			Christian Schaller
@@ -707,6 +708,7 @@ sprites =
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"
+		"f.nagorno_karabakh", "flags/nagorno_karabakh"
 		"f.namibia", "flags/namibia"
 		"f.naples", "flags/naples"
 ;		"f.nato", "flags/nato"

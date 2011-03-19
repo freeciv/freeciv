@@ -191,6 +191,7 @@ pkgdata_DATA = \
 		jolof.ruleset \
 		kalmyk.ruleset \
 		kanem-bornu.ruleset \
+		karabakhi.ruleset \
 		karelian.ruleset \
 		kashmiri.ruleset \
 		kashubian.ruleset \
