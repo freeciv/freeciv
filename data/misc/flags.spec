@@ -394,7 +394,7 @@ artists = "
    Teutonic Order	J.M. Maalderink
    Texas		Paul B. Joiner
    Thailand		Lauris Kaplinski
-   Thrace		William Allen Simpson and Daniel Markstedt
+   Thrace		Daniel Markstedt
    Tibet		Tobias Jakobs
    Timur		Daniel Markstedt
    Tocharian		Dan Cottrell and Daniel Markstedt
