@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "romanian", "ukrainian", "turkish"
+civilwar_nations = "romanian", "transnistrian", "turkish"
 
 cities =
   "Chişinau",

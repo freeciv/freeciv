@@ -436,6 +436,7 @@ match=2
 *include "nation/togolese.ruleset"
 *include "nation/toltec.ruleset"
 *include "nation/tongan.ruleset"
+*include "nation/transnistrian.ruleset"
 *include "nation/transylvanian.ruleset"
 *include "nation/tunisian.ruleset"
 *include "nation/tupi.ruleset"

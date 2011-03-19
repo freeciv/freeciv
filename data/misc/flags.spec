@@ -402,6 +402,7 @@ artists = "
    Togo			Vzb83 and Madden (Wikimedia Commons)
    Toltec		J.M. Maalderink
    Tonga		Madden (Wikimedia Commons)
+   Transnistria		Sigge Kotliar and J.M. Maalderink
    Transylvania		Alex:D (Wikipedia)
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
@@ -840,6 +841,7 @@ sprites =
 		"f.togo", "flags/togo"
 		"f.toltec", "flags/toltec"
 		"f.tonga", "flags/tonga"
+		"f.transnistria", "flags/transnistria"
 		"f.transylvania", "flags/transylvania"
 		"f.tunisia", "flags/tunisia"
 		"f.tupi", "flags/tupi"

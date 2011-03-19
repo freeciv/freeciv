@@ -402,6 +402,7 @@ sprites =
 		"f.shield.togo", "flags/togo-shield"
 		"f.shield.toltec", "flags/toltec-shield"
 		"f.shield.tonga", "flags/tonga-shield"
+		"f.shield.transnistria", "flags/transnistria-shield"
 		"f.shield.transylvania", "flags/transylvania-shield"
 		"f.shield.tunisia", "flags/tunisia-shield"
 		"f.shield.tupi", "flags/tupi-shield"

@@ -393,6 +393,7 @@ flag_files =				\
 		togo.png		\
 		toltec.png		\
 		tonga.png		\
+		transnistria.png	\
 		transylvania.png	\
 		tunisia.png		\
 		tupi.png		\
@@ -825,6 +826,7 @@ flag_files =				\
 		togo-large.png		\
 		toltec-large.png		\
 		tonga-large.png		\
+		transnistria-large.png		\
 		transylvania-large.png	\
 		tunisia-large.png		\
 		tupi-large.png		\
@@ -1259,6 +1261,7 @@ shield_files =					\
 		toltec-shield.png		\
 		tocharian-shield.png		\
 		tonga-shield.png		\
+		transnistria-shield.png		\
 		transylvania-shield.png		\
 		tunisia-shield.png		\
 		tupi-shield.png			\
@@ -1691,6 +1694,7 @@ shield_files =					\
 		toltec-shield-large.png		\
 		tocharian-shield-large.png		\
 		tonga-shield-large.png		\
+		transnistria-shield-large.png		\
 		transylvania-shield-large.png		\
 		tunisia-shield-large.png		\
 		tupi-shield-large.png			\
@@ -2123,6 +2127,7 @@ svg_files = 				\
 		togo.svg		\
 		toltec.svg		\
 		tonga.svg		\
+		transnistria.svg	\
 		transylvania.svg	\
 		tunisia.svg		\
 		tupi.svg		\
