@@ -133,8 +133,9 @@ struct drawing_data {
     bool is_tall;
     int offset_x, offset_y;
 
+#define MAX_NUM_MATCH_WITH 8
     enum match_style match_style;
-    int match_index[1 + MATCH_FULL];
+    int match_index[1 + MAX_NUM_MATCH_WITH];
     int match_indices; /* 0 = no match_type, 1 = no match_with */
 
     enum sprite_type sprite_type;
@@ -1646,10 +1647,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       if (match_with) {
         int j, k;
 
-        if (count > MATCH_FULL) {
+        if (count > MAX_NUM_MATCH_WITH) {
           log_error("[%s] match_with has too many types (%d, max %d)",
-                    sec_name, (int) count, MATCH_FULL);
-          count = MATCH_FULL;
+                    sec_name, (int) count, MAX_NUM_MATCH_WITH);
+          count = MAX_NUM_MATCH_WITH;
         }
 
         if (1 < dlp->match_indices) {
