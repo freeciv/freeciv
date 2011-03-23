@@ -191,6 +191,7 @@ pkgdata_DATA = \
 		jamaican.ruleset \
 		japanese.ruleset \
 		jolof.ruleset \
+		jordanian.ruleset \
 		kalmyk.ruleset \
 		kanem-bornu.ruleset \
 		karabakhi.ruleset \

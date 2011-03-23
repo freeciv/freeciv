@@ -188,6 +188,7 @@ flag_files =				\
 		japan.png		\
 		jbonai.png		\
 		jolof.png		\
+		jordan.png		\
 		kalmykia.png		\
 		kampuchea.png		\
 		kanem-bornu.png		\
@@ -625,6 +626,7 @@ flag_files =				\
 		japan-large.png		\
 		jbonai-large.png		\
 		jolof-large.png		\
+		jordan-large.png		\
 		kalmykia-large.png		\
 		kampuchea-large.png		\
 		kanem-bornu-large.png		\
@@ -1064,6 +1066,7 @@ shield_files =					\
 		japan-shield.png		\
 		jbonai-shield.png		\
 		jolof-shield.png		\
+		jordan-shield.png		\
 		kalmykia-shield.png		\
 		kampuchea-shield.png		\
 		kanem-bornu-shield.png		\
@@ -1501,6 +1504,7 @@ shield_files =					\
 		japan-shield-large.png		\
 		jbonai-shield-large.png		\
 		jolof-shield-large.png		\
+		jordan-shield-large.png			\
 		kalmykia-shield-large.png		\
 		kampuchea-shield-large.png		\
 		kanem-bornu-shield-large.png		\
@@ -1940,6 +1944,7 @@ svg_files = 				\
 		japan.svg		\
 		jbonai.svg		\
 		jolof.svg		\
+		jordan.svg		\
 		kalmykia.svg		\
 		kampuchea.svg		\
 		kanem-bornu.svg		\

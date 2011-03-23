@@ -32,7 +32,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "israeli", "egyptian"
+civilwar_nations = "israeli", "egyptian", "jordanian"
 
 cities =
 ;claimed Palestinian capital

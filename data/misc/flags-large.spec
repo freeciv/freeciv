@@ -197,6 +197,7 @@ sprites =
 		"f.japan", "flags/japan-large"
 		"f.jbonai", "flags/jbonai-large"
 		"f.jolof", "flags/jolof-large"
+		"f.jordan", "flags/jordan-large"
 		"f.kalmykia", "flags/kalmykia-large"
 		"f.kampuchea", "flags/kampuchea-large"
 		"f.kanem-bornu", "flags/kanem-bornu-large"
