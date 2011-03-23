@@ -153,6 +153,7 @@ pkgdata_DATA = \
 		guanche.ruleset \
 		guarani.ruleset \
 		guatemalan.ruleset \
+		guinean.ruleset \
 		gupta.ruleset \
 		guyanese.ruleset \
 		hacker.ruleset \

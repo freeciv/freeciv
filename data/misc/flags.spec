@@ -156,6 +156,7 @@ artists = "
    Guanche		HansenBCN (Wikimedia Commons)
    Guarani		Daniel Markstedt
    Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
+   Guinea		J.M. Maalderink
    Gupta		Daniel Markstedt
    Guyana		SKopp (Wikimedia Commons)
    Hacker		Daniel Markstedt and Eric S. Raymond
@@ -598,6 +599,7 @@ sprites =
 		"f.guanche", "flags/guanche"
 		"f.guarani", "flags/guarani"
 		"f.guatemala", "flags/guatemala"
+		"f.guinea", "flags/guinea"
 		"f.gupta", "flags/gupta"
 		"f.guyana", "flags/guyana"
 		"f.hacker", "flags/hacker"
