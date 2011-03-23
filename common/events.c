@@ -47,6 +47,8 @@ enum event_section_n {
  * Information about all event sections, matching the enum above.
  */
 static const char *event_sections[] = {
+  /* TRANS: This and following strings are prefixes for event names, which
+   * replace %s. For instance, "Technology: Selected New Goal". */
   N_("Technology: %s"),
   N_("Improvement: %s"),
   N_("City: %s"),
@@ -77,6 +79,10 @@ static struct {
   char *full_descr;
   enum event_type event;
 } events[] = {
+  /* TRANS: this and following strings are names for events which cause the
+   * server to generate messages. They are used in configuring how the client
+   * handles the different types of messages. Some of them will be displayed
+   * with prefixes, such as "Technology: Learned From Great Library". */
   GEN_EV(E_TECH_GAIN,		E_S_ADVANCE,	N_("Learned From Great Library")),
   GEN_EV(E_TECH_LEARNED,	E_S_ADVANCE,	N_("Learned New Tech")),
   GEN_EV(E_TECH_GOAL,		E_S_ADVANCE,	N_("Selected New Goal")),
@@ -189,6 +195,7 @@ static struct {
   GEN_EV(E_SETTING,		E_S_XYZZY,	N_("Server settings changed")),
   GEN_EV(E_TURN_BELL,		E_S_XYZZY,	N_("Turn Bell")),
   GEN_EV(E_SCRIPT,		E_S_XYZZY,	N_("Scenario/ruleset script message")),
+  /* TRANS: Event name for when the game year changes. */
   GEN_EV(E_NEXT_YEAR,		E_S_XYZZY,	N_("Year Advance")),
 };
 

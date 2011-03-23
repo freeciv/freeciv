@@ -4484,6 +4484,8 @@ property_page_new(enum editor_object_type objtype,
 
   /* Now create the properties panel. */
 
+  /* TRANS: %s is a type of object that can be edited, such as "Tile",
+   * "Unit", "Start Position", etc. */
   fc_snprintf(title, sizeof(title), _("%s Properties"),
               objtype_get_name(objtype));
   frame = gtk_frame_new(title);
