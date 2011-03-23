@@ -25,7 +25,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "mon", "shan"
+civilwar_nations = "mon", "shan", "karen"
 
 cities =
  "Yangon",

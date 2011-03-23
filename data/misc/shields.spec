@@ -201,6 +201,7 @@ sprites =
 		"f.shield.kampuchea", "flags/kampuchea-shield"
 		"f.shield.kanem-bornu", "flags/kanem-bornu-shield"
 		"f.shield.karelia", "flags/karelia-shield"
+		"f.shield.karen", "flags/karen-shield"
 		"f.shield.kashmir", "flags/kashmir-shield"
 		"f.shield.kashubia", "flags/kashubia-shield"
 		"f.shield.katanga", "flags/katanga-shield"

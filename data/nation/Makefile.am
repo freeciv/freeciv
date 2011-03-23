@@ -196,6 +196,7 @@ pkgdata_DATA = \
 		kanem-bornu.ruleset \
 		karabakhi.ruleset \
 		karelian.ruleset \
+		karen.ruleset \
 		kashmiri.ruleset \
 		kashubian.ruleset \
 		katangan.ruleset \

@@ -193,6 +193,7 @@ flag_files =				\
 		kampuchea.png		\
 		kanem-bornu.png		\
 		karelia.png		\
+		karen.png		\
 		kashmir.png		\
 		kashubia.png		\
 		katanga.png		\
@@ -631,6 +632,7 @@ flag_files =				\
 		kampuchea-large.png		\
 		kanem-bornu-large.png		\
 		karelia-large.png		\
+		karen-large.png		\
 		kashmir-large.png		\
 		kashubia-large.png		\
 		katanga-large.png		\
@@ -1071,6 +1073,7 @@ shield_files =					\
 		kampuchea-shield.png		\
 		kanem-bornu-shield.png		\
 		karelia-shield.png		\
+		karen-shield.png		\
 		kashmir-shield.png		\
 		kashubia-shield.png		\
 		katanga-shield.png		\
@@ -1509,6 +1512,7 @@ shield_files =					\
 		kampuchea-shield-large.png		\
 		kanem-bornu-shield-large.png		\
 		karelia-shield-large.png		\
+		karen-shield-large.png			\
 		kashmir-shield-large.png		\
 		kashubia-shield-large.png		\
 		katanga-shield-large.png		\
@@ -1949,6 +1953,7 @@ svg_files = 				\
 		kampuchea.svg		\
 		kanem-bornu.svg		\
 		karelia.svg		\
+		karen.svg		\
 		kashmir.svg		\
 		kashubia.svg		\
 		katanga.svg		\

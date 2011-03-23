@@ -200,6 +200,7 @@ artists = "
    Kampuchea		Caleb Moore
    Kanem-Bornu		Daniel Markstedt
    Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons)
+   Karen		Daniel Markstedt
    Kashmir		Nichalp (Wikimedia Commons)
    Kashubia		Krun (Wikimedia Commons)
    Katanga		Lexicon and Froztbyte (Wikimedia Commons)
@@ -645,6 +646,7 @@ sprites =
 		"f.kampuchea", "flags/kampuchea"
 		"f.kanem-bornu", "flags/kanem-bornu"
 		"f.karelia", "flags/karelia"
+		"f.karen", "flags/karen"
 		"f.kashmir", "flags/kashmir"
 		"f.kashubia", "flags/kashubia"
 		"f.katanga", "flags/katanga"
