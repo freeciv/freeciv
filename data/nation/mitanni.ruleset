@@ -8,7 +8,7 @@ legend=_("Mitanni was an ancient Hurrian kingdom in what is now Northern\
  century BC, during which it rivalled Egypt.")
 leaders = {
  "name",              "sex"
- "Artashumara",       "Male"
+ "Artašumara",        "Male"
  "Artatama I",        "Male"
  "Artatama II",       "Male"
  "Kirta",             "Male"
