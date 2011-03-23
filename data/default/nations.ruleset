@@ -101,6 +101,7 @@ match=2
 *include "nation/belgian.ruleset"
 *include "nation/bengali.ruleset"
 *include "nation/benin.ruleset"
+*include "nation/beninese.ruleset"
 *include "nation/bhutanese.ruleset"
 *include "nation/biafran.ruleset"
 *include "nation/boer.ruleset"

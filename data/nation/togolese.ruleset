@@ -26,7 +26,7 @@ init_buildings=""
 init_government="Despotism" 
 init_units="" 
 
-civilwar_nations="Ghanaian", "Burkinabe", "Nigerian"
+civilwar_nations="Beninese", "Burkinabe", "Nigerian"
 
 cities = 
  "Lomé",

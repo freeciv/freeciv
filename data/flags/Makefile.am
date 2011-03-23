@@ -47,6 +47,7 @@ flag_files =				\
 		belarus.png		\
 		belgium.png		\
 		bengal.png		\
+		benin.png		\
 		benin_ancient.png	\
 		bhutan.png		\
 		biafra.png		\
@@ -484,6 +485,7 @@ flag_files =				\
 		belgium-large.png		\
 		bengal-large.png		\
 		benin_ancient-large.png	\
+		benin_ancient-large.png		\
 		bhutan-large.png		\
 		biafra-large.png		\
 		boer-large.png		\
@@ -921,6 +923,7 @@ shield_files =					\
 		belarus-shield.png		\
 		belgium-shield.png		\
 		bengal-shield.png		\
+		benin-shield.png		\
 		benin_ancient-shield.png	\
 		bhutan-shield.png		\
 		biafra-shield.png		\
@@ -1357,6 +1360,7 @@ shield_files =					\
 		belarus-shield-large.png		\
 		belgium-shield-large.png		\
 		bengal-shield-large.png			\
+		benin-shield-large.png			\
 		benin_ancient-shield-large.png	\
 		bhutan-shield-large.png		\
 		biafra-shield-large.png		\
@@ -1795,6 +1799,7 @@ svg_files = 				\
 		belarus.svg		\
 		belgium.svg		\
 		bengal.svg		\
+		benin.svg		\
 		benin_ancient.svg	\
 		bhutan.svg		\
 		biafra.svg		\

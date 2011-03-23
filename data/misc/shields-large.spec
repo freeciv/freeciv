@@ -56,6 +56,7 @@ sprites =
 		"f.shield.belarus", "flags/belarus-shield-large"
 		"f.shield.belgium", "flags/belgium-shield-large"
 		"f.shield.bengal", "flags/bengal-shield-large"
+		"f.shield.benin", "flags/benin-shield-large"
 		"f.shield.benin_ancient", "flags/benin_ancient-shield-large"
 		"f.shield.bhutan", "flags/bhutan-shield-large"
 		"f.shield.biafra", "flags/biafra-shield-large"
