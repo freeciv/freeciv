@@ -32,14 +32,14 @@ conflicts_with="palestinian" ;similar flag
 civilwar_nations="moroccan", "amazigh"
 
 cities =
- "al-Ayun",
+ "Al-Ayun",
  "Bir Lehlu",
- "ad-Dakhla",
+ "Ad-Dakhla",
  "Smara",
  "Ras Bujadur",
  "El Marsa",
  "Hawza",
- "al-Mahbass",
+ "Al-Mahbass",
  "Guelta Zemmur",
  "Bir Anzarane",
  "Tichla",
@@ -60,6 +60,6 @@ cities =
  "Zbayra",
  "Chalwa",
  "Aridal",
- "as-Sakn",
- "al-Ga'ada",
+ "As-Sakn",
+ "Al-Ga'ada",
  "Bir Qanduz"

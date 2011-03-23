@@ -36,7 +36,7 @@ civilwar_nations = "israeli", "egyptian", "jordanian"
 
 cities =
 ;claimed Palestinian capital
- "al-Quds", ;Jerusalem
+ "Al-Quds", ;Jerusalem
 
 ;de facto captials
  "Ghazza", ;Gaza
@@ -44,7 +44,7 @@ cities =
 
 ;other cities in Palestinian territories
  "Ariha", ;Jericho
- "al-Halil", ;Hebron
+ "Al-Halil", ;Hebron
  "Bayt Lahm", ;Betlehem
  "Nablus",
  "Khan Yunis",
@@ -55,33 +55,33 @@ cities =
  "Beit Lahia",
  "Tulkarem",
  "Yattah",
- "al-Bireh",
+ "Al-Bireh",
  "Bani Suheila",
  "Beit Hanoun",
- "ad-Dhahiriya",
- "al-Ramm",
+ "Ad-Dhahiriya",
+ "Al-Ramm",
  "Qabatiya",
  "Qalqilyah",
  "Halhul",
  "Dura",
- "al-Eizariya",
+ "Al-Eizariya",
  "Beit Jala",
  "Tubas",
  "Beit Sahour",
  "Abu Dis",
 
 ;Israeli cities with large Arab populations
- "an-Nasira", ;Nazareth
+ "An-Nasira", ;Nazareth
  "Umm al-Fahm",
  "Rahat",
  "Tayyibah", ;Tayibe
  "Shafa Amr",
  "Baqa-Jat",
- "ash-Shaghur",
+ "Ash-Shaghur",
  "Tamra",
  "Sakhnin",
  "Madinat al-Karmel", ;Carmel City
- "al-Tira",
+ "Al-Tira",
  "Arraba",
  "Maghar",
  "Kafr Kana",

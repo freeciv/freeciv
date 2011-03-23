@@ -40,46 +40,46 @@ conflicts_with="egyptian"
 civilwar_nations="palestinian", "sudanese", "libyan", "arab"
 
 cities =
- "al-Qahira",			;Cairo
+ "Al-Qahira",			;Cairo
  "Eskendereyya",		;Alexandria
- "as-Suways",			;Suez
- "al-Mansura",
- "el-Giza",			;Gizeh
+ "As-Suways",			;Suez
+ "Al-Mansura",
+ "El-Giza",			;Gizeh
  "Shubra el-Kheima",
  "Bur Sa'id",			;Port Said
- "al-Uqsur",			;Luxor
- "el-Mahalla el-Kubra",
+ "Al-Uqsur",			;Luxor
+ "El-Mahalla el-Kubra",
  "Tanta",
  "Asyut",
- "al-Ismayliya",
- "al-Fayyum",
- "az-Zaqaziq",
+ "Al-Ismayliya",
+ "Al-Fayyum",
+ "Az-Zaqaziq",
  "Dumyat",
  "Aswan",
- "al-Minya",
+ "Al-Minya",
  "Damanhur",
  "Bani Suwayf",
  "Qina",
- "al-Gardaqa",
+ "Al-Gardaqa",
  "Madinat Sitta Uktubar",
  "Sawhaj",
  "Shibin-al-Kawm",
  "Banha",
- "al-Asir mir-Ramadan",
+ "Al-Asir mir-Ramadan",
  "Kafr-as-Shayh",
- "al-Arish",
+ "Al-Arish",
  "Matra",
  "Mallawi",
  "Bilbays",
  "Idfu",
  "Mit Gamr",
- "al-Hawamidiya",
+ "Al-Hawamidiya",
  "Disuq",
  "Qalyub",
  "Abu Kabir",
  "Ahmim",
  "Jirja",
- "al-Matariya",
+ "Al-Matariya",
  "Rashid",
  "Naj Hammadi",
  "Sharm al-Shaykh"
