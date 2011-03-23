@@ -361,6 +361,7 @@ flag_files =				\
 		songhai.png		\
 		south_africa.png	\
 		southern_cross.png	\
+		southern_sudan.png	\
 		south_yemen.png		\
 		soviet.png		\
 		spain.png		\
@@ -795,6 +796,7 @@ flag_files =				\
 		songhai-large.png		\
 		south_africa-large.png	\
 		southern_cross-large.png	\
+		southern_sudan-large.png	\
 		south_yemen-large.png		\
 		soviet-large.png		\
 		spain-large.png		\
@@ -1231,6 +1233,7 @@ shield_files =					\
 		songhai-shield.png		\
 		south_africa-shield.png		\
 		southern_cross-shield.png	\
+		southern_sudan-shield.png	\
 		south_yemen-shield.png		\
 		soviet-shield.png		\
 		spain-shield.png		\
@@ -1665,6 +1668,7 @@ shield_files =					\
 		songhai-shield-large.png		\
 		south_africa-shield-large.png		\
 		southern_cross-shield-large.png	\
+		southern_sudan-shield-large.png		\
 		south_yemen-shield-large.png		\
 		soviet-shield-large.png		\
 		spain-shield-large.png		\
@@ -2099,6 +2103,7 @@ svg_files = 				\
 		songhai.svg		\
 		south_africa.svg	\
 		southern_cross.svg	\
+		southern_sudan.svg	\
 		south_yemen.svg		\
 		soviet.svg		\
 		spain.svg		\

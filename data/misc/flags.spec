@@ -370,6 +370,7 @@ artists = "
    Songhai		Daniel Markstedt
    South Africa		Farrel Lifson
    Southern Cross	Crotalus horridus
+   Southern Sudan	J.M. Maalderink
    South Yemen		J.M. Maalderink
    Soviet		Sigge Kotliar
    Spain		Pedro A. Gracia Fajardo
@@ -810,6 +811,7 @@ sprites =
 		"f.songhai", "flags/songhai"
 		"f.south_africa", "flags/south_africa"
 		"f.southern_cross", "flags/southern_cross" ; confederate battle flag
+		"f.southern_sudan", "flags/southern_sudan"
 		"f.south_yemen", "flags/south_yemen"
 		"f.soviet", "flags/soviet"
 		"f.spain", "flags/spain"

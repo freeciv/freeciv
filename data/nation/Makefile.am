@@ -358,6 +358,7 @@ pkgdata_DATA = \
 		southafrican.ruleset \
 		southamerican.ruleset \
 		southkorean.ruleset \
+		southsudanese.ruleset \
 		southvietnamese.ruleset \
 		southyemeni.ruleset \
 		soviet.ruleset \
