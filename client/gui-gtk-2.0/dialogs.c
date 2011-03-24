@@ -605,7 +605,8 @@ static void create_races_dialog(struct player *pplayer)
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
   /* Leader. */ 
-  combo = gtk_combo_box_entry_new_text();
+  combo = gtk_combo_box_entry_new_with_model(
+      GTK_TREE_MODEL(gtk_list_store_new(1, G_TYPE_STRING)), 0);
   races_leader = combo;
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
@@ -781,14 +782,17 @@ static void populate_leader_list(void)
 {
   int i;
   int idx;
+  GtkListStore *model =
+      GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(races_leader)));
 
   i = 0;
+  gtk_list_store_clear(model);
   nation_leader_list_iterate(nation_leaders(nation_by_number
                                             (selected_nation)), pleader) {
     const char *leader_name = nation_leader_name(pleader);
+    GtkTreeIter iter; /* unused */
 
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(races_leader), i,
-                              leader_name);
+    gtk_list_store_insert_with_values(model, &iter, i, 0, leader_name, -1);
     i++;
   } nation_leader_list_iterate_end;
 
@@ -933,7 +937,8 @@ static void races_leader_callback(void)
   const struct nation_leader *pleader;
   const gchar *name;
 
-  name = gtk_combo_box_get_active_text(GTK_COMBO_BOX(races_leader));
+  name =
+    gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))));
 
   if (selected_nation != -1
       &&(pleader = nation_leader_by_name(nation_by_number(selected_nation),
@@ -1005,7 +1010,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
       return;
     }
 
-    s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(races_leader));
+    s = gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))));
 
     /* Perform a minimum of sanity test on the name. */
     /* This could call is_allowed_player_name if it were available. */
