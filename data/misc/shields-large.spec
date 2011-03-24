@@ -218,6 +218,7 @@ sprites =
 		"f.shield.korea", "flags/korea-shield-large"
 		"f.shield.korea_ancient", "flags/korea_ancient-shield-large"
 		"f.shield.kosovo", "flags/kosovo-shield-large"
+		"f.shield.kuna_yala", "flags/kuna_yala-shield-large"
 		"f.shield.kurd", "flags/kurd-shield-large"
 		"f.shield.kyrgyzstan", "flags/kyrgyzstan-shield-large"
 		"f.shield.labarum", "flags/labarum-shield-large"

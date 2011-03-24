@@ -216,6 +216,7 @@ artists = "
    Korea		Stephen Silver
    Korea (ancient)	Mysid
    Kosovo		Cradel (Wikimedia Commons)
+   Kuna Yala		J.M. Maalderink
    Kurd			Denelson83
    Kyrgyzstan		-xfi-
    Labarum		J.M. Maalderink
@@ -663,6 +664,7 @@ sprites =
 		"f.korea", "flags/korea"
 		"f.korea_ancient", "flags/korea_ancient"
 		"f.kosovo", "flags/kosovo"
+		"f.kuna_yala", "flags/kuna_yala"
 		"f.kurd", "flags/kurd"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.labarum", "flags/labarum"		; used by Western Roman
