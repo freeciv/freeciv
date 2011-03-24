@@ -403,6 +403,7 @@ artists = "
    Texas		Paul B. Joiner
    Thailand		Lauris Kaplinski
    Thrace		Daniel Markstedt
+   Thuringia		David Liuzzo (Wikimedia Commons)
    Tibet		Tobias Jakobs
    Timur		Daniel Markstedt
    Tocharian		Dan Cottrell and Daniel Markstedt
@@ -850,6 +851,7 @@ sprites =
 		"f.texas", "flags/texas"
 		"f.thailand", "flags/thailand"
 		"f.thrace", "flags/thrace"
+		"f.thuringia", "flags/thuringia"
 		"f.tibet", "flags/tibet"
 		"f.timur", "flags/timur"
 		"f.tocharian", "flags/tocharian"

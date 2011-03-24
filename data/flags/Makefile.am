@@ -394,6 +394,7 @@ flag_files =				\
 		texas.png		\
 		thailand.png		\
 		thrace.png		\
+		thuringia.png		\
 		tibet.png		\
 		timur.png		\
 		tocharian.png		\
@@ -835,6 +836,7 @@ flag_files =				\
 		texas-large.png		\
 		thailand-large.png		\
 		thrace-large.png		\
+		thuringia-large.png		\
 		tibet-large.png		\
 		timur-large.png		\
 		tocharian-large.png		\
@@ -1278,6 +1280,7 @@ shield_files =					\
 		texas-shield.png		\
 		thailand-shield.png		\
 		thrace-shield.png		\
+		thuringia-shield.png		\
 		tibet-shield.png		\
 		timur-shield.png		\
 		togo-shield.png			\
@@ -1719,6 +1722,7 @@ shield_files =					\
 		texas-shield-large.png		\
 		thailand-shield-large.png		\
 		thrace-shield-large.png		\
+		thuringia-shield-large.png		\
 		tibet-shield-large.png		\
 		timur-shield-large.png		\
 		togo-shield-large.png			\
@@ -2159,6 +2163,7 @@ svg_files = 				\
 		teutonic_order.svg	\
 		texas.svg		\
 		thailand.svg		\
+		thuringia.svg		\
 		thrace.svg		\
 		tibet.svg		\
 		timur.svg		\

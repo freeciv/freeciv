@@ -30,9 +30,10 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "sorbian", "hanoverian"
+civilwar_nations = "sorbian", "hanoverian", "thuringian"
 
 cities =
+; Electoral/Royal Saxony
   "Wittenberg",
   "Dresden",
   "Leipzig",
@@ -67,4 +68,33 @@ cities =
   "Döbeln",
   "Rochlitz",
   "Auerbach",
-  "Oelsnitz"
+  "Oelsnitz",
+
+; Prussian Province of Saxony
+  "Magdeburg",
+  "Halle/Saale",
+  "Mühlhausen",
+  "Halberstadt",
+  "Stendal",
+  "Nordhausen",
+  "Quedlinburg",
+  "Bad Langensalza",
+
+; Saxon duchies
+  "Weimar",
+  "Gotha",
+  "Coburg",
+  "Altenburg",
+  "Meinigen",
+  "Hildburghausen",
+  "Saalfeld",
+  "Lauenburg/Elbe",
+
+; Lower Saxony
+  "Hannover",
+  "Oldenburg",
+  "Osnabrück",
+  "Braunschweig",
+  "Lüneburg",
+  "Göttingen",
+  "Salzgitter"

@@ -388,6 +388,7 @@ pkgdata_DATA = \
 		texan.ruleset \
 		thai.ruleset \
 		thracian.ruleset \
+		thuringian.ruleset \
 		tibetan.ruleset \
 		timurid.ruleset \
 		tocharian.ruleset \

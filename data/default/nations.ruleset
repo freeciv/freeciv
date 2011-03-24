@@ -437,6 +437,7 @@ match=2
 *include "nation/texan.ruleset"
 *include "nation/thai.ruleset"
 *include "nation/thracian.ruleset"
+*include "nation/thuringian.ruleset"
 *include "nation/tibetan.ruleset"
 *include "nation/timurid.ruleset"
 *include "nation/tocharian.ruleset"

@@ -37,8 +37,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-conflicts_with = "prussian", "saxon", "brandenburgian", "mecklenburgian"
-civilwar_nations = "sorbian", "saxon", "brandenburgian", "mecklenburgian", "german"
+conflicts_with = "prussian", "saxon", "brandenburgian", "mecklenburgian", "thuringian"
+civilwar_nations = "sorbian", "saxon", "brandenburgian", "mecklenburgian", "thuringian", "german"
 
 cities =
   "Berlin (grassland, !mountains)", 
@@ -47,7 +47,7 @@ cities =
   "Karl-Marx-Stadt (hills, mountains, !ocean)",
   "Magdeburg (grassland, plains, river)",
   "Rostock (grassland, ocean, river, !mountains)",
-  "Halle (grassland, plains, river, !ocean, !mountains)",
+  "Halle/Saale (grassland, plains, river, !ocean, !mountains)",
   "Erfurt (hills, forest, !ocean)",
   "Potsdam (grassland, swamp, !mountains)",
   "Gera (forest, hills)",
@@ -88,6 +88,7 @@ cities =
   "Wernigerode",
   "Merseburg",
   "Schönebeck",
+  "Quedlinburg",
   "Meißen",
   "Saalfeld",
   "Ilmenau",
@@ -101,6 +102,6 @@ cities =
   "Wittstock",
   "Ludwigslust",
   "Bad Doberan (ocean)",
-  "Saßnitz (mountains)",
+  "Saßnitz (ocean)",
   "Thalheim/Erzgeb. (mountains)",
   "Johanngeorgenstadt"
