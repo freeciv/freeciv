@@ -184,7 +184,7 @@ artists = "
    Iran (ancient)	Daniel Markstedt
    Iran			Cezary Biele
    Iraq (old)		AnonMoos
-   Iraq			Lauris Kaplinski
+   Iraq			Militaryace and Hoshie
    Ireland		Lauris Kaplinski
    Iroquois		Daniel Markstedt
    Israel		John C Meuser
