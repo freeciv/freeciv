@@ -86,21 +86,21 @@
        y="330.69681"
        x="0.0000000"
        width="992.12598"
-       style="font-size:12.000000px;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       fill="#000000"
        id="rect551"
        height="165.36615" />
     <rect
        y="165.33057"
        x="0.0000000"
        width="992.12598"
-       style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       fill="#ffffff"
        id="rect552"
        height="165.36615" />
     <rect
        y="-1.5000000e-05"
        x="0.0000000"
        width="992.13000"
-       style="font-size:12.000000px;fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       fill="#ce1126"
        id="rect553"
        height="165.36615" />
   </g>
@@ -108,5 +108,5 @@
      d="M 0.0000000,7.6293900e-05 L 0.0000000,496.06300 L 330.69700,248.03200 L 0.0000000,7.6293900e-05 z "
      id="path556"
      sodipodi:nodetypes="cccc"
-     style="font-size:12.000000px;fill:#009a00;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt" />
+     fill="#007a3d" />
 </svg>
