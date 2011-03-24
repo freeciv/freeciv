@@ -184,6 +184,7 @@ flag_files =				\
 		israel_ancient.png	\
 		italy.png		\
 		ivory_coast.png		\
+		jaffna.png		\
 		jamaica.png		\
 		japan.png		\
 		jbonai.png		\
@@ -623,6 +624,7 @@ flag_files =				\
 		israel_ancient.png		\
 		italy-large.png		\
 		ivory_coast-large.png		\
+		jaffna-large.png		\
 		jamaica-large.png		\
 		japan-large.png		\
 		jbonai-large.png		\
@@ -1064,6 +1066,7 @@ shield_files =					\
 		israel_ancient-shield.png	\
 		italy-shield.png		\
 		ivory_coast-shield.png		\
+		jaffna-shield.png		\
 		jamaica-shield.png		\
 		japan-shield.png		\
 		jbonai-shield.png		\
@@ -1503,6 +1506,7 @@ shield_files =					\
 		israel_ancient-shield-large.png		\
 		italy-shield-large.png		\
 		ivory_coast-shield-large.png		\
+		jaffna-shield-large.png			\
 		jamaica-shield-large.png		\
 		japan-shield-large.png		\
 		jbonai-shield-large.png		\
@@ -1944,6 +1948,7 @@ svg_files = 				\
 		israel_ancient.svg	\
 		italy.svg		\
 		ivory_coast.svg		\
+		jaffna.svg		\
 		jamaica.svg		\
 		japan.svg		\
 		jbonai.svg		\

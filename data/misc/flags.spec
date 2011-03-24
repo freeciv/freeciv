@@ -191,6 +191,7 @@ artists = "
    Israel (ancient)	Tonyjeff (Wikimedia Commons) and J.M. Maalderink
    Italy		Lauris Kaplinski
    Ivory Coast		J.M. Maalderink
+   Jaffna		Dysfunctional (Wikimedia Commons)
    Jamaica		J.M. Maalderink
    Japan		Lauris Kaplinski
    Jbonai		Elmo Todurov
@@ -637,6 +638,7 @@ sprites =
 		"f.israel_ancient", "flags/israel_ancient"
 		"f.italy", "flags/italy"
 		"f.ivory_coast", "flags/ivory_coast"
+		"f.jaffna", "flags/jaffna"
 		"f.jamaica", "flags/jamaica"
 		"f.japan", "flags/japan"
 		"f.jbonai", "flags/jbonai"

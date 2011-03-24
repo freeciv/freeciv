@@ -188,6 +188,7 @@ pkgdata_DATA = \
 		israelite.ruleset \
 		italian.ruleset \
 		ivoirian.ruleset \
+		jaffna.ruleset \
 		jamaican.ruleset \
 		japanese.ruleset \
 		jolof.ruleset \

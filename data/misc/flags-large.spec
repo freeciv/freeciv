@@ -193,6 +193,7 @@ sprites =
 		"f.israel_ancient", "flags/israel_ancient-large"
 		"f.italy", "flags/italy-large"
 		"f.ivory_coast", "flags/ivory_coast-large"
+		"f.jaffna", "flags/jaffna-large"
 		"f.jamaica", "flags/jamaica-large"
 		"f.japan", "flags/japan-large"
 		"f.jbonai", "flags/jbonai-large"
