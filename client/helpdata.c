@@ -2394,6 +2394,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                          " with distance from capital.\n"),
                        astr_str(&outputs_and));
         }
+        break;
       case EFT_MIGRATION_PCT:
         if (peffect->value > 0) {
           CATLSTR(buf, bufsz, _("* Increases the chance of migration"
