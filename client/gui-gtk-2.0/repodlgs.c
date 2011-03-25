@@ -859,7 +859,8 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
                                             int response,
                                             gpointer data)
 {
-  GtkTreeSelection *selection = data;
+  struct economy_report *preport = data;
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(preport->tree_view);
   GtkTreeModel *model;
   GtkTreeIter iter;
   GtkWidget *shell;
@@ -956,7 +957,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
 static void economy_report_selection_callback(GtkTreeSelection *selection,
                                               gpointer data)
 {
-  struct gui_dialog *pdialog = data;
+  struct gui_dialog *pdialog = ((struct economy_report *)data)->shell;
   GtkTreeModel *model;
   GtkTreeIter iter;
 
