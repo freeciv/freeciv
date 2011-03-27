@@ -1202,7 +1202,8 @@ static void ruleset_entry_changed(GtkWidget *w, gpointer data)
   const char *name = NULL;
 
   if (gtk_combo_box_get_active(GTK_COMBO_BOX(ruleset_combo)) != -1) {
-    name = gtk_combo_box_get_active_text(GTK_COMBO_BOX(ruleset_combo));
+    name = 
+      gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ruleset_combo))));
   }
 
   ruleset_selected(name);
@@ -1215,7 +1216,8 @@ static void ruleset_enter(GtkWidget *w, gpointer data)
 {
   const char *name = NULL;
 
-  name = gtk_combo_box_get_active_text(GTK_COMBO_BOX(ruleset_combo));
+  name =
+      gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(ruleset_combo))));
 
   ruleset_selected(name);
 }
@@ -2266,7 +2268,12 @@ GtkWidget *create_start_page(void)
                        NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
 
-  ruleset_combo = gtk_combo_box_entry_new_text();
+  {
+    GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
+    ruleset_combo = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(model),
+                                                       0);
+    g_object_unref(G_OBJECT(model));
+  }
 
   g_signal_connect(GTK_COMBO_BOX_ENTRY(ruleset_combo), "changed",
                    G_CALLBACK(ruleset_entry_changed), NULL);
@@ -3110,9 +3117,13 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   int i;
   int def_idx = -1;
+  GtkListStore *model =
+      GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(ruleset_combo)));
 
+  gtk_list_store_clear(model);
   for (i = 0; i < num_rulesets; i++){
-    gtk_combo_box_insert_text(GTK_COMBO_BOX(ruleset_combo), i, rulesets[i]);
+    GtkTreeIter iter; /* unused */
+    gtk_list_store_insert_with_values(model, &iter, i, 0, rulesets[i], -1);
     if (!strcmp("default", rulesets[i])) {
       def_idx = i;
     }
