@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-27 18:11+0100\n"
+"POT-Creation-Date: 2011-03-27 15:33-0700\n"
 "PO-Revision-Date: 2011-03-27 20:26+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -29868,7 +29868,9 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:874
 msgid ""
 "Before you can build any spaceship parts, you must build the Apollo Program."
-msgstr "Avant que vous ne puissiez construire des parties de vaisseau spatial, vous devez construire le programme Apollo."
+msgstr ""
+"Avant que vous ne puissiez construire des parties de vaisseau spatial, vous "
+"devez construire le programme Apollo."
 
 #: data/multiplayer/buildings.ruleset:940
 #, no-c-format
@@ -29885,7 +29887,10 @@ msgstr ""
 msgid ""
 "Allows you to start building spaceship parts in cities with factories "
 "(assuming you have researched the necessary technologies)."
-msgstr "Vous permet de commencer à construire des modules de vaisseau spatial dans les villes dotées de Farbiques (en supposant que vous avez recherché les technologies nécessaires)."
+msgstr ""
+"Vous permet de commencer à construire des modules de vaisseau spatial dans "
+"les villes dotées de Farbiques (en supposant que vous avez recherché les "
+"technologies nécessaires)."
 
 #: data/multiplayer/buildings.ruleset:1027
 msgid ""
@@ -30047,7 +30052,9 @@ msgstr ""
 msgid ""
 "All your new military land units produced in cities on the same continent "
 "start at the first veteran level."
-msgstr "Toutes vos nouvelles unités terrestres créées dans des villes sur le même continent commencent au premier niveau de vétérance."
+msgstr ""
+"Toutes vos nouvelles unités terrestres créées dans des villes sur le même "
+"continent commencent au premier niveau de vétérance."
 
 #: data/multiplayer/buildings.ruleset:1546
 msgid ""
