@@ -605,8 +605,11 @@ static void create_races_dialog(struct player *pplayer)
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
   /* Leader. */ 
-  combo = gtk_combo_box_entry_new_with_model(
-      GTK_TREE_MODEL(gtk_list_store_new(1, G_TYPE_STRING)), 0);
+  {
+    GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
+    combo = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(model), 0);
+    g_object_unref(G_OBJECT(model));
+  }
   races_leader = combo;
   label = g_object_new(GTK_TYPE_LABEL,
       "use-underline", TRUE,
