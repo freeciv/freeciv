@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,12 +13,19 @@
    height="400"
    id="svg4807"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
+   inkscape:version="0.47 r22583"
    version="1.0"
-   sodipodi:docbase="C:\freeciv"
-   sodipodi:docname="kanem.svg">
+   sodipodi:docname="kanem-bornu.svg">
   <defs
-     id="defs4809" />
+     id="defs4809">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 200 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="600 : 200 : 1"
+       inkscape:persp3d-origin="300 : 133.33333 : 1"
+       id="perspective3968" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -35,10 +43,12 @@
      inkscape:current-layer="layer1"
      height="400px"
      width="600px"
-     inkscape:window-width="847"
-     inkscape:window-height="579"
-     inkscape:window-x="352"
-     inkscape:window-y="120" />
+     inkscape:window-width="840"
+     inkscape:window-height="719"
+     inkscape:window-x="514"
+     inkscape:window-y="84"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata4812">
     <rdf:RDF>
@@ -55,21 +65,21 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="opacity:1;fill:lime;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#008751;fill-opacity:1;stroke:none;stroke-width:7.50000000000000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4815"
        width="600"
        height="400"
        x="0"
        y="-4.3076653e-014" />
     <rect
-       style="opacity:1;fill:yellow;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#fecb00;fill-opacity:1;stroke:none;stroke-width:7.50000000000000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4817"
        width="600"
        height="133.33299"
        x="0"
        y="133.33401" />
     <rect
-       style="opacity:1;fill:blue;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#002664;fill-opacity:1;stroke:none;stroke-width:7.50000000000000000;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4819"
        width="600"
        height="133.33299"

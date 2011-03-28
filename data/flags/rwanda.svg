@@ -1,39 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
-   id="svg1234"
-   sodipodi:version="0.33pre"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1234"
+   sodipodi:version="0.33pre"
    width="210mm"
    height="140mm"
-   sodipodi:docbase="/home/yemu/clipart/newnewnew"
-   sodipodi:docname="/home/yemu/clipart/newnewnew/rwanda.svg">
+   sodipodi:docname="rwanda.svg"
+   version="1.1"
+   inkscape:version="0.47 r22583">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <defs
-     id="defs1236" />
+     id="defs1236">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 248.03149 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 248.03149 : 1"
+       inkscape:persp3d-origin="372.04724 : 165.35433 : 1"
+       id="perspective13" />
+  </defs>
   <sodipodi:namedview
      id="base"
      showgrid="true"
-     snaptogrid="false" />
+     snaptogrid="false"
+     inkscape:zoom="0.95149207"
+     inkscape:cx="364.31036"
+     inkscape:cy="304.67792"
+     inkscape:window-width="1047"
+     inkscape:window-height="725"
+     inkscape:window-x="355"
+     inkscape:window-y="75"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1234" />
   <rect
-     style="font-size:12;fill:#009af4;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#00a1de;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1"
      id="rect1242"
      width="744.094482"
      height="248.031494"
      x="0.000000"
      y="-0.000008" />
   <rect
-     style="font-size:12;fill:#1c8f31;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#20603d;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1"
      id="rect1243"
      width="744.094482"
      height="124.015747"
      x="0.000000"
      y="372.047226" />
   <rect
-     style="font-size:12;fill:#efef00;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#fad201;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1"
      id="rect1244"
      width="744.094482"
      height="124.015762"
@@ -41,7 +73,7 @@
      y="248.031479" />
   <polygon
      sodipodi:type="star"
-     style="font-size:12;fill:#ffda00;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#fad201;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1"
      id="polygon1249"
      sodipodi:sides="24"
      sodipodi:cx="608.229980"
@@ -54,7 +86,7 @@
      transform="translate(2.174187,1.630615)" />
   <path
      sodipodi:type="arc"
-     style="fill-rule:evenodd;stroke:none;fill:#0098f6;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+     style="fill-rule:evenodd;stroke:none;fill:#00a1de;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt"
      id="path1251"
      d="M 639.755859 123.189224 A 30.982269 30.982243 0 1 0 577.791260,123.189224 A 30.9823 30.9822 0 1 0 639.756 123.189 L 608.773560 123.189224 z"
      sodipodi:cx="608.773560"
@@ -64,7 +96,7 @@
      transform="matrix(1.012406,0.000000,0.000000,1.012406,-5.921838,0.102333)" />
   <path
      sodipodi:type="arc"
-     style="fill-rule:evenodd;stroke:none;fill:#ffd900;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;"
+     style="fill-rule:evenodd;stroke:none;fill:#fad201;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt"
      id="path1250"
      d="M 639.755859 123.189224 A 30.982269 30.982243 0 1 0 577.791260,123.189224 A 30.9823 30.9822 0 1 0 639.756 123.189 L 608.773560 123.189224 z"
      sodipodi:cx="608.773560"

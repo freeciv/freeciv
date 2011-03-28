@@ -1,11 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    x="0"
    y="0"
    width="900"
-   height="600">
+   height="600"
+   id="svg6317"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="jolof.svg">
+  <metadata
+     id="metadata6326">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="953"
+     inkscape:window-height="719"
+     id="namedview6324"
+     showgrid="false"
+     inkscape:zoom="0.39333333"
+     inkscape:cx="450"
+     inkscape:cy="300"
+     inkscape:window-x="0"
+     inkscape:window-y="35"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg6317" />
   <defs
      id="defs380">
     <inkscape:perspective
@@ -21,14 +61,14 @@
      height="600"
      x="0"
      y="0"
-     style="font-size:12px;fill:#ffff00;fill-rule:evenodd;stroke-width:1pt"
+     style="font-size:12px;fill:#fdef42;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1"
      id="rect149" />
   <path
-     d="M 574.42632,499.08725 L 450.51787,406.16111 L 327.21658,500 L 373.07509,347.50711 L 250,253.34313 L 402.26643,252.03026 L 449.49403,100 L 497.73356,251.68016 L 650,251.88021 L 527.55588,346.93195 L 574.42632,499.08725 z"
-     style="font-size:12px;fill:#008000;fill-rule:evenodd;stroke-width:0.112872"
+     d="M 579.17139,499.05244 450.53762,402.58251 322.53416,500 370.14151,341.6917 242.37288,243.93672 l 158.0732,-1.36293 49.02865,-157.828027 50.07918,157.464577 158.07321,0.20767 -127.1136,98.6766 48.65787,157.95783 z"
+     style="font-size:12px;fill:#00853f;fill-opacity:1;fill-rule:evenodd;stroke-width:0.112872"
      id="path205" />
   <path
      d="M 543.31974,449.31544 L 450.3884,379.62083 L 357.91243,450 L 392.30632,335.63033 L 300,265.00735 L 414.19982,264.0227 L 449.62052,150 L 485.80017,263.76012 L 600,263.91016 L 508.16691,335.19896 L 543.31974,449.31544 z"
-     style="font-size:12px;fill:#ff0000;fill-rule:evenodd;stroke-width:0.112872"
+     style="font-size:12px;fill:#e31b23;fill-rule:evenodd;stroke-width:0.11287200000000000;fill-opacity:1"
      id="path2382" />
 </svg>

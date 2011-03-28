@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
-<!-- /Creative Commons Public Domain -->
-<!--
 
--->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="496.062988"
+   height="600"
    id="svg548"
    version="1"
-   width="744.094482"
+   width="900"
    x="0.00000000"
    y="0.00000000"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
-   sodipodi:docname="madagascar.svg"
-   sodipodi:docbase="/Users/daniel/Desktop">
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="madagascar.svg">
   <sodipodi:namedview
-     inkscape:window-height="507"
-     inkscape:window-width="701"
+     inkscape:window-height="673"
+     inkscape:window-width="1039"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="0.69346032"
+     inkscape:zoom="0.59714111"
      inkscape:cx="372.04724"
-     inkscape:cy="248.03149"
-     inkscape:window-x="120"
-     inkscape:window-y="79"
-     inkscape:current-layer="svg548" />
+     inkscape:cy="315.08884"
+     inkscape:window-x="96"
+     inkscape:window-y="131"
+     inkscape:current-layer="svg548"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata24999">
     <rdf:RDF>
@@ -90,26 +87,34 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs550" />
+     id="defs550">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 248.03149 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 248.03149 : 1"
+       inkscape:persp3d-origin="372.04724 : 165.35433 : 1"
+       id="perspective5676" />
+  </defs>
   <rect
-     height="248.031525"
-     id="rect551"
-     style="font-size:12;fill:#ff3319;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1.0000000"
-     width="496.062958"
-     x="248.031494"
-     y="-0.00002300" />
-  <rect
-     height="248.031525"
-     id="rect552"
-     style="font-size:12;fill:#00bf25;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1.0000000"
-     width="496.062958"
-     x="248.031494"
-     y="248.031509" />
-  <rect
-     height="496.063019"
+     height="600"
      id="rect553"
-     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;"
-     width="248.031494"
-     x="0.00000000"
-     y="-0.00003800" />
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+     width="900"
+     x="0"
+     y="-7.6293945e-06" />
+  <rect
+     height="300"
+     id="rect551"
+     style="font-size:12px;fill:#fc3d32;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+     width="600"
+     x="300"
+     y="-6.906975e-14" />
+  <rect
+     height="300"
+     id="rect552"
+     style="font-size:12px;fill:#007e3a;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+     width="600"
+     x="300"
+     y="300" />
 </svg>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    x="0"
@@ -15,9 +16,8 @@
    height="666.000000"
    id="svg585"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
-   sodipodi:docname="egypt_ancient.svg"
-   sodipodi:docbase="/home/daniel/ancientflags">
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="egypt_ancient.svg">
   <metadata
      id="metadata1333">
     <rdf:RDF>
@@ -30,28 +30,38 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="645"
-     inkscape:window-width="822"
+     inkscape:window-height="745"
+     inkscape:window-width="943"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="0.71392316"
-     inkscape:cx="500.98262"
-     inkscape:cy="332.00000"
-     inkscape:window-x="423"
-     inkscape:window-y="309"
-     inkscape:current-layer="svg585" />
+     inkscape:zoom="0.57434918"
+     inkscape:cx="474.99074"
+     inkscape:cy="262.7738"
+     inkscape:window-x="57"
+     inkscape:window-y="74"
+     inkscape:current-layer="svg585"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
-     id="defs587" />
+     id="defs587">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 333 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="999 : 333 : 1"
+       inkscape:persp3d-origin="499.5 : 222 : 1"
+       id="perspective3028" />
+  </defs>
   <rect
      width="1000"
      height="666.666687"
      x="0"
      y="0"
-     style="font-size:12;fill:#ff2700;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1.0000000"
+     style="font-size:12;fill:#ce1126;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1"
      id="rect568" />
   <g
      id="g1343"
@@ -63,7 +73,7 @@
        style="fill:#ffffff;fill-opacity:1.0000000" />
   </g>
   <path
-     style="fill:#670000;fill-opacity:1.0000000;stroke:none"
+     style="fill:#c09300;fill-opacity:1;stroke:none"
      d="M 955.85358,313.96941 C 964.88749,320.22365 967.31970,309.79991 921.80270,456.42719 C 902.69251,517.57980 880.80266,588.46123 872.81112,613.47821 C 859.26026,657.25792 857.87043,659.69012 849.53144,659.69012 C 830.42125,659.34267 819.30259,640.92739 826.94667,623.20703 C 836.67549,600.62226 827.98904,584.63920 814.78564,600.96972 L 808.53139,608.96126 L 797.06528,599.57989 C 786.98900,590.89344 783.51442,590.19852 761.97202,590.89344 C 743.55675,591.24090 736.60759,590.19852 732.09063,586.02903 C 726.53130,580.12224 719.92960,549.19848 723.05672,543.98661 C 724.09910,542.24932 730.35334,541.90186 736.60759,543.29169 C 751.20082,545.72390 751.20082,542.94424 737.99742,527.65608 C 732.43809,521.05438 727.92114,514.45268 727.57368,513.06285 C 727.57368,509.58827 744.25166,507.50352 790.81103,504.72386 C 813.39580,503.68148 831.81108,501.59673 831.81108,500.55436 C 831.46362,499.16453 822.77717,492.56283 812.00597,485.96112 C 785.25171,468.93568 741.12454,421.33394 727.92114,395.27459 C 713.32790,365.74066 708.71909,347.83337 726.00285,333.56577 C 743.28661,319.29817 765.37725,330.49413 770.25553,343.26685 C 775.13381,356.03957 768.22626,371.64744 752.59065,376.85931 L 741.47200,380.33389 L 752.59065,397.70679 C 774.82797,432.10513 840.84499,485.96112 860.30263,485.96112 C 865.86196,485.96112 879.41282,455.38482 916.93829,359.13895 C 938.13323,305.28296 939.87052,302.85075 955.85358,313.96941 z "
      id="path1387"
      sodipodi:nodetypes="ccccccccccsccccccczzcccscc" />
@@ -79,7 +89,7 @@
      style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000" />
   <path
      sodipodi:type="arc"
-     style="opacity:1.0000000;fill:#ff2700;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:16.025000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
+     style="opacity:1;fill:#ce1126;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:16.02499999999999858;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="path2096"
      sodipodi:cx="744.61768"
      sodipodi:cy="359.71243"
