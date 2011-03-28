@@ -54,6 +54,7 @@ artists = "
    Bavarian		Jörgen Scheibengruber
    Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
+   Belize		Caleb Moore
    Bengal		Daniel Markstedt
    Benin		J.M. Maalderink
    Benin (ancient)	Orange Tuesday (Wikimedia Commons)
@@ -503,6 +504,7 @@ sprites =
 		"f.bavarian", "flags/bavarian"
 		"f.belarus", "flags/belarus"
 		"f.belgium", "flags/belgium"
+		"f.belize", "flags/belize"
 		"f.bengal", "flags/bengal"
 		"f.benin", "flags/benin"
 		"f.benin_ancient", "flags/benin_ancient"
