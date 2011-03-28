@@ -24,12 +24,14 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="kenyan", "maasai"
+
+civilwar_nations = "zanzibari", "maasai" ;tanganyikan
+conflicts_with = "zanzibari" ;tanganyikan
 
 cities =
  "Dodoma (!ocean)",
  "Dar es Salaam (ocean)",
- "Zanzibar City (ocean)",
+ "Zanzibar (ocean)",
  "Mwanza",
  "Arusha",
  "Mbeya",
@@ -41,6 +43,7 @@ cities =
  "Songea",
  "Musoma",
  "Shinyanga",
+ "Chake Chake",
  "Katumba",
  "Iringa",
  "Ushirombo",

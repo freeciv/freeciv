@@ -451,6 +451,7 @@ artists = "
    Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
    Zambia		Tobias Jakobs
+   Zanzibar		Mysid (Wikimedia Commons)
    Zapotec		J.M. Maalderink
    Zhuang		Daniel Markstedt
    Zimbabwe		Madden (Wikimedia Commons)
@@ -899,6 +900,7 @@ sprites =
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
 		"f.zambia", "flags/zambia"
+		"f.zanzibar", "flags/zanzibar"
 		"f.zapotec", "flags/zapotec"
 		"f.zhuang", "flags/zhuang"
 		"f.zimbabwe", "flags/zimbabwe"
