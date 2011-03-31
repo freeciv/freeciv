@@ -173,18 +173,18 @@ static struct command commands[] = {
    CMD_ECHO_NONE, VCF_NONE, 0
   },
   {"debug",	ALLOW_CTRL,
-   /* no translatable parameters */
-   SYN_ORIG_("debug diplomacy\n"
-             "debug ferries\n"
-             "debug player <player>\n"
-             "debug tech <player>\n"
-             "debug city <x> <y>\n"
-             "debug units <x> <y>\n"
-             "debug unit <id>\n"
-             "debug timing\n"
-             "debug info"),
+   /* TRANS: translate text between <> only */
+   N_("debug diplomacy <player>\n"
+      "debug ferries\n"
+      "debug player <player>\n"
+      "debug tech <player>\n"
+      "debug city <x> <y>\n"
+      "debug units <x> <y>\n"
+      "debug unit <id>\n"
+      "debug timing\n"
+      "debug info"),
    N_("Turn on or off AI debugging of given entity."),
-   N_("Print AI debug information about given entity and turn continous "
+   N_("Print AI debug information about given entity and turn continuous "
       "debugging output for this entity on or off."),
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
