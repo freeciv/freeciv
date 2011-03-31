@@ -174,7 +174,11 @@ void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
   } city_list_iterate_end;
 
   if (count > 0) {
-    fc_snprintf(message, message_sz, _("Sold %d %s for %d gold."),
+    /* FIXME: plurality of count is ignored! */
+    /* TRANS: "Sold 3 Harbour for 90 gold." (Pluralisation is in gold --
+     * second %d -- not in buildings.) */
+    fc_snprintf(message, message_sz, PL_("Sold %d %s for %d gold.",
+                                         "Sold %d %s for %d gold.", gold),
                 count, improvement_name_translation(pimprove), gold);
   } else {
     fc_snprintf(message, message_sz, _("No %s could be sold."),

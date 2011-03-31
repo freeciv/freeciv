@@ -913,15 +913,22 @@ static void buy_callback_no(HWND w, void * data)
 **************************************************************************/
 static void buy_callback(struct city_dialog *pdialog)
 {
-  char buf[512];
+  char tbuf[512], buf[512];
   struct city *pcity = pdialog->pcity;
   const char *name = city_production_name_translation(pcity);
   int value = city_production_buy_gold_cost(pcity);
- 
-  if (value <= client.conn.playing->economic.gold) {
+
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
+
+  if (value <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
-            _("Buy %s for %d gold?\nTreasury contains %d gold."),
-            name, value, client.conn.playing->economic.gold);
+            /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+            PL_("Buy %s for %d gold?\n%s",
+                "Buy %s for %d gold?\n%s", value),
+            name, value, tbuf);
  
     popup_message_dialog(pdialog->mainwindow, /*"buydialog"*/ _("Buy It!"), buf,
                          _("_Yes"), buy_callback_yes, pdialog,
@@ -929,9 +936,11 @@ static void buy_callback(struct city_dialog *pdialog)
   }
   else {
     fc_snprintf(buf, sizeof(buf),
-            _("%s costs %d gold.\nTreasury contains %d gold."),
-            name, value, client.conn.playing->economic.gold);
- 
+            /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+            PL_("%s costs %d gold.\n%s",
+                "%s costs %d gold.\n%s", value),
+            name, value, tbuf);
+
     popup_message_dialog(NULL, /*"buynodialog"*/ _("Buy It!"), buf,
                          _("Darn"), buy_callback_no, 0, 0);
   }      
@@ -965,6 +974,7 @@ static void sell_callback_no(HWND w, void * data)
 static void sell_callback(struct city_dialog *pdialog)
 {
   char buf[100];
+  int price;
   if (pdialog->id_selected<0) {
     return;
   }
@@ -974,10 +984,12 @@ static void sell_callback(struct city_dialog *pdialog)
   }
   
   pdialog->sell_id = pdialog->id_selected;
-  fc_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-	      city_improvement_name_translation(pdialog->pcity, improvement_by_number(pdialog->id_selected)),
-	      impr_sell_gold(improvement_by_number(pdialog->id_selected)));
-  
+  price = impr_sell_gold(improvement_by_number(pdialog->id_selected));
+  fc_snprintf(buf, sizeof(buf), PL_("Sell %s for %d gold?",
+                                    "Sell %s for %d gold?", price),
+              city_improvement_name_translation(pdialog->pcity, improvement_by_number(pdialog->id_selected)),
+              price);
+
   popup_message_dialog(pdialog->mainwindow, /*"selldialog" */
 		       _("Sell It!"), buf, _("_Yes"),
 		       sell_callback_yes, pdialog, _("_No"),

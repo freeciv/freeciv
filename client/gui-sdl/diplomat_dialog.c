@@ -1115,7 +1115,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   struct unit *pUnit;
-  char cBuf[255]; 
+  char tBuf[255], cBuf[255];
   bool exit = FALSE;
   SDL_Rect area;
   
@@ -1136,7 +1136,12 @@ void popup_incite_dialog(struct city *pCity, int cost)
   pIncite_Dlg->diplomat_id = pUnit->id;
   pIncite_Dlg->diplomat_target_id = pCity->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));  
-  
+
+  fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
+
   /* window */
   pStr = create_str16_from_char(_("Incite a Revolt!"), adj_font(12));
     
@@ -1189,11 +1194,12 @@ void popup_incite_dialog(struct city *pCity, int cost)
     area.w = MAX(area.w , pBuf->size.w);
     area.h += pBuf->size.h;
     
-  } else if (cost <= client.conn.playing->economic.gold) {
+  } else if (cost <= client_player()->economic.gold) {
     fc_snprintf(cBuf, sizeof(cBuf),
-		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
-    
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Incite a revolt for %d gold?\n%s",
+                    "Incite a revolt for %d gold?\n%s", cost), cost, tBuf);
+
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
   
@@ -1242,10 +1248,10 @@ void popup_incite_dialog(struct city *pCity, int cost)
     /* --------------- */
 
     fc_snprintf(cBuf, sizeof(cBuf),
-		_("Inciting a revolt costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
-    
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Inciting a revolt costs %d gold.\n%s",
+                    "Inciting a revolt costs %d gold.\n%s", cost), cost, tBuf);
+
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
         
   
@@ -1360,7 +1366,7 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   struct unit *pDiplomatUnit;
-  char cBuf[255]; 
+  char tBuf[255], cBuf[255];
   bool exit = FALSE;
   SDL_Rect area;
   
@@ -1381,7 +1387,12 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   pBribe_Dlg->diplomat_id = pDiplomatUnit->id;
   pBribe_Dlg->diplomat_target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
-  
+
+  fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
+
   /* window */
   pStr = create_str16_from_char(_("Bribe Enemy Unit"), adj_font(12));
     
@@ -1399,11 +1410,12 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
   
-  if (cost <= client.conn.playing->economic.gold) {
+  if (cost <= client_player()->economic.gold) {
     fc_snprintf(cBuf, sizeof(cBuf),
-		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
-    
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribe unit for %d gold?\n%s",
+                    "Bribe unit for %d gold?\n%s", cost), cost, tBuf);
+
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1450,10 +1462,10 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
     /* --------------- */
 
     fc_snprintf(cBuf, sizeof(cBuf),
-		_("Bribing the unit costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
-    
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribing the unit costs %d gold.\n%s",
+                    "Bribing the unit costs %d gold.\n%s", cost), cost, tBuf);
+
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
   
     add_to_gui_list(ID_LABEL, pBuf);

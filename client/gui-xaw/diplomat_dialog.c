@@ -109,26 +109,31 @@ static void diplomat_bribe_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void popup_bribe_dialog(struct unit *punit, int cost)
 {
-  char buf[128];
+  char tbuf[128], buf[128];
+
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
 
   if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     popup_message_dialog(toplevel, "diplomatbribedialog",
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0, NULL);
-  } else if (cost <= client.conn.playing->economic.gold) {
+  } else if (cost <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
-		_("Bribe unit for %d gold?\n"
-		  "Treasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribe unit for %d gold?\n%s",
+                    "Bribe unit for %d gold?\n%s", cost), cost, tbuf);
     popup_message_dialog(toplevel, "diplomatbribedialog", buf,
 			 diplomat_bribe_yes_callback, 0, 0,
 			 diplomat_bribe_no_callback, 0, 0,
 			 NULL);
   } else {
     fc_snprintf(buf, sizeof(buf),
-		_("Bribing the unit costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribing the unit costs %d gold.\n%s",
+                    "Bribing the unit costs %d gold.\n%s", cost), cost, tbuf);
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_bribe_no_callback, 0, 0,
 			 NULL);
@@ -640,31 +645,36 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
 **************************************************************************/
 void popup_incite_dialog(struct city *pcity, int cost)
 {
-  char buf[128];
+  char tbuf[128], buf[128];
+
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
     fc_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		city_name(pcity));
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_incite_no_callback, 0, 0, NULL);
-  } else if (cost <= client.conn.playing->economic.gold) {
+  } else if (cost <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
-		_("Incite a revolt for %d gold?\n"
-		  "Treasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
-   diplomat_target_id = pcity->id;
-   popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
-			diplomat_incite_yes_callback, 0, 0,
-			diplomat_incite_no_callback, 0, 0,
-			NULL);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Incite a revolt for %d gold?\n%s",
+                    "Incite a revolt for %d gold?\n%s", cost), cost, tbuf);
+    diplomat_target_id = pcity->id;
+    popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
+                         diplomat_incite_yes_callback, 0, 0,
+                         diplomat_incite_no_callback, 0, 0,
+                         NULL);
   } else {
-   fc_snprintf(buf, sizeof(buf),
-	       _("Inciting a revolt costs %d gold.\n"
-		 "Treasury contains %d gold."), 
-	       cost, client.conn.playing->economic.gold);
-   popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
-			diplomat_incite_no_callback, 0, 0,
-			NULL);
+    fc_snprintf(buf, sizeof(buf),
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Inciting a revolt costs %d gold.\n%s",
+                    "Inciting a revolt costs %d gold.\n%s", cost), cost, tbuf);
+    popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
+                         diplomat_incite_no_callback, 0, 0,
+                         NULL);
   }
 }
 

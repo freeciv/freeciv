@@ -84,6 +84,12 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 void popup_bribe_dialog(struct unit *punit, int cost)
 {
   GtkWidget *shell;
+  char buf[1024];
+
+  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                        "Treasury contains %d gold.",
+                                        client_player()->economic.gold),
+              client_player()->economic.gold);
 
   if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     shell = popup_choice_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
@@ -91,19 +97,20 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                                  GTK_STOCK_OK, NULL, NULL, NULL);
     gtk_window_present(GTK_WINDOW(shell));
     return;
-  } else if (cost <= client.conn.playing->economic.gold) {
+  } else if (cost <= client_player()->economic.gold) {
     shell = gtk_message_dialog_new(NULL, 0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-      _("Bribe unit for %d gold?\nTreasury contains %d gold."),
-      cost, client.conn.playing->economic.gold);
+      /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+      PL_("Bribe unit for %d gold?\n%s",
+          "Bribe unit for %d gold?\n%s", cost), cost, buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Bribe Enemy Unit"));
     setup_dialog(shell, toplevel);
   } else {
-    shell = gtk_message_dialog_new(NULL,
-      0,
+    shell = gtk_message_dialog_new(NULL, 0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-      _("Bribing the unit costs %d gold.\nTreasury contains %d gold."),
-      cost, client.conn.playing->economic.gold);
+      /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+      PL_("Bribing the unit costs %d gold.\n%s",
+          "Bribing the unit costs %d gold.\n%s", cost), cost, buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
     setup_dialog(shell, toplevel);
   }
@@ -540,7 +547,13 @@ Popup the yes/no dialog for inciting, since we know the cost now
 void popup_incite_dialog(struct city *pcity, int cost)
 {
   GtkWidget *shell;
-  
+  char buf[1024];
+
+  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                        "Treasury contains %d gold.",
+                                        client_player()->economic.gold),
+              client_player()->economic.gold);
+
   if (INCITE_IMPOSSIBLE_COST == cost) {
     shell = gtk_message_dialog_new(NULL,
       0,
@@ -549,20 +562,21 @@ void popup_incite_dialog(struct city *pcity, int cost)
       city_name(pcity));
     gtk_window_set_title(GTK_WINDOW(shell), _("City can't be incited!"));
   setup_dialog(shell, toplevel);
-  } else if (cost <= client.conn.playing->economic.gold) {
-    shell = gtk_message_dialog_new(NULL,
-      0,
+  } else if (cost <= client_player()->economic.gold) {
+    shell = gtk_message_dialog_new(NULL, 0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-      _("Incite a revolt for %d gold?\nTreasury contains %d gold."),
-      cost, client.conn.playing->economic.gold);
+      /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+      PL_("Incite a revolt for %d gold?\n%s",
+          "Incite a revolt for %d gold?\n%s", cost), cost, buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Incite a Revolt!"));
     setup_dialog(shell, toplevel);
   } else {
     shell = gtk_message_dialog_new(NULL,
       0,
       GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-      _("Inciting a revolt costs %d gold.\nTreasury contains %d gold."),
-      cost, client.conn.playing->economic.gold);
+      /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+      PL_("Inciting a revolt costs %d gold.\n%s",
+          "Inciting a revolt costs %d gold.\n%s", cost), cost, buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Traitors Demand Too Much!"));
     setup_dialog(shell, toplevel);
   }

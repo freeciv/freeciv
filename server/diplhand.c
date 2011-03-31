@@ -436,11 +436,15 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         }
         break;
       case CLAUSE_GOLD:
+        {
+          int received = pclause->value
+                         * (100 - game.server.diplcost) / 100;
+          pgiver->economic.gold -= pclause->value;
+          pdest->economic.gold += received;
           notify_player(pdest, NULL, E_DIPLOMACY, ftc_server,
-                        _("You get %d gold."), pclause->value);
-        pgiver->economic.gold -= pclause->value;
-        pdest->economic.gold += pclause->value
-                                * (100 - game.server.diplcost) / 100;
+                        PL_("You get %d gold.",
+                            "You get %d gold.", received), received);
+        }
 	break;
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);

@@ -1949,7 +1949,7 @@ static void buy_callback_no(Widget w, XtPointer client_data,
 *****************************************************************/
 void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  char buf[512];
+  char tbuf[512], buf[512];
   struct city_dialog *pdialog = (struct city_dialog *)client_data;;
   const char *name = city_production_name_translation(pdialog->pcity);
   int value = city_production_buy_gold_cost(pdialog->pcity);
@@ -1958,10 +1958,17 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
     return;
   }
 
-  if (value <= client.conn.playing->economic.gold) {
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
+
+  if (value <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
-		_("Buy %s for %d gold?\nTreasury contains %d gold."), 
-		name, value, client.conn.playing->economic.gold);
+                /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Buy %s for %d gold?\n%s",
+                    "Buy %s for %d gold?\n%s", value),
+                name, value, tbuf);
     popup_message_dialog(pdialog->shell, "buydialog", buf,
 			 buy_callback_yes, pdialog, 0,
 			 buy_callback_no, 0, 0,
@@ -1969,8 +1976,10 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
   else {
     fc_snprintf(buf, sizeof(buf),
-		_("%s costs %d gold.\nTreasury contains %d gold."), 
-		name, value, client.conn.playing->economic.gold);
+                /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("%s costs %d gold.\n%s",
+                    "%s costs %d gold.\n%s", value),
+                name, value, tbuf);
     popup_message_dialog(pdialog->shell, "buynodialog", buf,
 			 buy_callback_no, 0, 0,
 			 NULL);
@@ -2319,15 +2328,18 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
     city_built_iterate(pdialog->pcity, pimprove) {
       if (n == ret->list_index) {
 	char buf[512];
+        int price;
 
 	if (!can_city_sell_building(pdialog->pcity, pimprove)) {
 	  return;
 	}
 
 	pdialog->sell_id = improvement_number(pimprove);
-	fc_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-		    city_improvement_name_translation(pdialog->pcity, pimprove),
-		    impr_sell_gold(pimprove));
+        price = impr_sell_gold(pimprove);
+        fc_snprintf(buf, sizeof(buf), PL_("Sell %s for %d gold?",
+                                          "Sell %s for %d gold?", price),
+                    city_improvement_name_translation(pdialog->pcity, pimprove),
+                    price);
 
 	popup_message_dialog(pdialog->shell, "selldialog", buf,
 			     sell_callback_yes, pdialog, 0,

@@ -249,7 +249,8 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     }
     break;
   case CLAUSE_GOLD:
-    fc_snprintf(buf, bufsiz, _("The %s give %d gold"),
+    fc_snprintf(buf, bufsiz, PL_("The %s give %d gold",
+                                 "The %s give %d gold", pclause->value),
                 nation_plural_for_player(pclause->from),
                 pclause->value);
     break;
@@ -1107,11 +1108,22 @@ void cityrep_buy(struct city *pcity)
   if (city_owner(pcity)->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
+    /* Split into two to allow localization of two pluralisations. */
+    char buf[MAX_LEN_MSG];
+    /* TRANS: %s is a production type; this whole string is a sentence
+     * fragment that is only ever included in one other string
+     * (search comments for this string to find it) */
+    fc_snprintf(buf, ARRAY_SIZE(buf), PL_("%s costs %d gold",
+                                          "%s costs %d gold", value),
+                city_production_name_translation(pcity),
+                value);
     create_event(NULL, E_BAD_COMMAND, ftc_client,
-                 _("%s costs %d gold and you only have %d gold."),
-                 city_production_name_translation(pcity),
-                 value,
-                 city_owner(pcity)->economic.gold);
+                 /* TRANS: %s is a pre-pluralised sentence fragment:
+                  * "%s costs %d gold" */
+                 PL_("%s and you only have %d gold.",
+                     "%s and you only have %d gold.",
+                     city_owner(pcity)->economic.gold),
+                 buf, city_owner(pcity)->economic.gold);
   }
 }
 

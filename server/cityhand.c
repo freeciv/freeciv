@@ -255,6 +255,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 			     struct impr_type *pimprove)
 {
+  int price;
   if (pcity->did_sell) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
 		  _("You have already sold something here this turn."));
@@ -265,11 +266,12 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
     return;
 
   pcity->did_sell=TRUE;
+  price = impr_sell_gold(pimprove);
   notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
-                _("You sell %s in %s for %d gold."), 
+                PL_("You sell %s in %s for %d gold.",
+                    "You sell %s in %s for %d gold.", price),
                 improvement_name_translation(pimprove),
-                city_link(pcity),
-                impr_sell_gold(pimprove));
+                city_link(pcity), price);
   do_sell_building(pplayer, pcity, pimprove);
 
   city_refresh(pcity);
@@ -337,9 +339,19 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   if (cost > pplayer->economic.gold) {
     /* In case something changed while player tried to buy, or player 
      * tried to cheat! */
+    /* Split into two to allow localization of two pluralisations. */
+    char buf[MAX_LEN_MSG];
+    /* TRANS: This whole string is only ever used when included in one
+     * other string (search for this string to find it). */
+    fc_snprintf(buf, ARRAY_SIZE(buf), PL_("%d gold required.",
+                                          "%d gold required.",
+                                          cost), cost);
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
-                  _("%d gold required.  You only have %d gold."), cost,
-                  pplayer->economic.gold);
+                  /* TRANS: %s is a pre-pluralised string:
+                   * "%d gold required." */
+                  PL_("%s You only have %d gold.",
+                      "%s You only have %d gold.", pplayer->economic.gold),
+                  buf, pplayer->economic.gold);
     return;
   }
 

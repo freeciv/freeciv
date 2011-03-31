@@ -1468,19 +1468,27 @@ static void units_report_command_callback(struct gui_dialog *pdialog,
   } else if (can_client_issue_orders()) {
     GtkWidget *shell;
     struct unit_type *upgrade = can_upgrade_unittype(client_player(), utype);
+    char buf[1024];
+    int price = unit_upgrade_price(client_player(), utype, upgrade);
+
+    fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+                client_player()->economic.gold);
 
     shell = gtk_message_dialog_new(NULL,
                                    GTK_DIALOG_MODAL
                                    | GTK_DIALOG_DESTROY_WITH_PARENT,
                                    GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-                                   _("Upgrade as many %s to %s as possible "
-                                     "for %d gold each?\nTreasury contains "
-                                     "%d gold."),
+                                   /* TRANS: Last %s is pre-pluralised
+                                    * "Treasury contains %d gold." */
+                                   PL_("Upgrade as many %s to %s as possible "
+                                       "for %d gold each?\n%s",
+                                       "Upgrade as many %s to %s as possible "
+                                       "for %d gold each?\n%s", price),
                                    utype_name_translation(utype),
                                    utype_name_translation(upgrade),
-                                   unit_upgrade_price(client_player(),
-                                                      utype, upgrade),
-                                   client_player()->economic.gold);
+                                   price, buf);
     setup_dialog(shell, gui_dialog_get_toplevel(preport->shell));
 
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));

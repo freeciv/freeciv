@@ -19,7 +19,9 @@
 function default_hut_get_gold(unit, gold)
   local owner = unit.owner
 
-  notify.event(owner, unit.tile, E.HUT_GOLD, _("You found %d gold."), gold)
+  notify.event(owner, unit.tile, E.HUT_GOLD, PL_("You found %d gold.",
+                                                 "You found %d gold.", gold),
+               gold)
   change_gold(owner, gold)
 end
 

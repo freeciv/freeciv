@@ -144,7 +144,13 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
   if (number_of_upgraded_units > 0) {
     const int cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     notify_player(pplayer, NULL, E_UNIT_UPGRADED, ftc_server,
-                  _("%d %s upgraded to %s for %d gold."),
+                  /* FIXME: plurality of number_of_upgraded_units ignored!
+                   * (Plurality of unit names is messed up anyway.) */
+                  /* TRANS: "2 Musketeers upgraded to Riflemen for 100 gold."
+                   * Plurality is in gold (second %d), not units. */
+                  PL_("%d %s upgraded to %s for %d gold.",
+                      "%d %s upgraded to %s for %d gold.",
+                      cost * number_of_upgraded_units),
                   number_of_upgraded_units,
                   utype_name_translation(from_unittype),
                   utype_name_translation(to_unittype),
@@ -178,7 +184,8 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
     transform_unit(punit, to_unit, FALSE);
     send_player_info_c(pplayer, pplayer->connections);
     notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
-                  _("%s upgraded to %s for %d gold."), 
+                  PL_("%s upgraded to %s for %d gold.",
+                      "%s upgraded to %s for %d gold.", cost),
                   utype_name_translation(from_unit),
                   unit_link(punit),
                   cost);
@@ -1658,8 +1665,12 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   conn_list_do_buffer(pplayer->connections);
   notify_player(pplayer, city_tile(pcity_dest),
                 E_CARAVAN_ACTION, ftc_server,
-                _("Your %s from %s has arrived in %s,"
-                  " and revenues amount to %d in gold and research."),
+                /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
+                PL_("Your %s from %s has arrived in %s,"
+                    " and revenues amount to %d in gold and research.",
+                    "Your %s from %s has arrived in %s,"
+                    " and revenues amount to %d in gold and research.",
+                    revenue),
                 punit_link,
                 homecity_link,
                 destcity_link,
