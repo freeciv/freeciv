@@ -999,16 +999,26 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(activeunits_list);
 
   if (ret->list_index != XAW_LIST_NONE) {
+    char tbuf[512];
+    int price;
     punittype1 = utype_by_number(activeunits_type[ret->list_index]);
-    punittype2 = can_upgrade_unittype(client.conn.playing, punittype1);
+    punittype2 = can_upgrade_unittype(client_player(), punittype1);
+    price = unit_upgrade_price(client_player(), punittype1, punittype2);
+
+    fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                            "Treasury contains %d gold.",
+                                            client_player()->economic.gold),
+                client_player()->economic.gold);
 
     fc_snprintf(buf, sizeof(buf),
-		_("Upgrade as many %s to %s as possible for %d gold each?\n"
-		  "Treasury contains %d gold."),
-		utype_name_translation(punittype1),
-		utype_name_translation(punittype2),
-		unit_upgrade_price(client.conn.playing, punittype1, punittype2),
-		client.conn.playing->economic.gold);
+                /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Upgrade as many %s to %s as possible for %d gold "
+                    "each?\n%s",
+                    "Upgrade as many %s to %s as possible for %d gold "
+                    "each?\n%s", price),
+                utype_name_translation(punittype1),
+                utype_name_translation(punittype2),
+                price, tbuf);
 
     popup_message_dialog(toplevel, "upgradedialog", buf,
 			 upgrade_callback_yes,

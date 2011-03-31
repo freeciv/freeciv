@@ -1138,7 +1138,7 @@ static int hurry_production_window_callback(struct widget *pWindow)
 void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 {
 
-  char cBuf[512];
+  char tBuf[512], cBuf[512];
   struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pText;
@@ -1151,20 +1151,27 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   if (pHurry_Prod_Dlg) {
     return;
   }
-  
+
+  fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
+
   pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   if (city_can_buy(pCity)) {
-    if (value <= client.conn.playing->economic.gold) {
+    if (value <= client_player()->economic.gold) {
       fc_snprintf(cBuf, sizeof(cBuf),
-		_("Buy %s for %d gold?\n"
-		  "Treasury contains %d gold."),
-		name, value, client.conn.playing->economic.gold);
+                  /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+                  PL_("Buy %s for %d gold?\n%s",
+                      "Buy %s for %d gold?\n%s", value),
+                  name, value, tBuf);
     } else {
       fc_snprintf(cBuf, sizeof(cBuf),
-		_("%s costs %d gold.\n"
-		  "Treasury contains %d gold."),
-		name, value, client.conn.playing->economic.gold);
+                  /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+                  PL_("%s costs %d gold.\n%s",
+                      "%s costs %d gold.\n%s", value),
+                  name, value, tBuf);
     }
   } else {
     if (pCity->did_buy) {
@@ -1387,6 +1394,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     char cBuf[80];
     int id;
     SDL_Rect area;
+    int price;
   
     unsellect_widget_action();
     disable_city_dlg_widgets();
@@ -1404,9 +1412,11 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     /* create text label */
     id = MAX_ID - 3000 - pImpr->ID;
   
-    fc_snprintf(cBuf, sizeof(cBuf), _("Sell %s for %d gold?"),
+    price = impr_sell_gold(improvement_by_number(id));
+    fc_snprintf(cBuf, sizeof(cBuf), PL_("Sell %s for %d gold?",
+                                        "Sell %s for %d gold?", price),
                 city_improvement_name_translation(pCityDlg->pCity, improvement_by_number(id)),
-                impr_sell_gold(improvement_by_number(id)));
+                price);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pStr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SELL);

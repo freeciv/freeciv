@@ -562,19 +562,30 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 	case ID_MILITARY_UPGRADE:
 	  if (sel>=0)
 	    {
-	      char buf[512];
-	      struct unit_type *ut1, *ut2;     
+              char tbuf[512], buf[512];
+              struct unit_type *ut1, *ut2;
+              int price = unit_upgrade_price(client_player(), ut1, ut2);
 
 	      ut1 = activeunits_type[sel];
 	      CHECK_UNIT_TYPE(ut1);
-	      ut2 = can_upgrade_unittype(client.conn.playing, activeunits_type[sel]);
-	      fc_snprintf(buf, sizeof(buf),
-			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
-			    "Treasury contains %d gold."),
-			  utype_name_translation(ut1),
-			  utype_name_translation(ut2),
-			  unit_upgrade_price(client.conn.playing, ut1, ut2),
-			  client.conn.playing->economic.gold);
+              ut2 = can_upgrade_unittype(client_player(), activeunits_type[sel]);
+
+              fc_snprintf(tbuf, ARRAY_SIZE(tbuf),
+                          PL_("Treasury contains %d gold.",
+                              "Treasury contains %d gold.",
+                              client_player()->economic.gold),
+                          client_player()->economic.gold);
+
+              fc_snprintf(buf, sizeof(buf),
+                          /* TRANS: Last %s is pre-pluralised
+                           * "Treasury contains %d gold." */
+                          PL_("Upgrade as many %s to %s as possible for "
+                              "%d gold each?\n%s",
+                              "Upgrade as many %s to %s as possible for "
+                              "%d gold each?\n%s", price),
+                          utype_name_translation(ut1),
+                          utype_name_translation(ut2),
+                          price, tbuf);
 
 	      popup_message_dialog(NULL, 
 				   /*"upgradedialog"*/

@@ -2583,13 +2583,15 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 	      && !is_req_active(city_owner(pcity), pcity, NULL,
 				NULL, NULL, NULL, NULL,
 				preq, TRUE)) {
+            int price = impr_sell_gold(pimprove);
             do_sell_building(pplayer, pcity, pimprove);
             notify_player(pplayer, tile1, E_IMP_SOLD, ftc_server,
-                          _("You sell %s in %s (now landlocked)"
-                            " for %d gold."),
+                          PL_("You sell %s in %s (now landlocked)"
+                              " for %d gold.",
+                              "You sell %s in %s (now landlocked)"
+                              " for %d gold.", price),
                           improvement_name_translation(pimprove),
-                          city_link(pcity),
-                          impr_sell_gold(pimprove)); 
+                          city_link(pcity), price);
 	  }
 	} requirement_vector_iterate_end;
       } city_built_iterate_end;

@@ -1370,24 +1370,29 @@ static void diplomat_bribe_callback(HWND w, void * data)
 *****************************************************************/
 void popup_bribe_dialog(struct unit *punit, int cost)
 {
-  char buf[128];
+  char tbuf[128], buf[128];
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
   if (unit_has_type_flag(punit, F_UNBRIBABLE)) {
     popup_message_dialog(root_window, _("Ooops..."),
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0);
-  } else if (cost <= client.conn.playing->economic.gold) {
+  } else if (cost <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
-                _("Bribe unit for %d gold?\nTreasury contains %d gold."), 
-                cost, client.conn.playing->economic.gold);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribe unit for %d gold?\n%s",
+                    "Bribe unit for %d gold?\n%s", cost), cost, tbuf);
     popup_message_dialog(root_window, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"
 ), buf,
                         _("_Yes"), diplomat_bribe_yes_callback, 0,
                         _("_No"), diplomat_bribe_no_callback, 0, 0);
   } else {
     fc_snprintf(buf, sizeof(buf),
-                _("Bribing the unit costs %d gold.\n"
-                  "Treasury contains %d gold."), 
-                cost, client.conn.playing->economic.gold);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Bribing the unit costs %d gold.\n%s",
+                    "Bribing the unit costs %d gold.\n%s", cost), cost, tbuf);
     popup_message_dialog(root_window, /*"diplomatnogolddialog"*/
 	    	_("Traitors Demand Too Much!"), buf, _("Darn"),
 		diplomat_bribe_no_callback, 0, 0);
@@ -1554,26 +1559,30 @@ Popup the yes/no dialog for inciting, since we know the cost now
 *****************************************************************/
 void popup_incite_dialog(struct city *pcity, int cost)
 {
-  char buf[128];
-
+  char tbuf[128], buf[128];
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          client_player()->economic.gold),
+              client_player()->economic.gold);
   if (INCITE_IMPOSSIBLE_COST == cost) {
     fc_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		city_name(pcity));
     popup_message_dialog(root_window, _("City can't be incited!"), buf,
 			 _("Darn"), diplomat_incite_no_callback, 0, 0);
-  } else if (cost <= client.conn.playing->economic.gold) {
+  } else if (cost <= client_player()->economic.gold) {
     fc_snprintf(buf, sizeof(buf),
-		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Incite a revolt for %d gold?\n%s",
+                    "Incite a revolt for %d gold?\n%s", cost), cost, tbuf); 
    diplomat_target_id = pcity->id;
    popup_message_dialog(root_window, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
 		       _("_Yes"), diplomat_incite_yes_callback, 0,
 		       _("_No"), diplomat_incite_no_callback, 0, 0);
   } else {
     fc_snprintf(buf, sizeof(buf),
-		_("Inciting a revolt costs %d gold.\n"
-		  "Treasury contains %d gold."), 
-		cost, client.conn.playing->economic.gold);
+                /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
+                PL_("Inciting a revolt costs %d gold.\n%s",
+                    "Inciting a revolt costs %d gold.\n%s", cost), cost, tbuf);
    popup_message_dialog(root_window, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 		       _("Darn"), diplomat_incite_no_callback, 0, 
 		       0);

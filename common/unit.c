@@ -1850,16 +1850,24 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
   struct unit_type *from_unittype = unit_type(punit);
   struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
                                                        unit_type(punit));
+  char tbuf[MAX_LEN_MSG];
+
+  fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                          "Treasury contains %d gold.",
+                                          pplayer->economic.gold),
+              pplayer->economic.gold);
 
   switch (result) {
   case UU_OK:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     /* This message is targeted toward the GUI callers. */
-    fc_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
-                              "Treasury contains %d gold."),
+    /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+    fc_snprintf(buf, bufsz, PL_("Upgrade %s to %s for %d gold?\n%s",
+                                "Upgrade %s to %s for %d gold?\n%s",
+                                upgrade_cost),
                 utype_name_translation(from_unittype),
                 utype_name_translation(to_unittype),
-                upgrade_cost, pplayer->economic.gold);
+                upgrade_cost, tbuf);
     break;
   case UU_NO_UNITTYPE:
     fc_snprintf(buf, bufsz,
@@ -1868,12 +1876,13 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
     break;
   case UU_NO_MONEY:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
-    fc_snprintf(buf, bufsz,
-                _("Upgrading %s to %s costs %d gold.\n"
-                  "Treasury contains %d gold."),
+    /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+    fc_snprintf(buf, bufsz, PL_("Upgrading %s to %s costs %d gold.\n%s",
+                                "Upgrading %s to %s costs %d gold.\n%s",
+                                upgrade_cost),
                 utype_name_translation(from_unittype),
                 utype_name_translation(to_unittype),
-                upgrade_cost, pplayer->economic.gold);
+                upgrade_cost, tbuf);
     break;
   case UU_NOT_IN_CITY:
   case UU_NOT_CITY_OWNER:

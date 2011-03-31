@@ -1741,7 +1741,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     ransom = (pvictim->economic.gold >= game.server.ransom_gold) 
              ? game.server.ransom_gold : pvictim->economic.gold;
     notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                  _("Barbarian leader captured; %d gold ransom paid."),
+                  PL_("Barbarian leader captured; %d gold ransom paid.",
+                      "Barbarian leader captured; %d gold ransom paid.",
+                      ransom),
                   ransom);
     pvictor->economic.gold += ransom;
     pvictim->economic.gold -= ransom;
@@ -2455,7 +2457,8 @@ static bool hut_get_limited(struct unit *punit)
   if (hut_chance != 0) {
     int cred = 25;
     notify_player(pplayer, unit_tile(punit), E_HUT_GOLD, ftc_server,
-                  _("You found %d gold."), cred);
+                  PL_("You found %d gold.",
+                      "You found %d gold.", cred), cred);
     pplayer->economic.gold += cred;
   } else if (city_exists_within_max_city_map(unit_tile(punit), TRUE)
              || unit_has_type_flag(punit, F_GAMELOSS)) {

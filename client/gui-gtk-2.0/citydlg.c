@@ -2598,17 +2598,25 @@ static void buy_callback(GtkWidget *w, gpointer data)
   struct city_dialog *pdialog = data;
   const char *name = city_production_name_translation(pdialog->pcity);
   int value = city_production_buy_gold_cost(pdialog->pcity);
+  char buf[1024];
 
   if (!can_client_issue_orders()) {
     return;
   }
 
-  if (value <= client.conn.playing->economic.gold) {
+  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                        "Treasury contains %d gold.",
+                                        client_player()->economic.gold),
+              client_player()->economic.gold);
+
+  if (value <= client_player()->economic.gold) {
     shell = gtk_message_dialog_new(NULL,
         GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-        _("Buy %s for %d gold?\nTreasury contains %d gold."),
-        name, value, client.conn.playing->economic.gold);
+        /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+        PL_("Buy %s for %d gold?\n%s",
+            "Buy %s for %d gold?\n%s", value),
+        name, value, buf);
     setup_dialog(shell, pdialog->shell);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
@@ -2619,8 +2627,10 @@ static void buy_callback(GtkWidget *w, gpointer data)
     shell = gtk_message_dialog_new(NULL,
         GTK_DIALOG_DESTROY_WITH_PARENT,
         GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-        _("%s costs %d gold.\nTreasury contains %d gold."),
-        name, value, client.conn.playing->economic.gold);
+        /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+        PL_("%s costs %d gold.\n%s",
+            "%s costs %d gold.\n%s", value),
+        name, value, buf);
     setup_dialog(shell, pdialog->shell);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
@@ -2653,6 +2663,7 @@ static void sell_callback(struct impr_type *pimprove, gpointer data)
   GtkWidget *shl;
   struct city_dialog *pdialog = (struct city_dialog *) data;
   pdialog->sell_id = improvement_number(pimprove);
+  int price;
   
   if (!can_client_issue_orders()) {
     return;
@@ -2663,13 +2674,14 @@ static void sell_callback(struct impr_type *pimprove, gpointer data)
     return;
   }
 
+  price = impr_sell_gold(pimprove);
   shl = gtk_message_dialog_new(NULL,
     GTK_DIALOG_DESTROY_WITH_PARENT,
     GTK_MESSAGE_QUESTION,
     GTK_BUTTONS_YES_NO,
-    _("Sell %s for %d gold?"),
-    city_improvement_name_translation(pdialog->pcity, pimprove),
-    impr_sell_gold(pimprove));
+    PL_("Sell %s for %d gold?",
+        "Sell %s for %d gold?", price),
+    city_improvement_name_translation(pdialog->pcity, pimprove), price);
   setup_dialog(shl, pdialog->shell);
   pdialog->sell_shell = shl;
   

@@ -154,7 +154,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     struct unit_type *ut1;
     struct unit_type *ut2;
     int value;
-    char cBuf[128];
+    char tBuf[128], cBuf[128];
     struct widget *pBuf = NULL, *pWindow;
     SDL_String16 *pStr;
     SDL_Surface *pText;
@@ -176,13 +176,20 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
   
     ut2 = can_upgrade_unittype(client.conn.playing, ut1);
     value = unit_upgrade_price(client.conn.playing, ut1, ut2);
-    
+
+    fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
+                                            "Treasury contains %d gold.",
+                                            client_player()->economic.gold),
+                client_player()->economic.gold);
+
     fc_snprintf(cBuf, sizeof(cBuf),
-          _("Upgrade as many %s to %s as possible for %d gold each?\n"
-            "Treasury contains %d gold."),
+          /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
+          PL_("Upgrade as many %s to %s as possible for %d gold each?\n%s",
+              "Upgrade as many %s to %s as possible for %d gold each?\n%s",
+              value),
           utype_name_translation(ut1),
           utype_name_translation(ut2),
-          value, client.conn.playing->economic.gold);
+          value, tBuf);
    
     
     pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));

@@ -260,8 +260,9 @@ void get_city_dialog_production(struct city *pcity,
   }
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    fc_snprintf(buffer, buffer_len, _("%3d gold per turn"),
-                MAX(0, pcity->surplus[O_SHIELD]));
+    int gold = MAX(0, pcity->surplus[O_SHIELD]);
+    fc_snprintf(buffer, buffer_len, PL_("%3d gold per turn",
+                                        "%3d gold per turn", gold), gold);
     return;
   }
 

@@ -630,7 +630,12 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
         gtk_tree_selection_selected_foreach(city_selection,
                                             sell_impr_iterate, &sd);
         if (sd.count > 0) {
-          fc_snprintf(buf, sizeof(buf), _("Sold %d %s for %d gold."),
+          /* FIXME: plurality of sd.count is ignored! */
+          /* TRANS: "Sold 3 Harbour for 90 gold." (Pluralisation is in gold --
+           * second %d -- not in buildings.) */
+          fc_snprintf(buf, sizeof(buf), PL_("Sold %d %s for %d gold.",
+                                            "Sold %d %s for %d gold.",
+                                            sd.gold),
                       sd.count, imprname, sd.gold);
         } else {
           fc_snprintf(buf, sizeof(buf), _("No %s could be sold."),

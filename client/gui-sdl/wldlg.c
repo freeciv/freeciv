@@ -912,8 +912,11 @@ static void refresh_production_label(int stock)
   if (VUT_IMPROVEMENT == pEditor->currently_building.kind
      && improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD))
   {
-     fc_snprintf(cBuf, sizeof(cBuf),
-      	_("%s\n%d gold per turn"), name, MAX(0, pEditor->pCity->surplus[O_SHIELD]));
+    int gold = MAX(0, pEditor->pCity->surplus[O_SHIELD]);
+    fc_snprintf(cBuf, sizeof(cBuf),
+                PL_("%s\n%d gold per turn",
+                    "%s\n%d gold per turn", gold),
+                name, gold);
   } else {
     if(stock < cost) {
       turns = city_turns_to_build(pEditor->pCity,
@@ -1098,8 +1101,11 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     
     if (city_production_has_flag(pCity, IF_GOLD))
     {
+      int gold = MAX(0, pCity->surplus[O_SHIELD]);
       fc_snprintf(cBuf, sizeof(cBuf),
-      	_("%s\n%d gold per turn"), name, MAX(0, pCity->surplus[O_SHIELD]));
+                  PL_("%s\n%d gold per turn",
+                      "%s\n%d gold per turn", gold),
+                  name, gold);
     } else {
       if(pCity->shield_stock < count) {
         turns = city_production_turns_to_build(pCity, TRUE);
@@ -1416,8 +1422,10 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
           }
         } else {
           /* capitalization */
-          fc_snprintf(cBuf, sizeof(cBuf), _("%d gold per turn"),
-		    MAX(0, pCity->surplus[O_SHIELD]));
+          int gold = MAX(0, pCity->surplus[O_SHIELD]);
+          fc_snprintf(cBuf, sizeof(cBuf), PL_("%d gold per turn",
+                                              "%d gold per turn", gold),
+                      gold);
         }
       } else {
         /* non city mode */

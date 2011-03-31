@@ -1210,13 +1210,27 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
       /* This may trigger sometimes if you don't have enough money for
        * a full upgrade.  If you have enough to upgrade at least one, it
        * will do it. */
-      fc_snprintf(buf, bufsz, PL_("Upgrade %d unit for %d gold?\n"
-                                  "Treasury contains %d gold.",
-                                  "Upgrade %d units for %d gold?\n"
-                                  "Treasury contains %d gold.",
-                                  num_upgraded),
-                  num_upgraded, upgrade_cost,
+      /* Construct prompt in several parts to allow separate pluralisation
+       * by localizations */
+      char tbuf[MAX_LEN_MSG], ubuf[MAX_LEN_MSG];
+      fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                              "Treasury contains %d gold.",
+                                              client_player()->economic.gold),
                   client_player()->economic.gold);
+      /* TRANS: this whole string is a sentence fragment that is only ever
+       * used by including it in another string (search comments for this
+       * string to find it) */
+      fc_snprintf(ubuf, ARRAY_SIZE(ubuf), PL_("Upgrade %d unit",
+                                              "Upgrade %d units",
+                                              num_upgraded),
+                  num_upgraded);
+      /* TRANS: This is complicated. The first %s is a pre-pluralised
+       * sentence fragment "Upgrade %d unit(s)"; the second is pre-pluralised
+       * "Treasury contains %d gold." So the whole thing reads
+       * "Upgrade 13 units for 1000 gold?\nTreasury contains 2000 gold." */
+      fc_snprintf(buf, bufsz, PL_("%s for %d gold?\n%s",
+                                  "%s for %d gold?\n%s", upgrade_cost),
+                  ubuf, upgrade_cost, tbuf);
       return TRUE;
     }
   }
