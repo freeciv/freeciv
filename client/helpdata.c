@@ -2233,10 +2233,15 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case EFT_RAPTURE_GROW:
         cat_snprintf(buf, bufsz,
-                     /* TRANS: %d should always be greater than 2. */
-                     _("* You may grow your cities by means of celebrations."
-                       " Your cities must be at least size %d.\n"),
-                     peffect->value);
+                     _("* You may grow your cities by means of celebrations."));
+        if (game.info.celebratesize > 1) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: Preserve leading space. %d should always be
+                        * 2 or greater. */
+                       _(" (Cities below size %d cannot grow in this way.)"),
+                       game.info.celebratesize);
+        }
+        cat_snprintf(buf, bufsz, "\n");
         break;
       case EFT_UNBRIBABLE_UNITS:
         CATLSTR(buf, bufsz, _("* Your units cannot be bribed.\n"));
@@ -2294,15 +2299,33 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'or' */
                      _("* Each worked tile that gives more than %d %s will"
-                       " suffer a -1 penalty unless celebrating.\n"),
+                       " suffer a -1 penalty, unless the city working it"
+                       " is celebrating."),
                      peffect->value, astr_str(&outputs_or));
+        if (game.info.celebratesize > 1) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: Preserve leading space. %d should always be
+                        * 2 or greater. */
+                       _(" (Cities below size %d will not celebrate.)"),
+                       game.info.celebratesize);
+        }
+        cat_snprintf(buf, bufsz, "\n");
         break;
       case EFT_OUTPUT_INC_TILE_CELEBRATE:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'or' */
                      _("* Each worked tile with at least 1 %s will yield"
-                       " %d more of it while celebrating.\n"),
+                       " %d more of it while the city working it is"
+                       " celebrating."),
                      astr_str(&outputs_or), peffect->value);
+        if (game.info.celebratesize > 1) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: Preserve leading space. %d should always be
+                        * 2 or greater. */
+                       _(" (Cities below size %d will not celebrate.)"),
+                       game.info.celebratesize);
+        }
+        cat_snprintf(buf, bufsz, "\n");
         break;
       case EFT_OUTPUT_INC_TILE:
         cat_snprintf(buf, bufsz,

@@ -769,9 +769,9 @@ prevent disorder but is without further benefit. Producing happy \
 citizens can balance the effect of unhappy citizens and also bring other \
 benefits.\
 "), _("\
-Cities with three or more citizens celebrate when at least half their \
+Cities that are sufficiently large celebrate when at least half their \
 citizens are happy and none remain unhappy. The effects of celebration \
-vary depending on your government type; in the default ruleset:\
+vary; in the default ruleset, they depend on your government type:\
 "), _("\
  - Under Anarchy or Despotism, you will not suffer the normal \
 production penalty for tiles which produce more than 2 points of \
