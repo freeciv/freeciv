@@ -660,11 +660,12 @@ static bool maxplayers_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
-  Disallow low timeout values for non-hack connections.
+  Validate the 'timeout' server setting.
 *************************************************************************/
 static bool timeout_callback(int value, struct connection *caller,
                              char *reject_msg, size_t reject_msg_len)
 {
+  /* Disallow low timeout values for non-hack connections. */
   if (caller && caller->access_level < ALLOW_HACK && value < 30) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("You are not allowed to set timeout values less "
@@ -673,17 +674,19 @@ static bool timeout_callback(int value, struct connection *caller,
   }
 
   if (value == -1 && game.server.unitwaittime != 0) {
-    /* autogame only with 'unitwaitime' = 0 */
+    /* autogame only with 'unitwaittime' = 0 */
     settings_snprintf(reject_msg, reject_msg_len,
+                      /* TRANS: Do not translate setting names in ''. */
                       _("For autogames ('timeout' = -1) 'unitwaittime' "
                         "should be deactivated (= 0)."));
     return FALSE;
   }
 
-  if (value != -1 && value < game.server.unitwaittime * 3 / 2) {
+  if (value > 0 && value < game.server.unitwaittime * 3 / 2) {
     /* for normal games 'timeout' should be at least 3/2 times the value
      * of 'unitwaittime' */
     settings_snprintf(reject_msg, reject_msg_len,
+                      /* TRANS: Do not translate setting names in ''. */
                       _("'timeout' can not be lower than 3/2 of the "
                         "'unitwaittime' setting (= %d). Please change "
                         "'unitwaittime' first."), game.server.unitwaittime);
@@ -701,13 +704,15 @@ static bool unitwaittime_callback(int value, struct connection *caller,
 {
   if (game.info.timeout == -1 && value != 0) {
     settings_snprintf(reject_msg, reject_msg_len,
+                      /* TRANS: Do not translate setting names in ''. */
                       _("For autogames ('timeout' = -1) 'unitwaittime' "
                         "should be deactivated (= 0)."));
     return FALSE;
   }
 
-  if (value > game.info.timeout * 2 / 3) {
+  if (game.info.timeout > 0 && value > game.info.timeout * 2 / 3) {
     settings_snprintf(reject_msg, reject_msg_len,
+                      /* TRANS: Do not translate setting names in ''. */
                       _("'unitwaittime' has to be lower than 2/3 of the "
                         "'timeout' setting (= %d). Please change 'timeout' "
                         "first."), game.info.timeout);
