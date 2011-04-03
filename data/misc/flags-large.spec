@@ -228,6 +228,7 @@ sprites =
 		"f.lendian", "flags/lendian-large"
 		"f.leon", "flags/leon-large"
 		"f.latvia", "flags/latvia-large"
+		"f.liberia", "flags/liberia-large"
 		"f.libya", "flags/libya-large"
 		"f.liechtenstein", "flags/liechtenstein-large"
 		"f.liguria", "flags/liguria-large"		; used by Genoese

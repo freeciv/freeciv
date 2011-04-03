@@ -226,6 +226,7 @@ artists = "
    Lebanon		Tobias Jakobs
    Lendian		J.M. Maalderink
    Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
+   Liberia		J.M. Maalderink
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
    Liguria		Flanker (Wikimedia Commons)
@@ -679,6 +680,7 @@ sprites =
 		"f.lendian", "flags/lendian"
 		"f.leon", "flags/leon"
 		"f.latvia", "flags/latvia"
+		"f.liberia", "flags/libya"
 		"f.libya", "flags/libya"
 		"f.liechtenstein", "flags/liechtenstein"
 		"f.liguria", "flags/liguria"		; used by Genoese

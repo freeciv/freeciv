@@ -268,6 +268,7 @@ match=2
 *include "nation/lebanese.ruleset"
 *include "nation/lendian.ruleset"
 *include "nation/leonese.ruleset"
+*include "nation/liberian.ruleset"
 *include "nation/libyan.ruleset"
 *include "nation/liechtensteiner.ruleset"
 *include "nation/lipkatatar.ruleset"
