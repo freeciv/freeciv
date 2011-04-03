@@ -344,6 +344,8 @@ artists = "
    Rwanda		Cezary Biele
    Ryukyu		Daniel Markstedt
    SADR			J.M. Maalderink
+   Saka			Madden, J.M. Maalderink and Andrzej G.
+   Sakha		Zachary Harden
    Salish		kubble (Open Clip Art)
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    San Marino		Tobias Jakobs
@@ -794,6 +796,7 @@ sprites =
 		"f.rwanda", "flags/rwanda"
 		"f.ryukyu", "flags/ryukyu"
 		"f.sadr", "flags/sadr"
+		"f.saka", "flags/saka"
 		"f.sakha", "flags/sakha"
 		"f.salish", "flags/salish"
 		"f.samogitia", "flags/samogitia"

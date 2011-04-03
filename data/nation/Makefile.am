@@ -329,6 +329,7 @@ pkgdata_DATA = \
 		rwandan.ruleset \
 		ryukyuan.ruleset \
 		sahrawi.ruleset \
+		saka.ruleset \
 		salishan.ruleset \
 		salvadoran.ruleset \
 		sami.ruleset \

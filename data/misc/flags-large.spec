@@ -345,6 +345,7 @@ sprites =
 		"f.rwanda", "flags/rwanda-large"
 		"f.ryukyu", "flags/ryukyu-large"
 		"f.sadr", "flags/sadr-large"
+		"f.saka", "flags/saka-large"
 		"f.sakha", "flags/sakha-large"
 		"f.salish", "flags/salish-large"
 		"f.samogitia", "flags/samogitia-large"
