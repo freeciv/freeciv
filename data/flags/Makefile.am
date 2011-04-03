@@ -245,6 +245,7 @@ flag_files =				\
 		maori.png		\
 		mapuche.png		\
 		mars.png		\
+		mauritania.png		\
 		maya.png		\
 		mazovia.png		\
 		mecklenburg.png		\
@@ -691,6 +692,7 @@ flag_files =				\
 		maori-large.png		\
 		mapuche-large.png		\
 		mars-large.png		\
+		mauritania-large.png		\
 		maya-large.png		\
 		mazovia-large.png		\
 		mecklenburg-large.png		\
@@ -1139,6 +1141,7 @@ shield_files =					\
 		maori-shield.png		\
 		mapuche-shield.png		\
 		mars-shield.png			\
+		mauritania-shield.png		\
 		maya-shield.png			\
 		mazovia-shield.png		\
 		mecklenburg-shield.png		\
@@ -1585,6 +1588,7 @@ shield_files =					\
 		maori-shield-large.png		\
 		mapuche-shield-large.png		\
 		mars-shield-large.png			\
+		mauritania-shield-large.png		\
 		maya-shield-large.png			\
 		mazovia-shield-large.png		\
 		mecklenburg-shield-large.png		\
@@ -2032,6 +2036,7 @@ svg_files = 				\
 		maori.svg		\
 		mapuche.svg		\
 		mars.svg		\
+		mauritania.svg		\
 		maya.svg		\
 		mazovia.svg		\
 		mecklenburg.svg		\

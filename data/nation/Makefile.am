@@ -243,6 +243,7 @@ pkgdata_DATA = \
 		maori.ruleset \
 		mapuche.ruleset \
 		martian.ruleset \
+		mauritanian.ruleset \
 		mayan.ruleset \
 		mazovian.ruleset \
 		mecklenburgian.ruleset \

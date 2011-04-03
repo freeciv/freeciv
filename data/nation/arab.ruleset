@@ -36,11 +36,12 @@ init_units=""
 conflicts_with="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
  "Yemeni", "South Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani",
- "Sahrawi"
+ "Sahrawi", "Mauritanian"
 ; ...civil war to them.
 civilwar_nations="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
- "Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani", "Sahrawi"
+ "Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani", "Sahrawi",
+ "Mauritanian"
 
 ; Arab Peninsula and Near East.  City names are mostly from the Ummayyad 
 ; and Abbasid periods.  These are Arab spellings rather than Anglicized ones;

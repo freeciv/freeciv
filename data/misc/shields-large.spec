@@ -254,6 +254,7 @@ sprites =
 		"f.shield.maori", "flags/maori-shield-large"
 		"f.shield.mapuche", "flags/mapuche-shield-large"
 		"f.shield.mars", "flags/mars-shield-large"
+		"f.shield.mauritania", "flags/mauritania-shield-large"
 		"f.shield.maya", "flags/maya-shield-large"
 		"f.shield.mazovia", "flags/mazovia-shield-large"
 		"f.shield.mecklenburg", "flags/mecklenburg-shield-large"

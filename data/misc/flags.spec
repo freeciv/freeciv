@@ -252,6 +252,7 @@ artists = "
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
+   Mauritania		Flad (Wikimedia Commons)
    Maya			Daniel Markstedt
    Mazovia		J.M. Maalderink
    Mecklenburg		Daniel Markstedt
@@ -706,6 +707,7 @@ sprites =
 		"f.maori", "flags/maori"
 		"f.mapuche", "flags/mapuche"
 		"f.mars", "flags/mars"
+		"f.mauritania", "flags/mauritania"
 		"f.maya", "flags/maya"
 		"f.mazovia", "flags/mazovia"
 		"f.mecklenburg", "flags/mecklenburg"
