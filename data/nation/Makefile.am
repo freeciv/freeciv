@@ -124,6 +124,7 @@ pkgdata_DATA = \
 		emirati.ruleset \
 		english.ruleset \
 		epirote.ruleset \
+		equatoguinean.ruleset \
 		esperant.ruleset \
 		estonian.ruleset \
 		eritrean.ruleset \

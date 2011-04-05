@@ -127,6 +127,7 @@ sprites =
 		"f.shield.el_salvador", "flags/el_salvador-shield-large"
 		"f.shield.england", "flags/england-shield-large"
 		"f.shield.epirus", "flags/epirus-shield-large"
+		"f.shield.equatorial_guinea", "flags/equatorial_guinea-shield-large"
 		"f.shield.esperanto", "flags/esperanto-shield-large"
 		"f.shield.estonia", "flags/estonia-shield-large"
 		"f.shield.eritrea", "flags/eritrea-shield-large"
