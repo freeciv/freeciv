@@ -89,9 +89,10 @@ void science_goal_callback(Widget w, XtPointer client_data,
 static Widget economy_dialog_shell;
 static Widget economy_label, economy_label2;
 static Widget economy_list, economy_list_label;
-static Widget sellall_command, sellobsolete_command;
+static Widget sellall_command, sellredundant_command;
 static int economy_dialog_shell_is_modal;
 static struct impr_type *economy_improvement_type[B_LAST];
+static bool economy_improvement_redundant[B_LAST];
 
 void create_economy_report_dialog(bool make_modal);
 void economy_close_callback(Widget w, XtPointer client_data, 
@@ -672,8 +673,8 @@ void create_economy_report_dialog(bool make_modal)
     I_L(XtVaCreateManagedWidget("reporteconomyclosecommand", commandWidgetClass,
 				economy_form, NULL));
 
-  sellobsolete_command =
-    I_L(XtVaCreateManagedWidget("reporteconomysellobsoletecommand", 
+  sellredundant_command =
+    I_L(XtVaCreateManagedWidget("reporteconomysellredundantcommand", 
 				commandWidgetClass,
 				economy_form,
 				XtNsensitive, False,
@@ -688,7 +689,7 @@ void create_economy_report_dialog(bool make_modal)
 	
   XtAddCallback(economy_list, XtNcallback, economy_list_callback, NULL);
   XtAddCallback(close_command, XtNcallback, economy_close_callback, NULL);
-  XtAddCallback(sellobsolete_command, XtNcallback, economy_selloff_callback, (XtPointer)0);
+  XtAddCallback(sellredundant_command, XtNcallback, economy_selloff_callback, (XtPointer)0);
   XtAddCallback(sellall_command, XtNcallback, economy_selloff_callback, (XtPointer)1);
   XtRealizeWidget(economy_dialog_shell);
 
@@ -717,12 +718,12 @@ void economy_list_callback(Widget w, XtPointer client_data,
     struct impr_type *pimprove = economy_improvement_type[ret->list_index];
     bool is_sellable = can_sell_building(pimprove);
 
-    XtSetSensitive(sellobsolete_command, is_sellable
-		   && improvement_obsolete(client.conn.playing, pimprove));
+    XtSetSensitive(sellredundant_command, is_sellable
+                   && economy_improvement_redundant[ret->list_index]);
     XtSetSensitive(sellall_command, is_sellable);
   } else {
     /* No selection has been made. */
-    XtSetSensitive(sellobsolete_command, FALSE);
+    XtSetSensitive(sellredundant_command, FALSE);
     XtSetSensitive(sellall_command, FALSE);
   }
 }
@@ -791,6 +792,7 @@ void real_economy_report_dialog_update(void)
 		  p->count, p->cost, p->total_cost);
       economy_list_names_ptrs[i] = economy_list_names[i];
       economy_improvement_type[i] = p->type;
+      economy_improvement_redundant[i] = (p->redundant > 0);
     }
     
     if (entries_used == 0) {

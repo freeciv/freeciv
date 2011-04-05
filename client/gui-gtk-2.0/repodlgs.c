@@ -697,7 +697,7 @@ struct economy_report {
 static struct economy_report economy_report = { NULL, };
 
 enum economy_report_response {
-  ERD_RES_SELL_OBSOLETE = 1,
+  ERD_RES_SELL_REDUNDANT = 1,
   ERD_RES_SELL_ALL,
   ERD_RES_DISBAND_UNITS
 };
@@ -707,13 +707,13 @@ enum economy_report_response {
 enum economy_report_columns {
   ERD_COL_SPRITE,
   ERD_COL_NAME,
-  ERD_COL_OBSOLETE,
+  ERD_COL_REDUNDANT,
   ERD_COL_COUNT,
   ERD_COL_COST,
   ERD_COL_TOTAL_COST,
 
   /* Not visible. */
-  ERD_COL_BOOL_VISIBLE,
+  ERD_COL_IS_IMPROVEMENT,
   ERD_COL_CID,
 
   ERD_COL_NUM
@@ -727,11 +727,11 @@ static GtkListStore *economy_report_store_new(void)
   return gtk_list_store_new(ERD_COL_NUM,
                             GDK_TYPE_PIXBUF,    /* ERD_COL_SPRITE */
                             G_TYPE_STRING,      /* ERD_COL_NAME */
-                            G_TYPE_BOOLEAN,     /* ERD_COL_OBSOLETE */
+                            G_TYPE_INT,         /* ERD_COL_REDUNDANT */
                             G_TYPE_INT,         /* ERD_COL_COUNT */
                             G_TYPE_INT,         /* ERD_COL_COST */
                             G_TYPE_INT,         /* ERD_COL_TOTAL_COST */
-                            G_TYPE_BOOLEAN,     /* ERD_COL_BOOL_VISIBLE */
+                            G_TYPE_BOOLEAN,     /* ERD_COL_IS_IMPROVEMENT */
                             G_TYPE_INT,         /* ERD_COL_UNI_KIND */
                             G_TYPE_INT);        /* ERD_COL_UNI_VALUE_ID */
 }
@@ -748,8 +748,8 @@ economy_report_column_name(enum economy_report_columns col)
     return _("Type");
   case ERD_COL_NAME:
     return Q_("?Building or Unit type:Name");
-  case ERD_COL_OBSOLETE:
-    return _("Obsolete");
+  case ERD_COL_REDUNDANT:
+    return _("Redundant");
   case ERD_COL_COUNT:
     return _("Count");
   case ERD_COL_COST:
@@ -757,7 +757,7 @@ economy_report_column_name(enum economy_report_columns col)
   case ERD_COL_TOTAL_COST:
     /* TRANS: Upkeep total, count*cost. */
     return _("U Total");
-  case ERD_COL_BOOL_VISIBLE:
+  case ERD_COL_IS_IMPROVEMENT:
   case ERD_COL_CID:
   case ERD_COL_NUM:
     break;
@@ -808,12 +808,11 @@ static void economy_report_update(struct economy_report *preport)
     gtk_list_store_set(store, &iter,
                        ERD_COL_SPRITE, sprite_get_pixbuf(sprite),
                        ERD_COL_NAME, improvement_name_translation(pimprove),
-                       ERD_COL_OBSOLETE, client_has_player()
-                       && improvement_obsolete(client_player(), pimprove),
+                       ERD_COL_REDUNDANT, pentry->redundant,
                        ERD_COL_COUNT, pentry->count,
                        ERD_COL_COST, pentry->cost,
                        ERD_COL_TOTAL_COST, pentry->total_cost,
-                       ERD_COL_BOOL_VISIBLE, TRUE,
+                       ERD_COL_IS_IMPROVEMENT, TRUE,
                        ERD_COL_CID, cid,
                        -1);
     if (selected == cid) {
@@ -834,10 +833,11 @@ static void economy_report_update(struct economy_report *preport)
     gtk_list_store_set(store, &iter,
                        ERD_COL_SPRITE, sprite_get_pixbuf(sprite),
                        ERD_COL_NAME, utype_name_translation(putype),
+                       ERD_COL_REDUNDANT, 0,
                        ERD_COL_COUNT, pentry->count,
                        ERD_COL_COST, pentry->cost,
                        ERD_COL_TOTAL_COST, pentry->total_cost,
-                       ERD_COL_BOOL_VISIBLE, FALSE,
+                       ERD_COL_IS_IMPROVEMENT, FALSE,
                        ERD_COL_CID, cid,
                        -1);
     if (selected == cid) {
@@ -869,7 +869,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
   char buf[256] = "";
 
   switch (response) {
-  case ERD_RES_SELL_OBSOLETE:
+  case ERD_RES_SELL_REDUNDANT:
   case ERD_RES_SELL_ALL:
   case ERD_RES_DISBAND_UNITS:
     break;
@@ -893,21 +893,33 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
 
       if (can_sell_building(pimprove)
           && (ERD_RES_SELL_ALL == response
-              || (ERD_RES_SELL_OBSOLETE == response
-                  && improvement_obsolete(client_player(), pimprove)))) {
+              || (ERD_RES_SELL_REDUNDANT == response))) {
+        bool redundant = (ERD_RES_SELL_REDUNDANT == response);
+        gint count;
+        gtk_tree_model_get(model, &iter,
+                           redundant ? ERD_COL_REDUNDANT : ERD_COL_COUNT,
+                           &count, -1);
+        if (count == 0) {
+          break;
+        }
         shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL
                                        | GTK_DIALOG_DESTROY_WITH_PARENT,
                                        GTK_MESSAGE_QUESTION,
                                        GTK_BUTTONS_YES_NO,
-                                       _("Do you really wish to sell "
-                                         "your %s?\n"),
-                                       improvement_name_translation(pimprove));
+                                       redundant
+                                       /* TRANS: %s is an improvement */
+                                       ? _("Do you really wish to sell "
+                                           "every redundant %s (%d total)?")
+                                       /* TRANS: %s is an improvement */
+                                       : _("Do you really wish to sell "
+                                           "every %s (%d total)?"),
+                                       improvement_name_translation(pimprove),
+                                       count);
         setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
         gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
 
         if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
-          sell_all_improvements(pimprove, ERD_RES_SELL_OBSOLETE == response,
-                                buf, sizeof(buf));
+          sell_all_improvements(pimprove, redundant, buf, sizeof(buf));
         }
         gtk_widget_destroy(shell);
       }
@@ -917,14 +929,18 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
     {
       if (ERD_RES_DISBAND_UNITS == response) {
         struct unit_type *putype = selected.value.utype;
+        gint count;
+        gtk_tree_model_get(model, &iter, ERD_COL_COUNT, &count, -1);
 
         shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL
                                        | GTK_DIALOG_DESTROY_WITH_PARENT,
                                        GTK_MESSAGE_QUESTION,
                                        GTK_BUTTONS_YES_NO,
+                                       /* TRANS: %s is a unit */
                                        _("Do you really wish to disband "
-                                         "your %s?\n"),
-                                       utype_name_translation(putype));
+                                         "every %s (%d total)?"),
+                                       utype_name_translation(putype),
+                                       count);
         setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
         gtk_window_set_title(GTK_WINDOW(shell), _("Disband Units"));
 
@@ -972,17 +988,18 @@ static void economy_report_selection_callback(GtkTreeSelection *selection,
     case VUT_IMPROVEMENT:
       {
         bool can_sell = can_sell_building(selected.value.building);
+        gint redundant;
+        gtk_tree_model_get(model, &iter, ERD_COL_REDUNDANT, &redundant, -1);
 
-        gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE,
-            can_sell && improvement_obsolete(client_player(),
-                                             selected.value.building));
+        gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_REDUNDANT,
+                                          can_sell && redundant > 0);
         gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, can_sell);
         gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS,
                                           FALSE);
       }
       return;
     case VUT_UTYPE:
-      gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE,
+      gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_REDUNDANT,
                                         FALSE);
       gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, FALSE);
       gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS,
@@ -994,7 +1011,7 @@ static void economy_report_selection_callback(GtkTreeSelection *selection,
     }
   }
 
-  gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE, FALSE);
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_REDUNDANT, FALSE);
   gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, FALSE);
   gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS, FALSE);
 }
@@ -1048,16 +1065,26 @@ static void economy_report_init(struct economy_report *preport)
       renderer = gtk_cell_renderer_pixbuf_new();
       col = gtk_tree_view_column_new_with_attributes(title, renderer,
                                                      "pixbuf", i, NULL);
+#if 0
     } else if (G_TYPE_BOOLEAN == type) {
       renderer = gtk_cell_renderer_toggle_new();
       col = gtk_tree_view_column_new_with_attributes(title, renderer,
-                                                     "active", i, "visible",
-                                                     ERD_COL_BOOL_VISIBLE,
-                                                     NULL);
+                                                     "active", i, NULL);
+#endif
     } else {
+      bool is_redundant = (i == ERD_COL_REDUNDANT);
       renderer = gtk_cell_renderer_text_new();
-      col = gtk_tree_view_column_new_with_attributes(title, renderer,
-                                                     "text", i, NULL);
+      if (is_redundant) {
+        /* Special treatment: hide "Redundant" column for units */
+        col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                       "text", i,
+                                                       "visible",
+                                                       ERD_COL_IS_IMPROVEMENT,
+                                                       NULL);
+      } else {
+        col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                       "text", i, NULL);
+      }
     }
 
     if (i > 1) {
@@ -1073,8 +1100,8 @@ static void economy_report_init(struct economy_report *preport)
   gtk_misc_set_padding(GTK_MISC(label), 5, 5);
   preport->label = GTK_LABEL(label);
 
-  button = gui_dialog_add_button(preport->shell, _("Sell _Obsolete"),
-                                 ERD_RES_SELL_OBSOLETE);
+  button = gui_dialog_add_button(preport->shell, _("Sell _Redundant"),
+                                 ERD_RES_SELL_REDUNDANT);
   gtk_widget_set_sensitive(button, FALSE);
 
   button = gui_dialog_add_button(preport->shell, _("Sell _All"),
