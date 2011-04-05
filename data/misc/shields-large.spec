@@ -24,6 +24,7 @@ sprites =
 		"f.shield.aleut", "flags/aleut-shield-large"
 		"f.shield.algeria", "flags/algeria-shield-large"
 		"f.shield.almohad", "flags/almohad-shield-large"
+		"f.shield.alsace", "flags/alsace-shield-large"
 		"f.shield.andorra", "flags/andorra-shield-large"
 		"f.shield.amazigh", "flags/amazigh-shield-large"
 		"f.shield.amazon", "flags/amazon-shield-large"

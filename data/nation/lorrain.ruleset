@@ -40,7 +40,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "walloon", "burgundian", "palatinate"
+civilwar_nations = "walloon", "burgundian", "palatinate", "alsatian"
 
 cities =
  "Nancy",
@@ -70,7 +70,7 @@ cities =
  "Yutz",
  "Villers",
  "Hayange",
- "Kreuzwald",
+ "Creutzwald",
  "Arlon",
  "Hagondange",
  "Commercy",

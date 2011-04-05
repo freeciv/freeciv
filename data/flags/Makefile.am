@@ -15,6 +15,7 @@ flag_files =				\
 		aleut.png		\
 		algeria.png		\
 		almohad.png		\
+		alsace.png		\
 		amazigh.png		\
 		amazon.png		\
 		andorra.png		\
@@ -463,6 +464,7 @@ flag_files =				\
 		aleut-large.png		\
 		algeria-large.png		\
 		almohad-large.png		\
+		alsace-large.png		\
 		amazigh-large.png		\
 		amazon-large.png		\
 		andorra-large.png		\
@@ -913,6 +915,7 @@ shield_files =					\
 		aleut-shield.png		\
 		algeria-shield.png		\
 		almohad-shield.png		\
+		alsace-shield.png		\
 		amazigh-shield.png		\
 		amazon-shield.png		\
 		andorra-shield.png		\
@@ -1361,6 +1364,7 @@ shield_files =					\
 		aleut-shield-large.png		\
 		algeria-shield-large.png		\
 		almohad-shield-large.png		\
+		alsace-shield-large.png			\
 		amazigh-shield-large.png		\
 		amazon-shield-large.png		\
 		andorra-shield-large.png		\
@@ -1811,6 +1815,7 @@ svg_files = 				\
 		aleut.svg		\
 		algeria.svg		\
 		almohad.svg		\
+		alsace.svg		\
 		amazigh.svg		\
 		amazon.svg		\
 		andorra.svg		\

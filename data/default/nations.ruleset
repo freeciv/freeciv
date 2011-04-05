@@ -66,6 +66,7 @@ match=2
 *include "nation/albanian.ruleset"
 *include "nation/aleut.ruleset"
 *include "nation/algerian.ruleset"
+*include "nation/alsatian.ruleset"
 *include "nation/amazigh.ruleset"
 *include "nation/amazonian.ruleset"
 *include "nation/american.ruleset"

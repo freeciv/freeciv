@@ -34,7 +34,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "wuerttembergian", "palatinate", "swiss"
+civilwar_nations = "wuerttembergian", "palatinate", "alsatian"
 
 cities =
  "Baden",

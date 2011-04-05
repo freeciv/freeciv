@@ -41,7 +41,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "werewolf"
+civilwar_nations = "werewolf", "alsatian"
 
 cities =
  "Cynopolis",      ; 'City of Dogs' in Greek

@@ -23,6 +23,7 @@ artists = "
    Aleut		Daniel Markstedt
    Algeria 		Lauris Kaplinski
    Almohad		Ch1902 (Wikimedia Commons)
+   Alsace		Patricia Fidi, Saebhiar (Wikimedia Commons) and J.M. Maalderink
    Amazigh		Mysid
    Amazon		Ann Barcomb
    Andorra		Patricia Fidi
@@ -478,6 +479,7 @@ sprites =
 		"f.aleut", "flags/aleut"
 		"f.algeria", "flags/algeria"
 		"f.almohad", "flags/almohad"
+		"f.alsace", "flags/alsace"
 		"f.amazigh", "flags/amazigh"
 		"f.amazon", "flags/amazon"
 		"f.andorra", "flags/andorra"
