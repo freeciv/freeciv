@@ -23,7 +23,7 @@
 struct improvement_entry
 {
   struct impr_type *type;
-  int count, cost, total_cost;
+  int count, redundant, cost, total_cost;
 };
 
 struct unit_entry
@@ -44,7 +44,7 @@ void get_economy_report_data(struct improvement_entry *entries,
 void get_economy_report_units_data(struct unit_entry *entries,
 				   int *num_entries_used, int *total_cost);
 
-void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
+void sell_all_improvements(struct impr_type *pimprove, bool redundant_only,
 			   char *message, size_t message_sz);
 void disband_all_units(struct unit_type *punittype, bool in_cities_only,
 		       char *message, size_t message_sz);

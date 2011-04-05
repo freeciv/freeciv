@@ -1873,17 +1873,17 @@ Freeciv*reporteconomyclosecommand.bottom:	chainBottom
 Freeciv*reporteconomyclosecommand.left:		chainLeft
 Freeciv*reporteconomyclosecommand.right:	chainLeft
 
-Freeciv*reporteconomysellobsoletecommand.label:		_("Sell Obsolete")
-Freeciv*reporteconomysellobsoletecommand.fromVert:	reporteconomylabel2
-Freeciv*reporteconomysellobsoletecommand.fromHoriz:	reporteconomyclosecommand
-Freeciv*reporteconomysellobsoletecommand.top:		chainBottom
-Freeciv*reporteconomysellobsoletecommand.bottom:	chainBottom
-Freeciv*reporteconomysellobsoletecommand.left:		chainLeft
-Freeciv*reporteconomysellobsoletecommand.right:		chainLeft
+Freeciv*reporteconomysellredundantcommand.label:	_("Sell Redundant")
+Freeciv*reporteconomysellredundantcommand.fromVert:	reporteconomylabel2
+Freeciv*reporteconomysellredundantcommand.fromHoriz:	reporteconomyclosecommand
+Freeciv*reporteconomysellredundantcommand.top:		chainBottom
+Freeciv*reporteconomysellredundantcommand.bottom:	chainBottom
+Freeciv*reporteconomysellredundantcommand.left:		chainLeft
+Freeciv*reporteconomysellredundantcommand.right:	chainLeft
 
 Freeciv*reporteconomysellallcommand.label:	_("Sell All")
 Freeciv*reporteconomysellallcommand.fromVert:	reporteconomylabel2
-Freeciv*reporteconomysellallcommand.fromHoriz:	reporteconomysellobsoletecommand
+Freeciv*reporteconomysellallcommand.fromHoriz:	reporteconomysellredundantcommand
 Freeciv*reporteconomysellallcommand.top:	chainBottom
 Freeciv*reporteconomysellallcommand.bottom:	chainBottom
 Freeciv*reporteconomysellallcommand.left:	chainLeft

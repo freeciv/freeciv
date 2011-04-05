@@ -57,11 +57,14 @@ void get_economy_report_data(struct improvement_entry *entries,
 
   improvement_iterate(pimprove) {
     if (is_improvement(pimprove)) {
-      int count = 0, cost = 0;
+      int count = 0, redundant = 0, cost = 0;
       city_list_iterate(client.conn.playing->cities, pcity) {
 	if (city_has_building(pcity, pimprove)) {
 	  count++;
 	  cost += city_improvement_upkeep(pcity, pimprove);
+          if (is_improvement_redundant(pcity, pimprove)) {
+            redundant++;
+          }
 	}
       }
       city_list_iterate_end;
@@ -72,6 +75,7 @@ void get_economy_report_data(struct improvement_entry *entries,
 
       entries[*num_entries_used].type = pimprove;
       entries[*num_entries_used].count = count;
+      entries[*num_entries_used].redundant = redundant;
       entries[*num_entries_used].total_cost = cost;
       entries[*num_entries_used].cost = cost / count;
       (*num_entries_used)++;
@@ -147,13 +151,13 @@ void get_economy_report_units_data(struct unit_entry *entries,
 }
 
 /****************************************************************************
-  Sell all improvements of the given type in all cities.  If "obsolete_only"
+  Sell all improvements of the given type in all cities.  If "redundant_only"
   is specified then only those improvements that are replaced will be sold.
 
   The "message" string will be filled with a GUI-friendly message about
   what was sold.
 ****************************************************************************/
-void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
+void sell_all_improvements(struct impr_type *pimprove, bool redundant_only,
 			   char *message, size_t message_sz)
 {
   int count = 0, gold = 0;
@@ -165,7 +169,7 @@ void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
 
   city_list_iterate(client.conn.playing->cities, pcity) {
     if (!pcity->did_sell && city_has_building(pcity, pimprove)
-	&& (!obsolete_only
+	&& (!redundant_only
 	    || is_improvement_redundant(pcity, pimprove))) {
       count++;
       gold += impr_sell_gold(pimprove);
