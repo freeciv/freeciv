@@ -320,6 +320,13 @@ void api_actions_place_partisans @ place_partisans (Tile *ptile,
                                                     int count,
                                                     int sq_radius);
 
+enum climate_change_type {
+  CLIMATE_CHANGE_GLOBAL_WARMING @ GLOBAL_WARMING,
+  CLIMATE_CHANGE_NUCLEAR_WINTER @ NUCLEAR_WINTER
+};
+void api_actions_climate_change @ climate_change (enum climate_change_type type,
+                                                  int effect);
+
 $[
 
 -- Building_Type methods.

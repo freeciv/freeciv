@@ -64,6 +64,18 @@ void api_actions_place_partisans(Tile *ptile, Player *pplayer,
 }
 
 /**************************************************************************
+  Global climate change.
+**************************************************************************/
+void api_actions_climate_change(enum climate_change_type type, int effect)
+{
+  SCRIPT_CHECK_ARG(type == CLIMATE_CHANGE_GLOBAL_WARMING
+                   || type == CLIMATE_CHANGE_NUCLEAR_WINTER,
+                   1, "invalid climate change type");
+  SCRIPT_CHECK_ARG(effect > 0, 3, "effect must be greater than zero");
+  climate_change(type == CLIMATE_CHANGE_GLOBAL_WARMING, effect);
+}
+
+/**************************************************************************
   Create a new unit.
 **************************************************************************/
 Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,

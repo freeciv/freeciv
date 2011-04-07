@@ -79,7 +79,6 @@ static inline int map_get_seen(const struct player *pplayer,
 static inline int map_get_own_seen(const struct player *pplayer,
                                    const struct tile *ptile,
                                    enum vision_layer vlayer);
-static void climate_change(bool warming, int effect);
 
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
@@ -96,6 +95,11 @@ static bool is_terrain_ecologically_wet(struct tile *ptile)
 void global_warming(int effect)
 {
   climate_change(TRUE, effect);
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                _("Global warming has occurred!"));
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                _("Coastlines have been flooded and vast "
+                  "ranges of grassland have become deserts."));
 }
 
 /**************************************************************************
@@ -104,21 +108,25 @@ void global_warming(int effect)
 void nuclear_winter(int effect)
 {
   climate_change(FALSE, effect);
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                _("Nuclear winter has occurred!"));
+  notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
+                _("Wetlands have dried up and vast "
+                  "ranges of grassland have become tundra."));
 }
 
 /*****************************************************************************
-  Do a climate change. Global warming occured if 'warming' is TRUE else there is
-  a nuclear winter.
+  Do a climate change. Global warming occurred if 'warming' is TRUE, else
+  there is a nuclear winter.
 *****************************************************************************/
-static void climate_change(bool warming, int effect)
+void climate_change(bool warming, int effect)
 {
   int k = map_num_tiles();
   bool used[k];
   memset(used, 0, sizeof(used));
 
   log_verbose("Climate change: %s (%d)",
-              warming ? "Global warming" : "Nuclear winter",
-              warming ? game.info.heating : game.info.cooling);
+              warming ? "Global warming" : "Nuclear winter", effect);
 
   while (effect > 0 && (k--) > 0) {
     struct terrain *old, *new;
@@ -164,20 +172,6 @@ static void climate_change(bool warming, int effect)
       /* This counts toward a climate change although nothing is changed. */
       effect--;
     }
-  }
-
-  if (warming) {
-    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                  _("Global warming has occurred!"));
-    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                  _("Coastlines have been flooded and vast "
-                    "ranges of grassland have become deserts."));
-  } else {
-    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                  _("Nuclear winter has occurred!"));
-    notify_player(NULL, NULL, E_GLOBAL_ECO, ftc_server,
-                  _("Wetlands have dried up and vast "
-                    "ranges of grassland have become tundra."));
   }
 }
 
