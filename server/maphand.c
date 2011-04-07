@@ -121,8 +121,9 @@ static void climate_change(bool warming, int effect)
               warming ? game.info.heating : game.info.cooling);
 
   while (effect > 0 && (k--) > 0) {
-    struct terrain *old, *new;
+    struct terrain *old, *candidates[2], *new;
     struct tile *ptile;
+    int i;
 
     do {
       /* We want to transform a tile at most once due to a climate change. */
@@ -131,16 +132,51 @@ static void climate_change(bool warming, int effect)
     used[tile_index(ptile)] = TRUE;
 
     old = tile_terrain(ptile);
-    if (is_terrain_ecologically_wet(ptile)) {
-      new = warming ? old->warmer_wetter_result : old->cooler_wetter_result;
-    } else {
-      new = warming ? old->warmer_drier_result : old->cooler_drier_result;
+    /* Prefer the transformation that's appropriate to the ambient moisture,
+     * but be prepared to fall back in exceptional circumstances */
+    {
+      struct terrain *wetter, *drier;
+      wetter = warming ? old->warmer_wetter_result : old->cooler_wetter_result;
+      drier  = warming ? old->warmer_drier_result  : old->cooler_drier_result;
+      if (is_terrain_ecologically_wet(ptile)) {
+        candidates[0] = wetter;
+        candidates[1] = drier;
+      } else {
+        candidates[0] = drier;
+        candidates[1] = wetter;
+      }
     }
 
-    if (tile_city(ptile) != NULL && new != T_NONE
-        && terrain_has_flag(new, TER_NO_CITIES)) {
-      /* do not change to a terrain with the flag TER_NO_CITIES if the tile
-       * has a city */
+    /* If the preferred transformation is ruled out for some exceptional reason
+     * specific to this tile, fall back to the other, rather than letting this
+     * tile be immune to change. */
+    for (i=0; i<2; i++) {
+      new = candidates[i];
+
+      /* If the preferred transformation simply hasn't been specified
+       * for this terrain at all, don't fall back to the other. */
+      if (new == T_NONE) {
+        break;
+      }
+
+      if (tile_city(ptile) != NULL && terrain_has_flag(new, TER_NO_CITIES)) {
+        /* do not change to a terrain with the flag TER_NO_CITIES if the tile
+         * has a city */
+        continue;
+      }
+
+      /* Only change between water and land at coastlines */
+      if (!is_ocean(old) && is_ocean(new) && !can_channel_land(ptile)) {
+        continue;
+      } else if (is_ocean(old) && !is_ocean(new) && !can_reclaim_ocean(ptile)) {
+        continue;
+      }
+      
+      /* OK! */
+      break;
+    }
+    if (i == 2) {
+      /* Neither transformation was permitted. Give up. */
       continue;
     }
 
