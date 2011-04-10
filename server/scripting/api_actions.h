@@ -24,6 +24,7 @@ enum climate_change_type {
   CLIMATE_CHANGE_NUCLEAR_WINTER
 };
 void api_actions_climate_change(enum climate_change_type type, int effect);
+Player *api_actions_civil_war(Player *pplayer, int probability);
 Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
                               int veteran_level, City *homecity,
                               int moves_left);

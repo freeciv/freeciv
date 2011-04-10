@@ -1948,6 +1948,30 @@ static struct player *split_player(struct player *pplayer)
   return cplayer;
 }
 
+/**************************************************************************
+  Check if civil war is possible for a player.
+  If conquering_city is TRUE, one of the cities currently in the empire
+  will shortly not be and shouldn't be considered.
+  honour_server_option controls whether we honour the 'civilwarsize'
+  server option. (If we don't, we still enforce a minimum empire size, to
+  avoid the risk of creating a new player with no cities.)
+**************************************************************************/
+bool civil_war_possible(struct player *pplayer, bool conquering_city,
+                        bool honour_server_option)
+{
+  int n = city_list_size(pplayer->cities);
+
+  if (n - (conquering_city?1:0) < GAME_MIN_CIVILWARSIZE) {
+    return FALSE;
+  }
+  if (honour_server_option) {
+    return game.server.civilwarsize < GAME_MAX_CIVILWARSIZE
+           && n >= game.server.civilwarsize;
+  } else {
+    return TRUE;
+  }
+}
+
 /********************************************************************** 
 civil_war_triggered:
  * The capture of a capital is not a sure fire way to throw
@@ -2025,7 +2049,7 @@ ensures that each side gets roughly half, which ones is still
 determined randomly.
                                    - Kris Bubendorfer
 ***********************************************************************/
-void civil_war(struct player *pplayer)
+struct player *civil_war(struct player *pplayer)
 {
   int i, j;
   struct player *cplayer;
@@ -2033,27 +2057,27 @@ void civil_war(struct player *pplayer)
   /* It is possible that this function gets called after pplayer
    * died. Player pointers are safe even after death. */
   if (!pplayer->is_alive) {
-    return;
+    return NULL;
   }
 
   if (player_count() >= MAX_NUM_PLAYERS) {
     /* No space to make additional player */
     log_normal(_("Could not throw %s into civil war - too many players"),
                nation_plural_for_player(pplayer));
-    return;
+    return NULL;
   }
   if (normal_player_count() >= server.playable_nations) {
     /* No nation for additional player */
     log_normal(_("Could not throw %s into civil war - no available nations"),
                nation_plural_for_player(pplayer));
-    return;
+    return NULL;
   }
 
   if (player_count() == game.server.max_players) {
     /* 'maxplayers' must be increased to allow for a new player. */
 
     /* This assert should never be called due to the first check above. */
-    fc_assert_ret(game.server.max_players < MAX_NUM_PLAYERS);
+    fc_assert_ret_val(game.server.max_players < MAX_NUM_PLAYERS, NULL);
 
     game.server.max_players++;
     log_debug("Increase 'maxplayers' to allow the creation of a new player "
@@ -2082,8 +2106,14 @@ void civil_war(struct player *pplayer)
                 player_name(cplayer),
                 nation_plural_for_player(cplayer));
 
-  i = city_list_size(pplayer->cities)/2;   /* number to flip */
   j = city_list_size(pplayer->cities);	    /* number left to process */
+  /* It doesn't make sense to try to split an empire of 1 city.
+   * This should have been enforced by civil_war_possible(). */
+  fc_assert(j >= 2);
+  /* Number to try to flip; ensure that at least one non-capital city is
+   * flipped */
+  i = MAX(city_list_size(pplayer->cities)/2,
+          1 + (player_capital(pplayer) != NULL));
   city_list_iterate(pplayer->cities, pcity) {
     if (!is_capital(pcity)) {
       if (i >= j || (i > 0 && fc_rand(2) == 1)) {
@@ -2110,6 +2140,7 @@ void civil_war(struct player *pplayer)
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 
   i = city_list_size(cplayer->cities);
+  fc_assert(i > 0); /* rebels should have got at least one city */
 
   /* Choose a capital (random). */
   city_build_free_buildings(city_list_get(cplayer->cities, fc_rand(i)));
@@ -2124,6 +2155,8 @@ void civil_war(struct player *pplayer)
                 nation_plural_for_player(pplayer),
                 nation_plural_for_player(cplayer),
                 i);
+
+  return cplayer;
 }
 
 /**************************************************************************

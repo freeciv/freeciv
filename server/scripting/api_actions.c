@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "rand.h"
+
 /* common */
 #include "research.h"
 #include "unittype.h"
@@ -73,6 +76,34 @@ void api_actions_climate_change(enum climate_change_type type, int effect)
                    1, "invalid climate change type");
   SCRIPT_CHECK_ARG(effect > 0, 3, "effect must be greater than zero");
   climate_change(type == CLIMATE_CHANGE_GLOBAL_WARMING, effect);
+}
+
+/**************************************************************************
+  Provoke a civil war.
+**************************************************************************/
+Player *api_actions_civil_war(Player *pplayer, int probability)
+{
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, NULL);
+  SCRIPT_CHECK_ARG(probability >= 0 && probability <= 100,
+                   2, "must be a percentage", NULL);
+
+  if (!civil_war_possible(pplayer, FALSE, FALSE)) {
+    return NULL;
+  }
+
+  if (probability == 0) {
+    /* Calculate chance with normal rules */
+    if (!civil_war_triggered(pplayer)) {
+      return NULL;
+    }
+  } else {
+    /* Fixed chance specified by script */
+    if (fc_rand(100) >= probability) {
+      return NULL;
+    }
+  }
+
+  return civil_war(pplayer);
 }
 
 /**************************************************************************

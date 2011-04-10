@@ -1562,8 +1562,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
   
   if (is_capital(pcity)
-      && city_list_size(cplayer->cities) >= game.server.civilwarsize
-      && game.server.civilwarsize < GAME_MAX_CIVILWARSIZE
+      && civil_war_possible(cplayer, TRUE, TRUE)
       && normal_player_count() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
     try_civil_war = TRUE;
@@ -1593,7 +1592,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     }
 
     if (try_civil_war) {
-      civil_war(cplayer);
+      (void) civil_war(cplayer);
     }
     return;
   }
@@ -1683,7 +1682,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   send_player_info_c(pplayer, pplayer->connections); /* Update techs */
 
   if (try_civil_war) {
-    civil_war(cplayer);
+    (void) civil_war(cplayer);
   }
 
   script_signal_emit("city_lost", 3,

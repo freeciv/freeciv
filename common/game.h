@@ -348,7 +348,7 @@ extern struct civ_game game;
 #define GAME_MAX_CITYMINDIST         9
 
 #define GAME_DEFAULT_CIVILWARSIZE    10
-#define GAME_MIN_CIVILWARSIZE        6
+#define GAME_MIN_CIVILWARSIZE        2 /* can't split an empire of 1 city */
 #define GAME_MAX_CIVILWARSIZE        1000
 
 #define GAME_DEFAULT_RESTRICTINFRA   FALSE

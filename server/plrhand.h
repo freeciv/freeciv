@@ -86,8 +86,10 @@ do {\
   } shuffled_players_iterate_end;\
 } while (0)
 
+bool civil_war_possible(struct player *pplayer, bool conquering_city,
+                        bool honour_server_option);
 bool civil_war_triggered(struct player *pplayer);
-void civil_war(struct player *pplayer);
+struct player *civil_war(struct player *pplayer);
 
 void update_players_after_alliance_breakup(struct player* pplayer,
                                           struct player* pplayer2);

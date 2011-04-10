@@ -326,6 +326,8 @@ enum climate_change_type {
 };
 void api_actions_climate_change @ climate_change (enum climate_change_type type,
                                                   int effect);
+Player *api_actions_civil_war @ civil_war(Player *pplayer,
+                                          int probability);
 
 $[
 
