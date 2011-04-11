@@ -11,6 +11,7 @@ flag_files =				\
 		afghanistan.png		\
 		ainu.png		\
 		akwe.png		\
+		aland.png		\
 		albania.png		\
 		aleut.png		\
 		algeria.png		\
@@ -460,6 +461,7 @@ flag_files =				\
 		afghanistan-large.png		\
 		ainu-large.png		\
 		akwe-large.png		\
+		aland-large.png			\
 		albania-large.png		\
 		aleut-large.png		\
 		algeria-large.png		\
@@ -911,6 +913,7 @@ shield_files =					\
 		afghanistan-shield.png		\
 		ainu-shield.png			\
 		akwe-shield.png			\
+		aland-shield.png		\
 		albania-shield.png		\
 		aleut-shield.png		\
 		algeria-shield.png		\
@@ -1360,6 +1363,7 @@ shield_files =					\
 		afghanistan-shield-large.png		\
 		ainu-shield-large.png			\
 		akwe-shield-large.png			\
+		aland-shield-large.png			\
 		albania-shield-large.png		\
 		aleut-shield-large.png		\
 		algeria-shield-large.png		\
@@ -1811,6 +1815,7 @@ svg_files = 				\
 		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\
+		aland.svg		\
 		albania.svg		\
 		aleut.svg		\
 		algeria.svg		\

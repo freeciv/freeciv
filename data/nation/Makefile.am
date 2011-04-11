@@ -14,6 +14,7 @@ pkgdata_DATA = \
 		ainu.ruleset \
 		akwe.ruleset \
 		alandalus.ruleset \
+		alander.ruleset \
 		albanian.ruleset \
 		aleut.ruleset \
 		algerian.ruleset \

@@ -19,6 +19,7 @@ artists = "
    Afghanistan		Andrew Duhan and Reisio
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
+   Aland		J.M. Maalderink
    Albania		TigerTjäder (Wikimedia Commons)
    Aleut		Daniel Markstedt
    Algeria 		Lauris Kaplinski
@@ -475,6 +476,7 @@ sprites =
 		"f.afghanistan", "flags/afghanistan"
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"
+		"f.aland", "flags/aland"
 		"f.albania", "flags/albania"
 		"f.aleut", "flags/aleut"
 		"f.algeria", "flags/algeria"
