@@ -30,7 +30,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "danish", "english", "canadian"
+civilwar_nations = "danish", "faroese"
 
 cities =
     "Reykjavík",

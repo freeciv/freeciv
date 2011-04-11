@@ -183,6 +183,7 @@ match=2
 *include "nation/etruscan.ruleset"
 *include "nation/european.ruleset"
 *include "nation/evenki.ruleset"
+*include "nation/faroese.ruleset"
 *include "nation/fijian.ruleset"
 *include "nation/filipino.ruleset"
 *include "nation/finnish.ruleset"

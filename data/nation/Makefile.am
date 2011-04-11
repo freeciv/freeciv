@@ -134,6 +134,7 @@ pkgdata_DATA = \
 		etruscan.ruleset \
 		european.ruleset \
 		evenki.ruleset \
+		faroese.ruleset \
 		fijian.ruleset \
 		filipino.ruleset \
 		finnish.ruleset \

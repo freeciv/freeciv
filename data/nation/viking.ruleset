@@ -37,7 +37,8 @@ init_government="Despotism"
 init_units=""
 
 ; We do not want the Vikings to start together with any Scandinavian nation.
-conflicts_with="Danish", "Icelandic", "Norwegian", "Swedish", "Alander", "Scanian"
+conflicts_with="Danish", "Icelandic", "Norwegian", "Swedish", "Alander",
+ "Scanian", "Faroese"
 
 civilwar_nations=
 ; Scandinavian nations
