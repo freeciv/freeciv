@@ -1485,7 +1485,7 @@ shield_files =					\
 		europe-shield-large.png		\
 		euskadi-shield-large.png		\
 		evenkia-shield-large.png		\
-		faroe-shield-large.png			\
+		faroes-shield-large.png			\
 		fiji-shield-large.png			\
 		finland-shield-large.png		\
 		flanders-shield-large.png		\
