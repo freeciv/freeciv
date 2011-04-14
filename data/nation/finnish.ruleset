@@ -14,10 +14,9 @@ leaders = {
  "Pehr Evind Svinhufvud",       "Male"
  "Kyösti Kallio",               "Male"
  "Risto Ryti",                  "Male"
- "C.G.E.Mannerheim",            "Male" ; Marshal of Finland
+ "C. G. E. Mannerheim",         "Male" ; Marshal of Finland
  "J. K. Paasikivi",             "Male" ; born as Johan Gustaf Hellsten
  "Urho Kekkonen",               "Male"
- "Mauno Koivisto",              "Male"
  "Martti Ahtisaari",            "Male" ; Nobel Peace Prize laureate
  "Tarja Halonen",               "Female" ; First female president
 }
@@ -37,7 +36,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="Sami", "Karelian", "Mordvin", "Alander"
+civilwar_nations="Sami", "Karelian", "Mordvin", "Alander", "Estonian"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -75,7 +74,8 @@ cities =
  "Uusikaupunki (ocean)",
  "Tammisaari (ocean)",
  "Raahe (ocean)",
- "Espoo", "Mikkeli",
+ "Espoo",
+ "Mikkeli",
  "Vantaa (river)",
  "Heinola",
  "Hamina (ocean)",
