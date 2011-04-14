@@ -172,6 +172,7 @@ artists = "
    Hanover		J.M. Maalderink
    Hansa		J.M. Maalderink
    Hawaii		Rob Adams
+   Helvetii		J.M. Maalderink and Andrzej G.
    Hesse		Madden (Wikimedia Commons)
    Himyar		Daniel Markstedt
    Hittite		Daniel Markstedt
@@ -631,6 +632,7 @@ sprites =
 		"f.hanover", "flags/hanover"
 		"f.hansa", "flags/hansa"
 		"f.hawaii", "flags/hawaii"
+		"f.helvetii", "flags/helvetii"
 		"f.hesse", "flags/hesse"
 		"f.himyar", "flags/himyar"
 		"f.hittite", "flags/hittite"

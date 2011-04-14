@@ -170,6 +170,7 @@ pkgdata_DATA = \
 		hasinay.ruleset \
 		hawaiian.ruleset \
 		hellenic.ruleset \
+		helvetian.ruleset \
 		hessian.ruleset \
 		himyarite.ruleset \
 		hittite.ruleset \

@@ -41,7 +41,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "french", "belgian"
-civilwar_nations = "french", "belgian", "celtiberian"
+civilwar_nations = "french", "helvetian", "celtiberian"
 
 ; City names from various articles on Wikipedia:
 ; http://en.wikipedia.org/wiki/Category:Ancient_Gauls

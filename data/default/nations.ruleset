@@ -219,6 +219,7 @@ match=2
 *include "nation/hasinay.ruleset"
 *include "nation/hawaiian.ruleset"
 *include "nation/hellenic.ruleset"
+*include "nation/helvetian.ruleset"
 *include "nation/hessian.ruleset"
 *include "nation/himyarite.ruleset"
 *include "nation/hittite.ruleset"

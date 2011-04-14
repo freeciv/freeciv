@@ -174,6 +174,7 @@ sprites =
 		"f.hanover", "flags/hanover-large"
 		"f.hansa", "flags/hansa-large"
 		"f.hawaii", "flags/hawaii-large"
+		"f.helvetii", "flags/helvetii-large"
 		"f.hesse", "flags/hesse-large"
 		"f.himyar", "flags/himyar-large"
 		"f.hittite", "flags/hittite-large"
