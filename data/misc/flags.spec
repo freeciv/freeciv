@@ -374,6 +374,7 @@ artists = "
    Shawnee		Daniel Markstedt
    Siberia		Daniel Markstedt
    Sicily		Lexicon (Wikimedia Commons)
+   Sierra Leone		J.M. Maalderink
    Sikh			Daniel Markstedt
    Sikkim		Nichalp (Wikimedia Commons)
    Silesia		Vasco Alexandre Da Silva Costa
@@ -832,6 +833,7 @@ sprites =
 		"f.shawnee", "flags/shawnee"
 		"f.siberia", "flags/siberia"
 		"f.sicily", "flags/sicily"
+		"f.sierra_leone", "flags/sierra_leone"
 		"f.sikh", "flags/sikh"
 		"f.sikkim", "flags/sikkim"
 		"f.silesia", "flags/silesia"

@@ -358,6 +358,7 @@ pkgdata_DATA = \
 		shawnee.ruleset \
 		siberian.ruleset \
 		sicilian.ruleset \
+		sierraleonean.ruleset \
 		sikh.ruleset \
 		sikkimese.ruleset \
 		silesian.ruleset \
