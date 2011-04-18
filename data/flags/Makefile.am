@@ -502,7 +502,7 @@ flag_files =				\
 		belgium-large.png		\
 		belize-large.png		\
 		bengal-large.png		\
-		benin_ancient-large.png	\
+		benin-large.png			\
 		benin_ancient-large.png		\
 		bhutan-large.png		\
 		biafra-large.png		\
