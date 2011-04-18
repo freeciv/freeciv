@@ -19,7 +19,7 @@ sort < $POT2 > /tmp/potfile
 echo Suggestions for addition or removal of files with translatable strings to/from POTFILES.in:
 echo Please check the output manually
 
-find "$1" -name '*.c' -o -name '*.sav' -o -name '*.ruleset' -o -name '*.txt' -o -name '*.in' | 
+find "$1" -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.sav' -o -name '*.lua' -o -name '*.ruleset' -o -name '*.txt' -o -name '*.in' | 
   xargs grep -l -I '_("' |
     sed "s%$1%%g" |
       sort |
