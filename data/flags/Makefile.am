@@ -348,6 +348,7 @@ flag_files =				\
 		samogitia.png		\
 		san_marino.png		\
 		sapmi.png		\
+		sardinia.png		\
 		sarmatia.png		\
 		saudi_arabia.png	\
 		savoy.png		\
@@ -800,6 +801,7 @@ flag_files =				\
 		samogitia-large.png		\
 		san_marino-large.png		\
 		sapmi-large.png		\
+		sardinia-large.png		\
 		sarmatia-large.png		\
 		saudi_arabia-large.png	\
 		savoy-large.png		\
@@ -1254,6 +1256,7 @@ shield_files =					\
 		samogitia-shield.png		\
 		san_marino-shield.png		\
 		sapmi-shield.png		\
+		sardinia-shield.png		\
 		sarmatia-shield.png		\
 		saudi_arabia-shield.png		\
 		savoy-shield.png		\
@@ -1706,6 +1709,7 @@ shield_files =					\
 		samogitia-shield-large.png		\
 		san_marino-shield-large.png		\
 		sapmi-shield-large.png		\
+		sardinia-shield-large.png		\
 		sarmatia-shield-large.png		\
 		saudi_arabia-shield-large.png		\
 		savoy-shield-large.png		\
@@ -2159,6 +2163,7 @@ svg_files = 				\
 		samogitia.svg		\
 		san_marino.svg		\
 		sapmi.svg		\
+		sardinia.svg		\
 		sarmatia.svg		\
 		savoy.svg		\
 		saudi_arabia.svg	\

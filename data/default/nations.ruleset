@@ -391,6 +391,7 @@ match=2
 *include "nation/sami.ruleset"
 *include "nation/sammarinese.ruleset"
 *include "nation/samogitian.ruleset"
+*include "nation/sardinian.ruleset"
 *include "nation/sarmatian.ruleset"
 *include "nation/saudi.ruleset"
 *include "nation/savoyard.ruleset"

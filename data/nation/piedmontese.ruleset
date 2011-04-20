@@ -43,7 +43,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="savoyard"
-civilwar_nations="italian", "savoyard", "genoese" ; sardinian
+civilwar_nations="italian", "savoyard", "genoese", "sardinian"
 
 cities =
  "Torino (river, plains)",

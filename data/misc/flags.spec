@@ -102,7 +102,7 @@ artists = "
    Comanche		Zachary Harden
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
-   Corsica		Patricia.fidi (Open Clip Art)
+   Corsica		Patricia Fidi
    Cossack		Alex Tora
    Costa Rica		Nightstallion (Wikimedia Commons)
    Crimean Tatar	J.M. Maalderink
@@ -357,6 +357,7 @@ artists = "
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    San Marino		Tobias Jakobs
    Sapmi		Dean Tersigni
+   Sardinia		Patricia Fidi and J.M. Maalderink
    Sarmatia		Andrzej G.
    Saudi Arabia		Cezary Biele
    Savoy		J.M. Maalderink
@@ -817,6 +818,7 @@ sprites =
 		"f.samogitia", "flags/samogitia"
 		"f.san_marino", "flags/san_marino"
 		"f.sapmi", "flags/sapmi"
+		"f.sardinia", "flags/sardinia"
 		"f.sarmatia", "flags/sarmatia"
 		"f.saudi_arabia", "flags/saudi_arabia"
 		"f.savoy", "flags/savoy"
