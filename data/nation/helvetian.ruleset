@@ -24,9 +24,9 @@ flag="helvetii"
 flag_alt = "-"
 city_style = "Celtic"
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chieftain"),    _("?female:Chieftain")
-                 "Fundamentalism",  _("High Druid"),   _("?female:High Druid")
+ruler_titles = { "government",      "male_title",       "female_title"
+                 "Despotism",       _("Chieftain %s"),  _("?female:Chieftain %s")
+                 "Fundamentalism",  _("High Druid %s"), _("?female:High Druid %s")
                }
 
 init_techs=""
