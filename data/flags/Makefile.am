@@ -217,6 +217,7 @@ flag_files =				\
 		kosovo.png		\
 		kuna_yala.png		\
 		kurd.png		\
+		kuwait.png		\
 		kyrgyzstan.png		\
 		labarum.png		\
 		laos.png		\
@@ -670,6 +671,7 @@ flag_files =				\
 		kosovo-large.png		\
 		kuna_yala-large.png		\
 		kurd-large.png		\
+		kuwait-large.png		\
 		kyrgyzstan-large.png		\
 		labarum-large.png		\
 		laos-large.png		\
@@ -1125,6 +1127,7 @@ shield_files =					\
 		kosovo-shield.png		\
 		kuna_yala-shield.png		\
 		kurd-shield.png			\
+		kuwait-shield.png		\
 		kyrgyzstan-shield.png		\
 		labarum-shield.png		\
 		laos-shield.png			\
@@ -1578,6 +1581,7 @@ shield_files =					\
 		kosovo-shield-large.png		\
 		kuna_yala-shield-large.png		\
 		kurd-shield-large.png			\
+		kuwait-shield-large.png			\
 		kyrgyzstan-shield-large.png		\
 		labarum-shield-large.png		\
 		laos-shield-large.png			\
@@ -2033,6 +2037,7 @@ svg_files = 				\
 		kosovo.svg		\
 		kuna_yala.svg		\
 		kurd.svg		\
+		kuwait.svg		\
 		kyrgyzstan.svg		\
 		labarum.svg		\
 		laos.svg		\

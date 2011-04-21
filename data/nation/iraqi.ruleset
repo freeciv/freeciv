@@ -32,7 +32,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="Sumerian", "Babylonian"
-civilwar_nations="Assyrian", "Kurdish"
+civilwar_nations="Assyrian", "Kurdish", "Kuwaiti"
 
 cities =
  "Baghdad",

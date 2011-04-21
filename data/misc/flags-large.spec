@@ -226,6 +226,7 @@ sprites =
 		"f.kosovo", "flags/kosovo-large"
 		"f.kuna_yala", "flags/kuna_yala-large"
 		"f.kurd", "flags/kurd-large"
+		"f.kuwait", "flags/kuwait-large"
 		"f.kyrgyzstan", "flags/kyrgyzstan-large"
 		"f.labarum", "flags/labarum-large"		; used by Western Roman
 		"f.laos", "flags/laos-large"

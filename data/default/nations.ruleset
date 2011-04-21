@@ -266,6 +266,7 @@ match=2
 *include "nation/kosovar.ruleset"
 *include "nation/kuna.ruleset"
 *include "nation/kurd.ruleset"
+*include "nation/kuwaiti.ruleset"
 *include "nation/kyrgyz.ruleset"
 *include "nation/lankese.ruleset"
 *include "nation/laotian.ruleset"

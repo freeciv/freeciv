@@ -217,6 +217,7 @@ pkgdata_DATA = \
 		kosovar.ruleset \
 		kuna.ruleset \
 		kurd.ruleset \
+		kuwaiti.ruleset \
 		kyrgyz.ruleset \
 		lankese.ruleset \
 		laotian.ruleset \
