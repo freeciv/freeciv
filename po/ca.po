@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-17 18:44+0200\n"
-"PO-Revision-Date: 2011-04-17 19:47+0200\n"
+"POT-Creation-Date: 2011-04-25 11:59+0200\n"
+"PO-Revision-Date: 2011-04-25 12:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -817,13 +817,14 @@ msgid "Future Tech. %d"
 msgstr "Tecnologia del futur %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:957 common/tech.c:960 client/gui-gtk-2.0/helpdlg.c:123
-#: client/gui-sdl/citydlg.c:730 client/gui-sdl/gui_tilespec.c:486
-#: client/gui-sdl/helpdlg.c:376 client/gui-sdl/helpdlg.c:802
-#: client/gui-sdl/helpdlg.c:828 client/gui-sdl/mapview.c:318
-#: client/gui-sdl/mapview.c:335 client/gui-sdl/mapview.c:778
-#: client/gui-xaw/helpdlg.c:818 client/gui-xaw/helpdlg.c:863
-#: client/gui-xaw/helpdlg.c:882 manual/civmanual.c:383 manual/civmanual.c:389
+#: common/tech.c:957 common/tech.c:960 server/settings.h:59
+#: client/gui-gtk-2.0/helpdlg.c:123 client/gui-sdl/citydlg.c:730
+#: client/gui-sdl/gui_tilespec.c:486 client/gui-sdl/helpdlg.c:376
+#: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:828
+#: client/gui-sdl/mapview.c:318 client/gui-sdl/mapview.c:335
+#: client/gui-sdl/mapview.c:778 client/gui-xaw/helpdlg.c:818
+#: client/gui-xaw/helpdlg.c:863 client/gui-xaw/helpdlg.c:882
+#: manual/civmanual.c:383 manual/civmanual.c:389
 msgid "None"
 msgstr "Cap"
 
@@ -2143,8 +2144,7 @@ msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 "Quan %s ha estat desmantellada, el %s no ha pogut sortir-ne, i per tant, "
-"s'ha "
-"perdut."
+"s'ha perdut."
 
 #: server/citytools.c:1568
 #, c-format
@@ -7752,6 +7752,58 @@ msgstr "Joc de Regles: '%s' s'ha bloquejat pel joc de regles."
 msgid "Savegame: '%s' has been set to %s."
 msgstr "Partida desada: '%s' s'ha fixat a %s."
 
+#: server/settings.h:39
+msgid "Geological"
+msgstr "Geologia"
+
+#: server/settings.h:41
+msgid "Sociological"
+msgstr "Sociologia"
+
+#: server/settings.h:43
+msgid "Economic"
+msgstr "Economia"
+
+#: server/settings.h:45
+msgid "Military"
+msgstr "Militars"
+
+#: server/settings.h:47
+msgid "Scientific"
+msgstr "Ciència"
+
+#: server/settings.h:49
+msgid "Internal"
+msgstr "Internes"
+
+#: server/settings.h:51
+msgid "Networking"
+msgstr "Xarxa"
+
+#: server/settings.h:61 client/gui-gtk-2.0/dialogs.c:817
+msgid "All"
+msgstr "Tot"
+
+#: server/settings.h:63
+msgid "Vital"
+msgstr "Vitals"
+
+#: server/settings.h:65
+msgid "Situational"
+msgstr "De situació"
+
+#: server/settings.h:67
+msgid "Rare"
+msgstr "Rares"
+
+#: server/settings.h:69
+msgid "Changed"
+msgstr "Modificades"
+
+#: server/settings.h:71
+msgid "Locked"
+msgstr "Bloquejades"
+
 #: server/sernet.c:152
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "El servidor no pot llegir l'entrada estàndard. S'ignora l'entrada."
@@ -12589,7 +12641,7 @@ msgstr "Tema"
 msgid "By changing this option you change the active theme."
 msgstr "Modificant aquesta opció, canvies el tema actiu."
 
-#: client/options.c:1682
+#: client/options.c:1682 modinst/download.h:25
 msgid "Tileset"
 msgstr "Joc de caselles"
 
@@ -15187,21 +15239,23 @@ msgstr "_Gestor"
 msgid "_Settings"
 msgstr "_Paràmetres"
 
-#: client/gui-gtk-2.0/citydlg.c:1118 data/civ2/cities.ruleset:42
-#: data/default/cities.ruleset:42 data/experimental/cities.ruleset:44
-#: data/multiplayer/cities.ruleset:41
+#: client/gui-gtk-2.0/citydlg.c:1118 data/civ1/cities.ruleset:42
+#: data/civ2/cities.ruleset:42 data/default/cities.ruleset:42
+#: data/experimental/cities.ruleset:44 data/multiplayer/cities.ruleset:41
 msgid "Entertainers"
 msgstr "Artistes"
 
 #: client/gui-gtk-2.0/citydlg.c:1119 client/gui-xaw/citydlg.c:2433
-#: data/civ2/cities.ruleset:55 data/default/cities.ruleset:55
-#: data/experimental/cities.ruleset:57 data/multiplayer/cities.ruleset:54
+#: data/civ1/cities.ruleset:55 data/civ2/cities.ruleset:55
+#: data/default/cities.ruleset:55 data/experimental/cities.ruleset:57
+#: data/multiplayer/cities.ruleset:54
 msgid "Scientists"
 msgstr "Científics"
 
 #: client/gui-gtk-2.0/citydlg.c:1120 client/gui-xaw/citydlg.c:2434
-#: data/civ2/cities.ruleset:68 data/default/cities.ruleset:68
-#: data/experimental/cities.ruleset:70 data/multiplayer/cities.ruleset:67
+#: data/civ1/cities.ruleset:68 data/civ2/cities.ruleset:68
+#: data/default/cities.ruleset:68 data/experimental/cities.ruleset:70
+#: data/multiplayer/cities.ruleset:67
 msgid "Taxmen"
 msgstr "Recaptadors"
 
@@ -15677,10 +15731,6 @@ msgstr "Seleccionar tots"
 #: client/gui-gtk-2.0/dialogs.c:799
 msgid "Nation _Groups:"
 msgstr "_Grups de Nacions:"
-
-#: client/gui-gtk-2.0/dialogs.c:817
-msgid "All"
-msgstr "Tot"
 
 #: client/gui-gtk-2.0/dialogs.c:848
 msgid "Edit Nation"
@@ -20199,6 +20249,14 @@ msgstr "La llista de modpacks no té cadena de capacitats"
 msgid "Modpack list is incompatible"
 msgstr "La llista de modpacks és incompatible"
 
+#: modinst/download.h:23
+msgid "Ruleset"
+msgstr "Joc de regles"
+
+#: modinst/download.h:27
+msgid "Modpack"
+msgstr "Modpack"
+
 #: modinst/modinst.c:148
 msgid "Another download already active"
 msgstr "Ja hi ha una altra baixada activa"
@@ -21658,11 +21716,9 @@ msgstr ""
 "encara que sota règims autocràtics, cada ciutat manté algunes unitats de "
 "franc. Si la producció de la ciutat cau massa, les unitats que no es poden "
 "mantenir es desmobilitzen automàticament. La majoria de tipus d'unitats "
-"també es poden "
-"desmobilitzar voluntàriament en qualsevol moment. Si una unitat es "
-"desmobilitza mentre és dins d'una ciutat, la meitat del seu cost de "
-"producció "
-"anirà a parar a l'excedent d'aquesta ciutat."
+"també es poden desmobilitzar voluntàriament en qualsevol moment. Si una "
+"unitat es desmobilitza mentre és dins d'una ciutat, la meitat del seu cost "
+"de producció anirà a parar a l'excedent d'aquesta ciutat."
 
 #: data/helpdata.txt:516
 msgid ""
@@ -22210,9 +22266,9 @@ msgid ""
 "citizens are happy and none remain unhappy. The effects of celebration vary; "
 "in the default ruleset, they depend on your government type:"
 msgstr ""
-"Les ciutats que són prou grans celebren festes quan almenys la meitat "
-"dels ciutadans són feliços, i no n'hi ha cap de descontent. Els efectes de "
-"les celebracions varien; al joc de regles per defecte, depenen del tipus de "
+"Les ciutats que són prou grans celebren festes quan almenys la meitat dels "
+"ciutadans són feliços, i no n'hi ha cap de descontent. Els efectes de les "
+"celebracions varien; al joc de regles per defecte, depenen del tipus de "
 "govern:"
 
 #: data/helpdata.txt:776
@@ -22720,9 +22776,8 @@ msgstr ""
 "encara que alguns estils de govern autocràtics poden forçar que les ciutats "
 "mantinguin algunes unitats de franc. Si el manteniment d'una unitat és "
 "superior al benefici que et dóna, pots desmobilitzar-la; vegeu la secció "
-"sobre Producció. Algunes unitats, en concret les que "
-"tens en començar la partida, no tenen ciutat origen i per tant no "
-"requereixen manteniment."
+"sobre Producció. Algunes unitats, en concret les que tens en començar la "
+"partida, no tenen ciutat origen i per tant no requereixen manteniment."
 
 #: data/helpdata.txt:1031
 msgid ""
@@ -25276,6 +25331,104 @@ msgstr ""
 "una Democràcia, les unitats agressives només causen un ciutadà descontent "
 "cadascuna."
 
+#: data/civ1/cities.ruleset:44 data/civ2/cities.ruleset:44
+#: data/default/cities.ruleset:44 data/experimental/cities.ruleset:46
+#: data/multiplayer/cities.ruleset:43
+msgid "?Elvis:E"
+msgstr "A"
+
+#: data/civ1/cities.ruleset:49 data/civ2/cities.ruleset:49
+#: data/default/cities.ruleset:49 data/experimental/cities.ruleset:51
+#: data/multiplayer/cities.ruleset:48
+msgid ""
+"Each entertainer produces two luxury points for their city per turn. See the "
+"section on Happiness for the effects of luxury points."
+msgstr ""
+"Cada artista produeix dos punts de luxe per a la seva ciutat a cada torn. "
+"Veure la secció sobre Felicitat per als efectes dels punts de luxe."
+
+#: data/civ1/cities.ruleset:57 data/civ2/cities.ruleset:57
+#: data/default/cities.ruleset:57 data/experimental/cities.ruleset:59
+#: data/multiplayer/cities.ruleset:56
+msgid "?Scientist:S"
+msgstr "C"
+
+#: data/civ1/cities.ruleset:62 data/civ2/cities.ruleset:62
+msgid ""
+"Each scientist adds two points to your empire's research output per turn."
+msgstr ""
+"Cada científic afegeix dos punts a la recerca del teu imperi a cada torn."
+
+#: data/civ1/cities.ruleset:70 data/civ2/cities.ruleset:70
+#: data/default/cities.ruleset:70 data/experimental/cities.ruleset:72
+#: data/multiplayer/cities.ruleset:69
+msgid "?Taxman:T"
+msgstr "R"
+
+#: data/civ1/cities.ruleset:75 data/civ2/cities.ruleset:75
+msgid "Each tax collector produces two extra gold for your treasury per turn."
+msgstr ""
+"Cada recaptador d'impostos genera dues peces d'or addicionals per al teu "
+"tresor a cada torn."
+
+#: data/civ1/cities.ruleset:112 data/civ2/cities.ruleset:112
+#: data/default/cities.ruleset:113 data/experimental/cities.ruleset:115
+#: data/multiplayer/cities.ruleset:112
+msgid "?citystyle:European"
+msgstr "Europeu"
+
+#: data/civ1/cities.ruleset:121 data/civ2/cities.ruleset:121
+#: data/default/cities.ruleset:122 data/experimental/cities.ruleset:124
+#: data/multiplayer/cities.ruleset:121
+msgid "?citystyle:Classical"
+msgstr "Clàssic"
+
+#: data/civ1/cities.ruleset:130 data/civ2/cities.ruleset:130
+#: data/default/cities.ruleset:131 data/experimental/cities.ruleset:133
+#: data/multiplayer/cities.ruleset:130
+msgid "?citystyle:Tropical"
+msgstr "Tropical"
+
+#: data/civ1/cities.ruleset:139 data/civ2/cities.ruleset:139
+#: data/default/cities.ruleset:140 data/experimental/cities.ruleset:142
+#: data/multiplayer/cities.ruleset:139
+msgid "?citystyle:Asian"
+msgstr "Asiàtic"
+
+#: data/civ1/cities.ruleset:148 data/civ2/cities.ruleset:148
+#: data/default/cities.ruleset:149 data/experimental/cities.ruleset:151
+#: data/multiplayer/cities.ruleset:148
+msgid "?citystyle:Babylonian"
+msgstr "Babilònic"
+
+#: data/civ1/cities.ruleset:157 data/civ2/cities.ruleset:157
+#: data/default/cities.ruleset:158 data/experimental/cities.ruleset:160
+#: data/multiplayer/cities.ruleset:157
+msgid "?citystyle:Celtic"
+msgstr "Cèltic"
+
+#: data/civ1/cities.ruleset:166 data/civ2/cities.ruleset:166
+msgid "?citystyle:Renaissance"
+msgstr "Renaixentista"
+
+#: data/civ1/cities.ruleset:177 data/civ2/cities.ruleset:177
+#: data/default/cities.ruleset:167 data/experimental/cities.ruleset:169
+#: data/multiplayer/cities.ruleset:166
+msgid "?citystyle:Industrial"
+msgstr "Industrial"
+
+#: data/civ1/cities.ruleset:188 data/civ2/cities.ruleset:188
+#: data/default/cities.ruleset:189 data/experimental/cities.ruleset:191
+#: data/multiplayer/cities.ruleset:188
+msgid "?citystyle:Modern"
+msgstr "Modern"
+
+#: data/civ1/cities.ruleset:199 data/civ2/cities.ruleset:199
+#: data/default/cities.ruleset:200 data/experimental/cities.ruleset:202
+#: data/multiplayer/cities.ruleset:199
+msgid "?citystyle:PostModern"
+msgstr "Postmodern"
+
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
 #: data/default/governments.ruleset:59
 #: data/experimental/governments.ruleset:61
@@ -25551,6 +25704,41 @@ msgstr ""
 "govern, la seva lleialtat és absoluta. Les unitats militars de les "
 "civilitzacions democràtiques no es poden subornar, i els Diplomàtics i "
 "Espies enemics no poden provocar revoltes a les ciutats democràtiques."
+
+#: data/civ1/nations.ruleset:22 data/civ2/nations.ruleset:24
+#: data/default/nations.ruleset:20
+msgid "?nationgroup:Ancient"
+msgstr "Antics"
+
+#: data/civ1/nations.ruleset:25 data/civ2/nations.ruleset:27
+#: data/default/nations.ruleset:23
+msgid "?nationgroup:Medieval"
+msgstr "Medievals"
+
+#: data/civ1/nations.ruleset:28 data/civ2/nations.ruleset:30
+#: data/default/nations.ruleset:29
+msgid "?nationgroup:Modern"
+msgstr "Moderns"
+
+#: data/civ1/nations.ruleset:31 data/civ2/nations.ruleset:33
+#: data/default/nations.ruleset:32
+msgid "?nationgroup:African"
+msgstr "Africans"
+
+#: data/civ1/nations.ruleset:34 data/civ2/nations.ruleset:36
+#: data/default/nations.ruleset:35
+msgid "?nationgroup:American"
+msgstr "Americans"
+
+#: data/civ1/nations.ruleset:37 data/civ2/nations.ruleset:39
+#: data/default/nations.ruleset:38
+msgid "?nationgroup:Asian"
+msgstr "Asiàtics"
+
+#: data/civ1/nations.ruleset:40 data/civ2/nations.ruleset:42
+#: data/default/nations.ruleset:41
+msgid "?nationgroup:European"
+msgstr "Europeus"
 
 #: data/civ1/techs.ruleset:50 data/civ2/techs.ruleset:50
 #: data/default/techs.ruleset:61 data/experimental/techs.ruleset:63
@@ -27443,91 +27631,6 @@ msgstr ""
 "sigui Capitalització vol dir que la seva producció d'escuts es converteix en "
 "taxes (diners)."
 
-#: data/civ2/cities.ruleset:44 data/default/cities.ruleset:44
-#: data/experimental/cities.ruleset:46 data/multiplayer/cities.ruleset:43
-msgid "?Elvis:E"
-msgstr "A"
-
-#: data/civ2/cities.ruleset:49 data/default/cities.ruleset:49
-#: data/experimental/cities.ruleset:51 data/multiplayer/cities.ruleset:48
-msgid ""
-"Each entertainer produces two luxury points for their city per turn. See the "
-"section on Happiness for the effects of luxury points."
-msgstr ""
-"Cada artista produeix dos punts de luxe per a la seva ciutat a cada torn. "
-"Veure la secció sobre Felicitat per als efectes dels punts de luxe."
-
-#: data/civ2/cities.ruleset:57 data/default/cities.ruleset:57
-#: data/experimental/cities.ruleset:59 data/multiplayer/cities.ruleset:56
-msgid "?Scientist:S"
-msgstr "C"
-
-#: data/civ2/cities.ruleset:62
-msgid ""
-"Each scientist adds two points to your empire's research output per turn."
-msgstr ""
-"Cada científic afegeix dos punts a la recerca del teu imperi a cada torn."
-
-#: data/civ2/cities.ruleset:70 data/default/cities.ruleset:70
-#: data/experimental/cities.ruleset:72 data/multiplayer/cities.ruleset:69
-msgid "?Taxman:T"
-msgstr "R"
-
-#: data/civ2/cities.ruleset:75
-msgid "Each tax collector produces two extra gold for your treasury per turn."
-msgstr ""
-"Cada recaptador d'impostos genera dues peces d'or addicionals per al teu "
-"tresor a cada torn."
-
-#: data/civ2/cities.ruleset:112 data/default/cities.ruleset:113
-#: data/experimental/cities.ruleset:115 data/multiplayer/cities.ruleset:112
-msgid "?citystyle:European"
-msgstr "Europeu"
-
-#: data/civ2/cities.ruleset:121 data/default/cities.ruleset:122
-#: data/experimental/cities.ruleset:124 data/multiplayer/cities.ruleset:121
-msgid "?citystyle:Classical"
-msgstr "Clàssic"
-
-#: data/civ2/cities.ruleset:130 data/default/cities.ruleset:131
-#: data/experimental/cities.ruleset:133 data/multiplayer/cities.ruleset:130
-msgid "?citystyle:Tropical"
-msgstr "Tropical"
-
-#: data/civ2/cities.ruleset:139 data/default/cities.ruleset:140
-#: data/experimental/cities.ruleset:142 data/multiplayer/cities.ruleset:139
-msgid "?citystyle:Asian"
-msgstr "Asiàtic"
-
-#: data/civ2/cities.ruleset:148 data/default/cities.ruleset:149
-#: data/experimental/cities.ruleset:151 data/multiplayer/cities.ruleset:148
-msgid "?citystyle:Babylonian"
-msgstr "Babilònic"
-
-#: data/civ2/cities.ruleset:157 data/default/cities.ruleset:158
-#: data/experimental/cities.ruleset:160 data/multiplayer/cities.ruleset:157
-msgid "?citystyle:Celtic"
-msgstr "Cèltic"
-
-#: data/civ2/cities.ruleset:166
-msgid "?citystyle:Renaissance"
-msgstr "Renaixentista"
-
-#: data/civ2/cities.ruleset:177 data/default/cities.ruleset:167
-#: data/experimental/cities.ruleset:169 data/multiplayer/cities.ruleset:166
-msgid "?citystyle:Industrial"
-msgstr "Industrial"
-
-#: data/civ2/cities.ruleset:188 data/default/cities.ruleset:189
-#: data/experimental/cities.ruleset:191 data/multiplayer/cities.ruleset:188
-msgid "?citystyle:Modern"
-msgstr "Modern"
-
-#: data/civ2/cities.ruleset:199 data/default/cities.ruleset:200
-#: data/experimental/cities.ruleset:202 data/multiplayer/cities.ruleset:199
-msgid "?citystyle:PostModern"
-msgstr "Postmodern"
-
 #: data/civ2/governments.ruleset:69
 msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
@@ -28684,37 +28787,9 @@ msgstr ""
 "Això no és un edifici normal. Si estableixes la producció d'una ciutat a "
 "encunyament la producció es converteix en impostos (diners, peces d'or!)."
 
-#: data/default/nations.ruleset:20
-msgid "?nationgroup:Ancient"
-msgstr "Antics"
-
-#: data/default/nations.ruleset:23
-msgid "?nationgroup:Medieval"
-msgstr "Medievals"
-
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Early Modern"
 msgstr "Edat Moderna"
-
-#: data/default/nations.ruleset:29
-msgid "?nationgroup:Modern"
-msgstr "Moderns"
-
-#: data/default/nations.ruleset:32
-msgid "?nationgroup:African"
-msgstr "Africans"
-
-#: data/default/nations.ruleset:35
-msgid "?nationgroup:American"
-msgstr "Americans"
-
-#: data/default/nations.ruleset:38
-msgid "?nationgroup:Asian"
-msgstr "Asiàtics"
-
-#: data/default/nations.ruleset:41
-msgid "?nationgroup:European"
-msgstr "Europeus"
 
 #: data/default/nations.ruleset:44
 msgid "?nationgroup:Oceanian"
