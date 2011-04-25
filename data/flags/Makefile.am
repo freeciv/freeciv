@@ -320,6 +320,7 @@ flag_files =				\
 		peru.png		\
 		philippines.png		\
 		phoenicia.png		\
+		pict.png		\
 		piedmont.png		\
 		pirate.png		\
 		piratini.png		\
@@ -366,6 +367,7 @@ flag_files =				\
 		shawnee.png		\
 		siberia.png		\
 		sicily.png		\
+		sierra_leone.png	\
 		sikh.png		\
 		sikkim.png		\
 		silesia.png		\
@@ -641,7 +643,7 @@ flag_files =				\
 		ireland-large.png		\
 		iroquois-large.png		\
 		israel-large.png		\
-		israel_ancient.png		\
+		israel_ancient-large.png	\
 		italy-large.png		\
 		ivory_coast-large.png		\
 		jaffna-large.png		\
@@ -774,6 +776,7 @@ flag_files =				\
 		peru-large.png		\
 		philippines-large.png		\
 		phoenicia-large.png		\
+		pict-large.png			\
 		piedmont-large.png		\
 		pirate-large.png		\
 		piratini-large.png		\
@@ -820,6 +823,7 @@ flag_files =				\
 		shawnee-large.png		\
 		siberia-large.png		\
 		sicily-large.png		\
+		sierra_leone-large.png		\
 		sikh-large.png		\
 		sikkim-large.png		\
 		silesia-large.png		\
@@ -1230,6 +1234,7 @@ shield_files =					\
 		peru-shield.png			\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
+		pict-shield.png			\
 		piedmont-shield.png		\
 		pirate-shield.png		\
 		piratini-shield.png		\
@@ -1276,6 +1281,7 @@ shield_files =					\
 		shawnee-shield.png		\
 		siberia-shield.png		\
 		sicily-shield.png		\
+		sierra_leone-shield.png		\
 		sikh-shield.png			\
 		sikkim-shield.png		\
 		silesia-shield.png		\
@@ -1684,6 +1690,7 @@ shield_files =					\
 		peru-shield-large.png			\
 		philippines-shield-large.png		\
 		phoenicia-shield-large.png		\
+		pict-shield-large.png			\
 		piedmont-shield-large.png		\
 		pirate-shield-large.png		\
 		piratini-shield-large.png		\
@@ -1730,6 +1737,7 @@ shield_files =					\
 		shawnee-shield-large.png		\
 		siberia-shield-large.png		\
 		sicily-shield-large.png		\
+		sierra_leone-shield-large.png		\
 		sikh-shield-large.png			\
 		sikkim-shield-large.png		\
 		silesia-shield-large.png		\
@@ -2139,6 +2147,7 @@ svg_files = 				\
 		peru.svg		\
 		philippines.svg		\
 		phoenicia.svg		\
+		pict.svg		\
 		piedmont.svg		\
 		pirate.svg		\
 		piratini.svg		\
@@ -2184,6 +2193,7 @@ svg_files = 				\
 		shawnee.svg		\
 		siberia.svg		\
 		sicily.svg		\
+		sierra_leone.svg	\
 		sikh.svg		\
 		sikkim.svg		\
 		silesia.svg		\
