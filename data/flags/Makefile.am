@@ -451,6 +451,7 @@ flag_files =				\
 		west_indies_federation.png	\
 		westphalia.png		\
 		wuerttemberg.png	\
+		xhosa.png		\
 		yemen.png		\
 		yucatan.png		\
 		yugoslavia.png		\
@@ -906,8 +907,9 @@ flag_files =				\
 		wallonia-large.png		\
 		west_indies_federation-large.png	\
 		westphalia-large.png		\
-		wuerttemberg-large.png	\
-		yemen-large.png		\
+		wuerttemberg-large.png		\
+		xhosa-large.png			\
+		yemen-large.png			\
 		yucatan-large.png		\
 		yugoslavia-large.png		\
 		zambia-large.png		\
@@ -1365,6 +1367,7 @@ shield_files =					\
 		west_indies_federation-shield.png	\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
+		xhosa-shield.png		\
 		yemen-shield.png		\
 		yucatan-shield.png		\
 		yugoslavia-shield.png		\
@@ -1821,7 +1824,8 @@ shield_files =					\
 		west_indies_federation-shield-large.png	\
 		westphalia-shield-large.png		\
 		wuerttemberg-shield-large.png		\
-		yemen-shield-large.png		\
+		xhosa-shield-large.png			\
+		yemen-shield-large.png			\
 		yucatan-shield-large.png		\
 		yugoslavia-shield-large.png		\
 		zambia-shield-large.png			\
@@ -2277,6 +2281,7 @@ svg_files = 				\
 		west_indies_federation.svg	\
 		westphalia.svg		\
 		wuerttemberg.svg	\
+		xhosa.svg		\
 		yemen.svg		\
 		yucatan.svg		\
 		yugoslavia.svg		\

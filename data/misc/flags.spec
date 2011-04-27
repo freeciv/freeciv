@@ -460,6 +460,7 @@ artists = "
    West Indies Fed.	Stepshep (Wikimedia Commons)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons)
+   Xhosa		Madden (Wikimedia Commons)
    Yemen		J.M. Maalderink
    Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
@@ -921,6 +922,7 @@ sprites =
 		"f.west_indies_federation", "flags/west_indies_federation"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
+		"f.xhosa", "flags/xhosa"
 		"f.yemen", "flags/yemen"
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"

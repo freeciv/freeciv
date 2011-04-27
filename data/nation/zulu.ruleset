@@ -2,7 +2,7 @@
 
 name=_("Zulu")
 plural=_("?plural:Zulus")
-groups="African"
+groups="African", "Early Modern"
 legend=_("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")
@@ -34,6 +34,7 @@ leaders = {
 
 ruler_titles = {
  "government",      "male_title",            "female_title"
+ "Fundamentalism",  _("Elder %s"),           _("?female:Elder %s")
  "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
  "Republic",        _("Spokesman %s"),       _("Spokeswoman %s")
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
@@ -47,7 +48,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="south african", "swazi"
+civilwar_nations="xhosa", "swazi"
 
 cities =
  "Zimbabwe",

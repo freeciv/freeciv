@@ -31,7 +31,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="zulu", "kenyan"
+civilwar_nations="zulu", "xhosa"
 
 ; The two capitals at top and the rest in order of population as of 2005
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Swasiland

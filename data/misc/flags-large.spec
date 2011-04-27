@@ -460,6 +460,7 @@ sprites =
 		"f.west_indies_federation", "flags/west_indies_federation-large"
 		"f.westphalia", "flags/westphalia-large"
 		"f.wuerttemberg", "flags/wuerttemberg-large"
+		"f.xhosa", "flags/xhosa-large"
 		"f.yemen", "flags/yemen-large"
 		"f.yucatan", "flags/yucatan-large"
 		"f.yugoslavia", "flags/yugoslavia-large"

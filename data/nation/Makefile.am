@@ -442,6 +442,7 @@ pkgdata_DATA = \
 		westindian.ruleset \
 		westphalian.ruleset \
 		wuerttembergian.ruleset \
+		xhosa.ruleset \
 		yakut.ruleset \
 		yemeni.ruleset \
 		yucatecan.ruleset \
