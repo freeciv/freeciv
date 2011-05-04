@@ -321,6 +321,7 @@ match=2
 *include "nation/mordvin.ruleset"
 *include "nation/moroccan.ruleset"
 *include "nation/motswana.ruleset"
+*include "nation/mosotho.ruleset"
 *include "nation/mozambican.ruleset"
 *include "nation/mughal.ruleset"
 *include "nation/muscovite.ruleset"

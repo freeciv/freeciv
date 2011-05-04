@@ -271,6 +271,7 @@ pkgdata_DATA = \
 		moravian.ruleset \
 		mordvin.ruleset \
 		moroccan.ruleset \
+		mosotho.ruleset \
 		motswana.ruleset \
 		mozambican.ruleset \
 		mughal.ruleset \

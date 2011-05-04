@@ -225,6 +225,7 @@ flag_files =				\
 		lebanon.png		\
 		lendian.png		\
 		leon.png		\
+		lesotho.png		\
 		liberia.png		\
 		libya.png		\
 		liechtenstein.png	\
@@ -683,6 +684,7 @@ flag_files =				\
 		lebanon-large.png		\
 		lendian-large.png		\
 		leon-large.png		\
+		lesotho-large.png		\
 		liberia-large.png		\
 		libya-large.png		\
 		liechtenstein-large.png	\
@@ -1143,6 +1145,7 @@ shield_files =					\
 		lebanon-shield.png		\
 		lendian-shield.png		\
 		leon-shield.png			\
+		lesotho-shield.png		\
 		liberia-shield.png		\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
@@ -1601,6 +1604,7 @@ shield_files =					\
 		lebanon-shield-large.png		\
 		lendian-shield-large.png		\
 		leon-shield-large.png			\
+		lesotho-shield-large.png		\
 		liberia-shield-large.png		\
 		libya-shield-large.png		\
 		liechtenstein-shield-large.png	\
@@ -2061,6 +2065,7 @@ svg_files = 				\
 		lebanon.svg		\
 		lendian.svg		\
 		leon.svg		\
+		lesotho.svg		\
 		liberia.svg		\
 		libya.svg		\
 		liechtenstein.svg	\
