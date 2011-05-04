@@ -99,6 +99,7 @@ pkgdata_DATA = \
 		comanche.ruleset \
 		confederate.ruleset \
 		congolese.ruleset \
+		congolesebrazzaville.ruleset \
 		cornish.ruleset \
 		corsican.ruleset \
 		cossack.ruleset \

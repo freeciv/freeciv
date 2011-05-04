@@ -343,6 +343,7 @@ artists = "
    Qing			Caleb Moore
    Quebec		Patrick Guimond
    Raramuri		J.M. Maalderink
+   Rep. Congo		J.M. Maalderink
    Rhineland		J.M. Maalderink
    Rif			Mysid (Wikipedia)
    Romania		Daniel McRae
@@ -806,6 +807,7 @@ sprites =
 ;		"f.qing", "flags/qing"			; alt Manchu
 		"f.quebec", "flags/quebec"
 		"f.raramuri", "flags/raramuri"
+		"f.r_congo", "flags/r_congo"
 		"f.rhineland", "flags/rhineland"
 		"f.rif", "flags/rif"
 		"f.romania", "flags/romania"

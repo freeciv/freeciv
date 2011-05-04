@@ -344,6 +344,7 @@ sprites =
 ;		"f.qing", "flags/qing-large"			; alt Manchu
 		"f.quebec", "flags/quebec-large"
 		"f.raramuri", "flags/raramuri-large"
+		"f.r_congo", "flags/r_congo-large"
 		"f.rhineland", "flags/rhineland-large"
 		"f.rif", "flags/rif-large"
 		"f.romania", "flags/romania-large"
