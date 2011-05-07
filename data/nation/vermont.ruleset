@@ -9,12 +9,15 @@ legend=_("Vermont was an independent state for 14 years before it joined\
  its dairy products and maple syrup.")
 
 leaders = {
- "name",                "sex"
- "Ethan Allen",         "Male"
- "Thomas Chittenden",   "Male"
- "Moses Robinson",      "Male"
- "Ethan A. Hitchcock",  "Male"
- "Bernie Sanders",      "Male"
+ "name",                  "sex"
+ "Ethan Allen",           "Male"
+ "Thomas Chittenden",     "Male"
+ "Thaddeus Stevens",      "Male"
+ "Moses Robinson",        "Male"
+ "Ethan A. Hitchcock",    "Male"
+ "Ernest W. Gibson, Jr.", "Male"
+ "Madeleine M. Kunin",    "Female"
+ "Bernie Sanders",        "Male"
 }
 
 ruler_titles = {
@@ -42,7 +45,7 @@ cities =
  "Burlington",
  "Rutland",
  "Barre",
- "Saint Albans",
+ "St. Albans",
  "Winooski",
  "Newport",
  "Vergennes",
@@ -54,7 +57,7 @@ cities =
  "Hartford",
  "Essex Junction",
  "Williston",
- "Saint Johnsbury",
+ "St. Johnsbury",
  "Springfields",
  "Shelburne",
  "Morristown",
@@ -79,4 +82,13 @@ cities =
  "Waterbury",
  "Wilder",
  "Poultney",
- "Brandon"
+ "Brandon",
+ "Woodstock",
+ "Newfane",
+ "Chelsea",
+ "Hyde Park",
+ "North Hero",
+ "Guildhall",
+ "South Burlington",
+ "Dummerston"
+
