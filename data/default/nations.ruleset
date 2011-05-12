@@ -376,6 +376,7 @@ match=2
 *include "nation/prussian.ruleset"
 *include "nation/puertorican.ruleset"
 *include "nation/purhepecha.ruleset"
+*include "nation/qatari.ruleset"
 *include "nation/quebecois.ruleset"
 *include "nation/raramuri.ruleset"
 *include "nation/rhenish.ruleset"

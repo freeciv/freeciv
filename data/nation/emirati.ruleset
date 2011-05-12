@@ -36,7 +36,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Syrian", "Saudi", "Omani" ;, "Qatari"
+civilwar_nations="Saudi", "Omani", "Qatari"
 
 cities =
  "Abu Zabi",

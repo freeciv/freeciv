@@ -341,6 +341,7 @@ artists = "
    Prussia		Daniel Markstedt
    Puerto Rico		Lauris Kaplinski and J.M. Maalderink
    Purhepecha		Daniel Markstedt
+   Qatar		J.M. Maalderink
    Qing			Caleb Moore
    Quebec		Patrick Guimond
    Raramuri		J.M. Maalderink
@@ -806,6 +807,7 @@ sprites =
 		"f.prussia", "flags/prussia"
 		"f.puerto_rico", "flags/puerto_rico"
 		"f.purhepecha", "flags/purhepecha"
+		"f.qatar", "flags/qatar"
 ;		"f.qing", "flags/qing"			; alt Manchu
 		"f.quebec", "flags/quebec"
 		"f.raramuri", "flags/raramuri"

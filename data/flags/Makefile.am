@@ -333,6 +333,7 @@ flag_files =				\
 		prussia.png		\
 		puerto_rico.png		\
 		purhepecha.png		\
+		qatar.png		\
 		qing.png		\
 		quebec.png		\
 		raramuri.png		\
@@ -792,7 +793,8 @@ flag_files =				\
 		prussia-large.png		\
 		puerto_rico-large.png		\
 		purhepecha-large.png		\
-		qing-large.png		\
+		qatar-large.png			\
+		qing-large.png			\
 		quebec-large.png		\
 		raramuri-large.png		\
 		r_congo-large.png		\
@@ -1253,6 +1255,7 @@ shield_files =					\
 		prussia-shield.png		\
 		puerto_rico-shield.png		\
 		purhepecha-shield.png		\
+		qatar-shield.png		\
 		qing-shield.png			\
 		quebec-shield.png		\
 		raramuri-shield.png		\
@@ -1712,6 +1715,7 @@ shield_files =					\
 		prussia-shield-large.png		\
 		puerto_rico-shield-large.png		\
 		purhepecha-shield-large.png		\
+		qatar-shield-large.png			\
 		qing-shield-large.png			\
 		quebec-shield-large.png		\
 		raramuri-shield-large.png		\
@@ -2172,6 +2176,7 @@ svg_files = 				\
 		prussia.svg		\
 		puerto_rico.svg		\
 		purhepecha.svg		\
+		qatar.svg		\
 		qing.svg		\
 		quebec.svg		\
 		raramuri.svg		\

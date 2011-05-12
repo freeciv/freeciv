@@ -327,6 +327,7 @@ pkgdata_DATA = \
 		prussian.ruleset \
 		puertorican.ruleset \
 		purhepecha.ruleset \
+		qatari.ruleset \
 		quebecois.ruleset \
 		raramuri.ruleset \
 		rhenish.ruleset \
