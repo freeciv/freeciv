@@ -1,11 +1,11 @@
 [nation_transnistrian]
 
 name=_("Transnistrian")
-plural=_("?plural:Transnistrian")
+plural=_("?plural:Transnistrians")
 groups="Modern", "European"
 legend=_("Transnistria was added to the Moldavian SSR by Stalin, although\
  it was mostly inhabited by Russians and Ukrainians. After the collapse of\
- the Soviet Union Transnistria declared its independence from Moldavia.\
+ the Soviet Union Transnistria declared its independence from Moldova.\
  Although the country is de facto independent, it is not recognized by any\
  UN member. Power is still in the hands of the old communist elite.")
 leaders = {
