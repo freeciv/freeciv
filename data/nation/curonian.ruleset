@@ -41,7 +41,7 @@ init_government="Despotism"
 init_units="" 
 
 conflicts_with="latvian", "indonesian" ;latter because of similar flag
-civilwar_nations="teutonic", "latvian"
+civilwar_nations="teutonic", "latvian", "gambian"
 
 cities=
   "Mitau",

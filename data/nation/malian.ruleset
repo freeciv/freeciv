@@ -15,6 +15,11 @@ leaders = {
  "Ahmed Baba",          "Male"
 }
 
+ruler_titles = {
+ "government",      "male_title",      "female_title"
+ "Monarchy",        _("Mansa %s"),        _("?female:Mansa %s")
+}
+
 flag="mali"
 flag_alt = "-"
 city_style = "Classical"

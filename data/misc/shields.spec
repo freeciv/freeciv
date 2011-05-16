@@ -150,6 +150,7 @@ sprites =
 		"f.shield.gabon", "flags/gabon-shield"
 		"f.shield.gael", "flags/gael-shield"
 		"f.shield.galicia", "flags/galicia-shield"
+		"f.shield.gambia", "flags/gambia-shield"
 		"f.shield.gaul", "flags/gaul-shield"
 		"f.shield.georgia", "flags/georgia-shield"
 		"f.shield.germany", "flags/germany-shield"

@@ -149,6 +149,7 @@ artists = "
    Gabon		J.M. Maalderink
    Gael			Barryob (Wikimedia Commons)
    Galicia		Miguel Rodríguez
+   Gambia		J.M. Maalderink
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
    Germany		Philipp Sadleder
@@ -617,6 +618,7 @@ sprites =
 		"f.gabon", "flags/gabon"
 		"f.galicia", "flags/galicia"
 		"f.gael", "flags/gael"
+		"f.gambia", "flags/gambia"
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
 		"f.germany", "flags/germany"

@@ -15,7 +15,8 @@ leaders = {
 }
 ruler_titles = {
  "government",      "male_title",         "female_title"
- "Fundamentalism",   _("Grand Mufti %s"), _("?female:Grand Mufti %s")
+ "Fundamentalism",  _("Grand Mufti %s"), _("?female:Grand Mufti %s")
+ "Monarchy",        _("Mansa %s"),       _("?female:Mansa %s")
 }
 flag= "senegal"
 flag_alt = "-"
@@ -27,7 +28,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="jolof"
-civilwar_nations="malian", "jolof"
+civilwar_nations="malian", "jolof", "gambian"
 
 cities =
  "Dakar (ocean)",

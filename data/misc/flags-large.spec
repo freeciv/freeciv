@@ -151,6 +151,7 @@ sprites =
 		"f.gabon", "flags/gabon-large"
 		"f.galicia", "flags/galicia-large"
 		"f.gael", "flags/gael-large"
+		"f.gambia", "flags/gambia-large"
 		"f.gaul", "flags/gaul-large"
 		"f.georgia", "flags/georgia-large"
 		"f.germany", "flags/germany-large"

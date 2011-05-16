@@ -142,6 +142,7 @@ flag_files =				\
 		gabon.png		\
 		gael.png		\
 		galicia.png		\
+		gambia.png		\
 		gaul.png		\
 		georgia.png		\
 		germany.png		\
@@ -603,6 +604,7 @@ flag_files =				\
 		gabon-large.png			\
 		gael-large.png		\
 		galicia-large.png		\
+		gambia-large.png		\
 		gaul-large.png		\
 		georgia-large.png		\
 		germany-large.png		\
@@ -1066,6 +1068,7 @@ shield_files =					\
 		gabon-shield.png		\
 		gael-shield.png			\
 		galicia-shield.png		\
+		gambia-shield.png		\
 		gaul-shield.png			\
 		georgia-shield.png		\
 		germany-shield.png		\
@@ -1527,6 +1530,7 @@ shield_files =					\
 		gabon-shield-large.png			\
 		gael-shield-large.png			\
 		galicia-shield-large.png		\
+		gambia-shield-large.png			\
 		gaul-shield-large.png			\
 		georgia-shield-large.png		\
 		germany-shield-large.png		\
@@ -1990,6 +1994,7 @@ svg_files = 				\
 		gabon.svg		\
 		gael.svg		\
 		galicia.svg		\
+		gambia.svg		\
 		gaul.svg		\
 		georgia.svg		\
 		germany.svg		\

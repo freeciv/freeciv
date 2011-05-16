@@ -197,6 +197,7 @@ match=2
 *include "nation/gaelic.ruleset"
 *include "nation/galician.ruleset"
 *include "nation/gallic.ruleset"
+*include "nation/gambian.ruleset"
 *include "nation/genoese.ruleset"
 *include "nation/georgian.ruleset"
 *include "nation/german.ruleset"
