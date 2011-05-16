@@ -139,6 +139,7 @@ flag_files =				\
 		franconia.png		\
 		frisia.png		\
 		friuli.png		\
+		gabon.png		\
 		gael.png		\
 		galicia.png		\
 		gaul.png		\
@@ -599,6 +600,7 @@ flag_files =				\
 		franconia-large.png		\
 		frisia-large.png		\
 		friuli-large.png		\
+		gabon-large.png			\
 		gael-large.png		\
 		galicia-large.png		\
 		gaul-large.png		\
@@ -1061,6 +1063,7 @@ shield_files =					\
 		franconia-shield.png		\
 		frisia-shield.png		\
 		friuli-shield.png		\
+		gabon-shield.png		\
 		gael-shield.png			\
 		galicia-shield.png		\
 		gaul-shield.png			\
@@ -1521,6 +1524,7 @@ shield_files =					\
 		franconia-shield-large.png		\
 		frisia-shield-large.png		\
 		friuli-shield-large.png			\
+		gabon-shield-large.png			\
 		gael-shield-large.png			\
 		galicia-shield-large.png		\
 		gaul-shield-large.png			\
@@ -1983,6 +1987,7 @@ svg_files = 				\
 		franconia.svg		\
 		frisia.svg		\
 		friuli.svg		\
+		gabon.svg		\
 		gael.svg		\
 		galicia.svg		\
 		gaul.svg		\

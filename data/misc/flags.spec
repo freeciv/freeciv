@@ -146,6 +146,7 @@ artists = "
    Franconia		Andreas Trepte (Wikimedia Commons) and J.M. Maalderink
    Frisia		GeeKaa (Wikimedia Commons)
    Friuli		DieBuche et al. (Wikimedia Commons)
+   Gabon		J.M. Maalderink
    Gael			Barryob (Wikimedia Commons)
    Galicia		Miguel Rodríguez
    Gaul			Daniel Markstedt and Kilian Valkhof
@@ -613,6 +614,7 @@ sprites =
 		"f.franconia", "flags/franconia"
 		"f.frisia", "flags/frisia"
 		"f.friuli", "flags/friuli"
+		"f.gabon", "flags/gabon"
 		"f.galicia", "flags/galicia"
 		"f.gael", "flags/gael"
 		"f.gaul", "flags/gaul"
