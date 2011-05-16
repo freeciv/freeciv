@@ -463,6 +463,7 @@ match=2
 *include "nation/tongan.ruleset"
 *include "nation/transnistrian.ruleset"
 *include "nation/transylvanian.ruleset"
+*include "nation/trinidadian.ruleset"
 *include "nation/tunisian.ruleset"
 *include "nation/tupi.ruleset"
 *include "nation/turkmen.ruleset"

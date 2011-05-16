@@ -430,6 +430,7 @@ artists = "
    Tonga		Madden (Wikimedia Commons)
    Transnistria		Sigge Kotliar and J.M. Maalderink
    Transylvania		Alex:D (Wikipedia)
+   Trinidad and Tobago	J.M. Maalderink
    TRNC			David Benbennick and J.M Maalderink
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
@@ -897,6 +898,7 @@ sprites =
 		"f.tonga", "flags/tonga"
 		"f.transnistria", "flags/transnistria"
 		"f.transylvania", "flags/transylvania"
+		"f.trinidad_and_tobago", "flags/trinidad_and_tobago"
 		"f.trnc", "flags/trnc"
 		"f.tunisia", "flags/tunisia"
 		"f.tupi", "flags/tupi"

@@ -33,13 +33,15 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-conflicts_with = "dominican", "grenadian", "jamaican", "vincentian"
-civilwar_nations = "dominican", "grenadian", "jamaican", "vincentian"
+conflicts_with = "dominican", "grenadian", "jamaican", "trinidadian and tobagoan",
+ "vincentian"
+civilwar_nations = "dominican", "grenadian", "jamaican", "trinidadian and tobagoan",
+ "vincentian"
 
 cities =
  "Chaguaramas",
  "Kingston",
- "Port-of-Spain (ocean)",
+ "Port of Spain (ocean)",
  "Bridgetown",
  "Castries",
  "Kingstown",

@@ -421,6 +421,7 @@ flag_files =				\
 		tonga.png		\
 		transnistria.png	\
 		transylvania.png	\
+		trinidad_and_tobago.png	\
 		trnc.png		\
 		tunisia.png		\
 		tupi.png		\
@@ -883,6 +884,7 @@ flag_files =				\
 		tonga-large.png		\
 		transnistria-large.png		\
 		transylvania-large.png	\
+		trinidad_and_tobago-large.png	\
 		trnc-large.png			\
 		tunisia-large.png		\
 		tupi-large.png		\
@@ -1347,6 +1349,7 @@ shield_files =					\
 		tonga-shield.png		\
 		transnistria-shield.png		\
 		transylvania-shield.png		\
+		trinidad_and_tobago-shield.png	\
 		trnc-shield.png			\
 		tunisia-shield.png		\
 		tupi-shield.png			\
@@ -1809,6 +1812,7 @@ shield_files =					\
 		tonga-shield-large.png		\
 		transnistria-shield-large.png		\
 		transylvania-shield-large.png		\
+		trinidad_and_tobago-shield-large.png	\
 		trnc-shield-large.png			\
 		tunisia-shield-large.png		\
 		tupi-shield-large.png			\
@@ -2271,6 +2275,7 @@ svg_files = 				\
 		tonga.svg		\
 		transnistria.svg	\
 		transylvania.svg	\
+		trinidad_and_tobago.svg	\
 		trnc.svg		\
 		tunisia.svg		\
 		tupi.svg		\
