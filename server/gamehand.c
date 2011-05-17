@@ -468,9 +468,14 @@ void send_game_info(struct conn_list *dest)
 
   /* the following values are computed every
      time a packet_game_info packet is created */
+
+  /* Sometimes this function is called before the phase_timer is
+   * initialized.  In that case we want to send the dummy value. */
   if (game.info.timeout > 0 && game.server.phase_timer) {
-    /* Sometimes this function is called before the phase_timer is
-     * initialized.  In that case we want to send the dummy value. */
+    /* Whenever the client sees this packet, it starts a new timer at 0;
+     * but the server's timer is only ever reset at the start of a phase
+     * (and game.info.seconds_to_phasedone is relative to this).
+     * Account for the difference. */
     ginfo.seconds_to_phasedone = game.info.seconds_to_phasedone
         - read_timer_seconds(game.server.phase_timer);
   } else {
