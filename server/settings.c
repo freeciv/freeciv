@@ -29,6 +29,7 @@
 #include "map.h"
 
 /* server */
+#include "gamehand.h"
 #include "ggzserver.h"
 #include "plrhand.h"
 #include "report.h"
@@ -428,6 +429,20 @@ static void autotoggle_action(const struct setting *pset)
         send_player_info_c(pplayer, game.est_connections);
       }
     } players_iterate_end;
+  }
+}
+
+/*************************************************************************
+  Enact a change in the 'timeout' server setting immediately, if the game
+  is afoot.
+*************************************************************************/
+static void timeout_action(const struct setting *pset)
+{
+  if (S_S_RUNNING == server_state()) {
+    int timeout = *pset->integer.pvalue;
+    /* This may cause the current turn to end immediately. */
+    game.info.seconds_to_phasedone = timeout;
+    send_game_info(NULL);
   }
 }
 
@@ -1826,7 +1841,7 @@ static struct setting settings[] = {
              "Only connections with hack level access may set the "
              "timeout to lower than 30 seconds. Use this with the "
              "command \"timeoutincrease\" to have a dynamic timer."),
-          timeout_callback, NULL,
+          timeout_callback, timeout_action,
           GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
   GEN_INT("timeaddenemymove", game.server.timeoutaddenemymove,

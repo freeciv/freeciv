@@ -1632,6 +1632,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
   boot_help = (can_client_change_view()
 	       && game.info.spacerace != pinfo->spacerace);
   if (game.info.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
+    /* If this packet is received in the middle of a turn, this value
+     * represents the number of seconds from now to the end of the turn
+     * (not from the start of the turn). So we need to restart our
+     * timer. */
     set_seconds_to_turndone(pinfo->seconds_to_phasedone);
   }
   if (boot_help) {
