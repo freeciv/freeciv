@@ -364,6 +364,7 @@ match=2
 *include "nation/palmyrene.ruleset"
 *include "nation/panamanian.ruleset"
 *include "nation/papuan.ruleset"
+*include "nation/papuanewguinean.ruleset"
 *include "nation/paraguayan.ruleset"
 *include "nation/persian.ruleset"
 *include "nation/peruvian.ruleset"

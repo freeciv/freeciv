@@ -464,6 +464,7 @@ sprites =
 		"f.wallonia", "flags/wallonia-large"
 		"f.wales", "flags/wales-large"
 		"f.west_indies_federation", "flags/west_indies_federation-large"
+		"f.west_papua", "flags/west_papua-large"
 		"f.westphalia", "flags/westphalia-large"
 		"f.wuerttemberg", "flags/wuerttemberg-large"
 		"f.xhosa", "flags/xhosa-large"

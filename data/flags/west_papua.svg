@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   width="900"
+   height="600">
+  <rect
+     width="900"
+     height="600"
+     fill="#ffffff"/>
+  <rect
+     width="900"
+     height="46.153847"
+     y="553.84613"
+     fill="#21468b" />
+  <rect
+     width="900"
+     height="46.153847"
+     y="461.53845"
+     fill="#21468b" />
+  <rect
+     width="900"
+     height="46.153847"
+     y="369.23077"
+     fill="#21468b" />
+  <rect
+     width="900"
+     height="46.153847"
+     y="276.92307"
+     fill="#21468b" />
+  <rect
+     width="900"
+     height="46.153847"
+     y="184.61539"
+     fill="#21468b" />
+  <rect
+     width="900"
+     height="46.153847"
+     y="92.307693"
+     fill="#21468b" />
+  <rect
+     width="900"
+     height="46.153847"
+     fill="#21468b" />
+  <rect
+     width="250"
+     height="600"
+     fill="#ae1c28" />
+  <path
+     sodipodi:type="star"
+     fill="#ffffff"
+     sodipodi:sides="5"
+     sodipodi:cx="328.57144"
+     sodipodi:cy="217.14285"
+     sodipodi:r1="246.12923"
+     sodipodi:r2="93.001854"
+     sodipodi:arg1="-0.05807416"
+     sodipodi:arg2="0.53311568"
+     inkscape:flatsided="false"
+     inkscape:rounded="0"
+     inkscape:randomized="0"
+     d="M 574.28574,202.85714 408.66722,264.40817 418.08786,446.41651 308.37041,307.92426 138.18133,373.12748 235.99073,225.98353 121.38747,84.273 l 170.16698,47.55229 99.36036,-152.785147 7.35958,176.532877 176.01135,47.28412 z"
+     transform="matrix(0.41247853,-0.1166694,0.1112222,0.43268007,-34.442755,254.67671)" />
+</svg>

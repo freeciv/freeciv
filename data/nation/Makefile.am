@@ -315,6 +315,7 @@ pkgdata_DATA = \
 		palmyrene.ruleset \
 		panamanian.ruleset \
 		papuan.ruleset \
+		papuanewguinean.ruleset \
 		paraguayan.ruleset \
 		pashtun.ruleset \
 		persian.ruleset \

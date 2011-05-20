@@ -455,6 +455,7 @@ flag_files =				\
 		wales.png		\
 		wallonia.png		\
 		west_indies_federation.png	\
+		west_papua.png		\
 		westphalia.png		\
 		wuerttemberg.png	\
 		xhosa.png		\
@@ -915,9 +916,10 @@ flag_files =				\
 		visigoth-large.png		\
 		vistulan-large.png		\
 		volga_bulgar-large.png		\
-		wales-large.png		\
+		wales-large.png			\
 		wallonia-large.png		\
 		west_indies_federation-large.png	\
+		west_papua-large.png		\
 		westphalia-large.png		\
 		wuerttemberg-large.png		\
 		xhosa-large.png			\
@@ -1383,6 +1385,7 @@ shield_files =					\
 		wales-shield.png		\
 		wallonia-shield.png		\
 		west_indies_federation-shield.png	\
+		west_papua-shield.png		\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
 		xhosa-shield.png		\
@@ -1846,6 +1849,7 @@ shield_files =					\
 		wales-shield-large.png		\
 		wallonia-shield-large.png		\
 		west_indies_federation-shield-large.png	\
+		west_papua-shield-large.png		\
 		westphalia-shield-large.png		\
 		wuerttemberg-shield-large.png		\
 		xhosa-shield-large.png			\
@@ -2309,6 +2313,7 @@ svg_files = 				\
 		wales.svg		\
 		wallonia.svg		\
 		west_indies_federation.svg	\
+		west_papua.svg		\
 		westphalia.svg		\
 		wuerttemberg.svg	\
 		xhosa.svg		\

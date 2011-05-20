@@ -464,6 +464,7 @@ artists = "
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
    West Indies Fed.	Stepshep (Wikimedia Commons)
+   West Papua		J.M. Maalderink
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons)
    Xhosa		Madden (Wikimedia Commons)
@@ -932,6 +933,7 @@ sprites =
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
 		"f.west_indies_federation", "flags/west_indies_federation"
+		"f.west_papua", "flags/west_papua"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
 		"f.xhosa", "flags/xhosa"
