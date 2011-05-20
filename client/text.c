@@ -1628,37 +1628,47 @@ const char *text_happiness_cities(const struct city *pcity)
   int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
   int basis = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE);
   int step = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
-  int excess = cities - basis;
-  int penalty = 0;
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
 
-  if (excess > 0) {
-    if (step > 0)
-      penalty = 1 + (excess - 1) / step;
-    else
-      penalty = 1;
+  if (basis+step <= 0) {
+    /* Special case where penalty is disabled; see
+     * player_content_citizens(). */
+    astr_add_line(&str,
+                  _("Cities: %d total, but no penalty for empire size."),
+                cities);
   } else {
-    excess = 0;
-    penalty = 0;
+    int excess = cities - basis;
+    int penalty = 0;
+
+    if (excess > 0) {
+      if (step > 0)
+        penalty = 1 + (excess - 1) / step;
+      else
+        penalty = 1;
+    } else {
+      excess = 0;
+      penalty = 0;
+    }
+
+    astr_add_line(&str,
+                  _("Cities: %d total, %d over threshold of %d cities."),
+                cities, excess, basis);
+    astr_add_line(&str,
+                  /* TRANS: 0-21 content [citizen(s)] ... */
+                  PL_("%d content before penalty.",
+                      "%d content before penalty.",
+                      content),
+                  content);
+    astr_add_line(&str,
+                  /* TRANS: 0-21 unhappy citizen(s). */
+                  PL_("%d additional unhappy citizen.",
+                      "%d additional unhappy citizens.",
+                      penalty),
+                  penalty);
   }
 
-  astr_add_line(&str,
-                _("Cities: %d total, %d over threshold of %d cities."),
-              cities, excess, basis);
-  astr_add_line(&str,
-                /* TRANS: 0-21 content [citizen(s)] ... */
-                PL_("%d content before penalty.",
-                    "%d content before penalty.",
-                    content),
-                content);
-  astr_add_line(&str,
-                /* TRANS: 0-21 unhappy citizen(s). */
-                PL_("%d additional unhappy citizen.",
-                    "%d additional unhappy citizens.",
-                    penalty),
-                penalty);
   return astr_str(&str);
 }
 
