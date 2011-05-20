@@ -232,14 +232,15 @@ Civil_War_Chance
     Chance of player splitting due to civil war when capital captured is 
 increased by amount.
 
-Empire_Size_Mod
-    Once your civilization has more cities than amount + the server setting 
-'cityfactor', each city gets one more unhappy citizen.
+Empire_Size_Base
+    Once your civilization has more cities than the value of this effect,
+each city gets one more unhappy citizen. If the sum of this effect and
+Empire_Size_Step is zero, there is no such penalty.
 
 Empire_Size_Step
     After your civilization reaches Empire_Size_Base size, it gets one more 
 unhappy citizen for each amount of cities it gets above that. Set to zero to 
-disable. You can use Empire_Size_Step even though Empire_Size_Base is zero.
+disable. You can use Empire_Size_Step even if Empire_Size_Base is zero.
 
 Max_Rates
     The maximum setting for each tax rate is amount.
