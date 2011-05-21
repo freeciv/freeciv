@@ -268,6 +268,7 @@ flag_files =				\
 		mitanni.png		\
 		mixtec.png		\
 		moldova.png		\
+		moluccas.png		\
 		mon.png			\
 		monaco_alternative.png	\
 		mongolia.png		\
@@ -733,6 +734,7 @@ flag_files =				\
 		mitanni-large.png		\
 		mixtec-large.png		\
 		moldova-large.png		\
+		moluccas-large.png		\
 		mon-large.png			\
 		monaco_alternative-large.png	\
 		mongolia-large.png		\
@@ -1200,6 +1202,7 @@ shield_files =					\
 		mitanni-shield.png		\
 		mixtec-shield.png		\
 		moldova-shield.png		\
+		moluccas-shield.png		\
 		mon-shield.png			\
 		monaco_alternative-shield.png	\
 		mongolia-shield.png		\
@@ -1665,6 +1668,7 @@ shield_files =					\
 		mitanni-shield-large.png		\
 		mixtec-shield-large.png		\
 		moldova-shield-large.png		\
+		moluccas-shield-large.png		\
 		mon-shield-large.png			\
 		monaco_alternative-shield-large.png	\
 		mongolia-shield-large.png		\
@@ -2131,6 +2135,7 @@ svg_files = 				\
 		mitanni.svg		\
 		mixtec.svg		\
 		moldova.svg		\
+		moluccas.svg		\
 		mon.svg			\
 		monaco_alternative.svg	\
 		mongolia.svg		\

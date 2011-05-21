@@ -31,7 +31,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Indonesian", "Malaysian"
+civilwar_nations="Indonesian", "Moluccan"
 
 cities =
  "Dili",

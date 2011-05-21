@@ -316,6 +316,7 @@ match=2
 *include "nation/mitanni.ruleset"
 *include "nation/mixtec.ruleset"
 *include "nation/moldovan.ruleset"
+*include "nation/moluccan.ruleset"
 *include "nation/mon.ruleset"
 *include "nation/monegasque.ruleset"
 *include "nation/mongol.ruleset"

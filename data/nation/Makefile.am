@@ -267,6 +267,7 @@ pkgdata_DATA = \
 		mitanni.ruleset \
 		mixtec.ruleset \
 		moldovan.ruleset \
+		moluccan.ruleset \
 		mon.ruleset \
 		monegasque.ruleset \
 		mongol.ruleset \

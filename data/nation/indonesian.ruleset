@@ -30,7 +30,7 @@ init_units=""
 
 ; Singapore has very similar flag
 conflicts_with="Singaporean", "Majapahit", "Sri Vijaya"
-civilwar_nations="Acehnese", "East Timorese", "Papuan"
+civilwar_nations="Acehnese", "East Timorese", "Moluccan", "Papuan"
 
 cities =
  "Jakarta",

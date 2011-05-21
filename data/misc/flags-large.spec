@@ -277,6 +277,7 @@ sprites =
 		"f.mitanni", "flags/mitanni-large"
 		"f.mixtec", "flags/mixtec-large"
 		"f.moldova", "flags/moldova-large"
+		"f.moluccas", "flags/moluccas-large"
 		"f.mon", "flags/mon-large"
 		"f.monaco_alternative", "flags/monaco_alternative-large"
 		"f.mongolia", "flags/mongolia-large"

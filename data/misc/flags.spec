@@ -275,6 +275,7 @@ artists = "
    Mitanni		Snubcube (Wikimedia Commons) and J.M. Maalderink
    Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
+   Moluccas		J.M. Maalderink
    Mon			Stefan Fussan (Wikimedia Commons)
    Monaco (alternative)	Zachary Harden
    Mongolia		Sebastian Koppehel
@@ -747,6 +748,7 @@ sprites =
 		"f.mitanni", "flags/mitanni"
 		"f.mixtec", "flags/mixtec"
 		"f.moldova", "flags/moldova"
+		"f.moluccas", "flags/moluccas"
 		"f.mon", "flags/mon"
 		"f.monaco_alternative", "flags/monaco_alternative"
 		"f.mongolia", "flags/mongolia"
