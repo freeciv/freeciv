@@ -2,7 +2,7 @@
 
 name=_("Xhosa")
 plural=_("?plural:amaXhosa")
-groups="Early Modern", "Modern", "African"
+groups="Early Modern", "African"
 legend=_("The Xhosa are Bantu people in South Africa, having arrived\
  there from the Great Lakes region by the 17th century. During the\
  apartheid era there were two Xhosa Bantustans, Transkei and Ciskei. Many\
