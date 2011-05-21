@@ -140,6 +140,7 @@ pkgdata_DATA = \
 		filipino.ruleset \
 		finnish.ruleset \
 		flemish.ruleset \
+		florentine.ruleset \
 		franconian.ruleset \
 		french.ruleset \
 		frisian.ruleset \

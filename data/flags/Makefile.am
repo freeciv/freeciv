@@ -134,6 +134,7 @@ flag_files =				\
 		fiji.png		\
 		finland.png		\
 		flanders.png		\
+		florence.png		\
 		france_old.png		\
 		france.png		\
 		franconia.png		\
@@ -598,6 +599,7 @@ flag_files =				\
 		fiji-large.png		\
 		finland-large.png		\
 		flanders-large.png		\
+		florence-large.png		\
 		france_old-large.png		\
 		france-large.png		\
 		franconia-large.png		\
@@ -1064,6 +1066,7 @@ shield_files =					\
 		fiji-shield.png			\
 		finland-shield.png		\
 		flanders-shield.png		\
+		florence-shield.png		\
 		france_old-shield.png		\
 		france-shield.png		\
 		franconia-shield.png		\
@@ -1528,6 +1531,7 @@ shield_files =					\
 		fiji-shield-large.png			\
 		finland-shield-large.png		\
 		flanders-shield-large.png		\
+		florence-shield-large.png		\
 		france_old-shield-large.png		\
 		france-shield-large.png		\
 		franconia-shield-large.png		\
@@ -1994,6 +1998,7 @@ svg_files = 				\
 		fiji.svg		\
 		finland.svg		\
 		flanders.svg		\
+		florence.svg		\
 		france_old.svg		\
 		france.svg		\
 		franconia.svg		\

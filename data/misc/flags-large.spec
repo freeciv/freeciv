@@ -143,6 +143,7 @@ sprites =
 		"f.fiji", "flags/fiji-large"
 		"f.finland", "flags/finland-large"
 		"f.flanders", "flags/flanders-large"
+		"f.florence", "flags/florence-large"
 		"f.france", "flags/france-large"
 		"f.france_old", "flags/france_old-large"	; alt Gallic
 		"f.franconia", "flags/franconia-large"

@@ -141,6 +141,7 @@ artists = "
    Fiji			Denelson83, Vzb83, Zachary Harden, et al. (Wikimedia Commons)
    Finland		SKopp (Wikimedia Commons)
    Flanders		Cedric de Launois (Open Clip Art)
+   Florence		Kanchelskis (Wikimedia Commons)
    France (old)		Patricia Fidi
    France		Tobias Jakobs
    Franconia		Andreas Trepte (Wikimedia Commons) and J.M. Maalderink
@@ -612,6 +613,7 @@ sprites =
 		"f.fiji", "flags/fiji"
 		"f.finland", "flags/finland"
 		"f.flanders", "flags/flanders"
+		"f.florence", "flags/florence"
 		"f.france", "flags/france"
 		"f.france_old", "flags/france_old"
 		"f.franconia", "flags/franconia"
