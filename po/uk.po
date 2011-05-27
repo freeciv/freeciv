@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-27 15:33-0700\n"
-"PO-Revision-Date: 2011-05-27 12:59+0300\n"
+"PO-Revision-Date: 2011-05-27 18:15+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1529,36 +1529,32 @@ msgid "non-match"
 msgstr "не співпадає"
 
 #: utility/shared.c:1886
-#, fuzzy
 msgid "day"
 msgid_plural "days"
-msgstr[0] "Травень"
-msgstr[1] "Травень"
-msgstr[2] "Травень"
+msgstr[0] "день"
+msgstr[1] "дні"
+msgstr[2] "днів"
 
 #: utility/shared.c:1891
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] " або "
-msgstr[1] " або "
-msgstr[2] " або "
+msgstr[0] "година"
+msgstr[1] "години"
+msgstr[2] "годин"
 
 #: utility/shared.c:1897
-#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "Голодомор"
-msgstr[1] "Голодомор"
-msgstr[2] "Голодомор"
+msgstr[0] "хвилина"
+msgstr[1] "хвилини"
+msgstr[2] "хвилин"
 
 #: utility/shared.c:1903
-#, fuzzy
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "Звіт"
-msgstr[1] "Звіт"
-msgstr[2] "Звіт"
+msgstr[0] "секунда"
+msgstr[1] "секунди"
+msgstr[2] "секунд"
 
 #: utility/shared.c:2169
 #: client/gui-gtk-2.0/editprop.c:848
@@ -2179,9 +2175,8 @@ msgid "The size of the city map of %s is %s."
 msgstr "%s з %s"
 
 #: server/citytools.c:2690
-#, fuzzy
 msgid "increased"
-msgstr "Авіабаза"
+msgstr "зросли"
 
 #: server/citytools.c:2691
 msgid "reduced"
@@ -2395,7 +2390,7 @@ msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Неможливо утримувати %s у %s, будівлю продано!"
 
 #: server/cityturn.c:1814
-#, fuzzy, c-format
+#, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Недостатньо грошей. %s розпущено."
 
@@ -2991,9 +2986,8 @@ msgid "detach <connection-name>"
 msgstr "detach <ім'я-з'єднання>"
 
 #: server/commands.c:286
-#, fuzzy
 msgid "Detach from a player."
-msgstr "від'єднатися від гравця."
+msgstr "Від'єднати від гравця."
 
 #: server/commands.c:287
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to detach from a player."
@@ -3265,9 +3259,8 @@ msgid "Fully remove player from game."
 msgstr "Повністю видаляє гравця з гри."
 
 #: server/commands.c:476
-#, fuzzy
 msgid "This *completely* removes a player from the game, including all cities and units etc. Use with care!"
-msgstr "Ця команда *повністю* видаляє гравця з гри, включаючі усі міста та підрозділи. Застосовуйте обережно!"
+msgstr "Ця команда *повністю* видаляє гравця з гри, включаючи всі міста та підрозділи. Застосовуйте обережно!"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:482
@@ -3283,16 +3276,14 @@ msgid "Save game to file."
 msgstr "Зберегти гру у файл."
 
 #: server/commands.c:485
-#, fuzzy
 msgid ""
 "Save the current game to file <file-name>. If no file-name argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\". To reload a savegame created by 'save', start the server with the command-line argument:\n"
 "    '--file <filename>' or '-f <filename>'\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Зберегти поточну гру у файл <файл>. Якщо не надано імені файлу зберігання йде у файл '<встановлений префікс><рік>m.sav[.gz]'.\n"
-"Аби завантажити збережену гру, стартуйте сервер з аргументом у командній строці:\n"
-"    --file <файл>\n"
-"потім виконайте команду 'start' як тількі усі гравці під'єднаються."
+"Зберегти поточну гру у файл <файл>. Якщо не надано імені файлу, зберігає у файл \"<префікс автозбереження><рік>m.sav[.gz]\". Аби завантажити збережену гру, стартуйте сервер з аргументом командного рядка:\n"
+"    '--file <файл>' або '-f <файл>'\n"
+"потім виконайте команду 'start', коли усі гравці під'єднаються."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:495
@@ -3308,9 +3299,8 @@ msgid "Load game from file."
 msgstr "Завантажує гру з файлу."
 
 #: server/commands.c:498
-#, fuzzy
 msgid "Load a game from <file-name>. Any current data including players, rulesets and server options are lost."
-msgstr "Завантажує гру з <файл>. Будь які поточні данні враховуючи гравців, набори правил та опції сервера втрачаються..\n"
+msgstr "Завантажує гру з <файл>. Будь які поточні данні, включаючи гравців, набори правил та опції сервера, втрачаються."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:504
@@ -3358,9 +3348,8 @@ msgid "kick <user>"
 msgstr ""
 
 #: server/commands.c:535
-#, fuzzy
 msgid "Cut a connection and disallow reconnect."
-msgstr "З'єднання метасервера вже закрито."
+msgstr "Обірвати з'єднання та заборонити перепідключення."
 
 #: server/commands.c:536
 msgid "The connection given by the 'user' argument will be cut from the server and not allowed to reconnect. The time the user wouldn't be able to reconnect is controlled by the 'kicktime' setting."
@@ -3415,9 +3404,9 @@ msgid "You are logged in as '%s' connected to %s."
 msgstr "Ви зайшли як '%s' під'єднані до %s."
 
 #: server/connecthand.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "%s has connected from %s (player %s)."
-msgstr "%s приєднався з %s."
+msgstr "%s приєднався з %s (гравець %s)."
 
 #: server/connecthand.c:255
 #, c-format
@@ -3865,16 +3854,16 @@ msgstr "Ваш %s загинув, захищаючи %s від %s."
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:1180
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
-msgstr "Ваш %s загинув, захищаючи %s від %s."
+msgstr "%s %s загинув, захищаючи %s від %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
 #: server/diplomats.c:1187
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
-msgstr "Ваш %s загинув, захищаючи %s від %s."
+msgstr "Ваш %s загинув, захищаючи %s %s від %s."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
@@ -3886,9 +3875,9 @@ msgstr "Ваш %s боронився проти %s, але загинув."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
 #: server/diplomats.c:1201
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s has been eliminated defending against a %s."
-msgstr "Ваш %s боронився проти %s, але загинув."
+msgstr "%s %s боронився проти %s, але загинув."
 
 #: server/diplomats.c:1229
 #, c-format
@@ -3896,35 +3885,35 @@ msgid "Your %s was eliminated by a defending %s."
 msgstr "Ваш %s було знищено %s, що оборонявся."
 
 #: server/diplomats.c:1235
-#, fuzzy, c-format
+#, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
-msgstr "Знищено підрозділ направлений %s - %s при спробі шпигування у %s."
+msgstr " %s %s знищено при спробі шпигування у %s."
 
 #: server/diplomats.c:1240
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
-msgstr "Знищено підрозділ направлений %s - %s при спробі шпигування у %s."
+msgstr " %s %s знищив %s %s при спробі шпигування у %s."
 
 #: server/diplomats.c:1245
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
-msgstr "Знищено підрозділ направлений %s - %s при спробі шпигування у %s."
+msgstr "Ваш %s знищив %s %s при спробі шпигування у %s."
 
 #: server/diplomats.c:1253
-#, fuzzy, c-format
+#, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr "Знищено %s %s при спробі диверсії наших підрозділів."
 
 #: server/diplomats.c:1258
-#, fuzzy, c-format
+#, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
-msgstr "Знищено %s %s при спробі диверсії наших підрозділів."
+msgstr "%s %s знищив %s %s при спробі диверсії наших підрозділів."
 
 #. TRANS: ... <unit> ... <diplomat>
 #: server/diplomats.c:1264
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
-msgstr "Знищено %s %s при спробі диверсії наших підрозділів."
+msgstr "Ваш %s знищив %s %s при спробі диверсії наших підрозділів."
 
 #: server/diplomats.c:1319
 #, c-format
@@ -3967,9 +3956,9 @@ msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Ви призвели до інциденту при влаштуванні заколоту у %s."
 
 #: server/diplomats.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
-msgstr "%s призвів до інциденту при влаштуванні заколоту у %s."
+msgstr "%s призвів до інциденту під час збурення заколоту у %s."
 
 #: server/edithand.c:186
 #, c-format
@@ -4191,9 +4180,9 @@ msgstr "Не можливо перемикнути гравця дикуна."
 
 #: server/edithand.c:1338
 #: server/edithand.c:1377
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid tile index %d for start position."
-msgstr "Невірний розмір %d для міста %s."
+msgstr "Невірний індекс клітинки %d для початкового положення."
 
 #: server/edithand.c:1385
 #, fuzzy, c-format
@@ -4501,9 +4490,9 @@ msgid "That nation is already in use."
 msgstr "Ця нація вже використовується."
 
 #: server/plrhand.c:1279
-#, fuzzy, c-format
+#, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
-msgstr "Іншій гравець вже обрав ім'я '%s'. Оберіть інше."
+msgstr "Іншій гравець уже обрав ім'я '%s'. Оберіть собі більш інше."
 
 #: server/plrhand.c:1303
 msgid "Please choose a name containing only ASCII characters."
@@ -4511,14 +4500,13 @@ msgstr "Оберіть ім'я, що містить лише символи ASCI
 
 #: server/plrhand.c:1378
 #: server/plrhand.c:1392
-#, fuzzy, c-format
+#, c-format
 msgid "Player no. %d"
-msgstr "Гравець %d"
+msgstr "Гравець № %d"
 
 #: server/plrhand.c:1407
-#, fuzzy
 msgid "A poorly-named player"
-msgstr "Погано назване місто"
+msgstr "Невдало названий гравець"
 
 #: server/plrhand.c:1477
 #: server/plrhand.c:1481
@@ -4771,9 +4759,9 @@ msgstr "Історичні дослідники!"
 
 #. TRANS:"The French City of Lyon (team 3) of size 18".
 #: server/report.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s City of %s (%s) of size %d, "
-msgstr "%2d: %s місто %s розміром %d, "
+msgstr "%2d: %s місто %s (%s) розміром %d, "
 
 #: server/report.c:354
 #, c-format
@@ -4803,9 +4791,9 @@ msgstr "П'ять найвеличніших міст у світі!"
 
 #. TRANS: "Colossus in Rhodes (Greek, team 2)".
 #: server/report.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "%s in %s (%s, %s)\n"
-msgstr "%s у %s (%s)\n"
+msgstr "%s у %s (%s, %s)\n"
 
 #: server/report.c:400
 #, c-format
@@ -4819,9 +4807,9 @@ msgstr "%s ЗНИЩЕНО\n"
 
 #. TRANS: "([...] (Roman, team 4))".
 #: server/report.c:426
-#, fuzzy, c-format
+#, c-format
 msgid "(building %s in %s (%s, %s))\n"
-msgstr "(будується %s у %s (%s))\n"
+msgstr "(будується %s у %s (%s, %s))\n"
 
 #: server/report.c:431
 #, c-format
@@ -4983,19 +4971,16 @@ msgid "Spaceship\n"
 msgstr "Зореліт\n"
 
 #: server/report.c:1448
-#, fuzzy
 msgid "Built Units\n"
-msgstr "Будують підрозділи"
+msgstr "Збудовані підрозділи\n"
 
 #: server/report.c:1449
-#, fuzzy
 msgid "Killed Units\n"
-msgstr "Доступні підрозділи"
+msgstr "Знищені підрозділи\n"
 
 #: server/report.c:1450
-#, fuzzy
 msgid "Unit Losses\n"
-msgstr "Виробництво"
+msgstr "Втрати підрозділів\n"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:204
@@ -5044,9 +5029,9 @@ msgstr "%s додано, як комп'ютерного гравця рівня 
 
 #: server/savegame.c:5236
 #: server/savegame2.c:2947
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as human player."
-msgstr "%s додано як комп'ютерного гравця."
+msgstr "%s додано як людського гравця."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
 #: server/savegame.c:5281
@@ -5074,14 +5059,12 @@ msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
 
 #: server/settings.c:197
-#, fuzzy
 msgid "Number of tiles"
-msgstr "Кількість торгових шляхів"
+msgstr "Кількість клітинок"
 
 #: server/settings.c:198
-#, fuzzy
 msgid "Tiles per player"
-msgstr "Гравець"
+msgstr "Клітинок на гравця"
 
 #: server/settings.c:199
 msgid "Width and height"
@@ -5096,18 +5079,16 @@ msgid "Wrap North-South"
 msgstr ""
 
 #: server/settings.c:212
-#, fuzzy
 msgid "Isometric"
-msgstr "Імператриця"
+msgstr "Ізометрична"
 
 #: server/settings.c:213
 msgid "Hexagonal"
 msgstr ""
 
 #: server/settings.c:224
-#, fuzzy
 msgid "Scenario map"
-msgstr "Завантажити сценарій"
+msgstr "Карта сценарію"
 
 #: server/settings.c:225
 msgid "Fully random height"
@@ -5130,26 +5111,22 @@ msgid "One player per continent"
 msgstr ""
 
 #: server/settings.c:243
-#, fuzzy
 msgid "Two or three players per continent"
-msgstr "Чи є на полюсах окремі континенти"
+msgstr "Два чи три гравця на континенті"
 
 #: server/settings.c:245
-#, fuzzy
 msgid "All players on a single continent"
-msgstr "Гравець з таким ім'ям вже існує."
+msgstr "Усі гравці на одному континенті"
 
 #: server/settings.c:247
 msgid "Depending on size of continents"
 msgstr ""
 
 #: server/settings.c:258
-#, fuzzy
 msgid "Land moving units"
 msgstr "Сухопутні підрозділи"
 
 #: server/settings.c:259
-#, fuzzy
 msgid "Sea moving units"
 msgstr "Морські підрозділи"
 
@@ -5158,14 +5135,12 @@ msgid "Units able to move both on land and sea"
 msgstr ""
 
 #: server/settings.c:275
-#, fuzzy
 msgid "Disabled"
-msgstr "Нечесна"
+msgstr "Заборонено"
 
 #: server/settings.c:276
-#, fuzzy
 msgid "Enabled"
-msgstr "Непогана"
+msgstr "Дозволено"
 
 #: server/settings.c:278
 msgid "See everything inside borders"
@@ -5189,37 +5164,32 @@ msgid "Only allowed between AI players"
 msgstr ""
 
 #: server/settings.c:295
-#, fuzzy
 msgid "Restricted to teams"
-msgstr "Список гравців:"
+msgstr "Обмежити до команд"
 
 #: server/settings.c:296
 msgid "Disabled for everyone"
 msgstr ""
 
 #: server/settings.c:307
-#, fuzzy
 msgid "No restrictions"
-msgstr "Конструювання"
+msgstr "Без обмежень"
 
 #: server/settings.c:308
-#, fuzzy
 msgid "Unique to a player"
-msgstr "Сторінка підрозділів"
+msgstr "Унікальне для гравця"
 
 #: server/settings.c:309
 msgid "Globally unique"
 msgstr ""
 
 #: server/settings.c:310
-#, fuzzy
 msgid "No city name stealing"
-msgstr "Дозволені назви міст"
+msgstr "Не красти назви міст"
 
 #: server/settings.c:321
-#, fuzzy
 msgid "No barbarians"
-msgstr "Дикун"
+msgstr "Без дикунів"
 
 #: server/settings.c:322
 msgid "Only in huts"
@@ -5230,14 +5200,12 @@ msgid "Normal rate of appearance"
 msgstr ""
 
 #: server/settings.c:324
-#, fuzzy
 msgid "Frequent barbarian uprising"
-msgstr "Дикунське вторгнення"
+msgstr "Часті вторгнення дикунів"
 
 #: server/settings.c:325
-#, fuzzy
 msgid "Raging hordes"
-msgstr "Вісячі сади"
+msgstr "Люті орди"
 
 #: server/settings.c:337
 #, fuzzy
@@ -5275,21 +5243,19 @@ msgstr "Конструювання"
 
 #: server/settings.c:371
 msgid "Using zlib (gzip format)"
-msgstr ""
+msgstr "Використовую zlib (формат gzip)"
 
 #: server/settings.c:374
 msgid "Using bzip2"
-msgstr ""
+msgstr "Використовую bzip2"
 
 #: server/settings.c:386
-#, fuzzy
 msgid "disabled"
-msgstr "Нечесна"
+msgstr "заборонено"
 
 #: server/settings.c:387
-#, fuzzy
 msgid "enabled"
-msgstr "Непогана"
+msgstr "дозволено"
 
 #: server/settings.c:450
 #, c-format
@@ -5372,17 +5338,17 @@ msgstr ""
 #: server/settings.c:755
 #, c-format
 msgid "The map size (%d * %d = %d) must be larger than %d tiles."
-msgstr ""
+msgstr "Розмір карти (%d * %d = %d) має бути більшим ніж %d клітинок."
 
 #: server/settings.c:736
 #: server/settings.c:761
 #, c-format
 msgid "The map size (%d * %d = %d) must be lower than %d tiles."
-msgstr ""
+msgstr "Розмір карти (%d * %d = %d) має бути меншим ніж %d клітинок."
 
 #: server/settings.c:819
 msgid "Map size definition"
-msgstr ""
+msgstr "Визначення розміру карти"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -5398,9 +5364,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:836
-#, fuzzy
 msgid "Map area (in thousands of tiles)"
-msgstr "Розмір карти (у тисячах кліток)"
+msgstr "Площа карти (у тисячах клітинок)"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -5408,21 +5373,20 @@ msgstr "Розмір карти (у тисячах кліток)"
 #. * strings between paranthesis and in uppercase must stay as
 #. * untranslated.
 #: server/settings.c:842
-#, fuzzy
 msgid ""
 "This value is used to determine the map area.\n"
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
 "  size = 20 is a huge map of 20,000 tiles\n"
 "For this option to take effect, the \"Map size definition\" option ('mapsize') must be set to \"Number of tiles\" (FULLSIZE)."
 msgstr ""
-"Це значення використовується для того, щоб визначити розміри карти.\n"
-"  size = 4 це нормальна карта з 4,000 клітин (значення за замовчуванням)\n"
-"  size = 20 це величезна карта з 20,000 клітин"
+"Це значення використовується, щоб визначити розміри карти.\n"
+"  size = 4 це нормальна карта з 4,000 клітинок (типове значення)\n"
+"  size = 20 це величезна карта з 20,000 клітинок\n"
+"Щоб ця опція подіяла, параметр \"Map size definition\" ('mapsize') слід встановити у \"Number of tiles\" (FULLSIZE)."
 
 #: server/settings.c:852
-#, fuzzy
 msgid "Number of (land) tiles per player"
-msgstr "Початкова кількість колоністів на гравця"
+msgstr "Кількість клітинок (землі) на гравця"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -5440,9 +5404,8 @@ msgstr ""
 "  size = 20 це величезна карта з 20,000 клітин"
 
 #: server/settings.c:869
-#, fuzzy
 msgid "Map width in tiles"
-msgstr "Довжина мапи у клітинках"
+msgstr "Ширина мапи у клітинках"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -5456,7 +5419,6 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:883
-#, fuzzy
 msgid "Map height in tiles"
 msgstr "Висота мапи у клітинках"
 
@@ -5610,9 +5572,8 @@ msgid "Small values mean lots of dry, desert-like land; higher values give a wet
 msgstr "Маленькі значення призведуть до сухої, пустельної землі; великі значення дадуть вологу карту із болотами, джунглями та річками."
 
 #: server/settings.c:1051
-#, fuzzy
 msgid "Global warming"
-msgstr "Сталося глобальне потепління!"
+msgstr "Глобальне потепління"
 
 #: server/settings.c:1052
 msgid "If turned off, global warming will not occur as a result of pollution. This setting does not affect pollution."
@@ -7333,12 +7294,12 @@ msgstr "Максимум:"
 #: server/stdinhand.c:1704
 #: manual/civmanual.c:200
 msgid "Possible values:"
-msgstr ""
+msgstr "Можливі значення:"
 
 #: server/stdinhand.c:1722
 #: manual/civmanual.c:212
 msgid "Possible values (option can take any number of these):"
-msgstr ""
+msgstr "Можливі значення (можна вказати будь-яке з цих чисел):"
 
 #: server/stdinhand.c:1747
 msgid "Explanations are available for the following server options:"
@@ -7958,7 +7919,7 @@ msgstr "Каталог правил встановлено у \"%s\""
 #: server/stdinhand.c:3750
 #: server/stdinhand.c:4919
 msgid "That would be rather silly, since you are not a player."
-msgstr ""
+msgstr "Це було б безглуздо, оскільки Ви не гравець."
 
 #: server/stdinhand.c:3721
 #, c-format
@@ -8076,7 +8037,7 @@ msgstr "Відсутній аргумент для '%s'.\n"
 
 #: server/stdinhand.c:4272
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
-msgstr ""
+msgstr "Коректні можливі аргументи: 'game', 'ruleset', 'script' або 'default'."
 
 #: server/stdinhand.c:4287
 #, fuzzy
@@ -8488,7 +8449,7 @@ msgstr "Не можу розмістити місто тут."
 
 #: server/unithand.c:556
 msgid "Can't place a city there because another city is too close."
-msgstr ""
+msgstr "Тут не можна заснувати місто, бо інше місто надто близько."
 
 #. TRANS: %s is list of units separated by "or".
 #: server/unithand.c:566
@@ -9306,7 +9267,7 @@ msgstr "%+4d : Приріст від %s (%+d%%)\n"
 #: client/citydlg_common.c:592
 #, c-format
 msgid "%5.1f : Total chance for a plague"
-msgstr ""
+msgstr "%5.1f : Загальна ймовірність пошесті"
 
 #: client/citydlg_common.c:609
 #, c-format
@@ -14833,7 +14794,7 @@ msgstr "Редактор властивостей"
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:6083
 msgid "Seen (Main)"
-msgstr ""
+msgstr "Видиме (Головний)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:6086
@@ -14926,7 +14887,7 @@ msgstr "%s альянс: %s"
 #. * Appears at the end of an "and"-separated list.
 #: client/gui-gtk-2.0/gotodlg.c:388
 msgid "?gotodlg:more"
-msgstr ""
+msgstr "ще..."
 
 #. TRANS: goto/airlift dialog. For units not currently in a city.
 #. * Appears at the end of an "and"-separated list.
@@ -16529,7 +16490,7 @@ msgstr "Мета"
 #. TRANS: As in 'Show all (even currently not reachable) techs'.
 #: client/gui-gtk-2.0/repodlgs.c:592
 msgid "Show all"
-msgstr ""
+msgstr "Показати геть усі"
 
 #: client/gui-gtk-2.0/repodlgs.c:750
 #, fuzzy
@@ -26559,7 +26520,7 @@ msgstr "Ультамаринові"
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:258
 msgid "?team name:Xanadu"
-msgstr ""
+msgstr "Ксанаду"
 
 #: data/multiplayer/techs.ruleset:245
 #, fuzzy
@@ -26593,11 +26554,11 @@ msgstr "Гелікоптер - це дуже потужний підрозділ
 
 #: data/multiplayer/units.ruleset:2067
 msgid "A Caravan carries goods or material to help build wonders in your cities."
-msgstr ""
+msgstr "Караван перевозить товари або матеріали, щоб допомогти будівництву див у ваших містах."
 
 #: data/multiplayer/units.ruleset:2070
 msgid "Every Caravan that is used to build a wonder will add 30 shields towards the production of the wonder."
-msgstr ""
+msgstr "Кожен караван, що використовується для будівництва дива, додає 30 щитів до його виробництва."
 
 #: data/multiplayer/units.ruleset:2106
 #, fuzzy
