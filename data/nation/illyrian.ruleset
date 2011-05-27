@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "thracian", "greek", "epirote"
+civilwar_nations = "thracian", "paeonian", "epirote"
 
 ; known regional capitals listed first.
 ; remaining order is following the coastline, S-N, W-E,

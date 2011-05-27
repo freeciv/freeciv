@@ -323,6 +323,7 @@ sprites =
 		"f.otomi", "flags/otomi-large"
 		"f.ottoman", "flags/ottoman-large"
 		"f.oz", "flags/oz-large"
+		"f.paeonia", "flags/paeonia-large"
 		"f.pakistan", "flags/pakistan-large"
 		"f.palatinate", "flags/palatinate-large"
 		"f.palestine", "flags/palestine-large"

@@ -322,6 +322,7 @@ sprites =
 		"f.shield.otomi", "flags/otomi-shield"
 		"f.shield.ottoman", "flags/ottoman-shield"
 		"f.shield.oz", "flags/oz-shield"
+		"f.shield.paeonia", "flags/paeonia-shield"
 		"f.shield.pakistan", "flags/pakistan-shield"
 		"f.shield.palatinate", "flags/palatinate-shield"
 		"f.shield.palestine", "flags/palestine-shield"

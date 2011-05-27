@@ -311,6 +311,7 @@ pkgdata_DATA = \
 		ostrogothic.ruleset \
 		ottoman.ruleset \
 		ozite.ruleset \
+		paeonian.ruleset \
 		pakistani.ruleset \
 		palatinate.ruleset \
 		palestinian.ruleset \

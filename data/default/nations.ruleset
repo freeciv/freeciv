@@ -360,6 +360,7 @@ match=2
 *include "nation/otomi.ruleset"
 *include "nation/ottoman.ruleset"
 *include "nation/ozite.ruleset"
+*include "nation/paeonian.ruleset"
 *include "nation/pakistani.ruleset"
 *include "nation/palatinate.ruleset"
 *include "nation/palestinian.ruleset"

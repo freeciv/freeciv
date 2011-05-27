@@ -327,6 +327,7 @@ artists = "
    Palestine		J.M. Maalderink
    Palmyra		JB Grout
    Panama		J.M. Maalderink
+   Paeonia		Andrzej G., J.M. Maalderink and Mysid
    Papua New Guinea	Tobias Jakobs
    Paraguay		Vzb83 (Wikimedia Commons)
    Pashtun		Paul Zastoupil
@@ -794,6 +795,7 @@ sprites =
 		"f.otomi", "flags/otomi"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
+		"f.paeonia", "flags/paeonia"
 		"f.pakistan", "flags/pakistan"
 		"f.palatinate", "flags/palatinate"
 		"f.palestine", "flags/palestine"

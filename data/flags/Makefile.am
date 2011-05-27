@@ -314,6 +314,7 @@ flag_files =				\
 		otomi.png		\
 		ottoman.png		\
 		oz.png			\
+		paeonia.png		\
 		pakistan.png		\
 		palatinate.png		\
 		palestine.png		\
@@ -780,6 +781,7 @@ flag_files =				\
 		otomi-large.png		\
 		ottoman-large.png		\
 		oz-large.png			\
+		paeonia-large.png		\
 		pakistan-large.png		\
 		palatinate-large.png		\
 		palestine-large.png		\
@@ -1248,6 +1250,7 @@ shield_files =					\
 		otomi-shield.png		\
 		ottoman-shield.png		\
 		oz-shield.png			\
+		paeonia-shield.png		\
 		pakistan-shield.png		\
 		palatinate-shield.png		\
 		palestine-shield.png		\
@@ -1714,6 +1717,7 @@ shield_files =					\
 		otomi-shield-large.png		\
 		ottoman-shield-large.png		\
 		oz-shield-large.png			\
+		paeonia-shield-large.png		\
 		pakistan-shield-large.png		\
 		palatinate-shield-large.png		\
 		palestine-shield-large.png		\
@@ -2181,6 +2185,7 @@ svg_files = 				\
 		otomi.svg		\
 		ottoman.svg		\
 		oz.svg			\
+		paeonia.svg		\
 		pakistan.svg		\
 		palatinate.svg		\
 		palestine.svg		\
