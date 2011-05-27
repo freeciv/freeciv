@@ -1,7 +1,7 @@
 [nation_trinidadian]
 
-name=_("Trinidadian and Tobagoan")
-plural=_("?plural:Trinidadians and Tobagoans")
+name=_("Trinidadian and Tobagonian")
+plural=_("?plural:Trinidadians and Tobagonians")
 groups="Modern", "American"
 legend=_("Trinidad and Tobago is a country in the Caribbean, consisting\
  of the two eponymous islands. It is the most populous country of the\
