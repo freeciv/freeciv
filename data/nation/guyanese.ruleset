@@ -36,7 +36,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="venezuelan", "surinamese", "trinidadian and tobagoan"
+civilwar_nations="venezuelan", "surinamese", "trinidadian and tobagonian"
 
 cities =
  "Georgetown",

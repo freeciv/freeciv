@@ -44,7 +44,7 @@ conflicts_with="latvian", "indonesian" ;latter because of similar flag
 civilwar_nations="teutonic", "latvian",
 
 ;colonies
-"gambian", "trinidadian and tobagoan"
+"gambian", "trinidadian and tobagonian"
 
 cities=
   "Mitau",
