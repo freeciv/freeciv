@@ -58,6 +58,7 @@ pkgdata_DATA = \
 		beninese.ruleset \
 		bhutanese.ruleset \
 		biafran.ruleset \
+		bissauguinean.ruleset \
 		boer.ruleset \
 		bolivian.ruleset \
 		bosnia.ruleset \

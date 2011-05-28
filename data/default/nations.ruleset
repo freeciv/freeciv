@@ -107,6 +107,7 @@ match=2
 *include "nation/beninese.ruleset"
 *include "nation/bhutanese.ruleset"
 *include "nation/biafran.ruleset"
+*include "nation/bissauguinean.ruleset"
 *include "nation/boer.ruleset"
 *include "nation/bolivian.ruleset"
 *include "nation/bosnia.ruleset"

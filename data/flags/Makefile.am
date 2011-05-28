@@ -159,6 +159,7 @@ flag_files =				\
 		guarani.png		\
 		guatemala.png		\
 		guinea.png		\
+		guinea-bissau.png	\
 		gupta.png		\
 		guyana.png		\
 		hacker.png		\
@@ -626,6 +627,7 @@ flag_files =				\
 		guarani-large.png		\
 		guatemala-large.png		\
 		guinea-large.png		\
+		guinea-bissau-large.png		\
 		gupta-large.png		\
 		guyana-large.png		\
 		hacker-large.png		\
@@ -1095,6 +1097,7 @@ shield_files =					\
 		guarani-shield.png		\
 		guatemala-shield.png		\
 		guinea-shield.png		\
+		guinea-bissau-shield.png	\
 		gupta-shield.png		\
 		guyana-shield.png		\
 		hacker-shield.png		\
@@ -1562,6 +1565,7 @@ shield_files =					\
 		guarani-shield-large.png		\
 		guatemala-shield-large.png		\
 		guinea-shield-large.png			\
+		guinea-bissau-shield-large.png		\
 		gupta-shield-large.png		\
 		guyana-shield-large.png		\
 		hacker-shield-large.png		\
@@ -2031,6 +2035,7 @@ svg_files = 				\
 		guarani.svg		\
 		guatemala.svg		\
 		guinea.svg		\
+		guinea-bissau.svg	\
 		gupta.svg		\
 		guyana.svg		\
 		hacker.svg		\
