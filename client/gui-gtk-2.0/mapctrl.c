@@ -163,17 +163,20 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   Callback from city name dialog for new city.
 **************************************************************************/
-static void name_new_city_callback(GtkWidget * w, gpointer data)
+static void name_new_city_popup_callback(gpointer data, gint response,
+                                         const char *input)
 {
   int idx = GPOINTER_TO_INT(data);
 
-  if (idx < 0) {
-    cancel_city(index_to_tile(-idx-1));
-  } else {
-    finish_city(index_to_tile(idx), input_dialog_get_input(w));
+  switch (response) {
+  case GTK_RESPONSE_OK:
+    finish_city(index_to_tile(idx), input);
+    break;
+  case GTK_RESPONSE_CANCEL:
+  case GTK_RESPONSE_DELETE_EVENT:
+    cancel_city(index_to_tile(idx));
+    break;
   }
-
-  input_dialog_destroy(w);
 }
 
 /**************************************************************************
@@ -184,12 +187,10 @@ static void name_new_city_callback(GtkWidget * w, gpointer data)
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 {
   input_dialog_create(GTK_WINDOW(toplevel), /*"shellnewcityname" */
-		     _("Build New City"),
-		     _("What should we call our new city?"), suggestname,
-		     G_CALLBACK(name_new_city_callback),
-                     GINT_TO_POINTER(tile_index(unit_tile(punit))),
-                     G_CALLBACK(name_new_city_callback),
-                     GINT_TO_POINTER(-tile_index(unit_tile(punit)) - 1));
+                      _("Build New City"),
+                      _("What should we call our new city?"), suggestname,
+                      name_new_city_popup_callback,
+                      GINT_TO_POINTER(tile_index(unit_tile(punit))));
 }
 
 /**************************************************************************
