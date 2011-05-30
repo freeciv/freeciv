@@ -83,6 +83,7 @@ sprites =
 		"f.cameroon", "flags/cameroon-large"
 		"f.canada", "flags/canada-large"
 		"f.canada_old", "flags/canada_old-large"
+		"f.cape_verde", "flags/cape_verde-large"
 		"f.car", "flags/car-large"
 		"f.cartago", "flags/cartago-large"
 		"f.castile", "flags/castile-large"

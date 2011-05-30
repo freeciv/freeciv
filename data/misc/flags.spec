@@ -82,6 +82,7 @@ artists = "
    Cameroon		J.M. Maalderink
    Canada		James Leigh
    Canada (old)		Hoshie (Wikimedia Commons)
+   Cape Verde		Open Clip Art
    CAR			Vzb83 (Wikimedia Commons)
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
@@ -556,6 +557,7 @@ sprites =
 		"f.cameroon", "flags/cameroon"
 		"f.canada", "flags/canada"
 		"f.canada_old", "flags/canada_old"
+		"f.cape_verde", "flags/cape_verde"
 		"f.car", "flags/car"
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"

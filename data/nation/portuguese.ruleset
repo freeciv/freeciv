@@ -35,8 +35,9 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "brazilian", "angolan", "east timorese", "mozambican",
- "bissau-guinean"
+civilwar_nations = "brazilian", "angolan",  "bissau-guinean", "cape verdean",
+ "east timorese", "mozambican"
+
 
 cities =
  "Lisboa",

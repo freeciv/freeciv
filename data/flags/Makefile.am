@@ -74,6 +74,7 @@ flag_files =				\
 		cameroon.png		\
 		canada.png		\
 		canada_old.png		\
+		cape_verde.png		\
 		car.png			\
 		cartago.png		\
 		castile.png		\
@@ -542,6 +543,7 @@ flag_files =				\
 		cameroon-large.png		\
 		canada-large.png		\
 		canada_old-large.png		\
+		cape_verde.png			\
 		car-large.png			\
 		cartago-large.png		\
 		castile-large.png		\
@@ -1012,6 +1014,7 @@ shield_files =					\
 		cameroon-shield.png		\
 		canada-shield.png		\
 		canada_old-shield.png		\
+		cape_verde-shield.png		\
 		car-shield.png			\
 		cartago-shield.png		\
 		castile-shield.png		\
@@ -1480,6 +1483,7 @@ shield_files =					\
 		cameroon-shield-large.png		\
 		canada-shield-large.png		\
 		canada_old-shield-large.png		\
+		cape_verde-shield-large.png		\
 		car-shield-large.png			\
 		cartago-shield-large.png		\
 		castile-shield-large.png		\
@@ -1950,6 +1954,7 @@ svg_files = 				\
 		cameroon.svg		\
 		canada.svg		\
 		canada_old.svg		\
+		cape_verde.svg		\
 		car.svg			\
 		cartago.svg		\
 		castile.svg		\
