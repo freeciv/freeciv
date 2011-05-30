@@ -25,8 +25,8 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "zanzibari", "maasai" ;tanganyikan
-conflicts_with = "zanzibari" ;tanganyikan
+civilwar_nations = "tanganyikan", "zanzibari", "maasai"
+conflicts_with = "tanganyikan", "zanzibari"
 
 cities =
  "Dodoma (!ocean)",

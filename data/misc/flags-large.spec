@@ -418,6 +418,7 @@ sprites =
 		"f.tairona", "flags/tairona-large"
 		"f.taiwan", "flags/taiwan-large"
 		"f.tajikistan", "flags/tajikistan-large"
+		"f.tanganyika", "flags/tanganyika-large"
 		"f.tannu_tuva", "flags/tannu_tuva-large"
 		"f.tanzania", "flags/tanzania-large"
 		"f.tatarstan", "flags/tatarstan-large"

@@ -409,6 +409,7 @@ flag_files =				\
 		tairona.png		\
 		taiwan.png		\
 		tajikistan.png		\
+		tanganyika.png		\
 		tannu_tuva.png		\
 		tanzania.png		\
 		tatarstan.png		\
@@ -878,6 +879,7 @@ flag_files =				\
 		tairona-large.png		\
 		taiwan-large.png		\
 		tajikistan-large.png		\
+		tanganyika-large.png		\
 		tannu_tuva-large.png		\
 		tanzania-large.png		\
 		tatarstan-large.png		\
@@ -1349,6 +1351,7 @@ shield_files =					\
 		tairona-shield.png		\
 		taiwan-shield.png		\
 		tajikistan-shield.png		\
+		tanganyika-shield.png		\
 		tannu_tuva-shield.png		\
 		tanzania-shield.png		\
 		tatarstan-shield.png		\
@@ -1818,6 +1821,7 @@ shield_files =					\
 		tairona-shield-large.png		\
 		taiwan-shield-large.png		\
 		tajikistan-shield-large.png		\
+		tanganyika-shield-large.png		\
 		tannu_tuva-shield-large.png		\
 		tanzania-shield-large.png		\
 		tatarstan-shield-large.png		\
@@ -2287,6 +2291,7 @@ svg_files = 				\
 		tairona.svg		\
 		taiwan.svg		\
 		tajikistan.svg		\
+		tanganyika.svg		\
 		tannu_tuva.svg		\
 		tanzania.svg		\
 		tatarstan.svg		\

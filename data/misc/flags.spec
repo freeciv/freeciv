@@ -418,6 +418,7 @@ artists = "
    Tairona		Dan Cottrell and Daniel Markstedt
    Taiwan		Cezary Biele
    Tajikistan		Matthew Gatto and Daniil Ivanov
+   Tanganyika		J.M. Maalderink
    Tanzania		SKopp (Wikimedia commons)
    Tannu Tuva		Orange Tuesday (Wikimedia Commons)
    Tatarstan		J.M. Maalderink
@@ -892,6 +893,7 @@ sprites =
 		"f.tairona", "flags/tairona"
 		"f.taiwan", "flags/taiwan"
 		"f.tajikistan", "flags/tajikistan"
+		"f.tanganyika", "flags/tanganyika"
 		"f.tannu_tuva", "flags/tannu_tuva"
 		"f.tanzania", "flags/tanzania"
 		"f.tatarstan", "flags/tatarstan"

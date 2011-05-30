@@ -417,6 +417,7 @@ sprites =
 		"f.shield.tairona", "flags/tairona-shield"
 		"f.shield.taiwan", "flags/taiwan-shield"
 		"f.shield.tajikistan", "flags/tajikistan-shield"
+		"f.shield.tanganyika", "flags/tanganyika-shield"
 		"f.shield.tannu_tuva", "flags/tannu_tuva-shield"
 		"f.shield.tanzania", "flags/tanzania-shield"
 		"f.shield.tatarstan", "flags/tatarstan-shield"
