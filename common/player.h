@@ -150,7 +150,8 @@ enum diplstate_type {
 };
 
 enum dipl_reason {
-  DIPL_OK, DIPL_ERROR, DIPL_SENATE_BLOCKING, DIPL_ALLIANCE_PROBLEM
+  DIPL_OK, DIPL_ERROR, DIPL_SENATE_BLOCKING,
+  DIPL_ALLIANCE_PROBLEM_US, DIPL_ALLIANCE_PROBLEM_THEM
 };
 
 /* the following are for "pacts" */

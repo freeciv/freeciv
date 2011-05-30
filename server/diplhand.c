@@ -243,10 +243,15 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           break;
 	case CLAUSE_ALLIANCE:
           diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_ALLIANCE);
-          if (diplcheck == DIPL_ALLIANCE_PROBLEM) {
+          if (diplcheck == DIPL_ALLIANCE_PROBLEM_US) {
             notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                           _("You cannot form an alliance because you are "
                             "at war with an ally of %s."),
+                          player_name(pother));
+          } else if (diplcheck == DIPL_ALLIANCE_PROBLEM_THEM) {
+            notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
+                          _("You cannot form an alliance because %s is "
+                            "at war with an ally of yours."),
                           player_name(pother));
           }
           if (diplcheck != DIPL_OK) {

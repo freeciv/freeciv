@@ -3038,15 +3038,19 @@ static void sg_load_players(struct loaddata *loading)
     players_iterate(aplayer) {
       if (plr->is_alive
           && aplayer->is_alive
-          && pplayers_allied(plr, aplayer)
-          && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE)
-             == DIPL_ALLIANCE_PROBLEM) {
-        log_sg("Illegal alliance structure detected: "
-               "%s alliance to %s reduced to peace treaty.",
-               nation_rule_name(nation_of_player(plr)),
-               nation_rule_name(nation_of_player(aplayer)));
-        player_diplstate_get(plr, aplayer)->type = DS_PEACE;
-        player_diplstate_get(aplayer, plr)->type = DS_PEACE;
+          && pplayers_allied(plr, aplayer))
+      {
+        enum dipl_reason can_ally = pplayer_can_make_treaty(plr, aplayer,
+                                                            DS_ALLIANCE);
+        if (can_ally == DIPL_ALLIANCE_PROBLEM_US
+            || can_ally == DIPL_ALLIANCE_PROBLEM_THEM) {
+          log_sg("Illegal alliance structure detected: "
+                 "%s alliance to %s reduced to peace treaty.",
+                 nation_rule_name(nation_of_player(plr)),
+                 nation_rule_name(nation_of_player(aplayer)));
+          player_diplstate_get(plr, aplayer)->type = DS_PEACE;
+          player_diplstate_get(aplayer, plr)->type = DS_PEACE;
+        }
       }
     } players_iterate_end;
   } players_iterate_end;

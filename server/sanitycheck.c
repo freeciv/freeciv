@@ -465,8 +465,12 @@ static void check_players(const char *file, const char *function, int line)
       if (pplayer->is_alive
           && pplayer2->is_alive
           && pplayers_allied(pplayer, pplayer2)) {
-        SANITY_CHECK(pplayer_can_make_treaty(pplayer, pplayer2, DS_ALLIANCE)
-                     != DIPL_ALLIANCE_PROBLEM);
+        enum dipl_reason allied_players_can_be_allied =
+          pplayer_can_make_treaty(pplayer, pplayer2, DS_ALLIANCE);
+        SANITY_CHECK(allied_players_can_be_allied
+                     != DIPL_ALLIANCE_PROBLEM_US);
+        SANITY_CHECK(allied_players_can_be_allied
+                     != DIPL_ALLIANCE_PROBLEM_THEM);
       }
     } players_iterate_end;
 
