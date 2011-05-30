@@ -15,13 +15,12 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 
-			       const char *text, const char *postinputtest,
-			       GCallback ok_callback, gpointer ok_cli_data, 
-			       GCallback cancel_callback,
-			       gpointer cancel_cli_data);
+typedef void (*input_dialog_callback_t)(gpointer response_cli_data,
+                                        gint response, const char *input);
 
-void input_dialog_destroy(GtkWidget *button);
-const char *input_dialog_get_input(GtkWidget *button);
+GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 
+                               const char *text, const char *postinputtest,
+                               input_dialog_callback_t response_callback,
+                               gpointer response_cli_data);
 
 #endif  /* FC__INPUTDLG_H */

@@ -68,9 +68,8 @@ static void cma_preset_remove_response(GtkWidget *w, gint response,
 				       gpointer data);
 
 static void cma_add_preset_callback(GtkWidget *w, gpointer data);
-static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data);
-static void cma_preset_add_callback_no(GtkWidget *w, gpointer data);
-static void cma_preset_add_callback_destroy(GtkWidget *w, gpointer data);
+static void cma_preset_add_popup_callback(gpointer data, gint response,
+                                          const char *input);
 
 static void cma_active_callback(GtkWidget *w, gpointer data);
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
@@ -545,55 +544,34 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
   }
 
   pdialog->name_shell = input_dialog_create(GTK_WINDOW(parent),
-				    _("Name new preset"),
-				    _("What should we name the preset?"),
-				    default_name,
-				    G_CALLBACK(cma_preset_add_callback_yes),
-				    pdialog,
-				    G_CALLBACK(cma_preset_add_callback_no),
-				    pdialog);
-
-  g_signal_connect(pdialog->name_shell, "destroy",
-		   G_CALLBACK(cma_preset_add_callback_destroy), data);
+                                    _("Name new preset"),
+                                    _("What should we name the preset?"),
+                                    default_name,
+                                    cma_preset_add_popup_callback, pdialog);
 }
 
 /****************************************************************
- callback for the add_preset popup (delete popup)
+  callback for the add_preset popup
 *****************************************************************/
-static void cma_preset_add_callback_destroy(GtkWidget *w, gpointer data)
-{
-  struct cma_dialog *pdialog = (struct cma_dialog *) data;
-
-  pdialog->name_shell = NULL;
-}
-
-/****************************************************************
- callback for the add_preset popup (don't add it)
-*****************************************************************/
-static void cma_preset_add_callback_no(GtkWidget *w, gpointer data)
-{
-  input_dialog_destroy(w);
-}
-
-/****************************************************************
- callback for the add_preset popup (add it)
-*****************************************************************/
-static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data)
+static void cma_preset_add_popup_callback(gpointer data, gint response,
+                                          const char *input)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
   if (pdialog) {
-    struct cm_parameter param;
+    if (response == GTK_RESPONSE_OK) {
+      struct cm_parameter param;
 
-    cmafec_get_fe_parameter(pdialog->pcity, &param);
-    cmafec_preset_add(input_dialog_get_input(w), &param);
-    update_cma_preset_list(pdialog);
-    refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
-    /* if this or other cities have this set as "custom" */
-    city_report_dialog_update();
+      cmafec_get_fe_parameter(pdialog->pcity, &param);
+      cmafec_preset_add(input, &param);
+      update_cma_preset_list(pdialog);
+      refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
+      /* if this or other cities have this set as "custom" */
+      city_report_dialog_update();
+    } /* else CANCEL or DELETE_EVENT */
+
+    pdialog->name_shell = NULL;
   }
-
-  input_dialog_destroy(w);
 }
 
 /****************************************************************
