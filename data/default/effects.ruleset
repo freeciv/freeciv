@@ -411,6 +411,8 @@ reqs	=
       "Gov", "Monarchy", "Player"
     }
 
+; Empire_Size_Step disabled for Communism
+
 [effect_empire_size_step_3]
 name    = "Empire_Size_Step"
 value   = 14
