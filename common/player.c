@@ -158,9 +158,14 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
       && (existing != DS_WAR && existing != DS_CEASEFIRE)) {
     return DIPL_ERROR;
   }
-  if (treaty == DS_ALLIANCE
-      && (!is_valid_alliance(p1, p2) || !is_valid_alliance(p2, p1))) {
-    return DIPL_ALLIANCE_PROBLEM;
+  if (treaty == DS_ALLIANCE) {
+    if (!is_valid_alliance(p1, p2)) {
+      /* Our war with a third party prevents entry to alliance. */
+      return DIPL_ALLIANCE_PROBLEM_US;
+    } else if (!is_valid_alliance(p2, p1)) {
+      /* Their war with a third party prevents entry to alliance. */
+      return DIPL_ALLIANCE_PROBLEM_THEM;
+    }
   }
   /* this check must be last: */
   if (treaty == existing) {
