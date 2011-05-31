@@ -73,7 +73,7 @@
 *****************************************************************************/
 
 /* Maximal iterations before the search loop is stoped. */
-#define CM_MAX_LOOP 10000
+#define CM_MAX_LOOP 25000
 
 #ifdef DEBUG_TIMERS
 #define GATHER_TIME_STATS
