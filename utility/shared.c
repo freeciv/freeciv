@@ -76,10 +76,12 @@
                           "~/.freeciv/saves"
 #endif
 #ifndef DEFAULT_SCENARIO_PATH
-#define DEFAULT_SCENARIO_PATH "." PATH_SEPARATOR \
-                              "data/scenario" PATH_SEPARATOR \
-                              "~/.freeciv/scenarios"
-#endif
+#define DEFAULT_SCENARIO_PATH                          \
+  "." PATH_SEPARATOR                                   \
+  "data/scenario" PATH_SEPARATOR                       \
+  "~/.freeciv/" DATASUBDIR "/scenarios" PATH_SEPARATOR \
+  "~/.freeciv/scenarios"
+#endif /* DEFAULT_SCENARIO_PATH */
 
 /* environment */
 #ifndef FREECIV_PATH
