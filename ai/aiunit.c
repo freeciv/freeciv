@@ -2082,6 +2082,22 @@ static bool unit_can_be_retired(struct unit *punit)
 }
 
 /**************************************************************************
+  Manages settlers.
+**************************************************************************/
+static void ai_manage_settler(struct player *pplayer, struct unit *punit)
+{
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+  punit->ai_controlled = TRUE;
+  unit_data->done = TRUE; /* we will manage this unit later... ugh */
+  /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
+  if (unit_data->task == AIUNIT_NONE) {
+    adv_unit_new_task(punit, AUT_AUTO_SETTLER, NULL);
+  }
+  return;
+}
+
+/**************************************************************************
  manage one unit
  Careful: punit may have been destroyed upon return from this routine!
 

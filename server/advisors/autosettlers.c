@@ -39,10 +39,6 @@
 #include "path_finding.h"
 #include "pf_tools.h"
 
-/* ai */
-#include "aiplayer.h"
-#include "aiunit.h"
-
 /* server */
 #include "citytools.h"
 #include "maphand.h"
@@ -75,22 +71,6 @@ struct settlermap {
   int enroute; /* unit ID of settler en route to this tile */
   int eta; /* estimated number of turns until enroute arrives */
 };
-
-/**************************************************************************
-  Manages settlers.
-**************************************************************************/
-void ai_manage_settler(struct player *pplayer, struct unit *punit)
-{
-  struct unit_ai *unit_data = def_ai_unit_data(punit);
-
-  punit->ai_controlled = TRUE;
-  unit_data->done = TRUE; /* we will manage this unit later... ugh */
-  /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
-  if (unit_data->task == AIUNIT_NONE) {
-    adv_unit_new_task(punit, AUT_AUTO_SETTLER, NULL);
-  }
-  return;
-}
 
 /**************************************************************************
   Calculate the attractiveness of building a road/rail at the given tile.

@@ -40,8 +40,6 @@ int settler_evaluate_improvements(struct unit *punit,
                                   struct pf_path **path,
                                   struct settlermap *state);
 
-void ai_manage_settler(struct player *pplayer, struct unit *punit);
-
 void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
                        struct tile *ptile);
 
