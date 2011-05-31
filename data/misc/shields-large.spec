@@ -261,6 +261,7 @@ sprites =
 		"f.shield.mali", "flags/mali-shield-large"
 		"f.shield.mali_ancient", "flags/mali_ancient-shield-large"
 		"f.shield.malta", "flags/malta-shield-large"
+		"f.shield.mamluk", "flags/mamluk-shield-large"
 		"f.shield.man", "flags/man-shield-large"
 		"f.shield.manchuria", "flags/manchuria-shield-large"
 		"f.shield.maori", "flags/maori-shield-large"

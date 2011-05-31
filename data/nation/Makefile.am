@@ -250,6 +250,7 @@ pkgdata_DATA = \
 		mali.ruleset \
 		malian.ruleset \
 		maltese.ruleset \
+		mamluk.ruleset \
 		manchu.ruleset \
 		manx.ruleset \
 		maori.ruleset \

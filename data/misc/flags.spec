@@ -259,6 +259,7 @@ artists = "
    Mali			J.M. Maalderink
    Mali (ancient)	Daniel Markstedt
    Malta		Yaddah and Zachary Harden (Wikimedia Commons)
+   Mamluk		Travis Finkenauer
    Man			Washiucho (Wikimedia Commons)
    Manchuria		Zachary Harden
    Maori		Daniel Markstedt
@@ -736,6 +737,7 @@ sprites =
 		"f.mali", "flags/mali"
 		"f.mali_ancient", "flags/mali_ancient"
 		"f.malta", "flags/malta"
+		"f.mamluk", "flags/mamluk"
 		"f.man", "flags/man"
 		"f.manchuria", "flags/manchuria"
 		"f.maori", "flags/maori"

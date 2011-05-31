@@ -252,6 +252,7 @@ flag_files =				\
 		mali.png		\
 		mali_ancient.png	\
 		malta.png		\
+		mamluk.png		\
 		man.png			\
 		manchuria.png		\
 		maori.png		\
@@ -722,6 +723,7 @@ flag_files =				\
 		mali-large.png		\
 		mali_ancient-large.png	\
 		malta-large.png		\
+		mamluk-large.png		\
 		man-large.png			\
 		manchuria-large.png		\
 		maori-large.png		\
@@ -1194,6 +1196,7 @@ shield_files =					\
 		mali-shield.png			\
 		mali_ancient-shield.png		\
 		malta-shield.png		\
+		mamluk-shield.png		\
 		man-shield.png			\
 		manchuria-shield.png		\
 		maori-shield.png		\
@@ -1664,6 +1667,7 @@ shield_files =					\
 		mali-shield-large.png			\
 		mali_ancient-shield-large.png		\
 		malta-shield-large.png		\
+		mamluk-shield-large.png			\
 		man-shield-large.png			\
 		manchuria-shield-large.png		\
 		maori-shield-large.png		\
@@ -2135,6 +2139,7 @@ svg_files = 				\
 		mali.svg		\
 		mali_ancient.svg	\
 		malta.svg		\
+		mamluk.svg		\
 		man.svg			\
 		manchuria.svg		\
 		maori.svg		\
