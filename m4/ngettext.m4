@@ -11,7 +11,7 @@ templibs="$LIBS"
 LIBS="$1 $LIBS"
 templang="$LANG"
 LANG="de_DE"
-AC_TRY_RUN([
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 /*
  * Check to make sure that ngettext works at runtime. Specifically,
  * some gettext versions dump core if the ngettext function is called.
@@ -33,12 +33,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 }
-],
-[AC_MSG_RESULT(yes)
-  [$2]],
-[AC_MSG_RESULT(no)
-  [$3]],
-[AC_MSG_RESULT(unknown: cross-compiling)
+]])],[AC_MSG_RESULT(yes)
+  [$2]],[AC_MSG_RESULT(no)
+  [$3]],[AC_MSG_RESULT(unknown: cross-compiling)
   [$2]])
 LIBS="$templibs"
 LANG="$templang"

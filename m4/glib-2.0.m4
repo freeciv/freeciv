@@ -84,7 +84,7 @@ dnl Now check if the installed GLIB is sufficiently new. (Also sanity
 dnl checks the results of pkg-config to some extent)
 dnl
       rm -f conf.glibtest
-      AC_TRY_RUN([
+      AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -155,7 +155,7 @@ main ()
     }
   return 1;
 }
-],, no_glib=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+]])],[],[no_glib=yes],[echo $ac_n "cross compiling; assumed OK... $ac_c"])
        CFLAGS="$ac_save_CFLAGS"
        LIBS="$ac_save_LIBS"
      fi
@@ -177,11 +177,10 @@ main ()
           ac_save_LIBS="$LIBS"
           CFLAGS="$CFLAGS $GLIB_CFLAGS"
           LIBS="$LIBS $GLIB_LIBS"
-          AC_TRY_LINK([
+          AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #include <glib.h>
 #include <stdio.h>
-],      [ return ((glib_major_version) || (glib_minor_version) || (glib_micro_version)); ],
-        [ echo "*** The test program compiled, but did not run. This usually means"
+]], [[ return ((glib_major_version) || (glib_minor_version) || (glib_micro_version)); ]])],[ echo "*** The test program compiled, but did not run. This usually means"
           echo "*** that the run-time linker is not finding GLIB or finding the wrong"
           echo "*** version of GLIB. If it is not finding GLIB, you'll need to set your"
           echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
@@ -189,8 +188,7 @@ main ()
           echo "*** is required on your system"
 	  echo "***"
           echo "*** If you have an old version installed, it is best to remove it, although"
-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH" ],
-        [ echo "*** The test program failed to compile or link. See the file config.log for the"
+          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH" ],[ echo "*** The test program failed to compile or link. See the file config.log for the"
           echo "*** exact error that occured. This usually means GLIB is incorrectly installed."])
           CFLAGS="$ac_save_CFLAGS"
           LIBS="$ac_save_LIBS"

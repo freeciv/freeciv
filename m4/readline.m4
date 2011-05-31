@@ -11,7 +11,7 @@ AC_DEFUN([FC_CHECK_READLINE_RUNTIME],
 [AC_MSG_CHECKING(whether readline works at runtime)
 templibs="$LIBS"
 LIBS="-lreadline $1 $LIBS"
-AC_TRY_RUN([
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 /*
  * testrl.c
  * File revision 0
@@ -47,12 +47,9 @@ int main(void) {
   rl_callback_handler_remove();  /* needed to re-set terminal */
   return(0);
 }
-],
-[AC_MSG_RESULT(yes)
-  [$2]],
-[AC_MSG_RESULT(no)
-  [$3]],
-[AC_MSG_RESULT(unknown: cross-compiling)
+]])],[AC_MSG_RESULT(yes)
+  [$2]],[AC_MSG_RESULT(no)
+  [$3]],[AC_MSG_RESULT(unknown: cross-compiling)
   [$2]])
 LIBS="$templibs"
 ])

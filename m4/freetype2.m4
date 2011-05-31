@@ -18,7 +18,7 @@
 # First part is upstream (freetype2) version,
 # second is zero just in case upstream will use it,
 # third one is Freeciv modifications.
-# serial 2.0.1
+# serial 2.0.2
 
 # AC_CHECK_FT2([MINIMUM-VERSION [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 # Test for FreeType 2, and define FT2_CFLAGS and FT2_LIBS.
@@ -29,23 +29,17 @@ AC_DEFUN([AC_CHECK_FT2],
   [# Get the cflags and libraries from the freetype-config script
    #
    AC_ARG_WITH([ft-prefix],
-     dnl don't quote AC_HELP_STRING!
-     AC_HELP_STRING([--with-ft-prefix=PREFIX],
-                    [Prefix where FreeType is installed (optional)]),
+      AS_HELP_STRING([--with-ft-prefix=PREFIX],[Prefix where FreeType is installed (optional)]),
      [ft_config_prefix="$withval"],
      [ft_config_prefix=""])
 
    AC_ARG_WITH([ft-exec-prefix],
-     dnl don't quote AC_HELP_STRING!
-     AC_HELP_STRING([--with-ft-exec-prefix=PREFIX],
-                    [Exec prefix where FreeType is installed (optional)]),
+      AS_HELP_STRING([--with-ft-exec-prefix=PREFIX],[Exec prefix where FreeType is installed (optional)]),
      [ft_config_exec_prefix="$withval"],
      [ft_config_exec_prefix=""])
 
    AC_ARG_ENABLE([freetypetest],
-     dnl don't quote AC_HELP_STRING!
-     AC_HELP_STRING([--disable-freetypetest],
-                    [Do not try to compile and run a test FreeType program]),
+      AS_HELP_STRING([--disable-freetypetest],[Do not try to compile and run a test FreeType program]),
      [],
      [enable_fttest=yes])
 

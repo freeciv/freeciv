@@ -56,7 +56,7 @@ dnl Now check if the installed IMLIB is sufficiently new. (Also sanity
 dnl checks the results of imlib-config to some extent
 dnl
       rm -f conf.imlibtest
-      AC_TRY_RUN([
+      AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -111,7 +111,7 @@ int main ()
     }
 }
 
-],, no_imlib=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+]])],[],[no_imlib=yes],[echo $ac_n "cross compiling; assumed OK... $ac_c"])
        CFLAGS="$ac_save_CFLAGS"
        LIBS="$ac_save_LIBS"
      fi
@@ -133,11 +133,10 @@ int main ()
           echo "*** Could not run IMLIB test program, checking why..."
           CFLAGS="$CFLAGS $IMLIB_CFLAGS"
           LIBS="$LIBS $IMLIB_LIBS"
-          AC_TRY_LINK([
+          AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #include <stdio.h>
 #include <Imlib.h>
-],      [ return 0; ],
-        [ echo "*** The test program compiled, but did not run. This usually means"
+]], [[ return 0; ]])],[ echo "*** The test program compiled, but did not run. This usually means"
           echo "*** that the run-time linker is not finding IMLIB or finding the wrong"
           echo "*** version of IMLIB. If it is not finding IMLIB, you'll need to set your"
           echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
@@ -145,8 +144,7 @@ int main ()
           echo "*** is required on your system"
 	  echo "***"
           echo "*** If you have an old version installed, it is best to remove it, although"
-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
-        [ echo "*** The test program failed to compile or link. See the file config.log for the"
+          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],[ echo "*** The test program failed to compile or link. See the file config.log for the"
           echo "*** exact error that occured. This usually means IMLIB was incorrectly installed"
           echo "*** or that you have moved IMLIB since it was installed. In the latter case, you"
           echo "*** may want to edit the imlib-config script: $IMLIB_CONFIG" ])
@@ -212,7 +210,7 @@ dnl Now check if the installed IMLIB is sufficiently new. (Also sanity
 dnl checks the results of imlib-config to some extent
 dnl
       rm -f conf.imlibtest
-      AC_TRY_RUN([
+      AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <stdio.h>
 #include <stdlib.h>
 #include <gdk_imlib.h>
@@ -248,7 +246,7 @@ int main ()
     }
 }
 
-],, no_imlib=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+]])],[],[no_imlib=yes],[echo $ac_n "cross compiling; assumed OK... $ac_c"])
        CFLAGS="$ac_save_CFLAGS"
        LIBS="$ac_save_LIBS"
      fi
@@ -270,11 +268,10 @@ int main ()
           echo "*** Could not run IMLIB test program, checking why..."
           CFLAGS="$CFLAGS $GDK_IMLIB_CFLAGS"
           LIBS="$LIBS $GDK_IMLIB_LIBS"
-          AC_TRY_LINK([
+          AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #include <stdio.h>
 #include <gdk_imlib.h>
-],      [ return 0; ],
-        [ echo "*** The test program compiled, but did not run. This usually means"
+]], [[ return 0; ]])],[ echo "*** The test program compiled, but did not run. This usually means"
           echo "*** that the run-time linker is not finding IMLIB or finding the wrong"
           echo "*** version of IMLIB. If it is not finding IMLIB, you'll need to set your"
           echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
@@ -282,8 +279,7 @@ int main ()
           echo "*** is required on your system"
 	  echo "***"
           echo "*** If you have an old version installed, it is best to remove it, although"
-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
-        [ echo "*** The test program failed to compile or link. See the file config.log for the"
+          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],[ echo "*** The test program failed to compile or link. See the file config.log for the"
           echo "*** exact error that occured. This usually means IMLIB was incorrectly installed"
           echo "*** or that you have moved IMLIB since it was installed. In the latter case, you"
           echo "*** may want to edit the imlib-config script: $IMLIB_CONFIG" ])

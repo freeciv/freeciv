@@ -11,15 +11,11 @@ AC_DEFUN([AC_C99_VARIADIC_MACROS],
   dnl Check for variadic macros
   AC_CACHE_CHECK([for C99 variadic macros],
     [ac_cv_c99_variadic_macros],
-     [AC_TRY_COMPILE(
-          [#include <stdio.h>
+     [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>
            #define MSG(...) fprintf(stderr, __VA_ARGS__)
-          ],
-          [MSG("foo");
+          ]], [[MSG("foo");
            MSG("%s", "foo");
-           MSG("%s%d", "foo", 1);],
-          ac_cv_c99_variadic_macros=yes,
-          ac_cv_c99_variadic_macros=no)])
+           MSG("%s%d", "foo", 1);]])],[ac_cv_c99_variadic_macros=yes],[ac_cv_c99_variadic_macros=no])])
   if test "x${ac_cv_c99_variadic_macros}" != "xyes"; then
     AC_MSG_ERROR([A compiler supporting C99 variadic macros is required])
   fi
@@ -34,16 +30,12 @@ AC_DEFUN([AC_C99_VARIABLE_ARRAYS],
   dnl Check for variable arrays
   AC_CACHE_CHECK([for C99 variable arrays],
     [ac_cv_c99_variable_arrays],
-    [AC_TRY_COMPILE(
-        [
+    [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <string.h>
 #include <stdio.h>
-],
-        [char *s1 = "foo", *s2 = "bar";
+]], [[char *s1 = "foo", *s2 = "bar";
          char s3[strlen(s1) + strlen(s2) + 1];
-         sprintf(s3, "%s%s", s1, s2);],
-        ac_cv_c99_variable_arrays=yes,
-        ac_cv_c99_variable_arrays=no)])
+         sprintf(s3, "%s%s", s1, s2);]])],[ac_cv_c99_variable_arrays=yes],[ac_cv_c99_variable_arrays=no])])
   if test "x${ac_cv_c99_variable_arrays}" != "xyes"; then
     AC_MSG_ERROR([A compiler supporting C99 variable arrays is required])
   fi
@@ -64,20 +56,16 @@ AC_DEFUN([AC_C99_INITIALIZERS],
   dnl Check for C99 initializers
   AC_CACHE_CHECK([for C99 initializers],
     [ac_cv_c99_initializers],
-    [AC_TRY_COMPILE(
-        [struct foo {
+    [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[struct foo {
            int an_integer;
            char *a_string;
            int an_array[5];
            union {int x, y;} a_union;
          };
-        ],
-        [struct foo bar = {.an_array = {0, [3] = 2, [2] = 1, [4] = 3},
+        ]], [[struct foo bar = {.an_array = {0, [3] = 2, [2] = 1, [4] = 3},
                            .an_integer = 999,
                            .a_string = "does it work?",
-                           .a_union = {.y = 243}};],
-        [ac_cv_c99_initializers=yes],
-        [ac_cv_c99_initializers=no])])
+                           .a_union = {.y = 243}};]])],[ac_cv_c99_initializers=yes],[ac_cv_c99_initializers=no])])
   if test "${ac_cv_c99_initializers}" != "yes"; then
     AC_MSG_ERROR([A compiler supporting C99 initializers is required])
   fi

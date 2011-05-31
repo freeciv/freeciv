@@ -30,29 +30,25 @@ AC_DEFUN([AM_ICONV_LINK],
   dnl Add $INCICONV to CPPFLAGS before performing the following checks,
   dnl because if the user has installed libiconv and not disabled its use
   dnl via --without-libiconv-prefix, he wants to use it. The first
-  dnl AC_TRY_LINK will then fail, the second AC_TRY_LINK will succeed.
+  dnl AC_LINK_IFELSE will then fail, the second AC_LINK_IFELSE will succeed.
   am_save_CPPFLAGS="$CPPFLAGS"
   AC_LIB_APPENDTOVAR([CPPFLAGS], [$INCICONV])
 
   AC_CACHE_CHECK([for iconv], am_cv_func_iconv, [
     am_cv_func_iconv="no, consider installing GNU libiconv"
     am_cv_lib_iconv=no
-    AC_TRY_LINK([#include <stdlib.h>
-#include <iconv.h>],
-      [iconv_t cd = iconv_open("","");
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
+#include <iconv.h>]], [[iconv_t cd = iconv_open("","");
        iconv(cd,NULL,NULL,NULL,NULL);
-       iconv_close(cd);],
-      am_cv_func_iconv=yes)
+       iconv_close(cd);]])],[am_cv_func_iconv=yes],[])
     if test "$am_cv_func_iconv" != yes; then
       am_save_LIBS="$LIBS"
       LIBS="$LIBS $LIBICONV"
-      AC_TRY_LINK([#include <stdlib.h>
-#include <iconv.h>],
-        [iconv_t cd = iconv_open("","");
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <stdlib.h>
+#include <iconv.h>]], [[iconv_t cd = iconv_open("","");
          iconv(cd,NULL,NULL,NULL,NULL);
-         iconv_close(cd);],
-        am_cv_lib_iconv=yes
-        am_cv_func_iconv=yes)
+         iconv_close(cd);]])],[am_cv_lib_iconv=yes
+        am_cv_func_iconv=yes],[])
       LIBS="$am_save_LIBS"
     fi
   ])
@@ -63,7 +59,7 @@ AC_DEFUN([AM_ICONV_LINK],
       if test $am_cv_lib_iconv = yes; then
         LIBS="$LIBS $LIBICONV"
       fi
-      AC_TRY_RUN([
+      AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #include <iconv.h>
 #include <string.h>
 int main ()
@@ -119,8 +115,7 @@ int main ()
       && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
     return 1;
   return 0;
-}], [am_cv_func_iconv_works=yes], [am_cv_func_iconv_works=no],
-        [case "$host_os" in
+}]])],[am_cv_func_iconv_works=yes],[am_cv_func_iconv_works=no],[case "$host_os" in
            aix* | hpux*) am_cv_func_iconv_works="guessing no" ;;
            *)            am_cv_func_iconv_works="guessing yes" ;;
          esac])
@@ -157,7 +152,7 @@ AC_DEFUN([AM_ICONV],
   if test "$am_cv_func_iconv" = yes; then
     AC_MSG_CHECKING([for iconv declaration])
     AC_CACHE_VAL(am_cv_proto_iconv, [
-      AC_TRY_COMPILE([
+      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <stdlib.h>
 #include <iconv.h>
 extern
@@ -169,7 +164,7 @@ size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, si
 #else
 size_t iconv();
 #endif
-], [], am_cv_proto_iconv_arg1="", am_cv_proto_iconv_arg1="const")
+]], [[]])],[am_cv_proto_iconv_arg1=""],[am_cv_proto_iconv_arg1="const"])
       am_cv_proto_iconv="extern size_t iconv (iconv_t cd, $am_cv_proto_iconv_arg1 char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);"])
     am_cv_proto_iconv=`echo "[$]am_cv_proto_iconv" | tr -s ' ' | sed -e 's/( /(/'`
     AC_MSG_RESULT([$]{ac_t:-
