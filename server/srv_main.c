@@ -2510,6 +2510,7 @@ void server_game_free(void)
   event_cache_free();
   log_civ_score_free();
   script_free();
+  citymap_free();
   game_free();
 }
 
