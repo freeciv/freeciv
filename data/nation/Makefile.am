@@ -439,6 +439,7 @@ pkgdata_DATA = \
 		vampire.ruleset \
 		vandalic.ruleset \
 		vedic.ruleset \
+		venda.ruleset \
 		venetian.ruleset \
 		venezuelan.ruleset \
 		vermont.ruleset \

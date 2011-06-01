@@ -488,6 +488,7 @@ match=2
 *include "nation/vampire.ruleset"
 *include "nation/vandalic.ruleset"
 *include "nation/vedic.ruleset"
+*include "nation/venda.ruleset"
 *include "nation/venetian.ruleset"
 *include "nation/venezuelan.ruleset"
 *include "nation/vermont.ruleset"

@@ -34,7 +34,7 @@ init_buildings=""
 init_government="Despotism" 
 init_units="" 
 
-civilwar_nations="South African", "Boer", "Zambian", "Motswana"
+civilwar_nations="South African", "Boer", "Venda", "Motswana"
 
 cities = 
  "Harare",

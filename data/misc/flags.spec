@@ -460,6 +460,7 @@ artists = "
    Vandal		J.M. Maalderink
    Vatican		Flanker (Wikimedia Commons)
    Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
+   Venda		Walden69 (Wikimedia Commons)
    Venezuela		Zachary Harden et al.
    Venice		Daniel Markstedt
    Vermont		Mysid (Wikipedia)
@@ -936,6 +937,7 @@ sprites =
 		"f.vandal", "flags/vandal"
 		"f.vatican", "flags/vatican"
 		"f.vedic", "flags/vedic"
+		"f.venda", "flags/venda"
 		"f.venezuela", "flags/venezuela"
 		"f.venice", "flags/venice"
 		"f.vermont", "flags/vermont"
