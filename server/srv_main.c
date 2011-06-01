@@ -58,6 +58,9 @@
 #include "support.h"
 #include "timing.h"
 
+/* common/aicore */
+#include "citymap.h"
+
 /* common */
 #include "capstr.h"
 #include "city.h"
@@ -2613,6 +2616,7 @@ void server_game_free(void)
   event_cache_free();
   log_civ_score_free();
   playercolor_free();
+  citymap_free();
   game_free();
 }
 

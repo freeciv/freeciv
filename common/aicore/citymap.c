@@ -103,6 +103,16 @@ void citymap_turn_init(struct player *pplayer)
 }
 
 /**************************************************************************
+  Free resources allocated for citymap.
+**************************************************************************/
+void citymap_free(void)
+{
+  if (citymap != NULL) {
+    FC_FREE(citymap);
+  }
+}
+
+/**************************************************************************
   This function reserves a single tile for a (possibly virtual) city with
   a settler's or a city's id. Then it 'crowds' tiles that this city can 
   use to make them less attractive to other cities we may consider making.
