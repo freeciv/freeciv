@@ -165,7 +165,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct ai_choice *choice)
 {
   struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct ai_plr *ai = def_ai_player_data(pplayer);
   int expenses;
 
   ai_calc_data(pplayer, NULL, &expenses, NULL);

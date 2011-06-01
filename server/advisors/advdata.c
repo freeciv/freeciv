@@ -413,20 +413,11 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     ai->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
-  BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = unit_tile(punit);
 
     if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)tile_continent(unit_tile(punit))]++;
-    }
-    if (unit_has_type_flag(punit, F_DIPLOMAT) && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
-      /* Heading somewhere on a mission, reserve target. */
-      struct city *pcity = tile_city(punit->goto_tile);
-
-      if (pcity) {
-        BV_SET(ai->stats.diplomat_reservations, pcity->id);
-      }
     }
   } unit_list_iterate_end;
 

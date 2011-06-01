@@ -21,9 +21,6 @@
 #include "fc_types.h"
 #include "improvement.h"
 
-/* max size of a short */
-#define MAX_NUM_ID (1+MAX_UINT16)
-
 /* 
  * This file and advdata.c contains global data structures for the AI
  * and some of the functions that fill them with useful values at the 
@@ -43,8 +40,6 @@ struct adv_dipl {
   /* Remember one example of each for text spam purposes. */
   bool allied_with_enemy;
 };
-
-BV_DEFINE(bv_id, MAX_NUM_ID);
 
 struct adv_data {
   /* Whether adv_data_phase_init() has been called or not. */
@@ -88,13 +83,12 @@ struct adv_data {
 
       /* Upgradeable units */
       int upgradeable;
-      
+
       int paratroopers;
     } units;
     int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities we have on continent */
     int average_production;
-    bv_id diplomat_reservations;
   } stats;
 
   struct {

@@ -27,6 +27,7 @@
 #include "aiferry.h"
 #include "aiplayer.h"
 #include "aisettler.h"
+#include "aiunit.h"
 
 #include "aidata.h"
 
@@ -232,6 +233,21 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
       }
     }
   }
+
+  /*** Statistics ***/
+
+  BV_CLR_ALL(ai->stats.diplomat_reservations);
+  unit_list_iterate(pplayer->units, punit) {
+    if (unit_has_type_flag(punit, F_DIPLOMAT)
+        && def_ai_unit_data(punit)->task == AIUNIT_ATTACK) {
+      /* Heading somewhere on a mission, reserve target. */
+      struct city *pcity = tile_city(punit->goto_tile);
+
+      if (pcity) {
+        BV_SET(ai->stats.diplomat_reservations, pcity->id);
+      }
+    }
+  } unit_list_iterate_end;
 
   aiferry_init_stats(pplayer);
 }
