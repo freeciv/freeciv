@@ -268,6 +268,7 @@ sprites =
 		"f.mapuche", "flags/mapuche-large"
 		"f.mars", "flags/mars-large"
 		"f.mauritania", "flags/mauritania-large"
+		"f.mauritius", "flags/mauritius-large"
 		"f.maya", "flags/maya-large"
 		"f.mazovia", "flags/mazovia-large"
 		"f.mecklenburg", "flags/mecklenburg-large"

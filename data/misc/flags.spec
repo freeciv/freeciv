@@ -266,6 +266,7 @@ artists = "
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
    Mauritania		Flad (Wikimedia Commons)
+   Mauritius		J.M. Maalderink
    Maya			Daniel Markstedt
    Mazovia		J.M. Maalderink
    Mecklenburg		Daniel Markstedt
@@ -745,6 +746,7 @@ sprites =
 		"f.mapuche", "flags/mapuche"
 		"f.mars", "flags/mars"
 		"f.mauritania", "flags/mauritania"
+		"f.mauritius", "flags/mauritius"
 		"f.maya", "flags/maya"
 		"f.mazovia", "flags/mazovia"
 		"f.mecklenburg", "flags/mecklenburg"
