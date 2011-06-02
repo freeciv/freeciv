@@ -1623,8 +1623,11 @@ static enum sset_level lookup_option_level(const char *name)
 #define LOOKUP_OPTION_RULESETDIR  -4
 
 /**************************************************************************
-Find option index by name. Return index (>=0) on success, -1 if no
-suitable options were found, -2 if several matches were found.
+  Find option index by name. Return index (>=0) on success, else returned
+  - LOOKUP_OPTION_NO_RESULT   if no suitable options were found
+  - LOOKUP_OPTION_AMBIGUOUS   if several matches were found
+  - LOOKUP_OPTION_LEVEL_NAME  if it is an option level
+  - LOOKUP_OPTION_RULESETDIR  if the argument is rulesetdir (special case)
 **************************************************************************/
 static int lookup_option(const char *name)
 {
