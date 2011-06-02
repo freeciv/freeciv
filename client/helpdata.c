@@ -1286,7 +1286,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("  * Can pillage tile improvements.\n"));
   }
-  if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)) {
+  if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)
+      && !utype_has_flag(utype, F_CIVILIAN)) {
     CATLSTR(buf, bufsz,
 	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
@@ -1529,7 +1530,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, F_CIVILIAN)) {
     CATLSTR(buf, bufsz,
-            _("* A non-military unit (cannot attack; no martial law).\n"));
+            _("* A non-military unit:\n"));
+    CATLSTR(buf, bufsz,
+            _("  * Cannot attack.\n"));
+    CATLSTR(buf, bufsz,
+            _("  * Doesn't impose martial law.\n"));
+    CATLSTR(buf, bufsz,
+            _("  * Can enter foreign territory regardless of peace treaty.\n"));
+    CATLSTR(buf, bufsz,
+            _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
   if (utype_has_flag(utype, F_FIELDUNIT)) {
     CATLSTR(buf, bufsz,
