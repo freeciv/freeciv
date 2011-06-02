@@ -1415,11 +1415,11 @@ will turn into a permanent Peace. Breaking an Armistice will drop \
 you directly back to War.\
 "), _("\
 At the moment two players enter into the diplomatic state of Peace, \
-all units belonging to either player that happen to be within the other's \
-borders will be automatically disbanded according to the treaty. After \
-this, you may not move units into the other's territory until you either \
-declare War, or forge an Alliance. Breaking a Peace treaty will drop you \
-directly back to War.\
+all military units belonging to either player that happen to be within \
+the other's borders will be automatically disbanded according to the \
+treaty. After this, you may not move military units into the other's \
+territory until you either declare War, or forge an Alliance. Breaking \
+a Peace treaty will drop you directly back to War.\
 "), _("\
 An Alliance is the ultimate diplomatic relationship between two players. \
 In this state, you may move units into each other's cities and your units \
