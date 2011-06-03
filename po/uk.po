@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-27 15:33-0700\n"
-"PO-Revision-Date: 2011-05-27 18:15+0300\n"
+"PO-Revision-Date: 2011-06-03 22:02+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -658,7 +658,7 @@ msgstr "Пані %s"
 #: common/packets.c:409
 #: common/packets.c:454
 msgid "decoding error"
-msgstr ""
+msgstr "помилка декодування"
 
 #: common/player.c:65
 msgid "Away"
@@ -1101,7 +1101,7 @@ msgstr "Модернізація %s вивантаже на берег тран�
 #: common/unittype.c:440
 #, c-format
 msgid "%s or similar units"
-msgstr ""
+msgstr "%s чи подібні підрозділи"
 
 #: common/unittype.c:443
 #, c-format
@@ -2382,7 +2382,7 @@ msgstr "%s збудував %s."
 #: server/cityturn.c:1686
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
-msgstr ""
+msgstr "%s коштує %d населення. %s зменшується до розміру %d."
 
 #: server/cityturn.c:1768
 #, c-format
@@ -2742,7 +2742,7 @@ msgstr "Без аргументів подає деяку вступну доп�
 
 #: server/commands.c:86
 msgid "Show a list of various things."
-msgstr ""
+msgstr "Показати список різних речей."
 
 #: server/commands.c:87
 #, fuzzy
@@ -2799,6 +2799,16 @@ msgid ""
 "show locked\n"
 "show rulesetdir"
 msgstr ""
+"show\n"
+"show <назва опції>\n"
+"show <префікс опції>\n"
+"show all\n"
+"show vital\n"
+"show situational\n"
+"show rare\n"
+"show changed\n"
+"show locked\n"
+"show rulesetdir"
 
 #: server/commands.c:132
 msgid "Show server options."
@@ -3213,20 +3223,20 @@ msgstr ""
 #. TRANS: translate text between <> and [] only
 #: server/commands.c:433
 msgid "ignore [type=]<pattern>"
-msgstr ""
+msgstr "ignore [тип=]<шаблон>"
 
 #: server/commands.c:434
 msgid "Block all messages from users matching the pattern."
-msgstr ""
+msgstr "Блокувати всі повідомлення від користувачів згідно шаблону."
 
 #: server/commands.c:435
 msgid "The given pattern will be added to your ignore list; you will not receive any messages from this users matching this pattern. The type may be either \"user\", \"host\", or \"ip\". The default type (if ommited) is to match against the username. The pattern supports unix glob style wildcards, i.e. * matches zero or more character, ? exactly one character, [abc] exactly one of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list ignore\"."
-msgstr ""
+msgstr "Цей шаблон буде додано до вашого списку ігнорування; ви не отримуватимете жодних повідомлень від гравців, що потрапляють під цей шаблон. Тип може бути \"user\", \"host\", або \"ip\". Типово (якщо не вказано) шаблон застосовується до імені користувача. Шаблон підтримує стиль unix, зокрема * означає нуль або більше символів, ? рівно один символ, [abc] один із символів 'a' 'b' чи 'c', ітд. Щоб побачити свій поточний список ігнорування, наберіть \"/list ignore\"."
 
 #. TRANS: translate text between <>
 #: server/commands.c:446
 msgid "unignore <range>"
-msgstr ""
+msgstr "unignore <діапазон>"
 
 #: server/commands.c:447
 #, fuzzy
@@ -3235,7 +3245,7 @@ msgstr "Видалити цю предустановку?"
 
 #: server/commands.c:448
 msgid "The ignore list entries in the given range will be removed; you will be able to receive messages from the respective users. The range argument may be a single number or a pair of numbers separated by a dash '-'. If the first number is ommitted, it is assumed to be 1, if the last is ommitted, it is assumed to be the last valid ignore list index. To access your current ignore list, issue \"/list ignore\"."
-msgstr ""
+msgstr "Список пунктів списку ігнорування у заданому діапазоні буде видалено; ви зможете отримувати повідомлення від відповідних користувачів. Аргумент діапазону може бути одним числом або парою чисел, розділених рискою '-'. Якщо перше число пропущено, вважається, що воно 1, а якщо останнє пропущено, то вважається, що це останній номер у списку. Для доступу до свого поточного списку ігнорування введіть \"/list ignore\"."
 
 #: server/commands.c:460
 msgid "End the game immediately in a draw."
@@ -3336,16 +3346,16 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:528
 msgid "lua <script>"
-msgstr ""
+msgstr "lua <скрипт>"
 
 #: server/commands.c:529
 msgid "Evaluate a line of freeciv script in the current game."
-msgstr ""
+msgstr "Вирахувати рядок скрипта freeciv у поточній грі."
 
 #. TRANS: translate text between <>
 #: server/commands.c:534
 msgid "kick <user>"
-msgstr ""
+msgstr "kick <користувач>"
 
 #: server/commands.c:535
 msgid "Cut a connection and disallow reconnect."
@@ -3353,7 +3363,7 @@ msgstr "Обірвати з'єднання та заборонити переп�
 
 #: server/commands.c:536
 msgid "The connection given by the 'user' argument will be cut from the server and not allowed to reconnect. The time the user wouldn't be able to reconnect is controlled by the 'kicktime' setting."
-msgstr ""
+msgstr "З'єднання з сервером, вказане аргументом 'користувач', буде розірвано, і йому буде заборонено перез'єднуватись. Час, протягом якого користувач не зможе під'єднатися, визначаться налаштуванням 'kicktime'."
 
 #: server/commands.c:544
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -5068,7 +5078,7 @@ msgstr "Клітинок на гравця"
 
 #: server/settings.c:199
 msgid "Width and height"
-msgstr ""
+msgstr "Ширина й висота"
 
 #: server/settings.c:210
 msgid "Wrap East-West"
@@ -5084,7 +5094,7 @@ msgstr "Ізометрична"
 
 #: server/settings.c:213
 msgid "Hexagonal"
-msgstr ""
+msgstr "Гексагональна"
 
 #: server/settings.c:224
 msgid "Scenario map"
@@ -5092,11 +5102,11 @@ msgstr "Карта сценарію"
 
 #: server/settings.c:225
 msgid "Fully random height"
-msgstr ""
+msgstr "Цілковито випадкова висота"
 
 #: server/settings.c:226
 msgid "Pseudo-fractal height"
-msgstr ""
+msgstr "Псевдо-фрактальна висота"
 
 #: server/settings.c:227
 msgid "Island-based"
@@ -5108,7 +5118,7 @@ msgstr ""
 
 #: server/settings.c:241
 msgid "One player per continent"
-msgstr ""
+msgstr "Один гравець на континент"
 
 #: server/settings.c:243
 msgid "Two or three players per continent"
@@ -5120,7 +5130,7 @@ msgstr "Усі гравці на одному континенті"
 
 #: server/settings.c:247
 msgid "Depending on size of continents"
-msgstr ""
+msgstr "Залежно від розміру континентів"
 
 #: server/settings.c:258
 msgid "Land moving units"
@@ -5132,7 +5142,7 @@ msgstr "Морські підрозділи"
 
 #: server/settings.c:261
 msgid "Units able to move both on land and sea"
-msgstr ""
+msgstr "Підрозділи здатні рухатися і сушею, і морем"
 
 #: server/settings.c:275
 msgid "Disabled"
@@ -5144,7 +5154,7 @@ msgstr "Дозволено"
 
 #: server/settings.c:278
 msgid "See everything inside borders"
-msgstr ""
+msgstr "Бачити все в межах кордонів"
 
 #: server/settings.c:280
 #, fuzzy
@@ -5153,15 +5163,15 @@ msgstr "Боер"
 
 #: server/settings.c:291
 msgid "Enabled for everyone"
-msgstr ""
+msgstr "Дозволено для всіх"
 
 #: server/settings.c:293
 msgid "Only allowed between human players"
-msgstr ""
+msgstr "Дозволено лише між гравцями-людьми"
 
 #: server/settings.c:294
 msgid "Only allowed between AI players"
-msgstr ""
+msgstr "Дозволено лише між гравцями ШІ"
 
 #: server/settings.c:295
 msgid "Restricted to teams"
@@ -5169,7 +5179,7 @@ msgstr "Обмежити до команд"
 
 #: server/settings.c:296
 msgid "Disabled for everyone"
-msgstr ""
+msgstr "Нікому не дозволено"
 
 #: server/settings.c:307
 msgid "No restrictions"
@@ -5181,7 +5191,7 @@ msgstr "Унікальне для гравця"
 
 #: server/settings.c:309
 msgid "Globally unique"
-msgstr ""
+msgstr "Глобально унікальне"
 
 #: server/settings.c:310
 msgid "No city name stealing"
@@ -5580,9 +5590,8 @@ msgid "If turned off, global warming will not occur as a result of pollution. Th
 msgstr ""
 
 #: server/settings.c:1059
-#, fuzzy
 msgid "Nuclear winter"
-msgstr "Атомна Енергія"
+msgstr "Ядерна зима"
 
 #: server/settings.c:1060
 msgid "If turned off, nuclear winter will not occur as a result of nuclear war."
@@ -6540,9 +6549,9 @@ msgstr "Сторінка поточних установок"
 
 #. TRANS: only emphasizing a string.
 #: server/settings.c:2670
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\""
-msgstr "%s"
+msgstr "\"%s\""
 
 #: server/settings.c:2678
 #, fuzzy
@@ -6590,9 +6599,9 @@ msgid "Restarting for lack of players."
 msgstr "Перезапуск через нестачу гравців."
 
 #: server/sernet.c:562
-#, fuzzy, c-format
+#, c-format
 msgid "Restarting in %d seconds for lack of players."
-msgstr "за %d секунд буде перезапуск через нестачу гравців"
+msgstr "За %d секунд буде перезапуск через нестачу гравців."
 
 #: server/sernet.c:565
 msgid "restarting soon for lack of players"
@@ -6747,9 +6756,8 @@ msgid "Game ended in victory for %s."
 msgstr "Гру закінчено перемогою %s."
 
 #: server/srv_main.c:475
-#, fuzzy
 msgid "Game ended in a draw as the turn limit was exceeded."
-msgstr "Гру закінчено внічию по досягненні кінцевого року"
+msgstr "Гру закінчено внічию по досягненні ліміту ходів."
 
 #: server/srv_main.c:486
 #, c-format
@@ -6780,9 +6788,9 @@ msgstr "Замирення між %s та %s скінчилося. Тепер в
 
 #: server/srv_main.c:1199
 #: server/srv_main.c:1202
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported compression type %d."
-msgstr "Непідтримуваний тип компрессії %d"
+msgstr "Непідтримуваний тип компресії %d."
 
 #: server/srv_main.c:1232
 #, c-format
@@ -6852,14 +6860,13 @@ msgid "%s rules the %s."
 msgstr "%s головує над %s."
 
 #: server/srv_main.c:2200
-#, fuzzy
 msgid "This freeciv-server program has player authentication support, but it's currently not in use."
-msgstr "Програма civserver має підтримку аутентифікації гравців, але зараз вона не використовується."
+msgstr "Програма freeciv-server має підтримку аутентифікації гравців, але зараз вона не використовується."
 
 #: server/srv_main.c:2263
-#, fuzzy, c-format
+#, c-format
 msgid "Sending info to metaserver <%s>."
-msgstr "Відправляю інфо на метасервер <%s>"
+msgstr "Відправляю інфо на метасервер <%s>."
 
 #: server/srv_main.c:2267
 msgid "Not starting without explicitly requested metaserver connection."
@@ -7056,15 +7063,15 @@ msgid "Failed to create new player %s."
 msgstr "Не вдалося створити нового гравця %s."
 
 #: server/stdinhand.c:936
-#, fuzzy, c-format
+#, c-format
 msgid "New player %s created."
-msgstr "aitoggle <гравець>"
+msgstr "Створено нового гравця %s."
 
 #. TRANS: keep one space at the beginning of the string.
 #: server/stdinhand.c:950
-#, fuzzy, c-format
+#, c-format
 msgid " Nation of the new player: %s."
-msgstr "Не вдалося створити нового гравця %s."
+msgstr " Нація нового гравця: %s."
 
 #: server/stdinhand.c:990
 msgid "A player already exists by that name."
@@ -7115,9 +7122,9 @@ msgid "No command script found by the name \"%s\"."
 msgstr "Не знайдено командного скрипта з ім'ям \"%s\"."
 
 #: server/stdinhand.c:1186
-#, fuzzy, c-format
+#, c-format
 msgid "Loading script file '%s'."
-msgstr "Завантажую файл скрипту: %s"
+msgstr "Завантажую файл скрипта '%s'."
 
 #: server/stdinhand.c:1204
 #, c-format
@@ -7170,9 +7177,9 @@ msgstr "Рівень доступу до команд для першого гр
 
 #. TRANS: comma and 'or' separated list of access levels
 #: server/stdinhand.c:1417
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level must be one of %s."
-msgstr "Помилка: рівень доступу до команд має бути одним з %s. "
+msgstr "Рівень доступу до команд має бути одним із %s. "
 
 #: server/stdinhand.c:1423
 #, c-format
@@ -7203,7 +7210,6 @@ msgid "You already have command access level '%s' or better."
 msgstr "Ви вже маєте рівень доступу до команд '%s' або краще."
 
 #: server/stdinhand.c:1523
-#, fuzzy
 msgid "Someone else is already game organizer."
 msgstr "Хтось іншій вже є організатором гри."
 
@@ -7418,9 +7424,9 @@ msgid " - a '=' means the option is on its default value."
 msgstr "= вказує, що опція містить значення по замовчуванню"
 
 #: server/stdinhand.c:2133
-#, fuzzy, c-format
+#, c-format
 msgid "%-*s ## value (min, max)"
-msgstr "%-20sзначення  (мін , макс)"
+msgstr "%-*s ## значення  (мін , макс)"
 
 #: server/stdinhand.c:2134
 msgid "Option"
@@ -7933,9 +7939,8 @@ msgstr ""
 
 #: server/stdinhand.c:3759
 #: server/stdinhand.c:4924
-#, fuzzy
 msgid "Your ignore list is empty."
-msgstr "План будівництва у %s пустий."
+msgstr "Ваш список ігнорування порожній."
 
 #: server/stdinhand.c:3766
 msgid "Missing range. Try /help unignore."
@@ -7949,14 +7954,14 @@ msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr ""
 
 #: server/stdinhand.c:3798
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid entry number: %d."
-msgstr "Невірне ім'я '%s'"
+msgstr "Невірний номер входження: %d."
 
 #: server/stdinhand.c:3801
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid range: %d to %d."
-msgstr "Невірний аргумент %d."
+msgstr "Невірний діапазон : %d to %d."
 
 #: server/stdinhand.c:3815
 #, c-format
@@ -7977,9 +7982,9 @@ msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Увага: '%s' трактовано як '%s', але має місце двозначність. Спробуйте '%shelp'."
 
 #: server/stdinhand.c:3958
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
-msgstr "Невідома команда. Спробуйте '%shelp'."
+msgstr "Невідома команда '%s%s'. Спробуйте '%shelp'."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:3985
@@ -7994,9 +7999,9 @@ msgstr "Нове командне голосування"
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
 #: server/stdinhand.c:4004
-#, fuzzy, c-format
+#, c-format
 msgid "%s (number %d) by %s: %s"
-msgstr "Нове голосування (номер %d) від %s: %s."
+msgstr "%s (номер %d) від %s: %s."
 
 #. TRANS: "vote" as a process
 #: server/stdinhand.c:4014
@@ -8026,14 +8031,12 @@ msgid "You cannot surrender now."
 msgstr "Зараз Ви не можете здатися."
 
 #: server/stdinhand.c:4260
-#, fuzzy
 msgid "Guessing argument 'ruleset'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Вгадую аргумент 'ruleset'."
 
 #: server/stdinhand.c:4264
-#, fuzzy
 msgid "Guessing argument 'game'."
-msgstr "Відсутній аргумент для '%s'.\n"
+msgstr "Вгадую аргумент 'game'."
 
 #: server/stdinhand.c:4272
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
@@ -8076,14 +8079,12 @@ msgid "Not enough human players; game will not start."
 msgstr "Не вистачає гравців-людей, гра не розпочнеться."
 
 #: server/stdinhand.c:4420
-#, fuzzy
 msgid "No players; game will not start."
-msgstr "Немає гравців, гра не розпочнеться."
+msgstr "Немає гравців; гра не розпочнеться."
 
 #: server/stdinhand.c:4424
-#, fuzzy
 msgid "Not enough nations for all players; game will not start."
-msgstr "Не вистачає націй для всіх гравців, гра не розпочнеться."
+msgstr "Не вистачає націй для всіх гравців; гра не розпочнеться."
 
 #: server/stdinhand.c:4433
 msgid "All players are ready; starting game."
@@ -8106,9 +8107,8 @@ msgid "Cutting connection %s."
 msgstr "Видаляю з'єднання %s."
 
 #: server/stdinhand.c:4488
-#, fuzzy
 msgid "connection cut"
-msgstr "Обрізати з'єднання"
+msgstr "обрив з'єднання"
 
 #: server/stdinhand.c:4576
 #, fuzzy
@@ -8279,12 +8279,12 @@ msgstr "Список команд:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:5071
-#, fuzzy, c-format
+#, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
-msgstr[0] "%2d : '%s' : 1 гравець : %s"
-msgstr[1] "%2d : '%s' : 1 гравець : %s"
-msgstr[2] "%2d : '%s' : 1 гравець : %s"
+msgstr[0] "%2d : '%s' : %d гравець :"
+msgstr[1] "%2d : '%s' : %d гравці :"
+msgstr[2] "%2d : '%s' : %d гравців :"
 
 #: server/stdinhand.c:5127
 #, c-format
@@ -8322,14 +8322,14 @@ msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "Відкрито %s. Наші вчені зосереджуються на %s; мета - %s."
 
 #: server/techtools.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "Learned %s. Scientists do not know what to research next."
-msgstr "Відкрито %s. Науковці не знають, що досліджувати далі."
+msgstr "Досліджено %s. Науковці не знають, що вивчати далі."
 
 #: server/techtools.c:371
-#, fuzzy, c-format
+#, c-format
 msgid "Learned %s. Scientists choose to research %s."
-msgstr "Відкрито %s. Науковці вибрали для вивчення %s."
+msgstr "Досліджено %s. Науковці вирішили вивчати %s."
 
 #: server/techtools.c:378
 #, c-format
@@ -8416,14 +8416,14 @@ msgid "%s upgraded to %s for %d gold."
 msgstr "%s модернізовано до %s за %d гривень."
 
 #: server/unithand.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "%s converted to %s."
-msgstr "%s захопив %s."
+msgstr "%s перетворено на %s."
 
 #: server/unithand.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be converted."
-msgstr "%s не можна розформувати."
+msgstr "%s не можна перетворити."
 
 #: server/unithand.c:487
 #, c-format
@@ -8432,20 +8432,19 @@ msgstr "%s відмовляється розпускатися!"
 
 #. TRANS: <tile-terrain>.
 #: server/unithand.c:541
-#, fuzzy, c-format
+#, c-format
 msgid "Can't build a city on %s."
-msgstr "Не можу будувати місто."
+msgstr "Не можу будувати місто в %s."
 
 #. TRANS: <unit> ... <tile-terrain>.
 #: server/unithand.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build a city on %s."
-msgstr "Не можу будувати місто."
+msgstr "%s не може будувати місто у %s."
 
 #: server/unithand.c:552
-#, fuzzy
 msgid "Can't place a city inside foreigner borders."
-msgstr "Не можу розмістити місто тут."
+msgstr "Не можна розташувати місто на чужій території."
 
 #: server/unithand.c:556
 msgid "Can't place a city there because another city is too close."
@@ -8584,15 +8583,15 @@ msgstr "Спершу проголосіть війну %s.  Спробуйте �
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in capturing the %s."
-msgstr "Ваш %s перетягнув на свій бік %s."
+msgstr "Ваш %s вдало захопив %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:1394
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was captured by the %s."
-msgstr "Вашого %s перетягнули на бік ворога %s."
+msgstr "Вашого %s захоплено %s."
 
 #: server/unithand.c:1419
 msgid "This unit is being transported, and so cannot bombard."
@@ -8617,12 +8616,12 @@ msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Ваші %s допомогли будувати %s у %s (залишилося %d)."
 
 #: server/unithand.c:1570
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "На жаль, Ваш %s не може встановити торговий шлях, бо він не має рідного міста"
 
 #: server/unithand.c:1582
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "На жаль, Ваш %s не може встановити торговий шлях між %s і %s"
 
@@ -8687,9 +8686,9 @@ msgstr "Вашому %s не вистачило палива."
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:647
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s became more experienced and became %s."
-msgstr "Ваш підрозділ %s став більш досвідченним!"
+msgstr "Ваш %s набрався досвіду та став %s."
 
 #: server/unittools.c:1064
 #, c-format
@@ -8729,9 +8728,9 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Ваш підрозділ %s запобіг знищення у %s та втік до %s."
 
 #: server/unittools.c:1717
-#, fuzzy, c-format
+#, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
-msgstr "Ватажка дикунів захоплено, отримано %d гривень викупу."
+msgstr "Ватажка дикунів захоплено; отримано %d гривень викупу."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1735
@@ -8832,9 +8831,9 @@ msgstr ""
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
 #: server/unittools.c:2253
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be transported to %s."
-msgstr "%s не можна розформувати."
+msgstr "%s не можна транспортувати до %s."
 
 #: server/unittools.c:2263
 #, c-format
@@ -9846,9 +9845,9 @@ msgid "Popup Request"
 msgstr "Запит на демонстрацію повідомлення"
 
 #: client/climisc.c:1100
-#, fuzzy, c-format
+#, c-format
 msgid "You can't buy %s in %s!"
-msgstr "Ви не купили %s у %s!"
+msgstr "Ви не можете придбати %s у %s!"
 
 #: client/climisc.c:1111
 #, c-format
@@ -9856,14 +9855,13 @@ msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s коштує %d гривень, а Ви маєте лише %d гривень."
 
 #: client/clinet.c:138
-#, fuzzy
 msgid "unknown reason"
-msgstr "невідомий"
+msgstr "невідома причина"
 
 #: client/clinet.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Lost connection to server (%s)!"
-msgstr "Втрачено зв'язок з сервером."
+msgstr "Втрачено зв'язок із сервером (%s)!"
 
 #: client/clinet.c:171
 msgid "Failed looking up host."
@@ -9879,9 +9877,8 @@ msgstr "Від'єднано від сервера."
 
 #: client/clinet.c:428
 #: client/clinet.c:480
-#, fuzzy
 msgid "server disconnected"
-msgstr "відключений"
+msgstr "сервер відключено"
 
 #: client/clinet.c:509
 #, c-format
@@ -10275,19 +10272,17 @@ msgstr "Потребує націю %s у грі.\n"
 #. TRANS: %s is a list of unit types separated by "or".
 #: client/helpdata.c:413
 #: client/helpdata.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s.\n"
-msgstr ""
-"Вимагає місцевість %s.\n"
-"\n"
+msgstr "Потребує %s.\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
 #. TRANS: %s is a list of unit classes separated by "or".
 #: client/helpdata.c:459
 #: client/helpdata.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s units.\n"
-msgstr "Потребує %s на клітинці.\n"
+msgstr "Потребує %s підрозділів.\n"
 
 #: client/helpdata.c:510
 #: client/helpdata.c:515
@@ -10353,9 +10348,9 @@ msgstr "Дозволяє %s (з %s)."
 
 #. TRANS: "%*s" is replaced with spaces
 #: client/helpdata.c:821
-#, fuzzy, c-format
+#, c-format
 msgid "%*sRivers"
-msgstr "  Річки"
+msgstr "   Річки"
 
 #: client/helpdata.c:901
 msgid "Current ruleset contains no description."
@@ -10480,9 +10475,9 @@ msgstr ""
 
 #. TRANS: %s is a unit type.
 #: client/helpdata.c:1333
-#, fuzzy, c-format
+#, c-format
 msgid "* May be converted into %s.\n"
-msgstr "%s приєднався з %s."
+msgstr "* Може бути перетворено на %s.\n"
 
 #: client/helpdata.c:1337
 msgid "* Never has a home city.\n"
@@ -10503,12 +10498,12 @@ msgstr "* Вимагає населення %d, щоб бути збудован
 
 #. TRANS: %s is a list of unit classes separated by "or".
 #: client/helpdata.c:1365
-#, fuzzy, c-format
+#, c-format
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
-msgstr[0] "* Може нести та заправляти %d авіазагон.\n"
-msgstr[1] "* Може нести та заправляти %d авіазагони.\n"
-msgstr[2] "* Може нести та заправляти %d авіазагонів.\n"
+msgstr[0] "* Може нести та заправляти %d %s підрозділ.\n"
+msgstr[1] "* Може нести та заправляти %d %s підрозділи.\n"
+msgstr[2] "* Може нести та заправляти %d %s підрозділів.\n"
 
 #: client/helpdata.c:1372
 msgid "* Must stay next to coast.\n"
@@ -10681,14 +10676,12 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Польовий підрозділ: один нещасний навіть якщо й неагресивний.\n"
 
 #: client/helpdata.c:1539
-#, fuzzy
 msgid "* Can capture some enemy units.\n"
-msgstr "* Можуть атакувати ворожі повітряні підрозділи.\n"
+msgstr "* Може захоплювати деякі ворожі підрозділи.\n"
 
 #: client/helpdata.c:1542
-#, fuzzy
 msgid "* Can be captured by some enemy units.\n"
-msgstr "* Можуть атакувати ворожі повітряні підрозділи.\n"
+msgstr "* Може бути захопленим деякими ворожими підрозділами.\n"
 
 #: client/helpdata.c:1545
 msgid "* Will never achieve veteran status.\n"
@@ -10738,7 +10731,7 @@ msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr "* Може атакувати %s підрозділи, що, як правило, недосяжні.\n"
 
 #: client/helpdata.c:1628
-#, fuzzy, c-format
+#, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
 msgstr[0] "* Підрозділ має бути у місті або на базі через %d хід.\n"
@@ -10855,9 +10848,8 @@ msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr ""
 
 #: client/helpdata.c:1920
-#, fuzzy
 msgid "* Cannot be built.\n"
-msgstr "* Не може бути підкуплений.\n"
+msgstr "* Не може бути збудований.\n"
 
 #: client/helpdata.c:1924
 #, fuzzy
@@ -11164,17 +11156,17 @@ msgstr "Буфер обміну пустий."
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1608
 msgid "Split"
-msgstr ""
+msgstr "Розділене"
 
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1610
 msgid "Separate"
-msgstr ""
+msgstr "Окреме"
 
 #. TRANS: enum value for 'gui_gtk2_message_chat_location'
 #: client/options.c:1612
 msgid "Merged"
-msgstr ""
+msgstr "Об'єднане"
 
 #: client/options.c:1628
 msgid "Login name"
@@ -11525,32 +11517,28 @@ msgid "Disable this option if you do not want to press the Turn Done button manu
 msgstr "Відключіть цю опцію, якщо Ви не бажаєте нажимати кнопку Хід Зроблено кожного разу, коли спостерігаєте за ШІ-гравцем."
 
 #: client/options.c:1863
-#, fuzzy
 msgid "Auto center on units"
-msgstr "Автоматично центрувати підрозділи"
+msgstr "Автоматично центрувати на підрозділах"
 
 #: client/options.c:1864
 msgid "Set this option to have the active unit centered automatically when the unit focus changes."
 msgstr "Якщо цю опцію включено, активний підрозділ буде у центрі екрану автоматично, якщо фокус перейшов на інший підрозділ."
 
 #: client/options.c:1867
-#, fuzzy
 msgid "Auto center on combat"
-msgstr "Автоматично центрувати битви"
+msgstr "Автоматично центрувати на битвах"
 
 #: client/options.c:1868
 msgid "Set this option to have any combat be centered automatically.  Disabling this will speed up the time between turns but may cause you to miss combat entirely."
 msgstr "Якщо цю опцію включено, будь-які бойові дії будуть у центрі екрану автоматично.  Якщо ця опція відключена, це зменьшить час між ходами, проте Ви можете не побачити бій взагалі."
 
 #: client/options.c:1873
-#, fuzzy
 msgid "Auto center on new turn"
 msgstr "Автоматично центрувати на початку ходу"
 
 #: client/options.c:1874
-#, fuzzy
 msgid "Set this option to have the client automatically recenter the map on a suitable location at the start of each turn."
-msgstr "Якщо цю опцію включено, активний підрозділ буде у центрі екрану автоматично, якщо фокус перейшов на інший підрозділ."
+msgstr "Встановіть цю опцію, щоб клієнт автоматично центрував карту на потрібному місці на початку кожного ходу."
 
 #: client/options.c:1878
 #, fuzzy
@@ -11748,9 +11736,8 @@ msgid "Enabling this will show fog of war on the overview."
 msgstr "Якщо активовано, назва міста по замовчуванню буде буде визначатися відповідно до прилеглих земель."
 
 #: client/options.c:2000
-#, fuzzy
 msgid "Show map scrollbars"
-msgstr "Показувати прокрутку мапи"
+msgstr "Показувати смуги прокрутки мапи"
 
 #: client/options.c:2001
 msgid "Disable this option to hide the scrollbars on the map view."
@@ -11992,7 +11979,6 @@ msgid "This font is used to the display the requirement tree in the science repo
 msgstr "Цей шрифт використовується для дерева вимог у науковому звіті."
 
 #: client/options.c:2202
-#, fuzzy
 msgid "Fullscreen"
 msgstr "Повний екран"
 
@@ -12002,33 +11988,28 @@ msgid "If this option is set the client will use the whole screen area for drawi
 msgstr "Якщо встановлено цю опцію, клієнт буде використовувати усю площу екрана для малювання"
 
 #: client/options.c:2206
-#, fuzzy
 msgid "Screen resolution"
-msgstr "Оберіть нове будівництво"
+msgstr "Роздільна здатність екрану"
 
 #: client/options.c:2207
-#, fuzzy
 msgid "This option controls the resolution of the selected screen."
-msgstr "Ця опція збереже висоту обраної роздільної здатності екрану"
+msgstr "Ця опція контролює роздільну здатність вибраного екрану."
 
 #: client/options.c:2210
-#, fuzzy
 msgid "Do cursor animation"
-msgstr "Показувати анімацію битв."
+msgstr "Показувати анімацію курсора."
 
 #: client/options.c:2211
-#, fuzzy
 msgid "If this option is disabled, the cursor will always be displayed as static."
-msgstr "Якщо цю опцію активовано, диалогі звітів будуть на окремих вкладках, а не у вспливаючих діалогах."
+msgstr "Якщо цю опцію вимкнено, курсор завжди зображатиметься статично."
 
 #: client/options.c:2214
 msgid "Use color cursors"
 msgstr "Використовувати кольорові курсори"
 
 #: client/options.c:2215
-#, fuzzy
 msgid "If this option is disabled, the cursor will always be displayed in black and white."
-msgstr "Якщо цю опцію активовано, диалогі звітів будуть на окремих вкладках, а не у вспливаючих діалогах."
+msgstr "Якщо цю опцію вимкнено, курсор завжди зображатиметься чорно-білим."
 
 #: client/options.c:2227
 msgid "Enable alpha blending"
@@ -12434,9 +12415,9 @@ msgstr ""
 
 #. TRANS: %s is a list of "and"-separated improvements.
 #: client/text.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "   with %s."
-msgstr "(з "
+msgstr "   з %s."
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:282
@@ -12948,15 +12929,15 @@ msgstr "%s %s"
 #. TRANS: Just happending 2 strings, using the correct localized
 #. * syntax.
 #: client/text.c:1481
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s"
-msgstr "%s%d %s"
+msgstr "%s - %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1486
-#, fuzzy, c-format
+#, c-format
 msgid "Observer - %s"
-msgstr "Спостерігач: %s"
+msgstr "Спостерігач - %s"
 
 #: client/text.c:1504
 msgid "Buildings: "
@@ -13045,11 +13026,13 @@ msgstr "Завантажую правила"
 #: client/tilespec.c:1176
 #: client/gui-sdl/themespec.c:485
 #: client/gui-sdl/themespec.c:519
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open '%s':\n"
 "%s"
-msgstr "Не можу відкрити \"%s\"."
+msgstr ""
+"Не можу відкрити '%s':\n"
+"%s"
 
 #: client/tilespec.c:1445
 #, fuzzy
@@ -14509,17 +14492,16 @@ msgstr "%d присутні"
 
 #: client/gui-gtk-2.0/editprop.c:909
 #: client/gui-gtk-2.0/editprop.c:3621
-#, fuzzy
 msgid "All nations"
-msgstr "Усі опції"
+msgstr "Усі нації"
 
 #: client/gui-gtk-2.0/editprop.c:911
-#, fuzzy, c-format
+#, c-format
 msgid "%d nation"
 msgid_plural "%d nations"
-msgstr[0] "%d відомо"
-msgstr[1] "%d відомо"
-msgstr[2] "%d відомо"
+msgstr[0] "%d нація"
+msgstr[1] "%d нації"
+msgstr[2] "%d націй"
 
 #: client/gui-gtk-2.0/editprop.c:918
 #, c-format
@@ -14794,13 +14776,12 @@ msgstr "Редактор властивостей"
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:6083
 msgid "Seen (Main)"
-msgstr "Видиме (Головний)"
+msgstr "Seen (Main)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:6086
-#, fuzzy
 msgid "Seen (Invis)"
-msgstr "Обрати підрозділи"
+msgstr "Seen (Invis)"
 
 #: client/gui-gtk-2.0/finddlg.c:71
 #: client/gui-sdl/finddlg.c:131
@@ -14899,9 +14880,9 @@ msgstr "Контролювати місто"
 #. TRANS: goto/airlift dialog. Current location of units; %s is an
 #. * "and"-separated list of cities and associated info
 #: client/gui-gtk-2.0/gotodlg.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "Currently in: %s"
-msgstr "Наразі будується"
+msgstr "Наразі у: %s"
 
 #: client/gui-gtk-2.0/gui_main.c:265
 #: client/gui-xaw/gui_main.c:248
@@ -16534,9 +16515,8 @@ msgid "Do you really wish to disband your %s?\n"
 msgstr "Чи насправді Ви хочете продати Ваш %s\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:929
-#, fuzzy
 msgid "Disband Units"
-msgstr "Розформувати підрозділ"
+msgstr "Розформувати підрозділи"
 
 #: client/gui-gtk-2.0/repodlgs.c:949
 msgid "Sell-Off: Results"
@@ -17772,27 +17752,27 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "Розвідувальна інформація по Імперії нації %s"
 
 #: client/gui-sdl/inteldlg.c:303
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: unknown"
 msgstr ""
-"Правитель: %s %s  Уряд: %s\n"
+"Правитель: %s  Уряд: %s\n"
 "Столиця: %s  Гроші: %d\n"
 "Податки: %d%% Наука: %d%% Розкіш: %d%%\n"
 "Досліджує: невідомо"
 
 #: client/gui-sdl/inteldlg.c:316
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
-"Правитель: %s %s  Уряд: %s\n"
+"Правитель: %s  Уряд: %s\n"
 "Столиця: %s  Гроші: %d\n"
 "Податки: %d%% Наука: %d%% Розкіш: %d%%\n"
 "Досліджує: %s(%d/%d)"
@@ -18278,12 +18258,10 @@ msgstr "Локальні опції"
 
 #: client/gui-sdl/optiondlg.c:324
 #: client/gui-sdl/optiondlg.c:802
-#, fuzzy
 msgid "Server options"
-msgstr "Показує опції сервера."
+msgstr "Опції сервера."
 
 #: client/gui-sdl/optiondlg.c:793
-#, fuzzy
 msgid "Local options"
 msgstr "Локальні опції"
 
@@ -18294,9 +18272,8 @@ msgid "Worklists"
 msgstr "Плани будівництва"
 
 #: client/gui-sdl/optiondlg.c:823
-#, fuzzy
 msgid "Save Local Options"
-msgstr "Локальні опції"
+msgstr "Зьерегти локальні опції"
 
 #: client/gui-sdl/optiondlg.c:842
 msgid "Leave Game"
@@ -18312,9 +18289,8 @@ msgid "Quit"
 msgstr "Вийти"
 
 #: client/gui-sdl/optiondlg.c:988
-#, fuzzy
 msgid "Apply changes"
-msgstr "Застосувати одноразово"
+msgstr "Внести зміни"
 
 #: client/gui-sdl/optiondlg.c:1101
 #: client/gui-win32/wldlg.c:303
@@ -19676,9 +19652,9 @@ msgstr ""
 
 #: client/gui-xaw/inteldlg.c:207
 #: client/gui-xaw/inteldlg.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "Ruler: %s"
-msgstr "Голова: %s %s"
+msgstr "Правитель: %s"
 
 #: client/gui-xaw/inteldlg.c:440
 #, c-format
@@ -19967,7 +19943,7 @@ msgstr ""
 
 #: modinst/download.c:263
 msgid "No URL given"
-msgstr ""
+msgstr "Не вказано URL"
 
 #: modinst/download.c:268
 msgid "This does not look like modpack URL"
@@ -20025,12 +20001,12 @@ msgstr ""
 #: modinst/download.c:392
 #, c-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Скачується %s"
 
 #: modinst/download.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to download %s"
-msgstr "Помилка створення нового комп'ютерного гравця: %s."
+msgstr "Не вдалося завантажити %s"
 
 #: modinst/download.c:420
 msgid "Some parts of the modpack failed to install."
@@ -20412,14 +20388,12 @@ msgid "Cancel pact"
 msgstr "Розірвати угоду"
 
 #: data/Freeciv.in:3359
-#, fuzzy
 msgid "  Name             Ready  Leader           Nation          Team "
-msgstr "Ім'я              Готовність Лідер          Нація          "
+msgstr "Ім'я              Готовність Лідер          Нація          Команда"
 
 #: data/Freeciv.in:3397
-#, fuzzy
 msgid "Take Player"
-msgstr "Міста"
+msgstr "Взяти гравця"
 
 #: data/helpdata.txt:41
 msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization. You compete against several opponents to found cities, use them to support a military and economy, and finally to complete an empire that survives all encounters with its neighbors to emerge victorious. Each opponent may be either another human or be controlled by the computer. All players begin at the dawn of history with a handful of units -- typically with an explorer and a couple of settlers in 4000 BC -- and race to expand outward from those humble beginnings."
@@ -22861,18 +22835,18 @@ msgstr "Монархія"
 #: data/default/governments.ruleset:108
 #: data/experimental/governments.ruleset:112
 #: data/multiplayer/governments.ruleset:108
-#, fuzzy, c-format
+#, c-format
 msgid "King %s"
-msgstr "у %s"
+msgstr "Король %s"
 
 #: data/civ1/governments.ruleset:108
 #: data/civ2/governments.ruleset:106
 #: data/default/governments.ruleset:109
 #: data/experimental/governments.ruleset:113
 #: data/multiplayer/governments.ruleset:109
-#, fuzzy, c-format
+#, c-format
 msgid "Queen %s"
-msgstr "Королева"
+msgstr "Королева %s"
 
 #: data/civ1/governments.ruleset:110
 #: data/civ2/governments.ruleset:108
@@ -22915,18 +22889,18 @@ msgstr "Комунізм"
 #: data/default/governments.ruleset:129
 #: data/experimental/governments.ruleset:133
 #: data/multiplayer/governments.ruleset:129
-#, fuzzy, c-format
+#, c-format
 msgid "Comrade %s"
-msgstr "Товариш"
+msgstr "Товариш %s"
 
 #: data/civ1/governments.ruleset:129
 #: data/civ2/governments.ruleset:127
 #: data/default/governments.ruleset:130
 #: data/experimental/governments.ruleset:134
 #: data/multiplayer/governments.ruleset:130
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Comrade %s"
-msgstr "Товаришка"
+msgstr "Товаришка %s"
 
 #: data/civ1/governments.ruleset:131
 #: data/civ2/governments.ruleset:129
@@ -22960,18 +22934,18 @@ msgstr "Республіка"
 #: data/default/governments.ruleset:153
 #: data/experimental/governments.ruleset:157
 #: data/multiplayer/governments.ruleset:153
-#, fuzzy, c-format
+#, c-format
 msgid "Consul %s"
-msgstr "Консул"
+msgstr "Консул %s"
 
 #: data/civ1/governments.ruleset:153
 #: data/civ2/governments.ruleset:179
 #: data/default/governments.ruleset:154
 #: data/experimental/governments.ruleset:158
 #: data/multiplayer/governments.ruleset:154
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Consul %s"
-msgstr "Консул"
+msgstr "Консул %s"
 
 #: data/civ1/governments.ruleset:155
 #: data/civ2/governments.ruleset:181
@@ -22999,18 +22973,18 @@ msgstr "Демократія"
 #: data/default/governments.ruleset:175
 #: data/experimental/governments.ruleset:179
 #: data/multiplayer/governments.ruleset:175
-#, fuzzy, c-format
+#, c-format
 msgid "President %s"
-msgstr "Президент"
+msgstr "Президент %s"
 
 #: data/civ1/governments.ruleset:175
 #: data/civ2/governments.ruleset:201
 #: data/default/governments.ruleset:176
 #: data/experimental/governments.ruleset:180
 #: data/multiplayer/governments.ruleset:176
-#, fuzzy, c-format
+#, c-format
 msgid "?female:President %s"
-msgstr "Президент"
+msgstr "Президент %s"
 
 #: data/civ1/governments.ruleset:177
 #: data/default/governments.ruleset:178
@@ -24146,9 +24120,8 @@ msgstr "Авіаносець"
 #: data/default/units.ruleset:1669
 #: data/experimental/units.ruleset:1684
 #: data/multiplayer/units.ruleset:1768
-#, fuzzy
 msgid "The Carrier is a mobile airport."
-msgstr "Крейсер - це сильний атакувальний корабельний підрозділ."
+msgstr "Авіаносець - це мобільний аеродром."
 
 #: data/civ1/units.ruleset:976
 #: data/civ2/units.ruleset:1623
@@ -25245,9 +25218,8 @@ msgstr ""
 #: data/default/units.ruleset:132
 #: data/experimental/units.ruleset:147
 #: data/multiplayer/units.ruleset:132
-#, fuzzy
 msgid "?unitclass:Helicopter"
-msgstr "Гелікоптер"
+msgstr "Гелікоптерний"
 
 #: data/civ2/units.ruleset:224
 msgid "Upkeep for Settlers is in food as well as production, and a Settler can die if its supporting city runs out of food. Settlers in a Republic or Democracy require twice as much food per turn, and in Communist or Fundamentalist societies, three times as much."
@@ -25899,9 +25871,8 @@ msgid "?nationgroup:Medieval"
 msgstr "Середньовічні"
 
 #: data/default/nations.ruleset:26
-#, fuzzy
 msgid "?nationgroup:Early Modern"
-msgstr "?nationgroup:Сучасні"
+msgstr "Ранні сучасні"
 
 #: data/default/nations.ruleset:29
 msgid "?nationgroup:Modern"
@@ -25928,9 +25899,8 @@ msgid "?nationgroup:Oceanian"
 msgstr "?nationgroup:Океаньські"
 
 #: data/default/nations.ruleset:47
-#, fuzzy
 msgid "?nationgroup:Imaginary"
-msgstr "?nationgroup:Азійські"
+msgstr "Уявні"
 
 #: data/default/cities.ruleset:62
 #: data/experimental/cities.ruleset:64
@@ -26085,9 +26055,8 @@ msgstr "елітний"
 #: data/default/units.ruleset:124
 #: data/experimental/units.ruleset:139
 #: data/multiplayer/units.ruleset:124
-#, fuzzy
 msgid "?unitclass:Trireme"
-msgstr "Ватажок"
+msgstr "Триремні"
 
 #: data/default/units.ruleset:346
 #: data/experimental/units.ruleset:361
@@ -26174,18 +26143,16 @@ msgid "The AWACS (Airborne Warning and Control System) is an airplane with an ad
 msgstr "Літак спостереження - це літак з потужним радаром що може виявити розташування ворожих загонів на широких просторах."
 
 #: data/experimental/buildings.ruleset:379
-#, fuzzy
 msgid "Hospital"
-msgstr "Столиця:"
+msgstr "Лікарня"
 
 #: data/experimental/buildings.ruleset:393
 msgid "A Hospital is used to treat the ill, and sometimes for medical research. A city with a Hospital is less like to suffer from plagues."
 msgstr ""
 
 #: data/experimental/buildings.ruleset:435
-#, fuzzy
 msgid "Genetic Lab"
-msgstr "(ветеран)"
+msgstr "Генетична лабораторія"
 
 #: data/experimental/buildings.ruleset:450
 #, no-c-format
@@ -26200,9 +26167,8 @@ msgid "If a metropolis (city size > 30) has a Mass Transit and a Super Highway t
 msgstr ""
 
 #: data/experimental/game.ruleset:21
-#, fuzzy
 msgid "Experimental ruleset"
-msgstr "Експериментальний"
+msgstr "Експериментальний набір правил"
 
 #: data/experimental/game.ruleset:24
 msgid "You are playing with the experimental ruleset. This showcases new or unusual features available in Freeciv without regard for strict game balancing or playability. A description of the differences from the default ruleset can be found in README.ruleset_experimental."
@@ -26256,13 +26222,12 @@ msgstr ""
 #. TRANS: cannot move into rough terrain. Unit class names are used
 #. TRANS: adjectivally.
 #: data/experimental/units.ruleset:121
-#, fuzzy
 msgid "?unitclass:Big Land"
-msgstr "Ватажок"
+msgstr "Великий наземний"
 
 #: data/multiplayer/buildings.ruleset:77
 msgid "Amphitheater"
-msgstr ""
+msgstr "Амфітеатр"
 
 #: data/multiplayer/buildings.ruleset:593
 #, fuzzy
@@ -26365,9 +26330,8 @@ msgid "The city where this wonder is built will experience rapture growth when c
 msgstr ""
 
 #: data/multiplayer/buildings.ruleset:1449
-#, fuzzy
 msgid "The Internet"
-msgstr "Внутрішні"
+msgstr "Інтернет"
 
 #: data/multiplayer/buildings.ruleset:1464
 #, fuzzy, no-c-format
@@ -26523,9 +26487,8 @@ msgid "?team name:Xanadu"
 msgstr "Ксанаду"
 
 #: data/multiplayer/techs.ruleset:245
-#, fuzzy
 msgid "Improves the effect of Amphitheaters."
-msgstr "Збільшує ефективність Церков."
+msgstr "Збільшує ефективність Амфітеатрів."
 
 #: data/multiplayer/techs.ruleset:270
 msgid "Having this advance decreases pollution in all your cities by 50%."
