@@ -874,7 +874,7 @@ static void city_populate(struct city *pcity)
                       city_link(pcity), unit_tile_link(punit));
 
         unit_owner(punit)->score.units_lost++;
-        wipe_unit(punit);
+        wipe_unit(punit, ULR_STARVED);
 
         if (city_exist(saved_id)) {
           pcity->food_stock = (city_granary_size(city_size_get(pcity))
@@ -1805,7 +1805,7 @@ static bool sell_random_unit(struct player *pplayer,
 
   unit_list_remove(punitlist, punit);
   pplayer->score.units_lost++;
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_SOLD);
 
   /* Get the upkeep gold back. */
   pplayer->economic.gold += gold_upkeep;

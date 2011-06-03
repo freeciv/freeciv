@@ -644,7 +644,7 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
         || unit_owner(punit) != pplayer) {
       continue;
     }
-    wipe_unit(punit);
+    wipe_unit(punit, ULR_EDITOR);
     i++;
   } unit_list_iterate_safe_end;
 }
@@ -663,7 +663,7 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
     return;
   }
 
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_EDITOR);
 }
 
 /****************************************************************************

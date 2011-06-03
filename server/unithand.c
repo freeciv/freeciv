@@ -526,7 +526,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
     send_city_info(city_owner(pcity), pcity);
   }
 
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_DISBANDED);
 }
 
 /**************************************************************************
@@ -658,7 +658,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
                 _("%s added to aid %s in growing."),
                 unit_tile_link(punit),
                 city_link(pcity));
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_USED);
 
   sanity_check_city(pcity);
 
@@ -692,7 +692,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
 
     city_change_size(pcity, size);
   }
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_USED);
 }
 
 /**************************************************************************
@@ -1031,13 +1031,13 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                       " your SDI defense."), city_link(pcity));
       pplayer->score.units_lost++;
       city_owner(pcity)->score.units_killed++;
-      wipe_unit(punit);
+      wipe_unit(punit, ULR_SDI);
       return;
     } 
 
     dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
 
-    wipe_unit(punit);
+    wipe_unit(punit, ULR_DETONATED);
     do_nuclear_explosion(pplayer, def_tile);
     return;
   }
@@ -1122,7 +1122,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                   winner_link);
     unit_owner(ploser)->score.units_lost++;
     unit_owner(pwinner)->score.units_killed++;
-    wipe_unit(ploser);
+    wipe_unit(ploser, ULR_KILLED);
   } else {
     /* The defender lost, the attacker punit lives! */
     int winner_id = pwinner->id;
@@ -1138,7 +1138,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
               vet && !uclass_has_flag(unit_class(punit), UCF_MISSILE));
     if (unit_alive(winner_id)) {
       if (uclass_has_flag(unit_class(pwinner), UCF_MISSILE)) {
-        wipe_unit(pwinner);
+        wipe_unit(pwinner, ULR_MISSILE);
         return;
       }
     } else {
@@ -1394,7 +1394,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
           to_capture = unit_change_owner(to_capture, pplayer,
                                          (game.server.homecaughtunits
                                           ? punit->homecity
-                                          : IDENTITY_NUMBER_ZERO));
+                                          : IDENTITY_NUMBER_ZERO),
+                                         ULR_CAPTURED);
           /* As unit_change_owner() currently remove the old unit and
            * replace by a new one (with a new id), we want to make link to
            * the new unit. */
@@ -1540,7 +1541,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
                 city_link(pcity_dest), 
                 abs(build_points_left(pcity_dest)));
 
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_USED);
   send_player_info_c(pplayer, pplayer->connections);
   send_city_info(pplayer, pcity_dest);
   conn_list_do_unbuffer(pplayer->connections);
@@ -1686,7 +1687,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                 homecity_link,
                 destcity_link,
                 revenue);
-  wipe_unit(punit);
+  wipe_unit(punit, ULR_USED);
   pplayer->economic.gold += revenue;
   /* add bulbs and check for finished research */
   update_bulbs(pplayer, revenue, TRUE);

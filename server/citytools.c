@@ -625,7 +625,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
                       city_link(tocity));
       }
       from_player->score.units_lost++;
-      wipe_unit(punit);
+      wipe_unit(punit, ULR_CITY_LOST);
       return;
     }
   }
@@ -715,7 +715,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
                       unit_tile_link(vunit), name);
       }
       unit_owner(vunit)->score.units_lost++;
-      wipe_unit(vunit);
+      wipe_unit(vunit, ULR_CITY_LOST);
     }
   } unit_list_iterate_safe_end;
 
@@ -1426,7 +1426,7 @@ void remove_city(struct city *pcity)
                     city_link(pcity),
                     unit_tile_link(punit));
       unit_owner(punit)->score.units_lost++;
-      wipe_unit(punit);
+      wipe_unit(punit, ULR_CITY_LOST);
     }
   } unit_list_iterate_safe_end;
 
@@ -1437,7 +1437,7 @@ void remove_city(struct city *pcity)
   /* Any remaining supported units are destroyed */
   unit_list_iterate_safe(pcity->units_supported, punit) {
     unit_owner(punit)->score.units_lost++;
-    wipe_unit(punit);
+    wipe_unit(punit, ULR_CITY_LOST);
   } unit_list_iterate_safe_end;
 
   if (!city_exist(id)) {

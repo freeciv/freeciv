@@ -189,7 +189,8 @@ static void signals_create(void)
 
   script_signal_create("hut_enter", 1, API_TYPE_UNIT);
 
-  script_signal_create("unit_lost", 2, API_TYPE_UNIT, API_TYPE_PLAYER);
+  script_signal_create("unit_lost", 3, API_TYPE_UNIT, API_TYPE_PLAYER,
+                       API_TYPE_STRING);
 }
 
 /**************************************************************************

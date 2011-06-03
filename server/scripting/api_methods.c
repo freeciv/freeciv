@@ -443,10 +443,13 @@ bool api_methods_unit_teleport(Unit *punit, Tile *dest)
     struct player *owner = unit_owner(punit);
     struct city *pcity = tile_city(dest);
 
-    if (!can_unit_exist_at_tile(punit, dest)
-        || is_non_allied_unit_tile(dest, owner)
+    if (!can_unit_exist_at_tile(punit, dest)) {
+      wipe_unit(punit, ULR_NONNATIVE_TERR);
+      return FALSE;
+    }
+    if (is_non_allied_unit_tile(dest, owner)
         || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
-      wipe_unit(punit);
+      wipe_unit(punit, ULR_STACK_CONFLICT);
       return FALSE;
     }
   }
