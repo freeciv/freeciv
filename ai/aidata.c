@@ -250,6 +250,33 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
   } unit_list_iterate_end;
 
   aiferry_init_stats(pplayer);
+
+
+  /*** Interception engine ***/
+
+  /* We are tracking a unit if punit->server.ai->cur_pos is not NULL. If we
+   * are not tracking, start tracking by setting cur_pos. If we are, 
+   * fill prev_pos with previous cur_pos. This way we get the 
+   * necessary coordinates to calculate a probable trajectory. */
+  players_iterate(aplayer) {
+    if (!aplayer->is_alive || aplayer == pplayer) {
+      continue;
+    }
+    unit_list_iterate(aplayer->units, punit) {
+      struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+      if (!unit_data->cur_pos) {
+        /* Start tracking */
+        unit_data->cur_pos = &unit_data->cur_struct;
+        unit_data->prev_pos = NULL;
+      } else {
+        unit_data->prev_struct = unit_data->cur_struct;
+        unit_data->prev_pos = &unit_data->prev_struct;
+      }
+      *unit_data->cur_pos = unit_tile(punit);
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
 }
 
 /****************************************************************************

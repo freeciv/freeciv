@@ -467,31 +467,6 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
   ai->pollution_priority = POLLUTION_WEIGHTING;
 
-  /*** Interception engine ***/
-
-  /* We are tracking a unit if punit->server.ai->cur_pos is not NULL. If we
-   * are not tracking, start tracking by setting cur_pos. If we are, 
-   * fill prev_pos with previous cur_pos. This way we get the 
-   * necessary coordinates to calculate a probably trajectory. */
-  players_iterate(aplayer) {
-    if (!aplayer->is_alive || aplayer == pplayer) {
-      continue;
-    }
-    unit_list_iterate(aplayer->units, punit) {
-      struct unit_ai *unit_data = def_ai_unit_data(punit);
-
-      if (!unit_data->cur_pos) {
-        /* Start tracking */
-        unit_data->cur_pos = &unit_data->cur_struct;
-        unit_data->prev_pos = NULL;
-      } else {
-        unit_data->prev_struct = unit_data->cur_struct;
-        unit_data->prev_pos = &unit_data->prev_struct;
-      }
-      *unit_data->cur_pos = unit_tile(punit);
-    } unit_list_iterate_end;
-  } players_iterate_end;
-  
   /* Research want */
   if (is_future_tech(player_research_get(pplayer)->researching)
       || player_has_really_useful_tech_parasite(pplayer)) {
