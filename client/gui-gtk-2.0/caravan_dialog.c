@@ -43,7 +43,7 @@ static int caravan_unit_id;
 static GtkWidget *caravan_dialog;
 
 /****************************************************************
-...
+  User selected traderoute from caravan dialog
 *****************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
@@ -51,7 +51,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected wonder building helping from caravan dialog
 *****************************************************************/
 static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
@@ -59,7 +59,7 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Close caravan dialog
 *****************************************************************/
 static void caravan_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -90,7 +90,7 @@ static void get_help_build_wonder_button_label(char* buf, int bufsize,
 }
 
 /****************************************************************
-...
+  Open caravan dialog
 *****************************************************************/
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity)

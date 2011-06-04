@@ -23,17 +23,19 @@
 #include <gtk/gtk.h>
 #include "gtkpixcomm.h"
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "government.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
+
+/* common */
+#include "city.h"
+#include "government.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
-#include "support.h"
 #include "version.h"
 
 /* client */
@@ -133,7 +135,7 @@ static void help_command_update(void);
 static void help_command_callback(GtkWidget *w, gint response_id);
 
 /****************************************************************
-...
+  Set topic specific title for help_frame
 *****************************************************************/
 static void set_title_topic(char *topic)
 {
@@ -147,7 +149,7 @@ static void set_title_topic(char *topic)
 }
 
 /****************************************************************
-...
+  Close help dialog
 *****************************************************************/
 void popdown_help_dialog(void)
 {
@@ -157,7 +159,7 @@ void popdown_help_dialog(void)
 }
 
 /****************************************************************
-...
+  Popup help dialog for given item of given type.
 *****************************************************************/
 void popup_help_dialog_typed(const char *item, enum help_page_type htype)
 {
@@ -172,7 +174,6 @@ void popup_help_dialog_typed(const char *item, enum help_page_type htype)
 
 
 /****************************************************************
-...
 Not sure if this should call _(item) as it does, or whether all
 callers of this function should do so themselves... --dwp
 *****************************************************************/
@@ -295,7 +296,7 @@ static void help_tech_tree_collapse_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-...
+  Hyperlink clicked
 **************************************************************************/
 static void help_hyperlink_callback(GtkWidget *w)
 {
@@ -315,7 +316,7 @@ static void help_hyperlink_callback(GtkWidget *w)
 }
 
 /**************************************************************************
-...
+  Create new hyperlink button
 **************************************************************************/
 static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
 {
@@ -334,7 +335,7 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
 }
 
 /**************************************************************************
-...
+  Create new hyperlink button with text
 **************************************************************************/
 static GtkWidget *help_slink_new(const gchar *txt, enum help_page_type type)
 {
@@ -347,7 +348,7 @@ static GtkWidget *help_slink_new(const gchar *txt, enum help_page_type type)
 }
 
 /**************************************************************************
-...
+  Hide help box
 **************************************************************************/
 static void help_box_hide(void)
 {
@@ -371,7 +372,7 @@ static void help_box_hide(void)
 }
 
 /**************************************************************************
-...
+  Completely destory help dialog
 **************************************************************************/
 static void help_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -380,7 +381,7 @@ static void help_destroy_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-...
+  New topic activated from help dialog
 **************************************************************************/
 static void activated_topic(GtkTreeView *view, gpointer data)
 {
@@ -406,7 +407,7 @@ static void activated_topic(GtkTreeView *view, gpointer data)
       g_ptr_array_index(help_history, help_history_pos) == (gpointer) pitem) {
     return;
   }
-  
+
   help_update_dialog(pitem);
 
   /* add to history. */
@@ -420,8 +421,8 @@ static void activated_topic(GtkTreeView *view, gpointer data)
 }
 
 /**************************************************************************
-  ...
- **************************************************************************/
+  Create help dialog
+**************************************************************************/
 static void create_help_dialog(void)
 {
   GtkWidget *hbox;
@@ -707,14 +708,14 @@ static void create_help_dialog(void)
 
 
 /**************************************************************************
-...
+  Create page for help type
 **************************************************************************/
 static void create_help_page(enum help_page_type type)
 {
 }
 
 /**************************************************************************
-...
+  Display updated help about improvement
 **************************************************************************/
 static void help_update_improvement(const struct help_item *pitem,
 				    char *title)
@@ -758,7 +759,7 @@ static void help_update_improvement(const struct help_item *pitem,
 }
   
 /**************************************************************************
-...
+  Display updated help about wonder
 **************************************************************************/
 static void help_update_wonder(const struct help_item *pitem,
 			       char *title)
@@ -810,7 +811,7 @@ static void help_update_wonder(const struct help_item *pitem,
 }
 
 /**************************************************************************
-...
+  Display updated help about unit type
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
 				  char *title)
@@ -889,7 +890,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 }
 
 /**************************************************************************
-...
+  Cut str to at max len bytes in a utf8 friendly way
 **************************************************************************/
 static char *my_chomp(char *str, size_t len)
 {
@@ -908,7 +909,7 @@ static char *my_chomp(char *str, size_t len)
 }
 
 /**************************************************************************
-...
+  Display updated help about tech
 **************************************************************************/
 static void help_update_tech(const struct help_item *pitem, char *title)
 {
@@ -1058,7 +1059,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 }
 
 /**************************************************************************
-...
+  Display updated help about terrain
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
 				char *title)
@@ -1257,7 +1258,7 @@ static void help_update_nation(const struct help_item *pitem, char *title,
 }
 
 /**************************************************************************
-...
+  Display updated help dialog
 **************************************************************************/
 static void help_update_dialog(const struct help_item *pitem)
 {
@@ -1316,7 +1317,7 @@ static void help_update_dialog(const struct help_item *pitem)
 
 
 /**************************************************************************
-...
+  Add item at path to selection and scroll to its cell
 **************************************************************************/
 static void help_item_zoom(GtkTreePath *path)
 {
@@ -1342,7 +1343,7 @@ static void help_item_zoom(GtkTreePath *path)
 }
 
 /****************************************************************
-...
+  Return path to help item.
 *****************************************************************/
 static GtkTreePath *help_item_path(const struct help_item *pitem)
 {
@@ -1384,7 +1385,7 @@ static GtkTreePath *help_item_path(const struct help_item *pitem)
 }
 
 /****************************************************************
-...
+  Add item to selection
 *****************************************************************/
 static void select_help_item_string(const char *item, enum help_page_type htype)
 {
@@ -1406,7 +1407,7 @@ static void select_help_item_string(const char *item, enum help_page_type htype)
 }
 
 /**************************************************************************
-...
+  Set sensitivity of help dialog response buttons.
 **************************************************************************/
 static void help_command_update(void)
 {
@@ -1429,7 +1430,7 @@ static void help_command_update(void)
 }
 
 /**************************************************************************
-...
+  User gave response to help dialog
 **************************************************************************/
 static void help_command_callback(GtkWidget *w, gint response_id)
 {

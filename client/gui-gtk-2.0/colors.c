@@ -27,7 +27,7 @@
 #include "colors.h"
 
 /*************************************************************
-...
+  Get display color type of default visual
 *************************************************************/
 enum Display_color_type get_visual(void)
 {

@@ -54,7 +54,7 @@ static struct tile *unit_select_ptile;
 
 
 /*****************************************************************************
-  ...
+  Row from unit select dialog activated
 *****************************************************************************/
 static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
 {
@@ -73,7 +73,7 @@ static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
 }
 
 /*****************************************************************************
-  ...
+  Add unit to unit select dialog
 *****************************************************************************/
 static void unit_select_append(struct unit *punit, GtkTreeIter *it,
                                GtkTreeIter *parent)
@@ -100,10 +100,10 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
     fc_snprintf(buf, sizeof(buf), "%s [Unit ID %d]\n(%s)",
                 unit_name_translation(punit), punit->id,
                 phome == NULL ? "no home city" : city_name(phome));
-#else
+#else  /* DEBUG */
     fc_snprintf(buf, sizeof(buf), "%s\n(%s)", unit_name_translation(punit),
                 phome == NULL ? "no home city" : city_name(phome));
-#endif
+#endif /* DEBUG */
   }
 
   gtk_tree_store_append(unit_select_store, it, parent);
@@ -121,7 +121,8 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
 }
 
 /*****************************************************************************
-  ...
+  Recursively select units that transport already selected units, starting
+  from root_id unit.
 *****************************************************************************/
 static void unit_select_recurse(int root_id, GtkTreeIter *it_root)
 {
@@ -138,7 +139,7 @@ static void unit_select_recurse(int root_id, GtkTreeIter *it_root)
 }
 
 /*****************************************************************************
-  ...
+  Refresh unit selection dialog
 *****************************************************************************/
 static void unit_select_dialog_refresh(void)
 {
@@ -158,7 +159,7 @@ static void unit_select_dialog_refresh(void)
 }
 
 /*****************************************************************************
-  ...
+  Unit selection dialog being destroyed
 *****************************************************************************/
 static void unit_select_destroy_callback(GtkObject *object, gpointer data)
 {
@@ -166,7 +167,7 @@ static void unit_select_destroy_callback(GtkObject *object, gpointer data)
 }
 
 /*****************************************************************************
-  ...
+  User responded to unit selection dialog
 *****************************************************************************/
 static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
 {
@@ -236,7 +237,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
 }
 
 /*****************************************************************************
-  ...
+  Popup unit select dialog
 *****************************************************************************/
 void unit_select_dialog_popup_main(struct tile *ptile)
 {
@@ -373,7 +374,7 @@ void unit_select_dialog_popup_main(struct tile *ptile)
 }
 
 /*****************************************************************************
-   ...
+   Closing unit selection dialog
 *****************************************************************************/
 void unit_select_dialog_popdown(void)
 {

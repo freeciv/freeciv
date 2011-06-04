@@ -63,9 +63,9 @@ void close_connection_dialog()
 }
 
 /**************************************************************************
-...
+  gtk client does nothing here. This gets called when one is rejected
+  from game.
 **************************************************************************/
 void gui_server_connect(void)
 {
 }
-

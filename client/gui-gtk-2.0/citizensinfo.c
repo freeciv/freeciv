@@ -157,14 +157,14 @@ static GtkTreeStore *citizens_dialog_store_new(void)
 }
 
 /*****************************************************************************
-  ...
+  Returns column to sort by by default
 *****************************************************************************/
 static int citizens_dialog_default_sort_column(void) {
   return 0;
 }
 
 /*****************************************************************************
-  ...
+  Create citizens dialog
 *****************************************************************************/
 static struct citizens_dialog
   *citizens_dialog_create(const struct city *pcity)
@@ -261,7 +261,7 @@ static struct citizens_dialog
 }
 
 /*****************************************************************************
-  ...
+  Initialize citizens dialog
 *****************************************************************************/
 void citizens_dialog_init()
 {
@@ -269,7 +269,7 @@ void citizens_dialog_init()
 }
 
 /*****************************************************************************
-  ...
+  Free resources allocated for citizens dialog
 *****************************************************************************/
 void citizens_dialog_done()
 {
@@ -277,7 +277,7 @@ void citizens_dialog_done()
 }
 
 /*****************************************************************************
-  ...
+  Get citizen dialog of the given city
 *****************************************************************************/
 static struct citizens_dialog *citizens_dialog_get(const struct city *pcity)
 {
@@ -291,7 +291,7 @@ static struct citizens_dialog *citizens_dialog_get(const struct city *pcity)
 }
 
 /*****************************************************************************
-  ...
+  Refresh citizen dialog of the given city
 *****************************************************************************/
 void citizens_dialog_refresh(const struct city *pcity)
 {
@@ -357,7 +357,7 @@ static void citizens_dialog_row(GtkTreeStore *store, GtkTreeIter *it,
 }
 
 /*****************************************************************************
-  ...
+  Close citizens dialog of one city
 *****************************************************************************/
 void citizens_dialog_close(const struct city *pcity)
 {
@@ -375,7 +375,7 @@ void citizens_dialog_close(const struct city *pcity)
 }
 
 /*****************************************************************************
-  ...
+  Make citizen dialog of the city visible.
 *****************************************************************************/
 GtkWidget *citizens_dialog_display(const struct city *pcity)
 {

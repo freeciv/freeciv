@@ -139,7 +139,8 @@ void popup_notify_dialog(const char *caption, const char *headline,
 }
 
 /****************************************************************
-...
+  User has responded to notify dialog with possibility to
+  center (goto) on event location.
 *****************************************************************/
 static void notify_goto_response(GtkWidget *w, gint response)
 {
@@ -256,7 +257,7 @@ void popup_connect_msg(const char *headline, const char *message)
 }
 
 /****************************************************************
-...
+  User has responded to revolution dialog
 *****************************************************************/
 static void revolution_response(GtkWidget *w, gint response, gpointer data)
 {
@@ -275,7 +276,7 @@ static void revolution_response(GtkWidget *w, gint response, gpointer data)
 }
 
 /****************************************************************
-...
+  Popup revolution dialog for user
 *****************************************************************/
 void popup_revolution_dialog(struct government *government)
 {
@@ -327,7 +328,7 @@ static void pillage_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Pillage dialog destroyed
 *****************************************************************/
 static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -527,7 +528,7 @@ static GtkWidget* create_nation_selection_list(void)
 
 
 /****************************************************************
-...
+  Create nations dialog
 *****************************************************************/
 static void create_races_dialog(struct player *pplayer)
 {
@@ -756,8 +757,8 @@ void popup_races_dialog(struct player *pplayer)
 }
 
 /****************************************************************
-  ...
- *****************************************************************/
+  Close nations dialog  
+*****************************************************************/
 void popdown_races_dialog(void)
 {
   if (races_shell) {
@@ -771,8 +772,8 @@ void popdown_races_dialog(void)
 
 
 /****************************************************************
-  ...
- *****************************************************************/
+  Nations dialog has been destroyed
+*****************************************************************/
 static void races_destroy_callback(GtkWidget *w, gpointer data)
 {
   races_shell = NULL;
@@ -805,8 +806,8 @@ static void populate_leader_list(void)
 }
 
 /**************************************************************************
-  ...
- **************************************************************************/
+  Set sensitivity of nations to select.
+**************************************************************************/
 void races_toggles_set_sensitive(void)
 {
   GtkTreeModel *model;
@@ -933,7 +934,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
 }
 
 /**************************************************************************
-...
+  Leader name has been chosen
 **************************************************************************/
 static void races_leader_callback(void)
 {
@@ -953,7 +954,7 @@ static void races_leader_callback(void)
 }
 
 /**************************************************************************
-...
+  Leader sex has been chosen
 **************************************************************************/
 static void races_sex_callback(GtkWidget *w, gpointer data)
 {
@@ -961,7 +962,7 @@ static void races_sex_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-...
+  Nation has been selected
 **************************************************************************/
 static gboolean races_selection_func(GtkTreeSelection *select,
 				     GtkTreeModel *model, GtkTreePath *path,
@@ -976,7 +977,7 @@ static gboolean races_selection_func(GtkTreeSelection *select,
 }
 
 /**************************************************************************
-...
+  City style has been chosen
 **************************************************************************/
 static void races_city_style_callback(GtkTreeSelection *select, gpointer data)
 {
@@ -991,7 +992,7 @@ static void races_city_style_callback(GtkTreeSelection *select, gpointer data)
 }
 
 /**************************************************************************
-...
+  User has selected some of the responses for whole nations dialog
 **************************************************************************/
 static void races_response(GtkWidget *w, gint response, gpointer data)
 {

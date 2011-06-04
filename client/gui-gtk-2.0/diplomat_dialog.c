@@ -54,7 +54,7 @@ static GtkWidget  *spy_sabotage_shell;
 static int         sabotage_improvement;
 
 /****************************************************************
-...
+  User responded to bribe dialog
 *****************************************************************/
 static void bribe_response(GtkWidget *w, gint response)
 {
@@ -66,7 +66,7 @@ static void bribe_response(GtkWidget *w, gint response)
 }
 
 /****************************************************************
-...  Ask the server how much the bribe is
+  Ask the server how much the bribe is
 *****************************************************************/
 static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
@@ -79,7 +79,7 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Popup unit bribe dialog
 *****************************************************************/
 void popup_bribe_dialog(struct unit *punit, int cost)
 {
@@ -120,7 +120,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
 }
 
 /****************************************************************
-...
+  User selected sabotaging from choice dialog
 *****************************************************************/
 static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 {
@@ -133,7 +133,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected investigating from choice dialog
 *****************************************************************/
 static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
@@ -146,7 +146,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected unit sabotaging from choice dialog
 *****************************************************************/
 static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
@@ -156,7 +156,7 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected embassy establishing from choice dialog
 *****************************************************************/
 static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 {
@@ -169,7 +169,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected poisoning from choice dialog
 *****************************************************************/
 static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
@@ -181,7 +181,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected stealing from choice dialog
 *****************************************************************/
 static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 {
@@ -194,7 +194,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User responded to steal advances dialog
 *****************************************************************/
 static void spy_advances_response(GtkWidget *w, gint response, gpointer data)
 {
@@ -210,7 +210,7 @@ static void spy_advances_response(GtkWidget *w, gint response, gpointer data)
 }
 
 /****************************************************************
-...
+  User selected entry in steal advances dialog
 *****************************************************************/
 static void spy_advances_callback(GtkTreeSelection *select, gpointer data)
 {
@@ -231,7 +231,7 @@ static void spy_advances_callback(GtkTreeSelection *select, gpointer data)
 }
 
 /****************************************************************
-...
+  Create spy's tech stealing dialog
 *****************************************************************/
 static void create_advances_list(struct player *pplayer,
 				 struct player *pvictim)
@@ -337,7 +337,7 @@ static void create_advances_list(struct player *pplayer,
 }
 
 /****************************************************************
-...
+  User has responded to spy's sabotage building dialog
 *****************************************************************/
 static void spy_improvements_response(GtkWidget *w, gint response, gpointer data)
 {
@@ -353,7 +353,7 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
 }
 
 /****************************************************************
-...
+  User has selected new building from spy's sabotage dialog
 *****************************************************************/
 static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 {
@@ -374,7 +374,7 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 }
 
 /****************************************************************
-...
+  Creates spy's building sabotaging dialog
 *****************************************************************/
 static void create_improvements_list(struct player *pplayer,
 				     struct city *pcity)
@@ -469,7 +469,7 @@ static void create_improvements_list(struct player *pplayer,
 }
 
 /****************************************************************
-...
+  Popup tech stealing dialog with list of possible techs
 *****************************************************************/
 static void spy_steal_popup(GtkWidget *w, gpointer data)
 {
@@ -530,7 +530,7 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  User has responded to incite dialog
 *****************************************************************/
 static void incite_response(GtkWidget *w, gint response)
 {
@@ -605,7 +605,7 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Diplomat dialog has been destoryed
 *****************************************************************/
 static void diplomat_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -614,7 +614,7 @@ static void diplomat_destroy_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Diplomat dialog has been canceled
 *****************************************************************/
 static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 {
@@ -622,7 +622,7 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+ Popup new diplomat dialog.
 *****************************************************************/
 void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 {

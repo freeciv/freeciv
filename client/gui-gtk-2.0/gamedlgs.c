@@ -39,7 +39,7 @@
 #include "client_main.h"
 #include "options.h"
 
-/* gui-gtk-2.0 */
+/* client/gui-gtk-2.0 */
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
@@ -66,7 +66,7 @@ static void rates_changed_callback(GtkAdjustment *adj);
 
 
 /**************************************************************************
-...
+  Set tax values to display
 **************************************************************************/
 static void rates_set_values(int tax, int no_tax_scroll, 
 			     int lux, int no_lux_scroll,
@@ -172,7 +172,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
 
 /**************************************************************************
-...
+  User changes rates
 **************************************************************************/
 static void rates_changed_callback(GtkAdjustment *adj)
 {
@@ -203,7 +203,7 @@ static void rates_changed_callback(GtkAdjustment *adj)
 
 
 /**************************************************************************
-...
+  User has responded to rates dialog
 **************************************************************************/
 static void rates_command_callback(GtkWidget *w, gint response_id)
 {
@@ -216,7 +216,7 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
 
 
 /****************************************************************
-... 
+  Create rates dialog
 *****************************************************************/
 static GtkWidget *create_rates_dialog(void)
 {
@@ -337,7 +337,7 @@ static GtkWidget *create_rates_dialog(void)
 
 
 /****************************************************************
-... 
+  Popup rates dialog
 *****************************************************************/
 void popup_rates_dialog(void)
 {

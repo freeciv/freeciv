@@ -31,7 +31,7 @@
 ****************************************************************/
 
 /****************************************************************
-...
+  Get nth button widget from dialog
 *****************************************************************/
 static GtkWidget* choice_dialog_get_nth_button(GtkWidget *cd,
                                                int button)
@@ -47,7 +47,7 @@ static GtkWidget* choice_dialog_get_nth_button(GtkWidget *cd,
 }
 
 /****************************************************************
-...
+  Set sensitivity state of choice dialog button.
 *****************************************************************/
 void choice_dialog_button_set_sensitive(GtkWidget *cd, int button,
 					 gboolean state)
@@ -56,7 +56,7 @@ void choice_dialog_button_set_sensitive(GtkWidget *cd, int button,
 }
 
 /****************************************************************
-...
+  Set label for choice dialog button.
 *****************************************************************/
 void choice_dialog_button_set_label(GtkWidget *cd, int number,
                                     const char* label)
@@ -66,10 +66,10 @@ void choice_dialog_button_set_label(GtkWidget *cd, int number,
 }
 
 /****************************************************************
-...
+  Create choice dialog
 *****************************************************************/
 GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
-				const gchar *text)
+                               const gchar *text)
 {
   GtkWidget *dshell, *dlabel, *vbox, *bbox;
 
@@ -105,7 +105,8 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 }
 
 /****************************************************************
-...
+  Choice dialog has been clicked and primary handling has
+  taken place already.
 *****************************************************************/
 static void choice_dialog_clicked(GtkWidget *w, gpointer data)
 {
@@ -117,7 +118,7 @@ static void choice_dialog_clicked(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-...
+  Add button to choice dialog.
 *****************************************************************/
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
 			GCallback handler, gpointer data)
@@ -145,7 +146,7 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
 }
 
 /****************************************************************
-...
+  Choice dialog construction ready
 *****************************************************************/
 void choice_dialog_end(GtkWidget *dshell)
 {
@@ -158,7 +159,7 @@ void choice_dialog_end(GtkWidget *dshell)
 }
 
 /****************************************************************
-...
+  Set hide property of choice dialog
 *****************************************************************/
 void choice_dialog_set_hide(GtkWidget *dshell, gboolean setting)
 {
@@ -166,7 +167,7 @@ void choice_dialog_set_hide(GtkWidget *dshell, gboolean setting)
 }
 
 /****************************************************************
-...
+  Open new choice dialog.
 *****************************************************************/
 GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
 				const gchar *text, ...)

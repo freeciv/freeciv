@@ -260,7 +260,7 @@ GtkWidget *create_main_page(void)
   gtk_size_group_add_widget(size, button);
   gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 1, 2);
   g_signal_connect(button, "clicked", ggz_login, NULL);
-#endif
+#endif /* GGZ_GTK */
 
   button = gtk_button_new_from_stock(GTK_STOCK_QUIT);
   gtk_size_group_add_widget(size, button);

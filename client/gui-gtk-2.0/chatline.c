@@ -932,7 +932,7 @@ void log_output_window(void)
 }
 
 /**************************************************************************
-...
+  Clear output window. This does *not* destroy it, or free its resources
 **************************************************************************/
 void clear_output_window(void)
 {
@@ -940,7 +940,7 @@ void clear_output_window(void)
 }
 
 /**************************************************************************
-...
+  Set given text to output window
 **************************************************************************/
 void set_output_window_text(const char *text)
 {

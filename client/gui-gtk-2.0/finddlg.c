@@ -32,7 +32,7 @@
 /* client */
 #include "options.h"
 
-/* gui-gtk-2.0 */
+/* client/gui-gtk-2.0 */
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -131,7 +131,7 @@ void popup_find_dialog(void)
 
 
 /**************************************************************************
-...
+  Update find dialog with current cities
 **************************************************************************/
 static void update_find_dialog(GtkListStore *store)
 {
@@ -156,7 +156,7 @@ static void update_find_dialog(GtkListStore *store)
 }
 
 /**************************************************************************
-...
+  User responded to find dialog
 **************************************************************************/
 static void find_response(struct gui_dialog *dlg, int response, gpointer data)
 {
@@ -181,7 +181,7 @@ static void find_response(struct gui_dialog *dlg, int response, gpointer data)
 }
 
 /**************************************************************************
-...
+  Find dialog destroyed
 **************************************************************************/
 static void find_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -191,7 +191,7 @@ static void find_destroy_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-...
+  User selected city from find dialog
 **************************************************************************/
 static void find_selection_callback(GtkTreeSelection *selection,
 				    GtkTreeModel *model)

@@ -39,6 +39,7 @@
 #include "mapview_common.h"
 #include "tilespec.h"
 
+/* client/gui-gtk-2.0 */
 #include "canvas.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

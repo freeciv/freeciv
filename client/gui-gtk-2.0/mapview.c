@@ -92,7 +92,7 @@ void update_turn_done_button(bool do_restore)
 }
 
 /**************************************************************************
-...
+  Timeout label requires refreshing
 **************************************************************************/
 void update_timeout_label(void)
 {
@@ -100,7 +100,7 @@ void update_timeout_label(void)
 }
 
 /**************************************************************************
-...
+  Refresh info label
 **************************************************************************/
 void update_info_label(void)
 {
@@ -245,7 +245,7 @@ void update_unit_info_label(struct unit_list *punits)
 
 
 /**************************************************************************
-...
+  Get sprite for treaty acceptance or rejection.
 **************************************************************************/
 GdkPixbuf *get_thumb_pixbuf(int onoff)
 {
@@ -283,7 +283,7 @@ void get_overview_area_dimensions(int *width, int *height)
 }
 
 /**************************************************************************
-...
+  Size of overview changed
 **************************************************************************/
 void overview_size_changed(void)
 {
@@ -305,7 +305,7 @@ struct canvas *get_overview_window(void)
 }
 
 /**************************************************************************
-...
+  Overview canvas exposed
 **************************************************************************/
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
@@ -364,7 +364,7 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 }
 
 /**************************************************************************
-...
+  Map canvas exposed
 **************************************************************************/
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
@@ -500,7 +500,7 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
-...
+  Fill pixcomm with unit gfx
 **************************************************************************/
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
@@ -541,7 +541,7 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
 }
 
 /**************************************************************************
-...
+  Put overlay tile to pixmap
 **************************************************************************/
 void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 			     int canvas_x, int canvas_y,
@@ -613,7 +613,7 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
     log_debug("%5d / %5d pixbufs = %d%%",
               pixbufs, sprites, 100 * pixbufs / sprites);
   }
-#endif
+#endif /* DEBUG */
 }
 
 /**************************************************************************
@@ -753,7 +753,7 @@ void update_overview_scroll_window_pos(int x, int y)
 }
 
 /**************************************************************************
-...
+  Refresh map canvas scrollbars
 **************************************************************************/
 void update_map_canvas_scrollbars(void)
 {
@@ -765,7 +765,7 @@ void update_map_canvas_scrollbars(void)
 }
 
 /**************************************************************************
-...
+  Refresh map canvas scrollbar as canvas size changes
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
@@ -791,7 +791,7 @@ void update_map_canvas_scrollbars_size(void)
 }
 
 /**************************************************************************
-...
+  Scrollbar has moved
 **************************************************************************/
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 {

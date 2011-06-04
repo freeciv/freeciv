@@ -45,7 +45,7 @@ static GtkSizeGroup *gui_action;
 
 
 /**************************************************************************
-...
+  Draw widget now
 **************************************************************************/
 void gtk_expose_now(GtkWidget *w)
 {
@@ -53,7 +53,7 @@ void gtk_expose_now(GtkWidget *w)
 }
 
 /**************************************************************************
-...
+  Set widget postion relative to reference widget
 **************************************************************************/
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 {
@@ -69,7 +69,7 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 }
 
 /**************************************************************************
-...
+  Create new stock button
 **************************************************************************/
 GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 {
@@ -102,7 +102,7 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 }
 
 /**************************************************************************
-  Changes the lable (with mnemonic) on an existing stockbutton.  See
+  Changes the label (with mnemonic) on an existing stockbutton.  See
   gtk_stockbutton_new.
 **************************************************************************/
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text)
@@ -137,7 +137,7 @@ void intl_slist(int n, const char **s, bool *done)
 }
 
 /****************************************************************
-...
+  Set itree to the beginning
 *****************************************************************/
 void itree_begin(GtkTreeModel *model, ITree *it)
 {
@@ -146,7 +146,7 @@ void itree_begin(GtkTreeModel *model, ITree *it)
 }
 
 /****************************************************************
-...
+  Return whether itree end has been reached
 *****************************************************************/
 gboolean itree_end(ITree *it)
 {
@@ -154,7 +154,7 @@ gboolean itree_end(ITree *it)
 }
 
 /****************************************************************
-...
+  Make itree to go forward one step
 *****************************************************************/
 void itree_next(ITree *it)
 {
@@ -162,31 +162,31 @@ void itree_next(ITree *it)
 }
 
 /****************************************************************
-...
+  Store values to itree
 *****************************************************************/
 void itree_set(ITree *it, ...)
 {
   va_list ap;
-  
+
   va_start(ap, it);
   gtk_tree_store_set_valist(GTK_TREE_STORE(it->model), &it->it, ap);
   va_end(ap);
 }
 
 /****************************************************************
-...
+  Get values from itree
 *****************************************************************/
 void itree_get(ITree *it, ...)
 {
   va_list ap;
-  
+
   va_start(ap, it);
   gtk_tree_model_get_valist(it->model, &it->it, ap);
   va_end(ap);
 }
 
 /****************************************************************
-...
+  Append one item to the end of tree store
 *****************************************************************/
 void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
 {
@@ -199,7 +199,7 @@ void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
 }
 
 /****************************************************************
-...
+  Return whether current itree item is selected 
 *****************************************************************/
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
 {
@@ -207,7 +207,7 @@ gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
 }
 
 /****************************************************************
-...
+  Add current itree item to selection
 *****************************************************************/
 void itree_select(GtkTreeSelection *selection, ITree *it)
 {
@@ -215,7 +215,7 @@ void itree_select(GtkTreeSelection *selection, ITree *it)
 }
 
 /****************************************************************
-...
+  Remove current itree item from selection
 *****************************************************************/
 void itree_unselect(GtkTreeSelection *selection, ITree *it)
 {
@@ -245,7 +245,7 @@ gint gtk_tree_selection_get_row(GtkTreeSelection *selection)
 }
 
 /**************************************************************************
-...
+  Give focus to view
 **************************************************************************/
 void gtk_tree_view_focus(GtkTreeView *view)
 {
@@ -263,7 +263,7 @@ void gtk_tree_view_focus(GtkTreeView *view)
 }
 
 /**************************************************************************
-...
+  Generic close callback for all widgets
 **************************************************************************/
 static void close_callback(GtkDialog *dialog, gpointer data)
 {

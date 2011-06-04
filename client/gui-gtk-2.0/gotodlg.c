@@ -84,7 +84,7 @@ enum {
 };
 
 /**************************************************************************
-...
+  User has responded to goto dialog
 **************************************************************************/
 static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 {
@@ -129,7 +129,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 
 
 /**************************************************************************
-...
+  Create goto -dialog for gotoing or airlifting unit
 **************************************************************************/
 static void create_goto_dialog(void)
 {
@@ -196,7 +196,7 @@ static void create_goto_dialog(void)
     "text", GD_COL_CITY_ID, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   gtk_tree_view_column_set_sort_column_id(col, GD_COL_CITY_ID);
-#endif
+#endif /* DEBUG */
 
   rend = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(_("City"), rend,
@@ -265,7 +265,7 @@ void popup_goto_dialog(void)
 }
 
 /**************************************************************************
-...
+  Return currently selected city
 **************************************************************************/
 static struct city *get_selected_city(void)
 {
@@ -484,7 +484,8 @@ static void refresh_airlift_button(void)
 }
 
 /**************************************************************************
-...
+  Update goto dialog. button tells if cities of all players or just
+  client's player should be listed.
 **************************************************************************/
 static void goto_selection_callback(GtkTreeSelection *selection,
                                     gpointer data)

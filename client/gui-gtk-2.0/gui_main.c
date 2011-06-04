@@ -69,7 +69,7 @@
 #include "text.h"
 #include "tilespec.h"
 
-/* gui-gtk-2.0 */
+/* client/gui-gtk-2.0 */
 #include "chatline.h"
 #include "citizensinfo.h"
 #include "connectdlg.h"
@@ -235,7 +235,7 @@ void set_city_names_font_sizes(int my_city_names_font_size,
 }
 
 /**************************************************************************
-...
+  Callback for freelog
 **************************************************************************/
 static void log_callback_utf8(enum log_level level, const char *message,
                               bool file_too)
@@ -289,7 +289,7 @@ static void parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
-...
+  Focus on widget. Returns whether focus was really changed.
 **************************************************************************/
 static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
 {
@@ -332,7 +332,7 @@ static void main_message_area_size_allocate(GtkWidget *widget,
 }
 
 /**************************************************************************
-...
+  Focus on map canvas
 **************************************************************************/
 gboolean map_canvas_focus(void)
 {
@@ -373,7 +373,7 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 }
 
 /**************************************************************************
-...
+  Handle keypress events when map canvas is in focus
 **************************************************************************/
 static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
                                      gpointer data)
@@ -552,7 +552,7 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
 }
 
 /**************************************************************************
-...
+  Handler for "key release" for toplevel window
 **************************************************************************/
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
                                              gpointer data)
@@ -640,7 +640,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
       break;
     };
   }
-#endif
+#endif /* 0 */
 
   return FALSE;
 }
@@ -1462,7 +1462,7 @@ static void ggz_closed(void)
 {
   set_client_page(PAGE_MAIN);
 }
-#endif
+#endif /* GGZ_GTK */
 
 /**************************************************************************
  called from main().
@@ -1803,7 +1803,7 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 }
 
 /**************************************************************************
-...
+  Button released when showing info popup
 **************************************************************************/
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
@@ -1814,7 +1814,7 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpoin
 }
 
 /**************************************************************************
-...
+  Popup info box
 **************************************************************************/
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
@@ -1852,7 +1852,7 @@ static void end_turn_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-...
+  Read input from server socket
 **************************************************************************/
 static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
                               gpointer data)
@@ -1874,7 +1874,7 @@ static gboolean get_ggz_input(GIOChannel *source, GIOCondition condition,
 }
 
 /**************************************************************************
-...
+  Set socket writability state
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
 					 bool socket_writable)

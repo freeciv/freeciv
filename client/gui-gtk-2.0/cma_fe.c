@@ -34,6 +34,7 @@
 #include "cma_fec.h"
 #include "messagewin_g.h"
 
+/* gtk-2.0 */
 #include "cityrep.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
@@ -80,7 +81,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog);
 
 /**************************************************************************
-...
+  Initialize cma front end system
 **************************************************************************/
 void cma_fe_init()
 {
@@ -88,7 +89,7 @@ void cma_fe_init()
 }
 
 /**************************************************************************
-...
+  Free resources allocated for cma front end system
 **************************************************************************/
 void cma_fe_done()
 {
@@ -110,7 +111,7 @@ void close_cma_dialog(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Destroy cma dialog
 **************************************************************************/
 static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
 {
@@ -135,7 +136,7 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  User has pressed button in cma dialog
 **************************************************************************/
 static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev,
 				      gpointer data)
@@ -162,7 +163,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev,
 }
 
 /**************************************************************************
-...
+  User has requested help
 **************************************************************************/
 static void help_callback(GtkWidget *w, gpointer data)
 {
@@ -170,7 +171,7 @@ static void help_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-...
+  Cell data function for cma dialog 
 **************************************************************************/
 static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
 			   GtkTreeModel *model, GtkTreeIter *it, gpointer data)
@@ -725,4 +726,3 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
     refresh_cma_dialog(pdialog->pcity, DONT_REFRESH_HSCALES);
   }
 }
-
