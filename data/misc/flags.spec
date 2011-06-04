@@ -159,6 +159,7 @@ artists = "
    Ghana (ancient)	J_Alves (Open Clip Art)
    Ghaznavid		J.M. Maalderink
    Gokturk		J.M. Maalderink
+   Golden Horde		J.M. Maalderink
    Greater Poland	J.M. Maalderink
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
    Greece		Daniel McRae
@@ -640,6 +641,7 @@ sprites =
 		"f.ghana_ancient", "flags/ghana_ancient"
 		"f.ghaznavid", "flags/ghaznavid"
 		"f.gokturk", "flags/gokturk"
+		"f.golden_horde", "flags/golden_horde"
 		"f.greater_poland", "flags/greater_poland"
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"

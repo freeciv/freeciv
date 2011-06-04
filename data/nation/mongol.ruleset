@@ -42,7 +42,7 @@ init_government="Despotism"
 init_units=""
 
 civilwar_nations="Tibetan", "Tuvan", "Kalmyk", "Timurid", "Uyghur", "Tatar",
- "Crimean Tatar", "Buryat"
+ "Crimean Tatar", "Buryat", "Golden Horde"
 
 cities=
  "Karakorum", ; Каракорум
