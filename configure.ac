@@ -1006,11 +1006,11 @@ FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 if test x"$MINGW32" = xyes; then
   DEFAULT_DATA_PATH=".;data;~/.freeciv/$DATASUBDIR;$datadir/freeciv"
   DEFAULT_SAVE_PATH=".;~/.freeciv/saves"
-  DEFAULT_SCENARIO_PATH=".;data/scenario;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenario"
+  DEFAULT_SCENARIO_PATH=".;data/scenarios;~/.freeciv/$DATASUBDIR/scenarios;~/.freeciv/scenarios;$datadir/freeciv/scenarios"
 else
   DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
   DEFAULT_SAVE_PATH=".:~/.freeciv/saves"
-  DEFAULT_SCENARIO_PATH=".:data/scenario:~/.freeciv/$DATASUBDIR/scenarios:~/.freeciv/scenarios:$datadir/freeciv/scenario"
+  DEFAULT_SCENARIO_PATH=".:data/scenarios:~/.freeciv/$DATASUBDIR/scenarios:~/.freeciv/scenarios:$datadir/freeciv/scenarios"
 fi
 CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\"\\\"$DEFAULT_DATA_PATH\\\"\""
 CPPFLAGS="$CPPFLAGS -DDEFAULT_SAVES_PATH=\"\\\"$DEFAULT_SAVES_PATH\\\"\""
@@ -1176,7 +1176,7 @@ AC_CONFIG_FILES([Makefile
 	  data/experimental/Makefile
 	  data/civ1/Makefile
 	  data/civ2/Makefile
-	  data/scenario/Makefile
+	  data/scenarios/Makefile
 	  data/nation/Makefile
 	  data/themes/Makefile
 	  data/themes/gui-gtk-2.0/Makefile

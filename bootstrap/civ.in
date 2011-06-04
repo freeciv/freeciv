@@ -69,9 +69,9 @@ FREECIV_SAVE_PATH="${FREECIV_SAVE_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@@H
 export FREECIV_SAVE_PATH
 
 if test "x$FREECIV_SCENARIO_PATH" = "x" ; then
-  FREECIV_SCENARIO_PATH=".@HOST_PATH_SEPARATOR@data/scenario@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@/scenarios@HOST_PATH_SEPARATOR@~/.freeciv/scenarios"
+  FREECIV_SCENARIO_PATH=".@HOST_PATH_SEPARATOR@data/scenarios@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@/scenarios@HOST_PATH_SEPARATOR@~/.freeciv/scenarios"
 fi
-FREECIV_SCENARIO_PATH="${FREECIV_SCENARIO_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data/scenario@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data/scenario"
+FREECIV_SCENARIO_PATH="${FREECIV_SCENARIO_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data/scenarios@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data/scenarios"
 export FREECIV_SCENARIO_PATH
 
 echo "Running $EXE"

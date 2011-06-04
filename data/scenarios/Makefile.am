@@ -28,7 +28,7 @@ unzipped_files =				\
 
 
 ## Override automake so that "make install" puts these in proper place:
-pkgdatadir = $(datadir)/$(PACKAGE)/scenario
+pkgdatadir = $(datadir)/$(PACKAGE)/scenarios
 pkgdata_DATA = $(zipped_files)
 
 $(zipped_files): %.sav.gz: %.sav

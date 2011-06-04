@@ -78,7 +78,7 @@
 #ifndef DEFAULT_SCENARIO_PATH
 #define DEFAULT_SCENARIO_PATH                          \
   "." PATH_SEPARATOR                                   \
-  "data/scenario" PATH_SEPARATOR                       \
+  "data/scenarios" PATH_SEPARATOR                      \
   "~/.freeciv/" DATASUBDIR "/scenarios" PATH_SEPARATOR \
   "~/.freeciv/scenarios"
 #endif /* DEFAULT_SCENARIO_PATH */
