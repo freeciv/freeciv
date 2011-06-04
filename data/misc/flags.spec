@@ -259,7 +259,7 @@ artists = "
    Mali			J.M. Maalderink
    Mali (ancient)	Daniel Markstedt
    Malta		Yaddah and Zachary Harden (Wikimedia Commons)
-   Mamluk		Travis Finkenauer
+   Mamluk		Daniel Markstedt
    Man			Washiucho (Wikimedia Commons)
    Manchuria		Zachary Harden
    Maori		Daniel Markstedt
