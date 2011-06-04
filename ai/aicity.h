@@ -62,8 +62,6 @@ struct ai_city {
   int wallvalue;                /* how much it helps for defenders to be
                                    ground units */
 
-  int downtown;                 /* distance from neighbours, for locating
-                                   wonders wisely */
   int distance_to_wonder_city;  /* wondercity will set this for us,
                                    avoiding paradox */
 

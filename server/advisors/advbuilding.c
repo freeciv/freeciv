@@ -80,7 +80,7 @@
   The hidden assumption here is that a F_HELP_WONDER unit is like any
   other unit that will use this data.
 
-  pcity->server.ai.downtown is set to the number of cities within 4 turns of
+  pcity->server.adv->downtown is set to the number of cities within 4 turns of
   the best help wonder unit we can currently produce.
 **************************************************************************/
 static void calculate_city_clusters(struct player *pplayer)
@@ -90,7 +90,7 @@ static void calculate_city_clusters(struct player *pplayer)
   int range;
 
   city_list_iterate(pplayer->cities, pcity) {
-    def_ai_city_data(pcity)->downtown = 0;
+    pcity->server.adv->downtown = 0;
   } city_list_iterate_end;
 
   if (num_role_units(F_HELP_WONDER) == 0) {
@@ -107,7 +107,7 @@ static void calculate_city_clusters(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     struct pf_parameter parameter;
     struct pf_map *pfm;
-    struct ai_city *city_data = def_ai_city_data(pcity);
+    struct adv_city *city_data = pcity->server.adv;
 
     unit_tile_set(ghost, pcity->tile);
     pft_fill_unit_parameter(&parameter, ghost);
@@ -1241,9 +1241,9 @@ void building_advisor(struct player *pplayer)
     city_list_iterate(pplayer->cities, pcity) {
       int value = pcity->surplus[O_SHIELD];
       Continent_id place = tile_continent(pcity->tile);
-      struct ai_city *city_data = def_ai_city_data(pcity);
+      struct adv_city *city_data = pcity->server.adv;
 
-      if (city_data->grave_danger > 0) {
+      if (def_ai_city_data(pcity)->grave_danger > 0) {
         continue;
       }
       if (is_ocean_near_tile(pcity->tile)) {

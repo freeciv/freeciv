@@ -27,6 +27,9 @@ struct adv_city {
    * (SHIELD_WEIGHTING, etc or ai->shields_priority, etc)
    */
   int building_want[B_LAST];
+
+  int downtown;                 /* distance from neighbours, for locating
+                                   wonders wisely */
 };
 
 void adv_city_alloc(struct city *pcity);
