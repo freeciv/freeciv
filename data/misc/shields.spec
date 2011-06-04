@@ -158,6 +158,7 @@ sprites =
 		"f.shield.germany", "flags/germany-shield"
 		"f.shield.ghana", "flags/ghana-shield"
 		"f.shield.ghana_ancient", "flags/ghana_ancient-shield"
+		"f.shield.ghaznavid", "flags/ghaznavid-shield"
 		"f.shield.gokturk", "flags/gokturk-shield"
 		"f.shield.greater_poland", "flags/greater_poland-shield"
 		"f.shield.greece_ancient", "flags/greece_ancient-shield"

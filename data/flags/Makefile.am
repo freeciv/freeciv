@@ -151,6 +151,7 @@ flag_files =				\
 		gokturk.png		\
 		ghana.png		\
 		ghana_ancient.png	\
+		ghaznavid.png		\
 		greater_poland.png	\
 		greece_ancient.png	\
 		greece.png		\
@@ -623,6 +624,7 @@ flag_files =				\
 		gokturk-large.png		\
 		ghana-large.png		\
 		ghana_ancient-large.png		\
+		ghaznavid-large.png		\
 		greater_poland-large.png	\
 		greece_ancient-large.png	\
 		greece-large.png		\
@@ -1096,6 +1098,7 @@ shield_files =					\
 		germany-shield.png		\
 		ghana-shield.png		\
 		ghana_ancient-shield.png	\
+		ghaznavid-shield.png		\
 		gokturk-shield.png		\
 		greater_poland-shield.png	\
 		greece_ancient-shield.png	\
@@ -1568,6 +1571,7 @@ shield_files =					\
 		germany-shield-large.png		\
 		ghana-shield-large.png		\
 		ghana_ancient-shield-large.png		\
+		ghaznavid-shield-large.png		\
 		gokturk-shield-large.png		\
 		greater_poland-shield-large.png	\
 		greece_ancient-shield-large.png	\
@@ -2042,6 +2046,7 @@ svg_files = 				\
 		germany.svg		\
 		ghana.svg		\
 		ghana_ancient.svg	\
+		ghaznavid.svg		\
 		gokturk.svg		\
 		greater_poland.svg	\
 		greece_ancient.svg	\

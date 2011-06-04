@@ -157,6 +157,7 @@ artists = "
    Germany		Philipp Sadleder
    Ghana		J.M. Maalderink
    Ghana (ancient)	J_Alves (Open Clip Art)
+   Ghaznavid		J.M. Maalderink
    Gokturk		J.M. Maalderink
    Greater Poland	J.M. Maalderink
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
@@ -637,6 +638,7 @@ sprites =
 		"f.germany", "flags/germany"
 		"f.ghana", "flags/ghana"
 		"f.ghana_ancient", "flags/ghana_ancient"
+		"f.ghaznavid", "flags/ghaznavid"
 		"f.gokturk", "flags/gokturk"
 		"f.greater_poland", "flags/greater_poland"
 		"f.greece_ancient", "flags/greece_ancient"
