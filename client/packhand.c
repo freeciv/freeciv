@@ -871,6 +871,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   struct tile *ptile = NULL;
   struct tile_list *worked_tiles = NULL;
   struct player *powner = player_by_number(packet->owner);
+  int radius_sq = game.info.init_city_radius_sq;
 
   fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
   fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
@@ -887,6 +888,15 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
       ptile = pcenter;
       pcity->owner = powner;
       pcity->original = powner;
+
+      whole_map_iterate(ptile) {
+        if (ptile->worked == pcity) {
+          int dist_sq = sq_map_distance(pcenter, ptile);
+          if (dist_sq > city_map_radius_sq_get(pcity)) {
+            city_map_radius_sq_set(pcity, dist_sq);
+          }
+        }
+      } whole_map_iterate_end;
     } else if (city_owner(pcity) != powner) {
       /* Remember what were the worked tiles.  The server won't
        * send to us again. */
@@ -899,6 +909,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
           tile_list_append(worked_tiles, pworked);
         }
       } city_tile_iterate_skip_free_worked_end;
+      radius_sq = city_map_radius_sq_get(pcity);
       client_remove_city(pcity);
       pcity = NULL;
       city_has_changed_owner = TRUE;
@@ -909,6 +920,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
     pcity->id = packet->id;
+    city_map_radius_sq_set(pcity, radius_sq);
     idex_register_city(pcity);
   } else if (pcity->id != packet->id) {
     log_error("handle_city_short_info() city id %d != id %d.",
@@ -922,7 +934,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     name_changed = (0 != strncmp(packet->name, pcity->name,
                                  sizeof(pcity->name)));
 
-    /* Check if city desciptions should be updated */
+    /* Check if city descriptions should be updated */
     if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
     }
@@ -2458,6 +2470,14 @@ void handle_tile_info(const struct packet_tile_info *packet)
           /* update placeholder with current owner */
           pwork->owner = powner;
           pwork->original = powner;
+        }
+      } else {
+        int dist_sq = sq_map_distance(city_tile(pwork), ptile);
+        if (dist_sq > city_map_radius_sq_get(pwork)) {
+          /* This is probably enemy city which has grown in diameter since we
+           * last saw it. We need city_radius_sq to be at least big enough so
+           * that all workers fit in, so set it so. */
+          city_map_radius_sq_set(pwork, dist_sq);
         }
       }
 
