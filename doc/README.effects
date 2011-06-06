@@ -289,7 +289,7 @@ Upkeep_Factor
     Multiply unit upkeep by amount.
 
 Unit_Upkeep_Free_Per_City
-    In each city amount of units are free from upkeep. As usual, you can use 
+    In each city unit upkeep is deducted by this amount. As usual, you can use 
 with OutputType requirement to specify which kind of upkeep this should be.
 
 Output_Waste
@@ -318,8 +318,8 @@ Tech_Cost_Factor
     Factor for research costs.
 
 Shield2Gold_Factor
-    Factor in percent for the conversion of unit gold upkeep to shield upkeep.
-    A value of 200 would transfor 1 shield upkeep to 2 gold upkeep. The range
+    Factor in percent for the conversion of unit shield upkeep to gold upkeep.
+    A value of 200 would transfer 1 shield upkeep to 2 gold upkeep. The range
     of this effect must be player or world. Note that only units with the
     "Shield2Gold" flag will be affected by this.
 
