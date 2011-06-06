@@ -1949,10 +1949,14 @@ reqs	=
     { "type", "name", "range"
       "Building", "Hanging Gardens", "Player"
     }
+nreqs   =
+    { "type", "name", "range"
+      "Building", "Hanging Gardens", "City"
+    }
 
 [effect_hanging_gardens_1]
 name	= "Make_Happy"
-value	= 2
+value	= 3
 reqs	=
     { "type", "name", "range"
       "Building", "Hanging Gardens", "City"
