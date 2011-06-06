@@ -783,13 +783,26 @@ struct ai_data *ai_data_get(struct player *pplayer)
        is already initialized and does nothing.
 
        So, this assertion is here for a reason! */
-  fc_assert(ai->phase_is_initialized);
+
+  /* Removed from stable branch */
+  /* fc_assert(ai->phase_is_initialized); */
 
   if (ai->num_continents != map.num_continents
       || ai->num_oceans != map.num_oceans) {
     /* we discovered more continents, recalculate! */
-    ai_data_phase_done(pplayer);
-    ai_data_phase_init(pplayer, FALSE);
+    if (ai->phase_is_initialized) {
+      /* KLUDGE for stable branch. Only call these in this order if
+         inside data phase.
+         This is blanket "fix" for all cases where ai_data_get() is called
+         at illegal time. This at least minimize bad effects of such calls. */
+      ai_data_phase_done(pplayer);
+      ai_data_phase_init(pplayer, FALSE);
+    } else {
+      /* Call them in "wrong" order so we return recalculated data to caller,
+         but leave data phase closed. */
+      ai_data_phase_init(pplayer, FALSE);
+      ai_data_phase_done(pplayer);
+    }
   }
   return ai;
 }
