@@ -274,10 +274,8 @@ static void switch_page_callback(GtkNotebook * notebook,
 				 gpointer data);
 
 static void rename_callback(GtkWidget * w, gpointer data);
-static gboolean rename_callback_delete(GtkWidget * widget, GdkEvent * event,
-				       gpointer data);
-static void rename_callback_no(GtkWidget * w, gpointer data);
-static void rename_callback_yes(GtkWidget * w, gpointer data);
+static void rename_popup_callback(gpointer data, gint response,
+                                  const char *input);
 static void set_cityopt_values(struct city_dialog *pdialog);
 static void cityopt_callback(GtkWidget * w, gpointer data);
 static void misc_whichtab_callback(GtkWidget * w, gpointer data);
@@ -2702,7 +2700,7 @@ static void switch_page_callback(GtkNotebook * notebook,
 
 /******* Callbacks for stuff on the Misc. Settings page *********/
 /****************************************************************
-...
+  Called when Rename button pressed
 *****************************************************************/
 static void rename_callback(GtkWidget * w, gpointer data)
 {
@@ -2711,58 +2709,28 @@ static void rename_callback(GtkWidget * w, gpointer data)
   pdialog = (struct city_dialog *) data;
 
   pdialog->rename_shell = input_dialog_create(GTK_WINDOW(pdialog->shell),
-					      /*"shellrenamecity" */
-					      _("Rename City"),
-					      _("What should we rename the city to?"),
-					      city_name(pdialog->pcity),
-					      G_CALLBACK(rename_callback_yes),
-					      pdialog,
-					      G_CALLBACK(rename_callback_no),
-					      pdialog);
-
-  g_signal_connect(pdialog->rename_shell, "delete_event",
-		   G_CALLBACK(rename_callback_delete), data);
+                                              /*"shellrenamecity" */
+                                              _("Rename City"),
+                                              _("What should we rename the city to?"),
+                                              city_name(pdialog->pcity),
+                                              rename_popup_callback, pdialog);
 }
 
 /****************************************************************
-...
+  Called when user has finished with "Rename City" popup
 *****************************************************************/
-static gboolean rename_callback_delete(GtkWidget * widget, GdkEvent * event,
-				       gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  pdialog->rename_shell = NULL;
-  return FALSE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void rename_callback_no(GtkWidget * w, gpointer data)
-{
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-
-  if (pdialog) {
-    pdialog->rename_shell = NULL;
-  }
-
-  input_dialog_destroy(w);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void rename_callback_yes(GtkWidget * w, gpointer data)
+static void rename_popup_callback(gpointer data, gint response,
+                                  const char *input)
 {
   struct city_dialog *pdialog = data;
 
   if (pdialog) {
-    city_rename(pdialog->pcity, input_dialog_get_input(w));
+    if (response == GTK_RESPONSE_OK) {
+      city_rename(pdialog->pcity, input);
+    } /* else CANCEL or DELETE_EVENT */
 
     pdialog->rename_shell = NULL;
   }
-
-  input_dialog_destroy(w);
 }
 
 /****************************************************************

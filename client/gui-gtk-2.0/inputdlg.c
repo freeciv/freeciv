@@ -22,6 +22,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 
 /* gui-gtk-2.0 */
 #include "gui_main.h"
@@ -29,72 +30,65 @@
 
 #include "inputdlg.h"
 
-/****************************************************************
-...
-*****************************************************************/
-const char *input_dialog_get_input(GtkWidget *button)
+struct input_dialog_data {
+  input_dialog_callback_t response_callback;
+  gpointer response_cli_data;
+};
+
+/**************************************************************************
+  Called when user dismisses dialog -- either to accept or to cancel.
+**************************************************************************/
+static void input_dialog_response(GtkDialog *shell, gint response,
+                                  gpointer data)
 {
-  const char *dp;
-  GtkWidget *winput;
-      
-  winput=g_object_get_data(G_OBJECT(button->parent->parent->parent),
-	"iinput");
-  
-  dp=gtk_entry_get_text(GTK_ENTRY(winput));
- 
-  return dp;
+  GtkWidget *winput = g_object_get_data(G_OBJECT(shell), "iinput");
+  struct input_dialog_data *cb = data;
+
+  cb->response_callback(cb->response_cli_data,
+                        response, gtk_entry_get_text(GTK_ENTRY(winput)));
+
+  /* Any response is final */
+  gtk_widget_destroy(GTK_WIDGET(shell));
+  FC_FREE(cb);
 }
 
-
-/****************************************************************
-...
-*****************************************************************/
-void input_dialog_destroy(GtkWidget *button)
-{
-  gtk_widget_destroy(button->parent->parent->parent);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
+/**************************************************************************
+  Create a popup with a text entry box and "OK" and "Cancel" buttons.
+**************************************************************************/
 GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 
-			       const char *text, const char *postinputtest,
-			       GCallback ok_callback, gpointer ok_cli_data, 
-			       GCallback cancel_callback,
-			       gpointer cancel_cli_data)
+                               const char *text, const char *postinputtest,
+                               input_dialog_callback_t response_callback,
+                               gpointer response_cli_data)
 {
-  GtkWidget *shell, *label, *input, *ok, *cancel;
+  GtkWidget *shell, *label, *input;
+  struct input_dialog_data *cb = fc_malloc(sizeof(struct input_dialog_data));
+
+  cb->response_callback = response_callback;
+  cb->response_cli_data = response_cli_data;
   
   shell = gtk_dialog_new_with_buttons(dialogname,
         parent,
         GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+        GTK_STOCK_OK, GTK_RESPONSE_OK,
         NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   setup_dialog(shell, GTK_WIDGET(parent));
+  g_signal_connect(shell, "response", G_CALLBACK(input_dialog_response), cb);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
+
   label = gtk_frame_new(text);
+  /* Should use gtk_dialog_get_content_area() instead of ->vbox, but that
+   * requires at least gtk+-2.14.0 */
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, TRUE, TRUE, 0);
 
   input = gtk_entry_new();
   gtk_container_add(GTK_CONTAINER(label), input);
   gtk_entry_set_text(GTK_ENTRY(input), postinputtest);
-
-  g_signal_connect(input, "activate", ok_callback, ok_cli_data);
-
-  cancel = gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CANCEL,
-    GTK_RESPONSE_CANCEL);
-  ok = gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_OK,
-    GTK_RESPONSE_OK);
-
-  g_signal_connect(ok, "clicked", ok_callback, ok_cli_data);
-  g_signal_connect(cancel, "clicked", cancel_callback, cancel_cli_data);
-
-  gtk_widget_grab_focus(input);
-
+  gtk_entry_set_activates_default(GTK_ENTRY(input), TRUE);
   g_object_set_data(G_OBJECT(shell), "iinput", input);
 
-  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
+  gtk_widget_show_all(GTK_WIDGET(shell));
   gtk_window_present(GTK_WINDOW(shell));
 
   return shell;
