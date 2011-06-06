@@ -49,8 +49,6 @@ struct ai_city {
 
   struct ai_choice choice;      /* to spend gold in the right place only */
 
-  int worth; /* Cache city worth here, sum of all weighted incomes */
-
   struct ai_invasion invasion;
   int attack, bcost; /* This is also for invasion - total power and value of
                       * all units coming to kill us. */

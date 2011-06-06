@@ -289,7 +289,7 @@ static int base_want(struct player *pplayer, struct city *pcity,
   city_range_iterate(pcity, pplayer->cities,
                      ai->impr_range[improvement_index(pimprove)], acity) {
     final_want += city_want(pplayer, acity, ai, pimprove)
-      - def_ai_city_data(acity)->worth;
+      - acity->server.adv->worth;
   } city_range_iterate_end;
 
   /* Restore */
@@ -1279,7 +1279,7 @@ void building_advisor(struct player *pplayer)
 
   /* First find current worth of cities and cache this. */
   city_list_iterate(pplayer->cities, acity) {
-    def_ai_city_data(acity)->worth = city_want(pplayer, acity, ai, NULL);
+    acity->server.adv->worth = city_want(pplayer, acity, ai, NULL);
   } city_list_iterate_end;
 
   adjust_wants_by_effects(pplayer, wonder_city);
