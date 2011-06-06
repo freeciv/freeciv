@@ -345,15 +345,15 @@ static void save_dialog_update(struct save_dialog *pdialog)
 }
 
 /**************************************************************************
-  Callback for save_dialog_file_selection_new().
+  Callback for save_dialog_file_chooser_new().
 **************************************************************************/
-static void save_dialog_file_selection_callback(GtkWidget *widget,
-                                                gint response, gpointer data)
+static void save_dialog_file_chooser_callback(GtkWidget *widget,
+                                              gint response, gpointer data)
 {
   if (response == GTK_RESPONSE_OK) {
     save_dialog_action_fn_t action = data;
-    gchar *filename = g_filename_to_utf8(gtk_file_selection_get_filename
-                                         (GTK_FILE_SELECTION(widget)),
+    gchar *filename = g_filename_to_utf8(gtk_file_chooser_get_filename
+                                         (GTK_FILE_CHOOSER(widget)),
                                          -1, NULL, NULL, NULL);
 
     if (NULL != filename) {
@@ -365,23 +365,27 @@ static void save_dialog_file_selection_callback(GtkWidget *widget,
 }
 
 /****************************************************************************
-  Create a file selector for both the load and save commands.
+  Create a file chooser for both the load and save commands.
 ****************************************************************************/
-static void save_dialog_file_selection_popup(const char *title,
-                                             save_dialog_action_fn_t action)
+static void save_dialog_file_chooser_popup(const char *title,
+                                           GtkFileChooserAction action,
+                                           save_dialog_action_fn_t cb)
 {
-  GtkWidget *filesel;
+  GtkWidget *filechoose;
 
-  /* Create the selector */
-  filesel = gtk_file_selection_new(title);
-  setup_dialog(filesel, toplevel);
-  gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
+  /* Create the chooser */
+  filechoose = gtk_file_chooser_dialog_new(title, GTK_WINDOW(toplevel), action,
+      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+      action == GTK_FILE_CHOOSER_ACTION_SAVE ? GTK_STOCK_SAVE : GTK_STOCK_OPEN,
+      GTK_RESPONSE_OK, NULL);
+  setup_dialog(filechoose, toplevel);
+  gtk_window_set_position(GTK_WINDOW(filechoose), GTK_WIN_POS_MOUSE);
 
-  g_signal_connect(filesel, "response",
-                   G_CALLBACK(save_dialog_file_selection_callback), action);
+  g_signal_connect(filechoose, "response",
+                   G_CALLBACK(save_dialog_file_chooser_callback), cb);
 
   /* Display that dialog */
-  gtk_window_present(GTK_WINDOW(filesel));
+  gtk_window_present(GTK_WINDOW(filechoose));
 }
 
 /****************************************************************************
@@ -394,8 +398,9 @@ static void save_dialog_response_callback(GtkWidget *w, gint response,
 
   switch (response) {
   case SD_RES_BROWSE:
-    save_dialog_file_selection_popup(_("Select Location to Save"),
-                                     pdialog->action);
+    save_dialog_file_chooser_popup(_("Select Location to Save"),
+                                   GTK_FILE_CHOOSER_ACTION_SAVE,
+                                   pdialog->action);
     break;
   case SD_RES_DELETE:
     {
@@ -2751,8 +2756,9 @@ static void load_callback(void)
 **************************************************************************/
 static void load_browse_callback(GtkWidget *w, gpointer data)
 {
-  save_dialog_file_selection_popup(_("Choose Saved Game to Load"),
-                                   load_filename);
+  save_dialog_file_chooser_popup(_("Choose Saved Game to Load"),
+                                 GTK_FILE_CHOOSER_ACTION_OPEN,
+                                 load_filename);
 }
 
 /**************************************************************************
@@ -2893,7 +2899,9 @@ static void scenario_callback(void)
 **************************************************************************/
 static void scenario_browse_callback(GtkWidget *w, gpointer data)
 {
-  save_dialog_file_selection_popup(_("Choose a Scenario"), load_filename);
+  save_dialog_file_chooser_popup(_("Choose a Scenario"),
+                                 GTK_FILE_CHOOSER_ACTION_OPEN,
+                                 load_filename);
 }
 
 /**************************************************************************
