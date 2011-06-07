@@ -97,6 +97,7 @@ pkgdata_DATA = \
 		chinook.ruleset \
 		chola.ruleset \
 		chumash.ruleset \
+		chuvash.ruleset \
 		colombian.ruleset \
 		comanche.ruleset \
 		confederate.ruleset \

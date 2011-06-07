@@ -91,6 +91,7 @@ flag_files =				\
 		china.png		\
 		chola.png		\
 		chumash.png		\
+		chuvashia.png		\
 		clatsop.png		\
 		colombia.png		\
 		comanche.png		\
@@ -565,6 +566,7 @@ flag_files =				\
 		china-large.png		\
 		chola-large.png		\
 		chumash-large.png		\
+		chuvashia-large.png		\
 		clatsop-large.png		\
 		colombia-large.png		\
 		comanche-large.png		\
@@ -1041,6 +1043,7 @@ shield_files =					\
 		china-shield.png		\
 		chola-shield.png		\
 		chumash-shield.png		\
+		chuvashia-shield.png		\
 		clatsop-shield.png		\
 		colombia-shield.png		\
 		comanche-shield.png		\
@@ -1515,6 +1518,7 @@ shield_files =					\
 		china-shield-large.png		\
 		chola-shield-large.png		\
 		chumash-shield-large.png		\
+		chuvashia-shield-large.png		\
 		clatsop-shield-large.png		\
 		colombia-shield-large.png		\
 		comanche-shield-large.png		\
@@ -1991,6 +1995,7 @@ svg_files = 				\
 		china.svg		\
 		chola.svg		\
 		chumash.svg		\
+		chuvashia.svg		\
 		clatsop.svg		\
 		colombia.svg		\
 		comanche.svg		\

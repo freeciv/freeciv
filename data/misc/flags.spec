@@ -98,6 +98,7 @@ artists = "
    China		Stephen Silver
    Chola		Dan Cottrell and Daniel Markstedt
    Chumash		Daniel Markstedt
+   Chuvashia		Urmas (Wikimedia Commons)
    Clatsop		Euku (Wikimedia Commons)
    Colombia		Lauris Kaplinski
    Comanche		Zachary Harden
@@ -580,6 +581,7 @@ sprites =
 		"f.china", "flags/china"
 		"f.chola", "flags/chola"
 		"f.chumash", "flags/chumash"
+		"f.chuvashia", "flags/chuvashia"
 		"f.clatsop", "flags/clatsop"		; used by Chinook
 		"f.colombia", "flags/colombia"
 		"f.comanche", "flags/comanche"

@@ -34,8 +34,8 @@ init_buildings=""
 init_government="Despotism" 
 init_units="" 
 
-conflicts_with="tatar", "russian", "soviet" ;chuvash
-civilwar_nations="gokturk", "khazar", "mordvin", "tatar" ;chuvash
+conflicts_with="tatar", "russian", "soviet"
+civilwar_nations="gokturk", "khazar", "mordvin", "tatar", "chuvash"
 
 ;Cities names taken from http://www.s155239215.onlinehome.us/turkic/70_Dateline/KhazardatelineEn.htm
 
