@@ -148,7 +148,7 @@ AC_ARG_ENABLE(ipv6,
 esac], [ipv6=test])
 if test x$ipv6 != xno ; then
   enable_ipv6=yes
-  AC_CHECK_FUNCS([gethostbyname2 inet_pton inet_ntop getnameinfo],
+  AC_CHECK_FUNCS([getaddrinfo inet_pton inet_ntop getnameinfo],
 [], [enable_ipv6=no])
   if test x$enable_ipv6 = xyes ; then
     AC_MSG_CHECKING([for AF_INET6])

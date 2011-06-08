@@ -317,48 +317,43 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
 #ifdef IPV6_SUPPORT
   sock6 = &addr->saddr_in6;
 
-    if (!force_ipv4) {
-    addr->saddr.sa_family = AF_INET6;
-    sock6->sin6_flowinfo = 0;
-    sock6->sin6_scope_id = 0;
-    sock6->sin6_port = htons(port);
+  if (!force_ipv4) {
+    struct addrinfo hints, *res0;
+    int error;
+    char servname[8];
 
-    if (!name) {
-      sock6->sin6_addr = in6addr_any;
-      return TRUE;
-    }
+    /* Convert port to string for getaddrinfo() */
+    fc_snprintf(servname, sizeof(servname), "%d", port);
 
-    if (inet_pton(AF_INET6, name, &sock6->sin6_addr)) {
+    /* Use getaddrinfo() to lookup IPv6 addresses */
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET6;     /* request only IPv6 */
+    hints.ai_socktype = SOCK_DGRAM; /* any type that uses sin6_port */
+    hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+    error = getaddrinfo(name, servname, &hints, &res0);
+
+    if (error == 0) {
+      /* getaddrinfo() provides a linked list of addresses, but
+       * net_lookup_service() wants only one address.
+       *
+       * We handle this by copying the first address from the list,
+       * then freeing the list. */
+      memcpy(sock6, res0->ai_addr, MIN(sizeof(*sock6), res0->ai_addrlen));
+      freeaddrinfo(res0);
       return TRUE;
-    }
-    /* TODO: Replace gethostbyname2() with getaddrinfo() */
-    hp = gethostbyname2(name, AF_INET6);
-  } else
+    } /* else continue to IPv4 */
+  }
 #endif /* IPv6 support */
-  {
-    addr->saddr.sa_family = AF_INET;
-    sock4->sin_port = htons(port);
 
-    if (!name) {
-      sock4->sin_addr.s_addr = htonl(INADDR_ANY);
-      return TRUE;
-    }
+  /* IPv4 resolution */
+  addr->saddr.sa_family = AF_INET;
+  sock4->sin_port = htons(port);
+
+  if (!name) {
+    sock4->sin_addr.s_addr = htonl(INADDR_ANY);
+    return TRUE;
   }
 
-#ifdef IPV6_SUPPORT
-  if (force_ipv4 || !hp || hp->h_addrtype != AF_INET6) {
-    /* Try to fallback to IPv4 resolution */
-    if (!force_ipv4) {
-      log_debug("Falling back to IPv4");
-    }
-    hp = gethostbyname2(name, AF_INET);
-    if (!hp || hp->h_addrtype != AF_INET) {
-      return FALSE;
-    }
-    addr->saddr.sa_family = AF_INET;
-    sock4->sin_port = htons(port);
-  }
-#else  /* IPV6 support */
 #if defined(HAVE_INET_ATON)
   if (inet_aton(name, &sock4->sin_addr) != 0) {
     return TRUE;
@@ -372,17 +367,8 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
   if (!hp || hp->h_addrtype != AF_INET) {
     return FALSE;
   }
-#endif /* IPv6 support */
 
-#ifdef IPV6_SUPPORT
-  if (addr->saddr.sa_family == AF_INET6) {
-    memcpy(&sock6->sin6_addr, hp->h_addr, hp->h_length);
-  } else
-#endif /* IPv6 support */
-  {
-    memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
-  }
-
+  memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
   return TRUE;
 }
 
