@@ -17,17 +17,21 @@
 BUILDDIR=`dirname $0`
 EXENAME=freeciv-server@EXEEXT@
 
+if test "x$FREECIV_DATA_PATH" = "x" ; then
+  if test "x$FREECIV_PATH" = "x" ; then
+    FREECIV_DATA_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
+  else
+    FREECIV_DATA_PATH="${FREECIV_PATH}"
+  fi
+fi
+FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
+export FREECIV_DATA_PATH
+
 if test "x$FREECIV_PATH" = "x" ; then
   FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
 fi
 FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@"
 export FREECIV_PATH
-
-if test "x$FREECIV_DATA_PATH" = "x" ; then
-  FREECIV_DATA_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
-fi
-FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
-export FREECIV_DATA_PATH
 
 if test "x$FREECIV_SAVE_PATH" = "x" ; then
   FREECIV_SAVE_PATH=".@HOST_PATH_SEPARATOR@~/.freeciv/saves"
