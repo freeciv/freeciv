@@ -386,6 +386,7 @@ pkgdata_DATA = \
 		slavic.ruleset \
 		slovakian.ruleset \
 		slovenian.ruleset \
+		solomonislander.ruleset \
 		somali.ruleset \
 		songhai.ruleset \
 		sorbian.ruleset \

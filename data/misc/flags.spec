@@ -400,6 +400,7 @@ artists = "
    Slavic		J.M. Maalderink
    Slovakia		Lauris Kaplinski
    Slovenia		Matthew Gatto
+   Solomon Islands	SKopp (Wikimedia Commons)
    Somalia		J.M. Maalderink
    Songhai		Daniel Markstedt
    South Africa		Farrel Lifson
@@ -881,6 +882,7 @@ sprites =
 		"f.slavic", "flags/slavic"
 		"f.slovakia", "flags/slovakia"
 		"f.slovenia", "flags/slovenia"
+		"f.solomon_islands", "flags/solomon_islands"
 		"f.somalia", "flags/somalia"
 		"f.songhai", "flags/songhai"
 		"f.south_africa", "flags/south_africa"
