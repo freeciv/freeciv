@@ -225,6 +225,7 @@ AC_ARG_ENABLE(client,
 [client=auto])
 
 gui_gtk2=no
+gui_gtk3=no
 gui_sdl=no
 gui_xaw=no
 gui_qt=no
@@ -241,11 +242,18 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   elif test "x$gui" = "xall" ; then
     client=all
   else
-    if test "x$gui" = "xgtk"    ||
-       test "x$gui" = "xgtk2"   ||
+    if test "x$gui" = "xgtk2"   ||
        test "x$gui" = "xgtk2.0" ||
        test "x$gui" = "xgtk20"  ||
        test "x$gui" = "xgtk-2.0" ; then
+      gui_gtk2=yes
+    elif test "x$gui" = "xgtk3"   ||
+         test "x$gui" = "xgtk3.0" ||
+         test "x$gui" = "xgtk30"  ||
+         test "x$gui" = "xgtk-3.0" ; then
+      gui_gtk3=yes
+    elif test "x$gui" = "xgtk" ; then
+      AC_MSG_WARN([for requested client 'gtk' enabled gtk2-client, but that default may change in the future])
       gui_gtk2=yes
     else
       if test ! -d "${srcdir}/client/gui-$gui" ; then
@@ -812,6 +820,7 @@ fi
 
 if test "x$client" = "xall" ; then
   if test "x$gui_gtk2" = "xyes" ||
+     test "x$gui_gtk3" = "xyes" ||
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_xaw" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
@@ -823,6 +832,10 @@ if test "x$client" = "xall" ; then
   else
     client=no
   fi
+fi
+
+if test "x$gui_gtk3" = "xyes" && test "x$gui_gtk2" != "xyes" ; then
+  AC_MSG_ERROR([Currently you cannot enable gtk3-client without enabling gtk2-client])
 fi
 
 dnl Check for GGZ
@@ -839,12 +852,19 @@ fi
 FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
-dnl freeciv-modpack has same requirements as gtk-client
+dnl freeciv-modpack has same requirements as gtk2-client
 AM_CONDITIONAL([MODINST], [test "x$gui_gtk2" = "xyes"])
+
+GUI_gtk3_CFLAGS="$GUI_gtk2_CFLAGS"
+GUI_gtk3_LIBS="$GUI_gtk2_LIBS"
+GUI_gtk3_LDFLAGS="$GUI_gtk2_LDFLAGS"
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
 AC_SUBST([GUI_gtk2_LDFLAGS])
+AC_SUBST([GUI_gtk3_CFLAGS])
+AC_SUBST([GUI_gtk3_LIBS])
+AC_SUBST([GUI_gtk3_LDFLAGS])
 AC_SUBST([GUI_sdl_CFLAGS])
 AC_SUBST([GUI_sdl_LIBS])
 AC_SUBST([GUI_sdl_LDFLAGS])
@@ -877,6 +897,7 @@ AC_SUBST([HOST_PATH_SEPARATOR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
@@ -1228,6 +1249,7 @@ AC_CONFIG_FILES([Makefile
 	  client/include/Makefile
 	  client/gui-sdl/Makefile
 	  client/gui-gtk-2.0/Makefile
+	  client/gui-gtk-3.0/Makefile
 	  client/gui-xaw/Makefile
           client/gui-qt/Makefile
 	  client/gui-win32/Makefile

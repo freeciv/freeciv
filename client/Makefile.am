@@ -13,6 +13,11 @@ GUI_SUBDIRS += gui-gtk-2.0
 desktopfile_DATA = \
 	freeciv.desktop
 endif
+if CLIENT_GUI_GTK_3_0
+GUI_SUBDIRS += gui-gtk-3.0
+desktopfile_DATA = \
+	freeciv.desktop
+endif
 if CLIENT_GUI_XAW
 GUI_SUBDIRS += gui-xaw
 endif
@@ -157,6 +162,22 @@ freeciv_gtk2_LDADD = \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_gtk2_LIBS)
+endif
+
+if CLIENT_GUI_GTK_3_0
+bin_PROGRAMS += freeciv-gtk3
+noinst_LTLIBRARIES += libfcgui-gtk3.la
+libfcgui_gtk3_la_SOURCES = $(freeciv_client_src)
+libfcgui_gtk3_la_LIBADD = gui-gtk-3.0/libgui-gtk3.la agents/libagents.la
+freeciv_gtk3_SOURCES = dummy.c
+freeciv_gtk3_LDFLAGS = $(GUI_gtk3_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_gtk3_LDADD = \
+ $(SOUND_LIBS) \
+ libfcgui-gtk3.la \
+ $(top_builddir)/common/libfreeciv.la \
+ $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
+ $(MAPIMG_WAND_LIBS) \
+ $(GUI_gtk3_LIBS)
 endif
 
 if CLIENT_GUI_SDL
