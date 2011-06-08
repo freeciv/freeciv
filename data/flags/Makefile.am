@@ -361,6 +361,7 @@ flag_files =				\
 		saka.png		\
 		sakha.png		\
 		salish.png		\
+		samoa.png		\
 		samogitia.png		\
 		san_marino.png		\
 		sapmi.png		\
@@ -837,6 +838,7 @@ flag_files =				\
 		saka-large.png			\
 		sakha-large.png		\
 		salish-large.png		\
+		samoa-large.png			\
 		samogitia-large.png		\
 		san_marino-large.png		\
 		sapmi-large.png		\
@@ -1315,6 +1317,7 @@ shield_files =					\
 		saka-shield.png			\
 		sakha-shield.png		\
 		salish-shield.png		\
+		samoa-shield.png		\
 		samogitia-shield.png		\
 		san_marino-shield.png		\
 		sapmi-shield.png		\
@@ -1791,6 +1794,7 @@ shield_files =					\
 		saka-shield-large.png			\
 		sakha-shield-large.png		\
 		salish-shield-large.png			\
+		samoa-shield-large.png			\
 		samogitia-shield-large.png		\
 		san_marino-shield-large.png		\
 		sapmi-shield-large.png		\
@@ -2268,6 +2272,7 @@ svg_files = 				\
 		saka.svg		\
 		sakha.svg		\
 		salish.svg		\
+		samoa.svg		\
 		samogitia.svg		\
 		san_marino.svg		\
 		sapmi.svg		\

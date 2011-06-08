@@ -370,6 +370,7 @@ artists = "
    Saka			Madden, J.M. Maalderink and Andrzej G.
    Sakha		Zachary Harden
    Salish		kubble (Open Clip Art)
+   Samoa		Vzb83 (Wikimedia Commons)
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    San Marino		Tobias Jakobs
    Sapmi		Dean Tersigni
@@ -853,6 +854,7 @@ sprites =
 		"f.saka", "flags/saka"
 		"f.sakha", "flags/sakha"
 		"f.salish", "flags/salish"
+		"f.samoa", "flags/samoa"
 		"f.samogitia", "flags/samogitia"
 		"f.san_marino", "flags/san_marino"
 		"f.sapmi", "flags/sapmi"

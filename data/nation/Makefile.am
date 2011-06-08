@@ -358,6 +358,7 @@ pkgdata_DATA = \
 		salvadoran.ruleset \
 		sami.ruleset \
 		sammarinese.ruleset \
+		samoan.ruleset \
 		samogitian.ruleset \
 		sardinian.ruleset \
 		sarmatian.ruleset \
