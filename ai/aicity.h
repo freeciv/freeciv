@@ -43,6 +43,8 @@ struct ai_invasion {
 };
 
 struct ai_city {
+  int worth; /* Cache city worth here, sum of all weighted incomes */
+
   int building_turn;            /* only recalculate every Nth turn */
   int building_wait;            /* for weighting values */
 #define BUILDING_WAIT_MINIMUM (1)
@@ -98,5 +100,7 @@ void dont_want_tech_obsoleting_impr(struct player *pplayer,
                                     const struct city *pcity,
                                     const struct impr_type *pimprove,
                                     int building_want);
+
+void dai_build_adv_adjust(struct player *pplayer, struct city *wonder_city);
 
 #endif  /* FC__AICITY_H */

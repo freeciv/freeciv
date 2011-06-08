@@ -84,8 +84,7 @@ bool fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.city_save = ai_city_save;
   ai->funcs.city_load = ai_city_load;
   ai->funcs.choose_building = ai_build_adv_override;
-  ai->funcs.impr_want = want_techs_for_improvement_effect;
-  ai->funcs.impr_keep_want = dont_want_tech_obsoleting_impr;
+  ai->funcs.build_adv_adjust_want = dai_build_adv_adjust;
 
   ai->funcs.units_ruleset_init = ai_units_ruleset_init;
 

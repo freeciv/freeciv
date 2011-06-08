@@ -30,9 +30,6 @@ struct adv_city {
 
   int downtown;                 /* distance from neighbours, for locating
                                    wonders wisely */
-
-  int worth; /* Cache city worth here, sum of all weighted incomes */
-
 };
 
 void adv_city_alloc(struct city *pcity);
