@@ -1831,15 +1831,15 @@ static struct player *split_player(struct player *pplayer)
   }
   server_player_init(cplayer, TRUE, TRUE);
 
-  /* Send information about the used player slot to all connections. */
-  send_player_info_c(cplayer, NULL);
-
   /* Rebel will always be an AI player */
   player_set_nation(cplayer, pick_a_nation
       (nation_of_player(pplayer)->server.civilwar_nations,
        TRUE, FALSE, NOT_A_BARBARIAN));
   server_player_set_name(cplayer,
                          pick_random_player_name(nation_of_player(cplayer)));
+
+  /* Send information about the used player slot to all connections. */
+  send_player_info_c(cplayer, NULL);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
