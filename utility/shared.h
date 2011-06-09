@@ -79,7 +79,6 @@
 #define FC_PTR_TO_UINT(p) ((unsigned int) (unsigned long) (p))
 #define FC_SIZE_TO_PTR(s) ((void *) (unsigned long) (s))
 #define FC_PTR_TO_SIZE(p) ((size_t) (unsigned long) (p))
-#define FC_ENUM_PTR(e) ((int *) (void *) (&e))
 
 /****************************************************************************
   Used to initialize an array 'a' of size 'size' with value 'val' in each

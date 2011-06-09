@@ -816,8 +816,8 @@ static bool ysize_callback(int value, struct connection *caller,
                  short_help, extra_help, func_validate, func_action,        \
                  func_name, _default)                                       \
   { name, sclass, to_client, short_help, extra_help, SSET_ENUM,             \
-    scateg, slevel,                                                         \
-     { .enumerator = { FC_ENUM_PTR(value), _default, func_validate,         \
+      scateg, slevel,                                                       \
+      { .enumerator = { (int *) &value, _default, func_validate,            \
        (val_name_func_t) func_name, 0 }}, func_action, FALSE},
 
 #define GEN_BITWISE(name, value, sclass, scateg, slevel, to_client,         \

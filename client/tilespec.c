@@ -1383,6 +1383,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   enum direction8 dir;
   const int spl = strlen(TILE_SECTION_PREFIX);
   struct tileset *t = NULL;
+  int ei1, ei2;
 
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
@@ -1507,14 +1508,17 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   if (!secfile_lookup_int(file, &t->roadstyle, "tilespec.roadstyle")
       /* FIXME: use specenum to load this. */
-      || !secfile_lookup_int(file, FC_ENUM_PTR(t->fogstyle),
+      || !secfile_lookup_int(file, &ei1,
                              "tilespec.fogstyle")
       /* FIXME: use specenum to load this. */
-      || !secfile_lookup_int(file, FC_ENUM_PTR(t->darkness_style),
+      || !secfile_lookup_int(file, &ei2,
                              "tilespec.darkness_style")) {
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;
   }
+  t->fogstyle = ei1;
+  t->darkness_style = ei2;
+
   if (t->darkness_style < DARKNESS_NONE
       || t->darkness_style > DARKNESS_CORNER
       || (t->darkness_style == DARKNESS_ISORECT

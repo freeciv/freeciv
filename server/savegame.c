@@ -1911,6 +1911,7 @@ static void player_load_units(struct player *plr, int plrno,
     struct base_type *pbase = NULL;
     int base;
     struct unit_ai *unit_data;
+    int ei;
 
     type_name = secfile_lookup_str(file, "player%d.u%d.type_by_name",
                                    plrno, i);
@@ -1967,9 +1968,10 @@ static void player_load_units(struct player *plr, int plrno,
     fc_assert_exit_msg(secfile_lookup_int(file, &punit->fuel,
                                           "player%d.u%d.fuel", plrno, i),
                        "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file, FC_ENUM_PTR(activity),
+    fc_assert_exit_msg(secfile_lookup_int(file, &ei,
                                           "player%d.u%d.activity", plrno, i),
                        "%s", secfile_error());
+    activity = ei;
 
     if ((pcity = game_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
@@ -2533,12 +2535,14 @@ static void player_load_main(struct player *plr, int plrno,
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];
     const char *st;
+    int ei;
     
     fc_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
-    fc_assert_exit_msg(secfile_lookup_int(file, FC_ENUM_PTR(ship->state),
+    fc_assert_exit_msg(secfile_lookup_int(file, &ei,
                                           "%s.state", prefix),
                        "%s", secfile_error());
+    ship->state = ei;
 
     if (ship->state != SSHIP_NONE) {
       fc_assert_exit_msg(secfile_lookup_int(file, &ship->structurals,
@@ -4524,7 +4528,10 @@ static void game_load_internal(struct section_file *file)
           OLD_S_S_OVER = 3
         } saved_state;
 
-        if (entry_int_get(pentry, FC_ENUM_PTR(saved_state))) {
+        int ei;
+
+        if (entry_int_get(pentry, &ei)) {
+          saved_state = ei;
           switch (saved_state) {
           case OLD_S_S_INITIAL:
           case OLD_S_S_GENERATING_WAITING:
@@ -4962,6 +4969,8 @@ static void game_load_internal(struct section_file *file)
 
   {
     {
+      int ei;
+
       {
 	if (!has_capability("startunits", savefile_options)) {
           int settlers = secfile_lookup_int_default(file, 0, "game.settlers");
@@ -5005,9 +5014,10 @@ static void game_load_internal(struct section_file *file)
                                           "map.huts"),
                        "%s", secfile_error());
     fc_assert_exit_msg(secfile_lookup_int(file,
-                                          FC_ENUM_PTR(map.server.generator),
+                                          &ei,
                                           "map.generator"),
                        "%s", secfile_error());
+    map.server.generator = ei;
     fc_assert_exit_msg(secfile_lookup_int(file, &map.server.seed,
                                           "map.seed"),
                        "%s", secfile_error());
