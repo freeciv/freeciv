@@ -103,4 +103,6 @@ void dont_want_tech_obsoleting_impr(struct player *pplayer,
 
 void dai_build_adv_adjust(struct player *pplayer, struct city *wonder_city);
 
+void dai_consider_wonder_city(struct city *pcity, bool *result);
+
 #endif  /* FC__AICITY_H */

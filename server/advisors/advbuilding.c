@@ -257,9 +257,17 @@ void building_advisor(struct player *pplayer)
       Continent_id place = tile_continent(pcity->tile);
       struct adv_city *city_data = pcity->server.adv;
 
-      if (def_ai_city_data(pcity)->grave_danger > 0) {
-        continue;
+      if (pplayer->ai_controlled) {
+        bool result = TRUE;
+
+        /* AI has opportunity to say that this city cannot be
+         * wonder city */
+        CALL_PLR_AI_FUNC(consider_wonder_city, pplayer, pcity, &result);
+        if (!result) {
+          continue;
+        }
       }
+
       if (is_ocean_near_tile(pcity->tile)) {
         value /= 2;
       }

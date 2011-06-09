@@ -1977,3 +1977,15 @@ void dai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
     }
   } city_list_iterate_end;
 }
+
+/************************************************************************** 
+  Is it ok for advisor code to consider given city as wonder city?
+**************************************************************************/
+void dai_consider_wonder_city(struct city *pcity, bool *result)
+{
+  if (def_ai_city_data(pcity)->grave_danger > 0) {
+    *result = FALSE;
+  } else {
+    *result = TRUE;
+  }
+}

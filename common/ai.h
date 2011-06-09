@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Jun.08"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Jun.09"
 
 #define FC_AI_LAST 3
 
@@ -115,6 +115,7 @@ struct ai_type
                                    enum danger_consideration *result);
     void (*consider_tile_dangerous)(struct tile *ptile, struct unit *punit,
                                     enum danger_consideration *result);
+    void (*consider_wonder_city)(struct city *pcity, bool *result);
   } funcs;
 };
 
