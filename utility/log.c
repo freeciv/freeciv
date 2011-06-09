@@ -74,7 +74,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
 {
   const char *c;
   int n = 0;                    /* number of filenames */
-  enum log_level level;
+  int level;
 #ifdef DEBUG
   const char *tok;
   int i;
@@ -90,7 +90,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   }
   if (n == 0) {
     /* Global log level. */
-    if (!str_to_int(level_str, FC_ENUM_PTR(level))) {
+    if (!str_to_int(level_str, &level)) {
       fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
       return FALSE;
     }

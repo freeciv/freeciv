@@ -3411,13 +3411,15 @@ static void sg_load_player_main(struct loaddata *loading,
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];
     const char *st;
+    int ei;
 
     fc_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
     sg_failure_ret(secfile_lookup_int(loading->file,
-                                      FC_ENUM_PTR(ship->state),
+                                      &ei,
                                       "%s.state", prefix),
                    "%s", secfile_error());
+    ship->state = ei;
 
     if (ship->state != SSHIP_NONE) {
       sg_failure_ret(secfile_lookup_int(loading->file, &ship->structurals,
@@ -4261,6 +4263,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   struct base_type *pbase = NULL;
   struct tile *ptile;
   int base;
+  int ei;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -4283,9 +4286,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->fuel,
                                      "%s.fuel", unitstr), FALSE,
                   "%s", secfile_error());
-  sg_warn_ret_val(secfile_lookup_int(loading->file, FC_ENUM_PTR(activity),
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &ei,
                                      "%s.activity", unitstr), FALSE,
                   "%s", secfile_error());
+  activity = ei;
 
   punit->server.birth_turn
     = secfile_lookup_int_default(loading->file, game.info.turn,
