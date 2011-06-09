@@ -19,7 +19,7 @@ city symbol) of the mini map. This optimization tries to maximize
 mostly the science output; but it doesn't care about disorder.
 
 The new City Management Agent goes far beyond this old form of
-optimizing. First, it performs this task everytime anything changes
+optimizing. First, it performs this task every time anything changes
 with the city. If the city grows or shrinks, troops go in or out,
 tiles get irrigation or mining, or are occupied by an enemy, the CMA
 becomes active. Second, it supports all kinds of optimizing, like
@@ -53,7 +53,7 @@ e.g. by setting the surplus constraint to zero; and you can allow the
 city to lose gold by setting the gold surplus to -3 e.g., and urge
 them to make at least 5 shields per round by setting the production
 surplus to 5. The most powerful constraint, though, is the Celebrate
-contraint, which makes the city celebrate at once (which usually takes
+constraint, which makes the city celebrate at once (which usually takes
 effect the round after you change it).
 
 It is obvious that the CMA can't fulfill all these constraints in
@@ -108,7 +108,7 @@ fulfill with a higher tax rate than a lower one. You should always
 consider to change these rates, when you going to change the CMA
 settings for the most of your cities.
 
-Hint: To avoid acidentally releasing your cities, when you change the
+Hint: To avoid accidentally releasing your cities, when you change the
 rates, it is best to do so from within the tax dialog rather than from
 the rates display in the main window.
 
@@ -128,12 +128,12 @@ want to have CMA-controlled and "handmade" cities, they probably
 should be on different islands.
 
 There are several situations where the CMA can't fulfill the
-requirements just temporarely, e.g. when you move a ship from one city
+requirements just temporarily, e.g. when you move a ship from one city
 to another, or when an enemy walks through your country. The CMA
 passes back control in these cases, and you have to reenable it
 manually. A general approach to prevent this might be, to set the
 minimal surpluses as low as possible (-20). Of course you must be
-careful with the food and shield surplusses.
+careful with the food and shield surpluses.
 
 While the CMA does a really good job for a single city, no tile will
 ever be released for the good of another city. Also, the CMA'd cities
@@ -150,9 +150,9 @@ agent. Choosing "Save Settings" from the "Game" menu will not only
 save your general options and message options, but it will save any
 changes you made to you CMA presets as well.
 
-The format for the options file (usually ~/.civclientrc) is as follows
-(in case you which to change these presets manually, i.e. with a text
-editor).
+The format for the options file (usually ~/.freeciv-client-rc-X.Y , where X.Y
+is the version of freeciv in use) is as follows (in case you which to change
+these presets manually, i.e. with a text editor).
 
 Under the heading [cma], is a "number_of_presets". This should be set
 to the number of presets that are present in the options file. If you
