@@ -2227,7 +2227,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
     if (pcity
 	&& (NULL == client.conn.playing
 	    || city_owner(pcity) == client.conn.playing)
-	&& city_can_work_tile(pcity, tile1)) {
+	&& client_city_can_work_tile(pcity, tile1)) {
       /*
        * Note, we must explicitly check if the tile is workable (with
        * city_can_work_tile() above), since it is possible that another
