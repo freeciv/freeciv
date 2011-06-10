@@ -1096,6 +1096,14 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     /* no sanity check here as the city is not refreshed! */
   }
 
+  if (city_remains) {
+    /* Send city with updated owner information to giver and to everyone
+     * having shared vision pact with him/her before (s)he may
+     * lose vision to it. When we later send info to everybody seeing the city,
+     * (s)he may not be included. */
+    send_city_info(NULL, pcity);
+  }
+
   /* Remove the sight points from the giver. */
   vision_clear_sight(old_vision);
   vision_free(old_vision);
