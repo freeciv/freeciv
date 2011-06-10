@@ -106,59 +106,6 @@ static void calculate_city_clusters(struct player *pplayer)
 }
 
 /**************************************************************************
-  Calculate walking distances to wonder city from nearby cities.
-**************************************************************************/
-static void calculate_wonder_helpers(struct player *pplayer, 
-                                     struct adv_data *ai)
-{
-  struct pf_map *pfm;
-  struct pf_parameter parameter;
-  struct unit_type *punittype;
-  struct unit *ghost;
-  int maxrange;
-  struct city *wonder_city = game_city_by_number(ai->wonder_city);
-
-  city_list_iterate(pplayer->cities, acity) {
-    def_ai_city_data(acity)->distance_to_wonder_city = 0; /* unavailable */
-  } city_list_iterate_end;
-
-  if (wonder_city == NULL) {
-    return;
-  }
-  if (city_owner(wonder_city) != pplayer) {
-    ai->wonder_city = 0;
-    return;
-  }
-
-  punittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
-  if (!punittype) {
-    return;
-  }
-  ghost = unit_virtual_create(pplayer, wonder_city, punittype, 0);
-  maxrange = unit_move_rate(ghost) * 7;
-
-  pft_fill_unit_parameter(&parameter, ghost);
-  pfm = pf_map_new(&parameter);
-
-  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
-    struct city *acity = tile_city(ptile);
-
-    if (move_cost > maxrange) {
-      break;
-    }
-    if (!acity) {
-      continue;
-    }
-    if (city_owner(acity) == pplayer) {
-      def_ai_city_data(acity)->distance_to_wonder_city = move_cost;
-    }
-  } pf_map_move_costs_iterate_end;
-
-  pf_map_destroy(pfm);
-  unit_virtual_destroy(ghost);
-}
-
-/**************************************************************************
   Set building wants for human player 
 **************************************************************************/
 static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
@@ -223,12 +170,12 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 **************************************************************************/
 void building_advisor(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
-  struct city *wonder_city = game_city_by_number(ai->wonder_city);
+  struct adv_data *adv = adv_data_get(pplayer);
+  struct city *wonder_city = game_city_by_number(adv->wonder_city);
 
   if (wonder_city && city_owner(wonder_city) != pplayer) {
     /* We lost it to the enemy! */
-    ai->wonder_city = 0;
+    adv->wonder_city = 0;
     wonder_city = NULL;
   }
 
@@ -276,16 +223,16 @@ void building_advisor(struct player *pplayer)
        * continent. */
       if (first_role_unit_for_player(pplayer, F_HELP_WONDER)) {
         value += city_data->downtown;
-        value += ai->stats.cities[place] / 8;
+        value += adv->stats.cities[place] / 8;
       }
-      if (ai->threats.continent[place] > 0) {
+      if (adv->threats.continent[place] > 0) {
         /* We have threatening neighbours: -25% */
         value -= value / 4;
       }
       /* Require that there is at least some neighbors for wonder helpers,
        * if ruleset supports it. */
       if (value > best_candidate_value
-          && (!has_help || ai->stats.cities[place] > 5)
+          && (!has_help || adv->stats.cities[place] > 5)
           && (!has_help || city_data->downtown > 3)) {
         best_candidate = pcity;
         best_candidate_value = value;
@@ -293,13 +240,13 @@ void building_advisor(struct player *pplayer)
     } city_list_iterate_end;
     if (best_candidate) {
       CITY_LOG(LOG_DEBUG, best_candidate, "chosen as wonder-city!");
-      ai->wonder_city = best_candidate->id;
+      adv->wonder_city = best_candidate->id;
       wonder_city = best_candidate;
     }
   }
-  calculate_wonder_helpers(pplayer, ai);
 
   if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(build_adv_prepare, pplayer, pplayer, adv);
     CALL_PLR_AI_FUNC(build_adv_adjust_want, pplayer, pplayer, wonder_city);
   } else {
     ba_human_wants(pplayer, wonder_city);

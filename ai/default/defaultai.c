@@ -28,6 +28,7 @@
 
 /* ai */
 #include "advdiplomacy.h"
+#include "advdomestic.h"
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -84,6 +85,7 @@ bool fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.city_save = ai_city_save;
   ai->funcs.city_load = ai_city_load;
   ai->funcs.choose_building = ai_build_adv_override;
+  ai->funcs.build_adv_prepare = dai_wonder_city_distance;
   ai->funcs.build_adv_adjust_want = dai_build_adv_adjust;
 
   ai->funcs.units_ruleset_init = ai_units_ruleset_init;

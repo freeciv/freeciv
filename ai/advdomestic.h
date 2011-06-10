@@ -18,4 +18,7 @@
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice);
 
+void dai_wonder_city_distance(struct player *pplayer, 
+                              struct adv_data *adv);
+
 #endif  /* FC__ADVDOMESTIC_H */

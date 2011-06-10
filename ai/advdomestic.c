@@ -27,9 +27,13 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "movement.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"
+
+/* common/aicore */
+#include "pf_tools.h"
 
 /* server */
 #include "citytools.h"
@@ -381,4 +385,53 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   }
 
   return;
+}
+
+/**************************************************************************
+  Calculate walking distances to wonder city from nearby cities.
+**************************************************************************/
+void dai_wonder_city_distance(struct player *pplayer, 
+                              struct adv_data *adv)
+{
+  struct pf_map *pfm;
+  struct pf_parameter parameter;
+  struct unit_type *punittype;
+  struct unit *ghost;
+  int maxrange;
+  struct city *wonder_city = game_city_by_number(adv->wonder_city);
+
+  city_list_iterate(pplayer->cities, acity) {
+    def_ai_city_data(acity)->distance_to_wonder_city = 0; /* unavailable */
+  } city_list_iterate_end;
+
+  if (wonder_city == NULL) {
+    return;
+  }
+
+  punittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
+  if (!punittype) {
+    return;
+  }
+  ghost = unit_virtual_create(pplayer, wonder_city, punittype, 0);
+  maxrange = unit_move_rate(ghost) * 7;
+
+  pft_fill_unit_parameter(&parameter, ghost);
+  pfm = pf_map_new(&parameter);
+
+  pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
+    struct city *acity = tile_city(ptile);
+
+    if (move_cost > maxrange) {
+      break;
+    }
+    if (!acity) {
+      continue;
+    }
+    if (city_owner(acity) == pplayer) {
+      def_ai_city_data(acity)->distance_to_wonder_city = move_cost;
+    }
+  } pf_map_move_costs_iterate_end;
+
+  pf_map_destroy(pfm);
+  unit_virtual_destroy(ghost);
 }
