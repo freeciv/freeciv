@@ -20,6 +20,7 @@ Updating from 2.3 to 2.4
 * Support for loadable AI modules optionally built in
 * Development of new qt-client started. It can be built with --enable-client=qt
 * libcurl is new dependency
+* ftwl-client has been removed from distribution
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

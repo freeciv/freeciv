@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = ftwl
-
 noinst_LTLIBRARIES = libcivutility.la
 
 libcivutility_la_SOURCES = \

@@ -217,10 +217,10 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk/sdl/xaw/qt/win32/ftwl/stub]
+[  --enable-client[=auto/all/gtk/sdl/xaw/qt/win32/stub]
                           clients to compile [[auto]] (or list for multiple)
                           maintained clients: gtk/sdl/xaw/stub
-                          unmaintained clients: qt/win32/ftwl],
+                          unmaintained clients: qt/win32],
 [clients=${enableval}],
 [client=auto])
 
@@ -230,7 +230,6 @@ gui_sdl=no
 gui_xaw=no
 gui_qt=no
 gui_win32=no
-gui_ftwl=no
 gui_beos=no
 gui_stub=no
 
@@ -264,25 +263,6 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
     client=yes
   fi
 done
-
-dnl You MUST build ftwl to use the ftwl client
-AC_ARG_ENABLE(ftwl,
-[  --enable-ftwl[=no/x11/sdl/opengl]
-                          compile ftwl [default=no]],
-[case "${enableval}" in
-  x11)	  ftwl=x11 ;;
-  sdl)    ftwl=sdl ;;
-  opengl) ftwl=opengl ;;
-  *)	  AC_MSG_ERROR(bad value ${enableval} for --enable-ftwl) ;;
-esac], [ftwl=no])
-AM_CONDITIONAL(FTWL, test x$ftwl != xno)
-if test "x$ftwl" != "xno" ; then
-  PKG_PROG_PKG_CONFIG
-  PKG_CHECK_MODULES([CAIRO], [cairo],,
-    [AC_MSG_ERROR([--enable-ftwl requires cairo])])
-  FTWL_CFLAGS="$FTWL_CFLAGS $CAIRO_CFLAGS"
-  FTWL_LIBS="$FTWL_LIBS $CAIRO_LIBS"
-fi
 
 AC_ARG_WITH(xaw,
 [  --with-xaw              use the Xaw widget set for the xaw client],
@@ -678,23 +658,6 @@ UTILITY_LIBS="${UTILITY_LIBS} -llzma"])])
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
 
-dnl Check and compile ftwl
-if test "$ftwl" = x11 ; then
-     FTWL_CFLAGS="$FTWL_CFLAGS "`freetype-config --cflags`
-     FTWL_LIBS="$FTWL_LIBS -L/usr/X11R6/lib -lX11 -lpng "`freetype-config --libs`
-fi
-
-if test "$ftwl" = sdl ; then
-     FTWL_CFLAGS="$FTWL_CFLAGS "`sdl-config --cflags`" "`freetype-config --cflags`
-     FTWL_LIBS="$FTWL_LIBS "`sdl-config --libs`" -lpng "`freetype-config --libs`
-     AC_DEFINE(SDL, 1, [SDL is used])
-fi
-
-if test "$ftwl" = opengl ; then
-     FTWL_CFLAGS="$FTWL_CFLAGS "`sdl-config --cflags`" "`freetype-config --cflags`
-     FTWL_LIBS="$FTWL_LIBS "`sdl-config --libs`" -lpng "`freetype-config --libs -lGL -lGLU`
-fi
-
 dnl Check thread implementation
 AC_MSG_CHECKING([for threads implementation])
 thread_impl=none
@@ -752,25 +715,6 @@ if test "x$client" != "xno"; then
   dnl QT-specific overrides
   FC_QT_CLIENT
 
-  if test "x$gui_ftwl" = "xyes" || test "x$client" = "xall" ||
-     test "x$client" = "xauto" ; then
-    AC_MSG_CHECKING([will compile gui-ftwl])
-    if test "x$ftwl" = "xno" ; then
-      AC_MSG_RESULT([no])
-      if test "x$gui_ftwl" = "xyes" ; then
-        AC_MSG_ERROR(You must use --enable-ftwl to compile the ftwl client)
-      fi
-    else
-      AC_MSG_RESULT([yes])
-      gui_ftwl=yes
-      if test "x$client" = "xauto" ; then
-        client=yes
-      fi
-      GUI_ftwl_CFLAGS="$GUI_ftwl_CFLAGS $FTWL_CFLAGS"
-      GUI_ftwl_LIBS="$GUI_ftwl_LIBS $FTWL_LIBS"
-    fi
-  fi
-
   dnl BeOS-specific overrides
   if test "x$gui_beos" = "xyes" || test "x$client" = "xall"
      test "x$client" = "xauto" ; then
@@ -824,7 +768,6 @@ if test "x$client" = "xall" ; then
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_xaw" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
-     test "x$gui_ftwl" = "xyes" ||
      test "x$gui_win32" = "xyes" ||
      test "x$gui_beos" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
@@ -876,9 +819,6 @@ AC_SUBST([GUI_qt_CFLAGS])
 AC_SUBST([GUI_qt_CXXFLAGS])
 AC_SUBST([GUI_qt_LIBS])
 AC_SUBST([GUI_qt_LDFLAGS])
-AC_SUBST([GUI_ftwl_CFLAGS])
-AC_SUBST([GUI_ftwl_LIBS])
-AC_SUBST([GUI_ftwl_LDFLAGS])
 AC_SUBST([GUI_win32_CFLAGS])
 AC_SUBST([GUI_win32_LIBS])
 AC_SUBST([GUI_win32_LDFLAGS])
@@ -890,7 +830,6 @@ AC_SUBST([GUI_beos_LIBS])
 AC_SUBST([GUI_beos_LDFLAGS])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
-AC_SUBST([FTWL_CFLAGS])
 AC_SUBST([VERSION_WITHOUT_LABEL])
 AC_SUBST([VERSION_LABEL])
 AC_SUBST([HOST_PATH_SEPARATOR])
@@ -902,12 +841,7 @@ AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_WIN32, test "x$gui_win32" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_FTWL, test "x$gui_ftwl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "x$gui_beos" = "xyes")
-AM_CONDITIONAL(FTWL, test "$ftwl" != "no")
-AM_CONDITIONAL(FTWL_X11, test "$ftwl" = "x11")
-AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
-AM_CONDITIONAL(FTWL_OPENGL, test "$ftwl" = "opengl")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
 dnl Additional client libraires:
@@ -1226,7 +1160,6 @@ AC_CONFIG_FILES([Makefile
 	  data/wonders/Makefile
 	  data/icons/Makefile
 	  utility/Makefile
-	  utility/ftwl/Makefile
 	  dependencies/Makefile
 	  dependencies/lua-5.1/Makefile
           dependencies/lua-5.1/src/Makefile
@@ -1253,7 +1186,6 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-xaw/Makefile
           client/gui-qt/Makefile
 	  client/gui-win32/Makefile
-	  client/gui-ftwl/Makefile
 	  client/gui-stub/Makefile
 	  server/Makefile
           server/advisors/Makefile
@@ -1339,7 +1271,6 @@ AC_MSG_NOTICE([
   Not maintained client frontends:
   (no guarantee that they even compile)
     Win32:   $gui_win32
-    FTWL:    $gui_ftwl
 
   == Server ==
   Build freeciv server:  $server

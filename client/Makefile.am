@@ -30,9 +30,6 @@ endif
 if CLIENT_GUI_WIN32
 GUI_SUBDIRS += gui-win32
 endif
-if CLIENT_GUI_FTWL
-GUI_SUBDIRS += gui-ftwl
-endif
 
 ALL_AUDIO_SDL_FILES=audio_sdl.c audio_sdl.h
 
@@ -224,22 +221,6 @@ freeciv_qt_LDADD = \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_qt_LIBS)
-endif
-
-if CLIENT_GUI_FTWL
-bin_PROGRAMS += freeciv-ftwl
-noinst_LTLIBRARIES += libfcgui-ftwl.la
-libfcgui_ftwl_la_SOURCES = $(freeciv_client_src)
-libfcgui_ftwl_la_LIBADD = gui-ftwl/libgui-ftwl.la agents/libagents.la
-freeciv_ftwl_SOURCES = dummy.c
-freeciv_ftwl_LDFLAGS = $(GUI_ftwl_LDFLAGS) $(GGZMOD_LDFLAGS)
-freeciv_ftwl_LDADD = \
- libfcgui-ftwl.la \
- $(top_builddir)/common/libfreeciv.la \
- $(top_builddir)/utility/ftwl/libftwl.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(MAPIMG_WAND_LIBS) \
- $(GUI_ftwl_LIBS)
 endif
 
 if CLIENT_GUI_WIN32
