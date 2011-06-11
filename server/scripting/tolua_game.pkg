@@ -91,6 +91,8 @@ module Tile {
     @ city (Tile *self);
   bool api_methods_tile_city_exists_within_max_city_map
     @ city_exists_within_max_city_map (Tile *self, bool center);
+  bool api_methods_tile_has_base
+    @ has_base(Tile *self, const char *name);
   int api_methods_tile_num_units
     @ num_units (Tile *self);
   int api_methods_tile_sq_distance

@@ -329,6 +329,21 @@ bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
 }
 
 /**************************************************************************
+  Return TRUE if there is a base with rule name name on ptile.
+  If no name is specified return true if there is a base on ptile.
+**************************************************************************/
+bool api_methods_tile_has_base(Tile *ptile, const char *name)
+{
+  struct base_type *base;
+  if (!name) {
+    return tile_has_any_bases(ptile);
+  } else {
+    base = base_type_by_rule_name(name);
+    return tile_has_base(ptile, base);
+  }
+}
+
+/**************************************************************************
   Return number of units on tile
 **************************************************************************/
 int api_methods_tile_num_units(Tile *ptile)
