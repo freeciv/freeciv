@@ -119,7 +119,7 @@ If choice is A_UNSET, this advisor doesn't want any particular tech
 researched at the moment.
 ***********************************************************************/
 void military_advisor_choose_tech(struct player *pplayer,
-				  struct ai_choice *choice)
+				  struct adv_choice *choice)
 {
   /* This function hasn't been implemented yet. */
   init_choice(choice);
@@ -681,7 +681,7 @@ int ai_unit_attack_desirability(const struct unit_type *punittype)
   build yet.
 **************************************************************************/
 static bool process_defender_want(struct player *pplayer, struct city *pcity,
-                                  unsigned int danger, struct ai_choice *choice)
+                                  unsigned int danger, struct adv_choice *choice)
 {
   /* FIXME: We check if city got defense effect against *some*
    * unit type. Sea unit danger might cause us to build defenses
@@ -837,7 +837,7 @@ static void process_attacker_want(struct city *pcity,
                                   struct unit_type *victim_unit_type,
                                   struct player *victim_player,
                                   int veteran, struct tile *ptile,
-                                  struct ai_choice *best_choice,
+                                  struct adv_choice *best_choice,
                                   struct pf_map *ferry_map,
                                   struct unit *boat,
                                   struct unit_type *boattype)
@@ -1075,7 +1075,7 @@ If the target is overseas, the function might suggest building a ferry
 to carry a land attack unit, instead of the land attack unit itself.
 **************************************************************************/
 static void kill_something_with(struct player *pplayer, struct city *pcity, 
-				struct unit *myunit, struct ai_choice *choice)
+				struct unit *myunit, struct adv_choice *choice)
 {
   /* Our attack rating (with reinforcements) */
   int attack;
@@ -1096,7 +1096,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct unit_type *boattype;
   struct pf_map *ferry_map = NULL;
   int move_time;
-  struct ai_choice best_choice;
+  struct adv_choice best_choice;
   struct ai_city *city_data = def_ai_city_data(pcity);
   struct ai_city *acity_data;
 
@@ -1260,7 +1260,7 @@ cleanup:
 ***********************************************************************/
 static void ai_unit_consider_bodyguard(struct city *pcity,
                                        struct unit_type *punittype,
-                                       struct ai_choice *choice)
+                                       struct adv_choice *choice)
 {
   struct unit *virtualunit;
   struct player *pplayer = city_owner(pcity);
@@ -1291,7 +1291,7 @@ static void ai_unit_consider_bodyguard(struct city *pcity,
   for military units, considering Sun Tzu instead.
 *********************************************************************/
 static void adjust_ai_unit_choice(struct city *pcity, 
-                                  struct ai_choice *choice)
+                                  struct adv_choice *choice)
 {
   enum unit_move_type move_type;
   Impr_type_id id;
@@ -1317,12 +1317,12 @@ static void adjust_ai_unit_choice(struct city *pcity,
 
 /****************************************************************************
   This function selects either a defender or an attacker to be built.
-  It records its choice into ai_choice struct.
+  It records its choice into adv_choice struct.
   If 'choice->want' is 0 this advisor doesn't want anything.
 ****************************************************************************/
 void military_advisor_choose_build(struct player *pplayer,
                                    struct city *pcity,
-                                   struct ai_choice *choice)
+                                   struct adv_choice *choice)
 {
   struct adv_data *ai = adv_data_get(pplayer);
   struct unit_type *punittype;

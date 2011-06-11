@@ -19,9 +19,9 @@
 struct unit_type *ai_choose_defender_versus(struct city *pcity,
                                             struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
-				  struct ai_choice *choice);
+				  struct adv_choice *choice);
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
-				    struct ai_choice *choice);
+				    struct adv_choice *choice);
 void assess_danger_player(struct player *pplayer);
 int assess_defense_quadratic(struct city *pcity);
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall);

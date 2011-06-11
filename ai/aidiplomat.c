@@ -117,7 +117,7 @@ static int count_stealable_techs(struct player *pplayer, struct player *tplayer)
 ***********************************************************************/
 void ai_choose_diplomat_defensive(struct player *pplayer,
                                   struct city *pcity,
-                                  struct ai_choice *choice, int def)
+                                  struct adv_choice *choice, int def)
 {
   /* Build a diplomat if our city is threatened by enemy diplomats, and
      we have other defensive troops, and we don't already have a diplomat
@@ -162,7 +162,7 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
 ***********************************************************************/
 void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct city *pcity,
-                                  struct ai_choice *choice)
+                                  struct adv_choice *choice)
 {
   struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
   struct ai_plr *ai = def_ai_player_data(pplayer);

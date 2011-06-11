@@ -99,10 +99,10 @@ const char *ai_unit_task_rule_name(const enum ai_unit_task task)
 }
 
 /**************************************************************************
-  Return the (untranslated) rule name of the ai_choice.
+  Return the (untranslated) rule name of the adv_choice.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *ai_choice_rule_name(const struct ai_choice *choice)
+const char *ai_choice_rule_name(const struct adv_choice *choice)
 {
   switch (choice->type) {
   case CT_NONE:
@@ -1043,7 +1043,7 @@ int ai_gold_reserve(struct player *pplayer)
 /**************************************************************************
   Sets the values of the choice to initial values.
 **************************************************************************/
-void init_choice(struct ai_choice *choice)
+void init_choice(struct adv_choice *choice)
 {
   choice->value.utype = NULL;
   choice->want = 0;
@@ -1052,9 +1052,9 @@ void init_choice(struct ai_choice *choice)
 }
 
 /**************************************************************************
-...
+  Adjust want for choice to 'value' percent
 **************************************************************************/
-void adjust_choice(int value, struct ai_choice *choice)
+void adjust_choice(int value, struct adv_choice *choice)
 {
   choice->want = (choice->want *value)/100;
 }
@@ -1062,7 +1062,7 @@ void adjust_choice(int value, struct ai_choice *choice)
 /**************************************************************************
   After call to this function best is better of cur and best 
 **************************************************************************/
-void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
+void copy_if_better_choice(struct adv_choice *cur, struct adv_choice *best)
 {
   if (best->want < cur->want) {
     /* This simple minded copy works for now.
@@ -1088,7 +1088,7 @@ bool is_unit_choice_type(enum choice_type type)
   set tech wants.  Sets choice->value.utype when we can build something.
 **************************************************************************/
 bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-			 struct ai_choice *choice, enum choice_type type,
+			 struct adv_choice *choice, enum choice_type type,
                          int role, int want, bool need_boat)
 {
   struct unit_type *iunit = ai_wants_role_unit(pplayer, pcity, role, want);
@@ -1109,7 +1109,7 @@ bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 /**************************************************************************
   Consider overriding building target selected by common advisor code.
 **************************************************************************/
-void ai_build_adv_override(struct city *pcity, struct ai_choice *choice)
+void ai_build_adv_override(struct city *pcity, struct adv_choice *choice)
 {
   struct impr_type *chosen;
   int want;

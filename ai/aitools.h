@@ -32,7 +32,7 @@ struct pf_parameter;
 struct pft_amphibious;
 
 const char *ai_unit_task_rule_name(const enum ai_unit_task task);
-const char *ai_choice_rule_name(const struct ai_choice *choice);
+const char *ai_choice_rule_name(const struct adv_choice *choice);
 
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
@@ -66,16 +66,16 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile);
 void ai_government_change(struct player *pplayer, struct government *gov);
 int ai_gold_reserve(struct player *pplayer);
 
-void init_choice(struct ai_choice *choice);
-void adjust_choice(int value, struct ai_choice *choice);
-void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best);
+void init_choice(struct adv_choice *choice);
+void adjust_choice(int value, struct adv_choice *choice);
+void copy_if_better_choice(struct adv_choice *cur, struct adv_choice *best);
 
 bool is_unit_choice_type(enum choice_type type);
 
 bool ai_choose_role_unit(struct player *pplayer, struct city *pcity,
-                         struct ai_choice *choice, enum choice_type type,
+                         struct adv_choice *choice, enum choice_type type,
                          int role, int want, bool need_boat);
-void ai_build_adv_override(struct city *pcity, struct ai_choice *choice);
+void ai_build_adv_override(struct city *pcity, struct adv_choice *choice);
 bool ai_assess_military_unhappiness(struct city *pcity);
 
 void ai_consider_plr_dangerous(struct player *plr1, struct player *plr2,

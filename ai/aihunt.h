@@ -18,8 +18,8 @@
 #include "fc_types.h"
 
 void ai_hunter_choice(struct player *pplayer, struct city *pcity,
-                      struct ai_choice *choice);
+                      struct adv_choice *choice);
 bool ai_hunter_qualify(struct player *pplayer, struct unit *punit);
 int ai_hunter_manage(struct player *pplayer, struct unit *punit);
 
-#endif
+#endif /* FC__AIHUNT_H */

@@ -40,10 +40,6 @@
 #include "advtools.h"
 #include "infracache.h" /* adv_city */
 
-/* ai */
-#include "aiplayer.h"
-#include "aitools.h"
-
 #include "advbuilding.h"
 
 /**************************************************************************
@@ -259,7 +255,7 @@ void building_advisor(struct player *pplayer)
  "I prefer the ai_choice as a return value; gcc prefers it as an arg" 
   -- Syela 
 **************************************************************************/
-void building_advisor_choose(struct city *pcity, struct ai_choice *choice)
+void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
 {
   struct player *plr = city_owner(pcity);
   struct impr_type *chosen = NULL;
@@ -299,7 +295,7 @@ void building_advisor_choose(struct city *pcity, struct ai_choice *choice)
 **************************************************************************/
 void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
-  struct ai_choice choice;
+  struct adv_choice choice;
 
   building_advisor_choose(pcity, &choice);
 

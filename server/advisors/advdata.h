@@ -136,6 +136,22 @@ struct adv_data {
   int max_num_cities;
 };
 
+enum choice_type {
+  CT_NONE = 0,
+  CT_BUILDING = 1,
+  CT_CIVILIAN,
+  CT_ATTACKER,
+  CT_DEFENDER,
+  CT_LAST
+};
+
+struct adv_choice {
+  enum choice_type type;
+  universals_u value; /* what the advisor wants */
+  int want;              /* how much it wants it (0-100) */
+  bool need_boat;        /* unit being built wants a boat */
+};
+
 void adv_data_init(struct player *pplayer);
 void adv_data_default(struct player *pplayer);
 void adv_data_close(struct player *pplayer);

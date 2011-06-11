@@ -19,7 +19,7 @@
 
 void ai_manage_airunit(struct player *pplayer, struct unit *punit);
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
-			    struct ai_choice *choice);
+			    struct adv_choice *choice);
 
 int ai_evaluate_tile_for_attack(struct unit *punit, struct tile *dst_tile);
 

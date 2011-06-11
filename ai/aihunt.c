@@ -137,7 +137,7 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
 **************************************************************************/
 static void ai_hunter_missile_want(struct player *pplayer,
                                    struct city *pcity,
-                                   struct ai_choice *choice)
+                                   struct adv_choice *choice)
 {
   int best = -1;
   struct unit_type *best_unit_type = NULL;
@@ -213,7 +213,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
   Support function for ai_hunter_choice()
 **************************************************************************/
 static void eval_hunter_want(struct player *pplayer, struct city *pcity,
-                             struct ai_choice *choice,
+                             struct adv_choice *choice,
 			     struct unit_type *best_type,
                              int veteran)
 {
@@ -236,7 +236,7 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
   Check if we want to build a hunter.
 **************************************************************************/
 void ai_hunter_choice(struct player *pplayer, struct city *pcity,
-                      struct ai_choice *choice)
+                      struct adv_choice *choice)
 {
   struct unit_type *best_land_hunter
     = ai_hunter_guess_best(pcity, UMT_LAND);

@@ -196,7 +196,7 @@ void dont_want_tech_obsoleting_impr(struct player *pplayer,
 **************************************************************************/
 static void ai_barbarian_choose_build(struct player *pplayer, 
                                       struct city *pcity,
-				      struct ai_choice *choice)
+				      struct adv_choice *choice)
 {
   struct unit_type *bestunit = NULL;
   int i, bestattack = 0;
@@ -244,8 +244,8 @@ static void ai_barbarian_choose_build(struct player *pplayer,
 **************************************************************************/
 static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
-  struct ai_choice newchoice;
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_choice newchoice;
+  struct adv_data *adv = adv_data_get(pplayer);
   struct ai_city *city_data = def_ai_city_data(pcity);
 
   init_choice(&newchoice);
@@ -257,14 +257,14 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if( is_barbarian(pplayer) ) {
+  if (is_barbarian(pplayer)) {
     ai_barbarian_choose_build(pplayer, pcity, &(city_data->choice));
   } else {
     /* FIXME: 101 is the "overriding military emergency" indicator */
     if ((city_data->choice.want <= 100
          || city_data->urgency == 0)
         && !(ai_on_war_footing(pplayer) && city_data->choice.want > 0
-             && pcity->id != ai->wonder_city)) {
+             && pcity->id != adv->wonder_city)) {
       domestic_advisor_choose_build(pplayer, pcity, &newchoice);
       copy_if_better_choice(&newchoice, &(city_data->choice));
     }
@@ -421,7 +421,7 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 **************************************************************************/
 static void ai_spend_gold(struct player *pplayer)
 {
-  struct ai_choice bestchoice;
+  struct adv_choice bestchoice;
   int cached_limit = ai_gold_reserve(pplayer);
   int expenses;
   bool war_footing = ai_on_war_footing(pplayer);

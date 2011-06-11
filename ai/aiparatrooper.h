@@ -13,13 +13,13 @@
 #ifndef FC__AIPARATROOPER_H
 #define FC__AIPARATROOPER_H
 
-struct ai_choice;
+struct adv_choice;
 struct city;
 struct player;
 struct unit;
 
 void ai_manage_paratrooper(struct player *pplayer, struct unit *punit);
 void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
-			   struct ai_choice *choice);
+			   struct adv_choice *choice);
 
 #endif /* FC__AIPARATROOPER_H */

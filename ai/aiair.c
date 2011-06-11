@@ -422,7 +422,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
   that's what it should be like, I believe -- GB
 ******************************************************************/
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
-			    struct ai_choice *choice)
+			    struct adv_choice *choice)
 {
   bool want_something = FALSE;
 

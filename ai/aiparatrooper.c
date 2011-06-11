@@ -324,7 +324,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
   Chooses to build a paratroopers if necessary
 *******************************************************************/
 void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
-			   struct ai_choice *choice)
+			   struct adv_choice *choice)
 {
   int profit;
   Tech_type_id tech_req;

@@ -28,7 +28,7 @@ extern "C" {
 
 struct Treaty;
 struct player;
-struct ai_choice;
+struct adv_choice;
 struct city;
 struct unit;
 struct tile;
@@ -74,7 +74,7 @@ struct ai_type
                       const char *citystr);
     void (*city_load)(const struct section_file *file, struct city *pcity,
                       const char *citystr);
-    void (*choose_building)(struct city *pcity, struct ai_choice *choice);
+    void (*choose_building)(struct city *pcity, struct adv_choice *choice);
     void (*build_adv_prepare)(struct player *pplayer, struct adv_data *adv); 
     void (*build_adv_adjust_want)(struct player *pplayer, struct city *wonder_city);
 

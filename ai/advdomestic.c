@@ -65,7 +65,7 @@
  * stimulated.
  ***************************************************************************/
 static void ai_choose_help_wonder(struct city *pcity,
-				  struct ai_choice *choice,
+				  struct adv_choice *choice,
                                   struct adv_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
@@ -154,7 +154,7 @@ static void ai_choose_help_wonder(struct city *pcity,
  * tech will be stimulated.
  ***************************************************************************/
 static void ai_choose_trade_route(struct city *pcity,
-				  struct ai_choice *choice,
+				  struct adv_choice *choice,
                                   struct adv_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
@@ -263,7 +263,7 @@ static void ai_choose_trade_route(struct city *pcity,
   If want is 0, this advisor doesn't want anything.
 ***************************************************************************/
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
-				   struct ai_choice *choice)
+				   struct adv_choice *choice)
 {
   struct adv_data *ai = adv_data_get(pplayer);
   /* Unit type with certain role */
@@ -360,7 +360,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   }
 
   {
-    struct ai_choice cur;
+    struct adv_choice cur;
 
     init_choice(&cur);
     /* Consider building caravan-type units to aid wonder construction */  

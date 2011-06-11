@@ -16,23 +16,10 @@
 /* common */
 #include "fc_types.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 struct adv_data;
-
-enum choice_type {
-  CT_NONE = 0,
-  CT_BUILDING = 1,
-  CT_CIVILIAN,
-  CT_ATTACKER,
-  CT_DEFENDER,
-  CT_LAST
-};
-
-struct ai_choice {
-  enum choice_type type;
-  universals_u value; /* what the advisor wants */
-  int want;              /* how much it wants it (0-100) */
-  bool need_boat;        /* unit being built wants a boat */
-};
 
 struct ai_activity_cache; /* defined and only used within aicity.c */
 
@@ -49,7 +36,7 @@ struct ai_city {
   int building_wait;            /* for weighting values */
 #define BUILDING_WAIT_MINIMUM (1)
 
-  struct ai_choice choice;      /* to spend gold in the right place only */
+  struct adv_choice choice;     /* to spend gold in the right place only */
 
   struct ai_invasion invasion;
   int attack, bcost; /* This is also for invasion - total power and value of
