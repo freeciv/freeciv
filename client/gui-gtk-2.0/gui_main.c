@@ -1075,7 +1075,7 @@ static void setup_widgets(void)
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			        |GDK_BUTTON_PRESS_MASK
 				        |GDK_POINTER_MOTION_MASK);
-  gtk_box_pack_start(GTK_BOX(avbox), overview_scrolled_window, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), overview_scrolled_window, TRUE, TRUE, 0);
 
   gtk_scrolled_window_add_with_viewport (
                       GTK_SCROLLED_WINDOW (overview_scrolled_window), 
