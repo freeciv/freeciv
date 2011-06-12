@@ -96,7 +96,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-2.0";
+const char *client_string = "gui-gtk-3.0";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
