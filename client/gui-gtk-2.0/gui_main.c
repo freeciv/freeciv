@@ -105,8 +105,17 @@ GtkWidget *overview_canvas;             /* GtkDrawingArea */
 GtkWidget *overview_scrolled_window;    /* GtkScrolledWindow */
 GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store 
                                          * for the overview_canvas widget */
-int overview_canvas_store_width = 2 * 128;
-int overview_canvas_store_height = 2 * 92;
+/* The two values below define the width and height of the map overview. The
+ * first set of values (2*62, 2*46) define the size for a netbook display. For
+ * bigger displays the values are doubled (default). */
+#define OVERVIEW_CANVAS_STORE_WIDTH_NETBOOK  (2 * 64)
+#define OVERVIEW_CANVAS_STORE_HEIGHT_NETBOOK (2 * 46)
+#define OVERVIEW_CANVAS_STORE_WIDTH \
+  (2 * OVERVIEW_CANVAS_STORE_WIDTH_NETBOOK)
+#define OVERVIEW_CANVAS_STORE_HEIGHT \
+  (2 * OVERVIEW_CANVAS_STORE_HEIGHT_NETBOOK)
+int overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH;
+int overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -1018,6 +1027,10 @@ static void setup_widgets(void)
                                           top_vbox);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(right_vbox), paned, TRUE, TRUE, 0);
+
+    /* Overview size designed for small displays (netbooks). */
+    overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH_NETBOOK;
+    overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT_NETBOOK;
   } else {
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
@@ -1025,6 +1038,10 @@ static void setup_widgets(void)
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
+
+    /* Overview size designed for netbooks. */
+    overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH;
+    overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
   }
 
 #ifdef GGZ_GTK
