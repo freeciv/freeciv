@@ -17,6 +17,7 @@
 
 /* common */
 #include "ai.h"
+#include "combat.h"
 #include "game.h"
 #include "movement.h"
 #include "unit.h"
@@ -31,8 +32,8 @@
 #include "unithand.h"
 #include "unittools.h"
 
-/* ai */
-#include "aiunit.h"
+/* server/advisors */
+#include "advtools.h"
 
 #include "advgoto.h"
 

@@ -44,14 +44,6 @@ struct unit_ai {
   enum ai_unit_task task;
 };
 
-/*
- * To prevent integer overflows the product "power * hp * firepower"
- * is divided by POWER_DIVIDER.
- *
- * The constant may be changed since it isn't externally visible used.
- */
-#define POWER_DIVIDER 	(POWER_FACTOR * 3)
-
 /* Simple military macros */
 
 /* pplayers_at_war() thinks no contacts equals war, which often is

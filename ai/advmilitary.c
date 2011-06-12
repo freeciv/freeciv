@@ -39,6 +39,7 @@
 
 /* server/advisors */
 #include "advdata.h"
+#include "advtools.h"
 #include "autosettlers.h"
 #include "infracache.h" /* adv_city */
 

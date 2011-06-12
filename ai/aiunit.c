@@ -69,6 +69,7 @@
 
 /* server/advisors */
 #include "advgoto.h"
+#include "advtools.h"
 #include "autoexplorer.h"
 #include "autosettlers.h"
 

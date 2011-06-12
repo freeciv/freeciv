@@ -49,10 +49,6 @@
 #include "advtools.h"
 #include "autosettlers.h"
 
-/* ai */
-#include "aiplayer.h"
-#include "aitools.h"
-
 #include "advdata.h"
 
 static void adv_dipl_new(const struct player *plr1,
