@@ -579,10 +579,10 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
 
   if (ev->type == GDK_KEY_PRESS) {
     switch (ev->keyval) {
-    case GDK_Delete:
+    case GDK_KEY_Delete:
       cma_preset_remove(pdialog, index);
       break;
-    case GDK_Insert:
+    case GDK_KEY_Insert:
       cma_add_preset_callback(NULL, pdialog);
       break;
     default:

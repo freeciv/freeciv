@@ -791,10 +791,10 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     return FALSE;
   }
   
-  if ((ev->state & GDK_SHIFT_MASK) && ev->keyval == GDK_Insert) {
+  if ((ev->state & GDK_SHIFT_MASK) && ev->keyval == GDK_KEY_Insert) {
     queue_prepend(ptr);
     return TRUE;
-  } else if (ev->keyval == GDK_Insert) {
+  } else if (ev->keyval == GDK_KEY_Insert) {
     queue_append(ptr);
     return TRUE;
   } else {
@@ -814,7 +814,7 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
   ptr = data;
   model = GTK_TREE_MODEL(ptr->dst);
 
-  if (ev->keyval == GDK_Delete) {
+  if (ev->keyval == GDK_KEY_Delete) {
     GtkTreeIter it, it_next;
     bool deleted = FALSE;
 
@@ -839,11 +839,11 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     }
     return TRUE;
 
-  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_Up) {
+  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_KEY_Up) {
     queue_bubble_up(ptr);
     return TRUE;
 
-  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_Down) {
+  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_KEY_Down) {
     queue_bubble_down(ptr);
     return TRUE;
 

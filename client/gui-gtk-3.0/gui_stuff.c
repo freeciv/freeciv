@@ -402,8 +402,8 @@ static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEventKey *ev,
 {
   struct gui_dialog *dlg = data;
 
-  if (ev->keyval == GDK_Escape
-	|| ((ev->state & GDK_CONTROL_MASK) && ev->keyval == GDK_w)) {
+  if (ev->keyval == GDK_KEY_Escape
+	|| ((ev->state & GDK_CONTROL_MASK) && ev->keyval == GDK_KEY_w)) {
     /* emit response signal. */
     gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
   }

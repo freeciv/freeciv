@@ -1596,30 +1596,30 @@ static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
 
   ett = editor_get_tool();
   switch (ev->keyval) {
-  case GDK_D:
+  case GDK_KEY_D:
     editor_tool_toggle_mode(ett, ETM_ERASE);
     break;
-  case GDK_C:
+  case GDK_KEY_C:
     editor_set_tool(ETT_COPYPASTE);
     editor_tool_toggle_mode(ett, ETM_COPY);
     break;
-  case GDK_V:
+  case GDK_KEY_V:
     editor_set_tool(ETT_COPYPASTE);
     editor_tool_toggle_mode(ett, ETM_PASTE);
     break;
-  case GDK_T:
+  case GDK_KEY_T:
     editgui_run_tool_selection(ETT_TERRAIN);
     break;
-  case GDK_R:
+  case GDK_KEY_R:
     editgui_run_tool_selection(ETT_TERRAIN_RESOURCE);
     break;
-  case GDK_S:
+  case GDK_KEY_S:
     editgui_run_tool_selection(ETT_TERRAIN_SPECIAL);
     break;
-  case GDK_M:
+  case GDK_KEY_M:
     editgui_run_tool_selection(ETT_MILITARY_BASE);
     break;
-  case GDK_U:
+  case GDK_KEY_U:
     editgui_run_tool_selection(ETT_UNIT);
     break;
   default:
@@ -1650,33 +1650,33 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   ett = editor_get_tool();
 
   switch (ev->keyval) {
-  case GDK_t:
+  case GDK_KEY_t:
     new_ett = ETT_TERRAIN;
     break;
-  case GDK_r:
+  case GDK_KEY_r:
     new_ett = ETT_TERRAIN_RESOURCE;
     break;
-  case GDK_s:
+  case GDK_KEY_s:
     new_ett = ETT_TERRAIN_SPECIAL;
     break;
-  case GDK_m:
+  case GDK_KEY_m:
     new_ett = ETT_MILITARY_BASE;
     break;
-  case GDK_u:
+  case GDK_KEY_u:
     new_ett = ETT_UNIT;
     break;
-  case GDK_c:
+  case GDK_KEY_c:
     new_ett = ETT_CITY;
     break;
-  case GDK_v:
+  case GDK_KEY_v:
     new_ett = ETT_VISION;
     break;
-  case GDK_p:
+  case GDK_KEY_p:
     new_ett = ETT_STARTPOS;
     break;
-  case GDK_plus:
-  case GDK_equal:
-  case GDK_KP_Add:
+  case GDK_KEY_plus:
+  case GDK_KEY_equal:
+  case GDK_KEY_KP_Add:
     if (editor_tool_has_size(ett)) {
       int size = editor_tool_get_size(ett);
       editor_tool_set_size(ett, size + 1);
@@ -1685,9 +1685,9 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
       editor_tool_set_count(ett, count + 1);
     }
     break;
-  case GDK_minus:
-  case GDK_underscore:
-  case GDK_KP_Subtract:
+  case GDK_KEY_minus:
+  case GDK_KEY_underscore:
+  case GDK_KEY_KP_Subtract:
     if (editor_tool_has_size(ett)) {
       int size = editor_tool_get_size(ett);
       editor_tool_set_size(ett, size - 1);
@@ -1696,39 +1696,39 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
       editor_tool_set_count(ett, count - 1);
     }
     break;
-  case GDK_1:
-  case GDK_2:
-  case GDK_3:
-  case GDK_4:
-  case GDK_5:
-  case GDK_6:
-  case GDK_7:
-  case GDK_8:
-  case GDK_9:
+  case GDK_KEY_1:
+  case GDK_KEY_2:
+  case GDK_KEY_3:
+  case GDK_KEY_4:
+  case GDK_KEY_5:
+  case GDK_KEY_6:
+  case GDK_KEY_7:
+  case GDK_KEY_8:
+  case GDK_KEY_9:
     if (editor_tool_has_size(ett)) {
-      editor_tool_set_size(ett, ev->keyval - GDK_1 + 1);
+      editor_tool_set_size(ett, ev->keyval - GDK_KEY_1 + 1);
     } else if (editor_tool_has_count(ett)) {
-      editor_tool_set_count(ett, ev->keyval - GDK_1 + 1);
+      editor_tool_set_count(ett, ev->keyval - GDK_KEY_1 + 1);
     }
     break;
-  case GDK_space:
+  case GDK_KEY_space:
     editor_apply_tool_to_selection();
     break;
-  case GDK_Tab:
+  case GDK_KEY_Tab:
     editgui_run_tool_selection(ett);
     break;
-  case GDK_F1:
-  case GDK_F2:
-  case GDK_F3:
-  case GDK_F4:
-  case GDK_F5:
-  case GDK_F6:
-  case GDK_F7:
-  case GDK_F8:
-  case GDK_F9:
-  case GDK_F10:
-  case GDK_F11:
-  case GDK_F12:
+  case GDK_KEY_F1:
+  case GDK_KEY_F2:
+  case GDK_KEY_F3:
+  case GDK_KEY_F4:
+  case GDK_KEY_F5:
+  case GDK_KEY_F6:
+  case GDK_KEY_F7:
+  case GDK_KEY_F8:
+  case GDK_KEY_F9:
+  case GDK_KEY_F10:
+  case GDK_KEY_F11:
+  case GDK_KEY_F12:
     return FALSE; /* Allow default handler. */
     break;
   default:

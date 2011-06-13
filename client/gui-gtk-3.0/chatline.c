@@ -329,23 +329,23 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
   if ((ev->state & GDK_CONTROL_MASK)) {
     /* Chatline featured text support. */
     switch (ev->keyval) {
-    case GDK_b:
+    case GDK_KEY_b:
       inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
       return TRUE;
 
-    case GDK_c:
+    case GDK_KEY_c:
       inputline_make_tag(GTK_ENTRY(w), TTT_COLOR);
       return TRUE;
 
-    case GDK_i:
+    case GDK_KEY_i:
       inputline_make_tag(GTK_ENTRY(w), TTT_ITALIC);
       return TRUE;
 
-    case GDK_s:
+    case GDK_KEY_s:
       inputline_make_tag(GTK_ENTRY(w), TTT_STRIKE);
       return TRUE;
 
-    case GDK_u:
+    case GDK_KEY_u:
       inputline_make_tag(GTK_ENTRY(w), TTT_UNDERLINE);
       return TRUE;
 
@@ -356,7 +356,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
   } else {
     /* Chatline history controls. */
     switch (ev->keyval) {
-    case GDK_Up:
+    case GDK_KEY_Up:
       if (history_pos < genlist_size(history_list) - 1) {
         gtk_entry_set_text(GTK_ENTRY(w),
                            genlist_get(history_list, ++history_pos));
@@ -364,7 +364,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       }
       return TRUE;
 
-    case GDK_Down:
+    case GDK_KEY_Down:
       if (history_pos >= 0) {
         history_pos--;
       }
@@ -378,7 +378,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       gtk_editable_set_position(GTK_EDITABLE(w), -1);
       return TRUE;
 
-    case GDK_Tab:
+    case GDK_KEY_Tab:
       if (gui_gtk2_chatline_autocompletion) {
         return chatline_autocomplete(GTK_EDITABLE(w));
       }

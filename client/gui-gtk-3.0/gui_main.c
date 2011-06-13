@@ -390,32 +390,32 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
   if ((ev->state & GDK_SHIFT_MASK)) {
     switch (ev->keyval) {
 
-    case GDK_Left:
+    case GDK_KEY_Left:
       scroll_mapview(DIR8_WEST);
       return TRUE;
 
-    case GDK_Right:
+    case GDK_KEY_Right:
       scroll_mapview(DIR8_EAST);
       return TRUE;
 
-    case GDK_Up:
+    case GDK_KEY_Up:
       scroll_mapview(DIR8_NORTH);
       return TRUE;
 
-    case GDK_Down:
+    case GDK_KEY_Down:
       scroll_mapview(DIR8_SOUTH);
       return TRUE;
 
-    case GDK_Home:
+    case GDK_KEY_Home:
       key_center_capital();
       return TRUE;
 
-    case GDK_Page_Up:
+    case GDK_KEY_Page_Up:
       g_signal_emit_by_name(main_message_area, "move_cursor",
 	                          GTK_MOVEMENT_PAGES, -1, FALSE);
       return TRUE;
 
-    case GDK_Page_Down:
+    case GDK_KEY_Page_Down:
       g_signal_emit_by_name(main_message_area, "move_cursor",
 	                          GTK_MOVEMENT_PAGES, 1, FALSE);
       return TRUE;
@@ -435,19 +435,19 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
   if ((ev->state & GDK_CONTROL_MASK)) {
     switch (ev->keyval) {
 
-    case GDK_F1:
+    case GDK_KEY_F1:
       key_unit_assign_battlegroup(0, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
-    case GDK_F2:
+    case GDK_KEY_F2:
       key_unit_assign_battlegroup(1, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
-    case GDK_F3:
+    case GDK_KEY_F3:
       key_unit_assign_battlegroup(2, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
-    case GDK_F4:
+    case GDK_KEY_F4:
       key_unit_assign_battlegroup(3, (ev->state & GDK_SHIFT_MASK));
       return TRUE;
 
@@ -457,19 +457,19 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
   } else if ((ev->state & GDK_SHIFT_MASK)) {
     switch (ev->keyval) {
 
-    case GDK_F1:
+    case GDK_KEY_F1:
       key_unit_select_battlegroup(0, FALSE);
       return TRUE;
 
-    case GDK_F2:
+    case GDK_KEY_F2:
       key_unit_select_battlegroup(1, FALSE);
       return TRUE;
 
-    case GDK_F3:
+    case GDK_KEY_F3:
       key_unit_select_battlegroup(2, FALSE);
       return TRUE;
 
-    case GDK_F4:
+    case GDK_KEY_F4:
       key_unit_select_battlegroup(3, FALSE);
       return TRUE;
 
@@ -480,73 +480,73 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
 
   switch (ev->keyval) {
 
-  case GDK_KP_Up:
-  case GDK_KP_8:
-  case GDK_Up:
-  case GDK_8:
+  case GDK_KEY_KP_Up:
+  case GDK_KEY_KP_8:
+  case GDK_KEY_Up:
+  case GDK_KEY_8:
     key_unit_move(DIR8_NORTH);
     return TRUE;
 
-  case GDK_KP_Page_Up:
-  case GDK_KP_9:
-  case GDK_Page_Up:
-  case GDK_9:
+  case GDK_KEY_KP_Page_Up:
+  case GDK_KEY_KP_9:
+  case GDK_KEY_Page_Up:
+  case GDK_KEY_9:
     key_unit_move(DIR8_NORTHEAST);
     return TRUE;
 
-  case GDK_KP_Right:
-  case GDK_KP_6:
-  case GDK_Right:
-  case GDK_6:
+  case GDK_KEY_KP_Right:
+  case GDK_KEY_KP_6:
+  case GDK_KEY_Right:
+  case GDK_KEY_6:
     key_unit_move(DIR8_EAST);
     return TRUE;
 
-  case GDK_KP_Page_Down:
-  case GDK_KP_3:
-  case GDK_Page_Down:
-  case GDK_3:
+  case GDK_KEY_KP_Page_Down:
+  case GDK_KEY_KP_3:
+  case GDK_KEY_Page_Down:
+  case GDK_KEY_3:
     key_unit_move(DIR8_SOUTHEAST);
     return TRUE;
 
-  case GDK_KP_Down:
-  case GDK_KP_2:
-  case GDK_Down:
-  case GDK_2:
+  case GDK_KEY_KP_Down:
+  case GDK_KEY_KP_2:
+  case GDK_KEY_Down:
+  case GDK_KEY_2:
     key_unit_move(DIR8_SOUTH);
     return TRUE;
 
-  case GDK_KP_End:
-  case GDK_KP_1:
-  case GDK_End:
-  case GDK_1:
+  case GDK_KEY_KP_End:
+  case GDK_KEY_KP_1:
+  case GDK_KEY_End:
+  case GDK_KEY_1:
     key_unit_move(DIR8_SOUTHWEST);
     return TRUE;
 
-  case GDK_KP_Left:
-  case GDK_KP_4:
-  case GDK_Left:
-  case GDK_4:
+  case GDK_KEY_KP_Left:
+  case GDK_KEY_KP_4:
+  case GDK_KEY_Left:
+  case GDK_KEY_4:
     key_unit_move(DIR8_WEST);
     return TRUE;
 
-  case GDK_KP_Home:
-  case GDK_KP_7:
-  case GDK_Home:
-  case GDK_7:
+  case GDK_KEY_KP_Home:
+  case GDK_KEY_KP_7:
+  case GDK_KEY_Home:
+  case GDK_KEY_7:
     key_unit_move(DIR8_NORTHWEST);
     return TRUE;
 
-  case GDK_KP_Begin:
-  case GDK_KP_5: 
-  case GDK_5:
+  case GDK_KEY_KP_Begin:
+  case GDK_KEY_KP_5: 
+  case GDK_KEY_5:
     key_recall_previous_focus_unit(); 
     return TRUE;
 
-  case GDK_Escape:
+  case GDK_KEY_Escape:
     key_cancel_action();
     return TRUE;
 
-  case GDK_b:
+  case GDK_KEY_b:
     if (tiles_hilited_cities) {
       buy_production_in_selected_cities();
       return TRUE;
@@ -598,8 +598,8 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
   if ((ev->state & GDK_SHIFT_MASK)) {
     switch (ev->keyval) {
 
-    case GDK_Return:
-    case GDK_KP_Enter:
+    case GDK_KEY_Return:
+    case GDK_KEY_KP_Enter:
       key_end_turn();
       return TRUE;
 
@@ -611,7 +611,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
 
   switch (ev->keyval) {
 
-  case GDK_apostrophe:
+  case GDK_KEY_apostrophe:
     /* FIXME: should find the correct window, even when detached, from any
      * other window; should scroll to the bottom automatically showing the
      * latest text from other players; MUST NOT make spurious text windows
@@ -641,7 +641,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
   } else {
     switch (ev->keyval) {
 
-    case GDK_F4:
+    case GDK_KEY_F4:
       map_canvas_focus();
       return TRUE;
 

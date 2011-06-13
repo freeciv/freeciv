@@ -562,11 +562,11 @@ static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
 {
   if (event->state & GDK_CONTROL_MASK) {
     switch (event->keyval) {
-    case GDK_Left:
+    case GDK_KEY_Left:
       gtk_notebook_prev_page(GTK_NOTEBOOK(pdialog->notebook));
       return TRUE;
-      
-    case GDK_Right:
+
+    case GDK_KEY_Right:
       gtk_notebook_next_page(GTK_NOTEBOOK(pdialog->notebook));
       return TRUE;
 
