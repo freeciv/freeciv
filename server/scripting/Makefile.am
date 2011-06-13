@@ -89,3 +89,14 @@ tolua_fcdb_gen.c tolua_fcdb_gen.h: tolua_fcdb.pkg
 tolua_game_gen.c tolua_game_gen.h: tolua_game.pkg
 	$(TOLUA) -n game -o $(srcdir)/tolua_game_gen.c \
 	-H $(srcdir)/tolua_game_gen.h $(srcdir)/tolua_game.pkg
+
+# These files are not generated to builddir, but to srcdir */
+MAINTAINERCLEANFILES = \
+	$(srcdir)/tolua_common_a_gen.c \
+	$(srcdir)/tolua_common_a_gen.h \
+	$(srcdir)/tolua_common_z_gen.c \
+	$(srcdir)/tolua_common_z_gen.h \
+	$(srcdir)/tolua_fcdb_gen.c \
+	$(srcdir)/tolua_fcdb_gen.h \
+	$(srcdir)/tolua_game_gen.c \
+	$(srcdir)/tolua_game_gen.h
