@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="south african", "motswana", "boer"
+civilwar_nations="south african", "botswanan", "boer"
 
 ; Based on http://de.wikipedia.org/wiki/Liste_der_Städte_in_Namibia
 
