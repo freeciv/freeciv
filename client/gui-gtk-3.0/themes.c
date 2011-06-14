@@ -29,7 +29,7 @@
 /* client */
 #include "themes_common.h"
 
-/* gui-gtk-2.0 */
+/* gui-gtk-3.0 */
 #include "gui_main.h"
 
 #include "themes_g.h"

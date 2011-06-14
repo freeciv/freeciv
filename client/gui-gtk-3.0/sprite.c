@@ -20,7 +20,7 @@
 #include "mem.h"
 #include "shared.h"
 
-/* client/gtk-2.0 */
+/* client/gtk-3.0 */
 #include "colors.h"
 
 #include "sprite.h"

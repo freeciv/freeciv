@@ -42,7 +42,7 @@
 #include "options.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-2.0 */
+/* client/gui-gtk-3.0 */
 #include "gui_main.h"
 
 #include "graphics.h"

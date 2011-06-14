@@ -51,7 +51,7 @@
 /* client/agents */
 #include "cma_fec.h" 
 
-/* client/gui-gtk-2.0 */
+/* client/gui-gtk-3.0 */
 #include "citizensinfo.h"
 #include "cityrep.h"
 #include "cma_fe.h"

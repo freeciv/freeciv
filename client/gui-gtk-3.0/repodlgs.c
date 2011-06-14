@@ -50,7 +50,7 @@
 #include "reqtree.h"
 #include "text.h"
 
-/* client/gui-gtk-2.0 */
+/* client/gui-gtk-3.0 */
 #include "canvas.h"
 #include "cityrep.h"
 #include "dialogs.h"

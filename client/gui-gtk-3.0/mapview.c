@@ -48,7 +48,7 @@
 #include "tilespec.h"
 #include "text.h"
 
-/* client/gui-gtk-2.0 */
+/* client/gui-gtk-3.0 */
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "editgui.h"
 #include "graphics.h"

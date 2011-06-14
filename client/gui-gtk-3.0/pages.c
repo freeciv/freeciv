@@ -49,7 +49,7 @@
 #include "servers.h"
 #include "update_queue.h"
 
-/* client/gui-gtk-2.0 */
+/* client/gui-gtk-3.0 */
 #include "chatline.h"
 #include "connectdlg.h"
 #include "dialogs.h"

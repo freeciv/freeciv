@@ -34,7 +34,7 @@
 #include "cma_fec.h"
 #include "messagewin_g.h"
 
-/* gtk-2.0 */
+/* client/gtk-3.0 */
 #include "cityrep.h"
 #include "dialogs.h"
 #include "gui_stuff.h"

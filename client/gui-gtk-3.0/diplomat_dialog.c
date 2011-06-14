@@ -38,7 +38,7 @@
 #include "mapview.h"
 #include "packhand.h"
 
-/* client/gui-gtk-2.0 */
+/* client/gui-gtk-3.0 */
 #include "citydlg.h"
 #include "dialogs.h"
 #include "wldlg.h"
