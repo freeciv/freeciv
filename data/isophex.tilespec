@@ -75,7 +75,7 @@ files =
   "isophex/terrain1.spec",
   "isophex/terrain2.spec",
   "isophex/darkness.spec",
-  "isophex/tiles.spec",
+  "isotrident/tiles.spec",
   "isophex/grid.spec",
   "isophex/rivers.spec",
   "misc/small.spec",
@@ -92,7 +92,6 @@ files =
   "misc/editor.spec",
   "isotrident/nuke.spec",
   "isotrident/cities.spec",
-  "isophex/gold.spec",
   "isotrident/morecities.spec"
 
 
