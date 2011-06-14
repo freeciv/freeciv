@@ -8,6 +8,7 @@ flag_files =				\
 		aborigines.png		\
 		acadia.png		\
 		aceh.png		\
+		acre.png		\
 		afghanistan.png		\
 		ainu.png		\
 		akwe.png		\
@@ -487,6 +488,7 @@ flag_files =				\
 		aborigines-large.png		\
 		acadia-large.png		\
 		aceh-large.png		\
+		acre-large.png			\
 		afghanistan-large.png		\
 		ainu-large.png		\
 		akwe-large.png		\
@@ -968,6 +970,7 @@ shield_files =					\
 		aborigines-shield.png		\
 		acadia-shield.png		\
 		aceh-shield.png			\
+		acre-shield.png			\
 		afghanistan-shield.png		\
 		ainu-shield.png			\
 		akwe-shield.png			\
@@ -1447,6 +1450,7 @@ shield_files =					\
 		aborigines-shield-large.png		\
 		acadia-shield-large.png		\
 		aceh-shield-large.png			\
+		acre-shield-large.png			\
 		afghanistan-shield-large.png		\
 		ainu-shield-large.png			\
 		akwe-shield-large.png			\
@@ -1928,6 +1932,7 @@ svg_files = 				\
 		aborigines.svg		\
 		acadia.svg		\
 		aceh.svg		\
+		acre.svg		\
 		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\

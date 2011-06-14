@@ -50,7 +50,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "aymara", "inca", "peruvian", "chilean"
+civilwar_nations = "aymara", "inca", "peruvian", "acrean"
 
 cities =
  "La Paz (!ocean, mountains)",

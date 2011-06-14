@@ -10,6 +10,7 @@ pkgdata_DATA = \
 		abyssinian.ruleset \
 		acadian.ruleset \
 		acehnese.ruleset \
+		acrean.ruleset \
 		afghani.ruleset \
 		ainu.ruleset \
 		akwe.ruleset \
