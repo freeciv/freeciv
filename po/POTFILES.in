@@ -334,6 +334,7 @@ data/nation/boer.ruleset
 data/nation/bolivian.ruleset
 data/nation/bosnia.ruleset
 data/nation/bosporan.ruleset
+data/nation/botswanan.ruleset
 data/nation/brandenburgian.ruleset
 data/nation/brazilian.ruleset
 data/nation/breton.ruleset
@@ -505,6 +506,7 @@ data/nation/latvian.ruleset
 data/nation/lebanese.ruleset
 data/nation/lendian.ruleset
 data/nation/leonese.ruleset
+data/nation/lesothoan.ruleset
 data/nation/liberian.ruleset
 data/nation/libyan.ruleset
 data/nation/liechtensteiner.ruleset
@@ -552,9 +554,7 @@ data/nation/mongol.ruleset
 data/nation/montenegrin.ruleset
 data/nation/moravian.ruleset
 data/nation/mordvin.ruleset
-data/nation/motswana.ruleset
 data/nation/moroccan.ruleset
-data/nation/mosotho.ruleset
 data/nation/mozambican.ruleset
 data/nation/mughal.ruleset
 data/nation/muscovite.ruleset
@@ -662,6 +662,7 @@ data/nation/solomonislander.ruleset
 data/nation/somali.ruleset
 data/nation/songhai.ruleset
 data/nation/sorbian.ruleset
+data/nation/sotho.ruleset
 data/nation/southafrican.ruleset
 data/nation/southamerican.ruleset
 data/nation/southkorean.ruleset
@@ -700,6 +701,7 @@ data/nation/tongan.ruleset
 data/nation/transnistrian.ruleset
 data/nation/transylvanian.ruleset
 data/nation/trinidadian.ruleset
+data/nation/tswana.ruleset
 data/nation/tunisian.ruleset
 data/nation/tupi.ruleset
 data/nation/turkmen.ruleset

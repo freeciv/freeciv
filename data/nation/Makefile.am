@@ -63,6 +63,7 @@ pkgdata_DATA = \
 		bolivian.ruleset \
 		bosnia.ruleset \
 		bosporan.ruleset \
+		botswanan.ruleset \
 		brandenburgian.ruleset \
 		brazilian.ruleset \
 		breton.ruleset \
@@ -234,6 +235,7 @@ pkgdata_DATA = \
 		lebanese.ruleset \
 		lendian.ruleset \
 		leonese.ruleset \
+		lesothoan.ruleset \
 		liberian.ruleset \
 		libyan.ruleset \
 		liechtensteiner.ruleset \
@@ -282,8 +284,6 @@ pkgdata_DATA = \
 		moravian.ruleset \
 		mordvin.ruleset \
 		moroccan.ruleset \
-		mosotho.ruleset \
-		motswana.ruleset \
 		mozambican.ruleset \
 		mughal.ruleset \
 		muskogee.ruleset \
@@ -391,6 +391,7 @@ pkgdata_DATA = \
 		somali.ruleset \
 		songhai.ruleset \
 		sorbian.ruleset \
+		sotho.ruleset \
 		southafrican.ruleset \
 		southamerican.ruleset \
 		southkorean.ruleset \
@@ -429,6 +430,7 @@ pkgdata_DATA = \
 		transnistrian.ruleset \
 		transylvanian.ruleset \
 		trinidadian.ruleset \
+		tswana.ruleset \
 		tunisian.ruleset \
 		tupi.ruleset \
 		turkmen.ruleset \

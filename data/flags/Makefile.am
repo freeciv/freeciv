@@ -56,6 +56,7 @@ flag_files =				\
 		biafra.png		\
 		boer.png		\
 		bolivia.png		\
+		bophuthatswana.png	\
 		bosnia.png		\
 		bosporus.png		\
 		botswana.png		\
@@ -234,6 +235,7 @@ flag_files =				\
 		lendian.png		\
 		leon.png		\
 		lesotho.png		\
+		lesotho_old.png		\
 		liberia.png		\
 		libya.png		\
 		liechtenstein.png	\
@@ -533,6 +535,7 @@ flag_files =				\
 		biafra-large.png		\
 		boer-large.png		\
 		bolivia-large.png		\
+		bophuthatswana-large.png	\
 		bosnia-large.png		\
 		bosporus-large.png		\
 		botswana-large.png		\
@@ -711,6 +714,7 @@ flag_files =				\
 		lendian-large.png		\
 		leon-large.png		\
 		lesotho-large.png		\
+		lesotho_old-large.png		\
 		liberia-large.png		\
 		libya-large.png		\
 		liechtenstein-large.png	\
@@ -1012,6 +1016,7 @@ shield_files =					\
 		biafra-shield.png		\
 		boer-shield.png			\
 		bolivia-shield.png		\
+		bophuthatswana-shield.png	\
 		bosnia-shield.png		\
 		bosporus-shield.png		\
 		botswana-shield.png		\
@@ -1190,6 +1195,7 @@ shield_files =					\
 		lendian-shield.png		\
 		leon-shield.png			\
 		lesotho-shield.png		\
+		lesotho_old-shield.png		\
 		liberia-shield.png		\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
@@ -1489,6 +1495,7 @@ shield_files =					\
 		biafra-shield-large.png		\
 		boer-shield-large.png			\
 		bolivia-shield-large.png		\
+		bophuthatswana-shield-large.png		\
 		bosnia-shield-large.png		\
 		bosporus-shield-large.png		\
 		botswana-shield-large.png		\
@@ -1667,6 +1674,7 @@ shield_files =					\
 		lendian-shield-large.png		\
 		leon-shield-large.png			\
 		lesotho-shield-large.png		\
+		lesotho_old-shield-large.png		\
 		liberia-shield-large.png		\
 		libya-shield-large.png		\
 		liechtenstein-shield-large.png	\
@@ -1968,6 +1976,7 @@ svg_files = 				\
 		biafra.svg		\
 		boer.svg		\
 		bolivia.svg		\
+		bophuthatswana.svg	\
 		bosporus.svg		\
 		botswana.svg		\
 		bosnia.svg		\
@@ -2146,6 +2155,7 @@ svg_files = 				\
 		lendian.svg		\
 		leon.svg		\
 		lesotho.svg		\
+		lesotho_old.svg		\
 		liberia.svg		\
 		libya.svg		\
 		liechtenstein.svg	\

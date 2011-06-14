@@ -65,6 +65,7 @@ artists = "
    Brandenburg		Madden (Wikimedia Commons)
    Boer			Caleb Moore
    Bolivia		Caleb Moore
+   Bophuthatswana	Washiucho (Wikimedia Commons)
    Bosnia		Daniel McRae
    Bosporus		J.M. Maalderink
    Botswana		SKopp (Wikimedia Commons)
@@ -241,6 +242,7 @@ artists = "
    Lendian		J.M. Maalderink
    Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
    Lesotho		Zachary Harden
+   Lesotho (old)	Zachary Harden
    Liberia		J.M. Maalderink
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
@@ -548,6 +550,7 @@ sprites =
 		"f.biafra", "flags/biafra"
 		"f.boer", "flags/boer"			; old south african
 		"f.bolivia", "flags/bolivia"
+		"f.bophuthatswana", "flags/bophuthatswana"
 		"f.bosnia", "flags/bosnia"
 		"f.bosporus", "flags/bosporus"
 		"f.botswana", "flags/botswana"
@@ -726,6 +729,7 @@ sprites =
 		"f.lendian", "flags/lendian"
 		"f.leon", "flags/leon"
 		"f.lesotho", "flags/lesotho"
+		"f.lesotho_old", "flags/lesotho_old"	; used by Sotho
 		"f.liberia", "flags/libya"
 		"f.libya", "flags/libya"
 		"f.liechtenstein", "flags/liechtenstein"

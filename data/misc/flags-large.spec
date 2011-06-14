@@ -65,6 +65,7 @@ sprites =
 		"f.biafra", "flags/biafra-large"
 		"f.boer", "flags/boer-large"			; old south african
 		"f.bolivia", "flags/bolivia-large"
+		"f.bophuthatswana", "flags/bophuthatswana-large"
 		"f.bosnia", "flags/bosnia-large"
 		"f.bosporus", "flags/bosporus-large"
 		"f.botswana", "flags/botswana-large"
@@ -243,6 +244,7 @@ sprites =
 		"f.lendian", "flags/lendian-large"
 		"f.leon", "flags/leon-large"
 		"f.lesotho", "flags/lesotho-large"
+		"f.lesotho_old", "flags/lesotho_old-large"
 		"f.liberia", "flags/liberia-large"
 		"f.libya", "flags/libya-large"
 		"f.liechtenstein", "flags/liechtenstein-large"
