@@ -1536,6 +1536,9 @@ const char *text_happiness_buildings(const struct city *pcity)
     astr_add(&str, "%s", Q_("?clistend:."));
   }
 
+  /* Add line breaks after 80 characters. */
+  astr_break_lines(&str, 80);
+
   return astr_str(&str);
 }
 
@@ -1573,6 +1576,9 @@ const char *text_happiness_wonders(const struct city *pcity)
   } else {
     astr_add(&str, "%s",  Q_("?clistend:."));
   }
+
+  /* Add line breaks after 80 characters. */
+  astr_break_lines(&str, 80);
 
   return astr_str(&str);
 }
