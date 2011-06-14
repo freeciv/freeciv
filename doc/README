@@ -62,21 +62,36 @@ Please read the INSTALL file carefully for instructions on how to get
 Freeciv compiled and installed on your machine.
 
 
-Starting a new game:
-====================
+Freeciv is modular:
+===================
 
-Freeciv is actually two programs, a server and a client.  When a game
-is in progress, there will be one server program running, and as many
-client programs as there are human players.  The server does not need
-X, but the clients do.
+Freeciv is actually several programs, a server and one or more clients.  When
+a game is in progress, there will be one server program running, and as many
+client programs as there are human players.  The server does not use a gui,
+but the clients do.  The clients come in many flavors:
+
+freeciv-gtk2:  This uses the X Window System along with GTK+ 2 libraries.  To
+  install, see section 1a of the INSTALL document.  This client is better
+  supported and more developed than the others, as such it is considered to be
+  the default interface throughout the rest of this document.
+
+freeciv-sdl:  This uses Simple DirectMedia Layer libraries.  This client is
+  currently unmaintained but is usable.
+
+freeciv-xaw:  This uses the X Window System along with its Athena Widget
+ interface.  It is somewhat minimalistic compared to the others.
+
+
+Starting a game:
+================
 
   NOTE:
   The following examples assume that Freeciv has been installed on
-  your system, and that the directory containing the "civclient"
-  and "civserver" programs is in your PATH.  If Freeciv is not
+  your system, and that the directory containing the "freeciv-gtk2"
+  and "freeciv-server" programs is in your PATH.  If Freeciv is not
   installed, then you may want to use the "civ" and "ser" programs,
   which can be found in the top Freeciv directory.  They are used
-  in exactly the same fashion as "civclient" and "civserver".
+  in exactly the same fashion as "freeciv-gtk2" and "freeciv-server".
 
 Running Freeciv involves starting the server, then the client(s)
 and AI(s), then telling the server to start the game.  Here are the
@@ -86,11 +101,11 @@ Server:
 
   To start the server:
 
-  |  % civserver
+  |  % freeciv-server
 
   Or for a list of command-line options:
 
-  |  % civserver --help
+  |  % freeciv-server --help
 
   Once the server is started, a prompt will appear:
 
@@ -142,11 +157,11 @@ Server:
   This will make the map twice as large as the default.
 
 Client:
-
+  
   Now all the human players should join, by running the Freeciv
   client:
 
-  |  % civclient
+  |  % freeciv-gtk2
 
   This assumes the server is running on the same machine.  If not, you
   can either specify it on the command line with the '--server' option,
@@ -155,13 +170,13 @@ Client:
   For example, suppose the server is running on a different machine
   called 'neptune'.  Then players would join with a command like:
 
-  |  % civclient --server neptune
+  |  % freeciv-gtk2 --server neptune
 
   If you're the only human player, then only one client needs to be
   started.  In standard Unix fashion you can start the client
   "in the background" by appending an ampersand:
 
-  |  % civclient &
+  |  % freeciv-gtk2 &
 
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
@@ -177,7 +192,7 @@ Client:
   To try another one, for instance the trident tileset, start the
   client with:
 
-  |  % civclient --tiles trident
+  |  % freeciv-gtk2 --tiles trident
 
   Other tilesets are available from http://www.freeciv.org/wiki/Tilesets
 
@@ -229,12 +244,12 @@ Server:
 And the game is on!
 
   NOTE: In this version of Freeciv, the GTK and SDL clients have the
-  capability to automagically start a civserver session when the user
+  capability to automagically start a freeciv-server session when the user
   selects "Start New Game" from the main menu. This reduces the steps
   needed to get started playing a game of Freeciv. On the other hand,
   it also means that if the client crashes for some reason or becomes
-  unavailable, the civserver session will also be lost. So starting a
-  separate civserver session and then connect to it with the client is
+  unavailable, the freeciv-server session will also be lost. So starting a
+  separate freeciv-server session and then connect to it with the client is
   generally the recommended method.
 
 
@@ -247,7 +262,7 @@ visit the Freeciv metaserver:
   http://meta.freeciv.org/
 
 It is a list of Freeciv servers.  To make your own server announce itself
-there, start civserver with the '--meta' option, or just '-m' for short.
+there, start freeciv-server with the '--meta' option, or just '-m' for short.
 
 Caveats:
 
@@ -256,7 +271,7 @@ Caveats:
     incompatible with 1.14.2 or earlier versions.
 
  2) If the Metaserver button in the connection dialog doesn't work,
-    check if your ISP uses a mandatory WWW proxy and make civclient
+    check if your ISP uses a mandatory WWW proxy and make freeciv-gtk2
     use it through the $http_proxy environment variable.  For instance,
     if the proxy is proxy.myisp.com port 8888, set $http_proxy
     to http://proxy.myisp.com:8888/ before starting the client.
@@ -357,15 +372,15 @@ Restoring games:
 
 You can restore a saved game by using the '-f' server option, eg:
 
-  |  % civserver -f oursave2001.sav
+  |  % freeciv-server -f oursave2001.sav
 
 or, if the save-file was created by a server that compressed it:
 
-  |  % civserver -f oursave2001.sav.gz
+  |  % freeciv-server -f oursave2001.sav.gz
 
 Now the players can rejoin the game:
 
-  |  % civclient -n Alexander
+  |  % freeciv-gtk2 -n Alexander
 
 Notice how the player-name is specified with the -n option. It's vital
 that the player uses the same name as they had when the game was running,
@@ -382,8 +397,8 @@ Freeciv supports several languages.
 You may choose which local language to use by specifying a "locale".
 Each locale has a standard name (e.g., 'de' for German).  If you have
 installed Freeciv, you may choose a locale by setting the environment
-variable LANG to that locale's standard name before running civserver
-and civclient.
+variable LANG to that locale's standard name before running freeciv-server
+and freeciv-gtk2.
 
 For example, assuming you wish to use the German localization, you
 would do:
@@ -438,20 +453,20 @@ printed.  Only one set of (min,max) can be applied to each file.
 
 Example:
 
-  |  % civserver -l my.log -d 3
+  |  % freeciv-server -l my.log -d 3
 
 This sends all server log messages to file "my.log", including verbose
 level messages.
 
 Example:
 
-  |  % civclient --debug 0
+  |  % freeciv-gtk2 --debug 0
 
 This suppresses all non-fatal client log messages.
 
 Example:
 
-  |  % civserver -d 4:log:civserver,120,500:autoattack
+  |  % freeciv-server -d 4:log:civserver,120,500:autoattack
 
 This turns on all fatal, error, normal and verbose messages for the
 server, and debug level messages for some specified modules.  Note
