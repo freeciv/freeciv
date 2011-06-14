@@ -915,7 +915,8 @@ static void option_dialog_optset(struct option_dialog *pdialog,
                                  const struct option_set *poptset)
 {
   struct option_dialog_optset *poptset_dialog;
-  struct widget *window, *widget;
+  struct widget *window;
+  struct widget *widget = NULL;
   int i,  category_num;
 
   fc_assert_ret(NULL != pdialog);
@@ -932,6 +933,9 @@ static void option_dialog_optset(struct option_dialog *pdialog,
 
   /* Hide ODM_MAIN widget group. */
   hide_group(pdialog->main_widget_list, pdialog->core_widget_list->prev);
+
+  /* Otherwise we don't enter next loop at all, and widget will remain NULL */
+  fc_assert(category_num > 0);
 
   /* Make the category buttons. */
   for (i = 0; i < category_num; i++) {
