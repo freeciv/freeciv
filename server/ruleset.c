@@ -52,9 +52,6 @@
 #include "unit.h"
 #include "unittype.h"
 
-/* ai */
-#include "aiunit.h"     /* update_simple_ai_types */
-
 /* server */
 #include "citytools.h"
 #include "plrhand.h"

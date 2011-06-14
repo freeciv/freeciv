@@ -41,9 +41,6 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* ai */
-#include "aitools.h"
-
 /* server */
 #include "barbarian.h"
 #include "citizenshand.h"

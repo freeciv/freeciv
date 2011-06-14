@@ -68,9 +68,6 @@
 #include "advdata.h"
 #include "autosettlers.h"
 
-/* ai */
-#include "advdomestic.h"
-
 
 /* Queue for pending city_refresh() */
 static struct city_list *city_refresh_queue = NULL;

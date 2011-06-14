@@ -5,7 +5,7 @@ SUBDIRS = advisors generator scripting
 bin_PROGRAMS = freeciv-server
 lib_LTLIBRARIES = libfreeciv-srv.la
 AM_CPPFLAGS = \
-	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
+	-I$(top_srcdir)/utility -I$(srcdir)/../common \
 	-I$(top_srcdir)/ai/default \
 	-I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \

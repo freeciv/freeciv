@@ -65,9 +65,6 @@
 #include "advdata.h"
 #include "autosettlers.h"
 
-/* ai */
-#include "advdiplomacy.h"
-
 struct rgbcolor;
 
 static void package_player_common(struct player *plr,

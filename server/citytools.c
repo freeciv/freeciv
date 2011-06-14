@@ -48,9 +48,6 @@
 #include "unitlist.h"
 #include "vision.h"
 
-/* ai */
-#include "aicity.h"
-
 /* scripting */
 #include "script_game.h"
 #include "script_types.h"

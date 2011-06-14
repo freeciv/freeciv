@@ -49,10 +49,6 @@
 #include "path_finding.h"
 #include "pf_tools.h"
 
-/* ai */
-#include "advdiplomacy.h"
-#include "aitools.h"
-
 /* server/scripting */
 #include "script_game.h"
 #include "script_signal.h"
