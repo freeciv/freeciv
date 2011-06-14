@@ -2100,7 +2100,7 @@ void real_menus_update(void)
     } unit_list_iterate_end;
     
     if (city_on_tile && units_have_flag(punits, F_ADD_TO_CITY, TRUE)) {
-      menus_rename(unit_group, "BUILD_CITY", _("Add to City (_B)"));
+      menus_rename(unit_group, "BUILD_CITY", _("Add to City"));
     } else {
       /* refresh default order */
       menus_rename(unit_group, "BUILD_CITY", _("_Build City"));
@@ -2177,7 +2177,7 @@ void real_menus_update(void)
     pterrain = tile_terrain(unit_tile(punit));
     if (pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_result != pterrain) {
-      fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s (_I)"),
+      fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s"),
                   get_tile_change_menu_text(unit_tile(punit),
                                             ACTIVITY_IRRIGATE));
     } else if (tile_has_special(unit_tile(punit), S_IRRIGATION)
@@ -2190,7 +2190,7 @@ void real_menus_update(void)
 
     if (pterrain->mining_result != T_NONE
         && pterrain->mining_result != pterrain) {
-      fc_snprintf(mintext, sizeof(mintext), _("Change to %s (_M)"),
+      fc_snprintf(mintext, sizeof(mintext), _("Change to %s"),
                   get_tile_change_menu_text(unit_tile(punit), ACTIVITY_MINE));
     } else {
       sz_strlcpy(mintext, _("Build _Mine"));
