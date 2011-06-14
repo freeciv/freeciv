@@ -95,6 +95,7 @@ artists = "
    Chananea		Daniel Markstedt
    Chechnya		Lokal Profil (Wikimedia Commons)
    Cheyenne		Arturo Espinosa-Aldama
+   Chiapas		Towndown (Wikimedia Commons)
    Chile		Mario Fuentes
    Chimu		J.M. Maalderink
    China		Stephen Silver
@@ -583,6 +584,7 @@ sprites =
 		"f.chananea", "flags/chananea"
 		"f.chechnya", "flags/chechnya"
 		"f.cheyenne", "flags/cheyenne"		; used by Sioux
+		"f.chiapas", "flags/chiapas"
 		"f.chile", "flags/chile"
 		"f.chimu", "flags/chimu"
 		"f.china", "flags/china"

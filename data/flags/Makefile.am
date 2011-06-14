@@ -88,6 +88,7 @@ flag_files =				\
 		chananea.png		\
 		chechnya.png		\
 		cheyenne.png		\
+		chiapas.png		\
 		chile.png		\
 		chimu.png		\
 		china.png		\
@@ -568,6 +569,7 @@ flag_files =				\
 		chananea-large.png		\
 		chechnya-large.png		\
 		cheyenne-large.png		\
+		chiapas-large.png		\
 		chile-large.png		\
 		chimu-large.png		\
 		china-large.png		\
@@ -1050,6 +1052,7 @@ shield_files =					\
 		chananea-shield.png		\
 		chechnya-shield.png		\
 		cheyenne-shield.png		\
+		chiapas-shield.png		\
 		chile-shield.png		\
 		chimu-shield.png		\
 		china-shield.png		\
@@ -1530,6 +1533,7 @@ shield_files =					\
 		chananea-shield-large.png		\
 		chechnya-shield-large.png		\
 		cheyenne-shield-large.png		\
+		chiapas-shield-large.png		\
 		chile-shield-large.png		\
 		chimu-shield-large.png		\
 		china-shield-large.png		\
@@ -2012,6 +2016,7 @@ svg_files = 				\
 		chechnya.svg		\
 		cheyenne.svg		\
 		chad.svg		\
+		chiapas.svg		\
 		chile.svg		\
 		chimu.svg		\
 		china.svg		\

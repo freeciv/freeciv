@@ -93,6 +93,7 @@ pkgdata_DATA = \
 		chananean.ruleset \
 		chechen.ruleset \
 		cherokee.ruleset \
+		chiapanec.ruleset \
 		chilean.ruleset \
 		chimu.ruleset \
 		chinese.ruleset \
