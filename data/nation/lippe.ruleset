@@ -35,7 +35,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="german"
-civilwar_nations = "westphalian", "hannoverian", "saxon"
+civilwar_nations = "westphalian", "hanoverian", "saxon"
 
 cities =
 ;Lippe-Detmold

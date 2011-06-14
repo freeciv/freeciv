@@ -32,7 +32,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="sotho"
-civilwar_nations="zulu", "xhosa", "motswana"
+civilwar_nations="zulu", "xhosa", "tswana"
 
 cities =
  "Maseru",

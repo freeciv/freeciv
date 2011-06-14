@@ -55,7 +55,7 @@ civilwar_nations=
 ;separated in 1830
 "belgian",
 ;colonies
-"antillian", "indonesian", "moluccan", "surinamese"
+"antillean", "indonesian", "moluccan", "surinamese"
 
 cities =
  "Amsterdam (ocean, lake, grassland)",

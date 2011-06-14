@@ -32,7 +32,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="mosotho", "zulu", "swazi"
+civilwar_nations="sotho", "zulu", "swazi"
 
 cities =
  "Mapungubwe",
