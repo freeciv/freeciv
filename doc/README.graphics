@@ -9,7 +9,7 @@ To use different graphics with Freeciv, use the '--tiles' argument to
 the Freeciv client.  Eg, to use the 'engels' graphics, start the
 client as:
   
-    civclient --tiles engels
+    freeciv-gtk2 --tiles engels
 
 What Freeciv actually does in this case is look for a file called
 'engels.tilespec' somewhere in your Freeciv data path.  (See the file
@@ -78,7 +78,7 @@ options include:
 
   String vectors
   --------------
-  prefered_themes       : List of prefered client themes to use with this
+  prefered_themes       : List of preferred client themes to use with this
                           tileset
 
   Integers
@@ -257,7 +257,7 @@ If a given tag appears multiple times in the spec files, the *last*
 such tag is used.  (That is, in the order of files listed in the
 tilespec file, and order within each file.)  This allows selected
 graphics to be "overridden" by listing a replacement spec file near
-the end of the 'files' list in the toplevel tilespec file, without
+the end of the 'files' list in the top-level tilespec file, without
 having to modify earlier files in the list.
 
 ----------------------------------------------------------------------
