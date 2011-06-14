@@ -6,7 +6,6 @@ pkgdatadir = $(datadir)/$(PACKAGE)/isophex
 pkgdata_DATA =          \
 	darkness.png	\
 	darkness.spec	\
-	gold.spec	\
 	grid.png	\
 	grid.spec	\
 	rivers.png	\
@@ -14,8 +13,6 @@ pkgdata_DATA =          \
 	terrain1.png	\
 	terrain1.spec	\
 	terrain2.png	\
-	terrain2.spec	\
-	tiles.png	\
-	tiles.spec
+	terrain2.spec
 
 EXTRA_DIST = $(pkgdata_DATA)
