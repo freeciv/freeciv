@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-27 15:33-0700\n"
-"PO-Revision-Date: 2011-06-03 22:02+0300\n"
+"PO-Revision-Date: 2011-06-14 15:31+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Їжа"
 #: client/gui-gtk-2.0/repodlgs.c:1219
 #: client/gui-win32/repodlgs.c:712
 msgid "Shield"
-msgstr "Виробництво"
+msgstr "Щит"
 
 #: common/city.c:83
 #: data/Freeciv.in:3069
@@ -2180,7 +2180,7 @@ msgstr "зросли"
 
 #: server/citytools.c:2691
 msgid "reduced"
-msgstr ""
+msgstr "зменшилось"
 
 #: server/cityturn.c:198
 #, c-format
@@ -4206,7 +4206,7 @@ msgstr ""
 
 #: server/edithand.c:1460
 msgid "No permissions to remotely save scenario."
-msgstr ""
+msgstr "Немає прав для віддаленого збереження сценарію."
 
 #: server/edithand.c:1467
 msgid "Scenario information not set. Cannot save scenario."
@@ -4295,7 +4295,7 @@ msgstr "%s - це анонімна назва. Використайте назв
 #: server/handchat.c:172
 #, c-format
 msgid "You cannot send messages to %s; you are ignored."
-msgstr ""
+msgstr "Ви не можете надсилати повідомлення %s; вас ігнорують."
 
 #: server/handchat.c:231
 #, c-format
@@ -5236,15 +5236,15 @@ msgstr ""
 
 #: server/settings.c:354
 msgid "All players move concurrently"
-msgstr ""
+msgstr "Усі гравці ходять одночасно"
 
 #: server/settings.c:356
 msgid "All players alternate movement"
-msgstr ""
+msgstr "Усі гравці ходять почергово"
 
 #: server/settings.c:357
 msgid "Team alternate movement"
-msgstr ""
+msgstr "Команди ходять почергово"
 
 #: server/settings.c:369
 #, fuzzy
@@ -5587,7 +5587,7 @@ msgstr "Глобальне потепління"
 
 #: server/settings.c:1052
 msgid "If turned off, global warming will not occur as a result of pollution. This setting does not affect pollution."
-msgstr ""
+msgstr "Якщо вимкнено, то глобальне потепління не настане внаслідок забруднення. На забруднення це не впливає."
 
 #: server/settings.c:1059
 msgid "Nuclear winter"
@@ -5595,7 +5595,7 @@ msgstr "Ядерна зима"
 
 #: server/settings.c:1060
 msgid "If turned off, nuclear winter will not occur as a result of nuclear war."
-msgstr ""
+msgstr "Якщо вимкнено, ядерна зима не настане внаслідок ядерної війни."
 
 #: server/settings.c:1066
 msgid "Map generation random seed"
@@ -5778,7 +5778,7 @@ msgstr "Швидкість досліджень: немає досліджень
 
 #: server/settings.c:1260
 msgid "If this setting is turned on, then the team mates will share the science research. Else, every player of the team will have to make its own."
-msgstr ""
+msgstr "Якщо це налаштування увімкнено, члени команд матимуть спільні наукові дослідження. В іншому випадку, кожен гравець команди вестиме дослідження самостійно."
 
 #: server/settings.c:1267
 msgid "Penalty when getting tech or gold from treaty"
@@ -5862,7 +5862,7 @@ msgstr "Технологія"
 
 #: server/settings.c:1369
 msgid "If turned off, trading technologies in the diplomacy dialog is not allowed."
-msgstr ""
+msgstr "Якщо вимкнено, обмін технологіями через дипломатію неможливий."
 
 #: server/settings.c:1375
 #, fuzzy
@@ -5871,7 +5871,7 @@ msgstr "Грошей: %d"
 
 #: server/settings.c:1376
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
-msgstr ""
+msgstr "Якщо вимкнено, обмін золотом через дипломатію неможливий."
 
 #: server/settings.c:1382
 #, fuzzy
@@ -5880,7 +5880,7 @@ msgstr "Місто: Свято"
 
 #: server/settings.c:1383
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
-msgstr ""
+msgstr "Якщо вимкнено, обмін містами через дипломатію неможливий."
 
 #: server/settings.c:1389
 msgid "Minimum distance for trade routes"
@@ -6505,7 +6505,7 @@ msgstr "Внутрішня помилка."
 #: server/settings.c:2260
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
-msgstr ""
+msgstr "Префікс \"%s\" неоднозначний. Можливі кандидати: %s."
 
 #: server/settings.c:2267
 #, fuzzy
@@ -8209,7 +8209,7 @@ msgstr "<немає з'єднань>"
 
 #: server/stdinhand.c:4928
 msgid "Your ignore list:"
-msgstr ""
+msgstr "Ваш список ігнорування:"
 
 #: server/stdinhand.c:4947
 msgid "List of players:"
@@ -16309,9 +16309,9 @@ msgid "_Take a Player"
 msgstr "Міста"
 
 #: client/gui-gtk-2.0/pages.c:1821
-#, fuzzy, c-format
+#, c-format
 msgid "_Observe %s"
-msgstr " (спостерігач)"
+msgstr "Спостерігати за %s (_O)"
 
 #: client/gui-gtk-2.0/pages.c:1826
 #: client/gui-gtk-2.0/pages.c:2390
@@ -16474,9 +16474,8 @@ msgid "Show all"
 msgstr "Показати геть усі"
 
 #: client/gui-gtk-2.0/repodlgs.c:750
-#, fuzzy
 msgid "?Building or Unit type:Name"
-msgstr "Назва будівлі"
+msgstr "Назва"
 
 #: client/gui-gtk-2.0/repodlgs.c:756
 #: client/gui-gtk-2.0/wldlg.c:997
@@ -16510,9 +16509,9 @@ msgid "Sell Improvements"
 msgstr "Продати будівлі"
 
 #: client/gui-gtk-2.0/repodlgs.c:925
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really wish to disband your %s?\n"
-msgstr "Чи насправді Ви хочете продати Ваш %s\n"
+msgstr "Ви дійсно хочете розформувати Ваш %s?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:929
 msgid "Disband Units"
@@ -16580,9 +16579,8 @@ msgid "Player\n"
 msgstr "Гравець\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1662
-#, fuzzy
 msgid "Nation\n"
-msgstr "Нація"
+msgstr "Нація\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1664
 msgid "Score\n"
@@ -19469,11 +19467,13 @@ msgid ""
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:261
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Granary:   %3d/%-3d\n"
 "Change in: %s"
-msgstr "Амбар: %3d/%-3d"
+msgstr ""
+"Амбар: %3d/%-3d\n"
+"Зміниться за: %s"
 
 #: client/gui-xaw/citydlg.c:291
 #, c-format
@@ -19960,16 +19960,14 @@ msgstr ""
 
 #: modinst/download.c:287
 #: modinst/download.c:441
-#, fuzzy
 msgid "Cannot determine control directory"
-msgstr "Не можу знайти Ваш домашній каталог"
+msgstr "Не можу визначити контрольний каталог"
 
 #: modinst/download.c:291
 #: modinst/download.c:385
 #: modinst/download.c:445
-#, fuzzy
 msgid "Cannot create required directories"
-msgstr "Не можу знайти Ваш домашній каталог"
+msgstr "Не можу створити необхідні каталоги"
 
 #: modinst/download.c:297
 msgid "Downloading modpack control file."
@@ -20811,7 +20809,7 @@ msgstr " Виробництво"
 
 #: data/helpdata.txt:507
 msgid "Production points (also known as \"shields\") represent manufacturing output. Most units require production points as upkeep, and demand them from their home city, although under autocratic regimes each city supports a few units for free. If city production drops too low, the units that cannot be supported are automatically disbanded. Units can also be disbanded at any time. If a unit is disbanded while in a city, half of its production cost will be put towards that city's surplus."
-msgstr ""
+msgstr "Пункти виробництва (також відомі як  \"щити\") показують рівень виробництва. Більшість підрозділів вимагають пунктів виробництва на своє утримання від свого рідного міста, хоча за деяких автократичних режимів кожне місто утримує кілька підрозділів безкоштовно. Якщо виробництво у місті стає занадто низьким, то підрозділи, які не підтримуються, буде автоматично розформовано. Якщо підрозділ розформовується у місті, половину вартості його виробництва буде додано до виробничого запасу цього міста."
 
 #: data/helpdata.txt:515
 msgid "Production points in excess of any required by the city's units are put towards whichever unit, building, or wonder has been selected as the city's current product. Just as food points accumulate in the city granary and yield a citizen when it reaches full, so production points accumulate until the cost of the product has been achieved. Products appear in their city when complete -- units appear on the map while improvements and wonders are added to their city's list of structures. Any leftover production points remain available to be applied towards the next project."
@@ -20920,9 +20918,8 @@ msgstr "Міста можна покращувати різноманітним�
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:713
-#, fuzzy
 msgid " Specialists"
-msgstr "Спеціальне"
+msgstr " Спеціалісти"
 
 #: data/helpdata.txt:714
 msgid "The first citizens of each city usually work the land, each toiling to yield up the resources of one terrain tile. However, there may be other specialist roles citizens can assume; in fact, taking another role is the only way they can stop working. A city may outgrow the land available for it to work, in which case some citizens must become specialists."
@@ -20991,9 +20988,8 @@ msgid "Thus, you may find that founding or conquering a city triggers widespread
 msgstr ""
 
 #: data/helpdata.txt:808
-#, fuzzy
 msgid "Luxury makes citizens happy. For every two luxury points a city produces, one content citizen is made happy (if there are no content citizens left, unhappy citizens become content then happy). Each city receives back some of the trade points it produces as luxury points according to your empire's tax rates; see the section on Trade. Luxury points may also be produced by other means, such as entertainer specialists in the default ruleset."
-msgstr "Розкіш робить городян щасливими. Кожні два пункти розкоші, що виробляються містом, ощасливлюють одного нейтрального городянина (а якщо нейтральних не залишилось, нещасні стають нейтральними, відтак щасливими). Окрім пунктів розкоші, створених у місті артистами, кожне місто отримує частину своїх пунктів торгівлі у якості пунктів розкоші, відповідно до рівня податків Вашої імперії; дивись також розділ Торгівля. "
+msgstr "Розкіш робить городян щасливими. Кожні два пункти розкоші, що виробляються містом, ощасливлюють одного нейтрального городянина (а якщо нейтральних не залишилось, нещасні стають нейтральними, відтак щасливими). Кожне місто отримує частину своїх пунктів торгівлі у якості пунктів розкоші, відповідно до рівня податків Вашої імперії; дивись також розділ Торгівля. Пункти розкоші можуть створюватися й іншими способами, наприклад артистами за типового набору правил."
 
 #: data/helpdata.txt:816
 msgid "There are several city improvements that will make content those remaining citizens that are unhappy due to crowding, such as Temples and Colosseums in the default rules. Some wonders of the world can also have this effect. See the appropriate sections for details."
@@ -22223,12 +22219,9 @@ msgstr "Атомна електростанція"
 
 #: data/civ1/buildings.ruleset:404
 #: data/civ2/buildings.ruleset:481
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Reduces the amount of pollution generated by production in a city by 50%.  It also increases the shield production of a Factory or Mfg. Plant in the city: a Factory and a Nuclear Plant together give a 100% production bonus, and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus."
-msgstr ""
-"Зменшує забруднення, що виникає внаслідок виробництва у місті на 50%. Також збільшує виробництво на Фабриках та Заводах у місті: Фабрика та Гідростанція разом дають приріст виробництва 100%, Фабрика, Завод та Гідростанція разом дають 150% прирісту виробництва.\n"
-"\n"
-"Місто може мати лише одну Гідро, Тепло чи Aтомну станцію."
+msgstr "Зменшує забруднення, що виникає внаслідок виробництва у місті, на 50%. Також збільшує виробництво на Фабриках та Заводах у місті: Фабрика та АЕС разом дають приріст виробництва 100%, Фабрика, Завод та АЕС разом дають 150% приросту виробництва."
 
 #: data/civ1/buildings.ruleset:411
 #: data/civ1/buildings.ruleset:471
@@ -22248,12 +22241,8 @@ msgstr "Палац"
 #: data/default/buildings.ruleset:570
 #: data/experimental/buildings.ruleset:619
 #: data/multiplayer/buildings.ruleset:560
-#, fuzzy
 msgid "Makes a city the capital and the center of your government.  Corruption in other cities is related to how far away from the capital they are, except when the government is Democracy or Communism.  The cost of inciting a revolt in a city also depends upon the city's distance from the capital (under all forms of government)."
-msgstr ""
-"Робіть місто столицею та центром Вашого правління. Корупція у інших містах залежить від того як далеко від столиці вони знаходяться, за виключенням форм керування Демократії та Коммунізму. Вартість влаштвання революції у місті також залежить від відстані до столиці (за усіх форм правління).\n"
-"\n"
-"Дбайте про свою столицю, тому що її втрата може призвести до громадянської війни у Вашій імперії. Втрата Вашого поточного палацу також приводить до втрати космічного корабля."
+msgstr "Робіть місто столицею та центром Вашого уряду. Корупція в інших містах залежить від того, як далеко від столиці вони знаходяться, за виключенням форм правління Демократії та Комунізму. Вартість збурення революції у місті також залежить від відстані до столиці (за усіх форм правління)."
 
 #: data/civ1/buildings.ruleset:442
 #: data/civ2/buildings.ruleset:540
@@ -22530,9 +22519,8 @@ msgstr "Велика Бібліотека"
 #: data/civ2/buildings.ruleset:1110
 #: data/default/buildings.ruleset:1174
 #: data/experimental/buildings.ruleset:1226
-#, fuzzy
 msgid "The civilization which builds the Great Library gets every advance that at least two other teams have achieved."
-msgstr "Цивілізація що побудувала Велику Бібліотеку отримує будь яке нове знання, що їх відкрили будь які дві інші цивілізації."
+msgstr "Цивілізація, що побудувала Велику Бібліотеку, отримує будь яке нове знання, відкрите принаймі двома іншими цивілізаціями."
 
 #: data/civ1/buildings.ruleset:768
 #: data/civ2/buildings.ruleset:1116
@@ -22758,12 +22746,8 @@ msgstr "Вождь"
 #: data/default/governments.ruleset:67
 #: data/experimental/governments.ruleset:69
 #: data/multiplayer/governments.ruleset:67
-#, fuzzy
 msgid "Anarchy is simply the absence of any recognizable government. Citizens are disorganized and unproductive, and will spend all income as quickly as possible, rather than paying taxes or conducting research."
-msgstr ""
-"Анархія - це просто відсутність визнаного уряду. Громадяни неорганізовані та непродуктивні; вони якнайшвидше витрачатимуть зароблене, замість того щоб сплачувати податки чи займатися дослідженнями.\n"
-"\n"
-"За Анархії рівень корупції трохи менший, ніж за Деспотизму, але люди менш щасливі."
+msgstr "Анархія - це просто відсутність визнаного уряду. Громадяни неорганізовані та непродуктивні; вони якнайшвидше витрачатимуть зароблене, замість того щоб сплачувати податки чи займатися дослідженнями."
 
 #: data/civ1/governments.ruleset:71
 #: data/default/governments.ruleset:72
@@ -22803,12 +22787,8 @@ msgstr "Вождиня"
 #: data/default/governments.ruleset:89
 #: data/experimental/governments.ruleset:93
 #: data/multiplayer/governments.ruleset:89
-#, fuzzy
 msgid "Under Despotism, you are the absolute ruler of your people.  Your control over your citizens is maintained largely by martial law."
-msgstr ""
-"За Деспотизму, ви - абсолютний володар свого народу. Ваш контроль над громадянами значною мірою спирається на військове положення.\n"
-"\n"
-"Деспотизм зазнає найвищого рівню корупції поміж усіх форм правління."
+msgstr "За Деспотизму, ви - абсолютний володар свого народу. Ваш контроль над громадянами значною мірою спирається на військове положення."
 
 #: data/civ1/governments.ruleset:91
 #: data/default/governments.ruleset:92
@@ -22853,23 +22833,15 @@ msgstr "Королева %s"
 #: data/default/governments.ruleset:111
 #: data/experimental/governments.ruleset:115
 #: data/multiplayer/governments.ruleset:111
-#, fuzzy
 msgid "Under Monarchy, a king or queen serves as a hereditary figurehead for your government."
-msgstr ""
-"За Монархії, король або королева виконує функції спадкового номінального керівника уряду.\n"
-"\n"
-"Монархії властивий такий же низький рівень корупції, як і Республіці."
+msgstr "За Монархії, король або королева виконує функції спадкового номінального керівника уряду."
 
 #: data/civ1/governments.ruleset:113
 #: data/default/governments.ruleset:114
 #: data/experimental/governments.ruleset:118
 #: data/multiplayer/governments.ruleset:114
-#, fuzzy
 msgid "Monarchy suffers the same small amount of corruption that the Republic does."
-msgstr ""
-"За Монархії, король або королева виконує функції спадкового номінального керівника уряду.\n"
-"\n"
-"Монархії властивий такий же низький рівень корупції, як і Республіці."
+msgstr "Монархії властивий такий же низький рівень корупції, як і Республіці."
 
 #: data/civ1/governments.ruleset:121
 #: data/civ1/techs.ruleset:154
@@ -22907,12 +22879,8 @@ msgstr "Товаришка %s"
 #: data/default/governments.ruleset:132
 #: data/experimental/governments.ruleset:136
 #: data/multiplayer/governments.ruleset:132
-#, fuzzy
 msgid "A Communist government is based on the ideal that all people are equal.  All goods are owned by the state, rather than by private citizens.  Communism gives a balance between military and commercial styles of government."
-msgstr ""
-"Комунізм базується на утопії, що всі люди рівні. Усіма статками володіє держава, а не приватні особи. Комунізм дає баланс між військовими та комерційними формами правління.\n"
-"\n"
-"За Комунізму, корупція не змінюється в залежності від відстані до столиці; усі міста (включаючи столицю) мають невеликий рівень корупції. "
+msgstr "Комунізм базується на утопії, що всі люди рівні. Усіма статками володіє держава, а не приватні особи. Комунізм забезпечує баланс між військовими та комерційними стилями правління."
 
 #: data/civ1/governments.ruleset:136
 #: data/default/governments.ruleset:137
@@ -23721,7 +23689,7 @@ msgstr "Тюлені"
 
 #: data/civ1/terrain.ruleset:706
 msgid "Fortresses improve defense for land units."
-msgstr ""
+msgstr "Фортеці покращують захист сухопутних підрозділів."
 
 #: data/civ1/units.ruleset:18
 #: data/civ2/units.ruleset:23
@@ -24296,26 +24264,22 @@ msgstr "Караван"
 #: data/default/units.ruleset:1968
 #: data/experimental/units.ruleset:1983
 msgid "A Caravan carries goods or material for trading with distant cities and foreign countries, or to help build wonders in your cities."
-msgstr ""
+msgstr "Караван перевозить товари чи матеріали для торгівлі з далекими містами та іноземними державами, або ж для допомоги будівництву див у ваших містах."
 
 #: data/civ1/units.ruleset:1188
 #: data/civ2/units.ruleset:1923
 #: data/default/units.ruleset:1971
 #: data/experimental/units.ruleset:1986
 msgid "Every Caravan that is used to build a wonder will add 50 shields towards the production of the wonder."
-msgstr ""
+msgstr "Кожен караван, який використовується для будівництва дива, додає 50 щитів до його виробництва."
 
 #: data/civ1/units.ruleset:1191
 #: data/civ2/units.ruleset:1926
 #: data/default/units.ruleset:1974
 #: data/experimental/units.ruleset:1989
 #: data/multiplayer/units.ruleset:2073
-#, fuzzy
 msgid "TIP:  You can stockpile a stack of Caravans in advance and bring them all into a city where you have started to build a wonder, and finish it in only one turn!"
-msgstr ""
-"Кожен караван що використовується для побудови дива додає 50 до будівництва.\n"
-"\n"
-"Порада: Ви можете зібрати багато караванів та направити їх у місто де Ви розпочали будувати диво, та закінчити його у один хід!"
+msgstr "Порада: Ви можете зазделегідь зібрати багато караванів і направити їх у місто, де Ви розпочали будувати диво, та закінчити його за один хід!"
 
 #: data/civ1/units.ruleset:1198
 #: data/civ2/units.ruleset:1996
@@ -24334,17 +24298,15 @@ msgid "One Barbarian Leader appears every time there is a barbarian uprising som
 msgstr ""
 
 #: data/civ1/units.ruleset:1227
-#, fuzzy
 msgid "When a Barbarian Leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
-msgstr "Коли вождя дикунів вбивають на клітинці без будь яких захисних підрозділів, то виплачується винагорода в 100 гривень, але тількі для сухопутних підрозділів та гелікоптерів."
+msgstr "Коли вождя дикунів вбивають на клітинці без будь яких захисних підрозділів, то виплачується винагорода в 100 гривень, але тільки для сухопутних підрозділів."
 
 #: data/civ2/buildings.ruleset:42
 #: data/default/buildings.ruleset:63
 #: data/experimental/buildings.ruleset:65
 #: data/multiplayer/buildings.ruleset:62
-#, fuzzy
 msgid "Allows a city to produce veteran air units (including helicopters).  Also, damaged air units (again, including helicopters) which stay in town for one full turn without moving are completely restored."
-msgstr "Дозволяє будувати морські підрозділи ветерани. Також, поранені морські підрозділи що залишаються у місті на один повний хід повністю відновлюють сили."
+msgstr "Дозволяє будувати ветеранами повітряні підрозділи (та гелікоптери). Також, пошкоджені повітряні підрозділи (та гелікоптери), що залишаються у місті на один повний хід, повністю ремонтуються."
 
 #: data/civ2/buildings.ruleset:46
 #: data/default/buildings.ruleset:67
@@ -24436,9 +24398,9 @@ msgstr ""
 #: data/default/buildings.ruleset:490
 #: data/experimental/buildings.ruleset:539
 #: data/multiplayer/buildings.ruleset:485
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Together with a Factory, a Manufacturing Plant increases the shield production in a city by 100%. A Manufacturing Plant on its own increases shield production by 50%."
-msgstr "Разом з Фабрикою, Завод збільшує виробництво у місті на 100%."
+msgstr "Разом із Фабрикою, Завод збільшує виробництво у місті на 100%. Сам по собі, Завод збільшує виробництво на 50%."
 
 #: data/civ2/buildings.ruleset:488
 #: data/civ2/buildings.ruleset:613
@@ -24716,9 +24678,9 @@ msgid "Sun Tzu's War Academy"
 msgstr "Мистецтво Війни Сун Дзу"
 
 #: data/civ2/buildings.ruleset:1479
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "All your new military land units become veterans (for all cities).  The chance of a land unit becoming a veteran after a battle increases from 50% to 100%."
-msgstr "Усі нові сухопутні підрозділи стають ветеранами (для усіх міст). Вірогідність того, що підрозділ стане ветераном після битви збільшується з 50% до 100%."
+msgstr "Усі нові сухопутні військові підрозділи стають ветеранами (для усіх міст). Вірогідність того, що підрозділ стане ветераном після битви збільшується з 50% до 100%."
 
 #: data/civ2/buildings.ruleset:1500
 #: data/default/buildings.ruleset:1570
@@ -24852,12 +24814,8 @@ msgid "Despotism suffers the highest level of corruption and waste of all forms 
 msgstr ""
 
 #: data/civ2/governments.ruleset:111
-#, fuzzy
 msgid "Monarchy suffers the same small amount of corruption and waste that the Republic does."
-msgstr ""
-"За Монархії, король або королева виконує функції спадкового номінального керівника уряду.\n"
-"\n"
-"Монархії властивий такий же низький рівень корупції та втрат, як і Республіці."
+msgstr "Монархії властивий такий же низький рівень корупції та втрат, як і Республіці."
 
 #: data/civ2/governments.ruleset:134
 msgid "Under Communism, corruption and waste does not vary by distance from the capital; all cities (including the capital) have a modest amount of corruption."
@@ -25086,23 +25044,15 @@ msgstr "Військове діло"
 #: data/default/terrain.ruleset:57
 #: data/experimental/terrain.ruleset:59
 #: data/multiplayer/terrain.ruleset:57
-#, fuzzy
 msgid "Any land terrain type may have a River on it.  A River adds 1 trade to the resources produced by that tile.  It also increases a tile's defense factor by 50%.  Finally, land units may move along a River (but not diagonally); movement along a River costs only 1/3 of a movement point."
-msgstr ""
-"Будь яка територія суходолу може містити Річку. Річка додає 1 торгівлю до ресурсів, що виробляються на цій території. Крім того, захисний фактор підвищується на 50%. Врешті, наземні підрозділи можуть рухатися вздовж річки (але не по діагоналі); рух вздовж річки коштує лише 1/3 звичайного руху.\n"
-"\n"
-"Шляхи та Залізниці можна будувати на територіях із річками, лише якщо Ви відкрили технологію Будівництва Мостів."
+msgstr "Будь яка територія суходолу може містити Річку. Річка додає 1 торгівлю до ресурсів, що виробляються на цій території. Крім того, захисний фактор підвищується на 50%. Врешті, наземні підрозділи можуть рухатися вздовж річки (але не по діагоналі); рух вздовж річки коштує лише 1/3 звичайного руху."
 
 #: data/civ2/terrain.ruleset:59
 #: data/default/terrain.ruleset:62
 #: data/experimental/terrain.ruleset:64
 #: data/multiplayer/terrain.ruleset:62
-#, fuzzy
 msgid "Roads and railroads can only be built on River tiles if your civilization has learned Bridge Building technology."
-msgstr ""
-"На додаток до рибальства, Ріки є відмінними шляхами зв'язку та торгівлі.\n"
-"\n"
-"Шляхи та Залізниці можуть бути збудовані на річках лише за умови відкриття вашоє цивілізацією Мостобудування."
+msgstr "Шляхи та Залізниці можна будувати на річках лише за умови відкриття вашою цивілізацією технології Мостобудування."
 
 #: data/civ2/terrain.ruleset:223
 #: data/default/terrain.ruleset:302
@@ -25233,14 +25183,8 @@ msgid "Engineers"
 msgstr "Інженери"
 
 #: data/civ2/units.ruleset:258
-#, fuzzy
 msgid "Engineers are similar to Settlers, but they work twice as fast and move twice as fast.  Engineers may also perform major terrain transformations (for example, converting Tundra into Desert) which are beyond the capabilities of Settlers; see the Terrain Alterations section for more details."
-msgstr ""
-"Інженери подібні до Колоністів, але вони вдвічі швидше працюють та рухаються. Інженери також можуть виконувати великі трансформації територій (наприклад, перетворити Тундру на Пустелю) на що не вистачає можливостей Колоністів; див. розділ Перетворення територій для додаткової інформації.\n"
-"\n"
-"Порада 1: Модернізуйте Колоністів до Інженерів коли це можливо, тому що Інженери вимагають стільки ж ресурсів, як звичайні Колоністи.\n"
-"\n"
-"Порада 2: Якщо Ви збудуєте Майстерню Леонардо, дослідіть Вибухівку до того, як Майстерня стане застарілою. В такому випадку Ваші Колоністи будуть безкоштовно модернізовані."
+msgstr "Інженери подібні до Колоністів, але вони вдвічі швидше працюють та рухаються. Інженери також можуть виконувати великі трансформації територій (наприклад, перетворити Тундру на Пустелю) на що Колоністи не здатні; див. розділ Перетворення територій для додаткової інформації."
 
 #: data/civ2/units.ruleset:264
 msgid "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require the same resources as ordinary Settlers."
@@ -25304,12 +25248,8 @@ msgstr ""
 
 #: data/civ2/units.ruleset:496
 #: data/multiplayer/units.ruleset:644
-#, fuzzy
 msgid "Fundamentalist nations can maintain Fanatic units without having to pay any shields for upkeep."
-msgstr ""
-"Лише Фундаменталіські нації можуть будувати Фанатічні загони.\n"
-"\n"
-"Фундаменталіські нації можуть утримувати Фанатічні загони не сплачуючи за їх утримання виробництвом."
+msgstr "Фундаменталістські нації можуть утримувати Фанатичні загони не сплачуючи за їх утримання виробництвом."
 
 #: data/civ2/units.ruleset:502
 #: data/default/units.ruleset:614
@@ -25684,16 +25624,14 @@ msgstr "Дослідники - це хоробрі люди, що стають �
 #: data/default/units.ruleset:2107
 #: data/experimental/units.ruleset:2122
 #: data/multiplayer/units.ruleset:2207
-#, fuzzy
 msgid "When a Barbarian Leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
-msgstr "Коли вождя дикунів вбивають на клітинці без будь яких захисних підрозділів, то виплачується винагорода в 100 гривень, але тількі для сухопутних підрозділів та гелікоптерів."
+msgstr "Коли вождя дикунів вбивають на клітинці без будь-яких захисних підрозділів, то виплачується винагорода в 100 гривень, але тільки для сухопутних підрозділів та гелікоптерів."
 
 #: data/default/buildings.ruleset:89
 #: data/experimental/buildings.ruleset:91
 #: data/multiplayer/buildings.ruleset:113
-#, fuzzy
 msgid "Allows a city to grow larger than size 8 and reduces the chance of plague within the city. A Sewer System is required for a city to grow larger than size 12."
-msgstr "Дозволяє місту зростати понад 12. Водогін спершу потрібен для росту міста понад 8."
+msgstr "Дозволяє місту зростати у розмірі понад 8 та зменшує ризик пошесті в місті. Для збільшення розміру понад 12 потрібна Каналізація."
 
 #: data/default/buildings.ruleset:278
 #: data/experimental/buildings.ruleset:280
@@ -25777,9 +25715,8 @@ msgstr "Разом з Бібліотекою, Дослідна лаборато�
 #: data/default/buildings.ruleset:774
 #: data/experimental/buildings.ruleset:823
 #: data/multiplayer/buildings.ruleset:756
-#, fuzzy
 msgid "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct for a city to grow larger than size 8. The Sewer System further reduces the chance of a plague."
-msgstr "Дозволяє місту зростати понад 12. Водогін спершу потрібен для росту міста понад 8."
+msgstr "Дозволяє місту зростати у розмірі понад 12. Спершу потрібен Водогін для росту міста понад 8. Надалі, каналізація зменшує ризик пошесті."
 
 #: data/default/buildings.ruleset:798
 #: data/experimental/buildings.ruleset:847
@@ -25906,13 +25843,13 @@ msgstr "Уявні"
 #: data/experimental/cities.ruleset:64
 #: data/multiplayer/cities.ruleset:61
 msgid "Each scientist adds three points to your empire's research output per turn."
-msgstr ""
+msgstr "Кожен науковець додає за хід три пункти до досліджень."
 
 #: data/default/cities.ruleset:75
 #: data/experimental/cities.ruleset:77
 #: data/multiplayer/cities.ruleset:74
 msgid "Each tax collector produces three extra gold for your treasury per turn."
-msgstr ""
+msgstr "Кожен податківець додає до скарбниці три золотих за хід."
 
 #: data/default/cities.ruleset:178
 #: data/experimental/cities.ruleset:180
@@ -25958,7 +25895,7 @@ msgstr "Ви знайшли армію дикунів!"
 #: data/multiplayer/default.lua:172
 #, c-format
 msgid "The loss of %s has inspired partisans!"
-msgstr ""
+msgstr "Втрата %s надихнула партизанів!"
 
 #: data/default/techs.ruleset:212
 #: data/experimental/techs.ruleset:214
@@ -26037,7 +25974,7 @@ msgstr "Руїни"
 #: data/experimental/terrain.ruleset:987
 #: data/multiplayer/terrain.ruleset:985
 msgid "Ruins mark the former site of a city that was destroyed or abandoned. They have no effect on gameplay."
-msgstr ""
+msgstr "Руїни позначають розташування давніх міст, знищених або покинутих. Вони не впливають на ігровий процес."
 
 #: data/default/units.ruleset:28
 #: data/experimental/units.ruleset:31
@@ -26073,14 +26010,8 @@ msgstr ""
 #: data/default/units.ruleset:405
 #: data/experimental/units.ruleset:420
 #: data/multiplayer/units.ruleset:406
-#, fuzzy
 msgid "Engineers are similar to Workers, but they work twice as fast and move twice as fast.  Engineers may also perform major terrain transformations (for example, converting Tundra into Desert) which are beyond the capabilities of Workers and Settlers; see the Terrain Alterations section for more details."
-msgstr ""
-"Інженери подібні до Колоністів, але вони удвічі швидче працюють та рухаються. Інженери також можуть виконувати великі трансформації територій (наприклад, змінити Тундру на Пустелю) на що не вистачає можливостей Колоністів.\n"
-"\n"
-"Порада 1: Модернізуйте Колоністів на Інженерів коли це можливо, тому що Інженери вимагають стількі ж ресурсів як і Колоністи.\n"
-"\n"
-"Порада 2: Якщо Ви будуєте Майстерню Леонардо, відкрийте Підривне діло до того як Майстерня стане застарілою. Таким чином, Ваші Колоністи будуть модернізовані безкоштовно."
+msgstr "Інженери подібні до Колоністів, але вони удвічі швидше працюють та рухаються. Інженери також можуть виконувати великі трансформації територій (наприклад, змінити Тундру на Пустелю) на що не вистачає можливостей Колоністів та робітників; див. розділ Перетворення територій для додаткової інформації."
 
 #: data/default/units.ruleset:411
 #: data/experimental/units.ruleset:426
@@ -26251,9 +26182,8 @@ msgid "Allows you to start building spaceship parts in cities with factories (as
 msgstr ""
 
 #: data/multiplayer/buildings.ruleset:1027
-#, fuzzy
 msgid "City improvements which would normally have an upkeep of 1 are free of upkeep, for all your cities on the same continent."
-msgstr "Міські будівлі, що зазвичай потребують 1 гривню на утримання, утримуватимуться безкоштовно, в усіх Ваших містах."
+msgstr "Міські будівлі, що зазвичай потребують 1 гривню на утримання, утримуватимуться безкоштовно, в усіх Ваших містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1087
 #, fuzzy
@@ -26270,14 +26200,13 @@ msgid "Each city on the same continent may support one unit free of shield upkee
 msgstr ""
 
 #: data/multiplayer/buildings.ruleset:1153
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Reduces corruption by 50% in all cities on the same continent."
-msgstr "Потребує чуда %s у Вашому володінні на тому ж континенті.\n"
+msgstr "Зменшує корупцію на 50% у всіх містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1172
-#, fuzzy
 msgid "Works as a City Wall in all your cities on the same continent."
-msgstr "Працює як Міська стіна у всіх Ваших містах."
+msgstr "Працює як Міська стіна у всіх Ваших містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1191
 #, fuzzy
@@ -26285,34 +26214,30 @@ msgid "Makes two content citizens happy in every city on the same continent. In 
 msgstr "Робить у кожному місті одного нейтрального городянина  щасливим. Якщо раптом у місті немає нейтральних городян, Висячі Сади натомість впливають на нещасних (включно з нещасними внаслідок військових дій), роблячи їх нейтральними."
 
 #: data/multiplayer/buildings.ruleset:1215
-#, fuzzy
 msgid "Works as if you had a Hydro Plant in every city on the same continent. (This reduces pollution and increases the effects of Factories and Mfg. Plants.)"
-msgstr "Праціє так, нібито Ви маєте Гідростанцію у кожному місті (Зменшує забруднення та підвищує ефективність Фабрик та Заводів.)"
+msgstr "Працює так, ніби Ви маєте Гідростанцію у кожному місті на тому ж континенті.(Зменшує забруднення та підвищує ефективність Фабрик та Заводів.)"
 
 #: data/multiplayer/buildings.ruleset:1237
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Boosts science production by 100% in every city on the same continent that has a University."
-msgstr "Підвищує розвиток науки на 100% у кожному Вашому місті з Університетом."
+msgstr "Підвищує розвиток науки на 100% у кожному Вашому місті з Університетом на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1257
-#, fuzzy
 msgid "Makes two unhappy citizens content in every city on the same continent (including citizens unhappy about military activity)."
-msgstr "Нейтралізує двох нещасних у кожному місті (включно з нещасними внаслідок військових дій)."
+msgstr "Нейтралізує двох нещасних у кожному місті на тому ж континенті (включно з нещасними внаслідок військових дій)."
 
 #: data/multiplayer/buildings.ruleset:1297
-#, fuzzy
 msgid "Upgrades two obsolete units per game turn."
-msgstr "Модернізує один застарілий підрозділ за хід."
+msgstr "Модернізує два застарілих підрозділи за хід."
 
 #: data/multiplayer/buildings.ruleset:1337
-#, fuzzy
 msgid "All your new sea units built in cities on the same continent start at the first veteran level."
-msgstr "Модернізує один застарілий підрозділ за хід."
+msgstr "Усі ваші нові морські підрозділи, збудовані у містах на тому ж континенті, будуть ветеранами першого рівня."
 
 #: data/multiplayer/buildings.ruleset:1376
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases trade output by 40% in all cities on the same continent."
-msgstr "Збільшує торгові ресурси на 50% на всіх клітинках зі шляхами та залізницями."
+msgstr "Збільшує торгівлю на 40% у всіх містах на тому ж континенті."
 
 #: data/multiplayer/buildings.ruleset:1396
 #, fuzzy
@@ -26320,9 +26245,8 @@ msgid "Counts as having a Cathedral in each of your cities on the same continent
 msgstr "Працює як Собор у кожному місті. Таким чином, нейтралізує 3 нещасних у кожному місті; втім, не впливає на городян, нещасних внаслідок військових дій. Відкриття Теології збільшує ефективність Соборів, втішаючи ще одного нещасного. Відкриття Комунізму зменшує на одиницю ефективність Соборів."
 
 #: data/multiplayer/buildings.ruleset:1421
-#, fuzzy
 msgid "Makes two of your unhappy citizens content in every city with a Temple on the same continent. Does not affect citizens made unhappy by military activity."
-msgstr "Нейтралізує додатково 2 нещасних у кожному місті з Церквою. Не впливає на городян, нещасних внаслідок військових дій."
+msgstr "Нейтралізує 2 нещасних у кожному місті з Церквою не тому ж континенті. Не впливає на городян, нещасних внаслідок військових дій."
 
 #: data/multiplayer/buildings.ruleset:1443
 #, no-c-format
@@ -26334,23 +26258,21 @@ msgid "The Internet"
 msgstr "Інтернет"
 
 #: data/multiplayer/buildings.ruleset:1464
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Boosts science production in each city on the same continent with a Research Lab by 100%."
-msgstr "Збільшує розвиток науки в усіх містах з Дослідною Лабораторією на 100%."
+msgstr "Збільшує розвиток науки в усіх містах на тому ж континенті із Дослідною Лабораторією на 100%."
 
 #: data/multiplayer/buildings.ruleset:1526
-#, fuzzy
 msgid "All your new military land units produced in cities on the same continent start at the first veteran level."
-msgstr "Модернізує один застарілий підрозділ за хід."
+msgstr "Усі ваші нові військові сухопутні підрозділи, створені у містах на тому ж континенті, будуть ветеранами першого рівня."
 
 #: data/multiplayer/buildings.ruleset:1546
 msgid "Creates a world senate that may prevent declarations of war in some circumstances. If any player's city is in revolt for more than two turns, that player's government falls."
 msgstr ""
 
 #: data/multiplayer/buildings.ruleset:1567
-#, fuzzy
 msgid "Counts as a Police Station in every city on the same continent. (That is, for each city, it reduces the unhappiness caused by aggressively deployed military units owned by that city by 4 under Democracy and 2 under Republic -- in other words, it neutralises the unhappiness caused by two military units per city. This wonder has no effect under other governments.)"
-msgstr "Діє як Відділ Міліції у кожному місті. (Це, для кожного міста, зменшує кількість нещасних з причини виведених з міста військових підрозділів на 2 за Демократії та на 1 за Республіки -- іншими словами, нейтралізує нещасливість, спричинену одним військовим підрозділом на місто. Не діє за інших форм правління.)"
+msgstr "Діє як Відділ Міліції у кожному місті на тому ж континенті. (Це, для кожного міста, зменшує кількість нещасних з причини виведених з міста військових підрозділів на 4 за Демократії та на 2 за Республіки -- іншими словами, нейтралізує нещасливість, спричинену двома військовими підрозділами на місто. Не діє за інших форм правління.)"
 
 #: data/multiplayer/game.ruleset:18
 #, fuzzy
@@ -26492,7 +26414,7 @@ msgstr "Збільшує ефективність Амфітеатрів."
 
 #: data/multiplayer/techs.ruleset:270
 msgid "Having this advance decreases pollution in all your cities by 50%."
-msgstr ""
+msgstr "Зменшує забруднення у всіх ваших містах на 50%."
 
 #: data/multiplayer/techs.ruleset:547
 msgid "When you research this technology, you also get one other immediate technology advance."
@@ -26511,9 +26433,8 @@ msgid "Upkeep for Settlers is in food as well as production, and a Settler can d
 msgstr ""
 
 #: data/multiplayer/units.ruleset:1335
-#, fuzzy
 msgid "The Helicopter is a very powerful unit, as it can both fly and conquer cities.  Care must be exercised, because Helicopters lose a small amount of health for every turn not spent in a city or airbase or on a Carrier, and they may be attacked by ground units."
-msgstr "Гелікоптер - це дуже потужний підрозділ, він може літати та захоплювати міста. Але з ним слід бути уважним, бо Гелікоптер втрачає невелику кількість здоров'я кожного ходу, якій завершено поза містом, аеродромом чи Авіаносцем, якщо Ви не володієте дивом Об'єднанні нації; крім того, їх можуть атакувати наземні підрозділи."
+msgstr "Гелікоптер - це дуже потужний підрозділ, бо він може і літати, і захоплювати міста. Але з ним слід бути уважним, бо Гелікоптер втрачає невелику кількість здоров'я кожного ходу, який завершено поза містом, аеродромом чи Авіаносцем, крім того, їх можуть атакувати наземні підрозділи."
 
 #: data/multiplayer/units.ruleset:2067
 msgid "A Caravan carries goods or material to help build wonders in your cities."
@@ -30411,16 +30332,16 @@ msgstr ""
 #: data/nation/hansa.ruleset:26
 #: data/nation/sorbian.ruleset:27
 #: data/nation/westphalian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Burgomaster %s"
-msgstr "Бурманці"
+msgstr "Бургомістр %s"
 
 #: data/nation/hansa.ruleset:26
 #: data/nation/sorbian.ruleset:27
 #: data/nation/westphalian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Burgomaster %s"
-msgstr "Примас"
+msgstr "Бургомістр %s"
 
 #: data/nation/hasinay.ruleset:3
 #, fuzzy
@@ -33107,14 +33028,14 @@ msgid "The Seleucid Empire was one of the diadochi states founded when Alexander
 msgstr ""
 
 #: data/nation/seleucid.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Satrap %s"
-msgstr " у %s"
+msgstr "Сатрап %s"
 
 #: data/nation/seleucid.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Satrap %s"
-msgstr "Шаман"
+msgstr "Сатрапка %s"
 
 #: data/nation/senegalese.ruleset:3
 #, fuzzy
