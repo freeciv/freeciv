@@ -89,6 +89,7 @@ flag_files =				\
 		chechnya.png		\
 		cheyenne.png		\
 		chiapas.png		\
+		chickasaw.png		\
 		chile.png		\
 		chimu.png		\
 		china.png		\
@@ -570,6 +571,7 @@ flag_files =				\
 		chechnya-large.png		\
 		cheyenne-large.png		\
 		chiapas-large.png		\
+		chickasaw-large.png		\
 		chile-large.png		\
 		chimu-large.png		\
 		china-large.png		\
@@ -1053,6 +1055,7 @@ shield_files =					\
 		chechnya-shield.png		\
 		cheyenne-shield.png		\
 		chiapas-shield.png		\
+		chickasaw-shield.png		\
 		chile-shield.png		\
 		chimu-shield.png		\
 		china-shield.png		\
@@ -1534,6 +1537,7 @@ shield_files =					\
 		chechnya-shield-large.png		\
 		cheyenne-shield-large.png		\
 		chiapas-shield-large.png		\
+		chickasaw-shield-large.png		\
 		chile-shield-large.png		\
 		chimu-shield-large.png		\
 		china-shield-large.png		\
@@ -2017,6 +2021,7 @@ svg_files = 				\
 		cheyenne.svg		\
 		chad.svg		\
 		chiapas.svg		\
+		chickasaw.svg		\
 		chile.svg		\
 		chimu.svg		\
 		china.svg		\

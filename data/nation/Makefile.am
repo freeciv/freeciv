@@ -94,6 +94,7 @@ pkgdata_DATA = \
 		chechen.ruleset \
 		cherokee.ruleset \
 		chiapanec.ruleset \
+		chickasaw.ruleset \
 		chilean.ruleset \
 		chimu.ruleset \
 		chinese.ruleset \

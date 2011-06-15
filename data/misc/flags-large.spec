@@ -98,6 +98,7 @@ sprites =
 		"f.chechnya", "flags/chechnya-large"
 		"f.cheyenne", "flags/cheyenne-large"		; used by Sioux
 		"f.chiapas", "flags/chiapas-large"
+		"f.chickasaw", "flags/chickasaw-large"
 		"f.chile", "flags/chile-large"
 		"f.chimu", "flags/chimu-large"
 		"f.china", "flags/china-large"
