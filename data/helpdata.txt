@@ -70,7 +70,7 @@ score is the winner.\
 ")
 
 [help_strategy_and_tactics]
-name = _("Strategy and tactics")
+name = _("Strategy and Tactics")
 text = _("\
 While every game is different, there's a basic strategy which most \
 players follow, especially at the start of the game.\
