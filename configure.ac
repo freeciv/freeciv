@@ -217,10 +217,10 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk/sdl/xaw/qt/win32/stub]
+[  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/win32/stub]
                           clients to compile [[auto]] (or list for multiple)
                           maintained clients: gtk/sdl/xaw/stub
-                          unmaintained clients: qt/win32],
+                          unmaintained clients: gtk3/qt/win32],
 [clients=${enableval}],
 [client=auto])
 
@@ -703,6 +703,9 @@ if test "x$client" != "xno"; then
     AS_MESSAGE([checking for which clients to compile:...])
   fi
 
+  dnl Gtk-3.0-specific overrides
+  FC_GTK3_CLIENT
+
   dnl Gtk-2.0-specific overrides
   FC_GTK2_CLIENT
 
@@ -777,10 +780,6 @@ if test "x$client" = "xall" ; then
   fi
 fi
 
-if test "x$gui_gtk3" = "xyes" && test "x$gui_gtk2" != "xyes" ; then
-  AC_MSG_ERROR([Currently you cannot enable gtk3-client without enabling gtk2-client])
-fi
-
 dnl Check for GGZ
 if test "x$gui_gtk2" = "xyes" ; then
   AC_GGZ_CHECK("gtk")
@@ -797,10 +796,6 @@ FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 dnl freeciv-modpack has same requirements as gtk2-client
 AM_CONDITIONAL([MODINST], [test "x$gui_gtk2" = "xyes"])
-
-GUI_gtk3_CFLAGS="$GUI_gtk2_CFLAGS"
-GUI_gtk3_LIBS="$GUI_gtk2_LIBS"
-GUI_gtk3_LDFLAGS="$GUI_gtk2_LDFLAGS"
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
@@ -1270,6 +1265,7 @@ AC_MSG_NOTICE([
 
   Not maintained client frontends:
   (no guarantee that they even compile)
+    Gtk-3.0: $gui_gtk3
     Win32:   $gui_win32
 
   == Server ==

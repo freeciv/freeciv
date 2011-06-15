@@ -1,6 +1,6 @@
 # Try to configure the GTK+-2.0 client (gui-gtk-2.0)
 
-# FC_GTK_CLIENT
+# FC_GTK2_CLIENT
 # Test for GTK+-2.0 libraries needed for gui-gtk-2.0
 
 AC_DEFUN([FC_GTK2_CLIENT],
