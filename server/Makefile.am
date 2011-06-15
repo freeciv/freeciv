@@ -116,7 +116,7 @@ MAINTAINERCLEANFILES = $(srcdir)/hand_gen.c $(srcdir)/hand_gen.h
 # FIXME: Server library is calling AI functions.
 #        We should get rid of this dependency.
 srvlibs = \
- $(top_builddir)/ai/libcivai.la $(da_libs) \
+ $(da_libs) \
  $(top_builddir)/server/advisors/libadvisors.la \
  $(top_builddir)/server/generator/libgenerator.la \
  $(top_builddir)/server/scripting/libscripting_common.la \
