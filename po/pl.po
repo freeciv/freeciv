@@ -34,14 +34,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-05 22:50+0300\n"
-"PO-Revision-Date: 2011-06-06 12:29+0100\n"
+"POT-Creation-Date: 2011-06-15 04:27+0300\n"
+"PO-Revision-Date: 2011-06-15 08:46+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:81
@@ -1613,13 +1613,13 @@ msgid "error %d (compiled without strerror)"
 msgstr "błąd %d (skompilowano bez strerror)"
 
 #: ai/aicity.c:265
-#: server/citytools.c:2362
+#: server/citytools.c:2370
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s przerwali budowę cudu %s w mieście %s."
 
 #: ai/aicity.c:276
-#: server/citytools.c:2400
+#: server/citytools.c:2408
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s rozpoczęli budowę %s w mieście %s."
@@ -2132,32 +2132,32 @@ msgstr ""
 "Mieszkańcy miasta %s są oszołomieni twoją wiedzą technologiczną!\n"
 "     Robotnicy spontanicznie budują kolej miejską."
 
-#: server/citytools.c:1321
+#: server/citytools.c:1329
 #, c-format
 msgid "You have founded %s."
 msgstr "Założyłeś/aś miasto %s."
 
-#: server/citytools.c:1399
+#: server/citytools.c:1407
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "Przeniesiono %s z byłego miasta %s, by ponieważ nie może w %s."
 
-#: server/citytools.c:1412
+#: server/citytools.c:1420
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "W trakcie likwidacji %s twoja jednostka %s nie zdołała wysiąść i została stracona."
 
-#: server/citytools.c:1568
+#: server/citytools.c:1576
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Całkowicie zniszczyłeś/aś miasto %s."
 
-#: server/citytools.c:1571
+#: server/citytools.c:1579
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Miasto %s zostało zniszczone przez %s."
 
-#: server/citytools.c:1597
+#: server/citytools.c:1605
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
@@ -2165,7 +2165,7 @@ msgstr[0] "Zająłeś/aś miasto %s, zarekwirowałeś/aś %d sztukę złota!"
 msgstr[1] "Zająłeś/aś miasto %s, zarekwirowałeś/aś %d sztuki złota!"
 msgstr[2] "Zająłeś/aś miasto %s, zarekwirowałeś/aś %d sztuk złota!"
 
-#: server/citytools.c:1604
+#: server/citytools.c:1612
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
@@ -2173,17 +2173,17 @@ msgstr[0] "%s podbił/a miasto %s przejmując %d sztukę złota z miasta."
 msgstr[1] "%s podbił/a miasto %s przejmując %d sztuki złota z miasta."
 msgstr[2] "%s podbił/a miasto %s przejmując %d sztuk złota z miasta."
 
-#: server/citytools.c:1613
+#: server/citytools.c:1621
 #, c-format
 msgid "You conquer %s."
 msgstr "Podbiłeś/aś %s."
 
-#: server/citytools.c:1616
+#: server/citytools.c:1624
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s podbił/a miasto %s."
 
-#: server/citytools.c:1623
+#: server/citytools.c:1631
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
@@ -2191,7 +2191,7 @@ msgstr[0] "Oswobodziłeś/aś miasto %s!! Odebrałeś/aś %d sztukę złota."
 msgstr[1] "Oswobodziłeś/aś miasto %s!! Odebrałeś/aś %d sztuki złota."
 msgstr[2] "Oswobodziłeś/aś miasto %s!! Odebrałeś/aś %d sztuk złota."
 
-#: server/citytools.c:1630
+#: server/citytools.c:1638
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
@@ -2199,27 +2199,27 @@ msgstr[0] "%s odzyskał/a miasto %s odbierając %d sztukę złota."
 msgstr[1] "%s odzyskał/a miasto %s odbierając %d sztuki złota."
 msgstr[2] "%s odzyskał/a miasto %s odbierając %d sztuk złota."
 
-#: server/citytools.c:1639
+#: server/citytools.c:1647
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Oswobodziłeś/aś miasto %s"
 
-#: server/citytools.c:1642
+#: server/citytools.c:1650
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s odzyskał/a miasto %s."
 
-#: server/citytools.c:2379
+#: server/citytools.c:2387
 msgid " from the worklist"
 msgstr " według planu prac"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2391
+#: server/citytools.c:2399
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s buduje %s%s."
 
-#: server/citytools.c:2557
+#: server/citytools.c:2565
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -2227,16 +2227,16 @@ msgstr[0] "Sprzedajesz %s w mieście %s (odcięta od morza) za %d złota."
 msgstr[1] "Sprzedajesz %s w mieście %s (odcięta od morza) za %d złota."
 msgstr[2] "Sprzedajesz %s w mieście %s (odcięta od morza) za %d złota."
 
-#: server/citytools.c:2690
+#: server/citytools.c:2698
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Rozmiar mapy miasta %s to %s."
 
-#: server/citytools.c:2692
+#: server/citytools.c:2700
 msgid "increased"
 msgstr "zwiększono"
 
-#: server/citytools.c:2693
+#: server/citytools.c:2701
 msgid "reduced"
 msgstr "zmiejszono"
 
@@ -2753,7 +2753,7 @@ msgstr "  -v, --version\t\tWypisz numer wersji.\n"
 #. TRANS: No full stop after the URL, could cause confusion.
 #: server/civserver.c:364
 #: client/client_main.c:342
-#: client/gui-gtk-2.0/gui_main.c:268
+#: client/gui-gtk-2.0/gui_main.c:277
 #: client/gui-sdl/gui_main.c:179
 #: client/gui-xaw/gui_main.c:251
 #: manual/civmanual.c:492
@@ -5079,21 +5079,21 @@ msgid "Saved game contains incomplete map data. This can happen with old saved g
 msgstr "Plik zapisanej gry zawiera niekompletne dane o mapie. Przyczyną tego może być za stara wersja pliku lub uszkodzenie. Kontynuuj na własną odpowiedzialność."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4451
+#: server/savegame.c:4455
 msgid "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr "Plik zapisanej gry używa \"klasycznych\" zasad dla terenu, które nie są już wspierane."
 
-#: server/savegame.c:4459
+#: server/savegame.c:4463
 #, c-format
 msgid "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. Using '%s'."
 msgstr "Ostrzeżenie: Różne katalogi zasad ('%s' i '%s') nie są już wspierane. Używam '%s'"
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4500
+#: server/savegame.c:4504
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Plik zapisanej gry jest za stary, wymagana jest wersja co najmniej 1.9.0."
 
-#: server/savegame.c:5232
+#: server/savegame.c:5242
 #: server/savegame2.c:2943
 #: server/srv_main.c:1827
 #: server/srv_main.c:1831
@@ -5101,33 +5101,33 @@ msgstr "Plik zapisanej gry jest za stary, wymagana jest wersja co najmniej 1.9.0
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s został/a dodany jako gracz AI, poziom %s."
 
-#: server/savegame.c:5236
+#: server/savegame.c:5246
 #: server/savegame2.c:2947
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s został/a dodany jako gracz-człowiek."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:5281
+#: server/savegame.c:5291
 #: server/savegame2.c:2966
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s miał/a nieprawidłowy naród; zmieniam na %s."
 
-#: server/savegame2.c:5300
+#: server/savegame2.c:5304
 msgid "current version"
 msgstr "obecna wersja"
 
-#: server/savegame2.c:5304
+#: server/savegame2.c:5308
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:5354
+#: server/savegame2.c:5358
 #, c-format
 msgid "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr "Uruchom funkcję zgodności dla wersji <%d (plik gry: %d; serwer: %d)."
 
-#: server/savegame2.c:5388
+#: server/savegame2.c:5392
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr "Uruchom funkcję zgodności dla wersji <%d (pożądane: %d; serwer: %d)."
@@ -8337,7 +8337,7 @@ msgstr ", poziom trudności %s"
 #: client/helpdata.c:651
 #: client/helpdata.c:1227
 #: client/text.c:1526
-#: client/text.c:1563
+#: client/text.c:1566
 #, c-format
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
@@ -13080,31 +13080,31 @@ msgid "Buildings: "
 msgstr "Budynki: "
 
 #: client/text.c:1534
-#: client/text.c:1572
+#: client/text.c:1575
 msgid "None. "
 msgstr "Brak. "
 
 #: client/text.c:1536
-#: client/text.c:1574
+#: client/text.c:1577
 msgid "?clistend:."
 msgstr "?clistlast:."
 
-#: client/text.c:1554
+#: client/text.c:1557
 msgid "Wonders: "
 msgstr "Cudy: "
 
-#: client/text.c:1598
+#: client/text.c:1604
 #, c-format
 msgid "Cities: %d total, but no penalty for empire size."
 msgstr "Liczba miast: %d, lecz bez kary za rozmiar państwa."
 
-#: client/text.c:1615
+#: client/text.c:1621
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr "Liczba miast: %d, %d powyżej progu %d miast."
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1619
+#: client/text.c:1625
 #, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
@@ -13113,7 +13113,7 @@ msgstr[1] "%d zadowolonych poniżej dopuszczalnego progu."
 msgstr[2] "%d zadowolonych poniżej dopuszczalnego progu."
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1625
+#: client/text.c:1631
 #, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
@@ -13121,11 +13121,11 @@ msgstr[0] "%d dodatkowy niezadowolony mieszkaniec."
 msgstr[1] "%d dodatkowych niezadowolonych mieszkańców."
 msgstr[2] "%d dodatkowych niezadowolonych mieszkańców."
 
-#: client/text.c:1648
+#: client/text.c:1654
 msgid "Unlimited martial law in effect."
 msgstr "Nieograniczony stan wyjątkowy."
 
-#: client/text.c:1650
+#: client/text.c:1656
 #, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
@@ -13133,7 +13133,7 @@ msgstr[0] "%d jednostka zbrojna może wprowadzić stan wyjątkowy."
 msgstr[1] "Do %d jednostek zbrojnych może wprowadzić stan wyjątkowy."
 msgstr[2] "Do %d jednostek zbrojnych może wprowadzić stan wyjątkowy."
 
-#: client/text.c:1654
+#: client/text.c:1660
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
@@ -13141,15 +13141,15 @@ msgstr[0] "Każda jednostka zbrojna czyni %d niezadowolonego obywatela szczęśl
 msgstr[1] "Każda jednostka zbrojna czyni %d niezadowolonych obywateli szczęśliwymi."
 msgstr[2] "Każda jednostka zbrojna czyni %d niezadowolonych obywateli szczęśliwymi."
 
-#: client/text.c:1661
+#: client/text.c:1667
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Jednostki zbrojne poza miastem mogą powodować niezadowolenie. "
 
-#: client/text.c:1664
+#: client/text.c:1670
 msgid "Military units have no happiness effect. "
 msgstr "Jednostki zbrojne nie mają wpływu na zadowolenie. "
 
-#: client/text.c:1679
+#: client/text.c:1685
 #, c-format
 msgid "Luxury: %d total."
 msgstr "Luksus: ogółem %d."
@@ -13175,25 +13175,25 @@ msgstr ""
 "Nie mogę otworzyć \"%s\".\n"
 "%s"
 
-#: client/tilespec.c:1445
+#: client/tilespec.c:1446
 msgid "Client does not support isometric tilesets."
 msgstr "Klient nie obsługuje izometrycznych zestawów graficznych."
 
-#: client/tilespec.c:1446
-#: client/tilespec.c:1452
+#: client/tilespec.c:1447
+#: client/tilespec.c:1453
 msgid "Using default tileset instead."
 msgstr "Używam domyślnego zestawu."
 
-#: client/tilespec.c:1451
+#: client/tilespec.c:1452
 msgid "Client does not support overhead view tilesets."
 msgstr "Klient nie obsługuje \"wystającej\" grafiki."
 
-#: client/tilespec.c:4348
+#: client/tilespec.c:4352
 #, c-format
 msgid "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not displayed as expected."
 msgstr "Zestaw graficzny \"%s\" nie wspiera długich ścieżek 'idź do', takich jak %d. Ścieżka nie wyświetlona zgodnie z oczekiwaniami."
 
-#: client/tilespec.c:4668
+#: client/tilespec.c:4672
 #, c-format
 msgid "Tileset \"%s\" doesn't support big cities size, such as %d. Size not displayed as expected."
 msgstr "Zestaw graficzny \"%s\" nie wspiera dużych miast, takich jak %d. Rozmiar miasta nie wyświetlony zgodnie z oczekiwaniami."
@@ -14943,7 +14943,7 @@ msgstr "?gotodlg:poza miastem"
 msgid "Currently in: %s"
 msgstr "Obecnie w: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:265
+#: client/gui-gtk-2.0/gui_main.c:274
 #: client/gui-xaw/gui_main.c:248
 msgid ""
 "This client has no special command line options\n"
@@ -14952,43 +14952,43 @@ msgstr ""
 "Ten klient nie ma specjalnych opcji wiersza poleceń\n"
 "\n"
 
-#: client/gui-gtk-2.0/gui_main.c:733
-#: client/gui-gtk-2.0/gui_main.c:1532
+#: client/gui-gtk-2.0/gui_main.c:742
+#: client/gui-gtk-2.0/gui_main.c:1549
 #: client/gui-sdl/gui_main.c:796
 #: client/gui-sdl/gui_main.c:811
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1189
-#: client/gui-gtk-2.0/gui_main.c:1197
+#: client/gui-gtk-2.0/gui_main.c:1206
+#: client/gui-gtk-2.0/gui_main.c:1214
 #: client/gui-sdl/mapctrl.c:1575
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "Koniec tury"
 
-#: client/gui-gtk-2.0/gui_main.c:1197
+#: client/gui-gtk-2.0/gui_main.c:1214
 #: client/gui-sdl/mapctrl.c:1575
 #: client/gui-sdl/mapview.c:897
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1268
+#: client/gui-gtk-2.0/gui_main.c:1285
 msgid "?noun:View"
 msgstr "?noun:Widok"
 
-#: client/gui-gtk-2.0/gui_main.c:1380
+#: client/gui-gtk-2.0/gui_main.c:1397
 msgid "Chat"
 msgstr "Czat"
 
-#: client/gui-gtk-2.0/gui_main.c:1404
+#: client/gui-gtk-2.0/gui_main.c:1421
 msgid "Allies Only"
 msgstr "Tylko sojusznicy"
 
-#: client/gui-gtk-2.0/gui_main.c:1413
+#: client/gui-gtk-2.0/gui_main.c:1430
 msgid "Clear links"
 msgstr "Usuń linki"
 
-#: client/gui-gtk-2.0/gui_main.c:1953
+#: client/gui-gtk-2.0/gui_main.c:1970
 #: modinst/modinst.c:84
 msgid "Are you sure you want to quit?"
 msgstr "Na pewno chcesz zakończyć?"
@@ -15883,8 +15883,11 @@ msgid "Help _Build Wonder"
 msgstr "Pomóż budować cud świata"
 
 #: client/gui-gtk-2.0/menu.c:2070
-msgid "Add to City (_B)"
-msgstr "Dodaj do miasta (_B)"
+#: client/gui-sdl/menu.c:852
+#: client/gui-sdl/menu.c:1046
+#: client/gui-xaw/menu.c:172
+msgid "Add to City"
+msgstr "Dodaj do miasta"
 
 #: client/gui-gtk-2.0/menu.c:2078
 msgid "Establish Trade _Route"
@@ -15907,18 +15910,16 @@ msgid "C_onvert to %s"
 msgstr "Zmień na %s"
 
 #: client/gui-gtk-2.0/menu.c:2147
+#: client/gui-gtk-2.0/menu.c:2160
+#: client/gui-xaw/menu.c:177
+#: client/gui-xaw/menu.c:179
 #, c-format
-msgid "Change to %s (_I)"
-msgstr "Zmień na %s (_I)"
+msgid "Change to %s"
+msgstr "Zmień na %s"
 
 #: client/gui-gtk-2.0/menu.c:2153
 msgid "Bu_ild Farmland"
 msgstr "Zbuduj farmę"
-
-#: client/gui-gtk-2.0/menu.c:2160
-#, c-format
-msgid "Change to %s (_M)"
-msgstr "Zmień na %s (_M)"
 
 #: client/gui-gtk-2.0/menu.c:2168
 #, c-format
@@ -17731,7 +17732,7 @@ msgstr "Przełącz minimapę"
 
 #: client/gui-sdl/mapctrl.c:1653
 #: client/gui-sdl/optiondlg.c:769
-#: client/gui-sdl/optiondlg.c:1325
+#: client/gui-sdl/optiondlg.c:1329
 #: client/gui-sdl/pages.c:236
 #: data/Freeciv.in:1217
 msgid "Options"
@@ -18071,12 +18072,6 @@ msgstr "Zbuduj drogę"
 msgid "Help Build Wonder"
 msgstr "Pomóż budować cud"
 
-#: client/gui-sdl/menu.c:852
-#: client/gui-sdl/menu.c:1046
-#: client/gui-xaw/menu.c:172
-msgid "Add to City"
-msgstr "Dodaj do miasta"
-
 #: client/gui-sdl/menu.c:1092
 #, c-format
 msgid "Establish Trade Route With %s ( %d R&G + %d trade ) (R)"
@@ -18141,16 +18136,16 @@ msgstr "Opuść grę"
 msgid "Quit"
 msgstr "Zakończ"
 
-#: client/gui-sdl/optiondlg.c:988
+#: client/gui-sdl/optiondlg.c:992
 msgid "Apply changes"
 msgstr "Zastosuj zmiany"
 
-#: client/gui-sdl/optiondlg.c:1101
+#: client/gui-sdl/optiondlg.c:1105
 #: client/gui-xaw/wldlg.c:659
 msgid "empty worklist"
 msgstr "pusty plan prac"
 
-#: client/gui-sdl/optiondlg.c:1205
+#: client/gui-sdl/optiondlg.c:1209
 msgid "Add new worklist"
 msgstr "Dodaj nowy plan prac"
 
@@ -18840,12 +18835,6 @@ msgstr "Wyśrodkuj widok"
 #: client/gui-xaw/menu.c:176
 msgid "Build Farmland"
 msgstr "Zbuduj farmę"
-
-#: client/gui-xaw/menu.c:177
-#: client/gui-xaw/menu.c:179
-#, c-format
-msgid "Change to %s"
-msgstr "Zmień na %s"
 
 #: client/gui-xaw/menu.c:180
 msgid "Transform Terrain"
@@ -31008,11 +30997,11 @@ msgid "The Mordvins are a Finnic people consisting of two subgroups: the Erzya a
 msgstr "Mordwini to fiński lud dzielący się na dwie grupy: erzja i moksza. Zamieszkują oni głównie Mordowię, republikę wchodzącą w skład Federacji Rosyjskiej."
 
 #: data/nation/motswana.ruleset:3
-msgid "Motswana"
+msgid "Botswanan"
 msgstr "Botswański"
 
 #: data/nation/motswana.ruleset:4
-msgid "?plural:Batswana"
+msgid "?plural:Botswanans"
 msgstr "?plural:Botswańczycy"
 
 #: data/nation/motswana.ruleset:6
@@ -33984,6 +33973,12 @@ msgstr "Domyślny zestaw zasad"
 msgid "You are playing Freeciv with default rules."
 msgstr "Grasz z domyślnym zestawem zasad."
 
+#~ msgid "Add to City (_B)"
+#~ msgstr "Dodaj do miasta (_B)"
+#~ msgid "Change to %s (_I)"
+#~ msgstr "Zmień na %s (_I)"
+#~ msgid "Change to %s (_M)"
+#~ msgstr "Zmień na %s (_M)"
 #~ msgid "* A non-military unit (cannot attack; no martial law).\n"
 #~ msgstr ""
 #~ "* Jednostka cywilna (bez możliwości przeprowadzania ataku i wprowadzania "
@@ -36262,8 +36257,8 @@ msgstr "Grasz z domyślnym zestawem zasad."
 #~ msgstr "Serwer: Połączył się %s z %s."
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr ""
-#~ "Poziom dostępu do operacji nie może być ustawiony na '%s' dla połączenia %"
-#~ "s."
+#~ "Poziom dostępu do operacji nie może być ustawiony na '%s' dla połączenia "
+#~ "%s."
 #~ msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 #~ msgstr "Wartość: %d, Minimalna: 0, Domyślna: %d, Maksymalna: 1"
 #~ msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
@@ -37782,8 +37777,8 @@ msgstr "Grasz z domyślnym zestawem zasad."
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr "Twój %s przekupił %s %s zwiększając swoje doświadczenie."
 #~ msgid ""
-#~ "Your %s has successfully completed her mission and returned unharmed to %"
-#~ "s and has become more experienced."
+#~ "Your %s has successfully completed her mission and returned unharmed to "
+#~ "%s and has become more experienced."
 #~ msgstr ""
 #~ "Twój %s zakończył misję i wrócił zyskując doświadczenie nietknięty do "
 #~ "miasta %s."
