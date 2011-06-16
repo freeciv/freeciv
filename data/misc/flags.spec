@@ -100,6 +100,7 @@ artists = "
    Chile		Mario Fuentes
    Chimu		J.M. Maalderink
    China		Stephen Silver
+   Choctaw		Daniel Markstedt
    Chola		Dan Cottrell and Daniel Markstedt
    Chumash		Daniel Markstedt
    Chuvashia		Urmas (Wikimedia Commons)
@@ -590,6 +591,7 @@ sprites =
 		"f.chile", "flags/chile"
 		"f.chimu", "flags/chimu"
 		"f.china", "flags/china"
+		"f.choctaw", "flags/choctaw"
 		"f.chola", "flags/chola"
 		"f.chumash", "flags/chumash"
 		"f.chuvashia", "flags/chuvashia"

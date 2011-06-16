@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="sioux", "iroquois", "chickasaw"
+civilwar_nations="choctaw", "iroquois", "chickasaw"
 
 ; names of early Cherokee settlements in no particular order
 cities =

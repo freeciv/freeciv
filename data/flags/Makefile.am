@@ -93,6 +93,7 @@ flag_files =				\
 		chile.png		\
 		chimu.png		\
 		china.png		\
+		choctaw.png		\
 		chola.png		\
 		chumash.png		\
 		chuvashia.png		\
@@ -575,6 +576,7 @@ flag_files =				\
 		chile-large.png		\
 		chimu-large.png		\
 		china-large.png		\
+		choctaw-large.png		\
 		chola-large.png		\
 		chumash-large.png		\
 		chuvashia-large.png		\
@@ -1059,6 +1061,7 @@ shield_files =					\
 		chile-shield.png		\
 		chimu-shield.png		\
 		china-shield.png		\
+		choctaw-shield.png		\
 		chola-shield.png		\
 		chumash-shield.png		\
 		chuvashia-shield.png		\
@@ -1541,6 +1544,7 @@ shield_files =					\
 		chile-shield-large.png		\
 		chimu-shield-large.png		\
 		china-shield-large.png		\
+		choctaw-shield-large.png		\
 		chola-shield-large.png		\
 		chumash-shield-large.png		\
 		chuvashia-shield-large.png		\
@@ -2025,6 +2029,7 @@ svg_files = 				\
 		chile.svg		\
 		chimu.svg		\
 		china.svg		\
+		choctaw.svg		\
 		chola.svg		\
 		chumash.svg		\
 		chuvashia.svg		\

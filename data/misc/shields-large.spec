@@ -102,6 +102,7 @@ sprites =
 		"f.shield.chile", "flags/chile-shield-large"
 		"f.shield.chimu", "flags/chimu-shield-large"
 		"f.shield.china", "flags/china-shield-large"
+		"f.shield.choctaw", "flags/choctaw-shield-large"
 		"f.shield.chola", "flags/chola-shield-large"
 		"f.shield.chumash", "flags/chumash-shield-large"
 		"f.shield.chuvashia", "flags/chuvashia-shield-large"

@@ -99,6 +99,7 @@ pkgdata_DATA = \
 		chimu.ruleset \
 		chinese.ruleset \
 		chinook.ruleset \
+		choctaw.ruleset \
 		chola.ruleset \
 		chumash.ruleset \
 		chuvash.ruleset \
