@@ -85,3 +85,11 @@ struct ai_type *ai_type_alloc(void)
 
   return get_ai_type(ai_type_count++);
 }
+
+/***************************************************************
+  Return number of ai types
+***************************************************************/
+int ai_type_get_count(void)
+{
+  return ai_type_count;
+}

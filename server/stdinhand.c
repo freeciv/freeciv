@@ -1607,7 +1607,7 @@ static const char *olvlname_accessor(int i)
     return optname_accessor(i-OLEVELS_NUM);
   }
 }
-#endif
+#endif /* HAVE_LIBREADLINE || HAVE_NEWLIBREADLINE */
 
 /**************************************************************************
   Set timeout options.
@@ -6375,6 +6375,25 @@ static char *cmdlevel_arg2_generator(const char *text, int state)
 			   cmdlevel_arg2_accessor);
 }
 
+#ifdef AI_MODULES
+/**************************************************************************
+  Accessor for the second argument to "create": ai type name
+**************************************************************************/
+static const char *aitype_accessor(int idx)
+{
+  return get_ai_type(idx)->name;
+}
+
+/**************************************************************************
+  The valid arguments for the second argument to "create".
+**************************************************************************/
+static char *aitype_generator(const char *text, int state)
+{
+  return generic_generator(text, state, ai_type_get_count(),
+                           aitype_accessor);
+}
+#endif /* AI_MODULES */
+
 /**************************************************************************
 The valid first arguments to "help".
 **************************************************************************/
@@ -6617,6 +6636,17 @@ static bool is_filename(int start)
 }
 
 /**************************************************************************
+  Return whether we are completing second argument for create command
+**************************************************************************/
+#ifdef AI_MODULES
+static bool is_create_arg2(int start)
+{
+  return (contains_str_before_start(start, command_name_by_number(CMD_CREATE), TRUE)
+	  && num_tokens(start) == 2);
+}
+#endif /* AI_MODULES */
+
+/**************************************************************************
   Return whether we are completing help command argument.
 **************************************************************************/
 static bool is_help(int start)
@@ -6668,8 +6698,14 @@ char **freeciv_completion(char *text, int start, int end)
   } else if (is_filename(start)) {
     /* This function we get from readline */
     matches = completion_matches(text, filename_completion_function);
-  } else /* We have no idea what to do */
+#ifdef AI_MODULES
+  } else if (is_create_arg2(start)) {
+    matches = completion_matches(text, aitype_generator);
+#endif /* AI_MODULES */
+  } else {
+    /* We have no idea what to do */
     matches = NULL;
+  }
 
   /* Don't automatically try to complete with filenames */
   rl_attempted_completion_over = 1;

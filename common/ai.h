@@ -125,6 +125,7 @@ struct ai_type *ai_type_alloc(void);
 struct ai_type *get_ai_type(int id);
 int ai_type_number(const struct ai_type *ai);
 void init_ai(struct ai_type *ai);
+int ai_type_get_count(void);
 
 struct ai_type *ai_type_by_name(const char *search);
 
