@@ -617,7 +617,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
      * latest text from other players; MUST NOT make spurious text windows
      * at the bottom of other dialogs.
      */
-    if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_MERGED) {
+    if (gui_gtk3_message_chat_location == GUI_GTK3_MSGCHAT_MERGED) {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
     } else {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
@@ -799,7 +799,7 @@ static void populate_unit_pixmap_table(void)
   width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
                                                : GUI_GTK_OVERVIEW_MIN_XSIZE;
 
-  if (gui_gtk2_small_display_layout) {
+  if (gui_gtk3_small_display_layout) {
     /* We want arrow to appear if there is other units in addition
        to active one in tile. Active unit is not counted, so there
        can be 0 other units to not to display arrow. */
@@ -825,7 +825,7 @@ static void populate_unit_pixmap_table(void)
 		   G_CALLBACK(select_unit_pixmap_callback), 
 		   GINT_TO_POINTER(-1));
 
-  if (!gui_gtk2_small_display_layout) {
+  if (!gui_gtk3_small_display_layout) {
     /* Bottom row: other units in the same tile. */
     for (i = 0; i < num_units_below; i++) {
       unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
@@ -858,7 +858,7 @@ static void populate_unit_pixmap_table(void)
                    "button_press_event",
                    G_CALLBACK(select_more_arrow_pixmap_callback), NULL);
 
-  if (!gui_gtk2_small_display_layout) {
+  if (!gui_gtk3_small_display_layout) {
     /* Display on bottom row. */
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_button,
                               MAX_NUM_UNITS_BELOW, MAX_NUM_UNITS_BELOW+1, 1, 2);
@@ -887,7 +887,7 @@ void reset_unit_table(void)
                          unit_pixmap_button);
     g_object_unref(unit_pixmap);
     g_object_unref(unit_pixmap_button);
-    if (!gui_gtk2_small_display_layout) {
+    if (!gui_gtk3_small_display_layout) {
       for (i = 0; i < num_units_below; i++) {
         gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
                              unit_below_pixmap_button[i]);
@@ -1016,7 +1016,7 @@ static void setup_widgets(void)
   top_vbox = gtk_vbox_new(FALSE, 5);
   hbox = gtk_hbox_new(FALSE, 0);
 
-  if (gui_gtk2_small_display_layout) {
+  if (gui_gtk3_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
     right_vbox = gtk_vbox_new(FALSE, 0);
@@ -1262,9 +1262,9 @@ static void setup_widgets(void)
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
 
   
-  if (gui_gtk2_small_display_layout) {
+  if (gui_gtk3_small_display_layout) {
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
-  } else if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_MERGED) {
+  } else if (gui_gtk3_message_chat_location == GUI_GTK3_MSGCHAT_MERGED) {
     right_vbox = gtk_vbox_new(FALSE, 0);
 
     gtk_box_pack_start(GTK_BOX(right_vbox), top_notebook, TRUE, TRUE, 0);
@@ -1348,7 +1348,7 @@ static void setup_widgets(void)
 
   /* *** The message window -- this is a detachable widget *** */
 
-  if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_MERGED) {
+  if (gui_gtk3_message_chat_location == GUI_GTK3_MSGCHAT_MERGED) {
     bottom_hpaned = hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
@@ -1357,12 +1357,12 @@ static void setup_widgets(void)
     avbox = detached_widget_fill(sbox);
 
     vbox = gtk_vbox_new(FALSE, 0);
-    if (!gui_gtk2_small_display_layout) {
+    if (!gui_gtk3_small_display_layout) {
       gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
     }
     gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
 
-    if (gui_gtk2_small_display_layout) {
+    if (gui_gtk3_small_display_layout) {
       hpaned = gtk_vpaned_new();
     } else {
       hpaned = gtk_hpaned_new();
@@ -1381,7 +1381,7 @@ static void setup_widgets(void)
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
     g_signal_connect(right_notebook, "button-release-event",
                      G_CALLBACK(right_notebook_button_release), NULL);
-    if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_SPLIT) {
+    if (gui_gtk3_message_chat_location == GUI_GTK3_MSGCHAT_SPLIT) {
       gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
     }
   }
@@ -2101,7 +2101,7 @@ static void apply_reqtree_text_font(struct option *poption)
 
 /****************************************************************************
   Extra initializers for client options.  Here we make set the callback
-  for the specific gui-gtk-2.0 options.
+  for the specific gui-gtk-3.0 options.
 ****************************************************************************/
 void gui_options_extra_init(void)
 {
@@ -2115,14 +2115,14 @@ void gui_options_extra_init(void)
     log_error("Didn't find option %s!", #var);                              \
   }
 
-  option_var_set_callback(gui_gtk2_allied_chat_only,
+  option_var_set_callback(gui_gtk3_allied_chat_only,
                           allied_chat_only_callback);
 
-  option_var_set_callback(gui_gtk2_font_city_names,
+  option_var_set_callback(gui_gtk3_font_city_names,
                           apply_city_names_font);
-  option_var_set_callback(gui_gtk2_font_city_productions,
+  option_var_set_callback(gui_gtk3_font_city_productions,
                           apply_city_productions_font);
-  option_var_set_callback(gui_gtk2_font_reqtree_text,
+  option_var_set_callback(gui_gtk3_font_reqtree_text,
                           apply_reqtree_text_font);
 #undef option_var_set_callback
 }

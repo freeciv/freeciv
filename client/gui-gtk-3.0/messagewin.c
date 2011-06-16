@@ -143,7 +143,7 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
   for (i = 0; i < num; i++) {
     pmsg = meswin_get_message(i);
 
-    if (gui_gtk2_new_messages_go_to_top) {
+    if (gui_gtk3_new_messages_go_to_top) {
       gtk_list_store_prepend(store, &iter);
     } else {
       gtk_list_store_append(store, &iter);
@@ -308,7 +308,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
 
   fc_assert_ret(NULL != pdialog);
 
-  if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_SPLIT) {
+  if (gui_gtk3_message_chat_location == GUI_GTK3_MSGCHAT_SPLIT) {
     notebook = right_notebook;
   } else {
     notebook = bottom_notebook;
@@ -349,7 +349,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   g_signal_connect(selection, "changed",
                    G_CALLBACK(meswin_dialog_selection_callback), pdialog);
 
-  if (gui_gtk2_show_message_window_buttons) {
+  if (gui_gtk3_show_message_window_buttons) {
     cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_JUMP_TO,
                                      _("Goto _Location"), MESWIN_RES_GOTO);
     gtk_widget_set_sensitive(cmd, FALSE);

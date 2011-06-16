@@ -155,7 +155,7 @@ bool mapimg_layer[MAPIMG_LAYER_COUNT] = {
 char mapimg_filename[512];
 
 /* gui-gtk-2.0 client specific options. */
-char gui_gtk2_default_theme_name[512] = FC_GTK_DEFAULT_THEME_NAME;
+char gui_gtk2_default_theme_name[512] = FC_GTK2_DEFAULT_THEME_NAME;
 bool gui_gtk2_map_scrollbars = FALSE;
 bool gui_gtk2_dialogs_on_top = TRUE;
 bool gui_gtk2_show_task_icons = TRUE;
@@ -185,6 +185,38 @@ char gui_gtk2_font_comment_label[512] = "Sans Italic 9";
 char gui_gtk2_font_city_names[512] = "Sans Bold 10";
 char gui_gtk2_font_city_productions[512] = "Serif 10";
 char gui_gtk2_font_reqtree_text[512] = "Serif 10";
+
+/* gui-gtk-3.0 client specific options. */
+char gui_gtk3_default_theme_name[512] = FC_GTK3_DEFAULT_THEME_NAME;
+bool gui_gtk3_map_scrollbars = FALSE;
+bool gui_gtk3_dialogs_on_top = TRUE;
+bool gui_gtk3_show_task_icons = TRUE;
+bool gui_gtk3_enable_tabs = TRUE;
+bool gui_gtk3_better_fog = TRUE;
+bool gui_gtk3_show_chat_message_time = FALSE;
+bool gui_gtk3_new_messages_go_to_top = FALSE;
+bool gui_gtk3_show_message_window_buttons = TRUE;
+bool gui_gtk3_metaserver_tab_first = FALSE;
+bool gui_gtk3_allied_chat_only = FALSE;
+int gui_gtk3_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
+bool gui_gtk3_small_display_layout = TRUE;
+bool gui_gtk3_mouse_over_map_focus = FALSE;
+bool gui_gtk3_chatline_autocompletion = TRUE;
+int gui_gtk3_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
+int gui_gtk3_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
+char gui_gtk3_font_city_label[512] = "Monospace 8";
+char gui_gtk3_font_notify_label[512] = "Monospace Bold 9";
+char gui_gtk3_font_spaceship_label[512] = "Monospace 8";
+char gui_gtk3_font_help_label[512] = "Sans Bold 10";
+char gui_gtk3_font_help_link[512] = "Sans 9";
+char gui_gtk3_font_help_text[512] = "Monospace 8";
+char gui_gtk3_font_chatline[512] = "Monospace 8";
+char gui_gtk3_font_beta_label[512] = "Sans Italic 10";
+char gui_gtk3_font_small[512] = "Sans 9";
+char gui_gtk3_font_comment_label[512] = "Sans Italic 9";
+char gui_gtk3_font_city_names[512] = "Sans Bold 10";
+char gui_gtk3_font_city_productions[512] = "Serif 10";
+char gui_gtk3_font_reqtree_text[512] = "Serif 10";
 
 /* gui-sdl client specific options. */
 char gui_sdl_default_theme_name[512] = FC_SDL_DEFAULT_THEME_NAME;
@@ -1615,17 +1647,17 @@ struct client_option {
 ****************************************************************************/
 
 /****************************************************************************
-  GTK2 message/chat layout setting names accessor.
+  GTK message/chat layout setting names accessor.
 ****************************************************************************/
 static const struct copt_val_name
-  *gui_gtk2_message_chat_location_name(int value)
+  *gui_gtk_message_chat_location_name(int value)
 {
   static const struct copt_val_name names[] = {
-    /* TRANS: enum value for 'gui_gtk2_message_chat_location' */
+    /* TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location' */
     { "SPLIT",    N_("Split") },
-    /* TRANS: enum value for 'gui_gtk2_message_chat_location' */
+    /* TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location' */
     { "SEPARATE", N_("Separate") },
-    /* TRANS: enum value for 'gui_gtk2_message_chat_location' */
+    /* TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location' */
     { "MERGED",   N_("Merged") }
   };
 
@@ -1684,13 +1716,18 @@ static struct client_option client_options[] = {
                  N_("The chat log file"),
                  N_("The name of the chat log file."),
                  COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL),
-  /* gui_gtk2_default_theme_name and gui_sdl_default_theme_name are
+  /* gui_gtk2/3_default_theme_name and gui_sdl_default_theme_name are
    * different settings to avoid client crash after loading the
-   * style for the other gui.  Keeps 2 different options! */
+   * style for the other gui.  Keeps 3 different options! */
   GEN_STR_LIST_OPTION(gui_gtk2_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
-                      COC_GRAPHICS, GUI_GTK2, FC_GTK_DEFAULT_THEME_NAME,
+                      COC_GRAPHICS, GUI_GTK2, FC_GTK2_DEFAULT_THEME_NAME,
+                      get_themes_list, theme_reread_callback),
+  GEN_STR_LIST_OPTION(gui_gtk3_default_theme_name, N_("Theme"),
+                      N_("By changing this option you change the "
+                         "active theme."),
+                      COC_GRAPHICS, GUI_GTK3, FC_GTK3_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback),
   GEN_STR_LIST_OPTION(gui_sdl_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
@@ -2147,7 +2184,7 @@ static struct client_option client_options[] = {
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2,
                   GUI_GTK2_MSGCHAT_MERGED /* Ignored! See options_load(). */,
-                  gui_gtk2_message_chat_location_name, NULL),
+                  gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout,
                   N_("Arrange widgets for small displays"),
                   N_("If this option is enabled, widgets in the main "
@@ -2260,6 +2297,208 @@ static struct client_option client_options[] = {
                   N_("This font is used to the display the requirement tree "
                      "in the science report."),
                   COC_FONT, GUI_GTK2,
+                  "Serif 10", NULL),
+
+  /* gui-gtk-3.0 client specific options. */
+  GEN_BOOL_OPTION(gui_gtk3_map_scrollbars, N_("Show map scrollbars"),
+                  N_("Disable this option to hide the scrollbars on the "
+                     "map view."),
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_dialogs_on_top, N_("Keep dialogs on top"),
+                  N_("If this option is set then dialog windows will always "
+                     "remain in front of the main Freeciv window. "
+                     "Disabling this has no effect in fullscreen mode."),
+                  COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_show_task_icons, N_("Show worklist task icons"),
+                  N_("Disabling this will turn off the unit and building "
+                     "icons in the worklist dialog and the production "
+                     "tab of the city dialog."),
+                  COC_GRAPHICS, GUI_GTK3, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_enable_tabs, N_("Enable status report tabs"),
+                  N_("If this option is enabled then report dialogs will "
+                     "be shown as separate tabs rather than in popup "
+                     "dialogs."),
+                  COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_better_fog,
+                  N_("Better fog-of-war drawing"),
+                  N_("If this is enabled then a better method is used "
+                     "for drawing fog-of-war.  It is not any slower but "
+                     "will consume about twice as much memory."),
+                  COC_GRAPHICS, GUI_GTK3,
+                  TRUE, view_option_changed_callback),
+  GEN_BOOL_OPTION(gui_gtk3_show_chat_message_time,
+                  N_("Show time for each chat message"),
+                  N_("If this option is enabled then all chat messages "
+                     "will be prefixed by a time string of the form "
+                     "[hour:minute:second]."),
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_new_messages_go_to_top,
+                  N_("New message events go to top of list"),
+                  N_("If this option is enabled, new events in the "
+                     "message window will appear at the top of the list, "
+                     "rather than being appended at the bottom."),
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_show_message_window_buttons,
+                  N_("Show extra message window buttons"),
+                  N_("If this option is enabled, there will be two "
+                     "buttons displayed in the message window for "
+                     "inspecting a city and going to a location. If this "
+                     "option is disabled, these buttons will not appear "
+                     "(you can still double-click with the left mouse "
+                     "button or right-click on a row to inspect or goto "
+                     "respectively). This option will only take effect "
+                     "once the message window is closed and reopened."),
+                  COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_metaserver_tab_first,
+                  N_("Metaserver tab first in network page"),
+                  N_("If this option is enabled, the metaserver tab will "
+                     "be the first notebook tab in the network page. This "
+                     "option requires a restart in order to take effect."),
+                  COC_NETWORK, GUI_GTK3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_allied_chat_only,
+                  N_("Plain chat messages are sent to allies only"),
+                  N_("If this option is enabled, then plain messages "
+                     "typed into the chat entry while the game is "
+                     "running will only be sent to your allies. "
+                     "Otherwise plain messages will be sent as "
+                     "public chat messages. To send a public chat "
+                     "message with this option enabled, prefix the "
+                     "message with a single colon ':'. This option "
+                     "can also be set using a toggle button beside "
+                     "the chat entry (only visible in multiplayer "
+                     "games)."),
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
+  GEN_ENUM_OPTION(gui_gtk3_message_chat_location,
+                  N_("Messages and Chat reports location"),
+                  /* TRANS: The strings used in the UI for 'Split' etc are
+                   * tagged 'gui_gtk3_message_chat_location' */
+                  N_("Controls where the Messages and Chat reports "
+                     "appear relative to the main view containing the map.\n"
+                     "'Split' allows all three to be seen simultaneously, "
+                     "which is best for multiplayer, but requires a large "
+                     "window to be usable.\n"
+                     "'Separate' puts Messages and Chat in a notebook "
+                     "separate from the main view, so that one of them "
+                     "can always be seen alongside the main view.\n"
+                     "'Merged' makes the Messages and Chat reports into "
+                     "tabs alongside the map and other reports; this "
+                     "allows a larger map view on small screens.\n"
+                     "This option requires a restart in order to take "
+                     "effect."), COC_INTERFACE, GUI_GTK3,
+                  GUI_GTK3_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  gui_gtk_message_chat_location_name, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_small_display_layout,
+                  N_("Arrange widgets for small displays"),
+                  N_("If this option is enabled, widgets in the main "
+                     "window will be arranged so that they take up the "
+                     "least amount of total screen space. Specifically, "
+                     "the left panel containing the overview, player "
+                     "status, and the unit information box will be "
+                     "extended over the entire left side of the window. "
+                     "This option requires a restart in order to take "
+                     "effect."), COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_mouse_over_map_focus,
+                  N_("Mouse over the map widget selects it automatically"),
+                  N_("If this option is enabled, then the map will be "
+                     "focused when the mouse hovers over it."),
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_chatline_autocompletion,
+                  N_("Player or user name autocompletion"),
+                  N_("If this option is turned on, the tabulation key "
+                     "will be used in the chatline to complete the word you "
+                     "are typing with the name of a player or a user."),
+                  COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+  GEN_INT_OPTION(gui_gtk3_citydlg_xsize,
+                 N_("Width of the city dialog"),
+                 N_("This value is only used if the width of the city "
+                    "dialog is saved."),
+                 COC_INTERFACE, GUI_GTK3, GUI_GTK3_CITYDLG_DEFAULT_XSIZE,
+                 GUI_GTK3_CITYDLG_MIN_XSIZE, GUI_GTK3_CITYDLG_MAX_XSIZE,
+                 NULL),
+  GEN_INT_OPTION(gui_gtk3_citydlg_ysize,
+                 N_("Height of the city dialog"),
+                 N_("This value is only used if the height of the city "
+                    "dialog is saved."),
+                 COC_INTERFACE, GUI_GTK3, GUI_GTK3_CITYDLG_DEFAULT_YSIZE,
+                 GUI_GTK3_CITYDLG_MIN_YSIZE, GUI_GTK3_CITYDLG_MAX_YSIZE,
+                 NULL),
+  GEN_FONT_OPTION(gui_gtk3_font_city_label, "city_label",
+                  N_("City Label"),
+                  N_("This font is used to display the city labels on city "
+                     "dialogs."),
+                  COC_FONT, GUI_GTK3,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_notify_label, "notify_label",
+                  N_("Notify Label"),
+                  N_("This font is used to display server reports such "
+                     "as the demographic report or historian publications."),
+                  COC_FONT, GUI_GTK3,
+                  "Monospace Bold 9", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_spaceship_label, "spaceship_label",
+                  N_("Spaceship Label"),
+                  N_("This font is used to display the spaceship widgets."),
+                  COC_FONT, GUI_GTK3,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_help_label, "help_label",
+                  N_("Help Label"),
+                  N_("This font is used to display the help headers in the "
+                     "help window."),
+                  COC_FONT, GUI_GTK3,
+                  "Sans Bold 10", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_help_link, "help_link",
+                  N_("Help Link"),
+                  N_("This font is used to display the help links in the "
+                     "help window."),
+                  COC_FONT, GUI_GTK3,
+                  "Sans 9", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_help_text, "help_text",
+                  N_("Help Text"),
+                  N_("This font is used to display the help body text in "
+                     "the help window."),
+                  COC_FONT, GUI_GTK3,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_chatline, "chatline",
+                  N_("Chatline Area"),
+                  N_("This font is used to display the text in the "
+                     "chatline area."),
+                  COC_FONT, GUI_GTK3,
+                  "Monospace 8", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_beta_label, "beta_label",
+                  N_("Beta Label"),
+                  N_("This font is used to display the beta label."),
+                  COC_FONT, GUI_GTK3,
+                  "Sans Italic 10", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_small, "small_font",
+                  N_("Small Font"),
+                  N_("This font is used for any small font request.  For "
+                     "example, it is used for display the building lists "
+                     "in the city dialog, the economic report or the unit "
+                     "report."),
+                  COC_FONT, GUI_GTK3,
+                  "Sans 9", NULL),
+  GEN_FONT_OPTION(gui_gtk3_font_comment_label, "comment_label",
+                  N_("Comment Label"),
+                  N_("This font is used to display comment labels, such as "
+                     "in the governor page of the city dialogs."),
+                  COC_FONT, GUI_GTK3,
+                  "Sans Italic 9", font_changed_callback),
+  GEN_FONT_OPTION(gui_gtk3_font_city_names, "city_names",
+                  N_("City Names"),
+                  N_("This font is used to the display the city names "
+                     "on the map."),
+                  COC_FONT, GUI_GTK3,
+                  "Sans Bold 10", NULL),
+  GEN_FONT_OPTION(gui_gtk3_font_city_productions, "city_productions",
+                  N_("City Productions"),
+                  N_("This font is used to the display the city production "
+                     "names on the map."),
+                  COC_FONT, GUI_GTK3,
+                  "Serif 10", NULL),
+  GEN_FONT_OPTION(gui_gtk3_font_reqtree_text, "reqtree_text",
+                  N_("Requirement Tree"),
+                  N_("This font is used to the display the requirement tree "
+                     "in the science report."),
+                  COC_FONT, GUI_GTK3,
                   "Serif 10", NULL),
 
   /* gui-sdl client specific options. */
@@ -4808,12 +5047,15 @@ void options_load(void)
   if (secfile_lookup_bool_default(sf, FALSE,
                                   "%s.gui_gtk_merge_notebooks", prefix)) {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
+    gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_MERGED;
   } else if (secfile_lookup_bool_default(sf, FALSE,
                                          "%s.gui_gtk_split_bottom_notebook",
                                          prefix)) {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SPLIT;
+    gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_SPLIT;
   } else {
     gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SEPARATE;
+    gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_SEPARATE;
   }
 
   client_options_iterate_all(poption) {

@@ -759,8 +759,8 @@ static void show_fog_of_war_callback(GtkToggleAction *action, gpointer data)
 static void show_better_fog_of_war_callback(GtkToggleAction *action,
                                             gpointer data)
 {
-  if (gui_gtk2_better_fog ^ gtk_toggle_action_get_active(action)) {
-    gui_gtk2_better_fog ^= 1;
+  if (gui_gtk3_better_fog ^ gtk_toggle_action_get_active(action)) {
+    gui_gtk3_better_fog ^= 1;
     update_map_canvas_visible();
   }
 }
@@ -2381,7 +2381,7 @@ void real_menus_init(void)
   if (tileset_use_hard_coded_fog(tileset)) {
     menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", TRUE, TRUE);
     menus_set_active(safe_group, "SHOW_BETTER_FOG_OF_WAR",
-                     gui_gtk2_better_fog);
+                     gui_gtk3_better_fog);
   } else {
     menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", FALSE, FALSE);
   }

@@ -1014,14 +1014,14 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
                    i, titles[i], rend, cell_render_func, ppcity, NULL);
   col = gtk_tree_view_get_column(view, i);
 
-  if (gui_gtk2_show_task_icons) {
+  if (gui_gtk3_show_task_icons) {
     if (max_unit_width == -1 || max_unit_height == -1) {
       update_max_unit_size();
     }
   } else {
     g_object_set(col, "visible", FALSE, NULL);
   }
-  if (gui_gtk2_show_task_icons) {
+  if (gui_gtk3_show_task_icons) {
     g_object_set(rend, "height", max_unit_height, NULL);
   }
 
@@ -1044,7 +1044,7 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
     if (pos == 3) {
       *pcol = col;
     }
-    if (gui_gtk2_show_task_icons) {
+    if (gui_gtk3_show_task_icons) {
       g_object_set(rend, "height", max_unit_height, NULL);
     }
   }
