@@ -33,8 +33,8 @@ utility/registry.c
 utility/shared.c
 utility/support.c
 ai/threaded/threadedai.c
-ai/aicity.c
-ai/advdiplomacy.c
+ai/default/aicity.c
+ai/default/advdiplomacy.c
 server/aiiface.c
 server/auth.c
 server/barbarian.c
