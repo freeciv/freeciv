@@ -424,6 +424,7 @@ match=2
 *include "nation/scythian.ruleset"
 *include "nation/seleucid.ruleset"
 *include "nation/seljuk.ruleset"
+*include "nation/seminole.ruleset"
 *include "nation/senegalese.ruleset"
 *include "nation/serbian.ruleset"
 *include "nation/shan.ruleset"

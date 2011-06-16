@@ -392,6 +392,7 @@ artists = "
    Sakha		Zachary Harden
    Seljuk		J.M. Maalderink
    Seleucid		J.M. Maalderink
+   Seminole		Daniel Markstedt
    Senegal		SonofSenegal (Wikimedia Commons)
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
    Shan			Daniel Markstedt
@@ -881,6 +882,7 @@ sprites =
 		"f.scythia", "flags/scythia"
 		"f.seleucid", "flags/seleucid"
 		"f.seljuk", "flags/seljuk"
+		"f.seminole", "flags/seminole"
 		"f.senegal", "flags/senegal"
 		"f.serbia", "flags/serbia"
 		"f.shan", "flags/shan"
