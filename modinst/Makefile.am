@@ -2,13 +2,13 @@
 
 bin_PROGRAMS = freeciv-modpack
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility $(GUI_gtk2_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir)/utility $(MP_gtk2_CFLAGS)
 
 freeciv_modpack_SOURCES = \
 		download.c	\
 		download.h	\
 		modinst.c
 
-freeciv_modpack_LDFLAGS = $(GUI_gtk2_LDFLAGS)
+freeciv_modpack_LDFLAGS = $(MP_gtk2_LDFLAGS)
 
-freeciv_modpack_LDADD = $(top_builddir)/common/libfreeciv.la $(GUI_gtk2_LIBS)
+freeciv_modpack_LDADD = $(top_builddir)/common/libfreeciv.la $(MP_gtk2_LIBS)

@@ -674,8 +674,20 @@ fi
 FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
-dnl freeciv-modpack has same requirements as gtk-client
-AM_CONDITIONAL([MODINST], [test "x$gui_gtk2" = "xyes"])
+
+dnl freeciv-modpack checks
+AM_PATH_GTK_2_0([2.6.0],
+[
+  modinst=yes
+  MP_gtk2_CFLAGS="$GTK_CFLAGS"
+  MP_gtk2_LIBS="$GTK_LIBS"
+  if test "x$MINGW32" = "xyes"; then
+    dnl Required to compile gtk2 on Windows platform
+    MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -mms-bitfields"
+    MP_gtk2_LDFLAGS="$MP_gtk2_LDFLAGS -mwindows"
+  fi
+], [modinst=no])
+AM_CONDITIONAL([MODINST], [test "x$modinst" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
@@ -698,6 +710,9 @@ AC_SUBST([GUI_stub_LDFLAGS])
 AC_SUBST([GUI_beos_CFLAGS])
 AC_SUBST([GUI_beos_LIBS])
 AC_SUBST([GUI_beos_LDFLAGS])
+AC_SUBST([MP_gtk2_CFLAGS])
+AC_SUBST([MP_gtk2_LIBS])
+AC_SUBST([MP_gtk2_LDFLAGS])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
 AC_SUBST([FTWL_CFLAGS])
