@@ -133,7 +133,8 @@ struct ai_type *ai_type_by_name(const char *search);
 #define ai_type_iterate(NAME_ai)                        \
   do {                                                  \
     int _aii_;                                          \
-    for (_aii_ = 0; _aii_ < FC_AI_LAST; _aii_++) {      \
+    int _aitotal_ = ai_type_get_count();                \
+    for (_aii_ = 0; _aii_ < _aitotal_ ; _aii_++) {      \
       struct ai_type *NAME_ai = get_ai_type(_aii_);
 
 #define ai_type_iterate_end \

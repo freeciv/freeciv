@@ -289,6 +289,7 @@ int client_main(int argc, char *argv[])
   char *option=NULL;
   bool user_tileset = FALSE;
   int fatal_assertions = -1;
+  int aii;
 
   /* Load win32 post-crash debugger */
 #ifdef WIN32_NATIVE
@@ -305,10 +306,14 @@ int client_main(int argc, char *argv[])
 
   fc_interface_init_client();
 
-  /* Ensure that all AIs are initialized to unused state */
-  ai_type_iterate(ai) {
+  /* Ensure that all AIs are initialized to unused state
+   * Not using ai_type_iterate as it would stop at
+   * current ai type count, ai_type_get_count(), i.e., 0 */
+  for (aii = 0; aii < FC_AI_LAST; aii++) {
+    struct ai_type *ai = get_ai_type(aii);
+
     init_ai(ai);
-  } ai_type_iterate_end;
+  }
 
   init_nls();
   audio_init();
