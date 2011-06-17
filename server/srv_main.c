@@ -214,6 +214,8 @@ void srv_init(void)
   srvarg.bind_addr = NULL;
   srvarg.port = DEFAULT_SOCK_PORT;
 
+  srvarg.bind_meta_addr = NULL;
+
   srvarg.loglevel = LOG_NORMAL;
 
   srvarg.log_filename = NULL;

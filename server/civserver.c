@@ -244,6 +244,8 @@ int main(int argc, char *argv[])
       free(option);
     } else if ((option = get_option_malloc("--bind", argv, &inx, argc))) {
       srvarg.bind_addr = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--Bind-meta", argv, &inx, argc))) {
+      srvarg.bind_meta_addr = option; /* Never freed. */
     } else if ((option = get_option_malloc("--read", argv, &inx, argc)))
       srvarg.script_filename = option; /* Never freed. */
     else if ((option = get_option_malloc("--quitidle", argv, &inx, argc))) {
@@ -334,6 +336,7 @@ int main(int argc, char *argv[])
 			 "login if auth is enabled.\n"));
 #endif /* HAVE_FCDB */
     fc_fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
+    fc_fprintf(stderr, _("  -B  --Bind-meta ADDR\tConnect to metaserver from this address\n"));
 #ifdef DEBUG
     fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
                          "%d, or %d:file1,min,max:...)\n"),

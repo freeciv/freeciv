@@ -222,8 +222,15 @@ static inline bool meta_insert_setting(struct netfile_post *post,
 static void send_metaserver_post(void *arg)
 {
   struct netfile_post *post = (struct netfile_post *) arg;
+  char *addr;
 
-  if (!netfile_send_post(srvarg.metaserver_addr, post, NULL)) {
+  if (srvarg.bind_meta_addr != NULL) {
+    addr = srvarg.bind_meta_addr;
+  } else {
+    addr = srvarg.bind_addr;
+  }
+
+  if (!netfile_send_post(srvarg.metaserver_addr, post, NULL, addr)) {
     con_puts(C_METAERROR, _("Error connecting metaserver"));
     metaserver_failed();
   }

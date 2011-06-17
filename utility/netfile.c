@@ -196,7 +196,7 @@ static size_t dummy_write(void *buffer, size_t size, size_t nmemb, void *userp)
   Send HTTP POST
 ***********************************************************************/
 bool netfile_send_post(const char *URL, struct netfile_post *post,
-                       FILE *reply_fp)
+                       FILE *reply_fp, const char *addr)
 {
   CURLcode curlret;
   long http_resp;
@@ -211,6 +211,9 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
     curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, dummy_write);
   } else {
     curl_easy_setopt(handle, CURLOPT_WRITEDATA, reply_fp);
+  }
+  if (addr != NULL) {
+    curl_easy_setopt(handle, CURLOPT_INTERFACE, addr);
   }
 
   curlret = curl_easy_perform(handle);

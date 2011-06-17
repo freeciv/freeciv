@@ -33,6 +33,8 @@ struct server_arguments {
   char *bind_addr;
   /* this server's listen port */
   int port;
+  /* address to bind when connecting to the metaserver (NULL => bind_addr) */
+  char *bind_meta_addr;
   /* the log level */
   enum log_level loglevel;
   /* filenames */

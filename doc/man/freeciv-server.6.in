@@ -15,6 +15,7 @@ freeciv-server \- The server for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-server \
 [ \-b|\-\-bind \fIaddress\fP ] \
+[ \-B|\-\-Bind\-meta \fIaddress\fP ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-e|\-\-exit\-on\-end ] \
 [ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
@@ -89,6 +90,12 @@ Enables server authentication and allows access to registered players only.
 .TP
 .BI "\-b \fIaddress\fP, \-\-bind \fIaddress\fP"
 Sets the \fIaddress\fP on which the server will listen for clients.
+.TP
+.BI "\-B \fIaddress\fP, \-\-Bind\-meta \fIaddress\fP"
+Sets the \fIaddress\fP which request to metaserver are sent from. Defaults to
+address given by
+.I \-b
+option.
 .TP
 .BI "\-d \fIlevel_number\fP, \-\-debug \fIlevel_number\fP"
 Sets the amount of debugging information to be logged in the file named by the
