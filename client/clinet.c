@@ -232,12 +232,14 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 
   client.conn.sock = sock;
   if (client.conn.sock == -1) {
-    (void) fc_strlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
+    fc_errno err = fc_get_errno(); /* Save errno value before calling anything */
+
+    (void) fc_strlcpy(errbuf, fc_strerror(err), errbufsize);
 #ifdef HAVE_WINSOCK
     return -1;
 #else
-    return errno;
-#endif
+    return err;
+#endif /* HAVE_WINSOCK */
   }
 
   make_connection(client.conn.sock, username);
