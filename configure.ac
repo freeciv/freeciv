@@ -402,9 +402,9 @@ fi
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
 EXTRA_DEBUG_CXXFLAGS=""
-FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
+FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations -Wno-unused-but-set-variable],
  [], [EXTRA_DEBUG_CFLAGS])
-FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
+FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wno-unused-but-set-variable],
  [], [EXTRA_DEBUG_CXXFLAGS])
 
 FC_DEBUG
