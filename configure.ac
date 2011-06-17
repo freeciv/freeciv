@@ -413,7 +413,7 @@ fi
 
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
-FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
+FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations -Wno-unused-but-set-variable],
  [], [EXTRA_DEBUG_CFLAGS])
 
 dnl check debugging
