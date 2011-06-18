@@ -662,7 +662,7 @@ int tileset_small_sprite_width(const struct tileset *t)
 
 /****************************************************************************
   Return the offset from the origin of the city tile at which to place the
-  citybar text.
+  city bar text.
 ****************************************************************************/
 int tileset_citybar_offset_y(const struct tileset *t)
 {
@@ -5027,7 +5027,7 @@ struct sprite *get_nuke_explode_sprite(const struct tileset *t)
 }
 
 /**************************************************************************
-  Return all the sprites used for citybar drawing.
+  Return all the sprites used for city bar drawing.
 **************************************************************************/
 const struct citybar_sprites *get_citybar_sprites(const struct tileset *t)
 {

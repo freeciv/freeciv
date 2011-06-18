@@ -129,7 +129,7 @@ options include:
   unit_offset_x        : Gives an offset from the tile origin at which to
   unit_offset_y          draw units.
   citybar_offset_y     : Gives an offset from city tile origin at which to
-                         draw citybar text.
+                         draw city bar text.
   hex_side             : When is_hex is specified (see is_hex, below), this
                          value gives the length of the "extra" side of the
                          hexagon.  This extra side will be on the top/bottom
@@ -157,7 +157,7 @@ options include:
                           Hex tilesets should be used with topologies 8-11 and
                           iso-hex tilesets with topologies 12-15.
   is_mountainous        : set to 1 for blending hills and mountains together.
-  is_full_citybar       : set to 1 to enable citybar.
+  is_full_citybar       : set to 1 to enable city bar.
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------

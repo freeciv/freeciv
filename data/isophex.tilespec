@@ -41,7 +41,7 @@ city_flag_offset_y = 11
 unit_offset_x = 21
 unit_offset_y = 13
 
-; offset the citybar text by this amount (from the city tile origin)
+; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 20
 
 ; offset the tile label text by this amount

@@ -1409,8 +1409,8 @@ void update_tile_label(struct tile *ptile)
 }
 
 /****************************************************************************
-  Draw a "full" citybar for the city.  This is a subcase of show_city_desc
-  (see that function for more info) for tilesets that have a full citybar.
+  Draw a "full" city bar for the city.  This is a subcase of show_city_desc
+  (see that function for more info) for tilesets that have a full city bar.
 ****************************************************************************/
 static void show_full_citybar(struct canvas *pcanvas,
 			      const int canvas_x0, const int canvas_y0,
@@ -1670,9 +1670,9 @@ static void show_full_citybar(struct canvas *pcanvas,
 }
 
 /****************************************************************************
-  Draw a "small" citybar for the city.  This is a subcase of show_city_desc
+  Draw a "small" city bar for the city.  This is a subcase of show_city_desc
   (see that function for more info) for tilesets that do not have a full
-  citybar.
+  city bar.
 ****************************************************************************/
 static void show_small_citybar(struct canvas *pcanvas,
 			   int canvas_x, int canvas_y,

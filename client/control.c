@@ -2169,7 +2169,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
     refresh_unit_mapcanvas(punit, dst_tile, TRUE, FALSE);
   }
 
-  /* With the "full" citybar we have to update the citybar when units move
+  /* With the "full" city bar we have to update the city bar when units move
    * into or out of a city.  For foreign cities this is handled separately,
    * via the occupied field of the short-city packet. */
   if (NULL != tile_city(src_tile)
@@ -3001,7 +3001,7 @@ void key_map_borders_toggle(void)
 }
 
 /**************************************************************************
-  Toggle the "Draw the citybar" option.
+  Toggle the "Draw the city bar" option.
 **************************************************************************/
 void key_city_full_bar_toggle(void)
 {
