@@ -2270,7 +2270,7 @@ static struct client_option client_options[] = {
                   N_("Small Font"),
                   N_("This font is used for any small font request.  For "
                      "example, it is used for display the building lists "
-                     "in the city dialog, the economic report or the unit "
+                     "in the city dialog, the Economy report or the Units "
                      "report."),
                   COC_FONT, GUI_GTK2,
                   "Sans 9", NULL),
@@ -2295,7 +2295,7 @@ static struct client_option client_options[] = {
   GEN_FONT_OPTION(gui_gtk2_font_reqtree_text, "reqtree_text",
                   N_("Requirement Tree"),
                   N_("This font is used to the display the requirement tree "
-                     "in the science report."),
+                     "in the Research report."),
                   COC_FONT, GUI_GTK2,
                   "Serif 10", NULL),
 
@@ -2472,7 +2472,7 @@ static struct client_option client_options[] = {
                   N_("Small Font"),
                   N_("This font is used for any small font request.  For "
                      "example, it is used for display the building lists "
-                     "in the city dialog, the economic report or the unit "
+                     "in the city dialog, the Economy report or the Units "
                      "report."),
                   COC_FONT, GUI_GTK3,
                   "Sans 9", NULL),
@@ -2497,7 +2497,7 @@ static struct client_option client_options[] = {
   GEN_FONT_OPTION(gui_gtk3_font_reqtree_text, "reqtree_text",
                   N_("Requirement Tree"),
                   N_("This font is used to the display the requirement tree "
-                     "in the science report."),
+                     "in the Research report."),
                   COC_FONT, GUI_GTK3,
                   "Serif 10", NULL),
 
