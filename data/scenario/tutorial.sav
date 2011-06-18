@@ -95,12 +95,12 @@ next largest size."))
     elseif citiesbuilt == 4 then
       notify.event(city.owner, city.tile, E.SCRIPT,
 _("As the number of cities in your empire grows, it becomes harder to\n\
-manage individual cities.  This is where the city report becomes\n\
+manage individual cities.  This is where the Cities report becomes\n\
 useful.  Press F4 to bring it up.  This report shows a list of cities\n\
 with various statistics about each.  Play around with it a bit if you\n\
-like (return to the map view by pressing F1 or clicking on the Map\n\
+like (return to the map view by pressing F1 or clicking on the View\n\
 tab).  With a bit of practice it is possible to control almost every\n\
-aspect of the cities from this report.  The full power of the city\n\
+aspect of the cities from this report.  The full power of the Cities\n\
 report is beyond the scope of this tutorial, however."))
     end
     citiesbuilt = citiesbuilt + 1
@@ -129,16 +129,16 @@ _("Your city has grown again!  Now with three citizens you have\n\
 a fair amount of choice over where the city should focus its\n\
 resources.  A city with three citizens gets to work three\n\
 different tiles, in addition to its center tile which is worked\n\
-for free.  In the city dialog, the map shows which tiles are working\n\
+for free.  In the city dialog, the map shows which tiles are worked\n\
 and how much food, shields, and trade each provides.  Food is used\n\
 to grow your city, shields are used for production of buildings\n\
 and units, while trade provides taxable revenue that can be\n\
 turned into science research, gold, or luxuries.\n\
 \n\
 Click on a worked tile to remove the citizen from that tile.  Then\n\
-click on an unworked tile to place a worker there.  You may place\n\
-up to three workers, of course.  The remaining citizens are all\n\
-specialists - right now they are all entertainers which provide\n\
+click on an unworked tile to place a citizen there.  You may place\n\
+up to three citizens on tiles, of course.  The remaining citizens are\n\
+all specialists - right now they are all entertainers which provide\n\
 only luxuries (which will not be useful until later)."))
       growth3msg = true
     elseif size == 5 and not growth5msg then
@@ -307,8 +307,8 @@ are an integral concept in Freeciv.  As you increase your technology\n\
 level new units, buildings, governments, and various free bonuses will\n\
 become available to you.\n\
 \n\
-For now, go over into the Science Dialog and play around a little.\n\
-Press F6 to open the science dialog (or click on the Science tab in\n\
+For now, go over into the Research report and play around a little.\n\
+Press F6 to open the Research report (or click on the Research tab in\n\
 the main window area).  Find the technology called Republic and click\n\
 on it.  Now Republic has been set as your technology goal; this means\n\
 the next advance on the path toward this technology will automatically\n\
@@ -317,12 +317,12 @@ scientific research you are accomplishing each turn - research (bulbs)\n\
 comes from the taxable trade in your cities.  In the bottom of the\n\
 window is the tech tree; here you may left-click to set the research\n\
 target or research goal, or right-click to get help about a particular\n\
-technology.  When you are done playing around click on the Map tab\n\
+technology.  When you are done playing around click on the View tab\n\
 (F1) to return to the map view."))
   elseif numtechs == 1 then
     notify.event(player, nil, E.SCRIPT,
 _("Now you have researched your second technology.  Go back into the\n\
-science dialog (F6) and take a quick look at your progress.  If you\n\
+Research report (F6) and take a quick look at your progress.  If you\n\
 set Republic as your technology goal earlier, a new research target\n\
 should have been chosen for you automatically.  If you do not have\n\
 any goal set, however, there will not be any new target chosen until\n\

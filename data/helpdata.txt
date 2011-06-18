@@ -1492,7 +1492,7 @@ your game.)\
 "), _("\
 When you have started building your spaceship, you can see it with \
 the \"Spaceship\" command in the Report menu.  To see spaceships of \
-other players, select the player in the Players dialog and click \
+other players, select the player in the Nations report and click \
 \"Spaceship\".\
 "), _("\
 If the success probability is below 100%, some fraction of the \
@@ -1657,14 +1657,14 @@ Main Map (Mouse):\n\
   Right-click:          Cancel Area Selection mode\n\
 \n\
   The cities that become highlighted on the map,\n\
-  will also be highlighted in the City Report.\
+  will also be highlighted in the Cities Report.\
 "), _("\
 Dialogs and Reports:\n\
 ====================\n\
      F1: show Map View\n\
-     F2: open Unit Report\n\
+     F2: open Units Report\n\
      F3: open Nations Report\n\
-     F4: open City Report\n\
+     F4: open Cities Report\n\
      F5: open Economy Report\n\
      F6: open Research Report\n\
      F7: open World Wonders\n\
