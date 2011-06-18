@@ -41,7 +41,7 @@ city_flag_offset_y = 51
 unit_offset_x = 4
 unit_offset_y = 57
 
-; offset the citybar text by this amount (from the city tile origin)
+; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 48
 
 ; Font to use to draw city names:

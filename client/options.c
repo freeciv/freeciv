@@ -1700,8 +1700,8 @@ static struct client_option client_options[] = {
                   N_("Setting this option will draw a grid over the map."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw the citybar"),
-                  N_("Setting this option will display a 'citybar' "
+  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw the city bar"),
+                  N_("Setting this option will display a 'city bar' "
                      "containing useful information beneath each city. "
                      "Disabling this option will display only the city's "
                      "name and, optionally, production."),
