@@ -2397,11 +2397,8 @@ static void sg_load_map_startpos(struct loaddata *loading)
       continue;
     }
 
-    if (!secfile_lookup_bool(loading->file, &exclude,
-                                    "map.startpos%d.exclude", i)) {
-      log_sg("Warning: Missing exclude info: %s", secfile_error());
-      exclude = FALSE;
-    }
+    exclude = secfile_lookup_bool_default(loading->file, FALSE,
+                                          "map.startpos%d.exclude", i);
 
     psp = map_startpos_new(ptile);
 
