@@ -483,6 +483,7 @@ artists = "
    Viking		Daniel Markstedt
    Visigoth		J.M. Maalderink
    Vistulan		Kuba (Open Clip Art) and Hubert Kobalewski
+   Volapuk		Wierzbowski
    Volga Bulgar		Óðinn (Wikimedia Commons) and Daniel Markstedt
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
@@ -975,6 +976,7 @@ sprites =
 		"f.viking", "flags/viking"
 		"f.visigoth", "flags/visigoth"
 		"f.vistulan", "flags/vistulan"
+		"f.volapuk", "flags/volapuk"
 		"f.volga_bulgar", "flags/volga_bulgar"
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"

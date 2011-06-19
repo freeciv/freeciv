@@ -463,6 +463,7 @@ pkgdata_DATA = \
 		vincentian.ruleset \
 		visigothic.ruleset \
 		vistulan.ruleset \
+		volapuk.ruleset \
 		volgabulgar.ruleset \
 		walloon.ruleset \
 		welsh.ruleset \

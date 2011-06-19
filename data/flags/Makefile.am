@@ -473,6 +473,7 @@ flag_files =				\
 		viking.png		\
 		visigoth.png		\
 		vistulan.png		\
+		volapuk.png		\
 		volga_bulgar.png	\
 		wales.png		\
 		wallonia.png		\
@@ -959,6 +960,7 @@ flag_files =				\
 		viking-large.png		\
 		visigoth-large.png		\
 		vistulan-large.png		\
+		volapuk-large.png		\
 		volga_bulgar-large.png		\
 		wales-large.png			\
 		wallonia-large.png		\
@@ -1447,6 +1449,7 @@ shield_files =					\
 		viking-shield.png		\
 		visigoth-shield.png		\
 		vistulan-shield.png		\
+		volapuk-shield.png		\
 		volga_bulgar-shield.png		\
 		wales-shield.png		\
 		wallonia-shield.png		\
@@ -1933,6 +1936,7 @@ shield_files =					\
 		viking-shield-large.png		\
 		visigoth-shield-large.png		\
 		vistulan-shield-large.png		\
+		volapuk-shield-large.png		\
 		volga_bulgar-shield-large.png		\
 		wales-shield-large.png		\
 		wallonia-shield-large.png		\
@@ -2419,6 +2423,7 @@ svg_files = 				\
 		viking.svg		\
 		visigoth.svg		\
 		vistulan.svg		\
+		volapuk.svg		\
 		volga_bulgar.svg	\
 		wales.svg		\
 		wallonia.svg		\

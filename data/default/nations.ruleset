@@ -512,6 +512,7 @@ match=2
 *include "nation/vincentian.ruleset"
 *include "nation/visigothic.ruleset"
 *include "nation/vistulan.ruleset"
+*include "nation/volapuk.ruleset"
 *include "nation/volgabulgar.ruleset"
 *include "nation/walloon.ruleset"
 *include "nation/welsh.ruleset"
