@@ -33,7 +33,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "grenadian", "dominican", "belizean"
+civilwar_nations = "bahamian", "belizean"
 
 cities =
  "Kingston",
