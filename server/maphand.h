@@ -121,4 +121,6 @@ void change_playertile_site(struct player_tile *ptile,
 void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer);
 
+void bounce_units_on_terrain_change(struct tile *ptile);
+
 #endif  /* FC__MAPHAND_H */

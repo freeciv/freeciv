@@ -1475,7 +1475,7 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
   A helper function for check_terrain_change that moves units off of invalid
   terrain after it's been changed.
 ****************************************************************************/
-static void bounce_units_on_terrain_change(struct tile *ptile)
+void bounce_units_on_terrain_change(struct tile *ptile)
 {
   unit_list_iterate_safe(ptile->units, punit) {
     bool unit_alive = TRUE;
