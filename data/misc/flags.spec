@@ -52,6 +52,7 @@ artists = "
    Babylon		Daniel Markstedt
    Baden		David Liuzzo (Wikimedia Commons)
    Bahamas		J.M. Maalderink
+   Bahrain		J.M. Maalderink
    Bangladesh		Cezary Biele
    Barbarian		Tobias Jakobs
    Bashkortostan	Conscious (Wikimedia Commons)
@@ -544,6 +545,7 @@ sprites =
 		"f.babylon", "flags/babylon"
 		"f.baden", "flags/baden"
 		"f.bahamas", "flags/bahamas"
+		"f.bahrain", "flags/bahrain"
 		"f.bangladesh", "flags/bangladesh"
 		"f.barbarian", "flags/barbarian"
 		"f.bashkortostan", "flags/bashkortostan"

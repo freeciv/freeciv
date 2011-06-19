@@ -96,6 +96,7 @@ match=2
 *include "nation/badian.ruleset"
 *include "nation/babylonian.ruleset"
 *include "nation/bahamian.ruleset"
+*include "nation/bahraini.ruleset"
 *include "nation/bangladeshi.ruleset"
 *include "nation/barbarian.ruleset"
 *include "nation/bashkir.ruleset"

@@ -53,6 +53,7 @@ sprites =
 		"f.shield.babylon", "flags/babylon-shield-large"
 		"f.shield.baden", "flags/baden-shield-large"
 		"f.shield.bahamas", "flags/bahamas-shield-large"
+		"f.shield.bahrain", "flags/bahrain-shield-large"
 		"f.shield.bangladesh", "flags/bangladesh-shield-large"
 		"f.shield.barbarian", "flags/barbarian-shield-large"
 		"f.shield.bashkortostan", "flags/bashkortostan-shield-large"

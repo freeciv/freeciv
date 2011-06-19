@@ -53,6 +53,7 @@ sprites =
 		"f.babylon", "flags/babylon-large"
 		"f.baden", "flags/baden-large"
 		"f.bahamas", "flags/bahamas-large"
+		"f.bahrain", "flags/bahrain-large"
 		"f.bangladesh", "flags/bangladesh-large"
 		"f.barbarian", "flags/barbarian-large"
 		"f.bashkortostan", "flags/bashkortostan-large"
