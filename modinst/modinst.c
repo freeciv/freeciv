@@ -192,7 +192,7 @@ static void setup_modpack_list(const char *name, const char *URL,
                                const char *version, enum modpack_type type)
 {
   GtkTreeIter iter;
-  char *type_str;
+  const char *type_str;
 
   if (modpack_type_is_valid(type)) {
     type_str = _(modpack_type_name(type));
