@@ -1663,6 +1663,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned units! */
   punit->owner = pplayer;
 
+  punit->facing = DIR8_EAST;
+
   if (pcity) {
     unit_tile_set(punit, pcity->tile);
     punit->homecity = pcity->id;

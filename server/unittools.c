@@ -1919,6 +1919,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->id = punit->id;
   packet->owner = player_number(unit_owner(punit));
   packet->tile = tile_index(unit_tile(punit));
+  packet->facing = punit->facing;
   packet->homecity = punit->homecity;
   output_type_iterate(o) {
     packet->upkeep[o] = punit->upkeep[o];
@@ -1997,6 +1998,7 @@ void package_short_unit(struct unit *punit,
   packet->id = punit->id;
   packet->owner = player_number(unit_owner(punit));
   packet->tile = tile_index(unit_tile(punit));
+  packet->facing = punit->facing;
   packet->veteran = punit->veteran;
   packet->type = utype_number(unit_type(punit));
   packet->hp = punit->hp;
@@ -2992,6 +2994,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   /* Enhance vision if unit steps into a fortress */
   if (unit_lives) {
+    bool adj;
+    enum direction8 facing;
     const v_radius_t radius_sq =
         V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
                  get_unit_vision_at(punit, pdesttile, V_INVIS));
@@ -3013,6 +3017,14 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     }
 
     unit_list_remove(psrctile->units, punit);
+
+    /* Set unit orientation */
+    adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
+    if (adj) {
+      /* Only change orintation when moving to adjacent tile */
+      punit->facing = facing;
+    }
+
     unit_tile_set(punit, pdesttile);
     punit->moved = TRUE;
     if (punit->transported_by != -1) {

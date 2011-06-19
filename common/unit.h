@@ -126,6 +126,7 @@ struct unit_order {
 struct unit {
   struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
+  enum direction8 facing;
   struct player *owner; /* Cannot be NULL. */
   int id;
   int homecity;

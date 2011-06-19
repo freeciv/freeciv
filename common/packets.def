@@ -749,6 +749,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
+  DIRECTION facing;
   CITY homecity;
 
   UINT8 upkeep[O_LAST];
@@ -784,6 +785,7 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
+  DIRECTION facing;
   UNIT_TYPE type;
 
   UINT8 veteran;
