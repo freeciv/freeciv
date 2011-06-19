@@ -149,11 +149,13 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   elif test "x$gui" = "xall" ; then
     client=all
   else
-    if test "x$gui" = "xgtk"    ||
-       test "x$gui" = "xgtk2"   ||
+    if test "x$gui" = "xgtk2"   ||
        test "x$gui" = "xgtk2.0" ||
        test "x$gui" = "xgtk20"  ||
        test "x$gui" = "xgtk-2.0" ; then
+      gui_gtk2=yes
+    elif test "x$gui" = "xgtk" ; then
+      AC_MSG_WARN([for requested client 'gtk' enabled gtk2-client, but that default may change in the future])
       gui_gtk2=yes
     else
       if test ! -d "${srcdir}/client/gui-$gui" ; then
