@@ -1819,7 +1819,6 @@ static bool player_balance_treasury_units_and_buildings
   struct cityimpr_list *pimprlist;
   struct cityimpr ci;
   struct unit_list *punitlist;
-  int impr_count = 0, unit_count = 0;
   bool sell_unit = TRUE;
 
   if (!pplayer) {
@@ -1846,14 +1845,13 @@ static bool player_balance_treasury_units_and_buildings
   } city_list_iterate_end;
 
   while (pplayer->economic.gold < 0
-         && (cityimpr_list_size(pimprlist) != impr_count
-             || unit_list_size(punitlist) != unit_count)) {
-    if (!sell_unit) {
+         && (cityimpr_list_size(pimprlist) > 0
+             || unit_list_size(punitlist) > 0)) {
+    if ((!sell_unit && cityimpr_list_size(pimprlist) > 0)
+        || unit_list_size(punitlist) == 0) {
       sell_random_building(pplayer, pimprlist);
-      impr_count = cityimpr_list_size(pimprlist);
     } else {
       sell_random_unit(pplayer, punitlist);
-      unit_count = unit_list_size(punitlist);
     }
     sell_unit = !sell_unit;
   }
