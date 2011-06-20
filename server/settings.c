@@ -135,7 +135,8 @@ struct setting {
     } string;
     /*** enumerator part ***/
     struct {
-      int *const pvalue;
+      void *const pvalue;
+      const int store_size;
       const int default_value;
       const enum_validate_func_t validate;
       const val_name_func_t name;
@@ -859,7 +860,8 @@ static bool ysize_callback(int value, struct connection *caller,
                  func_name, _default)                                       \
   { name, sclass, to_client, short_help, extra_help, SSET_ENUM,             \
       scateg, slevel,                                                       \
-      { .enumerator = { (int *) &value, _default, func_validate,            \
+      { .enumerator = {  &value, sizeof(value), _default,                   \
+                         func_validate,                                     \
        (val_name_func_t) func_name, 0 }}, func_action, FALSE},
 
 #define GEN_BITWISE(name, value, sclass, scateg, slevel, to_client,         \
@@ -2691,6 +2693,65 @@ static bool setting_enum_validate_base(const struct setting *pset,
 }
 
 /****************************************************************************
+  Helper function to write value to enumerator setting 
+****************************************************************************/
+static bool set_enum_value(struct setting *pset, int val)
+{
+  switch(pset->enumerator.store_size) {
+   case sizeof(int):
+     {
+       int *to_int = pset->enumerator.pvalue;
+
+       *to_int = val;
+     }
+     break;
+   case sizeof(char):
+     {
+       char *to_char = pset->enumerator.pvalue;
+
+       *to_char = (char) val;
+     }
+     break;
+   case sizeof(short):
+     {
+       short *to_short = pset->enumerator.pvalue;
+
+       *to_short = (short) val;
+     }
+     break;
+   default:
+     return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Helper function to read value from enumerator setting 
+****************************************************************************/
+static int read_enum_value(const struct setting *pset)
+{
+  int val;
+
+  switch(pset->enumerator.store_size) {
+   case sizeof(int):
+     val = *((int *)pset->enumerator.pvalue);
+     break;
+   case sizeof(char):
+     val = *((char *)pset->enumerator.pvalue);
+     break;
+   case sizeof(short):
+     val = *((short *)pset->enumerator.pvalue);
+     break;
+   default:
+     log_error("Illegal enum store size %d, can't read value", pset->enumerator.store_size);
+     return 0;
+  }
+
+  return val;
+}
+
+/****************************************************************************
   Set the setting to 'val'. Returns TRUE on success. If it fails, the
   reason of the failure is available in the optionnal parameter
   'reject_msg'.
@@ -2701,13 +2762,21 @@ bool setting_enum_set(struct setting *pset, const char *val,
 {
   int int_val;
 
-  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-      || !setting_enum_validate_base(pset, val, &int_val, caller,
-                                     reject_msg, reject_msg_len)) {
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)) {
     return FALSE;
   }
 
-  *pset->enumerator.pvalue = int_val;
+  if (!setting_enum_validate_base(pset, val, &int_val, caller,
+                                  reject_msg, reject_msg_len)) {
+    return FALSE;
+  }
+
+  if (!set_enum_value(pset, int_val)) {
+    log_error("Illegal enumerator value size %d for %s",
+              pset->enumerator.store_size, val);
+    return FALSE;
+  }
+
   return TRUE;
 }
 
@@ -2928,7 +2997,7 @@ const char *setting_value_name(const struct setting *pset, bool pretty,
     return setting_str_to_str(pset, pset->string.value,
                               pretty, buf, buf_len);
   case SSET_ENUM:
-    return setting_enum_to_str(pset, *pset->enumerator.pvalue,
+    return setting_enum_to_str(pset, read_enum_value(pset),
                                pretty, buf, buf_len);
   case SSET_BITWISE:
     return setting_bitwise_to_str(pset, *pset->bitwise.pvalue,
@@ -2990,7 +3059,7 @@ static void setting_set_to_default(struct setting *pset)
                pset->string.value_size);
     break;
   case SSET_ENUM:
-    (*pset->enumerator.pvalue) = pset->enumerator.default_value;
+    set_enum_value(pset, pset->enumerator.default_value);
     break;
   case SSET_BITWISE:
     (*pset->bitwise.pvalue) = pset->bitwise.default_value;
@@ -3146,11 +3215,11 @@ static bool setting_ruleset_one(struct section_file *file,
                                     "%s.value", path)) {
         log_error("Can't read value for setting '%s': %s",
                   name, secfile_error());
-      } else if (val != *pset->enumerator.pvalue) {
+      } else if (val != read_enum_value(pset)) {
         if (NULL == pset->enumerator.validate
             || pset->enumerator.validate(val, NULL, reject_msg,
                                          sizeof(reject_msg))) {
-          *pset->enumerator.pvalue = val;
+          set_enum_value(pset, val);
           log_normal(_("Ruleset: '%s' has been set to %s."),
                      setting_name(pset),
                      setting_value_name(pset, TRUE, buf, sizeof(buf)));
@@ -3212,7 +3281,7 @@ bool setting_changed(const struct setting *pset)
   case SSET_STRING:
     return (0 != strcmp(pset->string.value, pset->string.default_value));
   case SSET_ENUM:
-    return (*pset->enumerator.pvalue != pset->enumerator.default_value);
+    return (read_enum_value(pset) != pset->enumerator.default_value);
   case SSET_BITWISE:
     return (*pset->bitwise.pvalue != pset->bitwise.default_value);
   }
@@ -3263,7 +3332,7 @@ static void setting_game_set(struct setting *pset, bool init)
     break;
 
   case SSET_ENUM:
-    pset->enumerator.game_value = *pset->enumerator.pvalue;
+    pset->enumerator.game_value = read_enum_value(pset);
     break;
 
   case SSET_BITWISE:
@@ -3378,7 +3447,7 @@ void settings_game_save(struct section_file *file, const char *section)
                           "%s.set%d.gamestart", section, set_count);
       break;
     case SSET_ENUM:
-      secfile_insert_enum_data(file, *pset->enumerator.pvalue, FALSE,
+      secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
                                setting_enum_secfile_str, pset,
                                "%s.set%d.value", section, set_count);
       secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
@@ -3514,13 +3583,13 @@ void settings_game_load(struct section_file *file, const char *section)
                                         "%s.set%d.value", section, i)) {
             log_verbose("Option '%s' not defined in the savegame: %s", name,
                         secfile_error());
-          } else if (val != *pset->enumerator.pvalue) {
+          } else if (val != read_enum_value(pset)) {
             if (setting_is_changeable(pset, NULL, reject_msg,
                                       sizeof(reject_msg))
                 && (NULL == pset->enumerator.validate
                     || pset->enumerator.validate(val, NULL, reject_msg,
                                                  sizeof(reject_msg)))) {
-              *pset->enumerator.pvalue = val;
+              set_enum_value(pset, val);
               log_normal(_("Savegame: '%s' has been set to %s."),
                          setting_name(pset),
                          setting_value_name(pset, TRUE, buf, sizeof(buf)));
@@ -3586,7 +3655,7 @@ void settings_game_load(struct section_file *file, const char *section)
         case SSET_ENUM:
           pset->enumerator.game_value =
               secfile_lookup_enum_default_data(file,
-                  *pset->enumerator.pvalue, FALSE, setting_enum_secfile_str,
+                  read_enum_value(pset), FALSE, setting_enum_secfile_str,
                   pset, "%s.set%d.gamestart", section, i);
           break;
 
@@ -3749,7 +3818,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       conn_list_iterate(dest, pconn) {
         PACKET_COMMON_INIT(packet, pset, pconn);
         if (packet.is_visible) {
-          packet.val = *pset->enumerator.pvalue;
+          packet.val = read_enum_value(pset);
           packet.default_val = pset->enumerator.default_value;
           for (i = 0; (val_name = pset->enumerator.name(i)); i++) {
             sz_strlcpy(packet.support_names[i], val_name->support);
