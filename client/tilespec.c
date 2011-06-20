@@ -72,7 +72,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Jan.28 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Jun.18 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -204,7 +204,12 @@ struct named_sprites {
   struct sprite *tech[A_LAST];
   struct sprite *building[B_LAST];
   struct sprite *government[G_MAGIC];
-  struct sprite *unittype[U_LAST];
+
+  struct {
+    struct sprite *icon[U_LAST];
+    struct sprite *facing[U_LAST][DIR8_LAST]; 
+  } units;
+
   struct sprite *resource[MAX_NUM_RESOURCES];
 
   struct sprite_vector nation_flag;
@@ -2743,17 +2748,43 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
 }
 
 /**********************************************************************
+  Helper function to load sprite for one unit orientation
+***********************************************************************/
+static void tileset_setup_unit_direction(struct tileset *t,
+                                         struct unit_type *ut,
+                                         enum direction8 dir,
+                                         char *dirsuffix)
+{
+  char buf[2048];
+
+  fc_snprintf(buf, sizeof(buf), "%s_%s", ut->graphic_str, dirsuffix);
+
+  /* We don't use _alt graphics here, as that could lead to loading
+   * real icon gfx, but alternative orientation gfx. Tileset author
+   * probably meant icon gfx to be used as fallback for all orientations */
+  t->sprites.units.facing[utype_index(ut)][dir] = load_sprite(t, buf);
+}
+
+/**********************************************************************
   Set unit_type sprite value; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
-  t->sprites.unittype[utype_index(ut)] =
+  t->sprites.units.icon[utype_index(ut)] =
     tiles_lookup_sprite_tag_alt(t, LOG_FATAL, ut->graphic_str,
-				ut->graphic_alt, "unit_type",
-				utype_rule_name(ut));
-
+                                ut->graphic_alt, "unit_type",
+                                utype_rule_name(ut));
   /* should maybe do something if NULL, eg generic default? */
+
+  tileset_setup_unit_direction(t, ut, DIR8_NORTHWEST, "nw");
+  tileset_setup_unit_direction(t, ut, DIR8_NORTH, "n");
+  tileset_setup_unit_direction(t, ut, DIR8_NORTHEAST, "ne");
+  tileset_setup_unit_direction(t, ut, DIR8_WEST, "w");
+  tileset_setup_unit_direction(t, ut, DIR8_EAST, "e");
+  tileset_setup_unit_direction(t, ut, DIR8_SOUTHWEST, "sw");
+  tileset_setup_unit_direction(t, ut, DIR8_SOUTH, "s");
+  tileset_setup_unit_direction(t, ut, DIR8_SOUTHEAST, "se");
 }
 
 /**********************************************************************
@@ -3282,7 +3313,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  ADD_SPRITE(t->sprites.unittype[utype_index(unit_type(punit))], TRUE,
+  ADD_SPRITE(t->sprites.units.icon[utype_index(unit_type(punit))], TRUE,
 	     FULL_TILE_X_OFFSET + t->unit_offset_x,
 	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
@@ -4945,7 +4976,7 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
                                    const struct unit_type *punittype)
 {
   fc_assert_ret_val(NULL != punittype, NULL);
-  return t->sprites.unittype[utype_index(punittype)];
+  return t->sprites.units.icon[utype_index(punittype)];
 }
 
 /**************************************************************************
