@@ -82,7 +82,12 @@
    time and instead try to complete what it has started.
 */
 
-/* A big WAG to save a big amount of CPU: */
+/* Stop looking too hard for better tiles to found a new city at when
+ * settler finds location with at least RESULT_IS_ENOUGH want
+ * points. See city_desirability() for how base want is computed
+ * before amortizing it.
+ *
+ * This is a big WAG to save a big amount of CPU. */
 #define RESULT_IS_ENOUGH 250
 
 #define FERRY_TECH_WANT 500
