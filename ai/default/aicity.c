@@ -508,10 +508,13 @@ static void ai_spend_gold(struct player *pplayer)
     if (is_unit_choice_type(bestchoice.type)
         && utype_has_flag(bestchoice.value.utype, F_CITIES)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
-          && city_size_get(pcity) == 1
-          && city_granary_size(city_size_get(pcity))
-             > pcity->food_stock + pcity->surplus[O_FOOD]) {
-        /* Don't buy settlers in size 1 cities unless we grow next turn */
+          && bestchoice.value.utype->pop_cost > 0
+          && city_size_get(pcity) <= bestchoice.value.utype->pop_cost) {
+        /* Don't buy settlers in cities that cannot afford the population cost. */
+        /* This used to check also if city is about to grow to required size
+         * next turn and allow buying of settlers in that case, but current
+         * order of end/start turn activities is such that settler building
+         * fails already before city grows. */
         continue;
       } else if (city_list_size(pplayer->cities) > 6) {
         /* Don't waste precious money buying settlers late game
