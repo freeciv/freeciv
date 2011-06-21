@@ -861,9 +861,14 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 }
 
 /****************************************************************************
-  Returns how much two nations looks good in the same game.
+  Returns how much two nations look good in the same game.
+  Nations in the same group are considered to match, if that nation group
+  has a 'match' greater than zero.
   Negative return value means that we really really don't want these
-  nations together. Server side function.
+  nations together. This is dictated by "conflicts_with" in individual
+  nation definitions. (If 'ignore_conflicts' is set, conflicts are not
+  taken into account at all.)
+  Server side function.
 ****************************************************************************/
 int nations_match(const struct nation_type *pnation1,
                   const struct nation_type *pnation2,
@@ -876,7 +881,6 @@ int nations_match(const struct nation_type *pnation1,
   NATION_CHECK(pnation1, return -1);
   NATION_CHECK(pnation2, return -1);
 
-  /* Scottish is a good civil war nation for British */
   if (!ignore_conflicts) {
     nation_list_iterate(pnation1->server.conflicts_with, pnation0) {
       if (pnation0 == pnation2) {

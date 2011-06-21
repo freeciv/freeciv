@@ -1879,29 +1879,33 @@ static void player_set_nation_full(struct player *pplayer,
 }
 
 /****************************************************************************
-  Selects a nation for players created with "create <PlayerName>", or
-  with "set aifill <X>".
+  Assign random nations to players at game start. This includes human
+  players, AI players created with "set aifill <X>", and players created
+  with "create <PlayerName>".
 
-  If <PlayerName> matches one of the leader names for some nation,
-  choose that nation. For example, when the Zulus have not been chosen
-  by anyone else, "create Shaka" will make that AI player's nation the
-  Zulus.
+  If a player's name matches one of the leader names for some nation, and
+  that nation is available, choose that nation, and set the player sex
+  appropriately. For example, when the Britons have not been chosen by
+  anyone else, a player called Boudica whose nation has not been specified
+  (for instance if they were created with "create Boudica") will become
+  the Britons, and their sex will be female. Otherwise, the sex is chosen
+  randomly, and the nation is chosen as below.
 
   If this is a scenario and the scenario has specific start positions for
-  the nations, try to pick those nations. Otherwise, pick an available
-  nation at random.
+  some nations, try to pick those nations, favouring those with start
+  positions which already-assigned players can't use. Otherwise, pick
+  available nations using pick_a_nation(), which tries to pick nations
+  that look good with nations already in the game.
 
-  If the AI player name is one of the leader names for the AI player's
-  nation, the player sex is set to the sex for that leader, else it
-  is chosen randomly. (So if English are ruled by Elisabeth, she is
-  female, but if "Player 1" rules English, may be male or female.)
+  For 'aifill' players, the player name/sex is then reset to that of a
+  random leader for the chosen nation.
 ****************************************************************************/
 static void generate_players(void)
 {
   int nations_to_assign = 0;
 
-  /* Select nations for AI players generated with server
-   * 'create <name>' command or aifill. */
+  /* Announce players who already have nations, and select nations based
+   * on player names. */
   players_iterate(pplayer) {
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
@@ -1931,7 +1935,8 @@ static void generate_players(void)
   } players_iterate_end;
 
   if (0 < nations_to_assign && 0 < map_startpos_count()) {
-    /* Check for start positions of the scenario. */
+    /* We're running a scenario game with specified start positions.
+     * Prefer nations assigned to those positions. */
     struct startpos_hash *hash = startpos_hash_new();
     struct nation_type *picked;
     int c, max = -1;
@@ -1943,7 +1948,8 @@ static void generate_players(void)
         continue;
       }
 
-      /* Count the players which can use this start position. */
+      /* Count the already-assigned players whose nations can use this
+       * start position. */
       c = 0;
       players_iterate(pplayer) {
         if (NO_NATION_SELECTED != pplayer->nation
@@ -1958,7 +1964,9 @@ static void generate_players(void)
       }
     } map_startpos_iterate_end;
 
-    /* Try to assign a nation. */
+    /* Try to assign nations with start positions to the unassigned
+     * players, preferring nations whose start positions aren't usable
+     * by already-assigned players. */
     players_iterate(pplayer) {
       if (NO_NATION_SELECTED != pplayer->nation) {
         continue;
@@ -1982,12 +1990,14 @@ static void generate_players(void)
           }
 
           if (c < min) {
-            /* Pick this nation, less nations can use this start position. */
+            /* Pick this nation, as fewer nations already in the game
+             * can use this start position. */
             picked = pnation;
             min = c;
             i = 1;
           } else if (c == min && 0 == fc_rand(++i)) {
-            /* Possible start position for the nation. */
+            /* More than one nation is equally desirable. Pick one at
+             * random. */
             picked = pnation;
           }
         } startpos_hash_iterate_end;
@@ -1997,14 +2007,16 @@ static void generate_players(void)
         player_set_nation_full(pplayer, picked);
         nations_to_assign--;
         announce_player(pplayer);
-        /* Update the count. */
+        /* Update the counts for the newly assigned nation. */
         startpos_hash_iterate(hash, psp, c) {
           if (startpos_nation_allowed(psp, picked)) {
             startpos_hash_replace(hash, psp, c + 1);
           }
         } startpos_hash_iterate_end;
       } else {
-        /* No need to continue, as we fail to pick new nations. */
+        /* No need to continue; we failed to pick a nation this time,
+         * so we're not going to succeed next time. Fall back to
+         * standard nation selection. */
         break;
       }
     } players_iterate_end;
