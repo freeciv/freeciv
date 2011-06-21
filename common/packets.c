@@ -91,8 +91,9 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
   /* default for the server */
   int result = 0;
 
-  freelog(BASIC_PACKET_LOG_LEVEL, "sending packet type=%s(%d) len=%d",
-	  get_packet_name(data[2]), data[2], len);
+  freelog(BASIC_PACKET_LOG_LEVEL, "sending packet type=%s(%d) len=%d to %s",
+          get_packet_name(data[2]), data[2], len,
+          is_server() ? pc->username : "server");
 
   if (!is_server()) {
     pc->client.last_request_id_used =
@@ -440,8 +441,9 @@ void *get_packet_from_connection(struct connection *pc,
 
   dio_get_uint8(&din, &utype.itype);
 
-  freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d",
-	  get_packet_name(utype.type), utype.itype, whole_packet_len);
+  freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d from %s",
+          get_packet_name(utype.type), utype.itype, whole_packet_len,
+          is_server() ? pc->username : "server");
 
   *ptype = utype.type;
   *presult = TRUE;
