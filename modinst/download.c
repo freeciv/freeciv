@@ -79,6 +79,7 @@ const char *download_modpack(const char *URL,
                              dl_pb_callback pbcb)
 {
   char *controld;
+  char local_dir[2048];
   char local_name[2048];
   const char *home;
   int start_idx;
@@ -86,6 +87,8 @@ const char *download_modpack(const char *URL,
   struct section_file *control;
   const char *control_capstr;
   const char *baseURL;
+  enum modpack_type type;
+  const char *typestr;
   char fileURL[2048];
   const char *src_name;
   bool partial_failure = FALSE;
@@ -148,6 +151,20 @@ const char *download_modpack(const char *URL,
     return _("Modpack control file is incompatible");  
   }
 
+  typestr = secfile_lookup_str(control, "info.type");
+  type = modpack_type_by_name(typestr, fc_strcasecmp);
+  if (!modpack_type_is_valid(type)) {
+    return _("Illegal modpack type");
+  }
+
+  if (type == MPT_SCENARIO) {
+    fc_snprintf(local_dir, sizeof(local_dir),
+                "%s/.freeciv/scenarios", home);
+  } else {
+    fc_snprintf(local_dir, sizeof(local_dir),
+                "%s/.freeciv/" DATASUBDIR, home);
+  }
+
   baseURL = secfile_lookup_str(control, "info.baseURL");
 
   total_files = 0;
@@ -200,8 +217,7 @@ const char *download_modpack(const char *URL,
 
     if (!illegal_filename) {
       fc_snprintf(local_name, sizeof(local_name),
-                  "%s/.freeciv/" DATASUBDIR "/%s",
-                  home, dest_name);
+                  "%s/%s", local_dir, dest_name);
       for (i = strlen(local_name) - 1 ; local_name[i] != '/' ; i--) {
         /* Nothing */
       }

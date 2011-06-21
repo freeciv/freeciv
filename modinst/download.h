@@ -15,8 +15,8 @@
 
 #define MODPACK_SUFFIX ".modpack"
 
-#define MODPACK_CAPSTR "+modpack-090810-2"
-#define MODLIST_CAPSTR "+Freeciv-2.3-modlist"
+#define MODPACK_CAPSTR "+modpack-150611"
+#define MODLIST_CAPSTR "+modlist-150611"
 
 #define SPECENUM_NAME modpack_type
 #define SPECENUM_VALUE0 MPT_RULESET
@@ -25,6 +25,8 @@
 #define SPECENUM_VALUE1NAME N_("Tileset")
 #define SPECENUM_VALUE2 MPT_MODPACK
 #define SPECENUM_VALUE2NAME N_("Modpack")
+#define SPECENUM_VALUE3 MPT_SCENARIO
+#define SPECENUM_VALUE3NAME N_("Scenario")
 #include "specenum_gen.h"
 
 typedef void (*dl_msg_callback)(const char *msg);
