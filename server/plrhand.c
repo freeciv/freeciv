@@ -1670,12 +1670,24 @@ struct player *shuffled_player(int i)
 }
 
 /****************************************************************************
-  This function return one of the nations available from the choices list.
-  If no available nations in this file were found, return a random nation.
+  This function returns a random-ish nation that is suitable for 'barb_type'
+  and is usable (not already in use by an existing player, and if
+  only_available is set, has its 'available' bit set).
 
-  choices may be NULL; if so it's ignored.
-  If only_available is set choose only nations that have is_available bit
-  set.
+  Unless 'ignore_conflicts' is set, this function tries hard to avoid a
+  nation marked as "conflicting with" one already in the game. A
+  conflicting nation will be returned only if the alternative is to return
+  NO_NATION_SELECTED. Such a return indicates that there are no remaining
+  nations which match the above criteria.
+
+  If 'choices' is non-NULL, nations from the supplied list are preferred;
+  but if there are no (non-conflicting) nations on the list that match the
+  criteria, one will be chosen from outside the list (as if the list had
+  not been supplied).
+
+  All other things being equal, prefers to pick a nation which returns a
+  high score from nations_match() relative to any nations already in the
+  game.
 ****************************************************************************/
 struct nation_type *pick_a_nation(const struct nation_list *choices,
                                   bool ignore_conflicts,
@@ -1692,7 +1704,7 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
    * UNAVAILABLE - nation is already used or is a special nation.
    * AVAILABLE - we can use this nation.
    * PREFERRED - we can use this nation and it is on the choices list.
-   * UNWANTED - we can used this nation, but we really don't want to. */
+   * UNWANTED - we can use this nation, but we really don't want to. */
   nations_iterate(pnation) {
     if (pnation->player
         || (only_available && !pnation->is_available)
@@ -1708,6 +1720,8 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     index = nation_index(pnation);
     nations_used[index] = AVAILABLE;
 
+    /* Determine which nations look good with nations already in the game,
+     * or conflict with them. */
     match[index] = 1;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED) {
@@ -1732,7 +1746,7 @@ struct nation_type *pick_a_nation(const struct nation_list *choices,
     }
   } nations_iterate_end;
 
-  /* Mark as prefered those nations which are on the choices list and
+  /* Mark as preferred those nations which are on the choices list and
    * which are AVAILABLE, but no UNWANTED */
   if (NULL != choices) {
     nation_list_iterate(choices, pnation) {
