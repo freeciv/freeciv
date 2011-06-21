@@ -320,7 +320,7 @@ gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
     return TRUE;
   }
   
-  refresh_overview_canvas();
+  refresh_overview_from_canvas();
   return TRUE;
 }
 
