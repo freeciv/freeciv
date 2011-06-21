@@ -3302,6 +3302,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
+  int uidx = utype_index(unit_type(punit));
 
   if (backdrop) {
     if (!solid_color_behind_units) {
@@ -3313,9 +3314,15 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  ADD_SPRITE(t->sprites.units.icon[utype_index(unit_type(punit))], TRUE,
-	     FULL_TILE_X_OFFSET + t->unit_offset_x,
-	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
+  if (t->sprites.units.facing[uidx][punit->facing] != NULL) {
+    ADD_SPRITE(t->sprites.units.facing[uidx][punit->facing], TRUE,
+               FULL_TILE_X_OFFSET + t->unit_offset_x,
+               FULL_TILE_Y_OFFSET + t->unit_offset_y);
+  } else {
+    ADD_SPRITE(t->sprites.units.icon[uidx], TRUE,
+               FULL_TILE_X_OFFSET + t->unit_offset_x,
+               FULL_TILE_Y_OFFSET + t->unit_offset_y);
+  }
 
   if (t->sprites.unit.loaded && punit->transported_by != -1) {
     ADD_SPRITE_FULL(t->sprites.unit.loaded);

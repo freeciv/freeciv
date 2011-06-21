@@ -160,6 +160,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
    * unit_virtual_create. */
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
+  punit->facing = packet->facing;
   punit->homecity = packet->homecity;
   output_type_iterate(o) {
     punit->upkeep[o] = packet->upkeep[o];
@@ -228,6 +229,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   /* Owner and type fields are already filled in by unit_virtual_create. */
   punit->id = packet->id;
   unit_tile_set(punit, index_to_tile(packet->tile));
+  punit->facing = packet->facing;
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
@@ -1235,6 +1237,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if (packet_unit->ai_controlled && unit_is_in_focus(punit)) {
         check_focus = TRUE;
       }
+    }
+
+    if (punit->facing != packet_unit->facing) {
+      punit->facing = packet_unit->facing;
+      repaint_unit = TRUE;
     }
 
     if (punit->activity != packet_unit->activity
