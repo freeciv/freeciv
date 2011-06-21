@@ -208,8 +208,11 @@ data/default/buildings.ruleset
 data/default/nations.ruleset
 data/civ2/buildings.ruleset
 data/civ1/buildings.ruleset
+data/civ1/cities.ruleset
+data/civ1/nations.ruleset
 data/default/cities.ruleset
 data/civ2/cities.ruleset
+data/civ2/nations.ruleset
 data/default/governments.ruleset
 data/civ2/governments.ruleset
 data/civ1/governments.ruleset
