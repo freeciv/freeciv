@@ -100,11 +100,19 @@ const char *beta_message(void)
     N_("November"),
     N_("December")
   };
-  fc_snprintf (msgbuf, sizeof (msgbuf),
-               /* TRANS: No full stop after the URL, could cause confusion. */
-               _("THIS IS A BETA VERSION\n"
-                 "Freeciv %s will be released in %s, at %s"),
-               NEXT_STABLE_VERSION, _(NEXT_RELEASE_MONTH), WIKI_URL);
+
+  if (RELEASE_MONTH > 0) {
+    fc_snprintf(msgbuf, sizeof(msgbuf),
+                /* TRANS: No full stop after the URL, could cause confusion. */
+                _("THIS IS A BETA VERSION\n"
+                  "Freeciv %s will be released in %s, at %s"),
+                NEXT_STABLE_VERSION, _(NEXT_RELEASE_MONTH), WIKI_URL);
+  } else {
+    fc_snprintf(msgbuf, sizeof(msgbuf),
+                _("THIS IS A BETA VERSION\n"
+                  "Freeciv %s will be released at %s"),
+                NEXT_STABLE_VERSION, WIKI_URL);
+  }
   return msgbuf;
 #else
   return NULL;
