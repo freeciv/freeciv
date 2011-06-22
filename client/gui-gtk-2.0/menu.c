@@ -1583,9 +1583,9 @@ static GtkActionGroup *get_unit_group(void)
        "n", NULL, G_CALLBACK(clean_fallout_callback)},
 
       /* Combat menu. */
-      {"BUILD_FORTRESS", NULL, _("Build _Fortress"),
+      {"BUILD_FORTRESS", NULL, _("Build Type A Base"),
        "f", NULL, G_CALLBACK(build_fortress_callback)},
-      {"BUILD_AIRBASE", NULL, _("Build Airbas_e"),
+      {"BUILD_AIRBASE", NULL, _("Build Type B Base"),
        "e", NULL, G_CALLBACK(build_airbase_callback)},
 
       {"DO_PILLAGE", NULL, _("_Pillage"),
@@ -2217,7 +2217,7 @@ void real_menus_update(void)
   if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
     menus_rename(unit_group, "BUILD_FORTRESS", _("_Fortify Unit"));
   } else {
-    menus_rename(unit_group, "BUILD_FORTRESS", _("Build _Fortress"));
+    menus_rename(unit_group, "BUILD_FORTRESS", _("Build Type A Base"));
   }
 
   if (units_have_flag(punits, F_PARATROOPERS, TRUE)) {
