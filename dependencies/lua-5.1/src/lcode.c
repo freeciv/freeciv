@@ -549,14 +549,6 @@ void luaK_goiftrue (FuncState *fs, expdesc *e) {
       pc = e->u.s.info;
       break;
     }
-    case VFALSE: {
-      if (!hasjumps(e)) {
-        pc = luaK_jump(fs);  /* always jump */
-        break;
-      }
-      /* else go through */
-    }
-
     default: {
       pc = jumponcond(fs, e, 0);
       break;
@@ -579,13 +571,6 @@ static void luaK_goiffalse (FuncState *fs, expdesc *e) {
     case VJMP: {
       pc = e->u.s.info;
       break;
-    }
-    case VTRUE: {
-      if (!hasjumps(e)) {
-        pc = luaK_jump(fs);  /* always jump */
-        break;
-      }
-      /* else go through */
     }
     default: {
       pc = jumponcond(fs, e, 1);
