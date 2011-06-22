@@ -272,6 +272,10 @@ static bool edit_tile_special_handling(struct tile *ptile,
     }
 
     tile_remove_special(ptile, special);
+
+    /* RoadNative and RiverNative units may need bouncing */
+    bounce_units_on_terrain_change(ptile);
+
   } else {
     if (tile_has_special(ptile, special)
         || !is_native_tile_to_special(special, ptile)) {
