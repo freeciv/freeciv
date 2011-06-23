@@ -147,7 +147,9 @@ static void packhand_init(void)
   Unpackage the unit information into a newly allocated unit structure.
 
   Information for the client must also be processed in
-  handle_unit_packet_common()!
+  handle_unit_packet_common()! Especially notice that unit structure filled
+  here is just temporary one. Values must be copied to real unit in
+  handle_unit_packet_common().
 ****************************************************************************/
 static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 {
@@ -216,7 +218,9 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   everything about (like our enemies' units).
 
   Information for the client must also be processed in
-  handle_unit_packet_common()!
+  handle_unit_packet_common()! Especially notice that unit structure filled
+  here is just temporary one. Values must be copied to real unit in
+  handle_unit_packet_common().
 ****************************************************************************/
 static struct unit *
 unpackage_short_unit(const struct packet_unit_short_info *packet)
