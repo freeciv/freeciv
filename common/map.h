@@ -658,6 +658,8 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 	  || ptile->nat_y >= map.ysize - ydist);
 }
 
+enum direction8 rand_direction(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

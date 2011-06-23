@@ -1628,3 +1628,11 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter)
   return startpos_hash_value_iter_init((struct startpos_hash_iter *) iter,
                                        map.startpos_table);
 }
+
+/****************************************************************************
+  Return random direction that is valid in current map.
+****************************************************************************/
+enum direction8 rand_direction(void)
+{
+  return map.valid_dirs[fc_rand(map.num_valid_dirs)];
+}
