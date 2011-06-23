@@ -67,23 +67,26 @@
 ***************************************************************/
 static void set_socket_errno(void)
 {
-  switch(WSAGetLastError()) {
+  int err = WSAGetLastError();
+
+  switch(err) {
     /* these have mappings to symbolic errno names in netintf.h */ 
     case WSAEINTR:
     case WSAEWOULDBLOCK:
     case WSAECONNRESET:
     case WSAECONNREFUSED:
     case WSAETIMEDOUT:
-      errno = WSAGetLastError();
+      errno = err;
       return;
     default:
       freelog(LOG_ERROR,
-              "Missing errno mapping for Winsock error #%d.",
-              WSAGetLastError());
+              "Missing errno mapping for Winsock error #%d.", err);
       freelog(LOG_ERROR,
               /* TRANS: No full stop after the URL, could cause confusion. */
               _("Please report this message at %s"),
               BUG_URL);
+
+      errno = 0;
   }
 }
 #endif /* HAVE_WINSOCK */
