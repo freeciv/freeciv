@@ -430,7 +430,7 @@ sprites =
 		"f.shield.svg", "flags/svg-shield"
 		"f.shield.swaziland", "flags/swaziland-shield"
 		"f.shield.sweden", "flags/sweden-shield"
-		"f.shield.switzerland", "flags/swiss-shield"
+		"f.shield.switzerland", "flags/switzerland-shield"
 		"f.shield.syria", "flags/syria-shield"
 		"f.shield.taino", "flags/taino-shield"
 		"f.shield.tairona", "flags/tairona-shield"

@@ -431,7 +431,7 @@ sprites =
 		"f.svg", "flags/svg-large"
 		"f.swaziland", "flags/swaziland-large"
 		"f.sweden", "flags/sweden-large"
-		"f.switzerland", "flags/swiss-large"
+		"f.switzerland", "flags/switzerland-large"
 		"f.syria", "flags/syria-large"
 		"f.taino", "flags/taino-large"
 		"f.tairona", "flags/tairona-large"

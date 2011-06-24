@@ -431,7 +431,7 @@ artists = "
    SVG			SKopp (Wikimedia Commons)
    Swaziland		Caleb Moore
    Sweden		Richard Torkar
-   Swiss		Philipp Frauenfelder
+   Switzerland		Philipp Frauenfelder
    Syria		Craig Kacinko
    Taino		Daniel Markstedt
    Tairona		Dan Cottrell and Daniel Markstedt
@@ -927,7 +927,7 @@ sprites =
 		"f.svg", "flags/svg"
 		"f.swaziland", "flags/swaziland"
 		"f.sweden", "flags/sweden"
-		"f.switzerland", "flags/swiss"
+		"f.switzerland", "flags/switzerland"
 		"f.syria", "flags/syria"
 		"f.taino", "flags/taino"
 		"f.tairona", "flags/tairona"

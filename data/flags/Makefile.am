@@ -273,6 +273,7 @@ flag_files =				\
 		mapuche.png		\
 		mars.png		\
 		mauritania.png		\
+		mauritius.png		\
 		maya.png		\
 		mazovia.png		\
 		mecklenburg.png		\
@@ -421,7 +422,7 @@ flag_files =				\
 		svg.png			\
 		swaziland.png		\
 		sweden.png		\
-		swiss.png		\
+		switzerland.png		\
 		syria.png		\
 		taino.png		\
 		tairona.png		\
@@ -568,7 +569,7 @@ flag_files =				\
 		cameroon-large.png		\
 		canada-large.png		\
 		canada_old-large.png		\
-		cape_verde.png			\
+		cape_verde-large.png		\
 		car-large.png			\
 		cartago-large.png		\
 		castile-large.png		\
@@ -763,6 +764,7 @@ flag_files =				\
 		mapuche-large.png		\
 		mars-large.png		\
 		mauritania-large.png		\
+		mauritius-large.png		\
 		maya-large.png		\
 		mazovia-large.png		\
 		mecklenburg-large.png		\
@@ -911,7 +913,7 @@ flag_files =				\
 		svg-large.png			\
 		swaziland-large.png		\
 		sweden-large.png		\
-		swiss-large.png		\
+		switzerland-large.png		\
 		syria-large.png		\
 		taino-large.png		\
 		tairona-large.png		\
@@ -1255,6 +1257,7 @@ shield_files =					\
 		mapuche-shield.png		\
 		mars-shield.png			\
 		mauritania-shield.png		\
+		mauritius-shield.png		\
 		maya-shield.png			\
 		mazovia-shield.png		\
 		mecklenburg-shield.png		\
@@ -1403,7 +1406,7 @@ shield_files =					\
 		svg-shield.png			\
 		swaziland-shield.png		\
 		sweden-shield.png		\
-		swiss-shield.png		\
+		switzerland-shield.png		\
 		syria-shield.png		\
 		taino-shield.png		\
 		tairona-shield.png		\
@@ -1745,6 +1748,7 @@ shield_files =					\
 		mapuche-shield-large.png		\
 		mars-shield-large.png			\
 		mauritania-shield-large.png		\
+		mauritius-shield-large.png		\
 		maya-shield-large.png			\
 		mazovia-shield-large.png		\
 		mecklenburg-shield-large.png		\
@@ -1893,7 +1897,7 @@ shield_files =					\
 		svg-shield-large.png			\
 		swaziland-shield-large.png		\
 		sweden-shield-large.png		\
-		swiss-shield-large.png		\
+		switzerland-shield-large.png		\
 		syria-shield-large.png		\
 		taino-shield-large.png		\
 		tairona-shield-large.png		\
@@ -2211,6 +2215,7 @@ svg_files = 				\
 		liburnian.svg		\
 		libya.svg		\
 		liechtenstein.svg	\
+		liguria.svg		\
 		lipkatatar.svg		\
 		lippe.svg		\
 		lithuania.svg		\
@@ -2236,6 +2241,7 @@ svg_files = 				\
 		mapuche.svg		\
 		mars.svg		\
 		mauritania.svg		\
+		mauritius.svg		\
 		maya.svg		\
 		mazovia.svg		\
 		mecklenburg.svg		\
@@ -2349,6 +2355,7 @@ svg_files = 				\
 		scotland.svg		\
 		scythia.svg		\
 		seleucid.svg		\
+		seljuk.svg		\
 		seminole.svg		\
 		senegal.svg		\
 		serbia.svg		\
@@ -2383,7 +2390,7 @@ svg_files = 				\
 		svg.svg			\
 		swaziland.svg		\
 		sweden.svg		\
-		swiss.svg		\
+		switzerland.svg		\
 		syria.svg		\
 		taino.svg		\
 		tairona.svg		\
