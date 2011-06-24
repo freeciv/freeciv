@@ -259,6 +259,7 @@ pkgdata_DATA = \
 		malagasy.ruleset \
 		malawian.ruleset \
 		malaysian.ruleset \
+		maldivian.ruleset \
 		mali.ruleset \
 		malian.ruleset \
 		maltese.ruleset \

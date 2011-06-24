@@ -268,6 +268,7 @@ artists = "
    Majapahit		Dan Cottrell and Daniel Markstedt
    Malawi		Zachary Harden
    Malaysia		Lauris Kaplinski
+   Maldives		Cezary Biele
    Mali			J.M. Maalderink
    Mali (ancient)	Daniel Markstedt
    Malta		Yaddah and Zachary Harden (Wikimedia Commons)
@@ -764,6 +765,7 @@ sprites =
 		"f.majapahit", "flags/majapahit"
 		"f.malawi", "flags/malawi"
 		"f.malaysia", "flags/malaysia"
+		"f.maldives", "flags/maldives"
 		"f.mali", "flags/mali"
 		"f.mali_ancient", "flags/mali_ancient"
 		"f.malta", "flags/malta"

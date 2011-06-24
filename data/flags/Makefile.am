@@ -261,6 +261,7 @@ flag_files =				\
 		majapahit.png		\
 		malawi.png		\
 		malaysia.png		\
+		maldives.png		\
 		mali.png		\
 		mali_ancient.png	\
 		malta.png		\
@@ -749,6 +750,7 @@ flag_files =				\
 		majapahit-large.png		\
 		malawi-large.png		\
 		malaysia-large.png		\
+		maldives-large.png		\
 		mali-large.png		\
 		mali_ancient-large.png	\
 		malta-large.png		\
@@ -1239,6 +1241,7 @@ shield_files =					\
 		majapahit-shield.png		\
 		malawi-shield.png		\
 		malaysia-shield.png		\
+		maldives-shield.png		\
 		mali-shield.png			\
 		mali_ancient-shield.png		\
 		malta-shield.png		\
@@ -1727,6 +1730,7 @@ shield_files =					\
 		majapahit-shield-large.png		\
 		malawi-shield-large.png		\
 		malaysia-shield-large.png		\
+		maldives-shield-large.png		\
 		mali-shield-large.png			\
 		mali_ancient-shield-large.png		\
 		malta-shield-large.png		\
@@ -2216,6 +2220,7 @@ svg_files = 				\
 		majapahit.svg		\
 		malawi.svg		\
 		malaysia.svg		\
+		maldives.svg		\
 		mali.svg		\
 		mali_ancient.svg	\
 		malta.svg		\

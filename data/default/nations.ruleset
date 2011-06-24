@@ -308,6 +308,7 @@ match=2
 *include "nation/malagasy.ruleset"
 *include "nation/malawian.ruleset"
 *include "nation/malaysian.ruleset"
+*include "nation/maldivian.ruleset"
 *include "nation/mali.ruleset"
 *include "nation/malian.ruleset"
 *include "nation/maltese.ruleset"
