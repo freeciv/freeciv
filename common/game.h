@@ -221,6 +221,8 @@ struct civ_game {
         bool user_message_set;
         char user_message[256];
       } meta_info;
+
+      int first_timeout;
     } server;
   };
 
@@ -435,6 +437,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_AUTO_AI_TOGGLE  FALSE
 
 #define GAME_DEFAULT_TIMEOUT         0
+#define GAME_DEFAULT_FIRST_TIMEOUT   -1
 #define GAME_DEFAULT_TIMEOUTINT      0
 #define GAME_DEFAULT_TIMEOUTINTINC   0
 #define GAME_DEFAULT_TIMEOUTINC      0
@@ -448,6 +451,8 @@ extern struct civ_game game;
 
 #define GAME_MIN_TIMEOUT             -1
 #define GAME_MAX_TIMEOUT             8639999
+#define GAME_MIN_FIRST_TIMEOUT       -1
+#define GAME_MAX_FIRST_TIMEOUT       GAME_MAX_TIMEOUT
 
 #define GAME_MIN_UNITWAITTIME        0
 #define GAME_MAX_UNITWAITTIME        GAME_MAX_TIMEOUT

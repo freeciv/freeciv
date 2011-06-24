@@ -1917,9 +1917,20 @@ static struct setting settings[] = {
              "debugging, a timeout of -1 sets the autogame test mode. "
              "Only connections with hack level access may set the "
              "timeout to lower than 30 seconds. Use this with the "
-             "command \"timeoutincrease\" to have a dynamic timer."),
+             "command \"timeoutincrease\" to have a dynamic timer. "
+             "The first turn is treated as a special case and is controlled "
+             "by the \"first_timeout\" setting."),
           timeout_callback, timeout_action,
           GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
+
+  GEN_INT("first_timeout", game.server.first_timeout,
+          SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
+          N_("First turn timeout"),
+          N_("If greater than 0, T0 will last for \"first_timeout\" "
+             "seconds.\nIf set to 0, T0 will not have a timeout.\n"
+             "If set to -1 the special treatment of T0 will be disabled."),
+          NULL, NULL, GAME_MIN_FIRST_TIMEOUT, GAME_MAX_FIRST_TIMEOUT,
+          GAME_DEFAULT_FIRST_TIMEOUT)
 
   GEN_INT("timeaddenemymove", game.server.timeoutaddenemymove,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
