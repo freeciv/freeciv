@@ -117,6 +117,7 @@ flag_files =				\
 		dahomey.png		\
 		ddr.png			\
 		denmark.png		\
+		djibouti.png		\
 		dominica.png		\
 		dominican_republic.png	\
 		dr_congo.png		\
@@ -604,6 +605,7 @@ flag_files =				\
 		dahomey-large.png		\
 		ddr-large.png			\
 		denmark-large.png		\
+		djibouti-large.png		\
 		dominica-large.png		\
 		dominican_republic-large.png	\
 		dr_congo-large.png		\
@@ -1093,6 +1095,7 @@ shield_files =					\
 		dahomey-shield.png		\
 		ddr-shield.png			\
 		denmark-shield.png		\
+		djibouti-shield.png		\
 		dominica-shield.png		\
 		dominican_republic-shield.png	\
 		dr_congo-shield.png		\
@@ -1580,6 +1583,7 @@ shield_files =					\
 		dahomey-shield-large.png		\
 		ddr-shield-large.png			\
 		denmark-shield-large.png		\
+		djibouti-shield-large.png		\
 		dominica-shield-large.png		\
 		dominican_republic-shield-large.png	\
 		dr_congo-shield-large.png		\
@@ -2069,6 +2073,7 @@ svg_files = 				\
 		dahomey.svg		\
 		ddr.svg			\
 		denmark.svg		\
+		djibouti.svg		\
 		dominica.svg		\
 		dominican_republic.svg	\
 		dr_congo.svg		\

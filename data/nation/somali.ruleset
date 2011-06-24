@@ -45,7 +45,7 @@ init_buildings=""
 init_government="Despotism" 
 init_units="" 
 
-civilwar_nations = "yemeni", "ethiopian"
+civilwar_nations = "yemeni", "djiboutian"
 
 cities = 
  "Muqdisho",

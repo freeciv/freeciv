@@ -124,6 +124,7 @@ artists = "
    Dahomey		Daniel Markstedt 
    DDR			Jwnabd (Wikimedia Commons)
    Denmark		Jens Bech Madsen
+   Djibouti		Open Clip Art
    Dominica		Caleb Moore and Christian Schaller
    Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
    DR Congo		Drieskamp (Wikimedia Commons)
@@ -619,6 +620,7 @@ sprites =
 		"f.dahomey", "flags/dahomey"
 		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"
+		"f.djibouti", "flags/djibouti"
 		"f.dominica", "flags/dominica"
 		"f.dominican_republic", "flags/dominican_republic"
 		"f.dr_congo", "flags/dr_congo"
