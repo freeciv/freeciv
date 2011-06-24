@@ -496,7 +496,8 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
 
     /* the new password is good, create a database entry for
      * this user; we establish the connection in handle_db_lookup */
-    sz_strlcpy(pconn->server.password, password);
+    create_md5sum((unsigned char *)password, strlen(password),
+                  pconn->server.password);
 
     if (!auth_db_save(pconn)) {
       notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
@@ -664,7 +665,7 @@ static bool is_good_password(const char *password, char *msg)
 
 
 /**************************************************************************
-  Check if the password with length len matches that given in 
+  Check if the password with length len matches the hashed one in
   pconn->server.password.
 ***************************************************************************/
 static bool authdb_check_password(struct connection *pconn, 
@@ -674,12 +675,12 @@ static bool authdb_check_password(struct connection *pconn,
   bool ok = FALSE;
   char buffer[512] = "";
   const int bufsize = sizeof(buffer);
-  char checksum[DIGEST_HEX_BYTES + 1];
+  char checksum[MD5_HEX_BYTES + 1];
   MYSQL *sock, mysql;
 
   /* do the password checking right here */
-  create_md5sum(password, len, checksum);
-  ok = (strncmp(checksum, pconn->server.password, DIGEST_HEX_BYTES) == 0)
+  create_md5sum((const unsigned char *)password, len, checksum);
+  ok = (strncmp(checksum, pconn->server.password, MD5_HEX_BYTES) == 0)
                                                               ? TRUE : FALSE;
 
   /* we don't really need the stuff below here to 
@@ -879,7 +880,7 @@ static bool auth_db_save(struct connection *pconn)
    * also in seconds from 1970, the users address (twice) and the logincount */
   str_result = fc_snprintf(buffer, bufsize,
                            "insert into %s values "
-                           "(NULL, '%s', md5('%s'), NULL, "
+                           "(NULL, '%s', '%s', NULL, "
                            "unix_timestamp(), unix_timestamp(),"
                            "'%s', '%s', 0)",
                            auth_config.table.value, name_buffer, pw_buffer,
