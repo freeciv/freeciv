@@ -70,28 +70,36 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 }
 
 /****************************************************************
-  Popups the quit dialog.
+  Popups the quit dialog if 
 ****************************************************************/
 static gboolean quit_dialog_callback(void)
 {
-  static GtkWidget *dialog;
+  if (downloading) {
+    /* Download in progress. Confirm quit from user. */
+    static GtkWidget *dialog;
 
-  if (!dialog) {
-    dialog = gtk_message_dialog_new(NULL,
-	0,
-	GTK_MESSAGE_WARNING,
-	GTK_BUTTONS_YES_NO,
-	_("Are you sure you want to quit?"));
+    if (!dialog) {
+      dialog = gtk_message_dialog_new(NULL,
+                                      0,
+                                      GTK_MESSAGE_WARNING,
+                                      GTK_BUTTONS_YES_NO,
+                                      _("Are you sure you want to quit?"));
 
-    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
+      gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
-    g_signal_connect(dialog, "response", 
-	G_CALLBACK(quit_dialog_response), NULL);
-    g_signal_connect(dialog, "destroy",
-	G_CALLBACK(gtk_widget_destroyed), &dialog);
+      g_signal_connect(dialog, "response", 
+                       G_CALLBACK(quit_dialog_response), NULL);
+      g_signal_connect(dialog, "destroy",
+                       G_CALLBACK(gtk_widget_destroyed), &dialog);
+    }
+
+    gtk_window_present(GTK_WINDOW(dialog));
+
+  } else {
+    /* User loses no work by quitting, so let's not annoy him/her
+     * with confirmation dialog. */
+    modinst_quit();
   }
-
-  gtk_window_present(GTK_WINDOW(dialog));
 
   /* Stop emission of event. */
   return TRUE;
