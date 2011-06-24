@@ -253,6 +253,7 @@ sprites =
 		"f.lesotho", "flags/lesotho-large"
 		"f.lesotho_old", "flags/lesotho_old-large"
 		"f.liberia", "flags/liberia-large"
+		"f.liburnian", "flags/liburnian-large"
 		"f.libya", "flags/libya-large"
 		"f.liechtenstein", "flags/liechtenstein-large"
 		"f.liguria", "flags/liguria-large"		; used by Genoese

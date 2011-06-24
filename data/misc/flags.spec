@@ -251,6 +251,7 @@ artists = "
    Lesotho		Zachary Harden
    Lesotho (old)	Zachary Harden
    Liberia		J.M. Maalderink
+   Liburnian		J.M. Maalderink
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
    Liguria		Flanker (Wikimedia Commons)
@@ -748,6 +749,7 @@ sprites =
 		"f.lesotho", "flags/lesotho"
 		"f.lesotho_old", "flags/lesotho_old"	; used by Sotho
 		"f.liberia", "flags/libya"
+		"f.liburnian", "flags/liburnian"
 		"f.libya", "flags/libya"
 		"f.liechtenstein", "flags/liechtenstein"
 		"f.liguria", "flags/liguria"		; used by Genoese

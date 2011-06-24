@@ -244,6 +244,7 @@ flag_files =				\
 		lesotho.png		\
 		lesotho_old.png		\
 		liberia.png		\
+		liburnian.png		\
 		libya.png		\
 		liechtenstein.png	\
 		liguria.png		\
@@ -733,6 +734,7 @@ flag_files =				\
 		lesotho-large.png		\
 		lesotho_old-large.png		\
 		liberia-large.png		\
+		liburnian-large.png		\
 		libya-large.png		\
 		liechtenstein-large.png	\
 		liguria-large.png		\
@@ -1224,6 +1226,7 @@ shield_files =					\
 		lesotho-shield.png		\
 		lesotho_old-shield.png		\
 		liberia-shield.png		\
+		liburnian-shield.png		\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
 		liguria-shield.png		\
@@ -1713,6 +1716,7 @@ shield_files =					\
 		lesotho-shield-large.png		\
 		lesotho_old-shield-large.png		\
 		liberia-shield-large.png		\
+		liburnian-shield-large.png		\
 		libya-shield-large.png		\
 		liechtenstein-shield-large.png	\
 		liguria-shield-large.png		\
@@ -2204,6 +2208,7 @@ svg_files = 				\
 		lesotho.svg		\
 		lesotho_old.svg		\
 		liberia.svg		\
+		liburnian.svg		\
 		libya.svg		\
 		liechtenstein.svg	\
 		lipkatatar.svg		\

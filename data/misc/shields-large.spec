@@ -253,6 +253,7 @@ sprites =
 		"f.shield.lesotho", "flags/lesotho-shield-large"
 		"f.shield.lesotho_old", "flags/lesotho_old-shield-large"
 		"f.shield.liberia", "flags/liberia-shield-large"
+		"f.shield.liburnian", "flags/liburnian-shield-large"
 		"f.shield.libya", "flags/libya-shield-large"
 		"f.shield.liechtenstein", "flags/liechtenstein-shield-large"
 		"f.shield.liguria", "flags/liguria-shield-large"
