@@ -182,7 +182,8 @@ bool auth_handle_reply(struct connection *pconn, char *password)
 
     /* the new password is good, create a database entry for
      * this user; we establish the connection in handle_db_lookup */
-    sz_strlcpy(pconn->server.password, password);
+    create_md5sum((unsigned char *)password, strlen(password),
+                  pconn->server.password);
 
     if (script_fcdb_call("user_save", 1, API_TYPE_CONECTION, pconn)
         != FCDB_SUCCESS_TRUE) {
@@ -261,18 +262,18 @@ void auth_process_status(struct connection *pconn)
 }
 
 /**************************************************************************
-  Check if the password with length len matches that given in
+  Check if the password with length len matches the hashed one in
   pconn->server.password.
 ***************************************************************************/
 static bool auth_check_password(struct connection *pconn,
                                 const char *password, int len)
 {
   bool ok = FALSE;
-  char checksum[DIGEST_HEX_BYTES + 1];
+  char checksum[MD5_HEX_BYTES + 1];
 
   /* do the password checking right here */
-  create_md5sum(password, len, checksum);
-  ok = (strncmp(checksum, pconn->server.password, DIGEST_HEX_BYTES) == 0)
+  create_md5sum((const unsigned char *)password, len, checksum);
+  ok = (strncmp(checksum, pconn->server.password, MD5_HEX_BYTES) == 0)
                                                               ? TRUE : FALSE;
 
   script_fcdb_call("user_log", 2, API_TYPE_CONECTION, pconn, API_TYPE_BOOL,

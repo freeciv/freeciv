@@ -152,7 +152,7 @@ function user_save(conn)
   end
 
   -- insert the user
-  query = string.format([[INSERT INTO %s VALUES (NULL, '%s', md5('%s'),
+  query = string.format([[INSERT INTO %s VALUES (NULL, '%s', '%s',
                           NULL, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(),
                           '%s', '%s', 0)]], table_user, username,
                         password, ipaddr, ipaddr)
