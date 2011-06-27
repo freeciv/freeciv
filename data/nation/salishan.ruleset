@@ -80,9 +80,9 @@ cities =
 ; Interior Salish
  "Spokane",		;Spokane
  "Salish",		;Flathead
- "Schitsu'umš",		;Coeur d'Alene
+ "Schitsu'umš",		;/* Coeur d'Alene */
  "Še'xwepmex",		;Shuswap
- "St'at'imc",		;St'at'imc
+ "St'at'imc",		;/* St'at'imc */
  "Skowa'xtsenex",	;Sinkiuse
  "Syilx'tsn",		;Osoyoos
  "Nespelem",		;Nespelem

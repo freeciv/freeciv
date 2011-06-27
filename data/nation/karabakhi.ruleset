@@ -4,14 +4,14 @@ name=_("Karabakhi")
 plural=_("?plural:Karabakhis")
 groups="Modern", "European", "Asian"
 legend=_("Although mainly inhabited by Armenians, Nagorno-Karabakh was\
- awarded to the Azeri SSR after the Soviet Union overran the Caucasus in\
+ awarded to the Azeri SSR after the Soviet Union overran the Caucasus\
  in the 1920s. Shortly before the collapse of the Soviet Union, the region\
- declared its independence from Azerbaijan, leading a war between\
- Nagorno-Karabakh and Armenia on one side against Azerbaijan on the other\ 
+ declared its independence from Azerbaijan, leading to a war between\
+ Nagorno-Karabakh and Armenia on one side against Azerbaijan on the other\
  side. A ceasefire was agreed on in 1994, but the conflict remains\
  unsettled. The Nagorno-Karabakh Republic is de facto independent but not\
  recognized by any UN member. In Armenian the region is also known as\
- Artsakh, named after a province of the ancient Armenian kingdom")
+ Artsakh, named after a province of the ancient Armenian kingdom.")
 leaders = {
  "name",                 "sex"
  "Movses Baghramian",    "Male"

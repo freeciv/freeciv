@@ -53,7 +53,7 @@ cities =
  "Yafo",		;Jaffa
  "Bet Horon",		;Bethoron
  "Bet Shemesh",		;Beith Shemesh
- "Bet She'an",		;Beith She'an
+ "Bet She'an",		;/* Beith She'an */
  "Keisarya",		;Caesarea
  "Haifa",		;Haifa
  "Ashdod",		;Ashdod
