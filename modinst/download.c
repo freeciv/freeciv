@@ -228,7 +228,7 @@ static char *control_dir(void)
     return controld;
   }
 
-  home = getenv("HOME");
+  home = user_home_dir();
   if (home == NULL) {
     return NULL;
   }
@@ -276,9 +276,9 @@ const char *download_modpack(const char *URL,
 
   log_normal(_("Installing modpack %s from %s"), URL + start_idx, URL);
 
-  home = getenv("HOME");
+  home = user_home_dir();
   if (home == NULL) {
-    return _("Environment variable HOME not set");
+    return _("Cannot determine user home directory");
   }
 
   controld = control_dir();
