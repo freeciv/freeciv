@@ -159,7 +159,7 @@ if test x$ipv6 != xno ; then
        [AC_MSG_RESULT([no])
         enable_ipv6=no])
   fi
-  if test x$enable_ipv6 = xyes && test x$ipv6 = xyes ; then
+  if test x$enable_ipv6 = xno && test x$ipv6 = xyes ; then
     AC_MSG_ERROR([Cannot enable IPv6 functionality])
   fi
   if test x$enable_ipv6 = xyes ; then
