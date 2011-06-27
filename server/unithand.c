@@ -396,8 +396,20 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
   fc_assert_ret(new_pcity != old_pcity);
 
   if (old_owner != new_owner) {
+    struct city *pcity = tile_city(punit->tile);
+
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
+
+    if (pcity != NULL
+        && !can_player_see_units_in_city(old_owner, pcity)) {
+      /* Special case when city is being transfered. At this point city
+       * itself has changed owner, so it's enemy city now that old owner
+       * cannot see inside. All the normal methods of removing transfered
+       * unit from previous owner's client think that there's no need to
+       * remove unit as client should't have it in first place. */
+      unit_goes_out_of_sight(old_owner, punit);
+    }
 
     /* Remove AI control of the old owner. */
     CALL_PLR_AI_FUNC(unit_lost, punit->owner, punit);
@@ -434,8 +446,8 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     /* Only changed homecity only owner can see it. */
     send_unit_info(new_owner, punit);
   } else {
-    /* Player owner changed, send info to all able to see it. */
-    send_unit_info(NULL, punit);
+    /* Unit owner changed, send info to all able to see it. */
+    send_unit_info(NULL, punit);    
   }
 
   city_refresh(new_pcity);
