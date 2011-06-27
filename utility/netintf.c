@@ -85,8 +85,6 @@ static void set_socket_errno(void)
               /* TRANS: No full stop after the URL, could cause confusion. */
               _("Please report this message at %s"),
               BUG_URL);
-
-      errno = 0;
   }
 }
 #endif /* HAVE_WINSOCK */
