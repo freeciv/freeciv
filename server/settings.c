@@ -1011,7 +1011,7 @@ static struct setting settings[] = {
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Presence of 1x1 islands"),
            N_("This setting controls whether the map generator is allowed "
-              " to make islands of one only tile size."), NULL, NULL,
+              "to make islands of one only tile size."), NULL, NULL,
            MAP_DEFAULT_TINYISLES)
 
   GEN_BOOL("separatepoles", map.server.separatepoles,
@@ -1062,7 +1062,7 @@ static struct setting settings[] = {
 
   GEN_INT("wetness", map.server.wetness,
  	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
- 	  N_("Amount of water on lands"), 
+ 	  N_("Amount of water on landmasses"), 
 	  N_("Small values mean lots of dry, desert-like land; "
 	     "higher values give a wetter map with more swamps, "
              "jungles, and rivers."), NULL, NULL,
@@ -1231,10 +1231,12 @@ static struct setting settings[] = {
   GEN_INT("techlevel", game.info.tech,
 	  SSET_GAME_INIT, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Number of initial techs per player"), 
+          /* TRANS: The string between single quotes is a setting name and
+           * should not be translated. */
 	  N_("At the beginning of the game, each player is given this "
 	     "many technologies. The technologies chosen are random for "
 	     "each player. Depending on the value of tech_cost_style in "
-             "the ruleset, a big value for techlevel can make the next "
+             "the ruleset, a big value for 'techlevel' can make the next "
              "techs really expensive."), NULL, NULL,
 	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
 
@@ -1309,8 +1311,10 @@ static struct setting settings[] = {
   GEN_INT("freecost", game.server.freecost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Penalty when getting a free tech"),
+          /* TRANS: The strings between single quotes are setting names and
+           * shouldn't be translated. */
 	  N_("For each technology you gain \"for free\" (other than "
-	     "covered by diplcost or conquercost: specifically, from huts "
+	     "covered by 'diplcost' or 'conquercost': specifically, from huts "
 	     "or from Great Library effects), you lose research points "
 	     "equal to this percentage of the cost to research a new "
 	     "technology. If this is non-zero, you can end up "
@@ -1355,21 +1359,25 @@ static struct setting settings[] = {
   GEN_INT("fulltradesize", game.info.fulltradesize,
 	  SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Minimum city size to get full trade"),
+          /* TRANS: The strings between single quotes are setting names and
+           * shouldn't be translated. */
 	  N_("There is a trade penalty in all cities smaller than this. "
 	     "The penalty is 100% (no trade at all) for sizes up to "
-	     "notradesize, and decreases gradually to 0% (no penalty "
-	     "except the normal corruption) for size=fulltradesize. "
-             "See also notradesize."), NULL, NULL,
+	     "'notradesize', and decreases gradually to 0% (no penalty "
+	     "except the normal corruption) for size='fulltradesize'. "
+             "See also 'notradesize'."), NULL, NULL,
 	  GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, 
 	  GAME_DEFAULT_FULLTRADESIZE)
 
   GEN_INT("notradesize", game.info.notradesize,
 	  SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Maximum size of a city without trade"),
+          /* TRANS: The strings between single quotes are setting names and
+           * shouldn't be translated. */
 	  N_("Cities do not produce any trade at all unless their size "
 	     "is larger than this amount. The produced trade increases "
-	     "gradually for cities larger than notradesize and smaller "
-             "than fulltradesize. See also fulltradesize."), NULL, NULL,
+	     "gradually for cities larger than 'notradesize' and smaller "
+             "than 'fulltradesize'. See also 'fulltradesize'."), NULL, NULL,
 	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
 	  GAME_DEFAULT_NOTRADESIZE)
 
@@ -1449,7 +1457,7 @@ static struct setting settings[] = {
   GEN_BOOL("autoattack", game.server.autoattack, SSET_RULES_FLEXIBLE, SSET_MILITARY,
          SSET_SITUATIONAL, SSET_TO_CLIENT,
          N_("Turn on/off server-side autoattack"),
-         N_("If set to on, units with move left will automatically "
+         N_("If set to on, units with moves left will automatically "
             "consider attacking enemy units that move adjacent to them."),
          NULL, NULL, GAME_DEFAULT_AUTOATTACK)
 
@@ -1498,8 +1506,8 @@ static struct setting settings[] = {
            SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Allowed city names"),
            /* TRANS: The strings between double quotes are also translated
-            * separately (they must match!). The strings between paranthesis
-            * and in uppercase must not to be translated. */
+            * separately (they must match!). The strings between parantheses
+            * and in uppercase must not be translated. */
            N_("- \"No restrictions\" (NO_RESTRICTIONS): players can have "
               "multiple cities with the same names.\n"
               "- \"Unique to a player\" (PLAYER_UNIQUE): one player can't "
@@ -1508,7 +1516,7 @@ static struct setting settings[] = {
               "have to have different names.\n"
               "- \"No city name stealing\" (NO_STEALING): like "
               "\"Globally unique\", but a player isn't allowed to use a "
-              "default city name of another nations unless it is a default "
+              "default city name of another nation unless it is a default "
               "for their nation also."),
            NULL, NULL, citynames_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
 
@@ -1636,7 +1644,7 @@ static struct setting settings[] = {
            N_("This option controls whether tiles with both unreachable "
               "and reachable units can be attacked. If disabled, any "
               "tile with reachable units can be attacked. If enabled, "
-              "tiles with unreachable unit in them cannot be attacked."),
+              "tiles with an unreachable unit in them cannot be attacked."),
            NULL, NULL, GAME_DEFAULT_UNRPROTECTS)
 
   GEN_INT("contactturns", game.server.contactturns,
@@ -1664,15 +1672,17 @@ static struct setting settings[] = {
   GEN_BOOL("homecaughtunits", game.server.homecaughtunits,
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
            N_("Give caught units a homecity"),
+           /* TRANS: The string between single quotes is a setting name and
+            * should not be translated. */
            N_("If unset, caught units will have no homecity and will be "
-              "subject to the killunhomed option."),
+              "subject to the 'killunhomed' option."),
            NULL, NULL, GAME_DEFAULT_HOMECAUGHTUNITS)
 
   GEN_BOOL("alliedvictory", game.server.allied_victory,
            SSET_RULES_FLEXIBLE, SSET_MILITARY,
            SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Whether allied players can win together"),
-           N_("If this is option is turned on and a point is reached where "
+           N_("If this option is turned on and a point is reached where "
               "all the players still able to win the game are allies, and "
               "at least one defeated player is not part of this alliance, "
               "then the game will end in an immediate shared victory for "
@@ -1782,13 +1792,15 @@ static struct setting settings[] = {
   GEN_STRING("allowtake", game.server.allow_take,
              SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
              N_("Players that users are allowed to take"),
+             /* TRANS: the strings in double quotes are server command names
+              * and should not be translated. */
              N_("This should be a string of characters, each of which "
                 "specifies a type or status of a civilization (player).\n"
                 "Clients will only be permitted to take or observe those "
                 "players which match one of the specified letters. This "
-                "only affects future uses of the take or observe command; "
-                "it is not retroactive. The characters and their meanings "
-                "are:\n"
+                "only affects future uses of the \"take\" or \"observe\" "
+                "commands; it is not retroactive. The characters and their "
+                "meanings are:\n"
                 "    o,O = Global observer\n"
                 "    b   = Barbarian players\n"
                 "    d   = Dead players\n"
@@ -1856,7 +1868,7 @@ static struct setting settings[] = {
   GEN_INT("unitwaittime", game.server.unitwaittime,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
           N_("Time between unit moves over turn change"),
-          /* TRANS: The string between single quote is a setting name and
+          /* TRANS: The string between single quotes is a setting name and
            * should not be translated. */
           N_("This setting gives the minimum amount of time in seconds "
              "between unit moves after a turn change occurs. For "
@@ -1961,6 +1973,8 @@ static struct setting settings[] = {
   GEN_INT("saveturns", game.server.save_nturns,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
 	  N_("Turns per auto-save"),
+          /* TRANS: The string between single quotes is a setting name and
+           * should not be translated. */
 	  N_("The game will be automatically saved per this number of "
              "turns. Zero means never auto-save."), NULL, NULL,
           GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
@@ -1969,7 +1983,7 @@ static struct setting settings[] = {
           SSET_META, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
           N_("Savegame compression level"),
           /* TRANS: 'compresstype' setting name should not be translated. */
-          N_("If non-zero, saved games will be compressed depending of the "
+          N_("If non-zero, saved games will be compressed depending on the "
              "'compresstype' setting. Larger values will give better "
              "compression but take longer."),
           NULL, NULL, GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
@@ -1992,7 +2006,7 @@ static struct setting settings[] = {
   GEN_STRING("savename", game.server.save_name,
              SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
              N_("Definition of the save file name"),
-             /* TRANS: %R, %S, %T and %Y must not to be translated. The
+             /* TRANS: %R, %S, %T and %Y must not be translated. The
               * strings (examples and setting names) between single quotes
               * neither. The strings between <> should be translated.
               * xgettext:no-c-format */
@@ -2015,6 +2029,8 @@ static struct setting settings[] = {
   GEN_BOOL("scorelog", game.server.scorelog,
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
            N_("Whether to log player statistics"),
+           /* TRANS: The string between single quotes is a setting name and
+            * should not be translated. */
            N_("If this is turned on, player statistics are appended to "
               "the file defined by the option 'scorefile' every turn. "
               "These statistics can be used to create power graphs after "
@@ -2023,6 +2039,7 @@ static struct setting settings[] = {
   GEN_STRING("scorefile", game.server.scorefile,
              SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
              N_("Name for the score log file"),
+             /* TRANS: Don't translate the string in single quotes. */
              N_("The default name for the score log file is "
               "'freeciv-score.log'."),
              scorefile_validate, NULL, GAME_DEFAULT_SCOREFILE)
@@ -2041,8 +2058,10 @@ static struct setting settings[] = {
   GEN_INT("kicktime", game.server.kick_time,
           SSET_RULES_FLEXIBLE, SSET_NETWORK, SSET_RARE, SSET_SERVER_ONLY,
           N_("Time before a kicked user can reconnect"),
+          /* TRANS: the string in double quotes is a server command name and
+           * should not be translated */
           N_("Gives the time in seconds before a user kicked using the "
-             "'kick' command may reconnect. Changing this setting will "
+             "\"kick\" command may reconnect. Changing this setting will "
              "affect users kicked in the past."), NULL, NULL,
           GAME_MIN_KICK_TIME, GAME_MAX_KICK_TIME, GAME_DEFAULT_KICK_TIME)
 };
