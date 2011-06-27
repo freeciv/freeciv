@@ -69,7 +69,7 @@ static void inputline_make_tag(GtkEntry *entry, enum text_tag_type type);
 **************************************************************************/
 bool inputline_has_focus(void)
 {
-  return GTK_WIDGET_HAS_FOCUS(toolkit.entry);
+  return gtk_widget_has_focus(toolkit.entry);
 }
 
 /**************************************************************************
