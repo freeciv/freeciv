@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-23 09:09+0300\n"
-"PO-Revision-Date: 2011-06-23 23:03+0100\n"
+"PO-Revision-Date: 2011-06-26 19:44+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -358,7 +358,7 @@ msgstr "Katastrofa eklogiczna"
 
 #: common/events.c:124
 msgid "Nuke Detonated"
-msgstr "Zdetonowano bombę jądrową"
+msgstr "Zdetonowano Bombę Atomową"
 
 #: common/events.c:125
 msgid "Barbarians in a Hut Roused"
@@ -2129,7 +2129,7 @@ msgstr "%s ukończyli budowę %s w %s."
 #: server/cityturn.c:1529
 #, c-format
 msgid "%s has finished building %s."
-msgstr "%s ukończyli budowę %s."
+msgstr "Miasto %s ukończyło budowę %s."
 
 #: server/cityturn.c:1549
 #, c-format
@@ -2226,37 +2226,37 @@ msgstr "%s zostało rozwiązane do %s."
 #: server/cityturn.c:2473
 #, c-format
 msgid "Migrants from %s can't go to %s because there is not enough food available!"
-msgstr "Przesiedleńcy z %s nie mogą udać się do %s,gdyż nie ma tam wystarczająco dużo żywności."
+msgstr "Przesiedleńcy z %s nie mogą udać się do %s, gdyż nie ma tam wystarczająco dużo żywności."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
 #: server/cityturn.c:2480
 #, c-format
 msgid "Migrants from %s can't go to %s (%s) because there is not enough food available!"
-msgstr "Przesiedleńcy z %s nie mogą udać się do %s (%s),gdyż nie ma tam wystarczająco dużo żywności."
+msgstr "Przesiedleńcy z %s nie mogą udać się do %s (%s), gdyż nie ma tam wystarczająco dużo żywności."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2485
 #, c-format
 msgid "Migrants from %s (%s) can't go to %s because there is not enough food available!"
-msgstr "Przesiedleńcy z %s (%s) nie mogą udać się do %s,gdyż nie ma tam wystarczająco dużo żywności."
+msgstr "Przesiedleńcy z %s (%s) nie mogą udać się do %s, gdyż nie ma tam wystarczająco dużo żywności."
 
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2500
 #, c-format
 msgid "Migrants from %s can't go to %s because it needs an improvement to grow!"
-msgstr "Przesiedleńcy z %s nie mogą udać się do %s,gdyż potrzebuje budynku, aby urosnąć."
+msgstr "Przesiedleńcy z %s nie mogą udać się do %s, gdyż miasto potrzebuje budynku, aby urosnąć."
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
 #: server/cityturn.c:2507
 #, c-format
 msgid "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
-msgstr "Przesiedleńcy z %s nie mogą udać się do %s (%s),gdyż potrzebuje budynku, aby urosnąć."
+msgstr "Przesiedleńcy z %s nie mogą udać się do %s (%s), gdyż miasto potrzebuje budynku, aby urosnąć."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2512
 #, c-format
 msgid "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
-msgstr "Przesiedleńcy z %s (%s) nie mogą udać się do %s,gdyż potrzebuje budynku, aby urosnąć."
+msgstr "Przesiedleńcy z %s (%s) nie mogą udać się do %s, gdyż miasto potrzebuje budynku, aby urosnąć."
 
 #: server/cityturn.c:2548
 #, c-format
@@ -4152,7 +4152,7 @@ msgstr "%s został usunięty z gry."
 #: server/plrhand.c:1125
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr "%s spotkani! Rządzi nimi %s."
+msgstr "Spotkałeś/aś %s! Rządzi nimi %s."
 
 #: server/plrhand.c:1625
 #, c-format
@@ -5284,7 +5284,7 @@ msgstr "Czy zakończyć grę po przybyciu statku kosmicznego?"
 
 #: server/settings.c:836
 msgid "If this option is set to 1, the game will end with the arrival of a spaceship at Alpha Centauri."
-msgstr "Jeśli opcja ustawiona jest na 1, gra skończy się, gdy przbędzie statek kosmiczny z Alpha Centauri."
+msgstr "Jeśli opcja ustawiona jest na 1, gra skończy się, gdy przybędzie statek kosmiczny z Alfa Centauri."
 
 #: server/settings.c:842
 msgid "Minimum number of cities for civil war"
@@ -7256,27 +7256,27 @@ msgstr "Odkrycie %s czyni PRZESTARZAŁYM %s w %s!"
 #: server/techtools.c:346
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "Odkryto %s. Nasi naukowcy skupiają się na %s; celem jest %s."
+msgstr "Twoi naukowcy odkryli %s. Teraz skupiają się na %s; celem jest %s."
 
 #: server/techtools.c:362
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
-msgstr "Odkryto %s. Naukowcy nie wiedzą nad czym teraz pracować."
+msgstr "Twoi naukowcy odkryli %s. Nie wiedzą jednak nad czym teraz pracować."
 
 #: server/techtools.c:367
 #, c-format
 msgid "Learned %s.  Scientists choose to research %s."
-msgstr "Odryto %s. Naukowcy zaczynają badać %s."
+msgstr "Twoi naukowcy odkryli %s. Teraz skupiają się na %s."
 
 #: server/techtools.c:373
 #, c-format
 msgid "Learned %s. "
-msgstr "Odkryto %s"
+msgstr "Twoi naukowcy odkryli %s"
 
 #: server/techtools.c:376
 #, c-format
 msgid "Researching %s."
-msgstr "Badania: %s"
+msgstr "Badania nad %s."
 
 #: server/techtools.c:400
 msgid "Great scientists from all the world join your civilization: you get an immediate advance."
@@ -7392,13 +7392,13 @@ msgstr "Twój %s został zestrzelony przez obronę SDI, co za strata."
 #: server/unithand.c:963
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
-msgstr "Obrona SDI zapobiegła atakowi jądrowemu na miasto %s."
+msgstr "Obrona SDI zapobiegła atakowi atomowemu na miasto %s."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
 #: server/unithand.c:1039
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Twoja jednostka %s odparła załosny atak %s %s."
+msgstr "Twoja jednostka %s odparła żałosny atak %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1049
@@ -7510,7 +7510,7 @@ msgstr "Twoja %s z miasta %s przybyła do miasta %s i wypracowała zysk %d w zł
 #: server/unithand.c:1570
 #, c-format
 msgid "New trade route established from %s to %s."
-msgstr "Ustanowiona nową trasę handlową z %s do %s."
+msgstr "Ustanowiono nową trasę handlową z %s do %s."
 
 #: server/unithand.c:1576
 #, c-format
@@ -7537,28 +7537,28 @@ msgstr "Jednostka %s została ulepszona za darmo do %s."
 #: server/unittools.c:311
 #, c-format
 msgid "Your %s has run out of hit points."
-msgstr "Twój %s utracił wszystkie punkty obrażeń."
+msgstr "Twoja jednostka %s utraciła wszystkie punkty obrażeń."
 
 #: server/unittools.c:386
 #, c-format
 msgid "Your %s has returned to refuel."
-msgstr "Twój %s powrócił, by zatankować."
+msgstr "Twoja jednostka %s powróciła, by zatankować."
 
 #: server/unittools.c:417
 #, c-format
 msgid "Your %s has run out of fuel."
-msgstr "Skończyło się paliwo jednostce %s."
+msgstr "Twojej jednostce %s skończyło się paliwo."
 
 #. TRANS: Your <unit> became ...
 #: server/unittools.c:612
 #, c-format
 msgid "Your %s became more experienced!"
-msgstr "Twoi %s są teraz bardziej doświadczeni."
+msgstr "Twoja jednostka %s jest teraz bardziej doświadczona."
 
 #: server/unittools.c:1094
 #, c-format
 msgid "Teleported your %s to %s."
-msgstr "Przeniesiono jednostkę %s do miasta %s."
+msgstr "Przeniesiono twoją jednostkę %s do miasta %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
 #: server/unittools.c:1157
@@ -7716,12 +7716,12 @@ msgstr "Odległość do celu (%i) jest większa od zasięgu danej jednostki (%i)
 #: server/unittools.c:2329
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
-msgstr "Gra: Twoi %s zostali zrzuceni do %s i zginęli."
+msgstr "Twoja jednostka %s została zrzucona do %s i zginęła."
 
 #: server/unittools.c:2342
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr "Twoi %s zostali zabici przez jednostki wroga podczas lądowania."
+msgstr "Twoj jednostka %s zostałą zabita przez jednostki wroga podczas lądowania."
 
 #: server/unittools.c:2371
 #: data/default/default.lua:22
@@ -7738,7 +7738,7 @@ msgstr "Ta wioska jest opuszczona."
 #: data/default/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "%s został/a zabity przez barbarzyńców!"
+msgstr "Twoja jednostka %s została zabity przez barbarzyńców!"
 
 #: server/unittools.c:2408
 msgid "Your overflight frightens the tribe; they scatter in terror."
@@ -7991,7 +7991,7 @@ msgstr "%3d/%3d %s"
 #: client/citydlg_common.c:378
 #, c-format
 msgid "%d/turn"
-msgstr "%d na turę"
+msgstr "%d/turę"
 
 #: client/citydlg_common.c:292
 #: client/text.c:697
@@ -9435,7 +9435,7 @@ msgstr "* Przeprowadzenie ataku kończy turę tej jednostki.\n"
 
 #: client/helpdata.c:1377
 msgid "* This unit's attack causes a nuclear explosion!\n"
-msgstr "* Atak tej jednostki powoduje eksplozję jądrową!\n"
+msgstr "* Atak tej jednostki powoduje eksplozję atomową!\n"
 
 #: client/helpdata.c:1381
 msgid "* Gets double firepower when attacking cities.\n"
@@ -9598,7 +9598,7 @@ msgstr "* Na tym terenie nie występują skażenia."
 
 #: client/helpdata.c:1677
 msgid "* Fallout cannot be generated on this terrain."
-msgstr "* Na tym terenie nie występują skażenia jądrowe."
+msgstr "* Na tym terenie nie występują skażenia atomowe."
 
 #: client/helpdata.c:1682
 msgid "* You cannot build cities on this terrain."
@@ -10084,7 +10084,7 @@ msgstr "Pokaż zanieczyszczenie/skażenie"
 
 #: client/options.c:576
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
-msgstr "Ta opcja sprawia, że na mapie pokazane będą skażenia (jądrowe)."
+msgstr "Ta opcja sprawia, że na mapie pokazane będą skażenia (nuklearne)."
 
 #: client/options.c:580
 msgid "Draw the cities"
@@ -11206,18 +11206,18 @@ msgstr[2] "Postęp: %d tur na wynalazek"
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d punkt na turę"
-msgstr[1] "%d punkty na turę"
-msgstr[2] "%d punktów na turę"
+msgstr[0] "%d pkt/turę"
+msgstr[1] "%d pkt/turę"
+msgstr[2] "%d pkt/turę"
 
 #. TRANS: This is appended to "%d bulb/turn" text
 #: client/text.c:612
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ", %d punkt na turę od zespołu"
-msgstr[1] ", %d punkty na turę od zespołu"
-msgstr[2] ", %d punktów na turę od zespołu"
+msgstr[0] ", %d pkt/turę od zespołu"
+msgstr[1] ", %d pkt/turę od zespołu"
+msgstr[2] ", %d pkt/turę od zespołu"
 
 #: client/text.c:639
 #, c-format
@@ -11319,17 +11319,17 @@ msgstr "Pod:%d%% Lux:%d%% Nau:%d%%"
 #: client/text.c:785
 #, c-format
 msgid "Researching %s: %s"
-msgstr "Badania: %s: %s"
+msgstr "Badania nad %s: %s"
 
 #: client/text.c:794
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr "Szansa globalnego ocieplenia: %d%% (%+d%% na turę)"
+msgstr "Szansa globalnego ocieplenia: %d%% (%+d%%/turę)"
 
 #: client/text.c:797
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr "Szansa zimy nuklearnej: %d%% (%+d%% na turę)"
+msgstr "Szansa zimy nuklearnej: %d%% (%+d%%/turę)"
 
 #: client/text.c:802
 #: client/gui-win32/inteldlg.c:105
@@ -11898,7 +11898,7 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
-"Twój %s dotarł do m. %s.\n"
+"Twoja %s dotarł do %s.\n"
 "Co mu polecisz?"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:631
@@ -12012,14 +12012,14 @@ msgid ""
 "Your caravan from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"Karawana z miasta %s dotarła do miasta %s.\n"
+"Jednostka z miasta %s dotarła do miasta %s.\n"
 "Co teraz?"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:116
 #: client/gui-win32/dialogs.c:1061
 #: data/Freeciv.in:2266
 msgid "Your Caravan Has Arrived"
-msgstr "Twoja karawana przybyła"
+msgstr "Twoja jednostka dotarła do celu"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:118
 #: client/gui-win32/dialogs.c:1063
@@ -12454,7 +12454,7 @@ msgstr "Na pewno chcesz sprzedać %s?"
 
 #: client/gui-gtk-2.0/cityrep.c:889
 msgid "(no worklists defined)"
-msgstr "(nie zdefiniowano schematu)"
+msgstr "(nie zdefiniowano planu prac)"
 
 #: client/gui-gtk-2.0/cityrep.c:964
 msgid "_Production"
@@ -12482,11 +12482,11 @@ msgstr "Wstaw na _koniec"
 
 #: client/gui-gtk-2.0/cityrep.c:994
 msgid "Set Worklist"
-msgstr "Schemat prac"
+msgstr "Ustaw plan prac"
 
 #: client/gui-gtk-2.0/cityrep.c:1000
 msgid "Append Worklist"
-msgstr "Zmień listę prac"
+msgstr "Zmień plan prac"
 
 #: client/gui-gtk-2.0/cityrep.c:1006
 msgid "Clear _Worklist"
@@ -12648,7 +12648,7 @@ msgid ""
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
-"Aby usyskać pomoc na temat:\n"
+"Aby uzyskać pomoc na temat:\n"
 "zarządcy i schematów\n"
 "wraz z przykładowymi schematami,\n"
 "przeczytaj plik README.cma."
@@ -12967,7 +12967,7 @@ msgstr "Obecny zestaw zasad nie przewiduje obiektów odpowiadających narzędziu
 
 #: client/gui-gtk-2.0/editgui.c:238
 msgid "Global Observer"
-msgstr "Obserwator: %s"
+msgstr "Obserwator globalny"
 
 #: client/gui-gtk-2.0/editgui.c:581
 msgid "Switch player point-of-view. Use this to edit from the perspective of different players, or even as a global observer."
@@ -13228,7 +13228,7 @@ msgstr "Tarcza"
 
 #: client/gui-gtk-2.0/editprop.c:3813
 msgid "Inventions"
-msgstr "Wynalazczość"
+msgstr "Technologie"
 
 #: client/gui-gtk-2.0/editprop.c:3820
 msgid "Year"
@@ -14003,7 +14003,7 @@ msgstr "Wyścig kosmiczny"
 #: client/gui-xaw/menu.c:261
 #: client/include/helpdlg_g.h:34
 msgid "About Ruleset"
-msgstr "Informacja zestawie zasad"
+msgstr "Informacja o zestawie zasad"
 
 #: client/gui-gtk-2.0/menu.c:1301
 #: client/gui-win32/menu.c:441
@@ -14378,11 +14378,11 @@ msgstr "Niszcz"
 
 #: client/gui-gtk-2.0/menu.c:1536
 msgid "_Diplomat/Spy Actions"
-msgstr "Działania dyplomatyczne/szpiegowskie"
+msgstr "_Działania dyplomatyczne/szpiegowskie"
 
 #: client/gui-gtk-2.0/menu.c:1538
 msgid "Explode _Nuclear"
-msgstr "Detonuj bombę jądrową"
+msgstr "Detonuj Bombę Atomową"
 
 #: client/gui-gtk-2.0/menu.c:1563
 #: client/gui-win32/menu.c:335
@@ -14408,7 +14408,7 @@ msgstr "_Ekonomia"
 #: client/gui-gtk-2.0/menu.c:1604
 #: client/gui-win32/menu.c:413
 msgid "_Research"
-msgstr "Badania"
+msgstr "Nauka"
 
 #: client/gui-gtk-2.0/menu.c:1607
 #: client/gui-gtk-2.0/plrdlg.c:355
@@ -14579,7 +14579,7 @@ msgstr "Przyłącz się do gry sieci_owej"
 
 #: client/gui-gtk-2.0/pages.c:261
 msgid "Connect to Gaming _Zone"
-msgstr "Przyłącz się do Gaming _Zone"
+msgstr "Połącz się z Gaming _Zone"
 
 #: client/gui-gtk-2.0/pages.c:646
 #: client/gui-win32/connectdlg.c:303
@@ -15112,7 +15112,7 @@ msgstr "nowy"
 #: client/gui-gtk-2.0/wldlg.c:219
 #: client/gui-win32/wldlg.c:392
 msgid "Edit worklists"
-msgstr "Edytuj schemat pracy"
+msgstr "Edytuj plan prac"
 
 #: client/gui-gtk-2.0/wldlg.c:269
 msgid "_Worklists:"
@@ -15245,7 +15245,7 @@ msgstr "Zamknij okno (Esc)"
 #: client/gui-sdl/chatline.c:772
 #, c-format
 msgid "Total users logged in : %d"
-msgstr "Wszystcy zalogowani użytkownicy: %d"
+msgstr "Wszyscy zalogowani użytkownicy: %d"
 
 #: client/gui-sdl/chatline.c:820
 #: client/gui-win32/connectdlg.c:1096
@@ -15809,7 +15809,7 @@ msgstr "%s %s %s (A:%d O:%d R:%d) SO:%d PO:%d%%"
 #: client/gui-sdl/dialogs.c:1813
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Szansa zwycięstwa: A:%d%% O:%d%%"
+msgstr "Szanse: A:%d%% O:%d%%"
 
 #: client/gui-sdl/dialogs.c:1072
 #, c-format
@@ -16847,7 +16847,7 @@ msgstr "Opcje gry"
 
 #: client/gui-sdl/optiondlg.c:2286
 msgid "Map options"
-msgstr "Ważne opcje"
+msgstr "Opcje mapy"
 
 #: client/gui-sdl/optiondlg.c:2297
 #: client/gui-xaw/menu.c:134
@@ -16857,7 +16857,7 @@ msgstr "Plany prac"
 
 #: client/gui-sdl/optiondlg.c:2325
 msgid "Leave Game"
-msgstr "Opuść _grę"
+msgstr "Opuść grę"
 
 #: client/gui-sdl/optiondlg.c:2340
 #: client/gui-sdl/pages.c:249
@@ -16875,15 +16875,15 @@ msgstr "Rozpocznij nową grę"
 
 #: client/gui-sdl/pages.c:193
 msgid "Join Game"
-msgstr "Przyłącz się"
+msgstr "Połącz się z..."
 
 #: client/gui-sdl/pages.c:207
 msgid "Join Pubserver"
-msgstr "Przyłącz się (serwer publ.)"
+msgstr "Połącz się z serwerem publicznym"
 
 #: client/gui-sdl/pages.c:221
 msgid "Join LAN Server"
-msgstr "Przyłącz się (serwer LAN)"
+msgstr "Połącz się z serwerem LAN"
 
 #: client/gui-sdl/pages.c:302
 msgid "SDLClient welcomes you..."
@@ -18890,7 +18890,7 @@ msgid ""
 msgstr ""
 " 1. Zwiedzanie okolic.\n"
 "\n"
-"    Zaraz po wybudowaniu, twoja stolica rozpocznie tworzenie wojowników. Możesz ich użyć do zwiedzania okolicy. Pamiętaj jednak, że pozostawienie niebronionego miasta jest bardzo ryzykowne. Dlatego powinieneś/aś pozostawić jednego wojownika w mieście, a dopiero następnego wysłać na zwiady. Jeżeli na początku gry otrzymałeś/aś badacza, to po to aby zwiedzać mapę, ta jednostka tylko do tego się nadaje!"
+"    Zaraz po wybudowaniu, twoja stolica rozpocznie tworzenie wojowników. Możesz ich użyć do zwiedzania okolicy. Pamiętaj jednak, że pozostawienie niebronionego miasta jest bardzo ryzykowne. Dlatego powinieneś/aś pozostawić jednego wojownika w mieście, a dopiero następnego wysłać na zwiady. Jeżeli na początku gry otrzymałeś/aś badacza, to po to, aby zwiedzać mapę, ta jednostka tylko do tego się nadaje!"
 
 #: data/helpdata.txt:110
 msgid ""
@@ -18905,7 +18905,7 @@ msgstr ""
 #: data/helpdata.txt:120
 #, no-c-format
 msgid "    Keep in mind that with some types of government, military units inside or outside cities can reduce or create unhappiness. Also remember that when a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  When a new city is built, the city starts to build the best available defensive unit from the above list."
-msgstr "    Pamiętaj, że w niektórych ustrojach ważne jest, czy dana jednostka stacjonuje w mieście, czy poza nim. (Zwiększa to lub zmniejsza niezadowolenie mieszkańców). W obrębie miasta jednostka otrzymuje +50% siły obrony, tak jakby była ufortyfikowana. Zawsze, gdy powstaje nowe miasto, buduje ono najlepszą dostępną jednostkę obronną."
+msgstr "    Pamiętaj, że w niektórych ustrojach ważne jest, czy dana jednostka stacjonuje w mieście czy poza nim. (Zwiększa to lub zmniejsza niezadowolenie mieszkańców). W obrębie miasta jednostka otrzymuje +50% siły obrony, tak jakby była ufortyfikowana. Zawsze, gdy powstaje nowe miasto, buduje ono najlepszą dostępną jednostkę obronną."
 
 #: data/helpdata.txt:127
 msgid ""
@@ -18957,7 +18957,7 @@ msgstr "    Jeśli wprowadzisz wszystkich mieszkńcaów do miasta, a następnie 
 
 #: data/helpdata.txt:176
 msgid "    The golden rule of taking care of a city is that there should be at least as many happy citizens as unhappy citizens.  A city where this is not so falls into disorder; such cities are labeled with a raised fist or a lightning bolt (depending on the tileset).  Take care not to let this happen to any of your cities, as cities in disorder produce nothing, and are prone to revolt."
-msgstr "    Podstawową zasadą w administracji miastem jest utrzymywanie co najmniej takiej samej liczby zadowolonych, co niezadowolonych mieszkańców. Jeżeli powyższa zasada nie jest spełniona, miasto otrzymuje ikonkę podniesionej pięści lub błyskawicy (w zależności od zestawu graficznego). Dbaj o to, aby to się nie zdarzyło, gdyż niezadowolone miasta nic nie produkują i mogą się zbuntować."
+msgstr "    Podstawową zasadą administrowania miastem jest utrzymywanie co najmniej takiej samej liczby zadowolonych, co niezadowolonych mieszkańców. Jeżeli powyższa zasada nie jest spełniona, miasto otrzymuje ikonkę podniesionej pięści lub błyskawicy (w zależności od zestawu graficznego). Dbaj o to, aby to się nie zdarzyło, gdyż niezadowolone miasta nic nie produkują i mogą się zbuntować."
 
 #: data/helpdata.txt:183
 msgid ""
@@ -20222,7 +20222,6 @@ msgstr ""
 "    Ctrl-E: włącz/wyłącz tryb edycji\n"
 "    Ctrl-M: włącz/wyłącz \"mgłę wojny\" w trybie edycji\n"
 
-#
 #: data/helpdata.txt:1627
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. It deploys the available workers on the free tiles around the city to achieve maximal city output. It also changes workers to scientists, taxmen, or entertainers, if appropriate. And the governor has another ability: whenever possible, it keeps your cities content.\n"
@@ -20241,11 +20240,11 @@ msgid ""
 "\n"
 "But beware! If you use the governor for some of your cities, you will encounter some difficulties with managing cities nearby, by hand. It's best to manage all cities on an island either by hand or by governor. Read more hints, some background information, and some preset examples in the file README.cma, included with Freeciv.\n"
 msgstr ""
-"Zarządca mieszkańców pomaga w administrowaniu miastem. Kontroluje on rozdział mieszkańców do pracy na polach dookoła miasta. Może on także zamienić mieszkańców w poborców podatkowych, komików lub naukowców. Zdolność utrzymywania twojego miasta w spokoju jest jego najwyżej cenioną właściwością.\n"
+"Zarządca mieszkańców pomaga w administrowaniu miastem. Kontroluje on przydział mieszkańców do pracy na polach dookoła miasta. Może on także zamienić mieszkańców w poborców podatkowych, komików lub naukowców. Dużą zaletą zarządcy jest umiejętność utrzymywania zadowolenia w mieście.\n"
 "\n"
 "Aby powiedzieć zarządcy, czego od niego oczekujesz, otwórz okno miasta, a w nim zakładkę zarządcy. W zakładce znajdują się dwa typy suwaków. Po lewej możesz ustawić minimalny oczekiwany rozmiar produkcji danego zasobu. Np. złoto = +3, będzie oznaczać, że zarządca będzie się starał tak rozmieścić mieszkańców, aby miasto wytwarzało nie mniej niż 3 złota (po odjęciu kosztów utrzymania budynków). Po prawej możesz ustawić priorytet danego zasobu. Ustawienie priorytetu nauki na 3, będzie oznaczać, że 1 punkt odkryć będzie warty tyle co 3 tarczki(produkcja).\n"
 "\n"
-"Jeśli zarządca nie będzie w stanie spełnić postawionych mu wymagań, przejęcie kontroli nad miastem nie będzie możliwe. Jeśli w mieście kontrolowanym już przez zarządcy dojdzie do sytuacji, w której nie będzie można uzyskać oczekiwanych rezultatów, to zwróci on kontrolę nad miastem. Dlatego lepiej jest sterować zarządcą poprzez ustawianie priorytetów, a nie limitów.\n"
+"Jeśli zarządca nie będzie w stanie spełnić postawionych mu wymagań, przejęcie kontroli nad miastem nie będzie możliwe. Jeśli w mieście kontrolowanym już przez zarządcę dojdzie do sytuacji, w której nie będzie można uzyskać oczekiwanych rezultatów, to zwróci on kontrolę nad miastem. Dlatego lepiej jest sterować zarządcą poprzez ustawianie priorytetów, a nie limitów.\n"
 "\n"
 "Przycisk 'świętuj' oznacza, że zarządca będzie tak rozdzielał mieszkańców (o ile to możliwe), żeby miasto świętowało.\n"
 "\n"
@@ -20427,18 +20426,17 @@ msgstr ""
 msgid "Of course, the different escape sequences can be combined in the same sentence, like '[i][c fg=\"blue\"]this [b]is [s]funny[c bg=\"green\"] [u]to[/i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr "Rzecz jasna można łączyć różne rodzaje znaczników w jednym zdaniu, np. '[i][c fg=\"blue\"]fajnie [b]jest [s]móc[c bg=\"green\"] [u]pobawić[/i] się[/b] tym[/s] [/c]nowym[/u] usprawnieniem[/c]'."
 
-#
 #: data/helpdata.txt:1790
 msgid "The worklist editor is used to edit both worklists for each city (from the city dialog) and global worklists. Using this editor you can create lists specifying what to build in the turns to come."
-msgstr "Edytor schematu prac jest używany do edycji planu prac w mieście (wewnątrz okna miasta) oraz do edycji planów globalnych. Używając go możesz zdefiniować kolejność budowania elementów."
+msgstr "Edytor planu prac jest używany do ustalania kolejności prac w mieście (w oknie dialogowym miasta) oraz do edycji planów globalnych. Używając go możesz zdefiniować kolejność tworzenia budynków i jednostek."
 
 #: data/helpdata.txt:1794
 msgid "To add an item to the worklist, double-click the desired item in the list of available items. You can also press the Help button to get help on the selected item. Pressing Help with no item selected will display this page."
-msgstr "Aby dodać element do planu prac, kliknij podwójnie na wybranym elemencie. Naciskając przycisk Help otrzymasz pomoc na temat wybranego elementu. Jeśli nie jest wybrany żaden element, zostanie wyświetlona ta strona."
+msgstr "Aby dodać element do planu prac, kliknij dwukrotnie na wybrany element. Naciskając przycisk 'Pomoc', otrzymasz więcej informacji na temat wybranego elementu. Jeśli nie został wybrany żaden element, zostanie wyświetlona ta oto strona."
 
 #: data/helpdata.txt:1798
 msgid "To remove an item from the worklist simply double-click the item to remove. Use the buttons below the worklist to move items up and/or down in the list."
-msgstr "Aby usunąć element z planu kliknij podwójnie na wybranym elemencie. Aby zmienić kolejność elementów użyj przycisków Góra/Dół poniżej listy."
+msgstr "Aby usunąć element z planu, kliknij dwukrotnie na wybrany element. Aby zmienić kolejność elementów, użyj przycisków [Góra]/[Dół] obok listy."
 
 #: data/helpdata.txt:1801
 msgid "Keyboard shortcuts: Home to focus the worklist, End to focus the available list, Up/Down arrows to select previous/next item in worklist or available list, PageUp/Down to move items up/down in the worklist, Insert to insert items from the available list into the worklist and Delete to delete the selected item from the worklist."
@@ -20446,7 +20444,7 @@ msgstr "Skróty klawiszowe: [Home] aktywuje plan wykonywanych prac, [End] aktywu
 
 #: data/helpdata.txt:1807
 msgid "If you want to buy the unit that's first on the list, you can do that from the City Overview window."
-msgstr "Jeżeli chcesz kupić jednostkę, która znajduje się na szczycie listy możesz to zrobić w zakładce ogólne w danym mieście."
+msgstr "Jeżeli chcesz kupić jednostkę, która znajduje się na szczycie listy możesz to zrobić w zakładce 'Ogólne' w oknie dialogowym miasta mieście."
 
 #: data/helpdata.txt:1810
 msgid "If a city is currently producing gold (building Coinage in the default rules), an activity which never completes, putting an item on its worklist will cause it to stop producing gold and start working on that item next turn."
@@ -20458,7 +20456,7 @@ msgid ""
 "\n"
 "First, check whether a localization is already in progress for your language:"
 msgstr ""
-"Freeciv używa jest dostępne w kilk językach. Zapoznaj się z sekcją \"Native Language Support\" pliku README w celu uzyskania instrukcji, jak włączyć wybrany język.\n"
+"Freeciv jest dostępna w kilku językach. Zapoznaj się z sekcją \"Native Language Support\" pliku README w celu uzyskania instrukcji, jak włączyć wybrany język.\n"
 "\n"
 "Sprawdź najpierw, czy tworzenie lokalizacji nie zostało już rozpoczęte:"
 
@@ -23499,7 +23497,7 @@ msgid ""
 "\n"
 "When a Barbarian Leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
-"Barbarzyński Wódz pojawia się zawsze, gdy gdzieś na świecie wybucha powstanie Brarbarzyńców.\n"
+"Barbarzyński Wódz pojawia się zawsze, gdy gdzieś na świecie wybucha powstanie Barbarzyńców.\n"
 "Gdy zabijesz Barbarzyński Wodza, na polu bez innych jednostek broniących, dostaniesz 100 złota nagrody, ale tylko jeśli atakowałeś/aś jednostką lądową lub Helikopterem."
 
 #: data/default/units.ruleset:2093
@@ -23654,7 +23652,7 @@ msgid ""
 "\n"
 "When a Barbarian Leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
 msgstr ""
-"Barbarzyński Wódz pojawia się zawsze, gdy gdzieś na świecie wybucha powstanie Brarbarzyńców.\n"
+"Barbarzyński Wódz pojawia się zawsze, gdy gdzieś na świecie wybucha powstanie Barbarzyńców.\n"
 "Gdy zabijesz Barbarzyński Wodza, na polu bez innych jednostek broniących, dostaniesz 100 złota nagrody, ale tylko jeśli atakowałeś/aś jednostką lądową."
 
 #: data/nation/aborigines.ruleset:3
@@ -26434,7 +26432,7 @@ msgstr "Milkot"
 
 #: data/nation/pirate.ruleset:3
 msgid "Pirate"
-msgstr "piracki"
+msgstr "Piracki"
 
 #: data/nation/pirate.ruleset:4
 msgid "?plural:Pirates"
