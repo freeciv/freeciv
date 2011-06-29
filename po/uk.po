@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-15 04:27+0300\n"
-"PO-Revision-Date: 2011-06-15 11:51+0300\n"
+"PO-Revision-Date: 2011-06-29 18:28+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -1303,7 +1303,7 @@ msgstr "Не вдалося конвертувати текст з %s до %s: %
 
 #: utility/ioz.c:514
 msgid "?bzip2error:OK"
-msgstr ""
+msgstr "OK"
 
 #: utility/ioz.c:517
 msgid "?bzip2error:Run ok"
@@ -1355,7 +1355,7 @@ msgstr "Не файл bzip2"
 
 #: utility/ioz.c:547
 msgid "?bzip2error:IO error"
-msgstr ""
+msgstr "Помилка вводу-виводу"
 
 #: utility/ioz.c:550
 #, fuzzy
@@ -5264,11 +5264,11 @@ msgstr "Без дикунів"
 
 #: server/settings.c:323
 msgid "Only in huts"
-msgstr ""
+msgstr "Лише на хуторах"
 
 #: server/settings.c:324
 msgid "Normal rate of appearance"
-msgstr ""
+msgstr "Нормальний рівень появи"
 
 #: server/settings.c:325
 msgid "Frequent barbarian uprising"
@@ -6478,15 +6478,15 @@ msgstr "Алгорітм компресії збережених ігр"
 
 #: server/settings.c:1979
 msgid "Compression library to use for savegames."
-msgstr ""
+msgstr "Бібліотека для компресії збережених ігор."
 
 #: server/settings.c:1984
 msgid "Save using the given savegame version"
-msgstr ""
+msgstr "Зберігати з використанням вказаної версії збереження гри"
 
 #: server/settings.c:1985
 msgid "Create a savegame which can be loaded by the given version of Freeciv. Note that some features will not be saved/restored for older versions."
-msgstr ""
+msgstr "Створити збереження гри, яке зможе завантажити вказана версія Freeciv. Зауважте, що деякі фічі не збережуться і не завантажаться для старших версій."
 
 #: server/settings.c:1992
 msgid "Definition of the save file name"
@@ -7551,7 +7551,7 @@ msgstr "Опція"
 
 #: server/stdinhand.c:2185
 msgid "A help text for each option is available via 'help <option>'."
-msgstr ""
+msgstr "Допомогу по кожній опції можна отримати за допомогою 'help <опція>'."
 
 #: server/stdinhand.c:2189
 #, fuzzy
@@ -8042,7 +8042,7 @@ msgstr "Це було б безглуздо, оскільки Ви не грав
 #: server/stdinhand.c:3724
 #, c-format
 msgid "%s. Try /help ignore"
-msgstr ""
+msgstr "%s. Спробуйте /help ignore"
 
 #: server/stdinhand.c:3736
 #, c-format
@@ -11797,11 +11797,11 @@ msgstr "Якщо цю опцію увімкнено, то коли у прямо
 
 #: client/options.c:1935
 msgid "Clear unit orders on selection"
-msgstr ""
+msgstr "Скасовувати накази підрозділу під час виділення"
 
 #: client/options.c:1936
 msgid "Enabling this option will cause unit orders to be cleared as soon as one or more units are selected. If this option is disabled, busy units will not stop their current activity when selected. Giving them new orders will clear their current ones; pressing <space> once will clear their orders and leave them selected, and pressing <space> a second time will dismiss them."
-msgstr ""
+msgstr "Ця опція спричиняє скасування наказів для підрозділу, щойно один чи декілька підрозділів буде виділено. Якщо цю опцію вимкнено, зайняті підрозділи продовжуватимуть свою поточну діяльність і після вибору. Якщо дати їм нові накази, старі буде скасовано; одноразове натиснення пробілу скасує накази та залишить виділення, а якщо натиснути пробіл вдруге, виділення буде скасовано."
 
 #: client/options.c:1945
 msgid "Enable vote bar"
@@ -12566,18 +12566,18 @@ msgstr "Місто: %s | %s (%s, %s)"
 #, c-format
 msgid " | Occupied with %d unit."
 msgid_plural " | Occupied with %d units."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] " | Зайнято %d підрозділом."
+msgstr[1] " | Зайнято %d підрозділами."
+msgstr[2] " | Зайнято %d підрозділами."
 
 #: client/text.c:249
 #: client/text.c:255
 msgid " | Not occupied."
-msgstr ""
+msgstr " | Не зайнято."
 
 #: client/text.c:253
 msgid " | Occupied."
-msgstr ""
+msgstr " | Зайнято."
 
 #. TRANS: %s is a list of "and"-separated improvements.
 #: client/text.c:271
@@ -16247,9 +16247,9 @@ msgstr "Видалити гравця"
 
 #. TRANS: Give access level to a connection.
 #: client/gui-gtk-2.0/pages.c:1469
-#, fuzzy, c-format
+#, c-format
 msgid "Give %s access"
-msgstr "Дати інформаційний доступ"
+msgstr "Дати доступ %s"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1523
@@ -16446,9 +16446,8 @@ msgid "?Building or Unit type:Name"
 msgstr "Назва"
 
 #: client/gui-gtk-2.0/repodlgs.c:752
-#, fuzzy
 msgid "Redundant"
-msgstr "?зайве:*"
+msgstr "Зайві"
 
 #: client/gui-gtk-2.0/repodlgs.c:756
 #: client/gui-gtk-2.0/wldlg.c:997
@@ -17600,7 +17599,7 @@ msgstr "Очікую на початок гри"
 #. TRANS: Future Technology
 #: client/gui-sdl/gui_tilespec.c:511
 msgid "FT"
-msgstr ""
+msgstr "ТМ"
 
 #: client/gui-sdl/helpdlg.c:215
 msgid "Help : Improvements"
@@ -18381,7 +18380,7 @@ msgstr "Завантажую тему  \"%s\"."
 
 #: client/gui-sdl/wldlg.c:917
 #: client/gui-sdl/wldlg.c:1106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d gold per turn"
@@ -18390,10 +18389,10 @@ msgid_plural ""
 "%d gold per turn"
 msgstr[0] ""
 "%s\n"
-"%d гривень за хід"
+"%d гривня за хід"
 msgstr[1] ""
 "%s\n"
-"%d гривень за хід"
+"%d гривні за хід"
 msgstr[2] ""
 "%s\n"
 "%d гривень за хід"
@@ -18485,11 +18484,11 @@ msgstr ""
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1426
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold per turn"
 msgid_plural "%d gold per turn"
-msgstr[0] "%d гривень за хід"
-msgstr[1] "%d гривень за хід"
+msgstr[0] "%d гривня за хід"
+msgstr[1] "%d гривні за хід"
 msgstr[2] "%d гривень за хід"
 
 #: client/gui-sdl/wldlg.c:1434
@@ -19024,7 +19023,7 @@ msgstr "Категорія: %s.<br>"
 #: manual/civmanual.c:181
 #, c-format
 msgid "Is locked by the ruleset."
-msgstr ""
+msgstr "Заблоковано набором правил."
 
 #: manual/civmanual.c:183
 #, fuzzy, c-format
@@ -19167,7 +19166,7 @@ msgstr "Більше інформації"
 
 #: manual/civmanual.c:488
 msgid "  -r, --ruleset RULESET\tMake manual for RULESET\n"
-msgstr ""
+msgstr "  -r, --ruleset набір_правил\tСтворити довідник для набір_правил\n"
 
 #: modinst/download.c:263
 msgid "No URL given"
@@ -19184,7 +19183,7 @@ msgstr "%s вкрав %s з %s"
 
 #: modinst/download.c:281
 msgid "Environment variable HOME not set"
-msgstr ""
+msgstr "Змінна середовища HOME не задана"
 
 #: modinst/download.c:287
 #: modinst/download.c:441
@@ -20323,7 +20322,7 @@ msgstr ""
 
 #: data/helpdata.txt:726
 msgid "This section describes the available specialist roles, their effects, and their requirements, if any."
-msgstr ""
+msgstr "Ця секція описує доступні ролі спеціалістів, їхні ефекти та вимоги до них, якщо такі є."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:736
@@ -21642,7 +21641,7 @@ msgstr "Робіть місто столицею та центром Вашог�
 #: data/experimental/buildings.ruleset:626
 #: data/multiplayer/buildings.ruleset:567
 msgid "Take good care of your capital, as its loss may result in your empire plunging into civil war. Losing your current palace also results in losing whatever spaceship you might have."
-msgstr ""
+msgstr "Добре дбайте про свою столицю, оскільки її втрата може спричинити громадянську війну в імперії. Втрата палацу спричиняє ще й втрату зорельота, якщо він був."
 
 #: data/civ1/buildings.ruleset:449
 #: data/civ2/buildings.ruleset:591
@@ -21740,7 +21739,7 @@ msgstr "Космічний Модуль"
 #: data/experimental/buildings.ruleset:903
 #: data/multiplayer/buildings.ruleset:836
 msgid "Space Modules are the most expensive parts of spaceships.  There are three different types of Space Module:"
-msgstr ""
+msgstr "Космічні Модулі - це найдорожчі частини зорельота. Є три різних типи Космічних Модулів:"
 
 #: data/civ1/buildings.ruleset:561
 #: data/civ2/buildings.ruleset:799
@@ -21748,7 +21747,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:906
 #: data/multiplayer/buildings.ruleset:839
 msgid "- Habitation Module: provides living space for 10,000 people."
-msgstr ""
+msgstr "- Житловий Модуль: надає простір для проживання 10,000 людей."
 
 #: data/civ1/buildings.ruleset:563
 #: data/civ2/buildings.ruleset:801
@@ -21756,7 +21755,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:908
 #: data/multiplayer/buildings.ruleset:841
 msgid "- Life Support Module: provides food and water for the population of  one Habitation Module."
-msgstr ""
+msgstr "- Модуль Життєзабезпечення: забезпечує водою та харчами населення одного Житлового Модуля."
 
 #: data/civ1/buildings.ruleset:566
 #: data/civ2/buildings.ruleset:804
@@ -21764,7 +21763,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:911
 #: data/multiplayer/buildings.ruleset:844
 msgid "- Solar Panels: provides the energy needed for any two of the other  Modules."
-msgstr ""
+msgstr "- Сонячні Батареї: виробляють енергію, достатню для підтримки будь-яких двох інших Модулів."
 
 #: data/civ1/buildings.ruleset:569
 #: data/civ2/buildings.ruleset:807
@@ -21772,7 +21771,7 @@ msgstr ""
 #: data/experimental/buildings.ruleset:914
 #: data/multiplayer/buildings.ruleset:847
 msgid "You can build up to 4 Space Modules of each kind."
-msgstr ""
+msgstr "Можна збудувати до 4 Комічних Модулів кожного типу."
 
 #: data/civ1/buildings.ruleset:577
 #: data/civ2/buildings.ruleset:815
@@ -22121,7 +22120,7 @@ msgstr "А"
 #: data/experimental/cities.ruleset:51
 #: data/multiplayer/cities.ruleset:48
 msgid "Each entertainer produces two luxury points for their city per turn. See the section on Happiness for the effects of luxury points."
-msgstr ""
+msgstr "Кожен артист виробляє для свого міста два пункти розкоші за хід. Щоб дізнатися про ефекти пунктів розкоші, див. розділ Щастя."
 
 #: data/civ1/cities.ruleset:57
 #: data/civ2/cities.ruleset:57
@@ -22134,7 +22133,7 @@ msgstr "Н"
 #: data/civ1/cities.ruleset:62
 #: data/civ2/cities.ruleset:62
 msgid "Each scientist adds two points to your empire's research output per turn."
-msgstr ""
+msgstr "Кожен науковець додає до досліджень імперії два пункти за хід."
 
 #: data/civ1/cities.ruleset:70
 #: data/civ2/cities.ruleset:70
@@ -22147,7 +22146,7 @@ msgstr "П"
 #: data/civ1/cities.ruleset:75
 #: data/civ2/cities.ruleset:75
 msgid "Each tax collector produces two extra gold for your treasury per turn."
-msgstr ""
+msgstr "Кожен податківець додає до вашої скарбниці дві гривні за хід."
 
 #: data/civ1/cities.ruleset:112
 #: data/civ2/cities.ruleset:112
@@ -23754,7 +23753,7 @@ msgstr ""
 #: data/experimental/units.ruleset:1865
 #: data/multiplayer/units.ruleset:1949
 msgid "The actions available to Diplomats in a city are:"
-msgstr ""
+msgstr "Дії, доступні Дипломату в місті:"
 
 #: data/civ1/units.ruleset:1121
 #: data/civ2/units.ruleset:1803
@@ -23762,7 +23761,7 @@ msgstr ""
 #: data/experimental/units.ruleset:1867
 #: data/multiplayer/units.ruleset:1951
 msgid " - \"Establish Embassy\": This action always succeeds, and gives permanent contact with the city's owner, as well as intelligence on their tax rates and technology."
-msgstr ""
+msgstr " - \"Заснувати посольство\": Ця дія завжди успішна; вона дає постійний контакт з власником міста, а також відомості про рівень їхніх податків і технологій."
 
 #: data/civ1/units.ruleset:1125
 #: data/civ2/units.ruleset:1807
@@ -23770,7 +23769,7 @@ msgstr ""
 #: data/experimental/units.ruleset:1871
 #: data/multiplayer/units.ruleset:1955
 msgid " - \"Investigate City\": Your unit attempts to report detailed information about the city: its status, what buildings and units are within, and what it is currently producing."
-msgstr ""
+msgstr " - \"Дослідити місто\": Ваш підрозділ намагається надати детальну інформацію про місто: його статус, наявні будівлі та підрозділи, поточне будівництво."
 
 #: data/civ1/units.ruleset:1129
 #: data/civ2/units.ruleset:1811
@@ -23778,7 +23777,7 @@ msgstr ""
 #: data/experimental/units.ruleset:1875
 #: data/multiplayer/units.ruleset:1959
 msgid " - \"Sabotage City\": Your unit attempts either to disrupt all the city's work so far towards its current project, or to destroy an existing building in the city, at random. Once built, Palaces and Wonders cannot be sabotaged, and attempts to sabotage City Walls or any building in a capital each halve the chance of success. Sabotage may only be attempted when openly at war."
-msgstr ""
+msgstr " - \"Саботаж у  місті\": Ваш підрозділ намагається саботувати всю роботу, здійснену містом по поточному проекту, або знищити існуючу будівлю, випадковим чином. Збудовані Палац та Дива не можуть бути саботованими, а спроби саботувати Стіни міста чи будь-яку будівлю у столиці мають лише половину шансів на успіх. Саботаж можна проводити лише під час війни."
 
 #: data/civ1/units.ruleset:1136
 #: data/civ2/units.ruleset:1818
@@ -23786,7 +23785,7 @@ msgstr ""
 #: data/experimental/units.ruleset:1882
 #: data/multiplayer/units.ruleset:1966
 msgid " - \"Steal Technology\": Your unit attempts to learn the secrets of a random technology known to the city's owner but not to you. Technology may only be stolen once from a given enemy city by Diplomats. This action may be attempted even when not at war, but will cause a diplomatic incident."
-msgstr ""
+msgstr " - \"Викрасти технологію\": Ваш підрозділ намагається дізнатися секрети випадково обраної технології, відомої власнику міста і невідомої вам. Технологію з одного ворожого міста Дипломати можуть викрадати лише раз. Цю дію можна здійснювати навіть не під час війни, але це може спричинити дипломатичний інцидент."
 
 #: data/civ1/units.ruleset:1142
 #: data/civ2/units.ruleset:1824
@@ -23794,7 +23793,7 @@ msgstr ""
 #: data/experimental/units.ruleset:1888
 #: data/multiplayer/units.ruleset:1972
 msgid " - \"Incite a Revolt\": In return for gold a foreign city will change allegiance and join your empire, bringing along all nearby units that call it home, but reducing its size by 1. Units in other cities remain in the enemy's control, but units outside cities are lost to both players. The exact sum depends on the status of the city and that of the civilization that owns it. It is not possible to incite a rebellion in a capital, or in any city governed by a democracy. Incitement may be attempted in peacetime, but will cause a diplomatic incident."
-msgstr ""
+msgstr " - \"Здійснити революцію\": За гроші, іноземне місто змінить підданство та приєднаєтсья до вашої імперії, разом з усіма своїми підрозділами, що перебувають поблизу, але зі зменшенням населення на 1. Підрозділи у інших містах залишаються під контролем ворога, а підрозділи поза містами не дістаються нікому. Сума грошей залежить від статусу міста та цивілізації, що ним володіє. У столиці або за демократичної влади революцію здійснити неможливо. Цю дію можна спробувати здійснити у мирний час, але це спричинить дипломатичний інцидент."
 
 #: data/civ1/units.ruleset:1152
 #: data/civ2/units.ruleset:1834
@@ -24604,7 +24603,7 @@ msgstr "Вино"
 
 #: data/civ2/terrain.ruleset:818
 msgid "Fortresses improve defense for land units. Among other effects, a land unit remaining in a fortress for a whole turn without moving recovers a quarter of its hit points."
-msgstr ""
+msgstr "Фортеці покращують захист сухопутних військ. Крім того, сухопутний підрозділ, що залишається у фортеці протягом ходу і не рухається, відновлює четвертину здоров'я."
 
 #: data/civ2/terrain.ruleset:839
 #: data/default/terrain.ruleset:949
@@ -24694,7 +24693,7 @@ msgstr "Фанатики"
 #: data/civ2/units.ruleset:494
 #: data/multiplayer/units.ruleset:643
 msgid "Fanatics are warriors extremely devoted to a higher cause."
-msgstr ""
+msgstr "Фанатики - це воїни, надзвичайно віддані вищій меті."
 
 #: data/civ2/units.ruleset:496
 #: data/multiplayer/units.ruleset:645
@@ -24949,7 +24948,7 @@ msgstr "Есмінець"
 #: data/experimental/units.ruleset:1520
 #: data/multiplayer/units.ruleset:1604
 msgid "An improved Ironclad, with better move rate and vision."
-msgstr ""
+msgstr "Покращений Броненосець, швидший та з ширшим оглядом."
 
 #: data/civ2/units.ruleset:1458
 #: data/default/units.ruleset:1507
@@ -25014,14 +25013,14 @@ msgstr "Шпигун"
 #: data/experimental/units.ruleset:1931
 #: data/multiplayer/units.ruleset:2015
 msgid "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
-msgstr ""
+msgstr "Шпигун більш умілий у мистецтві шпигування, ніж його попередник, Дипломат."
 
 #: data/civ2/units.ruleset:1869
 #: data/default/units.ruleset:1918
 #: data/experimental/units.ruleset:1933
 #: data/multiplayer/units.ruleset:2017
 msgid "She can perform all the functions of the Diplomat; refer to the Diplomat entry for more details. Unlike a Diplomat, a Spy may also survive an operation in a foreign city and become more experienced as a result. Spies are also more effective than Diplomats at defending cities against foreign Diplomats and Spies."
-msgstr ""
+msgstr "Шпигун може виконувати всі функції Дипломата; детальніше див. розділ про Дипломата. На відміну від Дипломата, Шпигун може пережити операцію у іноземному місті, і внаслідок цього стати досвідченішим. Крім того, Шпигуни ефективніші, ніж Дипломати, у якості захисників міст від ворожих Дипломатів та Шпигунів."
 
 #: data/civ2/units.ruleset:1875
 #: data/default/units.ruleset:1924
@@ -25501,7 +25500,7 @@ msgstr "Лікарня"
 
 #: data/experimental/buildings.ruleset:393
 msgid "A Hospital is used to treat the ill, and sometimes for medical research. A city with a Hospital is less like to suffer from plagues."
-msgstr ""
+msgstr "Шпиталь використовується для лікування хворих, та інколи для медичних досліджень. Місто зі Шпиталем менше страждатиме від пошестей."
 
 #: data/experimental/buildings.ruleset:435
 msgid "Genetic Lab"
@@ -26599,7 +26598,7 @@ msgstr "Американці"
 
 #: data/nation/amazonian.ruleset:6
 msgid "The Amazons are a fictional nation of women warriors which appear in Classical Greek writing and art. Authors have located them in the Ukraine, Asia Minor, or Libya. The Amazons were reported to remove their right breasts in order to better use the bow and other weapons."
-msgstr ""
+msgstr "Амазонки - це вигаданий народ жінок-воїнів, що згадується у класичних грецьких творах та мистецтві. Вважається, що вони жили в Україні, Малій Азії або Лівії. Кажуть, що Амазонки видаляли собі праву молочну залозу, щоб краще вправлятися з луком та іншою зброєю."
 
 #: data/nation/american.ruleset:3
 #: data/nation/muskogee.ruleset:5
@@ -27636,14 +27635,14 @@ msgid "?female:Lama %s"
 msgstr "Лама %s"
 
 #: data/nation/bhutanese.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Dragon King %s"
-msgstr "Дхарма Король"
+msgstr "Король Дракон %s"
 
 #: data/nation/bhutanese.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Dragon Queen %s"
-msgstr "Драгуни"
+msgstr "Королева Дракон %s"
 
 #: data/nation/biafran.ruleset:3
 msgid "Biafran"
@@ -27775,14 +27774,14 @@ msgid "?female:General %s"
 msgstr "Генерал %s"
 
 #: data/nation/bolivian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Liberator %s"
-msgstr "Бібліотека"
+msgstr "Визволитель %s"
 
 #: data/nation/bolivian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Liberator %s"
-msgstr "Майор"
+msgstr "Визволителька %s"
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
@@ -27837,15 +27836,15 @@ msgstr ""
 
 #: data/nation/brandenburgian.ruleset:27
 #: data/nation/burgundian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Margrave %s"
-msgstr "Маркграф"
+msgstr "Маркграф %s"
 
 #: data/nation/brandenburgian.ruleset:27
 #: data/nation/burgundian.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Margravine %s"
-msgstr "Маркграфиня"
+msgstr "Маркграфиня %s"
 
 #: data/nation/brandenburgian.ruleset:29
 #: data/nation/hessian.ruleset:28
@@ -27875,9 +27874,9 @@ msgstr "Бразилія була заснована як колонія Пор�
 
 #: data/nation/brazilian.ruleset:27
 #: data/nation/roman.ruleset:52
-#, fuzzy, c-format
+#, c-format
 msgid "Dictatrix %s"
-msgstr "Диктаторка"
+msgstr "Диктаторка %s"
 
 #: data/nation/brazilian.ruleset:28
 #: data/nation/californian.ruleset:37
@@ -28400,9 +28399,9 @@ msgstr "Нація чірокі є найбільшою нацією амери�
 #: data/nation/sioux.ruleset:27
 #: data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Spokesman %s"
-msgstr "Делегат"
+msgstr "Спікер  %s"
 
 #: data/nation/cherokee.ruleset:23
 #: data/nation/iroquois.ruleset:27
@@ -28414,9 +28413,9 @@ msgstr "Делегат"
 #: data/nation/sioux.ruleset:27
 #: data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Spokeswoman %s"
-msgstr "Спікер"
+msgstr "Спікерка  %s"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -28817,15 +28816,15 @@ msgid "Today's Czech Republic was until 1993 part of Czechoslovakia, which had b
 msgstr "Сучасна Чеська республіка існувала до 1993 як частина Чехословакії, що була частиною Австро-Угорської імперії до 1918."
 
 #: data/nation/czech.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Thane %s"
-msgstr "Тан"
+msgstr "Тан %s"
 
 #: data/nation/czech.ruleset:32
 #: data/nation/moravian.ruleset:35
-#, fuzzy, c-format
+#, c-format
 msgid "Prophetess %s"
-msgstr "Пророчиця"
+msgstr "Пророчиця  %s"
 
 #: data/nation/dahomean.ruleset:3
 #, fuzzy
@@ -28862,9 +28861,9 @@ msgstr "Заснування Датського королівства в ціл
 #: data/nation/schleswig-holsteinian.ruleset:26
 #: data/nation/swedish.ruleset:32
 #: data/nation/viking.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "%s Jarl"
-msgstr "Ярл"
+msgstr "%s Ярл"
 
 #: data/nation/danish.ruleset:35
 #: data/nation/norman.ruleset:23
@@ -28872,9 +28871,9 @@ msgstr "Ярл"
 #: data/nation/schleswig-holsteinian.ruleset:26
 #: data/nation/swedish.ruleset:32
 #: data/nation/viking.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Jarl"
-msgstr "Ярл"
+msgstr "%s Ярлиця"
 
 #: data/nation/dominican.ruleset:3
 msgid "Dominican"
@@ -29177,16 +29176,16 @@ msgstr "Папеса %s"
 #: data/nation/european.ruleset:24
 #: data/nation/frisian.ruleset:35
 #: data/nation/micronesian.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Commissioner %s"
-msgstr "Верховний Спецуповноважений"
+msgstr "Комісар %s"
 
 #: data/nation/european.ruleset:24
 #: data/nation/frisian.ruleset:35
 #: data/nation/micronesian.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Commissioner %s"
-msgstr "?female:Верховна Спецуповноважена"
+msgstr "Комісар %s"
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
@@ -30731,14 +30730,14 @@ msgid "The Malagasy are the people of Madagascar. For centuries, tribes from Ind
 msgstr "Малагасці - народ Мадагаскару. Продовж століть племена з Індонезії, Східної Африки там арабського світу збиралися на острові."
 
 #: data/nation/malagasy.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "High Commissioner %s"
-msgstr "Верховний Спецуповноважений"
+msgstr "Верховний Уповноважений %s"
 
 #: data/nation/malagasy.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Commissioner %s"
-msgstr "?female:Верховна Спецуповноважена"
+msgstr "Верховна Уповноважена %s"
 
 #: data/nation/malawian.ruleset:3
 #, fuzzy
@@ -31516,15 +31515,15 @@ msgstr "У 1945 Корея була поділена Радянським Сою
 
 #: data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Great Leader %s"
-msgstr "Диво"
+msgstr "Великий Лідер %s"
 
 #: data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Leader %s"
-msgstr "Велика Вождь"
+msgstr "Велика Лідер %s"
 
 #: data/nation/northumbrian.ruleset:3
 #, fuzzy
@@ -33283,14 +33282,12 @@ msgid "The Ukraine is a vast region on the westernmost marches of the former Sov
 msgstr "Україна це велика країна на заході колишнього Радянського Союзу. У ній найбільші плодородні черноземи на Землі."
 
 #: data/nation/ugandan.ruleset:3
-#, fuzzy
 msgid "Ugandan"
-msgstr "Руандійці"
+msgstr "Угандійський"
 
 #: data/nation/ugandan.ruleset:4
-#, fuzzy
 msgid "?plural:Ugandans"
-msgstr "Руандійці"
+msgstr "Угандійці"
 
 #: data/nation/ugandan.ruleset:6
 msgid "The Republic of Uganda is located in eastern Africa. The country contains part of Lake Victoria, which is also in Kenya and Tanzania. In the past, the southern part of the country was part of the Buganda kingdom. Modern Uganda gained independence in 1962."
@@ -33308,14 +33305,14 @@ msgstr "Диктаторка %s"
 #. ;    ancient kingdom which occupied much of present-day
 #. ;    Uganda.
 #: data/nation/ugandan.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "Kabaka %s"
-msgstr "Казахи"
+msgstr "Кабака %s"
 
 #: data/nation/ugandan.ruleset:40
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kabaka %s"
-msgstr "Ханша"
+msgstr "Кабака %s"
 
 #: data/nation/un.ruleset:3
 msgid "UN"
@@ -33382,14 +33379,12 @@ msgid "The Central Asian nation of Uzbekistan has been the site of many ancient 
 msgstr "Нація у Центральній Азії. Узбекистан був центром древніх держав, таких як Хорезм, Бухарське ханство, Кокандське ханство та інших. Захоплений Російською імперією у 19-му сторіччі, Узбекистан набув незалежності від Радянського Союзу у 1991."
 
 #: data/nation/vampire.ruleset:4
-#, fuzzy
 msgid "Vampire"
-msgstr "Голодомор"
+msgstr "Вампірський"
 
 #: data/nation/vampire.ruleset:5
-#, fuzzy
 msgid "?plural:Vampires"
-msgstr "Таіландці"
+msgstr "Вампіри"
 
 #: data/nation/vampire.ruleset:7
 msgid "Bloodsucking creatures of legend."
@@ -33400,9 +33395,8 @@ msgid "Vandalic"
 msgstr ""
 
 #: data/nation/vandalic.ruleset:4
-#, fuzzy
 msgid "?plural:Vandals"
-msgstr "Руандійці"
+msgstr "Вандали"
 
 #: data/nation/vandalic.ruleset:6
 msgid "The Vandals were an East Germanic people originating from what is now Southern Poland and Slovakia. They entered the Roman Empire in the early 5th century AD. Led by Geiseric, they eventually founded a kingdom in Carthage. The Vandals are perhaps best known for their sack of Rome in 455 AD. In 534 AD Belisarius conquered the Vandalic kingdom for the Byzantine Empire."
@@ -33510,28 +33504,24 @@ msgid "Saint Vincent and the Grenadines were amongst the last Caribbean islands 
 msgstr ""
 
 #: data/nation/visigothic.ruleset:3
-#, fuzzy
 msgid "Visigothic"
-msgstr "Бачення"
+msgstr "Вестготський"
 
 #: data/nation/visigothic.ruleset:4
-#, fuzzy
 msgid "?plural:Visigoths"
-msgstr "Вікінгі"
+msgstr "Вестготи"
 
 #: data/nation/visigothic.ruleset:6
 msgid "The Thervingi or Visigoths were an East Germanic people, one of the two tribes of the Goths. They probably originated from Scandinavia. In the 3rd century they migrated south, to modern Ukraine. They then crossed the Danube and sacked Rome in 410 AD. Recognized by the Romans as foederati, they eventually settled around Toulouse where they formed a kingdom. The Visigoths managed to conquer all of the Iberian Peninsula and moved their capital to Toledo. They lost all their territories north of the Pyrenees to the Franks but Visigothic rulers continued to rule the Romanized Iberians until the peninsula was eventually overrun by Muslim invaders in 711."
 msgstr ""
 
 #: data/nation/walloon.ruleset:3
-#, fuzzy
 msgid "Walloon"
-msgstr "Галеон"
+msgstr "Валлонський"
 
 #: data/nation/walloon.ruleset:4
-#, fuzzy
 msgid "?plural:Walloons"
-msgstr "Іспанці"
+msgstr "Валлони"
 
 #: data/nation/walloon.ruleset:6
 msgid "The Walloons are the French speaking inhabitants of Belgium. In the 19th century, Wallonia was first region on the European continent to industrialize and the second in the world after England. It subsequently became a hotbed of socialist and labor union activity."
@@ -33632,23 +33622,20 @@ msgid "Yakut"
 msgstr ""
 
 #: data/nation/yakut.ruleset:4
-#, fuzzy
 msgid "?plural:Yakuts"
-msgstr "Галли"
+msgstr "Якути"
 
 #: data/nation/yakut.ruleset:6
 msgid "Oral tradition indicates that the Yakuts - or Sakha as they call themselves - migrated north from the Central Asian steppes to the shores of Lake Baikal in the 10th century CE. They intermarried with the native population and established a nation along the Lena river, having diplomatic relations with at least the Chinese, the Mongols, and the various Turkic peoples of the region. By the 1620s, Cossacks had arrived in Yakut territory as agents of an expansionist Russia, eventually subduing the Yakut kings and securing Russian hegemony over Yakutia. Numbering about a million today, the Yakuts make up roughly half of the population of the vast Sakha Republic of Russia's Far Eastern district."
 msgstr ""
 
 #: data/nation/yemeni.ruleset:3
-#, fuzzy
 msgid "Yemeni"
-msgstr "Пікінери"
+msgstr "Єменський"
 
 #: data/nation/yemeni.ruleset:4
-#, fuzzy
 msgid "?plural:Yemenis"
-msgstr "Вірмени"
+msgstr "Єменці"
 
 #: data/nation/yemeni.ruleset:6
 msgid "Yemen is the only republic on the Arabian Peninsula. Although it was the site of several ancient civilizations, Yemen only exists in its current form since North Yemen annexed South Yemen in 1990."
@@ -33659,9 +33646,8 @@ msgid "Yucatecan"
 msgstr ""
 
 #: data/nation/yucatecan.ruleset:4
-#, fuzzy
 msgid "?plural:Yucatecans"
-msgstr "Американці"
+msgstr "Юкатанці"
 
 #. TRANS: The sixth letter in "Yucatan" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -33675,9 +33661,8 @@ msgid "Yugoslav"
 msgstr ""
 
 #: data/nation/yugoslav.ruleset:4
-#, fuzzy
 msgid "?plural:Yugoslavs"
-msgstr "Чоласці"
+msgstr "Югослави"
 
 #: data/nation/yugoslav.ruleset:6
 msgid "Yugoslavia was a state consisting of the Slavic nations of the western Balkans. It was a kingdom until 1941, when it was occupied by the Axis powers. After a national liberation war the communists threw out the occupants and continued to rule until the 1980s. The 1990s saw the bloody breakup of Yugoslavia into independent republics."
@@ -33705,9 +33690,8 @@ msgid "Zimbabwean"
 msgstr ""
 
 #: data/nation/zimbabwean.ruleset:4
-#, fuzzy
 msgid "?plural:Zimbabweans"
-msgstr "Тібетці"
+msgstr "Зімбабвійці"
 
 #: data/nation/zimbabwean.ruleset:6
 msgid "Zimbabwe is a country in Southern Africa, named after the old Zimbabwe kingdom. It became a British colony called South Rhodesia in 1898. The white minority in South Rhodesia unilaterally declared independence in 1965. Prime Minister Ian Smith installed a racist regime which excluded blacks from power. A civil war forced Smith to end white minority rule in 1979. Since 1980 the country has been governed by Robert Mugabe, who has received an equally poor reputation internationally as the previous regime."
