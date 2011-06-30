@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-15 04:27+0300\n"
-"PO-Revision-Date: 2011-06-29 18:28+0300\n"
+"PO-Revision-Date: 2011-06-30 19:25+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -32513,14 +32513,12 @@ msgid "Siberia is a historical and geographical region of Russia and the USSR. D
 msgstr ""
 
 #: data/nation/sicilian.ruleset:3
-#, fuzzy
 msgid "Sicilian"
-msgstr "Сілезці"
+msgstr "Сицилійський"
 
 #: data/nation/sicilian.ruleset:4
-#, fuzzy
 msgid "?plural:Sicilians"
-msgstr "Сілезці"
+msgstr "Сицилійці"
 
 #: data/nation/sicilian.ruleset:6
 msgid "Sicily is the largest island of Italy. It has been ruled by Greeks, Carthaginians, Romans, Vandals, Ostrogoths, Byzantines and Arabs. In the 11th century the Normans founded the Kingdom of Sicily which gradually became one of Italy's more powerful states. In 1816 it was merged with Naples into the Kingdom of the Two Sicilies which was united with Italy in 1861."
@@ -32555,14 +32553,14 @@ msgid "Wedged between Nepal and Bhutan, the Himalayan kingdom of Sikkim was rule
 msgstr ""
 
 #: data/nation/sikkimese.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "Chogyal %s"
-msgstr "Мета"
+msgstr "Чоґ'ял %s"
 
 #: data/nation/sikkimese.ruleset:21
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chogyal %s"
-msgstr "Майор"
+msgstr "Чоґ'яла %s"
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -32612,14 +32610,12 @@ msgid "The Sioux was a North American nation that fought several decisive battle
 msgstr ""
 
 #: data/nation/slavic.ruleset:3
-#, fuzzy
 msgid "Slavic"
-msgstr "Парусник"
+msgstr "Слов'янський"
 
 #: data/nation/slavic.ruleset:4
-#, fuzzy
 msgid "?plural:Slavs"
-msgstr "Англійці"
+msgstr "Слов'яни"
 
 #: data/nation/slavic.ruleset:6
 msgid "The Slavs are a modern linguistic group of several nations in Eastern Europe with common historical roots. The origin of the Slavs is not known precisely, therefore there are many hypotheses trying to explain them. Their sudden appearance in the history of civilized Europe may be related to the arrival of Iranian peoples and the expansion of the Huns."
@@ -32655,14 +32651,12 @@ msgid "Slovenia was the most western and northern republic of the old Yugoslav F
 msgstr "Словенія це найбільш західна та північна республіка старої Югославської Федерації."
 
 #: data/nation/somali.ruleset:3
-#, fuzzy
 msgid "Somali"
-msgstr "Нормальний"
+msgstr "Сомалійський"
 
 #: data/nation/somali.ruleset:4
-#, fuzzy
 msgid "?plural:Somalis"
-msgstr "Румуни"
+msgstr "Сомалійці"
 
 #: data/nation/somali.ruleset:6
 msgid "Somali is a country in the Horn of Africa. In ancient times Somalia was a trading hub. In the end of the 19th century it was colonized by Britain and Italy. Somalia regained its independence in 1960. The military under general Siad Barre seized power in 1969. Siad Barre unsuccesfully tried to root out the country's clan system. In 1991 he was overthrown. The country has been without a functioning government ever since."
@@ -32673,23 +32667,20 @@ msgid "Songhai"
 msgstr ""
 
 #: data/nation/songhai.ruleset:4
-#, fuzzy
 msgid "?plural:Songhai"
-msgstr "Саами"
+msgstr "Сонгаї"
 
 #: data/nation/songhai.ruleset:6
 msgid "The Songhai people established a state in the 11th century CE centered on the city of Gao. Following the decline of the Mali empire a few hundred years later, the Songhai established an empire of their own which eventually grew to become one of the largest in the history of Africa. The rulers of Songhai became known for their wealth as well as their devotion to the Muslim faith."
 msgstr ""
 
 #: data/nation/sorbian.ruleset:3
-#, fuzzy
 msgid "Sorbian"
-msgstr "Серби"
+msgstr "Лужицький"
 
 #: data/nation/sorbian.ruleset:4
-#, fuzzy
 msgid "?plural:Sorbs"
-msgstr "Шотландці"
+msgstr "Лужицькі Серби"
 
 #: data/nation/sorbian.ruleset:6
 msgid "The Sorbs are West Slavic people living in the East of Germany in Eastern Saxony and Southern Brandenburg (Lusatia). The region has historically been associated with Poland and Bohemia."
@@ -32708,14 +32699,12 @@ msgid "Dutch settlers began colonizing southern Africa in the 17th century. Afte
 msgstr ""
 
 #: data/nation/southamerican.ruleset:3
-#, fuzzy
 msgid "South American"
-msgstr "Південні африканці"
+msgstr "Південноамериканський"
 
 #: data/nation/southamerican.ruleset:4
-#, fuzzy
 msgid "?plural:South Americans"
-msgstr "Південні африканці"
+msgstr "Південні американці"
 
 #: data/nation/southamerican.ruleset:6
 msgid "The Union of South American Nations was formed in 2008, modeled after the European Union, but panamericanism has already existed since the 19th century."
@@ -32734,14 +32723,12 @@ msgid "Formerly the site of a unified Korean state, the Korean peninsula is toda
 msgstr "Колись єдина країна, зараз Корейський півострів розділений між двома державами - Північною та Південною Кореями - як результат патової ситуації, що склалася наприкінці Корейської війни 1953-го року. Південно-корейский уряд було сформовано із націоналістичного та антікомуністичного \"Тимчасового уряду Республіки Корея\" у 1948."
 
 #: data/nation/southvietnamese.ruleset:3
-#, fuzzy
 msgid "South Vietnamese"
-msgstr "В`єтнамці"
+msgstr "Південнов'єтнамський"
 
 #: data/nation/southvietnamese.ruleset:4
-#, fuzzy
 msgid "?plural:South Vietnamese"
-msgstr "В`єтнамці"
+msgstr "Південні В`єтнамці"
 
 #: data/nation/southvietnamese.ruleset:6
 msgid "South Vietnam, officially the Republic of Vietnam, was the American-backed state during the Vietnam War. The country was reunited with North Vietnam after it was conquered by communist forces in 1975."
@@ -32753,14 +32740,12 @@ msgid "Madame %s"
 msgstr "Мадам %s"
 
 #: data/nation/southyemeni.ruleset:3
-#, fuzzy
 msgid "South Yemeni"
-msgstr "Південні Корейці"
+msgstr "Південноєменський"
 
 #: data/nation/southyemeni.ruleset:4
-#, fuzzy
 msgid "?plural:South Yemenis"
-msgstr "Південні Корейці"
+msgstr "Південні Єменці"
 
 #: data/nation/southyemeni.ruleset:6
 msgid "The area around Aden was colonized by the British in 1839. South Yemen declared independence in 1967 and joined the communist bloc. It was united with North Yemen in 1990."
@@ -32803,14 +32788,14 @@ msgid "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and ext
 msgstr ""
 
 #: data/nation/srivijaya.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Datu %s"
-msgstr " у %s"
+msgstr "Дату %s"
 
 #: data/nation/srivijaya.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Datu %s"
-msgstr "Дату"
+msgstr "Дату %s"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -32837,14 +32822,12 @@ msgid "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablet
 msgstr "Шумери контролювали південну Месопотамію до розквіту Вавилону. Таблички з шумерським клинописом - це найдревніше відоме письмо в історії людства - їм понад 5500 років."
 
 #: data/nation/surinamese.ruleset:3
-#, fuzzy
 msgid "Surinamese"
-msgstr "Бурманці"
+msgstr "Суринамський"
 
 #: data/nation/surinamese.ruleset:4
-#, fuzzy
 msgid "?plural:Surinamese"
-msgstr "Турки"
+msgstr "Суринамці"
 
 #: data/nation/surinamese.ruleset:7
 msgid "Suriname is the smallest independent country of South America. Originally it was inhabited by Arawak Indians. It was first colonized by the English who traded it with the Dutch for New Amsterdam, modern New York, in 1667. Suriname was granted self government in 1954 and became fully independent in 1975."
@@ -32973,28 +32956,24 @@ msgid "Tajikistan is a nation in Central Asia. The Tajiks trace the foundation o
 msgstr ""
 
 #: data/nation/tanzanian.ruleset:3
-#, fuzzy
 msgid "Tanzanian"
-msgstr "Канадці"
+msgstr "Танзанійський"
 
 #: data/nation/tanzanian.ruleset:4
-#, fuzzy
 msgid "?plural:Tanzanians"
-msgstr "Канадці"
+msgstr "Танзанійці"
 
 #: data/nation/tanzanian.ruleset:6
 msgid "Tanzania was formed as a merger of the former British colonies of Tanganyika and Zanzibar in 1964. For two decades the country was ruled by Julius Nyerere, who followed the tenets of African socialism. In 1985 Nyerere was the first African head of state to voluntarily step down."
 msgstr ""
 
 #: data/nation/tatar.ruleset:3
-#, fuzzy
 msgid "Tatar"
-msgstr "Папа"
+msgstr "Татарський"
 
 #: data/nation/tatar.ruleset:4
-#, fuzzy
 msgid "?plural:Tatars"
-msgstr "Італійці"
+msgstr "Татари"
 
 #: data/nation/tatar.ruleset:7
 msgid "The Tatars are a Turkic-speaking nation. Various Tatar states existed in the Middle Ages: Kazan, Crimea, Astrakhan, Sibir and other khanates. Nowadays Tatars live in many places in the former USSR. They have their own republic called Tatarstan in the Russian Federation and the Autonomous Republic of Crimea in Ukraine."
@@ -33013,14 +32992,12 @@ msgid "The Knights Templar were formed after the first Crusade in order to prote
 msgstr "Лицарський орден тамплієрів було засновано після Першого Хрестового походу для захисту пілігримів у їх мандрівках до Святої Землі. Протягом наступних 200 років орден досяг неймовірної сили та багатства, зокрема, завдяки своєму винаходу - банківській справі."
 
 #: data/nation/teutonic.ruleset:3
-#, fuzzy
 msgid "Teutonic"
-msgstr "Електроника"
+msgstr "Тевтонський"
 
 #: data/nation/teutonic.ruleset:4
-#, fuzzy
 msgid "?plural:Teutonic Order"
-msgstr "Ісландці"
+msgstr "Тевтонці"
 
 #: data/nation/teutonic.ruleset:6
 msgid "The Teutonic Order led a series of crusades against pagan Balts during the High Middle Ages. In 1224 it founded the 'Ordenstaat' or State of the Order, which remained a powerful country for three centuries. The State was secularized and replaced by the Duchy of Prussia in the 16th century."
@@ -33099,9 +33076,8 @@ msgid "Timurid"
 msgstr ""
 
 #: data/nation/timurid.ruleset:4
-#, fuzzy
 msgid "?plural:Timurids"
-msgstr "Курди"
+msgstr "Тимуриди"
 
 #: data/nation/timurid.ruleset:6
 msgid "Timur was a military genius who claimed lineage from Chinggis Khan and from his capital in Samarkand conquered all of Central Asia as well as parts of the Middle East and India. The court culture of Timurid Empire was heavily Persianized, while the imperial administration and military organization displayed influences from the Timurid ruling elite's Mongolian and Turkic origins."
@@ -33120,14 +33096,12 @@ msgid "The Tocharians were an Indo-European people living what is now Xinjiang i
 msgstr ""
 
 #: data/nation/togolese.ruleset:3
-#, fuzzy
 msgid "Togolese"
-msgstr "Управління"
+msgstr "Тоголезький"
 
 #: data/nation/togolese.ruleset:4
-#, fuzzy
 msgid "?plural:Togolese"
-msgstr "Монголи"
+msgstr "Тоголезці"
 
 #: data/nation/togolese.ruleset:6
 msgid "Togo became a German protectorate in 1885 and was conquered by the French and British in World War II. Togo became independent in 1960. Since the late 1960s the country's politics have been dominated by general Gnassingbe Eyadema, who was succeeded by his son Faure upon his death in 2005."
@@ -33138,9 +33112,8 @@ msgid "Toltec"
 msgstr ""
 
 #: data/nation/toltec.ruleset:4
-#, fuzzy
 msgid "?plural:Toltecs"
-msgstr "Поляки"
+msgstr "Тольтеки"
 
 #: data/nation/toltec.ruleset:6
 msgid "The Toltecs were a Meso-American civilization that existed from the 10th to the 12th century. The Toltec Empire was founded by Ce Tecpatl Mixcoac, who led his nomadic people from the north to settle on the Mexican High Plain. Mixcoatl was murdered by his enemies but was later avenged by his son Ce Acatl Topilitzin Quetzalcoatl, who would lead the Toltec civilization to untold heights. Toltec culture continued to thrive until the 12th century. Their capital Tollan was violently destroyed in 1168 and the Toltec area fragmented into rivaling city-states. Toltec cultural influences have been identified from New Mexico to Nicaragua, though historians do not agree on the political history of the Toltecs. Since most of the history of the Toltecs is based on Aztec mythology, some claim there was never a Toltec Empire, but that Aztec references to the Toltecs were an allegory for civilization."
@@ -33151,23 +33124,20 @@ msgid "Tongan"
 msgstr ""
 
 #: data/nation/tongan.ruleset:4
-#, fuzzy
 msgid "?plural:Tongans"
-msgstr "Босняки"
+msgstr "Тонганці"
 
 #: data/nation/tongan.ruleset:6
 msgid "An island group in the Southern Pacific, Tonga was settled by Polynesians around 1000 BC. Although the islands became a British protectorate in the 19th century, they are the only country in Oceania to have escaped actual colonization."
 msgstr ""
 
 #: data/nation/transylvanian.ruleset:3
-#, fuzzy
 msgid "Transylvanian"
-msgstr "Канадці"
+msgstr "Трансільванський"
 
 #: data/nation/transylvanian.ruleset:4
-#, fuzzy
 msgid "?plural:Transylvanians"
-msgstr "Канадці"
+msgstr "Трансільванці"
 
 #: data/nation/transylvanian.ruleset:6
 msgid "Transylvania is a historical territory in what is now Romania, inhabited by Romanians, Hungarians and Saxon Germans. Transylvania became a principality under nominal Hungarian suzereignty when that country started to crumble under the Ottoman incursions. During the Reformation, Transylvania was the first country in Europe to proclaim religious freedom. The principality lost its independence to Habsburg Austria in 1711."
@@ -33210,14 +33180,14 @@ msgid "Turkmen tribes were first united in the 11th century AD under Togrul Beg,
 msgstr ""
 
 #: data/nation/turkmen.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "%s Beg"
-msgstr "Бей"
+msgstr "%s Бек"
 
 #: data/nation/turkmen.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Beg"
-msgstr "Товариш"
+msgstr "%s Бек"
 
 #: data/nation/turkmen.ruleset:29
 #, c-format
@@ -33238,32 +33208,28 @@ msgid "?plural:Turks"
 msgstr "Турки"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers. The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
-msgstr "Сучасна Туреччина - це нащадок Оттоманської Імперії, яка закінчила своє існування та була розформована переможцями у Першій Світовій Війні. По тому, країну було реформовано та секуляризовано Кемалем Мустафою, героєм захисту Галіполі."
+msgstr "Сучасна Туреччина - це нащадок Оттоманської Імперії, яка закінчила своє існування та була розформована переможцями Першої Світової Війни. По тому, країну було реформовано та секуляризовано Кемалем Мустафою, героєм захисту Галіполі."
 
 #: data/nation/tuvan.ruleset:3
 msgid "Tuvan"
 msgstr ""
 
 #: data/nation/tuvan.ruleset:4
-#, fuzzy
 msgid "?plural:Tuvans"
-msgstr "Техасці"
+msgstr "Тувинці"
 
 #: data/nation/tuvan.ruleset:6
 msgid "Tuvans are a Turkic people living in the Autonomous Republic of Tuva in the south of Siberia. Tuva split off from China in 1921 and then formed the independent republic of Tannu Tuva allied with the Soviet Union. In 1940 Tannu Tuva had the distinction of seeing the first non-monarchic female head of state of Modern History when Khertek Anchimaa-Toka became chairperson of the republic. In 1944 it was incorporated in the Soviet Union as a part of the Russian Soviet Federative Socialist Republic."
 msgstr ""
 
 #: data/nation/tyrolian.ruleset:3
-#, fuzzy
 msgid "Tyrolian"
-msgstr "Хорезмці"
+msgstr "Тірольський"
 
 #: data/nation/tyrolian.ruleset:4
-#, fuzzy
 msgid "?plural:Tyrolians"
-msgstr "Сирійці"
+msgstr "Тірольці"
 
 #: data/nation/tyrolian.ruleset:6
 msgid "Tyrol was a county in the Alps. In the 16th century its own dynasty died out and the region passed to Habsburg Austria. The southern part was annexed by Italy after World War I."
@@ -33332,14 +33298,14 @@ msgid "?female:Chairperson %s"
 msgstr "Председатель"
 
 #: data/nation/un.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Secretary-General %s"
-msgstr "Генеральний секретар"
+msgstr "Генеральний секретар %s"
 
 #: data/nation/un.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Secretary-General %s"
-msgstr "Генеральний секретар"
+msgstr "Генеральна секретар %s"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
@@ -33374,9 +33340,8 @@ msgid "?plural:Uzbeks"
 msgstr "?plural:Узбеки"
 
 #: data/nation/uzbek.ruleset:6
-#, fuzzy
 msgid "The Central Asian nation of Uzbekistan has been the site of many ancient states such as Khwarezm, the Khanate of Bukhara, and the Khanate of Kokand. The Uzbeks regard themselves as descendants of Timur, founder of the Timurid dynasty, who ruled from his capital at Samarkand."
-msgstr "Нація у Центральній Азії. Узбекистан був центром древніх держав, таких як Хорезм, Бухарське ханство, Кокандське ханство та інших. Захоплений Російською імперією у 19-му сторіччі, Узбекистан набув незалежності від Радянського Союзу у 1991."
+msgstr "Розташований у Центральній Азії Узбекистан був центром древніх держав, таких як Хорезм, Бухарське ханство та Кокандське ханство. Узбеки вважають себе нащадками Тимура, засновника династії Тимуридів, правителя Самарканду."
 
 #: data/nation/vampire.ruleset:4
 msgid "Vampire"
@@ -33403,14 +33368,12 @@ msgid "The Vandals were an East Germanic people originating from what is now Sou
 msgstr ""
 
 #: data/nation/venetian.ruleset:3
-#, fuzzy
 msgid "Venetian"
-msgstr "(ветеран)"
+msgstr "Венеціанський"
 
 #: data/nation/venetian.ruleset:4
-#, fuzzy
 msgid "?plural:Venetians"
-msgstr "Кенійці"
+msgstr "Венеціанці"
 
 #: data/nation/venetian.ruleset:6
 msgid "The Republic of Venice emerged from the shadows of history when refugees from barbarian marauders gathered on the safety of the islands of a lagoon in northeast Italy. Originally a loyal subject of the Eastern Roman empire, it gradually acquired its independence and ranked among the superpowers of the Middle Ages. Its merchants grew rich on trade, and its navy was respected throughout the Mediterranean sea. After a long decline, it eventually fell to the armies of Bonaparte in 1796."
@@ -33452,14 +33415,12 @@ msgid "Dictadora %s"
 msgstr "Диктаторка %s"
 
 #: data/nation/vermont.ruleset:3
-#, fuzzy
 msgid "Vermont"
-msgstr "Версія"
+msgstr "Вермонтський"
 
 #: data/nation/vermont.ruleset:4
-#, fuzzy
 msgid "?plural:Vermonters"
-msgstr "Німці"
+msgstr "Вермонтці"
 
 #: data/nation/vermont.ruleset:6
 msgid "Vermont was an independent state for 14 years before it joined the United States in 1791. Currently it is one of the smallest states of the United States, both in population and area. Vermont is famous for its dairy products and maple syrup."
