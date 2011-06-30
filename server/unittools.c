@@ -2787,17 +2787,11 @@ static void unit_move_consequences(struct unit *punit,
   bool refresh_homecity_start_pos = FALSE;
   bool refresh_homecity_end_pos = FALSE;
   int saved_id = punit->id;
-  bool unit_died = FALSE;
 
   if (tocity) {
     unit_enter_city(punit, tocity, passenger);
 
-    if(!unit_alive(saved_id)) {
-      /* Unit died inside unit_enter_city().
-       * This means that some cleanup has already taken place when it was
-       * removed from game. */
-      unit_died = TRUE;
-    } else {
+    if (unit_alive(saved_id)) {
       /* In case script has changed something about unit */
       pplayer_end_pos = unit_owner(punit);
       type_end_pos = unit_type(punit);
