@@ -69,7 +69,7 @@ ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
 dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
-dnl of the clients and the database setting.
+dnl of the clients, database setting and the mapimg toolkits.
 ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
 dnl set default values
@@ -188,11 +188,6 @@ AC_ARG_ENABLE(mapimg,
                           [[default=auto]] (no, or list)],
 [toolkits=${enableval}],
 [enable_mapimg=auto])
-
-dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
-dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
-dnl of the clients and the mapimg toolkits.
-ifdef([AC_PROG_SED], [AC_PROG_SED], [SED=sed])
 
 for toolkit in $(echo $toolkits | $SED 's/,/ /g') ; do
   if test "x$toolkit" = "xauto" ; then
