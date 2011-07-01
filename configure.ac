@@ -792,28 +792,56 @@ AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 
 dnl freeciv-modpack checks
-AM_PATH_GTK_3_0([3.0.0],
+AC_ARG_ENABLE([fcmp],
+[  --enable-fcmp[[=no/yes/gtk2/gtk3/test]] build freeciv-modpack-program [[default=test]]],
+[case "${enableval}" in
+  yes|no|gtk2|gtk3|test) fc_mp=${enableval} ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcmp]) ;;
+esac], [fc_mp=test])
+
+modinst=no
+
+if test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk3" || test "x$fc_mp" = "xtest" ; then
+  AM_PATH_GTK_3_0([3.0.0],
 [
-  modinst=yes
+  modinst=gtk3
   MP_gtk_CFLAGS="$GTK3_CFLAGS"
   MP_gtk_LIBS="$GTK3_LIBS"
   if test "x$MINGW32" = "xyes"; then
-    dnl Required to compile gtk2 on Windows platform
-    MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
-    MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
-  fi
-], [AM_PATH_GTK_2_0([2.12.0],
-[
- modinst=yes
- MP_gtk_CFLAGS="$GTK2_CFLAGS"
- MP_gtk_LIBS="$GTK2_LIBS"
- if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
     MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
     MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
+  fi
+],[
+  if test "x$fc_mp" = "xgtk3" ; then
+    AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
+  fi
+])
+fi
+
+if test "x$modinst" = "xno" &&
+   ( test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk2" || test "x$fc_mp" = "xtest" ) ; then
+  AM_PATH_GTK_2_0([2.12.0],[
+ modinst=gtk2
+ MP_gtk_CFLAGS="$GTK2_CFLAGS"
+ MP_gtk_LIBS="$GTK2_LIBS"
+ if test "x$MINGW32" = "xyes"; then
+    dnl Required to compile gtk2 on Windows platform
+    MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
+    MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
  fi
-], [modinst=no])])
-AM_CONDITIONAL([MODINST], [test "x$modinst" = "xyes"])
+],[
+  if test "x$fc_mp" = "xgtk2" ; then
+    AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
+  fi
+])
+fi
+
+if test "x$fc_mp" = "xyes" && test "x$modinst" = "xno" ; then
+  AC_MSG_ERROR([freeciv-modpack build requested but it's impossible])
+fi
+
+AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
