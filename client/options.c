@@ -1911,13 +1911,13 @@ static struct client_option client_options[] = {
                      "city's city dialog automatically."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(popup_caravan_arrival, N_("Pop up caravan actions"),
-                  N_("If this option is enabled, when caravans arrive "
-                     "at a city where they can establish a trade route "
-                     "or help build a wonder, a window will popup asking "
-                     "which action should be performed. Disabling this "
-                     "option means you will have to do the action "
-                     "manually by pressing either 'r' (for a trade route) "
-                     "or 'b' (for building a wonder) when the caravan "
+                  N_("If this option is enabled, when caravans or similar "
+                     "units arrive at a city where they can establish a "
+                     "trade route or help build a wonder, a window will "
+                     "pop up asking which action should be performed. "
+                     "Disabling this option means you will have to do the "
+                     "action manually by pressing either 'r' (for a trade "
+                     "route) or 'b' (for building a wonder) when the unit "
                      "is in the city."),
                   COC_INTERFACE, GUI_LAST, TRUE, NULL),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),

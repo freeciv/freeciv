@@ -128,8 +128,8 @@ void popup_caravan_dialog(struct unit *pUnit,
   pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   is_unit_move_blocked = TRUE;
       
-  fc_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
-              city_name(pDestcity));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Your %s has arrived at %s"),
+              unit_name_translation(pUnit), city_name(pDestcity));
 
   /* window */
   pStr = create_str16_from_char(cBuf, adj_font(12));

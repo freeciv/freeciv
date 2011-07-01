@@ -95,11 +95,15 @@ static void get_help_build_wonder_button_label(char* buf, int bufsize,
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity)
 {
-  char buf[128], wonder[128];
+  char title_buf[128], buf[128], wonder[128];
   bool can_establish, can_trade, can_wonder;
   
+  fc_snprintf(title_buf, sizeof(title_buf),
+              /* TRANS: %s is a unit type */
+              _("Your %s Has Arrived"), unit_name_translation(punit));
   fc_snprintf(buf, sizeof(buf),
-              _("Your caravan from %s reaches the city of %s.\nWhat now?"),
+              _("Your %s from %s reaches the city of %s.\nWhat now?"),
+              unit_name_translation(punit),
               city_name(phomecity), city_name(pdestcity));
   
   caravan_city_id=pdestcity->id; /* callbacks need these */
@@ -113,8 +117,7 @@ void popup_caravan_dialog(struct unit *punit,
 
 
   caravan_dialog = popup_choice_dialog(GTK_WINDOW(toplevel),
-    _("Your Caravan Has Arrived"), 
-    buf,
+    title_buf, buf,
     (can_establish ? _("Establish _Trade route") :
     _("Enter Marketplace")),caravan_establish_trade_callback, NULL,
     wonder,caravan_help_build_wonder_callback, NULL,

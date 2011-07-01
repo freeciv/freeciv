@@ -1272,7 +1272,7 @@ Freeciv*messageoptscroll.useRight:  True
 Freeciv*messageoptscroll.allowVert:  True
 
 Freeciv*messageoptspacehead.label: \ 
-! TRANS: the space prepending "Out" is necessary
+! /* TRANS: the space prepending "Out" is necessary */
 Freeciv*messageoptcolhead.label: _(" Out Mes Pop")
 
 Freeciv*messageoptokcommand.label:     _("Ok")
@@ -2263,7 +2263,8 @@ Freeciv*buynodialog.*.button0.fromVert:  dlabel
 !
 ! caravan dialog
 !
-Freeciv*caravandialog.title: _("Your Caravan Has Arrived")
+! /* TRANS: Title for caravan popup */
+Freeciv*caravandialog.title: _("Your Unit Has Arrived")
 Freeciv*caravandialog.*.dlabel.borderWidth:  0
 Freeciv*caravandialog.*.button0.label:     _("Establish trade route")
 Freeciv*caravandialog.*.button0.fromVert:  dlabel
