@@ -1146,6 +1146,26 @@ static void tax_rate_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  The player has chosen a government from the menu.
+*****************************************************************/
+static void government_callback(GtkMenuItem *item, gpointer data)
+{
+  popup_revolution_dialog((struct government *) data);
+}
+
+/****************************************************************************
+  The player has chosen a base to build from the menu.
+****************************************************************************/
+static void base_callback(GtkMenuItem *item, gpointer data)
+{
+  struct base_type *pbase = data;
+
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_new_unit_activity_base(punit, pbase);
+  } unit_list_iterate_end;
+}
+
+/****************************************************************
   Action "CENTER_VIEW" callback.
 *****************************************************************/
 static void center_view_callback(GtkAction *action, gpointer data)
@@ -1567,11 +1587,15 @@ static GtkActionGroup *get_playing_group(void)
       /* Civilization menu. */
       {"TAX_RATE", NULL, _("_Tax Rates..."),
        "<Control>t", NULL, G_CALLBACK(tax_rate_callback)},
+      /* Civilization/Government menu. */
+      {"START_REVOLUTION", NULL, _("_Revolution..."),
+       "<Shift><Control>r", NULL, G_CALLBACK(government_callback)},
     };
 
     group = gtk_action_group_new("PlayingGroup");
     gtk_action_group_add_actions(group, menu_entries,
                                  G_N_ELEMENTS(menu_entries), NULL);
+    /* NULL for user_data parameter is required by government_callback() */
     gtk_action_group_add_actions(group, action_entries,
                                  G_N_ELEMENTS(action_entries), NULL);
   }
@@ -1824,26 +1848,6 @@ static void view_menu_update_sensitivity(void)
   menus_set_sensitive(safe_group, "SHOW_BETTER_FOG_OF_WAR", draw_fog_of_war);
 }
 
-/****************************************************************
-  The player has chosen a government from the menu.
-*****************************************************************/
-static void government_callback(GtkMenuItem *item, gpointer data)
-{
-  popup_revolution_dialog((struct government *) data);
-}
-
-/****************************************************************************
-  The player has chosen a base to build from the menu.
-****************************************************************************/
-static void base_callback(GtkMenuItem *item, gpointer data)
-{
-  struct base_type *pbase = data;
-
-  unit_list_iterate(get_units_in_focus(), punit) {
-    request_new_unit_activity_base(punit, pbase);
-  } unit_list_iterate_end;
-}
-
 /****************************************************************************
   Return the text for the tile, changed by the activity.
 
@@ -1932,23 +1936,21 @@ static gboolean update_menus_callback(gpointer data)
     /* Remove previous government entries. */
     list = gtk_container_get_children(GTK_CONTAINER(menu));
     for (iter = list; iter; iter = g_list_next(iter)) {
-      gtk_widget_destroy(GTK_WIDGET(iter->data));
+      if (g_object_get_data(G_OBJECT(iter->data), "government") != NULL
+          || GTK_IS_SEPARATOR_MENU_ITEM(iter->data)) {
+        gtk_widget_destroy(GTK_WIDGET(iter->data));
+      }
     }
     g_list_free(list);
 
     /* Add new government entries. */
-    item = gtk_menu_item_new_with_mnemonic(_("_Revolution..."));
-    g_signal_connect(item, "activate",
-                     G_CALLBACK(government_callback), NULL);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gtk_widget_show(item);
-
     item = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     gtk_widget_show(item);
 
     government_iterate(g) {
       if (g != game.government_during_revolution) {
+        /* TRANS: %s is a government name */
         my_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
         item = gtk_image_menu_item_new_with_label(buf);
