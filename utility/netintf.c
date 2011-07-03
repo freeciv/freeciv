@@ -303,16 +303,57 @@ bool sockaddr_ipv6(union fc_sockaddr *addr)
   }
 }
 
+#ifdef HAVE_GETADDRINFO
 /***************************************************************************
-  Look up the service at hostname:port and fill in *sa.
+  Look up the service at hostname:port using getaddrinfo() and fill in *addr.
+  Family can be AF_UNSPEC.
+***************************************************************************/
+static bool net_lookup_getaddrinfo(const char *name, int port,
+				   void *addr, size_t addr_size, int family)
+{
+  struct addrinfo hints;
+  struct addrinfo *res;
+  int err;
+  char servname[8];
+
+  /* Convert port to string for getaddrinfo() */
+  fc_snprintf(servname, sizeof(servname), "%d", port);
+
+  /* Use getaddrinfo() to lookup IPv6 addresses */
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = family;
+  hints.ai_socktype = SOCK_DGRAM; /* any type that uses sin6_port */
+  hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+  err = getaddrinfo(name, servname, &hints, &res);
+
+  if (err == 0) {
+    /* getaddrinfo() provides a linked list of addresses, but we return
+     * only one address.
+     *
+     * We handle this by copying the first address from the list,
+     * then freeing the list. */
+    memcpy(addr, res->ai_addr, MIN(addr_size, res->ai_addrlen));
+    freeaddrinfo(res);
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+#endif /* HAVE_GETADDRINFO */
+
+/***************************************************************************
+  Look up the service at hostname:port and fill in *addr.
 ***************************************************************************/
 bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
 			bool force_ipv4)
 {
-  struct hostent *hp;
   struct sockaddr_in *sock4;
+
 #ifdef IPV6_SUPPORT
   struct sockaddr_in6 *sock6;
+#else  /* IPv6 support */
+  struct hostent *hp;
 #endif /* IPv6 support */
 
   sock4 = &addr->saddr_in4;
@@ -321,34 +362,22 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
   sock6 = &addr->saddr_in6;
 
   if (!force_ipv4) {
-    struct addrinfo hints, *res0;
-    int error;
-    char servname[8];
-
-    /* Convert port to string for getaddrinfo() */
-    fc_snprintf(servname, sizeof(servname), "%d", port);
-
-    /* Use getaddrinfo() to lookup IPv6 addresses */
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_INET6;     /* request only IPv6 */
-    hints.ai_socktype = SOCK_DGRAM; /* any type that uses sin6_port */
-    hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
-    error = getaddrinfo(name, servname, &hints, &res0);
-
-    if (error == 0) {
-      /* getaddrinfo() provides a linked list of addresses, but
-       * net_lookup_service() wants only one address.
-       *
-       * We handle this by copying the first address from the list,
-       * then freeing the list. */
-      memcpy(sock6, res0->ai_addr, MIN(sizeof(*sock6), res0->ai_addrlen));
-      freeaddrinfo(res0);
+    if (net_lookup_getaddrinfo(name, port, sock6, sizeof(*sock6), AF_INET6)) {
       return TRUE;
-    } /* else continue to IPv4 */
+    }
   }
-#endif /* IPv6 support */
 
-  /* IPv4 resolution */
+  /* IPv4 handling.
+   * TODO: This should be used also for IPv4-only compilation if
+   *       getaddrinfo() is available */
+  if (net_lookup_getaddrinfo(name, port, sock4, sizeof(*sock4), AF_INET)) {
+    return TRUE;
+  }
+
+  return FALSE;
+
+#else  /* IPV6_SUPPORT */
+
   addr->saddr.sa_family = AF_INET;
   sock4->sin_port = htons(port);
 
@@ -373,6 +402,9 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
 
   memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
   return TRUE;
+
+#endif /* !IPV6_SUPPORT */
+
 }
 
 /*************************************************************************
