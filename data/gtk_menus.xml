@@ -143,8 +143,8 @@
       <separator />
       <menuitem action="TAX_RATE" />
       <menu action="MENU_GOVERNMENT">
+        <menuitem action="START_REVOLUTION" />
         <!-- The government types are ruleset dependent -->
-        <menuitem action="NULL" />
       </menu>
       <separator />
       <menuitem action="REPORT_WOW" />
