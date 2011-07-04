@@ -463,7 +463,7 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
     center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
   } else if (can_client_issue_orders() && (ev->button == 1)) {
     do_map_click(map_pos_to_tile(xtile, ytile),
-		 (ev->state & GDK_SHIFT_MASK) ? SELECT_POPUP : SELECT_APPEND);
+		 (ev->state & GDK_SHIFT_MASK) ? SELECT_APPEND : SELECT_POPUP);
   }
 
   return TRUE;
