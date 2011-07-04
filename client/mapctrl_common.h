@@ -35,7 +35,7 @@ extern bool keyboardless_goto_button_down;
 extern bool keyboardless_goto_active;
 extern struct tile *keyboardless_goto_start_tile;
 
-void anchor_selection_rectangle(int canvas_x, int canvas_y, bool append);
+void anchor_selection_rectangle(int canvas_x, int canvas_y);
 void update_selection_rectangle(int canvas_x, int canvas_y);
 void redraw_selection_rectangle(void);
 void cancel_selection_rectangle(void);
@@ -47,11 +47,11 @@ void toggle_tile_hilite(struct tile *ptile);
 
 void key_city_overlay(int canvas_x, int canvas_y);
 
-void clipboard_copy_production(struct tile *ptile);
+bool clipboard_copy_production(struct tile *ptile);
 void clipboard_paste_production(struct city *pcity);
 void upgrade_canvas_clipboard(void);
 
-void release_right_button(int canvas_x, int canvas_y);
+void release_right_button(int canvas_x, int canvas_y, bool shift);
 
 void release_goto_button(int canvas_x, int canvas_y);
 void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y);
