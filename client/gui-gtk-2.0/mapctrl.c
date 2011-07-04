@@ -216,7 +216,8 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     release_goto_button(ev->x, ev->y);
   }
   if(ev->button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
-    release_right_button(ev->x, ev->y);
+    release_right_button(ev->x, ev->y,
+                         (ev->state & GDK_SHIFT_MASK) != 0);
   }
 
   return TRUE;
@@ -255,7 +256,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     else if (ev->state & GDK_CONTROL_MASK) {
       action_button_pressed(ev->x, ev->y, SELECT_SEA);
     }
-    /* <SHIFT> + LMB: Append focus unit Production. */
+    /* <SHIFT> + LMB: Append focus unit. */
     else if (ptile && (ev->state & GDK_SHIFT_MASK)) {
       action_button_pressed(ev->x, ev->y, SELECT_APPEND);
     }
@@ -307,28 +308,29 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       clipboard_paste_production(pcity);
       cancel_tile_hiliting();
     }
-    /* <SHIFT> + RMB: Copy Production. */
-    else if (ev->state & GDK_SHIFT_MASK) {
-      clipboard_copy_production(ptile);
+    /* <SHIFT> + RMB on city/unit: Copy Production. */
+    /* If nothing to copy, fall through to rectangle selection. */
+    else if (ev->state & GDK_SHIFT_MASK
+             && clipboard_copy_production(ptile)) {
+      /* Already done the copy */
     }
     /* <CONTROL> + RMB : Quickselect a land unit. */
     else if (ev->state & GDK_CONTROL_MASK) {
       action_button_pressed(ev->x, ev->y, SELECT_LAND);
     }
-    /* Plain RMB click. */
+    /* Plain RMB click. Area selection. */
     else {
       /*  A foolproof user will depress button on canvas,
        *  release it on another widget, and return to canvas
        *  to find rectangle still active.
        */
       if (rectangle_active) {
-        release_right_button(ev->x, ev->y);
+        release_right_button(ev->x, ev->y,
+                             (ev->state & GDK_SHIFT_MASK) != 0);
         return TRUE;
       }
-      cancel_tile_hiliting();
       if (hover_state == HOVER_NONE) {
-        anchor_selection_rectangle(ev->x, ev->y,
-				   (ev->state & GDK_SHIFT_MASK) != 0);
+        anchor_selection_rectangle(ev->x, ev->y);
         rbutton_down = TRUE; /* causes rectangle updates */
       }
     }
