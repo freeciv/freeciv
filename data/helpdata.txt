@@ -1552,6 +1552,8 @@ metaserver, the player names can be found there.\
 
 [help_controls]
 name = _("Controls")
+; /* TRANS: This text mentions the names of some client options. These names
+;  * are separately translated elsewhere; they should match! */
 text = _("\
 Unit Orders:\n\
 ============\n\
@@ -1566,7 +1568,7 @@ Unit Orders:\n\
   f: build (f)ortress  (settler/worker units)\n\
   g: (g)o to tile  (then left-click mouse to select target tile)\n\
   g: add a (g)o-to waypoint  (when in go-to mode)\n\
-  G: return unit to nearest city\n\
+  G: return unit to nearest friendly city\n\
   h: set unit's (h)omecity  (to city on current tile)\n\
   i: build (i)rrigation or convert terrain  (settler/worker units)\n\
   I: connect current and target tile with (I)rrigation\n\
@@ -1578,6 +1580,7 @@ Unit Orders:\n\
   n: clean (n)uclear fallout\n\
   N: explode (N)uclear\n\
   o: transf(o)rm terrain  (engineer unit)\n\
+  O: c(O)nvert to another kind of unit\n\
   p: clean (p)ollution  (settler/worker units)\n\
   p: drop (p)aratrooper  (paratroop units)\n\
   P: (P)illage  (destroy terrain alteration)\n\
@@ -1635,29 +1638,62 @@ Main Map (Keys):\n\
 "), _("\
 Main Map (Mouse):\n\
 =================\n\
-  Left-click on city:          Pop up city dialog\n\
-  Left-click on unit:          Activate unit\n\
-  Left-click-and-drag on unit: Go-to command for unit\n\
-                               (if keyboardless goto enabled in options)\n\
-  Center-click:                Show tile info\n\
-  Right-click:                 Center tile in view\n\
+  Left-click on city:            Pop up city dialog\n\
+  Left-click on unit:            Select a single unit\n\
+                                 (cancels any current activity if \"clear\n\
+                                 unit orders on selection\" is set)\n\
+  Shift-left-click on unit:      Add unit to selection (GTK)\n\
+  Left-click-and-drag on unit:   Go-to command for unit\n\
+                                 (if \"keyboardless goto\" enabled in options)\n\
+  Center-click, Alt-left-click:  Show tile info\n\
+  Right-click:                   Center tile in view\n\
+  Ctrl-center-click:             Wake up sentried units\
+"), _("\
+  Quick unit selection:\n\
+  =====================\n\
+  Ctrl-left-click on tile:       Select a sea unit (prefers transporters)\n\
+  Ctrl-right-click on tile:      Select a land unit (prefers military)\n\
 \n\
-  Shift-Left-click:            Copy production (GTK)\n\
-  Shift-Right-click on city:   Paste production into city (GTK)\n\
-\n\
-  Shift-Control-Left-click:    Adjust city workers\n\
-  Control-Center-click:        Wake up sentried units\n\
-  Shift-Alt-Right-click:       Show city workers (mouse over or near city)\n\
-\n\
+  These combinations choose and select a single unit from those on a tile. \
+All other things being equal, units which have movement points left are \
+preferred. If keyboardless goto is enabled, dragging allows the unit to be \
+selected and moved in one gesture.\
+"), _("\
+  City manipulation (GTK):\n\
+  ========================\n\
+  Shift-Ctrl-left-click:         Adjust city workers\n\
+  Shift-Alt-right-click:         Show city workers (mouse over or near city)\n\
+  Shift-right-click:             Copy production (from city or unit)\n\
+  Shift-Ctrl-right-click:        Paste production into city\
+"), _("\
   Area Selection mode (GTK):\n\
   ==========================\n\
-  Right-click-and-drag: Enter Area Selection mode\n\
-  Left-click:           Toggle tile highlighting\n\
-  Shift-Right-click:    Paste production into highlighted cities\n\
-  Right-click:          Cancel Area Selection mode\n\
+  Right-click-and-drag:          Select units/cities by area\n\
+  Shift-right-click-and-drag:    Append area contents to existing selection\n\
 \n\
-  The cities that become highlighted on the map,\n\
-  will also be highlighted in the Cities Report.\
+  In this mode, multiple units and/or cities are selected. If the selection \
+rectangle contains any cities, and \"Select cities before units\" is set in \
+the options, only the cities are selected and the current unit selection is \
+left alone; otherwise, both cities and units are selected.\n\
+\n\
+  Selected cities are highlighted on the map and in the Cities report for \
+further mass actions. Immediately after selecting, the set of cities can be \
+adjusted by left-clicking on individual cities; and the production for all \
+the highlighted cities can be changed with Shift-Ctrl-right-click (see \
+previous section). Right-clicking leaves this mode.\
+"), _("\
+  Chatline (GTK):\n\
+  ===============\n\
+  Ctrl-Alt-right-click:          Paste city or tile link into chatline\n\
+  Shift-Ctrl-Alt-right-click:    Paste unit link into chatline\n\
+\n\
+  These controls allow map elements to be referred to in chat. See the \
+Chatline help for more details.\n\
+"), _("\
+Overview Map (Mouse):\n\
+=====================\n\
+  Left-click, Shift-left-click, and Right-click have the same functions as \
+they do on the main map.\n\
 "), _("\
 Dialogs and Reports:\n\
 ====================\n\
