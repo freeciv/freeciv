@@ -1929,7 +1929,7 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(separate_unit_selection, N_("Select cities before units"),
                   N_("If this option is enabled, when both cities and "
                      "units are present in the selection rectangle, only "
-                     "cities will be selected."),
+                     "cities will be selected. See the help on Controls."),
                   COC_INTERFACE, GUI_LAST, FALSE, NULL),
   GEN_BOOL_OPTION(unit_selection_clears_orders,
                   N_("Clear unit orders on selection"),
