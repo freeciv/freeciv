@@ -524,10 +524,24 @@ PKG_CHECK_MODULES([CURL], [libcurl],,
 CFLAGS="$CFLAGS $CURL_CFLAGS"
 LIBS="$LIBS $CURL_LIBS"
 
+dnl TODO: Remove this. This should be temporary option available only
+dnl       until we have managed to fix those new gcc 4.6 warnings 
+AC_ARG_ENABLE([acceptable-warns],
+[  --disable-acceptable-warns ignore compiler warnings temporarily deemed acceptable],
+[case "${enableval}" in
+  yes) ignore_accept_warn=no ;;
+  no)  ignore_accept_warn=yes  ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-acceptable-warns]) ;;
+esac], [ignore_accept_warn=no])
+
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
 FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
  [], [EXTRA_DEBUG_CFLAGS])
+
+if test "x$ignore_accept_warn" = "xyes" ; then
+  FC_C_FLAGS([-Wno-unused-but-set-variable], [], [EXTRA_DEBUG_CFLAGS])
+fi
 
 dnl check debugging
 FC_DEBUG
