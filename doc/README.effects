@@ -330,7 +330,8 @@ Migration_Pct
     percent.
 
 City_Radius_Sq
-    Increase the squared city radius by amount.
+    Increase the squared city radius by amount. Currently, this can only
+    usefully have "MinSize", "Building", or "Tech" requirements.
 
 City_Build_Slots
     Increase the number of units with no population cost a city can build in
