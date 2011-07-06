@@ -1046,15 +1046,36 @@ if test x$gl_cv_func_working_mkstemp = xyes ; then
 fi
 AC_CHECK_FUNCS([isatty popen _longjmp])
 
-dnl In the future we probably get rid of our own lua tree and use
-dnl lua from system.
-dnl LUA_AS_DEPENDENCY should be empty when using lua outside own our tree.
-LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
-LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.a"
-LUA_AS_DEPENDENCY="$LUA_LIBS"
+AC_ARG_ENABLE([sys-lua],
+[  --enable-sys-lua        use lua from system instead of one from freeciv tree [[false]]],
+[case "${enableval}" in
+  yes)
+    sys_lua=true ;;
+  no)
+    sys_lua=false ;;
+  test)
+    sys_lua=test ;;
+  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-sys-lua]) ;;
+esac], [sys_lua=false])
+
+if test "x$sys_lua" = "xtrue" || test "x$sys_lua" = "xtest" ; then
+  PKG_CHECK_MODULES([LUA], [lua5.1], [sys_lua=true],
+[if test "x$sys_lua" = "xtrue" ; then
+  AC_MSG_ERROR([Use of included lua disabled, and no lua found from system])
+fi
+sys_lua=false])
+fi
+
+if test "x$sys_lua" = "xfalse" ; then
+  LUA_CFLAGS="-I\$(top_srcdir)/dependencies/lua-5.1/src"
+  LUA_LIBS="\$(top_builddir)/dependencies/lua-5.1/src/liblua.a"
+  LUA_AS_DEPENDENCY="$LUA_LIBS"
+fi
+
 AC_SUBST([LUA_CFLAGS])
 AC_SUBST([LUA_LIBS])
 AC_SUBST([LUA_AS_DEPENDENCY])
+AM_CONDITIONAL([SYS_LUA], [test "x$sys_lua" = "xtrue"])
 
 if test x$enable_fcdb = xyes ; then
   LUASQL_CFLAGS="-I\$(top_srcdir)/dependencies/luasql-2.1.1/src"
