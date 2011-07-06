@@ -336,7 +336,7 @@ if test $enable_aimodules = yes ; then
   if test x$enable_shared != xyes ; then
     AC_MSG_ERROR([cannot enable ai module support if also build of shared libraries is not enabled with --enable-shared])
   fi
-  LIBS_TMP=$LIBS
+  LIBS_TMP="$LIBS"
   LIBS="$LIBS -lltdl"
   AC_MSG_CHECKING([whether can build modules])
   AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <ltdl.h>]],
@@ -344,7 +344,7 @@ if test $enable_aimodules = yes ; then
      [AC_MSG_RESULT([yes])],
      [AC_MSG_RESULT([no])
       AC_MSG_ERROR([cannot build loadable AI modules as requested])])
-  LIBS=$LIBS_TMP
+  LIBS="$LIBS_TMP"
   SERVER_LIBS="${SERVER_LIBS} -lltdl"
   AC_DEFINE_UNQUOTED([AI_MODULES], [1], [Directory for ai modules])
   CPPFLAGS="${CPPFLAGS} -DAI_MODULEDIR=\"\\\"${aimoduledir}\\\"\""
