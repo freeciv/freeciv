@@ -852,8 +852,9 @@ void handle_unit_move(struct player *pplayer, int unit_id, int tile)
  Make sure everyone who can see combat does.
 **************************************************************************/
 static void see_combat(struct unit *pattacker, struct unit *pdefender)
-{  
+{
   struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
+  struct packet_unit_info unit_att_packet;
 
   /* 
    * Special case for attacking/defending:
@@ -870,25 +871,40 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
 		     UNIT_INFO_IDENTITY, 0);
   package_short_unit(pdefender, &unit_def_short_packet, FALSE,
 		     UNIT_INFO_IDENTITY, 0);
-  players_iterate(other_player) {
-    /* NOTE: this means the player can see combat between submarines even
-     * if neither sub is visible.  See similar comment in send_combat. */
-    if (map_is_known_and_seen(unit_tile(pattacker), other_player, V_MAIN)
-        || map_is_known_and_seen(unit_tile(pdefender), other_player,
-                                 V_MAIN)) {
-      if (!can_player_see_unit(other_player, pattacker)) {
-        fc_assert(other_player != unit_owner(pattacker));
-	lsend_packet_unit_short_info(other_player->connections,
-				     &unit_att_short_packet);
-      }
+  package_unit(pattacker, &unit_att_packet);
 
-      if (!can_player_see_unit(other_player, pdefender)) {
-        fc_assert(other_player != unit_owner(pdefender));
-	lsend_packet_unit_short_info(other_player->connections,
-				     &unit_def_short_packet);
+  conn_list_iterate(game.est_connections, pconn) {
+    struct player *pplayer = pconn->playing;
+
+    if (pplayer != NULL) {
+
+      /* NOTE: this means the player can see combat between submarines even
+       * if neither sub is visible.  See similar comment in send_combat. */
+      if (map_is_known_and_seen(unit_tile(pattacker), pplayer, V_MAIN)
+          || map_is_known_and_seen(unit_tile(pdefender), pplayer,
+                                   V_MAIN)) {
+        /* Attacking unit is sent even if it was visible already, it may have
+         * changed it's orientation to attack. */
+        if (pplayer == unit_owner(pattacker)) {
+          send_packet_unit_info(pconn, &unit_att_packet);
+        } else {
+          send_packet_unit_short_info(pconn,
+                                      &unit_att_short_packet);
+        }
+
+        if (!can_player_see_unit(pplayer, pdefender)) {
+          fc_assert(pplayer != unit_owner(pdefender));
+          send_packet_unit_short_info(pconn,
+                                      &unit_def_short_packet);
+        }
       }
+    } else {
+      /* Global observer sees everything... */
+      send_packet_unit_info(pconn, &unit_att_packet);
+
+      /* ...and thus has already up-to-date info about defender */
     }
-  } players_iterate_end;
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************
@@ -965,6 +981,16 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
                           TILE_XY(unit_tile(pdefender)));
 
     if (is_unit_reachable_at(pdefender, punit, ptile)) {
+      bool adj;
+      enum direction8 facing;
+
+      adj = base_get_direction_for_step(punit->tile, pdefender->tile, &facing);
+
+      fc_assert(adj);
+      if (adj) {
+        punit->facing = facing;
+      }
+
       see_combat(punit, pdefender);
 
       unit_versus_unit(punit, pdefender, TRUE);
@@ -1012,6 +1038,8 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   int winner_id;
   struct tile *def_tile = unit_tile(pdefender);
   struct player *pplayer = unit_owner(punit);
+  bool adj;
+  enum direction8 facing;
   
   log_debug("Start attack: %s %s against %s %s.",
             nation_rule_name(nation_of_player(pplayer)),
@@ -1052,6 +1080,13 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   }
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
+
+  adj = base_get_direction_for_step(punit->tile, pdefender->tile, &facing);
+
+  fc_assert(adj);
+  if (adj) {
+    punit->facing = facing;
+  }
 
   see_combat(punit, pdefender);
 
