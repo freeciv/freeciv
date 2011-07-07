@@ -17,6 +17,7 @@ artists = "
    Acadia		Jean-François Arseneau
    Aceh			Daniel Markstedt and J.M. Maalderink
    Acre			J.M. Maalderink
+   Adygea		Conscious (Wikimedia Commons)
    Afghanistan		Andrew Duhan and Reisio
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
@@ -514,6 +515,7 @@ sprites =
 		"f.acadia", "flags/acadia"
 		"f.aceh", "flags/aceh"
 		"f.acre", "flags/acre"
+		"f.adygea", "flags/adygea"
 		"f.afghanistan", "flags/afghanistan"
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"

@@ -17,6 +17,7 @@ sprites =
 		"f.shield.acadia", "flags/acadia-shield"
 		"f.shield.aceh", "flags/aceh-shield"
 		"f.shield.acre", "flags/acre-shield"
+		"f.shield.adygea", "flags/adygea-shield"
 		"f.shield.afghanistan", "flags/afghanistan-shield"
 		"f.shield.ainu", "flags/ainu-shield"
 		"f.shield.akwe", "flags/akwe-shield"

@@ -154,6 +154,7 @@ match=2
 *include "nation/chola.ruleset"
 *include "nation/chumash.ruleset"
 *include "nation/chuvash.ruleset"
+*include "nation/circassian.ruleset"
 *include "nation/colombian.ruleset"
 *include "nation/comanche.ruleset"
 *include "nation/confederate.ruleset"
