@@ -41,6 +41,7 @@ pkgdata_DATA = \
 		atlantean.ruleset \
 		australian.ruleset \
 		austrian.ruleset \
+		avar.ruleset \
 		aymara.ruleset \
 		azeri.ruleset \
 		aztec.ruleset \

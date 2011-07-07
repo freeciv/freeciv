@@ -39,6 +39,7 @@ flag_files =				\
 		atlantis.png		\
 		australia.png		\
 		austria.png		\
+		avar.png		\
 		aymara.png		\
 		azerbaijan.png		\
 		aztec.png		\
@@ -531,6 +532,7 @@ flag_files =				\
 		atlantis-large.png		\
 		australia-large.png		\
 		austria-large.png		\
+		avar-large.png			\
 		aymara-large.png		\
 		azerbaijan-large.png		\
 		aztec-large.png		\
@@ -1025,6 +1027,7 @@ shield_files =					\
 		atlantis-shield.png		\
 		australia-shield.png		\
 		austria-shield.png		\
+		avar-shield.png			\
 		aymara-shield.png		\
 		azerbaijan-shield.png		\
 		aztec-shield.png		\
@@ -1517,6 +1520,7 @@ shield_files =					\
 		atlantis-shield-large.png		\
 		australia-shield-large.png		\
 		austria-shield-large.png		\
+		avar-shield-large.png			\
 		aymara-shield-large.png		\
 		azerbaijan-shield-large.png		\
 		aztec-shield-large.png		\
@@ -2011,6 +2015,7 @@ svg_files = 				\
 		atlantis.svg		\
 		australia.svg		\
 		austria.svg		\
+		avar.svg		\
 		aymara.svg		\
 		azerbaijan.svg		\
 		aztec.svg		\

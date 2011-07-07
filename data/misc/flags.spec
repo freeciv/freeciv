@@ -47,6 +47,7 @@ artists = "
    Atlantis		J.M. Maalderink
    Australia		Daniel McRae
    Austria		Christoph Breitler
+   Avar			J.M. Maalderink
    Aymara		Daniel Markstedt
    Azerbaijan		Daniel McRae
    Aztec		Daniel Markstedt
@@ -545,6 +546,7 @@ sprites =
 		"f.atlantis", "flags/atlantis"
 		"f.australia", "flags/australia"
 		"f.austria", "flags/austria"
+		"f.avar", "flags/avar"
 		"f.aymara", "flags/aymara"
 		"f.azerbaijan", "flags/azerbaijan"
 		"f.aztec", "flags/aztec"

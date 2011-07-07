@@ -54,9 +54,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-conflicts_with = "kazakh", "uzbek", "kyrgyz", "uyghur", "khazar", "turkmen", "tatar", "crimean tatar", "turkish",
-                 "ottoman"
-civilwar_nations = "tocharian", "khazar", "uyghur"
+conflicts_with = "kazakh", "uzbek", "kyrgyz", "uyghur", "khazar", "turkmen", "tatar", "crimean tatar", "turkish", "ottoman"
+civilwar_nations = "tocharian", "khazar", "uyghur", "avar"
 
 ; City names come from en.wikipedia and book Drevniye Tiurki by L. Gumilov
 

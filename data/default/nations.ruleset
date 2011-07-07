@@ -90,6 +90,7 @@ match=2
 *include "nation/atlantean.ruleset"
 *include "nation/australian.ruleset"
 *include "nation/austrian.ruleset"
+*include "nation/avar.ruleset"
 *include "nation/aymara.ruleset"
 *include "nation/azeri.ruleset"
 *include "nation/aztec.ruleset"
