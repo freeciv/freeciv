@@ -46,7 +46,7 @@
 #include <bzlib.h>
 #endif
 
-#include "fcintl.h"
+/* utility */
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -511,56 +511,56 @@ const char *fz_strerror(fz_FILE *fp)
        */
       switch(fp->u.bz2.error) {
        case BZ_OK:
-         cleartext = Q_("?bzip2error:OK");
+         cleartext = "OK";
          break;
        case BZ_RUN_OK:
-         cleartext = Q_("?bzip2error:Run ok");
+         cleartext = "Run ok";
          break;
        case BZ_FLUSH_OK:
-         cleartext = Q_("?bzip2error:Flush ok");
+         cleartext = "Flush ok";
          break;
        case BZ_FINISH_OK:
-         cleartext = Q_("?bzip2error:Finish ok");
+         cleartext = "Finish ok";
          break;
        case BZ_STREAM_END:
-         cleartext = Q_("?bzip2error:Stream end");
+         cleartext = "Stream end";
          break;
        case BZ_CONFIG_ERROR:
-         cleartext = Q_("?bzip2error:Config error");
+         cleartext = "Config error";
          break;
        case BZ_SEQUENCE_ERROR:
-         cleartext = Q_("?bzip2error:Sequence error");
+         cleartext = "Sequence error";
          break;
        case BZ_PARAM_ERROR:
-         cleartext = Q_("?bzip2error:Parameter error");
+         cleartext = "Parameter error";
          break;
        case BZ_MEM_ERROR:
-         cleartext = Q_("?bzip2error:Mem error");
+         cleartext = "Mem error";
          break;
        case BZ_DATA_ERROR:
-         cleartext = Q_("?bzip2error:Data error");
+         cleartext = "Data error";
          break;
        case BZ_DATA_ERROR_MAGIC:
-         cleartext = Q_("?bzip2error:Not bzip2 file");
+         cleartext = "Not bzip2 file";
          break;
        case BZ_IO_ERROR:
-         cleartext = Q_("?bzip2error:IO error");
+         cleartext = "IO error";
          break;
        case BZ_UNEXPECTED_EOF:
-         cleartext = Q_("?bzip2error:Unexpected EOF");
+         cleartext = "Unexpected EOF";
          break;
        case BZ_OUTBUFF_FULL:
-         cleartext = Q_("?bzip2error:Output buffer full");
+         cleartext = "Output buffer full";
          break;
        default:
          break;
       }
 
       if (cleartext != NULL) {
-        fc_snprintf(bzip2error, sizeof(bzip2error), _("Bz2: \"%s\" (%d)"),
+        fc_snprintf(bzip2error, sizeof(bzip2error), "Bz2: \"%s\" (%d)",
                     cleartext, fp->u.bz2.error);
       } else {
-        fc_snprintf(bzip2error, sizeof(bzip2error), _("Bz2 error %d"),
+        fc_snprintf(bzip2error, sizeof(bzip2error), "Bz2 error %d",
                     fp->u.bz2.error);
       }
       return bzip2error;

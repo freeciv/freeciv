@@ -21,7 +21,6 @@ common/aicore/cm.c
 utility/astring.c
 utility/fciconv.c
 utility/inputfile.c
-utility/ioz.c
 utility/log.c
 utility/mem.c
 utility/netintf.c
