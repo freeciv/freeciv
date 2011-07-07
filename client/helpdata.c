@@ -1894,7 +1894,7 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
    * insert_requirement() will give any output. */
   if (requirement_vector_size(&pbase->reqs) > 0) {
     if (pbase->buildable) {
-      CATLSTR(buf, bufsz, "Requirements to build:\n");
+      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
     }
     requirement_vector_iterate(&pbase->reqs, preq) {
       (void) insert_requirement(buf, bufsz, pplayer, preq);
