@@ -21,6 +21,7 @@
 #include "fc_types.h"           /* enum gui_type */
 #include "featured_text.h"      /* struct ft_color */
 
+#define DEFAULT_METASERVER_OPTION "default"
 
 struct video_mode {
   int width;
