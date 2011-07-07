@@ -511,13 +511,20 @@ int client_main(int argc, char *argv[])
     sz_strlcpy(user_name, default_user_name); 
   if (metaserver[0] == '\0') {
     /* FIXME: Find a cleaner way to achieve this. */
+    /* www.cazfi.net/freeciv/metaserver/ was default metaserver
+     * over one release when meta.freeciv.org was unavailable. */
     const char *oldaddr = "http://www.cazfi.net/freeciv/metaserver/";
     if (0 == strcmp(default_metaserver, oldaddr)) {
       log_normal(_("Updating old metaserver address \"%s\"."), oldaddr);
-      sz_strlcpy(default_metaserver, META_URL);
-      log_normal(_("Default metaserver has been set to \"%s\"."), META_URL);
+      sz_strlcpy(default_metaserver, DEFAULT_METASERVER_OPTION);
+      log_normal(_("Default metaserver has been set to value \"%s\"."),
+                 DEFAULT_METASERVER_OPTION);
     }
-    sz_strlcpy(metaserver, default_metaserver);
+    if (0 == strcmp(default_metaserver, DEFAULT_METASERVER_OPTION)) {
+      sz_strlcpy(metaserver, META_URL);
+    } else {
+      sz_strlcpy(metaserver, default_metaserver);
+    }
   }
   if (server_port == -1) server_port = default_server_port;
 

@@ -26,6 +26,7 @@ extern "C" {
 #include "featured_text.h"      /* struct ft_color */
 #include "mapimg.h"
 
+#define DEFAULT_METASERVER_OPTION "default"
 
 struct video_mode {
   int width;
