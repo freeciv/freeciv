@@ -84,6 +84,7 @@ pkgdata_DATA = \
 		cambodian.ruleset \
 		cameroonian.ruleset \
 		canadian.ruleset \
+		canari.ruleset \
 		capeverdean.ruleset \
 		carthaginian.ruleset \
 		castilian.ruleset \

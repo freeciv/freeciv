@@ -47,7 +47,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "inca"
-civilwar_nations = "colombian", "peruvian", "inca"
+civilwar_nations = "canari", "inca"
 
 cities =
  "Quito (mountains, !ocean)",
