@@ -2750,19 +2750,26 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
 /**********************************************************************
   Helper function to load sprite for one unit orientation
 ***********************************************************************/
-static void tileset_setup_unit_direction(struct tileset *t,
+static bool tileset_setup_unit_direction(struct tileset *t,
                                          struct unit_type *ut,
                                          enum direction8 dir,
                                          char *dirsuffix)
 {
   char buf[2048];
+  int uidx = utype_index(ut);
 
   fc_snprintf(buf, sizeof(buf), "%s_%s", ut->graphic_str, dirsuffix);
 
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
    * probably meant icon gfx to be used as fallback for all orientations */
-  t->sprites.units.facing[utype_index(ut)][dir] = load_sprite(t, buf);
+  t->sprites.units.facing[uidx][dir] = load_sprite(t, buf);
+
+  if (t->sprites.units.facing[uidx][dir] != NULL) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**********************************************************************
@@ -2771,20 +2778,34 @@ static void tileset_setup_unit_direction(struct tileset *t,
 ***********************************************************************/
 void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
-  t->sprites.units.icon[utype_index(ut)] =
-    tiles_lookup_sprite_tag_alt(t, LOG_FATAL, ut->graphic_str,
-                                ut->graphic_alt, "unit_type",
-                                utype_rule_name(ut));
-  /* should maybe do something if NULL, eg generic default? */
+  bool facing_sprites = TRUE;
 
-  tileset_setup_unit_direction(t, ut, DIR8_NORTHWEST, "nw");
-  tileset_setup_unit_direction(t, ut, DIR8_NORTH, "n");
-  tileset_setup_unit_direction(t, ut, DIR8_NORTHEAST, "ne");
-  tileset_setup_unit_direction(t, ut, DIR8_WEST, "w");
-  tileset_setup_unit_direction(t, ut, DIR8_EAST, "e");
-  tileset_setup_unit_direction(t, ut, DIR8_SOUTHWEST, "sw");
-  tileset_setup_unit_direction(t, ut, DIR8_SOUTH, "s");
-  tileset_setup_unit_direction(t, ut, DIR8_SOUTHEAST, "se");
+#define LOAD_FACING_SPRITE(dir, dname) \
+  if (!tileset_setup_unit_direction(t, ut, dir, dname)) { \
+    facing_sprites = FALSE; \
+  }
+
+  LOAD_FACING_SPRITE(DIR8_NORTHWEST, "nw");
+  LOAD_FACING_SPRITE(DIR8_NORTH, "n");
+  LOAD_FACING_SPRITE(DIR8_NORTHEAST, "ne");
+  LOAD_FACING_SPRITE(DIR8_WEST, "w");
+  LOAD_FACING_SPRITE(DIR8_EAST, "e");
+  LOAD_FACING_SPRITE(DIR8_SOUTHWEST, "sw");
+  LOAD_FACING_SPRITE(DIR8_SOUTH, "s");
+  LOAD_FACING_SPRITE(DIR8_SOUTHEAST, "se");
+
+#undef LOAD_FACING_SPRITE
+
+  if (facing_sprites) {
+    /* Never use alt icon if we have orientation sprites as better fallback */
+    t->sprites.units.icon[utype_index(ut)] = load_sprite(t, ut->graphic_str);
+  } else {
+    t->sprites.units.icon[utype_index(ut)] =
+      tiles_lookup_sprite_tag_alt(t, LOG_FATAL, ut->graphic_str,
+                                  ut->graphic_alt, "unit_type",
+                                  utype_rule_name(ut));
+    /* should maybe do something if NULL, eg generic default? */
+  }
 }
 
 /**********************************************************************
@@ -4982,8 +5003,17 @@ struct sprite *get_government_sprite(const struct tileset *t,
 struct sprite *get_unittype_sprite(const struct tileset *t,
                                    const struct unit_type *punittype)
 {
+  int uidx = utype_index(punittype);
+
   fc_assert_ret_val(NULL != punittype, NULL);
-  return t->sprites.units.icon[utype_index(punittype)];
+
+  if (t->sprites.units.icon[uidx]) {
+    /* Has icon sprite */
+    return t->sprites.units.icon[uidx];
+  } else {
+    /* Fallback to using random orientation sprite. */
+    return t->sprites.units.facing[uidx][rand_direction()];
+  }
 }
 
 /**************************************************************************
