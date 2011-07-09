@@ -887,7 +887,7 @@ Tech_type_id give_random_initial_tech(struct player *pplayer)
   If victim has a tech which pplayer doesn't have, pplayer will get it.
   The clients will both be notified and the conquer cost
   penalty applied. Used for diplomats and city conquest.
-  If preferred is A_UNSET one random tech will be choosen.
+  If preferred is A_UNSET one random tech will be chosen.
   Returns the stolen tech or A_NONE if no tech was found.
 ****************************************************************************/
 Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,

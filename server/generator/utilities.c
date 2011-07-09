@@ -555,7 +555,7 @@ void smooth_water_depth(void)
     }
   } whole_map_iterate_end;
 
-  /* Now, try to have something more continous. */
+  /* Now, try to have something more continuous. */
   whole_map_iterate(ptile) {
     if (!terrain_has_flag(tile_terrain(ptile), TER_OCEANIC)) {
       continue;
