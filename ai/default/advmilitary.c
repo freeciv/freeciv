@@ -1294,7 +1294,6 @@ static void ai_unit_consider_bodyguard(struct city *pcity,
 static void adjust_ai_unit_choice(struct city *pcity, 
                                   struct adv_choice *choice)
 {
-  enum unit_move_type move_type;
   Impr_type_id id;
 
   /* Sanity */
@@ -1303,8 +1302,6 @@ static void adjust_ai_unit_choice(struct city *pcity,
       || do_make_unit_veteran(pcity, choice->value.utype)) {
     return;
   }
-
-  move_type = utype_move_type(choice->value.utype);
 
   /*  N.B.: have to check that we haven't already built the building --mck */
   if ((id = ai_find_source_building(pcity, EFT_VETERAN_BUILD,
