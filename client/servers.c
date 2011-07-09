@@ -623,7 +623,7 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   memset(&addr, 0, sizeof(addr));
 
 #ifndef IPV6_SUPPORT
-  {
+  if (family == AF_INET) {
 #ifdef HAVE_INET_ATON
     inet_aton(group, &addr.saddr_in4.sin_addr);
 #else  /* HAVE_INET_ATON */
@@ -634,11 +634,17 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     addr.saddr.sa_family = AF_INET6;
     inet_pton(AF_INET6, group, &addr.saddr_in6.sin6_addr);
     addr.saddr_in6.sin6_port = htons(SERVER_LAN_PORT);
-  } else {
+  } else if (family == AF_INET) {
     inet_pton(AF_INET, group, &addr.saddr_in4.sin_addr);
 #endif /* IPv6 support */
     addr.saddr.sa_family = AF_INET;
     addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
+  } else {
+    fc_assert(FALSE);
+
+    log_error("Unsupported address family in begin_lanserver_scan()");
+
+    return FALSE;
   }
 
 /* this setsockopt call fails on Windows 98, so we stick with the default
@@ -699,10 +705,17 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     addr.saddr_in6.sin6_addr = in6addr_any;
   } else
 #endif /* IPv6 support */
-  {
+  if (family == AF_INET) {
     addr.saddr.sa_family = AF_INET;
     addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT + 1);
     addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
+  } else {
+    /* This is not only error situation worth assert() This
+     * is error situation that has check (with assert) against
+     * earlier already. */
+    fc_assert(FALSE);
+
+    return FALSE;
   }
 
   if (bind(scan->sock, &addr.saddr, sockaddr_size(&addr)) < 0) {
@@ -806,9 +819,15 @@ get_lan_server_list(struct server_scan *scan)
         if (fromend.saddr.sa_family == AF_INET6) {
           inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
                     dst, sizeof(dst));
-        } else {
+        } else if (fromend.saddr.sa_family == AF_INET) {
           inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));;
-        }
+        } else {
+	  fc_assert(FALSE);
+
+	  log_error("Unsupported address family in get_lan_server_list()");
+
+	  fc_snprintf(dst, sizeof(dst), "Unknown");
+	}
       }
 #else  /* IPv6 support */
       const char *dst = NULL;

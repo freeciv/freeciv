@@ -257,19 +257,27 @@ void sockaddr_debug(union fc_sockaddr *addr)
     inet_ntop(AF_INET6, &addr->saddr_in6.sin6_addr, buf, INET6_ADDRSTRLEN);
     log_debug("Host: %s, Port: %d (IPv6)",
               buf, ntohs(addr->saddr_in6.sin6_port));
-  } else {
+    return;
+  } else if (addr->saddr.sa_family == AF_INET) {
     inet_ntop(AF_INET, &addr->saddr_in4.sin_addr, buf, INET_ADDRSTRLEN);
     log_debug("Host: %s, Port: %d (IPv4)",
               buf, ntohs(addr->saddr_in4.sin_port));
+    return;
   }
 #else  /* IPv6 support */
-  char *buf;
+  if (addr->saddr.sa_family == AF_INET) {
+    char *buf;
 
-  buf = inet_ntoa(addr->saddr_in4.sin_addr);
+    buf = inet_ntoa(addr->saddr_in4.sin_addr);
 
-  log_debug("Host: %s, Port: %d",
-            buf, ntohs(addr->saddr_in4.sin_port));
+    log_debug("Host: %s, Port: %d",
+	      buf, ntohs(addr->saddr_in4.sin_port));
+
+    return;
+  }
 #endif /* IPv6 support */
+
+  log_error("Unsupported address family in sockaddr_debug()");
 }
 
 /***************************************************************************
@@ -283,8 +291,14 @@ int sockaddr_size(union fc_sockaddr *addr)
     return sizeof(addr->saddr_in6);
   } else
 #endif /* IPV6_SUPPORT */
-  {
+  if (addr->saddr.sa_family == AF_INET) {
     return sizeof(addr->saddr_in4);
+  } else {
+    fc_assert(FALSE);
+
+    log_error("Unsupported address family in socaddr_size()");
+
+    return 0;
   }
 }
 
@@ -296,11 +310,10 @@ bool sockaddr_ipv6(union fc_sockaddr *addr)
 #ifdef IPV6_SUPPORT
   if (addr->saddr.sa_family == AF_INET6) {
     return TRUE;
-  } else
-#endif /* IPv6 support */
-  {
-    return FALSE;
   }
+#endif /* IPv6 support */
+
+  return FALSE;
 }
 
 #ifdef HAVE_GETADDRINFO

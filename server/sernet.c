@@ -926,8 +926,14 @@ static int server_accept_connection(int sockfd)
   if (fromend.saddr.sa_family == AF_INET6) {
     inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
               dst, sizeof(dst));
-  } else {
+  } else if (fromend.saddr.sa_family == AF_INET) {
     inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));
+  } else {
+    fc_assert(FALSE);
+
+    log_error("Unsupported address family in server_accept_connection()");
+
+    return -1;
   }
 #else  /* IPv6 support */
   dst = inet_ntoa(fromend.saddr_in4.sin_addr);
@@ -1177,10 +1183,14 @@ int server_open_socket(void)
     addr.saddr_in6.sin6_addr = in6addr_any;
   } else
 #endif /* IPv6 support */
-  {
+  if (addr.saddr.sa_family == AF_INET) {
     addr.saddr_in4.sin_family = AF_INET;
     addr.saddr_in4.sin_port = htons(SERVER_LAN_PORT);
     addr.saddr_in4.sin_addr.s_addr = htonl(INADDR_ANY);
+  } else {
+    fc_assert(FALSE);
+
+    log_error("Unsupported address family in server_open_socket()");
   }
 
   if (bind(socklan, &addr.saddr, sockaddr_size(&addr)) < 0) {
@@ -1188,7 +1198,7 @@ int server_open_socket(void)
   }
 
 #ifndef IPV6_SUPPORT
-  {
+  if (addr.saddr.sa_family == AF_INET) {
 #ifdef HAVE_INET_ATON
     inet_aton(group, &mreq4.imr_multiaddr);
 #else  /* HEVE_INET_ATON */
@@ -1203,7 +1213,7 @@ int server_open_socket(void)
       log_error("FC_IPV6_ADD_MEMBERSHIP (%s) failed: %s",
                 group, fc_strerror(fc_get_errno()));
     }
-  } else {
+  } else if (addr.saddr.sa_family == AF_INET) {
     inet_pton(AF_INET, group, &mreq4.imr_multiaddr.s_addr);
 #endif /* IPv6 support */
     mreq4.imr_interface.s_addr = htonl(INADDR_ANY);
@@ -1213,6 +1223,10 @@ int server_open_socket(void)
       log_error("IP_ADD_MEMBERSHIP (%s) failed: %s",
                 group, fc_strerror(fc_get_errno()));
     }
+  } else {
+    fc_assert(FALSE);
+
+    log_error("Unsupported address family for broadcasting.");
   }
 
   connections_set_close_callback(server_conn_close_callback);
