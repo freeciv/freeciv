@@ -526,7 +526,7 @@ Below each of the coordinate systems are explained in more detail.
 
 - Index coordinates.
 
-  Index coordinates simply reorder the map into a continous (filled-in)
+  Index coordinates simply reorder the map into a continuous (filled-in)
   one-dimensional system.  This coordinate system is closely tied to
   the ordering of the tiles in native coordinates, and is slightly
   easier to use for some operations (like storage) because it is
