@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-07 06:15+0300\n"
-"PO-Revision-Date: 2011-07-08 20:04+0100\n"
+"POT-Creation-Date: 2011-07-09 13:56+0300\n"
+"PO-Revision-Date: 2011-07-09 13:29+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -1328,72 +1328,6 @@ msgstr ""
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Nie można przekonwertować tekstu z %s do %s: %s"
-
-#: utility/ioz.c:514
-msgid "?bzip2error:OK"
-msgstr "?bzip2error:OK"
-
-#: utility/ioz.c:517
-msgid "?bzip2error:Run ok"
-msgstr "?bzip2error:Uruchomiono"
-
-#: utility/ioz.c:520
-msgid "?bzip2error:Flush ok"
-msgstr "?bzip2error:Opróżniono"
-
-#: utility/ioz.c:523
-msgid "?bzip2error:Finish ok"
-msgstr "?bzip2error:Zakończono"
-
-#: utility/ioz.c:526
-msgid "?bzip2error:Stream end"
-msgstr "?bzip2error:Koniec ciągu"
-
-#: utility/ioz.c:529
-msgid "?bzip2error:Config error"
-msgstr "?bzip2error:Błąd konfiguracji"
-
-#: utility/ioz.c:532
-msgid "?bzip2error:Sequence error"
-msgstr "?bzip2error:Błąd sekwencji"
-
-#: utility/ioz.c:535
-msgid "?bzip2error:Parameter error"
-msgstr "?bzip2error:Błąd parametru"
-
-#: utility/ioz.c:538
-msgid "?bzip2error:Mem error"
-msgstr "?bzip2error:Błąd pamięci"
-
-#: utility/ioz.c:541
-msgid "?bzip2error:Data error"
-msgstr "?bzip2error:Błąd danych"
-
-#: utility/ioz.c:544
-msgid "?bzip2error:Not bzip2 file"
-msgstr "?bzip2error:Nie znaleziono pliku bzip2"
-
-#: utility/ioz.c:547
-msgid "?bzip2error:IO error"
-msgstr "?bzip2error:Błąd wejścia/wyjścia"
-
-#: utility/ioz.c:550
-msgid "?bzip2error:Unexpected EOF"
-msgstr "?bzip2error:Nieoczekiwany koniec pliku"
-
-#: utility/ioz.c:553
-msgid "?bzip2error:Output buffer full"
-msgstr "?bzip2error:Zapełniony bufor wyjścia"
-
-#: utility/ioz.c:560
-#, c-format
-msgid "Bz2: \"%s\" (%d)"
-msgstr "Bz2: \"%s\" (T%d)"
-
-#: utility/ioz.c:563
-#, c-format
-msgid "Bz2 error %d"
-msgstr "Błąd Bz2 %d"
 
 #: utility/log.c:90
 #, c-format
@@ -9858,21 +9792,21 @@ msgstr "Nieprawidłowy protokół ogłoszenie \"%s\".\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
 
-#: client/client_main.c:485
+#: client/client_main.c:487
 #, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "Aktualizuję stary adres metaserwera \"%s\"."
 
-#: client/client_main.c:487
+#: client/client_main.c:489
 #, c-format
-msgid "Default metaserver has been set to \"%s\"."
-msgstr "Domyślne opcje metaserwera ustawiono na \"%s\"."
+msgid "Default metaserver has been set to value \"%s\"."
+msgstr "Domyślny metaserwer został ustawiony na \"%s\"."
 
-#: client/client_main.c:628
+#: client/client_main.c:635
 msgid "There was an error while auto connecting; aborting."
 msgstr "Wystąpił błąd podczas automatycznego łączenia; kończę pracę."
 
-#: client/client_main.c:706
+#: client/client_main.c:713
 msgid "Game started."
 msgstr "Gra rozpoczęta."
 
@@ -34057,6 +33991,38 @@ msgstr "Domyślny zestaw zasad"
 msgid "You are playing Freeciv with default rules."
 msgstr "Grasz z domyślnym zestawem zasad."
 
+#~ msgid "?bzip2error:OK"
+#~ msgstr "?bzip2error:OK"
+#~ msgid "?bzip2error:Run ok"
+#~ msgstr "?bzip2error:Uruchomiono"
+#~ msgid "?bzip2error:Flush ok"
+#~ msgstr "?bzip2error:Opróżniono"
+#~ msgid "?bzip2error:Finish ok"
+#~ msgstr "?bzip2error:Zakończono"
+#~ msgid "?bzip2error:Stream end"
+#~ msgstr "?bzip2error:Koniec ciągu"
+#~ msgid "?bzip2error:Config error"
+#~ msgstr "?bzip2error:Błąd konfiguracji"
+#~ msgid "?bzip2error:Sequence error"
+#~ msgstr "?bzip2error:Błąd sekwencji"
+#~ msgid "?bzip2error:Parameter error"
+#~ msgstr "?bzip2error:Błąd parametru"
+#~ msgid "?bzip2error:Mem error"
+#~ msgstr "?bzip2error:Błąd pamięci"
+#~ msgid "?bzip2error:Data error"
+#~ msgstr "?bzip2error:Błąd danych"
+#~ msgid "?bzip2error:Not bzip2 file"
+#~ msgstr "?bzip2error:Nie znaleziono pliku bzip2"
+#~ msgid "?bzip2error:IO error"
+#~ msgstr "?bzip2error:Błąd wejścia/wyjścia"
+#~ msgid "?bzip2error:Unexpected EOF"
+#~ msgstr "?bzip2error:Nieoczekiwany koniec pliku"
+#~ msgid "?bzip2error:Output buffer full"
+#~ msgstr "?bzip2error:Zapełniony bufor wyjścia"
+#~ msgid "Bz2: \"%s\" (%d)"
+#~ msgstr "Bz2: \"%s\" (T%d)"
+#~ msgid "Bz2 error %d"
+#~ msgstr "Błąd Bz2 %d"
 #~ msgid "Environment variable HOME not set"
 #~ msgstr "Nie ustawiono zmiennej środowiskowej HOME"
 #~ msgid ""
