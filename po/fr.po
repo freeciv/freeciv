@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-07 06:15+0300\n"
-"PO-Revision-Date: 2011-07-10 07:09+0200\n"
+"PO-Revision-Date: 2011-07-10 21:03+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: common/city.c:81 client/gui-gtk-2.0/repodlgs.c:1248
 msgid "Food"
-msgstr "caravane"
+msgstr "Nourriture"
 
 #: common/city.c:82 client/gui-gtk-2.0/repodlgs.c:1246
 msgid "Shield"
@@ -11100,21 +11100,21 @@ msgstr "Protocole \"%s\" de diffusion invalide.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue: \"%s\"\n"
 
-#: client/client_main.c:485
+#: client/client_main.c:487
 #, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "Mise à jour de l'ancienne adresse du méta-serveur \"%s\"."
 
-#: client/client_main.c:487
+#: client/client_main.c:489
 #, c-format
-msgid "Default metaserver has been set to \"%s\"."
-msgstr "\"%s\" est maintenant le méta-serveur par défaut."
+msgid "Default metaserver has been set to value \"%s\"."
+msgstr "Le méta-serveur par défaut a positionné à la valeur \"%s\"."
 
-#: client/client_main.c:628
+#: client/client_main.c:635
 msgid "There was an error while auto connecting; aborting."
 msgstr "La connexion automatique a échoué ; abandon."
 
-#: client/client_main.c:706
+#: client/client_main.c:713
 msgid "Game started."
 msgstr "Partie commencée."
 
