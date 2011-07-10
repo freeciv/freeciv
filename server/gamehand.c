@@ -419,10 +419,12 @@ void init_new_game(void)
     }
   } players_iterate_end;
 
+#ifndef NDEBUG
   players_iterate(pplayer) {
     fc_assert_msg(0 < placed_units[player_index(pplayer)],
                   _("No units placed for %s!"), player_name(pplayer));
   } players_iterate_end;
+#endif /* NDEBUG */
 
   shuffle_players();
 }
