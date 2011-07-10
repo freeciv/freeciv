@@ -38,7 +38,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "arab", "tanzanian", "omani" ;comoran
+civilwar_nations = "arab", "tanzanian", "omani", "comorian"
 
 cities =
  "Zanzibar",

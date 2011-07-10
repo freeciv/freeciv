@@ -106,6 +106,7 @@ flag_files =				\
 		clatsop.png		\
 		colombia.png		\
 		comanche.png		\
+		comoros.png		\
 		constantine.png		\
 		cornwall.png		\
 		corsica.png		\
@@ -601,6 +602,7 @@ flag_files =				\
 		clatsop-large.png		\
 		colombia-large.png		\
 		comanche-large.png		\
+		comoros-large.png		\
 		constantine-large.png		\
 		cornwall-large.png		\
 		corsica-large.png		\
@@ -1098,6 +1100,7 @@ shield_files =					\
 		clatsop-shield.png		\
 		colombia-shield.png		\
 		comanche-shield.png		\
+		comoros-shield.png		\
 		constantine-shield.png		\
 		cornwall-shield.png		\
 		corsica-shield.png		\
@@ -1593,6 +1596,7 @@ shield_files =					\
 		clatsop-shield-large.png		\
 		colombia-shield-large.png		\
 		comanche-shield-large.png		\
+		comoros-shield-large.png		\
 		constantine-shield-large.png		\
 		cornwall-shield-large.png		\
 		corsica-shield-large.png		\
@@ -2090,6 +2094,7 @@ svg_files = 				\
 		clatsop.svg		\
 		colombia.svg		\
 		comanche.svg		\
+		comoros.svg		\
 		constantine.svg		\
 		cornwall.svg		\
 		corsica.svg		\

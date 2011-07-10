@@ -160,6 +160,7 @@ match=2
 *include "nation/circassian.ruleset"
 *include "nation/colombian.ruleset"
 *include "nation/comanche.ruleset"
+*include "nation/comorian.ruleset"
 *include "nation/confederate.ruleset"
 *include "nation/congolese.ruleset"
 *include "nation/congolesebrazzaville.ruleset"
