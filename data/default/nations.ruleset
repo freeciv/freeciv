@@ -122,6 +122,7 @@ match=2
 *include "nation/breton.ruleset"
 *include "nation/british.ruleset"
 *include "nation/briton.ruleset"
+*include "nation/bruneian.ruleset"
 *include "nation/bulgarian.ruleset"
 *include "nation/burgundian.ruleset"
 *include "nation/burkinabe.ruleset"

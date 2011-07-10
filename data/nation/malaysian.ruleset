@@ -33,7 +33,7 @@ init_units = ""
 
 ; Similar flags
 conflicts_with = "american"
-civilwar_nations = "singaporean", "indonesian", "malagasy"
+civilwar_nations = "singaporean", "indonesian", "bruneian"
 
 cities =
  "Kuala Lumpur",

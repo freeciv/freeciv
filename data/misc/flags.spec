@@ -77,6 +77,7 @@ artists = "
    Brasil		Cezary Biele
    Britannia		J.M. Maalderink
    Brittany		Lexicon
+   Brunei		Gustav Broberg 
    Bulgaria		Daniel McRae
    Burgundy		Daniel Markstedt
    Burkina Faso		Gabbe (Wikimedia Commons)
@@ -577,6 +578,7 @@ sprites =
 		"f.brasil", "flags/brasil"
 		"f.britannia", "flags/britannia"
 		"f.brittany", "flags/brittany"
+		"f.brunei", "flags/brunei"
 		"f.bulgaria", "flags/bulgaria"
 		"f.burgundy", "flags/burgundy"
 		"f.burkina_faso", "flags/burkina_faso"
