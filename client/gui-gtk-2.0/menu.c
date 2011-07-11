@@ -1954,6 +1954,7 @@ static gboolean update_menus_callback(gpointer data)
         my_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
         item = gtk_image_menu_item_new_with_label(buf);
+        g_object_set_data(G_OBJECT(item), "government", g);
 
         if ((gsprite = get_government_sprite(tileset, g))) {
           image = gtk_image_new_from_pixbuf(sprite_get_pixbuf(gsprite));
