@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include <stdarg.h>
+
 /* common */
 #include "player.h"
 
