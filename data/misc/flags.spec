@@ -239,6 +239,7 @@ artists = "
    Khmer		Caleb Moore and Daniel Markstedt
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kiev			Maxim (http://logograd.narod.ru/)
+   Kiribati		Patricia Fidi
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Korea (ancient)	Mysid
@@ -742,6 +743,7 @@ sprites =
 		"f.khmer", "flags/khmer"
 		"f.khwarezm", "flags/khwarezm"
 		"f.kiev", "flags/kiev"
+		"f.kiribati", "flags/kiribati"
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
 		"f.korea_ancient", "flags/korea_ancient"

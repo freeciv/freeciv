@@ -232,6 +232,7 @@ flag_files =				\
 		khmer.png		\
 		khwarezm.png		\
 		kiev.png		\
+		kiribati.png		\
 		kongo.png		\
 		korea.png		\
 		korea_ancient.png	\
@@ -728,6 +729,7 @@ flag_files =				\
 		khmer-large.png			\
 		khwarezm-large.png		\
 		kiev-large.png		\
+		kiribati-large.png		\
 		kongo-large.png		\
 		korea-large.png		\
 		korea_ancient-large.png	\
@@ -1226,6 +1228,7 @@ shield_files =					\
 		khmer-shield.png		\
 		khwarezm-shield.png		\
 		kiev-shield.png			\
+		kiribati-shield.png		\
 		kongo-shield.png		\
 		korea-shield.png		\
 		korea_ancient-shield.png	\
@@ -1722,6 +1725,7 @@ shield_files =					\
 		khmer-shield-large.png			\
 		khwarezm-shield-large.png		\
 		kiev-shield-large.png			\
+		kiribati-shield-large.png		\
 		kongo-shield-large.png		\
 		korea-shield-large.png		\
 		korea_ancient-shield-large.png	\
@@ -2220,6 +2224,7 @@ svg_files = 				\
 		khmer.svg		\
 		khwarezm.svg		\
 		kiev.svg		\
+		kiribati.svg		\
 		kongo.svg		\
 		korea.svg		\
 		korea_ancient.svg	\
