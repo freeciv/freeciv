@@ -114,9 +114,9 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
  * (the city center is _radius_sq_min = 0) outward to the tiles of
  * _radius_sq_max. (_x, _y) will be the valid elements of
  * [0, CITY_MAP_MAX_SIZE] taking into account the city radius. */
-#define city_map_iterate_outwards_radius_sq(_radius_sq_min,		\
-                                            _radius_sq_max,		\
-                                            _index, _x, _y)		\
+#define city_map_iterate_outwards_radius_sq_index(_radius_sq_min,	\
+                                                  _radius_sq_max,       \
+                                                  _index, _x, _y)	\
 {									\
   fc_assert(_radius_sq_min <= _radius_sq_max);				\
   int _x = 0, _y = 0, _index;						\
@@ -126,7 +126,23 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
     _index = _x##_y##_index;						\
     _x##_y##_index++;
 
-#define city_map_iterate_outwards_radius_sq_end				\
+#define city_map_iterate_outwards_radius_sq_index_end			\
+  }									\
+}
+
+  /* Same as above, but don't set index */
+#define city_map_iterate_outwards_radius_sq(_radius_sq_min,             \
+                                            _radius_sq_max,             \
+                                            _x, _y)                     \
+{                                                                       \
+  fc_assert(_radius_sq_min <= _radius_sq_max);                          \
+  int _x = 0, _y = 0;                                                   \
+  int _x##_y##_index = city_map_tiles(_radius_sq_min);                  \
+  while (city_tile_index_to_xy(&_x, &_y, _x##_y##_index,                \
+                               _radius_sq_max)) {                       \
+    _x##_y##_index++;
+
+#define city_map_iterate_outwards_radius_sq_end		                \
   }									\
 }
 
@@ -135,17 +151,17 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
  * the city) using the index (_index) and  the coordinates (_x, _y). It
  * is an abbreviation for city_map_iterate_outwards_radius_sq(_end). */
 #define city_map_iterate(_radius_sq, _index, _x, _y)			\
-  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
-                                      _radius_sq, _index, _x, _y)
+  city_map_iterate_outwards_radius_sq_index(CITY_MAP_CENTER_RADIUS_SQ,	\
+                                            _radius_sq, _index, _x, _y)
 
 #define city_map_iterate_end						\
-  city_map_iterate_outwards_radius_sq_end
+  city_map_iterate_outwards_radius_sq_index_end
 
 /* Iterate the tiles between two radii of a city map. */
 #define city_map_iterate_radius_sq(_radius_sq_min, _radius_sq_max,	\
                                    _x, _y)				\
   city_map_iterate_outwards_radius_sq(_radius_sq_min, _radius_sq_max,	\
-                                      _index##_x_y, _x, _y)
+                                      _x, _y)
 
 #define city_map_iterate_radius_sq_end					\
   city_map_iterate_outwards_radius_sq_end
@@ -157,15 +173,15 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
  * [0, city_map_tiles(_radius_sq)] */
 #define city_tile_iterate_index(_radius_sq, _city_tile, _tile,		\
                                 _index) {				\
-  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
-                                      _radius_sq, _index, _x, _y)	\
-    struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
-                                          _x, _y);			\
-    if (NULL != _tile) {
+  city_map_iterate_outwards_radius_sq_index(CITY_MAP_CENTER_RADIUS_SQ,	\
+                                            _radius_sq, _index, _x, _y)	\
+  struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,         \
+                                        _x, _y);			\
+  if (NULL != _tile) {
 
 #define city_tile_iterate_index_end					\
     }									\
-  } city_map_iterate_outwards_radius_sq_end;
+  } city_map_iterate_outwards_radius_sq_index_end;
 
 /* simple extension to skip is_free_worked() tiles. */
 #define city_tile_iterate_skip_free_worked(_radius_sq, _city_tile,	\
@@ -184,11 +200,16 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
 
 /* Does the same thing as city_tile_iterate_index, but keeps the city
  * coordinates hidden. */
-#define city_tile_iterate(_radius_sq, _city_tile, _tile)		\
-  city_tile_iterate_index(_radius_sq, _city_tile, _tile, _index) {
+#define city_tile_iterate(_radius_sq, _city_tile, _tile) {              \
+  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
+                                      _radius_sq, _x, _y)	        \
+  struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,         \
+                                        _x, _y);			\
+  if (NULL != _tile) {
 
-#define city_tile_iterate_end						\
-  } city_tile_iterate_index_end;
+#define city_tile_iterate_end					        \
+    }									\
+  } city_map_iterate_outwards_radius_sq_end;
 
 /* Improvement status (for cities' lists of improvements)
  * (replaced Impr_Status) */
