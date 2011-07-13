@@ -4261,6 +4261,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   struct tile *ptile;
   int base;
   int ei;
+  const char *facing_str;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -4273,6 +4274,22 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(NULL != ptile, FALSE, "%s invalid tile (%d, %d)",
                   unitstr, nat_x, nat_y);
   unit_tile_set(punit, ptile);
+
+  facing_str
+    = secfile_lookup_str_default(loading->file, "x",
+                                 "%s.facing", unitstr);
+  if (facing_str[0] != 'x') {
+    /* We don't touch punit->facing if savegame does not contain that
+     * information. Initial orientation set by unit_virtual_create()
+     * is as good as any. */
+    enum direction8 facing = char2dir(facing_str[0]);
+
+    if (facing != DIR8_LAST) {
+      punit->facing = facing;
+    } else {
+      log_error("Illegal unit orientation '%s'", facing_str);
+    }
+  }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->homecity,
                                      "%s.homecity", unitstr), FALSE,
@@ -4538,11 +4555,14 @@ static void sg_save_player_units(struct savedata *saving,
 
   unit_list_iterate(plr->units, punit) {
     char buf[32];
+    char dirbuf[2] = " ";
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
+    dirbuf[0] = dir2char(punit->facing);
 
     secfile_insert_int(saving->file, punit->id, "%s.id", buf);
     secfile_insert_int(saving->file, unit_tile(punit)->nat_x, "%s.x", buf);
     secfile_insert_int(saving->file, unit_tile(punit)->nat_y, "%s.y", buf);
+    secfile_insert_str(saving->file, dirbuf, "%s.facing", buf);
     secfile_insert_int(saving->file, punit->veteran, "%s.veteran", buf);
     secfile_insert_int(saving->file, punit->hp, "%s.hp", buf);
     secfile_insert_int(saving->file, punit->homecity, "%s.homecity", buf);
