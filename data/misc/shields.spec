@@ -195,6 +195,7 @@ sprites =
 		"f.shield.hansa", "flags/hansa-shield"
 		"f.shield.hawaii", "flags/hawaii-shield"
 		"f.shield.helvetii", "flags/helvetii-shield"
+		"f.shield.hephthalite", "flags/hephthalite-shield"
 		"f.shield.hesse", "flags/hesse-shield"
 		"f.shield.himyar", "flags/himyar-shield"
 		"f.shield.hittite", "flags/hittite-shield"

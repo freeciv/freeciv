@@ -187,6 +187,7 @@ flag_files =				\
 		hansa.png		\
 		hawaii.png		\
 		helvetii.png		\
+		hephthalite.png		\
 		hesse.png		\
 		himyar.png		\
 		hittite.png		\
@@ -684,6 +685,7 @@ flag_files =				\
 		hansa-large.png		\
 		hawaii-large.png		\
 		helvetii-large.png		\
+		hephthalite-large.png		\
 		hesse-large.png		\
 		himyar-large.png		\
 		hittite-large.png		\
@@ -1183,6 +1185,7 @@ shield_files =					\
 		hansa-shield.png		\
 		hawaii-shield.png		\
 		helvetii-shield.png		\
+		hephthalite-shield.png		\
 		hesse-shield.png		\
 		himyar-shield.png		\
 		hittite-shield.png		\
@@ -1680,6 +1683,7 @@ shield_files =					\
 		hansa-shield-large.png		\
 		hawaii-shield-large.png		\
 		helvetii-shield-large.png		\
+		hephthalite-shield-large.png		\
 		hesse-shield-large.png		\
 		himyar-shield-large.png		\
 		hittite-shield-large.png		\
@@ -2179,6 +2183,7 @@ svg_files = 				\
 		hansa.svg		\
 		hawaii.svg		\
 		helvetii.svg		\
+		hephthalite.svg		\
 		hesse.svg		\
 		himyar.svg		\
 		hittite.svg		\
