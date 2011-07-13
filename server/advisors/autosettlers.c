@@ -626,7 +626,9 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 void auto_settlers_player(struct player *pplayer) 
 {
   static struct timer *t = NULL;      /* alloc once, never free */
-  struct settlermap state[MAP_INDEX_SIZE];
+  struct settlermap *state;
+
+  state = fc_calloc(MAP_INDEX_SIZE, sizeof(*state));
 
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
@@ -693,4 +695,6 @@ void auto_settlers_player(struct player *pplayer)
                 nation_rule_name(nation_of_player(pplayer)),
                 1000.0 * read_timer_seconds(t));
   }
+
+  FC_FREE(state);
 }

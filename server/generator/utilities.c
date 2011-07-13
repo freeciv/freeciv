@@ -177,21 +177,24 @@ bool is_normal_nat_pos(int x, int y)
   return is_normal_map_pos(x, y);
 }
 
-/****************************************************************************
+/*******************************************************************************
   Apply a Gaussian diffusion filter on the map. The size of the map is
   MAP_INDEX_SIZE and the map is indexed by native_pos_to_index function.
   If zeroes_at_edges is set, any unreal position on diffusion has 0 value
   if zeroes_at_edges in unset the unreal position are not counted.
-****************************************************************************/
+*******************************************************************************/
 void smooth_int_map(int *int_map, bool zeroes_at_edges)
 {
-  float weight[5] = { 0.13, 0.19, 0.37, 0.19, 0.13 };
+  static const float weight_standard[5] = { 0.13, 0.19, 0.37, 0.19, 0.13 };
+  static const float weight_isometric[5] = { 0.15, 0.21, 0.29, 0.21, 0.15 };
+  const float *weight;
   bool axe = TRUE;
-  int alt_int_map[MAP_INDEX_SIZE];
   int *target_map, *source_map;
+  int *alt_int_map = fc_calloc(MAP_INDEX_SIZE, sizeof(*alt_int_map));
 
   fc_assert_ret(NULL != int_map);
 
+  weight = weight_standard;
   target_map = alt_int_map;
   source_map = int_map;
 
@@ -210,9 +213,7 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
     } whole_map_iterate_end;
 
     if (MAP_IS_ISOMETRIC) {
-      weight[0] = weight[4] = 0.15;
-      weight[1] = weight[3] = 0.21;
-      weight[2] = 0.29;
+      weight = weight_isometric;
     }
 
     axe = !axe;
@@ -221,6 +222,8 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
     target_map = int_map;
 
   } while (!axe);
+
+  FC_FREE(alt_int_map);
 }
 
 /* These arrays are indexed by continent number (or negative of the
@@ -269,41 +272,64 @@ static void recalculate_lake_surrounders(void)
   } whole_map_iterate_end;
 }
 
-/**************************************************************************
-  Number this tile and nearby tiles (recursively) with the specified
-  continent number nr, using a flood-fill algorithm.
+/*******************************************************************************
+  Number this tile and nearby tiles with the specified continent number 'nr'.
+  Due to the number of recursion for large maps a non-recursive algorithm is
+  utilised.
 
   is_land tells us whether we are assigning continent numbers or ocean 
   numbers.
-**************************************************************************/
+*******************************************************************************/
 static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
 {
-  const struct terrain *pterrain = tile_terrain(ptile);
+  struct tile_list *tlist = NULL;
+  const struct terrain *pterrain = NULL;
 
-  if (tile_continent(ptile) != 0) {
-    return;
+  fc_assert_ret(ptile != NULL);
+
+  pterrain = tile_terrain(ptile);
+  /* Check if the initial tile is a valid tile for continent / ocean. */
+  fc_assert_ret(tile_continent(ptile) == 0
+                && T_UNKNOWN != pterrain
+                && XOR(is_land, terrain_has_flag(pterrain, TER_OCEANIC)));
+
+  /* Create tile list and insert the initial tile. */
+  tlist = tile_list_new();
+  tile_list_append(tlist, ptile);
+
+  while (tile_list_size(tlist) > 0) {
+    /* Iterate over all unchecked tiles. */
+    tile_list_iterate(tlist, ptile2) {
+      /* Iterate over the adjacent tiles. */
+      adjc_iterate(ptile2, ptile3) {
+        pterrain = tile_terrain(ptile3);
+
+        /* Check if it is a valid tile for continent / ocean. */
+        if (tile_continent(ptile3) != 0
+            || T_UNKNOWN == pterrain
+            || !XOR(is_land, terrain_has_flag(pterrain, TER_OCEANIC))) {
+          continue;
+        }
+
+        /* Add the tile to the list of tiles to check. */
+        if (!tile_list_search(tlist, ptile3)) {
+          tile_list_append(tlist, ptile3);
+        }
+      } adjc_iterate_end;
+
+      /* Set the continent data and remove the tile from the list. */
+      tile_set_continent(ptile2, nr);
+      tile_list_remove(tlist, ptile2);
+      /* count the tile */
+      if (nr < 0) {
+        ocean_sizes[-nr]++;
+      } else {
+        continent_sizes[nr]++;
+      }
+    } tile_list_iterate_end;
   }
 
-  if (T_UNKNOWN == pterrain) {
-    return;
-  }
-
-  if (!XOR(is_land, terrain_has_flag(pterrain, TER_OCEANIC))) {
-    return;
-  }
-
-  tile_set_continent(ptile, nr);
-  
-  /* count the tile */
-  if (nr < 0) {
-    ocean_sizes[-nr]++;
-  } else {
-    continent_sizes[nr]++;
-  }
-
-  adjc_iterate(ptile, tile1) {
-    assign_continent_flood(tile1, is_land, nr);
-  } adjc_iterate_end;
+  tile_list_destroy(tlist);
 }
 
 /**************************************************************************

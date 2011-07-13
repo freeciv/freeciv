@@ -1279,7 +1279,7 @@ static void map_load_known(struct section_file *file,
                            const char *savefile_options)
 {
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
-    int known[MAP_INDEX_SIZE];
+    int *known = fc_calloc(MAP_INDEX_SIZE, sizeof(int));
 
     /* get 4-bit segments of the first half of the 32-bit "known" field */
     LOAD_MAP_DATA(ch, nat_y, ptile,
@@ -1324,6 +1324,7 @@ static void map_load_known(struct section_file *file,
         }
       } players_iterate_end;
     } whole_map_iterate_end;
+    FC_FREE(known);
   }
   map.server.have_resources = TRUE;
 }
@@ -1515,11 +1516,10 @@ static void map_save(struct section_file *file, bool save_players)
     secfile_insert_bool(file, game.server.save_options.save_known,
                         "game.save_known");
     if (game.server.save_options.save_known) {
-      int known[MAP_INDEX_SIZE];
+      int *known = fc_calloc(MAP_INDEX_SIZE, sizeof(int));
 
       /* HACK: we convert the data into a 32-bit integer, and then save it as
        * hex. */
-      memset(known, 0, sizeof(known));
       whole_map_iterate(ptile) {
         players_iterate(pplayer) {
           if (map_is_known(ptile, pplayer)) {
@@ -1545,6 +1545,7 @@ static void map_save(struct section_file *file, bool save_players)
                            bin2ascii_hex(known[tile_index(ptile)], 6));
       SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
                            bin2ascii_hex(known[tile_index(ptile)], 7));
+      FC_FREE(known);
     }
   }
 }

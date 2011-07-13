@@ -3961,8 +3961,9 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	  int count = sprite_vector_size(&dlp->base);
 
 	  if (count > 0) {
-	    /* Pseudo-random reproducable algorithm to pick a sprite. */
-            count = fc_randomly(tile_index(ptile), count);
+            /* Pseudo-random reproducable algorithm to pick a sprite. Use modulo
+             * to limit the number to a handleable size [0..32000). */
+            count = fc_randomly(tile_index(ptile) % 32000, count);
 
 	    if (dlp->is_tall) {
 	      ox += FULL_TILE_X_OFFSET;

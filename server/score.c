@@ -155,9 +155,8 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
 ****************************************************************************/
 static void build_landarea_map(struct claim_map *pcmap)
 {
-  bv_player claims[MAP_INDEX_SIZE];
+  bv_player *claims = fc_calloc(MAP_INDEX_SIZE, sizeof(*claims));
 
-  memset(claims, 0, sizeof(claims));
   memset(pcmap, 0, sizeof(*pcmap));
 
   /* First calculate claims: which tiles are owned by each player. */
@@ -200,6 +199,8 @@ static void build_landarea_map(struct claim_map *pcmap)
       pcmap->player[player_index(owner)].landarea++;
     }
   } whole_map_iterate_end;
+
+  FC_FREE(claims);
 
 #if LAND_AREA_DEBUG >= 2
   print_landarea_map(pcmap, turn);

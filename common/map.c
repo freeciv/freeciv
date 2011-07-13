@@ -1087,7 +1087,9 @@ struct tile *rand_map_pos_filtered(void *data,
   /* If that fails, count all available spots and pick one.
    * Slow but reliable. */
   if (tries == max_tries) {
-    int count = 0, positions[MAP_INDEX_SIZE];
+    int count = 0, *positions;
+
+    positions = fc_calloc(MAP_INDEX_SIZE, sizeof(*positions));
 
     whole_map_iterate(ptile) {
       if (filter(ptile, data)) {
@@ -1097,13 +1099,14 @@ struct tile *rand_map_pos_filtered(void *data,
     } whole_map_iterate_end;
 
     if (count == 0) {
-      return NULL;
+      ptile = NULL;
+    } else {
+      ptile = map.tiles + positions[fc_rand(count)];
     }
 
-    return map.tiles + positions[fc_rand(count)];
-  } else {
-    return ptile;
+    FC_FREE(positions);
   }
+  return ptile;
 }
 
 /**************************************************************************
