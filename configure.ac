@@ -148,6 +148,9 @@ AC_ARG_ENABLE(ipv6,
 esac], [ipv6=test])
 if test x$ipv6 != xno ; then
   enable_ipv6=yes
+  dnl We check some functions (getaddrinfo) twice. Once unconditionally
+  dnl to get HAVE_xxx always correctly set. We need separate check here to
+  dnl correcly disable IPv6 when function is not available.
   AC_CHECK_FUNCS([getaddrinfo inet_pton inet_ntop getnameinfo],
 [], [enable_ipv6=no])
   if test x$enable_ipv6 = xyes ; then
@@ -967,7 +970,7 @@ fi
 AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
 		getpwuid inet_aton select snooze strcasecmp strcasestr \
 		strerror strlcat strlcpy strncasecmp strstr uname usleep \
-                getline _strcoll stricoll _stricoll strcasecoll])
+                getline _strcoll stricoll _stricoll strcasecoll getaddrinfo])
 
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,

@@ -365,7 +365,7 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
 
 #ifdef IPV6_SUPPORT
   struct sockaddr_in6 *sock6;
-#else  /* IPv6 support */
+#elif !defined(HAVE_GETADDRINFO)  /* IPv6 support */
   struct hostent *hp;
 #endif /* IPv6 support */
 
@@ -379,17 +379,20 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
       return TRUE;
     }
   }
+#endif /* IPV6_SUPPORT */
 
-  /* IPv4 handling.
-   * TODO: This should be used also for IPv4-only compilation if
-   *       getaddrinfo() is available */
+  /* IPv4 handling */
+
+  /* IPv6-enabled Freeciv always has HAVE_GETADDRINFO, IPv4-only Freeciv not
+   * necessarily */
+#ifdef HAVE_GETADDRINFO
   if (net_lookup_getaddrinfo(name, port, sock4, sizeof(*sock4), AF_INET)) {
     return TRUE;
   }
 
   return FALSE;
 
-#else  /* IPV6_SUPPORT */
+#else  /* HAVE_GETADDRINFO */
 
   addr->saddr.sa_family = AF_INET;
   sock4->sin_port = htons(port);
@@ -416,7 +419,7 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
   memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
   return TRUE;
 
-#endif /* !IPV6_SUPPORT */
+#endif /* !HAVE_GETADDRINFO */
 
 }
 
