@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-27 23:48+0200\n"
-"PO-Revision-Date: 2011-07-01 16:18+0200\n"
+"POT-Creation-Date: 2011-07-04 14:01+0200\n"
+"PO-Revision-Date: 2011-09-08 12:32+0200\n"
 "Last-Translator: Freeciv <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr "Alimento"
 msgid "Shield"
 msgstr "Producción"
 
-#: common/city.c:83 data/Freeciv.in:3069 data/civ1/techs.ruleset:566
+#: common/city.c:83 data/Freeciv.in:3070 data/civ1/techs.ruleset:566
 #: data/civ2/techs.ruleset:733 data/default/techs.ruleset:737
 #: data/experimental/techs.ruleset:739 data/multiplayer/techs.ruleset:745
 msgid "Trade"
@@ -335,7 +335,7 @@ msgstr "Incitar revuelta"
 msgid "Poison"
 msgstr "Envenenar"
 
-#: common/events.c:122 common/events.c:129 data/Freeciv.in:2415
+#: common/events.c:122 common/events.c:129 data/Freeciv.in:2416
 msgid "Sabotage"
 msgstr "Sabotear"
 
@@ -5326,7 +5326,7 @@ msgstr "(construyendo %s en %s (%s, %s))\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "(construyendo %s en %s (%s))\n"
 
-#: server/report.c:442 client/gui-gtk-2.0/menu.c:1303
+#: server/report.c:442 client/gui-gtk-2.0/menu.c:1323
 #: client/gui-xaw/menu.c:232 client/gui-xaw/menu.c:254
 #: client/include/helpdlg_g.h:45 data/helpdata.txt:991
 msgid "Wonders of the World"
@@ -6155,7 +6155,9 @@ msgstr "Existencia de islas 1x1"
 msgid ""
 "This setting controls whether the map generator is allowed to make islands "
 "of one only tile size."
-msgstr "Esta opción controla si al generador de mapas se le permite hacer islas del tamaño de una sola casilla."
+msgstr ""
+"Esta opción controla si al generador de mapas se le permite hacer islas del "
+"tamaño de una sola casilla."
 
 #: server/settings.c:1019
 msgid "Whether the poles are separate continents"
@@ -6476,8 +6478,8 @@ msgid ""
 msgstr ""
 "Al comienzo de la partida, cada jugador recibirá este número de tecnologías. "
 "La tecnologías serán escogidas aleatoriamente para cada jugador. Dependiendo "
-"del valor de tech_cost_style en el ruleset, un valor alto en 'techlevel' puede "
-"hacer que las siguientes tecnologías sean muy caras."
+"del valor de tech_cost_style en el ruleset, un valor alto en 'techlevel' "
+"puede hacer que las siguientes tecnologías sean muy caras."
 
 #: server/settings.c:1245
 msgid "Technology cost multiplier percentage"
@@ -6594,8 +6596,8 @@ msgid ""
 "points."
 msgstr ""
 "Por cada avance tecnológico que obtengas \"gratis\" (es decir, por casos "
-"diferentes de los cubiertos por 'diplcost' y 'conquercost': en concreto, de las "
-"chozas o de la Gran Biblioteca), pierdes una cantidad de puntos de "
+"diferentes de los cubiertos por 'diplcost' y 'conquercost': en concreto, de "
+"las chozas o de la Gran Biblioteca), pierdes una cantidad de puntos de "
 "investigación igual a este porcentaje del coste de investigar un nuevo "
 "avance. Así, puedes acabar con un número negativo de puntos de investigación "
 "si no es cero."
@@ -6655,8 +6657,8 @@ msgid ""
 msgstr ""
 "En todas las ciudades con tamaño menor que éste existe una penalización. "
 "Esta penalización es 100% en el comercio (nada de comercio) para las "
-"ciudades con tamaño hasta 'notradesize', y disminuye gradualmente hasta el 0% (sin "
-"penalización excepto por la corrupción normal) para un tamaño de "
+"ciudades con tamaño hasta 'notradesize', y disminuye gradualmente hasta el "
+"0% (sin penalización excepto por la corrupción normal) para un tamaño de "
 "'fulltradesize'. Véase también 'notradesize'."
 
 #: server/settings.c:1374
@@ -6671,10 +6673,10 @@ msgid ""
 "amount. The produced trade increases gradually for cities larger than "
 "'notradesize' and smaller than 'fulltradesize'. See also 'fulltradesize'."
 msgstr ""
-"Todas las ciudades con un tamaño mayor a éste no generan comercio "
-"alguno. Conforme el tamaño de la ciudad se aproxima a 'fulltradesize' "
-"y es mayor que 'notradesize' , el comercio generado va aumentando. "
-"Véase también 'fulltradesize'."
+"Todas las ciudades con un tamaño mayor a éste no generan comercio alguno. "
+"Conforme el tamaño de la ciudad se aproxima a 'fulltradesize' y es mayor que "
+"'notradesize' , el comercio generado va aumentando. Véase también "
+"'fulltradesize'."
 
 #: server/settings.c:1386
 msgid "Minimum distance between cities"
@@ -7308,19 +7310,21 @@ msgstr ""
 "cuales identifica un tipo o estado de una civilización (jugador).\n"
 "Sólo se permitirá que los clientes controlen o observen aquellos jugadores "
 "que se correspondan con una de las letras especificadas. Esto sólo afecta a "
-"futuros usos de \"take\" o \"observe\"; las conexiones actuales no se modifican. Los "
-"caracteres y sus significados son:\n"
+"futuros usos de \"take\" o \"observe\"; las conexiones actuales no se "
+"modifican. Los caracteres y sus significados son:\n"
 "    o,O = Observador global\n"
 "    b   = Jugadores bárbaros\n"
 "    d   = Jugadores muertos\n"
 "    a,A = Jugadores controlados por ordenador\n"
 "    h,H = Jugadores humanos\n"
-"La primera descripción de esta lista que se concuerda con un jugador es la que se "
-"aplica. Así 'd' no incluye a los bárbaros, 'a' no incluye a los jugadores controlados "
-"por el ordenador muertos, etcétera.  Las letras mayúsculas sólo se aplican antes "
-"del comienzo de la partida, las minúsculas después.\n"
+"La primera descripción de esta lista que se concuerda con un jugador es la "
+"que se aplica. Así 'd' no incluye a los bárbaros, 'a' no incluye a los "
+"jugadores controlados por el ordenador muertos, etcétera.  Las letras "
+"mayúsculas sólo se aplican antes del comienzo de la partida, las minúsculas "
+"después.\n"
 "A continuación de cada uno de los anteriores caracteres se puede usar uno de "
-"los siguientes dígitos para permitir o restringir ciertos tipos de conexiones:\n"
+"los siguientes dígitos para permitir o restringir ciertos tipos de "
+"conexiones:\n"
 "(nada) = Conexiones con control, observadores, se puede desplazar "
 "conexiones. (Desplazar conexiones significa que puede tomar el control sobre "
 "un jugador, aunque otro usuario esté controlado un jugador).\n"
@@ -7875,7 +7879,7 @@ msgid "Server: bad address: <%s:%d>."
 msgstr "Servidor: dirección incorrecta: <%s:%d>."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1448 data/Freeciv.in:3342 data/Freeciv.in:3343
+#: server/sernet.c:1448 data/Freeciv.in:3343 data/Freeciv.in:3344
 msgid "Pregame"
 msgstr "Prepartida"
 
@@ -9831,7 +9835,9 @@ msgstr "La unidad no puede realizar acciones diplomáticas desde %s."
 #: server/unithand.c:1366
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
-msgstr "Primero debes declarar la guerra a %s.  Intenta usar el diálogo de jugadores (F3)."
+msgstr ""
+"Primero debes declarar la guerra a %s.  Intenta usar el diálogo de jugadores "
+"(F3)."
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1408
@@ -10658,7 +10664,7 @@ msgstr "Mejores unidades defensivas"
 #: client/cityrepdata.c:514 client/cityrepdata.c:518
 #: client/gui-gtk-2.0/cityrep.c:1510 client/gui-gtk-2.0/cityrep.c:1529
 #: client/gui-gtk-2.0/cityrep.c:1548 client/gui-gtk-2.0/cityrep.c:1567
-#: client/gui-gtk-2.0/cityrep.c:1587 client/gui-gtk-2.0/menu.c:1305
+#: client/gui-gtk-2.0/cityrep.c:1587 client/gui-gtk-2.0/menu.c:1325
 #: client/gui-gtk-2.0/repodlgs.c:1546 client/gui-sdl/helpdlg.c:697
 #: client/gui-sdl/mapctrl.c:1617 client/gui-sdl/repodlgs.c:359
 #: client/gui-xaw/menu.c:162 client/gui-xaw/menu.c:224
@@ -10751,7 +10757,7 @@ msgstr "-C"
 msgid "Corruption"
 msgstr "Corrupción"
 
-#: client/cityrepdata.c:543 client/gui-gtk-2.0/menu.c:1297
+#: client/cityrepdata.c:543 client/gui-gtk-2.0/menu.c:1317
 #: client/gui-gtk-2.0/repodlgs.c:1034 client/gui-sdl/mapctrl.c:1403
 #: client/gui-xaw/menu.c:228 client/gui-xaw/menu.c:251
 #: client/gui-xaw/repodlgs.c:652 client/gui-xaw/repodlgs.c:780
@@ -10824,7 +10830,7 @@ msgid "?cma:Governor"
 msgstr "Gobernador"
 
 #: client/cityrepdata.c:559 client/gui-gtk-2.0/cityrep.c:1887
-#: client/gui-gtk-2.0/menu.c:1328 client/gui-sdl/citydlg.c:3824
+#: client/gui-gtk-2.0/menu.c:1348 client/gui-sdl/citydlg.c:3824
 #: client/gui-sdl/cma_fe.c:851 client/gui-xaw/menu.c:267
 #: client/include/helpdlg_g.h:33 data/Freeciv.in:1459 data/helpdata.txt:1690
 msgid "Citizen Governor"
@@ -11203,7 +11209,7 @@ msgid "Oh my! You seem to have no capital!"
 msgstr "¡Vaya! ¡Parece que no tienes capital!"
 
 #: client/editor.c:139 client/gui-gtk-2.0/editprop.c:4019
-#: client/gui-gtk-2.0/menu.c:1295 client/gui-xaw/menu.c:153
+#: client/gui-gtk-2.0/menu.c:1315 client/gui-xaw/menu.c:153
 #: client/gui-xaw/menu.c:250 client/include/helpdlg_g.h:44
 #: manual/civmanual.c:271 data/helpdata.txt:277
 msgid "Terrain"
@@ -13151,13 +13157,13 @@ msgstr "Ventana de acciones de la caravana"
 
 #: client/options.c:1914
 msgid ""
-"If this option is enabled, when caravans arrive at a city where they can "
-"establish a trade route or help build a wonder, a window will popup asking "
-"which action should be performed. Disabling this option means you will have "
-"to do the action manually by pressing either 'r' (for a trade route) or "
-"'b' (for building a wonder) when the caravan is in the city."
+"If this option is enabled, when caravans or similar units arrive at a city "
+"where they can establish a trade route or help build a wonder, a window will "
+"pop up asking which action should be performed. Disabling this option means "
+"you will have to do the action manually by pressing either 'r' (for a trade "
+"route) or 'b' (for building a wonder) when the unit is in the city."
 msgstr ""
-"Si se habilita esta opción, cuando las caravanas lleguen a una ciudad en la "
+"Si se habilita esta opción, cuando las caravanas o similares lleguen a una ciudad en la "
 "que pueden establecer una ruta comercial o ayudar a construir una maravilla, "
 "aparecerá una ventana emergente solicitando qué acción debe ser realizada. "
 "Desactivar esta opción significa que tendrá que realizar la acción "
@@ -13683,7 +13689,9 @@ msgstr "Árbol de requisitos"
 
 #: client/options.c:2196
 msgid "This font is used to the display the requirement tree in the Research report."
-msgstr "Esta fuente se utiliza para mostrar el árbol de requisitos en el informe de investigación."
+msgstr ""
+"Esta fuente se utiliza para mostrar el árbol de requisitos en el informe de "
+"investigación."
 
 #: client/options.c:2202
 msgid "Fullscreen"
@@ -14204,8 +14212,8 @@ msgstr "de %s"
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
 #: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1211
 #: data/Freeciv.in:1493 data/Freeciv.in:2215 data/Freeciv.in:2229
-#: data/Freeciv.in:2248 data/Freeciv.in:2428 data/Freeciv.in:2452
-#: data/Freeciv.in:2471 data/Freeciv.in:2482
+#: data/Freeciv.in:2248 data/Freeciv.in:2429 data/Freeciv.in:2453
+#: data/Freeciv.in:2472 data/Freeciv.in:2483
 msgid "Yes"
 msgstr "Sí"
 
@@ -14835,7 +14843,7 @@ msgstr[1] ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:106
 #: client/gui-sdl/diplomat_dialog.c:705 client/gui-sdl/diplomat_dialog.c:1397
-#: data/Freeciv.in:2426 data/Freeciv.in:2439
+#: data/Freeciv.in:2427 data/Freeciv.in:2440
 msgid "Bribe Enemy Unit"
 msgstr "Sobornar unidad enemiga"
 
@@ -14859,13 +14867,13 @@ msgstr[1] ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:114
 #: client/gui-gtk-2.0/diplomat_dialog.c:580
 #: client/gui-sdl/diplomat_dialog.c:1265 client/gui-sdl/diplomat_dialog.c:1478
-#: data/Freeciv.in:2461
+#: data/Freeciv.in:2462
 msgid "Traitors Demand Too Much!"
 msgstr "¡Los traidores piden demasiado!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:244
-#: client/gui-sdl/diplomat_dialog.c:654 data/Freeciv.in:2292
-#: data/Freeciv.in:2325 data/Freeciv.in:2342
+#: client/gui-sdl/diplomat_dialog.c:654 data/Freeciv.in:2293
+#: data/Freeciv.in:2326 data/Freeciv.in:2343
 msgid "Steal Technology"
 msgstr "Robar tecnología"
 
@@ -14874,7 +14882,7 @@ msgid "_Steal"
 msgstr "_Robar"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:258
-#: client/gui-sdl/diplomat_dialog.c:255 data/Freeciv.in:2357
+#: client/gui-sdl/diplomat_dialog.c:255 data/Freeciv.in:2358
 msgid "Select Advance to Steal"
 msgstr "Elige qué avance robar"
 
@@ -14889,7 +14897,7 @@ msgstr "_Avances:"
 msgid "At Spy's Discretion"
 msgstr "Lo que decida el Espía"
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:388 data/Freeciv.in:2384
+#: client/gui-gtk-2.0/diplomat_dialog.c:388 data/Freeciv.in:2385
 msgid "Sabotage Improvements"
 msgstr "Sabotear Instalaciones"
 
@@ -14898,7 +14906,7 @@ msgid "_Sabotage"
 msgstr "_Sabotear"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:402
-#: client/gui-sdl/diplomat_dialog.c:850 data/Freeciv.in:2399
+#: client/gui-sdl/diplomat_dialog.c:850 data/Freeciv.in:2400
 msgid "Select Improvement to Sabotage"
 msgstr "Elige qué Instalación sabotear"
 
@@ -14940,7 +14948,7 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:571
-#: client/gui-sdl/diplomat_dialog.c:1146 data/Freeciv.in:2450
+#: client/gui-sdl/diplomat_dialog.c:1146 data/Freeciv.in:2451
 msgid "Incite a Revolt!"
 msgstr "¡Provocar una sublevación!"
 
@@ -14972,7 +14980,7 @@ msgstr ""
 "¿Qué deseas hacer?"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:647
-#: client/gui-sdl/diplomat_dialog.c:560 data/Freeciv.in:2280
+#: client/gui-sdl/diplomat_dialog.c:560 data/Freeciv.in:2281
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Elige la estrategia de tu diplomático"
 
@@ -15002,12 +15010,12 @@ msgstr "_Provocar una sublevación"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:653
 #: client/gui-gtk-2.0/diplomat_dialog.c:678
-#: client/gui-gtk-2.0/caravan_dialog.c:121
+#: client/gui-gtk-2.0/caravan_dialog.c:124
 msgid "_Keep moving"
 msgstr "_Seguir moviéndose"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:671
-#: client/gui-sdl/diplomat_dialog.c:556 data/Freeciv.in:2306
+#: client/gui-sdl/diplomat_dialog.c:556 data/Freeciv.in:2307
 msgid "Choose Your Spy's Strategy"
 msgstr "Elige el objetivo de tu espía"
 
@@ -15020,7 +15028,7 @@ msgid "Industrial _Sabotage"
 msgstr "_Sabotaje industrial"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:712
-#: client/gui-sdl/diplomat_dialog.c:565 data/Freeciv.in:2437
+#: client/gui-sdl/diplomat_dialog.c:565 data/Freeciv.in:2438
 msgid "Subvert Enemy Unit"
 msgstr "Sobornar a una unidad enemiga"
 
@@ -15051,24 +15059,26 @@ msgstr "Ayudar a construir la _Maravilla (quedan %d)"
 msgid "Help build _Wonder"
 msgstr "Ayudar a construir la _maravilla"
 
-#: client/gui-gtk-2.0/caravan_dialog.c:102 client/gui-xaw/dialogs.c:455
+#. TRANS: %s is a unit type
+#: client/gui-gtk-2.0/caravan_dialog.c:103
+#, c-format
+msgid "Your %s Has Arrived"
+msgstr "Tu %s ha llegado"
+
+#: client/gui-gtk-2.0/caravan_dialog.c:105 client/gui-xaw/dialogs.c:455
 #, c-format
 msgid ""
-"Your caravan from %s reaches the city of %s.\n"
+"Your %s from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"Tu Caravana de %s ha llegado a %s.\n"
+"Tu %s de %s ha llegado a %s.\n"
 "¿Y ahora qué?"
 
-#: client/gui-gtk-2.0/caravan_dialog.c:116 data/Freeciv.in:2266
-msgid "Your Caravan Has Arrived"
-msgstr "Tu Caravana ha llegado"
-
-#: client/gui-gtk-2.0/caravan_dialog.c:118
+#: client/gui-gtk-2.0/caravan_dialog.c:121
 msgid "Establish _Trade route"
 msgstr "Establecer ru_ta comercial"
 
-#: client/gui-gtk-2.0/caravan_dialog.c:119
+#: client/gui-gtk-2.0/caravan_dialog.c:122
 msgid "Enter Marketplace"
 msgstr "Entrar al mercado"
 
@@ -15395,7 +15405,7 @@ msgstr "_Vigilancia"
 msgid "_Fortify unit"
 msgstr "_Atrincherar"
 
-#: client/gui-gtk-2.0/citydlg.c:2258 client/gui-gtk-2.0/menu.c:1515
+#: client/gui-gtk-2.0/citydlg.c:2258 client/gui-gtk-2.0/menu.c:1535
 msgid "Set _Home City"
 msgstr "Asignar a esta ciudad"
 
@@ -15515,7 +15525,7 @@ msgstr "Gober_nador"
 msgid "S_ell"
 msgstr "V_ender"
 
-#: client/gui-gtk-2.0/cityrep.c:1096 client/gui-gtk-2.0/menu.c:1465
+#: client/gui-gtk-2.0/cityrep.c:1096 client/gui-gtk-2.0/menu.c:1485
 msgid "_Select"
 msgstr "_Seleccionar"
 
@@ -15523,7 +15533,7 @@ msgstr "_Seleccionar"
 msgid "_Display"
 msgstr "_Mostrar"
 
-#: client/gui-gtk-2.0/cityrep.c:1143 client/gui-gtk-2.0/menu.c:1299
+#: client/gui-gtk-2.0/cityrep.c:1143 client/gui-gtk-2.0/menu.c:1319
 #: client/gui-sdl/diplodlg.c:691 client/gui-xaw/cityrep.c:228
 #: client/gui-xaw/cityrep.c:534 client/gui-xaw/menu.c:161
 #: client/gui-xaw/menu.c:227 client/gui-xaw/menu.c:252
@@ -15695,21 +15705,21 @@ msgid "Inspect _City"
 msgstr "Abrir _ciudad"
 
 #: client/gui-gtk-2.0/dialogs.c:299 client/gui-sdl/dialogs.c:2355
-#: client/gui-xaw/dialogs.c:525
+#: client/gui-xaw/dialogs.c:526
 msgid "You say you wanna revolution?"
 msgstr "¿Quieres la revolución?"
 
 #: client/gui-gtk-2.0/dialogs.c:300 client/gui-sdl/dialogs.c:2374
-#: data/Freeciv.in:2469
+#: data/Freeciv.in:2470
 msgid "Revolution!"
 msgstr "¡Revolución!"
 
 #: client/gui-gtk-2.0/dialogs.c:361 client/gui-sdl/dialogs.c:2009
-#: data/Freeciv.in:2507
+#: data/Freeciv.in:2508
 msgid "What To Pillage"
 msgstr "Qué saquear"
 
-#: client/gui-gtk-2.0/dialogs.c:362 data/Freeciv.in:2509
+#: client/gui-gtk-2.0/dialogs.c:362 data/Freeciv.in:2510
 msgid "Select what to pillage:"
 msgstr "Elige qué deseas saquear:"
 
@@ -15747,12 +15757,12 @@ msgstr "Grupos de _Naciones:"
 msgid "Edit Nation"
 msgstr "Editar Nación"
 
-#: client/gui-gtk-2.0/dialogs.c:850 data/Freeciv.in:3137
+#: client/gui-gtk-2.0/dialogs.c:850 data/Freeciv.in:3138
 msgid "What Nation Will You Be?"
 msgstr "¿Qué nación quieres ser?"
 
 #: client/gui-gtk-2.0/dialogs.c:852 client/gui-sdl/chatline.c:797
-#: data/Freeciv.in:3389
+#: data/Freeciv.in:3390
 msgid "Pick Nation"
 msgstr "Elegir Nación"
 
@@ -15788,26 +15798,26 @@ msgstr "Estilo de las ciudade_s:"
 msgid "_Description"
 msgstr "Leyen_da"
 
-#: client/gui-gtk-2.0/dialogs.c:1302 client/gui-xaw/dialogs.c:1508
+#: client/gui-gtk-2.0/dialogs.c:1302 client/gui-xaw/dialogs.c:1509
 msgid "You must select your sex."
 msgstr "Debes elegir tu sexo."
 
-#: client/gui-gtk-2.0/dialogs.c:1307 client/gui-xaw/dialogs.c:1513
+#: client/gui-gtk-2.0/dialogs.c:1307 client/gui-xaw/dialogs.c:1514
 msgid "You must select your city style."
 msgstr "Debes elegir el estilo de tus ciudades."
 
 #: client/gui-gtk-2.0/dialogs.c:1316 client/gui-sdl/dialogs.c:2473
-#: client/gui-xaw/dialogs.c:1521
+#: client/gui-xaw/dialogs.c:1522
 msgid "You must type a legal name."
 msgstr "Debes teclear un nombre válido."
 
-#: client/gui-gtk-2.0/dialogs.c:1358 data/Freeciv.in:2491
+#: client/gui-gtk-2.0/dialogs.c:1358 data/Freeciv.in:2492
 msgid "Upgrade Unit!"
 msgstr "¡Mejorar la unidad!"
 
 #: client/gui-gtk-2.0/dialogs.c:1367 client/gui-gtk-2.0/repodlgs.c:1521
 #: client/gui-sdl/dialogs.c:675 client/gui-sdl/repodlgs.c:195
-#: data/Freeciv.in:2480
+#: data/Freeciv.in:2481
 msgid "Upgrade Obsolete Units"
 msgstr "Actualizar unidades obsoletas"
 
@@ -15834,7 +15844,7 @@ msgstr "_Avances"
 msgid "All advances"
 msgstr "Todos los Avances"
 
-#: client/gui-gtk-2.0/diplodlg.c:360 client/gui-gtk-2.0/menu.c:1277
+#: client/gui-gtk-2.0/diplodlg.c:360 client/gui-gtk-2.0/menu.c:1297
 msgid "_Cities"
 msgstr "_Ciudades"
 
@@ -16120,7 +16130,7 @@ msgstr "Excluir Naciones"
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/editprop.c:4058 client/gui-gtk-2.0/plrdlg.c:410
 #: client/gui-sdl/mapctrl.c:1590 client/gui-sdl/plrdlg.c:617
-#: client/gui-xaw/menu.c:226 data/Freeciv.in:3201 data/Freeciv.in:3202
+#: client/gui-xaw/menu.c:226 data/Freeciv.in:3202 data/Freeciv.in:3203
 msgid "Nations"
 msgstr "Naciones"
 
@@ -16373,7 +16383,7 @@ msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1206 client/gui-gtk-2.0/gui_main.c:1214
-#: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2625
+#: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2626
 msgid "Turn Done"
 msgstr "Fin del turno"
 
@@ -16675,7 +16685,7 @@ msgid "Set local options"
 msgstr "Cambiar opciones locales"
 
 #: client/gui-gtk-2.0/menu.c:128 client/gui-gtk-2.0/pages.c:1161
-#: client/gui-xaw/menu.c:563 data/Freeciv.in:3416 data/Freeciv.in:3425
+#: client/gui-xaw/menu.c:563 data/Freeciv.in:3417 data/Freeciv.in:3426
 msgid "Game Settings"
 msgstr "Preferencias de la partida"
 
@@ -16683,578 +16693,579 @@ msgstr "Preferencias de la partida"
 msgid "Leaving a local game will end it!"
 msgstr "Dejar un juego en local lo acabará!"
 
-#: client/gui-gtk-2.0/menu.c:1225
+#: client/gui-gtk-2.0/menu.c:1245
 msgid "_Game"
 msgstr "_Partida"
 
-#: client/gui-gtk-2.0/menu.c:1226
+#: client/gui-gtk-2.0/menu.c:1246
 msgid "_Options"
 msgstr "_Opciones"
 
-#: client/gui-gtk-2.0/menu.c:1227
+#: client/gui-gtk-2.0/menu.c:1247
 msgid "_Edit"
 msgstr "_Editar"
 
-#: client/gui-gtk-2.0/menu.c:1228
+#: client/gui-gtk-2.0/menu.c:1248
 msgid "?verb:_View"
 msgstr "_Ver"
 
-#: client/gui-gtk-2.0/menu.c:1229
+#: client/gui-gtk-2.0/menu.c:1249
 msgid "_Improvements"
 msgstr "_Instalaciones"
 
-#: client/gui-gtk-2.0/menu.c:1230
+#: client/gui-gtk-2.0/menu.c:1250
 msgid "C_ivilization"
 msgstr "C_ivilización"
 
-#: client/gui-gtk-2.0/menu.c:1231
+#: client/gui-gtk-2.0/menu.c:1251
 msgid "_Help"
 msgstr "_Ayuda"
 
-#: client/gui-gtk-2.0/menu.c:1239
+#: client/gui-gtk-2.0/menu.c:1259
 msgid "_Clear Chat Log"
 msgstr "Borrar Registro de _Chat"
 
-#: client/gui-gtk-2.0/menu.c:1241
+#: client/gui-gtk-2.0/menu.c:1261
 msgid "Save Chat _Log"
 msgstr "Guardar Registro de Cha_t"
 
-#: client/gui-gtk-2.0/menu.c:1244
+#: client/gui-gtk-2.0/menu.c:1264
 msgid "_Local Client"
 msgstr "_Locales del Cliente"
 
-#: client/gui-gtk-2.0/menu.c:1246
+#: client/gui-gtk-2.0/menu.c:1266
 msgid "_Message"
 msgstr "_Mensaje"
 
-#: client/gui-gtk-2.0/menu.c:1248
+#: client/gui-gtk-2.0/menu.c:1268
 msgid "_Remote Server"
 msgstr "Servidor _Remoto"
 
-#: client/gui-gtk-2.0/menu.c:1250
+#: client/gui-gtk-2.0/menu.c:1270
 msgid "Save Options _Now"
 msgstr "Guardar Opcio_nes Ahora"
 
-#: client/gui-gtk-2.0/menu.c:1253
+#: client/gui-gtk-2.0/menu.c:1273
 msgid "_Reload Tileset"
 msgstr "_Recargar Tileset"
 
-#: client/gui-gtk-2.0/menu.c:1255
+#: client/gui-gtk-2.0/menu.c:1275
 msgid "_Save Game"
 msgstr "Grabar(_S) partida"
 
-#: client/gui-gtk-2.0/menu.c:1257
+#: client/gui-gtk-2.0/menu.c:1277
 msgid "Save Game _As..."
 msgstr "Grabar p_artida como..."
 
-#: client/gui-gtk-2.0/menu.c:1259
+#: client/gui-gtk-2.0/menu.c:1279
 msgid "_Leave"
 msgstr "Abandonar(_L) partida"
 
-#: client/gui-gtk-2.0/menu.c:1261
+#: client/gui-gtk-2.0/menu.c:1281
 msgid "_Quit"
 msgstr "_Salir"
 
-#: client/gui-gtk-2.0/menu.c:1265
+#: client/gui-gtk-2.0/menu.c:1285
 msgid "_Find City"
 msgstr "Buscar ciudad (_F)"
 
-#: client/gui-gtk-2.0/menu.c:1267
+#: client/gui-gtk-2.0/menu.c:1287
 msgid "Work_lists"
 msgstr "_Listas de tareas"
 
-#: client/gui-gtk-2.0/menu.c:1271
+#: client/gui-gtk-2.0/menu.c:1291
 msgid "?noun:_View"
 msgstr "_Vista general"
 
-#: client/gui-gtk-2.0/menu.c:1273 client/gui-gtk-2.0/menu.c:1397
+#: client/gui-gtk-2.0/menu.c:1293 client/gui-gtk-2.0/menu.c:1417
 msgid "_Units"
 msgstr "_Unidades"
 
-#: client/gui-gtk-2.0/menu.c:1275
+#: client/gui-gtk-2.0/menu.c:1295
 msgid "_Nations"
 msgstr "_Naciones"
 
-#: client/gui-gtk-2.0/menu.c:1280
+#: client/gui-gtk-2.0/menu.c:1300
 msgid "_Wonders of the World"
 msgstr "_Maravillas del mundo"
 
-#: client/gui-gtk-2.0/menu.c:1282
+#: client/gui-gtk-2.0/menu.c:1302
 msgid "Top _Five Cities"
 msgstr "L_as cinco mayores ciudades"
 
-#: client/gui-gtk-2.0/menu.c:1284
+#: client/gui-gtk-2.0/menu.c:1304
 msgid "_Messages"
 msgstr "_Mensajes"
 
-#: client/gui-gtk-2.0/menu.c:1286
+#: client/gui-gtk-2.0/menu.c:1306
 msgid "_Demographics"
 msgstr "Informe _demográfico"
 
 #. TRANS: "Overview" topic in built-in help
-#: client/gui-gtk-2.0/menu.c:1291 client/gui-xaw/menu.c:248
+#: client/gui-gtk-2.0/menu.c:1311 client/gui-xaw/menu.c:248
 #: client/include/helpdlg_g.h:27 data/helpdata.txt:40
 msgid "?help:Overview"
 msgstr "Ayuda"
 
-#: client/gui-gtk-2.0/menu.c:1293 client/gui-xaw/menu.c:249
+#: client/gui-gtk-2.0/menu.c:1313 client/gui-xaw/menu.c:249
 #: data/helpdata.txt:73
 msgid "Strategy and Tactics"
 msgstr "Estrategia y Tácticas"
 
-#: client/gui-gtk-2.0/menu.c:1301 client/gui-xaw/menu.c:253
+#: client/gui-gtk-2.0/menu.c:1321 client/gui-xaw/menu.c:253
 #: client/include/helpdlg_g.h:39 data/helpdata.txt:966
 msgid "City Improvements"
 msgstr "Instalaciones urbanas"
 
-#: client/gui-gtk-2.0/menu.c:1307 client/gui-xaw/menu.c:256
+#: client/gui-gtk-2.0/menu.c:1327 client/gui-xaw/menu.c:256
 #: client/include/helpdlg_g.h:41 data/helpdata.txt:1085
 msgid "Combat"
 msgstr "Combates"
 
-#: client/gui-gtk-2.0/menu.c:1309 client/include/helpdlg_g.h:42
+#: client/gui-gtk-2.0/menu.c:1329 client/include/helpdlg_g.h:42
 #: data/helpdata.txt:1282
 msgid "Zones of Control"
 msgstr "Zonas de Control"
 
-#: client/gui-gtk-2.0/menu.c:1311 client/gui-xaw/menu.c:258
+#: client/gui-gtk-2.0/menu.c:1331 client/gui-xaw/menu.c:258
 #: client/include/helpdlg_g.h:46 data/Freeciv.in:2027 data/helpdata.txt:1337
 msgid "Government"
 msgstr "Gobiernos"
 
-#: client/gui-gtk-2.0/menu.c:1313 client/gui-xaw/menu.c:259
+#: client/gui-gtk-2.0/menu.c:1333 client/gui-xaw/menu.c:259
 #: client/include/helpdlg_g.h:47 data/Freeciv.in:215 data/helpdata.txt:1395
 msgid "Diplomacy"
 msgstr "Diplomacia"
 
-#: client/gui-gtk-2.0/menu.c:1315 client/gui-xaw/menu.c:260
+#: client/gui-gtk-2.0/menu.c:1335 client/gui-xaw/menu.c:260
 #: client/include/helpdlg_g.h:43 data/helpdata.txt:1438
 msgid "Technology"
 msgstr "Tecnología"
 
-#: client/gui-gtk-2.0/menu.c:1317 client/gui-xaw/menu.c:261
+#: client/gui-gtk-2.0/menu.c:1337 client/gui-xaw/menu.c:261
 #: client/include/helpdlg_g.h:48 data/helpdata.txt:1477
 msgid "Space Race"
 msgstr "Carrera espacial"
 
-#: client/gui-gtk-2.0/menu.c:1319 client/gui-xaw/menu.c:262
+#: client/gui-gtk-2.0/menu.c:1339 client/gui-xaw/menu.c:262
 #: client/include/helpdlg_g.h:35
 msgid "About Ruleset"
 msgstr "Acerca de Ruleset"
 
-#: client/gui-gtk-2.0/menu.c:1321 client/gui-xaw/menu.c:263
+#: client/gui-gtk-2.0/menu.c:1341 client/gui-xaw/menu.c:263
 #: client/include/helpdlg_g.h:36 data/helpdata.txt:1515
 msgid "About Nations"
 msgstr "Sobre las Naciones"
 
-#: client/gui-gtk-2.0/menu.c:1324 client/gui-xaw/menu.c:265
+#: client/gui-gtk-2.0/menu.c:1344 client/gui-xaw/menu.c:265
 #: client/include/helpdlg_g.h:30 data/helpdata.txt:1527
 msgid "Connecting"
 msgstr "Conectarse"
 
-#: client/gui-gtk-2.0/menu.c:1326 client/gui-xaw/menu.c:266
+#: client/gui-gtk-2.0/menu.c:1346 client/gui-xaw/menu.c:266
 #: client/include/helpdlg_g.h:34 data/helpdata.txt:1554
 msgid "Controls"
 msgstr "Controles"
 
-#: client/gui-gtk-2.0/menu.c:1330 client/gui-xaw/menu.c:268
+#: client/gui-gtk-2.0/menu.c:1350 client/gui-xaw/menu.c:268
 #: client/include/helpdlg_g.h:31 data/helpdata.txt:1739
 msgid "Chatline"
 msgstr "Línea de chat"
 
-#: client/gui-gtk-2.0/menu.c:1332 client/gui-xaw/menu.c:269
+#: client/gui-gtk-2.0/menu.c:1352 client/gui-xaw/menu.c:269
 #: client/include/helpdlg_g.h:32 data/helpdata.txt:1852
 msgid "Worklist Editor"
 msgstr "Editor de listas de tareas"
 
-#: client/gui-gtk-2.0/menu.c:1335 client/gui-xaw/menu.c:271
+#: client/gui-gtk-2.0/menu.c:1355 client/gui-xaw/menu.c:271
 #: client/include/helpdlg_g.h:29 data/helpdata.txt:1876
 msgid "Languages"
 msgstr "Idiomas"
 
-#: client/gui-gtk-2.0/menu.c:1337 client/gui-xaw/menu.c:272
+#: client/gui-gtk-2.0/menu.c:1357 client/gui-xaw/menu.c:272
 #: client/include/helpdlg_g.h:49 data/helpdata.txt:1906
 msgid "Copying"
 msgstr "Copiar"
 
-#: client/gui-gtk-2.0/menu.c:1339 client/gui-xaw/menu.c:273
+#: client/gui-gtk-2.0/menu.c:1359 client/gui-xaw/menu.c:273
 #: client/include/helpdlg_g.h:50 data/helpdata.txt:2208
 msgid "About Freeciv"
 msgstr "Acerca de Freeciv"
 
-#: client/gui-gtk-2.0/menu.c:1345
+#: client/gui-gtk-2.0/menu.c:1365
 msgid "Save Options on _Exit"
 msgstr "Guardar opciones al Salir(_E)"
 
-#: client/gui-gtk-2.0/menu.c:1349
+#: client/gui-gtk-2.0/menu.c:1369
 msgid "_Editing Mode"
 msgstr "Modo de _Editado"
 
-#: client/gui-gtk-2.0/menu.c:1353
+#: client/gui-gtk-2.0/menu.c:1373
 msgid "Cit_y Outlines"
 msgstr "Contornos de Ciudades (_Y)"
 
-#: client/gui-gtk-2.0/menu.c:1355
+#: client/gui-gtk-2.0/menu.c:1375
 msgid "City Output"
 msgstr "Resultados de la ciudad"
 
-#: client/gui-gtk-2.0/menu.c:1357
+#: client/gui-gtk-2.0/menu.c:1377
 msgid "Map _Grid"
 msgstr "Cuadrícula del mapa (_G)"
 
-#: client/gui-gtk-2.0/menu.c:1359
+#: client/gui-gtk-2.0/menu.c:1379
 msgid "National _Borders"
 msgstr "Fronteras nacionales (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1362
+#: client/gui-gtk-2.0/menu.c:1382
 msgid "City Full Bar"
 msgstr "Barra Completa de Ciudad"
 
-#: client/gui-gtk-2.0/menu.c:1364
+#: client/gui-gtk-2.0/menu.c:1384
 msgid "City _Names"
 msgstr "_Nombres de las ciudades"
 
-#: client/gui-gtk-2.0/menu.c:1366
+#: client/gui-gtk-2.0/menu.c:1386
 msgid "City G_rowth"
 msgstr "Ciudad C_rece"
 
-#: client/gui-gtk-2.0/menu.c:1368
+#: client/gui-gtk-2.0/menu.c:1388
 msgid "City _Production Levels"
 msgstr "Nivel de _Producción de las Ciudades"
 
-#: client/gui-gtk-2.0/menu.c:1371
+#: client/gui-gtk-2.0/menu.c:1391
 msgid "City Buy Cost"
 msgstr "Coste de compra"
 
-#: client/gui-gtk-2.0/menu.c:1373
+#: client/gui-gtk-2.0/menu.c:1393
 msgid "City Tra_deroutes"
 msgstr "Rutas comerciales de la Ciu_dad"
 
-#: client/gui-gtk-2.0/menu.c:1377
+#: client/gui-gtk-2.0/menu.c:1397
 msgid "_Terrain"
 msgstr "_Terreno"
 
-#: client/gui-gtk-2.0/menu.c:1379
+#: client/gui-gtk-2.0/menu.c:1399
 msgid "C_oastline"
 msgstr "Linea de C_osta"
 
-#: client/gui-gtk-2.0/menu.c:1382
+#: client/gui-gtk-2.0/menu.c:1402
 msgid "_Roads & Rails"
 msgstr "Caminos y Vías (_R)"
 
-#: client/gui-gtk-2.0/menu.c:1384
+#: client/gui-gtk-2.0/menu.c:1404
 msgid "_Irrigation"
 msgstr "Regadío (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1386
+#: client/gui-gtk-2.0/menu.c:1406
 msgid "_Mines"
 msgstr "_Minas"
 
-#: client/gui-gtk-2.0/menu.c:1388
+#: client/gui-gtk-2.0/menu.c:1408
 msgid "_Fortress & Airbase"
 msgstr "_Fortaleza y base aérea"
 
-#: client/gui-gtk-2.0/menu.c:1391
+#: client/gui-gtk-2.0/menu.c:1411
 msgid "_Specials"
 msgstr "E_speciales"
 
-#: client/gui-gtk-2.0/menu.c:1393
+#: client/gui-gtk-2.0/menu.c:1413
 msgid "Po_llution & Fallout"
 msgstr "Contaminación y Radioactividad (_L)"
 
-#: client/gui-gtk-2.0/menu.c:1395
+#: client/gui-gtk-2.0/menu.c:1415
 msgid "Citi_es"
 msgstr "Ciudad_es"
 
-#: client/gui-gtk-2.0/menu.c:1399
+#: client/gui-gtk-2.0/menu.c:1419
 msgid "Unit Solid Background"
 msgstr "Fondo Opaco de Unidades"
 
-#: client/gui-gtk-2.0/menu.c:1401
+#: client/gui-gtk-2.0/menu.c:1421
 msgid "Unit shields"
 msgstr "Producción de Unidad"
 
-#: client/gui-gtk-2.0/menu.c:1403
+#: client/gui-gtk-2.0/menu.c:1423
 msgid "Focu_s Unit"
 msgstr "Ob_servar unidad"
 
-#: client/gui-gtk-2.0/menu.c:1405
+#: client/gui-gtk-2.0/menu.c:1425
 msgid "Fog of _War"
 msgstr "Niebla de guerra (_W)"
 
-#: client/gui-gtk-2.0/menu.c:1407
+#: client/gui-gtk-2.0/menu.c:1427
 msgid "Better Fog of War"
 msgstr "Mejor Niebla de guerra"
 
-#: client/gui-gtk-2.0/menu.c:1410
+#: client/gui-gtk-2.0/menu.c:1430
 msgid "_Fullscreen"
 msgstr "_Pantalla Completa"
 
-#: client/gui-gtk-2.0/menu.c:1437
+#: client/gui-gtk-2.0/menu.c:1457
 msgid "Recalculate _Borders"
 msgstr "Recalcular _Bordes"
 
-#: client/gui-gtk-2.0/menu.c:1439
+#: client/gui-gtk-2.0/menu.c:1459
 msgid "Toggle Fog of _War"
 msgstr "Cambiar Niebla de guerra (_W)"
 
-#: client/gui-gtk-2.0/menu.c:1441
+#: client/gui-gtk-2.0/menu.c:1461
 msgid "Game/Scenario Properties"
 msgstr "Propiedades de la Partida/Escenario"
 
-#: client/gui-gtk-2.0/menu.c:1443 client/gui-gtk-2.0/pages.c:3009
+#: client/gui-gtk-2.0/menu.c:1463 client/gui-gtk-2.0/pages.c:3009
 msgid "Save Scenario"
 msgstr "Guardar el Escenario"
 
-#: client/gui-gtk-2.0/menu.c:1466
+#: client/gui-gtk-2.0/menu.c:1486
 msgid "_Unit"
 msgstr "_Unidad"
 
-#: client/gui-gtk-2.0/menu.c:1467
+#: client/gui-gtk-2.0/menu.c:1487
 msgid "_Work"
 msgstr "Trabajo (_W)"
 
-#: client/gui-gtk-2.0/menu.c:1468
+#: client/gui-gtk-2.0/menu.c:1488
 msgid "_Combat"
 msgstr "_Combate"
 
-#: client/gui-gtk-2.0/menu.c:1469
+#: client/gui-gtk-2.0/menu.c:1489
 msgid "Build _Base"
 msgstr "Construir _Base"
 
-#: client/gui-gtk-2.0/menu.c:1474
+#: client/gui-gtk-2.0/menu.c:1494
 msgid "_Single Unit (Unselect Others)"
 msgstr "Unidad _Sola (Deselecciona las Otras)"
 
-#: client/gui-gtk-2.0/menu.c:1476
+#: client/gui-gtk-2.0/menu.c:1496
 msgid "_All On Tile"
 msgstr "Tod_as en la Casilla"
 
-#: client/gui-gtk-2.0/menu.c:1479
+#: client/gui-gtk-2.0/menu.c:1499
 msgid "Same Type on _Tile"
 msgstr "Mismo _Tipo en Casilla"
 
-#: client/gui-gtk-2.0/menu.c:1481
+#: client/gui-gtk-2.0/menu.c:1501
 msgid "Same Type on _Continent"
 msgstr "Mismo Tipo en _Continente"
 
-#: client/gui-gtk-2.0/menu.c:1483
+#: client/gui-gtk-2.0/menu.c:1503
 msgid "Same Type _Everywhere"
 msgstr "Mismo Tipo en todas part_es"
 
-#: client/gui-gtk-2.0/menu.c:1486
+#: client/gui-gtk-2.0/menu.c:1506
 msgid "_Wait"
 msgstr "Esperar (_W)"
 
-#: client/gui-gtk-2.0/menu.c:1488
+#: client/gui-gtk-2.0/menu.c:1508
 msgid "_Done"
 msgstr "Hecho (_D)"
 
-#: client/gui-gtk-2.0/menu.c:1492
+#: client/gui-gtk-2.0/menu.c:1512
 msgid "_Go to"
 msgstr "Ir a (_G)"
 
-#: client/gui-gtk-2.0/menu.c:1494
+#: client/gui-gtk-2.0/menu.c:1514
 msgid "Go _to/Airlift to City..."
 msgstr "Ir a/Aero_transportar a ciudad..."
 
-#: client/gui-gtk-2.0/menu.c:1496
+#: client/gui-gtk-2.0/menu.c:1516
 msgid "_Return to Nearest City"
 msgstr "Volver a la ciudad más p_róxima"
 
-#: client/gui-gtk-2.0/menu.c:1498
+#: client/gui-gtk-2.0/menu.c:1518
 msgid "Auto E_xplore"
 msgstr "Autoe_xplorar"
 
-#: client/gui-gtk-2.0/menu.c:1500
+#: client/gui-gtk-2.0/menu.c:1520
 msgid "_Patrol"
 msgstr "_Patrullar"
 
-#: client/gui-gtk-2.0/menu.c:1503
+#: client/gui-gtk-2.0/menu.c:1523
 msgid "_Sentry"
 msgstr "Vigilancia (_S)"
 
-#: client/gui-gtk-2.0/menu.c:1505
+#: client/gui-gtk-2.0/menu.c:1525
 msgid "Uns_entry All On Tile"
 msgstr "No Vigilar Todas _en la Casilla"
 
-#: client/gui-gtk-2.0/menu.c:1508
+#: client/gui-gtk-2.0/menu.c:1528
 msgid "_Load"
 msgstr "Cargar (_L)"
 
-#: client/gui-gtk-2.0/menu.c:1510
+#: client/gui-gtk-2.0/menu.c:1530
 msgid "_Unload"
 msgstr "Descargar (_U)"
 
-#: client/gui-gtk-2.0/menu.c:1512
+#: client/gui-gtk-2.0/menu.c:1532
 msgid "U_nload All From Transporter"
 msgstr "Descargar Todas del Tra_nsporte"
 
-#: client/gui-gtk-2.0/menu.c:1517 client/gui-gtk-2.0/menu.c:2118
+#: client/gui-gtk-2.0/menu.c:1537 client/gui-gtk-2.0/menu.c:2122
 msgid "Upgr_ade"
 msgstr "Mejor_ar"
 
-#: client/gui-gtk-2.0/menu.c:1519 client/gui-gtk-2.0/menu.c:2138
+#: client/gui-gtk-2.0/menu.c:1539 client/gui-gtk-2.0/menu.c:2142
 msgid "C_onvert"
 msgstr "C_onvertir"
 
-#: client/gui-gtk-2.0/menu.c:1521 client/gui-gtk-2.0/repodlgs.c:1111
+#: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-2.0/repodlgs.c:1111
 msgid "_Disband"
 msgstr "_Desarticular"
 
-#: client/gui-gtk-2.0/menu.c:1525 client/gui-gtk-2.0/menu.c:2073
+#: client/gui-gtk-2.0/menu.c:1545 client/gui-gtk-2.0/menu.c:2077
 msgid "_Build City"
 msgstr "Construir ciudad (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1527
+#: client/gui-gtk-2.0/menu.c:1547
 msgid "Go _to and Build city"
 msgstr "Ir a y Cons_truir ciudad"
 
-#: client/gui-gtk-2.0/menu.c:1529
+#: client/gui-gtk-2.0/menu.c:1549
 msgid "_Auto Settler"
 msgstr "_Autocolonizar"
 
-#: client/gui-gtk-2.0/menu.c:1532 client/gui-gtk-2.0/menu.c:2094
-#: client/gui-gtk-2.0/menu.c:2097
+#: client/gui-gtk-2.0/menu.c:1552 client/gui-gtk-2.0/menu.c:2098
+#: client/gui-gtk-2.0/menu.c:2101
 msgid "Build _Road"
 msgstr "Const_ruir camino"
 
-#: client/gui-gtk-2.0/menu.c:1534 client/gui-gtk-2.0/menu.c:2155
-#: client/gui-gtk-2.0/menu.c:2175
+#: client/gui-gtk-2.0/menu.c:1554 client/gui-gtk-2.0/menu.c:2159
+#: client/gui-gtk-2.0/menu.c:2179
 msgid "Build _Irrigation"
 msgstr "Constru_ir regadío"
 
-#: client/gui-gtk-2.0/menu.c:1536 client/gui-gtk-2.0/menu.c:2163
-#: client/gui-gtk-2.0/menu.c:2176
+#: client/gui-gtk-2.0/menu.c:1556 client/gui-gtk-2.0/menu.c:2167
+#: client/gui-gtk-2.0/menu.c:2180
 msgid "Build _Mine"
 msgstr "Construir _mina"
 
-#: client/gui-gtk-2.0/menu.c:1539
+#: client/gui-gtk-2.0/menu.c:1559
 msgid "Connect With Roa_d"
 msgstr "Conectar con camino (_D)"
 
-#: client/gui-gtk-2.0/menu.c:1541
+#: client/gui-gtk-2.0/menu.c:1561
 msgid "Connect With Rai_l"
 msgstr "Conectar con vía férrea (_L)"
 
-#: client/gui-gtk-2.0/menu.c:1543
+#: client/gui-gtk-2.0/menu.c:1563
 msgid "Connect With Irri_gation"
 msgstr "Conectar con re_gadío"
 
-#: client/gui-gtk-2.0/menu.c:1546 client/gui-gtk-2.0/menu.c:2172
-#: client/gui-gtk-2.0/menu.c:2177
+#: client/gui-gtk-2.0/menu.c:1566 client/gui-gtk-2.0/menu.c:2176
+#: client/gui-gtk-2.0/menu.c:2181
 msgid "Transf_orm Terrain"
 msgstr "Transf_ormar el terreno"
 
-#: client/gui-gtk-2.0/menu.c:1548 client/gui-gtk-2.0/menu.c:2193
+#: client/gui-gtk-2.0/menu.c:1568 client/gui-gtk-2.0/menu.c:2197
 msgid "Clean _Pollution"
 msgstr "Descontaminar (_P)"
 
-#: client/gui-gtk-2.0/menu.c:1550
+#: client/gui-gtk-2.0/menu.c:1570
 msgid "Clean _Nuclear Fallout"
 msgstr "Limpiar la radioactividad (_N)"
 
-#: client/gui-gtk-2.0/menu.c:1554 client/gui-gtk-2.0/menu.c:2187
+#: client/gui-gtk-2.0/menu.c:1574 client/gui-gtk-2.0/menu.c:2191
 msgid "Build Type A Base"
 msgstr "Construir Base Tipo A"
 
-#: client/gui-gtk-2.0/menu.c:1556
+#: client/gui-gtk-2.0/menu.c:1576
 msgid "Build Type B Base"
 msgstr "Construir Base Tipo B"
 
-#: client/gui-gtk-2.0/menu.c:1559
+#: client/gui-gtk-2.0/menu.c:1579
 msgid "_Pillage"
 msgstr "Saqueo (_P)"
 
-#: client/gui-gtk-2.0/menu.c:1561
+#: client/gui-gtk-2.0/menu.c:1581
 msgid "_Diplomat/Spy Actions"
 msgstr "Acciones de _diplomático/espía"
 
-#: client/gui-gtk-2.0/menu.c:1563
+#: client/gui-gtk-2.0/menu.c:1583
 msgid "Explode _Nuclear"
 msgstr "Explosión _nuclear"
 
-#: client/gui-gtk-2.0/menu.c:1588
+#: client/gui-gtk-2.0/menu.c:1608
 msgid "_Government"
 msgstr "_Gobiernos"
 
-#: client/gui-gtk-2.0/menu.c:1593
+#: client/gui-gtk-2.0/menu.c:1613
 msgid "_Tax Rates..."
 msgstr "Impues_tos..."
 
-#: client/gui-gtk-2.0/menu.c:1619
+#: client/gui-gtk-2.0/menu.c:1616
+msgid "_Revolution..."
+msgstr "_Revolución..."
+
+#: client/gui-gtk-2.0/menu.c:1643
 msgid "_Center View"
 msgstr "C_entrar vista"
 
-#: client/gui-gtk-2.0/menu.c:1623
+#: client/gui-gtk-2.0/menu.c:1647
 msgid "_Economy"
 msgstr "_Economía"
 
-#: client/gui-gtk-2.0/menu.c:1625
+#: client/gui-gtk-2.0/menu.c:1649
 msgid "_Research"
 msgstr "_Investigar"
 
-#: client/gui-gtk-2.0/menu.c:1628 client/gui-gtk-2.0/plrdlg.c:357
+#: client/gui-gtk-2.0/menu.c:1652 client/gui-gtk-2.0/plrdlg.c:357
 msgid "_Spaceship"
 msgstr "_Nave espacial"
 
-#: client/gui-gtk-2.0/menu.c:2056
+#: client/gui-gtk-2.0/menu.c:2060
 msgid "Help _Build Wonder"
 msgstr "Contri_buir a la maravilla"
 
-#: client/gui-gtk-2.0/menu.c:2070 client/gui-sdl/menu.c:852
+#: client/gui-gtk-2.0/menu.c:2074 client/gui-sdl/menu.c:852
 #: client/gui-sdl/menu.c:1046 client/gui-xaw/menu.c:172
 msgid "Add to City"
 msgstr "Añadirse a la ciudad"
 
-#: client/gui-gtk-2.0/menu.c:2078
+#: client/gui-gtk-2.0/menu.c:2082
 msgid "Establish Trade _Route"
 msgstr "Establecer _ruta comercial"
 
-#: client/gui-gtk-2.0/menu.c:2092
+#: client/gui-gtk-2.0/menu.c:2096
 msgid "Build _Railroad"
 msgstr "Construir vía fé_rrea"
 
 #. TRANS: %s is a unit type.
-#: client/gui-gtk-2.0/menu.c:2106
+#: client/gui-gtk-2.0/menu.c:2110
 #, c-format
 msgid "Upgr_ade to %s"
 msgstr "Mejor_ar a %s"
 
 #. TRANS: %s is a unit type.
-#: client/gui-gtk-2.0/menu.c:2126
+#: client/gui-gtk-2.0/menu.c:2130
 #, c-format
 msgid "C_onvert to %s"
 msgstr "C_onvertir a %s"
 
-#: client/gui-gtk-2.0/menu.c:2147 client/gui-gtk-2.0/menu.c:2160
+#: client/gui-gtk-2.0/menu.c:2151 client/gui-gtk-2.0/menu.c:2164
 #: client/gui-xaw/menu.c:177 client/gui-xaw/menu.c:179
 #, c-format
 msgid "Change to %s"
 msgstr "Transformar a %s"
 
-#: client/gui-gtk-2.0/menu.c:2153
+#: client/gui-gtk-2.0/menu.c:2157
 msgid "Bu_ild Farmland"
 msgstr "Constru_ir huerta"
 
-#: client/gui-gtk-2.0/menu.c:2168
+#: client/gui-gtk-2.0/menu.c:2172
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Transf_ormar a %s"
 
-#: client/gui-gtk-2.0/menu.c:2185
+#: client/gui-gtk-2.0/menu.c:2189
 msgid "_Fortify Unit"
 msgstr "Atrincherar (_F)"
 
-#: client/gui-gtk-2.0/menu.c:2191
+#: client/gui-gtk-2.0/menu.c:2195
 msgid "Drop _Paratrooper"
 msgstr "Lanzar _Paracaidista"
 
-#: client/gui-gtk-2.0/menu.c:2256
-msgid "_Revolution..."
-msgstr "_Revolución..."
-
-#: client/gui-gtk-2.0/menu.c:2269
+#. TRANS: %s is a government name
+#: client/gui-gtk-2.0/menu.c:2270
 #, c-format
 msgid "%s..."
 msgstr "%s..."
@@ -17291,8 +17302,8 @@ msgid "Pop"
 msgstr "Ind"
 
 #: client/gui-gtk-2.0/messagewin.c:318 client/gui-sdl/messagewin.c:247
-#: client/gui-xaw/menu.c:234 data/Freeciv.in:3282 data/Freeciv.in:3283
-#: data/Freeciv.in:3292
+#: client/gui-xaw/menu.c:234 data/Freeciv.in:3283 data/Freeciv.in:3284
+#: data/Freeciv.in:3293
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -17910,8 +17921,8 @@ msgstr "%s voto %d por %s: %s%s"
 
 #: client/gui-sdl/caravan_dialog.c:131
 #, c-format
-msgid "Your caravan has arrived at %s"
-msgstr "Tu Caravana ha llegado a %s"
+msgid "Your %s has arrived at %s"
+msgstr "Tu %s ha llegado a %s"
 
 #: client/gui-sdl/caravan_dialog.c:156
 #, c-format
@@ -17923,12 +17934,12 @@ msgstr "Establecer ruta comercial con %s ( %d I+I + %d comercio )"
 msgid "Enter Marketplace ( %d R&G bonus )"
 msgstr "Entrar al mercado (%d I+I)"
 
-#: client/gui-sdl/caravan_dialog.c:181 data/Freeciv.in:2270
+#: client/gui-sdl/caravan_dialog.c:181 data/Freeciv.in:2271
 msgid "Help build Wonder"
 msgstr "Ayudar a construir maravilla"
 
 #: client/gui-sdl/caravan_dialog.c:194 client/gui-sdl/diplomat_dialog.c:683
-#: data/Freeciv.in:2273 data/Freeciv.in:2297 data/Freeciv.in:2332
+#: data/Freeciv.in:2274 data/Freeciv.in:2298 data/Freeciv.in:2333
 msgid "Keep moving"
 msgstr "Seguir moviéndose"
 
@@ -17959,7 +17970,7 @@ msgstr "Usuarios conectados : %d"
 msgid "Back"
 msgstr "Volver"
 
-#: client/gui-sdl/chatline.c:787 data/Freeciv.in:3405
+#: client/gui-sdl/chatline.c:787 data/Freeciv.in:3406
 msgid "Start"
 msgstr "Comenzar"
 
@@ -18012,9 +18023,9 @@ msgstr "Mejorar unidad"
 #: data/Freeciv.in:1092 data/Freeciv.in:1148 data/Freeciv.in:1190
 #: data/Freeciv.in:1210 data/Freeciv.in:1247 data/Freeciv.in:1280
 #: data/Freeciv.in:1358 data/Freeciv.in:1553 data/Freeciv.in:1808
-#: data/Freeciv.in:2102 data/Freeciv.in:2183 data/Freeciv.in:2300
-#: data/Freeciv.in:2335 data/Freeciv.in:2444 data/Freeciv.in:2512
-#: data/Freeciv.in:2522 data/Freeciv.in:3382 data/Freeciv.in:3448
+#: data/Freeciv.in:2102 data/Freeciv.in:2183 data/Freeciv.in:2301
+#: data/Freeciv.in:2336 data/Freeciv.in:2445 data/Freeciv.in:2513
+#: data/Freeciv.in:2523 data/Freeciv.in:3383 data/Freeciv.in:3449
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -18055,8 +18066,8 @@ msgstr "¿Comprarlo?"
 #: client/gui-xaw/cma_fe.c:794 client/gui-xaw/messagedlg.c:71
 #: client/gui-xaw/optiondlg.c:96 client/gui-xaw/optiondlg.c:354
 #: client/gui-xaw/wldlg.c:1211 data/Freeciv.in:1486 data/Freeciv.in:1495
-#: data/Freeciv.in:2231 data/Freeciv.in:2250 data/Freeciv.in:2430
-#: data/Freeciv.in:2454 data/Freeciv.in:2473 data/Freeciv.in:2484
+#: data/Freeciv.in:2231 data/Freeciv.in:2250 data/Freeciv.in:2431
+#: data/Freeciv.in:2455 data/Freeciv.in:2474 data/Freeciv.in:2485
 msgid "No"
 msgstr "No"
 
@@ -18359,7 +18370,7 @@ msgstr "Servidor de Freeciv :"
 msgid "Port :"
 msgstr "Puerto:"
 
-#: client/gui-sdl/connectdlg.c:608 data/Freeciv.in:104 data/Freeciv.in:2517
+#: client/gui-sdl/connectdlg.c:608 data/Freeciv.in:104 data/Freeciv.in:2518
 msgid "Connect"
 msgstr "Conectar"
 
@@ -18463,7 +18474,7 @@ msgid "REVOLUTION!"
 msgstr "¡REVOLUCIÓN!"
 
 #: client/gui-sdl/dialogs.c:2502 client/gui-sdl/dialogs.c:2889
-#: data/Freeciv.in:3168
+#: data/Freeciv.in:3169
 msgid "Female"
 msgstr "Hembra"
 
@@ -18567,7 +18578,7 @@ msgstr "Declarar la GUERRA"
 msgid "Cancel Treaty"
 msgstr "Cancelar pacto"
 
-#: client/gui-sdl/diplodlg.c:1492 data/Freeciv.in:3263
+#: client/gui-sdl/diplodlg.c:1492 data/Freeciv.in:3264
 msgid "Withdraw vision"
 msgstr "Retirar visión"
 
@@ -18579,29 +18590,29 @@ msgstr "Convocar cumbre diplomática"
 msgid "Send him back"
 msgstr "Enviarle de vuelta"
 
-#: client/gui-sdl/diplomat_dialog.c:594 data/Freeciv.in:2285
-#: data/Freeciv.in:2311
+#: client/gui-sdl/diplomat_dialog.c:594 data/Freeciv.in:2286
+#: data/Freeciv.in:2312
 msgid "Establish Embassy"
 msgstr "Establecer embajada"
 
-#: client/gui-sdl/diplomat_dialog.c:609 data/Freeciv.in:2287
+#: client/gui-sdl/diplomat_dialog.c:609 data/Freeciv.in:2288
 msgid "Investigate City"
 msgstr "Investigar ciudad"
 
-#: client/gui-sdl/diplomat_dialog.c:624 data/Freeciv.in:2318
+#: client/gui-sdl/diplomat_dialog.c:624 data/Freeciv.in:2319
 msgid "Poison City"
 msgstr "Envenenar ciudad"
 
-#: client/gui-sdl/diplomat_dialog.c:638 data/Freeciv.in:2290
+#: client/gui-sdl/diplomat_dialog.c:638 data/Freeciv.in:2291
 msgid "Sabotage City"
 msgstr "Sabotear la ciudad"
 
-#: client/gui-sdl/diplomat_dialog.c:669 data/Freeciv.in:2295
-#: data/Freeciv.in:2328
+#: client/gui-sdl/diplomat_dialog.c:669 data/Freeciv.in:2296
+#: data/Freeciv.in:2329
 msgid "Incite a Revolt"
 msgstr "Provocar sublevación"
 
-#: client/gui-sdl/diplomat_dialog.c:720 data/Freeciv.in:2441
+#: client/gui-sdl/diplomat_dialog.c:720 data/Freeciv.in:2442
 msgid "Sabotage Enemy Unit"
 msgstr "Sabotear unidad enemiga"
 
@@ -19223,7 +19234,7 @@ msgid "Leave Game"
 msgstr "Abandonar la partida"
 
 #: client/gui-sdl/optiondlg.c:853 client/gui-sdl/pages.c:250
-#: client/gui-xaw/menu.c:126 data/Freeciv.in:115 data/Freeciv.in:3189
+#: client/gui-xaw/menu.c:126 data/Freeciv.in:115 data/Freeciv.in:3190
 msgid "Quit"
 msgstr "Salir"
 
@@ -19659,7 +19670,7 @@ msgstr "Pasar"
 msgid "Verify Password"
 msgstr "Repite la contraseña"
 
-#: client/gui-xaw/dialogs.c:1503
+#: client/gui-xaw/dialogs.c:1504
 msgid "You must select a nation."
 msgstr "Debes elegir una nación."
 
@@ -19771,7 +19782,7 @@ msgid "Conflicts with: "
 msgstr "Colide con: "
 
 #: client/gui-xaw/inputdlg.c:103 data/Freeciv.in:1245 data/Freeciv.in:1278
-#: data/Freeciv.in:1355 data/Freeciv.in:1550 data/Freeciv.in:3445
+#: data/Freeciv.in:1355 data/Freeciv.in:1550 data/Freeciv.in:3446
 msgid "Ok"
 msgstr "Aceptar"
 
@@ -19835,7 +19846,7 @@ msgstr "Exportar registro"
 msgid "Clear Log"
 msgstr "Borrar registro"
 
-#: client/gui-xaw/menu.c:125 data/Freeciv.in:3187
+#: client/gui-xaw/menu.c:125 data/Freeciv.in:3188
 msgid "Disconnect"
 msgstr "Desconectar"
 
@@ -19928,7 +19939,7 @@ msgstr "Las cinco mayores ciudades"
 msgid "Demographics"
 msgstr "Informe demográfico"
 
-#: client/gui-xaw/menu.c:236 data/Freeciv.in:3271
+#: client/gui-xaw/menu.c:236 data/Freeciv.in:3272
 msgid "Spaceship"
 msgstr "Nave espacial"
 
@@ -20310,9 +20321,9 @@ msgstr ""
 #: data/Freeciv.in:541 data/Freeciv.in:560 data/Freeciv.in:605
 #: data/Freeciv.in:1449 data/Freeciv.in:1467 data/Freeciv.in:1606
 #: data/Freeciv.in:1702 data/Freeciv.in:1733 data/Freeciv.in:1869
-#: data/Freeciv.in:1944 data/Freeciv.in:1989 data/Freeciv.in:2367
-#: data/Freeciv.in:2409 data/Freeciv.in:3062 data/Freeciv.in:3232
-#: data/Freeciv.in:3316
+#: data/Freeciv.in:1944 data/Freeciv.in:1989 data/Freeciv.in:2368
+#: data/Freeciv.in:2410 data/Freeciv.in:3063 data/Freeciv.in:3233
+#: data/Freeciv.in:3317
 msgid "Close"
 msgstr "Cerrar"
 
@@ -20400,6 +20411,7 @@ msgstr ""
 "Pri = Ventana principal, Men = Ventana de mensajes,\n"
 "Ind = Crear una ventana individual"
 
+#. TRANS: the space prepending "Out" is necessary
 #: data/Freeciv.in:1276
 msgid " Out Mes Pop"
 msgstr " Pri Men Ind"
@@ -20613,39 +20625,44 @@ msgstr "Mostrar futuros objetivos:"
 msgid "Trade Routes"
 msgstr "Comercio"
 
-#: data/Freeciv.in:2259 data/Freeciv.in:2463 data/Freeciv.in:2493
+#: data/Freeciv.in:2259 data/Freeciv.in:2464 data/Freeciv.in:2494
 msgid "Darn"
 msgstr "Vaya, hombre"
 
-#: data/Freeciv.in:2268
+#. TRANS: Title for caravan popup
+#: data/Freeciv.in:2267
+msgid "Your Unit Has Arrived"
+msgstr "Tu unidad ha llegado"
+
+#: data/Freeciv.in:2269
 msgid "Establish trade route"
 msgstr "Establecer ruta comercial"
 
-#: data/Freeciv.in:2314
+#: data/Freeciv.in:2315
 msgid "Investigate City (free)"
 msgstr "Investigar ciudad (gratis)"
 
-#: data/Freeciv.in:2321
+#: data/Freeciv.in:2322
 msgid "Industrial Sabotage"
 msgstr "Sabotaje industrial"
 
-#: data/Freeciv.in:2373
+#: data/Freeciv.in:2374
 msgid "Steal"
 msgstr "Robar"
 
-#: data/Freeciv.in:2499
+#: data/Freeciv.in:2500
 msgid "Your New Government"
 msgstr "Nuevo gobierno"
 
-#: data/Freeciv.in:2501
+#: data/Freeciv.in:2502
 msgid "Select government type:"
 msgstr "Tipo de gobierno:"
 
-#: data/Freeciv.in:2519
+#: data/Freeciv.in:2520
 msgid "Choose unit activity:"
 msgstr "Elige la actividad de la unidad:"
 
-#: data/Freeciv.in:2816
+#: data/Freeciv.in:2817
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -20655,71 +20672,71 @@ msgstr ""
 "bajo ciertas condiciones; mira el tema \"Copiar\" en el menú de Ayuda.\n"
 "Y ahora... ¡a por ellos!"
 
-#: data/Freeciv.in:3060
+#: data/Freeciv.in:3061
 msgid " Sell "
 msgstr "Vender"
 
-#: data/Freeciv.in:3067
+#: data/Freeciv.in:3068
 msgid "Rename..."
 msgstr "Renombrar..."
 
-#: data/Freeciv.in:3071
+#: data/Freeciv.in:3072
 msgid "Activate Units"
 msgstr "Activar unidades"
 
-#: data/Freeciv.in:3073
+#: data/Freeciv.in:3074
 msgid "Unit List..."
 msgstr "Lista de unidades..."
 
-#: data/Freeciv.in:3075
+#: data/Freeciv.in:3076
 msgid "City Options..."
 msgstr "Opciones de la ciudad..."
 
-#: data/Freeciv.in:3077
+#: data/Freeciv.in:3078
 msgid " Buy "
 msgstr "Comprar"
 
-#: data/Freeciv.in:3079
+#: data/Freeciv.in:3080
 msgid "Change..."
 msgstr "Cambiar..."
 
-#: data/Freeciv.in:3081
+#: data/Freeciv.in:3082
 msgid "Worklist..."
 msgstr "Lista de tareas..."
 
-#: data/Freeciv.in:3083
+#: data/Freeciv.in:3084
 msgid "Supported units:"
 msgstr "Unidades mantenidas:"
 
-#: data/Freeciv.in:3106
+#: data/Freeciv.in:3107
 msgid "Units present:"
 msgstr "Unidades presentes:"
 
-#: data/Freeciv.in:3144
+#: data/Freeciv.in:3145
 msgid "Select nation and name:"
 msgstr "Elige tu nación y tu nombre:"
 
-#: data/Freeciv.in:3159
+#: data/Freeciv.in:3160
 msgid "Pick Name"
 msgstr "Elige un nombre"
 
-#: data/Freeciv.in:3163
+#: data/Freeciv.in:3164
 msgid "Select your sex:"
 msgstr "Elige tu sexo:"
 
-#: data/Freeciv.in:3167
+#: data/Freeciv.in:3168
 msgid "Male  "
 msgstr "Varón "
 
-#: data/Freeciv.in:3174
+#: data/Freeciv.in:3175
 msgid "Select city style:"
 msgstr "Elige el estilo de ciudades:"
 
-#: data/Freeciv.in:3185
+#: data/Freeciv.in:3186
 msgid " Ok "
 msgstr "Vale"
 
-#: data/Freeciv.in:3218
+#: data/Freeciv.in:3219
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
@@ -20727,31 +20744,31 @@ msgstr ""
 "Nombre           Nación         Embajada Estado dipl.    Visión   "
 "Reputación    Estado   Host"
 
-#: data/Freeciv.in:3239
+#: data/Freeciv.in:3240
 msgid "Intelligence"
 msgstr "Información"
 
-#: data/Freeciv.in:3247
+#: data/Freeciv.in:3248
 msgid "Meet"
 msgstr "Cumbre"
 
-#: data/Freeciv.in:3255
+#: data/Freeciv.in:3256
 msgid "Cancel pact"
 msgstr "Cancelar pacto"
 
-#: data/Freeciv.in:3323
+#: data/Freeciv.in:3324
 msgid "Goto location"
 msgstr "Ir a lugar"
 
-#: data/Freeciv.in:3331
+#: data/Freeciv.in:3332
 msgid "Popup City"
 msgstr "Ventana de ciudad"
 
-#: data/Freeciv.in:3359
+#: data/Freeciv.in:3360
 msgid "  Name             Ready  Leader           Nation          Team "
 msgstr "  Nombre           Listo  Líder            Nación          Equipo "
 
-#: data/Freeciv.in:3397
+#: data/Freeciv.in:3398
 msgid "Take Player"
 msgstr "Controlar un jugador"
 
@@ -24018,7 +24035,8 @@ msgstr ""
 "  Botón izquierdo en la ciudad:          Muestra el diálogo de la ciudad\n"
 "  Botón izquierdo en la unidad:          Activa la unidad\n"
 "  Botón izquierdo y arrastrar la unidad: Comando 'Ir a' para la unidad\n"
-"                              (si el modo de Ir a sin teclado se ha activado en opciones)\n"
+"                              (si el modo de Ir a sin teclado se ha activado "
+"en opciones)\n"
 "  Botón central:                         Muestra la info de la casilla\n"
 "  Botón derecho:                         Centrar la vista a esta casilla\n"
 "\n"
@@ -24027,8 +24045,8 @@ msgstr ""
 "\n"
 "  Shift + Control + botón izquierdo:     Ajusta los trabajadores en ciudad\n"
 "  Control + botón central:               Despierta unidades en vigilancia\n"
-"  Shift +Alt +botón derecho:             Muestra trabajadores de la ciudad (ratón "
-"sobre o cerca de la ciudad)\n"
+"  Shift +Alt +botón derecho:             Muestra trabajadores de la ciudad "
+"(ratón sobre o cerca de la ciudad)\n"
 "\n"
 "  Modo de selección de área (GTK):\n"
 "  ================================\n"
@@ -40400,14 +40418,16 @@ msgid ""
 "report is beyond the scope of this tutorial, however."
 msgstr ""
 "A medida que el número de ciudades en el imperio crece, se hace más\n"
-"difícil de manejar las ciudades individualmente. Aquí es donde el informe de\n"
+"difícil de manejar las ciudades individualmente. Aquí es donde el informe "
+"de\n"
 "ciudades se convierte en útil. Presiona F4 para mostrarlo. Este informe\n"
 "muestra una lista de ciudades con diversas estadísticas acerca de cada\n"
 "una de ellas. Juega un poco si quieres (puedes volver a la vista de mapa\n"
 "pulsando F1 o haciendo clic en la pestaña Mapa). Con un poco de práctica,\n"
 "es posible controlar casi cualquier aspecto de las ciudades desde este "
 "informe.\n"
-"Sin embargo, el potencial completo del informe de la ciudad está más allá del\n"
+"Sin embargo, el potencial completo del informe de la ciudad está más allá "
+"del\n"
 "alcance de este tutorial."
 
 #: data/scenario/tutorial.sav:116
@@ -40457,13 +40477,16 @@ msgstr ""
 "diferentes, además de su casilla central que se trabaja de forma gratuita.\n"
 "En el diálogo de la ciudad, el mapa muestra las casillas que se\n"
 "están trabajando y la cantidad de comida, escudos, y comercio que cada\n"
-"una proporciona.  La comida se utiliza para hacer crecer tu ciudad, los escudos\n"
-"se utilizan para la producción de los edificios y las unidades, mientras que el\n"
+"una proporciona.  La comida se utiliza para hacer crecer tu ciudad, los "
+"escudos\n"
+"se utilizan para la producción de los edificios y las unidades, mientras que "
+"el\n"
 "comercio proporciona ingresos imponibles que se convirten en investigación\n"
 "científica, oro o lujos.\n"
 "\n"
 "Haz clic en una casilla trabajada para eliminar el ciudadano de la misma.\n"
-"Entonces haz clic en una casilla no trabajada para poner a un trabajador allí.\n"
+"Entonces haz clic en una casilla no trabajada para poner a un trabajador "
+"allí.\n"
 "Tu puedes colocar hasta tres trabajadores, por supuesto. El resto de los\n"
 "ciudadanos son todos especialistas - ahora todos son artistas (Elvies) que\n"
 "sólo ofrecen lujos (que no serán útiles hasta más tarde)."
@@ -40740,7 +40763,8 @@ msgstr ""
 "esta tecnología se elegirá de forma automática.  En la parte superior de\n"
 "la ventana se muestra la cantidad de investigación científica que se\n"
 "obtiene cada turno - la investigación (bombillas) proviene del comercio\n"
-"efectivo en tus ciudades.  En la parte inferior de la ventana hay el árbol de\n"
+"efectivo en tus ciudades.  En la parte inferior de la ventana hay el árbol "
+"de\n"
 "tecnología; aquí se puede hacer clic con el boton izquierdo para establecer\n"
 "la investigación objetivo o meta de la investigación, o hacer clic con el\n"
 "botón derecho para obtener ayuda acerca de esta tecnología en particular.\n"
