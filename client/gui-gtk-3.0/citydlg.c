@@ -1338,7 +1338,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_misc_set_alignment(GTK_MISC(pdialog->citizen_pixmap), 0.0f, 0.5f);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
   g_signal_connect(GTK_OBJECT(ebox), "button_press_event",
-                   GTK_SIGNAL_FUNC(citizens_callback), pdialog);
+                   G_CALLBACK(citizens_callback), pdialog);
 
   /**** City name label here ****/
   pdialog->name_label = gtk_label_new(NULL);
