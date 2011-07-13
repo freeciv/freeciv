@@ -209,7 +209,8 @@ bool create_start_positions(enum map_startpos mode,
   struct tile *ptile;
   int k, sum;
   struct start_filter_data data;
-  int tile_value_aux[MAP_INDEX_SIZE], tile_value[MAP_INDEX_SIZE];
+  int *tile_value_aux = NULL;
+  int *tile_value = NULL;
   int min_goodies_per_player = 1500;
   int total_goodies = 0;
   /* this is factor is used to maximize land used in extreme little maps */
@@ -231,6 +232,9 @@ bool create_start_positions(enum map_startpos mode,
     log_verbose("Using startpos=VARIABLE");
     mode = MAPSTARTPOS_VARIABLE;
   }
+
+  tile_value_aux = fc_calloc(MAP_INDEX_SIZE, sizeof(*tile_value_aux));
+  tile_value = fc_calloc(MAP_INDEX_SIZE, sizeof(*tile_value));
 
   /* get the tile value */
   whole_map_iterate(ptile) {
@@ -404,6 +408,9 @@ bool create_start_positions(enum map_startpos mode,
   if (!is_tmap) {
     destroy_tmap();
   }
+
+  FC_FREE(tile_value_aux);
+  FC_FREE(tile_value);
 
   return !failure;
 }

@@ -2756,18 +2756,20 @@ static void sg_load_map_known(struct loaddata *loading)
 
   if (secfile_lookup_bool_default(loading->file, TRUE,
                                   "game.save_known")) {
-    int lines = player_count()/32 + 1;
-    int known[lines][MAP_INDEX_SIZE], j, p, l;
+    int lines = player_count()/32 + 1, j, p, l;
+    int *known = fc_calloc(lines * MAP_INDEX_SIZE, sizeof(*known));
 
     for (l = 0; l < lines; l++) {
       for (j = 0; j < 8; j++) {
         if (j == 0) {
           LOAD_MAP_CHAR(ch, ptile,
-                        known[l][tile_index(ptile)] = ascii_hex2bin(ch, j),
+                        known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+                          = ascii_hex2bin(ch, j),
                         loading->file, "map.k%02d_%04d", l * 8 + j);
         } else {
           LOAD_MAP_CHAR(ch, ptile,
-                        known[l][tile_index(ptile)] |= ascii_hex2bin(ch, j),
+                        known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+                          |= ascii_hex2bin(ch, j),
                         loading->file, "map.k%02d_%04d", l * 8 + j);
         }
       }
@@ -2784,11 +2786,14 @@ static void sg_load_map_known(struct loaddata *loading)
         p = player_index(pplayer);
         l = player_index(pplayer) / 32;
 
-        if (known[l][tile_index(ptile)] & (1u << (p - l * 8))) {
+        if (known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+            & (1u << (p - l * 8))) {
           map_set_known(ptile, pplayer);
         }
       } players_iterate_end;
     } whole_map_iterate_end;
+
+    FC_FREE(known);
   }
 }
 
@@ -2809,18 +2814,19 @@ static void sg_save_map_known(struct savedata *saving)
     secfile_insert_bool(saving->file, game.server.save_options.save_known,
                         "game.save_known");
     if (game.server.save_options.save_known) {
-      int known[lines][MAP_INDEX_SIZE], j, l, p;
+      int j, p, l;
+      int *known = fc_calloc(lines * MAP_INDEX_SIZE, sizeof(*known));
 
       /* HACK: we convert the data into a 32-bit integer, and then save it as
        * hex. */
 
-      memset(known, 0, sizeof(known));
       whole_map_iterate(ptile) {
         players_iterate(pplayer) {
           if (map_is_known(ptile, pplayer)) {
             p = player_index(pplayer);
             l = p / 32;
-            known[l][tile_index(ptile)] |= (1u << (p - l * 8));
+            known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+              |= (1u << (p - l * 8));
           }
         } players_iterate_end;
       } whole_map_iterate_end;
@@ -2828,10 +2834,13 @@ static void sg_save_map_known(struct savedata *saving)
       for (l = 0; l < lines; l++) {
         for (j = 0; j < 8; j++) {
           /* put 4-bit segments of the 32-bit "known" field */
-          SAVE_MAP_CHAR(ptile, bin2ascii_hex(known[l][tile_index(ptile)], j),
+          SAVE_MAP_CHAR(ptile, bin2ascii_hex(known[l * MAP_INDEX_SIZE
+                                                   + tile_index(ptile)], j),
                         saving->file, "map.k%02d_%04d", l * 8 + j);
         }
       }
+
+      FC_FREE(known);
     }
   }
 }

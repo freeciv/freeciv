@@ -561,9 +561,9 @@ extern const int DIR_DY[8];
 
 #define MAP_DEFAULT_MAPSIZE     MAPSIZE_FULLSIZE
 
-/* Size of the map in thousands of tiles.  Setting the maximal size over
- * than 30 is dangerous, because some parts of the code (e.g. path finding)
- * assume the tile index is of type (signed short int). */
+/* Size of the map in thousands of tiles. If MAP_MAX_SIZE is increased, 
+ * MAX_DBV_LENGTH in bitvector.c must be checked. The following equation must
+ * be valid: MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH! */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             0
 #define MAP_MAX_SIZE             128
@@ -572,14 +572,10 @@ extern const int DIR_DY[8];
 #define MAP_MIN_TILESPERPLAYER            1
 #define MAP_MAX_TILESPERPLAYER         1000
 
-/* This defines the maximum linear size in _map_ coordinates.
- * This must be smaller than 255 because of the way coordinates are sent
- * across the network. */
+/* This defines the maximum linear size in _map_ coordinates. */
 #define MAP_DEFAULT_LINEAR_SIZE  64
 #define MAP_MAX_LINEAR_SIZE      512
 #define MAP_MIN_LINEAR_SIZE      16
-#define MAP_MAX_WIDTH            MAP_MAX_LINEAR_SIZE
-#define MAP_MAX_HEIGHT           MAP_MAX_LINEAR_SIZE
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #define MAP_DEFAULT_TOPO         TF_WRAPX
