@@ -32,6 +32,7 @@ sprites =
 		"f.amazon", "flags/amazon-large"
 		"f.andorra", "flags/andorra-large"
 		"f.angola", "flags/angola-large"
+		"f.anhalt", "flags/anhalt-large"
 		"f.anishinaabe", "flags/anishinaabe-large"
 		"f.antarctica", "flags/antarctica-large"
 ;		"f.antarctica_alt", "flags/antarctica_alt-large"

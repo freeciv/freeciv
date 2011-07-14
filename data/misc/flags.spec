@@ -31,6 +31,7 @@ artists = "
    Amazon		Ann Barcomb
    Andorra		Patricia Fidi
    Angola		SKopp (Wikimedia Commons)
+   Anhalt		J.M. Maalderink
    Anishinaabe		Shandris (Wikimedia Commons)
    Antarctica		Zachary Harden
    Antarctica (alt)	Tobias Jakobs
@@ -536,6 +537,7 @@ sprites =
 		"f.amazon", "flags/amazon"
 		"f.andorra", "flags/andorra"
 		"f.angola", "flags/angola"
+		"f.anhalt", "flags/anhalt"
 		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
 ;		"f.antarctica_alt", "flags/antarctica_alt"
