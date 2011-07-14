@@ -122,9 +122,9 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk/sdl/xaw/win32/ftwl/stub]
+[  --enable-client[=auto/all/gtk2/sdl/xaw/win32/ftwl/stub]
                           clients to compile [[auto]] (or list for multiple)
-                          maintained clients: gtk/sdl/xaw/stub
+                          maintained clients: gtk2/sdl/xaw/stub
                           unmaintained clients: win32/ftwl],
 [clients=${enableval}],
 [client=auto])
