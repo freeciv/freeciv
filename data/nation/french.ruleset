@@ -56,7 +56,7 @@ civilwar_nations =
  "Alsatian", "Breton", "Burgundian", "Lorrain", "Norman", "Occitan",
  "Savoyard",
 ; overseas settlements
- "Acadian", "Algerian", "Quebecois"
+ "Acadian", "Algerian", "Quebecois", "Tahitian"
 
 cities =
  "Paris",

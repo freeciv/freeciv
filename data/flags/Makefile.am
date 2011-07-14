@@ -154,6 +154,7 @@ flag_files =				\
 		france_old.png		\
 		france.png		\
 		franconia.png		\
+		french_polynesia.png	\
 		frisia.png		\
 		friuli.png		\
 		gabon.png		\
@@ -654,6 +655,7 @@ flag_files =				\
 		france_old-large.png		\
 		france-large.png		\
 		franconia-large.png		\
+		french_polynesia-large.png	\
 		frisia-large.png		\
 		friuli-large.png		\
 		gabon-large.png			\
@@ -1155,6 +1157,7 @@ shield_files =					\
 		florence-shield.png		\
 		france_old-shield.png		\
 		france-shield.png		\
+		french_polynesia-shield.png	\
 		franconia-shield.png		\
 		frisia-shield.png		\
 		friuli-shield.png		\
@@ -1656,6 +1659,7 @@ shield_files =					\
 		france_old-shield-large.png		\
 		france-shield-large.png		\
 		franconia-shield-large.png		\
+		french_polynesia-shield-large.png	\
 		frisia-shield-large.png		\
 		friuli-shield-large.png			\
 		gabon-shield-large.png			\
@@ -2158,6 +2162,7 @@ svg_files = 				\
 		france_old.svg		\
 		france.svg		\
 		franconia.svg		\
+		french_polynesia.svg	\
 		frisia.svg		\
 		friuli.svg		\
 		gabon.svg		\

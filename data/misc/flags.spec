@@ -161,6 +161,7 @@ artists = "
    France (old)		Patricia Fidi
    France		Tobias Jakobs
    Franconia		Andreas Trepte (Wikimedia Commons) and J.M. Maalderink
+   French Polynesia	Tobias Jakobs
    Frisia		GeeKaa (Wikimedia Commons)
    Friuli		DieBuche et al. (Wikimedia Commons)
    Gabon		J.M. Maalderink
@@ -668,6 +669,7 @@ sprites =
 		"f.france", "flags/france"
 		"f.france_old", "flags/france_old"
 		"f.franconia", "flags/franconia"
+		"f.french_polynesia", "flags/french_polynesia"
 		"f.frisia", "flags/frisia"
 		"f.friuli", "flags/friuli"
 		"f.gabon", "flags/gabon"

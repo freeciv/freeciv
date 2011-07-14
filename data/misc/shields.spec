@@ -162,6 +162,7 @@ sprites =
 		"f.shield.france", "flags/france-shield"
 		"f.shield.france_old", "flags/france_old-shield"
 		"f.shield.franconia", "flags/franconia-shield"
+		"f.shield.french_polynesia", "flags/french_polynesia-shield"
 		"f.shield.frisia", "flags/frisia-shield"
 		"f.shield.friuli", "flags/friuli-shield"
 		"f.shield.gabon", "flags/gabon-shield"
