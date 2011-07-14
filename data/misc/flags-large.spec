@@ -375,6 +375,7 @@ sprites =
 		"f.qatar", "flags/qatar-large"
 ;		"f.qing", "flags/qing-large"			; alt Manchu
 		"f.quebec", "flags/quebec-large"
+		"f.rapa_nui", "flags/rapa_nui-large"
 		"f.raramuri", "flags/raramuri-large"
 		"f.r_congo", "flags/r_congo-large"
 		"f.rhineland", "flags/rhineland-large"

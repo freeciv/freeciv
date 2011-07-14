@@ -407,6 +407,7 @@ match=2
 *include "nation/purhepecha.ruleset"
 *include "nation/qatari.ruleset"
 *include "nation/quebecois.ruleset"
+*include "nation/rapanui.ruleset"
 *include "nation/raramuri.ruleset"
 *include "nation/rhenish.ruleset"
 *include "nation/riffian.ruleset"

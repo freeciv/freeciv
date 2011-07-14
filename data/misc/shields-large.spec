@@ -375,6 +375,7 @@ sprites =
 		"f.shield.qatar", "flags/qatar-shield-large"
 ;		"f.shield.qing", "flags/qing-shield-large"
 		"f.shield.quebec", "flags/quebec-shield-large"
+		"f.shield.rapa_nui", "flags/rapa_nui-shield-large"
 		"f.shield.raramuri", "flags/raramuri-shield-large"
 		"f.shield.r_congo", "flags/r_congo-shield-large"
 		"f.shield.rhineland", "flags/rhineland-shield-large"

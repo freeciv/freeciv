@@ -374,6 +374,7 @@ artists = "
    Qatar		J.M. Maalderink
    Qing			Caleb Moore
    Quebec		Patrick Guimond
+   Rapa Nui		Mario Fuente Cid
    Raramuri		J.M. Maalderink
    Rep. Congo		J.M. Maalderink
    Rhineland		J.M. Maalderink
@@ -878,6 +879,7 @@ sprites =
 		"f.qatar", "flags/qatar"
 ;		"f.qing", "flags/qing"			; alt Manchu
 		"f.quebec", "flags/quebec"
+		"f.rapa_nui", "flags/rapa_nui"
 		"f.raramuri", "flags/raramuri"
 		"f.r_congo", "flags/r_congo"
 		"f.rhineland", "flags/rhineland"

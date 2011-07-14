@@ -366,6 +366,7 @@ flag_files =				\
 		qatar.png		\
 		qing.png		\
 		quebec.png		\
+		rapa_nui.png		\
 		raramuri.png		\
 		r_congo.png		\
 		rhineland.png		\
@@ -864,6 +865,7 @@ flag_files =				\
 		qatar-large.png			\
 		qing-large.png			\
 		quebec-large.png		\
+		rapa_nui-large.png		\
 		raramuri-large.png		\
 		r_congo-large.png		\
 		rhineland-large.png		\
@@ -1364,6 +1366,7 @@ shield_files =					\
 		qatar-shield.png		\
 		qing-shield.png			\
 		quebec-shield.png		\
+		rapa_nui-shield.png		\
 		raramuri-shield.png		\
 		r_congo-shield.png		\
 		rhineland-shield.png		\
@@ -1862,6 +1865,7 @@ shield_files =					\
 		qatar-shield-large.png			\
 		qing-shield-large.png			\
 		quebec-shield-large.png		\
+		rapa_nui-shield-large.png		\
 		raramuri-shield-large.png		\
 		r_congo-shield-large.png		\
 		rhineland-shield-large.png		\
@@ -2362,6 +2366,7 @@ svg_files = 				\
 		qatar.svg		\
 		qing.svg		\
 		quebec.svg		\
+		rapa_nui.svg		\
 		raramuri.svg		\
 		r_congo.svg		\
 		rhineland.svg		\

@@ -31,8 +31,8 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-conflicts_with = "maori", "hawaiian", "fijian", "samoan", "tongan"
-civilwar_nations = "maori", "hawaiian", "fijian", "samoan", "tongan"
+conflicts_with = "maori", "hawaiian", "fijian", "samoan", "tongan", "rapa nui"
+civilwar_nations = "maori", "hawaiian", "fijian", "samoan", "tongan", "rapa nui"
 
 cities =
  "Apia",	; Samoa
