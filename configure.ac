@@ -217,7 +217,7 @@ dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
 [  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/win32/stub]
                           clients to compile [[auto]] (or list for multiple)
-                          maintained clients: gtk/sdl/xaw/stub
+                          maintained clients: gtk2/sdl/xaw/stub
                           unmaintained clients: gtk3/qt/win32],
 [clients=${enableval}],
 [client=auto])
