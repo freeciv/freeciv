@@ -122,7 +122,7 @@ bool is_ai_data_phase_open(struct player *pplayer)
 /****************************************************************************
   Make and cache lots of calculations needed for other functions.
 ****************************************************************************/
-void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
+void dai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
 
@@ -282,7 +282,7 @@ void ai_data_phase_begin(struct player *pplayer, bool is_new_phase)
 /****************************************************************************
   Clean up ai data after phase finished.
 ****************************************************************************/
-void ai_data_phase_finished(struct player *pplayer)
+void dai_data_phase_finished(struct player *pplayer)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer);
 
@@ -312,8 +312,8 @@ struct ai_plr *ai_plr_data_get(struct player *pplayer)
   if (ai->last_num_continents != map.num_continents
       || ai->last_num_oceans != map.num_oceans) {
     /* We have discovered more continents, recalculate! */
-    ai_data_phase_finished(pplayer);
-    ai_data_phase_begin(pplayer, FALSE);
+    dai_data_phase_finished(pplayer);
+    dai_data_phase_begin(pplayer, FALSE);
   }
 
   return ai;

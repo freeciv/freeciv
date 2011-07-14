@@ -15,8 +15,8 @@
 
 #include "fc_types.h"
 
-void ai_do_first_activities(struct player *pplayer);
-void ai_do_last_activities(struct player *pplayer);
+void dai_do_first_activities(struct player *pplayer);
+void dai_do_last_activities(struct player *pplayer);
 
 void ai_calc_data(const struct player *pplayer, int *trade, int *expenses,
                   int *income);

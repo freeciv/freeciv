@@ -567,8 +567,8 @@ static int ai_goldequiv_clause(struct player *pplayer,
   pplayer is AI player, aplayer is the other player involved, treaty
   is the treaty being considered. It is all a question about money :-)
 ***********************************************************************/
-void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
-                        struct Treaty *ptreaty)
+void dai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
+			 struct Treaty *ptreaty)
 {
   int total_balance = 0;
   bool only_gifts = TRUE;
@@ -684,8 +684,8 @@ static void ai_treaty_react(struct player *pplayer,
   pplayer is AI player, aplayer is the other player involved, ptreaty
   is the treaty accepted.
 ***********************************************************************/
-void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
-                        struct Treaty *ptreaty)
+void dai_treaty_accepted(struct player *pplayer, struct player *aplayer,
+			 struct Treaty *ptreaty)
 {
   struct ai_plr *ai = ai_plr_data_get(pplayer);
   int total_balance = 0;
@@ -885,8 +885,8 @@ static void ai_diplomacy_suggest(struct player *pplayer,
 /********************************************************************** 
   What to do when we first meet. pplayer is the AI player.
 ***********************************************************************/
-void ai_diplomacy_first_contact(struct player *pplayer,
-                                struct player *aplayer)
+void dai_diplomacy_first_contact(struct player *pplayer,
+				 struct player *aplayer)
 {
   if (pplayer->ai_controlled && !ai_handicap(pplayer, H_AWAY)) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
@@ -1375,7 +1375,7 @@ void static war_countdown(struct player *pplayer, struct player *target,
 
   Only ever called for AI players and never for barbarians.
 ***********************************************************************/
-void ai_diplomacy_actions(struct player *pplayer)
+void dai_diplomacy_actions(struct player *pplayer)
 {
   struct ai_plr *ai = ai_plr_data_get(pplayer);
   bool need_targets = TRUE;
@@ -1729,8 +1729,8 @@ bool ai_on_war_footing(struct player *pplayer)
   Handle incident caused by violator
 ***********************************************************************/
 /* AI attitude call-backs */
-void ai_incident(enum incident_type type, struct player *violator,
-                 struct player *victim)
+void dai_incident(enum incident_type type, struct player *violator,
+		  struct player *victim)
 {
   switch(type) {
     case INCIDENT_DIPLOMAT:

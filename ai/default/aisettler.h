@@ -27,8 +27,8 @@ struct tile_data_cache;
 void ai_auto_settler_init(struct ai_plr *ai);
 void ai_auto_settler_free(struct ai_plr *ai);
 
-void ai_auto_settler_reset(struct player *pplayer);
-void ai_auto_settler_run(struct player *pplayer, struct unit *punit,
+void dai_auto_settler_reset(struct player *pplayer);
+void dai_auto_settler_run(struct player *pplayer, struct unit *punit,
                          struct settlermap *state);
 
 void contemplate_new_city(struct city *pcity);

@@ -108,15 +108,15 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 bool is_on_unit_upgrade_path(const struct unit_type *test,
 			     const struct unit_type *base);
 
-void ai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
-                                enum danger_consideration *result);
+void dai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
+				 enum danger_consideration *result);
 
 /* Call this after rulesets are loaded */
-void ai_units_ruleset_init(void);
+void dai_units_ruleset_init(void);
 
-void ai_unit_init(struct unit *punit);
-void ai_unit_turn_end(struct unit *punit);
-void ai_unit_close(struct unit *punit);
+void dai_unit_init(struct unit *punit);
+void dai_unit_turn_end(struct unit *punit);
+void dai_unit_close(struct unit *punit);
 
 #define simple_ai_unit_type_iterate(_ut)				\
 {									\
@@ -128,9 +128,9 @@ void ai_unit_close(struct unit *punit);
   }									\
 }
 
-void ai_unit_save(struct section_file *file, const struct unit *punit,
-                  const char *unitstr);
-void ai_unit_load(const struct section_file *file, struct unit *punit,
-                  const char *unitstr);
+void dai_unit_save(struct section_file *file, const struct unit *punit,
+		   const char *unitstr);
+void dai_unit_load(const struct section_file *file, struct unit *punit,
+		   const char *unitstr);
 
 #endif  /* FC__AIUNIT_H */

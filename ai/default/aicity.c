@@ -742,7 +742,7 @@ void ai_manage_cities(struct player *pplayer)
     ASSERT_CHOICE(city_data->choice);
   } city_list_iterate_end;
   /* Reset auto settler state for the next run. */
-  ai_auto_settler_reset(pplayer);
+  dai_auto_settler_reset(pplayer);
 
   city_list_iterate(pplayer->cities, pcity) {
     ai_city_choose_build(pplayer, pcity);
@@ -876,7 +876,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 /**************************************************************************
   Initialize city for use with default AI.
 **************************************************************************/
-void ai_city_alloc(struct city *pcity)
+void dai_city_alloc(struct city *pcity)
 {
   struct ai_city *city_data = fc_calloc(1, sizeof(struct ai_city));
 
@@ -888,7 +888,7 @@ void ai_city_alloc(struct city *pcity)
 /**************************************************************************
   Free city from use with default AI.
 **************************************************************************/
-void ai_city_free(struct city *pcity)
+void dai_city_free(struct city *pcity)
 {
   struct ai_city *city_data = def_ai_city_data(pcity);
 
@@ -901,8 +901,8 @@ void ai_city_free(struct city *pcity)
 /**************************************************************************
   Write ai city segments to savefile
 **************************************************************************/
-void ai_city_save(struct section_file *file, const struct city *pcity,
-                  const char *citystr)
+void dai_city_save(struct section_file *file, const struct city *pcity,
+		   const char *citystr)
 {
   struct ai_city *city_data = def_ai_city_data(pcity);
 
@@ -927,8 +927,8 @@ void ai_city_save(struct section_file *file, const struct city *pcity,
 /**************************************************************************
   Load ai city segment from savefile
 **************************************************************************/
-void ai_city_load(const struct section_file *file, struct city *pcity,
-                  const char *citystr)
+void dai_city_load(const struct section_file *file, struct city *pcity,
+		   const char *citystr)
 {
   struct ai_city *city_data = def_ai_city_data(pcity);
 

@@ -95,8 +95,8 @@ struct ai_plr
 void ai_data_init(struct player *pplayer);
 void ai_data_close(struct player *pplayer);
 
-void ai_data_phase_begin(struct player *pplayer, bool is_new_phase);
-void ai_data_phase_finished(struct player *pplayer);
+void dai_data_phase_begin(struct player *pplayer, bool is_new_phase);
+void dai_data_phase_finished(struct player *pplayer);
 bool is_ai_data_phase_open(struct player *pplayer);
 
 struct ai_plr *ai_plr_data_get(struct player *pplayer);

@@ -68,14 +68,14 @@ struct ai_city {
 
 void ai_manage_cities(struct player *pplayer);
 
-void ai_city_alloc(struct city *pcity);
-void ai_city_free(struct city *pcity);
+void dai_city_alloc(struct city *pcity);
+void dai_city_free(struct city *pcity);
 
 struct section_file;
-void ai_city_save(struct section_file *file, const struct city *pcity,
-                  const char *citystr);
-void ai_city_load(const struct section_file *file, struct city *pcity,
-                  const char *citystr);
+void dai_city_save(struct section_file *file, const struct city *pcity,
+		   const char *citystr);
+void dai_city_load(const struct section_file *file, struct city *pcity,
+		   const char *citystr);
 
 void want_techs_for_improvement_effect(struct player *pplayer,
                                        const struct city *pcity,

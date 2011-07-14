@@ -2522,8 +2522,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   Always override advisor danger detection since we are omniscient and
   advisor is not.
 **************************************************************************/
-void ai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
-                                enum danger_consideration *result)
+void dai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
+				 enum danger_consideration *result)
 {
   int a = 0, d, db;
   struct player *pplayer = unit_owner(punit);
@@ -2591,7 +2591,7 @@ static void update_simple_ai_types(void)
 /****************************************************************************
   Initialise the unit data from the ruleset for the AI.
 ****************************************************************************/
-void ai_units_ruleset_init(void)
+void dai_units_ruleset_init(void)
 {
   bv_special special;
   bv_bases bases;
@@ -2652,7 +2652,7 @@ void ai_units_ruleset_init(void)
 /**************************************************************************
   Initialize unit for use with default AI.
 **************************************************************************/
-void ai_unit_init(struct unit *punit)
+void dai_unit_init(struct unit *punit)
 {
   /* Make sure that contents of unit_ai structure are correctly initialized,
    * if you ever allocate it by some other mean than fc_calloc() */
@@ -2674,7 +2674,7 @@ void ai_unit_init(struct unit *punit)
 /**************************************************************************
   Free unit from use with default AI.
 **************************************************************************/
-void ai_unit_turn_end(struct unit *punit)
+void dai_unit_turn_end(struct unit *punit)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
@@ -2686,7 +2686,7 @@ void ai_unit_turn_end(struct unit *punit)
 /**************************************************************************
   Free unit from use with default AI.
 **************************************************************************/
-void ai_unit_close(struct unit *punit)
+void dai_unit_close(struct unit *punit)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
@@ -2705,8 +2705,8 @@ void ai_unit_close(struct unit *punit)
 /**************************************************************************
   Save AI data of a unit.
 **************************************************************************/
-void ai_unit_save(struct section_file *file, const struct unit *punit,
-                  const char *unitstr)
+void dai_unit_save(struct section_file *file, const struct unit *punit,
+		   const char *unitstr)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
@@ -2719,8 +2719,8 @@ void ai_unit_save(struct section_file *file, const struct unit *punit,
 /**************************************************************************
   Load AI data of a unit.
 **************************************************************************/
-void ai_unit_load(const struct section_file *file, struct unit *punit,
-                  const char *unitstr)
+void dai_unit_load(const struct section_file *file, struct unit *punit,
+		   const char *unitstr)
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
