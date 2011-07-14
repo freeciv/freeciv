@@ -20,7 +20,7 @@
 
 void ai_init(void);
 
-bool load_ai_module(const char *filename);
+bool load_ai_module(const char *modname);
 
 void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim);

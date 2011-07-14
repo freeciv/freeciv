@@ -54,7 +54,7 @@ static const char *fc_module_error(void)
 /**************************************************************************
   Load ai module from file.
 **************************************************************************/
-bool load_ai_module(const char *filename)
+bool load_ai_module(const char *modname)
 {
   struct ai_type *ai = ai_type_alloc();
   bool setup_success;
@@ -65,6 +65,7 @@ bool load_ai_module(const char *filename)
   const char *(*capstr_func)(void);
   const char *capstr;
   char buffer[2048];
+  char filename[1024];
 #endif /* AI_MODULES */
 
   if (ai == NULL) {
@@ -74,6 +75,7 @@ bool load_ai_module(const char *filename)
   init_ai(ai);
 
 #ifdef AI_MODULES
+  fc_snprintf(filename, sizeof(filename), "fc_ai_%s", modname);
   fc_snprintf(buffer, sizeof(buffer), "%s", filename);
   handle = lt_dlopenext(buffer);
   if (handle == NULL) {
@@ -157,7 +159,7 @@ void ai_init(void)
   }
 #endif /* AI_MODULES */
 
-  if (!failure && !load_ai_module("fc_ai_default")) {
+  if (!failure && !load_ai_module("default")) {
     failure = TRUE;
   }
 
