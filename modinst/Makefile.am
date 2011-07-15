@@ -4,6 +4,10 @@ bin_PROGRAMS = freeciv-modpack
 
 AM_CPPFLAGS = -I$(top_srcdir)/utility $(MP_gtk2_CFLAGS)
 
+if MINGW32
+MPICON = $(top_builddir)/win32/mpicon.o
+endif
+
 freeciv_modpack_SOURCES = \
 		download.c	\
 		download.h	\
@@ -11,4 +15,7 @@ freeciv_modpack_SOURCES = \
 
 freeciv_modpack_LDFLAGS = $(MP_gtk2_LDFLAGS)
 
-freeciv_modpack_LDADD = $(top_builddir)/common/libfreeciv.la $(MP_gtk2_LIBS)
+freeciv_modpack_LDADD = \
+		$(top_builddir)/common/libfreeciv.la \
+		$(MP_gtk2_LIBS) \
+		$(MPICON)
