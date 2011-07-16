@@ -13,6 +13,8 @@ libcivutility_la_SOURCES = \
 		distribute.h	\
 		fc_utf8.c	\
 		fc_utf8.h	\
+		fcbacktrace.c	\
+		fcbacktrace.h	\
 		fciconv.c	\
 		fciconv.h	\
 		fcintl.c	\

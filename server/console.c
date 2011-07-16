@@ -24,6 +24,7 @@
 #endif
 
 /* utility */
+#include "fcbacktrace.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -141,6 +142,7 @@ void con_log_init(const char *log_filename, enum log_level level,
   log_init(log_filename, level, con_handle_log, NULL,
            fatal_assertions);
 #endif /* DEBUG */
+  backtrace_init();
 }
 
 /************************************************************************
@@ -148,6 +150,8 @@ void con_log_init(const char *log_filename, enum log_level level,
 ************************************************************************/
 void con_log_close(void)
 {
+  backtrace_deinit();
+
   log_close();
 }
 
