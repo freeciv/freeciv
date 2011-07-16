@@ -1,0 +1,1 @@
+?package(freeciv-modpack):needs="x11" section="Games/Strategy" title="Freeciv modpack utility" command="/usr/games/freeciv-modpack"
