@@ -108,6 +108,20 @@ Description: Turn-based strategy game inspired by the history of human civilizat
  version of the Freeciv client. You still need the freeciv-common package
  for the data files.
 
+Package: freeciv-modpack
+Architecture: any
+Depends: freeciv-common (= ${Source-Version}),
+         ${shlibs:Depends}
+Recommends: freeciv-server, freeciv-client
+Description: Turn-based strategy game inspired by the history of human civilization.
+ Freeciv is distributed under the GPL and implemented for X.
+ Freeciv is a turn-based strategy game, in which
+ each player becomes leader of a civilization, fighting to obtain
+ the ultimate goal: The extinction of all other civilizations.
+ .
+ This package contains freeciv-modpack utility for downloading and installing
+ custom content such as rulesets and tilesets.
+
 Package: freeciv-tilesets
 Architecture: all
 Description: Turn-based strategy game inspired by the history of human civilization.
