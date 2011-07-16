@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-03 17:42-0700\n"
+"POT-Creation-Date: 2011-07-16 19:07+0100\n"
 "PO-Revision-Date: 2011-02-27 01:15+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -15204,7 +15204,7 @@ msgstr "_Ajanmukaista"
 msgid "_Disband"
 msgstr "Lakkauta _yksikkö"
 
-#: client/gui-gtk-2.0/menu.c:1520 client/gui-gtk-2.0/menu.c:2156
+#: client/gui-gtk-2.0/menu.c:1520 client/gui-gtk-2.0/menu.c:2157
 #: client/gui-win32/menu.c:367
 msgid "_Build City"
 msgstr "_Perusta kaupunki"
@@ -15217,18 +15217,18 @@ msgstr "Mene _ja Perusta kaupunki"
 msgid "_Auto Settler"
 msgstr "_Automaattinen uudisraivaaja"
 
-#: client/gui-gtk-2.0/menu.c:1527 client/gui-gtk-2.0/menu.c:2177
-#: client/gui-gtk-2.0/menu.c:2180 client/gui-win32/menu.c:368
+#: client/gui-gtk-2.0/menu.c:1527 client/gui-gtk-2.0/menu.c:2178
+#: client/gui-gtk-2.0/menu.c:2181 client/gui-win32/menu.c:368
 msgid "Build _Road"
 msgstr "_Rakenna tie"
 
-#: client/gui-gtk-2.0/menu.c:1529 client/gui-gtk-2.0/menu.c:2197
-#: client/gui-gtk-2.0/menu.c:2217 client/gui-win32/menu.c:369
+#: client/gui-gtk-2.0/menu.c:1529 client/gui-gtk-2.0/menu.c:2198
+#: client/gui-gtk-2.0/menu.c:2218 client/gui-win32/menu.c:369
 msgid "Build _Irrigation"
 msgstr "Rakenna _kasteluverkosto"
 
-#: client/gui-gtk-2.0/menu.c:1531 client/gui-gtk-2.0/menu.c:2205
-#: client/gui-gtk-2.0/menu.c:2218 client/gui-win32/menu.c:370
+#: client/gui-gtk-2.0/menu.c:1531 client/gui-gtk-2.0/menu.c:2206
+#: client/gui-gtk-2.0/menu.c:2219 client/gui-win32/menu.c:370
 msgid "Build _Mine"
 msgstr "Perusta kai_vos"
 
@@ -15244,12 +15244,12 @@ msgstr "Mene _rautatietä rakentaen"
 msgid "Connect With Irri_gation"
 msgstr "Mene k_asteluverkostoa tehden"
 
-#: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-2.0/menu.c:2214
-#: client/gui-gtk-2.0/menu.c:2219
+#: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-2.0/menu.c:2215
+#: client/gui-gtk-2.0/menu.c:2220
 msgid "Transf_orm Terrain"
 msgstr "Muuta maastot_yyppiä"
 
-#: client/gui-gtk-2.0/menu.c:1543 client/gui-gtk-2.0/menu.c:2235
+#: client/gui-gtk-2.0/menu.c:1543 client/gui-gtk-2.0/menu.c:2236
 #: client/gui-win32/menu.c:374
 msgid "Clean _Pollution"
 msgstr "_Puhdista saasteet"
@@ -15258,7 +15258,7 @@ msgstr "_Puhdista saasteet"
 msgid "Clean _Nuclear Fallout"
 msgstr "Puhdista y_dinlaskeuma"
 
-#: client/gui-gtk-2.0/menu.c:1549 client/gui-gtk-2.0/menu.c:2229
+#: client/gui-gtk-2.0/menu.c:1549 client/gui-gtk-2.0/menu.c:2230
 #: client/gui-win32/menu.c:372
 msgid "Build _Fortress"
 msgstr "Rakenna li_nnoitus"
@@ -15315,23 +15315,23 @@ msgstr "_Avaruusalus"
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:2139
+#: client/gui-gtk-2.0/menu.c:2140
 msgid "Help _Build Wonder"
 msgstr "Auta ihmeen toteuttamisessa (_B)"
 
-#: client/gui-gtk-2.0/menu.c:2153
+#: client/gui-gtk-2.0/menu.c:2154
 msgid "Add to City (_B)"
 msgstr "Lisää tähän kaupunkiin (_B)"
 
-#: client/gui-gtk-2.0/menu.c:2161
+#: client/gui-gtk-2.0/menu.c:2162
 msgid "Establish Trade _Route"
 msgstr "Perusta kaupparei_tti"
 
-#: client/gui-gtk-2.0/menu.c:2175
+#: client/gui-gtk-2.0/menu.c:2176
 msgid "Build _Railroad"
 msgstr "_Rakenna rautatie"
 
-#: client/gui-gtk-2.0/menu.c:2189
+#: client/gui-gtk-2.0/menu.c:2190
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Tee tästä %s (_I)"
@@ -15339,25 +15339,25 @@ msgstr "Tee tästä %s (_I)"
 # As food bonus was already got for irrigation,
 # I guess tile was suitable for agriculture.
 # Farmland is more advanced form of fields, not completely new ones.
-#: client/gui-gtk-2.0/menu.c:2195
+#: client/gui-gtk-2.0/menu.c:2196
 msgid "Bu_ild Farmland"
 msgstr "Ra_ivaa peltomaaksi"
 
-#: client/gui-gtk-2.0/menu.c:2202
+#: client/gui-gtk-2.0/menu.c:2203
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Tee tästä %s (_M)"
 
-#: client/gui-gtk-2.0/menu.c:2210
+#: client/gui-gtk-2.0/menu.c:2211
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Muunna tästä %s"
 
-#: client/gui-gtk-2.0/menu.c:2227 client/gui-win32/citydlg.c:1500
+#: client/gui-gtk-2.0/menu.c:2228 client/gui-win32/citydlg.c:1500
 msgid "_Fortify Unit"
 msgstr "Linnoittaudu"
 
-#: client/gui-gtk-2.0/menu.c:2233
+#: client/gui-gtk-2.0/menu.c:2234
 msgid "Drop _Paratrooper"
 msgstr "Laskuvarjohyppy"
 

@@ -159,7 +159,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-03 17:42-0700\n"
+"POT-Creation-Date: 2011-07-16 19:07+0100\n"
 "PO-Revision-Date: 2011-02-20 12:34+0900\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -15992,7 +15992,7 @@ msgstr "新型にする(_A)"
 msgid "_Disband"
 msgstr "ユニット解散(_D)"
 
-#: client/gui-gtk-2.0/menu.c:1520 client/gui-gtk-2.0/menu.c:2156
+#: client/gui-gtk-2.0/menu.c:1520 client/gui-gtk-2.0/menu.c:2157
 #: client/gui-win32/menu.c:367
 msgid "_Build City"
 msgstr "都市を作る(_B)"
@@ -16005,18 +16005,18 @@ msgstr "移動して都市を作る(_T)"
 msgid "_Auto Settler"
 msgstr "自動開拓(_A)"
 
-#: client/gui-gtk-2.0/menu.c:1527 client/gui-gtk-2.0/menu.c:2177
-#: client/gui-gtk-2.0/menu.c:2180 client/gui-win32/menu.c:368
+#: client/gui-gtk-2.0/menu.c:1527 client/gui-gtk-2.0/menu.c:2178
+#: client/gui-gtk-2.0/menu.c:2181 client/gui-win32/menu.c:368
 msgid "Build _Road"
 msgstr "道路を作る(_R)"
 
-#: client/gui-gtk-2.0/menu.c:1529 client/gui-gtk-2.0/menu.c:2197
-#: client/gui-gtk-2.0/menu.c:2217 client/gui-win32/menu.c:369
+#: client/gui-gtk-2.0/menu.c:1529 client/gui-gtk-2.0/menu.c:2198
+#: client/gui-gtk-2.0/menu.c:2218 client/gui-win32/menu.c:369
 msgid "Build _Irrigation"
 msgstr "灌漑を行う(_I)"
 
-#: client/gui-gtk-2.0/menu.c:1531 client/gui-gtk-2.0/menu.c:2205
-#: client/gui-gtk-2.0/menu.c:2218 client/gui-win32/menu.c:370
+#: client/gui-gtk-2.0/menu.c:1531 client/gui-gtk-2.0/menu.c:2206
+#: client/gui-gtk-2.0/menu.c:2219 client/gui-win32/menu.c:370
 msgid "Build _Mine"
 msgstr "鉱山を掘る(_M)"
 
@@ -16033,12 +16033,12 @@ msgstr "連続して鉄道を作る(_L)"
 msgid "Connect With Irri_gation"
 msgstr "連続して灌漑を行う(_G)"
 
-#: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-2.0/menu.c:2214
-#: client/gui-gtk-2.0/menu.c:2219
+#: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-2.0/menu.c:2215
+#: client/gui-gtk-2.0/menu.c:2220
 msgid "Transf_orm Terrain"
 msgstr "地形を変える(_O)"
 
-#: client/gui-gtk-2.0/menu.c:1543 client/gui-gtk-2.0/menu.c:2235
+#: client/gui-gtk-2.0/menu.c:1543 client/gui-gtk-2.0/menu.c:2236
 #: client/gui-win32/menu.c:374
 msgid "Clean _Pollution"
 msgstr "公害を除去する(_P)"
@@ -16047,7 +16047,7 @@ msgstr "公害を除去する(_P)"
 msgid "Clean _Nuclear Fallout"
 msgstr "死の灰を除去する(_N)"
 
-#: client/gui-gtk-2.0/menu.c:1549 client/gui-gtk-2.0/menu.c:2229
+#: client/gui-gtk-2.0/menu.c:1549 client/gui-gtk-2.0/menu.c:2230
 #: client/gui-win32/menu.c:372
 msgid "Build _Fortress"
 msgstr "要塞を築く(_F)"
@@ -16105,47 +16105,47 @@ msgstr "宇宙船(_S)"
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:2139
+#: client/gui-gtk-2.0/menu.c:2140
 msgid "Help _Build Wonder"
 msgstr "不思議建築を手伝う(_B)"
 
-#: client/gui-gtk-2.0/menu.c:2153
+#: client/gui-gtk-2.0/menu.c:2154
 msgid "Add to City (_B)"
 msgstr "都市に加える(_B)"
 
-#: client/gui-gtk-2.0/menu.c:2161
+#: client/gui-gtk-2.0/menu.c:2162
 msgid "Establish Trade _Route"
 msgstr "交易路を確立する(_R)"
 
-#: client/gui-gtk-2.0/menu.c:2175
+#: client/gui-gtk-2.0/menu.c:2176
 msgid "Build _Railroad"
 msgstr "鉄道を作る(_R)"
 
-#: client/gui-gtk-2.0/menu.c:2189
+#: client/gui-gtk-2.0/menu.c:2190
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "%sに変える(_I)"
 
-#: client/gui-gtk-2.0/menu.c:2195
+#: client/gui-gtk-2.0/menu.c:2196
 msgid "Bu_ild Farmland"
 msgstr "農地を作る(_I)"
 
-#: client/gui-gtk-2.0/menu.c:2202
+#: client/gui-gtk-2.0/menu.c:2203
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "%sに変える(_M)"
 
-#: client/gui-gtk-2.0/menu.c:2210
+#: client/gui-gtk-2.0/menu.c:2211
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "%sに変える(_O)"
 
 # yasu
-#: client/gui-gtk-2.0/menu.c:2227 client/gui-win32/citydlg.c:1500
+#: client/gui-gtk-2.0/menu.c:2228 client/gui-win32/citydlg.c:1500
 msgid "_Fortify Unit"
 msgstr "防御態勢(_F)"
 
-#: client/gui-gtk-2.0/menu.c:2233
+#: client/gui-gtk-2.0/menu.c:2234
 msgid "Drop _Paratrooper"
 msgstr "落下傘降下する(_P)"
 
