@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-15 04:27+0300\n"
-"PO-Revision-Date: 2011-06-30 19:25+0300\n"
+"PO-Revision-Date: 2011-07-17 17:43+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
@@ -87,9 +87,8 @@ msgstr "помилка мережі"
 
 #: common/connection.c:208
 #: server/sernet.c:335
-#, fuzzy
 msgid "lagging connection"
-msgstr "<немає з'єднань>"
+msgstr "конект лагає"
 
 #: common/connection.c:270
 msgid "buffer overflow"
@@ -1983,11 +1982,11 @@ msgid "You have already sold something here this turn."
 msgstr "Ви вже продали щось з міста цього ходу."
 
 #: server/cityhand.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "You sell %s in %s for %d gold."
 msgid_plural "You sell %s in %s for %d gold."
-msgstr[0] "Ви продали %s у %s за %d гривень."
-msgstr[1] "Ви продали %s у %s за %d гривень."
+msgstr[0] "Ви продали %s у %s за %d гривню."
+msgstr[1] "Ви продали %s у %s за %d гривні."
 msgstr[2] "Ви продали %s у %s за %d гривень."
 
 #: server/cityhand.c:311
@@ -2010,12 +2009,12 @@ msgstr "Неможливо купувати коли у місті завору�
 #. TRANS: This whole string is only ever used when included in one
 #. * other string (search for this string to find it).
 #: server/cityhand.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold required."
 msgid_plural "%d gold required."
-msgstr[0] "%d гривень за хід"
-msgstr[1] "%d гривень за хід"
-msgstr[2] "%d гривень за хід"
+msgstr[0] "потрібна %d гривня."
+msgstr[1] "потрібно %d гривні."
+msgstr[2] "потрібно %d гривень."
 
 #. TRANS: %s is a pre-pluralised string:
 #. * "%d gold required."
@@ -3558,9 +3557,9 @@ msgid "Lost connection: %s."
 msgstr "Втрачено з'єднання: %s."
 
 #: server/connecthand.c:678
-#, fuzzy, c-format
+#, c-format
 msgid "Detaching from %s."
-msgstr "від'єднується від %s"
+msgstr "Від'єднуюсь від %s."
 
 #: server/console.c:221
 msgid "Ok. RFC-style set."
@@ -3661,12 +3660,12 @@ msgid "The %s have acquired %s from the %s."
 msgstr "%s здобув %s від %s."
 
 #: server/diplhand.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "You get %d gold."
 msgid_plural "You get %d gold."
-msgstr[0] "Ви отримали %d гривень."
-msgstr[1] "Ви отримали %d гривень."
-msgstr[2] "Ви отримали %d гривень."
+msgstr[0] "Ви отримуєте %d гривню."
+msgstr[1] "Ви отримуєте %d гривні."
+msgstr[2] "Ви отримуєте %d гривень."
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:458
@@ -4350,9 +4349,9 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s двозначний префікс для назви з'єднання."
 
 #: server/handchat.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "%s is an anonymous name. Use connection name."
-msgstr "%s - це анонімна назва. Використайте назву з'єднання."
+msgstr "%s - це анонімна назва. Використовуйте назву з'єднання."
 
 #: server/handchat.c:135
 #: server/handchat.c:172
@@ -5060,9 +5059,8 @@ msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Не можу знайти читабельний файл \"%s.%s\"\" з правилами."
 
 #: server/ruleset.c:3980
-#, fuzzy
 msgid "Loading rulesets."
-msgstr "Завантажую правила"
+msgstr "Завантажую правила."
 
 #: server/ruleset.c:4053
 msgid "Reducing aifill because there are not enough playable nations."
@@ -5218,9 +5216,8 @@ msgid "See everything inside borders"
 msgstr "Бачити все в межах кордонів"
 
 #: server/settings.c:281
-#, fuzzy
 msgid "Borders expand to unknown, revealing tiles"
-msgstr "Боер"
+msgstr "Кордони поширюються у невідоме, відкриваючи клітинки."
 
 #: server/settings.c:292
 msgid "Enabled for everyone"
@@ -5308,9 +5305,8 @@ msgid "Team alternate movement"
 msgstr "Команди ходять почергово"
 
 #: server/settings.c:370
-#, fuzzy
 msgid "No compression"
-msgstr "Конструювання"
+msgstr "Без стиснення"
 
 #: server/settings.c:372
 msgid "Using zlib (gzip format)"
@@ -6543,9 +6539,9 @@ msgid "Gives the time in seconds before a user kicked using the 'kick' command m
 msgstr ""
 
 #: server/settings.c:2141
-#, fuzzy, c-format
+#, c-format
 msgid "You are not allowed to change the setting '%s'."
-msgstr "Вам не дозволено встановлювати цю опцію."
+msgstr "Вам не дозволено змінювати опцію '%s'."
 
 #: server/settings.c:2149
 #, c-format
@@ -6553,14 +6549,14 @@ msgid "The setting '%s' is locked by the ruleset."
 msgstr ""
 
 #: server/settings.c:2163
-#, fuzzy, c-format
+#, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
-msgstr "Ця установка не може бути змінена коли гру вже стартовано."
+msgstr "Опцію '%s' не можна змінити коли карту вже зафіксовано."
 
 #: server/settings.c:2180
-#, fuzzy, c-format
+#, c-format
 msgid "The setting '%s' can't be modified after the game has started."
-msgstr "Ця установка не може бути змінена коли гру вже стартовано."
+msgstr "Опцію '%s' не можна змінити коли гру вже запущено."
 
 #: server/settings.c:2192
 msgid "Internal error."
@@ -6572,9 +6568,8 @@ msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "Префікс \"%s\" неоднозначний. Можливі кандидати: %s."
 
 #: server/settings.c:2287
-#, fuzzy
 msgid "Missing value."
-msgstr "Ракета"
+msgstr "Відсутнє значення"
 
 #: server/settings.c:2296
 #, fuzzy, c-format
@@ -6592,9 +6587,9 @@ msgid "This setting is not an integer."
 msgstr "Сторінка поточних установок"
 
 #: server/settings.c:2449
-#, fuzzy, c-format
+#, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
-msgstr "Значення виходить за дозволений діапазон (мінімум: %d, максимум: %d)."
+msgstr "Значення поза діапазоном: %d (мін: %d; макс: %d)."
 
 #: server/settings.c:2504
 #, fuzzy
@@ -6602,9 +6597,9 @@ msgid "This setting is not a string."
 msgstr "Сторінка поточних установок"
 
 #: server/settings.c:2510
-#, fuzzy, c-format
+#, c-format
 msgid "String value too long (max length: %lu)."
-msgstr "Строкове значення задовге. Використовуйте: set <опція> <значення>."
+msgstr "Рядок надто довгий (максимальна довжина: %lu)."
 
 #: server/settings.c:2588
 #, fuzzy
@@ -6710,7 +6705,7 @@ msgstr "Сервер не може прочитати стандартний в�
 
 #: server/sernet.c:460
 msgid "rejected"
-msgstr ""
+msgstr "відмовлено"
 
 #: server/sernet.c:544
 msgid "Restarting for lack of players."
@@ -6727,7 +6722,7 @@ msgstr "скоро буде перезапуск через нестачу гр�
 
 #: server/sernet.c:591
 msgid "ping timeout"
-msgstr ""
+msgstr "таймаут пінга"
 
 #: server/sernet.c:827
 msgid "client disconnected"
@@ -7213,9 +7208,9 @@ msgstr "%s додано як комп'ютерного гравця."
 
 #. TRANS: <name> replacing <name> ...
 #: server/stdinhand.c:1046
-#, fuzzy, c-format
+#, c-format
 msgid "%s replacing %s as an AI-controlled player."
-msgstr "%s додано як комп'ютерного гравця."
+msgstr "%s замінює %s як комп'ютерний гравець."
 
 #: server/stdinhand.c:1089
 msgid "Players cannot be removed once the game has started."
@@ -7698,7 +7693,7 @@ msgstr "У вас немає активних голосувань."
 #: server/stdinhand.c:2464
 #, fuzzy
 msgid "There isn't any vote going on."
-msgstr "Немає активних голосувань."
+msgstr "Зараз голосувань не відбувається."
 
 #. TRANS: "votes" as a process
 #: server/stdinhand.c:2470
@@ -7817,9 +7812,9 @@ msgid "The parameter %s should only contain +- and 0-9."
 msgstr "Параметр %s має містити лише +- та 0-9."
 
 #: server/stdinhand.c:2896
-#, fuzzy, c-format
+#, c-format
 msgid "Console: '%s' has been set to %s."
-msgstr "Опція: %s встановлена у \"%s\"."
+msgstr "Консоль: '%s' встановлено у %s."
 
 #: server/stdinhand.c:2938
 msgid "Sorry, one can't observe globally in this game."
@@ -8164,9 +8159,8 @@ msgid "No saved settings from the game start available."
 msgstr ""
 
 #: server/stdinhand.c:4297
-#, fuzzy
 msgid "No game started..."
-msgstr "Гру стартовано."
+msgstr "Гру не розпочато..."
 
 #: server/stdinhand.c:4304
 msgid "Reset all settings to ruleset values."
@@ -8177,16 +8171,14 @@ msgid "Reset all settings and rereading the server start script."
 msgstr ""
 
 #: server/stdinhand.c:4329
-#, fuzzy
 msgid "Reset all settings to default values."
-msgstr "= вказує, що опція містить значення по замовчуванню"
+msgstr "Повернути всі налаштування до типових значень."
 
 #: server/stdinhand.c:4335
 msgid "Settings re-initialized."
 msgstr "Налаштування переініціалізовано."
 
 #: server/stdinhand.c:4418
-#, fuzzy
 msgid "Not enough human players; game will not start."
 msgstr "Не вистачає гравців-людей, гра не розпочнеться."
 
@@ -8516,11 +8508,11 @@ msgstr "Невірний пакет, не можу модернізувати %s
 #. TRANS: "2 Musketeers upgraded to Riflemen for 100 gold."
 #. * Plurality is in gold (second %d), not units.
 #: server/unithand.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s upgraded to %s for %d gold."
 msgid_plural "%d %s upgraded to %s for %d gold."
-msgstr[0] "%d %s модернізовано для %s за %d гривень."
-msgstr[1] "%d %s модернізовано для %s за %d гривень."
+msgstr[0] "%d %s модернізовано для %s за %d гривню."
+msgstr[1] "%d %s модернізовано для %s за %d гривні."
 msgstr[2] "%d %s модернізовано для %s за %d гривень."
 
 #: server/unithand.c:161
@@ -8528,11 +8520,11 @@ msgid "No units could be upgraded."
 msgstr "Не має підрозділів для модернізації."
 
 #: server/unithand.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "%s upgraded to %s for %d gold."
 msgid_plural "%s upgraded to %s for %d gold."
-msgstr[0] "%s модернізовано до %s за %d гривень."
-msgstr[1] "%s модернізовано до %s за %d гривень."
+msgstr[0] "%s модернізовано до %s за %d гривню."
+msgstr[1] "%s модернізовано до %s за %d гривні."
 msgstr[2] "%s модернізовано до %s за %d гривень."
 
 #: server/unithand.c:218
@@ -8852,11 +8844,11 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Ваш підрозділ %s запобіг знищення у %s та втік до %s."
 
 #: server/unittools.c:1717
-#, fuzzy, c-format
+#, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
-msgstr[0] "Ватажка дикунів захоплено; отримано %d гривень викупу."
-msgstr[1] "Ватажка дикунів захоплено; отримано %d гривень викупу."
+msgstr[0] "Ватажка дикунів захоплено; отримано %d гривню викупу."
+msgstr[1] "Ватажка дикунів захоплено; отримано %d гривні викупу."
 msgstr[2] "Ватажка дикунів захоплено; отримано %d гривень викупу."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
@@ -9002,11 +8994,11 @@ msgstr "Ваших %s вбито ворогами у точці парашуту
 #: server/unittools.c:2432
 #: data/default/default.lua:22
 #: data/multiplayer/default.lua:22
-#, fuzzy, c-format
+#, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
-msgstr[0] "Ви знайшли %d гривень."
-msgstr[1] "Ви знайшли %d гривень."
+msgstr[0] "Ви знайшли %d гривню."
+msgstr[1] "Ви знайшли %d гривні."
 msgstr[2] "Ви знайшли %d гривень."
 
 #: server/unittools.c:2439
@@ -9232,11 +9224,11 @@ msgid "?filler:XXX/XXX XXX turns"
 msgstr "?заповнювач:XXX/XXX XXX ходів"
 
 #: client/citydlg_common.c:263
-#, fuzzy, c-format
+#, c-format
 msgid "%3d gold per turn"
 msgid_plural "%3d gold per turn"
-msgstr[0] "%3d гривень за хід"
-msgstr[1] "%3d гривень за хід"
+msgstr[0] "%3d гривня за хід"
+msgstr[1] "%3d гривні за хід"
 msgstr[2] "%3d гривень за хід"
 
 #: client/citydlg_common.c:277
@@ -9374,19 +9366,19 @@ msgid "Illness deactivated in ruleset."
 msgstr ""
 
 #: client/citydlg_common.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from overcrowding\n"
-msgstr "%+4d : Податків від торгівлі\n"
+msgstr "%+5.1f : Ризик від перенаселення\n"
 
 #: client/citydlg_common.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from trade\n"
-msgstr "%+4d : Податків від торгівлі\n"
+msgstr "%+5.1f : Ризик від торгівлі\n"
 
 #: client/citydlg_common.c:574
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from pollution\n"
-msgstr "%+4d : Податків від торгівлі\n"
+msgstr "%+5.1f : Ризик від забруднення\n"
 
 #: client/citydlg_common.c:587
 #, fuzzy, c-format
@@ -10803,7 +10795,7 @@ msgstr "* Ігнорує зони контролю.\n"
 
 #: client/helpdata.c:1533
 msgid "* A non-military unit:\n"
-msgstr ""
+msgstr "* Не військовий підрозділ:\n"
 
 #: client/helpdata.c:1535
 #, fuzzy
@@ -10817,7 +10809,7 @@ msgstr "* Не військовий підрозділ (неможе атаку�
 
 #: client/helpdata.c:1539
 msgid "  * Can enter foreign territory regardless of peace treaty.\n"
-msgstr ""
+msgstr " * Може заходити на ворожу територію, не зважаючи на мирну угоду.\n"
 
 #: client/helpdata.c:1545
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
@@ -10993,7 +10985,7 @@ msgstr "  * Не отримує покращення захисту від мі�
 #: client/helpdata.c:1921
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
-msgstr ""
+msgstr " * Дипломатичні підрозділи отримують 25% бонус у дипломатичних бійках.\n"
 
 #: client/helpdata.c:1929
 msgid "* Cannot be built.\n"
@@ -11006,7 +10998,7 @@ msgstr "* Можуть атакувати ворожі повітряні під
 
 #: client/helpdata.c:1938
 msgid "* Defeat of one unit does not cause death of all other units on this tile.\n"
-msgstr ""
+msgstr "* Поразка одного підрозділу не спричиняє загибелі усіх інших підрозділів на цій клітинці.\n"
 
 #: client/helpdata.c:1943
 #, fuzzy
@@ -11019,11 +11011,11 @@ msgstr ""
 
 #: client/helpdata.c:1951
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
-msgstr ""
+msgstr "* Територія навколо клітинки стає постійно видимою для власника цього.\n"
 
 #: client/helpdata.c:1956
 msgid "* Allows the owner to see normally invisible units in an area around the tile.\n"
-msgstr ""
+msgstr "* Дозволяє власнику бачити невидимі підрозділи на території навколо клітинки.\n"
 
 #: client/helpdata.c:2036
 msgid "Features:\n"
@@ -11147,7 +11139,7 @@ msgstr "* Ви можете збільшувати свої міста за до
 #: client/helpdata.c:2250
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
-msgstr ""
+msgstr " (Міста розміром до %d не можуть зростати таким чином.)"
 
 #: client/helpdata.c:2256
 msgid "* Your units cannot be bribed.\n"
@@ -11204,7 +11196,7 @@ msgstr "* Кожна працююча клітинка, яка дає більш
 #: client/helpdata.c:2334
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
-msgstr ""
+msgstr " (Міста розміром до %d не святкуватимуть.)"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:2326
@@ -11605,7 +11597,7 @@ msgstr "Якщо встановити цю опцію, будуть показа
 
 #: client/options.c:1808
 msgid "Show dead players in Nations report"
-msgstr ""
+msgstr "Показувати загиблих гравців у Звіті націй"
 
 #: client/options.c:1809
 #, fuzzy
@@ -15185,7 +15177,7 @@ msgstr "Будівлі:"
 #. * that can't be built on the same tile as this one.
 #: client/gui-gtk-2.0/helpdlg.c:121
 msgid "Conflicts with:"
-msgstr ""
+msgstr "Несумісне з:"
 
 #: client/gui-gtk-2.0/helpdlg.c:124
 #: client/gui-xaw/helpdlg.c:765
@@ -16042,7 +16034,7 @@ msgstr "Йти до"
 
 #: client/gui-gtk-2.0/optiondlg.c:210
 msgid "Apply the changes for this option"
-msgstr ""
+msgstr "Застосувати зміни для цієї опції"
 
 #: client/gui-gtk-2.0/optiondlg.c:329
 #, fuzzy
@@ -16468,15 +16460,15 @@ msgstr "Доход: %d    Затрати: %d"
 
 #. TRANS: %s is an improvement
 #: client/gui-gtk-2.0/repodlgs.c:911
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really wish to sell every redundant %s (%d total)?"
-msgstr "Чи насправді Ви хочете продати Ваш %s\n"
+msgstr "Ви дійсно хочете продати всі зайві %s (загалом %d)?"
 
 #. TRANS: %s is an improvement
 #: client/gui-gtk-2.0/repodlgs.c:914
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really wish to sell every %s (%d total)?"
-msgstr "Чи насправді Ви хочете продати Ваш %s\n"
+msgstr "Ви дійсно хочете продати всі %s (загалом %d)?"
 
 #: client/gui-gtk-2.0/repodlgs.c:919
 msgid "Sell Improvements"
@@ -16484,9 +16476,9 @@ msgstr "Продати будівлі"
 
 #. TRANS: %s is a unit
 #: client/gui-gtk-2.0/repodlgs.c:940
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really wish to disband every %s (%d total)?"
-msgstr "Ви дійсно хочете розформувати Ваш %s?\n"
+msgstr "Ви дійсно хочете розформувати всіх %s (загалом %d)?"
 
 #: client/gui-gtk-2.0/repodlgs.c:945
 msgid "Disband Units"
@@ -16498,7 +16490,7 @@ msgstr "Продаж: Результат"
 
 #: client/gui-gtk-2.0/repodlgs.c:1103
 msgid "Sell _Redundant"
-msgstr ""
+msgstr "Продати зайві (_R)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1107
 msgid "Sell _All"
@@ -18613,9 +18605,8 @@ msgid "%s - %s citizens  Governor: %s"
 msgstr "%s - %s городян%s"
 
 #: client/gui-xaw/citydlg.c:2432
-#, fuzzy
 msgid "Workers"
-msgstr "Дива"
+msgstr "Робітники"
 
 #: client/gui-xaw/cma_fe.c:438
 msgid "What should we name the new preset?"
@@ -18746,7 +18737,7 @@ msgstr "Збудувати шахту"
 #: client/gui-xaw/helpdlg.c:1082
 #, c-format
 msgid "Conflicts with: "
-msgstr ""
+msgstr "Несумісне з:"
 
 #: client/gui-xaw/inputdlg.c:103
 #: data/Freeciv.in:1245
@@ -19257,9 +19248,8 @@ msgid "Modpack list is incompatible"
 msgstr "файл спеціфікацій звуку несумісний:"
 
 #: modinst/download.h:23
-#, fuzzy
 msgid "Ruleset"
-msgstr "Пустеля"
+msgstr "Набір правил"
 
 #: modinst/download.h:27
 msgid "Modpack"
@@ -19270,9 +19260,8 @@ msgid "Another download already active"
 msgstr ""
 
 #: modinst/modinst.c:161
-#, fuzzy
 msgid "Failed to start downloader"
-msgstr "Помилка створення нового комп'ютерного гравця: %s."
+msgstr "Не вдалося запустити завантажувач"
 
 #. TRANS: Unknown modpack type
 #: modinst/modinst.c:201
@@ -20165,7 +20154,7 @@ msgstr ""
 
 #: data/helpdata.txt:460
 msgid "Borders can only extend into water for tiles adjacent to a city; other water tiles remain unclaimed territory."
-msgstr ""
+msgstr "Морські кордони поширюються лише на клітинки прилеглі до міста; інші водні клітинки залишаються нічийною акваторією."
 
 #: data/helpdata.txt:463
 msgid "Bases can also extend national borders. See the help on Terrain Alterations for more details."
@@ -20353,7 +20342,7 @@ msgstr ""
 
 #: data/helpdata.txt:772
 msgid "Cities that are sufficiently large celebrate when at least half their citizens are happy and none remain unhappy. The effects of celebration vary; in the default ruleset, they depend on your government type:"
-msgstr ""
+msgstr "Міста достатньо великого розміру святкують, коли принаймі половина їх мешканців щасливі, а нещасних немає. Ефекти від святкування можуть бути різними; у типовому наборі правил вони залежать від форми правління:"
 
 #: data/helpdata.txt:776
 #, fuzzy
@@ -20426,15 +20415,15 @@ msgstr "Пошесть"
 
 #: data/helpdata.txt:880
 msgid "Plague is a ruleset option, and is not enabled in the default ruleset."
-msgstr ""
+msgstr "Пошесть - це опція набору правил, відсутня у типовому наборі правил."
 
 #: data/helpdata.txt:883
 msgid "When plague strikes a city, its population is reduced by one. Unless action is taken to reduce the risk of plague, this tends to act as a natural limit on city size. Rulesets which enable plague will typically have city improvements or other means to reduce the risk of plague."
-msgstr ""
+msgstr "Коли пошесть вражає місто, його населення зменшується на одиницю. Якщо нічого не робити для зменшення ризику пошесті, це діє як природне обмеження розміру міста. Набори правил, які дозволяють пошесть, як правило, мають будівлі чи інші способи зменшення ризику пошесті."
 
 #: data/helpdata.txt:889
 msgid "The risk of plague depends on city size (overcrowding leads to insanitary conditions) and on the pollution generated in a city. Also, plague can spread via trade routes (without regard for nationality); after a city has been struck by plague, it will remain infectious to its trade partners for several turns, increasing the risk of plague in those cities by a factor depending on the size of both cities."
-msgstr ""
+msgstr "Ризик пошесті залежить від розміру міста (перенаселення спричиняє антисанітарію) та забруднення, що створюється містом. Крім того, пошесть може поширюватися торговими шляхами (незалежно від національності); коли місто вражене пошестю, воно декілька ходів залишається заразним для своїх торгових партнерів, збільшуючи ризик пошесті у цих містах на величину залежну від розміру обох міст."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:900
@@ -24179,9 +24168,8 @@ msgid "Upgrades one obsolete unit per game turn."
 msgstr "Модернізує один застарілий підрозділ за хід."
 
 #: data/civ2/buildings.ruleset:1274
-#, fuzzy
 msgid "Gives all your sea units 1 additional movement point. Makes all your new military sea units veterans (for all cities)."
-msgstr "Надає усім морським підрозділам 1 додатковий рух. Робить усі нові морські підрозділи ветеранами (в усіх містах)."
+msgstr "Надає усім вашим морським підрозділам 1 додатковий хід. Робить усі нові військово-морські підрозділи ветеранами (в усіх містах)."
 
 #: data/civ2/buildings.ruleset:1294
 msgid "Gives all sea units 2 additional movement points."
@@ -24279,15 +24267,15 @@ msgstr "Фундаменталізм"
 
 #: data/civ2/governments.ruleset:150
 #: data/multiplayer/governments.ruleset:196
-#, fuzzy, c-format
+#, c-format
 msgid "High Priest %s"
-msgstr "Духовний лідер"
+msgstr "Верховний жрець %s"
 
 #: data/civ2/governments.ruleset:151
 #: data/multiplayer/governments.ruleset:197
-#, fuzzy, c-format
+#, c-format
 msgid "High Priestess %s"
-msgstr "Духовний лідер"
+msgstr "Верховна жриця %s"
 
 #: data/civ2/governments.ruleset:153
 #: data/multiplayer/governments.ruleset:199
@@ -24637,11 +24625,11 @@ msgstr "Інженери подібні до Колоністів, але вон
 
 #: data/civ2/units.ruleset:264
 msgid "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require the same resources as ordinary Settlers."
-msgstr ""
+msgstr "Порада 1: За можливості, модернізуйте Колоністів до Інженерів, бо Інженери потребують стільки ж ресурсів, як і звичайні Колоністи."
 
 #: data/civ2/units.ruleset:267
 msgid "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives before the Workshop becomes obsolete.  This way, your Settler units will be upgraded for free."
-msgstr ""
+msgstr "Порада 2: Якщо вам вдалося збудувати Майстерню Леонардо, дослідіть Вибухівку до того, як Майстерня застаріє. Таким чином, можна модернізувати Колоністів безкоштовно."
 
 #: data/civ2/units.ruleset:274
 #: data/default/units.ruleset:422
@@ -24982,9 +24970,8 @@ msgstr "Ракета"
 #: data/default/units.ruleset:1738
 #: data/experimental/units.ruleset:1753
 #: data/multiplayer/units.ruleset:1837
-#, fuzzy
 msgid "The Cruise Missile is a long-distance missile that can strike deep into enemy territory."
-msgstr "Кіннота - це вояки на конях, ранні ударні війська, здатні вклинитися вглиб ворожої території."
+msgstr "Крилата ракета - це ракета далекого радіусу дії, що може вражати цілі в глибині ворожої території."
 
 #: data/civ2/units.ruleset:1692
 #: data/default/units.ruleset:1741
@@ -25047,13 +25034,13 @@ msgstr ""
 #: data/experimental/units.ruleset:1997
 #: data/multiplayer/units.ruleset:2081
 msgid "Freight"
-msgstr "Дальнобійник"
+msgstr "Далекобійник"
 
 #: data/civ2/units.ruleset:1959
 #: data/default/units.ruleset:2008
 #: data/experimental/units.ruleset:2023
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "Дальнобійник замінює собою караван, та рухається удвічі швидше."
+msgstr "Далекобійник замінює собою караван, та рухається удвічі швидше."
 
 #: data/civ2/units.ruleset:1964
 #: data/default/units.ruleset:2013
@@ -25142,7 +25129,7 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:573
 #, no-c-format
 msgid "Under Despotism the city containing the palace gains a +75% production bonus, and under Monarchy a +50% production bonus."
-msgstr ""
+msgstr "За Деспотизму місто з палацом набуває +75% бонус до виробництва, а за Монархії +50%."
 
 #: data/default/buildings.ruleset:652
 #: data/experimental/buildings.ruleset:701
@@ -25209,9 +25196,8 @@ msgstr "Підвищує розвиток науки на 100% у кожному
 
 #: data/default/buildings.ruleset:1342
 #: data/experimental/buildings.ruleset:1394
-#, fuzzy
 msgid "Gives all your sea units 1 additional movement point. Makes all your new military sea units veterans (for all your cities)."
-msgstr "Надає усім морським підрозділам 1 додатковий рух. Робить усі нові морські підрозділи ветеранами (в усіх містах)."
+msgstr "Надає усім вашим морським підрозділам 1 додатковий хід. Робить усі нові військово-морські підрозділи ветеранами (в усіх містах)."
 
 #: data/default/buildings.ruleset:1363
 #: data/experimental/buildings.ruleset:1415
@@ -25232,9 +25218,8 @@ msgstr "Збільшує розвиток науки в усіх містах з
 
 #: data/default/buildings.ruleset:1549
 #: data/experimental/buildings.ruleset:1601
-#, fuzzy
 msgid "All your new military land units start at the first veteran level. The chance of a land unit getting the next veteran level after a battle increases by half."
-msgstr "Усі нові сухопутні підрозділи стають ветеранами (для усіх міст). Вірогідність того, що підрозділ стане ветераном після битви збільшується з 50% до 100%."
+msgstr "Усі нові військові сухопутні підрозділи створюються ветеранами першого рівня. Вірогідність того, що сухопутний підрозділ стане ветераном наступного рівня після битви збільшується на половину."
 
 #: data/default/buildings.ruleset:1610
 #: data/experimental/buildings.ruleset:1662
@@ -25381,9 +25366,8 @@ msgstr "Буй"
 #: data/default/terrain.ruleset:969
 #: data/experimental/terrain.ruleset:971
 #: data/multiplayer/terrain.ruleset:969
-#, fuzzy
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
-msgstr " - Буї можна будувати в океані (підрозділами на кораблях); вони дозволяють бачити частину мапи навколо себе."
+msgstr "Буї можна будувати в океані (підрозділами на кораблях)."
 
 #: data/default/terrain.ruleset:974
 #: data/experimental/terrain.ruleset:976
@@ -25438,13 +25422,13 @@ msgstr "Інженери подібні до Колоністів, але вон
 #: data/experimental/units.ruleset:427
 #: data/multiplayer/units.ruleset:413
 msgid "TIP 1:  Upgrade Workers to Engineers when possible, as Engineers require the same resources as ordinary Workers."
-msgstr ""
+msgstr "Порада 1: За можливості, модернізуйте Робітників до Інженерів, бо Інженери потребують стільки ж ресурсів, як і звичайні Робітники."
 
 #: data/default/units.ruleset:415
 #: data/experimental/units.ruleset:430
 #: data/multiplayer/units.ruleset:416
 msgid "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives before the Workshop becomes obsolete.  This way, your Workers units will be upgraded for free."
-msgstr ""
+msgstr "Порада 2: Якщо вам вдалося збудувати Майстерню Леонардо, дослідіть Вибухівку до того, як Майстерня застаріє. Таким чином, можна модернізувати Робітників безкоштовно."
 
 #: data/default/units.ruleset:1338
 #: data/experimental/units.ruleset:1353
@@ -25512,6 +25496,8 @@ msgid ""
 "In a Genetic Laboratory medicaments can be researched. The possibility for plagues within the city is reduced.\n"
 "A Genetic Laboratory allows the genetic optimization of plants and animals. The food output is increased by 25% if the city size exceeds 20."
 msgstr ""
+"У Генетичній Лабораторії досліджуються медикаменти. Ймовірність пошесті у місті зменшується.\n"
+"Генетична Лабораторія дозволяє генне модифікування рослин і тварин. Виробництво їжі зростає на 20%, якщо розмір міста перевищує 20."
 
 #: data/experimental/buildings.ruleset:517
 #: data/experimental/buildings.ruleset:989
@@ -25589,14 +25575,13 @@ msgstr "Зменшує кількість нещасних з причини в�
 #: data/multiplayer/buildings.ruleset:815
 #: data/multiplayer/buildings.ruleset:849
 #: data/multiplayer/buildings.ruleset:874
-#, fuzzy
 msgid "Before you can build any spaceship parts, you must build the Apollo Program."
-msgstr "Потребує чуда %s, збудованого будь-яким гравцем.\n"
+msgstr "Щоб розпочати виробництво частин зорельота, потрібно спершу збудувати Програму Аполлон."
 
 #: data/multiplayer/buildings.ruleset:940
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the food resources by 100% on each farmland tile which is being used around the city.  Farmland tiles are those which have been irrigated a second time."
-msgstr "Збільшує виробництво продовольства на 50% на кожній фермі навколо міста. Ферми - це клітини, які було зрошено двічі."
+msgstr "Збільшує виробництво продовольства на 100% на кожній фермі навколо міста. Ферми - це клітинки, які були зрошені двічі."
 
 #: data/multiplayer/buildings.ruleset:1006
 msgid "Allows you to start building spaceship parts in cities with factories (assuming you have researched the necessary technologies)."
@@ -25866,9 +25851,8 @@ msgid "Every Caravan that is used to build a wonder will add 30 shields towards 
 msgstr "Кожен караван, що використовується для будівництва дива, додає 30 щитів до його виробництва."
 
 #: data/multiplayer/units.ruleset:2107
-#, fuzzy
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed. Each Freight used to build a wonder will add 50 shields."
-msgstr "Дальнобійник замінює собою караван, та рухається удвічі швидше."
+msgstr "Далекобійник замінює собою караван, та рухається удвічі швидше. Кожен Далекобійник, залучений до будівництва Дива, додає 50 щитів."
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -26053,9 +26037,9 @@ msgstr "Прем`єр-міністр %s"
 #: data/nation/acadian.ruleset:32
 #: data/nation/paraguayan.ruleset:38
 #: data/nation/sammarinese.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Abbot %s"
-msgstr "Про програму"
+msgstr "Абат %s"
 
 #: data/nation/acadian.ruleset:32
 #: data/nation/bavarian.ruleset:23
@@ -30670,7 +30654,7 @@ msgstr ""
 
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
-msgstr ""
+msgstr "Македонський"
 
 #: data/nation/macedon.ruleset:4
 #, fuzzy
@@ -30679,7 +30663,7 @@ msgstr "Іспанці"
 
 #: data/nation/macedon.ruleset:6
 msgid "The Kingdom of Macedonia was located in the southern Balkans. Under Alexander the Great it became one of the most powerful states in the world but it splintered into several states after Alexander's death. Macedonia was eventually conquered by Rome in 146 BC. "
-msgstr ""
+msgstr "Королівство Македонія було розташоване на півдні Балкан. За часів Александра Великого воно стало одною з наймогутніших держав світу, але після смерті Александра розділилося на декілька держав. Згодом Македонію підкорив Рим, у 146 до н.е."
 
 #: data/nation/macedon.ruleset:23
 #, c-format
@@ -30703,7 +30687,7 @@ msgstr "Італійці"
 
 #: data/nation/macedonian.ruleset:6
 msgid "The Republic of Macedonia is located in the south-central part of the Balkan peninsula. It declared independence from Yugoslavia in 1991."
-msgstr ""
+msgstr "Республіка Македонія розташована у південно-центральній частині Балканського півострова. Вона проголосила незалежність від Югославії у 1991."
 
 #: data/nation/majapahit.ruleset:3
 msgid "Majapahit"
@@ -32684,7 +32668,7 @@ msgstr "Лужицькі Серби"
 
 #: data/nation/sorbian.ruleset:6
 msgid "The Sorbs are West Slavic people living in the East of Germany in Eastern Saxony and Southern Brandenburg (Lusatia). The region has historically been associated with Poland and Bohemia."
-msgstr ""
+msgstr "Лужицькі Серби - це західнослов'янський народ, що живе на сході Німеччини у Східній Саксонії та Південному Бранденбургу (Лужиці). Цей регіон історично пов'язаний із Польщею та Богемією."
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
@@ -32831,7 +32815,7 @@ msgstr "Суринамці"
 
 #: data/nation/surinamese.ruleset:7
 msgid "Suriname is the smallest independent country of South America. Originally it was inhabited by Arawak Indians. It was first colonized by the English who traded it with the Dutch for New Amsterdam, modern New York, in 1667. Suriname was granted self government in 1954 and became fully independent in 1975."
-msgstr ""
+msgstr "Сурінам - це найменша незалежна країна Південної Америки. Спочатку там жили індіанці Араваки. Вперше його колонізували англійці, які потім обміняли його голандцям на Новий Амстердам, сучасний Нью-Йорк, у 1667. Сурінаму надали самоуправління у 1954, а у 1975 він став цілком незалежним."
 
 #: data/nation/surinamese.ruleset:28
 #, c-format
