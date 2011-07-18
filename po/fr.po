@@ -15,14 +15,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-07 06:15+0300\n"
+"POT-Creation-Date: 2011-07-17 19:55-0700\n"
 "PO-Revision-Date: 2011-07-10 21:03+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
@@ -619,7 +619,7 @@ msgstr "M. %s"
 msgid "Ms. %s"
 msgstr "Mme %s"
 
-#: common/packets.c:410 common/packets.c:455
+#: common/packets.c:408 common/packets.c:453
 msgid "decoding error"
 msgstr "erreur de décodage"
 
@@ -1213,72 +1213,6 @@ msgstr ""
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Impossible de convertir le texte de %s vers %s : %s"
 
-#: utility/ioz.c:514
-msgid "?bzip2error:OK"
-msgstr "OK"
-
-#: utility/ioz.c:517
-msgid "?bzip2error:Run ok"
-msgstr "Execution OK"
-
-#: utility/ioz.c:520
-msgid "?bzip2error:Flush ok"
-msgstr "Écriture OK"
-
-#: utility/ioz.c:523
-msgid "?bzip2error:Finish ok"
-msgstr "Terminaison OK"
-
-#: utility/ioz.c:526
-msgid "?bzip2error:Stream end"
-msgstr "Fin de flux"
-
-#: utility/ioz.c:529
-msgid "?bzip2error:Config error"
-msgstr "Erreur de configuration"
-
-#: utility/ioz.c:532
-msgid "?bzip2error:Sequence error"
-msgstr "Erreur de séquence"
-
-#: utility/ioz.c:535
-msgid "?bzip2error:Parameter error"
-msgstr "Erreur de paramètre"
-
-#: utility/ioz.c:538
-msgid "?bzip2error:Mem error"
-msgstr "Erreur de mémoire"
-
-#: utility/ioz.c:541
-msgid "?bzip2error:Data error"
-msgstr "Erreur de données"
-
-#: utility/ioz.c:544
-msgid "?bzip2error:Not bzip2 file"
-msgstr "Pas un fichier bzip2"
-
-#: utility/ioz.c:547
-msgid "?bzip2error:IO error"
-msgstr "Erreur d'entrée/sortie"
-
-#: utility/ioz.c:550
-msgid "?bzip2error:Unexpected EOF"
-msgstr "Fin de fichier inattendue"
-
-#: utility/ioz.c:553
-msgid "?bzip2error:Output buffer full"
-msgstr "Tampon de sortie plein"
-
-#: utility/ioz.c:560
-#, c-format
-msgid "Bz2: \"%s\" (%d)"
-msgstr "Bz2 : \"%s\" (%d)"
-
-#: utility/ioz.c:563
-#, c-format
-msgid "Bz2 error %d"
-msgstr "Erreur bz2 %d"
-
 #: utility/log.c:90
 #, c-format
 msgid "Bad log level \"%s\".\n"
@@ -1345,7 +1279,7 @@ msgstr[1] " (total : %d répétitions)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/log.c:472 utility/netintf.c:83 utility/registry.c:893
-#: server/console.c:68 server/generator/startpos.c:393
+#: server/console.c:68 server/generator/startpos.c:397
 #: client/agents/cma_core.c:431 client/gui-sdl/mapview.c:159
 #, c-format
 msgid "Please report this message at %s"
@@ -1381,8 +1315,8 @@ msgstr ""
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
-"\"%s\" est spécifié mais vide ; les répertoires de sauvegardes par défaut "
-"\"%s\" seront utilisés à la place."
+"\"%s\" est spécifié mais vide ; les répertoires de sauvegardes par défaut \"%"
+"s\" seront utilisés à la place."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1061
@@ -1521,8 +1455,8 @@ msgstr "*%s (IA)* Rompez d'abord votre alliance avec %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IA)* J'aurais aimé vous voir garder vos distances avec %s pour quelques "
 "temps, %s."
@@ -1788,8 +1722,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutations allié, je vois que vous n'avez pas encore déclaré la "
 "guerre à notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
@@ -1880,8 +1814,8 @@ msgid ""
 "Cannot load auth config file '%s':\n"
 "%s"
 msgstr ""
-"Impossible de charger le fichier de configuration de l'authentification "
-"'%s':\n"
+"Impossible de charger le fichier de configuration de l'authentification '%"
+"s':\n"
 "%s"
 
 #: server/auth.c:400
@@ -3021,7 +2955,16 @@ msgid ""
 "\"changed\", it shows only the options which have been modified, while with "
 "\"locked\" all settings locked by the ruleset will be listed. With \"ruleset"
 "\", it will show the current ruleset directory name."
-msgstr "Sans argument, affiche les options vitales du serveur (ou les options disponibles, lorsqu'utilisée depuis un client). Avec un nom d'option comme argument, montre seulement cette option, ou les options qui commencent par ce préfixe. Avec \"all\", cette commande affiche toutes les options. Avec \"vital\", \"situational\" ou \"rare\", un échantillon d'options de ce niveau. Avec \"changed\", seules les options modifiées sont listées, alors qu'avec \"locked\" toutes les options verrouillées par les règles du jeu seront listées. Avec \"ruleset\", cette commande indiquera le nom du répertoire des règles du jeu en cours."
+msgstr ""
+"Sans argument, affiche les options vitales du serveur (ou les options "
+"disponibles, lorsqu'utilisée depuis un client). Avec un nom d'option comme "
+"argument, montre seulement cette option, ou les options qui commencent par "
+"ce préfixe. Avec \"all\", cette commande affiche toutes les options. Avec "
+"\"vital\", \"situational\" ou \"rare\", un échantillon d'options de ce "
+"niveau. Avec \"changed\", seules les options modifiées sont listées, alors "
+"qu'avec \"locked\" toutes les options verrouillées par les règles du jeu "
+"seront listées. Avec \"ruleset\", cette commande indiquera le nom du "
+"répertoire des règles du jeu en cours."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:145
@@ -3763,10 +3706,12 @@ msgid ""
 "  script   - using default values and rereading the start script\n"
 "  default  - using default values\n"
 msgstr ""
-"Réinitialise toutes les options si possible. Les niveaux suivants sont supportés :\n"
+"Réinitialise toutes les options si possible. Les niveaux suivants sont "
+"supportés :\n"
 "  game    - utilise les valeurs définies au commencement du jeu\n"
 "  ruleset - utilise les valeurs définies dans les règles du jeu\n"
-"  script  - utilise les valeurs par défaut et relit le script d'initialisation\n"
+"  script  - utilise les valeurs par défaut et relit le script "
+"d'initialisation\n"
 "  default - utilise les valeurs par défaut\n"
 
 #. TRANS: translate text between <> only
@@ -4432,8 +4377,8 @@ msgstr ""
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr ""
-"Les %s ont provoqué un incident diplomatique en fomentant une révolte dans "
-"%s."
+"Les %s ont provoqué un incident diplomatique en fomentant une révolte dans %"
+"s."
 
 #: server/edithand.c:186
 #, c-format
@@ -4756,21 +4701,21 @@ msgstr ""
 "Les unités maritimes au démarrage ne sont pas encore supportées. Personne "
 "n'a de %s."
 
-#: server/gamehand.c:424
+#: server/gamehand.c:425
 #, c-format
 msgid "No units placed for %s!"
 msgstr "Pas d'unité placée pour %s !"
 
-#: server/gamehand.c:448 client/text.c:929
+#: server/gamehand.c:450 client/text.c:929
 #, c-format
 msgid "Year: %s"
 msgstr "Année : %s"
 
-#: server/gamehand.c:536
+#: server/gamehand.c:538
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "La limite de temps a dépassé sa valeur maximale, mise au maximum."
 
-#: server/gamehand.c:544
+#: server/gamehand.c:546
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Le timeout est inférieur à zéro, mis à zéro."
 
@@ -5604,14 +5549,14 @@ msgstr ""
 "fichier de sauvegarde invalide. Continuez à vos risques et périls."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4455
+#: server/savegame.c:4456
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "La sauvegarde utilise les règles du jeu des terrains classique qui ne sont "
 "plus supportées."
 
-#: server/savegame.c:4463
+#: server/savegame.c:4464
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5621,36 +5566,36 @@ msgstr ""
 "ne sont plus supportés. Utilisation de \"%s\"."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4504
+#: server/savegame.c:4505
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Sauvegarde trop ancienne, une version 1.9.0 ou supérieure est requise."
 
-#: server/savegame.c:5242 server/savegame2.c:2940 server/srv_main.c:1827
+#: server/savegame.c:5243 server/savegame2.c:2949 server/srv_main.c:1827
 #: server/srv_main.c:1831
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s a été ajouté en tant que joueur contrôlé par une IA de niveau %s."
 
-#: server/savegame.c:5246 server/savegame2.c:2944
+#: server/savegame.c:5247 server/savegame2.c:2953
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s a été ajouté en tant que joueur humain."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:5291 server/savegame2.c:2963
+#: server/savegame.c:5292 server/savegame2.c:2972
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s avait une nation invalide ; prenons %s en replacement."
 
-#: server/savegame2.c:5301
+#: server/savegame2.c:5310
 msgid "current version"
 msgstr "version actuelle"
 
-#: server/savegame2.c:5305
+#: server/savegame2.c:5314
 msgid "freeciv 2.3.0"
 msgstr "Freeciv 2.3.0"
 
-#: server/savegame2.c:5355
+#: server/savegame2.c:5364
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -5658,7 +5603,7 @@ msgstr ""
 "Lancer la fonction de compatibilité de version : <%d (fichier de "
 "sauvegarde : %d ; serveur : %d)."
 
-#: server/savegame2.c:5389
+#: server/savegame2.c:5398
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -5939,8 +5884,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
 "Le nombre de joueurs (%d) est plus grand que le nombre de positions de "
 "départ disponibles (%d).\n"
@@ -6264,7 +6209,9 @@ msgstr "Présence d'îles de taille 1x1"
 msgid ""
 "This setting controls whether the map generator is allowed to make islands "
 "of one only tile size."
-msgstr "Cette option controle le fait que le générateur de carte soit autorisé ou non a créer des îles d'une seule case."
+msgstr ""
+"Cette option controle le fait que le générateur de carte soit autorisé ou "
+"non a créer des îles d'une seule case."
 
 #: server/settings.c:1019
 msgid "Whether the poles are separate continents"
@@ -6700,7 +6647,12 @@ msgid ""
 "you lose research points equal to this percentage of the cost to research a "
 "new technology. If this is non-zero, you can end up with negative research "
 "points."
-msgstr "Pour chaque avancée technologique que vous obtenez \"gratuitement\" (non couvertes par 'diplcost' ou 'conquercost' : en particulier grâce aux huttes ou aux effets de la Grande Bibliothèque), vous perdez ce pourcentage du coût de recherche d'une nouvelle découverte. Avec des valeurs différentes de 0, vous pouvez finir avec des points de recherche négatifs."
+msgstr ""
+"Pour chaque avancée technologique que vous obtenez \"gratuitement\" (non "
+"couvertes par 'diplcost' ou 'conquercost' : en particulier grâce aux huttes "
+"ou aux effets de la Grande Bibliothèque), vous perdez ce pourcentage du coût "
+"de recherche d'une nouvelle découverte. Avec des valeurs différentes de 0, "
+"vous pouvez finir avec des points de recherche négatifs."
 
 #: server/settings.c:1327
 msgid "Food required for a city to grow"
@@ -6756,7 +6708,12 @@ msgid ""
 "100% (no trade at all) for sizes up to 'notradesize', and decreases "
 "gradually to 0% (no penalty except the normal corruption) for "
 "size='fulltradesize'. See also 'notradesize'."
-msgstr "Il y a une pénalité de commerce dans toutes les villes plus petites que cette valeur. La pénalité est de 100% (pas de commerce du tout) pour des tailles inférieures à 'notradesize', et diminue graduellement jusqu'à 0% (pas de pénalité sauf la corruption normale) pour des tailles égales à 'fulltradesize'. Voir aussi 'notradesize'."
+msgstr ""
+"Il y a une pénalité de commerce dans toutes les villes plus petites que "
+"cette valeur. La pénalité est de 100% (pas de commerce du tout) pour des "
+"tailles inférieures à 'notradesize', et diminue graduellement jusqu'à 0% "
+"(pas de pénalité sauf la corruption normale) pour des tailles égales à "
+"'fulltradesize'. Voir aussi 'notradesize'."
 
 #: server/settings.c:1374
 msgid "Maximum size of a city without trade"
@@ -6769,7 +6726,11 @@ msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
 "'notradesize' and smaller than 'fulltradesize'. See also 'fulltradesize'."
-msgstr "Les villes ne produisent pas de commerce du tout à moins que leur taille ne soit plus grande que cette valeur. Le commerce produit augmente graduellement pour les villes plus grandes que 'notradesize' et plus petites que 'fulltradesize'. Voir aussi 'fulltradesize'."
+msgstr ""
+"Les villes ne produisent pas de commerce du tout à moins que leur taille ne "
+"soit plus grande que cette valeur. Le commerce produit augmente "
+"graduellement pour les villes plus grandes que 'notradesize' et plus petites "
+"que 'fulltradesize'. Voir aussi 'fulltradesize'."
 
 #: server/settings.c:1386
 msgid "Minimum distance between cities"
@@ -6885,7 +6846,10 @@ msgstr "Active/désactive l'auto-attaque serveur"
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
-msgstr "Si activé, les unités auxquelles il reste des points de mouvement envisageront automatiquement d'attaquer les unités ennemies qui bougent sur les cases adjacentes."
+msgstr ""
+"Si activé, les unités auxquelles il reste des points de mouvement "
+"envisageront automatiquement d'attaquer les unités ennemies qui bougent sur "
+"les cases adjacentes."
 
 #: server/settings.c:1466
 msgid "Reduce city population after attack"
@@ -7203,7 +7167,9 @@ msgstr "Donner une ville de rattachement aux unités capturées"
 msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
-msgstr "Si cette option est désactivée, les unités capturées n'auront pas de ville de rattachement et seront sujettes à l'option 'killunhomed'."
+msgstr ""
+"Si cette option est désactivée, les unités capturées n'auront pas de ville "
+"de rattachement et seront sujettes à l'option 'killunhomed'."
 
 #: server/settings.c:1684
 msgid "Whether allied players can win together"
@@ -7724,8 +7690,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+05Y%S-%R' => 'civgame-T0100-A00001-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T"
-"%04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T%"
+"04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
 
 #: server/settings.c:2031
 msgid "Whether to log player statistics"
@@ -7781,7 +7747,10 @@ msgstr "Temps avant qu'un joueur éjecté puisse se reconnecter"
 msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
-msgstr "Donne le temps en seconde avant qu'un joueur éjecté en utilisant la commande 'kick' ne soit autorisé à se reconnecter. Modifier cette option affectera les joueurs éjectés par le passé."
+msgstr ""
+"Donne le temps en seconde avant qu'un joueur éjecté en utilisant la commande "
+"'kick' ne soit autorisé à se reconnecter. Modifier cette option affectera "
+"les joueurs éjectés par le passé."
 
 #: server/settings.c:2162
 #, c-format
@@ -8845,8 +8814,8 @@ msgstr "Vote"
 #: server/stdinhand.c:2292
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (besoin : %0.0f%%%s): %d pour, %d contre, et %d blancs pour un "
 "total de %d joueurs."
@@ -9253,7 +9222,9 @@ msgstr "Impossible de charger le fichier de sauvegarde : %s"
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
-msgstr "Vous devez fournir des règles du jeu. Utilisez \"show ruleset\" pour voir quel sont les règles du jeu courantes."
+msgstr ""
+"Vous devez fournir des règles du jeu. Utilisez \"show ruleset\" pour voir "
+"quel sont les règles du jeu courantes."
 
 #: server/stdinhand.c:3659
 msgid "This setting can't be modified after the game has started."
@@ -9411,7 +9382,8 @@ msgstr "Aucune partie commencée..."
 
 #: server/stdinhand.c:4304
 msgid "Reset all settings to ruleset values."
-msgstr "Réinitialise toutes les options aux valeurs définies dans les règles du jeu."
+msgstr ""
+"Réinitialise toutes les options aux valeurs définies dans les règles du jeu."
 
 #: server/stdinhand.c:4311
 msgid "Reset all settings and rereading the server start script."
@@ -9965,7 +9937,9 @@ msgstr "L'unité ne peut pas effectuer d'action diplomatique depuis %s."
 #: server/unithand.c:1366
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
-msgstr "Vous devez d'abord déclarer la guerre à %s.  Essayez d'utiliser le dialogue des nations (F3)."
+msgstr ""
+"Vous devez d'abord déclarer la guerre à %s.  Essayez d'utiliser le dialogue "
+"des nations (F3)."
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1408
@@ -10420,7 +10394,7 @@ msgstr "Le générateur 3 n'a pas placé toutes les grandes îles."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Le générateur 3 a laissé %li terres non placées."
 
-#: server/generator/startpos.c:389
+#: server/generator/startpos.c:393
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -12852,7 +12826,9 @@ msgstr "Afficher les vivres collectés par les villes"
 
 #: client/options.c:1695
 msgid "Setting this option will draw city output for every citizen."
-msgstr "Activer cette option affichera les vivres collectées sur chacune des cases utilisées par vos cités."
+msgstr ""
+"Activer cette option affichera les vivres collectées sur chacune des cases "
+"utilisées par vos cités."
 
 #: client/options.c:1699
 msgid "Draw the map grid"
@@ -12871,7 +12847,10 @@ msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and, optionally, production."
-msgstr "Activer cette option affichera une barre contenant des informations utiles en dessous de chaque ville. Désactiver cette option affichera uniquement le nom de la ville et, optionnellement, sa production."
+msgstr ""
+"Activer cette option affichera une barre contenant des informations utiles "
+"en dessous de chaque ville. Désactiver cette option affichera uniquement le "
+"nom de la ville et, optionnellement, sa production."
 
 #: client/options.c:1710
 msgid "Draw the city names"
@@ -12889,7 +12868,9 @@ msgstr "Afficher la croissance des villes"
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
-msgstr "Activer cette option affichera dans combien de tours les villes augmenteront ou diminueront en taille."
+msgstr ""
+"Activer cette option affichera dans combien de tours les villes augmenteront "
+"ou diminueront en taille."
 
 #: client/options.c:1720
 msgid "Draw the city productions"
@@ -12899,7 +12880,9 @@ msgstr "Afficher la production des villes"
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
-msgstr "Activer cette option affichera sur la carte ce que les villes sont en train de construire."
+msgstr ""
+"Activer cette option affichera sur la carte ce que les villes sont en train "
+"de construire."
 
 #: client/options.c:1725
 msgid "Draw the city buy costs"
@@ -12909,7 +12892,9 @@ msgstr "Afficher le prix de la production des villes"
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
-msgstr "Activer cette option affichera combien d'or serait nécessaire afin acheter la production de la ville."
+msgstr ""
+"Activer cette option affichera combien d'or serait nécessaire afin acheter "
+"la production de la ville."
 
 #: client/options.c:1730
 msgid "Draw the city trade routes"
@@ -12919,7 +12904,9 @@ msgstr "Tracer les routes commerciales des villes"
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
-msgstr "Activer cette option tracera des lignes pour représenter les routes commerciales entre les villes."
+msgstr ""
+"Activer cette option tracera des lignes pour représenter les routes "
+"commerciales entre les villes."
 
 #: client/options.c:1735
 msgid "Draw the terrain"
@@ -12953,7 +12940,8 @@ msgstr "Afficher l'irrigation"
 
 #: client/options.c:1750
 msgid "Setting this option will draw the irrigation systems on the map."
-msgstr "Activer cette option affichera les systèmes d'irrigations sur la carte."
+msgstr ""
+"Activer cette option affichera les systèmes d'irrigations sur la carte."
 
 #: client/options.c:1754
 msgid "Draw the mines"
@@ -13323,7 +13311,13 @@ msgid ""
 "pop up asking which action should be performed. Disabling this option means "
 "you will have to do the action manually by pressing either 'r' (for a trade "
 "route) or 'b' (for building a wonder) when the unit is in the city."
-msgstr "Lorsque cette option est activée et qu'une caravane ou une unité similaire arrive dans une ville où elle peut établir une route commerciale ou aider à bâtir une merveille, une fenêtre apparaît pour demander quelle action doit être effectuée. Désactiver cette option signifie que vous devrez choisir l'action manuellement en pressant soit 'r' (pour une route commerciale) ou 'b' (pour construire une merveille) lorsque l'unité sera dans la ville."
+msgstr ""
+"Lorsque cette option est activée et qu'une caravane ou une unité similaire "
+"arrive dans une ville où elle peut établir une route commerciale ou aider à "
+"bâtir une merveille, une fenêtre apparaît pour demander quelle action doit "
+"être effectuée. Désactiver cette option signifie que vous devrez choisir "
+"l'action manuellement en pressant soit 'r' (pour une route commerciale) ou "
+"'b' (pour construire une merveille) lorsque l'unité sera dans la ville."
 
 #: client/options.c:1923
 msgid "Enable cursor changing"
@@ -13347,7 +13341,10 @@ msgstr "Sélectionner les villes avant les unités"
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
-msgstr "Lorsque cette option est activée, lorsque des villes et des unités sont présentes dans le rectangle de sélection, seulement les villes seront sélectionnées. Se reporter à l'aide sur les Contrôles."
+msgstr ""
+"Lorsque cette option est activée, lorsque des villes et des unités sont "
+"présentes dans le rectangle de sélection, seulement les villes seront "
+"sélectionnées. Se reporter à l'aide sur les Contrôles."
 
 #: client/options.c:1935
 msgid "Clear unit orders on selection"
@@ -13800,7 +13797,10 @@ msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
 "Units report."
-msgstr "Cette police est utilisée pour toutes les demandes de police de petite taille. Par exemple, pour afficher la liste de constructions dans la fenêtre des villes, le rapport économique ou le rapport sur les unités."
+msgstr ""
+"Cette police est utilisée pour toutes les demandes de police de petite "
+"taille. Par exemple, pour afficher la liste de constructions dans la fenêtre "
+"des villes, le rapport économique ou le rapport sur les unités."
 
 #: client/options.c:2177
 msgid "Comment Label"
@@ -13840,7 +13840,9 @@ msgstr "Arbres des préalables"
 #: client/options.c:2196
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
-msgstr "Cette police est utilisée pour afficher l'arbre des prérequis dans le rapport scientifique."
+msgstr ""
+"Cette police est utilisée pour afficher l'arbre des prérequis dans le "
+"rapport scientifique."
 
 #: client/options.c:2202
 msgid "Fullscreen"
@@ -14875,7 +14877,7 @@ msgid "Client does not support overhead view tilesets."
 msgstr ""
 "Le client ne supporte pas les jeux de textures de vue par dessus la tête."
 
-#: client/tilespec.c:4352
+#: client/tilespec.c:4353
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -14884,7 +14886,7 @@ msgstr ""
 "Le jeu de textures \"%s\" ne supporte pas longs chemins aussi longs que %d. "
 "Le chemin n'est pas affiché tel qu'attendu."
 
-#: client/tilespec.c:4672
+#: client/tilespec.c:4673
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -20361,7 +20363,8 @@ msgstr "Plus d'info"
 
 #: manual/civmanual.c:488
 msgid "  -r, --ruleset RULESET\tMake manual for RULESET\n"
-msgstr "  -r, --ruleset RÈGLES\tConstruit le manuel pour les règles du jeu RÈGLES\n"
+msgstr ""
+"  -r, --ruleset RÈGLES\tConstruit le manuel pour les règles du jeu RÈGLES\n"
 
 #: modinst/download.c:263
 msgid "No URL given"
@@ -21857,7 +21860,12 @@ msgid ""
 "products: food points, production points, and trade points. The following "
 "sections describe each of these resources along with its properties, uses, "
 "and limitations."
-msgstr "Les produits que vos villes collectent des terrains alentours sont la fontaine dont votre civilisation s'abreuve. Il y a trois types de produits : points de nourriture, points de production et points de commerce. Les sections suivantes décrivent chacune de ces ressources : ses propriétés, son utilisation et ses limitations."
+msgstr ""
+"Les produits que vos villes collectent des terrains alentours sont la "
+"fontaine dont votre civilisation s'abreuve. Il y a trois types de produits : "
+"points de nourriture, points de production et points de commerce. Les "
+"sections suivantes décrivent chacune de ces ressources : ses propriétés, son "
+"utilisation et ses limitations."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:480
@@ -21869,7 +21877,11 @@ msgid ""
 "Your population needs food to survive. Each citizen requires two food points "
 "per turn; in addition, some units (such as Settlers in the default ruleset) "
 "may require food points from the city supporting them."
-msgstr "Votre population a besoin de nourriture pour survivre. Chaque citoyen a besoin de deux points de nourriture par tour. De plus, certaines unités (comme les Colons dans les règles du jeu standard) peuvent aussi nécessiter des points de nourriture à la ville de soutien."
+msgstr ""
+"Votre population a besoin de nourriture pour survivre. Chaque citoyen a "
+"besoin de deux points de nourriture par tour. De plus, certaines unités "
+"(comme les Colons dans les règles du jeu standard) peuvent aussi nécessiter "
+"des points de nourriture à la ville de soutien."
 
 #: data/helpdata.txt:486
 msgid ""
@@ -21880,7 +21892,16 @@ msgid ""
 "When food is needed but none remains, the city population starves, killing "
 "food-consuming units first, followed by citizens, until the food deficit "
 "ends."
-msgstr "Chaque ville a un grenier pour amasser des points de nourriture (le bâtiment appelé Grenier dans les règles du jeu standard ne fait qu'accentuer cette capacité). Les villes collectant plus de nourriture qu'elles n'en réclament accumulent leur surplus dans leur grenier, alors que les villes en produisant moins que nécessaire puisent dans leur grenier. Quand la nourriture est requise mais qu'il n'y en a plus de disponible, la population de la ville est en famine, tuant les unités consommatrices dans un premier temps, suivies par les citoyens, jusqu'à de que le déficit de nourriture prenne fin."
+msgstr ""
+"Chaque ville a un grenier pour amasser des points de nourriture (le bâtiment "
+"appelé Grenier dans les règles du jeu standard ne fait qu'accentuer cette "
+"capacité). Les villes collectant plus de nourriture qu'elles n'en réclament "
+"accumulent leur surplus dans leur grenier, alors que les villes en "
+"produisant moins que nécessaire puisent dans leur grenier. Quand la "
+"nourriture est requise mais qu'il n'y en a plus de disponible, la population "
+"de la ville est en famine, tuant les unités consommatrices dans un premier "
+"temps, suivies par les citoyens, jusqu'à de que le déficit de nourriture "
+"prenne fin."
 
 #: data/helpdata.txt:494
 msgid ""
@@ -21890,7 +21911,14 @@ msgid ""
 "citizen is more costly than the last, making this mode of growth important "
 "only for small cities. (An alternative way for cities to grow is \"rapture"
 "\", described in the section on Happiness.)"
-msgstr "Les excédents de nourriture peuvent augmenter la population : le grenier a une capacité limitée et une fois rempli, la ville gagne un citoyen supplémentaire et le grenier redémarre comme vide. Mais puisque la capacité du grenier de la ville augmente avec la population, chaque citoyen est plus coûteux que le précédent, rendant ce mode de développement des villes efficace seulement pour les petites villes (pour les villes, une alternative pour grandir est l'\"extase\", décrite dans la section Bonheur."
+msgstr ""
+"Les excédents de nourriture peuvent augmenter la population : le grenier a "
+"une capacité limitée et une fois rempli, la ville gagne un citoyen "
+"supplémentaire et le grenier redémarre comme vide. Mais puisque la capacité "
+"du grenier de la ville augmente avec la population, chaque citoyen est plus "
+"coûteux que le précédent, rendant ce mode de développement des villes "
+"efficace seulement pour les petites villes (pour les villes, une alternative "
+"pour grandir est l'\"extase\", décrite dans la section Bonheur."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:506
@@ -21906,7 +21934,17 @@ msgid ""
 "supported are automatically disbanded. Most types of unit can also be "
 "disbanded at any time. If a unit is disbanded while in a city, half of its "
 "production cost will usually be put towards that city's surplus."
-msgstr "Les points de production (appelés aussi \"boucliers\") représentent la production manufacturière. La plupart des unités nécessitent des points de production de leur ville de rattachement pour leur entretien, bien que, sous certains régimes autocrates, chaque ville soutienne quelques unités gratuitement. Si la production de la ville est trop faible, les unités qui ne peuvent être supportées sont automatiquement congédiées. La plupart des types d'unités peuvent également être congédiées à n'importe quel moment. Si une unité est congédiée alors qu'elle se trouve dans une ville, la moitié de son coût de production sera en général ajouté à l'avancement de la production de la ville."
+msgstr ""
+"Les points de production (appelés aussi \"boucliers\") représentent la "
+"production manufacturière. La plupart des unités nécessitent des points de "
+"production de leur ville de rattachement pour leur entretien, bien que, sous "
+"certains régimes autocrates, chaque ville soutienne quelques unités "
+"gratuitement. Si la production de la ville est trop faible, les unités qui "
+"ne peuvent être supportées sont automatiquement congédiées. La plupart des "
+"types d'unités peuvent également être congédiées à n'importe quel moment. Si "
+"une unité est congédiée alors qu'elle se trouve dans une ville, la moitié de "
+"son coût de production sera en général ajouté à l'avancement de la "
+"production de la ville."
 
 #: data/helpdata.txt:516
 msgid ""
@@ -21918,7 +21956,18 @@ msgid ""
 "when complete -- units appear on the map while improvements and wonders are "
 "added to their city's list of structures. Any leftover production points "
 "remain available to be applied towards the next project."
-msgstr "Les points de production excédant ce que nécessitent les unités d'une ville sont ajoutés au stock de celle-ci selon l'unité, le bâtiment ou la merveille qui a été sélectionné comme production courante. Exactement comme les points de nourriture accumulés dans le grenier d'une ville produisent un citoyen lorsqu'il est plein, les points de production s'accumulent jusqu'à ce que le coût de la production courante soit atteint. Les produits fabriqués apparaissent dans la ville quand ils sont achevés (les unités apparaissent sur la carte alors que les bâtiments et merveilles sont ajoutées à la liste des structures de la ville). Chaque point de production excédentaire quand la production est achevée reste disponible et sera utilisé au prochain projet."
+msgstr ""
+"Les points de production excédant ce que nécessitent les unités d'une ville "
+"sont ajoutés au stock de celle-ci selon l'unité, le bâtiment ou la merveille "
+"qui a été sélectionné comme production courante. Exactement comme les points "
+"de nourriture accumulés dans le grenier d'une ville produisent un citoyen "
+"lorsqu'il est plein, les points de production s'accumulent jusqu'à ce que le "
+"coût de la production courante soit atteint. Les produits fabriqués "
+"apparaissent dans la ville quand ils sont achevés (les unités apparaissent "
+"sur la carte alors que les bâtiments et merveilles sont ajoutées à la liste "
+"des structures de la ville). Chaque point de production excédentaire quand "
+"la production est achevée reste disponible et sera utilisé au prochain "
+"projet."
 
 #: data/helpdata.txt:526
 msgid ""
@@ -21930,7 +21979,17 @@ msgid ""
 "single kind of unit per turn as its production surplus allows, up to the "
 "number of slots. Units which cost city population to build are an exception "
 "to this rule; they can only be built singly, as can buildings."
-msgstr "Dans les règles du jeu par défaut, une ville ne peut construire qu'un seul produit par tour, quel que soit son surplus de production. Cependant, dans certaines règles du jeu, des facteurs comme la taille de la ville et la technologie peuvent permettre à une ville seule de produire plus d'une unité en un seul tour dans certaines conditions. Une ville avec des \"Créneaux de Construction\" multiples qui construit une unité peut construire autant de ce type d'unités par tour que son surplus de production lui permet, jusqu'au nombre de créneaux. Les unités qui coûtent de la population à construire sont une exception à cette règle - elles ne peuvent être construites qu'unitairement, ainsi que le sont les bâtiments."
+msgstr ""
+"Dans les règles du jeu par défaut, une ville ne peut construire qu'un seul "
+"produit par tour, quel que soit son surplus de production. Cependant, dans "
+"certaines règles du jeu, des facteurs comme la taille de la ville et la "
+"technologie peuvent permettre à une ville seule de produire plus d'une unité "
+"en un seul tour dans certaines conditions. Une ville avec des \"Créneaux de "
+"Construction\" multiples qui construit une unité peut construire autant de "
+"ce type d'unités par tour que son surplus de production lui permet, jusqu'au "
+"nombre de créneaux. Les unités qui coûtent de la population à construire "
+"sont une exception à cette règle - elles ne peuvent être construites "
+"qu'unitairement, ainsi que le sont les bâtiments."
 
 #: data/helpdata.txt:536
 msgid ""
@@ -21947,7 +22006,22 @@ msgid ""
 "but if a different kind of item is reached, production pauses until the "
 "following turn. This can be used to limit the number of units produced by "
 "highly productive cities."
-msgstr "Il est possible d'attribuer une liste de plusieurs produits à construire à une ville dans sa \"liste de travail\", ce qui évite d'avoir à s'en occuper tous les quelques tours. Chaque entrée dans la liste de travail représente un seul produit (comme une unité) ; la ville les fabriquera dans l'ordre. Quand une ville a terminé tout le travail que vous lui avez donné à faire, elle tentera de construire à nouveau la dernière entrée si possible, sinon elle choisira un nouvel objectif elle-même. Si une ville produit actuellement de l'or (Capitalisation dans les règles par défaut), activité qui ne se termine jamais, mettre une entrée dans la liste de travail la fera arrêter de produire de l'or et commencer à travailler sur la nouvelle entrée au prochain tour. Si les règles du jeu le permettent, une ville peut retirer plusieurs unités du même type de sa liste de travail en un seul tour, mais si un type d'entrée différent est atteint, la production sera mise en pause jusqu'au tour suivant. Ceci peut être utilisé pour limiter le nombre d'unités produites par des villes hautement productives."
+msgstr ""
+"Il est possible d'attribuer une liste de plusieurs produits à construire à "
+"une ville dans sa \"liste de travail\", ce qui évite d'avoir à s'en occuper "
+"tous les quelques tours. Chaque entrée dans la liste de travail représente "
+"un seul produit (comme une unité) ; la ville les fabriquera dans l'ordre. "
+"Quand une ville a terminé tout le travail que vous lui avez donné à faire, "
+"elle tentera de construire à nouveau la dernière entrée si possible, sinon "
+"elle choisira un nouvel objectif elle-même. Si une ville produit "
+"actuellement de l'or (Capitalisation dans les règles par défaut), activité "
+"qui ne se termine jamais, mettre une entrée dans la liste de travail la fera "
+"arrêter de produire de l'or et commencer à travailler sur la nouvelle entrée "
+"au prochain tour. Si les règles du jeu le permettent, une ville peut retirer "
+"plusieurs unités du même type de sa liste de travail en un seul tour, mais "
+"si un type d'entrée différent est atteint, la production sera mise en pause "
+"jusqu'au tour suivant. Ceci peut être utilisé pour limiter le nombre "
+"d'unités produites par des villes hautement productives."
 
 #: data/helpdata.txt:551
 msgid ""
@@ -22012,7 +22086,16 @@ msgid ""
 "form of taxes, goes into your national treasury; luxury points influence "
 "citizen morale; and science points (\"bulbs\") contribute towards the "
 "discovery of new technology."
-msgstr "Les points de commerce reflètent la richesse de chaque ville par le commerce extérieur. Quelques points de commerce peuvent être perdu à cause de la corruption, qui varie selon les formes de gouvernements et tendent à augmenter avec la distance à votre capitale. Chaque ville distribue ses points restants parmi trois utilisations : l'or, sous forme de taxes, qui va renflouer votre trésorerie nationale ; les points de luxe qui influent sur le moral des citoyens ; et les points de science (aussi historiquement appelés \"ampoules\") qui contribuent à la découverte de nouvelles technologies."
+msgstr ""
+"Les points de commerce reflètent la richesse de chaque ville par le commerce "
+"extérieur. Quelques points de commerce peuvent être perdu à cause de la "
+"corruption, qui varie selon les formes de gouvernements et tendent à "
+"augmenter avec la distance à votre capitale. Chaque ville distribue ses "
+"points restants parmi trois utilisations : l'or, sous forme de taxes, qui va "
+"renflouer votre trésorerie nationale ; les points de luxe qui influent sur "
+"le moral des citoyens ; et les points de science (aussi historiquement "
+"appelés \"ampoules\") qui contribuent à la découverte de nouvelles "
+"technologies."
 
 #: data/helpdata.txt:584
 msgid ""
@@ -22020,7 +22103,12 @@ msgid ""
 "are distributed among these three uses. Though you may alter the tax rates "
 "on any turn, you are constrained to multiples of ten percent, and most forms "
 "of government limit their maximum value."
-msgstr "Il vous appartient de choisir, pour votre civilisation, la proportion globale selon laquelle les points de commerce seront distribués entre les trois utilisations. Bien que vous puissiez modifier les taux de taxe à n'importe quel tour, vous êtes contraints à des multiples de 10% et par la limite maximale que votre forme de gouvernement impose."
+msgstr ""
+"Il vous appartient de choisir, pour votre civilisation, la proportion "
+"globale selon laquelle les points de commerce seront distribués entre les "
+"trois utilisations. Bien que vous puissiez modifier les taux de taxe à "
+"n'importe quel tour, vous êtes contraints à des multiples de 10% et par la "
+"limite maximale que votre forme de gouvernement impose."
 
 #: data/helpdata.txt:589
 msgid ""
@@ -22033,7 +22121,17 @@ msgid ""
 "cities (although there may be ways to make local adjustments, such as "
 "assigning citizens as entertainers in the default ruleset). See the section "
 "on Happiness for more details on the effect of luxuries."
-msgstr "La globalité de cette proportion n'a pas d'influence sur l'or et la science, parce que le progrès financier et technologique affectent tous deux l'empire entier. Le luxe est plus complexe, cependant, parce que son effet est local (il n'affecte que la ville qui le produit). Par conséquent, alors qu'il serait commode pour les villes malheureuses d'investir la totalité de leur commerce dans le luxe pendant que d'autres investissent dans la science ou les taxes, vous devrez plutôt faire des compromis entre les besoins de toutes vos villes (même si des ajustements locaux peuvent être faites en assignant les citoyens comme artistes). Voir la section Bonheur pour plus de détails sur l'effet de luxe."
+msgstr ""
+"La globalité de cette proportion n'a pas d'influence sur l'or et la science, "
+"parce que le progrès financier et technologique affectent tous deux l'empire "
+"entier. Le luxe est plus complexe, cependant, parce que son effet est local "
+"(il n'affecte que la ville qui le produit). Par conséquent, alors qu'il "
+"serait commode pour les villes malheureuses d'investir la totalité de leur "
+"commerce dans le luxe pendant que d'autres investissent dans la science ou "
+"les taxes, vous devrez plutôt faire des compromis entre les besoins de "
+"toutes vos villes (même si des ajustements locaux peuvent être faites en "
+"assignant les citoyens comme artistes). Voir la section Bonheur pour plus de "
+"détails sur l'effet de luxe."
 
 #: data/helpdata.txt:600
 msgid ""
@@ -22108,7 +22206,11 @@ msgid ""
 "The number of trade routes per city is limited to four. If you attempt to "
 "establish more routes, the trade route with the smallest ongoing revenue is "
 "canceled if it would be less than the new route."
-msgstr "Le nombre de routes commerciales par ville est limité à quatre. Si vous tentez d'en établir plus, la route commerciale avec le plus faible revenu est annulée s'il est moins important que celui que la nouvelle route apporterait."
+msgstr ""
+"Le nombre de routes commerciales par ville est limité à quatre. Si vous "
+"tentez d'en établir plus, la route commerciale avec le plus faible revenu "
+"est annulée s'il est moins important que celui que la nouvelle route "
+"apporterait."
 
 #: data/helpdata.txt:633
 msgid ""
@@ -22163,7 +22265,13 @@ msgid ""
 "tiles on rectangular maps, or 18 tiles on hexagonal ones, in addition to the "
 "city center tile. In other rulesets it may be different, and may vary "
 "depending on factors such as the size of the city and known technologies."
-msgstr "Chaque ville peut travailler les terres à sa portée. Dans les règles du jeu par défaut, c'est un rayon fixe d'à peu près trois cases, donnant accès à 20 cases sur les cartes rectangulaires ou 18 sur les hexagonales, en plus de la case centrale. Dans d'autres règles du jeu, cela peut être différent, et peut varier en fonction de facteurs comme la taille de la ville ou les technologies connues."
+msgstr ""
+"Chaque ville peut travailler les terres à sa portée. Dans les règles du jeu "
+"par défaut, c'est un rayon fixe d'à peu près trois cases, donnant accès à 20 "
+"cases sur les cartes rectangulaires ou 18 sur les hexagonales, en plus de la "
+"case centrale. Dans d'autres règles du jeu, cela peut être différent, et "
+"peut varier en fonction de facteurs comme la taille de la ville ou les "
+"technologies connues."
 
 #: data/helpdata.txt:662
 msgid ""
@@ -22231,7 +22339,15 @@ msgid ""
 "more details); this can be seen in the row of citizen icons. You can click "
 "another tile to assign the citizen to work it, or click on the specialist "
 "icon to change their specialist role."
-msgstr "Les rôles des citoyens sont contrôlés à partir de la fenêtre de dialogue de la ville. Les habitants exploitant la terre sont représentés par trois nombres indiquant leur productivité sur la case qu'ils exploitent. En cliquant sur ces nombres, le citoyen sera retiré de la case et transformé en spécialiste (voir la section sur les spécialistes pour plus de détails) ; ceci est observable sur la ligne d'icônes des citoyens. Vous pouvez cliquer sur une autre case pour que le citoyen l'exploite, ou cliquer sur l'icône du spécialiste pour changer son rôle de spécialiste."
+msgstr ""
+"Les rôles des citoyens sont contrôlés à partir de la fenêtre de dialogue de "
+"la ville. Les habitants exploitant la terre sont représentés par trois "
+"nombres indiquant leur productivité sur la case qu'ils exploitent. En "
+"cliquant sur ces nombres, le citoyen sera retiré de la case et transformé en "
+"spécialiste (voir la section sur les spécialistes pour plus de détails) ; "
+"ceci est observable sur la ligne d'icônes des citoyens. Vous pouvez cliquer "
+"sur une autre case pour que le citoyen l'exploite, ou cliquer sur l'icône du "
+"spécialiste pour changer son rôle de spécialiste."
 
 #: data/helpdata.txt:697
 msgid ""
@@ -22257,7 +22373,11 @@ msgid ""
 "their productivity, their military strength, or give them new abilities. See "
 "the sections on City Improvements and Wonders of the World for more "
 "information."
-msgstr "Les villes peuvent être améliorées avec une grande gamme de bâtiments, qui peuvent améliorer la productivité, la force militaire ou donner de nouvelles capacités. Voir les sections Bâtiments et Merveilles du Monde pour plus d'informations."
+msgstr ""
+"Les villes peuvent être améliorées avec une grande gamme de bâtiments, qui "
+"peuvent améliorer la productivité, la force militaire ou donner de nouvelles "
+"capacités. Voir les sections Bâtiments et Merveilles du Monde pour plus "
+"d'informations."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:714
@@ -22271,7 +22391,14 @@ msgid ""
 "roles citizens can assume; in fact, taking another role is the only way they "
 "can stop working. A city may outgrow the land available for it to work, in "
 "which case some citizens must become specialists."
-msgstr "Les premiers habitants de chaque cité sont habituellement des travailleurs, chacun s'acharnant à récupérer les ressources d'une case de terrain. Cependant, il y a plusieurs autres rôles de spécialistes que les citoyens peuvent endosser une fois soulagés du travail de la terre. En fait, prendre un autre rôle est le seul moyen d'arrêter de travailler. Une ville peut devenir plus grande que la terre dont elle dispose pour travailler, auquel cas certains citoyens doivent devenir des spécialistes."
+msgstr ""
+"Les premiers habitants de chaque cité sont habituellement des travailleurs, "
+"chacun s'acharnant à récupérer les ressources d'une case de terrain. "
+"Cependant, il y a plusieurs autres rôles de spécialistes que les citoyens "
+"peuvent endosser une fois soulagés du travail de la terre. En fait, prendre "
+"un autre rôle est le seul moyen d'arrêter de travailler. Une ville peut "
+"devenir plus grande que la terre dont elle dispose pour travailler, auquel "
+"cas certains citoyens doivent devenir des spécialistes."
 
 #: data/helpdata.txt:722
 msgid ""
@@ -22304,7 +22431,14 @@ msgid ""
 "citizens are happy, your cities will celebrate, and your production will "
 "increase greatly. (If migration is enabled, happiness also affects the "
 "relative desirability of cities; see the section on Migration for details.)"
-msgstr "Garder vos citoyens heureux (ou au moins contents) est l'un des objectifs les plus important dans Freeciv. Quand vos citoyens deviennent mécontents, vos cités sombrent dans le désordre, ce qui interrompt la production. À l'inverse, quand vos citoyens sont heureux, vos villes sont en fête, et vos productions vont augmenter de manière significative. (Si l'émigration des citoyens est activée, le bonheur affectera aussi l'attractivité des villes ; voir la section sur l'Émigration pour les détails.)"
+msgstr ""
+"Garder vos citoyens heureux (ou au moins contents) est l'un des objectifs "
+"les plus important dans Freeciv. Quand vos citoyens deviennent mécontents, "
+"vos cités sombrent dans le désordre, ce qui interrompt la production. À "
+"l'inverse, quand vos citoyens sont heureux, vos villes sont en fête, et vos "
+"productions vont augmenter de manière significative. (Si l'émigration des "
+"citoyens est activée, le bonheur affectera aussi l'attractivité des villes ; "
+"voir la section sur l'Émigration pour les détails.)"
 
 #: data/helpdata.txt:745
 msgid ""
@@ -22359,7 +22493,11 @@ msgid ""
 "There are many ways of making unhappy citizens content, which does prevent "
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
-msgstr "Il y a de nombreuses façons de rendre les citoyens mécontents contents, ce qui prévient des troubles mais n'apporte pas plus de bénéfice. Rendre les citoyens heureux peut équilibrer l'effet des citoyens mécontents mais apporte aussi d'autres bénéfices."
+msgstr ""
+"Il y a de nombreuses façons de rendre les citoyens mécontents contents, ce "
+"qui prévient des troubles mais n'apporte pas plus de bénéfice. Rendre les "
+"citoyens heureux peut équilibrer l'effet des citoyens mécontents mais "
+"apporte aussi d'autres bénéfices."
 
 #: data/helpdata.txt:772
 msgid ""
@@ -22400,7 +22538,14 @@ msgid ""
 "Without rapture, large cities can grow only by struggling to produce a food "
 "surplus -- which can be difficult enough -- and then waiting dozens of turns "
 "for their granary to fill."
-msgstr " - sous une République ou une Démocratie, votre cité tombera en extase : sa population s'accroître d'un point chaque tour jusqu'à ce qu'il y ait pénurie de nourriture ou que le nombre d'habitants heureux ne soit plus suffisant pour la fête. Sans extase, les grosses villes ne peuvent grandir qu'en luttant pour produire des excédents de nourriture, ce qui peut être assez difficile, et attendre ensuite de nombreux tours que leur grenier se remplisse à nouveau."
+msgstr ""
+" - sous une République ou une Démocratie, votre cité tombera en extase : sa "
+"population s'accroître d'un point chaque tour jusqu'à ce qu'il y ait pénurie "
+"de nourriture ou que le nombre d'habitants heureux ne soit plus suffisant "
+"pour la fête. Sans extase, les grosses villes ne peuvent grandir qu'en "
+"luttant pour produire des excédents de nourriture, ce qui peut être assez "
+"difficile, et attendre ensuite de nombreux tours que leur grenier se "
+"remplisse à nouveau."
 
 #: data/helpdata.txt:791
 msgid ""
@@ -22442,7 +22587,14 @@ msgid ""
 "the trade points it produces as luxury points according to your empire's tax "
 "rates; see the section on Trade. Luxury points may also be produced by other "
 "means, such as entertainer specialists in the default ruleset."
-msgstr "Le luxe rend les citoyens heureux. Tous les deux points de luxe qu'une ville produit, un citoyen content est rendu heureux (si il n'y a pas de citoyen content restant, les citoyens mécontents deviennent contents puis heureux). Chaque ville récupère une partie des points de commerce qu'elle produit en tant points de luxe, en fonction des taux de taxation de votre empire ; voir la section sur le Commerce. Les points de luxe peuvent aussi être produits par d'autres moyens, comme les artistes dans les règles du jeu par défaut."
+msgstr ""
+"Le luxe rend les citoyens heureux. Tous les deux points de luxe qu'une ville "
+"produit, un citoyen content est rendu heureux (si il n'y a pas de citoyen "
+"content restant, les citoyens mécontents deviennent contents puis heureux). "
+"Chaque ville récupère une partie des points de commerce qu'elle produit en "
+"tant points de luxe, en fonction des taux de taxation de votre empire ; voir "
+"la section sur le Commerce. Les points de luxe peuvent aussi être produits "
+"par d'autres moyens, comme les artistes dans les règles du jeu par défaut."
 
 #: data/helpdata.txt:817
 msgid ""
@@ -22467,7 +22619,17 @@ msgid ""
 "a suitable base within three tiles of a friendly city; however, certain "
 "units (\"field units\") are inherently aggressive and cause unhappiness "
 "regardless of location."
-msgstr "Les unités militaires peuvent affecter le bonheur de la ville. Sous les régimes autoritaires, ceci est utile car les unités militaires stationnées dans une ville peuvent éviter du mécontentement en imposant la loi martiale. En revanche, sous les gouvernements représentatifs, les citoyens deviennent mécontents lorsque leur ville soutient des unités militaires déployées agressivement. Ceci inclus les unités hors de vos frontières nationales, d'une ville amie (villes alliées comprises), ou d'une forteresse dans les limites de trois cases d'une ville amie. Cependant, certaines unités (\"unités de campagne\") sont intrinsèquement agressives et causent du mécontentement, indépendamment de leur localisation."
+msgstr ""
+"Les unités militaires peuvent affecter le bonheur de la ville. Sous les "
+"régimes autoritaires, ceci est utile car les unités militaires stationnées "
+"dans une ville peuvent éviter du mécontentement en imposant la loi martiale. "
+"En revanche, sous les gouvernements représentatifs, les citoyens deviennent "
+"mécontents lorsque leur ville soutient des unités militaires déployées "
+"agressivement. Ceci inclus les unités hors de vos frontières nationales, "
+"d'une ville amie (villes alliées comprises), ou d'une forteresse dans les "
+"limites de trois cases d'une ville amie. Cependant, certaines unités "
+"(\"unités de campagne\") sont intrinsèquement agressives et causent du "
+"mécontentement, indépendamment de leur localisation."
 
 #: data/helpdata.txt:833
 msgid ""
@@ -22476,7 +22638,12 @@ msgid ""
 "ruleset, only certain wonders -- such as J.S. Bach's Cathedral -- and one "
 "special building -- the Police Station -- can offset this form of "
 "unhappiness."
-msgstr "Cette forme de mécontentement est distincte de celle causée par le surpeuplement et ne peut pas être réglée par les produits de luxe ainsi que la plupart des bâtiments. Dans les règles du jeu standard, seulement certaines merveilles (comme la Cathédrale J.-S. Bach) et un bâtiment spécial (le Commissariat) peuvent contrebalancer cette forme de mécontentement."
+msgstr ""
+"Cette forme de mécontentement est distincte de celle causée par le "
+"surpeuplement et ne peut pas être réglée par les produits de luxe ainsi que "
+"la plupart des bâtiments. Dans les règles du jeu standard, seulement "
+"certaines merveilles (comme la Cathédrale J.-S. Bach) et un bâtiment spécial "
+"(le Commissariat) peuvent contrebalancer cette forme de mécontentement."
 
 #: data/helpdata.txt:839
 msgid ""
@@ -22585,7 +22752,14 @@ msgid ""
 "been struck by plague, it will remain infectious to its trade partners for "
 "several turns, increasing the risk of plague in those cities by a factor "
 "depending on the size of both cities."
-msgstr "Le risque épidémique dépend de la taille de la ville (le surpeuplement tend à créer des conditions insalubres) et de la pollution générée par la ville. Aussi, l'épidémie peut se répandre via les routes commerciales (sans distinction entre les nationalités) ; une fois qu'une cité a été frappée par une épidémie, elle restera  source d'infection pour ses partenaires commerciaux pendant plusieurs tours, augmentant le risque épidémique dans ces villes d'un facteur dépendant de la taille des deux villes."
+msgstr ""
+"Le risque épidémique dépend de la taille de la ville (le surpeuplement tend "
+"à créer des conditions insalubres) et de la pollution générée par la ville. "
+"Aussi, l'épidémie peut se répandre via les routes commerciales (sans "
+"distinction entre les nationalités) ; une fois qu'une cité a été frappée par "
+"une épidémie, elle restera  source d'infection pour ses partenaires "
+"commerciaux pendant plusieurs tours, augmentant le risque épidémique dans "
+"ces villes d'un facteur dépendant de la taille des deux villes."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:900
@@ -22621,7 +22795,13 @@ msgid ""
 "affect the perceived desirability of each city, in approximately decreasing "
 "order of importance. (Each factor counts for much more in the citizen's "
 "current city, as they prefer not to move without a compelling reason.)"
-msgstr "Vous de pouvez pas directement prévenir ou diriger la migration des citoyens. Cependant, vous pouvez influencer l'attractivité de vos villes. Les facteurs suivants l'affectent, dans un ordre d'importance approximativement décroissant. (Chaque facteur compte pour beaucoup plus dans la ville courante d'un citoyen, car ils ne préfèrent pas se déplacer sans raison impérieuse.)"
+msgstr ""
+"Vous de pouvez pas directement prévenir ou diriger la migration des "
+"citoyens. Cependant, vous pouvez influencer l'attractivité de vos villes. "
+"Les facteurs suivants l'affectent, dans un ordre d'importance "
+"approximativement décroissant. (Chaque facteur compte pour beaucoup plus "
+"dans la ville courante d'un citoyen, car ils ne préfèrent pas se déplacer "
+"sans raison impérieuse.)"
 
 #: data/helpdata.txt:918
 msgid " - City size."
@@ -22717,7 +22897,12 @@ msgid ""
 "with wonders will never be disbanded (so the wonder will not be destroyed), "
 "and the last citizen from your only remaining city will never migrate to "
 "another nation."
-msgstr "L'émigration peut entraîner l'abandon complet d'une ville (la propriété des unités seront transférées à votre ville la plus proche). Toutefois, les villes de merveilles ne seront jamais dissoutes (de sorte que la merveille ne soit pas détruite), et le dernier citoyen de votre dernière ville restante n'émigrera jamais vers une autre nation."
+msgstr ""
+"L'émigration peut entraîner l'abandon complet d'une ville (la propriété des "
+"unités seront transférées à votre ville la plus proche). Toutefois, les "
+"villes de merveilles ne seront jamais dissoutes (de sorte que la merveille "
+"ne soit pas détruite), et le dernier citoyen de votre dernière ville "
+"restante n'émigrera jamais vers une autre nation."
 
 #: data/helpdata.txt:960
 msgid ""
@@ -22748,7 +22933,16 @@ msgid ""
 "upkeep on all of your improvements, some of them will be automatically sold; "
 "obviously this should be avoided as the improvements chosen might not be "
 "ones you would have preferred to sell."
-msgstr "La construction des bâtiments coûte des points de production et une fois achevée, beaucoup d'entre eux nécessitent un entretien d'une ou plusieurs pièces d'or par tour. Vous pouvez démanteler et vendre un bâtiment, en recevant une pièce d'or pour chaque point de production utilisé dans la construction, bien que vous ne puissiez vendre qu'un seul bâtiment par tour. Si vous ne pouvez pas payer l'entretien de tous vos bâtiments, certains d'entre eux seront vendus automatiquement. Évidemment, ceci doit être évité car les améliorations sélectionnées pourraient ne pas être celles que vous auriez préféré vendre."
+msgstr ""
+"La construction des bâtiments coûte des points de production et une fois "
+"achevée, beaucoup d'entre eux nécessitent un entretien d'une ou plusieurs "
+"pièces d'or par tour. Vous pouvez démanteler et vendre un bâtiment, en "
+"recevant une pièce d'or pour chaque point de production utilisé dans la "
+"construction, bien que vous ne puissiez vendre qu'un seul bâtiment par tour. "
+"Si vous ne pouvez pas payer l'entretien de tous vos bâtiments, certains "
+"d'entre eux seront vendus automatiquement. Évidemment, ceci doit être évité "
+"car les améliorations sélectionnées pourraient ne pas être celles que vous "
+"auriez préféré vendre."
 
 #: data/helpdata.txt:981
 msgid ""
@@ -22769,7 +22963,14 @@ msgid ""
 "points, certain special units built in one city (Caravans and Freight in the "
 "default ruleset) can contribute their full cost in production points towards "
 "the construction of a wonder in another city."
-msgstr "Les merveilles sont des constructions spéciales qui ne peuvent être construites qu'une seule fois par un seul joueur par partie, et qui souvent améliorent leur civilisation entière. Contrairement aux bâtiments ordinaires, qui doivent être construits avec la production locale, certaines unités spéciales construites dans une ville (Caravanes et Fret dans les règles du jeu standard) peuvent également contribuer de leur coût de production à la construction d'une merveille dans une autre ville."
+msgstr ""
+"Les merveilles sont des constructions spéciales qui ne peuvent être "
+"construites qu'une seule fois par un seul joueur par partie, et qui souvent "
+"améliorent leur civilisation entière. Contrairement aux bâtiments "
+"ordinaires, qui doivent être construits avec la production locale, certaines "
+"unités spéciales construites dans une ville (Caravanes et Fret dans les "
+"règles du jeu standard) peuvent également contribuer de leur coût de "
+"production à la construction d'une merveille dans une autre ville."
 
 #: data/helpdata.txt:1000
 msgid ""
@@ -22779,7 +22980,14 @@ msgid ""
 "their effect. Note the asymmetry: while you must personally achieve the "
 "advance required by each wonder to build it, it will be disabled when any "
 "player achieves the obsoleting advance."
-msgstr "Une fois construite, une merveille est placée dans la ville qui l'a fabriquée, et ne peut pas être vendue ou détruite (à moins que la ville entière le soit). Cependant, certaines merveilles deviennent obsolètes après la découverte d'une certaine technologie et perdent leur effet. Notez la dissymétrie ; alors que vous devez personnellement achever la recherche que réclame la construction de chaque merveille, elle devient inconstructible si n'importe quel autre joueur achève la recherche qui la rend obsolète."
+msgstr ""
+"Une fois construite, une merveille est placée dans la ville qui l'a "
+"fabriquée, et ne peut pas être vendue ou détruite (à moins que la ville "
+"entière le soit). Cependant, certaines merveilles deviennent obsolètes après "
+"la découverte d'une certaine technologie et perdent leur effet. Notez la "
+"dissymétrie ; alors que vous devez personnellement achever la recherche que "
+"réclame la construction de chaque merveille, elle devient inconstructible si "
+"n'importe quel autre joueur achève la recherche qui la rend obsolète."
 
 #: data/helpdata.txt:1014
 msgid ""
@@ -22805,7 +23013,20 @@ msgid ""
 "the upkeep of a unit outweighs its benefit, you can disband it; see the "
 "section on Production. A few units, particularly those that you start the "
 "game with, have no home city and thus require no upkeep."
-msgstr "Les unités sont habituellement construites dans les villes utilisant des points de production. Une fois construites, les unités appartiennent à la ville qui les a construites (bien qu'elles peuvent changer de ville de soutien en se rendant dans une autre ville) et nécessite du soutien de cette ville. Ceci sera une de vos dépenses les plus importantes. La plupart des unités nécessitent un entretien de la part de leur ville de soutien, comme des points de production, bien que certains type de gouvernement autocratiques peuvent forcer les villes à supporter plusieurs unités gratuitement. Si la maintenance d'une unité est plus important que son bénéfice, vous pouvez la congédier - voir la section sur la production. Quelques unités, en particulier celles avec lesquelles vous commencez la partie, n'ont pas de ville de soutien et ne nécessitent de ce fait pas de maintenance."
+msgstr ""
+"Les unités sont habituellement construites dans les villes utilisant des "
+"points de production. Une fois construites, les unités appartiennent à la "
+"ville qui les a construites (bien qu'elles peuvent changer de ville de "
+"soutien en se rendant dans une autre ville) et nécessite du soutien de cette "
+"ville. Ceci sera une de vos dépenses les plus importantes. La plupart des "
+"unités nécessitent un entretien de la part de leur ville de soutien, comme "
+"des points de production, bien que certains type de gouvernement "
+"autocratiques peuvent forcer les villes à supporter plusieurs unités "
+"gratuitement. Si la maintenance d'une unité est plus important que son "
+"bénéfice, vous pouvez la congédier - voir la section sur la production. "
+"Quelques unités, en particulier celles avec lesquelles vous commencez la "
+"partie, n'ont pas de ville de soutien et ne nécessitent de ce fait pas de "
+"maintenance."
 
 #: data/helpdata.txt:1031
 msgid ""
@@ -22874,7 +23095,18 @@ msgid ""
 "tile for a whole turn to get this recovery bonus. Wonders can also boost "
 "recovery (such as the United Nations in the default ruleset). Damaged units "
 "in Sentry mode will wake up when they have regained all of their hit points."
-msgstr "Les unités qui ont été endommagées dans un combat se régénèrent chaque tour quand elles restent immobiles. Normalement, une unité qui n'a pas bougé se régénère d'un point par tour. Les unités retranchées récupèrent un point de vie supplémentaire. Une unité qui passe un tour dans une ville regagne un tiers de ses points de vie, et si des bâtiments appropriés sont présents, cet effet peut encore être accentué. En campagne, les bases sur des cases peuvent améliorer le taux de récupération (par exemple, les forteresses ont cet effet dans les règles du jeu standard). Des merveilles peuvent aussi stimuler la récupération des points de vie (comme les Nations Unies dans les règles du jeu standard). Les unités endommagées en sentinelle se réveillont quand elles ont regagné tous leurs points de vie."
+msgstr ""
+"Les unités qui ont été endommagées dans un combat se régénèrent chaque tour "
+"quand elles restent immobiles. Normalement, une unité qui n'a pas bougé se "
+"régénère d'un point par tour. Les unités retranchées récupèrent un point de "
+"vie supplémentaire. Une unité qui passe un tour dans une ville regagne un "
+"tiers de ses points de vie, et si des bâtiments appropriés sont présents, "
+"cet effet peut encore être accentué. En campagne, les bases sur des cases "
+"peuvent améliorer le taux de récupération (par exemple, les forteresses ont "
+"cet effet dans les règles du jeu standard). Des merveilles peuvent aussi "
+"stimuler la récupération des points de vie (comme les Nations Unies dans les "
+"règles du jeu standard). Les unités endommagées en sentinelle se réveillont "
+"quand elles ont regagné tous leurs points de vie."
 
 #: data/helpdata.txt:1068
 msgid ""
@@ -22887,7 +23119,18 @@ msgid ""
 "is upgraded, its hit points and movement points are preserved as a fraction "
 "of the total; however, in some rulesets (but not the default) it will lose "
 "some or all of its veteran levels."
-msgstr "Au fur et à mesure de l'avancement de la technologie, de nouveaux types d'unités deviennent disponibles et rendent obsolètes des types d'unités existantes. Quand vous découvrez ce genre de nouvelle technologie, vos unités existantes restent intactes, mais vous ne pouvez plus construire de nouvelles unités du type obsolète. Pendant qu'une unité obsolète est dans l'une de vos villes, vous pouvez décider de la transformer en sa dernière amélioration en date en dépensant de l'or, le tarif augmentant avec la différence de coûts en points de production entre les deux types. Quand une unité est améliorée, ses points de vie et de mouvement sont conservés proportionnellement au total ; cependant, dans certaines règles du jeu (mais pas celui par défaut), elle perdra certains ou tous ses niveaux de vétéran."
+msgstr ""
+"Au fur et à mesure de l'avancement de la technologie, de nouveaux types "
+"d'unités deviennent disponibles et rendent obsolètes des types d'unités "
+"existantes. Quand vous découvrez ce genre de nouvelle technologie, vos "
+"unités existantes restent intactes, mais vous ne pouvez plus construire de "
+"nouvelles unités du type obsolète. Pendant qu'une unité obsolète est dans "
+"l'une de vos villes, vous pouvez décider de la transformer en sa dernière "
+"amélioration en date en dépensant de l'or, le tarif augmentant avec la "
+"différence de coûts en points de production entre les deux types. Quand une "
+"unité est améliorée, ses points de vie et de mouvement sont conservés "
+"proportionnellement au total ; cependant, dans certaines règles du jeu (mais "
+"pas celui par défaut), elle perdra certains ou tous ses niveaux de vétéran."
 
 #: data/helpdata.txt:1086
 msgid ""
@@ -23710,7 +23953,11 @@ msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Nations report and click \"Spaceship\"."
-msgstr "Quand vous avez commencé à construire votre vaisseau, vous pouvez le voir avec la commande \"Vaisseau\" dans le menu Rapport. Pour voir les vaisseaux des autres joueurs, choisissez le joueur dans le dialogue des Nations et cliquez sur \"Vaisseau\"."
+msgstr ""
+"Quand vous avez commencé à construire votre vaisseau, vous pouvez le voir "
+"avec la commande \"Vaisseau\" dans le menu Rapport. Pour voir les vaisseaux "
+"des autres joueurs, choisissez le joueur dans le dialogue des Nations et "
+"cliquez sur \"Vaisseau\"."
 
 #: data/helpdata.txt:1497
 msgid ""
@@ -23855,10 +24102,12 @@ msgstr ""
 "  e : Construit une bas(e) aérienne (unités de base aérienne)\n"
 "  f : (f)ortifier l'unité (unités militaires)\n"
 "  f : Construire une (f)orteresse (colons/ingénieurs)\n"
-"  g : Aller à : déplace l'unité (puis clic-gauche pour choisir la destination)\n"
+"  g : Aller à : déplace l'unité (puis clic-gauche pour choisir la "
+"destination)\n"
 "  g : Ajouter un point d'itinéraire (en mode \"aller à\")\n"
 "  G : Retourner à la ville amicale la plus proche\n"
-"  h : C(h)anger la ville de rattachement (vers la ville de localisation actuelle)\n"
+"  h : C(h)anger la ville de rattachement (vers la ville de localisation "
+"actuelle)\n"
 "  i : (i)rriguer la case ou convertir le terrain (colons/travailleurs)\n"
 "  I : Connecter les (I)rrigations jusqu'à destination\n"
 "  I : Ajouter un point d'itinéraire (en connectant les (I)rrigations)\n"
@@ -23873,7 +24122,8 @@ msgstr ""
 "  p : Nettoyer la (p)ollution  (colons/ingénieurs)\n"
 "  p : (p)arachuter (parachutistes)\n"
 "  P : (P)iller les améliorations de la case\n"
-"  q : Faire patrouiller une unité (clic-gauche pour choisir l'autre point terminal)\n"
+"  q : Faire patrouiller une unité (clic-gauche pour choisir l'autre point "
+"terminal)\n"
 "  q : Ajouter un point d'itinéraire (en mode patrouille)\n"
 "  r : Construire une (r)oute/voie ferrée (colons/ingénieurs)\n"
 "  r : Établir une (r)oute commerciale (caravanes)\n"
@@ -23989,9 +24239,12 @@ msgstr ""
 "=====================================\n"
 "  Clic-gauche sur une ville :       Ouvrir la fenêtre de dialogue de ville\n"
 "  Clic-gauche sur une unité :       Sélectionner cette unité uniquement\n"
-"                                    (annule également toute activité courante si l'option \"Effacer les ordres des unités sélectionnées\" est activée)\n"
+"                                    (annule également toute activité "
+"courante si l'option \"Effacer les ordres des unités sélectionnées\" est "
+"activée)\n"
 "  Shift-clic-gauche sur une unité : Ajouter l'unité à la section (GTK)\n"
-"  Glisser-gauche sur une unité :    Commande Aller-à pour l'unité (si l'option \"'Aller à' sans clavier\" est activée)\n"
+"  Glisser-gauche sur une unité :    Commande Aller-à pour l'unité (si "
+"l'option \"'Aller à' sans clavier\" est activée)\n"
 "  Clic-milieu ou Alt-clic-gauche :  Informations sur la case\n"
 "  Clic-droit :                      Centrer la vue sur cette case\n"
 "  Ctrl-clic-milieu :                Réveiller les unités en veille"
@@ -24010,10 +24263,16 @@ msgid ""
 msgstr ""
 "  Sélection rapide des unités :\n"
 "  -----------------------------\n"
-"  Ctrl-clic-gauche sur une case :   Sélectionner une unité maritime  (de préférence un transporteur)\n"
-"  Ctrl-clic-droit  sur une case :   Sélectionner une unité terrestre (de préférence militaire)\n"
+"  Ctrl-clic-gauche sur une case :   Sélectionner une unité maritime  (de "
+"préférence un transporteur)\n"
+"  Ctrl-clic-droit  sur une case :   Sélectionner une unité terrestre (de "
+"préférence militaire)\n"
 "\n"
-"  Ces combinaisons choisissent et sélectionnent une unité parmi celles présentes sur une case. Toutes choses égales par ailleurs, les unités disposant encore de points de mouvement sont préférées. Si l'option \"Aller à\" sans clavier est activée, un clic+glisser permet sélectionner et de déplacer l'unité d'un seul geste."
+"  Ces combinaisons choisissent et sélectionnent une unité parmi celles "
+"présentes sur une case. Toutes choses égales par ailleurs, les unités "
+"disposant encore de points de mouvement sont préférées. Si l'option \"Aller à"
+"\" sans clavier est activée, un clic+glisser permet sélectionner et de "
+"déplacer l'unité d'un seul geste."
 
 #: data/helpdata.txt:1661
 msgid ""
@@ -24028,8 +24287,10 @@ msgstr ""
 "  Manipulation des villes (GTK) :\n"
 "  -------------------------------\n"
 "  Shift-Ctrl-clic-gauche :          Ajuster les travailleurs de la ville\n"
-"  Shift-Alt-clic-droit :            Montrer les travailleurs de la ville (souris au dessus ou près d'une ville)\n"
-"  Shift-clic-droit :                Copier la production (d'une ville ou unité)\n"
+"  Shift-Alt-clic-droit :            Montrer les travailleurs de la ville "
+"(souris au dessus ou près d'une ville)\n"
+"  Shift-clic-droit :                Copier la production (d'une ville ou "
+"unité)\n"
 "  Shift-Ctrl-clic-droit :           Coller la production dans une ville"
 
 #: data/helpdata.txt:1668
@@ -24052,12 +24313,23 @@ msgid ""
 msgstr ""
 "  Mode de sélection de zone (GTK) :\n"
 "  ---------------------------------\n"
-"  Clic-droit+glisser :              Sélectionner les unités / villes de la zone\n"
-"  Shift-clic-droit+glisser :        Ajouter les contenus de la zone à la sélection existante\n"
+"  Clic-droit+glisser :              Sélectionner les unités / villes de la "
+"zone\n"
+"  Shift-clic-droit+glisser :        Ajouter les contenus de la zone à la "
+"sélection existante\n"
 "\n"
-"  Dans ce mode, des unités ou des villes multiples sont sélectionnées. Si le rectangle de sélection contient des villes, et que l'option \"Sélectionner les villes avant les unités\" est activée, seules les villes sont sélectionnées et les unités actuellement sélectionnées sont abandonnées ; sinon les unités et les villes sont sélectionnées ensemble.\n"
+"  Dans ce mode, des unités ou des villes multiples sont sélectionnées. Si le "
+"rectangle de sélection contient des villes, et que l'option \"Sélectionner "
+"les villes avant les unités\" est activée, seules les villes sont "
+"sélectionnées et les unités actuellement sélectionnées sont abandonnées ; "
+"sinon les unités et les villes sont sélectionnées ensemble.\n"
 "\n"
-"  Les ville sélectionnées sont surlignées sur la carte et dans le rapport de villes pour des actions de masse à venir. Immédiatement après la sélection, l'ensemble des villes peut être ajusté par un clic-gauche sur des villes individuelles ; et la production de toutes les villes surlignées peut être changée à l'aide d'un Shift-Ctrl-Clic-droit (cf. section précédente). Un clic-droit quitte ce mode."
+"  Les ville sélectionnées sont surlignées sur la carte et dans le rapport de "
+"villes pour des actions de masse à venir. Immédiatement après la sélection, "
+"l'ensemble des villes peut être ajusté par un clic-gauche sur des villes "
+"individuelles ; et la production de toutes les villes surlignées peut être "
+"changée à l'aide d'un Shift-Ctrl-Clic-droit (cf. section précédente). Un "
+"clic-droit quitte ce mode."
 
 #: data/helpdata.txt:1684
 msgid ""
@@ -24071,10 +24343,14 @@ msgid ""
 msgstr ""
 "  Discussion (GTK) :\n"
 "  ------------------\n"
-"  Ctrl-Alt-Clic-droit :             Coller un lien vers la ville ou la case dans la ligne de saisie\n"
-"  Shift-Ctrl-Alt-Clic-droit :       Coller un lien vers l'unité dans la ligne de saisie\n"
+"  Ctrl-Alt-Clic-droit :             Coller un lien vers la ville ou la case "
+"dans la ligne de saisie\n"
+"  Shift-Ctrl-Alt-Clic-droit :       Coller un lien vers l'unité dans la "
+"ligne de saisie\n"
 "\n"
-"  Ces contrôles permettent de faire référence à des éléments de la carte dans la zone de discussion. Voir l'aide sur la Discussion pour plus de détails.\n"
+"  Ces contrôles permettent de faire référence à des éléments de la carte "
+"dans la zone de discussion. Voir l'aide sur la Discussion pour plus de "
+"détails.\n"
 
 #: data/helpdata.txt:1692
 msgid ""
@@ -24085,7 +24361,8 @@ msgid ""
 msgstr ""
 "Carte d'aperçu (Contrôles souris) :\n"
 "===================================\n"
-"  Clic-gauche, Maj-Clic-gauche et Clic-droit ont la même fonction que sur la carte principale.\n"
+"  Clic-gauche, Maj-Clic-gauche et Clic-droit ont la même fonction que sur la "
+"carte principale.\n"
 
 #: data/helpdata.txt:1697
 msgid ""
@@ -28759,7 +29036,10 @@ msgid ""
 "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
 "for a city to grow larger than size 8. The Sewer System further reduces the "
 "chance of a plague."
-msgstr "Permet à une ville de dépasser une taille de 12. Un aqueduc est d'abord requis pour qu'une ville dépasse une taille de 8. Les égouts diminuent encore les risques d'épidémie."
+msgstr ""
+"Permet à une ville de dépasser une taille de 12. Un aqueduc est d'abord "
+"requis pour qu'une ville dépasse une taille de 8. Les égouts diminuent "
+"encore les risques d'épidémie."
 
 #: data/default/buildings.ruleset:798 data/experimental/buildings.ruleset:847
 #: data/multiplayer/buildings.ruleset:780
@@ -29246,7 +29526,12 @@ msgid ""
 "features available in Freeciv without regard for strict game balancing or "
 "playability. A description of the differences from the default ruleset can "
 "be found in README.ruleset_experimental."
-msgstr "Vous jouez avec des règles du jeu expérimentales. Elles servent de vitrine pour les fonctionalités nouvelles ou inhabituelles disponibles dans Freeciv, sans considération pour l'équité stricte du jeu ou pour la jouabilité. Une description des différences avec les règles du jeu par défaut se trouve dans README.ruleset_experimental."
+msgstr ""
+"Vous jouez avec des règles du jeu expérimentales. Elles servent de vitrine "
+"pour les fonctionalités nouvelles ou inhabituelles disponibles dans Freeciv, "
+"sans considération pour l'équité stricte du jeu ou pour la jouabilité. Une "
+"description des différences avec les règles du jeu par défaut se trouve dans "
+"README.ruleset_experimental."
 
 #: data/experimental/game.ruleset:206 data/multiplayer/game.ruleset:204
 #: data/default/game.ruleset:198
@@ -29540,7 +29825,13 @@ msgid ""
 "disabled, and that most wonders can be built once by each player, and affect "
 "only cities on the same continent. A full description of the differences can "
 "be found in README.ruleset_multiplayer."
-msgstr "Vous jouez à Freeciv avec des règles conçues pour le jeu multijoueur. Les principales différences avec les règles du jeu par défaut est que les routes commerciales sont désactivées, et que la plupart des merveilles peuvent être construites une fois par chaque joueur, et affectent uniquement les villes du même contient. Une description complète des différences peut être trouvée dans le fichier README.ruleset_multiplayer."
+msgstr ""
+"Vous jouez à Freeciv avec des règles conçues pour le jeu multijoueur. Les "
+"principales différences avec les règles du jeu par défaut est que les routes "
+"commerciales sont désactivées, et que la plupart des merveilles peuvent être "
+"construites une fois par chaque joueur, et affectent uniquement les villes "
+"du même contient. Une description complète des différences peut être trouvée "
+"dans le fichier README.ruleset_multiplayer."
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #: data/multiplayer/game.ruleset:210
@@ -32616,8 +32907,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -40872,20 +41163,28 @@ msgid ""
 "(F1) to return to the map view."
 msgstr ""
 "Vous avez recherché votre première technologie ! Les progrès technologiques\n"
-"sont un concept de base de Freeciv. À mesure que vous augmentez votre niveau de\n"
+"sont un concept de base de Freeciv. À mesure que vous augmentez votre niveau "
+"de\n"
 "technologie, de nouvelles unités, bâtiments, gouvernements et divers bonus\n"
 "deviennent disponibles.\n"
 "\n"
 "Allez maintenant dans le dialogue de la recherche et regardez ce qu'il\n"
-"contient. Pressez F6 pour l'ouvrir (ou cliquez sur l'onglet recherche dans la\n"
+"contient. Pressez F6 pour l'ouvrir (ou cliquez sur l'onglet recherche dans "
+"la\n"
 "fenêtre principale). Trouvez la technologie appelée République et cliquez\n"
-"dessus. Maintenant la République est votre but technologique ; cela signifie\n"
-"que la prochaine avancée vers cette technologie sera automatiquement choisie\n"
-"comme recherche suivante. En haut de la fenêtre est affiché combien d'unité de\n"
-"recherche scientifique vous accomplissez chaque tour - la recherche (ampoules)\n"
+"dessus. Maintenant la République est votre but technologique ; cela "
+"signifie\n"
+"que la prochaine avancée vers cette technologie sera automatiquement "
+"choisie\n"
+"comme recherche suivante. En haut de la fenêtre est affiché combien d'unité "
+"de\n"
+"recherche scientifique vous accomplissez chaque tour - la recherche "
+"(ampoules)\n"
 "vient du commerce imposables de vos villes.  En bas de la fenêtre se trouve\n"
-"l'arbre des technologies ; vous pouvez faire un clic-gauche pour désigner la\n"
-"cible ou l'objectif des recherches, ou un clic-droit pour obtenir de l'aide au\n"
+"l'arbre des technologies ; vous pouvez faire un clic-gauche pour désigner "
+"la\n"
+"cible ou l'objectif des recherches, ou un clic-droit pour obtenir de l'aide "
+"au\n"
 "sujet d'une technologie particulière. Quand vous avez terminé, cliquez sur\n"
 "l'onglet de la carte (F1) pour retourner à la vue de la carte."
 
@@ -40905,17 +41204,22 @@ msgid ""
 "to worry about picking a new research target each time you finish\n"
 "researching a technology."
 msgstr ""
-"Maintenant vous avez trouvé votre deuxième technologie. Allez de nouveau dans\n"
+"Maintenant vous avez trouvé votre deuxième technologie. Allez de nouveau "
+"dans\n"
 "le dialogue de la recherche (F6) et jetez un coup d'œil rapide à votre\n"
 "progrès. Si vous avez positionné République comme but technologique tout à\n"
-"l'heure, une nouvelle cible de recherches devrait avoir été choisie pour vous\n"
+"l'heure, une nouvelle cible de recherches devrait avoir été choisie pour "
+"vous\n"
 "automatiquement. Si vous n'avez aucun objectif, il ne sera choisie aucune\n"
 "nouvelle cible avant la fin du tour.\n"
 "\n"
-"Durant le tour où vous terminez votre recherche, vous pouvez sélectionner une\n"
-"nouvelle technologie à rechercher. Cependant, changer de cible à mi-chemin vous\n"
+"Durant le tour où vous terminez votre recherche, vous pouvez sélectionner "
+"une\n"
+"nouvelle technologie à rechercher. Cependant, changer de cible à mi-chemin "
+"vous\n"
 "fait perdre toute la recherche faite jusqu'ici.  Choisissez vos cible\n"
-"technologique sagement pour ne pas avoir à vous inquiéter de sélectionner une\n"
+"technologique sagement pour ne pas avoir à vous inquiéter de sélectionner "
+"une\n"
 "nouvelle cible chaque fois que vous finissez de rechercher une technologie."
 
 #: data/scenario/tutorial.sav:339
@@ -41020,6 +41324,54 @@ msgstr "Règles du jeu standard"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "Vous jouez Freeciv avec les règles standard."
+
+#~ msgid "?bzip2error:OK"
+#~ msgstr "OK"
+
+#~ msgid "?bzip2error:Run ok"
+#~ msgstr "Execution OK"
+
+#~ msgid "?bzip2error:Flush ok"
+#~ msgstr "Écriture OK"
+
+#~ msgid "?bzip2error:Finish ok"
+#~ msgstr "Terminaison OK"
+
+#~ msgid "?bzip2error:Stream end"
+#~ msgstr "Fin de flux"
+
+#~ msgid "?bzip2error:Config error"
+#~ msgstr "Erreur de configuration"
+
+#~ msgid "?bzip2error:Sequence error"
+#~ msgstr "Erreur de séquence"
+
+#~ msgid "?bzip2error:Parameter error"
+#~ msgstr "Erreur de paramètre"
+
+#~ msgid "?bzip2error:Mem error"
+#~ msgstr "Erreur de mémoire"
+
+#~ msgid "?bzip2error:Data error"
+#~ msgstr "Erreur de données"
+
+#~ msgid "?bzip2error:Not bzip2 file"
+#~ msgstr "Pas un fichier bzip2"
+
+#~ msgid "?bzip2error:IO error"
+#~ msgstr "Erreur d'entrée/sortie"
+
+#~ msgid "?bzip2error:Unexpected EOF"
+#~ msgstr "Fin de fichier inattendue"
+
+#~ msgid "?bzip2error:Output buffer full"
+#~ msgstr "Tampon de sortie plein"
+
+#~ msgid "Bz2: \"%s\" (%d)"
+#~ msgstr "Bz2 : \"%s\" (%d)"
+
+#~ msgid "Bz2 error %d"
+#~ msgstr "Erreur bz2 %d"
 
 #~ msgid "Build _Fortress"
 #~ msgstr "Construire une _Forteresse"
@@ -45670,8 +46022,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
 #~ msgstr ""
-#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi "
-#~ "%s).\n"
+#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi %"
+#~ "s).\n"
 
 #~ msgid "* Can build airbases.\n"
 #~ msgstr "* Peut construire des bases aériennes.\n"
@@ -45797,8 +46149,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
 #~ "when not celebrating.\n"
 #~ msgstr ""
-#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1 quand la ville n'est pas en extase.\n"
+#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1 quand la ville n'est pas en extase.\n"
 
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it when "
@@ -48654,8 +49006,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr ""
-#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion "
-#~ "%s."
+#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion %"
+#~ "s."
 
 #~ msgid "Observers cannot vote."
 #~ msgstr "Les observateurs ne peuvent pas voter."
@@ -48791,8 +49143,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Votre %1$s a réussi à soudoyer %3$s de %2$s et a acquis de l'expérience."
 
 #~ msgid ""
-#~ "Your %s has successfully completed her mission and returned unharmed to "
-#~ "%s and has become more experienced."
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s and has become more experienced."
 #~ msgstr ""
 #~ "Votre %s a rempli sa mission avec succès, est revenu sain et sauf à %s et "
 #~ "a acquis de l'expérience."
@@ -48823,8 +49175,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 #~ "became more experienced!"
 #~ msgstr[0] ""
-#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre "
-#~ "unité)%5$s et a acquis de l'expérience !"
+#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre unité)%"
+#~ "5$s et a acquis de l'expérience !"
 #~ msgstr[1] ""
 #~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autres "
 #~ "unités)%5$s et a acquis de l'expérience !"
@@ -48939,8 +49291,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgstr "Impossible de copier le texte sur l'affichage : %s"
 
 #~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: "
-#~ "%s"
+#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
+#~ "s"
 #~ msgstr ""
 #~ "Erreur dans SDL_create_str16_surf : impossible de convertir le texte au "
 #~ "format d'affichage : %s"
@@ -49884,8 +50236,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Couldn't open gamelogfile \"%s\" for appending."
 #~ msgstr ""
-#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter "
-#~ "\"%s\"."
+#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter \"%"
+#~ "s\"."
 
 #~ msgid "Detail level for logging game events"
 #~ msgstr "Niveau de détail pour la journalisation"
@@ -50081,8 +50433,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 #~ msgstr ""
-#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1.\n"
+#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1.\n"
 
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
