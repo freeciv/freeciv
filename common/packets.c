@@ -312,7 +312,7 @@ void *get_packet_from_connection(struct connection *pc,
 {
   int len_read;
   int whole_packet_len;
-  union {
+  struct {
     enum packet_type type;
     int itype;
   } utype;
@@ -321,8 +321,6 @@ void *get_packet_from_connection(struct connection *pc,
   bool compressed_packet = FALSE;
   int header_size = 0;
 #endif
-
-  assert(sizeof(utype.type) == sizeof(utype.itype));
 
   *presult = FALSE;
 
@@ -440,6 +438,8 @@ void *get_packet_from_connection(struct connection *pc,
   }
 
   dio_get_uint8(&din, &utype.itype);
+
+  utype.type = utype.itype;
 
   freelog(BASIC_PACKET_LOG_LEVEL, "got packet type=(%s)%d len=%d from %s",
           get_packet_name(utype.type), utype.itype, whole_packet_len,
