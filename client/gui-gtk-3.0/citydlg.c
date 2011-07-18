@@ -279,9 +279,6 @@ static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
 
 static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 			  GtkTreeViewColumn *col, gpointer data);
-static void switch_page_callback(GtkNotebook * notebook,
-				 GtkNotebookPage * page, guint page_num,
-				 gpointer data);
 
 static void rename_callback(GtkWidget * w, gpointer data);
 static void rename_popup_callback(gpointer data, gint response,
@@ -1368,9 +1365,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
                                   OVERVIEW_PAGE);
   }
-
-  g_signal_connect(pdialog->notebook, "switch-page",
-		   G_CALLBACK(switch_page_callback), pdialog);
 
   /**** End of Notebook ****/
 
@@ -2744,15 +2738,6 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
   }
 }
 
-/****************************************************************
- If switching away from worklist, we commit it.
-*****************************************************************/
-static void switch_page_callback(GtkNotebook * notebook,
-				 GtkNotebookPage * page, guint page_num,
-				 gpointer data)
-{
-}
-
 /******* Callbacks for stuff on the Misc. Settings page *********/
 /****************************************************************
   Called when Rename button pressed
@@ -2891,14 +2876,9 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   last_page =
       gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
 
-  /* else this will be called NUM_PAGES times as the pages are destroyed */
-  g_signal_handlers_disconnect_matched(pdialog->notebook,
-				       G_SIGNAL_MATCH_FUNC,
-				       0, 0, NULL, switch_page_callback,
-				       pdialog);
-
-  if (pdialog->popup_menu)
+  if (pdialog->popup_menu) {
     gtk_widget_destroy(pdialog->popup_menu);
+  }
 
   dialog_list_remove(dialog_list, pdialog);
 
