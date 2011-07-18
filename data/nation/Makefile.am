@@ -112,6 +112,7 @@ pkgdata_DATA = \
 		circassian.ruleset \
 		colombian.ruleset \
 		comanche.ruleset \
+		comorian.ruleset \
 		confederate.ruleset \
 		congolese.ruleset \
 		congolesebrazzaville.ruleset \
