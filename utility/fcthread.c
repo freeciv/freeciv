@@ -111,6 +111,39 @@ void fc_release_mutex(fc_mutex *mutex)
 {
   pthread_mutex_unlock(mutex);
 }
+
+/**********************************************************************
+  Initialize condition
+***********************************************************************/
+void fc_thread_cond_init(fc_thread_cond *cond)
+{
+  pthread_cond_init(cond, NULL);
+}
+
+/**********************************************************************
+  Destroy condition
+***********************************************************************/
+void fc_thread_cond_destroy(fc_thread_cond *cond)
+{
+  pthread_cond_destroy(cond);
+}
+
+/**********************************************************************
+  Wait for condition to be fulfilled
+***********************************************************************/
+void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex)
+{
+  pthread_cond_wait(cond, mutex);
+}
+
+/**********************************************************************
+  Signal other thread to continue on fulfilled condition
+***********************************************************************/
+void fc_thread_cond_signal(fc_thread_cond *cond)
+{
+  pthread_cond_signal(cond);
+}
+
 #elif defined(HAVE_WINTHREADS)
 
 struct fc_thread_wrap_data {
@@ -202,7 +235,14 @@ void fc_release_mutex(fc_mutex *mutex)
   ReleaseMutex(*mutex);
 }
 
+/* TODO: Windows thread condition variable support.
+ *       Currently related functions are always dummy ones below
+ *       (see #ifndef HAVE_THREAD_COND) */
+
 #else /* No thread implementation */
+
+
+/* Basic thread functions */
 
 /**********************************************************************
   Dummy fc_thread_start(). Just run given function in current thread.
@@ -244,7 +284,39 @@ void fc_allocate_mutex(fc_mutex *mutex)
 ***********************************************************************/
 void fc_release_mutex(fc_mutex *mutex)
 {}
+
 #endif /* HAVE_PTHREAD || HAVE_WINTHREADS */
+
+
+#ifndef HAVE_THREAD_COND
+
+/* Dummy thread condition variable functions */
+
+/**********************************************************************
+  Dummy fc_thread_cond_init()
+***********************************************************************/
+void fc_thread_cond_init(fc_thread_cond *cond)
+{}
+
+/**********************************************************************
+  Dummy fc_thread_cond_destroy()
+***********************************************************************/
+void fc_thread_cond_destroy(fc_thread_cond *cond)
+{}
+
+/**********************************************************************
+  Dummy fc_thread_cond_wait()
+***********************************************************************/
+void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex);
+{}
+
+/**********************************************************************
+  Dummy fc_thread_cond_signal()
+***********************************************************************/
+void fc_thread_cond_signal(fc_thread_cond *cond);
+{}
+
+#endif /* !HAVE_THREAD_COND */
 
 /**********************************************************************
   Has freeciv any kind of real thread implementation
@@ -252,6 +324,18 @@ void fc_release_mutex(fc_mutex *mutex)
 bool has_thread_impl(void)
 {
 #ifdef HAVE_THREADS
+  return TRUE;
+#else
+  return FALSE;
+#endif
+}
+
+/**********************************************************************
+  Has freeciv thread condition variable implementation
+***********************************************************************/
+bool has_thread_cond_impl(void)
+{
+#ifdef HAVE_THREAD_COND
   return TRUE;
 #else
   return FALSE;

@@ -23,21 +23,29 @@ extern "C" {
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 
-#define fc_thread pthread_t
-#define fc_mutex  pthread_mutex_t
+#define fc_thread      pthread_t
+#define fc_mutex       pthread_mutex_t
+#define fc_thread_cond pthread_cond_t
 
 #elif defined (HAVE_WINTHREADS)
 
 #include <windows.h>
-#define fc_thread HANDLE *
-#define fc_mutex HANDLE *
+#define fc_thread      HANDLE *
+#define fc_mutex       HANDLE *
+
+#ifndef HAVE_THREAD_COND
+#define fc_thread_cond char
+#else  /* HAVE_THREAD_COND */
+#warning HAVE_THREAD_COND defined but we have no real Windows implementation
+#endif /* HAVE_THREAD_COND */
 
 #else /* No pthreads nor winthreads */
 
 /* Dummy */
 /* These must be real types with size instead of 'void' */
-#define fc_thread char
-#define fc_mutex char
+#define fc_thread      char
+#define fc_mutex       char
+#define fc_thread_cond char
 
 #endif /* HAVE_PTHREAD */
 
@@ -49,7 +57,13 @@ void fc_destroy_mutex(fc_mutex *mutex);
 void fc_allocate_mutex(fc_mutex *mutex);
 void fc_release_mutex(fc_mutex *mutex);
 
+void fc_thread_cond_init(fc_thread_cond *cond);
+void fc_thread_cond_destroy(fc_thread_cond *cond);
+void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex);
+void fc_thread_cond_signal(fc_thread_cond *cond);
+
 bool has_thread_impl(void);
+bool has_thread_cond_impl(void);
 
 #ifdef __cplusplus
 }

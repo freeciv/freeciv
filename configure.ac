@@ -685,6 +685,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <pthread.h>]],
   [AC_DEFINE([HAVE_PTHREAD], [1], [Use pthreads as thread implementation])
   thread_impl=pthreads
   AC_MSG_RESULT([pthreads])
+  AC_DEFINE([HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
   CFLAGS="$CFLAGS -pthread"
   LIBS="$LIBS -lpthread"])
 
