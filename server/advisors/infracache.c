@@ -441,7 +441,7 @@ void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
               "%d to %d", city_name(pcity),
               pcity->server.adv->act_cache_radius_sq,
               city_map_radius_sq_get(pcity));
-    ai_city_update(pcity);
+    adv_city_update(pcity);
   }
 
   fc_assert_ret(NULL != pcity);
@@ -474,7 +474,7 @@ int adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
 /**************************************************************************
   Update the memory allocated for AI city handling.
 **************************************************************************/
-void ai_city_update(struct city *pcity)
+void adv_city_update(struct city *pcity)
 {
   int radius_sq = city_map_radius_sq_get(pcity);
 
@@ -507,7 +507,7 @@ void adv_city_alloc(struct city *pcity)
   pcity->server.adv->act_cache = NULL;
   pcity->server.adv->act_cache_radius_sq = -1;
   /* allocate memory for pcity->ai->act_cache */
-  ai_city_update(pcity);
+  adv_city_update(pcity);
 }
 
 /**************************************************************************

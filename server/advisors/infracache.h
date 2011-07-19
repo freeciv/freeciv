@@ -37,7 +37,7 @@ void adv_city_free(struct city *pcity);
 
 void initialize_infrastructure_cache(struct player *pplayer);
 
-void ai_city_update(struct city *pcity);
+void adv_city_update(struct city *pcity);
 
 int city_tile_value(const struct city *pcity, const struct tile *ptile,
                     int foodneed, int prodneed);

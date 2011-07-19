@@ -2717,7 +2717,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
   }
 
   /* if city is under AI control update it */
-  ai_city_update(pcity);
+  adv_city_update(pcity);
 
   /* Force a sync of the city after the change. */
   send_city_info(city_owner(pcity), pcity);

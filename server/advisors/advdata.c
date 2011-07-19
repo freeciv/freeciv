@@ -66,7 +66,8 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
   Then we find the largest range of calculatable effects in the
   improvement and record it for later use.
 **************************************************************************/
-static void ai_data_city_impr_calc(struct player *pplayer, struct adv_data *ai)
+static void adv_data_city_impr_calc(struct player *pplayer,
+				    struct adv_data *adv)
 {
   int count[AI_IMPR_LAST];
 
@@ -78,7 +79,7 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct adv_data *ai)
       .value = {.building = pimprove}
     };
 
-    ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_ESTIMATE;
+    adv->impr_calc[improvement_index(pimprove)] = AI_IMPR_ESTIMATE;
 
     /* Find largest extension */
     effect_list_iterate(get_req_source_effects(&source), peffect) {
@@ -103,11 +104,11 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct adv_data *ai)
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
 	      && preq->source.value.building == pimprove) {
-            if (ai->impr_calc[improvement_index(pimprove)] != AI_IMPR_CALCULATE_FULL) {
-	      ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE;
+            if (adv->impr_calc[improvement_index(pimprove)] != AI_IMPR_CALCULATE_FULL) {
+	      adv->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE;
             }
-	    if (preq->range > ai->impr_range[improvement_index(pimprove)]) {
-	      ai->impr_range[improvement_index(pimprove)] = preq->range;
+	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
+	      adv->impr_range[improvement_index(pimprove)] = preq->range;
 	    }
 	  }
 	} requirement_list_iterate_end;
@@ -118,9 +119,9 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct adv_data *ai)
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
 	      && preq->source.value.building == pimprove) {
-	    ai->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE_FULL;
-	    if (preq->range > ai->impr_range[improvement_index(pimprove)]) {
-	      ai->impr_range[improvement_index(pimprove)] = preq->range;
+	    adv->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE_FULL;
+	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
+	      adv->impr_range[improvement_index(pimprove)] = preq->range;
 	    }
 	  }
 	} requirement_list_iterate_end;
@@ -178,13 +179,13 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
   _init, which must be run before savegames are loaded, which is usually
   before rulesets.
 **************************************************************************/
-void ai_data_analyze_rulesets(struct player *pplayer)
+void adv_data_analyze_rulesets(struct player *pplayer)
 {
-  struct adv_data *ai = pplayer->server.adv;
+  struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(ai != NULL);
+  fc_assert_ret(adv != NULL);
 
-  ai_data_city_impr_calc(pplayer, ai);
+  adv_data_city_impr_calc(pplayer, adv);
 }
 
 /**************************************************************************
@@ -192,9 +193,9 @@ void ai_data_analyze_rulesets(struct player *pplayer)
 **************************************************************************/
 static void count_my_units(struct player *pplayer)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer);
 
-  memset(&ai->stats.units, 0, sizeof(ai->stats.units));
+  memset(&adv->stats.units, 0, sizeof(adv->stats.units));
 
   unit_list_iterate(pplayer->units, punit) {
     struct unit_class *pclass = unit_class(punit);
@@ -202,26 +203,26 @@ static void count_my_units(struct player *pplayer)
     if (pclass->ai.land_move != MOVE_NONE
         && pclass->ai.sea_move != MOVE_NONE) {
       /* Can move both land and ocean */
-      ai->stats.units.amphibious++;
+      adv->stats.units.amphibious++;
     } else if (pclass->ai.land_move != MOVE_NONE) {
       /* Can move only at land */
-      ai->stats.units.land++;
+      adv->stats.units.land++;
     } else if (pclass->ai.sea_move != MOVE_NONE) {
       /* Can move only at sea */
-      ai->stats.units.sea++;
+      adv->stats.units.sea++;
     }
 
     if (unit_has_type_flag(punit, F_TRIREME)) {
-      ai->stats.units.triremes++;
+      adv->stats.units.triremes++;
     }
     if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
-      ai->stats.units.missiles++;
+      adv->stats.units.missiles++;
     }
     if (unit_has_type_flag(punit, F_PARATROOPERS)) {
-      ai->stats.units.paratroopers++;
+      adv->stats.units.paratroopers++;
     }
     if (can_upgrade_unittype(pplayer, unit_type(punit)) >= 0) {
-      ai->stats.units.upgradeable++;
+      adv->stats.units.upgradeable++;
     }
   } unit_list_iterate_end;
 }
@@ -252,17 +253,17 @@ bool is_adv_data_phase_open(struct player *pplayer)
 **************************************************************************/
 bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
-  struct adv_data *ai = pplayer->server.adv;
+  struct adv_data *adv = pplayer->server.adv;
   int i;
   int nuke_units;
   bool danger_of_nukes;
 
-  fc_assert_ret_val(ai != NULL, FALSE);
+  fc_assert_ret_val(adv != NULL, FALSE);
 
-  if (ai->phase_is_initialized) {
+  if (adv->phase_is_initialized) {
     return FALSE;
   }
-  ai->phase_is_initialized = TRUE;
+  adv->phase_is_initialized = TRUE;
 
   TIMING_LOG(AIT_AIDATA, TIMER_START);
 
@@ -271,13 +272,13 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Threats ***/
 
-  ai->num_continents    = map.num_continents;
-  ai->num_oceans        = map.num_oceans;
-  ai->threats.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
-  ai->threats.invasions = FALSE;
-  ai->threats.nuclear   = 0; /* none */
-  ai->threats.ocean     = fc_calloc(ai->num_oceans + 1, sizeof(bool));
-  ai->threats.igwall    = FALSE;
+  adv->num_continents    = map.num_continents;
+  adv->num_oceans        = map.num_oceans;
+  adv->threats.continent = fc_calloc(adv->num_continents + 1, sizeof(bool));
+  adv->threats.invasions = FALSE;
+  adv->threats.nuclear   = 0; /* none */
+  adv->threats.ocean     = fc_calloc(adv->num_oceans + 1, sizeof(bool));
+  adv->threats.igwall    = FALSE;
 
   players_iterate(aplayer) {
     if (!adv_is_player_dangerous(pplayer, aplayer)) {
@@ -291,13 +292,13 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     city_list_iterate(aplayer->cities, acity) {
       Continent_id continent = tile_continent(acity->tile);
       if (continent >= 0) {
-        ai->threats.continent[continent] = TRUE;
+        adv->threats.continent[continent] = TRUE;
       }
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
       if (unit_has_type_flag(punit, F_IGWALL)) {
-        ai->threats.igwall = TRUE;
+        adv->threats.igwall = TRUE;
       }
 
       if (is_sailing_unit(punit)) {
@@ -308,7 +309,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
             if (punitclass->move_type == UMT_LAND
                 && can_unit_type_transport(unit_type(punit), punitclass)) {
               /* Enemy can transport some land units! */
-              ai->threats.invasions = TRUE;
+              adv->threats.invasions = TRUE;
               break;
             }
           } unit_class_iterate_end;
@@ -319,12 +320,12 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         if (unit_type(punit)->attack_strength > 1) {
 	  if (is_ocean_tile(unit_tile(punit))) {
 	    Continent_id continent = tile_continent(unit_tile(punit));
-	    ai->threats.ocean[-continent] = TRUE;
+	    adv->threats.ocean[-continent] = TRUE;
 	  } else {
 	    adjc_iterate(unit_tile(punit), tile2) {
 	      if (is_ocean_tile(tile2)) {
 	        Continent_id continent = tile_continent(tile2);
-	        ai->threats.ocean[-continent] = TRUE;
+	        adv->threats.ocean[-continent] = TRUE;
 	      }
 	    } adjc_iterate_end;
 	  }
@@ -335,7 +336,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       /* If our enemy builds missiles, worry about missile defence. */
       if (uclass_has_flag(unit_class(punit), UCF_MISSILE)
           && unit_type(punit)->attack_strength > 1) {
-        ai->threats.missile = TRUE;
+        adv->threats.missile = TRUE;
       }
 
       /* If he builds nukes, worry a lot. */
@@ -349,71 +350,71 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       struct unit_type *nuke = get_role_unit(F_NUCLEAR, i);
 
       if (can_player_build_unit_direct(aplayer, nuke)) { 
-        ai->threats.nuclear = 1;
+        adv->threats.nuclear = 1;
       }
     }
   } players_iterate_end;
 
   /* Increase from fear to terror if opponent actually has nukes */
   if (danger_of_nukes) {
-    ai->threats.nuclear++; /* sum of both fears */
+    adv->threats.nuclear++; /* sum of both fears */
   }
 
   /*** Exploration ***/
 
-  ai->explore.land_done = TRUE;
-  ai->explore.sea_done = TRUE;
-  ai->explore.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
-  ai->explore.ocean = fc_calloc(ai->num_oceans + 1, sizeof(bool));
+  adv->explore.land_done = TRUE;
+  adv->explore.sea_done = TRUE;
+  adv->explore.continent = fc_calloc(adv->num_continents + 1, sizeof(bool));
+  adv->explore.ocean = fc_calloc(adv->num_oceans + 1, sizeof(bool));
   whole_map_iterate(ptile) {
     Continent_id continent = tile_continent(ptile);
 
     if (is_ocean_tile(ptile)) {
-      if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
+      if (adv->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
           && !map_is_known(ptile, pplayer)) {
 	/* We're not done there. */
-        ai->explore.sea_done = FALSE;
-        ai->explore.ocean[-continent] = TRUE;
+        adv->explore.sea_done = FALSE;
+        adv->explore.ocean[-continent] = TRUE;
       }
       /* skip rest, which is land only */
       continue;
     }
-    if (ai->explore.continent[tile_continent(ptile)]) {
+    if (adv->explore.continent[tile_continent(ptile)]) {
       /* we don't need more explaining, we got the point */
       continue;
     }
     if (tile_has_special(ptile, S_HUT) 
         && (!ai_handicap(pplayer, H_HUTS)
              || map_is_known(ptile, pplayer))) {
-      ai->explore.land_done = FALSE;
-      ai->explore.continent[continent] = TRUE;
+      adv->explore.land_done = FALSE;
+      adv->explore.continent[continent] = TRUE;
       continue;
     }
     if (ai_handicap(pplayer, H_TARGETS) && !map_is_known(ptile, pplayer)) {
       /* this AI must explore */
-      ai->explore.land_done = FALSE;
-      ai->explore.continent[continent] = TRUE;
+      adv->explore.land_done = FALSE;
+      adv->explore.continent[continent] = TRUE;
     }
   } whole_map_iterate_end;
 
   /*** Statistics ***/
 
-  ai->stats.workers = fc_calloc(ai->num_continents + 1, sizeof(int));
-  ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
-  ai->stats.average_production = 0;
+  adv->stats.workers = fc_calloc(adv->num_continents + 1, sizeof(int));
+  adv->stats.cities = fc_calloc(adv->num_continents + 1, sizeof(int));
+  adv->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
     Continent_id continent = tile_continent(pcity->tile);
     if (continent >= 0) {
-      ai->stats.cities[continent]++;
+      adv->stats.cities[continent]++;
     }
-    ai->stats.average_production += pcity->surplus[O_SHIELD];
+    adv->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
-  ai->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
+  adv->stats.average_production /= MAX(1, city_list_size(pplayer->cities));
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = unit_tile(punit);
 
     if (!is_ocean_tile(ptile) && unit_has_type_flag(punit, F_SETTLERS)) {
-      ai->stats.workers[(int)tile_continent(unit_tile(punit))]++;
+      adv->stats.workers[(int)tile_continent(unit_tile(punit))]++;
     }
   } unit_list_iterate_end;
 
@@ -431,13 +432,13 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     } players_iterate_end;
   } players_iterate_end;
 
-  ai->dipl.spacerace_leader = player_leading_spacerace();
+  adv->dipl.spacerace_leader = player_leading_spacerace();
 
-  ai->dipl.production_leader = NULL;
+  adv->dipl.production_leader = NULL;
   players_iterate(aplayer) {
-    if (ai->dipl.production_leader == NULL
-        || ai->dipl.production_leader->score.mfg < aplayer->score.mfg) {
-      ai->dipl.production_leader = aplayer;
+    if (adv->dipl.production_leader == NULL
+        || adv->dipl.production_leader->score.mfg < aplayer->score.mfg) {
+      adv->dipl.production_leader = aplayer;
     }
   } players_iterate_end;
 
@@ -448,27 +449,27 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
    * and government calculations, and food and shields should be 
    * slightly bigger because we only look at surpluses there. They
    * are all WAGs. */
-  ai->food_priority = FOOD_WEIGHTING;
-  ai->shield_priority = SHIELD_WEIGHTING;
+  adv->food_priority = FOOD_WEIGHTING;
+  adv->shield_priority = SHIELD_WEIGHTING;
   if (adv_wants_science(pplayer)) {
-    ai->luxury_priority = 1;
-    ai->science_priority = TRADE_WEIGHTING;
+    adv->luxury_priority = 1;
+    adv->science_priority = TRADE_WEIGHTING;
   } else {
-    ai->luxury_priority = TRADE_WEIGHTING;
-    ai->science_priority = 1;
+    adv->luxury_priority = TRADE_WEIGHTING;
+    adv->science_priority = 1;
   }
-  ai->gold_priority = TRADE_WEIGHTING;
-  ai->happy_priority = 1;
-  ai->unhappy_priority = TRADE_WEIGHTING; /* danger */
-  ai->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
-  ai->pollution_priority = POLLUTION_WEIGHTING;
+  adv->gold_priority = TRADE_WEIGHTING;
+  adv->happy_priority = 1;
+  adv->unhappy_priority = TRADE_WEIGHTING; /* danger */
+  adv->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
+  adv->pollution_priority = POLLUTION_WEIGHTING;
 
   /* Research want */
   if (is_future_tech(player_research_get(pplayer)->researching)
       || player_has_really_useful_tech_parasite(pplayer)) {
-    ai->wants_science = FALSE;
+    adv->wants_science = FALSE;
   } else {
-    ai->wants_science = TRUE;
+    adv->wants_science = TRUE;
   }
   
   /* max num cities
@@ -480,21 +481,21 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
    */
   if (ai_handicap(pplayer, H_EXPANSION)) {
     bool found_human = FALSE;
-    ai->max_num_cities = 3;
+    adv->max_num_cities = 3;
     players_iterate(aplayer) {
       if (aplayer == pplayer || aplayer->ai_controlled
           || !aplayer->is_alive) {
         continue;
       }
-      ai->max_num_cities = MAX(ai->max_num_cities,
-                               city_list_size(aplayer->cities) + 3);
+      adv->max_num_cities = MAX(adv->max_num_cities,
+				city_list_size(aplayer->cities) + 3);
       found_human = TRUE;
     } players_iterate_end;
     if (!found_human) {
-      ai->max_num_cities = MAP_INDEX_SIZE;
+      adv->max_num_cities = MAP_INDEX_SIZE;
     }
   } else {
-    ai->max_num_cities = MAP_INDEX_SIZE;
+    adv->max_num_cities = MAP_INDEX_SIZE;
   }
 
   count_my_units(pplayer);
@@ -514,36 +515,36 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 **************************************************************************/
 void adv_data_phase_done(struct player *pplayer)
 {
-  struct adv_data *ai = pplayer->server.adv;
+  struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(ai != NULL);
+  fc_assert_ret(adv != NULL);
 
-  if (!ai->phase_is_initialized) {
+  if (!adv->phase_is_initialized) {
     return;
   }
 
-  free(ai->explore.ocean);
-  ai->explore.ocean = NULL;
+  free(adv->explore.ocean);
+  adv->explore.ocean = NULL;
 
-  free(ai->explore.continent);
-  ai->explore.continent = NULL;
+  free(adv->explore.continent);
+  adv->explore.continent = NULL;
 
-  free(ai->threats.continent);
-  ai->threats.continent = NULL;
+  free(adv->threats.continent);
+  adv->threats.continent = NULL;
 
-  free(ai->threats.ocean);
-  ai->threats.ocean = NULL;
+  free(adv->threats.ocean);
+  adv->threats.ocean = NULL;
 
-  free(ai->stats.workers);
-  ai->stats.workers = NULL;
+  free(adv->stats.workers);
+  adv->stats.workers = NULL;
 
-  free(ai->stats.cities);
-  ai->stats.cities = NULL;
+  free(adv->stats.cities);
+  adv->stats.cities = NULL;
 
-  ai->num_continents = 0;
-  ai->num_oceans     = 0;
+  adv->num_continents = 0;
+  adv->num_oceans     = 0;
 
-  ai->phase_is_initialized = FALSE;
+  adv->phase_is_initialized = FALSE;
 }
 
 /**************************************************************************
@@ -637,19 +638,19 @@ void adv_data_init(struct player *pplayer)
 **************************************************************************/
 void adv_data_default(struct player *pplayer)
 {
-  struct adv_data *ai = pplayer->server.adv;
+  struct adv_data *adv = pplayer->server.adv;
 
-  fc_assert_ret(ai != NULL);
+  fc_assert_ret(adv != NULL);
 
-  ai->govt_reeval = 0;
-  memset(ai->government_want, 0,
-         (government_count() + 1) * sizeof(*ai->government_want));
+  adv->govt_reeval = 0;
+  memset(adv->government_want, 0,
+         (government_count() + 1) * sizeof(*adv->government_want));
 
-  ai->wonder_city = 0;
+  adv->wonder_city = 0;
 
-  ai->wants_science = TRUE;
-  ai->celebrate = FALSE;
-  ai->max_num_cities = 10000;
+  adv->wants_science = TRUE;
+  adv->celebrate = FALSE;
+  adv->max_num_cities = 10000;
 }
 
 /**************************************************************************

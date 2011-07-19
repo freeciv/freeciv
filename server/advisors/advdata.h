@@ -34,7 +34,9 @@ enum ai_improvement_status {
   AI_IMPR_LAST
 };
 
+#if 0
 struct ai_settler; /* see aisettler.c */
+#endif
 
 struct adv_dipl {
   /* Remember one example of each for text spam purposes. */
@@ -160,7 +162,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase);
 void adv_data_phase_done(struct player *pplayer);
 bool is_adv_data_phase_open(struct player *pplayer);
 
-void ai_data_analyze_rulesets(struct player *pplayer);
+void adv_data_analyze_rulesets(struct player *pplayer);
 
 struct adv_data *adv_data_get(struct player *pplayer);
 

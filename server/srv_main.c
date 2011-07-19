@@ -2542,7 +2542,7 @@ static void srv_ready(void)
 
   /* FIXME: can this be moved? */
   players_iterate(pplayer) {
-    ai_data_analyze_rulesets(pplayer);
+    adv_data_analyze_rulesets(pplayer);
   } players_iterate_end;
 
   if (!game.info.is_new_game) {
