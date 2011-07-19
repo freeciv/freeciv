@@ -85,10 +85,10 @@ dnl postgres:             use postgres database
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(fcdb,
 [  --enable-fcdb[=no/all/mysql/postgres/sqlite3]
-                          database backends [[default=all]]
+                          database backends [[default=no]]
                           (no, or list)],
 [databases=${enableval}],
-[fcdb_all=no])
+[databases=no])
 
 for db in $(echo $databases | $SED 's/,/ /g') ; do
   if test "x$db" = "xall" ; then
@@ -101,6 +101,8 @@ for db in $(echo $databases | $SED 's/,/ /g') ; do
     fcdb_postgres=yes
   elif test "x$db" = "xsqlite3" ; then
     fcdb_sqlite3=yes
+  else
+    AC_MSG_ERROR([bad value ${db} for --enable-fcdb])
   fi
 done
 
