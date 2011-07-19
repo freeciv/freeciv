@@ -307,13 +307,13 @@ void fc_thread_cond_destroy(fc_thread_cond *cond)
 /**********************************************************************
   Dummy fc_thread_cond_wait()
 ***********************************************************************/
-void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex);
+void fc_thread_cond_wait(fc_thread_cond *cond, fc_mutex *mutex)
 {}
 
 /**********************************************************************
   Dummy fc_thread_cond_signal()
 ***********************************************************************/
-void fc_thread_cond_signal(fc_thread_cond *cond);
+void fc_thread_cond_signal(fc_thread_cond *cond)
 {}
 
 #endif /* !HAVE_THREAD_COND */
