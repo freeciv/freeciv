@@ -131,12 +131,12 @@ void fc_client::setup_menus()
 ****************************************************************************/
 void fc_client::main(QApplication *qapp)
 {
-  real_output_window_append(_("This is Qt-client for Freeciv."), NULL, NULL);
+  real_output_window_append(_("This is Qt-client for Freeciv."), NULL, -1);
   chat_welcome_message();
 
   real_output_window_append(_("In this early Qt-client development phase "
                               "the only way to connect server is via commandline "
-                              "autoconnect parameter \"-a\""), NULL, NULL);
+                              "autoconnect parameter \"-a\""), NULL, -1);
 
   tileset_init(tileset);
   tileset_load_tiles(tileset);
@@ -241,9 +241,9 @@ void fc_client::chat()
 ****************************************************************************/
 void fc_client::menu_copying()
 {
-  real_output_window_append(_("Freeciv is covered by the GPL."), NULL, NULL);
+  real_output_window_append(_("Freeciv is covered by the GPL."), NULL, -1);
   real_output_window_append(_("See file COPYING distributed with "
-                              "freeciv for full license text."), NULL, NULL);
+                              "freeciv for full license text."), NULL, -1);
 }
 
 /****************************************************************************
