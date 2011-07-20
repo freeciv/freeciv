@@ -176,7 +176,6 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   struct player *pplayer = unit_owner(punit);
   unsigned int danger = 0;
   struct city *dcity;
-  struct tile *ptile;
   struct unit *guard = aiguard_guard_of(punit);
   const struct veteran_level *vlevel;
 
@@ -217,7 +216,6 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   vlevel = utype_veteran_level(unit_type(punit), punit->veteran);
   fc_assert_ret(vlevel != NULL);
 
-  ptile = unit_tile(punit);
   /* We look for the bodyguard where we stand. */
   if (guard == NULL || unit_tile(guard) != unit_tile(punit)) {
     int my_def = (punit->hp * unit_type(punit)->defense_strength
