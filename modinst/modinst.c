@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 
 /* utility */
+#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -330,6 +331,7 @@ int main(int argc, char *argv[])
   int loglevel = LOG_NORMAL;
 
   init_nls();
+  init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
