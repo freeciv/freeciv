@@ -686,6 +686,7 @@ AM_PATH_GTK_2_0([2.6.0],
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk2 on Windows platform
     MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -mms-bitfields"
+    MP_gtk2_LIBS="$GTK_LIBS -lgthread-2.0"
     MP_gtk2_LDFLAGS="$MP_gtk2_LDFLAGS -mwindows"
   fi
 ], [modinst=no])

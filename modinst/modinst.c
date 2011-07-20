@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "netintf.h"
 #include "shared.h"
 
 /* modinst */
@@ -325,6 +326,10 @@ int main(int argc, char *argv[])
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
+  fc_init_network();
+  
+  g_thread_init(NULL);
+  
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
 
