@@ -120,7 +120,7 @@ gtk_pixcomm_class_init(GtkPixcommClass *klass)
 static void
 gtk_pixcomm_init(GtkPixcomm *pixcomm)
 {
-  GTK_WIDGET_SET_FLAGS(pixcomm, GTK_NO_WINDOW);
+  gtk_widget_set_has_window(GTK_WIDGET(pixcomm), FALSE);
 
   pixcomm->actions = NULL;
   pixcomm->freeze_count = 0;

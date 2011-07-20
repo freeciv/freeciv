@@ -240,7 +240,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, FALSE, 0);
 
   pdialog->image_canvas=gtk_drawing_area_new();
-  GTK_WIDGET_SET_FLAGS(pdialog->image_canvas, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus(pdialog->image_canvas, TRUE);
   get_spaceship_dimensions(&w, &h);
   gtk_widget_set_size_request(pdialog->image_canvas, w, h);
 

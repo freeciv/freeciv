@@ -683,7 +683,7 @@ GtkWidget *gui_dialog_add_stockbutton(struct gui_dialog *dlg,
   GtkWidget *button;
 
   button = gtk_stockbutton_new(stock, text);
-  GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default(button, TRUE);
   gui_dialog_pack_button(dlg, button, response);
 
   return button;
@@ -698,7 +698,7 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
   GtkWidget *button;
 
   button = gtk_button_new_from_stock(text);
-  GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
+  gtk_widget_set_can_default(button, TRUE);
   gui_dialog_pack_button(dlg, button, response);
 
   return button;

@@ -1293,7 +1293,7 @@ static void setup_widgets(void)
 
   map_canvas = gtk_drawing_area_new();
   gtk_widget_set_size_request(map_canvas, 300, 300);
-  GTK_WIDGET_SET_FLAGS(map_canvas, GTK_CAN_FOCUS);
+  gtk_widget_set_can_focus(map_canvas, TRUE);
 
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
