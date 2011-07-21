@@ -790,7 +790,7 @@ static void clear_network_statusbar(void)
 **************************************************************************/
 void append_network_statusbar(const char *text, bool force)
 {
-  if (GTK_WIDGET_VISIBLE(statusbar_frame)) {
+  if (gtk_widget_get_visible(statusbar_frame)) {
     if (force) {
       clear_network_statusbar();
       gtk_label_set_text(GTK_LABEL(statusbar), text);

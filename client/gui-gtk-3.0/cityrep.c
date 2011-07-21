@@ -745,7 +745,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   GtkWidget *w;
 
   w = gtk_menu_item_get_submenu(parent_item);
-  if (w != NULL && GTK_WIDGET_VISIBLE(w)) {
+  if (w != NULL && gtk_widget_get_visible(w)) {
     return;
   }
 
@@ -936,7 +936,7 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
   fc_assert_ret(callback != NULL);
 
   menu = gtk_menu_item_get_submenu(parent_item);
-  if (menu != NULL && GTK_WIDGET_VISIBLE(menu)) {
+  if (menu != NULL && gtk_widget_get_visible(menu)) {
     gtk_menu_shell_deactivate(GTK_MENU_SHELL(menu));
   }
 

@@ -315,7 +315,7 @@ void voteinfo_gui_update(void)
   gtk_widget_set_sensitive(vib->no_button, running);
   gtk_widget_set_sensitive(vib->abstain_button, running);
 
-  need_scroll = !GTK_WIDGET_VISIBLE(vib->box)
+  need_scroll = !gtk_widget_get_visible(vib->box)
     && chatline_is_scrolled_to_bottom();
 
   gtk_widget_show_all(vib->box);

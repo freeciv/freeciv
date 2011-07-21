@@ -284,7 +284,7 @@ static void editbar_player_pov_combobox_changed(GtkComboBox *combo,
   GtkTreeModel *model;
 
   if (eb == NULL || eb->widget == NULL
-      || !GTK_WIDGET_VISIBLE(eb->widget)) {
+      || !gtk_widget_get_visible(eb->widget)) {
     return;
   }
 
