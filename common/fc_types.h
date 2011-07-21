@@ -143,29 +143,41 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE2NAME "Both"
 #include "specenum_gen.h"
 
+
 /* The direction8 gives the 8 possible directions.  These may be used in
  * a number of ways, for instance as an index into the DIR_DX/DIR_DY
  * arrays.  Not all directions may be valid; see is_valid_dir and
  * is_cardinal_dir. */
-enum direction8 {
-  /* The DIR8/direction8 naming system is used to avoid conflict with
-   * DIR4/direction4 in client/tilespec.h
-   *
-   * Changing the order of the directions will break network compatability.
-   *
-   * Some code assumes that the first 4 directions are the reverses of the
-   * last 4 (in no particular order).  See client/goto.c. */
-  DIR8_NORTHWEST = 0,
-  DIR8_NORTH = 1,
-  DIR8_NORTHEAST = 2,
-  DIR8_WEST = 3,
-  DIR8_EAST = 4,
-  DIR8_SOUTHWEST = 5,
-  DIR8_SOUTH = 6,
-  DIR8_SOUTHEAST = 7
-};
-#define DIR8_LAST 8
-#define DIR8_COUNT DIR8_LAST
+
+/* The DIR8/direction8 naming system is used to avoid conflict with
+ * DIR4/direction4 in client/tilespec.h
+ *
+ * Changing the order of the directions will break network compatability.
+ *
+ * Some code assumes that the first 4 directions are the reverses of the
+ * last 4 (in no particular order).  See client/goto.c. */
+#define SPECENUM_NAME direction8
+#define SPECENUM_VALUE0 DIR8_NORTHWEST
+#define SPECENUM_VALUE0NAME "Northwest"
+#define SPECENUM_VALUE1 DIR8_NORTH
+#define SPECENUM_VALUE1NAME "North"
+#define SPECENUM_VALUE2 DIR8_NORTHEAST
+#define SPECENUM_VALUE2NAME "Northeast"
+#define SPECENUM_VALUE3 DIR8_WEST
+#define SPECENUM_VALUE3NAME "West"
+#define SPECENUM_VALUE4 DIR8_EAST
+#define SPECENUM_VALUE4NAME "East"
+#define SPECENUM_VALUE5 DIR8_SOUTHWEST
+#define SPECENUM_VALUE5NAME "Southwest"
+#define SPECENUM_VALUE6 DIR8_SOUTH
+#define SPECENUM_VALUE6NAME "South"
+#define SPECENUM_VALUE7 DIR8_SOUTHEAST
+#define SPECENUM_VALUE7NAME "Southeast"
+#include "specenum_gen.h"
+
+/* Some code requires compile time value for number of directions, and
+ * cannot use specenum function call direction8_max(). */
+#define DIR8_MAGIC_MAX 8
 
 /* AI levels. This must correspond to ai_level_names[] in player.c */
 enum ai_level {

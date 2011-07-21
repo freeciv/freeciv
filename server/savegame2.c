@@ -880,7 +880,7 @@ static enum direction8 char2dir(char dir)
   }
 
   /* This can happen if the savegame is invalid. */
-  return DIR8_LAST;
+  return direction8_invalid();
 }
 
 /****************************************************************************
@@ -4293,7 +4293,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
      * is as good as any. */
     enum direction8 facing = char2dir(facing_str[0]);
 
-    if (facing != DIR8_LAST) {
+    if (facing != direction8_max()) {
       punit->facing = facing;
     } else {
       log_error("Illegal unit orientation '%s'", facing_str);
@@ -4514,7 +4514,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
         if (order->order == ORDER_LAST
-            || (order->order == ORDER_MOVE && order->dir == DIR8_LAST)
+            || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
             || (order->order == ORDER_ACTIVITY
                 && order->activity == ACTIVITY_LAST)) {
           /* An invalid order. Just drop the orders for this unit. */

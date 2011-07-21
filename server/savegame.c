@@ -452,7 +452,7 @@ static enum direction8 char2dir(char dir)
   }
 
   /* This can happen if the savegame is invalid. */
-  return DIR8_LAST;
+  return direction8_invalid();
 }
 
 /****************************************************************************
@@ -2166,7 +2166,7 @@ static void player_load_units(struct player *plr, int plrno,
 	  order->dir = char2dir(dir_buf[j]);
 	  order->activity = char2activity(act_buf[j]);
 	  if (order->order == ORDER_LAST
-	      || (order->order == ORDER_MOVE && order->dir == DIR8_LAST)
+	      || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
 	      || (order->order == ORDER_ACTIVITY
 		  && order->activity == ACTIVITY_LAST)) {
 	    /* An invalid order.  Just drop the orders for this unit. */

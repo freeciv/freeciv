@@ -51,7 +51,7 @@ struct tile_hash *mapdeco_highlight_table;
 struct tile_hash *mapdeco_crosshair_table;
 
 struct gotoline_counter {
-  int line_count[DIR8_COUNT];
+  int line_count[DIR8_MAGIC_MAX];
 };
 
 static inline struct gotoline_counter *gotoline_counter_new(void);
@@ -2832,7 +2832,7 @@ void mapdeco_add_gotoline(const struct tile *ptile, enum direction8 dir)
   bool changed;
 
   if (!mapdeco_gotoline_table || !ptile
-      || !(0 <= dir && dir < DIR8_COUNT)) {
+      || !(0 <= dir && dir < direction8_max())) {
     return;
   }
   ptile_dest = mapstep(ptile, dir);
@@ -2866,7 +2866,7 @@ void mapdeco_remove_gotoline(const struct tile *ptile,
   bool changed = FALSE;
 
   if (!mapdeco_gotoline_table || !ptile
-      || !(0 <= dir && dir < DIR8_COUNT)) {
+      || !(0 <= dir && dir < direction8_max())) {
     return;
   }
 
@@ -2934,7 +2934,7 @@ bool mapdeco_is_gotoline_set(const struct tile *ptile,
 {
   struct gotoline_counter *pglc;
 
-  if (!ptile || !(0 <= dir && dir < DIR8_COUNT)
+  if (!ptile || !(0 <= dir && dir < direction8_max())
       || !mapdeco_gotoline_table) {
     return FALSE;
   }

@@ -207,7 +207,7 @@ struct named_sprites {
 
   struct {
     struct sprite *icon[U_LAST];
-    struct sprite *facing[U_LAST][DIR8_LAST]; 
+    struct sprite *facing[U_LAST][DIR8_MAGIC_MAX]; 
   } units;
 
   struct sprite *resource[MAX_NUM_RESOURCES];
