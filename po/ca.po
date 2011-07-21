@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-17 19:55-0700\n"
-"PO-Revision-Date: 2011-06-23 19:29+0200\n"
+"POT-Creation-Date: 2011-07-21 20:26+0200\n"
+"PO-Revision-Date: 2011-07-22 00:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: Lokalize 1.2\n"
 
@@ -1440,8 +1440,8 @@ msgstr "*%s (IA)* Primer trenca l'aliança amb %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
-"s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, "
+"%s."
 msgstr ""
 "*%s (IA)* M'agradaria que mantinguessis les distàncies amb %s una estona, %s."
 
@@ -1706,8 +1706,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
-"s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
+"%s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutacions aliat, veig que encara no has declarat la guerra al "
 "nostre enemic %s. Com és que t'he de recordar les teves promeses?"
@@ -2301,8 +2301,8 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida %"
-"d.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida "
+"%d.  S'ajorna..."
 
 #: server/cityturn.c:1158
 #, c-format
@@ -2319,8 +2319,8 @@ msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, necessita classe de terreny %"
-"s.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, necessita classe de terreny "
+"%s.  S'ajorna..."
 
 #: server/cityturn.c:1198
 #, c-format
@@ -3594,9 +3594,9 @@ msgid ""
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Desar la partida actual al fitxer <nom-fitxer>. Si no s'especifica cap nom "
-"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]"
-"\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar el "
-"servidor amb l'argument de la línia de comanda: \n"
+"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[."
+"gz]\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar "
+"el servidor amb l'argument de la línia de comanda: \n"
 "    '--file <nomfitxer>' o '-f <nomfitxer>'\n"
 "i usar la comanda 'start' un cop els jugadors s'hagin reconnectat."
 
@@ -4497,8 +4497,8 @@ msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
-"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors (%"
-"d)."
+"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors "
+"(%d)."
 
 #: server/edithand.c:984
 #, c-format
@@ -4506,8 +4506,8 @@ msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
-"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir %"
-"d)."
+"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir "
+"%d)."
 
 #: server/edithand.c:993
 msgid "Player cannot be created because random nation selection failed."
@@ -5030,8 +5030,8 @@ msgstr ""
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
 msgstr ""
-"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el %1"
-"$s."
+"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el "
+"%1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:90
@@ -5744,8 +5744,8 @@ msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"help "
 "allowtake\"."
 msgstr ""
-"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: '%"
-"c'. Prova \"help allowtake\"."
+"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: "
+"'%c'. Prova \"help allowtake\"."
 
 #: server/settings.c:610
 #, c-format
@@ -5785,8 +5785,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions (%"
-"d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions "
+"(%d). Keeping old value."
 msgstr ""
 "El valor sol·licitat (%d) és més gran que el nombre de posicions d'inici "
 "disponibles (%d). Es manté el valor anterior."
@@ -6096,7 +6096,6 @@ msgid "Presence of 1x1 islands"
 msgstr "Presència o absència d'illes 1x1"
 
 #: server/settings.c:1013
-#, fuzzy
 msgid ""
 "This setting controls whether the map generator is allowed to make islands "
 "of one only tile size."
@@ -6178,9 +6177,8 @@ msgstr ""
 "turons i muntanyes."
 
 #: server/settings.c:1065
-#, fuzzy
 msgid "Amount of water on landmasses"
-msgstr "Quantitat d'aigua a les terres"
+msgstr "Quantitat d'aigua als continents"
 
 #: server/settings.c:1066
 msgid ""
@@ -6409,7 +6407,6 @@ msgstr "Nombre de tecnologies inicials per jugador"
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
 #: server/settings.c:1236
-#, fuzzy
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
@@ -6417,8 +6414,9 @@ msgid ""
 "next techs really expensive."
 msgstr ""
 "Al principi de la partida, cada jugador rep aquest nombre de tecnologies. "
-"Les tecnologies escollides són aleatòries per cada jugador. Segons el valor "
-"de tech_cost_style del joc de regles, un valor alt per techlevel pot fer que "
+"Les tecnologies escollides són aleatòries per a cada jugador. Segons el valor "
+"de tech_cost_style del joc de regles, un valor alt per 'techlevel' pot fer "
+"que "
 "les següents tecnologies siguin molt i molt cares."
 
 #: server/settings.c:1245
@@ -6526,7 +6524,6 @@ msgstr "Penalització quan s'adquireix una tecnologia de franc"
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
 #: server/settings.c:1316
-#, fuzzy
 msgid ""
 "For each technology you gain \"for free\" (other than covered by 'diplcost' "
 "or 'conquercost': specifically, from huts or from Great Library effects), "
@@ -6534,8 +6531,9 @@ msgid ""
 "new technology. If this is non-zero, you can end up with negative research "
 "points."
 msgstr ""
-"Per cada avenç que adquireixes \"de franc\" (d'una altra manera que no sigui "
-"diplomàticament o per conquesta: en concret, per cabanes o gràcies a la Gran "
+"Per cada tecnologia que adquireixes \"de franc\" (d'una manera que no estigui "
+"afectada per 'diplcost' o 'conquercost': en concret, per cabanes o gràcies a "
+"la Gran "
 "Biblioteca), perds punts d'investigació per la quantitat que resulta "
 "d'aplicar aquest percentatge al cost d'investigar una nova tecnologia. Pots "
 "acabar amb punts d'investigació negatius si aquest factor no és zero."
@@ -6587,7 +6585,6 @@ msgstr "Mida mínima de ciutat per aconseguir comerç complet"
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
 #: server/settings.c:1364
-#, fuzzy
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to 'notradesize', and decreases "
@@ -6596,10 +6593,10 @@ msgid ""
 msgstr ""
 "Hi ha penalització sobre el comerç en totes les ciutats més petites "
 "d'aquesta mida. La penalització es del 100% (gens de comerç) per a mides "
-"fins a mida-sense-comerç (notradesize), i va disminuint gradualment fins al "
+"fins a mida-sense-comerç ('notradesize'), i va disminuint gradualment fins al "
 "0% (sense penalització excepte la corrupció normal) per a mides iguals a "
-"mida-comerç-complet (fulltradesize). Vegeu també mida-sense-comerç "
-"(notradesize)."
+"mida-comerç-complet ('fulltradesize'). Vegeu també mida-sense-comerç "
+"('notradesize')."
 
 #: server/settings.c:1374
 msgid "Maximum size of a city without trade"
@@ -6608,7 +6605,6 @@ msgstr "Mida màxima de ciutat sense comerç"
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
 #: server/settings.c:1377
-#, fuzzy
 msgid ""
 "Cities do not produce any trade at all unless their size is larger than this "
 "amount. The produced trade increases gradually for cities larger than "
@@ -6616,8 +6612,8 @@ msgid ""
 msgstr ""
 "Les ciutats de mida igual o més petita que aquesta no produeixen comerç. El "
 "comerç produït s'incrementa gradualment per a les ciutats més grans que mida-"
-"sense-comerç (notradesize) i fins a mida-comerç-complet (fulltradesize). "
-"Vegeu també mida-comerç-complet (fulltradesize)."
+"sense-comerç ('notradesize') i fins a mida-comerç-complet ('fulltradesize'). "
+"Vegeu també mida-comerç-complet ('fulltradesize')."
 
 #: server/settings.c:1386
 msgid "Minimum distance between cities"
@@ -6730,7 +6726,6 @@ msgid "Turn on/off server-side autoattack"
 msgstr "Engegar/apagar autoatac a la part del servidor"
 
 #: server/settings.c:1460
-#, fuzzy
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
@@ -6808,7 +6803,6 @@ msgstr "Noms de ciutat permesos"
 #. * separately (they must match!). The strings between parantheses
 #. * and in uppercase must not be translated.
 #: server/settings.c:1511
-#, fuzzy
 msgid ""
 "- \"No restrictions\" (NO_RESTRICTIONS): players can have multiple cities "
 "with the same names.\n"
@@ -6994,7 +6988,6 @@ msgid "Does unreachable unit protect reachable ones"
 msgstr "Si una unitat inabastable protegeix les abastables"
 
 #: server/settings.c:1644
-#, fuzzy
 msgid ""
 "This option controls whether tiles with both unreachable and reachable units "
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
@@ -7044,20 +7037,18 @@ msgstr "Donar una ciutat d'origen a les unitats capturades"
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
 #: server/settings.c:1677
-#, fuzzy
 msgid ""
 "If unset, caught units will have no homecity and will be subject to the "
 "'killunhomed' option."
 msgstr ""
 "Si no està activat, les unitats capturades no tindran ciutat d'origen i "
-"estaran subjectes a l'opció killunhomed."
+"estaran subjectes a l'opció 'killunhomed'."
 
 #: server/settings.c:1684
 msgid "Whether allied players can win together"
 msgstr "Si els jugadors aliats poden guanyar junts"
 
 #: server/settings.c:1685
-#, fuzzy
 msgid ""
 "If this option is turned on and a point is reached where all the players "
 "still able to win the game are allies, and at least one defeated player is "
@@ -7218,7 +7209,6 @@ msgstr "Jugadors que els usuaris poden prendre"
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
 #: server/settings.c:1797
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player).\n"
@@ -7251,7 +7241,8 @@ msgstr ""
 "tipus o estat d'una civilització (jugador).\n"
 "Als clients només se'ls permetrà de prendre o observar els jugadors que "
 "coincideixin amb alguna de les lletres especificades. Només afecta als usos "
-"futurs de les comandes 'take' o 'observe'; no és retroactiu. Els caràcters i "
+"futurs de les comandes \"take\" o \"observe\"; no és retroactiu. Els "
+"caràcters i "
 "llurs significats són:\n"
 "    o,O = Observador global\n"
 "    b   = Jugadors bàrbars\n"
@@ -7505,7 +7496,6 @@ msgstr "Nivell de compressió de les partides desades"
 
 #. TRANS: 'compresstype' setting name should not be translated.
 #: server/settings.c:1986
-#, fuzzy
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
 "setting. Larger values will give better compression but take longer."
@@ -7620,13 +7610,12 @@ msgstr ""
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
 #: server/settings.c:2063
-#, fuzzy
 msgid ""
 "Gives the time in seconds before a user kicked using the \"kick\" command "
 "may reconnect. Changing this setting will affect users kicked in the past."
 msgstr ""
 "Dóna el temps en segons que ha de passar perquè un usuari expulsat amb la "
-"comanda 'kick' pugui tornar-se a connectar. Canviar aquesta opció afectarà "
+"comanda \"kick\" pugui tornar-se a connectar. Canviar aquesta opció afectarà "
 "usuaris expulsats en el passat."
 
 #: server/settings.c:2162
@@ -8343,8 +8332,8 @@ msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
-"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió '%"
-"s'; només tens '%s'."
+"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió "
+"'%s'; només tens '%s'."
 
 #: server/stdinhand.c:1315
 #, c-format
@@ -8670,8 +8659,8 @@ msgstr "Votació"
 #: server/stdinhand.c:2292
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
-"d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
+"%d players."
 msgstr ""
 "%s %d \"%s\" (cal %0.0f%%%s): %d a favor, %d en contra, i %d abstencions "
 "sobre %d jugadors."
@@ -10915,9 +10904,9 @@ msgid "Updating old metaserver address \"%s\"."
 msgstr "Actualitzant l'adreça antiga del metaservidor \"%s\"."
 
 #: client/client_main.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Default metaserver has been set to value \"%s\"."
-msgstr "S'ha fixat el metaservidor per defecte a \"%s\"."
+msgstr "S'ha fixat el metaservidor per defecte al valor \"%s\"."
 
 #: client/client_main.c:635
 msgid "There was an error while auto connecting; aborting."
@@ -11071,8 +11060,8 @@ msgstr "servidor desconnectat"
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
-"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de %"
-"d intents"
+"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de "
+"%d intents"
 
 #: client/clinet.c:527
 msgid "Connection to server refused. Please start the server."
@@ -12090,9 +12079,8 @@ msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Les unitats terrestres no poden viatjar per terrenys oceànics."
 
 #: client/helpdata.c:1868
-#, fuzzy
 msgid "Requirements to build:\n"
-msgstr "Requisits:"
+msgstr "Requeriments per la construcció:\n"
 
 #. TRANS: %s is a list of unit classes separated by "and".
 #: client/helpdata.c:1890
@@ -13049,7 +13037,7 @@ msgstr ""
 
 #: client/options.c:1882
 msgid "Keyboardless goto"
-msgstr "\"Anar a\" sense teclat"
+msgstr "\"Anar-a\" sense teclat"
 
 #: client/options.c:1883
 msgid ""
@@ -13138,7 +13126,6 @@ msgid "Pop up caravan actions"
 msgstr "Finestra emergent per accions de caravana"
 
 #: client/options.c:1914
-#, fuzzy
 msgid ""
 "If this option is enabled, when caravans or similar units arrive at a city "
 "where they can establish a trade route or help build a wonder, a window will "
@@ -13146,12 +13133,13 @@ msgid ""
 "you will have to do the action manually by pressing either 'r' (for a trade "
 "route) or 'b' (for building a wonder) when the unit is in the city."
 msgstr ""
-"Si se selecciona aquesta opció, quan arribin caravanes en una ciutat on "
+"Si se selecciona aquesta opció, quan arribin caravanes o unitats similars a "
+"una ciutat on "
 "poden establir una ruta comercial o ajudar a construir una meravella, "
 "apareixerà una finestra emergent que demanarà quina acció s'ha de fer. Si "
 "s'inhabilita aquesta opció, vol dir que s'haurà de fer l'acció desitjada "
 "manualment, prement 'r' (per una ruta comercial) o 'b' (per construir una "
-"meravella) quan la caravana sigui a la ciutat."
+"meravella) quan la unitat sigui a la ciutat."
 
 #: client/options.c:1923
 msgid "Enable cursor changing"
@@ -13172,13 +13160,13 @@ msgid "Select cities before units"
 msgstr "Seleccionar ciutats abans d'unitats"
 
 #: client/options.c:1930
-#, fuzzy
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
 msgstr ""
 "Si s'activa aquesta opció, quan al rectangle de selecció hi hagi tant "
-"ciutats com unitats, se seleccionaran només les ciutats."
+"ciutats com unitats, se seleccionaran només les ciutats. Vegeu l'ajuda sobre "
+"Controls."
 
 #: client/options.c:1935
 msgid "Clear unit orders on selection"
@@ -15038,17 +15026,17 @@ msgstr "Ajudar a Construir _Meravella"
 
 #. TRANS: %s is a unit type
 #: client/gui-gtk-2.0/caravan_dialog.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s Has Arrived"
-msgstr "La teva caravana ha arribat"
+msgstr "La teva %s Ha Arribat"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:105 client/gui-xaw/dialogs.c:455
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"La teva caravana de %s arriba a la ciutat de %s.\n"
+"La teva %s de %s arriba a la ciutat de %s.\n"
 "Què vols fer ara?"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:121
@@ -16384,7 +16372,7 @@ msgstr "Només Aliats"
 msgid "Clear links"
 msgstr "Esborrar enllaços"
 
-#: client/gui-gtk-2.0/gui_main.c:1970 modinst/modinst.c:84
+#: client/gui-gtk-2.0/gui_main.c:1970 modinst/modinst.c:86
 msgid "Are you sure you want to quit?"
 msgstr "Segur que vols sortir?"
 
@@ -17574,7 +17562,7 @@ msgstr "Registrar"
 msgid "Rating"
 msgstr "Valoració"
 
-#: client/gui-gtk-2.0/pages.c:2322 modinst/modinst.c:126
+#: client/gui-gtk-2.0/pages.c:2322 modinst/modinst.c:128
 msgid "Ready"
 msgstr "Preparat"
 
@@ -17897,9 +17885,9 @@ msgid "%sVote %d by %s: %s%s"
 msgstr "%sVotació %d per %s: %s%s"
 
 #: client/gui-sdl/caravan_dialog.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has arrived at %s"
-msgstr "La teva caravana ha arribat a %s"
+msgstr "La teva %s ha arribat a %s"
 
 #: client/gui-sdl/caravan_dialog.c:156
 #, c-format
@@ -18623,8 +18611,8 @@ msgstr "No s'ha pogut convertir la imatge des de l'arxiu %s al format %d."
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
-"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format %"
-"d"
+"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format "
+"%d"
 
 #: client/gui-sdl/graphics.c:564
 #, c-format
@@ -20171,9 +20159,8 @@ msgid "Installing modpack %s from %s"
 msgstr "Instal·lant el modpack %s des de %s"
 
 #: modinst/download.c:281
-#, fuzzy
 msgid "Cannot determine user home directory"
-msgstr "No s'ha pogut determinar el directori de control"
+msgstr "No es pot determinar el directori origen de l'usuari"
 
 #: modinst/download.c:287 modinst/download.c:441
 msgid "Cannot determine control directory"
@@ -20246,28 +20233,28 @@ msgstr "Joc de regles"
 msgid "Modpack"
 msgstr "Modpack"
 
-#: modinst/modinst.c:148
+#: modinst/modinst.c:150
 msgid "Another download already active"
 msgstr "Ja hi ha una altra baixada activa"
 
-#: modinst/modinst.c:161
+#: modinst/modinst.c:163
 msgid "Failed to start downloader"
 msgstr "No s'ha pogut engegar el mòdul de baixades"
 
 #. TRANS: Unknown modpack type
-#: modinst/modinst.c:201
+#: modinst/modinst.c:203
 msgid "?"
 msgstr "?"
 
-#: modinst/modinst.c:270
+#: modinst/modinst.c:272
 msgid "Install modpack"
 msgstr "Instal·lar el modpack"
 
-#: modinst/modinst.c:276
+#: modinst/modinst.c:278
 msgid "Modpack URL"
 msgstr "URL del modpack"
 
-#: modinst/modinst.c:293
+#: modinst/modinst.c:295
 msgid "Select modpack to install"
 msgstr "Seleccionar quin modpack s'ha d'instal·lar"
 
@@ -20609,9 +20596,8 @@ msgstr "Coi"
 
 #. TRANS: Title for caravan popup
 #: data/Freeciv.in:2267
-#, fuzzy
 msgid "Your Unit Has Arrived"
-msgstr "La teva caravana ha arribat"
+msgstr "La Teva Unitat Ha Arribat"
 
 #: data/Freeciv.in:2269
 msgid "Establish trade route"
@@ -23776,7 +23762,6 @@ msgstr ""
 #. TRANS: This text mentions the names of some client options. These names
 #. ;  * are separately translated elsewhere; they should match!
 #: data/helpdata.txt:1557
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -23835,7 +23820,7 @@ msgstr ""
 "  g: anar a casella (després fer clic esquerre per seleccionar la casella de "
 "destinació)\n"
 "  g: afegir un punt de camí (quan estàs en mode \"anar a\")\n"
-"  G: Retornar la unitat a la ciutat més pròxima\n"
+"  G: Retornar la unitat a la ciutat amistosa més pròxima\n"
 "  h: canviar ciutat base (a la ciutat actual)\n"
 "  i: construir (i)rrigació o convertir terreny (unitats colons/"
 "treballadors)\n"
@@ -23849,6 +23834,7 @@ msgstr ""
 "  n: netejar residus (n)uclears\n"
 "  N: fer explotar míssil (N)uclear\n"
 "  o: transf(o)rmar terreny (unitat d'enginyers)\n"
+"  O: c(O)nvertir en un altre tipus d'unitat\n"
 "  p: netejar contaminació (unitats colons/treballadors)\n"
 "  p: saltar en (p)aracaigudes  (unitats paracaigudistes)\n"
 "  P: Saqueig (destruir una alteració de terreny)\n"
@@ -23968,6 +23954,19 @@ msgid ""
 "  Right-click:                   Center tile in view\n"
 "  Ctrl-center-click:             Wake up sentried units"
 msgstr ""
+"Mapa Principal (Ratolí):\n"
+"========================\n"
+" Clic esquerre en ciutat:      Obrir diàleg de ciutat\n"
+" Clic esquerre en unitat:      Seleccionar una unitat\n"
+"                            (cancel·la qualsevol activitat en curs si està "
+"activat \"Oblida les ordres de la unitat en seleccionar-la\")\n"
+" Maj-clic esquerre en unitat:   Afegir unitat a la selecció (GTK)\n"
+" Clic esquerre i arrossegar unitat: Comanda Anar-a per la unitat\n"
+"                            (si està activat \"Anar-a\" sense teclat\" a les "
+"opcions)\n"
+" Clic centre, Alt-clic esquerre: Mostrar informació de casella\n"
+" Clic dret:                 Centra la casella dins de la vista\n"
+" Ctrl-Clic centre:        Despertar les unitats en sentinella"
 
 #: data/helpdata.txt:1651
 msgid ""
@@ -23981,6 +23980,17 @@ msgid ""
 "preferred. If keyboardless goto is enabled, dragging allows the unit to be "
 "selected and moved in one gesture."
 msgstr ""
+"Selecció ràpida d'unitat:\n"
+"=========================\n"
+"Ctrl-clic esquerre en casella:    Selecciona una unitat marina (prefereix els "
+"transports)\n"
+"Ctrl-clic dret en casella:           Selecciona una unitat terrestre "
+"(prefereix les militars)\n"
+"\n"
+"Aquestes combinacions trien i seleccionen una única unitat de les de la "
+"casella. En igualtat de condicions, es prefereixen les unitats que encara "
+"tenen punts de moviment. Si està activat \"Anar-a\" sense teclat, "
+"arrossegant-la es pot seleccionar i moure la unitat en un sol gest."
 
 #: data/helpdata.txt:1661
 msgid ""
@@ -23992,6 +24002,13 @@ msgid ""
 "  Shift-right-click:             Copy production (from city or unit)\n"
 "  Shift-Ctrl-right-click:        Paste production into city"
 msgstr ""
+" Manipulació de Ciutats (GTK):\n"
+" =============================\n"
+" Maj-Ctrl-clic esquerre:       Afinar els treballadors de la ciutat\n"
+" Maj-Alt-clic dret:            Mostrar els treballadors de la ciutat (amb el "
+"ratolí per sobre o a prop de la ciutat)\n"
+" Maj-clic-dret:              Copiar la producció (de ciutat o unitat)\n"
+" Maj-Ctrl-clic dret:          Enganxar la producció a la ciutat"
 
 #: data/helpdata.txt:1668
 msgid ""
@@ -24011,6 +24028,24 @@ msgid ""
 "the highlighted cities can be changed with Shift-Ctrl-right-click (see "
 "previous section). Right-clicking leaves this mode."
 msgstr ""
+" Mode de Selecció d'Àrea (GTK):\n"
+" ==============================\n"
+" Clic dret i arrossegar:          Seleccionar unitats/ciutats per àrea\n"
+" Maj-clic dret i arrossegar:     Afegir contingut de l'àrea a la selecció "
+"existent\n"
+"\n"
+" En aquest mode, se seleccionen múltiples unitats i/o ciutats. Si el "
+"rectangle de selecció conté alguna ciutat, i a les opcions està activat "
+"\"Seleccionar ciutats abans d'unitats\", només se seleccionen les ciutats i "
+"la selecció d'unitat actual es deixa estar; si no, se seleccionen tant "
+"ciutats com unitats.\n"
+"\n"
+" Les ciutats seleccionades queden ressaltades en el mapa i en l'informe de "
+"Ciutats per poder-hi continuar fent accions en conjunt. Immediatament després "
+"de seleccionar-lo, el conjunt de ciutats es pot afinar fent clic-esquerre "
+"sobre ciutats individuals; i la producció de totes les ciutats ressaltades es "
+"pot canviar amb Maj-Ctrl-clic dret (vegeu la secció anterior). Fer clic dret "
+"surt d'aquest mode."
 
 #: data/helpdata.txt:1684
 msgid ""
@@ -24022,6 +24057,14 @@ msgid ""
 "  These controls allow map elements to be referred to in chat. See the "
 "Chatline help for more details.\n"
 msgstr ""
+" Línia de xat (GTK):\n"
+" ===================\n"
+" Ctr-Alt-Clic dret:          Enganxar enllaç a ciutat o casella a la línia de "
+"xat\n"
+" Maj-Ctrl-Alt-Clic dret:      Enganxar enllaç a unitat a la línia de xat\n"
+"\n"
+"Aquests controls permeten de referir-se a elements del mapa dins del xat. "
+"Vegeu l'ajuda de la Línia de xat per més detalls.\n"
 
 #: data/helpdata.txt:1692
 msgid ""
@@ -24030,6 +24073,10 @@ msgid ""
 "  Left-click, Shift-left-click, and Right-click have the same functions as "
 "they do on the main map.\n"
 msgstr ""
+"Mapa de Vista General (Ratolí):\n"
+"===============================\n"
+" Clic-esquerre, Maj-clic-esquerre, i Clic-dret tenen les mateixes funcions "
+"que al mapa principal.\n"
 
 #: data/helpdata.txt:1697
 msgid ""
@@ -32509,8 +32556,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely 8-"
-"18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely "
+"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
