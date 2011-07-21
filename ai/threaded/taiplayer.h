@@ -20,11 +20,19 @@
 #include "player.h"
 
 struct player;
+
+struct tai_msgs
+{
+  fc_thread_cond thr_cond;
+  fc_mutex mutex;
+  bool exit_thread;
+};
+
 struct tai_plr
 {
+  struct tai_msgs msgs;
   bool thread_running;
   fc_thread ait;
-  bool exit_thread;
 };
 
 struct ai_type *tai_get_self(void);

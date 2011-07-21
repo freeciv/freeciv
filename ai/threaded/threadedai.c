@@ -37,9 +37,9 @@ const char *fc_ai_threaded_capstr(void)
 **************************************************************************/
 bool fc_ai_threaded_setup(struct ai_type *ai)
 {
-  if (!has_thread_impl()) {
-    log_error(_("This Freeciv compilation has no thread implementation, "
-                "threaded ai cannot be used."));
+  if (!has_thread_cond_impl()) {
+    log_error(_("This Freeciv compilation has no full threads "
+                "implementation, threaded ai cannot be used."));
     return FALSE;
   }
 
