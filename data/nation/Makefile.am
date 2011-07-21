@@ -12,6 +12,7 @@ pkgdata_DATA = \
 		acehnese.ruleset \
 		acrean.ruleset \
 		afghani.ruleset \
+		african.ruleset \
 		ainu.ruleset \
 		akwe.ruleset \
 		alandalus.ruleset \

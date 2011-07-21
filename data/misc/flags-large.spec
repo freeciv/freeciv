@@ -20,6 +20,7 @@ sprites =
 		"f.acre", "flags/acre-large"
 		"f.adygea", "flags/adygea-large"
 		"f.afghanistan", "flags/afghanistan-large"
+		"f.africa", "flags/africa-large"
 		"f.ainu", "flags/ainu-large"
 		"f.akwe", "flags/akwe-large"
 		"f.aland", "flags/aland-large"

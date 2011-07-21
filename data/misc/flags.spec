@@ -19,6 +19,7 @@ artists = "
    Acre			J.M. Maalderink
    Adygea		Conscious (Wikimedia Commons)
    Afghanistan		Andrew Duhan and Reisio
+   Africa		JesperZedlitz (Wikimedia Commons)
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
    Aland		J.M. Maalderink
@@ -526,6 +527,7 @@ sprites =
 		"f.acre", "flags/acre"
 		"f.adygea", "flags/adygea"
 		"f.afghanistan", "flags/afghanistan"
+		"f.africa", "flags/africa"
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"
 		"f.aland", "flags/aland"
