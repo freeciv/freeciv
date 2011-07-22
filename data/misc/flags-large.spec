@@ -426,6 +426,7 @@ sprites =
 		"f.slovenia", "flags/slovenia-large"
 		"f.solomon_islands", "flags/solomon_islands-large"
 		"f.somalia", "flags/somalia-large"
+		"f.somaliland", "flags/somaliland-large"
 		"f.songhai", "flags/songhai-large"
 		"f.south_africa", "flags/south_africa-large"
 		"f.southern_cross", "flags/southern_cross-large" ; confederate battle flag

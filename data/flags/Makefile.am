@@ -416,6 +416,7 @@ flag_files =				\
 		slovenia.png		\
 		solomon_islands.png	\
 		somalia.png		\
+		somaliland.png		\
 		songhai.png		\
 		south_africa.png	\
 		southern_cross.png	\
@@ -917,6 +918,7 @@ flag_files =				\
 		slovenia-large.png		\
 		solomon_islands-large.png	\
 		somalia-large.png		\
+		somaliland-large.png		\
 		songhai-large.png		\
 		south_africa-large.png	\
 		southern_cross-large.png	\
@@ -1420,6 +1422,7 @@ shield_files =					\
 		slovenia-shield.png		\
 		solomon_islands-shield.png	\
 		somalia-shield.png		\
+		somaliland-shield.png		\
 		songhai-shield.png		\
 		south_africa-shield.png		\
 		southern_cross-shield.png	\
@@ -1921,6 +1924,7 @@ shield_files =					\
 		slovenia-shield-large.png		\
 		solomon_islands-shield-large.png	\
 		somalia-shield-large.png		\
+		somaliland-shield-large.png		\
 		songhai-shield-large.png		\
 		south_africa-shield-large.png		\
 		southern_cross-shield-large.png	\
@@ -2424,6 +2428,7 @@ svg_files = 				\
 		slovenia.svg		\
 		solomon_islands.svg	\
 		somalia.svg		\
+		somaliland.svg		\
 		songhai.svg		\
 		south_africa.svg	\
 		southern_cross.svg	\

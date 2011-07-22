@@ -426,6 +426,7 @@ artists = "
    Slovenia		Matthew Gatto
    Solomon Islands	SKopp (Wikimedia Commons)
    Somalia		J.M. Maalderink
+   Somaliland		Cezary Biele and J.M. Maalderink 
    Songhai		Daniel Markstedt
    South Africa		Farrel Lifson
    Southern Cross	Crotalus horridus
@@ -933,6 +934,7 @@ sprites =
 		"f.slovenia", "flags/slovenia"
 		"f.solomon_islands", "flags/solomon_islands"
 		"f.somalia", "flags/somalia"
+		"f.somaliland", "flags/somaliland"
 		"f.songhai", "flags/songhai"
 		"f.south_africa", "flags/south_africa"
 		"f.southern_cross", "flags/southern_cross" ; confederate battle flag

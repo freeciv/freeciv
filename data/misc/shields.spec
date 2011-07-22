@@ -425,6 +425,7 @@ sprites =
 		"f.shield.slovenia", "flags/slovenia-shield"
 		"f.shield.solomon_islands", "flags/solomon_islands-shield"
 		"f.shield.somalia", "flags/somalia-shield"
+		"f.shield.somaliland", "flags/somaliland-shield"
 		"f.shield.songhai", "flags/songhai-shield"
 		"f.shield.south_africa", "flags/south_africa-shield"
 		"f.shield.southern_cross", "flags/southern_cross-shield"

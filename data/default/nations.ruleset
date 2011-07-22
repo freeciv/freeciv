@@ -458,6 +458,7 @@ match=2
 *include "nation/slovenian.ruleset"
 *include "nation/solomonislander.ruleset"
 *include "nation/somali.ruleset"
+*include "nation/somaliland.ruleset"
 *include "nation/songhai.ruleset"
 *include "nation/sorbian.ruleset"
 *include "nation/sotho.ruleset"
