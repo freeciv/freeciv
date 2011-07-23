@@ -655,6 +655,7 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 }
 
 enum direction8 rand_direction(void);
+enum direction8 opposite_direction(enum direction8 dir);
 
 #ifdef __cplusplus
 }

@@ -854,7 +854,7 @@ void handle_unit_move(struct player *pplayer, int unit_id, int tile)
 static void see_combat(struct unit *pattacker, struct unit *pdefender)
 {
   struct packet_unit_short_info unit_att_short_packet, unit_def_short_packet;
-  struct packet_unit_info unit_att_packet;
+  struct packet_unit_info unit_att_packet, unit_def_packet;
 
   /* 
    * Special case for attacking/defending:
@@ -872,6 +872,7 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
   package_short_unit(pdefender, &unit_def_short_packet, FALSE,
 		     UNIT_INFO_IDENTITY, 0);
   package_unit(pattacker, &unit_att_packet);
+  package_unit(pdefender, &unit_def_packet);
 
   conn_list_iterate(game.est_connections, pconn) {
     struct player *pplayer = pconn->playing;
@@ -883,17 +884,19 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
       if (map_is_known_and_seen(unit_tile(pattacker), pplayer, V_MAIN)
           || map_is_known_and_seen(unit_tile(pdefender), pplayer,
                                    V_MAIN)) {
-        /* Attacking unit is sent even if it was visible already, it may have
-         * changed it's orientation to attack. */
+
+        /* Units are sent even if they were visible already. They may
+         * have changed orientation for combat. */
         if (pplayer == unit_owner(pattacker)) {
           send_packet_unit_info(pconn, &unit_att_packet);
         } else {
           send_packet_unit_short_info(pconn,
                                       &unit_att_short_packet);
         }
-
-        if (!can_player_see_unit(pplayer, pdefender)) {
-          fc_assert(pplayer != unit_owner(pdefender));
+        
+        if (pplayer == unit_owner(pdefender)) {
+          send_packet_unit_info(pconn, &unit_def_packet);
+        } else {
           send_packet_unit_short_info(pconn,
                                       &unit_def_short_packet);
         }
@@ -901,8 +904,7 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
     } else {
       /* Global observer sees everything... */
       send_packet_unit_info(pconn, &unit_att_packet);
-
-      /* ...and thus has already up-to-date info about defender */
+      send_packet_unit_info(pconn, &unit_def_packet);
     }
   } conn_list_iterate_end;
 }
@@ -989,6 +991,9 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       fc_assert(adj);
       if (adj) {
         punit->facing = facing;
+
+        /* Unlike with normal attack, we don't change orientation of
+         * defenders when bombarding */
       }
 
       see_combat(punit, pdefender);
@@ -1086,6 +1091,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   fc_assert(adj);
   if (adj) {
     punit->facing = facing;
+    pdefender->facing = opposite_direction(facing);
   }
 
   see_combat(punit, pdefender);

@@ -1639,3 +1639,12 @@ enum direction8 rand_direction(void)
 {
   return map.valid_dirs[fc_rand(map.num_valid_dirs)];
 }
+
+
+/****************************************************************************
+  Return direction that is opposite to given one.
+****************************************************************************/
+enum direction8 opposite_direction(enum direction8 dir)
+{
+  return direction8_max() - dir;
+}

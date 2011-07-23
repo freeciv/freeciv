@@ -155,7 +155,9 @@ typedef int Unit_Class_id;
  * Changing the order of the directions will break network compatability.
  *
  * Some code assumes that the first 4 directions are the reverses of the
- * last 4 (in no particular order).  See client/goto.c. */
+ * last 4 (in no particular order).  See client/goto.c and
+ * map.c:opposite_direction(). */
+
 #define SPECENUM_NAME direction8
 #define SPECENUM_VALUE0 DIR8_NORTHWEST
 #define SPECENUM_VALUE0NAME "Northwest"
