@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-09 13:56+0300\n"
-"PO-Revision-Date: 2011-07-20 22:50+0100\n"
+"PO-Revision-Date: 2011-07-22 20:33+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: none\n"
 "Language: \n"
@@ -2057,7 +2057,7 @@ msgstr "Jednostka %s utracona razem z miastem %s."
 #: server/citytools.c:908
 #, c-format
 msgid "A replacement %s was built in %s."
-msgstr "Nowy %s został zbudowany w %s."
+msgstr "Nowy budynek %s powstał mieście %s."
 
 #: server/citytools.c:997
 #, c-format
@@ -2194,7 +2194,7 @@ msgstr "Uwaga: Cud %s w mieście %s będzie gotowy w następnej turze."
 #: server/cityturn.c:411
 #, c-format
 msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr "Zaleca się ograniczyć wzrost w %s, by %s (w budowie) był używany bardziej efektywnie."
+msgstr "Zaleca się zakup budynku %2$s (w budowie) w %1$s, by przyspieszyć wzrost miasta."
 
 #: server/cityturn.c:426
 #, c-format
@@ -2239,7 +2239,7 @@ msgstr "Głód zmniejsza populację w mieście %s."
 #: server/cityturn.c:874
 #, c-format
 msgid "Famine destroys %s entirely."
-msgstr "Głód zniszczył całkowicie miasto %s."
+msgstr "Głód zniszczył doszczętnie miasto %s."
 
 #: server/cityturn.c:973
 #, c-format
@@ -2909,7 +2909,7 @@ msgstr "Dodaje lub usuwa gracza z zespołu."
 
 #: server/commands.c:208
 msgid "A team is a group of players that start out allied, with shared vision and embassies, and fight together to achieve team victory with averaged individual scores. Each player is always a member of a team (possibly the only member). This command changes which team a player is a member of. Use \"\" if names contain whitespace."
-msgstr "Zespół to grupa graczy, którzy zaczynają jako sojusznicy - mają widok dzielony i ambasady. Walczą o zwycięstwo razem, a wynik każdego graczy są uśredniany. Każdy gracz jest zawsze członkiem jakiegoś zespołu (możliwe, że jedynym). Polecenie to zmienia grupę, do której należy gracz. Użyj \"\", jeśli nazwy zawiarają spacje."
+msgstr "Zespół to grupa graczy, którzy zaczynają jako sojusznicy - mają widok dzielony i ambasady. Walczą o zwycięstwo razem, a wynik każdego gracza są uśredniany. Każdy gracz jest zawsze członkiem jakiegoś zespołu (możliwe, że jedynym). Polecenie to zmienia grupę, do której należy gracz. Użyj \"\", jeśli nazwy zawiarają spacje."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:217
@@ -3035,7 +3035,7 @@ msgstr "Ustawia cię w tryb 'nieobecny' (away). AI będzie pilnowało twojej cyw
 
 #: server/commands.c:306
 msgid "The AI will govern your nation but do minimal changes."
-msgstr "Powoduje przejęcie kontroli nad twoją cywilizacją przez AI, ale tak, by komputer nie wykonywał jednak za dużo zmian."
+msgstr "Powoduje przejęcie kontroli nad twoją cywilizacją przez AI, ale tak, by komputer nie wykonywał zbyt dużo zmian."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:311
@@ -3394,7 +3394,7 @@ msgstr "Witamy na serwerze %s, na porcie %d."
 #: server/connecthand.c:237
 #, c-format
 msgid "%s has connected from %s."
-msgstr "Połączył się %s z %s."
+msgstr "Połączył/a się %s z %s."
 
 #
 #: server/connecthand.c:192
@@ -3877,7 +3877,7 @@ msgstr "Twoja jednostka %s została zgładzona broniąc miasta %s przed %s."
 #: server/diplomats.c:1180
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
-msgstr "%s %s został zgładzony broniąc, miasta %s przed %s."
+msgstr "%s %s został zgładzony broniąc miasta %s przed jednostką %s."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
@@ -4492,7 +4492,7 @@ msgstr "Usuwam gracza %s."
 
 #: server/plrhand.c:1152
 msgid "You've been removed from the game!"
-msgstr "Zostałeś/aś usunięty z gry!"
+msgstr "Zostałeś/aś usunięty/a z gry!"
 
 #: server/plrhand.c:1155
 #, c-format
@@ -4651,7 +4651,7 @@ msgstr "Obszar zamieszkany"
 
 #: server/report.c:160
 msgid "Research Speed"
-msgstr "Prędkość badań"
+msgstr "Szybkość badań"
 
 #: server/report.c:161
 #: data/civ1/techs.ruleset:316
@@ -4900,7 +4900,7 @@ msgstr "Raport Demograficzny:"
 
 #: server/report.c:970
 msgid "Sorry, the Demographics report is unavailable."
-msgstr "Raport Demograficzny nie jest dostępny."
+msgstr "Raport demograficzny nie jest dostępny."
 
 #: server/report.c:975
 #, c-format
@@ -4954,7 +4954,7 @@ msgid ""
 "Research Speed\n"
 "(%)"
 msgstr ""
-"Prędkość badań\n"
+"Szybkość badań\n"
 "(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
@@ -5087,11 +5087,11 @@ msgstr "Szerokość i wysokość"
 
 #: server/settings.c:212
 msgid "Wrap East-West"
-msgstr "Zawinięcie wschód-zachód"
+msgstr "Zawiń wschód-zachód"
 
 #: server/settings.c:213
 msgid "Wrap North-South"
-msgstr "Zawinięcie północ-południe"
+msgstr "Zawiń północ-południe"
 
 #: server/settings.c:214
 msgid "Isometric"
@@ -5099,7 +5099,7 @@ msgstr "Izometryczna"
 
 #: server/settings.c:215
 msgid "Hexagonal"
-msgstr "Sześciokątna (heksagonalna)"
+msgstr "Sześciokątna"
 
 #: server/settings.c:226
 msgid "Scenario map"
@@ -5775,7 +5775,7 @@ msgstr "Mnożnik kosztu technologii (w procentach)"
 
 #: server/settings.c:1246
 msgid "This affects how quickly players can research new technology. All tech costs are multiplied by this amount (as a percentage). The base tech costs are determined by the ruleset or other game settings."
-msgstr "Od tej liczby zależy prędkość odkrywania nowych technologii. Koszt wszystkich technologii będzie mnożony przez tą wartość (procentowo). Koszty technologii są determinowane przez zestawy zasad i inne ustawienia gry."
+msgstr "Od tej liczby zależy szybkość odkrywania nowych technologii. Koszt wszystkich technologii będzie mnożony przez tą wartość (procentowo). Koszty technologii są determinowane przez zestawy zasad i inne ustawienia gry."
 
 #: server/settings.c:1255
 msgid "Percentage penalty when changing tech"
@@ -5973,7 +5973,7 @@ msgstr "Granice państw"
 
 #: server/settings.c:1486
 msgid "If this is not disabled, then any land tiles around a fortress or city will be owned by that nation."
-msgstr "Włączenie tej opcji sprawia, że pola lądowe wokół fortecy lub miasta znajdą się w posiadniuwłaściciela tej fortecy lub miasta."
+msgstr "Włączenie tej opcji sprawia, że pola lądowe wokół fortecy lub miasta znajdą się w posiadniu właściciela tej fortecy lub miasta."
 
 #: server/settings.c:1493
 msgid "Units inside borders cause no unhappiness"
@@ -6404,16 +6404,16 @@ msgstr ""
 "    P = Produkcja\n"
 "    A = Obszar Zbadany\n"
 "    L = Potrafiących czytać\n"
-"    R = Prędkość badań\n"
+"    R = Szybkość badań\n"
 "    S = Obszar zamieszkany\n"
 "    E = Ekonomia\n"
 "    M = Służba wojskowa\n"
 "    O = Zanieczyszczenie\n"
-"Dodatkowo poniższe znaki decydują o obecności specjalnych kolumn:\n"
+"Dodatkowo poniższe znaki decydują o wyświetlaniu specjalnych kolumn:\n"
 "    q = Wartość, ilość\n"
 "    r = Miejsce w rankingu\n"
 "    b = Prowadzący naród\n"
-"Kolejność znaków nie ma znaczenia, ale wielkość liter tak)"
+"Kolejność znaków nie ma znaczenia, ale wielkość liter tak."
 
 #: server/settings.c:1975
 msgid "Turns per auto-save"
@@ -6640,11 +6640,11 @@ msgstr "Naukowe"
 
 #: server/settings.h:49
 msgid "Internal"
-msgstr "Wewnętrzny"
+msgstr "Wewnętrzne"
 
 #: server/settings.h:51
 msgid "Networking"
-msgstr "Sieć"
+msgstr "Sieciowe"
 
 #: server/settings.h:61
 #: client/gui-gtk-2.0/dialogs.c:817
@@ -6847,7 +6847,7 @@ msgstr "Gra zakończyła się remisem, gdyż minął czas gry"
 #: server/srv_main.c:486
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr "%s statek kosmiczny dotarł do Alfa Centauri."
+msgstr "%s Rakieta Kosmiczna dotarła do Alfa Centauri."
 
 #: server/srv_main.c:642
 #: server/srv_main.c:653
@@ -8096,7 +8096,7 @@ msgstr "Nie mogę zakończyć gry: jeszcze nie rozpoczęta."
 #: server/stdinhand.c:4208
 #, c-format
 msgid "%s has conceded the game and can no longer win."
-msgstr "%s poddał grą i nie może już wygrać."
+msgstr "%s poddał/a grą i nie może już wygrać."
 
 #: server/stdinhand.c:4213
 msgid "You cannot surrender now."
@@ -8384,7 +8384,7 @@ msgstr "Twoi naukowcy odkryli %s. Treaz skupiają się na %s; celem jest %s."
 #: server/techtools.c:366
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
-msgstr "Twoi naukowcy odkryli %s. Teraz jednak nie wiedzą nad czym pracować."
+msgstr "Twoi naukowcy odkryli %s. Jednak teraz nie wiedzą nad czym pracować."
 
 #: server/techtools.c:371
 #, c-format
@@ -8653,13 +8653,13 @@ msgstr "Musisz najpierw wypowiedzieć wojnę przeciwko %s.  Użyj raportu o naro
 #: server/unithand.c:1408
 #, c-format
 msgid "Your %s succeeded in capturing the %s."
-msgstr "Twój %s przechwycił %s."
+msgstr "Twoja jednostka %s przechwyciła jednostkę %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:1413
 #, c-format
 msgid "Your %s was captured by the %s."
-msgstr "Twój %s został przechwycony przez %s."
+msgstr "Twoja jednostka %s została przechwycona przez %s."
 
 #: server/unithand.c:1438
 msgid "This unit is being transported, and so cannot bombard."
@@ -8782,7 +8782,7 @@ msgstr "Rozwiązano twoją jednostkę %s."
 #: server/unittools.c:1487
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
-msgstr "%2$s nie mogł obronić %1$s i przegrał grę."
+msgstr "%2$s nie mógł/a obronić %1$s i przegrał/a grę."
 
 #: server/unittools.c:1491
 #, c-format
@@ -9616,7 +9616,7 @@ msgstr "?gold/luxury/science:Z/L/N"
 
 #: client/cityrepdata.c:544
 msgid "Economy: Gold, Luxuries, Science"
-msgstr "Ekonomia: Złoto, Luksusy, Nauka"
+msgstr "Ekonomia: Złoto, Luksus, Nauka"
 
 #: client/cityrepdata.c:546
 msgid "?Gold:G"
@@ -9697,7 +9697,7 @@ msgstr "Maksymalna liczba jednostek na turę"
 
 #: client/cityrepdata.c:565
 msgid "Turns/Buy"
-msgstr "Tury/Cena"
+msgstr "Tury/Zakup"
 
 #: client/cityrepdata.c:569
 #: client/cityrepdata.c:571
@@ -10902,7 +10902,7 @@ msgstr "* Na tym terenie nie pojawiają się skażenia (nuklearne)."
 
 #: client/helpdata.c:1812
 msgid "* You cannot build cities on this terrain."
-msgstr "* Ns tym terenie nie można budować miast."
+msgstr "* Na tym terenie nie można budować miast."
 
 #: client/helpdata.c:1818
 msgid "* The coastline of this terrain is unsafe."
@@ -13429,7 +13429,7 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
-"Twój %s dotarł do m. %s.\n"
+"Twoja %s dotarł do miasta %s.\n"
 "Co mu polecisz?"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:647
@@ -17727,7 +17727,7 @@ msgstr "Populacja %s: %s  Rok: %s  Złoto %d "
 #: client/gui-sdl/mapview.c:421
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr "Populacja %s: %s  Rok: %s  Złoto %d Pod.: %d Luks.: %d Nauk.: %d"
+msgstr "Populacja %s: %s  Rok: %s  Złoto %d Pod.: %d Luks.: %d Nau.: %d"
 
 #: client/gui-sdl/mapview.c:536
 #: data/civ1/units.ruleset:18
@@ -20096,7 +20096,7 @@ msgstr "Nadwyżka żywności może spowodować wzrost populacji. Spichlerz miejs
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:506
 msgid " Production"
-msgstr "Produkcja"
+msgstr " Produkcja"
 
 #: data/helpdata.txt:507
 msgid "Production points (also known as \"shields\") represent manufacturing output. Most units require production points as upkeep, and demand them from their home city, although under autocratic regimes each city supports a few units for free. If city production drops too low, the units that cannot be supported are automatically disbanded. Most types of unit can also be disbanded at any time. If a unit is disbanded while in a city, half of its production cost will usually be put towards that city's surplus."
@@ -25501,7 +25501,7 @@ msgstr "Szpital"
 
 #: data/experimental/buildings.ruleset:393
 msgid "A Hospital is used to treat the ill, and sometimes for medical research. A city with a Hospital is less like to suffer from plagues."
-msgstr "Szpitalu leczy się chorych, a także przeprowadza się czasem badania naukowe. Szpital zmniejsza też ryzyko epidemii w mieście, w którym powstał."
+msgstr "W Szpitalu leczy się chorych, a także przeprowadza się czasem badania naukowe. Szpital zmniejsza też ryzyko epidemii w mieście, w którym powstał."
 
 #: data/experimental/buildings.ruleset:435
 msgid "Genetic Lab"
