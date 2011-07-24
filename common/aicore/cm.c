@@ -75,6 +75,8 @@
 /* Maximal iterations before the search loop is stoped. */
 #define CM_MAX_LOOP 25000
 
+#define CPUHOG_CM_MAX_LOOP (CM_MAX_LOOP * 4)
+
 #ifdef DEBUG_TIMERS
 #define GATHER_TIME_STATS
 #endif
@@ -1805,20 +1807,28 @@ static void cm_find_best_solution(struct cm_state *state,
                                   struct cm_result *result)
 {
   int loop_count = 0;
+  int max_count;
+
 #ifdef GATHER_TIME_STATS
   performance.current = &performance.opt;
 #endif
 
   begin_search(state, parameter);
 
+  if (player_is_cpuhog(city_owner(state->pcity))) {
+    max_count = CPUHOG_CM_MAX_LOOP;
+  } else {
+    max_count = CM_MAX_LOOP;
+  }
+
   /* search until we find a feasible solution */
   while (!bb_next(state)) {
     /* Limit the number of loops. */
     loop_count++;
 
-    if (loop_count > CM_MAX_LOOP) {
+    if (loop_count > max_count) {
       log_error("Did not find a cm solution in %d iterations for %s.",
-                CM_MAX_LOOP, city_name(state->pcity));
+                max_count, city_name(state->pcity));
       break;
     }
   }

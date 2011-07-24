@@ -420,6 +420,18 @@ void *player_ai_data(const struct player *pplayer, const struct ai_type *ai);
 void player_set_ai_data(struct player *pplayer, const struct ai_type *ai,
                         void *data);
 
+static inline bool player_is_cpuhog(const struct player *pplayer)
+{
+  /* You have to make code change here to enable cpuhog AI. There is no even
+   * configure option to change this. That's intentional.
+   * Enabling them causes game to proceed differently, and for reproducing
+   * reported bugs we want to know if this has been changed. People are more
+   * likely to report that they have made code changes than remembering some
+   * specific configure option they happened to pass to build this time - or even
+   * knowing what configure options somebody else used when building freeciv for them. */
+  return FALSE;
+}
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
