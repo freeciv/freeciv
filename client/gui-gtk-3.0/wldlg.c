@@ -593,7 +593,7 @@ static void queue_bubble_up(struct worklist_data *ptr)
   GtkTreeViewColumn *col;
   GtkTreeModel *model;
 
-  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return;
   }
 
@@ -640,7 +640,7 @@ static void queue_bubble_down(struct worklist_data *ptr)
   GtkTreeViewColumn *col;
   GtkTreeModel *model;
 
-  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return;
   }
 
@@ -675,7 +675,7 @@ static void queue_insert(struct worklist_data *ptr, bool prepend)
   GtkTreeIter src_it, dst_it;
   gint i, ncols;
 
-  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return;
   }
 
@@ -737,7 +737,7 @@ static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
 
   ptr = data;
 
-  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return;
   }
   
@@ -787,7 +787,7 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     
   ptr = data;
 
-  if (!GTK_WIDGET_IS_SENSITIVE(ptr->dst_view)) {
+  if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return FALSE;
   }
   
