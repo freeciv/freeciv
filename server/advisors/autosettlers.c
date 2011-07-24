@@ -447,7 +447,6 @@ void auto_settler_findwork(struct player *pplayer,
                            struct settlermap *state,
                            int recursion)
 {
-  int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
@@ -473,8 +472,8 @@ void auto_settler_findwork(struct player *pplayer,
 
   if (unit_has_type_flag(punit, F_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
-    best_impr = settler_evaluate_improvements(punit, &best_act, &best_tile, 
-                                              &path, state);
+    settler_evaluate_improvements(punit, &best_act, &best_tile, 
+                                  &path, state);
     if (path) {
       completion_time = pf_path_last_position(path)->turn;
     }
