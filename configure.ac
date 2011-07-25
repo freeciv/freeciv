@@ -9,6 +9,8 @@ AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([fc_config.h])
 AC_CANONICAL_HOST
+dnl Replace AC_GNU_SOURCE with AC_USE_SYSTEM_EXTENSIONS when minimum
+dnl autoconf version 2.61
 AC_GNU_SOURCE
 
 BUG_URL="http://gna.org/projects/freeciv/"
@@ -372,6 +374,8 @@ AC_COMPILE_IFELSE(
 AC_LANG_POP([C++])
 AC_PROG_LN_S
 AC_DISABLE_SHARED
+dnl Replace AC_PROG_LIBTOOL with LT_INIT when minimum libtool
+dnl version 2.2
 AC_PROG_LIBTOOL
 LIBTOOL="$LIBTOOL --preserve-dup-deps"
 AC_SUBST(LIBTOOL)
