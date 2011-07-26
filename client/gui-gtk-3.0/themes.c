@@ -79,8 +79,8 @@ void gui_load_theme(const char *directory, const char *theme_name)
   default_files[num_default_files] = buf;
   default_files[num_default_files + 1] = NULL;
   
-  /* Gtk theme is a directory containing gtk-2.0/gtkrc file */
-  fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-2.0/gtkrc", directory,
+  /* Gtk theme is a directory containing gtk-3.0/gtkrc file */
+  fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtkrc", directory,
               theme_name);
 
   gtk_rc_set_default_files(default_files);
@@ -148,11 +148,11 @@ char **get_gui_specific_themes_directories(int *count)
 
   *count = 0;
 
-  /* Freeciv-specific GTK+ themes directories */
+  /* Freeciv-specific GTK3 themes directories */
   strvec_iterate(data_dirs, dir_name) {
-    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-2.0") + 1];
+    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.0") + 1];
 
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-2.0", dir_name);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-3.0", dir_name);
 
     directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
@@ -177,7 +177,7 @@ char **get_gui_specific_themes_directories(int *count)
 /*****************************************************************************
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
-  Useable theme for gtk+ is a directory which contains file gtk-2.0/gtkrc.
+  Useable theme for gtk+ is a directory which contains file gtk-3.0/gtkrc.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
 char **get_useable_themes_in_directory(const char *directory, int *count)
@@ -203,7 +203,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     struct stat stat_result;
 
     fc_snprintf(buf, sizeof(buf),
-                "%s/%s/gtk-2.0/gtkrc", directory, entry->d_name);
+                "%s/%s/gtk-3.0/gtkrc", directory, entry->d_name);
 
     if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */
