@@ -19,6 +19,7 @@
 #include <execinfo.h>
 #endif
 
+/* utility */
 #include "fcbacktrace.h"
 #include "log.h"
 
@@ -93,18 +94,21 @@ static void backtrace_log(enum log_level level, const char *msg, bool file_too)
     names = backtrace_symbols(buffer, frames);
 
     if (names == NULL) {
-      write_backtrace_line(level, "No backtrace");
+      write_backtrace_line(LOG_NORMAL, "No backtrace");
     } else {
       int i;
 
-      write_backtrace_line(level, "Backtrace:");
+      write_backtrace_line(LOG_NORMAL, "Backtrace:");
 
       for (i = 0; i < frames; i++) {
 	char linestr[100];
 
 	fc_snprintf(linestr, sizeof(linestr), " %d: %s", i, names[i]);
 
-        write_backtrace_line(level, linestr);
+        /* We write always in level LOG_NORMAL and not in higher one
+         * since those interact badly with server callback to send error
+         * messages to local client. */
+        write_backtrace_line(LOG_NORMAL, linestr);
       }
 
       free(names);
