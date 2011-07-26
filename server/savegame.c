@@ -3157,7 +3157,7 @@ static void player_load_cities(struct player *plr, int plrno,
                                      plrno, i);
       city_map_radius_sq_set(pcity, radius_sq);
 
-      city_tile_iterate_index(radius_sq, city_tile(pcity), ptile, index) {
+      city_tile_iterate(radius_sq, city_tile(pcity), ptile) {
         if (worked_tiles[ptile->index] == pcity->id) {
           tile_set_worked(ptile, pcity);
           workers++;
@@ -3168,7 +3168,7 @@ static void player_load_cities(struct player *plr, int plrno,
           worked_tiles[ptile->index] = -1;
 #endif /* DEBUG */
         }
-      } city_tile_iterate_index_end;
+      } city_tile_iterate_end;
     }
 
     if (tile_worked(pcenter) != pcity) {

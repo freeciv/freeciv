@@ -437,14 +437,19 @@ static void incoming_client_packets(struct connection *pconn)
 
   while (get_packet(pconn, &packet)) {
     bool command_ok;
-    int request_id;
 
 #if PROCESSING_TIME_STATISTICS
-    request_time = renew_timer_start(request_time, TIMER_USER, TIMER_ACTIVE);
-#endif
+    int request_id;
 
-    request_id = pconn->server.last_request_id_seen
+    request_time = renew_timer_start(request_time, TIMER_USER, TIMER_ACTIVE);
+#endif /* PROCESSING_TIME_STATISTICS */
+
+    pconn->server.last_request_id_seen
       = get_next_request_id(pconn->server.last_request_id_seen);
+
+#if PROCESSING_TIME_STATISTICS
+    request_id = pconn->server.last_request_id_seen;
+#endif /* PROCESSING_TIME_STATISTICS */
 
     connection_do_buffer(pconn);
     start_processing_request(pconn, pconn->server.last_request_id_seen);
@@ -458,7 +463,7 @@ static void incoming_client_packets(struct connection *pconn)
 #if PROCESSING_TIME_STATISTICS
     log_verbose("processed request %d in %gms", request_id, 
                 read_timer_seconds(request_time) * 1000.0);
-#endif
+#endif /* PROCESSING_TIME_STATISTICS */
 
     if (!command_ok) {
       connection_close_server(pconn, _("rejected"));
@@ -467,7 +472,7 @@ static void incoming_client_packets(struct connection *pconn)
 
 #if PROCESSING_TIME_STATISTICS
   free_timer(request_time);
-#endif
+#endif /* PROCESSING_TIME_STATISTICS */
 }
 
 

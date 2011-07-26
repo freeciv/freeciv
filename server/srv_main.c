@@ -1778,7 +1778,6 @@ void handle_player_ready(struct player *requestor,
 			 bool is_ready)
 {
   struct player *pplayer = player_by_number(player_no);
-  bool old_ready;
 
   if (NULL == pplayer || S_S_INITIAL != server_state()) {
     return;
@@ -1789,7 +1788,6 @@ void handle_player_ready(struct player *requestor,
     return;
   }
 
-  old_ready = pplayer->is_ready;
   pplayer->is_ready = is_ready;
   send_player_info_c(pplayer, NULL);
 

@@ -845,14 +845,12 @@ static void load_tech_names(struct section_file *file)
 static void load_ruleset_techs(struct section_file *file)
 {
   struct section_list *sec;
-  int num_techs; /* number of techs in the ruleset (means without A_NONE)*/
   int i;
   struct advance *a_none = advance_by_number(A_NONE);
   const char *filename = secfile_name(file);
   
   (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
   sec = secfile_sections_by_name_prefix(file, ADVANCE_SECTION_PREFIX);
-  num_techs = section_list_size(sec);
 
   /* Initialize dummy tech A_NONE */
   a_none->require[AR_ONE] = a_none;
@@ -2281,14 +2279,12 @@ static void load_government_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_governments(struct section_file *file)
 {
-  int nval;
   struct section_list *sec;
   const char *filename = secfile_name(file);
 
   (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
-  nval = (NULL != sec ? section_list_size(sec) : 0);
 
   game.government_during_revolution
     = lookup_government(file, "governments.during_revolution", filename);

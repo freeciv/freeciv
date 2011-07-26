@@ -676,9 +676,7 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
 void handle_edit_unit(struct connection *pc,
                       const struct packet_edit_unit *packet)
 {
-  struct tile *ptile;
   struct unit_type *putype;
-  struct player *pplayer;
   struct unit *punit;
   int id;
   bool changed = FALSE;
@@ -692,9 +690,7 @@ void handle_edit_unit(struct connection *pc,
     return;
   }
 
-  ptile = unit_tile(punit);
   putype = unit_type(punit);
-  pplayer = unit_owner(punit);
 
   moves_left = CLIP(0, packet->moves_left, putype->move_rate);
   if (moves_left != punit->moves_left) {

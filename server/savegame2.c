@@ -3909,7 +3909,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                  citystr);
   city_map_radius_sq_set(pcity, radius_sq);
 
-  city_tile_iterate_index(radius_sq, city_tile(pcity), ptile, index) {
+  city_tile_iterate(radius_sq, city_tile(pcity), ptile) {
     if (loading->worked_tiles[ptile->index] == pcity->id) {
       tile_set_worked(ptile, pcity);
       workers++;
@@ -3920,7 +3920,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       loading->worked_tiles[ptile->index] = -1;
 #endif /* DEBUG */
     }
-  } city_tile_iterate_index_end;
+  } city_tile_iterate_end;
 
   if (tile_worked(city_tile(pcity)) != pcity) {
     struct city *pwork = tile_worked(city_tile(pcity));
@@ -4502,7 +4502,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
       punit->has_orders = TRUE;
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
-        struct base_type *pbase = NULL;
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
             || act_unitstr[j] == '\0') {
@@ -4527,9 +4526,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
         if (base_unitstr && base_unitstr[j] != '?') {
           base = char2num(base_unitstr[j]);
 
-          if (base >= 0 && base < loading->base.size) {
-            pbase = loading->base.order[base];
-          } else {
+          if (base < 0 || base >= loading->base.size) {
             log_sg("Cannot find base %d for %s to build",
                    base, unit_rule_name(punit));
             base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS,
