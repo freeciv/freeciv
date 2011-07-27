@@ -678,18 +678,21 @@ FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 dnl freeciv-modpack checks
+modinst=no
 AM_PATH_GTK_2_0([2.6.0],
 [
+  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
+[
   modinst=yes
-  MP_gtk2_CFLAGS="$GTK_CFLAGS"
-  MP_gtk2_LIBS="$GTK_LIBS"
+  MP_gtk2_CFLAGS="$GTK_CFLAGS $GTHREAD_CFLAGS"
+  MP_gtk2_LIBS="$GTK_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk2 on Windows platform
     MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -mms-bitfields"
-    MP_gtk2_LIBS="$GTK_LIBS -lgthread-2.0"
+    MP_gtk2_LIBS="$GTK_LIBS"
     MP_gtk2_LDFLAGS="$MP_gtk2_LDFLAGS -mwindows"
   fi
-], [modinst=no])
+])])
 AM_CONDITIONAL([MODINST], [test "x$modinst" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
