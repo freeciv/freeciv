@@ -1223,14 +1223,14 @@ struct client_option {
     struct {
       int *const pvalue;
       const int def;
-      struct strvec *support_names, *pretty_names;
+      struct strvec *support_names, *pretty_names; /* untranslated */
       const struct copt_val_name * (*const name_accessor) (int value);
     } enumerator;
     /* OT_BITWISE type option. */
     struct {
       unsigned *const pvalue;
       const unsigned def;
-      struct strvec *support_names, *pretty_names;
+      struct strvec *support_names, *pretty_names; /* untranslated */
       const struct copt_val_name * (*const name_accessor) (int value);
     } bitwise;
     /* OT_FONT type option. */
@@ -3007,7 +3007,7 @@ static const struct option_bitwise_vtable server_option_bitwise_vtable = {
 };
 
 /****************************************************************************
-  Derived class server option, inherinting of base class option.
+  Derived class server option, inheriting from base class option.
 ****************************************************************************/
 struct server_option {
   struct option base_option;    /* Base structure, must be the first! */
@@ -3041,14 +3041,14 @@ struct server_option {
       int value;
       int def;
       struct strvec *support_names;
-      struct strvec *pretty_names;
+      struct strvec *pretty_names; /* untranslated */
     } enumerator;
     /* OT_BITWISE type option. */
     struct {
       unsigned value;
       unsigned def;
       struct strvec *support_names;
-      struct strvec *pretty_names;
+      struct strvec *pretty_names; /* untranslated */
     } bitwise;
   };
 };
@@ -3409,6 +3409,7 @@ void handle_server_setting_enum
       for (i = 0; i < packet->values_num; i++) {
         strvec_set(psoption->enumerator.support_names, i,
                    packet->support_names[i]);
+        /* Store untranslated string from server. */
         strvec_set(psoption->enumerator.pretty_names, i,
                    packet->pretty_names[i]);
       }
@@ -3423,6 +3424,7 @@ void handle_server_setting_enum
       for (i = 0; i < packet->values_num; i++) {
         strvec_set(psoption->enumerator.support_names, i,
                    packet->support_names[i]);
+        /* Store untranslated string from server. */
         strvec_set(psoption->enumerator.pretty_names, i,
                    packet->pretty_names[i]);
       }
@@ -3436,6 +3438,7 @@ void handle_server_setting_enum
       for (i = 0; i < packet->values_num; i++) {
         str = strvec_get(psoption->enumerator.pretty_names, i);
         if (NULL == str || 0 != strcmp(str, packet->pretty_names[i])) {
+          /* Store untranslated string from server. */
           strvec_set(psoption->enumerator.pretty_names, i,
                      packet->pretty_names[i]);
           need_gui_remove = TRUE;
@@ -3495,6 +3498,7 @@ void handle_server_setting_bitwise
       for (i = 0; i < packet->bits_num; i++) {
         strvec_set(psoption->bitwise.support_names, i,
                    packet->support_names[i]);
+        /* Store untranslated string from server. */
         strvec_set(psoption->bitwise.pretty_names, i,
                    packet->pretty_names[i]);
       }
@@ -3509,6 +3513,7 @@ void handle_server_setting_bitwise
       for (i = 0; i < packet->bits_num; i++) {
         strvec_set(psoption->bitwise.support_names, i,
                    packet->support_names[i]);
+        /* Store untranslated string from server. */
         strvec_set(psoption->bitwise.pretty_names, i,
                    packet->pretty_names[i]);
       }
@@ -3522,6 +3527,7 @@ void handle_server_setting_bitwise
       for (i = 0; i < packet->bits_num; i++) {
         str = strvec_get(psoption->bitwise.pretty_names, i);
         if (NULL == str || 0 != strcmp(str, packet->pretty_names[i])) {
+          /* Store untranslated string from server. */
           strvec_set(psoption->bitwise.pretty_names, i,
                      packet->pretty_names[i]);
           need_gui_remove = TRUE;
@@ -3610,7 +3616,7 @@ static const char *server_option_name(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the description of this server option.
+  Returns the (translated) description of this server option.
 ****************************************************************************/
 static const char *server_option_description(const struct option *poption)
 {
@@ -3618,7 +3624,7 @@ static const char *server_option_description(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the help text for this server option.
+  Returns the (translated) help text for this server option.
 ****************************************************************************/
 static const char *server_option_help_text(const struct option *poption)
 {
@@ -3791,8 +3797,8 @@ static int server_option_enum_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the user-visible, translateable "pretty" names of this server
-  option of type OT_ENUM.
+  Returns the user-visible, translateable (but untranslated) "pretty" names
+  of this server option of type OT_ENUM.
 ****************************************************************************/
 static const struct strvec *
     server_option_enum_pretty(const struct option *poption)
@@ -3854,8 +3860,8 @@ static unsigned server_option_bitwise_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the user-visible, translateable "pretty" names of this server
-  option of type OT_BITWISE.
+  Returns the user-visible, translateable (but untranslated) "pretty" names
+  of this server option of type OT_BITWISE.
 ****************************************************************************/
 static const struct strvec *
     server_option_bitwise_pretty(const struct option *poption)

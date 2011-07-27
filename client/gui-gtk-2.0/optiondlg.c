@@ -599,7 +599,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
         gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
         check = gtk_check_button_new();
         gtk_box_pack_start(GTK_BOX(hbox), check, FALSE, TRUE, 0);
-        label = gtk_label_new(strvec_get(values, i));
+        label = gtk_label_new(_(strvec_get(values, i)));
         gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 0);
         list = g_list_append(list, check);
       }

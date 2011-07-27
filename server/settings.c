@@ -3750,6 +3750,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
           packet.default_val = pset->enumerator.default_value;
           for (i = 0; (val_name = pset->enumerator.name(i)); i++) {
             sz_strlcpy(packet.support_names[i], val_name->support);
+            /* Send untranslated string */
             sz_strlcpy(packet.pretty_names[i], val_name->pretty);
           }
           packet.values_num = i;
@@ -3773,6 +3774,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
           packet.default_val = pset->bitwise.default_value;
           for (i = 0; (val_name = pset->bitwise.name(i)); i++) {
             sz_strlcpy(packet.support_names[i], val_name->support);
+            /* Send untranslated string */
             sz_strlcpy(packet.pretty_names[i], val_name->pretty);
           }
           packet.bits_num = i;
@@ -3826,6 +3828,7 @@ void send_server_setting_control(struct connection *pconn)
   fc_assert(SSET_NUM_CATEGORIES <= ARRAY_SIZE(control.category_names));
   control.categories_num = SSET_NUM_CATEGORIES;
   for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
+    /* Send untranslated name */
     sz_strlcpy(control.category_names[i], sset_category_name(i));
   }
 
@@ -3836,6 +3839,7 @@ void send_server_setting_control(struct connection *pconn)
   settings_iterate(pset) {
     setting.id = setting_number(pset);
     sz_strlcpy(setting.name, setting_name(pset));
+    /* Send untranslated strings to client */
     sz_strlcpy(setting.short_help, setting_short_help(pset));
     sz_strlcpy(setting.extra_help, setting_extra_help(pset));
     setting.category = pset->scategory;
