@@ -269,9 +269,14 @@ bool client_start_server(void)
       dup2(fd, 0);
     }
 
-    /* these won't return on success */ 
+    /* these won't return on success */
+#ifdef DEBUG
+    /* Search under current directory (what ever that happens to be)
+     * only in debug builds. This allows running freeciv directly from build
+     * tree, but could be considered security risk in release builds. */
     execvp("./ser", argv);
     execvp("./server/freeciv-server", argv);
+#endif /* DEBUG */
     execvp("freeciv-server", argv);
     
     /* This line is only reached if freeciv-server cannot be started, 
@@ -324,13 +329,17 @@ bool client_start_server(void)
   my_snprintf(cmdline3, sizeof(cmdline3),
               "freeciv-server %s", options);
 
-  if (!CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
+  if (
+#ifdef DEBUG
+      !CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
 		     DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
 		     NULL, NULL, &si, &pi) 
       && !CreateProcess(NULL, cmdline2, NULL, NULL, TRUE,
 			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
 			NULL, NULL, &si, &pi) 
-      && !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
+      &&
+#endif /* DEBUG */ 
+      !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
 			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
 			NULL, NULL, &si, &pi)) {
     output_window_append(ftc_client, _("Couldn't start the server."));
