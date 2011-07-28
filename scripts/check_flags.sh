@@ -21,7 +21,7 @@ for nation in `find $data_dir/nation -name '*.ruleset'`; do
   $is_verbose && echo "flag='$flag'"
   for suf in ".png" "-large.png" "-shield.png" "-shield-large.png" ".svg"; do
     if [ -f "$flags_dir/$flag$suf" ]; then
-      grep -q "$flag$suf" "$flags_makefile"
+      grep -q "[[:space:]]$flag$suf" "$flags_makefile"
       if [ $? -ne 0 ]; then
 	$non_quiet && echo "....$flag$suf is missing in $flags_makefile"
 	let 'errors += 1'
