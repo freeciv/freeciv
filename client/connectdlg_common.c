@@ -193,6 +193,7 @@ bool client_start_server(void)
   char cmdline1[512];
   char cmdline2[512];
   char cmdline3[512];
+  char cmdline4[512];
   char logcmdline[512];
   char scriptcmdline[512];
   char savescmdline[512];
@@ -276,8 +277,9 @@ bool client_start_server(void)
     execvp("./ser", argv);
     execvp("./server/freeciv-server", argv);
 #endif /* DEBUG */
+    execvp(BINDIR "/freeciv-server", argv);
     execvp("freeciv-server", argv);
-    
+
     /* This line is only reached if freeciv-server cannot be started, 
      * so we kill the forked process.
      * Calling exit here is dangerous due to X11 problems (async replies) */ 
@@ -335,27 +337,32 @@ bool client_start_server(void)
   fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
   fc_snprintf(cmdline3, sizeof(cmdline3),
+              BINDIR "/freeciv-server %s", options);
+  fc_snprintf(cmdline4, sizeof(cmdline4),
               "freeciv-server %s", options);
 
   if (
 #ifdef DEBUG
       !CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
-		     DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-		     NULL, NULL, &si, &pi) 
+                     DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+                     NULL, NULL, &si, &pi)
       && !CreateProcess(NULL, cmdline2, NULL, NULL, TRUE,
-			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-			NULL, NULL, &si, &pi) 
+                        DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+                        NULL, NULL, &si, &pi)
       &&
-#endif /* DEBUG */ 
+#endif /* DEBUG */
       !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
-			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
-			NULL, NULL, &si, &pi)) {
+                     DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+                     NULL, NULL, &si, &pi)
+      && !CreateProcess(NULL, cmdline4, NULL, NULL, TRUE,
+                        DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
+                        NULL, NULL, &si, &pi)) {
     output_window_append(ftc_client, _("Couldn't start the server."));
     output_window_append(ftc_client,
                          _("You'll have to start one manually. Sorry..."));
     return FALSE;
   }
-  
+
   server_process = pi.hProcess;
 
 #  endif /* WIN32_NATIVE */
