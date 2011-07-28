@@ -424,7 +424,8 @@ struct sprite *load_gfxfile(const char *filename)
     pcolorarray = NULL;
     ptransarray = NULL;
     npalette = 0;
-    if (color_type == PNG_COLOR_TYPE_RGB_ALPHA) {
+    if ((color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+        || (color_type == PNG_COLOR_TYPE_GRAY_ALPHA)) {
       has_mask = 1;
     } else {
       has_mask = 0;
@@ -474,15 +475,21 @@ struct sprite *load_gfxfile(const char *filename)
       if (pcolorarray) {
 	XPutPixel(xi, x, y, pcolorarray[pb[x]]);
       } else {
-	if (has_mask) {
-	  XPutPixel(xi, x, y,
-		    (pb[4 * x] << 16) + (pb[4 * x + 1] << 8)
-		    + pb[4 * x + 2]);
-	} else {
-	  XPutPixel(xi, x, y,
-		    (pb[3 * x] << 16) + (pb[3 * x + 1] << 8)
-		    + pb[3 * x + 2]);
-	}
+        if (color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
+          XPutPixel(xi, x, y,
+                    (pb[2 * x] << 16) + (pb[2 * x] << 8)
+                    + pb[2 * x]);
+        } else {
+          if (has_mask) {
+	    XPutPixel(xi, x, y,
+		      (pb[4 * x] << 16) + (pb[4 * x + 1] << 8)
+		      + pb[4 * x + 2]);
+          } else {
+	    XPutPixel(xi, x, y,
+		      (pb[3 * x] << 16) + (pb[3 * x + 1] << 8)
+		      + pb[3 * x + 2]);
+	  }
+        }
       }
     }
     pb += stride;
@@ -503,7 +510,11 @@ struct sprite *load_gfxfile(const char *filename)
 	if (ptransarray) {
 	  XPutPixel(xm, x, y, !ptransarray[pb[x]]);
 	} else {
-	  alpha = pb[4 * x + 3];
+          if (color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
+            alpha = pb[2 * x + 1];
+          } else {
+	    alpha = pb[4 * x + 3];
+          }
 	  if (alpha > 204) {
 	    pixel = FALSE;
 	  } else if (alpha > 153) {
