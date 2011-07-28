@@ -11,6 +11,7 @@ flag_files =				\
 		acre.png		\
 		adygea.png		\
 		afghanistan.png		\
+		africa.png		\
 		ainu.png		\
 		akwe.png		\
 		aland.png		\
@@ -513,6 +514,7 @@ flag_files =				\
 		acre-large.png			\
 		adygea-large.png		\
 		afghanistan-large.png		\
+		africa-large.png	\
 		ainu-large.png		\
 		akwe-large.png		\
 		aland-large.png			\
@@ -1017,6 +1019,7 @@ shield_files =					\
 		acre-shield.png			\
 		adygea-shield.png		\
 		afghanistan-shield.png		\
+		africa-shield.png		\
 		ainu-shield.png			\
 		akwe-shield.png			\
 		aland-shield.png		\
@@ -1519,6 +1522,7 @@ shield_files =					\
 		acre-shield-large.png			\
 		adygea-shield-large.png			\
 		afghanistan-shield-large.png		\
+		africa-shield-large.png			\
 		ainu-shield-large.png			\
 		akwe-shield-large.png			\
 		aland-shield-large.png			\
@@ -2023,6 +2027,7 @@ svg_files = 				\
 		acre.svg		\
 		adygea.svg		\
 		afghanistan.svg		\
+		africa.svg		\
 		ainu.svg		\
 		akwe.svg		\
 		aland.svg		\
