@@ -59,3 +59,11 @@ void api_utilities_cmd_reply(int cmdid, struct connection *caller,
 
   cmd_reply(cmdid, caller, rfc_status, "%s", msg);
 }
+
+/**************************************************************************
+  Convert text describing direction into direction
+**************************************************************************/
+Direction api_utilities_str2dir(const char *dir)
+{
+  return direction8_by_name(dir, fc_strcasecmp);
+}

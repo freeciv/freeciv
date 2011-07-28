@@ -36,7 +36,7 @@
 /* Classes. */
 /* If a new class is defined, an entry should be added to the enum api_types
  * below and the class name should be added to the api_types list in
- * tolua_comon.pkg. */
+ * tolua_common.pkg. */
 typedef struct player Player;
 typedef struct player_ai Player_ai;
 typedef struct city City;
@@ -49,6 +49,7 @@ typedef struct unit_type Unit_Type;
 typedef struct advance Tech_Type;
 typedef struct terrain Terrain;
 typedef struct connection Connection;
+typedef enum direction8 Direction;
 
 typedef void Nonexistent;
 
@@ -89,6 +90,8 @@ typedef const struct city_list_link City_List_Link;
 #define SPECENUM_VALUE12NAME "Terrain"
 #define SPECENUM_VALUE13      API_TYPE_CONECTION
 #define SPECENUM_VALUE13NAME "Connection"
+#define SPECENUM_VALUE14      API_TYPE_DIRECTION
+#define SPECENUM_VALUE14NAME "Direction"
 #include "specenum_gen.h"
 
 #endif /* FC__SCRIPT_TYPES_H */

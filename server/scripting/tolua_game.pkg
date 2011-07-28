@@ -27,6 +27,7 @@ $#include "api_effects.h"
 $#include "api_find.h"
 $#include "api_methods.h"
 $#include "api_notify.h"
+$#include "api_utilities.h"
 
 $#include "script_game.h"
 $#include "script_types.h"
@@ -441,6 +442,19 @@ function Unit_Type:build_shield_cost()
   return self.build_cost
 end
 
+$]
+
+module direction {
+ Direction api_utilities_str2dir @ str2dir (const char *str);
+}
+
+$[
+-- **************************************************************************
+-- Convert direction describing text to direction
+-- **************************************************************************
+function str2direction(str)
+  return direction.str2dir(str)
+end
 $]
 
 $[
