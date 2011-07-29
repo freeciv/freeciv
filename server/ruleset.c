@@ -59,6 +59,9 @@
 #include "settings.h"
 #include "srv_main.h"
 
+/* server/advisors */
+#include "advruleset.h"
+
 #include "ruleset.h"
 
 
@@ -4143,7 +4146,8 @@ void load_rulesets(void)
   openload_script_file("default");
   openload_script_file("script");
 
-  /* Build AI unit class cache corresponding to loaded rulesets */
+  /* Build advisors unit class cache corresponding to loaded rulesets */
+  adv_units_ruleset_init();
   CALL_FUNC_EACH_AI(units_ruleset_init);
 
   /* We may need to adjust the number of AI players

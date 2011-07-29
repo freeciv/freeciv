@@ -393,7 +393,7 @@ bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
               || boat_data->passenger == punit->id)
           && (get_transporter_capacity(boat) 
               - get_transporter_occupancy(boat) >= cap)
-          && ferry_class->ai.sea_move != MOVE_NONE
+          && ferry_class->adv.sea_move != MOVE_NONE
           && !unit_type(boat)->fuel
           && !is_losing_hp(boat));
 }

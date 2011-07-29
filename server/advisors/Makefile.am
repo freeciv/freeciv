@@ -16,6 +16,8 @@ libadvisors_la_SOURCES = \
 	advdata.h	\
 	advgoto.c	\
 	advgoto.h	\
+	advruleset.c	\
+	advruleset.h	\
 	advtools.c	\
 	advtools.h	\
 	autoexplorer.c	\

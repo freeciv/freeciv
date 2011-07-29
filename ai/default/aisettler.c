@@ -912,7 +912,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
 
     ferry_class = unit_class(ferry);
 
-    fc_assert(ferry_class->ai.sea_move != MOVE_NONE);
+    fc_assert(ferry_class->adv.sea_move != MOVE_NONE);
     pft_fill_unit_overlap_param(&parameter, ferry);
     parameter.get_TB = no_fights_or_unknown;
 
