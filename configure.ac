@@ -838,37 +838,42 @@ modinst=no
 if test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk3" || test "x$fc_mp" = "xtest" ; then
   AM_PATH_GTK_3_0([3.0.0],
 [
+  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
+[
   modinst=gtk3
-  MP_gtk_CFLAGS="$GTK3_CFLAGS"
-  MP_gtk_LIBS="$GTK3_LIBS"
+  MP_gtk_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
+  MP_gtk_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
     MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
     MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
   fi
-],[
-  if test "x$fc_mp" = "xgtk3" ; then
-    AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
-  fi
-])
+])])
+fi
+
+if test "x$fc_mp" = "xgtk3" && test "x$modinst" != "xgtk3" ; then
+  AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
 fi
 
 if test "x$modinst" = "xno" &&
    ( test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk2" || test "x$fc_mp" = "xtest" ) ; then
-  AM_PATH_GTK_2_0([2.12.0],[
- modinst=gtk2
- MP_gtk_CFLAGS="$GTK2_CFLAGS"
- MP_gtk_LIBS="$GTK2_LIBS"
- if test "x$MINGW32" = "xyes"; then
-    dnl Required to compile gtk2 on Windows platform
-    MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
-    MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
- fi
-],[
-  if test "x$fc_mp" = "xgtk2" ; then
-    AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
+  AM_PATH_GTK_2_0([2.12.0],
+[
+  PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
+[
+  modinst=gtk2
+  MP_gtk_CFLAGS="$GTK2_CFLAGS $GTHREAD_CFLAGS"
+  MP_gtk_LIBS="$GTK2_LIBS $GTHREAD_LIBS"
+  if test "x$MINGW32" = "xyes"; then
+     dnl Required to compile gtk2 on Windows platform
+     MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
+     MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
   fi
-])
+])])
+fi
+
+if test "x$fc_mp" = "xgtk2" && test "x$modinst" != "xgtk2" ; then
+  AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
 fi
 
 if test "x$fc_mp" = "xyes" && test "x$modinst" = "xno" ; then
