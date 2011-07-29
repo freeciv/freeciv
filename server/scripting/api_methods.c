@@ -473,6 +473,28 @@ bool api_methods_unit_teleport(Unit *punit, Tile *dest)
 }
 
 /**************************************************************************
+  Change unit orientation
+**************************************************************************/
+void api_methods_unit_turn(Unit *punit, Direction dir)
+{
+  if (direction8_is_valid(dir)) {
+    punit->facing = dir;
+
+    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), FALSE);
+  } else {
+    log_error("Illegal direction %d for unit from lua script", dir);
+  }
+}
+
+/**************************************************************************
+  Get unit orientation
+**************************************************************************/
+Direction api_methods_unit_orientation_get(Unit *self)
+{
+  return self->facing;
+}
+
+/**************************************************************************
   Return TRUE if punit_type has flag.
 **************************************************************************/
 bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)

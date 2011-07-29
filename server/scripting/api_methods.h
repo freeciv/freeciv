@@ -77,6 +77,8 @@ Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile);
 bool api_methods_unit_city_can_be_built_here(Unit *punit);
 Tile *api_methods_unit_tile_get(Unit * punit);
 bool api_methods_unit_teleport(Unit *punit, Tile *dest);
+void api_methods_unit_turn(Unit *punit, Direction dir);
+Direction api_methods_unit_orientation_get(Unit *self);
 
 /* Unit Type */
 bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);

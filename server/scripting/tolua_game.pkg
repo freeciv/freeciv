@@ -84,6 +84,10 @@ module Unit {
     @ tile(Unit *self);
   bool api_methods_unit_teleport
     @ teleport(Unit *self, Tile *dest);
+  void api_methods_unit_turn
+    @ turn(Unit *self, Direction dir);
+  Direction api_methods_unit_orientation_get
+    @ facing(Unit *self);
 }
 
 /* Module Tile. */
