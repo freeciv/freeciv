@@ -27,9 +27,9 @@
 #define BACKTRACE_ACTIVE 1
 #endif
 
+#ifdef BACKTRACE_ACTIVE
 static log_callback_fn previous = NULL;
 
-#ifdef BACKTRACE_ACTIVE
 static void backtrace_log(enum log_level level, const char *msg, bool file_too);
 #endif
 
