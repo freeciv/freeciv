@@ -9,6 +9,7 @@ pkgdata_DATA =          \
 	effects.ruleset	\
 	game.ruleset	\
 	governments.ruleset \
+	nations.ruleset \
 	techs.ruleset	\
 	terrain.ruleset	\
 	units.ruleset

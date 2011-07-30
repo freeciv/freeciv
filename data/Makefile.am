@@ -23,6 +23,7 @@ endif
 
 if SERVER
 SERVER_FILES = \
+	database.lua \
 	civ1.serv \
 	civ2.serv \
 	default.serv \
@@ -44,6 +45,7 @@ EXTRA_DIST = \
 	civserver.dsc.in	\
 	civclient.dsc.in	\
 	civserver.room.in	\
+	database.lua	\
 	hex2t.tilespec	\
 	amplio2.tilespec \
 	isophex.tilespec	\
