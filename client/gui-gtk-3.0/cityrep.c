@@ -1457,7 +1457,7 @@ void real_city_report_dialog_update(void)
   city_model_fill(city_model, city_selection, selected);
   g_hash_table_destroy(selected);
 
-  if (GTK_WIDGET_SENSITIVE(city_governor_command)) {
+  if (gtk_widget_get_sensitive(city_governor_command)) {
     append_cma_to_menu_item(GTK_MENU_ITEM(city_governor_command), TRUE);
   }
 

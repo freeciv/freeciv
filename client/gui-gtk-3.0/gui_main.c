@@ -306,7 +306,7 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
     case GTK_DIR_TAB_FORWARD:
     case GTK_DIR_TAB_BACKWARD:
       
-      if (!GTK_WIDGET_CAN_FOCUS(w)) {
+      if (!gtk_widget_get_can_focus(w)) {
 	return FALSE;
       }
 

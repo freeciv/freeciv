@@ -258,7 +258,7 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
   fc_assert_ret_val(GTK_IS_PIXCOMM(widget), FALSE);
   fc_assert_ret_val(ev!=NULL, FALSE);
 
-  if (GTK_WIDGET_DRAWABLE(widget)) {
+  if (gtk_widget_is_drawable(widget)) {
     GtkPixcomm *p;
     GtkMisc *misc;
     gint x, y;
