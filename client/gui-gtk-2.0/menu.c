@@ -1929,7 +1929,6 @@ void real_menus_update(void)
   GtkActionGroup *edit_group;
   GtkActionGroup *unit_group;
   GtkActionGroup *playing_group;
-  GtkActionGroup *player_group;
   struct unit_list *punits = NULL;
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   GtkMenu *menu;
@@ -1944,7 +1943,6 @@ void real_menus_update(void)
   edit_group = get_edit_group();
   unit_group = get_unit_group();
   playing_group = get_playing_group();
-  player_group = get_player_group();
 
   if (get_num_units_in_focus() > 0) {
     const struct tile *ptile = NULL;

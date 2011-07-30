@@ -256,7 +256,7 @@ void unit_select_dialog_popup_main(struct tile *ptile)
   if (!unit_select_dialog_shell) {
     GtkTreeStore *store;
     GtkWidget *shell, *view, *sw, *hbox;
-    GtkWidget *ready_cmd, *sentry_cmd, *select_all_cmd, *close_cmd;
+    GtkWidget *ready_cmd, *sentry_cmd, *select_all_cmd;
 
     static const char *titles[NUM_UNIT_SELECT_COLUMNS] = {
       N_("Unit"),
@@ -358,7 +358,6 @@ void unit_select_dialog_popup_main(struct tile *ptile)
       GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
       select_all_cmd, TRUE);
 
-    close_cmd =
     gtk_dialog_add_button(GTK_DIALOG(shell),
       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 

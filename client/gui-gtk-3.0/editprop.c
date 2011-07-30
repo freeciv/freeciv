@@ -2005,7 +2005,6 @@ static void objbind_set_modified_value(struct objbind *ob,
                                        struct propval *pv)
 {
   struct propstate *ps;
-  enum value_types valtype;
   bool equal;
   struct propval *pv_old, *pv_copy;
   enum object_property_ids propid;
@@ -2014,7 +2013,6 @@ static void objbind_set_modified_value(struct objbind *ob,
     return;
   }
 
-  valtype = objprop_get_valtype(op);
   propid = objprop_get_id(op);
 
   pv_old = objbind_get_value_from_object(ob, op);
@@ -3532,7 +3530,6 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 {
   struct objprop *op;
   enum object_property_ids propid;
-  enum value_types valtype;
   int id, turn_built;
   bool present, all;
   char buf[128];
@@ -3548,7 +3545,6 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
 
   op = extviewer_get_objprop(ev);
   propid = objprop_get_id(op);
-  valtype = objprop_get_valtype(op);
 
   if (propval_equal(pv, ev->pv_cached)) {
     return;
@@ -3723,7 +3719,6 @@ static void extviewer_clear_widgets(struct extviewer *ev)
 {
   struct objprop *op;
   enum object_property_ids propid;
-  enum value_types valtype;
 
   if (!ev) {
     return;
@@ -3731,7 +3726,6 @@ static void extviewer_clear_widgets(struct extviewer *ev)
 
   op = extviewer_get_objprop(ev);
   propid = objprop_get_id(op);
-  valtype = objprop_get_valtype(op);
 
   propval_free(ev->pv_cached);
   ev->pv_cached = NULL;
@@ -4676,12 +4670,11 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
                                             int num_layers)
 {
   struct canvas canvas;
-  int w, h, i, fh, fw, canvas_x, canvas_y;
+  int h, i, fh, fw, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
 
   fw = tileset_full_tile_width(tileset);
   fh = tileset_full_tile_height(tileset);
-  w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
   pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, fw, fh);

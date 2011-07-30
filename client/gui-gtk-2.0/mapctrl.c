@@ -81,10 +81,9 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
 
   ptile = canvas_pos_to_tile(mousepos->x, mousepos->y);
   if (tile_to_canvas_pos(&x, &y, ptile)) {
-    gint minx, miny, maxx, maxy;
+    gint minx, miny, maxy;
 
     gdk_window_get_origin(map_canvas->window, &minx, &miny);
-    maxx = minx + map_canvas->allocation.width;
     maxy = miny + map_canvas->allocation.height;
 
     if (x > mapview.width/2) {

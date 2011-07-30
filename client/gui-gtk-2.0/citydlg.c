@@ -2074,21 +2074,17 @@ static void show_units_callback(GtkWidget * w, gpointer data)
 static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
                                gboolean *push_in, gpointer data)
 {
-  GtkWidget *active;
   GtkWidget *widget;
   GtkRequisition requisition;
   gint xpos;
   gint ypos;
-  gint width;
 
   fc_assert_ret(GTK_IS_BUTTON(data));
 
   widget = GTK_WIDGET(data);
 
   gtk_widget_get_child_requisition(GTK_WIDGET(menu), &requisition);
-  width = requisition.width;
 
-  active = gtk_menu_get_active(menu);
   gdk_window_get_origin(widget->window, &xpos, &ypos);
 
   xpos += widget->allocation.x;

@@ -815,7 +815,6 @@ void races_toggles_set_sensitive(void)
   GtkTreePath *path;
   gboolean chosen;
   int i;
-  gboolean changed;
 
   if (!races_shell) {
     return;
@@ -838,8 +837,7 @@ void races_toggles_set_sensitive(void)
       } while (gtk_tree_model_iter_next(model, &it));
     }
   }
-  
-  changed = false;
+
   for (i = 0; i <= nation_group_count(); i++) {
     gtk_tree_view_get_cursor(GTK_TREE_VIEW(races_nation_list[i]), &path, NULL);
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));    
@@ -850,7 +848,6 @@ void races_toggles_set_sensitive(void)
       if (chosen) {
           GtkTreeSelection* select = gtk_tree_view_get_selection(GTK_TREE_VIEW(races_nation_list[i]));
 	  gtk_tree_selection_unselect_all(select);
-	  changed = true;
       }
 
       gtk_tree_path_free(path);

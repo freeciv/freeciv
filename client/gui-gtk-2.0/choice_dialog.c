@@ -175,11 +175,9 @@ GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
   GtkWidget *dshell;
   va_list args;
   gchar *name;
-  int i;
 
   dshell = choice_dialog_start(parent, dialogname, text);
   
-  i = 0;
   va_start(args, text);
 
   while ((name = va_arg(args, gchar *))) {

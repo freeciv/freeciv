@@ -113,7 +113,6 @@ static void create_messageopt_dialog(void)
   for (n=0; n<NUM_LISTS; n++) {
     GtkWidget *view, *sw;
     GtkCellRenderer *renderer;
-    gint col;
     GtkTreeViewColumn *column;
 
     view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model[n]));
@@ -129,22 +128,25 @@ static void create_messageopt_dialog(void)
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(0));
     g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
 
-    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-	-1, _("Out"), renderer, "active", 0, NULL);
+    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+                                                -1, _("Out"), renderer,
+                                                "active", 0, NULL);
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(1));
     g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
 
-    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-  	-1, _("Mes"), renderer, "active", 1, NULL);
+    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+                                                -1, _("Mes"), renderer,
+                                                "active", 1, NULL);
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(2));
     g_signal_connect(renderer, "toggled", G_CALLBACK(item_toggled), model[n]);
 
-    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-  	-1, _("Pop"), renderer, "active", 2, NULL);
+    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+                                                -1, _("Pop"), renderer,
+                                                "active", 2, NULL);
 
     sw = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
