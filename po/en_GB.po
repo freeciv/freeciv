@@ -31,6 +31,9 @@
 #   harbor -> harbour
 #   donut -> doughnut
 #   gotten -> anything but :)
+#   behavior -> behaviour
+#   fueled -> fuelled
+#   kilometer -> kilometre
 #
 # and all manner of iz -> is (we don't use Oxford spelling), including
 # the following stems:
@@ -11743,6 +11746,9 @@ msgid ""
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
+"Set this option to have a \"bell\" event be generated at the start of a new "
+"turn.  You can control the behaviour of the \"bell\" event by editing the "
+"message options."
 
 #: client/options.c:1820
 msgid "Unit movement animation time (milliseconds)"
@@ -20146,7 +20152,7 @@ msgid ""
 "channeling them toward expansion, technological progress, and warfare."
 msgstr ""
 "Cities are your sole instrument for developing natural resources and "
-"channelling them toward expansion, technological progress, and warfare."
+"channelling them towards expansion, technological progress, and warfare."
 
 #: data/helpdata.txt:646
 msgid ""
@@ -31011,7 +31017,7 @@ msgstr ""
 "Berber incursions coupled with political weakness eroded away the power of "
 "the Burba Jolof. Various Wolof-speaking states established unions with one "
 "another, with their heads assuming the powers of Burba Jolof. The 19th "
-"century brought with it French colonisation and a conversion to Islam fueled "
+"century brought with it French colonisation and a conversion to Islam fuelled "
 "in large part by anti-European sentiment."
 
 #: data/nation/kalmyk.ruleset:3
@@ -31380,7 +31386,7 @@ msgstr ""
 "The Lendians were a confederation of West Slavic, Lechitic tribes inhabiting "
 "the borderland areas of today's Poland and Ukraine. Their land was the "
 "object of rivalry between Poland and the Kievan Rus' at the time of the "
-"early Piast dynasty. The Lendians succumbed to Ruthenization as a result of "
+"early Piast dynasty. The Lendians succumbed to Ruthenisation as a result of "
 "deportation actions organised by Kievan princes and the activities of the "
 "Orthodox Church."
 
@@ -32184,6 +32190,13 @@ msgid ""
 "percent of the population. In terms of GDP per capita Monaco is the "
 "wealthiest country in the world by a large margin."
 msgstr ""
+"With only two square kilometres, Monaco is the second smallest country in "
+"the world. It has been ruled by the Grimaldi dynasty ever since the country "
+"was founded in 1297. In 1861 Monaco lost more than 95 percent of its "
+"territory to France. The principality is noted for its absence of income "
+"taxes, its casino and its Formula 1 track. Foreigners make up more than 80 "
+"percent of the population. In terms of GDP per capita Monaco is the "
+"wealthiest country in the world by a large margin."
 
 #: data/nation/monegasque.ruleset:29
 #, c-format
