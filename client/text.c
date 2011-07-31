@@ -777,8 +777,9 @@ const char *science_dialog_text(void)
 
   if (game.info.tech_upkeep_style == 1) {
     /* perturn is defined as: (bulbs produced) - upkeep */
-    astr_add_line(&str, "Bulbs produced per turn: %d", perturn + upkeep);
-    astr_add(&str, " (needed for technology upkeep: %d)", upkeep);
+    astr_add_line(&str, _("Bulbs produced per turn: %d"), perturn + upkeep);
+    /* TRANS: keep leading space; appended to "Bulbs produced per turn: %d" */
+    astr_add(&str, _(" (needed for technology upkeep: %d)"), upkeep);
   }
 
   return astr_str(&str);
