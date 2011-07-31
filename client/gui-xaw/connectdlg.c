@@ -32,13 +32,13 @@
 /* common & utility */
 #include "fcintl.h"
 #include "log.h"
-#include "mem.h"     /* fc_strdup() */
+#include "mem.h"          /* fc_strdup() */
 #include "support.h"
 #include "version.h"
 
 /* client */
 #include "client_main.h"
-#include "clinet.h"		/* connect_to_server() */
+#include "clinet.h"       /* connect_to_server() */
 #include "packhand.h"
 #include "servers.h"
 
@@ -50,40 +50,73 @@
 #include "connectdlg_common.h"
 #include "connectdlg.h"
 
-static enum {
+
+enum connection_state {
   LOGIN_TYPE,
   NEW_PASSWORD_TYPE,
-  VERIFY_PASSWORD_TYPE,
-  ENTER_PASSWORD_TYPE
-} dialog_config;
+  ENTER_PASSWORD_TYPE,
+  WAITING_TYPE
+};
+
+static enum connection_state connection_status;
+
+
+static Widget connectdlg_shell;
+static Widget connectdlg_form;
+#if IS_BETA_VERSION
+static Widget connectdlg_beta_label;
+#endif
+static Widget connectdlg_select_label;
+static Widget connectdlg_host_label;
+static Widget connectdlg_host_text;
+static Widget connectdlg_port_label;
+static Widget connectdlg_port_text;
+static Widget connectdlg_login_label;
+static Widget connectdlg_login_text;
+static Widget connectdlg_password_label;
+static Widget connectdlg_password_text;
+static Widget connectdlg_verify_label;
+static Widget connectdlg_verify_text;
+static Widget connectdlg_message_label;
+static Widget connectdlg_connect_button;
+static Widget connectdlg_lan_button;
+static Widget connectdlg_meta_button;
+static Widget connectdlg_quit_button;
+
+void connectdlg_connect_callback(Widget w, XtPointer client_data,
+                                 XtPointer call_data);
+void connectdlg_lan_callback(Widget w, XtPointer client_data,
+                             XtPointer call_data);
+void connectdlg_meta_callback(Widget w, XtPointer client_data,
+                              XtPointer call_data);
+void connectdlg_quit_callback(Widget w, XtPointer client_data,
+                              XtPointer call_data);
 
 /****************************************************************/
 
-static Widget textsrc, shell;
-static Widget imsg, ilabel, iinput, ihost, iport;
-static Widget connw, metaw, lanw, quitw;
+/* Serverlist */
+static Widget connectdlg_serverlist_shell;
 
-void server_address_ok_callback(Widget w, XtPointer client_data, 
-				XtPointer call_data);
-void quit_callback(Widget w, XtPointer client_data, XtPointer call_data);
-void connect_callback(Widget w, XtPointer client_data, XtPointer call_data);
-void connect_meta_callback(Widget w, XtPointer client_data, XtPointer call_data);
-void connect_lan_callback(Widget w, XtPointer client_data, XtPointer call_data);
+static Widget connectdlg_serverlist_form;
+static Widget connectdlg_serverlist_legend_label;
+static Widget connectdlg_serverlist_viewport;
+static Widget connectdlg_serverlist_list;
+static Widget connectdlg_serverlist_update_button;
+static Widget connectdlg_serverlist_close_button;
 
-/****************************************************************/
+static struct server_scan *lan_scan, *meta_scan;
 
-/* Meta Server */
-static Widget meta_dialog_shell=0;
-static char *server_list[64]={NULL};
+void connectdlg_serverlist_popup(void);
+void server_scan_error(struct server_scan *scan, const char *message);
+void connectdlg_serverlist_update_callback(Widget w, XtPointer client_data,
+                                           XtPointer call_data);
+void connectdlg_serverlist_close_callback(Widget w, XtPointer client_data,
+                                          XtPointer call_data);
+void connectdlg_serverlist_list_callback(Widget w, XtPointer client_data,
+                                         XtPointer call_data);
 
-void create_meta_dialog(Widget caller);
-int  update_meta_dialog(Widget meta_list);
-void meta_list_callback(Widget w, XtPointer client_data, XtPointer call_data);
-void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data);
-void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data);
-void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-void connect_lan_callback(Widget w, XtPointer client_data, XtPointer call_data);
+/* FIXME: Replace magic 64 with proper constant. */
+static char *servers_list[64]={NULL};
 
 static void server_list_timer(XtPointer client_data, XtIntervalId * id);
 static int get_server_list(char **list, char *errbuf, int n_errbuf);
@@ -91,49 +124,376 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf);
 static bool lan_mode;  /* true for LAN mode, false when Meta mode */
 static int num_lanservers_timer = 0;
 
-struct server_scan *lan, *meta;
 
-/**************************************************************************
- really close and destroy the dialog.
-**************************************************************************/
-void really_close_connection_dialog(void)
+/****************************************************************************
+  Aligns widths of connect dialog labels and texts.
+****************************************************************************/
+static void connectdlg_align_labels(void)
 {
-  /* PORTME */
+  Dimension width, s_width, t_width, max_width = 0;
+
+#if IS_BETA_VERSION
+  XtVaGetValues(connectdlg_beta_label, XtNwidth, &width, NULL);
+  max_width = width;
+#endif
+
+  XtVaGetValues(connectdlg_select_label, XtNwidth, &width, NULL);
+  if (width > max_width) {
+    max_width = width;
+  }
+  XtVaGetValues(connectdlg_message_label, XtNwidth, &width, NULL);
+  if (width > max_width) {
+    max_width = width;
+  }
+
+  /* FIXME: Replace 7 with proper XtN* variable value */
+  XtVaGetValues(connectdlg_host_label, XtNwidth, &width, NULL);
+  XtVaGetValues(connectdlg_host_text, XtNwidth, &t_width, NULL);
+  s_width = width;
+  if (width + 7 + t_width > max_width) {
+    max_width = width + 7 + t_width;
+  }
+  XtVaGetValues(connectdlg_port_label, XtNwidth, &width, NULL);
+  XtVaGetValues(connectdlg_port_text, XtNwidth, &t_width, NULL);
+  if (width > s_width) {
+    s_width = width;
+  }
+  if (width + 7 + t_width > max_width) {
+    max_width = width + 7 + t_width;
+  }
+  XtVaGetValues(connectdlg_login_label, XtNwidth, &width, NULL);
+  XtVaGetValues(connectdlg_login_text, XtNwidth, &t_width, NULL);
+  if (width > s_width) {
+    s_width = width;
+  }
+  if (width + 7 + t_width > max_width) {
+    max_width = width + 7 + t_width;
+  }
+  XtVaGetValues(connectdlg_password_label, XtNwidth, &width, NULL);
+  XtVaGetValues(connectdlg_password_text, XtNwidth, &t_width, NULL);
+  if (width > s_width) {
+    s_width = width;
+  }
+  if (width + 7 + t_width > max_width) {
+    max_width = width + 7 + t_width;
+  }
+  XtVaGetValues(connectdlg_verify_label, XtNwidth, &width, NULL);
+  XtVaGetValues(connectdlg_verify_text, XtNwidth, &t_width, NULL);
+  if (width > s_width) {
+    s_width = width;
+  }
+  if (width + 7 + t_width > max_width) {
+    max_width = width + 7 + t_width;
+  }
+
+#if IS_BETA_VERSION
+  XtVaSetValues(connectdlg_beta_label, XtNwidth, max_width, NULL);
+#endif
+  XtVaSetValues(connectdlg_select_label, XtNwidth, max_width, NULL);
+  XtVaSetValues(connectdlg_message_label, XtNwidth, max_width, NULL);
+  XtVaSetValues(connectdlg_message_label, XtNresizable, False, NULL);
+
+  XtVaSetValues(connectdlg_host_label, XtNwidth, s_width, NULL);
+  XtVaSetValues(connectdlg_port_label, XtNwidth, s_width, NULL);
+  XtVaSetValues(connectdlg_login_label, XtNwidth, s_width, NULL);
+  XtVaSetValues(connectdlg_password_label, XtNwidth, s_width, NULL);
+  XtVaSetValues(connectdlg_verify_label, XtNwidth, s_width, NULL);
+
+  XtVaSetValues(connectdlg_host_text, XtNresizable, True, NULL);
+  XtVaSetValues(connectdlg_host_text, XtNwidth, max_width - s_width - 7,
+                NULL);
+  XtVaSetValues(connectdlg_host_text, XtNresizable, False, NULL);
+  XtVaSetValues(connectdlg_port_text, XtNresizable, True, NULL);
+  XtVaSetValues(connectdlg_port_text, XtNwidth, max_width - s_width - 7,
+                NULL);
+  XtVaSetValues(connectdlg_port_text, XtNresizable, False, NULL);
+  XtVaSetValues(connectdlg_login_text, XtNresizable, True, NULL);
+  XtVaSetValues(connectdlg_login_text, XtNwidth, max_width - s_width - 7,
+                NULL);
+  XtVaSetValues(connectdlg_login_text, XtNresizable, False, NULL);
+  XtVaSetValues(connectdlg_password_text, XtNresizable, True, NULL);
+  XtVaSetValues(connectdlg_password_text, XtNwidth, max_width - s_width - 7,
+                NULL);
+  XtVaSetValues(connectdlg_password_text, XtNresizable, False, NULL);
+  XtVaSetValues(connectdlg_verify_text, XtNresizable, True, NULL);
+  XtVaSetValues(connectdlg_verify_text, XtNwidth, max_width - s_width - 7,
+                NULL);
+  XtVaSetValues(connectdlg_verify_text, XtNresizable, False, NULL);
 }
 
 /**************************************************************************
- close and destroy the dialog.
+  Creates connect dialog.
 **************************************************************************/
-void close_connection_dialog()
+static void connectdlg_create(void)
 {
-  if (lan) {
-    server_scan_finish(lan);
-    lan = NULL;
-  }
-  if (meta) {
-    server_scan_finish(meta);
-    meta = NULL;
+  char buf[64];
+
+  if (connectdlg_shell) {
+    return;
   }
 
-  if (shell) {
-    XtDestroyWidget(shell);
-    shell = NULL;
-  }
+  connectdlg_shell =
+    I_IN(I_T(XtCreatePopupShell("connectdialog", topLevelShellWidgetClass,
+                                toplevel, NULL, 0)));
+  connectdlg_form =
+    XtVaCreateManagedWidget("connectform", formWidgetClass,
+                            connectdlg_shell, NULL);
 
-  if (meta_dialog_shell) {
-    XtDestroyWidget(meta_dialog_shell);
-    meta_dialog_shell = NULL;
+#if IS_BETA_VERSION
+  connectdlg_beta_label =
+    I_L(XtVaCreateManagedWidget("connbetalabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                XtNjustify, XtJustifyCenter,
+                                XtNlabel, beta_message(),
+                                NULL));
+#endif
+
+  connectdlg_select_label =
+    I_L(XtVaCreateManagedWidget("connselectlabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+#if IS_BETA_VERSION
+                                XtNfromVert, connectdlg_beta_label,
+#endif
+                                NULL));
+
+  connectdlg_host_label =
+    I_L(XtVaCreateManagedWidget("connhostlabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                NULL));
+  connectdlg_host_text =
+    XtVaCreateManagedWidget("connhosttext", asciiTextWidgetClass,
+                            connectdlg_form,
+                            XtNeditType, XawtextEdit,
+                            XtNstring, server_host,
+                            NULL);
+  connectdlg_port_label =
+    I_L(XtVaCreateManagedWidget("connportlabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                NULL));
+  fc_snprintf(buf, sizeof(buf), "%d", server_port);
+  connectdlg_port_text =
+    XtVaCreateManagedWidget("connporttext", asciiTextWidgetClass,
+                            connectdlg_form,
+                            XtNeditType, XawtextEdit,
+                            XtNstring, buf,
+                            NULL);
+  connectdlg_login_label =
+    I_L(XtVaCreateManagedWidget("connloginlabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                NULL));
+  connectdlg_login_text =
+    XtVaCreateManagedWidget("connlogintext", asciiTextWidgetClass,
+                            connectdlg_form,
+                            XtNeditType, XawtextEdit,
+                            XtNstring, user_name,
+                            NULL);
+  connectdlg_password_label =
+    I_L(XtVaCreateManagedWidget("connpasswordlabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                NULL));
+  connectdlg_password_text =
+    XtVaCreateManagedWidget("connpasswordtext", asciiTextWidgetClass,
+                            connectdlg_form,
+                            XtNecho, False,
+                            XtNsensitive, False,
+                            NULL);
+  connectdlg_verify_label =
+    I_L(XtVaCreateManagedWidget("connverifylabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                NULL));
+  connectdlg_verify_text =
+    XtVaCreateManagedWidget("connverifytext", asciiTextWidgetClass,
+                            connectdlg_form,
+                            XtNecho, False,
+                            XtNsensitive, False,
+                            NULL);
+  connectdlg_message_label =
+    I_L(XtVaCreateManagedWidget("connmessagelabel", labelWidgetClass,
+                                connectdlg_form,
+                                XtNresizable, True,
+                                NULL));
+
+  connectdlg_connect_button =
+    I_L(XtVaCreateManagedWidget("connconnectbutton", commandWidgetClass,
+                            connectdlg_form,
+                            XtNlabel, _("Connect"),
+                            NULL));
+  connectdlg_lan_button =
+    I_L(XtVaCreateManagedWidget("connlanbutton", commandWidgetClass,
+                            connectdlg_form,
+                            XtNlabel, _("LAN Servers"),
+                            NULL));
+  connectdlg_meta_button =
+    I_L(XtVaCreateManagedWidget("connmetabutton", commandWidgetClass,
+                            connectdlg_form,
+                            XtNlabel, _("Metaserver"),
+                            NULL));
+  connectdlg_quit_button =
+    I_L(XtVaCreateManagedWidget("connquitbutton", commandWidgetClass,
+                            connectdlg_form,
+                            XtNlabel, _("Quit"),
+                            NULL));
+
+  XtAddCallback(connectdlg_connect_button, XtNcallback,
+                connectdlg_connect_callback, NULL);
+  XtAddCallback(connectdlg_lan_button, XtNcallback,
+                connectdlg_lan_callback, NULL);
+  XtAddCallback(connectdlg_meta_button, XtNcallback,
+                connectdlg_meta_callback, NULL);
+  XtAddCallback(connectdlg_quit_button, XtNcallback,
+                connectdlg_quit_callback, NULL);
+
+  XtRealizeWidget(connectdlg_shell);
+}
+
+/**************************************************************************
+  Popdowns connect dialog.
+**************************************************************************/
+static void connectdlg_popdown(void)
+{
+  if (lan_scan) {
+    server_scan_finish(lan_scan);
+    lan_scan = NULL;
+  }
+  if (meta_scan) {
+    server_scan_finish(meta_scan);
+    meta_scan = NULL;
+  }
+  if (connectdlg_shell) {
+    XtPopdown(connectdlg_shell);
   }
 }
 
-/****************************************************************
- FIXME: should be used to give some feedback on entering the password.
- I couldn't get it to work (and I thought the GTK API reference was bad) -mck
-*****************************************************************/
-static void password_callback(Widget w, XtPointer client_data, 
-                              XtPointer call_data) 
+/**************************************************************************
+  Destroys connect dialog.
+**************************************************************************/
+static void connectdlg_destroy(void)
 {
- /* FIXME */
+  if (connectdlg_shell) {
+    connectdlg_popdown();
+    XtDestroyWidget(connectdlg_shell);
+    connectdlg_shell = NULL;
+  }
+}
+
+/**************************************************************************
+  Popups connect dialog.
+**************************************************************************/
+static void connectdlg_popup(void)
+{
+  if (!connectdlg_shell) {
+    connectdlg_create();
+  }
+
+  connectdlg_align_labels();
+  xaw_set_relative_position(toplevel, connectdlg_shell, 20, 20);
+  XtPopup(connectdlg_shell, XtGrabNone);
+}
+
+/****************************************************************************
+  Callback for Connect button.
+****************************************************************************/
+void connectdlg_connect_callback(Widget w, XtPointer client_data,
+                              XtPointer call_data)
+{
+  XtPointer pxp;
+  char errbuf[512];
+  struct packet_authentication_reply reply;
+
+  switch (connection_status) {
+  case LOGIN_TYPE:
+    XtVaGetValues(connectdlg_host_text, XtNstring, &pxp, NULL);
+    sz_strlcpy(server_host, (char *)pxp);
+    XtVaGetValues(connectdlg_port_text, XtNstring, &pxp, NULL);
+    sscanf((char *)pxp, "%d", &server_port);
+    XtVaGetValues(connectdlg_login_text, XtNstring, &pxp, NULL);
+    sz_strlcpy(user_name, (char *)pxp);
+    if (connect_to_server(user_name, server_host, server_port,
+                          errbuf, sizeof(errbuf)) != -1) {
+      popup_start_page();
+      connectdlg_destroy();
+      XtSetSensitive(toplevel, True);
+      return;
+    } else {
+      XtVaSetValues(connectdlg_message_label, XtNlabel, errbuf, NULL);
+      output_window_append(ftc_client, errbuf);
+    }
+    break;
+  case NEW_PASSWORD_TYPE:
+    XtVaGetValues(connectdlg_password_text, XtNstring, &pxp, NULL);
+    sz_strlcpy(password, (char *)pxp);
+    XtVaGetValues(connectdlg_verify_text, XtNstring, &pxp, NULL);
+    sz_strlcpy(reply.password, (char *)pxp);
+    if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
+      password[0] = '\0';
+      send_packet_authentication_reply(&client.conn, &reply);
+      XtVaSetValues(connectdlg_message_label, XtNlabel, "", NULL);
+      XtVaSetValues(connectdlg_password_text, XtNsensitive, False, NULL);
+      XtVaSetValues(connectdlg_verify_text, XtNsensitive, False, NULL);
+    } else {
+      XtVaSetValues(connectdlg_password_text, XtNstring, "", NULL);
+      XtVaSetValues(connectdlg_verify_text, XtNstring, "", NULL);
+      XtVaSetValues(connectdlg_message_label, XtNlabel,
+                    _("Passwords don't match, enter password."), NULL);
+      output_window_append(ftc_client,
+                           _("Passwords don't match, enter password."));
+    }
+    break;
+  case ENTER_PASSWORD_TYPE:
+    XtVaGetValues(connectdlg_verify_text, XtNstring, &pxp, NULL);
+    sz_strlcpy(reply.password, (char *)pxp);
+    send_packet_authentication_reply(&client.conn, &reply);
+
+    XtVaSetValues(connectdlg_message_label, XtNlabel, "", NULL);
+    XtVaSetValues(connectdlg_password_text, XtNsensitive, False, NULL);
+    XtVaSetValues(connectdlg_verify_text, XtNsensitive, False, NULL);
+    break;
+  case WAITING_TYPE:
+    break;
+  }
+}
+
+/****************************************************************************
+  Callback fir LAN Servers button.
+****************************************************************************/
+void connectdlg_lan_callback(Widget w, XtPointer client_data,
+                          XtPointer call_data)
+{
+  lan_mode = true;
+  if (!lan_scan) {
+    lan_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+  }
+  connectdlg_serverlist_popup();
+}
+
+/****************************************************************************
+  Callback for Metaserver button.
+****************************************************************************/
+void connectdlg_meta_callback(Widget w, XtPointer client_data,
+                           XtPointer call_data)
+{
+  lan_mode = false;
+  if (!meta_scan) {
+    meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+  }
+  connectdlg_serverlist_popup();
+}
+
+/****************************************************************************
+  Callback for Quit button.
+****************************************************************************/
+void connectdlg_quit_callback(Widget w, XtPointer client_data,
+                           XtPointer call_data)
+{
+  connectdlg_destroy();
+  xaw_ui_exit();
 }
 
 /**************************************************************************
@@ -143,17 +503,14 @@ static void password_callback(Widget w, XtPointer client_data,
 void handle_authentication_req(enum authentication_type type,
                                const char *message)
 {
-  XtVaSetValues(iinput, XtNstring, "", NULL);
-  XtVaSetValues(connw, XtNlabel, _("Next"), NULL);
-  XtSetSensitive(connw, TRUE);
-  XtVaSetValues(imsg, XtNlabel, message, NULL);
+  XtVaSetValues(connectdlg_message_label, XtNlabel, message, NULL);
 
   switch (type) {
   case AUTH_NEWUSER_FIRST:
-    dialog_config = NEW_PASSWORD_TYPE;
-    break;
   case AUTH_NEWUSER_RETRY:
-    dialog_config = NEW_PASSWORD_TYPE;
+    XtVaSetValues(connectdlg_password_text, XtNsensitive, True, NULL);
+    XtVaSetValues(connectdlg_verify_text, XtNsensitive, True, NULL);
+    connection_status = NEW_PASSWORD_TYPE;
     break;
   case AUTH_LOGIN_FIRST:
     /* if we magically have a password already present in 'password'
@@ -165,21 +522,20 @@ void handle_authentication_req(enum authentication_type type,
       send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {
-      dialog_config = ENTER_PASSWORD_TYPE;
+      XtVaSetValues(connectdlg_password_text, XtNsensitive, True, NULL);
+      XtVaSetValues(connectdlg_verify_text, XtNsensitive, False, NULL);
+      connection_status = ENTER_PASSWORD_TYPE;
     }
     break;
   case AUTH_LOGIN_RETRY:
-    dialog_config = ENTER_PASSWORD_TYPE;
+    XtVaSetValues(connectdlg_password_text, XtNsensitive, True, NULL);
+    XtVaSetValues(connectdlg_verify_text, XtNsensitive, False, NULL);
+    connection_status = ENTER_PASSWORD_TYPE;
     break;
   default:
     log_error("Unsupported authentication type %d: %s.", type, message);
     break;
   }
-
-  XtPopup(shell, XtGrabNone);
-  XtSetKeyboardFocus(toplevel, shell);
-  XtVaSetValues(ilabel, XtNlabel, _("Pass"), NULL);
-  XtVaSetValues(iinput, XtNecho, FALSE, NULL);
 }
 
 /****************************************************************
@@ -187,67 +543,19 @@ void handle_authentication_req(enum authentication_type type,
 *****************************************************************/
 void gui_server_connect(void)
 {
-  Widget form;
-  char buf[512];
-
-  if (shell) {
-    return;
-  }
-
-  dialog_config = LOGIN_TYPE;
+  connection_status = LOGIN_TYPE;
 
   XtSetSensitive(turn_done_button, FALSE);
-  XtSetSensitive(toplevel, FALSE);
-
-  I_T(shell=XtCreatePopupShell("connectdialog", transientShellWidgetClass,
-			       toplevel, NULL, 0));
-
-  form=XtVaCreateManagedWidget("cform", formWidgetClass, shell, NULL);
-
-  I_LW(XtVaCreateManagedWidget("cheadline", labelWidgetClass, form, NULL));
-
-  I_L(imsg = XtVaCreateManagedWidget("cmsgl", labelWidgetClass, form, NULL));
-
-  I_L(ilabel = XtVaCreateManagedWidget("cnamel", labelWidgetClass, form, NULL));
-  iinput = XtVaCreateManagedWidget("cnamei", asciiTextWidgetClass, form, 
-                                   XtNstring, user_name, NULL);
-  textsrc = XawTextGetSource(iinput);
-
-  I_L(XtVaCreateManagedWidget("chostl", labelWidgetClass, form, NULL));
-  ihost=XtVaCreateManagedWidget("chosti", asciiTextWidgetClass, form, 
-			  XtNstring, server_host, NULL);
-
-  fc_snprintf(buf, sizeof(buf), "%d", server_port);
-  
-  I_L(XtVaCreateManagedWidget("cportl", labelWidgetClass, form, NULL));
-  iport=XtVaCreateManagedWidget("cporti", asciiTextWidgetClass, form, 
-			  XtNstring, buf, NULL);
-
-  I_L(connw=XtVaCreateManagedWidget("cconnectc", commandWidgetClass,
-				    form, NULL));
-  I_L(metaw=XtVaCreateManagedWidget("cmetac", commandWidgetClass, form, NULL));
-  I_L(lanw=XtVaCreateManagedWidget("clanc", commandWidgetClass, form, NULL));
-  I_L(quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL));
-
-#if IS_BETA_VERSION
-  XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form,
-			  XtNlabel, beta_message(),
-			  NULL);
-#endif
-
-  XtAddCallback(textsrc, XtNcallback, password_callback, NULL);
-  XtAddCallback(connw, XtNcallback, connect_callback, NULL);
-  XtAddCallback(quitw, XtNcallback, quit_callback, NULL);
-  XtAddCallback(metaw, XtNcallback, connect_meta_callback, (XtPointer)shell);
-  XtAddCallback(lanw, XtNcallback, connect_lan_callback, (XtPointer)shell);
-
-  xaw_set_relative_position(toplevel, shell, 30, 0);
+/*  XtSetSensitive(toplevel, FALSE);*/
 
   if (auto_connect) {
-    XtPopdown(shell);
+    /* FIXME */
   } else {
-    XtPopup(shell, XtGrabNone);
-    XtSetKeyboardFocus(toplevel, shell);
+    connectdlg_popup();
+/*
+    XtPopup(connectdlg_shell, XtGrabNone);
+    XtSetKeyboardFocus(toplevel, connectdlg_shell);
+*/
   }
 }
 
@@ -265,269 +573,211 @@ void handle_game_load(bool load_successful, const char *filename)
 *****************************************************************/
 void connectdlg_key_connect(Widget w)
 {
-  x_simulate_button_click(connw);
+  x_simulate_button_click(connectdlg_connect_button);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void quit_callback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-  xaw_ui_exit();
-}
+/****************************************************************************
+                            SERVERS LIST DIALOG
+****************************************************************************/
 
-/****************************************************************
- send connect and/or authentication requests to the server.
-*****************************************************************/
-void connect_callback(Widget w, XtPointer client_data, 
-		      XtPointer call_data) 
-{
-  XtPointer dp;
-  char errbuf[512];
-  struct packet_authentication_reply reply;
-
-  switch (dialog_config) {
-  case LOGIN_TYPE:
-    XtVaGetValues(iinput, XtNstring, &dp, NULL);
-    sz_strlcpy(user_name, (char*)dp);
-    XtVaGetValues(ihost, XtNstring, &dp, NULL);
-    sz_strlcpy(server_host, (char*)dp);
-    XtVaGetValues(iport, XtNstring, &dp, NULL);
-    sscanf((char*)dp, "%d", &server_port);
-  
-    if (connect_to_server(user_name, server_host, server_port,
-                          errbuf, sizeof(errbuf)) != -1) {
-      if (meta_dialog_shell) {
-        XtDestroyWidget(meta_dialog_shell);
-        meta_dialog_shell=0;
-      }
-
-      XtSetSensitive(toplevel, True);
-      popup_start_page();
-      return;
-    } else {
-      output_window_append(ftc_client, errbuf);
-    }
-  case NEW_PASSWORD_TYPE:
-    XtVaGetValues(iinput, XtNstring, &dp, NULL);
-    sz_strlcpy(password, (char*)dp);
-    XtVaSetValues(imsg, XtNlabel, _("Verify Password"), NULL);
-    XtVaSetValues(iinput, XtNstring, "", NULL);
-    dialog_config = VERIFY_PASSWORD_TYPE;
-    break;
-  case VERIFY_PASSWORD_TYPE:
-    XtVaGetValues(iinput, XtNstring, &dp, NULL);
-    sz_strlcpy(reply.password, (char*)dp);
-    if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
-      XtSetSensitive(connw, FALSE);
-      memset(password, 0, MAX_LEN_NAME);
-      password[0] = '\0';
-      send_packet_authentication_reply(&client.conn, &reply);
-    } else {
-      XtVaSetValues(iinput, XtNstring, "", NULL);
-      XtVaSetValues(imsg, XtNlabel, 
-                    _("Passwords don't match, enter password."), NULL);
-      dialog_config = NEW_PASSWORD_TYPE;
-    }
-
-    break;
-  case ENTER_PASSWORD_TYPE:
-    XtSetSensitive(connw, FALSE);
-    XtVaGetValues(iinput, XtNstring, &dp, NULL);
-    sz_strlcpy(reply.password, (char*)dp);
-    send_packet_authentication_reply(&client.conn, &reply);
-    break;
-  default:
-    log_error("Unsupported dialog configuration: %d", dialog_config)
-    break;
-  }
-}
-
-/**************************************************************************
+/****************************************************************************
   Callback function for when there's an error in the server scan.
-**************************************************************************/
-static void server_scan_error(struct server_scan *scan,
-			      const char *message)
+****************************************************************************/
+void server_scan_error(struct server_scan *scan, const char *message)
 {
   output_window_append(ftc_client, message);
   log_normal("%s", message);
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
-    server_scan_finish(lan);
-    lan = NULL;
+    server_scan_finish(lan_scan);
+    lan_scan = NULL;
     break;
   case SERVER_SCAN_GLOBAL:
-    server_scan_finish(meta);
-    meta = NULL;
+    server_scan_finish(meta_scan);
+    meta_scan = NULL;
     break;
   case SERVER_SCAN_LAST:
     break;
   }
 }
 
-/****************************************************************
-  Callback function for Metaserver button
-*****************************************************************/
-void connect_meta_callback(Widget w, XtPointer client_data,
-                           XtPointer call_data)
-{
-  lan_mode = false;
-  if (!meta) {
-    meta = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
-  }
-  if (meta_dialog_shell) {
-    /* Metaserver window already poped up */
-    return;
-  }
-  create_meta_dialog((Widget)client_data);
-}
-
-/****************************************************************
-  Callback function for LAN Server button
-*****************************************************************/
-void connect_lan_callback(Widget w, XtPointer client_data,
-                          XtPointer call_data)
-{
-  lan_mode = true;
-  if (!lan) {
-    lan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
-  }
-  if (meta_dialog_shell) {
-    /* Metaserver window already poped up */
-    return;
-  }
-  create_meta_dialog((Widget)client_data);
-}
-
-/**************************************************************************
+/****************************************************************************
   This function updates the list of servers after the server dialog has been
-  displayed. LAN servers updated every 100 ms for 5 seconds, metaserver
-  updated only once.
-**************************************************************************/
+  displayed. LAN servers updated every 250 ms for 5 seconds, metaserver
+  updated every 500 ms for 2 seconds.
+****************************************************************************/
 static void server_list_timer(XtPointer meta_list, XtIntervalId * id)
 {
   char errbuf[128];
 
-  if (!meta_dialog_shell) {
+  if (!connectdlg_serverlist_shell) {
     return;
   }
 
-  if (get_server_list(server_list, errbuf, sizeof(errbuf))!=-1)  {
-    XawListChange(meta_list, server_list, 0, 0, True);
-  } else if (!lan_mode) {
+  if (get_server_list(servers_list, errbuf, sizeof(errbuf)) != -1)  {
+    XawListChange(meta_list, servers_list, 0, 0, True);
+  }
+/*
+  else if (!lan_mode) {
     output_window_append(ftc_client, errbuf);
   }
+*/
   num_lanservers_timer++;
 
   if (lan_mode) {
-    if (num_lanservers_timer == 50 && lan_mode) {
-      server_scan_finish(lan);
+    if (num_lanservers_timer == 20) {
+      server_scan_finish(lan_scan);
+      lan_scan = NULL;
       num_lanservers_timer = 0;
       return;
     }
-    (void)XtAppAddTimeOut(app_context, 100, server_list_timer,
+    (void)XtAppAddTimeOut(app_context, 250, server_list_timer,
                           (XtPointer)meta_list);
   } else {
-    num_lanservers_timer = 0;
+    if (num_lanservers_timer == 4) {
+      server_scan_finish(meta_scan);
+      meta_scan = NULL;
+      num_lanservers_timer = 0;
+      return;
+    }
+    (void)XtAppAddTimeOut(app_context, 500, server_list_timer,
+                          (XtPointer)meta_list);
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void create_meta_dialog(Widget caller)
+/****************************************************************************
+  Creates Servers List dialog.
+****************************************************************************/
+static void connectdlg_serverlist_create(void)
 {
-  Widget shell, form, label, list, update, close, viewport;
+  connectdlg_serverlist_shell =
+    I_IN(I_T(XtCreatePopupShell("serverlistdialog",
+                                topLevelShellWidgetClass,
+                                toplevel, NULL, 0)));
 
-  I_T(shell=XtCreatePopupShell("metadialog", transientShellWidgetClass,
-			       toplevel, NULL, 0));
-  meta_dialog_shell=shell;
+  connectdlg_serverlist_form =
+    XtVaCreateManagedWidget("serverlistform", formWidgetClass,
+                            connectdlg_serverlist_shell, NULL);
+  connectdlg_serverlist_legend_label =
+    I_L(XtVaCreateManagedWidget("legendlabel", labelWidgetClass,
+                                connectdlg_serverlist_form,
+                                XtNresizable, True,
+                                NULL));
+  connectdlg_serverlist_viewport =
+    XtVaCreateManagedWidget("viewport", viewportWidgetClass,
+                            connectdlg_serverlist_form, NULL);
+  connectdlg_serverlist_list =
+    XtVaCreateManagedWidget("serverlist", listWidgetClass,
+                            connectdlg_serverlist_viewport, NULL);
+  connectdlg_serverlist_update_button =
+    XtVaCreateManagedWidget("updatebutton", commandWidgetClass,
+                            connectdlg_serverlist_form,
+                            XtNlabel, _("Update"),
+                            NULL);
+  connectdlg_serverlist_close_button =
+    XtVaCreateManagedWidget("closebutton", commandWidgetClass,
+                            connectdlg_serverlist_form,
+                            XtNlabel, _("Close"),
+                            NULL);
 
-  form=XtVaCreateManagedWidget("metaform", formWidgetClass, shell, NULL);
+  XtAddCallback(connectdlg_serverlist_update_button, XtNcallback,
+                connectdlg_serverlist_update_callback, NULL);
+  XtAddCallback(connectdlg_serverlist_close_button, XtNcallback,
+                connectdlg_serverlist_close_callback, NULL);
+  XtAddCallback(connectdlg_serverlist_list, XtNcallback,
+                connectdlg_serverlist_list_callback, NULL);
 
-  I_L(label=XtVaCreateManagedWidget("legend", labelWidgetClass, form, NULL));
-  viewport = XtVaCreateManagedWidget("metaviewport",
-                                     viewportWidgetClass, form, NULL);
-  list = XtVaCreateManagedWidget("metalist", listWidgetClass, viewport,
-                                 NULL);
-  I_L(update=XtVaCreateManagedWidget("update", commandWidgetClass,
-				     form, NULL));
-  I_L(close=XtVaCreateManagedWidget("closecommand", commandWidgetClass,
-				    form, NULL));
-  
-  XtAddCallback(list, XtNcallback, meta_list_callback, NULL);
-  XtAddCallback(list, XtNdestroyCallback, meta_list_destroy, NULL);
-  XtAddCallback(update, XtNcallback, meta_update_callback, (XtPointer)list);
-  XtAddCallback(close, XtNcallback, meta_close_callback, NULL);
+  (void)XtAppAddTimeOut(app_context, 1, server_list_timer,
+                        (XtPointer)connectdlg_serverlist_list);
 
-  (void)XtAppAddTimeOut(app_context, 1, server_list_timer, (XtPointer)list);
-
-  /* XtRealizeWidget(shell); */
-
-  XtVaSetValues(shell, XtNwidth, 700, NULL);
-  XtVaSetValues(viewport, XtNwidth, 700, NULL);
-  XtVaSetValues(viewport, XtNheight, 350, NULL);
-  XtVaSetValues(list, XtNwidth, 700, NULL);
-  XtVaSetValues(label, XtNwidth, 700, NULL);
-
-  xaw_set_relative_position(caller, shell, 0, 90);
-  XtPopup(shell, XtGrabNone);
-
-  XtSetKeyboardFocus(toplevel, shell);
+  XtRealizeWidget(connectdlg_serverlist_shell);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data)
+/****************************************************************************
+  Popups Servers List dialog.
+****************************************************************************/
+void connectdlg_serverlist_popup(void)
 {
-  if (num_lanservers_timer == 0) {
-    if (lan_mode) {
-      if (lan) {
-        server_list_timer((Widget)client_data, NULL);
-      }
-    } else {
-      server_list_timer((Widget)client_data, NULL);
+  if (!connectdlg_serverlist_shell) {
+    connectdlg_serverlist_create();
+  }
+
+  xaw_set_relative_position(toplevel, connectdlg_serverlist_shell, 15, 15);
+  XtPopup(connectdlg_serverlist_shell, XtGrabNone);
+}
+
+/****************************************************************************
+  Destroys Servers List dialog.
+****************************************************************************/
+static void connectdlg_serverlist_destroy(void)
+{
+  int i;
+
+  if (lan_scan) {
+    server_scan_finish(lan_scan);
+    lan_scan = NULL;
+  }
+  if (meta_scan) {
+    server_scan_finish(meta_scan);
+    meta_scan = NULL;
+  }
+  /* FIXME: Replace magic 64 with proper constant. */
+  for (i = 0; i < 64; i++) {
+    if (servers_list[i]) {
+      free(servers_list[i]);
+      servers_list[i] = NULL;
+    }
+  }
+  if (connectdlg_serverlist_shell) {
+    XtDestroyWidget(connectdlg_serverlist_shell);
+    connectdlg_serverlist_shell = NULL;
+  }
+}
+
+/****************************************************************************
+  Callback for Update button.
+****************************************************************************/
+void connectdlg_serverlist_update_callback(Widget w, XtPointer client_data,
+                                           XtPointer call_data)
+{
+  if (lan_mode) {
+    if (!lan_scan) {
+      lan_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+    }
+    if (num_lanservers_timer == 0) {
+      server_list_timer(connectdlg_serverlist_list, NULL);
+    }
+  } else {
+    if (!meta_scan) {
+      meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+    }
+    if (num_lanservers_timer == 0) {
+      server_list_timer(connectdlg_serverlist_list, NULL);
     }
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data)
+/****************************************************************************
+  Callback for Close button.
+****************************************************************************/
+void connectdlg_serverlist_close_callback(Widget w, XtPointer client_data,
+                                          XtPointer call_data)
 {
-  XtDestroyWidget(meta_dialog_shell);
-  meta_dialog_shell=0;
+  connectdlg_serverlist_destroy();
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void meta_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
+/****************************************************************************
+  Callback for choosing server from serverlist.
+****************************************************************************/
+void connectdlg_serverlist_list_callback(Widget w, XtPointer client_data,
+                                         XtPointer call_data)
 {
-  XawListReturnStruct *ret=XawListShowCurrent(w);
+  XawListReturnStruct *ret = XawListShowCurrent(w);
   char name[64], port[16];
 
-  sscanf(ret->string,"%s %s\n",name,port);
-  XtVaSetValues(ihost, XtNstring, name, NULL);
-  XtVaSetValues(iport, XtNstring, port, NULL);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
-{
-  int i;
-
-  for (i = 0; server_list[i]; i++) {
-    free(server_list[i]);
-    server_list[i]=NULL;
-  }
-  if (num_lanservers_timer != 0) {    
-    server_scan_finish(lan);
-  }
+  sscanf(ret->string, "%s %s\n", name, port);
+  XtVaSetValues(connectdlg_host_text, XtNstring, name, NULL);
+  XtVaSetValues(connectdlg_port_text, XtNstring, port, NULL);
 }
 
 /**************************************************************************
@@ -538,27 +788,47 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
 {
   char line[256];
   const struct server_list *server_list = NULL;
+  enum server_scan_status scan_stat;
 
   if (lan_mode) {
-    if (lan) {
-      server_scan_poll(lan);
-      server_list = server_scan_get_list(lan);
+    if (lan_scan) {
+      server_scan_poll(lan_scan);
+      server_list = server_scan_get_list(lan_scan);
       if (server_list == NULL) {
 	if (num_lanservers_timer == 0) {
-	  *list = fc_strdup(" ");;
+          if (*list) {
+            free(*list);
+          }
+	  *list = fc_strdup(" ");
 	  return 0;
 	} else {
 	  return -1;
 	}
       }
+    } else {
+      return -1;
     }
   } else {
-    if (meta) {
-      server_scan_poll(meta);
-      server_list = server_scan_get_list(meta);
-      if (!server_list) {
-	return -1;
+    if (meta_scan) {
+      scan_stat = server_scan_poll(meta_scan);
+      if (scan_stat >= SCAN_STATUS_PARTIAL) {
+        server_list = server_scan_get_list(meta_scan);
+        if (server_list == NULL) {
+          if (num_lanservers_timer == 0) {
+            if (*list) {
+              free(*list);
+            }
+            *list = fc_strdup(" ");
+            return 0;
+          } else {
+            return -1;
+          }
+        }
+      } else {
+        return -1;
       }
+    } else {
+      return -1;
     }
   }
 
@@ -577,6 +847,24 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
     delete_server_list(server_list);
   } 
 */
-  *list=NULL;
+  *list = NULL;
   return 0;
 }
+
+/**************************************************************************
+  Really closes and destroys the dialog.
+**************************************************************************/
+void really_close_connection_dialog(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Closes and destroys the dialog.
+**************************************************************************/
+void close_connection_dialog()
+{
+  connectdlg_serverlist_destroy();
+  connectdlg_destroy();
+}
+
