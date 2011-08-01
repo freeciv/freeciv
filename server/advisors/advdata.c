@@ -69,7 +69,7 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
 static void adv_data_city_impr_calc(struct player *pplayer,
 				    struct adv_data *adv)
 {
-  int count[AI_IMPR_LAST];
+  int count[ADV_IMPR_LAST];
 
   memset(count, 0, sizeof(count));
 
@@ -79,7 +79,7 @@ static void adv_data_city_impr_calc(struct player *pplayer,
       .value = {.building = pimprove}
     };
 
-    adv->impr_calc[improvement_index(pimprove)] = AI_IMPR_ESTIMATE;
+    adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_ESTIMATE;
 
     /* Find largest extension */
     effect_list_iterate(get_req_source_effects(&source), peffect) {
@@ -104,8 +104,8 @@ static void adv_data_city_impr_calc(struct player *pplayer,
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
 	      && preq->source.value.building == pimprove) {
-            if (adv->impr_calc[improvement_index(pimprove)] != AI_IMPR_CALCULATE_FULL) {
-	      adv->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE;
+            if (adv->impr_calc[improvement_index(pimprove)] != ADV_IMPR_CALCULATE_FULL) {
+	      adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE;
             }
 	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
 	      adv->impr_range[improvement_index(pimprove)] = preq->range;
@@ -119,7 +119,7 @@ static void adv_data_city_impr_calc(struct player *pplayer,
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (VUT_IMPROVEMENT == preq->source.kind
 	      && preq->source.value.building == pimprove) {
-	    adv->impr_calc[improvement_index(pimprove)] = AI_IMPR_CALCULATE_FULL;
+	    adv->impr_calc[improvement_index(pimprove)] = ADV_IMPR_CALCULATE_FULL;
 	    if (preq->range > adv->impr_range[improvement_index(pimprove)]) {
 	      adv->impr_range[improvement_index(pimprove)] = preq->range;
 	    }

@@ -28,22 +28,22 @@
 #include "infracache.h"
 
 /* cache activities within the city map */
-struct ai_activity_cache {
+struct worker_activity_cache {
   int act[ACTIVITY_LAST];
 };
 
-static int ai_calc_irrigate(const struct city *pcity,
-                            const struct tile *ptile);
-static int ai_calc_mine(const struct city *pcity, const struct tile *ptile);
-static int ai_calc_transform(const struct city *pcity,
+static int adv_calc_irrigate(const struct city *pcity,
                              const struct tile *ptile);
-static int ai_calc_pollution(const struct city *pcity,
-                             const struct tile *ptile, int best);
-static int ai_calc_fallout(const struct city *pcity,
-                           const struct tile *ptile, int best);
-static int ai_calc_road(const struct city *pcity, const struct tile *ptile);
-static int ai_calc_railroad(const struct city *pcity,
-                            const struct tile *ptile);
+static int adv_calc_mine(const struct city *pcity, const struct tile *ptile);
+static int adv_calc_transform(const struct city *pcity,
+                              const struct tile *ptile);
+static int adv_calc_pollution(const struct city *pcity,
+                              const struct tile *ptile, int best);
+static int adv_calc_fallout(const struct city *pcity,
+                            const struct tile *ptile, int best);
+static int adv_calc_road(const struct city *pcity, const struct tile *ptile);
+static int adv_calc_railroad(const struct city *pcity,
+                             const struct tile *ptile);
 
 /**************************************************************************
   Calculate the benefit of irrigating the given tile.
@@ -53,8 +53,8 @@ static int ai_calc_railroad(const struct city *pcity,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int ai_calc_irrigate(const struct city *pcity,
-                            const struct tile *ptile)
+static int adv_calc_irrigate(const struct city *pcity,
+                             const struct tile *ptile)
 {
   int goodness;
   struct terrain *old_terrain, *new_terrain;
@@ -113,7 +113,7 @@ static int ai_calc_irrigate(const struct city *pcity,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int ai_calc_mine(const struct city *pcity, const struct tile *ptile)
+static int adv_calc_mine(const struct city *pcity, const struct tile *ptile)
 {
   int goodness;
   struct terrain *old_terrain, *new_terrain;
@@ -162,7 +162,7 @@ static int ai_calc_mine(const struct city *pcity, const struct tile *ptile)
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int ai_calc_transform(const struct city *pcity,
+static int adv_calc_transform(const struct city *pcity,
                              const struct tile *ptile)
 {
   int goodness;
@@ -209,8 +209,8 @@ static int ai_calc_transform(const struct city *pcity,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int ai_calc_pollution(const struct city *pcity,
-                             const struct tile *ptile, int best)
+static int adv_calc_pollution(const struct city *pcity,
+                              const struct tile *ptile, int best)
 {
   int goodness;
   struct tile *vtile;
@@ -241,8 +241,8 @@ static int ai_calc_pollution(const struct city *pcity,
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int ai_calc_fallout(const struct city *pcity,
-                           const struct tile *ptile, int best)
+static int adv_calc_fallout(const struct city *pcity,
+                            const struct tile *ptile, int best)
 {
   int goodness;
   struct tile *vtile;
@@ -279,7 +279,7 @@ static int ai_calc_fallout(const struct city *pcity,
   move units (i.e., of connecting the civilization).  See road_bonus() for
   that calculation.
 **************************************************************************/
-static int ai_calc_road(const struct city *pcity, const struct tile *ptile)
+static int adv_calc_road(const struct city *pcity, const struct tile *ptile)
 {
   int goodness = -1;
 
@@ -310,7 +310,7 @@ static int ai_calc_road(const struct city *pcity, const struct tile *ptile)
   move units (i.e., of connecting the civilization).  See road_bonus() for
   that calculation.
 **************************************************************************/
-static int ai_calc_railroad(const struct city *pcity,
+static int adv_calc_railroad(const struct city *pcity,
                             const struct tile *ptile)
 {
   int goodness = -1;
@@ -375,23 +375,23 @@ void initialize_infrastructure_cache(struct player *pplayer)
 
     city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_POLLUTION,
-                              ai_calc_pollution(pcity, ptile, best));
+                              adv_calc_pollution(pcity, ptile, best));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_FALLOUT,
-                              ai_calc_fallout(pcity, ptile, best));
+                              adv_calc_fallout(pcity, ptile, best));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
-                              ai_calc_mine(pcity, ptile));
+                              adv_calc_mine(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
-                              ai_calc_irrigate(pcity, ptile));
+                              adv_calc_irrigate(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_TRANSFORM,
-                              ai_calc_transform(pcity, ptile));
+                              adv_calc_transform(pcity, ptile));
 
       /* road_bonus() is handled dynamically later; it takes into
        * account settlers that have already been assigned to building
        * roads this turn. */
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_ROAD,
-                              ai_calc_road(pcity, ptile));
+                              adv_calc_road(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_RAILROAD,
-                              ai_calc_railroad(pcity, ptile));
+                              adv_calc_railroad(pcity, ptile));
     } city_tile_iterate_index_end;
   } city_list_iterate_end;
 }

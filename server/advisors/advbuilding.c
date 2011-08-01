@@ -162,7 +162,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 }
 
 /************************************************************************** 
-  Prime pcity->server.ai.building_want[]
+  Prime pcity->server.adv.building_want[]
 **************************************************************************/
 void building_advisor(struct player *pplayer)
 {

@@ -27,16 +27,12 @@
  * start of every turn. 
  */
 
-enum ai_improvement_status {
-  AI_IMPR_CALCULATE, /* Calculate exactly its effect */
-  AI_IMPR_CALCULATE_FULL, /* Calculate including tile changes */
-  AI_IMPR_ESTIMATE,  /* Estimate its effect using wild guesses */
-  AI_IMPR_LAST
+enum adv_improvement_status {
+  ADV_IMPR_CALCULATE, /* Calculate exactly its effect */
+  ADV_IMPR_CALCULATE_FULL, /* Calculate including tile changes */
+  ADV_IMPR_ESTIMATE,  /* Estimate its effect using wild guesses */
+  ADV_IMPR_LAST
 };
-
-#if 0
-struct ai_settler; /* see aisettler.c */
-#endif
 
 struct adv_dipl {
   /* Remember one example of each for text spam purposes. */
@@ -51,7 +47,7 @@ struct adv_data {
   int wonder_city;
 
   /* Precalculated info about city improvements */
-  enum ai_improvement_status impr_calc[MAX_NUM_ITEMS];
+  enum adv_improvement_status impr_calc[MAX_NUM_ITEMS];
   enum req_range impr_range[MAX_NUM_ITEMS];
 
   /* Long-term threats, not to be confused with short-term danger */

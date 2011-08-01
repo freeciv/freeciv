@@ -18,7 +18,7 @@ struct player;
 struct adv_city {
   /* Used for caching change in value from a worker performing
    * a particular activity on a particular tile. */
-  struct ai_activity_cache *act_cache;
+  struct worker_activity_cache *act_cache;
   int act_cache_radius_sq;
 
   /* building desirabilities - easiest to handle them here -- Syela */

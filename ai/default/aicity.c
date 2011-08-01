@@ -1531,13 +1531,13 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
   base want of a city.
 **************************************************************************/
 static int city_want(struct player *pplayer, struct city *acity, 
-                     struct adv_data *ai, struct impr_type *pimprove)
+                     struct adv_data *adv, struct impr_type *pimprove)
 {
   int want = 0, prod[O_LAST], bonus[O_LAST], waste[O_LAST], i;
 
   memset(prod, 0, O_LAST * sizeof(*prod));
   if (NULL != pimprove
-   && ai->impr_calc[improvement_index(pimprove)] == AI_IMPR_CALCULATE_FULL) {
+   && adv->impr_calc[improvement_index(pimprove)] == ADV_IMPR_CALCULATE_FULL) {
     struct tile *acenter = city_tile(acity);
     bool celebrating = base_city_celebrating(acity);
 
@@ -1579,14 +1579,14 @@ static int city_want(struct player *pplayer, struct city *acity,
   /* Unit upkeep isn't handled here.  Unless we do a full city_refresh it
    * won't be changed anyway. */
 
-  want += prod[O_FOOD] * ai->food_priority;
+  want += prod[O_FOOD] * adv->food_priority;
   if (prod[O_SHIELD] != 0) {
-    want += prod[O_SHIELD] * ai->shield_priority;
-    want -= city_pollution(acity, prod[O_SHIELD]) * ai->pollution_priority;
+    want += prod[O_SHIELD] * adv->shield_priority;
+    want -= city_pollution(acity, prod[O_SHIELD]) * adv->pollution_priority;
   }
-  want += prod[O_LUXURY] * ai->luxury_priority;
-  want += prod[O_SCIENCE] * ai->science_priority;
-  want += prod[O_GOLD] * ai->gold_priority;
+  want += prod[O_LUXURY] * adv->luxury_priority;
+  want += prod[O_SCIENCE] * adv->science_priority;
+  want += prod[O_GOLD] * adv->gold_priority;
 
   return want;
 }
@@ -1598,12 +1598,12 @@ static int city_want(struct player *pplayer, struct city *acity,
 static int base_want(struct player *pplayer, struct city *pcity, 
                      struct impr_type *pimprove)
 {
-  struct adv_data *ai = adv_data_get(pplayer);
+  struct adv_data *adv = adv_data_get(pplayer);
   int final_want = 0;
   int wonder_player_id = WONDER_NOT_OWNED;
   int wonder_city_id = WONDER_NOT_BUILT;
 
-  if (ai->impr_calc[improvement_index(pimprove)] == AI_IMPR_ESTIMATE) {
+  if (adv->impr_calc[improvement_index(pimprove)] == ADV_IMPR_ESTIMATE) {
     return 0; /* Nothing to calculate here. */
   }
 
@@ -1625,8 +1625,8 @@ static int base_want(struct player *pplayer, struct city *pcity,
 
   /* Stir, then compare notes */
   city_range_iterate(pcity, pplayer->cities,
-                     ai->impr_range[improvement_index(pimprove)], acity) {
-    final_want += city_want(pplayer, acity, ai, pimprove)
+                     adv->impr_range[improvement_index(pimprove)], acity) {
+    final_want += city_want(pplayer, acity, adv, pimprove)
       - def_ai_city_data(acity)->worth;
   } city_range_iterate_end;
 
