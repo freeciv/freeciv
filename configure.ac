@@ -810,9 +810,14 @@ if test "x$client" = "xall" ; then
 fi
 
 dnl Check for GGZ
-if test "x$gui_gtk2" = "xyes" ; then
+if test "x$gui_gtk2" = "xyes" || test "x$gui_gtk3" = "xyes" ; then
   AC_GGZ_CHECK("gtk")
-  GUI_gtk2_LIBS="$GUI_gtk2_LIBS $LIB_GGZ_GTK"
+  if test "x$gui_gtk2" = "xyes" ; then
+    GUI_gtk2_LIBS="$GUI_gtk2_LIBS $LIB_GGZ_GTK"
+  fi
+  if test "x$gui_gtk3" = "xyes" ; then
+    GUI_gtk3_LIBS="$GUI_gtk3_LIBS $LIB_GGZ_GTK"
+  fi
 else
   AC_GGZ_CHECK
 fi
