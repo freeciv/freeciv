@@ -52,6 +52,7 @@ pkgdata_DATA = \
 		bahamian.ruleset \
 		bahraini.ruleset \
 		bangladeshi.ruleset \
+		barbadian.ruleset \
 		barbarian.ruleset \
 		bashkir.ruleset \
 		basque.ruleset \

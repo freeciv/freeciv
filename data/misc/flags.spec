@@ -58,6 +58,7 @@ artists = "
    Bahamas		J.M. Maalderink
    Bahrain		J.M. Maalderink
    Bangladesh		Cezary Biele
+   Barbados		Denelson83 (Wikimedia Commons)
    Barbarian		Tobias Jakobs
    Bashkortostan	Conscious (Wikimedia Commons)
    Bavarian		Jörgen Scheibengruber
@@ -567,6 +568,7 @@ sprites =
 		"f.bahamas", "flags/bahamas"
 		"f.bahrain", "flags/bahrain"
 		"f.bangladesh", "flags/bangladesh"
+		"f.barbados", "flags/barbados"
 		"f.barbarian", "flags/barbarian"
 		"f.bashkortostan", "flags/bashkortostan"
 		"f.bavarian", "flags/bavarian"

@@ -50,6 +50,7 @@ flag_files =				\
 		bahamas.png		\
 		bahrain.png		\
 		bangladesh.png		\
+		barbados.png		\
 		barbarian.png		\
 		bashkortostan.png	\
 		bavarian.png		\
@@ -553,6 +554,7 @@ flag_files =				\
 		bahamas-large.png		\
 		bahrain-large.png		\
 		bangladesh-large.png		\
+		barbados-large.png		\
 		barbarian-large.png		\
 		bashkortostan-large.png	\
 		bavarian-large.png		\
@@ -1058,6 +1060,7 @@ shield_files =					\
 		bahamas-shield.png		\
 		bahrain-shield.png		\
 		bangladesh-shield.png		\
+		barbados-shield.png		\
 		barbarian-shield.png		\
 		bashkortostan-shield.png	\
 		bavarian-shield.png		\
@@ -1561,6 +1564,7 @@ shield_files =					\
 		bahamas-shield-large.png		\
 		bahrain-shield-large.png		\
 		bangladesh-shield-large.png		\
+		barbados-shield-large.png		\
 		barbarian-shield-large.png		\
 		bashkortostan-shield-large.png	\
 		bavarian-shield-large.png		\
@@ -2066,6 +2070,7 @@ svg_files = 				\
 		bahamas.svg		\
 		bahrain.svg		\
 		bangladesh.svg		\
+		barbados.svg		\
 		barbarian.svg		\
 		bashkortostan.svg	\
 		bavarian.svg		\
