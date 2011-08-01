@@ -63,6 +63,9 @@ AC_DEFINE_UNQUOTED([DATASUBDIR],
                    [Version specific subdir for default data path])
 AC_SUBST([DATASUBDIR])
 
+AC_DEFINE_UNQUOTED([FREECIV_DISTRIBUTOR], ["$FREECIV_DISTRIBUTOR"],
+                   [Distribution this freeciv is built for])
+
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE
 

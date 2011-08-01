@@ -250,9 +250,13 @@ void srv_init(void)
 /**************************************************************************
   Handle client info packet
 **************************************************************************/
-void handle_client_info(struct connection *pc, enum gui_type gui)
+void handle_client_info(struct connection *pc, enum gui_type gui,
+                        const char *distribution)
 {
   log_debug("%s's client has %s gui.", pc->username, gui_type_name(gui));
+  if (strcmp(distribution, "")) {
+    log_debug("It comes from %s distribution.", distribution);
+  }
 }
 
 /**************************************************************************

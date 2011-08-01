@@ -1034,6 +1034,7 @@ end
 
 PACKET_CLIENT_INFO = 119; cs, handle-per-conn
   GUI_TYPE gui;
+  STRING distribution[MAX_LEN_NAME];
 end
 
 /************** New turn packets **********************/

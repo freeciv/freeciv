@@ -278,6 +278,8 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     }
 
     client_info.gui = get_gui_type();
+    strncpy(client_info.distribution, FREECIV_DISTRIBUTOR,
+            sizeof(client_info.distribution));
     send_packet_client_info(&client.conn, &client_info);
 
     /* we could always use hack, verify we're local */ 
