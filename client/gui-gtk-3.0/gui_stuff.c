@@ -416,7 +416,7 @@ static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEventKey *ev,
   Resets tab colour on tab activation.
 **************************************************************************/
 static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
-					   GtkNotebookPage *page,
+					   GtkWidget *page,
 					   guint num,
 					   struct gui_dialog *dlg)
 {
