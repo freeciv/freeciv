@@ -53,7 +53,6 @@ EXTRA_DIST=	autogen.sh 			\
 		bootstrap/freeciv.desktop.in	\
 		bootstrap/freeciv-server.desktop.in	\
 		bootstrap/freeciv.spec.in	\
-		bootstrap/undep.sh.in		\
 		bootstrap/config.rpath		\
 		m4/ac_path_lib.m4		\
 		m4/alsa.m4			\

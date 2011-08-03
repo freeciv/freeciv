@@ -317,15 +317,6 @@ AC_ARG_ENABLE(make_include,
 esac], [make_include=false])
 AM_CONDITIONAL(MAKE_CLIENT_INCLUDE, test "$make_include" = "true")
 
-AC_ARG_ENABLE([auto_deps],
-[  --disable-auto-deps     remove automatic deps calcs, which require gmake,gcc],
-[case "${enableval}" in
-  yes) enable_auto_deps=true ;;
-  no)  enable_auto_deps=false;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-auto-deps]) ;;
-esac], [enable_auto_deps="maybe"])
-AUTO_DEPS=$enable_auto_deps
-
 AC_ARG_WITH(efence,
 	[  --with-efence           use Electric Fence, malloc debugger ],
 	WITH_EFENCE=1
@@ -572,16 +563,6 @@ AC_C99_VARIADIC_MACROS
 AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
 AC_C99_STDINT_H
-
-if test "$AUTO_DEPS" = "maybe"; then
-   dnl Should also check for gmake?
-   if test -n "$GCC"; then
-      AUTO_DEPS="yes"
-   else
-      AUTO_DEPS="no"
-   fi
-fi
-AC_SUBST([AUTO_DEPS])
 
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
@@ -1342,13 +1323,11 @@ AC_CONFIG_FILES([Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
-	  bootstrap/undep.sh
 	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in])
 AC_CONFIG_FILES([civ:bootstrap/civ.in], [chmod +x civ])
 AC_CONFIG_FILES([ser:bootstrap/ser.in], [chmod +x ser])
-AC_CONFIG_COMMANDS([default],[[ chmod +x bootstrap/undep.sh ; bootstrap/undep.sh ]],[[]])
 
 if test "$USE_NLS" != "yes" ; then
 
