@@ -2684,7 +2684,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
     /* add workers to free city tiles */
     if (workers > 0) {
       int radius_sq = city_map_radius_sq_get(pcity);
-      city_map_iterate(radius_sq, city_index, city_x, city_y) {
+      city_map_iterate_without_index(radius_sq, city_x, city_y) {
         struct tile *ptile = city_map_to_tile(city_tile(pcity), radius_sq,
                                               city_x, city_y);
 
@@ -2698,7 +2698,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
         if (workers <= 0) {
           break;
         }
-      } city_map_iterate_end;
+      } city_map_iterate_without_index_end;
     }
 
     /* if there are still workers they will be updated to specialists */

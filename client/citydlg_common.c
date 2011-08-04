@@ -65,7 +65,7 @@ void generate_citydlg_dimensions(void)
   int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
 
   /* use maximum possible squared city radius. */
-  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, city_index, city_x, city_y) {
+  city_map_iterate_without_index(CITY_MAP_MAX_RADIUS_SQ, city_x, city_y) {
     int canvas_x, canvas_y;
 
     map_to_gui_vector(tileset, &canvas_x, &canvas_y, CITY_ABS2REL(city_x),
@@ -75,7 +75,7 @@ void generate_citydlg_dimensions(void)
     max_x = MAX(canvas_x, max_x);
     min_y = MIN(canvas_y, min_y);
     max_y = MAX(canvas_y, max_y);
-  } city_map_iterate_end;
+  } city_map_iterate_without_index_end;
 
   citydlg_map_width = max_x - min_x + tileset_tile_width(tileset);
   citydlg_map_height = max_y - min_y + tileset_tile_height(tileset);

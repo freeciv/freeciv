@@ -150,12 +150,19 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
  * map starting at the city center (i.e., positions that are workable by
  * the city) using the index (_index) and  the coordinates (_x, _y). It
  * is an abbreviation for city_map_iterate_outwards_radius_sq(_end). */
-#define city_map_iterate(_radius_sq, _index, _x, _y)			\
+#define city_map_iterate(_radius_sq, _index, _x, _y)		        \
   city_map_iterate_outwards_radius_sq_index(CITY_MAP_CENTER_RADIUS_SQ,	\
                                             _radius_sq, _index, _x, _y)
 
 #define city_map_iterate_end						\
   city_map_iterate_outwards_radius_sq_index_end
+
+#define city_map_iterate_without_index(_radius_sq, _x, _y)              \
+  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,        \
+                                      _radius_sq, _x, _y)
+
+#define city_map_iterate_without_index_end                              \
+  city_map_iterate_outwards_radius_sq_end
 
 /* Iterate the tiles between two radii of a city map. */
 #define city_map_iterate_radius_sq(_radius_sq_min, _radius_sq_max,	\
