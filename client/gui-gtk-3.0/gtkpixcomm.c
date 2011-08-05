@@ -77,7 +77,7 @@ struct op {
 GType
 gtk_pixcomm_get_type(void)
 {
-  static GtkType pixcomm_type = 0;
+  static GType pixcomm_type = 0;
 
   if (!pixcomm_type) {
     static const GTypeInfo pixcomm_info = {
