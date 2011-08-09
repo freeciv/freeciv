@@ -492,7 +492,9 @@ if test x"$MINGW32" != "xyes"; then
   CPPFLAGS="$CPPFLAGS -DLOCALEDIR=\"\\\"$localedir\\\"\""
 else
   AC_DEFINE_UNQUOTED(LOCALEDIR, "./share/locale", [Locale directory (windows)])
-fi  
+fi
+
+CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
 
 COMMON_LIBS=-lm
 UTILITY_LIBS=
