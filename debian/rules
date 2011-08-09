@@ -6,7 +6,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-CLIENTS := gtk2,xaw,sdl,qt
+CLIENTS := gtk2,gtk3,xaw,sdl,qt
 
 CONFIG_PARAMS := --cache-file=$(shell pwd)/config.cache 		\
 		 --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games \
