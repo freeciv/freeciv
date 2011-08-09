@@ -9,10 +9,10 @@ AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([fc_config.h])
 AC_CANONICAL_HOST
-AC_C_BIGENDIAN
 dnl Replace AC_GNU_SOURCE with AC_USE_SYSTEM_EXTENSIONS when minimum
 dnl autoconf version 2.61
 AC_GNU_SOURCE
+AC_C_BIGENDIAN
 
 BUG_URL="http://gna.org/projects/freeciv/"
 WIKI_URL="http://www.freeciv.org/"
