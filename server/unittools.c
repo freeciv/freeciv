@@ -2613,7 +2613,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 
     unit_list_iterate(unit_tile(punit)->units, aunit) {
       /* Consider only unit not transported. */
-      if (-1 == punit->transported_by) {
+      if (-1 == aunit->transported_by) {
         count++;
       }
     } unit_list_iterate_end;
