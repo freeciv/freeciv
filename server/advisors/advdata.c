@@ -805,7 +805,11 @@ void adv_best_government(struct player *pplayer)
     city_list_iterate(pplayer->cities, acity) {
       auto_arrange_workers(acity);
     } city_list_iterate_end;
-    adv->govt_reeval = CLIP(5, city_list_size(pplayer->cities), 20);
+    if (player_is_cpuhog(pplayer)) {
+      adv->govt_reeval = 1;
+    } else {
+      adv->govt_reeval = CLIP(5, city_list_size(pplayer->cities), 20);
+    }
   }
   adv->govt_reeval--;
 
