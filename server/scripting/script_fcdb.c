@@ -178,9 +178,9 @@ static void script_fcdb_functions_define(void)
   script_fcdb_add_func("database_init", 0);
   script_fcdb_add_func("database_free", 0);
 
-  script_fcdb_add_func("user_load", 1, API_TYPE_CONECTION);
-  script_fcdb_add_func("user_save", 1, API_TYPE_CONECTION);
-  script_fcdb_add_func("user_log", 2, API_TYPE_CONECTION, API_TYPE_BOOL);
+  script_fcdb_add_func("user_load", 1, API_TYPE_CONNECTION);
+  script_fcdb_add_func("user_save", 1, API_TYPE_CONNECTION);
+  script_fcdb_add_func("user_log", 2, API_TYPE_CONNECTION, API_TYPE_BOOL);
 }
 
 /****************************************************************************
@@ -312,7 +312,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
   Call a lua function.
 
   Example call to the lua function 'user_load()':
-    script_fcdb_call("user_load", 1, API_TYPE_CONECTION, pconn);
+    script_fcdb_call("user_load", 1, API_TYPE_CONNECTION, pconn);
 ****************************************************************************/
 enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...)
 {

@@ -88,7 +88,7 @@ typedef const struct city_list_link City_List_Link;
 #define SPECENUM_VALUE11NAME "Tech_Type"
 #define SPECENUM_VALUE12      API_TYPE_TERRAIN
 #define SPECENUM_VALUE12NAME "Terrain"
-#define SPECENUM_VALUE13      API_TYPE_CONECTION
+#define SPECENUM_VALUE13      API_TYPE_CONNECTION
 #define SPECENUM_VALUE13NAME "Connection"
 #define SPECENUM_VALUE14      API_TYPE_DIRECTION
 #define SPECENUM_VALUE14NAME "Direction"

@@ -101,7 +101,7 @@ bool auth_user(struct connection *pconn, char *username)
 
     sz_strlcpy(pconn->username, username);
 
-    switch(script_fcdb_call("user_load", 1, API_TYPE_CONECTION, pconn)) {
+    switch(script_fcdb_call("user_load", 1, API_TYPE_CONNECTION, pconn)) {
     case FCDB_ERROR:
       if (srvarg.auth_allow_guests) {
         sz_strlcpy(tmpname, pconn->username);
@@ -185,7 +185,7 @@ bool auth_handle_reply(struct connection *pconn, char *password)
     create_md5sum((unsigned char *)password, strlen(password),
                   pconn->server.password);
 
-    if (script_fcdb_call("user_save", 1, API_TYPE_CONECTION, pconn)
+    if (script_fcdb_call("user_save", 1, API_TYPE_CONNECTION, pconn)
         != FCDB_SUCCESS_TRUE) {
       notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
                   _("Warning: There was an error in saving to the database. "
@@ -276,7 +276,7 @@ static bool auth_check_password(struct connection *pconn,
   ok = (strncmp(checksum, pconn->server.password, MD5_HEX_BYTES) == 0)
                                                               ? TRUE : FALSE;
 
-  script_fcdb_call("user_log", 2, API_TYPE_CONECTION, pconn, API_TYPE_BOOL,
+  script_fcdb_call("user_log", 2, API_TYPE_CONNECTION, pconn, API_TYPE_BOOL,
                    ok);
 
   return ok;
