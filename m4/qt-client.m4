@@ -14,13 +14,9 @@ dnl   test "x$client" = "xauto" ; then
 
 if test "x$gui_qt" = "xyes" || test "x$client" = "all" ; then
 
-  AC_PROG_CXX
+  if test "x$cxx_works" = "xyes" ; then
 
-  FC_WORKING_CXX
-
-  AC_LANG_PUSH([C++])
-
-  if test "x$cxx_works" = xyes ; then
+    AC_LANG_PUSH([C++])
 
     AC_MSG_CHECKING([Qt headers])
 
@@ -36,15 +32,14 @@ do
     FC_QT_CLIENT_COMPILETEST($TEST_PATH)
   fi
 done])
-  fi
 
-  if test "x$qt_headers" = "xyes" ; then
-    AC_MSG_RESULT([found])
+    if test "x$qt_headers" = "xyes" ; then
+      AC_MSG_RESULT([found])
 
-    AC_MSG_CHECKING([Qt libraries])
-    AC_ARG_WITH([qt-libs],
-                [  --with-qt-libs path to Qt libraries],
-                [FC_QT_CLIENT_LINKTEST([$withval])],
+      AC_MSG_CHECKING([Qt libraries])
+      AC_ARG_WITH([qt-libs],
+                  [  --with-qt-libs path to Qt libraries],
+                  [FC_QT_CLIENT_LINKTEST([$withval])],
 [POTENTIAL_PATHS="/usr/lib/qt4"
 dnl First test without any additional library paths to see if it works already
 FC_QT_CLIENT_LINKTEST
@@ -54,6 +49,10 @@ do
     FC_QT_CLIENT_LINKTEST($TEST_PATH)
   fi
 done])
+
+    fi
+
+    AC_LANG_POP([C++])
 
     if test "x$qt_libs" = "xyes" ; then
       AC_MSG_RESULT([found])
@@ -72,8 +71,6 @@ done])
   elif test "x$gui_qt" = "xyes" ; then
     AC_MSG_ERROR([selected client 'qt' cannot be built])
   fi
-
-  AC_LANG_POP([C++])
 fi
 ])
 

@@ -358,15 +358,6 @@ dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_CPP
-AC_MSG_CHECKING([whether the C++ compiler works])
-AC_LANG_PUSH([C++])
-AC_COMPILE_IFELSE(
-  [AC_LANG_PROGRAM()],
-  AC_MSG_RESULT(yes),
-  AC_MSG_RESULT(no)
-  AC_MSG_FAILURE(no acceptable C++ compiler found in \$PATH)
-)
-AC_LANG_POP([C++])
 AC_PROG_LN_S
 AC_DISABLE_SHARED
 dnl Replace AC_PROG_LIBTOOL with LT_INIT when minimum libtool
@@ -378,6 +369,9 @@ AC_CHECK_TOOL(AR, ar)
 if test -z $AR; then
 	AC_MSG_ERROR([*** 'ar' missing.  Install binutils, fix your \$PATH, or set \$AR manually. ***])
 fi
+
+AC_PROG_CXX
+FC_WORKING_CXX
 
 AC_CHECK_PROG(UNAME,uname,uname,:)
 

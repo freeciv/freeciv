@@ -13,7 +13,9 @@ dnl -g is added by AC_PROG_CC if the compiler understands it
 if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   AC_DEFINE([DEBUG], [1], [Extra debugging support])
   FC_C_FLAGS([-Werror], [], [EXTRA_DEBUG_CFLAGS])
-  FC_CXX_FLAGS([-Werror], [], [EXTRA_DEBUG_CXXFLAGS])
+  if test "x$cxx_works" = "xyes" ; then
+    FC_CXX_FLAGS([-Werror], [], [EXTRA_DEBUG_CXXFLAGS])
+  fi
 
   if test "x$enable_debug" = "xchecks"; then
     dnl Add additional flags as stated in ./doc/CodingStyle. Compiling the
@@ -28,16 +30,20 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
                [EXTRA_DEBUG_CFLAGS])
     FC_C_FLAGS([-Wstrict-prototypes -Wnested-externs -Wl,--no-add-needed], [],
                [EXTRA_DEBUG_CFLAGS])
-    FC_CXX_FLAGS([-Werror -Wall -Wpointer-arith -Wcast-align ], [],
-                 [EXTRA_DEBUG_CXXFLAGS])
-    FC_CXX_FLAGS([--Wmissing-declarations], [],
-                 [EXTRA_DEBUG_CXXFLAGS])
+    if test "x$cxx_works" = "xyes" ; then
+      FC_CXX_FLAGS([-Werror -Wall -Wpointer-arith -Wcast-align ], [],
+                   [EXTRA_DEBUG_CXXFLAGS])
+      FC_CXX_FLAGS([--Wmissing-declarations], [],
+                   [EXTRA_DEBUG_CXXFLAGS])
+    fi
   fi
 else
   if test "x$enable_debug" = "xno"; then
     AC_DEFINE([NDEBUG], [1], [No debugging support at all])
     FC_C_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CFLAGS])
-    FC_CXX_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CXXFLAGS])
+    if test "x$cxx_works" = "xyes" ; then
+      FC_CXX_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CXXFLAGS])
+    fi
   fi
 fi
 ])
