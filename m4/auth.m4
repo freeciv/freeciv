@@ -18,6 +18,13 @@ AC_DEFUN([FC_CHECK_AUTH],
   AC_ARG_WITH(mysql-prefix,[  --with-mysql-prefix=PFX Prefix where MySQL is installed (optional)],
               mysql_prefix="$withval", mysql_prefix="")
 
+  if test "x$mysql_prefix" != "x" ; then
+    mysql_libdir="$mysql_prefix/lib/mysql"
+  fi
+
+  AC_ARG_WITH([mysql-libdir], [  --with-mysql-libdir=Where MySQL library is installed (optional)],
+[mysql_libdir="$withval"])
+
   if test x$auth = xyes ; then
 
     if test x$mysql_prefix = x ; then
@@ -25,42 +32,49 @@ AC_DEFUN([FC_CHECK_AUTH],
                       [AC_MSG_WARN([couldn't find mysql header: disabling auth]);
                        auth=no])
 
-      dnl we need to set -L correctly, we will check once in standard locations
-      dnl then we will check with other LDFLAGS. if none of these work, we fail.
+      if test "x$mysql_libdir" = "x" ; then
+        dnl we need to set -L correctly, we will check once in standard locations
+        dnl then we will check with other LDFLAGS. if none of these work, we fail.
+        AC_CHECK_LIB(mysqlclient, mysql_query, 
+   	             [AUTH_LIBS="-lmysqlclient $AUTH_LIBS"],
+                     [AC_MSG_WARN([couldn't find mysql libs in normal locations]);
+                     auth=no])
+        if test x$auth = xno ; then
+          fc_preauth_LDFLAGS="$LDFLAGS"
+          fc_mysql_lib_loc="-L/usr/lib/mysql -L/usr/local/lib/mysql"
 
-      AC_CHECK_LIB(mysqlclient, mysql_query, 
-		   [AUTH_LIBS="-lmysqlclient $AUTH_LIBS"],
-                   [AC_MSG_WARN([couldn't find mysql libs in normal locations]);
-                    auth=no])
+          for __ldpath in $fc_mysql_lib_loc; do
+            unset ac_cv_lib_mysqlclient_mysql_query
+            LDFLAGS="$LDFLAGS $__ldpath"
+
+            AC_CHECK_LIB(mysqlclient, mysql_query,
+                         [AUTH_LIBS="-lmysqlclient $AUTH_LIBS";
+                          AC_MSG_WARN([had to add $__ldpath to LDFLAGS])
+                          auth=yes],
+                          [AC_MSG_WARN([couldn't find mysql libs in $__ldpath])])
+
+            if test x$auth = xyes; then
+              break
+            else
+              LDFLAGS="$fc_preauth_LDFLAGS"
+            fi
+          done
+        fi
+
+      else
+        LDFLAGS="$LDFLAGS -L$mysql_libdir"
+        AC_CHECK_LIB([mysqlclient], [mysql_query],
+                     [AUTH_LIBS="-lmysqlclient $AUTH_LIBS"],
+                     [AC_MSG_WARN([couldn't find mysql libs in $mysql_libdir]);
+                     auth=no])
+      fi
 
       if test x$auth = xno ; then
-        fc_preauth_LDFLAGS="$LDFLAGS"
-        fc_mysql_lib_loc="-L/usr/lib/mysql -L/usr/local/lib/mysql"
-
-        for __ldpath in $fc_mysql_lib_loc; do
-          unset ac_cv_lib_mysqlclient_mysql_query
-          LDFLAGS="$LDFLAGS $__ldpath"
-
-          AC_CHECK_LIB(mysqlclient, mysql_query,
-                       [AUTH_LIBS="-lmysqlclient $AUTH_LIBS";
-                        AC_MSG_WARN([had to add $__ldpath to LDFLAGS])
-                        auth=yes],
-                        [AC_MSG_WARN([couldn't find mysql libs in $__ldpath])])
-
-          if test x$auth = xyes; then
-            break
-          else
-            LDFLAGS="$fc_preauth_LDFLAGS"
-          fi
-        done
-
-        if test x$auth = xno ; then
-          AC_MSG_ERROR([couldn't find mysql libs at all])
-        fi
+        AC_MSG_ERROR([couldn't find mysql libs at all])
       fi
     else
       AUTH_CFLAGS="-I$mysql_prefix/include $AUTH_CFLAGS"
-      AUTH_LIBS="-L$mysql_prefix/lib/mysql -lmysqlclient $AUTH_LIBS"
+      AUTH_LIBS="-L$mysql_libdir -lmysqlclient $AUTH_LIBS"
       auth_saved_cflags="$CFLAGS"
       auth_saved_cppflags="$CPPFLAGS"
       auth_saved_libs="$LIBS"
@@ -72,7 +86,7 @@ AC_DEFUN([FC_CHECK_AUTH],
                        auth=no])
       if test x$auth = xyes; then
         AC_CHECK_LIB(mysqlclient, mysql_query, ,
-                     [AC_MSG_WARN([couldn't find mysql libs in $mysql_prefix/lib/mysql]);
+                     [AC_MSG_WARN([couldn't find mysql libs in $mysql_libdir]);
                       auth=no])
       fi
       CFLAGS="$auth_saved_cflags"
