@@ -825,6 +825,10 @@ struct tile *tile_virtual_new(const struct tile *ptile)
       }
     } tile_special_type_iterate_end;
 
+    if (BV_ISSET(ptile->special, S_RESOURCE_VALID)) {
+      BV_SET(vtile->special, S_RESOURCE_VALID);
+    }
+
     base_type_iterate(pbase) {
       if (BV_ISSET(ptile->bases, base_number(pbase))) {
         BV_SET(vtile->bases, base_number(pbase));
