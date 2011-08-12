@@ -274,7 +274,7 @@ bool client_start_server(void)
     /* Search under current directory (what ever that happens to be)
      * only in debug builds. This allows running freeciv directly from build
      * tree, but could be considered security risk in release builds. */
-    execvp("./ser", argv);
+    execvp("./fcser", argv);
     execvp("./server/freeciv-server", argv);
 #endif /* DEBUG */
     execvp(BINDIR "/freeciv-server", argv);
@@ -333,7 +333,7 @@ bool client_start_server(void)
               "-p %d -q 1 -e%s%s --saves \"%s\" --scenarios \"%s\"",
               internal_server_port, logcmdline, scriptcmdline, savescmdline,
               scenscmdline);
-  fc_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
+  fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
   fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
   fc_snprintf(cmdline3, sizeof(cmdline3),

@@ -1320,8 +1320,8 @@ AC_CONFIG_FILES([Makefile
 	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in])
-AC_CONFIG_FILES([civ:bootstrap/civ.in], [chmod +x civ])
-AC_CONFIG_FILES([ser:bootstrap/ser.in], [chmod +x ser])
+AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
+AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 
 if test "$USE_NLS" != "yes" ; then
 

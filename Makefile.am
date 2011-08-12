@@ -46,8 +46,8 @@ EXTRA_DIST=	autogen.sh 			\
 		config.mac.h			\
 		configure.ac			\
 		diff_ignore			\
-		bootstrap/civ.in		\
-		bootstrap/ser.in		\
+		bootstrap/fcgui.in		\
+		bootstrap/fcser.in		\
 		bootstrap/fc_svnrev_gen.h.in	\
 		bootstrap/generate_svnrev.sh	\
 		bootstrap/freeciv.desktop.in	\
