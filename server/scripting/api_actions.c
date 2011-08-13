@@ -26,7 +26,6 @@
 #include "aiiface.h"
 #include "barbarian.h"
 #include "citytools.h"
-#include "console.h" /* enum rfc_status */
 #include "maphand.h"
 #include "movement.h"
 #include "plrhand.h"
@@ -181,19 +180,18 @@ Player *api_actions_create_player(const char *username,
                                   Nation_Type *pnation)
 {
   struct player *pplayer = NULL;
-  enum rfc_status status;
   char buf[128] = "";
 
   SCRIPT_CHECK_ARG_NIL(username, 1, string, NULL);
 
   if (game_was_started()) {
-    status = create_command_newcomer(username, FC_AI_DEFAULT_NAME,
-                                     FALSE, pnation, &pplayer,
-                                     buf, sizeof(buf));
+    create_command_newcomer(username, FC_AI_DEFAULT_NAME,
+                            FALSE, pnation, &pplayer,
+                            buf, sizeof(buf));
   } else {
-    status = create_command_pregame(username, FC_AI_DEFAULT_NAME,
-                                    FALSE, &pplayer,
-                                    buf, sizeof(buf));
+    create_command_pregame(username, FC_AI_DEFAULT_NAME,
+                           FALSE, &pplayer,
+                           buf, sizeof(buf));
   }
 
   if (strlen(buf) > 0) {
