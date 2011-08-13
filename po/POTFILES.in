@@ -185,6 +185,7 @@ manual/civmanual.c
 modinst/download.c
 modinst/download.h
 modinst/modinst.c
+modinst/mpcmdline.c
 data/Freeciv.in
 data/helpdata.txt
 data/civ1/buildings.ruleset
