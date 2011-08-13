@@ -29,6 +29,7 @@
 
 /* modinst */
 #include "download.h"
+#include "mpcmdline.h"
 
 #if IS_DEVEL_VERSION
 #define MODPACK_LIST_URL  "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/modpack.list"
@@ -335,6 +336,7 @@ int main(int argc, char *argv[])
 {
   GtkWidget *toplevel;
   int loglevel = LOG_NORMAL;
+  int ui_options;
 
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
@@ -343,24 +345,30 @@ int main(int argc, char *argv[])
 
   g_thread_init(NULL);
 
-  /* Process GTK arguments */
-  gtk_init(&argc, &argv);
-
   log_init(NULL, loglevel, NULL, NULL, -1);
 
-  toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  /* This modifies argv! */
+  ui_options = fcmp_parse_cmdline(argc, argv);
 
-  gtk_widget_realize(toplevel);
-  gtk_widget_set_name(toplevel, "Freeciv-modpack");
+  if (ui_options != -1) {
 
-  g_signal_connect(toplevel, "delete_event",
-      G_CALLBACK(quit_dialog_callback), NULL);
+    /* Process GTK arguments */
+    gtk_init(&ui_options, &argv);
 
-  modinst_setup_widgets(toplevel);
+    toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-  gtk_widget_show_all(toplevel);
+    gtk_widget_realize(toplevel);
+    gtk_widget_set_name(toplevel, "Freeciv-modpack");
 
-  gtk_main();
+    g_signal_connect(toplevel, "delete_event",
+                     G_CALLBACK(quit_dialog_callback), NULL);
+
+    modinst_setup_widgets(toplevel);
+
+    gtk_widget_show_all(toplevel);
+
+    gtk_main();
+  }
 
   log_close();
 
