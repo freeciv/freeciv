@@ -11,10 +11,10 @@
 .\"
 .TH FREECIV 6 "October 30th 2009"
 .SH NAME
-freeciv-gtk2, freeciv-sdl, freeciv-xaw, freeciv-win32, freeciv-ftwl, \
+freeciv-gtk2, freeciv-sdl, freeciv-xaw, freeciv-win32, \
 \- The clients for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-gtk2|freeciv-sdl|freeciv-xaw|freeciv-win32|freeciv-ftwl \
+.B freeciv-gtk2|freeciv-sdl|freeciv-xaw|freeciv-win32 \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
@@ -46,13 +46,6 @@ freeciv-sdl accepts extra parameters following \fB\-\-\fP:
 freeciv-xaw accepts extra parameters following \fB\-\-\fP:
 .B [ \-h|\-\-help ]
 
-freeciv-ftwl accepts extra parameters following \fB\-\-\fP:
-.B [ \-d|\-\-dump ] \
-[ \-f|\-\-fullscreen ] \
-[ \-h|\-\-help ] \
-[ \-r|\-\-res \fIresolution\fP ] \
-[ \-t|\-\-theme \fIstring\fP ]
-
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
 becomes the leader of a civilization, fighting to obtain the ultimate goal:
@@ -72,9 +65,8 @@ regarding the options when using
 .B freeciv-gtk2
 .B freeciv-sdl
 .B freeciv-xaw
-.B freeciv-win32
 or
-.B freeciv-ftwl
+.B freeciv-win32
 see the Client Manual which can be found at
 .UR
 http://www.freeciv.org/
@@ -177,30 +169,23 @@ Prints the version number and exits.
 All parameters following this \-\- will be considered as a specific gui
 parameter.  See below.
 .TP
-.BI "\-\- \-d, \-\- \-\-dump"
-Enables screen dumper.  Only available for the \fBfreeciv-ftwl\fP client.
-.TP
 .BI "\-\- \-e, \-\- \-\-eventthread"
 Initializes the event subsystem in other thread.  Only available for the
 \fBfreeciv-sdl\fP client under Linux or BeOS.
 .TP
 .BI "\-\- \-f, \-\- \-\-fullscreen"
 Starts the client in full screen mode.  Only implemented in the
-\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
+\fBfreeciv-sdl\fP client.
 .TP
 .BI "\-\- \-h, \-\- \-\-help"
 Print the specific gui parameters help.  Note it is not implemented in
 the \fBfreeciv-win32\fP client.
-\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
+\fBfreeciv-sdl\fP client.
 .TP
 .BI "\-\- \-r \fIresolution\fP, \-\- \-\-res \fIresolution\fP"
 Uses the given resolution.  Note it is not implemented in
 the \fBfreeciv-win32\fP client.
-\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
-.TP
-.BI "\-\- \-t \fIstring\fP, \-\- \-\-theme \fIstring\fP"
-Uses GUI theme \fIstring\fP.  Only available for the \fBfreeciv-ftwl\fP
-client.
+\fBfreeciv-sdl\fP client.
 .SH "EXAMPLES"
 .TP
 .B freeciv-gtk2 \-\-name "King Richard" \-\-server io.daimi.aau.dk
