@@ -3183,6 +3183,33 @@ bool city_is_virtual(const struct city *pcity)
 }
 
 /**************************************************************************
+  Return TRUE if the city is centered at the given tile.
+
+  NB: This doesn't simply check whether pcity->tile == ptile because that
+  would miss virtual clones made of city center tiles, which are used by
+  autosettler to judge whether improvements are worthwhile.  The upshot is
+  that city centers would appear to lose their irrigation/farmland bonuses
+  as well as their minimum outputs of one food and one shield, and thus
+  autosettler would rarely transform or mine them.
+**************************************************************************/
+bool is_city_center(const struct city *pcity, const struct tile *ptile)
+{
+  if (!pcity || !pcity->tile || !ptile) {
+    return FALSE;
+  }
+
+  return pcity->tile->x == ptile->x && pcity->tile->y == ptile->y;
+}
+
+/**************************************************************************
+  Return TRUE if the city is worked without using up a citizen.
+**************************************************************************/
+bool is_free_worked(const struct city *pcity, const struct tile *ptile)
+{
+  return is_city_center(pcity, ptile);
+}
+
+/**************************************************************************
   Return citytile type for a given rule name
 **************************************************************************/
 enum citytile_type citytile_by_rule_name(const char *name)

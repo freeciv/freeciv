@@ -679,8 +679,9 @@ bool city_exist(int id);
 
 /* === */
 
-#define is_city_center(_city, _tile) (_city->tile == _tile)
-#define is_free_worked(_city, _tile) (_city->tile == _tile)
+bool is_city_center(const struct city *pcity, const struct tile *ptile);
+bool is_free_worked(const struct city *pcity, const struct tile *ptile);
+
 #define is_free_worked_index(city_tile_index) \
   (CITY_MAP_CENTER_TILE_INDEX == city_tile_index)
 #define FREE_WORKED_TILES (1)
