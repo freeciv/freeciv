@@ -1,5 +1,17 @@
 /*
 
+Max used id:
+============
+
+Max id: 219
+
+Packets are not ordered by their id, but by their category. New packet
+with higher id may get added to existing category, and not to the end of file.
+For this reason it's important to keep information about max id currently
+in use updated here. So we know what ids are safe to use when adding new
+packets.
+
+
 Syntax:
 
  Comments:
