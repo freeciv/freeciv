@@ -27,6 +27,11 @@ struct road_type {
   enum tile_special_type special;
 };
 
+/* General road type accessor functions. */
+Road_type_id road_count(void);
+Road_type_id road_index(const struct road_type *proad);
+Road_type_id road_number(const struct road_type *proad);
+
 struct road_type *road_type_by_id(int id);
 
 enum unit_activity road_activity(struct road_type *road);

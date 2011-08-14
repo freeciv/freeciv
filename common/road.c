@@ -28,6 +28,36 @@ static struct road_type roads[ROAD_LAST] =
       S_RAILROAD }
   };
 
+/**************************************************************************
+  Return the road id.
+**************************************************************************/
+Road_type_id road_number(const struct road_type *proad)
+{
+  fc_assert_ret_val(NULL != proad, -1);
+
+  return proad->id;
+}
+
+/**************************************************************************
+  Return the road index.
+
+  Currently same as road_number(), paired with road_count()
+  indicates use as an array index.
+**************************************************************************/
+Road_type_id road_index(const struct road_type *proad)
+{
+  fc_assert_ret_val(NULL != proad, -1);
+
+  return proad - roads;
+}
+
+/**************************************************************************
+  Return the number of road_types.
+**************************************************************************/
+Road_type_id road_count(void)
+{
+  return ROAD_LAST;
+}
 
 /****************************************************************************
   Return road type of given id.
