@@ -818,6 +818,11 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   vtile->spec_sprite = NULL;
 
   if (ptile) {
+    /* Used by is_city_center to give virtual tiles the output bonuses
+     * they deserve */
+    vtile->x = ptile->x;
+    vtile->y = ptile->y;
+
     /* Copy all but the unit list. */
     tile_special_type_iterate(spe) {
       if (BV_ISSET(ptile->special, spe)) {
