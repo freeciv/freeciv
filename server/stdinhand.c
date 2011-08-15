@@ -835,13 +835,7 @@ static bool create_command(struct connection *caller, const char *str,
   if (ntokens == 1) {
     ai = FC_AI_DEFAULT_NAME;
   } else if (ntokens == 2) {
-#ifdef AI_MODULES
     ai = arg[1];
-#else  /* AI_MODULES */
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-              _("AI module support not built in, ai type name argument not supported"));
-    return FALSE;
-#endif /* AI_MODULES */
   } else {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
               _("Wrong number of arguments to create command."));
@@ -6375,7 +6369,6 @@ static char *cmdlevel_arg2_generator(const char *text, int state)
 			   cmdlevel_arg2_accessor);
 }
 
-#ifdef AI_MODULES
 /**************************************************************************
   Accessor for the second argument to "create": ai type name
 **************************************************************************/
@@ -6392,7 +6385,6 @@ static char *aitype_generator(const char *text, int state)
   return generic_generator(text, state, ai_type_get_count(),
                            aitype_accessor);
 }
-#endif /* AI_MODULES */
 
 /**************************************************************************
 The valid first arguments to "help".
@@ -6638,13 +6630,11 @@ static bool is_filename(int start)
 /**************************************************************************
   Return whether we are completing second argument for create command
 **************************************************************************/
-#ifdef AI_MODULES
 static bool is_create_arg2(int start)
 {
   return (contains_str_before_start(start, command_name_by_number(CMD_CREATE), TRUE)
 	  && num_tokens(start) == 2);
 }
-#endif /* AI_MODULES */
 
 /**************************************************************************
   Return whether we are completing help command argument.
@@ -6698,10 +6688,8 @@ char **freeciv_completion(char *text, int start, int end)
   } else if (is_filename(start)) {
     /* This function we get from readline */
     matches = completion_matches(text, filename_completion_function);
-#ifdef AI_MODULES
   } else if (is_create_arg2(start)) {
     matches = completion_matches(text, aitype_generator);
-#endif /* AI_MODULES */
   } else {
     /* We have no idea what to do */
     matches = NULL;
