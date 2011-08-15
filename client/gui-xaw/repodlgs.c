@@ -1111,18 +1111,16 @@ void activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
 
-    city_list_iterate(client.conn.playing->cities, pcity) {
-      unit_list_iterate(client.conn.playing->units, punit) {
-        Unit_type_id uti = utype_index(unit_type(punit));
+    unit_list_iterate(client.conn.playing->units, punit) {
+      Unit_type_id uti = utype_index(unit_type(punit));
 
-        (unitarray[uti].active_count)++;
-        if (punit->homecity) {
-          output_type_iterate(o) {
-            unitarray[uti].upkeep[o] += punit->upkeep[o];
-          } output_type_iterate_end;
-        }
-      } unit_list_iterate_end;
-    } city_list_iterate_end;
+      (unitarray[uti].active_count)++;
+      if (punit->homecity) {
+	output_type_iterate(o) {
+	  unitarray[uti].upkeep[o] += punit->upkeep[o];
+	} output_type_iterate_end;
+      }
+    } unit_list_iterate_end;
 
     city_list_iterate(client.conn.playing->cities,pcity) {
       if (VUT_UTYPE == pcity->production.kind) {
