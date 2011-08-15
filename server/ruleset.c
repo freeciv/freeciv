@@ -1209,42 +1209,42 @@ static void load_ruleset_units(struct section_file *file)
   csec = secfile_sections_by_name_prefix(file, UNIT_CLASS_SECTION_PREFIX);
   nval = (NULL != csec ? section_list_size(csec) : 0);
 
-  unit_class_iterate(ut) {
-    int i = uclass_index(ut);
+  unit_class_iterate(uc) {
+    int i = uclass_index(uc);
     char tmp[200] = "\0";
     const char *hut_str;
     const char *sec_name = section_name(section_list_get(csec, i));
 
     fc_strlcat(tmp, sec_name, 200);
     fc_strlcat(tmp, ".move_type", 200);
-    ut->move_type = lookup_move_type(file, tmp, filename);
-    if (secfile_lookup_int(file, &ut->min_speed, "%s.min_speed", sec_name)) {
-      ut->min_speed *= SINGLE_MOVE;
+    uc->move_type = lookup_move_type(file, tmp, filename);
+    if (secfile_lookup_int(file, &uc->min_speed, "%s.min_speed", sec_name)) {
+      uc->min_speed *= SINGLE_MOVE;
     } else {
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
-    if (!secfile_lookup_int(file, &ut->hp_loss_pct,
+    if (!secfile_lookup_int(file, &uc->hp_loss_pct,
                             "%s.hp_loss_pct", sec_name)) {
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
 
     hut_str = secfile_lookup_str_default(file, "Normal", "%s.hut_behavior", sec_name);
     if (fc_strcasecmp(hut_str, "Normal") == 0) {
-      ut->hut_behavior = HUT_NORMAL;
+      uc->hut_behavior = HUT_NORMAL;
     } else if (fc_strcasecmp(hut_str, "Nothing") == 0) {
-      ut->hut_behavior = HUT_NOTHING;
+      uc->hut_behavior = HUT_NOTHING;
     } else if (fc_strcasecmp(hut_str, "Frighten") == 0) {
-      ut->hut_behavior = HUT_FRIGHTEN;
+      uc->hut_behavior = HUT_FRIGHTEN;
     } else {
       ruleset_error(LOG_FATAL,
                     "\"%s\" unit_class \"%s\":"
                     " Illegal hut behavior \"%s\".",
                     filename,
-                    uclass_rule_name(ut),
+                    uclass_rule_name(uc),
                     hut_str);
     }
 
-    BV_CLR_ALL(ut->flags);
+    BV_CLR_ALL(uc->flags);
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
     for(j = 0; j < nval; j++) {
       sval = slist[j];
@@ -1254,19 +1254,19 @@ static void load_ruleset_units(struct section_file *file)
       ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
       if (!unit_class_flag_id_is_valid(ival)) {
         log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
-                  filename, uclass_rule_name(ut), sval);
+                  filename, uclass_rule_name(uc), sval);
         ival = unit_flag_by_rule_name(sval);
         if (ival != F_LAST) {
           log_error("\"%s\" unit_class \"%s\": unit_type flag!",
-                    filename, uclass_rule_name(ut));
+                    filename, uclass_rule_name(uc));
         }
-      } else if (ut->move_type == UMT_SEA
+      } else if (uc->move_type == UMT_SEA
                  && ( ival == UCF_ROAD_NATIVE || ival == UCF_RIVER_NATIVE)) {
         log_error("\"%s\" unit_class \"%s\": cannot give \"%s\" flag "
                   "to sea moving unit",
-                  filename, uclass_rule_name(ut), sval);
+                  filename, uclass_rule_name(uc), sval);
       } else {
-        BV_SET(ut->flags, ival);
+        BV_SET(uc->flags, ival);
       }
     }
     free(slist);
