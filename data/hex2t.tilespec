@@ -88,7 +88,7 @@ files =
   "misc/treaty.spec",
   "misc/icons.spec",
   "misc/editor.spec",
-  "amplio/nuke.spec"
+  "amplio2/nuke.spec"
 
 
 ; Include color definitions
