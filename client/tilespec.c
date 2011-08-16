@@ -72,7 +72,7 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Jun.18 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2011.Aug.10 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -327,6 +327,7 @@ struct named_sprites {
       *city[EDGE_COUNT],
       *worked[EDGE_COUNT],
       *unavailable,
+      *nonnative,
       *selected[EDGE_COUNT],
       *coastline[EDGE_COUNT],
       *borders[EDGE_COUNT][2];
@@ -2560,6 +2561,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   {
     SET_SPRITE(grid.unavailable, "grid.unavailable");
+    SET_SPRITE_OPT(grid.nonnative, "grid.nonnative");
 
     for (i = 0; i < EDGE_COUNT; i++) {
       int j;
@@ -4314,6 +4316,26 @@ static int fill_grid_sprite_array(const struct tileset *t,
         && city_base_to_city_map(&cx, &cy, citymode, ptile)
         && !client_city_can_work_tile(citymode, ptile)) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
+    }
+
+    if (draw_native) {
+      bool native = TRUE;
+      struct unit_list *pfocus_units = get_units_in_focus();
+
+      unit_list_iterate(pfocus_units, punit) {
+        if (!is_native_tile(unit_type(punit), ptile)) {
+          native = FALSE;
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (!native) {
+        if (t->sprites.grid.nonnative != NULL) {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.nonnative);
+        } else {
+          ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
+        }
+      }
     }
   }
 

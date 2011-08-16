@@ -133,6 +133,7 @@ bool draw_units = TRUE;
 bool draw_focus_unit = FALSE;
 bool draw_fog_of_war = TRUE;
 bool draw_borders = TRUE;
+bool draw_native = FALSE;
 bool draw_full_citybar = TRUE;
 bool draw_unit_shields = TRUE;
 bool player_dlg_show_dead_players = TRUE;
@@ -1858,6 +1859,11 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(draw_borders, N_("Draw the borders"),
                   N_("Setting this option will draw the national borders."),
                   COC_GRAPHICS, GUI_STUB, TRUE,
+                  view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_native, N_("Draw whether tiles are native"),
+                  N_("Setting this option will draw the tiles that unit "
+                     "cannot enter."),
+                  COC_GRAPHICS, GUI_STUB, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(player_dlg_show_dead_players,
                   N_("Show dead players in Nations report"),

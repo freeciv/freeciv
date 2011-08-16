@@ -2864,6 +2864,7 @@ Freeciv*mapcanvas.translations:\
    Shift Ctrl<Key>3:  key-unit-assign-battlegroup3()   \n\
    Shift Ctrl<Key>4:  key-unit-assign-battlegroup4()   \n\
    Ctrl<Key>b:        key-map-borders-toggle()         \n\
+   Shift Ctrl<Key>n:  key-map-native-toggle()          \n\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\

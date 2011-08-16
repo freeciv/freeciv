@@ -109,6 +109,7 @@ extern bool draw_units;
 extern bool draw_focus_unit;
 extern bool draw_fog_of_war;
 extern bool draw_borders;
+extern bool draw_native;
 extern bool draw_full_citybar;
 extern bool draw_unit_shields;
 

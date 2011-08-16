@@ -1802,6 +1802,19 @@ void request_toggle_map_borders(void)
 }
 
 /**************************************************************************
+ Toggle display of native tiles on the map
+**************************************************************************/
+void request_toggle_map_native(void) 
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_native ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
   Toggle display of city full bar.
 **************************************************************************/
 void request_toggle_city_full_bar(void)
@@ -2998,6 +3011,14 @@ void key_map_grid_toggle(void)
 void key_map_borders_toggle(void)
 {
   request_toggle_map_borders();
+}
+
+/**************************************************************************
+  Toggle native tiles on the mapview on/off based on a keypress.
+**************************************************************************/
+void key_map_native_toggle(void)
+{
+  request_toggle_map_native();
 }
 
 /**************************************************************************

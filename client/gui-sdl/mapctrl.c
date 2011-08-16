@@ -2370,10 +2370,13 @@ bool map_event_handler(SDL_keysym Key)
           key_map_borders_toggle();
         }
         return FALSE;
-  
-      /* show city names - Ctrl+n */
+
       case SDLK_n:
-        if (LCTRL || RCTRL) {
+        /* show native tiles - Ctrl+Shift+n */ 
+        if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
+          key_map_native_toggle();
+        } else if (LCTRL || RCTRL) {
+          /* show city names - Ctrl+n */
           key_city_names_toggle();
         }
         return FALSE;

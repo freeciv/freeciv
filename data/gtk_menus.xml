@@ -37,6 +37,7 @@
       <menuitem action="SHOW_CITY_OUTPUT" />
       <menuitem action="SHOW_MAP_GRID" />
       <menuitem action="SHOW_NATIONAL_BORDERS" />
+      <menuitem action="SHOW_NATIVE_TILES" />
       <menuitem action="SHOW_CITY_FULL_BAR" />
       <menuitem action="SHOW_CITY_NAMES" />
       <menuitem action="SHOW_CITY_GROWTH" />

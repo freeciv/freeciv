@@ -147,7 +147,9 @@ void refresh_tile_mapcanvas(struct tile *ptile,
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen)
 {
-  if (full_refresh && unit_has_type_flag(punit, F_CITIES)) {
+  if (full_refresh && draw_native) {
+    queue_mapview_update(UPDATE_MAP_CANVAS_VISIBLE);
+  } else if (full_refresh && unit_has_type_flag(punit, F_CITIES)) {
     queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
   } else {
     queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);

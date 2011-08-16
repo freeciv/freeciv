@@ -541,6 +541,17 @@ static void show_national_borders_callback(GtkToggleAction *action,
 }
 
 /****************************************************************
+  Action "SHOW_NATIVE_TILES" callback.
+*****************************************************************/
+static void show_native_tiles_callback(GtkToggleAction *action,
+                                       gpointer data)
+{
+  if (draw_native ^ gtk_toggle_action_get_active(action)) {
+    key_map_native_toggle();
+  }
+}
+
+/****************************************************************
   Action "SHOW_CITY_FULL_BAR" callback.
 *****************************************************************/
 static void show_city_full_bar_callback(GtkToggleAction *action,
@@ -766,7 +777,7 @@ static void show_better_fog_of_war_callback(GtkToggleAction *action,
 }
 
 /****************************************************************
-  Action "SHOW_NATIONAL_BORDERS" callback.
+  Action "FULL_SCREEN" callback.
 *****************************************************************/
 static void full_screen_callback(GtkToggleAction *action, gpointer data)
 {
@@ -1408,6 +1419,9 @@ static GtkActionGroup *get_safe_group(void)
       {"SHOW_NATIONAL_BORDERS", NULL, _("National _Borders"),
        "<Control>b", NULL,
        G_CALLBACK(show_national_borders_callback), FALSE},
+      {"SHOW_NATIVE_TILES", NULL, _("Native Tiles"),
+       "<Shift><Control>n", NULL,
+       G_CALLBACK(show_native_tiles_callback), FALSE},
       {"SHOW_CITY_FULL_BAR", NULL, _("City Full Bar"),
        NULL, NULL, G_CALLBACK(show_city_full_bar_callback), FALSE},
       {"SHOW_CITY_NAMES", NULL, _("City _Names"),
@@ -2353,6 +2367,7 @@ void real_menus_init(void)
   menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", draw_borders);
   menus_set_sensitive(safe_group, "SHOW_NATIONAL_BORDERS",
                       BORDERS_DISABLED != game.info.borders);
+  menus_set_active(safe_group, "SHOW_NATIVE_TILES", draw_native);
   menus_set_active(safe_group, "SHOW_CITY_FULL_BAR", draw_full_citybar);
   menus_set_active(safe_group, "SHOW_CITY_NAMES", draw_city_names);
   menus_set_active(safe_group, "SHOW_CITY_GROWTH", draw_city_growth);
