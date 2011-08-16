@@ -31,6 +31,8 @@
 /stamp-h1
 /civ
 /ser
+/fcgui
+/fcser
 /.deps
 /*.sav
 /*.sav.gz
