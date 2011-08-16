@@ -26,6 +26,8 @@
 /* modinst */
 #include "mpcmdline.h"
 
+extern const char *list_url;
+
 /**************************************************************************
   Parse commandline parameters. Modified argv[] so it contains only
   ui-specific options afterwards. Number of those ui-specific options is
@@ -40,6 +42,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
   int i = 1;
   bool ui_separator = FALSE;
   int ui_options = 0;
+  const char *option = NULL;
 
   while (i < argc) {
     if (ui_separator) {
@@ -49,6 +52,7 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       fc_fprintf(stderr, _("Usage: %s [option ...]\n"
 			   "Valid option are:\n"), argv[0]);
       fc_fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
+      fc_fprintf(stderr, _("  -L, --List URL\t\tLoad modpack list from given URL\n"));
       fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
       fc_fprintf(stderr, _("      --\t\t"
 			   "Pass any following options to the UI.\n"));
@@ -57,6 +61,8 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 
       exit(EXIT_SUCCESS);
+    } else if ((option = get_option_malloc("--List", argv, &i, argc))) {
+      list_url = option;
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 

@@ -48,6 +48,8 @@ static GtkListStore *main_store;
 static GtkWidget *URL_input;
 static gboolean downloading = FALSE;
 
+const char *list_url = MODPACK_LIST_URL;
+
 static gboolean quit_dialog_callback(void);
 
 #define ML_COL_NAME 0
@@ -318,7 +320,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   main_store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING,
                                   G_TYPE_STRING, G_TYPE_STRING);
-  errmsg = download_modpack_list(MODPACK_LIST_URL, setup_modpack_list,
+  errmsg = download_modpack_list(list_url, setup_modpack_list,
                                  msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 
