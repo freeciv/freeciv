@@ -82,7 +82,7 @@ general, the steps are: \
  1. Mapping the countryside.\n\
  2. Defending the cities.\n\
  3. Deciding which units to build first.\n\
- 4. Building agriculture improvements.\n\
+ 4. Improving the land.\n\
  5. Deciding where to build cities.\n\
  6. Taking care of the cities.\n\
  7. Interacting with other players (diplomacy).\n\
@@ -130,21 +130,24 @@ the above list.\
  3. Deciding which units to build first.\
 \n\n\
     After building one or two Warrior units, start building \
-Settlers.  The second Settler can be used to build roads and \
-irrigate the land close to the city, and the third can be \
-used to build a new city.  Or, you can use the second Settler to \
-build another city, and use the third Settler for agricultural \
-improvements in the land around the cities.  Keep in mind \
-that a large population increases both the amount of \
-productivity and your civilization's research rate.\
+Settlers.  Settlers are best put to use founding new cities; \
+while they can also build agricultural improvements (see the \
+next section), it is better to use Workers for this when \
+available, as unlike Settlers, Workers do not consume food from \
+their parent city.  Keep in mind that a large population increases \
+both the amount of productivity and your civilization's research \
+rate, not to mention that cities secure land for your empire, \
+so founding new cities should be a high priority initially.\
 "), _("\
- 4. Building agriculture improvements.\
+ 4. Improving the land.\
 \n\n\
     Each city has an area of land around it that can be used \
-for growing food, producing goods, and generating trade.  This \
-can be increased by using Settlers to improve the land. \
-The land can be improved with roads, irrigation, mines, and \
-others.\
+for growing food, producing goods, and generating trade.  This output \
+can be increased by using Workers (or Settlers) to improve the land \
+close to your cities.  The land can be improved with irrigation \
+(increasing food), roads (allowing units to move faster and \
+increasing trade), and mines (increasing production), among other \
+improvements.\
 "), _("\
  5. Deciding where to build cities.\
 \n\n\
