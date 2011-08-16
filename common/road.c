@@ -62,7 +62,7 @@ Road_type_id road_count(void)
 /****************************************************************************
   Return road type of given id.
 ****************************************************************************/
-struct road_type *road_type_by_id(int id)
+struct road_type *road_by_number(Road_type_id id)
 {
   fc_assert_ret_val(id >= 0 && id < ROAD_LAST, NULL);
 

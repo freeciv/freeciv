@@ -32,7 +32,7 @@ Road_type_id road_count(void);
 Road_type_id road_index(const struct road_type *proad);
 Road_type_id road_number(const struct road_type *proad);
 
-struct road_type *road_type_by_id(int id);
+struct road_type *road_by_number(Road_type_id id);
 
 enum unit_activity road_activity(struct road_type *road);
 struct road_type *road_by_activity(enum unit_activity act);
@@ -48,7 +48,7 @@ const char *road_activity_text(struct road_type *road);
 {                                                \
   int _i_;                                       \
   for (_i_ = 0; _i_ < ROAD_LAST ; _i_++) {       \
-    struct road_type *_p = road_type_by_id(_i_);
+    struct road_type *_p = road_by_number(_i_);
 
 #define road_type_iterate_end                    \
   }}
