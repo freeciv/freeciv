@@ -505,8 +505,9 @@ void create_players_dialog(void)
   sep = gtk_hseparator_new();
   gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
 
-  menubar = gtk_menu_bar_new();
+  menubar = gtk_aux_menu_bar_new();
   gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 0);
+
 
   gui_dialog_add_widget(players_dialog_shell, vbox);
   gtk_box_set_child_packing(GTK_BOX(players_dialog_shell->action_area), 
