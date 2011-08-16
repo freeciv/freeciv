@@ -2473,7 +2473,7 @@ bool secfile_lookup_enum_data(const struct section_file *secfile,
       }
       remove_leading_trailing_spaces(val_name);
       for (val = 0; (name = name_fn(data, val)); val++) {
-        if (0 == strcmp(name, val_name)) {
+        if (0 == fc_strcasecmp(name, val_name)) {
           break;
         }
       }
@@ -2488,7 +2488,7 @@ bool secfile_lookup_enum_data(const struct section_file *secfile,
     } while (NULL != p);
   } else {
     for (val = 0; (name = name_fn(data, val)); val++) {
-      if (0 == strcmp(name, str)) {
+      if (0 == fc_strcasecmp(name, str)) {
         *pvalue = val;
         break;
       }

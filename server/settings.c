@@ -2511,6 +2511,18 @@ bool setting_bool_validate(const struct setting *pset, const char *val,
 }
 
 /****************************************************************************
+  Convert the integer to the long support string representation of a boolean
+  setting. This function must match the secfile_enum_name_data_fn_t type.
+****************************************************************************/
+static const char *setting_bool_secfile_str(secfile_data_t data, int val)
+{
+  const struct sset_val_name *name =
+      ((const struct setting *) data)->boolean.name(val);
+
+  return (NULL != name ? name->support : NULL);
+}
+
+/****************************************************************************
   Compute the string representation of the value for this integer setting.
 ****************************************************************************/
 static const char *setting_int_to_str(const struct setting *pset,
@@ -3168,7 +3180,7 @@ static bool setting_ruleset_one(struct section_file *file,
   bool lock;
 
   settings_iterate(pset_check) {
-    if (0 == strcmp(setting_name(pset_check), name)) {
+    if (0 == fc_strcasecmp(setting_name(pset_check), name)) {
       pset = pset_check;
       break;
     }
@@ -3182,12 +3194,21 @@ static bool setting_ruleset_one(struct section_file *file,
   switch (pset->stype) {
   case SSET_BOOL:
     {
+      int ival;
       bool val;
 
-      if (!secfile_lookup_bool(file, &val, "%s.value", path)) {
-          log_error("Can't read value for setting '%s': %s", name,
-                    secfile_error());
-      } else if (val != *pset->boolean.pvalue) {
+      /* Allow string with same boolean representation as accepted on
+       * server command line */
+      if (secfile_lookup_enum_data(file, &ival, FALSE,
+                                   setting_bool_secfile_str, pset,
+                                   "%s.value", path)) {
+        val = (ival != 0);
+      } else if (!secfile_lookup_bool(file, &val, "%s.value", path)) {
+        log_error("Can't read value for setting '%s': %s", name,
+                  secfile_error());
+        break;
+      }
+      if (val != *pset->boolean.pvalue) {
         if (NULL == pset->boolean.validate
             || pset->boolean.validate(val, NULL, reject_msg,
                                       sizeof(reject_msg))) {
