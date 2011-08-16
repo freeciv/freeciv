@@ -1215,7 +1215,7 @@ GtkWidget *create_worklist(void)
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
   gtk_box_pack_start(GTK_BOX(editor), bbox, FALSE, FALSE, 0);
 
-  menubar = gtk_menu_bar_new();
+  menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(bbox), menubar);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), menubar, TRUE);
 

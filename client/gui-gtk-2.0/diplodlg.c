@@ -619,7 +619,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 
-  menubar = gtk_menu_bar_new();
+  menubar = gtk_aux_menu_bar_new();
   gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
 
   menu = gtk_menu_new();
@@ -693,7 +693,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 
-  menubar = gtk_menu_bar_new();
+  menubar = gtk_aux_menu_bar_new();
   gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
 
   menu = gtk_menu_new();

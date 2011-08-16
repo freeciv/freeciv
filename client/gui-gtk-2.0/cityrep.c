@@ -958,7 +958,7 @@ static GtkWidget *create_city_report_menubar(void)
   sep = gtk_hseparator_new();
   gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
 
-  menubar = gtk_menu_bar_new();
+  menubar = gtk_aux_menu_bar_new();
   gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 0);
   
   item = gtk_menu_item_new_with_mnemonic(_("_Production"));
