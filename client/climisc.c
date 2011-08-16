@@ -1135,7 +1135,7 @@ void cityrep_buy(struct city *pcity)
 **************************************************************************/
 void common_taxrates_callback(int i)
 {
-  int tax_end, lux_end, sci_end, tax, lux, sci;
+  int lux_end, sci_end, tax, lux, sci;
   int delta = 10;
 
   if (!can_client_issue_orders()) {
@@ -1144,7 +1144,6 @@ void common_taxrates_callback(int i)
 
   lux_end = client.conn.playing->economic.luxury;
   sci_end = lux_end + client.conn.playing->economic.science;
-  tax_end = 100;
 
   lux = client.conn.playing->economic.luxury;
   sci = client.conn.playing->economic.science;
