@@ -25,7 +25,7 @@ void popdown_help_dialog(void);
 
 /* TRANS: "Overview" topic in built-in help */
 #define HELP_OVERVIEW_ITEM N_("?help:Overview")
-#define HELP_PLAYING_ITEM N_("Strategy and tactics")
+#define HELP_PLAYING_ITEM N_("Strategy and Tactics")
 #define HELP_LANGUAGES_ITEM N_("Languages")
 #define HELP_CONNECTING_ITEM N_("Connecting")
 #define HELP_CHATLINE_ITEM N_("Chatline")
