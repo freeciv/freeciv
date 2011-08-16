@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Freeciv modpack installer
+Comment=Download and install add-ons for Freeciv
+Exec=freeciv-modpack
+Icon=freeciv-modpack
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GTK;Game;StrategyGame;
