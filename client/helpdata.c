@@ -935,7 +935,7 @@ void boot_help_texts(struct player *pplayer)
             nations_iterate(pnation) {
               pitem = new_help_item(current_type);
               fc_snprintf(name, sizeof(name), "%*s%s", level, "",
-                          nation_rule_name(pnation));
+                          _(nation_rule_name(pnation)));
               pitem->topic = fc_strdup(name);
               pitem->text = fc_strdup("");
               help_list_append(category_nodes, pitem);
