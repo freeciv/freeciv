@@ -53,6 +53,7 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent);
 GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
                                        GType gtype, int model_index);
 
+GtkWidget *gtk_aux_menu_bar_new(void);
 
 enum gui_dialog_type {
   GUI_DIALOG_WINDOW,
