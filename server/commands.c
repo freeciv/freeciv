@@ -449,10 +449,10 @@ static struct command commands[] = {
    N_("ignore [type=]<pattern>"),
    N_("Block all messages from users matching the pattern."),
    N_("The given pattern will be added to your ignore list; you will not "
-      "receive any messages from this users matching this pattern. The type "
+      "receive any messages from users matching this pattern. The type "
       "may be either \"user\", \"host\", or \"ip\". The default type "
-      "(if ommited) is to match against the username. The pattern supports "
-      "unix glob style wildcards, i.e. * matches zero or more character, ? "
+      "(if omitted) is to match against the username. The pattern supports "
+      "unix glob style wildcards, i.e., * matches zero or more character, ? "
       "exactly one character, [abc] exactly one of 'a' 'b' or 'c', etc. "
       "To access your current ignore list, issue \"/list ignore\"."),
    CMD_ECHO_NONE, VCF_NONE, 0
@@ -464,8 +464,8 @@ static struct command commands[] = {
    N_("The ignore list entries in the given range will be removed; "
       "you will be able to receive messages from the respective users. "
       "The range argument may be a single number or a pair of numbers "
-      "separated by a dash '-'. If the first number is ommitted, it is "
-      "assumed to be 1, if the last is ommitted, it is assumed to be "
+      "separated by a dash '-'. If the first number is omitted, it is "
+      "assumed to be 1; if the last is omitted, it is assumed to be "
       "the last valid ignore list index. To access your current ignore "
       "list, issue \"/list ignore\"."),
    CMD_ECHO_NONE, VCF_NONE, 0

@@ -6,7 +6,7 @@ groups="European", "Medieval"
 legend=_("Franconia was one of the stem duchies of the Holy Roman\
  Empire. Founded in the 9th century, unlike the other stem duchies it\
  didn't manage to consolidate itself and by the 12th century it had\
- completely dissappeared. Franconia continues to exist as a cultural\
+ completely disappeared. Franconia continues to exist as a cultural\
  region in the modern states of Bavaria, Thuringia and Baden-Wuerttemberg.")
 
 leaders = {

@@ -2835,7 +2835,7 @@ Freeciv*outputwindowtext*wrap:			   word
 Freeciv*outputwindowtext*String: _("\
 Freeciv is free software and you are welcome to distribute copies of it\n\
 under certain conditions; See the \"Copying\" item on the Help menu.\n\
-Now.. Go give'em hell!")
+Now ... Go give 'em hell!")
 
 Freeciv*inputlinetext.Width:                       710
 Freeciv*inputlinetext.*.editType:                  edit

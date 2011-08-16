@@ -1270,7 +1270,7 @@ static void write_init_script(char *script_filename)
       && (script_file = fc_fopen(real_filename, "w"))) {
     fprintf(script_file,
 	"#FREECIV SERVER COMMAND FILE, version %s\n", VERSION_STRING);
-    fputs("# These are server options saved from a running civserver.\n",
+    fputs("# These are server options saved from a running freeciv-server.\n",
 	script_file);
 
     /* first, some state info from commands (we can't save everything) */

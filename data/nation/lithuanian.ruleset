@@ -4,8 +4,8 @@ name=_("Lithuanian")
 plural=_("?plural:Lithuanians")
 groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("Lithuania is a small country on the south coast of the Baltic\
- Sea, northeast of Poland.  Lithuanian is the most archaic and complex of\
- the northern Indo-European languages")
+ Sea, northeast of Poland. Lithuanian is the most archaic and complex of\
+ the northern Indo-European languages.")
 
 leaders = {
  "name",                        "sex"

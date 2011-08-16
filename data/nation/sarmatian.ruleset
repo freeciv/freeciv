@@ -3,7 +3,7 @@
 name=_("Sarmatian")
 plural=_("?plural:Sarmatians")
 groups="Ancient", "Asian", "European"
-legend=_("The Sarmatians were Iranian pastoralic tribes from Central Asia\
+legend=_("The Sarmatians were Iranian pastoral tribes from Central Asia\
  and Southwest Siberia. They were closely related to the Saka and the\
  Scythians. The myth of the origin from the Sarmatians formed the basis\
  of the Polish culture from the 15th to the 18th century.")

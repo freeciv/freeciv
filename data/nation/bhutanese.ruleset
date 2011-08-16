@@ -4,8 +4,8 @@ name=_("Bhutanese")
 plural=_("?plural:Bhutanese")
 groups="Early Modern", "Modern", "Asian"
 legend=_("Located in the Himalayas, Bhutan is one of the most isolated\
- countries in the world. Bhutan has never been conquered or occupied\
- by foreign invadors for a millennium if not more. In the 17th century\
+ countries in the world. Bhutan has not been conquered or occupied\
+ by foreign invaders for a millennium if not more. In the 17th century\
  Bhutan became a unified nation under Shabdrung Ngawang Namgyal, who\
  repelled a Mongol invasion and united the rivaling Bhutanese tribes.")
 

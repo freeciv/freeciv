@@ -4,9 +4,9 @@ name=_("Shawnee")
 plural=_("?plural:Shawnee") 
 groups="American" 
 legend=_("An Algonquian people, the Shawnee were led by Tikamthi (better\
- known as Tecumseh) and his brother Tenskwatawa in trying to create a pan-\
- native alliance against American expansionism but were ultimately\
- unsuccessful and made to resettle in Indian Territory (modern Oklahoma).")
+ known as Tecumseh) and his brother Tenskwatawa in trying to create a\
+ pan-native alliance against American expansionism but were ultimately\
+ unsuccessful and made to resettle in the Indian Territory (modern Oklahoma).")
 
 leaders = {
  "name",                "sex"

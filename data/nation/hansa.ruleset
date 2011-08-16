@@ -4,9 +4,9 @@ name=_("Hanseatic")
 plural=_("?plural:Hanseatic League")
 groups="Medieval", "Early Modern", "European"
 legend=_("The Hanseatic League was a powerful alliance of trading cities\
- existing from the 12th to the 19th century. Hanseatic cities were found\
- in the North Sea and Baltic region. Members of the league had their own\
- law system and occasionaly the Hansa went to war with rivalling powers.")
+ which existed from the 12th to the 19th century. Hanseatic cities were found\
+ in the North Sea and Baltic regions. Members of the league had their own\
+ law system and occasionally the Hansa went to war with rival powers.")
 
 leaders = {
  "name",                "sex"

@@ -3,11 +3,11 @@
 name=_("Angolan")
 plural=_("?plural:Angolans")
 groups="Modern", "African"
-legend=_("When the Portuguese arrived to Angola in the 15th century the\
+legend=_("When the Portuguese arrived in Angola in the 15th century the\
  region was controlled by several Bantu kingdoms. Angola became an\
  important source of slave traders until well into the 19th century.\
  After two decades of guerrilla war against the Portuguese colonial\
- authorities Angola finally achieved indepdence in 1975. Soon the various\
+ authorities Angola finally achieved independence in 1975. Soon the various\
  guerilla groups started fighting each other. After half a century of war\
  a peace agreement was finally reached in 2002.")
 

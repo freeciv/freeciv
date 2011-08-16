@@ -3,7 +3,7 @@
 name=_("Belgian")
 plural=_("?plural:Belgians")
 groups="Modern", "European"
-legend = _("Belgium gained independance from the Dutch Kingdom in 1830.\
+legend = _("Belgium gained independence from the Dutch Kingdom in 1830.\
  Belgium is mainly characterized by its movement from a unified state\
  to a federal one. This is the result of the Flemish and the\
  Walloon's nationalist (almost) peaceful fights.")

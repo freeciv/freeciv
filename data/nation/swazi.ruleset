@@ -3,7 +3,7 @@
 name=_("Swazi")
 plural=_("?plural:Swazis")
 groups="Modern", "African"
-legend=_("The Swazis is a Bantu people of southern Africa. Under the\
+legend=_("The Swazi are a Bantu people of southern Africa. Under the\
  leadership of Mswati II (1820 - 1868), the Swazis expanded their territory\
  and stabilized the southern frontier with the Zulus.")
 

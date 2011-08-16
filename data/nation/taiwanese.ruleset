@@ -3,7 +3,7 @@
 name=_("Taiwanese")
 plural=_("?plural:Taiwanese")
 groups="Modern", "Asian"
-legend=_("The Republic of China was established in 1912 as the sucessor\
+legend=_("The Republic of China was established in 1912 as the successor\
  state of the Qing Empire, ending over two millennia of imperial rule in\
  China. When the Chinese Nationalists who ruled the Republic lost a\
  civil war against the Chinese Communists in 1949, the Nationalist\

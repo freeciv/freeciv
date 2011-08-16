@@ -4,9 +4,9 @@ name=_("North Korean")
 plural=_("?plural:North Koreans")
 groups="Modern", "Asian"
 legend=_("In 1945 Korea was split by the Soviet Union and\
- the United States into two states along 38th parallel\
- forming North Korea and South Korea. Even 60 years since\
- then, North Korea remains a communist state of Stalinist type.")
+ the United States into two states along the 38th parallel,\
+ forming North Korea and South Korea. 60 years on,\
+ North Korea remains a communist state of the Stalinist type.")
 
 leaders = {
  "name",                "sex"

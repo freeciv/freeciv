@@ -173,7 +173,7 @@ void update_info_label(void)
 
   /* update tooltips. */
   gtk_widget_set_tooltip_text(econ_ebox,
-		       _("Shows your current luxury/science/tax rates;"
+		       _("Shows your current luxury/science/tax rates; "
 			 "click to toggle them."));
 
   gtk_widget_set_tooltip_text(bulb_ebox, get_bulb_tooltip());
