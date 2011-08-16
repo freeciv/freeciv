@@ -487,10 +487,24 @@ static bool read_a_line(struct inputfile *inf)
       break;
     }
 
+    /* Cope with \n\r line endings if not caught by library:
+     * strip off any leading \r */
+    if (0 == pos && 0 < astr_len(line) && astr_str(line)[0] == '\r') {
+      memmove((char *)astr_str(line), astr_str(line)+1, astr_len(line));
+    }
+
     pos = astr_len(line);
 
     if (0 < pos && astr_str(line)[pos - 1] == '\n') {
-      *((char *) astr_str(line) + pos - 1) = '\0';
+      int end;
+      /* Cope with \r\n line endings if not caught by library:
+       * strip off any trailing \r */
+      if (1 < pos && astr_str(line)[pos - 2] == '\r') {
+        end = pos - 2;
+      } else {
+        end = pos - 1;
+      }
+      *((char *) astr_str(line) + end) = '\0';
       break;
     }
     astr_reserve(line, pos * 2);
