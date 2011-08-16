@@ -177,14 +177,20 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     /* Writing: */
     fp->mode = 'w';
   } else {
+#if defined(HAVE_LIBBZ2) || defined(HAVE_LIBLZMA)
+    char test_mode[4];
+    sz_strlcpy(test_mode, mode);
+    sz_strlcat(test_mode, "b");
+#endif /* HAVE_LIBBZ2 || HAVE_LIBLZMA */
+
     /* Reading: ignore specified method and try each: */
     fp->mode = 'r';
+
 #ifdef HAVE_LIBBZ2
     /* Try to open as bzip2 file
        This is simplest test, so do it first. */
     method = FZ_BZIP2;
-    sz_strlcat(mode,"b");
-    fp->u.bz2.plain = fc_fopen(filename, mode);
+    fp->u.bz2.plain = fc_fopen(filename, test_mode);
     if (fp->u.bz2.plain) {
       fp->u.bz2.file = BZ2_bzReadOpen(&fp->u.bz2.error, fp->u.bz2.plain, 1, 0,
                                       NULL, 0);
@@ -249,8 +255,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     if (fp->u.xz.error != LZMA_OK) {
       return NULL;
     }
-    sz_strlcat(mode,"b");
-    fp->u.xz.plain = fc_fopen(filename, mode);
+    fp->u.xz.plain = fc_fopen(filename, test_mode);
     if (fp->u.xz.plain) {
       size_t len = 0;
 
