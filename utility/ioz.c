@@ -128,13 +128,17 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     /* Writing: */
     fp->mode = 'w';
   } else {
+#ifdef HAVE_LIBBZ2
+    char test_mode[4];
+#endif
     /* Reading: ignore specified method and try best: */
     fp->mode = 'r';
 #ifdef HAVE_LIBBZ2
     /* Try to open as bzip2 file */
     method = FZ_BZIP2;
-    sz_strlcat(mode,"b");
-    fp->u.bz2.plain = fc_fopen(filename, mode);
+    sz_strlcpy(test_mode, mode);
+    sz_strlcat(test_mode,"b");
+    fp->u.bz2.plain = fc_fopen(filename, test_mode);
     if (fp->u.bz2.plain) {
       fp->u.bz2.file = BZ2_bzReadOpen(&fp->u.bz2.error, fp->u.bz2.plain, 1, 0,
                                       NULL, 0);
