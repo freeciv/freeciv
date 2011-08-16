@@ -3,13 +3,13 @@
 name=_("Moravian") 
 plural=_("?plural:Moravians") 
 groups="Medieval", "European" 
-legend=_("Great Moravia was a Slavic medieval monarchy, whose center was\
+legend=_("Great Moravia was a Slavic medieval monarchy whose center was\
  located in the areas of modern Moravia region in Czech Republic. Moravia\
- conquered areas of the Bohemia, Slovakia, Pannonia and large parts of\
+ conquered areas of Bohemia, Slovakia, Pannonia and large parts of\
  southern Poland and Lusatia. The first ruler and founder of this state\
- was duke Mojmir I. The Great Moravian state was destructed as a result\
- of the Hungarian invasion from eastern steppes. After the defeat of the\
- Hungarians by the Holy Roman Empire Moravia was turned into a\
+ was duke Mojmir I. The Great Moravian state was destroyed as a result\
+ of the Hungarian invasion from the eastern steppes. After the defeat of the\
+ Hungarians by the Holy Roman Empire, Moravia was turned into a\
  principality, which was in a personal union with Bohemia for most of its\
  history.")
 

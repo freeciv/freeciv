@@ -5,13 +5,13 @@ plural=_("?plural:Kurds")
 groups="Asian", "Medieval"
 legend=_("The Kurds are a distinct ethno-linguistic group speaking an\
  Indo-Aryan language. Their traditional homeland Kurdistan is situated in\
- northern Middle East and partitioned between Iraq, Turkey, Syria, and\
+ the northern Middle East and partitioned between Iraq, Turkey, Syria, and\
  Iran. The medieval era saw the rise of several principalities ruled by\
  Kurdish dynasties, including Shaddadid, Rawadid, Hasanwayhid, Annazid,\
  and Marwanid. Subsequently subdued by the Ottomans, the Kurds' struggle\
  for self-rule and independence took off again after the fall of the\
  Ottoman Empire and the end of the colonial era. Today, Iraq's Kurdistan\
- Autonomous Region is the only Kurd-dominated politial entity in the\
+ Autonomous Region is the only Kurd-dominated political entity in the\
  world.")
 
 leaders = {

@@ -342,7 +342,7 @@ static const struct sset_val_name *airliftingstyle_name(int bit)
   NAME_CASE(AIRLIFTING_UNLIMITED_SRC, "SRC_UNLIMITED",
             N_("Unlimited units from source city"));
   NAME_CASE(AIRLIFTING_UNLIMITED_DEST, "DEST_UNLIMITED",
-            N_("Unlimited units to destination city."));
+            N_("Unlimited units to destination city"));
   }
   return NULL;
 }
@@ -1100,9 +1100,9 @@ static struct setting settings[] = {
   GEN_INT("gameseed", game.server.seed,
 	  SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Game random seed"),
-	  N_("For zero (the default) a seed will be chosen based "
-	     "on the time. This setting is usually "
-             "only of interest while debugging the game"), NULL, NULL,
+          N_("For zero (the default) a seed will be chosen based "
+             "on the current time. This setting is usually "
+             "only of interest while debugging the game."), NULL, NULL,
 	  GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
   GEN_INT("specials", map.server.riches,

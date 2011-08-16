@@ -961,7 +961,7 @@ const char *get_info_label_text_popup(void)
     astr_add_line(&str, _("Global warming chance: %d%% (%+d%%/turn)"),
                   chance, rate);
   } else {
-    astr_add_line(&str, _("Global Warming deactivated."));
+    astr_add_line(&str, _("Global warming deactivated."));
   }
 
   if (game.info.nuclear_winter) {
@@ -1259,7 +1259,7 @@ const char *get_global_warming_tooltip(void)
   astr_clear(&str);
 
   if (!game.info.global_warming) {
-    astr_add_line(&str, _("Global Warming deactivated."));
+    astr_add_line(&str, _("Global warming deactivated."));
   } else {
     int chance, rate;
     global_warming_scaled(&chance, &rate, 100);

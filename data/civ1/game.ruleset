@@ -19,12 +19,12 @@ name = _("Civ1 ruleset")
 
 ; Description of the ruleset
 description = _("You are playing with civ1 style rules. \
-These rules are much more simple than Freeciv default rules. \
-If you know only default rules, spend some time checking the \
+These rules are much simpler than the Freeciv default rules. \
+If you know only the default rules, spend some time checking the \
 differences.\
 \n\n\
- * There is less technologies, buildings and units\n\
- * Units have no hitpoints. If they win battle, they remain in full health\n\
+ * There are fewer technologies, buildings and units.\n\
+ * Units have no hitpoints. If they win a battle, they remain in full health.\n\
 ")
 
 [options]

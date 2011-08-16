@@ -95,7 +95,7 @@ void ggz_begin(void)
   }
   ggz_socket = ggzmod_get_fd(ggzmod);
   if (ggz_socket < 0) {
-    fc_fprintf(stderr, _("Only the GGZ client must call civclient"
+    fc_fprintf(stderr, _("Only the GGZ client must call freeciv-client"
 			 " in ggz mode!\n"));
     exit(EXIT_FAILURE);
   }

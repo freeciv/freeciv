@@ -854,7 +854,7 @@ each turn; this percentage is shown in the city dialog. (This chance \
 of pollution also affects the risk of plague, if enabled in the \
 ruleset; see the section on Plague.)\
 "), _("\
-Pollution appears as gunk covering of the terrain tiles around the \
+Pollution appears as gunk covering the terrain tiles around the \
 city. A polluted tile generates only half its usual food, production, \
 and trade. The pollution can only be cleared by dispatching Workers, \
 Settlers, or Engineers with the \"clean pollution\" order.\
@@ -1083,7 +1083,7 @@ generate = " Units"
 
 [help_combat]
 name = _("Combat")
-text = _("Default Combat Rules\n---------------------"),
+text = _("Default Combat Rules\n--------------------"),
 _("\
 When one unit attacks another unit, either the attacker will be \
 destroyed, or the defender will be destroyed -- never both (unless \
@@ -1535,8 +1535,8 @@ the metaserver,\
 ", _("\
 The client can fetch this page, too: use the Metaserver button \
 in the connection dialog.  If it never shows any results, check \
-whether your WWW browser is using a HTTP proxy; to make civclient \
-use the same proxy, before starting civclient, \
+whether your WWW browser is using a HTTP proxy; to make the client \
+use the same proxy, before starting the client, \
 set the $http_proxy environment variable to:\
 "), "\
   http://proxyhost:proxyportnumber/\

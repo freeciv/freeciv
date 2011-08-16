@@ -593,7 +593,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Reduces the unhappiness caused by aggressively deployed military\
  units owned by the city by 4 under Democracy and 2 under Republic\
- -- in other words, it neutralises the unhappiness caused by two\
+ -- in other words, it neutralizes the unhappiness caused by two\
  military units. This improvement has no effect under other governments.\
 ")
 
@@ -840,10 +840,10 @@ Space Modules are the most expensive parts of spaceships.  There\
 - Habitation Module: provides living space for 10,000 people.\
 "), _("\
 - Life Support Module: provides food and water for the population of\
-  one Habitation Module.\
+ one Habitation Module.\
 "), _("\
 - Solar Panels: provides the energy needed for any two of the other\
-  Modules.\
+ Modules.\
 "), _("\
 You can build up to 4 Space Modules of each kind.\
 "), _("\
@@ -1568,7 +1568,7 @@ helptext	= _("\
 Counts as a Police Station in every city on the same continent.\
  (That is, for each city, it reduces the unhappiness caused by\
  aggressively deployed military units owned by that city by 4 under\
- Democracy and 2 under Republic -- in other words, it neutralises\
+ Democracy and 2 under Republic -- in other words, it neutralizes\
  the unhappiness caused by two military units per city. This wonder\
  has no effect under other governments.)\
 ")

@@ -5,8 +5,8 @@ plural=_("?plural:Moldovans")
 groups="Modern", "European"
 legend=_("Moldova was conquered by the Ottomans in the 16th century.\
  Then in 1812 Moldova became part of the Russian Empire.\
- From 1918 Moldova was part of Romania until inclusion \
- in the Soviet Union in 1940. The modern Republic of Moldova \
+ From 1918 Moldova was part of Romania until inclusion\
+ in the Soviet Union in 1940. The modern Republic of Moldova\
  gained independence from the Soviet Union in 1991.")
 
 leaders = {
