@@ -38,9 +38,29 @@ icons_64_s =
 icons_128_s =
 endif
 
+if MODINST
+icons_16_m = \
+	16x16/freeciv-modpack.png
+icons_32_m = \
+	32x32/freeciv-modpack.png
+icons_48_m = \
+	48x48/freeciv-modpack.png
+icons_64_m = \
+	64x64/freeciv-modpack.png
+icons_128_m = \
+	128x128/freeciv-modpack.png
+else
+icons_16_m =
+icons_32_m =
+icons_48_m =
+icons_64_m =
+icons_128_m =
+endif
+
 #icons_svg = \
 #	scalable/freeciv-client.svg \
-#	scalable/freeciv-server.svg
+#	scalable/freeciv-server.svg \
+#	scalable/freeciv-modpack.svg
 
 icon16dir = $(datadir)/icons/hicolor/16x16/apps
 icon32dir = $(datadir)/icons/hicolor/32x32/apps
@@ -49,22 +69,26 @@ icon64dir = $(datadir)/icons/hicolor/64x64/apps
 icon128dir = $(datadir)/icons/hicolor/128x128/apps
 #iconscalabledir = $(datadir)/icons/hicolor/scalable/apps
 
-icon16_DATA = $(icons_16_c) $(icons_16_s)
-icon32_DATA = $(icons_32_c) $(icons_32_s)
-icon48_DATA = $(icons_48_c) $(icons_48_s)
-icon64_DATA = $(icons_64_c) $(icons_64_s)
-icon128_DATA = $(icons_128_c) $(icons_128_s)
+icon16_DATA = $(icons_16_c) $(icons_16_s) $(icons_16_m)
+icon32_DATA = $(icons_32_c) $(icons_32_s) $(icons_32_m)
+icon48_DATA = $(icons_48_c) $(icons_48_s) $(icons_48_m)
+icon64_DATA = $(icons_64_c) $(icons_64_s) $(icons_64_m)
+icon128_DATA = $(icons_128_c) $(icons_128_s) $(icons_128_m)
 #iconscalable_DATA = $(icons_svg)
 
 EXTRA_DIST = \
 	$(icons_16_c)	\
 	$(icons_16_s)	\
+	$(icons_16_m)	\
 	$(icons_32_c)	\
 	$(icons_32_s)	\
+	$(icons_32_m)	\
 	$(icons_48_c)	\
 	$(icons_48_s)	\
+	$(icons_48_m)	\
 	$(icons_64_c)	\
 	$(icons_64_s)	\
+	$(icons_64_m)	\
 	$(icons_128_c)	\
-	$(icons_128_s)
-
+	$(icons_128_s)	\
+	$(icons_128_m)

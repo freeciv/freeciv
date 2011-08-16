@@ -1320,7 +1320,8 @@ AC_CONFIG_FILES([Makefile
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
-	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in])
+	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
+	  modinst/freeciv-modpack.desktop:bootstrap/freeciv-modpack.desktop.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
 

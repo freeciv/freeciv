@@ -6,6 +6,10 @@ AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common $(MP_gtk_CFLAGS)
 
 if MINGW32
 MPICON = $(top_builddir)/win32/mpicon.o
+else
+desktopfiledir = $(prefix)/share/applications
+desktopfile_DATA = \
+	freeciv-modpack.desktop
 endif
 
 freeciv_modpack_SOURCES = \
