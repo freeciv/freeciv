@@ -443,23 +443,24 @@ static bool begin_metaserver_scan(struct server_scan *scan)
     return FALSE;
   }
 
-  if (!net_lookup_service(scan->meta.name, scan->meta.port,
-                          &names[0], FALSE)) {
+  name_count = 0;
+
+#ifdef IPV6_SUPPORT
+  if (net_lookup_service(scan->meta.name, scan->meta.port, &names[name_count],
+			 FC_ADDR_IPV6)) {
+    name_count++;
+  }
+#endif /* IPV6_SUPPORT */
+
+  if (net_lookup_service(scan->meta.name, scan->meta.port, &names[name_count],
+			 FC_ADDR_IPV4)) {
+    name_count++;
+  }
+
+  if (name_count <= 0) {
     scan->error_func(scan, _("Failed looking up metaserver's host"));
     return FALSE;
   }
-  name_count = 1;
-#ifdef IPV6_SUPPORT
-  if (names[0].saddr.sa_family == AF_INET6) {
-    /* net_lookup_service() prefers IPv6 address.
-     * Check if there is also IPv4 address.
-     * TODO: This would be easier using getaddrinfo() */
-    if (net_lookup_service(scan->meta.name, scan->meta.port,
-                           &names[1], TRUE /* force IPv4 */)) {
-      name_count = 2;
-    }
-  }
-#endif /* IPv6 support */
 
   /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */  
   for (i = 0; i < name_count; i++) {

@@ -98,6 +98,12 @@ enum announce_type {
 
 #define ANNOUNCE_DEFAULT ANNOUNCE_IPV4
 
+enum fc_addr_family {
+  FC_ADDR_IPV4,
+  FC_ADDR_IPV6,
+  FC_ADDR_ANY
+};
+
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
               struct timeval *timeout);
@@ -109,7 +115,7 @@ void fc_shutdown_network(void);
 
 void fc_nonblock(int sockfd);
 bool net_lookup_service(const char *name, int port,
-                        union fc_sockaddr *addr, bool force_ipv4);
+                        union fc_sockaddr *addr, enum fc_addr_family family);
 fz_FILE *fc_querysocket(int sock, void *buf, size_t size);
 int find_next_free_port(int starting_port);
 

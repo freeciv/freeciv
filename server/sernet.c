@@ -1053,24 +1053,26 @@ int server_open_socket(void)
   struct ipv6_mreq mreq6;
 #endif
 
+  name_count = 0;
+
+#ifdef IPV6_SUPPORT
+  if (net_lookup_service(srvarg.bind_addr, srvarg.port, &names[name_count],
+			 FC_ADDR_IPV6)) {
+    name_count++;
+  }
+#endif /* IPV6_SUPPORT */
+
+  if (net_lookup_service(srvarg.bind_addr, srvarg.port, &names[name_count],
+			 FC_ADDR_IPV4)) {
+    name_count++;
+  }
+
   /* Lookup addresses to bind. */
-  if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &names[0], FALSE)) {
+  if (name_count <= 0) {
     log_fatal(_("Server: bad address: <%s:%d>."),
               srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
   }
-  name_count = 1;
-#ifdef IPV6_SUPPORT
-  if (names[0].saddr.sa_family == AF_INET6) {
-    /* net_lookup_service() prefers IPv6 address.
-     * Check if there is also IPv4 address.
-     * TODO: This would be easier using getaddrinfo() */
-    if (net_lookup_service(srvarg.bind_addr, srvarg.port,
-                           &names[1], TRUE /* force IPv4 */)) {
-      name_count = 2;
-    }
-  }
-#endif /* IPv6 support */
 
   cause = NULL;
   on = 1;

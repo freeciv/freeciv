@@ -160,29 +160,31 @@ static void client_conn_close_callback(struct connection *pconn)
 static int get_server_address(const char *hostname, int port,
                               char *errbuf, int errbufsize)
 {
-  if (port == 0)
+  if (port == 0) {
     port = DEFAULT_SOCK_PORT;
+  }
 
   /* use name to find TCP/IP address of server */
-  if (!hostname)
+  if (!hostname) {
     hostname = "localhost";
+  }
 
-  if (!net_lookup_service(hostname, port, &names[0], FALSE)) {
+  name_count = 0;
+
+#ifdef IPV6_SUPPORT
+  if (net_lookup_service(hostname, port, &names[name_count], FC_ADDR_IPV6)) {
+    name_count++;
+  }
+#endif
+
+  if (net_lookup_service(hostname, port, &names[name_count], FC_ADDR_IPV4)) {
+    name_count++;
+  }
+
+  if (name_count <= 0) {
     (void) fc_strlcpy(errbuf, _("Failed looking up host."), errbufsize);
     return -1;
   }
-  name_count = 1;
-#ifdef IPV6_SUPPORT
-  if (names[0].saddr.sa_family == AF_INET6) {
-    /* net_lookup_service() prefers IPv6 address.
-     * Check if there is also IPv4 address.
-     * TODO: This would be easier using getaddrinfo() */
-    if (net_lookup_service(hostname, port,
-                           &names[1], TRUE /* force IPv4 */)) {
-      name_count = 2;
-    }
-  }
-#endif /* IPv6 support */
 
   return 0;
 }

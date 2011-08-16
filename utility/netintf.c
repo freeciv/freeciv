@@ -322,19 +322,36 @@ bool sockaddr_ipv6(union fc_sockaddr *addr)
   Family can be AF_UNSPEC.
 ***************************************************************************/
 static bool net_lookup_getaddrinfo(const char *name, int port,
-				   void *addr, size_t addr_size, int family)
+				   void *addr, size_t addr_size,
+				   enum fc_addr_family family)
 {
   struct addrinfo hints;
   struct addrinfo *res;
   int err;
   char servname[8];
+  int gafam;
+
+  switch (family) {
+    case FC_ADDR_IPV4:
+      gafam = AF_INET;
+      break;
+    case FC_ADDR_IPV6:
+      gafam = AF_INET6;
+      break;
+    case FC_ADDR_ANY:
+      gafam = AF_UNSPEC;
+      break;
+    default:
+      fc_assert(FALSE);
+      return FALSE;
+  }
 
   /* Convert port to string for getaddrinfo() */
   fc_snprintf(servname, sizeof(servname), "%d", port);
 
   /* Use getaddrinfo() to lookup IPv6 addresses */
   memset(&hints, 0, sizeof(hints));
-  hints.ai_family = family;
+  hints.ai_family = gafam;
   hints.ai_socktype = SOCK_DGRAM; /* any type that uses sin6_port */
   hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
   err = getaddrinfo(name, servname, &hints, &res);
@@ -359,7 +376,7 @@ static bool net_lookup_getaddrinfo(const char *name, int port,
   Look up the service at hostname:port and fill in *addr.
 ***************************************************************************/
 bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
-			bool force_ipv4)
+			enum fc_addr_family family)
 {
   struct sockaddr_in *sock4;
 
@@ -369,13 +386,16 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
   struct hostent *hp;
 #endif /* IPv6 support */
 
+  fc_assert(family != FC_ADDR_ANY); /* Not yet supported */
+
   sock4 = &addr->saddr_in4;
 
 #ifdef IPV6_SUPPORT
   sock6 = &addr->saddr_in6;
 
-  if (!force_ipv4) {
-    if (net_lookup_getaddrinfo(name, port, sock6, sizeof(*sock6), AF_INET6)) {
+  if (family == FC_ADDR_IPV6) {
+    if (net_lookup_getaddrinfo(name, port, sock6, sizeof(*sock6),
+                               FC_ADDR_IPV6)) {
       return TRUE;
     }
   }
@@ -386,13 +406,18 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
   /* IPv6-enabled Freeciv always has HAVE_GETADDRINFO, IPv4-only Freeciv not
    * necessarily */
 #ifdef HAVE_GETADDRINFO
-  if (net_lookup_getaddrinfo(name, port, sock4, sizeof(*sock4), AF_INET)) {
-    return TRUE;
+  if (family == FC_ADDR_IPV4) {
+    if (net_lookup_getaddrinfo(name, port, sock4, sizeof(*sock4),
+                               FC_ADDR_IPV4)) {
+      return TRUE;
+    }
   }
 
   return FALSE;
 
 #else  /* HAVE_GETADDRINFO */
+
+  fc_assert(family != FC_ADDR_IPV6);
 
   addr->saddr.sa_family = AF_INET;
   sock4->sin_port = htons(port);
