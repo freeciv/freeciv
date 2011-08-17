@@ -1378,7 +1378,7 @@ AC_MSG_NOTICE([
     Xaw:     $gui_xaw
     Stub:    $gui_stub
 
-  In-development client fronteds:
+  In-development client frontends:
   (these are not yet ready for general use)
     Gtk-3.0: $gui_gtk3
     QT:      $gui_qt
