@@ -379,20 +379,20 @@ int settler_evaluate_improvements(struct unit *punit,
                   /* If we can make railroads eventually, consider making
                    * road here, and set extras and time to to consider
                    * railroads in main consider_settler_action call. */
-                  int act_rr = adv_city_worker_act_get(pcity, cindex,
-                                                       ACTIVITY_ROAD);
-                  consider_settler_action(pplayer, ACTIVITY_ROAD, extra,
-                                          act_rr, oldv, in_use, time,
+                  consider_settler_action(pplayer, act, extra, base_value,
+                                          oldv, in_use, time,
                                           &best_newv, &best_oldv,
                                           best_act, best_tile, ptile);
 
-                  base_value
-                    = adv_city_worker_act_get(pcity, cindex,
-                                              ACTIVITY_RAILROAD);
+                  base_value = adv_city_worker_act_get(pcity, cindex,
+                                                       ACTIVITY_RAILROAD);
 
                   /* Count road time plus rail time. */
                   time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
                                                     ptile);
+
+                  /* Bonus for rail connectivity instead of road. */
+                  extra = road_bonus(ptile, S_RAILROAD) * 3;
                 }
               } else if (act == ACTIVITY_RAILROAD) {
                 extra = road_bonus(ptile, S_RAILROAD) * 3;
