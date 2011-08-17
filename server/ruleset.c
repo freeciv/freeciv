@@ -2048,14 +2048,6 @@ static void load_ruleset_terrain(struct section_file *file)
         ruleset_error(LOG_FATAL,
                       "\"%s\" [%s] is native to unknown unit class \"%s\".",
                       filename, tsection, slist[j]);
-      } else if (is_ocean(pterrain) && class->move_type == UMT_LAND) {
-        ruleset_error(LOG_FATAL,
-                      "\"%s\" oceanic [%s] is native to land units.",
-                      filename, tsection);
-      } else if (!is_ocean(pterrain) && class->move_type == UMT_SEA) {
-        ruleset_error(LOG_FATAL,
-                      "\"%s\" non-oceanic [%s] is native to sea units.",
-                      filename, tsection);
       } else {
         BV_SET(pterrain->native_to, uclass_index(class));
       }
@@ -4532,6 +4524,24 @@ static bool sanity_check_ruleset_data(void)
       ok = FALSE;
     }
   }
+
+  terrain_type_iterate(pterr) {
+    unit_class_iterate(uc) {
+      if (BV_ISSET(pterr->native_to, uclass_index(uc))) {
+        if (is_ocean(pterr) && uc->move_type == UMT_LAND) {
+          ruleset_error(LOG_FATAL,
+                        "Oceanic %s is native to land units.",
+                        terrain_rule_name(pterr));
+          ok = FALSE;
+        } else if (!is_ocean(pterr) && uc->move_type == UMT_SEA) {
+          ruleset_error(LOG_FATAL,
+                        "Non-oceanic %s is native to sea units.",
+                        terrain_rule_name(pterr));
+          ok = FALSE;
+        }
+      }
+    } unit_class_iterate_end;
+  } terrain_type_iterate_end;
 
   return ok;
 }
