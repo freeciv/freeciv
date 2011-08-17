@@ -3167,6 +3167,7 @@ static void load_ruleset_game(void)
   int i;
   size_t teams;
   const char *text;
+  size_t gni_tmp;
 
   file = openload_ruleset_file("game");
   filename = secfile_name(file);
@@ -3261,9 +3262,9 @@ static void load_ruleset_game(void)
                                          RS_MAX_BASE_TECH_COST,
                                          "civstyle.base_tech_cost");
 
-  food_ini = secfile_lookup_int_vec(file, (size_t *)
-                                    &game.info.granary_num_inis,
+  food_ini = secfile_lookup_int_vec(file, &gni_tmp,
                                     "civstyle.granary_food_ini");
+  game.info.granary_num_inis = (int) gni_tmp;
 
   if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
     ruleset_error(LOG_FATAL,
