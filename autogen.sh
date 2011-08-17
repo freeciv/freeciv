@@ -10,7 +10,7 @@ DIE=0
 package=freeciv
 srcfile=client/civclient.c
 
-SRCDIR=`dirname $0`
+SRCDIR=`dirname "$0"`
 BUILDDIR=`pwd`
 
 # Uncomment the line below to debug this file
@@ -216,10 +216,10 @@ version_check ()
 }
 
 # Chdir to the srcdir, then run auto* tools.
-cd $SRCDIR
+cd "$SRCDIR"
 
 [ -f $srcfile ] || {
-  echo "Are you sure $SRCDIR is a valid source directory?"
+  echo "Are you sure \"$SRCDIR\" is a valid source directory?"
   exit 1
 }
 
@@ -294,7 +294,7 @@ $AUTOMAKE -a -c || {
 }
 
 # Chdir back to the builddir before the configure step.
-cd $BUILDDIR
+cd "$BUILDDIR"
 
 # now remove the cache, because it can be considered dangerous in this case
 echo "+ removing config.cache ... "
@@ -317,7 +317,7 @@ else
 fi
 echo
 
-$SRCDIR/configure $FC_NEWARGLINE || {
+"$SRCDIR/configure" $FC_NEWARGLINE || {
   echo
   echo "configure failed"
   exit 1
