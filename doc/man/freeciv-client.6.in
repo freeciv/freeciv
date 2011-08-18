@@ -222,7 +222,7 @@ which is
 by default. Currently the following tilespecs can be used:
 
 \(bu
-.I amplio.tilespec
+.I amplio2.tilespec
 
 \(bu
 .I hex2t.tilespec
