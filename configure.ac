@@ -354,6 +354,25 @@ if test $enable_aimodules = yes ; then
 fi
 AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 
+AC_ARG_ENABLE([ai-static],
+[  --enable-ai-static     statically link listed modules to server],
+[static_modules="${enableval}"],
+[static_modules=""])
+
+ai_mod_static_threaded=no
+
+for module in $(echo $static_modules | $SED 's/,/ /g') ; do
+  if test "x$module" = "xthreaded" ; then
+    ai_mod_static_threaded=yes
+    AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
+              [threaded ai module statically linked])
+  else
+    AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
+  fi
+done
+AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
+[test "x$ai_mod_static_threaded" = "xyes"])
+
 dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC

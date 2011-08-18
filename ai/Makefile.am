@@ -1,14 +1,20 @@
 ## Process this file with automake to produce Makefile.in
 
-if AI_MODULES
-if EXP_AI_MODULES
-module_dirs = stub threaded
-else
-# AI module loading supported, but experimental modules not built
-module_dirs =
-endif
-else
-module_dirs =
+module_dirs = default
+
+if AI_MOD_STATIC_THREADED
+module_dirs += threaded
 endif
 
-SUBDIRS = default $(module_dirs)
+if AI_MODULES
+if EXP_AI_MODULES
+if !AI_MOD_STATIC_THREADED
+module_dirs += threaded
+endif
+module_dirs += stub
+else
+# AI module loading supported, but experimental modules not built
+endif
+endif
+
+SUBDIRS = $(module_dirs)

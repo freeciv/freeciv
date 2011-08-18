@@ -34,10 +34,14 @@
 
 #include "aiiface.h"
 
+#ifdef AI_MOD_STATIC_THREADED
+bool fc_ai_threaded_setup(struct ai_type *ai);
+#endif
+
+#ifdef AI_MODULES
 /**************************************************************************
   Return string describing module loading error. Never returns NULL.
 **************************************************************************/
-#ifdef AI_MODULES
 static const char *fc_module_error(void)
 {
   static char def_err[] = "Unknown error";
@@ -49,7 +53,6 @@ static const char *fc_module_error(void)
 
   return errtxt;
 }
-#endif /* AI_MODULES */
 
 /**************************************************************************
   Load ai module from file.
@@ -58,15 +61,12 @@ bool load_ai_module(const char *modname)
 {
   struct ai_type *ai = ai_type_alloc();
   bool setup_success;
-
-#ifdef AI_MODULES
   lt_dlhandle handle;
   bool (*setup_func)(struct ai_type *ai);
   const char *(*capstr_func)(void);
   const char *capstr;
   char buffer[2048];
   char filename[1024];
-#endif /* AI_MODULES */
 
   if (ai == NULL) {
     return FALSE;
@@ -74,7 +74,6 @@ bool load_ai_module(const char *modname)
 
   init_ai(ai);
 
-#ifdef AI_MODULES
   fc_snprintf(filename, sizeof(filename), "fc_ai_%s", modname);
   fc_snprintf(buffer, sizeof(buffer), "%s", filename);
   handle = lt_dlopenext(buffer);
@@ -113,18 +112,10 @@ bool load_ai_module(const char *modname)
     log_error(_("Setup of ai module %s failed."), filename);
     return FALSE;
   }
-#else  /* AI_MODULES */
-
-  setup_success = fc_ai_default_setup(ai);
-
-  if (!setup_success) {
-    return FALSE;
-  }
-
-#endif /* AI_MODULES */
 
   return TRUE;
 }
+#endif /* AI_MODULES */
 
 /**************************************************************************
   Initialize ai stuff
@@ -132,6 +123,10 @@ bool load_ai_module(const char *modname)
 void ai_init(void)
 {
   bool failure = FALSE;
+#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_THREADED)
+  /* First !defined(AI_MODULES) case is for default ai support. */
+  struct ai_type *ai;
+#endif
 
 #ifdef AI_MODULES
   if (lt_dlinit()) {
@@ -157,16 +152,34 @@ void ai_init(void)
     /* Then search ai modules from their installation directory. */
     lt_dladdsearchdir(AI_MODULEDIR);
   }
-#endif /* AI_MODULES */
 
   if (!failure && !load_ai_module("default")) {
     failure = TRUE;
   }
 
+#else  /* AI_MODULES */
+  ai = ai_type_alloc();
+  init_ai(ai);
+  if (!fc_ai_default_setup(ai)) {
+    failure = TRUE;
+  }
+
+#endif /* AI_MODULES */
+
   if (failure) {
-    log_fatal(_("Failed to load default ai module, cannot continue."));
+    log_fatal(_("Failed to setup default ai module, cannot continue."));
     exit(EXIT_FAILURE);
   }
+
+#ifdef AI_MOD_STATIC_THREADED
+  ai = ai_type_alloc();
+  if (ai != NULL) {
+    init_ai(ai);
+    if (!fc_ai_threaded_setup(ai)) {
+      log_error("Failed to setup threaded ai");
+    }
+  }
+#endif /* AI_MOD_STATIC_THREADED */
 }
 
 /**************************************************************************
