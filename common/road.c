@@ -22,10 +22,8 @@
 
 static struct road_type roads[ROAD_LAST] =
   {
-    { ROAD_ROAD, N_("Road"), ACTIVITY_ROAD, N_("Road"),
-      S_ROAD },
-    { ROAD_RAILROAD, N_("Railroad"), ACTIVITY_RAILROAD, N_("Railroad"),
-      S_RAILROAD }
+    { ROAD_ROAD, N_("Road"), ACTIVITY_ROAD, S_ROAD },
+    { ROAD_RAILROAD, N_("Railroad"), ACTIVITY_RAILROAD, S_RAILROAD }
   };
 
 /**************************************************************************
@@ -129,12 +127,4 @@ const char *road_name_translation(struct road_type *road)
 const char *road_rule_name(struct road_type *road)
 {
   return road->name;
-}
-
-/****************************************************************************
-  Return verb describing building of this road type.
-****************************************************************************/
-const char *road_activity_text(struct road_type *road)
-{
-  return _(road->activity_text);
 }

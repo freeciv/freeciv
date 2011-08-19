@@ -23,7 +23,6 @@ struct road_type {
   int id;
   const char *name;
   enum unit_activity act;
-  const char *activity_text;
   enum tile_special_type special;
 };
 
@@ -42,7 +41,6 @@ struct road_type *road_by_special(enum tile_special_type spe);
 
 const char *road_name_translation(struct road_type *road);
 const char *road_rule_name(struct road_type *road);
-const char *road_activity_text(struct road_type *road);
 
 #define road_type_iterate(_p)                    \
 {                                                \
