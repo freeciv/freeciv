@@ -17,6 +17,7 @@ freeciv-modpack \
 .B freeciv-modpack \
 [ \-h|\-\-help ] \
 [ \-L|\-\-List \fIURL\fP ] \
+[ \-p|\-\-prefix \fIdirectory\fP ] \
 [ \-v|\-\-version ] \
 
 .SH DESCRIPTION
@@ -51,8 +52,11 @@ and a complete word); their effects are identical.
 .BI "\-h, \-\-help"
 Prints a short summary of the command line options.
 .TP
-.BI "\L, \-\-List \fIURL\fP"
+.BI "\-L, \-\-List \fIURL\fP"
 Gets modpack list from given URL.
+.TP
+.BI "\p, \-\-prefix \fIdirectory\fP"
+Installs modpacks under given directory hierarchy. 
 .TP
 .BI "\-v, \-\-version"
 Prints the version number and exits.

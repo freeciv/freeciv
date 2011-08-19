@@ -38,23 +38,21 @@
 /**************************************************************************
   Return path to control directory
 **************************************************************************/
-static char *control_dir(void)
+static char *control_dir(const char *prefix)
 {
-  const char *home;
   static char controld[500] = { '\0' };
 
   if (controld[0] != '\0') {
     return controld;
   }
 
-  home = user_home_dir();
-  if (home == NULL) {
+  if (prefix == NULL) {
     return NULL;
   }
 
   fc_snprintf(controld, sizeof(controld),
-              "%s/.freeciv/" DATASUBDIR "/control",
-              home);
+              "%s/" DATASUBDIR "/control",
+              prefix);
 
   return controld;
 }
@@ -75,13 +73,13 @@ static void nf_cb(const char *msg, void *data)
   Download modpack from a given URL
 **************************************************************************/
 const char *download_modpack(const char *URL,
+                             const char *prefix,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb)
 {
   char *controld;
   char local_dir[2048];
   char local_name[2048];
-  const char *home;
   int start_idx;
   int filenbr, total_files;
   struct section_file *control;
@@ -110,12 +108,11 @@ const char *download_modpack(const char *URL,
 
   log_normal(_("Installing modpack %s from %s"), URL + start_idx, URL);
 
-  home = user_home_dir();
-  if (home == NULL) {
-    return _("Cannot determine user home directory");
+  if (prefix == NULL) {
+    return _("Cannot install to given directory hierarchy");
   }
 
-  controld = control_dir();
+  controld = control_dir(prefix);
 
   if (controld == NULL) {
     return _("Cannot determine control directory");
@@ -159,10 +156,10 @@ const char *download_modpack(const char *URL,
 
   if (type == MPT_SCENARIO) {
     fc_snprintf(local_dir, sizeof(local_dir),
-                "%s/.freeciv/scenarios", home);
+                "%s/scenarios", prefix);
   } else {
     fc_snprintf(local_dir, sizeof(local_dir),
-                "%s/.freeciv/" DATASUBDIR, home);
+                "%s/" DATASUBDIR, prefix);
   }
 
   baseURL = secfile_lookup_str(control, "info.baseURL");
@@ -268,10 +265,12 @@ const char *download_modpack(const char *URL,
 /**************************************************************************
   Download modpack list
 **************************************************************************/
-const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
+const char *download_modpack_list(const char *URL,
+                                  const char *prefix,
+                                  modpack_list_setup_cb cb,
                                   dl_msg_callback mcb)
 {
-  const char *controld = control_dir();
+  const char *controld = control_dir(prefix);
   struct section_file *list_file;
   const char *list_capstr;
   int modpack_count;

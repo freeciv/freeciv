@@ -33,6 +33,7 @@ typedef void (*dl_msg_callback)(const char *msg);
 typedef void (*dl_pb_callback)(const double fraction);
 
 const char *download_modpack(const char *URL,
+                             const char *prefix,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb);
 
@@ -40,7 +41,9 @@ typedef void (*modpack_list_setup_cb)(const char *name, const char *URL,
                                       const char *version,
                                       enum modpack_type type);
 
-const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
+const char *download_modpack_list(const char *URL,
+                                  const char *prefix,
+                                  modpack_list_setup_cb cb,
                                   dl_msg_callback mcb);
 
 #endif /* FC__MODPACK_DOWNLOAD_H */

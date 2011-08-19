@@ -49,6 +49,7 @@ static GtkWidget *URL_input;
 static gboolean downloading = FALSE;
 
 const char *list_url = MODPACK_LIST_URL;
+const char *inst_prefix = NULL;
 
 static gboolean quit_dialog_callback(void);
 
@@ -138,7 +139,7 @@ static gpointer download_thread(gpointer data)
 {
   const char *errmsg;
 
-  errmsg = download_modpack(data, msg_callback, pbar_callback);
+  errmsg = download_modpack(data, inst_prefix, msg_callback, pbar_callback);
 
   if (errmsg == NULL) {
     gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
@@ -320,8 +321,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   main_store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING,
                                   G_TYPE_STRING, G_TYPE_STRING);
-  errmsg = download_modpack_list(list_url, setup_modpack_list,
-                                 msg_callback);
+  errmsg = download_modpack_list(list_url, inst_prefix,
+                                 setup_modpack_list, msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 
   g_object_unref(main_store);
@@ -351,6 +352,19 @@ int main(int argc, char *argv[])
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
+
+  if (inst_prefix == NULL) {
+    const char *home = user_home_dir();
+
+    if (home == NULL) {
+      log_error("Cannot determine user home directory");
+    } else {
+      static char pfx_buf[500];
+
+      snprintf(pfx_buf, sizeof(pfx_buf), "%s/.freeciv", home);
+      inst_prefix = pfx_buf;
+    }
+  }
 
   if (ui_options != -1) {
 
