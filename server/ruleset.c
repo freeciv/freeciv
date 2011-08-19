@@ -4261,11 +4261,9 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
        return FALSE;
        break;
 
-     case VUT_SPECIAL:
      case VUT_TERRAIN:
-     case VUT_BASE:
        /* There can be only up to max_tiles requirements of these types */
-       if (max_tiles != 1 && rc > max_tiles) {
+       if (max_tiles != -1 && rc > max_tiles) {
          log_error("%s: Requirement list has more %s requirements than "
                    "can ever be fullfilled.", list_for,
                    universal_type_rule_name(&preq->source));
@@ -4273,6 +4271,9 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
        }
        break;
 
+     case VUT_SPECIAL:
+     case VUT_BASE:
+       /* Note that there can be more than 1 special or base / tile. */
      case VUT_NONE:
      case VUT_ADVANCE:
      case VUT_IMPROVEMENT:
