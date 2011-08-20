@@ -5700,7 +5700,6 @@ msgid "Unlimited units from source city"
 msgstr "Rajaton lähtevien yksiköiden määrä"
 
 #: server/settings.c:345
-#, fuzzy
 msgid "Unlimited units to destination city"
 msgstr "Rajaton saapuvien yksiköiden määrä"
 
@@ -14313,7 +14312,6 @@ msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Ilmaston lämpenemisen todennäköisyys: %d%% (%+d%%/vuoro)"
 
 #: client/text.c:964 client/text.c:1262
-#, fuzzy
 msgid "Global warming deactivated."
 msgstr "Ilmastonmuutos ei ole käytössä."
 
@@ -16627,7 +16625,6 @@ msgid "What should we call our new city?"
 msgstr "Mikä annetaan uudelle kaupungille nimeksi?"
 
 #: client/gui-gtk-2.0/mapview.c:176
-#, fuzzy
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
 msgstr "Näyttää nykyisen luksus/tutkimus/vero -tasosi, napsauta muuttaaksesi."
 
@@ -22441,7 +22438,6 @@ msgstr ""
 "säännöissä, katso kohtaa Rutto.)"
 
 #: data/helpdata.txt:859
-#, fuzzy
 msgid ""
 "Pollution appears as gunk covering the terrain tiles around the city. A "
 "polluted tile generates only half its usual food, production, and trade. The "
@@ -22875,7 +22871,6 @@ msgstr ""
 "kokeneisuustasonsa."
 
 #: data/helpdata.txt:1089
-#, fuzzy
 msgid ""
 "Default Combat Rules\n"
 "--------------------"
@@ -23738,7 +23733,6 @@ msgstr ""
 "pelistä metapalvelimelle."
 
 #: data/helpdata.txt:1538
-#, fuzzy
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check whether your WWW "
@@ -24928,7 +24922,6 @@ msgstr "– Asuinyksikkö: tarjoaa asuintilat 10 000 ihmiselle."
 #: data/civ1/buildings.ruleset:563 data/civ2/buildings.ruleset:801
 #: data/default/buildings.ruleset:859 data/experimental/buildings.ruleset:908
 #: data/multiplayer/buildings.ruleset:841
-#, fuzzy
 msgid ""
 "- Life Support Module: provides food and water for the population of one "
 "Habitation Module."
@@ -24939,7 +24932,6 @@ msgstr ""
 #: data/civ1/buildings.ruleset:566 data/civ2/buildings.ruleset:804
 #: data/default/buildings.ruleset:862 data/experimental/buildings.ruleset:911
 #: data/multiplayer/buildings.ruleset:844
-#, fuzzy
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other Modules."
 msgstr ""
@@ -27238,7 +27230,6 @@ msgstr "Poliisiasema"
 
 #: data/civ2/buildings.ruleset:561 data/default/buildings.ruleset:603
 #: data/experimental/buildings.ruleset:652
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 2 under Democracy and 1 under Republic -- in other words, it "
@@ -27589,7 +27580,6 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1527 data/default/buildings.ruleset:1597
 #: data/experimental/buildings.ruleset:1649
-#, fuzzy
 msgid ""
 "Counts as a Police Station in every city. (That is, for each city, it "
 "reduces the unhappiness caused by aggressively deployed military units owned "
@@ -28732,7 +28722,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1488
 #: data/experimental/buildings.ruleset:1540
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Lisää tutkimuspanosta 100% kaikissa kaupungeissa, joissa on Tutkimuslaitos."
@@ -29162,7 +29152,6 @@ msgid "Amphitheater"
 msgstr "Amfiteatteri"
 
 #: data/multiplayer/buildings.ruleset:593
-#, fuzzy
 msgid ""
 "Reduces the unhappiness caused by aggressively deployed military units owned "
 "by the city by 4 under Democracy and 2 under Republic -- in other words, it "
@@ -29364,7 +29353,6 @@ msgstr ""
 "kahden vuoron ajan, pelaajan hallinto kukistuu."
 
 #: data/multiplayer/buildings.ruleset:1567
-#, fuzzy
 msgid ""
 "Counts as a Police Station in every city on the same continent. (That is, "
 "for each city, it reduces the unhappiness caused by aggressively deployed "
@@ -32921,7 +32909,6 @@ msgid "?plural:Elamites"
 msgstr "?plural:elamilaiset"
 
 #: data/nation/elamite.ruleset:6
-#, fuzzy
 msgid ""
 "Elam was an ancient civilization located in the area of modern southwest "
 "Iran, which arose around 3100 BC. The Elamite language, written in "
@@ -33943,7 +33930,6 @@ msgid "?plural:Holy Romans"
 msgstr "?plural:roomalaiset"
 
 #: data/nation/holyroman.ruleset:7
-#, fuzzy
 msgid ""
 "The Holy Roman Empire was considered the successor to the Roman Empire, but "
 "as Voltaire once quipped it was neither Holy, nor Roman nor even less an "
@@ -34128,7 +34114,6 @@ msgid "?plural:Incas"
 msgstr "?plural:inkat"
 
 #: data/nation/inca.ruleset:7
-#, fuzzy
 msgid ""
 "The Inca were an Amerind people of the Northern Andes who conquered an "
 "empire stretching along the west coast of South America from what is now "
@@ -34965,13 +34950,12 @@ msgid "?plural:Lithuanians"
 msgstr "?plural:liettualaiset"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland. Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages."
 msgstr ""
-"Liettua on pieni maa Itämeren etelärannalla, koilliseen Puolasta.  Liettuan "
+"Liettua on pieni maa Itämeren etelärannalla, koilliseen Puolasta. Liettuan "
 "kieli on vanhakantaisin ja monimutkaisin pohjoisista indoeurooppalaisista "
 "kielistä."
 
@@ -37781,7 +37765,6 @@ msgid "?plural:Somalis"
 msgstr "?plural:somalit"
 
 #: data/nation/somali.ruleset:6
-#, fuzzy
 msgid ""
 "Somalia is a country in the Horn of Africa. In ancient times Somalia was a "
 "trading hub. At the end of the 19th century it was colonized by Britain and "
@@ -38375,7 +38358,6 @@ msgid "?plural:Thai"
 msgstr "?plural:thait"
 
 #: data/nation/thai.ruleset:6
-#, fuzzy
 msgid ""
 "The Thai kingdom was the only country in Southeast Asia to preserve its "
 "independence through the colonial era of the 18th and 19th centuries AD."
@@ -38574,7 +38556,6 @@ msgid "?plural:Tunisians"
 msgstr "tunisialaiset"
 
 #: data/nation/tunisian.ruleset:6
-#, fuzzy
 msgid ""
 "The Phoenicians founded Carthage in the area where Tunisia is today. "
 "Carthage later became a major power in the Mediterranean region until it was "
