@@ -3,6 +3,7 @@
 name=_("Circassian")
 plural=_("?plural:Circassians")
 groups="Ancient", "Medieval", "Early Modern", "European"
+; /* xgettext:no-c-format */
 legend=_("The Circassians are the indigenous peoples of the Northwest\
  Caucasus. The Circassian or Adyghe language is part of the Northwest\
  Caucasian language family, related to Kabardian, Abkhaz and Ubykh. The\
