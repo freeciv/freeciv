@@ -4423,6 +4423,15 @@ static bool sanity_check_ruleset_data(void)
     }
   } specialist_type_iterate_end;
 
+  /* Bases */
+  base_type_iterate(pbase) {
+    if (!sanity_check_req_vec(&pbase->reqs, -1,
+                              base_rule_name(pbase))) {
+      ruleset_error(LOG_FATAL, "Bases have conflicting requirements!");
+      ok = FALSE;
+    }
+  } base_type_iterate_end
+
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {
     if (!sanity_check_req_vec(&city_styles[i].reqs, -1,
