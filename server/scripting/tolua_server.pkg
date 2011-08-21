@@ -1,0 +1,171 @@
+/****************************************************************************
+ Freeciv - Copyright (C) 2005 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+****************************************************************************/
+
+/****************************************************************************
+  ADVERTISEMENT: do not attempt to change the name of the API functions.
+  They *must* be compatible between the minor Freeciv versions within the
+  same major version. If you really like to change a function name, be sure
+  to keep also the old one running.
+****************************************************************************/
+
+$#ifdef HAVE_CONFIG_H
+$#include <fc_config.h>
+$#endif
+
+$#include "api_actions.h"
+$#include "api_notify.h"
+$#include "script_signal.h"
+
+$#include "commands.h"
+$#include "console.h"
+
+
+/* Commands module. */
+module cmd {
+  /* This list command_id's allowed to use from a lua script. See also
+   * api_utilities.c. */
+  module id {
+    enum command_id {
+      CMD_FCDB @ FCDB
+    };
+  }
+
+  module status {
+    enum rfc_status {
+      C_IGNORE @ IGNORE,
+      C_COMMENT @ COMMENT,
+      C_VERSION @ VERSION,
+      C_DEBUG @ DEBUG,
+      C_LOG_BASE @ LOG_BASE,
+      C_OK @ OK,
+      C_CONNECTION @ CONNECTION,
+      C_DISCONNECTED @ DISCONNECTED,
+      C_REJECTED @ REJECTED,
+      C_FAIL @ FAIL,
+      C_METAERROR @ METAERROR,
+      C_SYNTAX @ SYNTAX,
+      C_BOUNCE @ BOUNCE,
+      C_GENFAIL @ GENFAIL,
+      C_WARNING @ WARNING,
+      C_READY @ READY
+    };
+  }
+
+  void api_utilities_cmd_reply @ reply_base (int cmdid, Connection *caller,
+                                             int rfc_status, const char *msg);
+}
+
+$[
+-- Command module implementation.
+
+function cmd.reply(cmdid, caller, rfc_status, ...)
+  cmd.reply_base(cmdid, caller, rfc_status, string.format(unpack(arg)))
+end
+
+$]
+
+
+/* Module Player. */
+module Player {
+  void api_methods_player_victory
+    @ victory (Player *self);
+  int api_methods_player_civilization_score
+    @ civilization_score (Player *self);
+}
+
+/* Module Unit. */
+module Unit {
+  bool api_methods_unit_teleport
+    @ teleport(Unit *self, Tile *dest);
+  void api_methods_unit_turn
+    @ turn(Unit *self, Direction dir);
+}
+
+/* Signal module. */
+module signal {
+  void script_signal_connect @ connect(const char *signal_name,
+                                       const char *callback_name);
+}
+
+/* Notify module. */
+module notify {
+  void api_notify_embassies_msg @ embassies_msg (Player *pplayer,
+                                                 Tile *ptile,
+                                                 int event,
+                                                 const char *message);
+  void api_notify_event_msg @ event_msg (Player *pplayer, Tile *ptile,
+                                         int event, const char *message);
+}
+
+module E {
+  /* Notify events module is exported by api_specenum */
+}
+
+
+$[
+-- Notify module implementation.
+
+function notify.all(...)
+  notify.event_msg(nil, nil, E.SCRIPT, string.format(unpack(arg)))
+end
+
+function notify.player(player, ...)
+  notify.event_msg(player, nil, E.SCRIPT, string.format(unpack(arg)))
+end
+
+function notify.event(player, tile, event, ...)
+  notify.event_msg(player, tile, event, string.format(unpack(arg)))
+end
+
+function notify.embassies(player, ptile, event, ...)
+  notify.embassies_msg(player, ptile, event, string.format(unpack(arg)))
+end
+$]
+
+/* Actions module. */
+Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
+                                             Unit_Type *ptype,
+                                             int veteran_level,
+                                             City *homecity, int moves_left);
+Unit *api_actions_create_unit_full @ create_unit_full (Player *pplayer,
+                                                       Tile *ptile,
+                                                       Unit_Type *ptype,
+                                                       int veteran_level,
+                                                       City *homecity,
+                                                       int moves_left,
+                                                       int hp_left,
+                                                       Unit *ptransport);
+void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
+                                            const char *name);
+void api_actions_create_base @ create_base (Tile *ptile, const char *name,
+                                            Player *pplayer);
+Player *api_actions_create_player @ create_player(const char *username,
+                                                  Nation_Type *nation);
+void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
+Tech_Type *api_actions_give_technology @ give_technology (Player *pplayer,
+                                                          Tech_Type *ptech,
+                                                          const char *reason);
+bool api_actions_unleash_barbarians @ unleash_barbarians (Tile *ptile);
+void api_actions_place_partisans @ place_partisans (Tile *ptile,
+                                                    Player *pplayer,
+                                                    int count,
+                                                    int sq_radius);
+
+enum climate_change_type {
+  CLIMATE_CHANGE_GLOBAL_WARMING @ GLOBAL_WARMING,
+  CLIMATE_CHANGE_NUCLEAR_WINTER @ NUCLEAR_WINTER
+};
+void api_actions_climate_change @ climate_change (enum climate_change_type type,
+                                                  int effect);
+Player *api_actions_civil_war @ civil_war(Player *pplayer,
+                                          int probability);

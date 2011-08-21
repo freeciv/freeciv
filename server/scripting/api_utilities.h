@@ -21,9 +21,6 @@ int api_utilities_random(int min, int max);
 
 void api_utilities_log_base(int level, const char *message);
 
-void api_utilities_cmd_reply(int cmdid, struct connection *caller,
-                             int rfc_status, const char *msg);
-
 Direction api_utilities_str2dir(const char *dir);
 
 #endif /* FC__API_UTILITIES_H */

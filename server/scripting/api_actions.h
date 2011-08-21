@@ -43,4 +43,12 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
 void api_actions_create_base(Tile *ptile, const char *name,
                              struct player *pplayer);
 
+void api_utilities_cmd_reply(int cmdid, struct connection *caller,
+                             int rfc_status, const char *msg);
+
+int api_methods_player_civilization_score(Player *pplayer);
+void api_methods_player_victory(Player *pplayer);
+bool api_methods_unit_teleport(Unit *punit, Tile *dest);
+void api_methods_unit_turn(Unit *punit, Direction dir);
+
 #endif

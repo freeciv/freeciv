@@ -46,8 +46,6 @@ bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building);
 int api_methods_player_number(Player *pplayer);
 int api_methods_player_num_cities(Player *pplayer);
 int api_methods_player_num_units(Player *pplayer);
-void api_methods_player_victory(Player *pplayer);
-int api_methods_player_civilization_score(Player *pplayer);
 int api_methods_player_gold(Player *pplayer);
 bool api_methods_player_knows_tech(Player *pplayer, Tech_Type *ptech);
 Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer);
@@ -76,8 +74,6 @@ Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile);
 /* Unit */
 bool api_methods_unit_city_can_be_built_here(Unit *punit);
 Tile *api_methods_unit_tile_get(Unit * punit);
-bool api_methods_unit_teleport(Unit *punit, Tile *dest);
-void api_methods_unit_turn(Unit *punit, Direction dir);
 Direction api_methods_unit_orientation_get(Unit *self);
 
 /* Unit Type */

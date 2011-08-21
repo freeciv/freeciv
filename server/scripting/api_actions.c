@@ -29,6 +29,7 @@
 #include "maphand.h"
 #include "movement.h"
 #include "plrhand.h"
+#include "score.h"
 #include "srv_main.h" /* game_was_started() */
 #include "stdinhand.h"
 #include "techtools.h"
@@ -265,5 +266,79 @@ void api_actions_create_base(Tile *ptile, const char *name, Player *pplayer)
 
   if (pbase) {
     create_base(ptile, pbase, pplayer);
+  }
+}
+
+/**************************************************************************
+  Return the value for the fcdb setting 'type'.
+**************************************************************************/
+void api_utilities_cmd_reply(int cmdid, struct connection *caller,
+                             int rfc_status, const char *msg)
+{
+  if (cmdid != CMD_FCDB) {
+    log_error("Use of forbitten command id from lua script: %s (%d).",
+              command_name_by_number(cmdid), cmdid);
+    return;
+  }
+
+  cmd_reply(cmdid, caller, rfc_status, "%s", msg);
+}
+
+/**************************************************************************
+  Return the civilization score (total) for player
+**************************************************************************/
+int api_methods_player_civilization_score(Player *pplayer)
+{
+  SCRIPT_CHECK_SELF(pplayer, 0);
+  return get_civ_score(pplayer);
+}
+
+/**************************************************************************
+  Make player winner of the scenario
+**************************************************************************/
+void api_methods_player_victory(Player *pplayer)
+{
+  SCRIPT_CHECK_SELF(pplayer);
+  player_status_add(pplayer, PSTATUS_WINNER);
+}
+
+/**************************************************************************
+  Teleport unit to destination tile
+**************************************************************************/
+bool api_methods_unit_teleport(Unit *punit, Tile *dest)
+{
+  bool alive;
+
+  /* Teleport first so destination is revealed even if unit dies */
+  alive = unit_move(punit, dest, 0);
+  if (alive) {
+    struct player *owner = unit_owner(punit);
+    struct city *pcity = tile_city(dest);
+
+    if (!can_unit_exist_at_tile(punit, dest)) {
+      wipe_unit(punit, ULR_NONNATIVE_TERR);
+      return FALSE;
+    }
+    if (is_non_allied_unit_tile(dest, owner)
+        || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
+      wipe_unit(punit, ULR_STACK_CONFLICT);
+      return FALSE;
+    }
+  }
+
+  return alive;
+}
+
+/**************************************************************************
+  Change unit orientation
+**************************************************************************/
+void api_methods_unit_turn(Unit *punit, Direction dir)
+{
+  if (direction8_is_valid(dir)) {
+    punit->facing = dir;
+
+    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), FALSE);
+  } else {
+    log_error("Illegal direction %d for unit from lua script", dir);
   }
 }

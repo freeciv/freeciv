@@ -27,11 +27,6 @@
 #include "unitlist.h"
 #include "unittype.h"
 
-/* server */
-#include "score.h"
-#include "plrhand.h"
-#include "unittools.h"
-
 /* server/scripting */
 #include "script_game.h"
 
@@ -213,24 +208,6 @@ int api_methods_player_num_units(Player *pplayer)
 {
   SCRIPT_CHECK_SELF(pplayer, 0);
   return unit_list_size(pplayer->units);
-}
-
-/**************************************************************************
-  Make player winner of the scenario
-**************************************************************************/
-void api_methods_player_victory(Player *pplayer)
-{
-  SCRIPT_CHECK_SELF(pplayer);
-  player_status_add(pplayer, PSTATUS_WINNER);
-}
-
-/**************************************************************************
-  Return the civilization score (total) for player
-**************************************************************************/
-int api_methods_player_civilization_score(Player *pplayer)
-{
-  SCRIPT_CHECK_SELF(pplayer, 0);
-  return get_civ_score(pplayer);
 }
 
 /**************************************************************************
@@ -443,47 +420,6 @@ Tile *api_methods_unit_tile_get(Unit *punit)
 {
   SCRIPT_CHECK_SELF(punit, NULL);
   return unit_tile(punit);
-}
-
-/**************************************************************************
-  Teleport unit to destination tile
-**************************************************************************/
-bool api_methods_unit_teleport(Unit *punit, Tile *dest)
-{
-  bool alive;
-
-  /* Teleport first so destination is revealed even if unit dies */
-  alive = unit_move(punit, dest, 0);
-  if (alive) {
-    struct player *owner = unit_owner(punit);
-    struct city *pcity = tile_city(dest);
-
-    if (!can_unit_exist_at_tile(punit, dest)) {
-      wipe_unit(punit, ULR_NONNATIVE_TERR);
-      return FALSE;
-    }
-    if (is_non_allied_unit_tile(dest, owner)
-        || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
-      wipe_unit(punit, ULR_STACK_CONFLICT);
-      return FALSE;
-    }
-  }
-
-  return alive;
-}
-
-/**************************************************************************
-  Change unit orientation
-**************************************************************************/
-void api_methods_unit_turn(Unit *punit, Direction dir)
-{
-  if (direction8_is_valid(dir)) {
-    punit->facing = dir;
-
-    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), FALSE);
-  } else {
-    log_error("Illegal direction %d for unit from lua script", dir);
-  }
 }
 
 /**************************************************************************

@@ -45,7 +45,9 @@ dist_libscripting_game_la_SOURCES = \
 		script_signal.h	\
 		script_types.h	\
 		tolua_game_gen.c	\
-		tolua_game_gen.h
+		tolua_game_gen.h	\
+		tolua_server_gen.c	\
+		tolua_server_gen.h
 
 dist_libscripting_fcdb_la_SOURCES = \
 		api_auth.c	\
@@ -62,7 +64,8 @@ EXTRA_DIST = \
 		tolua_common_a.pkg	\
 		tolua_common_z.pkg	\
 		tolua_fcdb.pkg		\
-		tolua_game.pkg
+		tolua_game.pkg		\
+		tolua_server.pkg
 
 BUILT_SOURCES = \
 		tolua_common_a_gen.c	\
@@ -72,7 +75,9 @@ BUILT_SOURCES = \
 		tolua_fcdb_gen.c	\
 		tolua_fcdb_gen.h	\
 		tolua_game_gen.c	\
-		tolua_game_gen.h
+		tolua_game_gen.h	\
+		tolua_server_gen.c	\
+		tolua_server_gen.h
 
 tolua_common_a_gen.c tolua_common_a_gen.h: tolua_common_a.pkg
 	$(TOLUA) -n common_a -o $(srcdir)/tolua_common_a_gen.c \
@@ -90,6 +95,10 @@ tolua_game_gen.c tolua_game_gen.h: tolua_game.pkg
 	$(TOLUA) -n game -o $(srcdir)/tolua_game_gen.c \
 	-H $(srcdir)/tolua_game_gen.h $(srcdir)/tolua_game.pkg
 
+tolua_server_gen.c tolua_server_gen.h: tolua_server.pkg
+	$(TOLUA) -n server -o $(srcdir)/tolua_server_gen.c \
+	-H $(srcdir)/tolua_server_gen.h $(srcdir)/tolua_server.pkg
+
 # These files are not generated to builddir, but to srcdir */
 MAINTAINERCLEANFILES = \
 	$(srcdir)/tolua_common_a_gen.c \
@@ -99,4 +108,6 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/tolua_fcdb_gen.c \
 	$(srcdir)/tolua_fcdb_gen.h \
 	$(srcdir)/tolua_game_gen.c \
-	$(srcdir)/tolua_game_gen.h
+	$(srcdir)/tolua_game_gen.h \
+	$(srcdir)/tolua_server_gen.c \
+	$(srcdir)/tolua_server_gen.h

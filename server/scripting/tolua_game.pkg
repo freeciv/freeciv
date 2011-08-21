@@ -45,10 +45,6 @@ module Player {
     @ num_units (Player *self);
   bool api_methods_player_has_wonder
     @ has_wonder (Player *self, Building_Type *building);
-  void api_methods_player_victory
-    @ victory (Player *self);
-  int api_methods_player_civilization_score
-    @ civilization_score (Player *self);
   int api_methods_player_gold
     @ gold (Player *self);
   bool api_methods_player_knows_tech
@@ -82,10 +78,6 @@ module Unit {
     @ is_on_possible_city_tile (Unit *self);
   Tile *api_methods_unit_tile_get
     @ tile(Unit *self);
-  bool api_methods_unit_teleport
-    @ teleport(Unit *self, Tile *dest);
-  void api_methods_unit_turn
-    @ turn(Unit *self, Direction dir);
   Direction api_methods_unit_orientation_get
     @ facing(Unit *self);
 }
@@ -248,47 +240,6 @@ module find {
     @ nonexistent ();
 }
 
-/* Signal module. */
-module signal {
-  void script_signal_connect @ connect(const char *signal_name,
-                                       const char *callback_name);
-}
-
-/* Notify module. */
-module notify {
-  void api_notify_embassies_msg @ embassies_msg (Player *pplayer,
-                                                 Tile *ptile,
-                                                 int event,
-                                                 const char *message);
-  void api_notify_event_msg @ event_msg (Player *pplayer, Tile *ptile,
-                                         int event, const char *message);
-}
-
-module E {
-  /* Notify events module is exported by api_specenum */
-}
-
-
-$[
--- Notify module implementation.
-
-function notify.all(...)
-  notify.event_msg(nil, nil, E.SCRIPT, string.format(unpack(arg)))
-end
-
-function notify.player(player, ...)
-  notify.event_msg(player, nil, E.SCRIPT, string.format(unpack(arg)))
-end
-
-function notify.event(player, tile, event, ...)
-  notify.event_msg(player, tile, event, string.format(unpack(arg)))
-end
-
-function notify.embassies(player, ptile, event, ...)
-  notify.embassies_msg(player, ptile, event, string.format(unpack(arg)))
-end
-$]
-
 /* Effects module */
 module effects {
   int api_effects_world_bonus @ world_bonus (const char *effect_type);
@@ -297,44 +248,6 @@ module effects {
   int api_effects_city_bonus @ city_bonus (City *pcity,
                                            const char *effect_type);
 }
-
-/* Actions module. */
-Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
-                                             Unit_Type *ptype,
-                                             int veteran_level,
-                                             City *homecity, int moves_left);
-Unit *api_actions_create_unit_full @ create_unit_full (Player *pplayer,
-                                                       Tile *ptile,
-                                                       Unit_Type *ptype,
-                                                       int veteran_level,
-                                                       City *homecity,
-                                                       int moves_left,
-                                                       int hp_left,
-                                                       Unit *ptransport);
-void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
-                                            const char *name);
-void api_actions_create_base @ create_base (Tile *ptile, const char *name,
-                                            Player *pplayer);
-Player *api_actions_create_player @ create_player(const char *username,
-                                                  Nation_Type *nation);
-void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
-Tech_Type *api_actions_give_technology @ give_technology (Player *pplayer,
-                                                          Tech_Type *ptech,
-                                                          const char *reason);
-bool api_actions_unleash_barbarians @ unleash_barbarians (Tile *ptile);
-void api_actions_place_partisans @ place_partisans (Tile *ptile,
-                                                    Player *pplayer,
-                                                    int count,
-                                                    int sq_radius);
-
-enum climate_change_type {
-  CLIMATE_CHANGE_GLOBAL_WARMING @ GLOBAL_WARMING,
-  CLIMATE_CHANGE_NUCLEAR_WINTER @ NUCLEAR_WINTER
-};
-void api_actions_climate_change @ climate_change (enum climate_change_type type,
-                                                  int effect);
-Player *api_actions_civil_war @ civil_war(Player *pplayer,
-                                          int probability);
 
 $[
 
