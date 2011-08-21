@@ -1591,7 +1591,7 @@ struct startpos *map_startpos_new(struct tile *ptile)
   fc_assert_ret_val(NULL != map.startpos_table, NULL);
 
   psp = startpos_new(ptile);
-  startpos_hash_replace(map.startpos_table, ptile, psp);
+  startpos_hash_replace(map.startpos_table, tile_hash_key(ptile), psp);
   return psp;
 }
 
@@ -1606,7 +1606,7 @@ struct startpos *map_startpos_get(const struct tile *ptile)
   fc_assert_ret_val(NULL != ptile, NULL);
   fc_assert_ret_val(NULL != map.startpos_table, NULL);
 
-  startpos_hash_lookup(map.startpos_table, ptile, &psp);
+  startpos_hash_lookup(map.startpos_table, tile_hash_key(ptile), &psp);
   return psp;
 }
 
@@ -1619,7 +1619,7 @@ bool map_startpos_remove(struct tile *ptile)
   fc_assert_ret_val(NULL != ptile, FALSE);
   fc_assert_ret_val(NULL != map.startpos_table, FALSE);
 
-  return startpos_hash_remove(map.startpos_table, ptile);
+  return startpos_hash_remove(map.startpos_table, tile_hash_key(ptile));
 }
 
 /****************************************************************************

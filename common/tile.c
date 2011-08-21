@@ -886,3 +886,16 @@ void tile_virtual_destroy(struct tile *vtile)
 
   free(vtile);
 }
+
+/****************************************************************************
+  Returns key that should be used when storing tile to hash or when
+  retrieving it from there.
+****************************************************************************/
+void *tile_hash_key(const struct tile *ptile)
+{
+  void *key = 0; /* Initialize whole sizeof(void *) */
+
+  key = FC_INT_TO_PTR(ptile->index);
+
+  return key;
+}
