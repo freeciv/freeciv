@@ -355,7 +355,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
     gtk_widget_set_sensitive(cmd, FALSE);
 
     cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_ZOOM_IN,
-                                     _("Inspect _City"),
+                                     _("I_nspect City"),
                                      MESWIN_RES_POPUP_CITY);
     gtk_widget_set_sensitive(cmd, FALSE);
   }

@@ -203,7 +203,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_widget_show(goto_command);
 
   popcity_command = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN,
-	_("Inspect _City"));
+	_("I_nspect City"));
   gtk_dialog_add_action_widget(GTK_DIALOG(shell), popcity_command, 2);
   gtk_widget_show(popcity_command);
 
