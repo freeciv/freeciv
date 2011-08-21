@@ -56,7 +56,7 @@ static int adv_calc_railroad(const struct city *pcity,
 static int adv_calc_irrigate(const struct city *pcity,
                              const struct tile *ptile)
 {
-  int goodness;
+  int goodness, farmland_goodness;
   struct terrain *old_terrain, *new_terrain;
 
   fc_assert_ret_val(ptile != NULL, -1)
@@ -87,6 +87,23 @@ static int adv_calc_irrigate(const struct city *pcity,
     tile_set_special(vtile, S_IRRIGATION);
     goodness = city_tile_value(pcity, vtile, 0, 0);
     tile_virtual_destroy(vtile);
+    /* If the player can further irrigate to make farmland, consider the
+     * potentially greater benefit.  Note the hack: autosettler ordinarily
+     * discounts benefits by the time it takes to make them; farmland takes
+     * twice as long, so make it look half as good. */
+    if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
+      int oldv = city_tile_value(pcity, ptile, 0, 0);
+      vtile = tile_virtual_new(ptile);
+      tile_clear_special(vtile, S_MINE);
+      tile_set_special(vtile, S_IRRIGATION);
+      tile_set_special(vtile, S_FARMLAND);
+      farmland_goodness = city_tile_value(pcity, vtile, 0, 0);
+      farmland_goodness = oldv + (farmland_goodness - oldv) / 2;
+      if (farmland_goodness > goodness) {
+        goodness = farmland_goodness;
+      }
+      tile_virtual_destroy(vtile);
+    }
     return goodness;
   } else if (old_terrain == new_terrain
              && tile_has_special(ptile, S_IRRIGATION)
