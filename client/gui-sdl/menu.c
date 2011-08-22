@@ -31,6 +31,7 @@
 
 /* common */
 #include "game.h"
+#include "road.h"
 #include "unitlist.h"
 
 /* client */
@@ -539,7 +540,10 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect road */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Road"), "Shift+R");
+  fc_snprintf(cBuf, sizeof(cBuf),
+              _("Connect With %s (%s)"),
+              road_name_translation(road_by_number(ROAD_ROAD)),
+              "Shift+R");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -552,7 +556,10 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect railroad */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Rail"), "Shift+L");
+  fc_snprintf(cBuf, sizeof(cBuf),
+              _("Connect With %s (%s)"),
+              road_name_translation(road_by_number(ROAD_RAILROAD)),
+              "Shift+L");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -812,13 +819,13 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Build (Rail-)Road */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Build Railroad"), "R", 999, 
-			PL_("turn", "turns", 999));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+              road_name_translation(road_by_number(ROAD_RAILROAD)), "R", 999, 
+              PL_("turn", "turns", 999));
   len = strlen(cBuf);
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Build Road"), "R", 999, 
-			PL_("turn", "turns", 999));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+              road_name_translation(road_by_number(ROAD_ROAD)), "R", 999, 
+              PL_("turn", "turns", 999));
   len = MAX(len, strlen(cBuf));
   
   pBuf = create_themeicon(pTheme->ORoad_Icon, Main.gui,
@@ -1064,15 +1071,17 @@ void real_menus_update(void)
       if (can_unit_do_activity(pUnit, ACTIVITY_ROAD) || time) {
 	if(time) {
 	  time = tile_activity_time(ACTIVITY_RAILROAD, unit_tile(pUnit));
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Build Railroad"), "R", time , 
-			PL_("turn", "turns", time));
+	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                      road_name_translation(road_by_number(ROAD_RAILROAD)),
+                      "R", time, 
+                      PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
 	  time = tile_activity_time(ACTIVITY_ROAD, unit_tile(pUnit));
-	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-			_("Build Road"), "R", time , 
-			PL_("turn", "turns", time));
+	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+		      road_name_translation(road_by_number(ROAD_ROAD)),
+                      "R", time,
+                      PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORoad_Icon;
 	}
         copy_chars_to_string16(pOrder_Road_Button->info_label, cBuf);
