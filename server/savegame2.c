@@ -4293,7 +4293,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
      * is as good as any. */
     enum direction8 facing = char2dir(facing_str[0]);
 
-    if (facing != direction8_max()) {
+    if (direction8_is_valid(facing)) {
       punit->facing = facing;
     } else {
       log_error("Illegal unit orientation '%s'", facing_str);
