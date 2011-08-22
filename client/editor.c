@@ -643,7 +643,7 @@ static void editor_end_selection_rectangle(int canvas_x, int canvas_y)
   gui_rect_iterate(mapview.gui_x0 + editor->selrect_x,
                    mapview.gui_y0 + editor->selrect_y,
                    editor->selrect_width, editor->selrect_height,
-                   ptile, pedge, pcorner, gui_x, gui_y) {
+                   ptile, pedge, pcorner) {
     if (ptile == NULL) {
       continue;
     }

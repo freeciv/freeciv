@@ -1318,10 +1318,10 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       show_city_descriptions(canvas_x, canvas_y, width, height);
       continue;
     }
-    gui_rect_iterate(gui_x0, gui_y0, width,
-		     height + (tileset_is_isometric(tileset)
-			       ? (tileset_tile_height(tileset) / 2) : 0),
-		     ptile, pedge, pcorner, gui_x, gui_y) {
+    gui_rect_iterate_coord(gui_x0, gui_y0, width,
+			   height + (tileset_is_isometric(tileset)
+				     ? (tileset_tile_height(tileset) / 2) : 0),
+			   ptile, pedge, pcorner, gui_x, gui_y) {
       const int cx = gui_x - mapview.gui_x0, cy = gui_y - mapview.gui_y0;
 
       if (ptile) {
@@ -1335,7 +1335,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       } else {
 	/* This can happen, for instance for unreal tiles. */
       }
-    } gui_rect_iterate_end;
+    } gui_rect_iterate_coord_end;
   } mapview_layer_iterate_end;
 
   draw_trade_routes();
@@ -1349,7 +1349,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * from adjacent tiles (if they're close enough). */
   gui_rect_iterate(gui_x0 - GOTO_WIDTH, gui_y0 - GOTO_WIDTH,
 		   width + 2 * GOTO_WIDTH, height + 2 * GOTO_WIDTH,
-		   ptile, pedge, pcorner, gui_x, gui_y) {
+		   ptile, pedge, pcorner) {
     if (!ptile) {
       continue;
     }
@@ -1866,10 +1866,10 @@ void show_city_descriptions(int canvas_x, int canvas_y,
    * We must draw H2 extra pixels above and (W2 - W1) / 2 extra pixels
    * to each side of the mapview.
    */
-  gui_rect_iterate(mapview.gui_x0 + canvas_x - dx / 2,
-		   mapview.gui_y0 + canvas_y - dy,
-		   width + dx, height + dy - offset_y,
-		   ptile, pedge, pcorner, gui_x, gui_y) {
+  gui_rect_iterate_coord(mapview.gui_x0 + canvas_x - dx / 2,
+			 mapview.gui_y0 + canvas_y - dy,
+			 width + dx, height + dy - offset_y,
+			 ptile, pedge, pcorner, gui_x, gui_y) {
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
 
@@ -1892,7 +1892,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
       new_max_width = MAX(width, new_max_width);
       new_max_height = MAX(height, new_max_height);
     }
-  } gui_rect_iterate_end;
+  } gui_rect_iterate_coord_end;
 
   /* We don't update the new max values until the end, so that the
    * check above to see what cities need redrawing will be complete. */
@@ -1909,10 +1909,10 @@ void show_tile_labels(int canvas_x, int canvas_y,
   const int dx = max_label_width - tileset_tile_width(tileset), dy = max_label_height;
   int new_max_width = max_label_width, new_max_height = max_label_height;
 
-  gui_rect_iterate(mapview.gui_x0 + canvas_x - dx / 2,
-		   mapview.gui_y0 + canvas_y - dy,
-		   width + dx, height + dy,
-		   ptile, pedge, pcorner, gui_x, gui_y) {
+  gui_rect_iterate_coord(mapview.gui_x0 + canvas_x - dx / 2,
+			 mapview.gui_y0 + canvas_y - dy,
+			 width + dx, height + dy,
+			 ptile, pedge, pcorner, gui_x, gui_y) {
     const int canvas_x = gui_x - mapview.gui_x0;
     const int canvas_y = gui_y - mapview.gui_y0;
 
@@ -1934,7 +1934,7 @@ void show_tile_labels(int canvas_x, int canvas_y,
       new_max_width = MAX(width, new_max_width);
       new_max_height = MAX(height, new_max_height);
     }
-  } gui_rect_iterate_end;
+  } gui_rect_iterate_coord_end;
 
   /* We don't update the new max values until the end, so that the
    * check above to see what cities need redrawing will be complete. */

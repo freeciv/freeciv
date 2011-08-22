@@ -162,7 +162,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
   log_debug("citydlg: %d,%d + %dx%d",					\
 	    _x##_0, _y##_0, _x##_w, _y##_h);				\
 									\
-  gui_rect_iterate(_x##_0, _y##_0, _x##_w, _y##_h,			\
+  gui_rect_iterate_coord(_x##_0, _y##_0, _x##_w, _y##_h,		\
 		   ptile, pedge, pcorner, _x##_g, _y##_g) {		\
     const int _x = _x##_g - _x##_0;					\
     const int _y = _y##_g - _y##_0;					\
@@ -170,7 +170,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
 
 #define citydlg_iterate_end						\
     }									\
-  } gui_rect_iterate_end;						\
+  } gui_rect_iterate_coord_end;						\
 }
 
 /****************************************************************************
