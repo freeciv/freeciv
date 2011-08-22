@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-if AI_MODULES
+if !AI_MOD_STATIC_DEFAULT
 aimodule_LTLIBRARIES = fc_ai_default.la
 else
 noinst_LTLIBRARIES = libdefaultai.la
@@ -50,7 +50,7 @@ da_sources = \
 		aidiplomat.c	\
 		aidiplomat.h
 
-if AI_MODULES
+if !AI_MOD_STATIC_DEFAULT
 fc_ai_default_la_SOURCES = $(da_sources)
 
 fc_ai_default_la_LDFLAGS = -module

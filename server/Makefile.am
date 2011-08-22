@@ -108,6 +108,10 @@ da_libs =
 
 if !AI_MODULES
 da_libs += $(top_builddir)/ai/default/libdefaultai.la
+else
+if AI_MOD_STATIC_DEFAULT
+da_libs += $(top_builddir)/ai/default/libdefaultai.la
+endif
 endif
 if AI_MOD_STATIC_THREADED
 da_libs += $(top_builddir)/ai/threaded/libthreadedai.la
