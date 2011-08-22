@@ -4225,7 +4225,8 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 /**************************************************************************
   Helper function for sanity_check_req_list() and sanity_check_req_vec()
 **************************************************************************/
-static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
+static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
+                                 struct requirement *preq,
                                  int max_tiles, const char *list_for)
 {
   int rc;
@@ -4235,6 +4236,29 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
   /* Add to counter */
   reqs_of_type[preq->source.kind]++;
   rc = reqs_of_type[preq->source.kind];
+
+  if (preq->range == REQ_RANGE_LOCAL) {
+    local_reqs_of_type[preq->source.kind]++;
+
+    switch (preq->source.kind) {
+     case VUT_TERRAINCLASS:
+       if (local_reqs_of_type[VUT_TERRAIN] > 0) {
+         log_error("%s: Requirement list has both local terrain and terrainclass requirement",
+                   list_for);
+         return FALSE;
+       }
+       break;
+     case VUT_TERRAIN:
+       if (local_reqs_of_type[VUT_TERRAINCLASS] > 0) {
+         log_error("%s: Requirement list has both local terrain and terrainclass requirement",
+                   list_for);
+         return FALSE;
+       }
+       break;
+     default:
+       break;
+    }
+  }
 
   if (rc > 1) {
     /* Multiple requirements of the same type */
@@ -4313,12 +4337,14 @@ static bool sanity_check_req_list(const struct requirement_list *preqs,
                                   const char *list_for)
 {
   int reqs_of_type[VUT_COUNT];
+  int local_reqs_of_type[VUT_COUNT];
 
   /* Initialize requirement counters */
   memset(reqs_of_type, 0, sizeof(reqs_of_type));
+  memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
 
   requirement_list_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, preq, max_tiles, list_for)) {
+    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq, max_tiles, list_for)) {
       return FALSE;
     }
   } requirement_list_iterate_end;
@@ -4335,12 +4361,14 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
                                  const char *list_for)
 {
   int reqs_of_type[VUT_COUNT];
+  int local_reqs_of_type[VUT_COUNT];
 
   /* Initialize requirement counters */
   memset(reqs_of_type, 0, sizeof(reqs_of_type));
+  memset(local_reqs_of_type, 0, sizeof(local_reqs_of_type));
 
   requirement_vector_iterate(preqs, preq) {
-    if (!sanity_check_req_set(reqs_of_type, preq, max_tiles, list_for)) {
+    if (!sanity_check_req_set(reqs_of_type, local_reqs_of_type, preq, max_tiles, list_for)) {
       return FALSE;
     }
   } requirement_vector_iterate_end;
