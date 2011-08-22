@@ -38,6 +38,7 @@
 #include "tolua_common_a_gen.h"
 #include "tolua_common_z_gen.h"
 #include "tolua_game_gen.h"
+#include "tolua_server_gen.h"
 
 #include "script_game.h"
 
@@ -261,6 +262,7 @@ bool script_init(void)
   tolua_common_a_open(state);
   api_specenum_open(state);
   tolua_game_open(state);
+  tolua_server_open(state);
   tolua_common_z_open(state);
 
   script_code_init();
