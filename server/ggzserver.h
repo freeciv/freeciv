@@ -30,14 +30,14 @@ void ggz_report_victory(void);
 
 void ggz_game_saved(const char *filename);
 
-#else
+#else  /* GGZ_SERVER */
 
 #  define with_ggz FALSE
 #  define ggz_initialize() (void)0
-#  define ggz_report_victor(pplayer) (void)0
+static inline void ggz_report_victor(pplayer) {}
 #  define ggz_report_victory() (void)0
 #  define ggz_game_saved(filename) (void)0
 
-#endif
+#endif /* GGZ_SERVER */
 
 #endif  /* FC__GGZSERVER_H */
