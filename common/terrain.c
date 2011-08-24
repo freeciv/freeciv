@@ -796,14 +796,20 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases)
 {
   static char s[256];
   char *p;
+  enum eroad road = ROAD_LAST;
 
   s[0] = '\0';
 
   /* Since railroad requires road, Road/Railroad is redundant */
   if (contains_special(spe, S_RAILROAD)) {
-    cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
+    road = ROAD_RAILROAD;
   } else if (contains_special(spe, S_ROAD)) {
-    cat_snprintf(s, sizeof(s), "%s/", _("Road"));
+    road = ROAD_ROAD;
+  }
+
+  if (road != ROAD_LAST) {
+    cat_snprintf(s, sizeof(s), "%s/",
+                 road_name_translation(road_by_number(road)));
   }
 
   /* Likewise for farmland on irrigation */
