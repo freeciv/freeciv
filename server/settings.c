@@ -1555,7 +1555,7 @@ static struct setting settings[] = {
 	  N_("When changing governments, a period of anarchy lasting this "
 	     "many turns will occur. "
              "Setting this value to 0 will give a random "
-             "length of 1-6 turns."), NULL, NULL,
+             "length of 1-5 turns."), NULL, NULL,
 	  GAME_MIN_REVOLUTION_LENGTH, GAME_MAX_REVOLUTION_LENGTH, 
 	  GAME_DEFAULT_REVOLUTION_LENGTH)
 
