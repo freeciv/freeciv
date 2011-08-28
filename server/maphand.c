@@ -1595,7 +1595,12 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
       && get_lake_surrounders(cont) == source_cont) {
     return TRUE;
   }
-  
+
+  if (ptile == source) {
+    /* Source itself is always claimable. */
+    return TRUE;
+  }
+
   ocean_tiles = 0;
   adjc_iterate(ptile, tile2) {
     cont2 = tile_continent(tile2);
@@ -1764,7 +1769,7 @@ void map_claim_border(struct tile *ptile, struct player *owner)
       strength_new = tile_border_strength(dtile, ptile);
 
       if (strength_new <= strength_old) {
-        /* Stronger shall prevail,cd 
+        /* Stronger shall prevail,
          * in case of equel strength older shall prevail */
         continue;
       }
