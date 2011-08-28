@@ -439,7 +439,9 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_SPECIALIST:
   case VUT_TERRAINALTER: /* XXX could in principle support ADJACENT */
   case VUT_CITYTILE:
-    invalid = (req.range != REQ_RANGE_LOCAL);
+    invalid = (req.range != REQ_RANGE_LOCAL
+               && req.range != REQ_RANGE_CADJACENT
+               && req.range != REQ_RANGE_ADJACENT);
     break;
   case VUT_MINYEAR:
     invalid = (req.range != REQ_RANGE_WORLD);
@@ -938,6 +940,70 @@ static bool is_unitclassflag_in_range(const struct unit_type *target_unittype,
 }
 
 /****************************************************************************
+  Is center of given city in tile. If city is NULL, any city will do.
+****************************************************************************/
+static bool is_city_in_tile(const struct tile *ptile,
+			    const struct city *pcity)
+{
+  if (pcity == NULL) {
+    return tile_city(ptile) != NULL;
+  } else {
+    return is_city_center(pcity, ptile);
+  }
+}
+
+/****************************************************************************
+  Is center of given city in range. If city is NULL, any city will do.
+****************************************************************************/
+static bool is_citytile_in_range(const struct tile *target_tile,
+				 const struct city *target_city,
+				 enum req_range range,
+				 enum citytile_type citytile)
+{
+  if (target_tile) {
+    if (citytile == CITYT_CENTER) {
+      switch (range) {
+      case REQ_RANGE_LOCAL:
+	return is_city_in_tile(target_tile, target_city);
+      case REQ_RANGE_CADJACENT:
+        cardinal_adjc_iterate(target_tile, adjc_tile) {
+          if (is_city_in_tile(adjc_tile, target_city)) {
+            return TRUE;
+          }
+        } cardinal_adjc_iterate_end;
+
+        return FALSE;
+      case REQ_RANGE_ADJACENT:
+        adjc_iterate(target_tile, adjc_tile) {
+          if (is_city_in_tile(adjc_tile, target_city)) {
+            return TRUE;
+          }
+        } adjc_iterate_end;
+
+        return FALSE;
+      case REQ_RANGE_CITY:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_COUNT:
+	break;
+      }
+
+      fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
+
+      return FALSE;
+    } else {
+      /* Not implemented */
+      log_error("is_req_active(): citytile %d not supported.",
+		citytile);
+      return FALSE;
+    }
+  } else {
+    return FALSE;
+  }
+}
+
+/****************************************************************************
   Checks the requirement to see if it is active on the given target.
 
   target gives the type of the target
@@ -1058,22 +1124,9 @@ bool is_req_active(const struct player *target_player,
                                               req->source.value.terrainalter);
     break;
   case VUT_CITYTILE:
-    if (target_tile) {
-      if (req->source.value.citytile == CITYT_CENTER) {
-        if (target_city) {
-          eval = is_city_center(target_city, target_tile);
-        } else {
-          eval = tile_city(target_tile) != NULL;
-        }
-      } else {
-        /* Not implemented */
-        log_error("is_req_active(): citytile %d not supported.",
-                  req->source.value.citytile);
-        return FALSE;
-      }
-    } else {
-      eval = FALSE;
-    }
+    eval = is_citytile_in_range(target_tile, target_city,
+                                req->range,
+                                req->source.value.citytile);
     break;
   case VUT_COUNT:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
