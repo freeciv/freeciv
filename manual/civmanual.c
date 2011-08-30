@@ -94,6 +94,9 @@ enum manuals {
 #define TAIL " "
 #endif
 
+/* Needed for "About Freeciv" help */
+const char *client_string = "freeciv-manual";
+
 /**************************************************************************
   Replace html special characters ('&', '<' and '>').
 **************************************************************************/

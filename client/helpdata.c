@@ -45,9 +45,11 @@
 #include "requirements.h"
 #include "specialist.h"
 #include "unit.h"
+#include "version.h"
 
 /* client */
 #include "client_main.h"
+#include "gui_main_g.h" /* client_string */
 
 #include "helpdata.h"
 
@@ -123,11 +125,9 @@ void free_help_texts(void)
 }
 
 /****************************************************************************
-  Insert generated data for the helpdate name.
-
-  Currently only for terrain ("TerrainAlterations") is such a table created.
+  Insert generated text for the helpdata "name".
 ****************************************************************************/
-static void insert_generated_table(char *outbuf, size_t outlen, const char *name)
+static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
 {
   if (0 == strcmp (name, "TerrainAlterations")) {
     int rail_time = -1, clean_pollution_time = -1, clean_fallout_time = -1;
@@ -243,6 +243,13 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
         }
       } base_type_iterate_end;
     }
+  } else if (0 == strcmp (name, "FreecivVersion")) {
+    const char *ver = freeciv_name_version();
+    cat_snprintf(outbuf, outlen,
+                 /* TRANS: First %s is version string, e.g.,
+                  * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
+                  * Second %s is client_string, e.g., "gui-gtk-2.0". */
+                 _("This is %s, %s client."), ver, client_string);
   }
   return;
 }
@@ -966,7 +973,7 @@ void boot_help_texts(struct player *pplayer)
       for (i=0; i<npara; i++) {
         const char *para = paras[i];
         if(strncmp(para, "$", 1)==0) {
-          insert_generated_table(long_buffer, sizeof(long_buffer), para+1);
+          insert_generated_text(long_buffer, sizeof(long_buffer), para+1);
         } else {
           sz_strlcat(long_buffer, _(para));
         }
