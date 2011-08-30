@@ -720,6 +720,7 @@ static void update_unit_activity(struct unit *punit)
       if (what_pillaged == S_LAST) {
         assert(punit->activity_base != BASE_NONE);
         unit_pillage_base(ptile, base_by_number(punit->activity_base));
+	bounce_units_on_terrain_change(ptile);
       } else {
         tile_clear_special(ptile, what_pillaged);
         bounce_units_on_terrain_change(ptile);

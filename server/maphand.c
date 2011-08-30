@@ -1841,6 +1841,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer)
 {
   bool done_new_vision = FALSE;
+  bool bases_destroyed = FALSE;
 
   base_type_iterate(old_base) {
     if (tile_has_base(ptile, old_base)
@@ -1867,6 +1868,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
         }
       }
       tile_remove_base(ptile, old_base);
+      bases_destroyed = TRUE;
     }
   } base_type_iterate_end;
 
@@ -1901,5 +1903,11 @@ void create_base(struct tile *ptile, struct base_type *pbase,
       map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
                         game.info.vision_reveal_tiles);
     }
+  }
+
+  if (bases_destroyed) {
+    /* Maybe conflicting base that was removed was the only thing
+     * making tile native to some unit. */
+    bounce_units_on_terrain_change(ptile);
   }
 }
