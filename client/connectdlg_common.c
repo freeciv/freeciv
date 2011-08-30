@@ -214,7 +214,7 @@ bool client_start_server(void)
   
   if (server_pid == 0) {
     int fd, argc = 0;
-    const int max_nargs = 16;
+    const int max_nargs = 18;
     char *argv[max_nargs + 1], port_buf[32];
 
     /* inside the child */
@@ -224,6 +224,8 @@ bool client_start_server(void)
     argv[argc++] = "freeciv-server";
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
+    argv[argc++] = "--bind";
+    argv[argc++] = "localhost";
     argv[argc++] = "-q";
     argv[argc++] = "1";
     argv[argc++] = "-e";
@@ -330,7 +332,8 @@ bool client_start_server(void)
   internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
 
   fc_snprintf(options, sizeof(options),
-              "-p %d -q 1 -e%s%s --saves \"%s\" --scenarios \"%s\"",
+              "-p %d --bind localhost -q 1 -e%s%s --saves \"%s\" "
+              "--scenarios \"%s\"",
               internal_server_port, logcmdline, scriptcmdline, savescmdline,
               scenscmdline);
   fc_snprintf(cmdline1, sizeof(cmdline1), "./fcser %s", options);
