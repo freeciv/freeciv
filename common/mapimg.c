@@ -45,6 +45,27 @@
 
 #include "mapimg.h"
 
+/* Some magick for ImageMagick - the interface has changed:
+     ImageMagick-6.6.2-0: PixelGetNextIteratorRow(..., unsigned long *)
+     ImageMagick-6.6.2-1: PixelGetNextIteratorRow(..., size_t *)
+   Theoretically, "unsigned long" and "size_t" are pretty much the same but
+   in practice the compiler will complain bitterly.
+   (from Gem-0.93 ImageMAGICK plugin) */
+#ifndef MagickLibInterface
+# define MagickLibInterface 0
+#endif
+#ifndef MagickLibVersion
+# define MagickLibVersion 0
+#endif
+
+/* This won't catch ImageMagick>=6.6.2-0.
+   Another workaround: compile with "-fpermissive" */
+#if (MagickLibInterface > 3) || (MagickLibVersion >= 0x662)
+# define magickwand_size_t size_t
+#else
+# define magickwand_size_t unsigned long
+#endif
+
 /* == image colors == */
 enum img_special {
   IMGCOLOR_ERROR,
@@ -2005,7 +2026,7 @@ static bool img_save_magickwand(const struct img *pimg,
   bool ret = TRUE;
   char imagefile[MAX_LEN_PATH];
   char str_color[32], comment[2048] = "", title[258];
-  unsigned long img_width, img_height, map_width, map_height;
+  magickwand_size_t img_width, img_height, map_width, map_height;
   int x, y, xxx, yyy, row, i, index, plrwidth, plroffset, textoffset;
   bool withplr = BV_ISSET_ANY(pimg->def->player.checked_plrbv);
 
@@ -2052,7 +2073,7 @@ static bool img_save_magickwand(const struct img *pimg,
     }
 
     if (pplr_only) {
-      unsigned long plr_color_square = IMG_TEXT_HEIGHT;
+      magickwand_size_t plr_color_square = IMG_TEXT_HEIGHT;
 
       textoffset += IMG_TEXT_HEIGHT + IMG_BORDER_HEIGHT;
 
