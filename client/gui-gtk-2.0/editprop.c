@@ -3696,7 +3696,16 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   case OPID_GAME_SCENARIO_DESC:
     disable_gobject_callback(G_OBJECT(ev->textbuf),
                              G_CALLBACK(extviewer_textbuf_changed));
-    gtk_text_buffer_set_text(textbuf, pv->data.v_const_string, -1);
+    {
+      GtkTextIter start, end;
+      char *oldtext;
+      /* Don't re-set content if unchanged, to avoid moving cursor */
+      gtk_text_buffer_get_bounds(textbuf, &start, &end);
+      oldtext = gtk_text_buffer_get_text(textbuf, &start, &end, TRUE);
+      if (strcmp(oldtext, pv->data.v_const_string) != 0) {
+        gtk_text_buffer_set_text(textbuf, pv->data.v_const_string, -1);
+      }
+    }
     enable_gobject_callback(G_OBJECT(ev->textbuf),
                             G_CALLBACK(extviewer_textbuf_changed));
     gtk_widget_set_sensitive(ev->view_widget, TRUE);
