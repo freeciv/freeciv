@@ -303,7 +303,9 @@ enum object_property_ids {
   OPID_TILE_NAT_X,
   OPID_TILE_NAT_Y,
   OPID_TILE_CONTINENT,
+#ifdef DEBUG
   OPID_TILE_ADDRESS,
+#endif /* DEBUG */
   OPID_TILE_TERRAIN,
   OPID_TILE_INDEX,
   OPID_TILE_XY,
@@ -318,7 +320,9 @@ enum object_property_ids {
   OPID_STARTPOS_NATIONS,
 
   OPID_UNIT_IMAGE,
+#ifdef DEBUG
   OPID_UNIT_ADDRESS,
+#endif /* DEBUG */
   OPID_UNIT_TYPE,
   OPID_UNIT_ID,
   OPID_UNIT_XY,
@@ -331,7 +335,9 @@ enum object_property_ids {
 
   OPID_CITY_IMAGE,
   OPID_CITY_NAME,
+#ifdef DEBUG
   OPID_CITY_ADDRESS,
+#endif /* DEBUG */
   OPID_CITY_ID,
   OPID_CITY_XY,
   OPID_CITY_SIZE,
@@ -341,7 +347,9 @@ enum object_property_ids {
 
   OPID_PLAYER_NAME,
   OPID_PLAYER_NATION,
+#ifdef DEBUG
   OPID_PLAYER_ADDRESS,
+#endif /* DEBUG */
   OPID_PLAYER_INVENTIONS,
   OPID_PLAYER_GOLD,
 
@@ -1427,10 +1435,12 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         pv->data.v_pixbuf = create_tile_pixbuf(ptile);
         pv->must_free = TRUE;
         break;
+#ifdef DEBUG
       case OPID_TILE_ADDRESS:
         pv->data.v_string = g_strdup_printf("%p", ptile);
         pv->must_free = TRUE;
         break;
+#endif /* DEBUG */
       case OPID_TILE_TERRAIN:
         {
           const struct terrain *pterrain = tile_terrain(ptile);
@@ -1565,10 +1575,12 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         pv->data.v_pixbuf = create_unit_pixbuf(punit);
         pv->must_free = TRUE;
         break;
+#ifdef DEBUG
       case OPID_UNIT_ADDRESS:
         pv->data.v_string = g_strdup_printf("%p", punit);
         pv->must_free = TRUE;
         break;
+#endif /* DEBUG */
       case OPID_UNIT_XY:
         {
           const struct tile *ptile = unit_tile(punit);
@@ -1627,10 +1639,12 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         pv->data.v_pixbuf = create_city_pixbuf(pcity);
         pv->must_free = TRUE;
         break;
+#ifdef DEBUG
       case OPID_CITY_ADDRESS:
         pv->data.v_string = g_strdup_printf("%p", pcity);
         pv->must_free = TRUE;
         break;
+#endif /* DEBUG */
       case OPID_CITY_XY:
         {
           const struct tile *ptile = city_tile(pcity);
@@ -1683,10 +1697,12 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_PLAYER_NATION:
         pv->data.v_nation = nation_of_player(pplayer);
         break;
+#ifdef DEBUG
       case OPID_PLAYER_ADDRESS:
         pv->data.v_string = g_strdup_printf("%p", pplayer);
         pv->must_free = TRUE;
         break;
+#endif /* DEBUG */
       case OPID_PLAYER_INVENTIONS:
         pv->data.v_inventions = fc_calloc(A_LAST, sizeof(bool));
         advance_index_iterate(A_FIRST, tech) {
@@ -2763,7 +2779,6 @@ static void objprop_setup_widget(struct objprop *op)
   propid = objprop_get_id(op);
 
   switch (propid) {
-  case OPID_TILE_ADDRESS:
   case OPID_TILE_INDEX:
   case OPID_TILE_X:
   case OPID_TILE_Y:
@@ -2774,14 +2789,17 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_TILE_RESOURCE:
   case OPID_TILE_XY:
   case OPID_STARTPOS_XY:
-  case OPID_UNIT_ADDRESS:
   case OPID_UNIT_ID:
   case OPID_UNIT_XY:
   case OPID_UNIT_TYPE:
-  case OPID_CITY_ADDRESS:
   case OPID_CITY_ID:
   case OPID_CITY_XY:
+#ifdef DEBUG
+  case OPID_TILE_ADDRESS:
+  case OPID_UNIT_ADDRESS:
+  case OPID_CITY_ADDRESS:
   case OPID_PLAYER_ADDRESS:
+#endif /* DEBUG */
     label = gtk_label_new(NULL);
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
@@ -2938,17 +2956,19 @@ static void objprop_refresh_widget(struct objprop *op,
     }
     break;
 
-  case OPID_TILE_ADDRESS:
   case OPID_TILE_XY:
   case OPID_TILE_TERRAIN:
   case OPID_TILE_RESOURCE:
   case OPID_STARTPOS_XY:
-  case OPID_UNIT_ADDRESS:
   case OPID_UNIT_XY:
   case OPID_UNIT_TYPE:
-  case OPID_CITY_ADDRESS:
   case OPID_CITY_XY:
+#ifdef DEBUG
+  case OPID_TILE_ADDRESS:
+  case OPID_UNIT_ADDRESS:
+  case OPID_CITY_ADDRESS:
   case OPID_PLAYER_ADDRESS:
+#endif /* DEBUG */
     label = objprop_get_child_widget(op, "value-label");
     if (pv) {
       gtk_label_set_text(GTK_LABEL(label), pv->data.v_string);
@@ -4051,8 +4071,10 @@ static void property_page_setup_objprops(struct property_page *pp)
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_SPECIAL);
     ADDPROP(OPID_TILE_BASES, _("Bases"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_BASES);
+#ifdef DEBUG
     ADDPROP(OPID_TILE_ADDRESS, _("Address"),
             OPF_HAS_WIDGET, VALTYPE_STRING);
+#endif /* DEBUG */
     ADDPROP(OPID_TILE_VISION, _("Vision"),
             OPF_HAS_WIDGET, VALTYPE_TILE_VISION_DATA);
     return;
@@ -4072,8 +4094,10 @@ static void property_page_setup_objprops(struct property_page *pp)
   case OBJTYPE_UNIT:
     ADDPROP(OPID_UNIT_IMAGE, _("Image"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
+#ifdef DEBUG
     ADDPROP(OPID_UNIT_ADDRESS, _("Address"),
             OPF_HAS_WIDGET, VALTYPE_STRING);
+#endif /* DEBUG */
     ADDPROP(OPID_UNIT_TYPE, _("Type"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_UNIT_ID, _("ID"),
@@ -4100,8 +4124,10 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_PIXBUF);
     ADDPROP(OPID_CITY_NAME, _("Name"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
+#ifdef DEBUG
     ADDPROP(OPID_CITY_ADDRESS, _("Address"),
             OPF_HAS_WIDGET, VALTYPE_STRING);
+#endif /* DEBUG */
     ADDPROP(OPID_CITY_ID, _("ID"),
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_INT);
     ADDPROP(OPID_CITY_XY, Q_("?coordinates:X,Y"),
@@ -4119,8 +4145,10 @@ static void property_page_setup_objprops(struct property_page *pp)
   case OBJTYPE_PLAYER:
     ADDPROP(OPID_PLAYER_NAME, _("Name"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_STRING);
+#ifdef DEBUG
     ADDPROP(OPID_PLAYER_ADDRESS, _("Address"),
             OPF_HAS_WIDGET, VALTYPE_STRING);
+#endif /* DEBUG */
     ADDPROP(OPID_PLAYER_NATION, _("Nation"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_NATION);
     ADDPROP(OPID_PLAYER_INVENTIONS, _("Inventions"), OPF_IN_LISTVIEW
