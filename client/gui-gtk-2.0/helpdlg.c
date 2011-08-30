@@ -137,8 +137,7 @@ static void help_command_callback(GtkWidget *w, gint response_id);
 *****************************************************************/
 static void set_title_topic(char *topic)
 {
-  if (strcmp(topic, "Freeciv") == 0 || strcmp(topic, "About") == 0
-      || strcmp(topic, _("About")) == 0) {
+  if (strcmp(topic, _(HELP_ABOUT_ITEM)) == 0) {
     gtk_frame_set_label(GTK_FRAME(help_frame), freeciv_name_version());
   } else {
     gtk_frame_set_label(GTK_FRAME(help_frame), topic);
