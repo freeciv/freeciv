@@ -37,6 +37,7 @@
 
 /* server/scripting */
 #include "api_find.h"
+#include "luascript.h"
 #include "script_game.h"
 #include "script_signal.h"
 #include "script_types.h"

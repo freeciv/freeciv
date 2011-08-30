@@ -20,9 +20,10 @@
 #include "movement.h"
 
 /* server/scripting */
-#include "api_find.h"
+#include "luascript.h"
 #include "script_game.h"
 
+#include "api_find.h"
 
 /**************************************************************************
   Return a player with the given player_id.

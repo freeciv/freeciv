@@ -28,6 +28,7 @@
 #include "unittype.h"
 
 /* server/scripting */
+#include "luascript.h"
 #include "script_game.h"
 
 #include "api_methods.h"

@@ -19,6 +19,7 @@
 #include "effects.h"
 
 /* server/scripting */
+#include "luascript.h"
 #include "script_game.h"
 
 #include "api_effects.h"

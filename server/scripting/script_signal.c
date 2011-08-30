@@ -49,6 +49,7 @@
 #include "registry.h"
 
 /* scripting */
+#include "luascript.h"
 #include "script_types.h"
 #include "script_game.h"
 

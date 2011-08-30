@@ -40,6 +40,12 @@
 #define LUASCRIPT_MAX_EXECUTION_TIME_SEC 5.0
 #define LUASCRIPT_CHECKINTERVAL 10000
 
+
+/**************************************************************************
+  Lua virtual machine state. (temporarily moved here)
+**************************************************************************/
+lua_State *state_lua = NULL;
+
 /****************************************************************************
   Unsafe Lua builtin symbols that we to remove access to.
 
@@ -90,6 +96,35 @@ static void luascript_hook_start(lua_State *L);
 static void luascript_hook_end(lua_State *L);
 static void luascript_openlibs(lua_State *L, const luaL_Reg *llib);
 static void luascript_blacklist(lua_State *L, const char *lsymbols[]);
+
+/**************************************************************************
+  Internal api error function.
+  Invoking this will cause Lua to stop executing the current context and
+  throw an exception, so to speak.
+**************************************************************************/
+int script_error(const char *format, ...)
+{
+  va_list vargs;
+  int ret;
+  lua_State *state = state_lua;
+
+  va_start(vargs, format);
+  ret = luascript_error(state, format, vargs);
+  va_end(vargs);
+
+  return ret;
+}
+
+/**************************************************************************
+  Like script_error, but using a prefix identifying the called lua function:
+    bad argument #narg to '<func>': msg
+**************************************************************************/
+int script_arg_error(int narg, const char *msg)
+{
+  lua_State *state = state_lua;
+
+  return luascript_arg_error(state, narg, msg);
+}
 
 /****************************************************************************
   Report a lua error.
@@ -487,4 +522,38 @@ void luascript_destroy(lua_State *L)
     lua_gc(L, LUA_GCCOLLECT, 0); /* Collected garbage */
     lua_close(L);
   }
+}
+
+/****************************************************************************
+  Invoke the 'callback_name' Lua function.
+****************************************************************************/
+bool script_callback_invoke(const char *callback_name, int nargs,
+                            enum api_types *parg_types, va_list args)
+{
+  bool stop_emission = FALSE;
+  lua_State *state = state_lua;
+
+  /* The function name */
+  lua_getglobal(state, callback_name);
+
+  if (!lua_isfunction(state, -1)) {
+    log_error("lua error: Unknown callback '%s'", callback_name);
+    lua_pop(state, 1);
+    return FALSE;
+  }
+
+  luascript_push_args(state, nargs, parg_types, args);
+
+  /* Call the function with nargs arguments, return 1 results */
+  if (luascript_call(state, nargs, 1, NULL)) {
+    return FALSE;
+  }
+
+  /* Shall we stop the emission of this signal? */
+  if (lua_isboolean(state, -1)) {
+    stop_emission = lua_toboolean(state, -1);
+  }
+  lua_pop(state, 1);   /* pop return value */
+
+  return stop_emission;
 }

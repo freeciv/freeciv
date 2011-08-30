@@ -42,10 +42,6 @@
 
 #include "script_game.h"
 
-/**************************************************************************
-  Lua virtual machine state.
-**************************************************************************/
-static lua_State *state = NULL;
 
 /**************************************************************************
   Optional game script code (useful for scenarios).
@@ -62,36 +58,11 @@ static void script_code_load(struct section_file *file);
 static void script_code_save(struct section_file *file);
 
 /**************************************************************************
-  Internal api error function.
-  Invoking this will cause Lua to stop executing the current context and
-  throw an exception, so to speak.
-**************************************************************************/
-int script_error(const char *format, ...)
-{
-  va_list vargs;
-  int ret;
-
-  va_start(vargs, format);
-  ret = luascript_error(state, format, vargs);
-  va_end(vargs);
-
-  return ret;
-}
-
-/**************************************************************************
-  Like script_error, but using a prefix identifying the called lua function:
-    bad argument #narg to '<func>': msg
-**************************************************************************/
-int script_arg_error(int narg, const char *msg)
-{
-  return luascript_arg_error(state, narg, msg);
-}
-
-/**************************************************************************
   Parse and execute the script in str
 **************************************************************************/
 bool script_do_string(const char *str)
 {
+  lua_State *state = state_lua;
   int status = luascript_do_string(state, str, "cmd");
   return (status == 0);
 }
@@ -101,41 +72,9 @@ bool script_do_string(const char *str)
 **************************************************************************/
 bool script_do_file(const char *filename)
 {
+  lua_State *state = state_lua;
   int status = luascript_do_file(state, filename);
   return (status == 0);
-}
-
-/****************************************************************************
-  Invoke the 'callback_name' Lua function.
-****************************************************************************/
-bool script_callback_invoke(const char *callback_name, int nargs,
-                            enum api_types *parg_types, va_list args)
-{
-  bool stop_emission = FALSE;
-
-  /* The function name */
-  lua_getglobal(state, callback_name);
-
-  if (!lua_isfunction(state, -1)) {
-    log_error("lua error: Unknown callback '%s'", callback_name);
-    lua_pop(state, 1);
-    return FALSE;
-  }
-
-  luascript_push_args(state, nargs, parg_types, args);
-
-  /* Call the function with nargs arguments, return 1 results */
-  if (luascript_call(state, nargs, 1, NULL)) {
-    return FALSE;
-  }
-
-  /* Shall we stop the emission of this signal? */
-  if (lua_isboolean(state, -1)) {
-    stop_emission = lua_toboolean(state, -1);
-  }
-  lua_pop(state, 1);   /* pop return value */
-
-  return stop_emission;
 }
 
 /****************************************************************************
@@ -145,6 +84,7 @@ bool script_callback_invoke(const char *callback_name, int nargs,
 ****************************************************************************/
 void script_remove_exported_object(void *object)
 {
+  lua_State *state = state_lua;
   luascript_remove_exported_object(state, object);
 }
 
@@ -169,6 +109,7 @@ static void script_vars_free(void)
 **************************************************************************/
 static void script_vars_load(struct section_file *file)
 {
+  lua_State *state = state_lua;
   if (state) {
     const char *vars;
     const char *section = "script.vars";
@@ -183,6 +124,7 @@ static void script_vars_load(struct section_file *file)
 **************************************************************************/
 static void script_vars_save(struct section_file *file)
 {
+  lua_State *state = state_lua;
   if (state) {
     lua_getglobal(state, "_freeciv_state_dump");
     if (luascript_call(state, 0, 1, NULL) == 0) {
@@ -225,6 +167,7 @@ static void script_code_free(void)
 **************************************************************************/
 static void script_code_load(struct section_file *file)
 {
+  lua_State *state = state_lua;
   if (!script_code) {
     const char *code;
     const char *section = "script.code";
@@ -250,6 +193,7 @@ static void script_code_save(struct section_file *file)
 **************************************************************************/
 bool script_init(void)
 {
+  lua_State *state = state_lua;
   if (state != NULL) {
     return TRUE;
   }
@@ -270,6 +214,9 @@ bool script_init(void)
 
   script_signals_init();
 
+  /* Set the status to the global variable. */
+  state_lua = state;
+
   return TRUE;
 }
 
@@ -278,6 +225,7 @@ bool script_init(void)
 **************************************************************************/
 void script_free(void)
 {
+  lua_State *state = state_lua;
   if (state) {
     script_code_free();
     script_vars_free();
@@ -286,6 +234,7 @@ void script_free(void)
 
     luascript_destroy(state);
     state = NULL;
+    state_lua = NULL;
   }
 }
 
