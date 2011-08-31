@@ -684,6 +684,9 @@ AM_PATH_GTK_2_0([2.6.0],
     MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -mms-bitfields"
     MP_gtk2_LIBS="$GTK_LIBS"
     MP_gtk2_LDFLAGS="$MP_gtk2_LDFLAGS -mwindows"
+  else
+    dnl Hack to get a run-time icon -- not needed on Windows
+    MP_gtk2_CFLAGS="$MP_gtk2_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
   fi
 ])])
 AM_CONDITIONAL([MODINST], [test "x$modinst" = "xyes"])

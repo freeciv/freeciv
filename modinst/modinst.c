@@ -348,6 +348,17 @@ int main(int argc, char *argv[])
     gtk_widget_set_name(toplevel, "Freeciv-modpack");
     gtk_window_set_title(GTK_WINDOW(toplevel), _("Freeciv modpack installer"));
 
+    /* Keep the icon of the executable on Windows */
+#ifndef WIN32_NATIVE
+    {
+      /* Unlike main client, this only works if installed. Ignore any
+       * errors loading the icon. */
+      GError *err;
+      (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
+                                           &err);
+    }
+#endif /* WIN32_NATIVE */
+
     g_signal_connect(toplevel, "delete_event",
                      G_CALLBACK(quit_dialog_callback), NULL);
 

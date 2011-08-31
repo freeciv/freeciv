@@ -24,6 +24,7 @@ pkgdata_DATA =          \
 	flags.spec	\
 	icons.spec	\
 	intro.png	\
+	mpicon.png	\
 	overlays.png	\
 	overlays.spec	\
 	radar.png	\
