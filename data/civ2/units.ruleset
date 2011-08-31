@@ -112,7 +112,7 @@ name          = _("?unitclass:Sea")
 move_type     = "Sea"
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "DamageSlows"
+flags         = "DamageSlows"
 
 [unitclass_heli]
 ; /* TRANS: Unit class: used adjectivally */
