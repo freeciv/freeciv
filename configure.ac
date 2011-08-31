@@ -882,6 +882,11 @@ if test "x$modinst" = "xno" &&
 ])])
 fi
 
+if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
+  dnl Hack to get a run-time icon -- not needed on Windows
+  MP_gtk_CFLAGS="$MP_gtk_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
+fi
+
 if test "x$fc_mp" = "xgtk2" && test "x$modinst" != "xgtk2" ; then
   AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
 fi
