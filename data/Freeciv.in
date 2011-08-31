@@ -70,102 +70,120 @@ Freeciv*.connectdialog.title: _("Connect to Freeciv Server")
 Freeciv*connectdialog*translations:	#override \
 			<Key>Return: key-dialog-connect-connect()
 
-Freeciv*connectdialog.*.cheadline.label: _("Freeciv Server Selection")
-Freeciv*connectdialog.*.cheadline.width: 300
+Freeciv*connectdialog.*.connbetalabel.justify: left
+Freeciv*connectdialog.*.connbetalabel.background: grey
+Freeciv*connectdialog.*.connbetalabel.foreground: red
+Freeciv*connectdialog.*.connbetalabel.width: 300
 
-Freeciv*connectdialog.*.cmsgl.label:
-Freeciv*connectdialog.*.cmsgl.fromVert: cheadline
-Freeciv*connectdialog.*.cmsgl.resizable: True
+Freeciv*connectdialog.*.connselectlabel.label: _("Freeciv Server Selection")
+Freeciv*connectdialog.*.connselectlabel.width: 300
 
-Freeciv*connectdialog.*.cnamel.label: _("Name")
-Freeciv*connectdialog.*.cnamel.fromVert: cmsgl
+Freeciv*connectdialog.*.connhostlabel.label: _("Host")
+Freeciv*connectdialog.*.connhostlabel.fromVert: connselectlabel
 
-Freeciv*connectdialog.*.cnamei.fromVert: cmsgl
-Freeciv*connectdialog.*.cnamei.fromHoriz: cnamel
-Freeciv*connectdialog.*.cnamei.*.editType: edit
-Freeciv*connectdialog.*.cnamei.width: 256
+Freeciv*connectdialog.*.connhosttext.fromVert: connselectlabel
+Freeciv*connectdialog.*.connhosttext.fromHoriz: connhostlabel
+Freeciv*connectdialog.*.connhosttext.*.editType: edit
+Freeciv*connectdialog.*.connhosttext.width: 256
 
-Freeciv*connectdialog.*.chostl.label: _("Host")
-Freeciv*connectdialog.*.chostl.fromVert: cnamel
+Freeciv*connectdialog.*.connportlabel.label: _("Port")
+Freeciv*connectdialog.*.connportlabel.fromVert: connhostlabel
 
-Freeciv*connectdialog.*.chosti.fromVert: cnamel
-Freeciv*connectdialog.*.chosti.fromHoriz: chostl
-Freeciv*connectdialog.*.chosti.*.editType: edit
-Freeciv*connectdialog.*.chosti.width: 256
+Freeciv*connectdialog.*.connporttext.fromVert: connhostlabel
+Freeciv*connectdialog.*.connporttext.fromHoriz: connportlabel
+Freeciv*connectdialog.*.connporttext.*.editType: edit
+Freeciv*connectdialog.*.connporttext.width: 256
 
-Freeciv*connectdialog.*.cportl.label: _("Port")
-Freeciv*connectdialog.*.cportl.fromVert: chostl
+Freeciv*connectdialog.*.connloginlabel.label: _("Name")
+Freeciv*connectdialog.*.connloginlabel.fromVert: connportlabel
 
-Freeciv*connectdialog.*.cporti.fromVert: chostl
-Freeciv*connectdialog.*.cporti.fromHoriz: cportl
-Freeciv*connectdialog.*.cporti.*.editType: edit
-Freeciv*connectdialog.*.cporti.width: 256
+Freeciv*connectdialog.*.connlogintext.fromVert: connportlabel
+Freeciv*connectdialog.*.connlogintext.fromHoriz: connloginlabel
+Freeciv*connectdialog.*.connlogintext.*.editType: edit
+Freeciv*connectdialog.*.connlogintext.width: 256
 
-Freeciv*connectdialog.*.cconnectc.label: _("Connect")
-Freeciv*connectdialog.*.cconnectc.fromVert: cportl
+Freeciv*connectdialog.*.connpasswordlabel.label: _("Password")
+Freeciv*connectdialog.*.connpasswordlabel.fromVert: connloginlabel
 
-Freeciv*connectdialog.*.cmetac.label: _("Metaserver")
-Freeciv*connectdialog.*.cmetac.fromVert: cportl
-Freeciv*connectdialog.*.cmetac.fromHoriz: cconnectc
+Freeciv*connectdialog.*.connpasswordtext.fromVert: connloginlabel
+Freeciv*connectdialog.*.connpasswordtext.fromHoriz: connpasswordlabel
+Freeciv*connectdialog.*.connpasswordtext.*.editType: edit
+Freeciv*connectdialog.*.connpasswordtext.width: 256
 
-Freeciv*connectdialog.*.clanc.label: _("LAN Servers")
-Freeciv*connectdialog.*.clanc.fromVert: cportl
-Freeciv*connectdialog.*.clanc.fromHoriz: cmetac
+Freeciv*connectdialog.*.connverifylabel.label: _("Verify Password")
+Freeciv*connectdialog.*.connverifylabel.fromVert: connpasswordlabel
 
-Freeciv*connectdialog.*.cquitc.label: _("Quit")
-Freeciv*connectdialog.*.cquitc.fromVert: cportl
-Freeciv*connectdialog.*.cquitc.fromHoriz: clanc
+Freeciv*connectdialog.*.connverifytext.fromVert: connpasswordlabel
+Freeciv*connectdialog.*.connverifytext.fromHoriz: connverifylabel
+Freeciv*connectdialog.*.connverifytext.*.editType: edit
+Freeciv*connectdialog.*.connverifytext.width: 256
 
-Freeciv*connectdialog.*.cbetaline.fromVert: cconnectc
-Freeciv*connectdialog.*.cbetaline.justify: left
-Freeciv*connectdialog.*.cbetaline.background: grey
-Freeciv*connectdialog.*.cbetaline.foreground: red
-Freeciv*connectdialog.*.cbetaline.width: 300
+Freeciv*connectdialog.*.connmessagelabel.label:
+Freeciv*connectdialog.*.connmessagelabel.fromVert: connverifylabel
+Freeciv*connectdialog.*.connmessagelabel.resizable: True
+
+Freeciv*connectdialog.*.connconnectbutton.label: _("Connect")
+Freeciv*connectdialog.*.connconnectbutton.fromVert: connmessagelabel
+
+Freeciv*connectdialog.*.connlanbutton.label: _("LAN Servers")
+Freeciv*connectdialog.*.connlanbutton.fromVert: connmessagelabel
+Freeciv*connectdialog.*.connlanbutton.fromHoriz: connconnectbutton
+
+Freeciv*connectdialog.*.connmetabutton.label: _("Metaserver")
+Freeciv*connectdialog.*.connmetabutton.fromVert: connmessagelabel
+Freeciv*connectdialog.*.connmetabutton.fromHoriz: connlanbutton
+
+Freeciv*connectdialog.*.connquitbutton.label: _("Quit")
+Freeciv*connectdialog.*.connquitbutton.fromVert: connmessagelabel
+Freeciv*connectdialog.*.connquitbutton.fromHoriz: connmetabutton
 
 
 !
 ! Metaserver dialog
 !
-Freeciv*metadialog.title: _("Freeciv Server List")
-Freeciv*metadialog.allowShellResize: True
+Freeciv*serverlistdialog.title: _("Freeciv Server List")
+Freeciv*serverlistdialog.allowShellResize: True
+Freeciv*serverlistdialog.width:            600
 
-Freeciv*metadialog.*.legend.label: _("\
+Freeciv*serverlistdialog.*.legendlabel.label: _("\
 Server Name                         Port  Version     Status  Players  Comment")
-Freeciv*metadialog.*.legend.justify:		  Left
-Freeciv*metadialog.*.legend.left:		  ChainLeft
-Freeciv*metadialog.*.legend.right:		  ChainLeft
-Freeciv*metadialog.*.legend.top:		  ChainTop
-Freeciv*metadialog.*.legend.bottom:		  ChainTop
-Freeciv*metadialog.*.legend.resizable:		  True
+Freeciv*serverlistdialog.*.legendlabel.justify:     Left
+Freeciv*serverlistdialog.*.legendlabel.left:        ChainLeft
+Freeciv*serverlistdialog.*.legendlabel.right:       ChainLeft
+Freeciv*serverlistdialog.*.legendlabel.top:         ChainTop
+Freeciv*serverlistdialog.*.legendlabel.bottom:      ChainTop
+Freeciv*serverlistdialog.*.legendlabel.resizable:   True
 
-Freeciv*metadialog.*.metaviewport.allowVert:      True
-Freeciv*metadialog.*.metaviewport.allowHoriz:     True
-Freeciv*metadialog.*.metaviewport.useBottom:	  True
-Freeciv*metadialog.*.metaviewport.fromVert:       legend
+Freeciv*serverlistdialog.*.viewport.allowVert:      True
+Freeciv*serverlistdialog.*.viewport.allowHoriz:     True
+Freeciv*serverlistdialog.*.viewport.useBottom:      True
+Freeciv*serverlistdialog.*.viewport.fromVert:       legendlabel
+Freeciv*serverlistdialog.*.viewport.height:         200
+Freeciv*serverlistdialog.*.viewport.width:          600
 
-Freeciv*metadialog.*.metalist.forceColumns:      True
-Freeciv*metadialog.*.metalist.defaultColumns:    1
-Freeciv*metadialog.*.metalist.verticalList:      True
-Freeciv*metadialog.*.metalist.left:              ChainLeft
-Freeciv*metadialog.*.metalist.right:             ChainRight
-Freeciv*metadialog.*.metalist.top:		 ChainTop
-Freeciv*metadialog.*.metalist.bottom:		 ChainBottom
-Freeciv*metadialog.*.metalist.resizable:         True
+Freeciv*serverlistdialog.*.serverlist.forceColumns:     True
+Freeciv*serverlistdialog.*.serverlist.defaultColumns:   1
+Freeciv*serverlistdialog.*.serverlist.verticalList:     True
+Freeciv*serverlistdialog.*.serverlist.left:             ChainLeft
+Freeciv*serverlistdialog.*.serverlist.right:            ChainRight
+Freeciv*serverlistdialog.*.serverlist.top:              ChainTop
+Freeciv*serverlistdialog.*.serverlist.bottom:           ChainBottom
+Freeciv*serverlistdialog.*.serverlist.resizable:        True
 
-Freeciv*metadialog.*.update.label:		  _("Update")
-Freeciv*metadialog.*.update.left:		  ChainLeft
-Freeciv*metadialog.*.update.right:		  ChainLeft
-Freeciv*metadialog.*.update.top:		  ChainBottom
-Freeciv*metadialog.*.update.bottom:		  ChainBottom
-Freeciv*metadialog.*.update.fromVert:		  metaviewport
+Freeciv*serverlistdialog.*.updatebutton.label:      _("Update")
+Freeciv*serverlistdialog.*.updatebutton.left:       ChainLeft
+Freeciv*serverlistdialog.*.updatebutton.right:      ChainLeft
+Freeciv*serverlistdialog.*.updatebutton.top:        ChainBottom
+Freeciv*serverlistdialog.*.updatebutton.bottom:	    ChainBottom
+Freeciv*serverlistdialog.*.updatebutton.fromVert:   viewport
 
-Freeciv*metadialog.*.closecommand.label:	  _("Close")
-Freeciv*metadialog.*.closecommand.left:	  ChainLeft
-Freeciv*metadialog.*.closecommand.right:	  ChainLeft
-Freeciv*metadialog.*.closecommand.top:		  ChainBottom
-Freeciv*metadialog.*.closecommand.bottom:	  ChainBottom
-Freeciv*metadialog.*.closecommand.fromVert:       metaviewport
-Freeciv*metadialog.*.closecommand.fromHoriz:	  update
+Freeciv*serverlistdialog.*.closebutton.label:       _("Close")
+Freeciv*serverlistdialog.*.closebutton.left:        ChainLeft
+Freeciv*serverlistdialog.*.closebutton.right:       ChainLeft
+Freeciv*serverlistdialog.*.closebutton.top:         ChainBottom
+Freeciv*serverlistdialog.*.closebutton.bottom:      ChainBottom
+Freeciv*serverlistdialog.*.closebutton.fromVert:    viewport
+Freeciv*serverlistdialog.*.closebutton.fromHoriz:   updatebutton
 
 !
 ! inteligence dialog
