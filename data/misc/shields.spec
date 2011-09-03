@@ -488,6 +488,7 @@ sprites =
 		"f.shield.valknut", "flags/valknut-shield"
 		"f.shield.vampire", "flags/vampire-shield"
 		"f.shield.vandal", "flags/vandal-shield"
+		"f.shield.vanuatu", "flags/vanuatu-shield"
 		"f.shield.vatican", "flags/vatican-shield"
 		"f.shield.vedic", "flags/vedic-shield"
 		"f.shield.venda", "flags/venda-shield"

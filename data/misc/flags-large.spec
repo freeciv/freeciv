@@ -489,6 +489,7 @@ sprites =
 		"f.valknut", "flags/valknut-large"		; used by Ostrogothic
 		"f.vampire", "flags/vampire-large"
 		"f.vandal", "flags/vandal-large"
+		"f.vanuatu", "flags/vanuatu-large"
 		"f.vatican", "flags/vatican-large"
 		"f.vedic", "flags/vedic-large"
 		"f.venda", "flags/venda-large"

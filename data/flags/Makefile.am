@@ -480,6 +480,7 @@ flag_files =				\
 		valknut.png		\
 		vampire.png		\
 		vandal.png		\
+		vanuatu.png		\
 		vatican.png		\
 		vedic.png		\
 		venda.png		\
@@ -984,6 +985,7 @@ flag_files =				\
 		valknut-large.png		\
 		vampire-large.png		\
 		vandal-large.png		\
+		vanuatu-large.png		\
 		vatican-large.png		\
 		vedic-large.png			\
 		venda-large.png			\
@@ -1490,6 +1492,7 @@ shield_files =					\
 		valknut-shield.png		\
 		vampire-shield.png		\
 		vandal-shield.png		\
+		vanuatu-shield.png		\
 		vatican-shield.png		\
 		vedic-shield.png		\
 		venda-shield.png		\
@@ -1994,6 +1997,7 @@ shield_files =					\
 		valknut-shield-large.png		\
 		vampire-shield-large.png		\
 		vandal-shield-large.png		\
+		vanuatu-shield-large.png		\
 		vatican-shield-large.png		\
 		vedic-shield-large.png			\
 		venda-shield-large.png			\
@@ -2500,6 +2504,7 @@ svg_files = 				\
 		valknut.svg		\
 		vampire.svg		\
 		vandal.svg		\
+		vanuatu.svg		\
 		vatican.svg		\
 		vedic.svg		\
 		venda.svg		\

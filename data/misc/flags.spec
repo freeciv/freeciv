@@ -489,6 +489,7 @@ artists = "
    Valknut		AnonMoos (Wikimedia Commons)
    Vampire		Ann Barcomb
    Vandal		J.M. Maalderink
+   Vanuatu		Vzb83 (Wikimedia Commons)
    Vatican		Flanker (Wikimedia Commons)
    Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
    Venda		Walden69 (Wikimedia Commons)
@@ -998,6 +999,7 @@ sprites =
 		"f.valknut", "flags/valknut"		; used by Ostrogothic
 		"f.vampire", "flags/vampire"
 		"f.vandal", "flags/vandal"
+		"f.vanuatu", "flags/vanuatu"
 		"f.vatican", "flags/vatican"
 		"f.vedic", "flags/vedic"
 		"f.venda", "flags/venda"
