@@ -1307,7 +1307,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Remove bases */
   base_type_iterate(pbase) {
-    tile_remove_base(ptile, pbase);
+    destroy_base(ptile, pbase);
   } base_type_iterate_end;
 
   /* If base acted as a watchtower, put vision back to normal */
