@@ -1239,10 +1239,19 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct player *saved_owner = tile_owner(ptile);
   struct tile *saved_claimer = tile_claimer(ptile);
   struct city *pwork = tile_worked(ptile);
-  struct city *pcity = create_city_virtual(pplayer, ptile, name);
+  struct city *pcity;
   const citizens old_content_citizens = player_content_citizens(pplayer);
 
   log_debug("create_city() %s", name);
+
+  /* Before doing anything else, remove any bases and their effects */
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)) {
+      destroy_base(ptile, pbase);
+    }
+  } base_type_iterate_end;
+
+  pcity = create_city_virtual(pplayer, ptile, name);
 
   adv_city_alloc(pcity);
 
@@ -1309,12 +1318,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   city_thaw_workers_queue(); /* after new city has a chance to work! */
   city_refresh_queue_processing();
 
-  /* Remove bases */
-  base_type_iterate(pbase) {
-    destroy_base(ptile, pbase);
-  } base_type_iterate_end;
-
-  /* If base acted as a watchtower, put vision back to normal */
+  /* Bases destroyed earlier may have had watchtower effect. Refresh
+   * unit vision. */
   unit_list_refresh_vision(ptile->units);
 
   update_tile_knowledge(ptile);
