@@ -429,6 +429,7 @@ match=2
 *include "nation/sammarinese.ruleset"
 *include "nation/samoan.ruleset"
 *include "nation/samogitian.ruleset"
+*include "nation/santomean.ruleset"
 *include "nation/sardinian.ruleset"
 *include "nation/sarmatian.ruleset"
 *include "nation/saudi.ruleset"

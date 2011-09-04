@@ -396,6 +396,7 @@ sprites =
 		"f.shield.samoa", "flags/samoa-shield"
 		"f.shield.samogitia", "flags/samogitia-shield"
 		"f.shield.san_marino", "flags/san_marino-shield"
+		"f.shield.sao_tome_and_principe", "flags/sao_tome_and_principe-shield"
 		"f.shield.sapmi", "flags/sapmi-shield"
 		"f.shield.sardinia", "flags/sardinia-shield"
 		"f.shield.sarmatia", "flags/sarmatia-shield"

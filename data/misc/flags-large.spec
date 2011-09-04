@@ -397,6 +397,7 @@ sprites =
 		"f.samoa", "flags/samoa-large"
 		"f.samogitia", "flags/samogitia-large"
 		"f.san_marino", "flags/san_marino-large"
+		"f.sao_tome_and_principe", "flags/sao_tome_and_principe-large"
 		"f.sapmi", "flags/sapmi-large"
 		"f.sardinia", "flags/sardinia-large"
 		"f.sarmatia", "flags/sarmatia-large"

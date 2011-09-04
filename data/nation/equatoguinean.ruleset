@@ -27,7 +27,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "cameroonian" ; santomean
+civilwar_nations = "cameroonian", "santomean"
 
 cities =
  "Malabo",

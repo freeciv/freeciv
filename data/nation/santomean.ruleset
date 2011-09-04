@@ -1,0 +1,81 @@
+[nation_santomean]
+
+; /* TRANS: The second letter in "Sao" should be */
+; /* TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in */
+; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 227. */
+; /* TRANS: The last letter in "Tome" should be */
+; /* TRANS: U+00E9 LATIN SMALL LETTER A WITH ACUTE if available in */
+; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233. */
+; /* TRANS: The third letter in "Principe" should be */
+; /* TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in */
+; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237. */
+name = _("Santomean")
+plural = _("?plural:Santomeans")
+groups="African", "Modern"
+legend=_("Sao Tome and Principe are two islands in the Atlantic Ocean off\
+ the coast of Africa. The main island was named after Saint Thomas by the\
+ Portuguese sailors who first discovered the island on the saint's feast\
+ day around 1470. The islands turned into the first major European\
+ plantation colony. Slavery was abolished in the 19th and the country\
+ became independent in 1975. The islands' economy remains dependent on\
+ the export of cocoa.")
+
+leaders = {
+ "name",                   "sex"
+ "Álvaro Caminha",         "Male"
+ "Amador",                 "Male"
+ "Manuel Pinto da Costa",  "Male"
+ "Alda do Espírito Santo", "Female"
+}
+
+ruler_titles = {
+ "government",     "male_title",              "female_title"
+ "Communism",      _("Secretary General %s"), _("?female:Secretary General %s")
+ "Despotism",      _("Admiral %s"),           _("?female:Admiral %s")
+ "Fundamentalism", _("Padre %s"),             _("Madre %s")
+}
+
+flag = "sao_tome_and_principe"
+flag_alt = "-"
+city_style = "Tropical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="cape verdean", "angolan"
+
+cities =
+ "São Tomé",
+ "Santo António",
+ "Trinidade",
+ "Santo Amaro",
+ "Neves",
+ "Santana",
+ "São João dos Angolares",
+ "Guadalupe",
+ "Pantufo",
+ "Santa Catarina",
+ "Porto Alegre (ocean)",
+ "Belo Monte",
+ "Ribeira Afonso",
+ "Bom Successo",
+ "Conde",
+ "Monteforte",
+ "Praia Cruz (ocean)",
+ "Dona Augusta",
+ "Sundi",
+ "Micolo",
+ "Roca Agostinho Neto",
+ "Monte Café",
+ "Anselmo de Andrade",
+ "Monte Mario",
+ "Guayaquil",
+ "Santa Clotilde",
+ "Bombaim",
+ "Morroe Peixe",
+ "Praia Francesa (ocean)",
+ "Neves Ferreira",
+ "Monte Vilela",
+ "Milagrosa"

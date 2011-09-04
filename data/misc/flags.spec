@@ -396,6 +396,7 @@ artists = "
    Samoa		Vzb83 (Wikimedia Commons)
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    San Marino		Tobias Jakobs
+   S. Tome and Principe	Vzb83 (Wikimedia Commons)	
    Sapmi		Dean Tersigni
    Sardinia		Patricia Fidi and J.M. Maalderink
    Sarmatia		Andrzej G.
@@ -907,6 +908,7 @@ sprites =
 		"f.samoa", "flags/samoa"
 		"f.samogitia", "flags/samogitia"
 		"f.san_marino", "flags/san_marino"
+		"f.sao_tome_and_principe", "flags/sao_tome_and_principe"
 		"f.sapmi", "flags/sapmi"
 		"f.sardinia", "flags/sardinia"
 		"f.sarmatia", "flags/sarmatia"

@@ -388,6 +388,7 @@ flag_files =				\
 		samoa.png		\
 		samogitia.png		\
 		san_marino.png		\
+		sao_tome_and_principe.png	\
 		sapmi.png		\
 		sardinia.png		\
 		sarmatia.png		\
@@ -893,6 +894,7 @@ flag_files =				\
 		samoa-large.png			\
 		samogitia-large.png		\
 		san_marino-large.png		\
+		sao_tome_and_principe-large.png	\
 		sapmi-large.png		\
 		sardinia-large.png		\
 		sarmatia-large.png		\
@@ -1400,6 +1402,7 @@ shield_files =					\
 		samoa-shield.png		\
 		samogitia-shield.png		\
 		san_marino-shield.png		\
+		sao_tome_and_principe-shield.png	\
 		sapmi-shield.png		\
 		sardinia-shield.png		\
 		sarmatia-shield.png		\
@@ -1905,6 +1908,7 @@ shield_files =					\
 		samoa-shield-large.png			\
 		samogitia-shield-large.png		\
 		san_marino-shield-large.png		\
+		sao_tome_and_principe-shield-large.png	\
 		sapmi-shield-large.png		\
 		sardinia-shield-large.png		\
 		sarmatia-shield-large.png		\
@@ -2412,6 +2416,7 @@ svg_files = 				\
 		samoa.svg		\
 		samogitia.svg		\
 		san_marino.svg		\
+		sao_tome_and_principe.svg	\
 		sapmi.svg		\
 		sardinia.svg		\
 		sarmatia.svg		\
