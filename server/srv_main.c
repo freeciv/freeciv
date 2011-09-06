@@ -167,7 +167,8 @@ static enum server_states civserver_state = S_S_INITIAL;
 bool force_end_of_sniff;
 
 #define IDENTITY_NUMBER_SIZE (1+MAX_UINT16)
-static unsigned char identity_numbers_used[IDENTITY_NUMBER_SIZE/8]={0};
+BV_DEFINE(bv_identity_numbers, IDENTITY_NUMBER_SIZE);
+bv_identity_numbers identity_numbers_used;
 
 /* server initialized flag */
 static bool has_been_srv_init = FALSE;
@@ -1412,7 +1413,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
 **************************************************************************/
 void identity_number_release(int id)
 {
-  identity_numbers_used[id/8] &= 0xff ^ (1<<(id%8));
+  BV_CLR(identity_numbers_used, id);
 }
 
 /**************************************************************************
@@ -1420,7 +1421,7 @@ void identity_number_release(int id)
 **************************************************************************/
 void identity_number_reserve(int id)
 {
-  identity_numbers_used[id/8] |= (1<<(id%8));
+  BV_SET(identity_numbers_used, id);
 }
 
 /**************************************************************************
@@ -1428,7 +1429,16 @@ void identity_number_reserve(int id)
 **************************************************************************/
 static bool identity_number_is_used(int id)
 {
-  return TEST_BIT(identity_numbers_used[id/8], id%8);
+  return BV_ISSET(identity_numbers_used, id);
+}
+
+/**************************************************************************
+  Increment identity_number and return result.
+**************************************************************************/
+static int increment_identity_number(void)
+{
+  server.identity_number = server.identity_number+1 % IDENTITY_NUMBER_SIZE;
+  return server.identity_number;
 }
 
 /**************************************************************************
@@ -1439,7 +1449,7 @@ int identity_number(void)
 {
   int retries = 0;
 
-  while (identity_number_is_used(++server.identity_number)) {
+  while (identity_number_is_used(increment_identity_number())) {
     /* try again */
     if (++retries >= IDENTITY_NUMBER_SIZE) {
       /* Always fails. */
@@ -2585,7 +2595,7 @@ void server_game_init(void)
   server.nbarbarians = 0;
   server.identity_number = IDENTITY_NUMBER_SKIP;
 
-  memset(identity_numbers_used, 0, sizeof(identity_numbers_used));
+  BV_CLR_ALL(identity_numbers_used);
   identity_number_reserve(IDENTITY_NUMBER_ZERO);
 
   event_cache_init();
