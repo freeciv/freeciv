@@ -39,11 +39,6 @@
                given as 'struct dbv' and the information can be accessed
                using the functions dbv_*(). They uses the BV_* macros. */
 
-/* Maximal size of a dynamic bitvector; for the map known bitvector it must
-   be larger than the biggest possible map size (approx. MAP_MAX_SIZE * 1000)
-   Use a large value to be on the save side (512kbits = 64kb). */
-#define MAX_DBV_LENGTH 512 * 1024
-
 /***************************************************************************
   Initialize a dynamic bitvector of size 'bits'. 'bits' must be greater
   than 0 and lower than the maximal size given by MAX_DBV_LENGTH. The

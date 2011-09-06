@@ -562,11 +562,14 @@ extern const int DIR_DY[8];
 #define MAP_DEFAULT_MAPSIZE     MAPSIZE_FULLSIZE
 
 /* Size of the map in thousands of tiles. If MAP_MAX_SIZE is increased, 
- * MAX_DBV_LENGTH in bitvector.c must be checked. The following equation must
- * be valid: MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH! */
+ * MAX_DBV_LENGTH in bitvector.c must be checked; see the static assertion
+ * below. */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             0
 #define MAP_MAX_SIZE             128
+
+FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
+                 map_too_big_for_bitvector);
 
 #define MAP_DEFAULT_TILESPERPLAYER      100
 #define MAP_MIN_TILESPERPLAYER            1
