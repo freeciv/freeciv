@@ -159,12 +159,22 @@ struct setting {
   bool locked;
 };
 
+static struct {
+  bool init;
+  struct setting_list *level[OLEVELS_NUM];
+} setting_sorted = { .init = FALSE };
+
 static void setting_set_to_default(struct setting *pset);
 static bool setting_ruleset_one(struct section_file *file,
                                 const char *name, const char *path);
 static void setting_game_set(struct setting *pset, bool init);
 static void setting_game_free(struct setting *pset);
 static void setting_game_restore(struct setting *pset);
+
+static void settings_list_init(void);
+static void settings_list_free(void);
+int settings_list_cmp(const struct setting *const *pset1,
+                      const struct setting *const *pset2);
 
 #define settings_snprintf(_buf, _buf_len, format, ...)                      \
   if (_buf != NULL) {                                                       \
@@ -3756,12 +3766,16 @@ bool settings_game_reset(void)
 **************************************************************************/
 void settings_init(void)
 {
+  settings_list_init();
+
   settings_iterate(pset) {
     setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
     setting_game_set(pset, TRUE);
     setting_action(pset);
   } settings_iterate_end;
+
+  settings_list_update();
 }
 
 /********************************************************************
@@ -3794,6 +3808,8 @@ void settings_free(void)
   settings_iterate(pset) {
     setting_game_free(pset);
   } settings_iterate_end;
+
+  settings_list_free();
 }
 
 /****************************************************************************
@@ -3975,4 +3991,133 @@ void send_server_setting_control(struct connection *pconn)
 
     send_packet_server_setting_const(pconn, &setting);
   } settings_iterate_end;
+}
+
+/*****************************************************************************
+  Initialise sorted settings.
+*****************************************************************************/
+static void settings_list_init(void)
+{
+  struct setting *pset;
+  int i;
+
+  fc_assert_ret(setting_sorted.init == FALSE);
+
+  /* Do it for all values of enum sset_level. */
+  for (i = 0; i < OLEVELS_NUM; i++) {
+    setting_sorted.level[i] = setting_list_new();
+  }
+
+  for (i = 0; (pset = setting_by_number(i)); i++) {
+    /* Add the setting to the list of all settings. */
+    setting_list_append(setting_sorted.level[SSET_ALL], pset);
+
+    switch (setting_level(pset)) {
+    case SSET_NONE:
+      /* No setting should be in this level. */
+      fc_assert_msg(setting_level(pset) != SSET_NONE,
+                    "No setting level defined for '%s'.", setting_name(pset));
+      break;
+    case SSET_ALL:
+      /* Done above - list of all settings. */
+      break;
+    case SSET_VITAL:
+      setting_list_append(setting_sorted.level[SSET_VITAL], pset);
+      break;
+    case SSET_SITUATIONAL:
+      setting_list_append(setting_sorted.level[SSET_SITUATIONAL], pset);
+      break;
+    case SSET_RARE:
+      setting_list_append(setting_sorted.level[SSET_RARE], pset);
+      break;
+    case SSET_CHANGED:
+    case SSET_LOCKED:
+      /* This is done in settings_list_update. */
+      break;
+    case OLEVELS_NUM:
+      /* No setting should be in this level. */
+      fc_assert_msg(setting_level(pset) != OLEVELS_NUM,
+                    "Invalid setting level for '%s' (%s).",
+                    setting_name(pset), sset_level_name(setting_level(pset)));
+      break;
+    }
+  }
+
+  /* Sort the lists. */
+  for (i = 0; i < OLEVELS_NUM; i++) {
+    setting_list_sort(setting_sorted.level[i], settings_list_cmp);
+  }
+
+  setting_sorted.init = TRUE;
+}
+
+/*****************************************************************************
+  Update sorted settings (changed and locked values).
+*****************************************************************************/
+void settings_list_update(void)
+{
+  struct setting *pset;
+  int i;
+
+  fc_assert_ret(setting_sorted.init == TRUE);
+
+  /* Clear the lists for changed and locked values. */
+  setting_list_clear(setting_sorted.level[SSET_CHANGED]);
+  setting_list_clear(setting_sorted.level[SSET_LOCKED]);
+
+  /* Refill them. */
+  for (i = 0; (pset = setting_by_number(i)); i++) {
+    if (setting_changed(pset)) {
+      setting_list_append(setting_sorted.level[SSET_CHANGED], pset);
+    }
+    if (setting_locked(pset)) {
+      setting_list_append(setting_sorted.level[SSET_LOCKED], pset);
+    }
+  }
+
+  /* Sort them. */
+  setting_list_sort(setting_sorted.level[SSET_CHANGED], settings_list_cmp);
+  setting_list_sort(setting_sorted.level[SSET_LOCKED], settings_list_cmp);
+}
+
+/*****************************************************************************
+  Update sorted settings (changed and locked values).
+*****************************************************************************/
+int settings_list_cmp(const struct setting *const *ppset1,
+                      const struct setting *const *ppset2)
+{
+  const struct setting *pset1 = *ppset1;
+  const struct setting *pset2 = *ppset2;
+
+  return fc_strcasecmp(setting_name(pset1), setting_name(pset2));
+}
+
+/*****************************************************************************
+  Get a settings list of a certain level. Call settings_list_update() before
+  if something was changed.
+*****************************************************************************/
+struct setting_list *settings_list_get(enum sset_level level)
+{
+  fc_assert_ret_val(setting_sorted.init == TRUE, NULL);
+  fc_assert_ret_val(setting_sorted.level[level] != NULL, NULL);
+  fc_assert_ret_val(sset_level_is_valid(level), NULL);
+
+  return setting_sorted.level[level];
+}
+
+/*****************************************************************************
+  Free sorted settings.
+*****************************************************************************/
+static void settings_list_free(void)
+{
+  int i;
+
+  fc_assert_ret(setting_sorted.init == TRUE);
+
+  /* Free the lists. */
+  for (i = 0; i < OLEVELS_NUM; i++) {
+    setting_list_destroy(setting_sorted.level[i]);
+  }
+
+  setting_sorted.init = FALSE;
 }
