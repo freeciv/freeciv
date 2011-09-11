@@ -1426,10 +1426,14 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
   case OBJTYPE_TILE:
     {
       const struct tile *ptile = objbind_get_object(ob);
+      int tile_x, tile_y, nat_x, nat_y;
 
       if (NULL == ptile) {
         goto FAILED;
       }
+
+      index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
+      index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
 
       switch (propid) {
       case OPID_TILE_IMAGE:
@@ -1465,23 +1469,23 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         }
         break;
       case OPID_TILE_XY:
-        pv->data.v_string = g_strdup_printf("(%d, %d)", ptile->x, ptile->y);
+        pv->data.v_string = g_strdup_printf("(%d, %d)", tile_x, tile_y);
         pv->must_free = TRUE;
         break;
       case OPID_TILE_INDEX:
         pv->data.v_int = tile_index(ptile);
         break;
       case OPID_TILE_X:
-        pv->data.v_int = ptile->x;
+        pv->data.v_int = tile_x;
         break;
       case OPID_TILE_Y:
-        pv->data.v_int = ptile->y;
+        pv->data.v_int = tile_y;
         break;
       case OPID_TILE_NAT_X:
-        pv->data.v_int = ptile->nat_x;
+        pv->data.v_int = nat_x;
         break;
       case OPID_TILE_NAT_Y:
-        pv->data.v_int = ptile->nat_y;
+        pv->data.v_int = nat_y;
         break;
       case OPID_TILE_CONTINENT:
         pv->data.v_int = ptile->continent;
