@@ -153,8 +153,8 @@ void popup_find_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
-  pBuf->data.cont->id0 = original->x;
-  pBuf->data.cont->id1 = original->y;
+  pBuf->data.cont->id0 = index_to_map_pos_x(tile_index(original));
+  pBuf->data.cont->id1 = index_to_map_pos_y(tile_index(original));
 
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */

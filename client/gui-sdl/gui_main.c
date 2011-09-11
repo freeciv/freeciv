@@ -358,8 +358,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
    * hold state or above */
   if (button_behavior.counting && (button_behavior.hold_state >= MB_HOLD_MEDIUM)) {
     ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
-    if ((ptile->x != button_behavior.ptile->x)
-        || (ptile->y != button_behavior.ptile->y)) {
+    if (tile_index(ptile) != tile_index(button_behavior.ptile)) {
       button_behavior.counting = FALSE;
     }
   }

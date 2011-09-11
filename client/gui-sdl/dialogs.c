@@ -1085,10 +1085,11 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
       
   pSurf = get_terrain_surface(ptile);
   pTerrain_Info_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-    
-  /* ----------- */  
-  fc_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), ptile->x , ptile->y);
-  
+
+  /* ----------- */
+  fc_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"),
+              TILE_XY(ptile));
+
   pWindow = create_window_skeleton(NULL, create_str16_from_char(cBuf , adj_font(12)), 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
   
@@ -1438,11 +1439,11 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   is_unit_move_blocked = TRUE;
     
   pAdvanced_Terrain_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
-  
+
   pCont = fc_calloc(1, sizeof(struct CONTAINER));
-  pCont->id0 = ptile->x;
-  pCont->id1 = ptile->y;
-  
+  pCont->id0 = index_to_map_pos_x(tile_index(ptile));
+  pCont->id1 = index_to_map_pos_y(tile_index(ptile));
+
   pStr = create_str16_from_char(_("Advanced Menu") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
@@ -1549,8 +1550,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   }
   /* ---------- */
 
-  if(pFocus_Unit && (unit_tile(pFocus_Unit)->x != ptile->x
-                     || unit_tile(pFocus_Unit)->y != ptile->y)) {
+  if(pFocus_Unit
+     && (tile_index(unit_tile(pFocus_Unit)) != tile_index(ptile))) {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
     
