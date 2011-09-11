@@ -515,8 +515,10 @@ static void place_terrain(struct tile *ptile, int diff,
   (*to_be_placed)--;
 
   cardinal_adjc_iterate(ptile, tile1) {
-    int Delta = (abs(map_colatitude(tile1) - map_colatitude(ptile)) / L_UNIT
-                 + abs(hmap(tile1) - (hmap(ptile))) /  H_UNIT);
+    /* Check L_UNIT and H_UNIT against 0. */
+    int Delta = (abs(map_colatitude(tile1) - map_colatitude(ptile))
+                 / MAX(L_UNIT, 1)
+                 + abs(hmap(tile1) - (hmap(ptile))) / MAX(H_UNIT, 1));
     if (not_placed(tile1)
         && tmap_is(tile1, tc)
         && test_wetness(tile1, wc)
