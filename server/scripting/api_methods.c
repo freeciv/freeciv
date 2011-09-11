@@ -349,11 +349,14 @@ int api_methods_private_tile_next_outward_index(Tile *pstart,
 {
   int dx, dy;
   int newx, newy;
+  int startx, starty;
   SCRIPT_CHECK_SELF(pstart, 0);
 
   if (index < 0) {
     return 0;
   }
+
+  index_to_map_pos(&startx, &starty, tile_index(pstart));
 
   index++;
   while (index < map.num_iterate_outwards_indices) {
@@ -362,8 +365,8 @@ int api_methods_private_tile_next_outward_index(Tile *pstart,
     }
     dx = map.iterate_outwards_indices[index].dx;
     dy = map.iterate_outwards_indices[index].dy;
-    newx = dx + pstart->x;
-    newy = dy + pstart->y;
+    newx = dx + startx;
+    newy = dy + starty;
     if (!normalize_map_pos(&newx, &newy)) {
       index++;
       continue;
@@ -378,16 +381,15 @@ int api_methods_private_tile_next_outward_index(Tile *pstart,
 **************************************************************************/
 Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index)
 {
-  int dx, dy;
   int newx, newy;
   SCRIPT_CHECK_SELF(pstart, NULL);
   SCRIPT_CHECK_ARG(index >= 0 && index < map.num_iterate_outwards_indices,
                    2, "index out of bounds", NULL);
 
-  dx = map.iterate_outwards_indices[index].dx;
-  dy = map.iterate_outwards_indices[index].dy;
-  newx = dx + pstart->x;
-  newy = dy + pstart->y;
+  index_to_map_pos(&newx, &newy, tile_index(pstart));
+  newx += map.iterate_outwards_indices[index].dx;
+  newy += map.iterate_outwards_indices[index].dy;
+
   if (!normalize_map_pos(&newx, &newy)) {
     return NULL;
   }

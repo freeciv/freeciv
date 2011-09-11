@@ -859,12 +859,16 @@ static void map_load_tiles(struct section_file *file)
   assign_continent_numbers();
 
   whole_map_iterate(ptile) {
-    const char *spec_sprite = secfile_lookup_str(file,
-                                                 "map.spec_sprite_%d_%d",
-                                                 ptile->nat_x, ptile->nat_y);
-    const char *label = secfile_lookup_str_default(file, NULL,
-                                                   "map.label_%d_%d",
-                                                   ptile->nat_x, ptile->nat_y);
+    const char *spec_sprite;
+    const char *label;
+    int nat_x, nat_y;
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+    spec_sprite = secfile_lookup_str(file, "map.spec_sprite_%d_%d", nat_x,
+                                     nat_y);
+    label = secfile_lookup_str_default(file, NULL, "map.label_%d_%d", nat_x,
+                                       nat_y);
+
     if (NULL != ptile->spec_sprite) {
       ptile->spec_sprite = fc_strdup(spec_sprite);
     }
@@ -1362,10 +1366,13 @@ static void map_save(struct section_file *file, bool save_players)
       int i = 0;
 
       map_startpos_iterate(psp) {
-        ptile = startpos_tile(psp);
+        int nat_x, nat_y;
 
-        secfile_insert_int(file, ptile->nat_x, "map.r%dsx", i);
-        secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
+        ptile = startpos_tile(psp);
+        index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+
+        secfile_insert_int(file, nat_x, "map.r%dsx", i);
+        secfile_insert_int(file, nat_y, "map.r%dsy", i);
 
         if (!startpos_allows_all(psp)) {
           /* Old format supports only 1 nation. Register the first
@@ -1384,13 +1391,16 @@ static void map_save(struct section_file *file, bool save_players)
   }
 
   whole_map_iterate(ptile) {
+    int nat_x, nat_y;
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+
     if (ptile->spec_sprite) {
       secfile_insert_str(file, ptile->spec_sprite, "map.spec_sprite_%d_%d",
-                         ptile->nat_x, ptile->nat_y);
+                         nat_x, nat_y);
     }
     if (ptile->label != NULL) {
-      secfile_insert_str(file, ptile->label,
-                         "map.label_%d_%d", ptile->nat_x, ptile->nat_y);
+      secfile_insert_str(file, ptile->label, "map.label_%d_%d", nat_x, nat_y);
     }
   } whole_map_iterate_end;
     
@@ -3811,14 +3821,17 @@ static void player_save_units(struct player *plr, int plrno,
   int i = -1;
 
   unit_list_iterate(plr->units, punit) {
-    int activity = punit->activity;
+    int activity = punit->activity, nat_x, nat_y;
     char unitstr[32];
 
     i++;
 
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
-    secfile_insert_int(file, unit_tile(punit)->nat_x, "player%d.u%d.x", plrno, i);
-    secfile_insert_int(file, unit_tile(punit)->nat_y, "player%d.u%d.y", plrno, i);
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(unit_tile(punit)));
+    secfile_insert_int(file, nat_x, "player%d.u%d.x", plrno, i);
+    secfile_insert_int(file, nat_y, "player%d.u%d.y", plrno, i);
+
     secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
 				plrno, i);
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
@@ -3852,10 +3865,10 @@ static void player_save_units(struct player *plr, int plrno,
 
     if (punit->goto_tile) {
       secfile_insert_bool(file, TRUE, "player%d.u%d.go", plrno, i);
-      secfile_insert_int(file, punit->goto_tile->nat_x,
-			 "player%d.u%d.goto_x", plrno, i);
-      secfile_insert_int(file, punit->goto_tile->nat_y,
-			 "player%d.u%d.goto_y", plrno, i);
+
+      index_to_native_pos(&nat_x, &nat_y, tile_index(punit->goto_tile));
+      secfile_insert_int(file, nat_x, "player%d.u%d.goto_x", plrno, i);
+      secfile_insert_int(file, nat_y, "player%d.u%d.goto_y", plrno, i);
     } else {
       secfile_insert_bool(file, FALSE, "player%d.u%d.go", plrno, i);
       /* for compatibility with older servers */
@@ -3962,13 +3975,16 @@ static void player_save_cities(struct player *plr, int plrno,
   } city_list_iterate_end;
 
   city_list_iterate(plr->cities, pcity) {
-    int j;
+    int j, nat_x, nat_y;
     char impr_buf[MAX_NUM_ITEMS + 1];
     struct tile *pcenter = city_tile(pcity);
 
     i++;
-    secfile_insert_int(file, pcenter->nat_y, "player%d.c%d.y", plrno, i);
-    secfile_insert_int(file, pcenter->nat_x, "player%d.c%d.x", plrno, i);
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(pcenter));
+    secfile_insert_int(file, nat_y, "player%d.c%d.y", plrno, i);
+    secfile_insert_int(file, nat_x, "player%d.c%d.x", plrno, i);
+
     secfile_insert_int(file, pcity->id, "player%d.c%d.id", plrno, i);
 
     secfile_insert_int(file, player_number(pcity->original),
@@ -4147,10 +4163,12 @@ static void player_save_vision(struct player *plr, int plrno,
     struct vision_site *pdcity = map_get_player_city(ptile, plr);
 
     if (NULL != pdcity && plr != vision_site_owner(pdcity)) {
-      secfile_insert_int(file, ptile->nat_y,
-                         "player%d.dc%d.y", plrno, i);
-      secfile_insert_int(file, ptile->nat_x,
-                         "player%d.dc%d.x", plrno, i);
+      int nat_x, nat_y;
+
+      index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+      secfile_insert_int(file, nat_y, "player%d.dc%d.y", plrno, i);
+      secfile_insert_int(file, nat_x, "player%d.dc%d.x", plrno, i);
+
       secfile_insert_int(file, pdcity->identity,
                          "player%d.dc%d.id", plrno, i);
       secfile_insert_int(file, player_number(vision_site_owner(pdcity)),

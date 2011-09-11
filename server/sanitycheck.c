@@ -163,11 +163,9 @@ static void check_map(const char *file, const char *function, int line)
 {
   whole_map_iterate(ptile) {
     struct city *pcity = tile_city(ptile);
-    int cont = tile_continent(ptile), x, y;
+    int cont = tile_continent(ptile);
 
     CHECK_INDEX(tile_index(ptile));
-    CHECK_MAP_POS(ptile->x, ptile->y);
-    CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
     if (NULL != pcity) {
       SANITY_TILE(ptile, same_pos(pcity->tile, ptile));
@@ -175,12 +173,6 @@ static void check_map(const char *file, const char *function, int line)
         SANITY_TILE(ptile, tile_owner(ptile) != NULL);
       }
     }
-
-    index_to_map_pos(&x, &y, tile_index(ptile));
-    SANITY_TILE(ptile, x == ptile->x && y == ptile->y);
-
-    index_to_native_pos(&x, &y, tile_index(ptile));
-    SANITY_TILE(ptile, x == ptile->nat_x && y == ptile->nat_y);
 
     if (is_ocean_tile(ptile)) {
       SANITY_TILE(ptile, cont < 0);

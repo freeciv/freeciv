@@ -2214,12 +2214,15 @@ static void sg_load_map_tiles(struct loaddata *loading)
 
   /* Check for special tile sprites. */
   whole_map_iterate(ptile) {
-    const char *spec_sprite = secfile_lookup_str(loading->file,
-                                                 "map.spec_sprite_%d_%d",
-                                                 ptile->nat_x, ptile->nat_y);
-    const char *label = secfile_lookup_str_default(loading->file, NULL,
-                                                   "map.label_%d_%d",
-                                                   ptile->nat_x, ptile->nat_y);
+    const char *spec_sprite;
+    const char *label;
+    int nat_x, nat_y;
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+    spec_sprite = secfile_lookup_str(loading->file, "map.spec_sprite_%d_%d",
+                                     nat_x, nat_y);
+    label = secfile_lookup_str_default(loading->file, NULL, "map.label_%d_%d",
+                                       nat_x, nat_y);
     if (NULL != ptile->spec_sprite) {
       ptile->spec_sprite = fc_strdup(spec_sprite);
     }
@@ -2243,14 +2246,16 @@ static void sg_save_map_tiles(struct savedata *saving)
 
   /* Save special tile sprites. */
   whole_map_iterate(ptile) {
+    int nat_x, nat_y;
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
     if (ptile->spec_sprite) {
       secfile_insert_str(saving->file, ptile->spec_sprite,
-                         "map.spec_sprite_%d_%d", ptile->nat_x,
-                         ptile->nat_y);
+                         "map.spec_sprite_%d_%d", nat_x, nat_y);
     }
     if (ptile->label != NULL) {
       secfile_insert_str(saving->file, ptile->label,
-                         "map.label_%d_%d", ptile->nat_x, ptile->nat_y);
+                         "map.label_%d_%d", nat_x, nat_y);
     }
   } whole_map_iterate_end;
 }
@@ -2504,10 +2509,14 @@ static void sg_save_map_startpos(struct savedata *saving)
                      "map.startpos_count");
 
   map_startpos_iterate(psp) {
+    int nat_x, nat_y;
+
     ptile = startpos_tile(psp);
 
-    secfile_insert_int(saving->file, ptile->nat_x, "map.startpos%d.x", i);
-    secfile_insert_int(saving->file, ptile->nat_y, "map.startpos%d.y", i);
+    index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+    secfile_insert_int(saving->file, nat_x, "map.startpos%d.x", i);
+    secfile_insert_int(saving->file, nat_y, "map.startpos%d.y", i);
+
     secfile_insert_bool(saving->file, startpos_is_excluding(psp),
                         "map.startpos%d.exclude", i);
     if (startpos_allows_all(psp)) {
@@ -4061,12 +4070,15 @@ static void sg_save_player_cities(struct savedata *saving,
     struct tile *pcenter = city_tile(pcity);
     char impr_buf[MAX_NUM_ITEMS + 1];
     char buf[32];
-    int j;
+    int j, nat_x, nat_y;
 
     fc_snprintf(buf, sizeof(buf), "player%d.c%d", plrno, i);
 
-    secfile_insert_int(saving->file, pcenter->nat_y, "%s.y", buf);
-    secfile_insert_int(saving->file, pcenter->nat_x, "%s.x", buf);
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(pcenter));
+    secfile_insert_int(saving->file, nat_y, "%s.y", buf);
+    secfile_insert_int(saving->file, nat_x, "%s.x", buf);
+
     secfile_insert_int(saving->file, pcity->id, "%s.id", buf);
 
     secfile_insert_int(saving->file, player_number(pcity->original),
@@ -4559,12 +4571,17 @@ static void sg_save_player_units(struct savedata *saving,
   unit_list_iterate(plr->units, punit) {
     char buf[32];
     char dirbuf[2] = " ";
+    int nat_x, nat_y;
+
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
     dirbuf[0] = dir2char(punit->facing);
 
     secfile_insert_int(saving->file, punit->id, "%s.id", buf);
-    secfile_insert_int(saving->file, unit_tile(punit)->nat_x, "%s.x", buf);
-    secfile_insert_int(saving->file, unit_tile(punit)->nat_y, "%s.y", buf);
+
+    index_to_native_pos(&nat_x, &nat_y, tile_index(unit_tile(punit)));
+    secfile_insert_int(saving->file, nat_x, "%s.x", buf);
+    secfile_insert_int(saving->file, nat_y, "%s.y", buf);
+
     secfile_insert_str(saving->file, dirbuf, "%s.facing", buf);
     secfile_insert_int(saving->file, punit->veteran, "%s.veteran", buf);
     secfile_insert_int(saving->file, punit->hp, "%s.hp", buf);
@@ -4597,11 +4614,10 @@ static void sg_save_player_units(struct savedata *saving,
                        "%s.battlegroup", buf);
 
     if (punit->goto_tile) {
+      index_to_native_pos(&nat_x, &nat_y, tile_index(punit->goto_tile));
       secfile_insert_bool(saving->file, TRUE, "%s.go", buf);
-      secfile_insert_int(saving->file, punit->goto_tile->nat_x,
-                         "%s.goto_x", buf);
-      secfile_insert_int(saving->file, punit->goto_tile->nat_y,
-                         "%s.goto_y", buf);
+      secfile_insert_int(saving->file, nat_x, "%s.goto_x", buf);
+      secfile_insert_int(saving->file, nat_y, "%s.goto_y", buf);
     } else {
       secfile_insert_bool(saving->file, FALSE, "%s.go", buf);
       /* Set this values to allow saving it as table. */
@@ -5202,8 +5218,12 @@ static void sg_save_player_vision(struct savedata *saving,
     fc_snprintf(buf, sizeof(buf), "player%d.dc%d", plrno, i);
 
     if (NULL != pdcity && plr != vision_site_owner(pdcity)) {
-      secfile_insert_int(saving->file, ptile->nat_y, "%s.y", buf);
-      secfile_insert_int(saving->file, ptile->nat_x, "%s.x", buf);
+      int nat_x, nat_y;
+
+      index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+      secfile_insert_int(saving->file, nat_y, "%s.y", buf);
+      secfile_insert_int(saving->file, nat_x, "%s.x", buf);
+
       secfile_insert_int(saving->file, pdcity->identity, "%s.id", buf);
       secfile_insert_int(saving->file, player_number(vision_site_owner(pdcity)),
                          "%s.owner", buf);

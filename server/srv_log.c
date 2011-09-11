@@ -127,8 +127,7 @@ void real_unit_log(const char *file, const char *function, int line,
   CALL_PLR_AI_FUNC(log_fragment_unit, unit_owner(punit), aibuf, sizeof(aibuf), punit);
 
   if (punit->goto_tile) {
-    gx = punit->goto_tile->x;
-    gy = punit->goto_tile->y;
+    index_to_map_pos(&gx, &gy, tile_index(punit->goto_tile));
   } else {
     gx = gy = -1;
   }

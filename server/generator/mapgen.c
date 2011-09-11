@@ -1164,7 +1164,7 @@ static void make_land(void)
         }
       } adjc_iterate_end;
 
-      depth += 30 * (ocean - land) / (ocean + land);
+      depth += 30 * (ocean - land) / MAX(1, (ocean + land));
 
       depth = MIN(depth, TERRAIN_OCEAN_DEPTH_MAXIMUM);
 
@@ -1834,18 +1834,19 @@ static long int checkmass;
 **************************************************************************/
 static bool place_island(struct gen234_state *pstate)
 {
-  int i=0, xn, yn;
+  int i=0, xn, yn, nat_x, nat_y;
   struct tile *ptile;
 
   ptile = rand_map_pos();
+  index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
 
   /* this helps a lot for maps with high landmass */
   for (yn = pstate->n, xn = pstate->w;
        yn < pstate->s && xn < pstate->e;
        yn++, xn++) {
     struct tile *tile0 = native_pos_to_tile(xn, yn);
-    struct tile *tile1 = native_pos_to_tile(xn + ptile->nat_x - pstate->w,
-					    yn + ptile->nat_y - pstate->n);
+    struct tile *tile1 = native_pos_to_tile(xn + nat_x - pstate->w,
+                                            yn + nat_y - pstate->n);
 
     if (!tile0 || !tile1) {
       return FALSE;
@@ -1858,8 +1859,8 @@ static bool place_island(struct gen234_state *pstate)
   for (yn = pstate->n; yn < pstate->s; yn++) {
     for (xn = pstate->w; xn < pstate->e; xn++) {
       struct tile *tile0 = native_pos_to_tile(xn, yn);
-      struct tile *tile1 = native_pos_to_tile(xn + ptile->nat_x - pstate->w,
-					      yn + ptile->nat_y - pstate->n);
+      struct tile *tile1 = native_pos_to_tile(xn + nat_x - pstate->w,
+                                              yn + nat_y - pstate->n);
 
       if (!tile0 || !tile1) {
 	return FALSE;
@@ -1873,9 +1874,8 @@ static bool place_island(struct gen234_state *pstate)
   for (yn = pstate->n; yn < pstate->s; yn++) {
     for (xn = pstate->w; xn < pstate->e; xn++) {
       if (hmap(native_pos_to_tile(xn, yn)) != 0) {
-	struct tile *tile1
-	  = native_pos_to_tile(xn + ptile->nat_x - pstate->w,
-			       yn + ptile->nat_y - pstate->n);
+        struct tile *tile1 = native_pos_to_tile(xn + nat_x - pstate->w,
+                                                yn + nat_y - pstate->n);
 
 	checkmass--; 
 	if (checkmass <= 0) {
@@ -1891,10 +1891,12 @@ static bool place_island(struct gen234_state *pstate)
       }
     }
   }
-  pstate->s += ptile->nat_y - pstate->n;
-  pstate->e += ptile->nat_x - pstate->w;
-  pstate->n = ptile->nat_y;
-  pstate->w = ptile->nat_x;
+
+  pstate->s += nat_y - pstate->n;
+  pstate->e += nat_x - pstate->w;
+  pstate->n = nat_y;
+  pstate->w = nat_x;
+
   return i != 0;
 }
 
@@ -1919,36 +1921,39 @@ static int count_card_adjc_elevated_tiles(struct tile *ptile)
 **************************************************************************/
 static bool create_island(int islemass, struct gen234_state *pstate)
 {
-  int i;
+  int i, nat_x, nat_y;
   long int tries=islemass*(2+islemass/20)+99;
   bool j;
   struct tile *ptile = native_pos_to_tile(map.xsize / 2, map.ysize / 2);
 
   memset(height_map, '\0', MAP_INDEX_SIZE * sizeof(*height_map));
   hmap(native_pos_to_tile(map.xsize / 2, map.ysize / 2)) = 1;
-  pstate->n = ptile->nat_y - 1;
-  pstate->w = ptile->nat_x - 1;
-  pstate->s = ptile->nat_y + 2;
-  pstate->e = ptile->nat_x + 2;
+
+  index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+  pstate->n = nat_y - 1;
+  pstate->w = nat_x - 1;
+  pstate->s = nat_y + 2;
+  pstate->e = nat_x + 2;
   i = islemass - 1;
   while (i > 0 && tries-->0) {
     ptile = get_random_map_position_from_state(pstate);
+    index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
 
     if ((!near_singularity(ptile) || fc_rand(50) < 25 ) 
-	&& hmap(ptile) == 0 && count_card_adjc_elevated_tiles(ptile) > 0) {
+        && hmap(ptile) == 0 && count_card_adjc_elevated_tiles(ptile) > 0) {
       hmap(ptile) = 1;
       i--;
-      if (ptile->nat_y >= pstate->s - 1 && pstate->s < map.ysize - 2) {
-	pstate->s++;
+      if (nat_y >= pstate->s - 1 && pstate->s < map.ysize - 2) {
+        pstate->s++;
       }
-      if (ptile->nat_x >= pstate->e - 1 && pstate->e < map.xsize - 2) {
-	pstate->e++;
+      if (nat_x >= pstate->e - 1 && pstate->e < map.xsize - 2) {
+        pstate->e++;
       }
-      if (ptile->nat_y <= pstate->n && pstate->n > 2) {
-	pstate->n--;
+      if (nat_y <= pstate->n && pstate->n > 2) {
+        pstate->n--;
       }
-      if (ptile->nat_x <= pstate->w && pstate->w > 2) {
-	pstate->w--;
+      if (nat_x <= pstate->w && pstate->w > 2) {
+        pstate->w--;
       }
     }
     if (i < islemass / 10) {

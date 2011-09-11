@@ -811,25 +811,28 @@ void event_cache_load(struct section_file *file, const char *section)
 ***************************************************************/
 void event_cache_save(struct section_file *file, const char *section)
 {
-  struct tile *ptile;
   int event_count = 0;
-  char target[MAX_NUM_PLAYER_SLOTS + 1];
-  char *p;
 
   /* stop event logging; this way events from log_*() will not be added
    * to the event list while saving the event list */
   event_cache_status = FALSE;
 
   event_cache_iterate(pdata) {
-    ptile = index_to_tile(pdata->packet.tile);
+    struct tile *ptile = index_to_tile(pdata->packet.tile);
+    char target[MAX_NUM_PLAYER_SLOTS + 1];
+    char *p;
+    int tile_x = -1, tile_y = -1;
+
+    if (ptile != NULL) {
+      index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
+    }
+
     secfile_insert_int(file, pdata->turn, "%s.events%d.turn",
                        section, event_count);
     secfile_insert_int(file, pdata->timestamp, "%s.events%d.timestamp",
                        section, event_count);
-    secfile_insert_int(file, NULL != ptile ? ptile->x : -1,
-                       "%s.events%d.x", section, event_count);
-    secfile_insert_int(file, NULL != ptile ? ptile->y : -1,
-                       "%s.events%d.y", section, event_count);
+    secfile_insert_int(file, tile_x, "%s.events%d.x", section, event_count);
+    secfile_insert_int(file, tile_y, "%s.events%d.y", section, event_count);
     secfile_insert_str(file, server_states_name(pdata->server_state),
                        "%s.events%d.server_state", section, event_count);
     secfile_insert_str(file, event_type_name(pdata->packet.event),

@@ -131,8 +131,7 @@ static bool explorer_goto(struct unit *punit, struct tile *ptile)
   /* Show the destination in the client */
   punit->goto_tile = ptile;
 
-  UNIT_LOG(LOG_DEBUG, punit, "explorer_goto to %d,%d",
-           ptile->x, ptile->y);
+  UNIT_LOG(LOG_DEBUG, punit, "explorer_goto to %d,%d", TILE_XY(ptile));
 
   pfm = pf_map_new(&parameter);
   path = pf_map_path(pfm, ptile);

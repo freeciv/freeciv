@@ -187,10 +187,9 @@ static struct tile *find_dispersed_position(struct player *pplayer,
   int x, y;
 
   do {
-    x = pcenter->x + fc_rand(2 * game.server.dispersion + 1) 
-        - game.server.dispersion;
-    y = pcenter->y + fc_rand(2 * game.server.dispersion + 1)
-        - game.server.dispersion;
+    index_to_map_pos(&x, &y, tile_index(pcenter));
+    x += fc_rand(2 * game.server.dispersion + 1) - game.server.dispersion;
+    y += fc_rand(2 * game.server.dispersion + 1) - game.server.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
              && tile_continent(pcenter) == tile_continent(ptile)
              && !is_ocean_tile(ptile)

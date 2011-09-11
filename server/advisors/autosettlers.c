@@ -86,11 +86,13 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
   bool has_road[12], is_slow[12];
   int dx[12] = {-1,  0,  1, -1, 1, -1, 0, 1,  0, -2, 2, 0};
   int dy[12] = {-1, -1, -1,  0, 0,  1, 1, 1, -2,  0, 0, 2};
-  
+  int x, y;
+
   fc_assert_ret_val(special == S_ROAD || special == S_RAILROAD, 0);
 
+  index_to_map_pos(&x, &y, tile_index(ptile));
   for (i = 0; i < 12; i++) {
-    struct tile *tile1 = map_pos_to_tile(ptile->x + dx[i], ptile->y + dy[i]);
+    struct tile *tile1 = map_pos_to_tile(x + dx[i], y + dy[i]);
 
     if (!tile1) {
       has_road[i] = FALSE;
