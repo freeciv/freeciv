@@ -574,7 +574,7 @@ extern const int DIR_DY[8];
  * below. */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             0
-#define MAP_MAX_SIZE             128
+#define MAP_MAX_SIZE             2048
 
 FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
                  map_too_big_for_bitvector);
@@ -585,7 +585,9 @@ FC_STATIC_ASSERT(MAP_MAX_SIZE * 1000 <= MAX_DBV_LENGTH,
 
 /* This defines the maximum linear size in _map_ coordinates. */
 #define MAP_DEFAULT_LINEAR_SIZE  64
-#define MAP_MAX_LINEAR_SIZE      512
+/* 32 * 1024 is 2^15; thus, x*y is <= 2^15 * 2^15 = 2^30. This can be
+ * represented by an signed int as required by the network protocol. */
+#define MAP_MAX_LINEAR_SIZE      (32 * 1024)
 #define MAP_MIN_LINEAR_SIZE      16
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX

@@ -54,8 +54,8 @@ bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2);
 void dbv_debug(struct dbv *pdbv);
 
 /* Maximal size of a dynamic bitvector.
-   Use a large value to be on the safe side (512kbits = 64kbytes). */
-#define MAX_DBV_LENGTH 512 * 1024
+   Use a large value to be on the safe side (4Mbits = 512kbytes). */
+#define MAX_DBV_LENGTH (4 * 1024 * 1024)
 
 /* Static bitvectors. */
 #define _BV_BYTES(bits)        ((((bits) - 1) / 8) + 1)
