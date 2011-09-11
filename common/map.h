@@ -227,12 +227,16 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
 #define CHECK_INDEX(index) ((void)0)
 #endif
 
-#define native_pos_to_index(nat_x, nat_y)                                   \
-  (CHECK_NATIVE_POS((nat_x), (nat_y)),					    \
+#define native_pos_to_index(nat_x, nat_y)                                    \
+  (CHECK_NATIVE_POS((nat_x), (nat_y)),                                       \
    (nat_x) + (nat_y) * map.xsize)
-#define index_to_native_pos(pnat_x, pnat_y, index)                          \
-  (*(pnat_x) = (index) % map.xsize,                                         \
-   *(pnat_y) = (index) / map.xsize)
+#define index_to_native_pos(pnat_x, pnat_y, index)                           \
+  (*(pnat_x) = index_to_native_pos_x(index),                                 \
+   *(pnat_y) = index_to_native_pos_y(index))
+#define index_to_native_pos_x(index)                                         \
+  ((index) % map.xsize) 
+#define index_to_native_pos_y(index)                                         \
+  ((index) / map.xsize)
 
 /* Obscure math.  See explanation in doc/HACKING. */
 #define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
@@ -302,7 +306,7 @@ struct iterator *map_startpos_iter_init(struct map_startpos_iter *iter);
   (MAP_IS_ISOMETRIC ? (map.xsize + map.ysize / 2) : map.xsize)
 #define MAP_HEIGHT \
   (MAP_IS_ISOMETRIC ? (map.xsize + map.ysize / 2) : map.ysize)
-  
+
 static inline int map_pos_to_index(int map_x, int map_y);
 
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
@@ -310,6 +314,8 @@ static inline int map_pos_to_index(int map_x, int map_y);
   (CHECK_INDEX(index),                          \
    index_to_native_pos(pmap_x, pmap_y, index),  \
    NATIVE_TO_MAP_POS(pmap_x, pmap_y, *(pmap_x), *(pmap_y)))
+static inline int index_to_map_pos_x(int index);
+static inline int index_to_map_pos_y(int index);
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
@@ -379,12 +385,13 @@ extern struct terrain_misc terrain_control;
  * See also iterate_outward() */
 #define iterate_outward_dxy(start_tile, max_dist, _tile, _x, _y)	    \
 {									    \
-  int _x, _y, _tile##_x, _tile##_y;					    \
+  int _x, _y, _tile##_x, _tile##_y, _start##_x, _start##_y;                 \
   struct tile *_tile;							    \
   const struct tile *_tile##_start = (start_tile);			    \
   int _tile##_max = (max_dist);						    \
   bool _tile##_is_border = is_border_tile(_tile##_start, _tile##_max);	    \
   int _tile##_index = 0;						    \
+  index_to_map_pos(&_start##_x, &_start##_y, tile_index(_tile##_start));    \
   for (;								    \
        _tile##_index < map.num_iterate_outwards_indices;		    \
        _tile##_index++) { 						    \
@@ -393,8 +400,8 @@ extern struct terrain_misc terrain_control;
     }									    \
     _x = map.iterate_outwards_indices[_tile##_index].dx;		    \
     _y = map.iterate_outwards_indices[_tile##_index].dy;		    \
-    _tile##_x = _x + _tile##_start->x;					    \
-    _tile##_y = _y + _tile##_start->y;					    \
+    _tile##_x = _x + _start##_x;                                            \
+    _tile##_y = _y + _start##_y;                                            \
     if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {  \
       continue;								    \
     }									    \
@@ -502,18 +509,20 @@ extern struct terrain_misc terrain_control;
 			     dirlist, dircount)				    \
 {									    \
   enum direction8 _dir;							    \
-  int _tile##_x, _tile##_y;						    \
+  int _tile##_x, _tile##_y, _center##_x, _center##_y;                       \
   struct tile *_tile;							    \
   const struct tile *_tile##_center = (center_tile);			    \
   bool _tile##_is_border = is_border_tile(_tile##_center, 1);		    \
   int _tile##_index = 0;						    \
+  index_to_map_pos(&_center##_x, &_center##_y,                           \
+                      tile_index(_tile##_center));                          \
   for (;								    \
        _tile##_index < (dircount);					    \
        _tile##_index++) {						    \
     _dir = dirlist[_tile##_index];					    \
     DIRSTEP(_tile##_x, _tile##_y, _dir);				    \
-    _tile##_x += _tile##_center->x;					    \
-    _tile##_y += _tile##_center->y;					    \
+    _tile##_x += _center##_x;                                               \
+    _tile##_y += _center##_y;                                               \
     if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {  \
       continue;								    \
     }									    \
@@ -638,6 +647,24 @@ static inline int map_pos_to_index(int map_x, int map_y)
   return native_pos_to_index(nat_x, nat_y);
 }
 
+static inline int index_to_map_pos_x(int index)
+{
+  /* Note: writing this as a macro is hard; it needs temp variables. */
+  int map_x, map_y;
+
+  index_to_map_pos(&map_x, &map_y, index);
+  return map_x;
+}
+
+static inline int index_to_map_pos_y(int index)
+{
+  /* Note: writing this as a macro is hard; it needs temp variables. */
+  int map_x, map_y;
+
+  index_to_map_pos(&map_x, &map_y, index);
+  return map_y;
+}
+
 /****************************************************************************
   A "border position" is any map position that _may have_ positions within
   real map distance dist that are non-normal.  To see its correctness,
@@ -650,11 +677,14 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
    * one tile away. */
   int xdist = dist;
   int ydist = (MAP_IS_ISOMETRIC ? (2 * dist) : dist);
+  int nat_x, nat_y;
 
-  return (ptile->nat_x < xdist 
-	  || ptile->nat_y < ydist
-	  || ptile->nat_x >= map.xsize - xdist
-	  || ptile->nat_y >= map.ysize - ydist);
+  index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
+
+  return (nat_x < xdist 
+          || nat_y < ydist
+          || nat_x >= map.xsize - xdist
+          || nat_y >= map.ysize - ydist);
 }
 
 enum direction8 rand_direction(void);
