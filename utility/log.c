@@ -473,7 +473,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
            "assertion '%s' failed.", assertion);
   }
 
-  if (NULL != message) {
+  if (NULL != message && NOLOGMSG != message) {
     /* Additional message. */
     va_list args;
 

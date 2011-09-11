@@ -31,6 +31,7 @@ enum log_level {
   LOG_DEBUG                     /* suppressed unless DEBUG defined */
 };
 
+#define NOLOGMSG (void*)0x1
 
 /* A function type to enable custom output of log messages other than
  * via fputs(stderr).  Eg, to the server console while handling prompts,
@@ -129,7 +130,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
 /* Like assert(). */
 #define fc_assert(condition)                                                \
   ((condition) ? (void) 0                                                   \
-   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NULL))
+   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NOLOGMSG))
 /* Like assert() with extra message. */
 #define fc_assert_msg(condition, message, ...)                              \
   ((condition) ? (void) 0                                                   \
@@ -139,7 +140,8 @@ void fc_assert_fail(const char *file, const char *function, int line,
 
 /* Do action on failure. */
 #define fc_assert_action(condition, action)                                 \
-  fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action, NULL)
+  fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action,       \
+                 NOLOGMSG)
 /* Return on failure. */
 #define fc_assert_ret(condition)                                            \
   fc_assert_action(condition, return)
