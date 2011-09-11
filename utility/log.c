@@ -58,6 +58,8 @@ static int log_num_files = 0;
 static struct log_fileinfo *log_files = NULL;
 #endif /* DEBUG */
 
+const char *nologmsg = "nologmsg";
+
 /**************************************************************************
   level_str should be either "0", "1", "2", "3", "4" or
   "4:filename" or "4:file1:file2" or "4:filename,100,200" etc

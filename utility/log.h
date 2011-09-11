@@ -31,7 +31,9 @@ enum log_level {
   LOG_DEBUG                     /* suppressed unless DEBUG defined */
 };
 
-#define NOLOGMSG (void*)0x1
+/* Dummy log message. */
+extern const char *nologmsg;
+#define NOLOGMSG nologmsg
 
 /* A function type to enable custom output of log messages other than
  * via fputs(stderr).  Eg, to the server console while handling prompts,
