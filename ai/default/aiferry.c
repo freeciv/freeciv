@@ -57,7 +57,7 @@
 /* 
  * This one is used only by ferryboats in ai.passenger field 
  */
-#define FERRY_AVAILABLE    -1     /* Boat is looking for a passenger */
+#define FERRY_AVAILABLE     (-1)  /* Boat is looking for a passenger */
 #define FERRY_ABANDON_BOSS  0     /* Passenger is assigned for boat, but boat
                                    * might take another passenger. Probably
                                    * passenger already left the boat*/
@@ -65,7 +65,7 @@
 /* 
  * The below is used only by passengers in ai.ferryboat field 
  */ 
-#define FERRY_WANTED      -1      /* Needs a boat */
+#define FERRY_WANTED       (-1)   /* Needs a boat */
 #define FERRY_NONE         0      /* Has no boat and doesn't need one */
 
 

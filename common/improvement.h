@@ -132,8 +132,8 @@ enum test_result test_player_sell_building_now(struct player *pplayer,
                                                struct impr_type *pimprove);
 
 /* Macros for struct packet_game_info::great_wonder_owners[]. */
-#define WONDER_DESTROYED -2     /* Used as player id. */
-#define WONDER_NOT_OWNED -1     /* User as player id. */
+#define WONDER_DESTROYED (-2)     /* Used as player id. */
+#define WONDER_NOT_OWNED (-1)     /* User as player id. */
 #define WONDER_OWNED(player_id) ((player_id) >= 0)
 
 /* Macros for struct player::wonders[]. */

@@ -1664,10 +1664,10 @@ static enum sset_level lookup_option_level(const char *name)
 }
 
 /* Special return values of lookup options */
-#define LOOKUP_OPTION_NO_RESULT   -1
-#define LOOKUP_OPTION_AMBIGUOUS   -2
-#define LOOKUP_OPTION_LEVEL_NAME  -3
-#define LOOKUP_OPTION_RULESETDIR  -4
+#define LOOKUP_OPTION_NO_RESULT   (-1)
+#define LOOKUP_OPTION_AMBIGUOUS   (-2)
+#define LOOKUP_OPTION_LEVEL_NAME  (-3)
+#define LOOKUP_OPTION_RULESETDIR  (-4)
 
 /**************************************************************************
   Find option index by name. Return index (>=0) on success, else returned
