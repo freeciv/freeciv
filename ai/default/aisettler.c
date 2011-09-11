@@ -623,22 +623,22 @@ static void print_cityresult(struct player *pplayer,
 
   /* print reservations */
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Reservations:",
-           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+           TILE_XY(cr->tile), cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_reserved);
 
   /*  print food */
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Food:",
-           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+           TILE_XY(cr->tile), cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_food);
 
   /* print shield */
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Shield:",
-           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+           TILE_XY(cr->tile), cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_shield);
 
   /* print trade */
   log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Trade:",
-           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+           TILE_XY(cr->tile), cr->city_radius_sq);
   citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_trade);
 
   free(city_map_reserved);
@@ -647,10 +647,9 @@ static void print_cityresult(struct player *pplayer,
   free(city_map_trade);
 
   log_test("city center (%d, %d) %d + best other (abs: %d, %d)"
-           " (cindex: %d) %d", cr->tile->x, cr->tile->y,
-           cr->city_center.tdc->sum, cr->best_other.tile->x,
-           cr->best_other.tile->y, cr->best_other.cindex,
-           cr->best_other.tdc->sum);
+           " (cindex: %d) %d", TILE_XY(cr->tile),
+           cr->city_center.tdc->sum, TILE_XY(cr->best_other.tile),
+           cr->best_other.cindex, cr->best_other.tdc->sum);
   log_test("- corr %d - waste %d + remaining %d"
            " + defense bonus %d + naval bonus %d", cr->corruption,
            cr->waste, cr->remaining, defense_bonus(cr),
@@ -808,8 +807,8 @@ static struct cityresult *settler_map_iterate(struct pf_parameter *parameter,
       cr = NULL;
       best_turn = turns;
 
-      log_debug("settler map search (search): (%d,%d) %d", best->tile->x,
-                best->tile->y, best->result);
+      log_debug("settler map search (search): (%d,%d) %d",
+                TILE_XY(best->tile), best->result);
     } else {
       /* Destroy the unused result. */
       cityresult_destroy(cr);
@@ -829,8 +828,8 @@ static struct cityresult *settler_map_iterate(struct pf_parameter *parameter,
   pf_map_destroy(pfm);
 
   if (best) {
-    log_debug("settler map search (final): (%d,%d) %d", best->tile->x,
-              best->tile->y, best->result);
+    log_debug("settler map search (final): (%d,%d) %d", TILE_XY(best->tile),
+              best->result);
   } else {
     log_debug("settler map search (final): no result");
   }

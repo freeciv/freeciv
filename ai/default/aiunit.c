@@ -758,10 +758,13 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
            __FUNCTION__, best_def * 100 / toughness,
            (NULL != *acity ? city_name(*acity)
             : (NULL != *aunit ? unit_rule_name(*aunit) : "")),
-           (NULL != *acity ? (*acity)->tile->x
-            : (NULL != *aunit ? unit_tile(*aunit)->x : -1)),
-           (NULL != *acity ? (*acity)->tile->y
-            : (NULL != *aunit ? unit_tile(*aunit)->y : -1)));
+           (NULL != *acity ? index_to_map_pos_x(tile_index(city_tile(*acity)))
+            : (NULL != *aunit ?
+               index_to_map_pos_x(tile_index(unit_tile(*aunit))) : -1)),
+           (NULL != *acity ? index_to_map_pos_y(tile_index(city_tile(*acity)))
+            : (NULL != *aunit ?
+               index_to_map_pos_y(tile_index(unit_tile(*aunit))) : -1)));
+
   return ((best_def * 100) / toughness);
 }
 

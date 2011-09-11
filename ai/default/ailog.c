@@ -117,14 +117,12 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   pcity = game_city_by_number(unit_data->charge);
   pcharge = game_unit_by_number(unit_data->charge);
   if (pcharge) {
-    charge_x = unit_tile(pcharge)->x;
-    charge_y = unit_tile(pcharge)->y;
+    index_to_map_pos(&charge_x, &charge_y, tile_index(unit_tile(pcharge)));
     id = pcharge->id;
     type = "bodyguard";
     s = unit_rule_name(pcharge);
   } else if (pcity) {
-    charge_x = pcity->tile->x;
-    charge_y = pcity->tile->y;
+    index_to_map_pos(&charge_x, &charge_y, tile_index(city_tile(pcity)));
     id = pcity->id;
     type = "cityguard";
     s = city_name(pcity);

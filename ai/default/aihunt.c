@@ -474,9 +474,11 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
                  "giving up racing %s (%d, %d)->(%d, %d)",
                  unit_rule_name(target),
                  target_data->prev_pos
-                   ? (*target_data->prev_pos)->x : -1,
+                   ? index_to_map_pos_x(tile_index(*target_data->prev_pos))
+                   : -1,
                  target_data->prev_pos
-                   ? (*target_data->prev_pos)->y : -1,
+                   ? index_to_map_pos_y(tile_index(*target_data->prev_pos))
+                   : -1,
                  TILE_XY(unit_tile(target)));
         continue;
       }

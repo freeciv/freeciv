@@ -165,14 +165,13 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
   } square_iterate_end;
 
   if (best_tile != NULL) {
-    UNIT_LOG(LOG_DEBUG, punit,
-	     "Choose to jump at %d %d to attack adjacent units. Benefit: %d",
-	      best_tile->x, best_tile->y, best);
+    UNIT_LOG(LOG_DEBUG, punit, "Choose to jump at (%d, %d) to attack "
+                               "adjacent units. Benefit: %d",
+             TILE_XY(best_tile), best);
   }
-  
+
   return best_tile;
 }
-                                          
 
 /**********************************************************************
  This function does manage the paratrooper units of the AI.

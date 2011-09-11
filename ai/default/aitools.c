@@ -270,8 +270,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
    * if we are on a ferry */
   if (goto_is_sane(punit, dest_tile, TRUE) && punit->moves_left > 0) {
     punit->goto_tile = dest_tile;
-    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)",
-	     dest_tile->x, dest_tile->y);
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)", TILE_XY(dest_tile));
     if (!ai_unit_goto(punit, dest_tile)) {
       /* died */
       return FALSE;
@@ -378,13 +377,12 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   struct pf_map *pfm;
   struct pf_path *path;
 
-  UNIT_LOG(LOG_DEBUG, punit, "constrained goto to %d,%d",
-	   ptile->x, ptile->y);
+  UNIT_LOG(LOG_DEBUG, punit, "constrained goto to %d,%d", TILE_XY(ptile));
 
   ptile = immediate_destination(punit, ptile);
 
   UNIT_LOG(LOG_DEBUG, punit, "constrained goto: let's go to %d,%d",
-	   ptile->x, ptile->y);
+           TILE_XY(ptile));
 
   if (same_pos(unit_tile(punit), ptile)) {
     /* Not an error; sometimes immediate_destination instructs the unit
@@ -678,7 +676,7 @@ bool ai_unit_goto(struct unit *punit, struct tile *ptile)
   struct pf_parameter parameter;
   struct adv_risk_cost risk_cost;
 
-  UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", ptile->x, ptile->y);
+  UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", TILE_XY(ptile));
   ai_fill_unit_param(&parameter, &risk_cost, punit, ptile);
   return ai_unit_goto_constrained(punit, ptile, &parameter);
 }
