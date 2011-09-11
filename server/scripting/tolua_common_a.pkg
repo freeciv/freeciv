@@ -61,9 +61,6 @@ struct Unit {
 };
 
 struct Tile {
-  const int nat_x;
-  const int nat_y;
-
   Terrain *terrain;
 
   const int index @ id;

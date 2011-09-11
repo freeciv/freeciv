@@ -84,6 +84,17 @@ module Unit {
 
 /* Module Tile. */
 module Tile {
+  module properties {
+    int api_methods_tile_nat_x
+      @ nat_x (Tile *self);
+    int api_methods_tile_nat_y
+      @ nat_y (Tile *self);
+    int api_methods_tile_map_x
+      @ x (Tile *self);
+    int api_methods_tile_map_y
+      @ y (Tile *self);
+  }
+
   City *api_methods_tile_city
     @ city (Tile *self);
   bool api_methods_tile_city_exists_within_max_city_map

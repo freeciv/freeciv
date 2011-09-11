@@ -60,6 +60,10 @@ const char *api_methods_terrain_rule_name(Terrain *pterrain);
 const char *api_methods_terrain_name_translation(Terrain *pterrain);
 
 /* Tile */
+int api_methods_tile_nat_x(Tile *ptile);
+int api_methods_tile_nat_y(Tile *ptile);
+int api_methods_tile_map_x(Tile *ptile);
+int api_methods_tile_map_y(Tile *ptile);
 City *api_methods_tile_city(Tile *ptile);
 bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
                                                       bool may_be_on_center);

@@ -286,6 +286,41 @@ const char *api_methods_terrain_name_translation(Terrain *pterrain)
   return terrain_name_translation(pterrain);
 }
 
+/*****************************************************************************
+  Return the native x coordinate of the tile.
+*****************************************************************************/
+int api_methods_tile_nat_x(Tile *ptile)
+{
+  SCRIPT_CHECK_SELF(ptile, -1);
+  return index_to_native_pos_x(tile_index(ptile));
+}
+
+/*****************************************************************************
+  Return the native y coordinate of the tile.
+*****************************************************************************/
+int api_methods_tile_nat_y(Tile *ptile)
+{
+  SCRIPT_CHECK_SELF(ptile, -1);
+  return index_to_native_pos_y(tile_index(ptile));
+}
+
+/*****************************************************************************
+  Return the map x coordinate of the tile.
+*****************************************************************************/
+int api_methods_tile_map_x(Tile *ptile)
+{
+  SCRIPT_CHECK_SELF(ptile, -1);
+  return index_to_map_pos_x(tile_index(ptile));
+}
+
+/*****************************************************************************
+  Return the map y coordinate of the tile.
+*****************************************************************************/
+int api_methods_tile_map_y(Tile *ptile)
+{
+  SCRIPT_CHECK_SELF(ptile, -1);
+  return index_to_map_pos_y(tile_index(ptile));
+}
 
 /**************************************************************************
   Return City on ptile, else NULL
