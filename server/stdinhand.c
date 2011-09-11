@@ -86,6 +86,8 @@
 
 #define TOKEN_DELIMITERS " \t\n,"
 
+#define OPTION_NAME_SPACE 25
+
 static enum cmdlevel default_access_level = ALLOW_BASIC;
 static enum cmdlevel first_access_level = ALLOW_BASIC;
 
@@ -122,6 +124,7 @@ static bool set_away(struct connection *caller, char *name, bool check);
 static bool set_rulesetdir(struct connection *caller, char *str, bool check,
                            int read_recursion);
 static bool show_command(struct connection *caller, char *str, bool check);
+static void show_command_one(struct connection *caller, struct setting *pset);
 static void show_changed(struct connection *caller, bool check,
                          int read_recursion);
 static void show_mapimg(struct connection *caller, enum command_id cmd);
@@ -2076,8 +2079,6 @@ static void show_changed(struct connection *caller, bool check,
 **************************************************************************/
 static bool show_command(struct connection *caller, char *str, bool check)
 {
-  char buf[MAX_LEN_CONSOLE_LINE], value[MAX_LEN_CONSOLE_LINE];
-  bool is_changed;
   int cmd;
   enum sset_level level = SSET_ALL;
   size_t clen = 0;
@@ -2130,17 +2131,8 @@ static bool show_command(struct connection *caller, char *str, bool check)
                     || cmd == LOOKUP_OPTION_LEVEL_NAME
                     || cmd == LOOKUP_OPTION_NO_RESULT, FALSE);
 
-#define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
-
-  /* Each option value will be displayed as:
-   *
-   * [OPTION_NAME_SPACE length for name] ## [value] ([min], [max])
-   *
-   * where '##' is a combination of ' ', '!' or '+' followed by ' ' or '=' with
-   *  - '!': the option is locked by the ruleset
-   *  - '+': you may change the option
-   *  - '=': the option is on its default value */
-#define OPTION_NAME_SPACE 25
+#define cmd_reply_show(string)                                               \
+  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
 
   {
     const char *heading = NULL;
@@ -2184,50 +2176,43 @@ static bool show_command(struct connection *caller, char *str, bool check)
             OPTION_NAME_SPACE, _("Option"));
   cmd_reply_show(horiz_line);
 
-  buf[0] = '\0';
+  /* Update changed and locked levels. */
+  settings_list_update();
 
-  settings_iterate(SSET_ALL, pset) {
-    if (!setting_is_visible(pset, caller)) {
-      continue;
+  switch(level) {
+  case SSET_NONE:
+    /* Show _one_ setting. */
+    fc_assert_ret_val(0 <= cmd, FALSE);
+    {
+      struct setting *pset = setting_by_number(cmd);
+
+      show_command_one(caller, pset);
     }
-
-    is_changed = setting_changed(pset);
-    if (0 <= cmd) {
-      if (cmd != setting_number(pset)) {
+    break;
+  case SSET_CHANGED:
+  case SSET_ALL:
+  case SSET_VITAL:
+  case SSET_SITUATIONAL:
+  case SSET_RARE:
+  case SSET_LOCKED:
+    settings_iterate(level, pset) {
+      if (!setting_is_visible(pset, caller)) {
         continue;
       }
-    } else if (LOOKUP_OPTION_AMBIGUOUS == cmd
-               && 0 != fc_strncasecmp(setting_name(pset), str, clen)) {
-      continue;
-    } else if (SSET_CHANGED == level) {
-      if (!is_changed) {
-        continue;
-      }
-    } else if (SSET_LOCKED == level) {
-      if (!setting_locked(pset)) {
-        continue;
-      }
-    } else if (SSET_ALL != level && level != setting_level(pset)) {
-      continue;
-    }
 
-    setting_value_name(pset, TRUE, value, sizeof(value));
-    if (is_changed) {
-      /* Emphasizes the changed option. */
-      featured_text_apply_tag(value, buf, sizeof(buf), TTT_COLOR,
-                              0, FT_OFFSET_UNSET, ftc_changed);
-      sz_strlcpy(value, buf);
-    }
-    if (SSET_INT == setting_type(pset)) {
-      /* Add the range. */
-      cat_snprintf(value, sizeof(value), " (%d, %d)",
-                   setting_int_min(pset), setting_int_max(pset));
-    }
+      if (LOOKUP_OPTION_AMBIGUOUS == cmd
+          && 0 != fc_strncasecmp(setting_name(pset), str, clen)) {
+          continue;
+      }
 
-    cmd_reply(CMD_SHOW, caller, C_COMMENT, "%-*s %c%c %s",
-              OPTION_NAME_SPACE, setting_name(pset),
-              setting_status(caller, pset), is_changed ? ' ' : '=', value);
-  } settings_iterate_end;
+      show_command_one(caller, pset);
+    } settings_iterate_end;
+    break;
+  case OLEVELS_NUM:
+    /* nothing */
+    break;
+  }
+
   cmd_reply_show(horiz_line);
   cmd_reply_show(_("A help text for each option is available via 'help "
                    "<option>'."));
@@ -2243,7 +2228,46 @@ static bool show_command(struct connection *caller, char *str, bool check)
   }
   return TRUE;
 #undef cmd_reply_show
-#undef OPTION_NAME_SPACE
+}
+
+/*****************************************************************************
+  Show one setting.
+
+  Each option value will be displayed as:
+
+  [OPTION_NAME_SPACE length for name] ## [value] ([min], [max])
+
+  where '##' is a combination of ' ', '!' or '+' followed by ' ' or '=' with
+   - '!': the option is locked by the ruleset
+   - '+': you may change the option
+   - '=': the option is on its default value
+*****************************************************************************/
+static void show_command_one(struct connection *caller, struct setting *pset)
+{
+  char buf[MAX_LEN_CONSOLE_LINE] = "", value[MAX_LEN_CONSOLE_LINE] = "";
+  bool is_changed;
+
+  fc_assert_ret(pset != NULL);
+
+  is_changed = setting_changed(pset);
+  setting_value_name(pset, TRUE, value, sizeof(value));
+
+  if (is_changed) {
+    /* Emphasizes the changed option. */
+    featured_text_apply_tag(value, buf, sizeof(buf), TTT_COLOR,
+                            0, FT_OFFSET_UNSET, ftc_changed);
+    sz_strlcpy(value, buf);
+  }
+
+  if (SSET_INT == setting_type(pset)) {
+    /* Add the range. */
+    cat_snprintf(value, sizeof(value), " (%d, %d)",
+                 setting_int_min(pset), setting_int_max(pset));
+  }
+
+  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%-*s %c%c %s",
+            OPTION_NAME_SPACE, setting_name(pset),
+            setting_status(caller, pset), is_changed ? ' ' : '=', value);
 }
 
 /******************************************************************
