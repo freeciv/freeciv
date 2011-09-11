@@ -514,8 +514,7 @@ extern struct terrain_misc terrain_control;
   const struct tile *_tile##_center = (center_tile);			    \
   bool _tile##_is_border = is_border_tile(_tile##_center, 1);		    \
   int _tile##_index = 0;						    \
-  index_to_map_pos(&_center##_x, &_center##_y,                           \
-                      tile_index(_tile##_center));                          \
+  index_to_map_pos(&_center##_x, &_center##_y, tile_index(_tile##_center)); \
   for (;								    \
        _tile##_index < (dircount);					    \
        _tile##_index++) {						    \

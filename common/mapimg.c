@@ -1375,7 +1375,7 @@ bool mapimg_colortest(const char *savename)
   struct tile *ptile;
   char mapimgfile[MAX_LEN_PATH];
   bv_pixel pixel;
-  int i, nat_x, nat_y, map_x, map_y;
+  int i, nat_x, nat_y;
   int max_playercolor = mapimg.mapimg_plrcolor_count();
   int max_terraincolor = terrain_count();
   bool ret = TRUE;
@@ -1389,8 +1389,7 @@ bool mapimg_colortest(const char *savename)
 
   /* Get a dummy tile. */
   ptile = fc_calloc(1, sizeof(*ptile));
-  ptile->x = 1;
-  ptile->y = 1;
+  ptile->index = 0;
 
   pixel = pimg->pixel_tile(ptile, NULL, FALSE);
 
@@ -1398,10 +1397,8 @@ bool mapimg_colortest(const char *savename)
   for (i = 0; i < MAX(max_playercolor, max_terraincolor); i++) {
     nat_x = 1 + i % SIZE_X;
     nat_y = 1 + (i / SIZE_X) * SIZE_Y;
-    NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
+    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    ptile->x = map_x;
-    ptile->y = map_y;
     img_plot(pimg, ptile, pcolor, pixel);
   }
 
@@ -1413,10 +1410,8 @@ bool mapimg_colortest(const char *savename)
     nat_x = 1 + i % SIZE_X;
     nat_y = 2 + (i / SIZE_X) * SIZE_Y;
     pcolor = mapimg.mapimg_plrcolor_get(i);
-    NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
+    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    ptile->x = map_x;
-    ptile->y = map_y;
     img_plot(pimg, ptile, pcolor, pixel);
   }
 
@@ -1424,10 +1419,8 @@ bool mapimg_colortest(const char *savename)
   for (i = 0; i < MAX(max_playercolor, max_terraincolor); i++) {
     nat_x = 1 + i % SIZE_X;
     nat_y = 3 + (i / SIZE_X) * SIZE_Y;
-    NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
+    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    ptile->x = map_x;
-    ptile->y = map_y;
     img_plot(pimg, ptile, pcolor, pixel);
   }
 
@@ -1439,10 +1432,8 @@ bool mapimg_colortest(const char *savename)
     nat_x = 1 + i % SIZE_X;
     nat_y = 4 + (i / SIZE_X) * SIZE_Y;
     pcolor = imgcolor_terrain(terrain_by_number(i));
-    NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
+    ptile->index = native_pos_to_index(nat_x, nat_y);
 
-    ptile->x = map_x;
-    ptile->y = map_y;
     img_plot(pimg, ptile, pcolor, pixel);
   }
 
@@ -1956,9 +1947,7 @@ static void img_plot(struct img *pimg, const struct tile *ptile,
     return;
   }
 
-  x = ptile->x;
-  y = ptile->y;
-
+  index_to_map_pos(&x, &y, tile_index(ptile));
   pimg->base_coor(pimg, &base_x, &base_y, x, y);
 
   for (i = 0; i < NUM_PIXEL; i++) {

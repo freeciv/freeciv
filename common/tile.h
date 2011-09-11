@@ -37,13 +37,15 @@ enum known_type {
 
 /* Convenience macro for accessing tile coordinates.  This should only be
  * used for debugging. */
-#define TILE_XY(ptile) ((ptile) ? (ptile)->x : -1), \
-                       ((ptile) ? (ptile)->y : -1)
+#define TILE_XY(ptile) ((ptile) ? index_to_map_pos_x(tile_index(ptile))      \
+                                : -1),                                       \
+                       ((ptile) ? index_to_map_pos_y(tile_index(ptile))      \
+                                : -1)
 
 struct tile {
-  int x, y; /* Cartesian (map) coordinates of the tile. */
-  int nat_x, nat_y; /* Native coordinates of the tile. */
-  int index; /* Index coordinate of the tile. */
+  int index; /* Index coordinate of the tile. Used to calculate (x, y) pairs
+              * (index_to_map_pos()) and (nat_x, nat_y) pairs
+              * (index_to_native_pos()). */
   Continent_id continent;
   bv_special special;
   bv_bases bases;

@@ -351,17 +351,19 @@ static void tile_init(struct tile *ptile)
 ****************************************************************************/
 struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
 {
-  int x, y;
+  int dx, dy, tile_x, tile_y;
 
   if (!is_valid_dir(dir)) {
     return NULL;
   }
 
-  DIRSTEP(x, y, dir);
-  x += ptile->x;
-  y += ptile->y;
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile)); 
+  DIRSTEP(dx, dy, dir);
 
-  return map_pos_to_tile(x, y);
+  tile_x += dx;
+  tile_y += dy;
+
+  return map_pos_to_tile(tile_x, tile_y);
 }
 
 /****************************************************************************
@@ -471,12 +473,7 @@ void map_allocate(void)
    * better to do a manual loop here. */
   whole_map_iterate(ptile) {
     ptile->index = ptile - map.tiles;
-    index_to_map_pos(&ptile->x, &ptile->y, tile_index(ptile));
-    index_to_native_pos(&ptile->nat_x, &ptile->nat_y, tile_index(ptile));
     CHECK_INDEX(tile_index(ptile));
-    CHECK_MAP_POS(ptile->x, ptile->y);
-    CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
-
     tile_init(ptile);
   } whole_map_iterate_end;
 
@@ -910,8 +907,7 @@ bool normalize_map_pos(int *x, int *y)
   struct tile *ptile = map_pos_to_tile(*x, *y);
 
   if (ptile) {
-    *x = ptile->x;
-    *y = ptile->y;
+    index_to_map_pos(x, y, tile_index(ptile)); 
     return TRUE;
   } else {
     return FALSE;
@@ -1001,11 +997,14 @@ void base_map_distance_vector(int *dx, int *dy,
     -map.ysize   <  dy <  map.ysize
 ****************************************************************************/
 void map_distance_vector(int *dx, int *dy,
-			 const struct tile *tile0,
-			 const struct tile *tile1)
+                         const struct tile *tile0,
+                         const struct tile *tile1)
 {
-  base_map_distance_vector(dx, dy,
-			   tile0->x, tile0->y, tile1->x, tile1->y);
+  int tx0, ty0, tx1, ty1;
+
+  index_to_map_pos(&tx0, &ty0, tile_index(tile0));
+  index_to_map_pos(&tx1, &ty1, tile_index(tile1)); 
+  base_map_distance_vector(dx, dy, tx0, ty0, tx1, ty1);
 }
 
 /**************************************************************************
@@ -1292,7 +1291,10 @@ bool is_move_cardinal(const struct tile *start_tile,
 ****************************************************************************/
 bool is_singular_tile(const struct tile *ptile, int dist)
 {
-  do_in_natural_pos(ntl_x, ntl_y, ptile->x, ptile->y) {
+  int tile_x, tile_y;
+
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile)); 
+  do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
     /* Iso-natural coordinates are doubled in scale. */
     dist *= MAP_IS_ISOMETRIC ? 2 : 1;
 

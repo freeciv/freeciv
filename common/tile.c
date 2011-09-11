@@ -800,10 +800,6 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   vtile = fc_calloc(1, sizeof(*vtile));
 
   /* initialise some values */
-  vtile->x = -1;
-  vtile->y = -1;
-  vtile->nat_x = -1;
-  vtile->nat_y = -1;
   vtile->index = -1;
   vtile->continent = -1;
 
@@ -819,9 +815,8 @@ struct tile *tile_virtual_new(const struct tile *ptile)
 
   if (ptile) {
     /* Used by is_city_center to give virtual tiles the output bonuses
-     * they deserve */
-    vtile->x = ptile->x;
-    vtile->y = ptile->y;
+     * they deserve. */
+    vtile->index = tile_index(ptile);
 
     /* Copy all but the unit list. */
     tile_special_type_iterate(spe) {

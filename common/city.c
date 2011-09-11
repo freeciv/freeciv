@@ -277,14 +277,16 @@ struct tile *city_map_to_tile(const struct tile *city_center,
                               int city_radius_sq, int city_map_x,
                               int city_map_y)
 {
-  int x, y;
+  int tile_x, tile_y;
 
   fc_assert_ret_val(is_valid_city_coords(city_radius_sq, city_map_x,
                                          city_map_y), NULL);
-  x = city_center->x + CITY_ABS2REL(city_map_x);
-  y = city_center->y + CITY_ABS2REL(city_map_y);
 
-  return map_pos_to_tile(x, y);
+  index_to_map_pos(&tile_x, &tile_y, tile_index(city_center));
+  tile_x += CITY_ABS2REL(city_map_x);
+  tile_y += CITY_ABS2REL(city_map_y);
+
+  return map_pos_to_tile(tile_x, tile_y);
 }
 
 /**************************************************************************
@@ -3245,7 +3247,7 @@ bool is_city_center(const struct city *pcity, const struct tile *ptile)
     return FALSE;
   }
 
-  return pcity->tile->x == ptile->x && pcity->tile->y == ptile->y;
+  return tile_index(city_tile(pcity)) == tile_index(ptile);
 }
 
 /**************************************************************************
