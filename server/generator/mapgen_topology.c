@@ -217,9 +217,11 @@ static void set_sizes(double size, int Xratio, int Yratio)
   map.xsize = Xratio * i_size * even;
   map.ysize = Yratio * i_size * even * iso;
 
-  /* Now make sure the size isn't too large for this ratio.  If it is
-   * then decrease the size and try again. */
-  if (MAX(MAP_WIDTH, MAP_HEIGHT) > MAP_MAX_LINEAR_SIZE ) {
+  /* Now make sure the size isn't too large for this ratio or the overall map
+   * size (MAP_INDEX_SIZE) is larger than the maximal allowed size
+   * (MAP_MAX_SIZE * 1000). If it is then decrease the size and try again. */
+  if (MAX(MAP_WIDTH, MAP_HEIGHT) > MAP_MAX_LINEAR_SIZE
+      || MAP_INDEX_SIZE > MAP_MAX_SIZE * 1000) {
     fc_assert(size > 0.1);
     set_sizes(size - 0.1, Xratio, Yratio);
     return;
