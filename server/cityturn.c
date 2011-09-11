@@ -686,12 +686,12 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   Repair the city population without affecting city size.
   Used by savegame.c and sanitycheck.c
 **************************************************************************/
-void city_repair_size(struct city *pcity, citizens change)
+void city_repair_size(struct city *pcity, int change)
 {
   if (change > 0) {
     pcity->specialists[DEFAULT_SPECIALIST] += change;
   } else if (change < 0) {
-    citizens need = change + city_reduce_specialists(pcity, -change);
+    int need = change + city_reduce_specialists(pcity, -change);
 
     if (0 > need) {
       need += city_reduce_workers(pcity, -need);
