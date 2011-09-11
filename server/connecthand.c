@@ -274,9 +274,8 @@ void establish_new_connection(struct connection *pconn)
 
   /* if need be, tell who we're waiting on to end the game.info.turn */
   if (S_S_RUNNING == server_state() && game.server.turnblock) {
-    players_iterate(cplayer) {
-      if (cplayer->is_alive
-          && !cplayer->ai_controlled
+    players_iterate_alive(cplayer) {
+      if (!cplayer->ai_controlled
           && !cplayer->phase_done
           && cplayer != pconn->playing) {  /* skip current player */
         notify_conn(dest, NULL, E_CONNECTION, ftc_any,
@@ -284,7 +283,7 @@ void establish_new_connection(struct connection *pconn)
 		      "waiting on %s to finish turn..."),
                     player_name(cplayer));
       }
-    } players_iterate_end;
+    } players_iterate_alive_end;
   }
 
   if (game.info.is_edit_mode) {

@@ -1026,13 +1026,12 @@ void handle_player_research(struct player *pplayer, int tech)
   /* Notify Team members. 
    * They share same research struct.
    */
-  players_iterate(aplayer) {
+  players_iterate_alive(aplayer) {
     if (pplayer != aplayer
-        && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
-        && aplayer->is_alive) {
+        && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM) {
       send_player_info_c(aplayer, aplayer->connections);
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 }
 
 /****************************************************************************
@@ -1058,14 +1057,13 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   send_player_info_c(pplayer, pplayer->connections);
 
   /* Notify Team members */
-  players_iterate(aplayer) {
+  players_iterate_alive(aplayer) {
     if (pplayer != aplayer
         && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
-        && aplayer->is_alive
         && player_research_get(aplayer)->tech_goal != tech_goal) {
       handle_player_tech_goal(aplayer, tech_goal);
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 }
 
 /****************************************************************************

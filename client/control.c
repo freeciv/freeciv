@@ -745,15 +745,15 @@ double blink_turn_done_button(void)
     if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;
 
-      players_iterate(pplayer) {
-	if (pplayer->is_alive && pplayer->is_connected) {
-	  if (pplayer->phase_done) {
-	    is_waiting++;
-	  } else {
-	    is_moving++;
-	  }
-	}
-      } players_iterate_end;
+      players_iterate_alive(pplayer) {
+        if (pplayer->is_connected) {
+          if (pplayer->phase_done) {
+            is_waiting++;
+          } else {
+            is_moving++;
+          }
+        }
+      } players_iterate_alive_end;
 
       if (is_moving == 1 && is_waiting > 0) {
 	update_turn_done_button(FALSE);	/* stress the slow player! */

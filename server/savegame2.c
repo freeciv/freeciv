@@ -3040,12 +3040,9 @@ static void sg_load_players(struct loaddata *loading)
   } players_iterate_end;
 
   /* Sanity check alliances, prevent allied-with-ally-of-enemy. */
-  players_iterate(plr) {
-    players_iterate(aplayer) {
-      if (plr->is_alive
-          && aplayer->is_alive
-          && pplayers_allied(plr, aplayer))
-      {
+  players_iterate_alive(plr) {
+    players_iterate_alive(aplayer) {
+      if (pplayers_allied(plr, aplayer)) {
         enum dipl_reason can_ally = pplayer_can_make_treaty(plr, aplayer,
                                                             DS_ALLIANCE);
         if (can_ally == DIPL_ALLIANCE_PROBLEM_US
@@ -3058,8 +3055,8 @@ static void sg_load_players(struct loaddata *loading)
           player_diplstate_get(aplayer, plr)->type = DS_PEACE;
         }
       }
-    } players_iterate_end;
-  } players_iterate_end;
+    } players_iterate_alive_end;
+  } players_iterate_alive_end;
 
   /* Update all city information.  This must come after all cities are
    * loaded (in player_load) but before player (dumb) cities are loaded

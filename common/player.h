@@ -393,6 +393,15 @@ bool gives_shared_vision(const struct player *me, const struct player *them);
 #define players_iterate_end                                                 \
   } player_slots_iterate_end;
 
+/* iterate over all players, which are used at the moment and are alive */
+#define players_iterate_alive(_pplayer)                                     \
+  players_iterate(_pplayer) {                                                \
+    if (!_pplayer->is_alive) {                                              \
+      continue;                                                             \
+    }
+#define players_iterate_alive_end                                           \
+  } players_iterate_end;
+
 /* get 'struct player_list' and related functions: */
 #define SPECLIST_TAG player
 #define SPECLIST_TYPE struct player

@@ -293,15 +293,13 @@ bool game_was_started(void)
 ****************************************************************************/
 bool check_for_game_over(void)
 {
-#define PLAYER_IS_CANDIDATE(pplayer)                                        \
-  ((pplayer)->is_alive && !player_status_check((pplayer), PSTATUS_SURRENDER))
-
   int candidates, defeated;
   struct player *victor;
   int winners = 0;
   struct astring str = ASTRING_INIT;
 
-  /* Check for scenario victory */
+  /* Check for scenario victory; dead players can win if they are on a team
+   * with the winners. */
   players_iterate(pplayer) {
     if (player_status_check(pplayer, PSTATUS_WINNER)) {
       if (winners) {
@@ -331,18 +329,18 @@ bool check_for_game_over(void)
   candidates = 0;
   defeated = 0;
   victor = NULL;
-  players_iterate(pplayer) {
+  players_iterate_alive(pplayer) {
     if (is_barbarian(pplayer)) {
       continue;
     }
 
-    if (PLAYER_IS_CANDIDATE(pplayer)) {
+    if (!player_status_check((pplayer), PSTATUS_SURRENDER)) {
       candidates++;
       victor = pplayer;
     } else {
       defeated++;
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 
   if (0 == candidates) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
@@ -366,7 +364,8 @@ bool check_for_game_over(void)
         }
 
         player_list_iterate(members, pplayer) {
-          if (PLAYER_IS_CANDIDATE(pplayer)) {
+          if (pplayer->is_alive
+              && !player_status_check((pplayer), PSTATUS_SURRENDER)) {
             team_candidates++;
           } else {
             team_defeated++;
@@ -396,9 +395,9 @@ bool check_for_game_over(void)
       struct player_list *winner_list = player_list_new();
 
       /* Try to build a winner list. */
-      players_iterate(pplayer) {
+      players_iterate_alive(pplayer) {
         if (is_barbarian(pplayer)
-            || !PLAYER_IS_CANDIDATE(pplayer)) {
+            || player_status_check((pplayer), PSTATUS_SURRENDER)) {
           continue;
         }
 
@@ -414,15 +413,15 @@ bool check_for_game_over(void)
           break;
         }
         player_list_append(winner_list, pplayer);
-      } players_iterate_end;
+      } players_iterate_alive_end;
 
       if (NULL != winner_list) {
         /* Now ensure a non allied has conceded the game. */
         bool found = FALSE;
 
-        players_iterate(pplayer) {
+        players_iterate_alive(pplayer) {
           if (is_barbarian(pplayer)
-              || PLAYER_IS_CANDIDATE(pplayer)) {
+              || !player_status_check((pplayer), PSTATUS_SURRENDER)) {
             continue;
           }
 
@@ -432,7 +431,7 @@ bool check_for_game_over(void)
               break;
             }
           } player_list_iterate_end;
-        } players_iterate_end;
+        } players_iterate_alive_end;
 
         if (!found) {
           /* Seems all players are allied. */
@@ -477,7 +476,8 @@ bool check_for_game_over(void)
       players_iterate(pplayer) {
         if (pplayer != victor
             && !is_barbarian(pplayer)
-            && !PLAYER_IS_CANDIDATE(pplayer)
+            && (!pplayer->is_alive
+                 || player_status_check((pplayer), PSTATUS_SURRENDER))
             && pplayer->team != victor->team
             && (!game.server.allied_victory
                 || !pplayers_allied(victor, pplayer))) {
@@ -523,7 +523,8 @@ bool check_for_game_over(void)
     members = team_members(victor->team);
     win = FALSE;
     player_list_iterate(members, pplayer) {
-      if (PLAYER_IS_CANDIDATE(pplayer)) {
+      if (pplayer->is_alive
+          && !player_status_check((pplayer), PSTATUS_SURRENDER)) {
         /* We need at least one player to be a winner candidate in the
          * team. */
         win = TRUE;
@@ -555,8 +556,6 @@ bool check_for_game_over(void)
   }
 
   return FALSE;
-
-#undef PLAYER_IS_CANDIDATE
 }
 
 /**************************************************************************
@@ -743,8 +742,8 @@ static void update_diplomatics(void)
           sync_cities();
 
           /* Avoid love-love-hate triangles */
-          players_iterate(plr3) {
-            if (plr3->is_alive && plr3 != plr1 && plr3 != plr2
+          players_iterate_alive(plr3) {
+            if (plr3 != plr1 && plr3 != plr2
                 && pplayers_allied(plr3, plr1)
                 && pplayers_allied(plr3, plr2)) {
               notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
@@ -758,7 +757,7 @@ static void update_diplomatics(void)
               handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
               handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
             }
-          } players_iterate_end;
+          } players_iterate_alive_end;
           break;
         }
       }
@@ -777,21 +776,19 @@ static void kill_dying_players(void)
 {
   bool voter_died = FALSE;
 
-  players_iterate(pplayer) {
-    if (pplayer->is_alive) {
-      /* cities or units remain? */
-      if (0 == city_list_size(pplayer->cities)
-          && 0 == unit_list_size(pplayer->units)) {
-        player_status_add(pplayer, PSTATUS_DYING);
-      }
-      /* also F_GAMELOSS in unittools server_remove_unit() */
-      if (player_status_check(pplayer, PSTATUS_DYING)) {
-        /* Can't get more dead than this. */
-        voter_died = voter_died || pplayer->is_connected;
-        kill_player(pplayer);
-      }
+  players_iterate_alive(pplayer) {
+    /* cities or units remain? */
+    if (0 == city_list_size(pplayer->cities)
+        && 0 == unit_list_size(pplayer->units)) {
+      player_status_add(pplayer, PSTATUS_DYING);
     }
-  } players_iterate_end;
+    /* also F_GAMELOSS in unittools server_remove_unit() */
+    if (player_status_check(pplayer, PSTATUS_DYING)) {
+      /* Can't get more dead than this. */
+      voter_died = voter_died || pplayer->is_connected;
+      kill_player(pplayer);
+    }
+  } players_iterate_alive_end;
 
   if (voter_died) {
     send_updated_vote_totals(NULL);
@@ -1649,14 +1646,13 @@ void check_for_full_turn_done(void)
    * a hack to prevent all-AI games from running rampant.  Note that if
    * timeout is set to -1 this function call is skipped entirely and the
    * server will run rampant. */
-  players_iterate(pplayer) {
-    if (pplayer->is_connected
-        && !pplayer->ai_controlled
-        && pplayer->is_alive) {
+  players_iterate_alive(pplayer) {
+    if (pplayer->is_connected && !pplayer->ai_controlled) {
       connected = TRUE;
       break;
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
+
   if (!connected) {
     return;
   }

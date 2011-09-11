@@ -109,17 +109,16 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
 static bool is_valid_alliance(const struct player *p1, 
                               const struct player *p2)
 {
-  players_iterate(pplayer) {
+  players_iterate_alive(pplayer) {
     enum diplstate_type ds = player_diplstate_get(p1, pplayer)->type;
 
     if (pplayer != p1
         && pplayer != p2
-        && pplayers_allied(p2, pplayer)
         && ds == DS_WAR /* do not count 'never met' as war here */
-        && pplayer->is_alive) {
+        && pplayers_allied(p2, pplayer)) {
       return FALSE;
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 
   return TRUE;
 }

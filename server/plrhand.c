@@ -605,8 +605,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                 diplstate_text(new_type));
 
   /* Check fall-out of a war declaration. */
-  players_iterate(other) {
-    if (other->is_alive && other != pplayer && other != pplayer2
+  players_iterate_alive(other) {
+    if (other != pplayer && other != pplayer2
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && pplayers_allied(pplayer, other)) {
       if (!players_on_same_team(pplayer, other)) {
@@ -634,7 +634,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
         handle_diplomacy_cancel_pact(other, player_number(pplayer2), CLAUSE_ALLIANCE);
       }
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 }
 
 /**************************************************************************
@@ -1524,15 +1524,14 @@ static enum diplstate_type
 get_default_diplstate(const struct player *pplayer1,
                       const struct player *pplayer2)
 {
-  players_iterate(pplayer3) {
+  players_iterate_alive(pplayer3) {
     if (pplayer3 != pplayer1
         && pplayer3 != pplayer2
-        && pplayer3->is_alive
         && pplayers_allied(pplayer3, pplayer1)
         && pplayers_allied(pplayer3, pplayer2)) {
       return DS_PEACE;
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 
   return DS_WAR;
 }

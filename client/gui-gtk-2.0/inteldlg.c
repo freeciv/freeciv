@@ -334,13 +334,13 @@ void update_intel_dialog(struct player *p)
       diplstates[i] = it;
     }
 
-    players_iterate(other) {
+    players_iterate_alive(other) {
       const struct player_diplstate *state;
       GtkTreeIter it;
       GValue v = { 0, };
 
-      if (other == p || !other->is_alive) {
-	continue;
+      if (other == p) {
+        continue;
       }
       state = player_diplstate_get(p, other);
       gtk_tree_store_append(pdialog->diplstates, &it,
@@ -349,7 +349,7 @@ void update_intel_dialog(struct player *p)
       g_value_set_static_string(&v, player_name(other));
       gtk_tree_store_set_value(pdialog->diplstates, &it, 0, &v);
       g_value_unset(&v);
-    } players_iterate_end;
+    } players_iterate_alive_end;
 
     /* techs tab. */
     gtk_list_store_clear(pdialog->techs);

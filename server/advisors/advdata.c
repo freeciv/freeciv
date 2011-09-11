@@ -157,8 +157,8 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 
     players_having = 0;
 
-    players_iterate(aplayer) {
-      if (aplayer == pplayer || !aplayer->is_alive) {
+    players_iterate_alive(aplayer) {
+      if (aplayer == pplayer) {
         continue;
       }
 
@@ -169,7 +169,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 	  return TRUE;
 	}
       }
-    } players_iterate_end;
+    } players_iterate_alive_end;
   } advance_index_iterate_end;
   return FALSE;
 }
@@ -482,15 +482,14 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   if (ai_handicap(pplayer, H_EXPANSION)) {
     bool found_human = FALSE;
     adv->max_num_cities = 3;
-    players_iterate(aplayer) {
-      if (aplayer == pplayer || aplayer->ai_controlled
-          || !aplayer->is_alive) {
+    players_iterate_alive(aplayer) {
+      if (aplayer == pplayer || aplayer->ai_controlled) {
         continue;
       }
       adv->max_num_cities = MAX(adv->max_num_cities,
 				city_list_size(aplayer->cities) + 3);
       found_human = TRUE;
-    } players_iterate_end;
+    } players_iterate_alive_end;
     if (!found_human) {
       adv->max_num_cities = MAP_INDEX_SIZE;
     }

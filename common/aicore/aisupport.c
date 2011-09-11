@@ -44,12 +44,11 @@ struct player *player_leading_spacerace(void)
     return NULL;
   }
 
-  players_iterate(pplayer) {
+  players_iterate_alive(pplayer) {
     struct player_spaceship *ship = &pplayer->spaceship;
     int arrival = (int) ship->travel_time + ship->launch_year;
 
-    if (!pplayer->is_alive || is_barbarian(pplayer)
-        || ship->state == SSHIP_NONE) {
+    if (is_barbarian(pplayer) || ship->state == SSHIP_NONE) {
       continue;
     }
 
@@ -63,7 +62,7 @@ struct player *player_leading_spacerace(void)
       best_arrival = arrival;
       best = pplayer;
     }
-  } players_iterate_end;
+  } players_iterate_alive_end;
 
   return best;
 }
