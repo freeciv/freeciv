@@ -157,7 +157,7 @@ static bool manual_command(void)
     switch (manuals) {
     case MANUAL_SETTINGS:
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
-      settings_iterate(pset) {
+      settings_iterate(SSET_ALL, pset) {
         char buf[256];
 
         fprintf(doc, SEPARATOR);

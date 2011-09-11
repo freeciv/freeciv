@@ -2206,7 +2206,7 @@ struct setting *setting_by_number(int id)
 ****************************************************************************/
 struct setting *setting_by_name(const char *name)
 {
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     if (0 == strcmp(name, pset->name)) {
       return pset;
     }
@@ -3144,7 +3144,7 @@ bool settings_ruleset(struct section_file *file, const char *section)
   int j;
 
   /* Unlock all settings. */
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
   } settings_iterate_end;
@@ -3169,7 +3169,7 @@ bool settings_ruleset(struct section_file *file, const char *section)
 
   /* Execute all setting actions to consider actions due to the 
    * default values. */
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting_action(pset);
   } settings_iterate_end;
 
@@ -3189,7 +3189,7 @@ static bool setting_ruleset_one(struct section_file *file,
   char reject_msg[256], buf[256];
   bool lock;
 
-  settings_iterate(pset_check) {
+  settings_iterate(SSET_ALL, pset_check) {
     if (0 == fc_strcasecmp(setting_name(pset_check), name)) {
       pset = pset_check;
       break;
@@ -3476,7 +3476,7 @@ static void setting_game_restore(struct setting *pset)
 **************************************************************************/
 void settings_game_start(void)
 {
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting_game_set(pset, FALSE);
   } settings_iterate_end;
 
@@ -3491,7 +3491,7 @@ void settings_game_save(struct section_file *file, const char *section)
 {
   int set_count = 0;
 
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     secfile_insert_str(file, setting_name(pset),
                        "%s.set%d.name", section, set_count);
     switch (setting_type(pset)) {
@@ -3561,7 +3561,7 @@ void settings_game_load(struct section_file *file, const char *section)
   for (i = 0; i < set_count; i++) {
     name = secfile_lookup_str(file, "%s.set%d.name", section, i);
 
-    settings_iterate(pset) {
+    settings_iterate(SSET_ALL, pset) {
       if (fc_strcasecmp(setting_name(pset), name) != 0) {
         continue;
       }
@@ -3737,7 +3737,7 @@ void settings_game_load(struct section_file *file, const char *section)
     } settings_iterate_end;
   }
 
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     /* Have to do this at the end due to dependencies ('aifill' and
      * 'maxplayer'). */
     setting_action(pset);
@@ -3754,7 +3754,7 @@ bool settings_game_reset(void)
     return FALSE;
   }
 
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting_game_restore(pset);
   } settings_iterate_end;
 
@@ -3768,7 +3768,7 @@ void settings_init(void)
 {
   settings_list_init();
 
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
     setting_game_set(pset, TRUE);
@@ -3783,7 +3783,7 @@ void settings_init(void)
 *********************************************************************/
 void settings_reset(void)
 {
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     if (setting_is_changeable(pset, NULL, NULL, 0)) {
       setting_set_to_default(pset);
       setting_action(pset);
@@ -3805,7 +3805,7 @@ void settings_turn(void)
 **************************************************************************/
 void settings_free(void)
 {
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting_game_free(pset);
   } settings_iterate_end;
 
@@ -3940,7 +3940,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
 ****************************************************************************/
 void send_server_settings(struct conn_list *dest)
 {
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     send_server_setting(dest, pset);
   } settings_iterate_end;
 }
@@ -3951,7 +3951,7 @@ void send_server_settings(struct conn_list *dest)
 ****************************************************************************/
 void send_server_hack_level_settings(struct conn_list *dest)
 {
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     if (!pset->to_client) {
       send_server_setting(dest, pset);
     }
@@ -3981,7 +3981,7 @@ void send_server_setting_control(struct connection *pconn)
   send_packet_server_setting_control(pconn, &control);
 
   /* Send the constant and common part of the settings. */
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     setting.id = setting_number(pset);
     sz_strlcpy(setting.name, setting_name(pset));
     /* Send untranslated strings to client */

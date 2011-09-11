@@ -1298,7 +1298,7 @@ static void write_init_script(char *script_filename)
 
     /* then, the 'set' option settings */
 
-    settings_iterate(pset) {
+    settings_iterate(SSET_ALL, pset) {
       fprintf(script_file, "set %s \"%s\"\n", setting_name(pset),
               setting_value_name(pset, FALSE, buf, sizeof(buf)));
     } settings_iterate_end;
@@ -1797,7 +1797,7 @@ static void show_help_option_list(struct connection *caller,
 	    _("Explanations are available for the following server options:"));
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
   if(!caller && con_get_style()) {
-    settings_iterate(pset) {
+    settings_iterate(SSET_ALL, pset) {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", setting_name(pset));
     } settings_iterate_end
   } else {
@@ -1805,7 +1805,7 @@ static void show_help_option_list(struct connection *caller,
     int j = 0;
     buf[0] = '\0';
 
-    settings_iterate(pset) {
+    settings_iterate(SSET_ALL, pset) {
       if (setting_is_visible(pset, caller)) {
         cat_snprintf(buf, sizeof(buf), "%-19s", setting_name(pset));
         if ((++j % 4) == 0) {
@@ -2186,7 +2186,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 
   buf[0] = '\0';
 
-  settings_iterate(pset) {
+  settings_iterate(SSET_ALL, pset) {
     if (!setting_is_visible(pset, caller)) {
       continue;
     }

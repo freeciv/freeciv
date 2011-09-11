@@ -170,9 +170,9 @@ void setting_lock_set(struct setting *pset, bool lock);
 
 /* Iterate over all settings; this additionally checks if the list is
  * created and valid. */
-#define settings_iterate(_pset)                                              \
+#define settings_iterate(_level, _pset)                                      \
 {                                                                            \
-  struct setting_list *_setting_list = settings_list_get(SSET_ALL);          \
+  struct setting_list *_setting_list = settings_list_get(_level);            \
   if (_setting_list != NULL) {                                               \
     setting_list_iterate(_setting_list, _pset) {
 
