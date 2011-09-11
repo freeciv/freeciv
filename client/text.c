@@ -150,12 +150,15 @@ const char *popup_info_text(struct tile *ptile)
   static struct astring str = ASTRING_INIT;
   char username[MAX_LEN_NAME + 32];
   char nation[2 * MAX_LEN_NAME + 32];
+  int tile_x, tile_y, nat_x, nat_y;
 
   astr_clear(&str);
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
   astr_add_line(&str, _("Location: (%d, %d) [%d]"),
-                ptile->x, ptile->y, tile_continent(ptile));
+                tile_x, tile_y, tile_continent(ptile));
+  index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
   astr_add_line(&str, _("Native coordinates: (%d, %d)"),
-                ptile->nat_x, ptile->nat_y);
+                nat_x, nat_y);
 
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
     astr_add(&str, _("Unknown"));

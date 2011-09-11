@@ -151,12 +151,12 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
  * painter's algorithm and can be used for drawing. */
 #define citydlg_iterate(pcity, ptile, pedge, pcorner, _x, _y)		\
 {									\
-  int _x##_0, _y##_0;							\
+  int _x##_0, _y##_0, _tile_x, _tile_y;                                 \
   const int _x##_w = get_citydlg_canvas_width();			\
   const int _y##_h = get_citydlg_canvas_height();			\
+  index_to_map_pos(&_tile_x, &_tile_y, tile_index((pcity)->tile));      \
 									\
-  map_to_gui_vector(tileset, &_x##_0, &_y##_0,				\
-		    (pcity)->tile->x, (pcity)->tile->y);		\
+  map_to_gui_vector(tileset, &_x##_0, &_y##_0, _tile_x, _tile_y);       \
   _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;			\
   _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;		\
   log_debug("citydlg: %d,%d + %dx%d",					\

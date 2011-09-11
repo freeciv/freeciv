@@ -101,15 +101,17 @@ struct tile *client_city_tile(const struct city *pcity)
   }
 
   whole_map_iterate(ptile) {
+    int tile_x, tile_y;
+
+    index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
     if (pcity == tile_worked(ptile)) {
       if (0 == num) {
-        x = ptile->x;
-        y = ptile->y;
+        x = tile_x;
+        y = tile_y;
         num = 1;
       } else {
         num++;
-        base_map_distance_vector(&dx, &dy, (int) x, (int) y,
-                                 ptile->x, ptile->y);
+        base_map_distance_vector(&dx, &dy, (int)x, (int)y, tile_x, tile_y);
         x += (double) dx / num;
         y += (double) dy / num;
       }

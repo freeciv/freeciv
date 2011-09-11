@@ -1426,8 +1426,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
     dy = 0;
   }
   vtile = tile_virtual_new(NULL);
-  vtile->x = dx;
-  vtile->y = dy;
+  vtile->index = native_pos_to_index(dx, dy);
 
   edit_buffer_type_iterate(ebuf, type) {
     switch (type) {
@@ -1603,14 +1602,19 @@ void edit_buffer_paste(struct edit_buffer *ebuf, const struct tile *dest)
 {
   struct connection *my_conn = &client.conn;
   const struct tile *ptile;
+  int dest_x, dest_y;
 
   if (!ebuf || !dest) {
     return;
   }
 
+  index_to_map_pos(&dest_x, &dest_y, tile_index(dest));
   connection_do_buffer(my_conn);
   tile_list_iterate(ebuf->vtiles, vtile) {
-    ptile = map_pos_to_tile(dest->x + vtile->x, dest->y + vtile->y);
+    int virt_x, virt_y;
+
+    index_to_map_pos(&virt_x, &virt_y, tile_index(vtile));
+    ptile = map_pos_to_tile(dest_x + virt_x, dest_y + virt_y);
     if (!ptile) {
       continue;
     }

@@ -334,7 +334,7 @@ static void gui_to_map_pos(const struct tileset *t,
 **************************************************************************/
 bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
 {
-  int center_map_x, center_map_y, dx, dy;
+  int center_map_x, center_map_y, dx, dy, tile_x, tile_y;
 
   /*
    * First we wrap the coordinates to hopefully be within the the mapview
@@ -345,8 +345,9 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
   base_canvas_to_map_pos(&center_map_x, &center_map_y,
 			 mapview.width / 2,
 			 mapview.height / 2);
-  base_map_distance_vector(&dx, &dy,
-			   center_map_x, center_map_y, ptile->x, ptile->y);
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
+  base_map_distance_vector(&dx, &dy, center_map_x, center_map_y, tile_x,
+                           tile_y);
 
   map_to_gui_pos(tileset,
 		 canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
@@ -823,7 +824,7 @@ struct tile *get_center_tile_mapcanvas(void)
 **************************************************************************/
 void center_tile_mapcanvas(struct tile *ptile)
 {
-  int gui_x, gui_y;
+  int gui_x, gui_y, tile_x, tile_y;
   static bool first = TRUE;
 
   if (first && can_slide) {
@@ -831,7 +832,8 @@ void center_tile_mapcanvas(struct tile *ptile)
   }
   first = FALSE;
 
-  map_to_gui_pos(tileset, &gui_x, &gui_y, ptile->x, ptile->y);
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
+  map_to_gui_pos(tileset, &gui_x, &gui_y, tile_x, tile_y);
 
   /* Put the center pixel of the tile at the exact center of the mapview. */
   gui_x -= (mapview.width - tileset_tile_width(tileset)) / 2;
@@ -2113,7 +2115,7 @@ void move_unit_map_canvas(struct unit *punit,
 {
   static struct timer *anim_timer = NULL;
   struct tile *dest_tile;
-  int dest_x, dest_y;
+  int dest_x, dest_y, src_x, src_y;
 
   /* only works for adjacent-square moves */
   if (dx < -1 || dx > 1 || dy < -1 || dy > 1 || (dx == 0 && dy == 0)) {
@@ -2125,8 +2127,9 @@ void move_unit_map_canvas(struct unit *punit,
     update_unit_info_label(get_units_in_focus());
   }
 
-  dest_x = src_tile->x + dx;
-  dest_y = src_tile->y + dy;
+  index_to_map_pos(&src_x, &src_y, tile_index(src_tile));
+  dest_x = src_x + dx;
+  dest_y = src_y + dy;
   dest_tile = map_pos_to_tile(dest_x, dest_y);
   if (!dest_tile) {
     return;
