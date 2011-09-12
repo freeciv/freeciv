@@ -329,18 +329,21 @@ bool check_for_game_over(void)
   candidates = 0;
   defeated = 0;
   victor = NULL;
-  players_iterate_alive(pplayer) {
+  /* Do not use player_iterate_alive here - dead player must be counted as
+   * defeated to end the game with a victory. */
+  players_iterate(pplayer) {
     if (is_barbarian(pplayer)) {
       continue;
     }
 
-    if (!player_status_check((pplayer), PSTATUS_SURRENDER)) {
+    if ((pplayer)->is_alive
+        && !player_status_check((pplayer), PSTATUS_SURRENDER)) {
       candidates++;
       victor = pplayer;
     } else {
       defeated++;
     }
-  } players_iterate_alive_end;
+  } players_iterate_end;
 
   if (0 == candidates) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
