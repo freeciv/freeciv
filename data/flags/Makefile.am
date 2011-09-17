@@ -496,6 +496,7 @@ flag_files =				\
 		vistulan.png		\
 		volapuk.png		\
 		volga_bulgar.png	\
+		volga_german.png	\
 		wales.png		\
 		wallonia.png		\
 		west_indies_federation.png	\
@@ -1004,6 +1005,7 @@ flag_files =				\
 		vistulan-large.png		\
 		volapuk-large.png		\
 		volga_bulgar-large.png		\
+		volga_german-large.png		\
 		wales-large.png			\
 		wallonia-large.png		\
 		west_indies_federation-large.png	\
@@ -1514,6 +1516,7 @@ shield_files =					\
 		vistulan-shield.png		\
 		volapuk-shield.png		\
 		volga_bulgar-shield.png		\
+		volga_german-shield.png		\
 		wales-shield.png		\
 		wallonia-shield.png		\
 		west_indies_federation-shield.png	\
@@ -2022,6 +2025,7 @@ shield_files =					\
 		vistulan-shield-large.png		\
 		volapuk-shield-large.png		\
 		volga_bulgar-shield-large.png		\
+		volga_german-shield-large.png		\
 		wales-shield-large.png		\
 		wallonia-shield-large.png		\
 		west_indies_federation-shield-large.png	\
@@ -2532,6 +2536,7 @@ svg_files = 				\
 		vistulan.svg		\
 		volapuk.svg		\
 		volga_bulgar.svg	\
+		volga_german.svg	\
 		wales.svg		\
 		wallonia.svg		\
 		west_indies_federation.svg	\

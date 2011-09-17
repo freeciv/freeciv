@@ -505,6 +505,7 @@ sprites =
 		"f.shield.vistulan", "flags/vistulan-shield-large"
 		"f.shield.volapuk", "flags/volapuk-shield-large"
 		"f.shield.volga_bulgar", "flags/volga_bulgar-shield-large"
+		"f.shield.volga_german", "flags/volga_german-shield-large"
 		"f.shield.wallonia", "flags/wallonia-shield-large"
 		"f.shield.wales", "flags/wales-shield-large"
 		"f.shield.west_indies_federation", "flags/west_indies_federation-shield-large"

@@ -485,6 +485,7 @@ pkgdata_DATA = \
 		vistulan.ruleset \
 		volapuk.ruleset \
 		volgabulgar.ruleset \
+		volgagerman.ruleset \
 		walloon.ruleset \
 		welsh.ruleset \
 		werewolf.ruleset \

@@ -534,6 +534,7 @@ match=2
 *include "nation/vistulan.ruleset"
 *include "nation/volapuk.ruleset"
 *include "nation/volgabulgar.ruleset"
+*include "nation/volgagerman.ruleset"
 *include "nation/walloon.ruleset"
 *include "nation/welsh.ruleset"
 *include "nation/werewolf.ruleset"

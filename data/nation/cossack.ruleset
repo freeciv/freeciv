@@ -42,7 +42,7 @@ init_government="Despotism"
 init_units="" 
 
 conflicts_with = "ukrainian"
-civilwar_nations = "ruthenian", "ukrainian", "russian", "crimean tatar"
+civilwar_nations = "ruthenian", "ukrainian", "russian", "crimean tatar", "volga german"
 
 cities =
  "Chyhyryn",

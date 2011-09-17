@@ -505,6 +505,7 @@ artists = "
    Vistulan		Kuba (Open Clip Art) and Hubert Kobalewski
    Volapuk		Wierzbowski
    Volga Bulgar		Óðinn (Wikimedia Commons) and Daniel Markstedt
+   Volga German		J.M. Maalderink
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
    West Indies Fed.	Stepshep (Wikimedia Commons)
@@ -1018,6 +1019,7 @@ sprites =
 		"f.vistulan", "flags/vistulan"
 		"f.volapuk", "flags/volapuk"
 		"f.volga_bulgar", "flags/volga_bulgar"
+		"f.volga_german", "flags/volga_german"
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
 		"f.west_indies_federation", "flags/west_indies_federation"
