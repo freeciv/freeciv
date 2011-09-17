@@ -58,7 +58,9 @@ static int log_num_files = 0;
 static struct log_fileinfo *log_files = NULL;
 #endif /* DEBUG */
 
-const char *nologmsg = "nologmsg";
+/* A helper variable to indicate that there is no log message. The '%s' is
+ * added to use it as format string as well as the argument. */
+const char *nologmsg = "nologmsg:%s";
 
 /**************************************************************************
   level_str should be either "0", "1", "2", "3", "4" or

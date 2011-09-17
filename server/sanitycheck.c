@@ -47,7 +47,7 @@
   fc_assert_fail(file, function, line, NULL, format, ## __VA_ARGS__)
 
 #define SANITY_CHECK(check) \
-  fc_assert_full(file, function, line, check, , NOLOGMSG)
+  fc_assert_full(file, function, line, check, , NOLOGMSG, NOLOGMSG)
 
 #define SANITY_CITY(_city, check)                                           \
   fc_assert_full(file, function, line, check, ,                             \

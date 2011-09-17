@@ -132,7 +132,8 @@ void fc_assert_fail(const char *file, const char *function, int line,
 /* Like assert(). */
 #define fc_assert(condition)                                                \
   ((condition) ? (void) 0                                                   \
-   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NOLOGMSG))
+   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NOLOGMSG, \
+                    NOLOGMSG))
 /* Like assert() with extra message. */
 #define fc_assert_msg(condition, message, ...)                              \
   ((condition) ? (void) 0                                                   \
@@ -143,7 +144,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
 /* Do action on failure. */
 #define fc_assert_action(condition, action)                                 \
   fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action,       \
-                 NOLOGMSG)
+                 NOLOGMSG, NOLOGMSG)
 /* Return on failure. */
 #define fc_assert_ret(condition)                                            \
   fc_assert_action(condition, return)
