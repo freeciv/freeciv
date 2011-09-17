@@ -132,6 +132,7 @@ pkgdata_DATA = \
 		czechoslovak.ruleset \
 		dahomean.ruleset \
 		danish.ruleset \
+		darfuri.ruleset \
 		djiboutian.ruleset \
 		dominican.ruleset \
 		dominicano.ruleset \

@@ -130,6 +130,7 @@ artists = "
    Czech		Lauris Kaplinski
    Czechoslovakia	Tlusťa (Wikimedia Commons)
    Dahomey		Daniel Markstedt 
+   Darfur		Daniel Markstedt
    DDR			Jwnabd (Wikimedia Commons)
    Denmark		Jens Bech Madsen
    Djibouti		Open Clip Art
@@ -644,6 +645,7 @@ sprites =
 		"f.czech", "flags/czech"
 		"f.czechoslovakia", "flags/czechoslovakia"
 		"f.dahomey", "flags/dahomey"
+		"f.darfur", "flags/darfur"
 		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"
 		"f.djibouti", "flags/djibouti"

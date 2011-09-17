@@ -27,7 +27,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="south sudanese"
+civilwar_nations="south sudanese", "darfuri"
 
 cities =
  "Al-Khartum",

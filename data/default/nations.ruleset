@@ -181,6 +181,7 @@ match=2
 *include "nation/czechoslovak.ruleset"
 *include "nation/dahomean.ruleset"
 *include "nation/danish.ruleset"
+*include "nation/darfuri.ruleset"
 *include "nation/djiboutian.ruleset"
 *include "nation/dominican.ruleset"
 *include "nation/dominicano.ruleset"

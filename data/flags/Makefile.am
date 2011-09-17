@@ -123,6 +123,7 @@ flag_files =				\
 		czech.png		\
 		czechoslovakia.png	\
 		dahomey.png		\
+		darfur.png		\
 		ddr.png			\
 		denmark.png		\
 		djibouti.png		\
@@ -630,6 +631,7 @@ flag_files =				\
 		czech-large.png		\
 		czechoslovakia-large.png	\
 		dahomey-large.png		\
+		darfur-large.png		\
 		ddr-large.png			\
 		denmark-large.png		\
 		djibouti-large.png		\
@@ -1139,6 +1141,7 @@ shield_files =					\
 		czech-shield.png		\
 		czechoslovakia-shield.png	\
 		dahomey-shield.png		\
+		darfur-shield.png		\
 		ddr-shield.png			\
 		denmark-shield.png		\
 		djibouti-shield.png		\
@@ -1646,6 +1649,7 @@ shield_files =					\
 		czech-shield-large.png		\
 		czechoslovakia-shield-large.png		\
 		dahomey-shield-large.png		\
+		darfur-shield-large.png			\
 		ddr-shield-large.png			\
 		denmark-shield-large.png		\
 		djibouti-shield-large.png		\
@@ -2155,6 +2159,7 @@ svg_files = 				\
 		czech.svg		\
 		czechoslovakia.svg	\
 		dahomey.svg		\
+		darfur.svg		\
 		ddr.svg			\
 		denmark.svg		\
 		djibouti.svg		\
