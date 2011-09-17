@@ -398,6 +398,7 @@ flag_files =				\
 		scania.png		\
 		schleswig-holstein.png	\
 		scotland.png		\
+		scottishgaelic.png	\
 		scythia.png		\
 		seleucid.png		\
 		seljuk.png		\
@@ -904,6 +905,7 @@ flag_files =				\
 		scania-large.png		\
 		schleswig-holstein-large.png	\
 		scotland-large.png		\
+		scottishgaelic-large.png	\
 		scythia-large.png		\
 		seleucid-large.png		\
 		seljuk-large.png		\
@@ -1412,6 +1414,7 @@ shield_files =					\
 		scania-shield.png		\
 		schleswig-holstein-shield.png	\
 		scotland-shield.png		\
+		scottishgaelic-shield.png	\
 		scythia-shield.png		\
 		seleucid-shield.png		\
 		seljuk-shield.png		\
@@ -1918,6 +1921,7 @@ shield_files =					\
 		scania-shield-large.png			\
 		schleswig-holstein-shield-large.png	\
 		scotland-shield-large.png		\
+		scottishgaelic-shield-large.png		\
 		scythia-shield-large.png		\
 		seleucid-shield-large.png		\
 		seljuk-shield-large.png			\
@@ -2426,6 +2430,7 @@ svg_files = 				\
 		scania.svg		\
 		schleswig-holstein.svg	\
 		scotland.svg		\
+		scottishgaelic.svg	\
 		scythia.svg		\
 		seleucid.svg		\
 		seljuk.svg		\

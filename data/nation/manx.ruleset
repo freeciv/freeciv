@@ -45,7 +45,7 @@ init_government="Despotism"
 init_units="" 
 
 conflicts_with="british"
-civilwar_nations="english", "scottish", "norwegian"
+civilwar_nations="english", "scottish", "scottish gaelic"
 
 cities=
   "Doolish",

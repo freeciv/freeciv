@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "gaelic", "irish", "american"
+civilwar_nations = "scottish gaelic", "irish", "american"
 
 cities =
  "Edinburgh",
@@ -78,7 +78,7 @@ cities =
  "Lerwick (ocean)", 
  "Largs (ocean, river)",
  "Bellshill (hills)",
- "Wick (ocean)",
+ "Week (ocean)",		; Wick
  "Larkhall (river)",
  "Cowdenbeath",
  "Gretna (ocean, river)", 
@@ -117,7 +117,7 @@ cities =
  "Culross (ocean)",
  "Gourock (ocean)",
  "Copshie (hills)",		; Newcastleton
- "Bo'ness (ocean)",
+ "Burghstounness (ocean)",	; Bo'ness
  "Fraserburgh (ocean)",
  "Nairn (ocean, river)",
  "Annan (ocean, river)",

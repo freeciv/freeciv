@@ -389,6 +389,7 @@ pkgdata_DATA = \
 		scanian.ruleset \
 		schleswig-holsteinian.ruleset \
 		scottish.ruleset \
+		scottishgaelic.ruleset \
 		scythian.ruleset \
 		seleucid.ruleset \
 		seljuk.ruleset \

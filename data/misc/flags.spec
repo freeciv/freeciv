@@ -406,6 +406,7 @@ artists = "
    Scania		Daniel Markstedt
    Schleswig-Holstein	Madden and Drbashir117 (Wikimedia Commons)
    Scotland		Sigge Kotliar
+   Scottish Gaelic	Oxenhillshaw (Wikimedia Commons), Daniel Markstedt and Michael Bauer
    Scythia		Lavrentij P Berija
    Sakha		Zachary Harden
    Seljuk		J.M. Maalderink
@@ -918,6 +919,7 @@ sprites =
 		"f.scania", "flags/scania"
 		"f.schleswig-holstein", "flags/schleswig-holstein"
 		"f.scotland", "flags/scotland"
+		"f.scottishgaelic", "flags/scottishgaelic"
 		"f.scythia", "flags/scythia"
 		"f.seleucid", "flags/seleucid"
 		"f.seljuk", "flags/seljuk"
