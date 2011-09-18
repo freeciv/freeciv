@@ -72,6 +72,9 @@
  defines, structs, globals, forward declarations
 *****************************************************************************/
 
+/* Maximal iterations before the search loop is stoped. */
+#define CM_MAX_LOOP 25000
+
 #ifdef DEBUG
 #define GATHER_TIME_STATS
 #define CM_DEBUG
@@ -1799,6 +1802,8 @@ static void cm_find_best_solution(struct cm_state *state,
                                   const struct cm_parameter *const parameter,
                                   struct cm_result *result)
 {
+  int loop_count = 0;
+
 #ifdef GATHER_TIME_STATS
   performance.current = &performance.opt;
 #endif
@@ -1807,7 +1812,14 @@ static void cm_find_best_solution(struct cm_state *state,
 
   /* search until we find a feasible solution */
   while (!bb_next(state)) {
-    /* nothing */
+    /* Limit the number of loops. */
+    loop_count++;
+
+    if (loop_count > CM_MAX_LOOP) {
+      log_error("Did not find a cm solution in %d iterations for %s.",
+                CM_MAX_LOOP, city_name(state->pcity));
+      break;
+    }
   }
 
   /* convert to the caller's format */
