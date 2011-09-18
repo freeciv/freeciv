@@ -37,7 +37,8 @@ int ice_base_colatitude = 0 ;
 ****************************************************************************/
 int map_colatitude(const struct tile *ptile)
 {
-  double x, y, nat_x, nat_y;
+  double x, y;
+  int tile_x, tile_y;
 
   fc_assert_ret_val(ptile != NULL, MAX_COLATITUDE / 2);
 
@@ -49,8 +50,8 @@ int map_colatitude(const struct tile *ptile)
   }
 
 
-  index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
-  do_in_natural_pos(ntl_x, ntl_y, nat_x, nat_y) {
+  index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
+  do_in_natural_pos(ntl_x, ntl_y, tile_x, tile_y) {
     if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
       /* A FLAT (unwrapped) map 
        *
