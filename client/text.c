@@ -847,8 +847,8 @@ const char *get_science_target_text(double *percent)
 const char *get_science_goal_text(Tech_type_id goal)
 {
   int steps = num_unknown_techs_for_goal(client.conn.playing, goal);
-  int bulbs = total_bulbs_required_for_goal(client.conn.playing, goal);
-  int bulbs_needed = bulbs, turns;
+  int bulbs_needed = total_bulbs_required_for_goal(client.conn.playing, goal);
+  int turns;
   int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
   char buf1[256], buf2[256], buf3[256];
   struct player_research* research = player_research_get(client_player());
@@ -869,7 +869,7 @@ const char *get_science_goal_text(Tech_type_id goal)
   fc_snprintf(buf1, sizeof(buf1),
               PL_("%d step", "%d steps", steps), steps);
   fc_snprintf(buf2, sizeof(buf2),
-              PL_("%d bulb", "%d bulbs", bulbs), bulbs);
+              PL_("%d bulb", "%d bulbs", bulbs_needed), bulbs_needed);
   if (perturn > 0) {
     turns = (bulbs_needed + perturn - 1) / perturn;
     fc_snprintf(buf3, sizeof(buf3),
