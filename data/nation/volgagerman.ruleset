@@ -33,9 +33,9 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = {
- "government",      "male_title",            "female_title"
- "Communism",       _("People's Commissar"), _("female:People's Commissar")
- "Fundamentalism",  _("Bishop"),             _("?female:Bishop")
+ "government",     "male_title",               "female_title"
+ "Communism",      _("People's Commissar %s"), _("?female:People's Commissar %s")
+ "Fundamentalism", _("Bishop %s"),             _("?female:Bishop %s")
 }
 
 init_techs=""
@@ -48,7 +48,7 @@ conflicts_with="soviet", "golden horde", "khazar", "volga bulgar", "gokturk",
 civilwar_nations = "soviet", "russian", "tatar"
 
 cities =
-    ;main cities of Volga German ASSR:
+ ;main cities of Volga German ASSR:
  "Kosakenstadt",                ;Pokrovsk, Engels
  "Marxstadt",
  "Fjodorowka",
