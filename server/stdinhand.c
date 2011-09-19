@@ -4121,8 +4121,8 @@ static bool handle_stdin_input_real(struct connection *caller,
 	command, command_name_by_number(cmd), caller?"/":"");
   } else if (cmd == CMD_UNRECOGNIZED) {
     cmd_reply(cmd, caller, C_SYNTAX, _("Unknown command '%s%s'. "
-                                       " Try '%shelp'."), command,
-              caller ? "/" : "", caller ? "/" : "");
+                                       " Try '%shelp'."),
+              caller ? "/" : "", command, caller ? "/" : "");
     return FALSE;
   }
 
