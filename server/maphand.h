@@ -107,10 +107,11 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
 void map_clear_border(struct tile *ptile);
 
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
-bool need_to_fix_terrain_change(const struct terrain *oldter,
-                                const struct terrain *newter);
 void fix_tile_on_terrain_change(struct tile *ptile,
+                                struct terrain *oldter,
                                 bool extend_rivers);
+bool need_to_reassign_continents(const struct terrain *oldter,
+                                 const struct terrain *newter);
 void bounce_units_on_terrain_change(struct tile *ptile);
 
 void vision_change_sight(struct vision *vision,

@@ -790,36 +790,22 @@ static void update_unit_activity(struct unit *punit)
     break;
 
   case ACTIVITY_IRRIGATE:
-    if (total_activity_done(ptile, ACTIVITY_IRRIGATE)) {
-      struct terrain *old = tile_terrain(ptile);
-
-      /* The function below could change the terrain. Therefore, we have to
-       * check the units, check the terrain and also do a sanity check for
-       * the tile. */
-      tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
-      bounce_units_on_terrain_change(ptile);
-      check_terrain_change(ptile, old);
-      sanity_check_tile(ptile);
-
-      unit_activity_done = TRUE;
-    }
-    break;
-
   case ACTIVITY_MINE:
   case ACTIVITY_TRANSFORM:
     if (total_activity_done(ptile, activity)) {
       struct terrain *old = tile_terrain(ptile);
 
       /* The function below could change the terrain. Therefore, we have to
-       * check the units, check the terrain and also do a sanity check for
-       * the tile. */
+       * check the terrain (which will also do a sanity check for the tile). */
       tile_apply_activity(ptile, activity);
-      bounce_units_on_terrain_change(ptile);
       check_terrain_change(ptile, old);
-      sanity_check_tile(ptile);
 
       unit_activity_done = TRUE;
-      check_adjacent_units = TRUE;
+      if (activity != ACTIVITY_IRRIGATE) {
+        /* May have destroyed irrigation that other activity was
+         * depending on. */
+        check_adjacent_units = TRUE;
+      }
     }
     break;
 
@@ -850,7 +836,7 @@ static void update_unit_activity(struct unit *punit)
     } unit_list_iterate_end;
   }
 
-  /* Some units nearby can not continue irrigating */
+  /* Some units nearby may not be able to continue irrigating */
   if (check_adjacent_units) {
     adjc_iterate(ptile, ptile2) {
       unit_list_iterate(ptile2->units, punit2) {

@@ -55,10 +55,14 @@
 
 #include "edithand.h"
 
-/* This table holds pointers to tiles for which expensive checks (e.g.
- * assign_continent_numbers) have been left until after a sequence of
- * edits is complete. */
-static struct tile_hash *unfixed_tile_table = NULL;
+/* Set if anything in a sequence of edits triggers the expensive
+ * assign_continent_numbers() check, which will be done once when the
+ * sequence is complete. */
+static bool need_continents_reassigned = FALSE;
+/* Hold pointers to tiles which were changed during the edit sequence,
+ * so that they can be sanity-checked when the sequence is complete
+ * and final global fix-ups have been done. */
+static struct tile_hash *modified_tile_table = NULL;
 
 /* Array of size player_slot_count() indexed by player
  * number to tell whether a given player has fog of war
@@ -70,10 +74,12 @@ static bool *unfogged_players;
 ****************************************************************************/
 void edithand_init(void)
 {
-  if (NULL != unfixed_tile_table) {
-    tile_hash_destroy(unfixed_tile_table);
+  if (NULL != modified_tile_table) {
+    tile_hash_destroy(modified_tile_table);
   }
-  unfixed_tile_table = tile_hash_new();
+  modified_tile_table = tile_hash_new();
+
+  need_continents_reassigned = FALSE;
 
   if (unfogged_players != NULL) {
     free(unfogged_players);
@@ -86,9 +92,9 @@ void edithand_init(void)
 ****************************************************************************/
 void edithand_free(void)
 {
-  if (NULL != unfixed_tile_table) {
-    tile_hash_destroy(unfixed_tile_table);
-    unfixed_tile_table = NULL;
+  if (NULL != modified_tile_table) {
+    tile_hash_destroy(modified_tile_table);
+    modified_tile_table = NULL;
   }
 
   if (unfogged_players != NULL) {
@@ -127,23 +133,21 @@ void edithand_send_initial_packets(struct conn_list *dest)
 }
 
 /****************************************************************************
-  Do the potentially slow checks required after some tile's terrain changes.
+  Do the potentially slow checks required after one or several tiles'
+  terrain has change.
 ****************************************************************************/
 static void check_edited_tile_terrains(void)
 {
-  if (0 >= tile_hash_size(unfixed_tile_table)) {
-    return;
+  if (need_continents_reassigned) {
+    assign_continent_numbers();
+    send_all_known_tiles(NULL);
+    need_continents_reassigned = FALSE;
   }
 
-  tile_hash_iterate(unfixed_tile_table, ptile) {
-    fix_tile_on_terrain_change(ptile, FALSE);
-    bounce_units_on_terrain_change(ptile);
+  tile_hash_iterate(modified_tile_table, ptile) {
     sanity_check_tile(ptile);
   } tile_hash_iterate_end;
-  tile_hash_clear(unfixed_tile_table);
-
-  assign_continent_numbers();
-  send_all_known_tiles(NULL);
+  tile_hash_clear(modified_tile_table);
 }
 
 /****************************************************************************
@@ -220,8 +224,10 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
   }
 
   tile_change_terrain(ptile, pterrain);
-  if (need_to_fix_terrain_change(old_terrain, pterrain)) {
-    tile_hash_insert(unfixed_tile_table, ptile, NULL);
+  fix_tile_on_terrain_change(ptile, old_terrain, FALSE);
+  tile_hash_insert(modified_tile_table, ptile, NULL);
+  if (need_to_reassign_continents(old_terrain, pterrain)) {
+    need_continents_reassigned = TRUE;
   }
 
   if (send_tile_info) {
@@ -353,6 +359,8 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
   }
 
   conn_list_do_buffer(game.est_connections);
+  /* This iterates outward, which gives any units that can't survive on
+   * changed terrain the best chance of survival. */
   square_iterate(ptile_center, size - 1, ptile) {
     edit_tile_terrain_handling(ptile, pterrain, TRUE);
   } square_iterate_end;
