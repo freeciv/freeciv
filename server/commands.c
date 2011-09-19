@@ -274,22 +274,26 @@ static struct command commands[] = {
    /* TRANS: translate text between [] and <> only */
    N_("take [connection-name] <player-name>"),
    N_("Take over a player's place in the game."),
+   /* TRANS: Don't translate text between '' */
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to take over a player. If you're not one of these, "
       "only the <player-name> argument is allowed. If '-' is given for the "
       "player name and the connection does not already control a player, one "
-      "is created and assigned to the connection."),
+      "is created and assigned to the connection. The 'allowtake' option "
+      "controls which players may be taken and in what circumstances."),
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
   {"observe",    ALLOW_INFO,
    /* TRANS: translate text between [] only */
    N_("observe [connection-name] [player-name]"),
    N_("Observe a player or the whole game."),
+   /* TRANS: Don't translate text between '' */
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to observe a player. If you're not one of these, "
       "only the [player-name] argument is allowed. If the console gives no "
       "player-name or the connection uses no arguments, then the connection "
-      "is attached to a global observer."),
+      "is attached to a global observer. The 'allowtake' option controls "
+      "which players may be observed and in what circumstances."),
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
   {"detach",    ALLOW_INFO,
