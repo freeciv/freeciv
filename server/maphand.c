@@ -193,9 +193,7 @@ void climate_change(bool warming, int effect)
 
       /* Really change the terrain. */
       tile_change_terrain(ptile, new);
-      bounce_units_on_terrain_change(ptile);
       check_terrain_change(ptile, old);
-      sanity_check_tile(ptile);
       update_tile_knowledge(ptile);
 
       /* Check the unit activities. */
@@ -1437,9 +1435,10 @@ void disable_fog_of_war(void)
   Set the tile to be a river if required.
   It's required if one of the tiles nearby would otherwise be part of a
   river to nowhere.
+  (Note that rivers-to-nowhere can still occur if a single-tile lake is
+  transformed away, but this is relatively unlikely.)
   For simplicity, I'm assuming that this is the only exit of the river,
   so I don't need to trace it across the continent.  --CJM
-  Also, note that this only works for R_AS_SPECIAL type rivers.  --jjm
 **************************************************************************/
 static void ocean_to_land_fix_rivers(struct tile *ptile)
 {
@@ -1462,10 +1461,10 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
 }
 
 /****************************************************************************
-  A helper function for check_terrain_change that moves units off of invalid
-  terrain after it's been changed.
+  Helper function for bounce_units_on_terrain_change() that checks units
+  on a single tile.
 ****************************************************************************/
-void bounce_units_on_terrain_change(struct tile *ptile)
+static void check_units_single_tile(struct tile *ptile)
 {
   unit_list_iterate_safe(ptile->units, punit) {
     bool unit_alive = TRUE;
@@ -1509,11 +1508,27 @@ void bounce_units_on_terrain_change(struct tile *ptile)
 }
 
 /****************************************************************************
-  Returns TRUE if the terrain change from 'oldter' to 'newter' requires
-  extra (potentially expensive) fixing (e.g. of the surroundings).
+  Check ptile and nearby tiles to see if all units can remain at their
+  current locations, and move or disband any that cannot. Call this after
+  terrain or specials change on ptile.
 ****************************************************************************/
-bool need_to_fix_terrain_change(const struct terrain *oldter,
-                                const struct terrain *newter)
+void bounce_units_on_terrain_change(struct tile *ptile)
+{
+  /* Check this tile for direct effect on its units */
+  check_units_single_tile(ptile);
+  /* We have to check adjacent tiles too, in case units in cities are now
+   * illegal (e.g., boat in a city that has become landlocked). */
+  adjc_iterate(ptile, ptile2) {
+    check_units_single_tile(ptile2);
+  } adjc_iterate_end;
+}
+
+/****************************************************************************
+  Returns TRUE if the terrain change from 'oldter' to 'newter' may require
+  expensive reassignment of continents.
+****************************************************************************/
+bool need_to_reassign_continents(const struct terrain *oldter,
+                                 const struct terrain *newter)
 {
   bool old_is_ocean, new_is_ocean;
   
@@ -1529,36 +1544,44 @@ bool need_to_fix_terrain_change(const struct terrain *oldter,
 }
 
 /****************************************************************************
-  Assumes that need_to_fix_terrain_change == TRUE.
-  For in-game terrain changes 'extend_rivers' should
-  be TRUE, for edits it should be FALSE.
+  Handles local side effects for a terrain change (tile and its
+  surroundings). Does *not* handle global side effects (such as reassigning
+  continents).
+  For in-game terrain changes 'extend_rivers' should be TRUE; for edits it
+  should be FALSE.
 ****************************************************************************/
 void fix_tile_on_terrain_change(struct tile *ptile,
+                                struct terrain *oldter,
                                 bool extend_rivers)
 {
-  if (!is_ocean_tile(ptile)) {
+  if (is_ocean(oldter) && !is_ocean_tile(ptile)) {
     if (extend_rivers) {
       ocean_to_land_fix_rivers(ptile);
     }
     city_landlocked_sell_coastal_improvements(ptile);
   }
+
+  /* Units may no longer be able to hold their current positions. */
+  bounce_units_on_terrain_change(ptile);
 }
 
 /****************************************************************************
-  Handles global side effects for a terrain change.  Call this in the
-  server immediately after calling tile_change_terrain.
+  Handles local and global side effects for a terrain change for a single
+  tile.
+  Call this in the server immediately after calling tile_change_terrain.
+  Assumes an in-game terrain change (e.g., by workers/engineers).
 ****************************************************************************/
 void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 {
   struct terrain *newter = tile_terrain(ptile);
 
-  if (!need_to_fix_terrain_change(oldter, newter)) {
-    return;
+  fix_tile_on_terrain_change(ptile, oldter, TRUE);
+  if (need_to_reassign_continents(oldter, newter)) {
+    assign_continent_numbers();
+    send_all_known_tiles(NULL);
   }
 
-  fix_tile_on_terrain_change(ptile, TRUE);
-  assign_continent_numbers();
-  send_all_known_tiles(NULL);
+  sanity_check_tile(ptile);
 }
 
 /*************************************************************************
