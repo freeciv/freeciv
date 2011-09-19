@@ -445,7 +445,7 @@ bool unit_can_move_to_tile(const struct unit *punit,
     2) The target location is next to the unit.
     3) There are no non-allied units on the target tile.
     4) Unit can move to a tile where it can't survive on its own if there
-       is city or free transport capacity.
+       is free transport capacity.
     5) Some units cannot take over a city.
     6) Marines are the only land units that can attack from a ocean square.
     7) There are no peaceful but un-allied units on the target tile.
@@ -485,9 +485,9 @@ unit_move_to_tile_test(const struct unit_type *punittype,
   }
 
   /* 4) */
-  if (!can_exist_at_tile(punittype, dst_tile)
-      && !is_allied_city_tile(dst_tile, unit_owner)
-      && unit_class_transporter_capacity(dst_tile, unit_owner, utype_class(punittype)) <= 0) {
+  if (!(can_exist_at_tile(punittype, dst_tile)
+        || unit_class_transporter_capacity(dst_tile, unit_owner,
+                                           utype_class(punittype)) > 0)) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
