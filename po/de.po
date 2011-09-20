@@ -8748,9 +8748,9 @@ msgid "The parameter %s should only contain +- and 0-9."
 msgstr "Der Parameter %s darf nur die Ziffern 0 bis 9 sowie +- enthalten."
 
 #: server/stdinhand.c:2896
-#, fuzzy, c-format
+#, c-format
 msgid "Console: '%s' has been set to %s."
-msgstr "%s auf '%s' gesetzt."
+msgstr "Konsole: '%s' wurde auf %s gesetzt."
 
 #: server/stdinhand.c:2938
 msgid "Sorry, one can't observe globally in this game."
@@ -10203,9 +10203,8 @@ msgid "See the \"Copying\" item on the Help menu."
 msgstr "Siehe unter 'Lizenz' im Hilfemenü."
 
 #: client/chatline_common.c:146
-#, fuzzy
 msgid "Now ... Go give 'em hell!"
-msgstr "Und nun ... mach' ihnen die Hölle heiß!"
+msgstr "Und nun ... macht ihnen die Hölle heiß!"
 
 #: client/chatline_common.c:158
 #, fuzzy, c-format
@@ -13492,9 +13491,8 @@ msgid ""
 msgstr "1 erlaubt den Raumschiffbau."
 
 #: client/options.c:2202
-#, fuzzy
 msgid "Fullscreen"
-msgstr "Vollbildmodus"
+msgstr "Vollbild"
 
 #: client/options.c:2203
 #, fuzzy
@@ -16578,13 +16576,12 @@ msgid "_Help"
 msgstr "_Hilfe"
 
 #: client/gui-gtk-2.0/menu.c:1259
-#, fuzzy
 msgid "_Clear Chat Log"
-msgstr "Textfenster _löschen"
+msgstr "Chat _löschen"
 
 #: client/gui-gtk-2.0/menu.c:1261
 msgid "Save Chat _Log"
-msgstr ""
+msgstr "Chat speichern"
 
 #: client/gui-gtk-2.0/menu.c:1264
 msgid "_Local Client"
@@ -16871,7 +16868,6 @@ msgid "Focu_s Unit"
 msgstr "auf Einheit zentrieren"
 
 #: client/gui-gtk-2.0/menu.c:1425
-#, fuzzy
 msgid "Fog of _War"
 msgstr "Nebel des Krieges"
 
@@ -16881,27 +16877,24 @@ msgid "Better Fog of War"
 msgstr "Nebel des Krieges"
 
 #: client/gui-gtk-2.0/menu.c:1430
-#, fuzzy
 msgid "_Fullscreen"
-msgstr "Vollbildmodus"
+msgstr "Vollbild"
 
 #: client/gui-gtk-2.0/menu.c:1457
 msgid "Recalculate _Borders"
 msgstr "_Grenzen neuberechnen"
 
 #: client/gui-gtk-2.0/menu.c:1459
-#, fuzzy
 msgid "Toggle Fog of _War"
-msgstr "Nebel des Krieges"
+msgstr "Nebel des Krieges umschalten"
 
 #: client/gui-gtk-2.0/menu.c:1461
 msgid "Game/Scenario Properties"
-msgstr ""
+msgstr "Eigenschaften des Spiels/Szenarios"
 
 #: client/gui-gtk-2.0/menu.c:1463 client/gui-gtk-2.0/pages.c:3009
-#, fuzzy
 msgid "Save Scenario"
-msgstr "_Szenariospiel beginnen"
+msgstr "_Szenario speichern"
 
 #: client/gui-gtk-2.0/menu.c:1486
 #, fuzzy
@@ -17245,9 +17238,8 @@ msgid "Select a color"
 msgstr "Neues Forschungsziel"
 
 #: client/gui-gtk-2.0/optiondlg.c:367
-#, fuzzy
 msgid "Reset"
-msgstr "Wüste"
+msgstr "Zurücksetzen"
 
 #: client/gui-gtk-2.0/plrdlg.c:320
 msgid "_Meet"
