@@ -611,10 +611,12 @@ msgid "Server Aborting"
 msgstr "Server-Port"
 
 #: common/events.c:194
+#, fuzzy
 msgid "Server Problems"
-msgstr "Serverprobleme"
+msgstr "Serveroptionen"
 
 #: common/events.c:195
+#, fuzzy
 msgid "Message from server operator"
 msgstr "Nachricht vom Serveroperator"
 
@@ -643,14 +645,14 @@ msgid "%d %s"
 msgstr "%d %s"
 
 #: common/government.c:403
-#, c-format
+#, fuzzy, c-format
 msgid "Mr. %s"
-msgstr "Herr %s"
+msgstr "selten"
 
 #: common/government.c:405
-#, c-format
+#, fuzzy, c-format
 msgid "Ms. %s"
-msgstr "Frau %s"
+msgstr "Mansa"
 
 #: common/packets.c:408 common/packets.c:453
 msgid "decoding error"
@@ -4315,14 +4317,14 @@ msgstr ""
 "verursacht."
 
 #: server/edithand.c:186
-#, c-format
+#, fuzzy, c-format
 msgid " *** Server set to edit mode by %s! *** "
-msgstr " *** Der Server wurde durch %s in den Editiermodus gesetzt! *** "
+msgstr " *** Der Server befindet sich im Edit-Modus! *** "
 
 #: server/edithand.c:192
 #, c-format
 msgid " *** Edit mode canceled by %s. *** "
-msgstr " *** Editiermodus wurde durch %s beendet. *** "
+msgstr ""
 
 #: server/edithand.c:340 server/edithand.c:374 server/edithand.c:401
 #: server/edithand.c:434 server/edithand.c:469
@@ -8746,9 +8748,9 @@ msgid "The parameter %s should only contain +- and 0-9."
 msgstr "Der Parameter %s darf nur die Ziffern 0 bis 9 sowie +- enthalten."
 
 #: server/stdinhand.c:2896
-#, c-format
+#, fuzzy, c-format
 msgid "Console: '%s' has been set to %s."
-msgstr "Konsole: '%s' wurde auf %s gesetzt."
+msgstr "%s auf '%s' gesetzt."
 
 #: server/stdinhand.c:2938
 msgid "Sorry, one can't observe globally in this game."
@@ -10201,8 +10203,9 @@ msgid "See the \"Copying\" item on the Help menu."
 msgstr "Siehe unter 'Lizenz' im Hilfemenü."
 
 #: client/chatline_common.c:146
+#, fuzzy
 msgid "Now ... Go give 'em hell!"
-msgstr "Und nun ... macht ihnen die Hölle heiß!"
+msgstr "Und nun ... mach' ihnen die Hölle heiß!"
 
 #: client/chatline_common.c:158
 #, fuzzy, c-format
@@ -13489,8 +13492,9 @@ msgid ""
 msgstr "1 erlaubt den Raumschiffbau."
 
 #: client/options.c:2202
+#, fuzzy
 msgid "Fullscreen"
-msgstr "Vollbild"
+msgstr "Vollbildmodus"
 
 #: client/options.c:2203
 #, fuzzy
@@ -16574,12 +16578,13 @@ msgid "_Help"
 msgstr "_Hilfe"
 
 #: client/gui-gtk-2.0/menu.c:1259
+#, fuzzy
 msgid "_Clear Chat Log"
-msgstr "Chat _löschen"
+msgstr "Textfenster _löschen"
 
 #: client/gui-gtk-2.0/menu.c:1261
 msgid "Save Chat _Log"
-msgstr "Chat speichern"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1264
 msgid "_Local Client"
@@ -16659,11 +16664,13 @@ msgstr "_Bericht zur Lage der Nation"
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1311 client/gui-xaw/menu.c:248
 #: client/include/helpdlg_g.h:27 data/helpdata.txt:40
+#, fuzzy
 msgid "?help:Overview"
-msgstr "?help:Übersicht"
+msgstr "Übersicht"
 
 #: client/gui-gtk-2.0/menu.c:1313 client/gui-xaw/menu.c:249
 #: data/helpdata.txt:73
+#, fuzzy
 msgid "Strategy and Tactics"
 msgstr "Strategie und Taktik"
 
@@ -16704,13 +16711,15 @@ msgstr "Weltraum-Rennen"
 
 #: client/gui-gtk-2.0/menu.c:1339 client/gui-xaw/menu.c:262
 #: client/include/helpdlg_g.h:35
+#, fuzzy
 msgid "About Ruleset"
-msgstr "Über den Regelsatz"
+msgstr "Sondermeldung"
 
 #: client/gui-gtk-2.0/menu.c:1341 client/gui-xaw/menu.c:263
 #: client/include/helpdlg_g.h:36 data/helpdata.txt:1515
+#, fuzzy
 msgid "About Nations"
-msgstr "Über die Nationen"
+msgstr "Nationen"
 
 #: client/gui-gtk-2.0/menu.c:1344 client/gui-xaw/menu.c:265
 #: client/include/helpdlg_g.h:30 data/helpdata.txt:1527
@@ -16744,20 +16753,23 @@ msgstr "Lizenz"
 
 #: client/gui-gtk-2.0/menu.c:1359 client/gui-xaw/menu.c:273
 #: client/include/helpdlg_g.h:50 data/helpdata.txt:2244
+#, fuzzy
 msgid "About Freeciv"
-msgstr "Über Freeciv"
+msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/menu.c:1365
 msgid "Save Options on _Exit"
 msgstr "_Optionen beim Verlassen speichern"
 
 #: client/gui-gtk-2.0/menu.c:1369
+#, fuzzy
 msgid "_Editing Mode"
-msgstr "_Editiermodus"
+msgstr "Editmodus"
 
 #: client/gui-gtk-2.0/menu.c:1373
+#, fuzzy
 msgid "Cit_y Outlines"
-msgstr "Stadtgrenzen"
+msgstr "_Stadtgrenzen"
 
 #: client/gui-gtk-2.0/menu.c:1375
 #, fuzzy
@@ -16859,6 +16871,7 @@ msgid "Focu_s Unit"
 msgstr "auf Einheit zentrieren"
 
 #: client/gui-gtk-2.0/menu.c:1425
+#, fuzzy
 msgid "Fog of _War"
 msgstr "Nebel des Krieges"
 
@@ -16868,24 +16881,27 @@ msgid "Better Fog of War"
 msgstr "Nebel des Krieges"
 
 #: client/gui-gtk-2.0/menu.c:1430
+#, fuzzy
 msgid "_Fullscreen"
-msgstr "Vollbild"
+msgstr "Vollbildmodus"
 
 #: client/gui-gtk-2.0/menu.c:1457
 msgid "Recalculate _Borders"
 msgstr "_Grenzen neuberechnen"
 
 #: client/gui-gtk-2.0/menu.c:1459
+#, fuzzy
 msgid "Toggle Fog of _War"
-msgstr "Nebel des Krieges umschalten"
+msgstr "Nebel des Krieges"
 
 #: client/gui-gtk-2.0/menu.c:1461
 msgid "Game/Scenario Properties"
-msgstr "Eigenschaften des Spiels/Szenarios"
+msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1463 client/gui-gtk-2.0/pages.c:3009
+#, fuzzy
 msgid "Save Scenario"
-msgstr "_Szenario speichern"
+msgstr "_Szenariospiel beginnen"
 
 #: client/gui-gtk-2.0/menu.c:1486
 #, fuzzy
@@ -16950,20 +16966,22 @@ msgid "Go _to/Airlift to City..."
 msgstr "Gehe (fliege) nach Stadt"
 
 #: client/gui-gtk-2.0/menu.c:1516
+#, fuzzy
 msgid "_Return to Nearest City"
-msgstr "_Rückkehr zur nächsten Stadt"
+msgstr "Rückkehr zur nächsten Stadt"
 
 #: client/gui-gtk-2.0/menu.c:1518
 msgid "Auto E_xplore"
-msgstr "Automatisch erkunden"
+msgstr "Automatisch erkunden (_X)"
 
 #: client/gui-gtk-2.0/menu.c:1520
+#, fuzzy
 msgid "_Patrol"
-msgstr "_Patrouillieren"
+msgstr "Patrouillieren"
 
 #: client/gui-gtk-2.0/menu.c:1523
 msgid "_Sentry"
-msgstr "Bewachen"
+msgstr "Bewachen (_S)"
 
 #: client/gui-gtk-2.0/menu.c:1525
 #, fuzzy
@@ -16972,7 +16990,7 @@ msgstr "Alle auf diesem Feld"
 
 #: client/gui-gtk-2.0/menu.c:1528
 msgid "_Load"
-msgstr "Einschiffen"
+msgstr "Einschiffen (_L)"
 
 #: client/gui-gtk-2.0/menu.c:1530
 msgid "_Unload"
@@ -16994,8 +17012,9 @@ msgid "C_onvert"
 msgstr "_Verbinden"
 
 #: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-2.0/repodlgs.c:1111
+#, fuzzy
 msgid "_Disband"
-msgstr "Auflösen"
+msgstr "Einheit auflösen"
 
 #: client/gui-gtk-2.0/menu.c:1545 client/gui-gtk-2.0/menu.c:2077
 msgid "_Build City"
@@ -17083,8 +17102,9 @@ msgid "_Government"
 msgstr "_Regierungsformen"
 
 #: client/gui-gtk-2.0/menu.c:1613
+#, fuzzy
 msgid "_Tax Rates..."
-msgstr "Steuer_quoten..."
+msgstr "Steuer_quote"
 
 #: client/gui-gtk-2.0/menu.c:1616
 msgid "_Revolution..."
@@ -17225,8 +17245,9 @@ msgid "Select a color"
 msgstr "Neues Forschungsziel"
 
 #: client/gui-gtk-2.0/optiondlg.c:367
+#, fuzzy
 msgid "Reset"
-msgstr "Zurücksetzen"
+msgstr "Wüste"
 
 #: client/gui-gtk-2.0/plrdlg.c:320
 msgid "_Meet"
@@ -38974,7 +38995,7 @@ msgstr ""
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
-msgstr "Sie spielen Freeciv mit dem Standardregelsatz."
+msgstr ""
 
 #~ msgid ""
 #~ "Upgrade %s to %s for %d gold?\n"
