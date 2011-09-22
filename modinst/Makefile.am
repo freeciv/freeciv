@@ -24,5 +24,6 @@ freeciv_modpack_LDFLAGS = $(MP_gtk_LDFLAGS)
 freeciv_modpack_LDADD = \
 		$(top_builddir)/common/libfreeciv.la \
 		$(MAPIMG_WAND_LIBS) \
+		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
 		$(MP_gtk_LIBS) \
 		$(MPICON)

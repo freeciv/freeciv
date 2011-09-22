@@ -140,7 +140,6 @@ libfreeciv_srv_la_LIBADD = \
 
 freeciv_server_DEPENDENCIES = \
  $(top_builddir)/common/libfreeciv.la \
- $(top_builddir)/common/scriptcore/libscriptcore.la \
  ./libfreeciv-srv.la \
  $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) $(LUASQL_AS_DEPENDENCY)
 
@@ -149,7 +148,6 @@ freeciv_server_LDFLAGS = $(GGZDMOD_LDFLAGS)
 freeciv_server_LDADD = \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
- $(top_builddir)/common/scriptcore/libscriptcore.la \
  $(INTLLIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \

@@ -5,8 +5,10 @@ SUBDIRS = aicore scriptcore
 lib_LTLIBRARIES = libfreeciv.la
 
 AM_CPPFLAGS = \
-	$(MAPIMG_WAND_CFLAGS) \
-	-I$(top_srcdir)/utility -I$(srcdir)/aicore
+	-I$(top_srcdir)/utility \
+	-I$(srcdir)/aicore \
+	-I$(srcdir)/scriptcore \
+	$(MAPIMG_WAND_CFLAGS)
 
 libfreeciv_la_SOURCES = \
 		ai.c		\
@@ -97,13 +99,15 @@ libfreeciv_la_SOURCES = \
 		version.h
 
 libfreeciv_la_DEPENDENCIES = \
- $(top_builddir)/utility/libcivutility.la \
- $(top_builddir)/common/aicore/libaicore.la
+	$(top_builddir)/utility/libcivutility.la \
+	$(top_builddir)/common/aicore/libaicore.la \
+	$(top_builddir)/common/scriptcore/libscriptcore.la
 
 libfreeciv_la_LIBADD = \
- $(top_builddir)/utility/libcivutility.la \
- $(top_builddir)/common/aicore/libaicore.la \
- $(COMMON_LIBS)
+	$(top_builddir)/utility/libcivutility.la \
+	$(top_builddir)/common/aicore/libaicore.la \
+	$(top_builddir)/common/scriptcore/libscriptcore.la \
+	$(COMMON_LIBS)
 
 BUILT_SOURCES = packets_gen.c packets_gen.h
 
@@ -127,7 +131,9 @@ packets_generate: packets.def generate_packets.py
 	touch packets_generate
 
 # These files are not generated to builddir, but to srcdir */
-MAINTAINERCLEANFILES = $(srcdir)/packets_gen.h $(srcdir)/packets_gen.c
+MAINTAINERCLEANFILES = \
+	$(srcdir)/packets_gen.h \
+	$(srcdir)/packets_gen.c
 
 if SVNREV
 BUILT_SOURCES += fc_svnrev_gen.h
