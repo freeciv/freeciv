@@ -1283,6 +1283,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->happiness.map_canvas.ebox = NULL;    /* ditto */
   pdialog->happiness.map_canvas.pixmap = NULL;  /* ditto */
   pdialog->happiness.citizens = NULL;           /* ditto */
+  pdialog->cma_editor = NULL;
   pdialog->map_canvas_store = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
 					     CITYMAP_WIDTH, CITYMAP_HEIGHT);
   pdialog->map_pixbuf_unscaled = NULL;
@@ -2984,14 +2985,19 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
                      get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
-  pdialog->cma_editor->pcity = new_pcity;
+  if (!client_is_observer()) {
+    fc_assert(pdialog->cma_editor != NULL);
+    pdialog->cma_editor->pcity = new_pcity;
+  }
 
   reset_city_worklist(pdialog->production.worklist, pdialog->pcity);
 
   can_slide = FALSE;
   center_tile_mapcanvas(pdialog->pcity->tile);
   can_slide = TRUE;
-  set_cityopt_values(pdialog);	/* need not be in real_city_dialog_refresh */
+  if (!client_is_observer()) {
+    set_cityopt_values(pdialog);  /* need not be in real_city_dialog_refresh */
+  }
 
   real_city_dialog_refresh(pdialog->pcity);
 
