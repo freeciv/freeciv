@@ -48,9 +48,8 @@
 #include "unitlist.h"
 #include "vision.h"
 
-/* scripting */
-#include "script_game.h"
-#include "script_types.h"
+/* common/scriptcore */
+#include "luascript_types.h"
 
 /* server */
 #include "barbarian.h"
@@ -73,6 +72,9 @@
 #include "advgoto.h"
 #include "autosettlers.h"
 #include "infracache.h"
+
+/* server/scripting */
+#include "script_server.h"
 
 #include "citytools.h"
 

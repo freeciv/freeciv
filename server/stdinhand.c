@@ -79,7 +79,7 @@
 #include "voting.h"
 
 /* server/scripting */
-#include "script_game.h"
+#include "script_server.h"
 #include "script_fcdb.h"
 
 #include "stdinhand.h"

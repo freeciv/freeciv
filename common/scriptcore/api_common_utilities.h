@@ -15,7 +15,7 @@
 #define FC__API_UTILITIES_H
 
 /* server/scripting */
-#include "script_types.h"
+#include "luascript_types.h"
 
 int api_utilities_random(int min, int max);
 

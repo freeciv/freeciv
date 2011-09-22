@@ -15,33 +15,26 @@
 #include <fc_config.h>
 #endif
 
-/* utility */
-#include "fcintl.h"
-
 /* server/scripting */
-#include "luascript.h"
-#include "script_game.h"
+#include "script_fcdb.h"
 
-#include "api_intl.h"
+#include "api_fcdb_base.h"
 
-const char *api_intl__(const char *untranslated) {
-  SCRIPT_CHECK_ARG_NIL(untranslated, 1, string, "");
-  return _(untranslated);
+/**************************************************************************
+  Return the value for the fcdb setting 'type'.
+**************************************************************************/
+const char *api_fcdb_option(enum fcdb_option_type type)
+{
+  SCRIPT_FCDB_CHECK_ARG(fcdb_option_type_is_valid(type), 1,
+                        "Invalid freeciv database option type.", NULL);
+
+  return fcdb_option_get(type);
 }
 
-const char *api_intl_N_(const char *untranslated) {
-  SCRIPT_CHECK_ARG_NIL(untranslated, 1, string, "");
-  return N_(untranslated);
+/**************************************************************************
+  Return the value for the fcdb setting 'type'.
+**************************************************************************/
+void api_fcdb_error(const char *err_msg)
+{
+  script_fcdb_error("%s", err_msg);
 }
-
-const char *api_intl_Q_(const char *untranslated) {
-  SCRIPT_CHECK_ARG_NIL(untranslated, 1, string, "");
-  return Q_(untranslated);
-}
-
-const char *api_intl_PL_(const char *singular, const char *plural, int n) {
-  SCRIPT_CHECK_ARG_NIL(singular, 1, string, "");
-  SCRIPT_CHECK_ARG_NIL(plural, 2, string, "");
-  return PL_(singular, plural, n);
-}
-

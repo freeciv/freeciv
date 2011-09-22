@@ -31,9 +31,8 @@
 #include "tech.h"
 #include "unit.h"
 
-/* scripting */
-#include "script_game.h"
-#include "script_types.h"
+/* common/scriptcore */
+#include "luascript_types.h"
 
 /* server */
 #include "citytools.h"
@@ -43,6 +42,9 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "unittools.h"
+
+/* server/scripting */
+#include "script_server.h"
 
 #include "techtools.h"
 

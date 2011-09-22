@@ -44,7 +44,7 @@
 
 /* server/scripting */
 #include "luascript.h"
-#include "script_types.h"
+#include "luascript_types.h"
 #include "tolua_common_a_gen.h"
 #include "tolua_common_z_gen.h"
 #ifdef HAVE_FCDB
@@ -274,7 +274,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
   }
 
   tolua_common_a_open(state);
-  tolua_auth_open(state);
+  tolua_fcdb_open(state);
 #ifdef HAVE_FCDB_MYSQL
   luaopen_luasql_mysql(state);
 #endif

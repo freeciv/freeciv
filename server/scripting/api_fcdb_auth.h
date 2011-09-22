@@ -15,7 +15,7 @@
 #define FC__API_AUTH_H
 
 /* server/scripting */
-#include "script_types.h"
+#include "luascript_types.h"
 
 const char *api_auth_get_username(Connection *pconn);
 

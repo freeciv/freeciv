@@ -22,9 +22,9 @@ $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
-$#include "api_actions.h"
-$#include "api_notify.h"
-$#include "script_signal.h"
+$#include "api_server_edit.h"
+$#include "api_server_notify.h"
+$#include "luascript_signal.h"
 
 $#include "commands.h"
 $#include "console.h"

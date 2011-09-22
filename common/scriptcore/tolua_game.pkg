@@ -22,15 +22,13 @@ $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
-$#include "api_actions.h"
-$#include "api_effects.h"
-$#include "api_find.h"
-$#include "api_methods.h"
-$#include "api_notify.h"
-$#include "api_utilities.h"
+$#include "api_common_utilities.h"
+$#include "api_game_effects.h"
+$#include "api_game_find.h"
+$#include "api_game_methods.h"
 
-$#include "script_game.h"
-$#include "script_types.h"
+$#include "luascript.h"
+$#include "luascript_types.h"
 
 /* Module Player. */
 module Player {

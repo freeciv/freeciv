@@ -39,8 +39,8 @@
 #include "tech.h"
 #include "unitlist.h"
 
-/* scripting */
-#include "script_game.h"
+/* common/scriptcore */
+#include "luascript_types.h"
 
 /* server */
 #include "aiiface.h"
@@ -64,6 +64,9 @@
 /* server/advisors */
 #include "advdata.h"
 #include "autosettlers.h"
+
+/* server/scripting */
+#include "script_server.h"
 
 struct rgbcolor;
 

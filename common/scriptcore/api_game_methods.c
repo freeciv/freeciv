@@ -27,11 +27,10 @@
 #include "unitlist.h"
 #include "unittype.h"
 
-/* server/scripting */
+/* common/scriptcore */
 #include "luascript.h"
-#include "script_game.h"
 
-#include "api_methods.h"
+#include "api_game_methods.h"
 
 
 /**************************************************************************

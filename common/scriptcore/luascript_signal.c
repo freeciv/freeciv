@@ -48,12 +48,11 @@
 #include "mem.h"
 #include "registry.h"
 
-/* scripting */
+/* common/scriptcore */
+#include "luascript_types.h"
 #include "luascript.h"
-#include "script_types.h"
-#include "script_game.h"
 
-#include "script_signal.h"
+#include "luascript_signal.h"
 
 struct signal;
 struct signal_callback;

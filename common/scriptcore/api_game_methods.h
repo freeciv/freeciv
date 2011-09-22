@@ -14,7 +14,7 @@
 #ifndef FC__API_METHODS_H
 #define FC__API_METHODS_H
 
-#include "script_types.h"
+#include "luascript_types.h"
 
 /* Building Type */
 bool api_methods_building_type_is_wonder(Building_Type *pbuilding);

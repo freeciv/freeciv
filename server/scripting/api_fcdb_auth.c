@@ -27,7 +27,7 @@
 /* server/scripting */
 #include "script_fcdb.h"
 
-#include "api_auth.h"
+#include "api_fcdb_auth.h"
 
 /**************************************************************************
   ...

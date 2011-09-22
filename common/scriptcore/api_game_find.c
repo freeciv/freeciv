@@ -19,11 +19,10 @@
 #include "idex.h"
 #include "movement.h"
 
-/* server/scripting */
+/* common/scriptcore */
+#include "api_game_find.h"
 #include "luascript.h"
-#include "script_game.h"
 
-#include "api_find.h"
 
 /**************************************************************************
   Return a player with the given player_id.

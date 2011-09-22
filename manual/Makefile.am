@@ -14,6 +14,7 @@ freeciv_manual_SOURCES = \
 # but also uses some files from the client.
 freeciv_manual_DEPENDENCIES = \
  $(top_builddir)/common/libfreeciv.la \
+ $(top_builddir)/common/scriptcore/libscriptcore.la \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/client/helpdata.lo \
  $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) $(LUASQL_AS_DEPENDENCY)
@@ -24,6 +25,7 @@ freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
  $(top_builddir)/common/libfreeciv.la $(INTLLIBS) \
+ $(top_builddir)/common/scriptcore/libscriptcore.la \
  $(MAPIMG_WAND_LIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(FCDB_MYSQL_LIBS) $(FCDB_POSTGRES_LIBS) $(FCDB_SQLITE3_LIBS) \

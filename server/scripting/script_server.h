@@ -11,15 +11,29 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__API_NOTIFY_H
-#define FC__API_NOTIFY_H
+#ifndef FC__SCRIPT_GAME_H
+#define FC__SCRIPT_GAME_H
 
-#include "script_types.h"
+/* utility */
+#include "support.h"            /* fc__attribute() */
 
-void api_notify_embassies_msg(Player *pplayer, Tile *ptile,
-			      int event, const char *message);
-void api_notify_event_msg(Player *pplayer, Tile *ptile, int event,
-		          const char *message);
+/* common/scripting */
+#include "luascript_signal.h"
+#include "luascript_types.h"
 
-#endif
+struct section_file;
+
+void script_remove_exported_object(void *object);
+
+/* script functions. */
+bool script_init(void);
+void script_free(void);
+bool script_do_string(const char *str);
+bool script_do_file(const char *filename);
+
+/* script state i/o. */
+void script_state_load(struct section_file *file);
+void script_state_save(struct section_file *file);
+
+#endif /* FC__SCRIPT_GAME_H */
 

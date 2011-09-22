@@ -55,12 +55,14 @@
 /* server */
 #include "citytools.h"
 #include "plrhand.h"
-#include "script_game.h"
 #include "settings.h"
 #include "srv_main.h"
 
 /* server/advisors */
 #include "advruleset.h"
+
+/* server/scripting */
+#include "script_server.h"
 
 #include "ruleset.h"
 

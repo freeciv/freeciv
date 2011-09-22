@@ -33,9 +33,8 @@
 #include "player.h"
 #include "unit.h"
 
-/* scripting */
-#include "script_game.h"
-#include "script_types.h"
+/* common/scriptcore */
+#include "luascript_types.h"
 
 /* server */
 #include "citytools.h"
@@ -48,6 +47,9 @@
 
 /* server/advisors */
 #include "autosettlers.h"
+
+/* server/scripting */
+#include "script_server.h"
 
 #include "diplhand.h"
 

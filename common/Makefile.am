@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = aicore
+SUBDIRS = aicore scriptcore
 
 lib_LTLIBRARIES = libfreeciv.la
 

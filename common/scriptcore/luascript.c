@@ -28,8 +28,8 @@
 #include "log.h"
 #include "registry.h"
 
-/* server/scripting */
-#include "script_types.h"
+/* common/scriptcore */
+#include "luascript_types.h"
 
 #include "luascript.h"
 

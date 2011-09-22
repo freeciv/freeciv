@@ -18,11 +18,10 @@
 /* common */
 #include "effects.h"
 
-/* server/scripting */
+/* common/scriptcore */
 #include "luascript.h"
-#include "script_game.h"
 
-#include "api_effects.h"
+#include "api_game_effects.h"
 
 /************************************************************************
   Returns the effect bonus in the world

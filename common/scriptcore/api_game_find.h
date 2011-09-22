@@ -14,7 +14,7 @@
 #ifndef FC__API_FIND_H
 #define FC__API_FIND_H
 
-#include "script_types.h"
+#include "luascript_types.h"
 
 /* Object find module. */
 Player *api_find_player(int player_id);

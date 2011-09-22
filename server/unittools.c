@@ -45,14 +45,16 @@
 #include "unitlist.h"
 #include "unittype.h"
 
+/* common/scriptcore */
+#include "luascript_signal.h"
+#include "luascript_types.h"
+
 /* aicore */
 #include "path_finding.h"
 #include "pf_tools.h"
 
 /* server/scripting */
-#include "script_game.h"
-#include "script_signal.h"
-#include "script_types.h"
+#include "script_server.h"
 
 /* server */
 #include "aiiface.h"

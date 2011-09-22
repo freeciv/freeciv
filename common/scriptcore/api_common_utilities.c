@@ -21,10 +21,7 @@
 #include "log.h"
 #include "rand.h"
 
-/* server */
-#include "stdinhand.h"
-
-#include "api_utilities.h"
+#include "api_common_utilities.h"
 
 /************************************************************************
   Generate random number.

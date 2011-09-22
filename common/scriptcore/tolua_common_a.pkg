@@ -22,11 +22,10 @@ $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
+$#include "api_common_intl.h"
+$#include "api_common_utilities.h"
 
-$#include "api_intl.h"
-$#include "api_utilities.h"
-
-$#include "script_types.h"
+$#include "luascript_types.h"
 
 /* Classes. */
 struct Player {

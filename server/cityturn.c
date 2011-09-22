@@ -44,9 +44,8 @@
 #include "unit.h"
 #include "unitlist.h"
 
-/* scripting */
-#include "script_game.h"
-#include "script_types.h"
+/* common/scriptcore */
+#include "luascript_types.h"
 
 /* server */
 #include "citizenshand.h"
@@ -68,6 +67,8 @@
 #include "advdata.h"
 #include "autosettlers.h"
 
+/* server/scripting */
+#include "script_server.h"
 
 /* Queue for pending city_refresh() */
 static struct city_list *city_refresh_queue = NULL;

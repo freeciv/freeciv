@@ -18,7 +18,7 @@
 /* server */
 #include "notify.h"
 
-#include "api_notify.h"
+#include "api_server_notify.h"
 
 
 /**************************************************************************

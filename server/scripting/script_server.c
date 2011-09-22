@@ -31,17 +31,16 @@
 #include "log.h"
 #include "registry.h"
 
-/* server/scripting */
-#include "api_specenum.h"
+/* common/scripting */
+#include "api_game_specenum.h"
 #include "luascript.h"
-#include "script_signal.h"
+#include "luascript_signal.h"
 #include "tolua_common_a_gen.h"
 #include "tolua_common_z_gen.h"
 #include "tolua_game_gen.h"
 #include "tolua_server_gen.h"
 
-#include "script_game.h"
-
+#include "script_server.h"
 
 /**************************************************************************
   Optional game script code (useful for scenarios).

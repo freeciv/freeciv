@@ -22,11 +22,11 @@ $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
-$#include "api_fcdb.h"
-$#include "api_auth.h"
+$#include "api_fcdb_auth.h"
+$#include "api_fcdb_base.h"
 
+$#include "luascript_types.h"
 $#include "script_fcdb.h"
-$#include "script_types.h"
 
 /* Authentication module. */
 module auth {

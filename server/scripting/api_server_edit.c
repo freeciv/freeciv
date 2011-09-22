@@ -22,6 +22,12 @@
 #include "research.h"
 #include "unittype.h"
 
+/* common/scriptcore */
+#include "api_game_find.h"
+#include "luascript.h"
+#include "luascript_signal.h"
+#include "luascript_types.h"
+
 /* server */
 #include "aiiface.h"
 #include "barbarian.h"
@@ -35,14 +41,7 @@
 #include "techtools.h"
 #include "unittools.h"
 
-/* server/scripting */
-#include "api_find.h"
-#include "luascript.h"
-#include "script_game.h"
-#include "script_signal.h"
-#include "script_types.h"
-
-#include "api_actions.h"
+#include "api_server_edit.h"
 
 
 /**************************************************************************

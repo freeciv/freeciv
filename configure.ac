@@ -1312,7 +1312,8 @@ AC_CONFIG_FILES([Makefile
           dependencies/luasql-2.1.1/Makefile
           dependencies/luasql-2.1.1/src/Makefile
 	  common/Makefile
-	  common/aicore/Makefile
+          common/aicore/Makefile
+          common/scriptcore/Makefile
 	  ai/Makefile
           ai/default/Makefile
           ai/stub/Makefile

@@ -83,9 +83,9 @@
 /* generator */
 #include "mapgen.h"
 
-/* server/scripting */
-#include "script_signal.h"
-#include "script_types.h"
+/* common/scripting */
+#include "luascript_signal.h"
+#include "luascript_types.h"
 
 /* server */
 #include "aiiface.h"

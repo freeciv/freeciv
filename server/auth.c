@@ -31,6 +31,9 @@
 #include "connection.h"
 #include "packets.h"
 
+/* common/scripting */
+#include "luascript_types.h"
+
 /* server */
 #include "connecthand.h"
 #include "fcdb.h"
@@ -40,7 +43,6 @@
 
 /* server/scripting */
 #include "script_fcdb.h"
-#include "script_types.h"
 
 #include "auth.h"
 

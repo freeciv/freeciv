@@ -21,7 +21,7 @@
 #include "support.h"            /* fc__attribute() */
 
 /* server/scripting */
-#include "script_types.h"
+#include "luascript_types.h"
 
 struct section_file;
 
