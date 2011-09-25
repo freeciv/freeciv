@@ -2374,7 +2374,12 @@ static bool disband_city(struct city *pcity)
   The food furplus is considered by an additional factor
 
     * the food surplus of the city
-      f = (1 + [city surplus food]/10)
+      f = (1 + [city surplus food; interval -10..20]/10)
+
+  The health factor is defined as:
+
+    * the health of the city
+      f = (100 - [city illness; tenth of %]/25)
 
   * if the city has at least one wonder a factor of 1.25 is added
   * for the capital an additional factor of 1.25 is used
@@ -2422,9 +2427,15 @@ static float city_migration_score(struct city *pcity)
   /* take science into account; normalized by 100 */
   score *= (1 + (1 - exp(- (float) MAX(0, pcity->surplus[O_SCIENCE]) / 100))
                 / 5);
-  /* take food into account; the values is clipped to values between -10 and
-   * 20 and normalize by 10 */
+  /* Take food into account; the food surplus is clipped to values between
+   * -10..20 and normalize by 10. Thus, the factor is between 0.9 and 1.2. */
   score *= (1 + (float) CLIP(-10, pcity->surplus[O_FOOD], 20) / 10 );
+
+  /* Reduce the score due to city illness (plague). The illness is given in
+   * tenth of percent (0..1000) and normalized by 25. Thus, this factor is
+   * between 0.6 (ill city) and 1.0 (health city). */
+  score *= (100 - (float)city_illness_calc(pcity, NULL, NULL, NULL, NULL)
+                  / 25);
 
   if (has_wonder) {
     /* people like wonders */

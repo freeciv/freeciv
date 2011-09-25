@@ -2663,7 +2663,8 @@ int city_illness_calc(const struct city *pcity, int *ill_base,
   int illness_size = 0, illness_trade = 0, illness_pollution = 0;
   int illness_base, illness_percent;
 
-  if (city_size_get(pcity) > game.info.illness_min_size) {
+  if (game.info.illness_on
+      && city_size_get(pcity) > game.info.illness_min_size) {
     /* offset the city size by game.info.illness_min_size */
     int use_size = city_size_get(pcity) - game.info.illness_min_size;
 
