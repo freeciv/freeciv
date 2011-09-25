@@ -12,6 +12,7 @@ esac], [enable_debug=some])
 dnl -g is added by AC_PROG_CC if the compiler understands it
 if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   AC_DEFINE([DEBUG], [1], [Extra debugging support])
+  AC_DEFINE([LUA_USE_APICHECK], [1], [Lua Api checks])
   FC_C_FLAGS([-Werror], [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror], [], [EXTRA_DEBUG_CXXFLAGS])
