@@ -750,7 +750,7 @@ const char *science_dialog_text(void)
     int total = total_bulbs_required(client_player());
 
     if (perturn > 0) {
-      int turns = MAX(1, ceil((double) (total - done) / perturn));
+      int turns = MAX(1, ceil((double)total) / perturn);
 
       astr_add(&str, PL_("Progress: %d turn/advance",
                          "Progress: %d turns/advance",
