@@ -1285,6 +1285,12 @@ void start_game(void)
   /* Prevent problems with commands that only make sense in pregame. */
   clear_all_votes();
 
+  /* This value defines if the player data should be saved for a scenario. It
+   * is only FALSE if the editor was used to set it to this value. For
+   * such scenarios it has to be resetted at game start so that player data
+   * is saved. */
+  game.scenario.players = TRUE;
+
   force_end_of_sniff = TRUE;
   /* There's no stateful packet set to client until srv_ready(). */
 }
