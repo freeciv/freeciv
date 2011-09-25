@@ -1,0 +1,98 @@
+===========================================================================
+ Freeciv Database (fcdb)
+===========================================================================
+
+Freeciv allows the authentication of users against a database backend. To
+support different databases, this module is written in lua using luasql. The
+supported backends are: mysql, postgres and sqlite3.
+
+To use the Freeciv database, the server has to be configured with the option
+'--enable-fcdb=all'. After that, the database backend is activated with the
+command line option '--Database FILE', where FILE is a lua script containing
+the needed functions (included for mysql: ./data/database.lua). Authentication
+requires additionally the option '--auth'.
+
+================================
+ Table layout
+================================
+
+The default table layout is listed below. If it is changed, the function in
+the lua file have to be adapted.
+
+CREATE TABLE fcdb_auth (
+  id int(11) NOT NULL auto_increment,
+  name varchar(48) default NULL,
+  password varchar(32) default NULL,
+  email varchar(128) default NULL,
+  createtime int(11) default NULL,
+  accesstime int(11) default NULL,
+  address varchar(255) default NULL,
+  createaddress varchar(15) default NULL,
+  logincount int(11) default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY name (name)
+) TYPE=MyISAM;
+
+CREATE TABLE fcdb_log (
+  id int(11) NOT NULL auto_increment,
+  name varchar(32) default NULL,
+  logintime int(11) default NULL,
+  address varchar(255) default NULL,
+  succeed enum('S','F') default 'S',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+================================
+ Lua script database.lua
+================================
+
+Freeciv expects the following lua functions to exists in the lua file:
+
+  -- load user data
+  function user_load(conn)
+  -- save an user to the database
+  function user_save(conn)
+  -- log the session
+  function user_log(conn, success)
+
+  -- test and initialise the database connection
+  function database_init()
+  -- free the database connection
+  function database_free()
+
+Where 'conn' is a connection to the client which request access.
+
+The following lua functions are provided by freeciv:
+
+  const char *auth.get_username(Connection *pconn)
+  const char *auth.get_ipaddr(Connection *pconn)
+  bool auth.set_password(Connection *pconn, const char *password)
+  const char *auth.get_password(Connection *pconn)
+
+  const char *fcdb.option(int type)
+
+With type one of
+
+  fcdb.param.HOST
+  fcdb.param.USER
+  fcdb.param.PORT
+  fcdb.param.PASSWORD
+  fcdb.param.DATABASE
+  fcdb.param.TABLE_USER
+  fcdb.param.TABLE_LOG
+
+The return status of the lua functions user_load(), user_save() and user_log()
+should be one of
+
+  fcdb.status.ERROR
+  fcdb.status.TRUE
+  fcdb.status.FALSE
+
+indicating an error, a positive or a negative result.
+
+================================
+ TODO
+================================
+
+* Lua scripts for postgres and sqlite
+* Improve this README
