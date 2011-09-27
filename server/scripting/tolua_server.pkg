@@ -43,6 +43,11 @@ module server {
     @ started (lua_State *L);
   int api_server_player_civilization_score
     @ civilization_score (lua_State *L, Player *pplayer);
+
+  module setting {
+    const char *api_server_setting_get
+      @ get (lua_State *L, const char *setting_name);
+  }
 }
 
 /* Notify module. */

@@ -20,6 +20,7 @@
 
 /* server */
 #include "score.h"
+#include "settings.h"
 #include "srv_main.h"
 
 /* server/scripting */
@@ -56,4 +57,24 @@ void api_server_save(lua_State *L, const char *filename)
   LUASCRIPT_CHECK_STATE(L);
 
   save_game(filename, "User request (Lua)", FALSE);
+}
+
+/*****************************************************************************
+  Return the formated value of the setting or NULL if no such setting exists,
+*****************************************************************************/
+const char *api_server_setting_get(lua_State *L, const char *setting_name)
+{
+  struct setting *pset;
+  static char buf[512];
+
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, setting_name, 2, API_TYPE_STRING, NULL);
+
+  pset = setting_by_name(setting_name);
+
+  if (!pset) {
+    return NULL;
+  }
+
+  return setting_value_name(pset, FALSE, buf, sizeof(buf));
 }

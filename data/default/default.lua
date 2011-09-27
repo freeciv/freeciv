@@ -124,7 +124,7 @@ function default_hut_enter_callback(unit)
     if not default_hut_get_mercenaries(unit) then
       default_hut_get_gold(unit, 25)
     end
-  elseif chance == 10 then
+  elseif chance == 10 and server.setting.get("barbarians") ~= "DISABLED" then
     alive = default_hut_get_barbarians(unit)
   elseif chance == 11 then
     default_hut_get_city(unit)

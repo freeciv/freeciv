@@ -26,4 +26,6 @@ bool api_server_was_started(lua_State *L);
 
 void api_server_save(lua_State *L, const char *filename);
 
+const char *api_server_setting_get(lua_State *L, const char *setting_name);
+
 #endif /* FC__API_SERVER_BASE_H */
