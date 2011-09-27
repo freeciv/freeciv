@@ -37,3 +37,14 @@ int api_server_player_civilization_score(lua_State *L, Player *pplayer)
 
   return get_civ_score(pplayer);
 }
+
+/*****************************************************************************
+  Returns TRUE if the game was started.
+*****************************************************************************/
+bool api_server_was_started(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  return game_was_started();
+}
+

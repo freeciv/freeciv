@@ -22,4 +22,6 @@ struct lua_State;
 /* Additional methods on the server. */
 int api_server_player_civilization_score(lua_State *L, Player *pplayer);
 
+bool api_server_was_started(lua_State *L);
+
 #endif /* FC__API_SERVER_BASE_H */

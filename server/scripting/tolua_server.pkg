@@ -37,6 +37,8 @@ $#include "script_server.h"
 
 /* Server module. */
 module server {
+  bool api_server_was_started
+    @ started (lua_State *L);
   int api_server_player_civilization_score
     @ civilization_score (lua_State *L, Player *pplayer);
 }
