@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,31 +9,35 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
-#ifndef FC__SCRIPT_GAME_H
-#define FC__SCRIPT_GAME_H
+#ifndef FC__SCRIPT_SERVER_H
+#define FC__SCRIPT_SERVER_H
 
 /* utility */
-#include "support.h"            /* fc__attribute() */
+#include "support.h"
 
-/* common/scripting */
-#include "luascript_signal.h"
+/* common/scriptcore */
 #include "luascript_types.h"
 
 struct section_file;
+struct connection;
 
-void script_remove_exported_object(void *object);
 
-/* script functions. */
-bool script_init(void);
-void script_free(void);
-bool script_do_string(const char *str);
-bool script_do_file(const char *filename);
+void script_server_remove_exported_object(void *object);
 
-/* script state i/o. */
-void script_state_load(struct section_file *file);
-void script_state_save(struct section_file *file);
+/* Script functions. */
+bool script_server_init(void);
+void script_server_free(void);
+bool script_server_do_string(struct connection *caller, const char *str);
+bool script_server_do_file(struct connection *caller, const char *filename);
 
-#endif /* FC__SCRIPT_GAME_H */
+/* Script state i/o. */
+void script_server_state_load(struct section_file *file);
+void script_server_state_save(struct section_file *file);
+
+/* Signals. */
+void script_server_signal_emit(const char *signal_name, int nargs, ...);
+
+#endif /* FC__SCRIPT_SERVER_H */
 

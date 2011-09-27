@@ -1981,7 +1981,7 @@ static void sg_load_script(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  script_state_load(loading->file);
+  script_server_state_load(loading->file);
 }
 
 /****************************************************************************
@@ -1992,7 +1992,7 @@ static void sg_save_script(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  script_state_save(saving->file);
+  script_server_state_save(saving->file);
 }
 
 /* =======================================================================

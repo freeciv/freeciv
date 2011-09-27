@@ -259,7 +259,7 @@ static void openload_script_file(const char *whichset)
   const char *dfilename = valid_ruleset_filename(game.server.rulesetdir,
                                                  whichset, SCRIPT_SUFFIX);
 
-  if (!script_do_file(dfilename)) {
+  if (!script_server_do_file(NULL, dfilename)) {
     ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset script.",
                   dfilename);
   }
@@ -4135,9 +4135,9 @@ void load_rulesets(void)
     terrain_sections = NULL;
   }
 
-  script_free();
+  script_server_free();
 
-  script_init();
+  script_server_init();
   openload_script_file("default");
   openload_script_file("script");
 

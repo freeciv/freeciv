@@ -83,8 +83,8 @@
 /* generator */
 #include "mapgen.h"
 
-/* common/scripting */
-#include "luascript_signal.h"
+/* server/scripting */
+#include "script_server.h"
 #include "luascript_types.h"
 
 /* server */
@@ -847,9 +847,9 @@ static void begin_turn(bool is_new_turn)
   send_game_info(NULL);
 
   if (is_new_turn) {
-    script_signal_emit("turn_started", 2,
-		       API_TYPE_INT, game.info.turn,
-		       API_TYPE_INT, game.info.year);
+    script_server_signal_emit("turn_started", 2,
+                              API_TYPE_INT, game.info.turn,
+                              API_TYPE_INT, game.info.year);
   }
 
   if (is_new_turn) {

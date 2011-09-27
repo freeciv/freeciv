@@ -1239,7 +1239,7 @@ void server_remove_player(struct player *pplayer)
     connection_detach(conn_list_get(pplayer->connections, 0));
   }
 
-  script_remove_exported_object(pplayer);
+  script_server_remove_exported_object(pplayer);
   /* Clear data saved in the other player structs. */
   players_iterate(aplayer) {
     BV_CLR(aplayer->real_embassy, player_index(pplayer));

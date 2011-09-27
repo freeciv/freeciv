@@ -196,10 +196,10 @@ static void signals_create(void)
 /**************************************************************************
   Invoke all the callback functions attached to a given signal.
 **************************************************************************/
-void script_signal_emit(const char *signal_name, int nargs, ...)
+void script_signal_emit_valist(const char *signal_name, int nargs,
+                               va_list args)
 {
   struct signal *psignal;
-  va_list args;
 
   if (signal_hash_lookup(signals, signal_name, &psignal)) {
     if (psignal->nargs != nargs) {
@@ -207,13 +207,15 @@ void script_signal_emit(const char *signal_name, int nargs, ...)
                 signal_name, psignal->nargs, nargs);
     } else {
       signal_callback_list_iterate(psignal->callbacks, pcallback) {
-        va_start(args, nargs);
+        va_list args_cb;
+
+        va_copy(args_cb, args);
         if (script_callback_invoke(pcallback->name, nargs, psignal->arg_types,
-                                   args)) {
-          va_end(args);
+                                   args_cb)) {
+          va_end(args_cb);
           break;
         }
-        va_end(args);
+        va_end(args_cb);
       } signal_callback_list_iterate_end;
     }
   } else {

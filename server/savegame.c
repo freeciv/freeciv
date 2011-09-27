@@ -4345,7 +4345,7 @@ void game_load(struct section_file *file)
 
   game_load_internal(file);
   /* load script state last so we have access to all game data */
-  script_state_load(file);
+  script_server_state_load(file);
 
   send_tile_suppression(was_send_tile_suppressed);
   send_city_suppression(was_send_city_suppressed);
@@ -5790,7 +5790,7 @@ void game_save(struct section_file *file, const char *save_reason,
     map_save(file, save_players);
   }
   
-  script_state_save(file);
+  script_server_state_save(file);
 
   if (!game_was_started()) {
     return; /* want to save scenarios as well */

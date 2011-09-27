@@ -4535,7 +4535,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
     return TRUE;
   }
 
-  return script_do_string(arg);
+  return script_server_do_string(caller, arg);
 }
 
 /* Define the possible arguments to the delegation command */
@@ -4969,7 +4969,7 @@ static bool luafile_command(struct connection *caller, char *arg, bool check)
 
   if (is_reg_file_for_access(real_filename, FALSE)
       && (script_file = fc_fopen(real_filename, "r"))) {
-    return script_do_file(real_filename);
+    return script_server_do_file(caller, real_filename);
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
               _("Cannot read Freeciv script '%s'."), real_filename);

@@ -1505,7 +1505,7 @@ static void server_remove_unit(struct unit *punit)
     player_status_add(unit_owner(punit), PSTATUS_DYING);
   }
 
-  script_remove_exported_object(punit);
+  script_server_remove_exported_object(punit);
   game_remove_unit(punit);
   punit = NULL;
 
@@ -1588,10 +1588,10 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
     } unit_list_iterate_end;
   }
 
-  script_signal_emit("unit_lost", 3,
-                     API_TYPE_UNIT, punit,
-                     API_TYPE_PLAYER, pplayer,
-                     API_TYPE_STRING, unit_loss_reason_name(reason));
+  script_server_signal_emit("unit_lost", 3,
+                            API_TYPE_UNIT, punit,
+                            API_TYPE_PLAYER, pplayer,
+                            API_TYPE_STRING, unit_loss_reason_name(reason));
 
   if (unit_alive(saved_id)) {
     /* Now remove the unit. */
@@ -2497,7 +2497,8 @@ static void unit_enter_hut(struct unit *punit)
     return;
   }
 
-  script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
+  script_server_signal_emit("hut_enter", 1,
+                            API_TYPE_UNIT, punit);
 
   send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
   return;
@@ -3112,10 +3113,10 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
     /* FIXME: Should signal emit be after sentried units have been
      *        waken up in case script causes unit death? */
-    script_signal_emit("unit_moved", 3,
-                       API_TYPE_UNIT, punit,
-                       API_TYPE_TILE, psrctile,
-                       API_TYPE_TILE, pdesttile);
+    script_server_signal_emit("unit_moved", 3,
+                              API_TYPE_UNIT, punit,
+                              API_TYPE_TILE, psrctile,
+                              API_TYPE_TILE, pdesttile);
     unit_lives = unit_alive(saved_id);
 
     if (!unit_lives) {

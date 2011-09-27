@@ -1359,7 +1359,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   sanity_check_city(pcity);
 
-  script_signal_emit("city_built", 1, API_TYPE_CITY, pcity);
+  script_server_signal_emit("city_built", 1,
+                            API_TYPE_CITY, pcity);
 }
 
 /**************************************************************************
@@ -1477,7 +1478,7 @@ void remove_city(struct city *pcity)
 
   old_vision = pcity->server.vision;
   pcity->server.vision = NULL;
-  script_remove_exported_object(pcity);
+  script_server_remove_exported_object(pcity);
   adv_city_free(pcity);
   game_remove_city(pcity);
 
@@ -1589,10 +1590,10 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
                   _("%s has been destroyed by %s."), 
                   city_tile_link(pcity), player_name(pplayer));
-    script_signal_emit("city_destroyed", 3,
-                       API_TYPE_CITY, pcity,
-                       API_TYPE_PLAYER, cplayer,
-                       API_TYPE_PLAYER, pplayer);
+    script_server_signal_emit("city_destroyed", 3,
+                              API_TYPE_CITY, pcity,
+                              API_TYPE_PLAYER, cplayer,
+                              API_TYPE_PLAYER, pplayer);
 
     /* We cant't be sure of city existence after running some script */
     if (city_exist(saved_id)) {
@@ -1693,10 +1694,10 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     (void) civil_war(cplayer);
   }
 
-  script_signal_emit("city_lost", 3,
-                     API_TYPE_CITY, pcity,
-                     API_TYPE_PLAYER, cplayer,
-                     API_TYPE_PLAYER, pplayer);
+  script_server_signal_emit("city_lost", 3,
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_PLAYER, cplayer,
+                            API_TYPE_PLAYER, pplayer);
 }
 
 /**************************************************************************

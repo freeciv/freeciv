@@ -41,6 +41,9 @@
 #include "techtools.h"
 #include "unittools.h"
 
+/* server/scripting */
+#include "script_server.h"
+
 #include "api_server_edit.h"
 
 
@@ -239,10 +242,10 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
     do_free_cost(pplayer, id);
     found_new_tech(pplayer, id, FALSE, TRUE);
     result = advance_by_number(id);
-    script_signal_emit("tech_researched", 3,
-                       API_TYPE_TECH_TYPE, result,
-                       API_TYPE_PLAYER, pplayer,
-                       API_TYPE_STRING, reason);
+    script_server_signal_emit("tech_researched", 3,
+                              API_TYPE_TECH_TYPE, result,
+                              API_TYPE_PLAYER, pplayer,
+                              API_TYPE_STRING, reason);
     return result;
   } else {
     return advance_by_number(A_NONE);

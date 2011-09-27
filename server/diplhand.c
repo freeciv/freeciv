@@ -431,11 +431,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                            advance_name_for_player(pdest, pclause->value),
                            nation_plural_for_player(pgiver));
 
-          script_signal_emit("tech_researched", 3,
-                             API_TYPE_TECH_TYPE,
-                             advance_by_number(pclause->value),
-                             API_TYPE_PLAYER, pdest,
-                             API_TYPE_STRING, "traded");
+          script_server_signal_emit("tech_researched", 3,
+                                    API_TYPE_TECH_TYPE,
+                                    advance_by_number(pclause->value),
+                                    API_TYPE_PLAYER, pdest,
+                                    API_TYPE_STRING, "traded");
           do_dipl_cost(pdest, pclause->value);
           found_new_tech(pdest, pclause->value, FALSE, TRUE);
         }

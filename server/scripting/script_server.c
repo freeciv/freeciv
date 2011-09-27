@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -29,84 +29,91 @@
 /* utility */
 #include "astring.h"
 #include "log.h"
+#include "mem.h"
 #include "registry.h"
 
-/* common/scripting */
+/* common/scriptcore */
 #include "api_game_specenum.h"
 #include "luascript.h"
 #include "luascript_signal.h"
 #include "tolua_common_a_gen.h"
 #include "tolua_common_z_gen.h"
 #include "tolua_game_gen.h"
+
+/* server */
+#include "console.h"
+#include "stdinhand.h"
+
+/* server/scripting */
 #include "tolua_server_gen.h"
 
 #include "script_server.h"
 
-/**************************************************************************
+/*****************************************************************************
   Optional game script code (useful for scenarios).
-**************************************************************************/
-static char *script_code = NULL;
+*****************************************************************************/
+static char *script_server_code = NULL;
 
-static void script_vars_init(void);
-static void script_vars_free(void);
-static void script_vars_load(struct section_file *file);
-static void script_vars_save(struct section_file *file);
-static void script_code_init(void);
-static void script_code_free(void);
-static void script_code_load(struct section_file *file);
-static void script_code_save(struct section_file *file);
+static void script_server_vars_init(void);
+static void script_server_vars_free(void);
+static void script_server_vars_load(struct section_file *file);
+static void script_server_vars_save(struct section_file *file);
+static void script_server_code_init(void);
+static void script_server_code_free(void);
+static void script_server_code_load(struct section_file *file);
+static void script_server_code_save(struct section_file *file);
 
-/**************************************************************************
+/*****************************************************************************
   Parse and execute the script in str
-**************************************************************************/
-bool script_do_string(const char *str)
+*****************************************************************************/
+bool script_server_do_string(struct connection *caller, const char *str)
 {
   lua_State *state = state_lua;
   int status = luascript_do_string(state, str, "cmd");
   return (status == 0);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Parse and execute the script at filename.
-**************************************************************************/
-bool script_do_file(const char *filename)
+*****************************************************************************/
+bool script_server_do_file(struct connection *caller, const char *filename)
 {
   lua_State *state = state_lua;
   int status = luascript_do_file(state, filename);
   return (status == 0);
 }
 
-/****************************************************************************
+/*****************************************************************************
   Mark any, if exported, full userdata representing 'object' in
   the current script state as 'Nonexistent'.
   This changes the type of the lua variable.
-****************************************************************************/
-void script_remove_exported_object(void *object)
+*****************************************************************************/
+void script_server_remove_exported_object(void *object)
 {
   lua_State *state = state_lua;
   luascript_remove_exported_object(state, object);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Initialize the game script variables.
-**************************************************************************/
-static void script_vars_init(void)
+*****************************************************************************/
+static void script_server_vars_init(void)
 {
   /* nothing */
 }
 
-/**************************************************************************
+/*****************************************************************************
   Free the game script variables.
-**************************************************************************/
-static void script_vars_free(void)
+*****************************************************************************/
+static void script_server_vars_free(void)
 {
   /* nothing */
 }
 
-/**************************************************************************
+/*****************************************************************************
   Load the game script variables in file.
-**************************************************************************/
-static void script_vars_load(struct section_file *file)
+*****************************************************************************/
+static void script_server_vars_load(struct section_file *file)
 {
   lua_State *state = state_lua;
   if (state) {
@@ -118,10 +125,10 @@ static void script_vars_load(struct section_file *file)
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Save the game script variables to file.
-**************************************************************************/
-static void script_vars_save(struct section_file *file)
+*****************************************************************************/
+static void script_server_vars_save(struct section_file *file)
 {
   lua_State *state = state_lua;
   if (state) {
@@ -142,55 +149,55 @@ static void script_vars_save(struct section_file *file)
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Initialize the optional game script code (useful for scenarios).
-**************************************************************************/
-static void script_code_init(void)
+*****************************************************************************/
+static void script_server_code_init(void)
 {
-  script_code = NULL;
+  script_server_code = NULL;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Free the optional game script code (useful for scenarios).
-**************************************************************************/
-static void script_code_free(void)
+*****************************************************************************/
+static void script_server_code_free(void)
 {
-  if (script_code) {
-    free(script_code);
-    script_code = NULL;
+  if (script_server_code) {
+    free(script_server_code);
+    script_server_code = NULL;
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Load the optional game script code from file (useful for scenarios).
-**************************************************************************/
-static void script_code_load(struct section_file *file)
+*****************************************************************************/
+static void script_server_code_load(struct section_file *file)
 {
   lua_State *state = state_lua;
-  if (!script_code) {
+  if (!script_server_code) {
     const char *code;
     const char *section = "script.code";
 
     code = secfile_lookup_str_default(file, "", "%s", section);
-    script_code = fc_strdup(code);
-    luascript_do_string(state, script_code, section);
+    script_server_code = fc_strdup(code);
+    luascript_do_string(state, script_server_code, section);
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Save the optional game script code to file (useful for scenarios).
-**************************************************************************/
-static void script_code_save(struct section_file *file)
+*****************************************************************************/
+static void script_server_code_save(struct section_file *file)
 {
-  if (script_code) {
-    secfile_insert_str_noescape(file, script_code, "script.code");
+  if (script_server_code) {
+    secfile_insert_str_noescape(file, script_server_code, "script.code");
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Initialize the scripting state.
-**************************************************************************/
-bool script_init(void)
+*****************************************************************************/
+bool script_server_init(void)
 {
   lua_State *state = state_lua;
   if (state != NULL) {
@@ -208,8 +215,8 @@ bool script_init(void)
   tolua_server_open(state);
   tolua_common_z_open(state);
 
-  script_code_init();
-  script_vars_init();
+  script_server_code_init();
+  script_server_vars_init();
 
   script_signals_init();
 
@@ -219,15 +226,15 @@ bool script_init(void)
   return TRUE;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Free the scripting data.
-**************************************************************************/
-void script_free(void)
+*****************************************************************************/
+void script_server_free(void)
 {
   lua_State *state = state_lua;
   if (state) {
-    script_code_free();
-    script_vars_free();
+    script_server_code_free();
+    script_server_vars_free();
 
     script_signals_free();
 
@@ -237,23 +244,35 @@ void script_free(void)
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Load the scripting state from file.
-**************************************************************************/
-void script_state_load(struct section_file *file)
+*****************************************************************************/
+void script_server_state_load(struct section_file *file)
 {
-  script_code_load(file);
+  script_server_code_load(file);
 
   /* Variables must be loaded after code is loaded and executed,
    * so we restore their saved state properly */
-  script_vars_load(file);
+  script_server_vars_load(file);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Save the scripting state to file.
-**************************************************************************/
-void script_state_save(struct section_file *file)
+*****************************************************************************/
+void script_server_state_save(struct section_file *file)
 {
-  script_code_save(file);
-  script_vars_save(file);
+  script_server_code_save(file);
+  script_server_vars_save(file);
+}
+
+/*****************************************************************************
+  Invoke all the callback functions attached to a given signal.
+*****************************************************************************/
+void script_server_signal_emit(const char *signal_name, int nargs, ...)
+{
+  va_list args;
+
+  va_start(args, nargs);
+  script_signal_emit_valist(signal_name, nargs, args);
+  va_end(args);
 }
