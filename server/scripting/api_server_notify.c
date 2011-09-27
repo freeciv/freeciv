@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,11 +9,17 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
+
+/* common */
+#include "featured_text.h"
+
+/* common/scriptcore */
+#include "luascript.h"
 
 /* server */
 #include "notify.h"
@@ -21,21 +27,25 @@
 #include "api_server_notify.h"
 
 
-/**************************************************************************
+/*****************************************************************************
   Notify players which have embassies with pplayer with the given message.
-**************************************************************************/
-void api_notify_embassies_msg(Player *pplayer, Tile *ptile, int event,
-			      const char *message)
+*****************************************************************************/
+void api_notify_embassies_msg(lua_State *L, Player *pplayer, Tile *ptile,
+                              int event, const char *message)
 {
+  LUASCRIPT_CHECK_STATE(L);
+
   notify_embassies(pplayer, NULL, ptile, event, ftc_any, "%s", message);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Notify pplayer of a complex event.
-**************************************************************************/
-void api_notify_event_msg(Player *pplayer, Tile *ptile, int event,
-		     	  const char *message)
+*****************************************************************************/
+void api_notify_event_msg(lua_State *L, Player *pplayer, Tile *ptile,
+                          int event, const char *message)
 {
+  LUASCRIPT_CHECK_STATE(L);
+
   notify_player(pplayer, ptile, event, ftc_any, "%s", message);
 }
 

@@ -1,4 +1,4 @@
-/****************************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,105 +9,47 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-****************************************************************************/
+*****************************************************************************/
 
-/****************************************************************************
+/*****************************************************************************
   ADVERTISEMENT: do not attempt to change the name of the API functions.
   They *must* be compatible between the minor Freeciv versions within the
   same major version. If you really like to change a function name, be sure
   to keep also the old one running.
-****************************************************************************/
+*****************************************************************************/
 
 $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
+/* common/scriptcore */
 $#include "api_common_intl.h"
 $#include "api_common_utilities.h"
-
+$#include "luascript.h"
 $#include "luascript_types.h"
 
 /* Classes. */
-struct Player {
-  const char *name;
-  Nation_Type *nation;
-  bool ai_controlled;
-};
-
-struct City {
-  const char *name;
-  Player *owner;
-  Player *original;
-  Tile *tile; /* Depreciated! Use city:tile() to access the city tile. */
-  int size;   /* Depreciated! Use city:size() to access the city size. */
-
-  const int id;
-};
-
-struct Connection {
-  const int id;
-};
-
-struct Unit {
-  Unit_Type *utype;
-  Player *owner;
-
-  /* This used to be @ homecity_id, but it does not work with toluaxx. */
-  int homecity;
-  Tile *tile; /* Depreciated! Use unit:tile() to access the unit tile. */
-
-  const int id;
-};
-
-struct Tile {
-  Terrain *terrain;
-
-  const int index @ id;
-};
-
-struct Government {
-  const int item_number @ id;
-};
-
-struct Nation_Type {
-  const int item_number @ id;
-};
-
-struct Building_Type {
-  int build_cost;
-
-  const int item_number @ id;
-};
-
-struct Unit_Type {
-  int build_cost;
-
-  const int item_number @ id;
-};
-
-struct Tech_Type {
-  const int item_number @ id;
-};
-
-struct Terrain {
-  const int item_number @ id;
-};
-
-struct Unit_List_Link {
-};
-
-struct City_List_Link {
-};
-
 struct Nonexistent {
 };
 
+$[
+
+-- Nonexistent methods.
+function Nonexistent:exists()
+  return false
+end
+
+$]
+
 /* Intl module. */
-const char *api_intl__ @ _ (const char *untranslated);
-const char *api_intl_N_ @ N_ (const char *untranslated);
-const char *api_intl_Q_ @ Q_ (const char *untranslated);
-const char *api_intl_PL_ @ PL_ (const char *singular, const char *plural,
-                                int n);
+const char *api_intl__
+  @ _ (lua_State *L, const char *untranslated);
+const char *api_intl_N_
+  @ N_ (lua_State *L, const char *untranslated);
+const char *api_intl_Q_
+  @ Q_ (lua_State *L, const char *untranslated);
+const char *api_intl_PL_
+  @ PL_ (lua_State *L, const char *singular, const char *plural, int n);
 
 /* Log module. */
 module log {
@@ -121,7 +63,8 @@ module log {
     };
   }
 
-  void api_utilities_log_base @ base (int log_level, const char *message);
+  void api_utilities_log_base
+    @ base (lua_State *L, int log_level, const char *message);
 }
 
 $[
@@ -147,10 +90,10 @@ function log.debug(...)
   log.base(log.level.DEBUG, string.format(unpack(arg)))
 end
 
--- **************************************************************************
+-- ***************************************************************************
 -- Old logging functions
 -- Deprecated. New logging functions are listed above.
--- **************************************************************************
+-- ***************************************************************************
 function error_log(msg)
   log.error(msg)
 end
@@ -162,13 +105,44 @@ end
 $]
 
 /* Utilities module. */
-int api_utilities_random @ random (int min, int max);
+int api_utilities_random
+  @ random (lua_State *L, int min, int max);
 
 $[
+-- ***************************************************************************
+-- Dump the state of user scalar variables to a Lua code string.
+-- ***************************************************************************
+function _freeciv_state_dump()
+  local res = ''
 
--- Nonexistent methods.
-function Nonexistent:exists()
-  return false
+  for k, v in pairs(_G) do
+    if k == '_VERSION' then
+      -- ignore _VERSION variable.
+    elseif type(v) == 'boolean'
+        or type(v) == 'number' then
+      local rvalue = tostring(v)
+
+      res = res .. k .. '=' .. rvalue .. '\n'
+    elseif type(v) == 'string' then
+      local rvalue = string.format('%q', v)
+
+      res = res .. k .. '=' .. rvalue .. '\n'
+    elseif type(v) == 'userdata' then
+      local method = string.lower(tolua.type(v))
+
+      res = res .. k .. '=find.' .. method
+      if method == 'city' or method == 'unit' then
+        res = res .. '(nil,' .. v.id .. ')'
+      elseif v.id then
+        res = res .. '(' .. v.id .. ')'
+      else
+        res = res .. '()'
+      end
+      res = res .. '\n'
+    end
+  end
+
+  return res
 end
 
 $]

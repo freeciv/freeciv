@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,46 +9,54 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
-#ifndef FC__API_ACTIONS_H
-#define FC__API_ACTIONS_H
+#ifndef FC__API_SERVER_EDIT_H
+#define FC__API_SERVER_EDIT_H
 
+/* common/scriptcore */
 #include "luascript_types.h"
 
-bool api_actions_unleash_barbarians(Tile *ptile);
-void api_actions_place_partisans(Tile *ptile, Player *pplayer,
-                                 int count, int sq_radius);
+struct lua_State;
+
+/* type of clima change */
 enum climate_change_type {
   CLIMATE_CHANGE_GLOBAL_WARMING,
   CLIMATE_CHANGE_NUCLEAR_WINTER
 };
-void api_actions_climate_change(enum climate_change_type type, int effect);
-Player *api_actions_civil_war(Player *pplayer, int probability);
-Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
-                              int veteran_level, City *homecity,
-                              int moves_left);
-Unit *api_actions_create_unit_full(Player *pplayer, Tile *ptile,
-                                   Unit_Type *ptype,
-                                   int veteran_level, City *homecity,
-                                   int moves_left, int hp_left,
-                                   Unit *ptransport);
-void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name);
-Player *api_actions_create_player(const char *username,
-                                  Nation_Type *pnation);
-void api_actions_change_gold(Player *pplayer, int amount);
-Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
-                                       const char *reason);
 
-void api_actions_create_base(Tile *ptile, const char *name,
-                             struct player *pplayer);
+bool api_edit_unleash_barbarians(lua_State *L, Tile *ptile);
+void api_edit_place_partisans(lua_State *L, Tile *ptile, Player *pplayer,
+                              int count, int sq_radius);
+Unit *api_edit_create_unit(lua_State *L, Player *pplayer, Tile *ptile,
+                           Unit_Type *ptype, int veteran_level,
+                           City *homecity, int moves_left);
+Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
+                                Unit_Type *ptype, int veteran_level,
+                                City *homecity, int moves_left, int hp_left,
+                                Unit *ptransport);
+bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest);
 
-void api_utilities_cmd_reply(int cmdid, struct connection *caller,
-                             int rfc_status, const char *msg);
+void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir);
 
-int api_methods_player_civilization_score(Player *pplayer);
-void api_methods_player_victory(Player *pplayer);
-bool api_methods_unit_teleport(Unit *punit, Tile *dest);
-void api_methods_unit_turn(Unit *punit, Direction dir);
+void api_edit_create_city(lua_State *L, Player *pplayer, Tile *ptile,
+                          const char *name);
+Player *api_edit_create_player(lua_State *L, const char *username,
+                               Nation_Type *pnation);
+void api_edit_change_gold(lua_State *L, Player *pplayer, int amount);
+Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
+                                    Tech_Type *ptech, const char *reason);
 
-#endif
+void api_edit_create_base(lua_State *L, Tile *ptile, const char *name,
+                          struct player *pplayer);
+
+void api_edit_climate_change(lua_State *L, enum climate_change_type type,
+                             int effect);
+Player *api_edit_civil_war(lua_State *L, Player *pplayer, int probability);
+
+
+void api_edit_player_victory(lua_State *L, Player *pplayer);
+bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
+                        int movecost);
+
+#endif /* API_SERVER_EDIT_H */

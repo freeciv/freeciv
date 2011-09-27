@@ -23,47 +23,26 @@ $#include <fc_config.h>
 $#endif
 
 /* common/scriptcore */
+$#include "api_signal_base.h"
 $#include "luascript_types.h"
 
-/* server/scripting */
-$#include "api_fcdb_auth.h"
-$#include "api_fcdb_base.h"
-$#include "script_fcdb.h"
-
-/* Authentication module. */
-module auth {
-  const char *api_auth_get_username
-    @ get_username(lua_State *L, Connection *pconn);
-  const char *api_auth_get_ipaddr
-    @ get_ipaddr(lua_State *L, Connection *pconn);
-  bool api_auth_set_password
-    @ set_password(lua_State *L, Connection *pconn, const char *password);
-  const char *api_auth_get_password
-    @ get_password(lua_State *L, Connection *pconn);
+/* Signal module. */
+module signal {
+  void api_signal_connect
+    @ connect(lua_State *L, const char *signal_name,
+              const char *callback_name);
+  void api_signal_remove
+    @ remove(lua_State *L, const char *signal_name,
+              const char *callback_name);
+  bool api_signal_defined
+    @ defined(lua_State *L, const char *signal_name,
+              const char *callback_name);
 }
 
-/* Freeciv database (fcdb) module. */
-module fcdb {
-  module param {
-    enum fcdb_option_type {
-      FCDB_OPTION_TYPE_HOST @ HOST,
-      FCDB_OPTION_TYPE_USER @ USER,
-      FCDB_OPTION_TYPE_PORT @ PORT,
-      FCDB_OPTION_TYPE_PASSWORD @ PASSWORD,
-      FCDB_OPTION_TYPE_DATABASE @ DATABASE,
-      FCDB_OPTION_TYPE_TABLE_USER @ TABLE_USER,
-      FCDB_OPTION_TYPE_TABLE_LOG @ TABLE_LOG
-    };
-  }
-
-  module status {
-    enum fcdb_status {
-      FCDB_ERROR @ ERROR,
-      FCDB_SUCCESS_TRUE @ TRUE,
-      FCDB_SUCCESS_FALSE @ FALSE
-    };
-  }
-
-  const char *api_fcdb_option
-    @ option(lua_State *L, int type);
+/* Module find. */
+module find {
+  const char *api_signal_by_index
+    @ signal (lua_State *L, int index);
+  const char *api_signal_callback_by_index
+    @ signal_callback(lua_State *L, const char *signal_name, int index);
 }

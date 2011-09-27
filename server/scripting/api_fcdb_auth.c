@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -21,6 +21,9 @@
 /* common */
 #include "connection.h"
 
+/* common/scriptcore */
+#include "luascript.h"
+
 /* server */
 #include "auth.h"
 
@@ -29,45 +32,50 @@
 
 #include "api_fcdb_auth.h"
 
-/**************************************************************************
-  ...
-**************************************************************************/
-const char *api_auth_get_username(Connection *pconn)
+/*****************************************************************************
+  Get the username.
+*****************************************************************************/
+const char *api_auth_get_username(lua_State *L, Connection *pconn)
 {
-  SCRIPT_FCDB_CHECK_SELF(pconn, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pconn, NULL);
   fc_assert_ret_val(conn_is_valid(pconn), NULL);
 
   return auth_get_username(pconn);
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-const char *api_auth_get_ipaddr(Connection *pconn)
+/*****************************************************************************
+  Get the ip address.
+*****************************************************************************/
+const char *api_auth_get_ipaddr(lua_State *L, Connection *pconn)
 {
-  SCRIPT_FCDB_CHECK_SELF(pconn, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pconn, NULL);
   fc_assert_ret_val(conn_is_valid(pconn), NULL);
 
   return auth_get_ipaddr(pconn);
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-bool api_auth_set_password(Connection *pconn, const char *password)
+/*****************************************************************************
+  Set the password.
+*****************************************************************************/
+bool api_auth_set_password(lua_State *L, Connection *pconn,
+                           const char *password)
 {
-  SCRIPT_FCDB_CHECK_SELF(pconn, FALSE);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pconn, FALSE);
   fc_assert_ret_val(conn_is_valid(pconn), FALSE);
 
   return auth_set_password(pconn, password);
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-const char *api_auth_get_password(Connection *pconn)
+/*****************************************************************************
+  Get the password
+*****************************************************************************/
+const char *api_auth_get_password(lua_State *L, Connection *pconn)
 {
-  SCRIPT_FCDB_CHECK_SELF(pconn, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pconn, NULL);
   fc_assert_ret_val(conn_is_valid(pconn), NULL);
 
   return auth_get_password(pconn);

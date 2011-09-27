@@ -1,4 +1,4 @@
-/****************************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,107 +9,209 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-****************************************************************************/
+*****************************************************************************/
 
-/****************************************************************************
+/*****************************************************************************
   ADVERTISEMENT: do not attempt to change the name of the API functions.
   They *must* be compatible between the minor Freeciv versions within the
   same major version. If you really like to change a function name, be sure
   to keep also the old one running.
-****************************************************************************/
+*****************************************************************************/
 
 $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
+/* common/scriptcore */
 $#include "api_common_utilities.h"
 $#include "api_game_effects.h"
 $#include "api_game_find.h"
 $#include "api_game_methods.h"
-
-$#include "luascript.h"
 $#include "luascript_types.h"
+
+/* Classes. */
+struct Player {
+  const char *name;
+  Nation_Type *nation;
+  bool ai_controlled;
+};
+
+struct City {
+  const char *name;
+  Player *owner;
+  Player *original;
+  Tile *tile; /* Depreciated! Use city:tile() to access the city tile. */
+  int size;   /* Depreciated! Use city:size() to access the city size. */
+
+  const int id;
+};
+
+struct Connection {
+  const int id;
+};
+
+struct Unit {
+  Unit_Type *utype;
+  Player *owner;
+
+  /* This used to be @ homecity_id, but it does not work with toluaxx. */
+  int homecity;
+  Tile *tile; /* Depreciated! Use unit:tile() to access the unit tile. */
+
+  const int id;
+};
+
+struct Tile {
+  Terrain *terrain;
+
+  const int index @ id;
+};
+
+struct Government {
+  const int item_number @ id;
+};
+
+struct Nation_Type {
+  const int item_number @ id;
+};
+
+struct Building_Type {
+  int build_cost;
+
+  const int item_number @ id;
+};
+
+struct Unit_Type {
+  int build_cost;
+
+  const int item_number @ id;
+};
+
+struct Tech_Type {
+  const int item_number @ id;
+};
+
+struct Terrain {
+  const int item_number @ id;
+};
+
+struct Unit_List_Link {
+};
+
+struct City_List_Link {
+};
 
 /* Module Player. */
 module Player {
   module properties {
     int api_methods_player_number
-      @ id (Player *self);
+      @ id (lua_State *L, Player *self);
   }
 
   int api_methods_player_num_cities
-    @ num_cities (Player *self);
+    @ num_cities (lua_State *L, Player *self);
   int api_methods_player_num_units
-    @ num_units (Player *self);
+    @ num_units (lua_State *L, Player *self);
   bool api_methods_player_has_wonder
-    @ has_wonder (Player *self, Building_Type *building);
+    @ has_wonder (lua_State *L, Player *self, Building_Type *building);
   int api_methods_player_gold
-    @ gold (Player *self);
+    @ gold (lua_State *L, Player *self);
   bool api_methods_player_knows_tech
-    @ knows_tech (Player *self, Tech_Type *ptech);
+    @ knows_tech (lua_State *L, Player *self, Tech_Type *ptech);
 }
 
 module methods_private {
   module Player {
     Unit_List_Link *api_methods_private_player_unit_list_head
-      @ unit_list_head (Player *self);
+      @ unit_list_head (lua_State *L, Player *self);
     City_List_Link *api_methods_private_player_city_list_head
-      @ city_list_head (Player *self);
+      @ city_list_head (lua_State *L, Player *self);
   }
 }
+
+$[
+
+-- Player methods
+function Player:is_human()
+  return not self.ai_controlled
+end
+
+$]
 
 /* Module City. */
 module City {
   bool api_methods_city_has_building
-    @ has_building(City *self, Building_Type *building);
+    @ has_building(lua_State *L, City *self, Building_Type *building);
   int api_methods_city_map_sq_radius
-    @ map_sq_radius(City *self);
+    @ map_sq_radius(lua_State *L, City *self);
   int api_methods_city_size_get
-    @ size(City *self);
+    @ size(lua_State *L, City *self);
   Tile *api_methods_city_tile_get
-    @ tile(City *self);
+    @ tile(lua_State *L, City *self);
 }
+
+$[
+
+-- City methods.
+function City:exists()
+  return true
+end
+
+$]
 
 /* Module Unit. */
 module Unit {
   bool api_methods_unit_city_can_be_built_here
-    @ is_on_possible_city_tile (Unit *self);
+    @ is_on_possible_city_tile (lua_State *L, Unit *self);
   Tile *api_methods_unit_tile_get
-    @ tile(Unit *self);
+    @ tile(lua_State *L, Unit *self);
   Direction api_methods_unit_orientation_get
-    @ facing(Unit *self);
+    @ facing(lua_State *L, Unit *self);
 }
+
+$[
+
+-- Unit methods.
+function Unit:exists()
+  return true
+end
+
+function Unit:get_homecity()
+  return find.city(self.owner, self.homecity)
+end
+
+$]
 
 /* Module Tile. */
 module Tile {
   module properties {
     int api_methods_tile_nat_x
-      @ nat_x (Tile *self);
+      @ nat_x (lua_State *L, Tile *self);
     int api_methods_tile_nat_y
-      @ nat_y (Tile *self);
+      @ nat_y (lua_State *L, Tile *self);
     int api_methods_tile_map_x
-      @ x (Tile *self);
+      @ x (lua_State *L, Tile *self);
     int api_methods_tile_map_y
-      @ y (Tile *self);
+      @ y (lua_State *L, Tile *self);
   }
 
   City *api_methods_tile_city
-    @ city (Tile *self);
+    @ city (lua_State *L, Tile *self);
   bool api_methods_tile_city_exists_within_max_city_map
-    @ city_exists_within_max_city_map (Tile *self, bool center);
+    @ city_exists_within_max_city_map (lua_State *L, Tile *self, bool center);
   bool api_methods_tile_has_base
-    @ has_base(Tile *self, const char *name);
+    @ has_base(lua_State *L, Tile *self, const char *name);
   int api_methods_tile_num_units
-    @ num_units (Tile *self);
+    @ num_units (lua_State *L, Tile *self);
   int api_methods_tile_sq_distance
-    @ sq_distance (Tile *self, Tile *other);
+    @ sq_distance (lua_State *L, Tile *self, Tile *other);
 }
 
 $[
 
--- **************************************************************************
+-- ***************************************************************************
 -- Deprecated. New one is Tile:city_exists_within_max_city_map().
--- **************************************************************************
+-- ***************************************************************************
 function Tile:city_exists_within_city_radius(center)
   return self:city_exists_within_max_city_map(center)
 end
@@ -119,143 +221,47 @@ $]
 module methods_private {
   module Tile {
     int api_methods_private_tile_next_outward_index
-      @ next_outward_index (Tile *pcenter, int index, int max_dist);
+      @ next_outward_index (lua_State *L, Tile *pcenter, int index,
+                            int max_dist);
     Tile *api_methods_private_tile_for_outward_index
-      @ tile_for_outward_index (Tile *pcenter, int index);
+      @ tile_for_outward_index (lua_State *L, Tile *pcenter, int index);
     Unit_List_Link *api_methods_private_tile_unit_list_head
-      @ unit_list_head (Tile *self);
+      @ unit_list_head (lua_State *L, Tile *self);
   }
 }
 
 /* Module Government. */
 module Government {
   const char *api_methods_government_rule_name
-    @ rule_name (Government *self);
+    @ rule_name (lua_State *L, Government *self);
   const char *api_methods_government_name_translation
-    @ name_translation (Government *self);
+    @ name_translation (lua_State *L, Government *self);
 }
 
 /* Module Nation_Type. */
 module Nation_Type {
   const char *api_methods_nation_type_rule_name
-    @ rule_name (Nation_Type *self);
+    @ rule_name (lua_State *L, Nation_Type *self);
   const char *api_methods_nation_type_name_translation
-    @ name_translation (Nation_Type *self);
+    @ name_translation (lua_State *L, Nation_Type *self);
   const char *api_methods_nation_type_plural_translation
-    @ plural_translation (Nation_Type *self);
+    @ plural_translation (lua_State *L, Nation_Type *self);
 }
 
 /* Module Building_Type. */
 module Building_Type {
   bool api_methods_building_type_is_wonder
-    @ is_wonder (Building_Type *self);
+    @ is_wonder (lua_State *L, Building_Type *self);
   bool api_methods_building_type_is_great_wonder
-    @ is_great_wonder (Building_Type *self);
+    @ is_great_wonder (lua_State *L, Building_Type *self);
   bool api_methods_building_type_is_small_wonder
-    @ is_small_wonder (Building_Type *self);
+    @ is_small_wonder (lua_State *L, Building_Type *self);
   bool api_methods_building_type_is_improvement
-    @ is_improvement (Building_Type *self);
+    @ is_improvement (lua_State *L, Building_Type *self);
   const char *api_methods_building_type_rule_name
-    @ rule_name (Building_Type *self);
+    @ rule_name (lua_State *L, Building_Type *self);
   const char *api_methods_building_type_name_translation
-    @ name_translation (Building_Type *self);
-}
-
-/* Module Unit_Type. */
-module Unit_Type {
-  bool api_methods_unit_type_has_flag
-    @ has_flag (Unit_Type *self, const char *flag);
-  bool api_methods_unit_type_has_role
-    @ has_role (Unit_Type *self, const char *role);
-  const char *api_methods_unit_type_rule_name
-    @ rule_name (Unit_Type *self);
-  const char *api_methods_unit_type_name_translation
-    @ name_translation (Unit_Type *self);
-  bool api_methods_unit_type_can_exist_at_tile
-    @ can_exist_at_tile(Unit_Type *self, Tile *ptile);
-}
-
-/* Module Tech_Type. */
-module Tech_Type {
-  const char *api_methods_tech_type_rule_name
-    @ rule_name (Tech_Type *self);
-  const char *api_methods_tech_type_name_translation
-    @ name_translation (Tech_Type *self);
-}
-
-/* Module Terrain. */
-module Terrain {
-  const char *api_methods_terrain_rule_name
-    @ rule_name (Terrain *self);
-  const char *api_methods_terrain_name_translation
-    @ name_translation (Terrain *self);
-}
-
-/* Module Unit_List_Link. */
-module Unit_List_Link {
-  Unit *api_methods_unit_list_link_data
-    @ data (Unit_List_Link *self);
-  Unit_List_Link *api_methods_unit_list_next_link
-    @ next (Unit_List_Link *self);
-}
-
-/* Module City_List_Link. */
-module City_List_Link {
-  City *api_methods_city_list_link_data
-    @ data (City_List_Link *self);
-  City_List_Link *api_methods_city_list_next_link
-    @ next (City_List_Link *self);
-}
-
-/* Module find. */
-module find {
-  Player *api_find_player @ player (int player_id);
-  City *api_find_city @ city (Player *pplayer, int city_id);
-  Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
-  Unit *api_find_transport_unit
-    @ transport_unit (Player *pplayer, Unit_Type *ptype, Tile *ptile);
-  Tile *api_find_tile @ tile (int nat_x, int nat_y);
-  Tile *api_find_tile_by_index @ tile (int index);
-
-  /* NOTE: For overloading to work correctly, the string function
-   * must be before the integer function for each case below. */
-  Government *api_find_government_by_name
-    @ government (const char *name_orig);
-  Government *api_find_government
-    @ government (int government_id);
-  Nation_Type *api_find_nation_type_by_name
-    @ nation_type (const char *name_orig);
-  Nation_Type *api_find_nation_type
-    @ nation_type (int nation_type_id);
-  Building_Type *api_find_building_type_by_name
-    @ building_type (const char *name_orig);
-  Building_Type *api_find_building_type
-    @ building_type (int building_type_id);
-  Unit_Type *api_find_unit_type_by_name
-    @ unit_type (const char *name_orig);
-  Unit_Type *api_find_unit_type
-    @ unit_type (int unit_type_id);
-  Unit_Type *api_find_role_unit_type
-    @ role_unit_type (const char *role_name, Player *pplayer);
-  Tech_Type *api_find_tech_type_by_name
-    @ tech_type (const char *name_orig);
-  Tech_Type *api_find_tech_type
-    @ tech_type (int tech_type_id);
-  Terrain *api_find_terrain_by_name
-    @ terrain (const char *name_orig);
-  Terrain *api_find_terrain
-    @ terrain (int terrain_id);
-  Nonexistent *api_find_nonexistent
-    @ nonexistent ();
-}
-
-/* Effects module */
-module effects {
-  int api_effects_world_bonus @ world_bonus (const char *effect_type);
-  int api_effects_player_bonus @ player_bonus (Player *pplayer,
-                                               const char *effect_type);
-  int api_effects_city_bonus @ city_bonus (City *pcity,
-                                           const char *effect_type);
+    @ name_translation (lua_State *L, Building_Type *self);
 }
 
 $[
@@ -265,14 +271,145 @@ function Building_Type:build_shield_cost()
   return self.build_cost
 end
 
--- Player methods
-function Player:is_human()
-  return not self.ai_controlled
+$]
+
+/* Module Unit_Type. */
+module Unit_Type {
+  bool api_methods_unit_type_has_flag
+    @ has_flag (lua_State *L, Unit_Type *self, const char *flag);
+  bool api_methods_unit_type_has_role
+    @ has_role (lua_State *L, Unit_Type *self, const char *role);
+  const char *api_methods_unit_type_rule_name
+    @ rule_name (lua_State *L, Unit_Type *self);
+  const char *api_methods_unit_type_name_translation
+    @ name_translation (lua_State *L, Unit_Type *self);
+  bool api_methods_unit_type_can_exist_at_tile
+    @ can_exist_at_tile(lua_State *L, Unit_Type *self, Tile *ptile);
+}
+
+$[
+
+-- Unit_Type methods.
+function Unit_Type:build_shield_cost()
+  return self.build_cost
 end
 
+$]
+
+/* Module Tech_Type. */
+module Tech_Type {
+  const char *api_methods_tech_type_rule_name
+    @ rule_name (lua_State *L, Tech_Type *self);
+  const char *api_methods_tech_type_name_translation
+    @ name_translation (lua_State *L, Tech_Type *self);
+}
+
+/* Module Terrain. */
+module Terrain {
+  const char *api_methods_terrain_rule_name
+    @ rule_name (lua_State *L, Terrain *self);
+  const char *api_methods_terrain_name_translation
+    @ name_translation (lua_State *L, Terrain *self);
+}
+
+/* Module Unit_List_Link. */
+module Unit_List_Link {
+  Unit *api_methods_unit_list_link_data
+    @ data (lua_State *L, Unit_List_Link *self);
+  Unit_List_Link *api_methods_unit_list_next_link
+    @ next (lua_State *L, Unit_List_Link *self);
+}
+
+/* Module City_List_Link. */
+module City_List_Link {
+  City *api_methods_city_list_link_data
+    @ data (lua_State *L, City_List_Link *self);
+  City_List_Link *api_methods_city_list_next_link
+    @ next (lua_State *L, City_List_Link *self);
+}
+
+/* Module find. */
+module find {
+  Player *api_find_player
+    @ player (lua_State *L, int player_id);
+  City *api_find_city
+    @ city (lua_State *L, Player *pplayer, int city_id);
+  Unit *api_find_unit
+    @ unit (lua_State *L, Player *pplayer, int unit_id);
+  Unit *api_find_transport_unit
+    @ transport_unit (lua_State *L, Player *pplayer, Unit_Type *ptype,
+                      Tile *ptile);
+  Tile *api_find_tile
+    @ tile (lua_State *L, int nat_x, int nat_y);
+  Tile *api_find_tile_by_index
+    @ tile (lua_State *L, int index);
+
+  /* NOTE: For overloading to work correctly, the string function
+   * must be before the integer function for each case below. */
+  Government *api_find_government_by_name
+    @ government (lua_State *L, const char *name_orig);
+  Government *api_find_government
+    @ government (lua_State *L, int government_id);
+  Nation_Type *api_find_nation_type_by_name
+    @ nation_type (lua_State *L, const char *name_orig);
+  Nation_Type *api_find_nation_type
+    @ nation_type (lua_State *L, int nation_type_id);
+  Building_Type *api_find_building_type_by_name
+    @ building_type (lua_State *L, const char *name_orig);
+  Building_Type *api_find_building_type
+    @ building_type (lua_State *L, int building_type_id);
+  Unit_Type *api_find_unit_type_by_name
+    @ unit_type (lua_State *L, const char *name_orig);
+  Unit_Type *api_find_unit_type
+    @ unit_type (lua_State *L, int unit_type_id);
+  Unit_Type *api_find_role_unit_type
+    @ role_unit_type (lua_State *L, const char *role_name, Player *pplayer);
+  Tech_Type *api_find_tech_type_by_name
+    @ tech_type (lua_State *L, const char *name_orig);
+  Tech_Type *api_find_tech_type
+    @ tech_type (lua_State *L, int tech_type_id);
+  Terrain *api_find_terrain_by_name
+    @ terrain (lua_State *L, const char *name_orig);
+  Terrain *api_find_terrain
+    @ terrain (lua_State *L, int terrain_id);
+  Nonexistent *api_find_nonexistent
+    @ nonexistent (lua_State *L);
+}
+
+module E {
+  /* Notify events module is exported by api_specenum */
+}
+
+/* Effects module */
+module effects {
+  int api_effects_world_bonus
+    @ world_bonus (lua_State *L, const char *effect_type);
+  int api_effects_player_bonus
+    @ player_bonus (lua_State *L, Player *pplayer, const char *effect_type);
+  int api_effects_city_bonus
+    @ city_bonus (lua_State *L, City *pcity, const char *effect_type);
+}
+
+/* Direction module */
+module direction {
+ Direction api_utilities_str2dir
+   @ str2dir (lua_State *L, const char *str);
+}
+
+$[
 -- **************************************************************************
+-- Convert direction describing text to direction
+-- **************************************************************************
+function str2direction(str)
+  return direction.str2dir(str)
+end
+$]
+
+$[
+
+-- ***************************************************************************
 -- Player and Tile: cities_iterate and units_iterate methods
--- **************************************************************************
+-- ***************************************************************************
 do
   local private = methods_private
 
@@ -313,9 +450,9 @@ do
   end
 end
 
--- **************************************************************************
+-- ***************************************************************************
 -- Tile: square_iterate, circle_iterate
--- **************************************************************************
+-- ***************************************************************************
 do
   local next_outward_index = methods_private.Tile.next_outward_index
   local tile_for_outward_index = methods_private.Tile.tile_for_outward_index
@@ -347,84 +484,14 @@ do
     end
     return iterator
   end
-end  -- end do-block (Tile methods)
-
--- City methods.
-function City:exists()
-  return true
-end
-
--- Unit methods.
-function Unit:exists()
-  return true
-end
-
-function Unit:get_homecity()
-  return find.city(self.owner, self.homecity)
-end
-
--- Unit_Type methods.
-function Unit_Type:build_shield_cost()
-  return self.build_cost
 end
 
 $]
 
-module direction {
- Direction api_utilities_str2dir @ str2dir (const char *str);
-}
-
 $[
--- **************************************************************************
--- Convert direction describing text to direction
--- **************************************************************************
-function str2direction(str)
-  return direction.str2dir(str)
-end
-$]
-
-$[
--- **************************************************************************
--- Dump the state of user scalar variables to a Lua code string.
--- **************************************************************************
-function _freeciv_state_dump()
-  local res = ''
-
-  for k, v in pairs(_G) do
-    if k == '_VERSION' then
-      -- ignore _VERSION variable.
-    elseif type(v) == 'boolean'
-        or type(v) == 'number' then
-      local rvalue = tostring(v)
-
-      res = res .. k .. '=' .. rvalue .. '\n'
-    elseif type(v) == 'string' then
-      local rvalue = string.format('%q', v)
-
-      res = res .. k .. '=' .. rvalue .. '\n'
-    elseif type(v) == 'userdata' then
-      local method = string.lower(tolua.type(v))
-
-      res = res .. k .. '=find.' .. method
-      if method == 'city' or method == 'unit' then
-        res = res .. '(nil,' .. v.id .. ')'
-      elseif v.id then
-        res = res .. '(' .. v.id .. ')'
-      else
-        res = res .. '()'
-      end
-      res = res .. '\n'
-    end
-  end
-
-  return res
-end
-$]
-
-$[
--- **************************************************************************
+-- ***************************************************************************
 -- Iteration constructs for game-global objects
--- **************************************************************************
+-- ***************************************************************************
 do
   -- iterate over the values returned by lookup
   -- until nil is returned:

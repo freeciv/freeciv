@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -33,319 +33,405 @@
 #include "api_game_methods.h"
 
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if pbuilding is a wonder.
-**************************************************************************/
-bool api_methods_building_type_is_wonder(Building_Type *pbuilding)
+*****************************************************************************/
+bool api_methods_building_type_is_wonder(lua_State *L,
+                                         Building_Type *pbuilding)
 {
-  SCRIPT_CHECK_SELF(pbuilding, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, FALSE);
+
   return is_wonder(pbuilding);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if pbuilding is a great wonder.
-**************************************************************************/
-bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding)
+*****************************************************************************/
+bool api_methods_building_type_is_great_wonder(lua_State *L,
+                                               Building_Type *pbuilding)
 {
-  SCRIPT_CHECK_SELF(pbuilding, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, FALSE);
+
   return is_great_wonder(pbuilding);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if pbuilding is a small wonder.
-**************************************************************************/
-bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding)
+*****************************************************************************/
+bool api_methods_building_type_is_small_wonder(lua_State *L,
+                                               Building_Type *pbuilding)
 {
-  SCRIPT_CHECK_SELF(pbuilding, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, FALSE);
+
   return is_small_wonder(pbuilding);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if pbuilding is a building.
-**************************************************************************/
-bool api_methods_building_type_is_improvement(Building_Type *pbuilding)
+*****************************************************************************/
+bool api_methods_building_type_is_improvement(lua_State *L,
+                                              Building_Type *pbuilding)
 {
-  SCRIPT_CHECK_SELF(pbuilding, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, FALSE);
+
   return is_improvement(pbuilding);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return rule name for Building_Type
-**************************************************************************/
-const char *api_methods_building_type_rule_name(Building_Type *pbuilding)
+*****************************************************************************/
+const char *api_methods_building_type_rule_name(lua_State *L,
+                                                Building_Type *pbuilding)
 {
-  SCRIPT_CHECK_SELF(pbuilding, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, NULL);
+
   return improvement_rule_name(pbuilding);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated name for Building_Type
-**************************************************************************/
-const char *api_methods_building_type_name_translation(Building_Type 
-                                                       *pbuilding)
+*****************************************************************************/
+const char
+  *api_methods_building_type_name_translation(lua_State *L,
+                                              Building_Type *pbuilding)
 {
-  SCRIPT_CHECK_SELF(pbuilding, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pbuilding, NULL);
+
   return improvement_name_translation(pbuilding);
 }
 
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE iff city has building
-**************************************************************************/
-bool api_methods_city_has_building(City *pcity, Building_Type *building)
+*****************************************************************************/
+bool api_methods_city_has_building(lua_State *L, City *pcity,
+                                   Building_Type *building)
 {
-  SCRIPT_CHECK_SELF(pcity, FALSE);
-  SCRIPT_CHECK_ARG_NIL(building, 2, Building_Type, FALSE);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, building, 3, Building_Type, FALSE);
+
   return city_has_building(pcity, building);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return the square raduis of the city map.
-**************************************************************************/
-int api_methods_city_map_sq_radius(City *pcity)
+*****************************************************************************/
+int api_methods_city_map_sq_radius(lua_State *L, City *pcity)
 {
-  SCRIPT_CHECK_SELF(pcity, 0);
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pcity, 0);
+
   return city_map_radius_sq_get(pcity);
 }
 
 /**************************************************************************
   Return the size of the city.
 **************************************************************************/
-int api_methods_city_size_get(City *pcity)
+int api_methods_city_size_get(lua_State *L, City *pcity)
 {
-  SCRIPT_CHECK_SELF(pcity, 0);
+  LUASCRIPT_CHECK_STATE(L, 1);
+  LUASCRIPT_CHECK_SELF(L, pcity, 1);
+
   return city_size_get(pcity);
 }
 
 /**************************************************************************
   Return the tile of the city.
 **************************************************************************/
-Tile *api_methods_city_tile_get(City *pcity)
+Tile *api_methods_city_tile_get(lua_State *L, City *pcity)
 {
-  SCRIPT_CHECK_SELF(pcity, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pcity, NULL);
+
   return pcity->tile;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return rule name for Government
-**************************************************************************/
-const char *api_methods_government_rule_name(Government *pgovernment)
+*****************************************************************************/
+const char *api_methods_government_rule_name(lua_State *L,
+                                             Government *pgovernment)
 {
-  SCRIPT_CHECK_SELF(pgovernment, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pgovernment, NULL);
+
   return government_rule_name(pgovernment);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated name for Government
-**************************************************************************/
-const char *api_methods_government_name_translation(Government *pgovernment)
+*****************************************************************************/
+const char *api_methods_government_name_translation(lua_State *L,
+                                                    Government *pgovernment)
 {
-  SCRIPT_CHECK_SELF(pgovernment, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pgovernment, NULL);
+
   return government_name_translation(pgovernment);
 }
 
 
-/**************************************************************************
+/*****************************************************************************
   Return rule name for Nation_Type
-**************************************************************************/
-const char *api_methods_nation_type_rule_name(Nation_Type *pnation)
+*****************************************************************************/
+const char *api_methods_nation_type_rule_name(lua_State *L,
+                                              Nation_Type *pnation)
 {
-  SCRIPT_CHECK_SELF(pnation, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pnation, NULL);
+
   return nation_rule_name(pnation);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated adjective for Nation_Type
-**************************************************************************/
-const char *api_methods_nation_type_name_translation(Nation_Type *pnation)
+*****************************************************************************/
+const char *api_methods_nation_type_name_translation(lua_State *L,
+                                                     Nation_Type *pnation)
 {
-  SCRIPT_CHECK_SELF(pnation, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pnation, NULL);
+
   return nation_adjective_translation(pnation);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated plural noun for Nation_Type
-**************************************************************************/
-const char *api_methods_nation_type_plural_translation(Nation_Type *pnation)
+*****************************************************************************/
+const char *api_methods_nation_type_plural_translation(lua_State *L,
+                                                       Nation_Type *pnation)
 {
-  SCRIPT_CHECK_SELF(pnation, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pnation, NULL);
+
   return nation_plural_translation(pnation);
 }
 
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE iff player has wonder
-**************************************************************************/
-bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building)
+*****************************************************************************/
+bool api_methods_player_has_wonder(lua_State *L, Player *pplayer,
+                                   Building_Type *building)
 {
-  SCRIPT_CHECK_SELF(pplayer, FALSE);
-  SCRIPT_CHECK_ARG_NIL(building, 2, Building_Type, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, building, 3, Building_Type, FALSE);
+
   return wonder_is_built(pplayer, building);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return player number
-**************************************************************************/
-int api_methods_player_number(Player *pplayer)
+*****************************************************************************/
+int api_methods_player_number(lua_State *L, Player *pplayer)
 {
-  SCRIPT_CHECK_SELF(pplayer, -1);
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, pplayer, -1);
+
   return player_number(pplayer);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return the number of cities pplayer has.
-**************************************************************************/
-int api_methods_player_num_cities(Player *pplayer)
+*****************************************************************************/
+int api_methods_player_num_cities(lua_State *L, Player *pplayer)
 {
-  SCRIPT_CHECK_SELF(pplayer, 0);
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
   return city_list_size(pplayer->cities);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return the number of units pplayer has.
-**************************************************************************/
-int api_methods_player_num_units(Player *pplayer)
+*****************************************************************************/
+int api_methods_player_num_units(lua_State *L, Player *pplayer)
 {
-  SCRIPT_CHECK_SELF(pplayer, 0);
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
   return unit_list_size(pplayer->units);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return gold for Player
-**************************************************************************/
-int api_methods_player_gold(Player *pplayer)
+*****************************************************************************/
+int api_methods_player_gold(lua_State *L, Player *pplayer)
 {
-  SCRIPT_CHECK_SELF(pplayer, 0);
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
   return pplayer->economic.gold;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if Player knows advance ptech.
-**************************************************************************/
-bool api_methods_player_knows_tech(Player *pplayer, Tech_Type *ptech)
+*****************************************************************************/
+bool api_methods_player_knows_tech(lua_State *L, Player *pplayer,
+                                   Tech_Type *ptech)
 {
-  SCRIPT_CHECK_SELF(pplayer, FALSE);
-  SCRIPT_CHECK_ARG_NIL(ptech, 2, Tech_Type, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptech, 3, Tech_Type, FALSE);
 
   return player_invention_state(pplayer, advance_number(ptech)) == TECH_KNOWN;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return list head for unit list for Player
-**************************************************************************/
-Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
+*****************************************************************************/
+Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
+                                                          Player *pplayer)
 {
-  SCRIPT_CHECK_SELF(pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
   return unit_list_head(pplayer->units);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return list head for city list for Player
-**************************************************************************/
-City_List_Link *api_methods_private_player_city_list_head(Player *pplayer)
+*****************************************************************************/
+City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
+                                                          Player *pplayer)
 {
-  SCRIPT_CHECK_SELF(pplayer, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+
   return city_list_head(pplayer->cities);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return rule name for Tech_Type
-**************************************************************************/
-const char *api_methods_tech_type_rule_name(Tech_Type *ptech)
+*****************************************************************************/
+const char *api_methods_tech_type_rule_name(lua_State *L, Tech_Type *ptech)
 {
-  SCRIPT_CHECK_SELF(ptech, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, ptech, NULL);
+
   return advance_rule_name(ptech);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated name for Tech_Type
-**************************************************************************/
-const char *api_methods_tech_type_name_translation(Tech_Type *ptech)
+*****************************************************************************/
+const char *api_methods_tech_type_name_translation(lua_State *L,
+                                                   Tech_Type *ptech)
 {
-  SCRIPT_CHECK_SELF(ptech, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, ptech, NULL);
+
   return advance_name_translation(ptech);
 }
 
 
-/**************************************************************************
+/*****************************************************************************
   Return rule name for Terrain
-**************************************************************************/
-const char *api_methods_terrain_rule_name(Terrain *pterrain)
+*****************************************************************************/
+const char *api_methods_terrain_rule_name(lua_State *L, Terrain *pterrain)
 {
-  SCRIPT_CHECK_SELF(pterrain, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
+
   return terrain_rule_name(pterrain);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated name for Terrain
-**************************************************************************/
-const char *api_methods_terrain_name_translation(Terrain *pterrain)
+*****************************************************************************/
+const char *api_methods_terrain_name_translation(lua_State *L,
+                                                 Terrain *pterrain)
 {
-  SCRIPT_CHECK_SELF(pterrain, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
+
   return terrain_name_translation(pterrain);
 }
 
 /*****************************************************************************
   Return the native x coordinate of the tile.
 *****************************************************************************/
-int api_methods_tile_nat_x(Tile *ptile)
+int api_methods_tile_nat_x(lua_State *L, Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, -1);
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, ptile, -1);
+
   return index_to_native_pos_x(tile_index(ptile));
 }
 
 /*****************************************************************************
   Return the native y coordinate of the tile.
 *****************************************************************************/
-int api_methods_tile_nat_y(Tile *ptile)
+int api_methods_tile_nat_y(lua_State *L, Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, -1);
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, ptile, -1);
+
   return index_to_native_pos_y(tile_index(ptile));
 }
 
 /*****************************************************************************
   Return the map x coordinate of the tile.
 *****************************************************************************/
-int api_methods_tile_map_x(Tile *ptile)
+int api_methods_tile_map_x(lua_State *L, Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, -1);
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, ptile, -1);
+
   return index_to_map_pos_x(tile_index(ptile));
 }
 
 /*****************************************************************************
   Return the map y coordinate of the tile.
 *****************************************************************************/
-int api_methods_tile_map_y(Tile *ptile)
+int api_methods_tile_map_y(lua_State *L, Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, -1);
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, ptile, -1);
+
   return index_to_map_pos_y(tile_index(ptile));
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return City on ptile, else NULL
-**************************************************************************/
-City *api_methods_tile_city(Tile *ptile)
+*****************************************************************************/
+City *api_methods_tile_city(lua_State *L, Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+
   return tile_city(ptile);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if there is a city inside the maximum city radius from ptile.
-**************************************************************************/
-bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
+*****************************************************************************/
+bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
+                                                      Tile *ptile,
                                                       bool may_be_on_center)
 {
-  SCRIPT_CHECK_SELF(ptile, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
+
   return city_exists_within_max_city_map(ptile, may_be_on_center);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if there is a base with rule name name on ptile.
   If no name is specified return true if there is a base on ptile.
-**************************************************************************/
-bool api_methods_tile_has_base(Tile *ptile, const char *name)
+*****************************************************************************/
+bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name)
 {
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
+
   struct base_type *base;
   if (!name) {
     return tile_has_any_bases(ptile);
@@ -355,36 +441,42 @@ bool api_methods_tile_has_base(Tile *ptile, const char *name)
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return number of units on tile
-**************************************************************************/
-int api_methods_tile_num_units(Tile *ptile)
+*****************************************************************************/
+int api_methods_tile_num_units(lua_State *L, Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, 0);
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, ptile, 0);
+
   return unit_list_size(ptile->units);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return list head for unit list for Tile
-**************************************************************************/
-Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile)
+*****************************************************************************/
+Unit_List_Link *api_methods_private_tile_unit_list_head(lua_State *L,
+                                                        Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(ptile, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+
   return unit_list_head(ptile->units);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return nth tile iteration index (for internal use)
   Will return the next index, or an index < 0 when done
-**************************************************************************/
-int api_methods_private_tile_next_outward_index(Tile *pstart,
-                                                int index,
-                                                int max_dist)
+*****************************************************************************/
+int api_methods_private_tile_next_outward_index(lua_State *L, Tile *pstart,
+                                                int index, int max_dist)
 {
   int dx, dy;
   int newx, newy;
   int startx, starty;
-  SCRIPT_CHECK_SELF(pstart, 0);
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pstart, 0);
 
   if (index < 0) {
     return 0;
@@ -410,15 +502,19 @@ int api_methods_private_tile_next_outward_index(Tile *pstart,
   return -1;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return tile for nth iteration index (for internal use)
-**************************************************************************/
-Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index)
+*****************************************************************************/
+Tile *api_methods_private_tile_for_outward_index(lua_State *L, Tile *pstart,
+                                                 int index)
 {
   int newx, newy;
-  SCRIPT_CHECK_SELF(pstart, NULL);
-  SCRIPT_CHECK_ARG(index >= 0 && index < map.num_iterate_outwards_indices,
-                   2, "index out of bounds", NULL);
+
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pstart, NULL);
+  LUASCRIPT_CHECK_ARG(L, index >= 0
+                         && index < map.num_iterate_outwards_indices, 3,
+                      "index out of bounds", NULL);
 
   index_to_map_pos(&newx, &newy, tile_index(pstart));
   newx += map.iterate_outwards_indices[index].dx;
@@ -430,135 +526,173 @@ Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index)
   return map_pos_to_tile(newx, newy);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return squared distance between tiles 1 and 2
-**************************************************************************/
-int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2)
+*****************************************************************************/
+int api_methods_tile_sq_distance(lua_State *L, Tile *ptile1, Tile *ptile2)
 {
-  SCRIPT_CHECK_SELF(ptile1, 0);
-  SCRIPT_CHECK_ARG_NIL(ptile2, 2, Tile, 0);
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, ptile1, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile2, 3, Tile, 0);
+
   return sq_map_distance(ptile1, ptile2);
 }
 
 
-/**************************************************************************
+/*****************************************************************************
   Can punit found a city on its tile?
-**************************************************************************/
-bool api_methods_unit_city_can_be_built_here(Unit *punit)
+*****************************************************************************/
+bool api_methods_unit_city_can_be_built_here(lua_State *L, Unit *punit)
 {
-  SCRIPT_CHECK_SELF(punit, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit, FALSE);
+
   return city_can_be_built_here(unit_tile(punit), punit);
 }
 
 /**************************************************************************
   Return the tile of the unit.
 **************************************************************************/
-Tile *api_methods_unit_tile_get(Unit *punit)
+Tile *api_methods_unit_tile_get(lua_State *L, Unit *punit)
 {
-  SCRIPT_CHECK_SELF(punit, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit, NULL);
+
   return unit_tile(punit);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Get unit orientation
-**************************************************************************/
-Direction api_methods_unit_orientation_get(Unit *self)
+*****************************************************************************/
+Direction api_methods_unit_orientation_get(lua_State *L, Unit *punit)
 {
-  return self->facing;
+  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, direction8_invalid());
+
+  return punit->facing;
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if punit_type has flag.
-**************************************************************************/
-bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
+*****************************************************************************/
+bool api_methods_unit_type_has_flag(lua_State *L, Unit_Type *punit_type,
+                                    const char *flag)
 {
   enum unit_flag_id id;
-  SCRIPT_CHECK_SELF(punit_type, FALSE);
-  SCRIPT_CHECK_ARG_NIL(flag, 2, string, FALSE);
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, flag, 3, string, FALSE);
 
   id = unit_flag_by_rule_name(flag);
   if (id != F_LAST) {
     return utype_has_flag(punit_type, id);
   } else {
-    script_error("Unit flag \"%s\" does not exist", flag);
+    luascript_error(L, "Unit flag \"%s\" does not exist", flag);
     return FALSE;
   }
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return TRUE if punit_type has role.
-**************************************************************************/
-bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
+*****************************************************************************/
+bool api_methods_unit_type_has_role(lua_State *L, Unit_Type *punit_type,
+                                    const char *role)
 {
   enum unit_role_id id;
-  SCRIPT_CHECK_SELF(punit_type, FALSE);
-  SCRIPT_CHECK_ARG_NIL(role, 2, string, FALSE);
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, role, 3, string, FALSE);
 
   id = unit_role_by_rule_name(role);
   if (id != L_LAST) {
     return utype_has_role(punit_type, id);
   } else {
-    script_error("Unit role \"%s\" does not exist", role);
+    luascript_error(L, "Unit role \"%s\" does not exist", role);
     return FALSE;
   }
 }
 
-bool api_methods_unit_type_can_exist_at_tile(Unit_Type *punit_type,
+/*****************************************************************************
+  Return TRUE iff the unit type can exist on the tile.
+*****************************************************************************/
+bool api_methods_unit_type_can_exist_at_tile(lua_State *L,
+                                             Unit_Type *punit_type,
                                              Tile *ptile)
 {
-  SCRIPT_CHECK_SELF(punit_type, FALSE);
-  SCRIPT_CHECK_ARG_NIL(ptile, 2, Tile, FALSE);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
 
   return can_exist_at_tile(punit_type, ptile);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return rule name for Unit_Type
-**************************************************************************/
-const char *api_methods_unit_type_rule_name(Unit_Type *punit_type)
+*****************************************************************************/
+const char *api_methods_unit_type_rule_name(lua_State *L,
+                                            Unit_Type *punit_type)
 {
-  SCRIPT_CHECK_SELF(punit_type, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit_type, NULL);
+
   return utype_rule_name(punit_type);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return translated name for Unit_Type
-**************************************************************************/
-const char *api_methods_unit_type_name_translation(Unit_Type *punit_type)
+*****************************************************************************/
+const char *api_methods_unit_type_name_translation(lua_State *L,
+                                                   Unit_Type *punit_type)
 {
-  SCRIPT_CHECK_SELF(punit_type, NULL);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, punit_type, NULL);
+
   return utype_name_translation(punit_type);
 }
 
 
-/**************************************************************************
+/*****************************************************************************
   Return Unit for list link
-**************************************************************************/
-Unit *api_methods_unit_list_link_data(Unit_List_Link *link)
+*****************************************************************************/
+Unit *api_methods_unit_list_link_data(lua_State *L,
+                                      Unit_List_Link *link)
 {
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
   return unit_list_link_data(link);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return next list link or NULL when link is the last link
-**************************************************************************/
-Unit_List_Link *api_methods_unit_list_next_link(Unit_List_Link *link)
+*****************************************************************************/
+Unit_List_Link *api_methods_unit_list_next_link(lua_State *L,
+                                                Unit_List_Link *link)
 {
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
   return unit_list_link_next(link);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return City for list link
-**************************************************************************/
-City *api_methods_city_list_link_data(City_List_Link *link)
+*****************************************************************************/
+City *api_methods_city_list_link_data(lua_State *L,
+                                      City_List_Link *link)
 {
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
   return city_list_link_data(link);
 }
 
-/**************************************************************************
+/*****************************************************************************
   Return next list link or NULL when link is the last link
-**************************************************************************/
-City_List_Link *api_methods_city_list_next_link(City_List_Link *link)
+*****************************************************************************/
+City_List_Link *api_methods_city_list_next_link(lua_State *L,
+                                                City_List_Link *link)
 {
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
   return city_list_link_next(link);
 }

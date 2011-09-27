@@ -11,18 +11,15 @@
    GNU General Public License for more details.
 *****************************************************************************/
 
-#ifndef FC__API_FCDB_BASE_H
-#define FC__API_FCDB_BASE_H
+#ifndef FC__API_SERVER_BASE_H
+#define FC__API_SERVER_BASE_H
 
 /* common/scriptcore */
 #include "luascript_types.h"
 
-/* server */
-#include "fcdb.h"
-
 struct lua_State;
 
-const char *api_fcdb_option(lua_State *L, enum fcdb_option_type type);
+/* Additional methods on the server. */
+int api_server_player_civilization_score(lua_State *L, Player *pplayer);
 
-#endif /* FC__API_FCDB_BASE_H */
-
+#endif /* FC__API_SERVER_BASE_H */

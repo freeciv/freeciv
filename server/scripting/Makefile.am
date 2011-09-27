@@ -15,6 +15,8 @@ AM_CPPFLAGS = \
 # tolua_[fcdb|server]_gen.[ch] are now distributed to aid in cross-compiling.
 # See PR#13571.
 dist_libscripting_server_la_SOURCES = \
+	api_server_base.c	\
+	api_server_base.h	\
 	api_server_edit.c	\
 	api_server_edit.h	\
 	api_server_notify.c	\

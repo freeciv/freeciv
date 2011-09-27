@@ -11,26 +11,32 @@
    GNU General Public License for more details.
 *****************************************************************************/
 
-#ifndef FC__API_GAME_EFFECTS_H
-#define FC__API_GAME_EFFECTS_H
+#ifndef FC__API_SIGNAL_BASE_H
+#define FC__API_SIGNAL_BASE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-/* common/scriptcore */
-#include "luascript_types.h"
+/* utility */
+#include "support.h"
 
 struct lua_State;
 
-int api_effects_world_bonus(lua_State *L, const char *effect_type);
-int api_effects_player_bonus(lua_State *L, Player *pplayer,
-                             const char *effect_type);
-int api_effects_city_bonus(lua_State *L, City *pcity,
-                           const char *effect_type);
+void api_signal_connect(lua_State *L, const char *signal_name,
+                        const char *callback_name);
+void api_signal_remove(lua_State *L, const char *signal_name,
+                       const char *callback_name);
+bool api_signal_defined(lua_State *L, const char *signal_name,
+                        const char *callback_name);
+
+const char *api_signal_callback_by_index(lua_State *L,
+                                         const char *signal_name, int index);
+
+const char *api_signal_by_index(lua_State *L, int index);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* API_GAME_EFFECTS */
+#endif /* FC__API_SIGNAL_BASE_H */

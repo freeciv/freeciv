@@ -23,6 +23,9 @@
 struct section_file;
 struct connection;
 
+/* Callback invocation function. */
+bool script_server_callback_invoke(const char *callback_name, int nargs,
+                                   enum api_types *parg_types, va_list args);
 
 void script_server_remove_exported_object(void *object);
 
@@ -38,6 +41,9 @@ void script_server_state_save(struct section_file *file);
 
 /* Signals. */
 void script_server_signal_emit(const char *signal_name, int nargs, ...);
+
+/* Functions */
+bool script_server_call(const char *func_name, int nargs, ...);
 
 #endif /* FC__SCRIPT_SERVER_H */
 

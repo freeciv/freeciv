@@ -1,4 +1,4 @@
-/****************************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,19 +9,22 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-****************************************************************************/
+*****************************************************************************/
+#ifndef FC__LUASCRIPT_TYPES_H
+#define FC__LUASCRIPT_TYPES_H
 
-#ifndef FC__SCRIPT_TYPES_H
-#define FC__SCRIPT_TYPES_H
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /* utility */
 #include "genlist.h"
-#include "log.h"
 
 /* common */
 #include "city.h"
 #include "connection.h"
 #include "events.h"
+#include "fc_types.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
@@ -36,7 +39,7 @@
 /* Classes. */
 /* If a new class is defined, an entry should be added to the enum api_types
  * below and the class name should be added to the api_types list in
- * tolua_common.pkg. */
+ * tolua_common_a.pkg. */
 typedef struct player Player;
 typedef struct player_ai Player_ai;
 typedef struct city City;
@@ -54,10 +57,9 @@ typedef enum direction8 Direction;
 typedef void Nonexistent;
 
 /* List Classes.
- * NOTE: These should not to be exposed since the pointers
- * are not safe. They are only used by the API internally.
- * Separate types makes use from lua type safe.
- */
+ * NOTE: These should not to be exposed since the pointers are not safe. They
+ *       are only used by the API internally.
+ *       Separate types makes use from lua type safe. */
 typedef const struct unit_list_link Unit_List_Link;
 typedef const struct city_list_link City_List_Link;
 
@@ -94,4 +96,8 @@ typedef const struct city_list_link City_List_Link;
 #define SPECENUM_VALUE14NAME "Direction"
 #include "specenum_gen.h"
 
-#endif /* FC__SCRIPT_TYPES_H */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__LUASCRIPT_TYPES_H */

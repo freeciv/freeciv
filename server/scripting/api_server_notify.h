@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,17 +9,20 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
-#ifndef FC__API_NOTIFY_H
-#define FC__API_NOTIFY_H
+#ifndef FC__API_SERVER_NOTIFY_H
+#define FC__API_SERVER_NOTIFY_H
 
+/* common/scriptcore */
 #include "luascript_types.h"
 
-void api_notify_embassies_msg(Player *pplayer, Tile *ptile,
-			      int event, const char *message);
-void api_notify_event_msg(Player *pplayer, Tile *ptile, int event,
-		          const char *message);
+struct lua_State;
 
-#endif
+void api_notify_embassies_msg(lua_State *L, Player *pplayer, Tile *ptile,
+                              int event, const char *message);
+void api_notify_event_msg(lua_State *L, Player *pplayer, Tile *ptile,
+                          int event, const char *message);
+
+#endif /* API_SERVER_NOTIFY */
 

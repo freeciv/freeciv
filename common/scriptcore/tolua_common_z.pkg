@@ -1,4 +1,4 @@
-/****************************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,27 +9,28 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-****************************************************************************/
+*****************************************************************************/
 
-/****************************************************************************
+/*****************************************************************************
   ADVERTISEMENT: do not attempt to change the name of the API functions.
   They *must* be compatible between the minor Freeciv versions within the
   same major version. If you really like to change a function name, be sure
   to keep also the old one running.
-****************************************************************************/
+*****************************************************************************/
 
 $#ifdef HAVE_CONFIG_H
 $#include <fc_config.h>
 $#endif
 
+/* common/scriptcore */
 $#include "luascript_types.h"
 
 $[
 
--- **************************************************************************
+-- ***************************************************************************
 -- API Types Special Methods
--- FIXME: can this be moved into tolua_common.pkg?
--- **************************************************************************
+-- check also luascript_types.h
+-- ***************************************************************************
 do
   local api_types = {
     "Building_Type",
@@ -108,9 +109,9 @@ do
   -- End (API Types Special Methods)
 end
 
--- **************************************************************************
+-- ***************************************************************************
 -- API Lockdown
--- **************************************************************************
+-- ***************************************************************************
 
 -- Override global 'tolua' module with a reduced version
 tolua = {

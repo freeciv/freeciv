@@ -23,8 +23,12 @@ libscriptcore_la_SOURCES = \
 	api_game_methods.h	\
 	api_game_specenum.c	\
 	api_game_specenum.h	\
+	api_signal_base.c	\
+	api_signal_base.h	\
 	luascript.c		\
 	luascript.h		\
+	luascript_func.c	\
+	luascript_func.h	\
 	luascript_signal.c	\
 	luascript_signal.h	\
 	luascript_types.h	\
@@ -33,12 +37,15 @@ libscriptcore_la_SOURCES = \
 	tolua_common_z_gen.c	\
 	tolua_common_z_gen.h	\
 	tolua_game_gen.c	\
-	tolua_game_gen.h
+	tolua_game_gen.h	\
+	tolua_signal_gen.c	\
+	tolua_signal_gen.h
 
 EXTRA_DIST = \
 	tolua_common_a.pkg	\
 	tolua_common_z.pkg	\
-	tolua_game.pkg
+	tolua_game.pkg		\
+	tolua_signal.pkg
 
 BUILT_SOURCES = \
 	tolua_common_a_gen.c	\
@@ -46,7 +53,9 @@ BUILT_SOURCES = \
 	tolua_common_z_gen.c	\
 	tolua_common_z_gen.h	\
 	tolua_game_gen.c	\
-	tolua_game_gen.h
+	tolua_game_gen.h	\
+	tolua_signal_gen.c	\
+	tolua_signal_gen.h
 
 tolua_common_a_gen.c tolua_common_a_gen.h: tolua_common_a.pkg
 	$(TOLUA) -n common_a -o $(srcdir)/tolua_common_a_gen.c \
@@ -60,6 +69,10 @@ tolua_game_gen.c tolua_game_gen.h: tolua_game.pkg
 	$(TOLUA) -n game -o $(srcdir)/tolua_game_gen.c \
 	-H $(srcdir)/tolua_game_gen.h $(srcdir)/tolua_game.pkg
 
+tolua_signal_gen.c tolua_signal_gen.h: tolua_signal.pkg
+	$(TOLUA) -n signal -o $(srcdir)/tolua_signal_gen.c \
+	-H $(srcdir)/tolua_signal_gen.h $(srcdir)/tolua_signal.pkg
+
 # These files are not generated to builddir, but to srcdir */
 MAINTAINERCLEANFILES = \
 	$(srcdir)/tolua_common_a_gen.c \
@@ -67,4 +80,6 @@ MAINTAINERCLEANFILES = \
 	$(srcdir)/tolua_common_z_gen.c \
 	$(srcdir)/tolua_common_z_gen.h \
 	$(srcdir)/tolua_game_gen.c \
-	$(srcdir)/tolua_game_gen.h
+	$(srcdir)/tolua_game_gen.h \
+	$(srcdir)/tolua_signal_gen.c \
+	$(srcdir)/tolua_signal_gen.h

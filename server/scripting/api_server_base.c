@@ -11,18 +11,29 @@
    GNU General Public License for more details.
 *****************************************************************************/
 
-#ifndef FC__API_FCDB_BASE_H
-#define FC__API_FCDB_BASE_H
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
 
 /* common/scriptcore */
-#include "luascript_types.h"
+#include "luascript.h"
 
 /* server */
-#include "fcdb.h"
+#include "score.h"
+#include "srv_main.h"
 
-struct lua_State;
+/* server/scripting */
+#include "script_server.h"
 
-const char *api_fcdb_option(lua_State *L, enum fcdb_option_type type);
+#include "api_server_base.h"
 
-#endif /* FC__API_FCDB_BASE_H */
+/*****************************************************************************
+  Return the civilization score (total) for player
+*****************************************************************************/
+int api_server_player_civilization_score(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
 
+  return get_civ_score(pplayer);
+}

@@ -21,15 +21,21 @@
 #include "log.h"
 #include "rand.h"
 
+/* common/scriptcore */
+#include "luascript.h"
+
 #include "api_common_utilities.h"
 
 /************************************************************************
   Generate random number.
 ************************************************************************/
-int api_utilities_random(int min, int max)
+int api_utilities_random(lua_State *L, int min, int max)
 {
-  double roll = ((double) (fc_rand(MAX_UINT32) % MAX_UINT32)
-                 / (double) MAX_UINT32);
+  double roll;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+
+  roll = ((double) (fc_rand(MAX_UINT32) % MAX_UINT32) / MAX_UINT32);
 
   return (min + floor(roll * (max - min + 1)));
 }
@@ -37,15 +43,27 @@ int api_utilities_random(int min, int max)
 /**************************************************************************
   One log message. This module is used by script_game and script_auth.
 **************************************************************************/
-void api_utilities_log_base(int level, const char *message)
+void api_utilities_log_base(lua_State *L, int level, const char *message)
 {
-  log_base(level, "%s", message);
+  struct fc_lua *fcl;
+
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_ARG_NIL(L, message, 3, string);
+
+  fcl = luascript_get_fcl(L);
+
+  LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!");
+
+  luascript_log(fcl, level, "%s", message);
 }
 
 /**************************************************************************
   Convert text describing direction into direction
 **************************************************************************/
-Direction api_utilities_str2dir(const char *dir)
+Direction api_utilities_str2dir(lua_State *L, const char *dir)
 {
+  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+  LUASCRIPT_CHECK_ARG_NIL(L, dir, 2, string, direction8_invalid());
+
   return direction8_by_name(dir, fc_strcasecmp);
 }

@@ -1,4 +1,4 @@
-/**********************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,18 +9,28 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+*****************************************************************************/
 
-#ifndef FC__API_UTILITIES_H
-#define FC__API_UTILITIES_H
+#ifndef FC__API_COMMON_UTILITIES_H
+#define FC__API_COMMON_UTILITIES_H
 
-/* server/scripting */
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+/* common/scriptcore */
 #include "luascript_types.h"
 
-int api_utilities_random(int min, int max);
+struct lua_State;
 
-void api_utilities_log_base(int level, const char *message);
+int api_utilities_random(lua_State *L, int min, int max);
 
-Direction api_utilities_str2dir(const char *dir);
+Direction api_utilities_str2dir(lua_State *L, const char *dir);
 
-#endif /* FC__API_UTILITIES_H */
+void api_utilities_log_base(lua_State *L, int level, const char *message);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* FC__API_COMMON_UTILITIES_H */

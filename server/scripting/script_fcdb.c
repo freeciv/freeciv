@@ -1,4 +1,4 @@
-/****************************************************************************
+/*****************************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-****************************************************************************/
+*****************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -41,12 +41,19 @@
 #include "log.h"
 #include "md5.h"
 #include "registry.h"
+#include "string_vector.h"
 
-/* server/scripting */
+/* common/scriptcore */
 #include "luascript.h"
 #include "luascript_types.h"
 #include "tolua_common_a_gen.h"
 #include "tolua_common_z_gen.h"
+
+/* server */
+#include "console.h"
+#include "stdinhand.h"
+
+/* server/scripting */
 #ifdef HAVE_FCDB
 #include "tolua_fcdb_gen.h"
 #endif /* HAVE_FCDB */
@@ -57,103 +64,19 @@
 
 #define SCRIPT_FCDB_LUA_FILE "database.lua"
 
-static struct fcdb_func *fcdb_func_new(int nargs, enum api_types *parg_types);
-static void fcdb_func_destroy(struct fcdb_func *pfcdb_func);
-
 static void script_fcdb_functions_define(void);
 static bool script_fcdb_functions_check(const char *fcdb_luafile);
-static void script_fcdb_add_func_valist(const char *func_name, int nargs,
-                                        va_list args);
-static void script_fcdb_add_func(const char *func_name, int nargs, ...);
 
-/****************************************************************************
+static void script_fcdb_cmd_reply(struct fc_lua *fcl, enum log_level level,
+                                  const char *format, ...)
+            fc__attribute((__format__ (__printf__, 3, 4)));
+
+/*****************************************************************************
   Lua virtual machine state.
-****************************************************************************/
-static lua_State *state = NULL;
+*****************************************************************************/
+static struct fc_lua *fcl = NULL;
 
-struct fcdb_func {
-  int nargs;                  /* number of arguments to pass */
-  enum api_types *arg_types;  /* argument types */
-};
-
-#define SPECHASH_TAG fcdb_func
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct fcdb_func *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#define SPECHASH_DATA_FREE fcdb_func_destroy
-#include "spechash.h"
-
-#define fcdb_func_hash_keys_iterate(phash, key)                              \
-  TYPED_HASH_KEYS_ITERATE(char *, phash, key)
-#define fcdb_func_hash_keys_iterate_end                                      \
-  HASH_KEYS_ITERATE_END
-
-static struct fcdb_func_hash *fcdb_funcs = NULL;
-#endif /* HAVE_FCDB */
-
-/****************************************************************************
-  Internal api error function.
-  Invoking this will cause Lua to stop executing the current context and
-  throw an exception, so to speak.
-****************************************************************************/
-int script_fcdb_error(const char *format, ...)
-{
-#ifdef HAVE_FCDB
-  va_list vargs;
-  int ret;
-
-  va_start(vargs, format);
-  ret = luascript_error(state, format, vargs);
-  va_end(vargs);
-
-  return ret;
-#else
-  return -1;
-#endif /* HAVE_FCDB */
-}
-
-/****************************************************************************
-  Like script_error, but using a prefix identifying the called lua function:
-    bad argument #narg to '<func>': msg
-****************************************************************************/
-int script_fcdb_arg_error(int narg, const char *msg)
-{
-#ifdef HAVE_FCDB
-  return luascript_arg_error(state, narg, msg);
-#else
-  return -1;
-#endif /* HAVE_FCDB */
-}
-
-#ifdef HAVE_FCDB
-/****************************************************************************
-  Create a new signal.
-****************************************************************************/
-static struct fcdb_func *fcdb_func_new(int nargs, enum api_types *parg_types)
-{
-  struct fcdb_func *pfcdb_func = fc_malloc(sizeof(*pfcdb_func));
-
-  pfcdb_func->nargs = nargs;
-  pfcdb_func->arg_types = parg_types;
-
-  return pfcdb_func;
-}
-
-/****************************************************************************
-  Free a signal.
-****************************************************************************/
-static void fcdb_func_destroy(struct fcdb_func *pfcdb_func)
-{
-  if (pfcdb_func->arg_types) {
-    free(pfcdb_func->arg_types);
-  }
-  free(pfcdb_func);
-}
-
-/****************************************************************************
+/*****************************************************************************
   Add fcdb callback functions; these must be defined in the lua script
   'database.lua':
 
@@ -172,88 +95,95 @@ static void fcdb_func_destroy(struct fcdb_func *pfcdb_func)
   If a database error did occur, the functions return FCDB_SUCCESS_ERROR.
   If the request was successful, FCDB_SUCCESS_TRUE is returned.
   If the request was not successful, FCDB_SUCCESS_FALSE is returned.
-****************************************************************************/
+*****************************************************************************/
 static void script_fcdb_functions_define(void)
 {
-  script_fcdb_add_func("database_init", 0);
-  script_fcdb_add_func("database_free", 0);
+  luascript_func_add(fcl, "database_init", TRUE, 0);
+  luascript_func_add(fcl, "database_free", TRUE, 0);
 
-  script_fcdb_add_func("user_load", 1, API_TYPE_CONNECTION);
-  script_fcdb_add_func("user_save", 1, API_TYPE_CONNECTION);
-  script_fcdb_add_func("user_log", 2, API_TYPE_CONNECTION, API_TYPE_BOOL);
+  luascript_func_add(fcl, "user_load", TRUE, 1,
+                     API_TYPE_CONNECTION);
+  luascript_func_add(fcl, "user_save", TRUE, 1,
+                     API_TYPE_CONNECTION);
+  luascript_func_add(fcl, "user_log", TRUE, 2,
+                     API_TYPE_CONNECTION, API_TYPE_BOOL);
 }
 
-/****************************************************************************
-  ...
-****************************************************************************/
+/*****************************************************************************
+  Check the existence of all needed functions.
+*****************************************************************************/
 static bool script_fcdb_functions_check(const char *fcdb_luafile)
 {
   bool ret = TRUE;
+  struct strvec *missing_func_required = strvec_new();
+  struct strvec *missing_func_optional = strvec_new();
 
-  if (!fcdb_funcs) {
-    return FALSE;
+  if (!luascript_func_check(fcl, missing_func_required,
+                            missing_func_optional)) {
+    strvec_iterate(missing_func_required, func_name) {
+      log_error("Database script '%s' does not define the required function "
+                "'%s'.", fcdb_luafile, func_name);
+      ret = FALSE;
+    } strvec_iterate_end;
+    strvec_iterate(missing_func_optional, func_name) {
+      log_verbose("Database script '%s' does not define the optional "
+                  "function '%s'.", fcdb_luafile, func_name);
+    } strvec_iterate_end;
   }
 
-  fcdb_func_hash_keys_iterate(fcdb_funcs, func_name) {
-    if (!luascript_func_check(state, func_name)) {
-      log_error("Database script '%s' does not define a '%s' function.",
-                fcdb_luafile, func_name);
-      /* We do not return here to print all errors. */
-      ret = FALSE;
-    }
-  } fcdb_func_hash_keys_iterate_end;
+  strvec_destroy(missing_func_required);
+  strvec_destroy(missing_func_optional);
 
   return ret;
 }
 
-/****************************************************************************
-  ...
-****************************************************************************/
-static void script_fcdb_add_func_valist(const char *func_name, int nargs,
-                                        va_list args)
-{
-  struct fcdb_func *pfcdb_func;
-
-  if (fcdb_func_hash_lookup(fcdb_funcs, func_name, &pfcdb_func)) {
-    log_error("Freeciv database function '%s' was already created.",
-              func_name);
-  } else {
-    enum api_types *parg_types = fc_calloc(nargs, sizeof(*parg_types));
-    char *name = fc_strdup(func_name);
-    int i;
-
-    for (i = 0; i < nargs; i++) {
-      *(parg_types + i) = va_arg(args, int);
-    }
-
-    pfcdb_func = fcdb_func_new(nargs, parg_types);
-
-    fcdb_func_hash_insert(fcdb_funcs, name, pfcdb_func);
-  }
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void script_fcdb_add_func(const char *func_name, int nargs, ...)
+/*****************************************************************************
+  Send the message via cmd_reply().
+*****************************************************************************/
+static void script_fcdb_cmd_reply(struct fc_lua *fcl, enum log_level level,
+                                  const char *format, ...)
 {
   va_list args;
+  enum rfc_status rfc_status = C_OK;
+  char buf[1024];
 
-  va_start(args, nargs);
-  script_fcdb_add_func_valist(func_name, nargs, args);
+  va_start(args, format);
+  fc_vsnprintf(buf, sizeof(buf), format, args);
   va_end(args);
+
+  switch (level) {
+  case LOG_FATAL:
+    /* Special case - will quit the server. */
+    log_fatal("%s", buf);
+    break;
+  case LOG_ERROR:
+    rfc_status = C_WARNING;
+    break;
+  case LOG_NORMAL:
+    rfc_status = C_COMMENT;
+    break;
+  case LOG_VERBOSE:
+    rfc_status = C_LOG_BASE;
+    break;
+  case LOG_DEBUG:
+    rfc_status = C_DEBUG;
+    break;
+  }
+
+  cmd_reply(CMD_FCDB, fcl->caller, rfc_status, "%s", buf);
 }
 #endif /* HAVE_FCDB */
 
-/****************************************************************************
+/*****************************************************************************
   Initialize the scripting state. Returns the status of the freeciv database
   lua state.
-****************************************************************************/
+*****************************************************************************/
 bool script_fcdb_init(const char *fcdb_luafile)
 {
 #ifdef HAVE_FCDB
-  if (state) {
-    /* state is defined. */
+  if (fcl != NULL) {
+    fc_assert_ret_val(fcl->state != NULL, FALSE);
+
     return TRUE;
   }
 
@@ -267,40 +197,47 @@ bool script_fcdb_init(const char *fcdb_luafile)
     return FALSE;
   }
 
-  state = luascript_new();
-  if (!state) {
+  fcl = luascript_new(NULL);
+  if (!fcl) {
+    luascript_destroy(fcl);
+    fcl = NULL;
+
     log_error("Error loading the freeciv database lua definition.");
     return FALSE;
   }
 
-  tolua_common_a_open(state);
-  tolua_fcdb_open(state);
+  /* Set the logging output function. */
+  fcl->output_fct = script_fcdb_cmd_reply;
+
+  tolua_common_a_open(fcl->state);
+  tolua_fcdb_open(fcl->state);
 #ifdef HAVE_FCDB_MYSQL
-  luaopen_luasql_mysql(state);
+  luaopen_luasql_mysql(fcl->state);
 #endif
 #ifdef HAVE_FCDB_POSTGRES
-  luaopen_luasql_postgres(state);
+  luaopen_luasql_postgres(fcl->state);
 #endif
 #ifdef HAVE_FCDB_SQLITE3
-  luaopen_luasql_sqlite3(state);
+  luaopen_luasql_sqlite3(fcl->state);
 #endif
-  tolua_common_z_open(state);
+  tolua_common_z_open(fcl->state);
 
-  if (!fcdb_funcs) {
-    /* Define the prototypes for the needed lua functions. */
-    fcdb_funcs = fcdb_func_hash_new();
-    script_fcdb_functions_define();
-  }
+  luascript_func_init(fcl);
 
-  if (luascript_do_file(state, fcdb_luafile)
+  /* Define the prototypes for the needed lua functions. */
+  script_fcdb_functions_define();
+
+  if (luascript_do_file(fcl, fcdb_luafile)
       || !script_fcdb_functions_check(fcdb_luafile)) {
     log_error("Error loading the freeciv database lua script '%s'.",
               fcdb_luafile);
+    script_fcdb_free();
     return FALSE;
   }
 
   if (script_fcdb_call("database_init", 0) != FCDB_SUCCESS_TRUE) {
     log_error("Error connecting to the database");
+    script_fcdb_free();
     return FALSE;
   }
 #endif /* HAVE_FCDB */
@@ -308,61 +245,27 @@ bool script_fcdb_init(const char *fcdb_luafile)
   return TRUE;
 }
 
-/****************************************************************************
+/*****************************************************************************
   Call a lua function.
 
   Example call to the lua function 'user_load()':
     script_fcdb_call("user_load", 1, API_TYPE_CONNECTION, pconn);
-****************************************************************************/
+*****************************************************************************/
 enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...)
 {
 #ifdef HAVE_FCDB
-  struct fcdb_func *pfcdb_func;
-  va_list args;
   enum fcdb_status status = FCDB_ERROR; /* Default return value. */
+  bool success;
+  int ret;
 
-  fc_assert_ret_val(fcdb_funcs, FCDB_ERROR);
-
-  if (!fcdb_func_hash_lookup(fcdb_funcs, func_name, &pfcdb_func)) {
-    log_error("FCDB function '%s' does not exist, so cannot be invoked.",
-              func_name);
-    return status;
-  }
-
-  if (pfcdb_func->nargs != nargs) {
-    log_error("FCDB function '%s' requires %d args, was passed %d on invoke.",
-              func_name, pfcdb_func->nargs, nargs);
-    return status;
-  }
-
-  /* The function name */
-  lua_getglobal(state, func_name);
-
-  if (!lua_isfunction(state, -1)) {
-    log_error("lua error: Unknown FCDB function '%s'", func_name);
-    lua_pop(state, 1);
-    return status;
-  }
-
+  va_list args;
   va_start(args, nargs);
-  luascript_push_args(state, nargs, pfcdb_func->arg_types, args);
+  success = luascript_func_call_valist(fcl, func_name, &ret, nargs, args);
   va_end(args);
 
-  /* Call the function with nargs arguments, return 1 results */
-  if (luascript_call(state, nargs, 1, NULL) == 0) {
-    /* Check the return value. */
-    if (lua_isnumber(state, -1)) {
-      int ret = lua_tonumber(state, -1);
-
-      if (fcdb_status_is_valid(ret)) {
-        status = (enum fcdb_status) ret;
-      }
-    }
-    lua_pop(state, 1);   /* pop return value */
+  if (success && fcdb_status_is_valid(ret)) {
+    status = (enum fcdb_status) ret;
   }
-
-  log_verbose("Call to '%s' returned with '%s'.", func_name,
-              fcdb_status_name(status));
 
   return status;
 #else
@@ -370,9 +273,9 @@ enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...)
 #endif /* HAVE_FCDB */
 }
 
-/****************************************************************************
+/*****************************************************************************
   Free the scripting data.
-****************************************************************************/
+*****************************************************************************/
 void script_fcdb_free(void)
 {
 #ifdef HAVE_FCDB
@@ -380,25 +283,24 @@ void script_fcdb_free(void)
     log_error("Error closing the database connection. Continuing anyway ...");
   }
 
-  if (state) {
-    luascript_destroy(state);
-    state = NULL;
-  }
-
-  if (fcdb_funcs) {
-    fcdb_func_hash_destroy(fcdb_funcs);
-    fcdb_funcs = NULL;
+  if (fcl) {
+    /* luascript_func_free() is called by luascript_destroy(). */
+    luascript_destroy(fcl);
+    fcl = NULL;
   }
 #endif /* HAVE_FCDB */
 }
 
 /*****************************************************************************
-  Parse and execute the script in str in the lua instance for the freeciv database.
+  Parse and execute the script in str in the lua instance for the freeciv
+  database.
 *****************************************************************************/
 bool script_fcdb_do_string(const char *str)
 {
 #ifdef HAVE_FCDB
-  int status = luascript_do_string(state, str, "cmd");
+  int status;
+
+  status = luascript_do_string(fcl, str, "cmd");
   return (status == 0);
 #else
   return TRUE;
