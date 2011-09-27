@@ -168,4 +168,48 @@ function listenv()
   _listenv_loop("", _G)
 end
 
+-- ***************************************************************************
+-- Flexible "constant" implementation
+-- source: http://developer.anscamobile.com/code/\
+--                universal-constants-module-very-easy-usage
+-- written in 2010 by Hans Raaf - use as you wish!
+-- ***************************************************************************
+
+const = {}
+local data = {}
+const_mt = {
+  __newindex = function(a,b,c)
+    if data[b] == nil then
+      if type(c) == 'table' then
+        -- make that table readonly
+        local proxy = {}
+        -- create metatable
+        local mt = {
+          __index = c,
+          __newindex = function (t,k,v)
+            log.error([["Attempt to update read-only table '%s' index '%s' "
+                        "with '%s'."]], b, tostring(k), tostring(v))
+          end
+        }
+        setmetatable(proxy, mt)
+        data[b] = proxy
+      else
+        data[b] = c
+      end
+    else
+      log.error("Illegal assignment to constant '%s'.", tostring(b))
+    end
+  end,
+ 
+  __index = function(a,b)
+    return data[b]
+  end
+}
+setmetatable(const, const_mt)
+
+-- define TRUE = 1
+const.TRUE = 1
+-- define FALSE = 0
+const.FALSE = 0
+
 $]
