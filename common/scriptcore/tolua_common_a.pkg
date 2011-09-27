@@ -145,4 +145,27 @@ function _freeciv_state_dump()
   return res
 end
 
+-- ***************************************************************************
+-- List all defined lua variables (functions, tables)
+-- Source http://www.wellho.net/resources/ex.php4?item=u112/basics
+-- ***************************************************************************
+function listenv()
+  -- helper function for listenv
+  local function _listenv_loop(offset, data)
+    local name
+    local value
+
+    for name,value in pairs(data) do
+      if name ~= "loaded" and name ~= "_G" and name:sub(0,2) ~= "__" then
+        log.normal("%s- %s: %s", offset, type(value), name)
+        if type(value) == "table" then
+          _listenv_loop(offset .. "    ", value)
+        end
+      end
+    end
+  end
+
+  _listenv_loop("", _G)
+end
+
 $]
