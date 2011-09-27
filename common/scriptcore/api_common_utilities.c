@@ -17,6 +17,9 @@
 
 #include <math.h>
 
+/* common */
+#include "version.h"
+
 /* utilities */
 #include "log.h"
 #include "rand.h"
@@ -38,6 +41,14 @@ int api_utilities_random(lua_State *L, int min, int max)
   roll = ((double) (fc_rand(MAX_UINT32) % MAX_UINT32) / MAX_UINT32);
 
   return (min + floor(roll * (max - min + 1)));
+}
+
+/************************************************************************
+  Return the version of freeciv lua script
+************************************************************************/
+const char *api_utilities_fc_version(lua_State *L)
+{
+  return freeciv_name_version();
 }
 
 /**************************************************************************

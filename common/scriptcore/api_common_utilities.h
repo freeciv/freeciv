@@ -27,6 +27,8 @@ int api_utilities_random(lua_State *L, int min, int max);
 
 Direction api_utilities_str2dir(lua_State *L, const char *dir);
 
+const char *api_utilities_fc_version(lua_State *L);
+
 void api_utilities_log_base(lua_State *L, int level, const char *message);
 
 #ifdef __cplusplus
