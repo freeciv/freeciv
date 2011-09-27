@@ -39,6 +39,43 @@ module signal {
               const char *callback_name);
 }
 
+$[
+-- Signal module implementation.
+
+function signal.list()
+  local signal_id = 0;
+  local signal_name = nil;
+
+  log.normal("List of signals:");
+  repeat
+    local signal_name = find.signal(signal_id);
+    if (signal_name) then
+      local callback_id = 0;
+      local callback_name = nil;
+
+      log.normal("- callbacks for signal '%s':", signal_name);
+      repeat
+        local callback_name = find.signal_callback(signal_name, callback_id);
+        if (callback_name) then
+          log.normal("   [%3d] '%s'", callback_id, callback_name);
+        end
+        callback_id = callback_id + 1;
+      until (callback_name == nil);
+
+      signal_id = signal_id + 1;
+    end
+  until (signal_name == nil);
+end
+
+function signal.replace(signal_name, callback_name)
+  if signal.defined(signal_name, callback_name) then
+    signal.remove(signal_name, callback_name)
+  end
+  signal.connect(signal_name, callback_name)
+end
+
+$]
+
 /* Module find. */
 module find {
   const char *api_signal_by_index
