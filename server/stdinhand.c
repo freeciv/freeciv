@@ -142,7 +142,6 @@ static bool read_init_script_real(struct connection *caller,
 static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
 static bool lua_command(struct connection *caller, char *arg, bool check);
-static bool luafile_command(struct connection *caller, char *arg, bool check);
 static bool kick_command(struct connection *caller, char *name, bool check);
 static bool delegate_command(struct connection *caller, char *arg,
                              bool check);
@@ -4314,8 +4313,6 @@ static bool handle_stdin_input_real(struct connection *caller,
     return reset_command(caller, arg, check, read_recursion);
   case CMD_LUA:
     return lua_command(caller, arg, check);
-  case CMD_LUAFILE:
-    return luafile_command(caller, arg, check);
   case CMD_KICK:
     return kick_command(caller, arg, check);
   case CMD_DELEGATE:
@@ -4526,16 +4523,145 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   return TRUE;
 }
 
-/**************************************************************************
-  Evaluate a line of lua script
-**************************************************************************/
+/* Define the possible arguments to the delegation command */
+#define SPECENUM_NAME lua_args
+#define SPECENUM_VALUE0     LUA_CMD
+#define SPECENUM_VALUE0NAME "cmd"
+#define SPECENUM_VALUE1     LUA_FILE
+#define SPECENUM_VALUE1NAME "file"
+#include "specenum_gen.h"
+
+/*****************************************************************************
+  Returns possible parameters for the reset command.
+*****************************************************************************/
+static const char *lua_accessor(int i)
+{
+  i = CLIP(0, i, lua_args_max());
+  return lua_args_name((enum lua_args) i);
+}
+
+/*****************************************************************************
+  Evaluate a line of lua script or a lua script file.
+*****************************************************************************/
 static bool lua_command(struct connection *caller, char *arg, bool check)
 {
-  if (check) {
-    return TRUE;
+  FILE *script_file;
+  const char extension[] = ".lua", *real_filename = NULL;
+  char luafile[4096], tilde_filename[4096];
+  char *tokens[1], *luaarg = NULL;
+  int ntokens, ind;
+  enum m_pre_result result;
+  bool ret = FALSE;
+
+  ntokens = get_tokens(arg, tokens, 1, TOKEN_DELIMITERS);
+
+  if (ntokens > 0) {
+    /* match the argument */
+    result = match_prefix(lua_accessor, lua_args_max() + 1, 0,
+                          fc_strncasecmp, NULL, tokens[0], &ind);
+
+    switch (result) {
+    case M_PRE_EXACT:
+    case M_PRE_ONLY:
+      /* We have a match */
+      luaarg = arg + strlen(lua_args_name(ind));
+      luaarg = skip_leading_spaces(luaarg);
+      break;
+    case M_PRE_EMPTY:
+      /* Nothing. */
+      break;
+    case M_PRE_AMBIGUOUS:
+    case M_PRE_LONG:
+    case M_PRE_FAIL:
+    case M_PRE_LAST:
+      /* Fall back to depreciated 'lua <script command>' syntax. */
+      cmd_reply(CMD_LUA, caller, C_SYNTAX,
+                _("Fall back to old syntax '%slua <script command>."),
+                caller ? "/" : "");
+      ind = LUA_CMD;
+      luaarg = arg;
+      break;
+    }
   }
 
-  return script_server_do_string(caller, arg);
+  if (luaarg == NULL) {
+    cmd_reply(CMD_LUA, caller, C_FAIL,
+              _("No lua command or lua script file. See '%shelp lua'."),
+              caller ? "/" : "");
+    ret = TRUE;
+    goto cleanup;
+  }
+
+  switch (ind) {
+  case LUA_CMD:
+    /* Nothing to check. */
+    break;
+  case LUA_FILE:
+    /* Abuse real_filename to find if we already have a .lua extension. */
+    real_filename = luaarg + strlen(luaarg) - MIN(strlen(extension),
+                                                  strlen(luaarg));
+    if (strcmp(real_filename, extension) != 0) {
+      fc_snprintf(luafile, sizeof(luafile), "%s%s", luaarg, extension);
+    } else {
+      sz_strlcpy(luafile, luaarg);
+    }
+
+    if (is_restricted(caller)) {
+      if (!is_safe_filename(luafile)) {
+        cmd_reply(CMD_LUA, caller, C_FAIL,
+                  _("Freeciv script '%s' disallowed for security reasons."),
+                  luafile);
+        ret = FALSE;
+        goto cleanup;;
+      }
+      sz_strlcpy(tilde_filename, luafile);
+    } else {
+      interpret_tilde(tilde_filename, sizeof(tilde_filename), luafile);
+    }
+
+    real_filename = fileinfoname(get_data_dirs(), tilde_filename);
+    if (!real_filename) {
+      if (is_restricted(caller)) {
+        cmd_reply(CMD_LUA, caller, C_FAIL,
+                  _("No Freeciv script found by the name '%s'."),
+                  tilde_filename);
+        ret = FALSE;
+        goto cleanup;
+      }
+      /* File is outside data directories */
+      real_filename = tilde_filename;
+    }
+    break;
+  }
+
+  if (check) {
+    ret = TRUE;
+    goto cleanup;
+  }
+
+  switch (ind) {
+  case LUA_CMD:
+    ret = script_server_do_string(caller, luaarg);
+    break;
+  case LUA_FILE:
+    cmd_reply(CMD_LUA, caller, C_COMMENT,
+              _("Loading Freeciv script file '%s'."), real_filename);
+
+    if (is_reg_file_for_access(real_filename, FALSE)
+        && (script_file = fc_fopen(real_filename, "r"))) {
+      ret = script_server_do_file(caller, real_filename);
+      goto cleanup;
+    } else {
+      cmd_reply(CMD_LUA, caller, C_FAIL,
+                _("Cannot read Freeciv script '%s'."), real_filename);
+      ret = FALSE;
+      goto cleanup;
+    }
+  }
+
+ cleanup:
+  free_tokens(tokens, ntokens);
+  return ret;
 }
 
 /* Define the possible arguments to the delegation command */
@@ -4921,63 +5047,6 @@ static const char *delegate_player_str(struct player *pplayer, bool observer)
   }
 
   return buf;
-}
-
-/*****************************************************************************
-  Evaluate a line of lua script
-*****************************************************************************/
-static bool luafile_command(struct connection *caller, char *arg, bool check)
-{
-  FILE *script_file;
-  const char extension[] = ".lua";
-  char luafile[4096], tile_filename[4096];
-  const char *real_filename;
-
-  /* abuse real_filename to find if we already have a .serv extension */
-  real_filename = arg + strlen(arg) - MIN(strlen(extension), strlen(arg));
-  if (strcmp(real_filename, extension) != 0) {
-    fc_snprintf(luafile, sizeof(luafile), "%s%s", arg, extension);
-  } else {
-    sz_strlcpy(luafile, arg);
-  }
-
-  if (is_restricted(caller)) {
-    if (!is_safe_filename(luafile)) {
-      cmd_reply(CMD_LUAFILE, caller, C_FAIL,
-                _("Freeciv script '%s' disallowed for security reasons."),
-                luafile);
-      return FALSE;
-    }
-    sz_strlcpy(tile_filename, luafile);
-  } else {
-    interpret_tilde(tile_filename, sizeof(tile_filename), luafile);
-  }
-
-  real_filename = fileinfoname(get_data_dirs(), tile_filename);
-  if (!real_filename) {
-    if (is_restricted(caller)) {
-      cmd_reply(CMD_LUAFILE, caller, C_FAIL,
-                _("No Freeciv script found by the name '%s'."), 
-                tile_filename);
-      return FALSE;
-    }
-    /* File is outside data directories */
-    real_filename = tile_filename;
-  }
-
-  log_normal(_("Loading Freeciv script file '%s'."), real_filename);
-
-  if (is_reg_file_for_access(real_filename, FALSE)
-      && (script_file = fc_fopen(real_filename, "r"))) {
-    return script_server_do_file(caller, real_filename);
-  } else {
-    cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
-              _("Cannot read Freeciv script '%s'."), real_filename);
-    if (NULL != caller) {
-      log_error(_("Could not read Freeciv script '%s'."), real_filename);
-    }
-    return FALSE;
-  }
 }
 
 /* Define the possible arguments to the mapimg command */
