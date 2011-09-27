@@ -48,3 +48,12 @@ bool api_server_was_started(lua_State *L)
   return game_was_started();
 }
 
+/*****************************************************************************
+  Save the game (a manual save is triggert).
+*****************************************************************************/
+void api_server_save(lua_State *L, const char *filename)
+{
+  LUASCRIPT_CHECK_STATE(L);
+
+  save_game(filename, "User request (Lua)", FALSE);
+}
