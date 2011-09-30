@@ -314,6 +314,15 @@ extern "C" {
 #define SPECENUM_VALUE125NAME "Illegal_Action_HP_Cost"
 #define SPECENUM_VALUE126 EFT_POPCOST_FREE
 #define SPECENUM_VALUE126NAME "Popcost_Free"
+/* Ruleset specific effects for use from Lua scripts */
+#define SPECENUM_VALUE127 EFT_USER_EFFECT_1
+#define SPECENUM_VALUE127NAME "User_Effect_1"
+#define SPECENUM_VALUE128 EFT_USER_EFFECT_2
+#define SPECENUM_VALUE128NAME "User_Effect_2"
+#define SPECENUM_VALUE129 EFT_USER_EFFECT_3
+#define SPECENUM_VALUE129NAME "User_Effect_3"
+#define SPECENUM_VALUE130 EFT_USER_EFFECT_4
+#define SPECENUM_VALUE130NAME "User_Effect_4"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

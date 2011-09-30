@@ -664,6 +664,12 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_INFRA_POINTS:
     v += amount * adv->infra_priority;
     break;
+  case EFT_USER_EFFECT_1:
+  case EFT_USER_EFFECT_2:
+  case EFT_USER_EFFECT_3:
+  case EFT_USER_EFFECT_4:
+    /* The AI has no idea what this does. */
+    break;
   case EFT_COUNT:
     log_error("Bad effect type.");
     break;

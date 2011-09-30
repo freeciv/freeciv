@@ -652,6 +652,13 @@ Infra_Points
     are negative after all cities have been processed, they are set to 0.
 
 
+Ruleset defined effects
+=======================
+The effects User_Effect_1, User_Effect_2, User_Effect_3 and User_Effect_4
+are "blank". They have no meaning by them self. The ruleset does everything
+they do.
+
+
 Effects and Lua
 ===============
 Lua has some integration with effects. The effects module allows you to
