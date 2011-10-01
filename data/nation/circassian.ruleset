@@ -33,7 +33,7 @@ ruler_titles = {
  "government",      "male_title",     "female_title"
  "Despotism",       _("%s Bey"),      _("?female:%s Bey")
  "Monarchy",        _("Emir %s"),     _("Emira %s")
- "Fundamentalism",  _("Grand Mufti"), _("?female:Grand Mufti %s")
+ "Fundamentalism",  _("Grand Mufti %s"), _("?female:Grand Mufti %s")
 }
 
 init_techs=""
