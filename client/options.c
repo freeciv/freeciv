@@ -83,6 +83,7 @@ bool solid_color_behind_units = FALSE;
 bool sound_bell_at_new_turn = FALSE;
 int smooth_move_unit_msec = 30;
 int smooth_center_slide_msec = 200;
+int smooth_combat_step_msec = 10;
 bool do_combat_animation = TRUE;
 bool ai_manual_turn_done = TRUE;
 bool auto_center_on_unit = TRUE;
@@ -1829,6 +1830,10 @@ static struct client_option client_options[] = {
                     "option controls how long this slide lasts.  Set it to "
                     "0 to disable mapview sliding entirely."),
                  COC_GRAPHICS, GUI_LAST, 200, 0, 5000, NULL),
+  GEN_INT_OPTION(smooth_combat_step_msec,
+                 N_("Combat animation step time (milliseconds)"),
+                 N_("This option controls the speed of combat animation."),
+                 COC_GRAPHICS, GUI_LAST, 10, 1, 100, NULL),
   GEN_BOOL_OPTION(do_combat_animation, N_("Show combat animation"),
                   N_("Disabling this option will turn off combat animation "
                      "between units on the mapview."),

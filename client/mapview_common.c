@@ -1973,7 +1973,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     unqueue_mapview_updates(TRUE);
     gui_flush();
 
-    usleep_since_timer_start(anim_timer, 10000);
+    usleep_since_timer_start(anim_timer, smooth_combat_step_msec * 1000ul);
   }
 
   if (num_tiles_explode_unit > 0
@@ -2007,7 +2007,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       flush_dirty();
       gui_flush();
 
-      usleep_since_timer_start(anim_timer, 20000);
+      usleep_since_timer_start(anim_timer,
+                               smooth_combat_step_msec * 2 * 1000ul);
     }
   }
 
