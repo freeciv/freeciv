@@ -546,7 +546,7 @@ void wonder_destroyed(const struct city *pcity,
 
   pplayer = city_owner(pcity);
   fc_assert_ret(pplayer->wonders[index] == pcity->id);
-  pplayer->wonders[index] = WONDER_NOT_BUILT;
+  pplayer->wonders[index] = WONDER_LOST;
 
   if (is_great_wonder(pimprove)) {
     fc_assert_ret(game.info.great_wonder_owners[index]
@@ -556,7 +556,21 @@ void wonder_destroyed(const struct city *pcity,
 }
 
 /**************************************************************************
-  Returns whether the player has built this wonder (small or great).
+  Returns whether the player has lost this wonder after having owned it
+  (small or great).
+**************************************************************************/
+bool wonder_is_lost(const struct player *pplayer,
+                    const struct impr_type *pimprove)
+{
+  fc_assert_ret_val(NULL != pplayer, NULL);
+  fc_assert_ret_val(is_wonder(pimprove), NULL);
+
+  return pplayer->wonders[improvement_index(pimprove)] == WONDER_LOST;
+}
+
+/**************************************************************************
+  Returns whether the player is currently in possession of this wonder
+  (small or great).
 **************************************************************************/
 bool wonder_is_built(const struct player *pplayer,
                      const struct impr_type *pimprove)
@@ -569,7 +583,7 @@ bool wonder_is_built(const struct player *pplayer,
 
 /**************************************************************************
   Get the world city with this wonder (small or great).  This doesn't
-  always success on the client side.
+  always succeed on the client side.
 **************************************************************************/
 struct city *city_from_wonder(const struct player *pplayer,
                               const struct impr_type *pimprove)

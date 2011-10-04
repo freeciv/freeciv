@@ -540,6 +540,31 @@ static int num_world_buildings(const struct impr_type *building)
 }
 
 /****************************************************************************
+  Returns whether a building of a certain type has ever been built by
+  pplayer, even if it has subsequently been destroyed.
+
+  Note: the implementation of this is no different in principle from
+  num_world_buildings_total(), but the semantics are different because
+  unlike a great wonder, a small wonder could be destroyed and rebuilt
+  many times, requiring return of values >1, but there's no record kept
+  to support that. Fortunately, the only current caller doesn't need the
+  exact number.
+****************************************************************************/
+static bool player_has_ever_built(const struct player *pplayer,
+                                  const struct impr_type *building)
+{
+  if (is_wonder(building)) {
+    return (wonder_is_built(pplayer, building)
+            || wonder_is_lost(pplayer, building) ? TRUE : FALSE);
+  } else {
+    /* TRANS: Obscure ruleset error. */
+    log_error(_("Player-ranged requirements are only supported "
+                "for wonders."));
+    return FALSE;
+  }
+}
+
+/****************************************************************************
   Returns the number of buildings of a certain type owned by plr.
 ****************************************************************************/
 static int num_player_buildings(const struct player *pplayer,
@@ -618,11 +643,13 @@ static int count_buildings_in_range(const struct player *target_player,
   if (survives) {
     if (range == REQ_RANGE_WORLD) {
       return num_world_buildings_total(source);
+    } else if (range == REQ_RANGE_PLAYER) {
+      return player_has_ever_built(target_player, source);
     } else {
       /* There is no sources cache for this. */
       /* TRANS: Obscure ruleset error. */
       log_error(_("Surviving requirements are only supported "
-                  "at world range."));
+                  "at world and player ranges."));
       return 0;
     }
   }

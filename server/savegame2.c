@@ -2890,7 +2890,7 @@ static void sg_load_players_basic(struct loaddata *loading)
   for (k = 0; k < loading->improvement.size; k++) {
     sg_failure_ret(string[k] == '1' || string[k] == '0',
                    "Undefined value '%c' within "
-                   "'players.destroyed_wonders'.", string[k])
+                   "'players.destroyed_wonders'.", string[k]);
 
     if (string[k] == '1') {
       struct impr_type *pimprove =
@@ -3480,6 +3480,30 @@ static void sg_load_player_main(struct loaddata *loading,
       spaceship_calc_derived(ship);
     }
   }
+
+  /* Load lost wonder data. */
+  string = secfile_lookup_str(loading->file, "player%d.lost_wonders", plrno);
+  /* If not present, probably an old savegame; nothing to be done */
+  if (string) {
+    int k;
+    sg_failure_ret(strlen(string) == loading->improvement.size,
+                   "Invalid length for 'player%d.lost_wonders' "
+                   "(%lu ~= %lu)", plrno, (unsigned long) strlen(string),
+                   (unsigned long) loading->improvement.size);
+    for (k = 0; k < loading->improvement.size; k++) {
+      sg_failure_ret(string[k] == '1' || string[k] == '0',
+                     "Undefined value '%c' within "
+                     "'player%d.lost_wonders'.", plrno, string[k]);
+
+      if (string[k] == '1') {
+        struct impr_type *pimprove =
+            improvement_by_rule_name(loading->improvement.order[k]);
+        if (pimprove) {
+          plr->wonders[improvement_index(pimprove)] = WONDER_LOST;
+        }
+      }
+    }
+  }
 }
 
 /****************************************************************************
@@ -3660,6 +3684,22 @@ static void sg_save_player_main(struct savedata *saving,
       secfile_insert_int(saving->file, ship->launch_year,
                          "%s.launch_year", buf);
     }
+  }
+
+  /* Save lost wonders info. */
+  {
+    char lost[B_LAST+1];
+
+    improvement_iterate(pimprove) {
+      if (is_wonder(pimprove) && wonder_is_lost(plr, pimprove)) {
+        lost[improvement_index(pimprove)] = '1';
+      } else {
+        lost[improvement_index(pimprove)] = '0';
+      }
+    } improvement_iterate_end;
+    lost[improvement_count()] = '\0';
+    secfile_insert_str(saving->file, lost,
+                       "player%d.lost_wonders", plrno);
   }
 }
 
@@ -5539,6 +5579,9 @@ static void compat_save_020400(struct savedata *saving)
 
     /* Remove delegation information. */
     secfile_entry_delete(saving->file, "player%d.delegation_username", plrno);
+
+    /* Pre-2.4.0 did not track lost small wonders. */
+    secfile_entry_delete(saving->file, "player%d.lost_wonders", plrno);
   } player_slots_iterate_end;
 
   player_slots_iterate(pslot) {

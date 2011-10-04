@@ -387,7 +387,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 	} else if (is_small_wonder(pimprove)) {
 	  if (improvement_obsolete(pplayer, pimprove)) {
 	    state = _("Obsolete");
-          } else if (city_from_small_wonder(pplayer, target.value.building)) {
+          } else if (wonder_is_built(pplayer, target.value.building)) {
 	    state = _("Built");
           } else {
             state = _("Small Wonder");

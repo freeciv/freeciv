@@ -137,13 +137,16 @@ enum test_result test_player_sell_building_now(struct player *pplayer,
 #define WONDER_OWNED(player_id) ((player_id) >= 0)
 
 /* Macros for struct player::wonders[]. */
-#define WONDER_NOT_BUILT 0      /* User as city id. */
-#define WONDER_BUILT(city_id) ((city_id) != WONDER_NOT_BUILT)
+#define WONDER_LOST (-1)        /* Used as city id. */
+#define WONDER_NOT_BUILT 0      /* Used as city id. */
+#define WONDER_BUILT(city_id) ((city_id) > 0)
 
 void wonder_built(const struct city *pcity, const struct impr_type *pimprove);
 void wonder_destroyed(const struct city *pcity,
                       const struct impr_type *pimprove);
 
+bool wonder_is_lost(const struct player *pplayer,
+                    const struct impr_type *pimprove);
 bool wonder_is_built(const struct player *pplayer,
                      const struct impr_type *pimprove);
 struct city *city_from_wonder(const struct player *pplayer,

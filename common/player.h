@@ -224,7 +224,8 @@ struct player {
   struct conn_list *connections;       /* will replace conn */
   bv_player gives_shared_vision;       /* bitvector those that give you
                                         * shared vision */
-  int wonders[B_LAST];              /* contains city id's or WONDER_NOT_BUILT */
+  int wonders[B_LAST];              /* contains city id's, WONDER_NOT_BUILT,
+                                     * or WONDER_LOST */
   struct attribute_block_s attribute_block;
   struct attribute_block_s attribute_block_buffer;
 
