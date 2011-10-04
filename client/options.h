@@ -62,7 +62,7 @@ extern bool solid_color_behind_units;
 extern bool sound_bell_at_new_turn;
 extern int smooth_move_unit_msec;
 extern int smooth_center_slide_msec;
-extern bool do_combat_animation;
+extern int smooth_combat_step_msec;
 extern bool ai_manual_turn_done;
 extern bool auto_center_on_unit;
 extern bool auto_center_on_combat;

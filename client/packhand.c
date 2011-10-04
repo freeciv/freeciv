@@ -422,7 +422,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
       audio_play_sound(unit_type(punit1)->sound_fight,
 		       unit_type(punit1)->sound_fight_alt);
 
-      if (do_combat_animation) {
+      if (smooth_combat_step_msec > 0) {
 	decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
       } else {
 	punit0->hp = hp0;

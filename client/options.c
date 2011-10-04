@@ -84,7 +84,7 @@ bool solid_color_behind_units = FALSE;
 bool sound_bell_at_new_turn = FALSE;
 int smooth_move_unit_msec = 30;
 int smooth_center_slide_msec = 200;
-bool do_combat_animation = TRUE;
+int smooth_combat_step_msec = 10;
 bool ai_manual_turn_done = TRUE;
 bool auto_center_on_unit = TRUE;
 bool auto_center_on_combat = FALSE;
@@ -1890,10 +1890,12 @@ static struct client_option client_options[] = {
                     "option controls how long this slide lasts.  Set it to "
                     "0 to disable mapview sliding entirely."),
                  COC_GRAPHICS, GUI_STUB, 200, 0, 5000, NULL),
-  GEN_BOOL_OPTION(do_combat_animation, N_("Show combat animation"),
-                  N_("Disabling this option will turn off combat animation "
-                     "between units on the mapview."),
-                  COC_GRAPHICS, GUI_STUB, TRUE, NULL),
+  GEN_INT_OPTION(smooth_combat_step_msec,
+                 N_("Combat animation step time (milliseconds)"),
+                 N_("This option controls the speed of combat animation "
+                    "between units on the mapview.  Set it to 0 to disable "
+                    "animation entirely."),
+                 COC_GRAPHICS, GUI_STUB, 10, 0, 100, NULL),
   GEN_BOOL_OPTION(reqtree_show_icons,
                   N_("Show icons in the technology tree"),
                   N_("Setting this option will display icons "
@@ -5051,9 +5053,10 @@ void options_load(void)
     secfile_lookup_bool_default(sf, fullscreen_mode,
                                 "%s.fullscreen_mode", prefix);
 
-  /* Backwards compatibility for removed options. The equivalent "new"
-   * option will override these, if set. */
+  /* Backwards compatibility for removed options replaced by entirely "new"
+   * options. The equivalent "new" option will override these, if set. */
 
+  /* Removed in 2.3 */
   /* Note: this overrides the previously specified default for
    * gui_gtk2_message_chat_location */
   if (secfile_lookup_bool_default(sf, FALSE,
@@ -5070,9 +5073,20 @@ void options_load(void)
     gui_gtk3_message_chat_location = GUI_GTK3_MSGCHAT_SEPARATE;
   }
 
+  /* Load all the regular options */
   client_options_iterate_all(poption) {
     client_option_load(poption, sf);
   } client_options_iterate_all_end;
+
+  /* More backwards compatibility, for removed options that had been
+   * folded into then-existing options. Here, the backwards-compatibility
+   * behaviour overrides the "destination" option. */
+
+  /* Removed in 2.4 */
+  if (!secfile_lookup_bool_default(sf, TRUE,
+                                   "%s.do_combat_animation", prefix)) {
+    smooth_combat_step_msec = 0;
+  }
 
   message_options_load(sf, prefix);
   options_dialogs_load(sf);
