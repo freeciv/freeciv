@@ -205,6 +205,7 @@ flag_files =				\
 		illyria.png		\
 		inca.png		\
 		india.png		\
+		indoeuropean.png	\
 		indonesia.png		\
 		innu.png		\
 		iran_ancient.png	\
@@ -714,6 +715,7 @@ flag_files =				\
 		illyria-large.png		\
 		inca-large.png		\
 		india-large.png		\
+		indoeuropean-large.png		\
 		indonesia-large.png		\
 		innu-large.png		\
 		iran_ancient-large.png	\
@@ -1225,6 +1227,7 @@ shield_files =					\
 		illyria-shield.png		\
 		inca-shield.png			\
 		india-shield.png		\
+		indoeuropean-shield.png		\
 		indonesia-shield.png		\
 		innu-shield.png			\
 		iran_ancient-shield.png		\
@@ -1734,6 +1737,7 @@ shield_files =					\
 		illyria-shield-large.png		\
 		inca-shield-large.png			\
 		india-shield-large.png		\
+		indoeuropean-shield-large.png		\
 		indonesia-shield-large.png		\
 		innu-shield-large.png			\
 		iran_ancient-shield-large.png		\
@@ -2245,6 +2249,7 @@ svg_files = 				\
 		illyria.svg		\
 		inca.svg		\
 		india.svg		\
+		indoeuropean.svg	\
 		indonesia.svg		\
 		innu.svg		\
 		iran_ancient.svg	\

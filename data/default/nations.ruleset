@@ -260,6 +260,7 @@ match=2
 *include "nation/illyrian.ruleset"
 *include "nation/inca.ruleset"
 *include "nation/indian.ruleset"
+*include "nation/indoeuropean.ruleset"
 *include "nation/indonesian.ruleset"
 *include "nation/inuit.ruleset"
 *include "nation/iranian.ruleset"

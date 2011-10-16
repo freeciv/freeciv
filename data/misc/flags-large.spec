@@ -214,6 +214,7 @@ sprites =
 		"f.illyria", "flags/illyria-large"
 		"f.inca", "flags/inca-large"
 		"f.india", "flags/india-large"
+		"f.indoeuropean", "flags/indoeuropean-large"
 		"f.indonesia", "flags/indonesia-large"
 		"f.innu", "flags/innu-large"
 		"f.iran_ancient", "flags/iran_ancient-large"

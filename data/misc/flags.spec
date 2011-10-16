@@ -212,6 +212,7 @@ artists = "
    Illyria		William Allen Simpson
    Inca			Daniel Markstedt
    India		Lauris Kaplinski
+   Indo-European	AnonMoos (Wikimedia Commons)
    Indonesia		Kuswanto
    Innu			Daniel Markstedt
    Iran (ancient)	Daniel Markstedt
@@ -728,6 +729,7 @@ sprites =
 		"f.illyria", "flags/illyria"
 		"f.inca", "flags/inca"
 		"f.india", "flags/india"
+		"f.indoeuropean", "flags/indoeuropean"
 		"f.indonesia", "flags/indonesia"
 		"f.innu", "flags/innu"
 		"f.iran_ancient", "flags/iran_ancient"

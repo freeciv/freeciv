@@ -211,6 +211,7 @@ pkgdata_DATA = \
 		illyrian.ruleset \
 		inca.ruleset \
 		indian.ruleset \
+		indoeuropean.ruleset \
 		indonesian.ruleset \
 		inuit.ruleset \
 		iranian.ruleset \

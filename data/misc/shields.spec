@@ -213,6 +213,7 @@ sprites =
 		"f.shield.illyria", "flags/illyria-shield"
 		"f.shield.inca", "flags/inca-shield"
 		"f.shield.india", "flags/india-shield"
+		"f.shield.indoeuropean", "flags/indoeuropean-shield"
 		"f.shield.indonesia", "flags/indonesia-shield"
 		"f.shield.innu", "flags/innu-shield"
 		"f.shield.iran_ancient", "flags/iran_ancient-shield"
