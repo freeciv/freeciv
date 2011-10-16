@@ -24,7 +24,7 @@ ruler_titles = {
 }
 
 flag ="libya"
-flag_alt = "-"
+flag_alt = "libya_old"
 city_style = "Classical"
 
 init_techs=""

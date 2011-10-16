@@ -265,7 +265,8 @@ artists = "
    Lesotho (old)	Zachary Harden
    Liberia		J.M. Maalderink
    Liburnian		J.M. Maalderink
-   Libya		Cezary Biele
+   Libya		Daniel Markstedt
+   Libya (old)		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
    Liguria		Flanker (Wikimedia Commons)
    Lippe		ludger1961 (Wikimedia Commons) and J.M. Maalderink
@@ -783,6 +784,7 @@ sprites =
 		"f.liberia", "flags/libya"
 		"f.liburnian", "flags/liburnian"
 		"f.libya", "flags/libya"
+		"f.libya_old", "flags/libya_old"
 		"f.liechtenstein", "flags/liechtenstein"
 		"f.liguria", "flags/liguria"		; used by Genoese
 		"f.lipkatatar", "flags/lipkatatar"
