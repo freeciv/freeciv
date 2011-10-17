@@ -102,6 +102,13 @@ The autogame mode with timeout -1 is only available in DEBUG versions
 and should not be used with clients as it removes virtually all the
 server gating controls.
 
+If you plan to compare results of autogames the following changes can be
+helpful:
+
+- define __FC_LINE__ to a constant value in ./utility/log.h
+- undef LOG_TIMERS in ./utility/timing.h
+- deactivation of the event cache (set ec_turns 0)
+
 ===========================================================================
 Data Structures
 ===========================================================================
