@@ -59,6 +59,7 @@
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
+#include "luaconsole.h"
 #include "spaceshipdlg.h"
 #include "unitselect.h"
 #include "wldlg.h"
@@ -276,6 +277,14 @@ static void report_top_cities_callback(GtkAction *action, gpointer data)
 static void report_messages_callback(GtkAction *action, gpointer data)
 {
   meswin_dialog_popup(TRUE);
+}
+
+/****************************************************************
+  Action "CLIENT_LUA_SCRIPT" callback.
+*****************************************************************/
+static void client_lua_script_callback(GtkAction *action, gpointer data)
+{
+  luaconsole_dialog_popup(TRUE);
 }
 
 /****************************************************************
@@ -1327,6 +1336,9 @@ static GtkActionGroup *get_safe_group(void)
        "<Control>f", NULL, G_CALLBACK(find_city_callback)},
       {"WORKLISTS", NULL, _("Work_lists"),
        "<Control>l", NULL, G_CALLBACK(worklists_callback)},
+
+      {"CLIENT_LUA_SCRIPT", NULL, _("Client _Lua Script"),
+       NULL, NULL, G_CALLBACK(client_lua_script_callback)},
 
       /* Civilization menu. */
       {"MAP_VIEW", NULL, Q_("?noun:_View"),

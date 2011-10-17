@@ -1330,6 +1330,7 @@ AC_CONFIG_FILES([Makefile
           client/gui-qt/Makefile
 	  client/gui-win32/Makefile
 	  client/gui-stub/Makefile
+          client/luascript/Makefile
 	  server/Makefile
           server/advisors/Makefile
 	  server/generator/Makefile

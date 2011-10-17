@@ -69,13 +69,11 @@
 #include "voteinfo_bar_g.h"
 
 /* client */
-#include "agents.h"
 #include "attribute.h"
 #include "audio.h"
 #include "cityrepdata.h"
 #include "climisc.h"
 #include "clinet.h"
-#include "cma_core.h"           /* kludge */
 #include "connectdlg_common.h"  /* client_kill_server() */
 #include "control.h" 
 #include "editor.h"
@@ -90,6 +88,13 @@
 #include "themes_common.h"
 #include "update_queue.h"
 #include "voteinfo.h"
+
+/* client/agents */
+#include "agents.h"
+#include "cma_core.h"           /* kludge */
+
+/* client/luascript */
+#include "script_client.h"
 
 #include "client_main.h"
 
@@ -498,6 +503,8 @@ int client_main(int argc, char *argv[])
   options_init();
   options_load();
 
+  script_client_init();
+
   if (tileset_name[0] == '\0') {
     sz_strlcpy(tileset_name, default_tileset_name);
   }
@@ -571,6 +578,8 @@ void client_exit(void)
   tileset_free(tileset);
   
   ui_exit();
+
+  script_client_free();
 
   options_free();
   if (client_state() >= C_S_PREPARING) {

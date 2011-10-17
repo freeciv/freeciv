@@ -85,6 +85,7 @@ client/editor.c
 client/ggzclient.c
 client/global_worklist.c
 client/helpdata.c
+client/luaconsole_common.c
 client/mapctrl_common.c
 client/mapview_common.c
 client/messagewin_common.c
@@ -119,6 +120,7 @@ client/gui-gtk-2.0/happiness.c
 client/gui-gtk-2.0/helpdlg.c
 client/gui-gtk-2.0/inputdlg.c
 client/gui-gtk-2.0/inteldlg.c
+client/gui-gtk-2.0/luaconsole.c
 client/gui-gtk-2.0/mapctrl.c
 client/gui-gtk-2.0/mapview.c
 client/gui-gtk-2.0/menu.c

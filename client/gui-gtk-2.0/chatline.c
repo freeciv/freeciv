@@ -529,8 +529,7 @@ void inputline_make_chat_link(struct tile *ptile, bool unit)
   text mark 'scroll_target' should probably be the first character of the
   last line in the text buffer.
 **************************************************************************/
-static void scroll_if_necessary(GtkTextView *textview,
-                                GtkTextMark *scroll_target)
+void scroll_if_necessary(GtkTextView *textview, GtkTextMark *scroll_target)
 {
   GtkWidget *sw;
   GtkAdjustment *vadj;
@@ -749,8 +748,8 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
 /**************************************************************************
   Convert a struct text_tag to a GtkTextTag.
 **************************************************************************/
-static void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
-                           ft_offset_t text_start_offset, const char *text)
+void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
+                    ft_offset_t text_start_offset, const char *text)
 {
   static bool initalized = FALSE;
   GtkTextIter start, stop;

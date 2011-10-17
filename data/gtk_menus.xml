@@ -30,6 +30,8 @@
       <menuitem action="TOGGLE_FOG" />
       <menuitem action="SCENARIO_PROPERTIES" />
       <menuitem action="SAVE_SCENARIO" />
+      <separator />
+      <menuitem action="CLIENT_LUA_SCRIPT" />
     </menu>
 
     <menu action="MENU_VIEW">

@@ -34,4 +34,8 @@ GtkWidget *inputline_toolkit_view_new(void);
 void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
                                           GtkWidget *button);
 
+void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
+                    ft_offset_t text_start_offset, const char *text);
+void scroll_if_necessary(GtkTextView *textview, GtkTextMark *scroll_target);
+
 #endif  /* FC__CHATLINE_H */

@@ -1,7 +1,11 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LTLIBRARIES = libgui-gtk2.la
-AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_gtk2_CFLAGS) $(SOUND_CFLAGS) $(GGZ_GTK_INCLUDES)
+AM_CPPFLAGS = -I. -I$(srcdir)/.. -I$(srcdir)/../include \
+	-I$(top_srcdir)/utility -I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/aicore -I$(top_srcdir)/common/scriptcore \
+	-I$(srcdir)/../agents  -I$(srcdir)/../luascript \
+	$(GUI_gtk2_CFLAGS) $(SOUND_CFLAGS) $(GGZ_GTK_INCLUDES)
 
 # The AM_CPPFLAGS "-I." is so resources.c includes the locally generated 
 # Freeciv.h in the builddir, in preference to the one 
@@ -71,6 +75,8 @@ libgui_gtk2_la_SOURCES = \
 	inputdlg.h	\
 	inteldlg.c	\
 	inteldlg.h	\
+	luaconsole.c	\
+	luaconsole.h	\
 	mapctrl.c	\
 	mapctrl.h	\
 	mapview.c	\

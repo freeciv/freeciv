@@ -53,7 +53,7 @@ else
 CLI_INCLUDE = 
 endif
 
-SUBDIRS = $(GUI_SUBDIRS) $(CLI_INCLUDE) agents
+SUBDIRS = $(GUI_SUBDIRS) $(CLI_INCLUDE) agents luascript
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/include \
@@ -101,6 +101,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	goto.h		\
 	helpdata.c	\
 	helpdata.h	\
+	luaconsole_common.c	\
+	luaconsole_common.h	\
 	mapctrl_common.c \
 	mapctrl_common.h \
 	mapview_common.c \
@@ -150,7 +152,8 @@ noinst_LTLIBRARIES =
 
 clientlibs = \
  $(top_builddir)/common/scriptcore/libscriptcore.la \
- $(top_builddir)/client/agents/libagents.la
+ $(top_builddir)/client/agents/libagents.la \
+ $(top_builddir)/client/luascript/libscripting_client.la
 
 if CLIENT_GUI_GTK_2_0
 bin_PROGRAMS += freeciv-gtk2
