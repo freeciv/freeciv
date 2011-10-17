@@ -158,6 +158,7 @@ client/gui-gtk-3.0/happiness.c
 client/gui-gtk-3.0/helpdlg.c
 client/gui-gtk-3.0/inputdlg.c
 client/gui-gtk-3.0/inteldlg.c
+client/gui-gtk-3.0/luaconsole.c
 client/gui-gtk-3.0/mapctrl.c
 client/gui-gtk-3.0/mapview.c
 client/gui-gtk-3.0/menu.c

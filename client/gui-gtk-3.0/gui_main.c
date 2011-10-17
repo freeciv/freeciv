@@ -89,6 +89,7 @@
 #include "optiondlg.h"
 #include "pages.h"
 #include "plrdlg.h"
+#include "luaconsole.h"
 #include "spaceshipdlg.h"
 #include "repodlgs.h"
 #include "resources.h"
@@ -1649,6 +1650,7 @@ void ui_main(int argc, char **argv)
   load_cursors();
   cma_fe_init();
   diplomacy_dialog_init();
+  luaconsole_dialog_init();
   happiness_dialog_init();
   citizens_dialog_init();
   intel_dialog_init();
@@ -1672,6 +1674,7 @@ void ui_main(int argc, char **argv)
   spaceship_dialog_done();
   intel_dialog_done();
   citizens_dialog_done();
+  luaconsole_dialog_done();
   happiness_dialog_done();
   diplomacy_dialog_done();
   cma_fe_done();
