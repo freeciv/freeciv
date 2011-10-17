@@ -33,7 +33,7 @@ void real_diplo_log(const char *file, const char *function, int line,
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_PLAYER));                \
   if (log_do_output_for_level(level)) {                                     \
-    real_diplo_log(__FILE__, __FUNCTION__, __LINE__, level, notify,         \
+    real_diplo_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,      \
                    pplayer, aplayer, msg, ## __VA_ARGS__);                  \
   }                                                                         \
 }
@@ -48,7 +48,7 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_BODYGUARD));             \
   if (log_do_output_for_level(level)) {                                     \
-    real_bodyguard_log(__FILE__, __FUNCTION__, __LINE__, level, notify,     \
+    real_bodyguard_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,  \
                        punit, msg, ## __VA_ARGS__);                         \
   }                                                                         \
 }

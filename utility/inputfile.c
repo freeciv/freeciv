@@ -141,7 +141,7 @@ static bool read_a_line(struct inputfile *inf);
 
 #define inf_log(inf, level, message, ...)                                   \
   if (log_do_output_for_level(level)) {                                     \
-    do_log(__FILE__, __FUNCTION__, __LINE__, FALSE, level, "%s",            \
+    do_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE, level, "%s",         \
            inf_log_str(inf, message, ## __VA_ARGS__));                      \
   }
 #define inf_warn(inf, message)                                              \

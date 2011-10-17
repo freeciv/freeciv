@@ -254,7 +254,7 @@ pf_normal_map_check(struct pf_map *pfm, const char *file,
   return (struct pf_normal_map *) pfm;
 }
 #define PF_NORMAL_MAP(pfm)                                                  \
-  pf_normal_map_check(pfm, __FILE__, __FUNCTION__, __LINE__)
+  pf_normal_map_check(pfm, __FILE__, __FUNCTION__, __FC_LINE__)
 #else
 #define PF_NORMAL_MAP(pfm) ((struct pf_normal_map *) (pfm))
 #endif /* PF_DEBUG */
@@ -878,7 +878,7 @@ pf_danger_map_check(struct pf_map *pfm, const char *file,
   return (struct pf_danger_map *) pfm;
 }
 #define PF_DANGER_MAP(pfm)                                                  \
-  pf_danger_map_check(pfm, __FILE__, __FUNCTION__, __LINE__)
+  pf_danger_map_check(pfm, __FILE__, __FUNCTION__, __FC_LINE__)
 #else
 #define PF_DANGER_MAP(pfm) ((struct pf_danger_map *) (pfm))
 #endif /* PF_DEBUG */
@@ -1726,7 +1726,7 @@ pf_fuel_map_check(struct pf_map *pfm, const char *file,
   return (struct pf_fuel_map *) pfm;
 }
 #define PF_FUEL_MAP(pfm) \
-  pf_fuel_map_check(pfm, __FILE__, __FUNCTION__, __LINE__)
+  pf_fuel_map_check(pfm, __FILE__, __FUNCTION__, __FC_LINE__)
 #else
 #define PF_FUEL_MAP(pfm) ((struct pf_fuel_map *) (pfm))
 #endif /* PF_DEBUG */

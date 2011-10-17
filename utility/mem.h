@@ -22,6 +22,7 @@ extern "C" {
                                  * might be more reliable? --dwp */
 
 /* utility */
+#include "log.h"
 #include "support.h"            /* fc__warn_unused_result */
 
 /* fc_malloc, fc_realloc, fc_calloc:
@@ -31,15 +32,15 @@ extern "C" {
  */
    
 #define fc_malloc(sz)      fc_real_malloc((sz), "malloc", \
-					  __LINE__, __FILE__)
+					  __FC_LINE__, __FILE__)
 #define fc_realloc(ptr,sz) fc_real_realloc((ptr), (sz), "realloc", \
-					   __LINE__, __FILE__)
+					   __FC_LINE__, __FILE__)
 #define fc_calloc(n,esz)   fc_real_calloc((n), (esz), "calloc", \
-					   __LINE__, __FILE__)
+					   __FC_LINE__, __FILE__)
                                            
 #define FC_FREE(ptr)       do { free(ptr); (ptr) = NULL; } while(0)
 
-#define fc_strdup(str) real_fc_strdup((str), "strdup", __LINE__, __FILE__)
+#define fc_strdup(str) real_fc_strdup((str), "strdup", __FC_LINE__, __FILE__)
 
 /***********************************************************************/
 

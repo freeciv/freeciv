@@ -66,7 +66,8 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 #define NATION_CHECK(pnation, action)                                       \
     fc_assert_action(nation_check(pnation,                                  \
                                   log_do_output_for_level(LOG_ERROR),       \
-                                  __FILE__, __FUNCTION__, __LINE__), action)
+                                  __FILE__, __FUNCTION__, __FC_LINE__),     \
+                                  action)
 #else
 #define NATION_CHECK(pnation, action) /* Do Nothing. */
 #endif /* DEBUG */

@@ -122,7 +122,7 @@ void caravan_parameter_log_real(const struct caravan_parameter *parameter,
 #define caravan_parameter_log(parameter, loglevel)                          \
   if (log_do_output_for_level(loglevel)) {                                  \
     caravan_parameter_log_real(parameter, loglevel, __FILE__,               \
-                               __FUNCTION__, __LINE__);                     \
+                               __FUNCTION__, __FC_LINE__);                  \
   }
 
 void caravan_result_init_zero(struct caravan_result *result);

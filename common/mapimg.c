@@ -462,7 +462,7 @@ static void mapimg_log(const char *file, const char *function, int line,
                        const char *format, ...)
                        fc__attribute((__format__(__printf__, 4, 5)));
 #define MAPIMG_LOG(format, ...)                                             \
-  mapimg_log(__FILE__, __FUNCTION__, __LINE__, format, ## __VA_ARGS__)
+  mapimg_log(__FILE__, __FUNCTION__, __FC_LINE__, format, ## __VA_ARGS__)
 
 /* == additional functions == */
 

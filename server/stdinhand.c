@@ -1848,7 +1848,8 @@ static bool explain_option(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return FALSE;
     } else {
-      log_error("Unexpected case %d in %s line %d", cmd, __FILE__, __LINE__);
+      log_error("Unexpected case %d in %s line %d", cmd, __FILE__,
+                __FC_LINE__);
       return FALSE;
     }
   } else {

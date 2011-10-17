@@ -198,7 +198,7 @@ static void secfile_log(const struct section_file *secfile,
                         const char *format, ...)
                         fc__attribute((__format__(__printf__, 6, 7)));
 #define SECFILE_LOG(secfile, psection, format, ...)                         \
-  secfile_log(secfile, psection, __FILE__, __FUNCTION__, __LINE__,          \
+  secfile_log(secfile, psection, __FILE__, __FUNCTION__, __FC_LINE__,       \
               format, ## __VA_ARGS__)
 #define SECFILE_RETURN_IF_FAIL(secfile, psection, condition)                \
   if (!(condition)) {                                                       \

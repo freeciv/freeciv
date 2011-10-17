@@ -88,7 +88,7 @@ void real_tech_log(const char *file, const char *function, int line,
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_TECH));                  \
   if (log_do_output_for_level(level)) {                                     \
-    real_tech_log(__FILE__, __FUNCTION__, __LINE__, level, notify,          \
+    real_tech_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,       \
                   pplayer, padvance, msg, ## __VA_ARGS__);                  \
   }                                                                         \
 }
@@ -103,7 +103,7 @@ void real_city_log(const char *file, const char *function, int line,
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_CITY));                  \
   if (log_do_output_for_level(level)) {                                     \
-    real_city_log(__FILE__, __FUNCTION__, __LINE__, level, notify,          \
+    real_city_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,       \
                   pcity, msg, ## __VA_ARGS__);                              \
   }                                                                         \
 }
@@ -124,7 +124,7 @@ void real_unit_log(const char *file, const char *function, int line,
     level = MIN(loglevel, LOGLEVEL_UNIT);                                   \
   }                                                                         \
   if (log_do_output_for_level(level)) {                                     \
-    real_unit_log(__FILE__, __FUNCTION__, __LINE__, level, notify,          \
+    real_unit_log(__FILE__, __FUNCTION__, __FC_LINE__, level, notify,       \
                   punit, msg, ## __VA_ARGS__);                              \
   }                                                                         \
 }

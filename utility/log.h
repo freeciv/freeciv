@@ -31,6 +31,11 @@ enum log_level {
   LOG_DEBUG                     /* suppressed unless DEBUG defined */
 };
 
+/* If one wants to compare autogames with lots of code changes, the line
+ * numbers can cause a lot of noice. In that case set this to a fixed
+ * value. */
+#define __FC_LINE__ __LINE__
+
 /* Dummy log message. */
 extern const char *nologmsg;
 #define NOLOGMSG nologmsg
@@ -75,7 +80,7 @@ void do_log(const char *file, const char *function, int line,
 
 #ifdef DEBUG
 #define log_do_output_for_level(level) \
-  log_do_output_for_level_at_location(level, __FILE__, __LINE__)
+  log_do_output_for_level_at_location(level, __FILE__, __FC_LINE__)
 #else
 #define log_do_output_for_level(level) (log_get_level() >= level)
 #endif /* DEBUG */
@@ -84,12 +89,12 @@ void do_log(const char *file, const char *function, int line,
 /* The log macros */
 #define log_base(level, message, ...)                                       \
   if (log_do_output_for_level(level)) {                                     \
-    do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                         \
+    do_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE,                      \
            level, message, ## __VA_ARGS__);                                 \
   }
 /* This one doesn't need check, fatal messages are always displayed. */
 #define log_fatal(message, ...)                                             \
-  do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                           \
+  do_log(__FILE__, __FUNCTION__, __FC_LINE__, FALSE,                        \
          LOG_FATAL, message, ## __VA_ARGS__);
 #define log_error(message, ...)                                             \
   log_base(LOG_ERROR, message, ## __VA_ARGS__)
@@ -137,18 +142,18 @@ void fc_assert_fail(const char *file, const char *function, int line,
 /* Like assert(). */
 #define fc_assert(condition)                                                \
   ((condition) ? (void) 0                                                   \
-   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NOLOGMSG, \
-                    NOLOGMSG))
+   : fc_assert_fail(__FILE__, __FUNCTION__, __FC_LINE__, #condition,        \
+                    NOLOGMSG, NOLOGMSG))
 /* Like assert() with extra message. */
 #define fc_assert_msg(condition, message, ...)                              \
   ((condition) ? (void) 0                                                   \
-   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__,                       \
+   : fc_assert_fail(__FILE__, __FUNCTION__, __FC_LINE__,                    \
                     #condition, message, ## __VA_ARGS__))
 #endif /* NDEBUG */
 
 /* Do action on failure. */
 #define fc_assert_action(condition, action)                                 \
-  fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action,       \
+  fc_assert_full(__FILE__, __FUNCTION__, __FC_LINE__, condition, action,    \
                  NOLOGMSG, NOLOGMSG)
 /* Return on failure. */
 #define fc_assert_ret(condition)                                            \
@@ -162,7 +167,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
 
 /* Do action on failure with extra message. */
 #define fc_assert_action_msg(condition, action, message, ...)               \
-  fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action,       \
+  fc_assert_full(__FILE__, __FUNCTION__, __FC_LINE__, condition, action,    \
                  message, ## __VA_ARGS__)
 /* Return on failure with extra message. */
 #define fc_assert_ret_msg(condition, message, ...)                          \

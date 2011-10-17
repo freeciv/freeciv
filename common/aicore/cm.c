@@ -240,7 +240,7 @@ static void real_print_tile_type(enum log_level level, const char *file,
                                  const char *prefix);
 #define print_tile_type(loglevel, ptype, prefix)                            \
   if (log_do_output_for_level(loglevel)) {                                  \
-    real_print_tile_type(loglevel, __FILE__, __FUNCTION__, __LINE__,        \
+    real_print_tile_type(loglevel, __FILE__, __FUNCTION__, __FC_LINE__,     \
                          ptype, prefix);                                    \
   }
 
@@ -249,7 +249,8 @@ static void real_print_lattice(enum log_level level, const char *file,
                                const struct tile_type_vector *lattice);
 #define print_lattice(loglevel, lattice)                                    \
   if (log_do_output_for_level(loglevel)) {                                  \
-    real_print_lattice(loglevel, __FILE__, __FUNCTION__, __LINE__, lattice);\
+    real_print_lattice(loglevel, __FILE__, __FUNCTION__, __FC_LINE__,       \
+                       lattice);                                            \
   }
 
 static void real_print_partial_solution(enum log_level level,
@@ -259,8 +260,8 @@ static void real_print_partial_solution(enum log_level level,
                                         const struct cm_state *state);
 #define print_partial_solution(loglevel, soln, state)                       \
   if (log_do_output_for_level(loglevel)) {                                  \
-    real_print_partial_solution(loglevel, __FILE__, __FUNCTION__, __LINE__, \
-                                soln, state);                               \
+    real_print_partial_solution(loglevel, __FILE__, __FUNCTION__,           \
+                                 __FC_LINE__, soln, state);                 \
   }
 
 #else

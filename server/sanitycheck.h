@@ -23,17 +23,17 @@
 #ifdef SANITY_CHECKING
 
 #  define sanity_check_city(x) \
-  real_sanity_check_city(x, __FILE__,__FUNCTION__,  __LINE__)
+  real_sanity_check_city(x, __FILE__,__FUNCTION__,  __FC_LINE__)
 void real_sanity_check_city(struct city *pcity, const char *file,
                             const char *function, int line);
 
 #  define sanity_check_tile(x) \
-  real_sanity_check_tile(x, __FILE__,__FUNCTION__,  __LINE__)
+  real_sanity_check_tile(x, __FILE__,__FUNCTION__,  __FC_LINE__)
 void real_sanity_check_tile(struct tile *ptile, const char *file,
                             const char *function, int line);
 
 #  define sanity_check() \
-  real_sanity_check(__FILE__, __FUNCTION__, __LINE__)
+  real_sanity_check(__FILE__, __FUNCTION__, __FC_LINE__)
 void real_sanity_check( const char *file, const char *function, int line);
 
 #else /* SANITY_CHECKING */

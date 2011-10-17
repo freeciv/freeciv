@@ -441,7 +441,7 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
                         const char *file, const char *function, int line);
 #define pf_path_print(path, level)                                          \
   if (log_do_output_for_level(level)) {                                     \
-    pf_path_print_real(path, level, __FILE__, __FUNCTION__, __LINE__);      \
+    pf_path_print_real(path, level, __FILE__, __FUNCTION__, __FC_LINE__);   \
   }
 
 
