@@ -20,14 +20,19 @@
 #endif
 
 /* utility */
-#include "fcbacktrace.h"
 #include "log.h"
+#include "shared.h"
+
+#include "fcbacktrace.h"
 
 #if defined(DEBUG) && defined(HAVE_BACKTRACE)
 #define BACKTRACE_ACTIVE 1
 #endif
 
 #ifdef BACKTRACE_ACTIVE
+
+#define MAX_NUM_FRAMES 64
+
 static log_callback_fn previous = NULL;
 
 static void backtrace_log(enum log_level level, const char *msg, bool file_too);
@@ -86,7 +91,7 @@ static void backtrace_log(enum log_level level, const char *msg, bool file_too)
   }
 
   if (level <= LOG_ERROR) {
-    void *buffer[20];
+    void *buffer[MAX_NUM_FRAMES];
     int frames;
     char **names;
 
@@ -100,7 +105,7 @@ static void backtrace_log(enum log_level level, const char *msg, bool file_too)
 
       write_backtrace_line(LOG_NORMAL, "Backtrace:");
 
-      for (i = 0; i < frames; i++) {
+      for (i = 0; i < MIN(frames, MAX_NUM_FRAMES); i++) {
 	char linestr[100];
 
 	fc_snprintf(linestr, sizeof(linestr), " %d: %s", i, names[i]);
