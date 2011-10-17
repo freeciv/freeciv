@@ -29,6 +29,7 @@
 #include "bitvector.h"
 #include "capstr.h"
 #include "dataio.h"
+#include "fcbacktrace.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -467,6 +468,7 @@ int client_main(int argc, char *argv[])
   dont_run_as_root(argv[0], "freeciv_client");
 
   log_init(logfile, loglevel, NULL, NULL, fatal_assertions);
+  backtrace_init();
 
   /* after log_init: */
 
@@ -592,6 +594,7 @@ void client_exit(void)
 
   free_nls();
 
+  backtrace_deinit();
   log_close();
 
   exit(EXIT_SUCCESS);
