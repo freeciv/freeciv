@@ -35,6 +35,10 @@ enum log_level {
 extern const char *nologmsg;
 #define NOLOGMSG nologmsg
 
+/* Preparation of the log message, i.e. add a backtrace. */
+typedef void (*log_pre_callback_fn)(enum log_level, bool print_from_where,
+                                    const char *where, const char *msg);
+
 /* A function type to enable custom output of log messages other than
  * via fputs(stderr).  Eg, to the server console while handling prompts,
  * rfcstyle, client notifications; Eg, to the client window output window?
@@ -51,6 +55,7 @@ void log_init(const char *filename, enum log_level initial_level,
 void log_close(void);
 bool log_parse_level_str(const char *level_str, enum log_level *ret_level);
 
+log_pre_callback_fn log_set_pre_callback(log_pre_callback_fn precallback);
 log_callback_fn log_set_callback(log_callback_fn callback);
 log_prefix_fn log_set_prefix(log_prefix_fn prefix);
 void log_set_level(enum log_level level);

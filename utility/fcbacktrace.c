@@ -31,12 +31,20 @@
 
 #ifdef BACKTRACE_ACTIVE
 
+/* We write always in level LOG_NORMAL and not in higher one since those
+ * interact badly with server callback to send error messages to local
+ * client. */
+#define LOG_BACKTRACE LOG_NORMAL
+
 #define MAX_NUM_FRAMES 64
 
-static log_callback_fn previous = NULL;
+static log_pre_callback_fn previous = NULL;
 
-static void backtrace_log(enum log_level level, const char *msg, bool file_too);
-#endif
+static void write_backtrace_line(enum log_level level, bool print_from_where,
+                                 const char *where, const char *msg);
+static void backtrace_log(enum log_level level, bool print_from_where,
+                          const char *where, const char *msg);
+#endif /* BACKTRACE_ACTIVE */
 
 /************************************************************************
   Take backtrace log callback to use
@@ -44,7 +52,7 @@ static void backtrace_log(enum log_level level, const char *msg, bool file_too);
 void backtrace_init(void)
 {
 #ifdef BACKTRACE_ACTIVE
-  previous = log_set_callback(backtrace_log);
+  previous = log_set_pre_callback(backtrace_log);
 #endif
 }
 
@@ -54,15 +62,15 @@ void backtrace_init(void)
 void backtrace_deinit(void)
 {
 #ifdef BACKTRACE_ACTIVE
-  log_callback_fn active;
+  log_pre_callback_fn active;
 
-  active = log_set_callback(previous);
+  active = log_set_pre_callback(previous);
 
   if (active != backtrace_log) {
     /* We were not the active callback!
      * Restore the active callback and log error */
-    log_set_callback(active);
-    log_error("Backtrace log callback cannot be removed");
+    log_set_pre_callback(active);
+    log_error("Backtrace log (pre)callback cannot be removed");
   }
 #endif /* BACKTRACE_ACTIVE */
 }
@@ -71,23 +79,25 @@ void backtrace_deinit(void)
 /************************************************************************
   Write one line of backtrace
 ************************************************************************/
-static void write_backtrace_line(enum log_level level, const char *msg)
+static void write_backtrace_line(enum log_level level, bool print_from_where,
+                                 const char *where, const char *msg)
 {
   /* Current behavior of this function is to write to chained callback,
    * nothing more, nothing less. */
   if (previous != NULL) {
-    previous(level, msg, FALSE);
+    previous(level, print_from_where, where, msg);
   }
 }
 
-/************************************************************************
+/*****************************************************************************
   Main backtrace callback called from logging code.
-************************************************************************/
-static void backtrace_log(enum log_level level, const char *msg, bool file_too)
+*****************************************************************************/
+static void backtrace_log(enum log_level level, bool print_from_where,
+                          const char *where, const char *msg)
 {
   if (previous != NULL) {
     /* Call chained callback first */
-    previous(level, msg, file_too);
+    previous(level, print_from_where, where, msg);
   }
 
   if (level <= LOG_ERROR) {
@@ -99,21 +109,18 @@ static void backtrace_log(enum log_level level, const char *msg, bool file_too)
     names = backtrace_symbols(buffer, frames);
 
     if (names == NULL) {
-      write_backtrace_line(LOG_NORMAL, "No backtrace");
+      write_backtrace_line(LOG_BACKTRACE, FALSE, NULL, "No backtrace");
     } else {
       int i;
 
-      write_backtrace_line(LOG_NORMAL, "Backtrace:");
+      write_backtrace_line(LOG_BACKTRACE, FALSE, NULL, "Backtrace:");
 
       for (i = 0; i < MIN(frames, MAX_NUM_FRAMES); i++) {
-	char linestr[100];
+        char linestr[256];
 
-	fc_snprintf(linestr, sizeof(linestr), " %d: %s", i, names[i]);
+        fc_snprintf(linestr, sizeof(linestr), "%5d: %s", i, names[i]);
 
-        /* We write always in level LOG_NORMAL and not in higher one
-         * since those interact badly with server callback to send error
-         * messages to local client. */
-        write_backtrace_line(LOG_NORMAL, linestr);
+        write_backtrace_line(LOG_BACKTRACE, FALSE, NULL, linestr);
       }
 
       free(names);
