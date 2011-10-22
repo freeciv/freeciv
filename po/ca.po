@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-21 19:18+0200\n"
-"PO-Revision-Date: 2011-10-22 12:18+0200\n"
+"PO-Revision-Date: 2011-10-22 13:29+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -15537,15 +15537,14 @@ msgid "no research target."
 msgstr "sense objectiu d'investigació."
 
 #: client/text.c:1275
-#, fuzzy
 msgid "No progress"
-msgstr "Sense compressió"
+msgstr "Sense progrés"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:1286
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %d/%d (%s, %s)."
-msgstr "%s a %s (%s, %s)\n"
+msgstr "%s: %d/%d (%s, %s)."
 
 #: client/text.c:1310
 msgid "Shows the progress of global warming:"
@@ -16282,7 +16281,7 @@ msgstr "Eines de xat"
 
 #: client/gui-gtk-2.0/citizensinfo.c:63 client/gui-gtk-3.0/citizensinfo.c:63
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: client/gui-gtk-2.0/citizensinfo.c:251 client/gui-gtk-3.0/citizensinfo.c:251
 #: client/gui-sdl/citydlg.c:2562
@@ -17892,7 +17891,7 @@ msgstr "Intel·ligència exterior: Imperi %s"
 
 #: client/gui-gtk-2.0/luaconsole.c:196 client/gui-gtk-3.0/luaconsole.c:196
 msgid "Client Lua Console"
-msgstr ""
+msgstr "Consola del client Lua"
 
 #: client/gui-gtk-2.0/luaconsole.c:234 client/gui-gtk-3.0/luaconsole.c:234
 #, fuzzy
@@ -18330,9 +18329,8 @@ msgid "Same Type _Everywhere"
 msgstr "Tipus Igual a Tot _Arreu"
 
 #: client/gui-gtk-2.0/menu.c:1562 client/gui-gtk-3.0/menu.c:1562
-#, fuzzy
 msgid "Unit selection dialog"
-msgstr "Selecció d'unitat"
+msgstr "Diàleg de selecció d'unitat"
 
 #: client/gui-gtk-2.0/menu.c:1565 client/gui-gtk-3.0/menu.c:1565
 msgid "_Wait"
@@ -18507,9 +18505,9 @@ msgstr "Nau e_spacial"
 #. TRANS: Connect with some road type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2010 client/gui-gtk-2.0/menu.c:2014
 #: client/gui-gtk-3.0/menu.c:2010 client/gui-gtk-3.0/menu.c:2014
-#, fuzzy, c-format
+#, c-format
 msgid "Connect With %s"
-msgstr "Connectar Amb"
+msgstr "Connectar Amb %s"
 
 #: client/gui-gtk-2.0/menu.c:2131 client/gui-gtk-3.0/menu.c:2131
 msgid "Help _Build Wonder"
@@ -19290,15 +19288,17 @@ msgid "%sVote %d by %s: %s%s"
 msgstr "%sVotació %d per %s: %s%s"
 
 #: client/gui-qt/fc_client.cpp:134
-#, fuzzy
 msgid "This is Qt-client for Freeciv."
-msgstr "Client SDL per Freeciv"
+msgstr "Això és el client-Qt de Freeciv."
 
 #: client/gui-qt/fc_client.cpp:137
 msgid ""
 "In this early Qt-client development phase the only way to connect server is "
 "via commandline autoconnect parameter \"-a\""
 msgstr ""
+"En aquesta fase preliminar de desenvolupament del client-Qt, l'única manera "
+"de connectar el servidor és amb el paràmetre \"-a\" de l'autoconnect de la "
+"línia de comandes"
 
 #: client/gui-qt/fc_client.cpp:244
 #, fuzzy
@@ -19308,9 +19308,11 @@ msgstr "Freeciv es distribueix sota la llicència GPL, que s'inclou aquí: "
 #: client/gui-qt/fc_client.cpp:245
 msgid "See file COPYING distributed with freeciv for full license text."
 msgstr ""
+"Vegeu el fitxer COPYING, que es distribueix amb Freeciv per al text complet "
+"de la llicència."
 
 #: client/gui-qt/mapview.cpp:51
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Population: %s\n"
 "Year: %s\n"
@@ -19320,7 +19322,7 @@ msgstr ""
 "Població: %s\n"
 "Any: %s\n"
 "Or %d\n"
-"Imp: %d Lux: %d Cie: %d"
+"Imp: %d Lux: %d Ciè: %d"
 
 #: client/gui-sdl/caravan_dialog.c:131
 #, c-format
@@ -20476,9 +20478,9 @@ msgid "Connect With Irrigation"
 msgstr "Connectar amb Regadiu"
 
 #: client/gui-sdl/menu.c:544 client/gui-sdl/menu.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Connect With %s (%s)"
-msgstr "Connectar Amb"
+msgstr "Connectar Amb %s (%s)"
 
 #: client/gui-sdl/menu.c:575 client/gui-xaw/menu.c:201
 msgid "Auto Explore"
@@ -21606,9 +21608,8 @@ msgid "Installing modpack %s from %s"
 msgstr "Instal·lant el modpack %s des de %s"
 
 #: modinst/download.c:112
-#, fuzzy
 msgid "Cannot install to given directory hierarchy"
-msgstr "No s'ha pogut trobar el teu directori d'inici"
+msgstr "No es pot instal·lar en la jerarquia de directoris donada"
 
 #: modinst/download.c:118 modinst/download.c:281
 msgid "Cannot determine control directory"
@@ -21623,9 +21624,8 @@ msgid "Downloading modpack control file."
 msgstr "Baixant fitxer de control del modpack."
 
 #: modinst/download.c:132
-#, fuzzy
 msgid "Failed to get and parse modpack control file"
-msgstr "No es pot processar el fitxer de control del modpack"
+msgstr "No s'ha pogut obtenir ni processar el fitxer de control del modpack"
 
 #: modinst/download.c:138
 msgid "Modpack control file has no capability string"
@@ -21636,9 +21636,8 @@ msgid "Modpack control file is incompatible"
 msgstr "El fitxer de control del modpack és incompatible"
 
 #: modinst/download.c:154
-#, fuzzy
 msgid "Illegal modpack type"
-msgstr "Instal·lar el modpack"
+msgstr "Tipus de modpack il·legal"
 
 #: modinst/download.c:206
 #, c-format
@@ -21718,13 +21717,13 @@ msgstr ""
 "Les opcions vàlides són:\n"
 
 #: modinst/mpcmdline.c:56
-#, fuzzy
 msgid "  -L, --List URL\t\tLoad modpack list from given URL\n"
-msgstr "No s'ha pogut baixar el fitxer de control del modpack de l'URL donada."
+msgstr "  -L, --List URL\t\tCarregar llista de modpacks de la URL donada\n"
 
 #: modinst/mpcmdline.c:57
 msgid "  -p, --prefix DIR\t\tInstall modpacks to given directory hierarchy"
 msgstr ""
+"  -p, --prefix DIR\t\tInstal·lar modpacks a la jerarquia de directoris donada"
 
 #: modinst/mpcmdline.c:59
 msgid "      --\t\tPass any following options to the UI.\n"
@@ -30158,12 +30157,11 @@ msgstr ""
 
 #: data/civ2/nations.ruleset:334
 msgid "Celtic"
-msgstr ""
+msgstr "Cèltic"
 
 #: data/civ2/nations.ruleset:335
-#, fuzzy
 msgid "?plural:Celts"
-msgstr "Gaèlics"
+msgstr "Celtes"
 
 #: data/civ2/nations.ruleset:337 data/nation/briton.ruleset:6
 msgid ""
@@ -32494,14 +32492,12 @@ msgid "?female:Elder %s"
 msgstr "Anciana %s"
 
 #: data/nation/abyssinian.ruleset:3
-#, fuzzy
 msgid "Abyssinian"
-msgstr "Albanès"
+msgstr "Abissini"
 
 #: data/nation/abyssinian.ruleset:4
-#, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "Albanesos"
+msgstr "Abissinis"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -32509,6 +32505,9 @@ msgid ""
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"Els abissinis - coneguts també com a Habesha o etiòpics - són un poble "
+"semític que va dirigir estats històrics a la Banya d'Àfrica, els més "
+"importants dels quals foren el Regne d'Aksum i l'Imperi Etíop."
 
 #: data/nation/acadian.ruleset:3
 msgid "Acadian"
@@ -32671,14 +32670,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baron %s"
-msgstr "Ban %s"
+msgstr "Baró %s"
 
 #: data/nation/acrean.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Baroness %s"
-msgstr "Princesa %s"
+msgstr "Baronessa %s"
 
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
@@ -32781,20 +32780,20 @@ msgid "?female:Mullah %s"
 msgstr "Mullah %s"
 
 #: data/nation/african.ruleset:3
-#, fuzzy
 msgid "African"
-msgstr "Americà"
+msgstr "Africà"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:African"
-msgstr "Americans"
+msgstr "Africans"
 
 #: data/nation/african.ruleset:6
 msgid ""
 "Africa: the cradle of humanity. It is the worlds second largest continent "
 "and also its second most populous."
 msgstr ""
+"Àfrica: el bressol de la humanitat. És el segon continent més gran del món, i "
+"també el segon més populós."
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
@@ -33082,14 +33081,12 @@ msgid "?female:%s Dey"
 msgstr "%s Dey"
 
 #: data/nation/alsatian.ruleset:3
-#, fuzzy
 msgid "Alsatian"
-msgstr "Haitià"
+msgstr "Alsacià"
 
 #: data/nation/alsatian.ruleset:4
-#, fuzzy
 msgid "?plural:Alsatians"
-msgstr "Albanesos"
+msgstr "Alsacians"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -33101,6 +33098,13 @@ msgid ""
 "and France 4 times in less than a century. Since 1944 it has been in French "
 "hands."
 msgstr ""
+"Alsàcia és una regió europea, a la frontera entre França i Alemanya. Durant "
+"l'Edat Mitjana, Alsàcia era part del Sacre Imperi Romanogermànic, i consistia "
+"en una colla de ciutats-estat força riques. Durant els segles XVII i XVIII, "
+"França es va anar annexionant les ciutats alsacianes d'una en una, però "
+"després d'això, la regió es va convertir en una de les zones més disputades "
+"d'Europa, canviant de mans entre Alemanya i França quatre vegades en menys "
+"d'un segle. Des de 1944 ha estat en mans franceses."
 
 #: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
@@ -33266,6 +33270,14 @@ msgid ""
 "had become a world superpower; its cultural, economical and political "
 "influence on the rest of the world is enormous."
 msgstr ""
+"Els Estats Units d'Amèrica van obtenir la independència de Gran Bretanya "
+"després d'una revolució entre 1776 i 1783. La seva constitució es va "
+"proclamar el 1789, fent del país una de les primeres repúbliques "
+"representatives modernes. Els Estats Units van començar llavors a expandir el "
+"seu territori, primer dins el continent nordamericà, i despres també a "
+"ultramar. El segle XX, el país s'havia convertit en una superpotència "
+"mundial; la seva influència cultural, econòmica i política sobre la resta del "
+"món és enorme."
 
 #: data/nation/andorran.ruleset:3
 msgid "Andorran"
@@ -42032,14 +42044,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "Clan Chief %s"
-msgstr "Cap %s"
+msgstr "Cap de Clan %s"
 
 #: data/nation/scottishgaelic.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Clan Chief %s"
-msgstr "Cap %s"
+msgstr "Cap de Clan %s"
 
 #: data/nation/scythian.ruleset:3
 msgid "Scythian"
@@ -42121,12 +42133,11 @@ msgstr ""
 
 #: data/nation/seminole.ruleset:3
 msgid "Seminole"
-msgstr ""
+msgstr "Seminole"
 
 #: data/nation/seminole.ruleset:4
-#, fuzzy
 msgid "?plural:Seminoles"
-msgstr "Senegalesos"
+msgstr "Seminoles"
 
 #: data/nation/seminole.ruleset:6
 msgid ""
@@ -42143,6 +42154,19 @@ msgid ""
 "\"Five Civilized Tribes\" for their relatively amiable relationships with "
 "White European settlers during the early era of U.S. expansion."
 msgstr ""
+"El poble seminole va aparèixer el segle XVIII a partir d'un procés "
+"d'etnogènesi, a partir de grups d'emigrants Creek que fugien dels colons "
+"blancs que es feien forts a l'estat americà de Geòrgia i d'altres llocs, al "
+"sud de la península de Florida, que en aquella època estava sota control "
+"espanyol. Es van barrejar amb restes d'altres tribus i amb un nombre "
+"significatiu de lliberts africans negres. Els líders seminole van prendre "
+"partit amb els Estats Units durant les anomenades guerres Seminole contra "
+"Espanya, que van acabar amb la cessió de Florida als Estats Units, i amb "
+"l'exili d'una majoria de seminoles a una reserva índia al que ara és Oklahoma."
+" Juntament amb els Cherokee, Choctaw, Muskogee i Chickasaw, els Seminole es "
+"coneixen com una de les \"Cinc Tribus Civilitzades\", per les seves relacions "
+"relativament amistoses amb els colons europeus al principi de l'expansió dels "
+"Estats Units."
 
 #: data/nation/senegalese.ruleset:3
 msgid "Senegalese"
