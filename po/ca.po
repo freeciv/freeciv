@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-21 19:18+0200\n"
-"PO-Revision-Date: 2011-10-22 00:05+0200\n"
+"PO-Revision-Date: 2011-10-22 12:18+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -42182,12 +42182,11 @@ msgstr ""
 
 #: data/nation/shan.ruleset:3
 msgid "Shan"
-msgstr ""
+msgstr "Shan"
 
 #: data/nation/shan.ruleset:4
-#, fuzzy
 msgid "?plural:Shans"
-msgstr "Saxons"
+msgstr "Shan"
 
 #: data/nation/shan.ruleset:6
 msgid ""
@@ -42197,6 +42196,11 @@ msgid ""
 "controlled much of today's Myanmar, Laos, Thailand, as well as China's "
 "Yunnan Province."
 msgstr ""
+"Els shan són un grup ètnic emparentat amb els tai i els laosians. Després de "
+"la caiguda del Regne birmà Bagan a mans dels mongols el 1287, una successió "
+"de regnes shan coneguts pels historiadors com a Estats Shan van controlar "
+"bona part dels actuals Myanmar, Laos, Tailàndia, així com la província xinesa "
+"de Yunnan."
 
 #: data/nation/shawnee.ruleset:3
 msgid "Shawnee"
@@ -42265,12 +42269,11 @@ msgstr ""
 
 #: data/nation/sierraleonean.ruleset:3
 msgid "Sierra Leonean"
-msgstr ""
+msgstr "de Sierra Leone"
 
 #: data/nation/sierraleonean.ruleset:4
-#, fuzzy
 msgid "?plural:Sierra Leoneans"
-msgstr "Siberians"
+msgstr "de Sierra Leone"
 
 #: data/nation/sierraleonean.ruleset:6
 msgid ""
@@ -42280,6 +42283,11 @@ msgid ""
 "country passed through a civil war. Today, Sierra Leone remains one of the "
 "poorest countries in the world."
 msgstr ""
+"Sierra Leone és un país de l'Àfrica Occidental. Es va fundar el 1792 per "
+"acollir esclaus alliberats, i ràpidament va passar a dependre dels britànics. "
+"Sierra Leone ha estat una república independent des de 1961. Els anys 1990, "
+"el país va patir una guerra civil. Avui en dia, Sierra Leone continua sent un "
+"dels països més pobres del món."
 
 #: data/nation/sikh.ruleset:3
 msgid "Sikh"
@@ -42351,14 +42359,12 @@ msgstr ""
 "la península de Malàisia."
 
 #: data/nation/sinhalese.ruleset:3
-#, fuzzy
 msgid "Sinhalese"
-msgstr "Senegalès"
+msgstr "Singalès"
 
 #: data/nation/sinhalese.ruleset:4
-#, fuzzy
 msgid "?plural:Sinhalese"
-msgstr "Senegalesos"
+msgstr "Singalesos"
 
 #: data/nation/sinhalese.ruleset:7
 msgid ""
@@ -42366,6 +42372,8 @@ msgid ""
 "legendary Prince Vijaya who settled the island of Sri Lanka together with "
 "700 followers in 543 BCE."
 msgstr ""
+"El poble singalès de Sri Lanka prové del semilegendari Príncep Vijaya, que va "
+"colonitzar l'illa de Sri Lanka juntament amb 700 seguidors l'any 543 a.C."
 
 #: data/nation/slavic.ruleset:3
 msgid "Slavic"
@@ -42427,14 +42435,12 @@ msgstr ""
 "Iugoslava."
 
 #: data/nation/solomonislander.ruleset:3
-#, fuzzy
 msgid "Solomon Islander"
-msgstr "Mateixa illa"
+msgstr "Salomonès"
 
 #: data/nation/solomonislander.ruleset:4
-#, fuzzy
 msgid "?plural:Solomon Islanders"
-msgstr "Islandesos"
+msgstr "Salomonesos"
 
 #: data/nation/solomonislander.ruleset:6
 msgid ""
@@ -42444,6 +42450,11 @@ msgid ""
 "of some fierce fighting during World War II, including the famous battle of "
 "Guadalcanal. Solomon Islands has been independent since 1978."
 msgstr ""
+"Les Illes Salomó són un país de Melanèsia, ubicat entre Papua Nova Guinea i "
+"Vanuatu. Habitat per pobles austronesis des del 4000 a.C., les illes van "
+"convertir-se en protectorat britànic el segle XIX. Les illes van viure "
+"batalles cruentes durant la Segona Guerra Mundial, inclosa la famosa batalla "
+"de Guadalcanal. Les Illes Salomó han estat independents des de 1978."
 
 #: data/nation/somali.ruleset:3
 msgid "Somali"
@@ -42470,14 +42481,12 @@ msgstr ""
 "derrocat. El país no ha tingut govern funcional des de llavors."
 
 #: data/nation/somaliland.ruleset:3
-#, fuzzy
 msgid "Somaliland"
-msgstr "Somali"
+msgstr "Somalilandès"
 
 #: data/nation/somaliland.ruleset:4
-#, fuzzy
 msgid "?plural:Somalilanders"
-msgstr "Somalis"
+msgstr "Somalilandesos"
 
 #: data/nation/somaliland.ruleset:6
 msgid ""
@@ -42487,6 +42496,11 @@ msgid ""
 "a somewhat higher standard of living than the rest of Somalia it remains "
 "internationally unrecognized."
 msgstr ""
+"La República de Somalilàndia és un estat no reconegut al nord de Somàlia, que "
+"ocupa aproximadament la zona de l'antiga Somalilàndia britànica. Va declarar "
+"la independència quan Somàlia es va desfer el 1991. Encara que gaudeix de més "
+"estabilitat i d'un estàndard de vida una mica superior al de la resta de "
+"Somàlia, continua sense ser reconeguda internacionalment."
 
 #: data/nation/songhai.ruleset:3
 msgid "Songhai"
@@ -42532,12 +42546,11 @@ msgstr ""
 
 #: data/nation/sotho.ruleset:3
 msgid "Sotho"
-msgstr ""
+msgstr "Basut"
 
 #: data/nation/sotho.ruleset:4
-#, fuzzy
 msgid "?plural:Basotho"
-msgstr "Baixkirs"
+msgstr "Basuts"
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -42547,6 +42560,11 @@ msgid ""
 "Moshoeshoe I. Today, there are about 2 million Sotho in the Kingdom of "
 "Lesotho and almost twice that number in South Africa."
 msgstr ""
+"Els avantpassats dels basuts, un poble bantú de l'Àfrica Austral, van arribar "
+"per primer cop a la regió cap al final del primer mil·lenni d.C. Els basuts "
+"van formar un estat unificat a principis del segle XIX amb el rei Moshoeshoe "
+"I. Avui en dia, hi ha uns 2 milions de basuts al Regne de Lesotho, i gairebé "
+"el doble a Sud-àfrica."
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
@@ -42618,14 +42636,12 @@ msgstr ""
 "anticomunista, el 1948."
 
 #: data/nation/southsudanese.ruleset:3
-#, fuzzy
 msgid "South Sudanese"
-msgstr "Sudanès"
+msgstr "Sudanès del Sud"
 
 #: data/nation/southsudanese.ruleset:4
-#, fuzzy
 msgid "?plural:South Sudanese"
-msgstr "Sudanesos"
+msgstr "Sudanesos del Sud"
 
 #: data/nation/southsudanese.ruleset:6
 msgid ""
@@ -42634,6 +42650,11 @@ msgid ""
 "The war left two million dead and many more displaced until a ceasefire was "
 "signed in 2005. Southern Sudan achieved full independence in 2011."
 msgstr ""
+"Una llarga guerra civil va enfrontar el Sudan del Sud, habitat principalment "
+"per africans negres i predominantment animista i cristià, contra el nord "
+"musulmà i àrab. La  guerra va deixar dos milions de morts i molts més "
+"desplaçats fins que es va signar un alto el foc el 2005. Sudan del Sud va "
+"obtenir la independència completa el 2011."
 
 #: data/nation/southvietnamese.ruleset:3
 msgid "South Vietnamese"
@@ -42891,14 +42912,12 @@ msgid "?female:Shaykha %s"
 msgstr "Xeica %s"
 
 #: data/nation/tahitian.ruleset:3
-#, fuzzy
 msgid "Tahitian"
-msgstr "Haitià"
+msgstr "Tahitià"
 
 #: data/nation/tahitian.ruleset:4
-#, fuzzy
 msgid "?plural:Tahitians"
-msgstr "Haitians"
+msgstr "Tahitians"
 
 #: data/nation/tahitian.ruleset:6
 msgid ""
@@ -42910,6 +42929,13 @@ msgid ""
 "vegetation and Polynesian culture, Tahiti has become the archetypical exotic "
 "island."
 msgstr ""
+"Les illes del que ara és la Polinèsia Francesa foren colonitzades per pobles "
+"polinesis al segle III d.C. França va establir un protectorat a Tahití, "
+"l'illa principal de l'arxipèlag, el 1842. El 1889, tota la zona es va "
+"declarar colònia francesa. Les illes continuen sent una col·lectivitat "
+"d'ultramar de França, però gaudeixen d'una important autonomia interna. A "
+"causa de la seva vegetació frondosa i la seva cultura polinèsia, Tahití s'ha "
+"convertit en l'arquetip d'illa exòtica."
 
 #: data/nation/taino.ruleset:3
 msgid "Taino"
@@ -43018,12 +43044,11 @@ msgstr ""
 
 #: data/nation/tanganyikan.ruleset:3
 msgid "Tanganyikan"
-msgstr ""
+msgstr "Tanganyikà"
 
 #: data/nation/tanganyikan.ruleset:4
-#, fuzzy
 msgid "?plural:Tanganyikans"
-msgstr "Tanzans"
+msgstr "Tanganyikans"
 
 #: data/nation/tanganyikan.ruleset:6
 msgid ""
@@ -43032,6 +43057,11 @@ msgid ""
 "British during World War I and declared independence in 1961. Three years "
 "later it merged with Zanzibar to form the Union of Tanzania."
 msgstr ""
+"Habitada per tribus bantús des del principi de l'Era Comuna, Tanganyika va "
+"convertir-se en colònia alemanya a finals del segle XIX. Fou conquerida pels "
+"britànics durant la Primera Guerra Mundial i va declarar la independència el "
+"1961. Tres anys més tard, es va ajuntar amb Zanzíbar per formà la Unió de "
+"Tanzània."
 
 #: data/nation/tanzanian.ruleset:3
 msgid "Tanzanian"
@@ -43132,6 +43162,12 @@ msgid ""
 "six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
 "and the USA - as expressed in the slogan \"six flags over Texas\"."
 msgstr ""
+"Texas, \"l'estat de l'Estrella Solitària\", és el segon estat més gran i el "
+"segon més populós dels Estats Units, famós per la seva mentalitat exagerada "
+"de cowboy. Durant la seva història, Texas ha estat governada completament o "
+"en part per sis països: França, Espanya, Mèxic, la República de Texas, la "
+"Confederació i els Estats Units - com expressa l'eslògan \"sis banderes sobre "
+"Texas\"."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -43163,12 +43199,11 @@ msgstr "El segon poble més nombrós del món antic a Occident."
 
 #: data/nation/thuringian.ruleset:3
 msgid "Thuringian"
-msgstr ""
+msgstr "Turingi"
 
 #: data/nation/thuringian.ruleset:4
-#, fuzzy
 msgid "?plural:Thuringians"
-msgstr "Tracis"
+msgstr "Turingis"
 
 #: data/nation/thuringian.ruleset:6
 msgid ""
@@ -43187,6 +43222,21 @@ msgid ""
 "monarchies in 1918 was a united Free State of Thuringia established, which "
 "currently exists as one of the states of Germany."
 msgstr ""
+"Els turingis eren una antiga confederació germànica al que avui en dia és "
+"l'Alemanya Central, que es  va establir després de la desfeta dels huns. "
+"Derrotats pels francs al segle VIII, Turíngia va convertir-se més endavant en "
+"un landgraviat del Sacre Imperi Romanogermànic. Després de l'extinció de la "
+"família dirigent el segle XIII, la Guerra de Successió turíngia va deixar la "
+"regió tremendament fragmentada, fins i tot pel que solia ser habitual al "
+"Sacre Imperi, cosa que va ser empitjorada per la tradició turíngia (o més "
+"aviat saxona) de dividir el territori entre tots els hereus mascles. Turíngia "
+"fou un centre de la Reforma Protestant i de les Guerres de Religió, i va "
+"viure un apogeu cultural durant la Il·lustració, quan el duc de "
+"Saxònia-Weimar va convidar llumeneres com Johann Wolfgang von Goethe i "
+"Friedrich Schiller a la seva cort. La fragmentació política turíngia va "
+"sobreviure Napoleó i la unificació alemanya; només després de la caiguda de "
+"les monarquies alemanyes el 1918 es va establir un Estat Lliure de Turíngia, "
+"que avui en dia existeix com a land alemany."
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -43371,14 +43421,12 @@ msgstr ""
 "escapat d'una colonització real."
 
 #: data/nation/transnistrian.ruleset:3
-#, fuzzy
 msgid "Transnistrian"
-msgstr "Transilvà"
+msgstr "Transnistrià"
 
 #: data/nation/transnistrian.ruleset:4
-#, fuzzy
 msgid "?plural:Transnistrians"
-msgstr "Tunisians"
+msgstr "Transnistrians"
 
 #: data/nation/transnistrian.ruleset:6
 msgid ""
@@ -43388,10 +43436,16 @@ msgid ""
 "the country is de facto independent, it is not recognized by any UN member. "
 "Power is still in the hands of the old communist elite."
 msgstr ""
+"Transnístria fou afegida a la República Socialista Soviètica de Moldàvia per "
+"Stalin, encara que estava habitada majoritàriament per russos i ucraïnesos. "
+"Després del col·lapse de la Unió Soviètica, Transnístria va declarar la seva "
+"independència de Moldàvia. Encara que el país és independent de facto, no el "
+"reconeix cap membre de les Nacions Unides. El poder continua a les mans de "
+"l'antiga elit comunista ."
 
 #: data/nation/transylvanian.ruleset:3
 msgid "Transylvanian"
-msgstr "Transilvà"
+msgstr "Transnistrià"
 
 #: data/nation/transylvanian.ruleset:4
 msgid "?plural:Transylvanians"
@@ -43416,12 +43470,11 @@ msgstr ""
 
 #: data/nation/trinidadian.ruleset:3
 msgid "Trinidadian and Tobagonian"
-msgstr ""
+msgstr "de Trinitat i Tobago"
 
 #: data/nation/trinidadian.ruleset:4
-#, fuzzy
 msgid "?plural:Trinidadians and Tobagonians"
-msgstr "Transilvans"
+msgstr "de Trinitat i Tobago"
 
 #: data/nation/trinidadian.ruleset:6
 msgid ""
@@ -43435,11 +43488,19 @@ msgid ""
 "compared to its Caribbean neighbors. Trinidad and Tobago is famous for its "
 "music and its Carnival."
 msgstr ""
+"Trinidad i Tobago és un país del Carib, que consisteix en les dues illes "
+"d'aquest nom. És el país més poblat de les Petites Antilles . Trinidad va ser "
+"vista per Colom el 1498, i va ser colònia espanyola fins que fou conquerida "
+"pels britànics durant les Guerres Napoleòniques; Tobago fou colonitzat per "
+"curonians, espanyols, holandesos, francesos i suecs, però al final també va "
+"acabar en mans britàniques. Les illes han estat independents des de 1962. "
+"L'economia de l'illa està basada en el petroli i està relativament "
+"desenvolupada en comparació amb els seus veïns caribenys. Trinidad i Tobago "
+"és famós per la seva música i el seu Carnaval."
 
 #: data/nation/tswana.ruleset:3
-#, fuzzy
 msgid "Tswana"
-msgstr "Motswana"
+msgstr "Tswana"
 
 #: data/nation/tswana.ruleset:4
 msgid "?plural:Batswana"
@@ -43453,6 +43514,10 @@ msgid ""
 "them. In South Africa they count about four million Batswana and tn the "
 "Apartheid era they had the Bantustan of Bophuthatswana."
 msgstr ""
+"Els batswana són un poble bantú de Sud-Àfrica. Amb un 20% de la població, són "
+"l'ètnia dominant de Botswana, que en pren el nom. A Sud-Àfrica hi ha uns "
+"quatre milions de Batswana i durant l'era de l'apartheid tenien el bantustan "
+"de Bophuthatswana."
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
@@ -43562,14 +43627,12 @@ msgstr ""
 "i secularitzat per Kemal Mustafà, l'heroi de la defensa de Gal·lípoli."
 
 #: data/nation/turkishcypriot.ruleset:3
-#, fuzzy
 msgid "Turkish Cypriot"
-msgstr "Xipriota"
+msgstr "Turc xipriota"
 
 #: data/nation/turkishcypriot.ruleset:4
-#, fuzzy
 msgid "?plural:Turkish Cypriots"
-msgstr "Xipriotes"
+msgstr "Turcs xipriotes"
 
 #: data/nation/turkishcypriot.ruleset:6
 msgid ""
@@ -43580,6 +43643,12 @@ msgid ""
 "Currently, the only country that recognizes the independence of the TRNC is "
 "Turkey."
 msgstr ""
+"Els turcs van establir-se a Xipre per primera vegada després que els otomans "
+"conquerissin l'illa el 1571. Els conflictes polítics i les tensions ètniques "
+"entre turcs i grecs xipriotes van provocar una invasió dels militars turcs el "
+"1974, seguida per la declaració d'independència de la República Turca de "
+"Xipre del Nord el 1983. Actualment, l'únic país que en reconeix la "
+"independència és Turquia."
 
 #: data/nation/tuvan.ruleset:3
 msgid "Tuvan"
@@ -43821,12 +43890,11 @@ msgstr ""
 
 #: data/nation/vanuatuan.ruleset:3
 msgid "Vanuatuan"
-msgstr ""
+msgstr "Vanuatuenc"
 
 #: data/nation/vanuatuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ni-Vanuatu"
-msgstr "Ainus"
+msgstr "Vanuatuencs"
 
 #: data/nation/vanuatuan.ruleset:6
 msgid ""
@@ -43836,6 +43904,12 @@ msgid ""
 "both colonial powers agreed to rule the New Hebrides together as a "
 "condominium. The Republic of Vanuatu declared its independence in 1980."
 msgstr ""
+"Vanuatu, conegut antigament com a Noves Hèbrides, és un país de Melanèsia, "
+"que consisteix en unes 80 illes. Habitades al principi per melanesis, les "
+"illes foren disputades entre els britànics i els francesos a finals del segle "
+"XIX. El 1906, les dues potències colonials van acordar de dirigir "
+"conjuntament les Noves Hèbrides. La República de Vanuatu va declara la "
+"independència el 1980."
 
 #: data/nation/vedic.ruleset:3
 msgid "Vedic"
