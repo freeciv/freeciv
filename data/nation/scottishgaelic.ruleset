@@ -131,7 +131,7 @@ cities =
  "Guireag (ocean)",		; Gourock
  "Cille Chòmhghain (ocean)",	; Kilchoan
  "Am Machaire (ocean)",		; Machrie
- "Ceann Fhàil (ocean)",		; Bo'ness
+ "Ceann Fhàil (ocean)",		; /* Bo'ness */
  "A' Bhruaich (ocean)",		; Fraserburgh
  "Srath Bhalgaidh (hills)",	; Huntly
  "Inbhir Ùraidh (river)",	; Inverurie

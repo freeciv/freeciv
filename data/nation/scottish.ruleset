@@ -117,7 +117,7 @@ cities =
  "Culross (ocean)",
  "Gourock (ocean)",
  "Copshie (hills)",		; Newcastleton
- "Burghstounness (ocean)",	; Bo'ness
+ "Burghstounness (ocean)",	; /* Bo'ness */
  "Fraserburgh (ocean)",
  "Nairn (ocean, river)",
  "Annan (ocean, river)",
