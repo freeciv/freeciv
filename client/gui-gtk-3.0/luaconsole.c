@@ -186,7 +186,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 
   fc_assert_ret(NULL != pdialog);
 
-  if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_SPLIT) {
+  if (gui_gtk3_message_chat_location == GUI_GTK2_MSGCHAT_SPLIT) {
     notebook = right_notebook;
   } else {
     notebook = bottom_notebook;
@@ -455,7 +455,7 @@ void real_luaconsole_append(const char *astring,
   gtk_text_buffer_insert(buf, &iter, "\n", -1);
   mark = gtk_text_buffer_create_mark(buf, NULL, &iter, TRUE);
 
-  if (gui_gtk2_show_chat_message_time) {
+  if (gui_gtk3_show_chat_message_time) {
     char timebuf[64];
     time_t now;
     struct tm *now_tm;
