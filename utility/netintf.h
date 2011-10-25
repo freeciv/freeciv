@@ -89,6 +89,15 @@ union fc_sockaddr {
 #endif
 };
 
+/* get 'struct sockaddr_list' and related functions: */
+#define SPECLIST_TAG fc_sockaddr
+#define SPECLIST_TYPE union fc_sockaddr
+#include "speclist.h"
+
+#define fc_sockaddr_list_iterate(sockaddrlist, paddr) \
+    TYPED_LIST_ITERATE(union fc_sockaddr, sockaddrlist, paddr)
+#define fc_sockaddr_list_iterate_end  LIST_ITERATE_END
+
 /* Which protocol will be used for LAN announcements */
 enum announce_type {
   ANNOUNCE_NONE,
@@ -114,8 +123,8 @@ void fc_init_network(void);
 void fc_shutdown_network(void);
 
 void fc_nonblock(int sockfd);
-bool net_lookup_service(const char *name, int port,
-                        union fc_sockaddr *addr, enum fc_addr_family family);
+struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
+					    enum fc_addr_family family);
 fz_FILE *fc_querysocket(int sock, void *buf, size_t size);
 int find_next_free_port(int starting_port);
 

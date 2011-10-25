@@ -430,8 +430,8 @@ static void meta_read_response(struct server_scan *scan)
 ****************************************************************************/
 static bool begin_metaserver_scan(struct server_scan *scan)
 {
-  union fc_sockaddr names[2];
-  int i, name_count;
+  struct fc_sockaddr_list *list;
+  int name_count;
   int s = -1;
 
   scan->meta.urlpath = fc_lookup_httpd(scan->meta.name, &scan->meta.port,
@@ -446,32 +446,28 @@ static bool begin_metaserver_scan(struct server_scan *scan)
   name_count = 0;
 
 #ifdef IPV6_SUPPORT
-  if (net_lookup_service(scan->meta.name, scan->meta.port, &names[name_count],
-			 FC_ADDR_IPV6)) {
-    name_count++;
-  }
+  list = net_lookup_service(scan->meta.name, scan->meta.port, FC_ADDR_ANY);
+#else  /* IPV6_SUPPORT */
+  list = net_lookup_service(scan->meta.name, scan->meta.port, FC_ADDR_IPV4);
 #endif /* IPV6_SUPPORT */
 
-  if (net_lookup_service(scan->meta.name, scan->meta.port, &names[name_count],
-			 FC_ADDR_IPV4)) {
-    name_count++;
-  }
+  name_count = fc_sockaddr_list_size(list);
 
   if (name_count <= 0) {
     scan->error_func(scan, _("Failed looking up metaserver's host"));
     return FALSE;
   }
 
-  /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */  
-  for (i = 0; i < name_count; i++) {
-    if ((s = socket(names[i].saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+  /* Try all addresses until we have a connection. */  
+  fc_sockaddr_list_iterate(list, paddr) {
+    if ((s = socket(paddr->saddr.sa_family, SOCK_STREAM, 0)) == -1) {
       /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
       continue;
     }
 
     fc_nonblock(s);
   
-    if (fc_connect(s, &names[i].saddr, sockaddr_size(&names[i])) == -1) {
+    if (fc_connect(s, &paddr->saddr, sockaddr_size(paddr)) == -1) {
       if (errno == EINPROGRESS) {
         /* With non-blocking sockets this is the expected result. */
         scan->meta.state = META_CONNECTING;
@@ -489,7 +485,9 @@ static bool begin_metaserver_scan(struct server_scan *scan)
       meta_send_request(scan);
       break;
     }
-  }
+  } fc_sockaddr_list_iterate_end;
+
+  fc_sockaddr_list_destroy(list);
 
   if (s == -1) {
     scan->error_func(scan, fc_strerror(fc_get_errno()));

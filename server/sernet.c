@@ -1042,30 +1042,25 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 int server_open_socket(void)
 {
   /* setup socket address */
-  union fc_sockaddr names[2];
   union fc_sockaddr addr;
   struct ip_mreq mreq4;
   const char *cause, *group;
-  int i, j, name_count, on, s;
+  int j, on, s;
   int lan_family;
+  struct fc_sockaddr_list *list;
+  int name_count;
 
 #ifdef IPV6_SUPPORT
   struct ipv6_mreq mreq6;
 #endif
 
-  name_count = 0;
-
 #ifdef IPV6_SUPPORT
-  if (net_lookup_service(srvarg.bind_addr, srvarg.port, &names[name_count],
-			 FC_ADDR_IPV6)) {
-    name_count++;
-  }
+  list = net_lookup_service(srvarg.bind_addr, srvarg.port, FC_ADDR_ANY);
+#else  /* IPV6_SUPPORT */
+  list = net_lookup_service(srvarg.bind_addr, srvarg.port, FC_ADDR_IPV4);
 #endif /* IPV6_SUPPORT */
 
-  if (net_lookup_service(srvarg.bind_addr, srvarg.port, &names[name_count],
-			 FC_ADDR_IPV4)) {
-    name_count++;
-  }
+  name_count = fc_sockaddr_list_size(list);
 
   /* Lookup addresses to bind. */
   if (name_count <= 0) {
@@ -1080,10 +1075,10 @@ int server_open_socket(void)
   /* Loop to create sockets, bind, listen. */
   listen_socks = fc_calloc(name_count, sizeof(listen_socks[0]));
   listen_count = 0;
-  for (i = 0; i < name_count; i++) {
 
+  fc_sockaddr_list_iterate(list, paddr) {
     /* Create socket for client connections. */
-    s = socket(names[i].saddr.sa_family, SOCK_STREAM, 0);
+    s = socket(paddr->saddr.sa_family, SOCK_STREAM, 0);
     if (s == -1) {
       /* Probably EAFNOSUPPORT or EPROTONOSUPPORT.
        * Kernel might have disabled AF_INET6. */
@@ -1095,25 +1090,25 @@ int server_open_socket(void)
                    (char *)&on, sizeof(on)) == -1) {
       log_error("setsockopt SO_REUSEADDR failed: %s",
                 fc_strerror(fc_get_errno()));
-      sockaddr_debug(&names[i]);
+      sockaddr_debug(paddr);
     }
 
     /* AF_INET6 sockets should use IPv6 only,
      * without stealing IPv4 from AF_INET sockets. */
 #ifdef IPV6_SUPPORT
-    if (names[i].saddr.sa_family == AF_INET6) {
+    if (paddr->saddr.sa_family == AF_INET6) {
 #ifdef IPV6_V6ONLY
       if (setsockopt(s, IPPROTO_IPV6, IPV6_V6ONLY,
                      (char *)&on, sizeof(on)) == -1) {
         log_error("setsockopt IPV6_V6ONLY failed: %s",
                   fc_strerror(fc_get_errno()));
-        sockaddr_debug(&names[i]);
+        sockaddr_debug(paddr);
       }
 #endif /* IPV6_V6ONLY */
     }
 #endif /* IPv6 support */
 
-    if (bind(s, &names[i].saddr, sockaddr_size(&names[i])) == -1) {
+    if (bind(s, &paddr->saddr, sockaddr_size(paddr)) == -1) {
       cause = "bind";
 
       if (fc_get_errno() == EADDRNOTAVAIL) {
@@ -1142,15 +1137,17 @@ int server_open_socket(void)
     }
     listen_socks[listen_count] = s;
     listen_count++;
-  }
+  } fc_sockaddr_list_iterate_end;
 
   if (listen_count == 0) {
     log_fatal("%s failed: %s", cause, fc_strerror(fc_get_errno()));
-    for (i = 0; i < name_count; i++) {
-      sockaddr_debug(&names[i]);
-    }
+    fc_sockaddr_list_iterate(list, paddr) {
+      sockaddr_debug(paddr);
+    } fc_sockaddr_list_iterate_end;
     exit(EXIT_FAILURE);
   }
+
+  fc_sockaddr_list_destroy(list);
 
   if (srvarg.announce == ANNOUNCE_NONE) {
     return 0;

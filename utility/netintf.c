@@ -53,6 +53,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 #include "support.h"
 
 #include "netintf.h"
@@ -318,18 +319,18 @@ bool sockaddr_ipv6(union fc_sockaddr *addr)
 
 #ifdef HAVE_GETADDRINFO
 /***************************************************************************
-  Look up the service at hostname:port using getaddrinfo() and fill in *addr.
-  Family can be AF_UNSPEC.
+  Look up the service at hostname:port using getaddrinfo().
 ***************************************************************************/
-static bool net_lookup_getaddrinfo(const char *name, int port,
-				   void *addr, size_t addr_size,
-				   enum fc_addr_family family)
+static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
+						       int port,
+						       enum fc_addr_family family)
 {
   struct addrinfo hints;
   struct addrinfo *res;
   int err;
   char servname[8];
   int gafam;
+  struct fc_sockaddr_list *addrs = fc_sockaddr_list_new();
 
   switch (family) {
     case FC_ADDR_IPV4:
@@ -343,7 +344,8 @@ static bool net_lookup_getaddrinfo(const char *name, int port,
       break;
     default:
       fc_assert(FALSE);
-      return FALSE;
+
+      return addrs;
   }
 
   /* Convert port to string for getaddrinfo() */
@@ -357,92 +359,78 @@ static bool net_lookup_getaddrinfo(const char *name, int port,
   err = getaddrinfo(name, servname, &hints, &res);
 
   if (err == 0) {
-    /* getaddrinfo() provides a linked list of addresses, but we return
-     * only one address.
-     *
-     * We handle this by copying the first address from the list,
-     * then freeing the list. */
-    memcpy(addr, res->ai_addr, MIN(addr_size, res->ai_addrlen));
-    freeaddrinfo(res);
+    struct addrinfo *current = res;
 
-    return TRUE;
+    while (current != NULL) {
+      union fc_sockaddr *caddr = fc_malloc(sizeof(caddr));
+
+      memcpy(caddr, current->ai_addr, MIN(sizeof(caddr), current->ai_addrlen));
+
+      fc_sockaddr_list_append(addrs, caddr);
+
+      current = current->ai_next;
+    }
   }
 
-  return FALSE;
+  return addrs;
 }
 #endif /* HAVE_GETADDRINFO */
 
 /***************************************************************************
-  Look up the service at hostname:port and fill in *addr.
+  Look up the service at hostname:port.
 ***************************************************************************/
-bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
-			enum fc_addr_family family)
+struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
+					    enum fc_addr_family family)
 {
-  struct sockaddr_in *sock4;
-
-#ifdef IPV6_SUPPORT
-  struct sockaddr_in6 *sock6;
-#elif !defined(HAVE_GETADDRINFO)  /* IPv6 support */
-  struct hostent *hp;
-#endif /* IPv6 support */
-
-  fc_assert(family != FC_ADDR_ANY); /* Not yet supported */
-
-  sock4 = &addr->saddr_in4;
-
-#ifdef IPV6_SUPPORT
-  sock6 = &addr->saddr_in6;
-
-  if (family == FC_ADDR_IPV6) {
-    if (net_lookup_getaddrinfo(name, port, sock6, sizeof(*sock6),
-                               FC_ADDR_IPV6)) {
-      return TRUE;
-    }
-  }
-#endif /* IPV6_SUPPORT */
-
-  /* IPv4 handling */
-
   /* IPv6-enabled Freeciv always has HAVE_GETADDRINFO, IPv4-only Freeciv not
    * necessarily */
 #ifdef HAVE_GETADDRINFO
-  if (family == FC_ADDR_IPV4) {
-    if (net_lookup_getaddrinfo(name, port, sock4, sizeof(*sock4),
-                               FC_ADDR_IPV4)) {
-      return TRUE;
-    }
-  }
-
-  return FALSE;
-
+  return net_lookup_getaddrinfo(name, port, family);
 #else  /* HAVE_GETADDRINFO */
+
+  struct sockaddr_in *sock4;
+  struct hostent *hp;
+  struct fc_sockaddr_list *addrs = fc_sockaddr_list_new();
+  union fc_sockaddr *result = fc_malloc(sizeof(result));
+
+  sock4 = &result->saddr_in4;
 
   fc_assert(family != FC_ADDR_IPV6);
 
-  addr->saddr.sa_family = AF_INET;
+  result->saddr.sa_family = AF_INET;
   sock4->sin_port = htons(port);
 
   if (!name) {
     sock4->sin_addr.s_addr = htonl(INADDR_ANY);
-    return TRUE;
+    fc_sockaddr_list_append(addrs, result);
+
+    return addrs;
   }
 
 #if defined(HAVE_INET_ATON)
   if (inet_aton(name, &sock4->sin_addr) != 0) {
-    return TRUE;
+    fc_sockaddr_list_append(addrs, result);
+
+    return addrs;
   }
 #else  /* HAVE_INET_ATON */
   if ((sock4->sin_addr.s_addr = inet_addr(name)) != INADDR_NONE) {
-    return TRUE;
+    fc_sockaddr_list_append(addrs, result);
+
+    return addrs;
   }
 #endif /* HAVE_INET_ATON */
   hp = gethostbyname(name);
   if (!hp || hp->h_addrtype != AF_INET) {
-    return FALSE;
+    FC_FREE(result);
+
+    return addrs;
   }
 
   memcpy(&sock4->sin_addr, hp->h_addr, hp->h_length);
-  return TRUE;
+  fc_sockaddr_list_append(addrs, result);
+
+  return addrs;
 
 #endif /* !HAVE_GETADDRINFO */
 

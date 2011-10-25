@@ -101,7 +101,7 @@
 /* In autoconnect mode, try to connect 100 times */
 #define MAX_AUTOCONNECT_ATTEMPTS	100
 
-static union fc_sockaddr names[2];
+static struct fc_sockaddr_list *list = NULL;
 static int name_count;
 
 /*************************************************************************
@@ -169,17 +169,17 @@ static int get_server_address(const char *hostname, int port,
     hostname = "localhost";
   }
 
-  name_count = 0;
+  if (list != NULL) {
+    fc_sockaddr_list_destroy(list);
+  }
 
 #ifdef IPV6_SUPPORT
-  if (net_lookup_service(hostname, port, &names[name_count], FC_ADDR_IPV6)) {
-    name_count++;
-  }
-#endif
+  list = net_lookup_service(hostname, port, FC_ADDR_ANY);
+#else  /* IPV6_SUPPORT */
+  list = net_lookup_service(hostname, port, FC_ADDR_IPV4);
+#endif /* IPV6_SUPPORT */
 
-  if (net_lookup_service(hostname, port, &names[name_count], FC_ADDR_IPV4)) {
-    name_count++;
-  }
+  name_count = fc_sockaddr_list_size(list);
 
   if (name_count <= 0) {
     (void) fc_strlcpy(errbuf, _("Failed looking up host."), errbufsize);
@@ -202,7 +202,6 @@ static int get_server_address(const char *hostname, int port,
 **************************************************************************/
 static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
-  int i;
   int sock = -1;
 
   connections_set_close_callback(client_conn_close_callback);
@@ -215,14 +214,14 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 
   /* Try all (IPv4, IPv6, ...) addresses until we have a connection. */
   sock = -1;
-  for (i = 0; i < name_count; i++) {
-    if ((sock = socket(names[i].saddr.sa_family, SOCK_STREAM, 0)) == -1) {
+  fc_sockaddr_list_iterate(list, paddr) {
+    if ((sock = socket(paddr->saddr.sa_family, SOCK_STREAM, 0)) == -1) {
       /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
       continue;
     }
 
-    if (fc_connect(sock, &names[i].saddr,
-                   sockaddr_size(&names[i])) == -1) {
+    if (fc_connect(sock, &paddr->saddr,
+                   sockaddr_size(paddr)) == -1) {
       fc_closesocket(sock);
       sock = -1;
       continue;
@@ -230,7 +229,7 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
       /* We have a connection! */
       break;
     }
-  }
+  } fc_sockaddr_list_iterate_end;
 
   client.conn.sock = sock;
   if (client.conn.sock == -1) {
