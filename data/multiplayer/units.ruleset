@@ -16,7 +16,7 @@
 
 [datafile]
 description="Unit definitions for the multiplayer ruleset."
-options="+Freeciv-ruleset-Devel-2011.Feb.21"
+options="+Freeciv-ruleset-Devel-2011.Oct.27"
 
 [flags]
 ; Names for custom unit type flags.
@@ -63,7 +63,12 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                 present, 'name' is used. Since the name used in savegames
 ;                 must not change, use this when renaming a unit class after a
 ;                 ruleset has been released.
-; move_type     = Where unit moves; Land, Sea or Both.
+; move_type     = Where unit moves; "Land", "Sea", or "Both".
+;                 This is optional field. If it's not
+;                 given, move type is automatically determined from native
+;                 terrains. You need to set it only if you want to set move
+;                 type "Both" for unit that has no native Land terrains or
+;                 for unit that has no native Oceanic terrains.
 ; min_speed     = Minimum speed after damage and effects
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
 ; hut_behavior  = What happens to huts when unit enters tile: "Normal", "Nothing" or
@@ -95,7 +100,6 @@ veteran_move_bonus = 0, 0, 0, 0
 [unitclass_missile]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Missile")
-move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"
@@ -104,7 +108,6 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 [unitclass_land]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Land")
-move_type     = "Land"
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
@@ -114,7 +117,6 @@ flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Sea")
-move_type     = "Sea"
 min_speed     = 2
 hp_loss_pct   = 0
 flags         = "DamageSlows"
@@ -122,7 +124,6 @@ flags         = "DamageSlows"
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Trireme")
-move_type     = "Sea"
 min_speed     = 2
 hp_loss_pct   = 0
 flags         = "DamageSlows"
@@ -130,7 +131,6 @@ flags         = "DamageSlows"
 [unitclass_heli]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Helicopter")
-move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 10
 flags         = "CanOccupyCity", "CollectRansom"
@@ -138,7 +138,6 @@ flags         = "CanOccupyCity", "CollectRansom"
 [unitclass_air]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Air")
-move_type     = "Both"
 min_speed     = 1
 hp_loss_pct   = 0
 hut_behavior  = "Frighten"

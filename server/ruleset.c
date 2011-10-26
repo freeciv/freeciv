@@ -67,7 +67,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Feb.21"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Oct.27"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -682,7 +682,11 @@ static enum unit_move_type lookup_move_type(struct section_file *file,
   const char *sval;
   enum unit_move_type mt;
   
-  sval = secfile_lookup_str(file, "%s", entry);
+  sval = secfile_lookup_str_default(file, NULL, "%s", entry);
+  if (sval == NULL) {
+    return unit_move_type_invalid();
+  }
+
   mt = unit_move_type_by_name(sval, fc_strcasecmp);
   if (!unit_move_type_is_valid(mt)) {
     ruleset_error(LOG_FATAL,
@@ -1220,6 +1224,38 @@ static void load_ruleset_units(struct section_file *file)
     fc_strlcat(tmp, sec_name, 200);
     fc_strlcat(tmp, ".move_type", 200);
     uc->move_type = lookup_move_type(file, tmp, filename);
+
+    if (!unit_move_type_is_valid(uc->move_type)) {
+      /* Not explicitly given, determine automatically */
+      bool land_moving = FALSE;
+      bool sea_moving = FALSE;
+
+      terrain_type_iterate(pterrain) {
+        bv_special spe;
+        bv_bases bases;
+
+        BV_CLR_ALL(spe);
+        BV_CLR_ALL(bases);
+
+        if (is_native_to_class(uc, pterrain, spe, bases)) {
+          if (is_ocean(pterrain)) {
+            sea_moving = TRUE;
+          } else {
+            land_moving = TRUE;
+          }
+        }
+      } terrain_type_iterate_end;
+
+      if (land_moving && sea_moving) {
+        uc->move_type = UMT_BOTH;
+      } else if (sea_moving) {
+        uc->move_type = UMT_SEA;
+      } else {
+        /* If unit has no native terrains, it is considered land moving */
+        uc->move_type = UMT_LAND;
+      }
+    }
+
     if (secfile_lookup_int(file, &uc->min_speed, "%s.min_speed", sec_name)) {
       uc->min_speed *= SINGLE_MOVE;
     } else {
@@ -4108,8 +4144,8 @@ void load_rulesets(void)
   load_ruleset_techs(techfile);
   load_ruleset_cities(cityfile);
   load_ruleset_governments(govfile);
+  load_ruleset_terrain(terrfile);  /* terrain must precede nations and units */
   load_ruleset_units(unitfile);
-  load_ruleset_terrain(terrfile);    /* terrain must precede nations */
   load_ruleset_buildings(buildfile);
   load_ruleset_nations(nationfile);
   load_ruleset_effects(effectfile);
