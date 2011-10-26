@@ -1135,6 +1135,8 @@ int server_open_socket(void)
     exit(EXIT_FAILURE);
   }
 
+  connections_set_close_callback(server_conn_close_callback);
+
   if (srvarg.announce == ANNOUNCE_NONE) {
     return 0;
   }
@@ -1210,8 +1212,6 @@ int server_open_socket(void)
                 group, fc_strerror(fc_get_errno()));
     }
   }
-
-  connections_set_close_callback(server_conn_close_callback);
 
   return 0;
 }
