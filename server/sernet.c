@@ -1149,6 +1149,8 @@ int server_open_socket(void)
 
   fc_sockaddr_list_destroy(list);
 
+  connections_set_close_callback(server_conn_close_callback);
+
   if (srvarg.announce == ANNOUNCE_NONE) {
     return 0;
   }
@@ -1232,8 +1234,6 @@ int server_open_socket(void)
 
     log_error("Unsupported address family for broadcasting.");
   }
-
-  connections_set_close_callback(server_conn_close_callback);
 
   return 0;
 }
