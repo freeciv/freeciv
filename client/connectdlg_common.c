@@ -200,14 +200,25 @@ bool client_start_server(void)
   char scenscmdline[512];
 # endif /* WIN32_NATIVE */
 
+#ifdef IPV6_SUPPORT
+  /* We want port that is free in IPv4 even if we (the client) have
+   * IPv6 support. In the unlikely case that local server is IPv4-only
+   * (meaning that it has to be from different build than client) we
+   * have to give port that it can use. IPv6-enabled client would first
+   * try same port in IPv6 and if that fails, fallback to IPv4 too. */
+  enum fc_addr_family family = FC_ADDR_IPV4;
+#else
+  enum fc_addr_family family = FC_ADDR_IPV4;
+#endif /* IPV6_SUPPORT */
+
   /* only one server (forked from this client) shall be running at a time */
   /* This also resets client_has_hack. */
   client_kill_server(TRUE);
-  
+
   output_window_append(ftc_client, _("Starting server..."));
 
-  /* find a free port */ 
-  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT);
+  /* find a free port */
+  internal_server_port = find_next_free_port(DEFAULT_SOCK_PORT, family);
 
 # ifdef HAVE_WORKING_FORK
   server_pid = fork();

@@ -612,23 +612,76 @@ const char *fc_url_encode(const char *txt)
 /************************************************************************** 
   Finds the next (lowest) free port.
 **************************************************************************/ 
-int find_next_free_port(int starting_port)
+int find_next_free_port(int starting_port, enum fc_addr_family family)
 {
-  int port, s = socket(AF_INET, SOCK_STREAM, 0);
+  int port;
+  int s;
+  int gafamily;
+  bool found = FALSE;
 
-  for (port = starting_port;; port++) {
+#ifndef IPV6_SUPPORT
+  fc_assert(family == FC_ADDR_IPV4 || family == FC_ADDR_ANY);
+#endif
+
+  switch (family) {
+   case FC_ADDR_IPV4:
+     gafamily = AF_INET;
+     break;
+   case FC_ADDR_IPV6:
+     gafamily = AF_INET6;
+     break;
+   case FC_ADDR_ANY:
+     gafamily = AF_UNSPEC;
+     break;
+   default:
+     fc_assert(FALSE);
+
+     return -1;
+  }
+
+  s = socket(gafamily, SOCK_STREAM, 0);
+
+  for (port = starting_port; !found ; port++) {
+    /* HAVE_GETADDRINFO implies IPv6 support */
+#ifdef HAVE_GETADDRINFO
+    struct addrinfo hints;
+    int err;
+    char servname[8];
+    struct addrinfo *res;
+
+    fc_snprintf(servname, sizeof(servname), "%d", port);
+
+    hints.ai_family = gafamily;
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+
+    err = getaddrinfo(NULL, servname, &hints, &res);
+    if (!err) {
+      struct addrinfo *current = res;
+
+      while (current != NULL && !found) {
+        if (bind(s, current->ai_addr, current->ai_addrlen) == 0) {
+          found = TRUE;
+        }
+        current = current->ai_next;
+      }
+
+      freeaddrinfo(res);
+    }
+#else /* HAVE_GETADDRINFO */
     union fc_sockaddr tmp;
-    struct sockaddr_in *sock = &tmp.saddr_in4;
+    struct sockaddr_in *sock4;
 
+    sock4 = &tmp.saddr_in4;
     memset(&tmp, 0, sizeof(tmp));
-
-    sock->sin_family = AF_INET;
-    sock->sin_port = htons(port);
-    sock->sin_addr.s_addr = htonl(INADDR_ANY);
+    sock4->sin_family = AF_INET;
+    sock4->sin_port = htons(port);
+    sock4->sin_addr.s_addr = htonl(INADDR_ANY);
 
     if (bind(s, &tmp.saddr, sockaddr_size(&tmp)) == 0) {
-      break;
+      found = TRUE;
     }
+#endif /* HAVE_GETADDRINFO */
   }
 
   fc_closesocket(s);
