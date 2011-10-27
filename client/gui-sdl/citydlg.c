@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -121,8 +121,15 @@ static void rebuild_citydlg_title_str(struct widget *pWindow, struct city *pCity
 
 /* ======================================================================= */
 
-struct impr_type *get_building_for_effect(enum effect_type effect_type) {
- 
+/**************************************************************************
+  Return first building that has given effect.
+
+  FIXME: Some callers would work better if they got building actually
+         provides the effect at the moment, and not just first potential
+         one.
+**************************************************************************/
+struct impr_type *get_building_for_effect(enum effect_type effect_type)
+{ 
   improvement_iterate(pImprove) {
     if (building_has_effect(pImprove, effect_type))
       return pImprove;        
@@ -941,7 +948,7 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Create city options widgets.
 **************************************************************************/
 static void create_city_options_widget_list(struct city *pCity)
 {
@@ -1025,7 +1032,7 @@ static int options_city_dlg_callback(struct widget *pButton)
 /* ======================================================================= */
 
 /**************************************************************************
-  ...
+  User interacted with Citizen Governor button.
 **************************************************************************/
 static int cma_city_dlg_callback(struct widget *pButton)
 {
@@ -1488,7 +1495,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
 /* ====================================================================== */
 
 /**************************************************************************
-  ...
+  Enable city dialog widgets that can be enabled.
 **************************************************************************/
 void enable_city_dlg_widgets(void)
 {
@@ -1552,7 +1559,7 @@ void enable_city_dlg_widgets(void)
 }
 
 /**************************************************************************
-  ...
+  Disable all city dialog widgets
 **************************************************************************/
 static void disable_city_dlg_widgets(void)
 {
@@ -1574,7 +1581,7 @@ static void disable_city_dlg_widgets(void)
 /* ======================================================================== */
 
 /**************************************************************************
-  ...
+  Return scaled city map.
 **************************************************************************/
 SDL_Surface *get_scaled_city_map(struct city *pCity)
 {
@@ -2188,7 +2195,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	dest.y = count;
       }
 
-      if (j == 2) { /* improvments effects */
+      if (j == 2) { /* improvements effects */
 	pSurf = NULL;
 	count = 0;
 
@@ -2491,7 +2498,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
 	FREESURFACE(pTmp3);
 	FREESURFACE(pTmp4);
 	dest.y = i;
-#endif        
+#endif /* 0 */
       }
 
       dest.x = pCityWindow->size.x + adj_size(10);
@@ -3526,7 +3533,7 @@ static void redraw_city_dialog(struct city *pCity)
 /* ============================================================== */
 
 /**************************************************************************
-  ...
+  Recreate improvement list for city dialog.
 **************************************************************************/
 static void rebuild_imprm_list(struct city *pCity)
 {
@@ -3616,7 +3623,7 @@ static void rebuild_imprm_list(struct city *pCity)
 }
 
 /**************************************************************************
-  ...
+  Recreate citydialog title.
 **************************************************************************/
 static void rebuild_citydlg_title_str(struct widget *pWindow,
 				      struct city *pCity)

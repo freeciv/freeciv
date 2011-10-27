@@ -52,7 +52,7 @@ static int caravan_dlg_window_callback(struct widget *pWindow)
 }
 
 /****************************************************************
-...
+  User selected that caravan should establish traderoute.
 *****************************************************************/
 static int caravan_establish_trade_callback(struct widget *pWidget)
 {
@@ -66,7 +66,7 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 
 
 /****************************************************************
-...
+  User selected that caravan should help in wonder building.
 *****************************************************************/
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
@@ -78,6 +78,9 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
   return -1;
 }
 
+/****************************************************************
+  User selected that caravan should not do anything special
+*****************************************************************/
 static int exit_caravan_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -86,7 +89,10 @@ static int exit_caravan_dlg_callback(struct widget *pWidget)
   }
   return -1;
 }
-  
+ 
+/****************************************************************
+  Close caravan dialog
+*****************************************************************/
 void popdown_caravan_dialog(void)
 {
   if (pCaravan_Dlg) {
@@ -162,12 +168,12 @@ void popup_caravan_dialog(struct unit *pUnit,
       fc_snprintf(cBuf, sizeof(cBuf),
 		_("Enter Marketplace ( %d R&G bonus )"), revenue);
     }
-    
+
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	    cBuf, caravan_establish_trade_callback);
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
-  
+
     add_to_gui_list(ID_LABEL, pBuf);
     
     area.w = MAX(area.w, pBuf->size.w);
@@ -247,9 +253,9 @@ bool caravan_dialog_is_open(int *unit_id, int *city_id)
   return pCaravan_Dlg != NULL;
 }
 
-/****************************************************************
+/**************************************************************************
   Updates caravan dialog
-****************************************************************/
+**************************************************************************/
 void caravan_dialog_update(void)
 {
   /* PORT ME */

@@ -66,7 +66,7 @@ static int convert_playername_callback(struct widget *pWidget);
 static int convert_servername_callback(struct widget *pWidget);
 
 /*
-  THOSE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULL REWRITEN !!
+  THESE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULLY REWRITTEN !!
 */
 
 /**************************************************************************
@@ -86,7 +86,7 @@ void handle_game_load(bool load_successful, const char *filename)
 }
 
 /**************************************************************************
-  ...
+  User interacted with connect -widget
 **************************************************************************/
 static int connect_callback(struct widget *pWidget)
 {
@@ -112,7 +112,7 @@ static int connect_callback(struct widget *pWidget)
 
 
 /**************************************************************************
-  ...
+  User interacted with server list window.
 **************************************************************************/
 static int meta_severs_window_callback(struct widget *pWindow)
 {
@@ -120,7 +120,7 @@ static int meta_severs_window_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  Close servers dialog.
 **************************************************************************/
 static int exit_meta_severs_dlg_callback(struct widget *pWidget)
 {
@@ -139,7 +139,7 @@ static int exit_meta_severs_dlg_callback(struct widget *pWidget)
 
 
 /**************************************************************************
-  ...
+  Server selected from dialog.
 **************************************************************************/
 static int sellect_meta_severs_callback(struct widget *pWidget)
 {
@@ -180,7 +180,7 @@ static void server_scan_error(struct server_scan *scan,
 }
 
 /**************************************************************************
-  SDL wraper on create_server_list(...) function witch add
+  SDL wrapper on create_server_list(...) function witch add
   same functionality for LAN server dettection.
   WARING !: for LAN scan use "finish_lanserver_scan()" to free server list.
 **************************************************************************/
@@ -213,7 +213,9 @@ static const struct server_list *sdl_create_server_list(bool lan)
   return server_list;
 }
 
-
+/**************************************************************************
+  Open connection dialog for either meta or lan scan.
+**************************************************************************/
 void popup_connection_dialog(bool lan_scan)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
@@ -322,7 +324,7 @@ void popup_connection_dialog(bool lan_scan)
     
     pNewWidget->string16->style |= SF_CENTER;
     pNewWidget->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
-    
+
     pNewWidget->action = sellect_meta_severs_callback;
     set_wstate(pNewWidget, FC_WS_NORMAL);
     pNewWidget->data.ptr = (void *)pServer;
@@ -449,7 +451,7 @@ void popup_connection_dialog(bool lan_scan)
 }
 
 /**************************************************************************
-  ...
+  User interacted with playername widget.
 **************************************************************************/
 static int convert_playername_callback(struct widget *pWidget)
 {
@@ -471,7 +473,7 @@ static int convert_playername_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-...
+  User interacted with servername widget.
 **************************************************************************/
 static int convert_servername_callback(struct widget *pWidget)
 {
@@ -493,7 +495,7 @@ static int convert_servername_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with port number widget.
 **************************************************************************/
 static int convert_portnr_callback(struct widget *pWidget)
 {
@@ -516,6 +518,9 @@ static int convert_portnr_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with cancel -button
+**************************************************************************/
 static int cancel_connect_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -525,6 +530,9 @@ static int cancel_connect_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  Open dialog for joining to game.
+**************************************************************************/
 void popup_join_game_dialog()
 {
   char pCharPort[6];
@@ -627,11 +635,11 @@ void popup_join_game_dialog()
   
   dialog_w = MAX(adj_size(40) + pBuf->size.w * 2, adj_size(210)) + adj_size(80);
   
-  #ifdef SMALL_SCREEN
+#ifdef SMALL_SCREEN
   dialog_h = area.h + (pWindow->size.h - pWindow->area.h);
-  #else
+#else
   dialog_h = area.h + (pWindow->size.h - pWindow->area.h);
-  #endif
+#endif
 
   pLogo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
   if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
@@ -705,7 +713,7 @@ void popup_join_game_dialog()
 }
 
 /**************************************************************************
-  ...
+  User interacted with password widget
 **************************************************************************/
 static int convert_passwd_callback(struct widget *pWidget)
 {
@@ -720,7 +728,7 @@ static int convert_passwd_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with "Next" -button after entering password.
 **************************************************************************/
 static int send_passwd_callback(struct widget *pWidget)
 {
@@ -749,7 +757,7 @@ static int send_passwd_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Open password dialog.
 **************************************************************************/
 static void popup_user_passwd_dialog(const char *pMessage)
 {
@@ -924,7 +932,7 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Open dialog for new password.
 **************************************************************************/
 static void popup_new_user_passwd_dialog(const char *pMessage)
 {
@@ -1117,7 +1125,7 @@ void handle_authentication_req(enum authentication_type type,
 }
 
 /**************************************************************************
-  Provide an interface for connecting to a FreeCiv server.
+  Provide an interface for connecting to a Freeciv server.
   SDLClient use it as popup main start menu which != connecting dlg.
 **************************************************************************/
 void gui_server_connect(void)

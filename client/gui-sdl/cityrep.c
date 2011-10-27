@@ -50,6 +50,9 @@ static void real_info_city_report_dialog_update(void);
 
 /* ==================================================================== */
 
+/**************************************************************************
+  Close city report dialog.
+**************************************************************************/
 void city_report_dialog_popdown(void)
 {
   if (pCityRep) {
@@ -63,6 +66,9 @@ void city_report_dialog_popdown(void)
   }
 }
 
+/**************************************************************************
+  User interacted with cityreport window.
+**************************************************************************/
 static int city_report_windows_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -71,6 +77,9 @@ static int city_report_windows_callback(struct widget *pWindow)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with city report close button.
+**************************************************************************/
 static int exit_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -79,6 +88,9 @@ static int exit_city_report_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with city button on city report.
+**************************************************************************/
 static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -87,6 +99,9 @@ static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with worklist button on city report.
+**************************************************************************/
 static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -95,6 +110,9 @@ static int popup_worklist_from_city_report_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User interacted with city production button on city report.
+**************************************************************************/
 static int popup_buy_production_from_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -103,6 +121,9 @@ static int popup_buy_production_from_city_report_callback(struct widget *pWidget
   return -1;
 }
 
+/**************************************************************************
+  User interacted with cma button on city report.
+**************************************************************************/
 static int popup_cma_from_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -120,6 +141,9 @@ static int popup_cma_from_city_report_callback(struct widget *pWidget)
 }
 
 #if 0
+/**************************************************************************
+  User interacted with information report button.
+**************************************************************************/
 static int info_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -159,21 +183,21 @@ static void real_info_city_report_dialog_update(void)
   } else {
     pCityRep = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   }
-  
+
   fc_snprintf(cBuf, sizeof(cBuf), _("size"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= SF_CENTER;
   pText1 = create_text_surf_from_str16(pStr);
-    
+
   fc_snprintf(cBuf, sizeof(cBuf), _("time\nto grow"));
   copy_chars_to_string16(pStr, cBuf);
   pText2 = create_text_surf_from_str16(pStr);
-    
+
   fc_snprintf(cBuf, sizeof(cBuf), _("City Name"));
   copy_chars_to_string16(pStr, cBuf);
   pText3 = create_text_surf_from_str16(pStr);
   name_w = pText3->w + adj_size(6);
-      
+
   fc_snprintf(cBuf, sizeof(cBuf), _("Production"));
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_theme_color(COLOR_THEME_CITYREP_TEXT);
@@ -183,7 +207,7 @@ static void real_info_city_report_dialog_update(void)
   
   pUnits_Icon = create_icon_from_theme(pTheme->UNITS_Icon, 0);
   pCMA_Icon = create_icon_from_theme(pTheme->CMA_Icon, 0);
-  
+
   /* --------------- */
   pStr = create_str16_from_char(_("Cities Report"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -251,8 +275,8 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------ */
-#endif
-  
+#endif /* 0 */
+
   pLast = pBuf;
   count = 0; 
   city_list_iterate(client.conn.playing->cities, pCity) {
@@ -261,7 +285,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
-    
+
     if (city_unhappy(pCity)) {
       pBuf->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
     } else {
@@ -273,7 +297,7 @@ static void real_info_city_report_dialog_update(void)
         }
       }
     }
-    
+
     pBuf->action = popup_citydlg_from_city_report_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.city = pCity;
@@ -545,7 +569,7 @@ static void real_info_city_report_dialog_update(void)
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_worklist_from_city_report_callback;
     pBuf->data.city = pCity;
-    
+
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_theme_color(COLOR_THEME_CITYREP_TEXT);
@@ -635,8 +659,8 @@ static void real_info_city_report_dialog_update(void)
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x - adj_size(5) - pBuf->size.w;
   pBuf->size.y = pBuf->next->size.y;
-#endif
-  
+#endif /* 0 */
+
   /* cities background and labels */
   dst.x = area.x + adj_size(2);
   dst.y = area.y + 1;
@@ -907,8 +931,10 @@ static void real_info_city_report_dialog_update(void)
   flush_dirty();
 }
 
-
-static struct widget * real_city_report_dialog_update_city(struct widget *pWidget,
+/**************************************************************************
+  Update city information in city report. 
+**************************************************************************/
+static struct widget *real_city_report_dialog_update_city(struct widget *pWidget,
 							  struct city *pCity)
 {
   char cBuf[64];
@@ -934,7 +960,7 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   pWidget = pWidget->prev;
   fc_snprintf(cBuf, sizeof(cBuf), "%d", city_size_get(pCity));
   copy_chars_to_string16(pWidget->string16, cBuf);
-      
+
   /* cma check box */
   pWidget = pWidget->prev;
   if (cma_is_city_under_agent(pCity, NULL) != get_checkbox_state(pWidget)) {
@@ -1070,6 +1096,9 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
 
 /* ======================================================================== */
 
+/**************************************************************************
+  Check if city report is open.
+**************************************************************************/
 bool is_city_report_open(void)
 {
   return (pCityRep != NULL);
@@ -1145,11 +1174,11 @@ void real_city_report_update_city(struct city *pCity)
       return;
     }
     real_city_report_dialog_update_city(pBuf, pCity);
-    
+
     /* -------------------------------------- */
     redraw_group(pCityRep->pBeginWidgetList, pCityRep->pEndWidgetList, 0);
     widget_mark_dirty(pCityRep->pEndWidgetList);
-    
+
     flush_dirty();
   }
 }

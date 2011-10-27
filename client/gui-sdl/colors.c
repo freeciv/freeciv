@@ -34,7 +34,7 @@
 #include "colors.h"
 
 /**************************************************************************
-  ...
+  Get color from theme.
 **************************************************************************/
 SDL_Color *get_theme_color(enum theme_color themecolor)
 {
@@ -42,16 +42,17 @@ SDL_Color *get_theme_color(enum theme_color themecolor)
 }
 
 /**************************************************************************
-  ...
+  Get color for some game object instance.
 **************************************************************************/
 SDL_Color *get_game_color(enum color_std stdcolor)
 {
   return get_color(tileset, stdcolor)->color;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
+/****************************************************************************
+  Allocate a color with alpha channel and return a pointer to it. Alpha
+  channel is not really used yet.
+****************************************************************************/
 struct color *color_alloc_rgba(int r, int g, int b, int a) {
 
   struct color *result = fc_malloc(sizeof(*result));	
@@ -67,6 +68,9 @@ struct color *color_alloc_rgba(int r, int g, int b, int a) {
   return result;
 }
 
+/****************************************************************************
+  Allocate a solid color and return a pointer to it.
+****************************************************************************/
 struct color *color_alloc(int r, int g, int b) {
 
   struct color *result = fc_malloc(sizeof(*result));	
@@ -82,6 +86,9 @@ struct color *color_alloc(int r, int g, int b) {
   return result;
 }
 
+/****************************************************************************
+  Free resources allocated for color.
+****************************************************************************/
 void color_free(struct color *pcolor) {
   if (!pcolor) {
     return;

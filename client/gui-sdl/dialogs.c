@@ -96,7 +96,7 @@ static void popdown_revolution_dialog(void);
 static void popdown_unit_upgrade_dlg(void);
 
 /********************************************************************** 
-  ...
+  Place window near given tile on screen.
 ***********************************************************************/
 void put_window_near_map_tile(struct widget *pWindow,
   		int window_width, int window_height, struct tile *ptile)
@@ -467,7 +467,7 @@ void popup_connect_msg(const char *headline, const char *message)
 struct ADVANCED_DLG *pNotifyDlg = NULL;
 
 /**************************************************************************
-...
+  User interacted with generic notify dialog.
 **************************************************************************/
 static int notify_dialog_window_callback(struct widget *pWindow)
 {
@@ -478,7 +478,7 @@ static int notify_dialog_window_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-...
+  User interacted with notify dialog close button.
 **************************************************************************/
 static int exit_notify_dialog_callback(struct widget *pWidget)
 {
@@ -514,9 +514,9 @@ void popup_notify_dialog(const char *caption, const char *headline,
    
   pStr = create_str16_from_char(caption, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
-  
+
   pWindow = create_window_skeleton(NULL, pStr, 0);
-  
+
   pWindow->action = notify_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   
@@ -541,9 +541,9 @@ void popup_notify_dialog(const char *caption, const char *headline,
     
   pStr = create_str16_from_char(headline, adj_font(16));
   pStr->style |= TTF_STYLE_BOLD;
-  
+
   pHeadline = create_text_surf_from_str16(pStr);
-    
+
   if(lines && *lines != '\0') {
     change_ptsize16(pStr, adj_font(12));
     pStr->style &= ~TTF_STYLE_BOLD;
@@ -552,9 +552,9 @@ void popup_notify_dialog(const char *caption, const char *headline,
   } else {
     pLines = NULL;
   }
-  
+
   FREESTRING16(pStr);
-  
+
   area.w = MAX(area.w, pHeadline->w);
   if(pLines) {
     area.w = MAX(area.w, pLines->w);
@@ -607,7 +607,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 static struct SMALL_DLG *pUnit_Upgrade_Dlg = NULL;
 
 /****************************************************************
-...
+  User interacted with upgrade unit widget.
 *****************************************************************/
 static int upgrade_unit_window_callback(struct widget *pWindow)
 {
@@ -618,7 +618,7 @@ static int upgrade_unit_window_callback(struct widget *pWindow)
 }
 
 /****************************************************************
-...
+  User interacted with upgrade unit dialog cancel -button 
 *****************************************************************/
 static int cancel_upgrade_unit_callback(struct widget *pWidget)
 {
@@ -632,7 +632,7 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
 }
 
 /****************************************************************
-...
+  User interacted with unit upgrade dialog "Upgrade" -button.
 *****************************************************************/
 static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 {
@@ -649,7 +649,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 }
 
 /****************************************************************
-...
+  Open unit upgrade dialog.
 *****************************************************************/
 void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
 {
@@ -779,7 +779,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
 }
 
 /****************************************************************
-...
+  Close unit upgrade dialog.
 *****************************************************************/
 static void popdown_unit_upgrade_dlg(void)
 {
@@ -796,7 +796,7 @@ static void popdown_unit_upgrade_dlg(void)
 static struct ADVANCED_DLG *pUnit_Select_Dlg = NULL;
 
 /**************************************************************************
-...
+  User interacted with unit selection window.
 **************************************************************************/
 static int unit_select_window_callback(struct widget *pWindow)
 {
@@ -807,7 +807,7 @@ static int unit_select_window_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-...
+  User requested unit select window to be closed.
 **************************************************************************/
 static int exit_unit_select_callback( struct widget *pWidget )
 {
@@ -819,7 +819,7 @@ static int exit_unit_select_callback( struct widget *pWidget )
 }
 
 /**************************************************************************
-...
+  User selected unit from unit select window.
 **************************************************************************/
 static int unit_select_callback( struct widget *pWidget )
 {
@@ -865,7 +865,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   int i, w = 0, n;
   SDL_Rect area;
   
-  #define NUM_SEEN	20
+#define NUM_SEEN	20
   
   n = unit_list_size(ptile->units);
   
@@ -881,7 +881,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window_skeleton(NULL, pStr, 0);
-  
+
   pWindow->action = unit_select_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   
@@ -1169,7 +1169,7 @@ void popdown_advanced_terrain_dialog(void)
 }
 
 /**************************************************************************
-  ...
+  User selected "Advanced Menu"
 **************************************************************************/
 int advanced_terrain_window_dlg_callback(struct widget *pWindow)
 {
@@ -1180,7 +1180,7 @@ int advanced_terrain_window_dlg_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  User requested closing of advanced terrain dialog.
 **************************************************************************/
 int exit_advanced_terrain_dlg_callback(struct widget *pWidget)
 {
@@ -1192,7 +1192,7 @@ int exit_advanced_terrain_dlg_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User requested terrain info.
 **************************************************************************/
 static int terrain_info_callback(struct widget *pWidget)
 {
@@ -1208,7 +1208,7 @@ static int terrain_info_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User requested zoom to city.
 **************************************************************************/
 static int zoom_to_city_callback(struct widget *pWidget)
 {
@@ -1223,7 +1223,7 @@ static int zoom_to_city_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User requested production change.
 **************************************************************************/
 static int change_production_callback(struct widget *pWidget)
 {
@@ -1236,7 +1236,7 @@ static int change_production_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User requested hurry production.
 **************************************************************************/
 static int hurry_production_callback(struct widget *pWidget)
 {
@@ -1251,7 +1251,7 @@ static int hurry_production_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User requested opening of cma settings.
 **************************************************************************/
 static int cma_callback(struct widget *pWidget)
 {
@@ -1264,7 +1264,7 @@ static int cma_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-...
+  User selected unit.
 **************************************************************************/
 static int adv_unit_select_callback(struct widget *pWidget)
 {
@@ -1282,7 +1282,7 @@ static int adv_unit_select_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-...
+  User selected all units from tile.
 **************************************************************************/
 static int adv_unit_select_all_callback(struct widget *pWidget)
 {
@@ -1299,22 +1299,22 @@ static int adv_unit_select_all_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-...
+  Sentry unit widget contains.
 **************************************************************************/
 static int adv_unit_sentry_idle_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pWidget->data.unit;
-  
+
     popdown_advanced_terrain_dialog();
     
     if (pUnit) {
       struct tile *ptile = unit_tile(pUnit);
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == client.conn.playing
-         && ACTIVITY_IDLE == punit->activity
-         && !punit->ai_controlled
-         && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+	    && ACTIVITY_IDLE == punit->activity
+	    && !punit->ai_controlled
+	    && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
           request_new_unit_activity(punit, ACTIVITY_SENTRY);
         }
       } unit_list_iterate_end;
@@ -1324,7 +1324,7 @@ static int adv_unit_sentry_idle_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Initiate goto to selected tile.
 **************************************************************************/
 static int goto_here_callback(struct widget *pWidget)
 {
@@ -1333,7 +1333,7 @@ static int goto_here_callback(struct widget *pWidget)
     int y = pWidget->data.cont->id1;
       
     popdown_advanced_terrain_dialog();
-    
+
     /* may not work */
     send_goto_tile(head_of_units_in_focus(), map_pos_to_tile(x, y));
   }
@@ -1341,7 +1341,7 @@ static int goto_here_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Initiate patrol to selected tile.
 **************************************************************************/
 static int patrol_here_callback(struct widget *pWidget)
 {
@@ -1363,13 +1363,13 @@ static int patrol_here_callback(struct widget *pWidget)
       do_unit_patrol_to(pUnit, map_pos_to_tile(x, y));
       exit_goto_state();
     }
-#endif  
+#endif /* 0 */
   }
   return -1;
 }
 
 /**************************************************************************
-  ...
+  Initiate paradrop to selected tile.
 **************************************************************************/
 static int paradrop_here_callback(struct widget *pWidget)
 {
@@ -1391,7 +1391,7 @@ static int paradrop_here_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  Show help about unit type.
 **************************************************************************/
 static int unit_help_callback(struct widget *pWidget)
 {
@@ -1403,7 +1403,6 @@ static int unit_help_callback(struct widget *pWidget)
   }
   return -1;
 }
-
 
 /**************************************************************************
   Popup a generic dialog to display some generic information about
@@ -1594,7 +1593,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       area.h += pBuf->size.h;
       
     }
-#endif
+#endif /* 0 */
 
     if(can_unit_paradrop(pFocus_Unit) && client_tile_get_known(ptile) &&
       !(is_ocean_tile(ptile) && is_ground_unit(pFocus_Unit)) &&
@@ -1932,6 +1931,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 /* ====================================================================== */
 static struct SMALL_DLG *pPillage_Dlg = NULL;
 
+/**************************************************************************
+  User interacted with pillage dialog.
+**************************************************************************/
 static int pillage_window_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1940,6 +1942,9 @@ static int pillage_window_callback(struct widget *pWindow)
   return -1;
 }
 
+/**************************************************************************
+  User selected what to pillage.
+**************************************************************************/
 static int pillage_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1947,8 +1952,8 @@ static int pillage_callback(struct widget *pWidget)
     int what = MAX_ID - pWidget->ID;
 
     popdown_pillage_dialog();
-    
-    if (pUnit) 
+
+    if (pUnit)
     {
       Base_type_id pillage_base = -1;
 
@@ -1964,6 +1969,9 @@ static int pillage_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  User requested closing of pillage dialog.
+**************************************************************************/
 static int exit_pillage_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -2036,7 +2044,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   
   add_to_gui_list(ID_PILLAGE_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
-  
+
   while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
     const char *name;
 
@@ -2122,7 +2130,7 @@ static void popdown_connect_dialog(void)
 static struct SMALL_DLG *pRevolutionDlg = NULL;
   
 /**************************************************************************
-  ...
+  User confirmed revolution.
 **************************************************************************/
 static int revolution_dlg_ok_callback(struct widget *pButton)
 {
@@ -2137,7 +2145,7 @@ static int revolution_dlg_ok_callback(struct widget *pButton)
 }
 
 /**************************************************************************
-  ...
+  User cancelled revolution.
 **************************************************************************/
 static int revolution_dlg_cancel_callback(struct widget *pCancel_Button)
 {
@@ -2149,7 +2157,7 @@ static int revolution_dlg_cancel_callback(struct widget *pCancel_Button)
 }
 
 /**************************************************************************
-  ...
+  User requested move of revolution dialog.
 **************************************************************************/
 static int move_revolution_dlg_callback(struct widget *pWindow)
 {
@@ -2193,7 +2201,7 @@ static void popdown_government_dialog(void)
 }
 
 /**************************************************************************
-  ...
+  User selected government button.
 **************************************************************************/
 static int government_dlg_callback(struct widget *pGov_Button)
 {
@@ -2206,7 +2214,7 @@ static int government_dlg_callback(struct widget *pGov_Button)
 }
 
 /**************************************************************************
-  ...
+  User requested move of government dialog.
 **************************************************************************/
 static int move_government_dlg_callback(struct widget *pWindow)
 {
@@ -2449,7 +2457,7 @@ static void select_random_leader(Nation_type_id nation);
 static void change_nation_label(void);
 
 /**************************************************************************
-  ...
+  User interaceted with nations dialog.
 **************************************************************************/
 static int nations_dialog_callback(struct widget *pWindow)
 {
@@ -2462,7 +2470,7 @@ static int nations_dialog_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  User accepted nation.
 **************************************************************************/
 static int races_dialog_ok_callback(struct widget *pStart_Button)
 {
@@ -2493,7 +2501,7 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
 }
 
 /**************************************************************************
-  ...
+  User requested leader gender change.
 **************************************************************************/
 static int change_sex_callback(struct widget *pSex)
 {
@@ -2519,7 +2527,7 @@ static int change_sex_callback(struct widget *pSex)
 }
 
 /**************************************************************************
-  ...
+  User requested next leader name.
 **************************************************************************/
 static int next_name_callback(struct widget *pNext)
 {
@@ -2574,7 +2582,7 @@ static int next_name_callback(struct widget *pNext)
 }
 
 /**************************************************************************
-  ...
+  User requested previous leader name.
 **************************************************************************/
 static int prev_name_callback(struct widget *pPrev)
 {
@@ -2629,7 +2637,7 @@ static int prev_name_callback(struct widget *pPrev)
 }
 
 /**************************************************************************
-  ...
+  User cancelled nations dialog.
 **************************************************************************/
 static int races_dialog_cancel_callback(struct widget *pButton)
 {
@@ -2641,7 +2649,7 @@ static int races_dialog_cancel_callback(struct widget *pButton)
 }
 
 /**************************************************************************
-  ...
+  User interacted with city style widget.
 **************************************************************************/
 static int city_style_callback(struct widget *pWidget)
 {
@@ -2666,7 +2674,7 @@ static int city_style_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-  ...
+  User interacted with help dialog.
 **************************************************************************/
 static int help_dlg_callback(struct widget *pWindow)
 {
@@ -2674,7 +2682,7 @@ static int help_dlg_callback(struct widget *pWindow)
 }
 
 /**************************************************************************
-  ...
+  User requested closing of help dialog.
 **************************************************************************/
 static int cancel_help_dlg_callback(struct widget *pWidget)
 {
@@ -2692,7 +2700,7 @@ static int cancel_help_dlg_callback(struct widget *pWidget)
 }
 
 /**************************************************************************
-   ...
+  User selected nation.
 **************************************************************************/
 static int nation_button_callback(struct widget *pNationButton)
 {
@@ -2816,7 +2824,7 @@ static int nation_button_callback(struct widget *pNationButton)
 }
 
 /**************************************************************************
-   ...
+  User interacted with leader name edit widget.
 **************************************************************************/
 static int leader_name_edit_callback(struct widget *pEdit)
 {
@@ -2838,7 +2846,7 @@ static int leader_name_edit_callback(struct widget *pEdit)
 /* =========================================================== */
 
 /**************************************************************************
-   ...
+  Update nation label.
 **************************************************************************/
 static void change_nation_label(void)
 {
@@ -2910,7 +2918,7 @@ static void select_random_leader(Nation_type_id nation)
 }
 
 /**************************************************************************
-  ...
+   Count available playable nations.
 **************************************************************************/
 static int get_playable_nation_count(void)
 {
@@ -2944,8 +2952,8 @@ void popup_races_dialog(struct player *pplayer)
   SDL_Rect area;
   int i;
 
-  #define TARGETS_ROW 5
-  #define TARGETS_COL 1
+#define TARGETS_ROW 5
+#define TARGETS_COL 1
   
   if (pNationDlg) {
     return;
@@ -3005,7 +3013,7 @@ void popup_races_dialog(struct player *pplayer)
       change_ptsize16(pStr, adj_font(10));
       pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
     }
-#endif    
+#endif /* 0 */
     
     dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
     len = pTmp_Surf_zoomed->h +
