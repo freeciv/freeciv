@@ -31,6 +31,8 @@
 #include "download.h"
 #include "mpcmdline.h"
 
+#include "modinst.h"
+
 #if IS_DEVEL_VERSION
 #define MODPACK_LIST_URL  "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/modpack.list"
 #define DEFAULT_URL_START "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/"
@@ -48,8 +50,10 @@ static GtkListStore *main_store;
 static GtkWidget *URL_input;
 static gboolean downloading = FALSE;
 
-const char *list_url = MODPACK_LIST_URL;
-const char *inst_prefix = NULL;
+struct fcmp_params fcmp = {
+  .list_url = MODPACK_LIST_URL,
+  .inst_prefix = NULL
+};
 
 static gboolean quit_dialog_callback(void);
 
@@ -139,7 +143,7 @@ static gpointer download_thread(gpointer data)
 {
   const char *errmsg;
 
-  errmsg = download_modpack(data, inst_prefix, msg_callback, pbar_callback);
+  errmsg = download_modpack(data, &fcmp, msg_callback, pbar_callback);
 
   if (errmsg == NULL) {
     gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
@@ -321,8 +325,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 
   main_store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_STRING,
                                   G_TYPE_STRING, G_TYPE_STRING);
-  errmsg = download_modpack_list(list_url, inst_prefix,
-                                 setup_modpack_list, msg_callback);
+  errmsg = download_modpack_list(&fcmp, setup_modpack_list, msg_callback);
   gtk_tree_view_set_model(GTK_TREE_VIEW(main_list), GTK_TREE_MODEL(main_store));
 
   g_object_unref(main_store);
@@ -353,7 +356,7 @@ int main(int argc, char *argv[])
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
 
-  if (inst_prefix == NULL) {
+  if (fcmp.inst_prefix == NULL) {
     const char *home = user_home_dir();
 
     if (home == NULL) {
@@ -362,7 +365,7 @@ int main(int argc, char *argv[])
       static char pfx_buf[500];
 
       snprintf(pfx_buf, sizeof(pfx_buf), "%s/.freeciv", home);
-      inst_prefix = pfx_buf;
+      fcmp.inst_prefix = pfx_buf;
     }
   }
 

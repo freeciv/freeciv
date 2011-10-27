@@ -16,6 +16,7 @@ freeciv_modpack_SOURCES = \
 		download.c	\
 		download.h	\
 		modinst.c	\
+		modinst.h	\
 		mpcmdline.c	\
 		mpcmdline.h
 

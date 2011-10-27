@@ -38,7 +38,7 @@
 /**************************************************************************
   Return path to control directory
 **************************************************************************/
-static char *control_dir(const char *prefix)
+static char *control_dir(const struct fcmp_params *fcmp)
 {
   static char controld[500] = { '\0' };
 
@@ -46,13 +46,13 @@ static char *control_dir(const char *prefix)
     return controld;
   }
 
-  if (prefix == NULL) {
+  if (fcmp->inst_prefix == NULL) {
     return NULL;
   }
 
   fc_snprintf(controld, sizeof(controld),
               "%s/" DATASUBDIR "/control",
-              prefix);
+              fcmp->inst_prefix);
 
   return controld;
 }
@@ -73,7 +73,7 @@ static void nf_cb(const char *msg, void *data)
   Download modpack from a given URL
 **************************************************************************/
 const char *download_modpack(const char *URL,
-                             const char *prefix,
+			     const struct fcmp_params *fcmp,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb)
 {
@@ -108,11 +108,11 @@ const char *download_modpack(const char *URL,
 
   log_normal(_("Installing modpack %s from %s"), URL + start_idx, URL);
 
-  if (prefix == NULL) {
+  if (fcmp->inst_prefix == NULL) {
     return _("Cannot install to given directory hierarchy");
   }
 
-  controld = control_dir(prefix);
+  controld = control_dir(fcmp);
 
   if (controld == NULL) {
     return _("Cannot determine control directory");
@@ -156,10 +156,10 @@ const char *download_modpack(const char *URL,
 
   if (type == MPT_SCENARIO) {
     fc_snprintf(local_dir, sizeof(local_dir),
-                "%s/scenarios", prefix);
+                "%s/scenarios", fcmp->inst_prefix);
   } else {
     fc_snprintf(local_dir, sizeof(local_dir),
-                "%s/" DATASUBDIR, prefix);
+                "%s/" DATASUBDIR, fcmp->inst_prefix);
   }
 
   baseURL = secfile_lookup_str(control, "info.baseURL");
@@ -265,12 +265,11 @@ const char *download_modpack(const char *URL,
 /**************************************************************************
   Download modpack list
 **************************************************************************/
-const char *download_modpack_list(const char *URL,
-                                  const char *prefix,
+const char *download_modpack_list(const struct fcmp_params *fcmp,
                                   modpack_list_setup_cb cb,
                                   dl_msg_callback mcb)
 {
-  const char *controld = control_dir(prefix);
+  const char *controld = control_dir(fcmp);
   struct section_file *list_file;
   const char *list_capstr;
   int modpack_count;
@@ -285,7 +284,7 @@ const char *download_modpack_list(const char *URL,
     return _("Cannot create required directories");
   }
 
-  list_file = netfile_get_section_file(URL, nf_cb, mcb);
+  list_file = netfile_get_section_file(fcmp->list_url, nf_cb, mcb);
 
   if (list_file == NULL) {
     return _("Cannot fetch and parse modpack list");

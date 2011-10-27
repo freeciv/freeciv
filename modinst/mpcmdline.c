@@ -24,10 +24,11 @@
 #include "version.h"
 
 /* modinst */
+#include "modinst.h"
+
 #include "mpcmdline.h"
 
-extern const char *list_url;
-extern const char *inst_prefix;
+extern struct fcmp_params fcmp;
 
 /**************************************************************************
   Parse commandline parameters. Modified argv[] so it contains only
@@ -64,9 +65,9 @@ int fcmp_parse_cmdline(int argc, char *argv[])
 
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--List", argv, &i, argc))) {
-      list_url = option;
+      fcmp.list_url = option;
     } else if ((option = get_option_malloc("--prefix", argv, &i, argc))) {
-      inst_prefix = option;
+      fcmp.inst_prefix = option;
     } else if (is_option("--version", argv[i])) {
       fc_fprintf(stderr, "%s \n", freeciv_name_version());
 
