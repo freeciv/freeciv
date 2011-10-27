@@ -625,7 +625,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, event_box);
       dlg->v.tab.handler_id =
-	g_signal_connect(notebook, "switch_page",
+	g_signal_connect(notebook, "switch-page",
 	    G_CALLBACK(gui_dialog_switch_page_handler), dlg);
       dlg->v.tab.child = vbox;
 
