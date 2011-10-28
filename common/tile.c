@@ -437,12 +437,27 @@ int tile_activity_base_time(const struct tile *ptile,
 /****************************************************************************
   Clear all infrastructure (man-made specials) from the tile.
 ****************************************************************************/
-static void tile_clear_infrastructure(struct tile *ptile)
+static void tile_clear_unsupported_infrastructure(struct tile *ptile)
 {
   int i;
+  bool city_present = tile_city(ptile) != NULL;
+  struct terrain *pterr = tile_terrain(ptile);
+  bool ocean = is_ocean(pterr);
 
   for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
-    tile_clear_special(ptile, infrastructure_specials[i]);
+    switch (infrastructure_specials[i]) {
+    case S_ROAD:
+    case S_RAILROAD:
+      if (!city_present && pterr->road_time == 0) {
+	tile_clear_special(ptile, infrastructure_specials[i]);
+      }
+      break;
+    default:
+      if (ocean) {
+	tile_clear_special(ptile, infrastructure_specials[i]);
+      }
+      break;
+    }
   }
 }
 
@@ -463,9 +478,9 @@ static void tile_clear_dirtiness(struct tile *ptile)
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 {
   tile_set_terrain(ptile, pterrain);
-  if (is_ocean(pterrain)) {
-    tile_clear_infrastructure(ptile);
+  tile_clear_unsupported_infrastructure(ptile);
 
+  if (is_ocean(pterrain)) {
     /* The code can't handle these specials in ocean. */
     tile_clear_special(ptile, S_RIVER);
     tile_clear_special(ptile, S_HUT);
