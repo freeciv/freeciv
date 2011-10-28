@@ -125,4 +125,4 @@ endif
 
 .PHONY : fc_svnrev_gen.h
 fc_svnrev_gen.h :
-	$(top_srcdir)/bootstrap/generate_svnrev.sh $(top_srcdir) $(top_builddir)
+	"$(top_srcdir)/bootstrap/generate_svnrev.sh" "$(top_srcdir)" "$(top_builddir)"
