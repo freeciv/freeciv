@@ -5,7 +5,7 @@ plural=_("?plural:Old Prussians")
 groups="Medieval", "European"
 legend=_("The Prussians were Baltic peoples inhabiting the area between\
  the Pomerania, Mazovia, Lithuania and the Baltic Sea (Baltic coast between\
- the lower Vistula and lower Nemen). They were conquered and Germanized by\
+ the lower Vistula and lower Nemen). They were conquered and germanized by\
  the Teutonic Order.")
 leaders = {
  "name",                "sex"

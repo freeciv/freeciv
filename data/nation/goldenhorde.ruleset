@@ -9,9 +9,9 @@ legend=_("The Golden Horde was a historical Mongol and Tatar state,\
  conquests its greatest extent covered the territories from the Irtysh to\
  the mountains of the Caucasus, Black Sea and the Volga and Kama basins.\
  In 1375 years the whole country was conquered by Tamerlane and\
- became vassalized. From the fourteenth century the country gradually\
- descended into instability, which at the beginning of the fifteenth\
- century led to the complete disintegration of the state.")
+ became vassalized. From the 14th century the country gradually\
+ descended into instability, which at the beginning of the 15th century\
+ led to the complete disintegration of the state.")
 leaders ={
  "name",                "sex"
  "Orda",                "Male"
