@@ -39,7 +39,13 @@ phil_tech = find.tech_type("Philosophy")
 phil_id = phil_tech.id
 
 function tech_researched_handler(tech, player, how)
-  local id = tech.id
+  local id
+
+  if tech == nil then
+    return
+  end
+
+  id = tech.id
   if id == phil_id and how == "researched" then
     give_technology(player, nil, "researched")
   end
