@@ -362,7 +362,7 @@ bool create_start_positions(enum map_startpos mode,
 
       if (MAPSTARTPOS_VARIABLE == mode && 0 < to_place) {
         islands[nr].starters = MAX(1, islands[nr].goodies
-                                   / min_goodies_per_player);
+                                   / MAX(1, min_goodies_per_player));
         to_place -= islands[nr].total = islands[nr].starters;
       }
     }
