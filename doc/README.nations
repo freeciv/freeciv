@@ -25,7 +25,7 @@ data/nation/<nationname>.ruleset
   copy one of the other nation files over and edit it. See below for a
   style guide for nation files.
   - The <nationname> bit is to be replaced with the nations name (duh).
-  Please don't use whitespacees and special characters. Underlines are
+  Please don't use whitespaces and special characters. Underlines are
   ok though.
   - The name should be the same as the name of the nation inside the
   ruleset file.
@@ -65,7 +65,7 @@ po/POTFILES.in
 
 (See utility/fciconv.[ch])
 The data charset is used in all data files and network transactions.
-This is UTF-8.  Currently, the rulesets are in latin1 (ISO-8859-1).
+This is UTF-8. Currently, the rulesets are in latin1 (ISO-8859-1).
 
 
 ----------------------------------------------------------------------
@@ -82,7 +82,7 @@ A new nation needs a new flag. As of Freeciv 2.1 all flags are stored
 in SVG (Scalable Vector Graphics) format. Sodipodi and Inkscape are 
 two good SVG editors. If you are creating a real-world nation you can 
 probably find a Free or public domain flag that can be used. One good 
-place to look is the Open Clip Art Library (OCAL.) Remember that any flags 
+place to look is the Open Clip Art Library (OCAL). Remember that any flags 
 we add must be licenced under the GPL and should be attributed to their 
 original author, so make a note of where you found the flag, what its 
 licence is, and who made it.
@@ -243,7 +243,7 @@ Leaders
 =======
 
 A leader should be a historically notable political leader of the
-nation. Two living persons per nation is permitted - one of each sex.
+nation. Two living persons per nation are permitted - one of each sex.
 
 An ideal leader list should contain between five and ten names.
 

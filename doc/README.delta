@@ -2,7 +2,7 @@
   Delta
 =========================================================================
 
-If delta is enable for this packet the packet-payload (after the 3
+If delta is enabled for this packet the packet-payload (after the 3
 byte packet-header) is followed by the delta-header. The delta-header
 is a bitvector which represents all non-key fields of the packet. If
 the the field has changed the corresponding bit is set and the field
@@ -19,7 +19,7 @@ Another optimization called array-diff is used to reduce the amount of
 elements transfered if an array is changed. This is independent of the
 delta-header bit i.e. it will only be used if the array has changed
 its value and the bit indicates this. Instead of transferring the
-whole array only a list of (index,new value of this index) pairs are
+whole array only a list of (index, new value of this index) pairs are
 transferred. The index is 8bit and the end of this pair list is
 denoted by an index of 255.
 
@@ -30,7 +30,7 @@ denoted by an index of 255.
 To further reduce the network traffic the (delta) packets are
 compressed. To get better compression results multiple packets are
 grouped together and compressed into a chunk. This chunk is then
-transfered as a normal packet. A chunk packet start with the 2 byte
+transfered as a normal packet. A chunk packet starts with the 2 byte
 length field which every packet has. A chunk packet has no type. A
 chunk packet is identified by having a too large length field. If the
 length of the packet is over COMPRESSION_BORDER it is a chunk
