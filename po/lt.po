@@ -12,8 +12,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n%"
-"10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
+"%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
 
 #: common/city.c:81 client/gui-gtk-2.0/repodlgs.c:1174
 #: client/gui-win32/repodlgs.c:713
@@ -1250,18 +1250,18 @@ msgstr "Nepavyko atverti registravimo failo: %s rašymo teisėmis \"%s\".\n"
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
 msgstr[0] "pakutinė žinutė pakartota %d kartą"
-msgstr[1] "pakutinė žinutė pakartota %d kartą"
-msgstr[2] "pakutinė žinutė pakartota %d kartus"
-msgstr[3] "pakutinė žinutė pakartota %d kartų"
+msgstr[1] "pakutinė žinutė pakartota %d kartus"
+msgstr[2] "pakutinė žinutė pakartota %d kartų"
+msgstr[3] "pakutinė žinutė pakartota %d kartą"
 
 #: utility/log.c:375 utility/log.c:397
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] " (iš viso %d pakartojimas)"
-msgstr[1] " (iš viso %d pakartojimas)"
-msgstr[2] " (iš viso %d pakartojimai)"
-msgstr[3] " (iš viso %d pakartojimų)"
+msgstr[1] " (iš viso %d pakartojimai)"
+msgstr[2] " (iš viso %d pakartojimų)"
+msgstr[3] " (iš viso %d pakartojimas)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/log.c:472 utility/netintf.c:81 utility/registry.c:892
@@ -1369,33 +1369,33 @@ msgstr "neatitinka"
 msgid "day"
 msgid_plural "days"
 msgstr[0] "diena"
-msgstr[1] "diena"
-msgstr[2] "dienos"
-msgstr[3] "dienų"
+msgstr[1] "dienos"
+msgstr[2] "dienų"
+msgstr[3] "diena"
 
 #: utility/shared.c:1858
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "valanda"
-msgstr[1] "valanda"
-msgstr[2] "valandos"
-msgstr[3] "valandų"
+msgstr[1] "valandos"
+msgstr[2] "valandų"
+msgstr[3] "valanda"
 
 #: utility/shared.c:1864
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minutė"
-msgstr[1] "minutė"
-msgstr[2] "minutės"
-msgstr[3] "minučių"
+msgstr[1] "minutės"
+msgstr[2] "minučių"
+msgstr[3] "minutė"
 
 #: utility/shared.c:1870
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "sekundė"
-msgstr[1] "sekundė"
-msgstr[2] "sekundės"
-msgstr[3] "sekundžių"
+msgstr[1] "sekundės"
+msgstr[2] "sekundžių"
+msgstr[3] "sekundė"
 
 #: utility/shared.c:2136
 msgid "TRUE"
@@ -1559,13 +1559,13 @@ msgstr[0] ""
 "*%s (DI)* Kitą ėjimą mes pradėsime visapusį karą prieš %s, kad "
 "sustabdytumėme erdvėlaivio paleidimą."
 msgstr[1] ""
-"*%s (DI)* Mes pradėsime visapusį karą prieš %s per %d ėjimą, kad "
-"sustabdytumėme erdvėlaivio paleidimą."
-msgstr[2] ""
 "*%s (DI)* Mes pradėsime visapusį karą prieš %s per %d ėjimus, kad "
 "sustabdytumėme erdvėlaivio paleidimą."
-msgstr[3] ""
+msgstr[2] ""
 "*%s (DI)* Mes pradėsime visapusį karą prieš %s per %d ėjimų, kad "
+"sustabdytumėme erdvėlaivio paleidimą."
+msgstr[3] ""
+"*%s (DI)* Mes pradėsime visapusį karą prieš %s per %d ėjimą, kad "
 "sustabdytumėme erdvėlaivio paleidimą."
 
 #: ai/advdiplomacy.c:1277
@@ -1593,15 +1593,15 @@ msgstr[0] ""
 "pasielgsite taip pat!"
 msgstr[1] ""
 "*%s (DI)* %s siekdamas naudos šiurkščiai pažeidė mūsų susitarimus. Mes "
-"atsakysime jėga per %d ėjimą ir tikimės, kad gerbdamas mūsų sąjungą Jūs "
+"atsakysime jėga per %d ėjimus ir tikimės, kad gerbdamas mūsų sąjungą Jūs "
 "pasielgsite taip pat!"
 msgstr[2] ""
 "*%s (DI)* %s siekdamas naudos šiurkščiai pažeidė mūsų susitarimus. Mes "
-"atsakysime jėga per %d ėjimus ir tikimės, kad gerbdamas mūsų sąjungą Jūs "
+"atsakysime jėga per %d ėjimų ir tikimės, kad gerbdamas mūsų sąjungą Jūs "
 "pasielgsite taip pat!"
 msgstr[3] ""
 "*%s (DI)* %s siekdamas naudos šiurkščiai pažeidė mūsų susitarimus. Mes "
-"atsakysime jėga per %d ėjimų ir tikimės, kad gerbdamas mūsų sąjungą Jūs "
+"atsakysime jėga per %d ėjimą ir tikimės, kad gerbdamas mūsų sąjungą Jūs "
 "pasielgsite taip pat!"
 
 #: ai/advdiplomacy.c:1296
@@ -1617,13 +1617,13 @@ msgstr[0] ""
 "paskelbisime karą."
 msgstr[1] ""
 "*%s (DI)* Mes ketiname apiplėšti turtingą %s civilizaciją. Paskelbisime karą "
-"per %d ėjimą."
+"per %d ėjimus."
 msgstr[2] ""
 "*%s (DI)* Mes ketiname apiplėšti turtingą %s civilizaciją. Paskelbisime karą "
-"per %d ėjimus."
+"per %d ėjimų."
 msgstr[3] ""
 "*%s (DI)* Mes ketiname apiplėšti turtingą %s civilizaciją. Paskelbisime karą "
-"per %d ėjimų."
+"per %d ėjimą."
 
 #: ai/advdiplomacy.c:1304
 #, c-format
@@ -1644,13 +1644,13 @@ msgstr[0] ""
 "Kitą ėjimą skelbiame karą."
 msgstr[1] ""
 "*%s (DI)* Mums jau atsibodo %s. Sunaikinkime šią apgailėtiną civilizaciją. "
-"Skelbiame karą per %d ėjimą."
+"Skelbiame karą per %d ėjimus."
 msgstr[2] ""
 "*%s (DI)* Mums jau atsibodo %s. Sunaikinkime šią apgailėtiną civilizaciją. "
-"Skelbiame karą per %d ėjimus."
+"Skelbiame karą per %d ėjimų."
 msgstr[3] ""
 "*%s (DI)* Mums jau atsibodo %s. Sunaikinkime šią apgailėtiną civilizaciją. "
-"Skelbiame karą per %d ėjimų."
+"Skelbiame karą per %d ėjimą."
 
 #: ai/advdiplomacy.c:1319
 #, c-format
@@ -1671,13 +1671,13 @@ msgstr[0] ""
 "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime kitą ėjimą "
 "ėjimą.  Laikykitės – mes ateinam!"
 msgstr[1] ""
-"*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimą.  "
-"Laikykitės – mes ateinam!"
-msgstr[2] ""
 "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimus.  "
 "Laikykitės – mes ateinam!"
-msgstr[3] ""
+msgstr[2] ""
 "*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimų.  "
+"Laikykitės – mes ateinam!"
+msgstr[3] ""
+"*%s (DI)* Mes gerbiame mūsų sąjungą ir karą %s paskelbsime per %d ėjimą.  "
 "Laikykitės – mes ateinam!"
 
 #: ai/advdiplomacy.c:1334
@@ -1692,13 +1692,13 @@ msgstr[0] ""
 "*%s (DI)* Gerbiame mūsų sajungą su %s ir karą %s paskelbsime kitą ėjimą. Iš "
 "Jūsų tikimės to paties."
 msgstr[1] ""
-"*%s (DI)* Gerbiame mūsų sajungą su %s ir karą %s paskelbsime per %d ėjimą. "
-"Iš Jūsų tikimės to paties."
-msgstr[2] ""
 "*%s (DI)* Gerbiame mūsų sajungą su %s ir karą %s paskelbsime per %d ėjimus. "
 "Iš Jūsų tikimės to paties."
-msgstr[3] ""
+msgstr[2] ""
 "*%s (DI)* Gerbiame mūsų sajungą su %s ir karą %s paskelbsime per %d ėjimų. "
+"Iš Jūsų tikimės to paties."
+msgstr[3] ""
+"*%s (DI)* Gerbiame mūsų sajungą su %s ir karą %s paskelbsime per %d ėjimą. "
 "Iš Jūsų tikimės to paties."
 
 #: ai/advdiplomacy.c:1401
@@ -2392,9 +2392,9 @@ msgstr "%s baigė statyti %s."
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimą."
-msgstr[1] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimą."
-msgstr[2] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimus."
-msgstr[3] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimų."
+msgstr[1] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimus."
+msgstr[2] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimų."
+msgstr[3] "%s paskatino tyrinėjimus; Jūs iš karto gaunate %d pasiekimą."
 
 #: server/cityturn.c:1525 server/techtools.c:185
 #, c-format
@@ -3631,9 +3631,9 @@ msgstr "Neturi pakankamai aukso, dėl to negali priimti sutarties."
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "Suderinta sutartis turinti %d sąlygą"
-msgstr[1] "Suderinta sutartis turinti %d sąlygą"
-msgstr[2] "Suderinta sutartis turinti %d sąlygas"
-msgstr[3] "Suderinta sutartis turinti %d sąlygų"
+msgstr[1] "Suderinta sutartis turinti %d sąlygas"
+msgstr[2] "Suderinta sutartis turinti %d sąlygų"
+msgstr[3] "Suderinta sutartis turinti %d sąlygą"
 
 #: server/diplhand.c:314 server/diplhand.c:318
 #, fuzzy, c-format
@@ -4873,9 +4873,9 @@ msgstr "be stebuklų\n"
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "su vienu stebuklu\n"
-msgstr[1] "su %d stebuklu\n"
-msgstr[2] "su %d stebuklais\n"
-msgstr[3] "su %d stebuklų\n"
+msgstr[1] "su %d stebuklais\n"
+msgstr[2] "su %d stebuklų\n"
+msgstr[3] "su %d stebuklu\n"
 
 #: server/report.c:367 server/report.c:441
 msgid "Traveler's Report:"
@@ -4950,25 +4950,25 @@ msgstr[3] ""
 msgid " bulb"
 msgid_plural " bulbs"
 msgstr[0] " lemputė"
-msgstr[1] " lemputė"
-msgstr[2] " lemputės"
-msgstr[3] " lempučių"
+msgstr[1] " lemputės"
+msgstr[2] " lempučių"
+msgstr[3] " lemputė"
 
 #: server/report.c:816
 msgid " month"
 msgid_plural " months"
 msgstr[0] " mėnuo"
-msgstr[1] " mėnuo"
-msgstr[2] " mėnesiai"
-msgstr[3] " mėnesių"
+msgstr[1] " mėnesiai"
+msgstr[2] " mėnesių"
+msgstr[3] " mėnuo"
 
 #: server/report.c:821
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " tona"
-msgstr[1] " tona"
-msgstr[2] " tonos"
-msgstr[3] " tonų"
+msgstr[1] " tonos"
+msgstr[2] " tonų"
+msgstr[3] " tona"
 
 #: server/report.c:853
 #, c-format
@@ -8444,9 +8444,9 @@ msgstr ", nepasiruošęs"
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d susijungimas:"
-msgstr[1] " %d susijungimas:"
-msgstr[2] " %d susijungimai:"
-msgstr[3] " %d susijungimų:"
+msgstr[1] " %d susijungimai:"
+msgstr[2] " %d susijungimų:"
+msgstr[3] " %d susijungimas:"
 
 #: server/stdinhand.c:4801
 #, c-format
@@ -8471,9 +8471,9 @@ msgstr "Komandų sąrašas:"
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d žaidėjas"
-msgstr[1] "%2d : '%s' : %d žaidėjas"
-msgstr[2] "%2d : '%s' : %d žaidėjai"
-msgstr[3] "%2d : '%s' : %d žaidėjų"
+msgstr[1] "%2d : '%s' : %d žaidėjai"
+msgstr[2] "%2d : '%s' : %d žaidėjų"
+msgstr[3] "%2d : '%s' : %d žaidėjas"
 
 #: server/stdinhand.c:4911
 #, c-format
@@ -9294,9 +9294,9 @@ msgstr "%3d aukso per ėjimą"
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d ėjimas"
-msgstr[1] "%3d ėjimas"
-msgstr[2] "%3d ėjimai"
-msgstr[3] "%3d ėjimų"
+msgstr[1] "%3d ėjimai"
+msgstr[2] "%3d ėjimų"
+msgstr[3] "%3d ėjimas"
 
 #: client/citydlg_common.c:280 client/citydlg_common.c:333
 #: client/citydlg_common.c:424 client/text.c:766 client/agents/cma_fec.c:256
@@ -9329,9 +9329,9 @@ msgstr "%d/ėjimą"
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] "%d ėjimas"
-msgstr[1] "%d ėjimas"
-msgstr[2] "%d ėjimai"
-msgstr[3] "%d ėjimų"
+msgstr[1] "%d ėjimai"
+msgstr[2] "%d ėjimų"
+msgstr[3] "%d ėjimas"
 
 #: client/citydlg_common.c:377 client/citydlg_common.c:387
 #: client/gui-gtk-2.0/repodlgs.c:706 client/gui-sdl/wldlg.c:1361
@@ -10593,11 +10593,11 @@ msgstr "* Reikalauja %d gyventojų, kad pastatytum.\n"
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
 msgstr[0] "* Gali nešti ir papildyti degalais %d aviacijos dalinį iš klasių:\n"
-msgstr[1] "* Gali nešti ir papildyti degalais %d aviacijos dalinį iš klasių:\n"
-msgstr[2] ""
+msgstr[1] ""
 "* Gali nešti ir papildyti degalais %d aviacijos dalinius iš klasių:\n"
-msgstr[3] ""
+msgstr[2] ""
 "* Gali nešti ir papildyti degalais %d aviacijos dalinių iš klasių:\n"
+msgstr[3] "* Gali nešti ir papildyti degalais %d aviacijos dalinį iš klasių:\n"
 
 #: client/helpdata.c:1336
 msgid "* Must stay next to coast.\n"
@@ -10853,9 +10853,9 @@ msgstr ""
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
 msgstr[0] "* Dalinys turi būti mieste arba ant %s po %d ėjimo.\n"
-msgstr[1] "* Dalinys turi būti mieste arba ant %s po %d ėjimo.\n"
+msgstr[1] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
 msgstr[2] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
-msgstr[3] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
+msgstr[3] "* Dalinys turi būti mieste arba ant %s po %d ėjimo.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:1619
@@ -10863,9 +10863,9 @@ msgstr[3] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
 msgstr[0] "* Dalinys turi būti mieste arba ant %s po %d ėjimo.\n"
-msgstr[1] "* Dalinys turi būti mieste arba ant %s po %d ėjimo.\n"
+msgstr[1] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
 msgstr[2] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
-msgstr[3] "* Dalinys turi būti mieste arba ant %s po %d ėjimų.\n"
+msgstr[3] "* Dalinys turi būti mieste arba ant %s po %d ėjimo.\n"
 
 #: client/helpdata.c:1666
 #, fuzzy, c-format
@@ -12685,9 +12685,9 @@ msgstr ""
 msgid "Territory of %s (%s) (%d turn cease-fire)"
 msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
 msgstr[0] "Miestas: %s (%s, %d ėjimo paliaubos)"
-msgstr[1] "Miestas: %s (%s, %d ėjimo paliaubos)"
+msgstr[1] "Miestas: %s (%s, %d ėjimų paliaubos)"
 msgstr[2] "Miestas: %s (%s, %d ėjimų paliaubos)"
-msgstr[3] "Miestas: %s (%s, %d ėjimų paliaubos)"
+msgstr[3] "Miestas: %s (%s, %d ėjimo paliaubos)"
 
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
@@ -12715,9 +12715,9 @@ msgstr "Miestas: %s (%s, %s)"
 msgid "City: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] "Miestas: %s (%s, %d ėjimo paliaubos)"
-msgstr[1] "Miestas: %s (%s, %d ėjimo paliaubos)"
+msgstr[1] "Miestas: %s (%s, %d ėjimų paliaubos)"
 msgstr[2] "Miestas: %s (%s, %d ėjimų paliaubos)"
-msgstr[3] "Miestas: %s (%s, %d ėjimų paliaubos)"
+msgstr[3] "Miestas: %s (%s, %d ėjimo paliaubos)"
 
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
@@ -12797,9 +12797,9 @@ msgstr "Dalinys: %s (%s, %s)"
 msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] "Miestas: %s (%s, %d ėjimo paliaubos)"
-msgstr[1] "Miestas: %s (%s, %d ėjimo paliaubos)"
+msgstr[1] "Miestas: %s (%s, %d ėjimų paliaubos)"
 msgstr[2] "Miestas: %s (%s, %d ėjimų paliaubos)"
-msgstr[3] "Miestas: %s (%s, %d ėjimų paliaubos)"
+msgstr[3] "Miestas: %s (%s, %d ėjimo paliaubos)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:374
@@ -12876,9 +12876,9 @@ msgstr "Pažanga: netyrinėjama"
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
 msgstr[0] "%d lemputė/ėjimą"
-msgstr[1] "%d lemputė/ėjimą"
-msgstr[2] "%d lemputės/ėjimą"
-msgstr[3] "%d lempučių/ėjimą"
+msgstr[1] "%d lemputės/ėjimą"
+msgstr[2] "%d lempučių/ėjimą"
+msgstr[3] "%d lemputė/ėjimą"
 
 #. TRANS: This is appended to "%d bulb/turn" text
 #: client/text.c:665
@@ -12886,9 +12886,9 @@ msgstr[3] "%d lempučių/ėjimą"
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ", %d lemputė/ėjimą iš komandos"
-msgstr[1] ", %d lemputė/ėjimą iš komandos"
-msgstr[2] ", %d lemputės/ėjimą iš komandos"
-msgstr[3] ", %d lempučių/ėjimą iš komandos"
+msgstr[1] ", %d lemputės/ėjimą iš komandos"
+msgstr[2] ", %d lempučių/ėjimą iš komandos"
+msgstr[3] ", %d lemputė/ėjimą iš komandos"
 
 #: client/text.c:699
 #, c-format
@@ -12900,9 +12900,9 @@ msgstr "%d/- (niekada)"
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] "%d/%d (%d ėjimas)"
-msgstr[1] "%d/%d (%d ėjimas)"
-msgstr[2] "%d/%d (%d ėjimai)"
-msgstr[3] "%d/%d (%d ėjimų)"
+msgstr[1] "%d/%d (%d ėjimai)"
+msgstr[2] "%d/%d (%d ėjimų)"
+msgstr[3] "%d/%d (%d ėjimas)"
 
 #: client/text.c:721
 #, c-format
@@ -12914,18 +12914,18 @@ msgstr "%d/%d (niekada)"
 msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] "%d žingsnis"
-msgstr[1] "%d žingsnis"
-msgstr[2] "%d žingsniai"
-msgstr[3] "%d žingsnių"
+msgstr[1] "%d žingsniai"
+msgstr[2] "%d žingsnių"
+msgstr[3] "%d žingsnis"
 
 #: client/text.c:760
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] "%d lemputė"
-msgstr[1] "%d lemputė"
-msgstr[2] "%d lemputės"
-msgstr[3] "%d lempučių"
+msgstr[1] "%d lemputės"
+msgstr[2] "%d lempučių"
+msgstr[3] "%d lemputė"
 
 #: client/text.c:786
 #, c-format
@@ -13029,9 +13029,9 @@ msgstr "Vyriausybė: %s"
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d dalinys"
-msgstr[1] "%d dalinys"
-msgstr[2] "%d daliniai"
-msgstr[3] "%d dalinių"
+msgstr[1] "%d daliniai"
+msgstr[2] "%d dalinių"
+msgstr[3] "%d dalinys"
 
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:946
@@ -13053,9 +13053,9 @@ msgstr ""
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "Pažymėtas %d dalinys"
-msgstr[1] "Pažymėtas %d dalinys"
-msgstr[2] "Pažymėti %d daliniai"
-msgstr[3] "Pažymėti %d dalinių"
+msgstr[1] "Pažymėti %d daliniai"
+msgstr[2] "Pažymėti %d dalinių"
+msgstr[3] "Pažymėtas %d dalinys"
 
 #: client/text.c:961
 msgid "No units selected."
@@ -13096,13 +13096,13 @@ msgstr[0] ""
 "Patobulinti %d dalinį už %d aukso?\n"
 "Ižde yra %d aukso."
 msgstr[1] ""
-"Patobulinti %d dalinį už %d aukso?\n"
-"Ižde yra %d aukso."
-msgstr[2] ""
 "Patobulinti %d dalinius už %d aukso?\n"
 "Ižde yra %d aukso."
-msgstr[3] ""
+msgstr[2] ""
 "Patobulinti %d dalinių už %d aukso?\n"
+"Ižde yra %d aukso."
+msgstr[3] ""
+"Patobulinti %d dalinį už %d aukso?\n"
 "Ižde yra %d aukso."
 
 #: client/text.c:1128
@@ -13175,9 +13175,9 @@ msgstr "Energija:        %5d %%"
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Masė:           %5d tona"
-msgstr[1] "Masė:           %5d tona"
-msgstr[2] "Mass:           %5d tonos"
-msgstr[3] "Mass:            %5d tonų"
+msgstr[1] "Mass:           %5d tonos"
+msgstr[2] "Mass:            %5d tonų"
+msgstr[3] "Masė:           %5d tona"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1248
@@ -14637,9 +14637,9 @@ msgstr "Esantys daliniai"
 msgid "%d byte"
 msgid_plural "%d bytes"
 msgstr[0] "%d baitas"
-msgstr[1] "%d baitas"
-msgstr[2] "%d baitai"
-msgstr[3] "%d baitų"
+msgstr[1] "%d baitai"
+msgstr[2] "%d baitų"
+msgstr[3] "%d baitas"
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:947
@@ -16888,9 +16888,9 @@ msgstr "Miestas mažėja: %d %s"
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "ėjimas"
-msgstr[1] "ėjimas"
-msgstr[2] "ėjimai"
-msgstr[3] "ėjimų"
+msgstr[1] "ėjimai"
+msgstr[2] "ėjimų"
+msgstr[3] "ėjimas"
 
 #: client/gui-sdl/citydlg.c:2988
 #, c-format
@@ -17441,17 +17441,17 @@ msgstr "Pagalba : Daliniai"
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "skydas"
-msgstr[1] "skydas"
-msgstr[2] "skydai"
-msgstr[3] "skydų"
+msgstr[1] "skydai"
+msgstr[2] "skydų"
+msgstr[3] "skydas"
 
 #: client/gui-sdl/helpdlg.c:750 client/gui-sdl/helpdlg.c:773
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "pilietis"
-msgstr[1] "pilietis"
-msgstr[2] "piliečiai"
-msgstr[3] "piliečių"
+msgstr[1] "piliečiai"
+msgstr[2] "piliečių"
+msgstr[3] "pilietis"
 
 #: client/gui-sdl/helpdlg.c:763
 msgid "food"
@@ -17654,13 +17654,13 @@ msgstr[0] ""
 "%s teritorija (%d ėjimo paliaubos)"
 msgstr[1] ""
 "\n"
-"%s teritorija (%d ėjimo paliaubos)"
+"%s teritorija (%d ėjimų paliaubos)"
 msgstr[2] ""
 "\n"
 "%s teritorija (%d ėjimų paliaubos)"
 msgstr[3] ""
 "\n"
-"%s teritorija (%d ėjimų paliaubos)"
+"%s teritorija (%d ėjimo paliaubos)"
 
 #: client/gui-sdl/mapview.c:583
 #, c-format
@@ -18124,9 +18124,9 @@ msgstr "Pasirinkite tikslą :"
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "žingsnis"
-msgstr[1] "žingsnis"
-msgstr[2] "žingsniai"
-msgstr[3] "žingsnių"
+msgstr[1] "žingsniai"
+msgstr[2] "žingsnių"
+msgstr[3] "žingsnis"
 
 #: client/gui-sdl/repodlgs.c:3386 client/gui-win32/repodlgs.c:779
 #: client/gui-xaw/repodlgs.c:1158
@@ -18134,9 +18134,9 @@ msgstr[3] "žingsnių"
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: %s valdovas %s surinko %d tašką\n"
-msgstr[1] "%2d: %s valdovas %s surinko %d tašką\n"
-msgstr[2] "%2d: %s valdovas %s surinko %d taškus\n"
-msgstr[3] "%2d: %s valdovas %s surinko %d taškų\n"
+msgstr[1] "%2d: %s valdovas %s surinko %d taškus\n"
+msgstr[2] "%2d: %s valdovas %s surinko %d taškų\n"
+msgstr[3] "%2d: %s valdovas %s surinko %d tašką\n"
 
 #: client/gui-sdl/repodlgs.c:3392 client/gui-win32/repodlgs.c:785
 #: client/gui-xaw/repodlgs.c:1164
@@ -18932,9 +18932,9 @@ msgstr ""
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
 msgstr[0] "(neveiklus %d ėjimą)"
-msgstr[1] "(neveiklus %d ėjimą)"
-msgstr[2] "(neveiklus %d ėjimus)"
-msgstr[3] "(neveiklus %d ėjimų)"
+msgstr[1] "(neveiklus %d ėjimus)"
+msgstr[2] "(neveiklus %d ėjimų)"
+msgstr[3] "(neveiklus %d ėjimą)"
 
 #: client/gui-win32/plrdlg.c:352 data/Freeciv.in:3237
 msgid "Intelligence"
@@ -18954,9 +18954,9 @@ msgstr "Erdvėlaivis"
 msgid "(%d step)"
 msgid_plural "(%d steps)"
 msgstr[0] "(%d žingsnis)"
-msgstr[1] "(%d žingsnis)"
-msgstr[2] "(%d žingsniai)"
-msgstr[3] "(%d žingsnių)"
+msgstr[1] "(%d žingsniai)"
+msgstr[2] "(%d žingsnių)"
+msgstr[3] "(%d žingsnis)"
 
 #: client/gui-win32/repodlgs.c:360 client/gui-xaw/repodlgs.c:796
 #, c-format
@@ -28675,7 +28675,6 @@ msgid "British"
 msgstr "Britanijos"
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:British"
 msgstr "?plural:Britai"
 
@@ -31840,7 +31839,7 @@ msgstr "Libijos"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr "?plural:Libai"
+msgstr "?plural:Libiečiai"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -36559,1345 +36558,3 @@ msgstr ""
 msgid "You are playing Freeciv with default rules."
 msgstr ""
 
-#~ msgid "Game ended in a draw"
-#~ msgstr "Žaidimas baigėsi lygiosiomis"
-
-#, fuzzy
-#~ msgid "?female:Imam %s"
-#~ msgstr "?female:Šamanė"
-
-#, fuzzy
-#~ msgid "?female:%s Nipa"
-#~ msgstr "?female:Nabobė"
-
-#, fuzzy
-#~ msgid "%s Nipsa"
-#~ msgstr "%s dalinių"
-
-#, fuzzy
-#~ msgid "?female:%s Nipsa"
-#~ msgstr "?female:Nabobė"
-
-#, fuzzy
-#~ msgid "He'a %s"
-#~ msgstr "Etmonas"
-
-#, fuzzy
-#~ msgid "?female:He'a %s"
-#~ msgstr "?female:Hakerė"
-
-#, fuzzy
-#~ msgid "?female:Sukaskiq %s"
-#~ msgstr "?female:Bazilėja"
-
-#, fuzzy
-#~ msgid "Cap de Govern %s"
-#~ msgstr "Žaidimas baigtas"
-
-#, fuzzy
-#~ msgid "?female:Cap de Govern %s"
-#~ msgstr "?cma:Valdytoja"
-
-#, fuzzy
-#~ msgid "Bisbe %s"
-#~ msgstr "Papirkti"
-
-#, fuzzy
-#~ msgid "Malka %s"
-#~ msgstr "Malio"
-
-#, fuzzy
-#~ msgid "Malikta %s"
-#~ msgstr "Malio"
-
-#, fuzzy
-#~ msgid "Cabezaleru %s"
-#~ msgstr "\"arti %s"
-
-#, fuzzy
-#~ msgid "Cabezalera %s"
-#~ msgstr "Draugė"
-
-#, fuzzy
-#~ msgid "Rei %s"
-#~ msgstr "Normos"
-
-#, fuzzy
-#~ msgid "Reina %s"
-#~ msgstr "Karalienė"
-
-# santrumpa???
-#, fuzzy
-#~ msgid "Tlahtoani %s"
-#~ msgstr "Viso"
-
-# santrumpa???
-#, fuzzy
-#~ msgid "Cihuatlahtoani %s"
-#~ msgstr "Viso"
-
-# santrumpa???
-#, fuzzy
-#~ msgid "Hueyi Tlahtoani %s"
-#~ msgstr "Viso"
-
-# santrumpa???
-#, fuzzy
-#~ msgid "Hueyi Cihuatlahtoani %s"
-#~ msgstr "Viso"
-
-#, fuzzy
-#~ msgid "%s Khansha"
-#~ msgstr "Chanas"
-
-#, fuzzy
-#~ msgid "Oba %s"
-#~ msgstr "Tikslas"
-
-#, fuzzy
-#~ msgid "Dug %s"
-#~ msgstr "Mazgas: %s"
-
-#, fuzzy
-#~ msgid "Dugez %s"
-#~ msgstr "Kunigaikštis"
-
-#, fuzzy
-#~ msgid "Roue %s"
-#~ msgstr "Resursai"
-
-#, fuzzy
-#~ msgid "Rouanez %s"
-#~ msgstr "Romos"
-
-#, fuzzy
-#~ msgid "?female:Bohmugyi %s"
-#~ msgstr "?female:Konsulė"
-
-#, fuzzy
-#~ msgid "Comunero %s"
-#~ msgstr "Kompiuteriai"
-
-#, fuzzy
-#~ msgid "Comunera %s"
-#~ msgstr "Kompiuteriai"
-
-#, fuzzy
-#~ msgid "Arquebisbe %s"
-#~ msgstr "Arkivyskupas"
-
-#, fuzzy
-#~ msgid "?female:Warlord %s"
-#~ msgstr "?female:Merė"
-
-#, fuzzy
-#~ msgid "Wot %s"
-#~ msgstr "Balsas: %s"
-
-#, fuzzy
-#~ msgid "?female:Wot %s"
-#~ msgstr "?female:Despotė"
-
-#, fuzzy
-#~ msgid "Paraivo %s"
-#~ msgstr "Faraonas"
-
-#, fuzzy
-#~ msgid "?female:Paraivo %s"
-#~ msgstr "?female:Faraonė"
-
-#, fuzzy
-#~ msgid "Ataman %s"
-#~ msgstr "mokesčių rinkėjas"
-
-#, fuzzy
-#~ msgid "?female:Ataman %s"
-#~ msgstr "?female:Šamanė"
-
-#, fuzzy
-#~ msgid "Ahosu %s"
-#~ msgstr "arba"
-
-#, fuzzy
-#~ msgid "Kpojito %s"
-#~ msgstr "Nustatymai: %s"
-
-#, fuzzy
-#~ msgid "Zilach %s"
-#~ msgstr "Diplomatija: %s"
-
-#, fuzzy
-#~ msgid "?female:Zilach %s"
-#~ msgstr "Mahatma"
-
-#, fuzzy
-#~ msgid "Raina %s"
-#~ msgstr "Tauta: %s"
-
-#, fuzzy
-#~ msgid "?female:%s Yabgu"
-#~ msgstr "?female:Uzurpatorė"
-
-#, fuzzy
-#~ msgid "?female:Mbuyape %s"
-#~ msgstr "?female:Merė"
-
-#, fuzzy
-#~ msgid "Maharajadhiraja %s"
-#~ msgstr "Maharadža"
-
-#, fuzzy
-#~ msgid "Maharanidhirani %s"
-#~ msgstr "Maharadža"
-
-#, fuzzy
-#~ msgid "Caddi %s"
-#~ msgstr "Klaudijus"
-
-#, fuzzy
-#~ msgid "Raiis Jomhoor %s"
-#~ msgstr "?female:Merė"
-
-#, fuzzy
-#~ msgid "?female:Raiis Jomhoor %s"
-#~ msgstr "?female:Merė"
-
-#, fuzzy
-#~ msgid "?female:Linger %s"
-#~ msgstr "Draugė"
-
-#, fuzzy
-#~ msgid "%s Taishi"
-#~ msgstr "Danijos"
-
-#, fuzzy
-#~ msgid "?female:%s Taishi"
-#~ msgstr "?female:Konsulė"
-
-#, fuzzy
-#~ msgid "Mai %s"
-#~ msgstr "Maorių"
-
-#, fuzzy
-#~ msgid "Nabongo %s"
-#~ msgstr "Nabobas"
-
-#, fuzzy
-#~ msgid "?female:Nabongo %s"
-#~ msgstr "?female:Nabobė"
-
-#, fuzzy
-#~ msgid "Laibon %s"
-#~ msgstr "Gibono"
-
-#, fuzzy
-#~ msgid "?female:Laibon %s"
-#~ msgstr "?female:Nabobė"
-
-#, fuzzy
-#~ msgid "Mahapatih %s"
-#~ msgstr "Mahatma"
-
-#, fuzzy
-#~ msgid "?female:Mahapatih %s"
-#~ msgstr "Mahatma"
-
-#, fuzzy
-#~ msgid "Saudeleur %s"
-#~ msgstr "Stealth bombonešis"
-
-#, fuzzy
-#~ msgid "?female:Saudeleur %s"
-#~ msgstr "Draugė"
-
-#, fuzzy
-#~ msgid "Saqmaw %s"
-#~ msgstr "Šamanas"
-
-#, fuzzy
-#~ msgid "?female:Saqmaw %s"
-#~ msgstr "?female:Šamanė"
-
-#, fuzzy
-#~ msgid "Condottiere %s"
-#~ msgstr "Stebuklas: %s"
-
-#, fuzzy
-#~ msgid "Condottiera %s"
-#~ msgstr "Stebuklas: %s"
-
-#, fuzzy
-#~ msgid "Voievod %s"
-#~ msgstr "Karo vadas"
-
-#, fuzzy
-#~ msgid "Doamna %s"
-#~ msgstr "Diplomatija: %s"
-
-#, fuzzy
-#~ msgid "Tovaras %s"
-#~ msgstr "Sutartis: %s"
-
-#, fuzzy
-#~ msgid "Inazor %s"
-#~ msgstr "\"arti %s"
-
-#, fuzzy
-#~ msgid "?female:Inazor %s"
-#~ msgstr "?female:Šamanė"
-
-#, fuzzy
-#~ msgid "Kgosi %s"
-#~ msgstr "Kongo"
-
-#, fuzzy
-#~ msgid "?female:Kgosi %s"
-#~ msgstr "?female:Konsulė"
-
-#, fuzzy
-#~ msgid "Usaque %s"
-#~ msgstr "Baskų"
-
-#, fuzzy
-#~ msgid "?female:Usaque %s"
-#~ msgstr "?female:Uzurpatorė"
-
-#, fuzzy
-#~ msgid "Theod %s"
-#~ msgstr "Pasiimti šitą žaidėją"
-
-#, fuzzy
-#~ msgid "?female:Theod %s"
-#~ msgstr "?female:Despotė"
-
-#, fuzzy
-#~ msgid "Cyning %s"
-#~ msgstr "Kopijavimas"
-
-#, fuzzy
-#~ msgid "Cwene %s"
-#~ msgstr "\"arti %s"
-
-#, fuzzy
-#~ msgid "Chaabat %s"
-#~ msgstr "_Pokalbis"
-
-#, fuzzy
-#~ msgid "?female:Chaabat %s"
-#~ msgstr "?female:Maharadža"
-
-#, fuzzy
-#~ msgid "Reiks %s"
-#~ msgstr "Normos"
-
-#, fuzzy
-#~ msgid "?female:Reiks %s"
-#~ msgstr "?female:Despotė"
-
-#, fuzzy
-#~ msgid "Thiud %s"
-#~ msgstr "Tailando"
-
-#, fuzzy
-#~ msgid "Qens %s"
-#~ msgstr "Karalienė"
-
-#, fuzzy
-#~ msgid "Hakan %s"
-#~ msgstr "Pasiimti šitą žaidėją"
-
-#, fuzzy
-#~ msgid "?female:Hakan %s"
-#~ msgstr "?female:Hakerė"
-
-#, fuzzy
-#~ msgid "Milkot %s"
-#~ msgstr "Milicija"
-
-#, fuzzy
-#~ msgid "Prymas %s"
-#~ msgstr "iš %s"
-
-#, fuzzy
-#~ msgid "?female:Prymas %s"
-#~ msgstr "?female:Prezidentė"
-
-#, fuzzy
-#~ msgid "Kasonsi %s"
-#~ msgstr "Kongo"
-
-#, fuzzy
-#~ msgid "?female:Kasonsi %s"
-#~ msgstr "?female:Konsulė"
-
-#, fuzzy
-#~ msgid "Ngwenyama %s"
-#~ msgstr "komanda %s"
-
-#, fuzzy
-#~ msgid "Cacike %s"
-#~ msgstr "Atšaukti"
-
-#, fuzzy
-#~ msgid "?female:Cacike %s"
-#~ msgstr "?female:Hakerė"
-
-#, fuzzy
-#~ msgid "Hankwa %s"
-#~ msgstr "Bankas"
-
-#, fuzzy
-#~ msgid "?female:Hankwa %s"
-#~ msgstr "?female:Hakerė"
-
-#, fuzzy
-#~ msgid "Rhesos %s"
-#~ msgstr "Resursai"
-
-#, fuzzy
-#~ msgid "?female:Rhesos %s"
-#~ msgstr "?female:Despotė"
-
-#, fuzzy
-#~ msgid "Lant %s"
-#~ msgstr "Sausumos dalinius"
-
-#, fuzzy
-#~ msgid "Lantsa %s"
-#~ msgstr "Sausumos dalinius"
-
-#, fuzzy
-#~ msgid "Morubixaba %s"
-#~ msgstr "?female:Merė"
-
-#, fuzzy
-#~ msgid "?female:Morubixaba %s"
-#~ msgstr "?female:Merė"
-
-#~ msgid "IO error"
-#~ msgstr "IO klaida"
-
-#~ msgid "st"
-#~ msgstr "-mas"
-
-#~ msgid "nd"
-#~ msgstr "-ras"
-
-#~ msgid "rd"
-#~ msgstr "-čias"
-
-#~ msgid "th"
-#~ msgstr "-tas"
-
-#, fuzzy
-#~ msgid "Earth (isometric)"
-#~ msgstr "Žemė (klasikinis, vidutinis)"
-
-#~ msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
-#~ msgstr "0 = nėra 1x1 salų; 1 = kažkiek 1x1 salų"
-
-#~ msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
-#~ msgstr ""
-#~ "0 = normali, į Žemę panaši planeta; 1 = vienodos temperatūros planeta"
-
-#, fuzzy
-#~ msgid "\"%s\" is not an allowed value for this setting."
-#~ msgstr "Jums neleidžiama nustatyti šios parinkties."
-
-#~ msgid "Option: %s has been set to %d."
-#~ msgstr "Parinktis %s buvo nustatyta į %d."
-
-#, fuzzy
-#~ msgid "Option: %s has been set to \"%s\" (%d)."
-#~ msgstr "Parinktis %s buvo nustatyta į \"%s\"."
-
-#~ msgid "description"
-#~ msgstr "aprašymas"
-
-#, fuzzy
-#~ msgid "Cannot load the script file '%s'"
-#~ msgstr "Nepavyksta įkelti konfigūracinio failo „%s“!"
-
-#, fuzzy
-#~ msgid "Only applies to \"%s\" units.\n"
-#~ msgstr ""
-#~ "Tinka tik „%s“ daliniams.\n"
-#~ "\n"
-
-#~ msgid "  * %s units\n"
-#~ msgstr "  * %s daliniai\n"
-
-#~ msgid "* Can build fortresses.\n"
-#~ msgstr "* Gali statyti fortus.\n"
-
-#~ msgid "Paths longer than 99 turns are not supported."
-#~ msgstr "Keliai, ilgesni už 99 ėjimus nėra palaikomi."
-
-#, fuzzy
-#~ msgid ""
-#~ "<p class=\"changed\">Value set to %s (%d)</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<p class=\"changed\">Vertė nustatyta į %d</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "<p class=\"changed\">Value set to %d</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<p class=\"changed\">Vertė nustatyta į %d</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Space Modules are the most expensive parts of spaceships.  There are "
-#~ "three different types of Space Module:\n"
-#~ "\n"
-#~ "- Habitation Module: provides living space for 10,000 people.\n"
-#~ "\n"
-#~ "- Life Support Module: provides food and water for the population of  one "
-#~ "Habitation Module.\n"
-#~ "\n"
-#~ "- Solar Panels: provides the energy needed for any two of the other  "
-#~ "Modules.\n"
-#~ "\n"
-#~ "You can build up to 4 Space Modules of each kind.\n"
-#~ "\n"
-#~ "Before you can build any spaceship parts, the Apollo Program wonder must "
-#~ "have been built by any player."
-#~ msgstr ""
-#~ "Kosminiai moduliai yra brangiausios erdvėlaivio dalys. Yra trijų "
-#~ "skirtingų rūšių kosminiai moduliai:\n"
-#~ "\n"
-#~ "- Gyvenamasis modulis: aprūpina 10 000 žmonių gyvenamąja vieta.\n"
-#~ "\n"
-#~ "- Gyvybės palaikymo modulis: aprūpina maistu ir vandeniu vieno gyvenamojo "
-#~ "modulio populiaciją.\n"
-#~ "\n"
-#~ "- Saulės elementai: aprūpina energija kitus du modulius.\n"
-#~ "\n"
-#~ "Tu gali pastatyti iki 4 kiekvienos rūšies modulių.\n"
-#~ "\n"
-#~ "Prieš tai, kai tu galėsi statyti erdvėlaivio dalis, kuris nors žaidėjas "
-#~ "turi pastatyti Apollo programą."
-
-#~ msgid "elvis"
-#~ msgstr "linksmintojas"
-
-#~ msgid "scientist"
-#~ msgstr "mokslininkas"
-
-#~ msgid "taxman"
-#~ msgstr "mokesčių rinkėjas"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can build Nuclear units when you have the required advance, and the "
-#~ "Manhattan Project wonder has been built by any player.\n"
-#~ "\n"
-#~ "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
-#~ "squares for rectangular grids), including friendly units. Any city within "
-#~ "the blast area loses half its population, and land tiles within the blast "
-#~ "area are subject to nuclear fallout.\n"
-#~ "\n"
-#~ "Similar to pollution and global warming, the risk of global nuclear "
-#~ "winter increases with fallout. If nuclear winter occurs, terrain across "
-#~ "the globe changes into desert, tundra, and ice. Settlers, Workers, and "
-#~ "Engineers can clean up nuclear fallout.\n"
-#~ "\n"
-#~ "TIP 1:  Nuking the ocean will not generate fallout, and is a most "
-#~ "effective (but expensive!!) way of getting rid of enemy ships.\n"
-#~ "\n"
-#~ "TIP 2:  You may be involved in a situation where you've invaded an enemy "
-#~ "country en masse, but the enemy cities are too strong. Before using a "
-#~ "Nuclear unit, assemble a gang of Settlers, Workers, and/or Engineers next "
-#~ "to the city and have them ready to fix the fallout on the same turn it "
-#~ "occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
-#~ msgstr ""
-#~ "Jūs galite statyti branduolinius dalinius, kai Jūs turite reikiamas "
-#~ "technologijas ir Jūs ar kuris nors kitas žaidėjas yra pastatę Manheteno "
-#~ "Projekto stebuklą.\n"
-#~ "\n"
-#~ "Kontakto metu sprogimas sunaikina visus dalinius 3x3 laukų kvadrate, "
-#~ "įskaitant ir draugiškus dalinius. Smogiant miestui miesto dydis sumažėja "
-#~ "per pusę ir aplinkiniai laukai užteršiami branduolinėmis atliekomis.\n"
-#~ "\n"
-#~ "PATARIMAS 1: Smūgis vandenyne nesukuria branduolinių atliekų ir yra "
-#~ "efektyviausias (bet ir brangiausias) priešo laivų atsikratymo būdas.\n"
-#~ "\n"
-#~ "PATARIMAS 2: Jūs galite atsidurti situacijoje, kai Jūs masiškai "
-#~ "įsiveržėte į priešo teritoriją, bet priešo miestai yra per stiprūs. Prieš "
-#~ "panaudodami branduolinius ginklus surinkite didelį naujakurių ir "
-#~ "inžinierių būrį šalia miesto ir pasiruoškite sunaikinti branduolines "
-#~ "atliekas jau kito apsisukimo metu! Tai sumažina branduolinės žiemos "
-#~ "tikimybę. Naudokite ekologiškai švarų branduolinį ginklą!"
-
-#, fuzzy
-#~ msgid ""
-#~ "A Caravan carries goods or material for trading with distant cities and "
-#~ "foreign countries, or to help build wonders in your cities.\n"
-#~ "\n"
-#~ "Every Caravan that is used to build a wonder will add 50 shields towards "
-#~ "the production of the wonder.\n"
-#~ "\n"
-#~ "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
-#~ "into a city where you have started to build a wonder, and finish it in "
-#~ "only one turn!"
-#~ msgstr ""
-#~ "Kiekvienas karavanas, kuris yra panaudojamas stebuklo statybai, prideda "
-#~ "50 vienetų prie stebuklo gamybos.\n"
-#~ "\n"
-#~ "PATARIMAS: Jūs galite iš anksto sukaupti karavanų atsargas ir perkelti "
-#~ "juos į miestą, kai tik pradedate stebuklo statybą. Tai leidžia užbaigti "
-#~ "stebuklą per vieną apsisukimą!"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can build Nuclear units when you have the required advance, and the "
-#~ "Manhattan Project wonder has been built by any player.\n"
-#~ "\n"
-#~ "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
-#~ "squares for rectangular grids), including friendly units. Any city within "
-#~ "the blast area loses half its population, and land tiles within the blast "
-#~ "area are subject to nuclear fallout.\n"
-#~ "\n"
-#~ "Similar to pollution and global warming, the risk of global nuclear "
-#~ "winter increases with fallout. If nuclear winter occurs, terrain across "
-#~ "the globe changes into desert, tundra, and ice. Settlers and Engineers "
-#~ "can clean up nuclear fallout.\n"
-#~ "\n"
-#~ "TIP 1:  Nuking the ocean will not generate fallout, and is a most "
-#~ "effective (but expensive!!) way of getting rid of enemy ships.\n"
-#~ "\n"
-#~ "TIP 2:  You may be involved in a situation where you've invaded an enemy "
-#~ "country en masse, but the enemy cities are too strong. Before using a "
-#~ "Nuclear unit, assemble a gang of Settlers and/or Engineers next to the "
-#~ "city and have them ready to fix the fallout on the same turn it occurs!  "
-#~ "This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
-#~ msgstr ""
-#~ "Jūs galite statyti branduolinius dalinius, kai Jūs turite reikiamas "
-#~ "technologijas ir Jūs ar kuris nors kitas žaidėjas yra pastatę Manheteno "
-#~ "Projekto stebuklą.\n"
-#~ "\n"
-#~ "Kontakto metu sprogimas sunaikina visus dalinius 3x3 laukų kvadrate, "
-#~ "įskaitant ir draugiškus dalinius. Smogiant miestui miesto dydis sumažėja "
-#~ "per pusę ir aplinkiniai laukai užteršiami branduolinėmis atliekomis.\n"
-#~ "\n"
-#~ "PATARIMAS 1: Smūgis vandenyne nesukuria branduolinių atliekų ir yra "
-#~ "efektyviausias (bet ir brangiausias) priešo laivų atsikratymo būdas.\n"
-#~ "\n"
-#~ "PATARIMAS 2: Jūs galite atsidurti situacijoje, kai Jūs masiškai "
-#~ "įsiveržėte į priešo teritoriją, bet priešo miestai yra per stiprūs. Prieš "
-#~ "panaudodami branduolinius ginklus surinkite didelį naujakurių ir "
-#~ "inžinierių būrį šalia miesto ir pasiruoškite sunaikinti branduolines "
-#~ "atliekas jau kito apsisukimo metu! Tai sumažina branduolinės žiemos "
-#~ "tikimybę. Naudokite ekologiškai švarų branduolinį ginklą!"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can build Nuclear units when you have the required advance, and the "
-#~ "Manhattan Project wonder has been built by any player.\n"
-#~ "\n"
-#~ "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
-#~ "squares for rectangular grids), including friendly units. Any city within "
-#~ "the blast area loses half its population, and land tiles within the blast "
-#~ "area are subject to nuclear fallout.\n"
-#~ "\n"
-#~ "Similar to pollution and global warming, the risk of global nuclear "
-#~ "winter increases with fallout. If nuclear winter occurs, terrain across "
-#~ "the globe changes into desert, tundra, and ice. Settlers can clean up "
-#~ "nuclear fallout.\n"
-#~ "\n"
-#~ "TIP 1:  Nuking the ocean will not generate fallout, and is a most "
-#~ "effective (but expensive!!) way of getting rid of enemy ships.\n"
-#~ "\n"
-#~ "TIP 2:  You may be involved in a situation where you've invaded an enemy "
-#~ "country en masse, but the enemy cities are too strong. Before using a "
-#~ "Nuclear unit, assemble a gang of Settlers next to the city and have them "
-#~ "ready to fix the fallout on the same turn it occurs!  This minimizes the "
-#~ "chance of nuclear winter.  Eco-friendly nukes!"
-#~ msgstr ""
-#~ "Jūs galite statyti branduolinius dalinius, kai Jūs turite reikiamas "
-#~ "technologijas ir Jūs ar kuris nors kitas žaidėjas yra pastatę Manheteno "
-#~ "Projekto stebuklą.\n"
-#~ "\n"
-#~ "Kontakto metu sprogimas sunaikina visus dalinius 3x3 laukų kvadrate, "
-#~ "įskaitant ir draugiškus dalinius. Smogiant miestui miesto dydis sumažėja "
-#~ "per pusę ir aplinkiniai laukai užteršiami branduolinėmis atliekomis.\n"
-#~ "\n"
-#~ "PATARIMAS 1: Smūgis vandenyne nesukuria branduolinių atliekų ir yra "
-#~ "efektyviausias (bet ir brangiausias) priešo laivų atsikratymo būdas.\n"
-#~ "\n"
-#~ "PATARIMAS 2: Jūs galite atsidurti situacijoje, kai Jūs masiškai "
-#~ "įsiveržėte į priešo teritoriją, bet priešo miestai yra per stiprūs. Prieš "
-#~ "panaudodami branduolinius ginklus surinkite didelį naujakurių ir "
-#~ "inžinierių būrį šalia miesto ir pasiruoškite sunaikinti branduolines "
-#~ "atliekas jau kito apsisukimo metu! Tai sumažina branduolinės žiemos "
-#~ "tikimybę. Naudokite ekologiškai švarų branduolinį ginklą!"
-
-#~ msgid "Prince"
-#~ msgstr "Princas"
-
-#, fuzzy
-#~ msgid "?female:Iye Oba"
-#~ msgstr "?female:Hakerė"
-
-#, fuzzy
-#~ msgid "?plural:Burundi"
-#~ msgstr "?plural:Britai"
-
-#, fuzzy
-#~ msgid "Great Khan"
-#~ msgstr "Didysis šamanas"
-
-#, fuzzy
-#~ msgid "?female:Great Khan"
-#~ msgstr "?female:Didžioji šamanė"
-
-#, fuzzy
-#~ msgid "?female:Kpojito"
-#~ msgstr "?female:Konsulė"
-
-#~ msgid "Pope"
-#~ msgstr "Popiežius"
-
-#, fuzzy
-#~ msgid "Grand Prince"
-#~ msgstr "Princas"
-
-#, fuzzy
-#~ msgid "Don"
-#~ msgstr "Žemyn"
-
-#, fuzzy
-#~ msgid "?female:Princess"
-#~ msgstr "?female:Premjerė"
-
-#, fuzzy
-#~ msgid ""
-#~ "The Inuit people inhabit northern Canada and Greenland. Legend says that "
-#~ "the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the "
-#~ "west coast of Greenland in the 10th century. All Inuit of today are "
-#~ "descendents of the Thule culture."
-#~ msgstr ""
-#~ "Inuitai, arba eskimai, gyvena šiaurės Kanadoje ir Grenlandijoje. Legenda "
-#~ "sako, kad didysis šamanas Qitdlarssuaqas X amžiuje vedė savo tautą į Tulę "
-#~ "(Qaanaaqą) vakariniame Grenlandijos krante. Visi šių dienų inuitai yra "
-#~ "Tulės kultūros palikuonys."
-
-#, fuzzy
-#~ msgid "Great Khatan"
-#~ msgstr "Didysis šamanas"
-
-#, fuzzy
-#~ msgid "?female:Lady"
-#~ msgstr "Draugė"
-
-#, fuzzy
-#~ msgid "Milk"
-#~ msgstr "Šilkas"
-
-#, fuzzy
-#~ msgid "?female:Elector"
-#~ msgstr "?female:Merė"
-
-#~ msgid ""
-#~ "When the Chinese nationalists lost the armed struggle against the Chinese "
-#~ "communists, the nationalist government evacuated to the island of Taiwan "
-#~ "where they formed the Republic of China."
-#~ msgstr ""
-#~ "Kai Kinijos nacionalistai pralaimėjo ginkluotą kovą Kinijos komunistams, "
-#~ "nacionalinė vyriausybė išsikėlė į Taivano salą, kur jie sukūrė Kinijos "
-#~ "respubliką."
-
-#, fuzzy
-#~ msgid "Lant"
-#~ msgstr "Žemė"
-
-#, fuzzy
-#~ msgid "CanIrrigate"
-#~ msgstr "_Drėkinti"
-
-#, fuzzy
-#~ msgid "CanMine"
-#~ msgstr "Kasykla"
-
-#, fuzzy
-#~ msgid "CanRoad"
-#~ msgstr "Kelias"
-
-#~ msgid "Show a list of players, teams, connections, or scenarios."
-#~ msgstr "Parodyti žaidėjų, komandų, jungčių ar scenarijų sąrašą."
-
-#~ msgid "Geological"
-#~ msgstr "Geologiniai"
-
-#~ msgid "Sociological"
-#~ msgstr "Sociologiniai"
-
-#~ msgid "Economic"
-#~ msgstr "Ekonominiai"
-
-#~ msgid "Military"
-#~ msgstr "Kariniai"
-
-#~ msgid "Scientific"
-#~ msgstr "Moksliniai"
-
-#~ msgid "Vital"
-#~ msgstr "Gyvybiškai svarbus"
-
-#~ msgid "Situational"
-#~ msgstr "Priklauso nuo situacijos"
-
-#~ msgid "Changed"
-#~ msgstr "Pakeista"
-
-#, fuzzy
-#~ msgid "Locked"
-#~ msgstr "užblokuota"
-
-#~ msgid "Can't add AI players once the game has begun."
-#~ msgstr "Negalite įdėti DI žaidėjų žaidimui prasidėjus."
-
-#~ msgid "%2d : '%s' : 1 player : %s"
-#~ msgstr "%2d : '%s' : 1 žaidėjas : %s"
-
-#~ msgid "Empty team: %s"
-#~ msgstr "Tuščia komanda: %s"
-
-#~ msgid "View"
-#~ msgstr "Rodymas"
-
-#~ msgid "Total Cost:"
-#~ msgstr "Visa kaina:"
-
-#~ msgid "?nationgroup:Fictional"
-#~ msgstr "?nationgroup:Fantastinės"
-
-#~ msgid "Chile is located on the south-western coast of South America."
-#~ msgstr "Čilė yra prie pietvakarinio Pietų Amerikos kranto."
-
-#~ msgid ""
-#~ "Mexico borrows its name from the Mexica people, another name for the "
-#~ "Aztecs."
-#~ msgstr "Meksikos vardas kilęs nuo meksikiečių, kito actekų pavadinimo."
-
-#, fuzzy
-#~ msgid "Caconzi"
-#~ msgstr "Patranka"
-
-#, fuzzy
-#~ msgid "?female:Caconzi"
-#~ msgstr "?female:Konsulė"
-
-#~ msgid ""
-#~ "Switzerland is a federation of cantons, some of which have more than 700 "
-#~ "years of history as a confederacy."
-#~ msgstr ""
-#~ "Šveicarija yra kantonų federacija, kai kurie iš jų jau daugiau nei 700 "
-#~ "metų yra konfederacijoje."
-
-#~ msgid "Governador"
-#~ msgstr "Gubernatorius"
-
-#~ msgid "Governadora"
-#~ msgstr "Gubernatorė"
-
-#~ msgid "Team 4"
-#~ msgstr "Komanda 4"
-
-#~ msgid "Team 5"
-#~ msgstr "Komanda 5"
-
-#~ msgid "Team 6"
-#~ msgstr "Komanda 6"
-
-#~ msgid "Team 7"
-#~ msgstr "Komanda 7"
-
-#~ msgid "Team 8"
-#~ msgstr "Komanda 8"
-
-#~ msgid "Team 9"
-#~ msgstr "Komanda 9"
-
-#~ msgid "Team 10"
-#~ msgstr "Komanda 10"
-
-#~ msgid "Team 11"
-#~ msgstr "Komanda 11"
-
-#~ msgid "Team 12"
-#~ msgstr "Komanda 12"
-
-#~ msgid "Team 13"
-#~ msgstr "Komanda 13"
-
-#~ msgid "Team 14"
-#~ msgstr "Komanda 14"
-
-#~ msgid "Team 15"
-#~ msgstr "Komanda 15"
-
-#~ msgid "Team 16"
-#~ msgstr "Komanda 16"
-
-#~ msgid "Team 17"
-#~ msgstr "Komanda 17"
-
-#~ msgid "Team 18"
-#~ msgstr "Komanda 18"
-
-#~ msgid "Team 19"
-#~ msgstr "Komanda 19"
-
-#~ msgid "Team 20"
-#~ msgstr "Komanda 20"
-
-#~ msgid "Team 21"
-#~ msgstr "Komanda 21"
-
-#~ msgid "Team 22"
-#~ msgstr "Komanda 22"
-
-#~ msgid "Team 23"
-#~ msgstr "Komanda 23"
-
-#~ msgid "Team 24"
-#~ msgstr "Komanda 24"
-
-#~ msgid "Team 25"
-#~ msgstr "Komanda 25"
-
-#~ msgid "Team 26"
-#~ msgstr "Komanda 26"
-
-#~ msgid "Team 27"
-#~ msgstr "Komanda 27"
-
-#~ msgid "Team 28"
-#~ msgstr "Komanda 28"
-
-#~ msgid "Team 29"
-#~ msgstr "Komanda 29"
-
-#~ msgid "Team 30"
-#~ msgstr "Komanda 30"
-
-#~ msgid "Team 31"
-#~ msgstr "Komanda 31"
-
-#~ msgid "Screen width"
-#~ msgstr "Ekrano plotis"
-
-#~ msgid "Screen height"
-#~ msgstr "Ekrano aukštis"
-
-#~ msgid "Tutorial message"
-#~ msgstr "Apmokomoji žinutė"
-
-#~ msgid "Server: %s has connected from %s."
-#~ msgstr "Serveris: %s prisijungė iš %s."
-
-#, fuzzy
-#~ msgid "No such tile (ID %d)."
-#~ msgstr "Nėra tokio balso (%d)."
-
-#~ msgid ""
-#~ "%s and %s meet and go to instant war. You cancel your alliance with both."
-#~ msgstr ""
-#~ "%s ir %s susitiko ir vienas kitam paskelbė karą. Jūs nutraukiate sąjungą "
-#~ "su abiem."
-
-#~ msgid "Auto-save name prefix"
-#~ msgstr "Auto-išsaugojimo vardo priešdėlis"
-
-#~ msgid "Waiting"
-#~ msgstr "Laukiama"
-
-#~ msgid "Value: \"%s\", Default: \"%s\""
-#~ msgstr "Vertė: „%s“, numatyta: „%s“"
-
-#~ msgid "Value out of range (minimum: 0, maximum: 1)."
-#~ msgstr "Reikšmė yra už ribų (minimali: 0, maksimali: 1)"
-
-#~ msgid "?city_state:Rapture"
-#~ msgstr "?city_state:Susižavėjęs"
-
-#~ msgid "Entertainers, Scientists, Taxmen"
-#~ msgstr "Paslaugų teikėjai, mokslininkai, mokesčių rinkėjai"
-
-#~ msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
-#~ msgstr ""
-#~ "(Geležinkeliams ir tvirtovėms reikia 3 ėjimų, neatsižvelgiant į reljefą.)"
-
-#~ msgid "* May pillage to destroy infrastructure from tiles.\n"
-#~ msgstr "* galė plėšti ir taip sunakinti laukelių infrastruktūrą.\n"
-
-#~ msgid "Progress: no research target"
-#~ msgstr "Progresas: nėra paieškos tikslo"
-
-#~ msgid "FIXME"
-#~ msgstr "Ištaisyk mane"
-
-#~ msgid "_Chat"
-#~ msgstr "_Pokalbis"
-
-#~ msgid "Editing _Mode"
-#~ msgstr "Redagavimo &režimas"
-
-#, fuzzy
-#~ msgid "City _Traderoutes"
-#~ msgstr "Prekybos maršrutai: "
-
-#~ msgid "Wake up o_thers"
-#~ msgstr "Pažadinti _kitus"
-
-#~ msgid "_Connect"
-#~ msgstr "_Sujungti"
-
-#~ msgid "Go _to"
-#~ msgstr "_Eiti į"
-
-#~ msgid "Patrol (_Q)"
-#~ msgstr "Patruliuoti (_Q)"
-
-#~ msgid "Diplomat\\/Spy Actions"
-#~ msgstr "Diplomato\\/Šnipo veiksmai"
-
-#, fuzzy
-#~ msgid "Single"
-#~ msgstr "Džiunglės"
-
-#~ msgid "_Top Five Cities"
-#~ msgstr "Penki _geriausi miestai"
-
-#~ msgid "Language_s"
-#~ msgstr "_Kalbos"
-
-#~ msgid "_Worklist Editor"
-#~ msgstr "_Darbų sąrašo redaktorius"
-
-#~ msgid "Citizen _Management"
-#~ msgstr "Piliečių _valdymas"
-
-#~ msgid "City _Improvements"
-#~ msgstr "Miestų _patobulinimai"
-
-#~ msgid "Com_bat"
-#~ msgstr "_Mūšis"
-
-#~ msgid "Techno_logy"
-#~ msgstr "_Technologija"
-
-#~ msgid "Won_ders"
-#~ msgstr "_Stebuklai"
-
-#~ msgid "Happin_ess"
-#~ msgstr "_Laimingumas"
-
-#~ msgid "Space _Race"
-#~ msgstr "_Kosminė rasė"
-
-#~ msgid "_Copying"
-#~ msgstr "_Kopijavimas"
-
-#~ msgid "_About"
-#~ msgstr "_Apie"
-
-#~ msgid "%s"
-#~ msgstr "%s"
-
-#~ msgid "_Fortify"
-#~ msgstr "Į_tvirtinti"
-
-#~ msgid "true"
-#~ msgstr "teigiama"
-
-#~ msgid "false"
-#~ msgstr "neigiama"
-
-#~ msgid "(hidden)"
-#~ msgstr "(paslėpta)"
-
-#~ msgid "Diplomat|Spy Actions"
-#~ msgstr "Diplomato|Šnipo veiksmai"
-
-#~ msgid "Connect railroad"
-#~ msgstr "Sujungti geležinkeliu"
-
-#~ msgid "Auto-Explore"
-#~ msgstr "Automatiškai tyrinėti"
-
-#~ msgid "Auto-Attack"
-#~ msgstr "Automatiškai atakuoti"
-
-#~ msgid "Auto-Settler"
-#~ msgstr "Automatiškai įsikurti"
-
-#~ msgid "Wake Up Others"
-#~ msgstr "Pažadinti kitus"
-
-#~ msgid "Unload"
-#~ msgstr "Išlaipinti"
-
-#~ msgid "Paradrop"
-#~ msgstr "Nuleisti parašiutais"
-
-#~ msgid "Form Traderoute"
-#~ msgstr "Įkurti prekybos maršrutą"
-
-#~ msgid "No modes available!"
-#~ msgstr "Nėra tinkamų režimų!"
-
-#~ msgid "All resolutions available."
-#~ msgstr "Įmanomos visos raiškos."
-
-#~ msgid "Fullscreen Mode"
-#~ msgstr "Pilnaekranis režimas"
-
-#, fuzzy
-#~ msgid "Show focus animation"
-#~ msgstr "Sanitarija"
-
-#~ msgid "Draw city worker map grid"
-#~ msgstr "Piešti miesto darbuotojų žemėlapio tinklą"
-
-#~ msgid "Special Resources"
-#~ msgstr "Specialūs resursai"
-
-#~ msgid "Roads and Rails"
-#~ msgstr "Keliai ir geležinkeliai"
-
-#~ msgid "Fortress and Airbase"
-#~ msgstr "Fortai ir oro bazės"
-
-#~ msgid "Civ3 city text style"
-#~ msgstr "Civę miestų teksto stilius"
-
-#~ msgid "Video options"
-#~ msgstr "Vaizdo nustatymai"
-
-#~ msgid "Sound options"
-#~ msgstr "Garsų nustatymai"
-
-#~ msgid "Game options"
-#~ msgstr "Žaidimo nustatymai"
-
-#~ msgid "Map options"
-#~ msgstr "Žemėlapio nustatymai"
-
-#~ msgid "_Upgrade unit"
-#~ msgstr "_Patobulinti dalinį"
-
-#~ msgid "_Revolution"
-#~ msgstr "_Revoliucija"
-
-#~ msgid "Make Trade Route"
-#~ msgstr "Įkurti prekybos kelią"
-
-#~ msgid "Wake up others"
-#~ msgstr "Pažadinti kitus"
-
-#~ msgid "Connect/Road"
-#~ msgstr "Sujungti/Kelias"
-
-#~ msgid "Connect/Irrigation"
-#~ msgstr "Sujungti/Drėkinimas"
-
-#~ msgid "Playing"
-#~ msgstr "Žaidimas"
-
-#~ msgid "Can be changed during a game. "
-#~ msgstr "Gali būti pakeista žaidimo metu."
-
-#~ msgid "Can <b>not</b> be changed during a game. "
-#~ msgstr "<b>Negali</b> būti pakeista žaidimo metu. "
-
-#~ msgid ""
-#~ "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<p class=\"bounds\">Minimali: 0, numatyta: %d, maksimali: 1</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<p class=\"bounds\">Minimali: %d, numatyta: %d, maksimali: %d</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "<p class=\"bounds\">Default: \"%s\"</p>\n"
-#~ "\n"
-#~ msgstr ""
-#~ "<p class=\"bounds\">Numatyta: \"%s\"</p>\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Freeciv is a turn-based strategy game, in which each player becomes the "
-#~ "leader of a civilization, fighting to obtain the ultimate goal: the "
-#~ "extinction of all other civilizations."
-#~ msgstr ""
-#~ "Freeciv yra ėjimais paremtas žaidimas, kuriame kiekvienas žaidėjas tampa "
-#~ "civilizacijos lyderiu ir stengiasi pasiekti svarbiausią tikslą: kitų "
-#~ "civilizacijų užkariavimą ar sunaikinimą."
-
-#~ msgid ""
-#~ "Each wonder has specific benefits for your civilization. Each wonder is "
-#~ "unique and is placed in the city which constructed it."
-#~ msgstr ""
-#~ "Kiekvienas stebuklas turi naudos jūsų civilizacijai. Kiekvienas stebuklas "
-#~ "yra unikalus ir patalpinamas mieste, kuris jį sukonstravo."
-
-#~ msgid ""
-#~ "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
-#~ "have no effect on the city.  Also, doubles defence against non-nuclear "
-#~ "missiles."
-#~ msgstr ""
-#~ "Apsaugo miestą nuo atakos atominiais ginklais. Tokia ataka miestui "
-#~ "nepadaro jokios žalos. Taip pat padvigubina gynybą nuo kitų raketų."
-
-#~ msgid "Works as a City Wall in all cities."
-#~ msgstr "Veikia kaip miesto sienų turėjimas kiekviename mieste."
-
-#~ msgid "Doubles the effect of Temples, in all cities."
-#~ msgstr "Padvigubina šventyklų poveikį visuose miestuose."
-
-#~ msgid "Units regain two extra hitpoints per turn."
-#~ msgstr "Daliniai atgauna 2 papildomus gyvybės taškus per ėjimą."
-
-#, fuzzy
-#~ msgid ""
-#~ "One Barbarian Leader appears every time there is a barbarian uprising "
-#~ "somewhere in the world.\n"
-#~ "\n"
-#~ "When barbarian leader is killed on a tile without any defending units, "
-#~ "the 100 gold ransom is paid, but only to land units and helicopters."
-#~ msgstr ""
-#~ "Kai barbarų vadas nužudomas plokštelėje, kurioje nėra nėra jokių ginančių "
-#~ "dalinių, 100 aukso vienetų išpirka yra mokama, bet tik sausumos daliniams "
-#~ "ir sraigtasparniams."
-
-#, fuzzy
-#~ msgid "Jiliri"
-#~ msgstr "Milicija"
-
-#, fuzzy
-#~ msgid "Willka"
-#~ msgstr "Plėšimas"
-
-#, fuzzy
-#~ msgid "Mama"
-#~ msgstr "Lama"
-
-#, fuzzy
-#~ msgid "Markachiri"
-#~ msgstr "Kovas"
-
-#, fuzzy
-#~ msgid "?female:Buruzagi"
-#~ msgstr "?female:Uzurpatorė"
-
-#~ msgid "Errege"
-#~ msgstr "Karalius"
-
-#~ msgid "Erregina"
-#~ msgstr "Karalienė"
-
-#~ msgid "Major"
-#~ msgstr "Mejoras"
-
-#~ msgid "Tzar"
-#~ msgstr "Caras"
-
-#~ msgid "Tzaritza"
-#~ msgstr "Carienė"
-
-#~ msgid "Primer Ministre"
-#~ msgstr "Ministras Pirmininkas"
-
-#~ msgid "Primera Ministre"
-#~ msgstr "Ministrė Pirmininkė"
-
-#~ msgid "President of the Commission"
-#~ msgstr "Komisijos prezidentas"
-
-#~ msgid "Primeiro Ministro"
-#~ msgstr "Ministras Pirmininkas"
-
-#~ msgid "Primeira Ministra"
-#~ msgstr "Ministrė Pirmininkė"
-
-#, fuzzy
-#~ msgid "Inka"
-#~ msgstr "Inkų"
-
-#, fuzzy
-#~ msgid "Willaq Umu"
-#~ msgstr "Plėšimas"
-
-#~ msgid "Asian"
-#~ msgstr "Azijietiškas"
-
-#~ msgid "Medieval"
-#~ msgstr "Viduramžių"
-
-#, fuzzy
-#~ msgid "Machi"
-#~ msgstr "kovą"
-
-#, fuzzy
-#~ msgid "?female:Ah kin"
-#~ msgstr "?female:Konsulė"
-
-#~ msgid "Imparator"
-#~ msgstr "Imperatorius"
-
-#~ msgid "Dyktator"
-#~ msgstr "Diktatorius"
-
-#~ msgid "Dyktatorka"
-#~ msgstr "Diktatorė"
-
-#~ msgid "Pierwszy Sekretarz"
-#~ msgstr "Pirmasis sekretorius"
-
-#~ msgid "?female:Pierwszy Sekretarz"
-#~ msgstr "?female:Pirmoji sekretorė"
-
-#, fuzzy
-#~ msgid "?male:Leader"
-#~ msgstr "Vadas"
-
-#, fuzzy
-#~ msgid "Nin"
-#~ msgstr "Tauta"
-
-#~ msgid "President of the Confederation"
-#~ msgstr "Konfederacijos prezidentas"
-
-#, fuzzy
-#~ msgid "Bohike"
-#~ msgstr "Brolis"
-
-#, fuzzy
-#~ msgid "Paje"
-#~ msgstr "Žaidėjas"
-
-#~ msgid "Representative"
-#~ msgstr "Atstovas"
-
-#, fuzzy
-#~ msgid "Terratenienta"
-#~ msgstr "Prezidentė"
-
-#~ msgid "Classic-style 80x50 Earth scenario."
-#~ msgstr "Klasikinio stiliaus 80x50 dydžio Žemės scenarijus."
-
-#~ msgid "Classic-style 120x60 Earth scenario."
-#~ msgstr "Klasikinio stiliaus 120x60 dydžio Žėmės scenarijus."
-
-#~ msgid "Tutorial Scenario."
-#~ msgstr "Apmokomasis scenarijus."
