@@ -10,9 +10,9 @@
 #
 
 # Absolete paths
-SRCROOT=$(cd "$1" ; pwd)
-INPUTDIR=$(cd "$1/bootstrap" ; pwd)
-OUTPUTDIR=$(cd "$2/common" ; pwd)
+SRCROOT="$(cd "$1" ; pwd)"
+INPUTDIR="$(cd "$1/bootstrap" ; pwd)"
+OUTPUTDIR="$(cd "$2/common" ; pwd)"
 
 REVSTATE="OFF"
 REV="dist"
