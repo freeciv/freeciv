@@ -21,6 +21,7 @@
 #include "support.h"
 
 /* common */
+#include "fc_cmdhelp.h"
 #include "version.h"
 
 /* modinst */
@@ -51,17 +52,20 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       argv[1 + ui_options] = argv[i];
       ui_options++;
     } else if (is_option("--help", argv[i])) {
-      fc_fprintf(stderr, _("Usage: %s [option ...]\n"
-			   "Valid option are:\n"), argv[0]);
-      fc_fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-      fc_fprintf(stderr, _("  -L, --List URL\t\tLoad modpack list from given URL\n"));
-      fc_fprintf(stderr, _("  -p, --prefix DIR\t\tInstall modpacks to given directory hierarchy"));
-      fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-      fc_fprintf(stderr, _("      --\t\t"
-			   "Pass any following options to the UI.\n"));
+      struct cmdhelp *help = cmdhelp_new(argv[0]);
 
-      /* TRANS: No full stop after the URL, could cause confusion. */
-      fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
+      cmdhelp_add(help, "h", "help",
+                  _("Print a summary of the options"));
+      cmdhelp_add(help, "L", "List URL",
+                  _("Load modpack list from given URL"));
+      cmdhelp_add(help, "p", "prefix DIR",
+                  _("Install modpacks to given directory hierarchy"));
+      cmdhelp_add(help, "v", "version",
+                  _("Print the version number"));
+      /* The function below prints a header and footer for the options.
+       * Furthermore, the options are sorted. */
+      cmdhelp_display(help, TRUE, TRUE, TRUE);
+      cmdhelp_destroy(help);
 
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--List", argv, &i, argc))) {

@@ -46,6 +46,7 @@
 
 /* common */
 #include "capstr.h"
+#include "fc_cmdhelp.h"
 #include "game.h"
 #include "version.h"
 
@@ -196,6 +197,7 @@ int main(int argc, char *argv[])
 
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
+  /* FIXME: and that are? */
   inx = 1;
   while (inx < argc) {
     if ((option = get_option_malloc("--file", argv, &inx, argc))) {
@@ -321,64 +323,76 @@ int main(int argc, char *argv[])
 	    WIKI_URL);
 
   if (showhelp) {
-    fc_fprintf(stderr,
-	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fc_fprintf(stderr, _("  -A  --Announce PROTO\tAnnounce game in LAN "
-                         "using protocol PROTO (IPv4/IPv6/none)\n"));
+    struct cmdhelp *help = cmdhelp_new(argv[0]);
+
+    cmdhelp_add(help, "A", "Announce PROTO",
+                _("Announce game in LAN using protocol PROTO "
+                  "(IPv4/IPv6/none)"));
 #ifdef HAVE_FCDB
-    fc_fprintf(stderr, _("  -D  --Database FILE\tEnable database connection "
-                         "with configuration from FILE.\n"));
-    fc_fprintf(stderr, _("  -a  --auth\t\tEnable server authentication "
-                         "(requires --Database).\n"));
-    fc_fprintf(stderr, _("  -G  --Guests\t\tAllow guests to "
-			 "login if auth is enabled.\n"));
-    fc_fprintf(stderr, _("  -N  --Newusers\tAllow new users to "
-			 "login if auth is enabled.\n"));
+    cmdhelp_add(help, "D", "Database FILE",
+                _("Enable database connection with configuration from "
+                  "FILE."));
+    cmdhelp_add(help, "a", "auth",
+                _("Enable server authentication (requires --Database)."));
+    cmdhelp_add(help, "G", "Guests",
+                _("Allow guests to login if auth is enabled."));
+    cmdhelp_add(help, "N", "Newusers",
+                _("Allow new users to login if auth is enabled."));
 #endif /* HAVE_FCDB */
-    fc_fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
-    fc_fprintf(stderr, _("  -B  --Bind-meta ADDR\tConnect to metaserver from this address\n"));
+    cmdhelp_add(help, "b", "bind ADDR",
+                _("Listen for clients on ADDR"));
+    cmdhelp_add(help, "B", "Bind-meta ADDR",
+                _("Connect to metaserver from this address"));
 #ifdef DEBUG
-    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
-                         "%d, or %d:file1,min,max:...)\n"),
-               LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
+    cmdhelp_add(help, "d", "debug NUM",
+                _("Set debug log level (%d to %d, or %d:file1,min,max:...)"),
+                LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else  /* DEBUG */
-    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
-                         "%d)\n"), LOG_FATAL, LOG_VERBOSE);
+    cmdhelp_add(help, "d", "debug NUM",
+                _("Set debug log level (%d to %d)"), LOG_FATAL, LOG_VERBOSE);
 #endif /* DEBUG */
 #ifndef NDEBUG
-    fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
-                         "Raise a signal on failed assertion\n"));
+    cmdhelp_add(help, "F", "Fatal [SIGNAL]",
+                _("Raise a signal on failed assertion"));
 #endif
-    fc_fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
-    fc_fprintf(stderr,
-	       _("  -h, --help\t\tPrint a summary of the options\n"));
-   fc_fprintf(stderr, _("  -i, --identity ADDR\tBe known as ADDR at metaserver\n"));
-    fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
-    fc_fprintf(stderr, _("  -m, --meta\t\tNotify metaserver and "
-			 "send server's info\n"));
-    fc_fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR "
-			 "as metaserver address\n"));
-
-    fc_fprintf(stderr, _("  -p, --port PORT\tListen for clients on "
-			 "port PORT\n"));
-    fc_fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players "
-			 "for TIME seconds\n"));
-    fc_fprintf(stderr, _("  -e, --exit-on-end\t"
-		      "When a game ends, exit instead of restarting\n"));
-    fc_fprintf(stderr,
-	       _("  -s, --saves DIR\tSave games to directory DIR\n"));
-    fc_fprintf(stderr,
-	       _("  -S, --Serverid ID\tSets the server id to ID\n"));
-    fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
-    fc_fprintf(stderr,
-	       _("  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"));
+    cmdhelp_add(help, "f", "file FILE",
+                _("Load saved game FILE"));
+    cmdhelp_add(help, "h", "help",
+                _("Print a summary of the options"));
+    cmdhelp_add(help, "i", "identity ADDR",
+                _("Be known as ADDR at metaserver"));
+    cmdhelp_add(help, "l", "log FILE",
+                _("Use FILE as logfile"));
+    cmdhelp_add(help, "m", "meta",
+                _("Notify metaserver and send server's info"));
+    cmdhelp_add(help, "M", "Metaserver ADDR",
+                _("Set ADDR as metaserver address"));
+    cmdhelp_add(help, "p", "port PORT",
+                _("Listen for clients on port PORT"));
+    cmdhelp_add(help, "q", "quitidle TIME",
+                _("Quit if no players for TIME seconds"));
+    cmdhelp_add(help, "e", "exit-on-end",
+                _("When a game ends, exit instead of restarting"));
+    cmdhelp_add(help, "s", "saves DIR",
+                _("Save games to directory DIR"));
+    cmdhelp_add(help, "S", "Serverid ID",
+                _("Sets the server id to ID"));
+    cmdhelp_add(help, "r", "read FILE",
+                _("Read startup script FILE"));
+    cmdhelp_add(help, "R", "Ranklog FILE",
+                _("Use FILE as ranking logfile"));
 #ifdef AI_MODULES
-    fc_fprintf(stderr,
-               _("  -L, --LoadAI MODULE\tLoad ai module MODULE. Can appear multiple times\n"));
+    cmdhelp_add(help, "L", "LoadAI MODULE",
+                _("Load ai module MODULE. Can appear multiple times"));
 #endif /* AI_MODULES */
-    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    /* TRANS: No full stop after the URL, could cause confusion. */
-    fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
+    cmdhelp_add(help, "v", "version",
+                _("Print the version number"));
+
+    /* The function below prints a header and footer for the options.
+     * Furthermore, the options are sorted. */
+    cmdhelp_display(help, TRUE, FALSE, TRUE);
+    cmdhelp_destroy(help);
+
     exit(EXIT_SUCCESS);
   }
 

@@ -41,6 +41,7 @@
 /* common */
 #include "ai.h"
 #include "diptreaty.h"
+#include "fc_cmdhelp.h"
 #include "fc_interface.h"
 #include "game.h"
 #include "idex.h"
@@ -334,49 +335,56 @@ int client_main(int argc, char *argv[])
       argv[1 + ui_options] = argv[i];
       ui_options++;
     } else if (is_option("--help", argv[i])) {
-      fc_fprintf(stderr, _("Usage: %s [option ...]\n"
-			   "Valid options are:\n"), argv[0]);
-      fc_fprintf(stderr, _("  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
-      fc_fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
+      struct cmdhelp *help = cmdhelp_new(argv[0]);
+
+      cmdhelp_add(help, "A", "Announce PROTO",
+                  _("Announce game in LAN using protocol PROTO "
+                    "(IPv4/IPv6/none)"));
+      cmdhelp_add(help, "a", "autoconnect",
+                  _("Skip connect dialog"));
 #ifdef DEBUG
-      fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
-                           "%d, or %d:file1,min,max:...)\n"),
-                 LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
+      cmdhelp_add(help, "d", "debug NUM",
+                  _("Set debug log level (%d to %d, or "
+                    "%d:file1,min,max:...)"), LOG_FATAL, LOG_DEBUG,
+                  LOG_DEBUG);
 #else
-      fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
-                           "%d)\n"), LOG_FATAL, LOG_VERBOSE);
-#endif
+      cmdhelp_add(help, "d", "debug NUM",
+                  _("Set debug log level (%d to %d)"),
+                  LOG_FATAL, LOG_VERBOSE);
+#endif /* DEBUG */
 #ifndef NDEBUG
-      fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
-                           "Raise a signal on failed assertion\n"));
-#endif
-      fc_fprintf(stderr,
-		 _("  -h, --help\t\tPrint a summary of the options\n"));
-      fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
-			   "(spawned server also uses this)\n"));
-      fc_fprintf(stderr, _("  -M, --Meta HOST\t"
-			   "Connect to the metaserver at HOST\n"));
-      fc_fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
-      fc_fprintf(stderr,
-		 _("  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"));
-      fc_fprintf(stderr,
-		 _("  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"),
-		 audio_get_all_plugin_names());
-      fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE "
-			   "(for spawned server only)\n"));
-      fc_fprintf(stderr,
-		 _("  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"));
-      fc_fprintf(stderr,
-		 _("  -S, --Sound FILE\tRead sound tags from FILE\n"));
-      fc_fprintf(stderr, _("  -t, --tiles FILE\t"
-			   "Use data file FILE.tilespec for tiles\n"));
-      fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-      fc_fprintf(stderr, _("      --\t\t"
-			   "Pass any following options to the UI.\n"
-			   "\t\t\tTry \"%s -- --help\" for more.\n"), argv[0]);
-      fc_fprintf(stderr, "\n");
-      /* TRANS: No full stop after the URL, could cause confusion. */
-      fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
+      cmdhelp_add(help, "F", "Fatal [SIGNAL]",
+                  _("Raise a signal on failed assertion"));
+#endif /* NDEBUG */
+      cmdhelp_add(help, "h", "help",
+                  _("Print a summary of the options"));
+      cmdhelp_add(help, "l", "log FILE",
+                  _("Use FILE as logfile (spawned server also uses this)"));
+      cmdhelp_add(help, "M", "Meta HOST",
+                  _("Connect to the metaserver at HOST"));
+      cmdhelp_add(help, "n", "name NAME",
+                  _("Use NAME as name"));
+      cmdhelp_add(help, "p", "port PORT",
+                  _("Connect to server port PORT (usually with -a)"));
+      cmdhelp_add(help, "P", "Plugin PLUGIN",
+                  _("Use PLUGIN for sound output %s"),
+                  audio_get_all_plugin_names());
+      cmdhelp_add(help, "r", "read FILE",
+                  _("Read startup script FILE (for spawned server only)"));
+      cmdhelp_add(help, "s", "server HOST",
+                  _("Connect to the server at HOST (usually with -a)"));
+      cmdhelp_add(help, "S", "Sound FILE",
+                  _("Read sound tags from FILE"));
+      cmdhelp_add(help, "t", "tiles FILE",
+                  _("Use data file FILE.tilespec for tiles"));
+      cmdhelp_add(help, "v", "version",
+                  _("Print the version number"));
+
+      /* The function below prints a header and footer for the options.
+       * Furthermore, the options are sorted. */
+      cmdhelp_display(help, TRUE, TRUE, TRUE);
+      cmdhelp_destroy(help);
+
       exit(EXIT_SUCCESS);
     } else if (is_option("--version",argv[i])) {
       fc_fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);

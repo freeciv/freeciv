@@ -5,6 +5,7 @@ common/city.c
 common/connection.c
 common/effects.c
 common/events.c
+common/fc_cmdhelp.c
 common/game.c
 common/government.c
 common/map.c

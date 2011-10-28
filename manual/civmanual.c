@@ -38,6 +38,7 @@
 /* common */
 #include "connection.h"
 #include "events.h"
+#include "fc_cmdhelp.h"
 #include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
 #include "improvement.h"
@@ -476,27 +477,35 @@ int main(int argc, char **argv)
     fc_fprintf(stderr, "%s \n", freeciv_name_version());
     exit(EXIT_SUCCESS);
   } else if (showhelp) {
-    fc_fprintf(stderr,
-         _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+    struct cmdhelp *help = cmdhelp_new(argv[0]);
+
 #ifdef DEBUG
-    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
-                         "%d, or %d:file1,min,max:...)\n"),
-               LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
+    cmdhelp_add(help, "d", "debug NUM",
+                _("Set debug log level (%d to %d, or %d:file1,min,max:...)"),
+                LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else
-    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
-                         "%d)\n"), LOG_FATAL, LOG_VERBOSE);
+    cmdhelp_add(help, "d", "debug NUM",
+                _("Set debug log level (%d to %d)"),
+                LOG_FATAL, LOG_VERBOSE);
 #endif /* DEBUG */
 #ifndef NDEBUG
-    fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
-                         "Raise a signal on failed assertion\n"));
+    cmdhelp_add(help, "F", "Fatal [SIGNAL]",
+                _("Raise a signal on failed assertion"));
 #endif /* NDEBUG */
-    fc_fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
-    fc_fprintf(stderr, _("  -r, --ruleset RULESET\tMake manual for "
-                         "RULESET\n"));
-    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    /* TRANS: No full stop after the URL, could cause confusion. */
-    fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
+    cmdhelp_add(help, "h", "help",
+                _("Print a summary of the options"));
+    cmdhelp_add(help, "l", "log FILE",
+                _("Use FILE as logfile"));
+    cmdhelp_add(help, "r", "ruleset RULESET",
+                _("Make manual for RULESET"));
+    cmdhelp_add(help, "v", "version",
+                _("Print the version number"));
+
+    /* The function below prints a header and footer for the options.
+     * Furthermore, the options are sorted. */
+    cmdhelp_display(help, TRUE, TRUE, TRUE);
+    cmdhelp_destroy(help);
+
     exit(EXIT_SUCCESS);
   }
 
