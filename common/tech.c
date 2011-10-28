@@ -700,13 +700,13 @@ int base_total_bulbs_required(const struct player *pplayer,
     {
       int players = 0, players_with_tech_and_embassy = 0;
 
-      players_iterate(other) {
+      players_iterate_alive(other) {
 	players++;
 	if (player_invention_state(other, tech) == TECH_KNOWN
 	    && pplayer && player_has_embassy(pplayer, other)) {
 	  players_with_tech_and_embassy++;
 	}
-      } players_iterate_end;
+      } players_iterate_alive_end;
 
       base_cost *= (double)(players - players_with_tech_and_embassy);
       base_cost /= (double)players;
@@ -717,12 +717,12 @@ int base_total_bulbs_required(const struct player *pplayer,
     {
       int players = 0, players_with_tech = 0;
 
-      players_iterate(other) {
+      players_iterate_alive(other) {
 	players++;
 	if (player_invention_state(other, tech) == TECH_KNOWN) {
 	  players_with_tech++;
 	}
-      } players_iterate_end;
+      } players_iterate_alive_end;
 
       base_cost *= (double)(players - players_with_tech);
       base_cost /= (double)players;
@@ -733,7 +733,7 @@ int base_total_bulbs_required(const struct player *pplayer,
     {
       int players = 0, players_with_tech = 0;
 
-      players_iterate(other) {
+      players_iterate_alive(other) {
 	if (is_barbarian(other)) {
 	  continue;
 	}
@@ -741,7 +741,7 @@ int base_total_bulbs_required(const struct player *pplayer,
 	if (player_invention_state(other, tech) == TECH_KNOWN) {
 	  players_with_tech++;
 	}
-      } players_iterate_end;
+      } players_iterate_alive_end;
 
       base_cost *= (double)(players - players_with_tech);
       base_cost /= (double)players;
