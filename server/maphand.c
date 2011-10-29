@@ -1795,7 +1795,9 @@ void map_calculate_borders(void)
 
   whole_map_iterate(ptile) {
     if (is_border_source(ptile)) {
-      map_claim_border(ptile, ptile->owner);
+      if (ptile->owner != NULL) {
+	map_claim_border(ptile, ptile->owner);
+      }
     }
   } whole_map_iterate_end;
 
