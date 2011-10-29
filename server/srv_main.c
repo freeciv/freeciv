@@ -2733,6 +2733,7 @@ static void fc_interface_init_server(void)
 {
   struct functions *funcs = fc_interface_funcs();
 
+  funcs->destroy_base = destroy_base;
   funcs->player_tile_vision_get = map_is_known_and_seen;
   funcs->gui_color_free = server_gui_color_free;
 
