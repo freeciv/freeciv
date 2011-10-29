@@ -14,7 +14,7 @@ AC_DEFUN([FC_GTK3_CLIENT],
     #        appropriate AM_PATH_GTK_3_0() and fix setting of
     #        GUI_gtk3_CFLAGS and GUI_gtk3_LDFLAGS from GTK3_-variables
     #        below when really switching to gtk3
-    AM_PATH_GTK_2_0([2.22.0],
+    AM_PATH_GTK_2_0([2.24.0],
       [
         gui_gtk3=yes
         if test "x$client" = "xauto" ; then
