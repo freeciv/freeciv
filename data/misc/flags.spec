@@ -36,6 +36,7 @@ artists = "
    Anishinaabe		Shandris (Wikimedia Commons)
    Antarctica		Zachary Harden
    Antarctica (alt)	Tobias Jakobs
+   Antigua and Barbuda	Sigge Kotliar
    Apache		J.M. Maalderink
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
@@ -553,6 +554,7 @@ sprites =
 		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
 ;		"f.antarctica_alt", "flags/antarctica_alt"
+		"f.antigua_and_barbuda", "flags/antigua_and_barbuda"
 		"f.apache", "flags/apache"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"

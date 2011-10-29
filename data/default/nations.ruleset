@@ -78,6 +78,7 @@ match=2
 *include "nation/anhaltian.ruleset"
 *include "nation/anishinaabe.ruleset"
 *include "nation/antarctican.ruleset"
+*include "nation/antiguan.ruleset"
 *include "nation/antillean.ruleset"
 *include "nation/apache.ruleset"
 *include "nation/arab.ruleset"

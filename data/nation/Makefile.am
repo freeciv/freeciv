@@ -29,6 +29,7 @@ pkgdata_DATA = \
 		anhaltian.ruleset \
 		anishinaabe.ruleset \
 		antarctican.ruleset \
+		antiguan.ruleset \
 		antillean.ruleset \
 		apache.ruleset \
 		arab.ruleset \

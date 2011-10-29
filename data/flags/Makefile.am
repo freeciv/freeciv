@@ -28,6 +28,7 @@ flag_files =				\
 		anishinaabe.png		\
 		antarctica.png		\
 		antarctica_alt.png	\
+		antigua_and_barbuda.png	\
 		apache.png		\
 		arab.png		\
 		aragon.png		\
@@ -539,6 +540,7 @@ flag_files =				\
 		anishinaabe-large.png		\
 		antarctica-large.png		\
 		antarctica_alt-large.png	\
+		antigua_and_barbuda-large.png	\
 		apache-large.png		\
 		arab-large.png		\
 		aragon-large.png		\
@@ -1052,6 +1054,7 @@ shield_files =					\
 		anishinaabe-shield.png		\
 		antarctica-shield.png		\
 		antarctica_alt-shield.png	\
+		antigua_and_barbuda-shield.png	\
 		apache-shield.png		\
 		arab-shield.png			\
 		aragon-shield.png		\
@@ -1563,6 +1566,7 @@ shield_files =					\
 		anishinaabe-shield-large.png		\
 		antarctica-shield-large.png		\
 		antarctica_alt-shield-large.png	\
+		antigua_and_barbuda-shield-large.png	\
 		apache-shield-large.png		\
 		arab-shield-large.png			\
 		aragon-shield-large.png		\
@@ -2076,6 +2080,7 @@ svg_files = 				\
 		anishinaabe.svg		\
 		antarctica.svg		\
 		antarctica_alt.svg	\
+		antigua_and_barbuda.svg	\
 		apache.svg		\
 		arab.svg		\
 		aragon.svg		\
