@@ -5,9 +5,11 @@
 # if the check fails.
 src-check:
 	rm -f check-output check-output_
+	$(srcdir)/check_macros.sh $(top_srcdir) >> check-output_
+	$(srcdir)/copyright.sh $(top_srcdir) >> check-output_
+	$(srcdir)/fcintl.sh $(top_srcdir) >> check-output_
 	$(srcdir)/header_guard.sh $(top_srcdir) >> check-output_
 	$(srcdir)/va_list.sh $(top_srcdir) >> check-output_
-	$(srcdir)/copyright.sh $(top_srcdir) >> check-output_
 	cat check-output_ | sed "s\\$(top_srcdir)/\\\\" > check-output
 	rm -f check-output_
 
@@ -15,7 +17,9 @@ src-check:
 
 CLEANFILES = check-output
 
-EXTRA_DIST =					\
+EXTRA_DIST =	all_tests.sh			\
+		check_macros.sh			\
 		copyright.sh			\
+		fcintl.sh			\
 		header_guard.sh			\
 		va_list.sh
