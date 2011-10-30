@@ -20,6 +20,9 @@
 /* client */
 #include "themes_common.h"
 
+// gui-qt
+#include "qtg_cxxside.h"
+
 /* client/include */
 #include "themes_g.h"
 
