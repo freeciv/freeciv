@@ -124,15 +124,16 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
   Recursively select units that transport already selected units, starting
   from root_id unit.
 *****************************************************************************/
-static void unit_select_recurse(int root_id, GtkTreeIter *it_root)
+static void unit_select_recurse(const struct unit *ptrans,
+                                GtkTreeIter *it_root)
 {
   unit_list_iterate(unit_select_ptile->units, pleaf) {
     GtkTreeIter it_leaf;
 
-    if (pleaf->transported_by == root_id) {
+    if (unit_transport_get(pleaf) == ptrans) {
       unit_select_append(pleaf, &it_leaf, it_root);
-      if (pleaf->occupy > 0) {
-        unit_select_recurse(pleaf->id, &it_leaf);
+      if (get_transporter_occupancy(pleaf) > 0) {
+        unit_select_recurse(pleaf, &it_leaf);
       }
     }
   } unit_list_iterate_end;
@@ -146,7 +147,7 @@ static void unit_select_dialog_refresh(void)
   if (unit_select_dialog_shell) {
     gtk_tree_store_clear(unit_select_store);
 
-    unit_select_recurse(-1, NULL);
+    unit_select_recurse(NULL, NULL);
     gtk_tree_view_expand_all(GTK_TREE_VIEW(unit_select_view));
 
     if (unit_select_path) {

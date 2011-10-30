@@ -680,14 +680,14 @@ struct unit *find_visible_unit(struct tile *ptile)
      (always return first in stack). */
   unit_list_iterate(ptile->units, punit)
     if (unit_owner(punit) == client.conn.playing) {
-      if (punit->transported_by == -1) {
+      if (!unit_transported(punit)) {
         if (get_transporter_capacity(punit) > 0) {
 	  return punit;
         } else if (!panyowned) {
 	  panyowned = punit;
         }
       }
-    } else if (!ptptother && punit->transported_by == -1) {
+    } else if (!ptptother && !unit_transported(punit)) {
       if (get_transporter_capacity(punit) > 0) {
 	ptptother = punit;
       } else if (!panyother) {
@@ -1193,7 +1193,7 @@ struct unit *request_unit_unload_all(struct unit *punit)
   }
 
   unit_list_iterate(ptile->units, pcargo) {
-    if (pcargo->transported_by == punit->id) {
+    if (unit_transport_get(pcargo) == punit) {
       request_unit_unload(pcargo);
 
       if (pcargo->activity == ACTIVITY_SENTRY) {
@@ -1560,7 +1560,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 ****************************************************************************/
 void request_unit_unload(struct unit *pcargo)
 {
-  struct unit *ptrans = game_unit_by_number(pcargo->transported_by);
+  struct unit *ptrans = unit_transport_get(pcargo);
 
   if (can_client_issue_orders()
       && ptrans
@@ -2141,9 +2141,9 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   if (!was_teleported
       && punit->activity != ACTIVITY_SENTRY
-      && punit->transported_by == -1) {
+      && !unit_transported(punit)) {
     audio_play_sound(unit_type(punit)->sound_move,
-		     unit_type(punit)->sound_move_alt);
+                     unit_type(punit)->sound_move_alt);
   }
 
   unit_list_remove(src_tile->units, punit);
@@ -2161,7 +2161,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
    * drawn there will be up-to-date. */
   unit_tile_set(punit, dst_tile);
 
-  if (punit->transported_by == -1) {
+  if (!unit_transported(punit)) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
     refresh_unit_mapcanvas(punit, src_tile, TRUE, FALSE);
@@ -2178,7 +2178,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_prepend(dst_tile->units, punit);
 
-  if (punit->transported_by == -1) {
+  if (!unit_transported(punit)) {
     refresh_unit_mapcanvas(punit, dst_tile, TRUE, FALSE);
   }
 
@@ -2275,7 +2275,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     maybe_goto = keyboardless_goto;
   }
   else if (unit_list_size(ptile->units) == 1
-           && !unit_list_get(ptile->units, 0)->occupy) {
+           && !get_transporter_occupancy(unit_list_get(ptile->units, 0))) {
     struct unit *punit=unit_list_get(ptile->units, 0);
 
     if (unit_owner(punit) == client.conn.playing) {

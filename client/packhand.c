@@ -88,6 +88,10 @@
 
 #include "packhand.h"
 
+/* Define this macro to get additional debug output about the transport
+ * status of the units. */
+#undef DEBUG_TRANSPORT
+
 static void city_packet_common(struct city *pcity, struct tile *pcenter,
                                struct player *powner,
                                struct tile_list *worked_tiles,
@@ -182,12 +186,15 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->goto_tile = index_to_tile(packet->goto_tile);
   punit->paradropped = packet->paradropped;
   punit->done_moving = packet->done_moving;
-  punit->occupy = packet->occupy;
+
+  /* Transporter / transporting information. */
+  punit->client.occupy = (packet->occupy ? 1 : 0);
   if (packet->transported) {
-    punit->transported_by = packet->transported_by;
+    punit->client.transported_by = packet->transported_by;
   } else {
-    punit->transported_by = -1;
+    punit->client.transported_by = -1;
   }
+
   punit->battlegroup = packet->battlegroup;
   punit->has_orders = packet->has_orders;
   punit->orders.length = packet->orders_length;
@@ -238,11 +245,13 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   punit->hp = packet->hp;
   punit->activity = packet->activity;
   punit->activity_base = packet->activity_base;
-  punit->occupy = (packet->occupied ? 1 : 0);
+
+  /* Transporter / transporting information. */
+  punit->client.occupy = (packet->occupied ? 1 : 0);
   if (packet->transported) {
-    punit->transported_by = packet->transported_by;
+    punit->client.transported_by = packet->transported_by;
   } else {
-    punit->transported_by = -1;
+    punit->client.transported_by = -1;
   }
 
   return punit;
@@ -339,13 +348,14 @@ void handle_city_remove(int city_id)
 void handle_unit_remove(int unit_id)
 {
   struct unit *punit = game_unit_by_number(unit_id);
+  struct unit_list *cargos;
   struct player *powner;
   bool need_economy_report_update;
 
   if (!punit) {
     return;
   }
-  
+
   /* Close diplomat dialog if the diplomat is lost */
   if (diplomat_handled_in_diplomat_dialog() == punit->id) {
     close_diplomat_dialog();
@@ -355,6 +365,19 @@ void handle_unit_remove(int unit_id)
 
   need_economy_report_update = (0 < punit->upkeep[O_GOLD]);
   powner = unit_owner(punit);
+
+  /* Unload cargo if this is a transporter. */
+  cargos = unit_transport_cargo(punit);
+  if (unit_list_size(cargos) > 0) {
+    unit_list_iterate(cargos, pcargo) {
+      unit_transport_unload(pcargo);
+    } unit_list_iterate_end;
+  }
+
+  /* Unload unit if it is transported. */
+  if (unit_transport_get(punit)) {
+    unit_transport_unload(punit);
+  }
 
   agents_unit_remove(punit);
   editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, TRUE);
@@ -1253,8 +1276,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     if (punit->activity != packet_unit->activity
 	|| punit->activity_target != packet_unit->activity_target
         || punit->activity_base != packet_unit->activity_base
-	|| punit->transported_by != packet_unit->transported_by
-	|| punit->occupy != packet_unit->occupy
+        || punit->client.transported_by != packet_unit->client.transported_by
+        || punit->client.occupy != packet_unit->client.occupy
 	|| punit->has_orders != packet_unit->has_orders
 	|| punit->orders.repeat != packet_unit->orders.repeat
 	|| punit->orders.vigilant != packet_unit->orders.vigilant
@@ -1291,16 +1314,27 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->activity_target = packet_unit->activity_target;
       punit->activity_base = packet_unit->activity_base;
 
-      punit->transported_by = packet_unit->transported_by;
-      if (punit->occupy != packet_unit->occupy
-          && get_focus_unit_on_tile(unit_tile(packet_unit))) {
-        /* Special case: (un)loading a unit in a transporter on the
-         * same tile as the focus unit may (dis)allow the focus unit to be
-         * loaded.  Thus the orders->(un)load menu item needs updating. */
-        need_menus_update = TRUE;
+      if (punit->client.transported_by
+          != packet_unit->client.transported_by) {
+        if (packet_unit->client.transported_by == -1) {
+          /* The unit was unloaded from its transport. The check for a new
+           * transport is done below. */
+          unit_transport_unload(punit);
+        }
+
+        punit->client.transported_by = packet_unit->client.transported_by;
       }
-      punit->occupy = packet_unit->occupy;
-    
+
+      if (punit->client.occupy != packet_unit->client.occupy) {
+        if (get_focus_unit_on_tile(unit_tile(packet_unit))) {
+          /* Special case: (un)loading a unit in a transporter on the same
+           * tile as the focus unit may (dis)allow the focus unit to be
+           * loaded.  Thus the orders->(un)load menu item needs updating. */
+          need_menus_update = TRUE;
+        }
+        punit->client.occupy = packet_unit->client.occupy;
+      }
+
       punit->has_orders = packet_unit->has_orders;
       punit->orders.length = packet_unit->orders.length;
       punit->orders.index = packet_unit->orders.index;
@@ -1423,16 +1457,15 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
             && !client_player()->ai_controlled
             && can_client_issue_orders()
             && !unit_has_orders(punit)) {
-          if (punit->transported_by == -1
+          if (!unit_transported(punit)
               && client_player() == unit_owner(punit)
               && (unit_can_help_build_wonder_here(punit)
                   || unit_can_est_trade_route_here(punit))) {
             process_caravan_arrival(punit);
           }
           /* Check for transported units. */
-          unit_list_iterate(client_player()->units, pcargo) {
-            if (pcargo->transported_by == punit->id
-                && client_player() == unit_owner(pcargo)
+          unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+            if (client_player() == unit_owner(pcargo)
                 && !unit_has_orders(pcargo)
                 && (unit_can_help_build_wonder_here(pcargo)
                     || unit_can_est_trade_route_here(pcargo))) {
@@ -1497,7 +1530,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
               punit->id, punit->homecity,
               (pcity ? city_name(pcity) : "(unknown)"));
 
-    repaint_unit = (punit->transported_by == -1);
+    repaint_unit = !unit_transported(punit);
     agents_unit_new(punit);
 
     if ((pcity = tile_city(unit_tile(punit)))) {
@@ -1505,8 +1538,39 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       pcity->client.occupied = TRUE;
     }
 
+    if (punit->client.transported_by != -1) {
+      punit->client.transported_by = packet_unit->client.transported_by;
+    }
+
     need_units_report_update = TRUE;
   } /*** End of Create new unit ***/
+
+  /* Check if we have to load the unit on a transporter. */
+  if (punit->client.transported_by != -1) {
+    struct unit *ptrans
+      = game_unit_by_number(packet_unit->client.transported_by);
+
+    /* Load unit only if transporter is known by the client. For full
+     * unit info the transporter should be known. See recursive sending
+     * of transporter information in send_unit_info_to_onlookers(). */
+    if (ptrans && ptrans != unit_transport_get(punit)) {
+      /* First, we have to unload the unit from its old transporter. */
+      unit_transport_unload(punit);
+      unit_transport_load(punit, ptrans, TRUE);
+#ifdef DEBUG_TRANSPORT
+      log_debug("load %s (ID: %d) onto %s (ID: %d)",
+                unit_name_translation(punit), punit->id,
+                unit_name_translation(ptrans), ptrans->id);
+    } else if (ptrans && ptrans == unit_transport_get(punit)) {
+      log_debug("%s (ID: %d) is loaded onto %s (ID: %d)",
+                unit_name_translation(punit), punit->id,
+                unit_name_translation(ptrans), ptrans->id);
+    } else {
+      log_debug("%s (ID: %d) is not loaded", unit_name_translation(punit),
+                punit->id);
+#endif /* DEBUG_TRANSPORT */
+    }
+  }
 
   fc_assert_ret_val(punit != NULL, ret);
 

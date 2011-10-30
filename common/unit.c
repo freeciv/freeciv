@@ -2073,7 +2073,12 @@ bool unit_transport_unload(struct unit *pcargo)
   /* It is an error if 'pcargo' can not be removed from the 'ptrans'. */
   fc_assert_ret_val(unit_list_remove(ptrans->transporting, pcargo), FALSE);
 
+  /* For the server (also save for the client). */
   pcargo->transporter = NULL;
+  /* For the client - needed as the client does not know all units. */
+  if (!is_server()) {
+    pcargo->client.transported_by = -1;
+  }
 
   return TRUE;
 }
@@ -2088,7 +2093,7 @@ bool unit_transported(const struct unit *pcargo)
   /* The unit is transported if a transporter unit is set or, (for the client)
    * if the transported_by field is set. */
   if (pcargo->transporter != NULL
-      || (!is_server() && pcargo->transported_by != -1)) {
+      || (!is_server() && pcargo->client.transported_by != -1)) {
     return TRUE;
   }
 

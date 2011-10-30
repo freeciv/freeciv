@@ -684,19 +684,19 @@ static int unit_list_compare(const void *a, const void *b)
   const struct unit *punit1 = *(struct unit **)a;
   const struct unit *punit2 = *(struct unit **)b;
 
-  if (punit1->transported_by == punit2->transported_by) {
+  if (unit_transport_get(punit1) == unit_transport_get(punit2)) {
     /* For units with the same transporter or no transporter: sort by id. */
     /* Perhaps we should sort by name instead? */
     return punit1->id - punit2->id;
-  } else if (punit1->transported_by == punit2->id) {
+  } else if (unit_transport_get(punit1) == punit2) {
     return 1;
-  } else if (punit2->transported_by == punit1->id) {
+  } else if (unit_transport_get(punit2) == punit1) {
     return -1;
   } else {
     /* If the transporters aren't the same, put in order by the
      * transporters. */
-    const struct unit *ptrans1 = game_unit_by_number(punit1->transported_by);
-    const struct unit *ptrans2 = game_unit_by_number(punit2->transported_by);
+    const struct unit *ptrans1 = unit_transport_get(punit1);
+    const struct unit *ptrans2 = unit_transport_get(punit2);
 
     if (!ptrans1) {
       ptrans1 = punit1;

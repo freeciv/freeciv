@@ -3347,7 +3347,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
                FULL_TILE_Y_OFFSET + t->unit_offset_y);
   }
 
-  if (t->sprites.unit.loaded && punit->transported_by != -1) {
+  if (t->sprites.unit.loaded && unit_transported(punit)) {
     ADD_SPRITE_FULL(t->sprites.unit.loaded);
   }
 
@@ -3437,7 +3437,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     ADD_SPRITE_FULL(t->sprites.unit.tired);
   }
 
-  if (stack || punit->occupy) {
+  if (stack || punit->client.occupy) {
     ADD_SPRITE_FULL(t->sprites.unit.stack);
   }
 

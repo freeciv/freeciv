@@ -82,6 +82,16 @@ void client_remove_unit(struct unit *punit)
             unit_rule_name(punit), TILE_XY(unit_tile(punit)), hc);
 
   update = (get_focus_unit_on_tile(unit_tile(punit)) != NULL);
+
+  /* Check transport status. */
+  unit_transport_unload(punit);
+  if (get_transporter_occupancy(punit) > 0) {
+    unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+      /* The server should take care that the unit is on the right terrain. */
+      unit_transport_unload(pcargo);
+    } unit_list_iterate_end;
+  }
+
   control_unit_killed(punit);
   game_remove_unit(punit);
   punit = NULL;

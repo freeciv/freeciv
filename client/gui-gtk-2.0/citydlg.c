@@ -2218,7 +2218,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-    if (!can_unit_unload(punit, game_unit_by_number(punit->transported_by))
+    if (!can_unit_unload(punit, unit_transport_get(punit))
         || !can_unit_exist_at_tile(punit, unit_tile(punit))) {
       gtk_widget_set_sensitive(item, FALSE);
     }

@@ -174,9 +174,6 @@ struct unit {
   struct unit *transporter;   /* This unit is transported by ... */
   struct unit_list *transporting; /* This unit transports ... */
 
-  int transported_by;
-  int occupy; /* number of units that occupy transporter */
-
   /* The battlegroup ID: defined by the client but stored by the server. */
 #define MAX_NUM_BATTLEGROUPS (4)
 #define BATTLEGROUP_NONE (-1)
@@ -195,6 +192,11 @@ struct unit {
       /* Only used at the client (the server is omniscient; ./client/). */
 
       enum unit_focus_status focus_status;
+
+      int transported_by; /* Used for unit_short_info packets where we can't
+                           * be sure that the information about the
+                           * transporter is known. */
+      bool occupy;        /* TRUE if at least one cargo on the transporter. */
 
       /* Equivalent to pcity->client.color. Only for F_CITIES units. */
       bool colored;

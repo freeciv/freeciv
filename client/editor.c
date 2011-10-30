@@ -447,7 +447,7 @@ static void editor_grab_tool(const struct tile *ptile)
       } else {
         score = 2;
       }
-      if (punit->transported_by > 0) {
+      if (unit_transported(punit)) {
         score = 1;
       }
 
