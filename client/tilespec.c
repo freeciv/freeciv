@@ -3437,7 +3437,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     ADD_SPRITE_FULL(t->sprites.unit.tired);
   }
 
-  if (stack || punit->client.occupy) {
+  if (stack || punit->client.occupied) {
     ADD_SPRITE_FULL(t->sprites.unit.stack);
   }
 

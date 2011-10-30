@@ -1938,7 +1938,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     packet->transported = TRUE;
     packet->transported_by = unit_transport_get(punit)->id;
   }
-  packet->occupy = get_transporter_occupancy(punit);
+  packet->occupied = (get_transporter_occupancy(punit) > 0);
   packet->battlegroup = punit->battlegroup;
   packet->has_orders = punit->has_orders;
   if (punit->has_orders) {

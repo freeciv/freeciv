@@ -196,7 +196,7 @@ struct unit {
       int transported_by; /* Used for unit_short_info packets where we can't
                            * be sure that the information about the
                            * transporter is known. */
-      bool occupy;        /* TRUE if at least one cargo on the transporter. */
+      bool occupied;      /* TRUE if at least one cargo on the transporter. */
 
       /* Equivalent to pcity->client.color. Only for F_CITIES units. */
       bool colored;

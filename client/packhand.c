@@ -188,7 +188,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->done_moving = packet->done_moving;
 
   /* Transporter / transporting information. */
-  punit->client.occupy = (packet->occupy ? 1 : 0);
+  punit->client.occupied = packet->occupied;
   if (packet->transported) {
     punit->client.transported_by = packet->transported_by;
   } else {
@@ -247,7 +247,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   punit->activity_base = packet->activity_base;
 
   /* Transporter / transporting information. */
-  punit->client.occupy = (packet->occupied ? 1 : 0);
+  punit->client.occupied = packet->occupied;
   if (packet->transported) {
     punit->client.transported_by = packet->transported_by;
   } else {
@@ -1277,7 +1277,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	|| punit->activity_target != packet_unit->activity_target
         || punit->activity_base != packet_unit->activity_base
         || punit->client.transported_by != packet_unit->client.transported_by
-        || punit->client.occupy != packet_unit->client.occupy
+        || punit->client.occupied != packet_unit->client.occupied
 	|| punit->has_orders != packet_unit->has_orders
 	|| punit->orders.repeat != packet_unit->orders.repeat
 	|| punit->orders.vigilant != packet_unit->orders.vigilant
@@ -1325,14 +1325,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         punit->client.transported_by = packet_unit->client.transported_by;
       }
 
-      if (punit->client.occupy != packet_unit->client.occupy) {
+      if (punit->client.occupied != packet_unit->client.occupied) {
         if (get_focus_unit_on_tile(unit_tile(packet_unit))) {
           /* Special case: (un)loading a unit in a transporter on the same
-           * tile as the focus unit may (dis)allow the focus unit to be
+           *tile as the focus unit may (dis)allow the focus unit to be
            * loaded.  Thus the orders->(un)load menu item needs updating. */
           need_menus_update = TRUE;
         }
-        punit->client.occupy = packet_unit->client.occupy;
+        punit->client.occupied = packet_unit->client.occupied;
       }
 
       punit->has_orders = packet_unit->has_orders;

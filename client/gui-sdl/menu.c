@@ -1251,7 +1251,7 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_HOMECITY);
       }
 
-      if (pUnit->client.occupy && get_transporter_occupancy(pUnit) > 0) {
+      if (pUnit->client.occupied) {
 	local_show(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
       } else {
 	local_hide(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);

@@ -768,12 +768,11 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UINT8 veteran;
   BOOL ai, paradropped;
-  BOOL transported, done_moving;
+  BOOL occupied, transported, done_moving;
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
   UINT8 movesleft, hp, fuel, activity_count, changed_from_count;
-  UINT8 occupy;
   TILE goto_tile;
   ACTIVITY activity;
   SPECIAL activity_target;
