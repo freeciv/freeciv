@@ -6,6 +6,7 @@ files=`find $1 -name "*.h" \
        | grep -v common/spec \
        | grep -v "Freeciv\.h" \
        | grep -v \./common/packets_gen\.h \
+       | grep -v tolua_.*_gen\.h \
        | grep -v config\.h \
        | grep -v dependencies \
        | grep -v utility/md5\.h \
