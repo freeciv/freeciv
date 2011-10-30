@@ -34,6 +34,8 @@ void popup_races_dialog(struct player *pplayer);
 void popdown_races_dialog(void);
 
 void unit_select_dialog_popup(struct tile *ptile);
+void unit_select_dialog_update(void); /* Defined in update_queue.c. */
+void unit_select_dialog_update_real(void);
 
 void races_toggles_set_sensitive(void);
 

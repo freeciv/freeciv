@@ -26,6 +26,7 @@
 /* client/include */
 #include "citydlg_g.h"
 #include "cityrep_g.h"
+#include "dialogs_g.h"
 #include "gui_main_g.h"
 #include "menu_g.h"
 #include "pages_g.h"
@@ -644,4 +645,12 @@ void economy_report_dialog_update(void)
 void units_report_dialog_update(void)
 {
   update_queue_add(UQ_CALLBACK(real_units_report_dialog_update), NULL);
+}
+
+/****************************************************************************
+  Update the units report.
+****************************************************************************/
+void unit_select_dialog_update(void)
+{
+  update_queue_add(UQ_CALLBACK(unit_select_dialog_update_real), NULL);
 }

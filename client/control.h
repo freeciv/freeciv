@@ -108,6 +108,7 @@ void request_unit_wakeup(struct unit *punit);
 #define SPECENUM_VALUE4   SELLOC_SEA    /* Move type: sea. */
 #define SPECENUM_VALUE5   SELLOC_BOTH   /* Move type: both. */
 #define SPECENUM_VALUE6   SELLOC_WORLD  /* World. */
+#define SPECENUM_COUNT    SELLOC_COUNT
 #include "specenum_gen.h"
 
 void request_unit_select(struct unit_list *punits,

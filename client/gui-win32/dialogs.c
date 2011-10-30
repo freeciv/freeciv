@@ -924,6 +924,14 @@ unit_select_dialog_popup(struct tile *ptile)
 }
 
 /**************************************************************************
+  Update the dialog window to select units on a particular tile.
+**************************************************************************/
+void unit_select_dialog_update_real(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
 
 **************************************************************************/
 void races_toggles_set_sensitive(void)

@@ -1578,6 +1578,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       || get_focus_unit_on_tile(unit_tile(punit))
       || (moved && get_focus_unit_on_tile(old_tile))) {
     update_unit_info_label(get_units_in_focus());
+    /* Update (an possible active) unit select dialog. */
+    unit_select_dialog_update();
   }
 
   if (repaint_unit) {
