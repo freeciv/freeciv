@@ -2123,9 +2123,9 @@ static void player_load_units(struct player *plr, int plrno,
     punit->paradropped
       = secfile_lookup_bool_default(file, FALSE,
 				    "player%d.u%d.paradropped", plrno, i);
-    punit->transported_by
-      = secfile_lookup_int_default(file, -1, "player%d.u%d.transported_by",
-				   plrno, i);
+
+    /* 'transported_by' is loaded later. */
+
     /* Initialize upkeep values: these are hopefully initialized
        elsewhere before use (specifically, in city_support(); but
        fixme: check whether always correctly initialized?).
@@ -2242,6 +2242,50 @@ static void player_load_units(struct player *plr, int plrno,
       map_claim_border(unit_tile(punit), plr);
       /* city_thaw_workers_queue() later */
       /* city_refresh() later */
+    }
+  }
+}
+
+/****************************************************************************
+  Load transporter status. This must be after _all_ units are loaded due to
+  possible allied units on transports.
+****************************************************************************/
+static void player_load_units_transporter(struct player *plr,
+                                          struct section_file *file)
+{
+  int nunits, i, plrno = player_index(plr);
+
+  /* Copied from player_load_unit(). */
+  fc_assert_exit_msg(secfile_lookup_int(file, &nunits,
+                                        "player%d.nunits", plrno),
+                     "%s", secfile_error());
+  if (!plr->is_alive && nunits > 0) {
+    nunits = 0; /* Some old savegames may be buggy. */
+  }
+
+  for (i = 0; i < nunits; i++) {
+    int id_unit, id_trans;
+    struct unit *punit, *ptrans;
+
+    id_unit = secfile_lookup_int_default(file, -1,
+                                         "player%d.u%d.id",
+                                         plrno, i);
+    punit = player_unit_by_number(plr, id_unit);
+    fc_assert_action(punit != NULL, continue);
+
+    id_trans = secfile_lookup_int_default(file, -1,
+                                          "player%d.u%d.transported_by",
+                                          plrno, i);
+    if (id_trans == -1) {
+      /* Not transported. */
+      continue;
+    }
+
+    ptrans = player_unit_by_number(plr, id_trans);
+    fc_assert_action(id_trans == -1 || ptrans != NULL, continue);
+
+    if (ptrans) {
+      fc_assert_action(unit_transport_load(punit, ptrans, TRUE), continue);
     }
   }
 }
@@ -3886,8 +3930,9 @@ static void player_save_units(struct player *plr, int plrno,
     secfile_insert_int(file, punit->server.ord_city, "player%d.u%d.ord_city", plrno, i);
     secfile_insert_bool(file, punit->moved, "player%d.u%d.moved", plrno, i);
     secfile_insert_bool(file, punit->paradropped, "player%d.u%d.paradropped", plrno, i);
-    secfile_insert_int(file, punit->transported_by,
-		       "player%d.u%d.transported_by", plrno, i);
+    secfile_insert_int(file, unit_transport_get(punit)
+                             ? unit_transport_get(punit)->id : -1,
+                       "player%d.u%d.transported_by", plrno, i);
     if (punit->has_orders) {
       int len = punit->orders.length, j;
       char orders_buf[len + 1], dir_buf[len + 1], act_buf[len + 1], base_buf[len + 1];
@@ -5241,15 +5286,17 @@ static void game_load_internal(struct section_file *file)
       }
     } players_iterate_end;
 
-    /* Backward compatibility: if we had any open-ended orders (pillage)
-     * in the savegame, assign specific targets now */
     players_iterate(pplayer) {
+      /* Backward compatibility: if we had any open-ended orders (pillage)
+       * in the savegame, assign specific targets now */
       unit_list_iterate(pplayer->units, punit) {
         unit_assign_specific_activity_target(punit,
                                              &punit->activity,
                                              &punit->activity_target,
                                              &punit->activity_base);
       } unit_list_iterate_end;
+      /* Load transporter status. */
+      player_load_units_transporter(pplayer, file);
     } players_iterate_end;
 
     /* Free worked tiles map */
@@ -5396,9 +5443,8 @@ static void game_load_internal(struct section_file *file)
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      struct unit *ferry = game_unit_by_number(punit->transported_by);
-
-      if (!ferry && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
+      if (!unit_transport_get(punit)
+          && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
         log_error("Removing %s unferried %s in %s at (%d, %d)",
                   nation_rule_name(nation_of_player(pplayer)),
                   unit_rule_name(punit),

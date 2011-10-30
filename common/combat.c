@@ -162,8 +162,8 @@ static bool can_unit_attack_all_at_tile(const struct unit *punit,
      * to other sea units.  However from a gameplay perspective it's a hack,
      * since players can load and unload their units manually to protect
      * their transporters. */
-    if (aunit->transported_by == -1
-	&& !can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
+    if (!unit_transported(aunit)
+        && !can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
       return FALSE;
     }
   } unit_list_iterate_end;
@@ -182,8 +182,8 @@ static bool can_unit_attack_any_at_tile(const struct unit *punit,
   unit_list_iterate(ptile->units, aunit) {
     /* HACK: we don't count transported units here.  This prevents some
      * bugs like a cargoplane carrying a land unit being vulnerable. */
-    if (aunit->transported_by == -1
-	&& can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
+    if (!unit_transported(aunit)
+        && can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
       return TRUE;
     }
   } unit_list_iterate_end;

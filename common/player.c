@@ -621,6 +621,13 @@ void player_clear(struct player *pplayer, bool full)
 
   /* Clears units and cities. */
   unit_list_iterate(pplayer->units, punit) {
+    /* Unload all cargos. */
+    unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+      unit_transport_unload(pcargo);
+    } unit_list_iterate_end;
+    /* Unload the unit. */
+    unit_transport_unload(punit);
+
     game_remove_unit(punit);
   } unit_list_iterate_end;
 
@@ -842,7 +849,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   /* Don't show non-allied units that are in transports.  This is logical
    * because allied transports can also contain our units.  Shared vision
    * isn't taken into account. */
-  if (punit->transported_by != -1 && unit_owner(punit) != pplayer
+  if (unit_transported(punit) && unit_owner(punit) != pplayer
       && !pplayers_allied(pplayer, unit_owner(punit))) {
     return FALSE;
   }

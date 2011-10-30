@@ -224,8 +224,9 @@ bool units_can_load(const struct unit_list *punits)
 bool units_can_unload(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (can_unit_unload(punit, game_unit_by_number(punit->transported_by))
-	&& can_unit_exist_at_tile(punit, unit_tile(punit))) {
+    if (unit_transported(punit)
+        && can_unit_unload(punit, unit_transport_get(punit))
+        && can_unit_exist_at_tile(punit, unit_tile(punit))) {
       return TRUE;
     }
   } unit_list_iterate_end;

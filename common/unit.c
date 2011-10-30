@@ -410,10 +410,10 @@ bool is_field_unit(const struct unit *punit)
 **************************************************************************/
 bool is_hiding_unit(const struct unit *punit)
 {
-  struct unit *transporter = game_unit_by_number(punit->transported_by);
-
   return (unit_has_type_flag(punit, F_PARTIAL_INVIS)
-	  || (transporter && unit_has_type_flag(transporter, F_PARTIAL_INVIS)));
+          || (unit_transported(punit)
+              && unit_has_type_flag(unit_transport_get(punit),
+                                    F_PARTIAL_INVIS)));
 }
 
 /**************************************************************************
@@ -743,7 +743,8 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Only top-level transporters may be loaded or loaded into. */
-  if (pcargo->transported_by != -1 || ptrans->transported_by != -1) {
+  if (unit_transported(pcargo)
+      || unit_transported(ptrans)) {
     return FALSE;
   }
 
@@ -799,14 +800,14 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
   }
 
   /* Make sure the unit's transporter exists and is known. */
-  if (pcargo->transported_by != ptrans->id) {
+  if (unit_transport_get(pcargo) != ptrans) {
     return FALSE;
   }
 
   /* Only top-level transporters may be unloaded.  However the unit being
    * unloaded may be transporting other units (well, at least it's allowed
    * here: elsewhere this may be disallowed). */
-  if (ptrans->transported_by != -1) {
+  if (unit_transport_get(ptrans)) {
     return FALSE;
   }
 
@@ -857,7 +858,7 @@ bool can_unit_bombard(const struct unit *punit)
     return FALSE;
   }
 
-  if (punit->transported_by != -1) {
+  if (unit_transported(punit)) {
     return FALSE;
   }
 
@@ -1036,7 +1037,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(punit, unit_tile(punit))
-	&& punit->transported_by == -1) {
+        && !unit_transported(punit)) {
       /* Don't let units sentry on tiles they will die on. */
       return FALSE;
     }
@@ -1686,9 +1687,10 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->paradropped = FALSE;
   punit->done_moving = FALSE;
 
-  punit->transported_by = -1;
+  punit->transporter = NULL;
+  punit->transporting = unit_list_new();
+
   set_unit_activity(punit, ACTIVITY_IDLE);
-  punit->occupy = 0;
   punit->battlegroup = BATTLEGROUP_NONE;
   punit->has_orders = FALSE;
 
@@ -1723,6 +1725,25 @@ void unit_virtual_destroy(struct unit *punit)
 {
   free_unit_orders(punit);
 
+  /* Check if this unit is transported. */
+  fc_assert(!unit_transported(punit));
+  if (unit_transported(punit)) {
+    fc_assert(unit_transport_unload(punit));
+  }
+
+  /* Check for transported units. Use direct access to the list. */
+  fc_assert(unit_list_size(punit->transporting) == 0);
+  if (unit_list_size(punit->transporting) != 0) {
+    /* Unload all units. */
+    unit_list_iterate(punit->transporting, pcargo) {
+      fc_assert(unit_transport_unload(pcargo));
+    } unit_list_iterate_end;
+  }
+
+  if (punit->transporting) {
+    unit_list_destroy(punit->transporting);
+  }
+
   CALL_PLR_AI_FUNC(unit_lost, punit->owner, punit);
   CALL_FUNC_EACH_AI(unit_free, punit);
 
@@ -1748,19 +1769,11 @@ void free_unit_orders(struct unit *punit)
 }
 
 /****************************************************************************
-  Expensive function to check how many units are in the transport.
+  Return how many units are in the transport.
 ****************************************************************************/
 int get_transporter_occupancy(const struct unit *ptrans)
 {
-  int occupied = 0;
-
-  unit_list_iterate(unit_tile(ptrans)->units, pcargo) {
-    if (pcargo->transported_by == ptrans->id) {
-      occupied++;
-    }
-  } unit_list_iterate_end;
-
-  return occupied;
+  return unit_list_size(ptrans->transporting);
 }
 
 /****************************************************************************
@@ -2017,4 +2030,93 @@ int unit_bribe_cost(struct unit *punit)
    *    bribecost = cost/2 + cost/2 * damage/hp
    *              = cost/2 * (1 + damage/hp) */
   return ((float)cost / 2 * (1.0 + punit->hp / default_hp));
+}
+
+/*****************************************************************************
+  Load pcargo onto ptrans. Returns TRUE on success.
+*****************************************************************************/
+bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)
+{
+  fc_assert_ret_val(ptrans != NULL, FALSE);
+  fc_assert_ret_val(pcargo != NULL, FALSE);
+
+  fc_assert_ret_val(!unit_list_search(ptrans->transporting, pcargo), FALSE);
+
+  if (force || can_unit_load(pcargo, ptrans)) {
+    pcargo->transporter = ptrans;
+    unit_list_append(ptrans->transporting, pcargo);
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/*****************************************************************************
+  Unload pcargo from ptrans. Returns TRUE on success.
+*****************************************************************************/
+bool unit_transport_unload(struct unit *pcargo)
+{
+  struct unit *ptrans;
+
+  fc_assert_ret_val(pcargo != NULL, FALSE);
+
+  ptrans = unit_transport_get(pcargo);
+
+  if (ptrans == NULL) {
+    /* 'pcargo' is not transported. */
+    return FALSE;
+  }
+
+  /* 'pcargo' and 'ptrans' should be on the same tile. */
+  fc_assert_ret_val(same_pos(unit_tile(pcargo), unit_tile(ptrans)), FALSE);
+  /* It is an error if 'pcargo' can not be removed from the 'ptrans'. */
+  fc_assert_ret_val(unit_list_remove(ptrans->transporting, pcargo), FALSE);
+
+  pcargo->transporter = NULL;
+
+  return TRUE;
+}
+
+/*****************************************************************************
+  Returns TRUE iff the unit is transported.
+*****************************************************************************/
+bool unit_transported(const struct unit *pcargo)
+{
+  fc_assert_ret_val(pcargo != NULL, FALSE);
+
+  /* The unit is transported if a transporter unit is set or, (for the client)
+   * if the transported_by field is set. */
+  if (pcargo->transporter != NULL
+      || (!is_server() && pcargo->transported_by != -1)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/*****************************************************************************
+  Returns the transporter of the unit or NULL if it is not transported.
+*****************************************************************************/
+struct unit *unit_transport_get(const struct unit *pcargo)
+{
+  fc_assert_ret_val(pcargo != NULL, NULL);
+
+  if (pcargo->transporter == NULL) {
+    return NULL;
+  } else {
+    /* Need this as the return value is not 'const'! */
+    return game_unit_by_number(pcargo->transporter->id);
+  }
+}
+
+/*****************************************************************************
+  Returns the list of cargo units.
+*****************************************************************************/
+struct unit_list *unit_transport_cargo(const struct unit *ptrans)
+{
+  fc_assert_ret_val(ptrans != NULL, NULL);
+  fc_assert_ret_val(ptrans->transporting != NULL, NULL);
+
+  return ptrans->transporting;
 }

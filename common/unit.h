@@ -123,6 +123,9 @@ struct unit_order {
   enum direction8 dir;          /* Only valid for ORDER_MOVE. */
 };
 
+struct unit;
+struct unit_list;
+
 struct unit {
   struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
@@ -167,6 +170,9 @@ struct unit {
    *   - If the unit is on a goto but is waiting, it's done moving.
    *   - Otherwise the unit is not done moving. */
   bool done_moving;
+
+  struct unit *transporter;   /* This unit is transported by ... */
+  struct unit_list *transporting; /* This unit transports ... */
 
   int transported_by;
   int occupy; /* number of units that occupy transporter */
@@ -374,6 +380,13 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
                       void *data);
 
 int unit_bribe_cost(struct unit *punit);
+
+bool unit_transport_load(struct unit *pcargo, struct unit *ptrans,
+                         bool force);
+bool unit_transport_unload(struct unit *pcargo);
+struct unit *unit_transport_get(const struct unit *pcargo);
+bool unit_transported(const struct unit *pcargo);
+struct unit_list *unit_transport_cargo(const struct unit *ptrans);
 
 #ifdef __cplusplus
 }

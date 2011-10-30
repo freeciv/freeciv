@@ -1470,8 +1470,8 @@ static void check_units_single_tile(struct tile *ptile)
     bool unit_alive = TRUE;
 
     if (unit_tile(punit) == ptile
-	&& punit->transported_by == -1
-	&& !can_unit_exist_at_tile(punit, ptile)) {
+        && !unit_transported(punit)
+        && !can_unit_exist_at_tile(punit, ptile)) {
       /* look for a nearby safe tile */
       adjc_iterate(ptile, ptile2) {
 	if (can_unit_exist_at_tile(punit, ptile2)

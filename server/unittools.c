@@ -92,11 +92,11 @@ static void do_upgrade_effects(struct player *pplayer);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 static int hp_gain_coord(struct unit *punit);
 
-static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
-static void pull_unit_from_transporter(struct unit *punit,
-				       struct unit *ptrans);
 
 static bool maybe_become_veteran_real(struct unit *punit, bool settler);
+
+static void send_unit_info_to_onlookers_transport(struct connection *pconn,
+                                                  struct unit *punit);
 
 /**************************************************************************
   Returns a unit type that matches the role_tech or role roles.
@@ -375,7 +375,7 @@ void player_restore_units(struct player *pplayer)
 
         carrier = transport_from_tile(punit, unit_tile(punit));
         if (carrier) {
-          put_unit_onto_transporter(punit, carrier);
+          unit_transport_load(punit, carrier, FALSE);
         } else {
           bool alive = true;
 
@@ -424,7 +424,7 @@ void player_restore_units(struct player *pplayer)
                 if (!is_unit_being_refueled(punit)) {
                   carrier = transport_from_tile(punit, unit_tile(punit));
                   if (carrier) {
-                    put_unit_onto_transporter(punit, carrier);
+                    unit_transport_load(punit, carrier, FALSE);
                   }
                 }
 
@@ -511,7 +511,7 @@ static void unit_restore_hitpoints(struct unit *punit)
   }
 
   if (!pcity && !tile_has_native_base(unit_tile(punit), unit_type(punit))
-      && punit->transported_by == -1) {
+      && !unit_transported(punit)) {
     punit->hp -= unit_type(punit)->hp * class->hp_loss_pct / 100;
   }
 
@@ -1259,8 +1259,8 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
 **************************************************************************/
 bool is_unit_being_refueled(const struct unit *punit)
 {
-  return (punit->transported_by != -1                   /* Carrier */
-          || tile_city(unit_tile(punit))                 /* City    */
+  return (unit_transported(punit)           /* Carrier */
+          || tile_city(unit_tile(punit))              /* City    */
           || tile_has_native_base(unit_tile(punit),
                                   unit_type(punit))); /* Airbase */
 }
@@ -1400,7 +1400,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   if (ptrans) {
     /* Set transporter for unit. */
-    punit->transported_by = ptrans->id;
+    unit_transport_load(punit, ptrans, FALSE);
   } else {
     fc_assert_ret_val(!ptile || can_unit_exist_at_tile(punit, ptile), NULL);
   }
@@ -1453,15 +1453,14 @@ static void server_remove_unit(struct unit *punit)
 
 #ifdef DEBUG
   unit_list_iterate(ptile->units, pcargo) {
-    fc_assert(pcargo->transported_by != punit->id);
+    fc_assert(unit_transport_get(pcargo) != punit);
   } unit_list_iterate_end;
 #endif
 
-  if (-1 != punit->transported_by) {
-    ptrans = game_unit_by_number(punit->transported_by);
-  } else {
-    ptrans = NULL;
-  }
+  /* Save transporter for updating below. */
+  ptrans = unit_transport_get(punit);
+  /* Unload unit. */
+  unit_transport_unload(punit);
 
   /* Since settlers plot in new cities in the minimap before they
      are built, so that no two settlers head towards the same city
@@ -1562,28 +1561,26 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
   int homecity_id = punit->homecity;
 
   /* First pull all units off of the transporter. */
-  if (get_transporter_capacity(punit) > 0) {
-    unit_list_iterate(ptile->units, pcargo) {
-      if (pcargo->transported_by == punit->id) {
-	/* Could use unit_transport_unload_send here, but that would
-	 * call send_unit_info for the transporter unnecessarily. */
-	pull_unit_from_transporter(pcargo, punit);
-        if (!can_unit_exist_at_tile(pcargo, ptile)) {
-          drowning++;
-        }
-	if (pcargo->activity == ACTIVITY_SENTRY) {
-	  /* Activate sentried units - like planes on a disbanded carrier.
-	   * Note this will activate ground units even if they just change
-	   * transporter. */
-	  set_unit_activity(pcargo, ACTIVITY_IDLE);
-	}
-        if (!can_unit_exist_at_tile(pcargo, ptile)) {
-          drowning++;
-          /* No need for send_unit_info() here. Unit info will be sent
-           * when it is assigned to a new transport or it will be removed. */
-        } else {
-          send_unit_info(NULL, pcargo);
-        }
+  if (get_transporter_occupancy(punit) > 0) {
+    unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+      /* Could use unit_transport_unload_send here, but that would
+       * call send_unit_info for the transporter unnecessarily. */
+      unit_transport_unload(pcargo);
+      if (!can_unit_exist_at_tile(pcargo, ptile)) {
+        drowning++;
+      }
+      if (pcargo->activity == ACTIVITY_SENTRY) {
+        /* Activate sentried units - like planes on a disbanded carrier.
+         * Note this will activate ground units even if they just change
+         * transporter. */
+        set_unit_activity(pcargo, ACTIVITY_IDLE);
+      }
+      if (!can_unit_exist_at_tile(pcargo, ptile)) {
+        drowning++;
+        /* No need for send_unit_info() here. Unit info will be sent
+         * when it is assigned to a new transport or it will be removed. */
+      } else {
+        send_unit_info(NULL, pcargo);
       }
     } unit_list_iterate_end;
   }
@@ -1608,13 +1605,13 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
 
     /* First save undisbandable and gameloss units */
     unit_list_iterate_safe(ptile->units, pcargo) {
-      if (pcargo->transported_by == -1
+      if (!unit_transported(punit)
           && !can_unit_exist_at_tile(pcargo, ptile)
           && (unit_has_type_flag(pcargo, F_UNDISBANDABLE)
            || unit_has_type_flag(pcargo, F_GAMELOSS))) {
         struct unit *ptransport = transport_from_tile(pcargo, ptile);
         if (ptransport != NULL) {
-          put_unit_onto_transporter(pcargo, ptransport);
+          unit_transport_load(pcargo, ptransport, FALSE);
           send_unit_info(NULL, pcargo);
         } else {
           if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
@@ -1646,12 +1643,12 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason)
   /* Then other units */
   if (drowning) {
     unit_list_iterate_safe(ptile->units, pcargo) {
-      if (pcargo->transported_by == -1
+      if (!unit_transported(pcargo)
           && !can_unit_exist_at_tile(pcargo, ptile)) {
         struct unit *ptransport = transport_from_tile(pcargo, ptile);
 
         if (ptransport != NULL) {
-          put_unit_onto_transporter(pcargo, ptransport);
+          unit_transport_load(pcargo, ptransport, FALSE);
           send_unit_info(NULL, pcargo);
         } else {
           unit_lost_with_transport(pplayer, pcargo, putype_save);
@@ -1932,12 +1929,12 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
                        ? tile_index(punit->goto_tile) : -1);
   packet->paradropped = punit->paradropped;
   packet->done_moving = punit->done_moving;
-  if (punit->transported_by == -1) {
+  if (!unit_transported(punit)) {
     packet->transported = FALSE;
     packet->transported_by = 0;
   } else {
     packet->transported = TRUE;
-    packet->transported_by = punit->transported_by;
+    packet->transported_by = unit_transport_get(punit)->id;
   }
   packet->occupy = get_transporter_occupancy(punit);
   packet->battlegroup = punit->battlegroup;
@@ -2006,12 +2003,12 @@ void package_short_unit(struct unit *punit,
    * aren't fully known.  Note that for non-allied players, any transported
    * unit can't be seen at all.  For allied players we have to know if
    * transporters have room in them so that we can load units properly. */
-  if (punit->transported_by == -1) {
+  if (!unit_transported(punit)) {
     packet->transported = FALSE;
     packet->transported_by = 0;
   } else {
     packet->transported = TRUE;
-    packet->transported_by = punit->transported_by;
+    packet->transported_by = unit_transport_get(punit)->id;
   }
 
   packet->goes_out_of_sight = FALSE;
@@ -2065,6 +2062,10 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 
     /* Be careful to consider all cases where pplayer is NULL... */
     if ((!pplayer && pconn->observer) || pplayer == unit_owner(punit)) {
+      /* If the unit is transported, go recursive up and send information
+       * about the transporters. */
+      send_unit_info_to_onlookers_transport(pconn, punit);
+
       send_packet_unit_info(pconn, &info);
     } else if (pplayer) {
       bool see_in_old;
@@ -2093,6 +2094,28 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
       }
     }
   } conn_list_iterate_end;
+}
+
+/*****************************************************************************
+  Recursively send information about the transporter for punit to dest. This
+  is a helper function for send_unit_info_to_onlookers().
+**************************************************************************/
+static void send_unit_info_to_onlookers_transport(struct connection *pconn,
+                                                  struct unit *punit)
+{
+  struct unit *ptrans;
+
+  fc_assert_ret(punit);
+
+  ptrans = unit_transport_get(punit);
+  if (ptrans) {
+    struct packet_unit_info info_trans;
+
+    send_unit_info_to_onlookers_transport(pconn, ptrans);
+
+    package_unit(ptrans, &info_trans);
+    send_packet_unit_info(pconn, &info_trans);
+  }
 }
 
 /**************************************************************************
@@ -2505,32 +2528,15 @@ static void unit_enter_hut(struct unit *punit)
 }
 
 /****************************************************************************
-  Put the unit onto the transporter.  Don't do any other work.
-****************************************************************************/
-static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
-{
-  /* In the future we may updated ptrans->occupancy. */
-  fc_assert(punit->transported_by == -1);
-  punit->transported_by = ptrans->id;
-}
-
-/****************************************************************************
-  Put the unit onto the transporter.  Don't do any other work.
-****************************************************************************/
-static void pull_unit_from_transporter(struct unit *punit,
-				       struct unit *ptrans)
-{
-  /* In the future we may updated ptrans->occupancy. */
-  fc_assert(punit->transported_by == ptrans->id);
-  punit->transported_by = -1;
-}
-
-/****************************************************************************
   Put the unit onto the transporter, and tell everyone.
 ****************************************************************************/
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
 {
-  put_unit_onto_transporter(punit, ptrans);
+  fc_assert_ret(punit);
+  fc_assert_ret(ptrans);
+
+  fc_assert_ret(unit_transport_load(punit, ptrans, FALSE));
+
   send_unit_info(NULL, punit);
   send_unit_info(NULL, ptrans);
 }
@@ -2540,9 +2546,15 @@ void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
 ****************************************************************************/
 void unit_transport_unload_send(struct unit *punit)
 {
-  struct unit *ptrans = game_unit_by_number(punit->transported_by);
+  struct unit *ptrans;
 
-  pull_unit_from_transporter(punit, ptrans);
+  fc_assert_ret(punit);
+
+  ptrans = unit_transport_get(punit);
+
+  fc_assert_ret(ptrans);
+  fc_assert(unit_transport_unload(punit));
+
   send_unit_info(NULL, punit);
   send_unit_info(NULL, ptrans);
 }
@@ -2562,7 +2574,7 @@ static int compare_units(const struct unit *const *p1,
   int p1uwc = unit_win_chance(*p1, p1def);
   int q1uwc = unit_win_chance(*q1, q1def);
 
-  if (p1uwc < q1uwc || (*q1)->transported_by > 0) {
+  if (p1uwc < q1uwc || unit_transport_get(*q1)) {
     return -1; /* q is better */
   } else if (p1uwc == q1uwc) {
     return 0;
@@ -2696,8 +2708,8 @@ static void wakeup_neighbor_sentries(struct unit *punit)
     int count = 0;
 
     unit_list_iterate(unit_tile(punit)->units, aunit) {
-      /* Consider only unit not transported. */
-      if (-1 == aunit->transported_by) {
+      /* Consider only units not transported. */
+      if (!unit_transported(aunit)) {
         count++;
       }
     } unit_list_iterate_end;
@@ -2918,53 +2930,43 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     
   conn_list_do_buffer(pplayer->connections);
 
-  /* Transporting units. We first make a list of the units to be moved and
-     then insert them again. The way this is done makes sure that the
-     units stay in the same order. */
-  if (get_transporter_capacity(punit) > 0) {
-    struct unit_list *cargo_units = unit_list_new();
-
-    /* First make a list of the units to be moved. */
-    unit_list_iterate(psrctile->units, pcargo) {
-      if (pcargo->transported_by == punit->id) {
-	unit_list_remove(psrctile->units, pcargo);
-	unit_list_prepend(cargo_units, pcargo);
-      }
-    } unit_list_iterate_end;
-
-    /* Insert them again. */
-    unit_list_iterate(cargo_units, pcargo) {
+  /* Transported units. */
+  unit_list_iterate(unit_transport_cargo(punit), pcargo) {
       /* FIXME: Some script may have killed unit while it has been
        *        in cargo_units list, but it has not been unlinked
        *        from this list. pcargo may be invalid pointer. */
-      struct vision *old_vision = pcargo->server.vision;
-      struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
-      const v_radius_t radius_sq =
-          V_RADIUS(get_unit_vision_at(pcargo, pdesttile, V_MAIN),
-                   get_unit_vision_at(pcargo, pdesttile, V_INVIS));
+    struct vision *old_vision = pcargo->server.vision;
+    struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
+    const v_radius_t radius_sq =
+      V_RADIUS(get_unit_vision_at(pcargo, pdesttile, V_MAIN),
+               get_unit_vision_at(pcargo, pdesttile, V_INVIS));
 
-      pcargo->server.vision = new_vision;
-      vision_change_sight(new_vision, radius_sq);
-      ASSERT_VISION(new_vision);
+    fc_assert(unit_tile(pcargo) == psrctile);
 
-      /* Silently free orders since they won't be applicable anymore. */
-      free_unit_orders(pcargo);
+    pcargo->server.vision = new_vision;
+    vision_change_sight(new_vision, radius_sq);
+    ASSERT_VISION(new_vision);
 
-      unit_tile_set(pcargo, pdesttile);
+    /* Silently free orders since they won't be applicable anymore. */
+    free_unit_orders(pcargo);
 
-      unit_list_prepend(pdesttile->units, pcargo);
-      check_unit_activity(pcargo);
-      send_unit_info_to_onlookers(NULL, pcargo, psrctile, FALSE);
+    /* Remove the unit from the old tile. */
+    unit_list_remove(psrctile->units, pcargo);
 
-      vision_clear_sight(old_vision);
-      vision_free(old_vision);
+    /* Add the unit to the new tile. */
+    unit_tile_set(pcargo, pdesttile);
+    unit_list_prepend(pdesttile->units, pcargo);
 
-      unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
-      unit_did_action(pcargo);
-      unit_forget_last_activity(pcargo);
-    } unit_list_iterate_end;
-    unit_list_destroy(cargo_units);
-  }
+    check_unit_activity(pcargo);
+    send_unit_info_to_onlookers(NULL, pcargo, psrctile, FALSE);
+
+    vision_clear_sight(old_vision);
+    vision_free(old_vision);
+
+    unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
+    unit_did_action(pcargo);
+    unit_forget_last_activity(pcargo);
+  } unit_list_iterate_end;
 
   unit_lives = unit_alive(saved_id);
   if (unit_lives) {
@@ -3012,9 +3014,9 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 
     unit_tile_set(punit, pdesttile);
     punit->moved = TRUE;
-    if (punit->transported_by != -1) {
-      ptransporter = game_unit_by_number(punit->transported_by);
-      pull_unit_from_transporter(punit, ptransporter);
+    if (unit_transport_get(punit) != NULL) {
+      ptransporter = unit_transport_get(punit);
+      unit_transport_unload(punit);
     }
     punit->moves_left = MAX(0, punit->moves_left - move_cost);
     if (punit->moves_left == 0) {
@@ -3052,7 +3054,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     if (!can_unit_survive_at_tile(punit, pdesttile)) {
       ptransporter = transporter_for_unit(punit);
       if (ptransporter) {
-        put_unit_onto_transporter(punit, ptransporter);
+        unit_transport_load(punit, ptransporter, FALSE);
       }
 
       /* Set activity to sentry if boarding a ship. */

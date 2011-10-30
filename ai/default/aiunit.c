@@ -1165,17 +1165,12 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
   if (MOVE_NONE == punit_class->adv.sea_move) {
     /* We need boat to move over sea. */
+    ferryboat = unit_transport_get(punit);
 
     /* First check if we can use the boat we are currently loaded to. */
-    if (-1 != punit->transported_by) {
-      ferryboat = player_unit_by_number(unit_owner(punit),
-                                        punit->transported_by);
-
-      /* We are already in, so don't ask for free capacity */
-      if (NULL == ferryboat || !is_boat_free(ferryboat, punit, 0)) {
-        /* No, we cannot control current boat */
-        ferryboat = NULL;
-      }
+    if (ferryboat == NULL || !is_boat_free(ferryboat, punit, 0)) {
+      /* No, we cannot control current boat */
+      ferryboat = NULL;
     }
 
     if (NULL == ferryboat) {
@@ -1564,7 +1559,7 @@ static void ai_military_attack_barbarian(struct player *pplayer,
   struct city *pc;
   bool only_continent = TRUE;
 
-  if (punit->transported_by != -1) {
+  if (unit_transported(punit)) {
     /* If we are in transport, we can go to any continent.
      * Actually, we are not currently in a continent where to stay. */
     only_continent = FALSE;
@@ -1579,8 +1574,8 @@ static void ai_military_attack_barbarian(struct player *pplayer,
     } else {
       struct unit *ferry = NULL;
 
-      if (punit->transported_by != -1) {
-        ferry = game_unit_by_number(punit->transported_by);
+      if (unit_transported(punit)) {
+        ferry = unit_transport_get(punit);
 
         /* We already are in a boat so it needs no
          * free capacity */
@@ -1591,9 +1586,9 @@ static void ai_military_attack_barbarian(struct player *pplayer,
       } else {
         /* We are not in a boat yet. Search for one. */
         unit_list_iterate(unit_tile(punit)->units, aunit) {
-          if (is_boat_free(aunit, punit, 1)) {
+          if (is_boat_free(aunit, punit, 1)
+              && unit_transport_load(punit, aunit, FALSE)) {
             ferry = aunit;
-            punit->transported_by = ferry->id;
             break;
           }
         } unit_list_iterate_end;
@@ -2316,7 +2311,7 @@ void ai_manage_units(struct player *pplayer)
   ai_set_defenders(pplayer);
 
   unit_list_iterate_safe(pplayer->units, punit) {
-    if (punit->transported_by <= 0 && !def_ai_unit_data(punit)->done) {
+    if (!unit_transported(punit) && !def_ai_unit_data(punit)->done) {
       /* Though it is usually the passenger who drives the transport,
        * the transporter is responsible for managing its passengers. */
       ai_manage_unit(pplayer, punit);

@@ -1528,7 +1528,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * units or cities not allied with all of our cargo. */
   if (get_transporter_capacity(punit) > 0) {
     unit_list_iterate(unit_tile(punit)->units, pcargo) {
-      if (pcargo->transported_by == punit->id
+      if (unit_transport_get(pcargo) == punit
           && (is_non_allied_unit_tile(pdesttile, unit_owner(pcargo))
               || is_non_allied_city_tile(pdesttile, unit_owner(pcargo)))) {
          notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,

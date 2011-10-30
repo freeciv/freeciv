@@ -496,6 +496,8 @@ static void sg_load_player_units(struct loaddata *loading,
 static bool sg_load_player_unit(struct loaddata *loading,
                                 struct player *plr, struct unit *punit,
                                 const char *unitstr);
+static void sg_load_player_units_transport(struct loaddata *loading,
+                                           struct player *plr);
 static void sg_load_player_attributes(struct loaddata *loading,
                                       struct player *plr);
 static void sg_load_player_vision(struct loaddata *loading,
@@ -3037,9 +3039,13 @@ static void sg_load_players(struct loaddata *loading)
 
   /* In case of tech_leakage, we can update research only after all the 
    * players have been loaded */
+  /* Also load the transport status of the units here. It must be a special
+   * case as all units must be known (unit on an allied transporter). */
   players_iterate(pplayer) {
     /* Mark the reachable techs */
     player_research_update(pplayer);
+    /* Load unit transport status. */
+    sg_load_player_units_transport(loading, pplayer);
   } players_iterate_end;
 
   /* Some players may have invalid nations in the ruleset. Once all players
@@ -4511,9 +4517,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
   punit->paradropped
     = secfile_lookup_bool_default(loading->file, FALSE,
                                   "%s.paradropped", unitstr);
-  punit->transported_by
-    = secfile_lookup_int_default(loading->file, -1, "%s.transported_by",
-                                 unitstr);
+
+  /* The transport status (punit->transported_by) is loaded in
+   * sg_player_units_transport(). */
+
   /* Initialize upkeep values: these are hopefully initialized
    * elsewhere before use (specifically, in city_support(); but
    * fixme: check whether always correctly initialized?).
@@ -4600,6 +4607,55 @@ static bool sg_load_player_unit(struct loaddata *loading,
   return TRUE;
 }
 
+/*****************************************************************************
+  Load the transport status of all units. This is seperated from the other
+  code as all units must be known.
+*****************************************************************************/
+static void sg_load_player_units_transport(struct loaddata *loading,
+                                           struct player *plr)
+{
+  int nunits, i, plrno = player_number(plr);
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  /* Recheck the number of units for the player. This is a copied from
+   * sg_load_player_units(). */
+  sg_failure_ret(secfile_lookup_int(loading->file, &nunits,
+                                    "player%d.nunits", plrno),
+                 "%s", secfile_error());
+  if (!plr->is_alive && nunits > 0) {
+    log_sg("'player%d.nunits' = %d for dead player!", plrno, nunits);
+    nunits = 0; /* Some old savegames may be buggy. */
+  }
+
+  for (i = 0; i < nunits; i++) {
+    int id_unit, id_trans;
+    struct unit *punit, *ptrans;
+
+    id_unit = secfile_lookup_int_default(loading->file, -1,
+                                         "player%d.u%d.id",
+                                         plrno, i);
+    punit = player_unit_by_number(plr, id_unit);
+    fc_assert_action(punit != NULL, continue);
+
+    id_trans = secfile_lookup_int_default(loading->file, -1,
+                                          "player%d.u%d.transported_by",
+                                          plrno, i);
+    if (id_trans == -1) {
+      /* Not transported. */
+      continue;
+    }
+
+    ptrans = game_unit_by_number(id_trans);
+    fc_assert_action(id_trans == -1 || ptrans != NULL, continue);
+
+    if (ptrans) {
+      fc_assert_action(unit_transport_load(punit, ptrans, TRUE), continue);
+    }
+  }
+}
+
 /****************************************************************************
   Save unit data
 ****************************************************************************/
@@ -4684,7 +4740,8 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_bool(saving->file, punit->moved, "%s.moved", buf);
     secfile_insert_bool(saving->file, punit->paradropped,
                         "%s.paradropped", buf);
-    secfile_insert_int(saving->file, punit->transported_by,
+    secfile_insert_int(saving->file, unit_transport_get(punit)
+                                     ? unit_transport_get(punit)->id : -1,
                        "%s.transported_by", buf);
 
     if (punit->has_orders) {
@@ -5420,9 +5477,8 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
-      struct unit *ferry = game_unit_by_number(punit->transported_by);
-
-      if (!ferry && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
+      if (!unit_transport_get(punit)
+          && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
         log_sg("Removing %s unferried %s in %s at (%d, %d)",
                nation_rule_name(nation_of_player(pplayer)),
                unit_rule_name(punit),
@@ -5500,6 +5556,9 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       calc_civ_score(pplayer);
     } players_iterate_end;
   }
+
+  /* At the end do the default sanity checks. */
+  sanity_check();
 }
 
 /****************************************************************************

@@ -258,7 +258,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   /* FIXME: If bodyguard is _really_ necessary, don't go anywhere */
   ai_gothere_bodyguard(punit, dest_tile);
 
-  if (punit->transported_by > 0 
+  if (unit_transported(punit)
       || !goto_is_sane(punit, dest_tile, TRUE)) {
     /* Must go by boat, call an aiferryboat function */
     if (!aiferry_gobyboat(pplayer, punit, dest_tile)) {
@@ -281,7 +281,8 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
     return FALSE;
   }
 
-  if (def_ai_unit_data(punit)->ferryboat > 0 && punit->transported_by <= 0) {
+  if (def_ai_unit_data(punit)->ferryboat > 0
+      && !unit_transported(punit)) {
     /* We probably just landed, release our boat */
     aiferry_clear_boat(punit);
   }
@@ -788,7 +789,7 @@ void ai_unit_new_task(struct unit *punit, enum ai_unit_task task,
     unit_list_iterate(unit_tile(punit)->units, missile) {
       if (unit_owner(missile) == unit_owner(punit)
           && def_ai_unit_data(missile)->task != AIUNIT_ESCORT
-          && missile->transported_by == -1
+          && !unit_transported(missile)
           && unit_owner(missile) == unit_owner(punit)
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)
           && can_unit_load(missile, punit)) {

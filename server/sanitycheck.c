@@ -351,17 +351,21 @@ static void check_units(const char *file, const char *function, int line)
       struct tile *ptile = unit_tile(punit);
       struct city *pcity;
       struct city *phome;
-      struct unit *transporter = NULL, *transporter2 = NULL;
+      struct unit *ptrans = unit_transport_get(punit);
 
       SANITY_CHECK(unit_owner(punit) == pplayer);
 
       if (IDENTITY_NUMBER_ZERO != punit->homecity) {
         SANITY_CHECK(phome = player_city_by_number(pplayer,
                                                    punit->homecity));
-	if (phome) {
-	  SANITY_CHECK(city_owner(phome) == pplayer);
-	}
+        if (phome) {
+          SANITY_CHECK(city_owner(phome) == pplayer);
+        }
       }
+
+      /* Unit in the correct player list? */
+      SANITY_CHECK(player_unit_by_number(unit_owner(punit),
+                                         punit->id) != NULL);
 
       if (!can_unit_continue_current_activity(punit)) {
         SANITY_FAIL("(%4d,%4d) %s has activity %s, "
@@ -379,39 +383,29 @@ static void check_units(const char *file, const char *function, int line)
       SANITY_CHECK(punit->moves_left >= 0);
       SANITY_CHECK(punit->hp > 0);
 
-      if (punit->transported_by != -1) {
-        transporter = game_unit_by_number(punit->transported_by);
-        SANITY_CHECK(transporter != NULL);
+      if (ptrans != NULL) {
+        /* Make sure the transporter is on the tile. */
+        SANITY_CHECK(same_pos(unit_tile(punit), unit_tile(ptrans)));
 
-	/* Make sure the transporter is on the tile. */
-	unit_list_iterate(unit_tile(punit)->units, tile_unit) {
-	  if (tile_unit == transporter) {
-	    transporter2 = tile_unit;
-	  }
-	} unit_list_iterate_end;
-	SANITY_CHECK(transporter2 != NULL);
+        /* Can punit be cargo for its transporter? */
+        SANITY_CHECK(can_unit_transport(ptrans, punit));
 
-        /* Also in the list of owner? */
-        if (NULL != transporter) {
-          SANITY_CHECK(player_unit_by_number(unit_owner(transporter),
-                                             punit->transported_by) != NULL);
-          SANITY_CHECK(same_pos(ptile, unit_tile(transporter)));
-        }
+        /* Check that the unit is listed as transported. */
+        SANITY_CHECK(unit_list_search(unit_transport_cargo(ptrans),
+                                      punit) != NULL);
 
         /* Transporter capacity will be checked when transporter itself
-	 * is checked */
+         * is checked */
       }
 
       /* Check for ground units in the ocean. */
       if (!can_unit_exist_at_tile(punit, ptile)) {
-        SANITY_CHECK(punit->transported_by != -1);
-        SANITY_CHECK(transporter != NULL
-                     && can_unit_transport(transporter, punit));
+        SANITY_CHECK(unit_transport_get(punit) != NULL);
       }
 
       /* Check for over-full transports. */
       SANITY_CHECK(get_transporter_occupancy(punit)
-	     <= get_transporter_capacity(punit));
+                   <= get_transporter_capacity(punit));
     } unit_list_iterate_end;
   } players_iterate_end;
 }
@@ -568,7 +562,7 @@ void real_sanity_check_tile(struct tile *ptile, const char *file,
      * 'easy' test if the unit is transported is done. A complete check is
      * done by check_units() in real_sanity_check(). */
     if (!can_unit_exist_at_tile(punit, ptile)
-        && punit->transported_by != -1) {
+        && unit_transported(punit)) {
       SANITY_FAIL("(%4d,%4d) %s can't survive on %s", TILE_XY(ptile),
                   unit_rule_name(punit), tile_get_info_text(ptile, 0));
     }

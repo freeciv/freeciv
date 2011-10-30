@@ -348,8 +348,8 @@ static unsigned int assess_danger_unit(const struct city *pcity,
     *move_time = pos.turn;
   }
 
-  if (-1 != punit->transported_by
-      && (ferry = game_unit_by_number(punit->transported_by))
+  if (unit_transported(punit)
+      && (ferry = unit_transport_get(punit))
       && pf_reverse_map_unit_position(pcity_map, ferry, &pos)) {
     if ((PF_IMPOSSIBLE_MC == *move_time
          || *move_time > pos.turn)) {

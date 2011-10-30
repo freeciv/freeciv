@@ -403,17 +403,14 @@ bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 ****************************************************************************/
 bool is_boss_of_boat(struct unit *punit)
 {
-  struct unit *ferry;
-
-  if (punit->transported_by == -1) {
+  if (!unit_transported(punit)) {
     /* Not even in boat */
     return FALSE;
   }
 
-  ferry = player_unit_by_number(unit_owner(punit), punit->transported_by);
-
-  if (ferry != NULL
-      && def_ai_unit_data(ferry)->passenger == punit->id) {
+  if (unit_transported(punit)
+      && def_ai_unit_data(unit_transport_get(punit))->passenger
+         == punit->id) {
     return TRUE;
   }
 
@@ -540,7 +537,7 @@ static int aiferry_find_boat_nearby(struct unit *punit, int cap)
 static void ai_activate_passengers(struct unit *ferry)
 {
   unit_list_iterate_safe(unit_tile(ferry)->units, aunit) {
-    if (aunit->transported_by == ferry->id) {
+    if (unit_transport_get(aunit) == ferry) {
       unit_activity_handling(aunit, ACTIVITY_IDLE);
       def_ai_unit_data(aunit)->done = FALSE;
       ai_manage_unit(unit_owner(aunit), aunit);
@@ -672,7 +669,7 @@ bool aiferry_goto_amphibious(struct unit *ferry,
 bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 		      struct tile *dest_tile)
 {
-  if (punit->transported_by <= 0) {
+  if (!unit_transported(punit)) {
     /* We are not on a boat and we cannot walk */
     int boatid;
     struct unit *ferryboat = NULL;
@@ -739,12 +736,12 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     }
 
     handle_unit_load(pplayer, punit->id, ferryboat->id);
-    fc_assert(punit->transported_by > 0);
+    fc_assert(unit_transported(punit));
   }
 
-  if (punit->transported_by > 0) {
+  if (unit_transported(punit)) {
     /* We are on a boat, ride it! */
-    struct unit *ferryboat = game_unit_by_number(punit->transported_by);
+    struct unit *ferryboat = unit_transport_get(punit);
 
     /* Check if we are the passenger-in-charge */
     if (is_boat_free(ferryboat, punit, 0)) {
@@ -1018,7 +1015,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       /* Try to select passanger-in-charge from among our passengers */
       unit_list_iterate(ptile->units, aunit) {
         if (unit_owner(aunit) != pplayer 
-            || aunit->transported_by != punit->id) {
+            || unit_transport_get(aunit) != punit) {
           /* We used to check if ferryboat was set to us or to
            * FERRY_WANTED too, but this was a bit strict. Especially
            * when we don't save these values in a savegame. */
