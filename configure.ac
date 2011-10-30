@@ -561,24 +561,13 @@ esac], [ignore_accept_warn=no])
 
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
-FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations],
- [], [EXTRA_DEBUG_CFLAGS])
-
-if test "x$ignore_accept_warn" = "xyes" ; then
-  FC_C_FLAGS([-Wno-unused-but-set-variable], [], [EXTRA_DEBUG_CFLAGS])
-fi
-
+EXTRA_DEBUG_CXXFLAGS=""
 EXTRA_DEBUG_LDFLAGS=""
-
-if test "x$enable_debug" = "xyes" ; then
-  dnl backtrace log callback needs "-rdynamic" in order to work well.
-  FC_LD_FLAGS([-rdynamic], [], [EXTRA_DEBUG_LDFLAGS])
-fi
-
 dnl check debugging
 FC_DEBUG
 dnl check profiling
 FC_GPROF
+
 AC_C99_VARIADIC_MACROS
 AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
