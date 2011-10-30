@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "game.h"
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
@@ -32,6 +33,16 @@
 
 #include "api_game_methods.h"
 
+
+/*****************************************************************************
+  Return the current turn.
+*****************************************************************************/
+int api_methods_game_turn(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  return game.info.turn;
+}
 
 /*****************************************************************************
   Return TRUE if pbuilding is a wonder.

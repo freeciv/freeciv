@@ -23,6 +23,9 @@ extern "C" {
 
 struct lua_State;
 
+/* Game */
+int api_methods_game_turn(lua_State *L);
+
 /* Building Type */
 bool api_methods_building_type_is_wonder(lua_State *L,
                                          Building_Type *pbuilding);

@@ -102,6 +102,12 @@ struct Unit_List_Link {
 struct City_List_Link {
 };
 
+/* Module Game */
+module game {
+  int api_methods_game_turn
+    @ turn (lua_State *L);
+}
+
 /* Module Player. */
 module Player {
   module properties {
