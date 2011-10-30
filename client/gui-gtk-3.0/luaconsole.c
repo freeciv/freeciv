@@ -430,8 +430,10 @@ static void luaconsole_dialog_destroy(struct luaconsole_data *pdialog)
 {
   fc_assert_ret(NULL != pdialog);
 
-  gui_dialog_destroy(pdialog->shell);
-  fc_assert(NULL == pdialog->shell);
+  if (pdialog->shell) {
+    gui_dialog_destroy(pdialog->shell);
+    fc_assert(NULL == pdialog->shell);
+  }
   fc_assert(NULL == pdialog->message_area);
 }
 
