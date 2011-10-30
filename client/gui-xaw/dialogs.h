@@ -15,8 +15,6 @@
 
 #include <X11/Intrinsic.h>
 
-#include "fcintl.h"
-
 #include "dialogs_g.h"
 
 void popup_revolution_dialog(struct government *pgovernment);

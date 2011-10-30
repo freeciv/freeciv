@@ -20,7 +20,6 @@ extern "C" {
 #include <stdarg.h>
 #include <stdlib.h>
 
-#include "fcintl.h"             /* _() */
 #include "support.h"            /* bool type and fc__attribute */
 
 enum log_level {

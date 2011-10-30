@@ -18,6 +18,7 @@
 #include <curl/curl.h>
 
 /* utility */
+#include "fcintl.h"
 #include "ioz.h"
 #include "mem.h"
 #include "rand.h"

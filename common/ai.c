@@ -18,6 +18,7 @@
 #include <string.h>
 
 /* utility */
+#include "fcintl.h"
 #include "log.h"                /* fc_assert */
 
 /* common */
