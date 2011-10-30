@@ -15,6 +15,7 @@
 #include <fc_config.h>
 #endif
 
+#include <stdarg.h>
 #include <string.h>
 
 /* utility */
