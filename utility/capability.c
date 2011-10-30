@@ -45,6 +45,8 @@ static bool my_has_capability(const char *cap, const char *capstr,
 {
   const char *next;
 
+  fc_assert_ret_val(capstr != NULL, FALSE);
+
   for (;;) {
     GET_TOKEN(capstr, next);
 
