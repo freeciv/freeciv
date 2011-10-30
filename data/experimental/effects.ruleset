@@ -806,12 +806,24 @@ reqs	=
       "Building", "Aqueduct", "City"
     }
 
-[effect_aqueduct_health]
+[effect_aqueduct_health_1]
 name	= "Health_Pct"
 value	= 30
 reqs	=
     { "type", "name", "range"
       "Building", "Aqueduct", "City"
+    }
+
+[effect_aqueduct_health_2]
+name    = "Health_Pct"
+value   = 20
+reqs    =
+    { "type", "name", "range"
+      "Building", "Aqueduct", "City"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "Tech", "Industrialization", "Player"
     }
 
 [effect_bank]
@@ -1811,6 +1823,14 @@ value	= 1
 reqs	=
     { "type", "name", "range"
       "Tech", "Mysticism", "Player"
+      "Building", "Temple", "City"
+    }
+
+[effect_temple_2]
+name    = "Health_Pct"
+value   = 20
+reqs    =
+    { "type", "name", "range"
       "Building", "Temple", "City"
     }
 

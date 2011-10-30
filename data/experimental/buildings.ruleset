@@ -90,7 +90,10 @@ sound		= "b_aqueduct"
 sound_alt	= "b_generic"
 helptext	= _("\
 Allows a city to grow larger than size 8 and reduces the chance of plague\
- within the city. A Sewer System is required for a city to grow larger\
+ within the city. After Industrialization is researched this effect of\
+ the Aqueduct is reduced.
+"), _("\
+A Sewer System is required for a city to grow larger\
  than size 12.\
 ")
 ; NB: plague (illness) has to be activated in the ruleset
@@ -1035,6 +1038,8 @@ Makes one unhappy citizen content.  The Mysticism advance doubles\
  this effect.  With both Mysticism and the Oracle, 4 citizens are\
  made content.  Does not affect citizens made unhappy by military\
  activity.\
+"), _("\
+The work of the prists also reduces the effect of plague in the city.\
 ")
 
 [building_university]
