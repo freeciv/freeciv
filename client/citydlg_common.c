@@ -193,7 +193,7 @@ void city_dialog_redraw_map(struct city *pcity,
       struct city *pcity_draw = ptile ? tile_city(ptile) : NULL;
 
       put_one_element(pcanvas, layer, ptile, pedge, pcorner,
-		      punit, pcity_draw, canvas_x, canvas_y, pcity);
+                      punit, pcity_draw, canvas_x, canvas_y, pcity, NULL);
     } citydlg_iterate_end;
   } mapview_layer_iterate_end;
 }

@@ -168,7 +168,8 @@ int fill_sprite_array(struct tileset *t,
 		      const struct tile_edge *pedge,
 		      const struct tile_corner *pcorner,
 		      const struct unit *punit, const struct city *pcity,
-		      const struct city *citymode);
+                      const struct city *citymode,
+                      const struct unit_type *putype);
 int fill_basic_terrain_layer_sprite_array(struct tileset *t,
                                           struct drawn_sprite *sprs,
                                           int layer,

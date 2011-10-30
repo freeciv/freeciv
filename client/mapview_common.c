@@ -950,12 +950,13 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
                      const struct tile_corner *pcorner,
                      const struct unit *punit, const struct city *pcity,
                      int canvas_x, int canvas_y,
-                     const struct city *citymode)
+                     const struct city *citymode,
+                     const struct unit_type *putype)
 {
   struct drawn_sprite tile_sprs[80];
   int count = fill_sprite_array(tileset, tile_sprs, layer,
                                 ptile, pedge, pcorner,
-                                punit, pcity, citymode);
+                                punit, pcity, citymode, putype);
   bool fog = (ptile && draw_fog_of_war
 	      && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile));
 
@@ -963,17 +964,31 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
 }
 
-/**************************************************************************
-  Draw the given unit onto the canvas store at the given location.  The
-  area of drawing is tileset_unit_height(tileset) x tileset_unit_width(tileset).
-**************************************************************************/
-void put_unit(const struct unit *punit,
-	      struct canvas *pcanvas, int canvas_x, int canvas_y)
+/*****************************************************************************
+  Draw the given unit onto the canvas store at the given location. The area
+  of drawing is tileset_unit_height(tileset) x tileset_unit_width(tileset).
+*****************************************************************************/
+void put_unit(const struct unit *punit, struct canvas *pcanvas, int canvas_x,
+              int canvas_y)
 {
   canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset));
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer, NULL, NULL, NULL,
-		    punit, NULL, canvas_x, canvas_y, NULL);
+                    punit, NULL, canvas_x, canvas_y, NULL, NULL);
+  } mapview_layer_iterate_end;
+}
+
+/*****************************************************************************
+  Draw the given unit onto the canvas store at the given location. The area
+  of drawing is tileset_unit_height(tileset) x tileset_unit_width(tileset).
+*****************************************************************************/
+void put_unittype(const struct unit_type *putype, struct canvas *pcanvas,
+                  int canvas_x, int canvas_y)
+{
+  canvas_y += (tileset_unit_height(tileset) - tileset_tile_height(tileset));
+  mapview_layer_iterate(layer) {
+    put_one_element(pcanvas, layer, NULL, NULL, NULL,
+                    NULL, NULL, canvas_x, canvas_y, NULL, putype);
   } mapview_layer_iterate_end;
 }
 
@@ -988,7 +1003,7 @@ void put_city(struct city *pcity,
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer,
 		    NULL, NULL, NULL, NULL, pcity,
-		    canvas_x, canvas_y, NULL);
+		    canvas_x, canvas_y, NULL, NULL);
   } mapview_layer_iterate_end;
 }
 
@@ -1004,7 +1019,7 @@ void put_terrain(struct tile *ptile,
   canvas_y += (tileset_full_tile_height(tileset) - tileset_tile_height(tileset));
   mapview_layer_iterate(layer) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL, NULL, NULL,
-		    canvas_x, canvas_y, NULL);
+		    canvas_x, canvas_y, NULL, NULL);
   } mapview_layer_iterate_end;
 }
 
@@ -1128,8 +1143,8 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
   if (client_tile_get_known(ptile) != TILE_UNKNOWN
       || (editor_is_active() && editor_tile_is_selected(ptile))) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
-		    get_drawable_unit(tileset, ptile, citymode),
-		    tile_city(ptile), canvas_x, canvas_y, citymode);
+                    get_drawable_unit(tileset, ptile, citymode),
+                    tile_city(ptile), canvas_x, canvas_y, citymode, NULL);
   }
 }
 
@@ -1329,11 +1344,11 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       if (ptile) {
 	put_one_tile(mapview.store, layer, ptile, cx, cy, NULL);
       } else if (pedge) {
-	put_one_element(mapview.store, layer, NULL, pedge, NULL,
-			NULL, NULL, cx, cy, NULL);
+        put_one_element(mapview.store, layer, NULL, pedge, NULL,
+                        NULL, NULL, cx, cy, NULL, NULL);
       } else if (pcorner) {
-	put_one_element(mapview.store, layer, NULL, NULL, pcorner,
-			NULL, NULL, cx, cy, NULL);
+        put_one_element(mapview.store, layer, NULL, NULL, pcorner,
+                        NULL, NULL, cx, cy, NULL, NULL);
       } else {
 	/* This can happen, for instance for unreal tiles. */
       }

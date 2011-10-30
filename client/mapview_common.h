@@ -266,8 +266,10 @@ void center_tile_mapcanvas(struct tile *ptile);
 bool tile_visible_mapcanvas(struct tile *ptile);
 bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile);
 
-void put_unit(const struct unit *punit,
-	      struct canvas *pcanvas, int canvas_x, int canvas_y);
+void put_unit(const struct unit *punit, struct canvas *pcanvas, int canvas_x,
+              int canvas_y);
+void put_unittype(const struct unit_type *putype, struct canvas *pcanvas,
+                  int canvas_x, int canvas_y);
 void put_city(struct city *pcity,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y);
 void put_terrain(struct tile *ptile,
@@ -288,7 +290,8 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
                      const struct tile_corner *pcorner,
                      const struct unit *punit, const struct city *pcity,
                      int canvas_x, int canvas_y,
-                     const struct city *citymode);
+                     const struct city *citymode,
+                     const struct unit_type *putype);
 
 void put_drawn_sprites(struct canvas *pcanvas,
                        int canvas_x, int canvas_y,

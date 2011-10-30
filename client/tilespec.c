@@ -504,6 +504,16 @@ struct tileset *tileset;
 int focus_unit_state = 0;
 
 
+static int fill_unit_type_sprite_array(const struct tileset *t,
+                                       struct drawn_sprite *sprs,
+                                       const struct unit_type *putype,
+                                       enum direction8 facing);
+static int fill_unit_sprite_array(const struct tileset *t,
+                                  struct drawn_sprite *sprs,
+                                  const struct unit *punit,
+                                  bool stack, bool backdrop);
+
+
 /****************************************************************************
   Create a new drawing data.
 ****************************************************************************/
@@ -3316,16 +3326,40 @@ static void build_tile_data(const struct tile *ptile,
 }
 
 /**********************************************************************
-  Fill in the sprite array for the unit
+  Fill in the sprite array for the unit type.
+***********************************************************************/
+static int fill_unit_type_sprite_array(const struct tileset *t,
+                                       struct drawn_sprite *sprs,
+                                       const struct unit_type *putype,
+                                       enum direction8 facing)
+{
+  struct drawn_sprite *save_sprs = sprs;
+  int uidx = utype_index(putype);
+
+  if (direction8_is_valid(facing)
+      &&t->sprites.units.facing[uidx][facing] != NULL) {
+    ADD_SPRITE(t->sprites.units.facing[uidx][facing], TRUE,
+               FULL_TILE_X_OFFSET + t->unit_offset_x,
+               FULL_TILE_Y_OFFSET + t->unit_offset_y);
+  } else {
+    ADD_SPRITE(t->sprites.units.icon[uidx], TRUE,
+               FULL_TILE_X_OFFSET + t->unit_offset_x,
+               FULL_TILE_Y_OFFSET + t->unit_offset_y);
+  }
+
+  return sprs - save_sprs;
+}
+
+/**********************************************************************
+  Fill in the sprite array for the unit.
 ***********************************************************************/
 static int fill_unit_sprite_array(const struct tileset *t,
-				  struct drawn_sprite *sprs,
-				  const struct unit *punit,
-				  bool stack, bool backdrop)
+                                  struct drawn_sprite *sprs,
+                                  const struct unit *punit,
+                                  bool stack, bool backdrop)
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
-  int uidx = utype_index(unit_type(punit));
 
   if (backdrop) {
     if (!solid_color_behind_units) {
@@ -3337,15 +3371,9 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  if (t->sprites.units.facing[uidx][punit->facing] != NULL) {
-    ADD_SPRITE(t->sprites.units.facing[uidx][punit->facing], TRUE,
-               FULL_TILE_X_OFFSET + t->unit_offset_x,
-               FULL_TILE_Y_OFFSET + t->unit_offset_y);
-  } else {
-    ADD_SPRITE(t->sprites.units.icon[uidx], TRUE,
-               FULL_TILE_X_OFFSET + t->unit_offset_x,
-               FULL_TILE_Y_OFFSET + t->unit_offset_y);
-  }
+  /* Add the sprite for the unit type. */
+  sprs += fill_unit_type_sprite_array(t, sprs, unit_type(punit),
+                                      punit->facing);
 
   if (t->sprites.unit.loaded && unit_transported(punit)) {
     ADD_SPRITE_FULL(t->sprites.unit.loaded);
@@ -4415,12 +4443,13 @@ static int fill_goto_sprite_array(const struct tileset *t,
   is done differently.
 ****************************************************************************/
 int fill_sprite_array(struct tileset *t,
-		      struct drawn_sprite *sprs, enum mapview_layer layer,
-		      const struct tile *ptile,
-		      const struct tile_edge *pedge,
-		      const struct tile_corner *pcorner,
-		      const struct unit *punit, const struct city *pcity,
-		      const struct city *citymode)
+                      struct drawn_sprite *sprs, enum mapview_layer layer,
+                      const struct tile *ptile,
+                      const struct tile_edge *pedge,
+                      const struct tile_corner *pcorner,
+                      const struct unit *punit, const struct city *pcity,
+                      const struct city *citymode,
+                      const struct unit_type *putype)
 {
   int tileno, dir;
   bv_special tspecial_near[8];
@@ -4654,6 +4683,10 @@ int fill_sprite_array(struct tileset *t,
       }
 
       sprs += fill_unit_sprite_array(t, sprs, punit, stacked, backdrop);
+    } else if (putype != NULL) {
+      /* Only the sprite for the unit type. */
+      sprs += fill_unit_type_sprite_array(t, sprs, putype,
+                                          direction8_invalid());
     }
     break;
 
