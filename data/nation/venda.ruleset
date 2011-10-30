@@ -3,10 +3,10 @@
 name = _("Venda")
 plural = _("?plural:Vhavenda")
 groups="African", "Early Modern", "Medieval"
-legend=_("The VhaVenda are a Bantu people in South Africa and Zimbabwe.\
+legend=_("The Vhavenda are a Bantu people in South Africa and Zimbabwe.\
  Once the rulers of the Mapungubwe Kingdom, they now count about one\
  million members, mostly in the province of Limpopo. During the Apartheid\
- Era there exited a Bantustan of Venda.")
+ Era there existed a Bantustan of Venda.")
 
 leaders = {
  "name",                     "sex"

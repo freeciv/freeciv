@@ -4,7 +4,7 @@ name = _("Vanuatuan")
 plural = _("?plural:Ni-Vanuatu")
 groups="Oceanian", "Modern"
 legend=_("Vanuatu, formerly known as the New Hebrides, is a country in\
- Melansia, consisting of about 80 islands. First inhabited by Melanesians,\
+ Melanesia, consisting of about 80 islands. First inhabited by Melanesians,\
  the islands were contested by the British and French in the late 19th\
  century. In 1906 both colonial powers agreed to rule the New Hebrides\
  together as a condominium. The Republic of Vanuatu declared its\
