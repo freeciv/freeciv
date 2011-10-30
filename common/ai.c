@@ -207,11 +207,11 @@ void ai_timer_player_start(const struct player *pplayer)
   if (aitimer->count == 0) {
     log_debug("AI timer start  [%15.3f] P%03d (AI type: %s) %s",
               read_timer_seconds(aitimer->timer), player_index(pplayer),
-              pplayer->ai->name, player_name(pplayer));
+              ai_name(pplayer->ai), player_name(pplayer));
     start_timer(aitimer->timer);
   } else {
     log_debug("AI timer =====> [depth: %3d]      P%03d (AI type: %s) %s",
-              aitimer->count, player_index(pplayer), pplayer->ai->name,
+              aitimer->count, player_index(pplayer), ai_name(pplayer->ai),
               player_name(pplayer));
   }
   aitimer->count++;
@@ -232,16 +232,16 @@ void ai_timer_player_stop(const struct player *pplayer)
       stop_timer(aitimer->timer);
       log_debug("AI timer stop   [%15.3f] P%03d (AI type: %s) %s",
                 read_timer_seconds(aitimer->timer), player_index(pplayer),
-                pplayer->ai->name, player_name(pplayer));
+                ai_name(pplayer->ai), player_name(pplayer));
     } else {
       log_debug("AI timer =====> [depth: %3d]      P%03d (AI type: %s) %s",
-                aitimer->count, player_index(pplayer), pplayer->ai->name,
+                aitimer->count, player_index(pplayer), ai_name(pplayer->ai),
                 player_name(pplayer));
     }
     aitimer->count--;
   } else {
     log_debug("AI timer missing?                 P%03d (AI type: %s) %s",
-              player_index(pplayer), pplayer->ai->name,
+              player_index(pplayer), ai_name(pplayer->ai),
               player_name(pplayer));
   }
 }
@@ -285,7 +285,7 @@ struct ai_type *ai_type_by_name(const char *search)
   size_t len = strlen(search);
 
   ai_type_iterate(ai) {
-    if (!strncmp(ai->name, search, len)) {
+    if (!strncmp(ai_name(ai), search, len)) {
       return ai;
     }
   } ai_type_iterate_end;
@@ -312,4 +312,13 @@ struct ai_type *ai_type_alloc(void)
 int ai_type_get_count(void)
 {
   return ai_type_count;
+}
+
+/*****************************************************************************
+  Return the name of the ai type.
+*****************************************************************************/
+const char *ai_name(const struct ai_type *ai)
+{
+  fc_assert_ret_val(ai, NULL);
+  return ai->name;
 }

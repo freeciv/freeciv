@@ -1900,13 +1900,15 @@ void aifill(int amount)
 
     CALL_PLR_AI_FUNC(gained_control, pplayer, pplayer);
 
-    log_normal(_("%s has been added as %s level AI-controlled player."),
+    log_normal(_("%s has been added as %s level AI-controlled player (%s)."),
                player_name(pplayer),
-               ai_level_name(pplayer->ai_common.skill_level));
+               ai_level_name(pplayer->ai_common.skill_level),
+               ai_name(pplayer->ai));
     notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                _("%s has been added as %s level AI-controlled player."),
+                _("%s has been added as %s level AI-controlled player (%s)."),
                 player_name(pplayer),
-                ai_level_name(pplayer->ai_common.skill_level));
+                ai_level_name(pplayer->ai_common.skill_level),
+                ai_name(pplayer->ai));
 
     send_player_info_c(pplayer, NULL);
   }

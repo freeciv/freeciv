@@ -3025,9 +3025,10 @@ static void sg_load_players(struct loaddata *loading)
 
     /* print out some informations */
     if (pplayer->ai_controlled) {
-      log_normal(_("%s has been added as %s level AI-controlled player."),
-                 player_name(pplayer),
-                 ai_level_name(pplayer->ai_common.skill_level));
+      log_normal(_("%s has been added as %s level AI-controlled player "
+                   "(%s)."), player_name(pplayer),
+                 ai_level_name(pplayer->ai_common.skill_level),
+                 ai_name(pplayer->ai));
     } else {
       log_normal(_("%s has been added as human player."),
                  player_name(pplayer));
@@ -3523,7 +3524,7 @@ static void sg_save_player_main(struct savedata *saving,
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  secfile_insert_str(saving->file, plr->ai->name,
+  secfile_insert_str(saving->file, ai_name(plr->ai),
                      "player%d.ai_type", plrno);
   secfile_insert_str(saving->file, player_name(plr),
                      "player%d.name", plrno);

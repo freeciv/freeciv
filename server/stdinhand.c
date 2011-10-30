@@ -1090,8 +1090,8 @@ enum rfc_status create_command_pregame(const char *name,
     }
 
     fc_snprintf(buf, buflen,
-                _("%s has been added as an AI-controlled player."),
-                name);
+                _("%s has been added as an AI-controlled player (%s)."),
+                name, ai_name(pplayer->ai));
   }
   server_player_init(pplayer, FALSE, TRUE);
 
@@ -6058,7 +6058,7 @@ void show_players(struct connection *caller)
       /* The output for each player looks like:
        *
        * <Player name> [color]: Team[, Nation][, Username][, Status]
-       *   AI/Barbarian/Human[, skill level][, Connections]
+       *   AI/Barbarian/Human[, AI type, skill level][, Connections]
        *     [Details for each connection]
        */
 
@@ -6101,6 +6101,7 @@ void show_players(struct connection *caller)
         sz_strlcat(buf, _("Human"));
       }
       if(pplayer->ai_controlled) {
+        cat_snprintf(buf, sizeof(buf), _(", %s"), ai_name(pplayer->ai));
         cat_snprintf(buf, sizeof(buf), _(", difficulty level %s"),
                      ai_level_name(pplayer->ai_common.skill_level));
       }
