@@ -3,12 +3,10 @@
 common/ai.c
 common/city.c
 common/connection.c
-common/effects.c
 common/events.c
 common/fc_cmdhelp.c
 common/game.c
 common/government.c
-common/map.c
 common/mapimg.c
 common/packets.c
 common/player.c
@@ -21,12 +19,10 @@ common/terrain.h
 common/unit.c
 common/unittype.c
 common/version.c
-common/aicore/cm.c
 utility/astring.c
 utility/fciconv.c
 utility/inputfile.c
 utility/log.c
-utility/mem.c
 utility/netfile.c
 utility/netintf.c
 utility/registry.c
@@ -88,8 +84,6 @@ client/global_worklist.c
 client/helpdata.c
 client/luaconsole_common.c
 client/mapctrl_common.c
-client/mapview_common.c
-client/messagewin_common.c
 client/options.c
 client/packhand.c
 client/plrdlg_common.c
@@ -99,7 +93,6 @@ client/text.c
 client/tilespec.c
 client/agents/cma_core.c
 client/agents/cma_fec.c
-client/gui-gtk-2.0/connectdlg.c
 client/gui-gtk-2.0/diplomat_dialog.c
 client/gui-gtk-2.0/caravan_dialog.c
 client/gui-gtk-2.0/chatline.c
@@ -107,7 +100,6 @@ client/gui-gtk-2.0/citizensinfo.c
 client/gui-gtk-2.0/citydlg.c
 client/gui-gtk-2.0/cityrep.c
 client/gui-gtk-2.0/cma_fe.c
-client/gui-gtk-2.0/connectdlg.c
 client/gui-gtk-2.0/dialogs.c
 client/gui-gtk-2.0/diplodlg.c
 client/gui-gtk-2.0/editgui.c
@@ -119,7 +111,6 @@ client/gui-gtk-2.0/gui_main.c
 client/gui-gtk-2.0/gui_stuff.c
 client/gui-gtk-2.0/happiness.c
 client/gui-gtk-2.0/helpdlg.c
-client/gui-gtk-2.0/inputdlg.c
 client/gui-gtk-2.0/inteldlg.c
 client/gui-gtk-2.0/luaconsole.c
 client/gui-gtk-2.0/mapctrl.c
@@ -137,7 +128,6 @@ client/gui-gtk-2.0/tileset_dlg.c
 client/gui-gtk-2.0/unitselect.c
 client/gui-gtk-2.0/wldlg.c
 client/gui-gtk-2.0/voteinfo_bar.c
-client/gui-gtk-3.0/connectdlg.c
 client/gui-gtk-3.0/diplomat_dialog.c
 client/gui-gtk-3.0/caravan_dialog.c
 client/gui-gtk-3.0/chatline.c
@@ -145,7 +135,6 @@ client/gui-gtk-3.0/citizensinfo.c
 client/gui-gtk-3.0/citydlg.c
 client/gui-gtk-3.0/cityrep.c
 client/gui-gtk-3.0/cma_fe.c
-client/gui-gtk-3.0/connectdlg.c
 client/gui-gtk-3.0/dialogs.c
 client/gui-gtk-3.0/diplodlg.c
 client/gui-gtk-3.0/editgui.c
@@ -157,7 +146,6 @@ client/gui-gtk-3.0/gui_main.c
 client/gui-gtk-3.0/gui_stuff.c
 client/gui-gtk-3.0/happiness.c
 client/gui-gtk-3.0/helpdlg.c
-client/gui-gtk-3.0/inputdlg.c
 client/gui-gtk-3.0/inteldlg.c
 client/gui-gtk-3.0/luaconsole.c
 client/gui-gtk-3.0/mapctrl.c
@@ -191,7 +179,6 @@ client/gui-sdl/finddlg.c
 client/gui-sdl/gotodlg.c
 client/gui-sdl/graphics.c
 client/gui-sdl/gui_main.c
-client/gui-sdl/gui_string.c
 client/gui-sdl/gui_tilespec.c
 client/gui-sdl/helpdlg.c
 client/gui-sdl/inteldlg.c
@@ -208,25 +195,23 @@ client/gui-sdl/sprite.c
 client/gui-sdl/themes.c
 client/gui-sdl/themespec.c
 client/gui-sdl/wldlg.c
+client/gui-stub/chatline.c
+client/gui-stub/mapview.c
 client/gui-xaw/chatline.c
 client/gui-xaw/citydlg.c
 client/gui-xaw/cityrep.c
 client/gui-xaw/cma_fe.c
-client/gui-xaw/colors.c
 client/gui-xaw/connectdlg.c
 client/gui-xaw/dialogs.c
 client/gui-xaw/diplodlg.c
 client/gui-xaw/diplomat_dialog.c
-client/gui-xaw/graphics.c
 client/gui-xaw/gui_main.c
 client/gui-xaw/helpdlg.c
 client/gui-xaw/inputdlg.c
 client/gui-xaw/inteldlg.c
 client/gui-xaw/mapctrl.c
-client/gui-xaw/mapview.c
 client/gui-xaw/menu.c
 client/gui-xaw/messagedlg.c
-client/gui-xaw/messagewin.c
 client/gui-xaw/optiondlg.c
 client/gui-xaw/pages.c
 client/gui-xaw/plrdlg.c
@@ -241,6 +226,7 @@ modinst/modinst.c
 modinst/mpcmdline.c
 data/Freeciv.in
 data/helpdata.txt
+# lua files are included nevertheless
 data/database.lua
 data/civ1/buildings.ruleset
 data/civ1/cities.ruleset
@@ -260,6 +246,7 @@ data/default/buildings.ruleset
 data/default/nations.ruleset
 data/default/cities.ruleset
 data/default/governments.ruleset
+# lua files are included nevertheless
 data/default/script.lua
 data/default/default.lua
 data/default/techs.ruleset
@@ -581,6 +568,8 @@ data/nation/montenegrin.ruleset
 data/nation/moravian.ruleset
 data/nation/mordvin.ruleset
 data/nation/moroccan.ruleset
+data/nation/mosotho.ruleset
+data/nation/motswana.ruleset
 data/nation/mozambican.ruleset
 data/nation/mughal.ruleset
 data/nation/muscovite.ruleset
