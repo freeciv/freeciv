@@ -28,7 +28,7 @@ function usage()
   echo ""
   echo "OPTIONS:"
   echo "    -c  the capability to change. One of:"
-  echo "        aimodules:  network capability"
+  echo "        aimodules:  AI modules capability"
   echo "                    (\"+Freeciv-ai-module-YYYY.MMM.DD\")"
   echo "        network:    network capability"
   echo "                    (\"+Freeciv.Devel.YYYY.MMM.DD\")"
