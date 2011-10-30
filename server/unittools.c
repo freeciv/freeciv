@@ -92,6 +92,8 @@ static void do_upgrade_effects(struct player *pplayer);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 static int hp_gain_coord(struct unit *punit);
 
+static void unit_move_transported(struct unit_list *units,
+                                  struct tile *psrc, struct tile *pdest);
 
 static bool maybe_become_veteran_real(struct unit *punit, bool settler);
 
@@ -2905,43 +2907,264 @@ static void check_unit_activity(struct unit *punit)
   };
 }
 
-/**************************************************************************
-  Moves a unit. No checks whatsoever! This is meant as a practical 
-  function for other functions, like do_airline, which do the checking 
+/*****************************************************************************
+  Moves a unit. No checks whatsoever! This is meant as a practical
+  function for other functions, like do_airline, which do the checking
   themselves.
 
-  If you move a unit you should always use this function, as it also sets 
-  the transported_by unit field correctly. take_from_land is only relevant 
-  if you have set transport_units. Note that the src and dest need not be 
-  adjacent.
+  If you move a unit you should always use this function, as it also sets
+  the transport status of the unit correctly. Note that the source tile (the
+  current tile of the unit) and pdesttile need not be adjacent.
 
   Returns TRUE iff unit still alive.
-**************************************************************************/
+*****************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
 {
-  struct player *pplayer = unit_owner(punit);
-  struct tile *psrctile = unit_tile(punit);
+  struct player *pplayer;
+  struct tile *psrctile;
   struct city *pcity;
-  struct unit *ptransporter = NULL;
-  struct vision *old_vision = punit->server.vision;
+  struct unit *ptransporter;
+  struct vision *old_vision;
   struct vision *new_vision;
-  int saved_id = punit->id;
-  bool unit_lives;
-    
+  struct unit_list *pcargo_units;
+  int saved_id;
+  bool unit_lives = TRUE;
+  bool adj;
+  enum direction8 facing;
+
+  /* Some checks. */
+  fc_assert_ret_val(punit != NULL, FALSE);
+  fc_assert_ret_val(pdesttile != NULL, FALSE);
+
+  pplayer = unit_owner(punit);
+  saved_id = punit->id;
+  old_vision = punit->server.vision;
+  psrctile = unit_tile(punit);
+
   conn_list_do_buffer(pplayer->connections);
 
-  /* Transported units. */
-  unit_list_iterate(unit_transport_cargo(punit), pcargo) {
-      /* FIXME: Some script may have killed unit while it has been
-       *        in cargo_units list, but it has not been unlinked
-       *        from this list. pcargo may be invalid pointer. */
-    struct vision *old_vision = pcargo->server.vision;
-    struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
-    const v_radius_t radius_sq =
-      V_RADIUS(get_unit_vision_at(pcargo, pdesttile, V_MAIN),
-               get_unit_vision_at(pcargo, pdesttile, V_INVIS));
+  /* We first unfog the destination, then move the unit and send the
+     move, and then fog the old territory. This means that the player
+     gets a chance to see the newly explored territory while the
+     client moves the unit, and both areas are visible during the
+     move */
 
-    fc_assert(unit_tile(pcargo) == psrctile);
+  /* Unload the unit if on a transport. */
+  ptransporter = unit_transport_get(punit);
+  if (ptransporter != NULL) {
+    /* Unload unit _before_ setting the new tile! */
+    unit_transport_unload(punit);
+    /* Send updated information to anyone watching that transporter
+     * was unloading cargo. */
+    send_unit_info(NULL, ptransporter);
+  }
+
+  /* Wakup units next to us before we move. */
+  wakeup_neighbor_sentries(punit);
+
+  /* Remove unit from the source tile. */
+  unit_list_remove(psrctile->units, punit);
+
+  /* Set unit orientation */
+  adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
+  if (adj) {
+    /* Only change orintation when moving to adjacent tile */
+    punit->facing = facing;
+  }
+
+  /* Set new tile. */
+  unit_tile_set(punit, pdesttile);
+  unit_list_prepend(pdesttile->units, punit);
+
+  /* Check unit activity. */
+  check_unit_activity(punit);
+  unit_did_action(punit);
+  unit_forget_last_activity(punit);
+
+  /* Move consequences and wakup. */
+  unit_move_consequences(punit, psrctile, pdesttile, FALSE);
+  wakeup_neighbor_sentries(punit);
+  maybe_make_contact(pdesttile, unit_owner(punit));
+
+  /* Move magic. */
+  punit->moved = TRUE;
+  punit->moves_left = MAX(0, punit->moves_left - move_cost);
+  if (punit->moves_left == 0) {
+    punit->done_moving = TRUE;
+  }
+
+  /* Enhance vision if unit steps into a fortress */
+  const v_radius_t radius_sq =
+      V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
+               get_unit_vision_at(punit, pdesttile, V_INVIS));
+  new_vision = vision_new(unit_owner(punit), pdesttile);
+  punit->server.vision = new_vision;
+  vision_change_sight(new_vision, radius_sq);
+  ASSERT_VISION(new_vision);
+
+  /* Claim ownership of fortress? */
+  if (BORDERS_DISABLED != game.info.borders
+      && tile_has_claimable_base(pdesttile, unit_type(punit))
+      && (!tile_owner(pdesttile)
+          || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
+    map_claim_ownership(pdesttile, pplayer, pdesttile);
+    map_claim_border(pdesttile, pplayer);
+    city_thaw_workers_queue();
+    city_refresh_queue_processing();
+  }
+
+  /* Send updated information to anyone watching.  If the unit moves
+   * in or out of a city we update the 'occupied' field.  Note there may
+   * be cities at both src and dest under some rulesets.
+   * If unit is about to take over enemy city, unit is seen by
+   * those players seeing inside cities of old city owner. After city
+   * has been transferred, updated info is sent by unit_enter_city() */
+  send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
+
+  /* Special checks for ground units in the ocean. */
+  if (!can_unit_survive_at_tile(punit, pdesttile)) {
+    ptransporter = transporter_for_unit(punit);
+    if (ptransporter) {
+      unit_transport_load(punit, ptransporter, FALSE);
+    }
+
+    /* Set activity to sentry if boarding a ship. */
+    if (ptransporter && !pplayer->ai_controlled && !unit_has_orders(punit)
+        && !can_unit_exist_at_tile(punit, pdesttile)) {
+      set_unit_activity(punit, ACTIVITY_SENTRY);
+    }
+
+    /* Transporter info should be send first because this allow us get right
+     * update_menu effect in client side. */
+    if (ptransporter) {
+      /* Send updated information to anyone watching that transporter has
+       * cargo. */
+      send_unit_info(NULL, ptransporter);
+    }
+
+    /*
+     * Send updated information to anyone watching that unit is on transport.
+     * All players without shared vison with owner player get
+     * REMOVE_UNIT package.
+     */
+    send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), TRUE);
+  }
+
+  /* Check cities at source and destination. */
+  if ((pcity = tile_city(psrctile))) {
+    refresh_dumb_city(pcity);
+  }
+  if ((pcity = tile_city(pdesttile))) {
+    refresh_dumb_city(pcity);
+  }
+
+  /* Clear old vision. */
+  vision_clear_sight(old_vision);
+  vision_free(old_vision);
+
+  /* Remove hidden units (like submarines) which aren't seen anymore. */
+  /* TODO: Make the radius a configure option. */
+  square_iterate(psrctile, 1, tile1) {
+    players_iterate(pplayer) {
+      /* We're only concerned with known, unfogged tiles which may contain
+       * hidden units that are no longer visible.  These units will not
+       * have been handled by the fog code, above. */
+      if (TILE_KNOWN_SEEN == tile_get_known(tile1, pplayer)) {
+        unit_list_iterate(tile1->units, punit2) {
+          if (punit2 != punit && !can_player_see_unit(pplayer, punit2)) {
+            unit_goes_out_of_sight(pplayer, punit2);
+          }
+        } unit_list_iterate_end;
+      }
+    } players_iterate_end;
+  } square_iterate_end;
+
+  /* Check timeout settings. */
+  if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
+    bool new_information_for_enemy = FALSE;
+
+    phase_players_iterate(penemy) {
+      /* Increase the timeout if an enemy unit moves and the
+       * timeoutaddenemymove setting is in use. */
+      if (penemy->is_connected
+          && pplayer != penemy
+          && pplayers_at_war(penemy, pplayer)
+          && can_player_see_unit(penemy, punit)) {
+        new_information_for_enemy = TRUE;
+        break;
+      }
+    } phase_players_iterate_end;
+
+    if (new_information_for_enemy) {
+      increase_timeout_because_unit_moved();
+    }
+  }
+
+  /* Let the scripts run ... */
+  script_server_signal_emit("unit_moved", 3,
+                            API_TYPE_UNIT, punit,
+                            API_TYPE_TILE, psrctile,
+                            API_TYPE_TILE, pdesttile);
+  unit_lives = unit_alive(saved_id);
+  if (!unit_lives) {
+    /* Script caused unit to die. */
+    goto cleanup;
+  }
+
+  /* Autoattack. */
+  unit_lives = unit_survive_autoattack(punit);
+  if (!unit_lives) {
+    /* Unit killed by autoattack. */
+    goto cleanup;
+  }
+
+  /* Is where a hut? */
+  if (tile_has_special(pdesttile, S_HUT)) {
+    unit_enter_hut(punit);
+    unit_lives = unit_alive(saved_id);
+  }
+  if (!unit_lives) {
+    /* Unit killed by entering a hut. */
+    goto cleanup;
+  }
+
+  /* Move transported units. */
+  pcargo_units = unit_transport_cargo(punit);
+  if (unit_list_size(pcargo_units) > 0) {
+    unit_move_transported(pcargo_units, psrctile, pdesttile);
+  }
+
+ cleanup:
+  conn_list_do_unbuffer(pplayer->connections);
+
+  return unit_lives;
+}
+
+/*****************************************************************************
+  Move transported units to the new tile.
+*****************************************************************************/
+static void unit_move_transported(struct unit_list *units,
+                                  struct tile *psrc, struct tile *pdest)
+{
+  fc_assert_ret(units != NULL);
+  fc_assert_ret(psrc != NULL);
+  fc_assert_ret(pdest != NULL);
+
+  /* Move all units _recursive_!*/
+  unit_list_iterate(units, pcargo) {
+    struct unit_list *pcargo_units = unit_transport_cargo(pcargo);
+    struct vision *old_vision = pcargo->server.vision;
+    struct vision *new_vision = vision_new(unit_owner(pcargo), pdest);
+    const v_radius_t radius_sq =
+      V_RADIUS(get_unit_vision_at(pcargo, pdest, V_MAIN),
+               get_unit_vision_at(pcargo, pdest, V_INVIS));
+
+    fc_assert(unit_tile(pcargo) == psrc);
+
+    if (unit_list_size(pcargo_units) > 0) {
+      /* Move all units transported by 'pcargo'. */
+      unit_move_transported(pcargo_units, psrc, pdest);
+    }
 
     pcargo->server.vision = new_vision;
     vision_change_sight(new_vision, radius_sq);
@@ -2951,231 +3174,22 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost)
     free_unit_orders(pcargo);
 
     /* Remove the unit from the old tile. */
-    unit_list_remove(psrctile->units, pcargo);
+    unit_list_remove(psrc->units, pcargo);
 
     /* Add the unit to the new tile. */
-    unit_tile_set(pcargo, pdesttile);
-    unit_list_prepend(pdesttile->units, pcargo);
+    unit_tile_set(pcargo, pdest);
+    unit_list_prepend(pdest->units, pcargo);
 
     check_unit_activity(pcargo);
-    send_unit_info_to_onlookers(NULL, pcargo, psrctile, FALSE);
+    send_unit_info_to_onlookers(NULL, pcargo, psrc, FALSE);
 
     vision_clear_sight(old_vision);
     vision_free(old_vision);
 
-    unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
+    unit_move_consequences(pcargo, psrc, pdest, TRUE);
     unit_did_action(pcargo);
     unit_forget_last_activity(pcargo);
   } unit_list_iterate_end;
-
-  unit_lives = unit_alive(saved_id);
-  if (unit_lives) {
-    wakeup_neighbor_sentries(punit);
-  }
-
-  /* We first unfog the destination, then move the unit and send the
-     move, and then fog the old territory. This means that the player
-     gets a chance to see the newly explored territory while the
-     client moves the unit, and both areas are visible during the
-     move */
-
-  /* Enhance vision if unit steps into a fortress */
-  if (unit_lives) {
-    bool adj;
-    enum direction8 facing;
-    const v_radius_t radius_sq =
-        V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
-                 get_unit_vision_at(punit, pdesttile, V_INVIS));
-
-    new_vision = vision_new(unit_owner(punit), pdesttile);
-    punit->server.vision = new_vision;
-    vision_change_sight(new_vision, radius_sq);
-    ASSERT_VISION(new_vision);
-
-    /* Claim ownership of fortress? */
-    if (BORDERS_DISABLED != game.info.borders
-        && tile_has_claimable_base(pdesttile, unit_type(punit))
-        && (!tile_owner(pdesttile)
-            || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
-      map_claim_ownership(pdesttile, pplayer, pdesttile);
-      map_claim_border(pdesttile, pplayer);
-      city_thaw_workers_queue();
-      city_refresh_queue_processing();
-    }
-
-    unit_list_remove(psrctile->units, punit);
-
-    /* Set unit orientation */
-    adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
-    if (adj) {
-      /* Only change orintation when moving to adjacent tile */
-      punit->facing = facing;
-    }
-
-    unit_tile_set(punit, pdesttile);
-    punit->moved = TRUE;
-    if (unit_transport_get(punit) != NULL) {
-      ptransporter = unit_transport_get(punit);
-      unit_transport_unload(punit);
-    }
-    punit->moves_left = MAX(0, punit->moves_left - move_cost);
-    if (punit->moves_left == 0) {
-      punit->done_moving = TRUE;
-    }
-    unit_list_prepend(pdesttile->units, punit);
-    check_unit_activity(punit);
-    unit_did_action(punit);
-    unit_forget_last_activity(punit);
-  }
-
-  /*
-   * Transporter info should be send first becouse this allow us get right
-   * update_menu effect in client side.
-   */
-  
-  /*
-   * Send updated information to anyone watching that transporter was unload
-   * cargo.
-   */
-  if (ptransporter) {
-    send_unit_info(NULL, ptransporter);
-  }
-
-  /* Send updated information to anyone watching.  If the unit moves
-   * in or out of a city we update the 'occupied' field.  Note there may
-   * be cities at both src and dest under some rulesets.
-   *   If unit is about to take over enemy city, unit is seen by
-   * those players seeing inside cities of old city owner. After city
-   * has been transferred, updated info is sent by unit_enter_city() */
-  if (unit_lives) {
-    send_unit_info_to_onlookers(NULL, punit, psrctile, FALSE);
-    
-    /* Special checks for ground units in the ocean. */
-    if (!can_unit_survive_at_tile(punit, pdesttile)) {
-      ptransporter = transporter_for_unit(punit);
-      if (ptransporter) {
-        unit_transport_load(punit, ptransporter, FALSE);
-      }
-
-      /* Set activity to sentry if boarding a ship. */
-      if (ptransporter && !pplayer->ai_controlled && !unit_has_orders(punit)
-          && !can_unit_exist_at_tile(punit, pdesttile)) {
-        set_unit_activity(punit, ACTIVITY_SENTRY);
-      }
-
-      /*
-       * Transporter info should be send first because this allow us get right
-       * update_menu effect in client side.
-       */
-    
-      /*
-       * Send updated information to anyone watching that transporter has cargo.
-       */
-      if (ptransporter) {
-        send_unit_info(NULL, ptransporter);
-      }
-
-      /*
-       * Send updated information to anyone watching that unit is on transport.
-       * All players without shared vison with owner player get
-       * REMOVE_UNIT package.
-       */
-      send_unit_info_to_onlookers(NULL, punit, unit_tile(punit), TRUE);
-    }
-  }
-
-  if ((pcity = tile_city(psrctile))) {
-    refresh_dumb_city(pcity);
-  }
-  if ((pcity = tile_city(pdesttile))) {
-    refresh_dumb_city(pcity);
-  }
-
-  vision_clear_sight(old_vision);
-  vision_free(old_vision);
-
-  /* Remove hidden units (like submarines) which aren't seen anymore. */
-  square_iterate(psrctile, 1, tile1) {
-    players_iterate(pplayer) {
-      /* We're only concerned with known, unfogged tiles which may contain
-       * hidden units that are no longer visible.  These units will not
-       * have been handled by the fog code, above. */
-      if (TILE_KNOWN_SEEN == tile_get_known(tile1, pplayer)) {
-        unit_list_iterate(tile1->units, punit2) {
-          if (punit2 != punit && !can_player_see_unit(pplayer, punit2)) {
-	    unit_goes_out_of_sight(pplayer, punit2);
-	  }
-        } unit_list_iterate_end;
-      }
-    } players_iterate_end;
-  } square_iterate_end;
-
-  if (unit_lives) {
-    unit_move_consequences(punit, psrctile, pdesttile, FALSE);
-
-    /* FIXME: Should signal emit be after sentried units have been
-     *        waken up in case script causes unit death? */
-    script_server_signal_emit("unit_moved", 3,
-                              API_TYPE_UNIT, punit,
-                              API_TYPE_TILE, psrctile,
-                              API_TYPE_TILE, pdesttile);
-    unit_lives = unit_alive(saved_id);
-
-    if (!unit_lives) {
-      /* Script caused unit to die */
-      return FALSE;
-    }
-  }
-
-  if (unit_lives) {
-    wakeup_neighbor_sentries(punit);
-    unit_lives = unit_survive_autoattack(punit);
-  }
-
-  if (unit_lives) {
-    maybe_make_contact(pdesttile, unit_owner(punit));
-  }
-
-  conn_list_do_unbuffer(pplayer->connections);
-
-  if (!unit_lives) {
-    return FALSE;
-  }
-
-  if (game.info.timeout != 0 && game.server.timeoutaddenemymove > 0) {
-    bool new_information_for_enemy = FALSE;
-
-    phase_players_iterate(penemy) {
-      /* Increase the timeout if an enemy unit moves and the
-       * timeoutaddenemymove setting is in use. */
-      if (penemy->is_connected
-	  && pplayer != penemy
-	  && pplayers_at_war(penemy, pplayer)
-	  && can_player_see_unit(penemy, punit)) {
-	new_information_for_enemy = TRUE;
-	break;
-      }
-    } phase_players_iterate_end;
-
-    if (new_information_for_enemy) {
-      increase_timeout_because_unit_moved();
-    }
-  }
-
-  /* Note, an individual call to unit_move may leave things in an unstable
-   * state (e.g., negative transporter capacity) if more than one unit is
-   * being moved at a time (e.g., bounce unit) and they are not done in the
-   * right order.  This is probably not a bug. */
-
-  if (tile_has_special(pdesttile, S_HUT)) {
-    int saved_id = punit->id;
-
-    unit_enter_hut(punit);
-
-    return unit_alive(saved_id);
-  }
-
-  return TRUE;
 }
 
 /**************************************************************************
