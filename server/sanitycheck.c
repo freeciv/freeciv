@@ -43,7 +43,7 @@
 
 #ifdef SANITY_CHECKING
 
-#define SANITY_(format, ...) \
+#define SANITY_FAIL(format, ...) \
   fc_assert_fail(file, function, line, NULL, format, ## __VA_ARGS__)
 
 #define SANITY_CHECK(check) \
@@ -217,11 +217,11 @@ static bool check_city_good(struct city *pcity, const char *file,
 
   if (NULL == pcenter) {
     /* Editor! */
-    SANITY_("(----,----) city has no tile (skipping remaining tests), "
-            "at %s \"%s\"[%d]%s",
-            nation_rule_name(nation_of_player(pplayer)),
-            city_name(pcity), city_size_get(pcity),
-            "{city center}");
+    SANITY_FAIL("(----,----) city has no tile (skipping remaining tests), "
+                "at %s \"%s\"[%d]%s",
+                nation_rule_name(nation_of_player(pplayer)),
+                city_name(pcity), city_size_get(pcity),
+                "{city center}");
     return FALSE;
   }
 
@@ -233,13 +233,12 @@ static bool check_city_good(struct city *pcity, const char *file,
 
   if (NULL != tile_owner(pcenter)) {
     if (tile_owner(pcenter) != pplayer) {
-      SANITY_("(%4d,%4d) tile owned by %s, "
-              "at %s \"%s\"[%d]%s",
-              TILE_XY(pcenter),
-              nation_rule_name(nation_of_player(tile_owner(pcenter))),
-              nation_rule_name(nation_of_player(pplayer)),
-              city_name(pcity), city_size_get(pcity),
-              "{city center}");
+      SANITY_FAIL("(%4d,%4d) tile owned by %s, at %s \"%s\"[%d]%s",
+                  TILE_XY(pcenter),
+                  nation_rule_name(nation_of_player(tile_owner(pcenter))),
+                  nation_rule_name(nation_of_player(pplayer)),
+                  city_name(pcity), city_size_get(pcity),
+                  "{city center}");
     }
   }
 
@@ -281,11 +280,9 @@ static void check_city_size(struct city *pcity, const char *file,
   citizens += city_specialists(pcity);
   delta = city_size_get(pcity) - citizens;
   if (0 != delta) {
-    SANITY_("(%4d,%4d) %d citizens not equal [size], "
-            "repairing \"%s\"[%d]",
-            TILE_XY(pcity->tile),
-            citizens,
-            city_name(pcity), city_size_get(pcity));
+    SANITY_FAIL("(%4d,%4d) %d citizens not equal [size], "
+                "repairing \"%s\"[%d]", TILE_XY(pcity->tile),
+                citizens, city_name(pcity), city_size_get(pcity));
 
     citylog_map_workers(LOG_DEBUG, pcity);
     log_debug("[%s (%d)] specialists: %d", city_name(pcity), pcity->id,
@@ -367,12 +364,11 @@ static void check_units(const char *file, const char *function, int line)
       }
 
       if (!can_unit_continue_current_activity(punit)) {
-	SANITY_("(%4d,%4d) %s has activity %s, "
-		"but it can't continue at %s",
-		TILE_XY(ptile),
-		unit_rule_name(punit),
-		get_activity_text(punit->activity),
-		tile_get_info_text(ptile, 0));
+        SANITY_FAIL("(%4d,%4d) %s has activity %s, "
+                    "but it can't continue at %s",
+                    TILE_XY(ptile), unit_rule_name(punit),
+                    get_activity_text(punit->activity),
+                    tile_get_info_text(ptile, 0));
       }
 
       pcity = tile_city(ptile);
@@ -468,8 +464,8 @@ static void check_players(const char *file, const char *function, int line)
 
     if (pplayer->revolution_finishes == -1) {
       if (government_of_player(pplayer) == game.government_during_revolution) {
-        SANITY_("%s government is anarchy, but does not finish!",
-                nation_rule_name(nation_of_player(pplayer)));
+        SANITY_FAIL("%s government is anarchy, but does not finish!",
+                    nation_rule_name(nation_of_player(pplayer)));
       }
       SANITY_CHECK(government_of_player(pplayer) != game.government_during_revolution);
     } else if (pplayer->revolution_finishes > game.info.turn) {
@@ -573,8 +569,8 @@ void real_sanity_check_tile(struct tile *ptile, const char *file,
      * done by check_units() in real_sanity_check(). */
     if (!can_unit_exist_at_tile(punit, ptile)
         && punit->transported_by != -1) {
-      SANITY_("(%4d,%4d) %s can't survive on %s", TILE_XY(ptile),
-              unit_rule_name(punit), tile_get_info_text(ptile, 0));
+      SANITY_FAIL("(%4d,%4d) %s can't survive on %s", TILE_XY(ptile),
+                  unit_rule_name(punit), tile_get_info_text(ptile, 0));
     }
   } unit_list_iterate_end;
 }
