@@ -391,7 +391,16 @@ void popup_pillage_dialog(struct unit *punit,
 *****************************************************************************/
 void unit_select_dialog_popup(struct tile *ptile)
 {
-  unit_select_dialog_popup_main(ptile);
+  unit_select_dialog_popup_main(ptile, TRUE);
+}
+
+/*****************************************************************************
+  Update unit selection dialog. It is a wrapper for the main function; see
+  unitselect.c:unit_select_dialog_popup_main().
+*****************************************************************************/
+void unit_select_dialog_update_real(void)
+{
+  unit_select_dialog_popup_main(NULL, FALSE);
 }
 
 /****************************************************************
@@ -1088,4 +1097,5 @@ void popdown_all_game_dialogs(void)
 {
   gui_dialog_destroy_all();
   property_editor_popdown(editprop_get_property_editor());
+  unit_select_dialog_popdown();
 }

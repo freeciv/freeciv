@@ -17,7 +17,7 @@
 
 struct tile;
 
-void unit_select_dialog_popup_main(struct tile *ptile);
+void unit_select_dialog_popup_main(struct tile *ptile, bool create);
 
 void unit_select_dialog_popdown(void);
 

@@ -21,16 +21,19 @@
 #include "fcintl.h"
 
 /* common */
+#include "fc_types.h"
 #include "game.h"
 #include "player.h"
 #include "unit.h"
 #include "unitlist.h"
+#include "unittype.h"
 
 /* client */
 #include "client_main.h"
 #include "control.h"
 #include "goto.h"
 #include "tilespec.h"
+#include "unitselect_common.h"
 
 /* client/gui-gtk-3.0 */
 #include "graphics.h"
@@ -39,50 +42,756 @@
 
 #include "unitselect.h"
 
+/* Activate this to get more columns (see below) */
+#undef DEBUG_USDLG
 
-#define NUM_UNIT_SELECT_COLUMNS 2
+enum usdlg_column_types {
+  COL_PIXBUF,
+  COL_TEXT,
+  COL_INT
+};
 
-#define SELECT_UNIT_READY  1
-#define SELECT_UNIT_SENTRY 2
-#define SELECT_UNIT_ALL    3
+enum usdlg_row_types {
+  ROW_UNITTYPE,
+  ROW_ACTIVITY,
+  ROW_UNIT,
+  ROW_UNIT_TRANSPORTED
+};
 
-static GtkWidget *unit_select_dialog_shell;
-static GtkTreeStore *unit_select_store;
-static GtkWidget *unit_select_view;
-static GtkTreePath *unit_select_path;
-static struct tile *unit_select_ptile;
+/* Basic data (Unit, description, count) */
+#define USDLG_COLUMNS_DEFAULT       3
+/* Additional data; shown if DEBUG_USDLG */
+#define USDLG_COL_UTID          USDLG_COLUMNS_DEFAULT + 0 /* Unit type ID */
+#define USDLG_COL_UID           USDLG_COLUMNS_DEFAULT + 1 /* Unit ID */
+#define USDLG_COL_LOCATION      USDLG_COLUMNS_DEFAULT + 2 /* Unit location */
+#define USDLG_COL_ACTIVITY      USDLG_COLUMNS_DEFAULT + 3 /* Unit activity */
+#define USDLG_COL_ROW_TYPE      USDLG_COLUMNS_DEFAULT + 4 /* Row type */
+#define USDLG_COLUMNS_DEBUG     USDLG_COLUMNS_DEFAULT + 5
+/* Layout options; never shown */
+#define USDLG_COL_STYLE         USDLG_COLUMNS_DEBUG + 0
+#define USDLG_COL_WEIGHT        USDLG_COLUMNS_DEBUG + 1
+#define USDLG_COLUMNS_ALL       USDLG_COLUMNS_DEBUG + 2
+
+#ifdef DEBUG_USDLG
+  #define USDLG_COLUMNS_SHOW    USDLG_COLUMNS_DEBUG
+#else
+  #define USDLG_COLUMNS_SHOW    USDLG_COLUMNS_DEFAULT
+#endif /* DEBUG */
+
+enum usdlg_column_types usdlg_col_types[USDLG_COLUMNS_ALL] = {
+  COL_PIXBUF, /* Unit */
+  COL_TEXT,   /* Description */
+  COL_INT,    /* Count */
+  COL_INT,    /* Debug: unit type */
+  COL_INT,    /* Debug: unit ID */
+  COL_INT,    /* Debug: location */
+  COL_INT,    /* Debug: activity */
+  COL_INT,    /* Debug: row type */
+  COL_INT,    /* Layout: style */
+  COL_INT     /* Layout: width */
+};
+
+static const char *usdlg_col_titles[USDLG_COLUMNS_ALL] = {
+  N_("Unit"),
+  N_("Description"),
+  N_("Count"),
+  "[Unittype]", /* No translation! */
+  "[Unit ID]",
+  "[Location]",
+  "[Activity]",
+  "[Row type]",
+  "[Style]",
+  "[Width]"
+};
+
+enum usdlg_cmd {
+  USDLG_CMD_SELECT,
+  USDLG_CMD_DESELECT,
+  USDLG_CMD_READY,
+  USDLG_CMD_SENTRY,
+  USDLG_CMD_CENTER,
+  USDLG_CMD_FOCUS,
+  USDLG_CMD_LAST
+};
+
+struct unit_select_dialog {
+  struct tile *ptile;
+  int unit_id_focus;
+
+  GtkWidget *shell;
+  GtkWidget *notebook;
+
+  struct {
+    GtkTreeStore *store;
+    GtkWidget *view;
+    GtkTreePath *path;
+  } units;
+
+  struct {
+    GtkTreeStore *store;
+    GtkWidget *page;
+    GtkWidget *view;
+    GtkTreePath *path;
+
+    GtkWidget *cmd[USDLG_CMD_LAST];
+  } tabs[SELLOC_COUNT];
+};
+
+/* The unit selection dialog; should only be used in usdlg_get(). */
+static struct unit_select_dialog *unit_select_dlg = NULL;
+
+static struct unit_select_dialog *usdlg_get(bool create);
+static struct unit_select_dialog *usdlg_create(void);
+static void usdlg_destroy(void);
+static void usdlg_destroy_callback(GtkObject *object, gpointer data);
+static void usdlg_tile(struct unit_select_dialog *pdialog,
+                       struct tile *ptile);
+static void usdlg_refresh(struct unit_select_dialog *pdialog);
+
+static void usdlg_tab_select(struct unit_select_dialog *pdialog,
+                             const char *title,
+                             enum unit_select_location_mode loc);
+static GtkTreeStore *usdlg_tab_store_new(void);
+static bool usdlg_tab_update(struct unit_select_dialog *pdialog, 
+                             struct usdata_hash *ushash,
+                             enum unit_select_location_mode loc);
+static void usdlg_tab_append_utype(GtkTreeStore *store,
+                                   enum unit_select_location_mode loc,
+                                   struct unit_type *putype,
+                                   GtkTreeIter *it);
+static void usdlg_tab_append_activity(GtkTreeStore *store,
+                                      enum unit_select_location_mode loc,
+                                      const struct unit_type *putype,
+                                      enum unit_activity act,
+                                      int count, GtkTreeIter *it,
+                                      GtkTreeIter *parent);
+static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
+                                   enum unit_select_location_mode loc,
+                                   enum unit_activity act,
+                                   const struct unit *punit,
+                                   bool transported, GtkTreeIter *it,
+                                   GtkTreeIter *parent);
+
+static void usdlg_cmd_ready(GtkObject *object, gpointer data);
+static void usdlg_cmd_sentry(GtkObject *object, gpointer data);
+static void usdlg_cmd_select(GtkObject *object, gpointer data);
+static void usdlg_cmd_deselect(GtkObject *object, gpointer data);
+static void usdlg_cmd_exec(GtkObject *object, gpointer data,
+                           enum usdlg_cmd cmd);
+static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd);
+static void usdlg_cmd_center(GtkObject *object, gpointer data);
+static void usdlg_cmd_focus(GtkObject *object, gpointer data);
+static void usdlg_cmd_focus_real(GtkTreeView *view);
+static void usdlg_cmd_row_activated(GtkTreeView *view, GtkTreePath *path,
+                                    GtkTreeViewColumn *col, gpointer data);
+static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data);
 
 
 /*****************************************************************************
-  Row from unit select dialog activated
+  Popup the unit selection dialog.
 *****************************************************************************/
-static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
+void unit_select_dialog_popup_main(struct tile *ptile, bool create)
 {
-  GtkTreeIter it;
-  struct unit *punit;
-  gint id;
+  struct unit_select_dialog *pdialog;
 
-  gtk_tree_model_get_iter(GTK_TREE_MODEL(unit_select_store), &it, path);
-  gtk_tree_model_get(GTK_TREE_MODEL(unit_select_store), &it, 0, &id, -1);
- 
-  if ((punit = player_unit_by_number(client_player(), id))) {
-    unit_focus_set(punit);
+  /* Create the dialog if it is requested. */
+  pdialog = usdlg_get(create);
+
+  /* Present the unit selection dialog if it exists. */
+  if (pdialog) {
+    /* Show all. */
+    gtk_widget_show_all(GTK_WIDGET(pdialog->shell));
+    /* Update tile. */
+    usdlg_tile(pdialog, ptile);
+    /* Refresh data and hide unused tabs. */
+    usdlg_refresh(pdialog);
   }
-
-  gtk_widget_destroy(unit_select_dialog_shell);
 }
 
 /*****************************************************************************
-  Add unit to unit select dialog
+  Popdown the unit selection dialog.
 *****************************************************************************/
-static void unit_select_append(struct unit *punit, GtkTreeIter *it,
-                               GtkTreeIter *parent)
+void unit_select_dialog_popdown(void)
+{
+  usdlg_destroy();
+}
+
+/*****************************************************************************
+  Get the current unit selection dialog. Create it if needed and 'create' is
+  TRUE.
+*****************************************************************************/
+static struct unit_select_dialog *usdlg_get(bool create)
+{
+  if (unit_select_dlg) {
+    /* Return existing dialog. */
+    return unit_select_dlg;
+  } else if (create) {
+    /* Create new dialog. */
+    unit_select_dlg = usdlg_create();
+    return unit_select_dlg;
+  } else {
+    /* Nothing. */
+    return NULL;
+  }
+}
+
+/*****************************************************************************
+  Create a new unit selection dialog.
+*****************************************************************************/
+static struct unit_select_dialog *usdlg_create(void)
+{
+  GtkWidget *hbox, *vbox;
+  GtkWidget *close_cmd;
+  struct unit_select_dialog *pdialog;
+
+  /* Create a container for the dialog. */
+  pdialog = fc_calloc(1, sizeof(*pdialog));
+
+  /* No tile defined. */
+  pdialog->ptile = NULL;
+
+  /* Create the dialog. */
+  pdialog->shell = gtk_dialog_new_with_buttons(_("Unit selection"), NULL, 0,
+                                               NULL);
+  setup_dialog(pdialog->shell, toplevel);
+  g_signal_connect(pdialog->shell, "destroy",
+                   G_CALLBACK(usdlg_destroy_callback), pdialog);
+  gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
+  gtk_widget_realize(pdialog->shell);
+
+  vbox = GTK_DIALOG(pdialog->shell)->vbox;
+  hbox = gtk_hbox_new(TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
+  /* Notebook. */
+  pdialog->notebook = gtk_notebook_new();
+  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(pdialog->notebook),
+                           GTK_POS_BOTTOM);
+  gtk_box_pack_start(GTK_BOX(vbox), pdialog->notebook, TRUE, TRUE, 0);
+
+  /* Append pages. */
+  usdlg_tab_select(pdialog, _("_Units"), SELLOC_UNITS);
+  usdlg_tab_select(pdialog, _("_Tile"), SELLOC_TILE);
+  usdlg_tab_select(pdialog, _("C_ontinent"), SELLOC_CONT);
+  usdlg_tab_select(pdialog, _("_Land"), SELLOC_LAND);
+  usdlg_tab_select(pdialog, _("_Sea"), SELLOC_SEA);
+  usdlg_tab_select(pdialog, _("_Both"), SELLOC_BOTH);
+  usdlg_tab_select(pdialog, _("_World"), SELLOC_WORLD);
+
+  /* Buttons. */
+  close_cmd = gtk_dialog_add_button(GTK_DIALOG(pdialog->shell),
+                                    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
+                                  GTK_RESPONSE_CLOSE);
+  g_signal_connect(close_cmd, "clicked",
+                   G_CALLBACK(usdlg_destroy_callback), pdialog);
+
+  return pdialog;
+}
+
+/*****************************************************************************
+  Destroy a unit selection dialog.
+*****************************************************************************/
+static void usdlg_destroy(void)
+{
+  if (unit_select_dlg) {
+    gtk_widget_destroy(GTK_WIDGET(unit_select_dlg->shell));
+    free(unit_select_dlg);
+  }
+  unit_select_dlg = NULL;
+}
+
+/*****************************************************************************
+  Callback for the destruction of the dialog.
+*****************************************************************************/
+static void usdlg_destroy_callback(GtkObject *object, gpointer data)
+{
+  usdlg_destroy();
+}
+
+/*****************************************************************************
+  Set the reference tile.
+*****************************************************************************/
+static void usdlg_tile(struct unit_select_dialog *pdialog,
+                       struct tile *ptile)
+{
+  if (!pdialog) {
+    return;
+  }
+
+  /* Check for a valid tile. */
+  if (ptile != NULL) {
+    pdialog->ptile = ptile;
+  } else if (pdialog->ptile == NULL) {
+    struct unit *punit = head_of_units_in_focus();
+    if (punit) {
+      pdialog->ptile = unit_tile(punit);
+      center_tile_mapcanvas(pdialog->ptile);
+    }
+  }
+}
+
+/*****************************************************************************
+  Refresh the dialog.
+*****************************************************************************/
+static void usdlg_refresh(struct unit_select_dialog *pdialog)
+{
+  struct usdata_hash *ushash = NULL;
+  enum unit_select_location_mode loc;
+
+  if (!pdialog) {
+    return;
+  }
+
+  /* Sort units into the hash. */
+  ushash = usdlg_data_new(pdialog->ptile);
+  /* Update all tabs. */
+  for (loc = unit_select_location_mode_begin();
+       loc != unit_select_location_mode_end();
+       loc = unit_select_location_mode_next(loc)) {
+    bool show = usdlg_tab_update(pdialog, ushash, loc);
+
+    if (!show) {
+      gtk_widget_hide(pdialog->tabs[loc].page);
+    } else {
+      gtk_widget_show(pdialog->tabs[loc].page);
+
+      if (pdialog->tabs[loc].path) {
+        gtk_tree_view_expand_row(GTK_TREE_VIEW(pdialog->tabs[loc].view),
+                                 pdialog->tabs[loc].path,FALSE);
+        gtk_tree_view_set_cursor(GTK_TREE_VIEW(pdialog->tabs[loc].view),
+                                 pdialog->tabs[loc].path, NULL, FALSE);
+        gtk_tree_path_free(pdialog->tabs[loc].path);
+        pdialog->tabs[loc].path = NULL;
+      }
+    }
+  }
+  /* Destroy the hash. */
+  usdlg_data_destroy(ushash);
+}
+
+/*****************************************************************************
+  +--------------------------------+
+  | +-----------------+----------+ |
+  | | (unit list)     | select   | |
+  | |                 | deselect | |
+  | |                 |          | |
+  | |                 | center   | |
+  | |                 | focus    | |
+  | +-----------------+----------+ |
+  | | tabs | ... |                 |
+  |                          close |
+  +--------------------------------+
+*****************************************************************************/
+static void usdlg_tab_select(struct unit_select_dialog *pdialog,
+                             const char *title,
+                             enum unit_select_location_mode loc)
+{
+  GtkWidget *page, *label, *hbox, *vbox, *bbox, *view, *sw;
+  GtkTreeStore *store;
+  static bool titles_done;
+  int i;
+
+  page = gtk_vbox_new(FALSE, 0);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  pdialog->tabs[loc].page = page;
+
+  label = gtk_label_new_with_mnemonic(title);
+  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
+
+  hbox = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(page), hbox, TRUE, TRUE, 0);
+
+  store = usdlg_tab_store_new();
+  pdialog->tabs[loc].store = store;
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  pdialog->tabs[loc].view = view;
+  g_object_unref(store);
+
+  g_signal_connect(view, "row-activated", G_CALLBACK(usdlg_cmd_row_activated),
+                   (gpointer *)loc);
+  g_signal_connect(view, "cursor-changed",
+                   G_CALLBACK(usdlg_cmd_cursor_changed), (gpointer *)loc);
+
+  /* Translate titles. */
+  intl_slist(ARRAY_SIZE(usdlg_col_titles), usdlg_col_titles, &titles_done);
+
+  for (i = 0; i < USDLG_COLUMNS_SHOW; i++) {
+    GtkTreeViewColumn *column = NULL;
+    GtkCellRenderer *renderer = NULL;
+
+    switch (usdlg_col_types[i]) {
+    case COL_PIXBUF:
+      renderer = gtk_cell_renderer_pixbuf_new();
+      column = gtk_tree_view_column_new_with_attributes(
+                 usdlg_col_titles[i], renderer, "pixbuf", i, NULL);
+      gtk_tree_view_column_set_expand(column, FALSE);
+      break;
+    case COL_TEXT:
+      renderer = gtk_cell_renderer_text_new();
+      column = gtk_tree_view_column_new_with_attributes(
+                 usdlg_col_titles[i], renderer, "text", i,
+                 "style", USDLG_COL_STYLE, "weight", USDLG_COL_WEIGHT, NULL);
+      gtk_tree_view_column_set_expand(column, TRUE);
+      break;
+    case COL_INT:
+      renderer = gtk_cell_renderer_text_new();
+      column = gtk_tree_view_column_new_with_attributes(
+                 usdlg_col_titles[i], renderer, "text", i,
+                 "style", USDLG_COL_STYLE, "weight", USDLG_COL_WEIGHT, NULL);
+      g_object_set(renderer, "xalign", 1.0, NULL);
+      gtk_tree_view_column_set_alignment(column, 1.0);
+      gtk_tree_view_column_set_expand(column, FALSE);
+      break;
+    }
+
+    fc_assert_ret(column != NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+  }
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_widget_set_size_request(sw, -1, 300);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_box_pack_start(GTK_BOX(hbox), sw, TRUE, TRUE, 0);
+
+  vbox = gtk_vbox_new(FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, TRUE, 0);
+
+  /* button box 1: ready, sentry */
+  bbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), bbox, FALSE, TRUE, 0);
+
+  pdialog->tabs[loc].cmd[USDLG_CMD_READY]
+    = gtk_button_new_with_mnemonic(_("Ready"));
+  gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_READY],
+                     FALSE, TRUE, 0);
+  g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_READY], "clicked",
+                   G_CALLBACK(usdlg_cmd_ready), (gpointer *)loc);
+  gtk_widget_set_sensitive(
+    GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_READY]), FALSE);
+
+  pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY]
+    = gtk_button_new_with_mnemonic(_("Sentry"));
+  gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY],
+                     FALSE, TRUE, 0);
+  g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY], "clicked",
+                   G_CALLBACK(usdlg_cmd_sentry), (gpointer *)loc);
+  gtk_widget_set_sensitive(
+    GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY]), FALSE);
+
+  /* button box 2: select, deselect */
+  bbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), bbox, FALSE, TRUE, 0);
+
+  pdialog->tabs[loc].cmd[USDLG_CMD_SELECT]
+    = gtk_button_new_with_mnemonic(_("_Select"));
+  gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_SELECT],
+                     FALSE, TRUE, 0);
+  g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_SELECT], "clicked",
+                   G_CALLBACK(usdlg_cmd_select), (gpointer *)loc);
+  gtk_widget_set_sensitive(
+    GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_SELECT]), FALSE);
+
+  pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT]
+    = gtk_button_new_with_mnemonic(_("_Deselect"));
+  gtk_box_pack_start(GTK_BOX(bbox),
+                     pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT], FALSE, TRUE,
+                     0);
+  g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT], "clicked",
+                   G_CALLBACK(usdlg_cmd_deselect), (gpointer *)loc);
+  gtk_widget_set_sensitive(
+    GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT]), FALSE);
+
+  /* button box 3: center, focus */
+  bbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), bbox, FALSE, TRUE, 0);
+
+  pdialog->tabs[loc].cmd[USDLG_CMD_CENTER]
+    = gtk_button_new_with_mnemonic(_("C_enter"));
+  gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_CENTER],
+                     FALSE, TRUE, 0);
+  g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_CENTER], "clicked",
+                   G_CALLBACK(usdlg_cmd_center), (gpointer *)loc);
+  gtk_widget_set_sensitive(
+    GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_CENTER]), FALSE);
+
+  pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS]
+    = gtk_button_new_with_mnemonic(_("_Focus"));
+  gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS],
+                     FALSE, TRUE, 0);
+  g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS], "clicked",
+                   G_CALLBACK(usdlg_cmd_focus), (gpointer *)loc);
+  gtk_widget_set_sensitive(
+    GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS]), FALSE);
+}
+
+/*****************************************************************************
+  Create a player dialog store.
+*****************************************************************************/
+static GtkTreeStore *usdlg_tab_store_new(void)
+{
+  GtkTreeStore *store;
+  GType model_types[USDLG_COLUMNS_ALL];
+  int i;
+
+  for (i = 0; i < USDLG_COLUMNS_ALL; i++) {
+    switch (usdlg_col_types[i]) {
+    case COL_PIXBUF:
+      model_types[i] = GDK_TYPE_PIXBUF;
+      break;
+    case COL_TEXT:
+      model_types[i] = G_TYPE_STRING;
+      break;
+    case COL_INT:
+      model_types[i] = G_TYPE_INT;
+      break;
+    }
+  }
+
+  store = gtk_tree_store_newv(i, model_types);
+
+  return store;
+}
+
+/*****************************************************************************
+  Update on tab of the dialog.
+*****************************************************************************/
+static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
+                             struct usdata_hash *ushash,
+                             enum unit_select_location_mode loc)
+{
+  bool show = FALSE;
+  GtkTreeStore *store;
+
+  fc_assert_ret_val(ushash, FALSE);
+  fc_assert_ret_val(pdialog != NULL, FALSE);
+
+  store = pdialog->tabs[loc].store;
+
+  /* clear current store. */
+  gtk_tree_store_clear(GTK_TREE_STORE(store));
+
+  /* Iterate over all unit types. */
+  if (loc == SELLOC_UNITS) {
+    /* Special case - show all units on this tile in their transports. */
+    unit_type_iterate(utype) {
+      struct usdata *data;
+      enum unit_activity act;
+
+      usdata_hash_lookup(ushash, utype_index(utype), &data);
+
+      if (!data) {
+        continue;
+      }
+
+      for (act = 0; act < ACTIVITY_LAST; act++) {
+        if (!is_real_activity(act)
+            || unit_list_size(data->units[loc][act]) == 0) {
+          continue;
+        }
+
+        unit_list_iterate(data->units[loc][act], punit) {
+          GtkTreeIter it_unit;
+
+          usdlg_tab_append_units(pdialog, loc, act, punit, FALSE,
+                                 &it_unit, NULL);
+        } unit_list_iterate_end;
+
+        /* Show this tab. */
+        show = TRUE;
+      }
+    } unit_type_iterate_end;
+  } else {
+    unit_type_iterate(utype) {
+      struct usdata *data;
+      enum unit_activity act;
+      bool first = TRUE;
+      GtkTreeIter it_utype;
+      GtkTreePath *path;
+      int count = 0;
+
+      usdata_hash_lookup(ushash, utype_index(utype), &data);
+
+      if (!data) {
+        continue;
+      }
+
+      for (act = 0; act < ACTIVITY_LAST; act++) {
+        GtkTreeIter it_act;
+
+        if (!is_real_activity(act)
+            || unit_list_size(data->units[loc][act]) == 0) {
+          continue;
+        }
+
+        /* Level 1: Display unit type. */
+        if (first) {
+          usdlg_tab_append_utype(GTK_TREE_STORE(store), loc, data->utype,
+                                 &it_utype);
+          first = FALSE;
+        }
+
+        /* Level 2: Display unit activities. */
+        usdlg_tab_append_activity(GTK_TREE_STORE(store), loc, data->utype,
+                                  act, unit_list_size(data->units[loc][act]),
+                                  &it_act, &it_utype);
+
+        /* Level 3: Display all units with this activitiy
+         *          (and transported units in further level(s)). */
+        unit_list_iterate(data->units[loc][act], punit) {
+          GtkTreeIter it_unit;
+
+          usdlg_tab_append_units(pdialog, loc, act, punit, FALSE,
+                                 &it_unit, &it_act);
+        } unit_list_iterate_end;
+
+        count += unit_list_size(data->units[loc][act]);
+
+        /* Update sum of units with this type. */
+        gtk_tree_store_set(GTK_TREE_STORE(store), &it_utype, 2, count, -1);
+
+        /* Expand to the activities. */
+        path
+          = gtk_tree_model_get_path(GTK_TREE_MODEL(pdialog->tabs[loc].store),
+                                    &it_utype);
+        gtk_tree_view_expand_row(GTK_TREE_VIEW(pdialog->tabs[loc].view), path,
+                                 FALSE);
+        gtk_tree_path_free(path);
+
+        /* Show this tab. */
+        show = TRUE;
+      }
+    } unit_type_iterate_end;
+  }
+
+  return show;
+}
+
+/*****************************************************************************
+  Append the data for one unit type.
+*****************************************************************************/
+static void usdlg_tab_append_utype(GtkTreeStore *store,
+                                   enum unit_select_location_mode loc,
+                                   struct unit_type *putype,
+                                   GtkTreeIter *it)
 {
   GdkPixbuf *pix;
-  char buf[512];
+  char buf[128];
 
+  fc_assert_ret(store != NULL);
+  fc_assert_ret(putype != NULL);
+
+  /* Add this item. */
+  gtk_tree_store_append(GTK_TREE_STORE(store), it, NULL);
+
+  /* Create a icon */
   pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-      tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+                       tileset_full_tile_width(tileset),
+                       tileset_full_tile_height(tileset));
+
+  {
+    struct canvas canvas_store;
+
+    canvas_store.type = CANVAS_PIXBUF;
+    canvas_store.v.pixbuf = pix;
+
+    gdk_pixbuf_fill(pix, 0x00000000);
+    put_unittype(putype, &canvas_store, 0, 0);
+  }
+
+  /* The name of the unit. */
+  fc_snprintf(buf, sizeof(buf), "%s", utype_name_translation(putype));
+
+  /* Add it to the tree. */
+  gtk_tree_store_set(GTK_TREE_STORE(store), it,
+                     0, pix,                            /* Unit pixmap */
+                     1, buf,                            /* Text */
+                     2, -1, /* will be set later */     /* Number of units */
+                     3, utype_index(putype),            /* Unit type ID */
+                     /* 4: not set */                   /* Unit ID */
+                     5, loc,                            /* Unit location */
+                     /* 6: not set */                   /* Unit activity */
+                     7, ROW_UNITTYPE,                   /* Row type */
+                     8, PANGO_STYLE_NORMAL,             /* Style */
+                     9, PANGO_WEIGHT_BOLD,              /* Weight */
+                     -1);
+  g_object_unref(pix);
+}
+
+/*****************************************************************************
+  Append the unit activity.
+*****************************************************************************/
+static void usdlg_tab_append_activity(GtkTreeStore *store,
+                                      enum unit_select_location_mode loc,
+                                      const struct unit_type *putype,
+                                      enum unit_activity act,
+                                      int count, GtkTreeIter *it,
+                                      GtkTreeIter *parent)
+{
+  char buf[128] = "";
+
+  fc_assert_ret(store != NULL);
+  fc_assert_ret(putype != NULL);
+  fc_assert_ret(is_real_activity(act));
+
+  /* Add this item. */
+  gtk_tree_store_append(GTK_TREE_STORE(store), it, parent);
+
+  /* The activity. */
+  fc_snprintf(buf, sizeof(buf), "%s", get_activity_text(act));
+
+  /* Add it to the tree. */
+  gtk_tree_store_set(GTK_TREE_STORE(store), it,
+                     /* 0: not set */                   /* Unit pixmap */
+                     1, buf,                            /* Text */
+                     2, count,                          /* Number of units */
+                     3, utype_index(putype),            /* Unit type ID */
+                     /* 4: not set */                   /* Unit ID */
+                     5, loc,                            /* Unit location */
+                     6, act,                            /* Unit activity */
+                     7, ROW_ACTIVITY,                   /* Row type */
+                     8, PANGO_STYLE_NORMAL,             /* Style */
+                     9, PANGO_WEIGHT_NORMAL,            /* Weight */
+                     -1);
+}
+
+/*****************************************************************************
+  Append units (recursively).
+*****************************************************************************/
+static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
+                                   enum unit_select_location_mode loc,
+                                   enum unit_activity act,
+                                   const struct unit *punit,
+                                   bool transported, GtkTreeIter *it,
+                                   GtkTreeIter *parent)
+{
+  char buf[248] = "", buf2[248] = "";
+  GdkPixbuf *pix;
+  struct city *phome;
+  enum usdlg_row_types row = ROW_UNIT;
+  int style = PANGO_STYLE_NORMAL;
+  int weight = PANGO_WEIGHT_NORMAL;
+  GtkTreeStore *store;
+
+  fc_assert_ret(pdialog != NULL);
+  fc_assert_ret(punit != NULL);
+  fc_assert_ret(is_real_activity(act));
+
+  store = pdialog->tabs[loc].store;
+
+
+  /* Add this item. */
+  gtk_tree_store_append(GTK_TREE_STORE(store), it, parent);
+
+  /* Unit pixmap */
+  pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+                       tileset_full_tile_width(tileset),
+                       tileset_full_tile_height(tileset));
 
   {
     struct canvas canvas_store;
@@ -94,288 +803,451 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
     put_unit(punit, &canvas_store, 0, 0);
   }
 
-  {
-    struct city *phome = game_city_by_number(punit->homecity);
+  phome = game_city_by_number(punit->homecity);
+  if (phome) {
+    fc_snprintf(buf2, sizeof(buf2), "%s", city_name(phome));
+  } else if (unit_owner(punit) == client_player()
+             || client_is_global_observer()) {
+    sz_strlcpy(buf2, "no home city");
+  } else {
+    sz_strlcpy(buf2, "unknown");
+  }
 #ifdef DEBUG
-    fc_snprintf(buf, sizeof(buf), "%s [Unit ID %d]\n(%s)",
-                unit_name_translation(punit), punit->id,
-                phome == NULL ? "no home city" : city_name(phome));
-#else  /* DEBUG */
-    fc_snprintf(buf, sizeof(buf), "%s\n(%s)", unit_name_translation(punit),
-                phome == NULL ? "no home city" : city_name(phome));
+  fc_snprintf(buf, sizeof(buf), "%s [Unit ID %d]\n(%s)\nCoordinates: (%d,%d)",
+              unit_name_translation(punit), punit->id, buf2,
+              TILE_XY(unit_tile(punit)));
+  {
+    struct unit *ptrans = unit_transport_get(punit);
+
+    if (ptrans) {
+      cat_snprintf(buf, sizeof(buf), "\nTransported by unit ID %d",
+                   ptrans->id);
+    }
+  }
+#else /* DEBUG */
+  fc_snprintf(buf, sizeof(buf), "%s\n(%s)", unit_name_translation(punit),
+              buf2);
 #endif /* DEBUG */
+
+  if (transported) {
+    weight = PANGO_WEIGHT_NORMAL;
+    style = PANGO_STYLE_ITALIC;
+    row = ROW_UNIT_TRANSPORTED;
   }
 
-  gtk_tree_store_append(unit_select_store, it, parent);
-  gtk_tree_store_set(unit_select_store, it,
-      0, punit->id,
-      1, pix,
-      2, buf,
-      -1);
+  /* Add it to the tree. */
+  gtk_tree_store_set(GTK_TREE_STORE(store), it,
+                     0, pix,                            /* Unit pixmap */
+                     1, buf,                            /* Text */
+                     2, 1,                              /* Number of units */
+                     3, utype_index(unit_type(punit)),  /* Unit type ID */
+                     4, punit->id,                      /* Unit ID */
+                     5, loc,                            /* Unit location */
+                     6, act,                            /* Unit activity */
+                     7, row,                            /* Row type */
+                     8, style,                          /* Style */
+                     9, weight,                         /* Weight */
+                     -1);
   g_object_unref(pix);
 
-  if (unit_is_in_focus(punit)) {
-    unit_select_path =
-      gtk_tree_model_get_path(GTK_TREE_MODEL(unit_select_store), it);
+  if (get_transporter_occupancy(punit) > 0) {
+    unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+      GtkTreeIter it_cargo;
+
+      usdlg_tab_append_units(pdialog, loc, act, pcargo, TRUE, &it_cargo, it);
+    } unit_list_iterate_end;
+  }
+
+  if (!transported && unit_is_in_focus(punit)) {
+    pdialog->tabs[loc].path
+      = gtk_tree_model_get_path(GTK_TREE_MODEL(store), it);
   }
 }
 
 /*****************************************************************************
-  Recursively select units that transport already selected units, starting
-  from root_id unit.
+  Callback for the ready button.
 *****************************************************************************/
-static void unit_select_recurse(int root_id, GtkTreeIter *it_root)
+static void usdlg_cmd_ready(GtkObject *object, gpointer data)
 {
-  unit_list_iterate(unit_select_ptile->units, pleaf) {
-    GtkTreeIter it_leaf;
-
-    if (pleaf->transported_by == root_id) {
-      unit_select_append(pleaf, &it_leaf, it_root);
-      if (pleaf->occupy > 0) {
-        unit_select_recurse(pleaf->id, &it_leaf);
-      }
-    }
-  } unit_list_iterate_end;
+  usdlg_cmd_exec(object, data, USDLG_CMD_READY);
 }
 
 /*****************************************************************************
-  Refresh unit selection dialog
+  Callback for the sentry button.
 *****************************************************************************/
-static void unit_select_dialog_refresh(void)
+static void usdlg_cmd_sentry(GtkObject *object, gpointer data)
 {
-  if (unit_select_dialog_shell) {
-    gtk_tree_store_clear(unit_select_store);
+  usdlg_cmd_exec(object, data, USDLG_CMD_SENTRY);
+}
 
-    unit_select_recurse(-1, NULL);
-    gtk_tree_view_expand_all(GTK_TREE_VIEW(unit_select_view));
+/*****************************************************************************
+  Callback for the select button.
+*****************************************************************************/
+static void usdlg_cmd_select(GtkObject *object, gpointer data)
+{
+  usdlg_cmd_exec(object, data, USDLG_CMD_SELECT);
+}
 
-    if (unit_select_path) {
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW(unit_select_view),
-          unit_select_path, NULL, FALSE);
-      gtk_tree_path_free(unit_select_path);
-      unit_select_path = NULL;
-    }
+/*****************************************************************************
+  Callback for the deselect button.
+*****************************************************************************/
+static void usdlg_cmd_deselect(GtkObject *object, gpointer data)
+{
+  usdlg_cmd_exec(object, data, USDLG_CMD_DESELECT);
+}
+
+/*****************************************************************************
+  Main function for the callbacks.
+*****************************************************************************/
+static void usdlg_cmd_exec(GtkObject *object, gpointer data,
+                           enum usdlg_cmd cmd)
+{
+  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  GtkTreeView *view;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint row;
+  struct unit_select_dialog *pdialog = usdlg_get(FALSE);
+
+  fc_assert_ret(pdialog != NULL);
+  fc_assert_ret(unit_select_location_mode_is_valid(loc));
+
+  if (!can_client_change_view() || !can_client_control()) {
+    return;
   }
-}
 
-/*****************************************************************************
-  Unit selection dialog being destroyed
-*****************************************************************************/
-static void unit_select_destroy_callback(GtkObject *object, gpointer data)
-{
-  unit_select_dialog_shell = NULL;
-}
+  view = GTK_TREE_VIEW(pdialog->tabs[loc].view);
+  selection = gtk_tree_view_get_selection(view);
 
-/*****************************************************************************
-  User responded to unit selection dialog
-*****************************************************************************/
-static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
-{
-  struct tile *ptile = unit_select_ptile;
+  if (!gtk_tree_selection_get_selected(selection, &model, &it)) {
+    log_debug("No selection");
+    return;
+  }
+  gtk_tree_model_get(model, &it, USDLG_COL_ROW_TYPE, &row, -1);
 
-  switch (rid) {
-  case SELECT_UNIT_READY:
+  switch (row) {
+  case ROW_UNITTYPE:
     {
-      struct unit *pmyunit = NULL;
+      gint loc, utid;
+      struct usdata_hash *ushash;
+      struct usdata *data;
 
-      unit_list_iterate(ptile->units, punit) {
-        if (unit_owner(punit) == client.conn.playing) {
-          pmyunit = punit;
+      gtk_tree_model_get(model, &it, USDLG_COL_LOCATION, &loc,
+                         USDLG_COL_UTID, &utid, -1);
 
-          /* Activate this unit. */
-          punit->client.focus_status = FOCUS_AVAIL;
-          if (unit_has_orders(punit)) {
-            request_orders_cleared(punit);
+      /* We can't be sure that all units still exists - recalc the data. */
+      ushash = usdlg_data_new(pdialog->ptile);
+
+      usdata_hash_lookup(ushash, utid, &data);
+      if (data != NULL) {
+        enum unit_activity act;
+
+        for (act = 0; act < ACTIVITY_LAST; act++) {
+          if (!is_real_activity(act)
+              || unit_list_size(data->units[loc][act]) == 0) {
+            continue;
           }
-          if (punit->activity != ACTIVITY_IDLE || punit->ai_controlled) {
-            punit->ai_controlled = FALSE;
-            request_new_unit_activity(punit, ACTIVITY_IDLE);
-          }
+
+          unit_list_iterate(data->units[loc][act], punit) {
+            usdlg_cmd_exec_unit(punit, cmd);
+          } unit_list_iterate_end;
         }
-      } unit_list_iterate_end;
-
-      if (pmyunit) {
-        /* Put the focus on one of the activated units. */
-        unit_focus_set(pmyunit);
       }
+
+      /* Destroy the hash. */
+      usdlg_data_destroy(ushash);
     }
     break;
-
-  case SELECT_UNIT_SENTRY:
+  case ROW_ACTIVITY:
     {
-      unit_list_iterate(ptile->units, punit) {
-        if (unit_owner(punit) == client.conn.playing) {
-          if ((punit->activity == ACTIVITY_IDLE) &&
-              !punit->ai_controlled &&
-              can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
-            request_new_unit_activity(punit, ACTIVITY_SENTRY);
-          }
-        }
-      } unit_list_iterate_end;
+      gint loc, act, utid;
+      struct usdata_hash *ushash;
+      struct usdata *data;
+
+      gtk_tree_model_get(model, &it, USDLG_COL_ACTIVITY, &act,
+                         USDLG_COL_LOCATION, &loc, USDLG_COL_UTID, &utid, -1);
+
+      fc_assert_ret(is_real_activity(act));
+
+      /* We can't be sure that all units still exists - recalc the data. */
+      ushash = usdlg_data_new(pdialog->ptile);
+
+      usdata_hash_lookup(ushash, utid, &data);
+      if (data != NULL 
+          && unit_list_size(data->units[loc][act]) != 0) {
+        unit_list_iterate(data->units[loc][act], punit) {
+          usdlg_cmd_exec_unit(punit, cmd);
+        } unit_list_iterate_end;
+      }
+
+      /* Destroy the hash. */
+      usdlg_data_destroy(ushash);
     }
     break;
-
-  case SELECT_UNIT_ALL:
+  case ROW_UNIT:
+  case ROW_UNIT_TRANSPORTED:
     {
-      unit_list_iterate(ptile->units, punit) {
-        if (unit_owner(punit) == client.conn.playing) {
-          if (punit->activity == ACTIVITY_IDLE &&
-              !punit->ai_controlled) {
-            /* Give focus to it */
-            unit_focus_add(punit);
-          }
-        }
-      } unit_list_iterate_end;
-    }
-    break;
+      gint uid;
+      struct unit *punit;
 
-  default:
+      gtk_tree_model_get(model, &it, USDLG_COL_UID, &uid, -1);
+
+      punit = game_unit_by_number(uid);
+
+      if (!punit) {
+        log_debug("Unit vanished (Unit ID %d)!", uid);
+        return;
+      }
+
+      usdlg_cmd_exec_unit(punit, cmd);
+    }
     break;
   }
-  
-  gtk_widget_destroy(unit_select_dialog_shell);
+
+  /* Update focus. */
+  unit_focus_update();
+  /* Refresh dialog. */
+  usdlg_refresh(pdialog);
 }
 
 /*****************************************************************************
-  Popup unit select dialog
+  Update one unit (select/deselect/ready/sentry).
 *****************************************************************************/
-void unit_select_dialog_popup_main(struct tile *ptile)
+static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd)
 {
-  /* First check for a valid tile. */
-  if (ptile == NULL) {
-    struct unit *punit = head_of_units_in_focus();
-    if (punit == NULL) {
-      log_error("No unit in focus - no data to create the dialog!");
-      return;
+  fc_assert_ret(punit);
+
+  switch (cmd) {
+  case USDLG_CMD_SELECT:
+    if (!unit_is_in_focus(punit)) {
+      unit_focus_add(punit);
     }
-    unit_select_ptile = unit_tile(punit);
-  } else {
-    unit_select_ptile = ptile;
-  }
-
-  if (!unit_select_dialog_shell) {
-    GtkTreeStore *store;
-    GtkWidget *shell, *view, *sw, *hbox;
-    GtkWidget *ready_cmd, *sentry_cmd, *select_all_cmd;
-
-    static const char *titles[NUM_UNIT_SELECT_COLUMNS] = {
-      N_("Unit"),
-      N_("Name")
-    };
-    static bool titles_done;
-
-    GType types[NUM_UNIT_SELECT_COLUMNS+1] = {
-      G_TYPE_INT,
-      GDK_TYPE_PIXBUF,
-      G_TYPE_STRING
-    };
-    int i;
-
-
-    shell = gtk_dialog_new_with_buttons(_("Unit selection"),
-      NULL,
-      0,
-      NULL);
-    unit_select_dialog_shell = shell;
-    setup_dialog(shell, toplevel);
-    g_signal_connect(shell, "destroy",
-      G_CALLBACK(unit_select_destroy_callback), NULL);
-    gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
-    g_signal_connect(shell, "response",
-      G_CALLBACK(unit_select_cmd_callback), NULL);
-
-    hbox = gtk_hbox_new(FALSE, 0);
-    gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), hbox);
-
-    intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
-
-    store = gtk_tree_store_newv(ARRAY_SIZE(types), types);
-    unit_select_store = store;
-
-    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-    unit_select_view = view;
-    g_object_unref(store);
- 
-    for (i = 1; i < ARRAY_SIZE(types); i++) {
-      GtkTreeViewColumn *column;
-      GtkCellRenderer *render;
-
-      column = gtk_tree_view_column_new();
-      gtk_tree_view_column_set_title(column, titles[i-1]);
-
-      switch (types[i]) {
-        case G_TYPE_STRING:
-          render = gtk_cell_renderer_text_new();
-          gtk_tree_view_column_pack_start(column, render, TRUE);
-          gtk_tree_view_column_set_attributes(column, render, "text", i,
-                                              NULL);
-          break;
-        default:
-          render = gtk_cell_renderer_pixbuf_new();
-          gtk_tree_view_column_pack_start(column, render, FALSE);
-          gtk_tree_view_column_set_attributes(column, render,
-              "pixbuf", i, NULL);
-          break;
-      }
-      gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+  break;
+  case USDLG_CMD_DESELECT:
+    if (unit_is_in_focus(punit)) {
+      unit_focus_remove(punit);
     }
-
-    g_signal_connect(view, "row_activated",
-        G_CALLBACK(unit_select_row_activated), NULL);
-
-
-    sw = gtk_scrolled_window_new(NULL, NULL);
-    gtk_widget_set_size_request(sw, -1, 300);
-    gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-        GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_container_add(GTK_CONTAINER(sw), view);
-    gtk_box_pack_start(GTK_BOX(hbox), sw, TRUE, TRUE, 0);
-
-
-    ready_cmd =
-    gtk_dialog_add_button(GTK_DIALOG(shell),
-      _("_Ready all"), SELECT_UNIT_READY);
-
-    gtk_button_box_set_child_secondary(
-      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
-      ready_cmd, TRUE);
-
-    sentry_cmd =
-    gtk_dialog_add_button(GTK_DIALOG(shell),
-      _("_Sentry idle"), SELECT_UNIT_SENTRY);
-
-    gtk_button_box_set_child_secondary(
-      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
-      sentry_cmd, TRUE);
-
-    select_all_cmd =
-    gtk_dialog_add_button(GTK_DIALOG(shell),
-      _("Select _all"), SELECT_UNIT_ALL);
-
-    gtk_button_box_set_child_secondary(
-      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area),
-      select_all_cmd, TRUE);
-
-    gtk_dialog_add_button(GTK_DIALOG(shell),
-      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-
-    gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
-
-    gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
-    gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
+    break;
+  case USDLG_CMD_READY:
+    if (punit->activity != ACTIVITY_IDLE) {
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+    }
+    break;
+  case USDLG_CMD_SENTRY:
+    if (punit->activity != ACTIVITY_SENTRY) {
+      request_new_unit_activity(punit, ACTIVITY_SENTRY);
+    }
+    break;
+  case USDLG_CMD_CENTER:
+  case USDLG_CMD_FOCUS:
+    /* Nothing here. It is done in its own functions. */
+    break;
+  case USDLG_CMD_LAST:
+    /* Should never happen. */
+    fc_assert_ret(cmd != USDLG_CMD_LAST);
+    break;
   }
-
-  unit_select_dialog_refresh();
-
-  gtk_window_present(GTK_WINDOW(unit_select_dialog_shell));
 }
 
 /*****************************************************************************
-   Closing unit selection dialog
+  Callback for the center button.
 *****************************************************************************/
-void unit_select_dialog_popdown(void)
+static void usdlg_cmd_center(GtkObject *object, gpointer data)
 {
-  /* Nothing at the moment. */
+  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  GtkTreeView *view;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint row;
+  struct unit_select_dialog *pdialog = usdlg_get(FALSE);
+
+  fc_assert_ret(pdialog != NULL);
+  fc_assert_ret(unit_select_location_mode_is_valid(loc));
+
+  view = GTK_TREE_VIEW(pdialog->tabs[loc].view);
+  selection = gtk_tree_view_get_selection(view);
+
+  if (!gtk_tree_selection_get_selected(selection, &model, &it)) {
+    log_debug("No selection");
+    return;
+  }
+  gtk_tree_model_get(model, &it, USDLG_COL_ROW_TYPE, &row, -1);
+
+  if (row == ROW_UNIT || row == ROW_UNIT_TRANSPORTED) {
+    gint uid;
+    struct unit *punit;
+
+    gtk_tree_model_get(model, &it, USDLG_COL_UID, &uid, -1);
+
+    punit = player_unit_by_number(client_player(), uid);
+    if (punit) {
+      center_tile_mapcanvas(unit_tile(punit));
+    }
+  }
+}
+
+/*****************************************************************************
+  Callback for the focus button.
+*****************************************************************************/
+static void usdlg_cmd_focus(GtkObject *object, gpointer data)
+{
+  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  struct unit_select_dialog *pdialog = usdlg_get(FALSE);
+
+  fc_assert_ret(pdialog != NULL);
+  fc_assert_ret(unit_select_location_mode_is_valid(loc));
+
+  usdlg_cmd_focus_real(GTK_TREE_VIEW(pdialog->tabs[loc].view));
+}
+
+/*****************************************************************************
+  Callback if a row is activated.
+*****************************************************************************/
+static void usdlg_cmd_row_activated(GtkTreeView *view, GtkTreePath *path,
+                                    GtkTreeViewColumn *col, gpointer data)
+{
+  usdlg_cmd_focus_real(view);
+}
+
+/*****************************************************************************
+  Focus to the currently selected unit.
+*****************************************************************************/
+static void usdlg_cmd_focus_real(GtkTreeView *view)
+{
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(view);
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint row;
+
+  if (!can_client_change_view() || !can_client_control()) {
+    return;
+  }
+
+  if (!gtk_tree_selection_get_selected(selection, &model, &it)) {
+    log_debug("No selection");
+    return;
+  }
+  gtk_tree_model_get(model, &it, USDLG_COL_ROW_TYPE, &row, -1);
+
+  if (row == ROW_UNIT || row == ROW_UNIT_TRANSPORTED) {
+    gint uid;
+    struct unit *punit;
+
+    gtk_tree_model_get(model, &it, USDLG_COL_UID, &uid, -1);
+
+    punit = player_unit_by_number(client_player(), uid);
+    if (punit && unit_owner(punit) == client_player()) {
+      unit_focus_set(punit);
+      usdlg_destroy();
+    }
+  }
+}
+
+/*****************************************************************************
+  Callback if the row is changed.
+*****************************************************************************/
+static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data)
+{
+  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  gint row, uid;
+  struct unit_select_dialog *pdialog = usdlg_get(FALSE);
+  struct unit *punit;
+  bool cmd_status[USDLG_CMD_LAST];
+  int cmd_id;
+
+  fc_assert_ret(pdialog != NULL);
+  fc_assert_ret(unit_select_location_mode_is_valid(loc));
+
+  selection = gtk_tree_view_get_selection(view);
+  if (!gtk_tree_selection_get_selected(selection, &model, &it)) {
+    log_debug("No selection");
+    return;
+  }
+  gtk_tree_model_get(model, &it, USDLG_COL_ROW_TYPE, &row, USDLG_COL_UID,
+                     &uid, -1);
+
+  switch (row) {
+  case ROW_UNITTYPE:
+  case ROW_ACTIVITY:
+    /* Button status for rows unittype and activity:
+     *             player    observer
+     * ready        TRUE      FALSE
+     * sentry       TRUE      FALSE
+     * select       TRUE      FALSE
+     * deselect     TRUE      FALSE
+     * center       FALSE     FALSE
+     * focus        FALSE     FALSE */
+    if (can_client_change_view() && can_client_control()) {
+      cmd_status[USDLG_CMD_READY] = TRUE;
+      cmd_status[USDLG_CMD_SENTRY] = TRUE;
+      cmd_status[USDLG_CMD_SELECT] = TRUE;
+      cmd_status[USDLG_CMD_DESELECT] = TRUE;
+    } else {
+      cmd_status[USDLG_CMD_READY] = FALSE;
+      cmd_status[USDLG_CMD_SENTRY] = FALSE;
+      cmd_status[USDLG_CMD_SELECT] = FALSE;
+      cmd_status[USDLG_CMD_DESELECT] = FALSE;
+    }
+
+    cmd_status[USDLG_CMD_CENTER] = FALSE;
+    cmd_status[USDLG_CMD_FOCUS] = FALSE;
+    break;
+  case ROW_UNIT:
+  case ROW_UNIT_TRANSPORTED:
+    /* Button status for rows unit and unit (transported):
+     *             player    observer
+     * ready        !IDLE     FALSE
+     * sentry       !SENTRY   FALSE
+     * select       !FOCUS    FALSE
+     * deselect     FOCUS     FALSE
+     * center       TRUE      TRUE
+     * focus        !FOCUS    FALSE */
+    punit = player_unit_by_number(client_player(), uid);
+
+    if (punit && can_client_change_view() && can_client_control()) {
+      if (punit->activity == ACTIVITY_IDLE) {
+        cmd_status[USDLG_CMD_READY] = FALSE;
+      } else {
+        cmd_status[USDLG_CMD_READY] = TRUE;
+      }
+
+      if (punit->activity == ACTIVITY_SENTRY) {
+        cmd_status[USDLG_CMD_SENTRY] = FALSE;
+      } else {
+        cmd_status[USDLG_CMD_SENTRY] = TRUE;
+      }
+
+      if (!unit_is_in_focus(punit)) {
+        cmd_status[USDLG_CMD_SELECT] = TRUE;
+        cmd_status[USDLG_CMD_DESELECT] = FALSE;
+        cmd_status[USDLG_CMD_FOCUS] = TRUE;
+      } else {
+        cmd_status[USDLG_CMD_SELECT] = FALSE;
+        cmd_status[USDLG_CMD_DESELECT] = TRUE;
+        cmd_status[USDLG_CMD_FOCUS] = FALSE;
+      }
+    } else {
+      cmd_status[USDLG_CMD_READY] = FALSE;
+      cmd_status[USDLG_CMD_SENTRY] = FALSE;
+
+      cmd_status[USDLG_CMD_SELECT] = FALSE;
+      cmd_status[USDLG_CMD_DESELECT] = FALSE;
+
+      cmd_status[USDLG_CMD_FOCUS] = FALSE;
+    }
+
+    cmd_status[USDLG_CMD_CENTER] = TRUE;
+    break;
+  }
+
+  /* Set widget status. */
+  for (cmd_id = 0; cmd_id < USDLG_CMD_LAST; cmd_id++) {
+    gtk_widget_set_sensitive(GTK_WIDGET(pdialog->tabs[loc].cmd[cmd_id]),
+                             cmd_status[cmd_id]);
+  }
 }
