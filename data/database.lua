@@ -97,13 +97,13 @@ function user_load(conn)
   local table_user = fcdb.option(fcdb.param.TABLE_USER)
   local table_log = fcdb.option(fcdb.param.TABLE_LOG)
 
-  local username = dbh:escape(auth.get_username(conn))
-  local ipaddr = dbh:escape(auth.get_ipaddr(conn))
-
   if not dbh then
     log.error("Missing database connection ...")
     return fcdb.status.ERROR
   end
+
+  local username = dbh:escape(auth.get_username(conn))
+  local ipaddr = dbh:escape(auth.get_ipaddr(conn))
 
   -- get the password for this user
   query = string.format([[SELECT %s FROM %s WHERE `name` = '%s']],
@@ -142,14 +142,14 @@ function user_save(conn)
 
   local table_user = fcdb.option(fcdb.param.TABLE_USER)
 
-  local username = dbh:escape(auth.get_username(conn))
-  local password = dbh:escape(auth.get_password(conn))
-  local ipaddr = auth.get_ipaddr(conn)
-
   if not dbh then
     log.error("Missing database connection ...")
     return fcdb.status.ERROR
   end
+
+  local username = dbh:escape(auth.get_username(conn))
+  local password = dbh:escape(auth.get_password(conn))
+  local ipaddr = auth.get_ipaddr(conn)
 
   -- insert the user
   query = string.format([[INSERT INTO %s VALUES (NULL, '%s', '%s',
@@ -171,17 +171,17 @@ function user_log(conn, success)
   local res     -- result handle
   local query   -- sql query
 
+  if not dbh then
+    log.error("Missing database connection ...")
+    return fcdb.status.ERROR
+  end
+
   local table_user = fcdb.option(fcdb.param.TABLE_USER)
   local table_log = fcdb.option(fcdb.param.TABLE_LOG)
 
   local username = dbh:escape(auth.get_username(conn))
   local ipaddr = auth.get_ipaddr(conn)
   local success_str = success and 'S' or 'F'
-
-  if not dbh then
-    log.error("Missing database connection ...")
-    return fcdb.status.ERROR
-  end
 
   -- update user data
   query = string.format([[UPDATE %s SET `accesstime` = UNIX_TIMESTAMP(),
