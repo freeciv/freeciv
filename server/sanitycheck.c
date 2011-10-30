@@ -383,29 +383,48 @@ static void check_units(const char *file, const char *function, int line)
       SANITY_CHECK(punit->moves_left >= 0);
       SANITY_CHECK(punit->hp > 0);
 
-      if (ptrans != NULL) {
-        /* Make sure the transporter is on the tile. */
-        SANITY_CHECK(same_pos(unit_tile(punit), unit_tile(ptrans)));
-
-        /* Can punit be cargo for its transporter? */
-        SANITY_CHECK(can_unit_transport(ptrans, punit));
-
-        /* Check that the unit is listed as transported. */
-        SANITY_CHECK(unit_list_search(unit_transport_cargo(ptrans),
-                                      punit) != NULL);
-
-        /* Transporter capacity will be checked when transporter itself
-         * is checked */
-      }
-
       /* Check for ground units in the ocean. */
       if (!can_unit_exist_at_tile(punit, ptile)) {
-        SANITY_CHECK(unit_transport_get(punit) != NULL);
+        SANITY_CHECK(ptrans != NULL);
       }
 
       /* Check for over-full transports. */
       SANITY_CHECK(get_transporter_occupancy(punit)
                    <= get_transporter_capacity(punit));
+
+      /* Check transporter. This should be last as the pointer ptrans will
+       * be modified. */
+      if (ptrans != NULL) {
+        struct unit *plevel = punit;
+        int level = 0;
+
+        /* Make sure the transporter is on the tile. */
+        SANITY_CHECK(same_pos(unit_tile(punit), unit_tile(ptrans)));
+
+        /* Can punit be cargo for its transporter? (recursive check!) */
+        SANITY_CHECK(unit_transport_check(punit, ptrans));
+
+        /* Check that the unit is listed as transported. */
+        SANITY_CHECK(unit_list_search(unit_transport_cargo(ptrans),
+                                      punit) != NULL);
+
+        /* Check the depth of the transportation. */
+        while (ptrans) {
+          struct unit_list *pcargos = unit_transport_cargo(ptrans);
+
+          SANITY_CHECK(pcargos != NULL);
+          SANITY_CHECK(level < GAME_TRANSPORT_MAX_RECURSIVE);
+          SANITY_CHECK(unit_list_search(pcargos, plevel) != NULL);
+
+          /* Check for next level. */
+          plevel = ptrans;
+          ptrans = unit_transport_get(plevel);
+          level++;
+        }
+
+        /* Transporter capacity will be checked when transporter itself
+         * is checked */
+      }
     } unit_list_iterate_end;
   } players_iterate_end;
 }

@@ -569,6 +569,9 @@ extern struct civ_game game;
 /* Max distance from the capital used to calculat the bribe cost. */
 #define GAME_UNIT_BRIBE_DIST_MAX 32
 
+/* Max number of recursive transports. */
+#define GAME_TRANSPORT_MAX_RECURSIVE 5
+
 /* ruleset settings */
 
 #define RS_MAX_VALUE                             10000

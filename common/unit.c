@@ -748,8 +748,9 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
-  /* Recursive transporting is not allowed (for now). */
-  if (get_transporter_occupancy(pcargo) > 0) {
+  /* Check iff this is a valid transport. */
+  if (unit_transported(pcargo)
+      && !unit_transport_check(pcargo, ptrans)) {
     return FALSE;
   }
 
@@ -758,8 +759,10 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
     return FALSE;
   }
 
-  /* Transporter must be native to the tile it is on. */
-  if (!can_unit_exist_at_tile(ptrans, unit_tile(ptrans))) {
+  /* Transporter must be native to the tile it is on (or it itself is
+   * transported). */
+  if (!can_unit_exist_at_tile(ptrans, unit_tile(ptrans))
+      && !unit_transported(ptrans)) {
     return FALSE;
   }
 
@@ -1773,6 +1776,8 @@ void free_unit_orders(struct unit *punit)
 ****************************************************************************/
 int get_transporter_occupancy(const struct unit *ptrans)
 {
+  fc_assert_ret_val(ptrans, -1);
+
   return unit_list_size(ptrans->transporting);
 }
 
@@ -2124,4 +2129,55 @@ struct unit_list *unit_transport_cargo(const struct unit *ptrans)
   fc_assert_ret_val(ptrans->transporting != NULL, NULL);
 
   return ptrans->transporting;
+}
+
+/*****************************************************************************
+  Returns if pcargo in ptrans is a valid transport.
+*****************************************************************************/
+bool unit_transport_check(const struct unit *pcargo,
+                          const struct unit *ptrans)
+{
+  struct unit_list *ptrans_recursive = unit_list_new();
+  /* Get !const unit struct for pcargo. */
+  struct unit *plevel = game_unit_by_number(pcargo->id);
+  bool transport_ok = TRUE;
+
+  /* Recursive loop over all transporters up to max level. */
+  while (transport_ok && plevel && unit_list_size(ptrans_recursive)
+                                   < GAME_TRANSPORT_MAX_RECURSIVE) {
+    /* Check if the unit can be transported. If the unit can be transported
+     * by any of the previous transporters, fail. THis disallows to carry
+     * units of one type within the same unit type. */
+    unit_list_iterate(ptrans_recursive, pcargo_recursive) {
+      if (can_unit_transport(pcargo_recursive, plevel)) {
+        transport_ok = FALSE;
+        break;
+      }
+    } unit_list_iterate_end;
+
+    if (!transport_ok) {
+#ifdef DEBUG
+      char buf[512] = "";
+      fc_snprintf(buf, sizeof(buf), "%s [Error] ",
+                  unit_name_translation(plevel));
+      unit_list_iterate(ptrans_recursive, pcargo_recursive) {
+        cat_snprintf(buf, sizeof(buf), " in %s",
+                     unit_name_translation(pcargo_recursive));
+      } unit_list_iterate_end;
+      log_error("Invalid transport at level %d (%s).",
+                unit_list_size(ptrans_recursive), buf);
+#endif /* DEBUG */
+      break;
+    }
+
+    /* Insert cargo at the beginning of the list. */
+    unit_list_prepend(ptrans_recursive, plevel);
+
+    /* Check for next level. */
+    plevel = unit_transport_get(plevel);
+  }
+
+  unit_list_destroy(ptrans_recursive);
+
+  return transport_ok;
 }
