@@ -26,6 +26,11 @@ extern "C" {
 
 #define FC_AI_LAST 3
 
+/* Timers for all AI activities. Define it to get statistics about the AI. */
+#ifdef DEBUG
+#  undef DEBUG_AITIMERS
+#endif /* DEBUG */
+
 struct Treaty;
 struct player;
 struct adv_choice;
@@ -219,6 +224,21 @@ int ai_type_get_count(void);
 
 struct ai_type *ai_type_by_name(const char *search);
 
+#ifdef DEBUG_AITIMERS
+void ai_timer_init(void);
+void ai_timer_free(void);
+void ai_timer_start(const struct ai_type *ai);
+void ai_timer_stop(const struct ai_type *ai);
+void ai_timer_player_start(const struct player *pplayer);
+void ai_timer_player_stop(const struct player *pplayer);
+#else
+#define ai_timer_init(...) (void) 0
+#define ai_timer_free(...) (void) 0
+#define ai_timer_start(...) (void) 0
+#define ai_timer_stop(...) (void) 0
+#define ai_timer_player_start(...) (void) 0
+#define ai_timer_player_stop(...) (void) 0
+#endif /* DEBUG_AITIMERS */
 
 #define ai_type_iterate(NAME_ai)                        \
   do {                                                  \
@@ -236,7 +256,9 @@ struct ai_type *ai_type_by_name(const char *search);
   do {                                                                  \
     struct player *_plr_ = _player; /* _player expanded just once */    \
     if (_plr_ && _plr_->ai && _plr_->ai->funcs._func) {                 \
+      ai_timer_player_start(_plr_);                                     \
       _plr_->ai->funcs._func( __VA_ARGS__ );                            \
+      ai_timer_player_stop(_plr_);                                      \
     }                                                                   \
   } while (FALSE)
 
@@ -244,7 +266,9 @@ struct ai_type *ai_type_by_name(const char *search);
   do {                                          \
     ai_type_iterate(_ait_) {                    \
       if (_ait_->funcs._func) {                 \
+        ai_timer_start(_ait_);                  \
         _ait_->funcs._func( __VA_ARGS__ );      \
+        ai_timer_stop(_ait_);                   \
       }                                         \
     } ai_type_iterate_end;                      \
   } while (FALSE)

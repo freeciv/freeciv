@@ -20,13 +20,232 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"                /* fc_assert */
+#include "mem.h"
+#include "timing.h"
 
 /* common */
 #include "ai.h"
+#include "player.h"
 
 static struct ai_type ai_types[FC_AI_LAST];
 
 static int ai_type_count = 0;
+
+#ifdef DEBUG_AITIMERS
+struct ai_timer {
+  int count;
+  struct timer *timer;
+};
+
+static struct ai_timer *ai_timer_get(const struct ai_type *ai);
+static struct ai_timer *ai_timer_player_get(const struct player *pplayer);
+
+static struct ai_timer *aitimers = NULL;
+static struct ai_timer *aitimer_plrs = NULL;
+
+/*****************************************************************************
+  Allocate memory for Start the timer for the AI of a player.
+*****************************************************************************/
+void ai_timer_init(void)
+{
+  int i;
+
+  fc_assert_ret(aitimers == NULL);
+  fc_assert_ret(aitimer_plrs == NULL);
+
+  aitimers = fc_calloc(FC_AI_LAST, sizeof(*aitimers));
+  for (i = 0; i < FC_AI_LAST; i++) {
+    struct ai_timer *aitimer = aitimers + i;
+    aitimer->count = 0;
+    aitimer->timer = NULL;
+  }
+
+  aitimer_plrs = fc_calloc(FC_AI_LAST * MAX_NUM_PLAYER_SLOTS,
+                           sizeof(*aitimer_plrs));
+  for (i = 0; i < FC_AI_LAST * MAX_NUM_PLAYER_SLOTS; i++) {
+    struct ai_timer *aitimer = aitimer_plrs + i;
+    aitimer->count = 0;
+    aitimer->timer = NULL;
+  }
+}
+
+/*****************************************************************************
+  Allocate memory for Start the timer for the AI of a player.
+*****************************************************************************/
+void ai_timer_free(void)
+{
+  int i,j;
+  struct ai_timer *aitimer;
+
+  for (i = 0; i < FC_AI_LAST; i++) {
+    struct ai_type *ai = get_ai_type(i);
+
+    aitimer = aitimers + i;
+
+    if (aitimer->timer) {
+      log_normal("AI timer stats: [%15.3f] ---- (AI type: %s)",
+                 read_timer_seconds(aitimer->timer), ai_name(ai));
+      free_timer(aitimer->timer);
+    }
+
+    for (j = 0; j < MAX_NUM_PLAYER_SLOTS; j++) {
+      aitimer = aitimer_plrs + j * FC_AI_LAST + i;
+
+      if (aitimer->timer) {
+        log_normal("AI timer stats: [%15.3f] P%03d (AI type: %s)",
+                   read_timer_seconds(aitimer->timer), j, ai_name(ai));
+        free_timer(aitimer->timer);
+      }
+    }
+  }
+  free(aitimers);
+  aitimers = NULL;
+
+  free(aitimer_plrs);
+  aitimer_plrs = NULL;
+}
+
+/*****************************************************************************
+  Get the timer for the AI.
+*****************************************************************************/
+static struct ai_timer *ai_timer_get(const struct ai_type *ai)
+{
+  struct ai_timer *aitimer;
+
+  fc_assert_ret_val(ai != NULL, NULL);
+
+  fc_assert_ret_val(aitimers != NULL, NULL);
+
+  aitimer = aitimers + ai_type_number(ai);
+
+  if (!aitimer->timer) {
+    aitimer->timer = new_timer(TIMER_CPU, TIMER_DEBUG);
+  }
+
+  return aitimer;
+}
+
+/*****************************************************************************
+  Get the timer for the AI of a player.
+*****************************************************************************/
+static struct ai_timer *ai_timer_player_get(const struct player *pplayer)
+{
+  struct ai_timer *aitimer;
+
+  fc_assert_ret_val(pplayer != NULL, NULL);
+  fc_assert_ret_val(pplayer->ai != NULL, NULL);
+
+  fc_assert_ret_val(aitimer_plrs != NULL, NULL);
+
+  aitimer = aitimer_plrs + (player_index(pplayer) * FC_AI_LAST
+                            + ai_type_number(pplayer->ai));
+
+  if (!aitimer->timer) {
+    aitimer->timer = new_timer(TIMER_CPU, TIMER_DEBUG);
+  }
+
+  return aitimer;
+}
+
+/*****************************************************************************
+  Start the timer for the AI.
+*****************************************************************************/
+void ai_timer_start(const struct ai_type *ai)
+{
+  struct ai_timer *aitimer = ai_timer_get(ai);
+
+  fc_assert_ret(aitimer != NULL);
+  fc_assert_ret(aitimer->timer != NULL);
+
+  if (aitimer->count == 0) {
+    log_debug("AI timer start  [%15.3f] ---- (AI type: %s)",
+              read_timer_seconds(aitimer->timer), ai_name(ai));
+    start_timer(aitimer->timer);
+  } else {
+    log_debug("AI timer =====> [depth: %3d]      ---- (AI type: %s)",
+              aitimer->count, ai_name(ai));
+  }
+  aitimer->count++;
+}
+
+/*****************************************************************************
+  Stop the timer for the AI.
+*****************************************************************************/
+void ai_timer_stop(const struct ai_type *ai)
+{
+  struct ai_timer *aitimer = ai_timer_get(ai);
+
+  fc_assert_ret(aitimer != NULL);
+  fc_assert_ret(aitimer->timer != NULL);
+
+  if (aitimer->count > 0) {
+    if (aitimer->count == 1) {
+      stop_timer(aitimer->timer);
+      log_debug("AI timer stop   [%15.3f] ---- (AI type: %s)",
+                read_timer_seconds(aitimer->timer), ai_name(ai));
+    } else {
+      log_debug("AI timer =====> [depth: %3d]      ---- (AI type: %s)",
+                aitimer->count, ai_name(ai));
+    }
+    aitimer->count--;
+  } else {
+    log_debug("AI timer missing?                 ---- (AI type: %s)",
+              ai_name(ai));
+  }
+}
+
+/*****************************************************************************
+  Start the timer for the AI of a player.
+*****************************************************************************/
+void ai_timer_player_start(const struct player *pplayer)
+{
+  struct ai_timer *aitimer = ai_timer_player_get(pplayer);
+
+  fc_assert_ret(aitimer != NULL);
+  fc_assert_ret(aitimer->timer != NULL);
+
+  if (aitimer->count == 0) {
+    log_debug("AI timer start  [%15.3f] P%03d (AI type: %s) %s",
+              read_timer_seconds(aitimer->timer), player_index(pplayer),
+              pplayer->ai->name, player_name(pplayer));
+    start_timer(aitimer->timer);
+  } else {
+    log_debug("AI timer =====> [depth: %3d]      P%03d (AI type: %s) %s",
+              aitimer->count, player_index(pplayer), pplayer->ai->name,
+              player_name(pplayer));
+  }
+  aitimer->count++;
+}
+
+/*****************************************************************************
+  Stop the timer for the AI of a player.
+*****************************************************************************/
+void ai_timer_player_stop(const struct player *pplayer)
+{
+  struct ai_timer *aitimer = ai_timer_player_get(pplayer);
+
+  fc_assert_ret(aitimer != NULL);
+  fc_assert_ret(aitimer->timer != NULL);
+
+  if (aitimer->count > 0) {
+    if (aitimer->count == 1) {
+      stop_timer(aitimer->timer);
+      log_debug("AI timer stop   [%15.3f] P%03d (AI type: %s) %s",
+                read_timer_seconds(aitimer->timer), player_index(pplayer),
+                pplayer->ai->name, player_name(pplayer));
+    } else {
+      log_debug("AI timer =====> [depth: %3d]      P%03d (AI type: %s) %s",
+                aitimer->count, player_index(pplayer), pplayer->ai->name,
+                player_name(pplayer));
+    }
+    aitimer->count--;
+  } else {
+    log_debug("AI timer missing?                 P%03d (AI type: %s) %s",
+              player_index(pplayer), pplayer->ai->name,
+              player_name(pplayer));
+  }
+}
+#endif /* DEBUG_AITIMERS */
 
 /***************************************************************
   Returns ai_type of given id.

@@ -1363,6 +1363,7 @@ void server_quit(void)
   server_game_free();
   diplhand_free();
   voting_free();
+  ai_timer_free();
 
 #ifdef HAVE_FCDB
   if (srvarg.fcdb_enabled) {
@@ -2334,6 +2335,7 @@ static void srv_prepare(void)
   voting_init();
   diplhand_init();
   voting_init();
+  ai_timer_init();
 
   server_game_init();
   mapimg_init(mapimg_server_tile_known, mapimg_server_tile_terrain,
