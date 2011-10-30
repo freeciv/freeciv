@@ -809,7 +809,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     key_unit_nuke();
     break;
   case MENU_ORDER_SELECT_SAME_TYPE:
-    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_ALL);
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
     break;
   case MENU_ORDER_WAIT:
     key_unit_wait();

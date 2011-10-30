@@ -94,19 +94,21 @@ void request_unit_convert(struct unit *punit);
 void request_units_wait(struct unit_list *punits);
 void request_unit_wakeup(struct unit *punit);
 
-enum unit_select_type_mode {
-  SELTYPE_SINGLE = 0,
-  SELTYPE_SAME,
-  SELTYPE_ALL,
-  NUM_SELTYPES
-};
+#define SPECENUM_NAME unit_select_type_mode
+#define SPECENUM_VALUE0   SELTYPE_SINGLE
+#define SPECENUM_VALUE1   SELTYPE_SAME
+#define SPECENUM_VALUE2   SELTYPE_ALL
+#include "specenum_gen.h"
 
-enum unit_select_location_mode {
-  SELLOC_TILE = 0,
-  SELLOC_CONT, /* Continent. */
-  SELLOC_ALL,
-  NUM_SELLOCS
-};
+#define SPECENUM_NAME unit_select_location_mode
+#define SPECENUM_VALUE0   SELLOC_UNITS  /* Units on tile. */
+#define SPECENUM_VALUE1   SELLOC_TILE   /* Tile. */
+#define SPECENUM_VALUE2   SELLOC_CONT   /* Continent. */
+#define SPECENUM_VALUE3   SELLOC_LAND   /* Move type: land. */
+#define SPECENUM_VALUE4   SELLOC_SEA    /* Move type: sea. */
+#define SPECENUM_VALUE5   SELLOC_BOTH   /* Move type: both. */
+#define SPECENUM_VALUE6   SELLOC_WORLD  /* World. */
+#include "specenum_gen.h"
 
 void request_unit_select(struct unit_list *punits,
                          enum unit_select_type_mode seltype,

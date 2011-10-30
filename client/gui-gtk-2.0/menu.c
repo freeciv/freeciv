@@ -875,7 +875,7 @@ static void select_same_type_cont_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void select_same_type_callback(GtkAction *action, gpointer data)
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_ALL);
+  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
 }
 
 /*****************************************************************************
