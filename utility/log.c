@@ -332,7 +332,7 @@ static void log_write(FILE *fs, enum log_level level, bool print_from_where,
       prefix[0] = '\0';
     }
 
-    if (log_filename || print_from_where) {
+    if (log_filename || (print_from_where && where)) {
       fc_fprintf(fs, "%d: %s%s%s\n", level, prefix, where, message);
     } else {
       fc_fprintf(fs, "%d: %s%s\n", level, prefix, message);
