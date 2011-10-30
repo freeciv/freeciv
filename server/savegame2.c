@@ -524,6 +524,11 @@ void savegame2_load(struct section_file *file)
 
   savefile_options = secfile_lookup_str(file, "savefile.options");
 
+  if (!savefile_options) {
+    log_error("Missing savefile options. Can not load the savegame.");
+    return;
+  }
+
   if (!has_capabilities("+version2", savefile_options)) {
     /* load old format (freeciv 2.2.x) */
     log_verbose("loading savefile in old format ...");
