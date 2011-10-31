@@ -2636,10 +2636,15 @@ static void load_ruleset_nations(struct section_file *file)
   const char *name, *bad_leader;
   int barb_land_count = 0;
   int barb_sea_count = 0;
+  bool warn_city_style;
   const char *filename = secfile_name(file);
   struct section_list *sec;
 
   (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
+
+  warn_city_style
+    = secfile_lookup_bool_default(file, TRUE,
+				  "compatibility.warn_city_style");
 
   sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
   section_list_iterate(sec, psection) {
@@ -2853,8 +2858,10 @@ static void load_ruleset_nations(struct section_file *file)
     name = secfile_lookup_str(file, "%s.city_style", sec_name);
     pnation->city_style = city_style_by_rule_name(name);
     if (0 > pnation->city_style) {
-      log_error("Nation %s: city style \"%s\" is unknown, using default.",
-                nation_rule_name(pnation), name);
+      if (warn_city_style) {
+	log_error("Nation %s: city style \"%s\" is unknown, using default.",
+		  nation_rule_name(pnation), name);
+      }
       pnation->city_style = 0;
     }
 
