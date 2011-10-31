@@ -5595,7 +5595,7 @@ static void compat_load_020400(struct loaddata *loading)
       continue;
     }
 
-    secfile_insert_str(loading->file, FC_AI_DEFAULT_NAME,
+    secfile_insert_str(loading->file, default_ai_type_name(),
                        "player%d.ai_type", player_slot_index(pslot));
 
     /* Create dummy citizens informations. We do not know if citizens are

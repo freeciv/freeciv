@@ -38,6 +38,8 @@
 bool fc_ai_threaded_setup(struct ai_type *ai);
 #endif
 
+static struct ai_type *default_ai = NULL;
+
 #ifdef AI_MODULES
 /**************************************************************************
   Return string describing module loading error. Never returns NULL.
@@ -175,6 +177,8 @@ void ai_init(void)
     exit(EXIT_FAILURE);
   }
 
+  default_ai = ai;
+
 #ifdef AI_MOD_STATIC_THREADED
   ai = ai_type_alloc();
   if (ai != NULL) {
@@ -193,4 +197,12 @@ void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim)
 {
   CALL_PLR_AI_FUNC(incident, victim, type, violator, victim);
+}
+
+/**************************************************************************
+  Return name of default ai type.
+**************************************************************************/
+const char *default_ai_type_name(void)
+{
+  return default_ai->name;
 }

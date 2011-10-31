@@ -829,15 +829,15 @@ static bool create_command(struct connection *caller, const char *str,
   /* 2 legal arguments, and extra space for stuffing illegal part */
   char *arg[3];
   int ntokens;
-  char *ai;
+  const char *ai_type_name;
 
   sz_strlcpy(buf, str);
   ntokens = get_tokens(buf, arg, 3, TOKEN_DELIMITERS);
 
   if (ntokens == 1) {
-    ai = FC_AI_DEFAULT_NAME;
+    ai_type_name = default_ai_type_name();
   } else if (ntokens == 2) {
-    ai = arg[1];
+    ai_type_name = arg[1];
   } else {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
               _("Wrong number of arguments to create command."));
@@ -845,10 +845,11 @@ static bool create_command(struct connection *caller, const char *str,
   }
 
   if (game_was_started()) {
-    status = create_command_newcomer(arg[0], ai, check, NULL, NULL, buf,
-                                     sizeof(buf));
+    status = create_command_newcomer(arg[0], ai_type_name, check,
+                                     NULL, NULL, buf, sizeof(buf));
   } else {
-    status = create_command_pregame(arg[0], ai, check, NULL, buf, sizeof(buf));
+    status = create_command_pregame(arg[0], ai_type_name, check,
+                                    NULL, buf, sizeof(buf));
   }
 
   if (status != C_OK) {

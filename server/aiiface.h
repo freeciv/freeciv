@@ -15,12 +15,11 @@
 
 #include "ai.h" /* incident_type */
 
-/* Not part of ai.h as this must be server only */
-#define FC_AI_DEFAULT_NAME "default"
-
 void ai_init(void);
 
 bool load_ai_module(const char *modname);
+
+const char *default_ai_type_name(void);
 
 void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim);

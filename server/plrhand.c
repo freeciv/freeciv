@@ -1838,7 +1838,7 @@ static struct player *split_player(struct player *pplayer)
   struct player *cplayer;
 
   /* make a new player, or not */
-  cplayer = server_create_player(-1, FC_AI_DEFAULT_NAME, NULL);
+  cplayer = server_create_player(-1, default_ai_type_name(), NULL);
   if (!cplayer) {
     return NULL;
   }

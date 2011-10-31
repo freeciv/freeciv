@@ -5222,7 +5222,7 @@ static void game_load_internal(struct section_file *file)
 
       /* Create player */
       pplayer = server_create_player(player_slot_index(pslot),
-                                     FC_AI_DEFAULT_NAME, NULL);
+                                     default_ai_type_name(), NULL);
       server_player_init(pplayer, FALSE, FALSE);
       loaded_players++;
     } player_slots_iterate_end;

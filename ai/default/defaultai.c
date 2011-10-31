@@ -61,7 +61,7 @@ bool fc_ai_default_setup(struct ai_type *ai)
 {
   default_ai_set_self(ai);
 
-  strncpy(ai->name, FC_AI_DEFAULT_NAME, sizeof(ai->name));
+  strncpy(ai->name, "default", sizeof(ai->name));
 
   /* ai->funcs.game_free = NULL; */
 

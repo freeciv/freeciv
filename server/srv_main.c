@@ -1880,7 +1880,7 @@ void aifill(int amount)
     int filled = 1;
     struct player *pplayer;
 
-    pplayer = server_create_player(-1, FC_AI_DEFAULT_NAME, NULL);
+    pplayer = server_create_player(-1, default_ai_type_name(), NULL);
     if (!pplayer) {
       break;
     }
