@@ -1230,6 +1230,11 @@ static void load_ruleset_units(struct section_file *file)
       bool land_moving = FALSE;
       bool sea_moving = FALSE;
 
+      if (uclass_has_flag(uc, UCF_RIVER_NATIVE)
+          || uclass_has_flag(uc, UCF_ROAD_NATIVE)) {
+        land_moving = TRUE;
+      }
+
       terrain_type_iterate(pterrain) {
         bv_special spe;
         bv_bases bases;

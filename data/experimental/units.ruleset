@@ -138,7 +138,6 @@ flags         = "DamageSlows"
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
 name          = _("?unitclass:Trireme")
-move_type     = "Both"
 min_speed     = 2
 hp_loss_pct   = 0
 flags         = "DamageSlows", "RiverNative"
