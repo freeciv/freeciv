@@ -60,6 +60,14 @@
 #define INADDR_NONE 0xffffffff
 #endif
 
+#ifdef IPV6_SUPPORT
+#ifdef AI_NUMERICSERV
+#define FC_AI_NUMERICSERV AI_NUMERICSERV
+#else  /* AI_NUMERICSERV */
+#define FC_AI_NUMERICSERV 0
+#endif /* AI_NUMERICSERV */
+#endif /* IPV6_SUPPORT */
+
 #ifdef HAVE_WINSOCK
 /***************************************************************
   Set errno variable on Winsock error
@@ -331,7 +339,7 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET6;     /* request only IPv6 */
     hints.ai_socktype = SOCK_DGRAM; /* any type that uses sin6_port */
-    hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+    hints.ai_flags = AI_PASSIVE | FC_AI_NUMERICSERV;
     error = getaddrinfo(name, servname, &hints, &res0);
 
     if (error == 0) {
