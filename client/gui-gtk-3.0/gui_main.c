@@ -1423,7 +1423,7 @@ static void setup_widgets(void)
   button = gtk_check_button_new_with_label(_("Allies Only"));
   gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                               gui_gtk2_allied_chat_only);
+                               gui_gtk3_allied_chat_only);
   g_signal_connect(button, "toggled",
                    G_CALLBACK(allied_chat_button_toggled), NULL);
   inputline_toolkit_view_append_button(view, button);
@@ -1438,14 +1438,14 @@ static void setup_widgets(void)
 
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
 
-  if (gui_gtk2_enable_tabs) {
+  if (gui_gtk3_enable_tabs) {
     meswin_dialog_popup(FALSE);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
   gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
 
-  if (!gui_gtk2_map_scrollbars) {
+  if (!gui_gtk3_map_scrollbars) {
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
@@ -2054,7 +2054,7 @@ void add_idle_callback(void (callback)(void *), void *data)
 }
 
 /****************************************************************************
-  Option callback for the 'gui_gtk2_allied_chat_only' option.
+  Option callback for the 'gui_gtk3_allied_chat_only' option.
   This updates the state of the associated toggle button.
 ****************************************************************************/
 static void allied_chat_only_callback(struct option *poption)
@@ -2148,7 +2148,7 @@ void refresh_chat_buttons(void)
   } else {
     gtk_widget_show(button);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
-                                 gui_gtk2_allied_chat_only);
+                                 gui_gtk3_allied_chat_only);
   }
 }
 
@@ -2158,5 +2158,5 @@ void refresh_chat_buttons(void)
 static void allied_chat_button_toggled(GtkToggleButton *button,
                                        gpointer user_data)
 {
-  gui_gtk2_allied_chat_only = gtk_toggle_button_get_active(button);
+  gui_gtk3_allied_chat_only = gtk_toggle_button_get_active(button);
 }

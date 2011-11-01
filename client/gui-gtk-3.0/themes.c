@@ -132,7 +132,7 @@ void gui_clear_theme(void)
 
 /*****************************************************************************
   Each gui has its own themes directories.
-  For gtk2 these are:
+  For gtk3 these are:
   - /usr/share/themes
   - ~/.themes
   Returns an array containing these strings and sets array size in count.
