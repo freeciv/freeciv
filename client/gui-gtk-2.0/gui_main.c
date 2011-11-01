@@ -1956,7 +1956,7 @@ void add_ggz_input(int sock)
 #else
   ggz_channel = g_io_channel_unix_new(sock);
 #endif
-  srv_id = g_io_add_watch(ggz_channel,
+  ggz_id = g_io_add_watch(ggz_channel,
                           G_IO_IN,
                           get_ggz_input,
                           NULL);
