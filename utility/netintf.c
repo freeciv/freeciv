@@ -62,6 +62,14 @@
 #define INADDR_NONE 0xffffffff
 #endif
 
+#ifdef HAVE_GETADDRINFO
+#ifdef AI_NUMERICSERV
+#define FC_AI_NUMERICSERV AI_NUMERICSERV
+#else  /* AI_NUMERICSERV */
+#define FC_AI_NUMERICSERV 0
+#endif /* AI_NUMERICSERV */
+#endif /* HAVE_GETADDRINFO */
+
 #ifdef HAVE_WINSOCK
 /***************************************************************
   Set errno variable on Winsock error
@@ -355,7 +363,7 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
   memset(&hints, 0, sizeof(hints));
   hints.ai_family = gafam;
   hints.ai_socktype = SOCK_DGRAM; /* any type that uses sin6_port */
-  hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+  hints.ai_flags = AI_PASSIVE | FC_AI_NUMERICSERV;
   err = getaddrinfo(name, servname, &hints, &res);
 
   if (err == 0) {
@@ -653,7 +661,7 @@ int find_next_free_port(int starting_port, enum fc_addr_family family)
 
     hints.ai_family = gafamily;
     hints.ai_socktype = SOCK_DGRAM;
-    hints.ai_flags = AI_PASSIVE | AI_NUMERICSERV;
+    hints.ai_flags = AI_PASSIVE | FC_AI_NUMERICSERV;
 
     err = getaddrinfo(NULL, servname, &hints, &res);
     if (!err) {
