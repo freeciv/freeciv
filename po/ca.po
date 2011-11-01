@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-01 17:53+0100\n"
-"PO-Revision-Date: 2011-11-01 18:02+0100\n"
+"PO-Revision-Date: 2011-11-02 00:12+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -28523,6 +28523,14 @@ msgid ""
 "language have been made. One of the first scientists who noted the "
 "similarities between these languages was Sir William Jones."
 msgstr ""
+"Els indoeuropeus foren hipotèticament un antic poble que fou l'avantpassat "
+"lingüístic dels pobles moderns d'Europa i el Sud i l'Oest d'Àsia. "
+"Probablement van viure fa uns 5000 anys en algun lloc de les estepes "
+"eurasiàtiques, però els seus orígens reals continuen sent un misteri. "
+"L'existència d'aquest poble s'ha inferit a partir de l'anàlisi de les "
+"llengües indoeuropees, en base a la qual s'han fet intents de reconstruir la "
+"llengua proto-indoeuropea. Un dels primers científics que va adonar-se de les "
+"similaritats entre aquestes llengües fou Sir William Jones."
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -28652,7 +28660,6 @@ msgid "?plural:Israelis"
 msgstr "Israelians"
 
 #: data/nation/israeli.ruleset:6
-#, fuzzy
 msgid ""
 "The nation of Israel was founded in 1948 as a scattered collection of "
 "cantons in British Palestine, and has gradually expanded through winning "
@@ -28660,17 +28667,17 @@ msgid ""
 msgstr ""
 "La nació d'Israel va ser fundada l'any 1948 com una col·lecció dispersa de "
 "cantons a la Palestina Britànica, i s'ha expandit gradualment en haver "
-"guanyat una sèrie de guerres en contra seu els anys 1948, 1967 i 1973."
+"guanyat una sèrie de guerres els anys 1948, 1967 i 1973."
 
 #: data/nation/israeli.ruleset:22
 #, c-format
 msgid "Kibbutznik %s"
-msgstr ""
+msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Kibbutznik %s"
-msgstr "Ciutadana %s"
+msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -28683,14 +28690,12 @@ msgid "?female:Rabbi %s"
 msgstr "Rabina %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "Israelià"
+msgstr "Israelita"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "Israelians"
+msgstr "Israelites"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -28700,6 +28705,11 @@ msgid ""
 "the 1st century AD, leaving the Jews scattered around the world for 19 "
 "centuries."
 msgstr ""
+"Israel fou un regne jueu a la riba oriental de la Mediterrània, fundat al "
+"voltant de l'any 1000 a.C. Bona part de la seva història s'explica als "
+"llibres sagrats de les religions abrahàmiques. L'últim regne jueu fou "
+"destruït pels romans al segle I d.C., deixant els jueus escampats pel món "
+"durant 19 segles."
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -28836,14 +28846,12 @@ msgstr ""
 "en bona part pel sentiment antieuropeu."
 
 #: data/nation/jordanian.ruleset:3
-#, fuzzy
 msgid "Jordanian"
-msgstr "Iranià"
+msgstr "Jordà"
 
 #: data/nation/jordanian.ruleset:4
-#, fuzzy
 msgid "?plural:Jordanian"
-msgstr "?plural:Iranians"
+msgstr "Jordans"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -28856,6 +28864,14 @@ msgid ""
 "established as Jordan's ruling dynasty. The country finally became "
 "independent in 1946."
 msgstr ""
+"El regne haiximita de Jordània és un país de l'Orient Mitjà. Durant "
+"l'Antiguitat, el país fou el centre de nombroses civilitzacions antigues, "
+"inclosos els nabateus que van construir la ciutat de Petra. El país ha estat "
+"àrab des del segle VII. Conquerida pels turcs otomans el 1519, va "
+"convertir-se en mandat britànic de la Lliga de Nacions després de la Segona "
+"Guerra Mundial. El clan haiximita, que va liderar una revolta contra els "
+"turcs durant la guerra, es va establir com a dinastia regnant de Jordània. El "
+"país va obtenir finalment la independència el 1946."
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
@@ -29075,12 +29091,11 @@ msgstr "Tarkhan %s"
 
 #: data/nation/khmer.ruleset:3
 msgid "Khmer"
-msgstr ""
+msgstr "Khmer"
 
 #: data/nation/khmer.ruleset:4
-#, fuzzy
 msgid "?plural:Khmers"
-msgstr "Caixmiris"
+msgstr "Khmers"
 
 #: data/nation/khmer.ruleset:6
 msgid ""
@@ -29089,6 +29104,11 @@ msgid ""
 "Khmers were great builders who erected innumerable stone temples to Hindu "
 "dieties. The Khmers today are the majority ethnicity of Cambodia."
 msgstr ""
+"L'Imperi Khmer, establert el 802 d.C., va dominar el Sudest Asiàtic durant "
+"molts segles durant l'Edat Mitjana. Influïts fortament per la cultura índia, "
+"els khmers foren grans constructors que van erigir innombrables temples de "
+"pedra a les deïtats hindús. Els khmers són avui en dia l'ètnia majoritària de "
+"Cambodja"
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
@@ -29132,12 +29152,11 @@ msgstr "Sàtrapa %s"
 
 #: data/nation/kiribati.ruleset:3
 msgid "Kiribati"
-msgstr ""
+msgstr "Kiribatià"
 
 #: data/nation/kiribati.ruleset:4
-#, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "Ivorians"
+msgstr "Kiribatians"
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -29149,6 +29168,13 @@ msgid ""
 "people of the Gilbert Islands adopted Kiribati (the Gilbertese rendering of "
 "\"Gilberts\") as the name of the newly established republic."
 msgstr ""
+"Les Illes Gilbert, conegudes en gilbertenc com a Tungaru, són una cadena "
+"d'illes de l'Oceà Pacífic. Habitades per micronesis des de temps "
+"prehistòrics, es van unir sota un cap comú a finals del segle XIX. Juntament "
+"amb les Illes Ellice, foren annexionades pels britànics el 1892, que van "
+"establir-hi la colònia de les Illes Gilbert i Ellice. En el moment de la "
+"independència, el 1976, la gent de les Illes Gilbert van adoptar Kiribati (la "
+"versió en gilbertenc de \"Gilberts\") com a nom de la nova república."
 
 #: data/nation/kongo.ruleset:3
 msgid "Kongo"
@@ -29214,12 +29240,11 @@ msgstr ""
 
 #: data/nation/kuna.ruleset:3
 msgid "Kuna"
-msgstr ""
+msgstr "Kuna"
 
 #: data/nation/kuna.ruleset:4
-#, fuzzy
 msgid "?plural:Kunas"
-msgstr "Kenyans"
+msgstr "Kuna"
 
 #: data/nation/kuna.ruleset:6
 msgid ""
@@ -29231,6 +29256,13 @@ msgid ""
 "established something of a reputation for managing to combine tradition and "
 "modernity."
 msgstr ""
+"Els kuna són un poble xibxa que viu a l'istme de Darién, on es troben Amèrica "
+"del Nord i Amèrica del Sud. El 1925, el cap kuna Nele Kantule va liderar una "
+"revolta contra les autoritats panamenyes. Des de llavors, Panamà ha concedit "
+"una autonomia significativa a Kuna Yala, el territori dels kuna. Actualment, "
+"Kuna Yala (conegut també com a San Blas) es coneix a tot el món com a centre "
+"turístic, i els kuna han establert una notable reputació de saber combinar la "
+"tradició amb la modernitat."
 
 #: data/nation/kurd.ruleset:3
 msgid "Kurdish"
@@ -29263,14 +29295,12 @@ msgstr ""
 "del Kurdistan a Iraq és l'única entitat política del món dominada per kurds."
 
 #: data/nation/kuwaiti.ruleset:3
-#, fuzzy
 msgid "Kuwaiti"
-msgstr "esperant"
+msgstr "Kuwaitià"
 
 #: data/nation/kuwaiti.ruleset:4
-#, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "Haitians"
+msgstr "Kuwaitians"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -29282,6 +29312,13 @@ msgid ""
 "East. Despite its relatively small size, the country has about ten percent "
 "of the world's proven oil reserves."
 msgstr ""
+"Kuwait és un país àrab, que fa frontera amb l'Iraq, Aràbia Saudita i el Golf "
+"Pèrsic. Fou fundat el 1756 per la dinastia Sabah, que ha dirigit el país des "
+"de llavors. El 1990, el país fou ocupat per forces iraquianes, que van ser "
+"expulsades després d'una intervenció militar internacional. Econòmicament, "
+"Kuwait és un dels països més desenvolupats de l'Orient Mitjà. Malgrat la seva "
+"mida relativament petita, el país conté aproximadament un deu per cent de les "
+"reserves de petroli comprovades del món."
 
 #: data/nation/kyrgyz.ruleset:3
 msgid "Kyrgyz"
@@ -29444,12 +29481,11 @@ msgstr ""
 
 #: data/nation/lesothoan.ruleset:3
 msgid "Lesothoan"
-msgstr ""
+msgstr "Basuto"
 
 #: data/nation/lesothoan.ruleset:4
-#, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "Nestorians"
+msgstr "Basutos"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -29460,16 +29496,21 @@ msgid ""
 "all sides, that country's apartheid policies prevented its intgration into "
 "South Africa. In 1966 Basutoland became the independent Kingdom of Lesotho."
 msgstr ""
+"Lesotho va formar per primer cop un estat unificat a principis del segle XIX, "
+"sota el rei Moshoeshoe I, que va unificar els clans sotho. Moshoeshoe va "
+"cerca la protecció dels britànics contra les incursions dels bòers i el 1869, "
+"el país es va convertir en el protectorat britànic de Basutoland. Encara que "
+"està envoltat per Sud-àfrica per tots els costats, les polítiques d'apartheid "
+"d'aquell país van impedir-ne la seva integració dins de Sud-àfrica. El 1966, "
+"Basutoland va convertir-se en el Regne independent de Lesotho."
 
 #: data/nation/liberian.ruleset:3
-#, fuzzy
 msgid "Liberian"
-msgstr "Siberià"
+msgstr "Liberià"
 
 #: data/nation/liberian.ruleset:4
-#, fuzzy
 msgid "?plural:Liberians"
-msgstr "Siberians"
+msgstr "Liberians"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -29483,16 +29524,23 @@ msgid ""
 "overthrown in 1980, which led to a period of instability and civil wars. A "
 "fragile peace returned in 2003."
 msgstr ""
+"Libèria és un país de l'Àfrica Occidental, que es va fundar durant la primera "
+"part del segle XIX com a país per als esclaus afroamericans alliberats. La "
+"història de Libèria s'ha caracteritzat per les tensions entre la minoria "
+"dominant amèrico-liberiana i la majoria indígena. Els americo-liberians es "
+"van organitzar en el partit True Whig, que es va mantenir al poder durant no "
+"menys de 102 anys, més que qualsevol altre partit del món. La població "
+"indígena va obtenir la ciutadania els anys 60 i els True Whigs van ser "
+"enderrocats el 1980, cosa que va provocar un període d'inestabilitat i "
+"guerres civils. El 2003 va tornar una pau fràgil."
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "Lituà"
+msgstr "Liburn"
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "Lituans"
+msgstr "Liburns"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -29501,6 +29549,10 @@ msgid ""
 "from their neighbors, the Illyrians, and spoke an Italic language. They were "
 "Romanized after the annexation of their land by Rome."
 msgstr ""
+"Els liburns eren una antiga tribu indoeuropea que vivia al llarg de la costa "
+"del nordest de l'Adriàtic, a la Croàcia actual. Probablement eren diferents "
+"dels seus veïns, els il·liris, i parlaven una llengua itàlica. Van ser "
+"romanitzats després de l'annexió del seu territori per Roma."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -29828,14 +29880,12 @@ msgid "?female:Paramount Ruler %s"
 msgstr "Dirigent Principal %s"
 
 #: data/nation/maldivian.ruleset:3
-#, fuzzy
 msgid "Maldivian"
-msgstr "Bolivià"
+msgstr "Maldivià"
 
 #: data/nation/maldivian.ruleset:4
-#, fuzzy
 msgid "?plural:Maldivians"
-msgstr "Malians"
+msgstr "Maldivians"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -29846,6 +29896,12 @@ msgid ""
 "independence. Today, the Maldives are above all known as a tourist "
 "destination."
 msgstr ""
+"Les Maldives són un arxipèlag de l'Oceà Índic, i el país més petit d'Àsia. "
+"Segons la tradició, les Maldives van convertir-se en un soldanat unit quan "
+"els xola foren expulsats el segle XII. Les illes van ser protectorat britànic "
+"des de 1887 fins a 1965. La monarquia fou abolida tres anys després de la "
+"independència. Avui en dia, les Maldives es coneixen sobretot com a "
+"destinació turística."
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -29922,12 +29978,11 @@ msgstr "Mestressa %s"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
-msgstr ""
+msgstr "Mameluc"
 
 #: data/nation/mamluk.ruleset:4
-#, fuzzy
 msgid "?plural:Mamluks"
-msgstr "Malis"
+msgstr "Mamelucs"
 
 #: data/nation/mamluk.ruleset:6
 msgid ""
@@ -29937,6 +29992,11 @@ msgid ""
 "their own state in Egypt. The Mamluk Sultanate was ruled by two dynasties "
 "Mamluks until it was conquered by the Ottoman Turks in 1517."
 msgstr ""
+"Els mamelucs eren una casta de guerrers egipcis que eren reclutats d'esclaus "
+"d'origen turc o caucàsic. Els mamelucs es coneixien com a unitats militars "
+"d'elit. Van tenir papers importants a diversos països musulmans. El 1250, van "
+"crear el seu propi estat a Egipte. El Soldanat Mameluc fou governat per dues "
+"dinasties mamelucs fins que fou conquerit pels turcs otomans el 1517."
 
 #: data/nation/mamluk.ruleset:33 data/nation/ottoman.ruleset:27
 #: data/nation/riffian.ruleset:22 data/nation/sudanese.ruleset:18
@@ -30058,14 +30118,12 @@ msgid "Marsmen landed on Earth in 4000 BC!"
 msgstr "Els marcians van arribar a la Terra l'any 4000 a.C.!"
 
 #: data/nation/mauritanian.ruleset:3
-#, fuzzy
 msgid "Mauritanian"
-msgstr "Cartaginès"
+msgstr "Maurità"
 
 #: data/nation/mauritanian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritanians"
-msgstr "Marcians"
+msgstr "Mauritans"
 
 #: data/nation/mauritanian.ruleset:6
 msgid ""
@@ -30074,16 +30132,18 @@ msgid ""
 "onwards. Colonized by France in the 19th century. the country became an "
 "independent republic in 1960."
 msgstr ""
+"Mauritània és un país del Nordoest de l'Àfrica, on es troben els mons àrab i "
+"subsaharià. Mauritània va islamitzar-se a partir del segle XI. Colonitzat per "
+"França durant el segle XIX, el país va convertir-se en república independent "
+"el 1960."
 
 #: data/nation/mauritian.ruleset:3
-#, fuzzy
 msgid "Mauritian"
-msgstr "Marcià"
+msgstr "Mauricià"
 
 #: data/nation/mauritian.ruleset:4
-#, fuzzy
 msgid "?plural:Mauritians"
-msgstr "Marcians"
+msgstr "Mauricians"
 
 #: data/nation/mauritian.ruleset:6
 msgid ""
@@ -30096,6 +30156,14 @@ msgid ""
 "1968. Nowadays, Mauritius is one of the most developed countries of Africa. "
 "The population is mostly of Indian, African and European origin."
 msgstr ""
+"Maurici és una illa de l'Oceà Índic. Va ser colonitzada primer pels "
+"holandesos, que li van donar el nom en honor de Maurici de Nassau. L'illa és "
+"famosa per ser l'hàbitat del dodo, que es va extingir un segle després del "
+"seu descobriment. Els holandesos van abandonar l'illa el 1710 i Maurici va "
+"ser colonitzada després pels francesos. Durant les Guerres Napoleòniques, "
+"l'illa fou capturada pels britànics. L'illa va obtenir la independència el "
+"1968. Avui en dia, Maurici és un dels països més desenvolupats de l'Àfrica. "
+"La població és majoritàriament d'orígens indi, africà i europeu."
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
@@ -30404,14 +30472,12 @@ msgstr ""
 "Soviètica el 1991."
 
 #: data/nation/moluccan.ruleset:3
-#, fuzzy
 msgid "Moluccan"
-msgstr "Marroquí"
+msgstr "Moluqueny"
 
 #: data/nation/moluccan.ruleset:4
-#, fuzzy
 msgid "?plural:Moluccans"
-msgstr "Marroquins"
+msgstr "Moluquenys"
 
 #: data/nation/moluccan.ruleset:6
 msgid ""
@@ -30425,6 +30491,15 @@ msgid ""
 "The rebellion was crushed, but a government in exile continues to operate, "
 "not recognized by any country."
 msgstr ""
+"Les Moluques, conegudes com a Illes de les Espècies durant l'era de les "
+"colonitzacions, són un grup d'illes de l'arxipèlag indonesi. Habitades per "
+"pobles malais, les illes foren disputades pels espanyols, portuguesos i "
+"anglesos, però van acabar sota control holandès cap al segle XVI. Durant el "
+"procés de descolonització, molts moluquenys van alinear-se amb l'Exèrcit de "
+"les Índies Orientals Holandeses. Això, i el centralisme exercit per Java "
+"després de la independència d'Indonèsia el 1949, va provocar la proclamació "
+"de la República de les Moluques del Sud el 1950. La revolta fou esclafada, "
+"però continua funcionant un govern a l'exili, que no reconeix cap país."
 
 #: data/nation/monegasque.ruleset:3
 msgid "Monegasque"
@@ -30463,20 +30538,20 @@ msgid "?female:Minister of State %s"
 msgstr "Ministra d'Estat %s"
 
 #: data/nation/mon.ruleset:3
-#, fuzzy
 msgid "Mon"
-msgstr "Mongol"
+msgstr "Mon"
 
 #: data/nation/mon.ruleset:4
-#, fuzzy
 msgid "?plural:Mons"
-msgstr "Mongols"
+msgstr "Mon"
 
 #: data/nation/mon.ruleset:6
 msgid ""
 "The Mon people were among the earliest inhabitants of Southeast Asia and "
 "instrumental in the spread of Buddhism in the region."
 msgstr ""
+"El poble mon fou dels primers habitants del Sudest Asiàtic i fou clau en "
+"l'expansió del budisme per la regió."
 
 #: data/nation/montenegrin.ruleset:3
 msgid "Montenegrin"
@@ -30562,7 +30637,6 @@ msgstr ""
 "coneixa com a a Mauretània."
 
 #: data/nation/mosotho.ruleset:3
-#, fuzzy
 msgid "Mosotho"
 msgstr "Basut"
 
@@ -30571,7 +30645,6 @@ msgid "?plural:Basotho"
 msgstr "Basuts"
 
 #: data/nation/mosotho.ruleset:6
-#, fuzzy
 msgid ""
 "A Bantu people in Southern Africa, the ancestors of the Basotho first "
 "arrived in the region by the end of the first millennium AD. The Basotho "
@@ -30585,8 +30658,12 @@ msgstr ""
 "Els avantpassats dels basuts, un poble bantú de l'Àfrica Austral, van "
 "arribar per primer cop a la regió cap al final del primer mil·lenni d.C. Els "
 "basuts van formar un estat unificat a principis del segle XIX amb el rei "
-"Moshoeshoe I. Avui en dia, hi ha uns 2 milions de basuts al Regne de "
-"Lesotho, i gairebé el doble a Sud-àfrica."
+"Moshoeshoe I. Els reis basuts van buscar la protecció dels britànics contra "
+"les incursions bòers i el 1869, el seu país es va convertir en el protectorat "
+"britànic de Basutoland. Encara que està envoltat per Sud-àfrica per tots els "
+"costats, les políti ques d'apartheid d'aquell país van impedir-ne la "
+"integració dins de Sud-àfrica. El 1966, Basutoland va convertir-se en el "
+"Regne independent de Lesotho."
 
 #: data/nation/motswana.ruleset:3
 #, fuzzy
@@ -31973,14 +32050,12 @@ msgstr ""
 "1521."
 
 #: data/nation/qatari.ruleset:3
-#, fuzzy
 msgid "Qatari"
-msgstr "Tàtar"
+msgstr "Qatarià"
 
 #: data/nation/qatari.ruleset:4
-#, fuzzy
 msgid "?plural:Qataris"
-msgstr "Tàtars"
+msgstr "Qatarians"
 
 #: data/nation/qatari.ruleset:6
 msgid ""
@@ -31988,6 +32063,9 @@ msgid ""
 "the wealthiest countries of the world in terms of GDP per capita. Qatar is "
 "one of the world's few absolute monarchies."
 msgstr ""
+"Qatar és un emirat situat en una península del Golf Pèrsic. És un dels països "
+"més rics del món en termes de PNB per càpita. Qatar és una de les poques "
+"monarquies absolutes del món."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -32007,12 +32085,11 @@ msgstr ""
 
 #: data/nation/rapanui.ruleset:3
 msgid "Rapa Nui"
-msgstr ""
+msgstr "Rapanui"
 
 #: data/nation/rapanui.ruleset:4
-#, fuzzy
 msgid "?plural:Rapa Nui"
-msgstr "Rarámuris"
+msgstr "Rapanuis"
 
 #: data/nation/rapanui.ruleset:6
 msgid ""
@@ -32022,6 +32099,11 @@ msgid ""
 "destroyed due to internal conflicts; in 1888 the island was annexed by "
 "Chile. Their script Rongorongo has never been decyphered."
 msgstr ""
+"Els rapanuis són els habitants nadius polinesis de l'Illa de Pasqua. Han "
+"viscut a l'illa des del final del primer mil·leni d.C. Són famosos per haver "
+"construït grans estàtues anomenades moai. Aquesta civilització fou destruïda "
+"degut a conflictes interns; el 1888, l'illa fou annexionada per Xile. La seva "
+"escriptura Rongorongo no s'ha desxifrat mai."
 
 #. TRANS: The fourth letter in "Raramuri" should be
 #. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
@@ -36160,9 +36242,8 @@ msgid "Manual file %s successful written."
 msgstr "S'ha escrit correctament el fitxer de manual %s."
 
 #: manual/civmanual.c:498 server/civserver.c:365
-#, fuzzy
 msgid "Use FILE as logfile"
-msgstr "  -l, --log FITXER\tUsa FITXER com a fitxer de registre\n"
+msgstr "Usa FILE com a fitxer de registre"
 
 #: manual/civmanual.c:500
 msgid "Make manual for RULESET"
@@ -36282,45 +36363,42 @@ msgid "Freeciv modpack installer"
 msgstr "Instal·lador de modpacks de Freeciv"
 
 #: modinst/mpcmdline.c:61
-#, fuzzy
 msgid "Load modpack list from given URL"
-msgstr "  -L, --List URL\t\tCarregar llista de modpacks de la URL donada\n"
+msgstr "Carregar llista de modpacks de la URL donada"
 
 #: modinst/mpcmdline.c:63
-#, fuzzy
 msgid "Install modpacks to given directory hierarchy"
-msgstr ""
-"  -p, --prefix DIR\t\tInstal·lar modpacks a la jerarquia de directoris donada"
+msgstr "Instal·lar modpacks a la jerarquia de directoris donada"
 
 #: server/aiiface.c:83
 #, c-format
 msgid "Cannot open AI module %s (%s)"
-msgstr ""
+msgstr "No es pot obrir el mòdul IA %s (%s)"
 
 #: server/aiiface.c:90
 #, c-format
 msgid "Cannot find capstr function from ai module %s (%s)"
-msgstr ""
+msgstr "No es pot trobar la funció capstr del mòdul IA %s (%s)"
 
 #: server/aiiface.c:97
 #, c-format
 msgid "Incompatible ai module %s:"
-msgstr ""
+msgstr "Mòdul IA incompatible %s:"
 
 #: server/aiiface.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "  Module options:    %s"
-msgstr "Població:          %5d"
+msgstr "  Opcions del mòdul:    %s"
 
 #: server/aiiface.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "  Supported options: %s"
-msgstr "Opcions no suportades"
+msgstr "  Opcions suportades: %s"
 
 #: server/aiiface.c:107
 #, c-format
 msgid "Cannot find setup function from ai module %s (%s)"
-msgstr ""
+msgstr "No es pot trobar la funció setup del mòdul IA %s (%s)"
 
 #: server/aiiface.c:114
 #, fuzzy, c-format
