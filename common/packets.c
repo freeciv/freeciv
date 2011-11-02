@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <arpa/inet.h>
 
 /* utility */
 #include "capability.h"
@@ -184,9 +185,10 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 {
   /* default for the server */
   int result = 0;
+  int packet_type = ntohs((data[3] << 8) + data[2]);
 
   log_packet("sending packet type=%s(%d) len=%d to %s",
-             packet_name(data[2]), data[2], len,
+             packet_name(packet_type), packet_type, len,
              is_server() ? pc->username : "server");
 
   if (!is_server()) {
@@ -197,15 +199,13 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
   }
 
   if (pc->outgoing_packet_notify) {
-    pc->outgoing_packet_notify(pc, data[2], len, result);
+    pc->outgoing_packet_notify(pc, packet_type, len, result);
   }
 
 #ifdef USE_COMPRESSION
   if (TRUE) {
-    int packet_type;
     int size = len;
 
-    packet_type = data[2];
     if (conn_compression_frozen(pc)) {
       size_t old_size = pc->compression.queue.size;
 
@@ -249,7 +249,6 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
     static int last_start_turn_seen = -1;
     static bool start_turn_seen = FALSE;
 
-    int packet_type = data[2];
     int size = len;
     bool print = FALSE;
     bool clear = FALSE;
@@ -339,6 +338,7 @@ void *get_packet_from_connection(struct connection *pc,
     enum packet_type type;
     int itype;
   } utype;
+  int typeb1, typeb2;
   struct data_in din;
 #ifdef USE_COMPRESSION
   bool compressed_packet = FALSE;
@@ -351,8 +351,9 @@ void *get_packet_from_connection(struct connection *pc,
     return NULL;		/* connection was closed, stop reading */
   }
   
-  if (pc->buffer->ndata < 3) {
-    return NULL;           /* length and type not read */
+  if (pc->buffer->ndata < 2+2) {
+    /* length and type not read */
+    return NULL;
   }
 
   dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
@@ -445,16 +446,26 @@ void *get_packet_from_connection(struct connection *pc,
 
   /*
    * At this point the packet is a plain uncompressed one. These have
-   * to have to be at least 3 bytes in size.
+   * to have to be at least 4 bytes in size.
    */
-  if (whole_packet_len < 3) {
+  if (whole_packet_len < 2+2) {
     log_verbose("The packet stream is corrupt. The connection "
                 "will be closed now.");
     connection_close(pc, _("decoding error"));
     return NULL;
   }
 
-  dio_get_uint8(&din, &utype.itype);
+  /* Instead of one dio_get_uint16() we do twice dio_get_uint8().
+   * Older (<= 2.4) versions had 8bit type field, and we detect
+   * here if this is initial PACKET_SERVER_JOIN_REQ from such a client. */
+  dio_get_uint8(&din, &typeb1);
+
+  if (typeb1 == PACKET_SERVER_JOIN_REQ) {
+    utype.itype = typeb1;
+  } else {
+    dio_get_uint8(&din, &typeb2);
+    utype.itype = ntohs((typeb2 << 8) + typeb1);
+  }
 
   utype.type = utype.itype;
 
@@ -548,7 +559,7 @@ void check_packet(struct data_in *din, struct connection *pc)
 
     dio_input_rewind(din);
     dio_get_uint16(din, &len);
-    dio_get_uint8(din, &type);
+    dio_get_uint16(din, &type);
 
     if (din->bad_string) {
       log_error("received bad string in packet (type %d, len %d)%s",

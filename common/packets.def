@@ -61,7 +61,9 @@ Syntax:
     PACKET_PROCESSING_FINISHED, PACKET_SERVER_JOIN_REQ and
     PACKET_SERVER_JOIN_REPLY are excluded here. These packets should
     never change their number. The packet number can be freely chosen
-    as long as it is below 255 and unique.
+    as long as it is below 65536 and unique. For backward compatibility  
+    reasons using values from range 1024-1279 ((4x256)-(5*256-1))        
+    should be avoided. 
 
    Packet flags:
    -------------
