@@ -108,6 +108,9 @@ void genlist_sort(struct genlist *pgenlist,
 void genlist_shuffle(struct genlist *pgenlist);
 void genlist_reverse(struct genlist *pgenlist);
 
+void genlist_allocate_mutex(struct genlist *pgenlist);
+void genlist_release_mutex(struct genlist *pgenlist);
+
 void *genlist_link_data(const struct genlist_link *plink);
 struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
                      fc__warn_unused_result;

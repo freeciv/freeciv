@@ -83,6 +83,8 @@
  *       int (*compar) (const foo_t *const *, const foo_t *const *));
  *    void foo_list_shuffle(struct foo_list *plist);
  *    void foo_list_reverse(struct foo_list *plist);
+ *    void foo_list_allocate_mutex(struct foo_list *plist);
+ *    void foo_list_release_mutex(struct foo_list *plist);
  *    foo_t *foo_list_link_data(const struct foo_list_link *plink);
  *    struct foo_list_link *
  *        foo_list_link_prev(const struct foo_list_link *plink);
@@ -486,6 +488,22 @@ static inline void SPECLIST_FOO(_list_shuffle) (SPECLIST_LIST *tthis)
 static inline void SPECLIST_FOO(_list_reverse) (SPECLIST_LIST *tthis)
 {
   genlist_reverse((struct genlist *) tthis);
+}
+
+/****************************************************************************
+  Allocate speclist mutex
+****************************************************************************/
+static inline void SPECLIST_FOO(_list_allocate_mutex) (SPECLIST_LIST *tthis)
+{
+  genlist_allocate_mutex((struct genlist *) tthis);
+}
+
+/****************************************************************************
+  Release speclist mutex
+****************************************************************************/
+static inline void SPECLIST_FOO(_list_release_mutex) (SPECLIST_LIST *tthis)
+{
+  genlist_release_mutex((struct genlist *) tthis);
 }
 
 /****************************************************************************

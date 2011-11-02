@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 /* utility */
+#include "fcthread.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"  /* array_shuffle */
@@ -36,6 +37,7 @@ struct genlist_link {
  * of the list. */
 struct genlist {
   int nelements;
+  fc_mutex mutex;
   struct genlist_link *head_link;
   struct genlist_link *tail_link;
   genlist_free_fn_t free_data_func;
@@ -86,6 +88,7 @@ struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
   pgenlist->head_link = NULL;
   pgenlist->tail_link = NULL;
 #endif /* ZERO_VARIABLES_FOR_SEARCHING */
+  fc_init_mutex(&pgenlist->mutex);
   pgenlist->free_data_func = (free_data_func ? free_data_func
                               : genlist_default_free_data_func);
 
@@ -99,6 +102,7 @@ void genlist_destroy(struct genlist *pgenlist)
 {
   fc_assert_ret(NULL != pgenlist);
   genlist_clear(pgenlist);
+  fc_destroy_mutex(&pgenlist->mutex);
   free(pgenlist);
 }
 
@@ -698,6 +702,22 @@ void genlist_reverse(struct genlist *pgenlist)
     head = head->next;
     tail = tail->prev;
   }
+}
+
+/****************************************************************************
+  Allocates list mutex
+****************************************************************************/
+void genlist_allocate_mutex(struct genlist *pgenlist)
+{
+  fc_allocate_mutex(&pgenlist->mutex);
+}
+
+/****************************************************************************
+  Releases list mutex
+****************************************************************************/
+void genlist_release_mutex(struct genlist *pgenlist)
+{
+  fc_release_mutex(&pgenlist->mutex);
 }
 
 /****************************************************************************
