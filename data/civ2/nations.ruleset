@@ -13,7 +13,7 @@
 
 [datafile]
 description="Civ2-equivalent nations data for Freeciv"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-ruleset-Devel-2011.Nov.02"
 
 ; Descriptions of nation groups
 ; name 		= name of the group

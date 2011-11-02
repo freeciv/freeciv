@@ -40,6 +40,7 @@
 #include "player.h"
 #include "research.h"
 #include "rgbcolor.h"
+#include "road.h"
 #include "spaceship.h"
 #include "specialist.h"
 #include "unit.h"
@@ -3068,6 +3069,18 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   PACKET_STRVEC_EXTRACT(pbase->helptext, p->helptext);
 
   tileset_setup_base(tileset, pbase);
+}
+
+/****************************************************************************
+  Handle a packet about a particular road type.
+****************************************************************************/
+void handle_ruleset_road(const struct packet_ruleset_road *p)
+{
+  struct road_type *proad = road_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
+
+  names_set(&proad->name, p->name, p->rule_name);
 }
 
 /****************************************************************************

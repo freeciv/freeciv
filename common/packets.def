@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 219
+Max id: 220
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1391,6 +1391,12 @@ PACKET_RULESET_BASE = 153; sc, lsend
   BV_BASE_FLAGS flags;
   BV_BASES conflicts;
   STRING helptext[MAX_LEN_PACKET];
+end
+
+PACKET_RULESET_ROAD = 220; sc, lsend
+  UINT8 id;
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
 end
 
 /**************************************************************************

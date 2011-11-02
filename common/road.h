@@ -17,11 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-enum eroad { ROAD_ROAD = 0, ROAD_RAILROAD, ROAD_LAST };
-
 struct road_type {
   int id;
-  const char *name;
+  struct name_translation name;
   enum unit_activity act;
   enum tile_special_type special;
 };

@@ -12,7 +12,7 @@
 
 [datafile]
 description="Default governments data for Freeciv (as Civ2, minus fundamentalism)"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-ruleset-Devel-2011.Nov.02"
 
 [governments]
 during_revolution="Anarchy"

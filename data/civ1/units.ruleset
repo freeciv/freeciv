@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ1-style unit_type data for Freeciv"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-ruleset-Devel-2011.Nov.02"
 
 [veteran_system]
 ; What are the names of the levels?

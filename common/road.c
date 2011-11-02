@@ -20,13 +20,14 @@
 
 /* common */
 #include "fc_types.h"
+#include "name_translation.h"
 
 #include "road.h"
 
 static struct road_type roads[ROAD_LAST] =
   {
-    { ROAD_ROAD, N_("Road"), ACTIVITY_ROAD, S_ROAD },
-    { ROAD_RAILROAD, N_("Railroad"), ACTIVITY_RAILROAD, S_RAILROAD }
+    { ROAD_ROAD, {}, ACTIVITY_ROAD, S_ROAD },
+    { ROAD_RAILROAD, {}, ACTIVITY_RAILROAD, S_RAILROAD }
   };
 
 /**************************************************************************
@@ -57,7 +58,7 @@ Road_type_id road_index(const struct road_type *proad)
 **************************************************************************/
 Road_type_id road_count(void)
 {
-  return ROAD_LAST;
+  return MAX_ROAD_TYPES;
 }
 
 /****************************************************************************
@@ -121,7 +122,7 @@ struct road_type *road_by_special(enum tile_special_type spe)
 ****************************************************************************/
 const char *road_name_translation(struct road_type *road)
 {
-  return _(road->name);
+  return name_translation(&road->name);
 }
 
 /****************************************************************************
@@ -129,5 +130,5 @@ const char *road_name_translation(struct road_type *road)
 ****************************************************************************/
 const char *road_rule_name(struct road_type *road)
 {
-  return road->name;
+  return rule_name(&road->name);
 }

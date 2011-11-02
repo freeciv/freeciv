@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ2 tile_type data for Freeciv"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-ruleset-Devel-2011.Nov.02"
 
 [options]
 may_road=1           ; 0 means no, 1 means yes
@@ -876,3 +876,18 @@ helptext       = _("\
 Airbases allow your air units to land and refuel. Air units in an \
 airbase may be attacked by land units.\
 ")
+
+; /* <-- avoid gettext warnings
+;
+; Road types:
+; Current code requires exactly two road definitions
+;
+; name                    = translatable name as seen by user
+;
+; */ <-- avoid gettext warnings
+
+[road_road]
+name          = _("Road")
+
+[road_railroad]
+name          = _("Railroad")

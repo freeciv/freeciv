@@ -47,6 +47,7 @@
 #include "player.h"
 #include "requirements.h"
 #include "rgbcolor.h"
+#include "road.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"
@@ -67,7 +68,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Oct.27"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Nov.02"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -91,6 +92,7 @@
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define RESOURCE_SECTION_PREFIX "resource_"
 #define BASE_SECTION_PREFIX "base_"
+#define ROAD_SECTION_PREFIX "road_"
 #define SPECIALIST_SECTION_PREFIX "specialist_"
 #define TERRAIN_SECTION_PREFIX "terrain_"
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
@@ -106,6 +108,7 @@ static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 static char *resource_sections = NULL;
 static char *terrain_sections = NULL;
 static char *base_sections = NULL;
+static char *road_sections = NULL;
 
 static struct section_file *openload_ruleset_file(const char *whichset);
 static const char *check_ruleset_capabilities(struct section_file *file,
@@ -141,6 +144,7 @@ static void send_ruleset_buildings(struct conn_list *dest);
 static void send_ruleset_terrain(struct conn_list *dest);
 static void send_ruleset_resources(struct conn_list *dest);
 static void send_ruleset_bases(struct conn_list *dest);
+static void send_ruleset_roads(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
@@ -1880,6 +1884,27 @@ static void load_terrain_names(struct section_file *file)
     ruleset_load_names(&pbase->name, file, sec_name);
     section_strlcpy(&base_sections[i * MAX_SECTION_LABEL], sec_name);
   } base_type_iterate_end;
+
+  /* road names */
+
+  sec = secfile_sections_by_name_prefix(file, ROAD_SECTION_PREFIX);
+  nval = (NULL != sec ? section_list_size(sec) : 0);
+  if (nval != MAX_ROAD_TYPES) {
+    ruleset_error(LOG_FATAL, "\"%s\": Number of road types not %d, but %d)",
+                  filename, MAX_ROAD_TYPES, nval);
+  }
+
+  if (road_sections) {
+    free(road_sections);
+  }
+  road_sections = fc_calloc(nval, MAX_SECTION_LABEL);
+
+  road_type_iterate(proad) {
+    const int i = road_index(proad);
+    const char *sec_name = section_name(section_list_get(sec, i));
+    ruleset_load_names(&proad->name, file, sec_name);
+    section_strlcpy(&road_sections[i * MAX_SECTION_LABEL], sec_name);
+  } road_type_iterate_end;
 
   if (NULL != sec) {
     section_list_destroy(sec);
@@ -3902,6 +3927,24 @@ static void send_ruleset_bases(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the road ruleset information (all individual road types) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_roads(struct conn_list *dest)
+{
+  struct packet_ruleset_road packet;
+
+  road_type_iterate(r) {
+    packet.id = road_number(r);
+
+    sz_strlcpy(packet.name, untranslated_name(&r->name));
+    sz_strlcpy(packet.rule_name, rule_name(&r->name));
+
+    lsend_packet_ruleset_road(dest, &packet);
+  } road_type_iterate_end;
+}
+
+/**************************************************************************
   Send the government ruleset information to the specified connections.
   One packet per government type, and for each type one per ruler title.
 **************************************************************************/
@@ -4174,6 +4217,10 @@ void load_rulesets(void)
     free(base_sections);
     base_sections = NULL;
   }
+  if (road_sections) {
+    free(road_sections);
+    road_sections = NULL;
+  }
   if (resource_sections) {
     free(resource_sections);
     resource_sections = NULL;
@@ -4233,6 +4280,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_resources(dest);
   send_ruleset_terrain(dest);
   send_ruleset_bases(dest);
+  send_ruleset_roads(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
