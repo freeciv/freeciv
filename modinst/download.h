@@ -19,7 +19,7 @@
 #define MODPACK_SUFFIX ".modpack"
 
 #define MODPACK_CAPSTR "+modpack-150611"
-#define MODLIST_CAPSTR "+modlist-150611"
+#define MODLIST_CAPSTR "+modlist-011111"
 
 #define SPECENUM_NAME modpack_type
 #define SPECENUM_VALUE0 MPT_RULESET
@@ -42,6 +42,7 @@ const char *download_modpack(const char *URL,
 
 typedef void (*modpack_list_setup_cb)(const char *name, const char *URL,
                                       const char *version,
+                                      const char *license,
                                       enum modpack_type type);
 
 const char *download_modpack_list(const struct fcmp_params *fcmp,

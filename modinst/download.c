@@ -316,12 +316,16 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
   do {
     const char *mpURL;
     const char *mpver;
+    const char *mplic;
     const char *mp_type_str;
 
     mp_name = secfile_lookup_str_default(list_file, NULL,
                                          "modpacks.list%d.name", modpack_count);
     mpver = secfile_lookup_str_default(list_file, NULL,
                                        "modpacks.list%d.version",
+                                       modpack_count);
+    mplic = secfile_lookup_str_default(list_file, NULL,
+                                       "modpacks.list%d.license",
                                        modpack_count);
     mp_type_str = secfile_lookup_str_default(list_file, NULL,
                                              "modpacks.list%d.type",
@@ -337,7 +341,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
       if (mpver == NULL) {
         mpver = "-";
       }
-      cb(mp_name, mpURL, mpver, type);
+      cb(mp_name, mpURL, mpver, mplic, type);
       modpack_count++;
     }
   } while (mp_name != NULL);
