@@ -1039,7 +1039,7 @@ Makes one unhappy citizen content.  The Mysticism advance doubles\
  made content.  Does not affect citizens made unhappy by military\
  activity.\
 "), _("\
-The work of the prists also reduces the effect of plague in the city.\
+The work of the priests also reduces the effect of plague in the city.\
 ")
 
 [building_university]

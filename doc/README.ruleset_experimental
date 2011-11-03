@@ -1,12 +1,11 @@
 ----------------------------------------------------------------------
-                   Experimental Freeciv Rulesets
+                   Experimental Freeciv Ruleset
 ----------------------------------------------------------------------
 
-This ruleset tries to use the new features available in freeciv 2.2 and
-the development version 2.2.99 (this will be 2.3 in the future). It is
-based on the default ruleset. The changes can be extracted by
+This ruleset tries to use the new features available since freeciv 2.2. It
+is based on the default ruleset. The changes can be extracted by
 
-#> diff -ur data/default data/experimental/
+#> diff -ur data/default/ data/experimental/
 
 If the changes in this ruleset result in a working game (especially with
 regard to the AI) they could be included in the default ruleset for next
@@ -20,11 +19,11 @@ this file.
 1. Changes compared to the default ruleset
    ---------------------------------------
 
-- Plagues are activated. Aqueducts and Sewer Systems reduce the chance
-  of plague in a city, as do the new Hospital and Genetic Laboratory
-  buildings. Building the wonder 'Cure for Cancer' further reduces the
-  possibility of plague for your entire empire (in combination with the
-  other buildings, plague can be eradicated in a city).
+- Plagues are activated. Temples, Aqueducts, Sewer Systems reduce the
+  chance of plague in a city, as do the new Hospital and Genetic Laboratory
+  buildings. The effect of Aqueducts is reduced after Industrialization
+  is discovered. Building the wonder 'Cure for Cancer' further reduces
+  the possibility of plague for your entire empire.
 
 - The Genetic Laboratory increases the food output by 25% if the city
   size exceeds 20.
@@ -39,7 +38,7 @@ this file.
   Gold upkeep for units is tallied empire-wide (unlike buildings), and if
   funds run out, random units are disbanded.
 
-- An new unit class Big Land is introduced, comprising all "siege" units
+- A new unit class Big Land is introduced, comprising all "siege" units
   (Catapult, Cannon etc) and Freight. Units of this type are restricted
   to flat terrain and cannot move into difficult terrain such as hills
   and forest, unless roads are built.
