@@ -40,13 +40,11 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   AC_DEFINE([LUA_USE_APICHECK], [1], [Lua Api checks])
 
   FC_C_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-              -Wformat -Wformat-security -Wnested-externs \
-              -Wl,--no-add-needed],
+              -Wformat -Wformat-security -Wnested-externs],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-                  -Wformat -Wformat-security \
-                  -Wl,--no-add-needed],
+                  -Wformat -Wformat-security],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 
@@ -58,7 +56,7 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
   fi
 
   dnl backtrace log callback needs "-rdynamic" in order to work well.
-  FC_LD_FLAGS([-rdynamic], [], [EXTRA_DEBUG_LDFLAGS])
+  FC_LD_FLAGS([-rdynamic -Wl,--no-add-needed], [], [EXTRA_DEBUG_LDFLAGS])
 fi
 
 dnl ==========================================================================
