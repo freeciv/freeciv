@@ -1232,6 +1232,7 @@ AC_CONFIG_FILES([Makefile
 	  data/buildings/Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile
+	  data/cimpletoon/Makefile
 	  data/trident/Makefile
 	  data/isophex/Makefile
 	  data/isotrident/Makefile
