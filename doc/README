@@ -189,13 +189,13 @@ Client:
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
   distribution comes with 5 main tilesets:
-  - amplio: An isometric tileset with larger and more detailed tiles.
+  - amplio2: An isometric tileset with larger and more detailed tiles.
   - isotrident: An isometric tileset similar in shape to the one in Civ 2.
   - trident: a Civ 1-style tileset with 30x30 tiles.
   - isophex: an isometric hexagonal tileset
   - hex2t: an overhead hexagonal tileset
 
-  In this release the amplio tileset is the default tileset.
+  In this release the amplio2 tileset is the default tileset.
   To try another one, for instance the trident tileset, start the
   client with:
 
