@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-01 17:53+0100\n"
-"PO-Revision-Date: 2011-11-02 00:12+0100\n"
+"PO-Revision-Date: 2011-11-03 22:47+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -31692,12 +31692,11 @@ msgstr ""
 
 #: data/nation/papuanewguinean.ruleset:3
 msgid "Papua New Guinean"
-msgstr ""
+msgstr "de Papua Nova Guinea"
 
 #: data/nation/papuanewguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Papua New Guineans"
-msgstr "Papús"
+msgstr "de Papua Nova Guinea"
 
 #: data/nation/papuanewguinean.ruleset:6
 msgid ""
@@ -31707,6 +31706,11 @@ msgid ""
 "War I Papua New Guinea was transferred to Australia. It became an "
 "independent country in 1975."
 msgstr ""
+"Papua Nova Guinea és un país que ocupa la part oriental de l'illa de Nova "
+"Guinea. Habitada des de temps immemorials per pobles papús, fou colonitzada "
+"pels britànics i els alemanys a finals del segle XIX. Durant la Primera "
+"Guerra Mundial, Papua Nova Guinea va ser cedida a Austràlia. Va obtenir la "
+"independència el 1975."
 
 #: data/nation/papuanewguinean.ruleset:22
 #, c-format
@@ -31742,6 +31746,17 @@ msgid ""
 "of the Dutch in 1963, though indigenous activists have been struggling for "
 "independence ever since."
 msgstr ""
+"Els papús són els habitants indígenes de l'illa de Nova Guinea. Són els "
+"descendents del poble que va colonitzar l'illa fa 40.000 anys, encara que "
+"moltes tribus papús, en especial les de la costa, continuen vivint com a "
+"caçadors-recol·lectors. Algunes tribus papús encara no han estat contactades. "
+"Els diferents grups papús són molt diversos a nivell cultural, ètnic i "
+"lingüístic; Nova Guinea conté més d'una quarta part de les llengües del món. "
+"La part occidental de l'illa fou colonitzada pels holandesos, l'oriental pels "
+"alemanys, els japonesos i finalment, els australians. La part oriental és "
+"independent com a Papua Nova Guinea des de 1975. Papua Occidental fou ocupada "
+"per Indonèsia quan es van retirar els holandesos el 1963, encara que "
+"activistes indígenes lluiten des de llavors per la independència."
 
 #: data/nation/paraguayan.ruleset:3
 msgid "Paraguayan"
@@ -36401,13 +36416,14 @@ msgid "Cannot find setup function from ai module %s (%s)"
 msgstr "No es pot trobar la funció setup del mòdul IA %s (%s)"
 
 #: server/aiiface.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Setup of ai module %s failed."
-msgstr "L'intent de construir meravella per %s ha fallat"
+msgstr "La configuració del mòdul IA %s ha fallat"
 
 #: server/aiiface.c:176
 msgid "Failed to setup default ai module, cannot continue."
 msgstr ""
+"No s'ha pogut configurar el mòdul IA predeterminat, no es pot continuar."
 
 #: server/auth.c:88
 #, c-format
@@ -37229,105 +37245,82 @@ msgid "You can learn a lot about Freeciv at %s"
 msgstr "Pots aprendre molt sobre a Freeciv a %s"
 
 #: server/civserver.c:333
-#, fuzzy
 msgid "Enable database connection with configuration from FILE."
 msgstr ""
-"  -D  --Database FITXER\tPermetre connexió de base de dades amb la "
-"configuració del FITXER.\n"
+"Permetre connexió de base de dades amb la "
+"configuració del FILE."
 
 #: server/civserver.c:336
-#, fuzzy
 msgid "Enable server authentication (requires --Database)."
-msgstr ""
-"  -a  --auth\t\tPermetre autenticació de servidor (requereix --Database).\n"
+msgstr "  Permetre autenticació de servidor (requereix --Database)."
 
 #: server/civserver.c:338
-#, fuzzy
 msgid "Allow guests to login if auth is enabled."
-msgstr ""
-"  -G  --Guests\t\tPermetre que els convidats entrin si auth està permès.\n"
+msgstr "Permetre que els convidats entrin si auth està permès."
 
 #: server/civserver.c:340
-#, fuzzy
 msgid "Allow new users to login if auth is enabled."
-msgstr ""
-"  -N  -Newusers\tPermet als nous usuaris d'entrar si auth està permès \n"
+msgstr " Permet als nous usuaris d'entrar si auth està permès."
 
 #: server/civserver.c:343
-#, fuzzy
 msgid "Listen for clients on ADDR"
-msgstr "  -b, --bind ADDR\tEscolta els clients a ADDR\n"
+msgstr "Escolta els clients a ADDR"
 
 #: server/civserver.c:345
-#, fuzzy
 msgid "Connect to metaserver from this address"
-msgstr "  -M, --Metaserver ADDR\tEstableix ADDR com adreça del metaservidor\n"
+msgstr "Connectar-se al metaservidor des d'aquesta adreça"
 
 #: server/civserver.c:359
-#, fuzzy
 msgid "Load saved game FILE"
-msgstr "Carregar Partida Desada"
+msgstr "Carregar partida desada FILE"
 
 #: server/civserver.c:363
-#, fuzzy
 msgid "Be known as ADDR at metaserver"
-msgstr "  -i, --identity ADDR\tSer conegut com a ADDR al metaservidor\n"
+msgstr "Ser conegut com a ADDR al metaservidor"
 
 #: server/civserver.c:367
-#, fuzzy
 msgid "Notify metaserver and send server's info"
 msgstr ""
-"  -m, --meta\t\tNotificar el metaservidor i enviar-hi la informació del "
-"servidor\n"
+"Notificar el metaservidor i enviar-hi la informació del "
+"servidor"
 
 #: server/civserver.c:369
-#, fuzzy
 msgid "Set ADDR as metaserver address"
-msgstr "metaserver <adreça>"
+msgstr "Fixar ADDR com a adreça del metaservidor"
 
 #: server/civserver.c:371
-#, fuzzy
 msgid "Listen for clients on port PORT"
-msgstr "  -p, --port PORT\tEscolta els clients al port PORT\n"
+msgstr " Escoltar els clients al port PORT"
 
 #: server/civserver.c:373
-#, fuzzy
 msgid "Quit if no players for TIME seconds"
-msgstr "  -q, --quitidle TEMPS\tSurt si no hi ha jugadors en TEMPS segons\n"
+msgstr "Sortir si no hi ha jugadors en TIME segons"
 
 #: server/civserver.c:375
-#, fuzzy
 msgid "When a game ends, exit instead of restarting"
-msgstr ""
-"  -e, --exit-on-end\tQuan una partida acaba, sortir en comptes de reiniciar\n"
+msgstr "Quan una partida acaba, sortir en comptes de reiniciar"
 
 #: server/civserver.c:377
-#, fuzzy
 msgid "Save games to directory DIR"
-msgstr "  -s, --saves DIR\tDesar les partides al directori DIR\n"
+msgstr "Desar les partides al directori DIR"
 
 #: server/civserver.c:379
-#, fuzzy
 msgid "Sets the server id to ID"
-msgstr "  -s, --Serverid ID\tCanvia l'identificador de servidor a ID\n"
+msgstr "Canvia l'identificador de servidor a ID"
 
 #: server/civserver.c:381
-#, fuzzy
 msgid "Read startup script FILE"
-msgstr "  -r, --read FITXER\tLlegeix script d'inici FITXER\n"
+msgstr "Llegeix script d'inici FILE"
 
 #: server/civserver.c:383
-#, fuzzy
 msgid "Use FILE as ranking logfile"
-msgstr ""
-"  -R, --Ranklog FITXER\tUsa FITXER com a fitxer de registre de rànquings\n"
+msgstr "Usar FILE com a fitxer de registre de rànquings"
 
 #: server/civserver.c:386
-#, fuzzy
 msgid "Load ai module MODULE. Can appear multiple times"
 msgstr ""
-"  -L, --LoadAI MÒDUL\tCarregar mòdul d'IA MÒDUL. Pot aparèixer múltiples "
-"vegades\n"
+" Carregar mòdul d'IA MODULE. Pot aparèixer múltiples "
+"vegades"
 
 #: server/commands.c:49
 msgid "Start the game, or restart after loading a savegame."
@@ -37392,7 +37385,6 @@ msgid "Show a list of various things."
 msgstr "Mostrar una llista de coses diverses."
 
 #: server/commands.c:92
-#, fuzzy
 msgid ""
 "Show a list of:\n"
 " - the player colors,\n"
@@ -37405,10 +37397,17 @@ msgid ""
 " - the running votes.\n"
 "The argument may be abbreviated, and defaults to 'players' if absent."
 msgstr ""
-"Mostra una llista de connexions al servidor, la llista d'ignorats, la llista "
-"dels jugadors de la partida, els escenaris disponibles, els equips de "
-"jugadors,o les votacions en curs. L'argument pot ser abreujat, i el "
-"predeterminat és 'players' (jugadors), si no es diu res."
+"Mostra una llista de:\n"
+" - colors dels jugadors,\n"
+" - connexions al servidor,\n"
+" - la llista d'ignorats,\n"
+" - la llista d'imatges de mapa definides,\n"
+" - la llista dels jugadors de la partida,\n"
+" - els escenaris disponibles,\n"
+" - els equips de jugadors, o\n"
+" - les votacions en curs.\n"
+"L'argument pot ser abreujat, i el predeterminat és 'players' (jugadors), si "
+"no es diu res."
 
 #: server/commands.c:108
 msgid "Quit the game and shutdown the server."
@@ -37797,7 +37796,6 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:309
-#, fuzzy
 msgid "create <player-name> [ai type]"
 msgstr "create <nom-jugador> [ai type]"
 
@@ -38148,11 +38146,12 @@ msgid ""
 "playercolor <player-name> <color>\n"
 "playercolor <player-name> reset"
 msgstr ""
+"playercolor <nom-jugador> <color>\n"
+"playercolor <nom-jugador> reset"
 
 #: server/commands.c:481
-#, fuzzy
 msgid "Define the color of a player."
-msgstr "Desassociar d'un jugador."
+msgstr "Definir el color d'un jugador."
 
 #: server/commands.c:482
 msgid ""
@@ -38170,6 +38169,19 @@ msgid ""
 "be visible in the following turn.\n"
 "To list the player color use 'list colors'."
 msgstr ""
+"Aquesta comanda s'utilitza per fixar el color de la nació d'un jugador. El "
+"color es defineix amb una notació hexadecimal (HEX) per a la combinació dels "
+"valors de Vermell (R), Verd (G) i Blau (B). El valor més petit és 0 (en HEX: "
+"00). El valor més alt és 255 (en HEX: FF). La definició del color comença amb "
+"un símbol '#' seguit pels valors HEX dels tres colors, és a dir, '#ff0000' "
+"per al vermell. En scripts de servidor, el símbol '#' s'ha d'escapar o la "
+"definició del color s'ha de posar entre cometes.\n"
+"En l'estat inicial del joc, el color només es pot definir si el paràmetre "
+"'plrcolormode' té el valor de 'PLR_SET'. El color definit es pot treure amb "
+"l'argument reset.\n"
+"Per una partida en curs, aquesta comanda redefineix el color del jugador. El "
+"canvi serà visible al torn següent.\n"
+"Per llistar els colors dels jugadors, utilitzeu 'list colors'."
 
 #: server/commands.c:500
 msgid "End the game immediately in a draw."
