@@ -4,6 +4,7 @@ if CLIENT
 CLIENT_FILES =				\
 	hex2t.tilespec			\
 	amplio2.tilespec		\
+	cimpletoon.tilespec		\
 	isophex.tilespec		\
 	isotrident.tilespec		\
 	trident.tilespec		\
@@ -60,7 +61,7 @@ EXTRA_DIST = \
 	multiplayer.serv
 
 if CLIENT
-CLIENTDATADIRS = amplio2 misc flags buildings isotrident trident\
+CLIENTDATADIRS = amplio2 misc flags buildings cimpletoon isotrident trident\
  isophex hex2t stdsounds themes wonders
 else
 CLIENTDATADIRS = 
