@@ -885,6 +885,12 @@ static void begin_phase(bool is_new_phase)
 
   dlsend_packet_start_phase(game.est_connections, game.info.phase);
 
+  /* Must be the first thing as it is needed for lots of functions below! */
+  phase_players_iterate(pplayer) {
+    /* human players also need this for building advice */
+    ai_data_phase_init(pplayer, is_new_phase);
+  } phase_players_iterate_end;
+
   if (is_new_phase) {
     /* Unit "end of turn" activities - of course these actually go at
      * the start of the turn! */
@@ -897,8 +903,6 @@ static void begin_phase(bool is_new_phase)
   phase_players_iterate(pplayer) {
     log_debug("beginning player turn for #%d (%s)",
               player_number(pplayer), player_name(pplayer));
-    /* human players also need this for building advice */
-    ai_data_phase_init(pplayer, is_new_phase);
     if (!pplayer->ai_controlled) {
       building_advisor(pplayer);
     }
