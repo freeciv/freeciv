@@ -74,6 +74,7 @@ files =
   "amplio2/fog.spec",
   "misc/small.spec",
   "amplio2/units.spec",
+  "amplio2/veterancy.spec",
   "misc/flags-large.spec",
   "misc/buildings-large.spec",
   "misc/wonders-large.spec",
