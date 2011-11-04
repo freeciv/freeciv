@@ -1221,46 +1221,6 @@ static void load_ruleset_units(struct section_file *file)
     const char *hut_str;
     const char *sec_name = section_name(section_list_get(csec, i));
 
-    fc_strlcat(tmp, sec_name, 200);
-    fc_strlcat(tmp, ".move_type", 200);
-    uc->move_type = lookup_move_type(file, tmp, filename);
-
-    if (!unit_move_type_is_valid(uc->move_type)) {
-      /* Not explicitly given, determine automatically */
-      bool land_moving = FALSE;
-      bool sea_moving = FALSE;
-
-      if (uclass_has_flag(uc, UCF_RIVER_NATIVE)
-          || uclass_has_flag(uc, UCF_ROAD_NATIVE)) {
-        land_moving = TRUE;
-      }
-
-      terrain_type_iterate(pterrain) {
-        bv_special spe;
-        bv_bases bases;
-
-        BV_CLR_ALL(spe);
-        BV_CLR_ALL(bases);
-
-        if (is_native_to_class(uc, pterrain, spe, bases)) {
-          if (is_ocean(pterrain)) {
-            sea_moving = TRUE;
-          } else {
-            land_moving = TRUE;
-          }
-        }
-      } terrain_type_iterate_end;
-
-      if (land_moving && sea_moving) {
-        uc->move_type = UMT_BOTH;
-      } else if (sea_moving) {
-        uc->move_type = UMT_SEA;
-      } else {
-        /* If unit has no native terrains, it is considered land moving */
-        uc->move_type = UMT_LAND;
-      }
-    }
-
     if (secfile_lookup_int(file, &uc->min_speed, "%s.min_speed", sec_name)) {
       uc->min_speed *= SINGLE_MOVE;
     } else {
@@ -1303,17 +1263,65 @@ static void load_ruleset_units(struct section_file *file)
           log_error("\"%s\" unit_class \"%s\": unit_type flag!",
                     filename, uclass_rule_name(uc));
         }
-      } else if (uc->move_type == UMT_SEA
-                 && ( ival == UCF_ROAD_NATIVE || ival == UCF_RIVER_NATIVE)) {
-        log_error("\"%s\" unit_class \"%s\": cannot give \"%s\" flag "
-                  "to sea moving unit",
-                  filename, uclass_rule_name(uc), sval);
       } else {
         BV_SET(uc->flags, ival);
       }
     }
     free(slist);
 
+    fc_strlcat(tmp, sec_name, 200);
+    fc_strlcat(tmp, ".move_type", 200);
+    uc->move_type = lookup_move_type(file, tmp, filename);
+
+    if (!unit_move_type_is_valid(uc->move_type)) {
+      /* Not explicitly given, determine automatically */
+      bool land_moving = FALSE;
+      bool sea_moving = FALSE;
+
+      if (uclass_has_flag(uc, UCF_RIVER_NATIVE)
+          || uclass_has_flag(uc, UCF_ROAD_NATIVE)) {
+        land_moving = TRUE;
+      }
+
+      terrain_type_iterate(pterrain) {
+        bv_special spe;
+        bv_bases bases;
+
+        BV_CLR_ALL(spe);
+        BV_CLR_ALL(bases);
+
+        if (is_native_to_class(uc, pterrain, spe, bases)) {
+          if (is_ocean(pterrain)) {
+            sea_moving = TRUE;
+          } else {
+            land_moving = TRUE;
+          }
+        }
+      } terrain_type_iterate_end;
+
+      if (land_moving && sea_moving) {
+        uc->move_type = UMT_BOTH;
+      } else if (sea_moving) {
+        uc->move_type = UMT_SEA;
+      } else {
+        /* If unit has no native terrains, it is considered land moving */
+        uc->move_type = UMT_LAND;
+      }
+    } else if (uc->move_type == UMT_SEA) {
+      /* Explicitly given SEA_MOVING */
+      if (uclass_has_flag(uc, UCF_RIVER_NATIVE)) {
+        log_error("\"%s\" unit_class \"%s\": cannot give RiverNative "
+                  "flag to sea moving unit",
+                  filename, uclass_rule_name(uc));
+        BV_CLR(uc->flags, UCF_RIVER_NATIVE);
+      }
+      if (uclass_has_flag(uc, UCF_ROAD_NATIVE)) {
+        log_error("\"%s\" unit_class \"%s\": cannot give RoadNative "
+                  "flag to sea moving unit",
+                  filename, uclass_rule_name(uc));
+        BV_CLR(uc->flags, UCF_ROAD_NATIVE);
+      }
+    }
   } unit_class_iterate_end;
 
   /* Tech and Gov requirements; per unit veteran system */
