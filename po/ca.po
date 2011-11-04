@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-01 17:53+0100\n"
-"PO-Revision-Date: 2011-11-03 22:47+0100\n"
+"PO-Revision-Date: 2011-11-04 19:18+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -38311,13 +38311,17 @@ msgid ""
 "lua file <script file>\n"
 "lua <script line> (deprecated)"
 msgstr ""
+"lua cmd <línia de script>\n"
+"lua file <fitxer de script>\n"
+"lua <línia de script> (obsolet)"
 
 #: server/commands.c:571
-#, fuzzy
 msgid ""
 "Evaluate a line of freeciv script or a freeciv script file in the current "
 "game."
-msgstr "Avaluar una línia de script de freeciv en la partida actual."
+msgstr ""
+"Avaluar una línia de script de freeciv o un fitxer de script de freeciv en la "
+"partida actual."
 
 #. TRANS: translate text between <>
 #: server/commands.c:577
@@ -38378,6 +38382,8 @@ msgid ""
 "fcdb [reload]\n"
 "fcdb [lua] <script>"
 msgstr ""
+"fcdb [reload]\n"
+"fcdb [lua] <script>"
 
 #: server/commands.c:611
 msgid ""
@@ -38386,6 +38392,10 @@ msgid ""
 "allows to evaluate a line of lua script in the contex of the lua instance "
 "for the freeciv database."
 msgstr ""
+"Comandes relacionades amb el suport de base de dades de freeciv. L'argument "
+"[reload] permet de resetejar el fitxer de script després d'un canvi mentre "
+"que l'argument [lua] permet d'avaluar una línia de script lua en el context "
+"de la instància lua de la base de dades freeciv."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:619
@@ -38397,10 +38407,16 @@ msgid ""
 "mapimg show <id>|all\n"
 "mapimg help"
 msgstr ""
+"mapimg colortest\n"
+"mapimg create <id>|all\n"
+"mapimg define <mapdef>\n"
+"mapimg delete <id>|all\n"
+"mapimg show <id>|all\n"
+"mapimg help"
 
 #: server/commands.c:625
 msgid "Create image files of the world/player map."
-msgstr ""
+msgstr "Crear fitxers d'imatges del mapa mundial/jugador."
 
 #: server/commands.c:626
 msgid ""
@@ -38412,6 +38428,14 @@ msgid ""
 "  help             - more information about the definition\n"
 "  show <id>|all    - shown a specific or all map images"
 msgstr ""
+"Aquesta comanda permet la creació d'imatges de mapa. Els arguments acceptats "
+"són:\n"
+" colortest         - crear una imatge per mostrar tots els colors\n"
+" create <id>|all - crear una imatge específica o totes les del mapa\n"
+" define <mapdef> - definir una imatge de mapa\n"
+" delete <id>|all - esborrar una imatge específica o totes les del mapa\n"
+" help                - més informació sobre la definició\n"
+" show <id>|all     - mostrar una imatge específica o totes les del mapa"
 
 #: server/commands.c:639
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -38444,12 +38468,12 @@ msgstr "%s s'ha connectat des de %s."
 #: server/connecthand.c:191
 #, c-format
 msgid "Player '%s' did reconnect. Restore player state."
-msgstr ""
+msgstr "El jugador '%s' s'ha reconnectat. Recuperar l'estat del jugador."
 
 #: server/connecthand.c:195
 #, c-format
 msgid "Couldn't get control from delegation to %s."
-msgstr ""
+msgstr "No s'ha pogut obtenir el control de la delegació a %s."
 
 #: server/connecthand.c:215
 msgid "Couldn't attach your connection to new player."
@@ -39357,9 +39381,9 @@ msgstr "Informació d'escenari no inicialitzada. No es pot desar l'escenari."
 
 #. TRANS: Further information about option will follow.
 #: server/fcdb.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "fcdb option \"%s\":"
-msgstr "Opció no reconeguda: \"%s\"\n"
+msgstr "Opció fcdb \"%s\":"
 
 #. TRANS: After 'fcdb option "user":'. Option value
 #. may have been inserted between these.
@@ -39383,17 +39407,17 @@ msgid " (set)"
 msgstr " (fixada)"
 
 #: server/fcdb.c:186
-#, fuzzy, c-format
+#, c-format
 msgid "Illegal value for fcdb port: \"%s\""
-msgstr "Camí il·legal per %s"
+msgstr "Valor no vàlid per al port fcdb: \"%s\""
 
 #: server/fcdb.c:235
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot load fcdb config file '%s':\n"
 "%s"
 msgstr ""
-"No s'ha pogut carregar el fitxer d'especificacions de so: '%s':\n"
+"No s'ha pogut carregar el fitxer de configuració de fcdb '%s':\n"
 "%s"
 
 #: server/gamehand.c:167
@@ -39417,7 +39441,7 @@ msgstr "El temps màxim per torn no pot ser negatiu, el poso a zero."
 
 #: server/generator/mapgen.c:1469
 msgid "The server couldn't allocate starting positions."
-msgstr ""
+msgstr "El servidor no ha pogut reservar posicions d'inici."
 
 #: server/generator/mapgen.c:2112
 msgid "High landmass - this may take a few seconds."
@@ -39595,9 +39619,8 @@ msgid "Not reporting to the metaserver in this game."
 msgstr "No s'informa al metaservidor d'aquesta partida."
 
 #: server/meta.c:234
-#, fuzzy
 msgid "Error connecting metaserver"
-msgstr "Llista de connexions al servidor:"
+msgstr "Error connectant el metaservidor"
 
 #: server/plrhand.c:131
 #, c-format
@@ -40234,9 +40257,9 @@ msgstr ""
 
 #: server/savegame2.c:3030 server/savegame.c:5279 server/srv_main.c:1903
 #: server/srv_main.c:1908
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
-msgstr "%s ha estat afegit com un jugador de nivell %s controlat per IA."
+msgstr "%s s'ha afegit com a jugador de nivell %s controlat per IA (%s)."
 
 #: server/savegame2.c:3035 server/savegame.c:5284
 #, c-format
@@ -40339,7 +40362,7 @@ msgstr "En execució"
 #. TRANS: Game state for local server
 #: server/sernet.c:1480 server/settings.c:286
 msgid "Game over"
-msgstr "Partida acabada"
+msgstr "Final de partida"
 
 #: server/settings.c:209
 msgid "Number of tiles"
@@ -40418,19 +40441,16 @@ msgid "Units able to move both on land and sea"
 msgstr "Unitats que poden moure's per terra i mar"
 
 #: server/settings.c:285
-#, fuzzy
 msgid "New turn"
-msgstr "%d torn"
+msgstr "Torn nou"
 
 #: server/settings.c:287
-#, fuzzy
 msgid "No player connections"
-msgstr "<no hi ha cap connexió>"
+msgstr "Sense connexions de jugador"
 
 #: server/settings.c:288
-#, fuzzy
 msgid "Server interrupted"
-msgstr "servidor desconnectat"
+msgstr "Servidor interromput"
 
 #: server/settings.c:300
 msgid "Disabled"
@@ -40450,19 +40470,19 @@ msgstr "Les fronteres s'expandeixen cap a caselles desconegudes, revelant-les"
 
 #: server/settings.c:316
 msgid "player color (ordered)"
-msgstr ""
+msgstr "color de jugador (ordenat)"
 
 #: server/settings.c:317
 msgid "player color (random)"
-msgstr ""
+msgstr "color de jugador (aleatori)"
 
 #: server/settings.c:318
 msgid "player color (set/random)"
-msgstr ""
+msgstr "color de jugador (definir/aleatori)"
 
 #: server/settings.c:319
 msgid "team color (ordered)"
-msgstr ""
+msgstr "color d'equip (ordenat)"
 
 #: server/settings.c:330
 msgid "Enabled for everyone"
@@ -41488,17 +41508,15 @@ msgid "Minimum distance between cities"
 msgstr "Distància mínima entre ciutats"
 
 #: server/settings.c:1439
-#, fuzzy
 msgid ""
 "When a player attempts to found a new city, there may be no other city in "
 "this distance. For example, when this value is 3, there have to be at least "
 "two empty fields between two cities in every direction."
 msgstr ""
-"Quan un jugador intenta fundar una nova ciutat, es comprova si no hi ha cap "
-"altra ciutat a aquesta distància. Per exemple, si aquest valor és 3, hi ha "
+"Quan un jugador intenta fundar una nova ciutat, no pot haver-hi cap "
+"més ciutat a aquesta distància. Per exemple, si aquest valor és 3, hi ha "
 "d'haver com a mínim dos camps buits entre dues ciutats en qualsevol "
-"direcció. Si s'estableix a 0 (el valor predeterminat), es fa servir el que "
-"digui el conjunt de regles actual."
+"direcció."
 
 #: server/settings.c:1449
 msgid "Technology trading"
@@ -41695,7 +41713,7 @@ msgstr ""
 
 #: server/settings.c:1576
 msgid "How to pick the player color"
-msgstr ""
+msgstr "Com triar el color del jugador"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between paranthesis
@@ -42175,7 +42193,7 @@ msgstr "La partida s'acabarà al final del torn donat."
 
 #: server/settings.c:1916
 msgid "Reveal the map"
-msgstr ""
+msgstr "Revelar el mapa"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -42405,17 +42423,16 @@ msgstr "Torns per desar automàticament"
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
 #: server/settings.c:2078
-#, fuzzy
 msgid ""
 "The game will be automatically saved per this number of turns. See also "
 "setting 'autosaves'."
 msgstr ""
 "La partida es desarà automàticament cada cop que passi aquest nombre de "
-"torns. Zero vol dir que no es desa mai automàticament."
+"torns. Vegeu també el paràmetre 'autosaves'."
 
 #: server/settings.c:2084
 msgid "Which savegames are generated automatically"
-msgstr ""
+msgstr "Quines partides desades es generen automàticament"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between single
@@ -42432,6 +42449,14 @@ msgid ""
 "- \"Server interrupted\" (INTERRUPT): Save when server quits due to "
 "interrupt."
 msgstr ""
+"Aquest paràmetre controla quins tipus de partida autodesada es generen:\n"
+"- \"Torn nou\" (TURN): Desar quan comença el torn, un cop cada 'saveturns' "
+"torns.\n"
+"- \"Final de partida\" (GAMEOVER): Es desa al final quan la partida s'acaba.\n"
+"- \"Sense connexions de jugador\" (QUITIDLE): Desa abans que el servidor es "
+"reiniciï per manca de jugadors.\n"
+"- \"Servidor interromput\" (INTERRUPT): Desar quan el servidor plega degut a "
+"una interrupció."
 
 #: server/settings.c:2102
 msgid "Savegame compression level"
@@ -42953,13 +42978,12 @@ msgstr "La partida ha acabat..."
 #: server/srv_main.c:2474
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
+"No s'ha pogut crear un mapa apropiat, es torna a provar amb una altra llavor "
+"de mapa"
 
 #: server/srv_main.c:2486
-#, fuzzy
 msgid "Cannot create suitable map with given settings."
-msgstr ""
-"No es pot crear una unitat a %s perquè l'identificador de tipus d'unitat %d "
-"no és vàlid."
+msgstr "No es pot crear un mapa adequat amb els paràmetres donats."
 
 #: server/srv_main.c:2686
 msgid "Now accepting new client connections."
@@ -43175,16 +43199,18 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "%s reemplaça %s com a jugador controlat per IA."
 
 #: server/stdinhand.c:1094
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as an AI-controlled player (%s)."
-msgstr "%s s'ha afegit com a jugador controlat per IA."
+msgstr "%s s'ha afegit com a jugador controlat per IA (%s)."
 
 #: server/stdinhand.c:1137
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Command level '%s' or greater needed to remove a player once the game has "
 "started."
-msgstr "Els jugadors no es poden esborrar un cop la partida ha començat."
+msgstr ""
+"Cal un nivell de comandes '%s' o superior per eliminar un jugador un cop la "
+"partida ja ha començat."
 
 #: server/stdinhand.c:1149
 #, c-format
@@ -43992,22 +44018,24 @@ msgstr "S'ha tret el patró %s (entrada %d) de la teva llista d'ignorats."
 
 #: server/stdinhand.c:3930
 msgid "Two arguments needed. See '/help playercolor'."
-msgstr ""
+msgstr "Calen dos arguments. Vegeu '/help playercolor'."
 
 #: server/stdinhand.c:3942
-#, fuzzy, c-format
+#, c-format
 msgid "No player with the name '%s' found or ambiguous name."
-msgstr "Cap jugador amb el nom de '%s'."
+msgstr "No s'ha trobat cap jugador amb el nom de '%s' o és un nom ambigu."
 
 #: server/stdinhand.c:3958
 msgid ""
 "A player color can only be reset if the game is in the initial state and "
 "'plrcolormode' is set to PLR_SET."
 msgstr ""
+"Un color de jugador només es pot reiniciar si la partida està en l'estat "
+"inicial i 'plrcolormode' té el valor PLR_SET."
 
 #: server/stdinhand.c:3968
 msgid "Invalid player color definition. See '/help playercolor'."
-msgstr ""
+msgstr "Definició de color de jugador incorrecta. Vegeu '/help playercolor'."
 
 #: server/stdinhand.c:3975
 #, c-format
@@ -44015,11 +44043,13 @@ msgid ""
 "Please set 'plrcolormode' to PLR_SET to define the color for the player %s "
 "before the game was started."
 msgstr ""
+"Si us plau, doneu a 'plrcolormode' el valor PLR_SET per definir el color per "
+"al jugador %s abans de començar la partida."
 
 #: server/stdinhand.c:3984
-#, fuzzy, c-format
+#, c-format
 msgid "Color of player %s set to [%s]."
-msgstr "El jugador %s s'ha unit a l'equip %s."
+msgstr "El color del jugador %s s'ha fixat a [%s]."
 
 #: server/stdinhand.c:4027
 msgid "Goodbye."
@@ -44131,12 +44161,12 @@ msgstr "Paràmetres reiniciats."
 #: server/stdinhand.c:4581
 #, c-format
 msgid "Fall back to old syntax '%slua <script command>."
-msgstr ""
+msgstr "Tornar a la sintaxi antiga '%slua <comanda de script>."
 
 #: server/stdinhand.c:4591
-#, fuzzy, c-format
+#, c-format
 msgid "No lua command or lua script file. See '%shelp lua'."
-msgstr "No es pot llegir el fitxer d'script de línia de comandes '%s'."
+msgstr "No hi  ha comanda lua ni fitxer de script lua. Vegeu '%shelp lua'."
 
 #: server/stdinhand.c:4614
 #, c-format
@@ -44232,9 +44262,8 @@ msgid "Control of player '%s' delegated to user '%s'."
 msgstr "El control del jugador '%s' s'ha delegat a l'usuari '%s'."
 
 #: server/stdinhand.c:4929
-#, fuzzy
 msgid "Delegation canceld."
-msgstr "Celebracions cancel·lades a %s."
+msgstr "Delegació cancel·lada."
 
 #: server/stdinhand.c:4941
 msgid "Please restore first your original connection."
@@ -44245,9 +44274,9 @@ msgid "Please cancel first your own delegation."
 msgstr "Si us plau, cancel·leu primer la pròpia delegació."
 
 #: server/stdinhand.c:4955
-#, fuzzy, c-format
+#, c-format
 msgid "You already controls %s."
-msgstr "%s ja controla %s."
+msgstr "Ja controleu %s."
 
 #: server/stdinhand.c:4964
 #, fuzzy, c-format
@@ -44333,9 +44362,9 @@ msgid "no map images defined"
 msgstr "(no s'han definit llistes de treball)"
 
 #: server/stdinhand.c:5240
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg show': '%s'"
-msgstr "Els arguments vàlids per a 'delegate' són: %s."
+msgstr "Arguments no vàlid per a 'mapimg show': '%s'"
 
 #: server/stdinhand.c:5251
 msgid "Map color test images created."
@@ -44353,11 +44382,11 @@ msgstr "Els arguments vàlids per a 'delegate' són: %s."
 
 #: server/stdinhand.c:5340
 msgid "Freeciv database script deactivated at compile time."
-msgstr ""
+msgstr "Script de base de dades de Freeciv desactivat en temps de compilació."
 
 #: server/stdinhand.c:5358
 msgid "Ambiguous fcdb command."
-msgstr ""
+msgstr "Comanda fcdb ambigua."
 
 #: server/stdinhand.c:5486
 msgid "Not enough human players; game will not start."
