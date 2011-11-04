@@ -105,18 +105,4 @@ tiles = { "row", "column", "tag"
 ;  2, 17, "u.refugee"		; Eleazar
 ;  3, 15, "u.train"		; Eleazar
 
-; Veteran Levels: up to 9 military honors for experienced units
-
-  3, 0, "unit.vet_1"
-  3, 1, "unit.vet_2"
-  3, 2, "unit.vet_3"
-  3, 3, "unit.vet_4"
-  3, 4, "unit.vet_5"
-  3, 5, "unit.vet_6"
-  3, 6, "unit.vet_7"
-  3, 7, "unit.vet_8"
-  3, 8, "unit.vet_9"
-
-  3, 11, "unit.lowfuel"
-  3, 11, "unit.tired"
 }
