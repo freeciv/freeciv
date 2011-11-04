@@ -1028,3 +1028,19 @@ helptext       = _("\
 Ruins mark the former site of a city that was destroyed or abandoned. \
 They have no effect on gameplay.\
 ")
+
+
+; /* <-- avoid gettext warnings
+;
+; Road types:
+; Current code requires exactly two road definitions
+;
+; name                    = translatable name as seen by user
+;
+; */ <-- avoid gettext warnings
+
+[road_road]
+name          = _("Road")
+
+[road_railroad]
+name          = _("Railroad")
