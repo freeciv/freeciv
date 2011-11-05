@@ -91,6 +91,7 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/pkg.m4			\
 		m4/postgres.m4			\
 		m4/progtest.m4			\
+		m4/qt.m4			\
 		m4/qt-client.m4			\
 		m4/readline.m4			\
 		m4/sdl-client.m4		\
