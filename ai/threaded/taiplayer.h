@@ -19,13 +19,16 @@
 /* common */
 #include "player.h"
 
+/* ai/threaded */
+#include "taimsg.h"
+
 struct player;
 
 struct tai_msgs
 {
   fc_thread_cond thr_cond;
   fc_mutex mutex;
-  bool exit_thread;
+  struct taimsg_list *msglist;
 };
 
 struct tai_plr
@@ -42,6 +45,8 @@ void tai_player_alloc(struct player *pplayer);
 void tai_player_free(struct player *pplayer);
 void tai_control_gained(struct player *pplayer);
 void tai_control_lost(struct player *pplayer);
+
+void tai_send_msg(struct player *pplayer, struct tai_msg *msg);
 
 static inline struct tai_plr *tai_player_data(const struct player *pplayer)
 {
