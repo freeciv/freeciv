@@ -35,6 +35,8 @@
 /* modinst */
 #include "download.h"
 
+#define FCMP_CONTROLD ".control"
+
 /**************************************************************************
   Return path to control directory
 **************************************************************************/
@@ -51,7 +53,7 @@ static char *control_dir(const struct fcmp_params *fcmp)
   }
 
   fc_snprintf(controld, sizeof(controld),
-              "%s/" DATASUBDIR "/control",
+              "%s/" DATASUBDIR "/" FCMP_CONTROLD,
               fcmp->inst_prefix);
 
   return controld;
