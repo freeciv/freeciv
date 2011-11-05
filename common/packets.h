@@ -17,8 +17,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <arpa/inet.h>
-
 struct connection;
 struct data_in;
 
@@ -99,7 +97,7 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 #ifdef DEBUG
 #define PACKET_TYPE_SANITY(_type_) \
   if (((_type_ & 0xff00) >> 8) == PACKET_SERVER_JOIN_REQ) { \
-    log_error("Packet type %s (%d) ahs upper byte matching old PACKET_SERVER_JOIN_REQ.", \
+    log_error("Packet type %s (%d) has upper byte matching old PACKET_SERVER_JOIN_REQ.", \
               packet_name(_type_), _type_); \
   }
 #else  /* DEBUG */
