@@ -903,6 +903,23 @@ void tile_virtual_destroy(struct tile *vtile)
 }
 
 /****************************************************************************
+  Check if the given tile is a virtual one or not.
+****************************************************************************/
+bool tile_virtual_check(struct tile *vtile)
+{
+  int tindex;
+
+  if (!vtile || map_is_empty()) {
+    return FALSE;
+  }
+
+  tindex = tile_index(vtile);
+  fc_assert_ret_val(0 <= tindex && tindex < map_num_tiles(), FALSE);
+
+  return (vtile != map.tiles + tindex);
+}
+
+/****************************************************************************
   Returns key that should be used when storing tile to hash or when
   retrieving it from there.
 ****************************************************************************/

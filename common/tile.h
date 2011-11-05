@@ -159,6 +159,7 @@ const char *tile_get_info_text(const struct tile *ptile, int linebreaks);
 /* Virtual tiles are tiles that do not exist on the game map. */
 struct tile *tile_virtual_new(const struct tile *ptile);
 void tile_virtual_destroy(struct tile *vtile);
+bool tile_virtual_check(struct tile *vtile);
 
 void *tile_hash_key(const struct tile *ptile);
 
