@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-06 14:05+0100\n"
-"PO-Revision-Date: 2011-11-06 15:21+0100\n"
+"PO-Revision-Date: 2011-11-06 18:58+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -1076,97 +1076,79 @@ msgid "Special"
 msgstr "Especial"
 
 #: client/client_main.c:341 server/civserver.c:329
-#, fuzzy
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
 msgstr ""
-"  -A  --Announce PROTO\tAnunciar partida a la LAN fent servir el protocol "
-"PROTO (IPv4/IPv6/none)\n"
+"Anunciar partida a la LAN fent servir el protocol PROTO (IPv4/IPv6/none)"
 
 #: client/client_main.c:344
-#, fuzzy
 msgid "Skip connect dialog"
-msgstr "  -a, --autoconnect\tSaltar el diàleg de connexió\n"
+msgstr "Saltar el diàleg de connexió"
 
 #: client/client_main.c:347 manual/civmanual.c:484 server/civserver.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgstr ""
-"  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d, o %d:fitx1,"
-"mín,màx:...)\n"
+"Fixar el nivell de registre de depuració (%d a %d, o %d:fitx1,"
+"mín,màx:...)"
 
 #: client/client_main.c:352 manual/civmanual.c:488 server/civserver.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "Set debug log level (%d to %d)"
-msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d)\n"
+msgstr "Fixar el nivell de registre de depuració (%d a %d)"
 
 #: client/client_main.c:357 manual/civmanual.c:493 server/civserver.c:356
-#, fuzzy
 msgid "Raise a signal on failed assertion"
-msgstr ""
-"  -F, --Fatal [SENYAL]\tEnviar un senyal en cas que falli una asserció\n"
+msgstr "Enviar un senyal en cas que falli una asserció"
 
 #: client/client_main.c:360 manual/civmanual.c:496 modinst/mpcmdline.c:59
 #: server/civserver.c:361
-#, fuzzy
 msgid "Print a summary of the options"
-msgstr "  -h, --help\t\tMostra un resum de les opcions\n"
+msgstr "Mostrar un resum de les opcions"
 
 #: client/client_main.c:362
-#, fuzzy
 msgid "Use FILE as logfile (spawned server also uses this)"
 msgstr ""
-"  -l, --log FITXER\tUsa FITXER com a fitxer de registre (el servidor "
-"llançat  en paral·lel també el fa servir)\n"
+"Usa FILE com a fitxer de registre (el servidor "
+"llançat en paral·lel també el fa servir)"
 
 #: client/client_main.c:364
-#, fuzzy
 msgid "Connect to the metaserver at HOST"
-msgstr "  -M, --Meta HOST\tConnectar amb el metaservidor a HOST\n"
+msgstr "Connectar amb el metaservidor a HOST"
 
 #: client/client_main.c:366
-#, fuzzy
 msgid "Use NAME as name"
-msgstr "  -n, --name NOM\tUsa NOM com a nom\n"
+msgstr "Usar NAME com a nom"
 
 #: client/client_main.c:368
-#, fuzzy
 msgid "Connect to server port PORT (usually with -a)"
-msgstr ""
-"  -p, --port PORT\tConnecta al port del servidor PORT (normalment amb -a)\n"
+msgstr "Connectar al port del servidor PORT (normalment amb -a)"
 
 #: client/client_main.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Use PLUGIN for sound output %s"
-msgstr "  -P, --Plugin PLUGIN\tUsar PLUGIN per sortida de so %s\n"
+msgstr "Usar PLUGIN per sortida de so %s"
 
 #: client/client_main.c:373
-#, fuzzy
 msgid "Read startup script FILE (for spawned server only)"
 msgstr ""
-"  -r, --read FITXER\tLlegeix l'script d'inici FITXER (només per al servidor "
-"en spawn)\n"
+"Llegir l'script d'inici FILE (només per al servidor llançat en paral·lel)"
 
 #: client/client_main.c:375
-#, fuzzy
 msgid "Connect to the server at HOST (usually with -a)"
-msgstr "  -s, --server HOST\tConnecta al servidor HOST (normalment amb -a)\n"
+msgstr "Connectar al servidor HOST (normalment amb -a)"
 
 #: client/client_main.c:377
-#, fuzzy
 msgid "Read sound tags from FILE"
-msgstr "  -S, --Sound FITXER\tLlegir marcadors de so des de FITXER\n"
+msgstr "Llegir marcadors de so des de FILE"
 
 #: client/client_main.c:379
-#, fuzzy
 msgid "Use data file FILE.tilespec for tiles"
-msgstr ""
-"  -t, --tiles FITXER\tUsar fitxer de dades FITXER.tilespec per caselles\n"
+msgstr "Usar fitxer de dades FILE.tilespec per caselles"
 
 #: client/client_main.c:381 manual/civmanual.c:502 modinst/mpcmdline.c:65
 #: server/civserver.c:389
-#, fuzzy
 msgid "Print the version number"
-msgstr "  -v, --version\t\tMostra la versió\n"
+msgstr "Mostrar la versió"
 
 #: client/client_main.c:401 manual/civmanual.c:447 server/civserver.c:218
 #, c-format
@@ -3815,9 +3797,8 @@ msgid "Client Lua Console"
 msgstr "Consola del client Lua"
 
 #: client/gui-gtk-2.0/luaconsole.c:234 client/gui-gtk-3.0/luaconsole.c:234
-#, fuzzy
 msgid "Load Lua Script"
-msgstr "Embarcar _la unitat"
+msgstr "Carregar Script Lua"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:191
 msgid "Build New City"
@@ -3918,14 +3899,12 @@ msgid "Save Game _As..."
 msgstr "Desar Partida _Com..."
 
 #: client/gui-gtk-2.0/menu.c:1325 client/gui-gtk-3.0/menu.c:1325
-#, fuzzy
 msgid "Save Map _Image"
-msgstr "Desar la Partida"
+msgstr "Desar _Imatge de Mapa"
 
 #: client/gui-gtk-2.0/menu.c:1327 client/gui-gtk-3.0/menu.c:1327
-#, fuzzy
 msgid "Save _Map Image As ..."
-msgstr "Desar Partida _Com..."
+msgstr "Desar _Imatge de Mapa Com a ..."
 
 #: client/gui-gtk-2.0/menu.c:1329 client/gui-gtk-3.0/menu.c:1329
 msgid "_Leave"
@@ -3944,9 +3923,8 @@ msgid "Work_lists"
 msgstr "_Llistes de treball"
 
 #: client/gui-gtk-2.0/menu.c:1340 client/gui-gtk-3.0/menu.c:1340
-#, fuzzy
 msgid "Client _Lua Script"
-msgstr "lua <script>"
+msgstr "Script _Lua de Client"
 
 #: client/gui-gtk-2.0/menu.c:1344 client/gui-gtk-3.0/menu.c:1344
 msgid "?noun:_View"
@@ -4453,9 +4431,9 @@ msgstr "Establir _Ruta Comercial"
 
 #. TRANS: Build road of specific type (Road/Railroad)
 #: client/gui-gtk-2.0/menu.c:2175 client/gui-gtk-3.0/menu.c:2175
-#, fuzzy, c-format
+#, c-format
 msgid "Build %s"
-msgstr "Druida %s"
+msgstr "Fer %s"
 
 #. TRANS: %s is a unit type.
 #: client/gui-gtk-2.0/menu.c:2188 client/gui-gtk-3.0/menu.c:2188
@@ -4866,29 +4844,24 @@ msgid "Save _Filename:"
 msgstr "Nom de _Fitxer a Desar:"
 
 #: client/gui-gtk-2.0/pages.c:3245 client/gui-gtk-3.0/pages.c:3245
-#, fuzzy
 msgid "Saved Sce_narios:"
-msgstr "Desar Escenari"
+msgstr "Esce_naris Desats:"
 
 #: client/gui-gtk-2.0/pages.c:3246 client/gui-gtk-3.0/pages.c:3246
-#, fuzzy
 msgid "Save Sc_enario:"
-msgstr "Desar Escenari"
+msgstr "Desar Esc_enari:"
 
 #: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3274
-#, fuzzy
 msgid "Save Map Image"
-msgstr "Desar la Partida"
+msgstr "Desar Imatge de Mapa"
 
 #: client/gui-gtk-2.0/pages.c:3274 client/gui-gtk-3.0/pages.c:3274
-#, fuzzy
 msgid "Saved Map _Images:"
-msgstr "Partides _Desades:"
+msgstr "_Imatges de Mapa Desades:"
 
 #: client/gui-gtk-2.0/pages.c:3275 client/gui-gtk-3.0/pages.c:3275
-#, fuzzy
 msgid "Save _Map Images:"
-msgstr "Partides _Desades:"
+msgstr "Desar Imatges de _Mapa:"
 
 #: client/gui-gtk-2.0/plrdlg.c:322 client/gui-gtk-3.0/plrdlg.c:322
 msgid "_Meet"
@@ -5283,9 +5256,8 @@ msgstr ""
 "línia de comandes"
 
 #: client/gui-qt/fc_client.cpp:244
-#, fuzzy
 msgid "Freeciv is covered by the GPL."
-msgstr "Freeciv es distribueix sota la llicència GPL, que s'inclou aquí: "
+msgstr "Freeciv es distribueix sota la llicència GPL."
 
 #: client/gui-qt/fc_client.cpp:245
 msgid "See file COPYING distributed with freeciv for full license text."
@@ -7628,12 +7600,12 @@ msgid "Requires the %s terrain special on the tile.\n"
 msgstr "Requereix que la casella tingui el recurs especial de terreny %s.\n"
 
 #: client/helpdata.c:363
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s terrain special on the tile or an cardinally adjacent tile.\n"
 msgstr ""
-"Requereix el recurs especial de terreny %s a la casella, o en una "
-"d'adjacent.\n"
+"Requereix el recurs especial de terreny %s a la casella, o en una d'adjacent "
+"en el sentit dels punts cardinals.\n"
 
 #: client/helpdata.c:369
 #, c-format
@@ -7648,9 +7620,11 @@ msgid "Requires the %s terrain on the tile.\n"
 msgstr "Requereix el terreny %s a la casella.\n"
 
 #: client/helpdata.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain on the tile or an cardinally adjacent tile.\n"
-msgstr "Requereix el terreny %s a la casella en una d'adjacent.\n"
+msgstr ""
+"Requereix el terreny %s a la casella o en una d'adjacent en el sentit dels "
+"punts cardinals.\n"
 
 #: client/helpdata.c:395
 #, c-format
@@ -7702,9 +7676,11 @@ msgid "Requires %s terrain class on the tile.\n"
 msgstr "Requereix que la casella sigui de terreny de classe %s.\n"
 
 #: client/helpdata.c:563
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s terrain class on an cardinally adjacent tile.\n"
-msgstr "Requereix que alguna casella adjacent tingui terreny de classe %s.\n"
+msgstr ""
+"Requereix que alguna casella adjacent en el sentit dels punts cardinals "
+"tingui terreny de classe %s.\n"
 
 #: client/helpdata.c:569
 #, c-format
@@ -7717,9 +7693,10 @@ msgid "Requires a %s on the tile.\n"
 msgstr "Requereix %s a la casella.\n"
 
 #: client/helpdata.c:590
-#, fuzzy, c-format
+#, c-format
 msgid "Requires a %s on an cardinally adjacent tile.\n"
-msgstr "Requereix %s en una casella adjacent.\n"
+msgstr ""
+"Requereix %s en una casella adjacent en el sentit dels punts cardinals.\n"
 
 #: client/helpdata.c:594
 #, c-format
@@ -8727,9 +8704,8 @@ msgid "%s%d Unhappy"
 msgstr "%s%d Descontents"
 
 #: client/luaconsole_common.c:111
-#, fuzzy
 msgid "This is the Client Lua Console."
-msgstr "Aquesta opció no és booleana."
+msgstr "Això és la Consola Lua de Client."
 
 #: client/mapctrl_common.c:397
 #, c-format
@@ -9101,14 +9077,14 @@ msgid "Setting this option will draw the national borders."
 msgstr "Seleccionar aquesta opció farà dibuixar les fronteres nacionals."
 
 #: client/options.c:1863
-#, fuzzy
 msgid "Draw whether tiles are native"
-msgstr "Dibuixar el terreny"
+msgstr "Dibuixar si les caselles són natives"
 
 #: client/options.c:1864
-#, fuzzy
 msgid "Setting this option will draw the tiles that unit cannot enter."
-msgstr "Seleccionar aquesta opció farà dibuixar les unitats al mapa."
+msgstr ""
+"Seleccionar aquesta opció farà dibuixar les caselles on no pot entrar la "
+"unitat."
 
 #: client/options.c:1869
 msgid "Show dead players in Nations report"
@@ -9167,12 +9143,11 @@ msgid "Combat animation step time (milliseconds)"
 msgstr "Temps de pas de l'animació de combat (milisegons)"
 
 #: client/options.c:1895
-#, fuzzy
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
 msgstr ""
-"Aquesta opció controla quant dura l'\"animació\" quan es mou una unitat en "
+"Aquesta opció controla la velocitat de l'animació de combat entre unitats en "
 "la vista de mapa. Deixa'l a 0 per inhabilitar del tot l'animació."
 
 #: client/options.c:1900
@@ -11587,7 +11562,7 @@ msgstr "No hi ha definició de mapa!"
 #: common/mapimg.c:729
 #, c-format
 msgid "Map definition string to long (max %d characters)."
-msgstr ""
+msgstr "Cadena de definició de mapa massa llarga (màxim %d caràcters)."
 
 #: common/mapimg.c:735
 #, c-format
@@ -11627,7 +11602,7 @@ msgstr "Caràcter no vàlid al vector de bits: '%c' (%s)."
 #: common/mapimg.c:972
 #, c-format
 msgid "'plrid' must be in the intervall [0, %d)."
-msgstr ""
+msgstr "'plrid' ha de ser dins l'interval [0, %d)."
 
 #: common/mapimg.c:988
 #, c-format
@@ -21990,7 +21965,7 @@ msgstr ""
 "      Ctrl-T: obrir diàleg Impostos/Luxe/Ciència\n"
 "  Maj-Ctrl-R: obrir diàleg de Revolució\n"
 "\n"
-"Maj-Retorn: Torn acabat"
+"Maj-Retorn: Acabar el torn"
 
 #: data/helpdata.txt:1721
 msgid ""
@@ -42410,7 +42385,6 @@ msgstr "Nombre màxim de segons per torn"
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
 #: server/settings.c:1937
-#, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -42420,12 +42394,15 @@ msgid ""
 "timer. The first turn is treated as a special case and is controlled by the "
 "'first_timeout' setting."
 msgstr ""
-"Encara que no tots els jugadors hagin premut \"Acabar el torn\" en passar "
+"Si no tots els jugadors han premut \"Acabar el torn\" abans que passi "
 "aquest temps, el torn s'acaba automàticament. Zero significa que no hi ha "
 "temps màxim. En servidors compilats amb depuració, un temps de -1 fixa la "
-"modalitat de prova automàtica. Només les connexions amb nivell d'accés \"hack"
-"\" poden fixar un temps màxim de menys de 30 segons. Usa'l juntament amb la "
-"comanda \"timeoutincrease\" per a tenir un temporitzador dinàmic."
+"modalitat de prova automàtica. Només les connexions amb nivell d'accés "
+"\"hack\" poden fixar un temps màxim de menys de 30 segons. Useu-lo juntament "
+"amb la "
+"comanda \"timeoutincrease\" per a tenir un temporitzador dinàmic. El primer "
+"torn es tracta com un cas especial, i el controla el paràmetre "
+"'first_timeout'."
 
 #: server/settings.c:1951
 msgid "First turn timeout"
@@ -44475,7 +44452,7 @@ msgid "You already controls %s."
 msgstr "Ja controleu %s."
 
 #: server/stdinhand.c:4964
-#, fuzzy, c-format
+#, c-format
 msgid "A user is connect to player '%s'."
 msgstr "Hi ha un usuari connectat al jugador '%s'."
 
@@ -44498,14 +44475,13 @@ msgid "There is no original player to restore."
 msgstr "No hi ha cap jugador original a restaurar."
 
 #: server/stdinhand.c:5008
-#, fuzzy
 msgid "Player data does not match."
 msgstr "Les dades dels jugadors no coincideixen."
 
 #: server/stdinhand.c:5015
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to restore control over '%s'."
-msgstr "Error en crear el nou jugador %s."
+msgstr "No s'ha pogut recuperar el control sobre '%s'."
 
 #: server/stdinhand.c:5022
 #, c-format
@@ -44513,49 +44489,44 @@ msgid "'%s' is now connected as: %s."
 msgstr "'%s' està connectat ara com a: %s."
 
 #: server/stdinhand.c:5105
-#, fuzzy
 msgid "Ambiguous mapimg command."
-msgstr "Nom d'opció ambigu."
+msgstr "Comanda mapimg ambigua."
 
 #: server/stdinhand.c:5131 server/stdinhand.c:5388
-#, fuzzy, c-format
+#, c-format
 msgid "The valid arguments are: %s."
-msgstr "Argument invàlid %d."
+msgstr "Els arguments vàlids són: %s."
 
 #: server/stdinhand.c:5146 server/stdinhand.c:5257
-#, fuzzy
 msgid "Missing argument for 'mapimg create'"
-msgstr "Falten arguments per a \"%s\".\n"
+msgstr "Falta l'argument per a 'mapimg create'"
 
 #: server/stdinhand.c:5163
-#, fuzzy, c-format
+#, c-format
 msgid "Defined as map imgage definition %d: '%s'"
-msgstr "Definició de nom de marcador no vàlida: '%s'."
+msgstr "Definit com a imatge de mapa amb definició %d: '%s'."
 
 #: server/stdinhand.c:5173
-#, fuzzy
 msgid "Missing argument for 'mapimg delete'"
-msgstr "Falten arguments per a \"%s\".\n"
+msgstr "Falta l'argument per a 'mapimg delete'"
 
 #: server/stdinhand.c:5184
-#, fuzzy
 msgid "All map image definitions deleted."
-msgstr "Definició de la mida del mapa"
+msgstr "S'han esborrat totes les definicions d'imatge de mapa."
 
 #: server/stdinhand.c:5196
-#, fuzzy, c-format
+#, c-format
 msgid "Map image definition %d deleted."
-msgstr "Definició de la mida del mapa"
+msgstr "S'ha esborrat la definició d'imatge de mapa %d."
 
 #: server/stdinhand.c:5201
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument for 'mapimg delete': '%s'"
-msgstr "Els arguments vàlids per a 'delegate' són: %s."
+msgstr "Argument no vàlid per a 'mapimg delete': '%s'"
 
 #: server/stdinhand.c:5221
-#, fuzzy
 msgid "no map images defined"
-msgstr "(no s'han definit llistes de treball)"
+msgstr "no s'han definit imatges de mapa"
 
 #: server/stdinhand.c:5240
 #, c-format
