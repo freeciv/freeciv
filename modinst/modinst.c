@@ -33,16 +33,6 @@
 
 #include "modinst.h"
 
-#if IS_DEVEL_VERSION
-#define MODPACK_LIST_URL  "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/modpack.list"
-#define DEFAULT_URL_START "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/"
-#else  /* IS_DEVEL_VERSION */
-#define MODPACK_LIST_URL  "http://download.gna.org/freeciv/modinst/" DATASUBDIR "/modpack.list"
-#define DEFAULT_URL_START "http://download.gna.org/freeciv/modinst/" DATASUBDIR "/"
-#endif /* IS_DEVEL_VERSION */
-
-#define EXAMPLE_URL DEFAULT_URL_START "ancients.modpack"
-
 static GtkWidget *statusbar;
 static GtkWidget *progressbar;
 static GtkWidget *main_list;
@@ -371,19 +361,6 @@ int main(int argc, char *argv[])
 
   /* This modifies argv! */
   ui_options = fcmp_parse_cmdline(argc, argv);
-
-  if (fcmp.inst_prefix == NULL) {
-    const char *home = user_home_dir();
-
-    if (home == NULL) {
-      log_error("Cannot determine user home directory");
-    } else {
-      static char pfx_buf[500];
-
-      snprintf(pfx_buf, sizeof(pfx_buf), "%s/.freeciv", home);
-      fcmp.inst_prefix = pfx_buf;
-    }
-  }
 
   if (ui_options != -1) {
 
