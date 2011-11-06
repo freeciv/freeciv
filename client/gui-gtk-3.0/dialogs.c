@@ -194,7 +194,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
   label = gtk_label_new(lines);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), label);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
   
   goto_command = gtk_stockbutton_new(GTK_STOCK_JUMP_TO,
@@ -245,7 +245,7 @@ void popup_connect_msg(const char *headline, const char *message)
   label = gtk_label_new(message);
   gtk_label_set_selectable(GTK_LABEL(label), 1);
 
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), label);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
 
   gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CLOSE,
@@ -585,7 +585,7 @@ static void create_races_dialog(struct player *pplayer)
   gtk_window_set_default_size(GTK_WINDOW(shell), -1, 590);
 
   frame = gtk_frame_new(_("Select a nation"));
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), frame);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), frame);
 
   hbox = gtk_hbox_new(FALSE, 18);
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 3);
@@ -617,7 +617,8 @@ static void create_races_dialog(struct player *pplayer)
   /* Leader. */ 
   {
     GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
-    combo = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(model), 0);
+    combo = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(model));
+    gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(combo), 0);
     g_object_unref(G_OBJECT(model));
   }
   races_leader = combo;
@@ -747,7 +748,7 @@ static void create_races_dialog(struct player *pplayer)
                                       FALSE);
   }
 
-  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 }
 
 /****************************************************************

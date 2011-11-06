@@ -411,13 +411,17 @@ static void city_dialog_map_recenter(GtkWidget *map_canvas_sw) {
 
   adjust = gtk_scrolled_window_get_hadjustment(
     GTK_SCROLLED_WINDOW(map_canvas_sw));
-  value = (adjust->lower + adjust->upper - adjust->page_size) / 2;
+  value = (gtk_adjustment_get_lower(adjust)
+    + gtk_adjustment_get_upper(adjust)
+    - gtk_adjustment_get_page_size(adjust)) / 2;
   gtk_adjustment_set_value(adjust, value);
   gtk_adjustment_value_changed(adjust);
 
   adjust = gtk_scrolled_window_get_vadjustment(
     GTK_SCROLLED_WINDOW(map_canvas_sw));
-  value = (adjust->lower + adjust->upper - adjust->page_size) / 2;
+  value = (gtk_adjustment_get_lower(adjust)
+    + gtk_adjustment_get_upper(adjust)
+    - gtk_adjustment_get_page_size(adjust)) / 2;
   gtk_adjustment_set_value(adjust, value);
   gtk_adjustment_value_changed(adjust);
 }
@@ -650,7 +654,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
-    gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+    gdk_pointer_grab(gtk_widget_get_window(p), TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, ev->time);
     gtk_grab_add(p);
 
@@ -1317,7 +1321,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->popup_menu = gtk_menu_new();
 
-  vbox = GTK_DIALOG(pdialog->shell)->vbox;
+  vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
   hbox = gtk_hbox_new(TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
@@ -1335,7 +1339,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
   gtk_misc_set_alignment(GTK_MISC(pdialog->citizen_pixmap), 0.0f, 0.5f);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
-  g_signal_connect(GTK_OBJECT(ebox), "button_press_event",
+  g_signal_connect(G_OBJECT(ebox), "button-press-event",
                    G_CALLBACK(citizens_callback), pdialog);
 
   /**** City name label here ****/
@@ -1373,9 +1377,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->show_units_command =
 	gtk_button_new_with_mnemonic(_("_List present units..."));
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(pdialog->shell)->action_area),
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_action_area(GTK_DIALOG(pdialog->shell))),
 		    pdialog->show_units_command);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(GTK_DIALOG(pdialog->shell)->action_area),
+  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(gtk_dialog_get_action_area(GTK_DIALOG(pdialog->shell))),
       pdialog->show_units_command, TRUE);
   g_signal_connect(pdialog->show_units_command,
 		   "clicked",
@@ -1424,8 +1428,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   /* need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
 
-  gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->action_area);
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell)));
+  gtk_widget_show_all(gtk_dialog_get_action_area(GTK_DIALOG(pdialog->shell)));
 
   gtk_window_set_focus(GTK_WINDOW(pdialog->shell), close_command);
 
@@ -1466,7 +1470,7 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category citizens[MAX_CITY_SIZE];
-  int i, j, width, size;
+  int i, j, width, size, xpad;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
   if (can_conn_edit(&client.conn)) {
@@ -1488,11 +1492,12 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->cwidth = width;
 
   /* overview page */
+  gtk_misc_get_padding(GTK_MISC(pdialog->citizen_pixmap), &xpad, NULL);
   gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->citizen_pixmap));
   gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap));
 
   size = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) +
-         2 * GTK_MISC(pdialog->citizen_pixmap)->xpad;
+         2 * xpad;
   gtk_widget_set_size_request(GTK_WIDGET(pdialog->citizen_pixmap), size, -1);
 
   i = 0;
@@ -2076,6 +2081,7 @@ static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
                                gboolean *push_in, gpointer data)
 {
   GtkWidget *widget;
+  GtkAllocation allocation;
   GtkRequisition requisition;
   gint xpos;
   gint ypos;
@@ -2084,12 +2090,13 @@ static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
 
   widget = GTK_WIDGET(data);
 
+  gtk_widget_get_allocation(widget, &allocation);
   gtk_widget_get_child_requisition(GTK_WIDGET(menu), &requisition);
 
-  gdk_window_get_origin(widget->window, &xpos, &ypos);
+  gdk_window_get_origin(gtk_widget_get_window(widget), &xpos, &ypos);
 
-  xpos += widget->allocation.x;
-  ypos += widget->allocation.y;
+  xpos += allocation.x;
+  ypos += allocation.y;
 
   *x = xpos;
   *y = ypos;
@@ -2796,13 +2803,13 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
     fc_assert(CITYO_LAST == 3);
 
     BV_CLR_ALL(new_options);
-    if (GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler)->active) {
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler))) {
       BV_SET(new_options, CITYO_DISBAND);
     }
-    if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1])->active) {
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1]))) {
       BV_SET(new_options, CITYO_NEW_EINSTEIN);
     }
-    if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2])->active) {
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2]))) {
       BV_SET(new_options, CITYO_NEW_TAXMAN);
     }
 

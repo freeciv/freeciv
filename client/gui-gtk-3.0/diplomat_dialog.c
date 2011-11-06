@@ -256,7 +256,7 @@ static void create_advances_list(struct player *pplayer,
 				  GTK_RESPONSE_ACCEPT);
 
   label = gtk_frame_new(_("Select Advance to Steal"));
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(spy_tech_shell)->vbox), label);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell))), label);
 
   vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
@@ -324,7 +324,7 @@ static void create_advances_list(struct player *pplayer,
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
   
-  gtk_widget_show_all(GTK_DIALOG(spy_tech_shell)->vbox);
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell)));
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
 		   G_CALLBACK(spy_advances_callback), NULL);
@@ -400,7 +400,7 @@ static void create_improvements_list(struct player *pplayer,
 				  GTK_RESPONSE_ACCEPT);
 
   label = gtk_frame_new(_("Select Improvement to Sabotage"));
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(spy_sabotage_shell)->vbox), label);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell))), label);
 
   vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
@@ -456,7 +456,7 @@ static void create_improvements_list(struct player *pplayer,
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
   
-  gtk_widget_show_all(GTK_DIALOG(spy_sabotage_shell)->vbox);
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell)));
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
 		   G_CALLBACK(spy_improvements_callback), NULL);

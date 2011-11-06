@@ -559,7 +559,7 @@ static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
 static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 {
   struct universal target = cid_decode(GPOINTER_TO_INT(data));
-  GObject *parent = G_OBJECT(w->parent);
+  GObject *parent = G_OBJECT(gtk_widget_get_parent(w));
   TestCityFunc test_func = g_object_get_data(parent, "freeciv_test_func");
   enum city_operation_type city_operation = 
     GPOINTER_TO_INT(g_object_get_data(parent, "freeciv_city_operation"));
@@ -683,7 +683,7 @@ static void cma_iterate(GtkTreeModel *model, GtkTreePath *path,
 static void select_cma_callback(GtkWidget * w, gpointer data)
 {
   int idx = GPOINTER_TO_INT(data);
-  GObject *parent = G_OBJECT(w->parent);
+  GObject *parent = G_OBJECT(gtk_widget_get_parent(w));
   bool change_cma =
       GPOINTER_TO_INT(g_object_get_data(parent, "freeciv_change_cma"));
   struct cm_parameter parameter;

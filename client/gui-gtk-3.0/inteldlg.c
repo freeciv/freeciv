@@ -195,7 +195,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 
   notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_BOTTOM);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), notebook);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), notebook);
  
   /* overview tab. */
   table = gtk_table_new(ARRAY_SIZE(table_text), 2, FALSE);
@@ -294,7 +294,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   label = gtk_label_new_with_mnemonic(_("_Techs"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), alignment, label);
 
-  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
   dialog_list_prepend(dialog_list, pdialog);
 

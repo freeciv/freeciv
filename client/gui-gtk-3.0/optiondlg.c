@@ -336,7 +336,7 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
 
   selection = gtk_color_selection_new();
   g_object_set_data(G_OBJECT(dialog), "selection", selection);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), selection,
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), selection,
                      FALSE, FALSE, 0);
   if (current_color) {
     gtk_color_selection_set_current_color(GTK_COLOR_SELECTION(selection),
@@ -386,7 +386,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   g_signal_connect(pdialog->shell, "destroy",
                    G_CALLBACK(option_dialog_destroy_callback), pdialog);
 
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell))),
                      pdialog->notebook, TRUE, TRUE, 0);
 
   /* Add the options. */
@@ -547,9 +547,9 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
       const struct strvec *values = option_str_values(poption);
 
       if (NULL != values) {
-        w = gtk_combo_box_entry_new_text();
+        w = gtk_combo_box_text_new_with_entry();
         strvec_iterate(values, value) {
-          gtk_combo_box_append_text(GTK_COMBO_BOX(w), value);
+          gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(w), value);
         } strvec_iterate_end;
       } else {
         w = gtk_entry_new();
@@ -708,8 +708,8 @@ static inline void option_dialog_option_str_set(struct option *poption,
                                                 const char *string)
 {
   if (NULL != option_str_values(poption)) {
-    gtk_entry_set_text(GTK_ENTRY(GTK_BIN
-                       (option_get_gui_data(poption))->child), string);
+    gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN
+                       (option_get_gui_data(poption)))), string);
   } else {
     gtk_entry_set_text(GTK_ENTRY(option_get_gui_data(poption)), string);
   }
@@ -894,7 +894,7 @@ static void option_dialog_option_apply(struct option *poption)
   case OT_STRING:
     if (NULL != option_str_values(poption)) {
       (void) option_str_set(poption, gtk_entry_get_text
-                            (GTK_ENTRY(GTK_BIN(w)->child)));
+                            (GTK_ENTRY(gtk_bin_get_child(GTK_BIN(w)))));
     } else {
       (void) option_str_set(poption, gtk_entry_get_text(GTK_ENTRY(w)));
     }

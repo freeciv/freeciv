@@ -71,7 +71,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
               theme_name, current_name);
 
   label = gtk_label_new(buf);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), label);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), label);
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
   gtk_widget_show(label);
 

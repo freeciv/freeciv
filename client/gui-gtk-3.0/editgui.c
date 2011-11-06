@@ -669,7 +669,7 @@ static void editbar_refresh(struct editbar *eb)
   }
 
   if (!editor_is_active()) {
-    gtk_widget_hide_all(eb->widget);
+    gtk_widget_hide(eb->widget);
     return;
   }
 
@@ -1008,7 +1008,7 @@ create_tool_value_selector(struct editbar *eb,
       GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
       GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
       NULL);
-  vbox = GTK_DIALOG(tvs->dialog)->vbox;
+  vbox = gtk_dialog_get_content_area(GTK_DIALOG(tvs->dialog));
 
   store = gtk_list_store_new(TVS_NUM_COLS,
                              GDK_TYPE_PIXBUF,

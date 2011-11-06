@@ -143,7 +143,7 @@ static struct unit_select_dialog *unit_select_dlg = NULL;
 static struct unit_select_dialog *usdlg_get(bool create);
 static struct unit_select_dialog *usdlg_create(void);
 static void usdlg_destroy(void);
-static void usdlg_destroy_callback(GtkObject *object, gpointer data);
+static void usdlg_destroy_callback(GObject *object, gpointer data);
 static void usdlg_tile(struct unit_select_dialog *pdialog,
                        struct tile *ptile);
 static void usdlg_refresh(struct unit_select_dialog *pdialog);
@@ -172,15 +172,15 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
                                    bool transported, GtkTreeIter *it,
                                    GtkTreeIter *parent);
 
-static void usdlg_cmd_ready(GtkObject *object, gpointer data);
-static void usdlg_cmd_sentry(GtkObject *object, gpointer data);
-static void usdlg_cmd_select(GtkObject *object, gpointer data);
-static void usdlg_cmd_deselect(GtkObject *object, gpointer data);
-static void usdlg_cmd_exec(GtkObject *object, gpointer data,
+static void usdlg_cmd_ready(GObject *object, gpointer data);
+static void usdlg_cmd_sentry(GObject *object, gpointer data);
+static void usdlg_cmd_select(GObject *object, gpointer data);
+static void usdlg_cmd_deselect(GObject *object, gpointer data);
+static void usdlg_cmd_exec(GObject *object, gpointer data,
                            enum usdlg_cmd cmd);
 static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd);
-static void usdlg_cmd_center(GtkObject *object, gpointer data);
-static void usdlg_cmd_focus(GtkObject *object, gpointer data);
+static void usdlg_cmd_center(GObject *object, gpointer data);
+static void usdlg_cmd_focus(GObject *object, gpointer data);
 static void usdlg_cmd_focus_real(GtkTreeView *view);
 static void usdlg_cmd_row_activated(GtkTreeView *view, GtkTreePath *path,
                                     GtkTreeViewColumn *col, gpointer data);
@@ -259,7 +259,7 @@ static struct unit_select_dialog *usdlg_create(void)
   gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
   gtk_widget_realize(pdialog->shell);
 
-  vbox = GTK_DIALOG(pdialog->shell)->vbox;
+  vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));
   hbox = gtk_hbox_new(TRUE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
@@ -304,7 +304,7 @@ static void usdlg_destroy(void)
 /*****************************************************************************
   Callback for the destruction of the dialog.
 *****************************************************************************/
-static void usdlg_destroy_callback(GtkObject *object, gpointer data)
+static void usdlg_destroy_callback(GObject *object, gpointer data)
 {
   usdlg_destroy();
 }
@@ -867,7 +867,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
 /*****************************************************************************
   Callback for the ready button.
 *****************************************************************************/
-static void usdlg_cmd_ready(GtkObject *object, gpointer data)
+static void usdlg_cmd_ready(GObject *object, gpointer data)
 {
   usdlg_cmd_exec(object, data, USDLG_CMD_READY);
 }
@@ -875,7 +875,7 @@ static void usdlg_cmd_ready(GtkObject *object, gpointer data)
 /*****************************************************************************
   Callback for the sentry button.
 *****************************************************************************/
-static void usdlg_cmd_sentry(GtkObject *object, gpointer data)
+static void usdlg_cmd_sentry(GObject *object, gpointer data)
 {
   usdlg_cmd_exec(object, data, USDLG_CMD_SENTRY);
 }
@@ -883,7 +883,7 @@ static void usdlg_cmd_sentry(GtkObject *object, gpointer data)
 /*****************************************************************************
   Callback for the select button.
 *****************************************************************************/
-static void usdlg_cmd_select(GtkObject *object, gpointer data)
+static void usdlg_cmd_select(GObject *object, gpointer data)
 {
   usdlg_cmd_exec(object, data, USDLG_CMD_SELECT);
 }
@@ -891,7 +891,7 @@ static void usdlg_cmd_select(GtkObject *object, gpointer data)
 /*****************************************************************************
   Callback for the deselect button.
 *****************************************************************************/
-static void usdlg_cmd_deselect(GtkObject *object, gpointer data)
+static void usdlg_cmd_deselect(GObject *object, gpointer data)
 {
   usdlg_cmd_exec(object, data, USDLG_CMD_DESELECT);
 }
@@ -899,7 +899,7 @@ static void usdlg_cmd_deselect(GtkObject *object, gpointer data)
 /*****************************************************************************
   Main function for the callbacks.
 *****************************************************************************/
-static void usdlg_cmd_exec(GtkObject *object, gpointer data,
+static void usdlg_cmd_exec(GObject *object, gpointer data,
                            enum usdlg_cmd cmd)
 {
   enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
@@ -1053,7 +1053,7 @@ static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd)
 /*****************************************************************************
   Callback for the center button.
 *****************************************************************************/
-static void usdlg_cmd_center(GtkObject *object, gpointer data)
+static void usdlg_cmd_center(GObject *object, gpointer data)
 {
   enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
   GtkTreeView *view;
@@ -1091,7 +1091,7 @@ static void usdlg_cmd_center(GtkObject *object, gpointer data)
 /*****************************************************************************
   Callback for the focus button.
 *****************************************************************************/
-static void usdlg_cmd_focus(GtkObject *object, gpointer data)
+static void usdlg_cmd_focus(GObject *object, gpointer data)
 {
   enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
   struct unit_select_dialog *pdialog = usdlg_get(FALSE);

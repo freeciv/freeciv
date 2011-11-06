@@ -709,7 +709,7 @@ static gboolean motion_notify_event(GtkWidget *text_view,
                                         GTK_TEXT_WINDOW_WIDGET,
                                         event->x, event->y, &x, &y);
   set_cursor_if_appropriate(GTK_TEXT_VIEW(text_view), x, y);
-  gdk_window_get_pointer(text_view->window, NULL, NULL, NULL);
+  gdk_window_get_pointer(gtk_widget_get_window(text_view), NULL, NULL, NULL);
 
   return FALSE;
 }
@@ -722,7 +722,7 @@ static gboolean visibility_notify_event(GtkWidget *text_view,
 {
   gint wx, wy, bx, by;
 
-  gdk_window_get_pointer(text_view->window, &wx, &wy, NULL);
+  gdk_window_get_pointer(gtk_widget_get_window(text_view), &wx, &wy, NULL);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
                                         GTK_TEXT_WINDOW_WIDGET,
                                         wx, wy, &bx, &by);
@@ -1129,8 +1129,8 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
   g_signal_connect(dialog, "response", G_CALLBACK(color_selected), data);
 
   selection = gtk_color_selection_new();
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), selection,
-                     FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                     selection, FALSE, FALSE, 0);
   g_object_set_data(G_OBJECT(dialog), "selection", selection);
   if (current_color) {
     gtk_color_selection_set_current_color(GTK_COLOR_SELECTION(selection),

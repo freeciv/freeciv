@@ -515,7 +515,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   g_signal_connect(shell, "response",
                    G_CALLBACK(save_dialog_response_callback), pdialog);
   pdialog->shell = GTK_DIALOG(shell);
-  vbox = GTK_BOX(GTK_DIALOG(shell)->vbox);
+  vbox = GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
   /* Tree view. */
   store = save_dialog_store_new();
@@ -2553,17 +2553,18 @@ GtkWidget *create_start_page(void)
                        NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 
-  ai_lvl_combobox = gtk_combo_box_new_text();
+  ai_lvl_combobox = gtk_combo_box_text_new();
 
   for (level = 0; level < AI_LEVEL_LAST; level++) {
     if (is_settable_ai_level(level)) {
       const char *level_name = ai_level_name(level);
 
-      gtk_combo_box_insert_text(GTK_COMBO_BOX(ai_lvl_combobox), i, level_name);
+      gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(ai_lvl_combobox), i, level_name);
       levels[i] = level;
       i++;
     }
   }
+  gtk_combo_box_set_active(GTK_COMBO_BOX(ai_lvl_combobox), 0);
   g_signal_connect(ai_lvl_combobox, "changed",
                    G_CALLBACK(ai_skill_callback), levels);
 
@@ -2580,12 +2581,12 @@ GtkWidget *create_start_page(void)
 
   {
     GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
-    ruleset_combo = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(model),
-                                                       0);
+    ruleset_combo = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(model));
+    gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(ruleset_combo), 0);
     g_object_unref(G_OBJECT(model));
   }
 
-  g_signal_connect(GTK_COMBO_BOX_ENTRY(ruleset_combo), "changed",
+  g_signal_connect(G_OBJECT(ruleset_combo), "changed",
                    G_CALLBACK(ruleset_entry_changed), NULL);
   
   rs_entry = gtk_bin_get_child(GTK_BIN(ruleset_combo));

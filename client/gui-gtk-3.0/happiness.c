@@ -155,7 +155,7 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
-    gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+    gdk_pointer_grab(gtk_widget_get_window(p), TRUE, GDK_BUTTON_RELEASE_MASK,
                      NULL, NULL, ev->time);
     gtk_grab_add(p);
 
