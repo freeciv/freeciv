@@ -241,7 +241,7 @@ void voteinfo_gui_update(void)
   }
 
   if (!voteinfo_bar_can_be_shown()) {
-    gtk_widget_hide_all(vib->box);
+    gtk_widget_hide(vib->box);
     return;
   }
 

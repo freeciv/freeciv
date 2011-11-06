@@ -458,7 +458,7 @@ static void create_help_dialog(void)
 		   G_CALLBACK(help_destroy_callback), NULL);
 
   hbox = gtk_hbox_new(FALSE, 5);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(help_dialog_shell)->vbox), hbox);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(help_dialog_shell))), hbox);
   gtk_widget_show(hbox);
 
   /* build tree store. */

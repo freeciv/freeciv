@@ -158,7 +158,7 @@ static void create_goto_dialog(void)
   source = gtk_label_new("" /* filled in later */);
   gtk_label_set_line_wrap(GTK_LABEL(source), TRUE);
   gtk_label_set_justify(GTK_LABEL(source), GTK_JUSTIFY_CENTER);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dshell)->vbox),
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
         source, FALSE, FALSE, 0);
 
   label = g_object_new(GTK_TYPE_LABEL,
@@ -169,7 +169,7 @@ static void create_goto_dialog(void)
     NULL);
   frame = gtk_frame_new("");
   gtk_frame_set_label_widget(GTK_FRAME(frame), label);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dshell)->vbox),
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
         frame, TRUE, TRUE, 0);
 
   vbox = gtk_vbox_new(FALSE, 6);
@@ -237,8 +237,8 @@ static void create_goto_dialog(void)
   g_signal_connect(selection, "changed",
     G_CALLBACK(goto_selection_callback), NULL);
 
-  gtk_widget_show_all(GTK_DIALOG(dshell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(dshell)->action_area);
+  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(dshell)));
+  gtk_widget_show_all(gtk_dialog_get_action_area(GTK_DIALOG(dshell)));
 
 
   original_tile = get_center_tile_mapcanvas();

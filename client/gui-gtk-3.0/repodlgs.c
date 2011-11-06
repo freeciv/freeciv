@@ -88,7 +88,7 @@ static void science_report_combo_set_active(GtkComboBox *combo,
 static void science_diagram_button_release_callback(GtkWidget *widget,
                                                     GdkEventButton *event,
                                                     gpointer data);
-static void science_diagram_update(GtkWidget *widget, gpointer data);
+static gboolean science_diagram_update(GtkWidget *widget, gpointer data);
 static GtkWidget *science_diagram_new(void);
 static void science_diagram_data(GtkWidget *widget, bool reachable);
 static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech);
@@ -225,7 +225,7 @@ static void science_diagram_button_release_callback(GtkWidget *widget,
 /****************************************************************************
   Draw the invalidated portion of the reqtree.
 ****************************************************************************/
-static void science_diagram_update(GtkWidget *widget, gpointer data)
+static gboolean science_diagram_update(GtkWidget *widget, gpointer data)
 {
   /* FIXME: this currently redraws everything! */
   struct canvas canvas = {
@@ -237,6 +237,7 @@ static void science_diagram_update(GtkWidget *widget, gpointer data)
 
   get_reqtree_dimensions(reqtree, &width, &height);
   draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, width, height);
+  return TRUE;
 }
 
 /****************************************************************************
@@ -302,12 +303,16 @@ static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
     gdouble value;
 
     adjust = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
-    value = (adjust->lower + adjust->upper - adjust->page_size) / width * x;
+    value = (gtk_adjustment_get_lower(adjust)
+      + gtk_adjustment_get_upper(adjust)
+      - gtk_adjustment_get_page_size(adjust)) / width * x;
     gtk_adjustment_set_value(adjust, value);
     gtk_adjustment_value_changed(adjust);
 
     adjust = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
-    value = (adjust->lower + adjust->upper - adjust->page_size) / height * y;
+    value = (gtk_adjustment_get_lower(adjust)
+      + gtk_adjustment_get_upper(adjust)
+      - gtk_adjustment_get_page_size(adjust)) / height * y;
     gtk_adjustment_set_value(adjust, value);
     gtk_adjustment_value_changed(adjust);
   }

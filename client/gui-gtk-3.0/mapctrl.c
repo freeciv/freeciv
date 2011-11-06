@@ -83,7 +83,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
   if (tile_to_canvas_pos(&x, &y, ptile)) {
     gint minx, miny, maxy;
 
-    gdk_window_get_origin(map_canvas->window, &minx, &miny);
+    gdk_window_get_origin(gtk_widget_get_window(map_canvas), &minx, &miny);
     maxy = miny + map_canvas->allocation.height;
 
     if (x > mapview.width/2) {
@@ -143,7 +143,7 @@ static void popit(GdkEventButton *event, struct tile *ptile)
 		     &mousepos);
 
     gtk_widget_show_all(p);
-    gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+    gdk_pointer_grab(gtk_widget_get_window(p), TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, event->time);
     gtk_grab_add(p);
 
@@ -352,12 +352,12 @@ void create_line_at_mouse_pos(void)
 {
   int x, y;
 
-  gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
+  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &x, &y, 0);
   if (x >= 0 && y >= 0
       && x < mapview.width && y < mapview.width) {
     update_line(x, y);
   } else {
-    gdk_window_get_pointer(overview_canvas->window, &x, &y, 0);
+    gdk_window_get_pointer(gtk_widget_get_window(overview_canvas), &x, &y, 0);
     if (x >= 0 && y >= 0
 	&& x < OVERVIEW_TILE_WIDTH * map.xsize
 	&& y < OVERVIEW_TILE_HEIGHT * map.ysize) {
@@ -379,7 +379,7 @@ void update_rect_at_mouse_pos(void)
   }
 
   /* Reading the mouse pos here saves event queueing. */
-  gdk_window_get_pointer(map_canvas->window, &canvas_x, &canvas_y, NULL);
+  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &canvas_x, &canvas_y, NULL);
   update_selection_rectangle(canvas_x, canvas_y);
 }
 
@@ -426,7 +426,7 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
   /* Bizarrely, this function can be called even when we don't "leave"
    * the map canvas, for instance, it gets called any time the mouse is
    * clicked. */
-  gdk_window_get_pointer(map_canvas->window, &canvas_x, &canvas_y, NULL);
+  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &canvas_x, &canvas_y, NULL);
   if (map_exists()
       && canvas_x >= 0 && canvas_y >= 0
       && canvas_x < mapview.width && canvas_y < mapview.height) {
@@ -485,6 +485,6 @@ void overlay_workers_at_city(void)
 {
   int x, y;
   
-  gdk_window_get_pointer(map_canvas->window, &x, &y, NULL);
+  gdk_window_get_pointer(gtk_widget_get_window(map_canvas), &x, &y, NULL);
   key_city_overlay(x, y);
 }

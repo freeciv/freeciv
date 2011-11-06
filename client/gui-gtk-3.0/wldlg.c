@@ -236,7 +236,7 @@ static GtkWidget *create_worklists_report(void)
 		   G_CALLBACK(worklists_destroy_callback), NULL);
 
   vbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), vbox);
+  gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), vbox);
 
   worklists_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
@@ -407,7 +407,7 @@ static void popup_worklist(struct global_worklist *pgwl)
     reset_global_worklist(editor, pgwl);
     insert_worklist(global_worklist_id(pgwl), editor);
 
-    gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), editor);
+    gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), editor);
     gtk_widget_show(editor);
 
     refresh_worklist(editor);

@@ -707,12 +707,12 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
   output_type_iterate(i) {
-    param.minimal_surplus[i] = (int) (pdialog->minimal_surplus[i]->value);
-    param.factor[i] = (int) (pdialog->factor[i]->value);
+    param.minimal_surplus[i] = (int) (gtk_adjustment_get_value(pdialog->minimal_surplus[i]));
+    param.factor[i] = (int) (gtk_adjustment_get_value(pdialog->factor[i]));
   } output_type_iterate_end;
   param.require_happy =
-      (GTK_TOGGLE_BUTTON(pdialog->happy_button)->active ? 1 : 0);
-  param.happy_factor = (int) (pdialog->factor[O_LAST]->value);
+      (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pdialog->happy_button)) ? 1 : 0);
+  param.happy_factor = (int) (gtk_adjustment_get_value(pdialog->factor[O_LAST]));
 
   /* save the change */
   cmafec_set_fe_parameter(pdialog->pcity, &param);

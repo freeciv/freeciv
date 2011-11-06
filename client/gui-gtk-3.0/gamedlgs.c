@@ -54,7 +54,7 @@ static GtkWidget *rates_dialog_shell;
 static GtkWidget *rates_gov_label;
 static GtkWidget *rates_tax_toggle, *rates_lux_toggle, *rates_sci_toggle;
 static GtkWidget *rates_tax_label, *rates_lux_label, *rates_sci_label;
-static GtkObject *rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
+static GtkAdjustment *rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
 
 static gulong     rates_tax_sig, rates_lux_sig, rates_sci_sig;
 /******************************************************************/
@@ -76,9 +76,9 @@ static void rates_set_values(int tax, int no_tax_scroll,
   int tax_lock, lux_lock, sci_lock;
   int maxrate;
   
-  tax_lock	= GTK_TOGGLE_BUTTON(rates_tax_toggle)->active;
-  lux_lock	= GTK_TOGGLE_BUTTON(rates_lux_toggle)->active;
-  sci_lock	= GTK_TOGGLE_BUTTON(rates_sci_toggle)->active;
+  tax_lock	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(rates_tax_toggle));
+  lux_lock	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(rates_lux_toggle));
+  sci_lock	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(rates_sci_toggle));
 
   if (NULL != client.conn.playing) {
     maxrate = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
@@ -132,7 +132,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   if (tax!=rates_tax_value) {
     fc_snprintf(buf, sizeof(buf), "%3d%%", tax);
-    if (strcmp(buf, GTK_LABEL(rates_tax_label)->label) != 0)
+    if (strcmp(buf, gtk_label_get_text(GTK_LABEL(rates_tax_label))) != 0)
 	gtk_label_set_text(GTK_LABEL(rates_tax_label), buf);
     if(!no_tax_scroll)
     {
@@ -145,7 +145,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   if(lux!=rates_lux_value) {
     fc_snprintf(buf, sizeof(buf), "%3d%%", lux);
-    if (strcmp(buf, GTK_LABEL(rates_lux_label)->label) != 0)
+    if (strcmp(buf, gtk_label_get_text(GTK_LABEL(rates_lux_label))) != 0)
 	gtk_label_set_text(GTK_LABEL(rates_lux_label), buf);
     if(!no_lux_scroll)
     {
@@ -158,7 +158,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   if(sci!=rates_sci_value) {
     fc_snprintf(buf, sizeof(buf), "%3d%%", sci);
-    if (strcmp(buf, GTK_LABEL(rates_sci_label)->label) != 0)
+    if (strcmp(buf, gtk_label_get_text(GTK_LABEL(rates_sci_label))) != 0)
 	gtk_label_set_text(GTK_LABEL(rates_sci_label),buf);
     if(!no_sci_scroll)
     {
@@ -176,7 +176,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 **************************************************************************/
 static void rates_changed_callback(GtkAdjustment *adj)
 {
-  int percent=adj->value;
+  int percent=gtk_adjustment_get_value(adj);
 
   if(adj==GTK_ADJUSTMENT(rates_tax_adj)) {
     int tax_value;
@@ -220,7 +220,7 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
 *****************************************************************/
 static GtkWidget *create_rates_dialog(void)
 {
-  GtkWidget     *shell;
+  GtkWidget     *shell, *content;
   GtkWidget	*frame, *hbox;
 
   GtkWidget	*scale;
@@ -240,17 +240,18 @@ static GtkWidget *create_rates_dialog(void)
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+  content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
 
   rates_gov_label = gtk_label_new("");
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), rates_gov_label, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( content ), rates_gov_label, TRUE, TRUE, 5 );
 
   frame = gtk_frame_new( _("Tax") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), frame, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( content ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
   gtk_container_add( GTK_CONTAINER( frame ), hbox );
 
-  rates_tax_adj = gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
+  rates_tax_adj = (GtkAdjustment*)gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
   scale = gtk_hscale_new( GTK_ADJUSTMENT( rates_tax_adj ) );
   gtk_widget_set_size_request(scale, 300, 40);
   gtk_scale_set_digits( GTK_SCALE( scale ), 0 );
@@ -265,12 +266,12 @@ static GtkWidget *create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_tax_toggle, TRUE, TRUE, 0 );
 
   frame = gtk_frame_new( _("Luxury") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), frame, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( content ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
   gtk_container_add( GTK_CONTAINER( frame ), hbox );
 
-  rates_lux_adj = gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
+  rates_lux_adj = (GtkAdjustment*)gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
   scale = gtk_hscale_new( GTK_ADJUSTMENT( rates_lux_adj ) );
   gtk_widget_set_size_request(scale, 300, 40);
   gtk_scale_set_digits( GTK_SCALE( scale ), 0 );
@@ -285,12 +286,12 @@ static GtkWidget *create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_lux_toggle, TRUE, TRUE, 0 );
 
   frame = gtk_frame_new( _("Science") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( shell )->vbox ), frame, TRUE, TRUE, 5 );
+  gtk_box_pack_start( GTK_BOX( content ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
   gtk_container_add( GTK_CONTAINER( frame ), hbox );
 
-  rates_sci_adj = gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
+  rates_sci_adj = (GtkAdjustment*)gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
   scale = gtk_hscale_new( GTK_ADJUSTMENT( rates_sci_adj ) );
   gtk_widget_set_size_request(scale, 300, 40);
   gtk_scale_set_digits( GTK_SCALE( scale ), 0 );
@@ -310,8 +311,8 @@ static GtkWidget *create_rates_dialog(void)
   g_signal_connect(shell, "destroy",
 		   G_CALLBACK(gtk_widget_destroyed), &rates_dialog_shell);
 
-  gtk_widget_show_all( GTK_DIALOG( shell )->vbox );
-  gtk_widget_show_all( GTK_DIALOG( shell )->action_area );
+  gtk_widget_show_all(content);
+  gtk_widget_show_all(gtk_dialog_get_action_area(GTK_DIALOG(shell)));
 
   rates_tax_value=-1;
   rates_lux_value=-1;

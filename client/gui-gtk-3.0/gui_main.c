@@ -750,12 +750,12 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
 	G_CALLBACK(propagate_keypress), NULL);
 
 
-    g_object_set_data(G_OBJECT(w), "parent", box->parent);
+    g_object_set_data(G_OBJECT(w), "parent", gtk_widget_get_parent(box));
     g_object_set_data(G_OBJECT(w), "toggle", b);
     gtk_widget_reparent(box, w);
     gtk_widget_show(w);
   } else {
-    gtk_widget_destroy(box->parent);
+    gtk_widget_destroy(gtk_widget_get_parent(box));
   }
 }
 
@@ -1542,7 +1542,7 @@ void ui_main(int argc, char **argv)
   gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
-  root_window = toplevel->window;
+  root_window = gtk_widget_get_window(toplevel);
 
   if (fullscreen_mode) {
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
@@ -1703,7 +1703,7 @@ enum gui_type get_gui_type(void)
 **************************************************************************/
 void sound_bell(void)
 {
-  gdk_beep();
+  gdk_display_beep(gdk_display_get_default());
 }
 
 /**************************************************************************
@@ -1852,7 +1852,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
         			   NULL);
     gtk_widget_show(p);
 
-    gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+    gdk_pointer_grab(gtk_widget_get_window(p), TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, ev->time);
     gtk_grab_add(p);
 

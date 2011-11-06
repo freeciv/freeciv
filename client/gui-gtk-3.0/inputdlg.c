@@ -80,7 +80,7 @@ GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
   label = gtk_frame_new(text);
   /* Should use gtk_dialog_get_content_area() instead of ->vbox, but that
    * requires at least gtk+-2.14.0 */
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label, TRUE, TRUE, 0);
 
   input = gtk_entry_new();
   gtk_container_add(GTK_CONTAINER(label), input);

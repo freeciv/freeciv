@@ -302,7 +302,11 @@ static void luaconsole_load_file_popup(void)
   GtkWidget *filesel;
 
   /* Create the selector */
-  filesel = gtk_file_selection_new("Load Lua file");
+  filesel = gtk_file_chooser_dialog_new("Load Lua file", GTK_WINDOW(toplevel),
+                GTK_FILE_CHOOSER_ACTION_OPEN,
+                GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+                NULL);
   setup_dialog(filesel, toplevel);
   gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
 
@@ -320,8 +324,8 @@ static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
                                           gpointer data)
 {
   if (response == GTK_RESPONSE_OK) {
-    gchar *filename = g_filename_to_utf8(gtk_file_selection_get_filename
-                                         (GTK_FILE_SELECTION(widget)),
+    gchar *filename = g_filename_to_utf8(gtk_file_chooser_get_filename
+                                         (GTK_FILE_CHOOSER(widget)),
                                          -1, NULL, NULL, NULL);
 
     if (NULL != filename) {
@@ -344,7 +348,7 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEventKey *ev)
   fc_assert_ret_val(pdialog->history_list, FALSE);
 
   switch (ev->keyval) {
-  case GDK_Up:
+  case GDK_KEY_Up:
     if (pdialog->history_pos < genlist_size(pdialog->history_list) - 1) {
       gtk_entry_set_text(GTK_ENTRY(w), genlist_get(pdialog->history_list,
                                                    ++pdialog->history_pos));
@@ -352,7 +356,7 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEventKey *ev)
     }
     return TRUE;
 
-  case GDK_Down:
+  case GDK_KEY_Down:
     if (pdialog->history_pos >= 0) {
       pdialog->history_pos--;
     }

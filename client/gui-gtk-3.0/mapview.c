@@ -60,7 +60,7 @@
 
 #include "mapview.h"
 
-static GtkObject *map_hadj, *map_vadj;
+static GtkAdjustment *map_hadj, *map_vadj;
 static int cursor_timer_id = 0, cursor_type = -1, cursor_frame = 0;
 static int mapview_frozen_level = 0;
 
@@ -730,7 +730,7 @@ void put_cross_overlay_tile(struct tile *ptile)
   int canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    pixmap_put_overlay_tile(map_canvas->window,
+    pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas),
 			    canvas_x, canvas_y,
 			    get_attention_crosshair_sprite(tileset));
   }
@@ -750,9 +750,11 @@ void update_overview_scroll_window_pos(int x, int y)
     GTK_SCROLLED_WINDOW(overview_scrolled_window));
 
   ov_scroll_x = MIN(x - (overview_canvas_store_width / 2),
-                    ov_hadj->upper -ov_hadj->page_size);
+                    gtk_adjustment_get_upper(ov_hadj)
+                    - gtk_adjustment_get_page_size(ov_hadj));
   ov_scroll_y = MIN(y - (overview_canvas_store_height / 2),
-                    ov_vadj->upper -ov_vadj->page_size);
+                    gtk_adjustment_get_upper(ov_vadj)
+                    - gtk_adjustment_get_page_size(ov_vadj));
 
   gtk_adjustment_set_value(GTK_ADJUSTMENT(ov_hadj), ov_scroll_x);
   gtk_adjustment_set_value(GTK_ADJUSTMENT(ov_vadj), ov_scroll_y);
@@ -780,8 +782,8 @@ void update_map_canvas_scrollbars_size(void)
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_step(&xstep, &ystep);
 
-  map_hadj = gtk_adjustment_new(-1, xmin, xmax, xstep, xsize, xsize);
-  map_vadj = gtk_adjustment_new(-1, ymin, ymax, ystep, ysize, ysize);
+  map_hadj = (GtkAdjustment*)gtk_adjustment_new(-1, xmin, xmax, xstep, xsize, xsize);
+  map_vadj = (GtkAdjustment*)gtk_adjustment_new(-1, ymin, ymax, ystep, ysize, ysize);
 
   gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
 	GTK_ADJUSTMENT(map_hadj));
@@ -810,9 +812,9 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
 
   if (hscrollbar) {
-    scroll_x = adj->value;
+    scroll_x = gtk_adjustment_get_value(adj);
   } else {
-    scroll_y = adj->value;
+    scroll_y = gtk_adjustment_get_value(adj);
   }
 
   set_mapview_scroll_pos(scroll_x, scroll_y);
