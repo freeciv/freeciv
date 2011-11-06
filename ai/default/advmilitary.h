@@ -16,8 +16,8 @@
 #include "fc_types.h"
 #include "unittype.h"
 
-struct unit_type *ai_choose_defender_versus(struct city *pcity,
-                                            struct unit *attacker);
+struct unit_type *dai_choose_defender_versus(struct city *pcity,
+                                             struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct adv_choice *choice);
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
@@ -26,7 +26,7 @@ void dai_assess_danger_player(struct player *pplayer);
 int assess_defense_quadratic(struct city *pcity);
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall);
 int assess_defense(struct city *pcity);
-int ai_unit_defence_desirability(const struct unit_type *punittype);
-int ai_unit_attack_desirability(const struct unit_type *punittype);
+int dai_unit_defence_desirability(const struct unit_type *punittype);
+int dai_unit_attack_desirability(const struct unit_type *punittype);
 
 #endif  /* FC__ADVMILITARY_H */

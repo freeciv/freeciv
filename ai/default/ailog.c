@@ -71,7 +71,7 @@ void real_diplo_log(const char *file, const char *function, int line,
   const struct ai_dip_intel *adip;
 
   /* Don't use ai_data_get since it can have side effects. */
-  adip = ai_diplomacy_get(pplayer, aplayer);
+  adip = dai_diplomacy_get(pplayer, aplayer);
 
   fc_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ",
               player_name(pplayer),

@@ -205,7 +205,7 @@ static struct cityresult *settler_map_iterate(struct pf_parameter *parameter,
 static struct cityresult *find_best_city_placement(struct unit *punit,
                                                    bool look_for_boat,
                                                    bool use_virt_boat);
-static bool ai_do_build_city(struct player *pplayer, struct unit *punit);
+static bool dai_do_build_city(struct player *pplayer, struct unit *punit);
 
 /*****************************************************************************
   Allocated a city result.
@@ -271,7 +271,7 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
   bool virtual_city = FALSE;
   bool handicap = ai_handicap(pplayer, H_MAP);
   struct adv_data *adv = adv_data_get(pplayer);
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct ai_plr *ai = dai_plr_data_get(pplayer);
   struct cityresult *result;
 
   fc_assert_ret_val(ai != NULL, NULL);
@@ -492,7 +492,7 @@ static void tile_data_cache_destroy(struct tile_data_cache *ptdc)
 static const struct tile_data_cache *tdc_plr_get(struct player *plr,
                                                  int tindex)
 {
-  struct ai_plr *ai = ai_plr_data_get(plr);
+  struct ai_plr *ai = dai_plr_data_get(plr);
 
   fc_assert_ret_val(ai != NULL, NULL);
   fc_assert_ret_val(ai->settler != NULL, NULL);
@@ -526,7 +526,7 @@ static const struct tile_data_cache *tdc_plr_get(struct player *plr,
 static void tdc_plr_set(struct player *plr, int tindex,
                          const struct tile_data_cache *ptdc)
 {
-  struct ai_plr *ai = ai_plr_data_get(plr);
+  struct ai_plr *ai = dai_plr_data_get(plr);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
@@ -960,7 +960,7 @@ static struct cityresult *find_best_city_placement(struct unit *punit,
 /**************************************************************************
   Initialize ai settler engine.
 **************************************************************************/
-void ai_auto_settler_init(struct ai_plr *ai)
+void dai_auto_settler_init(struct ai_plr *ai)
 {
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler == NULL);
@@ -1003,22 +1003,22 @@ BUILD_CITY:
     /* Check that the mission is still possible.  If the tile has become
      * unavailable, call it off. */
     if (!city_can_be_built_here(ptile, punit)) {
-      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
       set_unit_activity(punit, ACTIVITY_IDLE);
       send_unit_info(NULL, punit);
       return; /* avoid recursion at all cost */
     } else {
      /* Go there */
-      if ((!ai_gothere(pplayer, punit, ptile)
+      if ((!dai_gothere(pplayer, punit, ptile)
            && NULL == game_unit_by_number(sanity))
           || punit->moves_left <= 0) {
         return;
       }
       if (same_pos(unit_tile(punit), ptile)) {
-        if (!ai_do_build_city(pplayer, punit)) {
+        if (!dai_do_build_city(pplayer, punit)) {
           UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
                    tile_get_info_text(unit_tile(punit), 0));
-          ai_unit_new_task(punit, AIUNIT_NONE, NULL);
+          dai_unit_new_task(punit, AIUNIT_NONE, NULL);
           /* Only known way to end in here is that hut turned in to a city
            * when settler entered tile. So this is not going to lead in any
            * serious recursion. */
@@ -1091,7 +1091,7 @@ BUILD_CITY:
       adv_unit_new_task(punit, AUT_AUTO_SETTLER, best_tile);
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "cannot find work");
-      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
       goto CLEANUP;
     }
   } else {
@@ -1115,7 +1115,7 @@ CLEANUP:
 **************************************************************************/
 void dai_auto_settler_reset(struct player *pplayer)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct ai_plr *ai = dai_plr_data_get(pplayer);
 
   fc_assert_ret(ai != NULL);
   fc_assert_ret(ai->settler != NULL);
@@ -1139,7 +1139,7 @@ void dai_auto_settler_reset(struct player *pplayer)
 /**************************************************************************
   Deinitialize ai settler engine.
 **************************************************************************/
-void ai_auto_settler_free(struct ai_plr *ai)
+void dai_auto_settler_free(struct ai_plr *ai)
 {
   fc_assert_ret(ai != NULL);
 
@@ -1155,7 +1155,7 @@ void ai_auto_settler_free(struct ai_plr *ai)
 /**************************************************************************
   Build a city and initialize AI infrastructure cache.
 **************************************************************************/
-static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
+static bool dai_do_build_city(struct player *pplayer, struct unit *punit)
 {
   struct tile *ptile = unit_tile(punit);
   struct city *pcity;
@@ -1164,7 +1164,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   unit_activity_handling(punit, ACTIVITY_IDLE);
 
   /* Free city reservations */
-  ai_unit_new_task(punit, AIUNIT_NONE, NULL);
+  dai_unit_new_task(punit, AIUNIT_NONE, NULL);
 
   pcity = tile_city(ptile);
   if (pcity) {

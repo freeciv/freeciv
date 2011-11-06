@@ -176,7 +176,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
 /**********************************************************************
  This function does manage the paratrooper units of the AI.
 **********************************************************************/
-void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
+void dai_manage_paratrooper(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = tile_city(unit_tile(punit));
   struct tile *ptile_dest = NULL;
@@ -184,8 +184,8 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
   int sanity = punit->id;
 
   /* defend attacking (and be opportunistic too) */
-  if (!ai_military_rampage(punit, RAMPAGE_ANYTHING,
-			   RAMPAGE_FREE_CITY_OR_BETTER)) {
+  if (!dai_military_rampage(punit, RAMPAGE_ANYTHING,
+                            RAMPAGE_FREE_CITY_OR_BETTER)) {
     /* dead */
     return;
   }
@@ -217,8 +217,8 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
 	  return;
 	}
 	/* and we attack the target */
-	(void) ai_military_rampage(punit, RAMPAGE_ANYTHING,
-      				   RAMPAGE_ANYTHING);
+        (void) dai_military_rampage(punit, RAMPAGE_ANYTHING,
+                                    RAMPAGE_ANYTHING);
       }
     }
   } else {
@@ -237,14 +237,14 @@ void ai_manage_paratrooper(struct player *pplayer, struct unit *punit)
 
     if (acity) {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit, "Going to %s", city_name(acity));
-      if (!ai_unit_goto(punit, acity->tile)) {
+      if (!dai_unit_goto(punit, acity->tile)) {
 	/* die or unsuccessfull move */
 	return;
       }
     } else {
       UNIT_LOG(LOGLEVEL_PARATROOPER, punit,
 	       "didn't find city to go and recover.");
-      ai_manage_military(pplayer, punit);
+      dai_manage_military(pplayer, punit);
     }
   }
 }
@@ -322,8 +322,8 @@ static int calculate_want_for_paratrooper(struct unit *punit,
 /*******************************************************************
   Chooses to build a paratroopers if necessary
 *******************************************************************/
-void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
-			   struct adv_choice *choice)
+void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
+                            struct adv_choice *choice)
 {
   int profit;
   Tech_type_id tech_req;

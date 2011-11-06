@@ -166,7 +166,7 @@ void dai_ferry_init_ferry(struct unit *ferry)
       if (punitclass->move_type == UMT_LAND
           && can_unit_type_transport(unit_type(ferry), punitclass)) {
         /* Can transport some land units, so is consider ferry */
-        struct ai_plr *ai = ai_plr_data_get(unit_owner(ferry));
+        struct ai_plr *ai = dai_plr_data_get(unit_owner(ferry));
 
         unit_data->passenger = FERRY_AVAILABLE;
         ai->stats.boats++;
@@ -190,7 +190,7 @@ void aiferry_clear_boat(struct unit *punit)
     struct player *pplayer = unit_owner(punit);
 
     if (is_ai_data_phase_open(pplayer)) {
-      struct ai_plr *ai = ai_plr_data_get(unit_owner(punit));
+      struct ai_plr *ai = dai_plr_data_get(unit_owner(punit));
 
       ai->stats.passengers--;
     }
@@ -205,7 +205,7 @@ void aiferry_clear_boat(struct unit *punit)
         struct player *pplayer = unit_owner(ferry);
 
         if (is_ai_data_phase_open(pplayer)) {
-          ai_plr_data_get(pplayer)->stats.available_boats++;
+          dai_plr_data_get(pplayer)->stats.available_boats++;
         }
         ferry_data->passenger = FERRY_AVAILABLE;
       }
@@ -221,7 +221,7 @@ void aiferry_clear_boat(struct unit *punit)
 **************************************************************************/
 static void aiferry_request_boat(struct unit *punit)
 {
-  struct ai_plr *ai = ai_plr_data_get(unit_owner(punit));
+  struct ai_plr *ai = dai_plr_data_get(unit_owner(punit));
   struct unit_ai *unit_data = def_ai_unit_data(punit);
 
   /* First clear the previous assignments (just in case). */
@@ -252,7 +252,7 @@ static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 
   /* If ferry was available, update the stats */
   if (ferry_data->passenger == FERRY_AVAILABLE) {
-    ai_plr_data_get(unit_owner(pferry))->stats.available_boats--;
+    dai_plr_data_get(unit_owner(pferry))->stats.available_boats--;
   }
 
   /* Exchange the phone numbers */
@@ -268,7 +268,7 @@ static void aiferry_make_available(struct unit *pferry)
   struct unit_ai *ferry_data = def_ai_unit_data(pferry);
 
   if (ferry_data->passenger != FERRY_AVAILABLE) {
-    ai_plr_data_get(unit_owner(pferry))->stats.available_boats++;
+    dai_plr_data_get(unit_owner(pferry))->stats.available_boats++;
     ferry_data->passenger = FERRY_AVAILABLE;
   }
 }
@@ -279,7 +279,7 @@ static void aiferry_make_available(struct unit *pferry)
 **************************************************************************/
 static int aiferry_avail_boats(struct player *pplayer)
 {
-  struct ai_plr *ai = ai_plr_data_get(pplayer);
+  struct ai_plr *ai = dai_plr_data_get(pplayer);
 
   /* To developer: Switch this checking on when testing some new 
    * ferry code. */
@@ -534,13 +534,13 @@ static int aiferry_find_boat_nearby(struct unit *punit, int cap)
   This is suitable for when the commander of a ferry has left;
   it gives a chance for another passenger to take control.
 **************************************************************************/
-static void ai_activate_passengers(struct unit *ferry)
+static void dai_activate_passengers(struct unit *ferry)
 {
   unit_list_iterate_safe(unit_tile(ferry)->units, aunit) {
     if (unit_transport_get(aunit) == ferry) {
       unit_activity_handling(aunit, ACTIVITY_IDLE);
       def_ai_unit_data(aunit)->done = FALSE;
-      ai_manage_unit(unit_owner(aunit), aunit);
+      dai_manage_unit(unit_owner(aunit), aunit);
     }
   } unit_list_iterate_safe_end;
 }
@@ -552,10 +552,10 @@ static void ai_activate_passengers(struct unit *ferry)
   the ferry to a beach head, disembark, then continue on land.
   Return FALSE iff we died.
 **************************************************************************/
-bool ai_amphibious_goto_constrained(struct unit *ferry,
-				    struct unit *passenger,
-				    struct tile *ptile,
-				    struct pft_amphibious *parameter)
+bool dai_amphibious_goto_constrained(struct unit *ferry,
+                                     struct unit *passenger,
+                                     struct tile *ptile,
+                                     struct pft_amphibious *parameter)
 {
   bool alive = TRUE;
   struct player *pplayer = unit_owner(passenger);
@@ -582,7 +582,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
   path = pf_map_path(pfm, ptile);
 
   if (path) {
-    ai_log_path(passenger, path, &parameter->combined);
+    dai_log_path(passenger, path, &parameter->combined);
     /* Sea leg */
     alive = adv_follow_path(ferry, path, ptile);
     if (alive && unit_tile(passenger) != ptile) {
@@ -611,7 +611,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
 	   * of the ferry.
 	   */
 	  UNIT_LOG(LOG_DEBUG, ferry, "Activating passengers");
-	  ai_activate_passengers(ferry);
+          dai_activate_passengers(ferry);
           /* It is theoretically possible passenger died here due to
            * autoattack against another passing unit at its location. */
         }
@@ -641,19 +641,19 @@ bool aiferry_goto_amphibious(struct unit *ferry,
   struct adv_risk_cost land_risk_cost;
   struct adv_risk_cost sea_risk_cost;
 
-  ai_fill_unit_param(&parameter.land, &land_risk_cost, passenger, ptile);
+  dai_fill_unit_param(&parameter.land, &land_risk_cost, passenger, ptile);
   if (parameter.land.get_TB != no_fights) {
     /* Use the ferry to go around danger areas: */
     parameter.land.get_TB = no_intermediate_fights;
   }
-  ai_fill_unit_param(&parameter.sea, &sea_risk_cost, ferry, ptile);
+  dai_fill_unit_param(&parameter.sea, &sea_risk_cost, ferry, ptile);
   pft_fill_amphibious_parameter(&parameter);
 
   /* Move as far along the path to the destination as we can;
    * that is, ignore the presence of enemy units when computing the
    * path */
   parameter.combined.get_zoc = NULL;
-  return ai_amphibious_goto_constrained(ferry, passenger, ptile, &parameter);
+  return dai_amphibious_goto_constrained(ferry, passenger, ptile, &parameter);
 }
 
 /****************************************************************************
@@ -723,7 +723,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     aiferry_psngr_meet_boat(punit, ferryboat);
 
     if (is_tiles_adjacent(unit_tile(punit), unit_tile(ferryboat))) {
-      (void) ai_unit_move(punit, unit_tile(ferryboat));
+      (void) dai_unit_move(punit, unit_tile(ferryboat));
     }
 
     if (!can_unit_load(punit, ferryboat)) {
@@ -757,7 +757,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
       if (bodyguard
           && !same_pos(unit_tile(punit), unit_tile(bodyguard))) {
         if (!goto_is_sane(bodyguard, unit_tile(punit), TRUE)
-            || !ai_unit_goto(bodyguard, unit_tile(punit))) {
+            || !dai_unit_goto(bodyguard, unit_tile(punit))) {
           /* Bodyguard can't get there or died en route */
           aiguard_request_guard(punit);
           bodyguard = NULL;
@@ -770,7 +770,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
           /* Crap bodyguard. Got stuck somewhere. Ditch it! */
           UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "ditching useless bodyguard");
           aiguard_request_guard(punit);
-          ai_unit_new_task(bodyguard, AIUNIT_NONE, NULL);
+          dai_unit_new_task(bodyguard, AIUNIT_NONE, NULL);
           bodyguard = NULL;
         }
       }
@@ -817,7 +817,7 @@ static bool aiferry_findcargo(struct unit *pferry)
   /* Path-finding stuff */
   struct pf_map *pfm;
   struct pf_parameter parameter;
-  int passengers = ai_plr_data_get(unit_owner(pferry))->stats.passengers;
+  int passengers = dai_plr_data_get(unit_owner(pferry))->stats.passengers;
 
   if (passengers <= 0) {
     /* No passangers anywhere */
@@ -965,7 +965,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
   If there is no one aboard, look for potential cargo.  If none found, 
   explore and then go to the nearest port.
 ****************************************************************************/
-void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
+void dai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
   int sanity = punit->id;
@@ -1055,7 +1055,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOGLEVEL_FERRY, punit, "passing control to %s[%d]",
 		unit_rule_name(boss),
 		boss->id);
-      ai_manage_unit(pplayer, boss);
+      dai_manage_unit(pplayer, boss);
     
       if (!game_unit_by_number(sanity) || punit->moves_left <= 0) {
         return;
@@ -1083,9 +1083,9 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
      /* AI used to build frigates to attack and then use them as ferries 
       * -- Syela */
-     ai_unit_new_task(punit, AIUNIT_ATTACK, NULL);
+     dai_unit_new_task(punit, AIUNIT_ATTACK, NULL);
      UNIT_LOG(LOGLEVEL_FERRY, punit, "passing ferry over to attack code");
-     ai_manage_military(pplayer, punit);
+     dai_manage_military(pplayer, punit);
      return;
   }
 
@@ -1093,21 +1093,21 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 	   "(moves left: %d).", punit->moves_left);
   aiferry_make_available(punit);
   unit_activity_handling(punit, ACTIVITY_IDLE);
-  ai_unit_new_task(punit, AIUNIT_NONE, NULL);
+  dai_unit_new_task(punit, AIUNIT_NONE, NULL);
   CHECK_UNIT(punit);
 
   /* Try to find passengers */
   if (aiferry_findcargo(punit)) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "picking up cargo (moves left: %d)",
 	     punit->moves_left);
-    if (ai_unit_goto(punit, punit->goto_tile)) {
+    if (dai_unit_goto(punit, punit->goto_tile)) {
       if (is_tiles_adjacent(unit_tile(punit), punit->goto_tile)
           || same_pos(unit_tile(punit), punit->goto_tile)) {
         struct unit *cargo = game_unit_by_number(unit_data->passenger);
 
         /* See if passenger can jump on board! */
         fc_assert_ret(cargo != punit);
-        ai_manage_unit(pplayer, cargo);
+        dai_manage_unit(pplayer, cargo);
       }
     }
     return;
@@ -1121,7 +1121,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       return;
     } else {
       UNIT_LOG(LOGLEVEL_FERRY, punit, "going to city that needs us");
-      if (ai_unit_goto(punit, punit->goto_tile)
+      if (dai_unit_goto(punit, punit->goto_tile)
           && same_pos(unit_tile(punit), punit->goto_tile)) {
         unit_data->done = TRUE; /* save some CPU */
       }
@@ -1148,8 +1148,8 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_tile = pcity->tile;
       UNIT_LOG(LOGLEVEL_FERRY, punit, "No work, going home");
       unit_data->done = TRUE;
-      ai_unit_new_task(punit, AIUNIT_NONE, NULL);
-      (void) ai_unit_goto(punit, pcity->tile);
+      dai_unit_new_task(punit, AIUNIT_NONE, NULL);
+      (void) dai_unit_goto(punit, pcity->tile);
     }
   }
  

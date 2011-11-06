@@ -91,11 +91,11 @@
 /**************************************************************************
  handle spaceship related stuff
 **************************************************************************/
-static void ai_manage_spaceship(struct player *pplayer)
+static void dai_manage_spaceship(struct player *pplayer)
 {
   if (game.info.spacerace) {
     if (pplayer->spaceship.state == SSHIP_STARTED) {
-      ai_spaceship_autoplace(pplayer, &pplayer->spaceship);
+      dai_spaceship_autoplace(pplayer, &pplayer->spaceship);
       /* if we have built the best possible spaceship  -- AJS 19990610 */
       if ((pplayer->spaceship.structurals == NUM_SS_STRUCTURALS) &&
         (pplayer->spaceship.components == NUM_SS_COMPONENTS) &&
@@ -109,8 +109,8 @@ static void ai_manage_spaceship(struct player *pplayer)
   Returns the total amount of trade generated (trade) and total amount of
   gold needed as upkeep (expenses).
 ***************************************************************************/
-void ai_calc_data(const struct player *pplayer, int *trade, int *expenses,
-                  int *income)
+void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
+                   int *income)
 {
   if (NULL != trade) {
     *trade = 0;
@@ -198,7 +198,7 @@ enum celebration {
   At the end the remaining is divided on science/gold/luxury depending on the
   AI settings.
 *****************************************************************************/
-static void ai_manage_taxes(struct player *pplayer) 
+static void dai_manage_taxes(struct player *pplayer) 
 {
   int maxrate = (ai_handicap(pplayer, H_RATES) 
                  ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
@@ -259,7 +259,7 @@ static void ai_manage_taxes(struct player *pplayer)
            rates_save[AI_RATE_LUX], rates_save[AI_RATE_TAX]);
 
   /* Get some data for the AI player. */
-  ai_calc_data(pplayer, &trade, &expenses, &income);
+  dai_calc_data(pplayer, &trade, &expenses, &income);
 
   /* Get the estimates for tax with the current rates. */
   distribute(trade, AI_RATE_COUNT, rates_save, result);
@@ -294,7 +294,7 @@ static void ai_manage_taxes(struct player *pplayer)
   while(rates[AI_RATE_TAX] <= maxrate
         && rates[AI_RATE_SCI] >= 0
         && rates[AI_RATE_LUX] >= 0) {
-    bool refill_coffers = pplayer->economic.gold < ai_gold_reserve(pplayer);
+    bool refill_coffers = pplayer->economic.gold < dai_gold_reserve(pplayer);
     int balance_tax, balance_tax_min;
 
     distribute(trade, AI_RATE_COUNT, rates, result);
@@ -560,7 +560,7 @@ static void ai_manage_taxes(struct player *pplayer)
                rates[AI_RATE_LUX], rates[AI_RATE_TAX]);
     } else {
       /* We need more trade to get a positive gold and science balance. */
-      if (!adv_wants_science(pplayer) || ai_on_war_footing(pplayer)) {
+      if (!adv_wants_science(pplayer) || dai_on_war_footing(pplayer)) {
         /* Go for gold (improvements and units) and risk the loss of a
          * tech. */
         rates[AI_RATE_TAX] = maxrate;
@@ -584,7 +584,7 @@ static void ai_manage_taxes(struct player *pplayer)
   }
 
   /* Put the remaining to tax or science. */
-  if (!adv_wants_science(pplayer) || ai_on_war_footing(pplayer)) {
+  if (!adv_wants_science(pplayer) || dai_on_war_footing(pplayer)) {
     rates[AI_RATE_TAX] = MIN(maxrate, rates[AI_RATE_TAX]
                                       + RATE_REMAINS(rates));
     rates[AI_RATE_LUX] = MIN(maxrate, rates[AI_RATE_LUX]
@@ -671,7 +671,7 @@ static void ai_manage_taxes(struct player *pplayer)
 /**************************************************************************
   Change the government form, if it can and there is a good reason.
 **************************************************************************/
-static void ai_manage_government(struct player *pplayer)
+static void dai_manage_government(struct player *pplayer)
 {
   struct adv_data *ai = adv_data_get(pplayer);
 
@@ -680,7 +680,7 @@ static void ai_manage_government(struct player *pplayer)
   }
 
   if (ai->goal.revolution != government_of_player(pplayer)) {
-    ai_government_change(pplayer, ai->goal.revolution); /* change */
+    dai_government_change(pplayer, ai->goal.revolution); /* change */
   }
 
   /* Crank up tech want */
@@ -719,7 +719,7 @@ void dai_do_first_activities(struct player *pplayer)
    * to eliminate the source of danger */
 
   TIMING_LOG(AIT_UNITS, TIMER_START);
-  ai_manage_units(pplayer); 
+  dai_manage_units(pplayer); 
   TIMING_LOG(AIT_UNITS, TIMER_STOP);
   /* STOP.  Everything else is at end of turn. */
 
@@ -740,17 +740,17 @@ void dai_do_last_activities(struct player *pplayer)
 {
   TIMING_LOG(AIT_ALL, TIMER_START);
 
-  ai_manage_government(pplayer);
+  dai_manage_government(pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_START);
-  ai_manage_taxes(pplayer);
+  dai_manage_taxes(pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_STOP);
   TIMING_LOG(AIT_CITIES, TIMER_START);
-  ai_manage_cities(pplayer);
+  dai_manage_cities(pplayer);
   TIMING_LOG(AIT_CITIES, TIMER_STOP);
   TIMING_LOG(AIT_TECH, TIMER_START);
-  ai_manage_tech(pplayer); 
+  dai_manage_tech(pplayer); 
   TIMING_LOG(AIT_TECH, TIMER_STOP);
-  ai_manage_spaceship(pplayer);
+  dai_manage_spaceship(pplayer);
 
   TIMING_LOG(AIT_ALL, TIMER_STOP);
 }

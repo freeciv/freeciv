@@ -86,8 +86,8 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
   Very preliminary estimate for our intent to attack the tile (x, y).
   Used by bombers only.
 **********************************************************************/
-static bool ai_should_we_air_attack_tile(struct unit *punit,
-					 struct tile *ptile)
+static bool dai_should_we_air_attack_tile(struct unit *punit,
+                                          struct tile *ptile)
 {
   struct city *acity = tile_city(ptile);
 
@@ -111,8 +111,8 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
   Returns an estimate for the profit gained through attack.
   Assumes that the victim is within one day's flight
 **********************************************************************/
-static int ai_evaluate_tile_for_air_attack(struct unit *punit, 
-					   struct tile *dst_tile)
+static int dai_evaluate_tile_for_air_attack(struct unit *punit, 
+                                            struct tile *dst_tile)
 {
   struct unit *pdefender;
   /* unit costs in shields */
@@ -216,9 +216,9 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
     }
 
     if (is_enemy_unit_tile(ptile, pplayer)
-        && ai_should_we_air_attack_tile(punit, ptile)
+        && dai_should_we_air_attack_tile(punit, ptile)
         && can_unit_attack_tile(punit, ptile)) {
-      int new_best = ai_evaluate_tile_for_air_attack(punit, ptile);
+      int new_best = dai_evaluate_tile_for_air_attack(punit, ptile);
 
       if (new_best > best) {
         best_tile = ptile;
@@ -246,8 +246,8 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
   base for air operations by (air)unit punit.  Returns NULL if not
   found.  The path is stored in the path argument if not NULL.
 **********************************************************************/
-static struct tile *ai_find_strategic_airbase(const struct unit *punit,
-                                              struct pf_path **path)
+static struct tile *dai_find_strategic_airbase(const struct unit *punit,
+                                               struct pf_path **path)
 {
   struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
@@ -318,7 +318,7 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
   } 
   TODO: distant target selection, support for fuel > 2
 ***********************************************************************/
-void ai_manage_airunit(struct player *pplayer, struct unit *punit)
+void dai_manage_airunit(struct player *pplayer, struct unit *punit)
 {
   struct tile *dst_tile = unit_tile(punit);
   /* Loop prevention */
@@ -347,7 +347,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
         pf_map_destroy(pfm);
         if (alive && punit->moves_left > 0) {
           /* Maybe do something else. */
-          ai_manage_airunit(pplayer, punit);
+          dai_manage_airunit(pplayer, punit);
         }
         return;
       }
@@ -388,7 +388,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       if (is_tiles_adjacent(unit_tile(punit), dst_tile)) {
         (void) unit_move_handling(punit, dst_tile, TRUE, FALSE);
       }
-    } else if ((dst_tile = ai_find_strategic_airbase(punit, &path))) {
+    } else if ((dst_tile = dai_find_strategic_airbase(punit, &path))) {
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
                 unit_rule_name(punit), TILE_XY(dst_tile),
                 tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
@@ -410,7 +410,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       && punit->moves_left != moves) {
     /* We have moved this turn, might have ended up stuck out in the fields
      * so, as a safety measure, let's manage again */
-    ai_manage_airunit(pplayer, punit);
+    dai_manage_airunit(pplayer, punit);
   }
 
 }
@@ -421,8 +421,8 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
   The interface is somewhat different from other ai_choose, but
   that's what it should be like, I believe -- GB
 ******************************************************************/
-bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
-			    struct adv_choice *choice)
+bool dai_choose_attacker_air(struct player *pplayer, struct city *pcity, 
+                             struct adv_choice *choice)
 {
   bool want_something = FALSE;
 

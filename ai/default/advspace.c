@@ -29,8 +29,8 @@
   This borrows heavily from autoplace code already in the client source.
   AJS, 19990610
 ****************************************************************************/
-bool ai_spaceship_autoplace(struct player *pplayer,
-                            struct player_spaceship *ship)
+bool dai_spaceship_autoplace(struct player *pplayer,
+                             struct player_spaceship *ship)
 {
   enum spaceship_place_type type;
   int num, i;

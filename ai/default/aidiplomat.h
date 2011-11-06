@@ -15,12 +15,12 @@
 
 #include "fc_types.h"
 
-void ai_manage_diplomat(struct player *pplayer, struct unit *punit);
-void ai_choose_diplomat_defensive(struct player *pplayer,
-                                  struct city *pcity,
-                                  struct adv_choice *choice, int def);
-void ai_choose_diplomat_offensive(struct player *pplayer,
-                                  struct city *pcity,
-                                  struct adv_choice *choice);
+void dai_manage_diplomat(struct player *pplayer, struct unit *punit);
+void dai_choose_diplomat_defensive(struct player *pplayer,
+                                   struct city *pcity,
+                                   struct adv_choice *choice, int def);
+void dai_choose_diplomat_offensive(struct player *pplayer,
+                                   struct city *pcity,
+                                   struct adv_choice *choice);
 
 #endif  /* FC__AIDIPLOMAT_H */

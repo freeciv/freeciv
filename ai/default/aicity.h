@@ -66,7 +66,7 @@ struct ai_city {
   int settler_want;
 };
 
-void ai_manage_cities(struct player *pplayer);
+void dai_manage_cities(struct player *pplayer);
 
 void dai_city_alloc(struct city *pcity);
 void dai_city_free(struct city *pcity);

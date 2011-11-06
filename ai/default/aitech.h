@@ -16,10 +16,10 @@
 #include "fc_types.h"
 #include "unittype.h"
 
-void ai_manage_tech(struct player *pplayer); 
-void ai_next_tech_goal(struct player *pplayer);
-struct unit_type *ai_wants_role_unit(struct player *pplayer,
-				     struct city *pcity,
-				     int role, int want);
+void dai_manage_tech(struct player *pplayer); 
+void dai_next_tech_goal(struct player *pplayer);
+struct unit_type *dai_wants_role_unit(struct player *pplayer,
+                                      struct city *pcity,
+                                      int role, int want);
 
 #endif  /* FC__AITECH_H */

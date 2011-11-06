@@ -59,9 +59,9 @@ struct ai_tech_choice {
   of cities here.
   4. A tech isn't a requirement of itself.
 **************************************************************************/
-static void ai_select_tech(struct player *pplayer, 
-			   struct ai_tech_choice *choice,
-			   struct ai_tech_choice *goal)
+static void dai_select_tech(struct player *pplayer, 
+                            struct ai_tech_choice *choice,
+                            struct ai_tech_choice *goal)
 {
   Tech_type_id newtech, newgoal;
   int num_cities_nonzero = MAX(1, city_list_size(pplayer->cities));
@@ -195,7 +195,7 @@ static void ai_select_tech(struct player *pplayer,
   Key AI research function. Disable if we are in a team with human team
   mates in a research pool.
 **************************************************************************/
-void ai_manage_tech(struct player *pplayer)
+void dai_manage_tech(struct player *pplayer)
 {
   struct ai_tech_choice choice, goal;
   struct player_research *research = player_research_get(pplayer);
@@ -211,7 +211,7 @@ void ai_manage_tech(struct player *pplayer)
     }
   } players_iterate_end;
 
-  ai_select_tech(pplayer, &choice, &goal);
+  dai_select_tech(pplayer, &choice, &goal);
   if (choice.choice != research->researching) {
     /* changing */
     if ((choice.want - choice.current_want) > penalty &&
@@ -245,9 +245,9 @@ void ai_manage_tech(struct player *pplayer)
   wants for techs to get better units with given role, but only for the
   cheapest to research "next" unit up the "chain".
 **************************************************************************/
-struct unit_type *ai_wants_role_unit(struct player *pplayer,
-				     struct city *pcity,
-				     int role, int want)
+struct unit_type *dai_wants_role_unit(struct player *pplayer,
+                                      struct city *pcity,
+                                      int role, int want)
 {
   int i, n;
   int best_cost = FC_INFINITY;

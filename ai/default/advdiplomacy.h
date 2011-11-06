@@ -21,7 +21,7 @@ struct Treaty;
 struct Clause;
 struct ai_data;
 
-void ai_diplomacy_begin_new_phase(struct player *pplayer);
+void dai_diplomacy_begin_new_phase(struct player *pplayer);
 void dai_diplomacy_actions(struct player *pplayer);
 
 void dai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
@@ -32,9 +32,9 @@ void dai_treaty_accepted(struct player *pplayer, struct player *aplayer,
 void dai_incident(enum incident_type type, struct player *violator,
 		  struct player *victim);
 
-bool ai_on_war_footing(struct player *pplayer);
+bool dai_on_war_footing(struct player *pplayer);
 
 void dai_diplomacy_first_contact(struct player *pplayer,
 				 struct player *aplayer);
 
-#endif
+#endif /* FC__ADVDIPLOMACY_H */

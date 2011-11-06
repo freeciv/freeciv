@@ -18,8 +18,8 @@ struct city;
 struct player;
 struct unit;
 
-void ai_manage_paratrooper(struct player *pplayer, struct unit *punit);
-void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
-			   struct adv_choice *choice);
+void dai_manage_paratrooper(struct player *pplayer, struct unit *punit);
+void dai_choose_paratrooper(struct player *pplayer, struct city *pcity,
+                            struct adv_choice *choice);
 
 #endif /* FC__AIPARATROOPER_H */

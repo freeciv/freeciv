@@ -54,10 +54,10 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 bool aiferry_goto_amphibious(struct unit *ferry,
 			     struct unit *passenger, struct tile *ptile);
 
-bool ai_amphibious_goto_constrained(struct unit *ferry,
-				    struct unit *passenger,
-				    struct tile *ptile,
-				    struct pft_amphibious *parameter);
+bool dai_amphibious_goto_constrained(struct unit *ferry,
+                                     struct unit *passenger,
+                                     struct tile *ptile,
+                                     struct pft_amphibious *parameter);
 
 bool is_boat_free(struct unit *boat, struct unit *punit, int cap);
 bool is_boss_of_boat(struct unit *punit);
@@ -67,6 +67,6 @@ bool is_boss_of_boat(struct unit *punit);
  * go and then looks for new passengers or (if it fails) for a city which
  * will build a passenger soon.
  */
-void ai_manage_ferryboat(struct player *pplayer, struct unit *punit);
+void dai_manage_ferryboat(struct player *pplayer, struct unit *punit);
 
 #endif /* FC__AIFERRY_H */

@@ -18,7 +18,7 @@
 void dai_do_first_activities(struct player *pplayer);
 void dai_do_last_activities(struct player *pplayer);
 
-void ai_calc_data(const struct player *pplayer, int *trade, int *expenses,
-                  int *income);
+void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
+                   int *income);
 
 #endif  /* FC__AIHAND_H */

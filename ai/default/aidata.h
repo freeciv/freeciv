@@ -92,18 +92,18 @@ struct ai_plr
   struct ai_settler *settler;
 };
 
-void ai_data_init(struct player *pplayer);
-void ai_data_close(struct player *pplayer);
+void dai_data_init(struct player *pplayer);
+void dai_data_close(struct player *pplayer);
 
 void dai_data_phase_begin(struct player *pplayer, bool is_new_phase);
 void dai_data_phase_finished(struct player *pplayer);
 bool is_ai_data_phase_open(struct player *pplayer);
 
-struct ai_plr *ai_plr_data_get(struct player *pplayer);
+struct ai_plr *dai_plr_data_get(struct player *pplayer);
 
-bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
+bool dai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
 
-struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
-                                      const struct player *plr2);
+struct ai_dip_intel *dai_diplomacy_get(const struct player *plr1,
+                                       const struct player *plr2);
 
 #endif /* FC__AIDATA_H */
