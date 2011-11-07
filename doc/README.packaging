@@ -27,6 +27,9 @@ Updating from 2.3 to 2.4
   --enable-sys-lua
 * Added text field "distribution" to client_info packet. Packagers should
   set FREECIV_DISTRIBUTOR in fc_version if they modify freeciv at all.
+* New tileset cimpletoon. It depends on amplio2 (files) being present,
+  and has just units of its own. Unlike units in any other tileset, these
+  units have orientation (different gfx depending where unit faces)
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

@@ -188,9 +188,11 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with 5 main tilesets:
+  distribution comes with 6 main tilesets:
   - amplio2: An isometric tileset with larger and more detailed tiles.
   - isotrident: An isometric tileset similar in shape to the one in Civ 2.
+  - cimpletoon: amplio2 with alternative units that display direction they
+                are facing.
   - trident: a Civ 1-style tileset with 30x30 tiles.
   - isophex: an isometric hexagonal tileset
   - hex2t: an overhead hexagonal tileset
