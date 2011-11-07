@@ -270,27 +270,27 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_NAME,      
-                                              "Name", renderer, "text", 0,
+                                              _("Name"), renderer, "text", 0,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_VER,
-                                              "Version", renderer, "text", 1,
+                                              _("Version"), renderer, "text", 1,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_TYPE,
-                                              "Type", renderer, "text", 2,
+                                              _("Type"), renderer, "text", 2,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_LIC,
-                                              "License", renderer, "text", 3,
+                                              _("License"), renderer, "text", 3,
                                               NULL);
   renderer = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(main_list),
                                               ML_COL_URL,
-                                              "URL", renderer, "text", 4,
+                                              _("URL"), renderer, "text", 4,
                                               NULL);
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(main_list));
   g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), NULL);
