@@ -787,23 +787,29 @@ void connectdlg_serverlist_list_callback(Widget w, XtPointer client_data,
 static int get_server_list(char **list, char *errbuf, int n_errbuf)
 {
   char line[256];
-  const struct server_list *server_list = NULL;
+  struct srv_list *srvrs = NULL;
   enum server_scan_status scan_stat;
 
   if (lan_mode) {
     if (lan_scan) {
       server_scan_poll(lan_scan);
-      server_list = server_scan_get_list(lan_scan);
-      if (server_list == NULL) {
+      srvrs = server_scan_get_list(lan_scan);
+      fc_allocate_mutex(&srvrs->mutex);
+      if (srvrs->servers == NULL) {
+        int retval;
+
 	if (num_lanservers_timer == 0) {
           if (*list) {
             free(*list);
           }
 	  *list = fc_strdup(" ");
-	  return 0;
+	  retval = 0;
 	} else {
-	  return -1;
+	  retval = -1;
 	}
+        fc_release_mutex(&srvrs->mutex);
+
+        return retval;
       }
     } else {
       return -1;
@@ -812,8 +818,10 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
     if (meta_scan) {
       scan_stat = server_scan_poll(meta_scan);
       if (scan_stat >= SCAN_STATUS_PARTIAL) {
-        server_list = server_scan_get_list(meta_scan);
-        if (server_list == NULL) {
+        srvrs = server_scan_get_list(meta_scan);
+        fc_allocate_mutex(&srvrs->mutex);
+        if (!srvrs->servers) {
+          fc_release_mutex(&srvrs->mutex);
           if (num_lanservers_timer == 0) {
             if (*list) {
               free(*list);
@@ -832,15 +840,21 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
     }
   }
 
-  server_list_iterate(server_list,pserver) {
-    if (pserver == NULL) continue;
+  server_list_iterate(srvrs->servers, pserver) {
+    if (pserver == NULL) {
+      continue;
+    }
     fc_snprintf(line, sizeof(line), "%-35s %-5d %-11s %-11s %2d   %s",
 		pserver->host, pserver->port, pserver->version,
 		_(pserver->state), pserver->nplayers, pserver->message);
-    if (*list) free(*list);
-    *list=fc_strdup(line);
+    if (*list) {
+      free(*list);
+    }
+    *list = fc_strdup(line);
     list++;
   } server_list_iterate_end;
+
+  fc_release_mutex(&srvrs->mutex);
 
 /*
   if (!lan_mode) {
@@ -848,6 +862,7 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
   } 
 */
   *list = NULL;
+
   return 0;
 }
 

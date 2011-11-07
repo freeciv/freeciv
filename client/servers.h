@@ -18,6 +18,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "fcthread.h"
+
 #define SERVER_LAN_PORT 4555
 #define SERVER_LAN_TTL 1
 #define SERVER_LAN_VERSION 2
@@ -55,6 +58,12 @@ struct server
 
 struct server_scan;
 
+struct srv_list
+{
+  struct server_list *servers;
+  fc_mutex mutex;
+};
+
 enum server_scan_type {
   SERVER_SCAN_LOCAL, /* Local servers, detected through a LAN scan */
   SERVER_SCAN_GLOBAL, /* Global servers, read from the metaserver */
@@ -71,11 +80,12 @@ enum server_scan_status {
   SCAN_STATUS_ERROR = 0,
   SCAN_STATUS_WAITING,
   SCAN_STATUS_PARTIAL,
-  SCAN_STATUS_DONE
+  SCAN_STATUS_DONE,
+  SCAN_STATUS_ABORT
 };
 enum server_scan_status server_scan_poll(struct server_scan *scan);
-const struct server_list *
-server_scan_get_list(const struct server_scan *scan);
+struct srv_list *
+server_scan_get_list(struct server_scan *scan);
 void server_scan_finish(struct server_scan *scan);
 
 #ifdef __cplusplus

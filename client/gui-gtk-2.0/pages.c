@@ -89,6 +89,8 @@ static guint statusbar_timer = 0;
 
 static GtkWidget *ruleset_combo;
 
+static bool holding_srv_list_mutex = FALSE;
+
 static void connection_state_reset(void);
 
 /**************************************************************************
@@ -685,7 +687,6 @@ static void destroy_server_scans(void)
 static gboolean check_server_scan(gpointer data)
 {
   struct server_scan *scan = data;
-  const struct server_list *servers;
   enum server_scan_status stat;
 
   if (!scan) {
@@ -695,9 +696,15 @@ static gboolean check_server_scan(gpointer data)
   stat = server_scan_poll(scan);
   if (stat >= SCAN_STATUS_PARTIAL) {
     enum server_scan_type type;
+    struct srv_list *srvrs;
+
     type = server_scan_get_type(scan);
-    servers = server_scan_get_list(scan);
-    update_server_list(type, servers);
+    srvrs = server_scan_get_list(scan);
+    fc_allocate_mutex(&srvrs->mutex);
+    holding_srv_list_mutex = TRUE;
+    update_server_list(type, srvrs->servers);
+    holding_srv_list_mutex = FALSE;
+    fc_release_mutex(&srvrs->mutex);
   }
 
   if (stat == SCAN_STATUS_ERROR || stat == SCAN_STATUS_DONE) {
@@ -1041,13 +1048,21 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
 
   if (select == meta_selection) {
     GtkTreePath *path;
-    const struct server_list *servers;
+    struct srv_list *srvrs;
 
-    servers = server_scan_get_list(meta_scan);
+    srvrs = server_scan_get_list(meta_scan);
     path = gtk_tree_model_get_path(model, &it);
-    if (servers && path) {
+    if (!holding_srv_list_mutex) {
+      /* We are not yet inside mutex protected block */
+      fc_allocate_mutex(&srvrs->mutex);
+    }
+    if (srvrs->servers && path) {
       gint pos = gtk_tree_path_get_indices(path)[0];
-      pserver = server_list_get(servers, pos);
+      pserver = server_list_get(srvrs->servers, pos);
+    }
+    if (!holding_srv_list_mutex) {
+      /* We are not yet inside mutex protected block */
+      fc_release_mutex(&srvrs->mutex);
     }
     gtk_tree_path_free(path);
   }

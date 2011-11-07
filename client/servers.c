@@ -57,6 +57,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "fcthread.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -82,7 +83,7 @@ struct server_scan {
   enum server_scan_type type;
   ServerScanErrorFunc error_func;
 
-  struct server_list *servers;
+  struct srv_list srvrs;
   int sock;
 
   /* Only used for metaserver */
@@ -92,6 +93,12 @@ struct server_scan {
       META_WAITING,
       META_DONE
     } state;
+
+    enum server_scan_status status;
+
+    fc_thread thr;
+    fc_mutex mutex;
+
     char name[MAX_LEN_ADDR];
     int port;
     const char *urlpath;
@@ -100,6 +107,11 @@ struct server_scan {
 };
 
 extern enum announce_type announce;
+
+static bool begin_metaserver_scan(struct server_scan *scan);
+static enum server_scan_status
+get_metaserver_list(struct server_scan *scan);
+static void delete_server_list(struct server_list *server_list);
 
 /**************************************************************************
  The server sends a stream in a registry 'ini' type format.
@@ -192,6 +204,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   }
 
   secfile_destroy(file);
+
   return server_list;
 }
 
@@ -362,7 +375,7 @@ static void meta_read_response(struct server_scan *scan)
     }
   }
 
-  while (1) {
+  while (TRUE) {
     result = fc_readsocket(scan->sock, buf, sizeof(buf));
 
     if (result < 0) {
@@ -375,6 +388,7 @@ static void meta_read_response(struct server_scan *scan)
     } else if (result == 0) {
       fz_FILE *f;
       char str[4096];
+      struct server_list *srvrs;
 
       /* We're done! */
       rewind(scan->meta.fp);
@@ -397,13 +411,16 @@ static void meta_read_response(struct server_scan *scan)
       /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
 
       /* parse HTTP message body */
-      scan->servers = parse_metaserver_data(f);
+      fc_allocate_mutex(&scan->srvrs.mutex);
+      srvrs = parse_metaserver_data(f);
+      scan->srvrs.servers = srvrs;
+      fc_release_mutex(&scan->srvrs.mutex);
       scan->meta.state = META_DONE;
 
       /* 'f' (hence 'meta.fp') was closed in parse_metaserver_data(). */
       scan->meta.fp = NULL;
 
-      if (NULL == scan->servers) {
+      if (NULL == srvrs) {
         fc_snprintf(str, sizeof(str),
                     _("Failed to parse the metaserver data from http://%s:\n"
                       "%s."),
@@ -421,8 +438,38 @@ static void meta_read_response(struct server_scan *scan)
 }
 
 /****************************************************************************
+  Metaserver scan thread entry point
+****************************************************************************/
+static void metaserver_scan(void *arg)
+{
+  struct server_scan *scan = arg;
+
+  fc_allocate_mutex(&scan->meta.mutex);
+
+  if (!begin_metaserver_scan(scan)) {
+    scan->meta.status = SCAN_STATUS_ERROR;
+  } else {
+
+    scan->meta.status = SCAN_STATUS_WAITING;
+
+    while (scan->meta.status != SCAN_STATUS_DONE && scan->meta.status != SCAN_STATUS_ERROR
+           && scan->meta.status != SCAN_STATUS_ABORT) {
+      scan->meta.status = get_metaserver_list(scan);
+
+      fc_release_mutex(&scan->meta.mutex);
+
+      fc_usleep(1*100000);
+
+      fc_allocate_mutex(&scan->meta.mutex);
+    }
+  }
+
+  fc_release_mutex(&scan->meta.mutex);
+}
+
+/****************************************************************************
   Begin a metaserver scan for servers.  This just initiates the connection
-  to the metaserver; later get_meta_server_list should be called whenever
+  to the metaserver; later get_metaserver_list() should be called whenever
   the socket has data pending to read and parse it.
 
   Returns FALSE on error (in which case errbuf will contain an error
@@ -766,7 +813,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
     }
   }
 
-  scan->servers = server_list_new();
+  fc_allocate_mutex(&scan->srvrs.mutex);
+  scan->srvrs.servers = server_list_new();
+  fc_release_mutex(&scan->srvrs.mutex);
 
   return TRUE;
 }
@@ -864,14 +913,17 @@ get_lan_server_list(struct server_scan *scan)
     }
 
     /* UDP can send duplicate or delayed packets. */
-    server_list_iterate(scan->servers, aserver) {
+    fc_allocate_mutex(&scan->srvrs.mutex);
+    server_list_iterate(scan->srvrs.servers, aserver) {
       if (0 == fc_strcasecmp(aserver->host, servername)
           && aserver->port == port) {
 	duplicate = TRUE;
 	break;
       }
     } server_list_iterate_end;
+
     if (duplicate) {
+      fc_release_mutex(&scan->srvrs.mutex);
       continue;
     }
 
@@ -888,7 +940,8 @@ get_lan_server_list(struct server_scan *scan)
     pserver->players = NULL;
     found_new = TRUE;
 
-    server_list_prepend(scan->servers, pserver);
+    server_list_prepend(scan->srvrs.servers, pserver);
+    fc_release_mutex(&scan->srvrs.mutex);
   }
 
   if (found_new) {
@@ -919,10 +972,21 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
   scan->type = type;
   scan->error_func = error_func;
   scan->sock = -1;
+  fc_init_mutex(&scan->srvrs.mutex);
 
   switch (type) {
   case SERVER_SCAN_GLOBAL:
-    ok = begin_metaserver_scan(scan);
+    {
+      int thr_ret;
+
+      fc_init_mutex(&scan->meta.mutex);
+      thr_ret = fc_thread_start(&scan->meta.thr, metaserver_scan, scan);
+      if (thr_ret) {
+        ok = FALSE;
+      } else {
+        ok = TRUE;
+      }
+    }
     break;
   case SERVER_SCAN_LOCAL:
     ok = begin_lanserver_scan(scan);
@@ -973,7 +1037,15 @@ enum server_scan_status server_scan_poll(struct server_scan *scan)
 
   switch (scan->type) {
   case SERVER_SCAN_GLOBAL:
-    return get_metaserver_list(scan);
+    {
+      enum server_scan_status status;
+
+      fc_allocate_mutex(&scan->meta.mutex);
+      status = scan->meta.status;
+      fc_release_mutex(&scan->meta.mutex);
+
+      return status;
+    }
     break;
   case SERVER_SCAN_LOCAL:
     return get_lan_server_list(scan);
@@ -986,15 +1058,16 @@ enum server_scan_status server_scan_poll(struct server_scan *scan)
 }
 
 /**************************************************************************
-  Returns the server_list currently held by the scan (may be NULL).
+  Returns the srv_list currently held by the scan (may be NULL).
 **************************************************************************/
-const struct server_list *
-server_scan_get_list(const struct server_scan *scan)
+struct srv_list *
+server_scan_get_list(struct server_scan *scan)
 {
   if (!scan) {
     return NULL;
   }
-  return scan->servers;
+
+  return &scan->srvrs;
 }
 
 /**************************************************************************
@@ -1007,20 +1080,48 @@ void server_scan_finish(struct server_scan *scan)
     return;
   }
 
-  if (scan->sock >= 0) {
-    fc_closesocket(scan->sock);
-    scan->sock = -1;
+  if (scan->type == SERVER_SCAN_GLOBAL) {
+    /* Signal metserver scan thread to stop */
+    fc_allocate_mutex(&scan->meta.mutex);
+    scan->meta.status = SCAN_STATUS_ABORT;
+    fc_release_mutex(&scan->meta.mutex);
+
+    /* Wait thread to stop */
+    fc_thread_wait(&scan->meta.thr);
+    fc_destroy_mutex(&scan->meta.mutex);
+
+    /* This mainly duplicates code from below "else" block.
+     * That's intentional, since they will be completely different in future versions.
+     * We are better prepared for that by having them separately already. */
+    if (scan->sock >= 0) {
+      fc_closesocket(scan->sock);
+      scan->sock = -1;
+    }
+
+    if (scan->srvrs.servers) {
+      fc_allocate_mutex(&scan->srvrs.mutex);
+      delete_server_list(scan->srvrs.servers);
+      scan->srvrs.servers = NULL;
+      fc_release_mutex(&scan->srvrs.mutex);
+    }
+
+    if (scan->meta.fp) {
+      fclose(scan->meta.fp);
+      scan->meta.fp = NULL;
+    }
+  } else {
+    if (scan->sock >= 0) {
+      fc_closesocket(scan->sock);
+      scan->sock = -1;
+    }
+
+    if (scan->srvrs.servers) {
+      delete_server_list(scan->srvrs.servers);
+      scan->srvrs.servers = NULL;
+    }
   }
 
-  if (scan->servers) {
-    delete_server_list(scan->servers);
-    scan->servers = NULL;
-  }
-
-  if (scan->meta.fp) {
-    fclose(scan->meta.fp);
-    scan->meta.fp = NULL;
-  }
+  fc_destroy_mutex(&scan->srvrs.mutex);
 
   free(scan);
 }
