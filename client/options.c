@@ -2061,48 +2061,49 @@ static struct client_option client_options[] = {
 
   /* options for map images */
   GEN_STR_LIST_OPTION(mapimg_format,
-                      N_("Image Format"),
-                      N_("The toolkit and the image format used for map "
-                         "images."),
+                      N_("Image format"),
+                      N_("The image toolkit and file format used for "
+                         "map images."),
                       COC_MAPIMG, GUI_STUB, NULL, mapimg_get_format_list,
                       NULL),
   GEN_INT_OPTION(mapimg_zoom,
                  N_("Zoom factor for map images"),
-                 N_("This value defines the zoom for map images."),
+                 N_("The magnification used for map images."),
                  COC_MAPIMG, GUI_STUB, 2, 1, 5, mapimg_changed_callback),
   GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_AREA],
                   N_("Show area within borders"),
-                  N_("If this value is activated, the area of all nation "
-                     "are displayed in the color of the nation."),
+                  N_("If set, the territory of each nation is shown "
+                     "on the saved image."),
                   COC_MAPIMG, GUI_STUB, FALSE, mapimg_changed_callback),
   GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_BORDERS],
                   N_("Show borders"),
-                  N_("If this value is activated, the border of the "
-                     "territories are displayed in the map image."),
+                  N_("If set, the border of each nation is shown on the "
+                     "saved image."),
                   COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
   GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_CITIES],
                   N_("Show cities"),
-                  N_("If this value is activated, the cities are displayed "
-                     "in the map image."),
+                  N_("If set, cities are shown on the saved image."),
                   COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
   GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_FOGOFWAR],
-                  N_("Show fogofwar"),
-                  N_("If this value is activated, the map image shows the "
-                     "range of teh for of war."),
+                  N_("Show fog of war"),
+                  N_("If set, the extent of fog of war is shown on the "
+                     "saved image."),
                   COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
   GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_TERRAIN],
                   N_("Show full terrain"),
-                  N_("If this value is activated, the different terrains "
-                     "are displayed."),
+                  N_("If set, terrain relief is shown with different colors "
+                     "in the saved image; otherwise, only land and water are "
+                     "distinguished."),
                   COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
   GEN_BOOL_OPTION(mapimg_layer[MAPIMG_LAYER_UNITS],
                   N_("Show units"),
-                  N_("If this value is activated, the units are displayed "
-                     "in the map image."),
+                  N_("If set, units are shown in the saved image."),
                   COC_MAPIMG, GUI_STUB, TRUE, mapimg_changed_callback),
   GEN_STR_OPTION(mapimg_filename,
                  N_("Map image file name"),
-                 N_("The file name for the map image."),
+                 N_("The base part of the filename for saved map images. "
+                    "A string identifying the game turn and map options will "
+                    "be appended."),
                  COC_MAPIMG, GUI_STUB, GUI_DEFAULT_MAPIMG_FILENAME, NULL),
 
   /* gui-gtk-2.0 client specific options. */

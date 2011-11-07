@@ -3252,7 +3252,7 @@ void save_scenario_dialog_popup(void)
 
 /****************************************************************************
   Save mapimg 'save_dialog_files_fn_t' implementation. If possible, only the
-  current direcory is used. As fallback, the files in the save directories
+  current directory is used. As fallback, the files in the save directories
   are listed.
 ****************************************************************************/
 static struct fileinfo_list *save_dialog_mapimg_list(void)
