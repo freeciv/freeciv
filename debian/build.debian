@@ -44,7 +44,7 @@ lastversion="`dpkg-parsechangelog -ldebian/changelog.save |grep Version |cut -f 
 NEW_VERSION="$(./fc_version)"
 if test -d .svn ; then
   SVN_REVISION=`svn info | grep "^Revision: " | sed 's/Revision: //'`
-  snapversion="${NEW_VERSION}-r{SVN_REVISION}"
+  snapversion="${NEW_VERSION}-r${SVN_REVISION}"
   verdesc="svn snapshot"
 else
   snapversion="${NEW_VERSION}"
