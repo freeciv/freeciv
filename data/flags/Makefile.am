@@ -117,6 +117,7 @@ flag_files =				\
 		cossack.png		\
 		costa_rica.png		\
 		courland.png		\
+		crete.png		\
 		crimean_tatar.png	\
 		croatia.png		\
 		cuba.png		\
@@ -629,6 +630,7 @@ flag_files =				\
 		cossack-large.png		\
 		costa_rica-large.png		\
 		courland-large.png		\
+		crete-large.png			\
 		crimean_tatar-large.png	\
 		croatia-large.png		\
 		cuba-large.png		\
@@ -1143,6 +1145,7 @@ shield_files =					\
 		costa_rica-shield.png		\
 		cossack-shield.png		\
 		courland-shield.png		\
+		crete-shield.png		\
 		crimean_tatar-shield.png	\
 		croatia-shield.png		\
 		cuba-shield.png			\
@@ -1655,6 +1658,7 @@ shield_files =					\
 		costa_rica-shield-large.png		\
 		cossack-shield-large.png		\
 		courland-shield-large.png		\
+		crete-shield-large.png			\
 		crimean_tatar-shield-large.png	\
 		croatia-shield-large.png		\
 		cuba-shield-large.png			\
@@ -2169,6 +2173,7 @@ svg_files = 				\
 		cossack.svg		\
 		costa_rica.svg		\
 		courland.svg		\
+		crete.svg		\
 		crimean_tatar.svg	\
 		croatia.svg		\
 		cuba.svg		\

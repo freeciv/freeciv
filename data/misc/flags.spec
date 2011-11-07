@@ -123,6 +123,7 @@ artists = "
    Corsica		Patricia Fidi
    Cossack		Alex Tora
    Costa Rica		Nightstallion (Wikimedia Commons)
+   Crete		J.M. Maalderink
    Crimean Tatar	J.M. Maalderink
    Croatia		Frank Zeko
    Courland		J.M. Maalderink
@@ -643,6 +644,7 @@ sprites =
 		"f.cossack", "flags/cossack"
 		"f.costa_rica", "flags/costa_rica"
 		"f.courland", "flags/courland"
+		"f.crete", "flags/crete"
 		"f.crimean_tatar", "flags/crimean_tatar"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"

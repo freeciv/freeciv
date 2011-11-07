@@ -31,7 +31,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="macedon", "epirote", "Byzantine"
+civilwar_nations="macedon", "epirote", "Byzantine", "Cretan"
 
 cities =
 ; Original city list with native Greek orthography

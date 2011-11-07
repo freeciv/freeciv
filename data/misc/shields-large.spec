@@ -126,6 +126,7 @@ sprites =
 		"f.shield.costa_rica", "flags/costa_rica-shield-large"
 		"f.shield.cossack", "flags/cossack-shield-large"
 		"f.shield.courland", "flags/courland-shield-large"
+		"f.shield.crete", "flags/crete-shield-large"
 		"f.shield.crimean_tatar", "flags/crimean_tatar-shield-large"
 		"f.shield.croatia", "flags/croatia-shield-large"
 		"f.shield.cuba", "flags/cuba-shield-large"
