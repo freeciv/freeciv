@@ -675,6 +675,8 @@ food        = 2
 ; conflicts               = List of bases that cannot be on the same tile.
 ;                           Bases with non-zero border_sq automatically conflict
 ;                           with each other.
+; native_to               = List of unit classes that are considered to
+;                           be inside the base when they are on same tile
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
