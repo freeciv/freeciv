@@ -12,7 +12,7 @@
 ***********************************************************************/
 
 /********************************************************************** 
-  Allocated/allocatable strings (and things?)
+  Allocated/allocatable strings
   original author: David Pfitzner <dwp@mso.anu.edu.au>
 
   A common technique is to have some memory dynamically allocated
@@ -20,7 +20,7 @@
   enough space as initially needed, and then realloc later if/when
   require more space.  Typically, the realloc is made a bit more than
   immediately necessary, to avoid frequent reallocs if the object
-  grows incementally.  Also, don't usually realloc at all if the
+  grows incrementally.  Also, don't usually realloc at all if the
   object shrinks.  This is straightforward, but just requires a bit
   of book-keeping to keep track of how much has been allocated etc.
   This module provides some tools to make this a bit easier.
@@ -35,6 +35,22 @@
   memory may then become wild.  So you cannot safely use such external
   pointers into the astring data, except strictly between times when
   the astring size may be changed.
+
+  There are two ways of getting the resulting string as a char *:
+
+   - astr_str() returns a const char *. This should not be modified
+     or freed by the caller; the storage remains owned by the
+     struct astring, which should be freed with astr_free().
+
+   - astr_to_str() returns a char * and destroys the struct astring.
+     Responsibility for freeing the storage becomes the caller's.
+
+  One pattern for using astr_str() is to replace static buffers in
+  functions that return a pointer to static storage. Where previously
+  you would have had e.g. "static struct buf[128]" with an arbitrary
+  size limit, you can have "static struct astring buf", and re-use the
+  same astring on subsequent calls; the caller should behave the
+  same (only reading the string and not freeing it).
 
 ***********************************************************************/
 
@@ -78,6 +94,18 @@ void astr_free(struct astring *astr)
     free(astr->str);
   }
   *astr = zero_astr;
+}
+
+/****************************************************************************
+  Return the raw string to the caller, and return astr to same state as
+  after astr_init().
+  Freeing the string's storage becomes the caller's responsibility.
+****************************************************************************/
+char *astr_to_str(struct astring *astr)
+{
+  char *str = astr->str;
+  *astr = zero_astr;
+  return str;
 }
 
 /****************************************************************************
