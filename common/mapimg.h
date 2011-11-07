@@ -116,7 +116,7 @@ void mapimg_init(mapimg_tile_known_func mapimg_tile_known,
 void mapimg_reset(void);
 void mapimg_free(void);
 int mapimg_count(void);
-const char *mapimg_help(void);
+char *mapimg_help(void);
 const char *mapimg_error(void);
 
 bool mapimg_define(const char *maparg, bool check);

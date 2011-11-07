@@ -299,7 +299,7 @@ BV_DEFINE(bv_mapdef_arg, MAPDEF_COUNT);
 #define SPECENUM_VALUE1     MAPIMG_STATUS_OK
 #define SPECENUM_VALUE1NAME _("OK")
 #define SPECENUM_VALUE2     MAPIMG_STATUS_ERROR
-#define SPECENUM_VALUE2NAME _("Error")
+#define SPECENUM_VALUE2NAME _("error")
 #include "specenum_gen.h"
 
 #define MAX_LEN_MAPARG MAX_LEN_MAPDEF
@@ -463,13 +463,15 @@ static void mapimg_log(const char *file, const char *function, int line,
                        fc__attribute((__format__(__printf__, 4, 5)));
 #define MAPIMG_LOG(format, ...)                                             \
   mapimg_log(__FILE__, __FUNCTION__, __FC_LINE__, format, ## __VA_ARGS__)
+#define MAPIMG_ASSERT_RET_VAL(cond, expr)                                   \
+  fc_assert_action(cond, MAPIMG_LOG(_("internal error")); return (expr))
 
 /* == additional functions == */
 
 static int bvplayers_count(const struct mapdef *pmapdef);
-static char *bvplayers_str(const bv_player plrbv);
+static const char *bvplayers_str(const bv_player plrbv);
 
-/* == map imgages data == */
+/* == map images data == */
 static struct {
   bool init;
   struct mapdef_list *mapdef;
@@ -571,26 +573,42 @@ int mapimg_count(void)
 }
 
 /****************************************************************************
-  Return a help for the map definition
+  Describe the 'show' settings.
 ****************************************************************************/
-const char *mapimg_help(void)
+static const char *showname_help(enum show_player showplr)
+{
+  switch (showplr) {
+  case SHOW_NONE:     return _("no players, only terrain");
+  case SHOW_EACH:     return _("one image per player");
+  case SHOW_HUMAN:    return _("one image per human player");
+  case SHOW_ALL:      return _("all players on a single image");
+  case SHOW_PLRNAME:  return _("just the player named with 'plrname'");
+  case SHOW_PLRID:    return _("just the player specified with 'plrid'");
+  case SHOW_PLRBV:    return _("one image per player in 'plrbv'");
+  }
+  fc_assert(0);
+  return "";
+}
+
+/****************************************************************************
+  Return a help string for the 'mapimg' command.
+****************************************************************************/
+char *mapimg_help(void)
 {
   enum imagetool tool;
   enum show_player showplr;
   enum mapimg_layer layer;
-  char defaults[MAPDEF_COUNT][11];
-  char str_format[512], str_showplr[128];
-  int str_map_count;
+  struct astring defaults[MAPDEF_COUNT];
+  struct astring str_format = ASTRING_INIT, str_showplr = ASTRING_INIT;
   struct mapdef *pmapdef = mapdef_new(FALSE);
-  static char help[2048] = "";
+  static struct astring help = ASTRING_INIT;
 
-  if (strlen(help) > 0) {
-    /* Help text was created before. */
-    return help;
+  if (astr_len(&help) > 0) {
+    /* Help text was created already. */
+    return fc_strdup(astr_str(&help));
   }
 
   /* Possible 'format' settings (toolkit + format). */
-  str_format[0] = '\0';
   for (tool = imagetool_begin(); tool != imagetool_end();
        tool = imagetool_next(tool)) {
     enum imageformat format;
@@ -600,98 +618,123 @@ const char *mapimg_help(void)
       continue;
     }
 
-    cat_snprintf(str_format, sizeof(str_format), " - '%s': ",
-                 imagetool_name(tool));
+    astr_add(&str_format, " - '%s': ", imagetool_name(tool));
 
-    bool first_val = TRUE;
+    const char *separator = "";
     for (format = imageformat_begin(); format != imageformat_end();
          format = imageformat_next(format)) {
       if (toolkit->formats & format) {
-        if (!first_val) {
-          cat_snprintf(str_format, sizeof(str_format), ", ");
-        }
-        cat_snprintf(str_format, sizeof(str_format), "'%s'",
-                     imageformat_name(format));
-        first_val = FALSE;
+        astr_add(&str_format, "%s'%s'", separator, imageformat_name(format));
+        separator = ", ";
       }
     }
-    cat_snprintf(str_format, sizeof(str_format), "\n");
+
+    if (tool != imagetool_max()) {
+      astr_add(&str_format, "\n");
+    }
   }
 
   /* Possible 'show' settings. */
-  str_showplr[0] = '\0';
   for (showplr = show_player_begin(); showplr != show_player_end();
        showplr = show_player_next(showplr)) {
-    cat_snprintf(str_showplr, sizeof(str_showplr), "'%s'",
-                 show_player_name(showplr));
+    char name[10];
+    fc_snprintf(name, sizeof(name), "'%s'", show_player_name(showplr));
+    astr_add(&str_showplr, " - %-9s %s", name, showname_help(showplr));
     if (showplr != show_player_max()) {
-      cat_snprintf(str_showplr, sizeof(str_showplr), ", ");
+      astr_add(&str_showplr, "\n");
     }
   }
 
   /* Default values. */
-  fc_snprintf(defaults[MAPDEF_FORMAT], sizeof(defaults[MAPDEF_FORMAT]),
-              "(%s|%s)", imagetool_name(pmapdef->tool),
-              imageformat_name(pmapdef->format));
-  fc_snprintf(defaults[MAPDEF_SHOW], sizeof(defaults[MAPDEF_SHOW]),
-              "(%s)", show_player_name(pmapdef->player.show));
-  fc_snprintf(defaults[MAPDEF_TURNS], sizeof(defaults[MAPDEF_TURNS]),
-              "(%d)", pmapdef->turns);
-  fc_snprintf(defaults[MAPDEF_ZOOM], sizeof(defaults[MAPDEF_ZOOM]),
-              "(%d)", pmapdef->zoom);
+  astr_init(&defaults[MAPDEF_FORMAT]);
+  astr_set(&defaults[MAPDEF_FORMAT],
+           "(%s|%s)", imagetool_name(pmapdef->tool),
+           imageformat_name(pmapdef->format));
+  astr_init(&defaults[MAPDEF_SHOW]);
+  astr_set(&defaults[MAPDEF_SHOW],
+           "(%s)", show_player_name(pmapdef->player.show));
+  astr_init(&defaults[MAPDEF_TURNS]);
+  astr_set(&defaults[MAPDEF_TURNS], "(%d)", pmapdef->turns);
+  astr_init(&defaults[MAPDEF_ZOOM]);
+  astr_set(&defaults[MAPDEF_ZOOM], "(%d)", pmapdef->zoom);
 
-  str_map_count = 0;
-  defaults[MAPDEF_MAP][str_map_count++] = '(';
+  astr_init(&defaults[MAPDEF_MAP]);
+  astr_set(&defaults[MAPDEF_MAP], "(");
   for (layer = mapimg_layer_begin(); layer != mapimg_layer_end();
        layer = mapimg_layer_next(layer)) {
     if (pmapdef->layers[layer]) {
-      defaults[MAPDEF_MAP][str_map_count++] = mapimg_layer_name(layer)[0];
+      astr_add(&defaults[MAPDEF_MAP], "%c", mapimg_layer_name(layer)[0]);
     }
   }
-  defaults[MAPDEF_MAP][str_map_count++] = ')';
-  defaults[MAPDEF_MAP][str_map_count] = '\0';
+  astr_add(&defaults[MAPDEF_MAP], ")");
 
   /* help text */
-  fc_snprintf(help, sizeof(help),
-    _("Available map image definition options <mapdef>:\n"
+  astr_set(&help,
+    /* TRANS: This is help for a server command, so keywords like
+     * "define" are server keywords that must not be translated.
+     * Do not translate keywords in single quotes, but Strings in
+     * <angle brackets> should be translated. */
+    _("This command controls the creation of map images. Supported "
+      "arguments:\n"
+      "  define <mapdef>  - define a map image; returns numeric <id>\n"
+      "  show <id>|all    - list map image definitions or show a specific one\n"
+      "  create <id>|all  - manually save image(s) for current map state\n"
+      "  delete <id>|all  - delete map image definition(s)\n"
+      "  colortest        - create test image(s) showing all colors\n"
       "\n"
-      "name                 (default)  description\n"
+      "Multiple definitions can be active at once. "
+      "A definition <mapdef> consists of colon-separated options:\n"
       "\n"
-      "format <tool|format> %-10s image format\n"
-      "show <show>          %-10s show players\n"
-      "  plrname <name>                  player name (if 'show=plrname')\n"
-      "  plrid <id>                      player id (if 'show=plrid')\n"
-      "  plrbv <bit vector>              player bitvector (if 'show=plrbv')\n"
-      "turns <turns>        %-10s save each <value> turns (0 = no autosave)\n"
-      "zoom <zoom>          %-10s zoom factor (1 <= zoom <= 5)\n"
-      "map <map>            %-10s definition of the map\n"
+      "option                 (default)  description\n"
       "\n"
-      "<tool|format> = use toolkit <tool> with image format <format>\n"
-      "%s"
+      "format=<[tool|]format> %-10s file format\n"
+      "show=<show>            %-10s which players to show\n"
+      "  plrname=<name>                    player name\n"
+      "  plrid=<id>                        numeric player id\n"
+      "  plrbv=<bit vector>                see example; first char = id 0\n"
+      "turns=<turns>          %-10s save image each <turns> turns\n"
+      "                                  (0=no autosave, save with 'create')\n"
+      "zoom=<zoom>            %-10s magnification factor (1-5)\n"
+      "map=<map>              %-10s which map layers to draw\n"
       "\n"
-      "<show> = (%s)\n"
+      "<[tool|]format> = use image format <format>, optionally specifying "
+      "toolkit <tool>. The following toolkits and formats are compiled in:\n"
+      "%s\n"
       "\n"
-      "<map> = map image definition; it can contain: \n"
-      " - 'a' show area within borders\n"
-      " - 'b' show borders\n"
-      " - 'c' show cities\n"
-      " - 'f' show fogofwar (only available for a single player)\n"
-      " - 'k' show only player knowledge (only from the server)\n"
-      " - 't' show full terrain\n"
-      " - 'u' show units\n"
+      "<show> determines which players are represented and how many "
+      "images are saved by this definition:\n"
+      "%s\n"
       "\n"
-      "Examples:\n"
+      "<map> can contain one or more of the following layers:\n"
+      " - 'a' show area within borders of specified players\n"
+      " - 'b' show borders of specified players\n"
+      " - 'c' show cities of specified players\n"
+      " - 'f' show fog of war (single-player images only)\n"
+      " - 'k' show only player knowledge (single-player images only)\n"
+      " - 't' full display of terrain types\n"
+      " - 'u' show units of specified players\n"
+      "\n"
+      "Examples of <mapdef>:\n"
       " 'zoom=1:map=tcub:show=all:format=ppm|ppm'\n"
       " 'zoom=2:map=tcub:show=each:format=png'\n"
       " 'zoom=1:map=tcub:show=plrname:plrname=Otto:format=gif'\n"
       " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
       " 'zoom=1:map=t:show=none:format=magickwand|jpg'"),
-    defaults[MAPDEF_FORMAT], defaults[MAPDEF_SHOW], defaults[MAPDEF_TURNS],
-    defaults[MAPDEF_ZOOM], defaults[MAPDEF_MAP], str_format, str_showplr);
-
+    astr_str(&defaults[MAPDEF_FORMAT]), astr_str(&defaults[MAPDEF_SHOW]),
+    astr_str(&defaults[MAPDEF_TURNS]), astr_str(&defaults[MAPDEF_ZOOM]),
+    astr_str(&defaults[MAPDEF_MAP]),
+    astr_str(&str_format), astr_str(&str_showplr));
+  
   mapdef_destroy(pmapdef);
+  astr_free(&str_format);
+  astr_free(&str_showplr);
+  astr_free(&defaults[MAPDEF_FORMAT]);
+  astr_free(&defaults[MAPDEF_SHOW]);
+  astr_free(&defaults[MAPDEF_TURNS]);
+  astr_free(&defaults[MAPDEF_ZOOM]);
+  astr_free(&defaults[MAPDEF_MAP]);
 
-  return help;
+  return fc_strdup(astr_str(&help));
 }
 
 /****************************************************************************
@@ -714,25 +757,22 @@ bool mapimg_define(const char *maparg, bool check)
   int nmapargs, nmapopts, i;
   bool ret = TRUE;
 
-  if (!mapimg_initialised()) {
-    MAPIMG_LOG(_("Map images subsystem not initialised!"));
-    return FALSE;
-  }
+  MAPIMG_ASSERT_RET_VAL(mapimg_initialised(), FALSE);
 
   if (maparg == NULL) {
-    MAPIMG_LOG(_("No map definition!"));
+    MAPIMG_LOG(_("no map definition"));
     return FALSE;
   }
 
   if (strlen(maparg) > MAX_LEN_MAPARG) {
     /* to long map definition string */
-    MAPIMG_LOG(_("Map definition string to long (max %d characters)."),
+    MAPIMG_LOG(_("map definition string too long (max %d characters)"),
                MAX_LEN_MAPARG);
     return FALSE;
   }
 
   if (mapimg_count() == MAX_NUM_MAPIMG) {
-    MAPIMG_LOG(_("Maximal number of map definitions reached (%d)."),
+    MAPIMG_LOG(_("maximum number of map definitions reached (%d)"),
                MAX_NUM_MAPIMG);
     return FALSE;
   }
@@ -740,7 +780,7 @@ bool mapimg_define(const char *maparg, bool check)
   for (i = 0; i < mapimg_count(); i++) {
     pmapdef = mapdef_list_get(mapimg.mapdef, i);
     if (0 == fc_strcasecmp(pmapdef->maparg, maparg)) {
-      MAPIMG_LOG(_("Duplication of map image definition %d ('%s')."), i,
+      MAPIMG_LOG(_("duplicate of map image definition %d ('%s')"), i,
                  maparg);
       return FALSE;
     }
@@ -761,11 +801,11 @@ bool mapimg_define(const char *maparg, bool check)
         /* If ret is FALSE an error message is set by mapimg_define_arg(). */
         ret = mapimg_define_arg(pmapdef, arg, mapopts[1], check);
       } else {
-        MAPIMG_LOG(_("Unknown map option: '%s'."), mapargs[i]);
+        MAPIMG_LOG(_("unknown map option: '%s'"), mapargs[i]);
         ret = FALSE;
       }
     } else {
-      MAPIMG_LOG(_("Unknown map option: '%s'."), mapargs[i]);
+      MAPIMG_LOG(_("unknown map option: '%s'"), mapargs[i]);
       ret = FALSE;
     }
 
@@ -781,26 +821,26 @@ bool mapimg_define(const char *maparg, bool check)
   switch (pmapdef->player.show) {
   case SHOW_PLRNAME: /* display player given by name */
     if (!BV_ISSET(pmapdef->args, MAPDEF_PLRNAME)) {
-      MAPIMG_LOG(_("'show=%s' but no player name."),
+      MAPIMG_LOG(_("'show=%s' but no player name 'plrname'"),
                  show_player_name(SHOW_PLRNAME));
       ret = FALSE;
     }
     break;
   case SHOW_PLRID:   /* display player given by id */
     if (!BV_ISSET(pmapdef->args, MAPDEF_PLRID)) {
-      MAPIMG_LOG(_("'show=%s' but no player id."),
+      MAPIMG_LOG(_("'show=%s' but no player id 'plrid'"),
                  show_player_name(SHOW_PLRID));
       ret = FALSE;
     }
     break;
   case SHOW_PLRBV:   /* display players given by bitvector */
     if (!BV_ISSET(pmapdef->args, MAPDEF_PLRBV)) {
-      MAPIMG_LOG(_("'show=%s' but no player bitvector."),
+      MAPIMG_LOG(_("'show=%s' but no player bitvector 'plrbv'"),
                  show_player_name(SHOW_PLRBV));
       ret = FALSE;
     }
     break;
-  case SHOW_NONE:    /* no player one the map */
+  case SHOW_NONE:    /* no player on the map */
     BV_CLR_ALL(pmapdef->player.checked_plrbv);
     break;
   case SHOW_ALL:     /* show all players in one map */
@@ -808,7 +848,7 @@ bool mapimg_define(const char *maparg, bool check)
     break;
   case SHOW_EACH:    /* one map for each player */
   case SHOW_HUMAN:   /* one map for each human player */
-    /* A loop for each palyer will be called at the time the image is
+    /* A loop for each player will be called at the time the image is
      * created. */
     BV_CLR_ALL(pmapdef->player.checked_plrbv);
     break;
@@ -948,7 +988,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
         BV_CLR_ALL(pmapdef->player.plrbv);
         for (i = 0; i < strlen(val); i++) {
           if (!strchr("01", val[i])) {
-            MAPIMG_LOG(_("Invalid character in bitvector: '%c' (%s)."),
+            MAPIMG_LOG(_("invalid character in bitvector: '%c' (%s)"),
                        val[i], val);
             return FALSE;
           } else if (val[i] == '1') {
@@ -969,8 +1009,8 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
 
       if (sscanf(val, "%d", &plrid) != 0) {
         if (plrid < 0 || plrid >= MAX_NUM_PLAYER_SLOTS) {
-          MAPIMG_LOG(_("'plrid' must be in the intervall [0, %d)."),
-                     MAX_NUM_PLAYER_SLOTS);
+          MAPIMG_LOG(_("'plrid' should be between 0 and %d"),
+                     MAX_NUM_PLAYER_SLOTS-1);
           return FALSE;
         }
         pmapdef->player.id = plrid;
@@ -985,7 +1025,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
      * which calls mapimg_checkplayers() */
     {
       if (strlen(val) > sizeof(pmapdef->player.name)) {
-        MAPIMG_LOG(_("Player name to long: '%s' (max: %lu)."), val,
+        MAPIMG_LOG(_("player name too long: '%s' (max: %lu)"), val,
                    (unsigned long) sizeof(pmapdef->player.name));
         return FALSE;
       } else {
@@ -1015,7 +1055,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
 
       if (sscanf(val, "%d", &turns) != 0) {
         if (turns < 0 || turns > 99) {
-          MAPIMG_LOG(_("'turns' should be between 0 and 99."));
+          MAPIMG_LOG(_("'turns' should be between 0 and 99"));
           return FALSE;
         } else {
           pmapdef->turns = turns;
@@ -1033,7 +1073,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
 
       if (sscanf(val, "%d", &zoom) != 0) {
         if (zoom < 1 || zoom > 5) {
-          MAPIMG_LOG(_("'zoom' factor should be between 1 and 5."));
+          MAPIMG_LOG(_("'zoom' factor should be between 1 and 5"));
           return FALSE;
         } else {
           pmapdef->zoom = zoom;
@@ -1052,7 +1092,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
   return TRUE;
 
  INVALID:
-  MAPIMG_LOG(_("Invalid value for option '%s': '%s'."),
+  MAPIMG_LOG(_("invalid value for option '%s': '%s'"),
              mapdef_arg_name(arg), val);
   return FALSE;
 }
@@ -1067,7 +1107,7 @@ struct mapdef *mapimg_isvalid(int id)
   struct mapdef *pmapdef = NULL;
 
   if (!mapimg_test(id)) {
-    /* The error message is set in mapmg_test(). */
+    /* The error message is set in mapimg_test(). */
     return NULL;
   }
 
@@ -1076,11 +1116,11 @@ struct mapdef *mapimg_isvalid(int id)
 
   switch (pmapdef->status) {
   case MAPIMG_STATUS_UNKNOWN:
-    MAPIMG_LOG(_("Map definition not checked (game not started)."));
+    MAPIMG_LOG(_("map definition not checked (game not started)"));
     return NULL;
     break;
   case MAPIMG_STATUS_ERROR:
-    MAPIMG_LOG(_("Map definition deactivated: %s."), pmapdef->error);
+    MAPIMG_LOG(_("map definition deactivated: %s"), pmapdef->error);
     return NULL;
     break;
   case MAPIMG_STATUS_OK:
@@ -1149,8 +1189,8 @@ bool mapimg_delete(int id)
   struct mapdef *pmapdef = NULL;
 
   if (!mapimg_test(id)) {
-    /* The error message is set in mapmg_test(). */
-    return NULL;
+    /* The error message is set in mapimg_test(). */
+    return FALSE;
   }
 
   /* delete map definition */
@@ -1168,8 +1208,8 @@ bool mapimg_show(int id, char *str, size_t str_len, bool detail)
   struct mapdef *pmapdef = NULL;
 
   if (!mapimg_test(id)) {
-    /* The error message is set in mapmg_test(). */
-    return NULL;
+    /* The error message is set in mapimg_test(). */
+    return FALSE;
   }
 
   pmapdef = mapdef_list_get(mapimg.mapdef, id);
@@ -1179,38 +1219,38 @@ bool mapimg_show(int id, char *str, size_t str_len, bool detail)
   str[0] = '\0';
 
   if (detail) {
-    cat_snprintf(str, str_len, "detailed information for map definition "
-                               "%d\n", id);
+    cat_snprintf(str, str_len, _("Detailed information for map image "
+                                 "definition %d\n"), id);
     if (pmapdef->status == MAPIMG_STATUS_ERROR) {
-      cat_snprintf(str, str_len, "  - status:                   %s (%s)\n",
+      cat_snprintf(str, str_len, _("  - status:                   %s (%s)\n"),
                    mapimg_status_name(pmapdef->status), pmapdef->error);
     } else {
-      cat_snprintf(str, str_len, "  - status:                   %s\n",
+      cat_snprintf(str, str_len, _("  - status:                   %s\n"),
                    mapimg_status_name(pmapdef->status));
     }
-    cat_snprintf(str, str_len, "  - file name string:         %s\n",
+    cat_snprintf(str, str_len, _("  - file name string:         %s\n"),
                  mapimg_generate_name(pmapdef));
-    cat_snprintf(str, str_len, "  - image toolkit             %s\n",
+    cat_snprintf(str, str_len, _("  - image toolkit:            %s\n"),
                  imagetool_name(pmapdef->tool));
-    cat_snprintf(str, str_len, "  - image format:             %s\n",
+    cat_snprintf(str, str_len, _("  - image format:             %s\n"),
                  imageformat_name(pmapdef->format));
-    cat_snprintf(str, str_len, "  - zoom factor:              %d\n",
+    cat_snprintf(str, str_len, _("  - zoom factor:              %d\n"),
                  pmapdef->zoom);
-    cat_snprintf(str, str_len, "  - plot area within borders: %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_AREA] ? "yes" : "no");
-    cat_snprintf(str, str_len, "  - plot borders:             %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_BORDERS] ? "yes" : "no");
-    cat_snprintf(str, str_len, "  - plot cities:              %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_CITIES] ? "yes" : "no");
-    cat_snprintf(str, str_len, "  - plot fogofwar:            %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_FOGOFWAR] ? "yes" : "no");
-    cat_snprintf(str, str_len, "  - plot player knowledge:    %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_KNOWLEDGE] ? "yes" : "no");
-    cat_snprintf(str, str_len, "  - plot terrain:             %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_TERRAIN] ? "full" : "basic");
-    cat_snprintf(str, str_len, "  - plot units:               %s\n",
-                 pmapdef->layers[MAPIMG_LAYER_UNITS] ? "yes" : "no");
-    cat_snprintf(str, str_len, "  - show players:             %s",
+    cat_snprintf(str, str_len, _("  - show area within borders: %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_AREA] ? _("yes") : _("no"));
+    cat_snprintf(str, str_len, _("  - show borders:             %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_BORDERS] ? _("yes") : _("no"));
+    cat_snprintf(str, str_len, _("  - show cities:              %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_CITIES] ? _("yes") : _("no"));
+    cat_snprintf(str, str_len, _("  - show fog of war:          %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_FOGOFWAR] ? _("yes") : _("no"));
+    cat_snprintf(str, str_len, _("  - show player knowledge:    %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_KNOWLEDGE] ? _("yes") : _("no"));
+    cat_snprintf(str, str_len, _("  - show terrain:             %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_TERRAIN] ? _("full") :_("basic"));
+    cat_snprintf(str, str_len, _("  - show units:               %s\n"),
+                 pmapdef->layers[MAPIMG_LAYER_UNITS] ? _("yes") : _("no"));
+    cat_snprintf(str, str_len, _("  - players included:         %s"),
                  show_player_name(pmapdef->player.show));
     switch (pmapdef->player.show) {
     case SHOW_NONE:
@@ -1220,15 +1260,15 @@ bool mapimg_show(int id, char *str, size_t str_len, bool detail)
       /* nothing */
       break;
     case SHOW_PLRNAME:
-      cat_snprintf(str, str_len, "\n  - player name:              %s",
+      cat_snprintf(str, str_len, _("\n  - player name:              %s"),
                    pmapdef->player.name);
       break;
     case SHOW_PLRID:
-      cat_snprintf(str, str_len, "\n  - player id:                %d",
+      cat_snprintf(str, str_len, _("\n  - player id:                %d"),
                    pmapdef->player.id);
       break;
     case SHOW_PLRBV:
-      cat_snprintf(str, str_len, "\n  - players:                  %s",
+      cat_snprintf(str, str_len, _("\n  - players:                  %s"),
                    bvplayers_str(pmapdef->player.plrbv));
       break;
     }
@@ -1256,8 +1296,8 @@ bool mapimg_id2str(int id, char *str, size_t str_len)
   struct mapdef *pmapdef = NULL;
 
   if (!mapimg_test(id)) {
-    /* The error message is set in mapmg_test(). */
-    return NULL;
+    /* The error message is set in mapimg_test(). */
+    return FALSE;
   }
 
   pmapdef = mapdef_list_get(mapimg.mapdef, id);
@@ -1284,7 +1324,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename)
   mapimg_checkplayers(pmapdef, FALSE);
 
   if (pmapdef->status != MAPIMG_STATUS_OK) {
-    MAPIMG_LOG(_("Map definition not checked or error."));
+    MAPIMG_LOG(_("map definition not checked or error"));
     return FALSE;
   }
 
@@ -1484,7 +1524,7 @@ bool mapimg_colortest(const char *savename)
 
 /*
  * ==============================================
- * map imgages (internal functions)
+ * map images (internal functions)
  * ==============================================
  */
 
@@ -1497,18 +1537,15 @@ static inline bool mapimg_initialised(void)
 }
 
 /****************************************************************************
-  Check if the map image subsustem is initialised and the given ID is valid.
+  Check if the map image subsystem is initialised and the given ID is valid.
   In case of an error, the error message is saved via MAPIMG_LOG().
 ****************************************************************************/
 static bool mapimg_test(int id)
 {
-  if (!mapimg_initialised()) {
-    MAPIMG_LOG(_("Map images subsystem not initialised!"));
-    return FALSE;
-  }
+  MAPIMG_ASSERT_RET_VAL(mapimg_initialised(), FALSE);
 
   if (id < 0 || id >= mapimg_count()) {
-    MAPIMG_LOG(_("No map definition with id %d."), id);
+    MAPIMG_LOG(_("no map definition with id %d"), id);
     return FALSE;
   }
 
@@ -1525,7 +1562,7 @@ static bool mapimg_def2str(struct mapdef *pmapdef, char *str, size_t str_len)
   int i;
 
   if (pmapdef->status != MAPIMG_STATUS_OK) {
-    MAPIMG_LOG(_("Map definition not checked or error."));
+    MAPIMG_LOG(_("map definition not checked or error"));
     fc_strlcpy(str, pmapdef->maparg, str_len);
     return FALSE;
   }
@@ -1614,7 +1651,7 @@ static bool mapimg_checkplayers(struct mapdef *pmapdef, bool recheck)
       pmapdef->status = MAPIMG_STATUS_ERROR;
       /* Save the error message in map definition. */
       fc_snprintf(pmapdef->error, sizeof(pmapdef->error),
-                  _("Unknown player name: '%s'."), pmapdef->player.name);
+                  _("unknown player name: '%s'"), pmapdef->player.name);
       MAPIMG_LOG("%s", pmapdef->error);
       return FALSE;
     }
@@ -1630,7 +1667,7 @@ static bool mapimg_checkplayers(struct mapdef *pmapdef, bool recheck)
       pmapdef->status = MAPIMG_STATUS_ERROR;
       /* Save the error message in map definition. */
       fc_snprintf(pmapdef->error, sizeof(pmapdef->error),
-                  _("Invalid player id: %d."), pmapdef->player.id);
+                  _("invalid player id: %d"), pmapdef->player.id);
       MAPIMG_LOG("%s", pmapdef->error);
       return FALSE;
     }
@@ -1644,6 +1681,7 @@ static bool mapimg_checkplayers(struct mapdef *pmapdef, bool recheck)
 
 /****************************************************************************
   Edit the error_buffer.
+  Strings should not have a terminating period.
 ****************************************************************************/
 static void mapimg_log(const char *file, const char *function, int line,
                        const char *format, ...)
@@ -1668,8 +1706,9 @@ static void mapimg_log(const char *file, const char *function, int line,
   <zoom factor>    zoom factor
   <players>        player ID or vector of size MAX_NUM_PLAYER_SLOTS [0/1]
 
-  For the player bitvector all 32 values are used due to the possibility
-  of additional players during the game (civil war, barbarians).
+  For the player bitvector all MAX_NUM_PLAYER_SLOTS values are used due to
+  the possibility of additional players during the game (civil war,
+  barbarians).
 ****************************************************************************/
 static char *mapimg_generate_name(struct mapdef *pmapdef)
 {
@@ -1692,7 +1731,7 @@ static char *mapimg_generate_name(struct mapdef *pmapdef)
   case SHOW_PLRID:
   case SHOW_HUMAN:
   case SHOW_EACH:
-    /* one map for each selected player; iterate over all posible player ids
+    /* one map for each selected player; iterate over all possible player ids
      * to generate unique strings even if civil wars occur */
     for (i = 0; i < MAX_NUM_PLAYER_SLOTS; i++) {
       str_show[i] = BV_ISSET(pmapdef->player.checked_plrbv, i) ? '1' : '0';
@@ -1968,14 +2007,11 @@ static bool img_save(const struct img *pimg, const char *mapimgfile)
   const struct toolkit *toolkit = img_toolkit_get(tool);
 
   if (!toolkit) {
-    MAPIMG_LOG(_("Toolkit not defined!"));
+    MAPIMG_LOG(_("toolkit not defined"));
     return FALSE;
   }
 
-  if (!toolkit->img_save) {
-    MAPIMG_LOG(_("Toolkit function not defined!"));
-    return FALSE;
-  }
+  MAPIMG_ASSERT_RET_VAL(toolkit->img_save, FALSE);
 
   return toolkit->img_save(pimg, mapimgfile);
 }
@@ -2021,7 +2057,7 @@ static bool img_save_magickwand(const struct img *pimg,
 
   if (!img_filename(mapimgfile, pimg->def->format, imagefile,
                     sizeof(imagefile))) {
-    MAPIMG_LOG(_("Error generating the file name."));
+    MAPIMG_LOG(_("error generating the file name"));
     return FALSE;
   }
 
@@ -2195,7 +2231,7 @@ static bool img_save_magickwand(const struct img *pimg,
   MagickCommentImage(mw, comment);
 
   if (!MagickWriteImage(mw, imagefile)) {
-    MAPIMG_LOG(_("Error saving map image '%s'."), imagefile);
+    MAPIMG_LOG(_("error saving map image '%s'"), imagefile);
     ret = FALSE;
   } else {
     log_verbose("Map image saved as '%s'.", imagefile);
@@ -2223,19 +2259,19 @@ static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
   const struct rgbcolor *pcolor;
 
   if (pimg->def->format != IMGFORMAT_PPM) {
-    MAPIMG_LOG(_("The ppm toolkit can only create images in the ppm "
-                 "format."));
+    MAPIMG_LOG(_("the ppm toolkit can only create images in the ppm "
+                 "format"));
     return FALSE;
   }
 
   if (!img_filename(mapimgfile, IMGFORMAT_PPM, ppmname, sizeof(ppmname))) {
-    MAPIMG_LOG(_("Error generating the file name."));
+    MAPIMG_LOG(_("error generating the file name"));
     return FALSE;
   }
 
   fp = fopen(ppmname, "w");
   if (!fp) {
-    MAPIMG_LOG(_("Could not open file: %s."), ppmname);
+    MAPIMG_LOG(_("could not open file: %s"), ppmname);
     return FALSE;
   }
 
@@ -3112,15 +3148,22 @@ static void base_coor_isohexa(struct img *pimg, int *base_x, int *base_y,
 /****************************************************************************
   Convert the player bitvector to a string.
 ****************************************************************************/
-static char *bvplayers_str(const bv_player plrbv)
+static const char *bvplayers_str(const bv_player plrbv)
 {
   static char buf[MAX_NUM_PLAYER_SLOTS + 1];
   int i;
 
-  for (i = 0; i < MAX_NUM_PLAYER_SLOTS; i++) {
+  /* Don't print lots of unnecessary trailing zeroes */
+  for (i = MAX_NUM_PLAYER_SLOTS-1; i >= 0; i--) {
+    if (BV_ISSET(plrbv, i) || player_by_number(i)) {
+      buf[i+1] = '\0';
+      break;
+    }
+  }
+
+  for (; i >= 0; i--) {
     buf[i] = BV_ISSET(plrbv, i) ? '1' : '0';
   }
-  buf[MAX_NUM_PLAYER_SLOTS] = '\0';
 
   return buf;
 }

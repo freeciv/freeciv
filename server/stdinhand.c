@@ -5062,10 +5062,8 @@ static const char *delegate_player_str(struct player *pplayer, bool observer)
 #define SPECENUM_VALUE2NAME "define"
 #define SPECENUM_VALUE3     MAPIMG_DELETE
 #define SPECENUM_VALUE3NAME "delete"
-#define SPECENUM_VALUE4     MAPIMG_HELP
-#define SPECENUM_VALUE4NAME "help"
-#define SPECENUM_VALUE5     MAPIMG_SHOW
-#define SPECENUM_VALUE5NAME "show"
+#define SPECENUM_VALUE4     MAPIMG_SHOW
+#define SPECENUM_VALUE4NAME "show"
 #define SPECENUM_COUNT      MAPIMG_COUNT
 #include "specenum_gen.h"
 
@@ -5102,7 +5100,7 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       break;
     case M_PRE_AMBIGUOUS:
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Ambiguous mapimg command."));
+                _("Ambiguous 'mapimg' command."));
       ret =  FALSE;
       goto cleanup;
       break;
@@ -5143,25 +5141,27 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
   case MAPIMG_DEFINE:
     if (ntokens == 1) {
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Missing argument for 'mapimg create'"));
+                _("Missing argument for 'mapimg define'."));
       ret = FALSE;
     } else {
-      /* 'mapimg create <mapstr>' */
+      /* 'mapimg define <mapstr>' */
       if (!mapimg_define(token[1], check)) {
-        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                  _("Couldn't add definition: %s."), mapimg_error());
         ret = FALSE;
       } else if (!check && game_was_started()
                  && mapimg_isvalid(mapimg_count() - 1) == NULL) {
-        /* game was started - error while map image definition check */
-        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        /* game was started - error in map image definition check */
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                  _("Couldn't use definition: %s."), mapimg_error());
         ret = FALSE;
       } else {
         int id = mapimg_count() - 1;
         char str[MAX_LEN_MAPDEF];
 
         mapimg_id2str(id, str, sizeof(str));
-        cmd_reply(CMD_MAPIMG, caller, C_OK, _("Defined as map imgage "
-                                              "definition %d: '%s'"),
+        cmd_reply(CMD_MAPIMG, caller, C_OK, _("Defined as map image "
+                                              "definition %d: '%s'."),
                   id, str);
       }
     }
@@ -5170,7 +5170,7 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
   case MAPIMG_DELETE:
     if (ntokens == 1) {
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Missing argument for 'mapimg delete'"));
+                _("Missing argument for 'mapimg delete'."));
       ret = FALSE;
     } else if (ntokens == 2 && strcmp(token[1], "all") == 0) {
       /* 'mapimg delete all' */
@@ -5189,8 +5189,9 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
         goto cleanup;
       }
 
-      if (mapimg_count() != 0 && !mapimg_delete(id)) {
-        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+      if (!mapimg_delete(id)) {
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                  _("Couldn't delete definition: %s."), mapimg_error());
         ret = FALSE;
       } else {
         cmd_reply(CMD_MAPIMG, caller, C_OK, _("Map image definition %d "
@@ -5198,16 +5199,9 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       }
     } else {
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Bad argument for 'mapimg delete': '%s'"), token[1]);
+                _("Bad argument for 'mapimg delete': '%s'."), token[1]);
       ret = FALSE;
     }
-    break;
-
-  case MAPIMG_HELP:
-    show_help(caller, "mapimg");
-    cmd_reply(CMD_MAPIMG, caller, C_COMMENT, horiz_line);
-    cmd_reply(CMD_MAPIMG, caller, C_COMMENT, "%s", mapimg_help());
-    cmd_reply(CMD_MAPIMG, caller, C_COMMENT, horiz_line);
     break;
 
   case MAPIMG_SHOW:
@@ -5216,12 +5210,7 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       if (check) {
         goto cleanup;
       }
-
-      if (mapimg_count() == 0) {
-        cmd_reply(CMD_MAPIMG, caller, C_OK, _("no map images defined"));
-      } else {
-        show_mapimg(caller, CMD_MAPIMG);
-      }
+      show_mapimg(caller, CMD_MAPIMG);
     } else if (ntokens == 2 && sscanf(token[1], "%d", &id) != 0) {
       char str[2048];
       /* 'mapimg show <id>' */
@@ -5232,12 +5221,13 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
       if (mapimg_show(id, str, sizeof(str), TRUE)) {
         cmd_reply(CMD_MAPIMG, caller, C_OK, "%s", str);
       } else {
-        cmd_reply(CMD_MAPIMG, caller, C_FAIL, "%s", mapimg_error());
+        cmd_reply(CMD_MAPIMG, caller, C_FAIL,
+                  _("Couldn't show definition: %s."), mapimg_error());
         ret = FALSE;
       }
     } else {
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Bad argument for 'mapimg show': '%s'"), token[1]);
+                _("Bad argument for 'mapimg show': '%s'."), token[1]);
       ret = FALSE;
     }
     break;
@@ -5248,13 +5238,13 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
     }
 
     mapimg_colortest(game.server.save_name);
-    cmd_reply(CMD_MAPIMG, caller, C_OK, _("Map color test images created."));
+    cmd_reply(CMD_MAPIMG, caller, C_OK, _("Map color test images saved."));
     break;
 
   case MAPIMG_CREATE:
     if (ntokens < 2) {
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Missing argument for 'mapimg create'"));
+                _("Missing argument for 'mapimg create'."));
       ret = FALSE;
       goto cleanup;
     }
@@ -5271,7 +5261,7 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
           mapimg_create(pmapdef, TRUE, game.server.save_name);
         } else {
           cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Error creating map image %d: %s"), id, mapimg_error());
+                _("Error saving map image %d: %s."), id, mapimg_error());
           ret = FALSE;
         }
       }
@@ -5288,12 +5278,12 @@ static bool mapimg_command(struct connection *caller, char *arg, bool check)
         mapimg_create(pmapdef, TRUE, game.server.save_name);
       } else {
         cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-              _("Error creating map image %d: %s"), id, mapimg_error());
+              _("Error saving map image %d: %s."), id, mapimg_error());
         ret = FALSE;
       }
     } else {
       cmd_reply(CMD_MAPIMG, caller, C_FAIL,
-                _("Bad argument for 'mapimg create': '%s'"), token[1]);
+                _("Bad argument for 'mapimg create': '%s'."), token[1]);
       ret = FALSE;
     }
     break;
@@ -6185,20 +6175,24 @@ static void show_teams(struct connection *caller)
 }
 
 /****************************************************************************
-  Show a list of all map image defintions on the command line.
+  Show a list of all map image definitions on the command line.
 ****************************************************************************/
 static void show_mapimg(struct connection *caller, enum command_id cmd)
 {
   int id;
 
-  cmd_reply(cmd, caller, C_COMMENT, _("List of map image definitions:"));
-  cmd_reply(cmd, caller, C_COMMENT, horiz_line);
-  for (id = 0; id < mapimg_count(); id++) {
-    char str[MAX_LEN_MAPDEF] = "";
-    mapimg_show(id, str, sizeof(str), FALSE);
-    cmd_reply(cmd, caller, C_COMMENT, _("[%2d] %s"), id, str);
+  if (mapimg_count() == 0) {
+    cmd_reply(cmd, caller, C_OK, _("No map image definitions."));
+  } else {
+    cmd_reply(cmd, caller, C_COMMENT, _("List of map image definitions:"));
+    cmd_reply(cmd, caller, C_COMMENT, horiz_line);
+    for (id = 0; id < mapimg_count(); id++) {
+      char str[MAX_LEN_MAPDEF] = "";
+      mapimg_show(id, str, sizeof(str), FALSE);
+      cmd_reply(cmd, caller, C_COMMENT, _("[%2d] %s"), id, str);
+    }
+    cmd_reply(cmd, caller, C_COMMENT, horiz_line);
   }
-  cmd_reply(cmd, caller, C_COMMENT, horiz_line);
 }
 
 /****************************************************************************

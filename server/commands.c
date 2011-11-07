@@ -20,6 +20,7 @@
 
 /* common */
 #include "connection.h"
+#include "mapimg.h"
 
 /* server */
 #include "commands.h"
@@ -625,21 +626,13 @@ static struct command commands[] = {
   },
   {"mapimg",   ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
-   N_("mapimg colortest\n"
-      "mapimg create <id>|all\n"
-      "mapimg define <mapdef>\n"
-      "mapimg delete <id>|all\n"
+   N_("mapimg define <mapdef>\n"
       "mapimg show <id>|all\n"
-      "mapimg help"),
+      "mapimg create <id>|all\n"
+      "mapimg delete <id>|all\n"
+      "mapimg colortest"),
    N_("Create image files of the world/player map."),
-   N_("This command allows the creation of map images. Supported "
-      "arguments:\n"
-      "  colortest        - create a image to showing all colors\n"
-      "  create <id>|all  - create a specific or all map images\n"
-      "  define <mapdef>  - define a map image\n"
-      "  delete <id>|all  - delete a specific or all map images\n"
-      "  help             - more information about the definition\n"
-      "  show <id>|all    - shown a specific or all map images"), NULL,
+   NULL, mapimg_help,
    CMD_ECHO_ADMINS, VCF_NONE, 50
   },
   {"rfcstyle",	ALLOW_HACK,

@@ -1324,7 +1324,7 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(save_game_as_callback)},
       {"MAPIMG_SAVE", NULL, _("Save Map _Image"),
        NULL, NULL, G_CALLBACK(save_mapimg_callback)},
-      {"MAPIMG_SAVE_AS", NULL, _("Save _Map Image As ..."),
+      {"MAPIMG_SAVE_AS", NULL, _("Save _Map Image As..."),
        NULL, NULL, G_CALLBACK(save_mapimg_as_callback)},
       {"LEAVE", NULL, _("_Leave"),
        NULL, NULL, G_CALLBACK(leave_callback)},
