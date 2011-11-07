@@ -256,15 +256,17 @@ static bool manual_command(void)
         }
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
-        if (command_extra_help(cmd)) {
-          char *help = fc_strdup(command_extra_help(cmd));
-          size_t help_len = strlen(help) + 1;
+        {
+          char *help = command_extra_help(cmd);
+          if (help) {
+            size_t help_len = strlen(help) + 1;
 
-          fc_break_lines(help, LINE_BREAK);
-          help = html_special_chars(help, &help_len);
-          fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", help);
-          FC_FREE(help);
+            fc_break_lines(help, LINE_BREAK);
+            help = html_special_chars(help, &help_len);
+            fprintf(doc, _("<p>Description:</p>\n\n"));
+            fprintf(doc, "<pre>%s</pre>\n\n", help);
+            FC_FREE(help);
+          }
         }
       }
       break;
