@@ -728,7 +728,7 @@ const char *science_dialog_text(void)
   bool team;
   int ours, theirs, perturn, upkeep;
   static struct astring str = ASTRING_INIT;
-  char ourbuf[1024] = "", theirbuf[1024] = "";
+  struct astring ourbuf = ASTRING_INIT, theirbuf = ASTRING_INIT;
   struct player_research *research;
 
   astr_clear(&str);
@@ -767,16 +767,17 @@ const char *science_dialog_text(void)
       astr_add(&str, _("Progress: none"));
     }
   }
-  fc_snprintf(ourbuf, sizeof(ourbuf),
-              PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
+  astr_set(&ourbuf, PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
   if (team) {
     /* Techpool version */
-    fc_snprintf(theirbuf, sizeof(theirbuf),
-                /* TRANS: This is appended to "%d bulb/turn" text */
-                PL_(", %d bulb/turn from team",
-                    ", %d bulbs/turn from team", theirs), theirs);
+    astr_set(&theirbuf,
+             /* TRANS: This is appended to "%d bulb/turn" text */
+             PL_(", %d bulb/turn from team",
+                 ", %d bulbs/turn from team", theirs), theirs);
   }
-  astr_add(&str, " (%s%s)", ourbuf, theirbuf);
+  astr_add(&str, " (%s%s)", astr_str(&ourbuf), astr_str(&theirbuf));
+  astr_free(&ourbuf);
+  astr_free(&theirbuf);
 
   if (game.info.tech_upkeep_style == 1) {
     /* perturn is defined as: (bulbs produced) - upkeep */
@@ -850,9 +851,11 @@ const char *get_science_goal_text(Tech_type_id goal)
   int bulbs_needed = total_bulbs_required_for_goal(client.conn.playing, goal);
   int turns;
   int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-  char buf1[256], buf2[256], buf3[256];
   struct player_research* research = player_research_get(client_player());
   static struct astring str = ASTRING_INIT;
+  struct astring buf1 = ASTRING_INIT,
+                 buf2 = ASTRING_INIT,
+                 buf3 = ASTRING_INIT;
 
   if (!research) {
     return "-";
@@ -866,18 +869,22 @@ const char *get_science_goal_text(Tech_type_id goal)
     bulbs_needed -= research->bulbs_researched;
   }
 
-  fc_snprintf(buf1, sizeof(buf1),
-              PL_("%d step", "%d steps", steps), steps);
-  fc_snprintf(buf2, sizeof(buf2),
-              PL_("%d bulb", "%d bulbs", bulbs_needed), bulbs_needed);
+  astr_set(&buf1,
+           PL_("%d step", "%d steps", steps), steps);
+  astr_set(&buf2,
+           PL_("%d bulb", "%d bulbs", bulbs_needed), bulbs_needed);
   if (perturn > 0) {
     turns = (bulbs_needed + perturn - 1) / perturn;
-    fc_snprintf(buf3, sizeof(buf3),
-                PL_("%d turn", "%d turns", turns), turns);
+    astr_set(&buf3,
+             PL_("%d turn", "%d turns", turns), turns);
   } else {
-    fc_snprintf(buf3, sizeof(buf3), _("never"));
+    astr_set(&buf3, _("never"));
   }
-  astr_add_line(&str, "(%s - %s - %s)", buf1, buf2, buf3);
+  astr_add_line(&str, "(%s - %s - %s)",
+                astr_str(&buf1), astr_str(&buf2), astr_str(&buf3));
+  astr_free(&buf1);
+  astr_free(&buf2);
+  astr_free(&buf3);
 
   return astr_str(&str);
 }
@@ -1263,7 +1270,7 @@ const char *get_bulb_tooltip(void)
       int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
       int done = research->bulbs_researched;
       int total = total_bulbs_required(client_player());
-      char buf1[128], buf2[128];
+      struct astring buf1 = ASTRING_INIT, buf2 = ASTRING_INIT;
 
       if (perturn > 0) {
         turns = MAX(1, ceil((double) (total - done) / perturn));
@@ -1272,21 +1279,23 @@ const char *get_bulb_tooltip(void)
       }
 
       if (turns == 0) {
-        fc_snprintf(buf1, sizeof(buf1), _("No progress"));
+        astr_set(&buf1, _("No progress"));
       } else {
-        fc_snprintf(buf1, sizeof(buf1), PL_("%d turn", "%d turns", turns),
-                    turns);
+        astr_set(&buf1, PL_("%d turn", "%d turns", turns), turns);
       }
 
       /* TRANS: <perturn> bulbs/turn */
-      fc_snprintf(buf2, sizeof(buf2), PL_("%d bulb/turn", "%d bulbs/turn",
-                                        perturn), perturn);
+      astr_set(&buf2, PL_("%d bulb/turn", "%d bulbs/turn", perturn), perturn);
 
       /* TRANS: <tech>: <amount>/<total bulbs> */
       astr_add_line(&str, _("%s: %d/%d (%s, %s)."),
                     advance_name_researching(client.conn.playing),
                     research->bulbs_researched,
-                    total_bulbs_required(client.conn.playing), buf1, buf2);
+                    total_bulbs_required(client.conn.playing),
+                    astr_str(&buf1), astr_str(&buf2));
+      
+      astr_free(&buf1);
+      astr_free(&buf2);
     }
   }
   return astr_str(&str);
