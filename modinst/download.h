@@ -30,6 +30,8 @@
 #define SPECENUM_VALUE2NAME N_("Modpack")
 #define SPECENUM_VALUE3 MPT_SCENARIO
 #define SPECENUM_VALUE3NAME N_("Scenario")
+#define SPECENUM_VALUE4 MPT_SOUNDSET
+#define SPECENUM_VALUE4NAME N_("Soundset")
 #include "specenum_gen.h"
 
 typedef void (*dl_msg_callback)(const char *msg);
