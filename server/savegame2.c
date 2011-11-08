@@ -2819,6 +2819,7 @@ static void sg_load_players_basic(struct loaddata *loading)
 {
   int i, k, nplayers;
   const char *string;
+  bool shuffle_loaded = TRUE;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2899,30 +2900,85 @@ static void sg_load_players_basic(struct loaddata *loading)
     team_add_player(pplayer, team_new(tslot));
   } players_iterate_end;
 
+  /* Loading the shuffle list is quite complex. At the time of saving the
+   * shuffle data is saved as
+   *   shuffled_player_<number> = player_slot_id
+   * where number is an increasing number and player_slot_id is a number
+   * between 0 and the maximum number of player slots. Now we have to create
+   * a list
+   *   shuffler_players[number] = player_slot_id
+   * where all player slot IDs are used exactly one time. The code below
+   * handles this ... */
   if (secfile_lookup_int_default(loading->file, -1,
                                  "players.shuffled_player_%d", 0) >= 0) {
     int shuffled_players[player_slot_count()];
     bool shuffled_player_set[player_slot_count()];
 
-    /* Array to save used numbers. */
-    for (i = 0; i < player_slot_count(); i++) {
-      shuffled_player_set[i] = FALSE;
-    }
+    player_slots_iterate(pslot) {
+      int plrid = player_slot_index(pslot);
+
+      /* Array to save used numbers. */
+      shuffled_player_set[plrid] = FALSE;
+      /* List of all player IDs (needed for set_shuffled_players()). It is
+       * initialised with the value -1 to indicate that no value is set. */
+      shuffled_players[plrid] = -1;
+    } player_slots_iterate_end;
 
     /* Load shuffled player list. */
-    for (i = 0; i < player_slot_count(); i++) {
-      shuffled_players[i]
-        = secfile_lookup_int_default(loading->file, i,
+    for (i = 0; i < player_count(); i++){
+      int shuffle
+        = secfile_lookup_int_default(loading->file, -1,
                                      "players.shuffled_player_%d", i);
-      sg_failure_ret(!shuffled_player_set[shuffled_players[i]],
-                     "Player shuffle %d used two times",
-                     shuffled_players[i]);
-      shuffled_player_set[shuffled_players[i]] = TRUE;
+
+      if (shuffle == -1) {
+        log_sg("Missing player shuffle information (index %d) "
+               "- reshuffle player list!", i);
+        shuffle_loaded = FALSE;
+        break;
+      } else if (shuffled_player_set[shuffle]) {
+        log_sg("Player shuffle %d used two times "
+               "- reshuffle player list!", shuffle);
+        shuffle_loaded = FALSE;
+        break;
+      }
+      /* Set this ID as used. */
+      shuffled_player_set[shuffle] = TRUE;
+
+      /* Save the player ID in the shuffle list. */
+      shuffled_players[i] = shuffle;
     }
-    set_shuffled_players(shuffled_players);
-  } else {
-    /* No shuffled players included, so shuffle them (this may include
-     * scenarios). */
+
+    if (shuffle_loaded) {
+      /* Insert missing numbers. */
+      int shuffle_index = player_count();
+      for (i = 0; i < player_slot_count(); i++){
+        if (!shuffled_player_set[i]) {
+          shuffled_players[shuffle_index] = i;
+          shuffle_index++;
+        }
+        /* shuffle_index must not grow behind the size of shuffled_players. */
+        sg_failure_ret(shuffle_index <= player_slot_count(),
+                       "Invalid player shuffle data!");
+      }
+
+#ifdef DEBUG
+      log_debug("[load shuffle] player_count() = %d", player_count());
+      player_slots_iterate(pslot) {
+        int plrid = player_slot_index(pslot);
+        log_debug("[load shuffle] id: %3d => slot: %3d | slot %3d: %s",
+                  plrid, shuffled_players[plrid], plrid,
+                  shuffled_player_set[plrid] ? "is used" : "-");
+      } player_slots_iterate_end;
+#endif /* DEBUG */
+
+      /* Set shuffle list from savegame. */
+      set_shuffled_players(shuffled_players);
+    }
+  }
+
+  if (!shuffle_loaded) {
+    /* No shuffled players included or error loading them, so shuffle them
+     * (this may include scenarios). */
     shuffle_players();
   }
 }
