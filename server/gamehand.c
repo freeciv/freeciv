@@ -29,6 +29,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "events.h"
 #include "game.h"
 #include "improvement.h"
@@ -43,6 +44,9 @@
 #include "plrhand.h"
 #include "srv_main.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "advdata.h"
 
 #include "gamehand.h"
 
@@ -375,6 +379,11 @@ void init_new_game(void)
 
   /* Loop over all players, creating their initial units... */
   players_iterate(pplayer) {
+    /* We have to initialise the advisor and ai here as we could make contact
+     * to other nations at this point. */
+    adv_data_phase_init(pplayer, FALSE);
+    CALL_PLR_AI_FUNC(phase_begin, pplayer, pplayer, FALSE);
+
     struct tile *ptile = player_startpos[player_index(pplayer)];
 
     fc_assert_action(NULL != ptile, continue);
@@ -418,12 +427,15 @@ void init_new_game(void)
     }
   } players_iterate_end;
 
-#ifndef NDEBUG
   players_iterate(pplayer) {
+    /* Close the active phase for advisor and ai for all players; it was
+     * opened in the first loop above. */
+    adv_data_phase_done(pplayer);
+    CALL_PLR_AI_FUNC(phase_finished, pplayer, pplayer);
+
     fc_assert_msg(0 < placed_units[player_index(pplayer)],
                   _("No units placed for %s!"), player_name(pplayer));
   } players_iterate_end;
-#endif /* NDEBUG */
 
   shuffle_players();
 }
