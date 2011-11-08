@@ -41,7 +41,8 @@
   current | (mapped to current savegame format)            | ----/--/-- |  0
           | first version (svn17538)                       | 2010/07/05 |  -
   2.3.0   | 2.3.0 release                                  | 2010/11/?? |  3
-  2.4.0   | 2.4.0 release (development)                    | 20../../.. | 10
+  2.4.0   | 2.4.0 release                                  | 201./../.. | 10
+  2.5.0   | 2.5.0 release (development)                    | 201./../.. | 20
           | * player ai type                               |            |
           | * delegation                                   |            |
           | * citizens                                     |            |
@@ -5729,6 +5730,28 @@ static void compat_save_020400(struct savedata *saving)
   } player_slots_iterate_end;
 }
 
+/****************************************************************************
+  Translate savegame secfile data from 2.4.x to 2.5.0 format.
+****************************************************************************/
+static void compat_load_020500(struct loaddata *loading)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  log_debug("Upgrading data from savegame to version 2.5.0");
+}
+
+/****************************************************************************
+  Translate savegame secfile data from 2.5.0 to 2.4.x format.
+****************************************************************************/
+static void compat_save_020500(struct savedata *saving)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  log_debug("Downgrading data from version 2.5.0 for savegame");
+}
+
 struct compatibility {
   int version;
   const struct sset_val_name name;
@@ -5748,9 +5771,9 @@ struct compatibility {
  * add the needed code to save/load the old version below. Thus, old
  * savegames can still be created and loaded while the main definition
  * represents the current state of the art. */
-/* While developing freeciv 2.4.0, add the compatibility functions to
- * - compat_load_020400 to load old savegame, and to
- * - compat_save_020400 to create an old savegame. */
+/* While developing freeciv 2.5.0, add the compatibility functions to
+ * - compat_load_020500 to load old savegame, and to
+ * - compat_save_020500 to create an old savegame. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
   { 0, { "CURRENT", N_("current version") }, NULL, NULL },
@@ -5759,8 +5782,11 @@ static struct compatibility compat[] = {
    * from previous format */
   { 3, { "2.3.0", N_("freeciv 2.3.0") }, NULL, NULL },
   /* version 4 to 9 are reserved for possible changes in 2.3.x */
-  { 10, { "2.4.0", N_("freeciv 2.4.0 (development)") },
+  { 10, { "2.4.0", N_("freeciv 2.4.0") },
     compat_load_020400, compat_save_020400},
+  /* version 11 to 19 are reserved for possible changes in 2.4.x */
+  { 20, { "2.5.0", N_("freeciv 2.5.0 (development)") },
+    compat_load_020500, compat_save_020500},
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
