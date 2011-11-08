@@ -739,6 +739,25 @@ static bool unitwaittime_callback(int value, struct connection *caller,
 }
 
 /*************************************************************************
+  Topology setting validation callback.
+*************************************************************************/
+static bool mapsize_callback(int value, struct connection *caller,
+                             char *reject_msg, size_t reject_msg_len)
+{
+  if (value == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
+      map.ysize % 2 != 0) {
+    /* An isometric map needs a even ysize. Is is calculated automatically
+     * for all settings but mapsize=XYSIZE. */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("For an isometric or hexagonal map the ysize must be "
+                        "even."));
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
  ...
 *************************************************************************/
 static bool xsize_callback(int value, struct connection *caller,
@@ -782,6 +801,34 @@ static bool ysize_callback(int value, struct connection *caller,
                       _("The map size (%d * %d = %d) must be lower than "
                         "%d tiles."), map.xsize, value, size,
                         MAP_MAX_SIZE * 1000);
+    return FALSE;
+  } else if (map.server.mapsize == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
+             value % 2 != 0) {
+    /* An isometric map needs a even ysize. Is is calculated automatically
+     * for all settings but mapsize=XYSIZE. */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("For an isometric or hexagonal map the ysize must be "
+                        "even."));
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Topology setting validation callback.
+*************************************************************************/
+static bool topology_callback(unsigned value, struct connection *caller,
+                              char *reject_msg, size_t reject_msg_len)
+{
+  if (map.server.mapsize == MAPSIZE_XYSIZE &&
+      ((value & (TF_ISO)) != 0 || (value & (TF_HEX)) != 0) &&
+      map.ysize % 2 != 0) {
+    /* An isometric map needs a even ysize. Is is calculated automatically
+     * for all settings but mapsize=XYSIZE. */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("For an isometric or hexagonal map the ysize must be "
+                        "even."));
     return FALSE;
   }
 
@@ -851,7 +898,7 @@ static struct setting settings[] = {
              "player (option 'tilesperplayer').\n"
              "- \"Width and height\" (XYSIZE): Map width and height in "
              "tiles (options 'xsize' and 'ysize')."),
-          NULL, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
+          mapsize_callback, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
 
   GEN_INT("size", map.server.size, SSET_MAP_SIZE,
           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
@@ -939,7 +986,7 @@ static struct setting settings[] = {
                  "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
                  "   \\/\\/\\/\\/\\/\\/"
                  "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
-              NULL, NULL, topology_name, MAP_DEFAULT_TOPO)
+              topology_callback, NULL, topology_name, MAP_DEFAULT_TOPO)
 
   GEN_ENUM("generator", map.server.generator,
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
