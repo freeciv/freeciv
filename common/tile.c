@@ -117,7 +117,16 @@ struct terrain *tile_terrain(const struct tile *ptile)
 ****************************************************************************/
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 {
+  /* The terrain change is valid if one of the following is TRUE:
+   * - pterrain is NULL (= unknown terrain)
+   * - ptile is a virtual tile
+   * - pterrain does not has the flag TER_NO_CITIES
+   * - there is no city on ptile.
+   * This should be read as: The terrain change is INVALID if a terrain with
+   * the flag TER_NO_CITIES is given for a real tile with a city (i.e. all
+   * check evaluate to TRUE). */
   fc_assert_msg(NULL == pterrain
+                || tile_virtual_check(ptile)
                 || !terrain_has_flag(pterrain, TER_NO_CITIES)
                 || NULL == tile_city(ptile),
                 "At (%d, %d), the terrain \"%s\" (nb %d) doesn't "
