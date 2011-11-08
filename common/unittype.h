@@ -48,30 +48,27 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_VALUE3NAME "CanOccupyCity"
 #define SPECENUM_VALUE4 UCF_MISSILE
 #define SPECENUM_VALUE4NAME "Missile"
-/* Considers any road tile native terrain */
-#define SPECENUM_VALUE5 UCF_ROAD_NATIVE
-#define SPECENUM_VALUE5NAME "RoadNative"
 /* Considers any river tile native terrain */
-#define SPECENUM_VALUE6 UCF_RIVER_NATIVE
-#define SPECENUM_VALUE6NAME "RiverNative"
-#define SPECENUM_VALUE7 UCF_BUILD_ANYWHERE
-#define SPECENUM_VALUE7NAME "BuildAnywhere"
-#define SPECENUM_VALUE8 UCF_UNREACHABLE
-#define SPECENUM_VALUE8NAME "Unreachable"
+#define SPECENUM_VALUE5 UCF_RIVER_NATIVE
+#define SPECENUM_VALUE5NAME "RiverNative"
+#define SPECENUM_VALUE6 UCF_BUILD_ANYWHERE
+#define SPECENUM_VALUE6NAME "BuildAnywhere"
+#define SPECENUM_VALUE7 UCF_UNREACHABLE
+#define SPECENUM_VALUE7NAME "Unreachable"
 /* Can collect ransom from barbarian leader */
-#define SPECENUM_VALUE9 UCF_COLLECT_RANSOM
-#define SPECENUM_VALUE9NAME "CollectRansom"
+#define SPECENUM_VALUE8 UCF_COLLECT_RANSOM
+#define SPECENUM_VALUE8NAME "CollectRansom"
 /* Is subject to ZOC */
-#define SPECENUM_VALUE10 UCF_ZOC
-#define SPECENUM_VALUE10NAME "ZOC"
+#define SPECENUM_VALUE9 UCF_ZOC
+#define SPECENUM_VALUE9NAME "ZOC"
 /* Can fortify on land squares */
-#define SPECENUM_VALUE11 UCF_CAN_FORTIFY
-#define SPECENUM_VALUE11NAME "CanFortify"
-#define SPECENUM_VALUE12 UCF_CAN_PILLAGE
-#define SPECENUM_VALUE12NAME "CanPillage"
+#define SPECENUM_VALUE10 UCF_CAN_FORTIFY
+#define SPECENUM_VALUE10NAME "CanFortify"
+#define SPECENUM_VALUE11 UCF_CAN_PILLAGE
+#define SPECENUM_VALUE11NAME "CanPillage"
 /* Cities can still work tile when enemy unit on it */
-#define SPECENUM_VALUE13 UCF_DOESNT_OCCUPY_TILE
-#define SPECENUM_VALUE13NAME "DoesntOccupyTile"
+#define SPECENUM_VALUE12 UCF_DOESNT_OCCUPY_TILE
+#define SPECENUM_VALUE12NAME "DoesntOccupyTile"
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
 #include "specenum_gen.h"

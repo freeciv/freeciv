@@ -22,6 +22,8 @@ struct road_type {
   struct name_translation name;
   enum unit_activity act;
   enum tile_special_type special;
+
+  bv_unit_classes native_to;
 };
 
 /* General road type accessor functions. */
@@ -39,6 +41,9 @@ struct road_type *road_by_special(enum tile_special_type spe);
 
 const char *road_name_translation(struct road_type *road);
 const char *road_rule_name(struct road_type *road);
+
+bool is_native_road_to_uclass(const struct road_type *proad,
+                              const struct unit_class *pclass);
 
 #define road_type_iterate(_p)                    \
 {                                                \

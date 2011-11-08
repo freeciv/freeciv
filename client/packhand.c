@@ -3081,6 +3081,8 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
 
   names_set(&proad->name, p->name, p->rule_name);
+
+  proad->native_to = p->native_to;
 }
 
 /****************************************************************************

@@ -1038,11 +1038,15 @@ They have no effect on gameplay.\
 ; Current code requires exactly two road definitions
 ;
 ; name                    = translatable name as seen by user
+; native_to               = List of unit classes that consider tile
+;                           with this road native even if terrain is not
 ;
 ; */ <-- avoid gettext warnings
 
 [road_road]
 name          = _("Road")
+native_to     = "Land"
 
 [road_railroad]
 name          = _("Railroad")
+native_to     = "Land"

@@ -85,7 +85,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "DamageSlows"   = Damages units are slowed down
 ; "CanOccupyCity" = Military units of this class can occupy enemy cities
 ; "Missile"       = Unit is destroyed when it attacks
-; "RoadNative"    = Road tiles are always considered native terrain
 ; "RiverNative"   = River tiles are always considered native terrain
 ; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
 ; "Unreachable"   = Unit can be attacked only by units explicitly listing this class as target
@@ -126,7 +125,7 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "RoadNative"
+                "TerrainDefense"
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */

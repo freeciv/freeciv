@@ -21,6 +21,7 @@
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
+#include "unittype.h"
 
 #include "road.h"
 
@@ -131,4 +132,12 @@ const char *road_name_translation(struct road_type *road)
 const char *road_rule_name(struct road_type *road)
 {
   return rule_name(&road->name);
+}
+/****************************************************************************
+  Is road native to unit class?
+****************************************************************************/
+bool is_native_road_to_uclass(const struct road_type *proad,
+                              const struct unit_class *pclass)
+{
+  return BV_ISSET(proad->native_to, uclass_index(pclass));
 }

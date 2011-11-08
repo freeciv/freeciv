@@ -28,6 +28,7 @@
 #include "fc_types.h"
 #include "game.h"
 #include "map.h"
+#include "road.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"
@@ -282,10 +283,14 @@ bool is_native_to_class(const struct unit_class *punitclass,
   if (BV_ISSET(pterrain->native_to, uclass_index(punitclass))) {
     return TRUE;
   }
-  if (uclass_has_flag(punitclass, UCF_ROAD_NATIVE)
-      && contains_special(special, S_ROAD)) {
-    return TRUE;
-  }
+
+  road_type_iterate(proad) {
+    if (contains_special(special, road_special(proad))
+        && is_native_road_to_uclass(proad, punitclass)) {
+      return TRUE;
+    }
+  } road_type_iterate_end;
+
   if (uclass_has_flag(punitclass, UCF_RIVER_NATIVE)
       && contains_special(special, S_RIVER)) {
     return TRUE;

@@ -1307,9 +1307,15 @@ static void load_ruleset_units(struct section_file *file)
       bool land_moving = FALSE;
       bool sea_moving = FALSE;
 
-      if (uclass_has_flag(uc, UCF_RIVER_NATIVE)
-          || uclass_has_flag(uc, UCF_ROAD_NATIVE)) {
+      if (uclass_has_flag(uc, UCF_RIVER_NATIVE)) {
         land_moving = TRUE;
+      } else {
+        road_type_iterate(proad) {
+          /* Check all roads in case there's native one among them */
+          if (is_native_road_to_uclass(proad, uc)) {
+            land_moving = TRUE;
+          }
+        } road_type_iterate_end;
       }
 
       terrain_type_iterate(pterrain) {
@@ -1344,12 +1350,15 @@ static void load_ruleset_units(struct section_file *file)
                   filename, uclass_rule_name(uc));
         BV_CLR(uc->flags, UCF_RIVER_NATIVE);
       }
-      if (uclass_has_flag(uc, UCF_ROAD_NATIVE)) {
-        log_error("\"%s\" unit_class \"%s\": cannot give RoadNative "
-                  "flag to sea moving unit",
-                  filename, uclass_rule_name(uc));
-        BV_CLR(uc->flags, UCF_ROAD_NATIVE);
-      }
+      road_type_iterate(proad) {
+        if (is_native_road_to_uclass(proad, uc)) {
+          ruleset_error(LOG_FATAL,
+                        "\"%s\" unit_class \"%s\": cannot make road \"%s\" "
+                        "native to sea moving unit.",
+                        filename, uclass_rule_name(uc),
+                        road_rule_name(proad));
+        }
+      } road_type_iterate_end;
     }
   } unit_class_iterate_end;
 
@@ -2331,6 +2340,28 @@ static void load_ruleset_terrain(struct section_file *file)
 
     pbase->helptext = lookup_strvec(file, section, "helptext");
   } base_type_iterate_end;
+
+  road_type_iterate(proad) {
+    const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
+    const char **slist;
+
+    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
+    BV_CLR_ALL(proad->native_to);
+    for (j = 0; j < nval; j++) {
+      struct unit_class *class = unit_class_by_rule_name(slist[j]);
+
+      if (!class) {
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" road \"%s\" is native to unknown unit class \"%s\".",
+                      filename,
+                      road_rule_name(proad),
+                      slist[j]);
+      } else {
+        BV_SET(proad->native_to, uclass_index(class));
+      }
+    }
+    free(slist);
+  } road_type_iterate_end;
 
   secfile_check_unused(file);
   secfile_destroy(file);
@@ -3990,6 +4021,8 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     sz_strlcpy(packet.name, untranslated_name(&r->name));
     sz_strlcpy(packet.rule_name, rule_name(&r->name));
+
+    packet.native_to = r->native_to;
 
     lsend_packet_ruleset_road(dest, &packet);
   } road_type_iterate_end;
