@@ -378,7 +378,6 @@ static void update_source_label(void)
               * A set of these appear in an "and"-separated list. */
              air_text ? _("%s (airlift: %s)") : "%s",
              city_name(cities[i].city), air_text);
-    /* FIXME: free air_text */
     descriptions[i] = astr_str(&strs[i]);
     unit_list_destroy(cities[i].units);
   }
@@ -458,7 +457,6 @@ static void refresh_airlift_column(void)
     air_text = get_airlift_text(get_units_in_focus(), pcity);
     gtk_list_store_set(GTK_LIST_STORE(store), &iter,
                        GD_COL_AIRLIFT, air_text ? air_text : "-", -1);
-    /* FIXME: FC_FREE(air_text); */
     valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(store), &iter);
   }
 }
