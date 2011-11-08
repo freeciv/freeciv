@@ -2,6 +2,8 @@
 
 bin_PROGRAMS = freeciv-modpack
 
+noinst_LTLIBRARIES = libfcmp.la
+
 AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common $(MP_gtk_CFLAGS)
 
 if MINGW32
@@ -12,17 +14,19 @@ desktopfile_DATA = \
 	freeciv-modpack.desktop
 endif
 
-freeciv_modpack_SOURCES = \
+libfcmp_la_SOURCES = \
 		download.c	\
 		download.h	\
-		modinst.c	\
 		modinst.h	\
 		mpcmdline.c	\
 		mpcmdline.h
 
+freeciv_modpack_SOURCES = mpgui_gtk.c
+
 freeciv_modpack_LDFLAGS = $(MP_gtk_LDFLAGS)
 
 freeciv_modpack_LDADD = \
+		libfcmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(MAPIMG_WAND_LIBS) \
 		$(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
