@@ -24,7 +24,7 @@ int api_server_player_civilization_score(lua_State *L, Player *pplayer);
 
 bool api_server_was_started(lua_State *L);
 
-void api_server_save(lua_State *L, const char *filename);
+bool api_server_save(lua_State *L, const char *filename);
 
 const char *api_server_setting_get(lua_State *L, const char *setting_name);
 

@@ -37,7 +37,7 @@ $#include "script_server.h"
 
 /* Server module. */
 module server {
-  void api_server_save
+  bool api_server_save
     @ save (lua_State *L, const char *filename);
   bool api_server_was_started
     @ started (lua_State *L);

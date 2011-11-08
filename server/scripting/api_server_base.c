@@ -52,11 +52,20 @@ bool api_server_was_started(lua_State *L)
 /*****************************************************************************
   Save the game (a manual save is triggert).
 *****************************************************************************/
-void api_server_save(lua_State *L, const char *filename)
+bool api_server_save(lua_State *L, const char *filename)
 {
-  LUASCRIPT_CHECK_STATE(L);
+  char allowed[]
+    = "1234567890+-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ";
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  /* Limit the allowed characters in the filename. */
+  if (filename != NULL && strspn(filename, allowed) != strlen(filename)) {
+    return FALSE;
+  }
 
   save_game(filename, "User request (Lua)", FALSE);
+  return TRUE;
 }
 
 /*****************************************************************************
