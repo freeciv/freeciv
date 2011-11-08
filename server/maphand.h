@@ -46,7 +46,8 @@ struct player_tile {
 void global_warming(int effect);
 void nuclear_winter(int effect);
 void climate_change(bool warming, int effect);
-void upgrade_city_rails(struct player *pplayer, bool discovery);
+bool upgrade_city_roads(struct city *pcity);
+void upgrade_all_city_roads(struct player *pplayer, bool discovery);
 
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
@@ -107,6 +108,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
                          struct tile *psource);
 void map_clear_border(struct tile *ptile);
 
+void terrain_changed(struct tile *ptile);
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 void fix_tile_on_terrain_change(struct tile *ptile,
                                 struct terrain *oldter,

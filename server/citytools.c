@@ -1058,16 +1058,13 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     /* What wasn't obsolete for the old owner may be so now. */
     remove_obsolete_buildings_city(pcity, TRUE);
 
-    if (terrain_control.may_road
-        && player_knows_techs_with_flag(ptaker, TF_RAILROAD)
-        && !tile_has_special(pcenter, S_RAILROAD)) {
+    if (upgrade_city_roads(pcity)) {
       notify_player(ptaker, pcenter, E_CITY_TRANSFER, ftc_server,
-                    _("The people in %s are stunned by your"
-                      " technological insight!\n"
-                      "      Workers spontaneously gather and upgrade"
-                      " the city with railroads."),
-                    city_link(pcity));
-      tile_set_special(pcenter, S_RAILROAD);
+		    _("The people in %s are stunned by your"
+		      " technological insight!\n"
+		      "      Workers spontaneously gather and upgrade"
+		      " the city roads."),
+		    city_link(pcity));
       update_tile_knowledge(pcenter);
     }
 
@@ -1303,12 +1300,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   map_claim_border(ptile, pplayer);
   /* city_thaw_workers_queue() later */
 
-  if (terrain_control.may_road) {
-    tile_set_special(ptile, S_ROAD);
-    if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
-      tile_set_special(ptile, S_RAILROAD);
-    }
-  }
+  /* Build best roads city can have. */
+  upgrade_city_roads(pcity);
 
   /* Refresh the city.  First a city refresh is done (this shouldn't
    * send any packets to the client because the city has no supported units)

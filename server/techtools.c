@@ -204,13 +204,14 @@ static void update_player_after_tech_researched(struct player* plr,
   player_research_update(plr);
 
   remove_obsolete_buildings(plr);
-  
-  /* Give free rails in every city */
+
+  /* Give free bridges or railroads in every city */
   if (tech_found != A_FUTURE
-   && advance_has_flag(tech_found, TF_RAILROAD)) {
-    upgrade_city_rails(plr, was_discovery);  
+      && (advance_has_flag(tech_found, TF_BRIDGE)
+	  || advance_has_flag(tech_found, TF_RAILROAD))) {
+    upgrade_all_city_roads(plr, was_discovery);  
   }
-  
+
   /* Enhance vision of units if a player-ranged effect has changed.  Note
    * that world-ranged effects will not be updated immediately. */
   unit_list_refresh_vision(plr->units);

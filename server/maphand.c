@@ -210,39 +210,86 @@ void climate_change(bool warming, int effect)
 }
 
 /***************************************************************
-To be called when a player gains the Railroad tech for the first
-time.  Sends a message, and then upgrade all city squares to
-railroads.  "discovery" just affects the message: set to
+  Check city for road upgrade. Returns whether anything was
+  done.
+***************************************************************/
+bool upgrade_city_roads(struct city *pcity)
+{
+  struct tile *ptile = pcity->tile;
+  struct player *pplayer = city_owner(pcity);
+  bool upgradet = FALSE;
+
+  if (!(terrain_control.may_road)) {
+    return FALSE;
+  }
+
+  if (tile_terrain(ptile)->road_time == 0) {
+    /* No roads to this terrain */
+    return FALSE;
+  }
+
+  if (!player_knows_techs_with_flag(pplayer, TF_BRIDGE)
+      && tile_has_special(ptile, S_RIVER)) {
+    /* Cannot build anything on river tile without bridge building */
+    return FALSE;
+  }
+
+  if (!tile_has_special(ptile, S_ROAD)) {
+    tile_set_special(pcity->tile, S_ROAD);
+    upgradet = TRUE;
+  }
+
+  if (!tile_has_special(ptile, S_RAILROAD)
+      && player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
+    tile_set_special(pcity->tile, S_RAILROAD);
+    upgradet = TRUE;
+  }
+
+  return upgradet;
+}
+
+/***************************************************************
+To be called when a player gains some better road building tech
+for the first time.  Sends a message, and upgrades all city
+squares to new roads.  "discovery" just affects the message: set to
    1 if the tech is a "discovery",
    0 if otherwise acquired (conquer/trade/GLib).        --dwp
 ***************************************************************/
-void upgrade_city_rails(struct player *pplayer, bool discovery)
+void upgrade_all_city_roads(struct player *pplayer, bool discovery)
 {
+  bool roads_upgradet = FALSE;
+
   if (!(terrain_control.may_road)) {
     return;
   }
 
   conn_list_do_buffer(pplayer->connections);
 
-  if (discovery) {
-    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                  _("New hope sweeps like fire through the country as "
-                    "the discovery of railroad is announced.\n"
-                    "      Workers spontaneously gather and upgrade all "
-                    "cities with railroads."));
-  } else {
-    notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                  _("The people are pleased to hear that your "
-                    "scientists finally know about railroads.\n"
-                    "      Workers spontaneously gather and upgrade all "
-                    "cities with railroads."));
-  }
-  
   city_list_iterate(pplayer->cities, pcity) {
-    tile_set_special(pcity->tile, S_RAILROAD);
-    update_tile_knowledge(pcity->tile);
+    if (upgrade_city_roads(pcity)) {
+      update_tile_knowledge(pcity->tile);
+      roads_upgradet = TRUE;
+    }
   }
   city_list_iterate_end;
+
+  if (roads_upgradet) {
+    if (discovery) {
+      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+		    _("New hope sweeps like fire through the country as "
+		      "the discovery of new road building technology "
+		      "is announced.\n"
+		      "      Workers spontaneously gather and upgrade all "
+		      "possible cities with better roads."));
+    } else {
+      notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+		    _("The people are pleased to hear that your "
+		      "scientists finally know about new road building "
+		      "techinology.\n"
+		      "      Workers spontaneously gather and upgrade all "
+		      "possible cities with better roads."));
+    }
+  }
 
   conn_list_do_unbuffer(pplayer->connections);
 }
@@ -1544,6 +1591,21 @@ bool need_to_reassign_continents(const struct terrain *oldter,
 }
 
 /****************************************************************************
+  Handle local side effects for a terrain change.
+****************************************************************************/
+void terrain_changed(struct tile *ptile)
+{
+  struct city *pcity = tile_city(ptile);
+
+  if (pcity != NULL) {
+    /* Tile is city center and new terrain may support better roads. */
+    upgrade_city_roads(pcity);
+  }
+
+  bounce_units_on_terrain_change(ptile);
+}
+
+/****************************************************************************
   Handles local side effects for a terrain change (tile and its
   surroundings). Does *not* handle global side effects (such as reassigning
   continents).
@@ -1561,8 +1623,7 @@ void fix_tile_on_terrain_change(struct tile *ptile,
     city_landlocked_sell_coastal_improvements(ptile);
   }
 
-  /* Units may no longer be able to hold their current positions. */
-  bounce_units_on_terrain_change(ptile);
+  terrain_changed(ptile);
 }
 
 /****************************************************************************

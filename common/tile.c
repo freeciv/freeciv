@@ -452,7 +452,6 @@ int tile_activity_base_time(const struct tile *ptile,
 static void tile_clear_unsupported_infrastructure(struct tile *ptile)
 {
   int i;
-  bool city_present = tile_city(ptile) != NULL;
   struct terrain *pterr = tile_terrain(ptile);
   bool ocean = is_ocean(pterr);
 
@@ -460,7 +459,7 @@ static void tile_clear_unsupported_infrastructure(struct tile *ptile)
     switch (infrastructure_specials[i]) {
     case S_ROAD:
     case S_RAILROAD:
-      if (!city_present && pterr->road_time == 0) {
+      if (pterr->road_time == 0) {
 	tile_clear_special(ptile, infrastructure_specials[i]);
       }
       break;
