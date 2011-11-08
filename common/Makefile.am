@@ -87,6 +87,7 @@ libfreeciv_la_SOURCES = \
 		terrain.h	\
 		tile.c		\
 		tile.h		\
+		traits.h	\
 		unit.c		\
 		unit.h		\
 		unitlist.c	\

@@ -125,6 +125,8 @@ struct nation_type {
       int init_buildings[MAX_NUM_BUILDING_LIST];
       struct government *init_government;
       struct unit_type *init_units[MAX_NUM_UNIT_LIST];
+
+      int *traits;
     } server;
 
     struct {

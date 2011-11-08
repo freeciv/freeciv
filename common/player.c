@@ -530,6 +530,7 @@ static void player_defaults(struct player *pplayer)
   player_slots_iterate(pslot) {
     pplayer->ai_common.love[player_slot_index(pslot)] = 1;
   } player_slots_iterate_end;
+  pplayer->ai_common.traits = NULL;
 
   pplayer->ai = NULL;
   pplayer->was_created = FALSE;

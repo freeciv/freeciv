@@ -31,6 +31,7 @@
 #include "government.h"
 #include "player.h"
 #include "tech.h"
+#include "traits.h"
 
 #include "nation.h"
 
@@ -566,6 +567,7 @@ static void nation_init(struct nation_type *pnation)
     pnation->server.civilwar_nations = nation_list_new();
     pnation->server.parent_nations = nation_list_new();
     pnation->server.conflicts_with = nation_list_new();
+    pnation->server.traits = fc_malloc(sizeof(int) * trait_max());
   }
 }
 
@@ -583,6 +585,7 @@ static void nation_free(struct nation_type *pnation)
     nation_list_destroy(pnation->server.civilwar_nations);
     nation_list_destroy(pnation->server.parent_nations);
     nation_list_destroy(pnation->server.conflicts_with);
+    FC_FREE(pnation->server.traits);
   }
 
   memset(pnation, 0, sizeof(*pnation));

@@ -68,6 +68,10 @@
 /* server/scripting */
 #include "script_server.h"
 
+/* ai */
+#include "aitraits.h"
+
+
 struct rgbcolor;
 
 static void package_player_common(struct player *plr,
@@ -1115,6 +1119,8 @@ void server_player_init(struct player *pplayer, bool initmap,
   /* No delegation. */
   pplayer->server.delegate_to[0] = '\0';
   pplayer->server.orig_username[0] = '\0';
+
+  ai_traits_init(pplayer);
 }
 
 /****************************************************************************
@@ -1276,6 +1282,7 @@ void server_remove_player(struct player *pplayer)
   /* Destroy advisor and ai data. */
   CALL_FUNC_EACH_AI(player_free, pplayer);
 
+  ai_traits_close(pplayer);
   adv_data_close(pplayer);
   player_destroy(pplayer);
 

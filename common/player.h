@@ -29,6 +29,7 @@ extern "C" {
 #include "shared.h"
 #include "spaceship.h"
 #include "tech.h"
+#include "traits.h"
 #include "unitlist.h"
 #include "vision.h"
 
@@ -131,6 +132,8 @@ struct player_ai {
   enum barbarian_type barbarian_type;
 
   int love[MAX_NUM_PLAYER_SLOTS];
+
+  struct ai_trait *traits;
 };
 
 /* Diplomatic states (how one player views another).

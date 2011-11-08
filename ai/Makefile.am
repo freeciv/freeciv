@@ -6,6 +6,8 @@ if AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
 
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common
+
 if AI_MODULES
 if EXP_AI_MODULES
 if !AI_MOD_STATIC_THREADED
@@ -18,3 +20,10 @@ endif
 endif
 
 SUBDIRS = $(module_dirs)
+
+noinst_LTLIBRARIES = libaicommon.la
+
+libaicommon_la_SOURCES = \
+	aitraits.c	\
+	aitraits.h
+

@@ -817,6 +817,31 @@ static void ruleset_load_names(struct name_translation *pname,
 }
 
 /**************************************************************************
+  Load trait values to array.
+**************************************************************************/
+static void ruleset_load_traits(int *traits, struct section_file *file,
+                                const char *secname, const char *field_prefix)
+{
+  enum trait tr;
+
+  /* FIXME: Use specenum trait names without duplicating them here.
+   *        Just needs to take care of case. */
+  const char *trait_names[] = {
+    "placeholder",
+    NULL
+  };
+
+  for (tr = trait_begin(); trait_names[tr] != NULL && tr < trait_end(); tr = trait_next(tr)) {
+     traits[tr] = secfile_lookup_int_default(file, -1, "%s.%s%s",
+                                             secname,
+                                             field_prefix,
+                                             trait_names[tr]);
+  }
+
+  fc_assert(tr == trait_end()); /* number of trait_names correct */
+}
+
+/**************************************************************************
   Load names of technologies so other rulesets can refer to techs with
   their name.
 **************************************************************************/
@@ -2677,12 +2702,22 @@ static void load_ruleset_nations(struct section_file *file)
   bool warn_city_style;
   const char *filename = secfile_name(file);
   struct section_list *sec;
+  int trait_count = trait_max() + 1;
+  int default_traits[trait_count];
+  enum trait tr;
 
   (void) check_ruleset_capabilities(file, RULESET_CAPABILITIES, filename);
 
   warn_city_style
     = secfile_lookup_bool_default(file, TRUE,
 				  "compatibility.warn_city_style");
+
+  ruleset_load_traits(default_traits, file, "default_traits", "");
+  for (tr = trait_begin(); tr < trait_end(); tr = trait_next(tr)) {
+    if (default_traits[tr] < 0) {
+      default_traits[tr] = TRAIT_DEFAULT_VALUE;
+    }
+  }
 
   sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
   section_list_iterate(sec, psection) {
@@ -2809,6 +2844,14 @@ static void load_ruleset_nations(struct section_file *file)
                       "Nations %s and %s share the same leader \"%s\".",
                       nation_rule_name(pnation), nation_rule_name(pconflict),
                       bad_leader);
+      }
+    }
+
+    /* Load nation traits */
+    ruleset_load_traits(pnation->server.traits, file, "%s", "trait_");
+    for (tr = trait_begin(); tr < trait_end(); tr = trait_next(tr)) {
+      if (pnation->server.traits[tr] < 0) {
+        pnation->server.traits[tr] = default_traits[tr];
       }
     }
 
