@@ -288,8 +288,8 @@ struct option {
     const struct option_int_vtable {
       int (*get) (const struct option *);
       int (*def) (const struct option *);
-      int (*min) (const struct option *);
-      int (*max) (const struct option *);
+      int (*minimum) (const struct option *);
+      int (*maximum) (const struct option *);
       bool (*set) (struct option *, int);
     } *int_vtable;
     /* Specific string accessors (OT_STRING == type). */
@@ -629,7 +629,7 @@ int option_int_min(const struct option *poption)
   fc_assert_ret_val(NULL != poption, 0);
   fc_assert_ret_val(OT_INTEGER == poption->type, 0);
 
-  return poption->int_vtable->min(poption);
+  return poption->int_vtable->minimum(poption);
 }
 
 /****************************************************************************
@@ -640,7 +640,7 @@ int option_int_max(const struct option *poption)
   fc_assert_ret_val(NULL != poption, 0);
   fc_assert_ret_val(OT_INTEGER == poption->type, 0);
 
-  return poption->int_vtable->max(poption);
+  return poption->int_vtable->maximum(poption);
 }
 
 /****************************************************************************
@@ -1095,8 +1095,8 @@ static bool client_option_int_set(struct option *poption, int val);
 static const struct option_int_vtable client_option_int_vtable = {
   .get = client_option_int_get,
   .def = client_option_int_def,
-  .min = client_option_int_min,
-  .max = client_option_int_max,
+  .minimum = client_option_int_min,
+  .maximum = client_option_int_max,
   .set = client_option_int_set
 };
 
@@ -2966,8 +2966,8 @@ static bool server_option_int_set(struct option *poption, int val);
 static const struct option_int_vtable server_option_int_vtable = {
   .get = server_option_int_get,
   .def = server_option_int_def,
-  .min = server_option_int_min,
-  .max = server_option_int_max,
+  .minimum = server_option_int_min,
+  .maximum = server_option_int_max,
   .set = server_option_int_set
 };
 
