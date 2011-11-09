@@ -38,6 +38,12 @@ Updating from 2.2 to 2.3
   it's suitable for end users.
 
 ----------------------------------------------------------------------
+Updating from 2.3.0 to 2.3.1
+----------------------------
+* man page for freeciv-modpack is available
+* Linux desktop icons for freeciv-modpack are available
+
+----------------------------------------------------------------------
 Compatibility of modified versions
 ----------------------------------
 If you create patched version of Freeciv, take necessary precautions
