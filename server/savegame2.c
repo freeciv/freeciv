@@ -2096,6 +2096,7 @@ static void sg_load_map(struct loaddata *loading)
     /* Load tiles. */
     sg_load_map_tiles(loading);
     sg_load_map_startpos(loading);
+    sg_load_map_tiles_bases(loading);
     if (has_capability("specials", loading->secfile_options)) {
       /* Load specials and resources. */
       sg_load_map_tiles_specials(loading, FALSE);
@@ -2222,11 +2223,6 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (game.info.is_new_game) {
-    /* No bases information for a new game / scenario. */
-    return;
-  }
-
   /* Load bases. */
   halfbyte_iterate_bases(j, loading->base.size) {
     LOAD_MAP_CHAR(ch, ptile, sg_bases_set(&ptile->bases, ch,
@@ -2242,11 +2238,6 @@ static void sg_save_map_tiles_bases(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
-
-  if (saving->scenario && !saving->save_players) {
-    /* Nothing to do for a scenario without saved players. */
-    return;
-  }
 
   /* Save bases. */
   halfbyte_iterate_bases(j, game.control.num_base_types) {
