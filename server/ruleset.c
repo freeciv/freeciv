@@ -831,7 +831,7 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
     NULL
   };
 
-  for (tr = trait_begin(); trait_names[tr] != NULL && tr < trait_end(); tr = trait_next(tr)) {
+  for (tr = trait_begin(); tr != trait_end() && trait_names[tr] != NULL; tr = trait_next(tr)) {
      traits[tr] = secfile_lookup_int_default(file, -1, "%s.%s%s",
                                              secname,
                                              field_prefix,
