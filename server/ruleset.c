@@ -660,13 +660,18 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
 **************************************************************************/
 static struct government *lookup_government(struct section_file *file,
 					    const char *entry,
-					    const char *filename)
+					    const char *filename,
+                                            struct government *fallback)
 {
   const char *sval;
   struct government *gov;
-  
-  sval = secfile_lookup_str(file, "%s", entry);
-  gov = government_by_rule_name(sval);
+
+  sval = secfile_lookup_str_default(file, NULL, "%s", entry);
+  if (!sval) {
+    gov = fallback;
+  } else {
+    gov = government_by_rule_name(sval);
+  }
   if (!gov) {
     ruleset_error(LOG_FATAL,
                   "\"%s\" %s: couldn't match \"%s\".",
@@ -1375,7 +1380,7 @@ static void load_ruleset_units(struct section_file *file)
       char tmp[200] = "\0";
       fc_strlcat(tmp, section_name(psection), sizeof(tmp));
       fc_strlcat(tmp, ".gov_req", sizeof(tmp));
-      u->need_government = lookup_government(file, tmp, filename);
+      u->need_government = lookup_government(file, tmp, filename, NULL);
     } else {
       u->need_government = NULL; /* no requirement */
     }
@@ -2415,7 +2420,7 @@ static void load_ruleset_governments(struct section_file *file)
   sec = secfile_sections_by_name_prefix(file, GOVERNMENT_SECTION_PREFIX);
 
   game.government_during_revolution
-    = lookup_government(file, "governments.during_revolution", filename);
+    = lookup_government(file, "governments.during_revolution", filename, NULL);
   game.info.government_during_revolution_id =
     government_number(game.government_during_revolution);
 
@@ -2430,7 +2435,7 @@ static void load_ruleset_governments(struct section_file *file)
       char entry[100];
 
       fc_snprintf(entry, sizeof(entry), "%s.ai_better", sec_name);
-      g->ai.better = lookup_government(file, entry, filename);
+      g->ai.better = lookup_government(file, entry, filename, NULL);
     } else {
       g->ai.better = NULL;
     }
@@ -2732,6 +2737,8 @@ static void load_ruleset_nations(struct section_file *file)
   int barb_land_count = 0;
   int barb_sea_count = 0;
   bool warn_city_style;
+  const char *sval;
+  struct government *default_government = NULL;
   const char *filename = secfile_name(file);
   struct section_list *sec;
   int trait_count = trait_max() + 1;
@@ -2749,6 +2756,12 @@ static void load_ruleset_nations(struct section_file *file)
     if (default_traits[tr] < 0) {
       default_traits[tr] = TRAIT_DEFAULT_VALUE;
     }
+  }
+
+  sval = secfile_lookup_str_default(file, NULL,
+                                    "compatibility.default_government");
+  if (sval != NULL) {
+    default_government = government_by_rule_name(sval);
   }
 
   sec = secfile_sections_by_name_prefix(file, NATION_GROUP_SECTION_PREFIX);
@@ -3025,7 +3038,8 @@ static void load_ruleset_nations(struct section_file *file)
                      pnation->server.init_units, filename);
     fc_strlcat(tmp, sec_name, 200);
     fc_strlcat(tmp, ".init_government", 200);
-    pnation->server.init_government = lookup_government(file, tmp, filename);
+    pnation->server.init_government = lookup_government(file, tmp, filename,
+                                                        default_government);
 
     /* Read default city names. */
     load_city_name_list(file, pnation, sec_name, "cities");
