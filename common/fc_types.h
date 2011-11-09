@@ -314,6 +314,7 @@ struct universal {
 struct ai_choice;			/* incorporates universals_u */
 
 BV_DEFINE(bv_bases, MAX_BASE_TYPES);
+BV_DEFINE(bv_roads, MAX_ROAD_TYPES);
 BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 
 #define SPECENUM_NAME gui_type

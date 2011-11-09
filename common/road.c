@@ -20,6 +20,7 @@
 
 /* common */
 #include "fc_types.h"
+#include "game.h"
 #include "name_translation.h"
 #include "unittype.h"
 
@@ -59,7 +60,7 @@ Road_type_id road_index(const struct road_type *proad)
 **************************************************************************/
 Road_type_id road_count(void)
 {
-  return MAX_ROAD_TYPES;
+  return game.control.num_road_types;
 }
 
 /****************************************************************************
@@ -67,7 +68,7 @@ Road_type_id road_count(void)
 ****************************************************************************/
 struct road_type *road_by_number(Road_type_id id)
 {
-  fc_assert_ret_val(id >= 0 && id < ROAD_LAST, NULL);
+  fc_assert_ret_val(id >= 0 && id < game.control.num_road_types, NULL);
 
   return &roads[id];
 }

@@ -1935,6 +1935,7 @@ static void load_terrain_names(struct section_file *file)
     ruleset_error(LOG_FATAL, "\"%s\": Number of road types not %d, but %d)",
                   filename, MAX_ROAD_TYPES, nval);
   }
+  game.control.num_road_types = nval;
 
   if (road_sections) {
     free(road_sections);

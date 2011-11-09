@@ -1412,6 +1412,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_impr_types;
   UINT16 num_tech_types;
   UINT16 num_base_types;
+  UINT16 num_road_types;
   UINT16 government_count;
   UINT16 nation_count;
   UINT16 styles_count;
