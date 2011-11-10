@@ -3,9 +3,9 @@
 name=_("Saka")
 plural=_("?plural:Saka")
 groups="Ancient", "Asian"
-legend=_("The Saka were ancient Iranian tribe from the Central Asian\
-steppes. They were very closely related to the European Scythians,\
-and were probably descendants of the Andronovo culture.")
+legend=_("The Saka were an ancient Iranian tribe from the Central Asian\
+ steppes. They were very closely related to the European Scythians,\
+ and were probably descendants of the Andronovo culture.")
 leaders = {
  "name",    "sex"
  "Skunkha", "Male"

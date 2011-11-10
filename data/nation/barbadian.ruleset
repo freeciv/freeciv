@@ -4,12 +4,12 @@ name=_("Barbadian")
 plural=_("?plural:Barbadians")
 groups="Modern", "American"
 legend=_("Barbados is an island country in the Atlantic Ocean, about 100\
- km east of the Windward Islands in the Carribean. Originally inhabited by\
+ km east of the Windward Islands in the Caribbean. Originally inhabited by\
  Arawaks, the island was discovered by the Portuguese around 1500. When\
  the English first settled Barbados in 1627 they found the island\
  depopulated. The island has been independent since 1966. Barbados is a\
  major international tourist destination and one of the most developed\
- countries of the Carribean.")
+ countries of the Caribbean.")
 
 leaders = {
  "name",                   "sex"
