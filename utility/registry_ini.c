@@ -163,7 +163,7 @@
 #include "shared.h"
 #include "support.h"
 
-#include "registry.h"
+#include "registry_ini.h"
 
 #define MAX_LEN_ERRORBUF 1024
 #define MAX_LEN_SECPATH 1024
