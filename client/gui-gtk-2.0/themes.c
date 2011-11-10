@@ -41,7 +41,7 @@ static int num_default_files;
 ****************************************************************************/
 static void load_default_files()
 {
-  int i;
+  int i = 0;
   gchar** f;
   
   if (default_files != NULL) {
@@ -49,9 +49,11 @@ static void load_default_files()
   }
   
   f = gtk_rc_get_default_files();
-  
-  for (i = 0; f[i] ; i++) {
-    /* nothing */
+
+  if (f != NULL) {
+    for (i = 0; f[i] ; i++) {
+      /* nothing */
+    }
   }
   num_default_files = i;
   default_files = fc_malloc(sizeof(char*) * (i + 2));
