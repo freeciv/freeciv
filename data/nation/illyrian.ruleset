@@ -32,7 +32,6 @@ city_style = "Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 civilwar_nations = "thracian", "paeonian", "epirote", "liburnian"
 

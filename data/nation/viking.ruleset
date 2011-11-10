@@ -33,7 +33,6 @@ city_style="European"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 ; We do not want the Vikings to start together with any Scandinavian nation.

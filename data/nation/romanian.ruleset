@@ -39,7 +39,6 @@ city_style = "Classical"
 init_techs=""
 init_buildings=""
 init_units=""
-init_government="Despotism"
 
 conflicts_with = "roman"
 civilwar_nations = "transylvanian", "moldovan"

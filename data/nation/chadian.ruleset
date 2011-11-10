@@ -25,7 +25,6 @@ city_style = "tropical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 conflicts_with = "romanian" ;similar flag , "kanem-bornu"
