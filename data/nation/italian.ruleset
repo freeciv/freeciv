@@ -49,7 +49,6 @@ city_style = "Classical"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 conflicts_with="Florentine", "Friulian", "Genoese", "Milanese", "Neapolitan",

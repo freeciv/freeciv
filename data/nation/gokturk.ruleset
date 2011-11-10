@@ -52,7 +52,6 @@ city_style = "asian"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 conflicts_with = "kazakh", "uzbek", "kyrgyz", "uyghur", "khazar", "turkmen", "tatar", "crimean tatar", "turkish", "ottoman"
 civilwar_nations = "tocharian", "khazar", "uyghur", "avar"

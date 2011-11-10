@@ -20,6 +20,11 @@ options="+Freeciv-ruleset-Devel-2011.Oct.27"
 ; match		= How much the AI will try to select a nation in the same
 ;                 group
 
+[compatibility]
+; Initial government for all the nations that do not
+; have it explicitly defined
+default_government = "Despotism"
+
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
 match=0

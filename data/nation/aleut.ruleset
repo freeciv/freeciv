@@ -27,10 +27,9 @@ flag="aleut"
 flag_alt = "-" 
 city_style = "celtic" 
 
-init_techs="" 
-init_buildings="" 
-init_government="Despotism" 
-init_units="" 
+init_techs=""
+init_buildings=""
+init_units=""
 
 civilwar_nations = "inuit", "nuu-chah-nulth", "cree"
 

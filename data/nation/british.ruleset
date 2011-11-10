@@ -32,7 +32,6 @@ city_style = "European"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 ; We do not want British nation in the same game with English or any of the

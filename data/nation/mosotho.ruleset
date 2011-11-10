@@ -30,7 +30,6 @@ city_style = "Celtic"
 
 init_techs=""
 init_buildings=""
-init_government="Despotism"
 init_units=""
 
 civilwar_nations="zulu", "xhosa", "motswana"
