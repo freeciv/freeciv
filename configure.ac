@@ -73,6 +73,8 @@ dnl Use Automake 1.11 silent rules by default if available
 dnl verbose build using  make V=1
 ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
+UTILITY_LIBS=
+
 dnl AC_PROG_SED is available only in autoconf 2.60 and later. With older
 dnl autoconf, assume that 'sed' is ok. This is needed for the configuration
 dnl of the clients, database setting and the mapimg toolkits.
@@ -546,8 +548,8 @@ fi
 PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([CURL], [libcurl],,
     [AC_MSG_ERROR([libcurl development files required])])
-CFLAGS="$CFLAGS $CURL_CFLAGS"
-LIBS="$LIBS $CURL_LIBS"
+UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
+UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"
 
 dnl TODO: Remove this. This should be temporary option available only
 dnl       until we have managed to fix those new gcc 4.6 warnings 
@@ -647,12 +649,11 @@ fi
 CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
 
 COMMON_LIBS=-lm
-UTILITY_LIBS=
 
 dnl Check for zlib
 AC_CHECK_LIB(z, gzgets,
   [AC_DEFINE(HAVE_LIBZ, 1, [zlib is available])
-UTILITY_LIBS="$UTILITY_LIBS -lz"
+UTILITY_LIBS="${UTILITY_LIBS} -lz"
 COMMON_LIBS="$COMMON_LIBS -lz"], 
   AC_MSG_ERROR([Could not find zlib library.]))
 
@@ -669,7 +670,7 @@ dnl Check for bzip2 compression
 AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
   [AC_CHECK_HEADERS([bzlib.h],
    [AC_DEFINE(HAVE_LIBBZ2, 1, [libbzip2 is available])
-UTILITY_LIBS="$UTILITY_LIBS -lbz2"])])
+UTILITY_LIBS="${UTILITY_LIBS} -lbz2"])])
 
 dnl Check for xz compression
 AC_CHECK_LIB(lzma, lzma_code,
@@ -677,6 +678,7 @@ AC_CHECK_LIB(lzma, lzma_code,
    [AC_DEFINE(HAVE_LIBLZMA, 1, [liblzma is available])
 UTILITY_LIBS="${UTILITY_LIBS} -llzma"])])
 
+AC_SUBST([UTILITY_CFLAGS])
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
 

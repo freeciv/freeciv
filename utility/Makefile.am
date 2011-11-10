@@ -2,6 +2,8 @@
 
 noinst_LTLIBRARIES = libcivutility.la
 
+AM_CFLAGS = $(UTILITY_CFLAGS)
+
 libcivutility_la_SOURCES = \
 		astring.c       \
 		astring.h       \
