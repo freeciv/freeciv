@@ -15,45 +15,38 @@
 #include <fc_config.h>
 #endif
 
-/* common */
-#include "ai.h"
-
-/* threaded ai */
-#include "taimsg.h"
+/* ai/threaded */
 #include "taiplayer.h"
 
-const char *fc_ai_threaded_capstr(void);
-bool fc_ai_threaded_setup(struct ai_type *ai);
+#include "taimsg.h"
 
 /**************************************************************************
-  Return module capability string
+  Construct and send message to player thread.
 **************************************************************************/
-const char *fc_ai_threaded_capstr(void)
+void tai_send_msg(enum taimsgtype type, struct player *pplayer,
+                  void *data)
 {
-  return FC_AI_MOD_CAPSTR;
+  struct tai_msg *msg = fc_malloc(sizeof(*msg));
+
+  msg->type = type;
+  msg->plr = pplayer;
+  msg->data = data;
+
+  tai_msg_to_thr(pplayer, msg);
 }
 
 /**************************************************************************
-  Setup player ai_funcs function pointers.
+  Time for phase first activities
 **************************************************************************/
-bool fc_ai_threaded_setup(struct ai_type *ai)
+void tai_first_activities(struct player *pplayer)
 {
-  if (!has_thread_cond_impl()) {
-    log_error(_("This Freeciv compilation has no full threads "
-                "implementation, threaded ai cannot be used."));
-    return FALSE;
-  }
+  tai_send_msg(TAI_MSG_FIRST_ACTIVITIES, pplayer, NULL);
+}
 
-  strncpy(ai->name, "threaded", sizeof(ai->name));
-
-  tai_set_self(ai);
-
-  ai->funcs.player_alloc = tai_player_alloc;
-  ai->funcs.player_free = tai_player_free;
-  ai->funcs.gained_control = tai_control_gained;
-  ai->funcs.lost_control = tai_control_lost;
-
-  ai->funcs.first_activities = tai_first_activities;
-  ai->funcs.phase_finished = tai_phase_finished;
-  return TRUE;
+/**************************************************************************
+  Player phase has finished
+**************************************************************************/
+void tai_phase_finished(struct player *pplayer)
+{
+  tai_send_msg(TAI_MSG_PHASE_FINISHED, pplayer, NULL);
 }

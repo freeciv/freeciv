@@ -46,7 +46,7 @@ void tai_player_free(struct player *pplayer);
 void tai_control_gained(struct player *pplayer);
 void tai_control_lost(struct player *pplayer);
 
-void tai_send_msg(struct player *pplayer, struct tai_msg *msg);
+void tai_msg_to_thr(struct player *pplayer, struct tai_msg *msg);
 
 static inline struct tai_plr *tai_player_data(const struct player *pplayer)
 {

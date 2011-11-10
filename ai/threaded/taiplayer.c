@@ -68,13 +68,20 @@ static void tai_thread_start(void *arg)
       taimsg_list_remove(data->msgs.msglist, msg);
       taimsg_list_release_mutex(data->msgs.msglist);
 
+      log_debug("Plr thr \"%s\" got %s", player_name(pplayer),
+                taimsgtype_name(msg->type));
+
       switch(msg->type) {
+       case TAI_MSG_FIRST_ACTIVITIES:
+       case TAI_MSG_PHASE_FINISHED:
+         /* Not implemented */
+         break;
        case TAI_MSG_THR_EXIT:
          finished = TRUE;
          break;
        default:
-         log_error("Illegal message type %d for threaded ai!",
-                   msg->type);
+         log_error("Illegal message type %s (%d) for threaded ai!",
+                   taimsgtype_name(msg->type), msg->type);
          break;
       }
 
@@ -144,9 +151,7 @@ void tai_control_lost(struct player *pplayer)
   if (player_data->thread_running) {
     struct tai_msg *thrq_msg = fc_malloc(sizeof(*thrq_msg));
 
-    thrq_msg->type = TAI_MSG_THR_EXIT;
-    thrq_msg->data = NULL;
-    tai_send_msg(pplayer, thrq_msg);
+    tai_send_msg(TAI_MSG_THR_EXIT, pplayer, NULL);
 
     fc_thread_wait(&player_data->ait);
     player_data->thread_running = FALSE;
@@ -156,7 +161,7 @@ void tai_control_lost(struct player *pplayer)
 /**************************************************************************
   Send message to thread.
 **************************************************************************/
-void tai_send_msg(struct player *pplayer, struct tai_msg *msg)
+void tai_msg_to_thr(struct player *pplayer, struct tai_msg *msg)
 {
   struct tai_plr *player_data = tai_player_data(pplayer);
 

@@ -13,9 +13,19 @@
 #ifndef FC__TAIMSG_H
 #define FC__TAIMSG_H
 
+#define SPECENUM_NAME taimsgtype
+#define SPECENUM_VALUE0 TAI_MSG_THR_EXIT
+#define SPECENUM_VALUE0NAME "Exit"
+#define SPECENUM_VALUE1 TAI_MSG_FIRST_ACTIVITIES
+#define SPECENUM_VALUE1NAME "FirstActivities"
+#define SPECENUM_VALUE2 TAI_MSG_PHASE_FINISHED
+#define SPECENUM_VALUE2NAME "PhaseFinished"
+#include "specenum_gen.h"
+
 struct tai_msg
 {
-  int type;
+  enum taimsgtype type;
+  struct player *plr;
   void *data;
 };
 
@@ -23,6 +33,10 @@ struct tai_msg
 #define SPECLIST_TYPE struct tai_msg
 #include "speclist.h"
 
-#define TAI_MSG_THR_EXIT 0
+void tai_send_msg(enum taimsgtype type, struct player *pplayer,
+                  void *data);
+
+void tai_first_activities(struct player *pplayer);
+void tai_phase_finished(struct player *pplayer);
 
 #endif /* FC__TAIMSG_H */
