@@ -87,12 +87,13 @@ void gui_load_theme(const char *directory, const char *theme_name)
 
   gtk_rc_set_default_files(default_files);
 
-  gtk_rc_reparse_all_for_settings(gtk_settings_get_default(), TRUE);
+  gtk_rc_reparse_all_for_settings(gtk_settings_get_for_screen(
+     gtk_widget_get_screen(turn_done_button)), TRUE);
     
   /* the turn done button must have its own style. otherwise when we flash
      the turn done button other widgets may flash too. */
   if (!(style = gtk_rc_get_style(turn_done_button))) {
-    style = turn_done_button->style;
+    style = gtk_widget_get_style(turn_done_button);
   }
   gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
 }
@@ -121,12 +122,13 @@ void gui_clear_theme(void)
     load_default_files();
     default_files[num_default_files] = NULL;
     gtk_rc_set_default_files(default_files);
-    gtk_rc_reparse_all_for_settings(gtk_settings_get_default(), TRUE);
+    gtk_rc_reparse_all_for_settings(gtk_settings_get_for_screen(
+        gtk_widget_get_screen(turn_done_button)), TRUE);
       
     /* the turn done button must have its own style. otherwise when we flash
        the turn done button other widgets may flash too. */
     if (!(style = gtk_rc_get_style(turn_done_button))) {
-      style = turn_done_button->style;
+      style = gtk_widget_get_style(turn_done_button);
     }
     gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
   }

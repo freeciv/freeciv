@@ -105,8 +105,6 @@ GtkWidget *map_vertical_scrollbar;
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
 GtkWidget *overview_scrolled_window;    /* GtkScrolledWindow */
-GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store 
-                                         * for the overview_canvas widget */
 /* The two values below define the width and height of the map overview. The
  * first set of values (2*62, 2*46) define the size for a netbook display. For
  * bigger displays the values are doubled (default). */
@@ -131,18 +129,6 @@ int city_names_font_size = 0, city_productions_font_size = 0;
 GtkStyle *city_names_style = NULL;
 GtkStyle *city_productions_style = NULL;
 GtkStyle *reqtree_text_style = NULL;
-
-GdkGC *civ_gc;
-GdkGC *mask_fg_gc;
-GdkGC *mask_bg_gc;
-GdkGC *fill_bg_gc;
-GdkGC *fill_tile_gc;
-GdkGC *thin_line_gc;
-GdkGC *thick_line_gc;
-GdkGC *border_line_gc;
-GdkGC *selection_gc;
-GdkPixmap *gray50, *gray25, *black50;
-GdkPixmap *mask_bitmap;
 
 GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
@@ -795,6 +781,7 @@ static void populate_unit_pixmap_table(void)
 {
   int i, width;
   GtkWidget *table = unit_pixmap_table;
+  GdkPixbuf *pix;
 
   /* get width of the overview window */
   width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
@@ -816,9 +803,11 @@ static void populate_unit_pixmap_table(void)
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
   unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset), tileset_unit_height(tileset));
+  gtk_widget_add_events(unit_pixmap, GDK_BUTTON_PRESS_MASK);
   g_object_ref(unit_pixmap);
   gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
   unit_pixmap_button = gtk_event_box_new();
+  gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_pixmap_button), FALSE);
   g_object_ref(unit_pixmap_button);
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
@@ -832,8 +821,10 @@ static void populate_unit_pixmap_table(void)
       unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
                                              tileset_unit_height(tileset));
       g_object_ref(unit_below_pixmap[i]);
+      gtk_widget_add_events(unit_below_pixmap[i], GDK_BUTTON_PRESS_MASK);
       unit_below_pixmap_button[i] = gtk_event_box_new();
       g_object_ref(unit_below_pixmap_button[i]);
+      gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_below_pixmap_button[i]), FALSE);
       gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
                         unit_below_pixmap[i]);
       g_signal_connect(unit_below_pixmap_button[i],
@@ -848,11 +839,13 @@ static void populate_unit_pixmap_table(void)
   }
 
   /* create arrow (popup for all units on the selected tile) */
-  more_arrow_pixmap = gtk_image_new_from_pixbuf(
-          sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT)));
+  pix = sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT));
+  more_arrow_pixmap = gtk_image_new_from_pixbuf(pix);
+  g_object_unref(G_OBJECT(pix));
   g_object_ref(more_arrow_pixmap);
   more_arrow_pixmap_button = gtk_event_box_new();
   g_object_ref(more_arrow_pixmap_button);
+  gtk_event_box_set_visible_window(GTK_EVENT_BOX(more_arrow_pixmap_button), FALSE);
   gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_button),
                     more_arrow_pixmap);
   g_signal_connect(more_arrow_pixmap_button,
@@ -1083,8 +1076,13 @@ static void setup_widgets(void)
                       align);
   gtk_container_add(GTK_CONTAINER(align), overview_canvas);
  
-  g_signal_connect(overview_canvas, "expose_event",
+#if !GTK_CHECK_VERSION(3, 0, 0)
+  g_signal_connect(overview_canvas, "expose-event",
         	   G_CALLBACK(overview_canvas_expose), NULL);
+#else  /* GTK 3 */
+  g_signal_connect(overview_canvas, "draw",
+        	   G_CALLBACK(overview_canvas_draw), NULL);
+#endif /* GTK 3 */
 
   g_signal_connect(overview_canvas, "motion_notify_event",
         	   G_CALLBACK(move_overviewcanvas), NULL);
@@ -1109,6 +1107,7 @@ static void setup_widgets(void)
 
   ebox = gtk_event_box_new();
   gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
+  gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   g_signal_connect(ebox, "button_press_event",
                    G_CALLBACK(show_info_popup), NULL);
   gtk_box_pack_start(GTK_BOX(vbox), ebox, FALSE, FALSE, 0);
@@ -1133,6 +1132,7 @@ static void setup_widgets(void)
 
   /* citizens for taxrates */
   ebox = gtk_event_box_new();
+  gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   gtk_table_attach_defaults(GTK_TABLE(table), ebox, 0, 10, 0, 1);
   econ_ebox = ebox;
   
@@ -1143,6 +1143,7 @@ static void setup_widgets(void)
   
   for (i = 0; i < 10; i++) {
     ebox = gtk_event_box_new();
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
     gtk_table_attach_defaults(GTK_TABLE(table2), ebox, i, i + 1, 0, 1);
@@ -1170,6 +1171,7 @@ static void setup_widgets(void)
     GtkWidget *w;
     
     ebox = gtk_event_box_new();
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
 
     switch (i) {
     case 0:
@@ -1320,8 +1322,13 @@ static void setup_widgets(void)
   gtk_table_attach(GTK_TABLE(map_widget), map_vertical_scrollbar, 1, 2, 0, 1,
                    0, GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
   g_signal_connect(map_canvas, "expose_event",
                    G_CALLBACK(map_canvas_expose), NULL);
+#else  /* GTK 3 */
+  g_signal_connect(map_canvas, "draw",
+                   G_CALLBACK(map_canvas_draw), NULL);
+#endif /* GTK 3 */
 
   g_signal_connect(map_canvas, "configure_event",
                    G_CALLBACK(map_canvas_configure), NULL);
@@ -1562,8 +1569,6 @@ void ui_main(int argc, char **argv)
 
   display_color_type = get_visual();
 
-  civ_gc = gdk_gc_new(root_window);
-
   options_iterate(client_optset, poption) {
     if (OT_FONT == option_type(poption)) {
       /* Force to call the appropriated callback. */
@@ -1585,56 +1590,6 @@ void ui_main(int argc, char **argv)
   }
 
   set_city_names_font_sizes(city_names_font_size, city_productions_font_size);
-
-  fill_bg_gc = gdk_gc_new(root_window);
-
-  /* for isometric view. always create. the tileset can change at run time. */
-  thin_line_gc = gdk_gc_new(root_window);
-  thick_line_gc = gdk_gc_new(root_window);
-  border_line_gc = gdk_gc_new(root_window);
-  gdk_gc_set_line_attributes(thin_line_gc, 1,
-			     GDK_LINE_SOLID,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
-  gdk_gc_set_line_attributes(thick_line_gc, 2,
-			     GDK_LINE_SOLID,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
-  gdk_gc_set_line_attributes(border_line_gc, BORDER_WIDTH,
-			     GDK_LINE_ON_OFF_DASH,
-			     GDK_CAP_NOT_LAST,
-			     GDK_JOIN_MITER);
-
-  fill_tile_gc = gdk_gc_new(root_window);
-  gdk_gc_set_fill(fill_tile_gc, GDK_STIPPLED);
-
-  {
-    char d1[] = {0x03, 0x0c, 0x03, 0x0c};
-    char d2[] = {0x08, 0x02, 0x08, 0x02};
-    char d3[] = {0xAA, 0x55, 0xAA, 0x55};
-
-    gray50 = gdk_bitmap_create_from_data(root_window, d1, 4, 4);
-    gray25 = gdk_bitmap_create_from_data(root_window, d2, 4, 4);
-    black50 = gdk_bitmap_create_from_data(root_window, d3, 4, 4);
-  }
-
-  {
-    GdkColor pixel;
-    
-    mask_bitmap = gdk_pixmap_new(root_window, 1, 1, 1);
-
-    mask_fg_gc = gdk_gc_new(mask_bitmap);
-    pixel.pixel = 1;
-    gdk_gc_set_foreground(mask_fg_gc, &pixel);
-    gdk_gc_set_function(mask_fg_gc, GDK_OR);
-
-    mask_bg_gc = gdk_gc_new(mask_bitmap);
-    pixel.pixel = 0;
-    gdk_gc_set_foreground(mask_bg_gc, &pixel);
-  }
-
-  selection_gc = gdk_gc_new(root_window);
-  gdk_gc_set_function(selection_gc, GDK_XOR);
 
   tileset_init(tileset);
   tileset_load_tiles(tileset);
@@ -1730,15 +1685,11 @@ void set_unit_icon(int idx, struct unit *punit)
     return;
   }
 
-  gtk_pixcomm_freeze(GTK_PIXCOMM(w));
-
   if (punit) {
     put_unit_gpixmap(punit, GTK_PIXCOMM(w));
   } else {
     gtk_pixcomm_clear(GTK_PIXCOMM(w));
   }
-  
-  gtk_pixcomm_thaw(GTK_PIXCOMM(w));
 }
 
 /**************************************************************************
@@ -1828,7 +1779,7 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_pointer_ungrab(GDK_CURRENT_TIME);
+  gdk_display_pointer_ungrab(gtk_widget_get_display(w), GDK_CURRENT_TIME);
   gtk_widget_destroy(w);
   return FALSE;
 }

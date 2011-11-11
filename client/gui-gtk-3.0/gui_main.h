@@ -25,20 +25,8 @@ extern GtkStyle *city_names_style;
 extern GtkStyle *city_productions_style;
 extern GtkStyle *reqtree_text_style;
 
-extern GdkGC *          civ_gc;
-extern GdkGC *          mask_fg_gc;
-extern GdkGC *          mask_bg_gc;
-extern GdkGC *          fill_bg_gc;
-extern GdkGC *          fill_tile_gc;
-extern GdkGC *          thin_line_gc;
-extern GdkGC *          thick_line_gc;
-extern GdkGC *          border_line_gc;
-extern GdkGC *          selection_gc;
-extern GdkPixmap *      gray50;
-extern GdkPixmap *      gray25;
-extern GdkPixmap *      black50;
-extern GdkPixmap *      mask_bitmap;
 #define single_tile_pixmap (mapview.single_tile->pixmap)
+
 extern GtkTextView *	main_message_area;
 extern GtkWidget *      text_scrollbar;
 extern GtkWidget *      toplevel;

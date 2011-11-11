@@ -799,25 +799,23 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
     {
       /* We have to make a new tag every time. */
       GtkTextTag *tag = NULL;
-      GdkColor foreground;
-      GdkColor background;
+      const char *foreground = text_tag_color_foreground(ptag);
+      const char *background = text_tag_color_background(ptag);
 
-      if (gdk_color_parse(text_tag_color_foreground(ptag), &foreground)) {
-        if (gdk_color_parse(text_tag_color_background(ptag),
-                            &background)) {
+      if (foreground && foreground[0]) {
+        if (background && background[0]) {
           tag = gtk_text_buffer_create_tag(buf, NULL,
-                                           "foreground-gdk", &foreground,
-                                           "background-gdk", &background,
+                                           "foreground", foreground,
+                                           "background", background,
                                            NULL);
         } else {
           tag = gtk_text_buffer_create_tag(buf, NULL,
-                                           "foreground-gdk", &foreground,
+                                           "foreground", foreground,
                                            NULL);
         }
-      } else if (gdk_color_parse(text_tag_color_background(ptag),
-                                 &background)) {
+      } else if (background && background[0]) {
         tag = gtk_text_buffer_create_tag(buf, NULL,
-                                         "background-gdk", &background,
+                                         "background", background,
                                          NULL);
       }
 
@@ -1037,12 +1035,10 @@ static void color_set(GObject *object, const gchar *color_target,
                       GdkColor *color, GtkToolButton *button)
 {
   GdkColor *current_color = g_object_get_data(object, color_target);
-  GdkColormap *colormap = gdk_colormap_get_system();
 
   if (NULL == color) {
     /* Clears the current color. */
     if (NULL != current_color) {
-      gdk_colormap_free_colors(colormap, current_color, 1);
       gdk_color_free(current_color);
       g_object_set_data(object, color_target, NULL);
       if (NULL != button) {
@@ -1053,7 +1049,6 @@ static void color_set(GObject *object, const gchar *color_target,
     /* Apply the new color. */
     if (NULL != current_color) {
       /* We already have a GdkColor pointer. */
-      gdk_colormap_free_colors(colormap, current_color, 1);
       *current_color = *color;
     } else {
       /* We need to make a GdkColor pointer. */
@@ -1061,19 +1056,20 @@ static void color_set(GObject *object, const gchar *color_target,
       g_object_set_data(object, color_target, current_color);
     }
 
-    gdk_colormap_alloc_color(colormap, current_color, TRUE, TRUE);
     if (NULL != button) {
       /* Update the button. */
-      GdkPixmap *pixmap;
+      GdkPixbuf *pixbuf;
       GtkWidget *image;
 
-      pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
-      gdk_gc_set_foreground(fill_bg_gc, current_color);
-      gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
-      image = gtk_image_new_from_pixmap(pixmap, NULL);
+      pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 16, 16);
+      gdk_pixbuf_fill(pixbuf,
+                      ((guint32)(current_color->red & 0xff00) << 16)
+                      | ((current_color->green & 0xff00) << 8) |
+                      (current_color->blue & 0xff00) | 0xff);
+      image = gtk_image_new_from_pixbuf(pixbuf);
       gtk_tool_button_set_icon_widget(button, image);
       gtk_widget_show(image);
-      g_object_unref(G_OBJECT(pixmap));
+      g_object_unref(G_OBJECT(pixbuf));
     }
   }
 }
@@ -1143,7 +1139,11 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
 /**************************************************************************
   Moves the tool kit to the toolkit view.
 **************************************************************************/
+#if !GTK_CHECK_VERSION(3, 0, 0)
 static gboolean move_toolkit(GtkWidget *toolkit_view, GdkEventExpose *event,
+#else
+static gboolean move_toolkit(GtkWidget *toolkit_view, cairo_t *cr,
+#endif
                              gpointer data)
 {
   struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
@@ -1194,14 +1194,18 @@ static gboolean move_toolkit(GtkWidget *toolkit_view, GdkEventExpose *event,
     gtk_widget_show_all(ptoolkit->main_widget);
   }
 
-  return FALSE;
+  return TRUE;
 }
 
 /**************************************************************************
   Show/Hide the toolbar.
 **************************************************************************/
 static gboolean set_toolbar_visibility(GtkWidget *w,
+                                       #if !GTK_CHECK_VERSION(3, 0, 0)
                                        GdkEventExpose *event,
+                                       #else
+                                       cairo_t *cr,
+                                       #endif
                                        gpointer data)
 {
   struct inputline_toolkit *ptoolkit = (struct inputline_toolkit *) data;
@@ -1261,8 +1265,13 @@ GtkWidget *inputline_toolkit_view_new(void)
 
   /* Main widget. */
   toolkit_view = gtk_vbox_new(FALSE, 0);
+#if !GTK_CHECK_VERSION(3, 0, 0)
   g_signal_connect(toolkit_view, "expose-event",
                    G_CALLBACK(move_toolkit), &toolkit);
+#else
+  g_signal_connect(toolkit_view, "draw",
+                   G_CALLBACK(move_toolkit), &toolkit);
+#endif
 
   /* Button box. */
   bbox = gtk_hbox_new(FALSE, 12);
@@ -1301,8 +1310,13 @@ void chatline_init(void)
 
   vbox = gtk_vbox_new(FALSE, 2);
   toolkit.main_widget = vbox;
+#if !GTK_CHECK_VERSION(3, 0, 0)
   g_signal_connect(vbox, "expose-event",
                    G_CALLBACK(set_toolbar_visibility), &toolkit);
+#else
+  g_signal_connect(vbox, "draw",
+                   G_CALLBACK(set_toolbar_visibility), &toolkit);
+#endif
 
   entry = gtk_entry_new();
   toolkit.entry = entry;

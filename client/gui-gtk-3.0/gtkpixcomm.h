@@ -50,11 +50,8 @@ typedef struct _GtkPixcommClass	GtkPixcommClass;
 struct _GtkPixcomm
 {
   GtkMisc misc;
-  
-  guint freeze_count;
 
   gint w, h;
-  GArray *actions;
 
   gboolean is_scaled;
   gdouble scale;
@@ -69,14 +66,10 @@ struct _GtkPixcommClass
 GType	   gtk_pixcomm_get_type	 (void) G_GNUC_CONST;
 GtkWidget *gtk_pixcomm_new	 (gint width, gint height);
 void gtk_pixcomm_set_scale(GtkPixcomm *pixcomm, gdouble scale);
+cairo_surface_t *gtk_pixcomm_get_surface(GtkPixcomm *pixcomm);
 void gtk_pixcomm_copyto(GtkPixcomm *pixcomm, struct sprite *src,
 			gint x, gint y);
 void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm);
-void	   gtk_pixcomm_fill	 (GtkPixcomm *pixcomm, GdkColor *color);
-
-void	   gtk_pixcomm_freeze	 (GtkPixcomm *pixcomm);
-void	   gtk_pixcomm_thaw	 (GtkPixcomm *pixcomm);
-
 
 G_END_DECLS
 

@@ -467,7 +467,7 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   }
   pwl = global_worklist_get(pgwl);
 
-  for (i = 0; i < worklist_length(pwl); i++) {
+  for (i = 0; i < (size_t) worklist_length(pwl); i++) {
     GtkTreeIter it;
     cid cid;
 
@@ -941,31 +941,28 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
   if (GTK_IS_CELL_RENDERER_PIXBUF(rend)) {
     GdkPixbuf *pix;
+    struct sprite *sprite;
 
     if (VUT_UTYPE == target.kind) {
-      struct canvas store;
+      sprite = sprite_scale(get_unittype_sprite(tileset, target.value.utype),
+                            max_unit_width, max_unit_height);
 
-      pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-	  max_unit_width, max_unit_height);
-
-      store.type = CANVAS_PIXBUF;
-      store.v.pixbuf = pix;
-      create_overlay_unit(&store, target.value.utype);
-
-      g_object_set(rend, "pixbuf", pix, NULL);
-      g_object_unref(pix);
     } else {
-      struct sprite *sprite = get_building_sprite(tileset, target.value.building);
+      sprite = get_building_sprite(tileset, target.value.building);
 
-      pix = sprite_get_pixbuf(sprite);
-      g_object_set(rend, "pixbuf", pix, NULL);
+    }
+    pix = sprite_get_pixbuf(sprite);
+    g_object_set(rend, "pixbuf", pix, NULL);
+    g_object_unref(G_OBJECT(pix));
+    if (VUT_UTYPE == target.kind) {
+      free_sprite(sprite);
     }
   } else {
     struct city **pcity = data;
     gint column;
     char *row[4];
     char  buf[4][64];
-    int   i;
+    guint   i;
     gboolean useless;
 
     for (i = 0; i < ARRAY_SIZE(row); i++) {
@@ -997,7 +994,7 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
   { N_("Type"), N_("Name"), N_("Info"), N_("Cost"), N_("Turns") };
 
   static bool titles_done;
-  gint i;
+  guint i;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
 

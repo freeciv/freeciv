@@ -43,61 +43,32 @@
 #include "gtkpixcomm.h"
 
 
-static void	gtk_pixcomm_class_init (GtkPixcommClass *klass);
-static void	gtk_pixcomm_init       (GtkPixcomm *pixcomm);
+#if !GTK_CHECK_VERSION(3, 0, 0)
 static gboolean gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *ev);
+static void	gtk_pixcomm_size_request (GtkWidget *widget, GtkRequisition *requisition);
 static void	gtk_pixcomm_destroy    (GtkObject *object);
-#if 0
-static void build_insensitive_pixbuf (GtkPixcomm *pixcomm);
-#endif
+#else  /* GTK 3 */
+static gboolean gtk_pixcomm_draw     (GtkWidget *widget, cairo_t *cr);
+static void	gtk_pixcomm_destroy    (GtkWidget *object);
+static void
+gtk_pixcomm_get_preferred_width(GtkWidget *widget, gint *minimal_width,
+                                gint *natural_width);
+static void
+gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
+                                 gint *natural_height);
+#endif /* GTK 3 */
 
 static GtkMiscClass *parent_class;
 
-
-enum op_t {
-  OP_FILL,
-  OP_COPY,
-  OP_END
-};
-
-struct op {
-  enum op_t type;
-
-  /* OP_FILL */
-  GdkColor *color;
-
-  /* OP_COPY */
-  struct sprite *src;
-  gint x, y;
-};
-
-/***************************************************************************
-  Return pixcomm GtkType
-***************************************************************************/
-GType
-gtk_pixcomm_get_type(void)
+typedef struct _GtkPixcommPrivate GtkPixcommPrivate;
+struct _GtkPixcommPrivate
 {
-  static GType pixcomm_type = 0;
+  cairo_surface_t *surface;
+};
 
-  if (!pixcomm_type) {
-    static const GTypeInfo pixcomm_info = {
-      sizeof(GtkPixcommClass),
-      NULL,		/* base_init */
-      NULL,		/* base_finalize */
-      (GClassInitFunc) gtk_pixcomm_class_init,
-      NULL,		/* class_finalize */
-      NULL,		/* class_data */
-      sizeof(GtkPixcomm),
-      0,		/* n_preallocs */
-      (GInstanceInitFunc) gtk_pixcomm_init
-    };
+#define GTK_PIXCOMM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_PIXCOMM, GtkPixcommPrivate))
 
-    pixcomm_type = g_type_register_static(GTK_TYPE_MISC, "GtkPixcomm",
-					  &pixcomm_info, 0);
-  }
-
-  return pixcomm_type;
-}
+G_DEFINE_TYPE (GtkPixcomm, gtk_pixcomm, GTK_TYPE_MISC)
 
 /***************************************************************************
   Initialize pixcomm class
@@ -105,13 +76,24 @@ gtk_pixcomm_get_type(void)
 static void
 gtk_pixcomm_class_init(GtkPixcommClass *klass)
 {
+#if !GTK_CHECK_VERSION(3, 0, 0)
   GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+#endif
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
   parent_class = g_type_class_peek_parent(klass);
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
   object_class->destroy = gtk_pixcomm_destroy;
   widget_class->expose_event = gtk_pixcomm_expose;
+  widget_class->size_request = gtk_pixcomm_size_request;
+#else
+  widget_class->destroy = gtk_pixcomm_destroy;
+  widget_class->draw = gtk_pixcomm_draw;
+  widget_class->get_preferred_width = gtk_pixcomm_get_preferred_width;
+  widget_class->get_preferred_height = gtk_pixcomm_get_preferred_height;
+#endif
+  g_type_class_add_private (widget_class, sizeof(GtkPixcommPrivate));
 }
 
 /***************************************************************************
@@ -120,26 +102,39 @@ gtk_pixcomm_class_init(GtkPixcommClass *klass)
 static void
 gtk_pixcomm_init(GtkPixcomm *pixcomm)
 {
+  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(pixcomm);
   gtk_widget_set_has_window(GTK_WIDGET(pixcomm), FALSE);
 
-  pixcomm->actions = NULL;
-  pixcomm->freeze_count = 0;
+  priv->surface = NULL;
 }
+
+#if !GTK_CHECK_VERSION(3, 0, 0)
+static void
+gtk_pixcomm_size_request (GtkWidget *p, GtkRequisition *requisition)
+{
+  int xpad, ypad;
+
+  gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
+  requisition->width = GTK_PIXCOMM(p)->w + xpad * 2;
+  requisition->height = GTK_PIXCOMM(p)->h + ypad * 2;
+  GTK_WIDGET_CLASS (gtk_pixcomm_parent_class)->size_request (p, requisition);
+}
+#endif
 
 /***************************************************************************
   Destroy pixcomm instance
 ***************************************************************************/
+#if !GTK_CHECK_VERSION(3, 0, 0)
 static void
 gtk_pixcomm_destroy(GtkObject *object)
 {
   GtkPixcomm *p = GTK_PIXCOMM(object);
+  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
 
   g_object_freeze_notify(G_OBJECT(p));
   
-  if (p->actions) {
-    g_array_free(p->actions, TRUE);
-  }
-  p->actions = NULL;
+  cairo_surface_destroy(priv->surface);
+  priv->surface = NULL;
 
   g_object_thaw_notify(G_OBJECT(p));
 
@@ -148,6 +143,27 @@ gtk_pixcomm_destroy(GtkObject *object)
   }
 }
 
+#else /* GTK 3 */
+
+static void
+gtk_pixcomm_destroy(GtkWidget *object)
+{
+  GtkPixcomm *p = GTK_PIXCOMM(object);
+  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
+
+  g_object_freeze_notify(G_OBJECT(p));
+
+  cairo_surface_destroy(priv->surface);
+  priv->surface = NULL;
+
+  g_object_thaw_notify(G_OBJECT(p));
+
+  if (GTK_WIDGET_CLASS(parent_class)->destroy) {
+    (*GTK_WIDGET_CLASS(parent_class)->destroy)(object);
+  }
+}
+#endif /* GTK 3 */
+
 /***************************************************************************
   Create new pixcomm instance
 ***************************************************************************/
@@ -155,17 +171,24 @@ GtkWidget*
 gtk_pixcomm_new(gint width, gint height)
 {
   GtkPixcomm *p;
+  GtkPixcommPrivate *priv;
+  cairo_t *cr;
+  int xpad, ypad;
 
   p = g_object_new(gtk_pixcomm_get_type(), NULL);
+  priv = GTK_PIXCOMM_GET_PRIVATE(p);
   p->w = width; p->h = height;
+  gtk_misc_get_padding(GTK_MISC(p), &xpad, &ypad);
+  gtk_widget_set_size_request(GTK_WIDGET(p), width + xpad * 2, height + ypad * 2);
 
   p->is_scaled = FALSE;
   p->scale = 1.0;
 
-  p->actions = g_array_new(FALSE, FALSE, sizeof(struct op));
-
-  GTK_WIDGET(p)->requisition.width = p->w + GTK_MISC(p)->xpad * 2;
-  GTK_WIDGET(p)->requisition.height = p->h + GTK_MISC(p)->ypad * 2;
+  priv->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cr = cairo_create(priv->surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
 
   return GTK_WIDGET(p);
 }
@@ -190,14 +213,12 @@ void gtk_pixcomm_set_scale(GtkPixcomm *pixcomm, gdouble scale)
 }
 
 /***************************************************************************
-  Redraw pixcomm widget
+  Get cairo surface from pixcomm.
 ***************************************************************************/
-static void
-refresh(GtkPixcomm *p)
+cairo_surface_t *gtk_pixcomm_get_surface(GtkPixcomm *pixcomm)
 {
-  if (p->freeze_count == 0) {
-    gtk_widget_queue_draw(GTK_WIDGET(p));
-  }
+  fc_assert_ret_val(GTK_IS_PIXCOMM(pixcomm), NULL);
+  return GTK_PIXCOMM_GET_PRIVATE(pixcomm)->surface;
 }
 
 /***************************************************************************
@@ -207,46 +228,49 @@ void
 gtk_pixcomm_clear(GtkPixcomm *p)
 {
   fc_assert_ret(GTK_IS_PIXCOMM(p));
+  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
 
-  g_array_set_size(p->actions, 0);
-  refresh(p);
-}
-
-/***************************************************************************
-  Fill pixcomm with color.
-***************************************************************************/
-void
-gtk_pixcomm_fill(GtkPixcomm *p, GdkColor *color)
-{
-  struct op v;
-
-  fc_assert_ret(GTK_IS_PIXCOMM(p));
-  fc_assert_ret(color != NULL);
-
-  g_array_set_size(p->actions, 0);
-
-  v.type	= OP_FILL;
-  v.color	= color;
-  g_array_append_val(p->actions, v);
-  refresh(p);
+  cairo_t *cr = cairo_create(priv->surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+  gtk_widget_queue_draw(GTK_WIDGET(p));
 }
 
 /***************************************************************************
   Copy sprite to pixcomm
 ***************************************************************************/
+#if !GTK_CHECK_VERSION(3, 0, 0)
 void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
 {
-  struct op v;
-
   fc_assert_ret(GTK_IS_PIXCOMM(p));
   fc_assert_ret(src != NULL);
+  GtkWidget *widget = GTK_WIDGET(p);
+  GtkMisc *misc = GTK_MISC(p);
+  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
+  int width, height, offset_x, offset_y;
+  gfloat xalign;
+  cairo_t *cr = cairo_create(priv->surface);
 
-  v.type	= OP_COPY;
-  v.src		= src;
-  v.x		= x;
-  v.y		= y;
-  g_array_append_val(p->actions, v);
-  refresh(p);
+  if (gtk_widget_get_direction(widget) == GTK_TEXT_DIR_LTR) {
+    xalign = misc->xalign;
+  } else {
+    xalign = 1.0 - misc->xalign;
+  }
+ 
+  offset_x = floor(widget->allocation.x + misc->xpad
+             + ((widget->allocation.width - widget->requisition.width) *
+             xalign));
+  offset_y = floor(widget->allocation.y + misc->ypad 
+             + ((widget->allocation.height - widget->requisition.height) *
+             misc->yalign));
+
+  get_sprite_dimensions(src, &width, &height);
+  cairo_rectangle(cr, x, y, width, height);
+  cairo_set_source_surface(cr, src->surface, x, y);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+  gtk_widget_queue_draw_area(GTK_WIDGET(p), offset_x, offset_y, width, height);
 }
 
 /***************************************************************************
@@ -255,21 +279,19 @@ void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
 static gboolean
 gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 {
+  GtkPixcommPrivate *priv;
   fc_assert_ret_val(GTK_IS_PIXCOMM(widget), FALSE);
   fc_assert_ret_val(ev!=NULL, FALSE);
+  priv = GTK_PIXCOMM_GET_PRIVATE(GTK_PIXCOMM(widget));
 
   if (gtk_widget_is_drawable(widget)) {
     GtkPixcomm *p;
     GtkMisc *misc;
     gint x, y;
     gfloat xalign;
-    guint i;
 
     p = GTK_PIXCOMM(widget);
     misc = GTK_MISC(widget);
-
-    if (p->actions->len <= 0)
-      return FALSE;
 
     if (gtk_widget_get_direction(widget) == GTK_TEXT_DIR_LTR) {
       xalign = misc->xalign;
@@ -279,105 +301,92 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 
     x = floor(widget->allocation.x + misc->xpad
 	+ ((widget->allocation.width - widget->requisition.width) *
-	  xalign)
-	+ 0.5);
+	  xalign));
     y = floor(widget->allocation.y + misc->ypad 
 	+ ((widget->allocation.height - widget->requisition.height) *
-	  misc->yalign)
-	+ 0.5);
+	  misc->yalign));
 
-    /* draw! */
-    for (i = 0; i < p->actions->len; i++) {
-      const struct op *rop = &g_array_index(p->actions, struct op, i);
+    {
+      cairo_t *cr = gdk_cairo_create(widget->window);
 
-      switch (rop->type) {
-      case OP_FILL:
-        gdk_gc_set_foreground(civ_gc, rop->color);
-        gdk_draw_rectangle(widget->window, civ_gc, TRUE, x, y, p->w, p->h);
-        break;
-
-      case OP_COPY:
-	if (p->is_scaled) {
-	  int w = rop->src->width * p->scale + 0.5;
-	  int h = rop->src->height * p->scale + 0.5;
-	  int ox = rop->x * p->scale + 0.5;
-	  int oy = rop->y * p->scale + 0.5;
-	  GdkPixbuf *pixbuf = sprite_get_pixbuf(rop->src);
-	  GdkPixbuf *scaled
-	    = gdk_pixbuf_scale_simple(pixbuf, w, h, GDK_INTERP_BILINEAR);
-
-	  gdk_draw_pixbuf(widget->window, civ_gc,
-			  scaled, 0, 0, x + ox, y + oy,
-			  w, h, GDK_RGB_DITHER_NONE, 0, 0);
-	  g_object_unref(scaled);
-	} else if (rop->src->pixmap) {
-	  if (rop->src->mask) {
-	    gdk_gc_set_clip_mask(civ_gc, rop->src->mask);
-	    gdk_gc_set_clip_origin(civ_gc, x + rop->x, y + rop->y);
-
-	    gdk_draw_drawable(widget->window, civ_gc,
-			      rop->src->pixmap,
-			      0, 0,
-			      x + rop->x, y + rop->y,
-			      rop->src->width, rop->src->height);
-
-	    gdk_gc_set_clip_origin(civ_gc, 0, 0);
-	    gdk_gc_set_clip_mask(civ_gc, NULL);
-	  } else {
-	    gdk_draw_drawable(widget->window, civ_gc,
-			      rop->src->pixmap,
-			      0, 0,
-			      x + rop->x, y + rop->y,
-			      rop->src->width, rop->src->height);
-	  }
-	} else {
-	  gdk_draw_pixbuf(widget->window, civ_gc,
-			  rop->src->pixbuf,
-			  0, 0,
-			  x + rop->x, y + rop->y,
-			  rop->src->width, rop->src->height,
-			  GDK_RGB_DITHER_NONE, 0, 0);
-	}
-        break;
-
-      default:
-        break;
-      }
+      gdk_cairo_region(cr, ev->region);
+      cairo_clip(cr);
+      cairo_translate(cr, x, y);
+      if (p->is_scaled) cairo_scale(cr, p->scale, p->scale);
+      cairo_set_source_surface(cr, priv->surface, 0, 0);
+      cairo_paint(cr);
+      cairo_destroy(cr);
     }
   }
   return FALSE;
 }
 
-/***************************************************************************
-  Increase pixcomm freeze count so it won't be drawn until thawed
-***************************************************************************/
-void
-gtk_pixcomm_freeze(GtkPixcomm *p)
-{
-  fc_assert_ret(GTK_IS_PIXCOMM(p));
+#else /* GTK 3 */
 
-  p->freeze_count++;
+void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
+{
+  GtkMisc *misc = GTK_MISC(p);
+  GtkPixcommPrivate *priv = GTK_PIXCOMM_GET_PRIVATE(p);
+  int width, height, xpad, ypad;
+  cairo_t *cr = cairo_create(priv->surface);
+
+  gtk_misc_get_padding(misc, &xpad, &ypad);
+
+  fc_assert_ret(GTK_IS_PIXCOMM(p));
+  fc_assert_ret(src != NULL);
+
+  get_sprite_dimensions(src, &width, &height);
+  cairo_rectangle(cr, x, y, width, height);
+  cairo_set_source_surface(cr, src->surface, x, y);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+  gtk_widget_queue_draw_area(GTK_WIDGET(p), x + xpad, y + ypad, width, height);
 }
 
-/***************************************************************************
-  Reduce pixcomm freeze count possibly causing pixcomm to be drawn.
-***************************************************************************/
-void
-gtk_pixcomm_thaw(GtkPixcomm *p)
+static gboolean
+gtk_pixcomm_draw(GtkWidget *widget, cairo_t *cr)
 {
-  fc_assert_ret(GTK_IS_PIXCOMM(p));
+  GtkPixcommPrivate *priv;
+  GtkPixcomm *p;
+  GtkMisc *misc;
+  gint xpad, ypad;
 
-  if (p->freeze_count > 0) {
-    p->freeze_count--;
+  fc_assert_ret_val(GTK_IS_PIXCOMM(widget), FALSE);
 
-    refresh(p);
+  priv = GTK_PIXCOMM_GET_PRIVATE(GTK_PIXCOMM(widget));
+
+  p = GTK_PIXCOMM(widget);
+  misc = GTK_MISC(widget);
+  gtk_misc_get_padding(misc, &xpad, &ypad);
+
+  cairo_translate(cr, xpad, ypad);
+
+  if (p->is_scaled) {
+    cairo_scale(cr, p->scale, p->scale);
   }
+  cairo_set_source_surface(cr, priv->surface, 0, 0);
+  cairo_paint(cr);
+
+  return FALSE;
 }
 
-#if 0
 static void
-build_insensitive_pixbuf(GtkPixcomm *pixcomm)
+gtk_pixcomm_get_preferred_width(GtkWidget *widget, gint *minimal_width,
+                                gint *natural_width)
 {
-  /* gdk_pixbuf_composite_color_simple() */
+  int xpad;
+
+  gtk_misc_get_padding(GTK_MISC(widget), &xpad, NULL);
+  *minimal_width = *natural_width = GTK_PIXCOMM(widget)->w + xpad;
 }
-#endif
+
+static void
+gtk_pixcomm_get_preferred_height(GtkWidget *widget, gint *minimal_height,
+                                gint *natural_height)
+{
+  int ypad;
+
+  gtk_misc_get_padding(GTK_MISC(widget), NULL, &ypad);
+  *minimal_height = *natural_height = GTK_PIXCOMM(widget)->h + ypad;
+}
+#endif /* GTK 3 */

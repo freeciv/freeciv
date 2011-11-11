@@ -19,6 +19,10 @@
 
 struct color {
   GdkColor color;
+  double r;
+  double g;
+  double b;
+  double a;
 };
 
 enum Display_color_type {

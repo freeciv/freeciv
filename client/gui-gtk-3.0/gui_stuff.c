@@ -595,7 +595,9 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gint w, h;
       char buf[256];
 
-      gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &w, &h);
+      gtk_icon_size_lookup_for_settings(
+        gtk_settings_get_for_screen(gtk_widget_get_screen(vbox)),
+        GTK_ICON_SIZE_MENU, &w, &h);
 
       hbox = gtk_hbox_new(FALSE, 0);
 
@@ -613,14 +615,15 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_widget_set_tooltip_text(button, buf);
 
       image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-      gtk_widget_set_size_request(button, w, h);
-      gtk_container_add(GTK_CONTAINER(button), image);
+      gtk_misc_set_padding(GTK_MISC(image), 0, 0);
+      gtk_button_set_image(GTK_BUTTON(button), image);
 
       gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
       gtk_widget_show_all(hbox);
       
       event_box = gtk_event_box_new();
+      gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
       gtk_container_add(GTK_CONTAINER(event_box), hbox);
 
       gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, event_box);
@@ -860,10 +863,8 @@ void gui_dialog_present(struct gui_dialog *dlg)
 
       if (current != n) {
 	GtkWidget *label = dlg->v.tab.label;
-	GdkColormap *cmap = gtk_widget_get_default_colormap();
 	GdkColor color = {.red = 255 << 8, .green = 0, .blue = 0};
 
-	gdk_rgb_find_color(cmap, &color);
 	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
       }
     }
@@ -914,10 +915,8 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 
       if (current != n) {
         GtkWidget *label = dlg->v.tab.label;
-        GdkColormap *cmap = gtk_widget_get_default_colormap();
         GdkColor color = {.red = 0, .green = 0, .blue = 255 << 8};
 
-        gdk_rgb_find_color(cmap, &color);
         gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
       }
     }

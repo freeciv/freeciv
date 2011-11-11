@@ -30,10 +30,5 @@ extern struct sprite *radar_gfx_sprite;
  * variable in GTK+-2.6.  See PR#12459. */
 extern GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
-void gtk_draw_shadowed_string(GdkDrawable *drawable,
-			      GdkGC *black_gc,
-			      GdkGC *white_gc,
-			      gint x, gint y, PangoLayout *layout);
-
 #endif  /* FC__GRAPHICS_H */
 

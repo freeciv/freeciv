@@ -72,18 +72,6 @@ bool overhead_view_supported(void)
 #define COLOR_MOTTO_FACE_G    0x71
 #define COLOR_MOTTO_FACE_B    0xE3
 
-/**************************************************************************
-  Draw string with shadow
-**************************************************************************/
-void gtk_draw_shadowed_string(GdkDrawable *drawable,
-			      GdkGC *black_gc,
-			      GdkGC *white_gc,
-			      gint x, gint y, PangoLayout *layout)
-{
-  gdk_draw_layout(drawable, black_gc, x + 1, y + 1, layout);
-  gdk_draw_layout(drawable, white_gc, x, y, layout);
-}
-
 /***************************************************************************
   Load cursor sprites
 ***************************************************************************/
@@ -102,6 +90,7 @@ void load_cursors(void)
 
       fc_cursors[cursor][frame] = gdk_cursor_new_from_pixbuf(display, pixbuf,
 							     hot_x, hot_y);
+      g_object_unref(G_OBJECT(pixbuf));
     }
   }
 }
@@ -116,19 +105,7 @@ void create_overlay_unit(struct canvas *pcanvas, struct unit_type *punittype)
   struct sprite *sprite = get_unittype_sprite(tileset, punittype);
 
   sprite_get_bounding_box(sprite, &x1, &y1, &x2, &y2);
-  if (pcanvas->type == CANVAS_PIXBUF) {
-    width = gdk_pixbuf_get_width(pcanvas->v.pixbuf);
-    height = gdk_pixbuf_get_height(pcanvas->v.pixbuf);
-    gdk_pixbuf_fill(pcanvas->v.pixbuf, 0x00000000);
-  } else {
-    if (pcanvas->type == CANVAS_PIXCOMM) {
-      gtk_pixcomm_clear(pcanvas->v.pixcomm);
-    }
-
-    /* Guess */
-    width = tileset_full_tile_width(tileset);
-    height = tileset_full_tile_height(tileset);
-  }
+  get_sprite_dimensions(sprite, &width, &height);
 
   /* Finally, put a picture of the unit in the tile */
   canvas_put_sprite(pcanvas, 0, 0, sprite, 

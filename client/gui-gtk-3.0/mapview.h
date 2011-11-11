@@ -30,8 +30,13 @@ GdkPixbuf *get_thumb_pixbuf(int onoff);
 
 #define CURSOR_INTERVAL 200 /* milliseconds */
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
+#else  /* GTK 3 */
+gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
+gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
+#endif /* GTK 3 */
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 			      gpointer data);
 
@@ -43,11 +48,11 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
 
-void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+void pixmap_put_overlay_tile(GdkWindow *pixmap,
 			     int canvas_x, int canvas_y,
 			     struct sprite *ssprite);
 
-void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
+void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
 				  int canvas_x, int canvas_y,
 				  struct sprite *ssprite,
 				  bool fog);

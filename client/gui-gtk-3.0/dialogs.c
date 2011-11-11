@@ -695,7 +695,6 @@ static void create_races_dialog(struct player *pplayer)
 
     s = crop_blankspace(get_sample_city_sprite(tileset, i));
     img = sprite_get_pixbuf(s);
-    g_object_ref(img);
     free_sprite(s);
     gtk_list_store_set(store, &it, 0, i, 1, img, 2,
                        city_style_name_translation(i), -1);

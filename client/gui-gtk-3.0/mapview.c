@@ -79,11 +79,11 @@ void update_turn_done_button(bool do_restore)
   }
 
   if ((do_restore && flip) || !do_restore) {
-    GdkGC *fore = turn_done_button->style->bg_gc[GTK_STATE_NORMAL];
-    GdkGC *back = turn_done_button->style->light_gc[GTK_STATE_NORMAL];
+    GdkColor *fore = &gtk_widget_get_style(turn_done_button)->bg[GTK_STATE_NORMAL];
+    GdkColor *back = &gtk_widget_get_style(turn_done_button)->light[GTK_STATE_NORMAL];
 
-    turn_done_button->style->bg_gc[GTK_STATE_NORMAL] = back;
-    turn_done_button->style->light_gc[GTK_STATE_NORMAL] = fore;
+    gtk_widget_get_style(turn_done_button)->bg[GTK_STATE_NORMAL] = *back;
+    gtk_widget_get_style(turn_done_button)->light[GTK_STATE_NORMAL] = *fore;
 
     gtk_expose_now(turn_done_button);
 
@@ -297,31 +297,63 @@ void overview_size_changed(void)
 ****************************************************************************/
 struct canvas *get_overview_window(void)
 {
+#if 0
   static struct canvas store;
 
-  store.type = CANVAS_PIXMAP;
-  store.v.pixmap = overview_canvas->window;
+  store.surface = NULL;
+  store.drawable = gdk_cairo_create(gtk_widget_get_window(overview_canvas));
+
   return &store;
+#endif /* 0 */
+
+  return NULL;
 }
 
 /**************************************************************************
   Overview canvas exposed
 **************************************************************************/
+#if !GTK_CHECK_VERSION(3, 0, 0)
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
-  if (!can_client_change_view()) {
-    if (radar_gfx_sprite) {
-      gdk_draw_drawable(overview_canvas->window, civ_gc,
-			radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
-			ev->area.x, ev->area.y,
-			ev->area.width, ev->area.height);
-    }
-    return TRUE;
+  gpointer source = (can_client_change_view()) ?
+                     (gpointer)overview.window : (gpointer)radar_gfx_sprite;
+
+  if (source) {
+    cairo_surface_t *surface = (can_client_change_view()) ?
+                                overview.window->surface :
+                                radar_gfx_sprite->surface;
+    cairo_t *cr = gdk_cairo_create(overview_canvas->window);
+
+    gdk_cairo_region(cr, ev->region);
+    cairo_clip(cr);
+    cairo_set_source_surface(cr, surface, 0, 0);
+    cairo_paint(cr);
+    cairo_destroy(cr);
   }
-  
-  refresh_overview_from_canvas();
   return TRUE;
 }
+
+#else /* GTK 3 */
+
+/**************************************************************************
+  Redraw overview canvas
+**************************************************************************/
+gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
+{
+  gpointer source = (can_client_change_view()) ?
+                     (gpointer)overview.window : (gpointer)radar_gfx_sprite;
+
+  if (source) {
+    cairo_surface_t *surface = (can_client_change_view()) ?
+                                overview.window->surface :
+                                radar_gfx_sprite->surface;
+
+    cairo_set_source_surface(cr, surface, 0, 0);
+    cairo_paint(cr);
+  }
+  return TRUE;
+}
+#endif /* GTK 3 */
 
 /****************************************************************************
   Freeze the drawing of the map.
@@ -366,7 +398,33 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 /**************************************************************************
   Map canvas exposed
 **************************************************************************/
+#if !GTK_CHECK_VERSION(3, 0, 0)
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
+{
+  if (can_client_change_view() && map_exists() && !mapview_is_frozen()) {
+    cairo_t *cr;
+
+    /* First we mark the area to be updated as dirty.  Then we unqueue
+     * any pending updates, to make sure only the most up-to-date data
+     * is written (otherwise drawing bugs happen when old data is copied
+     * to screen).  Then we draw all changed areas to the screen. */
+    unqueue_mapview_updates(FALSE);
+    cr = gdk_cairo_create(map_canvas->window);
+    gdk_cairo_region(cr, ev->region);
+    cairo_clip(cr);
+    cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
+    cairo_paint(cr);
+    cairo_destroy(cr);
+  }
+  return TRUE;
+}
+
+#else /* GTK 3 */
+
+/**************************************************************************
+  Redraw map canvas.
+**************************************************************************/
+gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
 {
   if (can_client_change_view() && map_exists() && !mapview_is_frozen()) {
     /* First we mark the area to be updated as dirty.  Then we unqueue
@@ -374,12 +432,12 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
      * is written (otherwise drawing bugs happen when old data is copied
      * to screen).  Then we draw all changed areas to the screen. */
     unqueue_mapview_updates(FALSE);
-    gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
-                      ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-                      ev->area.width, ev->area.height);
+    cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
+    cairo_paint(cr);
   }
   return TRUE;
 }
+#endif /* GTK 3 */
 
 /**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
@@ -388,40 +446,9 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 void flush_mapcanvas(int canvas_x, int canvas_y,
                      int pixel_width, int pixel_height)
 {
-  if (NULL != map_canvas->window && !mapview_is_frozen()) {
-    gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
-                      canvas_x, canvas_y, canvas_x, canvas_y,
-                      pixel_width, pixel_height);
-  }
-}
-
-#define MAX_DIRTY_RECTS 20
-static int num_dirty_rects = 0;
-static GdkRectangle dirty_rects[MAX_DIRTY_RECTS];
-static bool is_flush_queued = FALSE;
-
-/**************************************************************************
-  A callback invoked as a result of g_idle_add, this function simply
-  flushes the mapview canvas.
-**************************************************************************/
-static gboolean unqueue_flush(gpointer data)
-{
-  flush_dirty();
-  is_flush_queued = FALSE;
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Called when a region is marked dirty, this function queues a flush event
-  to be handled later by GTK.  The flush may end up being done
-  by freeciv before then, in which case it will be a wasted call.
-**************************************************************************/
-static void queue_flush(void)
-{
-  if (!is_flush_queued) {
-    g_idle_add(unqueue_flush, NULL);
-    is_flush_queued = TRUE;
+  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
+  if (gtk_widget_get_realized(map_canvas) && !mapview_is_frozen()) {
+    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), &rectangle, FALSE);
   }
 }
 
@@ -432,16 +459,9 @@ static void queue_flush(void)
 void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)
 {
-  if (mapview_is_frozen()) {
-    return;
-  }
-  if (num_dirty_rects < MAX_DIRTY_RECTS) {
-    dirty_rects[num_dirty_rects].x = canvas_x;
-    dirty_rects[num_dirty_rects].y = canvas_y;
-    dirty_rects[num_dirty_rects].width = pixel_width;
-    dirty_rects[num_dirty_rects].height = pixel_height;
-    num_dirty_rects++;
-    queue_flush();
+  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
+  if (gtk_widget_get_realized(map_canvas)) {
+    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), &rectangle, FALSE);
   }
 }
 
@@ -450,11 +470,9 @@ void dirty_rect(int canvas_x, int canvas_y,
 **************************************************************************/
 void dirty_all(void)
 {
-  if (mapview_is_frozen()) {
-    return;
+  if (gtk_widget_get_realized(map_canvas)) {
+    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), NULL, FALSE);
   }
-  num_dirty_rects = MAX_DIRTY_RECTS;
-  queue_flush();
 }
 
 /**************************************************************************
@@ -464,21 +482,6 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
-  if (mapview_is_frozen()) {
-    return;
-  }
-  if (num_dirty_rects == MAX_DIRTY_RECTS) {
-    flush_mapcanvas(0, 0, map_canvas->allocation.width,
-		    map_canvas->allocation.height);
-  } else {
-    int i;
-
-    for (i = 0; i < num_dirty_rects; i++) {
-      flush_mapcanvas(dirty_rects[i].x, dirty_rects[i].y,
-		      dirty_rects[i].width, dirty_rects[i].height);
-    }
-  }
-  num_dirty_rects = 0;
 }
 
 /****************************************************************************
@@ -488,7 +491,6 @@ void flush_dirty(void)
 ****************************************************************************/
 void gui_flush(void)
 {
-  gdk_flush();
 }
 
 /**************************************************************************
@@ -506,15 +508,12 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
   struct canvas canvas_store;
 
-  canvas_store.type = CANVAS_PIXCOMM;
-  canvas_store.v.pixcomm = p;
+  canvas_store.surface = gtk_pixcomm_get_surface(p);
+  canvas_store.drawable = NULL;
 
-  gtk_pixcomm_freeze(p);
   gtk_pixcomm_clear(p);
 
   put_unit(punit, &canvas_store, 0, 0);
-
-  gtk_pixcomm_thaw(p);
 }
 
 
@@ -529,196 +528,71 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
 {
   struct canvas store;
  
-  store.type = CANVAS_PIXCOMM;
-  store.v.pixcomm = p;
-
-  gtk_pixcomm_freeze(p);
+  store.surface = gtk_pixcomm_get_surface(p);
+  store.drawable = NULL;
 
   put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset),
                          upkeep_cost, happy_cost);
-
-  gtk_pixcomm_thaw(p);
 }
 
 /**************************************************************************
   Put overlay tile to pixmap
 **************************************************************************/
-void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+void pixmap_put_overlay_tile(GdkWindow *pixmap,
 			     int canvas_x, int canvas_y,
 			     struct sprite *ssprite)
 {
+  cairo_t *cr;
+
   if (!ssprite) {
     return;
   }
 
-  if (ssprite->pixmap) {
-    gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-
-    gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
-		      0, 0,
-		      canvas_x, canvas_y,
-		      ssprite->width, ssprite->height);
-    gdk_gc_set_clip_mask(civ_gc, NULL);
-  } else {
-    gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf,
-		    0, 0,
-		  canvas_x, canvas_y,
-		  ssprite->width, ssprite->height,
-		  GDK_RGB_DITHER_NONE, 0, 0);
-  }
+  cr = gdk_cairo_create(pixmap);
+  cairo_set_source_surface(cr, ssprite->surface, canvas_x, canvas_y);
+  cairo_paint(cr);
+  cairo_destroy(cr);
 }
 
 /**************************************************************************
-  Place part of a (possibly masked) sprite on a pixmap.
+  Only used for isometric view.
 **************************************************************************/
-static void pixmap_put_sprite(GdkDrawable *pixmap,
-			      int pixmap_x, int pixmap_y,
-			      struct sprite *ssprite,
-			      int offset_x, int offset_y,
-			      int width, int height)
-{
-#ifdef DEBUG
-  static int sprites = 0, pixbufs = 0;
-#endif
-
-  if (ssprite->pixmap) {
-    if (ssprite->mask) {
-      gdk_gc_set_clip_origin(civ_gc, pixmap_x, pixmap_y);
-      gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-    }
-
-    gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
-		      offset_x, offset_y,
-		      pixmap_x + offset_x, pixmap_y + offset_y,
-		      MIN(width, MAX(0, ssprite->width - offset_x)),
-		      MIN(height, MAX(0, ssprite->height - offset_y)));
-
-    gdk_gc_set_clip_mask(civ_gc, NULL);
-  } else {
-    gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf,
-		    offset_x, offset_y,
-		    pixmap_x + offset_x, pixmap_y + offset_y,
-		    MIN(width, MAX(0, ssprite->width - offset_x)),
-		    MIN(height, MAX(0, ssprite->height - offset_y)),
-		    GDK_RGB_DITHER_NONE, 0, 0);
-#ifdef DEBUG
-    pixbufs++;
-#endif
-  }
-
-#ifdef DEBUG
-  sprites++;
-  if (sprites % 1000 == 0) {
-    log_debug("%5d / %5d pixbufs = %d%%",
-              pixbufs, sprites, 100 * pixbufs / sprites);
-  }
-#endif /* DEBUG */
-}
-
-/**************************************************************************
-  Created a fogged version of the sprite.  This can fail on older systems
-  in which case the callers needs a fallback.
-**************************************************************************/
-static void fog_sprite(struct sprite *sprite)
-{
-  int x, y;
-  GdkPixbuf *fogged;
-  guchar *pixel;
-  const int bright = 65; /* Brightness percentage */
-
-  if (sprite->pixmap) {
-    fogged = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-			    sprite->width, sprite->height);
-    gdk_pixbuf_get_from_drawable(fogged, sprite->pixmap, NULL,
-				 0, 0, 0, 0, sprite->width, sprite->height);
-  } else {
-    fogged = gdk_pixbuf_copy(sprite->pixbuf);
-  }
-
-  /* Iterate over all pixels, reducing brightness by 50%. */
-  for (x = 0; x < sprite->width; x++) {
-    for (y = 0; y < sprite->height; y++) {
-      pixel = gdk_pixbuf_get_pixels(fogged)
-	+ y * gdk_pixbuf_get_rowstride(fogged)
-	+ x * gdk_pixbuf_get_n_channels(fogged);
-
-      pixel[0] = pixel[0] * bright / 100;
-      pixel[1] = pixel[1] * bright / 100;
-      pixel[2] = pixel[2] * bright / 100;
-    }
-  }
-
-  if (sprite->pixmap) {
-    gdk_pixbuf_render_pixmap_and_mask(fogged, &sprite->pixmap_fogged,
-				      NULL, 0);
-    g_object_unref(fogged);
-  } else {
-    sprite->pixbuf_fogged = fogged;
-  }
-}
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
+void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
 				  int canvas_x, int canvas_y,
 				  struct sprite *ssprite,
 				  bool fog)
 {
+  cairo_t *cr;
+  int sswidth, ssheight;
+
   if (!ssprite) {
     return;
   }
 
-  if (fog && gui_gtk3_better_fog
-      && ((ssprite->pixmap && !ssprite->pixmap_fogged)
-	  || (!ssprite->pixmap && !ssprite->pixbuf_fogged))) {
-    fog_sprite(ssprite);
-    if ((ssprite->pixmap && !ssprite->pixmap_fogged)
-        || (!ssprite->pixmap && !ssprite->pixbuf_fogged)) {
-      log_normal(_("Better fog will only work in truecolor. Disabling it"));
-      gui_gtk3_better_fog = FALSE;
-    }
-  }
+  get_sprite_dimensions(ssprite, &sswidth, &ssheight);
+  canvas_put_sprite(pcanvas, canvas_x, canvas_y, ssprite,
+		    0, 0, sswidth, ssheight);
 
-  if (fog && gui_gtk3_better_fog) {
-    if (ssprite->pixmap) {
-      if (ssprite->mask) {
-	gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-	gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-      }
-      gdk_draw_drawable(pixmap, civ_gc,
-			ssprite->pixmap_fogged,
-			0, 0,
-			canvas_x, canvas_y,
-			ssprite->width, ssprite->height);
-      gdk_gc_set_clip_mask(civ_gc, NULL);
-    } else {
-      gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf_fogged,
-		      0, 0, canvas_x, canvas_y, 
-		      ssprite->width, ssprite->height,
-		      GDK_RGB_DITHER_NONE, 0, 0);
-    }
-    return;
-  }
-
-  pixmap_put_sprite(pixmap, canvas_x, canvas_y, ssprite,
-		    0, 0, ssprite->width, ssprite->height);
-
-  /* I imagine this could be done more efficiently. Some pixels We first
-     draw from the sprite, and then draw black afterwards. It would be much
-     faster to just draw every second pixel black in the first place. */
   if (fog) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(ssprite));
-    gdk_gc_set_foreground(fill_tile_gc,
-			  &get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color);
-    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_stipple(fill_tile_gc, black50);
+    if (!pcanvas->drawable) {
+      cr = cairo_create(pcanvas->surface);
+    } else {
+      cr = pcanvas->drawable;
+    }
 
-    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
-		       canvas_x, canvas_y, ssprite->width, ssprite->height);
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    if (pcanvas->drawable) {
+      cairo_save(cr);
+    }
+
+    cairo_set_operator(cr, CAIRO_OPERATOR_HSL_COLOR);
+    cairo_set_source_rgb(cr, 0.65, 0.65, 0.65);
+    cairo_fill(cr);
+
+    if (!pcanvas->drawable) {
+      cairo_destroy(cr);
+    } else {
+      cairo_restore(cr);
+    }
   }
 }
 
@@ -770,6 +644,9 @@ void update_map_canvas_scrollbars(void)
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
   gtk_adjustment_set_value(GTK_ADJUSTMENT(map_hadj), scroll_x);
   gtk_adjustment_set_value(GTK_ADJUSTMENT(map_vadj), scroll_y);
+  if (can_client_change_view()) {
+    gtk_widget_queue_draw(overview_canvas);
+  }
 }
 
 /**************************************************************************
@@ -831,8 +708,9 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
-  GdkPoint points[5];
+  double dashes[2] = {4.0, 4.0};
   struct color *pcolor;
+  cairo_t *cr;
 
   if (w == 0 || h == 0) {
     return;
@@ -843,25 +721,14 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
     return;
   }
 
-  /* gdk_draw_rectangle() must start top-left.. */
-  points[0].x = canvas_x;
-  points[0].y = canvas_y;
-
-  points[1].x = canvas_x + w;
-  points[1].y = canvas_y;
-
-  points[2].x = canvas_x + w;
-  points[2].y = canvas_y + h;
-
-  points[3].x = canvas_x;
-  points[3].y = canvas_y + h;
-
-  points[4].x = canvas_x;
-  points[4].y = canvas_y;
-
-  gdk_gc_set_foreground(selection_gc, &pcolor->color);
-  gdk_draw_lines(map_canvas->window, selection_gc,
-                 points, ARRAY_SIZE(points));
+  cr = gdk_cairo_create(gtk_widget_get_window(map_canvas));
+  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  cairo_set_line_width(cr, 2.0);
+  cairo_set_dash(cr, dashes, 2, 0);
+  cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
+  cairo_rectangle(cr, canvas_x, canvas_y, w, h);
+  cairo_stroke(cr);
+  cairo_destroy(cr);
 }
 
 /**************************************************************************

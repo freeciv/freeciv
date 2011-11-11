@@ -52,6 +52,11 @@
 
 #include "mapctrl.h"
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
+#define gtk_widget_get_allocated_width(a) (a)->allocation.width
+#define gtk_widget_get_allocated_height(a) (a)->allocation.height
+#endif /* GTK 3 */
+
 struct tmousepos { int x, y; };
 extern gint cur_x, cur_y;
 
@@ -61,7 +66,7 @@ extern gint cur_x, cur_y;
 static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
 {
   gtk_grab_remove(w);
-  gdk_pointer_ungrab(GDK_CURRENT_TIME);
+  gdk_display_pointer_ungrab(gtk_widget_get_display(w), GDK_CURRENT_TIME);
   gtk_widget_destroy(w);
   return FALSE;
 }
@@ -84,7 +89,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
     gint minx, miny, maxy;
 
     gdk_window_get_origin(gtk_widget_get_window(map_canvas), &minx, &miny);
-    maxy = miny + map_canvas->allocation.height;
+    maxy = miny + gtk_widget_get_allocated_height(map_canvas);
 
     if (x > mapview.width/2) {
       /* right part of the map */
