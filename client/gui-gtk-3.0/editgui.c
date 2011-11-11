@@ -434,6 +434,7 @@ static void editbar_add_tool_button(struct editbar *eb,
   fc_assert_ret(sprite != NULL);
   pixbuf = sprite_get_pixbuf(sprite);
   image = gtk_image_new_from_pixbuf(pixbuf);
+  g_object_unref(G_OBJECT(pixbuf));
 
   gtk_container_add(GTK_CONTAINER(button), image);
   gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
@@ -492,6 +493,7 @@ static void editbar_add_mode_button(struct editbar *eb,
   fc_assert_ret(sprite != NULL);
   pixbuf = sprite_get_pixbuf(sprite);
   image = gtk_image_new_from_pixbuf(pixbuf);
+  g_object_unref(G_OBJECT(pixbuf));
 
   gtk_container_add(GTK_CONTAINER(button), image);
   gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
@@ -588,6 +590,7 @@ static struct editbar *editbar_create(void)
   button = gtk_button_new();
   pixbuf = sprite_get_pixbuf(sprites->properties);
   image = gtk_image_new_from_pixbuf(pixbuf);
+  g_object_unref(G_OBJECT(pixbuf));
   gtk_container_add(GTK_CONTAINER(button), image);
   gtk_widget_set_tooltip_text(button, _("Show the property editor."));
   gtk_size_group_add_widget(eb->size_group, button);
@@ -695,23 +698,26 @@ static GdkPixbuf *create_military_base_pixbuf(const struct base_type *pbase)
   int count, w, h, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
   struct canvas canvas;
+  cairo_t *cr;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
-  pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
-  if (pixbuf == NULL) {
-    return NULL;
-  }
-  gdk_pixbuf_fill(pixbuf, 0x00000000);
-
-  canvas.type = CANVAS_PIXBUF;
-  canvas.v.pixbuf = pixbuf;
+  canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
+  canvas.drawable = NULL;
   canvas_x = 0;
   canvas_y = 0;
 
+  cr = cairo_create(canvas.surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
   count = fill_basic_base_sprite_array(tileset, sprs, pbase);
   put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
+
+  pixbuf = surface_get_pixbuf(canvas.surface, w, h);
+  cairo_surface_destroy(canvas.surface);
 
   return pixbuf;
 }
@@ -731,26 +737,29 @@ static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
   int count, w, h, canvas_x, canvas_y, i;
   GdkPixbuf *pixbuf;
   struct canvas canvas;
+  cairo_t *cr;
 
   w = tileset_tile_width(tileset);
   h = tileset_tile_height(tileset);
 
-  pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
-  if (pixbuf == NULL) {
-    return NULL;
-  }
-  gdk_pixbuf_fill(pixbuf, 0x00000000);
-
-  canvas.type = CANVAS_PIXBUF;
-  canvas.v.pixbuf = pixbuf;
+  canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
+  canvas.drawable = NULL;
   canvas_x = 0;
   canvas_y = 0;
+
+  cr = cairo_create(canvas.surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
 
   for (i = 0; i < 3; i++) {
     count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
                                                   i, pterrain);
     put_drawn_sprites(&canvas, canvas_x, canvas_y, count, sprs, FALSE);
   }
+
+  pixbuf = surface_get_pixbuf(canvas.surface, w, h);
+  cairo_surface_destroy(canvas.surface);
 
   return pixbuf;
 }
@@ -1546,6 +1555,9 @@ static void editinfobox_refresh(struct editinfobox *ei)
     spr = editor_tool_get_sprite(ett);
     pixbuf = spr ? sprite_get_pixbuf(spr) : NULL;
     gtk_image_set_from_pixbuf(GTK_IMAGE(ei->tool_image), pixbuf);
+    if (pixbuf) {
+      g_object_unref(G_OBJECT(pixbuf));
+    }
     pixbuf = NULL;
   } else {
     pixbuf = get_tool_value_pixbuf(ett, value);

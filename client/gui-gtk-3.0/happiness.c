@@ -174,7 +174,7 @@ static gboolean show_happiness_button_release(GtkWidget *w,
                                               gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_pointer_ungrab(GDK_CURRENT_TIME);
+  gdk_display_pointer_ungrab(gtk_widget_get_display(w), GDK_CURRENT_TIME);
   gtk_widget_destroy(w);
   return FALSE;
 }
@@ -232,6 +232,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
     /* list of citizens */
     ebox = gtk_event_box_new();
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
     g_object_set_data(G_OBJECT(ebox), "pdialog", pdialog);
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(show_happiness_popup), GUINT_TO_POINTER(i));
@@ -274,15 +275,12 @@ static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity,
   int num_citizens = get_city_citizen_types(pcity, index, citizens);
   int offset = MIN(tileset_small_sprite_width(tileset), PIXCOMM_WIDTH / num_citizens);
 
-  gtk_pixcomm_freeze(dst);
   gtk_pixcomm_clear(dst);
 
   for (i = 0; i < num_citizens; i++) {
     gtk_pixcomm_copyto(dst, get_citizen_sprite(tileset, citizens[i], i, pcity),
 		       i * offset, 0);
   }
-
-  gtk_pixcomm_thaw(dst);
 }
 
 /**************************************************************************

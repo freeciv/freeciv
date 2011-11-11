@@ -48,69 +48,25 @@ struct sprite *crop_sprite(struct sprite *source,
 			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
-  GdkPixbuf *mypixbuf, *sub, *mask_pixbuf;
+  struct sprite *new = fc_malloc(sizeof(*new));
+  cairo_t *cr;
 
-  /* First just crop the image. */
-  if (x < 0) {
-    width += x;
-    x = 0;
+  new->surface = cairo_surface_create_similar(source->surface,
+          CAIRO_CONTENT_COLOR_ALPHA, width, height);
+  cr = cairo_create(new->surface);
+  cairo_rectangle(cr, 0, 0, width, height);
+  cairo_clip(cr);
+  
+  cairo_set_source_surface(cr, source->surface, -x, -y);
+  cairo_paint(cr);
+  if (mask) {
+    cairo_set_operator(cr, CAIRO_OPERATOR_DEST_IN);
+    cairo_set_source_surface(cr, mask->surface, mask_offset_x-x, mask_offset_y-y);
+    cairo_paint(cr);
   }
-  if (y < 0) {
-    height += y;
-    y = 0;
-  }
-  width = CLIP(0, width, source->width - x);
-  height = CLIP(0, height, source->height - y);
-  sub = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(source), x, y,
-				 width, height);
-  mypixbuf = gdk_pixbuf_copy(sub);
-  g_object_unref(sub);
+  cairo_destroy(cr);
 
-  /* Now mask.  This reduces the alpha of the final image proportional to the
-   * alpha of the mask.  Thus if the mask has 50% alpha the final image will
-   * be reduced by 50% alpha.  Note that the mask offset is in coordinates
-   * relative to the clipped image not the final image. */
-  if (mask
-      && (mask_pixbuf = sprite_get_pixbuf(mask))
-      && gdk_pixbuf_get_has_alpha(mask_pixbuf)) {
-    int x1, y1;
-
-    /* The mask offset is the offset of the mask relative to the origin
-     * of the original source image.  For instance when cropping with
-     * blending sprites the offset is always 0.  Here we convert the
-     * coordinates so that they are relative to the origin of the new
-     * (cropped) image. */
-    mask_offset_x -= x;
-    mask_offset_y -= y;
-
-    width = CLIP(0, width, mask->width + mask_offset_x);
-    height = CLIP(0, height, mask->height + mask_offset_y);
-
-    if (!gdk_pixbuf_get_has_alpha(mypixbuf)) {
-      GdkPixbuf *p2 = mypixbuf;
-
-      mypixbuf = gdk_pixbuf_add_alpha(mypixbuf, FALSE, 0, 0, 0);
-      g_object_unref(p2);
-    }
-
-    for (x1 = 0; x1 < width; x1++) {
-      for (y1 = 0; y1 < height; y1++) {
-	int mask_x = x1 - mask_offset_x, mask_y = y1 - mask_offset_y;
-	guchar *alpha = gdk_pixbuf_get_pixels(mypixbuf)
-	  + y1 * gdk_pixbuf_get_rowstride(mypixbuf)
-	  + x1 * gdk_pixbuf_get_n_channels(mypixbuf)
-	  + 3;
-	guchar *mask_alpha = gdk_pixbuf_get_pixels(mask_pixbuf)
-	  + mask_y * gdk_pixbuf_get_rowstride(mask_pixbuf)
-	  + mask_x * gdk_pixbuf_get_n_channels(mask_pixbuf)
-	  + 3;
-
-	*alpha = (*alpha) * (*mask_alpha) / 255;
-      }
-    }
-  }
-
-  return ctor_sprite(mypixbuf);
+  return new;
 }
 
 /****************************************************************************
@@ -118,20 +74,22 @@ struct sprite *crop_sprite(struct sprite *source,
 ****************************************************************************/
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
 {
-  GdkPixbuf *mypixbuf = NULL;
-  GdkColor *color = NULL;
+  struct sprite *sprite = fc_malloc(sizeof(*sprite));
+  cairo_t *cr;
 
   fc_assert_ret_val(width > 0, NULL);
   fc_assert_ret_val(height > 0, NULL);
   fc_assert_ret_val(pcolor != NULL, NULL);
 
-  color = &pcolor->color;
-  mypixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-  gdk_pixbuf_fill(mypixbuf, ((guint32)(color->red & 0xff00) << 16)
-                            | ((color->green & 0xff00) << 8)
-                            | (color->blue & 0xff00) | 0xff);
+  sprite->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+         width, height);
 
-  return ctor_sprite(mypixbuf);
+  cr = cairo_create(sprite->surface);
+  cairo_set_source_rgb(cr, pcolor->r, pcolor->b, pcolor->b);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
+  return sprite;
 }
 
 /****************************************************************************
@@ -139,61 +97,8 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
 ****************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
-  *width = sprite->width;
-  *height = sprite->height;
-}
-
-/****************************************************************************
-  Create a new sprite with the given pixmap, dimensions, and
-  (optional) mask.
-
-  FIXME: should be renamed as sprite_new or some such.
-****************************************************************************/
-struct sprite *ctor_sprite(GdkPixbuf *pixbuf)
-{
-  struct sprite *sprite = fc_malloc(sizeof(*sprite));
-  bool has_alpha = FALSE, has_mask = FALSE;
-
-  sprite->width = gdk_pixbuf_get_width(pixbuf);
-  sprite->height = gdk_pixbuf_get_height(pixbuf);
-
-  /* Check to see if this pixbuf has an alpha layer. */
-  if (gdk_pixbuf_get_has_alpha(pixbuf)) {
-    guchar *pixels = gdk_pixbuf_get_pixels(pixbuf);
-    int x, y, rowstride = gdk_pixbuf_get_rowstride(pixbuf);
-
-    for (y = 0; y < sprite->height; y++) {
-      for (x = 0; x < sprite->width; x++) {
-	int i = y * rowstride + 4 * x + 3;
-	guchar pixel = pixels[i];
-
-	if (pixel > 0 && pixel < 255) {
-	  has_alpha = TRUE;
-	}
-	if (pixel == 0) {
-	  has_mask = TRUE;
-	}
-      }
-    }
-  }
-
-  sprite->pixbuf_fogged = NULL;
-  sprite->pixmap_fogged = NULL;
-  if (has_alpha) {
-    sprite->pixbuf = pixbuf;
-    sprite->pixmap = NULL;
-    sprite->mask = NULL;
-  } else {
-    gdk_pixbuf_render_pixmap_and_mask(pixbuf, &sprite->pixmap,
-				      &sprite->mask, 1);
-    if (!has_mask && sprite->mask) {
-      g_object_unref(sprite->mask);
-      sprite->mask = NULL;
-    }
-    g_object_unref(pixbuf);
-    sprite->pixbuf = NULL;
-  }
-  return sprite;
+  *width = cairo_image_surface_get_width(sprite->surface);
+  *height = cairo_image_surface_get_height(sprite->surface);
 }
 
 /****************************************************************************
@@ -219,14 +124,16 @@ const char **gfx_fileextensions(void)
 ****************************************************************************/
 struct sprite *load_gfxfile(const char *filename)
 {
-  GdkPixbuf *im;
+  struct sprite *new = fc_malloc(sizeof(*new));
 
-  if (!(im = gdk_pixbuf_new_from_file(filename, NULL))) {
+  new->surface = cairo_image_surface_create_from_png(filename);
+
+  if (cairo_surface_status(new->surface) != CAIRO_STATUS_SUCCESS) {
     log_fatal("Failed reading graphics file: \"%s\"", filename);
     exit(EXIT_FAILURE);
   }
 
-  return ctor_sprite(im);
+  return new;
 }
 
 /****************************************************************************
@@ -234,24 +141,7 @@ struct sprite *load_gfxfile(const char *filename)
 ****************************************************************************/
 void free_sprite(struct sprite * s)
 {
-  if (s->pixmap) {
-    g_object_unref(s->pixmap);
-    s->pixmap = NULL;
-  }
-  if (s->mask) {
-    g_object_unref(s->mask);
-    s->mask = NULL;
-  }
-  if (s->pixbuf) {
-    g_object_unref(s->pixbuf);
-    s->pixbuf = NULL;
-  }
-  if (s->pixmap_fogged) {
-    g_object_unref(s->pixmap_fogged);
-  }
-  if (s->pixbuf_fogged) {
-    g_object_unref(s->pixbuf_fogged);
-  }
+  cairo_surface_destroy(s->surface);
   free(s);
 }
 
@@ -261,9 +151,27 @@ void free_sprite(struct sprite * s)
 ****************************************************************************/
 struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
 {
-  return ctor_sprite(gdk_pixbuf_scale_simple(sprite_get_pixbuf(src),
-					     new_w, new_h,
-					     GDK_INTERP_BILINEAR));
+  cairo_t *cr;
+  struct sprite *new = fc_malloc(sizeof(*new));
+  int width, height;
+
+  get_sprite_dimensions(src, &width, &height);
+
+  new->surface = cairo_surface_create_similar(src->surface, 
+      CAIRO_CONTENT_COLOR_ALPHA, new_w, new_h);
+
+  cr = cairo_create(new->surface);
+  cairo_save(cr);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_restore(cr);
+  cairo_scale(cr, (double) new_w / (double) width, (double) new_h / (double) height);
+  cairo_set_source_surface(cr, src->surface, 0, 0);
+  cairo_paint(cr);
+
+  cairo_destroy(cr);
+
+  return new;
 }
 
 /****************************************************************************
@@ -274,27 +182,18 @@ struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
 void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y)
 {
-  GdkImage *mask_image;
-  GdkBitmap *mask = sprite_get_mask(sprite);
+  guint32 *data = (guint32 *)cairo_image_surface_get_data(sprite->surface);
+  int width = cairo_image_surface_get_width(sprite->surface);
+  int height = cairo_image_surface_get_height(sprite->surface);
   int i, j;
 
-  if (!mask) {
-    *start_x = 0;
-    *start_y = 0;
-    *end_x = sprite->width - 1;
-    *end_y = sprite->height - 1;
-    return;
-  }
-
-  mask_image
-    = gdk_drawable_get_image(mask, 0, 0, sprite->width, sprite->height);
-
+  fc_assert(cairo_image_surface_get_format(sprite->surface) == CAIRO_FORMAT_ARGB32);
 
   /* parses mask image for the first column that contains a visible pixel */
   *start_x = -1;
-  for (i = 0; i < sprite->width && *start_x == -1; i++) {
-    for (j = 0; j < sprite->height; j++) {
-      if (gdk_image_get_pixel(mask_image, i, j) != 0) {
+  for (i = 0; i < width && *start_x == -1; i++) {
+    for (j = 0; j < height; j++) {
+      if (data[(j * width + i)] & 0xff000000) {
 	*start_x = i;
 	break;
       }
@@ -303,9 +202,9 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 
   /* parses mask image for the last column that contains a visible pixel */
   *end_x = -1;
-  for (i = sprite->width - 1; i >= *start_x && *end_x == -1; i--) {
-    for (j = 0; j < sprite->height; j++) {
-      if (gdk_image_get_pixel(mask_image, i, j) != 0) {
+  for (i = width - 1; i >= *start_x && *end_x == -1; i--) {
+    for (j = 0; j < height; j++) {
+      if (data[(j * width + i)] & 0xff000000) {
 	*end_x = i;
 	break;
       }
@@ -314,9 +213,9 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 
   /* parses mask image for the first row that contains a visible pixel */
   *start_y = -1;
-  for (i = 0; i < sprite->height && *start_y == -1; i++) {
+  for (i = 0; i < height && *start_y == -1; i++) {
     for (j = *start_x; j <= *end_x; j++) {
-      if (gdk_image_get_pixel(mask_image, j, i) != 0) {
+      if (data[(i * width + j)] & 0xff000000) {
 	*start_y = i;
 	break;
       }
@@ -325,16 +224,15 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
 
   /* parses mask image for the last row that contains a visible pixel */
   *end_y = -1;
-  for (i = sprite->height - 1; i >= *end_y && *end_y == -1; i--) {
+  for (i = height - 1; i >= *end_y && *end_y == -1; i--) {
     for (j = *start_x; j <= *end_x; j++) {
-      if (gdk_image_get_pixel(mask_image, j, i) != 0) {
+      if (data[(i * width + j)] & 0xff000000) {
 	*end_y = i;
 	break;
       }
     }
   }
 
-  g_object_unref(mask_image);
 }
 
 /****************************************************************************
@@ -349,52 +247,6 @@ struct sprite *crop_blankspace(struct sprite *s)
   return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1, NULL, -1, -1);
 }
 
-/****************************************************************************
-  Converts a pixmap/mask sprite to a GdkPixbuf.
-
-  This is just a helper function for sprite_get_pixbuf().  Most callers
-  should use that function instead.
-****************************************************************************/
-static GdkPixbuf *gdk_pixbuf_new_from_pixmap_sprite(struct sprite *src)
-{
-  GdkPixbuf *dst;
-  int w, h;
-
-  w = src->width;
-  h = src->height;
-  
-  /* convert pixmap */
-  dst = gdk_pixbuf_new(GDK_COLORSPACE_RGB, src->mask != NULL, 8, w, h);
-  gdk_pixbuf_get_from_drawable(dst, src->pixmap, NULL, 0, 0, 0, 0, w, h);
-
-  /* convert mask */
-  if (src->mask) {
-    GdkImage *img;
-    int x, y, rowstride;
-    guchar *pixels;
-
-    img = gdk_drawable_get_image(src->mask, 0, 0, w, h);
-
-    pixels = gdk_pixbuf_get_pixels(dst);
-    rowstride = gdk_pixbuf_get_rowstride(dst);
-
-    for (y = 0; y < h; y++) {
-      for (x = 0; x < w; x++) {
-	guchar *pixel = pixels + y * rowstride + x * 4 + 3;
-
-	if (gdk_image_get_pixel(img, x, y)) {
-	  *pixel = 255;
-	} else {
-	  *pixel = 0;
-	}
-      }
-    }
-    g_object_unref(img);
-  }
-
-  return dst;
-}
-
 /********************************************************************
   Render a pixbuf from the sprite.
 
@@ -403,28 +255,70 @@ static GdkPixbuf *gdk_pixbuf_new_from_pixmap_sprite(struct sprite *src)
 ********************************************************************/
 GdkPixbuf *sprite_get_pixbuf(struct sprite *sprite)
 {
+  int width, height;
+
   if (!sprite) {
     return NULL;
   }
-  
-  if (!sprite->pixbuf) {
-    sprite->pixbuf = gdk_pixbuf_new_from_pixmap_sprite(sprite);
-  }
-  return sprite->pixbuf;
+
+  get_sprite_dimensions(sprite, &width, &height);
+
+  return surface_get_pixbuf(sprite->surface, width, height);
 }
 
-/****************************************************************************
-  Render a mask from the sprite.
-
-  NOTE: the pixbuf of a sprite must not change after this function is called!
-****************************************************************************/
-GdkBitmap *sprite_get_mask(struct sprite *sprite)
+/********************************************************************
+  Render a pixbuf from the cairo surface
+********************************************************************/
+GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height)
 {
-  if (!sprite->pixmap && !sprite->mask) {
-    /* If we're not in pixmap mode and we don't yet have a mask, render
-     * the pixbuf to a mask. */
-    gdk_pixbuf_render_pixmap_and_mask(sprite->pixbuf, NULL,
-				      &sprite->mask, 1);
+  cairo_t *cr;
+  cairo_surface_t *tmpsurf;
+  GdkPixbuf *pb;
+  unsigned char *pixels;
+  int rowstride;
+  int i;
+
+  pb = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, width, height);
+  pixels = gdk_pixbuf_get_pixels(pb);
+  rowstride = gdk_pixbuf_get_rowstride(pb);
+
+  tmpsurf = cairo_image_surface_create_for_data(pixels, CAIRO_FORMAT_ARGB32,
+						width, height, rowstride);
+
+  cr = cairo_create(tmpsurf);
+  cairo_save(cr);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_restore(cr);
+  cairo_set_source_surface(cr, surf, 0, 0);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
+  for (i = height; i > 0; i--) {
+    unsigned char *p = pixels;
+    unsigned char *end = p + 4 * width;
+    unsigned char tmp;
+
+    while (p < end) {
+      tmp = p[0];
+
+#ifdef WORDS_BIGENDIAN
+      p[0] = p[1];
+      p[1] = p[2];
+      p[2] = p[3];
+      p[3] = tmp;
+#else  /* WORDS_BIGENDIAN */
+      p[0] = p[2];
+      p[2] = tmp;
+#endif /* WORDS_BIGENDIAN */
+
+      p += 4;
+    }
+
+    pixels += rowstride;
   }
-  return sprite->mask;
+
+  cairo_surface_destroy(tmpsurf);
+
+  return pb;
 }

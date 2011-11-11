@@ -27,8 +27,9 @@ struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));
 
-  result->type = CANVAS_PIXMAP;
-  result->v.pixmap = gdk_pixmap_new(root_window, width, height, -1);
+  result->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                               width, height);
+  result->drawable = NULL;
   return result;
 }
 
@@ -38,9 +39,7 @@ struct canvas *canvas_create(int width, int height)
 ****************************************************************************/
 void canvas_free(struct canvas *store)
 {
-  if (store->type == CANVAS_PIXMAP) {
-    g_object_unref(store->v.pixmap);
-  }
+  cairo_surface_destroy(store->surface);
   free(store);
 }
 
@@ -51,43 +50,27 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 		 int src_x, int src_y, int dest_x, int dest_y,
 		 int width, int height)
 {
-  if (dest->type == src->type) {
-    if (src->type == CANVAS_PIXMAP) {
-      gdk_draw_drawable(dest->v.pixmap, fill_bg_gc, src->v.pixmap,
-			src_x, src_y, dest_x, dest_y, width, height);
-    }
-  }
-}
+  cairo_t *cr;
 
-/****************************************************************************
-  Place part of a (possibly masked) sprite on a pixmap.
-****************************************************************************/
-static void pixmap_put_sprite(GdkDrawable *pixmap,
-			      int pixmap_x, int pixmap_y,
-			      struct sprite *ssprite,
-			      int offset_x, int offset_y,
-			      int width, int height)
-{
-  if (ssprite->pixmap) {
-    if (ssprite->mask) {
-      gdk_gc_set_clip_origin(civ_gc, pixmap_x, pixmap_y);
-      gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-    }
-
-    gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
-		      offset_x, offset_y,
-		      pixmap_x + offset_x, pixmap_y + offset_y,
-		      MIN(width, MAX(0, ssprite->width - offset_x)),
-		      MIN(height, MAX(0, ssprite->height - offset_y)));
-
-    gdk_gc_set_clip_mask(civ_gc, NULL);
+  if (!dest->drawable) {
+    cr = cairo_create(dest->surface);
   } else {
-    gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf,
-		    offset_x, offset_y,
-		    pixmap_x + offset_x, pixmap_y + offset_y,
-		    MIN(width, MAX(0, ssprite->width - offset_x)),
-		    MIN(height, MAX(0, ssprite->height - offset_y)),
-		    GDK_RGB_DITHER_NONE, 0, 0);
+    cr = dest->drawable;
+  }
+
+  if (dest->drawable) {
+    cairo_save(cr);
+  }
+
+  cairo_rectangle(cr, dest_x, dest_y, width, height);
+  cairo_clip(cr);
+  cairo_set_source_surface(cr, src->surface, dest_x-src_x, dest_y-src_y);
+  cairo_paint(cr);
+
+  if (!dest->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
   }
 }
 
@@ -99,43 +82,33 @@ void canvas_put_sprite(struct canvas *pcanvas,
 		       struct sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
-  switch (pcanvas->type) {
-    case CANVAS_PIXMAP:
-      pixmap_put_sprite(pcanvas->v.pixmap, canvas_x, canvas_y,
-	  sprite, offset_x, offset_y, width, height);
-      break;
-    case CANVAS_PIXCOMM:
-      gtk_pixcomm_copyto(pcanvas->v.pixcomm, sprite, canvas_x, canvas_y);
-      break;
-    case CANVAS_PIXBUF:
-      {
-	GdkPixbuf *src, *dst;
+  int sswidth, ssheight;
+  cairo_t *cr;
 
-	/* FIXME: is this right??? */
-	if (canvas_x < 0) {
-	  offset_x -= canvas_x;
-	  canvas_x = 0;
-	}
-	if (canvas_y < 0) {
-	  offset_y -= canvas_y;
-	  canvas_y = 0;
-	}
+  get_sprite_dimensions(sprite, &sswidth, &ssheight);
 
+  if (!pcanvas->drawable) {
+    cr = cairo_create(pcanvas->surface);
+  } else {
+    cr = pcanvas->drawable;
+  }
 
-	src = sprite_get_pixbuf(sprite);
-	dst = pcanvas->v.pixbuf;
-	gdk_pixbuf_composite(src, dst, canvas_x, canvas_y,
-	    MIN(width,
-	      MIN(gdk_pixbuf_get_width(dst), gdk_pixbuf_get_width(src))),
-	    MIN(height,
-	      MIN(gdk_pixbuf_get_height(dst), gdk_pixbuf_get_height(src))),
-	    canvas_x - offset_x, canvas_y - offset_y,
-	    1.0, 1.0, GDK_INTERP_NEAREST, 255);
-      }
-      break;
-    default:
-      break;
-  } 
+  if (pcanvas->drawable) {
+    cairo_save(cr);
+  }
+
+  cairo_rectangle(cr, offset_x + canvas_x, offset_y + canvas_y,
+                  MIN(width, MAX(0, sswidth - offset_x)),
+                  MIN(height, MAX(0, ssheight - offset_y)));
+  cairo_clip(cr);
+  cairo_set_source_surface(cr, sprite->surface, canvas_x, canvas_y);
+  cairo_paint(cr);
+
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
+  }
 }
 
 /****************************************************************************
@@ -145,8 +118,10 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 			    int canvas_x, int canvas_y,
 			    struct sprite *sprite)
 {
+  int width, height;
+  get_sprite_dimensions(sprite, &width, &height);
   canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
-		    0, 0, sprite->width, sprite->height);
+		    0, 0, width, height);
 }
 
 /****************************************************************************
@@ -158,10 +133,8 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    pixmap_put_overlay_tile_draw(pcanvas->v.pixmap, canvas_x, canvas_y,
+    pixmap_put_overlay_tile_draw(pcanvas, canvas_x, canvas_y,
 				 psprite, fog);
-  }
 }
 
 /****************************************************************************
@@ -171,24 +144,26 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 			  struct color *pcolor,
 			  int canvas_x, int canvas_y, int width, int height)
 {
-  GdkColor *col = &pcolor->color;
+  cairo_t *cr;
 
-  switch (pcanvas->type) {
-    case CANVAS_PIXMAP:
-      gdk_gc_set_foreground(fill_bg_gc, col);
-      gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
-	  canvas_x, canvas_y, width, height);
-      break;
-    case CANVAS_PIXCOMM:
-      gtk_pixcomm_fill(pcanvas->v.pixcomm, col);
-      break;
-    case CANVAS_PIXBUF:
-      gdk_pixbuf_fill(pcanvas->v.pixbuf,
-	  ((guint32)(col->red & 0xff00) << 16)
-	  | ((col->green & 0xff00) << 8) | (col->blue & 0xff00) | 0xff);
-      break;
-    default:
-      break;
+  if (!pcanvas->drawable) {
+    cr = cairo_create(pcanvas->surface);
+  } else {
+    cr = pcanvas->drawable;
+  }
+
+  if (pcanvas->drawable) {
+    cairo_save(cr);
+  }
+
+  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  cairo_rectangle(cr, canvas_x, canvas_y, width, height);
+  cairo_fill(cr);
+
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
   }
 }
 
@@ -200,16 +175,9 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 			     struct color *pcolor,
 			     int canvas_x, int canvas_y)
 {
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_bg_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_bg_gc, &pcolor->color);
-
-    gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
-		       canvas_x, canvas_y, psprite->width, psprite->height);
-
-    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
-  }
+  int width, height;
+  get_sprite_dimensions(psprite, &width, &height);
+  canvas_put_rectangle(pcanvas, pcolor, canvas_x, canvas_y, width, height);
 }
 
 /****************************************************************************
@@ -218,18 +186,33 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_tile_gc,
-			  &get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color);
-    gdk_gc_set_stipple(fill_tile_gc, black50);
-    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
+  cairo_t *cr;
+  int width, height;
 
-    gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
-		       canvas_x, canvas_y, psprite->width, psprite->height);
+  canvas_fill_sprite_area(pcanvas, psprite,
+                          get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
+                          canvas_x, canvas_y);
+  get_sprite_dimensions(psprite, &width, &height);
 
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL); 
+  if (!pcanvas->drawable) {
+    cr = cairo_create(pcanvas->surface);
+  } else {
+    cr = pcanvas->drawable;
+  }
+
+  if (pcanvas->drawable) {
+    cairo_save(cr);
+  }
+
+  cairo_rectangle(cr, canvas_x, canvas_y, width, height);
+  cairo_set_operator(cr, CAIRO_OPERATOR_HSL_COLOR);
+  cairo_set_source_rgb(cr, 0.65, 0.65, 0.65);
+  cairo_fill(cr);
+
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
   }
 }
 
@@ -241,27 +224,44 @@ void canvas_put_line(struct canvas *pcanvas,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    GdkGC *gc = NULL;
+  cairo_t *cr;
+  double dashes[2] = {4.0, 4.0};
 
-    switch (ltype) {
-    case LINE_NORMAL:
-      gc = thin_line_gc;
-      break;
-    case LINE_BORDER:
-      gc = border_line_gc;
-      break;
-    case LINE_TILE_FRAME:
-      gc = thick_line_gc;
-      break;
-    case LINE_GOTO:
-      gc = thick_line_gc;
-      break;
-    }
+  if (!pcanvas->drawable) {
+    cr = cairo_create(pcanvas->surface);
+  } else {
+    cr = pcanvas->drawable;
+  }
 
-    gdk_gc_set_foreground(gc, &pcolor->color);
-    gdk_draw_line(pcanvas->v.pixmap, gc,
-		  start_x, start_y, start_x + dx, start_y + dy);
+  if (pcanvas->drawable) {
+    cairo_save(cr);
+  }
+
+  switch (ltype) {
+  case LINE_NORMAL:
+    cairo_set_line_width(cr, 1.);
+    break;
+  case LINE_BORDER:
+    cairo_set_line_width(cr, (double)BORDER_WIDTH);
+    cairo_set_dash(cr, dashes, 2, 0);
+    break;
+  case LINE_TILE_FRAME:
+    cairo_set_line_width(cr, 2.);
+    break;
+  case LINE_GOTO:
+    cairo_set_line_width(cr, 2.);
+    break;
+  }
+
+  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  cairo_move_to(cr, start_x, start_y);
+  cairo_line_to(cr, start_x + dx, start_y + dy);
+  cairo_stroke(cr);
+
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
   }
 }
 
@@ -274,83 +274,46 @@ void canvas_put_curved_line(struct canvas *pcanvas,
                             enum line_type ltype, int start_x, int start_y,
                             int dx, int dy)
 {
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    GdkGC *gc = NULL;
-    
-    switch (ltype) {
-    case LINE_NORMAL:
-      gc = thin_line_gc;
-      break;
-    case LINE_BORDER:
-      gc = border_line_gc;
-      break;
-    case LINE_TILE_FRAME:
-      gc = thick_line_gc;
-      break;
-    case LINE_GOTO:
-      gc = thick_line_gc;
-      break;
-    }
+  int end_x = start_x + dx;
+  int end_y = start_y + dy;
+  cairo_t *cr;
+  double dashes[2] = {4.0, 4.0};
 
-    gdk_gc_set_foreground(gc, &pcolor->color);
+  if (!pcanvas->drawable) {
+    cr = cairo_create(pcanvas->surface);
+  } else {
+    cr = pcanvas->drawable;
+  }
 
-    /* To begin, work out the endpoints of the curve */
-    /* and initial horizontal stroke */
-    int line1end_x = start_x + 10;
-    int end_x = start_x + dx;
-    int end_y = start_y + dy;
-    
-    int arcwidth = dx - 10;
-    /* draw a short horizontal line */
-    gdk_draw_line(pcanvas->v.pixmap, gc,
-                  start_x, start_y, line1end_x, start_y);
+  if (pcanvas->drawable) {
+    cairo_save(cr);
+  }
 
-    if (end_y < start_y) {
-      /* if end_y is above start_y then the first curve is rising */
-      int archeight = -dy + 1;
+  switch (ltype) {
+  case LINE_NORMAL:
+    cairo_set_line_width(cr, 1.);
+    break;
+  case LINE_BORDER:
+    cairo_set_dash(cr, dashes, 2, 0);
+    cairo_set_line_width(cr, (double)BORDER_WIDTH);
+    break;
+  case LINE_TILE_FRAME:
+    cairo_set_line_width(cr, 2.);
+    break;
+  case LINE_GOTO:
+    cairo_set_line_width(cr, 2.);
+    break;
+  }
 
-      /* position the BB of the arc */
-      int arcstart_x = line1end_x-arcwidth/2 -1;
-      int arcstart_y = end_y-1;
+  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  cairo_move_to(cr, start_x, start_y);
+  cairo_curve_to(cr, end_x, start_y, start_x, end_y, end_x, end_y);
+  cairo_stroke(cr);
 
-      /* Draw arc curving up */
-      gdk_draw_arc(pcanvas->v.pixmap, gc, FALSE,
-                   arcstart_x, arcstart_y, 
-                   arcwidth, archeight, 0, -90*64);
-
-      /* Shift BB to the right */
-      arcstart_x = arcstart_x + arcwidth;
-
-      /* draw arc curving across */
-      gdk_draw_arc(pcanvas->v.pixmap, gc, FALSE,
-                   arcstart_x, arcstart_y, 
-                   arcwidth, archeight, 180*64, -90*64);
-
-    } else { /* end_y is below start_y */
-
-      int archeight = dy + 1;
-
-      /* position BB */
-      int arcstart_x = line1end_x - arcwidth/2 -1;
-      int arcstart_y = start_y-1;
-
-      /* Draw arc curving down */
-      gdk_draw_arc(pcanvas->v.pixmap, gc, FALSE,
-                   arcstart_x, arcstart_y, 
-                   arcwidth, archeight, 0, 90*64);
-
-      /* shift BB right */
-      arcstart_x = arcstart_x + arcwidth;
-
-      /* Draw arc curving across */
-      gdk_draw_arc(pcanvas->v.pixmap, gc, FALSE,
-                   arcstart_x, arcstart_y, 
-                   arcwidth, archeight, 270*64, -90*64);
-
-    }
-    /* Draw short horizontal line */
-    gdk_draw_line(pcanvas->v.pixmap, gc,
-                  end_x - 10, start_y + dy, end_x, end_y);
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
+  } else {
+    cairo_restore(cr);
   }
 }
 
@@ -376,13 +339,13 @@ void get_text_size(int *width, int *height,
   PangoRectangle rect;
 
   if (!layout) {
-    layout = pango_layout_new(gdk_pango_context_get());
+    layout = pango_layout_new(gdk_pango_context_get_for_screen(gdk_screen_get_default()));
   }
 
   pango_layout_set_font_description(layout, FONT(font));
   pango_layout_set_text(layout, text, -1);
 
-  pango_layout_get_pixel_extents(layout, &rect, NULL);
+  pango_layout_get_pixel_extents(layout, NULL, &rect);
   if (width) {
     *width = rect.width;
   }
@@ -402,27 +365,40 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		     const char *text)
 {
   PangoRectangle rect;
+  cairo_t *cr;
 
-  if (pcanvas->type != CANVAS_PIXMAP) {
-    return;
-  }
   if (!layout) {
-    layout = pango_layout_new(gdk_pango_context_get());
+    layout = pango_layout_new(gdk_pango_context_get_for_screen(gdk_screen_get_default()));
   }
 
-  gdk_gc_set_foreground(civ_gc, &pcolor->color);
+  if (!pcanvas->drawable) {
+    cr = cairo_create(pcanvas->surface);
+  } else {
+    cr = pcanvas->drawable;
+  }
+
+  if (pcanvas->drawable) {
+    cairo_save(cr);
+  }
+
   pango_layout_set_font_description(layout, FONT(font));
   pango_layout_set_text(layout, text, -1);
 
-  pango_layout_get_pixel_extents(layout, &rect, NULL);
+  pango_layout_get_pixel_extents(layout, NULL, &rect);
+
   if (fonts[font].shadowed) {
-    gtk_draw_shadowed_string(pcanvas->v.pixmap,
-			     toplevel->style->black_gc, civ_gc,
-			     canvas_x,
-			     canvas_y + PANGO_ASCENT(rect), layout);
+    cairo_set_source_rgb(cr, 0, 0, 0);
+    cairo_move_to(cr, canvas_x - rect.x + 1, canvas_y - rect.y + 1);
+    pango_cairo_show_layout (cr, layout);
+  }
+
+  cairo_move_to(cr, canvas_x - rect.x, canvas_y - rect.y);
+  cairo_set_source_rgb(cr, pcolor->r, pcolor->g, pcolor->b);
+  pango_cairo_show_layout(cr, layout);
+
+  if (!pcanvas->drawable) {
+    cairo_destroy(cr);
   } else {
-    gdk_draw_layout(pcanvas->v.pixmap, civ_gc,
-		    canvas_x, canvas_y + PANGO_ASCENT(rect),
-		    layout);
+    cairo_restore(cr);
   }
 }

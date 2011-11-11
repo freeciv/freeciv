@@ -4713,16 +4713,19 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
   struct canvas canvas;
   int h, i, fh, fw, canvas_x, canvas_y;
   GdkPixbuf *pixbuf;
+  cairo_t *cr;
 
   fw = tileset_full_tile_width(tileset);
   fh = tileset_full_tile_height(tileset);
   h = tileset_tile_height(tileset);
 
-  pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, fw, fh);
-  gdk_pixbuf_fill(pixbuf, 0x00000000);
+  canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, fw, fh);
+  canvas.drawable = NULL;
 
-  canvas.type = CANVAS_PIXBUF;
-  canvas.v.pixbuf = pixbuf;
+  cr = cairo_create(canvas.surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
 
   canvas_x = 0;
   canvas_y = 0;
@@ -4734,6 +4737,9 @@ static GdkPixbuf *create_pixbuf_from_layers(const struct tile *ptile,
                     ptile, NULL, NULL, punit, pcity,
                     canvas_x, canvas_y, NULL, NULL);
   }
+  pixbuf = surface_get_pixbuf(canvas.surface, fw, fh);
+  cairo_surface_destroy(canvas.surface);
+
   return pixbuf;
 }
 

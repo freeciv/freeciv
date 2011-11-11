@@ -88,7 +88,13 @@ static void science_report_combo_set_active(GtkComboBox *combo,
 static void science_diagram_button_release_callback(GtkWidget *widget,
                                                     GdkEventButton *event,
                                                     gpointer data);
-static gboolean science_diagram_update(GtkWidget *widget, gpointer data);
+static gboolean science_diagram_update(GtkWidget *widget,
+                                   #if !GTK_CHECK_VERSION(3, 0, 0)
+                                   GdkEventExpose *event,
+                                   #else
+                                   cairo_t *cr,
+                                   #endif
+                                   gpointer data);
 static GtkWidget *science_diagram_new(void);
 static void science_diagram_data(GtkWidget *widget, bool reachable);
 static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech);
@@ -225,18 +231,52 @@ static void science_diagram_button_release_callback(GtkWidget *widget,
 /****************************************************************************
   Draw the invalidated portion of the reqtree.
 ****************************************************************************/
-static gboolean science_diagram_update(GtkWidget *widget, gpointer data)
+#if !GTK_CHECK_VERSION(3, 0, 0)
+static gboolean science_diagram_update(GtkWidget *widget, GdkEventExpose *ev, gpointer data)
+#else
+static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer data)
+#endif
 {
   /* FIXME: this currently redraws everything! */
   struct canvas canvas = {
-    .type = CANVAS_PIXMAP,
-    .v.pixmap = GTK_LAYOUT(widget)->bin_window
+    .surface = NULL,
+    .drawable = NULL
   };
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int width, height;
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
+
+  cairo_t *cr = gdk_cairo_create(gtk_layout_get_bin_window(GTK_LAYOUT(widget)));
+  gdk_cairo_region(cr, ev->region);
+  cairo_clip(cr);
+
+#else /* GTK 3 */
+
+  GtkAdjustment *hadjustment;
+  GtkAdjustment *vadjustment;
+  gint hadjustment_value;
+  gint vadjustment_value;
+
+  hadjustment = gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(widget));
+  vadjustment = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(widget));
+
+  hadjustment_value = (gint)gtk_adjustment_get_value(hadjustment);
+  vadjustment_value = (gint)gtk_adjustment_get_value(vadjustment);
+
+  cairo_translate(cr, -hadjustment_value, -vadjustment_value);
+
+#endif /* GTK 3 */
+
+  canvas.drawable = cr;
+
   get_reqtree_dimensions(reqtree, &width, &height);
   draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, width, height);
+
+#if !GTK_CHECK_VERSION(3, 0, 0)
+  cairo_destroy(cr);
+#endif
+
   return TRUE;
 }
 
@@ -252,8 +292,13 @@ static GtkWidget *science_diagram_new(void)
   gtk_widget_add_events(diagram,
                         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
                         | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK);
+#if !GTK_CHECK_VERSION(3, 0, 0)
   g_signal_connect(diagram, "expose-event",
                    G_CALLBACK(science_diagram_update), NULL);
+#else
+  g_signal_connect(diagram, "draw",
+                   G_CALLBACK(science_diagram_update), NULL);
+#endif
   g_signal_connect(diagram, "button-release-event",
                    G_CALLBACK(science_diagram_button_release_callback),
                    NULL);
@@ -615,6 +660,7 @@ static void science_report_init(struct science_report *preport)
 
   science_report_update(preport);
   gui_dialog_show_all(preport->shell);
+  gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 
   /* This must be _after_ the dialog is drawn to really center it ... */
   science_report_redraw(preport);
@@ -699,7 +745,7 @@ struct economy_report {
   GtkLabel *label;
 };
 
-static struct economy_report economy_report = { NULL, };
+static struct economy_report economy_report = { NULL, NULL, NULL };
 
 enum economy_report_response {
   ERD_RES_SELL_REDUNDANT = 1,
@@ -780,6 +826,7 @@ static void economy_report_update(struct economy_report *preport)
   GtkTreeModel *model;
   GtkListStore *store;
   GtkTreeIter iter;
+  GdkPixbuf *pix;
   struct improvement_entry building_entries[B_LAST];
   struct unit_entry unit_entries[U_LAST];
   int entries_used, building_total, unit_total, tax, i;
@@ -809,9 +856,10 @@ static void economy_report_update(struct economy_report *preport)
     struct sprite *sprite = get_building_sprite(tileset, pimprove);
     cid cid = cid_encode_building(pimprove);
 
+    pix = sprite_get_pixbuf(sprite);
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       ERD_COL_SPRITE, sprite_get_pixbuf(sprite),
+                       ERD_COL_SPRITE, pix,
                        ERD_COL_NAME, improvement_name_translation(pimprove),
                        ERD_COL_REDUNDANT, pentry->redundant,
                        ERD_COL_COUNT, pentry->count,
@@ -820,6 +868,7 @@ static void economy_report_update(struct economy_report *preport)
                        ERD_COL_IS_IMPROVEMENT, TRUE,
                        ERD_COL_CID, cid,
                        -1);
+    g_object_unref(G_OBJECT(pix));
     if (selected == cid) {
       /* Restore the selection. */
       gtk_tree_selection_select_iter(selection, &iter);
@@ -834,9 +883,10 @@ static void economy_report_update(struct economy_report *preport)
     struct sprite *sprite = get_unittype_sprite(tileset, putype);
     cid cid = cid_encode_unit(putype);
 
+    pix = sprite_get_pixbuf(sprite);
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       ERD_COL_SPRITE, sprite_get_pixbuf(sprite),
+                       ERD_COL_SPRITE, pix,
                        ERD_COL_NAME, utype_name_translation(putype),
                        ERD_COL_REDUNDANT, 0,
                        ERD_COL_COUNT, pentry->count,
@@ -845,6 +895,7 @@ static void economy_report_update(struct economy_report *preport)
                        ERD_COL_IS_IMPROVEMENT, FALSE,
                        ERD_COL_CID, cid,
                        -1);
+    g_object_unref(G_OBJECT(pix));
     if (selected == cid) {
       /* Restore the selection. */
       gtk_tree_selection_select_iter(selection, &iter);
@@ -1188,7 +1239,7 @@ struct units_report {
   GtkTreeView *tree_view;
 };
 
-static struct units_report units_report = { NULL, };
+static struct units_report units_report = { NULL, NULL };
 
 enum units_report_response {
   URD_RES_NEAREST = 1,
@@ -1687,7 +1738,7 @@ enum endgame_report_columns {
   FRD_COL_NUM
 };
 
-static struct endgame_report endgame_report = { NULL, };
+static struct endgame_report endgame_report = { NULL, NULL };
 
 /****************************************************************************
   Returns the title of the column (translated).
@@ -1733,7 +1784,7 @@ static void endgame_report_update(struct endgame_report *preport,
   col_types[FRD_COL_PLAYER] = G_TYPE_STRING;
   col_types[FRD_COL_NATION] = GDK_TYPE_PIXBUF;
   col_types[FRD_COL_SCORE] = G_TYPE_INT;
-  for (i = FRD_COL_NUM; i < col_num; i++) {
+  for (i = FRD_COL_NUM; (guint)i < col_num; i++) {
     col_types[i] = G_TYPE_INT;
   }
   store = gtk_list_store_newv(col_num, col_types);
@@ -1741,7 +1792,7 @@ static void endgame_report_update(struct endgame_report *preport,
   g_object_unref(G_OBJECT(store));
 
   /* Create the new columns. */
-  for (i = 0; i < col_num; i++) {
+  for (i = 0; (guint)i < col_num; i++) {
     GtkCellRenderer *renderer;
     const char *title;
     const char *attribute;

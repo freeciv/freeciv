@@ -107,24 +107,31 @@ static GdkPixbuf *create_player_icon(const struct player *plr)
 {
   int width, height;
   GdkPixbuf *tmp;
-  GdkPixmap *pixmap;
+  cairo_surface_t *surface;
+  struct color *color;
+  cairo_t *cr;
 
-  gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
+  gtk_icon_size_lookup_for_settings(
+      gtk_settings_get_for_screen(gtk_widget_get_screen(top_notebook)), 
+      GTK_ICON_SIZE_MENU, &width, &height);
+  surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  
+  cr = cairo_create(surface);
 
-  pixmap = gdk_pixmap_new(root_window, width, height, -1);
+  color = get_color(tileset, COLOR_PLAYER_COLOR_BACKGROUND);
+  cairo_set_source_rgb(cr, color->r, color->g, color->b);
+  cairo_rectangle(cr, 0, 0, width, height);
+  cairo_fill(cr);
 
-  gdk_gc_set_foreground(civ_gc,
-                        &get_color(tileset,
-				   COLOR_PLAYER_COLOR_BACKGROUND)->color);
-  gdk_draw_rectangle(pixmap, civ_gc, TRUE, 0, 0, width, height);
+  color = get_player_color(tileset, plr);
+  cairo_set_source_rgb(cr, color->r, color->g, color->b);
+  cairo_rectangle(cr, 1, 1, width - 2, height - 2);
+  cairo_fill(cr);
 
-  gdk_gc_set_foreground(civ_gc, &get_player_color(tileset, plr)->color);
-  gdk_draw_rectangle(pixmap, civ_gc, TRUE, 1, 1, width - 2, height - 2);
+  cairo_destroy(cr);
+  tmp = surface_get_pixbuf(surface, width, height);
+  cairo_surface_destroy(surface);
 
-  tmp = gdk_pixbuf_get_from_drawable(NULL, pixmap, NULL, 
-      0, 0, 0, 0, -1, -1);
-
-  g_object_unref(pixmap);
   return tmp;
 }
 

@@ -55,18 +55,21 @@ enum Display_color_type get_visual(void)
 }
 
 /****************************************************************************
-  Allocate a color (adjusting it for our colormap if necessary on paletted
-  systems) and return a pointer to it.
+  Allocate a color (well, sort of)
+  and return a pointer to it.
 ****************************************************************************/
 struct color *color_alloc(int r, int g, int b)
 {
   struct color *color = fc_malloc(sizeof(*color));
-  GdkColormap *cmap = gtk_widget_get_default_colormap();
 
   color->color.red = r << 8;
   color->color.green = g << 8;
   color->color.blue = b << 8;
-  gdk_rgb_find_color(cmap, &color->color);
+
+  color->r = (double)r/255;
+  color->g = (double)g/255;
+  color->b = (double)b/255;
+  color->a = 1.0;
 
   return color;
 }

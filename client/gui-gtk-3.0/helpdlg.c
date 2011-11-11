@@ -857,15 +857,14 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
 
-    gtk_pixcomm_freeze(GTK_PIXCOMM(help_tile));
+    gtk_pixcomm_clear(GTK_PIXCOMM(help_tile));
     {
       struct canvas store;
 
-      store.type = CANVAS_PIXCOMM;
-      store.v.pixcomm = GTK_PIXCOMM(help_tile);
+      store.surface = gtk_pixcomm_get_surface(GTK_PIXCOMM(help_tile));
+      store.drawable = NULL;
       create_overlay_unit(&store, utype);
     }
-    gtk_pixcomm_thaw(GTK_PIXCOMM(help_tile));
     gtk_widget_show(help_tile);
   }
   else {
@@ -941,6 +940,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       GdkPixbuf *pixbuf = sprite_get_pixbuf(get_tech_sprite(tileset, i));
 
       w = gtk_image_new_from_pixbuf(pixbuf);
+      g_object_unref(G_OBJECT(pixbuf));
       gtk_widget_set_name(w, "help_tech_image");
       gtk_box_pack_start(GTK_BOX(help_vbox), w, FALSE, FALSE, 0);
       gtk_widget_show(w);

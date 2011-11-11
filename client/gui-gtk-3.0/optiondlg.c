@@ -124,7 +124,7 @@ static void option_dialog_reponse_callback(GtkDialog *dialog,
 /****************************************************************************
   Option dialog widget destroyed callback.
 ****************************************************************************/
-static void option_dialog_destroy_callback(GtkObject *object, gpointer data)
+static void option_dialog_destroy_callback(GtkWidget *object, gpointer data)
 {
   struct option_dialog *pdialog = (struct option_dialog *) data;
 
@@ -243,7 +243,6 @@ static void option_color_destroy_notify(gpointer data)
   GdkColor *color = (GdkColor *) data;
 
   if (NULL != color) {
-    gdk_colormap_free_colors(gdk_colormap_get_system(), color, 1);
     gdk_color_free(color);
   }
 }
@@ -254,7 +253,6 @@ static void option_color_destroy_notify(gpointer data)
 static void option_color_set_button_color(GtkButton *button,
                                           const GdkColor *new_color)
 {
-  GdkColormap *colormap = gdk_colormap_get_system();
   GdkColor *current_color = g_object_get_data(G_OBJECT(button), "color");
   GtkWidget *child;
 
@@ -266,12 +264,11 @@ static void option_color_set_button_color(GtkButton *button,
       }
     }
   } else {
-    GdkPixmap *pixmap;
+    GdkPixbuf *pixbuf;
 
     /* Apply the new color. */
     if (NULL != current_color) {
       /* We already have a GdkColor pointer. */
-      gdk_colormap_free_colors(colormap, current_color, 1);
       *current_color = *new_color;
     } else {
       /* We need to make a GdkColor pointer. */
@@ -279,19 +276,20 @@ static void option_color_set_button_color(GtkButton *button,
       g_object_set_data_full(G_OBJECT(button), "color", current_color,
                              option_color_destroy_notify);
     }
-    gdk_colormap_alloc_color(colormap, current_color, TRUE, TRUE);
     if ((child = gtk_bin_get_child(GTK_BIN(button)))) {
       gtk_widget_destroy(child);
     }
 
     /* Update the button. */
-    pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
-    gdk_gc_set_foreground(fill_bg_gc, current_color);
-    gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
-    child = gtk_image_new_from_pixmap(pixmap, NULL);
+    pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, 16, 16);
+    gdk_pixbuf_fill(pixbuf,
+                    ((guint32)(current_color->red & 0xff00) << 16)
+                    | ((current_color->green & 0xff00) << 8) |
+                    (current_color->blue & 0xff00) | 0xff);
+    child = gtk_image_new_from_pixbuf(pixbuf);
     gtk_container_add(GTK_CONTAINER(button), child);
     gtk_widget_show(child);
-    g_object_unref(G_OBJECT(pixmap));
+    g_object_unref(G_OBJECT(pixbuf));
   }
 }
 

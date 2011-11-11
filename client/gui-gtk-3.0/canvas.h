@@ -19,21 +19,10 @@
 
 #include "gtkpixcomm.h"
 
-enum canvas_type {
-  CANVAS_PIXMAP,
-  CANVAS_PIXCOMM,
-  CANVAS_PIXBUF
-};
-
 struct canvas
 {
-  enum canvas_type type;
-
-  union {
-    GdkPixmap *pixmap;
-    GtkPixcomm *pixcomm;
-    GdkPixbuf *pixbuf;
-  } v;
+  cairo_surface_t *surface;
+  cairo_t *drawable;
 };
 
 #endif  /* FC__CANVAS_H */
