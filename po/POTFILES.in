@@ -738,8 +738,8 @@ data/scenarios/tutorial.sav
 manual/civmanual.c
 modinst/download.c
 modinst/download.h
-modinst/modinst.c
 modinst/mpcmdline.c
+modinst/mpgui_gtk.c
 server/aiiface.c
 server/auth.c
 server/barbarian.c
@@ -783,6 +783,6 @@ utility/inputfile.c
 utility/log.c
 utility/netfile.c
 utility/netintf.c
-utility/registry.c
+utility/registry_ini.c
 utility/shared.c
 utility/support.c
