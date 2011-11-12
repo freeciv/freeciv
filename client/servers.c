@@ -45,9 +45,6 @@
 #ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
 #endif
-#ifdef HAVE_SYS_UTSNAME_H
-#include <sys/utsname.h>
-#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -208,111 +205,6 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   return server_list;
 }
 
-/*****************************************************************
-  Returns an uname like string.
-*****************************************************************/
-static void my_uname(char *buf, size_t len)
-{
-#ifdef HAVE_UNAME
-  {
-    struct utsname un;
-
-    uname(&un);
-    fc_snprintf(buf, len, "%s %s [%s]", un.sysname, un.release, un.machine);
-  }
-#else /* ! HAVE_UNAME */
-  /* Fill in here if you are making a binary without sys/utsname.h and know
-     the OS name, release number, and machine architechture */
-#ifdef WIN32_NATIVE
-  {
-    char cpuname[16];
-    char *osname;
-    SYSTEM_INFO sysinfo;
-    OSVERSIONINFO osvi;
-
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&osvi);
-
-    switch (osvi.dwPlatformId) {
-    case VER_PLATFORM_WIN32s:
-      osname = "Win32s";
-      break;
-
-    case VER_PLATFORM_WIN32_WINDOWS:
-      osname = "Win32";
-
-      if (osvi.dwMajorVersion == 4) {
-	switch (osvi.dwMinorVersion) {
-	case  0: osname = "Win95";    break;
-	case 10: osname = "Win98";    break;
-	case 90: osname = "WinME";    break;
-	default:			    break;
-	}
-      }
-      break;
-
-    case VER_PLATFORM_WIN32_NT:
-      osname = "WinNT";
-
-      if (osvi.dwMajorVersion == 5) {
-	switch (osvi.dwMinorVersion) {
-	case 0: osname = "Win2000";   break;
-	case 1: osname = "WinXP";	    break;
-	default:			    break;
-	}
-      }
-      break;
-
-    default:
-      osname = osvi.szCSDVersion;
-      break;
-    }
-
-    GetSystemInfo(&sysinfo); 
-    switch (sysinfo.wProcessorArchitecture) {
-      case PROCESSOR_ARCHITECTURE_INTEL:
-	{
-	  unsigned int ptype;
-	  if (sysinfo.wProcessorLevel < 3) /* Shouldn't happen. */
-	    ptype = 3;
-	  else if (sysinfo.wProcessorLevel > 9) /* P4 */
-	    ptype = 6;
-	  else
-	    ptype = sysinfo.wProcessorLevel;
-
-          fc_snprintf(cpuname, sizeof(cpuname), "i%d86", ptype);
-	}
-	break;
-
-      case PROCESSOR_ARCHITECTURE_MIPS:
-	sz_strlcpy(cpuname, "mips");
-	break;
-
-      case PROCESSOR_ARCHITECTURE_ALPHA:
-	sz_strlcpy(cpuname, "alpha");
-	break;
-
-      case PROCESSOR_ARCHITECTURE_PPC:
-	sz_strlcpy(cpuname, "ppc");
-	break;
-#if 0
-      case PROCESSOR_ARCHITECTURE_IA64:
-	sz_strlcpy(cpuname, "ia64");
-	break;
-#endif
-      default:
-	sz_strlcpy(cpuname, "unknown");
-	break;
-    }
-    fc_snprintf(buf, len, "%s %ld.%ld [%s]",
-                osname, osvi.dwMajorVersion, osvi.dwMinorVersion, cpuname);
-  }
-#else  /* WIN32_NATIVE */
-  fc_snprintf(buf, len, "unknown unknown [unknown]");
-#endif /* WIN32_NATIVE */
-#endif /* HAVE_UNAME */
-}
-
 /****************************************************************************
   Send the request string to the metaserver.
 ****************************************************************************/
@@ -322,7 +214,7 @@ static void meta_send_request(struct server_scan *scan)
   char str[MAX_LEN_PACKET];
   char machine_string[128];
 
-  my_uname(machine_string, sizeof(machine_string));
+  fc_uname(machine_string, sizeof(machine_string));
 
   capstr = fc_url_encode(our_capability);
 
