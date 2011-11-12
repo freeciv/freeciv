@@ -9,7 +9,7 @@
 
 [datafile]
 description="Cities data for Freeciv"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-2.4-ruleset"
 
 ; /* <-- avoid gettext warnings
 ;

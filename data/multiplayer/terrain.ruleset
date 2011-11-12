@@ -12,7 +12,7 @@
 
 [datafile]
 description="Multiplayer terrain data for Freeciv"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-2.4-ruleset"
 
 [options]
 may_road=1           ; 0 means no, 1 means yes

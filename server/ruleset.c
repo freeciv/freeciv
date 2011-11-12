@@ -67,7 +67,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Oct.27"
+#define RULESET_CAPABILITIES "+Freeciv-2.4-ruleset"
 /*
  * Ruleset capabilities acceptable to this program:
  *

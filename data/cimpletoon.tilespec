@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2011.Aug.10"
+options = "+Freeciv-2.4-tilespec"
 
 ; A simple name for the tileset specified by this file:
 name = "cimpletoon"

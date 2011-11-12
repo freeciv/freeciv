@@ -11,7 +11,7 @@
 
 [datafile]
 description="Civ1 effects data for Freeciv (approximate)"
-options="+Freeciv-ruleset-Devel-2011.Oct.27"
+options="+Freeciv-2.4-ruleset"
 
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings

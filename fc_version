@@ -17,7 +17,7 @@ NEXT_STABLE_VERSION="2.4.0"
 # 0 to disable display of release month until we can make better estimate
 RELEASE_MONTH=0
 
-DATASUBDIR=test
+DATASUBDIR=2.4
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
