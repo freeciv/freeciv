@@ -42,6 +42,7 @@
 #include "movement.h"
 #include "player.h"
 #include "requirements.h"
+#include "road.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"

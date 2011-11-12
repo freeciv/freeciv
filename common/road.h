@@ -22,6 +22,8 @@ struct road_type {
   struct name_translation name;
   enum unit_activity act;
   enum tile_special_type special;
+  enum tile_special_type sreq;
+  enum tech_flag_id treq;
 
   bv_unit_classes native_to;
 };
@@ -44,6 +46,13 @@ const char *road_rule_name(struct road_type *road);
 
 bool is_native_road_to_uclass(const struct road_type *proad,
                               const struct unit_class *pclass);
+
+bool can_build_road(struct road_type *road,
+		    const struct unit *punit,
+		    const struct tile *ptile);
+bool player_can_build_road(struct road_type *road,
+			   const struct player *pplayer,
+			   const struct tile *ptile);
 
 #define road_type_iterate(_p)                    \
 {                                                \

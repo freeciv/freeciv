@@ -962,12 +962,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	    && tile_has_special(ptile, S_FALLOUT));
 
   case ACTIVITY_ROAD:
-    return (terrain_control.may_road
-	    && unit_has_type_flag(punit, F_SETTLERS)
-	    && !tile_has_special(ptile, S_ROAD)
-	    && pterrain->road_time != 0
-	    && (!tile_has_special(ptile, S_RIVER)
-		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
+    return can_build_road(road_by_number(ROAD_ROAD),
+			  punit, ptile);
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
@@ -1047,12 +1043,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return TRUE;
 
   case ACTIVITY_RAILROAD:
-    /* if the tile has road, the terrain must be ok.. */
-    return (terrain_control.may_road
-	    && unit_has_type_flag(punit, F_SETTLERS)
-	    && tile_has_special(ptile, S_ROAD)
-	    && !tile_has_special(ptile, S_RAILROAD)
-	    && player_knows_techs_with_flag(pplayer, TF_RAILROAD));
+    return can_build_road(road_by_number(ROAD_RAILROAD),
+			  punit, ptile);
 
   case ACTIVITY_PILLAGE:
     {

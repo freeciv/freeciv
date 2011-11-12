@@ -33,6 +33,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
+#include "road.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "vision.h"
@@ -219,31 +220,16 @@ bool upgrade_city_roads(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   bool upgradet = FALSE;
 
-  if (!(terrain_control.may_road)) {
-    return FALSE;
-  }
+  road_type_iterate(proad) {
+    enum tile_special_type spe = road_special(proad);
 
-  if (tile_terrain(ptile)->road_time == 0) {
-    /* No roads to this terrain */
-    return FALSE;
-  }
-
-  if (!player_knows_techs_with_flag(pplayer, TF_BRIDGE)
-      && tile_has_special(ptile, S_RIVER)) {
-    /* Cannot build anything on river tile without bridge building */
-    return FALSE;
-  }
-
-  if (!tile_has_special(ptile, S_ROAD)) {
-    tile_set_special(pcity->tile, S_ROAD);
-    upgradet = TRUE;
-  }
-
-  if (!tile_has_special(ptile, S_RAILROAD)
-      && player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
-    tile_set_special(pcity->tile, S_RAILROAD);
-    upgradet = TRUE;
-  }
+    if (!tile_has_special(ptile, spe)) {
+      if (player_can_build_road(proad, pplayer, ptile)) {
+        tile_set_special(pcity->tile, spe);
+        upgradet = TRUE;
+      }
+    }
+  } road_type_iterate_end;
 
   return upgradet;
 }
