@@ -478,11 +478,12 @@ void send_game_info(struct conn_list *dest)
      * but the server's timer is only ever reset at the start of a phase
      * (and game.info.seconds_to_phasedone is relative to this).
      * Account for the difference. */
-    ginfo.seconds_to_phasedone = game.info.seconds_to_phasedone
+    ginfo.seconds_to_phasedone2 =
+      ginfo.seconds_to_phasedone = game.info.seconds_to_phasedone
         - read_timer_seconds(game.server.phase_timer);
   } else {
     /* unused but at least initialized */
-    ginfo.seconds_to_phasedone = -1.0;
+    ginfo.seconds_to_phasedone2 = ginfo.seconds_to_phasedone = -1.0;
   }
 
   conn_list_iterate(dest, pconn) {

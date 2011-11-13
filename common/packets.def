@@ -165,6 +165,7 @@ Syntax:
 
 # typedefs for numbers
 type BOOL               = bool8(bool)
+type FLOAT10x3          = float100(float)
 type FLOAT              = float10000(float)
 type FLOAT10x7          = float1000000(float)
 type SINT8              = sint8(int)
@@ -368,7 +369,7 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
 end
 
 # This packet used to have is_info set but that doesn't work with the
-# seconds_to_phasedone field: sending the same value a second time after a
+# seconds_to_phasedone fields: sending the same value a second time after a
 # while has passed means a completely reset timeout.
 #
 # The variables in the packet are listed in alphabetical order.
@@ -437,7 +438,8 @@ PACKET_GAME_INFO = 16; sc
   BOOL restrictinfra;
   BOOL unreachable_protects;
   UINT32 sciencebox;
-  FLOAT seconds_to_phasedone;
+  FLOAT seconds_to_phasedone; remove-cap(timeout_extended_range)
+  FLOAT10x3 seconds_to_phasedone2; add-cap(timeout_extended_range)
   UINT32 shieldbox;
   UINT32 skill_level;
   BOOL slow_invasions;

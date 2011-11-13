@@ -1613,6 +1613,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 {
   bool boot_help;
   bool update_aifill_button = FALSE;
+  float seconds_to_phasedone;
 
 
   if (game.info.aifill != pinfo->aifill) {
@@ -1643,12 +1644,19 @@ void handle_game_info(const struct packet_game_info *pinfo)
 
   boot_help = (can_client_change_view()
 	       && game.info.spacerace != pinfo->spacerace);
-  if (game.info.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
+  if (has_capability("timeout_extended_range", client.conn.capability)) {
+    /* Centisecond resolution */
+    seconds_to_phasedone = pinfo->seconds_to_phasedone2;
+  } else {
+    /* ~60 hour range */
+    seconds_to_phasedone = pinfo->seconds_to_phasedone;
+  }
+  if (game.info.timeout != 0 && seconds_to_phasedone >= 0) {
     /* If this packet is received in the middle of a turn, this value
      * represents the number of seconds from now to the end of the turn
      * (not from the start of the turn). So we need to restart our
      * timer. */
-    set_seconds_to_turndone(pinfo->seconds_to_phasedone);
+    set_seconds_to_turndone(seconds_to_phasedone);
   }
   if (boot_help) {
     boot_help_texts(client.conn.playing); /* reboot, after setting game.spacerace */
