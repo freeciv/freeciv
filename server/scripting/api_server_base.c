@@ -55,7 +55,7 @@ bool api_server_was_started(lua_State *L)
 bool api_server_save(lua_State *L, const char *filename)
 {
   char allowed[]
-    = "1234567890+-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ";
+    = "1234567890+-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
 
