@@ -132,6 +132,8 @@ bool tile_has_claimable_base(const struct tile *ptile,
 int tile_bases_defense_bonus(const struct tile *ptile,
                              const struct unit_type *punittype);
 
+bool tile_has_road(const struct tile *ptile, const struct road_type *proad);
+
 /* Vision related */
 enum known_type tile_get_known(const struct tile *ptile,
 			      const struct player *pplayer);

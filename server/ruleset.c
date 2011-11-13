@@ -4494,7 +4494,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
 
      case VUT_SPECIAL:
      case VUT_BASE:
-       /* Note that there can be more than 1 special or base / tile. */
+     case VUT_ROAD:
+       /* Note that there can be more than 1 special, road, or base / tile. */
      case VUT_NONE:
      case VUT_ADVANCE:
      case VUT_IMPROVEMENT:

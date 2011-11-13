@@ -43,6 +43,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "requirements.h"
+#include "road.h"
 #include "specialist.h"
 #include "unit.h"
 #include "version.h"
@@ -593,6 +594,30 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
       cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
                    base_name_translation(preq->source.value.base));
+      return TRUE;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
+  case VUT_ROAD:
+    switch (preq->range) {
+    case REQ_RANGE_LOCAL:
+      cat_snprintf(buf, bufsz, _("Requires a %s on the tile.\n"),
+                   road_name_translation(preq->source.value.road));
+      return TRUE;
+   case REQ_RANGE_CADJACENT:
+      cat_snprintf(buf, bufsz, _("Requires a %s on an cardinally adjacent tile.\n"),
+                   road_name_translation(preq->source.value.road));
+      return TRUE;
+    case REQ_RANGE_ADJACENT:
+      cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
+                   road_name_translation(preq->source.value.road));
       return TRUE;
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:

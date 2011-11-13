@@ -24,6 +24,7 @@
 #include "fc_interface.h"
 #include "game.h"
 #include "movement.h"
+#include "road.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -813,6 +814,14 @@ bool tile_has_any_bases(const struct tile *ptile)
     return FALSE;
   }
   return BV_ISSET_ANY(ptile->bases);
+}
+
+/****************************************************************************
+  Returns TRUE if the given tile has a road of given type on it.
+****************************************************************************/
+bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
+{
+  return tile_has_special(ptile, road_special(proad));
 }
 
 /****************************************************************************

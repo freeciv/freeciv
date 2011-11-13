@@ -39,6 +39,7 @@
 #include "government.h"
 #include "map.h"
 #include "player.h"
+#include "road.h"
 #include "specialist.h"
 #include "tech.h"
 #include "unit.h"
@@ -1162,6 +1163,19 @@ static bool worklist_change_build_target(struct player *pplayer,
                                         API_TYPE_BUILDING_TYPE, ptarget,
                                         API_TYPE_CITY, pcity,
                                         API_TYPE_STRING, "need_terrainclass");
+	      break;
+            case VUT_ROAD:
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            _("%s can't build %s from the worklist; "
+                              "%s road is required.  Postponing..."),
+                            city_link(pcity),
+                            city_improvement_name_translation(pcity, ptarget),
+                            road_name_translation(preq->source.value.road));
+              script_server_signal_emit("building_cant_be_built", 3,
+                                        API_TYPE_BUILDING_TYPE, ptarget,
+                                        API_TYPE_CITY, pcity,
+                                        API_TYPE_STRING, "need_road");
 	      break;
 	    case VUT_UTYPE:
 	    case VUT_UTFLAG:

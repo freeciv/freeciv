@@ -1627,7 +1627,7 @@ name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
-      "Special", "Road", "Local"
+      "Road", "Road", "Local"
       "Building", "Super Highways", "City"
       "OutputType", "Trade", "Local"
     }

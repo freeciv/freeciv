@@ -99,7 +99,7 @@ struct road_type *road_by_activity(enum unit_activity act)
 /****************************************************************************
   Return tile special that represents this road type.
 ****************************************************************************/
-enum tile_special_type road_special(struct road_type *road)
+enum tile_special_type road_special(const struct road_type *road)
 {
   return road->special;
 }
@@ -134,6 +134,24 @@ const char *road_rule_name(struct road_type *road)
 {
   return rule_name(&road->name);
 }
+
+/**************************************************************************
+  Returns road type matching rule name or NULL if there is no road type
+  with such name.
+**************************************************************************/
+struct road_type *road_type_by_rule_name(const char *name)
+{
+  const char *qs = Qn_(name);
+
+  road_type_iterate(proad) {
+    if (!fc_strcasecmp(road_rule_name(proad), qs)) {
+      return proad;
+    }
+  } road_type_iterate_end;
+
+  return NULL;
+}
+
 /****************************************************************************
   Is road native to unit class?
 ****************************************************************************/
@@ -201,4 +219,32 @@ bool can_build_road(struct road_type *road,
   }
 
   return TRUE;
+}
+
+/****************************************************************************
+  Is there road of the given type cardinally near tile?
+****************************************************************************/
+bool is_road_card_near(const struct tile *ptile, const struct road_type *proad)
+{
+  cardinal_adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_road(adjc_tile, proad)) {
+      return TRUE;
+    }
+  } cardinal_adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Is there road of the given type near tile?
+****************************************************************************/
+bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad)
+{
+  adjc_iterate(ptile, adjc_tile) {
+    if (tile_has_road(adjc_tile, proad)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
 }
