@@ -179,6 +179,7 @@ Syntax:
 
 # typedefs for numbers
 type BOOL               = bool8(bool)
+type FLOAT10x3          = float100(float)
 type FLOAT              = float10000(float)
 type FLOAT10x7          = float1000000(float)
 type SINT8              = sint8(int)
@@ -454,7 +455,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL restrictinfra;
   BOOL unreachable_protects;
   UINT32 sciencebox;
-  FLOAT seconds_to_phasedone;
+  FLOAT10x3 seconds_to_phasedone;
   UINT32 shieldbox;
   UINT32 skill_level;
   BOOL slow_invasions;
