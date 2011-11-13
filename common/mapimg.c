@@ -671,9 +671,9 @@ char *mapimg_help(void)
   /* help text */
   astr_set(&help,
     /* TRANS: This is help for a server command, so keywords like
-     * "define" are server keywords that must not be translated.
-     * Do not translate keywords in single quotes, but Strings in
-     * <angle brackets> should be translated. */
+     * "define" in the first column are server keywords that must not
+     * be translated. Do not translate keywords in single quotes, but
+     * strings in <angle brackets> should be translated. */
     _("This command controls the creation of map images. Supported "
       "arguments:\n"
       "  define <mapdef>  - define a map image; returns numeric <id>\n"

@@ -3973,7 +3973,7 @@ static bool playercolor_command(struct connection *caller,
   if (!game_was_started() && game.server.plrcolormode != PLRCOL_PLR_SET) {
     cmd_reply(CMD_PLAYERCOLOR, caller, C_FAIL,
               _("Please set 'plrcolormode' to PLR_SET to define the color "
-                "for the player %s before the game was started."),
+                "for the player %s before the game starts."),
               player_name(pplayer));
     ret = FALSE;
     goto cleanup;
@@ -4578,7 +4578,7 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
     case M_PRE_LAST:
       /* Fall back to depreciated 'lua <script command>' syntax. */
       cmd_reply(CMD_LUA, caller, C_SYNTAX,
-                _("Fall back to old syntax '%slua <script command>."),
+                _("Fall back to old syntax '%slua <script command>'."),
                 caller ? "/" : "");
       ind = LUA_CMD;
       luaarg = arg;
@@ -4926,7 +4926,7 @@ static bool delegate_command(struct connection *caller, char *arg,
     }
 
     player_delegation_set(dplayer, NULL);
-    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Delegation canceld."));
+    cmd_reply(CMD_DELEGATE, caller, C_OK, _("Delegation canceled."));
     ret = TRUE;
     goto cleanup;
     break;
@@ -4952,7 +4952,7 @@ static bool delegate_command(struct connection *caller, char *arg,
 
     /* Taking your own player makes no sense. */
     if (dplayer == conn_get_player(caller)) {
-      cmd_reply(CMD_TAKE, caller, C_FAIL, _("You already controls %s."),
+      cmd_reply(CMD_TAKE, caller, C_FAIL, _("You already control %s."),
                 player_name(conn_get_player(caller)));
       ret =  FALSE;
       goto cleanup;
@@ -4961,7 +4961,7 @@ static bool delegate_command(struct connection *caller, char *arg,
     /* If the player is controlled by another user, fail. */
     if (dplayer->is_connected) {
       cmd_reply(CMD_TAKE, caller, C_FAIL,
-                _("A user is connect to player '%s'."),
+                _("A user is connected to player '%s'."),
                 player_name(dplayer));
       ret =  FALSE;
       goto cleanup;
@@ -4970,7 +4970,7 @@ static bool delegate_command(struct connection *caller, char *arg,
     /* No chain of delegations. */
     if (caller->server.delegation.status == TRUE) {
       cmd_reply(CMD_TAKE, caller, C_FAIL,
-                _("You currently are using a delegation. Cancel it first."));
+                _("You are currently using a delegation. Cancel it first."));
       ret =  FALSE;
       goto cleanup;
     }
@@ -5005,7 +5005,7 @@ static bool delegate_command(struct connection *caller, char *arg,
                   caller->username) != 0) {
       /* This is _not_ the original connection. */
       cmd_reply(CMD_DELEGATE, caller, C_FAIL,
-                _("Player data does not match."));
+                _("Player data do not match."));
       ret = FALSE;
       goto cleanup;
     }

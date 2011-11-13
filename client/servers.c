@@ -127,7 +127,7 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
                   latest_ver, VERSION_STRING);
       output_window_append(ftc_client, vertext);
     } else {
-      output_window_append(ftc_client, _("You are running latest stable version of freeciv."));
+      output_window_append(ftc_client, _("You are running the latest stable version of freeciv."));
     }
   }
 

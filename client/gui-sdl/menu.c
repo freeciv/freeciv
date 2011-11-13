@@ -819,10 +819,12 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Build (Rail-)Road */
+  /* TRANS: "Build Railroad (R) 999 turns" */
   fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
               road_name_translation(road_by_number(ROAD_RAILROAD)), "R", 999, 
               PL_("turn", "turns", 999));
   len = strlen(cBuf);
+  /* TRANS: "Build Road (R) 999 turns" */
   fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
               road_name_translation(road_by_number(ROAD_ROAD)), "R", 999, 
               PL_("turn", "turns", 999));
@@ -1071,6 +1073,7 @@ void real_menus_update(void)
       if (can_unit_do_activity(pUnit, ACTIVITY_ROAD) || time) {
 	if(time) {
 	  time = tile_activity_time(ACTIVITY_RAILROAD, unit_tile(pUnit));
+          /* TRANS: "Build Railroad (R) 3 turns" */
 	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                       road_name_translation(road_by_number(ROAD_RAILROAD)),
                       "R", time, 
@@ -1078,6 +1081,7 @@ void real_menus_update(void)
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
 	  time = tile_activity_time(ACTIVITY_ROAD, unit_tile(pUnit));
+          /* TRANS: "Build Road (R) 1 turn" */
 	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
 		      road_name_translation(road_by_number(ROAD_ROAD)),
                       "R", time,

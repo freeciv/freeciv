@@ -490,7 +490,7 @@ static struct command commands[] = {
       "playercolor <player-name> reset"),
    N_("Define the color of a player."),
    N_("This command is used to set the color of a player's nation. The "
-      "color ist defined using a hexadecimal notation (HEX) for the "
+      "color is defined using a hexadecimal notation (HEX) for the "
       "combination of Red, Green, and Blue color values (RGB). The lowest "
       "value is 0 (in HEX: 00). The highest value is 255 (in HEX: FF). The "
       "color definition starts with a '#' sign followed be the HEX values "
@@ -501,7 +501,7 @@ static struct command commands[] = {
       "defined color can be removed using the reset argument.\n"
       "For a running game, this command redefines the player color. The "
       "change will be visible in the following turn.\n"
-      "To list the player color use 'list colors'."), NULL,
+      "To list the player colors use 'list colors'."), NULL,
    CMD_ECHO_NONE, VCF_NONE, 0
   },
   {"endgame",	ALLOW_ADMIN,
