@@ -2893,7 +2893,7 @@ static void load_ruleset_nations(struct section_file *file)
     }
 
     /* Load nation traits */
-    ruleset_load_traits(pnation->server.traits, file, "%s", "trait_");
+    ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
     for (tr = trait_begin(); tr < trait_end(); tr = trait_next(tr)) {
       if (pnation->server.traits[tr] < 0) {
         pnation->server.traits[tr] = default_traits[tr];
