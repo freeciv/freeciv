@@ -25,6 +25,19 @@
 
 #include "taiplayer.h"
 
+/* What level of operation we should abort because
+ * of received messages. Lower is more critical;
+ * TAI_ABORT_EXIT means that whole thread should exit,
+ * TAI_ABORT_NONE means that we can continue what we were doing */
+enum tai_abort_msg_class
+{
+  TAI_ABORT_EXIT,
+  TAI_ABORT_PHASE_END,
+  TAI_ABORT_NONE
+};
+
+static enum tai_abort_msg_class tai_check_messages(struct player *pplayer);
+
 static struct ai_type *self = NULL;
 
 /**************************************************************************
@@ -58,42 +71,65 @@ static void tai_thread_start(void *arg)
   fc_allocate_mutex(&data->msgs.mutex);
   while (!finished) {
     fc_thread_cond_wait(&data->msgs.thr_cond, &data->msgs.mutex);
-    data = tai_player_data(pplayer);
 
-    taimsg_list_allocate_mutex(data->msgs.msglist);
-    while(taimsg_list_size(data->msgs.msglist) > 0) {
-      struct tai_msg *msg;
-
-      msg = taimsg_list_get(data->msgs.msglist, 0);
-      taimsg_list_remove(data->msgs.msglist, msg);
-      taimsg_list_release_mutex(data->msgs.msglist);
-
-      log_debug("Plr thr \"%s\" got %s", player_name(pplayer),
-                taimsgtype_name(msg->type));
-
-      switch(msg->type) {
-       case TAI_MSG_FIRST_ACTIVITIES:
-       case TAI_MSG_PHASE_FINISHED:
-         /* Not implemented */
-         break;
-       case TAI_MSG_THR_EXIT:
-         finished = TRUE;
-         break;
-       default:
-         log_error("Illegal message type %s (%d) for threaded ai!",
-                   taimsgtype_name(msg->type), msg->type);
-         break;
-      }
-
-      FC_FREE(msg);
-
-      taimsg_list_allocate_mutex(data->msgs.msglist);
+    if (tai_check_messages(pplayer) <= TAI_ABORT_EXIT) {
+      finished = TRUE;
     }
-    taimsg_list_release_mutex(data->msgs.msglist);
   }
   fc_release_mutex(&data->msgs.mutex);
 
   log_debug("AI thread exiting");
+}
+
+/**************************************************************************
+  Handle messages from message queue.
+**************************************************************************/
+enum tai_abort_msg_class tai_check_messages(struct player *pplayer)
+{
+  enum tai_abort_msg_class ret_abort= TAI_ABORT_NONE;
+  struct tai_plr *data;
+
+  data = tai_player_data(pplayer);
+
+  taimsg_list_allocate_mutex(data->msgs.msglist);
+  while(taimsg_list_size(data->msgs.msglist) > 0) {
+    struct tai_msg *msg;
+    enum tai_abort_msg_class new_abort = TAI_ABORT_NONE;
+
+    msg = taimsg_list_get(data->msgs.msglist, 0);
+    taimsg_list_remove(data->msgs.msglist, msg);
+    taimsg_list_release_mutex(data->msgs.msglist);
+
+    log_debug("Plr thr \"%s\" got %s", player_name(pplayer),
+              taimsgtype_name(msg->type));
+
+    switch(msg->type) {
+    case TAI_MSG_FIRST_ACTIVITIES:
+      /* Not implemented */
+      break;
+    case TAI_MSG_PHASE_FINISHED:
+      new_abort = TAI_ABORT_PHASE_END;
+      break;
+    case TAI_MSG_THR_EXIT:
+      new_abort = TAI_ABORT_EXIT;
+      break;
+    default:
+      log_error("Illegal message type %s (%d) for threaded ai!",
+                taimsgtype_name(msg->type), msg->type);
+      break;
+    }
+
+    if (new_abort < ret_abort) {
+      ret_abort = new_abort;
+    }
+
+    FC_FREE(msg);
+
+    taimsg_list_allocate_mutex(data->msgs.msglist);
+  }
+  taimsg_list_release_mutex(data->msgs.msglist);
+
+  return ret_abort;
 }
 
 /**************************************************************************
