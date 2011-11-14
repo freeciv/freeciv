@@ -132,5 +132,7 @@ bool fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.consider_tile_dangerous = dai_consider_tile_dangerous;
   ai->funcs.consider_wonder_city = dai_consider_wonder_city;
 
+  ai->funcs.refresh = NULL;
+
   return TRUE;
 }

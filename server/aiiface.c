@@ -199,6 +199,16 @@ void call_incident(enum incident_type type, struct player *violator,
   CALL_PLR_AI_FUNC(incident, victim, type, violator, victim);
 }
 
+/****************************************************************************
+  Call ai refresh() callback for all players.
+****************************************************************************/
+void call_ai_refresh(void)
+{
+  players_iterate(pplayer) {
+    CALL_PLR_AI_FUNC(refresh, pplayer, pplayer);
+  } players_iterate_end;
+}
+
 /**************************************************************************
   Return name of default ai type.
 **************************************************************************/

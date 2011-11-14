@@ -23,5 +23,6 @@ const char *default_ai_type_name(void);
 
 void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim);
+void call_ai_refresh(void);
 
 #endif /* FC__AIIFACE_H */

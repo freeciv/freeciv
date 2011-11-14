@@ -22,7 +22,7 @@ extern "C" {
 
 /* Update this capability string when ever there is changes to ai_type
    structure below */
-#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Jun.10"
+#define FC_AI_MOD_CAPSTR "+Freeciv-ai-module-2011.Nov.14"
 
 #define FC_AI_LAST 3
 
@@ -213,6 +213,9 @@ struct ai_type
     /* Called from player AI to decide if city can be chosen to act as wonder city
      * for building advisor. */
     void (*consider_wonder_city)(struct city *pcity, bool *result);
+
+    /* Called for player AI type with short internval */
+    void (*refresh)(struct player *pplayer);
   } funcs;
 };
 
