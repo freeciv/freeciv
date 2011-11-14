@@ -49,6 +49,7 @@ EXTRA_DIST = \
 	database.lua	\
 	hex2t.tilespec	\
 	amplio2.tilespec \
+	cimpletoon.tilespec \
 	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\
