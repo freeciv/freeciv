@@ -57,6 +57,7 @@
 #include "fcthread.h"
 #include "log.h"
 #include "mem.h"
+#include "netfile.h"
 #include "netintf.h"
 #include "rand.h" /* fc_rand() */
 #include "registry.h"
@@ -96,8 +97,6 @@ struct server_scan {
     fc_thread thr;
     fc_mutex mutex;
 
-    char name[MAX_LEN_ADDR];
-    int port;
     const char *urlpath;
     FILE *fp; /* temp file */
   } meta;
@@ -106,8 +105,6 @@ struct server_scan {
 extern enum announce_type announce;
 
 static bool begin_metaserver_scan(struct server_scan *scan);
-static enum server_scan_status
-get_metaserver_list(struct server_scan *scan);
 static void delete_server_list(struct server_list *server_list);
 
 /**************************************************************************
@@ -206,49 +203,53 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
 }
 
 /****************************************************************************
-  Send the request string to the metaserver.
+  Read the reply string from the metaserver.
 ****************************************************************************/
-static void meta_send_request(struct server_scan *scan)
+static bool meta_read_response(struct server_scan *scan)
 {
-  const char *capstr;
-  char str[MAX_LEN_PACKET];
-  char machine_string[128];
+  fz_FILE *f;
+  char str[4096];
+  struct server_list *srvrs;
 
-  fc_uname(machine_string, sizeof(machine_string));
+  f = fz_from_stream(scan->meta.fp);
+  if (NULL == f) {
+    fc_snprintf(str, sizeof(str),
+                _("Failed to read the metaserver data from %s."),
+                metaserver);
+    scan->error_func(scan, str);
 
-  capstr = fc_url_encode(our_capability);
-
-  fc_snprintf(str, sizeof(str),
-    "POST %s HTTP/1.1\r\n"
-    "Host: %s:%d\r\n"
-    "User-Agent: Freeciv/%s %s %s\r\n"
-    "Connection: close\r\n"
-    "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
-    "Content-Length: %lu\r\n"
-    "\r\n"
-    "client_cap=%s\r\n",
-    scan->meta.urlpath,
-    scan->meta.name, scan->meta.port,
-    VERSION_STRING, client_string, machine_string,
-    (unsigned long) (strlen("client_cap=") + strlen(capstr)),
-    capstr);
-
-  if (fc_writesocket(scan->sock, str, strlen(str)) != strlen(str)) {
-    /* Even with non-blocking this shouldn't fail. */
-    scan->error_func(scan, fc_strerror(fc_get_errno()));
-    return;
+    return FALSE;
   }
 
-  scan->meta.state = META_WAITING;
+  /* parse message body */
+  fc_allocate_mutex(&scan->srvrs.mutex);
+  srvrs = parse_metaserver_data(f);
+  scan->srvrs.servers = srvrs;
+  fc_release_mutex(&scan->srvrs.mutex);
+  scan->meta.state = META_DONE;
+
+  /* 'f' (hence 'meta.fp') was closed in parse_metaserver_data(). */
+  scan->meta.fp = NULL;
+
+  if (NULL == srvrs) {
+    fc_snprintf(str, sizeof(str),
+                _("Failed to parse the metaserver data from %s:\n"
+                  "%s."),
+                metaserver, secfile_error());
+    scan->error_func(scan, str);
+
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /****************************************************************************
-  Read the request string (or part of it) from the metaserver.
+  Metaserver scan thread entry point
 ****************************************************************************/
-static void meta_read_response(struct server_scan *scan)
+static void metaserver_scan(void *arg)
 {
-  char buf[4096];
-  int result;
+  struct server_scan *scan = arg;
 
   if (!scan->meta.fp) {
 #ifdef WIN32_NATIVE
@@ -267,220 +268,49 @@ static void meta_read_response(struct server_scan *scan)
     }
   }
 
-  while (TRUE) {
-    result = fc_readsocket(scan->sock, buf, sizeof(buf));
+  if (scan->meta.fp) {
 
-    if (result < 0) {
-      if (errno == EAGAIN || errno == EINTR || errno == EWOULDBLOCK) {
-	/* Keep waiting. */
-	return;
-      }
-      scan->error_func(scan, fc_strerror(fc_get_errno()));
-      return;
-    } else if (result == 0) {
-      fz_FILE *f;
-      char str[4096];
-      struct server_list *srvrs;
+    fc_allocate_mutex(&scan->meta.mutex);
 
-      /* We're done! */
+    if (!begin_metaserver_scan(scan)) {
+      scan->meta.status = SCAN_STATUS_ERROR;
+    } else {
+
       rewind(scan->meta.fp);
 
-      f = fz_from_stream(scan->meta.fp);
-      if (NULL == f) {
-        fc_snprintf(str, sizeof(str),
-                    _("Failed to read the metaserver data from http://%s."),
-                    scan->meta.name);
-        scan->error_func(scan, str);
-        return;
-      }
-
-      /* skip HTTP headers */
-      /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
-      while (fz_fgets(str, sizeof(str), f) && strcmp(str, "\r\n") != 0) {
-	/* nothing */
-      }
-
-      /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
-
-      /* parse HTTP message body */
-      fc_allocate_mutex(&scan->srvrs.mutex);
-      srvrs = parse_metaserver_data(f);
-      scan->srvrs.servers = srvrs;
-      fc_release_mutex(&scan->srvrs.mutex);
-      scan->meta.state = META_DONE;
-
-      /* 'f' (hence 'meta.fp') was closed in parse_metaserver_data(). */
-      scan->meta.fp = NULL;
-
-      if (NULL == srvrs) {
-        fc_snprintf(str, sizeof(str),
-                    _("Failed to parse the metaserver data from http://%s:\n"
-                      "%s."),
-                    scan->meta.name, secfile_error());
-        scan->error_func(scan, str);
-      }
-
-      return;
-    } else {
-      if (fwrite(buf, 1, result, scan->meta.fp) != result) {
-	scan->error_func(scan, fc_strerror(fc_get_errno()));
+      if (!meta_read_response(scan)) {
+        scan->meta.status = SCAN_STATUS_ERROR;
+      } else {
+        scan->meta.status = SCAN_STATUS_DONE;
       }
     }
+
+    fc_release_mutex(&scan->meta.mutex);
   }
 }
 
 /****************************************************************************
-  Metaserver scan thread entry point
-****************************************************************************/
-static void metaserver_scan(void *arg)
-{
-  struct server_scan *scan = arg;
-
-  fc_allocate_mutex(&scan->meta.mutex);
-
-  if (!begin_metaserver_scan(scan)) {
-    scan->meta.status = SCAN_STATUS_ERROR;
-  } else {
-
-    scan->meta.status = SCAN_STATUS_WAITING;
-
-    while (scan->meta.status != SCAN_STATUS_DONE && scan->meta.status != SCAN_STATUS_ERROR
-           && scan->meta.status != SCAN_STATUS_ABORT) {
-      scan->meta.status = get_metaserver_list(scan);
-
-      fc_release_mutex(&scan->meta.mutex);
-
-      fc_usleep(1*100000);
-
-      fc_allocate_mutex(&scan->meta.mutex);
-    }
-  }
-
-  fc_release_mutex(&scan->meta.mutex);
-}
-
-/****************************************************************************
-  Begin a metaserver scan for servers.  This just initiates the connection
-  to the metaserver; later get_metaserver_list() should be called whenever
-  the socket has data pending to read and parse it.
+  Begin a metaserver scan for servers.
 
   Returns FALSE on error (in which case errbuf will contain an error
   message).
 ****************************************************************************/
 static bool begin_metaserver_scan(struct server_scan *scan)
 {
-  struct fc_sockaddr_list *list;
-  int name_count;
-  int s = -1;
+  struct netfile_post *post;
+  bool retval = TRUE;
 
-  scan->meta.urlpath = fc_lookup_httpd(scan->meta.name, &scan->meta.port,
-				       metaserver);
-  if (!scan->meta.urlpath) {
-    scan->error_func(scan,
-                     _("Invalid $http_proxy or metaserver value, must "
-                       "start with 'http://'"));
-    return FALSE;
+  post = netfile_start_post();
+  netfile_add_form_str(post, "client_cap", our_capability);
+
+  if (!netfile_send_post(metaserver, post, scan->meta.fp, NULL)) {
+    scan->error_func(scan, _("Error connecting to metaserver"));
+    retval = FALSE;
   }
 
-  name_count = 0;
+  netfile_close_post(post);
 
-#ifdef IPV6_SUPPORT
-  list = net_lookup_service(scan->meta.name, scan->meta.port, FC_ADDR_ANY);
-#else  /* IPV6_SUPPORT */
-  list = net_lookup_service(scan->meta.name, scan->meta.port, FC_ADDR_IPV4);
-#endif /* IPV6_SUPPORT */
-
-  name_count = fc_sockaddr_list_size(list);
-
-  if (name_count <= 0) {
-    scan->error_func(scan, _("Failed looking up metaserver's host"));
-    return FALSE;
-  }
-
-  /* Try all addresses until we have a connection. */  
-  fc_sockaddr_list_iterate(list, paddr) {
-    if ((s = socket(paddr->saddr.sa_family, SOCK_STREAM, 0)) == -1) {
-      /* Probably EAFNOSUPPORT or EPROTONOSUPPORT. */
-      continue;
-    }
-
-    fc_nonblock(s);
-  
-    if (fc_connect(s, &paddr->saddr, sockaddr_size(paddr)) == -1) {
-      if (errno == EINPROGRESS) {
-        /* With non-blocking sockets this is the expected result. */
-        scan->meta.state = META_CONNECTING;
-        scan->sock = s;
-        break;
-      } else {
-        fc_closesocket(s);
-        s = -1;
-        continue;
-      }
-    } else {
-      /* Instant connection?  Whoa. */
-      scan->sock = s;
-      scan->meta.state = META_CONNECTING;
-      meta_send_request(scan);
-      break;
-    }
-  } fc_sockaddr_list_iterate_end;
-
-  fc_sockaddr_list_destroy(list);
-
-  if (s == -1) {
-    scan->error_func(scan, fc_strerror(fc_get_errno()));
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Check for data received from the metaserver.
-**************************************************************************/
-static enum server_scan_status
-get_metaserver_list(struct server_scan *scan)
-{
-  struct timeval tv;
-  fd_set sockset;
-
-  if (!scan || scan->sock < 0) {
-    return SCAN_STATUS_ERROR;
-  }
-
-  tv.tv_sec = 0;
-  tv.tv_usec = 0;
-  FD_ZERO(&sockset);
-  FD_SET(scan->sock, &sockset);
-
-  switch (scan->meta.state) {
-  case META_CONNECTING:
-    if (fc_select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
-      scan->error_func(scan, fc_strerror(fc_get_errno()));
-    } else if (FD_ISSET(scan->sock, &sockset)) {
-      meta_send_request(scan);
-    }
-    /* Keep waiting. */
-    return SCAN_STATUS_WAITING;
-    break;
-  case META_WAITING:
-    if (fc_select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
-      scan->error_func(scan, fc_strerror(fc_get_errno()));
-    } else if (FD_ISSET(scan->sock, &sockset)) {
-      meta_read_response(scan);
-      return SCAN_STATUS_PARTIAL;
-    }
-    /* Keep waiting. */
-    return SCAN_STATUS_WAITING;
-    break;
-  case META_DONE:
-    return SCAN_STATUS_DONE;
-    break;
-  }
-
-  log_error("Unsupported metaserver state: %d.", scan->meta.state);
-  return SCAN_STATUS_ERROR;
+  return retval;
 }
 
 /**************************************************************************
