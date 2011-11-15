@@ -39,6 +39,8 @@
 
 #include <math.h>
 
+#include <gtk/gtk.h>
+
 #include "gui_main.h"
 #include "gtkpixcomm.h"
 
