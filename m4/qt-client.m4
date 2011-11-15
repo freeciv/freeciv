@@ -12,7 +12,7 @@ dnl        replacing below if-check with one that is currently commented out.
 dnl if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
 dnl   test "x$client" = "xauto" ; then
 
-if test "x$gui_qt" = "xyes" || test "x$client" = "all" ; then
+if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ; then
 
   if test "x$cxx_works" = "xyes" ; then
 
