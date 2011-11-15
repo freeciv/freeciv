@@ -175,13 +175,13 @@ freeciv_gtk2_LDADD = \
 endif
 
 if CLIENT_GUI_GTK_3_0
-bin_PROGRAMS += freeciv-gtk2x
+bin_PROGRAMS += freeciv-gtk3
 noinst_LTLIBRARIES += libfcgui-gtk3.la
 libfcgui_gtk3_la_SOURCES = $(freeciv_client_src)
 libfcgui_gtk3_la_LIBADD = gui-gtk-3.0/libgui-gtk3.la $(clientlibs)
-freeciv_gtk2x_SOURCES = dummy.c
-freeciv_gtk2x_LDFLAGS = $(GUI_gtk3_LDFLAGS) $(GGZMOD_LDFLAGS)
-freeciv_gtk2x_LDADD = \
+freeciv_gtk3_SOURCES = dummy.c
+freeciv_gtk3_LDFLAGS = $(GUI_gtk3_LDFLAGS) $(GGZMOD_LDFLAGS)
+freeciv_gtk3_LDADD = \
  $(SOUND_LIBS) \
  libfcgui-gtk3.la \
  $(top_builddir)/common/libfreeciv.la \
