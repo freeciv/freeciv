@@ -6,16 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-31 00:35+0200\n"
-"PO-Revision-Date: 2011-10-30 23:31+0100\n"
-"Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
+"POT-Creation-Date: 2011-11-12 00:40+0200\n"
+"PO-Revision-Date: 2011-11-15 14:59-0000\n"
+"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
 "Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
-"(n > 2 && n < 20) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;\n"
 "X-Generator: Virtaal 0.7.1-beta1\n"
 
 #: common/city.c:81
@@ -512,7 +511,7 @@ msgstr "Aonad air a thogail le cosgais sluaigh"
 
 #. TRANS: "vote" as a process
 #: common/events.c:170
-#: server/stdinhand.c:4000
+#: server/stdinhand.c:4001
 msgid "New vote"
 msgstr "Bhòt ùr"
 
@@ -933,11 +932,11 @@ msgstr "Bothan"
 
 #: common/terrain.c:489
 #: common/unit.c:691
-#: data/civ1/terrain.ruleset:691
-#: data/civ2/terrain.ruleset:803
-#: data/default/terrain.ruleset:911
-#: data/experimental/terrain.ruleset:913
-#: data/multiplayer/terrain.ruleset:911
+#: data/civ1/terrain.ruleset:693
+#: data/civ2/terrain.ruleset:805
+#: data/default/terrain.ruleset:913
+#: data/experimental/terrain.ruleset:915
+#: data/multiplayer/terrain.ruleset:913
 msgid "Fortress"
 msgstr "Dùn"
 
@@ -952,10 +951,10 @@ msgstr "Fearann"
 
 #: common/terrain.c:492
 #: common/unit.c:705
-#: data/civ2/terrain.ruleset:825
-#: data/default/terrain.ruleset:935
-#: data/experimental/terrain.ruleset:937
-#: data/multiplayer/terrain.ruleset:935
+#: data/civ2/terrain.ruleset:827
+#: data/default/terrain.ruleset:937
+#: data/experimental/terrain.ruleset:939
+#: data/multiplayer/terrain.ruleset:937
 msgid "Airbase"
 msgstr "Ionad-adhair"
 
@@ -1378,7 +1377,7 @@ msgstr[3] " (%d ath-innse gu h-iomlan)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/log.c:472
-#: utility/netintf.c:83
+#: utility/netintf.c:91
 #: utility/registry.c:893
 #: server/console.c:68
 #: server/generator/startpos.c:397
@@ -2978,14 +2977,7 @@ msgstr "Rach an àite cluicheadair eile sa gheama."
 #. TRANS: Don't translate text between ''
 #: server/commands.c:266
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to take over a player. If you're not one of these, only the <player-name> argument is allowed. If '-' is given for the player name and the connection does not already control a player, one is created and assigned to the connection. The 'allowtake' option controls which players may be taken and in what circumstances."
-msgstr ""
-"Chan fhaod ach an consol agus ceanglaichean leis a' cmdlevel 'hack' "
-"ceanglaichean eile èigneachadh gus cluicheadair a ghabhail os làimh. Mur eil "
-"sin agad, chan eil ceadaichte ach an argamaid <player-name>. Ma tha '-' ann "
-"mar ainm a' chluicheadair agus mur eil cluicheadair fo smachd a' cheangail "
-"fhathast, thèid fear a chruthachadh agus iomruineadh ris a' cheagal. Tha an "
-"roghainn \"allowtake\" a' stiùireadh dè na cluicheadairean as urrainnear "
-"gabhail agus dè suidheachadh a dh'fheumas a bhith ann."
+msgstr "Chan fhaod ach an consol agus ceanglaichean leis a' cmdlevel 'hack' ceanglaichean eile èigneachadh gus cluicheadair a ghabhail os làimh. Mur eil sin agad, chan eil ceadaichte ach an argamaid <player-name>. Ma tha '-' ann mar ainm a' chluicheadair agus mur eil cluicheadair fo smachd a' cheangail fhathast, thèid fear a chruthachadh agus iomruineadh ris a' cheagal. Tha an roghainn \"allowtake\" a' stiùireadh dè na cluicheadairean as urrainnear gabhail agus dè suidheachadh a dh'fheumas a bhith ann."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:276
@@ -2999,14 +2991,7 @@ msgstr "Cum sùil air cluicheadair no geama air fad."
 #. TRANS: Don't translate text between ''
 #: server/commands.c:279
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to observe a player. If you're not one of these, only the [player-name] argument is allowed. If the console gives no player-name or the connection uses no arguments, then the connection is attached to a global observer. The 'allowtake' option controls which players may be observed and in what circumstances."
-msgstr ""
-"Chan fhaod ach an consol agus ceanglaichean leis a' cmdlevel 'hack' "
-"ceanglaichean eile èigneachadh gus sùil a chumail air cluicheadair. Mur eil "
-"sin agad, chan eil ceadaichte ach an argamaid [player-name]. Mur eil an "
-"consol a' toirt seachad player-name no mur eil argamaidean aig a' cheangal, "
-"thèid an ceangal a chur ri coimheadaiche uile-choitcheann. Tha an roghainn "
-"\"allowtake\" a' stiùireadh dè na cluicheadairean as urrainnear gabhail agus "
-"dè suidheachadh a dh'fheumas a bhith ann."
+msgstr "Chan fhaod ach an consol agus ceanglaichean leis a' cmdlevel 'hack' ceanglaichean eile èigneachadh gus sùil a chumail air cluicheadair. Mur eil sin agad, chan eil ceadaichte ach an argamaid [player-name]. Mur eil an consol a' toirt seachad player-name no mur eil argamaidean aig a' cheangal, thèid an ceangal a chur ri coimheadaiche uile-choitcheann. Tha an roghainn \"allowtake\" a' stiùireadh dè na cluicheadairean as urrainnear gabhail agus dè suidheachadh a dh'fheumas a bhith ann."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:289
@@ -3019,9 +3004,7 @@ msgstr "Dealaich o chluicheadair."
 
 #: server/commands.c:291
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to detach from a player."
-msgstr ""
-"Chan fhaod ach an consol agus ceanglaichean leis a' cmdlevel 'hack' cur air "
-"ceanglaichean dealachadh o chluicheadair."
+msgstr "Chan fhaod ach an consol agus ceanglaichean leis a' cmdlevel 'hack' cur air ceanglaichean dealachadh o chluicheadair."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:297
@@ -3181,30 +3164,15 @@ msgid ""
 "With no arguments, the current command access levels are reported. With a single argument, the level is set for all existing connections, and the default is set for future connections. If 'new' is specified, the level is set for newly connecting clients. If 'first come' is specified, the 'first come' level is set; it will be granted to the first client to connect, or if there are connections already, the first client to issue the 'first' command. If a connection name is specified, the level is set for that connection only.\n"
 "Command access levels do not persist if a client disconnects, because some untrusted person could reconnect with the same name. Note that this command now takes connection names, not player names."
 msgstr ""
-"Tha leibheil an inntrigidh smach a' cumail rian air dè na h-àitheantan a "
-"bhios ri làimh a' chleachdaiche ann an loidhne cabadaich a' chliant.  Seo an "
-"tha ri fhaighinn:\n"
+"Tha leibheil an inntrigidh smach a' cumail rian air dè na h-àitheantan a bhios ri làimh a' chleachdaiche ann an loidhne cabadaich a' chliant.  Seo an tha ri fhaighinn:\n"
 "    none  -  gun àitheantan\n"
 "    info  -  àitheantan fiosrachaidh no coimheadaiche a-mhàin\n"
 "    basic -  àitheantan ri làimh na cluineadairean sa gheama\n"
-"    ctrl  -  àitheantan aig a bhios buaidh air a' gheama 's na "
-"cluicheadairean air fad\n"
+"    ctrl  -  àitheantan aig a bhios buaidh air a' gheama 's na cluicheadairean air fad\n"
 "    admin -  àitheantan aig a bhios buaidh air obrachadh an fhrithealaiche\n"
 "    hack  -  *gach* àithne - cunnartach!\n"
-"Mura bi argamaid ann, bidh na leibheilean inntrigidh smachd làithreach an "
-"sàs. Ma bhios aon argamaid ann, thèid an leibheil sin a shuidheachadh airson "
-"gach ceangal agus bi e ann mar roghainn bhunaiteach airson ceanglaichean "
-"san àm ri teachd. Ma chuireas tu 'new' ann, thèid an leibheil a "
-"shuidheachadh airson cliantan ùra a cheanglas ris. Ma chuireas tu 'first "
-"come' ann, thèid an leibheil 'first come' a shuidheachadh; thèid a "
-"bhuileachadh air a' chiad chliant a nì ceangal no ma tha ceanglaichean ann "
-"mu thràth a' chiad chliant a chuireas an àithne 'first'. Ma tha ainm "
-"ceangail air a shònrachadh, thèid an leibheil a shuidheachadh airson a' "
-"cheangail sin a-mhàin.\n"
-"Cha mhair leibheilean inntrigeadh smachd ma bhriseas cliant an ceangal a "
-"chionn 's gum b' urrainn do chuideigin mhì-earbsach ceangal a dhèanamh leis "
-"an dearbh-ainm.  Thoir an aire gun gach an àithne seo ri ainmean "
-"cheanglaichean a-nis seach ainmean chluicheadairean."
+"Mura bi argamaid ann, bidh na leibheilean inntrigidh smachd làithreach an sàs. Ma bhios aon argamaid ann, thèid an leibheil sin a shuidheachadh airson gach ceangal agus bi e ann mar roghainn bhunaiteach airson ceanglaichean san àm ri teachd. Ma chuireas tu 'new' ann, thèid an leibheil a shuidheachadh airson cliantan ùra a cheanglas ris. Ma chuireas tu 'first come' ann, thèid an leibheil 'first come' a shuidheachadh; thèid a bhuileachadh air a' chiad chliant a nì ceangal no ma tha ceanglaichean ann mu thràth a' chiad chliant a chuireas an àithne 'first'. Ma tha ainm ceangail air a shònrachadh, thèid an leibheil a shuidheachadh airson a' cheangail sin a-mhàin.\n"
+"Cha mhair leibheilean inntrigeadh smachd ma bhriseas cliant an ceangal a chionn 's gum b' urrainn do chuideigin mhì-earbsach ceangal a dhèanamh leis an dearbh-ainm.  Thoir an aire gun gach an àithne seo ri ainmean cheanglaichean a-nis seach ainmean chluicheadairean."
 
 #: server/commands.c:409
 msgid "If there is none, become the game organizer with increased permissions."
@@ -5073,40 +5041,40 @@ msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Chaidh an geama seo a shàbhaladh ro fhad air ais, tha feum air tionndadh 1.9.0 air a' char as lugha."
 
 #: server/savegame.c:5243
-#: server/savegame2.c:2954
-#: server/srv_main.c:1833
+#: server/savegame2.c:3001
 #: server/srv_main.c:1837
+#: server/srv_main.c:1841
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "Chaidh %s a chur ris mar chluicheadair air leibheail %s fo smachd na h-IF."
 
 #: server/savegame.c:5247
-#: server/savegame2.c:2958
+#: server/savegame2.c:3005
 #, c-format
 msgid "%s has been added as human player."
 msgstr "Chaidh %s a chur ris mar chluicheadair daonna."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
 #: server/savegame.c:5292
-#: server/savegame2.c:2977
+#: server/savegame2.c:3024
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "Bha nàisean mì-dhligheach aig %s; ag atharrachadh gu %s."
 
-#: server/savegame2.c:5315
+#: server/savegame2.c:5362
 msgid "current version"
 msgstr "an tionndadh làithreach"
 
-#: server/savegame2.c:5319
+#: server/savegame2.c:5366
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:5369
+#: server/savegame2.c:5416
 #, c-format
 msgid "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr "Ruith am foincsean co-chòrdalachd airson tionndadh: <%d (faidhle sàbhalaidh: %d; frithealaiche: %d)."
 
-#: server/savegame2.c:5403
+#: server/savegame2.c:5450
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr "Ruith am foincsean co-chòrdalachd airson tionndadh: <%d (iarr: %d; frithealaiche: %d)."
@@ -5385,19 +5353,25 @@ msgstr "Chan fhaod 'timeout' a bhith nas lugha na 3/2 dhen roghainn 'unitwaittim
 msgid "'unitwaittime' has to be lower than 2/3 of the 'timeout' setting (= %d). Please change 'timeout' first."
 msgstr "Feumaidh 'unitwaittime' a bhith nas lugha na 2/3 dhen roghainn 'timeout' (= %d). Atharraich  'timeout' an toiseach."
 
-#: server/settings.c:751
-#: server/settings.c:776
+#: server/settings.c:752
+#: server/settings.c:810
+#: server/settings.c:830
+msgid "For an isometric or hexagonal map the ysize must be even."
+msgstr "Feumaidh an ysize a bhith cothrom airson mapa ioso-meatrach no sia-cheàrnach."
+
+#: server/settings.c:770
+#: server/settings.c:795
 #, c-format
 msgid "The map size (%d * %d = %d) must be larger than %d tiles."
 msgstr "Feumaidh meud a' mhapa (%d * %d = %d) a bhith nas motha na %d leacag."
 
-#: server/settings.c:757
-#: server/settings.c:782
+#: server/settings.c:776
+#: server/settings.c:801
 #, c-format
 msgid "The map size (%d * %d = %d) must be lower than %d tiles."
 msgstr "Feumaidh meud a' mhapa (%d * %d = %d) a bhith nas lugha na %d leacag."
 
-#: server/settings.c:841
+#: server/settings.c:888
 msgid "Map size definition"
 msgstr "Sònrachadh meud a' mhapa"
 
@@ -5406,7 +5380,7 @@ msgstr "Sònrachadh meud a' mhapa"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between paranthesis and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:847
+#: server/settings.c:894
 msgid ""
 "Chooses the method used to define the map size. Other options specify the parameters for each method.\n"
 "- \"Number of tiles\" (FULLSIZE): Map area (option 'size').\n"
@@ -5418,7 +5392,7 @@ msgstr ""
 "- \"Leacagan an cluicheadair\" (PLAYER): Àireamh de leacagan (talamhainn) an cluicheadair (an roghainn 'tilesperplayer').\n"
 "- \"Leud is àirde\" (XYSIZE): Leud is àirde a' mhapa ann an leacagan (na roghainnean 'xsize' agus 'ysize')."
 
-#: server/settings.c:858
+#: server/settings.c:905
 msgid "Map area (in thousands of tiles)"
 msgstr "Àrainn a' mhapa (ann am mìltean de leacagan)"
 
@@ -5427,7 +5401,7 @@ msgstr "Àrainn a' mhapa (ann am mìltean de leacagan)"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between paranthesis and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:864
+#: server/settings.c:911
 msgid ""
 "This value is used to determine the map area.\n"
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
@@ -5439,7 +5413,7 @@ msgstr ""
 "  tha meud = 20 'na mhapa glè mhòr le 20,000 leacagan\n"
 "Feumaidh tu roghainn \"Sònrachadh meud a' mhapa\" ('mapsize') a chur gu \"Àireamh de leacagan\" (FULLSIZE) mus bi buaidh aig an roghainn seo."
 
-#: server/settings.c:874
+#: server/settings.c:921
 msgid "Number of (land) tiles per player"
 msgstr "Àireamh de leacagan (talamhainn) cluicheadair"
 
@@ -5448,7 +5422,7 @@ msgstr "Àireamh de leacagan (talamhainn) cluicheadair"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:880
+#: server/settings.c:927
 msgid ""
 "This value is used to determine the map dimensions. It calculates the map size at game start based on the number of players and the value of the setting 'landmass'.\n"
 "For this option to take effect, the \"Map size definition\" option ('mapsize') must be set to \"Tiles per player\" (PLAYER)."
@@ -5456,7 +5430,7 @@ msgstr ""
 "Sònraichidh an luach seo meudachd a' mhapa. Àireamhaichidh e meud a' mhapa aig toiseach a' gheama a-rèir àireamh nan cluicheadairean agus luach na roghainne 'landmass'.\n"
 "Feumaidh tu roghainn \"Sònrachadh meud a' mhapa\" ('mapsize') a chur gu \"Leacagan an cluicheadair\" (PLAYER) mus bi buaidh aig an roghainn seo."
 
-#: server/settings.c:891
+#: server/settings.c:938
 msgid "Map width in tiles"
 msgstr "Leud a' mhapa ann an leacagan"
 
@@ -5465,7 +5439,7 @@ msgstr "Leud a' mhapa ann an leacagan"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:897
+#: server/settings.c:944
 msgid ""
 "Defines the map width.\n"
 "For this option to take effect, the \"Map size definition\" option ('mapsize') must be set to \"Width and height\" (XYSIZE)."
@@ -5473,7 +5447,7 @@ msgstr ""
 "Sònraichidh seo leud a' mhapa.\n"
 "Feumaidh tu roghainn \"Sònrachadh meud a' mhapa\" ('mapsize') a chur gu \"Leud agus àirde\" (XYSIZE) mus bi buaidh aig an roghainn seo."
 
-#: server/settings.c:905
+#: server/settings.c:952
 msgid "Map height in tiles"
 msgstr "Àirde a' mhapa ann an leacagan"
 
@@ -5482,7 +5456,7 @@ msgstr "Àirde a' mhapa ann an leacagan"
 #. * quotes are setting names and shouldn't be translated. The
 #. * strings between parentheses and in uppercase must stay as
 #. * untranslated.
-#: server/settings.c:911
+#: server/settings.c:958
 msgid ""
 "Defines the map height.\n"
 "For this option to take effect, the \"Map size definition\" option ('mapsize') must be set to \"Width and height\" (XYSIZE)."
@@ -5490,12 +5464,12 @@ msgstr ""
 "Sònraichidh seo àirde a' mhapa.\n"
 "Feumaidh tu roghainn \"Sònrachadh meud a' mhapa\" ('mapsize') a chur gu \"Leud agus àirde\" (XYSIZE) mus bi buaidh aig an roghainn seo."
 
-#: server/settings.c:920
+#: server/settings.c:967
 msgid "Map topology index"
 msgstr "Clàr-amais topo-eòlas nam mapa"
 
 #. TRANS: do not edit the ugly ASCII art
-#: server/settings.c:922
+#: server/settings.c:969
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south and east-west directions to form a flat map, a cylinder, or a torus (donut). Individual tiles may be rectangular or hexagonal, with either a classic or isometric alignment - this should be set based on the tileset being used.\n"
 "Classic rectangular:       Isometric rectangular:\n"
@@ -5525,7 +5499,7 @@ msgstr ""
 "   | | | | | | |                          / \\_/ \\_/ \\_/ \\_/ \\\n"
 "   \\/\\/\\/\\/\\/\\/                           \\_/ \\_/ \\_/ \\_/ \\_/\n"
 
-#: server/settings.c:946
+#: server/settings.c:993
 msgid "Method used to generate map"
 msgstr "Modh cruthachaidh nam mapa"
 
@@ -5534,7 +5508,7 @@ msgstr "Modh cruthachaidh nam mapa"
 #. * quotes (except 'fair') are setting names and shouldn't be
 #. * translated. The strings between parentheses and in uppercase
 #. * must stay as untranslated.
-#: server/settings.c:952
+#: server/settings.c:999
 msgid ""
 "Specifies the algorithm used to generate the map. If the default value of the 'startpos' option is used, then the chosen generator chooses an appropriate 'startpos' setting; otherwise, the generated map tries to accommodate the chosen 'startpos' setting.\n"
 "- \"Scenario map\" (SCENARIO): indicates a pre-generated map. By default, if the scenario does not specify start positions, they will be allocated depending on the size of continents.\n"
@@ -5550,7 +5524,7 @@ msgstr ""
 "- \"Stèidhichte air eileanan\" (ISLAND): tha seo a' cruthachadh mapaichean 'cothromach' air a bhios grunn eileanan de mheud is cruth cha mhòr co-ionnann agus an co-mheas de thalamhan coltach ri chèile orra. Eilean an cluicheadair, a ghnàth.\n"
 "Ma tha an gineadair a thagh thu neo-chòrdail le roghainnean eile an fhrithealaiche, taghaidh am frithealaiche gineadair eile."
 
-#: server/settings.c:977
+#: server/settings.c:1024
 msgid "Method used to choose start positions"
 msgstr "Am modh a thèid a chleachdadh gus àitichean tòiseachaidh a thaghadh"
 
@@ -5559,7 +5533,7 @@ msgstr "Am modh a thèid a chleachdadh gus àitichean tòiseachaidh a thaghadh"
 #. * quotes (except 'best') are setting names and shouldn't be
 #. * translated. The strings between parentheses and in uppercase
 #. * must stay as untranslated.
-#: server/settings.c:983
+#: server/settings.c:1030
 msgid ""
 "The method used to choose where each player's initial units start on the map. (For scenarios which include pre-set start positions, this setting is ignored.)\n"
 "- \"Generator's choice\" (DEFAULT): the start position placement will depend on the map generator chosen. See the 'generator' setting.\n"
@@ -5577,35 +5551,35 @@ msgstr ""
 "- \"A-rèir meud nam mòr-thirean\" (VARIABLE): thèid cluicheadairean a chur air na mòr-thirean 'as fhearr' airson 's gum bi àireamh nan cluicheadairean air gach mòr-thir co-rèireach dha luach.\n"
 "Mur urrainn dhan fhrithealaiche na roghainnean a choileanadh a chionn 's gu bheil cus chluicheadairean ann airson na tha ann de mhòr-thirean, faodaidh gun cleachd e fear dhen fheadhainn eile. (Ge-tà, nì gineadairean mapa an dìcheall gum bi an àireamh cheart de mhòr-thirean ann a-rèir na roghainne 'startpos' seo agus àireamh nan cluicheadairean agus chan eil coltas ma-thà gun tachair sin.)"
 
-#: server/settings.c:1012
+#: server/settings.c:1059
 msgid "Presence of 1x1 islands"
 msgstr "Làithreachd de dh'eileanan 1x1"
 
-#: server/settings.c:1013
+#: server/settings.c:1060
 msgid "This setting controls whether the map generator is allowed to make islands of one only tile size."
 msgstr "Tha an roghainn seo a' sònrachadh an urrainn do ghineadair a' mhapa eileanan a chruthachadh anns nach eil ach aon leacag."
 
-#: server/settings.c:1019
+#: server/settings.c:1066
 msgid "Whether the poles are separate continents"
 msgstr "Pòlaichean nam mòr-thirean eadar-dhealaichte"
 
-#: server/settings.c:1020
+#: server/settings.c:1067
 msgid "If this setting is disabled, the continents may attach to poles."
 msgstr "Ma chuireas tu à comas an roghainn seo, sìnidh na mòr-thirean gu ruige na pòlaichean."
 
-#: server/settings.c:1025
+#: server/settings.c:1072
 msgid "All the map is temperate"
 msgstr "Bidh aimisr a' mhapa air fad measarra"
 
-#: server/settings.c:1026
+#: server/settings.c:1073
 msgid "If this setting is enabled, the temperature will be equivalent everywhere on the map. As a result, the poles won't be generated."
 msgstr "Ma chuireas tu an roghainn seo an comas, bidh teothachd cho-ionnann ann àite sam bith air a' mhapa. Cha dèid na pòlaichean a chruthachadh mar sin."
 
-#: server/settings.c:1033
+#: server/settings.c:1080
 msgid "Average temperature of the planet"
 msgstr "Teothachd chuibheasach na planaid"
 
-#: server/settings.c:1034
+#: server/settings.c:1081
 msgid ""
 "Small values will give a cold map, while larger values will give a hotter map.\n"
 "\n"
@@ -5624,91 +5598,91 @@ msgstr ""
 " Gheibh thu planaid fhuar le raointean beaga tropaigeach ma chuireas tu ann 30.\n"
 " Gheibh thu planaid glè fhuar le raointean pòlach glè mhòr is gun raon tropaigeach sam bith ma chuireas tu ann 0."
 
-#: server/settings.c:1051
+#: server/settings.c:1098
 msgid "Percentage of the map that is land"
 msgstr "Ceudad a' mhapa a bhios na eilean"
 
-#: server/settings.c:1052
+#: server/settings.c:1099
 msgid "This setting gives the approximate percentage of the map that will be made into land."
 msgstr "Tha an roghainn seo a' sealltainn tuairmeas a' cheudaid dhen mhapa a bhios na thalamh."
 
-#: server/settings.c:1058
+#: server/settings.c:1105
 msgid "Amount of hills/mountains"
 msgstr "Cuibhreann de chnuic/bheanntan"
 
-#: server/settings.c:1059
+#: server/settings.c:1106
 msgid "Small values give flat maps, while higher values give a steeper map with more hills and mountains."
 msgstr "Gheibh thu mapa rèidh ma chuireas tu ann luach beag agus mapa nas caise le barrachd chnoc is bheanntan ma chuireas tu ann luach nas motha."
 
-#: server/settings.c:1065
+#: server/settings.c:1112
 msgid "Amount of water on landmasses"
 msgstr "Cuibhreann de dh'uisge air talamh"
 
-#: server/settings.c:1066
+#: server/settings.c:1113
 msgid "Small values mean lots of dry, desert-like land; higher values give a wetter map with more swamps, jungles, and rivers."
 msgstr "Gheibh thu mòran talmhainn thioram, coltach ri fàsach ma chuireas tu ann luach beag; mapa nas fhliche le barrachd bhoglaichean, dhiungailean is aibhnean ma chuireas tu ann luach nas motha."
 
-#: server/settings.c:1073
+#: server/settings.c:1120
 msgid "Global warming"
 msgstr "Blàthachadh na cruinne"
 
-#: server/settings.c:1074
+#: server/settings.c:1121
 msgid "If turned off, global warming will not occur as a result of pollution. This setting does not affect pollution."
 msgstr "Ma cuireas tu dheth seo, cha tachair blàthachadh na cruinne an cois truaillidh. Chan eil buaidh aig an roghainn seo air an truailleadh fhèin."
 
-#: server/settings.c:1081
+#: server/settings.c:1128
 msgid "Nuclear winter"
 msgstr "Geamhradh niùclasach"
 
-#: server/settings.c:1082
+#: server/settings.c:1129
 msgid "If turned off, nuclear winter will not occur as a result of nuclear war."
 msgstr "Ma chuireas tu dheth seo, cha tachair geamhradh niùclasach mar thoradh air cogadh niùclasach."
 
-#: server/settings.c:1088
+#: server/settings.c:1135
 msgid "Map generation random seed"
 msgstr "Sìol tuairmeach a' ghinidh mhapa"
 
-#: server/settings.c:1089
+#: server/settings.c:1136
 msgid "The same seed will always produce the same map; for zero (the default) a seed will be chosen based on the time to give a random map. This setting is usually only of interest while debugging the game."
 msgstr "Ginidh an dearbh-shìol an dearbh-mhapa an-còmhnaidh; le neoini (an roghainn bhunaiteach) thèid sìol a thaghadh a-rèir an ama airson mapa tuairmeach. Cha bhi feum air an roghainn seo mar is trice ach ma thathar ri dì-bhugadh."
 
-#: server/settings.c:1102
+#: server/settings.c:1149
 msgid "Game random seed"
 msgstr "Sìol tuairmeach geama"
 
-#: server/settings.c:1103
+#: server/settings.c:1150
 msgid "For zero (the default) a seed will be chosen based on the current time. This setting is usually only of interest while debugging the game."
 msgstr "Le neoini (an roghainn bhunaiteach) thèid sìol a thaghadh a-rèir an ama làithrich airson mapa tuairmeach. Cha bhi feum air an roghainn seo mar is trice ach ma thathar ri dì-bhugadh."
 
-#: server/settings.c:1110
+#: server/settings.c:1157
 msgid "Amount of \"special\" resource tiles"
 msgstr "Cuibhreann de ceàrnagan le goireasan \"sònraichte\""
 
-#: server/settings.c:1111
+#: server/settings.c:1158
 msgid "Special resources improve the basic terrain type they are on. The server variable's scale is parts per thousand."
 msgstr "Tha goireasan sònraichte a' cur piseach air an talamh bhunaiteach far a bheil iad. Tha sgèile de phàirtean sa mhìle aig an fhrithealaiche seo."
 
-#: server/settings.c:1118
+#: server/settings.c:1165
 msgid "Amount of huts (minor tribe villages)"
 msgstr "Cuibhreann de bhothain (clachain bheaga de thùsanaich)"
 
-#: server/settings.c:1119
+#: server/settings.c:1166
 msgid "This setting gives the exact number of huts that will be placed on the entire map. Huts are small tribal villages that may be investigated by units."
 msgstr "Tha an roghainn seo a' suidheachadh àireamh iomlan nam bothan a bhios air a' mhapa gu lèir. 'S e clachain bheaga de thùsanaich a tha anns na bothain as urrainnear rùrachadh le aonadan."
 
-#: server/settings.c:1132
+#: server/settings.c:1179
 msgid "Minimum number of players"
 msgstr "Àireamh as lugha de chluicheadairean"
 
-#: server/settings.c:1133
+#: server/settings.c:1180
 msgid "There must be at least this many players (connected human players) before the game can start."
 msgstr "Feumaidh an àireamh seo de chluicheadairean a bhith ann air a' char as lugha (cluicheadairean daonna a tha co-cheangailte) mus toisich an geama."
 
-#: server/settings.c:1140
+#: server/settings.c:1187
 msgid "Maximum number of players"
 msgstr "Àireamh as motha de chluicheadairean"
 
-#: server/settings.c:1141
+#: server/settings.c:1188
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this number of players are connected in the pregame state, any new players who try to connect will be rejected.\n"
 "When playing a scenario which defines player start positions, this setting cannot be set to greater than the number of defined start positions."
@@ -5716,52 +5690,52 @@ msgstr ""
 "An àireamh as motha de chluicheadairan daonna is na h-Intinne Fuadain as urrainn cluich sa gheama. Ma bhios an àireamh seo de chluicheadairean co-cheangailte ron gheama, thèid cluicheadair sam bith eile a dh'fheuchas ri ceangal a dhèanamh a dhiùltadh.\n"
 "Ma chluicheas tu cnàmh-sgeul a tha a' sònrachadh ionadan tòiseachaidh nan cluicheadairean, chan urrainn dhan roghainn seo a bhith nas motha na àireamh iomlan nan ionadan tòiseachaidh."
 
-#: server/settings.c:1153
+#: server/settings.c:1200
 msgid "Limited number of AI players"
 msgstr "Àireamh chuingichte de chluicheadairea na h-Inntinne Fuadain"
 
-#: server/settings.c:1154
+#: server/settings.c:1201
 msgid "If set to a positive value, then AI players will be automatically created or removed to keep the total number of players at this amount. As more players join, these AI players will be replaced. When set to zero, all AI players will be removed."
 msgstr "Ma thaghas tu àireamh dhearbh, thèid cluicheadairean na h-Inntinne Fuadain a chruthachadh leotha fhèin no a thoirt air falbh gum fan àireamh nan cluicheadair aig an àireamh seo. Ma thig barrachd chluicheadairean, thig iad an àite na h-Inntinne Fuadain. Ma chuireas tu an àireamh seo gu neoini, thèid gach cluicheadaire na h-Inntinne Fuadain a thoirt air falbh."
 
-#: server/settings.c:1165
+#: server/settings.c:1212
 msgid "Event cache for this number of turns"
 msgstr "Glèidh tasgadan nan tachartasan fad àireamh de chuairtean"
 
-#: server/settings.c:1166
+#: server/settings.c:1213
 msgid "Event messages are saved for this number of turns. A value of 0 deactivates the event cache."
 msgstr "Thèid teachdaireachdan tachartais a shàbhaladh fad na h-àireimhe seo de chuairtean. Ma chuireas tu an luach seo gu 0, bidh tasgadan nan tachartasan à comas."
 
-#: server/settings.c:1174
+#: server/settings.c:1221
 msgid "Size of the event cache"
 msgstr "Meud tasgadan nan tachartasan"
 
-#: server/settings.c:1175
+#: server/settings.c:1222
 msgid "This defines the maximal number of events in the event cache."
 msgstr "Tha seo a' sònrachadh an àireamh as motha de thachartasan san tasgadan aca."
 
-#: server/settings.c:1182
+#: server/settings.c:1229
 msgid "Save chat messages in the event cache"
 msgstr "Sàbhail teachdaireachdan cabadaich ann an tasgadan nan tachartasan"
 
-#: server/settings.c:1183
+#: server/settings.c:1230
 msgid "If turned on, chat messages will be saved in the event cache."
 msgstr "Ma chuireas tu seo air, thèid na teachdaireachdan cabadaich a shàbhaladh ann an tasgadan nan tachartasan."
 
-#: server/settings.c:1188
+#: server/settings.c:1235
 msgid "Print turn and time for each cached event"
 msgstr "Clò-bhuail cuairt is àm de gach tachartas san tasgadan"
 
 #. TRANS: Don't translate the text between single quotes.
-#: server/settings.c:1190
+#: server/settings.c:1237
 msgid "If turned on, all cached events will be marked by the turn and time of the event like '(T2 - 15:29:52)'."
 msgstr "Ma chuireas tu seo air, bidh comharradh cuairte is ama ri gach tachartas san tasgadan leithid '(T2 - 15:29:52)'."
 
-#: server/settings.c:1201
+#: server/settings.c:1248
 msgid "List of players' initial units"
 msgstr "Liosta nan aonadan tùsail aig na cluicheadairean"
 
-#: server/settings.c:1202
+#: server/settings.c:1249
 msgid ""
 "This should be a string of characters, each of which specifies a unit role. There must be at least one city founder in the string. The characters and their meanings are:\n"
 "    c   = City founder (eg., Settlers)\n"
@@ -5785,262 +5759,262 @@ msgstr ""
 "    a   = Aonad ionnsaigh luath (m.e. marcaichean)\n"
 "    A   = Aonad ionnsaigh làidir (m.e. crann-tabhaill)\n"
 
-#: server/settings.c:1219
+#: server/settings.c:1266
 msgid "Area where initial units are located"
 msgstr "An t-àite far am bi na h-aonadan tùsail"
 
-#: server/settings.c:1220
+#: server/settings.c:1267
 msgid "This is the radius within which the initial units are dispersed."
 msgstr "Seo an rèideas a bhios na h-aonadan tùsail 'na bhroinn."
 
-#: server/settings.c:1226
+#: server/settings.c:1273
 msgid "Starting gold per player"
 msgstr "Òr tòiseachaidh gach cluichdeadair"
 
-#: server/settings.c:1227
+#: server/settings.c:1274
 msgid "At the beginning of the game, each player is given this much gold."
 msgstr "Gheibh gach cluicheadair an t-uiread seo de dh'òr aig toiseach a' gheama."
 
-#: server/settings.c:1233
+#: server/settings.c:1280
 msgid "Number of initial techs per player"
 msgstr "Teicneolas tòiseachaidh gach cluicheadair"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1236
+#: server/settings.c:1283
 msgid "At the beginning of the game, each player is given this many technologies. The technologies chosen are random for each player. Depending on the value of tech_cost_style in the ruleset, a big value for 'techlevel' can make the next techs really expensive."
 msgstr "Gheibh gach cluicheadair an t-uiread seo de theicneolas aig toiseach a' gheama. Thèid na teicneolasan a thaghadh air thuaireamh airson gach cluicheadair. Faodaidh gum fàs prìs an ath-theicneolas glè mhòr ma chuireas tu an àirde an 'techlevel', a' crochadh air an luach a chuir thu ri stoidhle_cosgais_teicneolais ann an seata nan riaghailtean."
 
-#: server/settings.c:1245
+#: server/settings.c:1292
 msgid "Technology cost multiplier percentage"
 msgstr "Ceudad an iomadair airson cosgaisean teicneolais"
 
-#: server/settings.c:1246
+#: server/settings.c:1293
 msgid "This affects how quickly players can research new technology. All tech costs are multiplied by this amount (as a percentage). The base tech costs are determined by the ruleset or other game settings."
 msgstr "Tha buaidh aig an àireamh seo air an astar aig a thionnsgnas na cluicheadairean teicneolasan ùra. Thèid gach cosgais iomdachadh leis an àireamh seo (mar cheudad). Tha bun-cosgaisean an teicneolais a' crochadh air seata nan riaghailtean no roghainnean eile sa gheama seo."
 
-#: server/settings.c:1255
+#: server/settings.c:1302
 msgid "Percentage penalty when changing tech"
 msgstr "Ceudad peanasachaidh nuair a dh'atharraichear teicneolas"
 
-#: server/settings.c:1256
+#: server/settings.c:1303
 msgid "If you change your current research technology, and you have positive research points, you lose this percentage of those research points. This does not apply when you have just gained a technology this turn."
 msgstr "Ma dh'atharraicheas tu an teicneolas a tha thu a' rannsachadh an-dràsta 's ma bhios puingean rannsachaidh agad mu thràth, caillidh tu an ceudad seo de phuingean. Cha tachair seo ma tha thu air teicneolas fhaighinn a' chuairt seo fhèin."
 
-#: server/settings.c:1265
+#: server/settings.c:1312
 msgid "Chance to lose an invention while receiving it"
 msgstr "Buailteachd gun dèid tionnsgnadh air chall fhad 's a tha thu 'ga fhaighinn"
 
-#: server/settings.c:1266
+#: server/settings.c:1313
 msgid "If you receive an invention via a treaty, this setting defines the chance that the invention is lost during the transfer."
 msgstr "Ma gheibh thu tionnsgnadh an cois cùmhnaint, tha an roghainn seo a' sònrachadh dè a' buailteachd gun dèid e air chall san tar-chur."
 
-#: server/settings.c:1274
+#: server/settings.c:1321
 msgid "Chance to lose an invention while giving it"
 msgstr "Buailteachd gun dèid tionnsgnadh air chall fhad 's a tha thu 'ga thoirt seachad"
 
-#: server/settings.c:1275
+#: server/settings.c:1322
 msgid "If you give an invention via a treaty, this setting defines the chance that the invention is lost for your civilization during the transfer."
 msgstr "Ma bheir thu seachad tionnsgnadh an cois cùmhnaint, tha an roghainn seo a' sònrachadh dè a' buailteachd gun dèid e air chall airson do shìobhaltas san tar-chur."
 
-#: server/settings.c:1283
+#: server/settings.c:1330
 msgid "Team pooled research"
 msgstr "Co-rannsachadh an sgioba"
 
-#: server/settings.c:1284
+#: server/settings.c:1331
 msgid "If this setting is turned on, then the team mates will share the science research. Else, every player of the team will have to make its own."
 msgstr "Ma chuireas tu an roghainn seo air, thèid an rannsachadh saidheansail a cho-roinneadh eadar buill an sgioba. Ma bhios e dheth, bidh aig gach cluicheadair an sgioba an rannsachadh aca fhèin a thoirt gu buil."
 
-#: server/settings.c:1291
+#: server/settings.c:1338
 msgid "Penalty when getting tech or gold from treaty"
 msgstr "Am peanas a bhios ann ma gheibhear teicneolas no òr o chòrdadh "
 
-#: server/settings.c:1292
+#: server/settings.c:1339
 msgid "For each technology you gain from a diplomatic treaty, you lose research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points. Also applies to gold transfers in diplomatic treaties."
 msgstr "Caillidh tu puingean a-rèir a bhios co-ionnan ris a' cheudad seo dhe na chosgadh e teicneolas ùr a rannsachadh ma gheibh thu teicneolas o chòrdadh dioplomasach. Mur eil seo aig neoini, faodaidh gum bi puingean rannsachaidh àicheil agad o àm gu àm. Tha tar-aiseag òir ann an còrdaidhean dioplomasach buailteach dha seo cuideachd."
 
-#: server/settings.c:1302
+#: server/settings.c:1349
 msgid "Penalty when getting tech from conquering"
 msgstr "Am peanas a bhios ann ma gheibhear teicneolas o cheannsachadh"
 
-#: server/settings.c:1303
+#: server/settings.c:1350
 msgid "For each technology you gain by conquering an enemy city, you lose research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points."
 msgstr "Caillidh tu puingean a-rèir a bhios co-ionnan ris a' cheudad seo dhe na chosgadh e teicneolas ùr a rannsachadh ma gheibh thu teicneolas o cheannsachadh baile do nàmhaid. Mur eil seo aig neoini, faodaidh gum bi puingean rannsachaidh àicheil agad o àm gu àm."
 
-#: server/settings.c:1313
+#: server/settings.c:1360
 msgid "Penalty when getting a free tech"
 msgstr "Am peanas ma gheibh thu teicneolas saor"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1316
+#: server/settings.c:1363
 msgid "For each technology you gain \"for free\" (other than covered by 'diplcost' or 'conquercost': specifically, from huts or from Great Library effects), you lose research points equal to this percentage of the cost to research a new technology. If this is non-zero, you can end up with negative research points."
 msgstr "Caillidh tu puingean a-rèir a bhios co-ionnan ris a' cheudad seo dhe na chosgadh e teicneolas ùr a rannsachadh ma gheibh thu teicneolas \"saor an-asgaidh\" (feadhainn nach eil fo 'diplcost' no 'conquercost'; 's e sin an fheadhainn a gheibhear o bhothain no o èifeachd an Leabhar-lainn Mhòir). Mur eil seo aig neoini, faodaidh gum bi puingean rannsachaidh àicheil agad o àm gu àm. Tha tar-aiseag òir ann an còrdaidhean dioplomasach buailteach dha seo cuideachd."
 
-#: server/settings.c:1327
+#: server/settings.c:1374
 msgid "Food required for a city to grow"
 msgstr "Am biadh a dh'fheumas baile airson fàs"
 
-#: server/settings.c:1328
+#: server/settings.c:1375
 msgid "This is the base amount of food required to grow a city. This value is multiplied by another factor that comes from the ruleset and is dependent on the size of the city."
 msgstr "Seo am meud as ìsle de bhiadh a dh'fheumas baile airson fàs. Thèid an luach seo iomadachadh le factar eile a thig o sheata nan riaghailtean agus a chrochas air meud a' bhaile."
 
-#: server/settings.c:1336
+#: server/settings.c:1383
 msgid "Percentage food lost when building needed"
 msgstr "Ceudad de bhiadh a chaillear 's togalach a dhìth"
 
-#: server/settings.c:1337
+#: server/settings.c:1384
 msgid "If a city would expand, but it can't because it needs an Aqueduct (or Sewer System), it loses this percentage of its foodbox (or half that amount when it has a Granary)."
 msgstr "Nam fàsadh baile ach mur urrainn dha fàs a chionn 's gu bheil duct-uisge (no rian shàibhearan), caillidh e an ceudad seo dhen stòras bhìdh aige (no an dàrna leth dheth ma bhios sìol-lann ann)."
 
-#: server/settings.c:1346
+#: server/settings.c:1393
 msgid "Multiplier percentage for production costs"
 msgstr "Ceudad an iomadaicheir airson cosgaisean cinneasachaidh"
 
-#: server/settings.c:1347
+#: server/settings.c:1394
 msgid "This affects how quickly units and buildings can be produced.  The base costs are multiplied by this value (as a percentage)."
 msgstr "Bidh buaidh aige air astar cinneasachaidh de dh'aonadan is togalaichean. Thèid na bun-chosgaisean iomadachadh leis an luach seo (mar cheudad)."
 
-#: server/settings.c:1361
+#: server/settings.c:1408
 msgid "Minimum city size to get full trade"
 msgstr "Meud as lugha de bhaile mus faigh e malairt iomlan"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1364
+#: server/settings.c:1411
 msgid "There is a trade penalty in all cities smaller than this. The penalty is 100% (no trade at all) for sizes up to 'notradesize', and decreases gradually to 0% (no penalty except the normal corruption) for size='fulltradesize'. See also 'notradesize'."
 msgstr "Bidh peanas malairt ann am bailtean a bhios nas lugha na seo. 'S e peanas 100% (gun mhalairt sam bith) a bhios ann suas gu luach 'notradesize' agus lughdaichidh e ceum air cheum gu 0% (gun pheanas ach a' choirbteachd àbhaisteach) airson a' size='fulltradesize'. Cuir sùil air 'notradesize' cuideachd."
 
-#: server/settings.c:1374
+#: server/settings.c:1421
 msgid "Maximum size of a city without trade"
 msgstr "Meud as motha de bhaile gun mhalairt"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
-#: server/settings.c:1377
+#: server/settings.c:1424
 msgid "Cities do not produce any trade at all unless their size is larger than this amount. The produced trade increases gradually for cities larger than 'notradesize' and smaller than 'fulltradesize'. See also 'fulltradesize'."
 msgstr "Cha bhios bailtean ri malairt idir mura bi iad dhen mheud seo no nas motha. Fàsaidh a' mhalairt ceum air cheum ann am bailtean a bhios nas motha na 'notradesize' agus lughdaichidh e san fheadhainn a bhios nas lugha na 'fulltradesize'. Cuir sùil air 'fulltradesize' cuideachd."
 
-#: server/settings.c:1386
+#: server/settings.c:1433
 msgid "Minimum distance between cities"
 msgstr "Astar as lugha eadar bailtean"
 
-#: server/settings.c:1387
+#: server/settings.c:1434
 msgid "When a player attempts to found a new city, there may be no other city in this distance. For example, when this value is 3, there have to be at least two empty fields between two cities in every direction. If set to 0 (default), the ruleset value will be used."
 msgstr "Chan urrainn do bhaile a bhith nas fhaisge air baile ùr a tha cluicheadair airson stèidheachadh. Mar eisimpleir, ma bhios an luach seo aig 3, feumaidh dà àite bàn a bhith air gach taobh dheth air a' char as lugha. Ma chuireas tu seo gu 0 (an roghainn bhunaiteach), thèid an luach ann an seata nan riaghailtean a chleachdadh."
 
-#: server/settings.c:1398
+#: server/settings.c:1445
 msgid "Technology trading"
 msgstr "Malairt teicneolais"
 
-#: server/settings.c:1399
+#: server/settings.c:1446
 msgid "If turned off, trading technologies in the diplomacy dialog is not allowed."
 msgstr "Ma chuireas tu dheth seo, cha bhi malairt teicneolais ceadaichte sa chòmhradh dìoplomasachd."
 
-#: server/settings.c:1405
+#: server/settings.c:1452
 msgid "Gold trading"
 msgstr "Malairt òir"
 
-#: server/settings.c:1406
+#: server/settings.c:1453
 msgid "If turned off, trading gold in the diplomacy dialog is not allowed."
 msgstr "Ma chuireas tu dheth seo, cha bhi malairt òir ceadaichte sa chòmhradh dìoplomasachd."
 
-#: server/settings.c:1412
+#: server/settings.c:1459
 msgid "City trading"
 msgstr "Malairt bhailtean"
 
-#: server/settings.c:1413
+#: server/settings.c:1460
 msgid "If turned off, trading cities in the diplomacy dialog is not allowed."
 msgstr "Ma chuireas tu dheth seo, cha bhi malairt bhailtean ceadaichte sa chòmhradh dìoplomasachd."
 
-#: server/settings.c:1419
+#: server/settings.c:1466
 msgid "Minimum distance for trade routes"
 msgstr "Astar as lugha airson slighean malairt"
 
-#: server/settings.c:1420
+#: server/settings.c:1467
 msgid "In order for two cities in the same civilization to establish a trade route, they must be at least this far apart on the map. For square grids, the distance is calculated as \"Manhattan distance\", that is, the sum of the displacements along the x and y directions."
 msgstr "Mus urrainn do dhà bhaile slighe malairt a stèidheachadh eatarra, feumaidh an t-astar seo a bhith eatarra air a' char as lugha air a' mhapa. Air griodaichean ceàrnagach, thèid an t-astar àireamhachadh mar \"astar Manhatten\", 's e sin suim nam far-fhuadaidhean x agus y."
 
-#: server/settings.c:1430
+#: server/settings.c:1477
 msgid "Number of turns between rapture effect"
 msgstr "Àireamh nan cuairtean eadar buaidh mòr-ghàirdeachais"
 
-#: server/settings.c:1431
+#: server/settings.c:1478
 msgid "Sets the number of turns between rapture growth of a city. If set to n a city will grow after celebrating for n+1 turns."
 msgstr "Suidhichidh seo àireamh nan cuairtean eadar fàs baile air sgàth mòr-ghàirdeachais. Ma chuireas tu seo gu n, fàsaidh baile ann an n+1 chuairt as dèidh fèill a chumail."
 
-#: server/settings.c:1440
+#: server/settings.c:1487
 msgid "Chance for conquered building destruction"
 msgstr "Buailteachd do sgriosadh thogalaichean air a cheannsachadh"
 
-#: server/settings.c:1441
+#: server/settings.c:1488
 msgid "When a player conquers a city, each city improvement has this percentage chance to be destroyed."
 msgstr "Nuair a cheannsaicheas cluicheadaire baile, bidh gach leasachadh sa bhaile cho buailteach ri seo do sgriosadh."
 
-#: server/settings.c:1447
+#: server/settings.c:1494
 msgid "Chance of moving into tile after attack"
 msgstr "Buailteachd de dh'aonad a ghluasad air leac as dèidh ionnsaigh"
 
-#: server/settings.c:1448
+#: server/settings.c:1495
 msgid "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). If set to 100, attacking units will always move into the tile they attacked when they win the combat (and no enemy units remain in the tile). If set to a value between 0 and 100, this will be used as the percent chance of \"occupying\" territory."
 msgstr "Ma chuireas tu seo gu 0, bidh a' chòmrag a-rèir nòs Civ1/2 (fuirichidh thu nad àite nuair a bheir thu ionnsaigh). Ma chuireas tu seo gu 100, gluaisidh aonadan ionnsaigh dhan leac air a thug iad ionnsaigh gach turas a bhuainnicheas iad (agus mura bi aonad nàimhaid air fhàgail ann). Ma chuireas tu seo gu luach eadar 0 is 100, comharraichidh seo dè cho buailteach 's a bhios aonad do \"chòmhnaidh\" a ghabhail ann."
 
-#: server/settings.c:1459
+#: server/settings.c:1506
 msgid "Turn on/off server-side autoattack"
 msgstr "Cuir air/dheth fèin-ionnsaigh leis an fhrithealaiche"
 
-#: server/settings.c:1460
+#: server/settings.c:1507
 msgid "If set to on, units with moves left will automatically consider attacking enemy units that move adjacent to them."
 msgstr "Ma chuireas tu seo air, beachdaichidh aonadan air ionnsaigh a thoirt air nàmhaid a bhios ri an taobh leotha fhèin ma bhios gluasad air fhàgail annta."
 
-#: server/settings.c:1466
+#: server/settings.c:1513
 msgid "Reduce city population after attack"
 msgstr "Ìslich àireamh-shluaigh as dèidh gach ionnsaigh"
 
-#: server/settings.c:1467
+#: server/settings.c:1514
 msgid "This flag indicates whether city population is reduced after successful attack of enemy unit, depending on its movement type."
 msgstr "Suidhichidh seo an ìslich àireamh-shluaigh de bhail as dèidh ionnsaigh shoirbheachail le aonad nàmhaid, a' crochadh air seòrsa a' ghluasaid."
 
-#: server/settings.c:1474
+#: server/settings.c:1521
 msgid "Slowly kill units without home cities (e.g., starting units)"
 msgstr "Marbh aonadan as aonais baile dachaighe mean air mhean (m.e. aonadan tòiseachaidh)"
 
-#: server/settings.c:1475
+#: server/settings.c:1522
 msgid "If greater than 0, then every unit without a homecity will lose hitpoints each turn. The number of hitpoints lost is given by 'killunhomed' percent of the hitpoints of the unit type. At least one hitpoint is lost every turn until the death of the unit."
 msgstr "Ma tha an luach seo nas motha na 0, caillidh gach aonad aig nach eil baile dachaighe puingean-beatha gach cuairt. Tha àireamh nam puingean-beatha a chailleas iad ann an 'killunhomed' agus tha e 'na cheudad de phuingean-beatha aonadan dhen t-seòrsa sin. Thèid aon phuing-bheatha a chall gach cuairt air a' char as lugha gu ruige bàs an aonaid."
 
-#: server/settings.c:1485
+#: server/settings.c:1532
 msgid "National borders"
 msgstr "Crìochan nàiseanta"
 
-#: server/settings.c:1486
+#: server/settings.c:1533
 msgid "If this is not disabled, then any land tiles around a fortress or city will be owned by that nation."
 msgstr "Mur eil seo à comas, 's ann aig an nàisean ann a bhios gach leacag talamhainn mun cuairt air dùn no baile."
 
-#: server/settings.c:1493
+#: server/settings.c:1540
 msgid "Units inside borders cause no unhappiness"
 msgstr "Chan adhbharaich aonadan am broinn an crìochan mì-shunnd"
 
-#: server/settings.c:1494
+#: server/settings.c:1541
 msgid "If this is set, units will not cause unhappiness when inside your own borders."
 msgstr "Ma taghas tu seo, chan adhbharaich d' aonadan fhèin mì-shunnd fhad 's a bhios iad am broinn do chrìochan."
 
-#: server/settings.c:1500
+#: server/settings.c:1547
 msgid "Ability to do diplomacy with other players"
 msgstr "Comas dioplomasachd le cluicheachdairean eile"
 
-#: server/settings.c:1501
+#: server/settings.c:1548
 msgid "This setting controls the ability to do diplomacy with other players."
 msgstr "Tha an roghainn seo a' stiùireadh comas dioplomasachd le cluicheachdairean eile."
 
-#: server/settings.c:1507
+#: server/settings.c:1554
 msgid "Allowed city names"
 msgstr "Ainmean bhailtean ceadaichte"
 
 #. TRANS: The strings between double quotes are also translated
 #. * separately (they must match!). The strings between parantheses
 #. * and in uppercase must not be translated.
-#: server/settings.c:1511
+#: server/settings.c:1558
 msgid ""
 "- \"No restrictions\" (NO_RESTRICTIONS): players can have multiple cities with the same names.\n"
 "- \"Unique to a player\" (PLAYER_UNIQUE): one player can't have multiple cities with the same name.\n"
@@ -6055,52 +6029,49 @@ msgstr ""
 "\n"
 "- \"Gun ghoid ainmean bhailtean\" (NO_STEALING): Mar \"Àraid air feadh an t-saoghail\" ach chan fhaod cluicheadairean na h-ainmean bunaiteach a tha aig nàisean eile a chleachdadh ach ma bhios e 'na ainm bunaiteach aca fhèin cuideachd."
 
-#: server/settings.c:1538
+#: server/settings.c:1585
 msgid "Barbarian appearance frequency"
 msgstr "Tricead nam borbach"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1541
+#: server/settings.c:1588
 msgid "This setting controls how frequently the barbarians appear in the game. See also the 'onsetbarbs' setting."
 msgstr "Tha an roghainn seo a' socrachadh dè cho tric 's a nochdas borbaich sa gheama. Thoir sùil air an roghainn 'onsetbarbs' cuideachd."
 
-#: server/settings.c:1547
+#: server/settings.c:1594
 msgid "Barbarian onset turn"
 msgstr "Cuairt tòiseachaidh nam borbach"
 
-#: server/settings.c:1548
+#: server/settings.c:1595
 msgid "Barbarians will not appear before this turn."
 msgstr "Cha nochd borbaich ron chuairt seo."
 
-#: server/settings.c:1554
+#: server/settings.c:1601
 msgid "Length in turns of revolution"
 msgstr "Ùine aramach ann an cuairtean"
 
-#: server/settings.c:1555
+#: server/settings.c:1602
 msgid "When changing governments, a period of anarchy lasting this many turns will occur. Setting this value to 0 will give a random length of 1-5 turns."
-msgstr ""
-"Nuair a dh'atharraichear riaghaltas, mairidh ùine an ain-riaghailt cho fada "
-"ri seo. Ma chuireas tu an luach seo gu 0, gheibh thu ùine thuaireamach eadar "
-"1-5 cuairtean."
+msgstr "Nuair a dh'atharraichear riaghaltas, mairidh ùine an ain-riaghailt cho fada ri seo. Ma chuireas tu an luach seo gu 0, gheibh thu ùine thuaireamach eadar 1-5 cuairtean."
 
-#: server/settings.c:1564
+#: server/settings.c:1611
 msgid "Whether to enable fog of war"
 msgstr "Ceò a' chogaidh"
 
-#: server/settings.c:1565
+#: server/settings.c:1612
 msgid "If this is enabled, only those units and cities within the vision range of your own units and cities will be revealed to you. You will not see new cities or terrain changes in tiles not observed."
 msgstr "Ma chuireas tu seo an comas, chan fhaic thu ach na h-aonadan 's na bailtean a bhios an amharc d' aonadan is bailtean fhèin. Chan fhaic thu bailtean ùra no atharrachadh talmhainn air leacan nach bi nad amharc."
 
-#: server/settings.c:1573
+#: server/settings.c:1620
 msgid "Whether fog of war applies to border changes"
 msgstr "Ceò a' chogaidh fo bhuaidh gluasad nan crìochan"
 
-#: server/settings.c:1574
+#: server/settings.c:1621
 msgid "If this setting is enabled, players will not be able to see changes in tile ownership if they do not have direct sight of the affected tiles. Otherwise, players can see any or all changes to borders as long as they have previously seen the tiles."
 msgstr "Ma chuireas tu an roghainn seo an comas, chan fhaic cluicheadairean leacagan a tha cuideigin eile a' gabhail seilbh orra mur eil iad am fradharc nan leacagan fo bhuaidh. Ma tha seo à comas, chì na cluicheadairean gach atharrachadh a thig air na crìochan fhad 's a chunnaic iad na leacagan roimhe. "
 
-#: server/settings.c:1583
+#: server/settings.c:1630
 msgid "Airlifting style"
 msgstr "Stoidhle na togalach-adhair"
 
@@ -6108,7 +6079,7 @@ msgstr "Stoidhle na togalach-adhair"
 #. * translated separately (they must match!). The strings
 #. * between parenthesis and in uppercase must not be
 #. * translated.
-#: server/settings.c:1588
+#: server/settings.c:1635
 msgid ""
 "This setting affects airlifting units between cities. It can be a set of the following values:\n"
 "- \"Allows units to be airlifted from allied cities\" (FROM_ALLIES).\n"
@@ -6122,103 +6093,103 @@ msgstr ""
 "- \"Aonadan gun chuingeachadh on bhaile tùsail\" (SRC_UNLIMITED): thoir an aire nach lùghdaich àireamh nan aonadan ann an togail-adhair ma nì thu togail-adhair o bhaile agus feumaidh e a bhith 1 air a' char as lugha fhathast.\n"
 "- \"Aonadan gun chuingeachadh gun bhaile-uidhe\" (DEST_UNLIMITED): thoir an aire nach lùghdaich àireamh nan aonadan ann an togail-adhair agus cha bhi feum air."
 
-#: server/settings.c:1605
+#: server/settings.c:1652
 msgid "Base chance for diplomats and spies to succeed"
 msgstr "Bun-chothrom airson soirbheachas dhioplomatan is bhrathadairean"
 
-#: server/settings.c:1606
+#: server/settings.c:1653
 msgid "The chance of a spy returning from a successful mission and the base chance of success for diplomats and spies."
 msgstr "Buailteachd de bhrathadair do thilleadh o mhisean soirbheabhail agus bun-chrothrom soirbheacas dhioplomatan is bhrathadairean."
 
-#: server/settings.c:1613
+#: server/settings.c:1660
 msgid "Whether to allow space race"
 msgstr "Rèis fànais ceadaichte?"
 
-#: server/settings.c:1614
+#: server/settings.c:1661
 msgid "If this option is enabled, players can build spaceships."
 msgstr "Ma tha an roghainn seo an comas, 's urrainn dha na cluicheadairean soithichean-fànais a thogail."
 
-#: server/settings.c:1619
+#: server/settings.c:1666
 msgid "Should the game end if the spaceship arrives?"
 msgstr "An dig an geama gu crìoch nuair a ruigeas an soitheach-fànais?"
 
-#: server/settings.c:1620
+#: server/settings.c:1667
 msgid "If this option is turned on, the game will end with the arrival of a spaceship at Alpha Centauri."
 msgstr "Ma tha an roghainn seo an comas, thig an geama gu crìoch nuair a ruigeas soitheach-fhànais Alpha Centauri."
 
-#: server/settings.c:1626
+#: server/settings.c:1673
 msgid "Minimum number of cities for civil war"
 msgstr "Àireamh as lugha de bhailtean airson cogadh catharra"
 
-#: server/settings.c:1627
+#: server/settings.c:1674
 msgid "A civil war is triggered when a player has at least this many cities and the player's capital is captured. If this option is set to the maximum value, civil wars are turned off altogether."
 msgstr "Bidh cogadh catharra ann nuair a bhios an àireamh seo de bhailtean aig cluicheadair air a' char as lugha agus caillidh e a phrìomh bhaile. Ma chuireas tu an roghainn seo dhan luach as motha, cha bhi cogaidhean catharra ann idir."
 
-#: server/settings.c:1636
+#: server/settings.c:1683
 msgid "Restrict the use of the infrastructure for enemy units"
 msgstr "Cuingich cleachdadh a' bhun-structair le aonadan nàimhdeil"
 
-#: server/settings.c:1637
+#: server/settings.c:1684
 msgid "If this option is enabled, the use of roads and rails will be restricted for enemy units."
 msgstr "Ma chuireas tu an roghainn seo an comas, bidh bacadh air cleachdadh nan rathaidean is rathaidean-iarainn le aonadan nàimhdeil."
 
-#: server/settings.c:1643
+#: server/settings.c:1690
 msgid "Does unreachable unit protect reachable ones"
 msgstr "Aonad do-ruigsinneach a' dìon aonadan so-ruigsinneach"
 
-#: server/settings.c:1644
+#: server/settings.c:1691
 msgid "This option controls whether tiles with both unreachable and reachable units can be attacked. If disabled, any tile with reachable units can be attacked. If enabled, tiles with an unreachable unit in them cannot be attacked."
 msgstr "Tha an roghainn seo a' socrachadh an gabh ionnsaigh a thoirt air leacagan air a bheil an dà chuid aonadan so-ruigsinneach agus fheadhainn dho-ruigsinneach. Ma chuireas tu seo à comas, gabhaidh ionnsaigh a thoirt air leacag sam bith air a bheil aonadan so-ruigsinneach. Ma bhios seo an comas, cha ghabh ionnsaigh a thoirt air leacagan air a bheil aonad do-ruigsinneach am measg feadhainn eile. "
 
-#: server/settings.c:1652
+#: server/settings.c:1699
 msgid "Turns until player contact is lost"
 msgstr "Cuairtean gus am dèid ceangal cluicheadair air chall"
 
-#: server/settings.c:1653
+#: server/settings.c:1700
 msgid "Players may meet for diplomacy this number of turns after their units have last met, even when they do not have an embassy. If set to zero, then players cannot meet unless they have an embassy."
 msgstr "Coinnichidh cluicheadairean airson cùis dhìoplomasach fad na h-àireimhe seo de chuairtean as dèidh dha na h-aonadan aca coinneachadh an turas mu dheireadh mur eil ambasaid aca. Ma tha seo 'na neoini, chan urrainn do chluicheadairean coinneachadh ach ma tha ambasaid aca."
 
-#: server/settings.c:1663
+#: server/settings.c:1710
 msgid "Rebuild palace whenever capital is conquered"
 msgstr "Ath-thog an lùchairt ma chaidh am prìomh bhaile a cheannsachadh"
 
-#: server/settings.c:1664
+#: server/settings.c:1711
 msgid "If this is turned on, when the capital is conquered the palace is automatically rebuilt for free in another randomly chosen city. This is significant because the technology requirement for building a palace will be ignored. (In some rulesets, buildings other than the palace are affected by this setting.)"
 msgstr "Ma chuireas tu seo air, thèid an lùchairt ath-thogail saor an-asgaidh ann am baile air choireigin ma thèid am prìomh bhaile a cheannsachadh. Tha seo cudromach a chionn 's gun dèid na riatanasan teicneolais gus lùchairt thogail a leigeil seachad. (Ann an cuid de sheataichean riaghailtean, bidh buaidh air togalaichean eile a bharrachd air an lùchairt.)"
 
-#: server/settings.c:1674
+#: server/settings.c:1721
 msgid "Give caught units a homecity"
 msgstr "Thoir baile dachaigh do dh'aonadan a chaidh a ghlacadh"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1677
+#: server/settings.c:1724
 msgid "If unset, caught units will have no homecity and will be subject to the 'killunhomed' option."
 msgstr "Mur eil seo air suidheachadh, cha bhi baile dachaigh aig aonadan a chaidh a ghlacadh 's bidh iad fo bhuaidh na roghainne 'killunhomed'."
 
-#: server/settings.c:1684
+#: server/settings.c:1731
 msgid "Whether allied players can win together"
 msgstr "Co-bhuaidh de chluicheadairean ann an caidreachas"
 
-#: server/settings.c:1685
+#: server/settings.c:1732
 msgid "If this option is turned on and a point is reached where all the players still able to win the game are allies, and at least one defeated player is not part of this alliance, then the game will end in an immediate shared victory for the allied players."
 msgstr "Ma bhios an roghainn seo air agus ma ruigeas ceum sa gheama nuair a bhios gach cluicheadair aig a bheil cothrom buannachaidh fhathast san dearbh chaidreachas agus ma bhios aon chluicheadair air a' char as lugha ann nach eil sa chaidreachas seo, thig an geama gu crìoch sa bhad le co-bhuaidh airson na cluicheadairean sa chaidreachas."
 
-#: server/settings.c:1694
+#: server/settings.c:1741
 msgid "Whether to use natural city names"
 msgstr "Cleachdadh ainmean baile nàdarra"
 
-#: server/settings.c:1695
+#: server/settings.c:1742
 msgid "If enabled, the default city names will be determined based on the surrounding terrain."
 msgstr "Ma tha seo air, thèid ainmean bunaiteach nam bailtean a thaghadh a-rèir cruth na tìre faisg air."
 
-#: server/settings.c:1701
+#: server/settings.c:1748
 msgid "Whether to enable citizen migration"
 msgstr "Comas imrich shaoranach"
 
 #. TRANS: The strings between single quotes are setting names
 #. * and should not be translated.
-#: server/settings.c:1704
+#: server/settings.c:1751
 msgid ""
 "This is the master setting that controls whether citizen migration is active in the game. If enabled, citizens may automatically move from less desirable cities to more desirable ones. The \"desirability\" of a given city is calculated from a number of factors. In general larger cities with more income and improvements will be preferred. Citizens will never migrate out of the capital, or cause a wonder to be lost by disbanding a city. A number of other settings control how migration behaves:\n"
 "  'mgr_turninterval' - How often citizens try to migrate.\n"
@@ -6234,58 +6205,58 @@ msgstr ""
 "  'mgr_worldchance'  - Buailteachd do dh'imrich am broinn an nàisein.\n"
 "  'mgr_nationchance' - Buailteachd do dh'imrich eadar nàiseanan."
 
-#: server/settings.c:1722
+#: server/settings.c:1769
 msgid "Number of turns between migrations from a city"
 msgstr "Àireamh de chuairtean eadar imrich à baile"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1724
+#: server/settings.c:1771
 msgid "This setting controls the number of turns between migration checks for a given city. The interval is calculated from the founding turn of the city. So for example if this setting is 5, citizens will look for a suitable migration destination every five turns from the founding of their current city. Migration will never occur the same turn that a city is built. This setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr "Tha an roghainn seo a' socrachadh àireamh de chuairtean a dh'fheumas a bhith ann mu feuch saoranaich ri imrich. Tha se 'ga àireamhachadh o chuairt tuineadh a' bhaile. Mar eisimpleir, ma chuireas tu an roghainn seo gu 5, lorgaidh na saoranaich ceann-uidhe freagarrachd airson imrich ann gach còig cuairt o thuineadh am baile làithreach. Cha tachair imrich idir aig an aon àm 's a tha baile 'ga thuineadh.  Cha bhi buaidh aig an roghainn seo ach ma chaidh an imrich a chur an comas leis an roghainn 'imrich'."
 
-#: server/settings.c:1737
+#: server/settings.c:1784
 msgid "Whether migration is limited by food"
 msgstr "Bacadh bìdh air an imrich"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1739
+#: server/settings.c:1786
 msgid "If this setting is enabled, citizens will not migrate to cities which would not have enough food to support them. This setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr "Ma tha an roghainn seo air, chan urrainn do shaoranaich imrich do bhailtean far nach eil biadh gu leòr ann dhaibh. Cha bhi buaidh aig an roghainn seo ach ma chaidh an imrich a chur an comas leis an roghainn 'imrich'."
 
-#: server/settings.c:1747
+#: server/settings.c:1794
 msgid "Maximum distance citizens may migrate"
 msgstr "Astar na h-imrich as motha"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1749
+#: server/settings.c:1796
 msgid "This setting controls how far citizens may look for a suitable migration destination when deciding which city to migrate to. The value is added to the current city radius and compared to the distance between the two cities. If the distance is lower or equal, migration is possible. This setting has no effect unless migration is activated by the 'migration' setting."
 msgstr "Tha an roghainn seo a' socrachadh dè cho fad as urrainn do shaoranaich imrich 's iad a' sireadh baile freagarrach dhan a nì iad imrich. Thèid an luach seo a chur ri rèideas làithreach a' bhaile agus an coimeas ris an astar eadar an dà bhaile. Ma bhios an t-astar nas lugha no co-ionnann, 's urrainn dhaibh imrich. Cha bhi buaidh aig an roghainn seo ach ma chaidh an imrich a chur an comas leis an roghainn 'imrich'."
 
-#: server/settings.c:1761
+#: server/settings.c:1808
 msgid "Percent probability for migration within the same nation"
 msgstr "Ceudad de bhuailteach dhan imrich am broinn an dearbh nàisein"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1763
+#: server/settings.c:1810
 msgid "This setting controls how likely it is for citizens to migrate between cities owned by the same player. Zero indicates migration will never occur, 100 means that migration will always occur if the citizens find a suitable destination. This setting has no effect unless migration is activated by the 'migration' setting."
 msgstr "Tha an roghainn seo a' socrachadh dè cho buailteach 's a bhios saoranaich dhan imrich eadar bailtean a tha aig an aon chluicheadair. Ma chuireas tu seo gu neoini, cha bhi imrich sam bith ann is ma chuireas tu seo gu 100, bidh imrich ann an-còmhnaidh ma lorgas na saoranaich ceann-uidhe freagarrach. Cha bhi buaidh aig an roghainn seo ach ma chaidh an imrich a chur an comas leis an roghainn 'imrich'."
 
-#: server/settings.c:1774
+#: server/settings.c:1821
 msgid "Percent probability for migration between foreign cities"
 msgstr "Ceudad de bhuailteachd dhan imrich eadar bailtean cèin"
 
 #. TRANS: Do not translate 'migration' setting name.
-#: server/settings.c:1776
+#: server/settings.c:1823
 msgid "This setting controls how likely it is for migration to occur between cities owned by different players. Zero indicates migration will never occur, 100 means that citizens will always migrate if they find a suitable destination. This setting has no effect if migration is not enabled by the 'migration' setting."
 msgstr "Tha an roghainn seo a' socrachadh dè cho buailteach 's a bhios saoranaich dhan imrich eadar bailtean a tha aig diofar cluicheadairean. Ma chuireas tu seo gu neoini, cha bhi imrich sam bith ann is ma chuireas tu seo gu 100, bidh imrich ann an-còmhnaidh ma lorgas na saoranaich ceann-uidhe freagarrach. Cha bhi buaidh aig an roghainn seo ach ma chaidh an imrich a chur an comas leis an roghainn 'imrich'."
 
-#: server/settings.c:1794
+#: server/settings.c:1841
 msgid "Players that users are allowed to take"
 msgstr "Cluicheadairean as urrainn do chleachdaichean a ghabhail os làimh"
 
 #. TRANS: the strings in double quotes are server command names
 #. * and should not be translated.
-#: server/settings.c:1797
+#: server/settings.c:1844
 msgid ""
 "This should be a string of characters, each of which specifies a type or status of a civilization (player).\n"
 "Clients will only be permitted to take or observe those players which match one of the specified letters. This only affects future uses of the \"take\" or \"observe\" commands; it is not retroactive. The characters and their meanings are:\n"
@@ -6317,23 +6288,23 @@ msgstr ""
 "     3 = Smachdaichean ceadaichte, casg air coimheadaichean, chan urrainn dha ceanglaichean a ghluasad;\n"
 "     4 = Casg air smachdaichean, coimheadaichean ceadaichte"
 
-#: server/settings.c:1832
+#: server/settings.c:1879
 msgid "Whether AI-status toggles with connection"
 msgstr "Togladh staid na h-Inntinne Fhuadain leis a' cheangal"
 
-#: server/settings.c:1833
+#: server/settings.c:1880
 msgid "If enabled, AI status is turned off when a player connects, and on when a player disconnects."
 msgstr "Ma chuireas tu seo an comas, thèid staid na h-Inntinne Fhuadain a chur dheth nuair a nì cluicheadair ceangal agus thèid a chur air nuair a bhriseas cluicheadair an ceangal."
 
-#: server/settings.c:1839
+#: server/settings.c:1886
 msgid "Turn the game ends"
 msgstr "A' chuairt aig an dig an geama gu crìoch"
 
-#: server/settings.c:1840
+#: server/settings.c:1887
 msgid "The game will end at the end of the given turn."
 msgstr "Thig an geama gu crìoch aig a' chuairt seo."
 
-#: server/settings.c:1846
+#: server/settings.c:1893
 msgid "Maximum seconds per turn"
 msgstr "Ùine as fhaide de chuairt (ann an diogan)"
 
@@ -6341,107 +6312,93 @@ msgstr "Ùine as fhaide de chuairt (ann an diogan)"
 #. * translated separately, the translation should be the same.
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
-#: server/settings.c:1851
+#: server/settings.c:1898
 msgid "If all players have not hit \"Turn Done\" before this time is up, then the turn ends automatically. Zero means there is no timeout. In servers compiled with debugging, a timeout of -1 sets the autogame test mode. Only connections with hack level access may set the timeout to lower than 30 seconds. Use this with the command \"timeoutincrease\" to have a dynamic timer."
-msgstr ""
-"Thig cuairt gu crìoch leis fhèin mur an do bhriog gach cluicheadair air "
-"\\*Cuairt deiseil\\* mus do dh'fhalbh an ùine sei. Cha bhi timeout ann ma "
-"chuireas tu seo gu neoini. Ma chaidh a thionail air frithealaiche le "
-"dì-bhugadh, bidh e sa mhodh deuchainn autogame ma chuireas tu seo gu -1. "
-"Chan fhaod ach ceanglaichean aig a bheil leibheil inntrigidh Hack an timeout "
-"a chur gu àireamh nas lugha na 30 diogan. Cleachd seo leis an àithne "
-"\"timeoutincrease\\* airson uaireadair innsginneach."
+msgstr "Thig cuairt gu crìoch leis fhèin mur an do bhriog gach cluicheadair air \\*Cuairt deiseil\\* mus do dh'fhalbh an ùine sei. Cha bhi timeout ann ma chuireas tu seo gu neoini. Ma chaidh a thionail air frithealaiche le dì-bhugadh, bidh e sa mhodh deuchainn autogame ma chuireas tu seo gu -1. Chan fhaod ach ceanglaichean aig a bheil leibheil inntrigidh Hack an timeout a chur gu àireamh nas lugha na 30 diogan. Cleachd seo leis an àithne \"timeoutincrease\\* airson uaireadair innsginneach."
 
-#: server/settings.c:1863
+#: server/settings.c:1910
 msgid "Timeout at least n seconds when enemy moved"
 msgstr "Timeout de n diogan air a' char as lugha nuair a ghluais nàmhaid"
 
-#: server/settings.c:1864
+#: server/settings.c:1911
 msgid "Any time a unit moves while in sight of an enemy player, the remaining timeout is increased to this value."
 msgstr "Ma ghluaiseas aonad le nàmhaid am fradharc dha, thèid an timeout a tha air fhàgail àrdachadh dhan luach seo."
 
-#: server/settings.c:1870
+#: server/settings.c:1917
 msgid "Time between unit moves over turn change"
 msgstr "An ùine eadar gluasad aonaid is adhartachadh na cuairte"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1873
+#: server/settings.c:1920
 msgid "This setting gives the minimum amount of time in seconds between unit moves after a turn change occurs. For example, if this setting is set to 20 and a unit moves 5 seconds before the turn change, it will not be able to move in the next turn for at least 15 seconds. Building cities is also affected by this setting, as well as units moving inside a transporter. This value is limited to a maximum value of 2/3 'timeout'."
-msgstr ""
-"Tha an roghainn seo a' sònrachadh an ùine as lugha eadar gluasad aonaid as "
-"dèidh adhartachadh na cuairte ann an diogan. Mar eisimpleir, ma chuireas tu "
-"seo gu 20 agus ma ghluaiseas aonad 5 diogan ro adhartachadh na cuairte, chan "
-"urrainn dha gluasad fad còig diogan deug (ari a' char as lugha) san ath "
-"chuairt. Tha stèidheachadh bhailtean fo bhuaidh na roghainne seo cuideachd "
-"agus gluasad aonadan am broinn giùlanair. Chan fhaod an luach seo a bhith "
-"nas motha na 2/3 dhen luach 'timeout'."
+msgstr "Tha an roghainn seo a' sònrachadh an ùine as lugha eadar gluasad aonaid as dèidh adhartachadh na cuairte ann an diogan. Mar eisimpleir, ma chuireas tu seo gu 20 agus ma ghluaiseas aonad 5 diogan ro adhartachadh na cuairte, chan urrainn dha gluasad fad còig diogan deug (ari a' char as lugha) san ath chuairt. Tha stèidheachadh bhailtean fo bhuaidh na roghainne seo cuideachd agus gluasad aonadan am broinn giùlanair. Chan fhaod an luach seo a bhith nas motha na 2/3 dhen luach 'timeout'."
 
-#: server/settings.c:1889
+#: server/settings.c:1936
 msgid "Control of simultaneous player/team phases"
 msgstr "Uidheaman-smachd ceuman co-mail de chluicheadairean/sgioba"
 
-#: server/settings.c:1890
+#: server/settings.c:1937
 msgid "This setting controls whether players may make moves at the same time during a turn."
 msgstr "Tha an roghainn seo a' sònrachadh an urrainn do chluicheadairean gluasad aig an aon àm ann an cuairt."
 
-#: server/settings.c:1896
+#: server/settings.c:1943
 msgid "Seconds to let a client's network connection block"
 msgstr "Ùine bacaidh a tha ceadaichte do lìonra de chliant (ann an diogan)"
 
-#: server/settings.c:1897
+#: server/settings.c:1944
 msgid "If a network connection is blocking for a time greater than this value, then the connection is closed. Zero means there is no timeout (although connections will be automatically disconnected eventually)."
 msgstr "Ma bhios bacadh air ceangal an lìonraidh ann nas fhaide na an luach seo, thèid an ceangal a bhriseadh. Ma chuireas tu seo gu neoini, cha bhi timeout ann (ged a thèid ceangal sam bith a bhriseadh gu fèin-obrachail aig a' cheann thall)."
 
-#: server/settings.c:1906
+#: server/settings.c:1953
 msgid "Max seconds for network buffers to drain"
 msgstr "Ùine as fhaide a chum traoghadh bufararan an lìonraidh"
 
-#: server/settings.c:1907
+#: server/settings.c:1954
 msgid "The server will wait for up to the value of this parameter in seconds, for all client connection network buffers to unblock. Zero means the server will not wait at all."
 msgstr "Fuirichidh am frithealaiche suas gu luach a' pharamadair seo (ann an diogan) gus leigeil leis na bufaran lìonraidh aig ceanglaichean nan cliantan cur às dhan bhacadh. Ma chuireas tu seo gu neoini, chan fhuirich am frithealaiche idir."
 
-#: server/settings.c:1915
+#: server/settings.c:1962
 msgid "Seconds between PINGs"
 msgstr "Diogan eadar na PINGaichean"
 
-#: server/settings.c:1916
+#: server/settings.c:1963
 msgid "The server will poll the clients with a PING request each time this period elapses."
 msgstr "Cuiridh am frithealaiche iarrtas PING dha na cliantan gach turas a thig an ùine seo gu crìoch."
 
-#: server/settings.c:1923
+#: server/settings.c:1970
 msgid "Time to cut a client"
 msgstr "Ùine gearraidh de chliant"
 
-#: server/settings.c:1924
+#: server/settings.c:1971
 msgid "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr "Mura freagair cliant am broinn na h-ùine seo, thèid an ceangal aige a bhriseadh."
 
-#: server/settings.c:1930
+#: server/settings.c:1977
 msgid "Turn-blocking game play mode"
 msgstr "Geama le bacadh chuairtean an sàs"
 
-#: server/settings.c:1931
+#: server/settings.c:1978
 msgid "If this is turned on, the game turn is not advanced until all players have finished their turn, including disconnected players."
 msgstr "Ma chuireas tu seo air, cha dèid an geama air adhart ach turas 's a bhios gach cluicheadair air crìoch a chur air a' chuairt aca, a' gabhail a-steach cluicheadairean a chaidh an ceangal aca a bhriseadh."
 
-#: server/settings.c:1938
+#: server/settings.c:1985
 msgid "Fixed-length turns play mode"
 msgstr "Geama le cuairtean de dh'fhaid shuidhichte"
 
 #. TRANS: \"Turn Done\" refers to the client button; it is also
 #. * translated separately, the translation should be the same.
-#: server/settings.c:1941
+#: server/settings.c:1988
 msgid "If this is turned on the game turn will not advance until the timeout has expired, even after all players have clicked on \"Turn Done\"."
 msgstr "Ma chuireas tu seo air, cha dèid an geama air adhart gus an deach an ùine seo seachad, fiù ma bhios gach cluicheadair air \"Cuairt deiseil\" a bhriogadh."
 
-#: server/settings.c:1948
+#: server/settings.c:1995
 msgid "What is in the Demographics report"
 msgstr "Na tha san aithisg-shluaigh"
 
 #. TRANS: The strings between double quotes should be
 #. * translated.
-#: server/settings.c:1951
+#: server/settings.c:1998
 msgid ""
 "This should be a string of characters, each of which specifies the inclusion of a line of information in the Demographics report.\n"
 "The characters and their meanings are:\n"
@@ -6476,49 +6433,49 @@ msgstr ""
 "    r = seall colbh *na rangachd*\n"
 "    b = seall colbh *an nàisein as fhearr*Chan eil òrdugh nan caractairean gu diofar a tha an diofar eadar caractairean mòra is beaga cudromach."
 
-#: server/settings.c:1975
+#: server/settings.c:2022
 msgid "Turns per auto-save"
 msgstr "Cuairtean gach fèin-sàbhaladh"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:1978
+#: server/settings.c:2025
 msgid "The game will be automatically saved per this number of turns. Zero means never auto-save."
 msgstr "Thèid an geama a shàbhaladh gu fèin-obrachail aig deireadh na cuairte seo. Ma chuireas tu seo gu neoini, cha dèid an geama a fhèin-shàbhaladh idir."
 
-#: server/settings.c:1984
+#: server/settings.c:2031
 msgid "Savegame compression level"
 msgstr "Leibheil dùmhlachaidh Savegame"
 
 #. TRANS: 'compresstype' setting name should not be translated.
-#: server/settings.c:1986
+#: server/settings.c:2033
 msgid "If non-zero, saved games will be compressed depending on the 'compresstype' setting. Larger values will give better compression but take longer."
 msgstr "Mur eil seo 'na neoini, thèid geamannan a dhùmhlachadh leis an roghainn 'compresstype'. Bidh dùmhlachadh nas fhearr ann le luachan nas motha ach feumaidh iad nas fhaide."
 
-#: server/settings.c:1994
+#: server/settings.c:2041
 msgid "Savegame compression algorithm"
 msgstr "Algairim dùmhlachaidh Savegame"
 
-#: server/settings.c:1995
+#: server/settings.c:2042
 msgid "Compression library to use for savegames."
 msgstr "Leabhar-lann an dùmhlachaidh a thèid a chleachdadh airson savegames."
 
-#: server/settings.c:2000
+#: server/settings.c:2047
 msgid "Save using the given savegame version"
 msgstr "Sàbhail iad leis an tionndadh savegame a tha air a shònrachadh"
 
-#: server/settings.c:2001
+#: server/settings.c:2048
 msgid "Create a savegame which can be loaded by the given version of Freeciv. Note that some features will not be saved/restored for older versions."
 msgstr "Cruthaich savegame a ghabhas luchdadh leis na tionndaidhean comharraichte de Freeciv. Thoir an aire nach dèid gach feart a shàbhaladh no aiseag airson seann tionndaidhean."
 
-#: server/settings.c:2008
+#: server/settings.c:2055
 msgid "Definition of the save file name"
 msgstr "Sònrachadh ainm an fhaidhle sàbhalaidh"
 
 #. TRANS: %R, %S, %T and %Y must not be translated. The
 #. * strings (examples and setting names) between single quotes
 #. * neither. The strings between <> should be translated.
-#: server/settings.c:2013
+#: server/settings.c:2060
 #, no-c-format
 msgid ""
 "Within the string the following custom formats are allowed:\n"
@@ -6541,140 +6498,140 @@ msgstr ""
 "\n"
 "Thoir an aire 's cleachd aonan de %T no %Y air a' char as lugha air neo thèid savegames nas ùire a shàbhaladh thairis air seann fheadhainn. Mura cleachdar gin dhe na fòrmatan thèid '-T%04T-Y%05Y-%R' a chur ro luach an 'savename'."
 
-#: server/settings.c:2031
+#: server/settings.c:2078
 msgid "Whether to log player statistics"
 msgstr "Logadh stadastaireachd nan cluicheadairean"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
-#: server/settings.c:2034
+#: server/settings.c:2081
 msgid "If this is turned on, player statistics are appended to the file defined by the option 'scorefile' every turn. These statistics can be used to create power graphs after the game."
 msgstr "Ma chuireas tu seo air, thèid stadastaireachd nan cluicheadairean a chur ris an fhaidhle gach cuairt a shònraich an roghainn 'scorefile'. 'S urrainn dhut an stadastaireachd seo a chleachdadh gus grafaichean cumhachd a ghineadh as dèidh a' gheama."
 
-#: server/settings.c:2041
+#: server/settings.c:2088
 msgid "Name for the score log file"
 msgstr "Ainm airson faidhle loga an sgòir"
 
 #. TRANS: Don't translate the string in single quotes.
-#: server/settings.c:2043
+#: server/settings.c:2090
 msgid "The default name for the score log file is 'freeciv-score.log'."
 msgstr "'S e 'freeciv-score.log' an t-ainm bunaiteach airson faidhle loga an sgòir."
 
-#: server/settings.c:2049
+#: server/settings.c:2096
 msgid "Maximum number of connections to the server per host"
 msgstr "Àireamh as motha de cheanglaichean ris an fhrithealaiche gach òstair"
 
-#: server/settings.c:2050
+#: server/settings.c:2097
 msgid "New connections from a given host will be rejected if the total number of connections from the very same host equals or exceeds this value. A value of 0 means that there is no limit, at least up to the maximum number of connections supported by the server."
 msgstr "Thèid ceanglaichean ùra o òstair àraidh a dhiùltadh ma tha àireamh iomlan nan ceanglaichean on dearbh òstair co-ionnann no nas motha na an luach seo. Ma chuireas tu ann 0, cha bhi àireamh as motha ann, co-dhiù gu ruige an àireamh as motha de cheanglaichean a bheir am frithealaiche taic riutha."
 
-#: server/settings.c:2060
+#: server/settings.c:2107
 msgid "Time before a kicked user can reconnect"
 msgstr "An ùine mus urrainn do chleachdaiche ath cheangal an dèid bhreabaidh"
 
 #. TRANS: the string in double quotes is a server command name and
 #. * should not be translated
-#: server/settings.c:2063
+#: server/settings.c:2110
 msgid "Gives the time in seconds before a user kicked using the \"kick\" command may reconnect. Changing this setting will affect users kicked in the past."
 msgstr "Tha seo a' sònrachadh an ùine ann an diogan mus urrainn do chleachdaiche a chaidh a bhreabadh a-mach leis an àithne \"kick\" ath cheangal. Ma dh'atharraicheas tu an roghainn seo, bidh buaidh aige seo air cleachdaichean a chaidh a bhreabadh roimhe."
 
-#: server/settings.c:2162
+#: server/settings.c:2209
 #, c-format
 msgid "You are not allowed to change the setting '%s'."
 msgstr "Chan eil cead agad an roghainn '%s' atharrachadh."
 
-#: server/settings.c:2170
+#: server/settings.c:2217
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
 msgstr "Tha an roghainn '%s' air a ghlasadh le seata nan riaghailtean."
 
-#: server/settings.c:2184
+#: server/settings.c:2231
 #, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
 msgstr "Cha ghabh an roghainn '%s' atharrachadh ma bhios am mapa air a shocrachadh."
 
-#: server/settings.c:2201
+#: server/settings.c:2248
 #, c-format
 msgid "The setting '%s' can't be modified after the game has started."
 msgstr "Cha ghabh an roghainn '%s' atharrachadh as dhan gheama tòiseachadh."
 
-#: server/settings.c:2213
+#: server/settings.c:2260
 msgid "Internal error."
 msgstr "Mearachd air an taobh a-staigh."
 
-#: server/settings.c:2301
+#: server/settings.c:2348
 #, c-format
 msgid "\"%s\" prefix is ambiguous. Candidates are: %s."
 msgstr "Tha an ro-leasachan \"%s\" dà-sheaghach. Tagraichean: %s."
 
-#: server/settings.c:2308
+#: server/settings.c:2355
 msgid "Missing value."
 msgstr "Luach a dhìth."
 
-#: server/settings.c:2317
+#: server/settings.c:2364
 #, c-format
 msgid "No match for \"%s\"."
 msgstr "Chan eil seise aig \"%s\"."
 
-#: server/settings.c:2355
+#: server/settings.c:2402
 msgid "This setting is not a boolean."
 msgstr "Chan eil an roghainn Booleach."
 
-#: server/settings.c:2476
+#: server/settings.c:2523
 msgid "This setting is not an integer."
 msgstr "Chan eil an roghainn 'na àireamh shlàn."
 
-#: server/settings.c:2482
+#: server/settings.c:2529
 #, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
 msgstr "Tha an luach thair an rainse: %d (as lugha: %d, as motha: %d)."
 
-#: server/settings.c:2537
+#: server/settings.c:2584
 msgid "This setting is not a string."
 msgstr "Chan e sreang a tha san roghainn seo."
 
-#: server/settings.c:2543
+#: server/settings.c:2590
 #, c-format
 msgid "String value too long (max length: %lu)."
 msgstr "Tha luach na sreinge ro fhada (faid as motha: %lu)."
 
-#: server/settings.c:2621
+#: server/settings.c:2668
 msgid "This setting is not an enumerator."
 msgstr "Chan eil an roghainn 'na àireamhaiche."
 
 #. TRANS: only emphasizing a string.
-#: server/settings.c:2790
+#: server/settings.c:2837
 #, c-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
-#: server/settings.c:2798
+#: server/settings.c:2845
 msgid "no value"
 msgstr "gun luach"
 
-#: server/settings.c:2850
+#: server/settings.c:2897
 msgid "This setting is not a bitwise."
 msgstr "Chan e bitwise a tha san roghainn seo."
 
-#: server/settings.c:3108
-#: server/settings.c:3128
-#: server/settings.c:3148
-#: server/settings.c:3172
-#: server/settings.c:3196
+#: server/settings.c:3155
+#: server/settings.c:3175
+#: server/settings.c:3195
+#: server/settings.c:3219
+#: server/settings.c:3243
 #, c-format
 msgid "Ruleset: '%s' has been set to %s."
 msgstr "Seata riaghailtean: Chaidh '%s' a shuidheachadh gu %s."
 
-#: server/settings.c:3213
+#: server/settings.c:3260
 #, c-format
 msgid "Ruleset: '%s' has been locked by the ruleset."
 msgstr "Seata riaghailtean: Chaidh '%s' a ghlasadh le seata nan riaghailtean."
 
-#: server/settings.c:3468
-#: server/settings.c:3493
 #: server/settings.c:3515
-#: server/settings.c:3542
-#: server/settings.c:3569
+#: server/settings.c:3540
+#: server/settings.c:3562
+#: server/settings.c:3589
+#: server/settings.c:3616
 #, c-format
 msgid "Savegame: '%s' has been set to %s."
 msgstr "Savegame: Chaidh '%s' a shuidheachadh gu %s."
@@ -6879,7 +6836,7 @@ msgid "Scenario victory to %s."
 msgstr "Bhuannaich %s an cnàmh-sgeul seo."
 
 #: server/srv_main.c:322
-#: server/stdinhand.c:4183
+#: server/stdinhand.c:4184
 msgid "Game ended in a draw."
 msgstr "Chrìochnaich an geama le buaidh co-ionnann."
 
@@ -6932,97 +6889,97 @@ msgstr "Dh'fhalbh an ùine air a' stad-losgaidh le %s. Tha thu a' cogadh ri %s a
 msgid "The cease-fire between %s and %s has run out. They are at war. You cancel your alliance with both."
 msgstr "Dh'fhalbh an ùine air an stad-losgaidh eadar %s agus %s. Tha iad a' cogadh ri chèile a-nis. Tha thusa a' cur crìoch air a' chaidreachas agad leis an dà dhiubh."
 
-#: server/srv_main.c:1199
-#: server/srv_main.c:1202
+#: server/srv_main.c:1203
+#: server/srv_main.c:1206
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Seòrsa de dhùmhlachadh (%d) nach eil taic ann ris."
 
-#: server/srv_main.c:1232
+#: server/srv_main.c:1236
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Dh'fhàillig sàbhaladh a' gheama mar %s"
 
-#: server/srv_main.c:1234
+#: server/srv_main.c:1238
 #, c-format
 msgid "Game saved as %s"
 msgstr "Chaidh an geama a shàbhaladh mar %s"
 
-#: server/srv_main.c:1268
+#: server/srv_main.c:1272
 msgid "The game is already running."
 msgstr "Tha an geama sin a' ruith mu thràth."
 
-#: server/srv_main.c:1276
+#: server/srv_main.c:1280
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr "Chaill %s an t-inneal-smachd cmdlevel aig toiseach a' gheama. A' cleachdadh bhòtadh a-mach o seo."
 
-#: server/srv_main.c:1283
+#: server/srv_main.c:1287
 msgid "Starting game."
 msgstr "A' tòiseachadh a' gheama."
 
-#: server/srv_main.c:1354
+#: server/srv_main.c:1358
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "iarrtas airson aithisg neo-aithnichte (dhen t-seòrsa %d)"
 
-#: server/srv_main.c:1434
+#: server/srv_main.c:1438
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Rabhadh: a' diùltadh an t-seann chliant %s"
 
-#: server/srv_main.c:1444
+#: server/srv_main.c:1448
 msgid "Your client is too old. To use this server, please upgrade your client to a Freeciv 2.2 or later."
 msgstr "Tha an cliant agad ro shean. Feuch is faigh Freeciv 2.2. no tionndadh nas ùire dheth ma tha thu airson am frithealaiche seo a chleachdadh."
 
-#: server/srv_main.c:1502
+#: server/srv_main.c:1506
 msgid "You are not allowed to edit."
 msgstr "Chan eil cead deasachaidh agad."
 
-#: server/srv_main.c:1691
+#: server/srv_main.c:1695
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Chan eil %s ri fhaighinn mar nàisean sa chluich seo."
 
-#: server/srv_main.c:1697
+#: server/srv_main.c:1701
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Tha %s aig cuideigin eile mu thràth."
 
-#: server/srv_main.c:1710
+#: server/srv_main.c:1714
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "Tha %s 'na riaghlaiche %s %s."
 
-#: server/srv_main.c:1766
+#: server/srv_main.c:1770
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Tha geama gu bhith tòiseachadh: tha %d a-mach à %d cluicheadairean deiseil ri cluich."
 
-#: server/srv_main.c:2078
 #: server/srv_main.c:2082
+#: server/srv_main.c:2086
 #, c-format
 msgid "%s rules the %s."
 msgstr "Tha %s a' riaghladh %s."
 
-#: server/srv_main.c:2218
+#: server/srv_main.c:2222
 msgid "This freeciv-server program has player authentication support, but it's currently not in use."
 msgstr "Tha taic aig a' phrògram-frithealaiche freeciv a chum dearbhadh chluicheadairean ach chan eil e 'ga chleachdadh an-dràsta fhèin."
 
-#: server/srv_main.c:2281
+#: server/srv_main.c:2285
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "A' cur an fhiosrachaidh dhan mheata-fhrithealaiche <%s>."
 
-#: server/srv_main.c:2285
+#: server/srv_main.c:2289
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "Cha tòisichear as aonais iarrtas follaiseach airson ceangal meata-fhrithealaiche. "
 
-#: server/srv_main.c:2306
+#: server/srv_main.c:2310
 msgid "The game is over..."
 msgstr "Seo deireadh a' gheama..."
 
-#: server/srv_main.c:2559
+#: server/srv_main.c:2563
 msgid "Now accepting new client connections."
 msgstr "A' gabhail ri ceanglaichean ùra o chliantan a-nis"
 
@@ -7243,135 +7200,136 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "A' cur %s an àite %s mar chluicheadair fo smachd na h-IF."
 
 #: server/stdinhand.c:1089
-msgid "Players cannot be removed once the game has started."
-msgstr "Cha ghabh cluicheadairean a thoirt air falbh nuair a bhios an geama air tòiseachadh."
+#, c-format
+msgid "Command level '%s' or greater needed to remove a player once the game has started."
+msgstr "Tha feum air leibheil àitheantan '%s' no nas àirde gus cluicheadair a thoirt air falbh nuair a bhios an geama air tòiseachadh."
 
-#: server/stdinhand.c:1100
+#: server/stdinhand.c:1101
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "%s air a thoirt air falbh on gheama."
 
-#: server/stdinhand.c:1165
-#: server/stdinhand.c:3516
-#: server/stdinhand.c:3672
+#: server/stdinhand.c:1166
+#: server/stdinhand.c:3517
+#: server/stdinhand.c:3673
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Chan eil an t-ainm \"%s\" ceadaichte air sgàth adhbharan tèarainteachd."
 
-#: server/stdinhand.c:1178
+#: server/stdinhand.c:1179
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "Cha deach sgriobt àithne a lorg air a bheil \"%s\"."
 
-#: server/stdinhand.c:1186
+#: server/stdinhand.c:1187
 #, c-format
 msgid "Loading script file '%s'."
 msgstr "A' luchdadh faidhle an sgriobt '%s'."
 
-#: server/stdinhand.c:1204
+#: server/stdinhand.c:1205
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Cha ghabh scriptfile na loidhne àithne '%s' a leughadh. "
 
-#: server/stdinhand.c:1206
-#: server/stdinhand.c:4320
+#: server/stdinhand.c:1207
+#: server/stdinhand.c:4321
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Cha do ghabh faidhle an sgriobt '%s' a leughadh."
 
-#: server/stdinhand.c:1266
+#: server/stdinhand.c:1267
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Cha do ghabh faidhle an sgriobt '%s' a sgrìobhadh."
 
-#: server/stdinhand.c:1277
+#: server/stdinhand.c:1278
 msgid "You cannot use the write command on this server for security reasons."
 msgstr "Chan urrainn dhut an àithne sgrìobhaidh a chleachdadh air an fhrithealaiche seo air sgàth adhbharan tèarainteachd."
 
-#: server/stdinhand.c:1306
+#: server/stdinhand.c:1307
 #, c-format
 msgid "Cannot decrease command access level '%s' for connection '%s'; you only have '%s'."
 msgstr "Cha ghabh leibheil inntrigeadh àitheantan '%s' a lùghdachadh airson a' cheangail '%s'; chan eil agad-sa ach '%s'."
 
-#: server/stdinhand.c:1315
+#: server/stdinhand.c:1316
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Chaidh leibheil inntrigeadh àitheantan a chur gu '%s' airson a' cheangail %s."
 
-#: server/stdinhand.c:1364
+#: server/stdinhand.c:1365
 #, c-format
 msgid "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr "'S urrainn do dhuine sam bith a bhith 'na eagraiche geama '%s' a-nis ma chuireas iad an àithne 'first'."
 
-#: server/stdinhand.c:1388
+#: server/stdinhand.c:1389
 msgid "Command access levels in effect:"
 msgstr "Leibheilean inntrigeadh àitheantan a tha an sàs:"
 
-#: server/stdinhand.c:1395
+#: server/stdinhand.c:1396
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Leibheil inntrigeadh àitheantan airson ceanglaichean ùra: %s"
 
-#: server/stdinhand.c:1398
+#: server/stdinhand.c:1399
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Leibheil inntrigeadh àitheantan airson a' chiad chluicheadair a ghabhas e: %s"
 
 #. TRANS: comma and 'or' separated list of access levels
-#: server/stdinhand.c:1417
+#: server/stdinhand.c:1418
 #, c-format
 msgid "Command access level must be one of %s."
 msgstr "Feumaidh an leibheil inntrigeadh àitheantan a bhith na leanas, %s."
 
-#: server/stdinhand.c:1423
+#: server/stdinhand.c:1424
 #, c-format
 msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Cha ghabh leibheil inntrigeadh àitheantan àrdachadh gu '%s'; chan eil agad-sa ach '%s'."
 
-#: server/stdinhand.c:1450
-#: server/stdinhand.c:1464
-#: server/stdinhand.c:1485
+#: server/stdinhand.c:1451
+#: server/stdinhand.c:1465
+#: server/stdinhand.c:1486
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Chaidh leibheil inntrigeadh àitheantan a chur gu '%s' airson cluicheadairean ùra."
 
-#: server/stdinhand.c:1455
-#: server/stdinhand.c:1469
-#: server/stdinhand.c:1479
+#: server/stdinhand.c:1456
+#: server/stdinhand.c:1470
+#: server/stdinhand.c:1480
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Chaidh leibheil inntrigeadh àitheantan a chur gu '%s' airson a' chiad chluicheadair a ghabhas e."
 
-#: server/stdinhand.c:1514
+#: server/stdinhand.c:1515
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "Chan eil ciall san àithne 'first' ann an loidhne àithne an fhrithealaiche."
 
-#: server/stdinhand.c:1518
+#: server/stdinhand.c:1519
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Tha leibheil inntrigeadh àitheantan '%s' no tè nas àirde agad mu thràth."
 
-#: server/stdinhand.c:1523
+#: server/stdinhand.c:1524
 msgid "Someone else is already game organizer."
 msgstr "Tha cuideigin eile 'na eagraiche geama mu thràth."
 
-#: server/stdinhand.c:1528
+#: server/stdinhand.c:1529
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "Chuir an ceangal %s roimhe a bhith 'na eagraiche geama."
 
-#: server/stdinhand.c:1579
+#: server/stdinhand.c:1580
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Argamaid mhì-dhligheach %d."
 
-#: server/stdinhand.c:1586
-#: server/stdinhand.c:1982
-#: server/stdinhand.c:3073
-#: server/stdinhand.c:3222
-#: server/stdinhand.c:3234
-#: server/stdinhand.c:3406
-#: server/stdinhand.c:3504
+#: server/stdinhand.c:1587
+#: server/stdinhand.c:1983
+#: server/stdinhand.c:3074
+#: server/stdinhand.c:3223
+#: server/stdinhand.c:3235
+#: server/stdinhand.c:3407
+#: server/stdinhand.c:3505
 #, c-format
 msgid ""
 "Usage:\n"
@@ -7380,202 +7338,202 @@ msgstr ""
 "Cleachdadh:\n"
 "%s"
 
-#: server/stdinhand.c:1593
+#: server/stdinhand.c:1594
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Chaidh an Dynamic Timeout a chur gu %d %d %d %d"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1670
+#: server/stdinhand.c:1671
 #, c-format
 msgid "Option: %s  -  %s"
 msgstr "Roghainn: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1675
+#: server/stdinhand.c:1676
 #, c-format
 msgid "Option: %s"
 msgstr "Roghainn: %s"
 
-#: server/stdinhand.c:1682
-#: server/stdinhand.c:4706
+#: server/stdinhand.c:1683
+#: server/stdinhand.c:4707
 msgid "Description:"
 msgstr "Tuairisgeul:"
 
-#: server/stdinhand.c:1687
+#: server/stdinhand.c:1688
 #, c-format
 msgid "Status: %s"
 msgstr "Inbhe: %s"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1689
 msgid "changeable"
 msgstr "so-atharrachte"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1689
 msgid "fixed"
 msgstr "air a chàradh"
 
-#: server/stdinhand.c:1697
-#: server/stdinhand.c:1717
-#: server/stdinhand.c:1731
+#: server/stdinhand.c:1698
+#: server/stdinhand.c:1718
+#: server/stdinhand.c:1732
 msgid "Value:"
 msgstr "Luach:"
 
-#: server/stdinhand.c:1698
+#: server/stdinhand.c:1699
 #: manual/civmanual.c:194
 msgid "Minimum:"
 msgstr "Meud as lugha:"
 
-#: server/stdinhand.c:1699
-#: server/stdinhand.c:1717
-#: server/stdinhand.c:1733
+#: server/stdinhand.c:1700
+#: server/stdinhand.c:1718
+#: server/stdinhand.c:1734
 #: manual/civmanual.c:195
 #: manual/civmanual.c:228
 msgid "Default:"
 msgstr "Bunaiteach:"
 
-#: server/stdinhand.c:1700
+#: server/stdinhand.c:1701
 #: manual/civmanual.c:196
 msgid "Maximum:"
 msgstr "Meud as motha:"
 
-#: server/stdinhand.c:1707
+#: server/stdinhand.c:1708
 #: manual/civmanual.c:203
 msgid "Possible values:"
 msgstr "Luachan buailteach:"
 
-#: server/stdinhand.c:1725
+#: server/stdinhand.c:1726
 #: manual/civmanual.c:215
 msgid "Possible values (option can take any number of these):"
 msgstr "Luachan buailteach (faodar gin dhiubh a thaghadh airson na roghainne):"
 
-#: server/stdinhand.c:1750
+#: server/stdinhand.c:1751
 msgid "Explanations are available for the following server options:"
 msgstr "Tha mìneachadh ann airson na roghainnean frithealaiche a leanas:"
 
-#: server/stdinhand.c:1795
+#: server/stdinhand.c:1796
 msgid "No explanation for that yet."
 msgstr "Chan eil mìneachadh ann airson sin fhathast."
 
-#: server/stdinhand.c:1798
-#: server/stdinhand.c:2761
+#: server/stdinhand.c:1799
+#: server/stdinhand.c:2762
 msgid "Ambiguous option name."
 msgstr "Ainm dà-sheaghadh air an roghainn."
 
-#: server/stdinhand.c:1817
+#: server/stdinhand.c:1818
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Gnìomharaiche an fhrithealaiche: %s"
 
-#: server/stdinhand.c:1856
+#: server/stdinhand.c:1857
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
 msgstr "Chaidh Connectmsg a ghearradh gu %u baidht."
 
-#: server/stdinhand.c:1902
-#: server/stdinhand.c:1939
-#: server/stdinhand.c:1957
+#: server/stdinhand.c:1903
+#: server/stdinhand.c:1940
+#: server/stdinhand.c:1958
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Fhuair an cluicheadair '%s' leibheil sgilean IF '%s'."
 
-#: server/stdinhand.c:1944
+#: server/stdinhand.c:1945
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "Chan eil %s fo smachd na h-Inntinne Fhuadain."
 
-#: server/stdinhand.c:1964
+#: server/stdinhand.c:1965
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Chaidh leibheil sgilean bhunaiteach na h-Inntinne Fhuadain a chur gu '%s'."
 
-#: server/stdinhand.c:1979
+#: server/stdinhand.c:1980
 msgid "This command is client only."
 msgstr "'S e àithne cliant a-mhàin a tha seo."
 
-#: server/stdinhand.c:1988
+#: server/stdinhand.c:1989
 msgid "Only players may use the away command."
 msgstr "Chan fhaod ach cluicheadairean an àithne \"air falbh\" a chleachdadh."
 
-#: server/stdinhand.c:1992
+#: server/stdinhand.c:1993
 #, c-format
 msgid "%s set to away mode."
 msgstr "Tha %s sa mhodh \"air falbh\"."
 
-#: server/stdinhand.c:1998
+#: server/stdinhand.c:1999
 #, c-format
 msgid "%s returned to game."
 msgstr "Thill %s dhan gheama."
 
-#: server/stdinhand.c:2049
+#: server/stdinhand.c:2050
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Duilich, chan eil cead agad an roghainn '%s' fhaicinn."
 
-#: server/stdinhand.c:2058
+#: server/stdinhand.c:2059
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Roghainn neo-aithnichte '%s'."
 
-#: server/stdinhand.c:2071
+#: server/stdinhand.c:2072
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "'S e \"%s\" an t-eòlaire ruleset làithreach"
 
-#: server/stdinhand.c:2104
+#: server/stdinhand.c:2105
 msgid "All options with non-default values"
 msgstr "Gach roghainn aig nach eil na luachan bunaiteach."
 
-#: server/stdinhand.c:2107
+#: server/stdinhand.c:2108
 msgid "All options"
 msgstr "Gach roghainn"
 
-#: server/stdinhand.c:2110
+#: server/stdinhand.c:2111
 msgid "Vital options"
 msgstr "Roghainnean fìor chudromach"
 
-#: server/stdinhand.c:2113
+#: server/stdinhand.c:2114
 msgid "Situational options"
 msgstr "Roghainnean an t-suidheachaidh"
 
-#: server/stdinhand.c:2116
+#: server/stdinhand.c:2117
 msgid "Rarely used options"
 msgstr "Roghainnean nach cleachdar ach gu h-ainneamh"
 
-#: server/stdinhand.c:2119
+#: server/stdinhand.c:2120
 msgid "Options locked by the ruleset"
 msgstr "Tha na roghainnean air an glasadh le seata nan riaghailtean"
 
-#: server/stdinhand.c:2131
+#: server/stdinhand.c:2132
 msgid "In the column '##' the status of the option is shown:"
 msgstr "Chithear staid na roghainne sa cholbh '##':"
 
-#: server/stdinhand.c:2132
+#: server/stdinhand.c:2133
 msgid " - a '!' means the option is locked by the ruleset."
 msgstr " - 'S ciall do '!' gu bheil an roghainn air a ghlasadh le seata nan riaghailtean."
 
-#: server/stdinhand.c:2133
+#: server/stdinhand.c:2134
 msgid " - a '+' means you may change the option."
 msgstr " - 'S ciall do '+' gun urrainn dhut an roghainn atharrachadh."
 
-#: server/stdinhand.c:2134
+#: server/stdinhand.c:2135
 msgid " - a '=' means the option is on its default value."
 msgstr " - 'S ciall do '=' gu bheil an luach bunaiteach san roghainn. "
 
-#: server/stdinhand.c:2136
+#: server/stdinhand.c:2137
 #, c-format
 msgid "%-*s ## value (min, max)"
 msgstr "Luach ## %-*s (min,max)"
 
-#: server/stdinhand.c:2137
+#: server/stdinhand.c:2138
 msgid "Option"
 msgstr "Roghainn"
 
-#: server/stdinhand.c:2185
+#: server/stdinhand.c:2186
 msgid "A help text for each option is available via 'help <option>'."
 msgstr "Gheibhear teacsa cobharach airson gach roghainn leis an àithne 'help <roghainn>'."
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2190
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values.\n"
@@ -7585,19 +7543,19 @@ msgstr ""
 "Feuch 'seall an fheadhainn air atharrachadh' gus na roghainnean fhaicinn aig nach eil na luachan bunaiteach tuilleadh.\n"
 "Feuch 'seall an fheadhainn ghlaiste' gus na roghainnean fhaicinn a chaidh a ghlasadh le seata nan riaghailtean."
 
-#: server/stdinhand.c:2217
+#: server/stdinhand.c:2218
 msgid "Cannot change teams once game has begun."
 msgstr "Cha ghabh na sgiobannan atharrachadh nuair a bhios an geama air tòiseachadh."
 
-#: server/stdinhand.c:2227
-#: server/stdinhand.c:2363
-#: server/stdinhand.c:2554
-#: server/stdinhand.c:2579
-#: server/stdinhand.c:2622
-#: server/stdinhand.c:2653
-#: server/stdinhand.c:2695
-#: server/stdinhand.c:2720
-#: server/stdinhand.c:2747
+#: server/stdinhand.c:2228
+#: server/stdinhand.c:2364
+#: server/stdinhand.c:2555
+#: server/stdinhand.c:2580
+#: server/stdinhand.c:2623
+#: server/stdinhand.c:2654
+#: server/stdinhand.c:2696
+#: server/stdinhand.c:2721
+#: server/stdinhand.c:2748
 #, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
@@ -7606,16 +7564,16 @@ msgstr ""
 "Argamaid gun mhìneachadh. Cleachdadh:\n"
 "%s"
 
-#: server/stdinhand.c:2248
+#: server/stdinhand.c:2249
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "Chan eil sgioba ann air a bheil %s. Cuir ainm no àireamh dhligheach air gach sgioba."
 
-#: server/stdinhand.c:2255
+#: server/stdinhand.c:2256
 msgid "Cannot team a barbarian."
 msgstr "Chan fhaod borbaich a bhith ann an sgioba."
 
-#: server/stdinhand.c:2261
+#: server/stdinhand.c:2262
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Chaidh an cluicheadair %s a chur san sgioba %s."
@@ -7623,53 +7581,53 @@ msgstr "Chaidh an cluicheadair %s a chur san sgioba %s."
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2289
+#: server/stdinhand.c:2290
 #: server/voting.c:511
 msgid "Teamvote"
 msgstr "Bhòt sgioba"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2289
+#: server/stdinhand.c:2290
 #: server/voting.c:516
 msgid "Vote"
 msgstr "Bhòt"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
-#: server/stdinhand.c:2292
+#: server/stdinhand.c:2293
 #, c-format
 msgid "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %d players."
 msgstr "%s %d \"%s\" (feum air %0.0f%%%s): %d air a shon, %d 'na aghaidh agus cha do bhòt %d a-mach à %d cluicheadair(ean)."
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2297
 msgid " no dissent"
 msgstr " gun eas-aonta"
 
-#: server/stdinhand.c:2304
+#: server/stdinhand.c:2305
 msgid "There are no votes going on."
 msgstr "Chan eil bhòt sam bith a' dol."
 
-#: server/stdinhand.c:2349
-#: server/stdinhand.c:2474
-#: server/stdinhand.c:4027
+#: server/stdinhand.c:2350
+#: server/stdinhand.c:2475
+#: server/stdinhand.c:4028
 msgid "You are not allowed to use this command."
 msgstr "Chan eil cead agad an àithne seo a chleachdadh."
 
-#: server/stdinhand.c:2358
+#: server/stdinhand.c:2359
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
 msgstr "Tha an argamaid \"%s\" dà-sheaghach."
 
-#: server/stdinhand.c:2375
+#: server/stdinhand.c:2376
 msgid "There are no votes running."
 msgstr "Chan eil bhòt sam bith a' dol."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2378
+#: server/stdinhand.c:2379
 #, c-format
 msgid "No legal last vote (%d %s)."
 msgstr "Cha robh a' bhòt mu dheireadh laghail (%d %s)."
 
-#: server/stdinhand.c:2379
+#: server/stdinhand.c:2380
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] "bhòt eile a tha a' dol"
@@ -7677,180 +7635,180 @@ msgstr[1] "bhòt eile a tha a' dol"
 msgstr[2] "bhòtaichean eile a tha a' dol"
 msgstr[3] "bhòt eile a tha a' dol"
 
-#: server/stdinhand.c:2386
+#: server/stdinhand.c:2387
 msgid "Value must be an integer."
 msgstr "Feumaidh an luach a bhith 'na àireamh shlàn."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2393
-#: server/stdinhand.c:2483
+#: server/stdinhand.c:2394
+#: server/stdinhand.c:2484
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Chan eil a leithid a bhòt ann (%d)."
 
-#: server/stdinhand.c:2399
+#: server/stdinhand.c:2400
 msgid "You are not allowed to vote on that."
 msgstr "Chan eil cead agad bhòtadh ann."
 
-#: server/stdinhand.c:2404
+#: server/stdinhand.c:2405
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Chuir thu bhòt airson \"%s\""
 
-#: server/stdinhand.c:2408
+#: server/stdinhand.c:2409
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Chuir thu bhòt an aghaidh \"%s\""
 
-#: server/stdinhand.c:2413
+#: server/stdinhand.c:2414
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr "Chuir thu romhad gun a bhith a' bhòtadh ann an \"%s\""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2450
+#: server/stdinhand.c:2451
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr "Tha an argamaid <àireamh a' bhòt> a dhìth no an t-sreang \"all\"."
 
-#: server/stdinhand.c:2457
+#: server/stdinhand.c:2458
 msgid "You don't have any vote going on."
 msgstr "Chan eil bhòt sam bith a' dol agad."
 
-#: server/stdinhand.c:2464
+#: server/stdinhand.c:2465
 msgid "There isn't any vote going on."
 msgstr "Chan eil bhòt sam bith a' dol."
 
 #. TRANS: "votes" as a process
-#: server/stdinhand.c:2470
+#: server/stdinhand.c:2471
 msgid "All votes have been removed."
 msgstr "Chaidh gach bhòt a thoirt air falbh."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2489
+#: server/stdinhand.c:2490
 #, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr "Chan eil cead agad crìoch a chur air a' bhòt seo (%d)."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2496
+#: server/stdinhand.c:2497
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr "Cleachdadh: /cancelvote [<àireamh a' bhòt>|all]"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2506
+#: server/stdinhand.c:2507
 #, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr "Chuir %s crìoch air a' bhòt \"%s\" (àireamh a %d)."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2513
+#: server/stdinhand.c:2514
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr "Chaidh crìoch a chur air a' bhòt \"%s\" (àireamh a %d)."
 
-#: server/stdinhand.c:2534
+#: server/stdinhand.c:2535
 msgid "Can only use this command once game has begun."
 msgstr "Chan urrainn dhut an àithne seo a chleachdadh ach nuair a bhios an geama air tòiseachadh."
 
-#: server/stdinhand.c:2565
+#: server/stdinhand.c:2566
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "Cha dèid dìoplomasachd %s a dhì-bhugadh tuilleadh"
 
-#: server/stdinhand.c:2569
+#: server/stdinhand.c:2570
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "Thèid dìoplomasachd %s a dhì-bhugadh"
 
-#: server/stdinhand.c:2590
+#: server/stdinhand.c:2591
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "Cha dèid teicneolas %s a dhì-bhugadh tuilleadh"
 
-#: server/stdinhand.c:2594
+#: server/stdinhand.c:2595
 #, c-format
 msgid "%s tech debugged"
 msgstr "Thèid teicneolas %s a dhì-bhugadh"
 
-#: server/stdinhand.c:2610
-#: server/stdinhand.c:2613
+#: server/stdinhand.c:2611
+#: server/stdinhand.c:2614
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr "cluicheadairean=%d bailtean=%d saoranaich=%d aonadan=%d"
 
-#: server/stdinhand.c:2627
-#: server/stdinhand.c:2658
+#: server/stdinhand.c:2628
+#: server/stdinhand.c:2659
 msgid "Value 2 & 3 must be integer."
 msgstr "Feumaidh luach 2 ┐ 3 a bhith 'na àireamh shlàn."
 
-#: server/stdinhand.c:2631
-#: server/stdinhand.c:2662
+#: server/stdinhand.c:2632
+#: server/stdinhand.c:2663
 msgid "Bad map coordinates."
 msgstr "Droch cho-chomharran mapa."
 
-#: server/stdinhand.c:2636
+#: server/stdinhand.c:2637
 msgid "No city at this coordinate."
 msgstr "Chan eil baile air na co-chomharran seo."
 
-#: server/stdinhand.c:2641
+#: server/stdinhand.c:2642
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Cha dèid %s a dhì-bhugadh tuilleadh"
 
-#: server/stdinhand.c:2668
-#: server/stdinhand.c:2709
+#: server/stdinhand.c:2669
+#: server/stdinhand.c:2710
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr "Cha dèid %s %s a dhì-bhugadh tuilleadh."
 
-#: server/stdinhand.c:2683
+#: server/stdinhand.c:2684
 msgid "Ferry system is no longer in debug mode."
 msgstr "Chan eil an siostam aiseig sa mhodh dì-bhugaidh tuilleadh."
 
-#: server/stdinhand.c:2687
+#: server/stdinhand.c:2688
 msgid "Ferry system in debug mode."
 msgstr "Tha an siostam aiseig sa mhodh dì-bhugaidh."
 
-#: server/stdinhand.c:2700
+#: server/stdinhand.c:2701
 msgid "Value 2 must be integer."
 msgstr "Feumaidh luach 2 a bhith 'na àireamh shlàn."
 
-#: server/stdinhand.c:2704
+#: server/stdinhand.c:2705
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Chan eil an t-aonad %d ann tuilleadh."
 
-#: server/stdinhand.c:2758
+#: server/stdinhand.c:2759
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr "Chan eil an roghainn '%s' 'ga aithneachadh."
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
-#: server/stdinhand.c:2766
+#: server/stdinhand.c:2767
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
 msgstr "Cleachd an àithne '%srulesetdir' gus eòlaire seata nan riaghailtean atharrachadh."
 
-#: server/stdinhand.c:2808
+#: server/stdinhand.c:2809
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "Cha bu chòir a bhith sa pharamadair %s ach +- is àireamhan eadar 0 is 9."
 
-#: server/stdinhand.c:2896
+#: server/stdinhand.c:2897
 #, c-format
 msgid "Console: '%s' has been set to %s."
 msgstr "Consol: Chaidh '%s' a shuidheachadh gu %s."
 
-#: server/stdinhand.c:2938
+#: server/stdinhand.c:2939
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Duilich, chan eil coimheadaichean uile-choitcheann ceadaichte sa gheama seo."
 
-#: server/stdinhand.c:2946
+#: server/stdinhand.c:2947
 msgid "You cannot take a new player at this time."
 msgstr "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh aig an àm seo."
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:2954
+#: server/stdinhand.c:2955
 #, c-format
 msgid "You cannot take a new player because the maximum of %d player has already been reached (maxplayers setting)."
 msgid_plural "You cannot take a new player because the maximum of %d players has already been reached (maxplayers setting)."
@@ -7859,399 +7817,399 @@ msgstr[1] "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh a chionn 's g
 msgstr[2] "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh a chionn 's gu bheil na tha ceadaichte de chluicheadairean (%d) ann mu thràth (an roghainn maxplayers)."
 msgstr[3] "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh a chionn 's gu bheil na tha ceadaichte de chluicheadairean (%d) ann mu thràth (an roghainn maxplayers)."
 
-#: server/stdinhand.c:2966
+#: server/stdinhand.c:2967
 msgid "You cannot take a new player because there are no free player slots."
 msgstr "Chan urrainn dhut cluicheadair ùr a ghabhail os làimh a chionn 's gu bheil àitichean cluicheadair saora ann."
 
-#: server/stdinhand.c:2978
+#: server/stdinhand.c:2979
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Duilich, chan eil coimhead air borbaich sa gheama seo."
 
-#: server/stdinhand.c:2981
+#: server/stdinhand.c:2982
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Duilich, chan urrainn dhut borbaich a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:2990
+#: server/stdinhand.c:2991
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Duilich, chan eil coimhead air cluicheadairean marbha sa gheama seo."
 
-#: server/stdinhand.c:2994
+#: server/stdinhand.c:2995
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Duilich, chan urrainn dhut cluicheadairean marbha a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:3004
+#: server/stdinhand.c:3005
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Duilich, chan eil coimhead air cluicheadairean na h-Inntinne Fhuadain sa gheama seo."
 
-#: server/stdinhand.c:3007
+#: server/stdinhand.c:3008
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Duilich, chan eil cluicheadairean na h-Inntinne Fhuadain a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:3017
+#: server/stdinhand.c:3018
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Duilich, chan eil coimhead air cluicheadairean daonna sa gheama seo."
 
-#: server/stdinhand.c:3021
+#: server/stdinhand.c:3022
 msgid "Sorry, one can't take human players in this game."
 msgstr "Duilich, chan urrainn dhut cluicheadairean daonna a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:3031
+#: server/stdinhand.c:3032
 msgid "Sorry, one can't observe in this game."
 msgstr "Duilich, chan eil coimheadaichean ceadaichte sa gheama seo."
 
-#: server/stdinhand.c:3036
+#: server/stdinhand.c:3037
 msgid "Sorry, one can't take players in this game."
 msgstr "Duilich, chan urrainn dhut cluicheadairean a ghabhail os làimh sa gheama seo."
 
-#: server/stdinhand.c:3043
+#: server/stdinhand.c:3044
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "Duilich, chan urrainn dhut cluicheadairean a ghabhail os làimh sa gheama seo ma tha iad air ceangal a dhèanamh mu thràth."
 
-#: server/stdinhand.c:3080
-#: server/stdinhand.c:3229
+#: server/stdinhand.c:3081
+#: server/stdinhand.c:3230
 msgid "Only the player name form is allowed."
 msgstr "Chan eil ceadaichte ach cruth ainmean chluicheadairean."
 
-#: server/stdinhand.c:3130
+#: server/stdinhand.c:3131
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "Tha smachd aig %s air %s mu thràth. Chuireadh tu às do %s nan cleachdadh tu 'observe'."
 
-#: server/stdinhand.c:3141
+#: server/stdinhand.c:3142
 #, c-format
 msgid "%s is already observing %s."
 msgstr "Tha %s a' coimhead air %s mu thràth."
 
-#: server/stdinhand.c:3146
+#: server/stdinhand.c:3147
 #, c-format
 msgid "%s is already observing."
 msgstr "Tha %s a' coimhead air cuideigin mu thràth."
 
-#: server/stdinhand.c:3178
+#: server/stdinhand.c:3179
 #, c-format
 msgid "%s now observes %s"
 msgstr "Tha %s a' coimhead air %s a-nis."
 
-#: server/stdinhand.c:3182
+#: server/stdinhand.c:3183
 #, c-format
 msgid "%s now observes"
 msgstr "Tha %s a' coimhead a-nis."
 
-#: server/stdinhand.c:3250
+#: server/stdinhand.c:3251
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr "Chan urrainn dhut an àithne \"/take -\" a thoirt nuair a bhios an geama air tòiseachadh."
 
-#: server/stdinhand.c:3280
+#: server/stdinhand.c:3281
 #, c-format
 msgid "%s already controls %s."
 msgstr "Tha smachd aig %s air %s mu thràth."
 
-#: server/stdinhand.c:3294
+#: server/stdinhand.c:3295
 #, c-format
 msgid "There is no free player slot for %s."
 msgstr "Tha eil àite cluicheadair saor ann airson %s."
 
-#: server/stdinhand.c:3312
+#: server/stdinhand.c:3313
 #, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "Chaidh an nàisean a chur an làmhan %s le consoil an fhrithealaiche."
 
-#: server/stdinhand.c:3316
+#: server/stdinhand.c:3317
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr "Chaidh an nàisean a chur an làmhan %s le %s."
 
-#: server/stdinhand.c:3359
+#: server/stdinhand.c:3360
 #, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "Tha smachd aig %s air %s (%s, %s)."
 
-#: server/stdinhand.c:3363
-#: server/stdinhand.c:4976
+#: server/stdinhand.c:3364
+#: server/stdinhand.c:4977
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Borbach"
 
-#: server/stdinhand.c:3365
-#: server/stdinhand.c:4978
+#: server/stdinhand.c:3366
+#: server/stdinhand.c:4979
 #: client/plrdlg_common.c:236
 #: client/gui-sdl/plrdlg.c:653
 msgid "AI"
 msgstr "IF"
 
-#: server/stdinhand.c:3366
-#: server/stdinhand.c:4980
+#: server/stdinhand.c:3367
+#: server/stdinhand.c:4981
 msgid "Human"
 msgstr "Mac an duine"
 
-#: server/stdinhand.c:3368
+#: server/stdinhand.c:3369
 msgid "Alive"
 msgstr "Beò"
 
-#: server/stdinhand.c:3369
+#: server/stdinhand.c:3370
 msgid "Dead"
 msgstr "Marbh"
 
-#: server/stdinhand.c:3372
+#: server/stdinhand.c:3373
 #, c-format
 msgid "%s failed to attach to any player."
 msgstr "Dh'fhàillig %s le ceangal a dhèanamh ri cluicheadair sam bith."
 
-#: server/stdinhand.c:3427
+#: server/stdinhand.c:3428
 msgid "You can not detach other users."
 msgstr "Chan urrainn dhut an ceangal aig cluicheadairean eile a bhriseadh."
 
-#: server/stdinhand.c:3436
+#: server/stdinhand.c:3437
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "Chan eil %s co-cheangailte ri cluicheadair sam bith."
 
-#: server/stdinhand.c:3446
+#: server/stdinhand.c:3447
 #, c-format
 msgid "%s detaching from %s"
 msgstr "Tha %s a' briseadh o %s"
 
-#: server/stdinhand.c:3449
+#: server/stdinhand.c:3450
 #, c-format
 msgid "%s no longer observing."
 msgstr "Chan eil %s a' coimhead tuilleadh."
 
-#: server/stdinhand.c:3510
+#: server/stdinhand.c:3511
 msgid "Cannot load a game while another is running."
 msgstr "Chan urrainn dhut geama a luchdadh fhad 's a tha fear eile 'na ruith."
 
-#: server/stdinhand.c:3543
+#: server/stdinhand.c:3544
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Cha ghabh savegame no cnàmh-sgeul a lorg air a bheil \"%s\"."
 
-#: server/stdinhand.c:3556
+#: server/stdinhand.c:3557
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Cha ghabh an savefile a luchdadh: %s"
 
-#: server/stdinhand.c:3653
+#: server/stdinhand.c:3654
 msgid "You must provide a ruleset name. Use \"/show ruleset\" to see what is the current ruleset."
 msgstr "Feumaidh tu ainm a chur air seata nan riaghailtean. Cleachd \"/show ruleset\" gus seata nan riaghailtean làithreach fhaicinn."
 
-#: server/stdinhand.c:3659
+#: server/stdinhand.c:3660
 msgid "This setting can't be modified after the game has started."
 msgstr "Cha ghabh an roghainn seo atharrachadh as dhan gheama tòiseachadh."
 
-#: server/stdinhand.c:3665
+#: server/stdinhand.c:3666
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Tha \"%s\" 'na eòlaire ruleset mu thràth"
 
-#: server/stdinhand.c:3681
+#: server/stdinhand.c:3682
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Cha deach an t-eòlaire \"%s\" a lorg"
 
-#: server/stdinhand.c:3687
+#: server/stdinhand.c:3688
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Tha \"%s\" 'na eòlaire ruleset"
 
-#: server/stdinhand.c:3717
-#: server/stdinhand.c:3753
-#: server/stdinhand.c:4922
+#: server/stdinhand.c:3718
+#: server/stdinhand.c:3754
+#: server/stdinhand.c:4923
 msgid "That would be rather silly, since you are not a player."
 msgstr "Bhiodh sin car gòrach o nach eil thu 'nad chluicheadair."
 
-#: server/stdinhand.c:3724
+#: server/stdinhand.c:3725
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr "%s. Feuch /help ignore"
 
-#: server/stdinhand.c:3736
+#: server/stdinhand.c:3737
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "Chaidh am pàtran %s a chur ris an dubh-liosta agad mar innteart %d."
 
-#: server/stdinhand.c:3762
-#: server/stdinhand.c:4927
+#: server/stdinhand.c:3763
+#: server/stdinhand.c:4928
 msgid "Your ignore list is empty."
 msgstr "Tha an dubh-liosta agad falamh."
 
-#: server/stdinhand.c:3769
+#: server/stdinhand.c:3770
 msgid "Missing range. Try /help unignore."
 msgstr "Tha rainse a dhìth. Feuch /help unignore."
 
-#: server/stdinhand.c:3778
-#: server/stdinhand.c:3786
-#: server/stdinhand.c:3792
+#: server/stdinhand.c:3779
+#: server/stdinhand.c:3787
+#: server/stdinhand.c:3793
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr "Chan e rainse dhligheach a tha ann an \"%s\". Feuch /help unignore."
 
-#: server/stdinhand.c:3801
+#: server/stdinhand.c:3802
 #, c-format
 msgid "Invalid entry number: %d."
 msgstr "Àireamh innteirt mhì-dhligheach: %d."
 
-#: server/stdinhand.c:3804
+#: server/stdinhand.c:3805
 #, c-format
 msgid "Invalid range: %d to %d."
 msgstr "Rainse mhì-dhligheach: %d gu %d."
 
-#: server/stdinhand.c:3818
+#: server/stdinhand.c:3819
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr "Chaidh am pàtran %s (innteart %d) a thoirt air falbh on dubh-liosta agad."
 
-#: server/stdinhand.c:3863
+#: server/stdinhand.c:3864
 msgid "Goodbye."
 msgstr "Mar sin leat."
 
-#: server/stdinhand.c:3906
+#: server/stdinhand.c:3907
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Duilich, chan eil cead agad na h-àitheantan frithealaiche seo a chleachdadh."
 
-#: server/stdinhand.c:3957
+#: server/stdinhand.c:3958
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Rabhadh: Thuigear '%s' de '%s' ach tha e dà-sheaghach. Feuch '%shelp'."
 
-#: server/stdinhand.c:3961
+#: server/stdinhand.c:3962
 #, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "Àithne neo-aithnichte '%s%s'. Feuch ri '%shelp'."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3988
+#: server/stdinhand.c:3989
 msgid "Your new vote canceled your previous vote."
 msgstr "Chuir thu às dhan t-seann bhòt agad le do bhòt ùr."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3995
+#: server/stdinhand.c:3996
 msgid "New teamvote"
 msgstr "Bhòt sgioba ùr"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4007
+#: server/stdinhand.c:4008
 #, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "%s (àireamh %d) le %s: %s"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4017
+#: server/stdinhand.c:4018
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr "Cha robh do bhòt ùr (\"%s\") laghail no cha deach aithneachadh."
 
-#: server/stdinhand.c:4060
+#: server/stdinhand.c:4061
 msgid "(server prompt)"
 msgstr "(brodadh frithealaiche)"
 
-#: server/stdinhand.c:4187
+#: server/stdinhand.c:4188
 msgid "Ending the game. The server will restart once all clients have disconnected."
 msgstr "A' cur crìoch air a' gheama. Tòisichidh am frithealaiche a-rithist nuair a bhios gach cliant air dì-cheangal."
 
-#: server/stdinhand.c:4192
+#: server/stdinhand.c:4193
 msgid "Cannot end the game: no game running."
 msgstr "Cha ghabh crìoch a chur air a' gheama: chan eil geama a' dol."
 
-#: server/stdinhand.c:4208
+#: server/stdinhand.c:4209
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "Ghèill %s an geama agus chan urrainn dhaibh buannachadh tuilleadh."
 
-#: server/stdinhand.c:4213
+#: server/stdinhand.c:4214
 msgid "You cannot surrender now."
 msgstr "'S urrainn dhut gèilleadh a-nis."
 
-#: server/stdinhand.c:4263
+#: server/stdinhand.c:4264
 msgid "Guessing argument 'ruleset'."
 msgstr "A' dèanamh tomhas air an argamaid 'ruleset'."
 
-#: server/stdinhand.c:4267
+#: server/stdinhand.c:4268
 msgid "Guessing argument 'game'."
 msgstr "A' dèanamh tomhas air an argamaid 'game'."
 
-#: server/stdinhand.c:4275
+#: server/stdinhand.c:4276
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "Seo na h-argamaidean dligheach: 'game', 'ruleset', 'script' no 'default'."
 
-#: server/stdinhand.c:4290
+#: server/stdinhand.c:4291
 msgid "Reset all settings to the values at the game start."
 msgstr "Aisig gach roghainn dha na luachan a bha ann aig toiseach a' gheama."
 
-#: server/stdinhand.c:4293
+#: server/stdinhand.c:4294
 msgid "No saved settings from the game start available."
 msgstr "Cha deach roghainn sam bith a shàbhaladh aig toiseach a' gheama."
 
-#: server/stdinhand.c:4297
+#: server/stdinhand.c:4298
 msgid "No game started..."
 msgstr "Chan eil geama air a thòiseachadh..."
 
-#: server/stdinhand.c:4304
+#: server/stdinhand.c:4305
 msgid "Reset all settings to ruleset values."
 msgstr "Aisig gach roghainn gu luachan seata nan riaghailtean."
 
-#: server/stdinhand.c:4311
+#: server/stdinhand.c:4312
 msgid "Reset all settings and rereading the server start script."
 msgstr "Aisig gach roghainn agus ath leugh sgriobt tòiseachaidh an fhrithealaiche."
 
-#: server/stdinhand.c:4329
+#: server/stdinhand.c:4330
 msgid "Reset all settings to default values."
 msgstr "Aisig gach roghainn gu na luachan bunaiteach."
 
-#: server/stdinhand.c:4335
+#: server/stdinhand.c:4336
 msgid "Settings re-initialized."
 msgstr "Chaidh na roghainnean ath thòiseachadh."
 
-#: server/stdinhand.c:4418
+#: server/stdinhand.c:4419
 msgid "Not enough human players; game will not start."
 msgstr "Chan eil cluicheadairean daonna gu leòr ann 's cha tòisich an geama."
 
-#: server/stdinhand.c:4423
+#: server/stdinhand.c:4424
 msgid "No players; game will not start."
 msgstr "Chan eil cluicheadairean ann; cha tòisich an geama."
 
-#: server/stdinhand.c:4427
+#: server/stdinhand.c:4428
 msgid "Not enough nations for all players; game will not start."
 msgstr "Chan eil nàiseanan gu leòr ann airson a h-uile cluicheadair 's cha tòisich an geama."
 
-#: server/stdinhand.c:4436
+#: server/stdinhand.c:4437
 msgid "All players are ready; starting game."
 msgstr "Tha gach cluicheadair deiseil; a' tòiseachadh air a' gheama."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:4452
+#: server/stdinhand.c:4453
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Cha ghabh an geama a thòiseachadh: tha an geama a' feitheamh gus am bi gach cluicheadair air dì-cheangal."
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:4459
+#: server/stdinhand.c:4460
 msgid "Cannot start the game: it is already running."
 msgstr "Cha ghabh an geama a thòiseachadh: tha e 'na ruith mu thràth."
 
-#: server/stdinhand.c:4490
+#: server/stdinhand.c:4491
 #, c-format
 msgid "Cutting connection %s."
 msgstr "A' briseadh a' cheangail %s."
 
-#: server/stdinhand.c:4491
+#: server/stdinhand.c:4492
 msgid "connection cut"
 msgstr "bhris an ceangal"
 
-#: server/stdinhand.c:4579
+#: server/stdinhand.c:4580
 msgid "You may not kick yourself."
 msgstr "Chan urrainn dhut breab a thoirt dhut fhèin."
 
-#: server/stdinhand.c:4602
+#: server/stdinhand.c:4603
 #, c-format
 msgid "There must be at least %d unique connections to the server for this command to be valid."
 msgstr "Feumaidh %d ceangal àraidh a bhith ann ris an fhrithealaiche air a' char as lugha mus bi an àithne seo dligheach."
 
-#: server/stdinhand.c:4628
+#: server/stdinhand.c:4629
 msgid "kicked"
 msgstr "air a bhreabadh"
 
-#: server/stdinhand.c:4644
+#: server/stdinhand.c:4645
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -8280,82 +8238,82 @@ msgstr ""
 "  quit   -  gus an geama fhàgail"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4681
+#: server/stdinhand.c:4682
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Àithne: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4687
+#: server/stdinhand.c:4688
 #, c-format
 msgid "Command: %s"
 msgstr "Àithne: %s"
 
-#: server/stdinhand.c:4692
+#: server/stdinhand.c:4693
 msgid "Synopsis: "
 msgstr "Gearr-chunntas:"
 
-#: server/stdinhand.c:4701
+#: server/stdinhand.c:4702
 #, c-format
 msgid "Level: %s"
 msgstr "Leibheil: %s"
 
-#: server/stdinhand.c:4723
+#: server/stdinhand.c:4724
 msgid "The following server commands are available:"
 msgstr "Na na h-àitheantan frithealaiche a leanas ri làimh:"
 
-#: server/stdinhand.c:4784
+#: server/stdinhand.c:4785
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Seisean buailteach: %s"
 
-#: server/stdinhand.c:4846
+#: server/stdinhand.c:4847
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Tha an argamaid cobharach '%s' dà-sheaghach."
 
-#: server/stdinhand.c:4853
+#: server/stdinhand.c:4854
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Chan eil seise aig an argamaid chobharach '%s'."
 
-#: server/stdinhand.c:4894
+#: server/stdinhand.c:4895
 msgid "List of connections to server:"
 msgstr "Liosta de cheanglaichean ris an fhrithealaiche:"
 
-#: server/stdinhand.c:4898
+#: server/stdinhand.c:4899
 msgid "<no connections>"
 msgstr "<gun cheanglaichean>"
 
-#: server/stdinhand.c:4931
+#: server/stdinhand.c:4932
 msgid "Your ignore list:"
 msgstr "An dubh-liosta agad:"
 
-#: server/stdinhand.c:4950
+#: server/stdinhand.c:4951
 msgid "List of players:"
 msgstr "Liosta nan cluicheadairean:"
 
-#: server/stdinhand.c:4955
+#: server/stdinhand.c:4956
 msgid "<no players>"
 msgstr "<chan eil cluicheadairean ann>"
 
-#: server/stdinhand.c:4972
+#: server/stdinhand.c:4973
 #, c-format
 msgid "user %s, "
 msgstr "cleachdaiche %s,"
 
-#: server/stdinhand.c:4983
+#: server/stdinhand.c:4984
 msgid ", Dead"
 msgstr ", marbh"
 
-#: server/stdinhand.c:4986
+#: server/stdinhand.c:4987
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", leibheil an duilgheadais %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4991
-#: server/stdinhand.c:4995
+#: server/stdinhand.c:4992
+#: server/stdinhand.c:4996
 #: client/helpdata.c:658
 #: client/helpdata.c:1234
 #: client/text.c:1527
@@ -8364,15 +8322,15 @@ msgstr ", leibheil an duilgheadais %s"
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
 
-#: server/stdinhand.c:4999
+#: server/stdinhand.c:5000
 msgid ", ready"
 msgstr ", deiseil"
 
-#: server/stdinhand.c:5003
+#: server/stdinhand.c:5004
 msgid ", not ready"
 msgstr ", chan eil e deiseil"
 
-#: server/stdinhand.c:5014
+#: server/stdinhand.c:5015
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -8381,25 +8339,25 @@ msgstr[1] " %d cheangal:"
 msgstr[2] " %d ceanglaichean:"
 msgstr[3] " %d ceangal:"
 
-#: server/stdinhand.c:5020
+#: server/stdinhand.c:5021
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s o %s (leibheil inntrigeadh àitheantan %s), bufsize=%dkb"
 
-#: server/stdinhand.c:5026
+#: server/stdinhand.c:5027
 msgid " (observer mode)"
 msgstr " (modh coimheadaiche)"
 
-#: server/stdinhand.c:5043
+#: server/stdinhand.c:5044
 msgid "List of scenarios available:"
 msgstr "Liosta de chnàmh-sgeulan a tha ri fhaighinn:"
 
-#: server/stdinhand.c:5064
+#: server/stdinhand.c:5065
 msgid "List of teams:"
 msgstr "Liosta nan sgioba:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:5074
+#: server/stdinhand.c:5075
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
@@ -8408,7 +8366,7 @@ msgstr[1] "%2d : '%s' : %d chluicheadair :"
 msgstr[2] "%2d : '%s' : %d cluicheadairean :"
 msgstr[3] "%2d : '%s' : %d cluicheadair :"
 
-#: server/stdinhand.c:5130
+#: server/stdinhand.c:5131
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Droch argamaid liosta: '%s'. Feuch '%shelp list'."
@@ -10084,9 +10042,7 @@ msgstr "'S mathaid nach b' urrainn dhuinn a thòiseachadh o an-seo."
 
 #: client/connectdlg_common.c:524
 msgid "Established control over the server. You have command access level 'hack'."
-msgstr ""
-"Fhuair thu smachd air an fhrithealaiche. 'S e leibheil inntrigeadh "
-"àitheantan 'hack' a tha agad."
+msgstr "Fhuair thu smachd air an fhrithealaiche. 'S e leibheil inntrigeadh àitheantan 'hack' a tha agad."
 
 #: client/connectdlg_common.c:530
 msgid "Failed to obtain the required access level to take control of the server. The server will now be shutdown."
@@ -14431,6 +14387,7 @@ msgstr "Tagh na thèid a chreachadh:"
 #: client/gui-gtk-2.0/pages.c:2316
 #: client/gui-gtk-2.0/wldlg.c:997
 #: manual/civmanual.c:361
+#: modinst/modinst.c:252
 #: data/Freeciv.in:97
 msgid "Name"
 msgstr "Ainm"
@@ -14860,6 +14817,7 @@ msgstr "Nàiseanan"
 #: client/gui-gtk-2.0/pages.c:992
 #: client/gui-gtk-2.0/repodlgs.c:748
 #: client/gui-gtk-2.0/wldlg.c:997
+#: modinst/modinst.c:262
 msgid "Type"
 msgstr "Seòrsa"
 
@@ -15055,19 +15013,19 @@ msgstr "%s (togail-adhair: %s)"
 
 #. TRANS: goto/airlift dialog. Too many cities to list, some omitted.
 #. * Appears at the end of an "and"-separated list.
-#: client/gui-gtk-2.0/gotodlg.c:388
+#: client/gui-gtk-2.0/gotodlg.c:387
 msgid "?gotodlg:more"
 msgstr "?gotodlg:barrachd"
 
 #. TRANS: goto/airlift dialog. For units not currently in a city.
 #. * Appears at the end of an "and"-separated list.
-#: client/gui-gtk-2.0/gotodlg.c:393
+#: client/gui-gtk-2.0/gotodlg.c:392
 msgid "?gotodlg:no city"
 msgstr "?gotodlg:gun bhaile"
 
 #. TRANS: goto/airlift dialog. Current location of units; %s is an
 #. * "and"-separated list of cities and associated info
-#: client/gui-gtk-2.0/gotodlg.c:406
+#: client/gui-gtk-2.0/gotodlg.c:405
 #, c-format
 msgid "Currently in: %s"
 msgstr "An-seo an-dràsta: %s"
@@ -16204,6 +16162,7 @@ msgstr "Port"
 
 #: client/gui-gtk-2.0/pages.c:820
 #: client/gui-gtk-2.0/pages.c:862
+#: modinst/modinst.c:257
 msgid "Version"
 msgstr "Tionndadh"
 
@@ -19380,6 +19339,10 @@ msgstr "Dh'fhàillig tòiseachadh an luchdaicheir"
 msgid "?"
 msgstr "?"
 
+#: modinst/modinst.c:267
+msgid "URL"
+msgstr "URL"
+
 #: modinst/modinst.c:273
 msgid "Install modpack"
 msgstr "Stàlaich am modpack"
@@ -21626,11 +21589,7 @@ msgstr "Ma thachras tu air buga sam bith, nach cuir thu aithisg buga thugainn?  
 
 #: data/helpdata.txt:2268
 msgid "Please quote the above version information.  For more information about submitting bug reports see the file BUGS in the Freeciv distribution.  For more information in general, visit the Freeciv website, at:"
-msgstr ""
-"Dèan luaidh air an tionndadh a chì thu gu h-àrd.  Airson barrachd "
-"fiosrachaidh mu aithisgean air bugaichean, thoir sùil air an fhaidhle BUGS "
-"'nad sgaoileadh de Freeciv.  Airson barrachd fiosrachaidh san "
-"fharsaingeachd, tadhail air làrach-lìn Freeciv:"
+msgstr "Dèan luaidh air an tionndadh a chì thu gu h-àrd.  Airson barrachd fiosrachaidh mu aithisgean air bugaichean, thoir sùil air an fhaidhle BUGS 'nad sgaoileadh de Freeciv.  Airson barrachd fiosrachaidh san fharsaingeachd, tadhail air làrach-lìn Freeciv:"
 
 #: data/civ1/buildings.ruleset:28
 #: data/civ2/buildings.ruleset:54
@@ -23454,7 +23413,7 @@ msgstr "Ola"
 msgid "Seals"
 msgstr "Ròin"
 
-#: data/civ1/terrain.ruleset:706
+#: data/civ1/terrain.ruleset:708
 msgid "Fortresses improve defense for land units."
 msgstr "Leasaichidh dùin comas dìon de dh'aonadan talamhainn."
 
@@ -24808,14 +24767,14 @@ msgstr "Mucan-mara"
 msgid "Wine"
 msgstr "Fìon"
 
-#: data/civ2/terrain.ruleset:818
+#: data/civ2/terrain.ruleset:820
 msgid "Fortresses improve defense for land units. Among other effects, a land unit remaining in a fortress for a whole turn without moving recovers a quarter of its hit points."
 msgstr "Leasaichidh dùin na comasan dìon aig aonadan talamhainn. Am measg bhuaidhean eile, slànaichidh dùn cairteal dhe na puingean beatha aig aonad talamhainn ma dh'fhanas e san dùn fad cuairt shlàn gun ghluasad."
 
-#: data/civ2/terrain.ruleset:839
-#: data/default/terrain.ruleset:949
-#: data/experimental/terrain.ruleset:951
-#: data/multiplayer/terrain.ruleset:949
+#: data/civ2/terrain.ruleset:841
+#: data/default/terrain.ruleset:951
+#: data/experimental/terrain.ruleset:953
+#: data/multiplayer/terrain.ruleset:951
 msgid "Airbases allow your air units to land and refuel. Air units in an airbase may be attacked by land units."
 msgstr "'S urrainn dha na h-aonadan adhair agad laighe air bunaitean adhair is ath chonnadh ann. 'S urrainn dhut ionnsaigh a thoirt air aonadan adhair a tha am broinn bunait adhair."
 
@@ -25556,33 +25515,33 @@ msgstr "Aigeann"
 msgid "Deep oceans cover much of the world away from coastlines, and only seaworthy units (not including Triremes) can travel on them."
 msgstr "Tha an t-aigeann a' còmhdachadh cuid mhòr dhen t-saoghal fad air falbh on chladach agus chan urrainn ach aonadan muir-acainneach (a' gabhail a-steach trì-ràmhaich) siubhal orra."
 
-#: data/default/terrain.ruleset:927
-#: data/experimental/terrain.ruleset:929
-#: data/multiplayer/terrain.ruleset:927
+#: data/default/terrain.ruleset:929
+#: data/experimental/terrain.ruleset:931
+#: data/multiplayer/terrain.ruleset:929
 msgid "Fortresses improve defense for land units. Among other effects, a land unit remaining in a fortress for a whole turn without moving recovers a quarter of its hit points. With Invention, fortresses gain watchtowers from which units can see further afield."
 msgstr "Leasaichidh dùin na comasan dìon aig aonadan talamhainn. Am measg bhuaidhean eile, slànaichidh dùn cairteal dhe na puingean beatha aig aonad talamhainn ma dh'fhanas e san dùn fad cuairt shlàn gun ghluasad. Nuair a bhios tionnsgnadh air ionnsachadh agad, bidh turaid-faire ri gach dùin a bheir fradharc nas fhearr do dh'aonadan."
 
-#: data/default/terrain.ruleset:955
-#: data/experimental/terrain.ruleset:957
-#: data/multiplayer/terrain.ruleset:955
+#: data/default/terrain.ruleset:957
+#: data/experimental/terrain.ruleset:959
+#: data/multiplayer/terrain.ruleset:957
 msgid "Buoy"
 msgstr "Fleodrainn"
 
-#: data/default/terrain.ruleset:969
-#: data/experimental/terrain.ruleset:971
-#: data/multiplayer/terrain.ruleset:969
+#: data/default/terrain.ruleset:971
+#: data/experimental/terrain.ruleset:973
+#: data/multiplayer/terrain.ruleset:971
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr "'S urrainn dhut fleodrainnean a thogail air a' chuan (le soithichean mara)."
 
-#: data/default/terrain.ruleset:974
-#: data/experimental/terrain.ruleset:976
-#: data/multiplayer/terrain.ruleset:974
+#: data/default/terrain.ruleset:976
+#: data/experimental/terrain.ruleset:978
+#: data/multiplayer/terrain.ruleset:976
 msgid "Ruins"
 msgstr "Làrach"
 
-#: data/default/terrain.ruleset:985
-#: data/experimental/terrain.ruleset:987
-#: data/multiplayer/terrain.ruleset:985
+#: data/default/terrain.ruleset:987
+#: data/experimental/terrain.ruleset:989
+#: data/multiplayer/terrain.ruleset:987
 msgid "Ruins mark the former site of a city that was destroyed or abandoned. They have no effect on gameplay."
 msgstr "Bidh làrach ann far an robh baile roimhe 's a chaidh a sgriosadh no fhuadachadh. Chan eil buaidh sam bith aca sa gheama."
 
@@ -25684,11 +25643,12 @@ msgid "The AWACS (Airborne Warning and Control System) is an airplane with an ad
 msgstr "'S e itealan a tha san AWACS (Airborne Warning and Control System) aig a bheil rèidear adhartach a chì aonadan nàimhdeil o fhad air falbh."
 
 #: data/experimental/buildings.ruleset:91
-msgid "Allows a city to grow larger than size 8 and reduces the chance of plague within the city. After Industrialization is researched this effect of the Aqueduct is reduced.), _("
-msgstr ""
-"Bheir seo comas do bhaile fàs nas motha na 8 agus lùghdaichidh e cunnart "
-"plàighe sa bhaile. Thèid buaidh an duct-uisge a lùghdachadh as dèidh dhut "
-"mòr-ghnìomhasachadh a rannsachadh.), _("
+msgid "Allows a city to grow larger than size 8 and reduces the chance of plague within the city. After Industrialization is researched this effect of the Aqueduct is reduced."
+msgstr "Bheir seo comas do bhaile fàs nas motha na 8 agus lùghdaichidh e cunnart plàighe sa bhaile. Thèid buaidh an duct-uisge a lùghdachadh as dèidh dhut mòr-ghnìomhasachadh a rannsachadh."
+
+#: data/experimental/buildings.ruleset:95
+msgid "A Sewer System is required for a city to grow larger than size 12."
+msgstr "Feumaidh baile rian shàibhearan cuideachd mus fàs e nas motha na 12."
 
 #: data/experimental/buildings.ruleset:382
 msgid "Hospital"
@@ -25717,7 +25677,7 @@ msgid "If a metropolis (city size > 30) has a Mass Transit and a Super Highway t
 msgstr "Ma tha mòr-chòmhdhail agus sàr-rathaidean aig mòr-bhaile (meud > 30), bidh rèideas nas motha aig a' bhaile."
 
 #: data/experimental/buildings.ruleset:1041
-msgid "The work of the prists also reduces the effect of plague in the city."
+msgid "The work of the priests also reduces the effect of plague in the city."
 msgstr "Tha obair nan sagartan a' lùghdachadh buaidh nam plàigh sa bhaile cuideachd."
 
 #: data/experimental/game.ruleset:21
@@ -35917,6 +35877,7 @@ msgstr "Tha thu a' cluich Freeciv leis na riaghailtean bunaiteach."
 #~ msgid ""
 #~ "Upgrade %d unit for %d gold?\n"
 #~ "Treasury contains %d gold."
+
 #~ msgid_plural ""
 #~ "Upgrade %d units for %d gold?\n"
 #~ "Treasury contains %d gold."
