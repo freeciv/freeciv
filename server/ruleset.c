@@ -2752,7 +2752,7 @@ static void load_ruleset_nations(struct section_file *file)
 				  "compatibility.warn_city_style");
 
   ruleset_load_traits(default_traits, file, "default_traits", "");
-  for (tr = trait_begin(); tr < trait_end(); tr = trait_next(tr)) {
+  for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
     if (default_traits[tr] < 0) {
       default_traits[tr] = TRAIT_DEFAULT_VALUE;
     }
@@ -2894,7 +2894,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     /* Load nation traits */
     ruleset_load_traits(pnation->server.traits, file, sec_name, "trait_");
-    for (tr = trait_begin(); tr < trait_end(); tr = trait_next(tr)) {
+    for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
       if (pnation->server.traits[tr] < 0) {
         pnation->server.traits[tr] = default_traits[tr];
       }

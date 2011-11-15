@@ -34,7 +34,7 @@ void ai_traits_init(struct player *pplayer)
 
   pplayer->ai_common.traits = fc_realloc(pplayer->ai_common.traits, sizeof(struct ai_trait) * num);
 
-  for (tr = trait_begin(); tr < trait_end(); tr = trait_next(tr)) {
+  for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
     pplayer->ai_common.traits[tr].value = TRAIT_DEFAULT_VALUE;
     pplayer->ai_common.traits[tr].mod = 0;
   }
