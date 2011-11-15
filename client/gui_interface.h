@@ -18,6 +18,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "fc_types.h"
+
+/* client/include */
 #include "canvas_g.h"
 #include "pages_g.h"
 
@@ -25,6 +29,8 @@ struct gui_funcs {
   void (*ui_init)(void);
   void (*ui_main)(int argc, char *argv[]);
   void (*ui_exit)(void);
+
+  enum gui_type (*get_gui_type)(void);
 
   void (*real_output_window_append)(const char *astring,
                                     const struct text_tag_list *tags,

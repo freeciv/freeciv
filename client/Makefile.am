@@ -142,6 +142,10 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	audio_none.c    \
 	audio_none.h
 
+gui_interface_src = \
+	gui_interface.c \
+	gui_interface.h
+
 # packhand_gen.c & packhand_gen.h are generated files, but as they are
 # generated outside this directory (when building common) there's no point in
 # setting them to BUILT_SOURCES.
@@ -229,7 +233,7 @@ bin_PROGRAMS += freeciv-qt
 noinst_LTLIBRARIES += libfcgui-qt.la
 libfcgui_qt_la_SOURCES = $(freeciv_client_src)
 libfcgui_qt_la_LIBADD = gui-qt/libgui-qt.la $(clientlibs)
-freeciv_qt_SOURCES = dummycxx.cpp
+freeciv_qt_SOURCES = dummycxx.cpp $(gui_interface_src)
 freeciv_qt_LDFLAGS = $(GUI_qt_LDFLAGS) $(GGZMOD_LDFLAGS)
 freeciv_qt_LDADD = \
  libfcgui-qt.la \

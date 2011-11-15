@@ -16,8 +16,8 @@
 #endif
 
 
-// gui-qt
-#include "qtg_cside.h"
+// client
+#include "gui_interface.h"
 
 #include "qtg_cxxside.h"
 
@@ -28,6 +28,8 @@ void setup_gui_funcs()
   funcs->ui_init = qtg_ui_init;
   funcs->ui_main = qtg_ui_main;
   funcs->ui_exit = qtg_ui_exit;
+
+  funcs->get_gui_type = qtg_get_gui_type;
 
   funcs->real_output_window_append = qtg_real_output_window_append;
 

@@ -41,6 +41,11 @@
 static fc_client *freeciv_qt;
 static QApplication *qapp;
 
+const char *client_string = "gui-qt";
+
+const char * const gui_character_encoding = "UTF-8";
+const bool gui_use_transliteration = FALSE;
+
 /****************************************************************************
   Return fc_client instance
 ****************************************************************************/
@@ -261,10 +266,18 @@ void qtg_gui_ggz_embed_leave_table()
 void qtg_gui_ggz_embed_ensure_server()
 {}
 
-/**************************************************************************
+/****************************************************************************
   Updates a gui font style.
-**************************************************************************/
+****************************************************************************/
 void qtg_gui_update_font(const char *font_name, const char *font_value)
 {
   /* PORTME */
+}
+
+/****************************************************************************
+  Returns gui type of the client
+****************************************************************************/
+enum gui_type qtg_get_gui_type()
+{
+  return GUI_QT;
 }

@@ -14,6 +14,10 @@
 #ifndef FC__QTG_CXXSIDE_H
 #define FC__QTG_CXXSIDE_H
 
+// common
+#include "fc_types.h"
+
+// gui-qt
 #include "canvas.h"
 #include "pages.h"
 
@@ -22,6 +26,8 @@ void setup_gui_funcs();
 void qtg_ui_init();
 void qtg_ui_main(int argc, char *argv[]);
 void qtg_ui_exit();
+
+enum gui_type qtg_get_gui_type();
 
 void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,

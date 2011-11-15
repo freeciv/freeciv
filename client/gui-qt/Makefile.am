@@ -57,8 +57,6 @@ libgui_qt_la_SOURCES = \
 	pages.h		\
 	plrdlg.cpp	\
 	plrdlg.h	\
-	qtg_cside.c	\
-	qtg_cside.h	\
 	qtg_cxxside.cpp \
 	qtg_cxxside.h	\
 	ratesdlg.cpp	\

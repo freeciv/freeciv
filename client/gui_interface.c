@@ -30,18 +30,13 @@
 #include "mapview_g.h"
 #include "themes_g.h"
 
-#include "qtg_cside.h"
+#include "gui_interface.h"
 
 static struct gui_funcs funcs;
 
-const char *client_string = "gui-qt";
-
-const char * const gui_character_encoding = "UTF-8";
-const bool gui_use_transliteration = FALSE;
-
 /****************************************************************************
-  Return gui_funcs table. Used by C++ side to get table for filling
-  with C++ function addresses.
+  Return gui_funcs table. Used by gui side to get table for filling
+  with function addresses.
 ****************************************************************************/
 struct gui_funcs *get_gui_funcs(void)
 {
@@ -49,7 +44,7 @@ struct gui_funcs *get_gui_funcs(void)
 }
 
 /**************************************************************************
-  Call c++ ui_init
+  Call ui_init callback
 **************************************************************************/
 void ui_init(void)
 {
@@ -57,7 +52,7 @@ void ui_init(void)
 }
 
 /**************************************************************************
-  Call c++ ui_main
+  Call ui_main callback
 **************************************************************************/
 void ui_main(int argc, char *argv[])
 {
@@ -65,7 +60,7 @@ void ui_main(int argc, char *argv[])
 }
 
 /**************************************************************************
-  Call c++ ui_exit
+  Call ui_exit callback
 **************************************************************************/
 void ui_exit(void)
 {
@@ -73,7 +68,7 @@ void ui_exit(void)
 }
 
 /**************************************************************************
-  Call c++ real_output_window_append
+  Call real_output_window_append callback
 **************************************************************************/
 void real_output_window_append(const char *astring,
                                const struct text_tag_list *tags,
@@ -83,15 +78,15 @@ void real_output_window_append(const char *astring,
 }
 
 /**************************************************************************
-  Return our GUI type
+  Call get_gui_type callback
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_QT;
+  return funcs.get_gui_type();
 }
 
 /**************************************************************************
-  Call c++ isometric_view_supported
+  Call isometric_view_supported callback
 **************************************************************************/
 bool isometric_view_supported(void)
 {
@@ -99,7 +94,7 @@ bool isometric_view_supported(void)
 }
 
 /**************************************************************************
-  Call c++ overhead_view_supported
+  Call overhead_view_supported callback
 **************************************************************************/
 bool overhead_view_supported(void)
 {
@@ -107,7 +102,7 @@ bool overhead_view_supported(void)
 }
 
 /**************************************************************************
-  Call c++ free_intro_radar_sprites
+  Call free_intro_radar_sprites callback
 **************************************************************************/
 void free_intro_radar_sprites(void)
 {
@@ -115,7 +110,7 @@ void free_intro_radar_sprites(void)
 }
 
 /**************************************************************************
-  Call c++ load_gfxfile
+  Call load_gfxfile callback
 **************************************************************************/
 struct sprite *load_gfxfile(const char *filename)
 {
@@ -123,7 +118,7 @@ struct sprite *load_gfxfile(const char *filename)
 }
 
 /****************************************************************************
-  Call c++ create_sprite
+  Call create_sprite callback
 ****************************************************************************/
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
 {
@@ -131,7 +126,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
 }
 
 /**************************************************************************
-  Call c++ get_sprite_dimensions
+  Call get_sprite_dimensions callback
 **************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
@@ -139,7 +134,7 @@ void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 }
 
 /**************************************************************************
-  Call c++ crop_sprite
+  Call crop_sprite callback
 **************************************************************************/
 struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
@@ -151,7 +146,7 @@ struct sprite *crop_sprite(struct sprite *source,
 }
 
 /**************************************************************************
-  Call c++ free_sprite
+  Call free_sprite callback
 **************************************************************************/
 void free_sprite(struct sprite *s)
 {
@@ -159,7 +154,7 @@ void free_sprite(struct sprite *s)
 }
 
 /**************************************************************************
-  Call c++ color_alloc
+  Call color_alloc callback
 **************************************************************************/
 struct color *color_alloc(int r, int g, int b)
 {
@@ -167,7 +162,7 @@ struct color *color_alloc(int r, int g, int b)
 }
 
 /**************************************************************************
-  Call c++ color_free
+  Call color_free callback
 **************************************************************************/
 void color_free(struct color *pcolor)
 {
@@ -175,7 +170,7 @@ void color_free(struct color *pcolor)
 }
 
 /**************************************************************************
-  Call c++ canvas_create
+  Call canvas_create callback
 **************************************************************************/
 struct canvas *canvas_create(int width, int height)
 {
@@ -183,7 +178,7 @@ struct canvas *canvas_create(int width, int height)
 }
 
 /**************************************************************************
-  Call c++ canvas_free
+  Call canvas_free callback
 **************************************************************************/
 void canvas_free(struct canvas *store)
 {
@@ -191,7 +186,7 @@ void canvas_free(struct canvas *store)
 }
 
 /**************************************************************************
-  Call c++ canvas_copy
+  Call canvas_copy callback
 **************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,
 		     int src_x, int src_y, int dest_x, int dest_y, int width,
@@ -201,7 +196,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_sprite
+  Call canvas_put_sprite callback
 **************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
                        int canvas_x, int canvas_y,
@@ -213,7 +208,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_sprite_full
+  Call canvas_put_sprite_full callback
 **************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
                             int canvas_x, int canvas_y,
@@ -223,7 +218,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_sprite_fogged
+  Call canvas_put_sprite_fogged callback
 **************************************************************************/
 void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      int canvas_x, int canvas_y,
@@ -235,7 +230,7 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_rectangle
+  Call canvas_put_rectangle callback
 **************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,
                           struct color *pcolor,
@@ -246,7 +241,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Call c++ canvas_fill_sprite_area
+  Call canvas_fill_sprite_area callback
 **************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
 			     struct sprite *psprite, struct color *pcolor,
@@ -256,7 +251,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Call c++ canvas_fog_sprite_area
+  Call canvas_fog_sprite_area callback
 **************************************************************************/
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y)
@@ -265,7 +260,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_line
+  Call canvas_put_line callback
 **************************************************************************/
 void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
                      enum line_type ltype, int start_x, int start_y,
@@ -275,7 +270,7 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_curved_line
+  Call canvas_put_curved_line callback
 **************************************************************************/
 void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
                             enum line_type ltype, int start_x, int start_y,
@@ -286,7 +281,7 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 }
 
 /**************************************************************************
-  Call c++ get_text_size
+  Call get_text_size callback
 **************************************************************************/
 void get_text_size(int *width, int *height,
 		   enum client_font font, const char *text)
@@ -295,7 +290,7 @@ void get_text_size(int *width, int *height,
 }
 
 /**************************************************************************
-  Call c++ canvas_put_text
+  Call canvas_put_text callback
 **************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		     enum client_font font, struct color *pcolor,
@@ -305,7 +300,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 }
 
 /**************************************************************************
-  Call c++ gui_set_rulesets
+  Call gui_set_rulesets callback
 **************************************************************************/
 void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
@@ -313,7 +308,7 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 }
 
 /**************************************************************************
-  Call c++ gui_options_extra_init
+  Call gui_options_extra_init callback
 **************************************************************************/
 void gui_options_extra_init(void)
 {
@@ -321,7 +316,7 @@ void gui_options_extra_init(void)
 }
 
 /**************************************************************************
-  Call c++ gui_server_connect
+  Call gui_server_connect callback
 **************************************************************************/
 void gui_server_connect(void)
 {
@@ -329,7 +324,7 @@ void gui_server_connect(void)
 }
 
 /**************************************************************************
-  Call c++ add_net_input
+  Call add_net_input callback
 **************************************************************************/
 void add_net_input(int sock)
 {
@@ -337,7 +332,7 @@ void add_net_input(int sock)
 }
 
 /**************************************************************************
-  Call c++ remove_net_input
+  Call remove_net_input callback
 **************************************************************************/
 void remove_net_input(void)
 {
@@ -345,7 +340,7 @@ void remove_net_input(void)
 }
 
 /**************************************************************************
-  Call c++ real_conn_list_dialog_update
+  Call real_conn_list_dialog_update callback
 **************************************************************************/
 void real_conn_list_dialog_update(void)
 {
@@ -353,7 +348,7 @@ void real_conn_list_dialog_update(void)
 }
 
 /**************************************************************************
-  Call c++ close_connection_dialog
+  Call close_connection_dialog callback
 **************************************************************************/
 void close_connection_dialog()
 {
@@ -361,7 +356,7 @@ void close_connection_dialog()
 }
 
 /**************************************************************************
-  Call c++ add_idle_callback
+  Call add_idle_callback callback
 **************************************************************************/
 void add_idle_callback(void (callback)(void *), void *data)
 {
@@ -369,7 +364,7 @@ void add_idle_callback(void (callback)(void *), void *data)
 }
 
 /**************************************************************************
-  Call c++ sound_bell
+  Call sound_bell callback
 **************************************************************************/
 void sound_bell(void)
 {
@@ -377,7 +372,7 @@ void sound_bell(void)
 }
 
 /**************************************************************************
-  Call c++ real_set_client_page
+  Call real_set_client_page callback
 **************************************************************************/
 void real_set_client_page(enum client_pages page)
 {
@@ -385,7 +380,7 @@ void real_set_client_page(enum client_pages page)
 }
 
 /**************************************************************************
-  Call c++ get_current_client_page
+  Call get_current_client_page callback
 **************************************************************************/
 enum client_pages get_current_client_page(void)
 {
@@ -393,7 +388,7 @@ enum client_pages get_current_client_page(void)
 }
 
 /**************************************************************************
-  Call c++ set_unit_icon
+  Call set_unit_icon callback
 **************************************************************************/
 void set_unit_icon(int idx, struct unit *punit)
 {
@@ -401,7 +396,7 @@ void set_unit_icon(int idx, struct unit *punit)
 }
 
 /**************************************************************************
-  Call c++ real_focus_units_changed
+  Call real_focus_units_changed callback
 **************************************************************************/
 void real_focus_units_changed(void)
 {
@@ -409,7 +404,7 @@ void real_focus_units_changed(void)
 }
 
 /**************************************************************************
-  Call c++ set_unit_icons_more_arrow
+  Call set_unit_icons_more_arrow callback
 **************************************************************************/
 void set_unit_icons_more_arrow(bool onoff)
 {
@@ -417,7 +412,7 @@ void set_unit_icons_more_arrow(bool onoff)
 }
 
 /****************************************************************************
-  Call c++ gui_update_font
+  Call gui_update_font callback
 ****************************************************************************/
 void gui_update_font(const char *font_name, const char *font_value)
 {
@@ -425,7 +420,7 @@ void gui_update_font(const char *font_name, const char *font_value)
 }
 
 /****************************************************************************
-  Call c++ set_city_names_font_sizes
+  Call set_city_names_font_sizes callback
 ****************************************************************************/
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
@@ -435,7 +430,7 @@ void set_city_names_font_sizes(int my_city_names_font_size,
 }
 
 /****************************************************************************
-  Call c++ editgui_refresh
+  Call editgui_refresh callback
 ****************************************************************************/
 void editgui_refresh(void)
 {
@@ -443,7 +438,7 @@ void editgui_refresh(void)
 }
 
 /****************************************************************************
-  Call c++ editgui_notify_object_created
+  Call editgui_notify_object_created callback
 ****************************************************************************/
 void editgui_notify_object_created(int tag, int id)
 {
@@ -451,7 +446,7 @@ void editgui_notify_object_created(int tag, int id)
 }
 
 /****************************************************************************
-  Call c++ editgui_notify_object_changed
+  Call editgui_notify_object_changed callback
 ****************************************************************************/
 void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 {
@@ -459,7 +454,7 @@ void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 }
 
 /****************************************************************************
-  Call c++ editgui_popup_properties
+  Call editgui_popup_properties callback
 ****************************************************************************/
 void editgui_popup_properties(const struct tile_list *tiles, int objtype)
 {
@@ -467,7 +462,7 @@ void editgui_popup_properties(const struct tile_list *tiles, int objtype)
 }
 
 /****************************************************************************
-  Call c++ editgui_tileset_changed
+  Call editgui_tileset_changed callback
 ****************************************************************************/
 void editgui_tileset_changed(void)
 {
@@ -475,7 +470,7 @@ void editgui_tileset_changed(void)
 }
 
 /****************************************************************************
-  Call c++ editgui_popdown_all
+  Call editgui_popdown_all callback
 ****************************************************************************/
 void editgui_popdown_all(void)
 {
@@ -483,7 +478,7 @@ void editgui_popdown_all(void)
 }
 
 /**************************************************************************
-  Call c++ gui_ggz_embed_ensure_server
+  Call gui_ggz_embed_ensure_server callback
 **************************************************************************/
 void gui_ggz_embed_ensure_server(void)
 {
@@ -491,7 +486,7 @@ void gui_ggz_embed_ensure_server(void)
 }
 
 /**************************************************************************
-  Call c++ add_ggz_input
+  Call add_ggz_input callback
 **************************************************************************/
 void add_ggz_input(int sock)
 {
@@ -499,7 +494,7 @@ void add_ggz_input(int sock)
 }
 
 /**************************************************************************
-  Call c++ remove_ggz_input
+  Call remove_ggz_input callback
 **************************************************************************/
 void remove_ggz_input(void)
 {
@@ -507,7 +502,7 @@ void remove_ggz_input(void)
 }
 
 /****************************************************************************
-  Call c++ gui_ggz_embed_leave_table
+  Call gui_ggz_embed_leave_table callback
 ****************************************************************************/
 void gui_ggz_embed_leave_table(void)
 {
@@ -515,7 +510,7 @@ void gui_ggz_embed_leave_table(void)
 }
 
 /****************************************************************************
-  Call c++ update_timeout_label
+  Call update_timeout_label callback
 ****************************************************************************/
 void update_timeout_label(void)
 {
@@ -523,7 +518,7 @@ void update_timeout_label(void)
 }
 
 /**************************************************************************
-  Call c++ real_city_dialog_popup
+  Call real_city_dialog_popup callback
 **************************************************************************/
 void real_city_dialog_popup(struct city *pcity)
 {
@@ -531,7 +526,7 @@ void real_city_dialog_popup(struct city *pcity)
 }
 
 /**************************************************************************
-  Call c++ real_city_dialog_refresh
+  Call real_city_dialog_refresh callback
 **************************************************************************/
 void real_city_dialog_refresh(struct city *pcity)
 {
@@ -539,7 +534,7 @@ void real_city_dialog_refresh(struct city *pcity)
 }
 
 /**************************************************************************
-  Call c++ popdown_city_dialog
+  Call popdown_city_dialog callback
 **************************************************************************/
 void popdown_city_dialog(struct city *pcity)
 {
@@ -547,7 +542,7 @@ void popdown_city_dialog(struct city *pcity)
 }
 
 /**************************************************************************
-  Call c++ popdown_all_city_dialogs
+  Call popdown_all_city_dialogs callback
 **************************************************************************/
 void popdown_all_city_dialogs()
 {
@@ -555,7 +550,7 @@ void popdown_all_city_dialogs()
 }
 
 /**************************************************************************
-  Call c++ refresh_unit_city_dialogs
+  Call refresh_unit_city_dialogs callback
 **************************************************************************/
 void refresh_unit_city_dialogs(struct unit *punit)
 {
@@ -563,7 +558,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
 }
 
 /**************************************************************************
-  Call c++ city_dialog_is_open
+  Call city_dialog_is_open callback
 **************************************************************************/
 bool city_dialog_is_open(struct city *pcity)
 {
@@ -571,7 +566,7 @@ bool city_dialog_is_open(struct city *pcity)
 }
 
 /**************************************************************************
-  Call c++ gui_load_theme
+  Call gui_load_theme callback
 **************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
@@ -579,7 +574,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 }
 
 /**************************************************************************
-  Call c++ gui_clear_theme
+  Call gui_clear_theme callback
 **************************************************************************/
 void gui_clear_theme(void)
 {
@@ -587,7 +582,7 @@ void gui_clear_theme(void)
 }
 
 /**************************************************************************
-  Call c++ get_gui_specific_themes_directories
+  Call get_gui_specific_themes_directories callback
 **************************************************************************/
 char **get_gui_specific_themes_directories(int *count)
 {
@@ -595,7 +590,7 @@ char **get_gui_specific_themes_directories(int *count)
 }
 
 /**************************************************************************
-  Call c++ get_useable_themes_in_directory
+  Call get_useable_themes_in_directory callback
 **************************************************************************/
 char **get_useable_themes_in_directory(const char *directory, int *count)
 {
