@@ -659,6 +659,7 @@ int find_next_free_port(int starting_port, enum fc_addr_family family)
 
     fc_snprintf(servname, sizeof(servname), "%d", port);
 
+    memset(&hints, 0, sizeof(hints));
     hints.ai_family = gafamily;
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_flags = AI_PASSIVE | FC_AI_NUMERICSERV;
