@@ -726,11 +726,11 @@ if test "x$client" != "xno"; then
     AS_MESSAGE([checking for which clients to compile:...])
   fi
 
-  dnl Gtk-3.0-specific overrides
-  FC_GTK3_CLIENT
-
   dnl Gtk-2.0-specific overrides
   FC_GTK2_CLIENT
+
+  dnl Gtk-3.0-specific overrides
+  FC_GTK3_CLIENT
 
   dnl SDL-specific overrides
   FC_SDL_CLIENT
