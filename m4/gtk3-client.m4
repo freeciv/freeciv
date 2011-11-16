@@ -5,10 +5,8 @@
 
 AC_DEFUN([FC_GTK3_CLIENT],
 [
-# As we have no working gtk3-client yet, its autoselection disabled for now.
-#  if test "x$gui_gtk3" = "xyes" || test "x$client" = "xauto" ||
-#     test "x$client" = "xall" ; then
-  if test "x$gui_gtk3" = "xyes" ; then
+  if test "x$gui_gtk3" = "xyes" || test "x$client" = "xauto" ||
+     test "x$client" = "xall" ; then
     AM_PATH_GTK_3_0([3.0.0],
       [
         gui_gtk3=yes

@@ -261,8 +261,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
          test "x$gui" = "xgtk-3.0" ; then
       gui_gtk3=yes
     elif test "x$gui" = "xgtk" ; then
-      AC_MSG_WARN([for requested client 'gtk' enabled gtk2-client, but that default may change in the future])
-      gui_gtk2=yes
+      AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since eaerlier versions])
+      gui_gtk3=yes
     else
       if test ! -d "${srcdir}/client/gui-$gui" ; then
         AC_MSG_ERROR(bad value ${gui} for --enable-client)
