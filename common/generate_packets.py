@@ -1192,7 +1192,7 @@ class Packet:
             no=v.no
             result=result+'  } else if(%(cond)s) {\n    variant = %(no)s;\n'%self.get_dict(vars())
         if generate_variant_logs and len(self.variants)>1:
-            log='  log_test("%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
+            log='  %(log_macro)s("%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
         else:
             log=""
         result=result+'''  } else {
