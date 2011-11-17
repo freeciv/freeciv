@@ -26,7 +26,6 @@ extern "C" {
 
 struct ai_trait
 {
-  int value; /* This is nation specific static value */
   int mod;   /* This is modification that changes during game.
                 Not yet used, always 0.
                 TODO: mod must go to savegames as soon as it can get values

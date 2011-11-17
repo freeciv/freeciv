@@ -32,10 +32,10 @@ void ai_traits_init(struct player *pplayer)
   enum trait tr;
   int num = trait_max() + 1;
 
-  pplayer->ai_common.traits = fc_realloc(pplayer->ai_common.traits, sizeof(struct ai_trait) * num);
+  pplayer->ai_common.traits = fc_realloc(pplayer->ai_common.traits,
+                                         sizeof(struct ai_trait) * num);
 
   for (tr = trait_begin(); tr != trait_end(); tr = trait_next(tr)) {
-    pplayer->ai_common.traits[tr].value = TRAIT_DEFAULT_VALUE;
     pplayer->ai_common.traits[tr].mod = 0;
   }
 }
@@ -55,5 +55,5 @@ void ai_traits_close(struct player *pplayer)
 **************************************************************************/
 int ai_trait_get_value(enum trait tr, struct player *pplayer)
 {
-  return pplayer->ai_common.traits[tr].value + pplayer->ai_common.traits[tr].mod;
+  return pplayer->nation->server.traits[tr] + pplayer->ai_common.traits[tr].mod;
 }
