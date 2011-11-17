@@ -22,9 +22,21 @@
 #define SPECENUM_VALUE2NAME "PhaseFinished"
 #include "specenum_gen.h"
 
+#define SPECENUM_NAME taireqtype
+#define SPECENUM_VALUE0 TAI_REQ_TEST
+#define SPECENUM_VALUE0NAME "Test"
+#include "specenum_gen.h"
+
 struct tai_msg
 {
   enum taimsgtype type;
+  struct player *plr;
+  void *data;
+};
+
+struct tai_req
+{
+  enum taireqtype type;
   struct player *plr;
   void *data;
 };
@@ -33,7 +45,13 @@ struct tai_msg
 #define SPECLIST_TYPE struct tai_msg
 #include "speclist.h"
 
+#define SPECLIST_TAG taireq
+#define SPECLIST_TYPE struct tai_req
+#include "speclist.h"
+
 void tai_send_msg(enum taimsgtype type, struct player *pplayer,
+                  void *data);
+void tai_send_req(enum taireqtype type, struct player *pplayer,
                   void *data);
 
 void tai_first_activities(struct player *pplayer);

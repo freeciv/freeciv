@@ -55,5 +55,8 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
 
   ai->funcs.first_activities = tai_first_activities;
   ai->funcs.phase_finished = tai_phase_finished;
+
+  ai->funcs.refresh = tai_refresh;
+
   return TRUE;
 }

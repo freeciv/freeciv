@@ -31,9 +31,15 @@ struct tai_msgs
   struct taimsg_list *msglist;
 };
 
+struct tai_reqs
+{
+  struct taireq_list *reqlist;
+};
+
 struct tai_plr
 {
-  struct tai_msgs msgs;
+  struct tai_msgs msgs_to;
+  struct tai_reqs reqs_from;
   bool thread_running;
   fc_thread ait;
 };
@@ -45,8 +51,11 @@ void tai_player_alloc(struct player *pplayer);
 void tai_player_free(struct player *pplayer);
 void tai_control_gained(struct player *pplayer);
 void tai_control_lost(struct player *pplayer);
+void tai_refresh(struct player *pplayer);
 
 void tai_msg_to_thr(struct player *pplayer, struct tai_msg *msg);
+
+void tai_req_from_thr(struct player *pplayer, struct tai_req *req);
 
 static inline struct tai_plr *tai_player_data(const struct player *pplayer)
 {

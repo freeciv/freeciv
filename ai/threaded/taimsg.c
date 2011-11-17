@@ -35,6 +35,21 @@ void tai_send_msg(enum taimsgtype type, struct player *pplayer,
   tai_msg_to_thr(pplayer, msg);
 }
 
+/**************************************************************************        
+  Construct and send request from player thread.
+**************************************************************************/
+void tai_send_req(enum taireqtype type, struct player *pplayer,
+                  void *data)
+{
+  struct tai_req *req = fc_malloc(sizeof(*req));
+
+  req->type = type;
+  req->plr = pplayer;
+  req->data = data;
+
+  tai_req_from_thr(pplayer, req);
+}
+
 /**************************************************************************
   Time for phase first activities
 **************************************************************************/
