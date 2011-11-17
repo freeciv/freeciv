@@ -25,6 +25,7 @@ extern "C" {
 #include "base.h"
 #include "fc_types.h"
 #include "player.h"
+#include "road.h"
 #include "terrain.h"
 #include "unitlist.h"
 
@@ -133,6 +134,8 @@ int tile_bases_defense_bonus(const struct tile *ptile,
                              const struct unit_type *punittype);
 
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad);
+void tile_add_road(struct tile *ptile, const struct road_type *proad);
+void tile_remove_road(struct tile *ptile, const struct road_type *proad);
 
 /* Vision related */
 enum known_type tile_get_known(const struct tile *ptile,

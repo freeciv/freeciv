@@ -248,3 +248,18 @@ bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad)
 
   return FALSE;
 }
+
+/****************************************************************************
+  Return road type matching given eroad type. This function exist only
+  to help transition from old two-hardcoded-roads system to gane-roads.
+****************************************************************************/
+struct road_type *road_type_by_eroad(enum eroad type)
+{
+  road_type_iterate(proad) {
+    if (proad->id == type) {
+      return proad;
+    }
+  } road_type_iterate_end;
+
+  return NULL;
+}

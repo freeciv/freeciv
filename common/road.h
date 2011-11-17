@@ -58,6 +58,8 @@ bool player_can_build_road(struct road_type *road,
 			   const struct player *pplayer,
 			   const struct tile *ptile);
 
+struct road_type *road_type_by_eroad(enum eroad type);
+
 #define road_type_iterate(_p)                    \
 {                                                \
   int _i_;                                       \

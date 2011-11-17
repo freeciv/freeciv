@@ -825,6 +825,22 @@ bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 }
 
 /****************************************************************************
+  Adds road to tile
+****************************************************************************/
+void tile_add_road(struct tile *ptile, const struct road_type *proad)
+{
+  BV_SET(ptile->special, road_special(proad));
+}
+
+/****************************************************************************
+  Removes road from tile if such exist
+****************************************************************************/
+void tile_remove_road(struct tile *ptile, const struct road_type *proad)
+{
+  BV_CLR(ptile->special, road_special(proad));
+}
+
+/****************************************************************************
   Returns a virtual tile. If ptile is given, the properties of this tile are
   copied, else it is completely blank (except for the unit list
   vtile->units, which is created for you). Be sure to call tile_virtual_free
