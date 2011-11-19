@@ -420,6 +420,21 @@ struct player_slot *player_slot_by_number(int player_id)
   return player_slots.slots + player_id;
 }
 
+/****************************************************************************
+  Return the highest used player slot index.
+****************************************************************************/
+int player_slot_max_used_number(void)
+{
+  int max_pslot = 0;
+
+  player_slots_iterate(pslot) {
+    if (player_slot_is_used(pslot)) {
+      max_pslot = player_slot_index(pslot);
+    }
+  } player_slots_iterate_end;
+
+  return max_pslot;
+}
 
 /****************************************************************************
   Creates a new player for the slot. If slot is NULL, it will lookup to a
