@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-19 19:43+0000\n"
+"POT-Creation-Date: 2011-11-19 22:29+0000\n"
 "PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -490,7 +490,7 @@ msgid "Built unit with population cost"
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: common/events.c:170 server/stdinhand.c:4000
+#: common/events.c:170 server/stdinhand.c:4001
 msgid "New vote"
 msgstr ""
 
@@ -7578,7 +7578,7 @@ msgstr ""
 msgid "Scenario victory to %s."
 msgstr "Kazanan takım: %s"
 
-#: server/srv_main.c:322 server/stdinhand.c:4183
+#: server/srv_main.c:322 server/stdinhand.c:4184
 msgid "Game ended in a draw."
 msgstr "Oyun berabere bitti."
 
@@ -7946,354 +7946,356 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "%s YZ kontrolündeki bir oyuncu olarak eklendi."
 
 #: server/stdinhand.c:1089
-#, fuzzy
-msgid "Players cannot be removed once the game has started."
-msgstr "Bu ayar oyun başladıktan sonra değiştirilemez."
+#, fuzzy, c-format
+msgid ""
+"Command level '%s' or greater needed to remove a player once the game has "
+"started."
+msgstr "Oyun başladıktan sonra oyuncuları çıkartamazsınız."
 
-#: server/stdinhand.c:1100
+#: server/stdinhand.c:1101
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Oyuncu %s oyundan çıkartıldı."
 
-#: server/stdinhand.c:1165 server/stdinhand.c:3516 server/stdinhand.c:3672
+#: server/stdinhand.c:1166 server/stdinhand.c:3517 server/stdinhand.c:3673
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "\"%s\" ismi güvenlik nedeniyle yasaklanmıştır."
 
-#: server/stdinhand.c:1178
+#: server/stdinhand.c:1179
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr ""
 
-#: server/stdinhand.c:1186
+#: server/stdinhand.c:1187
 #, fuzzy, c-format
 msgid "Loading script file '%s'."
 msgstr "Betik dosyası yükleniyor: %s"
 
-#: server/stdinhand.c:1204
+#: server/stdinhand.c:1205
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr ""
 
-#: server/stdinhand.c:1206 server/stdinhand.c:4320
+#: server/stdinhand.c:1207 server/stdinhand.c:4321
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Betik dosyası '%s' okunamadı."
 
-#: server/stdinhand.c:1266
+#: server/stdinhand.c:1267
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr ""
 
-#: server/stdinhand.c:1277
+#: server/stdinhand.c:1278
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
 
-#: server/stdinhand.c:1306
+#: server/stdinhand.c:1307
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
 
-#: server/stdinhand.c:1315
+#: server/stdinhand.c:1316
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr ""
 
-#: server/stdinhand.c:1364
+#: server/stdinhand.c:1365
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 
-#: server/stdinhand.c:1388
+#: server/stdinhand.c:1389
 msgid "Command access levels in effect:"
 msgstr ""
 
-#: server/stdinhand.c:1395
+#: server/stdinhand.c:1396
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr ""
 
-#: server/stdinhand.c:1398
+#: server/stdinhand.c:1399
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr ""
 
 #. TRANS: comma and 'or' separated list of access levels
-#: server/stdinhand.c:1417
+#: server/stdinhand.c:1418
 #, fuzzy, c-format
 msgid "Command access level must be one of %s."
 msgstr "Sorgu veya ayar komut giriş seviyesi girişi."
 
-#: server/stdinhand.c:1423
+#: server/stdinhand.c:1424
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 
-#: server/stdinhand.c:1450 server/stdinhand.c:1464 server/stdinhand.c:1485
+#: server/stdinhand.c:1451 server/stdinhand.c:1465 server/stdinhand.c:1486
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr ""
 
-#: server/stdinhand.c:1455 server/stdinhand.c:1469 server/stdinhand.c:1479
+#: server/stdinhand.c:1456 server/stdinhand.c:1470 server/stdinhand.c:1480
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr ""
 
-#: server/stdinhand.c:1514
+#: server/stdinhand.c:1515
 msgid "The 'first' command makes no sense from the server command line."
 msgstr ""
 
-#: server/stdinhand.c:1518
+#: server/stdinhand.c:1519
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr ""
 
-#: server/stdinhand.c:1523
+#: server/stdinhand.c:1524
 msgid "Someone else is already game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1528
+#: server/stdinhand.c:1529
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1579
+#: server/stdinhand.c:1580
 #, c-format
 msgid "Invalid argument %d."
 msgstr ""
 
-#: server/stdinhand.c:1586 server/stdinhand.c:1982 server/stdinhand.c:3073
-#: server/stdinhand.c:3222 server/stdinhand.c:3234 server/stdinhand.c:3406
-#: server/stdinhand.c:3504
+#: server/stdinhand.c:1587 server/stdinhand.c:1983 server/stdinhand.c:3074
+#: server/stdinhand.c:3223 server/stdinhand.c:3235 server/stdinhand.c:3407
+#: server/stdinhand.c:3505
 #, fuzzy, c-format
 msgid ""
 "Usage:\n"
 "%s"
 msgstr "Kullanımı: away"
 
-#: server/stdinhand.c:1593
+#: server/stdinhand.c:1594
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr ""
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1670
+#: server/stdinhand.c:1671
 #, fuzzy, c-format
 msgid "Option: %s  -  %s"
 msgstr "Nüfüs: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1675
+#: server/stdinhand.c:1676
 #, fuzzy, c-format
 msgid "Option: %s"
 msgstr "Tercihler: %s"
 
-#: server/stdinhand.c:1682 server/stdinhand.c:4706
+#: server/stdinhand.c:1683 server/stdinhand.c:4707
 msgid "Description:"
 msgstr "Tanım:"
 
-#: server/stdinhand.c:1687
+#: server/stdinhand.c:1688
 #, c-format
 msgid "Status: %s"
 msgstr "Durum: %s"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1689
 msgid "changeable"
 msgstr "değişken"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1689
 msgid "fixed"
 msgstr "sabit"
 
-#: server/stdinhand.c:1697 server/stdinhand.c:1717 server/stdinhand.c:1731
+#: server/stdinhand.c:1698 server/stdinhand.c:1718 server/stdinhand.c:1732
 #, fuzzy
 msgid "Value:"
 msgstr "Erkek"
 
-#: server/stdinhand.c:1698 manual/civmanual.c:194
+#: server/stdinhand.c:1699 manual/civmanual.c:194
 msgid "Minimum:"
 msgstr ""
 
-#: server/stdinhand.c:1699 server/stdinhand.c:1717 server/stdinhand.c:1733
+#: server/stdinhand.c:1700 server/stdinhand.c:1718 server/stdinhand.c:1734
 #: manual/civmanual.c:195 manual/civmanual.c:228
 #, fuzzy
 msgid "Default:"
 msgstr " (öntanımlı)"
 
-#: server/stdinhand.c:1700 manual/civmanual.c:196
+#: server/stdinhand.c:1701 manual/civmanual.c:196
 #, fuzzy
 msgid "Maximum:"
 msgstr "azami yok, "
 
-#: server/stdinhand.c:1707 manual/civmanual.c:203
+#: server/stdinhand.c:1708 manual/civmanual.c:203
 msgid "Possible values:"
 msgstr ""
 
-#: server/stdinhand.c:1725 manual/civmanual.c:215
+#: server/stdinhand.c:1726 manual/civmanual.c:215
 msgid "Possible values (option can take any number of these):"
 msgstr ""
 
-#: server/stdinhand.c:1750
+#: server/stdinhand.c:1751
 msgid "Explanations are available for the following server options:"
 msgstr ""
 
-#: server/stdinhand.c:1795
+#: server/stdinhand.c:1796
 msgid "No explanation for that yet."
 msgstr "Henüz bunun bir açıklaması yok."
 
-#: server/stdinhand.c:1798 server/stdinhand.c:2761
+#: server/stdinhand.c:1799 server/stdinhand.c:2762
 msgid "Ambiguous option name."
 msgstr "Birden fazla olabilecek ayar adı."
 
-#: server/stdinhand.c:1817
+#: server/stdinhand.c:1818
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Sunucu Yöneticisi: %s"
 
-#: server/stdinhand.c:1856
+#: server/stdinhand.c:1857
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
 msgstr ""
 
-#: server/stdinhand.c:1902 server/stdinhand.c:1939 server/stdinhand.c:1957
+#: server/stdinhand.c:1903 server/stdinhand.c:1940 server/stdinhand.c:1958
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Oyuncu '%s' YZ derecesi artık '%s'."
 
-#: server/stdinhand.c:1944
+#: server/stdinhand.c:1945
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s YZ tarafından kontrol edilmiyor."
 
-#: server/stdinhand.c:1964
+#: server/stdinhand.c:1965
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Öntanımlı YZ derecesi '%s' olarak ayarlandı."
 
-#: server/stdinhand.c:1979
+#: server/stdinhand.c:1980
 msgid "This command is client only."
 msgstr "Bu komut sadece istemci tarafında verilebilir."
 
-#: server/stdinhand.c:1988
+#: server/stdinhand.c:1989
 msgid "Only players may use the away command."
 msgstr "Sadece oyuncular away komutunu kullanabilir."
 
-#: server/stdinhand.c:1992
+#: server/stdinhand.c:1993
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s uzakta moduna geçti."
 
-#: server/stdinhand.c:1998
+#: server/stdinhand.c:1999
 #, c-format
 msgid "%s returned to game."
 msgstr "%s oyuna geri döndü."
 
-#: server/stdinhand.c:2049
+#: server/stdinhand.c:2050
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Üzgünüm, '%s' ayarına bakmaya yetkiniz yok."
 
-#: server/stdinhand.c:2058
+#: server/stdinhand.c:2059
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Bilinmeyen ayar '%s'."
 
-#: server/stdinhand.c:2071
+#: server/stdinhand.c:2072
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Geçerli kural seti dizini: \"%s\""
 
-#: server/stdinhand.c:2104
+#: server/stdinhand.c:2105
 msgid "All options with non-default values"
 msgstr "Bütün seçenekler öntanımlı olmayan değerlerde"
 
-#: server/stdinhand.c:2107
+#: server/stdinhand.c:2108
 msgid "All options"
 msgstr "Bütün seçenekler"
 
-#: server/stdinhand.c:2110
+#: server/stdinhand.c:2111
 msgid "Vital options"
 msgstr "Hayati seçenekler"
 
-#: server/stdinhand.c:2113
+#: server/stdinhand.c:2114
 msgid "Situational options"
 msgstr "Durumuna göre seçenekler"
 
-#: server/stdinhand.c:2116
+#: server/stdinhand.c:2117
 msgid "Rarely used options"
 msgstr "Nadiren kullanacak seçenekler"
 
-#: server/stdinhand.c:2119
+#: server/stdinhand.c:2120
 msgid "Options locked by the ruleset"
 msgstr ""
 
-#: server/stdinhand.c:2131
+#: server/stdinhand.c:2132
 msgid "In the column '##' the status of the option is shown:"
 msgstr ""
 
-#: server/stdinhand.c:2132
+#: server/stdinhand.c:2133
 #, fuzzy
 msgid " - a '!' means the option is locked by the ruleset."
 msgstr "= ayar öntanımlı değerinde demektir"
 
-#: server/stdinhand.c:2133
+#: server/stdinhand.c:2134
 #, fuzzy
 msgid " - a '+' means you may change the option."
 msgstr "+ ayarı değiştirmişsiniz demektir"
 
-#: server/stdinhand.c:2134
+#: server/stdinhand.c:2135
 #, fuzzy
 msgid " - a '=' means the option is on its default value."
 msgstr "= ayar öntanımlı değerinde demektir"
 
-#: server/stdinhand.c:2136
+#: server/stdinhand.c:2137
 #, fuzzy, c-format
 msgid "%-*s ## value (min, max)"
 msgstr "%-*s değer   (asg,aza)      "
 
-#: server/stdinhand.c:2137
+#: server/stdinhand.c:2138
 msgid "Option"
 msgstr "Seçenek"
 
-#: server/stdinhand.c:2185
+#: server/stdinhand.c:2186
 msgid "A help text for each option is available via 'help <option>'."
 msgstr ""
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2190
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values.\n"
 "Try 'show locked' to show settings locked by the ruleset."
 msgstr ""
 
-#: server/stdinhand.c:2217
+#: server/stdinhand.c:2218
 msgid "Cannot change teams once game has begun."
 msgstr "Oyun başladıktan sonra takımlar değiştirilemez."
 
-#: server/stdinhand.c:2227 server/stdinhand.c:2363 server/stdinhand.c:2554
-#: server/stdinhand.c:2579 server/stdinhand.c:2622 server/stdinhand.c:2653
-#: server/stdinhand.c:2695 server/stdinhand.c:2720 server/stdinhand.c:2747
+#: server/stdinhand.c:2228 server/stdinhand.c:2364 server/stdinhand.c:2555
+#: server/stdinhand.c:2580 server/stdinhand.c:2623 server/stdinhand.c:2654
+#: server/stdinhand.c:2696 server/stdinhand.c:2721 server/stdinhand.c:2748
 #, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
 msgstr ""
 
-#: server/stdinhand.c:2248
+#: server/stdinhand.c:2249
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
 "%s diye bir takım yok.  Lütfen geçerli bir takım adı veya numarası girin."
 
-#: server/stdinhand.c:2255
+#: server/stdinhand.c:2256
 msgid "Cannot team a barbarian."
 msgstr "Bir barbarla takım olunamaz."
 
-#: server/stdinhand.c:2261
+#: server/stdinhand.c:2262
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "%s, %s ile takım oldu."
@@ -8301,230 +8303,230 @@ msgstr "%s, %s ile takım oldu."
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2289 server/voting.c:511
+#: server/stdinhand.c:2290 server/voting.c:511
 #, fuzzy
 msgid "Teamvote"
 msgstr "Takım"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2289 server/voting.c:516
+#: server/stdinhand.c:2290 server/voting.c:516
 msgid "Vote"
 msgstr ""
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
-#: server/stdinhand.c:2292
+#: server/stdinhand.c:2293
 #, c-format
 msgid ""
 "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
 "d players."
 msgstr ""
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2297
 msgid " no dissent"
 msgstr ""
 
-#: server/stdinhand.c:2304
+#: server/stdinhand.c:2305
 msgid "There are no votes going on."
 msgstr "Şu an oylama yapılmıyor."
 
-#: server/stdinhand.c:2349 server/stdinhand.c:2474 server/stdinhand.c:4027
+#: server/stdinhand.c:2350 server/stdinhand.c:2475 server/stdinhand.c:4028
 msgid "You are not allowed to use this command."
 msgstr "Bu komutu kullanma izniniz yok."
 
-#: server/stdinhand.c:2358
+#: server/stdinhand.c:2359
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:2375
+#: server/stdinhand.c:2376
 #, fuzzy
 msgid "There are no votes running."
 msgstr "Şu an oylama yapılmıyor."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2378
+#: server/stdinhand.c:2379
 #, fuzzy, c-format
 msgid "No legal last vote (%d %s)."
 msgstr "Böyle bir oy yok (%d)."
 
-#: server/stdinhand.c:2379
+#: server/stdinhand.c:2380
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] ""
 
-#: server/stdinhand.c:2386
+#: server/stdinhand.c:2387
 msgid "Value must be an integer."
 msgstr "Değer bir tamsayı olmalı."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2393 server/stdinhand.c:2483
+#: server/stdinhand.c:2394 server/stdinhand.c:2484
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Böyle bir oy yok (%d)."
 
-#: server/stdinhand.c:2399
+#: server/stdinhand.c:2400
 #, fuzzy
 msgid "You are not allowed to vote on that."
 msgstr "Bu ayarı değiştirmenize izin verilmiyor."
 
-#: server/stdinhand.c:2404
+#: server/stdinhand.c:2405
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "\"%s\" lehinde oy kullandınız"
 
-#: server/stdinhand.c:2408
+#: server/stdinhand.c:2409
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "\"%s\" aleyhinde oy kullandınız"
 
-#: server/stdinhand.c:2413
+#: server/stdinhand.c:2414
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2450
+#: server/stdinhand.c:2451
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr ""
 
-#: server/stdinhand.c:2457
+#: server/stdinhand.c:2458
 #, fuzzy
 msgid "You don't have any vote going on."
 msgstr "Burada işçiniz yok."
 
-#: server/stdinhand.c:2464
+#: server/stdinhand.c:2465
 #, fuzzy
 msgid "There isn't any vote going on."
 msgstr "Şu an oylama yapılmıyor."
 
 #. TRANS: "votes" as a process
-#: server/stdinhand.c:2470
+#: server/stdinhand.c:2471
 msgid "All votes have been removed."
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2489
+#: server/stdinhand.c:2490
 #, fuzzy, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr "Bu ayarı değiştirmenize izin verilmiyor."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2496
+#: server/stdinhand.c:2497
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr ""
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2506
+#: server/stdinhand.c:2507
 #, fuzzy, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr "Üzgünüm, %s, %s şehrinden %s şehrinize olan ticaret yolunu iptal etti."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2513
+#: server/stdinhand.c:2514
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr ""
 
-#: server/stdinhand.c:2534
+#: server/stdinhand.c:2535
 msgid "Can only use this command once game has begun."
 msgstr "Bu komut oyun başladıktan sonra kullanılabilir."
 
-#: server/stdinhand.c:2565
+#: server/stdinhand.c:2566
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "%s diplomasisinde hata ayıklanmıyor"
 
-#: server/stdinhand.c:2569
+#: server/stdinhand.c:2570
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "%s diplomasisinde hata ayıklanıyor"
 
-#: server/stdinhand.c:2590
+#: server/stdinhand.c:2591
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "%s teknolojisinde hata ayıklanmıyor"
 
-#: server/stdinhand.c:2594
+#: server/stdinhand.c:2595
 #, c-format
 msgid "%s tech debugged"
 msgstr "%s teknolojisinde hata ayıklanıyor"
 
-#: server/stdinhand.c:2610 server/stdinhand.c:2613
+#: server/stdinhand.c:2611 server/stdinhand.c:2614
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr ""
 
-#: server/stdinhand.c:2627 server/stdinhand.c:2658
+#: server/stdinhand.c:2628 server/stdinhand.c:2659
 msgid "Value 2 & 3 must be integer."
 msgstr "2. ve 3. değerler tamsayı olmalıdır."
 
-#: server/stdinhand.c:2631 server/stdinhand.c:2662
+#: server/stdinhand.c:2632 server/stdinhand.c:2663
 msgid "Bad map coordinates."
 msgstr "Yanlış koordinat."
 
-#: server/stdinhand.c:2636
+#: server/stdinhand.c:2637
 msgid "No city at this coordinate."
 msgstr "Bu koordinatlarda şehir yok."
 
-#: server/stdinhand.c:2641
+#: server/stdinhand.c:2642
 #, c-format
 msgid "%s no longer debugged"
 msgstr "%s hata ayıklamada kullanılmıyor"
 
-#: server/stdinhand.c:2668 server/stdinhand.c:2709
+#: server/stdinhand.c:2669 server/stdinhand.c:2710
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr "%s %s hata ayıklamada kullanılmıyor."
 
-#: server/stdinhand.c:2683
+#: server/stdinhand.c:2684
 msgid "Ferry system is no longer in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2687
+#: server/stdinhand.c:2688
 msgid "Ferry system in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2700
+#: server/stdinhand.c:2701
 msgid "Value 2 must be integer."
 msgstr "Değer 2 bir tamsayı olmalıdır."
 
-#: server/stdinhand.c:2704
+#: server/stdinhand.c:2705
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "%d birimi yok."
 
-#: server/stdinhand.c:2758
+#: server/stdinhand.c:2759
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr ""
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
-#: server/stdinhand.c:2766
+#: server/stdinhand.c:2767
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
 msgstr ""
 
-#: server/stdinhand.c:2808
+#: server/stdinhand.c:2809
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "%s parametresi sadece +- karakterlerinden ve rakamlardan oluşmalıdır."
 
-#: server/stdinhand.c:2896
+#: server/stdinhand.c:2897
 #, fuzzy, c-format
 msgid "Console: '%s' has been set to %s."
 msgstr "Ayar: %s ayarı \"%s\" olarak değiştirildi."
 
-#: server/stdinhand.c:2938
+#: server/stdinhand.c:2939
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Üzgünüm, bu oyunu tamamen gözlemleyemezsiniz."
 
-#: server/stdinhand.c:2946
+#: server/stdinhand.c:2947
 #, fuzzy
 msgid "You cannot take a new player at this time."
 msgstr "Bu sunucuda elle oyun kaydedemezsiniz."
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:2954
+#: server/stdinhand.c:2955
 #, c-format
 msgid ""
 "You cannot take a new player because the maximum of %d player has already "
@@ -8534,412 +8536,412 @@ msgid_plural ""
 "been reached (maxplayers setting)."
 msgstr[0] ""
 
-#: server/stdinhand.c:2966
+#: server/stdinhand.c:2967
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
 
-#: server/stdinhand.c:2978
+#: server/stdinhand.c:2979
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr ""
 
-#: server/stdinhand.c:2981
+#: server/stdinhand.c:2982
 msgid "Sorry, one can't take barbarians in this game."
 msgstr ""
 
-#: server/stdinhand.c:2990
+#: server/stdinhand.c:2991
 msgid "Sorry, one can't observe dead players in this game."
 msgstr ""
 
-#: server/stdinhand.c:2994
+#: server/stdinhand.c:2995
 msgid "Sorry, one can't take dead players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3004
+#: server/stdinhand.c:3005
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3007
+#: server/stdinhand.c:3008
 msgid "Sorry, one can't take AI players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3017
+#: server/stdinhand.c:3018
 msgid "Sorry, one can't observe human players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3021
+#: server/stdinhand.c:3022
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3031
+#: server/stdinhand.c:3032
 msgid "Sorry, one can't observe in this game."
 msgstr ""
 
-#: server/stdinhand.c:3036
+#: server/stdinhand.c:3037
 msgid "Sorry, one can't take players in this game."
 msgstr ""
 
-#: server/stdinhand.c:3043
+#: server/stdinhand.c:3044
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 
-#: server/stdinhand.c:3080 server/stdinhand.c:3229
+#: server/stdinhand.c:3081 server/stdinhand.c:3230
 #, fuzzy
 msgid "Only the player name form is allowed."
 msgstr "İsime izin verilmiyor."
 
-#: server/stdinhand.c:3130
+#: server/stdinhand.c:3131
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 
-#: server/stdinhand.c:3141
+#: server/stdinhand.c:3142
 #, c-format
 msgid "%s is already observing %s."
 msgstr ""
 
-#: server/stdinhand.c:3146
+#: server/stdinhand.c:3147
 #, c-format
 msgid "%s is already observing."
 msgstr ""
 
-#: server/stdinhand.c:3178
+#: server/stdinhand.c:3179
 #, c-format
 msgid "%s now observes %s"
 msgstr ""
 
-#: server/stdinhand.c:3182
+#: server/stdinhand.c:3183
 #, c-format
 msgid "%s now observes"
 msgstr ""
 
-#: server/stdinhand.c:3250
+#: server/stdinhand.c:3251
 #, fuzzy
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr "Oyun başladıktan sonra oyuncuları çıkartamazsınız."
 
-#: server/stdinhand.c:3280
+#: server/stdinhand.c:3281
 #, fuzzy, c-format
 msgid "%s already controls %s."
 msgstr "%s zaten %s tarafını kontrol ediyor"
 
-#: server/stdinhand.c:3294
+#: server/stdinhand.c:3295
 #, fuzzy, c-format
 msgid "There is no free player slot for %s."
 msgstr "%s adında bir oyuncu veya bağlantı yok"
 
-#: server/stdinhand.c:3312
+#: server/stdinhand.c:3313
 #, fuzzy, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "Sadece sunucu konsolunda kullanılabilir. "
 
-#: server/stdinhand.c:3316
+#: server/stdinhand.c:3317
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr ""
 
-#: server/stdinhand.c:3359
+#: server/stdinhand.c:3360
 #, fuzzy, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "%2$s, %1$s tarafından kontrol ediliyor (%3$s, %4$s)"
 
-#: server/stdinhand.c:3363 server/stdinhand.c:4976
+#: server/stdinhand.c:3364 server/stdinhand.c:4977
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbar"
 
-#: server/stdinhand.c:3365 server/stdinhand.c:4978 client/plrdlg_common.c:236
+#: server/stdinhand.c:3366 server/stdinhand.c:4979 client/plrdlg_common.c:236
 #: client/gui-sdl/plrdlg.c:653
 msgid "AI"
 msgstr "YZ"
 
-#: server/stdinhand.c:3366 server/stdinhand.c:4980
+#: server/stdinhand.c:3367 server/stdinhand.c:4981
 msgid "Human"
 msgstr "İnsan"
 
-#: server/stdinhand.c:3368
+#: server/stdinhand.c:3369
 msgid "Alive"
 msgstr "Canlı"
 
-#: server/stdinhand.c:3369
+#: server/stdinhand.c:3370
 msgid "Dead"
 msgstr "Ölü"
 
-#: server/stdinhand.c:3372
+#: server/stdinhand.c:3373
 #, fuzzy, c-format
 msgid "%s failed to attach to any player."
 msgstr "%s herhangi bir oyuncuya bağlanamadı."
 
-#: server/stdinhand.c:3427
+#: server/stdinhand.c:3428
 msgid "You can not detach other users."
 msgstr ""
 
-#: server/stdinhand.c:3436
+#: server/stdinhand.c:3437
 #, c-format
 msgid "%s is not attached to any player."
 msgstr ""
 
-#: server/stdinhand.c:3446
+#: server/stdinhand.c:3447
 #, c-format
 msgid "%s detaching from %s"
 msgstr ""
 
-#: server/stdinhand.c:3449
+#: server/stdinhand.c:3450
 #, c-format
 msgid "%s no longer observing."
 msgstr ""
 
-#: server/stdinhand.c:3510
+#: server/stdinhand.c:3511
 msgid "Cannot load a game while another is running."
 msgstr "Başka bir oyun çalışırken oyun yüklenemez."
 
-#: server/stdinhand.c:3543
+#: server/stdinhand.c:3544
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "\"%s\" adlı bir senaryo veya kayıtlı oyun bulunamadı."
 
-#: server/stdinhand.c:3556
+#: server/stdinhand.c:3557
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Kayıt dosyası yüklenemedi: %s"
 
-#: server/stdinhand.c:3653
+#: server/stdinhand.c:3654
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
 msgstr ""
 
-#: server/stdinhand.c:3659
+#: server/stdinhand.c:3660
 msgid "This setting can't be modified after the game has started."
 msgstr "Bu ayar oyun başladıktan sonra değiştirilemez."
 
-#: server/stdinhand.c:3665
+#: server/stdinhand.c:3666
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Kural seti dizini zaten \"%s\""
 
-#: server/stdinhand.c:3681
+#: server/stdinhand.c:3682
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Kural seti dizini \"%s\" bulunmadı."
 
-#: server/stdinhand.c:3687
+#: server/stdinhand.c:3688
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Kural seti dizini \"%s\" olarak ayarlandı"
 
-#: server/stdinhand.c:3717 server/stdinhand.c:3753 server/stdinhand.c:4922
+#: server/stdinhand.c:3718 server/stdinhand.c:3754 server/stdinhand.c:4923
 msgid "That would be rather silly, since you are not a player."
 msgstr ""
 
-#: server/stdinhand.c:3724
+#: server/stdinhand.c:3725
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr ""
 
-#: server/stdinhand.c:3736
+#: server/stdinhand.c:3737
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3762 server/stdinhand.c:4927
+#: server/stdinhand.c:3763 server/stdinhand.c:4928
 #, fuzzy
 msgid "Your ignore list is empty."
 msgstr "%s şehrinin iş listesi artık boş."
 
-#: server/stdinhand.c:3769
+#: server/stdinhand.c:3770
 msgid "Missing range. Try /help unignore."
 msgstr ""
 
-#: server/stdinhand.c:3778 server/stdinhand.c:3786 server/stdinhand.c:3792
+#: server/stdinhand.c:3779 server/stdinhand.c:3787 server/stdinhand.c:3793
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr ""
 
-#: server/stdinhand.c:3801
+#: server/stdinhand.c:3802
 #, fuzzy, c-format
 msgid "Invalid entry number: %d."
 msgstr "(%d) %s reddedildi: geçersiz isim [%s]."
 
-#: server/stdinhand.c:3804
+#: server/stdinhand.c:3805
 #, fuzzy, c-format
 msgid "Invalid range: %d to %d."
 msgstr "Hedefe %d - %d sıra kaldı"
 
-#: server/stdinhand.c:3818
+#: server/stdinhand.c:3819
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3863
+#: server/stdinhand.c:3864
 msgid "Goodbye."
 msgstr "Hoşçakal."
 
-#: server/stdinhand.c:3906
+#: server/stdinhand.c:3907
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Üzgünüm, sunucu komutları kullanma izniniz yok."
 
-#: server/stdinhand.c:3957
+#: server/stdinhand.c:3958
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Uyarı: '%s' komutu '%s' olarak çalıştırıldı, komutlar hakkında yardım almak "
 "için '%shelp' yazın."
 
-#: server/stdinhand.c:3961
+#: server/stdinhand.c:3962
 #, fuzzy, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "Bilinmeyen komut.  '%shelp' yazmayı deneyin."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3988
+#: server/stdinhand.c:3989
 #, fuzzy
 msgid "Your new vote canceled your previous vote."
 msgstr "Yeni oyunuz önceki oyunuzu iptal etti."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3995
+#: server/stdinhand.c:3996
 msgid "New teamvote"
 msgstr ""
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4007
+#: server/stdinhand.c:4008
 #, fuzzy, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "%s, %s tarafından bombalandı."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4017
+#: server/stdinhand.c:4018
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:4060
+#: server/stdinhand.c:4061
 msgid "(server prompt)"
 msgstr "(sunucu istemi)"
 
-#: server/stdinhand.c:4187
+#: server/stdinhand.c:4188
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr "Oyun bitiriliyor. Bütün istemciler çıkınca sunucu baştan başlatılacak."
 
-#: server/stdinhand.c:4192
+#: server/stdinhand.c:4193
 msgid "Cannot end the game: no game running."
 msgstr "Oyun bitirilemez: çalışan bir oyun yok."
 
-#: server/stdinhand.c:4208
+#: server/stdinhand.c:4209
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s teslim olduğu için artık kazanamaz."
 
-#: server/stdinhand.c:4213
+#: server/stdinhand.c:4214
 msgid "You cannot surrender now."
 msgstr "Şu anda teslim olamazsın."
 
-#: server/stdinhand.c:4263
+#: server/stdinhand.c:4264
 #, fuzzy
 msgid "Guessing argument 'ruleset'."
 msgstr "\"%s\" için eksik değişken.\n"
 
-#: server/stdinhand.c:4267
+#: server/stdinhand.c:4268
 #, fuzzy
 msgid "Guessing argument 'game'."
 msgstr "\"%s\" için eksik değişken.\n"
 
-#: server/stdinhand.c:4275
+#: server/stdinhand.c:4276
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr ""
 
-#: server/stdinhand.c:4290
+#: server/stdinhand.c:4291
 #, fuzzy
 msgid "Reset all settings to the values at the game start."
 msgstr "Bu ayar oyun başladıktan sonra değiştirilemez."
 
-#: server/stdinhand.c:4293
+#: server/stdinhand.c:4294
 msgid "No saved settings from the game start available."
 msgstr ""
 
-#: server/stdinhand.c:4297
+#: server/stdinhand.c:4298
 #, fuzzy
 msgid "No game started..."
 msgstr "Oyun başladı."
 
-#: server/stdinhand.c:4304
+#: server/stdinhand.c:4305
 msgid "Reset all settings to ruleset values."
 msgstr ""
 
-#: server/stdinhand.c:4311
+#: server/stdinhand.c:4312
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 
-#: server/stdinhand.c:4329
+#: server/stdinhand.c:4330
 #, fuzzy
 msgid "Reset all settings to default values."
 msgstr "Bütün seçenekler öntanımlı olmayan değerlerde"
 
-#: server/stdinhand.c:4335
+#: server/stdinhand.c:4336
 msgid "Settings re-initialized."
 msgstr ""
 
-#: server/stdinhand.c:4418
+#: server/stdinhand.c:4419
 #, fuzzy
 msgid "Not enough human players; game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
-#: server/stdinhand.c:4423
+#: server/stdinhand.c:4424
 #, fuzzy
 msgid "No players; game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
-#: server/stdinhand.c:4427
+#: server/stdinhand.c:4428
 #, fuzzy
 msgid "Not enough nations for all players; game will not start."
 msgstr "Yeterli oyuncu sayısı olmadan oyun başlamayacak."
 
-#: server/stdinhand.c:4436
+#: server/stdinhand.c:4437
 msgid "All players are ready; starting game."
 msgstr "Bütün oyuncular hazır; oyunu başlatılıyor."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:4452
+#: server/stdinhand.c:4453
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Oyun başlatılamıyor: bütün istemcilerin çıkması bekleniyor."
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:4459
+#: server/stdinhand.c:4460
 msgid "Cannot start the game: it is already running."
 msgstr "Oyun başlatılamıyor: zaten başlatılmış"
 
-#: server/stdinhand.c:4490
+#: server/stdinhand.c:4491
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Bağlantı kesiliyor %s."
 
-#: server/stdinhand.c:4491
+#: server/stdinhand.c:4492
 #, fuzzy
 msgid "connection cut"
 msgstr "Bağlantıyı kes"
 
-#: server/stdinhand.c:4579
+#: server/stdinhand.c:4580
 #, fuzzy
 msgid "You may not kick yourself."
 msgstr "Cinsiyetinizi seçmelisiniz."
 
-#: server/stdinhand.c:4602
+#: server/stdinhand.c:4603
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
 
-#: server/stdinhand.c:4628
+#: server/stdinhand.c:4629
 #, fuzzy
 msgid "kicked"
 msgstr "engellendi"
 
-#: server/stdinhand.c:4644
+#: server/stdinhand.c:4645
 #, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
@@ -8980,125 +8982,125 @@ msgstr ""
 "  quit   -  çıkar"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4681
+#: server/stdinhand.c:4682
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "Komut: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4687
+#: server/stdinhand.c:4688
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "Komut: %s"
 
-#: server/stdinhand.c:4692
+#: server/stdinhand.c:4693
 msgid "Synopsis: "
 msgstr "Özet:"
 
-#: server/stdinhand.c:4701
+#: server/stdinhand.c:4702
 #, c-format
 msgid "Level: %s"
 msgstr "Seviye: %s"
 
-#: server/stdinhand.c:4723
+#: server/stdinhand.c:4724
 msgid "The following server commands are available:"
 msgstr "Şu sunucu komutları kullanılabilir durumdadır:"
 
-#: server/stdinhand.c:4784
+#: server/stdinhand.c:4785
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:4846
+#: server/stdinhand.c:4847
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:4853
+#: server/stdinhand.c:4854
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr ""
 
-#: server/stdinhand.c:4894
+#: server/stdinhand.c:4895
 msgid "List of connections to server:"
 msgstr "Sunucuya olan bağlantıların listesi:"
 
-#: server/stdinhand.c:4898
+#: server/stdinhand.c:4899
 msgid "<no connections>"
 msgstr "<hiç bağlantı yok>"
 
-#: server/stdinhand.c:4931
+#: server/stdinhand.c:4932
 msgid "Your ignore list:"
 msgstr ""
 
-#: server/stdinhand.c:4950
+#: server/stdinhand.c:4951
 msgid "List of players:"
 msgstr "Oyuncu listesi:"
 
-#: server/stdinhand.c:4955
+#: server/stdinhand.c:4956
 msgid "<no players>"
 msgstr "<oyuncu yok>"
 
-#: server/stdinhand.c:4972
+#: server/stdinhand.c:4973
 #, c-format
 msgid "user %s, "
 msgstr "kullanıcı %s, "
 
-#: server/stdinhand.c:4983
+#: server/stdinhand.c:4984
 msgid ", Dead"
 msgstr ", Ölü"
 
-#: server/stdinhand.c:4986
+#: server/stdinhand.c:4987
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", zorluluk derecesi %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4991 server/stdinhand.c:4995 client/helpdata.c:658
+#: server/stdinhand.c:4992 server/stdinhand.c:4996 client/helpdata.c:658
 #: client/helpdata.c:1234 client/text.c:1527 client/text.c:1567
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:4999
+#: server/stdinhand.c:5000
 msgid ", ready"
 msgstr ", hazır"
 
-#: server/stdinhand.c:5003
+#: server/stdinhand.c:5004
 msgid ", not ready"
 msgstr ", hazır değil"
 
-#: server/stdinhand.c:5014
+#: server/stdinhand.c:5015
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d bağlantı:"
 
-#: server/stdinhand.c:5020
+#: server/stdinhand.c:5021
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s, %s adresinden (komut erişim seviyesi %s), tampon=%dkb"
 
-#: server/stdinhand.c:5026
+#: server/stdinhand.c:5027
 msgid " (observer mode)"
 msgstr " (izleyici modu)"
 
-#: server/stdinhand.c:5043
+#: server/stdinhand.c:5044
 msgid "List of scenarios available:"
 msgstr "Mümkün olan senaryolar:"
 
-#: server/stdinhand.c:5064
+#: server/stdinhand.c:5065
 msgid "List of teams:"
 msgstr "Takım listesi:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:5074
+#: server/stdinhand.c:5075
 #, fuzzy, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d oyuncu"
 
-#: server/stdinhand.c:5130
+#: server/stdinhand.c:5131
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr ""
@@ -37922,10 +37924,8 @@ msgid "You are playing Freeciv with default rules."
 msgstr ""
 
 #, fuzzy
-#~ msgid ""
-#~ "Command level '%s' or greater needed to remove a player once the game has "
-#~ "started."
-#~ msgstr "Oyun başladıktan sonra oyuncuları çıkartamazsınız."
+#~ msgid "Players cannot be removed once the game has started."
+#~ msgstr "Bu ayar oyun başladıktan sonra değiştirilemez."
 
 #~ msgid "About"
 #~ msgstr "Hakkında"
