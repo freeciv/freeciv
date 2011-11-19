@@ -1084,10 +1084,9 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  if (game_was_started() && caller && caller->access_level < ALLOW_ADMIN) {
+  if (game_was_started()) {
     cmd_reply(CMD_REMOVE, caller, C_FAIL,
-              _("Command level '%s' or greater needed to remove a player "
-                "once the game has started."), cmdlevel_name(ALLOW_ADMIN));
+	      _("Players cannot be removed once the game has started."));
     return FALSE;
   }
   if (check) {
