@@ -21,14 +21,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-12 00:40+0200\n"
+"POT-Creation-Date: 2011-11-19 19:43+0000\n"
 "PO-Revision-Date: 2011-11-19 18:51+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
-"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:81 client/gui-gtk-2.0/repodlgs.c:1248
@@ -492,7 +492,7 @@ msgid "Built unit with population cost"
 msgstr "Yksikkö valmistui väkiluvun kustannuksella"
 
 #. TRANS: "vote" as a process
-#: common/events.c:170 server/stdinhand.c:4001
+#: common/events.c:170 server/stdinhand.c:4000
 msgid "New vote"
 msgstr "Uusi äänestys"
 
@@ -653,78 +653,78 @@ msgstr "Huijaava"
 msgid "Experimental"
 msgstr "Kokeellinen"
 
-#: common/player.c:1082
+#: common/player.c:1097
 msgid "?attitude:Genocidal"
 msgstr "Kansansurmahakuinen"
 
-#: common/player.c:1084
+#: common/player.c:1099
 msgid "?attitude:Belligerent"
 msgstr "Sotaisa"
 
-#: common/player.c:1086
+#: common/player.c:1101
 msgid "?attitude:Hostile"
 msgstr "Vihamielinen"
 
-#: common/player.c:1088
+#: common/player.c:1103
 msgid "?attitude:Uncooperative"
 msgstr "Yhteistyökyvytön"
 
-#: common/player.c:1090
+#: common/player.c:1105
 msgid "?attitude:Uneasy"
 msgstr "Rauhaton"
 
-#: common/player.c:1092
+#: common/player.c:1107
 msgid "?attitude:Neutral"
 msgstr "Neutraali"
 
-#: common/player.c:1094
+#: common/player.c:1109
 msgid "?attitude:Respectful"
 msgstr "Kunnioittava"
 
-#: common/player.c:1096
+#: common/player.c:1111
 msgid "?attitude:Helpful"
 msgstr "Avulias"
 
-#: common/player.c:1098
+#: common/player.c:1113
 msgid "?attitude:Enthusiastic"
 msgstr "Innokas"
 
-#: common/player.c:1100
+#: common/player.c:1115
 msgid "?attitude:Admiring"
 msgstr "Ihaileva"
 
-#: common/player.c:1103
+#: common/player.c:1118
 msgid "?attitude:Worshipful"
 msgstr "Palvova"
 
-#: common/player.c:1114
+#: common/player.c:1129
 msgid "?diplomatic_state:Armistice"
 msgstr "Aselepo"
 
-#: common/player.c:1115
+#: common/player.c:1130
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Sotatila"
 
-#: common/player.c:1116 client/gui-gtk-2.0/diplodlg.c:402
+#: common/player.c:1131 client/gui-gtk-2.0/diplodlg.c:402
 #: client/gui-sdl/diplodlg.c:463 client/gui-xaw/diplodlg.c:546
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Tulitauko"
 
-#: common/player.c:1117 client/gui-gtk-2.0/diplodlg.c:408
+#: common/player.c:1132 client/gui-gtk-2.0/diplodlg.c:408
 #: client/gui-sdl/diplodlg.c:477 client/gui-xaw/diplodlg.c:550
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Rauha"
 
-#: common/player.c:1118 client/gui-gtk-2.0/diplodlg.c:414
+#: common/player.c:1133 client/gui-gtk-2.0/diplodlg.c:414
 #: client/gui-sdl/diplodlg.c:492 client/gui-xaw/diplodlg.c:554
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Liittouma"
 
-#: common/player.c:1119
+#: common/player.c:1134
 msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Ei tavattu"
 
-#: common/player.c:1120
+#: common/player.c:1135
 msgid "?diplomatic_state:Team"
 msgstr "Joukkuetoveri"
 
@@ -1463,8 +1463,8 @@ msgstr "*%s (AI)* Purkakaa ensin liittonne pelaajan %s kanssa, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (AI)* Haluaisin ensin odottaa varmistuakseni ettette te ja %s enää ole "
 "yhteistyössä, %s."
@@ -1480,8 +1480,8 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (AI)* Olisi suotavaa, jos ensin pitäisitte tulitauon hieman pidempään, "
-"%s."
+"*%s (AI)* Olisi suotavaa, jos ensin pitäisitte tulitauon hieman pidempään, %"
+"s."
 
 #: ai/advdiplomacy.c:383
 #, c-format
@@ -1728,8 +1728,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (AI)* Tervehdys, liittolainen. Huomaan, että vihollisemme, %s, ei "
 "vieläkään ole vastaanottanut sodanjulistustasi. Pitääkö minun muistuttaa "
@@ -2495,8 +2495,8 @@ msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
 "available!"
 msgstr ""
-"Siirtolaiset kaupungista %s eivät voi muuttaa, koska kohdekaupungissa %s "
-"(%s) syödään jo pettua!"
+"Siirtolaiset kaupungista %s eivät voi muuttaa, koska kohdekaupungissa %s (%"
+"s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2534
@@ -2505,8 +2505,8 @@ msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
 "available!"
 msgstr ""
-"Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupungissa "
-"%s syödään jo pettua!"
+"Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupungissa %"
+"s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2549
@@ -3177,7 +3177,13 @@ msgid ""
 "the connection does not already control a player, one is created and "
 "assigned to the connection. The 'allowtake' option controls which players "
 "may be taken and in what circumstances."
-msgstr "Vain konsoli- ja 'hack'-komentotason yhteyksiltä voi pakottaa toisen yhteyden ottaamaan pelaajan hallintaansa, muutoin ainoastaan parametri <pelaajan nimi> on sallittu. Jos pelaajan nimeksi annetaan '-' ja yhteys ei ennestään hallitse pelaajaa, yhteyden hallintaan luodaan uusi pelaaja. Parametri 'allowtake' säätelee, mitä pelaajia voidaan ottaa hallintaan ja missä ehdoin."
+msgstr ""
+"Vain konsoli- ja 'hack'-komentotason yhteyksiltä voi pakottaa toisen "
+"yhteyden ottaamaan pelaajan hallintaansa, muutoin ainoastaan parametri "
+"<pelaajan nimi> on sallittu. Jos pelaajan nimeksi annetaan '-' ja yhteys ei "
+"ennestään hallitse pelaajaa, yhteyden hallintaan luodaan uusi pelaaja. "
+"Parametri 'allowtake' säätelee, mitä pelaajia voidaan ottaa hallintaan ja "
+"missä ehdoin."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:276
@@ -3197,7 +3203,12 @@ msgid ""
 "the connection uses no arguments, then the connection is attached to a "
 "global observer. The 'allowtake' option controls which players may be "
 "observed and in what circumstances."
-msgstr "Vain konsoli- ja 'hack'-komentotason yhteyksiltä voi pakottaa toisen yhteyden tarkkailemaan pelaajaa, muutoin ainoastaan parametri [pelaajan nimi] on sallittu. Jos pelaajan nimeä ei anneta, annettu yhteys yhdistetään globaaliin tarkkailijaan. Parametrilla 'allowtake' voidaan hallita, mitä pelaajia voidaan tarkkailla ja millä ehdoilla."
+msgstr ""
+"Vain konsoli- ja 'hack'-komentotason yhteyksiltä voi pakottaa toisen "
+"yhteyden tarkkailemaan pelaajaa, muutoin ainoastaan parametri [pelaajan "
+"nimi] on sallittu. Jos pelaajan nimeä ei anneta, annettu yhteys yhdistetään "
+"globaaliin tarkkailijaan. Parametrilla 'allowtake' voidaan hallita, mitä "
+"pelaajia voidaan tarkkailla ja millä ehdoilla."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:289
@@ -3518,7 +3529,14 @@ msgid ""
 "matches zero or more character, ? exactly one character, [abc] exactly one "
 "of 'a' 'b' or 'c', etc. To access your current ignore list, issue \"/list "
 "ignore\"."
-msgstr "Malli lisätään huomiotta jätettävien listaasi. Palvelin ei välitä sinulle viestejä käyttäjiltä, jotka sopivat malliin. Mallin tyyppi voi olla joko \"user\", \"host\" tai \"ip\". Jos tyyppiä ei anneta, mallia sovitetaan käyttäjänimiin. Mallissa voi käyttää unix-tyylisiä jokerimerkintöjä, * sopii mihin tahansa määrään merkkejä, ? tasan yhteen merkkiin, [abc] johonkin merkeistä 'a', 'b' tai 'c' jne. Nähdäksesi nykyisen huomiotta jätettävien listasi, anna komento \"/list ignore\"."
+msgstr ""
+"Malli lisätään huomiotta jätettävien listaasi. Palvelin ei välitä sinulle "
+"viestejä käyttäjiltä, jotka sopivat malliin. Mallin tyyppi voi olla joko "
+"\"user\", \"host\" tai \"ip\". Jos tyyppiä ei anneta, mallia sovitetaan "
+"käyttäjänimiin. Mallissa voi käyttää unix-tyylisiä jokerimerkintöjä, * sopii "
+"mihin tahansa määrään merkkejä, ? tasan yhteen merkkiin, [abc] johonkin "
+"merkeistä 'a', 'b' tai 'c' jne. Nähdäksesi nykyisen huomiotta jätettävien "
+"listasi, anna komento \"/list ignore\"."
 
 #. TRANS: translate text between <>
 #: server/commands.c:450
@@ -3537,7 +3555,14 @@ msgid ""
 "number is omitted, it is assumed to be 1; if the last is omitted, it is "
 "assumed to be the last valid ignore list index. To access your current "
 "ignore list, issue \"/list ignore\"."
-msgstr "Poistaa huomiotta jätettävien listan merkinnät annetulta väliltä. Voit taas vastaanottaa viestejä niitä vastaavilta käyttäjiltä. Väli voi olla joko yksittäinen numero tai kaksi numeroa erotettuna viivalla '-'. Jos ensimmäinen numero on jätetty pois, se asetetaan oletuksena 1:ksi. Toinen numero vastaavasti asetetaan pois jätettäessä osoittamaan listan loppuun. Nähdäksesi nykyisen huomiotta jätettävien listasi, anna komento \"/list ignore\"."
+msgstr ""
+"Poistaa huomiotta jätettävien listan merkinnät annetulta väliltä. Voit taas "
+"vastaanottaa viestejä niitä vastaavilta käyttäjiltä. Väli voi olla joko "
+"yksittäinen numero tai kaksi numeroa erotettuna viivalla '-'. Jos "
+"ensimmäinen numero on jätetty pois, se asetetaan oletuksena 1:ksi. Toinen "
+"numero vastaavasti asetetaan pois jätettäessä osoittamaan listan loppuun. "
+"Nähdäksesi nykyisen huomiotta jätettävien listasi, anna komento \"/list "
+"ignore\"."
 
 #: server/commands.c:464
 msgid "End the game immediately in a draw."
@@ -3594,8 +3619,8 @@ msgid ""
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Tallenna tämänhetkinen peli tiedostoon <tiedostonimi>. Jos parametriä ei "
-"ole, tallentaa pelin tiedostoon \"<auto-tallennusalkuliite><vuosi>m.sav[."
-"gz]\".\n"
+"ole, tallentaa pelin tiedostoon \"<auto-tallennusalkuliite><vuosi>m.sav[.gz]"
+"\".\n"
 "Ladataksesi pelin joka on tallennettu 'savella', käynnistä palvelin "
 "komentoparametrillä:\n"
 "    --file <tiedostonimi>\n"
@@ -3877,7 +3902,8 @@ msgstr ""
 #: server/diplhand.c:255
 #, c-format
 msgid "You cannot form an alliance because %s is at war with an ally of yours."
-msgstr "Sinä ja %s ette voi solmia liittoa, koska se on sodassa liittolaisesi kanssa."
+msgstr ""
+"Sinä ja %s ette voi solmia liittoa, koska se on sodassa liittolaisesi kanssa."
 
 #: server/diplhand.c:266
 msgid "You don't have enough gold, you can't accept treaty."
@@ -3969,8 +3995,12 @@ msgid ""
 msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
-msgstr[0] "Sovitte aselevosta %1$.0s%3$s kanssa. %2$d vuoron jälkeen siitä tulee rauhansopimus. Siirrä yksikkösi pois %3$s alueelta."
-msgstr[1] "Sovitte aselevosta %1$.0s%3$s kanssa. %2$d vuoron jälkeen siitä tulee rauhansopimus. Siirrä yksikkösi pois %3$s alueelta."
+msgstr[0] ""
+"Sovitte aselevosta %1$.0s%3$s kanssa. %2$d vuoron jälkeen siitä tulee "
+"rauhansopimus. Siirrä yksikkösi pois %3$s alueelta."
+msgstr[1] ""
+"Sovitte aselevosta %1$.0s%3$s kanssa. %2$d vuoron jälkeen siitä tulee "
+"rauhansopimus. Siirrä yksikkösi pois %3$s alueelta."
 
 #: server/diplhand.c:553 server/diplhand.c:556
 #, c-format
@@ -4545,8 +4575,8 @@ msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
-"Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui – uusi kansakunta %d "
-"(%s) on jo pelaajan %d (%s) käytössä."
+"Pelaajan %d (%s) kansakunnan muuttaminen epäonnistui – uusi kansakunta %d (%"
+"s) on jo pelaajan %d (%s) käytössä."
 
 #: server/edithand.c:1147
 #, c-format
@@ -4604,8 +4634,8 @@ msgstr ""
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
-"Pelin vuoden asettaminen arvoon %d epäonnistui; sallitut arvot ovat välillä "
-"%d - %d."
+"Pelin vuoden asettaminen arvoon %d epäonnistui; sallitut arvot ovat välillä %"
+"d - %d."
 
 #: server/edithand.c:1472
 msgid "No permissions to remotely save scenario."
@@ -4631,11 +4661,11 @@ msgstr "%s on jäänyt ilman sijoitettuja yksiköitä!"
 msgid "Year: %s"
 msgstr "Vuosi: %s"
 
-#: server/gamehand.c:538
+#: server/gamehand.c:539
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "Vuoron aikaraja on liian suuri ja palautetaan maksimiarvoon"
 
-#: server/gamehand.c:546
+#: server/gamehand.c:547
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 
@@ -5504,15 +5534,15 @@ msgstr "freeciv 2.3.0"
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
-"Suoritetaan yhteensopivuustoiminto versiolle: <%d (tiedosto: %d, palvelin: "
-"%d)."
+"Suoritetaan yhteensopivuustoiminto versiolle: <%d (tiedosto: %d, palvelin: %"
+"d)."
 
 #: server/savegame2.c:5450
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
-"Suoritetaan yhteensopivuustoiminto versiolle: <%d (halutaan: %d, palvelin: "
-"%d)."
+"Suoritetaan yhteensopivuustoiminto versiolle: <%d (halutaan: %d, palvelin: %"
+"d)."
 
 #: server/settings.c:199
 msgid "Number of tiles"
@@ -5785,8 +5815,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
 "Asetuksen 'maxplayers' pyydetty arvo (%d) on suurempi kuin saatavilla "
 "olevien aloituspaikkojen määrä (%d); pidän vanhan arvon."
@@ -6102,7 +6132,9 @@ msgstr "Sallitaanko 1×1-saaret"
 msgid ""
 "This setting controls whether the map generator is allowed to make islands "
 "of one only tile size."
-msgstr "Jos asetus on käytössä, karttageneraattori voi luoda myös vain yhden ruudun kokoisia saaria."
+msgstr ""
+"Jos asetus on käytössä, karttageneraattori voi luoda myös vain yhden ruudun "
+"kokoisia saaria."
 
 #: server/settings.c:1066
 msgid "Whether the poles are separate continents"
@@ -6526,7 +6558,12 @@ msgid ""
 "you lose research points equal to this percentage of the cost to research a "
 "new technology. If this is non-zero, you can end up with negative research "
 "points."
-msgstr "Jokaista \"ilmaiseksi\" (ei diplomatiasuhteilla (joihin vaikuttaa 'diplcost') eikä valloittamalla ('conquercost'), vaan majojen tai Aleksandrian kirjaston kautta) saamaasi teknologista edistysaskelta kohden menetät näin monta prosenttia uuden edistysaskeleen vaatimista tutkimuspisteistä - voit siis päätyä pakkasen puolelle tutkimuspisteissäsi."
+msgstr ""
+"Jokaista \"ilmaiseksi\" (ei diplomatiasuhteilla (joihin vaikuttaa "
+"'diplcost') eikä valloittamalla ('conquercost'), vaan majojen tai "
+"Aleksandrian kirjaston kautta) saamaasi teknologista edistysaskelta kohden "
+"menetät näin monta prosenttia uuden edistysaskeleen vaatimista "
+"tutkimuspisteistä - voit siis päätyä pakkasen puolelle tutkimuspisteissäsi."
 
 #: server/settings.c:1374
 msgid "Food required for a city to grow"
@@ -6580,7 +6617,12 @@ msgid ""
 "100% (no trade at all) for sizes up to 'notradesize', and decreases "
 "gradually to 0% (no penalty except the normal corruption) for "
 "size='fulltradesize'. See also 'notradesize'."
-msgstr "Jos kaupunki on tätä pienempi, se ei tuota täyttä kauppaa. Jos kaupunki on pienempi kuin minimi, 'notradesize', vähennys on 100% eli kaupunki ei tuota lainkaan; kaupungin kasvaessa vähennys pienenee, kunnes koossa 'fulltradesize' menetys on 0% (lukuunottamatta tavallista korruptiota). Katso myös 'notradesize'."
+msgstr ""
+"Jos kaupunki on tätä pienempi, se ei tuota täyttä kauppaa. Jos kaupunki on "
+"pienempi kuin minimi, 'notradesize', vähennys on 100% eli kaupunki ei tuota "
+"lainkaan; kaupungin kasvaessa vähennys pienenee, kunnes koossa "
+"'fulltradesize' menetys on 0% (lukuunottamatta tavallista korruptiota). "
+"Katso myös 'notradesize'."
 
 #: server/settings.c:1421
 msgid "Maximum size of a city without trade"
@@ -6712,7 +6754,10 @@ msgstr "Aseta palvelinpään automaattihyökkäys päälle/pois päältä"
 msgid ""
 "If set to on, units with moves left will automatically consider attacking "
 "enemy units that move adjacent to them."
-msgstr "Jos tämä arvo on valittu, yksiköt joilla on liikepisteitä jäljellä harkitsevat automaattisesti niiden vierusruuduissa liikkuvien vihollisyksiköiden kimppuun hyökkäämistä."
+msgstr ""
+"Jos tämä arvo on valittu, yksiköt joilla on liikepisteitä jäljellä "
+"harkitsevat automaattisesti niiden vierusruuduissa liikkuvien "
+"vihollisyksiköiden kimppuun hyökkäämistä."
 
 #: server/settings.c:1513
 msgid "Reduce city population after attack"
@@ -6797,10 +6842,15 @@ msgid ""
 "is a default for their nation also."
 msgstr ""
 "Asetus määrittelee millaisia nimiä voit valita kaupungeillesi:\n"
-"- \"Ei rajoituksia\" (NO_RESTRICTIONS): pelaajalla voi olla useita samannimisiä kaupunkeja.\n"
-"- \"Pelaajalla ei samannimisiä\" (PLAYER_UNIQUE): pelaajalla ei voi olla samannimisiä kaupunkeja.\n"
-"- \"Maailmassa ei samannimisiä\" (GLOBAL_UNIQUE): kaikilla kaupungeilla maailmassa pitää olla eri nimet.\n"
-"- \"Ei toisen kansakunnan nimiä\" (NO_STEALING): kuten edellä, mutta nimet eivät voi myöskään kuulua muiden kansakuntien oletusnimistöön (ellei nimi ole myös pelaajan omalla oletusnimistössä)."
+"- \"Ei rajoituksia\" (NO_RESTRICTIONS): pelaajalla voi olla useita "
+"samannimisiä kaupunkeja.\n"
+"- \"Pelaajalla ei samannimisiä\" (PLAYER_UNIQUE): pelaajalla ei voi olla "
+"samannimisiä kaupunkeja.\n"
+"- \"Maailmassa ei samannimisiä\" (GLOBAL_UNIQUE): kaikilla kaupungeilla "
+"maailmassa pitää olla eri nimet.\n"
+"- \"Ei toisen kansakunnan nimiä\" (NO_STEALING): kuten edellä, mutta nimet "
+"eivät voi myöskään kuulua muiden kansakuntien oletusnimistöön (ellei nimi "
+"ole myös pelaajan omalla oletusnimistössä)."
 
 #: server/settings.c:1585
 msgid "Barbarian appearance frequency"
@@ -6834,7 +6884,8 @@ msgid ""
 "occur. Setting this value to 0 will give a random length of 1-5 turns."
 msgstr ""
 "Hallintomuotoa vaihdettaessa kansakunta vajoaa anarkiaan, joka kestää\n"
-"asetuksen mukaisen määrän vuoroja. Mikäli asetuksen arvo on 0, anarkia kestää satunnaisesti 1-5 vuoroa."
+"asetuksen mukaisen määrän vuoroja. Mikäli asetuksen arvo on 0, anarkia "
+"kestää satunnaisesti 1-5 vuoroa."
 
 #: server/settings.c:1611
 msgid "Whether to enable fog of war"
@@ -6964,7 +7015,12 @@ msgid ""
 "This option controls whether tiles with both unreachable and reachable units "
 "can be attacked. If disabled, any tile with reachable units can be attacked. "
 "If enabled, tiles with an unreachable unit in them cannot be attacked."
-msgstr "Tämä asetus määrittää, voiko yksikkö hyökätä ruutuihin joissa on sekä sen tavoitettavissa että tavoittamattomissa olevia yksiköitä. Jos asetus on pois käytöstä, mihin tahansa ruutuun voi hyökätä jos siellä on jokin tavoitettavissa oleva yksikkö. Jos asetus on käytössä, ruutuihin, joissa on tavoittamattomissa oleva yksikkö, ei voi hyökätä."
+msgstr ""
+"Tämä asetus määrittää, voiko yksikkö hyökätä ruutuihin joissa on sekä sen "
+"tavoitettavissa että tavoittamattomissa olevia yksiköitä. Jos asetus on pois "
+"käytöstä, mihin tahansa ruutuun voi hyökätä jos siellä on jokin "
+"tavoitettavissa oleva yksikkö. Jos asetus on käytössä, ruutuihin, joissa on "
+"tavoittamattomissa oleva yksikkö, ei voi hyökätä."
 
 #: server/settings.c:1699
 msgid "Turns until player contact is lost"
@@ -7461,7 +7517,10 @@ msgstr "Tallennetun pelin pakkaustaso"
 msgid ""
 "If non-zero, saved games will be compressed depending on the 'compresstype' "
 "setting. Larger values will give better compression but take longer."
-msgstr "Jos asetuksen arvo on suurempi kuin 0, tallennetut pelit pakataan halutulla pakkaustavalla, jonka määrittää 'compresstype'-asetus. Suuremmilla arvoilla tallenteet vievät vähemmän tilaa mutta pakkaukseen kuluu enemmän aikaa."
+msgstr ""
+"Jos asetuksen arvo on suurempi kuin 0, tallennetut pelit pakataan halutulla "
+"pakkaustavalla, jonka määrittää 'compresstype'-asetus. Suuremmilla arvoilla "
+"tallenteet vievät vähemmän tilaa mutta pakkaukseen kuluu enemmän aikaa."
 
 #: server/settings.c:2041
 msgid "Savegame compression algorithm"
@@ -7867,7 +7926,7 @@ msgstr "%s"
 msgid "Scenario victory to %s."
 msgstr "%s on voittanut skenaarion."
 
-#: server/srv_main.c:322 server/stdinhand.c:4184
+#: server/srv_main.c:322 server/stdinhand.c:4183
 msgid "Game ended in a draw."
 msgstr "Peli päättyi tasapeliin."
 
@@ -8132,8 +8191,8 @@ msgstr "Metapalvelimella näkyvä paikkaustietorivi on nyt '%s'."
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
-"Metapalvelimelle ilmoitettava paikkaustietorivi (patches) asetettu arvoksi "
-"'%s', ei yhteyttä metapalvelimelle."
+"Metapalvelimelle ilmoitettava paikkaustietorivi (patches) asetettu arvoksi '%"
+"s', ei yhteyttä metapalvelimelle."
 
 #: server/stdinhand.c:576
 #, c-format
@@ -8244,53 +8303,46 @@ msgstr "%s korvaa AI-pelaajana ihmispelaajan %s."
 msgid "Players cannot be removed once the game has started."
 msgstr "Pelaajia ei voi poistaa kun peli on alkanut."
 
-#: server/stdinhand.c:1089
-#, c-format
-msgid ""
-"Command level '%s' or greater needed to remove a player once the game has "
-"started."
-msgstr "Pelaajan poistamiseen tarvitaan vähintään komentotaso '%s', koska peli on jo alkanut."
-
-#: server/stdinhand.c:1101
+#: server/stdinhand.c:1100
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Pelaaja %s on poistettu pelistä."
 
-#: server/stdinhand.c:1166 server/stdinhand.c:3517 server/stdinhand.c:3673
+#: server/stdinhand.c:1165 server/stdinhand.c:3516 server/stdinhand.c:3672
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Nimi \"%s\" on kielletty tietoturvasyistä."
 
-#: server/stdinhand.c:1179
+#: server/stdinhand.c:1178
 #, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "Komentojuontotiedostoa ('skripti') ei löytynyt nimellä \"%s\"."
 
-#: server/stdinhand.c:1187
+#: server/stdinhand.c:1186
 #, c-format
 msgid "Loading script file '%s'."
 msgstr "Lataan juontotiedostoa: %s"
 
-#: server/stdinhand.c:1205
+#: server/stdinhand.c:1204
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Juontotiedoston ('skripti') '%s' lukeminen epäonnistui."
 
-#: server/stdinhand.c:1207 server/stdinhand.c:4321
+#: server/stdinhand.c:1206 server/stdinhand.c:4320
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Juontotiedoston ('skripti') '%s' lukeminen epäonnistui."
 
-#: server/stdinhand.c:1267
+#: server/stdinhand.c:1266
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Juontotiedostoon ('skripti') '%s' kirjoittaminen epäonnistui."
 
-#: server/stdinhand.c:1278
+#: server/stdinhand.c:1277
 msgid "You cannot use the write command on this server for security reasons."
 msgstr "Et voi käyttää write-komentoa tällä palvelimella tietoturvasyistä."
 
-#: server/stdinhand.c:1307
+#: server/stdinhand.c:1306
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -8298,81 +8350,81 @@ msgid ""
 msgstr ""
 "Et voi laskea pelaajan '%2$s' komentotasoa '%1$s'; sinulla on vain '%3$s'."
 
-#: server/stdinhand.c:1316
+#: server/stdinhand.c:1315
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Pelaajan %2$s sallittujen komentojen taso asetettu arvoon '%1$s'."
 
-#: server/stdinhand.c:1365
+#: server/stdinhand.c:1364
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 "Kuka tahansa voi ryhtyä pelinohjaajaksi '%s' käyttämällä komentoa 'first'."
 
-#: server/stdinhand.c:1389
+#: server/stdinhand.c:1388
 msgid "Command access levels in effect:"
 msgstr "Käytössä olevat komentotasot:"
 
-#: server/stdinhand.c:1396
+#: server/stdinhand.c:1395
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Komentotaso uusille yhteydenottajille: %s"
 
-#: server/stdinhand.c:1399
+#: server/stdinhand.c:1398
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Komentotaso ensimmäiselle ottajalle: %s"
 
 #. TRANS: comma and 'or' separated list of access levels
-#: server/stdinhand.c:1418
+#: server/stdinhand.c:1417
 #, c-format
 msgid "Command access level must be one of %s."
 msgstr "Komentotason tulee olla joko %s"
 
-#: server/stdinhand.c:1424
+#: server/stdinhand.c:1423
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 "Et voi nostaa komentotasoa arvoon '%s'; oma tasosi '%s' ei riitä siihen."
 
-#: server/stdinhand.c:1451 server/stdinhand.c:1465 server/stdinhand.c:1486
+#: server/stdinhand.c:1450 server/stdinhand.c:1464 server/stdinhand.c:1485
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Uusien pelaajien komentotaso on asetettu arvoon '%s'."
 
-#: server/stdinhand.c:1456 server/stdinhand.c:1470 server/stdinhand.c:1480
+#: server/stdinhand.c:1455 server/stdinhand.c:1469 server/stdinhand.c:1479
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Komentotaso ensimmäiselle ottajalle: %s"
 
-#: server/stdinhand.c:1515
+#: server/stdinhand.c:1514
 msgid "The 'first' command makes no sense from the server command line."
 msgstr "Komentoa 'first' ei ole järkeä käyttää suoraan palvelimella."
 
-#: server/stdinhand.c:1519
+#: server/stdinhand.c:1518
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Sinulla on jo käytettävissäsi vähintään tason '%s' komennot."
 
-#: server/stdinhand.c:1524
+#: server/stdinhand.c:1523
 msgid "Someone else is already game organizer."
 msgstr "Joku muu on jo pelinohjaaja."
 
-#: server/stdinhand.c:1529
+#: server/stdinhand.c:1528
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr "Yhteys %s on tarjoutunut pelinohjaajaksi."
 
-#: server/stdinhand.c:1580
+#: server/stdinhand.c:1579
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Kelvoton argumentti %d."
 
-#: server/stdinhand.c:1587 server/stdinhand.c:1983 server/stdinhand.c:3074
-#: server/stdinhand.c:3223 server/stdinhand.c:3235 server/stdinhand.c:3407
-#: server/stdinhand.c:3505
+#: server/stdinhand.c:1586 server/stdinhand.c:1982 server/stdinhand.c:3073
+#: server/stdinhand.c:3222 server/stdinhand.c:3234 server/stdinhand.c:3406
+#: server/stdinhand.c:3504
 #, c-format
 msgid ""
 "Usage:\n"
@@ -8381,190 +8433,190 @@ msgstr ""
 "Käyttö: \n"
 "%s"
 
-#: server/stdinhand.c:1594
+#: server/stdinhand.c:1593
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dynaaminen vuoron aikaraja asetettu arvoiksi %d %d %d %d."
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:1671
+#: server/stdinhand.c:1670
 #, c-format
 msgid "Option: %s  -  %s"
 msgstr "Asetus: %s – %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:1676
+#: server/stdinhand.c:1675
 #, c-format
 msgid "Option: %s"
 msgstr "Asetus: %s"
 
-#: server/stdinhand.c:1683 server/stdinhand.c:4707
+#: server/stdinhand.c:1682 server/stdinhand.c:4706
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: server/stdinhand.c:1688
+#: server/stdinhand.c:1687
 #, c-format
 msgid "Status: %s"
 msgstr "Tila: %s"
 
-#: server/stdinhand.c:1689
+#: server/stdinhand.c:1688
 msgid "changeable"
 msgstr "on muutettavissa"
 
-#: server/stdinhand.c:1689
+#: server/stdinhand.c:1688
 msgid "fixed"
 msgstr "kiinteä"
 
-#: server/stdinhand.c:1698 server/stdinhand.c:1718 server/stdinhand.c:1732
+#: server/stdinhand.c:1697 server/stdinhand.c:1717 server/stdinhand.c:1731
 msgid "Value:"
 msgstr "Arvo:"
 
-#: server/stdinhand.c:1699 manual/civmanual.c:194
+#: server/stdinhand.c:1698 manual/civmanual.c:194
 msgid "Minimum:"
 msgstr "Minimi:"
 
-#: server/stdinhand.c:1700 server/stdinhand.c:1718 server/stdinhand.c:1734
+#: server/stdinhand.c:1699 server/stdinhand.c:1717 server/stdinhand.c:1733
 #: manual/civmanual.c:195 manual/civmanual.c:228
 msgid "Default:"
 msgstr "Oletus:"
 
-#: server/stdinhand.c:1701 manual/civmanual.c:196
+#: server/stdinhand.c:1700 manual/civmanual.c:196
 msgid "Maximum:"
 msgstr "Maksimi:"
 
-#: server/stdinhand.c:1708 manual/civmanual.c:203
+#: server/stdinhand.c:1707 manual/civmanual.c:203
 msgid "Possible values:"
 msgstr "Mahdollisia arvoja:"
 
-#: server/stdinhand.c:1726 manual/civmanual.c:215
+#: server/stdinhand.c:1725 manual/civmanual.c:215
 msgid "Possible values (option can take any number of these):"
 msgstr "Mahdolliset arvot (mitkä tahansa seuraavista):"
 
-#: server/stdinhand.c:1751
+#: server/stdinhand.c:1750
 msgid "Explanations are available for the following server options:"
 msgstr "Seuraavista palvelimen asetuksista on saatavilla seloste:"
 
-#: server/stdinhand.c:1796
+#: server/stdinhand.c:1795
 msgid "No explanation for that yet."
 msgstr "Tuolle ei ole vielä selostetta."
 
-#: server/stdinhand.c:1799 server/stdinhand.c:2762
+#: server/stdinhand.c:1798 server/stdinhand.c:2761
 msgid "Ambiguous option name."
 msgstr "Asetuksen nimi ei ole yksiselitteinen."
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1817
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Palvelinoperaattori: %s"
 
-#: server/stdinhand.c:1857
+#: server/stdinhand.c:1856
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
 msgstr "Yhteysviesti lyhennetty %u tavuun."
 
-#: server/stdinhand.c:1903 server/stdinhand.c:1940 server/stdinhand.c:1958
+#: server/stdinhand.c:1902 server/stdinhand.c:1939 server/stdinhand.c:1957
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Pelaajan '%s' AI-vaikeustaso on nyt '%s'."
 
-#: server/stdinhand.c:1945
+#: server/stdinhand.c:1944
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s ei ole AI:n ohjauksessa."
 
-#: server/stdinhand.c:1965
+#: server/stdinhand.c:1964
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "AI:n vaikeustason oletusarvo on nyt '%s'."
 
-#: server/stdinhand.c:1980
+#: server/stdinhand.c:1979
 msgid "This command is client only."
 msgstr "Tämä komento on vain asiakasohjelman käytettävissä."
 
-#: server/stdinhand.c:1989
+#: server/stdinhand.c:1988
 msgid "Only players may use the away command."
 msgstr "Vain pelaajat voivat käyttää away-komentoa."
 
-#: server/stdinhand.c:1993
+#: server/stdinhand.c:1992
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s on poissa-tilassa."
 
-#: server/stdinhand.c:1999
+#: server/stdinhand.c:1998
 #, c-format
 msgid "%s returned to game."
 msgstr "%s palasi pelin ääreen."
 
-#: server/stdinhand.c:2050
+#: server/stdinhand.c:2049
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr ""
 "Ikävä kyllä sinulla ei ole tarvittavia oikeuksia asetuksen '%s' näyttämiseen."
 
-#: server/stdinhand.c:2059
+#: server/stdinhand.c:2058
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Tuntematon asetusparametri '%s'."
 
-#: server/stdinhand.c:2072
+#: server/stdinhand.c:2071
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Tämänhetkinen hakemistopolku sääntökokoelmille on: \"%s\""
 
-#: server/stdinhand.c:2105
+#: server/stdinhand.c:2104
 msgid "All options with non-default values"
 msgstr "Asetukset joilla on oletuksesta poikkeava arvo"
 
-#: server/stdinhand.c:2108
+#: server/stdinhand.c:2107
 msgid "All options"
 msgstr "Kaikki asetukset"
 
-#: server/stdinhand.c:2111
+#: server/stdinhand.c:2110
 msgid "Vital options"
 msgstr "Keskeiset asetukset"
 
-#: server/stdinhand.c:2114
+#: server/stdinhand.c:2113
 msgid "Situational options"
 msgstr "Tilannekohtaiset asetukset"
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2116
 msgid "Rarely used options"
 msgstr "Harvinaiset asetukset"
 
-#: server/stdinhand.c:2120
+#: server/stdinhand.c:2119
 msgid "Options locked by the ruleset"
 msgstr "Asetus on lukittu sääntökokoelmassa"
 
-#: server/stdinhand.c:2132
+#: server/stdinhand.c:2131
 msgid "In the column '##' the status of the option is shown:"
 msgstr "Sarakkeessa '##' näytetään asetuksen tila:"
 
-#: server/stdinhand.c:2133
+#: server/stdinhand.c:2132
 msgid " - a '!' means the option is locked by the ruleset."
 msgstr "- '!' tarkoittaa sääntökokoelmassa lukittua asetusta"
 
-#: server/stdinhand.c:2134
+#: server/stdinhand.c:2133
 msgid " - a '+' means you may change the option."
 msgstr "- '+' tarkoittaa että voit muuttaa asetusta"
 
-#: server/stdinhand.c:2135
+#: server/stdinhand.c:2134
 msgid " - a '=' means the option is on its default value."
 msgstr "- '=' tarkoittaa että asetus on oletusarvossaan"
 
-#: server/stdinhand.c:2137
+#: server/stdinhand.c:2136
 #, c-format
 msgid "%-*s ## value (min, max)"
 msgstr "%-*s ## arvo (min, maks)"
 
-#: server/stdinhand.c:2138
+#: server/stdinhand.c:2137
 msgid "Option"
 msgstr "Asetus"
 
-#: server/stdinhand.c:2186
+#: server/stdinhand.c:2185
 msgid "A help text for each option is available via 'help <option>'."
 msgstr "Jokaisesta asetuksesta on tarjolla tietoa komennolla 'help <asetus>'."
 
-#: server/stdinhand.c:2190
+#: server/stdinhand.c:2189
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values.\n"
@@ -8575,13 +8627,13 @@ msgstr ""
 "Komento 'show changed' näyttää asetukset, joiden arvo eroaa oletuksesta.\n"
 "Komento 'show locked' näyttää asetukset, jotka on lukittu sääntökokoelmassa."
 
-#: server/stdinhand.c:2218
+#: server/stdinhand.c:2217
 msgid "Cannot change teams once game has begun."
 msgstr "Joukkuetta ei voi vaihtaa pelin alettua."
 
-#: server/stdinhand.c:2228 server/stdinhand.c:2364 server/stdinhand.c:2555
-#: server/stdinhand.c:2580 server/stdinhand.c:2623 server/stdinhand.c:2654
-#: server/stdinhand.c:2696 server/stdinhand.c:2721 server/stdinhand.c:2748
+#: server/stdinhand.c:2227 server/stdinhand.c:2363 server/stdinhand.c:2554
+#: server/stdinhand.c:2579 server/stdinhand.c:2622 server/stdinhand.c:2653
+#: server/stdinhand.c:2695 server/stdinhand.c:2720 server/stdinhand.c:2747
 #, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
@@ -8590,17 +8642,17 @@ msgstr ""
 "Parametriä ei ole määritelty. Käyttö: \n"
 "%s"
 
-#: server/stdinhand.c:2249
+#: server/stdinhand.c:2248
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
 "Joukkuetta %s ei ole. Ole hyvä ja anna oikea joukkueen nimi tai numero."
 
-#: server/stdinhand.c:2256
+#: server/stdinhand.c:2255
 msgid "Cannot team a barbarian."
 msgstr "Barbaarit eivät voi kuulua joukkueeseen."
 
-#: server/stdinhand.c:2262
+#: server/stdinhand.c:2261
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Pelaaja %s on nyt joukkueessa %s."
@@ -8608,228 +8660,228 @@ msgstr "Pelaaja %s on nyt joukkueessa %s."
 #. TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
 #. * part of a sentence.
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2290 server/voting.c:511
+#: server/stdinhand.c:2289 server/voting.c:511
 msgid "Teamvote"
 msgstr "Joukkueäänestys"
 
 #. TRANS: "Vote" as a process. Used as part of a sentence.
-#: server/stdinhand.c:2290 server/voting.c:516
+#: server/stdinhand.c:2289 server/voting.c:516
 msgid "Vote"
 msgstr "Äänestys"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
-#: server/stdinhand.c:2293
+#: server/stdinhand.c:2292
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (vaaditaan %0.0f%%%s): %d puolesta, %d vastaan ja %d tyhjää "
 "kaikkiaan %d pelaajasta."
 
-#: server/stdinhand.c:2297
+#: server/stdinhand.c:2296
 msgid " no dissent"
 msgstr " yksimielinen päätös"
 
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2304
 msgid "There are no votes going on."
 msgstr "Yhtään äänestystä ei ole käynnissä."
 
-#: server/stdinhand.c:2350 server/stdinhand.c:2475 server/stdinhand.c:4028
+#: server/stdinhand.c:2349 server/stdinhand.c:2474 server/stdinhand.c:4027
 msgid "You are not allowed to use this command."
 msgstr "Sinulla ei ole lupaa käyttää tätä komentoa."
 
-#: server/stdinhand.c:2359
+#: server/stdinhand.c:2358
 #, c-format
 msgid "The argument \"%s\" is ambiguous."
 msgstr "Parametri \"%s\" ei ole yksiselitteinen."
 
-#: server/stdinhand.c:2376
+#: server/stdinhand.c:2375
 msgid "There are no votes running."
 msgstr "Yhtään äänestystä ei ole käynnissä."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2379
+#: server/stdinhand.c:2378
 #, c-format
 msgid "No legal last vote (%d %s)."
 msgstr "Kelvollista viimeisintä äänestystä ei ole (%d %s)."
 
-#: server/stdinhand.c:2380
+#: server/stdinhand.c:2379
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] "muu äänestys käynnissä"
 msgstr[1] "muuta äänestystä käynnissä"
 
-#: server/stdinhand.c:2387
+#: server/stdinhand.c:2386
 msgid "Value must be an integer."
 msgstr "Arvon pitää olla kokonaisluku."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2394 server/stdinhand.c:2484
+#: server/stdinhand.c:2393 server/stdinhand.c:2483
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Äänestystä %d ei ole."
 
-#: server/stdinhand.c:2400
+#: server/stdinhand.c:2399
 msgid "You are not allowed to vote on that."
 msgstr "Et voi osallistua tähän äänestykseen."
 
-#: server/stdinhand.c:2405
+#: server/stdinhand.c:2404
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Äänestit ehdotuksen \"%s\" puolesta"
 
-#: server/stdinhand.c:2409
+#: server/stdinhand.c:2408
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Äänestit ehdotusta \"%s\" vastaan"
 
-#: server/stdinhand.c:2414
+#: server/stdinhand.c:2413
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr "Äänestit tyhjää ehdotuksen \"%s\" suhteen"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2451
+#: server/stdinhand.c:2450
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr "Parametri <äänestyksen numero> tai \"all\" puuttuu."
 
-#: server/stdinhand.c:2458
+#: server/stdinhand.c:2457
 msgid "You don't have any vote going on."
 msgstr "Sinulla ei ole yhtään äänestystä käynnissä."
 
-#: server/stdinhand.c:2465
+#: server/stdinhand.c:2464
 msgid "There isn't any vote going on."
 msgstr "Yhtään äänestystä ei ole käynnissä."
 
 #. TRANS: "votes" as a process
-#: server/stdinhand.c:2471
+#: server/stdinhand.c:2470
 msgid "All votes have been removed."
 msgstr "Kaikki äänestykset on peruttu."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2490
+#: server/stdinhand.c:2489
 #, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr ""
 "Sinulla ei ole tarvittavia oikeuksia tämän äänestyksen (%d) peruuttamiseen."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2496
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr "Käyttö: /cancelvote [<äänestyksen numero>|all]"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2506
 #, c-format
 msgid "%s has canceled the vote \"%s\" (number %d)."
 msgstr "%s on peruuttanut äänestyksen \"%s\" (numero %d)"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:2514
+#: server/stdinhand.c:2513
 #, c-format
 msgid "The vote \"%s\" (number %d) has been canceled."
 msgstr "Äänestys \"%s\" (numero %d) on peruttu."
 
-#: server/stdinhand.c:2535
+#: server/stdinhand.c:2534
 msgid "Can only use this command once game has begun."
 msgstr "Komentoa voi käyttää vain pelin alettua."
 
-#: server/stdinhand.c:2566
+#: server/stdinhand.c:2565
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "Pelaajan %s diplomatiaa ei enää debugata"
 
-#: server/stdinhand.c:2570
+#: server/stdinhand.c:2569
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "Pelaajan %s diplomatiaa debugataan"
 
-#: server/stdinhand.c:2591
+#: server/stdinhand.c:2590
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "Pelaajan %s teknologiaa ei enää debugata"
 
-#: server/stdinhand.c:2595
+#: server/stdinhand.c:2594
 #, c-format
 msgid "%s tech debugged"
 msgstr "Pelaajan %s teknologiaa debugataan"
 
-#: server/stdinhand.c:2611 server/stdinhand.c:2614
+#: server/stdinhand.c:2610 server/stdinhand.c:2613
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr "pelaajia=%d kaupunkeja=%d asukkaita=%d yksiköitä=%d"
 
-#: server/stdinhand.c:2628 server/stdinhand.c:2659
+#: server/stdinhand.c:2627 server/stdinhand.c:2658
 msgid "Value 2 & 3 must be integer."
 msgstr "Arvojen 2 ja 3 pitää olla kokonaislukuja."
 
-#: server/stdinhand.c:2632 server/stdinhand.c:2663
+#: server/stdinhand.c:2631 server/stdinhand.c:2662
 msgid "Bad map coordinates."
 msgstr "Karttakoordinaatit ovat epäkelvot."
 
-#: server/stdinhand.c:2637
+#: server/stdinhand.c:2636
 msgid "No city at this coordinate."
 msgstr "Näissä koordinaateissa ei ole kaupunkia."
 
-#: server/stdinhand.c:2642
+#: server/stdinhand.c:2641
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Kohdetta %s ei enää debugata"
 
-#: server/stdinhand.c:2669 server/stdinhand.c:2710
+#: server/stdinhand.c:2668 server/stdinhand.c:2709
 #, c-format
 msgid "%s %s no longer debugged."
 msgstr "%s %s ei ole enää debugattavana."
 
-#: server/stdinhand.c:2684
+#: server/stdinhand.c:2683
 msgid "Ferry system is no longer in debug mode."
 msgstr "Lauttajärjestelmä ei enää ole debugattavana."
 
-#: server/stdinhand.c:2688
+#: server/stdinhand.c:2687
 msgid "Ferry system in debug mode."
 msgstr "Lauttajärjestelmä asetettu debug-tilaan."
 
-#: server/stdinhand.c:2701
+#: server/stdinhand.c:2700
 msgid "Value 2 must be integer."
 msgstr "Arvon 2 pitää olla kokonaisluku."
 
-#: server/stdinhand.c:2705
+#: server/stdinhand.c:2704
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Yksikköä %d ei ole olemassa."
 
-#: server/stdinhand.c:2759
+#: server/stdinhand.c:2758
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr "Asetusta '%s' ei tunneta."
 
 #. TRANS: 'rulesetdir' is the command. Do not translate.
-#: server/stdinhand.c:2767
+#: server/stdinhand.c:2766
 #, c-format
 msgid "Use the '%srulesetdir' command to change the ruleset directory."
 msgstr "Käytä komentoa '%srulesetdir' vaihtamaan sääntökokoelmahakemisto."
 
-#: server/stdinhand.c:2809
+#: server/stdinhand.c:2808
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr "Parametrin %s tulisi sisältää vain +- ja numeroita 0-9."
 
-#: server/stdinhand.c:2897
+#: server/stdinhand.c:2896
 #, c-format
 msgid "Console: '%s' has been set to %s."
 msgstr "Konsoli: '%s' on asetettu arvoon %s."
 
-#: server/stdinhand.c:2939
+#: server/stdinhand.c:2938
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Tässä pelissä ei voi tarkkailla koko maailmaa."
 
-#: server/stdinhand.c:2947
+#: server/stdinhand.c:2946
 msgid "You cannot take a new player at this time."
 msgstr "Et voi ottaa hallintaasi uutta pelaajaa tässä vaiheessa peliä."
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:2955
+#: server/stdinhand.c:2954
 #, c-format
 msgid ""
 "You cannot take a new player because the maximum of %d player has already "
@@ -8844,176 +8896,176 @@ msgstr[1] ""
 "Et voi ottaa uutta pelaajaa hallintaasi, koska %d pelaajan maksimi on jo "
 "saavutettu (maxplayers-asetus)."
 
-#: server/stdinhand.c:2967
+#: server/stdinhand.c:2966
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
 "Et voi ottaa uutta pelaajaa hallintaasi, koska vapaita pelaajapaikkoja ei "
 "ole."
 
-#: server/stdinhand.c:2979
+#: server/stdinhand.c:2978
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Tässä pelissä ei voi tarkkailla barbaareja."
 
-#: server/stdinhand.c:2982
+#: server/stdinhand.c:2981
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Tässä pelissä ei voi hallita barbaareja."
 
-#: server/stdinhand.c:2991
+#: server/stdinhand.c:2990
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Tässä pelissä ei voi seurata kuolleita pelaajia."
 
-#: server/stdinhand.c:2995
+#: server/stdinhand.c:2994
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Tässä pelissä ei voi hallita kuolleita pelaajia."
 
-#: server/stdinhand.c:3005
+#: server/stdinhand.c:3004
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Tässä pelissä ei voi tarkkailla AI-pelaajia."
 
-#: server/stdinhand.c:3008
+#: server/stdinhand.c:3007
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Tässä pelissä ei voi hallita AI-pelaajia."
 
-#: server/stdinhand.c:3018
+#: server/stdinhand.c:3017
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Tässä pelissä ei voi tarkkailla ihmispelaajia."
 
-#: server/stdinhand.c:3022
+#: server/stdinhand.c:3021
 msgid "Sorry, one can't take human players in this game."
 msgstr "Tässä pelissä ei voi ottaa hallintaan ihmispelaajia."
 
-#: server/stdinhand.c:3032
+#: server/stdinhand.c:3031
 msgid "Sorry, one can't observe in this game."
 msgstr "Tässä pelissä ei voi tarkkailla."
 
-#: server/stdinhand.c:3037
+#: server/stdinhand.c:3036
 msgid "Sorry, one can't take players in this game."
 msgstr "Tässä pelissä ei voi ottaa pelaajia hallintaan."
 
-#: server/stdinhand.c:3044
+#: server/stdinhand.c:3043
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "Tässä pelissä ei voi ottaa hallintaan jo yhdistettyjä pelaajia."
 
-#: server/stdinhand.c:3081 server/stdinhand.c:3230
+#: server/stdinhand.c:3080 server/stdinhand.c:3229
 msgid "Only the player name form is allowed."
 msgstr "Vain pelaajan nimen muoto on sallittu."
 
-#: server/stdinhand.c:3131
+#: server/stdinhand.c:3130
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 "%s hallitsee jo pelaajaa %s. Jos käytät 'observea', poistat pelaajan %s"
 
-#: server/stdinhand.c:3142
+#: server/stdinhand.c:3141
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s tarkkailee jo pelaajaa %s."
 
-#: server/stdinhand.c:3147
+#: server/stdinhand.c:3146
 #, c-format
 msgid "%s is already observing."
 msgstr "%s on jo tarkkailija."
 
-#: server/stdinhand.c:3179
+#: server/stdinhand.c:3178
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s tarkkailee nyt pelaajaa %s."
 
-#: server/stdinhand.c:3183
+#: server/stdinhand.c:3182
 #, c-format
 msgid "%s now observes"
 msgstr "%s on nyt tarkkailija"
 
-#: server/stdinhand.c:3251
+#: server/stdinhand.c:3250
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr "Et voi käyttää komentoa \"/take -\" kun peli on jo käynnissä."
 
-#: server/stdinhand.c:3281
+#: server/stdinhand.c:3280
 #, c-format
 msgid "%s already controls %s."
 msgstr "%s hallitsee jo pelaajaa %s."
 
-#: server/stdinhand.c:3295
+#: server/stdinhand.c:3294
 #, c-format
 msgid "There is no free player slot for %s."
 msgstr "Vapaata paikkaa pelaajalle %s ei ole."
 
-#: server/stdinhand.c:3313
+#: server/stdinhand.c:3312
 #, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "Kansakunta siirretty pelaajalle %s palvelinkonsolilta."
 
-#: server/stdinhand.c:3317
+#: server/stdinhand.c:3316
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr "%2$s siirsi kansakunnan pelaajalle %1$s."
 
-#: server/stdinhand.c:3360
+#: server/stdinhand.c:3359
 #, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s hallitsee nyt pelaajaa %s (%s, %s)."
 
-#: server/stdinhand.c:3364 server/stdinhand.c:4977
+#: server/stdinhand.c:3363 server/stdinhand.c:4976
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "barbaarien"
 
-#: server/stdinhand.c:3366 server/stdinhand.c:4979 client/plrdlg_common.c:236
+#: server/stdinhand.c:3365 server/stdinhand.c:4978 client/plrdlg_common.c:236
 #: client/gui-sdl/plrdlg.c:653
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3367 server/stdinhand.c:4981
+#: server/stdinhand.c:3366 server/stdinhand.c:4980
 msgid "Human"
 msgstr "ihminen"
 
-#: server/stdinhand.c:3369
+#: server/stdinhand.c:3368
 msgid "Alive"
 msgstr "elossa"
 
-#: server/stdinhand.c:3370
+#: server/stdinhand.c:3369
 msgid "Dead"
 msgstr "kuollut"
 
-#: server/stdinhand.c:3373
+#: server/stdinhand.c:3372
 #, c-format
 msgid "%s failed to attach to any player."
 msgstr "%s ei saanut kytkeydyttyä yhteenkään pelaajaan."
 
-#: server/stdinhand.c:3428
+#: server/stdinhand.c:3427
 msgid "You can not detach other users."
 msgstr "Et voi irrottaa muita käyttäjiä."
 
-#: server/stdinhand.c:3437
+#: server/stdinhand.c:3436
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s ei ole yhteydessä pelaajiin."
 
-#: server/stdinhand.c:3447
+#: server/stdinhand.c:3446
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s irrottautuu pelaajasta  %s"
 
-#: server/stdinhand.c:3450
+#: server/stdinhand.c:3449
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s ei enää tarkkaile."
 
-#: server/stdinhand.c:3511
+#: server/stdinhand.c:3510
 msgid "Cannot load a game while another is running."
 msgstr "Peliä ei voi ladata kun toinen peli on käynnissä."
 
-#: server/stdinhand.c:3544
+#: server/stdinhand.c:3543
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "En löydä tallennettua peliä tai skenaariota nimellä \"%s\"."
 
-#: server/stdinhand.c:3557
+#: server/stdinhand.c:3556
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Tallennustiedoston avaaminen epäonnistui: %s"
 
-#: server/stdinhand.c:3654
+#: server/stdinhand.c:3653
 msgid ""
 "You must provide a ruleset name. Use \"/show ruleset\" to see what is the "
 "current ruleset."
@@ -9021,195 +9073,195 @@ msgstr ""
 "Sinun on annettava sääntökokoelman nimi. Komennolla \"/show ruleset\" näet "
 "mikä on nykyinen sääntökokoelma."
 
-#: server/stdinhand.c:3660
+#: server/stdinhand.c:3659
 msgid "This setting can't be modified after the game has started."
 msgstr "Tätä asetusta ei voida muuttaa pelin alettua."
 
-#: server/stdinhand.c:3666
+#: server/stdinhand.c:3665
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Sääntökokoelmahakemistoksi on jo asetettu \"%s\""
 
-#: server/stdinhand.c:3682
+#: server/stdinhand.c:3681
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Sääntökokoelmahakemistoa \"%s\" ei löydy"
 
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3687
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "%s asetettu sääntökokoelmahakemistoksi"
 
-#: server/stdinhand.c:3718 server/stdinhand.c:3754 server/stdinhand.c:4923
+#: server/stdinhand.c:3717 server/stdinhand.c:3753 server/stdinhand.c:4922
 msgid "That would be rather silly, since you are not a player."
 msgstr "Se olisi aika hölmöä, koska et ole yksi pelaajista."
 
-#: server/stdinhand.c:3725
+#: server/stdinhand.c:3724
 #, c-format
 msgid "%s. Try /help ignore"
 msgstr "%s. Katso /help ignore"
 
-#: server/stdinhand.c:3737
+#: server/stdinhand.c:3736
 #, c-format
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "Lisäsin mallin %s kohtaan %d huomiotta jätettävien listallesi."
 
-#: server/stdinhand.c:3763 server/stdinhand.c:4928
+#: server/stdinhand.c:3762 server/stdinhand.c:4927
 msgid "Your ignore list is empty."
 msgstr "Huomiotta jätettävien listasi on tyhjä."
 
-#: server/stdinhand.c:3770
+#: server/stdinhand.c:3769
 msgid "Missing range. Try /help unignore."
 msgstr ""
 "Poistettavien merkintöjen määrittely puuttuu.  Katso \"/help unignore\"."
 
-#: server/stdinhand.c:3779 server/stdinhand.c:3787 server/stdinhand.c:3793
+#: server/stdinhand.c:3778 server/stdinhand.c:3786 server/stdinhand.c:3792
 #, c-format
 msgid "\"%s\" is not a valid range. Try /help unignore."
 msgstr "\"%s\" ei ole sopiva väli. Katso \"/help unignore\"."
 
-#: server/stdinhand.c:3802
+#: server/stdinhand.c:3801
 #, c-format
 msgid "Invalid entry number: %d."
 msgstr "Ei kelpaa merkinnän numeroksi: %d."
 
-#: server/stdinhand.c:3805
+#: server/stdinhand.c:3804
 #, c-format
 msgid "Invalid range: %d to %d."
 msgstr "Väli %d-%d ei kelpaa."
 
-#: server/stdinhand.c:3819
+#: server/stdinhand.c:3818
 #, c-format
 msgid "Removed pattern %s (entry %d) from your ignore list."
 msgstr "Malli %s (merkintä %d) poistettu huomiotta jätettävien listaltasi."
 
-#: server/stdinhand.c:3864
+#: server/stdinhand.c:3863
 msgid "Goodbye."
 msgstr "Näkemiin."
 
-#: server/stdinhand.c:3907
+#: server/stdinhand.c:3906
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Pahoittelen, sinulla ei ole lupaa käyttää palvelimen komentoja."
 
-#: server/stdinhand.c:3958
+#: server/stdinhand.c:3957
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Varoitus: Kirjoitit '%s', tulkitsin sinun tarkoittaneen '%s', mutta muitakin "
 "vaihtoehtoja olisi. Katso '%shelp'."
 
-#: server/stdinhand.c:3962
+#: server/stdinhand.c:3961
 #, c-format
 msgid "Unknown command '%s%s'.  Try '%shelp'."
 msgstr "Tuntematon komento '%s%s'. Katso '%shelp'."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3989
+#: server/stdinhand.c:3988
 msgid "Your new vote canceled your previous vote."
 msgstr "Uusi äänesi peruutti edellisen äänesi."
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:3996
+#: server/stdinhand.c:3995
 msgid "New teamvote"
 msgstr "Uusi äänestys joukkueen kesken"
 
 #. TRANS: "[New vote|New teamvote] (number 3)
 #. * by fred: proposed change"
-#: server/stdinhand.c:4008
+#: server/stdinhand.c:4007
 #, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "%s (nro %d), avaajana %s: %s"
 
 #. TRANS: "vote" as a process
-#: server/stdinhand.c:4018
+#: server/stdinhand.c:4017
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr "Uusi äänesi (\"%s\") oli epäkelpo tai sitä ei tunnustettu."
 
-#: server/stdinhand.c:4061
+#: server/stdinhand.c:4060
 msgid "(server prompt)"
 msgstr "(palvelinkehote)"
 
-#: server/stdinhand.c:4188
+#: server/stdinhand.c:4187
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Päätän pelin. Palvelin käynnistyy uudelleen, kun kaikki asiakasyhteydet on "
 "lopetettu."
 
-#: server/stdinhand.c:4193
+#: server/stdinhand.c:4192
 msgid "Cannot end the game: no game running."
 msgstr "En voi lopettaa peliä: yhtään peliä ei ole käynnissä."
 
-#: server/stdinhand.c:4209
+#: server/stdinhand.c:4208
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s on luovuttanut pelin eikä voi enää voittaa."
 
-#: server/stdinhand.c:4214
+#: server/stdinhand.c:4213
 msgid "You cannot surrender now."
 msgstr "Et voi antautua nyt."
 
-#: server/stdinhand.c:4264
+#: server/stdinhand.c:4263
 msgid "Guessing argument 'ruleset'."
 msgstr "Arvelen puuttuvan argumentin olevan 'ruleset'."
 
-#: server/stdinhand.c:4268
+#: server/stdinhand.c:4267
 msgid "Guessing argument 'game'."
 msgstr "Arvelen puuttuvan argumentin olevan 'game'."
 
-#: server/stdinhand.c:4276
+#: server/stdinhand.c:4275
 msgid "The valid arguments are: 'game', 'ruleset', 'script' or 'default'."
 msgstr "Argumentin pitää olla joko 'game', 'ruleset', 'script' tai 'default'."
 
-#: server/stdinhand.c:4291
+#: server/stdinhand.c:4290
 msgid "Reset all settings to the values at the game start."
 msgstr "Tätä asetusta ei voida muuttaa pelin alettua."
 
-#: server/stdinhand.c:4294
+#: server/stdinhand.c:4293
 msgid "No saved settings from the game start available."
 msgstr "Pelin alussa tallennettuja asetuksia ei ole saatavilla."
 
-#: server/stdinhand.c:4298
+#: server/stdinhand.c:4297
 msgid "No game started..."
 msgstr "Peliä ei ole vielä käynnistetty..."
 
-#: server/stdinhand.c:4305
+#: server/stdinhand.c:4304
 msgid "Reset all settings to ruleset values."
 msgstr "Palauta kaikki asetukset sääntökokoelman arvoihin."
 
-#: server/stdinhand.c:4312
+#: server/stdinhand.c:4311
 msgid "Reset all settings and rereading the server start script."
 msgstr ""
 "Palautan kaikki asetusten arvot ja suoritan uudelleen palvelimen "
 "käynnistysskriptin."
 
-#: server/stdinhand.c:4330
+#: server/stdinhand.c:4329
 msgid "Reset all settings to default values."
 msgstr "Palautan kaikki asetukset oletusarvoonsa."
 
-#: server/stdinhand.c:4336
+#: server/stdinhand.c:4335
 msgid "Settings re-initialized."
 msgstr "Asetukset palautettu alkuarvoihinsa."
 
-#: server/stdinhand.c:4419
+#: server/stdinhand.c:4418
 msgid "Not enough human players; game will not start."
 msgstr "Pelaajia ei ole tarpeeksi, peliä ei aloiteta."
 
-#: server/stdinhand.c:4424
+#: server/stdinhand.c:4423
 msgid "No players; game will not start."
 msgstr "Pelaajia ei ole, peliä ei aloiteta."
 
-#: server/stdinhand.c:4428
+#: server/stdinhand.c:4427
 msgid "Not enough nations for all players; game will not start."
 msgstr "Pelaajille ei ole tarpeeksi kansakuntia, peliä ei aloiteta."
 
-#: server/stdinhand.c:4437
+#: server/stdinhand.c:4436
 msgid "All players are ready; starting game."
 msgstr "Kaikki pelaajat ovat valmiina; peli alkaa."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:4453
+#: server/stdinhand.c:4452
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -9218,35 +9270,35 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:4460
+#: server/stdinhand.c:4459
 msgid "Cannot start the game: it is already running."
 msgstr "En voi aloittaa peliä: se on jo käynnissä."
 
-#: server/stdinhand.c:4491
+#: server/stdinhand.c:4490
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Katkaisen yhteyden %s."
 
-#: server/stdinhand.c:4492
+#: server/stdinhand.c:4491
 msgid "connection cut"
 msgstr "yhteys katkaistu"
 
-#: server/stdinhand.c:4580
+#: server/stdinhand.c:4579
 msgid "You may not kick yourself."
 msgstr "Et voi laittaa itseäsi jäähylle."
 
-#: server/stdinhand.c:4603
+#: server/stdinhand.c:4602
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr "Komentoa ei voi käyttää ellei palvelimelle ole %d eri yhteyttä."
 
-#: server/stdinhand.c:4629
+#: server/stdinhand.c:4628
 msgid "kicked"
 msgstr "jäähy"
 
-#: server/stdinhand.c:4645
+#: server/stdinhand.c:4644
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -9286,127 +9338,127 @@ msgstr ""
 "  quit   -  poistu ohjelmasta"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4682
+#: server/stdinhand.c:4681
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Komento: %s – %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4688
+#: server/stdinhand.c:4687
 #, c-format
 msgid "Command: %s"
 msgstr "Komento: %s"
 
-#: server/stdinhand.c:4693
+#: server/stdinhand.c:4692
 msgid "Synopsis: "
 msgstr "Yhteenveto: "
 
-#: server/stdinhand.c:4702
+#: server/stdinhand.c:4701
 #, c-format
 msgid "Level: %s"
 msgstr "Taso: %s"
 
-#: server/stdinhand.c:4724
+#: server/stdinhand.c:4723
 msgid "The following server commands are available:"
 msgstr "Seuraavat palvelinkomennot ovat saatavilla:"
 
-#: server/stdinhand.c:4785
+#: server/stdinhand.c:4784
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Mahdollisesti täsmääviä: %s"
 
-#: server/stdinhand.c:4847
+#: server/stdinhand.c:4846
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argumentti '%s' ei ole yksiselitteinen."
 
-#: server/stdinhand.c:4854
+#: server/stdinhand.c:4853
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Argumentille '%s' ei löytynyt vastinetta."
 
-#: server/stdinhand.c:4895
+#: server/stdinhand.c:4894
 msgid "List of connections to server:"
 msgstr "Lista yhteyksistä palvelimeen:"
 
-#: server/stdinhand.c:4899
+#: server/stdinhand.c:4898
 msgid "<no connections>"
 msgstr "<ei yhteyksiä>"
 
-#: server/stdinhand.c:4932
+#: server/stdinhand.c:4931
 msgid "Your ignore list:"
 msgstr "Huomiotta jätettävien listasi:"
 
-#: server/stdinhand.c:4951
+#: server/stdinhand.c:4950
 msgid "List of players:"
 msgstr "Pelaajaluettelo:"
 
-#: server/stdinhand.c:4956
+#: server/stdinhand.c:4955
 msgid "<no players>"
 msgstr "<ei pelaajia>"
 
-#: server/stdinhand.c:4973
+#: server/stdinhand.c:4972
 #, c-format
 msgid "user %s, "
 msgstr "käyttäjä %s, "
 
-#: server/stdinhand.c:4984
+#: server/stdinhand.c:4983
 msgid ", Dead"
 msgstr ", kuollut"
 
-#: server/stdinhand.c:4987
+#: server/stdinhand.c:4986
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", vaikeusaste %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4992 server/stdinhand.c:4996 client/helpdata.c:658
+#: server/stdinhand.c:4991 server/stdinhand.c:4995 client/helpdata.c:658
 #: client/helpdata.c:1234 client/text.c:1527 client/text.c:1567
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:5000
+#: server/stdinhand.c:4999
 msgid ", ready"
 msgstr ", valmis"
 
-#: server/stdinhand.c:5004
+#: server/stdinhand.c:5003
 msgid ", not ready"
 msgstr ", ei valmis"
 
-#: server/stdinhand.c:5015
+#: server/stdinhand.c:5014
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d yhteys:"
 msgstr[1] " %d yhteyttä:"
 
-#: server/stdinhand.c:5021
+#: server/stdinhand.c:5020
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s, yhteys %s (komentotaso %s), puskurikoko = %d kb"
 
-#: server/stdinhand.c:5027
+#: server/stdinhand.c:5026
 msgid " (observer mode)"
 msgstr " (tarkkailija)"
 
-#: server/stdinhand.c:5044
+#: server/stdinhand.c:5043
 msgid "List of scenarios available:"
 msgstr "Saatavilla olevat skenaariot:"
 
-#: server/stdinhand.c:5065
+#: server/stdinhand.c:5064
 msgid "List of teams:"
 msgstr "Joukkueluettelo:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:5075
+#: server/stdinhand.c:5074
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d pelaaja"
 msgstr[1] "%2d : '%s' : %d pelaajaa"
 
-#: server/stdinhand.c:5131
+#: server/stdinhand.c:5130
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Kelvoton parametri komennolle 'list': '%s'. Ks. '%shelp list'."
@@ -9421,7 +9473,9 @@ msgstr "Diplomaatit raportoivat, että %s ovat saavuttaneet edistysaskeleen %s."
 #: server/techtools.c:108
 #, c-format
 msgid "The %s have researched Future Tech. %d."
-msgstr "Diplomaatit raportoivat, että %s ovat saavuttaneet tulevaisuuden teknologian %d."
+msgstr ""
+"Diplomaatit raportoivat, että %s ovat saavuttaneet tulevaisuuden teknologian "
+"%d."
 
 #: server/techtools.c:166
 #, c-format
@@ -9479,8 +9533,8 @@ msgstr ""
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
-"Olematon tutkimuspanostus saa meidät menettämään Tulevaisuuden teknologian "
-"%d."
+"Olematon tutkimuspanostus saa meidät menettämään Tulevaisuuden teknologian %"
+"d."
 
 #: server/techtools.c:481
 #, c-format
@@ -9523,13 +9577,16 @@ msgstr "Varastat edistysaskeleen %s kohteelta %s."
 #: server/techtools.c:950
 #, c-format
 msgid "The %s stole %s from you!"
-msgstr "%2$s on vuotanut vieraalle vallalle - %1$s teknologiavakoojat olivat asialla!"
+msgstr ""
+"%2$s on vuotanut vieraalle vallalle - %1$s teknologiavakoojat olivat asialla!"
 
 # TODO: Needs capitalization tag.
 #: server/techtools.c:955
 #, c-format
 msgid "The %s have stolen %s from the %s."
-msgstr "Diplomaattien mukaan %1$s teknologiavakoojat ovat olleet liikkeellä: %3$s %2$s on vuotanut."
+msgstr ""
+"Diplomaattien mukaan %1$s teknologiavakoojat ovat olleet liikkeellä: %3$s %2"
+"$s on vuotanut."
 
 #: server/techtools.c:1075
 #, c-format
@@ -9659,7 +9716,8 @@ msgstr "%s lisätty auttamaan kaupunkia %s kasvamaan."
 #: server/unithand.c:1030
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
-msgstr "Laukaisemasi %s ammuttiin alas ohjuspuolustusjärjestelmällä. Ilonpilaajat!"
+msgstr ""
+"Laukaisemasi %s ammuttiin alas ohjuspuolustusjärjestelmällä. Ilonpilaajat!"
 
 #: server/unithand.c:1033
 #, c-format
@@ -9728,7 +9786,9 @@ msgstr "Yksikkö ei kykene diplomaattisiin toimiin kaupungista %s."
 #: server/unithand.c:1366
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
-msgstr "Tämä vaatii että sinä ja %s olette julistaneet sodan. Käytä tähän Kansakunnat-näkymää (F3)."
+msgstr ""
+"Tämä vaatii että sinä ja %s olette julistaneet sodan. Käytä tähän "
+"Kansakunnat-näkymää (F3)."
 
 #. TRANS: <unit> ... <unit>
 #: server/unithand.c:1408
@@ -13084,7 +13144,13 @@ msgid ""
 "pop up asking which action should be performed. Disabling this option means "
 "you will have to do the action manually by pressing either 'r' (for a trade "
 "route) or 'b' (for building a wonder) when the unit is in the city."
-msgstr "Jos tämä asetus on valittuna, karavaanin saapuminen kaupunkiin, johon se voi perustaa vakituisen kauppareitin tai jossa se voi auttaa rakentamaan ihmettä, avaa ikkunan, joka kysyy, mitä tehdään. Jos asetus ei ole valittuna, nämä toiminnot pitää käskyttää erikseen painamalla 'r' (kauppareitille) tai 'b' (ihmeen rakentamiselle), kun karavaani on kaupungissa."
+msgstr ""
+"Jos tämä asetus on valittuna, karavaanin saapuminen kaupunkiin, johon se voi "
+"perustaa vakituisen kauppareitin tai jossa se voi auttaa rakentamaan "
+"ihmettä, avaa ikkunan, joka kysyy, mitä tehdään. Jos asetus ei ole "
+"valittuna, nämä toiminnot pitää käskyttää erikseen painamalla "
+"'r' (kauppareitille) tai 'b' (ihmeen rakentamiselle), kun karavaani on "
+"kaupungissa."
 
 #: client/options.c:1928
 msgid "Enable cursor changing"
@@ -13108,7 +13174,9 @@ msgstr "Valitse kaupungit ennen yksiköitä"
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
-msgstr "Jos tämä asetus on valittuna ja valintaruudun sisällä on sekä kaupunkeja että yksiköitä, vain kaupungit valitaan. Katso myös ohje ohjauskomennoista."
+msgstr ""
+"Jos tämä asetus on valittuna ja valintaruudun sisällä on sekä kaupunkeja "
+"että yksiköitä, vain kaupungit valitaan. Katso myös ohje ohjauskomennoista."
 
 #: client/options.c:1940
 msgid "Clear unit orders on selection"
@@ -13716,11 +13784,11 @@ msgstr "Vuoron %d alku"
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:1858
+#: client/packhand.c:1866
 msgid "AI mode is now ON."
 msgstr "AI-tila on nyt PÄÄLLÄ."
 
-#: client/packhand.c:1860
+#: client/packhand.c:1868
 msgid "AI mode is now OFF."
 msgstr "AI-tila on nyt POIS PÄÄLTÄ."
 
@@ -17956,7 +18024,9 @@ msgstr "Peru"
 msgid ""
 "\n"
 "veteran"
-msgstr "\nkonkari"
+msgstr ""
+"\n"
+"konkari"
 
 #: client/gui-sdl/citydlg.c:954
 msgid ""
@@ -20630,7 +20700,8 @@ msgid ""
 "Now ... Go give 'em hell!"
 msgstr ""
 "Freeciv on vapaa ohjelmisto, ja saat mieluusti levittää kopioita siitä\n"
-"tiettyjen ehtojen voimassa ollessa; katso \"Kopiointi\"-kohta ohjevalikossa.\n"
+"tiettyjen ehtojen voimassa ollessa; katso \"Kopiointi\"-kohta "
+"ohjevalikossa.\n"
 "\n"
 "Käännöstä koskevia huomautuksia ja toiveita otetaan mieluusti vastaan \n"
 "osoitteessa <sini.ruohomaa@iki.fi>. Suomi ja englanti ovat \n"
@@ -21272,9 +21343,9 @@ msgstr ""
 "Kaupungin ympäristössä olevista ruuduista saatavan ruuan, tuotannon ja "
 "kaupan määrä riippuu maaston tyypistä. Nämä kolme tuottotyyppiä ovat niin "
 "tärkeitä että määrittelemme ruudun tuottavuuden yksinkertaisesti "
-"luettelemalla niiden määrän kauttaviivoilla erotettuna: esimerkiksi "
-"\"1/2/0\" kuvaa ruutua josta saadaan yksi yksikkö ruokaa, kaksi tuotantoa "
-"eikä yhtään yksikköä kauppaa jokaisella vuorolla jona se on tuotannossa. "
+"luettelemalla niiden määrän kauttaviivoilla erotettuna: esimerkiksi \"1/2/0"
+"\" kuvaa ruutua josta saadaan yksi yksikkö ruokaa, kaksi tuotantoa eikä "
+"yhtään yksikköä kauppaa jokaisella vuorolla jona se on tuotannossa. "
 "Maastotyypin ominaisen tuoton lisäksi joillakin ruuduilla on erityisiä "
 "luonnonvaroja, jotka kasvattavat yhtä tai kahtä ruudulta saatavaa eri "
 "tyyppistä tuottoa."
@@ -21764,7 +21835,12 @@ msgid ""
 "the game even gives you the freedom to produce units you cannot support and "
 "buildings whose upkeep you cannot afford, both of which will be disbanded "
 "immediately after completion."
-msgstr "Kukin pelaaja voi liki vapaasti tuottaa kaikkia hankkeita joita pelaajan teknologian kehitys on mahdollistanut. Rajoitteista on lisätietoa kohdissa Yksiköt, Rakennushankkeet ja Maailman ihmeet. Ole kuitenkin varovainen – peli antaa sinun tuottaa yksiköitä ja rakennuksia, joita et voi ylläpitää ja jotka täytyy hajoittaa välittömästi niiden valmistumisen jälkeen."
+msgstr ""
+"Kukin pelaaja voi liki vapaasti tuottaa kaikkia hankkeita joita pelaajan "
+"teknologian kehitys on mahdollistanut. Rajoitteista on lisätietoa kohdissa "
+"Yksiköt, Rakennushankkeet ja Maailman ihmeet. Ole kuitenkin varovainen – "
+"peli antaa sinun tuottaa yksiköitä ja rakennuksia, joita et voi ylläpitää ja "
+"jotka täytyy hajoittaa välittömästi niiden valmistumisen jälkeen."
 
 #: data/helpdata.txt:561
 msgid ""
@@ -22759,7 +22835,12 @@ msgid ""
 "once built, units can also become veteran through experience (such as "
 "surviving combat), which may provide further levels of bonuses beyond those "
 "available from their initial training."
-msgstr "Yksiköiden ominaisuuksia voi edelleen tehostaa niiden yleneminen. Tiettyjen kaupunkien kehityshankkeiden tai muiden vaikutusten myötä yksiköt voivat yletä jo kokoamisvaiheen harjoituksissa. Kerran kootut yksiköt voivat yletä kokemuksen kertyessä (vaikkapa taistelusta selviämisen jälkeen). tällä tavoin ne voivat myös yletä pidemmälle kuin pelkästään alkuharjoituksissa."
+msgstr ""
+"Yksiköiden ominaisuuksia voi edelleen tehostaa niiden yleneminen. Tiettyjen "
+"kaupunkien kehityshankkeiden tai muiden vaikutusten myötä yksiköt voivat "
+"yletä jo kokoamisvaiheen harjoituksissa. Kerran kootut yksiköt voivat yletä "
+"kokemuksen kertyessä (vaikkapa taistelusta selviämisen jälkeen). tällä "
+"tavoin ne voivat myös yletä pidemmälle kuin pelkästään alkuharjoituksissa."
 
 #: data/helpdata.txt:1058
 msgid ""
@@ -22846,7 +22927,9 @@ msgstr "Ensin lasketaan hyökkääjän voimat."
 msgid ""
 " - If the attacker is a veteran, its strength is multiplied by the bonus "
 "associated with its veteran level."
-msgstr " – Jos hyökkääjä on konkari, sen voimakkuus kertautuu siihen liitetyn kokemuskertoimen verran."
+msgstr ""
+" – Jos hyökkääjä on konkari, sen voimakkuus kertautuu siihen liitetyn "
+"kokemuskertoimen verran."
 
 #: data/helpdata.txt:1105
 msgid "Next, the defender's strength is modified."
@@ -22856,7 +22939,9 @@ msgstr "Sitten lasketaan puolustajan voimat."
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by the "
 "bonus associated with its veteran level."
-msgstr " – Jos puolustaja on konkari, sen voimakkuus kertautuu siihen liitetyn kokemuskertoimen verran."
+msgstr ""
+" – Jos puolustaja on konkari, sen voimakkuus kertautuu siihen liitetyn "
+"kokemuskertoimen verran."
 
 #: data/helpdata.txt:1110
 msgid ""
@@ -22897,7 +22982,9 @@ msgstr ""
 #: data/helpdata.txt:1124
 msgid ""
 " - An SDI Defense doubles the defender's strength against missile attacks."
-msgstr " – Ohjuspuolustusjärjestelmä kaksinkertaistaa vielä kerran puolustajan voimat ohjusiskuja vastaan."
+msgstr ""
+" – Ohjuspuolustusjärjestelmä kaksinkertaistaa vielä kerran puolustajan "
+"voimat ohjusiskuja vastaan."
 
 #: data/helpdata.txt:1127
 msgid ""
@@ -23329,8 +23416,8 @@ msgid ""
 msgstr ""
 "Sivilisaatiosi aloittaa yksinvaltana. Kun teknologiasi kehittyy, voit valita "
 "muita hallintomuotoja (lueteltu alempana). Vaihtaaksesi hallintomuotoa sinun "
-"on tehtävä vallankumous. Tämä johtaa sivilisaatiosi anarkiaan, jota kestää "
-"1-5 pelivuoroa. Tämän jakson lopulla voit valita uuden hallintomuotosi."
+"on tehtävä vallankumous. Tämä johtaa sivilisaatiosi anarkiaan, jota kestää 1-"
+"5 pelivuoroa. Tämän jakson lopulla voit valita uuden hallintomuotosi."
 
 #: data/helpdata.txt:1351
 msgid ""
@@ -26695,7 +26782,11 @@ msgid ""
 "squares for rectangular grids), including friendly units. Any city within "
 "the blast area loses half its population, and land tiles within the blast "
 "area are subject to nuclear fallout."
-msgstr "Ydinräjähdys tuhoaa kaikki yksiköt kolmenlevyisellä alueella (3×3 ruutua neliöruudukossa) ystävällismieliset yksiköt mukaanlukien. Kaupungit vaikutusalueella menettävät puolet asukasluvustaan, kaupunkien ulkopuolelle voi jäädä ydinlaskeumaa."
+msgstr ""
+"Ydinräjähdys tuhoaa kaikki yksiköt kolmenlevyisellä alueella (3×3 ruutua "
+"neliöruudukossa) ystävällismieliset yksiköt mukaanlukien. Kaupungit "
+"vaikutusalueella menettävät puolet asukasluvustaan, kaupunkien ulkopuolelle "
+"voi jäädä ydinlaskeumaa."
 
 #: data/civ1/units.ruleset:1050
 msgid ""
@@ -27427,7 +27518,9 @@ msgstr "Nykyaikaistaa yhden vanhentuneen yksikön joka pelivuorolla."
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all cities)."
-msgstr "Antaa kaikille merivoimien yksiköille yhden ylimääräisen liikepisteen. Kaikki uudet merivoimin yksiköt (kaikissa kaupungeissa) ovat konkareita."
+msgstr ""
+"Antaa kaikille merivoimien yksiköille yhden ylimääräisen liikepisteen. "
+"Kaikki uudet merivoimin yksiköt (kaikissa kaupungeissa) ovat konkareita."
 
 #: data/civ2/buildings.ruleset:1294
 msgid "Gives all sea units 2 additional movement points."
@@ -28717,7 +28810,8 @@ msgstr "Sähköaika"
 #: data/default/default.lua:35 data/multiplayer/default.lua:35
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "Löysit muinaiskääröjä, joita lukemalla %s avautui ymmärrettävään muotoon."
+msgstr ""
+"Löysit muinaiskääröjä, joita lukemalla %s avautui ymmärrettävään muotoon."
 
 #: data/default/default.lua:38 data/multiplayer/default.lua:38
 #, c-format
@@ -28955,7 +29049,9 @@ msgstr "Hallitsija"
 #: data/default/units.ruleset:2073 data/experimental/units.ruleset:2088
 #: data/multiplayer/units.ruleset:2173
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr "Tämä yksikkö edustaa sinua. Häviät pelin jos menetät tämän yksikön; ymmärtänet miksi."
+msgstr ""
+"Tämä yksikkö edustaa sinua. Häviät pelin jos menetät tämän yksikön; "
+"ymmärtänet miksi."
 
 #: data/default/units.ruleset:2114 data/experimental/units.ruleset:2129
 #: data/multiplayer/units.ruleset:2214
@@ -29500,7 +29596,11 @@ msgid ""
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
 "health for every turn not spent in a city or airbase or on a Carrier, and "
 "they may be attacked by ground units."
-msgstr "Helikopteri on erittäin tehokas yksikkö, koska se voi sekä lentää että valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee hieman joka pelivuorolla, jota ne eivät vietä kaupungissa tai lentotukialuksella, ja maayksiköt voivat hyökätä niiden kimppuun."
+msgstr ""
+"Helikopteri on erittäin tehokas yksikkö, koska se voi sekä lentää että "
+"valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee "
+"hieman joka pelivuorolla, jota ne eivät vietä kaupungissa tai "
+"lentotukialuksella, ja maayksiköt voivat hyökätä niiden kimppuun."
 
 #: data/multiplayer/units.ruleset:2068
 msgid ""
@@ -29887,7 +29987,9 @@ msgstr "ainut"
 msgid ""
 "The Ainu are the indigenous people of northern Japan, the Kuril islands, "
 "Sakhalin, and the southern part of the Kamchatka peninsula."
-msgstr "Ainut ovat alkuperäiskansaa pohjois-Japanissa, Kurillien saarilla, Sakhalinissa ja eteläisellä Kamchatkan niemimaalla."
+msgstr ""
+"Ainut ovat alkuperäiskansaa pohjois-Japanissa, Kurillien saarilla, "
+"Sakhalinissa ja eteläisellä Kamchatkan niemimaalla."
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
@@ -30136,7 +30238,12 @@ msgid ""
 "Classical Greek writing and art. Authors have located them in the Ukraine, "
 "Asia Minor, or Libya. The Amazons were reported to remove their right "
 "breasts in order to better use the bow and other weapons."
-msgstr "Amatsonit ovat tarujen naissotureita, jotka esiintyvät muinaiskreikkalaisessa kuva- ja sanataiteessa. Tekijät ovat sijoittaneet kansan milloin Ukrainaan, Vähä-Aasiaan tai Libyaan. Kuuleman mukaan amatsonit leikkasivat pois oikeanpuoleisen rintansa voidakseen käyttää jousta ja muita aseita tehokkaammin."
+msgstr ""
+"Amatsonit ovat tarujen naissotureita, jotka esiintyvät "
+"muinaiskreikkalaisessa kuva- ja sanataiteessa. Tekijät ovat sijoittaneet "
+"kansan milloin Ukrainaan, Vähä-Aasiaan tai Libyaan. Kuuleman mukaan "
+"amatsonit leikkasivat pois oikeanpuoleisen rintansa voidakseen käyttää "
+"jousta ja muita aseita tehokkaammin."
 
 #: data/nation/american.ruleset:3 data/nation/muskogee.ruleset:5
 msgid "American"
@@ -30151,7 +30258,9 @@ msgstr "?plural:yhdysvaltalaiset"
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783 AD."
-msgstr "Maan virallinen nimi on Amerikan Yhdysvallat. Se itsenäistyi Iso-Britanniasta vuosien 1776-1783 jKr. vallankumouksen jälkeen."
+msgstr ""
+"Maan virallinen nimi on Amerikan Yhdysvallat. Se itsenäistyi Iso-"
+"Britanniasta vuosien 1776-1783 jKr. vallankumouksen jälkeen."
 
 #: data/nation/american.ruleset:46 data/nation/aztec.ruleset:30
 #: data/nation/confederate.ruleset:28 data/nation/scottish.ruleset:24
@@ -30620,7 +30729,11 @@ msgid ""
 "comprising of several colonies (New South Wales, Victoria, Queensland, South "
 "Australia, Western Australia and Tasmania) it became a single country in "
 "1902. It is the only country on earth to occupy an entire continent."
-msgstr "Australia perustettiin Britannian rangaistussiirtokuntana 1788 jaa. Siitä muodostui valtio vuonna 1902 kun joukko siirtokuntia (New South Wales, Victoria, Queensland, Etelä-Australia, Länsi-Australia ja Tasmania) liittyi yhteen. Se on ainoa valtio maailmassa joka hallitsee koko mannertaan."
+msgstr ""
+"Australia perustettiin Britannian rangaistussiirtokuntana 1788 jaa. Siitä "
+"muodostui valtio vuonna 1902 kun joukko siirtokuntia (New South Wales, "
+"Victoria, Queensland, Etelä-Australia, Länsi-Australia ja Tasmania) liittyi "
+"yhteen. Se on ainoa valtio maailmassa joka hallitsee koko mannertaan."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -30864,7 +30977,10 @@ msgid ""
 "Baden was a country in Swabia, in southwestern Germany. After World War II "
 "it was merged with Wuerttemberg and Hohenzollern to form the land of Baden-"
 "Wuerttemberg."
-msgstr "Baden oli valtio Swabiassa, lounaisosassa Saksaa. Toisen maailmansodan jälkeen se liitettiin Württembergin ja Hohenzollernin kanssa Baden-Württembergiksi."
+msgstr ""
+"Baden oli valtio Swabiassa, lounaisosassa Saksaa. Toisen maailmansodan "
+"jälkeen se liitettiin Württembergin ja Hohenzollernin kanssa Baden-"
+"Württembergiksi."
 
 #: data/nation/badian.ruleset:22 data/nation/luxembourgish.ruleset:31
 #: data/nation/mecklenburgian.ruleset:32 data/nation/moravian.ruleset:34
@@ -30928,7 +31044,12 @@ msgid ""
 "have since participated in several uprisings against the Russian government. "
 "Today most of the Bashkirs live in the Bashkortostan Republic which is part "
 "of the Russian Federation."
-msgstr "Baškiirit ovat turkkia puhuva kansa lounais-Uralista. 1500-luvun loppuun saakka baškiirit olivat Venäjän tsaarin vasalleja, mutta ovat osallistuneet sen jälkeen useisiin Venäjän hallituksen vastaisiin kansannousuihin. Nykyään suurin osa baškiirireista elää Baškortostanin tasavallassa, joka on osa Venäjän federaatiota."
+msgstr ""
+"Baškiirit ovat turkkia puhuva kansa lounais-Uralista. 1500-luvun loppuun "
+"saakka baškiirit olivat Venäjän tsaarin vasalleja, mutta ovat osallistuneet "
+"sen jälkeen useisiin Venäjän hallituksen vastaisiin kansannousuihin. Nykyään "
+"suurin osa baškiirireista elää Baškortostanin tasavallassa, joka on osa "
+"Venäjän federaatiota."
 
 #: data/nation/basque.ruleset:3
 msgid "Basque"
@@ -30946,7 +31067,13 @@ msgid ""
 "\"Euskal Herria\", lays right in the borderlands between Spain and France, "
 "divided into seven historical provinces. Their language, Euskara, has no "
 "known relatives and its origins are unknown."
-msgstr "Baskit ovat eläneet jo ammoisista ajoista Pyreneen vuorten länsijuurilla. Navarren kuningaskunta oli viimeinen itsenäinen baskivaltio, ja se antautui Aragonille 1500-luvulla. Nykyään Baskimaa, eli \"Euskal Herria\", sijaitsee Espanjan ja Ranskan raja-alueella, jossa se on jaettu seitsemään historialliseen lääniin. Maassa puhutulla euskaran kielellä ei ole tunnettuja sukulaiskieliä, ja sen alkuperä on tuntematon."
+msgstr ""
+"Baskit ovat eläneet jo ammoisista ajoista Pyreneen vuorten länsijuurilla. "
+"Navarren kuningaskunta oli viimeinen itsenäinen baskivaltio, ja se antautui "
+"Aragonille 1500-luvulla. Nykyään Baskimaa, eli \"Euskal Herria\", sijaitsee "
+"Espanjan ja Ranskan raja-alueella, jossa se on jaettu seitsemään "
+"historialliseen lääniin. Maassa puhutulla euskaran kielellä ei ole "
+"tunnettuja sukulaiskieliä, ja sen alkuperä on tuntematon."
 
 #: data/nation/basque.ruleset:32 data/nation/slovakian.ruleset:23
 #, c-format
@@ -31139,7 +31266,16 @@ msgid ""
 "State, to aid in the accession of a new Oba, or king. Its fortunes waned as "
 "Europeans chose other kingdoms to trade with after Benin's main port silted "
 "up. The Kingdom finally ended in 1897 when the British assumed control."
-msgstr "Beninin kuningaskunnan - jolla ei ole mitään tekemistä nykyisen Beninin tasavallan kanssa - perustivat edonkieliset länsiafrikkalaiset joskus 1100-1300 jKr. Benin yhdisti laajan maa-alueen Niger-joen suistoa lännestä, ja sen kasvukehitys saavutti huippunsa 1500-vuosisadalla. Eweka I perusti Uzaman, joka oli valtion neuvonantajien piiri, auttaakseen uuden Oban eli kuninkaan valtaanastumista. Kuningaskunnan onni kääntyi, sen pääsatamakaupunki liettyi saavuttamattomaksi ja eurooppalaiset alkoivat tehdä kauppaa toisten kuningaskuntien kanssa. Kuningaskunta kaatui lopulta 1897 brittien valloituksen myötä."
+msgstr ""
+"Beninin kuningaskunnan - jolla ei ole mitään tekemistä nykyisen Beninin "
+"tasavallan kanssa - perustivat edonkieliset länsiafrikkalaiset joskus 1100-"
+"1300 jKr. Benin yhdisti laajan maa-alueen Niger-joen suistoa lännestä, ja "
+"sen kasvukehitys saavutti huippunsa 1500-vuosisadalla. Eweka I perusti "
+"Uzaman, joka oli valtion neuvonantajien piiri, auttaakseen uuden Oban eli "
+"kuninkaan valtaanastumista. Kuningaskunnan onni kääntyi, sen "
+"pääsatamakaupunki liettyi saavuttamattomaksi ja eurooppalaiset alkoivat "
+"tehdä kauppaa toisten kuningaskuntien kanssa. Kuningaskunta kaatui lopulta "
+"1897 brittien valloituksen myötä."
 
 #: data/nation/bhutanese.ruleset:3
 #, fuzzy
@@ -31195,7 +31331,13 @@ msgid ""
 "Nigeria and Biafra followed, which claimed up to two million lives, mostly "
 "because of famine and disease caused by the blockade of Biafran ports. "
 "Biafra surrendered in 1970."
-msgstr "Kun Nigeria oli saanut takaisin itsenäisyytensä, sen alueella velloivat etniset, uskonnolliset ja taloudelliset jännitteet. Näistä tarpeekseen saanut Biafra julistautui itsenäiseksi Nigeriasta 1967, mikä johti sotaan näiden välillä. Sodassa kuoli arviolta jopa kaksi miljoonaa ihmistä, lähinnä nälänhädän ja tautien seurauksena; näiden taustalla oli Biafran satamien saarto. Biafra antautui lopulta 1970."
+msgstr ""
+"Kun Nigeria oli saanut takaisin itsenäisyytensä, sen alueella velloivat "
+"etniset, uskonnolliset ja taloudelliset jännitteet. Näistä tarpeekseen "
+"saanut Biafra julistautui itsenäiseksi Nigeriasta 1967, mikä johti sotaan "
+"näiden välillä. Sodassa kuoli arviolta jopa kaksi miljoonaa ihmistä, lähinnä "
+"nälänhädän ja tautien seurauksena; näiden taustalla oli Biafran satamien "
+"saarto. Biafra antautui lopulta 1970."
 
 #: data/nation/biafran.ruleset:21 data/nation/libyan.ruleset:24
 #, c-format
@@ -31223,8 +31365,8 @@ msgid ""
 msgstr ""
 "Buurit olivat hollantilaisia uudisraivaajia brittien hallitsemassa Etelä-"
 "Afrikassa vuodesta 1650 jKr.  He hallitsivat lyhyen ajan kahta tasavaltaa, "
-"Transvaalia ja Oranjen vapaavaltiota, ennen häviötään briteille vuosien "
-"1899-1902 sodassa."
+"Transvaalia ja Oranjen vapaavaltiota, ennen häviötään briteille vuosien 1899-"
+"1902 sodassa."
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
@@ -31346,7 +31488,9 @@ msgstr "bosporolaiset"
 msgid ""
 "The Bosporan Kingdom was an ancient state in eastern Crimea and the Taman "
 "Peninsula on the shores of the Cimmerian Bosporus."
-msgstr "Bosporon valtakunta oli muinainen valtio itäisessä Krimissä sekä Tamanin niemimaalla, Kimmerian Bosporon rannoilla."
+msgstr ""
+"Bosporon valtakunta oli muinainen valtio itäisessä Krimissä sekä Tamanin "
+"niemimaalla, Kimmerian Bosporon rannoilla."
 
 #: data/nation/brandenburgian.ruleset:3
 msgid "Brandenburgian"
@@ -31742,7 +31886,15 @@ msgid ""
 "the United States shortly thereafter. The 1848 Gold Rush brought massive "
 "numbers of immigrants to California. In the 20th century the state became a "
 "center of the world's entertainment and technology industries."
-msgstr "Kalifornia on Yhdysvaltojen suurin osavaltio sekä väkiluvun että talouden koon perusteella. Aluetta asuttivat Amerikan alkuperäisväestöt, kunnes espanjalaiset lähetyssaarnaajat asettuivat paikalle 1700-luvulla. Kaliforniasta tuli Meksikon aluetta tämän itsenäistymisen myötä. Meksikon-Yhdysvaltain sodan aikana paikalliset uudisasukkaat julistivat maahan \"karhulippuisen tasavallan\", joka liitettiin piakkoin Yhdysvaltoihin. Vuoden 1848 suuri kultakuume toi Kaliforniaan läjäpäin maahanmuuttajia. 1900-luvulla osavaltiosta tuli maailman viihde- ja teknologiateollisuuden keskus."
+msgstr ""
+"Kalifornia on Yhdysvaltojen suurin osavaltio sekä väkiluvun että talouden "
+"koon perusteella. Aluetta asuttivat Amerikan alkuperäisväestöt, kunnes "
+"espanjalaiset lähetyssaarnaajat asettuivat paikalle 1700-luvulla. "
+"Kaliforniasta tuli Meksikon aluetta tämän itsenäistymisen myötä. Meksikon-"
+"Yhdysvaltain sodan aikana paikalliset uudisasukkaat julistivat maahan "
+"\"karhulippuisen tasavallan\", joka liitettiin piakkoin Yhdysvaltoihin. "
+"Vuoden 1848 suuri kultakuume toi Kaliforniaan läjäpäin maahanmuuttajia. 1900-"
+"luvulla osavaltiosta tuli maailman viihde- ja teknologiateollisuuden keskus."
 
 #: data/nation/californian.ruleset:36 data/nation/puertorican.ruleset:29
 #, c-format
@@ -31908,7 +32060,11 @@ msgid ""
 "as the French African territory of Ubangi-Shari. It was ruled briefly as a "
 "dictatorship in the 70s under Emperor Bokassa I during which it was called "
 "the Central African Empire."
-msgstr "Keski-Afrikan tasavalta on valtio Keskisessä Afrikassa. Se oli aiemmin Oubangui-Chari, Ranskan maa-alue Afrikassa. Maa oli 70-luvulla hetkellisesti keisari Bokasa I:n hallitsema diktatuuri, minkä aikana sitä kutsuttiin Keski-Afrikan keisarikunnaksi."
+msgstr ""
+"Keski-Afrikan tasavalta on valtio Keskisessä Afrikassa. Se oli aiemmin "
+"Oubangui-Chari, Ranskan maa-alue Afrikassa. Maa oli 70-luvulla hetkellisesti "
+"keisari Bokasa I:n hallitsema diktatuuri, minkä aikana sitä kutsuttiin Keski-"
+"Afrikan keisarikunnaksi."
 
 #: data/nation/centralamerican.ruleset:3
 msgid "Central American"
@@ -31977,7 +32133,13 @@ msgid ""
 "against Russia. In the 1990s, after the breakup of the Soviet Union, a civil "
 "war erupted when Chechen separatists proclaimed an independent Chechen "
 "Republic of Ichkeria."
-msgstr "Tšetšenia on muinainen valtio Kaukasuksella, joka on nykyään osa Venäjän federaatiota. Vuonna 1588 tšetšeenit tarjoutuivat vapaaehtoisiksi vasalleiksi moskovalaiselle tšaarille. Tästä huolimatta tšetšeenit ovat olleet useaan otteeseen sodassa Venäjää vastaan. Neuvostoliiton romahduksen myötä alueella syttyi sisällissota 1990-luvulla, kun tšetšeeni-separatistit julistivat itsenäisen Itškerian tšetšeenitasavallan syntymän."
+msgstr ""
+"Tšetšenia on muinainen valtio Kaukasuksella, joka on nykyään osa Venäjän "
+"federaatiota. Vuonna 1588 tšetšeenit tarjoutuivat vapaaehtoisiksi "
+"vasalleiksi moskovalaiselle tšaarille. Tästä huolimatta tšetšeenit ovat "
+"olleet useaan otteeseen sodassa Venäjää vastaan. Neuvostoliiton romahduksen "
+"myötä alueella syttyi sisällissota 1990-luvulla, kun tšetšeeni-separatistit "
+"julistivat itsenäisen Itškerian tšetšeenitasavallan syntymän."
 
 # Viittaa antiikin myyttisiin koirapäisiin kansoihin; 'koirat' on negatiivissävytteinen, koiraihmiset taas vähän bore mutta eksakti.
 #: data/nation/chananean.ruleset:3
@@ -32203,8 +32365,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -32245,7 +32407,11 @@ msgid ""
 "range (the Comancheria) consisted of present-day eastern New Mexico, "
 "southern Colorado, northeastern Arizona, southern Kansas, all of Oklahoma, "
 "and most of northwest Texas."
-msgstr "Comanchet eli numunuut ovat Amerikan alkuperäiskansa, joiden historiallinen asuinalue, Comancheria, kattoi nykypäivän osavaltioista itäisen New Mexicon, Coloradon eteläosan, Arizonan koillisosat, eteläisen Kansasin, koko Oklahoman ja enemmistön Teksasin luoteisosasta."
+msgstr ""
+"Comanchet eli numunuut ovat Amerikan alkuperäiskansa, joiden historiallinen "
+"asuinalue, Comancheria, kattoi nykypäivän osavaltioista itäisen New Mexicon, "
+"Coloradon eteläosan, Arizonan koillisosat, eteläisen Kansasin, koko "
+"Oklahoman ja enemmistön Teksasin luoteisosasta."
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
@@ -32382,7 +32548,10 @@ msgid ""
 "Costa Rica became an independent republic in 1840. It has been without an "
 "army since 1949 and is one of the most democratic and wealthy countries of "
 "Latin America."
-msgstr "Costa Ricasta tuli itsenäinen tasavalta vuonna 1840. Se on ollut armeijaton vuodesta 1949 asti, ja on yksi demokraattisimmista ja vauraimmista latinalaisen Amerikan maista."
+msgstr ""
+"Costa Ricasta tuli itsenäinen tasavalta vuonna 1840. Se on ollut armeijaton "
+"vuodesta 1949 asti, ja on yksi demokraattisimmista ja vauraimmista "
+"latinalaisen Amerikan maista."
 
 #: data/nation/cree.ruleset:3
 msgid "Cree"
@@ -32533,7 +32702,9 @@ msgstr "tšekit"
 msgid ""
 "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been "
 "until 1918 part of the Austro-Hungarian Empire."
-msgstr "Nykyinen Tšekin tasavalta oli vuoteen 1993 asti osa Tšekkoslovakiaa, joka taas oli vuoteen 1918 asti ollut Itävalta-Unkarin osa."
+msgstr ""
+"Nykyinen Tšekin tasavalta oli vuoteen 1993 asti osa Tšekkoslovakiaa, joka "
+"taas oli vuoteen 1918 asti ollut Itävalta-Unkarin osa."
 
 # Male despot - was something between general and landowner? --Juhani
 #: data/nation/czech.ruleset:32
@@ -32652,7 +32823,11 @@ msgid ""
 "Dryads are creatures of Greek myth; they are a type of nymph associated with "
 "trees. Dryads were generally considered to be shy and long-lived. They are "
 "usually female and are often depicted as beautiful young women."
-msgstr "Dryadit ovat kreikkalaisten myyttien olentoja; ne ovat puita suojelevia nymfejä. Dryadeja on yleisesti pidetty ujoina ja pitkäikäisinä. He ovat usein naispuolisia, ja heidät kuvataan tyypillisesti kauniina nuorina naisina."
+msgstr ""
+"Dryadit ovat kreikkalaisten myyttien olentoja; ne ovat puita suojelevia "
+"nymfejä. Dryadeja on yleisesti pidetty ujoina ja pitkäikäisinä. He ovat "
+"usein naispuolisia, ja heidät kuvataan tyypillisesti kauniina nuorina "
+"naisina."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -32705,7 +32880,11 @@ msgid ""
 "overrun by Indonesian forces shortly thereafter. East Timor became the first "
 "newly sovereign state of the 21st century when Indonesia relinquished "
 "control on May 20, 2002."
-msgstr "Itä-Timor julistautui itsenäiseksi vuonna 1975, oltuaan sitä ennen Portugalin siirtokunta. Nuori valtio joutui kuitenkin pian Indonesian joukkojen jyräämäksi. Itä-Timorista tuli 2000-luvun ensimmäinen uusi valtio, kun Indonesia luopui vallasta 20. toukokuuta 2002."
+msgstr ""
+"Itä-Timor julistautui itsenäiseksi vuonna 1975, oltuaan sitä ennen "
+"Portugalin siirtokunta. Nuori valtio joutui kuitenkin pian Indonesian "
+"joukkojen jyräämäksi. Itä-Timorista tuli 2000-luvun ensimmäinen uusi valtio, "
+"kun Indonesia luopui vallasta 20. toukokuuta 2002."
 
 #: data/nation/ecuadorian.ruleset:3
 msgid "Ecuadorian"
@@ -32781,7 +32960,10 @@ msgid ""
 "Modern Egypt is the most populous Middle Eastern country as well as one of "
 "the most populous in Africa. It is located on the site of one of the world's "
 "most ancient civilizations."
-msgstr "Nyky-Egypti on väkiluvultaan suurin Lähi-Idän maa, samoin kuin muihin Afrikan maihin verrattuna. Egyptin alue on yksi maailman vanhimmista sivistyksen kehdoista."
+msgstr ""
+"Nyky-Egypti on väkiluvultaan suurin Lähi-Idän maa, samoin kuin muihin "
+"Afrikan maihin verrattuna. Egyptin alue on yksi maailman vanhimmista "
+"sivistyksen kehdoista."
 
 #: data/nation/egyptianarab.ruleset:25 data/nation/guyanese.ruleset:25
 #: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:68
@@ -32891,7 +33073,11 @@ msgstr "virolaiset"
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
-msgstr "Viro on pieni maa Suomenlahden etelärannalla. Viroa pidetään lahden pohjoisrannalla sijaitsevan Suomen sukukansana, sillä sekä maiden asukkaat että kielet ovat läheistä sukua toisilleen - eivätkä toisaalta juurikaan muille."
+msgstr ""
+"Viro on pieni maa Suomenlahden etelärannalla. Viroa pidetään lahden "
+"pohjoisrannalla sijaitsevan Suomen sukukansana, sillä sekä maiden asukkaat "
+"että kielet ovat läheistä sukua toisilleen - eivätkä toisaalta juurikaan "
+"muille."
 
 #: data/nation/eritrean.ruleset:3
 msgid "Eritrean"
@@ -33146,7 +33332,10 @@ msgid ""
 "France has long been a major power in Europe. French conquerors like Emperor "
 "Napoleon and King Charlemagne united large parts of Europe under the French "
 "flag."
-msgstr "Ranska on ollut pitkään suurvalta Euroopassa. Ranskalaiset valloittajat, kuten keisari Napoleon ja kuningas Kaarle Suuri, yhdistivät laajoja Euroopan alueita Ranskan lipun alle."
+msgstr ""
+"Ranska on ollut pitkään suurvalta Euroopassa. Ranskalaiset valloittajat, "
+"kuten keisari Napoleon ja kuningas Kaarle Suuri, yhdistivät laajoja Euroopan "
+"alueita Ranskan lipun alle."
 
 #: data/nation/french.ruleset:26
 #, c-format
@@ -33334,7 +33523,11 @@ msgid ""
 "the Europeans, the Portuguese, Dutch and Swedes founded outposts but in the "
 "19th century Ghana became a British colony. In 1957 Kwame Nkrumah proclaimed "
 "Ghana's independence."
-msgstr "Ghana on nimetty vanhan Ghanan keisarikunnan mukaan. Eurooppalaiset tunsivat alueen Kultarannikkona, ja portugalilaiset, hollantilaiset ja ruotsalaiset perustivat sinne etuvartioasemia. 1800-luvulla Ghanasta tuli kuitenkin brittien siirtomaa. Kwame Nkrumah julisti 1957 Ghanan itsenäiseksi."
+msgstr ""
+"Ghana on nimetty vanhan Ghanan keisarikunnan mukaan. Eurooppalaiset tunsivat "
+"alueen Kultarannikkona, ja portugalilaiset, hollantilaiset ja ruotsalaiset "
+"perustivat sinne etuvartioasemia. 1800-luvulla Ghanasta tuli kuitenkin "
+"brittien siirtomaa. Kwame Nkrumah julisti 1957 Ghanan itsenäiseksi."
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
@@ -33456,7 +33649,10 @@ msgid ""
 "The Guanches were the original inhabitants of the Canary Islands. Little is "
 "known of their origins, but it appears that they were related to the "
 "Berbers. In the 15th century they were subjugated by Castile."
-msgstr "Guanchit olivat Kanarian saarten alkuperäisasukkaita. Heidän alkuperänsä on hämärän peitossa, mutta he saattoivat olla sukua berbereille. Kastilia alisti guanchit valtaansa 1400-luvulla."
+msgstr ""
+"Guanchit olivat Kanarian saarten alkuperäisasukkaita. Heidän alkuperänsä on "
+"hämärän peitossa, mutta he saattoivat olla sukua berbereille. Kastilia "
+"alisti guanchit valtaansa 1400-luvulla."
 
 # Guanchenkielinen versio kuninkaasta
 #: data/nation/guanche.ruleset:24
@@ -33517,7 +33713,9 @@ msgstr "guptat"
 msgid ""
 "The Gupta Empire was one of the great classical empires. It ruled northern "
 "India from around 240 to 550 AD."
-msgstr "Guptan keisarikunta oli yksi suurista klassisista valtakunnista. Se hallitsi Pohjois-Intiaa noin 240-550 jKr."
+msgstr ""
+"Guptan keisarikunta oli yksi suurista klassisista valtakunnista. Se hallitsi "
+"Pohjois-Intiaa noin 240-550 jKr."
 
 # TODO: unconfirmed
 #: data/nation/guyanese.ruleset:3
@@ -33557,7 +33755,11 @@ msgstr "hakkerit"
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
 msgstr ""
-"Hakkerismin jalot syntyjuuret ovat maailman muuttamisessa koneita käskyttämällä. Mieluusti tämä tapahtui hiljaisessa yksinäisyydessä öisinä pikkutunteina. Nykyaikaisen hajaantuneen hakkeri(epä)yhteisön näkyvin osa lienee wannabe-alakulttuuri, joka voidaan kiteyttää olennaisilta osiltaan seuraavaan lausumaan: \n"
+"Hakkerismin jalot syntyjuuret ovat maailman muuttamisessa koneita "
+"käskyttämällä. Mieluusti tämä tapahtui hiljaisessa yksinäisyydessä öisinä "
+"pikkutunteina. Nykyaikaisen hajaantuneen hakkeri(epä)yhteisön näkyvin osa "
+"lienee wannabe-alakulttuuri, joka voidaan kiteyttää olennaisilta osiltaan "
+"seuraavaan lausumaan: \n"
 "\n"
 "h4xx0rit on n11q üb3r-1337!!!1yksi"
 
@@ -33594,7 +33796,9 @@ msgid ""
 "A slave rebellion led Haiti to independence in 1804. It was the first "
 "independent black republic and the second independent country in the "
 "Americas."
-msgstr "Haiti itsenäistyi vuonna 1804 orjakapinan seurauksena. Se oli ensimmäinen itsenäinen musta tasavalta, ja toinen itsenäinen maa Amerikan alueella."
+msgstr ""
+"Haiti itsenäistyi vuonna 1804 orjakapinan seurauksena. Se oli ensimmäinen "
+"itsenäinen musta tasavalta, ja toinen itsenäinen maa Amerikan alueella."
 
 #: data/nation/haitian.ruleset:26
 #, c-format
@@ -33651,7 +33855,11 @@ msgid ""
 "from the 12th to the 19th century. Hanseatic cities were found in the North "
 "Sea and Baltic regions. Members of the league had their own law system and "
 "occasionally the Hansa went to war with rival powers."
-msgstr "Hansaliitto oli voimakas kauppakaupunkien liitto 1300-luvulta 1800-luvulle. Liittoon kuului kaupunkeja Pohjanmeren ja Baltian seudulta. Liiton jäsenillä oli oma lakijärjestelmänsä, ja toisinaan liitto ryhtyi jopa sotaan kilpailevia toimijoita vastaan."
+msgstr ""
+"Hansaliitto oli voimakas kauppakaupunkien liitto 1300-luvulta 1800-luvulle. "
+"Liittoon kuului kaupunkeja Pohjanmeren ja Baltian seudulta. Liiton jäsenillä "
+"oli oma lakijärjestelmänsä, ja toisinaan liitto ryhtyi jopa sotaan "
+"kilpailevia toimijoita vastaan."
 
 # En-wikipedia: Burgomaster TODO: eikö tälle tosiaan ole omaa suomennosta?
 #: data/nation/hansa.ruleset:26 data/nation/sorbian.ruleset:27
@@ -33810,7 +34018,15 @@ msgid ""
 "consisting of an uncountable number of counties, duchies, electorates, "
 "imperial free cities and other territories. In 1806 it was dissolved by "
 "Napoleon and replaced by the Confederation of the Rhine."
-msgstr "Pyhää saksalais-roomalaista keisarikuntaa pidettiin Rooman valtakunnan jatkeena, mutta kuten Voltaire pilkkasi sitä, se ei ollut pyhä, ei roomalainen eikä järin keisarikuntakaan. Tästä huolimatta valtio oli äärimmäisen pitkäikäinen, ja menetti alueitaan hyvin hitaasti. Suuren osan olemassaoloaan keisarikunta oli monimutkainen tilkkutäkki, joka muodostui lukemattomasta määrästä kreivi- ja herttuakuntia, elektoraatteja, keisarillisia vapaakaupunkeja ja muita territorioita. Vuonna 1806 Napoleon hajotti keisarikunnan, ja korvasi sen Reinin liitolla."
+msgstr ""
+"Pyhää saksalais-roomalaista keisarikuntaa pidettiin Rooman valtakunnan "
+"jatkeena, mutta kuten Voltaire pilkkasi sitä, se ei ollut pyhä, ei "
+"roomalainen eikä järin keisarikuntakaan. Tästä huolimatta valtio oli "
+"äärimmäisen pitkäikäinen, ja menetti alueitaan hyvin hitaasti. Suuren osan "
+"olemassaoloaan keisarikunta oli monimutkainen tilkkutäkki, joka muodostui "
+"lukemattomasta määrästä kreivi- ja herttuakuntia, elektoraatteja, "
+"keisarillisia vapaakaupunkeja ja muita territorioita. Vuonna 1806 Napoleon "
+"hajotti keisarikunnan, ja korvasi sen Reinin liitolla."
 
 #: data/nation/holyroman.ruleset:32
 #, c-format
@@ -33921,7 +34137,11 @@ msgid ""
 "The Iberians were non-Indo-European inhabitants of the ancient Iberian "
 "Peninsula. Very little is known about their history. They were subjugated by "
 "Rome in the last centuries BC."
-msgstr "Iberit olivat muinaisen Iberian niemimaan asukkaita, jotka eivät olleet indoeurooppalaisia. Heidän historiastaan ei tiedetä juuri mitään. Iberit alistettiin Rooman vallan alle viimeisinä vuosisatoina ennen ajanlaskumme alkua."
+msgstr ""
+"Iberit olivat muinaisen Iberian niemimaan asukkaita, jotka eivät olleet "
+"indoeurooppalaisia. Heidän historiastaan ei tiedetä juuri mitään. Iberit "
+"alistettiin Rooman vallan alle viimeisinä vuosisatoina ennen ajanlaskumme "
+"alkua."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -33937,7 +34157,11 @@ msgid ""
 "it was settled by Norwegian Vikings in the late 9th century. The island was "
 "kept initially under the Norwegian and later the Danish crown until "
 "independence from Denmark in 1944."
-msgstr "Islanti oli pitkään yksi maailman suurimmista asuttamattomista saarista, kunnes norjalaiset viikingit asettuivat sinne 800-luvun lopulla. Saari oli alunperin Norjan ja myöhemmin Tanskan kruunun alaisuudessa, kunnes itsenäistyi Tanskasta 1944."
+msgstr ""
+"Islanti oli pitkään yksi maailman suurimmista asuttamattomista saarista, "
+"kunnes norjalaiset viikingit asettuivat sinne 800-luvun lopulla. Saari oli "
+"alunperin Norjan ja myöhemmin Tanskan kruunun alaisuudessa, kunnes "
+"itsenäistyi Tanskasta 1944."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -34098,7 +34322,10 @@ msgid ""
 "Iran means \"Land of the Aryans\" - long known as Persia in the Western "
 "world. The country is today an Islamic Republic and a major power in the "
 "Middle East."
-msgstr "Iran tarkoittaa \"Arjalaisten maata\" - joka on pitkään tunnettu Persiana länsimaissa. Maa on nykyään islamilainen tasavalta, ja keskeinen valta Lähi-idässä."
+msgstr ""
+"Iran tarkoittaa \"Arjalaisten maata\" - joka on pitkään tunnettu Persiana "
+"länsimaissa. Maa on nykyään islamilainen tasavalta, ja keskeinen valta Lähi-"
+"idässä."
 
 #: data/nation/iranian.ruleset:41 data/nation/persian.ruleset:22
 #, fuzzy, c-format
@@ -34350,7 +34577,10 @@ msgstr "kanembornulaiset"
 msgid ""
 "This empire lasted in some form from the 9th-century until 1893 in modern "
 "Chad and Nigeria and controlled much of the trans-Saharan trade."
-msgstr "Kanem-Bornun valtakunta on kestänyt jossain muodossa 800-luvulta aina vuoteen 1893. Se sijaitsi nykyajan Chadin ja Nigerian alueella, ja hallitsi suurta osaa Saharan ylittävästä kaupankäynnistä."
+msgstr ""
+"Kanem-Bornun valtakunta on kestänyt jossain muodossa 800-luvulta aina "
+"vuoteen 1893. Se sijaitsi nykyajan Chadin ja Nigerian alueella, ja hallitsi "
+"suurta osaa Saharan ylittävästä kaupankäynnistä."
 
 #: data/nation/karelian.ruleset:3
 msgid "Karelian"
@@ -34401,7 +34631,12 @@ msgid ""
 "Russia in the 18th century, Kazakhstan became independent in 1991 with the "
 "dissolution of the Soviet Union. It is one of the ten largest states in the "
 "world by area."
-msgstr "Kazakstan itsenäistyi 1991 Neuvostoliiton hajotessa; Venäjä valloitti sen aikoinaan 1700-luvulla. Kazakstan on pinta-alaltaan yksi maailman suurimmista valtioista. Maan nimi tulee turkkilais-tataarilaisesta kansasta nimeltä kazakit, joka toimi Keski-Aasiassa. Heidän jälkeläisensä asuvat pääasiassa juuri Kazakstanin alueella."
+msgstr ""
+"Kazakstan itsenäistyi 1991 Neuvostoliiton hajotessa; Venäjä valloitti sen "
+"aikoinaan 1700-luvulla. Kazakstan on pinta-alaltaan yksi maailman "
+"suurimmista valtioista. Maan nimi tulee turkkilais-tataarilaisesta kansasta "
+"nimeltä kazakit, joka toimi Keski-Aasiassa. Heidän jälkeläisensä asuvat "
+"pääasiassa juuri Kazakstanin alueella."
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
@@ -34430,7 +34665,11 @@ msgid ""
 "The Khazars founded a steppe empire on the plains of Southern Russia in the "
 "Early Middle Ages. Originally shamanists, they adopted Judaism as their "
 "state religion."
-msgstr "Kasaaripaimentolaiset perustivat valtakunnan Etelä-Venäjän aroille varhaiskeskiajalla. Kasaarien valtauskontona oli alunperin šamanismi, mutta lopulta juutalaisuus valtasi alaa varsinkin yläluokan keskuudessa, ja päätyi valtionuskonnoksi."
+msgstr ""
+"Kasaaripaimentolaiset perustivat valtakunnan Etelä-Venäjän aroille "
+"varhaiskeskiajalla. Kasaarien valtauskontona oli alunperin šamanismi, mutta "
+"lopulta juutalaisuus valtasi alaa varsinkin yläluokan keskuudessa, ja päätyi "
+"valtionuskonnoksi."
 
 # Turkkilaisen kirjoitusasun mukaan (Tarkhan, en-wikipedia)
 #: data/nation/khazar.ruleset:34
@@ -34490,7 +34729,12 @@ msgid ""
 "of the Congo. Soon after its formation, Portuguese explorers, missionaries "
 "and slavers began to arrive and exerted considerable influence in the "
 "Kingdom."
-msgstr "Kongo-kansa perusti Kongon kuningaskunnan, joka kesti noin vuodesta 1400 1800-luvun lopulle. Se sijaitsi nykyisen Angolan ja Kongon demokraattisen tasavallan alueella. Pian kuningaskunnan perustamisen jälkeen portugalilaiset tutkimusmatkailijat, lähetyssaarnaajat ja orjakauppiaat ilmaantuivat paikalle, ja käyttivät huomattavaa vaikutusvaltaansa alueella."
+msgstr ""
+"Kongo-kansa perusti Kongon kuningaskunnan, joka kesti noin vuodesta 1400 "
+"1800-luvun lopulle. Se sijaitsi nykyisen Angolan ja Kongon demokraattisen "
+"tasavallan alueella. Pian kuningaskunnan perustamisen jälkeen "
+"portugalilaiset tutkimusmatkailijat, lähetyssaarnaajat ja orjakauppiaat "
+"ilmaantuivat paikalle, ja käyttivät huomattavaa vaikutusvaltaansa alueella."
 
 # TODO: unconfirmed
 #: data/nation/kongo.ruleset:25
@@ -34533,7 +34777,10 @@ msgid ""
 "Kosovo is a country on the Balkans. It declared independence in 2008. Serbia "
 "claims Kosovo as a province and its independence is not universally "
 "recognized."
-msgstr "Kosovo on maa Balkanin alueella. Se julistautui itsenäiseksi 2008. Serbia pitää sitä yhä lääninään, eikä Kosovon itsenäisyyttä olekaan vielä tunnustettu kaikkialla."
+msgstr ""
+"Kosovo on maa Balkanin alueella. Se julistautui itsenäiseksi 2008. Serbia "
+"pitää sitä yhä lääninään, eikä Kosovon itsenäisyyttä olekaan vielä "
+"tunnustettu kaikkialla."
 
 #: data/nation/kurd.ruleset:3
 msgid "Kurdish"
@@ -34734,7 +34981,11 @@ msgid ""
 "country in Western Europe, bordered by Switzerland to its west and by "
 "Austria to its east. The Principality was formed by the merger of Vaduz and "
 "Schellenberg in 1719."
-msgstr "Liechtensteinin ruhtinaskunta on pieni sisämaavaltio Länsi-Euroopan Alpeilla. Sen rajoja ympäröi lännessä Sveitsi ja idässä Itävalta. Ruhtinaskunta muodostettiin Vaduzin ja Schellenbergin yhdistämisen yhteydessä vuonna 1719."
+msgstr ""
+"Liechtensteinin ruhtinaskunta on pieni sisämaavaltio Länsi-Euroopan "
+"Alpeilla. Sen rajoja ympäröi lännessä Sveitsi ja idässä Itävalta. "
+"Ruhtinaskunta muodostettiin Vaduzin ja Schellenbergin yhdistämisen "
+"yhteydessä vuonna 1719."
 
 # TODO: could not find specific Finnish term (tatar article in Finnish wikipedia is a warzone), picked literal translation from English wikipedia's most description-fitting alias.
 #: data/nation/lipkatatar.ruleset:3
@@ -34752,7 +35003,12 @@ msgid ""
 "name comes from the Turkish name of Lithuania. In addition to Lithuania, "
 "they also live in Poland and Belarus. Some Lipka Tatars have preserved their "
 "culture and traditional religion to the present day."
-msgstr "Liettuan tataarit ovat tataarikansan jälkeläisiä, jotka muuttivat Puola-Liettuan valtioliiton alueelle Krimin Kaanikunnan ja Kultaisen ordan alueilta. Vaikka kansan nimi viittaa Liettuaan, heitä elää myös Puolan ja Valko-Venäjän alueella. Osa Liettuan tataareista on säilyttänyt kulttuurinsa ja perinteisen uskontonsa nykypäivään asti."
+msgstr ""
+"Liettuan tataarit ovat tataarikansan jälkeläisiä, jotka muuttivat Puola-"
+"Liettuan valtioliiton alueelle Krimin Kaanikunnan ja Kultaisen ordan "
+"alueilta. Vaikka kansan nimi viittaa Liettuaan, heitä elää myös Puolan ja "
+"Valko-Venäjän alueella. Osa Liettuan tataareista on säilyttänyt kulttuurinsa "
+"ja perinteisen uskontonsa nykypäivään asti."
 
 # TODO: unconfirmed
 #: data/nation/lipkatatar.ruleset:28
@@ -34791,7 +35047,10 @@ msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland. Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages."
-msgstr "Liettua on pieni maa Itämeren etelärannalla, Puolan koillispuolella. Liettuan kieli on vanhakantaisin ja monimutkaisin pohjoisista indoeurooppalaisista kielistä."
+msgstr ""
+"Liettua on pieni maa Itämeren etelärannalla, Puolan koillispuolella. "
+"Liettuan kieli on vanhakantaisin ja monimutkaisin pohjoisista "
+"indoeurooppalaisista kielistä."
 
 #: data/nation/lithuanian.ruleset:29
 #, c-format
@@ -34927,7 +35186,9 @@ msgstr "Balkanin makedonialaiset"
 msgid ""
 "The Republic of Macedonia is located in the south-central part of the Balkan "
 "peninsula. It declared independence from Yugoslavia in 1991."
-msgstr "Makedonian tasavalta sijaitsee Balkanin niemimaan eteläosalla. Se julistautui itsenäiseksi Jugoslaviasta vuonna 1991. "
+msgstr ""
+"Makedonian tasavalta sijaitsee Balkanin niemimaan eteläosalla. Se "
+"julistautui itsenäiseksi Jugoslaviasta vuonna 1991. "
 
 # Wikipedia: Majapahit
 #: data/nation/majapahit.ruleset:3
@@ -35043,7 +35304,14 @@ msgid ""
 "influential. This empire reigned from the 14th to the 17th century and was "
 "famed for its wealth and benevolent kings. The modern Republic of Mali "
 "derives its name from this empire."
-msgstr "Saharan eteläpuolinen Afrikka on ollut kulttuurien ja etnisten ryhmien sulatusuuni vuosituhansia. Keskiajalla alueella hallitsi sarja valtakuntia, jotka tunnettiin nimellä Sahelin kuningaskunnat. Näistä islamilainen Malin kuningaskunta oli kaikkein vaikutusvaltaisin. 1300-1600-luvuilla vallinnut kuningaskunta tunnettiin rikkauksistaan ja hyväntahtoisista kuninkaistaan. Nykyisen Malin kansantasavallan nimi johtuu tästä keskiaikaisesta kuningaskunnasta."
+msgstr ""
+"Saharan eteläpuolinen Afrikka on ollut kulttuurien ja etnisten ryhmien "
+"sulatusuuni vuosituhansia. Keskiajalla alueella hallitsi sarja valtakuntia, "
+"jotka tunnettiin nimellä Sahelin kuningaskunnat. Näistä islamilainen Malin "
+"kuningaskunta oli kaikkein vaikutusvaltaisin. 1300-1600-luvuilla vallinnut "
+"kuningaskunta tunnettiin rikkauksistaan ja hyväntahtoisista kuninkaistaan. "
+"Nykyisen Malin kansantasavallan nimi johtuu tästä keskiaikaisesta "
+"kuningaskunnasta."
 
 #. TRANS: Mansa = King of kings
 #: data/nation/mali.ruleset:26
@@ -35137,7 +35405,14 @@ msgid ""
 "noted for having the oldest still functioning parliament in the world, the "
 "Tynwald, which has existed since 979 AD. Since 1765 the island depends on "
 "Great Britain."
-msgstr "Mansaari on osa Brittein saaria, ja sijaitsee Iso-Britannian ja Irlannin välillä. Saari ei ole muodollisesti osa Yhdistynyttä Kuningaskuntaa, vaan toimii itsehallitsevana Britannian kruunun alusmaana. Keskiajalla se oli Mannin kuningaskunnan ja sen hallitsemien saarten keskus, ja myöhemmin Manin lordikuntaa. Mansaarella on myös vanhin toimiva parlamentti, Tynwald, joka on perustettu 979. Vuodesta 1765 saari on ollut riippuvainen Isosta-Britanniasta."
+msgstr ""
+"Mansaari on osa Brittein saaria, ja sijaitsee Iso-Britannian ja Irlannin "
+"välillä. Saari ei ole muodollisesti osa Yhdistynyttä Kuningaskuntaa, vaan "
+"toimii itsehallitsevana Britannian kruunun alusmaana. Keskiajalla se oli "
+"Mannin kuningaskunnan ja sen hallitsemien saarten keskus, ja myöhemmin Manin "
+"lordikuntaa. Mansaarella on myös vanhin toimiva parlamentti, Tynwald, joka "
+"on perustettu 979. Vuodesta 1765 saari on ollut riippuvainen Isosta-"
+"Britanniasta."
 
 #: data/nation/manx.ruleset:35
 #, c-format
@@ -35258,7 +35533,9 @@ msgstr "masovialaiset"
 
 #: data/nation/mazovian.ruleset:6
 msgid "Mazovia is a historic and geographic region of central-eastern Poland."
-msgstr "Masovia on sekä historiallinen että maantieteellisesti määritelty alue Puolan keski- ja itäalueella."
+msgstr ""
+"Masovia on sekä historiallinen että maantieteellisesti määritelty alue "
+"Puolan keski- ja itäalueella."
 
 # TODO: unconfirmed
 #: data/nation/mecklenburgian.ruleset:3
@@ -35667,7 +35944,9 @@ msgstr "mogulit"
 msgid ""
 "The Mughal Empire ruled most of the Indian subcontinent throughout the early "
 "modern era."
-msgstr "Suurmogulien valtakunta hallitsi valtaosaa Intian alueesta läpi varhaismodernin ajan."
+msgstr ""
+"Suurmogulien valtakunta hallitsi valtaosaa Intian alueesta läpi "
+"varhaismodernin ajan."
 
 # TODO: unconfirmed
 #: data/nation/muskogee.ruleset:3
@@ -35774,7 +36053,11 @@ msgid ""
 "cultural and multi-lingual nation, its history is characterized by its "
 "location between India and China. The Nepalese principalities were united "
 "into one kingdom in the 18th century. Nepal became a republic in 2008."
-msgstr "Nepal on sisämaavaltio Himalajan vuoristossa. Maa on ollut pitkään monikulttuurinen ja -kielinen, ja sen historia heijastelee sen sijaintia Intian ja Kiinan välissä. Nepalilaisruhtinaskunnat liitettiin 1700-luvulla yhdeksi valtakunnaksi. Nepalista tuli tasavalta vuonna 2008."
+msgstr ""
+"Nepal on sisämaavaltio Himalajan vuoristossa. Maa on ollut pitkään "
+"monikulttuurinen ja -kielinen, ja sen historia heijastelee sen sijaintia "
+"Intian ja Kiinan välissä. Nepalilaisruhtinaskunnat liitettiin 1700-luvulla "
+"yhdeksi valtakunnaksi. Nepalista tuli tasavalta vuonna 2008."
 
 # Nestorio: harhaoppisuudesta syytetty pappi, jonka opeista syntyi idän kirkko, mikä sekoittui pappiskuningas Johanneksen legendaan.
 #: data/nation/nestorian.ruleset:5
@@ -35866,7 +36149,9 @@ msgstr "nigerialaiset"
 msgid ""
 "Nigeria won full independence from British rule in 1960. It is the most "
 "populous country of Africa."
-msgstr "Nigeria itsenäistyi Iso-Britanniasta 1960. Se on väkiluvultaan Afrikan suurin valtio."
+msgstr ""
+"Nigeria itsenäistyi Iso-Britanniasta 1960. Se on väkiluvultaan Afrikan "
+"suurin valtio."
 
 # Wikipedia: Niger
 #: data/nation/nigerien.ruleset:3
@@ -35956,7 +36241,10 @@ msgid ""
 "In 1945 Korea was split by the Soviet Union and the United States into two "
 "states along the 38th parallel, forming North Korea and South Korea. 60 "
 "years on, North Korea remains a communist state of the Stalinist type."
-msgstr "Vuonna 1945 Korea jaettiin kahtia Neuvostoliiton ja Yhdysvaltojen toimesta, Pohjois- ja Etelä-Koreaksi. Siitä lähtien Pohjois-Korea on ollut stalinistinen kommunistivaltio."
+msgstr ""
+"Vuonna 1945 Korea jaettiin kahtia Neuvostoliiton ja Yhdysvaltojen toimesta, "
+"Pohjois- ja Etelä-Koreaksi. Siitä lähtien Pohjois-Korea on ollut "
+"stalinistinen kommunistivaltio."
 
 # Ironian lisäämiseksi isoilla molemmat.
 #: data/nation/northkorean.ruleset:23 data/nation/soviet.ruleset:28
@@ -35999,7 +36287,11 @@ msgid ""
 "After centuries of Danish rule, the Norwegians made their own constitution "
 "in Eidsvoll, 1814 AD. Finally, in 1905 AD the Norwegians got their "
 "independence after a union with Sweden."
-msgstr "Vuosisatojen tanskalaisvallan jälkeen norjalaiset vahvistivat oman perustuslakinsa Eidsvollissa 1814. Jouduttuaan kuitenkin väkisin personaaliunioniin Ruotsin kanssa Norja julistautui unionin hajottua vihdoin itsenäiseksi 1905."
+msgstr ""
+"Vuosisatojen tanskalaisvallan jälkeen norjalaiset vahvistivat oman "
+"perustuslakinsa Eidsvollissa 1814. Jouduttuaan kuitenkin väkisin "
+"personaaliunioniin Ruotsin kanssa Norja julistautui unionin hajottua vihdoin "
+"itsenäiseksi 1905."
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
@@ -36487,7 +36779,10 @@ msgid ""
 "The Pashtuns are an ethnic group that lives mainly in Afghanistan and "
 "Pakistan. They speak Pashto, a language closely related to Persian, and live "
 "by an age-old code of honor known as Pashtunwali."
-msgstr "Paštunit ovat lähinnä Afganistanin ja Pakistanin alueella elävä etninen ryhmä. Paštunien kieli, pašto, on läheistä sukua persialle. Kansa elää Paštunwali-nimellä tunnetun ikiaikaisen kunniasäännöstön mukaisesti."
+msgstr ""
+"Paštunit ovat lähinnä Afganistanin ja Pakistanin alueella elävä etninen "
+"ryhmä. Paštunien kieli, pašto, on läheistä sukua persialle. Kansa elää "
+"Paštunwali-nimellä tunnetun ikiaikaisen kunniasäännöstön mukaisesti."
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -36672,7 +36967,12 @@ msgid ""
 "conquered by the United States in 1898, just one year after Spain had "
 "granted autonomy to the island. Currently it is a US commonwealth, but its "
 "definitive status is still being discussed."
-msgstr "Puerto Rico on pienin Isojen Antillien saarista. Sitä asuttivat alunperin tainot, kunnes espanjalaiset valloittivat sen. Yhdysvallat valloitti sen puolestaan 1898, vain vuosi sen jälkeen kun Espanja antoi saarelle autonomian. Nykyään saari on osa Yhdysvaltain erillisalueita, mutta sen lopullinen status on yhä keskustelun alla."
+msgstr ""
+"Puerto Rico on pienin Isojen Antillien saarista. Sitä asuttivat alunperin "
+"tainot, kunnes espanjalaiset valloittivat sen. Yhdysvallat valloitti sen "
+"puolestaan 1898, vain vuosi sen jälkeen kun Espanja antoi saarelle "
+"autonomian. Nykyään saari on osa Yhdysvaltain erillisalueita, mutta sen "
+"lopullinen status on yhä keskustelun alla."
 
 # TODO: deduced from Norwegian and German translations, not necessarily official form
 #: data/nation/purhepecha.ruleset:3
@@ -36700,7 +37000,19 @@ msgid ""
 "enemies, the Aztecs. Nevertheless, the transition to Spanish rule was not "
 "smooth and devolved into violence. The empire, founded around 1450 AD, "
 "collapsed in 1530."
-msgstr "Purépechalaiset ovat Meksikon Michoacan-osavaltion alkuperäiskansa. Michoacan on vanhan Irechecua Tzintzuntzanin valtakunnan (\"Tzintzuntzanin maat\") pääkaupunki. Purépechalaisten kuninkaat olivat asteekkien valtakunnan pitkäaikaisia vihollisia näiden yritettyä valloittaa Purépechalaisten maat, tuloksetta. Kun espanjalaiset saapuivat ja alkoivat valloittaa Meksikon maita vuonna 1519, asteekit pyysivät lähettilään välityksellä purépechojen apua, mutta pyyntö evättiin. Konkistadorien maine levisi nopeasti, ja purépechat tarjoutuivat liittymään Espanjan vasallivaltioksi välttääkseen entisten vihollistensa, asteekkien, kohtalon. Siirtymä Espanjan kuninkaan vallan alle ei kuitenkaan ollut mutkatonta, ja johti väkivaltaisuuksiin. Noin vuonna 1450 jKr. perustettu valtakunta hajosi vuonna 1530."
+msgstr ""
+"Purépechalaiset ovat Meksikon Michoacan-osavaltion alkuperäiskansa. "
+"Michoacan on vanhan Irechecua Tzintzuntzanin valtakunnan (\"Tzintzuntzanin "
+"maat\") pääkaupunki. Purépechalaisten kuninkaat olivat asteekkien "
+"valtakunnan pitkäaikaisia vihollisia näiden yritettyä valloittaa "
+"Purépechalaisten maat, tuloksetta. Kun espanjalaiset saapuivat ja alkoivat "
+"valloittaa Meksikon maita vuonna 1519, asteekit pyysivät lähettilään "
+"välityksellä purépechojen apua, mutta pyyntö evättiin. Konkistadorien maine "
+"levisi nopeasti, ja purépechat tarjoutuivat liittymään Espanjan "
+"vasallivaltioksi välttääkseen entisten vihollistensa, asteekkien, kohtalon. "
+"Siirtymä Espanjan kuninkaan vallan alle ei kuitenkaan ollut mutkatonta, ja "
+"johti väkivaltaisuuksiin. Noin vuonna 1450 jKr. perustettu valtakunta hajosi "
+"vuonna 1530."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -36897,7 +37209,9 @@ msgstr "ruandalaiset"
 msgid ""
 "Rwanda is a hilly and very fertile country in the Great Lakes region of "
 "eastern Africa. It supports the densest population of the continent."
-msgstr "Ruanda on mäkinen ja erittäin hedelmällinen maa itäisen Afrikan suurten järvien alueella. Sillä on yksi mantereen suurimmista väestöntiheyksistä."
+msgstr ""
+"Ruanda on mäkinen ja erittäin hedelmällinen maa itäisen Afrikan suurten "
+"järvien alueella. Sillä on yksi mantereen suurimmista väestöntiheyksistä."
 
 #: data/nation/rwandan.ruleset:21
 #, c-format
@@ -37327,7 +37641,11 @@ msgid ""
 "Indian Subcontinent in the 15th century. The Punjab, on the border of "
 "Pakistan and India, is the heartland of Sikhism. In the 19th century a Sikh "
 "Empire existed in the region."
-msgstr "Sikhit, kirjaimellisesti 'oppilaat', kuuluvat nuorimpaan maailmanuskonnoista. Sikhiläisyyden keskus on Pakistanin ja Intian rajamaastossa sijaitseva Punjab; 1800-luvulla alueelle perustettiin Sikhivaltio, jonka britit lopulta alistivat valtaansa."
+msgstr ""
+"Sikhit, kirjaimellisesti 'oppilaat', kuuluvat nuorimpaan "
+"maailmanuskonnoista. Sikhiläisyyden keskus on Pakistanin ja Intian "
+"rajamaastossa sijaitseva Punjab; 1800-luvulla alueelle perustettiin "
+"Sikhivaltio, jonka britit lopulta alistivat valtaansa."
 
 # TODO: unco
 #: data/nation/sikkimese.ruleset:3
@@ -37368,7 +37686,9 @@ msgstr "sleesialaiset"
 msgid ""
 "Silesia is a region of southern Poland that was at one time an independent "
 "kingdom."
-msgstr "Sleesia on eteläpuolalainen maakunta joka kerran oli itsenäinen kuningaskunta."
+msgstr ""
+"Sleesia on eteläpuolalainen maakunta joka kerran oli itsenäinen "
+"kuningaskunta."
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
@@ -37645,7 +37965,13 @@ msgid ""
 "most powerful states in the 20th century, but by the end of 1991 it had "
 "disintegrated into fifteen independent countries due to social and economic "
 "problems."
-msgstr "Neuvostoliiton historia alkaa marraskuussa 1917 Leninin johtamasta bolševikkivallankumouksesta. Joulukuun 31. päivänä 1922 neljä neuvostotasavaltaa liittyi yhdeksi valtioksi. Neuvostoliitosta tuli yksi 1900-luvun mahtavimmista valtioista, mutta vuoden 1991 loppuun mennessä se hajosi viideksitoista itsenäiseksi valtioksi yhteiskunnallisten ja taloudellisten vaikeuksien seurauksena."
+msgstr ""
+"Neuvostoliiton historia alkaa marraskuussa 1917 Leninin johtamasta "
+"bolševikkivallankumouksesta. Joulukuun 31. päivänä 1922 neljä "
+"neuvostotasavaltaa liittyi yhdeksi valtioksi. Neuvostoliitosta tuli yksi "
+"1900-luvun mahtavimmista valtioista, mutta vuoden 1991 loppuun mennessä se "
+"hajosi viideksitoista itsenäiseksi valtioksi yhteiskunnallisten ja "
+"taloudellisten vaikeuksien seurauksena."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -37682,7 +38008,13 @@ msgid ""
 "Borneo and the Malay peninsula. It was founded sometime in the 3rd century "
 "AD and lasted until roughly 1400, falling first to Jambi, then to Singhasari "
 "and other regional powers, including the South Indian Chola dynasty."
-msgstr "Srivijaya oli oli merivalta, jonka pääkaupunki oli Palembangin satamakaupunki Etelä-Sumatralla. Sen valta ulottui Sumatran, Jaavan, Borneon ja Malakan niemimaan rannikkoalueille. Se oli perustettu 200-luvulla ja sen valta kesti noin vuoteen 1400, jolloin se hävisi ensin jambeille, sitten singhasareille ja muille aluevalloille, mukaanlukien Etelä-Intian Chola-dynastialle."
+msgstr ""
+"Srivijaya oli oli merivalta, jonka pääkaupunki oli Palembangin "
+"satamakaupunki Etelä-Sumatralla. Sen valta ulottui Sumatran, Jaavan, Borneon "
+"ja Malakan niemimaan rannikkoalueille. Se oli perustettu 200-luvulla ja sen "
+"valta kesti noin vuoteen 1400, jolloin se hävisi ensin jambeille, sitten "
+"singhasareille ja muille aluevalloille, mukaanlukien Etelä-Intian Chola-"
+"dynastialle."
 
 #: data/nation/srivijaya.ruleset:25
 #, c-format
@@ -37955,7 +38287,12 @@ msgid ""
 "Tatars live in many places in the former USSR. They have their own republic "
 "called Tatarstan in the Russian Federation and the Autonomous Republic of "
 "Crimea in Ukraine."
-msgstr "Tataarit ovat turkkilaiskielinen kansa. Lukuisia tataari-valtioita eleli keskiajalla: Kazan, Krim, Astrakhan, Siperian kaanikunta ja muita kaanikuntia. Nykyään tataarit elävät ympäri entistä neuvostoliittoa. Heillä on oma Tatarstanin tasavalta Venäjän federaatiossa ja autonominen Krimin tasavalta Ukrainassa."
+msgstr ""
+"Tataarit ovat turkkilaiskielinen kansa. Lukuisia tataari-valtioita eleli "
+"keskiajalla: Kazan, Krim, Astrakhan, Siperian kaanikunta ja muita "
+"kaanikuntia. Nykyään tataarit elävät ympäri entistä neuvostoliittoa. Heillä "
+"on oma Tatarstanin tasavalta Venäjän federaatiossa ja autonominen Krimin "
+"tasavalta Ukrainassa."
 
 #: data/nation/templar.ruleset:3
 msgid "Knights Templar"
@@ -37992,7 +38329,11 @@ msgid ""
 "High Middle Ages. In 1224 it founded the 'Ordenstaat' or State of the Order, "
 "which remained a powerful country for three centuries. The State was "
 "secularized and replaced by the Duchy of Prussia in the 16th century."
-msgstr "Saksalainen ritarikunta johti lukuisia ristiretkiä pakanalliseen Baltiaan keskiajalla. Vuonna 1224 perustettiin 'Ordenstaat' eli ritarikuntavaltio, joka oli vahva toimija kolmen vuosisadan ajan. 1500-luvulla valtio maallistettiin ja korvattiin Preussin herttuakunnalla."
+msgstr ""
+"Saksalainen ritarikunta johti lukuisia ristiretkiä pakanalliseen Baltiaan "
+"keskiajalla. Vuonna 1224 perustettiin 'Ordenstaat' eli ritarikuntavaltio, "
+"joka oli vahva toimija kolmen vuosisadan ajan. 1500-luvulla valtio "
+"maallistettiin ja korvattiin Preussin herttuakunnalla."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -38313,7 +38654,10 @@ msgid ""
 "and was dismembered by the victors in World War I after backing the Central "
 "Powers. The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
-msgstr "Nykyisen Turkin edeltäjä oli Osmanien valtakunta, joka hajosi ensimmäisen maailmansodan voittajien jaettavaksi tuettuaan keskusvaltoja. Valtion muodosti uudelleen ja maallisti Mustafa Kemal, Gallipolin puolustajasankari."
+msgstr ""
+"Nykyisen Turkin edeltäjä oli Osmanien valtakunta, joka hajosi ensimmäisen "
+"maailmansodan voittajien jaettavaksi tuettuaan keskusvaltoja. Valtion "
+"muodosti uudelleen ja maallisti Mustafa Kemal, Gallipolin puolustajasankari."
 
 # TODO: unc
 #: data/nation/tuvan.ruleset:3
@@ -38445,7 +38789,10 @@ msgid ""
 "Uruguay, a small South American country sometimes referred to as "
 "\"Switzerland of the Americas\" due to its once highly developed social "
 "welfare system."
-msgstr "Uruguay on pieni eteläamerikkalainen valtio. Sitä kutsutaan joskus \"Amerikoiden Sveitsiksi\", johtuen sen aikoinaan pitkälle kehitetystä hyvinvointijärjestelmästä."
+msgstr ""
+"Uruguay on pieni eteläamerikkalainen valtio. Sitä kutsutaan joskus "
+"\"Amerikoiden Sveitsiksi\", johtuen sen aikoinaan pitkälle kehitetystä "
+"hyvinvointijärjestelmästä."
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
@@ -38800,7 +39147,9 @@ msgid ""
 "Wuerttemberg was a country in Swabia, in southwestern Germany. After World "
 "War II it was merged with Baden and Hohenzollern to form the land of Baden-"
 "Wuerttemberg."
-msgstr "Württemberg oli maa Swabiassa Saksan lounaisalueella. Toisen maailmansodan jälkeen se liitettiin Badenin ja Hohenzollernin kanssa Baden-Württembergiksi."
+msgstr ""
+"Württemberg oli maa Swabiassa Saksan lounaisalueella. Toisen maailmansodan "
+"jälkeen se liitettiin Badenin ja Hohenzollernin kanssa Baden-Württembergiksi."
 
 # TODO: unco
 #: data/nation/yakut.ruleset:3
@@ -38838,7 +39187,11 @@ msgid ""
 "Yemen is the only republic on the Arabian Peninsula. Although it was the "
 "site of several ancient civilizations, Yemen only exists in its current form "
 "since North Yemen annexed South Yemen in 1990."
-msgstr "Jemen on Arabian niemimaan ainoa tasavalta. Vaikka sen alueella on elänyt lukuisia muinaiskansoja sijainti, Jemen on ollut olemassa nykymuodossaan vasta sen jälkeen kun Pohjois-Jemen liitti Etelä-Jemenin itseensä vuonna 1990."
+msgstr ""
+"Jemen on Arabian niemimaan ainoa tasavalta. Vaikka sen alueella on elänyt "
+"lukuisia muinaiskansoja sijainti, Jemen on ollut olemassa nykymuodossaan "
+"vasta sen jälkeen kun Pohjois-Jemen liitti Etelä-Jemenin itseensä vuonna "
+"1990."
 
 #: data/nation/yucatecan.ruleset:3
 msgid "Yucatecan"
@@ -38859,7 +39212,12 @@ msgid ""
 "Yucatec Maya. On two occasions in the 19th century Yucatan declared "
 "independence from Mexico. Currently it is divided into three states: "
 "Yucatan, Campeche and Quintana Roo."
-msgstr "Jukatan on Meksikon niemimaa, joka on kuuluisa Maya-perinteistään ja valkoisista hiekkarannoistaan. Sen nimen väitetään tarkoittavan \"emme ymmärrä sinua\" jukatekin mayakielellä. 1800-luvulla Jukatan yritti kahteen kertaan irrottautua itsenäiseksi Meksikosta. Nykyään sen jakavat kolme osavaltiota: Jukatan, Campeche ja Quintana Roo."
+msgstr ""
+"Jukatan on Meksikon niemimaa, joka on kuuluisa Maya-perinteistään ja "
+"valkoisista hiekkarannoistaan. Sen nimen väitetään tarkoittavan \"emme "
+"ymmärrä sinua\" jukatekin mayakielellä. 1800-luvulla Jukatan yritti kahteen "
+"kertaan irrottautua itsenäiseksi Meksikosta. Nykyään sen jakavat kolme "
+"osavaltiota: Jukatan, Campeche ja Quintana Roo."
 
 #: data/nation/yugoslav.ruleset:3
 msgid "Yugoslav"
@@ -39585,10 +39943,13 @@ msgid ""
 " * Units have no hitpoints. If they win a battle, they remain in full "
 "health.\n"
 msgstr ""
-"Pelaat Civ1-tyylisillä säännöillä. Nämä ovat paljon yksinkertaisemmat kuin Freecivin oletussäännöt. Jos tunnet vain oletussäännöt, tutustu hetki näiden välisiin eroihin.\n"
+"Pelaat Civ1-tyylisillä säännöillä. Nämä ovat paljon yksinkertaisemmat kuin "
+"Freecivin oletussäännöt. Jos tunnet vain oletussäännöt, tutustu hetki näiden "
+"välisiin eroihin.\n"
 "\n"
 " * Teknologioita, rakennuksia ja yksiköitä on vähemmän.\n"
-" * Yksiköillä ei ole voimapisteitä. Jos ne voittavat taistelun, ne pysyvät täysissä voimissa.\n"
+" * Yksiköillä ei ole voimapisteitä. Jos ne voittavat taistelun, ne pysyvät "
+"täysissä voimissa.\n"
 
 #: data/civ2/game.ruleset:18
 msgid "Civ2 ruleset"
@@ -39609,3 +39970,10 @@ msgstr "Oletussääntökokoelma"
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
 msgstr "Pelaat Freeciviä oletussäännöillä."
+
+#~ msgid ""
+#~ "Command level '%s' or greater needed to remove a player once the game has "
+#~ "started."
+#~ msgstr ""
+#~ "Pelaajan poistamiseen tarvitaan vähintään komentotaso '%s', koska peli on "
+#~ "jo alkanut."
