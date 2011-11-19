@@ -7190,6 +7190,10 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "%s zostępuje %s jako gracz AI."
 
 #: server/stdinhand.c:1089
+msgid "Players cannot be removed once the game has started."
+msgstr "Gracz nie może być usunięty po rozpoczęciu gry."
+
+#: server/stdinhand.c:1089
 #, c-format
 msgid "Command level '%s' or greater needed to remove a player once the game has started."
 msgstr "Aby usunąć gracza po rozpoczęciu gry, musisz mieć poziom dostępu '%s' lub wyższy."

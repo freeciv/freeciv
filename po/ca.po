@@ -8293,6 +8293,10 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "%s reemplaça %s com a jugador controlat per IA."
 
 #: server/stdinhand.c:1089
+msgid "Players cannot be removed once the game has started."
+msgstr "Els jugadors no es poden esborrar un cop la partida ha començat."
+
+#: server/stdinhand.c:1089
 #, c-format
 msgid ""
 "Command level '%s' or greater needed to remove a player once the game has "

@@ -7200,6 +7200,10 @@ msgid "%s replacing %s as an AI-controlled player."
 msgstr "A' cur %s an àite %s mar chluicheadair fo smachd na h-IF."
 
 #: server/stdinhand.c:1089
+msgid "Players cannot be removed once the game has started."
+msgstr "Cha ghabh cluicheadairean a thoirt air falbh nuair a bhios an geama air tòiseachadh."
+
+#: server/stdinhand.c:1089
 #, c-format
 msgid "Command level '%s' or greater needed to remove a player once the game has started."
 msgstr "Tha feum air leibheil àitheantan '%s' no nas àirde gus cluicheadair a thoirt air falbh nuair a bhios an geama air tòiseachadh."
