@@ -751,6 +751,9 @@ Fortresses improve defense for land units.\
 ; Current code requires exactly two road definitions
 ;
 ; name                    = translatable name as seen by user
+; move_cost               = how much movement it takes to to travel
+;                           via this road. Value of 3 indicates full
+;                           movement point.
 ; native_to               = List of unit classes that consider tile
 ;                           with this road native even if terrain is not
 ;
@@ -758,8 +761,10 @@ Fortresses improve defense for land units.\
 
 [road_road]
 name          = _("Road")
+move_cost     = 1
 native_to     = "Land"
 
 [road_railroad]
 name          = _("Railroad")
+move_cost     = 0
 native_to     = "Land"

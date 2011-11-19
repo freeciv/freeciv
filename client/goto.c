@@ -26,6 +26,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "pf_tools.h"
+#include "road.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -555,6 +556,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 {
   int activity_time, move_cost, moves_left;
   int total_cost, total_extra;
+  struct road_type *proad;
 
   if (tile_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
     return -1;
@@ -583,11 +585,11 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   /* Special cases: get_MC function doesn't know that we would have built
    * a road (railroad) on src tile by that time */
   if (tile_has_special(dest_tile, S_ROAD)) {
-    move_cost = MOVE_COST_ROAD;
+    move_cost = road_type_by_eroad(ROAD_ROAD)->move_cost;
   }
   if (connect_activity == ACTIVITY_RAILROAD
       && tile_has_special(dest_tile, S_RAILROAD)) {
-    move_cost = MOVE_COST_RAIL;
+    move_cost = road_type_by_eroad(ROAD_RAILROAD)->move_cost;
   }
 
   move_cost = MIN(move_cost, param->move_rate);
@@ -611,20 +613,27 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   }
   total_cost += activity_time * param->move_rate;
 
-  /* Now we determine if we have found a better path.  When building a road,
-   * we care most about the length of the result.  When building a rail, we 
-   * care most about the constructions time (assuming MOVE_COST_RAIL == 0) */
+  /* Now we determine if we have found a better path.  When building
+   * road type with positive move_cost, we care most about the length
+   * of the result.  When building road type with move_cost 0, we
+   * care most about construction time. */
 
   /* *dest_cost==-1 means we haven't reached dest until now */
+
+  if (connect_activity == ACTIVITY_ROAD) {
+    proad = road_type_by_eroad(ROAD_ROAD);
+  } else {
+    proad = road_type_by_eroad(ROAD_RAILROAD);
+  }
+
   if (*dest_cost != -1) {
-    if (connect_activity == ACTIVITY_ROAD) {
+    if (proad->move_cost > 0) {
       if (total_extra > *dest_extra 
 	  || (total_extra == *dest_extra && total_cost >= *dest_cost)) {
 	/* No, this path is worse than what we already have */
 	return -1;
       }
     } else {
-      /* fc_assert(connect_activity == ACTIVITY_RAILROAD) */
       if (total_cost > *dest_cost 
 	  || (total_cost == *dest_cost && total_extra >= *dest_extra)) {
 	return -1;
@@ -636,7 +645,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   *dest_cost = total_cost;
   *dest_extra = total_extra;
   
-  return (connect_activity == ACTIVITY_ROAD ? 
+  return (proad->move_cost > 0 ? 
 	  total_extra * PF_TURN_FACTOR + total_cost : 
 	  total_cost * PF_TURN_FACTOR + total_extra);
 }

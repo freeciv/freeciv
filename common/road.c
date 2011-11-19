@@ -21,6 +21,7 @@
 /* common */
 #include "fc_types.h"
 #include "game.h"
+#include "movement.h"
 #include "name_translation.h"
 #include "unittype.h"
 
@@ -28,8 +29,9 @@
 
 static struct road_type roads[ROAD_LAST] =
   {
-    { ROAD_ROAD, {}, ACTIVITY_ROAD, S_ROAD, S_LAST, TF_COUNT },
-    { ROAD_RAILROAD, {}, ACTIVITY_RAILROAD, S_RAILROAD, S_ROAD, TF_RAILROAD }
+    { ROAD_ROAD, {}, SINGLE_MOVE, ACTIVITY_ROAD, S_ROAD, S_LAST, TF_COUNT },
+    { ROAD_RAILROAD, {}, SINGLE_MOVE, ACTIVITY_RAILROAD, S_RAILROAD,
+      S_ROAD, TF_RAILROAD }
   };
 
 /**************************************************************************

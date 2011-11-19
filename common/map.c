@@ -31,6 +31,7 @@
 #include "movement.h"
 #include "nation.h"
 #include "packets.h"
+#include "road.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -695,6 +696,9 @@ static int tile_move_cost_ptrs(const struct unit *punit,
   bool cardinal_move;
   struct unit_class *pclass = NULL;
   bool native = TRUE;
+  int road_cost = -1;
+  int river_cost = -1;
+  int cost;
 
   if (punit) {
     pclass = unit_class(punit);
@@ -721,20 +725,26 @@ static int tile_move_cost_ptrs(const struct unit *punit,
    * units are not penalized. F_IGTER affects also entering and
    * leaving ships, so F_IGTER check has to be before native terrain
    * check. We want to give railroad bonus only to native units. */
-  if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD)
-      && native && !restrict_infra(pplayer, t1, t2)) {
-    return MOVE_COST_RAIL;
+  if (!restrict_infra(pplayer, t1, t2)) {
+    road_type_iterate(proad) {
+      if (tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
+        if (road_cost == -1 || road_cost > proad->move_cost) {
+          road_cost = proad->move_cost;
+        }
+      }
+    } road_type_iterate_end;
   }
+
+  if (road_cost >= 0 && road_cost < MOVE_COST_IGTER) {
+    return road_cost;
+  }
+
   if (punit && unit_has_type_flag(punit, F_IGTER)) {
-    return SINGLE_MOVE/3;
+    return MOVE_COST_IGTER;
   }
   if (!native) {
     /* Loading to transport or entering port */
     return SINGLE_MOVE;
-  }
-  if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD)
-      && !restrict_infra(pplayer, t1, t2)) {
-    return MOVE_COST_ROAD;
   }
 
   if (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER)) {
@@ -743,22 +753,35 @@ static int tile_move_cost_ptrs(const struct unit *punit,
     case RMV_NORMAL:
       break;
     case RMV_FAST_STRICT:
-      if (cardinal_move)
-	return MOVE_COST_RIVER;
+      if (cardinal_move) {
+        river_cost = MOVE_COST_RIVER;
+      }
       break;
     case RMV_FAST_RELAXED:
-      if (cardinal_move)
-	return MOVE_COST_RIVER;
-      else
-	return 2 * MOVE_COST_RIVER;
+      if (cardinal_move) {
+	river_cost = MOVE_COST_RIVER;
+      } else {
+	river_cost = 2 * MOVE_COST_RIVER;
+      }
+      break;
     case RMV_FAST_ALWAYS:
-      return MOVE_COST_RIVER;
+      river_cost = MOVE_COST_RIVER;
+      break;
     default:
       break;
     }
   }
 
-  return tile_terrain(t2)->movement_cost * SINGLE_MOVE;
+  cost = tile_terrain(t2)->movement_cost * SINGLE_MOVE;
+
+  if (road_cost >= 0) {
+    cost = MIN(cost, road_cost);
+  }
+  if (river_cost >= 0) {
+    cost = MIN(cost, river_cost);
+  }
+
+  return cost;
 }
 
 /****************************************************************************

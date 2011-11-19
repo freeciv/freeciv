@@ -2351,6 +2351,11 @@ static void load_ruleset_terrain(struct section_file *file)
     const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
     const char **slist;
 
+    if (!secfile_lookup_int(file, &proad->move_cost,
+                            "%s.move_cost", section)) {
+      ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
+    }
+
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
     BV_CLR_ALL(proad->native_to);
     for (j = 0; j < nval; j++) {
@@ -4036,6 +4041,8 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     sz_strlcpy(packet.name, untranslated_name(&r->name));
     sz_strlcpy(packet.rule_name, rule_name(&r->name));
+
+    packet.move_cost = r->move_cost;
 
     packet.native_to = r->native_to;
 
