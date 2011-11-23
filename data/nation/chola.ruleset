@@ -4,8 +4,8 @@ name=_("Chola")
 plural=_("?plural:Cholas")
 groups="Asian", "Medieval"
 
-legend=_("The Cholas were a Tamil dynasty centered in southern India and\
- were rare in their level of influence in northern India. They began as a\
+legend=_("The Cholas were a Tamil dynasty centered in southern India that\
+ was unusually influential in northern India. They began as a\
  tributary state to the Pallavas, but in the 9th century their power began\
  to grow. During the 11th century, they led expeditions against other\
  Indian states as far north as Bengal, as well as against the Maldives, Sri\
