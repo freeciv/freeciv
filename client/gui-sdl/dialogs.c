@@ -2562,10 +2562,9 @@ static int next_name_callback(struct widget *pNext)
     widget_redraw(pSetup->pName_Edit);
     widget_redraw(pSetup->pName_Prev);
     widget_redraw(pSetup->pName_Next);
-    dirty_rect(pSetup->pName_Edit->size.x - pSetup->pName_Prev->size.w,
-                  pSetup->pName_Edit->size.y,
-                  pSetup->pName_Edit->size.w + pSetup->pName_Prev->size.w +
-                  pSetup->pName_Next->size.w, pSetup->pName_Edit->size.h);
+    widget_mark_dirty(pSetup->pName_Edit);
+    widget_mark_dirty(pSetup->pName_Prev);
+    widget_mark_dirty(pSetup->pName_Next);
     
     widget_redraw(pSetup->pChange_Sex);
     widget_mark_dirty(pSetup->pChange_Sex);
@@ -2617,10 +2616,9 @@ static int prev_name_callback(struct widget *pPrev)
     widget_redraw(pSetup->pName_Edit);
     widget_redraw(pSetup->pName_Prev);
     widget_redraw(pSetup->pName_Next);
-    dirty_rect(pSetup->pName_Edit->size.x - pSetup->pName_Prev->size.w,
-                  pSetup->pName_Edit->size.y, pSetup->pName_Edit->size.w +
-                  pSetup->pName_Prev->size.w + pSetup->pName_Next->size.w,
-                  pSetup->pName_Edit->size.h);
+    widget_mark_dirty(pSetup->pName_Edit);
+    widget_mark_dirty(pSetup->pName_Prev);
+    widget_mark_dirty(pSetup->pName_Next);
     
     widget_redraw(pSetup->pChange_Sex);
     widget_mark_dirty(pSetup->pChange_Sex);
