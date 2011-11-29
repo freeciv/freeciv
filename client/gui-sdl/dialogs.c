@@ -2428,7 +2428,7 @@ static struct SMALL_DLG *pHelpDlg = NULL;
 struct NAT {
   unsigned char nation_city_style; /* selected city style */
   unsigned char selected_leader;   /* if not unique -> selected leader */
-  unsigned char nation;            /* selected nation */
+  Nation_type_id nation;           /* selected nation */
   bool leader_sex;                 /* selected leader sex */
   struct widget *pChange_Sex;
   struct widget *pName_Edit;
