@@ -96,7 +96,13 @@ static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
 
+static struct Diplomacy_notebook *diplomacy_main_create(void);
+static void diplomacy_main_destroy(void);
+static void diplomacy_main_response(struct gui_dialog *dlg, int response,
+                                    gpointer data);
+
 #define RESPONSE_CANCEL_MEETING 100
+#define RESPONSE_CANCEL_MEETING_ALL 101
 
 /****************************************************************
 ...
@@ -197,8 +203,12 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   gui_dialog_present(pdialog->dialog);
   /* We initated the meeting - Make the tab active */
   if (player_by_number(initiated_from) == client.conn.playing) {
+    /* we have to raise the diplomacy meeting tab as well as the selected
+     * meeting. */
+    fc_assert_ret(dipl_main)
+    gui_dialog_raise(dipl_main->dialog);
     gui_dialog_raise(pdialog->dialog);
-    
+
     if (players_dialog_shell != NULL) {
       gui_dialog_set_return_dialog(pdialog->dialog, players_dialog_shell);
     }
@@ -456,6 +466,89 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
   } clause_list_iterate_end;
 }
 
+/*****************************************************************************
+  Create the main tab for diplomatic meetings.
+*****************************************************************************/
+static struct Diplomacy_notebook *diplomacy_main_create(void)
+{
+  /* Collect all meetings in one main tab. */
+  if (!dipl_main) {
+    GtkWidget *dipl_box, *dipl_sw;
+
+    dipl_main = fc_malloc(sizeof(*dipl_main));
+    gui_dialog_new(&(dipl_main->dialog), GTK_NOTEBOOK(top_notebook),
+                  dipl_main->dialog, TRUE);
+    dipl_main->notebook = gtk_notebook_new();
+    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(dipl_main->notebook),
+                             GTK_POS_RIGHT);
+    gtk_notebook_set_scrollable(GTK_NOTEBOOK(dipl_main->notebook), TRUE);
+
+    dipl_sw = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dipl_sw),
+                                   GTK_POLICY_AUTOMATIC,
+                                   GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(dipl_sw),
+                                          dipl_main->notebook);
+
+    /* Buttons */
+    gui_dialog_add_stockbutton(dipl_main->dialog, GTK_STOCK_CANCEL,
+                               _("Cancel _all meetings"),
+                               RESPONSE_CANCEL_MEETING_ALL);
+
+    /* Responces for _all_ meetings. */
+    gui_dialog_response_set_callback(dipl_main->dialog,
+                                     diplomacy_main_response);
+    gui_dialog_set_default_response(dipl_main->dialog,
+                                    RESPONSE_CANCEL_MEETING_ALL);
+
+    dipl_box = dipl_main->dialog->vbox;
+    gtk_box_pack_start(GTK_BOX(dipl_box), dipl_sw, TRUE, TRUE, 2);
+
+    gui_dialog_show_all(dipl_main->dialog);
+    gui_dialog_present(dipl_main->dialog);
+  }
+
+  return dipl_main;
+}
+
+/*****************************************************************************
+  Destroy main diplomacy dialog.
+*****************************************************************************/
+static void diplomacy_main_destroy(void)
+{
+  if (dipl_main->dialog) {
+    gui_dialog_destroy(dipl_main->dialog);
+  }
+  free(dipl_main);
+  dipl_main = NULL;
+}
+
+/*****************************************************************************
+  User has responded to whole diplomacy dialog (main tab).
+*****************************************************************************/
+static void diplomacy_main_response(struct gui_dialog *dlg, int response,
+                                    gpointer data)
+{
+  if (!dipl_main) {
+    return;
+  }
+
+  switch (response) {
+  default:
+    log_error("unhandled response in %s: %d", __FUNCTION__, response);
+    /* No break. */
+  case GTK_RESPONSE_DELETE_EVENT:   /* GTK: delete the widget. */
+  case RESPONSE_CANCEL_MEETING_ALL: /* Cancel all meetings. */
+    dialog_list_iterate(dialog_list, adialog) {
+      /* This will do a round trip to the server ans close the diolag in the
+       * client. Closing the last dialog will also close the main tab.*/
+      dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
+                                                player_number(
+                                                  adialog->treaty.plr1));
+    } dialog_list_iterate_end;
+    break;
+  }
+}
 
 /****************************************************************
 ...
@@ -477,51 +570,60 @@ static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
 
       fc_snprintf(buf, sizeof(buf), _("Diplomacy [%d]"),
                   dialog_list_size(dialog_list));
-      gui_dialog_set_title(dipl_main->dialog, buf);
-    } else {
-      /* No dialogs Left. */
-      gui_dialog_destroy(dipl_main->dialog);
-      free(dipl_main);
-      dipl_main = NULL;
+      if (dipl_main && dipl_main->dialog) {
+        gui_dialog_set_title(dipl_main->dialog, buf);
+      }
+    } else if (dipl_main) {
+      /* No meeting left - destroy main tab. */
+      diplomacy_main_destroy();
     }
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
+/*****************************************************************************
+  User has responded to whole diplomacy dialog (one meeting).
+*****************************************************************************/
 static void diplomacy_response(struct gui_dialog *dlg, int response,
                                gpointer data)
 {
-  struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
+  struct Diplomacy_dialog *pdialog = NULL;
+
+  fc_assert_ret(data);
+  pdialog = (struct Diplomacy_dialog *)data;
 
   switch (response) {
-  case GTK_RESPONSE_ACCEPT:
-
-
+  case GTK_RESPONSE_ACCEPT:         /* Accept treaty. */
     dsend_packet_diplomacy_accept_treaty_req(&client.conn,
-					     player_number(pdialog->treaty.plr1));
+                                             player_number(
+                                               pdialog->treaty.plr1));
     break;
+
   default:
+    log_error("unhandled response in %s: %d", __FUNCTION__, response);
+    /* No break. */
+  case GTK_RESPONSE_DELETE_EVENT:   /* GTK: delete the widget. */
+  case GTK_RESPONSE_CANCEL:         /* GTK: cancel button. */
+  case RESPONSE_CANCEL_MEETING:     /* Cancel meetings. */
     dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
-					      player_number(pdialog->treaty.plr1));
-    diplomacy_destroy(pdialog);
-    break; 
+                                              player_number(
+                                                pdialog->treaty.plr1));
+    break;
   }
 }
 
-/****************************************************************
+/*****************************************************************************
   Setups diplomacy dialog widgets.
-*****************************************************************/
-static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
-							struct player *plr1)
+*****************************************************************************/
+static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
+                                                        struct player *plr1)
 {
-  GtkWidget *vbox, *bottom, *hbox, *table;
+  struct Diplomacy_notebook *dipl_dialog;
+  GtkWidget *vbox, *hbox, *table, *align, *mainbox;
   GtkWidget *label, *sw, *view, *image, *spin;
   GtkWidget *menubar, *menuitem, *menu, *notebook;
   GtkListStore *store;
   GtkCellRenderer *rend;
-  bool check_top;
+  int i;
 
   struct Diplomacy_dialog *pdialog;
   char buf[256], plr_buf[4 * MAX_LEN_NAME];
@@ -531,94 +633,56 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   dialog_list_prepend(dialog_list, pdialog);
   init_treaty(&pdialog->treaty, plr0, plr1);
 
-  if (TRUE) {
-    /* Collect all meetings in one main tab. */
-    if (!dipl_main) {
-      GtkWidget *dipl_box;
+  /* Get main diplomacy tab. */
+  dipl_dialog = diplomacy_main_create();
 
-      dipl_main = fc_malloc(sizeof(*dipl_main));
-      gui_dialog_new(&(dipl_main->dialog), GTK_NOTEBOOK(top_notebook),
-                    dipl_main->dialog, TRUE);
-      dipl_main->notebook = gtk_notebook_new();
-      gtk_notebook_set_tab_pos(GTK_NOTEBOOK(dipl_main->notebook),
-                               GTK_POS_LEFT);
+  fc_snprintf(buf, sizeof(buf), _("Diplomacy [%d]"),
+              dialog_list_size(dialog_list));
+  gui_dialog_set_title(dipl_main->dialog, buf);
 
-      dipl_box = dipl_main->dialog->vbox;
-      gtk_box_pack_start(GTK_BOX(dipl_box), dipl_main->notebook, TRUE, TRUE,
-                         2);
-      gui_dialog_show_all(dipl_main->dialog);
-      gui_dialog_present(dipl_main->dialog);
-    }
+  notebook = dipl_main->notebook;
 
-    fc_snprintf(buf, sizeof(buf), _("Diplomacy [%d]"),
-                dialog_list_size(dialog_list));
-    gui_dialog_set_title(dipl_main->dialog, buf);
+  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(notebook), pdialog, FALSE);
 
-    notebook = dipl_main->notebook;
-    check_top = FALSE;
-  } else {
-    /* Old behaviour - one (main) tab for each meeting. */
-    notebook = top_notebook;
-    check_top = TRUE;
-  }
+  /* Buttons */
+  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
+                             _("Cancel meeting"), RESPONSE_CANCEL_MEETING);
+  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_DND,
+                             _("Accept treaty"), GTK_RESPONSE_ACCEPT);
 
-  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(notebook), pdialog,
-                 check_top);
+  /* Responces for one meeting. */
+  gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
+  gui_dialog_set_default_response(pdialog->dialog, RESPONSE_CANCEL_MEETING);
 
+  /* Label for the new meeting. */
   fc_snprintf(buf, sizeof(buf), "%s", nation_plural_for_player(plr1));
   gui_dialog_set_title(pdialog->dialog, buf);
 
-  gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
+  /* Sort meeting tabs alphabetically by the tab label. */
+  for (i = 0; i < gtk_notebook_get_n_pages(GTK_NOTEBOOK(notebook)); i++) {
+    GtkWidget *prev_page
+      = gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), i);
+    struct gui_dialog *prev_dialog
+      = g_object_get_data(G_OBJECT(prev_page), "gui-dialog-data");
+    const char *prev_label
+      = gtk_label_get_text(GTK_LABEL(prev_dialog->v.tab.label));
 
-  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
-			     _("_Cancel meeting"), RESPONSE_CANCEL_MEETING);
-  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_DND,
-			     _("Accept _treaty"), GTK_RESPONSE_ACCEPT);
+    if (fc_strcasecmp(buf, prev_label) < 0) {
+      gtk_notebook_reorder_child(GTK_NOTEBOOK(notebook),
+                                 pdialog->dialog->vbox, i);
+      break;
+    }
+  }
 
-  vbox = pdialog->dialog->vbox;
-
-
-  /* clauses. */
-  store = gtk_list_store_new(1, G_TYPE_STRING);
-  pdialog->store = store;
-
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-  g_object_unref(store);
-  gtk_widget_set_size_request(view, 320, 100);
-
-  rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
-    rend, "text", 0, NULL);
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(sw), view);
-
-  label = g_object_new(GTK_TYPE_LABEL,
-    "use-underline", TRUE,
-    "mnemonic-widget", view,
-    "label", _("C_lauses:"),
-    "xalign", 0.0,
-    "yalign", 0.5,
-    NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 2);
-  gtk_widget_show_all(vbox);
-
-  /* bottom area - vertical. */
-  bottom = gtk_vbox_new(TRUE, 2);
-  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 2);
+  /* Content. */
+  mainbox = pdialog->dialog->vbox;
 
   /* us. */
-  vbox = gtk_vbox_new(FALSE, 18);
+  vbox = gtk_vbox_new(FALSE, 5);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
-  gtk_box_pack_start(GTK_BOX(bottom), vbox, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
 
+  /* Our nation. */
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   fc_snprintf(buf, sizeof(buf), "<span size=\"large\"><u>%s</u></span>",
@@ -626,10 +690,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
-  hbox = gtk_hbox_new(FALSE, 12);
+  hbox = gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
-  
-  /* our flag */
+
+  /* Our flag */
   image =
       gtk_image_new_from_pixbuf(sprite_get_pixbuf
 				(get_nation_flag_sprite
@@ -655,7 +719,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = gtk_menu_new();
   pdialog->menu0 = menu;
 
-  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
+  menuitem = gtk_image_menu_item_new_with_mnemonic(_("Add Clause..."));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
                                 gtk_image_new_from_stock(GTK_STOCK_ADD,
                                                          GTK_ICON_SIZE_MENU));
@@ -664,36 +728,44 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   g_object_set_data(G_OBJECT(menu), "plr", plr0);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
 
-  /* Main table for clauses and (if activated) gold trading gold: we. */
+  /* Main table for clauses and (if activated) gold trading: we. */
+  align = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, TRUE, 0);
+
   if (game.info.trading_gold) {
     table = gtk_table_new(1, 3, FALSE);
-    gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-    gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
+    gtk_table_set_col_spacings(GTK_TABLE(table), 16);
+    gtk_container_add(GTK_CONTAINER(align), table);
 
     spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
+    gtk_entry_set_width_chars(GTK_ENTRY(spin), 16);
     gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
     g_object_set_data(G_OBJECT(spin), "plr", plr0);
     g_signal_connect_after(spin, "value-changed",
                            G_CALLBACK(diplo_dialog_returnkey), pdialog);
 
     label = g_object_new(GTK_TYPE_LABEL, "use-underline", TRUE,
-                         "mnemonic-widget", spin, "label", _("_Gold:"),
+                         "mnemonic-widget", spin, "label", _("Gold:"),
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 
     gtk_table_attach_defaults(GTK_TABLE(table), menubar, 2, 3, 0, 1);
   } else {
-    gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 2);
+    table = gtk_table_new(1, 1, FALSE);
+    gtk_table_set_col_spacings(GTK_TABLE(table), 16);
+    gtk_container_add(GTK_CONTAINER(align), table);
+
+    gtk_table_attach_defaults(GTK_TABLE(table), menubar, 0, 1, 0, 1);
   }
 
   /* them. */
-  vbox = gtk_vbox_new(FALSE, 18);
+  vbox = gtk_vbox_new(FALSE, 5);
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
-  gtk_box_pack_start(GTK_BOX(bottom), vbox, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
 
-
+  /* Their nation. */
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   fc_snprintf(buf, sizeof(buf), "<span size=\"large\"><u>%s</u></span>",
@@ -701,7 +773,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
-  hbox = gtk_hbox_new(FALSE, 12);
+  hbox = gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
   /* Their flag */
@@ -730,7 +802,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = gtk_menu_new();
   pdialog->menu1 = menu;
 
-  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
+  menuitem = gtk_image_menu_item_new_with_mnemonic(_("Add Clause..."));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
                                 gtk_image_new_from_stock(GTK_STOCK_ADD,
                                                          GTK_ICON_SIZE_MENU));
@@ -739,31 +811,75 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   g_object_set_data(G_OBJECT(menu), "plr", plr1);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
 
-  /* Main table for clauses and (if activated) gold trading gold: they. */
+  /* Main table for clauses and (if activated) gold trading: they. */
+  align = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, TRUE, 0);
+
   if (game.info.trading_gold) {
     table = gtk_table_new(1, 3, FALSE);
-    gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-    gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
+    gtk_table_set_col_spacings(GTK_TABLE(table), 16);
+    gtk_container_add(GTK_CONTAINER(align), table);
 
     spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
+    gtk_entry_set_width_chars(GTK_ENTRY(spin), 16);
     gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
     g_object_set_data(G_OBJECT(spin), "plr", plr1);
     g_signal_connect_after(spin, "value-changed",
                            G_CALLBACK(diplo_dialog_returnkey), pdialog);
 
     label = g_object_new(GTK_TYPE_LABEL, "use-underline", TRUE,
-                         "mnemonic-widget", spin, "label", _("_Gold:"),
+                         "mnemonic-widget", spin, "label", _("Gold:"),
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
 
     gtk_table_attach_defaults(GTK_TABLE(table), menubar, 2, 3, 0, 1);
   } else {
-    gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 2);
+    table = gtk_table_new(1, 1, FALSE);
+    gtk_table_set_col_spacings(GTK_TABLE(table), 16);
+    gtk_container_add(GTK_CONTAINER(align), table);
+
+    gtk_table_attach_defaults(GTK_TABLE(table), menubar, 0, 1, 0, 1);
   }
 
-  gtk_widget_show_all(bottom);
+  /* Clauses. */
+  mainbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(pdialog->dialog->vbox), mainbox, TRUE, TRUE, 0);
+
+  store = gtk_list_store_new(1, G_TYPE_STRING);
+  pdialog->store = store;
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+  g_object_unref(store);
+  gtk_widget_set_size_request(view, 320, 100);
+
+  rend = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
+    rend, "text", 0, NULL);
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+    "use-underline", TRUE,
+    "mnemonic-widget", view,
+    "label", _("C_lauses:"),
+    "xalign", 0.0,
+    "yalign", 0.5,
+    NULL);
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(mainbox), vbox, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 2);
+
+  gtk_widget_show_all(mainbox);
 
   g_signal_connect(view, "row_activated", G_CALLBACK(row_callback), pdialog);
 
