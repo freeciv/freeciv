@@ -314,7 +314,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
     notebook = bottom_notebook;
   }
 
-  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog);
+  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog, TRUE);
   gui_dialog_set_title(pdialog->shell, _("Messages"));
   vbox = GTK_BOX(pdialog->shell->vbox);
 
