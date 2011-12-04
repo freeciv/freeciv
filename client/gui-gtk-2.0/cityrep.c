@@ -1139,7 +1139,7 @@ static void create_city_report_dialog(bool make_modal)
   GtkTooltips *column_tooltips = gtk_tooltips_new();
   int i;
 
-  gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
+  gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(city_dialog_shell, _("Cities"));
 
   gui_dialog_set_default_size(city_dialog_shell, -1, 420);

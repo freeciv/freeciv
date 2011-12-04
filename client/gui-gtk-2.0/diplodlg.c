@@ -508,8 +508,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   dialog_list_prepend(dialog_list, pdialog);
   init_treaty(&pdialog->treaty, plr0, plr1);
 
-  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(top_notebook), pdialog);
-  
+  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(top_notebook), pdialog,
+                 TRUE);
+
   fc_snprintf(buf, sizeof(buf), _("Diplomacy: %s"),
               nation_plural_for_player(plr1));
 

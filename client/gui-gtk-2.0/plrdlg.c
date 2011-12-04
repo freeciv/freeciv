@@ -405,7 +405,8 @@ void create_players_dialog(void)
   GtkWidget *menubar, *menu, *item, *vbox;
   enum ai_level level;
 
-  gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
+  gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL,
+                 TRUE);
   /* TRANS: Nations report title */
   gui_dialog_set_title(players_dialog_shell, _("Nations"));
 
