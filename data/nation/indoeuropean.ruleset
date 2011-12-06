@@ -40,10 +40,10 @@ init_units=""
 
 conflicts_with="gallic", "briton", "roman", "western roman", "byzantine", "scythian",
                "sarmatian", "celtiberian", "greek", "macedon", "thracian", "paeonian",
-		"illyrian", "persian", "tocharian", "saka", "hunnic", "hephtalite",
+		"illyrian", "persian", "tocharian", "saka", "hephthalite",
 		"slavic", "liburnian", "helvetian", "gaelic", "pictish", "viking",
 		"ostrogothic", "visigothic", "vandalic", "armenian", "hittite",
-		"epirote", "teutonic" ; frank boian phrygian lydian galatian dacian belgic
+		"epirote", "teutonic" ; frank boian phrygian lydian galatian dacian belgic hunnic
 civilwar_nations =
 ; armenian
  "armenian",

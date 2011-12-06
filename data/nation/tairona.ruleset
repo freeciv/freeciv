@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "inca", "kuna", "miwska"
+civilwar_nations = "inca", "kuna", "mwiska"
 
 cities =
  "Teyuna",
