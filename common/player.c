@@ -89,7 +89,7 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
   }
   if (player_diplstate_get(p1, p2)->has_reason_to_cancel == 0
       && get_player_bonus(p1, EFT_HAS_SENATE) > 0
-      && get_player_bonus(p1, EFT_ANY_GOVERNMENT) == 0) {
+      && get_player_bonus(p1, EFT_NO_ANARCHY) == 0) {
     return DIPL_SENATE_BLOCKING;
   }
   return DIPL_OK;
