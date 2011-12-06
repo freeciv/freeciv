@@ -567,7 +567,7 @@ static void nation_init(struct nation_type *pnation)
     pnation->server.civilwar_nations = nation_list_new();
     pnation->server.parent_nations = nation_list_new();
     pnation->server.conflicts_with = nation_list_new();
-    pnation->server.traits = fc_malloc(sizeof(int) * trait_max());
+    pnation->server.traits = fc_calloc(trait_max() + 1, sizeof(int));
   }
 }
 
