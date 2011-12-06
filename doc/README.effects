@@ -61,7 +61,7 @@ Airlift
     Allow airlift to/from a city.
 
 Any_Government
-    Allow instant government changes.
+    Allow changing to any form of government regardless of tech prerequisites.
 
 Capital_City
     The city with this effect is the capital city.
@@ -124,7 +124,8 @@ Make_Happy
     Make amount citizens happy.
 
 No_Anarchy
-    No period of anarchy between government changes.
+    No period of anarchy between government changes. (This also neuters
+the Has_Senate effect.)
 
 Nuke_Proof
     City is nuke proof.
