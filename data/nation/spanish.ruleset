@@ -38,7 +38,7 @@ ruler_titles = {
  "government",     "male_title",           "female_title"
  "Anarchy",        _("Pretender %s"),      _("?female:Pretender %s")
  "Despotism",      _("Caudillo %s"),       _("Caudilla %s")
- "Fundamentalism", _("Cardinal %s"),       _("Mother Superior")
+ "Fundamentalism", _("Cardinal %s"),       _("Mother Superior %s")
 }
 
 flag="spain"
@@ -53,7 +53,7 @@ conflicts_with="aragonese", "asturian", "castilian", "galician", "leonese"
 
 civilwar_nations=
 ; Sub-national nations
- "aragonese", "asturian", "basque", "castilian", "catalan", "gelician",
+ "aragonese", "asturian", "basque", "castilian", "catalan", "galician",
  "leonese",
 
 ; Spanish speaking ex-colonies
