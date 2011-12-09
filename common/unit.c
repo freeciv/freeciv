@@ -1728,20 +1728,18 @@ void unit_virtual_destroy(struct unit *punit)
 {
   free_unit_orders(punit);
 
-  /* Check if this unit is transported. */
+  /* Unload unit if transported. */
+  unit_transport_unload(punit);
   fc_assert(!unit_transported(punit));
-  if (unit_transported(punit)) {
-    fc_assert(unit_transport_unload(punit));
-  }
 
   /* Check for transported units. Use direct access to the list. */
-  fc_assert(unit_list_size(punit->transporting) == 0);
   if (unit_list_size(punit->transporting) != 0) {
     /* Unload all units. */
     unit_list_iterate(punit->transporting, pcargo) {
       fc_assert(unit_transport_unload(pcargo));
     } unit_list_iterate_end;
   }
+  fc_assert(unit_list_size(punit->transporting) == 0);
 
   if (punit->transporting) {
     unit_list_destroy(punit->transporting);
@@ -2066,17 +2064,19 @@ bool unit_transport_unload(struct unit *pcargo)
 
   fc_assert_ret_val(pcargo != NULL, FALSE);
 
-  ptrans = unit_transport_get(pcargo);
-
-  if (ptrans == NULL) {
+  if (!unit_transported(pcargo)) {
     /* 'pcargo' is not transported. */
     return FALSE;
   }
 
-  /* 'pcargo' and 'ptrans' should be on the same tile. */
-  fc_assert_ret_val(same_pos(unit_tile(pcargo), unit_tile(ptrans)), FALSE);
-  /* It is an error if 'pcargo' can not be removed from the 'ptrans'. */
-  fc_assert_ret_val(unit_list_remove(ptrans->transporting, pcargo), FALSE);
+  /* Get the transporter; must not be defined on the client! */
+  ptrans = unit_transport_get(pcargo);
+  if (ptrans) {
+    /* 'pcargo' and 'ptrans' should be on the same tile. */
+    fc_assert_ret_val(same_pos(unit_tile(pcargo), unit_tile(ptrans)), FALSE);
+    /* It is an error if 'pcargo' can not be removed from the 'ptrans'. */
+    fc_assert_ret_val(unit_list_remove(ptrans->transporting, pcargo), FALSE);
+  }
 
   /* For the server (also save for the client). */
   pcargo->transporter = NULL;
