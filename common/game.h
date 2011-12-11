@@ -138,7 +138,7 @@ struct civ_game {
       int pingtimeout;
       int ransom_gold;
       int razechance;
-      bool revealmap;
+      unsigned revealmap;
       int revolution_length;
       int save_compress_level;
       enum fz_method save_compress_type;

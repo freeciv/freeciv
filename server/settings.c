@@ -31,6 +31,7 @@
 /* server */
 #include "gamehand.h"
 #include "ggzserver.h"
+#include "maphand.h"
 #include "plrhand.h"
 #include "report.h"
 #include "savegame2.h"  /* saveversion_name() */
@@ -372,8 +373,8 @@ static const struct sset_val_name *barbarians_name(int barbarians)
 static const struct sset_val_name *revealmap_name(int bit)
 {
   switch (1 << bit) {
-  NAME_CASE(REVEAL_MAP_START, "MAP_START", N_("Reveal map at game start"));
-  NAME_CASE(REVEAL_MAP_DEAD, "MAP_DEAD", N_("Unfog map for dead players"));
+  NAME_CASE(REVEAL_MAP_START, "START", N_("Reveal map at game start"));
+  NAME_CASE(REVEAL_MAP_DEAD, "DEAD", N_("Unfog map for dead players"));
   }
   return NULL;
 }
@@ -1966,12 +1967,13 @@ static struct setting settings[] = {
                * quotes are setting names and shouldn't be translated. The
                * strings between parentheses and in uppercase must not be
                * translated. */
-              N_("If this option is set to \"Reveal map at game start\" "
-                 "(MAP_SEEN), the entire map will be known to all players "
-                 "from the start of the game, though it will still be fogged "
-                 "(depending on the 'fogofwar' setting). If this option is set "
-                 "to \"Unfog map for dead players\" (MAP_DEAD) dead players "
-                 "can see the entire map if they are alone in their team."),
+              N_("If \"Reveal map at game start\" (START) is set, the "
+                 "initial state of the entire map will be known to all "
+                 "players from the start of the game, although it may "
+                 "still be fogged (depending on the 'fogofwar' setting). "
+                 "If \"Unfog map for dead players\" (DEAD) is set, dead "
+                 "players can see the entire map, if they are alone in "
+                 "their team."),
              NULL, NULL, revealmap_name, GAME_DEFAULT_REVEALMAP)
 
   GEN_INT("timeout", game.info.timeout,
