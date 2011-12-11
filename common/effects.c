@@ -833,7 +833,7 @@ int get_unittype_bonus(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Returns the effect bonus at an unit
+  Returns the effect bonus at a unit
 **************************************************************************/
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 {
@@ -852,7 +852,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 }
 
 /**************************************************************************
-  Returns the effect bonus at an tile
+  Returns the effect bonus at a tile
 **************************************************************************/
 int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
                    enum effect_type etype)
