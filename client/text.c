@@ -774,6 +774,8 @@ const char *science_dialog_text(void)
              /* TRANS: This is appended to "%d bulb/turn" text */
              PL_(", %d bulb/turn from team",
                  ", %d bulbs/turn from team", theirs), theirs);
+  } else {
+    astr_clear(&theirbuf);
   }
   astr_add(&str, " (%s%s)", astr_str(&ourbuf), astr_str(&theirbuf));
   astr_free(&ourbuf);
@@ -975,8 +977,13 @@ const char *get_info_label_text_popup(void)
 		  advance_name_researching(client.conn.playing),
 		  get_science_target_text(NULL));
     /* perturn is defined as: (bulbs produced) - upkeep */
-    astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
-                  upkeep, perturn);
+    if (game.info.tech_upkeep_style == 1) {
+      astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
+                    upkeep, perturn);
+    } else {
+      fc_assert(upkeep == 0);
+      astr_add_line(&str, _("Bulbs per turn: %d"), perturn);
+    }
   }
 
   /* See also get_global_warming_tooltip and get_nuclear_winter_tooltip. */
