@@ -362,7 +362,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CADJACENT:
       cat_snprintf(buf, bufsz,
                    _("Requires the %s terrain special on the tile or "
-                     "an cardinally adjacent tile.\n"),
+                     "a cardinally adjacent tile.\n"),
                    special_name_translation(preq->source.value.special));
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -389,7 +389,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CADJACENT:
       cat_snprintf(buf, bufsz,_("Requires the %s terrain on the tile or "
-                                "an cardinally adjacent tile.\n"),
+                                "a cardinally adjacent tile.\n"),
                    terrain_name_translation(preq->source.value.terrain));
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -561,7 +561,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_CADJACENT:
       cat_snprintf(buf, bufsz,
-                   _("Requires %s terrain class on an cardinally adjacent tile.\n"),
+                   _("Requires %s terrain class on a cardinally adjacent tile.\n"),
                    terrain_class_name_translation
                    (preq->source.value.terrainclass));
       return TRUE;
@@ -588,7 +588,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    base_name_translation(preq->source.value.base));
       return TRUE;
    case REQ_RANGE_CADJACENT:
-      cat_snprintf(buf, bufsz, _("Requires a %s on an cardinally adjacent tile.\n"),
+      cat_snprintf(buf, bufsz, _("Requires a %s on a cardinally adjacent tile.\n"),
                    base_name_translation(preq->source.value.base));
       return TRUE;
     case REQ_RANGE_ADJACENT:
@@ -612,7 +612,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    road_name_translation(preq->source.value.road));
       return TRUE;
    case REQ_RANGE_CADJACENT:
-      cat_snprintf(buf, bufsz, _("Requires a %s on an cardinally adjacent tile.\n"),
+      cat_snprintf(buf, bufsz, _("Requires a %s on a cardinally adjacent tile.\n"),
                    road_name_translation(preq->source.value.road));
       return TRUE;
     case REQ_RANGE_ADJACENT:
