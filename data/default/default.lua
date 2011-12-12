@@ -81,14 +81,16 @@ function default_hut_get_city(unit)
   end
 end
 
--- Get barbarians from hut, unless close to a city or king enters
+-- Get barbarians from hut, unless close to a city, king enters, or
+-- barbarians are disabled
 -- Unit may die: returns true if unit is alive
 function default_hut_get_barbarians(unit)
   local tile = unit:tile()
   local type = unit.utype
   local owner = unit.owner
 
-  if unit:tile():city_exists_within_max_city_map(true)
+  if server.setting.get("barbarians") == "DISABLED"
+    or unit:tile():city_exists_within_max_city_map(true)
     or type:has_flag('Gameloss') then
     notify.event(owner, unit:tile(), E.HUT_BARB_CITY_NEAR,
                  _("An abandoned village is here."))
@@ -124,7 +126,7 @@ function default_hut_enter_callback(unit)
     if not default_hut_get_mercenaries(unit) then
       default_hut_get_gold(unit, 25)
     end
-  elseif chance == 10 and server.setting.get("barbarians") ~= "DISABLED" then
+  elseif chance == 10 then
     alive = default_hut_get_barbarians(unit)
   elseif chance == 11 then
     default_hut_get_city(unit)
