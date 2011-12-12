@@ -451,7 +451,9 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_UCFLAG:
   case VUT_OTYPE:
   case VUT_SPECIALIST:
-  case VUT_TERRAINALTER: /* XXX could in principle support ADJACENT */
+  case VUT_TERRAINALTER: /* XXX could in principle support C/ADJACENT */
+    invalid = (req.range != REQ_RANGE_LOCAL);
+    break;
   case VUT_CITYTILE:
     invalid = (req.range != REQ_RANGE_LOCAL
                && req.range != REQ_RANGE_CADJACENT
