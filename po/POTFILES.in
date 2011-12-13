@@ -213,7 +213,6 @@ data/Freeciv.in
 data/helpdata.txt
 data/multiplayer/buildings.ruleset
 data/multiplayer/cities.ruleset
-data/multiplayer/default.lua
 data/multiplayer/game.ruleset
 data/multiplayer/governments.ruleset
 data/multiplayer/techs.ruleset
