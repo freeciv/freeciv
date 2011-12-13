@@ -363,7 +363,7 @@ int client_main(int argc, char *argv[])
       cmdhelp_add(help, "M", "Meta HOST",
                   _("Connect to the metaserver at HOST"));
       cmdhelp_add(help, "n", "name NAME",
-                  _("Use NAME as name"));
+                  _("Use NAME as username on server"));
       cmdhelp_add(help, "p", "port PORT",
                   _("Connect to server port PORT (usually with -a)"));
       cmdhelp_add(help, "P", "Plugin PLUGIN",
