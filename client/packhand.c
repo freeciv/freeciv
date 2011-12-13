@@ -3139,6 +3139,17 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
     }
   }
 
+  pnation->init_government = government_by_number(packet->init_government_id);
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+    pnation->init_techs[i] = packet->init_techs[i];
+  }
+  for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+    pnation->init_units[i] = utype_by_number(packet->init_units[i]);
+  }
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    pnation->init_buildings[i] = packet->init_buildings[i];
+  }
+
   tileset_setup_nation_flag(tileset, pnation);
 }
 
@@ -3186,6 +3197,13 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
 
   game.veteran = veteran_system_new(packet->veteran_levels);
   game.veteran->levels = packet->veteran_levels;
+
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+    game.rgame.global_init_techs[i] = packet->global_init_techs[i];
+  }
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+  }
 
   for (i = 0; i < packet->veteran_levels; i++) {
     veteran_system_definition(game.veteran, i, packet->veteran_name[i],

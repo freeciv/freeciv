@@ -105,6 +105,13 @@ struct nation_type {
 
   struct player *player; /* Who's using the nation, or NULL. */
 
+  /* Items given to this nation at game start. */
+  /* (Only used in the client for documentation purposes.) */
+  int init_techs[MAX_NUM_TECH_LIST];
+  int init_buildings[MAX_NUM_BUILDING_LIST];
+  struct government *init_government;
+  struct unit_type *init_units[MAX_NUM_UNIT_LIST];
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */
@@ -119,12 +126,6 @@ struct nation_type {
       /* Nations which we don't want in the same game. For example,
        * British and English. */
       struct nation_list *conflicts_with;
-
-      /* Items given to this nation at game start. */
-      int init_techs[MAX_NUM_TECH_LIST];
-      int init_buildings[MAX_NUM_BUILDING_LIST];
-      struct government *init_government;
-      struct unit_type *init_units[MAX_NUM_UNIT_LIST];
     } server;
 
     struct {

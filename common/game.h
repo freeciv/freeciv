@@ -79,6 +79,13 @@ struct civ_game {
 
   struct rgbcolor *plr_bg_color;
 
+  struct {
+    /* Items given to all players at game start.
+     * Client gets this info for help purposes only. */
+    int global_init_techs[MAX_NUM_TECH_LIST];
+    int global_init_buildings[MAX_NUM_BUILDING_LIST];
+  } rgame;
+
   union {
     struct {
       /* Only used at the client (./client/). */
@@ -199,13 +206,6 @@ struct civ_game {
         bool chat;
         bool info;
       } event_cache;
-
-      /* values from game.info.t */
-      struct {
-        /* Items given to all players at game start. Server only. */
-        int global_init_techs[MAX_NUM_TECH_LIST];
-        int global_init_buildings[MAX_NUM_BUILDING_LIST];
-      } rgame;
 
       /* used by the map editor to control game_save. */
       struct {

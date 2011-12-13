@@ -2419,10 +2419,9 @@ static void final_ruleset_adjustments(void)
   players_iterate(pplayer) {
     struct nation_type *pnation = nation_of_player(pplayer);
 
-    pplayer->government = pnation->server.init_government;
+    pplayer->government = pnation->init_government;
 
-    if (pnation->server.init_government
-        == game.government_during_revolution) {
+    if (pnation->init_government == game.government_during_revolution) {
       /* If we do not do this, an assertion will trigger. This enables us to
        * select a valid government on game start. */
       pplayer->revolution_finishes = 0;
