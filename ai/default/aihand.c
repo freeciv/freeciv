@@ -693,7 +693,7 @@ static void dai_manage_government(struct player *pplayer)
     int want = MAX(ai->goal.govt.val, 100);
     struct nation_type *pnation = nation_of_player(pplayer);
 
-    if (government_of_player(pplayer) == pnation->server.init_government) {
+    if (government_of_player(pplayer) == pnation->init_government) {
       /* Default government is the crappy one we start in (like Despotism).
        * We want something better pretty soon! */
       want += 25 * game.info.turn;

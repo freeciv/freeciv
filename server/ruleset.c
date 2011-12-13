@@ -3036,15 +3036,15 @@ static void load_ruleset_nations(struct section_file *file)
 
     /* Load nation specific initial items */
     lookup_tech_list(file, sec_name, "init_techs",
-                       pnation->server.init_techs, filename);
+                       pnation->init_techs, filename);
     lookup_building_list(file, sec_name, "init_buildings",
-                         pnation->server.init_buildings, filename);
+                         pnation->init_buildings, filename);
     lookup_unit_list(file, sec_name, "init_units", LOG_ERROR,
-                     pnation->server.init_units, filename);
+                     pnation->init_units, filename);
     fc_strlcat(tmp, sec_name, 200);
     fc_strlcat(tmp, ".init_government", 200);
-    pnation->server.init_government = lookup_government(file, tmp, filename,
-                                                        default_government);
+    pnation->init_government = lookup_government(file, tmp, filename,
+                                                 default_government);
 
     /* Read default city names. */
     load_city_name_list(file, pnation, sec_name, "cities");
@@ -3379,9 +3379,9 @@ static void load_ruleset_game(void)
 
   /* section: options */
   lookup_tech_list(file, "options", "global_init_techs",
-                   game.server.rgame.global_init_techs, filename);
+                   game.rgame.global_init_techs, filename);
   lookup_building_list(file, "options", "global_init_buildings",
-                       game.server.rgame.global_init_buildings, filename);
+                       game.rgame.global_init_buildings, filename);
 
   /* section: civstyle */
   game.info.base_pollution
@@ -4140,6 +4140,23 @@ static void send_ruleset_nations(struct conn_list *dest)
     } nation_group_list_iterate_end;
     packet.ngroups = i;
 
+    packet.init_government_id = government_number(n->init_government);
+    fc_assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      packet.init_techs[i] = n->init_techs[i];
+    }
+    fc_assert(ARRAY_SIZE(packet.init_units) == ARRAY_SIZE(n->init_units));
+    for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+      const struct unit_type *t = n->init_units[i];
+      packet.init_units[i] = t ? utype_number(t) : U_LAST;
+    }
+    fc_assert(ARRAY_SIZE(packet.init_buildings)
+              == ARRAY_SIZE(n->init_buildings));
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      /* Impr_type_id to int */
+      packet.init_buildings[i] = n->init_buildings[i];
+    }
+
     lsend_packet_ruleset_nation(dest, &packet);
   } nations_iterate_end;
 }
@@ -4200,11 +4217,19 @@ static void send_ruleset_game(struct conn_list *dest)
   }
 
   fc_assert(sizeof(misc_p.global_init_techs)
-            == sizeof(game.server.rgame.global_init_techs));
+            == sizeof(game.rgame.global_init_techs));
   fc_assert(ARRAY_SIZE(misc_p.global_init_techs)
-            == ARRAY_SIZE(game.server.rgame.global_init_techs));
-  memcpy(misc_p.global_init_techs, game.server.rgame.global_init_techs,
+            == ARRAY_SIZE(game.rgame.global_init_techs));
+  memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
          sizeof(misc_p.global_init_techs));
+
+  fc_assert(ARRAY_SIZE(misc_p.global_init_buildings)
+            == ARRAY_SIZE(game.rgame.global_init_buildings));
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    /* Impr_type_id to int */
+    misc_p.global_init_buildings[i] =
+      game.rgame.global_init_buildings[i];
+  }
 
   misc_p.default_specialist = DEFAULT_SPECIALIST;
 
@@ -4408,17 +4433,17 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 
   /* See if it's given as global init tech */
   for (i = 0; i < MAX_NUM_TECH_LIST
-       && game.server.rgame.global_init_techs[i] != A_LAST; i++) {
-    if (game.server.rgame.global_init_techs[i] == advance_number(tech)) {
+       && game.rgame.global_init_techs[i] != A_LAST; i++) {
+    if (game.rgame.global_init_techs[i] == advance_number(tech)) {
       return TRUE;
     }
   }
 
   /* See if it's given as national init tech */
   for (i = 0;
-       i < MAX_NUM_TECH_LIST && pnation->server.init_techs[i] != A_LAST;
+       i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
        i++) {
-    if (pnation->server.init_techs[i] == advance_number(tech)) {
+    if (pnation->init_techs[i] == advance_number(tech)) {
       return TRUE;
     }
   }
@@ -4648,8 +4673,8 @@ static bool sanity_check_ruleset_data(void)
 
     /* Check global initial techs */
     for (i = 0; i < MAX_NUM_TECH_LIST
-         && game.server.rgame.global_init_techs[i] != A_LAST; i++) {
-      Tech_type_id tech = game.server.rgame.global_init_techs[i];
+         && game.rgame.global_init_techs[i] != A_LAST; i++) {
+      Tech_type_id tech = game.rgame.global_init_techs[i];
       struct advance *a = valid_advance_by_number(tech);
 
       if (!a) {
@@ -4671,9 +4696,9 @@ static bool sanity_check_ruleset_data(void)
 
     /* Check national initial techs */
     for (i = 0;
-         i < MAX_NUM_TECH_LIST && pnation->server.init_techs[i] != A_LAST;
+         i < MAX_NUM_TECH_LIST && pnation->init_techs[i] != A_LAST;
          i++) {
-      Tech_type_id tech = pnation->server.init_techs[i];
+      Tech_type_id tech = pnation->init_techs[i];
       struct advance *a = valid_advance_by_number(tech);
 
       if (!a) {

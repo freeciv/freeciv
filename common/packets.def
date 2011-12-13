@@ -195,6 +195,8 @@ type MEMORY             = memory(unsigned char)
 type REQUIREMENT        = requirement(struct requirement)
 type STRING             = string(char)
 type TECH_LIST          = tech_list(int)
+type UNIT_LIST          = unit_list(int)
+type BUILDING_LIST      = building_list(int)
 type WORKLIST           = worklist(struct worklist)
 
 # typedefs for enums
@@ -1180,6 +1182,7 @@ PACKET_RULESET_GAME = 141; sc, lsend
   UINT8 default_specialist;
 
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
+  BUILDING_LIST global_init_buildings[MAX_NUM_BUILDING_LIST];
 
   UINT8 veteran_levels;
   STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];
@@ -1282,6 +1285,11 @@ PACKET_RULESET_NATION = 148; sc, lsend
   
   UINT8 ngroups;
   UINT8 groups[MAX_NUM_NATION_GROUPS:ngroups];
+
+  GOVERNMENT init_government_id;
+  TECH_LIST init_techs[MAX_NUM_TECH_LIST];
+  UNIT_LIST init_units[MAX_NUM_UNIT_LIST];
+  BUILDING_LIST init_buildings[MAX_NUM_BUILDING_LIST];
 end
 
 PACKET_RULESET_CITY = 149; sc, lsend

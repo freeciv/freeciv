@@ -1863,7 +1863,7 @@ static struct player *split_player(struct player *pplayer)
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
-  cplayer->government = nation_of_player(cplayer)->server.init_government;
+  cplayer->government = nation_of_player(cplayer)->init_government;
   fc_assert(cplayer->revolution_finishes < 0);
   /* No capital for the splitted player. */
   cplayer->server.capital = FALSE;

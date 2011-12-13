@@ -1186,7 +1186,7 @@ void city_build_free_buildings(struct city *pcity)
 
   /* Global free buildings. */
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    Impr_type_id n = game.server.rgame.global_init_buildings[i];
+    Impr_type_id n = game.rgame.global_init_buildings[i];
     struct impr_type *pimprove;
 
     if (n == B_LAST) {
@@ -1203,7 +1203,7 @@ void city_build_free_buildings(struct city *pcity)
 
   /* Nation specific free buildings. */
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    Impr_type_id n = nation->server.init_buildings[i];
+    Impr_type_id n = nation->init_buildings[i];
     struct impr_type *pimprove;
 
     if (n == B_LAST) {

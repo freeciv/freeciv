@@ -979,8 +979,8 @@ enum rfc_status create_command_newcomer(const char *name,
   server_player_init(pplayer, TRUE, TRUE);
 
   player_set_nation(pplayer, pnation);
-  pplayer->government = pnation->server.init_government;
-  pplayer->target_government = pnation->server.init_government;
+  pplayer->government = pnation->init_government;
+  pplayer->target_government = pnation->init_government;
 
   /* TRANS: keep one space at the beginning of the string. */
   cat_snprintf(buf, buflen, _(" Nation of the new player: %s."),

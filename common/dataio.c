@@ -378,7 +378,7 @@ void dio_put_bit_string(struct data_out *dout, const char *value)
 
 /**************************************************************************
   Insert tech numbers from value array as 8 bit values until there is value
-  A_LAST or MAX_NUM_TECH_LIST tech numbers has been inserted.
+  A_LAST or MAX_NUM_TECH_LIST tech numbers have been inserted.
 **************************************************************************/
 void dio_put_tech_list(struct data_out *dout, const int *value)
 {
@@ -387,6 +387,38 @@ void dio_put_tech_list(struct data_out *dout, const int *value)
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
     dio_put_uint8(dout, value[i]);
     if (value[i] == A_LAST) {
+      break;
+    }
+  }
+}
+
+/**************************************************************************
+  Insert unit type numbers from value array as 8 bit values until there is
+  value U_LAST or MAX_NUM_UNIT_LIST numbers have been inserted.
+**************************************************************************/
+void dio_put_unit_list(struct data_out *dout, const int *value)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+    dio_put_uint8(dout, value[i]);
+    if (value[i] == U_LAST) {
+      break;
+    }
+  }
+}
+
+/**************************************************************************
+  Insert building type numbers from value array as 8 bit values until there
+  is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
+**************************************************************************/
+void dio_put_building_list(struct data_out *dout, const int *value)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    dio_put_uint8(dout, value[i]);
+    if (value[i] == B_LAST) {
       break;
     }
   }
@@ -635,7 +667,7 @@ void dio_get_bit_string(struct data_in *din, char *dest,
 }
 
 /**************************************************************************
-  Take tech numbers until A_LAST encontered, or MAX_NUM_TECH_LIST techs
+  Take tech numbers until A_LAST encountered, or MAX_NUM_TECH_LIST techs
   retrieved.
 **************************************************************************/
 void dio_get_tech_list(struct data_in *din, int *dest)
@@ -651,6 +683,46 @@ void dio_get_tech_list(struct data_in *din, int *dest)
 
   for (; i < MAX_NUM_TECH_LIST; i++) {
     dest[i] = A_LAST;
+  }
+}
+
+/**************************************************************************
+  Take unit type numbers until U_LAST encountered, or MAX_NUM_UNIT_LIST
+  types retrieved.
+**************************************************************************/
+void dio_get_unit_list(struct data_in *din, int *dest)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+    dio_get_uint8(din, &dest[i]);
+    if (dest[i] == U_LAST) {
+      break;
+    }
+  }
+
+  for (; i < MAX_NUM_UNIT_LIST; i++) {
+    dest[i] = U_LAST;
+  }
+}
+
+/**************************************************************************
+  Take building type numbers until B_LAST encountered, or
+  MAX_NUM_BUILDING_LIST types retrieved.
+**************************************************************************/
+void dio_get_building_list(struct data_in *din, int *dest)
+{
+  int i;
+
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    dio_get_uint8(din, &dest[i]);
+    if (dest[i] == B_LAST) {
+      break;
+    }
+  }
+
+  for (; i < MAX_NUM_BUILDING_LIST; i++) {
+    dest[i] = B_LAST;
   }
 }
 

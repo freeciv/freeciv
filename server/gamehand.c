@@ -418,10 +418,10 @@ void init_new_game(void)
 
     /* Place nation specific start units (not role based!) */
     i = 0;
-    while (NULL != nation->server.init_units[i] && MAX_NUM_UNIT_LIST > i) {
+    while (NULL != nation->init_units[i] && MAX_NUM_UNIT_LIST > i) {
       struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
-      create_unit(pplayer, rand_tile, nation->server.init_units[i], FALSE, 0, 0);
+      create_unit(pplayer, rand_tile, nation->init_units[i], FALSE, 0, 0);
       placed_units[player_index(pplayer)]++;
       i++;
     }
