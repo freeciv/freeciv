@@ -375,6 +375,8 @@ int main(int argc, char *argv[])
                 _("When a game ends, exit instead of restarting"));
     cmdhelp_add(help, "s", "saves DIR",
                 _("Save games to directory DIR"));
+    cmdhelp_add(help, NULL, "scenarios DIR",
+                _("Search for scenarios in directory DIR"));
     cmdhelp_add(help, "S", "Serverid ID",
                 _("Sets the server id to ID"));
     cmdhelp_add(help, "r", "read FILE",
