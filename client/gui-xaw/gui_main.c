@@ -245,7 +245,10 @@ static int myerr(Display *p, XErrorEvent *e)
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fc_fprintf(stderr, _("This client has no special command line options\n\n"));
+  fc_fprintf(stderr,
+            _("This client accepts the standard X toolkit command-line options\n"
+              "after '--'. See the X(7) man page.\n\n"));
+
 
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);

@@ -319,7 +319,7 @@ int client_main(int argc, char *argv[])
 			   "(spawned server also uses this)\n"));
       fc_fprintf(stderr, _("  -M, --Meta HOST\t"
 			   "Connect to the metaserver at HOST\n"));
-      fc_fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
+      fc_fprintf(stderr, _("  -n, --name NAME\tUse NAME as username on server\n"));
       fc_fprintf(stderr,
 		 _("  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"));
       fc_fprintf(stderr,

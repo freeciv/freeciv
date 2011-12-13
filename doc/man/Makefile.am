@@ -8,9 +8,7 @@ MAN_PAGES = 			\
 MAN_LINKS = 			\
 	freeciv-gtk2.6		\
 	freeciv-sdl.6		\
-	freeciv-xaw.6		\
-	freeciv-win32.6		\
-	freeciv-ftwl.6
+	freeciv-xaw.6
 
 man_MANS = $(MAN_PAGES) $(MAN_LINKS)
 

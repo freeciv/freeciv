@@ -9,14 +9,14 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "August 10th 2011"
+.TH FREECIV 6 "December 10th 2011"
 .SH NAME
 freeciv-modpack \
 \- Custom content installer for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-modpack \
 [ \-h|\-\-help ] \
-[ \-v|\-\-version ] \
+[ \-v|\-\-version ]
 
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
@@ -29,16 +29,24 @@ aim of Freeciv is to have compatible rules.
 Freeciv is maintained by an international team of coders and enthusiasts, and is
 easily one of the most fun and addictive network games out there!
 
-This is the custom content installer program. - See also
+This is the custom content installer program - see also
 .IR freeciv-server (6)
 .IR freeciv-client (6)
+\&.
+
+This program allows users to select and download add-on content
+("modpacks") for Freeciv from the Internet, either from a list
+maintained by the Freeciv team, or by using a URL obtained by other
+means. It takes care of installing the files in the correct place
+under the user's home directory for this version of Freeciv; it does
+not install anything for system-wide use.
 
 This manual page only lists the command line arguments. For details
 regarding the options when using
 .B freeciv-modpack
-see the documentation in
-.UR
-http://www.freeciv.org/
+see the documentation at
+.UR @WIKI_URL@
+the Freeciv website
 .UE
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
@@ -52,10 +60,16 @@ Prints a short summary of the command line options.
 .TP
 .BI "\-v, \-\-version"
 Prints the version number and exits.
-.TP
+.SH FILES
+.B freeciv-modpack
+installs files to the following subdirectory of the user's home directory:
+
+\(bu
+.I .freeciv/@DATASUBDIR@/
 
 .SH ENVIRONMENT
-The Freeciv client accepts these environment variables:
+.B freeciv-modpack
+accepts these environment variables:
 .TP
 .BI HOME
 Specifies the user's home directory.
@@ -73,17 +87,17 @@ Similar to LANG (see documentation for your system).
 Specifies the username of the current user.
 .SH BUGS
 Please report bugs to
-.UR
-@BUG_URL@
+.UR @BUG_URL@
+the Freeciv bug tracker
 .UE
-\.
+\&.
 
 .SH "MORE INFO"
-The Freeciv homepage is located at
-.UR
-@WIKI_URL@
+See the
+.UR @WIKI_URL@
+Freeciv homepage
 .UE
-\.
+\&.
 
 Updates and new info is first posted there.
 .SH AUTHORS
@@ -92,4 +106,3 @@ The Freeciv Team <@MAIL_ADDRESS@>.
 .SH "SEE ALSO"
 .IR freeciv-server (6)
 .IR freeciv-client (6)
-and the Client Manual at the Freeciv homepage.

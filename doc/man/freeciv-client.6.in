@@ -9,49 +9,46 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "October 30th 2009"
+.TH FREECIV 6 "December 10th 2011"
 .SH NAME
-freeciv-gtk2, freeciv-sdl, freeciv-xaw, freeciv-win32, freeciv-ftwl, \
+freeciv-gtk2, freeciv-sdl, freeciv-xaw \
 \- The clients for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-gtk2|freeciv-sdl|freeciv-xaw|freeciv-win32|freeciv-ftwl \
+.B freeciv-gtk2|freeciv-sdl|freeciv-xaw \
+[ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
 [ \-h|\-\-help ] \
 [ \-l|\-\-log \fIfilename\fP ] \
 [ \-M|\-\-Meta \fIURL\fP ] \
-[ \-n|\-\-name \fIstring\fP ] \
+[ \-n|\-\-name \fIname\fP ] \
 [ \-p|\-\-port \fIport\fP ] \
 [ \-P|\-\-Plugin \fIstring\fP ] \
 [ \-r|\-\-read \fIfilename\fP ] \
 [ \-s|\-\-server \fIaddress\fP ] \
-[ \-S|\-\-Sound \fIfilename\fP ] \
-[ \-t|\-\-tiles \fIstring\fP ] \
+[ \-S|\-\-Sound \fIname\fP ] \
+[ \-t|\-\-tiles \fIname\fP ] \
 [ \-v|\-\-version ] \
-[ \-\- \fIextra parameters\fP ]
+[ \-\- \fIclient-specific-parameters\fP ]
 
-IPv6 aware clients have additional parameter:
-.B [ \-A|\-\-announce \fIprotocol\fP ]
-
-freeciv-gtk2 accepts extra parameters following \fB\-\-\fP:
+.B freeciv-gtk2
+accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
+documentation. It also accepts
 .B [ \-h|\-\-help ]
 
-freeciv-sdl accepts extra parameters following \fB\-\-\fP:
+.B freeciv-sdl
+accepts the following parameters following \fB\-\-\fP:
 .B [ \-e|\-\-eventthread ] \
 [ \-f|\-\-fullscreen ] \
 [ \-h|\-\-help ] \
 [ \-t|\-\-theme \fIstring\fP ]
 
-freeciv-xaw accepts extra parameters following \fB\-\-\fP:
+.B freeciv-xaw
+accepts the standard X11 toolkit parameters following \fB\-\-\fP; see
+.IR X (7)
+\&. It also accepts
 .B [ \-h|\-\-help ]
-
-freeciv-ftwl accepts extra parameters following \fB\-\-\fP:
-.B [ \-d|\-\-dump ] \
-[ \-f|\-\-fullscreen ] \
-[ \-h|\-\-help ] \
-[ \-r|\-\-res \fIresolution\fP ] \
-[ \-t|\-\-theme \fIstring\fP ]
 
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
@@ -64,32 +61,27 @@ aim of Freeciv is to have compatible rules.
 Freeciv is maintained by an international team of coders and enthusiasts, and is
 easily one of the most fun and addictive network games out there!
 
-This is the client program used to connect to a Freeciv server - See also
+This is the client program used to connect to a Freeciv server - see also
 .IR freeciv-server (6)
+\&. \fBfreeciv-gtk2\fP and \fBfreeciv-sdl\fP can also spawn their own local
+server for single-player games.
 
-This manual page only lists the command line arguments. For details
-regarding the options when using
-.B freeciv-gtk2
-.B freeciv-sdl
-.B freeciv-xaw
-.B freeciv-win32
-or
-.B freeciv-ftwl
+This manual page only lists the command line arguments. For more details
+about using \fBfreeciv-gtk2\fP, \fBfreeciv-sdl\fP, or \fBfreeciv-xaw\fP,
 see the Client Manual which can be found at
-.UR
-http://www.freeciv.org/
+.UR @WIKI_URL@
+the Freeciv website
 .UE
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
-All the Freeciv clients accept of the standard X Toolkit command line
-options along with the additional options listed below. Those may not
+The following options are accepted by all clients. They may not
 be combined; that is, "\-np caesar 5557" will not work, instead you
  would need to enter "\-n caesar \-p 5557". All options have a short
 form (single hyphen and single letter) and a long form (double hyphen
 and a complete word); their effects are identical.
 .TP
-.BI "\-A, \-\-announce \fIprotocol\fP"
-Uses \fIprotocol\fP when searching game from LAN.
+.BI "\-A \fIprotocol\fP, \-\-Announce \fIprotocol\fP"
+Uses \fIprotocol\fP when searching for games on a LAN.
 Possible values for \fIprotocol\fP are:
 
 \fBIPv4\fP
@@ -111,7 +103,7 @@ option. Acceptable values for the \fIlevel_number\fP are:
 
 \fB1\fP    for fatal and error messages.
 
-\fB2\fP    for fatal, error and normal messages.
+\fB2\fP    for fatal, error and normal messages (default).
 
 \fB3\fP    for fatal, error, normal, and verbose messages.
 
@@ -121,24 +113,25 @@ Raise a custom signal on failed assertion.  If \fIsignal_number\fP is not
 specified, then the ABRT signal will be used.
 .TP
 .BI "\-h, \-\-help"
-Prints a short summary of the command line options.
+Prints a short summary of the standard command line options.
 .TP
 .BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
 Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
-option to set how much is logged.  By default, fatal and normal messages are 
-printed to standard output.  With a log file, such messages go to the log
-instead.
+option to set how much is logged.  By default, fatal, error, and normal
+messages are printed to standard output.  With a log file, such messages go
+to the log instead.
 .TP
 .BI "\-M \fIURL\fP, \-\-Meta \fIURL\fP"
 Specifies the \fIURL\fP of the metaserver to connect to. A metaserver is a
 place where Freeciv servers can publish their presence. Freeciv clients consult
-the metaserver to offer users a selection of games to join. By default the 
-standard Freeciv metaserver is used. 
+the metaserver to offer users a selection of games to join. By default, the 
+standard metaserver run by the Freeciv maintainers will be used.
 .TP
-.BI "\-n \fIstring\fP, \-\-name \fIstring\fP"
-Specifies the name (\fIstring\fP) to play under. This option is critical when 
-reconnecting to a game. Please note that you might need to quote your playername.
+.BI "\-n \fIname\fP, \-\-name \fIname\fP"
+Specifies the user name (\fIname\fP) to use to connect to the server. This
+option is critical when reconnecting to a game. Please note that you might
+need to quote your username.
 .TP
 .BI "\-p \fIport\fP, \-\-port \fIport\fP"
 Specifies the server \fIport\fP to connect to. By default this is 5556, if in 
@@ -154,72 +147,22 @@ Specifies the plugin to use for sound output.  Available options  for
 
 .TP
 .BI "\-r \fIfilename\fP, \-\-read \fIfilename\fP"
-Specifies a file, \fIfilename\fP, of server commands which the server will 
-automatically read and process, as if you had typed them in at the server's 
-prompt. (for spawned server only)
+Specifies a file, \fIfilename\fP, of server commands which a server spawned
+by the client will automatically read and process, as if you had typed them in
+at the server's prompt.
 .TP
 .BI "\-s \fIaddress\fP, \-\-server \fIaddress\fP"
 Specifies the game server \fIaddress\fP to connect to. This server might easily
 run on the same machine as the client.
 .TP
-.BI "\-S \fIfilename\fP, \-\-Sound \fIfilename\fP"
-Specifies the \fIfilename\fP to read the sound tags from.
+.BI "\-S \fIname\fP, \-\-Sound \fIname\fP"
+Specifies the sound set to use. A file called \fIname\fP.soundspec is searched
+for in the usual places (see the \fIFILES\fP section).
 .TP
-.BI "\-t \fIstring\fP, \-\-tiles \fIstring\fP"
-Specifies the tiles to be used within the game by supplying the name 
-(\fIstring\fP) of the tilespec. See the \fIFILES\fP section below for tilespecs
-included with this distribution.
-.TP
-.BI "\-v, \-\-version"
-Prints the version number and exits.
-.TP
-.BI "\-\-"
-All parameters following this \-\- will be considered as a specific gui
-parameter.  See below.
-.TP
-.BI "\-\- \-d, \-\- \-\-dump"
-Enables screen dumper.  Only available for the \fBfreeciv-ftwl\fP client.
-.TP
-.BI "\-\- \-e, \-\- \-\-eventthread"
-Initializes the event subsystem in other thread.  Only available for the
-\fBfreeciv-sdl\fP client under Linux or BeOS.
-.TP
-.BI "\-\- \-f, \-\- \-\-fullscreen"
-Starts the client in full screen mode.  Only implemented in the
-\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
-.TP
-.BI "\-\- \-h, \-\- \-\-help"
-Print the specific gui parameters help.  Note it is not implemented in
-the \fBfreeciv-win32\fP client.
-\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
-.TP
-.BI "\-\- \-r \fIresolution\fP, \-\- \-\-res \fIresolution\fP"
-Uses the given resolution.  Note it is not implemented in
-the \fBfreeciv-win32\fP client.
-\fBfreeciv-sdl\fP and \fBfreeciv-ftwl\fP clients.
-.TP
-.BI "\-\- \-t \fIstring\fP, \-\- \-\-theme \fIstring\fP"
-Uses GUI theme \fIstring\fP.  Only available for the \fBfreeciv-ftwl\fP
-client.
-.SH "EXAMPLES"
-.TP
-.B freeciv-gtk2 \-\-name "King Richard" \-\-server io.daimi.aau.dk
-Starts the GTK2 client using the name \fIKing Richard\fP and connecting
-to the server at \fIio.daimi.aau.dk\fP.
-.TP
-.B freeciv-sdl \-a \-t trident
-Starts the SDL client with the \fItrident\fP tiles and autoconnects to the 
-\fIlocalhost\fP.
-.SH FILES
-.TP
-.BI ~/.freeciv-client-rc-\fI[version-number]\fP
-This is where your local settings will be stored.
-.TP
-.BI tilespecs
-The Freeciv client requires several files in the Freeciv data directory,
-which is
-.I /usr/local/share/freeciv
-by default. Currently the following tilespecs can be used:
+.BI "\-t \fIname\fP, \-\-tiles \fIname\fP"
+Specifies the map graphics ("tiles") to be used within the game. A file called
+\fIname\fP.tilespec is searched for in the usual places (see the \fIFILES\fP
+section). Currently the following tilespecs are distributed with Freeciv:
 
 \(bu
 .I amplio2.tilespec
@@ -235,6 +178,52 @@ by default. Currently the following tilespecs can be used:
 
 \(bu
 .I trident.tilespec
+.TP
+.BI "\-v, \-\-version"
+Prints the version number and exits.
+.TP
+.BI "\-\-"
+All parameters following this \fI\-\-\fP will be considered as client-specific
+parameters.
+.TP
+.BI "\-\- \-e, \-\- \-\-eventthread"
+Initializes the event subsystem in other thread.  Only available for the
+\fBfreeciv-sdl\fP client under Linux or BeOS.
+.TP
+.BI "\-\- \-f, \-\- \-\-fullscreen"
+Starts the client in full screen mode.  Only implemented in the
+\fBfreeciv-sdl\fP client.
+.TP
+.BI "\-\- \-h, \-\- \-\-help"
+Print the client-specific parameter help.
+.TP
+.BI "\-\- \-t \fIstring\fP, \-\- \-\-theme \fIstring\fP"
+Use a particular GUI theme.  Only implemented in the \fBfreeciv-sdl\fP client.
+.SH "EXAMPLES"
+.TP
+.B "freeciv-gtk2 \-\-name ""King Richard"" \-\-server io.daimi.aau.dk"
+Starts the GTK2 client using the name \fIKing Richard\fP and connecting
+to the server at \fIio.daimi.aau.dk\fP.
+.TP
+.B freeciv-sdl \-a \-t trident
+Starts the SDL client with the \fItrident\fP tiles and autoconnects to
+\fIlocalhost\fP.
+.SH FILES
+.TP
+.BI ~/.freeciv-client-rc-\fI[version-number]\fP
+This is where your local settings will be stored.
+.TP
+.BI tilespecs
+These are searched for in the data path; see \fIENVIRONMENT\fP.
+.TP
+.BI soundspecs
+These are searched for in the data path; see \fIENVIRONMENT\fP.
+.PP
+The
+.IR freeciv-modpack (6)
+utility can be used to locate and download additional content such as
+tilesets and soundsets and (for client-spawned servers only) scenarios
+and rulesets; it saves files under ~/.freeciv .
 .SH ENVIRONMENT
 The Freeciv client accepts these environment variables:
 .TP
@@ -264,18 +253,18 @@ A colon separated list of directories pointing to the
 .B freeciv
 directory. By default freeciv looks in the following directories,
 in order, for any data files: the current directory; the "data" subdirectory
-of the current directory; the subdirectories ".freeciv" and ".freeciv/2.3"
-in the user's home directory; and the directory where the files are placed
-by running "make install".  This setting has no effect if
+of the current directory; the subdirectories ".freeciv" and
+".freeciv/@DATASUBDIR@" in the user's home directory; and the directory where
+the files are placed by running "make install".  This setting has no effect if
 \fBFREECIV_DATA_PATH\fP, \fBFREECIV_SAVE_PATH\fP and
 \fBFREECIV_SCENARIO_PATH\fP are defined together.
 .TP
-.BI FREECIV_SCENARIO_PATH
+.BI FREECIV_DATA_PATH
 A colon separated list of directories pointing to the
 .B freeciv
 data directories. By default freeciv looks in the following directories,
 in order, for any data files: the current directory; the "data" subdirectory
-of the current directory; the subdirectory ".freeciv/2.3" in the user's
+of the current directory; the subdirectory ".freeciv/@DATASUBDIR@" in the user's
 home directory; and the directory where the files are placed by running
 "make install".  If not set,
 .BI FREECIV_PATH
@@ -318,17 +307,17 @@ Similar to LANG (see documentation for your system).
 Specifies the username of the current user.
 .SH BUGS
 Please report bugs to
-.UR
-@BUG_URL@
+.UR @BUG_URL@
+the Freeciv bug tracker
 .UE
-\.
+\&.
 
 .SH "MORE INFO"
-The Freeciv homepage is located at
-.UR
-@WIKI_URL@
+See the
+.UR @WIKI_URL@
+Freeciv homepage
 .UE
-\.
+\&.
 
 Updates and new info is first posted there.
 .SH AUTHORS
@@ -342,4 +331,5 @@ for slight formatting adjustments. Feel free to use it as you wish.
 
 .SH "SEE ALSO"
 .IR freeciv-server (6)
+.IR freeciv-modpack (6)
 and the Client Manual at the Freeciv homepage.
