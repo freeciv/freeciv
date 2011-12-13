@@ -353,6 +353,8 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr,
 	       _("  -s, --saves DIR\tSave games to directory DIR\n"));
     fc_fprintf(stderr,
+	       _("      --scenarios DIR\tSearch for scenarios in directory DIR\n"));
+    fc_fprintf(stderr,
 	       _("  -S, --Serverid ID\tSets the server id to ID\n"));
     fc_fprintf(stderr,
 	     _("  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"));

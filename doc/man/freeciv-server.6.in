@@ -9,11 +9,12 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "October 22th 2009"
+.TH FREECIV 6 "December 10th 2011"
 .SH NAME
 freeciv-server \- The server for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-server \
+[ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-b|\-\-bind \fIaddress\fP ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-e|\-\-exit\-on\-end ] \
@@ -31,15 +32,13 @@ freeciv-server \- The server for the Freeciv game
 [ \-r|\-\-read \fIfilename\fP ] \
 [ \-S|\-\-Serverid \fIid\fP ] \
 [ \-s|\-\-saves \fIdirectory\fP ] \
+[ \-\-scenarios \fIdirectory\fP ] \
 [ \-v|\-\-version ]
 
 Auth aware servers have additional parameters:
-.B [ \-a|\-\-auth ] \
+.B [ \-a|\-\-auth \fIfilename\fP ] \
 [ \-G|\-\-Guests ] \
 [ \-N|\-\-Newusers ]
-
-IPv6 aware servers have additional parameter:
-.B [ \-A|\-\-announce \fIprotocol\fP ]
 
 .SH DESCRIPTION
 Freeciv is a free turn-based multiplayer strategy game, in which each player
@@ -52,25 +51,26 @@ aim of Freeciv is to have compatible rules.
 Freeciv is maintained by an international team of coders and enthusiasts, and is
 easily one of the most fun and addictive network games out there!
 
-This is the server program used to establish a Freeciv server - See also
+This is the server program used to establish a Freeciv server - see also
 .IR freeciv-client (6)
+\&.
 
 This manual page only lists the command line arguments. For details
 of the directives necessary to configure
 .B freeciv-server
 see the Server Manual which can be found at
-.UR
-http://www.freeciv.org/
+.UR @WIKI_URL@
+the Freeciv website
 .UE
 as well as the documentation which is part of the Freeciv distribution.
 .SH OPTIONS
 The following options are accepted on the command line of the server. They may
 not be combined; that is, "freeciv-server \-fp savegame.sav 5557" will not work,
-instead you would need to enter "freeciv-server \-f savegame.sav \-p 5557". All
+instead you would need to enter "freeciv-server \-f savegame.sav \-p 5557". Most
 options have a short form (single hyphen and single letter) and a long form
 (double hyphen and a complete word); their effects are identical.
 .TP
-.BI "\-A, \-\-announce \fIprotocol\fP"
+.BI "\-A \fIprotocol\fP, \-\-Announce \fIprotocol\fP"
 Uses \fIprotocol\fP when announcing game in LAN.
 Possible values for \fIprotocol\fP are:
 
@@ -81,8 +81,12 @@ Possible values for \fIprotocol\fP are:
 \fBnone\fP
 
 .TP
-.BI "\-a, \-\-auth"
+.BI "\-a \fIfilename\fP, \-\-auth \fIfilename\fP"
 Enables server authentication and allows access to registered players only.
+\fIfilename\fP contains details of the database to store authentication
+information. (This file, and the database itself, can be set up with the
+.I scripts/setup_auth_server.sh
+shell script in the Freeciv distribution.)
 .TP
 .BI "\-b \fIaddress\fP, \-\-bind \fIaddress\fP"
 Sets the \fIaddress\fP on which the server will listen for clients.
@@ -96,7 +100,7 @@ option. Acceptable values for the \fIlevel_number\fP are:
 
 \fB1\fP    for fatal and error messages.
 
-\fB2\fP    for fatal, error and normal messages.
+\fB2\fP    for fatal, error and normal messages (default).
 
 \fB3\fP    for fatal, error, normal, and verbose messages.
 
@@ -111,32 +115,13 @@ specified, then the ABRT signal will be used.
 .BI "\-f \fIfilename\fP, \-\-file \fIfilename\fP"
 Loads a saved game (\fIfilename\fP) into the server before initialization,
 instead of starting a new game. This is for reloading saved games, or for 
-loading scenarios. The distribution comes with such scenarios, typically stored
-in \fI/usr/local/share/freeciv/scenario\fP:
-
-.IP
-\(bu
-.I british\-isles\-85x80\-v2.80.sav
-
-\(bu
-.I earth\-160x90\-v2.sav
-
-\(bu
-.I earth\-80x50\-v2.sav
-
-\(bu
-.I europe\-200x100\-v2.sav
-
-\(bu
-.I hagworld\-120x60\-v1.2.sav
-
-\(bu
-.I iberian\-peninsula\-136x100\-v1.0.sav
-
+loading scenarios. The directory where scenarios are searched for can be
+changed with the
+.I \-\-scenarios
+option.
 .TP
 .BI "\-G, \-\-Guests"
 Allow guests to login as 'guest' when authentication is enabled.
-.TP
 .TP
 .BI "\-h, \-\-help"
 Prints out a description of the command line options and exits.
@@ -148,13 +133,14 @@ this address to redirect the users.
 .BI "\-l \fIfilename\fP, \-\-log \fIfilename\fP"
 Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
-option to set how much is logged.  By default, fatal and normal messages are 
-printed to standard output.  With a log file, such messages go to the log
-instead.
+option to set how much is logged.  By default, fatal, error, and normal
+messages are printed to standard output.  With a log file, such messages go to
+the log instead.
 .TP
 .BI "\-M \fIaddress\fP, \-\-Metaserver \fIaddress\fP"
 Specifies the \fIaddress\fP of the metaserver to send your server's information
-to. 
+to. By default, the standard metaserver run by the Freeciv maintainers will
+be used.
 .TP
 .BI "\-m, \-\-meta"
 Directs the server to communicate with a metaserver, a place where Freeciv
@@ -174,7 +160,7 @@ decimal. You may need to use this if 5556 is not available for your use on your
 system, or if you would like to run multiple servers on the same system.
 .TP
 .BI "\-P, \-\-Ppm"
-Save map ppms to savegames.
+Automatically save PPM files showing the map alongside autosaves.
 .TP
 .BI "\-q \fItime\fP, \-\-quitidle \fItime\fP"
 Quits if no players are present for the specified \fItime\fP, in seconds, and 
@@ -187,18 +173,43 @@ contains information for player ranking.
 .BI "\-r \fIfilename\fP, \-\-read \fIfilename\fP"
 Specifies a file, \fIfilename\fP, of server commands which the server will 
 automatically read and process, as if you had typed them in at the server's 
-prompt. The distribution comes with a few examples that set options to be 
-similar to Civilization I\*R and Civilization II\*R . The files are named 
-\fIciv1.serv\fP and \fIciv2.serv\fP, and are typically found at 
+prompt. The distribution comes with a few examples, including files that set
+options to be similar to Civilization I\*R and Civilization II\*R . The files
+are named \fIciv1.serv\fP and \fIciv2.serv\fP, and are typically found at 
 \fI/usr/local/share/freeciv/\fP.
 .TP
-.BI "\-S, \-\-Serverid \fIid\fP"
-Sets the server \fIid\fP.
+.BI "\-S \fIid\fP, \-\-Serverid \fIid\fP"
+Sets the server \fIid\fP. This is used to identify a particular running game.
 .TP
 .BI "\-s \fIdirectory\fP, \-\-saves \fIdirectory\fP"
 Specifies the \fIdirectory\fP to place save game files created by the server.
 This is especially useful when you're running more than one server on the same
 system, as it inhibits your servers from clobbering other's save game files.
+.TP
+.BI "\-\-scenarios \fIdirectory\fP"
+Specifies the \fIdirectory\fP where scenarios are searched for.
+The distribution comes with several scenarios, typically stored in
+\fI/usr/local/share/freeciv/scenario\fP, for example:
+
+.IP
+\(bu
+.I british\-isles\-85x80\-v2.80.sav
+
+\(bu
+.I earth\-160x90\-v2.sav
+
+\(bu
+.I earth\-80x50\-v3.sav
+
+\(bu
+.I europe\-200x100\-v2.sav
+
+\(bu
+.I hagworld\-120x60\-v1.2.sav
+
+\(bu
+.I iberian\-peninsula\-136x100\-v1.0.sav
+
 .TP
 .BI "\-v, \-\-version"
 Causes the server to display its version number and exit.
@@ -214,7 +225,7 @@ Starts a server on port \fI2244\fP, loading the save game file
 logging information is written to \fIlogfile\fP. When the server starts, it 
 immediately executes the commands contained in \fIscript\fP.
 .TP
-.B freeciv-server -m -a -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
+.B freeciv-server -m -a fc_auth.conf -q 60 -p 2244 -d 2 -l logfile -r script -s ~/saves
 Starts a server on port \fI2244\fP with authentication enabled and communicates 
 its existence to the standard Freeciv metaserver. Fatal, error, and normal 
 messages are written to \fIlogfile\fP. When the server starts it immediately 
@@ -239,6 +250,9 @@ by default:
 .I default/cities.ruleset
 
 \(bu
+.I default/effects.ruleset
+
+\(bu
 .I default/game.ruleset
 
 \(bu
@@ -255,6 +269,12 @@ by default:
 
 \(bu
 .I default/units.ruleset
+
+\(bu
+.I default/default.lua
+
+\(bu
+.I default/script.lua
 
 These are the default rule sets used for the game. Alternate sets of rules can
 be used by placing them in a separate directory and using the \fBrulesetdir\fP
@@ -290,9 +310,9 @@ A colon separated list of directories pointing to the
 .B freeciv
 directory. By default freeciv looks in the following directories,
 in order, for any data files: the current directory; the "data" subdirectory
-of the current directory; the subdirectories ".freeciv" and ".freeciv/2.3"
-in the user's home directory; and the directory where the files are placed
-by running "make install".  This setting has no effect if
+of the current directory; the subdirectories ".freeciv" and
+".freeciv/@DATASUBDIR@" in the user's home directory; and the directory where
+the files are placed by running "make install".  This setting has no effect if
 \fBFREECIV_DATA_PATH\fP, \fBFREECIV_SAVE_PATH\fP and
 \fBFREECIV_SCENARIO_PATH\fP are defined together.
 .TP
@@ -301,7 +321,7 @@ A colon separated list of directories pointing to the
 .B freeciv
 data directories. By default freeciv looks in the following directories,
 in order, for any data files: the current directory; the "data" subdirectory
-of the current directory; the subdirectory ".freeciv/2.3" in the user's
+of the current directory; the subdirectory ".freeciv/@DATASUBDIR@" in the user's
 home directory; and the directory where the files are placed by running
 "make install".  If not set,
 .BI FREECIV_PATH
@@ -326,7 +346,8 @@ in the user's home directory; and the directory where the files are placed
 by running "make install".  If not set,
 .BI FREECIV_PATH
 is used instead, looking also in "scenario" and "scenarios" potential
-subdirectories..TP
+subdirectories.
+.TP
 .BI HOME
 Specifies the user's home directory.
 .TP
@@ -343,17 +364,17 @@ Similar to LANG (see documentation for your system).
 Specifies the username of the current user.
 .SH BUGS
 Please report bugs to
-.UR
-@BUG_URL@
+.UR @BUG_URL@
+the Freeciv bug tracker
 .UE
-\.
+\&.
 
 .SH "MORE INFO"
-The Freeciv homepage is located at
-.UR
-@WIKI_URL@
+See the
+.UR @WIKI_URL@
+Freeciv homepage
 .UE
-\.
+\&.
 
 Updates and new info is first posted there.
 .SH AUTHORS
