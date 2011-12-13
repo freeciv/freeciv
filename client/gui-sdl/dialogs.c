@@ -42,6 +42,7 @@
 #include "client_main.h"
 #include "climap.h" /* for client_tile_get_known() */
 #include "goto.h"
+#include "helpdata.h" /* for helptext_nation() */
 #include "packhand.h"
 #include "text.h"
 
@@ -2735,10 +2736,10 @@ static int nation_button_callback(struct widget *pNationButton)
     redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
     widget_flush(pNationDlg->pEndWidgetList);
   } else {
-    /* pop up legend info */
+    /* pop up nation description */
     struct widget *pWindow, *pOK_Button;
     SDL_String16 *pStr;
-    SDL_Surface *pText, *pText2;
+    SDL_Surface *pText;
     SDL_Rect area, area2;
     struct nation_type *pNation = nation_by_number(MAX_ID - pNationButton->ID);
       
@@ -2749,7 +2750,8 @@ static int nation_button_callback(struct widget *pNationButton)
     
       pHelpDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
-      pStr = create_str16_from_char(_("Nation's Legend"), adj_font(12));
+      pStr = create_str16_from_char(nation_plural_translation(pNation),
+                                    adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
   
       pWindow = create_window_skeleton(NULL, pStr, 0);
@@ -2777,25 +2779,21 @@ static int nation_button_callback(struct widget *pNationButton)
 
     area = pWindow->area;
     
-    if (pNation->legend && *(pNation->legend) != '\0') {
-      pStr = create_str16_from_char(pNation->legend, adj_font(12));
-    } else {
-      pStr = create_str16_from_char(_("SORRY... NO INFO"), adj_font(12));
+    {
+      char info[4096];
+      helptext_nation(info, sizeof(info), pNation, NULL);
+      pStr = create_str16_from_char(info, adj_font(12));
     }
     
     pStr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_LEGEND);
     pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
   
-    copy_chars_to_string16(pStr, nation_plural_translation(pNation));
-    pText2 = create_text_surf_from_str16(pStr);
-  
     FREESTRING16(pStr);
     
     /* create window background */
-    area.w = MAX(area.w, pText2->w + adj_size(20));
     area.w = MAX(area.w, pText->w + adj_size(20));
     area.w = MAX(area.w, pOK_Button->size.w + adj_size(20));
-    area.h = MAX(area.h, adj_size(9) + pText2->h + adj_size(10) + pText->h
+    area.h = MAX(area.h, adj_size(9) + pText->h
                          + adj_size(10) + pOK_Button->size.h + adj_size(10));
 
     resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -2808,10 +2806,6 @@ static int nation_button_callback(struct widget *pNationButton)
     
     area2.x = area.x + adj_size(7);
     area2.y = area.y + adj_size(6);
-    alphablit(pText2, NULL, pWindow->theme, &area2);
-    area2.y += (pText2->h + adj_size(10));
-    FREESURFACE(pText2);
-  
     alphablit(pText, NULL, pWindow->theme, &area2);
     FREESURFACE(pText);
   
