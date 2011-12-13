@@ -43,6 +43,7 @@
 #include "climisc.h"
 #include "connectdlg_common.h"
 #include "control.h"
+#include "helpdata.h"  /* for helptext_nation() */
 #include "goto.h"
 #include "options.h"
 #include "packhand.h"
@@ -927,8 +928,12 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
 			       NULL, FALSE);
       gtk_tree_path_free(path);
 
-      /* Update nation legend text. */
-      gtk_text_buffer_set_text(races_text, nation->legend , -1);
+      /* Update nation description. */
+      {
+        char buf[4096];
+        helptext_nation(buf, sizeof(buf), nation, NULL);
+        gtk_text_buffer_set_text(races_text, buf, -1);
+      }
     }
 
     /* Once we've made a selection, allow user to ok */

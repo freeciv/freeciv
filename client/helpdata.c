@@ -2504,14 +2504,132 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
 }
 
 /****************************************************************************
-  Returns nation legend
+  Returns nation legend and characteristics
 ****************************************************************************/
 void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
 		     const char *user_text)
 {
+  fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
   if (pnation->legend[0] != '\0') {
     sprintf(buf, "%s\n\n", _(pnation->legend));
+  }
+  
+  cat_snprintf(buf, bufsz,
+               _("Initial government is %s.\n"),
+               government_name_translation(pnation->init_government));
+  if (pnation->init_techs[0] != A_LAST) {
+    const char *tech_names[MAX_NUM_TECH_LIST];
+    int i;
+    struct astring list = ASTRING_INIT;
+    for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+      if (pnation->init_techs[i] == A_LAST) {
+        break;
+      }
+      tech_names[i] =
+        advance_name_translation(advance_by_number(pnation->init_techs[i]));
+    }
+    astr_build_and_list(&list, tech_names, i);
+    if (game.rgame.global_init_techs[0] != A_LAST) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is an and-separated list of techs */
+                   _("Starts with knowledge of %s in addition to the standard "
+                     "starting technologies.\n"), astr_str(&list));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is an and-separated list of techs */
+                   _("Starts with knowledge of %s.\n"), astr_str(&list));
+    }
+    astr_free(&list);
+  }
+  if (pnation->init_units[0]) {
+    const struct unit_type *utypes[MAX_NUM_UNIT_LIST];
+    int count[MAX_NUM_UNIT_LIST];
+    int i, j, n = 0, total = 0;
+    /* Count how many of each type there is. */
+    for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+      if (!pnation->init_units[i]) {
+        break;
+      }
+      for (j = 0; j < n; j++) {
+        if (pnation->init_units[i] == utypes[j]) {
+          count[j]++;
+          total++;
+          break;
+        }
+      }
+      if (j == n) {
+        utypes[n] = pnation->init_units[i];
+        count[n] = 1;
+        total++;
+        n++;
+      }
+    }
+    {
+      /* Construct the list of unit types and counts. */
+      struct astring utype_names[MAX_NUM_UNIT_LIST];
+      struct astring list = ASTRING_INIT;
+      for (i = 0; i < n; i++) {
+        astr_init(&utype_names[i]);
+        if (count[i] > 1) {
+          /* TRANS: a unit type followed by a count. For instance,
+           * "Fighter (2)" means two Fighters. Count is never 1. 
+           * Used in a list. */
+          astr_set(&utype_names[i], _("%s (%d)"),
+                   utype_name_translation(utypes[i]), count[i]);
+        } else {
+          astr_set(&utype_names[i], "%s", utype_name_translation(utypes[i]));
+        }
+      }
+      {
+        const char *utype_name_strs[MAX_NUM_UNIT_LIST];
+        for (i = 0; i < n; i++) {
+          utype_name_strs[i] = astr_str(&utype_names[i]);
+        }
+        astr_build_and_list(&list, utype_name_strs, n);
+      }
+      for (i = 0; i < n; i++) {
+        astr_free(&utype_names[i]);
+      }
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is an and-separated list of unit types
+                    * possibly with counts. Plurality is in total number of
+                    * units represented. */
+                   PL_("Starts with the following additional unit: %s.\n",
+                       "Starts with the following additional units: %s.\n",
+                      total), astr_str(&list));
+      astr_free(&list);
+    }
+  }
+  if (pnation->init_buildings[0] != B_LAST) {
+    const char *impr_names[MAX_NUM_BUILDING_LIST];
+    int i;
+    struct astring list = ASTRING_INIT;
+    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+      if (pnation->init_buildings[i] == B_LAST) {
+        break;
+      }
+      impr_names[i] =
+        improvement_name_translation(
+          improvement_by_number(pnation->init_buildings[i]));
+    }
+    astr_build_and_list(&list, impr_names, i);
+    if (game.rgame.global_init_buildings[0] != B_LAST) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is an and-separated list of improvements */
+                   _("First city will get %s for free in addition to the "
+                     "standard improvements.\n"), astr_str(&list));
+    } else {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is an and-separated list of improvements */
+                   _("First city will get %s for free.\n"), astr_str(&list));
+    }
+    astr_free(&list);
+  }
+
+  if (user_text && user_text[0] != '\0') {
+    CATLSTR(buf, bufsz, "\n");
+    CATLSTR(buf, bufsz, user_text);
   }
 }
