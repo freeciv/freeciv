@@ -25,7 +25,7 @@ style "default"
   GtkButton::default_border             = { 1, 1, 1, 1 }
   GtkButton::default_outside_border     = { 2, 2, 2, 2 }
  
-  GtkRange::trough_border               = 1
+  GtkRange::trough_border               = 0
   GtkRange::slider_width                = 15
   GtkRange::stepper_size                = 15
  
