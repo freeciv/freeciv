@@ -515,6 +515,7 @@ match=2
 *include "nation/transylvanian.ruleset"
 *include "nation/trinidadian.ruleset"
 *include "nation/tswana.ruleset"
+*include "nation/tuareg.ruleset"
 *include "nation/tunisian.ruleset"
 *include "nation/tupi.ruleset"
 *include "nation/turkmen.ruleset"

@@ -461,6 +461,7 @@ pkgdata_DATA = \
 		transylvanian.ruleset \
 		trinidadian.ruleset \
 		tswana.ruleset \
+		tuareg.ruleset \
 		tunisian.ruleset \
 		tupi.ruleset \
 		turkmen.ruleset \

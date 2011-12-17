@@ -469,6 +469,7 @@ flag_files =				\
 		transylvania.png	\
 		trinidad_and_tobago.png	\
 		trnc.png		\
+		tuareg.png		\
 		tunisia.png		\
 		tupi.png		\
 		turkey.png		\
@@ -983,6 +984,7 @@ flag_files =				\
 		transylvania-large.png	\
 		trinidad_and_tobago-large.png	\
 		trnc-large.png			\
+		tuareg-large.png		\
 		tunisia-large.png		\
 		tupi-large.png		\
 		turkey-large.png		\
@@ -1499,6 +1501,7 @@ shield_files =					\
 		transylvania-shield.png		\
 		trinidad_and_tobago-shield.png	\
 		trnc-shield.png			\
+		tuareg-shield.png		\
 		tunisia-shield.png		\
 		tupi-shield.png			\
 		turkey-shield.png		\
@@ -2013,6 +2016,7 @@ shield_files =					\
 		transylvania-shield-large.png		\
 		trinidad_and_tobago-shield-large.png	\
 		trnc-shield-large.png			\
+		tuareg-shield-large.png			\
 		tunisia-shield-large.png		\
 		tupi-shield-large.png			\
 		turkey-shield-large.png		\
@@ -2529,6 +2533,7 @@ svg_files = 				\
 		transylvania.svg	\
 		trinidad_and_tobago.svg	\
 		trnc.svg		\
+		tuareg.svg		\
 		tunisia.svg		\
 		tupi.svg		\
 		turkey.svg		\

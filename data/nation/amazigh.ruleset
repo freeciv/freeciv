@@ -2,7 +2,7 @@
 
 name=_("Amazigh")
 plural=_("?plural:Imazighen")
-groups="Ancient", "Medieval", "African"
+groups="Medieval", "African"
 legend=_("The Amazigh civilization is one of the oldest in the Mediterranean\
  Basin, co-existing with ancient Egypt. The Imazighen people, which means\
  \"free men\", are sturdy and strong but cheerful and\
@@ -79,9 +79,9 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-conflicts_with="Numidian"
+conflicts_with="Numidian", "Guanche", "Riffian", "Tuareg"
 civilwar_nations="Moroccan", "Algerian", "Tunisian", "Libyan", "Guanche",
- "Riffian"
+ "Riffian", "Tuareg"
 
 cities =
 "Tingis (mountains, ocean)",
