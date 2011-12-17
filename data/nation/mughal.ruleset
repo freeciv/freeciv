@@ -29,7 +29,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="Sikh", "Kashmiri", "Pashtun", "Bengali", "Pakistani"
+civilwar_nations="Sikh", "Kashmiri", "Pashtun", "Bengali", "Pakistani", "Marathi"
 
 cities=
  "Agra",

@@ -33,10 +33,10 @@ flag_alt = "-"
 city_style = "Tropical"
 
 ruler_titles = {
- "government",      "male_title",      "female_title"
- "Despotism",       _("Sheikh"),       _("Shaykha")
- "Monarchy",        _("Emir"),         _("Emira")
- "Fundamentalism",  _("Caliph"),       _("Calipha")
+ "government",      "male_title",         "female_title"
+ "Despotism",       _("Sheikh %s"),       _("Shaykha %s")
+ "Monarchy",        _("Emir %s"),         _("Emira %s")
+ "Fundamentalism",  _("Caliph %s"),       _("Calipha %s")
 }
 
 init_techs=""

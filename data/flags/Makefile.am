@@ -287,6 +287,7 @@ flag_files =				\
 		manchuria.png		\
 		maori.png		\
 		mapuche.png		\
+		marathi.png		\
 		mars.png		\
 		mauritania.png		\
 		mauritius.png		\
@@ -802,6 +803,7 @@ flag_files =				\
 		manchuria-large.png		\
 		maori-large.png		\
 		mapuche-large.png		\
+		marathi-large.png		\
 		mars-large.png		\
 		mauritania-large.png		\
 		mauritius-large.png		\
@@ -1319,6 +1321,7 @@ shield_files =					\
 		manchuria-shield.png		\
 		maori-shield.png		\
 		mapuche-shield.png		\
+		marathi-shield.png		\
 		mars-shield.png			\
 		mauritania-shield.png		\
 		mauritius-shield.png		\
@@ -1834,6 +1837,7 @@ shield_files =					\
 		manchuria-shield-large.png		\
 		maori-shield-large.png		\
 		mapuche-shield-large.png		\
+		marathi-shield-large.png		\
 		mars-shield-large.png			\
 		mauritania-shield-large.png		\
 		mauritius-shield-large.png		\
@@ -2351,6 +2355,7 @@ svg_files = 				\
 		manchuria.svg		\
 		maori.svg		\
 		mapuche.svg		\
+		marathi.svg		\
 		mars.svg		\
 		mauritania.svg		\
 		mauritius.svg		\
