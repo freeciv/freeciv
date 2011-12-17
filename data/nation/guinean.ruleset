@@ -28,7 +28,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "senegalese", "ivoirian", "malian", "bissau-guinean"
+civilwar_nations = "fulani", "bissau-guinean"
 
 cities =
  "Conakry",

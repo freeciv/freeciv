@@ -32,7 +32,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "liberian", "ghanaian"
+civilwar_nations = "liberian", "fulani"
 
 cities =
  "Freetown",

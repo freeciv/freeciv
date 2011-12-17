@@ -167,6 +167,7 @@ pkgdata_DATA = \
 		french.ruleset \
 		frisian.ruleset \
 		friulian.ruleset \
+		fulani.ruleset \
 		gabonese.ruleset \
 		gaelic.ruleset \
 		galician.ruleset \

@@ -21,7 +21,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="nigerian"
+civilwar_nations="nigerian", "fulani"
 
 cities =
  "Yaoundé",
