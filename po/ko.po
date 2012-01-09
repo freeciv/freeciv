@@ -21,46 +21,46 @@ msgstr ""
 #: ai/default/advdiplomacy.c:336
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr ""
+msgstr "*%s (AI)* 자리에 없는 방식에서, AI는 그런 조약에 서명할 수 가 없다."
 
 #: ai/default/advdiplomacy.c:346
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
-msgstr ""
+msgstr "*%s (AI)* 먼저 %s 와의 동맹을 끝내라, %s."
 
 #: ai/default/advdiplomacy.c:356
 #, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
 "%s."
-msgstr ""
-
+msgstr "*%s (AI)* 나는 얼마의 시간동안 %s 으로부터 당신의 거리를 유지하는 것을 보고싶소,"
+"%s."
 #: ai/default/advdiplomacy.c:370
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilities, %s."
-msgstr ""
+msgstr "*%s (AI)* 우리 우선 적대감을 중지합시다, %s."
 
 #: ai/default/advdiplomacy.c:375
 #, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
-msgstr ""
+msgstr "*%s (AI)* 나는 당신이 먼저 현재의 휴전을 잠시 더 오래 유지하는 것을 보고싶다, %s."
 
 #: ai/default/advdiplomacy.c:398
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (AI)* 난 아직 동맹을 할만큼 당신을 신뢰할수 없소, %s."
+msgstr "*%s (AI)* 난 아직 간단하게 당신과 동맹을 할 정도로 당신을 신뢰 할 수 없소, %s."
 
 #: ai/default/advdiplomacy.c:492
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr "*%s(AI)*당신이 언급하는 그 도시는 난 모릅니다"
+msgstr "**%s(AI)* 나는 당신이 언급하는 그 도시를 모릅니다."
 
 #: ai/default/advdiplomacy.c:522
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (AI)* 미안하지만 시야를  공유하는 건 안전하지 않소."
+msgstr "*%s (AI)* 미안하지만, 당신과 시야를 공유하는 것은 안전하지 않소."
 
 #: ai/default/advdiplomacy.c:630
 #, c-format
@@ -70,44 +70,44 @@ msgstr "*%s (AI)* 이 거래는 우리에게 유익하지 않소, %s!"
 #: ai/default/advdiplomacy.c:652
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "*%s (AI)* 우리 동맹국으로 들어온걸 환영하오 %s!"
+msgstr "*%s (AI)* 우리 동맹국으로 들어온 걸 환영하오 %s!"
 
 #: ai/default/advdiplomacy.c:656
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr "*%s (AI)* 그렇소, 아마 우리는 영원한 연합체로 설 것이오, %s"
+msgstr "*%s (AI)* 그렇소, 아마 우리는 연합체로 영원히 설 것이오, %s"
 
 #: ai/default/advdiplomacy.c:663
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr "*%s (AI)* 맞소, 평화는 우리의 시간이오"
+msgstr "*%s (AI)* 맞소, 우리의 시간 안에 평화!"
 
 #: ai/default/advdiplomacy.c:668
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (AI)* 동의하오. 더의상의 적의는 없소, %s"
+msgstr "*%s (AI)* 동의하오. 더 아상의 적의는 없소, %s"
 
 #: ai/default/advdiplomacy.c:890
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
-msgstr "*%s (AI)* 환영합니다 %s! 서로를 더 알아가는 동안 우리 휴전은 어떻소?"
+msgstr "*%s (AI)* 환영합니다 %s ! 서로를 더 알아가는 동안 우리 휴전은 어떻소?"
 
 #: ai/default/advdiplomacy.c:1172
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "*%s (AI)* 우주는 결코 당신의 것이 될수 없어"
+msgstr "*%s (AI)* 우주는 결코 당신의 것이 될 수 없어."
 
 #: ai/default/advdiplomacy.c:1177
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "*%s (AI)* 나는 당신의 기괴한 사악함은 충분이 묵과했소! 전쟁이다!"
+msgstr "*%s (AI)* 나는 당신의 잔인한 행동을 충분히 참아왔소! 전쟁으로!"
 
 #: ai/default/advdiplomacy.c:1183
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (AI)* 평화는....다음에."
+msgstr "*%s (AI)* 평화는... 다른 시간에."
 
 #: ai/default/advdiplomacy.c:1188
 #, c-format
@@ -115,18 +115,17 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
-"*%s (AI)* 마침내 당신 주변에 왔소! 정말 당신은 당신의 범죄들로부터멀어질수 있"
-"소?"
+"*%s (AI)* 마침내 나는 당신 주변에 왔소! 정말 당신은 당신의 범죄들로부터 멀어질 수 있다고 생각하오?"
 
 #: ai/default/advdiplomacy.c:1194
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr "*%s (AI)*당신의 사악함으로의 전향은 이 전쟁을 불러왔소!"
+msgstr "*%s (AI)*당신의 숨겨진 적대감은 이 전쟁을 당신 위에 가져왔소!"
 
 #: ai/default/advdiplomacy.c:1201
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr "*%s (AI)* %s에 향한 당신의 공격성은 당신의 마지막 실수였소!"
+msgstr "*%s (AI)* %s 에 향한 당신의 공격성은 당신의 마지막 실수였소!"
 
 #: ai/default/advdiplomacy.c:1283
 #, c-format
@@ -136,15 +135,15 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* 우리는 %d 차례 안에 그 우주선 발사를 멈추기 위해서, %s 에 대항하여 총력전을 실행할 것이오."
+msgstr[1] "*%s (AI)* 우리는 %d 차례들 안에 그 우주선 발사를 멈추기 위해서, %s 에 대항하여 총력전을 실행할 것이오."
 
 #: ai/default/advdiplomacy.c:1293
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
-msgstr ""
+msgstr "*%s (AI)* 이 문제 안에서 당신의 도움은 기대될 것이오. 우리의 영광스러운 동맹국이여 영원하라!"
 
 #: ai/default/advdiplomacy.c:1299
 #, c-format
@@ -157,7 +156,13 @@ msgid_plural ""
 "will answer in force in %d turns and expect you to honor your alliance with "
 "us and do likewise!"
 msgstr[0] ""
+"*%s (AI)* %s 가 자신의 이익을 위해 우리와의 조약들을 지독히 위반했다. "
+"우리는 %d 차례 안에 힘으로 답할 것이며, 너가 우리와의 동맹을 지키고  "
+"똑같이 할 것을 기대한다!"
 msgstr[1] ""
+"*%s (AI)* %s 가 자신의 이익을 위해 우리와의 조약들을 지독히 위반했다. "
+"우리는 %d 차례들 안에 힘으로 답할 것이며, 너가 우리와의 동맹을 지키고  "
+"똑같이 할 것을 기대한다!"
 
 #: ai/default/advdiplomacy.c:1312
 #, c-format
@@ -168,13 +173,18 @@ msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
 msgstr[0] ""
+"*%s (AI)* 우리는 %s 의 그 부유한 문명을 약탈하고 강탈할 것을 의도한다. "
+"우리는 전쟁을 %d 차례 동안 선언한다."
 msgstr[1] ""
+"*%s (AI)* 우리는 %s 의 그 부유한 문명을 약탈하고 강탈할 것을 의도한다. "
+"우리는 전쟁을 %d 차례들 동안 선언한다."
 
 #: ai/default/advdiplomacy.c:1320
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr ""
+"*%s (AI)* 만약 너가 전리품의 한 조각을 원한다면, 그 행동에 거리낌없이 참여해라!"
 
 #: ai/default/advdiplomacy.c:1325
 #, c-format
@@ -185,12 +195,16 @@ msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
 msgstr[0] ""
+"*%s (AI)* 우리는 %s 와 함께 해왔다. 이 한심한 문명을 분열하자. "
+"우리는 %d 차례 동안 전쟁을 선포한다."
 msgstr[1] ""
+"*%s (AI)* 우리는 %s 와 함께 해왔다. 이 한심한 문명을 분열하자. "
+"우리는 %d 차례들 동안 전쟁을 선포한다."
 
 #: ai/default/advdiplomacy.c:1335
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr ""
+msgstr "*%s (AI)* 우리의 영광스러운 동맹국으로서, 우리는 이번 전쟁 동안 당신의 도움을 기대한다."
 
 #: ai/default/advdiplomacy.c:1341
 #, c-format
@@ -201,7 +215,11 @@ msgid_plural ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
+"*%s (AI)* 우리는 우리의 동맹을 지킬 것이고, %d 차례 동안 %s 와 전쟁을 선포한다. "
+"기다려라 - 우리가 간다!"
 msgstr[1] ""
+"*%s (AI)* 우리는 우리의 동맹을 지킬 것이고, %d 차례들 동안 %s 와 전쟁을 선포한다. "
+"기다려라 - 우리가 간다!"
 
 #: ai/default/advdiplomacy.c:1350
 #, c-format
@@ -212,7 +230,11 @@ msgid_plural ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
+"*%s (AI)* 우리는 %s 와의 동맹을 지킬 것이고, %d 차례 동안 %s와 전쟁을 선포한다. "
+"우리는 너가 똑같이 할 것을 기대한다."
 msgstr[1] ""
+"*%s (AI)* 우리는 %s 와의 동맹을 지킬 것이고, %d 차례들 동안 %s와 전쟁을 선포한다. "
+"우리는 너가 똑같이 할 것을 기대한다."
 
 #: ai/default/advdiplomacy.c:1419
 #, c-format
@@ -220,6 +242,8 @@ msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
+"*%s (AI)* 너 혼자 스스로를 위해 우주를 정복하려는 너의 시도는 너의 진정한 목적들을 배반하고, "
+"나는 우리의 동맹을 더 이상 할 수 없다!"
 
 #: ai/default/advdiplomacy.c:1434
 #, c-format
@@ -227,6 +251,7 @@ msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
 msgstr ""
+"*%s (AI)* 외부의 우주를 일방적으로 지배하려는 너의 시도는 매우 공격적이다."
 
 #: ai/default/advdiplomacy.c:1437
 #, c-format
@@ -234,11 +259,13 @@ msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
 msgstr ""
+"*%s (AI)* 만약 너의 우주선을 건설하는 것을 멈추기 아니한다면, 나는 힘으로 조치를 "
+"취할 것이다!"
 
 #: ai/default/advdiplomacy.c:1548
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
+msgstr "*%s (AI)* 미안하지만, 너와 시야를 공유하는 것은 더 이상 안전하지 않다."
 
 #: ai/default/advdiplomacy.c:1619
 #, c-format
@@ -246,6 +273,8 @@ msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
 msgstr ""
+"*%s (AI)* 우리의 가장 믿을 수 있는 동맹국을 환영합니다. 우리는 너에게 우리의 적을 "
+"말살할 것을 요구합니다."
 
 #: ai/default/advdiplomacy.c:1625
 #, c-format
@@ -253,6 +282,8 @@ msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
 "%s. Why do I need to remind you of your promises?"
 msgstr ""
+"*%s (AI)* 동맹국을 환영합니다. 나는 너가 아직도 우리의 적과 전쟁을 걸지 않는 것을 본다, "
+"%s. 왜 내가 너에게 너의 약속을 상기시켜야 할 필요가 있는가?"
 
 #: ai/default/advdiplomacy.c:1632
 #, c-format
@@ -261,6 +292,8 @@ msgid ""
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
+"*%s (AI)* 불명예스러운 하나로, 우리는 동맹의 조약을 만들었지만, 허나 너는 우리의 "
+"치명적인 적과의 평화를 유지하고 있소, %s! 이것은 용납할 수 없다; 우리의 동맹은 더 이상 없다!"
 
 #: ai/default/advdiplomacy.c:1662
 #, c-format
@@ -268,11 +301,12 @@ msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
+"*%s (AI)* 친구를 환영합니다. 우리 공동 노력을 기울이고 동맹국으로 참여하는 것이 어떻습니까?"
 
 #: ai/default/advdiplomacy.c:1677
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
-msgstr ""
+msgstr "*%s (AI)* 이웃을 환영합니다. 우리 더 평화로운 관계들을 제안하는데 어떻습니까?"
 
 #: ai/default/advdiplomacy.c:1692
 #, c-format
@@ -280,6 +314,8 @@ msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr ""
+"*%s (AI)* 우리는 이 지치고 끊임없는 유혈사태를 키웠습니다. 우리 "
+"적대감을 중지를 제안하는데 어떻습니까?"
 
 #: ai/default/advdiplomacy.c:1852
 #, c-format
@@ -287,6 +323,8 @@ msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
 "our glorious alliance and your name will never be forgotten!"
 msgstr ""
+"*%s (AI)* 우리는 %s 에게 사납게 공격당했고, 우리는 당신의 도움을 필요합니다! 우리의 "
+"영광스러운 동맹을 지키고, 당신의 이름은 절대로 잊혀지지 않을 것입니다!"
 
 #: ai/default/aicity.c:308 server/citytools.c:2406
 #, c-format
