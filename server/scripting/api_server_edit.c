@@ -204,7 +204,6 @@ Player *api_edit_create_player(lua_State *L, const char *username,
                                Nation_Type *pnation)
 {
   struct player *pplayer = NULL;
-  enum rfc_status status;
   char buf[128] = "";
   struct fc_lua *fcl;
 
@@ -216,13 +215,11 @@ Player *api_edit_create_player(lua_State *L, const char *username,
   LUASCRIPT_CHECK(L, fcl != NULL, "Undefined freeciv lua state!", NULL);
 
   if (game_was_started()) {
-    status = create_command_newcomer(username, default_ai_type_name(),
-                                     FALSE, pnation, &pplayer,
-                                     buf, sizeof(buf));
+    create_command_newcomer(username, default_ai_type_name(), FALSE, pnation,
+                            &pplayer, buf, sizeof(buf));
   } else {
-    status = create_command_pregame(username, default_ai_type_name(),
-                                    FALSE, &pplayer,
-                                    buf, sizeof(buf));
+    create_command_pregame(username, default_ai_type_name(), FALSE, &pplayer,
+                           buf, sizeof(buf));
   }
 
   if (strlen(buf) > 0) {
