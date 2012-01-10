@@ -118,8 +118,7 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int i, j;
     struct city *pCity = pEditor->pCity;
-    bool same_prod = TRUE;
-    
+
     /* remove duplicate entry of impv./wonder target from worklist */
     for(i = 0; i < worklist_length(&pEditor->worklist_copy); i++) {
   
@@ -149,7 +148,6 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
       /* change production */
       if(!are_universals_equal(&pCity->production, &pEditor->currently_building)) {
         city_change_production(pCity, pEditor->currently_building);
-        same_prod = FALSE;
       }
       
       /* commit new city worklist */

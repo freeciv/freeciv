@@ -329,7 +329,6 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   char cBuf[64];
   SDL_Rect dst;
   bool upgrade = FALSE;
-  struct unit_type *pUnit;
   SDL_Rect area;
     
   if(pUnitsDlg) {
@@ -448,7 +447,6 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     if ((units[utype_index(i)].active_count > 0)
      || (units[utype_index(i)].building_count > 0)) {
       upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
-      pUnit = i;
 	
       /* unit type icon */
       pBuf = create_iconlabel(adj_surf(get_unittype_surface(i)), pWindow->dst, NULL,
@@ -1744,15 +1742,10 @@ void economy_report_dialog_popup(bool make_modal)
   struct government *pGov = government_of_player(client.conn.playing);
 
   SDL_Surface *pTreasuryText;
-  struct widget *pTreasuryValue;
   SDL_Surface *pTaxRateText;
-  struct widget *pTaxRateValue;
   SDL_Surface *pTotalIncomeText;
-  struct widget *pTotalIncomeValue;
   SDL_Surface *pTotalCostText;
-  struct widget *pTotalCostValue;
   SDL_Surface *pNetIncomeText;
-  struct widget *pNetIncomeValue;
   SDL_Surface *pMaxRateText;
   
   if(pEconomyDlg) {
@@ -1801,8 +1794,6 @@ void economy_report_dialog_popup(bool make_modal)
   
   add_to_gui_list(ID_LABEL, pBuf);
 
-  pTreasuryValue = pBuf;
-
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
   
@@ -1822,8 +1813,6 @@ void economy_report_dialog_popup(bool make_modal)
     
   add_to_gui_list(ID_LABEL, pBuf);
 
-  pTaxRateValue = pBuf;
-
   w = MAX(w, pBuf->size.w + pBuf->next->size.w);
   h += pBuf->size.h;
 
@@ -1842,8 +1831,6 @@ void economy_report_dialog_popup(bool make_modal)
     
   add_to_gui_list(ID_LABEL, pBuf);
 
-  pTotalIncomeValue = pBuf;
-
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
 
@@ -1860,9 +1847,7 @@ void economy_report_dialog_popup(bool make_modal)
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
   add_to_gui_list(ID_LABEL, pBuf);
-  
-  pTotalCostValue = pBuf;
-  
+
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
   
@@ -1884,9 +1869,7 @@ void economy_report_dialog_popup(bool make_modal)
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
 			  
   add_to_gui_list(ID_LABEL, pBuf);
-  
-  pNetIncomeValue = pBuf;
-  
+
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
 

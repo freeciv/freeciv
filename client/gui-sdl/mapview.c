@@ -594,7 +594,6 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             /* Look at city owner, not tile owner (the two should be the same, if
              * borders are in use). */
             struct player *pOwner = city_owner(pCity);
-            bool citywall;
 /*            bool barrack = FALSE, airport = FALSE, port = FALSE;*/
 	    const char *diplo_city_adjectives[DS_LAST] =
     			{Q_("?city:Neutral"), Q_("?city:Hostile"),
@@ -604,8 +603,6 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("\nCity of %s"),
 			 city_name(pCity));
-
-	    citywall = pCity->client.walls;
                           
 #if 0       
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
