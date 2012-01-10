@@ -639,9 +639,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   fc_snprintf(buf, sizeof(buf), _("Diplomacy [%d]"),
               dialog_list_size(dialog_list));
-  gui_dialog_set_title(dipl_main->dialog, buf);
+  gui_dialog_set_title(dipl_dialog->dialog, buf);
 
-  notebook = dipl_main->notebook;
+  notebook = dipl_dialog->notebook;
 
   gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(notebook), pdialog, FALSE);
 
