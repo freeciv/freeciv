@@ -487,6 +487,13 @@ extern struct terrain_misc terrain_control;
 
 #define adjc_dir_iterate_end adjc_dirlist_iterate_end
 
+#define adjc_dir_base_iterate(center_tile, dir_itr)                            \
+  adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
+                            map.valid_dirs, map.num_valid_dirs)
+
+#define adjc_dir_base_iterate_end                                              \
+  adjc_dirlist_base_iterate_end
+
 #define cardinal_adjc_iterate(center_tile, itr_tile)			    \
   adjc_dirlist_iterate(center_tile, itr_tile, _dir_itr,			    \
 		       map.cardinal_dirs, map.num_cardinal_dirs)
@@ -498,6 +505,13 @@ extern struct terrain_misc terrain_control;
 		       map.cardinal_dirs, map.num_cardinal_dirs)
 
 #define cardinal_adjc_dir_iterate_end adjc_dirlist_iterate_end
+
+#define cardinal_adjc_dir_base_iterate(center_tile, dir_itr)                   \
+  adjc_dirlist_base_iterate(center_tile, dir_itr,                              \
+                            map.cardinal_dirs, map.num_cardinal_dirs)
+
+#define cardinal_adjc_dir_base_iterate_end                                     \
+  adjc_dirlist_base_iterate_end
 
 /* Iterate through all tiles adjacent to a tile using the given list of
  * directions.  _dir is the directional value, (center_x, center_y) is
@@ -529,6 +543,30 @@ extern struct terrain_misc terrain_control;
 
 #define adjc_dirlist_iterate_end					    \
     }									    \
+}
+
+/* Same as above but without setting the tile. */
+#define adjc_dirlist_base_iterate(center_tile, _dir, dirlist, dircount)        \
+{                                                                              \
+  enum direction8 _dir;                                                        \
+  int _tile##_x, _tile##_y, _center##_x, _center##_y;                          \
+  const struct tile *_tile##_center = (center_tile);                           \
+  bool _tile##_is_border = is_border_tile(_tile##_center, 1);                  \
+  int _tile##_index = 0;                                                       \
+  index_to_map_pos(&_center##_x, &_center##_y, tile_index(_tile##_center));    \
+  for (;                                                                       \
+       _tile##_index < (dircount);                                             \
+       _tile##_index++) {                                                      \
+    _dir = dirlist[_tile##_index];                                             \
+    DIRSTEP(_tile##_x, _tile##_y, _dir);                                       \
+    _tile##_x += _center##_x;                                                  \
+    _tile##_y += _center##_y;                                                  \
+    if (_tile##_is_border && !normalize_map_pos(&_tile##_x, &_tile##_y)) {     \
+      continue;                                                                \
+    }
+
+#define adjc_dirlist_base_iterate_end                                          \
+  }                                                                            \
 }
 
 /* Iterate over all positions on the globe.
