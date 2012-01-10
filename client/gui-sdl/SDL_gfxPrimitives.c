@@ -1664,7 +1664,7 @@ static int aalineColorInt(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Si
     Sint32 xx0, yy0, xx1, yy1;
     int result;
     Uint32 intshift, erracc, erradj;
-    Uint32 erracctmp, wgt, wgtcompmask;
+    Uint32 erracctmp, wgt;
     int dx, dy, tmp, xdir, y0p1, x0pxdir;
 
     /*
@@ -1744,10 +1744,6 @@ static int aalineColorInt(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Si
      * # of bits by which to shift erracc to get intensity level 
      */
     intshift = 32 - AAbits;
-    /*
-     * Mask used to flip all bits in an intensity weighting 
-     */
-    wgtcompmask = AAlevels - 1;
 
     /* Lock surface */
     if (SDL_MUSTLOCK(dst)) {

@@ -232,7 +232,6 @@ void real_meswin_dialog_update(void)
 void meswin_dialog_popup(bool raise)
 {
   SDL_String16 *pStr;
-  int scrollbar_width;
   struct widget *pWindow = NULL;
   SDL_Surface *pBackground;
   SDL_Rect area;
@@ -259,7 +258,7 @@ void meswin_dialog_popup(bool raise)
 /*  area = pWindow->area;*/
   
   /* create scrollbar */
-  scrollbar_width = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
+  create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
 
   pStr = create_str16_from_char("sample text", PTSIZE_LOG_FONT);
   

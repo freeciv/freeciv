@@ -491,7 +491,7 @@ static void transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, i
 
 static void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos)
 {
-    int x, y, dx, dy, xd, yd, sdx, sdy, ax, ay, sw, sh;
+    int x, y, dx, dy, xd, yd, sdx, sdy, ax, ay;
     tColorY *pc, *sp;
     int gap;
 
@@ -502,8 +502,6 @@ static void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int 
     yd = ((src->h - dst->h) << 15);
     ax = (cx << 16) - (icos * cx);
     ay = (cy << 16) - (isin * cx);
-    sw = src->w - 1;
-    sh = src->h - 1;
     pc = dst->pixels;
     gap = dst->pitch - dst->w;
     /*

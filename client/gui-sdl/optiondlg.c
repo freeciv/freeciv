@@ -970,7 +970,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   struct widget *window, *widget = NULL, *apply_button;
   const int MAX_SHOWN = 10;
   SDL_Rect area;
-  int scrollbar_width, i;
+  int i;
 
   fc_assert_ret(NULL != pdialog);
   fc_assert_ret(ODM_OPTSET == pdialog->mode);
@@ -1013,15 +1013,13 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   pdialog->advanced->pBeginWidgetList = widget;
   pdialog->advanced->pBeginActiveWidgetList = widget;
 
-  scrollbar_width = create_vertical_scrollbar(pdialog->advanced,
-                                              2, MAX_SHOWN, TRUE, TRUE);
+  create_vertical_scrollbar(pdialog->advanced, 2, MAX_SHOWN, TRUE, TRUE);
 
   if (i >= MAX_SHOWN) {
     pdialog->advanced->pActiveWidgetList =
         pdialog->advanced->pEndActiveWidgetList;
   } else {
     hide_scrollbar(pdialog->advanced->pScroll);
-    scrollbar_width = 0;
   }
 
   pdialog->begin_widget_list = pdialog->advanced->pBeginWidgetList;
@@ -1291,10 +1289,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
 int optiondlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    SDL_Rect dest;
-    
     set_wstate(pButton, FC_WS_DISABLED);
-    dest = pButton->size;
     clear_surface(pButton->dst->surface, &pButton->size);
     widget_redraw(pButton);
     widget_flush(pButton);
