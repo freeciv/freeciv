@@ -1370,11 +1370,11 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
     if (!ptile) {
       continue;
     }
-    adjc_dir_iterate(ptile, adjc_tile, dir) {
+    adjc_dir_base_iterate(ptile, dir) {
       if (mapdeco_is_gotoline_set(ptile, dir)) {
         draw_segment(ptile, dir);
       }
-    } adjc_dir_iterate_end;
+    } adjc_dir_base_iterate_end;
   } gui_rect_iterate_end;
 
   if (!full) {
