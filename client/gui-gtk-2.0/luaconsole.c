@@ -182,7 +182,7 @@ void real_luaconsole_dialog_update(void)
 *****************************************************************************/
 static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
 {
-  GtkWidget *entry, *box, *vbox, *sw, *text, *notebook, *cmd;
+  GtkWidget *entry, *box, *vbox, *sw, *text, *notebook;
 
   fc_assert_ret(NULL != pdialog);
 
@@ -230,8 +230,8 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   pdialog->entry = entry;
 
   /* Load lua script command button. */
-  cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_OPEN,
-                                   _("Load Lua Script"), LUACONSOLE_RES_OPEN);
+  gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_OPEN,
+                             _("Load Lua Script"), LUACONSOLE_RES_OPEN);
 
   gui_dialog_add_button(pdialog->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(pdialog->shell,
