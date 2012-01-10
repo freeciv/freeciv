@@ -2676,9 +2676,7 @@ static bool debug_command(struct connection *caller, char *str,
         cities++;
         citizens += city_size_get(pcity);
       } city_list_iterate_end;
-      unit_list_iterate(plr->units, punit) {
-        units++;
-      } unit_list_iterate_end;
+      units += unit_list_size(plr->units);
     } players_iterate_end;
     log_normal(_("players=%d cities=%d citizens=%d units=%d"),
                players, cities, citizens, units);
