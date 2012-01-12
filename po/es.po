@@ -10,13 +10,13 @@
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Jordi Negrevernis i Font <jorneg@retemail.es>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>, 2009, 2010, 2011.
+# Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>, 2009, 2010, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-19 22:29+0000\n"
-"PO-Revision-Date: 2011-11-12 00:25+0100\n"
+"POT-Creation-Date: 2012-01-11 23:31+0100\n"
+"PO-Revision-Date: 2012-01-11 23:44+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -696,17 +696,17 @@ msgstr "Armisticio"
 msgid "?diplomatic_state:War"
 msgstr "Guerra"
 
-#: common/player.c:1131 client/gui-gtk-2.0/diplodlg.c:402
+#: common/player.c:1131 client/gui-gtk-2.0/diplodlg.c:418
 #: client/gui-sdl/diplodlg.c:463 client/gui-xaw/diplodlg.c:546
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Tregua"
 
-#: common/player.c:1132 client/gui-gtk-2.0/diplodlg.c:408
+#: common/player.c:1132 client/gui-gtk-2.0/diplodlg.c:424
 #: client/gui-sdl/diplodlg.c:477 client/gui-xaw/diplodlg.c:550
 msgid "?diplomatic_state:Peace"
 msgstr "Paz"
 
-#: common/player.c:1133 client/gui-gtk-2.0/diplodlg.c:414
+#: common/player.c:1133 client/gui-gtk-2.0/diplodlg.c:430
 #: client/gui-sdl/diplodlg.c:492 client/gui-xaw/diplodlg.c:554
 msgid "?diplomatic_state:Alliance"
 msgstr "Alianza"
@@ -2744,30 +2744,34 @@ msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves DIR\tGraba las partidas en el directorio DIR\n"
 
 #: server/civserver.c:356
+msgid "      --scenarios DIR\tSearch for scenarios in directory DIR\n"
+msgstr "      --scenarios DIR\tBusca los escenarios en el directorio DIR\n"
+
+#: server/civserver.c:358
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tAsigna al servidor id a ID\n"
 
-#: server/civserver.c:358
+#: server/civserver.c:360
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
 msgstr " -P, --Ppm\t\tGuarda los ppms del mapa al guardar la partida.\n"
 
-#: server/civserver.c:359
+#: server/civserver.c:361
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FICH\tEjecutar el fichero de secuencia de inicio FICH\n"
 
-#: server/civserver.c:361
+#: server/civserver.c:363
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FICH\tUsar FICH como fichero de ranking\n"
 
-#: server/civserver.c:362 client/client_main.c:336 manual/civmanual.c:493
+#: server/civserver.c:364 client/client_main.c:336 manual/civmanual.c:493
 #: modinst/mpcmdline.c:52
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tImprimir el número de versión\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: server/civserver.c:364 client/client_main.c:342
-#: client/gui-gtk-2.0/gui_main.c:277 client/gui-sdl/gui_main.c:179
-#: client/gui-xaw/gui_main.c:251 manual/civmanual.c:495 modinst/mpcmdline.c:57
+#: server/civserver.c:366 client/client_main.c:342
+#: client/gui-gtk-2.0/gui_main.c:279 client/gui-sdl/gui_main.c:179
+#: client/gui-xaw/gui_main.c:254 manual/civmanual.c:495 modinst/mpcmdline.c:57
 #, c-format
 msgid "Report bugs at %s\n"
 msgstr "Informa de los errores a %s\n"
@@ -10211,7 +10215,6 @@ msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Unidades enemigas han destruido tu %s nada más aterrizar."
 
 #: server/unittools.c:2420 data/default/default.lua:22
-#: data/multiplayer/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -10219,12 +10222,10 @@ msgstr[0] "Has encontrado %d moneda de oro."
 msgstr[1] "Has encontrado %d monedas de oro."
 
 #: server/unittools.c:2427 data/default/default.lua:94
-#: data/multiplayer/default.lua:94
 msgid "An abandoned village is here."
 msgstr "Encuentras una aldea abandonada."
 
 #: server/unittools.c:2430 data/default/default.lua:104
-#: data/multiplayer/default.lua:104
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "¡Los bárbaros han destruido tu %s!"
@@ -10968,8 +10969,9 @@ msgid "  -M, --Meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -M, --Meta HOST\tConectarse al metaservidor en HOST\n"
 
 #: client/client_main.c:322
-msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr "  -n, --name NOMBRE\tUsar NOMBRE como nombre\n"
+msgid "  -n, --name NAME\tUse NAME as username on server\n"
+msgstr ""
+"  -n, --name NOMBRE\tUsar NOMBRE como nombre de usuario en el servidor\n"
 
 #: client/client_main.c:324
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
@@ -15314,7 +15316,8 @@ msgstr "Prod:"
 msgid "Trade:"
 msgstr "Comercio:"
 
-#: client/gui-gtk-2.0/citydlg.c:673 client/gui-gtk-2.0/inteldlg.c:51
+#: client/gui-gtk-2.0/citydlg.c:673 client/gui-gtk-2.0/diplodlg.c:750
+#: client/gui-gtk-2.0/diplodlg.c:833 client/gui-gtk-2.0/inteldlg.c:51
 msgid "Gold:"
 msgstr "Oro:"
 
@@ -15673,7 +15676,7 @@ msgstr "V_ender"
 msgid "_Select"
 msgstr "_Seleccionar"
 
-#: client/gui-gtk-2.0/cityrep.c:1100 client/gui-gtk-2.0/plrdlg.c:527
+#: client/gui-gtk-2.0/cityrep.c:1100 client/gui-gtk-2.0/plrdlg.c:528
 msgid "_Display"
 msgstr "_Mostrar"
 
@@ -15965,75 +15968,77 @@ msgstr "¡Mejorar la unidad!"
 msgid "Upgrade Obsolete Units"
 msgstr "Actualizar unidades obsoletas"
 
-#: client/gui-gtk-2.0/diplodlg.c:236 client/gui-xaw/diplodlg.c:403
+#: client/gui-gtk-2.0/diplodlg.c:252 client/gui-xaw/diplodlg.c:403
 #: client/gui-xaw/diplodlg.c:421
 msgid "World-map"
 msgstr "Mapamundi"
 
-#: client/gui-gtk-2.0/diplodlg.c:242 client/gui-xaw/diplodlg.c:407
+#: client/gui-gtk-2.0/diplodlg.c:258 client/gui-xaw/diplodlg.c:407
 #: client/gui-xaw/diplodlg.c:425
 msgid "Sea-map"
 msgstr "Mapa marítimo"
 
-#: client/gui-gtk-2.0/diplodlg.c:248
+#: client/gui-gtk-2.0/diplodlg.c:264
 msgid "_Maps"
 msgstr "_Mapas"
 
-#: client/gui-gtk-2.0/diplodlg.c:258
+#: client/gui-gtk-2.0/diplodlg.c:274
 msgid "_Advances"
 msgstr "_Avances"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
-#: client/gui-gtk-2.0/diplodlg.c:283
+#: client/gui-gtk-2.0/diplodlg.c:299
 msgid "All advances"
 msgstr "Todos los Avances"
 
-#: client/gui-gtk-2.0/diplodlg.c:360 client/gui-gtk-2.0/menu.c:1297
+#: client/gui-gtk-2.0/diplodlg.c:376 client/gui-gtk-2.0/menu.c:1297
 msgid "_Cities"
 msgstr "_Ciudades"
 
-#: client/gui-gtk-2.0/diplodlg.c:369
+#: client/gui-gtk-2.0/diplodlg.c:385
 msgid "_Give shared vision"
 msgstr "Dar _visión compartida"
 
-#: client/gui-gtk-2.0/diplodlg.c:382
+#: client/gui-gtk-2.0/diplodlg.c:398
 msgid "Give _embassy"
 msgstr "Dar _embajada"
 
-#: client/gui-gtk-2.0/diplodlg.c:420
+#: client/gui-gtk-2.0/diplodlg.c:436
 msgid "_Pacts"
 msgstr "_Pactos"
 
-#: client/gui-gtk-2.0/diplodlg.c:513
+#: client/gui-gtk-2.0/diplodlg.c:495
+msgid "Cancel _all meetings"
+msgstr "C_ancelar todas las cumbres"
+
+#: client/gui-gtk-2.0/diplodlg.c:571 client/gui-gtk-2.0/diplodlg.c:639
 #, c-format
-msgid "Diplomacy: %s"
-msgstr "Diplomacia: %s"
+msgid "Diplomacy [%d]"
+msgstr "Diplomacia [%d]"
 
-#: client/gui-gtk-2.0/diplodlg.c:520
-msgid "_Cancel meeting"
-msgstr "_Cancelar cumbre"
+#: client/gui-gtk-2.0/diplodlg.c:649 client/gui-sdl/diplodlg.c:883
+#: data/Freeciv.in:528
+msgid "Cancel meeting"
+msgstr "Cancelar cumbre"
 
-#: client/gui-gtk-2.0/diplodlg.c:522
-msgid "Accept _treaty"
-msgstr "Aceptar _pacto"
+#: client/gui-gtk-2.0/diplodlg.c:651 client/gui-sdl/diplodlg.c:894
+#: data/Freeciv.in:519
+msgid "Accept treaty"
+msgstr "Aceptar pacto"
 
-#: client/gui-gtk-2.0/diplodlg.c:550
+#: client/gui-gtk-2.0/diplodlg.c:722 client/gui-gtk-2.0/diplodlg.c:805
+msgid "Add Clause..."
+msgstr "Añadir Cláusula..."
+
+#: client/gui-gtk-2.0/diplodlg.c:872
 msgid "C_lauses:"
 msgstr "C_láusulas:"
 
-#: client/gui-gtk-2.0/diplodlg.c:614 client/gui-gtk-2.0/diplodlg.c:685
-msgid "_Gold:"
-msgstr "_Oro:"
-
-#: client/gui-gtk-2.0/diplodlg.c:625 client/gui-gtk-2.0/diplodlg.c:696
-msgid "_Add Clause..."
-msgstr "_Añadir Cláusula..."
-
-#: client/gui-gtk-2.0/diplodlg.c:741
+#: client/gui-gtk-2.0/diplodlg.c:917
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Este pacto está vacío. Por favor, añade algunas cláusulas. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:971 client/gui-sdl/diplodlg.c:376
+#: client/gui-gtk-2.0/diplodlg.c:1148 client/gui-sdl/diplodlg.c:376
 #: client/gui-xaw/diplodlg.c:976
 msgid "Invalid amount of gold specified."
 msgstr "Se ha especificado una cantidad inválida de oro."
@@ -16272,7 +16277,7 @@ msgstr "Excluir Naciones"
 #. TRANS: Nations report action
 #. TRANS: Nations report title
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/editprop.c:4089 client/gui-gtk-2.0/plrdlg.c:410
+#: client/gui-gtk-2.0/editprop.c:4089 client/gui-gtk-2.0/plrdlg.c:411
 #: client/gui-sdl/mapctrl.c:1590 client/gui-sdl/plrdlg.c:617
 #: client/gui-xaw/menu.c:226 data/Freeciv.in:3220 data/Freeciv.in:3221
 msgid "Nations"
@@ -16434,13 +16439,13 @@ msgstr "Vistos (Pral)"
 msgid "Seen (Invis)"
 msgstr "Vistos (Invis)"
 
-#: client/gui-gtk-2.0/finddlg.c:71 client/gui-sdl/finddlg.c:131
+#: client/gui-gtk-2.0/finddlg.c:72 client/gui-sdl/finddlg.c:131
 #: client/gui-sdl/mapctrl.c:1602 client/gui-xaw/menu.c:133
 #: data/Freeciv.in:1084
 msgid "Find City"
 msgstr "Buscar ciudad"
 
-#: client/gui-gtk-2.0/finddlg.c:112
+#: client/gui-gtk-2.0/finddlg.c:113
 msgid "Ci_ties:"
 msgstr "Ci_udades:"
 
@@ -16514,50 +16519,52 @@ msgstr "ninguna ciudad"
 msgid "Currently in: %s"
 msgstr "Actualmente en: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:274 client/gui-xaw/gui_main.c:248
+#: client/gui-gtk-2.0/gui_main.c:275
 msgid ""
-"This client has no special command line options\n"
+"This client accepts the standard Gtk command-line options\n"
+"after '--'. See the Gtk documentation.\n"
 "\n"
 msgstr ""
-"Este cliente no tiene opciones especiales de comandos de linea\n"
+"Este cliente admite el formato de estándar Gtk de la línea de comandos\n"
+"después de '--'. Consulta la documentación de Gtk.\n"
 "\n"
 
-#: client/gui-gtk-2.0/gui_main.c:742 client/gui-gtk-2.0/gui_main.c:1549
+#: client/gui-gtk-2.0/gui_main.c:744 client/gui-gtk-2.0/gui_main.c:1551
 #: client/gui-sdl/gui_main.c:796 client/gui-sdl/gui_main.c:811
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1206 client/gui-gtk-2.0/gui_main.c:1214
+#: client/gui-gtk-2.0/gui_main.c:1208 client/gui-gtk-2.0/gui_main.c:1216
 #: client/gui-sdl/mapctrl.c:1575 data/Freeciv.in:2644
 msgid "Turn Done"
 msgstr "Fin del turno"
 
-#: client/gui-gtk-2.0/gui_main.c:1214 client/gui-sdl/mapctrl.c:1575
+#: client/gui-gtk-2.0/gui_main.c:1216 client/gui-sdl/mapctrl.c:1575
 #: client/gui-sdl/mapview.c:897
 msgid "Shift+Return"
 msgstr "Mayúsculas+Intro"
 
-#: client/gui-gtk-2.0/gui_main.c:1285
+#: client/gui-gtk-2.0/gui_main.c:1287
 msgid "?noun:View"
 msgstr "Vista general"
 
-#: client/gui-gtk-2.0/gui_main.c:1397
+#: client/gui-gtk-2.0/gui_main.c:1399
 msgid "Chat"
 msgstr "Charla"
 
-#: client/gui-gtk-2.0/gui_main.c:1421
+#: client/gui-gtk-2.0/gui_main.c:1423
 msgid "Allies Only"
 msgstr "Sólo aliados"
 
-#: client/gui-gtk-2.0/gui_main.c:1430
+#: client/gui-gtk-2.0/gui_main.c:1432
 msgid "Clear links"
 msgstr "Borrar enlaces"
 
-#: client/gui-gtk-2.0/gui_main.c:1970 modinst/modinst.c:87
+#: client/gui-gtk-2.0/gui_main.c:1972 modinst/modinst.c:87
 msgid "Are you sure you want to quit?"
 msgstr "Seguro que quiere salir?"
 
-#: client/gui-gtk-2.0/gui_stuff.c:612
+#: client/gui-gtk-2.0/gui_stuff.c:614
 #, c-format
 msgid ""
 "Close Tab:\n"
@@ -16566,7 +16573,7 @@ msgstr ""
 "Cierra Len:\n"
 "%s"
 
-#: client/gui-gtk-2.0/gui_stuff.c:612
+#: client/gui-gtk-2.0/gui_stuff.c:614
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -17490,19 +17497,19 @@ msgstr "Info_rme"
 msgid "?show:Dead Players"
 msgstr "Jugadores muertos"
 
-#: client/gui-gtk-2.0/plrdlg.c:517
+#: client/gui-gtk-2.0/plrdlg.c:518
 msgid "Di_plomacy"
 msgstr "Di_plomacia"
 
-#: client/gui-gtk-2.0/plrdlg.c:522
+#: client/gui-gtk-2.0/plrdlg.c:523
 msgid "_Intelligence"
 msgstr "_Información"
 
-#: client/gui-gtk-2.0/plrdlg.c:532
+#: client/gui-gtk-2.0/plrdlg.c:533
 msgid "_AI"
 msgstr "Orden_ador"
 
-#: client/gui-gtk-2.0/plrdlg.c:538
+#: client/gui-gtk-2.0/plrdlg.c:539
 msgid "_Toggle AI Mode"
 msgstr "Cambiar Modo _Ordenador"
 
@@ -18163,7 +18170,7 @@ msgstr "Mejorar unidad"
 #: client/gui-sdl/connectdlg.c:306 client/gui-sdl/connectdlg.c:616
 #: client/gui-sdl/connectdlg.c:802 client/gui-sdl/connectdlg.c:984
 #: client/gui-sdl/dialogs.c:704 client/gui-sdl/dialogs.c:2365
-#: client/gui-sdl/dialogs.c:3166 client/gui-sdl/diplomat_dialog.c:735
+#: client/gui-sdl/dialogs.c:3164 client/gui-sdl/diplomat_dialog.c:735
 #: client/gui-sdl/mapctrl.c:2618 client/gui-xaw/inputdlg.c:110
 #: data/Freeciv.in:1110 data/Freeciv.in:1166 data/Freeciv.in:1208
 #: data/Freeciv.in:1228 data/Freeciv.in:1265 data/Freeciv.in:1298
@@ -18618,30 +18625,30 @@ msgstr "Elige tu nuevo gobierno"
 msgid "REVOLUTION!"
 msgstr "¡REVOLUCIÓN!"
 
-#: client/gui-sdl/dialogs.c:2502 client/gui-sdl/dialogs.c:2889
+#: client/gui-sdl/dialogs.c:2502 client/gui-sdl/dialogs.c:2887
 #: data/Freeciv.in:3187
 msgid "Female"
 msgstr "Hembra"
 
-#: client/gui-sdl/dialogs.c:2504 client/gui-sdl/dialogs.c:2887
-#: client/gui-sdl/dialogs.c:3103
+#: client/gui-sdl/dialogs.c:2504 client/gui-sdl/dialogs.c:2885
+#: client/gui-sdl/dialogs.c:3101
 msgid "Male"
 msgstr "Varón"
 
-#: client/gui-sdl/dialogs.c:2736
+#: client/gui-sdl/dialogs.c:2734
 msgid "Nation's Legend"
 msgstr "Leyenda de la Nación"
 
-#: client/gui-sdl/dialogs.c:2748 client/gui-sdl/dialogs.c:3175
+#: client/gui-sdl/dialogs.c:2746 client/gui-sdl/dialogs.c:3173
 #: client/gui-sdl/mapctrl.c:2608
 msgid "OK"
 msgstr "Vale"
 
-#: client/gui-sdl/dialogs.c:2767
+#: client/gui-sdl/dialogs.c:2765
 msgid "SORRY... NO INFO"
 msgstr "LO SIENTO ... NO HAY INFO"
 
-#: client/gui-sdl/dialogs.c:2957
+#: client/gui-sdl/dialogs.c:2955
 msgid "What nation will you be?"
 msgstr "¿Qué nación quieres ser?"
 
@@ -18683,14 +18690,6 @@ msgstr "Avances"
 #: client/gui-sdl/diplodlg.c:831 data/Freeciv.in:287
 msgid "Diplomacy meeting"
 msgstr "Cumbre diplomática"
-
-#: client/gui-sdl/diplodlg.c:883 data/Freeciv.in:528
-msgid "Cancel meeting"
-msgstr "Cancelar cumbre"
-
-#: client/gui-sdl/diplodlg.c:894 data/Freeciv.in:519
-msgid "Accept treaty"
-msgstr "Aceptar pacto"
 
 #. TRANS: "Polish incident !" FIXME!!!
 #: client/gui-sdl/diplodlg.c:1306
@@ -19859,49 +19858,60 @@ msgstr "vista de %s:"
 msgid "NONE"
 msgstr "NINGUNA"
 
-#: client/gui-xaw/gui_main.c:343
+#: client/gui-xaw/gui_main.c:249
+msgid ""
+"This client accepts the standard X toolkit command-line options\n"
+"after '--'. See the X(7) man page.\n"
+"\n"
+msgstr ""
+"Este cliente admite el formato de estándar del toolkit X de la línea de "
+"comandos\n"
+"después de '--' Consulta la documentación de la página X(7) de man.\n"
+"\n"
+
+#: client/gui-xaw/gui_main.c:346
 msgid "No version number in resources."
 msgstr "No hay número de versión en los recursos."
 
-#: client/gui-xaw/gui_main.c:344
+#: client/gui-xaw/gui_main.c:347
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr ""
 "Probablemente tienes un fichero de recursos de Freeciv antiguo (sobre V1.0) "
 "por algún lado."
 
-#: client/gui-xaw/gui_main.c:352
+#: client/gui-xaw/gui_main.c:355
 msgid "Game version does not match Resource version."
 msgstr "La versión del juego no se corresponde con la versión de los recursos."
 
-#: client/gui-xaw/gui_main.c:353
+#: client/gui-xaw/gui_main.c:356
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Versión del juego: %s - Versión de los recursos: %s"
 
-#: client/gui-xaw/gui_main.c:355
+#: client/gui-xaw/gui_main.c:358
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "Quizá tengas un fichero de recursos de Freeciv antiguo en /usr/lib/X11/app-"
 "defaults"
 
-#: client/gui-xaw/gui_main.c:361
+#: client/gui-xaw/gui_main.c:364
 msgid "Using fallback resources - which is OK"
 msgstr "Usando los recursos por defecto (lo cual no es un problema)"
 
-#: client/gui-xaw/gui_main.c:372
+#: client/gui-xaw/gui_main.c:375
 msgid "Only color displays are supported for now..."
 msgstr "Sólo se admiten pantallas en color por el momento..."
 
-#: client/gui-xaw/gui_main.c:395 client/gui-xaw/gui_main.c:414
+#: client/gui-xaw/gui_main.c:398 client/gui-xaw/gui_main.c:417
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "No se ha podido abrir la fuente: %s"
 
-#: client/gui-xaw/gui_main.c:396 client/gui-xaw/gui_main.c:415
+#: client/gui-xaw/gui_main.c:399 client/gui-xaw/gui_main.c:418
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 msgstr "Usando 'xset fp rehash' se puede resolver el problema temporalmente."
 
-#: client/gui-xaw/gui_main.c:400 client/gui-xaw/gui_main.c:419
+#: client/gui-xaw/gui_main.c:403 client/gui-xaw/gui_main.c:422
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Falta la fuente para el conjunto de caracteres %s"
@@ -29158,36 +29168,35 @@ msgstr ""
 msgid "?citystyle:ElectricAge"
 msgstr "Electricidad"
 
-#: data/default/default.lua:35 data/multiplayer/default.lua:35
+#: data/default/default.lua:35
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Tu encontraste %s en unos antiguos pergaminos de la sabiduría."
 
-#: data/default/default.lua:38 data/multiplayer/default.lua:38
+#: data/default/default.lua:38
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Los %s reciben %s de unos antiguos pergaminos de sabiduría."
 
-#: data/default/default.lua:58 data/multiplayer/default.lua:58
+#: data/default/default.lua:58
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "Una banda amistosa de mercenarios se une a tu causa."
 
-#: data/default/default.lua:74 data/multiplayer/default.lua:74
+#: data/default/default.lua:74
 msgid "You found a friendly city."
 msgstr "Tu encuentras una ciudad amistosa."
 
-#: data/default/default.lua:78 data/multiplayer/default.lua:78
+#: data/default/default.lua:78
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Estos nómadas amistosos se sienten impresionados por ti, y se unen a tu "
 "causa."
 
-#: data/default/default.lua:101 data/multiplayer/default.lua:101
+#: data/default/default.lua:101
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Has desatado a una horda de bárbaros!"
 
 #: data/default/default.lua:172 data/default/default.lua:174
-#: data/multiplayer/default.lua:172 data/multiplayer/default.lua:174
 #, c-format
 msgid "The loss of %s has inspired partisans!"
 msgstr "La pérdida de %s ha inspirado a los partidarios!"
@@ -32797,17 +32806,18 @@ msgstr "Cholas"
 
 #: data/nation/chola.ruleset:7
 msgid ""
-"The Cholas were a Tamil dynasty centered in southern India and were rare in "
-"their level of influence in northern India. They began as a tributary state "
-"to the Pallavas, but in the 9th century their power began to grow. During "
-"the 11th century, they led expeditions against other Indian states as far "
-"north as Bengal, as well as against the Maldives, Sri Lanka and even the "
+"The Cholas were a Tamil dynasty centered in southern India that was "
+"unusually influential in northern India. They began as a tributary state to "
+"the Pallavas, but in the 9th century their power began to grow. During the "
+"11th century, they led expeditions against other Indian states as far north "
+"as Bengal, as well as against the Maldives, Sri Lanka and even the "
 "Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s as "
 "other southern Indian states rose up."
 msgstr ""
-"Los Cholas fueron una dinastía Tamil centrada en la India meridional y fue "
-"escaso su nivel de influencia en el norte de la India. Comenzaron como un "
-"estado tributario a los Pallavas, pero en el siglo 9 su poder comenzó a "
+"Los Cholas fueron una dinastía Tamil centrada en la India meridional que "
+"tuvo "
+"un inusual nivel de influencia en el norte de la India. Comenzaron como un "
+"estado tributario de los Pallavas, pero en el siglo 9 su poder comenzó a "
 "crecer. Durante el siglo 11, se llevaron a cabo expediciones en contra de "
 "otros estados de la India, tan alejados como Bengala, así como contra las "
 "Maldivas, Sri Lanka e incluso el reino indonesio de Sri Vijaya. Pero el "
@@ -41234,9 +41244,21 @@ msgstr "Ruleset por defecto"
 msgid "You are playing Freeciv with default rules."
 msgstr "Tu estás jugando a Freeciv con las reglas por defecto."
 
-#~ msgid "Players cannot be removed once the game has started."
+#~ msgid "_Cancel meeting"
+#~ msgstr "_Cancelar cumbre"
+
+#~ msgid "Accept _treaty"
+#~ msgstr "Aceptar _pacto"
+
+#~ msgid "_Gold:"
+#~ msgstr "_Oro:"
+
+#~ msgid ""
+#~ "This client has no special command line options\n"
+#~ "\n"
 #~ msgstr ""
-#~ "No se puede eliminar a los jugadores cuando la partida ya ha comenzado."
+#~ "Este cliente no tiene opciones especiales de comandos de linea\n"
+#~ "\n"
 
 #~ msgid "About"
 #~ msgstr "Créditos"
