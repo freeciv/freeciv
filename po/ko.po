@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ai/default/advdiplomacy.c:336
 #, c-format
@@ -135,8 +135,7 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
-msgstr[0] "*%s (AI)* 우리는 %d 차례 안에 그 우주선 발사를 멈추기 위해서, %s 에 대항하여 총력전을 실행할 것이오."
-msgstr[1] "*%s (AI)* 우리는 %d 차례들 안에 그 우주선 발사를 멈추기 위해서, %s 에 대항하여 총력전을 실행할 것이오."
+msgstr[0] "*%s (AI)* 우리는 %s 에 대항하여 %d 차례 안에 그 우주선 발사를 멈추기 위해서, 총력전을 실행할 것이오."
 
 #: ai/default/advdiplomacy.c:1293
 #, c-format
@@ -159,10 +158,6 @@ msgstr[0] ""
 "*%s (AI)* %s 가 자신의 이익을 위해 우리와의 조약들을 지독히 위반했다. "
 "우리는 %d 차례 안에 힘으로 답할 것이며, 너가 우리와의 동맹을 지키고  "
 "똑같이 할 것을 기대한다!"
-msgstr[1] ""
-"*%s (AI)* %s 가 자신의 이익을 위해 우리와의 조약들을 지독히 위반했다. "
-"우리는 %d 차례들 안에 힘으로 답할 것이며, 너가 우리와의 동맹을 지키고  "
-"똑같이 할 것을 기대한다!"
 
 #: ai/default/advdiplomacy.c:1312
 #, c-format
@@ -175,9 +170,6 @@ msgid_plural ""
 msgstr[0] ""
 "*%s (AI)* 우리는 %s 의 그 부유한 문명을 약탈하고 강탈할 것을 의도한다. "
 "우리는 전쟁을 %d 차례 동안 선언한다."
-msgstr[1] ""
-"*%s (AI)* 우리는 %s 의 그 부유한 문명을 약탈하고 강탈할 것을 의도한다. "
-"우리는 전쟁을 %d 차례들 동안 선언한다."
 
 #: ai/default/advdiplomacy.c:1320
 #, c-format
@@ -197,9 +189,6 @@ msgid_plural ""
 msgstr[0] ""
 "*%s (AI)* 우리는 %s 와 함께 해왔다. 이 한심한 문명을 분열하자. "
 "우리는 %d 차례 동안 전쟁을 선포한다."
-msgstr[1] ""
-"*%s (AI)* 우리는 %s 와 함께 해왔다. 이 한심한 문명을 분열하자. "
-"우리는 %d 차례들 동안 전쟁을 선포한다."
 
 #: ai/default/advdiplomacy.c:1335
 #, c-format
@@ -215,10 +204,7 @@ msgid_plural ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
-"*%s (AI)* 우리는 우리의 동맹을 지킬 것이고, %d 차례 동안 %s 와 전쟁을 선포한다. "
-"기다려라 - 우리가 간다!"
-msgstr[1] ""
-"*%s (AI)* 우리는 우리의 동맹을 지킬 것이고, %d 차례들 동안 %s 와 전쟁을 선포한다. "
+"*%s (AI)* 우리는 우리의 동맹을 지킬 것이고, %s 와 %d 차례 동안 전쟁을 선포한다. "
 "기다려라 - 우리가 간다!"
 
 #: ai/default/advdiplomacy.c:1350
@@ -230,10 +216,7 @@ msgid_plural ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
-"*%s (AI)* 우리는 %s 와의 동맹을 지킬 것이고, %d 차례 동안 %s와 전쟁을 선포한다. "
-"우리는 너가 똑같이 할 것을 기대한다."
-msgstr[1] ""
-"*%s (AI)* 우리는 %s 와의 동맹을 지킬 것이고, %d 차례들 동안 %s와 전쟁을 선포한다. "
+"*%s (AI)* 우리는 %s 와의 동맹을 지킬 것이고, %s와 %d 차례 동안 전쟁을 선포한다. "
 "우리는 너가 똑같이 할 것을 기대한다."
 
 #: ai/default/advdiplomacy.c:1419
@@ -274,7 +257,7 @@ msgid ""
 "our enemy, %s."
 msgstr ""
 "*%s (AI)* 우리의 가장 믿을 수 있는 동맹국을 환영합니다. 우리는 너에게 우리의 적을 "
-"말살할 것을 요구합니다."
+"말살할 것을 요구합니다, %s."
 
 #: ai/default/advdiplomacy.c:1625
 #, c-format
@@ -20896,12 +20879,11 @@ msgstr "화물 부대는 캐러밴에서 대체됬고, 2배의 속도로 움직�
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
-msgstr ""
+msgstr "아브하지아"
 
 #: data/nation/abkhaz.ruleset:4
-#, fuzzy
 msgid "?plural:Abkhazians"
-msgstr "태국 사람"
+msgstr "아브하지아인"
 
 #: data/nation/abkhaz.ruleset:7
 msgid ""
@@ -20910,6 +20892,9 @@ msgid ""
 "Greeks, Romans, Byzantines, Turks, Russians and Georgians. Nowadays Abkhazia "
 "is a partially recognized republic."
 msgstr ""
+"아브하지아인의 조상들은 아주 오랜 옛날부터 서부 카프카스 산맥에서 살아왔습니다. "
+"짧은 기간의 독립은 그리스, 로마, 비잔틴, 그리고 그루지야에게 번갈아 나왔습니다. "
+"오늘날의 아브하지아는 부분적으로 공화국으로 인정받습니다."
 
 #: data/nation/abkhaz.ruleset:24 data/nation/acehnese.ruleset:29
 #: data/nation/bashkir.ruleset:27 data/nation/chechen.ruleset:31
@@ -20935,11 +20920,11 @@ msgstr "라마"
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr "애보리지니"
+msgstr "호주 원주민"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr "애보리지니 사람"
+msgstr "호주 원주민"
 
 #: data/nation/aborigines.ruleset:7
 msgid ""
@@ -20948,6 +20933,8 @@ msgid ""
 "to themselves with different names, including Koori, Yamaji, Nunga, and "
 "Murri."
 msgstr ""
+"호주 원주민은 호주 대륙의 원래의 주민을 위한 집단 용어입니다. 호주의 다른 지역으로부터 "
+"원주민들은 그들을 다른 이름으로 지칭하는데, 쿠리, 야마지, 넌가, 그리고 머리를 포함합니다."
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/greek.ruleset:23 data/nation/maori.ruleset:26
@@ -20972,14 +20959,12 @@ msgid "?female:Elder %s"
 msgstr "지도자"
 
 #: data/nation/abyssinian.ruleset:3
-#, fuzzy
 msgid "Abyssinian"
-msgstr "아르메니아"
+msgstr "아비시니아"
 
 #: data/nation/abyssinian.ruleset:4
-#, fuzzy
 msgid "?plural:Abyssinians"
-msgstr "인도 사림"
+msgstr "아비시니아인"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -20987,16 +20972,16 @@ msgid ""
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"아비시니아인 - 또한 하베샤 또는 에티오피아로 알려진 - 은 가장 두드러진 존재인 악숨 왕국과 "
+"에티오피아 제국이 있는 아프리카의 뿔에서, 역사상의 국가를 통치한 셈어족입니다."
 
 #: data/nation/acadian.ruleset:3
-#, fuzzy
 msgid "Acadian"
-msgstr "캐나다"
+msgstr "아카디안"
 
 #: data/nation/acadian.ruleset:4
-#, fuzzy
 msgid "?plural:Acadians"
-msgstr "캐나다 사람"
+msgstr "아카디안인"
 
 #: data/nation/acadian.ruleset:6
 msgid ""
@@ -21008,6 +20993,11 @@ msgid ""
 "distrust of British colonial authorities who would forcefully deport them in "
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
+"아카디안은 북아메리카에서 첫 프랑스 식민지로 세워졌습니다. 이것은 곧 프랑스-영국 전쟁의 "
+"십자 포화에 잡혀, 아카디아의 주인이 흔히 바뀌었습니다. 이것은 아카디안인이 분리된 독자성과 "
+"자치 정부를 발달하게 이끌었습니다. 이들의 전쟁에서 한 편에 대한 지지의 결핍은 프랑스 중립국이라는 "
+"칭호를 얻을 뿐만 아니라, 1775년에 그들을 격렬하게 강제 추방하는, 영국 식민지의 정부당국의 불신감도 "
+"얻었습니다. 아카디안인은 그 이후에 그들의 땅을 되찾고 재건했습니다."
 
 #: data/nation/acadian.ruleset:31 data/nation/french.ruleset:41
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
@@ -21059,14 +21049,12 @@ msgid "Mother Superior %s"
 msgstr "수녀원장"
 
 #: data/nation/acehnese.ruleset:3
-#, fuzzy
 msgid "Acehnese"
-msgstr "중국"
+msgstr "아체"
 
 #: data/nation/acehnese.ruleset:4
-#, fuzzy
 msgid "?plural:Acehnese"
-msgstr "중국 사람"
+msgstr "아체인"
 
 #: data/nation/acehnese.ruleset:6
 msgid ""
@@ -21075,6 +21063,9 @@ msgid ""
 "trade through the Strait of Malacca. Aceh was subjugated by the Dutch in the "
 "bloody Aceh War of 1873-1903."
 msgstr ""
+"수마트라섬의 서쪽 끝에 위치한 아체 왕국은, 말라카 해협을 통해 많은 무역을 통제하는 "
+"16,17세기에 지역의 강대국이였습니다. 아체는 1873-1903년 피비린내 나는 아체 전쟁에서 "
+"네덜란드에게 예속되었습니다."
 
 #: data/nation/acehnese.ruleset:27 data/nation/bruneian.ruleset:24
 #: data/nation/comorian.ruleset:26 data/nation/darfuri.ruleset:28
@@ -21122,14 +21113,12 @@ msgid "?female:Governor %s"
 msgstr "집정관"
 
 #: data/nation/acrean.ruleset:3
-#, fuzzy
 msgid "Acrean"
-msgstr "한국"
+msgstr "아크리"
 
 #: data/nation/acrean.ruleset:4
-#, fuzzy
 msgid "?plural:Acreans"
-msgstr "아람 사람"
+msgstr "아크리인"
 
 #: data/nation/acrean.ruleset:6
 msgid ""
@@ -21139,6 +21128,10 @@ msgid ""
 "Petropolis of 1903, after which Acre was annexed to Brazil. Acre is one of "
 "the world's most important rubber producing regions."
 msgstr ""
+"아크리는 브라질 서단에 있는 위치합니다. 브라질 정착민이 봉기를 일으키고 독립된 "
+"아크리의 지역을 선언할 떄, 그 지역은 1899년까지 볼리비아의 지역이였습니다. 볼리비아는 "
+"정착민의 선언에 1903년 페트로폴리스 조약으로 그 지역을 넘겨주었습니다. 아크리는 "
+"세계에서 가장 중요한 고무 공급 지역중의 하나입니다."
 
 #: data/nation/acrean.ruleset:31
 #, fuzzy, c-format
