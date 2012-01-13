@@ -380,7 +380,6 @@ msgstr "없음"
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] "%d 턴"
-msgstr[1] "%d 턴"
 
 #. TRANS: "W" is worker citizens, as opposed to specialists;
 #. * %s will represent the specialist types, for instance "E/S/T"
@@ -516,14 +515,12 @@ msgstr ""
 msgid "%3d gold per turn"
 msgid_plural "%3d gold per turn"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/citydlg_common.c:278
 #, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d 턴"
-msgstr[1] "%3d 턴"
 
 #: client/citydlg_common.c:286
 #, fuzzy, c-format
@@ -1195,7 +1192,6 @@ msgstr ""
 msgid "The %s give %d gold"
 msgid_plural "The %s give %d gold"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/climisc.c:269
 #, c-format
@@ -1246,7 +1242,6 @@ msgstr "당신은 %s 을(를) 살수 없습니다"
 msgid "%s costs %d gold"
 msgid_plural "%s costs %d gold"
 msgstr[0] "%s(을)를 %d의 금으로 팔겠습니까?"
-msgstr[1] "%s(을)를 %d의 금으로 팔겠습니까?"
 
 #. TRANS: %s is a pre-pluralised sentence fragment:
 #. * "%s costs %d gold"
@@ -1255,7 +1250,6 @@ msgstr[1] "%s(을)를 %d의 금으로 팔겠습니까?"
 msgid "%s and you only have %d gold."
 msgid_plural "%s and you only have %d gold."
 msgstr[0] "%d 의 돈이 필요합니다. 당신은 오직 %d의 금을 가지고 있군요"
-msgstr[1] "%d 의 돈이 필요합니다. 당신은 오직 %d의 금을 가지고 있군요"
 
 #: client/clinet.c:138
 #, fuzzy
@@ -1539,7 +1533,6 @@ msgstr ""
 msgid "%d tile copied."
 msgid_plural "%d tiles copied."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/ggzclient.c:100 server/ggzserver.c:266
 msgid "Only the GGZ client must call freeciv-client in ggz mode!\n"
@@ -1922,7 +1915,6 @@ msgstr ""
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
 msgstr[0] "생산 : 매턴당 %d (%d)"
-msgstr[1] "생산 : 매턴당 %d (%d)"
 
 #: client/gui-gtk-2.0/citydlg.c:1907 client/gui-gtk-3.0/citydlg.c:1907
 #, c-format
@@ -1995,9 +1987,6 @@ msgid_plural "Treasury contains %d gold."
 msgstr[0] ""
 "%s(은)는 %d의 금을 소비합니다.\n"
 "%d의 금을 자금으로 갖고 있습니다."
-msgstr[1] ""
-"%s(은)는 %d의 금을 소비합니다.\n"
-"%d의 금을 자금으로 갖고 있습니다."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
 #: client/gui-gtk-2.0/citydlg.c:2612 client/gui-gtk-3.0/citydlg.c:2612
@@ -2010,8 +1999,6 @@ msgid_plural ""
 "Buy %s for %d gold?\n"
 "%s"
 msgstr[0] "%s(을)를 %d의 금으로 팔겠습니까?"
-msgstr[1] "%s(을)를 %d의 금으로 팔겠습니까?"
-
 #: client/gui-gtk-2.0/citydlg.c:2616 client/gui-gtk-2.0/citydlg.c:2630
 #: client/gui-gtk-3.0/citydlg.c:2616 client/gui-gtk-3.0/citydlg.c:2630
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
@@ -2029,7 +2016,6 @@ msgid_plural ""
 "%s costs %d gold.\n"
 "%s"
 msgstr[0] "%d의 금을 얻었습니다"
-msgstr[1] "%d의 금을 얻었습니다"
 
 #: client/gui-gtk-2.0/citydlg.c:2677 client/gui-gtk-3.0/citydlg.c:2677
 #: client/gui-sdl/citydlg.c:1423 client/gui-xaw/citydlg.c:2343
@@ -2037,7 +2023,6 @@ msgstr[1] "%d의 금을 얻었습니다"
 msgid "Sell %s for %d gold?"
 msgid_plural "Sell %s for %d gold?"
 msgstr[0] "%s(을)를 %d의 금으로 팔겠습니까?"
-msgstr[1] "%s(을)를 %d의 금으로 팔겠습니까?"
 
 #: client/gui-gtk-2.0/citydlg.c:2683 client/gui-gtk-3.0/citydlg.c:2683
 #: data/Freeciv.in:2264
@@ -2066,8 +2051,6 @@ msgstr "정말 끝내시겠습니까?"
 msgid "Sold %d %s for %d gold."
 msgid_plural "Sold %d %s for %d gold."
 msgstr[0] ""
-msgstr[1] ""
-
 #: client/gui-gtk-2.0/cityrep.c:642 client/gui-gtk-3.0/cityrep.c:642
 #: client/repodlgs_common.c:188
 #, c-format
@@ -2545,9 +2528,6 @@ msgid_plural ""
 msgstr[0] ""
 "이 부대를 %d금으로 매수하시겠습니까?\n"
 "%d의 금을 자금으로 갖고 있습니다."
-msgstr[1] ""
-"이 부대를 %d금으로 매수하시겠습니까?\n"
-"%d의 금을 자금으로 갖고 있습니다."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:106
 #: client/gui-gtk-3.0/diplomat_dialog.c:106
@@ -2568,9 +2548,6 @@ msgid_plural ""
 "Bribing the unit costs %d gold.\n"
 "%s"
 msgstr[0] ""
-"이 부대를 매수 하려면 %d의 금을 소비합니다.\n"
-"%d의 금을 자금으로 갖고 있습니다."
-msgstr[1] ""
 "이 부대를 매수 하려면 %d의 금을 소비합니다.\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
@@ -2667,7 +2644,6 @@ msgid_plural ""
 "Incite a revolt for %d gold?\n"
 "%s"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:571
 #: client/gui-gtk-3.0/diplomat_dialog.c:571
@@ -2687,7 +2663,6 @@ msgid_plural ""
 "Inciting a revolt costs %d gold.\n"
 "%s"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:641
 #: client/gui-gtk-3.0/diplomat_dialog.c:641
@@ -2907,14 +2882,12 @@ msgstr "모든 옵션들"
 msgid "%d nation"
 msgid_plural "%d nations"
 msgstr[0] "알려지지 않은"
-msgstr[1] "알려지지 않은"
 
 #: client/gui-gtk-2.0/editprop.c:927 client/gui-gtk-3.0/editprop.c:927
 #, fuzzy, c-format
 msgid "%d byte"
 msgid_plural "%d bytes"
 msgstr[0] "%d 단계"
-msgstr[1] "%d 단계"
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:953 client/gui-gtk-3.0/editprop.c:953
@@ -5046,7 +5019,6 @@ msgid_plural ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "%s"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1599 client/gui-gtk-3.0/repodlgs.c:1599
 msgid "Find _Nearest"
@@ -5575,7 +5547,6 @@ msgstr ""
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "턴"
-msgstr[1] "턴"
 
 #: client/gui-sdl/citydlg.c:3012
 #, c-format
@@ -6109,25 +6080,21 @@ msgstr "도움말 : 부대"
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "방배"
-msgstr[1] "방배"
 
 #: client/gui-sdl/helpdlg.c:750 client/gui-sdl/helpdlg.c:773
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] "시민"
-msgstr[1] "시민"
 
 #: client/gui-sdl/helpdlg.c:763
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "식량"
-msgstr[1] "식량"
 
 #: client/gui-sdl/helpdlg.c:768
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "금화"
-msgstr[1] "금화"
 
 #: client/gui-sdl/helpdlg.c:1012
 msgid "( with "
@@ -6328,7 +6295,6 @@ msgid_plural ""
 "\n"
 "%s territory (%d turn ceasefire)"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-sdl/mapview.c:583
 #, c-format
@@ -6813,14 +6779,12 @@ msgstr "목표 설정 :"
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "단계"
-msgstr[1] "단계"
 
 #: client/gui-sdl/repodlgs.c:3400 client/gui-xaw/repodlgs.c:1177
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-sdl/repodlgs.c:3406 client/gui-xaw/repodlgs.c:1183
 msgid "Final Report:"
@@ -6878,9 +6842,6 @@ msgid_plural ""
 "%s\n"
 "%d gold per turn"
 msgstr[0] ""
-"%s\n"
-"매턴당 %d금"
-msgstr[1] ""
 "%s\n"
 "매턴당 %d금"
 
@@ -6969,7 +6930,6 @@ msgstr ""
 msgid "%d gold per turn"
 msgid_plural "%d gold per turn"
 msgstr[0] "한턴당 금화 %d"
-msgstr[1] "한턴당 금화 %d"
 
 #: client/gui-sdl/wldlg.c:1434
 #, c-format
@@ -7450,7 +7410,6 @@ msgstr "조종가능한 구역"
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/gui-xaw/plrdlg.c:359
 msgid "You need an embassy to establish a diplomatic meeting."
@@ -7869,7 +7828,6 @@ msgstr ""
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:1409
 msgid "* Must stay next to coast.\n"
@@ -8128,7 +8086,6 @@ msgstr ""
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:1684
@@ -8136,7 +8093,6 @@ msgstr[1] ""
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:1731
 #, c-format
@@ -8152,7 +8108,6 @@ msgid_plural ""
 "To reach %s you need to obtain %d other technologies first. The whole "
 "project will require %d bulbs to complete."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:1748
 msgid "You cannot research this technology."
@@ -8306,7 +8261,6 @@ msgid_plural ""
 "* Military units away from home and field units will each cause %d citizens "
 "to become unhappy.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:2171
 #, c-format
@@ -8317,7 +8271,6 @@ msgid_plural ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by units.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:2180
 #, c-format
@@ -8328,7 +8281,6 @@ msgid_plural ""
 "* Each of your cities will avoid %d unhappiness, including unhappiness "
 "caused by units.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #: client/helpdata.c:2191
@@ -8406,14 +8358,12 @@ msgid_plural ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:2271
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/helpdata.c:2281
 msgid "* You may grow your cities by means of celebrations."
@@ -9957,7 +9907,6 @@ msgstr "%s의 땅 (%s)"
 msgid "Territory of %s (%s) (%d turn cease-fire)"
 msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
@@ -9983,7 +9932,6 @@ msgstr "도시: %s | %s (%s)"
 msgid "City: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] "도시: %s | %s (%s, 정전 %d턴)"
-msgstr[1] "도시: %s | %s (%s, 정전 %d턴)"
 
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
@@ -9997,7 +9945,6 @@ msgstr "도시: %s | %s (%s, %s)"
 msgid " | Occupied with %d unit."
 msgid_plural " | Occupied with %d units."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/text.c:252 client/text.c:258
 msgid " | Not occupied."
@@ -10051,7 +9998,6 @@ msgstr "부대: %s | %s (%s)"
 msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] "부대: %s | %s (%s, 정전 %d턴)"
-msgstr[1] "부대: %s | %s (%s, 정전 %d턴)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:364
@@ -10113,14 +10059,12 @@ msgstr "진보: 연구 안 함"
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] "진보: 매진보당 %d턴"
-msgstr[1] "진보: 매진보당 %d턴"
 
 #: client/text.c:762
 #, fuzzy, c-format
 msgid "Progress: %d turn/advance loss"
 msgid_plural "Progress: %d turns/advance loss"
 msgstr[0] "진보: 매진보당 %d턴"
-msgstr[1] "진보: 매진보당 %d턴"
 
 #: client/text.c:767
 #, fuzzy
@@ -10133,7 +10077,6 @@ msgstr "진보: 연구 안 함"
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
 msgstr[0] "매턴당 %d전구"
-msgstr[1] "매턴당 %d전구"
 
 #. TRANS: This is appended to "%d bulb/turn" text
 #: client/text.c:776
@@ -10141,7 +10084,6 @@ msgstr[1] "매턴당 %d전구"
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ", 팀에서 매턴당 %d전구"
-msgstr[1] ", 팀에서 매턴당 %d전구"
 
 #: client/text.c:783
 #, c-format
@@ -10164,7 +10106,6 @@ msgstr "%d/- (진보 없음)"
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] "%d/%d (%d 턴)"
-msgstr[1] "%d/%d (%d 턴)"
 
 #: client/text.c:833
 #, c-format
@@ -10176,14 +10117,12 @@ msgstr "%d/%d (진보 없음)"
 msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] "%d 단계"
-msgstr[1] "%d 단계"
 
 #: client/text.c:872
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] "%d 전구"
-msgstr[1] "%d 전구"
 
 #: client/text.c:898
 #, c-format
@@ -10279,7 +10218,6 @@ msgstr "핵 겨울이 일어났습니다!"
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d 부대"
-msgstr[1] "%d 부대"
 
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:1056
@@ -10301,7 +10239,6 @@ msgstr ""
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d부대 선택됨"
-msgstr[1] "%d부대 선택됨"
 
 #: client/text.c:1152
 #, c-format
@@ -10334,7 +10271,6 @@ msgstr "이 부대를 업그레이드 할수 없습니다!"
 msgid "Upgrade %d unit"
 msgid_plural "Upgrade %d units"
 msgstr[0] "부대업그레이드"
-msgstr[1] "부대업그레이드"
 
 #. TRANS: This is complicated. The first %s is a pre-pluralised
 #. * sentence fragment "Upgrade %d unit(s)"; the second is pre-pluralised
@@ -10349,7 +10285,6 @@ msgid_plural ""
 "%s for %d gold?\n"
 "%s"
 msgstr[0] "%s(을)를 %d의 금으로 팔겠습니까?"
-msgstr[1] "%s(을)를 %d의 금으로 팔겠습니까?"
 
 #: client/text.c:1253
 msgid "Shows your progress in researching the current technology."
@@ -10426,7 +10361,6 @@ msgstr "에너지 :         %5d %%"
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "질량 :           %5d 톤"
-msgstr[1] "질량 :           %5d 톤"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1396
@@ -10536,7 +10470,6 @@ msgstr ""
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: 0-21 unhappy citizen(s).
 #: client/text.c:1676
@@ -10544,7 +10477,6 @@ msgstr[1] ""
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/text.c:1699
 msgid "Unlimited martial law in effect."
@@ -10555,14 +10487,12 @@ msgstr ""
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/text.c:1705
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] ""
-msgstr[1] ""
 
 #: client/text.c:1712
 msgid "Military units in the field may cause unhappiness. "
@@ -11699,9 +11629,6 @@ msgid_plural ""
 msgstr[0] ""
 "%s에서 %s(으)로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
 "%d의 금을 자금으로 갖고 있습니다."
-msgstr[1] ""
-"%s에서 %s(으)로 %d의 금이 필요한데 업그레이드 하시겠습니까?\n"
-"%d의 금을 자금으로 갖고 있습니다."
 
 #: common/unit.c:1894
 #, c-format
@@ -11718,9 +11645,6 @@ msgid_plural ""
 "Upgrading %s to %s costs %d gold.\n"
 "%s"
 msgstr[0] ""
-"%s에서 %s(으)로 %d의 금을 소비하여 업그레이드 합니다.\n"
-"%d의 금을 자금으로 갖고 있습니다."
-msgstr[1] ""
 "%s에서 %s(으)로 %d의 금을 소비하여 업그레이드 합니다.\n"
 "%d의 금을 자금으로 갖고 있습니다."
 
@@ -17048,7 +16972,6 @@ msgstr "켈트 형"
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
 msgstr[0] "%d금을 찾았습니다."
-msgstr[1] "%d금을 찾았습니다."
 
 #: data/default/default.lua:35 data/multiplayer/default.lua:35
 #, c-format
@@ -20879,7 +20802,7 @@ msgstr "화물 부대는 캐러밴에서 대체됬고, 2배의 속도로 움직�
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
-msgstr "아브하지아"
+msgstr "아브하지아인"
 
 #: data/nation/abkhaz.ruleset:4
 msgid "?plural:Abkhazians"
@@ -20960,7 +20883,7 @@ msgstr "지도자"
 
 #: data/nation/abyssinian.ruleset:3
 msgid "Abyssinian"
-msgstr "아비시니아"
+msgstr "아비시니아인"
 
 #: data/nation/abyssinian.ruleset:4
 msgid "?plural:Abyssinians"
@@ -20977,7 +20900,7 @@ msgstr ""
 
 #: data/nation/acadian.ruleset:3
 msgid "Acadian"
-msgstr "아카디안"
+msgstr "아카디안인"
 
 #: data/nation/acadian.ruleset:4
 msgid "?plural:Acadians"
@@ -21050,7 +20973,7 @@ msgstr "수녀원장"
 
 #: data/nation/acehnese.ruleset:3
 msgid "Acehnese"
-msgstr "아체"
+msgstr "아체인"
 
 #: data/nation/acehnese.ruleset:4
 msgid "?plural:Acehnese"
@@ -21114,7 +21037,7 @@ msgstr "집정관"
 
 #: data/nation/acrean.ruleset:3
 msgid "Acrean"
-msgstr "아크리"
+msgstr "아크리인"
 
 #: data/nation/acrean.ruleset:4
 msgid "?plural:Acreans"
@@ -21163,11 +21086,11 @@ msgstr "드문"
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "아프가니스탄"
+msgstr "아프가니스탄인"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr "아프가니스탄 사람"
+msgstr "아프가니스탄인"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -21177,6 +21100,10 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
+"보통 중앙아시아의 교차로라고 불리는, 아프가니스탄은 매우 격변의 역사를 가지고 있습니다. "
+"대대로, 그 나라는 페르시안 제국, 칭기즈칸 그리고 알렉산더 대왕을 포함하여 많은 세력에게 "
+"점령되었습니다. 오늘날 알려진 아프가니스탄 민족 국가는 1746년 아흐매드 샤(Ahmad Shah)가 "
+"더라니 제국(Durrani Empire)을 세울 떄 생겨났습니다."
 
 #: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bahraini.ruleset:27 data/nation/bashkir.ruleset:25
@@ -21239,44 +21166,43 @@ msgid "?female:Mullah %s"
 msgstr "동무"
 
 #: data/nation/african.ruleset:3
-#, fuzzy
 msgid "African"
-msgstr "미국"
+msgstr "아프리칸인"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:African"
-msgstr "미국 사람"
+msgstr "아프리칸인"
 
 #: data/nation/african.ruleset:6
 msgid ""
 "Africa: the cradle of humanity. It is the worlds second largest continent "
 "and also its second most populous."
 msgstr ""
+"아프리카: 인류의 발상지. 이것은 세계에서 두번째로 가장 넓은 대륙이며 또한 "
+"두번째로 가장 인구가 많습니다."
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr ""
+msgstr "아이누 사람"
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
-msgstr "핀란드 사람"
+msgstr "아이누 사람"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
 "The Ainu are the indigenous people of northern Japan, the Kuril islands, "
 "Sakhalin, and the southern part of the Kamchatka peninsula."
 msgstr ""
+"아이누 사람은 일본 북부,쿠릴 열도, 사할린 섬, 그리고 캄차카 반도의 남부의 토착민입니다."
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr ""
+msgstr "악위 사람"
 
 #: data/nation/akwe.ruleset:4
-#, fuzzy
 msgid "?plural:Akwe"
-msgstr "아즈텍 사람"
+msgstr "악위 사람"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -21288,6 +21214,11 @@ msgid ""
 "in large ring villages since about the 9th century AD. They are Ge speakers "
 "who farm maize, manioc, sweet potatoes and yams."
 msgstr ""
+"악위(Akwe) 사람은 또한 포루투갈어로 Xavante, Xakriaba 그리고 Xerente로 세가지 다른 "
+"이름으로 알려져 있습니다. 비록 그들이 역사를 통해서 여러 차례 브라질 사람에게 이주하도록 "
+"강요받았지만, 부계의 씨족 체제를 가지고 브라질의 마토 그로소 고원과 토간틴스 강에서 거주합니다. "
+"전통적으로, 그들은 대략 서기 9세기 이후에 큰 고리 마을에서 살았을 것 같고, 족장을 선출하는 장로 의회에 "
+"의해 지배받았습니다. 그들은 옥수수, 매니악(manioc), 고구마 그리고 얌을 경작하는 장로 의장입니다."
 
 #: data/nation/alandalus.ruleset:3
 msgid "Andalusi"
@@ -32656,7 +32587,6 @@ msgstr "이번 턴에서 당신은 이미 무엇을 팔았습니다"
 msgid "You sell %s in %s for %d gold."
 msgid_plural "You sell %s in %s for %d gold."
 msgstr[0] "당신은 %s을 %s안에 있는, 금%d에 팔았습니다"
-msgstr[1] "당신은 %s을 %s안에 있는, 금%d에 팔았습니다"
 
 #: server/cityhand.c:317
 msgid "Cannot buy in city created this turn."
@@ -32682,7 +32612,6 @@ msgstr "도시가 무질서일때는 부대를 살수 없습니다"
 msgid "%d gold required."
 msgid_plural "%d gold required."
 msgstr[0] "한턴당 금화 %d"
-msgstr[1] "한턴당 금화 %d"
 
 #. TRANS: %s is a pre-pluralised string:
 #. * "%d gold required."
@@ -32691,7 +32620,6 @@ msgstr[1] "한턴당 금화 %d"
 msgid "%s You only have %d gold."
 msgid_plural "%s You only have %d gold."
 msgstr[0] "%d 의 돈이 필요합니다. 당신은 오직 %d의 금을 가지고 있군요"
-msgstr[1] "%d 의 돈이 필요합니다. 당신은 오직 %d의 금을 가지고 있군요"
 
 #. TRANS: bought an unit.
 #. TRANS: bought an improvement .
@@ -32813,14 +32741,12 @@ msgstr "%s는 %s에 의해 파괴되었습니다."
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/citytools.c:1629
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/citytools.c:1638
 #, fuzzy, c-format
@@ -32837,14 +32763,12 @@ msgstr "%s 가 %s를 정복했습니다"
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/citytools.c:1655
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/citytools.c:1664
 #, c-format
@@ -32871,7 +32795,6 @@ msgstr "%s는 %s%s를 건설하고 있습니다"
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/citytools.c:2735
 #, fuzzy, c-format
@@ -33071,7 +32994,6 @@ msgstr ""
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/cityturn.c:1548 server/techtools.c:173
 #, c-format
@@ -34445,7 +34367,6 @@ msgstr "충분한 금이 없으므로 조약을 받아들일 수 없습니다"
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/diplhand.c:319 server/diplhand.c:323
 #, c-format
@@ -34487,7 +34408,6 @@ msgstr ""
 msgid "You get %d gold."
 msgid_plural "You get %d gold."
 msgstr[0] "%d의 금을 얻었습니다"
-msgstr[1] "%d의 금을 얻었습니다"
 
 #. TRANS: ... Polish worldmap.
 #: server/diplhand.c:458
@@ -34526,7 +34446,6 @@ msgid_plural ""
 "You agree on an armistice with the %s. In %d turns, it will become a peace "
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/diplhand.c:553 server/diplhand.c:556
 #, c-format
@@ -35377,7 +35296,6 @@ msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/plrhand.c:352
 msgid "Revolution: returning to anarchy."
@@ -35527,7 +35445,6 @@ msgstr ""
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/plrhand.c:2301
 #, c-format
@@ -35751,7 +35668,6 @@ msgstr "불가사의 없음\n"
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] "불가사의 %d\n"
-msgstr[1] "불가사의 %d\n"
 
 #: server/report.c:369 server/report.c:443
 msgid "Traveler's Report:"
@@ -35794,7 +35710,6 @@ msgstr ""
 msgid " sq. mi."
 msgid_plural " sq. mi."
 msgstr[0] "제곱 마일"
-msgstr[1] "제곱 마일"
 
 #. TRANS: "M tons" = million tons, so always plural
 #: server/report.c:812
@@ -35802,7 +35717,6 @@ msgstr[1] "제곱 마일"
 msgid " M tons"
 msgid_plural " M tons"
 msgstr[0] "백만 톤"
-msgstr[1] "백만 톤"
 
 #. TRANS: "M goods" = million goods, so always plural
 #: server/report.c:822
@@ -35810,26 +35724,22 @@ msgstr[1] "백만 톤"
 msgid " M goods"
 msgid_plural " M goods"
 msgstr[0] "백만 상품"
-msgstr[1] "백만 상품"
 
 #: server/report.c:831
 #, fuzzy
 msgid " bulb"
 msgid_plural " bulbs"
 msgstr[0] "전구"
-msgstr[1] "전구"
 
 #: server/report.c:840
 msgid " month"
 msgid_plural " months"
 msgstr[0] "개월"
-msgstr[1] "개월"
 
 #: server/report.c:849
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] "톤"
-msgstr[1] "톤"
 
 #: server/report.c:881
 #, c-format
@@ -38853,7 +38763,6 @@ msgstr ""
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/stdinhand.c:2459
 msgid "Value must be an integer."
@@ -39035,7 +38944,6 @@ msgid_plural ""
 "You cannot take a new player because the maximum of %d players has already "
 "been reached (maxplayers setting)."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/stdinhand.c:3039
 msgid "You cannot take a new player because there are no free player slots."
@@ -39810,7 +39718,6 @@ msgstr ""
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " 접속수 %d개:"
-msgstr[1] " 접속수 %d개:"
 
 #: server/stdinhand.c:6119
 #, c-format
@@ -39835,7 +39742,6 @@ msgstr "팀의 목록:"
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : 사용자 %d명"
-msgstr[1] "%2d : '%s' : 사용자 %d명"
 
 #: server/stdinhand.c:6192
 msgid "List of map image definitions:"
@@ -39985,7 +39891,6 @@ msgstr ""
 msgid "%d %s upgraded to %s for %d gold."
 msgid_plural "%d %s upgraded to %s for %d gold."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/unithand.c:160
 msgid "No units could be upgraded."
@@ -39996,7 +39901,6 @@ msgstr ""
 msgid "%s upgraded to %s for %d gold."
 msgid_plural "%s upgraded to %s for %d gold."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/unithand.c:217
 #, fuzzy, c-format
@@ -40227,7 +40131,6 @@ msgid_plural ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/unithand.c:1757
 #, fuzzy, c-format
@@ -40317,7 +40220,6 @@ msgstr ""
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1751
@@ -40338,7 +40240,6 @@ msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -40362,7 +40263,6 @@ msgstr ""
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
 msgstr[0] ""
-msgstr[1] ""
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -40372,7 +40272,6 @@ msgstr[1] ""
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] ""
-msgstr[1] ""
 
 #: server/unittools.c:2175
 #, c-format
@@ -40708,14 +40607,12 @@ msgstr "로그파일을 읽을수 없습니다: %s for appending \"%s\".\n"
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
 msgstr[0] "마지막 메세지는 %d 번 반복되었습니다"
-msgstr[1] "마지막 메세지는 %d 번 반복되었습니다"
 
 #: utility/log.c:426 utility/log.c:446
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] "(전체 %d번 반복)"
-msgstr[1] "(전체 %d번 반복)"
 
 #: utility/netfile.c:60
 #, fuzzy, c-format
@@ -40823,28 +40720,24 @@ msgstr "맞지 않습니다"
 msgid "day"
 msgid_plural "days"
 msgstr[0] "5월"
-msgstr[1] "5월"
 
 #: utility/shared.c:1894
 #, fuzzy
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "또는"
-msgstr[1] "또는"
 
 #: utility/shared.c:1900
 #, fuzzy
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "해병"
-msgstr[1] "해병"
 
 #: utility/shared.c:1906
 #, fuzzy
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "기록"
-msgstr[1] "기록"
 
 #: utility/support.c:417
 #, c-format
@@ -41127,9 +41020,6 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #~ msgstr[0] ""
 #~ "%d부대를 %d의 금으로 업그레이드 하시겠습니까?\n"
 #~ "%d의 금을 자금으로 갖고 있습니다."
-#~ msgstr[1] ""
-#~ "%d부대를 %d의 금으로 업그레이드 하시겠습니까?\n"
-#~ "%d의 금을 자금으로 갖고 있습니다."
 
 #~ msgid ""
 #~ "Buy %s for %d gold?\n"
@@ -41336,7 +41226,6 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #~ msgid "(%d step)"
 #~ msgid_plural "(%d steps)"
 #~ msgstr[0] "(%d 단계)"
-#~ msgstr[1] "(%d 단계)"
 
 #~ msgid "Trade Report"
 #~ msgstr "무역 보고"
@@ -42033,7 +41922,6 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #~ msgid "%2d : '%s' : %d player"
 #~ msgid_plural "%2d : '%s' : %d players"
 #~ msgstr[0] "%2d : '%s' : 사용자 %d명"
-#~ msgstr[1] "%2d : '%s' : 사용자 %d명"
 
 #~ msgid "%2d : '%s' : 1 player : %s"
 #~ msgstr "%2d : '%s' : 사용자 1명 : %s"
@@ -43315,7 +43203,6 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #~ msgid "%s (%d) %d turn"
 #~ msgid_plural "%s (%d) %d turns"
 #~ msgstr[0] "%s (%d) %d 턴"
-#~ msgstr[1] "%s (%d) %d 턴"
 
 #~ msgid "novice"
 #~ msgstr "초보"
