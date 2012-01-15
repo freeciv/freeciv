@@ -1342,10 +1342,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
             canvas_width, canvas_height);
 
-  pdialog->shell = gtk_dialog_new_with_buttons(city_name(pcity),
-	NULL,
-  	0,
-	NULL);
+  pdialog->shell = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name(pcity));
   setup_dialog(pdialog->shell, toplevel);
   gtk_window_set_role(GTK_WINDOW(pdialog->shell), "city");
 
