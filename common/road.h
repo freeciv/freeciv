@@ -23,9 +23,8 @@ struct road_type {
   int move_cost;
   enum unit_activity act;
   enum tile_special_type special;
-  enum tile_special_type sreq;
-  enum tech_flag_id treq;
 
+  struct requirement_vector reqs;
   bv_unit_classes native_to;
 };
 

@@ -1803,14 +1803,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                  astr_str(&astr));
   }
 
-  if (advance_has_flag(i, TF_RAILROAD)
-      && role_units_translations(&astr, F_SETTLERS, FALSE)) {
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: %s is list of units separated by "and". */
-                 _("* Allows %s to upgrade roads to railroads.\n"),
-                 astr_str(&astr));
-  }
-
   if (advance_has_flag(i, TF_FARMLAND)
       && role_units_translations(&astr, F_SETTLERS, FALSE)) {
     cat_snprintf(buf, bufsz,

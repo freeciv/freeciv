@@ -1112,8 +1112,20 @@ static bool is_activity_on_tile(struct tile *ptile,
 **************************************************************************/
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
 {
-  struct player *pplayer = unit_owner(punit);
-  struct terrain *pterrain = tile_terrain(unit_tile(punit));
+  struct tile *ptile = unit_tile(punit);
+  struct terrain *pterrain = tile_terrain(ptile);
+  struct road_type *proad = NULL;
+
+  switch (activity) {
+   case ACTIVITY_ROAD:
+     proad = road_type_by_eroad(ROAD_ROAD);
+     break;
+   case ACTIVITY_RAILROAD:
+     proad = road_type_by_eroad(ROAD_RAILROAD);
+     break;
+   default:
+     break;
+  }
 
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that
@@ -1124,28 +1136,18 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
    *     (b) it can be done by the unit at this tile. */
   switch (activity) {
   case ACTIVITY_ROAD:
-    return terrain_control.may_road
-      && unit_has_type_flag(punit, F_SETTLERS)
-      && (tile_has_special(unit_tile(punit), S_ROAD)
-	  || (pterrain->road_time != 0
-	      && (!tile_has_special(unit_tile(punit), S_RIVER)
-		  || player_knows_techs_with_flag(pplayer, TF_BRIDGE))));
   case ACTIVITY_RAILROAD:
-    /* There is no check for existing road/rail; the connect is allowed
-     * regardless. It is assumed that if you know the TF_RAILROAD flag
-     * you must also know the TF_BRIDGE flag. */
-    return (terrain_control.may_road
-	    && unit_has_type_flag(punit, F_SETTLERS)
-	    && player_knows_techs_with_flag(pplayer, TF_RAILROAD));
+    return tile_has_road(ptile, proad)
+      || can_build_road(proad, punit, ptile);
   case ACTIVITY_IRRIGATE:
     /* Special case for irrigation: only irrigate to make S_IRRIGATION,
      * never to transform tiles. */
     return (terrain_control.may_irrigate
             && unit_has_type_flag(punit, F_SETTLERS)
-            && (tile_has_special(unit_tile(punit), S_IRRIGATION)
+            && (tile_has_special(ptile, S_IRRIGATION)
                 || (pterrain == pterrain->irrigation_result
-                    && can_be_irrigated(unit_tile(punit), punit)
-                    && !is_activity_on_tile(unit_tile(punit),
+                    && can_be_irrigated(ptile, punit)
+                    && !is_activity_on_tile(ptile,
                                             ACTIVITY_MINE))));
   default:
     break;

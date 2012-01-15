@@ -29,9 +29,8 @@
 
 static struct road_type roads[ROAD_LAST] =
   {
-    { ROAD_ROAD, {}, SINGLE_MOVE, ACTIVITY_ROAD, S_ROAD, S_LAST, TF_COUNT },
-    { ROAD_RAILROAD, {}, SINGLE_MOVE, ACTIVITY_RAILROAD, S_RAILROAD,
-      S_ROAD, TF_RAILROAD }
+    { ROAD_ROAD, {}, SINGLE_MOVE, ACTIVITY_ROAD, S_ROAD },
+    { ROAD_RAILROAD, {}, SINGLE_MOVE, ACTIVITY_RAILROAD, S_RAILROAD }
   };
 
 /**************************************************************************
@@ -166,15 +165,15 @@ bool is_native_road_to_uclass(const struct road_type *proad,
 /****************************************************************************
   Tells if player can build road to tile with suitable unit.
 ****************************************************************************/
-bool player_can_build_road(struct road_type *road,
-			   const struct player *pplayer,
-			   const struct tile *ptile)
+static bool can_build_road_base(const struct road_type *road,
+                                const struct player *pplayer,
+                                const struct tile *ptile)
 {
   if (!terrain_control.may_road) {
     return FALSE;
   }
 
-  if (tile_has_special(ptile, road_special(road))) {
+  if (tile_has_road(ptile, road)) {
     /* Road exist already */
     return FALSE;
   }
@@ -188,19 +187,23 @@ bool player_can_build_road(struct road_type *road,
     return FALSE;
   }
 
-  if (road->sreq != S_LAST) {
-    if (!tile_has_special(ptile, road->sreq)) {
-      return FALSE;
-    }
-  }
-
-  if (road->treq != TF_COUNT) {
-    if (!player_knows_techs_with_flag(pplayer, road->treq)) {
-      return FALSE;
-    }
-  }
-
   return TRUE;
+}
+
+/****************************************************************************
+  Tells if player can build road to tile with suitable unit.
+****************************************************************************/
+bool player_can_build_road(struct road_type *road,
+                           const struct player *pplayer,
+                           const struct tile *ptile)
+{
+  if (!can_build_road_base(road, pplayer, ptile)) {
+    return FALSE;
+  }
+
+  return are_reqs_active(pplayer, NULL, NULL, ptile,
+                         NULL, NULL, NULL, &road->reqs,
+                         RPT_POSSIBLE);
 }
 
 /****************************************************************************
@@ -212,15 +215,13 @@ bool can_build_road(struct road_type *road,
 {
   struct player *pplayer = unit_owner(punit);
 
-  if (!player_can_build_road(road, pplayer, ptile)) {
+  if (!can_build_road_base(road, pplayer, ptile)) {
     return FALSE;
   }
 
-  if (!unit_has_type_flag(punit, F_SETTLERS)) {
-    return FALSE;
-  }
-
-  return TRUE;
+  return are_reqs_active(pplayer, NULL, NULL, ptile,
+                         unit_type(punit), NULL, NULL, &road->reqs,
+                         RPT_CERTAIN);
 }
 
 /****************************************************************************

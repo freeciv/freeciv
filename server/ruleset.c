@@ -2350,11 +2350,15 @@ static void load_ruleset_terrain(struct section_file *file)
   road_type_iterate(proad) {
     const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
     const char **slist;
+    struct requirement_vector *reqs;
 
     if (!secfile_lookup_int(file, &proad->move_cost,
                             "%s.move_cost", section)) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
+
+    reqs = lookup_req_list(file, section, "reqs", road_rule_name(proad));
+    requirement_vector_copy(&proad->reqs, reqs);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
     BV_CLR_ALL(proad->native_to);
@@ -4037,12 +4041,20 @@ static void send_ruleset_roads(struct conn_list *dest)
   struct packet_ruleset_road packet;
 
   road_type_iterate(r) {
+    int j;
+
     packet.id = road_number(r);
 
     sz_strlcpy(packet.name, untranslated_name(&r->name));
     sz_strlcpy(packet.rule_name, rule_name(&r->name));
 
     packet.move_cost = r->move_cost;
+
+    j = 0;
+    requirement_vector_iterate(&r->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
 
     packet.native_to = r->native_to;
 
@@ -4783,7 +4795,16 @@ static bool sanity_check_ruleset_data(void)
       ruleset_error(LOG_FATAL, "Bases have conflicting requirements!");
       ok = FALSE;
     }
-  } base_type_iterate_end
+  } base_type_iterate_end;
+
+  /* Roads */
+  road_type_iterate(proad) {
+    if (!sanity_check_req_vec(&proad->reqs, -1,
+                              road_rule_name(proad))) {
+      ruleset_error(LOG_FATAL, "Roads have conflicting requirements!");
+      ok = FALSE;
+    }
+  } road_type_iterate_end;
 
   /* City styles */
   for (i = 0; i < game.control.styles_count; i++) {

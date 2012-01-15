@@ -294,7 +294,6 @@ int settler_evaluate_improvements(struct unit *punit,
   int best_oldv = 9999; /* oldv of best target so far; compared if
                          * newv == best_newv; not initialized to zero,
                          * so that newv = 0 activities are not chosen. */
-  bool can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
   int best_newv = 0;
 
   /* closest worker, if any, headed towards target tile */
@@ -376,25 +375,39 @@ int settler_evaluate_improvements(struct unit *punit,
               time = pos.turn + get_turns_for_activity_at(punit, act, ptile);
 
               if (act == ACTIVITY_ROAD) {
+                struct road_type *proad = road_type_by_eroad(ROAD_ROAD);
+                struct road_type *prail = road_type_by_eroad(ROAD_RAILROAD);
+
                 extra = road_bonus(ptile, S_ROAD) * 5;
-                if (can_rr) {
-                  /* If we can make railroads eventually, consider making
-                   * road here, and set extras and time to to consider
-                   * railroads in main consider_settler_action call. */
-                  consider_settler_action(pplayer, act, extra, base_value,
-                                          oldv, in_use, time,
-                                          &best_newv, &best_oldv,
-                                          best_act, best_tile, ptile);
 
-                  base_value = adv_city_worker_act_get(pcity, cindex,
-                                                       ACTIVITY_RAILROAD);
+                if (!can_build_road(prail, punit, ptile)) {
+                  /* Railroad building is not possible without road... */
+                  struct tile *virt = tile_virtual_new(ptile);
 
-                  /* Count road time plus rail time. */
-                  time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
-                                                    ptile);
+                  tile_add_road(virt, proad);
 
-                  /* Bonus for rail connectivity instead of road. */
-                  extra = road_bonus(ptile, S_RAILROAD) * 3;
+                  if (can_build_road(prail, punit, virt)) {
+                    /* ... but is possible with road.
+                     * Consider making
+                     * road here, and set extras and time to to consider
+                     * railroads in main consider_settler_action call. */
+                    consider_settler_action(pplayer, act, extra, base_value,
+                                            oldv, in_use, time,
+                                            &best_newv, &best_oldv,
+                                            best_act, best_tile, ptile);
+
+                    base_value = adv_city_worker_act_get(pcity, cindex,
+                                                         ACTIVITY_RAILROAD);
+
+                    /* Count road time plus rail time. */
+                    time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
+                                                      ptile);
+
+                    /* Bonus for rail connectivity instead of road. */
+                    extra = road_bonus(ptile, S_RAILROAD) * 3;
+                  }
+
+                  tile_virtual_destroy(virt);
                 }
               } else if (act == ACTIVITY_RAILROAD) {
                 extra = road_bonus(ptile, S_RAILROAD) * 3;

@@ -206,9 +206,7 @@ static void update_player_after_tech_researched(struct player* plr,
   remove_obsolete_buildings(plr);
 
   /* Give free bridges or railroads in every city */
-  if (tech_found != A_FUTURE
-      && (advance_has_flag(tech_found, TF_BRIDGE)
-	  || advance_has_flag(tech_found, TF_RAILROAD))) {
+  if (tech_found != A_FUTURE) {
     upgrade_all_city_roads(plr, was_discovery);  
   }
 
@@ -618,18 +616,14 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
   } governments_iterate_end;
 
   /* check all settlers for valid activities */
-  if (advance_has_flag(tech, TF_BRIDGE)
-      || advance_has_flag(tech, TF_RAILROAD)
-      || advance_has_flag(tech, TF_FARMLAND)) {
-    unit_list_iterate(plr->units, punit) {
-      if (!can_unit_continue_current_activity(punit)) {
-        log_debug("lost technology for activity of unit %s of %s (%d, %d)",
-                  unit_name_translation(punit), player_name(plr),
-                  TILE_XY(unit_tile(punit)));
-        set_unit_activity(punit, ACTIVITY_IDLE);
-      }
-    } unit_list_iterate_end;
-  }
+  unit_list_iterate(plr->units, punit) {
+    if (!can_unit_continue_current_activity(punit)) {
+      log_debug("lost technology for activity of unit %s of %s (%d, %d)",
+                unit_name_translation(punit), player_name(plr),
+                TILE_XY(unit_tile(punit)));
+      set_unit_activity(punit, ACTIVITY_IDLE);
+    }
+  } unit_list_iterate_end;
 
   /* check city production */
   city_list_iterate(plr->cities, pcity) {

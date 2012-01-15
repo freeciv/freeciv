@@ -1407,6 +1407,8 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 move_cost;
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BV_UNIT_CLASSES native_to;
 end
 

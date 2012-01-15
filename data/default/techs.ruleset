@@ -49,7 +49,6 @@ options="+Freeciv-ruleset-Devel-2011.Nov.02"
 ;
 ; "Bonus_Tech" = player gets extra tech if rearched first
 ; "Bridge"   = "Settler" unit types can build bridges over rivers
-; "Railroad" = "Settler" unit types can build rail roads
 ; "Farmland" = "Settler" unit types can build farmland
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              population by one
@@ -583,7 +582,7 @@ helptext = _("Allows Workers and Engineers to build airbases and buoys.")
 name     = _("Railroad")
 req1     = "Steam Engine"
 req2     = "Bridge Building"
-flags    = "Railroad"
+flags    = ""
 graphic     = "a.railroad"
 graphic_alt = "-"
 helptext = _("Decreases one-time revenue from new trade routes.")

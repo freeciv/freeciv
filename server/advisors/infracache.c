@@ -331,12 +331,13 @@ static int adv_calc_railroad(const struct city *pcity,
                             const struct tile *ptile)
 {
   int goodness = -1;
+  struct road_type *proad = road_type_by_eroad(ROAD_RAILROAD);
 
   fc_assert_ret_val(ptile != NULL, -1)
 
   if (!is_ocean_tile(ptile)
-      && player_knows_techs_with_flag(city_owner(pcity), TF_RAILROAD)
-      && !tile_has_special(ptile, S_RAILROAD)) {
+      && player_can_build_road(proad, city_owner(pcity), ptile)
+      && !tile_has_road(ptile, proad)) {
     struct tile *vtile = tile_virtual_new(ptile);
     set_special(&vtile->special, S_ROAD);
     set_special(&vtile->special, S_RAILROAD);

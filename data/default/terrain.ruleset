@@ -1038,6 +1038,8 @@ They have no effect on gameplay.\
 ; Current code requires exactly two road definitions
 ;
 ; name                    = translatable name as seen by user
+; reqs                    = requirements to build the road (see effects.ruleset
+;                           and README.effects for help on requirements)
 ; move_cost               = how much movement it takes to to travel
 ;                           via this road. Value of 3 indicates full
 ;                           movement point.
@@ -1048,10 +1050,20 @@ They have no effect on gameplay.\
 
 [road_road]
 name          = _("Road")
+reqs           =
+    { "type", "name", "range"
+      "UnitFlag", "Settlers", "Local"
+    }
 move_cost     = 1
 native_to     = "Land"
 
 [road_railroad]
 name          = _("Railroad")
+reqs           =
+    { "type", "name", "range"
+      "Tech", "Railroad", "Player"
+      "Road", "Road", "Local"
+      "UnitFlag", "Settlers", "Local"
+    }
 move_cost     = 0
 native_to     = "Land"

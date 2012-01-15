@@ -3078,12 +3078,18 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
 void handle_ruleset_road(const struct packet_ruleset_road *p)
 {
   struct road_type *proad = road_by_number(p->id);
+  int i;
 
   fc_assert_ret_msg(NULL != proad, "Bad road %d.", p->id);
 
   names_set(&proad->name, p->name, p->rule_name);
 
   proad->move_cost = p->move_cost;
+
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&proad->reqs, p->reqs[i]);
+  }
+  fc_assert(proad->reqs.size == p->reqs_count);
 
   proad->native_to = p->native_to;
 }
