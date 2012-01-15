@@ -251,8 +251,8 @@ static struct unit_select_dialog *usdlg_create(void)
   pdialog->ptile = NULL;
 
   /* Create the dialog. */
-  pdialog->shell = gtk_dialog_new_with_buttons(_("Unit selection"), NULL, 0,
-                                               NULL);
+  pdialog->shell = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(pdialog->shell), _("Unit selection"));
   setup_dialog(pdialog->shell, toplevel);
   g_signal_connect(pdialog->shell, "destroy",
                    G_CALLBACK(usdlg_destroy_callback), pdialog);

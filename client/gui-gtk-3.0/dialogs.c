@@ -186,10 +186,8 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 {
   GtkWidget *shell, *label, *goto_command, *popcity_command;
   
-  shell = gtk_dialog_new_with_buttons(headline,
-        NULL,
-        0,
-        NULL);
+  shell = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(shell), headline);
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -235,10 +233,8 @@ void popup_connect_msg(const char *headline, const char *message)
 {
   GtkWidget *shell, *label;
   
-  shell = gtk_dialog_new_with_buttons(headline,
-        NULL,
-        0,
-        NULL);
+  shell = gtk_dialog_new();
+  gtk_window_set_title(GTK_WINDOW(shell), headline);
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
