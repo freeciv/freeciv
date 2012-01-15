@@ -125,7 +125,7 @@ bool load_ai_module(const char *modname)
 void ai_init(void)
 {
   bool failure = FALSE;
-#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_DEFAULT) || defined(AI_MOD_STATIC_THREADED)
+#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_THREADED)
   /* First !defined(AI_MODULES) case is for default ai support. */
   struct ai_type *ai;
 #endif
@@ -156,21 +156,21 @@ void ai_init(void)
   }
 #endif /* AI_MODULES */
 
-#if defined(AI_MODULES) && !defined(AI_MOD_STATIC_DEFAULT)
+#if defined(AI_MODULES) && !defined(AI_MOD_STATIC_CLASSIC)
 
-  if (!failure && !load_ai_module("default")) {
+  if (!failure && !load_ai_module("classic")) {
     failure = TRUE;
   }
 
-#else  /* AI_MOD_STATIC_DEFAULT */
+#else  /* AI_MOD_STATIC_CLASSIC */
 
   ai = ai_type_alloc();
   init_ai(ai);
-  if (!fc_ai_default_setup(ai)) {
+  if (!fc_ai_classic_setup(ai)) {
     failure = TRUE;
   }
 
-#endif /* AI_MOD_STATIC_DEFAULT */
+#endif /* AI_MOD_STATIC_CLASSIC */
 
   if (failure) {
     log_fatal(_("Failed to setup default ai module, cannot continue."));

@@ -110,10 +110,10 @@ libfreeciv_srv_la_SOURCES = \
 da_libs =
 
 if !AI_MODULES
-da_libs += $(top_builddir)/ai/default/libdefaultai.la
+da_libs += $(top_builddir)/ai/default/libclassicai.la
 else
-if AI_MOD_STATIC_DEFAULT
-da_libs += $(top_builddir)/ai/default/libdefaultai.la
+if AI_MOD_STATIC_CLASSIC
+da_libs += $(top_builddir)/ai/default/libclassicai.la
 endif
 endif
 if AI_MOD_STATIC_THREADED

@@ -44,12 +44,12 @@
 
 /* This function is only needed as symbol in module. Nevertheless
    gcc requires that there is prior prototype. */
-const char *fc_ai_default_capstr(void);
+const char *fc_ai_classic_capstr(void);
 
 /**************************************************************************
   Return module capability string
 **************************************************************************/
-const char *fc_ai_default_capstr(void)
+const char *fc_ai_classic_capstr(void)
 {
   return FC_AI_MOD_CAPSTR;
 }
@@ -57,11 +57,11 @@ const char *fc_ai_default_capstr(void)
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
-bool fc_ai_default_setup(struct ai_type *ai)
+bool fc_ai_classic_setup(struct ai_type *ai)
 {
   default_ai_set_self(ai);
 
-  strncpy(ai->name, "default", sizeof(ai->name));
+  strncpy(ai->name, "classic", sizeof(ai->name));
 
   /* ai->funcs.game_free = NULL; */
 

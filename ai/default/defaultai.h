@@ -15,6 +15,6 @@
 
 struct ai_type;
 
-bool fc_ai_default_setup(struct ai_type *ai);
+bool fc_ai_classic_setup(struct ai_type *ai);
 
 #endif /* FC__DEFAULTAI_H */

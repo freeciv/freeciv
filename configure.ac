@@ -357,16 +357,16 @@ AM_CONDITIONAL(EXP_AI_MODULES, test "x$exp_aimodules" = "xyes")
 AC_ARG_ENABLE([ai-static],
 [  --enable-ai-static     statically link listed modules to server],
 [static_modules="${enableval}"],
-[static_modules="default"])
+[static_modules="classic"])
 
-ai_mod_static_default=no
+ai_mod_static_classic=no
 ai_mod_static_threaded=no
 
 for module in $(echo $static_modules | $SED 's/,/ /g') ; do
-  if test "x$module" = "xdefault" ; then
-    ai_mod_static_default=yes
-    AC_DEFINE([AI_MOD_STATIC_DEFAULT], [1],
-              [Default ai module statically linked])
+  if test "x$module" = "xclassic" ; then
+    ai_mod_static_classic=yes
+    AC_DEFINE([AI_MOD_STATIC_CLASSIC], [1],
+              [classic ai module statically linked])
   elif test "x$module" = "xthreaded" ; then
     ai_mod_static_threaded=yes
     AC_DEFINE([AI_MOD_STATIC_THREADED], [1],
@@ -375,8 +375,8 @@ for module in $(echo $static_modules | $SED 's/,/ /g') ; do
     AC_MSG_ERROR([bad value ${module} for --enable-ai-static])
   fi
 done
-AM_CONDITIONAL([AI_MOD_STATIC_DEFAULT],
-[test "x$ai_mod_static_default" = "xyes" || test "x$enable_aimodules" != "xyes"])
+AM_CONDITIONAL([AI_MOD_STATIC_CLASSIC],
+[test "x$ai_mod_static_classic" = "xyes" || test "x$enable_aimodules" != "xyes"])
 AM_CONDITIONAL([AI_MOD_STATIC_THREADED],
 [test "x$ai_mod_static_threaded" = "xyes"])
 
