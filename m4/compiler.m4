@@ -35,10 +35,11 @@ AC_LANG_PUSH([$1])
 
 flags_save="`eval echo '$'$2`"
 accepted_flags=""
+existing_flags="`eval echo '$'$5`"
 
 for flag in $3
 do
-  $2="$flags_save $accepted_flags $flag $4"
+  $2="$flags_save $existing_flags $accepted_flags $flag $4"
   AC_COMPILE_IFELSE([AC_LANG_SOURCE([int a;])],
                     [FC_ADD_WORDS_TO_VAR([accepted_flags], [$flag])])
 done
@@ -77,10 +78,11 @@ AC_DEFUN([FC_LD_FLAGS],
 [
 flags_save=$LDFLAGS
 accepted_flags=""
+existing_flags="`eval echo '$'$3`"
 
 for flag in $1
 do
-  LDFLAGS="$flags_save $accepted_flags $flag $2"
+  LDFLAGS="$flags_save $existing_flags $accepted_flags $flag $2"
   AC_LINK_IFELSE([AC_LANG_PROGRAM([], [int a;])],
                  [FC_ADD_WORDS_TO_VAR([accepted_flags], [$flag])])
 done
