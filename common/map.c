@@ -312,7 +312,8 @@ static void tile_init(struct tile *ptile)
     BV_CLR_ALL(ptile->tile_seen[v]);
   } vision_layer_iterate_end;
 
-  tile_clear_all_specials (ptile);
+  tile_clear_all_specials(ptile);
+  BV_CLR_ALL(ptile->bases);
   ptile->resource = NULL;
   ptile->terrain  = T_UNKNOWN;
   ptile->units    = unit_list_new();
