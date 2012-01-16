@@ -63,6 +63,11 @@ struct Diplomacy_dialog {
   GtkListStore *store;
 };
 
+struct Diplomacy_notebook {
+  struct gui_dialog* dialog;
+  GtkWidget *notebook;
+};
+
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct Diplomacy_dialog
 #include "speclist.h"
@@ -72,6 +77,7 @@ struct Diplomacy_dialog {
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
 static struct dialog_list *dialog_list;
+static struct Diplomacy_notebook *dipl_main;
 
 static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1);
@@ -464,6 +470,22 @@ static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
   }
   dialog_list_remove(dialog_list, pdialog);
   free(pdialog);
+
+  if (dialog_list) {
+    /* Diplomatic meetings in one main tab. */
+    if (dialog_list_size(dialog_list) > 0) {
+      char buf[128];
+
+      fc_snprintf(buf, sizeof(buf), _("Diplomacy [%d]"),
+                  dialog_list_size(dialog_list));
+      gui_dialog_set_title(dipl_main->dialog, buf);
+    } else {
+      /* No dialogs Left. */
+      gui_dialog_destroy(dipl_main->dialog);
+      free(dipl_main);
+      dipl_main = NULL;
+    }
+  }
 }
 
 /****************************************************************
@@ -497,9 +519,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 {
   GtkWidget *vbox, *bottom, *hbox, *table;
   GtkWidget *label, *sw, *view, *image, *spin;
-  GtkWidget *menubar, *menuitem, *menu;
+  GtkWidget *menubar, *menuitem, *menu, *notebook;
   GtkListStore *store;
   GtkCellRenderer *rend;
+  bool check_top;
 
   struct Diplomacy_dialog *pdialog;
   char buf[256], plr_buf[4 * MAX_LEN_NAME];
@@ -509,13 +532,43 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   dialog_list_prepend(dialog_list, pdialog);
   init_treaty(&pdialog->treaty, plr0, plr1);
 
-  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(top_notebook), pdialog,
-                 TRUE);
+  if (TRUE) {
+    /* Collect all meetings in one main tab. */
+    if (!dipl_main) {
+      GtkWidget *dipl_box;
 
-  fc_snprintf(buf, sizeof(buf), _("Diplomacy: %s"),
-              nation_plural_for_player(plr1));
+      dipl_main = fc_malloc(sizeof(*dipl_main));
+      gui_dialog_new(&(dipl_main->dialog), GTK_NOTEBOOK(top_notebook),
+                    dipl_main->dialog, TRUE);
+      dipl_main->notebook = gtk_notebook_new();
+      gtk_notebook_set_tab_pos(GTK_NOTEBOOK(dipl_main->notebook),
+                               GTK_POS_LEFT);
 
+      dipl_box = dipl_main->dialog->vbox;
+      gtk_box_pack_start(GTK_BOX(dipl_box), dipl_main->notebook, TRUE, TRUE,
+                         2);
+      gui_dialog_show_all(dipl_main->dialog);
+      gui_dialog_present(dipl_main->dialog);
+    }
+
+    fc_snprintf(buf, sizeof(buf), _("Diplomacy [%d]"),
+                dialog_list_size(dialog_list));
+    gui_dialog_set_title(dipl_main->dialog, buf);
+
+    notebook = dipl_main->notebook;
+    check_top = FALSE;
+  } else {
+    /* Old behaviour - one (main) tab for each meeting. */
+    notebook = top_notebook;
+    check_top = TRUE;
+  }
+
+  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(notebook), pdialog,
+                 check_top);
+
+  fc_snprintf(buf, sizeof(buf), "%s", nation_plural_for_player(plr1));
   gui_dialog_set_title(pdialog->dialog, buf);
+
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
 
   gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
@@ -558,11 +611,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 2);
   gtk_widget_show_all(vbox);
 
-
-  /* bottom area. */
-  bottom = gtk_hbox_new(TRUE, 18);
-  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 20);
-
+  /* bottom area - vertical. */
+  bottom = gtk_vbox_new(TRUE, 2);
+  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 2);
 
   /* us. */
   vbox = gtk_vbox_new(FALSE, 18);
@@ -586,6 +637,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 (tileset, nation_of_player(plr0))));
   gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
 
+  /* Our name. */
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   fc_snprintf(buf, sizeof(buf),
@@ -597,13 +649,28 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   image = gtk_image_new();
   pdialog->image0 = image;
   gtk_box_pack_end(GTK_BOX(hbox), image, FALSE, FALSE, 0);
-  
-  table = gtk_table_new(2, 2, FALSE);
-  gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-  gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
-  /* Trading gold: we */
+  /* Menu for clauses: we. */
+  menubar = gtk_aux_menu_bar_new();
+
+  menu = gtk_menu_new();
+  pdialog->menu0 = menu;
+
+  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
+                                gtk_image_new_from_stock(GTK_STOCK_ADD,
+                                                         GTK_ICON_SIZE_MENU));
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
+  g_object_set_data(G_OBJECT(menu), "plr", plr0);
+  g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
+
+  /* Main table for clauses and (if activated) gold trading gold: we. */
   if (game.info.trading_gold) {
+    table = gtk_table_new(1, 3, FALSE);
+    gtk_table_set_row_spacings(GTK_TABLE(table), 6);
+    gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
+
     spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
@@ -616,23 +683,11 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                          "mnemonic-widget", spin, "label", _("_Gold:"),
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+
+    gtk_table_attach_defaults(GTK_TABLE(table), menubar, 2, 3, 0, 1);
+  } else {
+    gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 2);
   }
-
-  menubar = gtk_aux_menu_bar_new();
-  gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
-
-  menu = gtk_menu_new();
-  pdialog->menu0 = menu;
-
-  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
-		  		gtk_image_new_from_stock(GTK_STOCK_ADD,
-							 GTK_ICON_SIZE_MENU));
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
-  g_object_set_data(G_OBJECT(menu), "plr", plr0);
-  g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
-
 
   /* them. */
   vbox = gtk_vbox_new(FALSE, 18);
@@ -657,7 +712,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 (tileset, nation_of_player(plr1))));
   gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
 
-
+  /* Their name. */
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   fc_snprintf(buf, sizeof(buf),
@@ -669,14 +724,30 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   image = gtk_image_new();
   pdialog->image1 = image;
   gtk_box_pack_end(GTK_BOX(hbox), image, FALSE, FALSE, 0);
-  
-  table = gtk_table_new(2, 2, FALSE);
-  gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-  gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
-  /* Trading gold: they */
+  /* Menu for clauses: they. */
+  menubar = gtk_aux_menu_bar_new();
+
+  menu = gtk_menu_new();
+  pdialog->menu1 = menu;
+
+  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
+                                gtk_image_new_from_stock(GTK_STOCK_ADD,
+                                                         GTK_ICON_SIZE_MENU));
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
+  g_object_set_data(G_OBJECT(menu), "plr", plr1);
+  g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
+
+  /* Main table for clauses and (if activated) gold trading gold: they. */
   if (game.info.trading_gold) {
-    spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1, 1.0);
+    table = gtk_table_new(1, 3, FALSE);
+    gtk_table_set_row_spacings(GTK_TABLE(table), 6);
+    gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
+
+    spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1,
+                                          1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
     gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
     g_object_set_data(G_OBJECT(spin), "plr", plr1);
@@ -687,24 +758,12 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                          "mnemonic-widget", spin, "label", _("_Gold:"),
                          "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+
+    gtk_table_attach_defaults(GTK_TABLE(table), menubar, 2, 3, 0, 1);
+  } else {
+    gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 2);
   }
 
-  menubar = gtk_aux_menu_bar_new();
-  gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
-
-  menu = gtk_menu_new();
-  pdialog->menu1 = menu;
-
-  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
-  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
-		  		gtk_image_new_from_stock(GTK_STOCK_ADD,
-							 GTK_ICON_SIZE_MENU));
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
-  g_object_set_data(G_OBJECT(menu), "plr", plr1);
-  
-  g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
-  
   gtk_widget_show_all(bottom);
 
   g_signal_connect(view, "row_activated", G_CALLBACK(row_callback), pdialog);
@@ -926,6 +985,7 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 void diplomacy_dialog_init()
 {
   dialog_list = dialog_list_new();
+  dipl_main = NULL;
 }
 
 /*****************************************************************
