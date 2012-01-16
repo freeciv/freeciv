@@ -13,6 +13,8 @@
 #ifndef FC__VOTEBAR_G_H
 #define FC__VOTEBAR_G_H
 
-void voteinfo_gui_update(void);
+#include "gui_proto_constructor.h"
+
+GUI_FUNC_PROTO(void, voteinfo_gui_update, void)
 
 #endif  /* FC__VOTEBAR_G_H */

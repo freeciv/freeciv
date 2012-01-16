@@ -13,15 +13,19 @@
 #ifndef FC__EDITGUI_G_H
 #define FC__EDITGUI_G_H
 
+#include "gui_proto_constructor.h"
+
 struct tile_list;
 
-void editgui_tileset_changed(void);
-void editgui_refresh(void);
-void editgui_popup_properties(const struct tile_list *tiles, int objtype);
-void editgui_popdown_all(void);
+GUI_FUNC_PROTO(void, editgui_tileset_changed, void)
+GUI_FUNC_PROTO(void, editgui_refresh, void)
+GUI_FUNC_PROTO(void, editgui_popup_properties,
+               const struct tile_list *tiles, int objtype)
+GUI_FUNC_PROTO(void, editgui_popdown_all, void)
 
 /* OBJTYPE_* enum values defined in client/editor.h */
-void editgui_notify_object_changed(int objtype, int id, bool remove);
-void editgui_notify_object_created(int tag, int id);
+GUI_FUNC_PROTO(void, editgui_notify_object_changed,
+               int objtype, int id, bool remove)
+GUI_FUNC_PROTO(void, editgui_notify_object_created, int tag, int id)
 
 #endif  /* FC__EDITGUI_G_H */

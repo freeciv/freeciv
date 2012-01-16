@@ -22,16 +22,18 @@
 /* client */
 #include "repodlgs_common.h"
 
+#include "gui_proto_constructor.h"
 
-void science_report_dialog_popup(bool raise);
-void science_report_dialog_redraw(void);
-void economy_report_dialog_popup(bool raise);
-void units_report_dialog_popup(bool raise);
-void endgame_report_dialog_popup(const struct packet_endgame_report *packet);
+GUI_FUNC_PROTO(void, science_report_dialog_popup, bool raise)
+GUI_FUNC_PROTO(void, science_report_dialog_redraw, void)
+GUI_FUNC_PROTO(void, economy_report_dialog_popup, bool raise)
+GUI_FUNC_PROTO(void, units_report_dialog_popup, bool raise)
+GUI_FUNC_PROTO(void, endgame_report_dialog_popup,
+               const struct packet_endgame_report *packet)
 
-void real_science_report_dialog_update(void);
-void real_economy_report_dialog_update(void);
-void real_units_report_dialog_update(void);
+GUI_FUNC_PROTO(void, real_science_report_dialog_update, void)
+GUI_FUNC_PROTO(void, real_economy_report_dialog_update, void)
+GUI_FUNC_PROTO(void, real_units_report_dialog_update, void)
 
 /* Actually defined in update_queue.c */
 void science_report_dialog_update(void);

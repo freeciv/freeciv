@@ -13,6 +13,8 @@
 #ifndef FC__RATESDLG_G_H
 #define FC__RATESDLG_G_H
 
-void popup_rates_dialog(void);
+#include "gui_proto_constructor.h"
 
-#endif				/* FC__RATESDLG_G_H */
+GUI_FUNC_PROTO(void, popup_rates_dialog, void)
+
+#endif  /* FC__RATESDLG_G_H */

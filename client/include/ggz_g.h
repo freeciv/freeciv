@@ -13,7 +13,9 @@
 #ifndef FC__GGZ_G_H
 #define FC__GGZ_G_H
 
-void gui_ggz_embed_leave_table(void);
-void gui_ggz_embed_ensure_server(void);
+#include "gui_proto_constructor.h"
+
+GUI_FUNC_PROTO(void, gui_ggz_embed_leave_table, void)
+GUI_FUNC_PROTO(void, gui_ggz_embed_ensure_server, void)
 
 #endif  /* FC__GGZ_G_H */

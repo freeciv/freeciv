@@ -17,8 +17,10 @@
 
 #include "messagewin_common.h"
 
-void meswin_dialog_popup(bool raise);
-bool meswin_dialog_is_open(void);
-void real_meswin_dialog_update(void);
+#include "gui_proto_constructor.h"
+
+GUI_FUNC_PROTO(void, meswin_dialog_popup, bool raise)
+GUI_FUNC_PROTO(bool, meswin_dialog_is_open, void)
+GUI_FUNC_PROTO(void, real_meswin_dialog_update, void)
 
 #endif  /* FC__MESSAGEWIN_G_H */

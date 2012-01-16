@@ -13,11 +13,13 @@
 #ifndef FC__CONNECTDLG_G_H
 #define FC__CONNECTDLG_G_H
 
-void close_connection_dialog(void);
-void really_close_connection_dialog(void);
+#include "gui_proto_constructor.h"
 
-void gui_server_connect(void);
+GUI_FUNC_PROTO(void, close_connection_dialog, void)
+GUI_FUNC_PROTO(void, really_close_connection_dialog, void)
 
-void gui_set_rulesets(int num_rulesets, char **rulesets);
+GUI_FUNC_PROTO(void, gui_server_connect, void)
+
+GUI_FUNC_PROTO(void, gui_set_rulesets, int num_rulesets, char **rulesets)
 
 #endif  /* FC__CONNECTDLG_G_H */

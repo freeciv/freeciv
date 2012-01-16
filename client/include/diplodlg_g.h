@@ -17,15 +17,20 @@
 
 #include "diptreaty.h"
 
-void handle_diplomacy_init_meeting(int counterpart, int initiated_from);
-void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from);
-void handle_diplomacy_create_clause(int counterpart, int giver,
-				    enum clause_type type, int value);
-void handle_diplomacy_remove_clause(int counterpart, int giver,
-				    enum clause_type type, int value);
-void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
-				    bool other_accepted);
+#include "gui_proto_constructor.h"
 
-void close_all_diplomacy_dialogs(void);
+GUI_FUNC_PROTO(void, handle_diplomacy_init_meeting,
+               int counterpart, int initiated_from)
+GUI_FUNC_PROTO(void, handle_diplomacy_cancel_meeting,
+               int counterpart, int initiated_from)
+GUI_FUNC_PROTO(void, handle_diplomacy_create_clause, int counterpart, int giver,
+               enum clause_type type, int value)
+GUI_FUNC_PROTO(void, handle_diplomacy_remove_clause, int counterpart, int giver,
+               enum clause_type type, int value)
+GUI_FUNC_PROTO(void, handle_diplomacy_accept_treaty,
+               int counterpart, bool I_accepted,
+               bool other_accepted)
+
+GUI_FUNC_PROTO(void, close_all_diplomacy_dialogs, void)
 
 #endif  /* FC__DIPLODLG_G_H */

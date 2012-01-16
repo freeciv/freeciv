@@ -13,6 +13,8 @@
 #ifndef FC__GOTODLG_G_H
 #define FC__GOTODLG_G_H
 
-void popup_goto_dialog(void);
+#include "gui_proto_constructor.h"
+
+GUI_FUNC_PROTO(void, popup_goto_dialog, void)
 
 #endif  /* FC__GOTODLG_G_H */

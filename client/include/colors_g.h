@@ -15,9 +15,11 @@
 
 #include "colors_common.h"
 
+#include "gui_proto_constructor.h"
+
 struct color;
 
-struct color *color_alloc(int r, int g, int b);
-void color_free(struct color *color);
+GUI_FUNC_PROTO(struct color *, color_alloc, int r, int g, int b)
+GUI_FUNC_PROTO(void, color_free, struct color *color)
 
 #endif  /* FC__COLORS_G_H */

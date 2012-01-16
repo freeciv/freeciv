@@ -17,11 +17,13 @@
 
 #include "luaconsole_common.h"
 
-void luaconsole_dialog_popup(bool raise);
-bool luaconsole_dialog_is_open(void);
-void real_luaconsole_dialog_update(void);
+#include "gui_proto_constructor.h"
 
-void real_luaconsole_append(const char *astring,
-                            const struct text_tag_list *tags);
+GUI_FUNC_PROTO(void, luaconsole_dialog_popup, bool raise)
+GUI_FUNC_PROTO(bool, luaconsole_dialog_is_open, void)
+GUI_FUNC_PROTO(void, real_luaconsole_dialog_update, void)
+
+GUI_FUNC_PROTO(void, real_luaconsole_append, const char *astring,
+               const struct text_tag_list *tags)
 
 #endif  /* FC__LUACONSOLE_G_H */

@@ -15,8 +15,10 @@
 
 #include "fc_types.h"
 
-void close_intel_dialog(struct player *p);
-void popup_intel_dialog(struct player *p);
-void update_intel_dialog(struct player *p);
+#include "gui_proto_constructor.h"
 
-#endif				/* FC__INTELDLG_G_H */
+GUI_FUNC_PROTO(void, close_intel_dialog, struct player *p)
+GUI_FUNC_PROTO(void, popup_intel_dialog, struct player *p)
+GUI_FUNC_PROTO(void, update_intel_dialog, struct player *p)
+
+#endif  /* FC__INTELDLG_G_H */
