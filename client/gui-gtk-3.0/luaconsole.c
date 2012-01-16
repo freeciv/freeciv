@@ -192,7 +192,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
     notebook = bottom_notebook;
   }
 
-  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog);
+  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog, TRUE);
   gui_dialog_set_title(pdialog->shell, _("Client Lua Console"));
 
   box = GTK_WIDGET(pdialog->shell->vbox);

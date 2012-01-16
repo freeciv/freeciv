@@ -101,7 +101,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   static struct gui_dialog *shell;
   GtkWidget *vbox, *label, *headline_label, *sw;
 
-  gui_dialog_new(&shell, GTK_NOTEBOOK(bottom_notebook), NULL);
+  gui_dialog_new(&shell, GTK_NOTEBOOK(bottom_notebook), NULL, TRUE);
   gui_dialog_set_title(shell, caption);
 
   gui_dialog_add_button(shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE); 

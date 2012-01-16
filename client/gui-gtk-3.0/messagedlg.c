@@ -64,7 +64,7 @@ static void create_messageopt_dialog(void)
   GtkWidget *form, *explanation;
   int n, i, j;
   
-  gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook), NULL);
+  gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(shell, _("Message Options"));
 
   gui_dialog_set_default_size(shell, -1, 450);

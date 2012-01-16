@@ -97,7 +97,8 @@ struct gui_dialog
   GtkSizeGroup *gui_button;
 };
 
-void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook, gpointer user_data);
+void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
+                    gpointer user_data, bool check_top);
 void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
     const char *text, int response);

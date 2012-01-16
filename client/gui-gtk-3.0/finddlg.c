@@ -67,7 +67,8 @@ void popup_find_dialog(void)
 
     pos = get_center_tile_mapcanvas();
 
-    gui_dialog_new(&find_dialog_shell, GTK_NOTEBOOK(bottom_notebook), NULL);
+    gui_dialog_new(&find_dialog_shell, GTK_NOTEBOOK(bottom_notebook), NULL,
+                   TRUE);
     gui_dialog_set_title(find_dialog_shell, _("Find City"));
     gui_dialog_set_default_size(find_dialog_shell, -1, 240);
 
