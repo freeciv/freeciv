@@ -41,8 +41,6 @@ struct City {
   const char *name;
   Player *owner;
   Player *original;
-  Tile *tile; /* Depreciated! Use city:tile() to access the city tile. */
-  int size;   /* Depreciated! Use city:size() to access the city size. */
 
   const int id;
 };
@@ -57,7 +55,6 @@ struct Unit {
 
   /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
-  Tile *tile; /* Depreciated! Use unit:tile() to access the unit tile. */
 
   const int id;
 };
@@ -151,14 +148,17 @@ $]
 
 /* Module City. */
 module City {
+  module properties {
+    int api_methods_city_size_get
+      @ size(lua_State *L, City *self);
+    Tile *api_methods_city_tile_get
+      @ tile(lua_State *L, City *self);
+  }
+
   bool api_methods_city_has_building
     @ has_building(lua_State *L, City *self, Building_Type *building);
   int api_methods_city_map_sq_radius
     @ map_sq_radius(lua_State *L, City *self);
-  int api_methods_city_size_get
-    @ size(lua_State *L, City *self);
-  Tile *api_methods_city_tile_get
-    @ tile(lua_State *L, City *self);
 }
 
 $[
@@ -172,10 +172,13 @@ $]
 
 /* Module Unit. */
 module Unit {
+  module properties {
+    Tile *api_methods_unit_tile_get
+      @ tile(lua_State *L, Unit *self);
+  }
+
   bool api_methods_unit_city_can_be_built_here
     @ is_on_possible_city_tile (lua_State *L, Unit *self);
-  Tile *api_methods_unit_tile_get
-    @ tile(lua_State *L, Unit *self);
   Direction api_methods_unit_orientation_get
     @ facing(lua_State *L, Unit *self);
 }
