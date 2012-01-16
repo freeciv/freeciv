@@ -565,7 +565,7 @@ static void science_report_init(struct science_report *preport)
 
   fc_assert_ret(NULL != preport);
 
-  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), NULL);
+  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   /* TRANS: Research report title */
   gui_dialog_set_title(preport->shell, _("Research"));
 
@@ -1086,7 +1086,7 @@ static void economy_report_init(struct economy_report *preport)
 
   fc_assert_ret(NULL != preport);
 
-  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport);
+  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport, TRUE);
   gui_dialog_set_title(preport->shell, _("Economy"));
   vbox = GTK_BOX(preport->shell->vbox);
 
@@ -1598,7 +1598,7 @@ static void units_report_init(struct units_report *preport)
 
   fc_assert_ret(NULL != preport);
 
-  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport);
+  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), preport, TRUE);
   gui_dialog_set_title(preport->shell, _("Units"));
   vbox = GTK_BOX(preport->shell->vbox);
 
@@ -1846,7 +1846,7 @@ static void endgame_report_init(struct endgame_report *preport)
 
   fc_assert_ret(NULL != preport);
 
-  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), NULL);
+  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(preport->shell, _("Score"));
 
   gui_dialog_set_default_size(preport->shell, 700, 420);
