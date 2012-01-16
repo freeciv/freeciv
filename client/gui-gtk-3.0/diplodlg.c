@@ -720,7 +720,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = gtk_menu_new();
   pdialog->menu0 = menu;
 
-  menuitem = gtk_image_menu_item_new(_("Add Clause..."));
+  menuitem = gtk_image_menu_item_new_with_label(_("Add Clause..."));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
                                 gtk_image_new_from_stock(GTK_STOCK_ADD,
                                                          GTK_ICON_SIZE_MENU));
@@ -803,7 +803,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = gtk_menu_new();
   pdialog->menu1 = menu;
 
-  menuitem = gtk_image_menu_item_new(_("Add Clause..."));
+  menuitem = gtk_image_menu_item_new_with_label(_("Add Clause..."));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
                                 gtk_image_new_from_stock(GTK_STOCK_ADD,
                                                          GTK_ICON_SIZE_MENU));
