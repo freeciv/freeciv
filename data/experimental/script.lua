@@ -13,7 +13,7 @@
 -- for a detailed description.
 
 function city_destroyed_callback(city, loser, destroyer)
-  create_base(city:tile(), "Ruins", NIL)
+  create_base(city.tile, "Ruins", NIL)
   -- continue processing
   return false
 end
