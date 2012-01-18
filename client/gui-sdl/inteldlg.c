@@ -259,7 +259,10 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     
     pLogo = get_nation_flag_surface(nation_of_player(p));
-    pText1 = zoomSurface(pLogo, DEFAULT_ZOOM * 4.0 , DEFAULT_ZOOM * 4.0, 1);
+    {
+      double zoom = DEFAULT_ZOOM * 60.0 / pLogo->h;
+      pText1 = zoomSurface(pLogo, zoom, zoom, 1);
+    }
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,
