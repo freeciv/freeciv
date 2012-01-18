@@ -2031,12 +2031,14 @@ static void check_pollution(struct city *pcity)
   Returns the cost to incite a city. This depends on the size of the city,
   the number of happy, unhappy and angry citizens, whether it is
   celebrating, how close it is to the capital, how many units it has and
-  upkeeps, presence of courthouse and its buildings and wonders.
+  upkeeps, presence of courthouse, its buildings and wonders, and who
+  originally built it.
 **************************************************************************/
 int city_incite_cost(struct player *pplayer, struct city *pcity)
 {
   struct city *capital;
-  int dist, size, cost;
+  int dist, size;
+  double cost; /* Intermediate values can get very large */
 
   if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
     return INCITE_IMPOSSIBLE_COST;
@@ -2099,7 +2101,11 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost += (cost * get_city_bonus(pcity, EFT_INCITE_COST_PCT)) / 100;
   cost /= 100;
 
-  return cost;
+  if (cost >= INCITE_IMPOSSIBLE_COST) {
+    return INCITE_IMPOSSIBLE_COST;
+  } else {
+    return cost;
+  }
 }
 
 /**************************************************************************
