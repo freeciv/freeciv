@@ -829,7 +829,7 @@ void popup_sabotage_dialog(struct city *pCity)
   struct unit *pUnit = head_of_units_in_focus();
   SDL_String16 *pStr;
   SDL_Rect area, area2;
-  int n, w = 0, h, imp_h = 0;
+  int n, w = 0, h, imp_h = 0, y;
   
   if (pDiplomat_Dlg || !pUnit || !unit_has_type_flag(pUnit, F_SPY)) {
     return;
@@ -909,8 +909,7 @@ void popup_sabotage_dialog(struct city *pCity)
 	pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
       }
     
-      if (improvement_number(pImprove) > 9)
-      {
+      if (n > 9) {
         set_wflag(pBuf, WF_HIDDEN);
       }
       
@@ -953,6 +952,8 @@ void popup_sabotage_dialog(struct city *pCity)
     n = create_vertical_scrollbar(pDiplomat_Dlg->pdialog,
 		  1, 10, TRUE, TRUE);
     area.w += n;
+  } else {
+    n = 0;
   }
   /* ---------- */
   
@@ -971,16 +972,6 @@ void popup_sabotage_dialog(struct city *pCity)
   
   w = area.w;
   
-  if (pDiplomat_Dlg->pdialog->pScroll)
-  {
-    w -= n;
-    imp_h = pBuf->size.w;
-  }
-  else
-  {
-    imp_h = 0;
-  }
-  
   /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
@@ -990,7 +981,7 @@ void popup_sabotage_dialog(struct city *pCity)
   pBuf = pBuf->prev;
   
   pBuf->size.x = area.x;
-  pBuf->size.y = area.y + 1;
+  pBuf->size.y = y = area.y + 1;
   pBuf->size.w = w;
   h = pBuf->size.h;
   
@@ -1001,14 +992,13 @@ void popup_sabotage_dialog(struct city *pCity)
   while(pBuf)
   {
     
-    if (pBuf == pDiplomat_Dlg->pdialog->pEndActiveWidgetList)
-    {
-      w -= imp_h;
+    if (pBuf == pDiplomat_Dlg->pdialog->pEndActiveWidgetList) {
+      w -= n;
     }
     
     pBuf->size.w = w;
     pBuf->size.x = pBuf->next->size.x;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    pBuf->size.y = y = y + pBuf->next->size.h;
     
     if (pBuf->ID == ID_SEPARATOR)
     {
@@ -1025,16 +1015,23 @@ void popup_sabotage_dialog(struct city *pCity)
     if (pBuf == pLast) {
       break;
     }
+    if (pBuf == pDiplomat_Dlg->pdialog->pBeginActiveWidgetList) {
+      /* Reset to end of scrolling area */
+      y = MIN(y, pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y
+              + 9 * pBuf->size.h);
+      w += n;
+    }
     pBuf = pBuf->prev;  
   }
   
   if (pDiplomat_Dlg->pdialog->pScroll)
   {
     setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
-	area.x + area.w,
-    	pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y,
-    	area.y - pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y +
-	    area.h, TRUE);
+        area.x + area.w,
+        pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y,
+        pDiplomat_Dlg->pdialog->pBeginActiveWidgetList->prev->size.y
+          - pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y,
+        TRUE);
   }
   
   /* -------------------- */
