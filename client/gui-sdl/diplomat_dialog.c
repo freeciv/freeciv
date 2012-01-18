@@ -235,7 +235,7 @@ static int spy_steal_popup(struct widget *pWidget)
        send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
-    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, advance_count());
+    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, A_UNSET);
     return -1;
   }
     
@@ -329,7 +329,8 @@ static int spy_steal_popup(struct widget *pWidget)
     }
   } advance_index_iterate_end;
   
-  /* get spy tech */
+  /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
+   * side effect of display the unit's icon */
   i = advance_number(unit_type(game_find_unit_by_number(id))->require_advance);
   copy_chars_to_string16(pStr, _("At Spy's Discretion"));
   pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
@@ -340,7 +341,7 @@ static int spy_steal_popup(struct widget *pWidget)
   pBuf->action = spy_steal_callback;
   pBuf->data.cont = pCont;
     
-  add_to_gui_list(MAX_ID - advance_count(), pBuf);
+  add_to_gui_list(MAX_ID - A_UNSET, pBuf);
   count++;
   
   /* --------------------------------------------------------- */
