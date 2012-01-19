@@ -20802,11 +20802,11 @@ msgstr "화물 부대는 캐러밴에서 대체됬고, 2배의 속도로 움직�
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
-msgstr "아브하지아인"
+msgstr "아브하지아"
 
 #: data/nation/abkhaz.ruleset:4
 msgid "?plural:Abkhazians"
-msgstr "아브하지아인"
+msgstr "아브하지아 사람"
 
 #: data/nation/abkhaz.ruleset:7
 msgid ""
@@ -20883,11 +20883,11 @@ msgstr "지도자"
 
 #: data/nation/abyssinian.ruleset:3
 msgid "Abyssinian"
-msgstr "아비시니아인"
+msgstr "아비시니아"
 
 #: data/nation/abyssinian.ruleset:4
 msgid "?plural:Abyssinians"
-msgstr "아비시니아인"
+msgstr "아비시니아 사람"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -20900,11 +20900,11 @@ msgstr ""
 
 #: data/nation/acadian.ruleset:3
 msgid "Acadian"
-msgstr "아카디안인"
+msgstr "아카디아"
 
 #: data/nation/acadian.ruleset:4
 msgid "?plural:Acadians"
-msgstr "아카디안인"
+msgstr "아카디안 사람"
 
 #: data/nation/acadian.ruleset:6
 msgid ""
@@ -20973,11 +20973,11 @@ msgstr "수녀원장"
 
 #: data/nation/acehnese.ruleset:3
 msgid "Acehnese"
-msgstr "아체인"
+msgstr "아체"
 
 #: data/nation/acehnese.ruleset:4
 msgid "?plural:Acehnese"
-msgstr "아체인"
+msgstr "아체 사람"
 
 #: data/nation/acehnese.ruleset:6
 msgid ""
@@ -21037,7 +21037,7 @@ msgstr "집정관"
 
 #: data/nation/acrean.ruleset:3
 msgid "Acrean"
-msgstr "아크리인"
+msgstr "아크리"
 
 #: data/nation/acrean.ruleset:4
 msgid "?plural:Acreans"
@@ -21086,7 +21086,7 @@ msgstr "드문"
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "아프가니스탄인"
+msgstr "아프가니스탄"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
@@ -21167,7 +21167,7 @@ msgstr "동무"
 
 #: data/nation/african.ruleset:3
 msgid "African"
-msgstr "아프리칸인"
+msgstr "아프리카"
 
 #: data/nation/african.ruleset:4
 msgid "?plural:African"
@@ -21183,7 +21183,7 @@ msgstr ""
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr "아이누 사람"
+msgstr "아이누"
 
 #: data/nation/ainu.ruleset:4
 msgid "?plural:Ainu"
@@ -21198,7 +21198,7 @@ msgstr ""
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr "악위 사람"
+msgstr "악위"
 
 #: data/nation/akwe.ruleset:4
 msgid "?plural:Akwe"
@@ -21222,12 +21222,11 @@ msgstr ""
 
 #: data/nation/alandalus.ruleset:3
 msgid "Andalusi"
-msgstr ""
+msgstr "안달루시아"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Andalusis"
-msgstr "핀란드 사람"
+msgstr "안달루시 사람"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -21237,6 +21236,10 @@ msgid ""
 "kingdoms gradually pushed back the Islamic states of Al-Andalus. Their last "
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
+"알-안달루스(Al-Andalus)는 중세시대 동안 무슬림 지배 아래에 있던 이베리아 반도의 지역입니다. "
+"무슬림 안달루시 사람은 그들의 아름다운 건축술의 유산으로 주목되었습니다. 국토회복운동 동안 "
+"기독교의 제국들은 서서히 알-안달루스의 이슬람교도의 국가를 밀쳤습니다. 그들의 이베리안 반도의 "
+"마지막 도시, 그라나다는 1492년에 함락되었습니다."
 
 #: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
 #: data/nation/arab.ruleset:21 data/nation/bahraini.ruleset:25
@@ -21310,14 +21313,12 @@ msgid "?female:Vizier %s"
 msgstr "지도자"
 
 #: data/nation/albanian.ruleset:3
-#, fuzzy
 msgid "Albanian"
-msgstr "아르메니아"
+msgstr "알바니아"
 
 #: data/nation/albanian.ruleset:4
-#, fuzzy
 msgid "?plural:Albanians"
-msgstr "인도 사림"
+msgstr "알바니아 사람"
 
 #. TRANS: The fourth letter in "Enver" should be
 #. TRANS: U+00EB LATIN SMALL LETTER E WITH DIAERESIS if available in
@@ -21330,6 +21331,10 @@ msgid ""
 "history. It has been an independent state again since 1912. For much of the "
 "20th century Albania was ruled by communist dictator Enver Hoxha."
 msgstr ""
+"발칸 반도의 주민인, 알바니아 사람 민족의 기원은 확실하지 않지만, 그들이 고전고대의 "
+"일리리아(Illyria)로 부터 내려왔다고 제안됩니다. 알바니아는 역사동안 여러 차례 주인이 "
+"바뀌었습니다. 1912년 이후에 다시 독립국이 되었습니다. 20세기 이래로 알바니아는 "
+"공산주의 독재자 엔버 호자(Enver Hoxha)에게 지배되었습니다."
 
 #: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:28
 #: data/nation/cossack.ruleset:29 data/nation/dutch.ruleset:37
@@ -21367,14 +21372,12 @@ msgid "Princess %s"
 msgstr "왕비"
 
 #: data/nation/aleut.ruleset:3
-#, fuzzy
 msgid "Aleut"
-msgstr "수로"
+msgstr "알류트"
 
 #: data/nation/aleut.ruleset:4
-#, fuzzy
 msgid "?plural:Aleuts"
-msgstr "폴란드 사람"
+msgstr "알류트 족"
 
 #: data/nation/aleut.ruleset:6
 msgid ""
@@ -21386,6 +21389,11 @@ msgid ""
 "Russians to their other colonial entrepots such as Ft. Ross in northern "
 "California and Ft. Elizabeth in Hawai'i."
 msgstr ""
+"언안간(Unangan), 또는 알류트는 그들이 사냥하고 낚시하는 영구적인 지하의 집에서 들어가 삽니다. "
+"그들은 알류산 열도에서 유럽인의 접촉 이전에 수천년 동안을 살았습니다. 대부분 언안간 사람은 러시안 "
+"정통 기독교에 개종시키고 러시아인과 결혼시키는, 러시아 선교사와 상인에게 의지하도록 발달하고, "
+"심지어 몇몇은 북부의 캘리포니아의 요새, 로스(Ft. Ross)와 하와이의 요새, 엘리자베스(Ft. Elizabeth)와 "
+"같은 그들의 다른 식민지의 창고에 러시아인과 동행했습니다."
 
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
 #: data/nation/chumash.ruleset:24 data/nation/comanche.ruleset:26
@@ -21428,6 +21436,7 @@ msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
 msgstr ""
+"알제리는 북아프리카의 아랍어의 나라입니다. 이곳은 베르베르 사람에 의해서 역사적으로 살았습니다."
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
 #: data/nation/santomean.ruleset:33
@@ -21449,14 +21458,12 @@ msgid "?female:%s Dey"
 msgstr "대통령"
 
 #: data/nation/alsatian.ruleset:3
-#, fuzzy
 msgid "Alsatian"
-msgstr "바이에른"
+msgstr "알자스"
 
 #: data/nation/alsatian.ruleset:4
-#, fuzzy
 msgid "?plural:Alsatians"
-msgstr "인도 사림"
+msgstr "알자스 사림"
 
 #: data/nation/alsatian.ruleset:6
 msgid ""
@@ -21468,6 +21475,11 @@ msgid ""
 "and France 4 times in less than a century. Since 1944 it has been in French "
 "hands."
 msgstr ""
+"알자스는 유럽의 지역으로, 프랑스과 독일을 국경에 있습니다. 중세 동안 알자스는 로마 제국의 "
+"부분으로 있었고, 몇몇 꽤 부유한 도시 국가들로 이루어져 있었습니다. 17,18세기에 알자스인 도시들은 "
+"프랑스에게 하나씩 합병되었지만, 이후에 그 지역은 한 세기 안에 독일과 프랑스 사이에서 4번이나 주인이 "
+"바뀌는, 유럽의 가장 경쟁을 벌이는 부분 중의 하나가 되었습니다. 1944년 이후로 이곳은 프랑스의 소유로 "
+"되었습니다."
 
 #: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
@@ -21576,14 +21588,12 @@ msgid "?female:Burgomaster %s"
 msgstr "대통령"
 
 #: data/nation/amazigh.ruleset:3
-#, fuzzy
 msgid "Amazigh"
-msgstr "아르메니아"
+msgstr "아마지흐"
 
 #: data/nation/amazigh.ruleset:4
-#, fuzzy
 msgid "?plural:Imazighen"
-msgstr "아람 사람"
+msgstr "아마지흐 사람"
 
 #: data/nation/amazigh.ruleset:6
 msgid ""
@@ -21596,16 +21606,21 @@ msgid ""
 "Tachelhit or Tarifit, collectively known as Berber languages, using an age-"
 "old writing system called Tifinagh."
 msgstr ""
+"아마지흐(Amazigh) 문명은 고대 이집트와 공존하는, 지중해에서 가장 오래된 문명 중 하나입니다. "
+"\"자유 사람\"을 의마하는 아마지흐(The Imazighen) 사람은, 튼튼하고 강하지만 발랄하고 "
+"가족과 부족을 위한 큰 사려에 관대합니다. 모든 부족은 자신의 전통과 문화를 가지는데, "
+"현대 모로코, 알제리아, 그리고 튀니지에서 셀 수 없이 많은 전통의 다양성이 그 이유입니다. "
+"아마지흐 사람은 타마저트(Tamazirt), 타칠힛(Tachelhit), 또는 타리핏(Tarifit)과 같은, "
+"티피나흐(Tifinagh)라 불리는 아주 오래된 문자체계를 사용하는 베르베르 언어로 총괄하여 "
+"알려진 고대 언어를 구사합니다."
 
 #: data/nation/amazonian.ruleset:3
-#, fuzzy
 msgid "Amazonian"
-msgstr "아르메니아"
+msgstr "아마존"
 
 #: data/nation/amazonian.ruleset:4
-#, fuzzy
 msgid "?plural:Amazons"
-msgstr "아람 사람"
+msgstr "아마존 사람"
 
 #: data/nation/amazonian.ruleset:6
 msgid ""
@@ -21614,6 +21629,9 @@ msgid ""
 "Asia Minor, or Libya. The Amazons were reported to remove their right "
 "breasts in order to better use the bow and other weapons."
 msgstr ""
+"아마존은 고대 그리스 문학과 미술에서 나타나는 허구적인 여자 전사의 국가입니다. "
+"작가는 우크라이나, 소아시아, 또는 리비아에 그들은 두었습니다. 아마존은 활와 다른 "
+"무기를 더 잘 다루기 위해 그들의 오른쪽 가슴을 제거한다고 알려져 있습니다."
 
 #: data/nation/american.ruleset:6
 msgid ""
@@ -21625,15 +21643,19 @@ msgid ""
 "had become a world superpower; its cultural, economical and political "
 "influence on the rest of the world is enormous."
 msgstr ""
+"아메리카 합중국은 서기 1776-1783년 혁멍 이후로 영국으로 부터 독립을 얻었습니다. "
+"1789년에 최초로 현대 대의원제 공화국의 하나로 만드는 구조가 선포되었습니다. "
+"그 다음에는 미국은 처음에는 북아메리카 본토를, 또한 그 후에는 해외로 영역을 넓히기 "
+"시작했습니다. 20세기가 될 무렵에는 그 국가는 세계 초강대국이 되었습니다; 이것의 전세계에 대한 "
+"문화적이고, 경제적인, 그리고 정치적인 영향은 거대합니다."
 
 #: data/nation/andorran.ruleset:3
 msgid "Andorran"
-msgstr ""
+msgstr "안도라"
 
 #: data/nation/andorran.ruleset:4
-#, fuzzy
 msgid "?plural:Andorrans"
-msgstr "인도 사림"
+msgstr "안도라 사람"
 
 #: data/nation/andorran.ruleset:6
 msgid ""
@@ -21643,6 +21665,10 @@ msgid ""
 "their successors - the current bishop of Urgell and the President of the "
 "French Republic - bear the (mostly honorific) title of co-prince of Andorra."
 msgstr ""
+"안도라는 동부 피레네 산맥의 작은 국가입니다. 1278년, 우르헬의 주교와 푸아의 백작 사이에서 "
+"분쟁은 안도라의 통치권을 나누는 것으로 끝냈습니다. 이 협의는 여전히 유효하고, 그들의 계승자들 "
+"- 현재 우르헬의 주교와 프랑스 공화국의 대통령 - 은 안도라의 협동-군주라는 (주로 경칭의) 명칭을 "
+"가지고 있습니다."
 
 #: data/nation/andorran.ruleset:23
 #, fuzzy, c-format
@@ -21660,14 +21686,12 @@ msgid "Co-Princess %s"
 msgstr "왕비"
 
 #: data/nation/angolan.ruleset:3
-#, fuzzy
 msgid "Angolan"
-msgstr "몽골"
+msgstr "앙골라"
 
 #: data/nation/angolan.ruleset:4
-#, fuzzy
 msgid "?plural:Angolans"
-msgstr "인도 사림"
+msgstr "앙골라 사람"
 
 #: data/nation/angolan.ruleset:6
 msgid ""
@@ -21679,16 +21703,18 @@ msgid ""
 "fighting each other. After half a century of war a peace agreement was "
 "finally reached in 2002."
 msgstr ""
+"포르투갈인이 15세기에 앙골라에 도착했을 때, 그 지역은 몇몇의 반투 족 왕국에게 통제되고 있었다. "
+"앙골라는 줄곧 19세기까지 노예 상인의 중요한 근원이 되었습니다. 포르투갈 식인지의 정부당국에 대한 "
+"20년 동안의 유격전 후에, 앙골라는 마침내 1975년에 독립을 성취했습니다. 이내 다양한 게릴라 무리들이 "
+"서로 싸우기 시작했습니다. 반 세기 동안의 전쟁 후에, 평화 협정은 마침내 2002년에 이루어졌습니다."
 
 #: data/nation/anhaltian.ruleset:3
-#, fuzzy
 msgid "Anhaltian"
-msgstr "바이에른"
+msgstr "안할트"
 
 #: data/nation/anhaltian.ruleset:4
-#, fuzzy
 msgid "?plural:Anhaltians"
-msgstr "말리 사람"
+msgstr "안할트 사람"
 
 #: data/nation/anhaltian.ruleset:6
 msgid ""
@@ -21701,6 +21727,11 @@ msgid ""
 "Anhalt finally ceased to exist when the allies decided to merge it with the "
 "former Prussian Province of Saxony to form the state of Saxony-Anhalt."
 msgstr ""
+"안할트는 독일 지역입니다. 처음에 자치주는 1212년 작센으로 부터 분열되었습니다. "
+"역사의 대부분 동안, 같은 가문에게 지배당하는 몇몇의 영토로 나뉘었습니다. 안할트의 "
+"백작은 1806년 나폴레옹이 신성 로마 제국을 해체할 떄 공작으로 상승했습니다. 1918년 "
+"독일 군주제가 몰락할 때, 이곳은 자유주가 되었습니다. 제2차 세계 대전 후, 연합국이 이전의 "
+"프로이센의 작센 지방과 안할트를 합병하여, 안할트는 소멸되고 작센-안할트 국가로 되었습니다."
 
 #: data/nation/anhaltian.ruleset:32 data/nation/aragonese.ruleset:29
 #: data/nation/castilian.ruleset:31 data/nation/catalan.ruleset:30
@@ -21750,12 +21781,11 @@ msgstr "거대한 군주"
 
 #: data/nation/anishinaabe.ruleset:3
 msgid "Anishinaabe"
-msgstr ""
+msgstr "아니시나베"
 
 #: data/nation/anishinaabe.ruleset:4
-#, fuzzy
 msgid "?plural:Anishinaabeg"
-msgstr "튀니시아 사람"
+msgstr "아니시나베 족"
 
 #: data/nation/anishinaabe.ruleset:6
 msgid ""
@@ -21764,6 +21794,9 @@ msgid ""
 "Algonkin and Potawatomi. They speak Algonquian languages. Together they are "
 "one of the most numerous indigenous peoples of North America."
 msgstr ""
+"아니시나베 족은 오타와, 오지브웨, 알곤킨, 그리고 포타와토미 족을 포함하여 북아메리카 대서양 "
+"지역에서, 토종의 아메리칸 부족과 밀접하게 관련된 집단입니다. 그들은 알곤킨 말을 구사합니다. "
+"동시에 그들은 북아메리카의 가장 많은 토착 민족 중 하나입니다."
 
 #: data/nation/anishinaabe.ruleset:29 data/nation/apache.ruleset:25
 #: data/nation/gokturk.ruleset:46 data/nation/navajo.ruleset:30
@@ -21789,7 +21822,7 @@ msgstr "남극 사람"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "펭귄의 땅, 독립된 남극입니다."
 
 #: data/nation/antarctican.ruleset:16 data/nation/holyroman.ruleset:35
 #, fuzzy, c-format
