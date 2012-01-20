@@ -64,6 +64,7 @@ static int connect_callback(struct widget *pWidget);
 static int convert_portnr_callback(struct widget *pWidget);
 static int convert_playername_callback(struct widget *pWidget);
 static int convert_servername_callback(struct widget *pWidget);
+static void popup_new_user_passwd_dialog(const char *pMessage);
 
 /*
   THESE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULLY REWRITTEN !!
@@ -750,13 +751,10 @@ static int send_passwd_callback(struct widget *pWidget)
     password[0] = '\0';
     
     set_wstate(pWidget, FC_WS_DISABLED);
-    set_wstate(pWidget->prev, FC_WS_DISABLED);
     
     widget_redraw(pWidget);
-    widget_redraw(pWidget->prev);
     
     widget_mark_dirty(pWidget);
-    widget_mark_dirty(pWidget->prev);
     
     flush_dirty();
     
@@ -768,10 +766,21 @@ static int send_passwd_callback(struct widget *pWidget)
 /**************************************************************************
   Open password dialog.
 **************************************************************************/
+static int cancel_passwd_callback(struct widget *pWidget)
+{
+  memset(password, 0, MAX_LEN_NAME);
+  password[0] = '\0';
+  disconnect_from_server();
+  return cancel_connect_dlg_callback(pWidget);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static void popup_user_passwd_dialog(const char *pMessage)
 {
   struct widget *pBuf, *pWindow;
-  SDL_String16 *pLabelStr = NULL, *pPasswdStr = NULL;
+  SDL_String16 *pLabelStr = NULL;
   SDL_Surface *pBackground;
   int start_x, start_y;
   int start_button_y;
@@ -797,9 +806,8 @@ static void popup_user_passwd_dialog(const char *pMessage)
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
   
   /* password edit */
-  pPasswdStr = create_str16_from_char(pMessage, adj_font(16));
-  pPasswdStr->fgcol = *get_theme_color(COLOR_THEME_TEXT);
-  pBuf = create_edit(NULL, pWindow->dst, pPasswdStr, adj_size(210),
+  pBuf = create_edit(NULL, pWindow->dst, create_string16(NULL, 0, adj_font(16)),
+                     adj_size(210),
 		(WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -817,7 +825,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   /* Cancel button */
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 						     _("Cancel"), adj_font(14), 0);
-  pBuf->action = cancel_connect_dlg_callback;
+  pBuf->action = cancel_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   add_to_gui_list(ID_CANCEL_BUTTON, pBuf);
@@ -925,16 +933,8 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
       
       FC_FREE(pWidget->next->string16->text);/* first edit */
       FC_FREE(pWidget->string16->text); /* secound edit */
-      
-      set_wstate(pWidget, FC_WS_DISABLED);
-      
-      widget_redraw(pWidget);
-      widget_redraw(pWidget->next);
-    
-      widget_mark_dirty(pWidget);
-      widget_mark_dirty(pWidget->next);
-    
-      flush_dirty();
+
+      popup_new_user_passwd_dialog(_("Passwords don't match, enter password."));
     }
   }
   return -1;
@@ -946,7 +946,7 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
 static void popup_new_user_passwd_dialog(const char *pMessage)
 {
   struct widget *pBuf, *pWindow;
-  SDL_String16 *pLabelStr = NULL, *pPasswdStr = NULL;
+  SDL_String16 *pLabelStr = NULL;
   SDL_Surface *pBackground;
   int start_x, start_y;
   int start_button_y;
@@ -972,10 +972,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
   /* password edit */
-  pPasswdStr = create_str16_from_char(pMessage, adj_font(16));
-  pPasswdStr->fgcol = *get_theme_color(COLOR_THEME_TEXT);
-  pPasswdStr->n_alloc = 0;  
-  pBuf = create_edit(NULL, pWindow->dst, pPasswdStr, adj_size(210),
+  pBuf = create_edit(NULL, pWindow->dst, create_string16(NULL, 0, adj_font(16)),
+                     adj_size(210),
 		(WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_first_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -983,7 +981,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.h += pBuf->size.h + adj_size(5);
 
   /* second password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_string16(NULL, 0, adj_font(16)) , adj_size(210),
+  pBuf = create_edit(NULL, pWindow->dst, create_string16(NULL, 0, adj_font(16)),
+                     adj_size(210),
 		(WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_secound_passwd_callback;
   add_to_gui_list(ID_EDIT, pBuf);
@@ -999,7 +998,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   /* Cancel button */
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 						     _("Cancel"), adj_font(14), 0);
-  pBuf->action = cancel_connect_dlg_callback;
+  pBuf->action = cancel_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   add_to_gui_list(ID_CANCEL_BUTTON, pBuf);
