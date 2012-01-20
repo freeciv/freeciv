@@ -640,7 +640,6 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   /* Creating Chain */
   pEdt.pBeginTextChain = text2chain(pEdit_Widget->string16->text);
 
-
   /* Creating Empty (Last) pice of Chain */
   pEdt.pInputChain = &___last;
   pEdt.pEndTextChain = pEdt.pInputChain;
@@ -667,10 +666,18 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
     while (TRUE) {
       pEdt.ChainLen++;
 
-      pInputChain_TMP->pTsurf =
-	  TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-				    pInputChain_TMP->chr,
-				    pEdit_Widget->string16->fgcol);
+      if (get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
+        const Uint16 passwd_chr[2] = {'*', '\0'};
+        pInputChain_TMP->pTsurf =
+            TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
+                                      passwd_chr,
+                                      pEdit_Widget->string16->fgcol);
+      } else {
+        pInputChain_TMP->pTsurf =
+            TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
+                                      pInputChain_TMP->chr,
+                                      pEdit_Widget->string16->fgcol);
+      }
 
       pEdt.Truelength += pInputChain_TMP->pTsurf->w;
 
