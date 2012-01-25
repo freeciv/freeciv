@@ -266,3 +266,30 @@ struct road_type *road_type_by_eroad(enum eroad type)
 
   return NULL;
 }
+
+/****************************************************************************
+  Sets road types that are present in special. This only adds roads,
+  any road already present in vector are left intact.
+****************************************************************************/
+void fill_road_vector_from_specials(bv_roads *roads, bv_special *specials)
+{
+  road_type_iterate(proad) {
+    if (contains_special(*specials, road_special(proad))) {
+      BV_SET(*roads, road_index(proad));
+    }
+  } road_type_iterate_end;
+}
+
+/****************************************************************************
+  Sets specials that represent road types present in roads.
+  This only adds specials, any special already present in vector are left intact.
+****************************************************************************/
+void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials)
+{
+  road_type_iterate(proad) {
+    if (BV_ISSET(*roads, road_index(proad))) {
+      BV_SET(*specials, road_special(proad));
+    }
+  } road_type_iterate_end;
+}
+

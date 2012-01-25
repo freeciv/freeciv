@@ -60,6 +60,9 @@ bool player_can_build_road(struct road_type *road,
 
 struct road_type *road_type_by_eroad(enum eroad type);
 
+void fill_road_vector_from_specials(bv_roads *roads, bv_special *specials);
+void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials);
+
 #define road_type_iterate(_p)                    \
 {                                                \
   int _i_;                                       \
