@@ -1964,10 +1964,10 @@ static int pillage_callback(struct widget *pWidget)
 
     if (pUnit)
     {
-      Base_type_id pillage_base = -1;
+      union act_tgt_obj pillage_base = { .base = -1 };
 
       if (what > S_LAST) {
-        pillage_base = what - S_LAST - 1;
+        pillage_base.base = what - S_LAST - 1;
         what = S_LAST;
       }
 

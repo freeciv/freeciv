@@ -412,6 +412,8 @@ const char *concat_tile_activity_text(struct tile *ptile)
   int activity_units[ACTIVITY_LAST];
   int base_total[MAX_BASE_TYPES];
   int base_units[MAX_BASE_TYPES];
+  int road_total[MAX_ROAD_TYPES];
+  int road_units[MAX_ROAD_TYPES];
   int num_activities = 0;
   int pillaging = 0;
   int remains, turns, i;
@@ -423,14 +425,20 @@ const char *concat_tile_activity_text(struct tile *ptile)
   memset(activity_units, 0, sizeof(activity_units));
   memset(base_total, 0, sizeof(base_total));
   memset(base_units, 0, sizeof(base_units));
+  memset(road_total, 0, sizeof(road_total));
+  memset(road_units, 0, sizeof(road_units));
 
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE) {
       pillaging = 1;
     } else if (punit->activity == ACTIVITY_BASE) {
-      base_total[punit->activity_base] += punit->activity_count;
-      base_total[punit->activity_base] += get_activity_rate_this_turn(punit);
-      base_units[punit->activity_base] += get_activity_rate(punit);
+      base_total[punit->act_object.base] += punit->activity_count;
+      base_total[punit->act_object.base] += get_activity_rate_this_turn(punit);
+      base_units[punit->act_object.base] += get_activity_rate(punit);
+    } else if (punit->activity == ACTIVITY_GEN_ROAD) {
+      road_total[punit->act_object.road] += punit->activity_count;
+      road_total[punit->act_object.road] += get_activity_rate_this_turn(punit);
+      road_units[punit->act_object.road] += get_activity_rate(punit);
     } else {
       activity_total[punit->activity] += punit->activity_count;
       activity_total[punit->activity] += get_activity_rate_this_turn(punit);
@@ -470,6 +478,24 @@ const char *concat_tile_activity_text(struct tile *ptile)
 	  num_activities++;
 	}
       } base_type_iterate_end;
+    } else if (i == ACTIVITY_GEN_ROAD) {
+      road_type_iterate(rp) {
+        Road_type_id r = road_index(rp);
+	if (road_units[r] > 0) {
+	  remains = tile_activity_road_time(ptile, r) - road_total[r];
+	  if (remains > 0) {
+	    turns = 1 + (remains + road_units[r] - 1) / road_units[r];
+	  } else {
+	    /* road will be finished this turn */
+	    turns = 1;
+	  }
+	  if (num_activities > 0) {
+	    astr_add(&str, "/");
+	  }
+	  astr_add(&str, "%s(%d)", road_name_translation(rp), turns);
+	  num_activities++;
+	}
+      } road_type_iterate_end;
     } else if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
       if (num_activities > 0) {
 	astr_add(&str, "/");

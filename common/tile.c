@@ -417,6 +417,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 
   /* ACTIVITY_BASE not handled here */
   fc_assert_ret_val(activity != ACTIVITY_BASE, FC_INFINITY);
+  fc_assert_ret_val(activity != ACTIVITY_GEN_ROAD, FC_INFINITY);
 
   switch (activity) {
   case ACTIVITY_POLLUTION:
@@ -439,12 +440,35 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 }
 
 /****************************************************************************
-  Time to complete the given activity on the given tile.
+  Time to complete the base building activity on the given tile.
 ****************************************************************************/
 int tile_activity_base_time(const struct tile *ptile,
                             Base_type_id base)
 {
   return base_by_number(base)->build_time * ACTIVITY_FACTOR;
+}
+
+/****************************************************************************
+  Time to complete the road building activity on the given tile.
+****************************************************************************/
+int tile_activity_road_time(const struct tile *ptile,
+                            Road_type_id road)
+{
+  struct terrain *pterrain = tile_terrain(ptile);
+  struct road_type *proad = road_by_number(road);
+
+  switch (proad->id) {
+  case ROAD_ROAD:
+    return pterrain->road_time * ACTIVITY_FACTOR;
+  case ROAD_RAILROAD:
+    return pterrain->rail_time * ACTIVITY_FACTOR;
+  case ROAD_LAST:
+    fc_assert(FALSE);
+    return 0;
+  }
+
+  fc_assert(FALSE);
+  return 0;
 }
 
 /****************************************************************************
@@ -655,7 +679,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
   case ACTIVITY_FALLOUT: 
     tile_clear_dirtiness(ptile);
     return TRUE;
-    
+
   case ACTIVITY_MINE:
     tile_mine(ptile);
     return TRUE;
@@ -689,6 +713,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
   case ACTIVITY_PILLAGE: 
   case ACTIVITY_AIRBASE:   
   case ACTIVITY_BASE:
+  case ACTIVITY_GEN_ROAD:
     /* do nothing  - not implemented */
     return FALSE;
 

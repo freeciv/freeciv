@@ -524,6 +524,8 @@ static char activity2char(enum unit_activity activity)
     return 'u';
   case ACTIVITY_BASE:
     return 'b';
+  case ACTIVITY_GEN_ROAD:
+    return 'R';
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
     return '?';
@@ -2055,14 +2057,20 @@ static void player_load_units(struct player *plr, int plrno,
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
     } else if (activity == ACTIVITY_PILLAGE) {
+      union act_tgt_obj object;
+
       if (target != S_LAST) {
         pbase = NULL;
+      }
+      if (pbase != NULL) {
+        object.base = base_index(pbase);
+      } else {
+        object.base = BASE_NONE;
       }
       /* An out-of-range base number is seen with old savegames. We take
        * it as indicating undirected pillaging. We will assign pillage
        * targets before play starts. */
-      set_unit_activity_targeted(punit, activity, target,
-                                 pbase ? base_index(pbase) : BASE_NONE);
+      set_unit_activity_targeted(punit, activity, target, object);
     } else {
       set_unit_activity(punit, activity);
     }
@@ -3893,7 +3901,7 @@ static void player_save_units(struct player *plr, int plrno,
     secfile_insert_int(file, punit->activity_target, 
 				"player%d.u%d.activity_target",
 				plrno, i);
-    secfile_insert_int(file, punit->activity_base,
+    secfile_insert_int(file, punit->act_object.base,
                                 "player%d.u%d.activity_base",
                                 plrno, i);
     secfile_insert_bool(file, punit->done_moving,
@@ -5293,7 +5301,7 @@ static void game_load_internal(struct section_file *file)
         unit_assign_specific_activity_target(punit,
                                              &punit->activity,
                                              &punit->activity_target,
-                                             &punit->activity_base);
+                                             &punit->act_object);
       } unit_list_iterate_end;
       /* Load transporter status. */
       player_load_units_transporter(pplayer, file);

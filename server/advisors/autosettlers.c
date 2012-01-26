@@ -364,11 +364,14 @@ int settler_evaluate_improvements(struct unit *punit,
 
           /* Now, consider various activities... */
           activity_type_iterate(act) {
+            union act_tgt_obj object = { .base = -1 };
+
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
-                /* This needs separate implementation. */
+                /* These need separate implementations. */
                 && act != ACTIVITY_BASE
+                && act != ACTIVITY_GEN_ROAD
                 && can_unit_do_activity_targeted_at(punit, act, S_LAST,
-                                                    ptile, -1)) {
+                                                    ptile, object)) {
               int extra = 0;
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
 

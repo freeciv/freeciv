@@ -177,11 +177,20 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
   punit->activity_target = packet->activity_target;
-  punit->activity_base = packet->activity_base;
+  if (punit->activity == ACTIVITY_BASE || punit->activity == ACTIVITY_PILLAGE) {
+    punit->act_object.base = packet->activity_base;
+  } else if (punit->activity == ACTIVITY_GEN_ROAD) {
+    punit->act_object.road = packet->activity_road;
+  }
   punit->changed_from = packet->changed_from;
   punit->changed_from_count = packet->changed_from_count;
   punit->changed_from_target = packet->changed_from_target;
-  punit->changed_from_base = packet->changed_from_base;
+  if (punit->changed_from == ACTIVITY_BASE
+      || punit->changed_from == ACTIVITY_PILLAGE) {
+    punit->changed_from_obj.base = packet->changed_from_base;
+  } else if (punit->changed_from == ACTIVITY_GEN_ROAD) {
+    punit->changed_from_obj.road = packet->changed_from_road;
+  }
   punit->ai_controlled = packet->ai;
   punit->fuel = packet->fuel;
   punit->goto_tile = index_to_tile(packet->goto_tile);
@@ -245,7 +254,11 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
-  punit->activity_base = packet->activity_base;
+  if (punit->activity == ACTIVITY_BASE || punit->activity == ACTIVITY_PILLAGE) {
+    punit->act_object.base = packet->activity_base;
+  } else if (punit->activity == ACTIVITY_GEN_ROAD) {
+    punit->act_object.road = packet->activity_road;
+  }
 
   /* Transporter / transporting information. */
   punit->client.occupied = packet->occupied;
@@ -1276,13 +1289,18 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->activity != packet_unit->activity
 	|| punit->activity_target != packet_unit->activity_target
-        || punit->activity_base != packet_unit->activity_base
         || punit->client.transported_by != packet_unit->client.transported_by
         || punit->client.occupied != packet_unit->client.occupied
 	|| punit->has_orders != packet_unit->has_orders
 	|| punit->orders.repeat != packet_unit->orders.repeat
 	|| punit->orders.vigilant != packet_unit->orders.vigilant
-	|| punit->orders.index != packet_unit->orders.index) {
+	|| punit->orders.index != packet_unit->orders.index
+        || ((punit->activity == ACTIVITY_BASE
+             || (punit->activity == ACTIVITY_PILLAGE
+                 && punit->activity_target == S_LAST))
+            && punit->act_object.base != packet_unit->act_object.base)
+        || (punit->activity == ACTIVITY_GEN_ROAD
+            && punit->act_object.road != packet_unit->act_object.road)) {
 
       /*** Change in activity or activity's target. ***/
 
@@ -1313,7 +1331,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       punit->activity = packet_unit->activity;
       punit->activity_target = packet_unit->activity_target;
-      punit->activity_base = packet_unit->activity_base;
+      if (punit->activity == ACTIVITY_BASE || punit->activity == ACTIVITY_PILLAGE) {
+        punit->act_object.base = packet_unit->act_object.base;
+      } else if (punit->activity == ACTIVITY_GEN_ROAD) {
+        punit->act_object.road = packet_unit->act_object.road;
+      }
 
       if (punit->client.transported_by
           != packet_unit->client.transported_by) {

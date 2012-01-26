@@ -126,6 +126,11 @@ struct unit_order {
 struct unit;
 struct unit_list;
 
+union act_tgt_obj {
+  Base_type_id base;
+  Road_type_id road;
+};
+
 struct unit {
   struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
@@ -151,14 +156,14 @@ struct unit {
   int activity_count;
 
   enum tile_special_type activity_target;
-  Base_type_id           activity_base;
+  union act_tgt_obj      act_object;
 
   /* Previous activity, so it can be resumed without loss of progress
    * if the user changes their mind during a turn. */
   enum unit_activity changed_from;
   int changed_from_count;
   enum tile_special_type changed_from_target;
-  Base_type_id           changed_from_base;
+  union act_tgt_obj      changed_from_obj;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
   bool moved;
@@ -287,21 +292,25 @@ bool can_unit_do_activity(const struct unit *punit,
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
 				   enum tile_special_type target,
-                                   Base_type_id base);
+                                   union act_tgt_obj object);
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
 				      enum tile_special_type target,
 				      const struct tile *ptile,
-                                      Base_type_id base);
+                                      union act_tgt_obj object);
 bool can_unit_do_activity_base(const struct unit *punit,
                                Base_type_id base);
+bool can_unit_do_activity_road(const struct unit *punit,
+                               Road_type_id road);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target,
-                                Base_type_id base);
+                                union act_tgt_obj);
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base);
+void set_unit_activity_road(struct unit *punit,
+                            Road_type_id road);
 int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,

@@ -544,11 +544,12 @@ static void pillage_callback(Widget w, XtPointer client_data,
   if (client_data) {
     struct unit *punit = game_unit_by_number(unit_to_use_to_pillage);
     if (punit) {
-      Base_type_id pillage_base = -1;
+      union act_tgt_obj pillage_base = { .base = -1 };
+
       int what = XTPOINTER_TO_INT(client_data);
 
       if (what > S_LAST) {
-        pillage_base = what - S_LAST - 1;
+        pillage_base.base = what - S_LAST - 1;
         what = S_LAST;
       }
 

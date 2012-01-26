@@ -9,7 +9,7 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/
+******************************************************************ac*****/
 
 /*
   This file includes the definition of a new savegame format introduced with
@@ -960,6 +960,8 @@ static char activity2char(enum unit_activity activity)
     return 'u';
   case ACTIVITY_BASE:
     return 'b';
+  case ACTIVITY_GEN_ROAD:
+    return 'R';
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
     return '?';
@@ -4475,14 +4477,20 @@ static bool sg_load_player_unit(struct loaddata *loading,
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
   } else if (activity == ACTIVITY_PILLAGE) {
+    union act_tgt_obj object;
+
     if (target != S_LAST) {
       pbase = NULL;
+    }
+    if (pbase != NULL) {
+      object.base = base_index(pbase);
+    } else {
+      object.base = BASE_NONE;
     }
     /* An out-of-range base number is seen with old savegames. We take
      * it as indicating undirected pillaging. We will assign pillage
      * targets before play starts. */
-    set_unit_activity_targeted(punit, activity, target,
-                               pbase ? base_index(pbase) : BASE_NONE);
+    set_unit_activity_targeted(punit, activity, target, object);
   } else {
     set_unit_activity(punit, activity);
   }
@@ -4501,9 +4509,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
     secfile_lookup_int_default(loading->file, -1,
                                "%s.changed_from_base", unitstr);
   if (base >= 0 && base < loading->base.size) {
-    punit->changed_from_base = base_number(loading->base.order[base]);
+    punit->changed_from_obj.base = base_number(loading->base.order[base]);
   } else {
-    punit->changed_from_base = BASE_NONE;
+    punit->changed_from_obj.base = BASE_NONE;
     fc_assert_action(punit->changed_from != ACTIVITY_BASE
                      && (punit->changed_from != ACTIVITY_PILLAGE
                          || punit->changed_from_target != S_LAST),
@@ -4744,7 +4752,7 @@ static void sg_save_player_units(struct savedata *saving,
                        "%s.activity_count", buf);
     secfile_insert_int(saving->file, punit->activity_target,
                        "%s.activity_target", buf);
-    secfile_insert_int(saving->file, punit->activity_base,
+    secfile_insert_int(saving->file, punit->act_object.base,
                        "%s.activity_base", buf);
     secfile_insert_int(saving->file, punit->changed_from,
                        "%s.changed_from", buf);
@@ -4752,7 +4760,7 @@ static void sg_save_player_units(struct savedata *saving,
                        "%s.changed_from_count", buf);
     secfile_insert_int(saving->file, punit->changed_from_target,
                        "%s.changed_from_target", buf);
-    secfile_insert_int(saving->file, punit->changed_from_base,
+    secfile_insert_int(saving->file, punit->changed_from_obj.base,
                        "%s.changed_from_base", buf);
     secfile_insert_bool(saving->file, punit->done_moving,
                         "%s.done_moving", buf);
@@ -5551,7 +5559,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       unit_assign_specific_activity_target(punit,
                                            &punit->activity,
                                            &punit->activity_target,
-                                           &punit->activity_base);
+                                           &punit->act_object);
     } unit_list_iterate_end;
   } players_iterate_end;
 

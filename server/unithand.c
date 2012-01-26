@@ -68,9 +68,11 @@ static void city_build(struct player *pplayer, struct unit *punit,
 static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
 					    enum tile_special_type new_target,
-                                            Base_type_id base);
+                                            union act_tgt_obj object);
 static void unit_activity_handling_base(struct unit *punit,
                                         Base_type_id base);
+static void unit_activity_handling_road(struct unit *punit,
+                                        Road_type_id road);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
@@ -739,10 +741,11 @@ void handle_unit_build_city(struct player *pplayer, int unit_id,
 /**************************************************************************
   Handle change in unit activity.
 **************************************************************************/
-void handle_unit_change_activity(struct player *pplayer, int unit_id,
-				 enum unit_activity activity,
-				 enum tile_special_type activity_target,
-                                 Base_type_id activity_base)
+static void handle_unit_change_activity_real(struct player *pplayer,
+                                             int unit_id,
+                                             enum unit_activity activity,
+                                             enum tile_special_type activity_target,
+                                             union act_tgt_obj object)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
@@ -754,7 +757,11 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
   if (punit->activity == activity
    && punit->activity_target == activity_target
-   && punit->activity_base == activity_base
+   && ((punit->activity != ACTIVITY_BASE
+        && punit->activity != ACTIVITY_PILLAGE)
+       || punit->act_object.base == object.base)
+   && (punit->activity != ACTIVITY_GEN_ROAD
+       || punit->act_object.road == object.road)
    && !punit->ai_controlled) {
     /* Treat change in ai.control as change in activity, so
      * idle autosettlers behave correctly when selected --dwp
@@ -773,16 +780,24 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
   switch (activity) {
   case ACTIVITY_BASE:
-    if (!base_by_number(activity_base)) {
+    if (!base_by_number(object.base)) {
       /* Illegal base type */
       return;
     }
-    unit_activity_handling_base(punit, activity_base);
+    unit_activity_handling_base(punit, object.base);
+    break;
+
+  case ACTIVITY_GEN_ROAD:
+    if (!road_by_number(object.road)) {
+      /* Illegal road type */
+      return;
+    }
+    unit_activity_handling_road(punit, object.road);
     break;
 
   case ACTIVITY_EXPLORE:
     unit_activity_handling_targeted(punit, activity,
-                                    activity_target, BASE_NONE);
+                                    activity_target, object);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
@@ -794,10 +809,63 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     break;
 
   default:
-    unit_activity_handling_targeted(punit, activity, activity_target,
-                                    activity_base);
+    unit_activity_handling_targeted(punit, activity, activity_target, object);
     break;
   };
+}
+
+/**************************************************************************
+  Handle change in unit activity.
+**************************************************************************/
+void handle_unit_change_activity(struct player *pplayer, int unit_id,
+                                 enum unit_activity activity,
+                                 enum tile_special_type activity_target)
+{
+  union act_tgt_obj object = { .base = BASE_NONE };
+
+  if (activity == ACTIVITY_BASE || activity == ACTIVITY_GEN_ROAD
+      || (activity == ACTIVITY_PILLAGE && activity_target == S_LAST)) {
+    return;
+  }
+
+  handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target,
+                                   object);
+}
+
+/**************************************************************************
+  Handle change in base targeting unit activity.
+**************************************************************************/
+void handle_unit_change_activity_base(struct player *pplayer, int unit_id,
+                                      enum unit_activity activity,
+                                      enum tile_special_type activity_target,
+                                      Base_type_id base)
+{
+  union act_tgt_obj object = { .base = base };
+
+  if (activity != ACTIVITY_BASE && activity != ACTIVITY_PILLAGE) {
+    return;
+  }
+
+  handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target,
+                                   object);
+}
+
+/**************************************************************************
+  Handle change in road targeting unit activity.
+**************************************************************************/
+void handle_unit_change_activity_road(struct player *pplayer, int unit_id,
+                                      enum unit_activity activity,
+                                      enum tile_special_type activity_target,
+                                      Road_type_id road)
+{
+  union act_tgt_obj object = { .road = road };
+
+  if (activity != ACTIVITY_GEN_ROAD) {
+    return;
+  }
+
+  handle_unit_change_activity_real(pplayer, unit_id, activity, activity_target,
+                                   object);
 }
 
 /**************************************************************************
@@ -2000,11 +2068,14 @@ void unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity)
 {
   /* Must specify target for ACTIVITY_BASE */
-  fc_assert_ret(new_activity != ACTIVITY_BASE);
+  fc_assert_ret(new_activity != ACTIVITY_BASE
+                && new_activity != ACTIVITY_GEN_ROAD);
   
   if (new_activity == ACTIVITY_PILLAGE) {
+    union act_tgt_obj object = { .base = BASE_NONE };
+
     /* Assume untargeted pillaging if no target specified */
-    unit_activity_handling_targeted(punit, new_activity, S_LAST, BASE_NONE);
+    unit_activity_handling_targeted(punit, new_activity, S_LAST, object);
   } else if (can_unit_do_activity(punit, new_activity)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
@@ -2022,19 +2093,19 @@ void unit_activity_handling(struct unit *punit,
 static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
 					    enum tile_special_type new_target,
-                                            Base_type_id base)
+                                            union act_tgt_obj object)
 {
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity);
   } else if (can_unit_do_activity_targeted(punit, new_activity, new_target,
-                                           base)) {
+                                           object)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
     free_unit_orders(punit);
     unit_assign_specific_activity_target(punit,
-                                         &new_activity, &new_target, &base);
-    set_unit_activity_targeted(punit, new_activity, new_target, base);
+                                         &new_activity, &new_target, &object);
+    set_unit_activity_targeted(punit, new_activity, new_target, object);
     send_unit_info(NULL, punit);    
     unit_activity_dependencies(punit, old_activity, old_target);
   }
@@ -2052,6 +2123,23 @@ static void unit_activity_handling_base(struct unit *punit,
 
     free_unit_orders(punit);
     set_unit_activity_base(punit, base);
+    send_unit_info(NULL, punit);
+    unit_activity_dependencies(punit, old_activity, old_target);
+  }
+}
+
+/**************************************************************************
+  Handle request for road building.
+**************************************************************************/
+static void unit_activity_handling_road(struct unit *punit,
+                                        Road_type_id road)
+{
+  if (can_unit_do_activity_road(punit, road)) {
+    enum unit_activity old_activity = punit->activity;
+    enum tile_special_type old_target = punit->activity_target;
+
+    free_unit_orders(punit);
+    set_unit_activity_road(punit, road);
     send_unit_info(NULL, punit);
     unit_activity_dependencies(punit, old_activity, old_target);
   }

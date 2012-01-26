@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 220
+Max id: 222
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -245,6 +245,7 @@ type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
 
 # typedefs for IDs
 type BASE               = sint8(Base_type_id)
+type ROAD               = sint8(Road_type_id)
 type CITY               = UINT16
 type CONNECTION         = SINT16
 type CONTINENT          = sint16(Continent_id)
@@ -782,9 +783,11 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   ACTIVITY activity;
   SPECIAL activity_target;
   BASE activity_base;
+  ROAD activity_road;
   ACTIVITY changed_from;
   SPECIAL changed_from_target;
   BASE changed_from_base;
+  ROAD changed_from_road;
 
   SINT8 battlegroup;
 
@@ -809,6 +812,7 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
 
   UINT8 hp, activity;
   BASE activity_base;
+  ROAD activity_road;
   UNIT transported_by; /* Only valid if transported is set. */
 
   /* in packet only, not in unit struct */
@@ -935,11 +939,24 @@ PACKET_UNIT_DIPLOMAT_ANSWER = 85; sc, dsend, lsend
   DIPLOMAT_ACTION action_type;
 end
 
-PACKET_UNIT_CHANGE_ACTIVITY = 86; cs, dsend
+PACKET_UNIT_CHANGE_ACTIVITY = 222; cs, dsend
+  UNIT unit_id;
+  ACTIVITY activity;
+  SPECIAL activity_target;
+end
+
+PACKET_UNIT_CHANGE_ACTIVITY_BASE = 86; cs, dsend
   UNIT unit_id;
   ACTIVITY activity;
   SPECIAL activity_target;
   BASE activity_base;
+end
+
+PACKET_UNIT_CHANGE_ACTIVITY_ROAD = 221; cs, dsend
+  UNIT unit_id;
+  ACTIVITY activity;
+  SPECIAL activity_target;
+  ROAD activity_road;
 end
 
 /* 88 & 89 are ping packets (not modifiable). */
