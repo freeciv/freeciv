@@ -218,6 +218,7 @@ match=2
 *include "nation/flemish.ruleset"
 *include "nation/florentine.ruleset"
 *include "nation/franconian.ruleset"
+*include "nation/frankish.ruleset"
 *include "nation/french.ruleset"
 *include "nation/frisian.ruleset"
 *include "nation/friulian.ruleset"
