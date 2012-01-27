@@ -128,6 +128,7 @@ artists = "
    Croatia		Frank Zeko
    Courland		J.M. Maalderink
    Cuba			Lauris Kaplinski
+   Cuyavia		Lech Tadeusz Karczewski
    Cyprus		Vzb83 (Wikimedia Commons)
    Czech		Lauris Kaplinski
    Czechoslovakia	Tlusťa (Wikimedia Commons)
@@ -650,6 +651,7 @@ sprites =
 		"f.crimean_tatar", "flags/crimean_tatar"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"
+		"f.cuyavia", "flags/cuyavia"
 		"f.cyprus", "flags/cyprus"
 		"f.czech", "flags/czech"
 		"f.czechoslovakia", "flags/czechoslovakia"

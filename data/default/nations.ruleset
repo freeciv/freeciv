@@ -183,6 +183,7 @@ match=2
 *include "nation/croatian.ruleset"
 *include "nation/cuban.ruleset"
 *include "nation/curonian.ruleset"
+*include "nation/cuyavian.ruleset"
 *include "nation/cypriot.ruleset"
 *include "nation/czech.ruleset"
 *include "nation/czechoslovak.ruleset"
