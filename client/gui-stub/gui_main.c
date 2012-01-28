@@ -66,11 +66,48 @@ int main(int argc, char **argv)
 }
 
 /**************************************************************************
+  Print extra usage information, including one line help on each option,
+  to stderr.
+**************************************************************************/
+static void print_usage(const char *argv0)
+{
+  /* PORTME */
+  /* add client-specific usage information here */
+  fc_fprintf(stderr,
+             _("This client has no special command line options\n\n"));
+
+  /* TRANS: No full stop after the URL, could cause confusion. */
+  fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
+}
+
+/**************************************************************************
+  Parse and enact any client-specific options.
+**************************************************************************/
+static void parse_options(int argc, char **argv)
+{
+  int i;
+
+  i = 1;
+  while (i < argc)
+  {
+    if (is_option("--help", argv[i]))
+    {
+      print_usage(argv[0]);
+      exit(EXIT_SUCCESS);
+    }
+    /* PORTME */
+    i += 1;
+  }
+}
+
+/**************************************************************************
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
 void ui_main(int argc, char *argv[])
 {
+  parse_options(argc, argv);
+
   /* PORTME */
   fc_fprintf(stderr, "Freeciv rules!\n");
 }
