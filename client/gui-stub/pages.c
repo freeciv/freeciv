@@ -15,6 +15,10 @@
 #include <fc_config.h>
 #endif
 
+/* gui main header */
+#include "gui_stub.h"
+
+/* client */
 #include "connectdlg_g.h"
 
 #include "pages.h"
@@ -22,7 +26,7 @@
 /**************************************************************************
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
-void real_set_client_page(enum client_pages page)
+void gui_real_set_client_page(enum client_pages page)
 {
   /* PORTME */
 }
@@ -32,7 +36,7 @@ void real_set_client_page(enum client_pages page)
   "default", and if the user changes this then set_ruleset() should be
   called.
 ****************************************************************************/
-void gui_set_rulesets(int num_rulesets, char **rulesets)
+void gui_gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
 }
@@ -40,7 +44,7 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 /**************************************************************************
   Returns current client page
 **************************************************************************/
-enum client_pages get_current_client_page(void)
+enum client_pages gui_get_current_client_page(void)
 {
   /* PORTME */
   return PAGE_MAIN;

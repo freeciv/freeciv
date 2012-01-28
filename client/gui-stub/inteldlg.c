@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* gui main header */
+#include "gui_stub.h"
+
 #include "inteldlg.h"
 
 /**************************************************************************

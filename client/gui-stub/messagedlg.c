@@ -15,6 +15,10 @@
 #include <fc_config.h>
 #endif
 
+/* gui main header */
+#include "gui_stub.h"
+
+/* client */
 #include "options.h"
 
 #include "messagedlg.h"

@@ -15,8 +15,12 @@
 #include <fc_config.h>
 #endif
 
+/* common */
 #include "game.h"
 #include "government.h"
+
+/* gui main header */
+#include "gui_stub.h"
 
 #include "dialogs.h"
 

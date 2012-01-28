@@ -20,13 +20,16 @@
 /* client */
 #include "themes_common.h"
 
+/* gui main header */
+#include "gui_stub.h"
+
 /* client/include */
 #include "themes_g.h"
 
 /*****************************************************************************
   Loads a gtk theme directory/theme_name
 *****************************************************************************/
-void gui_load_theme(const char *directory, const char *theme_name)
+void gui_gui_load_theme(const char *directory, const char *theme_name)
 {
   /* Nothing */
 }
@@ -34,7 +37,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 /*****************************************************************************
   Clears a theme (sets default system theme)
 *****************************************************************************/
-void gui_clear_theme(void)
+void gui_gui_clear_theme(void)
 {
   /* Nothing */
 }
@@ -45,7 +48,7 @@ void gui_clear_theme(void)
   Returns an array containing these strings and sets array size in count.
   The caller is responsible for freeing the array and the paths.
 *****************************************************************************/
-char **get_gui_specific_themes_directories(int *count)
+char **gui_get_gui_specific_themes_directories(int *count)
 {
   *count = 0;
   
@@ -58,7 +61,7 @@ char **get_gui_specific_themes_directories(int *count)
   Useable theme for gtk+ is a directory which contains file gtk-2.0/gtkrc.
   The caller is responsible for freeing the array and the names
 *****************************************************************************/
-char **get_useable_themes_in_directory(const char *directory, int *count)
+char **gui_get_useable_themes_in_directory(const char *directory, int *count)
 {
   *count = 0;
   return fc_malloc(sizeof(char*) * 0);

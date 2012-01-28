@@ -17,6 +17,10 @@
 
 #include <stdlib.h>
 
+/* gui main header */
+#include "gui_stub.h"
+
+/* client */
 #include "repodlgs_common.h"
 
 #include "cityrep.h"

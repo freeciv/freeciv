@@ -16,7 +16,8 @@
 
 #ifdef GUI_CB_MODE
 #define GUI_FUNC_PROTO(_type, _func, ...) \
-_type gui_##_func( __VA_ARGS__ );
+_type gui_##_func( __VA_ARGS__ ); \
+_type _func( __VA_ARGS__ );
 #else
 #define GUI_FUNC_PROTO(_type, _func, ...) \
 _type _func( __VA_ARGS__ );

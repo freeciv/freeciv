@@ -11,23 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <fc_config.h>
-#endif
+#ifndef FC__GUI_CBSETTER_H
+#define FC__GUI_CBSETTER_H
 
-/* gui main header */
-#include "gui_stub.h"
+void setup_gui_funcs(void);
 
-/* client */
-#include "voteinfo.h"
-
-#include "voteinfo_bar.h"
-
-/****************************************************************************
-  Refresh all vote related GUI widgets. Called by the voteinfo module when
-  the client receives new vote information from the server.
-****************************************************************************/
-void voteinfo_gui_update(void)
-{
-  /* PORTME */
-}
+#endif /* FC__GUI_CBSETTER_H */

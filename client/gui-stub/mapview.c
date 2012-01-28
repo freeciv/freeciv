@@ -20,6 +20,9 @@
 #include "game.h"
 #include "support.h"
 
+/* gui main header */
+#include "gui_stub.h"
+
 /* client */
 #include "client_main.h"
 #include "climisc.h"
@@ -83,7 +86,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   Update the timeout display.  The timeout is the time until the turn
   ends, in seconds.
 ****************************************************************************/
-void update_timeout_label(void)
+void gui_update_timeout_label(void)
 {
   /* PORTME */
     

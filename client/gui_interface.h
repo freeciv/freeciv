@@ -20,6 +20,8 @@ extern "C" {
 
 /* common */
 #include "fc_types.h"
+#include "featured_text.h"
+#include "tile.h"
 
 /* client/include */
 #include "canvas_g.h"

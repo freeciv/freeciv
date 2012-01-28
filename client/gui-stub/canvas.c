@@ -15,12 +15,15 @@
 #include <fc_config.h>
 #endif
 
+/* gui main header */
+#include "gui_stub.h"
+
 #include "canvas.h"
 
 /****************************************************************************
   Create a canvas of the given size.
 ****************************************************************************/
-struct canvas *canvas_create(int width, int height)
+struct canvas *gui_canvas_create(int width, int height)
 {
   /* PORTME */
   return NULL;
@@ -30,7 +33,7 @@ struct canvas *canvas_create(int width, int height)
   Free any resources associated with this canvas and the canvas struct
   itself.
 ****************************************************************************/
-void canvas_free(struct canvas *store)
+void gui_canvas_free(struct canvas *store)
 {
   /* PORTME */
 }
@@ -38,9 +41,9 @@ void canvas_free(struct canvas *store)
 /****************************************************************************
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
-void canvas_copy(struct canvas *dest, struct canvas *src,
-		     int src_x, int src_y, int dest_x, int dest_y, int width,
-		     int height)
+void gui_canvas_copy(struct canvas *dest, struct canvas *src,
+                     int src_x, int src_y, int dest_x, int dest_y, int width,
+                     int height)
 {
   /* PORTME */
 }
@@ -48,10 +51,10 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 /****************************************************************************
   Draw some or all of a sprite onto the canvas.
 ****************************************************************************/
-void canvas_put_sprite(struct canvas *pcanvas,
-		    int canvas_x, int canvas_y,
-		    struct sprite *sprite,
-		    int offset_x, int offset_y, int width, int height)
+void gui_canvas_put_sprite(struct canvas *pcanvas,
+                           int canvas_x, int canvas_y,
+                           struct sprite *sprite,
+                           int offset_x, int offset_y, int width, int height)
 {
   /* PORTME */
 }
@@ -59,9 +62,9 @@ void canvas_put_sprite(struct canvas *pcanvas,
 /****************************************************************************
   Draw a full sprite onto the canvas.
 ****************************************************************************/
-void canvas_put_sprite_full(struct canvas *pcanvas,
-			 int canvas_x, int canvas_y,
-			 struct sprite *sprite)
+void gui_canvas_put_sprite_full(struct canvas *pcanvas,
+                                int canvas_x, int canvas_y,
+                                struct sprite *sprite)
 {
   /* PORTME */
 }
@@ -70,10 +73,10 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
   Draw a full sprite onto the canvas.  If "fog" is specified draw it with
   fog.
 ****************************************************************************/
-void canvas_put_sprite_fogged(struct canvas *pcanvas,
-			      int canvas_x, int canvas_y,
-			      struct sprite *psprite,
-			      bool fog, int fog_x, int fog_y)
+void gui_canvas_put_sprite_fogged(struct canvas *pcanvas,
+                                  int canvas_x, int canvas_y,
+                                  struct sprite *psprite,
+                                  bool fog, int fog_x, int fog_y)
 {
   /* PORTME */
 }
@@ -81,9 +84,9 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 /****************************************************************************
   Draw a filled-in colored rectangle onto canvas.
 ****************************************************************************/
-void canvas_put_rectangle(struct canvas *pcanvas,
-		       struct color *pcolor,
-		       int canvas_x, int canvas_y, int width, int height)
+void gui_canvas_put_rectangle(struct canvas *pcanvas,
+                              struct color *pcolor,
+                              int canvas_x, int canvas_y, int width, int height)
 {
   /* PORTME */
 }
@@ -91,9 +94,9 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct sprite *psprite, struct color *pcolor,
-			     int canvas_x, int canvas_y)
+void gui_canvas_fill_sprite_area(struct canvas *pcanvas,
+                                 struct sprite *psprite, struct color *pcolor,
+                                 int canvas_x, int canvas_y)
 {
   /* PORTME */
 }
@@ -101,8 +104,8 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
-			    int canvas_x, int canvas_y)
+void gui_canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
+                                int canvas_x, int canvas_y)
 {
   /* PORTME */
 }
@@ -110,9 +113,9 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 /****************************************************************************
   Draw a 1-pixel-width colored line onto the canvas.
 ****************************************************************************/
-void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
-		  enum line_type ltype, int start_x, int start_y,
-		  int dx, int dy)
+void gui_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
+                         enum line_type ltype, int start_x, int start_y,
+                         int dx, int dy)
 {
   /* PORTME */
 }
@@ -120,9 +123,9 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 /****************************************************************************
   Draw a 1-pixel-width colored curved line onto the canvas.
 ****************************************************************************/
-void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
-                            enum line_type ltype, int start_x, int start_y,
-                            int dx, int dy)
+void gui_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
+                                enum line_type ltype, int start_x, int start_y,
+                                int dx, int dy)
 {
   /* PORTME */
 }
@@ -132,8 +135,8 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
-void get_text_size(int *width, int *height,
-		   enum client_font font, const char *text)
+void gui_get_text_size(int *width, int *height,
+                       enum client_font font, const char *text)
 {
   /* PORTME */
   if (width) {
@@ -149,9 +152,9 @@ void get_text_size(int *width, int *height,
   position does not account for the ascent of the text; this function must
   take care of this manually.  The text will not be NULL but may be empty.
 ****************************************************************************/
-void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, struct color *pcolor,
-		     const char *text)
+void gui_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
+                         enum client_font font, struct color *pcolor,
+                         const char *text)
 {
   /* PORTME */
 }
