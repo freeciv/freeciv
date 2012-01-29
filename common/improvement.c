@@ -581,7 +581,9 @@ bool wonder_is_built(const struct player *pplayer,
 
 /**************************************************************************
   Get the world city with this wonder (small or great).  This doesn't
-  always success on the client side.
+  always succeed on the client side, and even when it does, it may
+  return an "invisible" city whose members are unexpectedly NULL;
+  take care.
 **************************************************************************/
 struct city *find_city_from_wonder(const struct player *pplayer,
                                    const struct impr_type *pimprove)
