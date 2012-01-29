@@ -591,15 +591,6 @@ static struct command commands[] = {
        "able to reconnect is controlled by the 'kicktime' setting."), NULL,
    CMD_ECHO_ADMINS, VCF_NOPASSALONE, 50
   },
-#ifdef DEBUG
-  {"oldsave", ALLOW_ADMIN,
-   /* TRANS: translate text between <> only */
-   N_("save\n"
-      "save <file-name>"),
-   N_("Save game to file using the old format."), NULL, NULL,
-   CMD_ECHO_ADMINS, VCF_NONE, 0
-  },
-#endif /* DEBUG */
   {"delegate", ALLOW_BASIC,
    /* TRANS: translate only text between [] and <> */
    N_("delegate cancel [player-name]\n"

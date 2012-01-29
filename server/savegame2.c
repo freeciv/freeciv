@@ -553,7 +553,7 @@ void savegame2_load(struct section_file *file)
   if (!has_capabilities("+version2", savefile_options)) {
     /* load old format (freeciv 2.2.x) */
     log_verbose("loading savefile in old format ...");
-    game_load(file);
+    legacy_game_load(file);
   } else {
     /* load new format (freeciv 2.2.99 and newer) */
     log_verbose("loading savefile in new format ...");
@@ -580,23 +580,9 @@ void savegame2_save(struct section_file *file, const char *save_reason,
   struct timer *savetimer = new_timer_start(TIMER_CPU, TIMER_DEBUG);
 #endif
 
-  if (game.server.saveversion == -1) {
-    /* freeciv 2.2.x */
-    if (player_count() > 32) {
-      log_error("Error: freeciv 2.2.x can't handle more than 32 players.");
-    } else if (MAPSIZE_FULLSIZE != map.server.mapsize
-               || 30 < map.server.size) {
-      log_error("Error: freeciv 2.2.x can't handle bigger maps.");
-    } else {
-      log_verbose("saving game in old format ...");
-      game_save(file, save_reason, scenario);
-    }
-  } else {
-    /* freeciv 2.2.99 or newer */
-    log_verbose("saving game in new format ...");
-    savegame2_save_real(file, save_reason, scenario,
-                        game.server.saveversion);
-  }
+  log_verbose("saving game in new format ...");
+  savegame2_save_real(file, save_reason, scenario,
+                      game.server.saveversion);
 
 #ifdef DEBUG_TIMERS
   stop_timer(savetimer);

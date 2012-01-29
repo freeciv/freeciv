@@ -15,8 +15,6 @@
 
 #include "registry.h"
 
-void game_load(struct section_file *file);
-void game_save(struct section_file *file, const char *save_reason,
-               bool scenario);
+void legacy_game_load(struct section_file *file);
 
 #endif /* FC__SAVEGAME_H */

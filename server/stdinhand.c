@@ -4232,20 +4232,6 @@ static bool handle_stdin_input_real(struct connection *caller,
     return remove_player_command(caller, arg, check);
   case CMD_SAVE:
     return save_command(caller,arg, check);
-#ifdef DEBUG
-  case CMD_OLDSAVE:
-    {
-      bool ret;
-      int saveversion = game.server.saveversion;
-
-      /* Old save format has the save version -1; set it temporary. */
-      game.server.saveversion = -1;
-      ret = save_command(caller, arg, check);
-      game.server.saveversion = saveversion;
-
-      return ret;
-    }
-#endif /* DEBUG */
   case CMD_LOAD:
     return load_command(caller, arg, check);
   case CMD_METAPATCHES:
