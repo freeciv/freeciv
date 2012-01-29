@@ -563,7 +563,7 @@ static int num_continent_buildings(const struct player *pplayer,
     const struct city *pcity;
 
     pcity = city_from_wonder(pplayer, building);
-    if (pcity && tile_continent(pcity->tile) == continent) {
+    if (pcity && pcity->tile && tile_continent(pcity->tile) == continent) {
       return 1;
     }
   } else {
