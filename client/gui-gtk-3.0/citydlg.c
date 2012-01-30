@@ -889,6 +889,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
                                  rend, "text", 1, "strikethrough", 3, NULL);
 
   bar = gtk_progress_bar_new();
+  #if GTK_CHECK_VERSION(3, 0, 0)
+  gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
+  #endif
   pdialog->overview.production_bar = bar;
   gtk_container_add(GTK_CONTAINER(production_combo), bar);
   gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(production_combo), 3);
@@ -1056,6 +1059,9 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
   /* The label is set in city_dialog_update_building() */
   bar = gtk_progress_bar_new();
+  #if GTK_CHECK_VERSION(3, 0, 0)
+  gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
+  #endif
   pdialog->production.production_bar = bar;
   gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));

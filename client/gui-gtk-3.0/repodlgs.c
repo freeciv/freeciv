@@ -603,6 +603,9 @@ static void science_report_init(struct science_report *preport)
   preport->reachable_techs = GTK_COMBO_BOX(w);
 
   w = gtk_progress_bar_new();
+  #if GTK_CHECK_VERSION(3, 0, 0)
+  gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(w), TRUE);
+  #endif
   gtk_table_attach_defaults(GTK_TABLE(table), w, 2, 5, 0, 1);
   gtk_widget_set_size_request(w, -1, 25);
   preport->progress_bar = GTK_PROGRESS_BAR(w);
