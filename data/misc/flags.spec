@@ -232,6 +232,7 @@ artists = "
    Jamaica		J.M. Maalderink
    Japan		Lauris Kaplinski
    Jbonai		Elmo Todurov
+   Jerusalem		Orange Tuesday
    Jolof		J.M. Maalderink
    Jordan		Zscout730 (Wikimedia Commons)
    Kalmykia		Conscious (Wikimedia Commons)
@@ -755,6 +756,7 @@ sprites =
 		"f.jamaica", "flags/jamaica"
 		"f.japan", "flags/japan"
 		"f.jbonai", "flags/jbonai"
+		"f.jerusalem", "flags/jerusalem-large"
 		"f.jolof", "flags/jolof"
 		"f.jordan", "flags/jordan"
 		"f.kalmykia", "flags/kalmykia"
