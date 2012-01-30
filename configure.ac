@@ -828,9 +828,9 @@ AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-[  --enable-fcmp[[=no/yes/gtk2/gtk3/test]] build freeciv-modpack-program [[default=test]]],
+[  --enable-fcmp[[=no/yes/gtk2/gtk3/qt/test]] build freeciv-modpack-program [[default=test]]],
 [case "${enableval}" in
-  yes|no|gtk2|gtk3|test) fc_mp=${enableval} ;;
+  yes|no|gtk2|gtk3|qt|test) fc_mp=${enableval} ;;
   *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcmp]) ;;
 esac], [fc_mp=test])
 
@@ -873,13 +873,31 @@ if test "x$modinst" = "xno" &&
 ])])
 fi
 
+if test "x$fc_mp" = "xgtk2" && test "x$modinst" != "xgtk2" ; then
+  AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
+fi
+
+if test "x$modinst" = "xno" &&
+   ( test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xqt" || test "x$fc_mp" = "xtest" ) ; then
+   if test "x$cxx_works" = "xyes" ; then
+     FC_QT
+
+     if test "x$fc_qt_usable" = "xtrue" ; then
+       modinst=qt
+
+       MP_qt_CPPFLAGS=$FC_QT_CPPFLAGS
+       MP_qt_LIBS=$FC_QT_LIBS
+     fi
+   fi
+fi
+
+if test "x$fc_mp" = "xqt" && test "x$modinst" != "xqt" ; then
+  AC_MSG_ERROR([Cannot build Qt-version of freeciv-modpack as requested])
+fi
+
 if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
   MP_gtk_CFLAGS="$MP_gtk_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
-fi
-
-if test "x$fc_mp" = "xgtk2" && test "x$modinst" != "xgtk2" ; then
-  AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
 fi
 
 if test "x$fc_mp" = "xyes" && test "x$modinst" = "xno" ; then
@@ -887,6 +905,8 @@ if test "x$fc_mp" = "xyes" && test "x$modinst" = "xno" ; then
 fi
 
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
+AM_CONDITIONAL([MODINST_GTK], [test "x$modinst" = "xgtk2" || test "x$modinst" = "xgtk3"])
+AM_CONDITIONAL([MODINST_QT], [test "x$modinst" = "xqt"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
@@ -917,6 +937,8 @@ AC_SUBST([GUI_beos_LDFLAGS])
 AC_SUBST([MP_gtk_CFLAGS])
 AC_SUBST([MP_gtk_LIBS])
 AC_SUBST([MP_gtk_LDFLAGS])
+AC_SUBST([MP_qt_CPPFLAGS])
+AC_SUBST([MP_qt_LIBS])
 AC_SUBST([SOUND_CFLAGS])
 AC_SUBST([SOUND_LIBS])
 AC_SUBST([VERSION_WITHOUT_LABEL])

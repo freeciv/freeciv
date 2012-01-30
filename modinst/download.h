@@ -13,6 +13,10 @@
 #ifndef FC__MODPACK_DOWNLOAD_H
 #define FC__MODPACK_DOWNLOAD_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* modinst */
 #include "modinst.h"
 
@@ -50,5 +54,9 @@ typedef void (*modpack_list_setup_cb)(const char *name, const char *URL,
 const char *download_modpack_list(const struct fcmp_params *fcmp,
                                   modpack_list_setup_cb cb,
                                   dl_msg_callback mcb);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__MODPACK_DOWNLOAD_H */

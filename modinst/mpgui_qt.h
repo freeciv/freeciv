@@ -10,17 +10,30 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__MPCMDLINE_H
-#define FC__MPCMDLINE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#ifndef FC__MPGUI_QT_H
+#define FC__MPGUI_QT_H
 
-int fcmp_parse_cmdline(int argc, char *argv[]);
+// Qt
+#include <QObject>
+#include <QLabel>
+#include <QLineEdit>
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+class mpgui : public QObject
+{
+  Q_OBJECT
 
-#endif /* FC__MPCMDLINE_H */
+  public:
+    void setup(QWidget *central);
+    void display_msg(const char *msg);
+
+  private slots:
+    void URL_given();
+
+  private:
+
+    QLineEdit *URLedit;
+    QLabel *msg_dspl;
+};
+
+#endif // FC__MPGUI_QT_H
