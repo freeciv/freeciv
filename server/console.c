@@ -59,7 +59,9 @@ static void con_handle_log(int level, const char *message, bool file_too)
     /* Make sure that message is not left to buffers when server dies */
     conn_list_iterate(game.est_connections, pconn) {
       pconn->send_buffer->do_buffer_sends = 0;
+#ifdef USE_COMPRESSION
       pconn->compression.frozen_level = 0;
+#endif
     } conn_list_iterate_end;
 
     notify_conn(NULL, NULL, E_LOG_FATAL, ftc_warning, "%s", message);
