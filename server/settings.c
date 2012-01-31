@@ -3485,7 +3485,7 @@ static void setting_game_restore(struct setting *pset)
 
   switch (setting_type(pset)) {
   case SSET_BOOL:
-    res = (NULL != setting_bool_to_str(pset, pset->bitwise.game_value,
+    res = (NULL != setting_bool_to_str(pset, pset->boolean.game_value,
                                        FALSE, buf, sizeof(buf))
            && setting_bool_set(pset, buf, NULL, reject_msg,
                                sizeof(reject_msg)));
@@ -3502,7 +3502,7 @@ static void setting_game_restore(struct setting *pset)
     break;
 
   case SSET_ENUM:
-    res = (NULL != setting_enum_to_str(pset, pset->bitwise.game_value,
+    res = (NULL != setting_enum_to_str(pset, pset->enumerator.game_value,
                                        FALSE, buf, sizeof(buf))
            && setting_enum_set(pset, buf, NULL, reject_msg,
                                sizeof(reject_msg)));
