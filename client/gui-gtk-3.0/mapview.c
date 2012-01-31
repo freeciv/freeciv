@@ -506,10 +506,9 @@ void update_city_descriptions(void)
 **************************************************************************/
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
-  struct canvas canvas_store;
+  struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
 
   canvas_store.surface = gtk_pixcomm_get_surface(p);
-  canvas_store.drawable = NULL;
 
   gtk_pixcomm_clear(p);
 
@@ -526,10 +525,9 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
                                     int *upkeep_cost, int happy_cost)
 {
-  struct canvas store;
+  struct canvas store = FC_STATIC_CANVAS_INIT;
  
   store.surface = gtk_pixcomm_get_surface(p);
-  store.drawable = NULL;
 
   put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset),
                          upkeep_cost, happy_cost);

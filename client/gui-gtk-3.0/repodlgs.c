@@ -238,10 +238,7 @@ static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer 
 #endif
 {
   /* FIXME: this currently redraws everything! */
-  struct canvas canvas = {
-    .surface = NULL,
-    .drawable = NULL
-  };
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int width, height;
 
