@@ -1493,21 +1493,21 @@ static struct setting settings[] = {
 	  GAME_DEFAULT_CITYMINDIST)
 
   GEN_BOOL("trading_tech", game.info.trading_tech,
-           SSET_RULES, SSET_SOCIOLOGY, SSET_RULES, SSET_TO_CLIENT,
+           SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Technology trading"),
            N_("If turned off, trading technologies in the diplomacy dialog "
               "is not allowed."), NULL, NULL,
            GAME_DEFAULT_TRADING_TECH)
 
   GEN_BOOL("trading_gold", game.info.trading_gold,
-           SSET_RULES, SSET_SOCIOLOGY, SSET_RULES, SSET_TO_CLIENT,
+           SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("Gold trading"),
            N_("If turned off, trading gold in the diplomacy dialog "
               "is not allowed."), NULL, NULL,
            GAME_DEFAULT_TRADING_GOLD)
 
   GEN_BOOL("trading_city", game.info.trading_city,
-           SSET_RULES, SSET_SOCIOLOGY, SSET_RULES, SSET_TO_CLIENT,
+           SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
            N_("City trading"),
            N_("If turned off, trading cities in the diplomacy dialog "
               "is not allowed."), NULL, NULL,
