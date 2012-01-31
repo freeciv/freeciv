@@ -50,6 +50,10 @@ struct tile {
   Continent_id continent;
   bv_special special;
   bv_bases bases;
+  /* We're in transition from storing roads in specials to storing roads
+   * in roads vector. Roads vector does not yet always contain correct
+   * information. */
+  bv_roads roads;
   struct resource *resource;		/* NULL for no resource */
   struct terrain *terrain;		/* NULL for unknown tiles */
   struct unit_list *units;

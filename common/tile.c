@@ -846,6 +846,10 @@ bool tile_has_any_bases(const struct tile *ptile)
 ****************************************************************************/
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 {
+  /* TODO: Check from roads vector once it always contains correct value
+   *       (and specials do not) */
+  /* return BV_ISSET(ptile->roads, road_index(proad)); */
+
   return tile_has_special(ptile, road_special(proad));
 }
 
@@ -854,6 +858,10 @@ bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 ****************************************************************************/
 void tile_add_road(struct tile *ptile, const struct road_type *proad)
 {
+  BV_SET(ptile->roads, road_index(proad));
+
+  /* Maintain information in old specials vector too. That's still the
+   * trusted information. */
   BV_SET(ptile->special, road_special(proad));
 }
 
@@ -862,6 +870,10 @@ void tile_add_road(struct tile *ptile, const struct road_type *proad)
 ****************************************************************************/
 void tile_remove_road(struct tile *ptile, const struct road_type *proad)
 {
+  BV_CLR(ptile->roads, road_index(proad));
+
+  /* Maintain information in old specials vector too. That's still the
+   * trusted information. */
   BV_CLR(ptile->special, road_special(proad));
 }
 
@@ -883,6 +895,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
 
   BV_CLR_ALL(vtile->special);
   BV_CLR_ALL(vtile->bases);
+  BV_CLR_ALL(vtile->roads);
   vtile->resource = NULL;
   vtile->terrain = NULL;
   vtile->units = unit_list_new();
@@ -912,6 +925,12 @@ struct tile *tile_virtual_new(const struct tile *ptile)
         BV_SET(vtile->bases, base_number(pbase));
       }
     } base_type_iterate_end;
+
+    road_type_iterate(proad) {
+      if (tile_has_road(ptile, proad)) {
+        tile_add_road(vtile, proad);
+      }
+    } road_type_iterate_end;
 
     vtile->resource = ptile->resource;
     vtile->terrain = ptile->terrain;
