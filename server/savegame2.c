@@ -3849,9 +3849,10 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_y, "%s.y", citystr),
                   FALSE, "%s", secfile_error());
   pcity->tile = native_pos_to_tile(nat_x, nat_y);
-  sg_warn_ret_val(NULL != pcity->tile, "%s has invalid center tile (%d, %d)",
+  sg_warn_ret_val(NULL != pcity->tile, FALSE,
+                  "%s has invalid center tile (%d, %d)",
                   citystr, nat_x, nat_y);
-  sg_warn_ret_val(NULL == tile_city(pcity->tile),
+  sg_warn_ret_val(NULL == tile_city(pcity->tile), FALSE,
                   "%s duplicates city (%d, %d)", citystr, nat_x, nat_y);
 
   /* Instead of dying, use 'citystr' string for damaged name. */
