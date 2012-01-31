@@ -51,10 +51,6 @@ freeciv_mp_qt_SOURCES = \
 	mpgui_qt.h	\
 	$(MOC_FILES)
 
-# Generate meta object source from header
-meta_%.cpp: %.h
-	moc -o $@ $<
-
 CLEANFILES = $(MOC_FILES)
 
 freeciv_mp_qt_LDADD = \
@@ -65,3 +61,7 @@ freeciv_mp_qt_LDADD = \
 		$(MP_qt_LIBS) \
 		$(MPICON)
 endif
+
+# Generate meta object source from header
+meta_%.cpp: %.h
+	moc -o $@ $<
