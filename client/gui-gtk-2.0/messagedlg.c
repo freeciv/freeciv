@@ -56,7 +56,7 @@ void popup_messageopt_dialog(void)
 static void create_messageopt_dialog(void)
 {
   GtkWidget *form, *explanation;
-  int n, i, j;
+  int n, i = 0, j;
   
   gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(shell, _("Message Options"));
@@ -88,7 +88,7 @@ static void create_messageopt_dialog(void)
     GtkTreeIter it;
     GValue value = { 0, };
 
-    n = (i % NUM_LISTS);
+    n = (i++ % NUM_LISTS);
 
     gtk_list_store_append(model[n], &it);
 
