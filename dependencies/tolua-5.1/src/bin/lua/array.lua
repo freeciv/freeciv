@@ -169,6 +169,9 @@ function classArray:supcode ()
   local def = 0
   if self.def ~= '' then def = self.def end
   if t then
+   if isenum(self.type) then
+     output('(int)')
+   end
    if t=='function' then t='value' end
    output('tolua_to'..t,'(tolua_S,3,',def,'));')
   else
