@@ -264,7 +264,7 @@ BV_DEFINE(bv_mapdef_arg, MAPDEF_COUNT);
 #define SPECENUM_VALUE0     IMGTOOL_PPM
 #define SPECENUM_VALUE0NAME "ppm"
 #define SPECENUM_VALUE1     IMGTOOL_MAGICKWAND
-#define SPECENUM_VALUE1NAME "magickwand"
+#define SPECENUM_VALUE1NAME "magick"
 #include "specenum_gen.h"
 
 /* player definitions */
@@ -719,7 +719,7 @@ char *mapimg_help(void)
       " 'zoom=2:map=tcub:show=each:format=png'\n"
       " 'zoom=1:map=tcub:show=plrname:plrname=Otto:format=gif'\n"
       " 'zoom=3:map=cu:show=plrbv:plrbv=010011:format=jpg'\n"
-      " 'zoom=1:map=t:show=none:format=magickwand|jpg'"),
+      " 'zoom=1:map=t:show=none:format=magick|jpg'"),
     astr_str(&defaults[MAPDEF_FORMAT]), astr_str(&defaults[MAPDEF_SHOW]),
     astr_str(&defaults[MAPDEF_TURNS]), astr_str(&defaults[MAPDEF_ZOOM]),
     astr_str(&defaults[MAPDEF_MAP]),
