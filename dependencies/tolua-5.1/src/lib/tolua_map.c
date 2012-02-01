@@ -130,11 +130,12 @@ static int tolua_bnd_takeownership (lua_State* L)
   {
     if (lua_getmetatable(L,1))        /* if metatable? */
     {
+      void* u;
       lua_pushstring(L,".collector");
       lua_rawget(L,-2);
       func = lua_iscfunction(L,-1) ? lua_tocfunction(L,-1) : NULL; 
       lua_pop(L,2);
-      void* u = *((void**)lua_touserdata(L,1));
+      u = *((void**)lua_touserdata(L,1));
       tolua_clone(L,u,func);
     }
   }
@@ -258,12 +259,15 @@ TOLUA_API void* tolua_copy (lua_State* L, void* value, unsigned int size)
  */
 TOLUA_API void tolua_release (lua_State* L, void* value)
 {
+  void** p;
   lua_pushstring(L,"tolua_ubox");
   lua_rawget(L,LUA_REGISTRYINDEX); /* stack: ubox */
   lua_pushlightuserdata(L,value);  /* stack: ubox u */
   /* set userdata pointer to NULL: this pointer might be reused by C/C++ */
   lua_rawget(L,-2);                /* stack: ubox ud */
-  *((void**)lua_touserdata(L,1)) = NULL;
+  p = (void**)lua_touserdata(L,-1);
+  if (p) *p = NULL;
+      /* fixed bug: thanks to Ulrik Sverdrup -- it was 1 instead of -1 */
   lua_pop(L,1);                    /* stack: ubox */
   /* remove value from ubox */
   lua_pushlightuserdata(L,value);  /* stack: ubox u */

@@ -24,7 +24,7 @@
 # endif
 #endif
 
-#define TOLUA_VERSION "tolua 5.1.3"
+#define TOLUA_VERSION "tolua 5.1.4"
 
 #ifdef __cplusplus
 extern "C" {
