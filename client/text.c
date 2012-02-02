@@ -432,13 +432,13 @@ const char *concat_tile_activity_text(struct tile *ptile)
     if (punit->activity == ACTIVITY_PILLAGE) {
       pillaging = 1;
     } else if (punit->activity == ACTIVITY_BASE) {
-      base_total[punit->act_object.base] += punit->activity_count;
-      base_total[punit->act_object.base] += get_activity_rate_this_turn(punit);
-      base_units[punit->act_object.base] += get_activity_rate(punit);
+      base_total[punit->activity_target.obj.base] += punit->activity_count;
+      base_total[punit->activity_target.obj.base] += get_activity_rate_this_turn(punit);
+      base_units[punit->activity_target.obj.base] += get_activity_rate(punit);
     } else if (punit->activity == ACTIVITY_GEN_ROAD) {
-      road_total[punit->act_object.road] += punit->activity_count;
-      road_total[punit->act_object.road] += get_activity_rate_this_turn(punit);
-      road_units[punit->act_object.road] += get_activity_rate(punit);
+      road_total[punit->activity_target.obj.road] += punit->activity_count;
+      road_total[punit->activity_target.obj.road] += get_activity_rate_this_turn(punit);
+      road_units[punit->activity_target.obj.road] += get_activity_rate(punit);
     } else {
       activity_total[punit->activity] += punit->activity_count;
       activity_total[punit->activity] += get_activity_rate_this_turn(punit);

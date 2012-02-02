@@ -781,11 +781,13 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UINT8 movesleft, hp, fuel, activity_count, changed_from_count;
   TILE goto_tile;
   ACTIVITY activity;
-  SPECIAL activity_target;
-  BASE activity_base;
-  ROAD activity_road;
+  SPECIAL activity_tgt_spe;
+  BASE activity_tgt_base;
+  ROAD activity_tgt_road;
   ACTIVITY changed_from;
-  SPECIAL changed_from_target;
+  SPECIAL changed_from_tgt_spe;
+  BASE changed_from_tgt_base;
+  ROAD changed_from_tgt_road;
   BASE changed_from_base;
   ROAD changed_from_road;
 
@@ -811,8 +813,8 @@ PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
   BOOL occupied, goes_out_of_sight, transported;
 
   UINT8 hp, activity;
-  BASE activity_base;
-  ROAD activity_road;
+  BASE activity_tgt_base;
+  ROAD activity_tgt_road;
   UNIT transported_by; /* Only valid if transported is set. */
 
   /* in packet only, not in unit struct */
@@ -948,14 +950,12 @@ end
 PACKET_UNIT_CHANGE_ACTIVITY_BASE = 86; cs, dsend
   UNIT unit_id;
   ACTIVITY activity;
-  SPECIAL activity_target;
   BASE activity_base;
 end
 
 PACKET_UNIT_CHANGE_ACTIVITY_ROAD = 221; cs, dsend
   UNIT unit_id;
   ACTIVITY activity;
-  SPECIAL activity_target;
   ROAD activity_road;
 end
 

@@ -1533,20 +1533,22 @@ static void player_load_units(struct player *plr, int plrno,
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
     } else if (activity == ACTIVITY_PILLAGE) {
-      union act_tgt_obj object;
+      struct act_tgt a_target;
 
       if (target != S_LAST) {
-        pbase = NULL;
-      }
-      if (pbase != NULL) {
-        object.base = base_index(pbase);
+        a_target.type = ATT_SPECIAL;
+        a_target.obj.spe = target;
+      } else if (pbase != NULL) {
+        a_target.type = ATT_BASE;
+        a_target.obj.base = base_index(pbase);
       } else {
-        object.base = BASE_NONE;
+        a_target.type = ATT_SPECIAL;
+        a_target.obj.road = S_LAST;
       }
       /* An out-of-range base number is seen with old savegames. We take
        * it as indicating undirected pillaging. We will assign pillage
        * targets before play starts. */
-      set_unit_activity_targeted(punit, activity, target, object);
+      set_unit_activity_targeted(punit, activity, &a_target);
     } else {
       set_unit_activity(punit, activity);
     }
@@ -4089,8 +4091,7 @@ static void game_load_internal(struct section_file *file)
       unit_list_iterate(pplayer->units, punit) {
         unit_assign_specific_activity_target(punit,
                                              &punit->activity,
-                                             &punit->activity_target,
-                                             &punit->act_object);
+                                             &punit->activity_target);
       } unit_list_iterate_end;
       /* Load transporter status. */
       player_load_units_transporter(pplayer, file);

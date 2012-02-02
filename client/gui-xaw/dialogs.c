@@ -544,17 +544,19 @@ static void pillage_callback(Widget w, XtPointer client_data,
   if (client_data) {
     struct unit *punit = game_unit_by_number(unit_to_use_to_pillage);
     if (punit) {
-      union act_tgt_obj pillage_base = { .base = -1 };
-
+      struct act_tgt target;
       int what = XTPOINTER_TO_INT(client_data);
 
       if (what > S_LAST) {
-        pillage_base.base = what - S_LAST - 1;
-        what = S_LAST;
+        target.type = ATT_BASE;
+        target.obj.base = what - S_LAST - 1;
+      } else {
+        target.type = ATT_SPECIAL;
+        target.obj.spe = what;
       }
 
       request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
-					 what, pillage_base);
+                                         &target);
     }
   }
 

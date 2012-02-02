@@ -126,9 +126,17 @@ struct unit_order {
 struct unit;
 struct unit_list;
 
+enum act_tgt_type { ATT_SPECIAL, ATT_BASE, ATT_ROAD };
+
 union act_tgt_obj {
+  enum tile_special_type spe;
   Base_type_id base;
   Road_type_id road;
+};
+
+struct act_tgt {
+  enum act_tgt_type type;
+  union act_tgt_obj obj;
 };
 
 struct unit {
@@ -155,15 +163,13 @@ struct unit {
    * fractional values in some cases). */
   int activity_count;
 
-  enum tile_special_type activity_target;
-  union act_tgt_obj      act_object;
+  struct act_tgt activity_target;
 
   /* Previous activity, so it can be resumed without loss of progress
    * if the user changes their mind during a turn. */
   enum unit_activity changed_from;
   int changed_from_count;
-  enum tile_special_type changed_from_target;
-  union act_tgt_obj      changed_from_obj;
+  struct act_tgt changed_from_target;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
   bool moved;
@@ -286,18 +292,17 @@ bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity);
 bool can_unit_change_homecity(const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
+bool cmp_act_tgt(struct act_tgt *act1, struct act_tgt *act2);
 bool can_unit_continue_current_activity(struct unit *punit);
 bool can_unit_do_activity(const struct unit *punit,
 			  enum unit_activity activity);
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
-				   enum tile_special_type target,
-                                   union act_tgt_obj object);
+                                   struct act_tgt *target);
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
-				      enum tile_special_type target,
-				      const struct tile *ptile,
-                                      union act_tgt_obj object);
+				      struct act_tgt *target,
+				      const struct tile *ptile);
 bool can_unit_do_activity_base(const struct unit *punit,
                                Base_type_id base);
 bool can_unit_do_activity_road(const struct unit *punit,
@@ -305,8 +310,7 @@ bool can_unit_do_activity_road(const struct unit *punit,
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
-				enum tile_special_type new_target,
-                                union act_tgt_obj);
+                                struct act_tgt *new_target);
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base);
 void set_unit_activity_road(struct unit *punit,

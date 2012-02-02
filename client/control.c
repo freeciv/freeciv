@@ -1458,18 +1458,18 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 **************************************************************************/
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
-					enum tile_special_type tgt,
-                                        union act_tgt_obj object)
+					struct act_tgt *tgt)
 {
-  if (act == ACTIVITY_BASE
-      || (act == ACTIVITY_PILLAGE && tgt == S_LAST)) {
-    dsend_packet_unit_change_activity_base(&client.conn, punit->id, act, tgt,
-                                           object.base);
-  } else if (act == ACTIVITY_GEN_ROAD) {
-    dsend_packet_unit_change_activity_road(&client.conn, punit->id, act, tgt,
-                                           object.road);
-  } else {
-    dsend_packet_unit_change_activity(&client.conn, punit->id, act, tgt);
+  switch (tgt->type) {
+    case ATT_SPECIAL:
+      dsend_packet_unit_change_activity(&client.conn, punit->id, act, tgt->obj.spe);
+      break;
+    case ATT_BASE:
+      dsend_packet_unit_change_activity_base(&client.conn, punit->id, act, tgt->obj.base);
+      break;
+    case ATT_ROAD:
+      dsend_packet_unit_change_activity_road(&client.conn, punit->id, act, tgt->obj.road);
+      break;
   }
 }
 
@@ -1484,7 +1484,7 @@ void request_new_unit_activity_base(struct unit *punit,
   }
 
   dsend_packet_unit_change_activity_base(&client.conn, punit->id, ACTIVITY_BASE,
-				         S_LAST, base_number(pbase));
+				         base_number(pbase));
 }
 
 /**************************************************************************
@@ -1499,7 +1499,7 @@ void request_new_unit_activity_road(struct unit *punit,
 
   dsend_packet_unit_change_activity_road(&client.conn, punit->id,
                                          ACTIVITY_GEN_ROAD,
-				         S_LAST, road_number(proad));
+				         road_number(proad));
 }
 
 /**************************************************************************
@@ -1727,12 +1727,11 @@ void request_unit_fortify(struct unit *punit)
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
-  union act_tgt_obj object = { .base = BASE_NONE };
+  struct act_tgt target = { .type = ATT_SPECIAL, .obj.spe = S_LAST };
 
   if (!game.info.pillage_select) {
     /* Leave choice up to the server */
-    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, S_LAST,
-                                       object);
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, &target);
   } else {
     struct tile *ptile = unit_tile(punit);
     bv_special pspossible;
@@ -1741,19 +1740,23 @@ void request_unit_pillage(struct unit *punit)
 
     BV_CLR_ALL(pspossible);
     tile_special_type_iterate(spe) {
+      target.obj.spe = spe;
+
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           spe, ptile, object)) {
+                                           &target, ptile)) {
         BV_SET(pspossible, spe);
         count++;
       }
     } tile_special_type_iterate_end;
 
     BV_CLR_ALL(bspossible);
+    target.type = ATT_BASE;
     base_type_iterate(pbase) {
-      object.base = base_index(pbase);
+      target.obj.base = base_index(pbase);
+
       if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           S_LAST, ptile, object)) {
-        BV_SET(bspossible, object.base);
+                                           &target, ptile)) {
+        BV_SET(bspossible, target.obj.base);
         count++;
       }
     } base_type_iterate_end;
@@ -1765,12 +1768,14 @@ void request_unit_pillage(struct unit *punit)
       int what = get_preferred_pillage(pspossible, bspossible);
 
       if (what > S_LAST) {
-        object.base = what - S_LAST - 1;
-        what = S_LAST;
+        target.type = ATT_BASE;
+        target.obj.base = what - S_LAST - 1;
+      } else {
+        target.type = ATT_SPECIAL;
+        target.obj.spe = what;
       }
 
-      request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what,
-                                         object);
+      request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, &target);
     }
   }
 }

@@ -66,8 +66,7 @@ void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 void request_new_unit_activity_targeted(struct unit *punit,
 					enum unit_activity act,
-					enum tile_special_type tgt,
-                                        union act_tgt_obj object);
+					struct act_tgt *tgt);
 void request_new_unit_activity_base(struct unit *punit,
 				    const struct base_type *pbase);
 void request_new_unit_activity_road(struct unit *punit,

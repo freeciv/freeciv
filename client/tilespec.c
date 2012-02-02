@@ -3420,7 +3420,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.unit.transform;
       break;
     case ACTIVITY_BASE:
-      s = t->sprites.bases[punit->act_object.base].activity;
+      s = t->sprites.bases[punit->activity_target.obj.base].activity;
       break;
     case ACTIVITY_GEN_ROAD:
       /* TODO: Road type specific activity icon */

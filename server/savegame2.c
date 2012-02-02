@@ -4369,6 +4369,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int base;
   int ei;
   const char *facing_str;
+  enum tile_special_type cfspe;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -4464,20 +4465,22 @@ static bool sg_load_player_unit(struct loaddata *loading,
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
   } else if (activity == ACTIVITY_PILLAGE) {
-    union act_tgt_obj object;
+    struct act_tgt a_target;
 
     if (target != S_LAST) {
-      pbase = NULL;
-    }
-    if (pbase != NULL) {
-      object.base = base_index(pbase);
+      a_target.type = ATT_SPECIAL;
+      a_target.obj.spe = target;
+    } else if (pbase != NULL) {
+      a_target.type = ATT_BASE;
+      a_target.obj.base = base_index(pbase);
     } else {
-      object.base = BASE_NONE;
+      a_target.type = ATT_SPECIAL;
+      a_target.obj.spe = S_LAST;
     }
     /* An out-of-range base number is seen with old savegames. We take
      * it as indicating undirected pillaging. We will assign pillage
      * targets before play starts. */
-    set_unit_activity_targeted(punit, activity, target, object);
+    set_unit_activity_targeted(punit, activity, &a_target);
   } else {
     set_unit_activity(punit, activity);
   }
@@ -4489,20 +4492,18 @@ static bool sg_load_player_unit(struct loaddata *loading,
   punit->changed_from =
     secfile_lookup_int_default(loading->file, ACTIVITY_IDLE,
                                "%s.changed_from", unitstr);
-  punit->changed_from_target =
+  cfspe =
     secfile_lookup_int_default(loading->file, S_LAST,
                                "%s.changed_from_target", unitstr);
   base =
     secfile_lookup_int_default(loading->file, -1,
                                "%s.changed_from_base", unitstr);
   if (base >= 0 && base < loading->base.size) {
-    punit->changed_from_obj.base = base_number(loading->base.order[base]);
+    punit->changed_from_target.type = ATT_BASE;
+    punit->changed_from_target.obj.base = base_number(loading->base.order[base]);
   } else {
-    punit->changed_from_obj.base = BASE_NONE;
-    fc_assert_action(punit->changed_from != ACTIVITY_BASE
-                     && (punit->changed_from != ACTIVITY_PILLAGE
-                         || punit->changed_from_target != S_LAST),
-                     punit->changed_from = ACTIVITY_IDLE);
+    punit->changed_from_target.type = ATT_SPECIAL;
+    punit->changed_from_target.obj.spe = cfspe;
   }
   punit->changed_from_count =
     secfile_lookup_int_default(loading->file, 0,
@@ -4737,18 +4738,38 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_int(saving->file, punit->activity, "%s.activity", buf);
     secfile_insert_int(saving->file, punit->activity_count,
                        "%s.activity_count", buf);
-    secfile_insert_int(saving->file, punit->activity_target,
-                       "%s.activity_target", buf);
-    secfile_insert_int(saving->file, punit->act_object.base,
-                       "%s.activity_base", buf);
+    if (punit->activity_target.type == ATT_SPECIAL) {
+      secfile_insert_int(saving->file, punit->activity_target.obj.spe,
+                         "%s.activity_target", buf);
+    } else {
+      secfile_insert_int(saving->file, S_LAST,
+                         "%s.activity_target", buf);
+    }
+    if (punit->activity_target.type == ATT_BASE) {
+      secfile_insert_int(saving->file, punit->activity_target.obj.base,
+                         "%s.activity_base", buf);
+    } else {
+      secfile_insert_int(saving->file, BASE_NONE,
+                         "%s.activity_base", buf);
+    }
     secfile_insert_int(saving->file, punit->changed_from,
                        "%s.changed_from", buf);
     secfile_insert_int(saving->file, punit->changed_from_count,
                        "%s.changed_from_count", buf);
-    secfile_insert_int(saving->file, punit->changed_from_target,
-                       "%s.changed_from_target", buf);
-    secfile_insert_int(saving->file, punit->changed_from_obj.base,
-                       "%s.changed_from_base", buf);
+    if (punit->changed_from_target.type == ATT_SPECIAL) {
+      secfile_insert_int(saving->file, punit->changed_from_target.obj.spe,
+                         "%s.changed_from_target", buf);
+    } else {
+      secfile_insert_int(saving->file, S_LAST,
+                         "%s.changed_from_target", buf);
+    }
+    if (punit->changed_from_target.type == ATT_BASE) {
+      secfile_insert_int(saving->file, punit->changed_from_target.obj.base,
+                         "%s.changed_from_base", buf);
+    } else {
+      secfile_insert_int(saving->file, BASE_NONE,
+                         "%s.changed_from_base", buf);
+    }
     secfile_insert_bool(saving->file, punit->done_moving,
                         "%s.done_moving", buf);
     secfile_insert_int(saving->file, punit->moves_left, "%s.moves", buf);
@@ -5545,8 +5566,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     unit_list_iterate(pplayer->units, punit) {
       unit_assign_specific_activity_target(punit,
                                            &punit->activity,
-                                           &punit->activity_target,
-                                           &punit->act_object);
+                                           &punit->activity_target);
     } unit_list_iterate_end;
   } players_iterate_end;
 

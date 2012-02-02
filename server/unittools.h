@@ -103,8 +103,7 @@ void unit_list_refresh_vision(struct unit_list *punitlist);
 void bounce_unit(struct unit *punit, bool verbose);
 void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
-                                          enum tile_special_type *target,
-                                          union act_tgt_obj *object);
+                                          struct act_tgt *target);
 void unit_forget_last_activity(struct unit *punit);
 
 /* creation/deletion/upgrading */

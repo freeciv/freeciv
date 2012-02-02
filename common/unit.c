@@ -871,25 +871,46 @@ bool can_unit_bombard(const struct unit *punit)
 }
 
 /**************************************************************************
+  Compare if action targets are identical
+**************************************************************************/
+bool cmp_act_tgt(struct act_tgt *act1, struct act_tgt *act2)
+{
+  if (act1->type != act2->type) {
+    return FALSE;
+  }
+
+  switch (act1->type) {
+    case ATT_SPECIAL:
+      return act1->obj.spe == act2->obj.spe;
+    case ATT_BASE:
+      return act1->obj.base == act2->obj.base;
+    case ATT_ROAD:
+      return act1->obj.road == act2->obj.road;
+  }
+
+  fc_assert(FALSE);
+  return FALSE;
+}
+
+/**************************************************************************
   Check if the unit's current activity is actually legal.
 **************************************************************************/
 bool can_unit_continue_current_activity(struct unit *punit)
 {
   enum unit_activity current = punit->activity;
-  enum tile_special_type target = punit->activity_target;
-  union act_tgt_obj object = punit->act_object;
+  struct act_tgt target = punit->activity_target;
   enum unit_activity current2 = 
               (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
   bool result;
 
   punit->activity = ACTIVITY_IDLE;
-  punit->activity_target = S_LAST;
+  punit->activity_target.type = ATT_SPECIAL;
+  punit->activity_target.obj.spe = S_LAST;
 
-  result = can_unit_do_activity_targeted(punit, current2, target, object);
+  result = can_unit_do_activity_targeted(punit, current2, &target);
 
   punit->activity = current;
   punit->activity_target = target;
-  punit->act_object = object;
 
   return result;
 }
@@ -904,9 +925,9 @@ bool can_unit_continue_current_activity(struct unit *punit)
 bool can_unit_do_activity(const struct unit *punit,
                           enum unit_activity activity)
 {
-  union act_tgt_obj object = { .base = BASE_NONE };
+  struct act_tgt target = { .type = ATT_SPECIAL, .obj.spe = S_LAST };
 
-  return can_unit_do_activity_targeted(punit, activity, S_LAST, object);
+  return can_unit_do_activity_targeted(punit, activity, &target);
 }
 
 /**************************************************************************
@@ -916,9 +937,9 @@ bool can_unit_do_activity(const struct unit *punit,
 bool can_unit_do_activity_base(const struct unit *punit,
                                Base_type_id base)
 {
-  union act_tgt_obj object = { .base = base };
+  struct act_tgt target = { .type = ATT_BASE, .obj.base = base };
 
-  return can_unit_do_activity_targeted(punit, ACTIVITY_BASE, S_LAST, object);
+  return can_unit_do_activity_targeted(punit, ACTIVITY_BASE, &target);
 }
 
 /**************************************************************************
@@ -928,9 +949,9 @@ bool can_unit_do_activity_base(const struct unit *punit,
 bool can_unit_do_activity_road(const struct unit *punit,
                                Road_type_id road)
 {
-  union act_tgt_obj object = { .road = road };
+  struct act_tgt target = { .type = ATT_ROAD, .obj.road = road };
 
-  return can_unit_do_activity_targeted(punit, ACTIVITY_ROAD, S_LAST, object);
+  return can_unit_do_activity_targeted(punit, ACTIVITY_ROAD, &target);
 }
 
 /**************************************************************************
@@ -939,11 +960,10 @@ bool can_unit_do_activity_road(const struct unit *punit,
 **************************************************************************/
 bool can_unit_do_activity_targeted(const struct unit *punit,
 				   enum unit_activity activity,
-				   enum tile_special_type target,
-                                   union act_tgt_obj object)
+                                   struct act_tgt *target)
 {
   return can_unit_do_activity_targeted_at(punit, activity, target,
-					  unit_tile(punit), object);
+					  unit_tile(punit));
 }
 
 /**************************************************************************
@@ -956,9 +976,8 @@ bool can_unit_do_activity_targeted(const struct unit *punit,
 **************************************************************************/
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      enum unit_activity activity,
-				      enum tile_special_type target,
-				      const struct tile *ptile,
-                                      union act_tgt_obj object)
+                                      struct act_tgt *target,
+				      const struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
@@ -1048,10 +1067,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_BASE:
-    return can_build_base(punit, base_by_number(object.base), ptile);
+    return can_build_base(punit, base_by_number(target->obj.base), ptile);
 
   case ACTIVITY_GEN_ROAD:
-    return can_build_road(road_by_number(object.road), punit, ptile);
+    return can_build_road(road_by_number(target->obj.road), punit, ptile);
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(punit, unit_tile(punit))
@@ -1112,7 +1131,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           return FALSE;
         }
 
-        if (target == S_LAST && object.base == BASE_NONE) {
+        if (target->type == ATT_SPECIAL && target->obj.spe == S_LAST) {
           /* Undirected pillaging. If we've got this far, then there's
            * *something* we can pillage; work out what when we come to it */
           return TRUE;
@@ -1120,22 +1139,26 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           if (!game.info.pillage_select) {
             /* Hobson's choice (this case mostly exists for old clients) */
             /* Needs to match what unit_activity_assign_target chooses */
+            enum act_tgt_type pre_type = ATT_SPECIAL;
             int pre_target = get_preferred_pillage(pspossible, bspossible);
             Base_type_id pre_base = BASE_NONE;
             fc_assert_ret_val(pre_target != S_LAST, FALSE);
             if (pre_target > S_LAST) {
+              pre_type = ATT_BASE;
               pre_base = pre_target - S_LAST - 1;
               pre_target = S_LAST;
             }
-            if (target != pre_target || object.base != pre_base) {
+            if (target->type != pre_type
+                || (target->type == ATT_SPECIAL && target->obj.spe != pre_target)
+                || (target->type == ATT_BASE && target->obj.base != pre_base)) {
               /* Only one target allowed, which wasn't the requested one */
               return FALSE;
             }
           }
-          if (target != S_LAST) {
-            return BV_ISSET(pspossible, target);
+          if (target->type == ATT_SPECIAL) {
+            return BV_ISSET(pspossible, target->obj.spe);
           } else {
-            return BV_ISSET(bspossible, object.base);
+            return BV_ISSET(bspossible, target->obj.base);
           }
         }
       } else {
@@ -1184,8 +1207,8 @@ static void set_unit_activity_internal(struct unit *punit,
 
   punit->activity = new_activity;
   punit->activity_count = 0;
-  punit->activity_target = S_LAST;
-  punit->act_object.base = BASE_NONE;
+  punit->activity_target.type = ATT_SPECIAL;
+  punit->activity_target.obj.spe = S_LAST;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
     /* No longer done. */
     punit->done_moving = FALSE;
@@ -1214,23 +1237,18 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
-				enum tile_special_type new_target,
-                                union act_tgt_obj object)
+				struct act_tgt *new_target)
 {
   fc_assert_ret(activity_requires_target(new_activity));
   fc_assert_ret(new_activity != ACTIVITY_BASE);
-  fc_assert_ret(new_target != S_OLD_FORTRESS
-                && new_target != S_OLD_AIRBASE);
+  fc_assert_ret(new_target->type != ATT_SPECIAL
+                || (new_target->obj.spe != S_OLD_FORTRESS
+                    && new_target->obj.spe != S_OLD_AIRBASE));
 
   set_unit_activity_internal(punit, new_activity);
-  punit->activity_target = new_target;
-  punit->act_object = object;
+  punit->activity_target = *new_target;
   if (new_activity == punit->changed_from
-      && (new_target == punit->changed_from_target)
-      && (((new_activity == ACTIVITY_BASE || new_activity == ACTIVITY_PILLAGE)
-           && object.base == punit->changed_from_obj.base)
-          || (new_activity == ACTIVITY_GEN_ROAD
-           && object.road == punit->changed_from_obj.road))) {
+      && cmp_act_tgt(new_target, &punit->changed_from_target)) {
     punit->activity_count = punit->changed_from_count;
   }
 }
@@ -1242,9 +1260,10 @@ void set_unit_activity_base(struct unit *punit,
                             Base_type_id base)
 {
   set_unit_activity_internal(punit, ACTIVITY_BASE);
-  punit->act_object.base = base;
+  punit->activity_target.type = ATT_BASE;
+  punit->activity_target.obj.base = base;
   if (ACTIVITY_BASE == punit->changed_from
-      && (base == punit->changed_from_obj.base)) {
+      && cmp_act_tgt(&punit->activity_target, &punit->changed_from_target)) {
     punit->activity_count = punit->changed_from_count;
   }
 }
@@ -1256,9 +1275,10 @@ void set_unit_activity_road(struct unit *punit,
                             Road_type_id road)
 {
   set_unit_activity_internal(punit, ACTIVITY_GEN_ROAD);
-  punit->act_object.road = road;
+  punit->activity_target.type = ATT_ROAD;
+  punit->activity_target.obj.road = road;
   if (ACTIVITY_ROAD == punit->changed_from
-      && (road == punit->changed_from_obj.road)) {
+      && cmp_act_tgt(&punit->activity_target, &punit->changed_from_target)) {
     punit->activity_count = punit->changed_from_count;
   }
 }
@@ -1288,9 +1308,9 @@ bv_special get_unit_tile_pillage_set(const struct tile *ptile)
   BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE
-        && punit->activity_target != S_LAST) {
-      fc_assert_action(punit->activity_target < S_LAST, continue);
-      BV_SET(tgt_ret, punit->activity_target);
+        && punit->activity_target.type == ATT_SPECIAL) {
+      fc_assert_action(punit->activity_target.obj.spe < S_LAST, continue);
+      BV_SET(tgt_ret, punit->activity_target.obj.spe);
     }
   } unit_list_iterate_end;
 
@@ -1308,10 +1328,9 @@ bv_bases get_unit_tile_pillage_base_set(const struct tile *ptile)
   BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE
-        && punit->activity_target == S_LAST
-        && punit->act_object.base != BASE_NONE) {
-      fc_assert(punit->act_object.base < base_count());
-      BV_SET(tgt_ret, punit->act_object.base);
+        && punit->activity_target.type == ATT_BASE) {
+      fc_assert(punit->activity_target.obj.base < base_count());
+      BV_SET(tgt_ret, punit->activity_target.obj.base);
     }
   } unit_list_iterate_end;
 
@@ -1398,26 +1417,49 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
     astr_add_line(astr, "%s", get_activity_text(punit->activity));
     return;
   case ACTIVITY_PILLAGE:
-    if (punit->activity_target == S_LAST) {
-      astr_add_line(astr, "%s", get_activity_text(punit->activity));
-    } else {
-      bv_special pset;
-      bv_bases bases;
+    switch (punit->activity_target.type) {
+      case ATT_SPECIAL:
+        if (punit->activity_target.obj.spe == S_LAST) {
+          astr_add_line(astr, "%s", get_activity_text(punit->activity));
+        } else {
+          bv_special pset;
+          bv_bases bases;
 
-      BV_CLR_ALL(pset);
-      BV_SET(pset, punit->activity_target);
-      BV_CLR_ALL(bases);
-      if (0 <= punit->act_object.base && punit->act_object.base < base_count()) {
-        BV_SET(bases, punit->act_object.base);
-      }
-      astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                    get_infrastructure_text(pset, bases));
-    }
+          BV_CLR_ALL(pset);
+          BV_CLR_ALL(bases);
+          BV_SET(pset, punit->activity_target.obj.spe);
+          astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                        get_infrastructure_text(pset, bases));
+        }
+        break;
+     case ATT_BASE:
+        {
+          bv_special pset;
+          bv_bases bases;
+
+          BV_CLR_ALL(pset);
+          BV_CLR_ALL(bases);
+          BV_SET(bases, punit->activity_target.obj.base);
+          astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                        get_infrastructure_text(pset, bases));
+        }
+        break;
+     case ATT_ROAD:
+        {
+          bv_special pset;
+          bv_bases bases;
+
+          BV_CLR_ALL(pset);
+          BV_CLR_ALL(bases);
+          astr_add_line(astr, "%s: Road", get_activity_text(punit->activity));
+        }
+        break;
+    } 
     return;
   case ACTIVITY_BASE:
     {
       struct base_type *pbase;
-      pbase = base_by_number(punit->act_object.base);
+      pbase = base_by_number(punit->activity_target.obj.base);
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                     base_name_translation(pbase));
     }
@@ -1425,7 +1467,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_GEN_ROAD:
     {
       struct road_type *proad;
-      proad = road_by_number(punit->act_object.road);
+      proad = road_by_number(punit->activity_target.obj.road);
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                     road_name_translation(proad));
     }

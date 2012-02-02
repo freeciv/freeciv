@@ -1964,15 +1964,18 @@ static int pillage_callback(struct widget *pWidget)
 
     if (pUnit)
     {
-      union act_tgt_obj pillage_base = { .base = -1 };
+      struct act_tgt target;
 
       if (what > S_LAST) {
-        pillage_base.base = what - S_LAST - 1;
-        what = S_LAST;
+        target.type = ATT_BASE;
+        target.obj.base = what - S_LAST - 1;
+      } else {
+        target.type = ATT_SPECIAL;
+        target.obj.spe = what;
       }
 
-      request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE, what,
-                                         pillage_base);
+      request_new_unit_activity_targeted(pUnit, ACTIVITY_PILLAGE,
+                                         &target);
     }
   }  
   return -1;
