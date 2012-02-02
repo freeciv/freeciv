@@ -46,7 +46,7 @@ signal.connect('unit_moved', 'unit_moved_callback')
 function city_built_callback(city)
   if city.owner:is_human() then
     if citiesbuilt == 0 then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Now you have built your first city.  The city window should have\n\
 opened automatically; if not click on the city to open it.  Cities are\n\
 a fundamental concept in Freeciv, so you should familiarize yourself\n\
@@ -59,13 +59,13 @@ Change button to begin building it.  When you are done, close the city\n\
 dialog.  If all goes well the city should display the settler\n\
 production on the map view."))
     elseif citiesbuilt == 1 then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Congratulations, you have founded your second city.  This city will\n\
 behave almost exactly like the first one - it will be slightly different\n\
 because of the terrain around it.  You probably want to build\n\
 settlers here too."))
     elseif citiesbuilt == 2 then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("You have built your third city!  Your civilization seems to be\n\
 thriving.  It might be time to think about a military.  Pick one of\n\
 the cities that has a high production, and convert it into a military\n\
@@ -80,7 +80,7 @@ to begin building them.  Then double-click on a military unit to\n\
 append it to the worklist.  As soon as the Barracks are complete the\n\
 city will automatically switch over to producing the unit."))
     elseif citiesbuilt == 3 then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Another city!  You are really getting the hang of this.  You\n\
 probably have a pretty good idea what to do with new cities by\n\
 now.  Take a moment to look at the bar below the city on the map\n\
@@ -93,7 +93,7 @@ city.  The bottom row shows what the city is building, and how long it\n\
 will take; it also shows how long the city will take to grow to the\n\
 next largest size."))
     elseif citiesbuilt == 4 then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("As the number of cities in your empire grows, it becomes harder to\n\
 manage individual cities.  This is where the Cities report becomes\n\
 useful.  Press F4 to bring it up.  This report shows a list of cities\n\
@@ -112,7 +112,7 @@ signal.connect('city_built', 'city_built_callback')
 function city_growth_callback(city, size)
   if city.owner:is_human() then
     if size == 2 and not growth2msg then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Your city has grown!  As a city grows, more citizens become\n\
 available that can be put to work in the fields or dedicated as\n\
 citizen specialists.  A city of size two or more may also build\n\
@@ -124,7 +124,7 @@ in gold (if you have enough of it) to instantly complete the\n\
 production."))
       growth2msg = true
     elseif size == 3 and not growth3msg then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Your city has grown again!  Now with three citizens you have\n\
 a fair amount of choice over where the city should focus its\n\
 resources.  A city with three citizens gets to work three\n\
@@ -142,7 +142,7 @@ all specialists - right now they are all entertainers which provide\n\
 only luxuries (which will not be useful until later)."))
       growth3msg = true
     elseif size == 5 and not growth5msg then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Now your city has grown to size five.  As cities get larger unrest\n\
 becomes a problem.  A city of this size will usually have one unhappy\n\
 citizen unless pacifying effects are used; meaning one entertainer\n\
@@ -159,7 +159,7 @@ citizen).  Building a marketplace enhances the benefit from this\n\
 by providing +50%% luxuries to the city."))
       growth5msg = true
     elseif size == 8 and not growth8msg then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Finally you have grown a city to size eight.  A size eight city can\n\
 provide substantial output provided you have enough luxuries to keep\n\
 your population content.\n\
@@ -169,13 +169,13 @@ going to continue to grow you should start building one soon.  Building\n\
 an aqueduct requires the Construction technology."))
       growth8msg = true
     elseif size == 12 and not growth12msg then
-      notify.event(city.owner, city:tile(), E.SCRIPT,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("You have grown a city to size twelve.  To grow\n\
 it larger, however, you will need to build a Sewer System.  This\n\
 requires the Sanitation technology."))
       growth12msg = true
     elseif size == 13 and not growth13msg then
-      notify.event(city.owner, city:tile(), E.TUTURIAL,
+      notify.event(city.owner, city.tile, E.TUTURIAL,
 _("Congratulations, you have grown a city to size 13.  A city this\n\
 large can provide a tremendous amount of output if properly upgraded.\n\
 Make sure you have enough taxes and cultural buildings to keep your\n\
@@ -205,7 +205,7 @@ function unit_built_callback(unit)
   end
   if has_unit_type_name(unit, 'Settlers') then
     if settlersbuilt == 0 then
-      notify.event(unit.owner, unit:tile(), E.SCRIPT,
+      notify.event(unit.owner, unit.tile, E.SCRIPT,
 _("You have built a settler unit.  Settlers are best used to build \n\
 new cities, so as to expand your civilization.  Move your settler\n\
 away from your existing cities to find a spot for a new city.  When\n\
@@ -219,7 +219,7 @@ tundra, and mountains generally provide little output and are not\n\
 of much use to small cities.  See the help on Terrain for more\n\
 information about terrain specs."))
     elseif settlersbuilt == 1 then
-      notify.event(unit.owner, unit:tile(), E.SCRIPT,
+      notify.event(unit.owner, unit.tile, E.SCRIPT,
 _("Your second Settlers should also be used to build a new city.\n\
 Notice how when you move the Settlers away from your existing cities\n\
 an outline is drawn around them.  This shows the area that would be\n\
@@ -242,7 +242,7 @@ function building_built_callback(building, city)
     return
   end
   if building.id == find.building_type('Barracks').id and not barracksmsg then
-    notify.event(city.owner, city:tile(), E.SCRIPT,
+    notify.event(city.owner, city.tile, E.SCRIPT,
 _("You have built a Barracks.  This building will make any military\n\
 units you build start out as veterans.  Veteran units are stronger\n\
 than inexperienced (green) troops, and will survive longer in\n\
@@ -264,7 +264,7 @@ function unit_cant_be_built_callback(unittype, city, reason)
     return
   end
   if unittype.id == find.unit_type('Settlers').id and not nosettlermsg then
-    notify.event(city.owner, city:tile(), E.SCRIPT,
+    notify.event(city.owner, city.tile, E.SCRIPT,
 _("Your city cannot build a settler.  Settlers take one unit of\n\
 population to build, so a city of size one cannot build one without\n\
 disbanding the city.\n\
@@ -276,7 +276,7 @@ founding a new city, make sure it is built on terrain that provides\n\
 enough food - grassland is best; plains or hills are almost as good."))
     nosettlermsg = true
   elseif not unittype:has_flag('NonMil') and not nomilmsg then
-notify.event(city.owner, city:tile(), E.SCRIPT,
+notify.event(city.owner, city.tile, E.SCRIPT,
 _("You have built your first military unit!  Military units have two\n\
 basic purposes: attack and defense.  Each unit has an attack strength\n\
 and a defense strength.  While a Warriors is a measly 1/1, a Phalanx\n\
@@ -362,7 +362,7 @@ function hut_entered_callback(unit)
     return
   end
   if not hutmsg then
-    notify.event(unit.owner, unit:tile(), E.SCRIPT,
+    notify.event(unit.owner, unit.tile, E.SCRIPT,
 _("Your unit has found a Hut.  These are small villages scattered across\n\
 the landscape.  When a unit enters one, several things may happen.  The\n\
 most likely outcome is that you will find resources worth a small\n\
