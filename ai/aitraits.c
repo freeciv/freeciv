@@ -55,5 +55,14 @@ void ai_traits_close(struct player *pplayer)
 **************************************************************************/
 int ai_trait_get_value(enum trait tr, struct player *pplayer)
 {
-  return pplayer->nation->server.traits[tr] + pplayer->ai_common.traits[tr].mod;
+  int val = pplayer->nation->server.traits[tr] + pplayer->ai_common.traits[tr].mod;
+
+  /* Clip so that vale is at least 1, and maximum is
+   * TRAIT_DEFAULT_VALUE as many times as TRAIT_DEFAULT value is
+   * minimum value of 1 ->
+   * minimum is default / TRAIT_DEFAULT_VALUE,
+   * maximum is default * TRAIT_DEFAULT_VALUE */
+  val = CLIP(1, val, TRAIT_DEFAULT_VALUE * (TRAIT_DEFAULT_VALUE / 1));
+
+  return val;
 }
