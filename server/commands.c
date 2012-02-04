@@ -215,8 +215,7 @@ static struct command commands[] = {
   {"rulesetdir", ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("rulesetdir <directory>"),
-   N_("Choose new ruleset directory or modpack."),
-   N_("Choose new ruleset directory or modpack."),
+   N_("Choose new ruleset directory or modpack."), NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"metamessage", ALLOW_CTRL,
@@ -551,7 +550,7 @@ static struct command commands[] = {
   {"serverid",	ALLOW_INFO,
    /* no translatable parameters */
    SYN_ORIG_("serverid"),
-   N_("Simply returns the id of the server."),
+   N_("Simply returns the id of the server."), NULL,
    CMD_ECHO_NONE, VCF_NONE, 0
   }
 };
