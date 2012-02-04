@@ -14,6 +14,9 @@ liblua_a_SOURCES = 	\
 	lbitlib.c	\
 	lcode.c		\
 	lcode.h		\
+	lcorolib.c	\
+	lctype.c	\
+	lctype.h	\
 	ldblib.c	\
 	ldebug.c	\
 	ldebug.h	\
