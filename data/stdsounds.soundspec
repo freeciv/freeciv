@@ -192,7 +192,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;w_womens_suffrage = ""
 
 
-; This list contains all events up to E_TECH_GOAL
+; This list contains all events up to E_UNIT_BUILT_POP_COST
 ; (as numbered in common/events.h), in the sorted order.
 ; Alphabetical sorting is based on these tag names,
 ; as the message names and contents change. {was}
@@ -220,6 +220,7 @@ m_trireme = "stdsounds/inh2o.ogg" ; [pox]
 ;e_city_normal = ""
 ;e_city_nuked = ""
 ;e_city_production_changed = ""
+;e_city_radius_sq = ""
 ;e_city_transfer = ""
 ;e_city_plague = ""
 ;e_civil_war = ""
@@ -286,6 +287,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_script = ""
 ;e_unit_became_vet = ""
 ;e_unit_built = ""
+;e_unit_built_pop_cost = ""
 ;e_unit_buy = ""
 ;e_unit_lost_def = ""
 ;e_unit_lost_att = ""
@@ -295,7 +297,6 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_unit_upgraded = ""
 ;e_unit_win = ""
 ;e_unit_win_att = ""
-;e_unit_build_pop_cost = ""
 ;e_uprising = ""
 ;e_vote_new = ""
 ;e_vote_resolved = ""
@@ -306,5 +307,8 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_wonder_stopped = ""
 ;e_wonder_will_be_built = ""
 ;e_worklist = ""
+
+; This pseudo-event is only used in the sound system.
+;e_game_quit = ""
 
 ;music_start = ""

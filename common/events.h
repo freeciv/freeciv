@@ -141,7 +141,7 @@ extern "C" {
 #define SPECENUM_VALUE107 E_VOTE_ABORTED
 /* Change of the city radius */
 #define SPECENUM_VALUE108 E_CITY_RADIUS_SQ
-/* A unit with population cost was build; the city shrinks. */
+/* A unit with population cost was built; the city shrinks. */
 #define SPECENUM_VALUE109 E_UNIT_BUILT_POP_COST
 /*
  * Note: If you add a new event, make sure you make a similar change
@@ -149,6 +149,8 @@ extern "C" {
  * "data/stdsounds.soundspec"
  */
 #define SPECENUM_COUNT E_COUNT
+/* The sound system also generates "e_game_quit", although there's no
+ * corresponding identifier E_GAME_QUIT. */
 #include "specenum_gen.h"
 /* the maximum number of enumerators is set in generate_specnum.py */
 
