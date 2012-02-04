@@ -214,7 +214,7 @@ void update_unit_info_label(struct unit_list *punitlist)
               get_unit_info_label_text2(punitlist, 0));
   xaw_set_label(unit_info_label, buffer);
 
-  if (unit_list_size(punitlist) > 0) {
+  if (punitlist && unit_list_size(punitlist) > 0) {
     switch (hover_state) {
     case HOVER_NONE:
       XUndefineCursor(display, XtWindow(map_canvas));
