@@ -113,8 +113,7 @@ void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun)
 **************************************************************************/
 static bool enough_space(struct data_out *dout, size_t size)
 {
-  if (ADD_TO_POINTER(dout->current, size) >=
-      ADD_TO_POINTER(dout->dest, dout->dest_size)) {
+  if (dout->current + size > dout->dest_size) {
     dout->too_short = TRUE;
     return FALSE;
   } else {
