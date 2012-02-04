@@ -108,6 +108,7 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
     \
     dio_output_rewind(&dout); \
     dio_put_uint16(&dout, size); \
+    fc_assert(!dout.too_short); \
     return send_packet_data(pc, buffer, size); \
   }
 
