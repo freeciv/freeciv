@@ -832,7 +832,7 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
   /* FIXME: Use specenum trait names without duplicating them here.
    *        Just needs to take care of case. */
   const char *trait_names[] = {
-    "placeholder",
+    "expansionist",
     NULL
   };
 

@@ -6,7 +6,7 @@ else
 noinst_LTLIBRARIES = libclassicai.la
 endif
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/server/generator
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(top_srcdir)/server -I$(top_srcdir)/server/advisors -I$(top_srcdir)/ai -I$(top_srcdir)/server/generator
 
 da_sources = \
 		defaultai.c	\

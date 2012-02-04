@@ -18,8 +18,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define SPECENUM_NAME trait
-#define SPECENUM_VALUE0 TRAIT_PLACEHOLDER
-#define SPECENUM_VALUE0NAME "Placeholder"
+#define SPECENUM_VALUE0 TRAIT_EXPANSIONIST
+#define SPECENUM_VALUE0NAME "Expansionist"
 #include "specenum_gen.h"
 
 #define TRAIT_DEFAULT_VALUE 100

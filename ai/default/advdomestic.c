@@ -47,6 +47,9 @@
 #include "infracache.h" /* adv_city */
 
 /* ai */
+#include "aitraits.h"
+
+/* ai/default */
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -318,6 +321,10 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
     founder_want /= 100;
   }
+
+  /* Adjust founder want by traits */
+  founder_want *= ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer)
+    / TRAIT_DEFAULT_VALUE;
 
   if (founder_type
       && (pcity->id != ai->wonder_city

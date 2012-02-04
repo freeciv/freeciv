@@ -44,6 +44,9 @@
 #include "infracache.h"
 
 /* ai */
+#include "aitraits.h"
+
+/* ai/default */
 #include "advdiplomacy.h"
 #include "advdomestic.h"
 #include "advmilitary.h"
@@ -1943,6 +1946,13 @@ void dai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
 
           fc_assert(!(already
                       && 0 < pcity->server.adv->building_want[improvement_index(pimprove)]));
+
+          /* If I am not an expansionist, I want buildings more than units */
+          if (pcity->server.adv->building_want[improvement_index(pimprove)] > 0) {
+            pcity->server.adv->building_want[improvement_index(pimprove)]
+              *= TRAIT_DEFAULT_VALUE
+              / ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer);
+          }
         }
         /* else wait until a later turn */
       } city_list_iterate_end;
