@@ -1305,6 +1305,7 @@ AC_CONFIG_FILES([Makefile
           dependencies/tolua-5.1/src/bin/Makefile
           dependencies/luasql-2.1.1/Makefile
           dependencies/luasql-2.1.1/src/Makefile
+          dependencies/cvercmp/Makefile  
 	  common/Makefile
           common/aicore/Makefile
           common/scriptcore/Makefile

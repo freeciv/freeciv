@@ -63,7 +63,8 @@ AM_CPPFLAGS = \
 	$(CLIENT_CFLAGS) $(SOUND_CFLAGS) \
 	$(MAPIMG_WAND_CFLAGS) \
 	$(LIBGGZ_INCLUDES) $(GGZMOD_INCLUDES) $(GGZ_GTK_INCLUDES) \
-	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS)
+	$(LUA_CFLAGS) $(LUASQL_CFLAGS) $(TOLUA_CFLAGS) \
+	-I$(top_srcdir)/dependencies/cvercmp
 
 # Build client common functionality in to library
 # instead linking them directly to civclient. This is necessary
@@ -163,7 +164,8 @@ noinst_LTLIBRARIES =
 clientlibs = \
  $(top_builddir)/common/scriptcore/libscriptcore.la \
  $(top_builddir)/client/agents/libagents.la \
- $(top_builddir)/client/luascript/libscripting_client.la
+ $(top_builddir)/client/luascript/libscripting_client.la \
+ $(top_builddir)/dependencies/cvercmp/libcvercmp.la
 
 if CLIENT_GUI_GTK_2_0
 bin_PROGRAMS += freeciv-gtk2

@@ -52,6 +52,9 @@
 #include <winsock.h>
 #endif
 
+/* dependencies */
+#include "cvercmp.h"
+
 /* utility */
 #include "fcintl.h"
 #include "fcthread.h"
@@ -126,14 +129,14 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   latest_ver = secfile_lookup_str_default(file, NULL, "versions.latest_stable");
 
   if (latest_ver != NULL) {
-    if (strcmp(latest_ver, VERSION_STRING)) {
+    if (cvercmp_greater(latest_ver, VERSION_STRING)) {
       char vertext[2048];
 
       fc_snprintf(vertext, sizeof(vertext), _("Latest stable release of freeciv is %s, this is %s."),
                   latest_ver, VERSION_STRING);
       output_window_append(ftc_client, vertext);
     } else {
-      output_window_append(ftc_client, _("You are running the latest stable version of freeciv."));
+      output_window_append(ftc_client, _("There is no newer version of freeciv available."));
     }
   }
 
