@@ -198,6 +198,8 @@ static struct {
   GEN_EV(E_SCRIPT,		E_S_XYZZY,	N_("Scenario/ruleset script message")),
   /* TRANS: Event name for when the game year changes. */
   GEN_EV(E_NEXT_YEAR,		E_S_XYZZY,	N_("Year Advance")),
+  /* The sound system also generates "e_game_quit", although there's no
+   * corresponding identifier E_GAME_QUIT. */
   GEN_EV_TERMINATOR
 };
 
