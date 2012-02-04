@@ -2,7 +2,7 @@ noinst_LIBRARIES = libtolua.a
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/tolua-5.1/include \
-	-I$(top_srcdir)/dependencies/lua-5.1/src
+	$(LUA_CFLAGS)
 
 libtolua_a_SOURCES = \
 	tolua_event.c \
