@@ -10,20 +10,23 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__REGISTRY_H
-#define FC__REGISTRY_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
 
-void registry_module_init(void);
-void registry_module_close(void);
+#include "registry.h"
 
-#include "registry_ini.h"
-
-#ifdef __cplusplus
+/*************************************************************************
+  Initialize registry module
+*************************************************************************/
+void registry_module_init(void)
+{
 }
-#endif /* __cplusplus */
 
-#endif  /* FC__REGISTRY_H */
+/*************************************************************************
+  Closes registry module
+*************************************************************************/
+void registry_module_close(void)
+{
+}

@@ -25,6 +25,7 @@
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
+#include "registry.h"
 #include "shared.h"
 
 /* modinst */
@@ -58,6 +59,7 @@ static gboolean quit_dialog_callback(void);
 ****************************************************************/
 static void modinst_quit(void)
 {
+  registry_module_close();
   free_nls();
 
   exit(EXIT_SUCCESS);
@@ -352,6 +354,7 @@ int main(int argc, char *argv[])
 
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+  registry_module_init();
 
   fc_init_network();
 

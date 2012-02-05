@@ -23,6 +23,7 @@
 // utility
 #include "fcintl.h"
 #include "log.h"
+#include "registry.h"
 
 // modinst
 #include "download.h"
@@ -43,6 +44,7 @@ int main(int argc, char **argv)
   enum log_level loglevel = LOG_NORMAL;
   int ui_options;
 
+  registry_module_init();
   log_init(NULL, loglevel, NULL, NULL, -1);
 
   /* This modifies argv! */
@@ -74,6 +76,7 @@ int main(int argc, char **argv)
   }
 
   log_close();
+  registry_module_close();
 
   return EXIT_SUCCESS;
 }

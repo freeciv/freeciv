@@ -421,6 +421,7 @@ int main(int argc, char **argv)
   char *option = NULL;
 
   init_nls();
+  registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
   /* Set the default log level. */
@@ -513,6 +514,7 @@ int main(int argc, char **argv)
 
   manual_command();
   con_log_close();
+  registry_module_close();
 
   return EXIT_SUCCESS;
 }

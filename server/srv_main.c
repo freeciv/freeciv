@@ -200,6 +200,10 @@ void srv_init(void)
   /* NLS init */
   init_nls();
 
+  /* This is before ai module initializations so that if ai module
+   * wants to use registry files, it can. */
+  registry_module_init();
+
   /* This must be before command line argument parsing.
      This allocates default ai, and we want that to take place before
      loading additional ai modules from command line. */
@@ -1381,6 +1385,7 @@ void server_quit(void)
   edithand_free();
   voting_free();
   close_connections_and_socket();
+  registry_module_close();
   free_nls();
   con_log_close();
   exit(EXIT_SUCCESS);

@@ -46,6 +46,7 @@ libcivutility_la_SOURCES = \
 		mem.h		\
 		rand.c		\
 		rand.h		\
+		registry.c	\
 		registry.h	\
 		registry_ini.c	\
 		registry_ini.h	\
