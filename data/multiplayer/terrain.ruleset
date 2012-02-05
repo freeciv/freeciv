@@ -1045,6 +1045,8 @@ They have no effect on gameplay.\
 ;                           movement point.
 ; native_to               = List of unit classes that consider tile
 ;                           with this road native even if terrain is not
+; flags
+;   - "NativeTile"        = Units consider tile native regardless of terrain
 ;
 ; */ <-- avoid gettext warnings
 

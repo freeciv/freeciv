@@ -293,3 +293,10 @@ void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials)
   } road_type_iterate_end;
 }
 
+/****************************************************************************
+  Check if road provides effect
+****************************************************************************/
+bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
+{
+  return BV_ISSET(proad->flags, flag);
+}

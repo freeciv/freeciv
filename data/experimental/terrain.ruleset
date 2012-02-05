@@ -1046,6 +1046,8 @@ They have no effect on gameplay.\
 ;                           movement point.
 ; native_to               = List of unit classes that consider tile
 ;                           with this road native even if terrain is not
+; flags
+;   - "NativeTile"        = Units consider tile native regardless of terrain
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1057,6 +1059,7 @@ reqs           =
     }
 move_cost     = 1
 native_to     = "Land", "Big Land"
+flags         = "NativeTile"
 
 [road_railroad]
 name          = _("Railroad")
@@ -1068,3 +1071,4 @@ reqs           =
     }
 move_cost     = 0
 native_to     = "Land", "Big Land"
+flags         = "NativeTile"

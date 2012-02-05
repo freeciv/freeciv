@@ -3125,6 +3125,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   fc_assert(proad->reqs.size == p->reqs_count);
 
   proad->native_to = p->native_to;
+  proad->flags = p->flags;
 }
 
 /****************************************************************************

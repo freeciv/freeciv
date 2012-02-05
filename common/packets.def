@@ -230,6 +230,7 @@ type SSET_TYPE          = uint8(enum sset_type)
 # typedefs for bit vectors
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
 type BV_BASES           = bitvector(bv_bases)
+type BV_ROAD_FLAGS      = bitvector(bv_road_flags)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
 type BV_IMPRS           = bitvector(bv_imprs)
@@ -1427,6 +1428,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BV_UNIT_CLASSES native_to;
+  BV_ROAD_FLAGS flags;
 end
 
 /**************************************************************************

@@ -2376,6 +2376,24 @@ static void load_ruleset_terrain(struct section_file *file)
       }
     }
     free(slist);
+
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+    BV_CLR_ALL(proad->flags);
+    for (j = 0; j < nval; j++) {
+      const char *sval = slist[j];
+      enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
+
+      if (!road_flag_id_is_valid(flag)) {
+        ruleset_error(LOG_FATAL, "\"%s\" road \"%s\": unknown flag \"%s\".",
+                      filename,
+                      road_rule_name(proad),
+                      sval);
+      } else {
+        BV_SET(proad->flags, flag);
+      }
+    }
+    free(slist);
+
   } road_type_iterate_end;
 
   secfile_check_unused(file);
@@ -4057,6 +4075,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.reqs_count = j;
 
     packet.native_to = r->native_to;
+    packet.flags = r->flags;
 
     lsend_packet_ruleset_road(dest, &packet);
   } road_type_iterate_end;

@@ -286,6 +286,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
 
   road_type_iterate(proad) {
     if (contains_special(special, road_special(proad))
+        && road_has_flag(proad, RF_NATIVE_TILE)
         && is_native_road_to_uclass(proad, punitclass)) {
       return TRUE;
     }

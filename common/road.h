@@ -17,6 +17,15 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define SPECENUM_NAME road_flag_id
+/* Tile with this road is considered native for units traveling the road. */
+#define SPECENUM_VALUE0 RF_NATIVE_TILE
+#define SPECENUM_VALUE0NAME "NativeTile"
+#define SPECENUM_COUNT RF_COUNT
+#include "specenum_gen.h"
+
+BV_DEFINE(bv_road_flags, RF_COUNT);
+
 struct road_type {
   int id;
   struct name_translation name;
@@ -26,6 +35,7 @@ struct road_type {
 
   struct requirement_vector reqs;
   bv_unit_classes native_to;
+  bv_road_flags flags;
 };
 
 /* General road type accessor functions. */
@@ -47,6 +57,8 @@ struct road_type *road_type_by_rule_name(const char *name);
 
 bool is_road_card_near(const struct tile *ptile, const struct road_type *proad);
 bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad);
+
+bool road_has_flag(const struct road_type *proad, enum road_flag_id flag);
 
 bool is_native_road_to_uclass(const struct road_type *proad,
                               const struct unit_class *pclass);

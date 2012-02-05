@@ -729,7 +729,8 @@ static int tile_move_cost_ptrs(const struct unit *punit,
    * check. We want to give railroad bonus only to native units. */
   if (!restrict_infra(pplayer, t1, t2)) {
     road_type_iterate(proad) {
-      if (tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
+      if ((!punit || is_native_road_to_uclass(proad, pclass))
+          && tile_has_road(t1, proad) && tile_has_road(t2, proad)) {
         if (road_cost == -1 || road_cost > proad->move_cost) {
           road_cost = proad->move_cost;
         }
