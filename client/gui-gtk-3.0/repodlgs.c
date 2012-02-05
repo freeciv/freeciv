@@ -1357,8 +1357,13 @@ static void units_report_update(struct units_report *preport)
     } unit_list_iterate_end;
     city_list_iterate(pplayer->cities, pcity) {
       if (VUT_UTYPE == pcity->production.kind) {
+        int num_units;
         info = unit_array + utype_index(pcity->production.value.utype);
-        info->building_count++;
+        /* Account for build slots in city */
+        (void) city_production_build_units(pcity, TRUE, &num_units);
+        /* Unit is in progress even if it won't be done this turn */
+        num_units = MAX(num_units, 1);
+        info->building_count += num_units;
       }
     } city_list_iterate_end;
   } players_iterate_end;
