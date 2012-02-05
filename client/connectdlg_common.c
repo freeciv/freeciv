@@ -330,7 +330,7 @@ bool client_start_server(void)
               "./server/freeciv-server %s", options);
   my_snprintf(cmdline3, sizeof(cmdline3),
               BINDIR "/freeciv-server %s", options);
-  fc_snprintf(cmdline4, sizeof(cmdline4),
+  my_snprintf(cmdline4, sizeof(cmdline4),
               "freeciv-server %s", options);
 
   if (
