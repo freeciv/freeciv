@@ -86,6 +86,7 @@ static void get_units_report_data(struct units_entry *entries,
     if (punit->homecity) {
       output_type_iterate(o) {
         entries[uti].upkeep[o] += punit->upkeep[o];
+        total->upkeep[o] += punit->upkeep[o];
       } output_type_iterate_end;
     }
   } unit_list_iterate_end;
@@ -93,10 +94,12 @@ static void get_units_report_data(struct units_entry *entries,
   city_list_iterate(client.conn.playing->cities, pCity) {
     if (VUT_UTYPE == pCity->production.kind) {
       struct unit_type *pUnitType = pCity->production.value.utype;
+      Unit_type_id uti = utype_index(pUnitType);
+      (entries[uti].building_count)++;
       (total->building_count)++;
-      entries[utype_index(pUnitType)].soonest_completions =
-	MIN(entries[utype_index(pUnitType)].soonest_completions,
-	    city_production_turns_to_build(pCity, TRUE));
+      entries[uti].soonest_completions =
+        MIN(entries[uti].soonest_completions,
+            city_production_turns_to_build(pCity, TRUE));
     }
   } city_list_iterate_end;
 }
@@ -638,27 +641,27 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf = pBuf->prev;
   pBuf->size.x = area.x + name_w +
                  tileset_full_tile_width(tileset) * 2 + adj_size(17);
-  pBuf->size.y = area.y + dst.y;
+  pBuf->size.y = dst.y;
   
   /* total shields cost widget */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = area.y + dst.y;
+  pBuf->size.y = dst.y;
   
   /* total food cost widget */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = area.y + dst.y;
+  pBuf->size.y = dst.y;
   
   /* total gold cost widget */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = area.y + dst.y;
+  pBuf->size.y = dst.y;
   
   /* total building count widget */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = area.y + dst.y;
+  pBuf->size.y = dst.y;
   
   /* units background and labels */
   dst.x = area.x + adj_size(2);
@@ -780,36 +783,44 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     pBuf = pBuf->prev;
     while(TRUE)
     {
+      /* Unit type icon */
       pBuf->size.x = start_x + (mod ? tileset_full_tile_width(tileset) : 0);
       pBuf->size.y = start_y;
       hh = pBuf->size.h;
       mod ^= 1;
       
+      /* Unit type name */
       pBuf = pBuf->prev;
       pBuf->size.w = name_w;
       pBuf->size.x = start_x + tileset_full_tile_width(tileset) * 2 + adj_size(5);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
+      /* Number active */
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
+      /* Shield upkeep */
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
+      /* Food upkeep */
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
+      /* Gold upkeep */
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
+      /* Number under construction */
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
       
+      /* Soonest completion */
       pBuf = pBuf->prev;
       pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
@@ -996,6 +1007,11 @@ void activeunits_report_dialog_update(void)
     /* total food cost widget */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_FOOD]);
+    copy_chars_to_string16(pBuf->string16, cBuf);
+  
+    /* total gold cost widget */
+    pBuf = pBuf->prev;
+    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_GOLD]);
     copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total building count */
