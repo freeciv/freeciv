@@ -127,7 +127,7 @@ will need to have the appropriate "development" packages installed.
    "pkg-config" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      ftp://ftp.gtk.org/pub/gtk/v2.0/dependencies/pkgconfig-0.14.0.tar.gz
+      http://pkgconfig.freedesktop.org/releases/pkg-config-0.26.tar.gz
 
  - The "Glib" utility library.
 
@@ -139,7 +139,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.6/glib-2.6.6.tar.bz2
+     http://ftp.gnome.org/pub/gnome/sources/glib/2.30/glib-2.30.2.tar.xz
 
  - The "Atk" accessibility library.
 
@@ -147,14 +147,14 @@ will need to have the appropriate "development" packages installed.
    It allows people with disabilities to utilize all the functionality
    provided by Gtk+ apps. You may obtain it at:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.6/atk-1.9.0.tar.bz2
+     http://ftp.gnome.org/pub/gnome/sources/atk/2.2/atk-2.2.0.tar.xz
 
  - The "Pango" text layout and rendering library.
 
    "Pango" is library for layout and rendering of text, with an emphasis
    on internationalization. You may obtain it at:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.6/pango-1.8.2.tar.bz2
+     http://ftp.acc.umu.se/pub/gnome/sources/pango/1.28/pango-1.28.4.tar.bz2
 
  - The "Gtk+" widget library.
 
@@ -178,7 +178,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/2.24/gtk+-2.24.0.tar.bz2
+     http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.24/gtk+-2.24.9.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk" and "Pango" libraries.
 
