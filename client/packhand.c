@@ -614,14 +614,6 @@ void handle_city_info(const struct packet_city_info *packet)
       || pcity->usage[O_SCIENCE] != packet->usage[O_SCIENCE]) {
     need_science_dialog_update = TRUE;
   }
-  output_type_iterate(o) {
-    pcity->surplus[o] = packet->surplus[o];
-    pcity->waste[o] = packet->waste[o];
-    pcity->unhappy_penalty[o] = packet->unhappy_penalty[o];
-    pcity->prod[o] = packet->prod[o];
-    pcity->citizen_base[o] = packet->citizen_base[o];
-    pcity->usage[o] = packet->usage[o];
-  } output_type_iterate_end;
 
   pcity->food_stock=packet->food_stock;
   if (pcity->shield_stock != packet->shield_stock) {
@@ -634,12 +626,25 @@ void handle_city_info(const struct packet_city_info *packet)
   if (!are_universals_equal(&pcity->production, &product)) {
     production_changed = TRUE;
   }
+  /* Need to consider shield stock/surplus for unit dialog as used build
+   * slots may change, affecting number of "in-progress" units. */
   if ((city_is_new && VUT_UTYPE == product.kind)
       || (production_changed && (VUT_UTYPE == pcity->production.kind
-                                 || VUT_UTYPE == product.kind))) {
+                                 || VUT_UTYPE == product.kind))
+      || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
+      || shield_stock_changed) {
     need_units_dialog_update = TRUE;
   }
   pcity->production = product;
+
+  output_type_iterate(o) {
+    pcity->surplus[o] = packet->surplus[o];
+    pcity->waste[o] = packet->waste[o];
+    pcity->unhappy_penalty[o] = packet->unhappy_penalty[o];
+    pcity->prod[o] = packet->prod[o];
+    pcity->citizen_base[o] = packet->citizen_base[o];
+    pcity->usage[o] = packet->usage[o];
+  } output_type_iterate_end;
 
 #ifdef DONE_BY_create_city_virtual
   if (city_is_new) {

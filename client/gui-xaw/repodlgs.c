@@ -1100,8 +1100,13 @@ void real_units_report_dialog_update(void)
 
     city_list_iterate(client.conn.playing->cities,pcity) {
       if (VUT_UTYPE == pcity->production.kind) {
-	struct unit_type *punittype = pcity->production.value.utype;
-	(unitarray[utype_index(punittype)].building_count)++;
+        struct unit_type *punittype = pcity->production.value.utype;
+        int num_units;
+        /* Account for build slots in city */
+        (void) city_production_build_units(pcity, TRUE, &num_units);
+        /* Unit is in progress even if it won't be done this turn */
+        num_units = MAX(num_units, 1);
+        (unitarray[utype_index(punittype)].building_count) += num_units;
       }
     }
     city_list_iterate_end;

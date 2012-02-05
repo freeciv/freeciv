@@ -96,8 +96,13 @@ static void get_units_report_data(struct units_entry *entries,
     if (VUT_UTYPE == pCity->production.kind) {
       struct unit_type *pUnitType = pCity->production.value.utype;
       Unit_type_id uti = utype_index(pUnitType);
-      (entries[uti].building_count)++;
-      (total->building_count)++;
+      int num_units;
+      /* Account for build slots in city */
+      (void) city_production_build_units(pCity, TRUE, &num_units);
+      /* Unit is in progress even if it won't be done this turn */
+      num_units = MAX(num_units, 1);
+      (entries[uti].building_count) += num_units;
+      (total->building_count) += num_units;
       entries[uti].soonest_completions =
         MIN(entries[uti].soonest_completions,
             city_production_turns_to_build(pCity, TRUE));
