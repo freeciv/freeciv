@@ -1373,6 +1373,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	unit_list_prepend(pcity->units_supported, punit);
 	repaint_city = TRUE;
       }
+
+      /* This can change total upkeep figures */
+      need_units_report_update = TRUE;
     }
 
     if (punit->hp != packet_unit->hp) {
