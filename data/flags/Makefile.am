@@ -105,6 +105,7 @@ flag_files =				\
 		china.png		\
 		choctaw.png		\
 		chola.png		\
+		chrobatian.png		\
 		chumash.png		\
 		chuvashia.png		\
 		clatsop.png		\
@@ -622,6 +623,7 @@ flag_files =				\
 		china-large.png		\
 		choctaw-large.png		\
 		chola-large.png		\
+		chrobatian-large.png		\
 		chumash-large.png		\
 		chuvashia-large.png		\
 		clatsop-large.png		\
@@ -1141,6 +1143,7 @@ shield_files =					\
 		china-shield.png		\
 		choctaw-shield.png		\
 		chola-shield.png		\
+		chrobatian-shield.png		\
 		chumash-shield.png		\
 		chuvashia-shield.png		\
 		clatsop-shield.png		\
@@ -1658,6 +1661,7 @@ shield_files =					\
 		china-shield-large.png		\
 		choctaw-shield-large.png		\
 		chola-shield-large.png		\
+		chrobatian-shield-large.png		\
 		chumash-shield-large.png		\
 		chuvashia-shield-large.png		\
 		clatsop-shield-large.png		\
@@ -2177,6 +2181,7 @@ svg_files = 				\
 		china.svg		\
 		choctaw.svg		\
 		chola.svg		\
+		chrobatian.svg		\
 		chumash.svg		\
 		chuvashia.svg		\
 		clatsop.svg		\

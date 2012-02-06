@@ -112,6 +112,7 @@ artists = "
    China		Stephen Silver
    Choctaw		Daniel Markstedt
    Chola		Dan Cottrell and Daniel Markstedt
+   Chrobatian		Andrzej M. Gorzym 
    Chumash		Daniel Markstedt
    Chuvashia		Urmas (Wikimedia Commons)
    Clatsop		Euku (Wikimedia Commons)
@@ -636,6 +637,7 @@ sprites =
 		"f.china", "flags/china"
 		"f.choctaw", "flags/choctaw"
 		"f.chola", "flags/chola"
+		"f.chrobatian", "flags/chrobatian"
 		"f.chumash", "flags/chumash"
 		"f.chuvashia", "flags/chuvashia"
 		"f.clatsop", "flags/clatsop"		; used by Chinook
