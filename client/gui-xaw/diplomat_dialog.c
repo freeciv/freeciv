@@ -27,6 +27,7 @@
 #include <X11/Xaw/SimpleMenu.h>
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 
@@ -416,8 +417,14 @@ static int create_advances_list(struct player *pplayer,
         advance_type[j++] = i;
       }
     }
-    advances_can_steal[j] = _("At Spy's Discretion");
-    advance_type[j++] = A_UNSET;
+    {
+      static struct astring str = ASTRING_INIT;
+      /* TRANS: %s is a unit name, e.g., Spy */
+      astr_set(&str, _("At %s's Discretion"),
+               unit_name_translation(game_unit_by_number(diplomat_id)));
+      advances_can_steal[j] = astr_str(&str);
+      advance_type[j++] = A_UNSET;
+    }
   } advance_index_iterate_end;
 
   if(j == 0) j++;
@@ -502,7 +509,11 @@ static int create_improvements_list(struct player *pplayer,
   } city_built_iterate_end;
 
   if(j > 1) {
-    improvements_can_sabotage[j] = _("At Spy's Discretion");
+    static struct astring str = ASTRING_INIT;
+    /* TRANS: %s is a unit name, e.g., Spy */
+    astr_set(&str, _("At %s's Discretion"),
+             unit_name_translation(game_unit_by_number(diplomat_id)));
+    improvements_can_sabotage[j] = astr_str(&str);
     improvement_type[j++] = B_LAST;
   } else {
     improvement_type[0] = B_LAST; /* fake "discretion", since must be production */
@@ -720,7 +731,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 {
   struct city *pcity;
   struct unit *ptunit;
-  char buf[128];
+  struct astring text = ASTRING_INIT;
 
   diplomat_id=punit->id;
 
@@ -728,14 +739,14 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;
-    fc_snprintf(buf, sizeof(buf),
-		_("Your %s has arrived at %s.\nWhat is your command?"),
-		unit_name_translation(punit),
-		city_name(pcity));
+    astr_set(&text,
+             _("Your %s has arrived at %s.\nWhat is your command?"),
+             unit_name_translation(punit),
+             city_name(pcity));
 
     if (!unit_has_type_flag(punit, F_SPY)) {
       diplomat_dialog =
-        popup_message_dialog(toplevel, "diplomatdialog", buf,
+        popup_message_dialog(toplevel, "diplomatdialog", astr_str(&text),
 			       diplomat_embassy_callback, 0, 1,
 			       diplomat_investigate_callback, 0, 1,
 			       diplomat_sabotage_callback, 0, 1,
@@ -759,7 +770,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
     } else {
       diplomat_dialog =
-        popup_message_dialog(toplevel, "spydialog", buf,
+        popup_message_dialog(toplevel, "spydialog", astr_str(&text),
 			       diplomat_embassy_callback, 0,  1,
 			       diplomat_investigate_callback, 0, 1,
 			       spy_poison_callback,0, 1,
@@ -790,14 +801,15 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       /* Spy/Diplomat acting against a unit */
       
       Widget shl;
-      const char *message = !unit_has_type_flag(punit, F_SPY)
-	? _("The diplomat is waiting for your command")
-	: _("The spy is waiting for your command");
+
+      astr_set(&text,
+               _("Your %s is waiting for your command."),
+               unit_name_translation(punit));
       
       diplomat_target_id=ptunit->id;
 
       shl=popup_message_dialog(toplevel, "spybribedialog",
-			       message,
+			       astr_str(&text),
 			       diplomat_bribe_callback, 0, 0,
 			       spy_sabotage_unit_callback, 0, 0,
 			       diplomat_cancel_callback, 0, 0,
@@ -809,6 +821,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
     }
   }
+  astr_free(&text);
 }
 
 /**************************************************************************

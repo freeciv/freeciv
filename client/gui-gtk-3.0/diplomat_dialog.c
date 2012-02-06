@@ -18,6 +18,7 @@
 #include <gtk/gtk.h>
 
 /* utility */
+#include "astring.h"
 #include "support.h"
 
 /* common */
@@ -315,7 +316,14 @@ static void create_advances_list(struct player *pplayer,
     gtk_list_store_append(store, &it);
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, _("At Spy's Discretion"));
+    {
+      struct astring str = ASTRING_INIT;
+      /* TRANS: %s is a unit name, e.g., Spy */
+      astr_set(&str, _("At %s's Discretion"),
+               unit_name_translation(game_unit_by_number(diplomat_id)));
+      g_value_set_string(&value, astr_str(&str));
+      astr_free(&str);
+    }
     gtk_list_store_set_value(store, &it, 0, &value);
     g_value_unset(&value);
     gtk_list_store_set(store, &it, 1, A_UNSET, -1);
@@ -451,7 +459,14 @@ static void create_improvements_list(struct player *pplayer,
   } city_built_iterate_end;
 
   gtk_list_store_append(store, &it);
-  gtk_list_store_set(store, &it, 0, _("At Spy's Discretion"), 1, B_LAST, -1);
+  {
+    struct astring str = ASTRING_INIT;
+    /* TRANS: %s is a unit name, e.g., Spy */
+    astr_set(&str, _("At %s's Discretion"),
+             unit_name_translation(game_unit_by_number(diplomat_id)));
+    gtk_list_store_set(store, &it, 0, astr_str(&str), 1, B_LAST, -1);
+    astr_free(&str);
+  }
 
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
@@ -629,7 +644,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   struct city *pcity;
   struct unit *ptunit;
   GtkWidget *shl;
-  char buf[128];
+  struct astring title = ASTRING_INIT, text = ASTRING_INIT;
 
   diplomat_id = punit->id;
 
@@ -637,14 +652,17 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id = pcity->id;
-    fc_snprintf(buf, sizeof(buf),
-                _("Your %s has arrived at %s.\nWhat is your command?"),
-                unit_name_translation(punit),
-                city_name(pcity));
+    astr_set(&title,
+             /* TRANS: %s is a unit name, e.g., Spy */
+             _("Choose Your %s's Strategy"), unit_name_translation(punit));
+    astr_set(&text, 
+             _("Your %s has arrived at %s.\nWhat is your command?"),
+             unit_name_translation(punit),
+             city_name(pcity));
 
     if (!unit_has_type_flag(punit, F_SPY)){
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
-	_("Choose Your Diplomat's Strategy"), buf,
+        astr_str(&title), astr_str(&text),
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Sabotage City"), diplomat_sabotage_callback, NULL,
@@ -668,7 +686,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	choice_dialog_button_set_sensitive(shl, 5, FALSE);
     } else {
        shl = popup_choice_dialog(GTK_WINDOW(toplevel),
-	_("Choose Your Spy's Strategy"), buf,
+        astr_str(&title), astr_str(&text),
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Poison City"), spy_poison_callback, NULL,
@@ -707,12 +725,13 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
       /* Spy/Diplomat acting against a unit */ 
        
       diplomat_target_id = ptunit->id;
+      astr_set(&text,
+               /* TRANS: %s is a unit name, e.g., Diplomat, Spy */
+               _("Your %s is waiting for your command."),
+               unit_name_translation(punit));
  
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
-	_("Subvert Enemy Unit"),
-	(!unit_has_type_flag(punit, F_SPY))?
-	_("The diplomat is waiting for your command"):
-	_("The spy is waiting for your command"),
+	_("Subvert Enemy Unit"), astr_str(&text),
 	_("_Bribe Enemy Unit"), diplomat_bribe_callback, NULL,
 	_("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, NULL,
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
@@ -734,6 +753,8 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 		       G_CALLBACK(diplomat_cancel_callback), NULL);
     }
   }
+  astr_free(&title);
+  astr_free(&text);
 }
 
 /****************************************************************
