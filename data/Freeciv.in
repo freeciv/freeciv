@@ -2296,7 +2296,7 @@ Freeciv*caravandialog.*.button2.fromHoriz: button1
 !
 ! diplomat dialog
 !
-Freeciv*diplomatdialog.title: _("Choose Your Diplomat's Strategy")
+Freeciv*diplomatdialog.title: _("Choose Your Covert Strategy")
 Freeciv*diplomatdialog.dform.*.justify: Center
 Freeciv*diplomatdialog.dform.*.width:       160
 Freeciv*diplomatdialog.dform.dlabel.width:  320
@@ -2322,7 +2322,7 @@ Freeciv*diplomatdialog.*.button6.fromVert:  button4
 !
 ! Spy Dialog
 !
-Freeciv*spydialog.title: _("Choose Your Spy's Strategy")
+Freeciv*spydialog.title: _("Choose Your Covert Strategy")
 Freeciv*spydialog.dform.*.justify: Center
 Freeciv*spydialog.dform.*.width:   170
 Freeciv*spydialog.dform.dlabel.width:       340

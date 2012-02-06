@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 
@@ -335,9 +336,16 @@ static int spy_steal_popup(struct widget *pWidget)
   } advance_index_iterate_end;
   
   /* Get Spy tech to use for "At Spy's Discretion" -- this will have the
-   * side effect of display the unit's icon */
+   * side effect of displaying the unit's icon */
   i = advance_number(unit_type(game_unit_by_number(id))->require_advance);
-  copy_chars_to_string16(pStr, _("At Spy's Discretion"));
+  {
+    struct astring str = ASTRING_INIT;
+    /* TRANS: %s is a unit name, e.g., Spy */
+    astr_set(&str, _("At %s's Discretion"),
+             unit_name_translation(game_unit_by_number(id)));
+    copy_chars_to_string16(pStr, astr_str(&str));
+    astr_free(&str);
+  }
   pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
 	
   pBuf = create_icon2(pSurf, pWindow->dst,
@@ -553,13 +561,12 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   /* window */
   if (pCity)
   {
-    if(spy) {
-      pStr = create_str16_from_char(_("Choose Your Spy's Strategy") , adj_font(12));
-    }
-    else
-    {
-      pStr = create_str16_from_char(_("Choose Your Diplomat's Strategy"), adj_font(12));
-    }
+    struct astring title = ASTRING_INIT;
+    /* TRANS: %s is a unit name, e.g., Spy */
+    astr_set(&title, _("Choose Your %s's Strategy"),
+             unit_name_translation(pUnit));
+    pStr = create_str16_from_char(astr_str(&title), adj_font(12));
+    astr_free(&title);
   }
   else
   {
@@ -932,8 +939,14 @@ void popup_sabotage_dialog(struct city *pCity)
   /* ------------------ */
   }
   
-  create_active_iconlabel(pBuf, pWindow->dst, pStr, _("At Spy's Discretion"),
-			  sabotage_impr_callback);
+  {
+    struct astring str = ASTRING_INIT;
+    /* TRANS: %s is a unit name, e.g., Spy */
+    astr_set(&str, _("At %s's Discretion"), unit_name_translation(pUnit));
+    create_active_iconlabel(pBuf, pWindow->dst, pStr, astr_str(&str),
+                            sabotage_impr_callback);
+    astr_free(&str);
+  }
   pBuf->data.cont = pCont;  
   set_wstate(pBuf, FC_WS_NORMAL);
   
