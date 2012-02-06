@@ -722,6 +722,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
+  case ACTIVITY_CONVERT:
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_PATROL_UNUSED:

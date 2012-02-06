@@ -899,10 +899,6 @@ PACKET_UNIT_UPGRADE = 77; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_CONVERT = 78; cs, dsend
-  UNIT unit_id;
-end
-
 PACKET_UNIT_NUKE = 79; cs, dsend
   UNIT unit_id;
 end

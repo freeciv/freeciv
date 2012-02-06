@@ -948,6 +948,8 @@ static char activity2char(enum unit_activity activity)
     return 'b';
   case ACTIVITY_GEN_ROAD:
     return 'R';
+  case ACTIVITY_CONVERT:
+    return 'c';
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
     return '?';

@@ -265,6 +265,7 @@ struct named_sprites {
       *transform,
       *connect,
       *patrol,
+      *convert,
       *battlegroup[MAX_NUM_BATTLEGROUPS],
       *lowfuel,
       *tired;
@@ -2414,9 +2415,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.pillage,	"unit.pillage");
   SET_SPRITE(unit.pollution,    "unit.pollution");
   SET_SPRITE(unit.road,	        "unit.road");
-  SET_SPRITE(unit.sentry,	"unit.sentry");      
+  SET_SPRITE(unit.sentry,	"unit.sentry");
+  SET_SPRITE(unit.convert,      "unit.convert");      
   SET_SPRITE(unit.stack,	"unit.stack");
-  SET_SPRITE(unit.loaded, "unit.loaded");
+  SET_SPRITE(unit.loaded,       "unit.loaded");
   SET_SPRITE(unit.transform,    "unit.transform");
   SET_SPRITE(unit.connect,      "unit.connect");
   SET_SPRITE(unit.patrol,       "unit.patrol");
@@ -3425,6 +3427,9 @@ static int fill_unit_sprite_array(const struct tileset *t,
     case ACTIVITY_GEN_ROAD:
       /* TODO: Road type specific activity icon */
       s = t->sprites.unit.road;
+    case ACTIVITY_CONVERT:
+      s = t->sprites.unit.convert;
+      break;
     default:
       break;
     }

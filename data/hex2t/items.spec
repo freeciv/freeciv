@@ -228,6 +228,7 @@ tiles = { "row", "column", "tag"
   1, 17, "unit.pillage"
   1, 18, "unit.fortified"
   1, 19, "unit.fallout"
+  0, 17, "unit.convert"
 
 ; Unit hit-point bars: approx percent of hp remaining
 

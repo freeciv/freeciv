@@ -636,6 +636,7 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_FALLOUT:
+  case ACTIVITY_CONVERT:
     return FALSE;
   /* These shouldn't be kicking around internally. */
   case ACTIVITY_FORTRESS:
@@ -718,6 +719,8 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Base");
   case ACTIVITY_GEN_ROAD:
     return _("Road");
+  case ACTIVITY_CONVERT:
+    return _("Convert");
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
@@ -1184,6 +1187,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		|| !(tile_city(ptile)))
 	    && unit_has_type_flag(punit, F_TRANSFORM));
 
+  case ACTIVITY_CONVERT:
+    return unit_can_convert(punit);
+
   case ACTIVITY_FORTRESS:
   case ACTIVITY_AIRBASE:
   case ACTIVITY_PATROL_UNUSED:
@@ -1414,6 +1420,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
+  case ACTIVITY_CONVERT:
     astr_add_line(astr, "%s", get_activity_text(punit->activity));
     return;
   case ACTIVITY_PILLAGE:

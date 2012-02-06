@@ -92,6 +92,7 @@ enum unit_activity {
   ACTIVITY_PATROL_UNUSED = 17,		/* savegame compatability. */
   ACTIVITY_BASE = 18,			/* building base */
   ACTIVITY_GEN_ROAD = 19,
+  ACTIVITY_CONVERT = 20,
   ACTIVITY_LAST   /* leave this one last */
 };
 

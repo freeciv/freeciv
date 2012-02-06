@@ -1539,7 +1539,7 @@ void request_unit_upgrade(struct unit *punit)
 **************************************************************************/
 void request_unit_convert(struct unit *punit)
 {
-  dsend_packet_unit_convert(&client.conn, punit->id);
+  request_new_unit_activity(punit, ACTIVITY_CONVERT);
 }
 
 /****************************************************************************

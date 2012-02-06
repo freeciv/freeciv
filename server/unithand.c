@@ -196,36 +196,6 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
-  Convert a single unit to another type.
-**************************************************************************/
-void handle_unit_convert(struct player *pplayer, int unit_id)
-{
-  struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  struct unit_type *to_type, *from_type;
-
-  if (NULL == punit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_convert() invalid unit %d", unit_id);
-    return;
-  }
-
-  from_type = unit_type(punit);
-  to_type = from_type->converted_to;
-
-  if (unit_can_convert(punit)) {
-    transform_unit(punit, to_type, TRUE);
-    notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
-                  _("%s converted to %s."),
-                  utype_name_translation(from_type),
-                  utype_name_translation(to_type));
-  } else {
-    notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
-                  _("%s cannot be converted."),
-                  utype_name_translation(from_type));
-  }
-}
-
-/**************************************************************************
   Tell the client the cost of bribing a unit, inciting a revolt, or
   any other parameters needed for action.
 

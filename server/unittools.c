@@ -692,6 +692,31 @@ void notify_unit_experience(struct unit *punit)
 }
 
 /**************************************************************************
+  Convert a single unit to another type.
+**************************************************************************/
+static void unit_convert(struct unit *punit)
+{
+  struct unit_type *to_type, *from_type;
+
+  from_type = unit_type(punit);
+  to_type = from_type->converted_to;
+
+  if (unit_can_convert(punit)) {
+    transform_unit(punit, to_type, TRUE);
+    notify_player(unit_owner(punit), unit_tile(punit),
+                  E_UNIT_UPGRADED, ftc_server,
+                  _("%s converted to %s."),
+                  utype_name_translation(from_type),
+                  utype_name_translation(to_type));
+  } else {
+    notify_player(unit_owner(punit), unit_tile(punit),
+                  E_UNIT_UPGRADED, ftc_server,
+                  _("%s cannot be converted."),
+                  utype_name_translation(from_type));
+  }
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -719,6 +744,7 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_SENTRY:
+  case ACTIVITY_CONVERT:
     punit->activity_count += get_activity_rate_this_turn(punit);
     break;
 
@@ -754,6 +780,7 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_AIRBASE:
   case ACTIVITY_FORTIFYING:
+  case ACTIVITY_CONVERT:
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_LAST:
     /* no default, ensure all handled */
@@ -912,7 +939,14 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity == ACTIVITY_FORTIFYING) {
     if (punit->activity_count >= 1) {
-      set_unit_activity(punit,ACTIVITY_FORTIFIED);
+      set_unit_activity(punit, ACTIVITY_FORTIFIED);
+    }
+  }
+
+  if (activity == ACTIVITY_CONVERT) {
+    if (punit->activity_count >= 1) {
+      unit_convert(punit);
+      set_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
 
@@ -2972,6 +3006,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
+  case ACTIVITY_CONVERT:
   case ACTIVITY_LAST:
     set_unit_activity(punit, ACTIVITY_IDLE);
     break;
