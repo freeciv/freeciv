@@ -3119,6 +3119,10 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 
   proad->move_cost = p->move_cost;
 
+  output_type_iterate(o) {
+    proad->tile_bonus[o] = p->tile_bonus[o];
+  } output_type_iterate_end;
+
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&proad->reqs, p->reqs[i]);
   }

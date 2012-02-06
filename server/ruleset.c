@@ -2012,9 +2012,6 @@ static void load_ruleset_terrain(struct section_file *file)
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
   output_type_iterate(o) {
-    terrain_control.rail_tile_bonus[o] =
-      secfile_lookup_int_default(file, 0, "parameters.rail_%s_bonus",
-				 get_output_identifier(o));
     terrain_control.pollution_tile_penalty[o]
       = secfile_lookup_int_default(file, 50,
 				   "parameters.pollution_%s_penalty",
@@ -2356,6 +2353,11 @@ static void load_ruleset_terrain(struct section_file *file)
                             "%s.move_cost", section)) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
+    output_type_iterate(o) {
+      proad->tile_bonus[o] =
+        secfile_lookup_int_default(file, 0, "%s.%s_bonus",
+                                   section, get_output_identifier(o));
+    } output_type_iterate_end;
 
     reqs = lookup_req_list(file, section, "reqs", road_rule_name(proad));
     requirement_vector_copy(&proad->reqs, reqs);
@@ -4067,6 +4069,10 @@ static void send_ruleset_roads(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name(&r->name));
 
     packet.move_cost = r->move_cost;
+
+    output_type_iterate(o) {
+      packet.tile_bonus[o] = r->tile_bonus[o];
+    } output_type_iterate_end;
 
     j = 0;
     requirement_vector_iterate(&r->reqs, preq) {

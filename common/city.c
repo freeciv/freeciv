@@ -1241,9 +1241,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     break;
   }
 
-  if (tile_has_special(ptile, S_RAILROAD)) {
-    prod += (prod * terrain_control.rail_tile_bonus[otype]) / 100;
-  }
+  prod += (prod * tile_roads_output_bonus(ptile, otype) / 100);
 
   if (pcity) {
     const struct output_type *output = &output_types[otype];

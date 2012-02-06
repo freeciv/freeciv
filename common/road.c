@@ -29,8 +29,8 @@
 
 static struct road_type roads[ROAD_LAST] =
   {
-    { ROAD_ROAD, {}, SINGLE_MOVE, ACTIVITY_ROAD, S_ROAD },
-    { ROAD_RAILROAD, {}, SINGLE_MOVE, ACTIVITY_RAILROAD, S_RAILROAD }
+    { ROAD_ROAD, {}, SINGLE_MOVE, {}, ACTIVITY_ROAD, S_ROAD },
+    { ROAD_RAILROAD, {}, SINGLE_MOVE, {}, ACTIVITY_RAILROAD, S_RAILROAD }
   };
 
 /**************************************************************************

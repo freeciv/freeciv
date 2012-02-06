@@ -1268,7 +1268,6 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   STRING river_help_text[MAX_LEN_PACKET]; # help for Civ2-style rivers
 
   UINT16 road_superhighway_trade_bonus;  # % added to trade if road/s-highway
-  UINT16 rail_tile_bonus[O_LAST];        /* % added to output if railroad */
   UINT8 pollution_tile_penalty[O_LAST]; /* % taken from output if polluted */
   UINT8 fallout_tile_penalty[O_LAST]; /* % taken from output if polluted */
 end
@@ -1421,6 +1420,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 move_cost;
+  UINT16 tile_bonus[O_LAST];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BV_UNIT_CLASSES native_to;

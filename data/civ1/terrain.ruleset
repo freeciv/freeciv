@@ -56,15 +56,6 @@ river_help_text=""
 ; percent added to trade production if road and city has superhighways
 road_superhighway_trade_bonus=0
 
-; percent added to food production if tile has railroad
-rail_food_bonus=50
-
-; percent added to shield production if tile has railroad
-rail_shield_bonus=50
-
-; percent added to trade production if tile has railroad
-rail_trade_bonus=50
-
 ; percent subtracted from food production if tile is polluted
 pollution_food_penalty=50
 
@@ -756,6 +747,9 @@ Fortresses improve defense for land units.\
 ; move_cost               = how much movement it takes to to travel
 ;                           via this road. Value of 3 indicates full
 ;                           movement point.
+; food_bonus              = percent added to food production
+; shield_bonus            = percent added to shield production
+; trade_bonus             = percent added to trade production
 ; native_to               = List of unit classes that consider tile
 ;                           with this road native even if terrain is not
 ; flags
@@ -770,6 +764,9 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
     }
 move_cost     = 1
+food_bonus    = 0
+shield_bonus  = 0
+trade_bonus   = 0
 native_to     = "Land"
 
 [road_railroad]
@@ -781,4 +778,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
     }
 move_cost     = 0
+food_bonus    = 50
+shield_bonus  = 50
+trade_bonus   = 50
 native_to     = "Land"

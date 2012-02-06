@@ -294,6 +294,23 @@ int tile_bases_defense_bonus(const struct tile *ptile,
 }
 
 /****************************************************************************
+  Calculate output bonus given by roads
+****************************************************************************/
+int tile_roads_output_bonus(const struct tile *ptile,
+                            enum output_type_id o)
+{
+  int bonus = 0;
+
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)) {
+      bonus += proad->tile_bonus[o];
+    }
+  } road_type_iterate_end;
+
+  return bonus;
+}
+
+/****************************************************************************
   Check if tile contains base native for unit
 ****************************************************************************/
 bool tile_has_native_base(const struct tile *ptile,
