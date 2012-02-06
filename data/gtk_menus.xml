@@ -48,7 +48,7 @@
         <menuitem action="SHOW_ROADS_RAILS" />
         <menuitem action="SHOW_IRRIGATION" />
         <menuitem action="SHOW_MINES" />
-        <menuitem action="SHOW_FORTRESS_AIRBASE" />
+        <menuitem action="SHOW_BASES" />
       </menu>
       <menuitem action="SHOW_SPECIALS" />
       <menuitem action="SHOW_POLLUTION" />

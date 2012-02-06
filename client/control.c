@@ -1908,9 +1908,9 @@ void request_toggle_mines(void)
 }
 
 /**************************************************************************
- Toggle display of fortress and airbase
+ Toggle display of bases
 **************************************************************************/
-void request_toggle_fortress_airbase(void)
+void request_toggle_bases(void)
 {
   if (!can_client_change_view()) {
     return;
@@ -3055,9 +3055,9 @@ void key_mines_toggle(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_fortress_airbase_toggle(void)
+void key_bases_toggle(void)
 {
-  request_toggle_fortress_airbase();
+  request_toggle_bases();
 }
 
 /**************************************************************************

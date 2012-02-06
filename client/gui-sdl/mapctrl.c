@@ -2426,10 +2426,10 @@ bool map_event_handler(SDL_keysym Key)
         }
         return FALSE;
   
-      /* show fortresses and airbases - Ctrl+Shift+f */
+      /* show bases - Ctrl+Shift+f */
       case SDLK_f:
         if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
-          request_toggle_fortress_airbase();
+          request_toggle_bases();
         }
         return FALSE;
   

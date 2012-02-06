@@ -642,12 +642,12 @@ static void show_mine_callback(GtkToggleAction *action, gpointer data)
 }
 
 /****************************************************************
-  Action "SHOW_FORTRESS_AIRBASE" callback.
+  Action "SHOW_BASES" callback.
 *****************************************************************/
-static void show_fortress_airbase_callback(GtkToggleAction *action, gpointer data)
+static void show_bases_callback(GtkToggleAction *action, gpointer data)
 {
   if (draw_fortress_airbase ^ gtk_toggle_action_get_active(action)) {
-    key_fortress_airbase_toggle();
+    key_bases_toggle();
   }
 }
 
@@ -1405,8 +1405,8 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(show_irrigation_callback), FALSE},
       {"SHOW_MINES", NULL, _("_Mines"),
        NULL, NULL, G_CALLBACK(show_mine_callback), FALSE},
-      {"SHOW_FORTRESS_AIRBASE", NULL, _("_Fortress & Airbase"),
-       NULL, NULL, G_CALLBACK(show_fortress_airbase_callback), FALSE},
+      {"SHOW_BASES", NULL, _("_Bases"),
+       NULL, NULL, G_CALLBACK(show_bases_callback), FALSE},
 
       {"SHOW_SPECIALS", NULL, _("_Specials"),
        NULL, NULL, G_CALLBACK(show_specials_callback), FALSE},
@@ -2335,8 +2335,7 @@ void real_menus_init(void)
   menus_set_active(safe_group, "SHOW_ROADS_RAILS", draw_roads_rails);
   menus_set_active(safe_group, "SHOW_IRRIGATION", draw_irrigation);
   menus_set_active(safe_group, "SHOW_MINES", draw_mines);
-  menus_set_active(safe_group, "SHOW_FORTRESS_AIRBASE",
-                   draw_fortress_airbase);
+  menus_set_active(safe_group, "SHOW_BASES", draw_fortress_airbase);
   menus_set_active(safe_group, "SHOW_SPECIALS", draw_specials);
   menus_set_active(safe_group, "SHOW_POLLUTION", draw_pollution);
   menus_set_active(safe_group, "SHOW_CITIES", draw_cities);

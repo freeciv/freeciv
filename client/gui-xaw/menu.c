@@ -155,7 +155,7 @@ static struct MenuEntry view_menu_entries[]={
     { { N_("Roads & Rails"), 0        },      "", MENU_VIEW_SHOW_ROADS_RAILS, 0 },
     { { N_("Irrigation"), 0           },      "", MENU_VIEW_SHOW_IRRIGATION, 0 },
     { { N_("Mines"), 0                },      "", MENU_VIEW_SHOW_MINES, 0 },
-    { { N_("Fortress & Airbase"), 0   },      "", MENU_VIEW_SHOW_FORTRESS_AIRBASE, 0 },
+    { { N_("Bases"), 0                },      "", MENU_VIEW_SHOW_BASES, 0 },
     { { N_("Specials"), 0             },      "", MENU_VIEW_SHOW_SPECIALS, 0 },
     { { N_("Pollution & Fallout"), 0  },      "", MENU_VIEW_SHOW_POLLUTION, 0 },
     { { N_("Cities"), 0               },      "", MENU_VIEW_SHOW_CITIES, 0 },
@@ -368,7 +368,7 @@ void real_menus_update(void)
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_ROADS_RAILS, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_IRRIGATION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_MINES, 1);
-    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FORTRESS_AIRBASE, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_BASES, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_SPECIALS, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_POLLUTION, 1);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITIES, 1);
@@ -662,8 +662,8 @@ static void view_menu_callback(Widget w, XtPointer client_data,
   case MENU_VIEW_SHOW_MINES:
     key_mines_toggle();
     break;
-  case MENU_VIEW_SHOW_FORTRESS_AIRBASE:
-    key_fortress_airbase_toggle();
+  case MENU_VIEW_SHOW_BASES:
+    key_bases_toggle();
     break;
   case MENU_VIEW_SHOW_SPECIALS:
     key_specials_toggle();
