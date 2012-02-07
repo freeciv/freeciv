@@ -1736,6 +1736,7 @@ void request_unit_pillage(struct unit *punit)
     struct tile *ptile = unit_tile(punit);
     bv_special pspossible;
     bv_bases bspossible;
+    bv_roads rspossible;
     int count = 0;
 
     BV_CLR_ALL(pspossible);
@@ -1761,21 +1762,27 @@ void request_unit_pillage(struct unit *punit)
       }
     } base_type_iterate_end;
 
+    BV_CLR_ALL(rspossible);
+    target.type = ATT_ROAD;
+    road_type_iterate(proad) {
+      target.obj.road = road_index(proad);
+
+      if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
+                                           &target, ptile)) {
+        BV_SET(rspossible, target.obj.road);
+        count++;
+      }
+    } road_type_iterate_end;
+
     if (count > 1) {
-      popup_pillage_dialog(punit, pspossible, bspossible);
+      popup_pillage_dialog(punit, pspossible, bspossible, rspossible);
     } else {
       /* Should be only one choice... */
-      int what = get_preferred_pillage(pspossible, bspossible);
+      bool found = get_preferred_pillage(&target, pspossible, bspossible, rspossible);
 
-      if (what > S_LAST) {
-        target.type = ATT_BASE;
-        target.obj.base = what - S_LAST - 1;
-      } else {
-        target.type = ATT_SPECIAL;
-        target.obj.spe = what;
+      if (found) {
+        request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, &target);
       }
-
-      request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, &target);
     }
   }
 }

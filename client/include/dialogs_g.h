@@ -55,7 +55,7 @@ GUI_FUNC_PROTO(void, popup_incite_dialog, struct city *pcity, int cost)
 GUI_FUNC_PROTO(void, popup_bribe_dialog, struct unit *punit, int cost)
 GUI_FUNC_PROTO(void, popup_sabotage_dialog, struct city *pcity)
 GUI_FUNC_PROTO(void, popup_pillage_dialog, struct unit *punit,
-               bv_special may_pillage, bv_bases bases)
+               bv_special spe, bv_bases bases, bv_roads roads)
 GUI_FUNC_PROTO(void, popup_upgrade_dialog, struct unit_list *punits)
 GUI_FUNC_PROTO(void, popup_tileset_suggestion_dialog, void)
 GUI_FUNC_PROTO(bool, popup_theme_suggestion_dialog, const char *theme_name)

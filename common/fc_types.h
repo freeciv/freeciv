@@ -417,4 +417,17 @@ enum test_result {
   TR_ALREADY_SOLD
 };
 
+enum act_tgt_type { ATT_SPECIAL, ATT_BASE, ATT_ROAD };
+
+union act_tgt_obj {
+  enum tile_special_type spe;
+  Base_type_id base;
+  Road_type_id road;
+};
+
+struct act_tgt {
+  enum act_tgt_type type;
+  union act_tgt_obj obj;
+};
+
 #endif /* FC__FC_TYPES_H */

@@ -818,7 +818,7 @@ void handle_unit_change_activity_road(struct player *pplayer, int unit_id,
 {
   struct act_tgt target = { .type = ATT_ROAD, .obj.road = road };
 
-  if (activity != ACTIVITY_GEN_ROAD) {
+  if (activity != ACTIVITY_GEN_ROAD && activity != ACTIVITY_PILLAGE) {
     return;
   }
 

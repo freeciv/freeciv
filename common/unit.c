@@ -1092,10 +1092,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
         bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
         bv_bases bspresent = get_tile_pillageable_base_set(ptile, NULL);
+	bv_roads rspresent = get_tile_pillageable_road_set(ptile, NULL);
         bv_special psworking = get_unit_tile_pillage_set(ptile);
         bv_bases bsworking = get_unit_tile_pillage_base_set(ptile);
+	bv_roads rsworking = get_unit_tile_pillage_road_set(ptile);
         bv_special pspossible;
         bv_bases bspossible;
+        bv_roads rspossible;
 
         BV_CLR_ALL(pspossible);
         tile_special_type_iterate(spe) {
@@ -1129,7 +1132,20 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           }
         } base_type_iterate_end;
 
-        if (!BV_ISSET_ANY(pspossible) && !BV_ISSET_ANY(bspossible)) {
+        BV_CLR_ALL(rspossible);
+        if (!tile_city(ptile)) {
+          /* Cannot pillage roads from city tiles */
+          road_type_iterate(pr) {
+            Road_type_id r = road_index(pr);
+            if (BV_ISSET(rspresent, r) && !BV_ISSET(rsworking, r)) {
+              BV_SET(rspossible, r);
+            }
+          } road_type_iterate_end;
+        }
+
+        if (!BV_ISSET_ANY(pspossible)
+            && !BV_ISSET_ANY(bspossible)
+            && !BV_ISSET_ANY(rspossible)) {
           /* Nothing available to pillage */
           return FALSE;
         }
@@ -1142,26 +1158,23 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           if (!game.info.pillage_select) {
             /* Hobson's choice (this case mostly exists for old clients) */
             /* Needs to match what unit_activity_assign_target chooses */
-            enum act_tgt_type pre_type = ATT_SPECIAL;
-            int pre_target = get_preferred_pillage(pspossible, bspossible);
-            Base_type_id pre_base = BASE_NONE;
-            fc_assert_ret_val(pre_target != S_LAST, FALSE);
-            if (pre_target > S_LAST) {
-              pre_type = ATT_BASE;
-              pre_base = pre_target - S_LAST - 1;
-              pre_target = S_LAST;
-            }
-            if (target->type != pre_type
-                || (target->type == ATT_SPECIAL && target->obj.spe != pre_target)
-                || (target->type == ATT_BASE && target->obj.base != pre_base)) {
+            struct act_tgt tgt;
+            bool found = get_preferred_pillage(&tgt, pspossible, bspossible, rspossible);
+
+            fc_assert_ret_val(found, FALSE);
+
+            if (!cmp_act_tgt(&tgt, target)) {
               /* Only one target allowed, which wasn't the requested one */
               return FALSE;
             }
           }
           if (target->type == ATT_SPECIAL) {
             return BV_ISSET(pspossible, target->obj.spe);
-          } else {
+          } else if (target->type == ATT_BASE) {
             return BV_ISSET(bspossible, target->obj.base);
+          } else {
+            fc_assert(target->type == ATT_ROAD);
+            return BV_ISSET(rspossible, target->obj.road);
           }
         }
       } else {
@@ -1343,6 +1356,26 @@ bv_bases get_unit_tile_pillage_base_set(const struct tile *ptile)
   return tgt_ret;
 }
 
+/****************************************************************************
+  Return a mask of the roads which are actively (currently) being
+  pillaged on the given tile.
+****************************************************************************/
+bv_roads get_unit_tile_pillage_road_set(const struct tile *ptile)
+{
+  bv_roads tgt_ret;
+
+  BV_CLR_ALL(tgt_ret);
+  unit_list_iterate(ptile->units, punit) {
+    if (punit->activity == ACTIVITY_PILLAGE
+        && punit->activity_target.type == ATT_ROAD) {
+      fc_assert(punit->activity_target.obj.road < road_count());
+      BV_SET(tgt_ret, punit->activity_target.obj.road);
+    }
+  } unit_list_iterate_end;
+
+  return tgt_ret;
+}
+
 /**************************************************************************
   Return text describing the unit's current activity as a static string.
 
@@ -1431,34 +1464,42 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
         } else {
           bv_special pset;
           bv_bases bases;
+          bv_roads roads;
 
           BV_CLR_ALL(pset);
           BV_CLR_ALL(bases);
+          BV_CLR_ALL(roads);
           BV_SET(pset, punit->activity_target.obj.spe);
           astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                        get_infrastructure_text(pset, bases));
+                        get_infrastructure_text(pset, bases, roads));
         }
         break;
      case ATT_BASE:
         {
           bv_special pset;
           bv_bases bases;
+          bv_roads roads;
 
           BV_CLR_ALL(pset);
           BV_CLR_ALL(bases);
+          BV_CLR_ALL(roads);
           BV_SET(bases, punit->activity_target.obj.base);
           astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
-                        get_infrastructure_text(pset, bases));
+                        get_infrastructure_text(pset, bases, roads));
         }
         break;
      case ATT_ROAD:
         {
           bv_special pset;
           bv_bases bases;
+          bv_roads roads;
 
           BV_CLR_ALL(pset);
           BV_CLR_ALL(bases);
-          astr_add_line(astr, "%s: Road", get_activity_text(punit->activity));
+          BV_CLR_ALL(roads);
+          BV_SET(roads, punit->activity_target.obj.road);
+          astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
+                        get_infrastructure_text(pset, bases, roads));
         }
         break;
     } 

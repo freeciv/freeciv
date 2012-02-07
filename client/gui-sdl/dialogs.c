@@ -1966,9 +1966,12 @@ static int pillage_callback(struct widget *pWidget)
     {
       struct act_tgt target;
 
-      if (what > S_LAST) {
+      if (what >= S_LAST + game.control.num_base_types) {
+        target.type = ATT_ROAD;
+        target.obj.road = what - S_LAST - game.control.num_base_types;
+      } else if (what >= S_LAST) {
         target.type = ATT_BASE;
-        target.obj.base = what - S_LAST - 1;
+        target.obj.base = what - S_LAST;
       } else {
         target.type = ATT_SPECIAL;
         target.obj.spe = what;
@@ -2012,13 +2015,14 @@ static void popdown_pillage_dialog(void)
   pillage.
 **************************************************************************/
 void popup_pillage_dialog(struct unit *pUnit,
-			  bv_special may_pillage,
-                          bv_bases bases)
+			  bv_special spe,
+                          bv_bases bases,
+                          bv_roads roads)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
-  int what;
   SDL_Rect area;
+  struct act_tgt tgt;
 
   if (pPillage_Dlg) {
     return;
@@ -2057,24 +2061,30 @@ void popup_pillage_dialog(struct unit *pUnit,
   add_to_gui_list(ID_PILLAGE_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
+  while (get_preferred_pillage(&tgt, spe, bases, roads)) {
     const char *name;
+    int what = S_LAST;
 
-    if (what > S_LAST) {
-      struct base_type *pbase = base_by_number(what - S_LAST - 1);
-      name = base_name_translation(pbase);
-    } else {
-      name = special_name_translation(what);
+    switch (tgt.type) {
+      case ATT_SPECIAL:
+        name = special_name_translation(tgt.obj.spe);
+        clear_special(&spe, tgt.obj.spe);
+        what = tgt.obj.spe;
+        break;
+      case ATT_BASE:
+        name = base_name_translation(base_by_number(tgt.obj.base));
+        BV_CLR(bases, tgt.obj.base);
+        what = tgt.obj.base + S_LAST;
+        break;
+      case ATT_ROAD:
+        name = road_name_translation(road_by_number(tgt.obj.road));
+        BV_CLR(roads, tgt.obj.road);
+        what = tgt.obj.road + S_LAST + game.control.num_base_types;
+        break;
     }
 
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
                             (char *) name, pillage_callback);
-
-    if (what > S_LAST) {
-      BV_CLR(bases, what - S_LAST - 1);
-    } else {
-      clear_special(&may_pillage, what);
-    }
 
     pBuf->data.unit = pUnit;
     set_wstate(pBuf, FC_WS_NORMAL);

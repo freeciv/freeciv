@@ -792,13 +792,23 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
     eg: "Road/Farmland"
   This only includes "infrastructure", i.e., man-made specials.
 ****************************************************************************/
-const char *get_infrastructure_text(bv_special spe, bv_bases bases)
+const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roads)
 {
   static char s[256];
   char *p;
   enum eroad road = ROAD_LAST;
 
   s[0] = '\0';
+
+  road_type_iterate(proad) {
+    if (BV_ISSET(roads, road_index(proad))) {
+      /* TODO: This is just to avoid duplicate if road is also part of specials.
+       *       Once roads are not part of specials, remove this check */
+      if (!contains_special(spe, road_special(proad))) {
+        cat_snprintf(s, sizeof(s), "%s/", road_name_translation(proad));
+      }
+    }
+  } road_type_iterate_end;
 
   /* Since railroad requires road, Road/Railroad is redundant */
   if (contains_special(spe, S_RAILROAD)) {
@@ -857,30 +867,57 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
   better is available.
   Bases are encoded as numbers beyond S_LAST.
 ****************************************************************************/
-int get_preferred_pillage(bv_special pset,
-                          bv_bases bases)
+bool get_preferred_pillage(struct act_tgt *tgt,
+                           bv_special pset,
+                           bv_bases bases,
+                           bv_roads roads)
 {
+  tgt->type = ATT_SPECIAL;
   if (contains_special(pset, S_FARMLAND)) {
-    return S_FARMLAND;
+    tgt->obj.spe = S_FARMLAND;
+    return TRUE;
   }
   if (contains_special(pset, S_IRRIGATION)) {
-    return S_IRRIGATION;
+    tgt->obj.spe = S_IRRIGATION;
+    return TRUE;
   }
   if (contains_special(pset, S_MINE)) {
-    return S_MINE;
+    tgt->obj.spe = S_MINE;
+    return TRUE;
   }
   base_type_iterate(pbase) {
     if (BV_ISSET(bases, base_index(pbase))) {
-      return S_LAST + base_index(pbase) + 1;
+      tgt->type = ATT_BASE;
+      tgt->obj.base = base_index(pbase);
+      return TRUE;
     }
   } base_type_iterate_end;
+
+#if 0
+  /* TODO: Use this code that handles roads as road types and not as
+   *       special types once it's possible. Currently savegame format
+   *       does not support having road type as activity target. */
+  road_type_iterate(proad) {
+    if (BV_ISSET(roads, road_index(proad))) {
+      tgt->type = ATT_ROAD;
+      tgt->obj.road = road_index(proad);
+      return TRUE;
+    }
+  } road_type_iterate_end;
+
+#else
+
   if (contains_special(pset, S_RAILROAD)) {
-    return S_RAILROAD;
+    tgt->obj.spe = S_RAILROAD;
+    return TRUE;
   }
   if (contains_special(pset, S_ROAD)) {
-    return S_ROAD;
+    tgt->obj.spe = S_ROAD;
+    return TRUE;
   }
-  return S_LAST;
+#endif
+
+  return FALSE;
 }
 
 /****************************************************************************

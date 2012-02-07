@@ -136,6 +136,27 @@ bv_bases get_tile_pillageable_base_set(const struct tile *ptile, int *pcount)
   return bspresent;
 }
 
+/****************************************************************************
+  Return a bitfield of the pillageable roads on the tile.
+****************************************************************************/
+bv_roads get_tile_pillageable_road_set(const struct tile *ptile, int *pcount)
+{
+  bv_roads rspresent;
+  int count = 0;
+
+  BV_CLR_ALL(rspresent);
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)) {
+      BV_SET(rspresent, road_index(proad));
+      count++;
+    }
+  } road_type_iterate_end;
+  if (pcount) {
+    *pcount = count;
+  }
+  return rspresent;
+}
+
 /***************************************************************
   Returns 1 if we are at a stage of the game where the map
   has not yet been generated/loaded.

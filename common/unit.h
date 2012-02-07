@@ -126,19 +126,6 @@ struct unit_order {
 struct unit;
 struct unit_list;
 
-enum act_tgt_type { ATT_SPECIAL, ATT_BASE, ATT_ROAD };
-
-union act_tgt_obj {
-  enum tile_special_type spe;
-  Base_type_id base;
-  Road_type_id road;
-};
-
-struct act_tgt {
-  enum act_tgt_type type;
-  union act_tgt_obj obj;
-};
-
 struct unit {
   struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
@@ -326,6 +313,7 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
 			      const struct tile *ptile);
 bv_special get_unit_tile_pillage_set(const struct tile *ptile);
 bv_bases get_unit_tile_pillage_base_set(const struct tile *ptile);
+bv_roads get_unit_tile_pillage_road_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(const struct unit *punit);

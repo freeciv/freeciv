@@ -793,19 +793,20 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
                                 &punit->activity_target) >= 1) {
-      enum tile_special_type what_pillaged = S_LAST;
-
-      if (punit->activity_target.type == ATT_SPECIAL) {
-        what_pillaged = punit->activity_target.obj.spe;
+      switch (punit->activity_target.type) {
+        case ATT_SPECIAL:
+          tile_clear_special(ptile, punit->activity_target.obj.spe);
+          break;
+        case ATT_BASE:
+          destroy_base(ptile, base_by_number(punit->activity_target.obj.base));
+          break;
+        case ATT_ROAD:
+          tile_remove_road(ptile, road_by_number(punit->activity_target.obj.road));
+          break;
       }
 
-      if (what_pillaged == S_LAST) {
-        destroy_base(ptile, base_by_number(punit->activity_target.obj.base));
-        bounce_units_on_terrain_change(ptile);
-      } else {
-        tile_clear_special(ptile, what_pillaged);
-        bounce_units_on_terrain_change(ptile);
-      }
+      bounce_units_on_terrain_change(ptile);
+
       unit_list_iterate (ptile->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE)
             && cmp_act_tgt(&punit->activity_target, &punit2->activity_target)) {
@@ -993,7 +994,7 @@ void unit_forget_last_activity(struct unit *punit)
 /**************************************************************************
   For some activities (currently only pillaging), the precise target can
   be assigned by the server rather than explicitly requested by the client.
-  This function assigns a specific activity+target+base if the current
+  This function assigns a specific activity+target if the current
   settings are open-ended (otherwise leaves them unchanged).
 **************************************************************************/
 void unit_assign_specific_activity_target(struct unit *punit,
@@ -1003,24 +1004,29 @@ void unit_assign_specific_activity_target(struct unit *punit,
   if (*activity == ACTIVITY_PILLAGE
       && target->type == ATT_SPECIAL && target->obj.spe == S_LAST) {
     struct tile *ptile = unit_tile(punit);
+    struct act_tgt tgt;
+
     bv_special specials = tile_specials(ptile);
     bv_bases bases = tile_bases(ptile);
-    enum tile_special_type new_target;
-    while ((new_target = get_preferred_pillage(specials, bases)) != S_LAST) {
-      struct act_tgt new_tgt;
+    bv_roads roads = tile_roads(ptile);
 
-      if (new_target > S_LAST) {
-        new_tgt.type = ATT_BASE;
-        new_tgt.obj.base = new_target - S_LAST - 1;
-        BV_CLR(bases, new_tgt.obj.base);
-      } else {
-        new_tgt.type = ATT_SPECIAL;
-        new_tgt.obj.spe = new_target;
-        clear_special(&specials, new_target);
+    while (get_preferred_pillage(&tgt, specials, bases, roads)) {
+
+      switch (tgt.type) {
+      case ATT_SPECIAL:
+        clear_special(&specials, tgt.obj.spe);
+        break;
+      case ATT_BASE:
+        BV_CLR(bases, tgt.obj.base);
+        break;
+      case ATT_ROAD:
+        BV_CLR(roads, tgt.obj.road);
+        break;
       }
+
       if (can_unit_do_activity_targeted(punit, *activity,
-                                        &new_tgt)) {
-        *target = new_tgt;
+                                        &tgt)) {
+        *target = tgt;
         return;
       }
     }
