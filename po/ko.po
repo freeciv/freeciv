@@ -21831,12 +21831,11 @@ msgstr "대통령"
 
 #: data/nation/antiguan.ruleset:3
 msgid "Antiguan and Barbudan"
-msgstr ""
+msgstr "앤티가 바부다"
 
 #: data/nation/antiguan.ruleset:4
-#, fuzzy
 msgid "?plural:Antiguans and Barbudans"
-msgstr "캐나다 사람"
+msgstr "앤티가 바부다 사람"
 
 #: data/nation/antiguan.ruleset:6
 msgid ""
@@ -21844,16 +21843,16 @@ msgid ""
 "two eponymous islands as well as a number of smaller islets. The country has "
 "been independent from the United Kingdom since 1981."
 msgstr ""
+"앤티가 바부다는 더 작고 많은 섬 뿐만 아니라 둘 다 동일한 이름을 가진 섬들도 존재하는 "
+"동부 카리브해 지역의 국가입니다. 그 국가는 1981년 이후로 영국으로 부터 독립되었습니다."
 
 #: data/nation/antillean.ruleset:3
-#, fuzzy
 msgid "Antillean"
-msgstr "포"
+msgstr "앤틸리스"
 
 #: data/nation/antillean.ruleset:4
-#, fuzzy
 msgid "?plural:Antilleans"
-msgstr "인도 사림"
+msgstr "앤틸리스 사람"
 
 #: data/nation/antillean.ruleset:6
 msgid ""
@@ -21865,16 +21864,19 @@ msgid ""
 "the Netherlands, the other three islands have been directly integrated into "
 "the Netherlands as special municipalities."
 msgstr ""
+"아루바, 보네르, 쿠라사우, 사바, 세인트 마틴 그리고 세인트 유스타티우스은 17세기 "
+"네덜란드에게 식민지로 만들어 졌습니다. 이곳의 인구는 유럽인, 아프리카인 그리고 라틴 아메리카 "
+"유산으로 섞여 있습니다. 네덜란드령 앤틸 제도는 1954년에 내부 자체 통치를 가졌습니다. 2010년 "
+"네덜란드령 앤틸 제도는 사라졌습니다.  아루바, 쿠라사우, 세인트 마틴은 네덜란드 왕국안에 있고, 다른 "
+"세개의 섬은 특별한 자치제로 네덜란드에 바로 통합되었습니다."
 
 #: data/nation/apache.ruleset:3
-#, fuzzy
 msgid "Apache"
-msgstr "우주"
+msgstr "아파치"
 
 #: data/nation/apache.ruleset:4
-#, fuzzy
 msgid "?plural:Apaches"
-msgstr "스리랑카 사람"
+msgstr "아파치족 사람"
 
 #: data/nation/apache.ruleset:6
 msgid ""
@@ -21884,6 +21886,10 @@ msgid ""
 "the Far North around 1000 AD. The Apache are known as fierce warriors. In "
 "the 19th century it took the United States half a century to subdue them."
 msgstr ""
+"아파치족는 애리조나 주, 뉴멕시코 그리고 오클라호마에서 거주하고. 애서베스카 어를 구사하는 "
+"북미 원주민의 무리입니다. 아파치족은 서부 치리카와족, 메스칼레로족, 지카릴라, 리판 그리고 "
+"있는 그대로의 아파치족을 포함합니다. 그들은 서기 1000년쯤 극북에서 왔습니다. 아파치족 사람들은 "
+"사나운 전사로 알려져 있습니다. 19세기 이들은 미국을 진압하기 위해서 반 세기 동안 미국을 차지했습니다."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -21895,17 +21901,15 @@ msgstr "아랍 사람"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622 AD-1495 AD."
-msgstr ""
+msgstr "서기 622~1495년 아랍/이슬람교의 문명입니다."
 
 #: data/nation/aragonese.ruleset:3
-#, fuzzy
 msgid "Aragonese"
-msgstr "용기병"
+msgstr "아라곤"
 
 #: data/nation/aragonese.ruleset:4
-#, fuzzy
 msgid "?plural:Aragonese"
-msgstr "스리랑카 사람"
+msgstr "아라곤 사람"
 
 #: data/nation/aragonese.ruleset:6
 msgid ""
@@ -21916,6 +21920,11 @@ msgid ""
 "the base of the Spanish unification. The kingdom was legally dissolved in "
 "1707 but today Aragon continues to exist as an autonomous community of Spain."
 msgstr ""
+"아라곤은 프랑크 족의 국가로서 형성되었고, 11세기에 왕국으로 승격하였습니다. 이것은 "
+"국토회복운동 동안 남쪽을 향해 영토를 확장하였고, 나중에 지중해의 광범위한 부분을 통제하게"
+"되었습니다. 1469년 왕 페르난도 2세가 카스티야의 이사벨라와 결혼하고, 그 결혼은 스페인의 "
+"통합의 기반을 형성하였습니다. 그 왕국은 법률적으로 1707년에 사라졌지만, 오늘날 아라곤은 "
+"스페인의 자주적인 공동체로서 계속해서 존재합니다."
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
@@ -21930,6 +21939,7 @@ msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
 msgstr ""
+"전설에 의하면, 아람 사람들은 노아의 손자인, 아람의 후손입니다."
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
