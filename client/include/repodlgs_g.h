@@ -27,7 +27,9 @@ void science_report_dialog_popup(bool raise);
 void science_report_dialog_redraw(void);
 void economy_report_dialog_popup(bool raise);
 void units_report_dialog_popup(bool raise);
-void endgame_report_dialog_popup(const struct packet_endgame_report *packet);
+void endgame_report_dialog_popup(const struct packet_endgame_report_old *packet);
+void endgame_report_dialog_start(const struct packet_endgame_report_new *packet);
+void endgame_report_dialog_player(const struct packet_endgame_player *packet);
 
 void real_science_report_dialog_update(void);
 void real_economy_report_dialog_update(void);

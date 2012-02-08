@@ -3200,10 +3200,28 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
 /****************************************************************************
   Pass the packet on to be displayed in a gui-specific endgame dialog. 
 ****************************************************************************/
-void handle_endgame_report(const struct packet_endgame_report *packet)
+void handle_endgame_report_old(const struct packet_endgame_report_old *packet)
 {
   set_client_state(C_S_OVER);
   endgame_report_dialog_popup(packet);
+}
+
+/****************************************************************************
+  Pass the header information about things be displayed in a gui-specific
+  endgame dialog.
+****************************************************************************/
+void handle_endgame_report_new(const struct packet_endgame_report_new *packet)
+{
+  set_client_state(C_S_OVER);
+  endgame_report_dialog_start(packet);
+}
+
+/****************************************************************************
+  Pass endgame report about single player.
+****************************************************************************/
+void handle_endgame_player(const struct packet_endgame_player *packet)
+{
+  endgame_report_dialog_player(packet);
 }
 
 /****************************************************************************

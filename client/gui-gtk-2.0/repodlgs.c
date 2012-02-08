@@ -1677,6 +1677,9 @@ void real_units_report_dialog_update(void)
 struct endgame_report {
   struct gui_dialog *shell;
   GtkTreeView *tree_view;
+  GtkListStore *store;
+  int player_count;
+  int players_received;
 };
 
 enum endgame_report_columns {
@@ -1710,17 +1713,17 @@ endgame_report_column_name(enum endgame_report_columns col)
 }
 
 /****************************************************************************
-  Fill a final report with statistics for each player.
+  Initialize a final report to be filled with statistics for each player.
 ****************************************************************************/
-static void endgame_report_update(struct endgame_report *preport,
-                                  const struct packet_endgame_report *packet)
+static void endgame_report_update_new(struct endgame_report *preport,
+                                      const struct packet_endgame_report_new
+                                      *packet)
 {
   const size_t col_num = packet->category_num + FRD_COL_NUM;
   GType col_types[col_num];
   GtkListStore *store;
-  GtkTreeIter iter;
   GtkTreeViewColumn *col;
-  int i, j;
+  int i;
 
   fc_assert_ret(NULL != preport);
 
@@ -1768,21 +1771,75 @@ static void endgame_report_update(struct endgame_report *preport,
     }
   }
 
-  /* Fill the model with player stats. */
-  for (i = 0; i < packet->player_num; i++) {
-    const struct player *pplayer = player_by_number(packet->player_id[i]);
+  preport->store = store;
+  preport->player_count = packet->player_num;
+  preport->players_received = 0;
+}
 
-    gtk_list_store_append(store, &iter);
-    gtk_list_store_set(store, &iter,
-                       FRD_COL_PLAYER, player_name(pplayer),
-                       FRD_COL_NATION, get_flag(nation_of_player(pplayer)),
-                       FRD_COL_SCORE, packet->score[i],
-                       -1);
+/****************************************************************************
+  Fill a final report with statistics for each player.
+****************************************************************************/
+static void endgame_report_update_old(struct endgame_report *preport,
+                                      const struct packet_endgame_report_old
+                                      *packet)
+{
+  struct packet_endgame_report_new np;
+  int i;
+
+  np.category_num = packet->category_num;
+
+  for (i = 0; i < packet->category_num; i++) {
+    strcpy(np.category_name[i], packet->category_name[i]);
+  }
+
+  np.player_num = packet->player_num;
+
+  endgame_report_update_new(preport, &np);
+
+  for (i = 0; i < packet->player_num; i++) {
+    struct packet_endgame_player npp;
+    int j;
+
+    npp.category_num = packet->category_num;
+    npp.player_id = packet->player_id[i];
+    npp.score = packet->score[i];
+
     for (j = 0; j < packet->category_num; j++) {
-      gtk_list_store_set(store, &iter,
-                         j + FRD_COL_NUM, packet->category_score[j][i],
-                         -1);
+      npp.category_score[j] = packet->category_score[j][i];
     }
+
+    endgame_report_dialog_player(&npp);
+  }
+}
+
+
+/****************************************************************************
+  Handle endgame report information about one player.
+****************************************************************************/
+void endgame_report_dialog_player(const struct packet_endgame_player *packet)
+{
+  /* Fill the model with player stats. */
+  struct endgame_report *preport = &endgame_report;
+  const struct player *pplayer = player_by_number(packet->player_id);
+  GtkTreeIter iter;
+  int i;
+
+  gtk_list_store_append(preport->store, &iter);
+  gtk_list_store_set(preport->store, &iter,
+                     FRD_COL_PLAYER, player_name(pplayer),
+                     FRD_COL_NATION, get_flag(nation_of_player(pplayer)),
+                     FRD_COL_SCORE, packet->score,
+                     -1);
+  for (i = 0; i < packet->category_num; i++) {
+    gtk_list_store_set(preport->store, &iter,
+                       i + FRD_COL_NUM, packet->category_score[i],
+                       -1);
+  }
+
+  preport->players_received++;
+
+  if (preport->players_received == preport->player_count) {
+    gui_dialog_present(preport->shell);
   }
 }
 
@@ -1817,14 +1874,24 @@ static void endgame_report_init(struct endgame_report *preport)
 }
 
 /****************************************************************************
-  Show a dialog with player statistics at endgame.
+  Start building a dialog with player statistics at endgame.
 ****************************************************************************/
-void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
+void endgame_report_dialog_start(const struct packet_endgame_report_new *packet)
 {
   if (NULL == endgame_report.shell) {
     endgame_report_init(&endgame_report);
   }
-  endgame_report_update(&endgame_report, packet);
+  endgame_report_update_new(&endgame_report, packet);
+}
 
+/****************************************************************************
+  Show a dialog with player statistics at endgame.
+****************************************************************************/
+void endgame_report_dialog_popup(const struct packet_endgame_report_old *packet)
+{
+  if (NULL == endgame_report.shell) {
+    endgame_report_init(&endgame_report);
+  }
+  endgame_report_update_old(&endgame_report, packet);
   gui_dialog_present(endgame_report.shell);
 }

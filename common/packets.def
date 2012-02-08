@@ -337,14 +337,29 @@ PACKET_PLAYER_READY = 11; cs, dsend
   BOOL is_ready;
 end
 
-PACKET_ENDGAME_REPORT = 12; sc, lsend, no-delta
+PACKET_ENDGAME_REPORT_OLD = 12; sc, lsend, no-delta
   UINT8 category_num;
   STRING category_name[32:category_num][MAX_LEN_NAME];
 
   UINT8 player_num;
+
   PLAYER player_id[MAX_NUM_PLAYERS:player_num];
   UINT16 score[MAX_NUM_PLAYERS:player_num];
   UINT32 category_score[32:category_num][MAX_NUM_PLAYERS:player_num];
+end
+
+PACKET_ENDGAME_PLAYER = 223; sc, lsend, no-delta, handle-via-packet
+  UINT8 category_num;
+  PLAYER player_id;
+  UINT16 score;
+  UINT32 category_score[32:category_num];
+end
+
+PACKET_ENDGAME_REPORT_NEW = 224; sc, lsend, no-delta, handle-via-packet
+  UINT8 category_num;
+  STRING category_name[32:category_num][MAX_LEN_NAME];
+
+  UINT8 player_num;
 end
 
 /************** Info packets **********************/

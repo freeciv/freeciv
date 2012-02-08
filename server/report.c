@@ -20,6 +20,7 @@
 
 /* utility */
 #include "bitvector.h"
+#include "capability.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -1453,7 +1454,8 @@ void report_final_scores(struct conn_list *dest)
 
   int i, j;
   struct player_score_entry size[player_count()];
-  struct packet_endgame_report packet;
+  struct packet_endgame_report_new pnew;
+  struct packet_endgame_report_old packet;
 
   fc_assert(score_categories_num <= ARRAY_SIZE(packet.category_name));
 
@@ -1462,8 +1464,10 @@ void report_final_scores(struct conn_list *dest)
   }
 
   packet.category_num = score_categories_num;
+  pnew.category_num = score_categories_num;
   for (j = 0; j < score_categories_num; j++) {
     sz_strlcpy(packet.category_name[j], score_categories[j].name);
+    sz_strlcpy(pnew.category_name[j], score_categories[j].name);
   }
 
   i = 0;
@@ -1478,17 +1482,42 @@ void report_final_scores(struct conn_list *dest)
   qsort(size, i, sizeof(size[0]), secompare);
 
   packet.player_num = i;
+  pnew.player_num = i;
+
+  conn_list_iterate(dest, pconn) {
+    if (has_capability("eg_report_size", pconn->capability)) {
+      send_packet_endgame_report_new(pconn, &pnew);
+    }
+  } conn_list_iterate_end;
+
   for (i = 0; i < packet.player_num; i++) {
+    struct packet_endgame_player ppacket;
     const struct player *pplayer = size[i].player;
 
+    ppacket.category_num = score_categories_num;
     packet.player_id[i] = player_number(pplayer);
+    ppacket.player_id = player_number(pplayer);
     packet.score[i] = size[i].value;
+    ppacket.score = size[i].value;
     for (j = 0; j < score_categories_num; j++) {
       packet.category_score[j][i] = score_categories[j].score(pplayer);
+      ppacket.category_score[j] = score_categories[j].score(pplayer);
     }
+
+    conn_list_iterate(dest, pconn) {
+      if (has_capability("eg_report_size", pconn->capability)) {
+        send_packet_endgame_player(pconn, &ppacket);
+      }
+    } conn_list_iterate_end;
   }
 
-  lsend_packet_endgame_report(dest, &packet);
+  if (packet.player_num <= 32) {
+    conn_list_iterate(dest, pconn) {
+      if (!has_capability("eg_report_size", pconn->capability)) {
+        send_packet_endgame_report_old(pconn, &packet);
+      }
+    } conn_list_iterate_end;
+  }
 }
 
 /**************************************************************************
