@@ -1099,16 +1099,11 @@ static void help_update_terrain(const struct help_item *pitem,
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
 
-    if (pterrain->road_trade_incr > 0) {
-      sprintf(buf, _("+%d Trade / %d"),
-	      pterrain->road_trade_incr,
-	      pterrain->road_time);
-    } else if (pterrain->road_time > 0) {
-      sprintf(buf, _("no extra / %d"),
-	      pterrain->road_time);
-    } else {
-      strcpy(buf, _("n/a"));
-    }
+    sprintf(buf, "%d%%/%d%%/%d%% / %d",
+            pterrain->road_output_incr_pct[O_FOOD],
+            pterrain->road_output_incr_pct[O_SHIELD],
+            pterrain->road_output_incr_pct[O_TRADE],
+            pterrain->road_time);
     gtk_label_set_text(GTK_LABEL(help_tlabel[2][1]), buf);
 
     strcpy(buf, _("n/a"));

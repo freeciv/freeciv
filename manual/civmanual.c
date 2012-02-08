@@ -332,8 +332,11 @@ static bool manual_command(void)
                   terrain_name_translation(pterrain->mining_result),
                   pterrain->mining_time);
         }
-        fprintf(doc, "<tr><td>+%d T</td><td align=\"right\">(%d)</td></tr>\n",
-                pterrain->road_trade_incr, pterrain->road_time);
+        fprintf(doc, "<tr><td>+%d%% %d%% %d%%</td><td align=\"right\">(%d)</td></tr>\n",
+                pterrain->road_output_incr_pct[O_FOOD],
+                pterrain->road_output_incr_pct[O_SHIELD],
+                pterrain->road_output_incr_pct[O_TRADE],
+                pterrain->road_time);
 
         if (pterrain->transform_result) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",

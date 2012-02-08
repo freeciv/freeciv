@@ -3022,8 +3022,11 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   }
   pterrain->resources[p->num_resources] = NULL;
 
+  output_type_iterate(o) {
+    pterrain->road_output_incr_pct[o] = p->road_output_incr_pct[o];
+  } output_type_iterate_end;
+
   pterrain->road_time = p->road_time;
-  pterrain->road_trade_incr = p->road_trade_incr;
   pterrain->irrigation_result = terrain_by_number(p->irrigation_result);
   pterrain->irrigation_food_incr = p->irrigation_food_incr;
   pterrain->irrigation_time = p->irrigation_time;
@@ -3120,6 +3123,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->move_cost = p->move_cost;
 
   output_type_iterate(o) {
+    proad->tile_incr[o] = p->tile_incr[o];
     proad->tile_bonus[o] = p->tile_bonus[o];
   } output_type_iterate_end;
 

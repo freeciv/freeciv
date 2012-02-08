@@ -2078,10 +2078,15 @@ static void load_ruleset_terrain(struct section_file *file)
     free(res);
     res = NULL;
 
-    if (!secfile_lookup_int(file, &pterrain->road_trade_incr,
-                            "%s.road_trade_incr", tsection)
-        || !secfile_lookup_int(file, &pterrain->road_time,
-                               "%s.road_time", tsection)) {
+    output_type_iterate(o) {
+      pterrain->road_output_incr_pct[o] = secfile_lookup_int_default(file, 0,
+                                                                     "%s.road_%s_incr_pct",
+                                                                     tsection,
+                                                                     get_output_identifier(o));
+    } output_type_iterate_end;
+
+    if (!secfile_lookup_int(file, &pterrain->road_time,
+                            "%s.road_time", tsection)) {
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
 
@@ -2354,6 +2359,9 @@ static void load_ruleset_terrain(struct section_file *file)
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
     output_type_iterate(o) {
+      proad->tile_incr[o] =
+        secfile_lookup_int_default(file, 0, "%s.%s_incr",
+                                   section, get_output_identifier(o));
       proad->tile_bonus[o] =
         secfile_lookup_int_default(file, 0, "%s.%s_bonus",
                                    section, get_output_identifier(o));
@@ -3951,7 +3959,10 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.resources[packet.num_resources++] = resource_number(*r);
     }
 
-    packet.road_trade_incr = pterrain->road_trade_incr;
+    output_type_iterate(o) {
+      packet.road_output_incr_pct[o] = pterrain->road_output_incr_pct[o];
+    } output_type_iterate_end;
+
     packet.road_time = pterrain->road_time;
 
     packet.irrigation_result = (pterrain->irrigation_result
@@ -4071,6 +4082,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.move_cost = r->move_cost;
 
     output_type_iterate(o) {
+      packet.tile_incr[o] = r->tile_incr[o];
       packet.tile_bonus[o] = r->tile_bonus[o];
     } output_type_iterate_end;
 

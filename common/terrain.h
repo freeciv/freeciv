@@ -185,7 +185,7 @@ struct terrain {
 
   struct resource **resources; /* NULL-terminated */
 
-  int road_trade_incr;
+  int road_output_incr_pct[O_LAST];
   int road_time;
 
   struct terrain *irrigation_result;

@@ -323,10 +323,25 @@ int tile_bases_defense_bonus(const struct tile *ptile,
 }
 
 /****************************************************************************
+  Calculate output increment given by roads
+****************************************************************************/
+int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o)
+{
+  int incr = 0;
+
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)) {
+      incr += proad->tile_incr[o];
+    }
+  } road_type_iterate_end;
+
+  return incr;
+}
+
+/****************************************************************************
   Calculate output bonus given by roads
 ****************************************************************************/
-int tile_roads_output_bonus(const struct tile *ptile,
-                            enum output_type_id o)
+int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o)
 {
   int bonus = 0;
 

@@ -1230,9 +1230,6 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     if (tile_has_special(ptile, S_RIVER) && !is_ocean_tile(ptile)) {
       prod += terrain_control.river_trade_incr;
     }
-    if (tile_has_special(ptile, S_ROAD)) {
-      prod += pterrain->road_trade_incr;
-    }
     break;
   case O_GOLD:
   case O_SCIENCE:
@@ -1241,6 +1238,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
     break;
   }
 
+  prod += tile_roads_output_incr(ptile, otype) * pterrain->road_output_incr_pct[otype] / 100;
   prod += (prod * tile_roads_output_bonus(ptile, otype) / 100);
 
   if (pcity) {
