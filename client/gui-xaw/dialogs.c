@@ -576,7 +576,6 @@ void popup_pillage_dialog(struct unit *punit,
                           bv_roads roads)
 {
   Widget shell, form, dlabel, button, prev;
-  int what;
   struct act_tgt tgt;
 
   if (is_showing_pillage_dialog) {
@@ -597,6 +596,7 @@ void popup_pillage_dialog(struct unit *punit,
     bv_special what_spe;
     bv_bases what_base;
     bv_roads what_road;
+    int what = S_LAST;
 
     BV_CLR_ALL(what_spe);
     BV_CLR_ALL(what_base);
