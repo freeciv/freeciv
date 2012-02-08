@@ -77,10 +77,18 @@ void units_report_dialog_popup(bool raise)
   /* PORTME */
 }
 
-/****************************************************************
+/****************************************************************************
   Show a dialog with player statistics at endgame.
-*****************************************************************/
-void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
+****************************************************************************/
+void endgame_report_dialog_start(const struct packet_endgame_report *packet)
+{
+  /* PORTME */
+}
+
+/****************************************************************************
+  Received endgame report information about single player.
+****************************************************************************/
+void endgame_report_dialog_player(const struct packet_endgame_player *packet)
 {
   /* PORTME */
 }

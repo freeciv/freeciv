@@ -1506,17 +1506,22 @@ void report_final_scores(struct conn_list *dest)
   qsort(size, i, sizeof(size[0]), secompare);
 
   packet.player_num = i;
-  for (i = 0; i < packet.player_num; i++) {
-    const struct player *pplayer = size[i].player;
-
-    packet.player_id[i] = player_number(pplayer);
-    packet.score[i] = size[i].value;
-    for (j = 0; j < score_categories_num; j++) {
-      packet.category_score[j][i] = score_categories[j].score(pplayer);
-    }
-  }
 
   lsend_packet_endgame_report(dest, &packet);
+
+  for (i = 0; i < packet.player_num; i++) {
+    struct packet_endgame_player ppacket;
+    const struct player *pplayer = size[i].player;
+
+    ppacket.category_num = score_categories_num;
+    ppacket.player_id = player_number(pplayer);
+    ppacket.score = size[i].value;
+    for (j = 0; j < score_categories_num; j++) {
+      ppacket.category_score[j] = score_categories[j].score(pplayer);
+    }
+
+    lsend_packet_endgame_player(dest, &ppacket);
+  }
 }
 
 /**************************************************************************

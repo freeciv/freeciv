@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 219
+Max id: 220
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -352,14 +352,18 @@ PACKET_PLAYER_READY = 11; cs, dsend
   BOOL is_ready;
 end
 
-PACKET_ENDGAME_REPORT = 12; sc, lsend, no-delta
+PACKET_ENDGAME_REPORT = 12; sc, lsend, no-delta, handle-via-packet
   UINT8 category_num;
   STRING category_name[32:category_num][MAX_LEN_NAME];
 
   UINT8 player_num;
-  PLAYER player_id[MAX_NUM_PLAYERS:player_num];
-  UINT16 score[MAX_NUM_PLAYERS:player_num];
-  UINT32 category_score[32:category_num][MAX_NUM_PLAYERS:player_num];
+end
+
+PACKET_ENDGAME_PLAYER = 220; sc, lsend, no-delta, handle-via-packet
+  UINT8 category_num;
+  PLAYER player_id;
+  UINT16 score;
+  UINT32 category_score[32:category_num];
 end
 
 /************** Info packets **********************/
