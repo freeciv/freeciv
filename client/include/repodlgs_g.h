@@ -28,8 +28,10 @@ GUI_FUNC_PROTO(void, science_report_dialog_popup, bool raise)
 GUI_FUNC_PROTO(void, science_report_dialog_redraw, void)
 GUI_FUNC_PROTO(void, economy_report_dialog_popup, bool raise)
 GUI_FUNC_PROTO(void, units_report_dialog_popup, bool raise)
-GUI_FUNC_PROTO(void, endgame_report_dialog_popup,
+GUI_FUNC_PROTO(void, endgame_report_dialog_start,
                const struct packet_endgame_report *packet)
+GUI_FUNC_PROTO(void, endgame_report_dialog_player,
+               const struct packet_endgame_player *packet)
 
 GUI_FUNC_PROTO(void, real_science_report_dialog_update, void)
 GUI_FUNC_PROTO(void, real_economy_report_dialog_update, void)

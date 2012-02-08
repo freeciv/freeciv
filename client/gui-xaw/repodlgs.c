@@ -1165,27 +1165,40 @@ void real_units_report_dialog_update(void)
   }
 }
 
+static char eg_buffer[150 * MAX_NUM_PLAYERS];
+static int eg_player_count = 0;
+static int eg_players_received = 0;
+
 /****************************************************************
   Show a dialog with player statistics at endgame.
   TODO: Display all statistics in packet_endgame_report.
 *****************************************************************/
-void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
+void endgame_report_dialog_start(const struct packet_endgame_report *packet)
 {
-  char buffer[150 * MAX_NUM_PLAYERS];
-  int i;
+  eg_buffer[0] = '\0';
+  eg_player_count = packet->player_num;
+  eg_players_received = 0;
+}
 
-  buffer[0] = '\0';
-  for (i = 0; i < packet->player_num; i++) {
-    const struct player *pplayer = player_by_number(packet->player_id[i]);
+/****************************************************************
+  Received endgame report information about single player
+*****************************************************************/
+void endgame_report_dialog_player(const struct packet_endgame_player *packet)
+{
+  const struct player *pplayer = player_by_number(packet->player_id);
 
-    cat_snprintf(buffer, sizeof(buffer),
-                 PL_("%2d: The %s ruler %s scored %d point\n",
-                     "%2d: The %s ruler %s scored %d points\n",
-                     packet->score[i]),
-                 i + 1, nation_adjective_for_player(pplayer),
-                 player_name(pplayer), packet->score[i]);
+  eg_players_received++;
+
+  cat_snprintf(eg_buffer, sizeof(eg_buffer),
+               PL_("%2d: The %s ruler %s scored %d point\n",
+                   "%2d: The %s ruler %s scored %d points\n",
+                   packet->score),
+               eg_players_received, nation_adjective_for_player(pplayer),
+               player_name(pplayer), packet->score);
+
+  if (eg_players_received == eg_player_count) {
+    popup_notify_dialog(_("Final Report:"),
+                        _("The Greatest Civilizations in the world."),
+                        eg_buffer);
   }
-  popup_notify_dialog(_("Final Report:"),
-                      _("The Greatest Civilizations in the world."),
-                      buffer);
 }
