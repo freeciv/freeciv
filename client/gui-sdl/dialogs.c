@@ -2062,7 +2062,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* ---------- */
 
   while (get_preferred_pillage(&tgt, spe, bases, roads)) {
-    const char *name;
+    const char *name = NULL;
     int what = S_LAST;
 
     switch (tgt.type) {
@@ -2082,6 +2082,8 @@ void popup_pillage_dialog(struct unit *pUnit,
         what = tgt.obj.road + S_LAST + game.control.num_base_types;
         break;
     }
+
+    fc_assert(name != NULL);
 
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
                             (char *) name, pillage_callback);
