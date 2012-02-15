@@ -370,9 +370,9 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
     struct addrinfo *current = res;
 
     while (current != NULL) {
-      union fc_sockaddr *caddr = fc_malloc(sizeof(caddr));
+      union fc_sockaddr *caddr = fc_malloc(sizeof(*caddr));
 
-      memcpy(caddr, current->ai_addr, MIN(sizeof(caddr), current->ai_addrlen));
+      memcpy(caddr, current->ai_addr, MIN(sizeof(*caddr), current->ai_addrlen));
 
       fc_sockaddr_list_append(addrs, caddr);
 
