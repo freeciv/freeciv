@@ -486,6 +486,7 @@ void game_ruleset_init(void)
   ruleset_cache_init();
   terrains_init();
   base_types_init();
+  road_types_init();
   improvements_init();
   techs_init();
   unit_classes_init();
@@ -507,6 +508,7 @@ void game_ruleset_free(void)
   role_unit_precalcs_free();
   improvements_free();
   base_types_free();
+  road_types_free();
   city_styles_free();
   terrains_free();
   ruleset_cache_free();

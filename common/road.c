@@ -75,6 +75,28 @@ struct road_type *road_by_number(Road_type_id id)
 }
 
 /****************************************************************************
+  Initialize road_type structures.
+****************************************************************************/
+void road_types_init(void)
+{
+  int i;
+
+  for (i = 0; i < ROAD_LAST; i++) {
+    requirement_vector_init(&roads[i].reqs);
+  }
+}
+
+/****************************************************************************
+  Free the memory associated with road types
+****************************************************************************/
+void road_types_free(void)
+{
+  road_type_iterate(proad) {
+    requirement_vector_free(&proad->reqs);
+  } road_type_iterate_end;
+}
+
+/****************************************************************************
   Return activity that is required in order to build given road type.
 ****************************************************************************/
 enum unit_activity road_activity(struct road_type *road)

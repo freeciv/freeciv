@@ -77,10 +77,14 @@ struct road_type *road_type_by_eroad(enum eroad type);
 void fill_road_vector_from_specials(bv_roads *roads, bv_special *specials);
 void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials);
 
+/* Initialization and iteration */
+void road_types_init(void);
+void road_types_free(void);
+
 #define road_type_iterate(_p)                    \
 {                                                \
   int _i_;                                       \
-  for (_i_ = 0; _i_ < ROAD_LAST ; _i_++) {       \
+  for (_i_ = 0; _i_ < game.control.num_road_types ; _i_++) { \
     struct road_type *_p = road_by_number(_i_);
 
 #define road_type_iterate_end                    \
