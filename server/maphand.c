@@ -1045,20 +1045,35 @@ void player_map_free(struct player *pplayer)
 
   /* only after removing borders! */
   whole_map_iterate(ptile) {
-    struct vision_site *psite = map_get_player_site(ptile, pplayer);
+    /* Clear player vision. */
+    change_playertile_site(map_get_player_tile(ptile, pplayer), NULL);
 
-    if (NULL != psite) {
-      vision_site_destroy(psite);
-    }
+    /* Clear other players knowledge about the removed one. */
+    players_iterate(aplayer) {
+      struct player_tile *aplrtile = map_get_player_tile(ptile, aplayer);
+
+      if (aplrtile && aplrtile->site &&
+          vision_site_owner(aplrtile->site) == pplayer) {
+        change_playertile_site(aplrtile, NULL);
+      }
+    } players_iterate_end;
 
     /* clear players knowledge */
     map_clear_known(ptile, pplayer);
+
+    /* Free all claimed tiles. */
+    if (tile_owner(ptile) == pplayer) {
+      tile_set_owner(ptile, NULL, NULL);
+    }
   } whole_map_iterate_end;
 
   free(pplayer->server.private_map);
   pplayer->server.private_map = NULL;
 
   dbv_free(&pplayer->tile_known);
+
+  /* Recalculate borders. */
+  map_calculate_borders();
 }
 
 /***************************************************************
