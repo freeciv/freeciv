@@ -17,6 +17,7 @@
 
 /* utility */
 #include "log.h"
+#include "rand.h"
 
 /* common */
 #include "city.h"
@@ -181,4 +182,24 @@ citizens citizens_count(const struct city *pcity)
                     city_size_get(pcity));
 
   return (citizens)count;
+}
+
+/*****************************************************************************
+  Return random citizen from city.
+*****************************************************************************/
+struct player_slot *citizens_random(const struct city *pcity)
+{
+  int total = citizens_count(pcity);
+  int chocen = fc_rand(total);
+
+  citizens_iterate(pcity, pslot, nationality) {
+    chocen -= nationality;
+    if (chocen <= 0) {
+      return pslot;
+    }
+  } citizens_iterate_end;
+
+  fc_assert(FALSE);
+
+  return NULL;
 }
