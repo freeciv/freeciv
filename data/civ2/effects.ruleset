@@ -1979,6 +1979,9 @@ nreqs   =
     { "type", "name", "range"
       "UnitFlag", "NonMil", "Local"
       "UnitFlag", "NoVeteran", "Local"
+      "Building", "Barracks", "City"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
     }
 
 [effect_sun_tzus_war_academy_1]
