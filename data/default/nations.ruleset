@@ -23,6 +23,7 @@ default_government = "Despotism"
 
 ;[default_traits]
 ;expansionist = 50
+;trader = 50
 
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")

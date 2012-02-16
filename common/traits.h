@@ -20,6 +20,8 @@ extern "C" {
 #define SPECENUM_NAME trait
 #define SPECENUM_VALUE0 TRAIT_EXPANSIONIST
 #define SPECENUM_VALUE0NAME "Expansionist"
+#define SPECENUM_VALUE1 TRAIT_TRADER
+#define SPECENUM_VALUE1NAME "Trader"
 #include "specenum_gen.h"
 
 #define TRAIT_DEFAULT_VALUE 100

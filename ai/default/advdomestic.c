@@ -167,6 +167,7 @@ static void dai_choose_trade_route(struct city *pcity,
   int trade_routes;
   Continent_id continent = tile_continent(pcity->tile);
   bool dest_city_found = FALSE;
+  int trader_trait;
 
   if (city_list_size(pplayer->cities) < 5) {
     /* Consider trade routes only if enough destination cities.
@@ -218,7 +219,8 @@ static void dai_choose_trade_route(struct city *pcity,
    * This value is adjusted for most interesting gameplay.
    * For optimal performance AI should build more caravans, but
    * we want it to build less valued buildings too. */
-  want /= 130;
+  trader_trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
+  want /= (130 * TRAIT_DEFAULT_VALUE / trader_trait);
 
   /* Increase want for trade routes if our economy is very weak.
    * We may have enough gold, but only because we have already set
@@ -233,10 +235,10 @@ static void dai_choose_trade_route(struct city *pcity,
 
   if (trade_routes == 0) {
     /* If we have no trade routes at all, we are certainly creating a new one. */
-    want += 20;
+    want += trader_trait;
   } else if (trade_routes < NUM_TRADE_ROUTES) {
     /* Possibly creating a new trade route */
-    want += 5;
+    want += trader_trait / 4;
   }
 
   want -= utype_build_shield_cost(unit_type) * SHIELD_WEIGHTING / 150;
