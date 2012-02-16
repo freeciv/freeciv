@@ -1054,9 +1054,6 @@ void handle_edit_player_remove(struct connection *pc, int id)
   }
 
   kill_player(pplayer);
-  whole_map_iterate(ptile) {
-    map_clear_known(ptile, pplayer);
-  } whole_map_iterate_end;
   server_remove_player(pplayer);
 }
 
