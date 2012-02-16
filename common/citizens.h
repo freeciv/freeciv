@@ -42,6 +42,7 @@ void citizens_nation_move(struct city *pcity,
                           int move);
 
 citizens citizens_count(const struct city *pcity);
+struct player_slot *citizens_random(const struct city *pcity);
 
 /* Iterates over all player slots (nationalities) with citizens. */
 #define citizens_iterate(_pcity, _pslot, _nationality)                       \

@@ -2631,9 +2631,15 @@ static bool do_city_migration(struct city *pcity_from,
     pcity_from->food_stock /= 2;
 
     if (game.info.citizen_nationality == TRUE) {
-      /* Can citizens go to a city of their original nation? */
+      /* Those citizens that are from the target nation are most
+       * ones migrating. */
       if (citizens_nation_get(pcity_from, pplayer_to->slot) > 0) {
         pplayer_citizen = pplayer_to;
+      } else if (!citizens_nation_get(pcity_from, pplayer_citizen->slot)) {
+        /* No native citizens at all in the city, choose random foreigner */
+        struct player_slot *cit_slot = citizens_random(pcity_from);
+
+        pplayer_citizen = player_slot_get_player(cit_slot);
       }
       /* This should be followed by city_reduce_size(). */
       citizens_nation_add(pcity_from, pplayer_citizen->slot, -1);
