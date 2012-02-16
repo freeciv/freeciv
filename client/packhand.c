@@ -3035,7 +3035,6 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
   pterrain->mining_time = p->mining_time;
   pterrain->transform_result = terrain_by_number(p->transform_result);
   pterrain->transform_time = p->transform_time;
-  pterrain->rail_time = p->rail_time;
   pterrain->clean_pollution_time = p->clean_pollution_time;
   pterrain->clean_fallout_time = p->clean_fallout_time;
 
@@ -3121,6 +3120,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   names_set(&proad->name, p->name, p->rule_name);
 
   proad->move_cost = p->move_cost;
+  proad->build_time = p->build_time;
 
   output_type_iterate(o) {
     proad->tile_incr[o] = p->tile_incr[o];

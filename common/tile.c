@@ -484,13 +484,13 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
   case ACTIVITY_POLLUTION:
     return pterrain->clean_pollution_time * ACTIVITY_FACTOR;
   case ACTIVITY_ROAD:
-    return pterrain->road_time * ACTIVITY_FACTOR;
+    return tile_activity_road_time(ptile, ROAD_ROAD);
   case ACTIVITY_MINE:
     return pterrain->mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
     return pterrain->irrigation_time * ACTIVITY_FACTOR;
   case ACTIVITY_RAILROAD:
-    return pterrain->rail_time * ACTIVITY_FACTOR;
+    return tile_activity_road_time(ptile, ROAD_RAILROAD);
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
@@ -516,20 +516,8 @@ int tile_activity_road_time(const struct tile *ptile,
                             Road_type_id road)
 {
   struct terrain *pterrain = tile_terrain(ptile);
-  struct road_type *proad = road_by_number(road);
 
-  switch (proad->id) {
-  case ROAD_ROAD:
-    return pterrain->road_time * ACTIVITY_FACTOR;
-  case ROAD_RAILROAD:
-    return pterrain->rail_time * ACTIVITY_FACTOR;
-  case ROAD_LAST:
-    fc_assert(FALSE);
-    return 0;
-  }
-
-  fc_assert(FALSE);
-  return 0;
+  return terrain_road_time(pterrain, road) * ACTIVITY_FACTOR;
 }
 
 /****************************************************************************

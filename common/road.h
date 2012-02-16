@@ -30,6 +30,7 @@ struct road_type {
   int id;
   struct name_translation name;
   int move_cost;
+  int build_time;
   int tile_incr[O_LAST];
   int tile_bonus[O_LAST];
   enum unit_activity act;

@@ -2114,8 +2114,6 @@ static void load_ruleset_terrain(struct section_file *file)
                             "%s.transform_time", tsection)) {
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
-    pterrain->rail_time
-      = secfile_lookup_int_default(file, 3, "%s.rail_time", tsection);
     pterrain->clean_pollution_time
       = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", tsection);
     pterrain->clean_fallout_time
@@ -2358,6 +2356,8 @@ static void load_ruleset_terrain(struct section_file *file)
                             "%s.move_cost", section)) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
+    proad->build_time = secfile_lookup_int_default(file, 0, "%s.build_time", section);
+
     output_type_iterate(o) {
       proad->tile_incr[o] =
         secfile_lookup_int_default(file, 0, "%s.%s_incr",
@@ -3981,7 +3981,6 @@ static void send_ruleset_terrain(struct conn_list *dest)
 			       ? terrain_number(pterrain->transform_result)
 			       : terrain_count());
     packet.transform_time = pterrain->transform_time;
-    packet.rail_time = pterrain->rail_time;
     packet.clean_pollution_time = pterrain->clean_pollution_time;
     packet.clean_fallout_time = pterrain->clean_fallout_time;
 
@@ -4080,6 +4079,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name(&r->name));
 
     packet.move_cost = r->move_cost;
+    packet.build_time = r->build_time;
 
     output_type_iterate(o) {
       packet.tile_incr[o] = r->tile_incr[o];

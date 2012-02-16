@@ -507,13 +507,13 @@ static int get_activity_time(const struct tile *ptile,
 	/* 0 means road is impossible here (??) */
 	return -1;
       }
-      activity_mc += pterrain->road_time;
+      activity_mc += terrain_road_time(pterrain, ROAD_ROAD);
     }
     if (connect_activity == ACTIVITY_ROAD 
         || tile_has_special(ptile, S_RAILROAD)) {
       break;
     }
-    activity_mc += pterrain->rail_time;
+    activity_mc +=  terrain_road_time(pterrain, ROAD_RAILROAD);
     /* No break */
     break;
   default:

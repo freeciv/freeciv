@@ -131,7 +131,7 @@ void free_help_texts(void)
 static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
 {
   if (0 == strcmp (name, "TerrainAlterations")) {
-    int rail_time = -1, clean_pollution_time = -1, clean_fallout_time = -1;
+    int clean_pollution_time = -1, clean_fallout_time = -1;
     int buildable_bases = 0;
 
     CATLSTR(outbuf, outlen,
@@ -181,15 +181,6 @@ static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
-	/* FIXME: properly handle the (uncommon) case where these are
-	 * terrain-dependent, instead of just silence */
-	if (rail_time != 0 && pterrain->road_time > 0) {
-	  if (rail_time < 0)
-	    rail_time = pterrain->rail_time;
-	  else
-	    if (rail_time != pterrain->rail_time)
-	      rail_time = 0; /* give up */
-	}
 	if (clean_pollution_time != 0 &&
 	    !terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
 	  if (clean_pollution_time < 0)
@@ -214,7 +205,7 @@ static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
 	buildable_bases++;
     } base_type_iterate_end;
 
-    if (rail_time > 0 || clean_pollution_time > 0 || clean_fallout_time > 0 ||
+    if (clean_pollution_time > 0 || clean_fallout_time > 0 ||
 	buildable_bases > 0) {
       CATLSTR(outbuf, outlen, "\n");
       CATLSTR(outbuf, outlen,
@@ -224,9 +215,6 @@ static void insert_generated_text(char *outbuf, size_t outlen, const char *name)
 	      _("Activity            Time\n"));
       CATLSTR(outbuf, outlen,
 	      "---------------------------");
-      if (rail_time > 0)
-	cat_snprintf(outbuf, outlen,
-		     _("\nRailroad           %3d"), rail_time);
       if (clean_pollution_time > 0)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean pollution    %3d"), clean_pollution_time);

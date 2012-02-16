@@ -1374,7 +1374,6 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
 
   TERRAIN transform_result;
   UINT8 transform_time;
-  UINT8 rail_time;
   UINT8 clean_pollution_time;
   UINT8 clean_fallout_time;
 
@@ -1424,6 +1423,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 move_cost;
+  UINT8 build_time;
   UINT16 tile_incr[O_LAST];
   UINT16 tile_bonus[O_LAST];
   UINT8 reqs_count;

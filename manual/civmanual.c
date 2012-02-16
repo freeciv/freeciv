@@ -336,7 +336,7 @@ static bool manual_command(void)
                 pterrain->road_output_incr_pct[O_FOOD],
                 pterrain->road_output_incr_pct[O_SHIELD],
                 pterrain->road_output_incr_pct[O_TRADE],
-                pterrain->road_time);
+                terrain_road_time(pterrain, ROAD_ROAD));
 
         if (pterrain->transform_result) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
@@ -347,7 +347,7 @@ static bool manual_command(void)
         }
 
         fprintf(doc, "<td align=\"center\">%d / %d / %d</td></tr>\n\n",
-                pterrain->rail_time,
+                terrain_road_time(pterrain, ROAD_RAILROAD),
                 pterrain->clean_pollution_time, pterrain->clean_fallout_time);
       } terrain_type_iterate_end;
       fprintf(doc, "</table>\n");

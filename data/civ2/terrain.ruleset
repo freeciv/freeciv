@@ -115,7 +115,8 @@ fallout_trade_penalty=50
 ; road_food_incr_pct   = percent of road food increment applied
 ; road_shield_incr_pct = percent of road shield increment applied
 ; road_trade_incr_pct  = percent of road trade increment applied
-; road_time            = time to build road; if 0, cannot build road
+; road_time            = time to build road; if 0, cannot build road. See also build_time in
+;                        road definitions.
 ; irrigation_result    = result of irrigation; one of:
 ;                        "no"  -- cannot irrigate
 ;                        "yes" -- can irrigate
@@ -883,6 +884,8 @@ airbase may be attacked by land units.\
 ; move_cost               = how much movement it takes to to travel
 ;                           via this road. Value of 3 indicates full
 ;                           movement point.
+; build_time              = how many movement points it takes to build this road. Value of
+;                           0 means that terrain specific value is used instead.
 ; food_incr               = food production added to tile
 ; shield_incr             = shield production added to tile
 ; trade_incr              = trade production added to tile
@@ -903,6 +906,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
     }
 move_cost     = 1
+build_time    = 0
 food_incr     = 0
 shield_incr   = 0
 trade_incr    = 1
@@ -920,6 +924,7 @@ reqs           =
       "UnitFlag", "Settlers", "Local"
     }
 move_cost     = 0
+build_time    = 3
 food_incr     = 0
 shield_incr   = 0
 trade_incr    = 0

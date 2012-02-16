@@ -198,7 +198,6 @@ struct terrain {
 
   struct terrain *transform_result;
   int transform_time;
-  int rail_time;
   int clean_pollution_time;
   int clean_fallout_time;
 
@@ -323,6 +322,9 @@ bool get_preferred_pillage(struct act_tgt *tgt,
                            bv_special pset,
                            bv_bases bases,
                            bv_roads roads);
+
+int terrain_road_time(const struct terrain *pterrain,
+                      Road_type_id road);
 
 /* Functions to operate on a terrain special. */
 bool is_special_card_near(const struct tile *ptile,
