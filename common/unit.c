@@ -1657,6 +1657,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   /* Make sure that contents of unit structure are correctly initialized,
    * if you ever allocate it by some other mean than fc_calloc() */
   struct unit *punit = fc_calloc(1, sizeof(*punit));
+  int max_vet_lvl;
 
   /* It does not register the unit so the id is set to 0. */
   punit->id = IDENTITY_NUMBER_ZERO;
@@ -1679,7 +1680,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
 
   memset(punit->upkeep, 0, O_LAST * sizeof(*punit->upkeep));
   punit->goto_tile = NULL;
-  punit->veteran = veteran_level;
+  max_vet_lvl = utype_veteran_levels(punittype) - 1;
+  punit->veteran = MIN(veteran_level, max_vet_lvl);
   /* A unit new and fresh ... */
   punit->fuel = utype_fuel(unit_type(punit));
   punit->hp = unit_type(punit)->hp;
