@@ -587,6 +587,39 @@ do {                                                                        \
   }                                                                         \
 } while (FALSE);
 
+/* Mutex protected speclist data iterator.
+ * 
+ * Using *_list_remove(NAME_data) is safe in this loop (but it may be
+ * inefficient due to the linear research of the data, see also
+ * *_list_erase()).
+ * Using *_list_clear() will result to use freed data. It must be avoided!
+ *
+ * TYPE_data - The real type of the data in the genlist/speclist.
+ * LIST_tag - Tag of the speclist
+ * ARG_list - The speclist to iterate.
+ * NAME_data - The name of the data iterator (defined inside the macro). */
+#define MUTEXED_LIST_ITERATE(TYPE_data, LIST_tag, ARG_list, NAME_data)      \
+do {                                                                        \
+  const struct genlist_link *NAME_data##_iter;                              \
+  TYPE_data *NAME_data;                                                     \
+  LIST_tag##_list_allocate_mutex(ARG_list);                                 \
+  TYPED_LIST_CHECK(ARG_list);                                               \
+  NAME_data##_iter = genlist_head((const struct genlist *) ARG_list);       \
+  while (NULL != NAME_data##_iter) {                                        \
+    NAME_data = (TYPE_data *) genlist_link_data(NAME_data##_iter);          \
+    NAME_data##_iter = genlist_link_next(NAME_data##_iter);
+
+/* Balance for above: */ 
+#define MUTEXED_ITERATE_END(LIST_tag, ARG_list)                             \
+  }                                                                         \
+    LIST_tag##_list_release_mutex(ARG_list);                                \
+} while (FALSE);
+
+#define MUTEXED_ITERATE_BREAK(LIST_tag, ARG_list)                           \
+do {                                                                        \
+  LIST_tag##_list_release_mutex(ARG_list);                                  \
+} while (FALSE);
+
 /* Same, but iterate backwards:
  *
  * TYPE_data - The real type of the data in the genlist/speclist.
