@@ -308,7 +308,7 @@ static struct cityresult *cityresult_fill(struct player *pplayer,
       ptdc->shield = 0;
       ptdc->trade = 0;
       ptdc->food = 0;
-      ptdc->sum = 0;
+      ptdc->sum = -1;
       ptdc->reserved = reserved;
       /* ptdc->turn was set by tile_data_cache_new(). */
     } else {
@@ -1071,7 +1071,7 @@ BUILD_CITY:
       }
       /* Go make a city! */
       adv_unit_new_task(punit, AUT_BUILD_CITY, result->tile);
-      if (result->best_other.tile) {
+      if (result->best_other.tile && result->best_other.tdc->sum >= 0) {
         /* Reserve best other tile (if there is one). It is the tile where the
          * first citizen of the city is working. */
         citymap_reserve_tile(result->best_other.tile, punit->id);
