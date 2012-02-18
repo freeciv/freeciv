@@ -1096,7 +1096,7 @@ static void build_mine_callack(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_road_callback(GtkAction *action, gpointer data)
 {
-  key_unit_connect(ACTIVITY_ROAD);
+  key_unit_connect(ACTIVITY_ROAD, NULL);
 }
 
 /****************************************************************
@@ -1104,7 +1104,7 @@ static void connect_road_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_rail_callback(GtkAction *action, gpointer data)
 {
-  key_unit_connect(ACTIVITY_RAILROAD);
+  key_unit_connect(ACTIVITY_RAILROAD, NULL);
 }
 
 /****************************************************************
@@ -1112,7 +1112,7 @@ static void connect_rail_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void connect_irrigation_callack(GtkAction *action, gpointer data)
 {
-  key_unit_connect(ACTIVITY_IRRIGATE);
+  key_unit_connect(ACTIVITY_IRRIGATE, NULL);
 }
 
 /****************************************************************
@@ -2115,11 +2115,11 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "UNIT_EXPLORE",
                       can_units_do_activity(punits, ACTIVITY_EXPLORE));
   menus_set_sensitive(unit_group, "CONNECT_ROAD",
-                      can_units_do_connect(punits, ACTIVITY_ROAD));
+                      can_units_do_connect(punits, ACTIVITY_ROAD, NULL));
   menus_set_sensitive(unit_group, "CONNECT_RAIL",
-                      can_units_do_connect(punits, ACTIVITY_RAILROAD));
+                      can_units_do_connect(punits, ACTIVITY_RAILROAD, NULL));
   menus_set_sensitive(unit_group, "CONNECT_IRRIGATION",
-                      can_units_do_connect(punits, ACTIVITY_IRRIGATE));
+                      can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL));
   menus_set_sensitive(unit_group, "DIPLOMAT_ACTION",
                       can_units_do_diplomat_action(punits,
                                                    DIPLOMAT_ANY_ACTION));

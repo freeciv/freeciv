@@ -2056,6 +2056,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
       packet->orders_bases[i] = punit->orders.list[i].base;
+      packet->orders_roads[i] = punit->orders.list[i].road;
     }
   } else {
     packet->orders_length = packet->orders_index = 0;
@@ -3367,6 +3368,7 @@ bool execute_orders(struct unit *punit)
   int moves_made = 0;
   enum unit_activity activity;
   Base_type_id base;
+  Road_type_id road;
 
   fc_assert_ret_val(unit_has_orders(punit), TRUE);
 
@@ -3460,8 +3462,11 @@ bool execute_orders(struct unit *punit)
     case ORDER_ACTIVITY:
       activity = order.activity;
       base = order.base;
+      road = order.road;
       if ((activity == ACTIVITY_BASE && !can_unit_do_activity_base(punit, base))
-          || (activity != ACTIVITY_BASE
+          || (activity == ACTIVITY_GEN_ROAD
+              && !can_unit_do_activity_road(punit, road))
+          || (activity != ACTIVITY_BASE && activity != ACTIVITY_GEN_ROAD
               && !can_unit_do_activity(punit, activity))) {
         cancel_orders(punit, "  orders canceled because of failed activity");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
@@ -3472,10 +3477,12 @@ bool execute_orders(struct unit *punit)
       }
       punit->done_moving = TRUE;
 
-      if (activity != ACTIVITY_BASE) {
-        set_unit_activity(punit, activity);
-      } else {
+      if (activity == ACTIVITY_GEN_ROAD) {
+        set_unit_activity_road(punit, road);
+      } else if (activity == ACTIVITY_BASE) {
         set_unit_activity_base(punit, base);
+      } else {
+        set_unit_activity(punit, activity);
       }
       send_unit_info(NULL, punit);
       break;

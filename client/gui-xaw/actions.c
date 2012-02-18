@@ -430,20 +430,23 @@ static void xaw_key_unit_build_wonder(Widget w, XEvent *event, String *argv, Car
 
 static void xaw_key_unit_connect_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_ROAD))
-    key_unit_connect(ACTIVITY_ROAD);
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_ROAD)) {
+    key_unit_connect(ACTIVITY_ROAD, NULL);
+  }
 }
 
 static void xaw_key_unit_connect_rail(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_RAIL))
-    key_unit_connect(ACTIVITY_RAILROAD);
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_RAIL)) {
+    key_unit_connect(ACTIVITY_RAILROAD, NULL);
+  }
 }
 
 static void xaw_key_unit_connect_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE))
-    key_unit_connect(ACTIVITY_IRRIGATE);
+  if (is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE)) {
+    key_unit_connect(ACTIVITY_IRRIGATE, NULL);
+  }
 }
 
 static void xaw_key_unit_diplomat_spy_action(Widget w, XEvent *event, String *argv, Cardinal *argc)

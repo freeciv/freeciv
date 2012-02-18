@@ -449,11 +449,11 @@ void real_menus_update(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_units_do_activity(punits, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_ROAD,
-			   can_units_do_connect(punits, ACTIVITY_ROAD));
+			   can_units_do_connect(punits, ACTIVITY_ROAD, NULL));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_RAIL,
-			   can_units_do_connect(punits, ACTIVITY_RAILROAD));
+			   can_units_do_connect(punits, ACTIVITY_RAILROAD, NULL));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE,
-			   can_units_do_connect(punits, ACTIVITY_IRRIGATE));
+			   can_units_do_connect(punits, ACTIVITY_IRRIGATE, NULL));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,
@@ -767,13 +767,13 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     key_unit_auto_explore();
     break;
   case MENU_ORDER_CONNECT_ROAD:
-    key_unit_connect(ACTIVITY_ROAD);
+    key_unit_connect(ACTIVITY_ROAD, NULL);
     break;
   case MENU_ORDER_CONNECT_RAIL:
-    key_unit_connect(ACTIVITY_RAILROAD);
+    key_unit_connect(ACTIVITY_RAILROAD, NULL);
     break;
   case MENU_ORDER_CONNECT_IRRIGATE:
-    key_unit_connect(ACTIVITY_IRRIGATE);
+    key_unit_connect(ACTIVITY_IRRIGATE, NULL);
     break;
   case MENU_ORDER_PATROL:
     key_unit_patrol();

@@ -805,6 +805,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
   BASE orders_bases[MAX_LEN_ROUTE:orders_length];
+  ROAD orders_roads[MAX_LEN_ROUTE:orders_length];
 end
 
 PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
@@ -881,6 +882,7 @@ PACKET_UNIT_ORDERS = 73; cs
   DIRECTION dir[MAX_LEN_ROUTE:length];
   ACTIVITY activity[MAX_LEN_ROUTE:length];
   BASE base[MAX_LEN_ROUTE:length];
+  ROAD road[MAX_LEN_ROUTE:length];
   TILE dest_tile;
 end
 

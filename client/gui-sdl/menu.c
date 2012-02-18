@@ -166,13 +166,13 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       key_unit_auto_explore();
       break;
     case ID_UNIT_ORDER_CONNECT_IRRIGATE:
-      key_unit_connect(ACTIVITY_IRRIGATE);
+      key_unit_connect(ACTIVITY_IRRIGATE, NULL);
       break;
     case ID_UNIT_ORDER_CONNECT_ROAD:
-      key_unit_connect(ACTIVITY_ROAD);
+      key_unit_connect(ACTIVITY_ROAD, NULL);
       break;
     case ID_UNIT_ORDER_CONNECT_RAILROAD:
-      key_unit_connect(ACTIVITY_RAILROAD);
+      key_unit_connect(ACTIVITY_RAILROAD, NULL);
       break;
     case ID_UNIT_ORDER_PATROL:
       key_unit_patrol();
@@ -1306,19 +1306,19 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_IRRIGATE)) {
+      if (can_unit_do_connect(pUnit, ACTIVITY_IRRIGATE, NULL)) {
 	local_show(ID_UNIT_ORDER_CONNECT_IRRIGATE);
       } else {
 	local_hide(ID_UNIT_ORDER_CONNECT_IRRIGATE);
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_ROAD)) {
+      if (can_unit_do_connect(pUnit, ACTIVITY_ROAD, NULL)) {
 	local_show(ID_UNIT_ORDER_CONNECT_ROAD);
       } else {
 	local_hide(ID_UNIT_ORDER_CONNECT_ROAD);
       }
 
-      if (can_unit_do_connect(pUnit, ACTIVITY_RAILROAD)) {
+      if (can_unit_do_connect(pUnit, ACTIVITY_RAILROAD, NULL)) {
 	local_show(ID_UNIT_ORDER_CONNECT_RAILROAD);
       } else {
 	local_hide(ID_UNIT_ORDER_CONNECT_RAILROAD);

@@ -516,6 +516,16 @@ static int get_activity_time(const struct tile *ptile,
     activity_mc +=  terrain_road_time(pterrain, ROAD_RAILROAD);
     /* No break */
     break;
+  case ACTIVITY_GEN_ROAD:
+    fc_assert(connect_tgt.type == ATT_ROAD);
+    {
+      struct road_type *proad = road_by_number(connect_tgt.obj.road);
+
+      if (!tile_has_road(ptile, proad)) {
+        activity_mc += terrain_road_time(pterrain, connect_tgt.obj.road);
+      }
+    }
+    break;
   default:
     log_error("Invalid connect activity: %d.", connect_activity);
   }
@@ -577,6 +587,15 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     return -1;
   }
 
+  if (connect_activity == ACTIVITY_GEN_ROAD) {
+    proad = road_by_number(connect_tgt.obj.road);
+  } else if (connect_activity == ACTIVITY_ROAD) {
+    proad = road_type_by_eroad(ROAD_ROAD);
+  } else {
+    fc_assert(connect_activity == ACTIVITY_RAILROAD);
+    proad = road_type_by_eroad(ROAD_RAILROAD);
+  }
+
   /* Ok, the move is possible.  What are the costs? */
 
   /* Extra cost here is the final length of the road */
@@ -584,12 +603,18 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 
   /* Special cases: get_MC function doesn't know that we would have built
    * a road (railroad) on src tile by that time */
-  if (tile_has_special(dest_tile, S_ROAD)) {
+  if (connect_activity == ACTIVITY_ROAD
+      && tile_has_special(dest_tile, S_ROAD)) {
     move_cost = road_type_by_eroad(ROAD_ROAD)->move_cost;
   }
   if (connect_activity == ACTIVITY_RAILROAD
       && tile_has_special(dest_tile, S_RAILROAD)) {
     move_cost = road_type_by_eroad(ROAD_RAILROAD)->move_cost;
+  }
+
+  if (connect_activity == ACTIVITY_GEN_ROAD
+      && tile_has_road(dest_tile, proad)) {
+    move_cost = proad->move_cost;
   }
 
   move_cost = MIN(move_cost, param->move_rate);
@@ -619,12 +644,6 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
    * care most about construction time. */
 
   /* *dest_cost==-1 means we haven't reached dest until now */
-
-  if (connect_activity == ACTIVITY_ROAD) {
-    proad = road_type_by_eroad(ROAD_ROAD);
-  } else {
-    proad = road_type_by_eroad(ROAD_RAILROAD);
-  }
 
   if (*dest_cost != -1) {
     if (proad->move_cost > 0) {
@@ -1127,7 +1146,8 @@ void send_patrol_route(void)
   Send the current connect route (i.e., the one generated via HOVER_STATE)
   to the server.
 **************************************************************************/
-void send_connect_route(enum unit_activity activity)
+void send_connect_route(enum unit_activity activity,
+                        struct act_tgt *tgt)
 {
   fc_assert_ret(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
@@ -1183,6 +1203,12 @@ void send_connect_route(enum unit_activity activity)
 	  }
 	}
 	break;
+      case ACTIVITY_GEN_ROAD:
+        p.orders[p.length] = ORDER_ACTIVITY;
+        p.activity[p.length] = ACTIVITY_GEN_ROAD;
+        p.road[p.length] = tgt->obj.road;
+        p.length++;
+        break;
       default:
         log_error("Invalid connect activity: %d.", activity);
         break;

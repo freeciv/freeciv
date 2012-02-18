@@ -65,6 +65,7 @@ static struct unit_list *urgent_focus_queue = NULL;
 /* These should be set via set_hover_state() */
 enum cursor_hover_state hover_state = HOVER_NONE;
 enum unit_activity connect_activity;
+struct act_tgt connect_tgt;
 enum unit_orders goto_last_order; /* Last order for goto */
 
 static struct tile *hover_tile = NULL;
@@ -134,7 +135,7 @@ void control_free(void)
     battlegroups[i] = NULL;
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
   free_client_goto();
 }
 
@@ -198,7 +199,7 @@ void control_unit_killed(struct unit *punit)
 
   unit_list_remove(get_units_in_focus(), punit);
   if (get_num_units_in_focus() < 1) {
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
   }
 
   unit_list_remove(previous_focus, punit);
@@ -246,11 +247,12 @@ void unit_register_battlegroup(struct unit *punit)
 /**************************************************************************
   Enter the given hover state.
 
-    activity => The connect activity (ACTIVITY_ROAD, etc.)
+    activity => The connect activity (ACTIVITY_IRRIGATE, etc.)
     order => The last order (ORDER_BUILD_CITY, ORDER_LAST, etc.)
 **************************************************************************/
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
+                     struct act_tgt *tgt,
 		     enum unit_orders order)
 {
   fc_assert_ret((punits && unit_list_size(punits) > 0)
@@ -259,6 +261,12 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   fc_assert_ret(state == HOVER_GOTO || order == ORDER_LAST);
   hover_state = state;
   connect_activity = activity;
+  if (tgt) {
+    connect_tgt = *tgt;
+  } else {
+    connect_tgt.type = ATT_SPECIAL;
+    connect_tgt.obj.spe = S_LAST;
+  }
   goto_last_order = order;
   exit_goto_state();
 }
@@ -414,7 +422,7 @@ void unit_focus_set(struct unit *punit)
   }
 
   if (focus_changed) {
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
     focus_units_changed();
   }
 }
@@ -442,7 +450,7 @@ void unit_focus_add(struct unit *punit)
   if (hover_state != HOVER_NONE) {
     /* Can't continue with current goto if set of focus units
      * change. Cancel it. */
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
   }
 
   current_focus_append(punit);
@@ -538,7 +546,7 @@ void unit_focus_advance(void)
     return;
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
 
   unit_list_iterate(get_units_in_focus(), punit) {
     /* 
@@ -964,7 +972,8 @@ void request_unit_goto(enum unit_orders last_order)
   }
 
   if (hover_state != HOVER_GOTO) {
-    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, last_order);
+    set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
+                    last_order);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
@@ -1110,7 +1119,9 @@ static bool is_activity_on_tile(struct tile *ptile,
 
   This function is client-specific.
 **************************************************************************/
-bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
+bool can_unit_do_connect(struct unit *punit,
+                         enum unit_activity activity,
+                         struct act_tgt *tgt) 
 {
   struct tile *ptile = unit_tile(punit);
   struct terrain *pterrain = tile_terrain(ptile);
@@ -1123,6 +1134,9 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
    case ACTIVITY_RAILROAD:
      proad = road_type_by_eroad(ROAD_RAILROAD);
      break;
+   case ACTIVITY_GEN_ROAD:
+     fc_assert(tgt->type == ATT_ROAD);
+     proad = road_by_number(tgt->obj.road);
    default:
      break;
   }
@@ -1137,6 +1151,7 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
   switch (activity) {
   case ACTIVITY_ROAD:
   case ACTIVITY_RAILROAD:
+  case ACTIVITY_GEN_ROAD:
     return tile_has_road(ptile, proad)
       || can_build_road(proad, punit, ptile);
   case ACTIVITY_IRRIGATE:
@@ -1160,16 +1175,19 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
 prompt player for entering destination point for unit connect
 (e.g. connecting with roads)
 **************************************************************************/
-void request_unit_connect(enum unit_activity activity)
+void request_unit_connect(enum unit_activity activity,
+                          struct act_tgt *tgt)
 {
   struct unit_list *punits = get_units_in_focus();
 
-  if (!can_units_do_connect(punits, activity)) {
+  if (!can_units_do_connect(punits, activity, tgt)) {
     return;
   }
 
-  if (hover_state != HOVER_CONNECT || connect_activity != activity) {
-    set_hover_state(punits, HOVER_CONNECT, activity, ORDER_LAST);
+  if (hover_state != HOVER_CONNECT || connect_activity != activity
+      || (activity == ACTIVITY_GEN_ROAD
+          && !cmp_act_tgt(&connect_tgt, tgt))) {
+    set_hover_state(punits, HOVER_CONNECT, activity, tgt, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
@@ -1642,7 +1660,8 @@ void request_unit_nuke(struct unit_list *punits)
     }
   } unit_list_iterate_end;
   if (can) {
-    set_hover_state(punits, HOVER_NUKE, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(punits, HOVER_NUKE, ACTIVITY_LAST, NULL,
+                    ORDER_LAST);
     update_unit_info_label(punits);
     enter_goto_state(punits);
   } else {
@@ -1672,7 +1691,8 @@ void request_unit_paradrop(struct unit_list *punits)
     }
   } unit_list_iterate_end;
   if (can) {
-    set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, NULL,
+                    ORDER_LAST);
     update_unit_info_label(punits);
   } else {
     create_event(offender, E_BAD_COMMAND, ftc_client,
@@ -1692,7 +1712,8 @@ void request_unit_patrol(void)
   }
 
   if (hover_state != HOVER_PATROL) {
-    set_hover_state(punits, HOVER_PATROL, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(punits, HOVER_PATROL, ACTIVITY_LAST, NULL,
+                    ORDER_LAST);
     update_unit_info_label(punits);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
@@ -2283,14 +2304,14 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       } unit_list_iterate_end;
       break;
     case HOVER_CONNECT:
-      do_unit_connect(ptile, connect_activity);
+      do_unit_connect(ptile, connect_activity, &connect_tgt);
       break;
     case HOVER_PATROL:
       do_unit_patrol_to(ptile);
       break;	
     }
 
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
 
@@ -2511,23 +2532,24 @@ void do_unit_patrol_to(struct tile *ptile)
                  _("Didn't find a route to the destination!"));
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
 }
  
 /**************************************************************************
   "Connect" to the given location.
 **************************************************************************/
 void do_unit_connect(struct tile *ptile,
-		     enum unit_activity activity)
+		     enum unit_activity activity,
+                     struct act_tgt *tgt)
 {
   if (is_valid_goto_draw_line(ptile)) {
-    send_connect_route(activity);
+    send_connect_route(activity, tgt);
   } else {
     create_event(ptile, E_BAD_COMMAND, ftc_client,
                  _("Didn't find a route to the destination!"));
   }
 
-  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
 }
  
 /**************************************************************************
@@ -2547,7 +2569,7 @@ void key_cancel_action(void)
     /* else fall through: */
   case HOVER_NUKE:
   case HOVER_PARADROP:
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
 
     keyboardless_goto_button_down = FALSE;
@@ -2642,9 +2664,10 @@ void key_unit_build_wonder(void)
 /**************************************************************************
 handle user pressing key for 'Connect' command
 **************************************************************************/
-void key_unit_connect(enum unit_activity activity)
+void key_unit_connect(enum unit_activity activity,
+                      struct act_tgt *tgt)
 {
-  request_unit_connect(activity);
+  request_unit_connect(activity, tgt);
 }
 
 /**************************************************************************

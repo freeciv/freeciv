@@ -1177,10 +1177,11 @@ void common_taxrates_callback(int i)
   Returns TRUE if any of the units can do the connect activity.
 ****************************************************************************/
 bool can_units_do_connect(struct unit_list *punits,
-			  enum unit_activity activity)
+			  enum unit_activity activity,
+                          struct act_tgt *tgt)
 {
   unit_list_iterate(punits, punit) {
-    if (can_unit_do_connect(punit, activity)) {
+    if (can_unit_do_connect(punit, activity, tgt)) {
       return TRUE;
     }
   } unit_list_iterate_end;

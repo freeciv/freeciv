@@ -2292,6 +2292,10 @@ void handle_unit_orders(struct player *pplayer,
         if (!base_by_number(packet->base[i])) {
           return;
         }
+      case ACTIVITY_GEN_ROAD:
+        if (!road_by_number(packet->road[i])) {
+          return;
+        }
       default:
 	return;
       }
@@ -2337,6 +2341,7 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
     punit->orders.list[i].base = packet->base[i];
+    punit->orders.list[i].road = packet->road[i];
   }
 
   if (!packet->repeat) {

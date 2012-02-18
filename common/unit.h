@@ -120,6 +120,7 @@ struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
   Base_type_id base;            /* Only valid for activity ACTIVITY_BASE */
+  Road_type_id road;            /* Only valid for activity ACTIVITY_GEN_ROAD */
   enum direction8 dir;          /* Only valid for ORDER_MOVE. */
 };
 

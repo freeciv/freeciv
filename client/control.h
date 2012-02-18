@@ -43,10 +43,13 @@ void unit_register_battlegroup(struct unit *punit);
 
 extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
+extern struct act_tgt connect_tgt;
 extern enum unit_orders goto_last_order;
 extern bool non_ai_unit_focus;
 
-bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
+bool can_unit_do_connect(struct unit *punit,
+                         enum unit_activity activity,
+                         struct act_tgt *tgt);
 
 void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(struct tile *ptile);
@@ -54,12 +57,14 @@ void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile);
 void do_unit_patrol_to(struct tile *ptile);
 void do_unit_connect(struct tile *ptile,
-		     enum unit_activity activity);
+		     enum unit_activity activity,
+                     struct act_tgt *tgt);
 void do_map_click(struct tile *ptile, enum quickselect_type qtype);
 void control_mouse_cursor(struct tile *ptile);
 
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity connect_activity,
+                     struct act_tgt *tgt,
 		     enum unit_orders goto_last_order);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dir);
@@ -77,7 +82,8 @@ void request_unit_autosettlers(const struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);
 void request_unit_change_homecity(struct unit *punit);
-void request_unit_connect(enum unit_activity activity);
+void request_unit_connect(enum unit_activity activity,
+                          struct act_tgt *tgt);
 void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
 void request_unit_goto(enum unit_orders last_order);
@@ -210,7 +216,8 @@ void key_unit_auto_explore(void);
 void key_unit_auto_settle(void);
 void key_unit_build_city(void);
 void key_unit_build_wonder(void);
-void key_unit_connect(enum unit_activity activity);
+void key_unit_connect(enum unit_activity activity,
+                      struct act_tgt *tgt);
 void key_unit_diplomat_actions(void);
 void key_unit_disband(void);
 void key_unit_convert(void);
