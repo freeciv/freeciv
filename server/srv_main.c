@@ -2496,6 +2496,7 @@ static void srv_ready(void)
       log_error(_("Please report this message at %s"), BUG_URL);
       exit(EXIT_FAILURE);
     }
+    script_server_signal_emit("map_generated", 0);
     game_map_init();
   }
 
