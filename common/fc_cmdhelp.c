@@ -16,7 +16,6 @@
 #endif
 
 #include <stdarg.h>
-#include <unistd.h> /* basename() */
 
 /* utility */
 #include "fciconv.h"
@@ -62,7 +61,7 @@ struct cmdhelp *cmdhelp_new(const char *cmdname)
 {
   struct cmdhelp *pcmdhelp = fc_calloc(1, sizeof(*pcmdhelp));
 
-  pcmdhelp->cmdname = fc_strdup(basename(cmdname));
+  pcmdhelp->cmdname = fc_strdup(fc_basename(cmdname));
   pcmdhelp->cmdarglist = cmdarg_list_new();
 
   return pcmdhelp;

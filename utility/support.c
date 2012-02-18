@@ -1156,3 +1156,20 @@ void fc_uname(char *buf, size_t len)
 #endif /* WIN32_NATIVE */
 #endif /* HAVE_UNAME */
 }
+
+/*****************************************************************
+  basename() replacement that always takes const parameter.
+  POSIX basename() modifies its parameter, GNU one does not.
+  Ideally we would like to use GNU one, when available, directly
+  without extra string copies.
+*****************************************************************/
+const char *fc_basename(const char *path)
+{
+  static char buf[2048];
+
+  /* Copy const parameter string to buffer that basename() can
+   * modify */
+  fc_strlcpy(buf, path, sizeof(buf));
+
+  return basename(buf);
+}

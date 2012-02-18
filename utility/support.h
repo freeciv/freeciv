@@ -161,6 +161,8 @@ char fc_tolower(char c);
 
 void fc_uname(char *buf, size_t len);
 
+const char *fc_basename(const char *path);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
