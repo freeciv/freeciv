@@ -50,6 +50,7 @@ libcivutility_la_SOURCES = \
 		registry.h	\
 		registry_ini.c	\
 		registry_ini.h	\
+		section_file.h	\
 		shared.c	\
 		shared.h	\
 		specenum_gen.h	\

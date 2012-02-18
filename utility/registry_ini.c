@@ -160,6 +160,7 @@
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
+#include "section_file.h"
 #include "shared.h"
 #include "support.h"
 
@@ -321,19 +322,6 @@ static const char *datafilename(const char *filename)
 {
   return fileinfoname(get_data_dirs(), filename);
 }
-
-
-/* The section file struct itself. */
-struct section_file {
-  char *name;                           /* Can be NULL. */
-  size_t num_entries;
-  struct section_list *sections;
-  bool allow_duplicates;
-  struct {
-    struct section_hash *sections;
-    struct entry_hash *entries;
-  } hash;
-};
 
 /**************************************************************************
   Ensure name is correct to use it as section or entry name.
