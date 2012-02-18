@@ -533,9 +533,7 @@ static void tile_clear_unsupported_infrastructure(struct tile *ptile)
     switch (infrastructure_specials[i]) {
     case S_ROAD:
     case S_RAILROAD:
-      if (pterr->road_time == 0) {
-	tile_clear_special(ptile, infrastructure_specials[i]);
-      }
+      /* These are now handled separately as road types */
       break;
     default:
       if (ocean) {
@@ -598,6 +596,13 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
       tile_remove_base(ptile, pbase);
     }
   } base_type_iterate_end;
+
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)
+        && !is_native_tile_to_road(proad, ptile)) {
+      tile_remove_road(ptile, proad);
+    }
+  } road_type_iterate_end;
 }
 
 /****************************************************************************

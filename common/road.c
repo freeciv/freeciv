@@ -322,3 +322,14 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
 {
   return BV_ISSET(proad->flags, flag);
 }
+
+/****************************************************************************
+  Is tile native to road?
+****************************************************************************/
+bool is_native_tile_to_road(const struct road_type *proad,
+                            const struct tile *ptile)
+{
+  return (tile_terrain(ptile)->road_time != 0
+          && are_reqs_active(NULL, NULL, NULL, ptile,
+                             NULL, NULL, NULL, &proad->reqs, RPT_POSSIBLE));
+}
