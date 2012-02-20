@@ -348,6 +348,11 @@ struct loaddata {
     struct base_type **order;
     size_t size;
   } base;
+  /* loaded in sg_load_savefile(); needed in sg_load_map(), ... */
+  struct {
+    struct road_type **order;
+    size_t size;
+  } road;
 
   /* loaded in sg_load_game(); needed in sg_load_random(), ... */
   enum server_states server_state;
@@ -714,6 +719,8 @@ struct loaddata *loaddata_new(struct section_file *file)
   loading->special.size = -1;
   loading->base.order = NULL;
   loading->base.size = -1;
+  loading->road.order = NULL;
+  loading->road.size = -1;
 
   loading->server_state = S_S_INITIAL;
   loading->rstate = fc_rand_state();
@@ -741,6 +748,10 @@ void loaddata_destroy(struct loaddata *loading)
 
   if (loading->base.order != NULL) {
     free(loading->base.order);
+  }
+
+  if (loading->road.order != NULL) {
+    free(loading->road.order);
   }
 
   if (loading->worked_tiles != NULL) {
@@ -1566,6 +1577,36 @@ static void sg_load_savefile(struct loaddata *loading)
       loading->base.order[j] = NULL;
     }
   }
+
+  /* Load roads. */
+  loading->road.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.roads_size");
+  if (loading->road.size) {
+    const char **modname;
+    size_t nmod;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->road.size,
+                                     "savefile.roads_vector");
+    sg_failure_ret(loading->road.size != 0,
+                   "Failed to load roads order: %s",
+                   secfile_error());
+    sg_failure_ret(!(game.control.num_road_types < loading->road.size),
+                   "Number of roads defined by the ruleset (= %d) are "
+                   "lower than the number in the savefile (= %d).",
+                   game.control.num_road_types, (int)loading->road.size);
+    /* make sure that the size of the array is divisible by 4 */
+    nmod = 4 * ((loading->road.size + 3) / 4);
+    loading->road.order = fc_calloc(nmod, sizeof(*loading->road.order));
+    for (j = 0; j < loading->road.size; j++) {
+      loading->road.order[j] = road_type_by_rule_name(modname[j]);
+    }
+    free(modname);
+    for (; j < nmod; j++) {
+      loading->road.order[j] = NULL;
+    }
+  }
 }
 
 /****************************************************************************
@@ -1653,6 +1694,25 @@ static void sg_save_savefile(struct savedata *saving)
     secfile_insert_str_vec(saving->file, modname,
                            game.control.num_base_types,
                            "savefile.bases_vector");
+    free(modname);
+  }
+
+  /* Save roads order in the savegame. */
+  secfile_insert_int(saving->file, game.control.num_road_types,
+                     "savefile.roads_size");
+  if (game.control.num_road_types > 0) {
+    const char **modname;
+    int i = 0;
+
+    modname = fc_calloc(game.control.num_road_types, sizeof(*modname));
+
+    road_type_iterate(proad) {
+      modname[i++] = road_rule_name(proad);
+    } road_type_iterate_end;
+
+    secfile_insert_str_vec(saving->file, modname,
+                           game.control.num_road_types,
+                           "savefile.roads_vector");
     free(modname);
   }
 }
@@ -5743,10 +5803,17 @@ static void compat_save_020400(struct savedata *saving)
 ****************************************************************************/
 static void compat_load_020500(struct loaddata *loading)
 {
+  const char *modname[] = { "Road", "Railroad" };
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 2.5.0");
+
+  secfile_insert_int(loading->file, 2, "savefile.roads_size");
+
+  secfile_insert_str_vec(loading->file, modname, 2,
+                         "savefile.roads_vector");
 }
 
 /****************************************************************************
@@ -5758,6 +5825,9 @@ static void compat_save_020500(struct savedata *saving)
   sg_check_ret();
 
   log_debug("Downgrading data from version 2.5.0 for savegame");
+
+  secfile_entry_delete(saving->file, "savefile.roads_size");
+  secfile_entry_delete(saving->file, "savefile.roads_vector");
 }
 
 struct compatibility {
