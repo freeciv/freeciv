@@ -19,6 +19,10 @@ Updating from 2.4 to 2.5
 * Threads are now hard requirement. Supported threading systems
   are pthreads and Windows threads
 * gtk3-client is now default client
+* Qt-based version of modpack installer has been added. It's still in
+  early development. You can build it with configure option
+  --enable-fcmp=qt (or --enable-fcmp=gtk,qt). Resulting binary is
+  called freeciv-mp-qt
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

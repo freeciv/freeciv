@@ -828,20 +828,54 @@ AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-[  --enable-fcmp[[=no/yes/gtk2/gtk3/qt/test]] build freeciv-modpack-program [[default=test]]],
-[case "${enableval}" in
-  yes|no|gtk2|gtk3|qt|test) fc_mp=${enableval} ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-fcmp]) ;;
-esac], [fc_mp=test])
+[  --enable-fcmp[[=no/yes/gtk/gtk2/gtk3/qt/all/auto]] build freeciv-modpack-program [[default=auto]]],
+[fc_mp=${enableval}],
+[fc_mp=auto])
 
-modinst=no
+fcmp_gtk=no
+fcmp_gtk2=no
+fcmp_gtk3=no
+fcmp_qt=no
 
-if test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk3" || test "x$fc_mp" = "xtest" ; then
+for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
+  if test "x$mp" = "xno" ; then
+    modinst=no
+  elif test "x$mp" = "xauto" || test "x$mp" = "xyes" ; then
+    modinst=auto
+  elif test "x$mp" = "xall" ; then
+    modinst=all
+  else
+    if test "x$mp" = "xgtk2"   ||
+       test "x$mp" = "xgtk2.0" ||
+       test "x$mp" = "xgtk20"  ||
+       test "x$mp" = "xgtk-2.0" ; then
+      req_fcmp_gtk2=yes
+    elif test "x$mp" = "xgtk3"   ||
+         test "x$mp" = "xgtk3.0" ||
+         test "x$mp" = "xgtk30"  ||
+         test "x$mp" = "xgtk-3.0" ; then
+      req_fcmp_gtk3=yes
+    elif test "x$mp" = "xgtk" ; then
+      req_fcmp_gtk=yes
+    elif test "x$mp" = "xqt" ; then
+      req_fcmp_qt=yes
+    elif test "x$mp" != "xyes" ; then
+      AC_MSG_ERROR(bad value ${mp} for --enable-fcmp)
+    fi
+  fi
+done
+
+if test "x$req_fcmp_gtk2" = "xyes" && test "x$req_fcmp_gtk3" = "xyes" ; then
+  AC_MSG_ERROR([Cannot build both gtk2 and gtk3 version of modpack installer])
+fi
+
+if test "x$req_fcmp_gtk3" = "xyes" || test "x$req_fcmp_gtk" = "xyes" ||
+   test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
   AM_PATH_GTK_3_0([3.0.0],
 [
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
-  modinst=gtk3
+  fcmp_gtk3=yes
   MP_gtk_CFLAGS="$GTK3_CFLAGS $GHTREAD_CFLAGS"
   MP_gtk_LIBS="$GTK3_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
@@ -849,20 +883,26 @@ if test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk3" || test "x$fc_mp" = "xtes
     MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
     MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
   fi
+
+  if test "x$modinst" = "xauto" ; then
+    modinst=found
+  fi
 ])])
 fi
 
-if test "x$fc_mp" = "xgtk3" && test "x$modinst" != "xgtk3" ; then
+if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk3-version of freeciv-modpack as requested])
 fi
 
-if test "x$modinst" = "xno" &&
-   ( test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xgtk2" || test "x$fc_mp" = "xtest" ) ; then
+if test "x$req_fcmp_gtk2" = "xyes" ||
+   ( test "x$fcmp_gtk3" != "xyes" && test "x$req_fcmp_gtk" = "xyes") ||
+   test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
+
   AM_PATH_GTK_2_0([2.12.0],
 [
   PKG_CHECK_MODULES([GTHREAD], [gthread-2.0],
 [
-  modinst=gtk2
+  fcmp_gtk2=yes
   MP_gtk_CFLAGS="$GTK2_CFLAGS $GTHREAD_CFLAGS"
   MP_gtk_LIBS="$GTK2_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
@@ -870,43 +910,63 @@ if test "x$modinst" = "xno" &&
      MP_gtk_CFLAGS="$MP_gtk_CFLAGS -mms-bitfields"
      MP_gtk_LDFLAGS="$MP_gtk_LDFLAGS -mwindows"
   fi
+
+  if test "x$modinst" = "xauto" ; then
+    modinst=found
+  fi
 ])])
 fi
 
-if test "x$fc_mp" = "xgtk2" && test "x$modinst" != "xgtk2" ; then
+if test "x$req_fcmp_gtk2" = "xyes" && test "x$fcmp_gtk2" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
 fi
 
-if test "x$modinst" = "xno" &&
-   ( test "x$fc_mp" = "xyes" || test "x$fc_mp" = "xqt" || test "x$fc_mp" = "xtest" ) ; then
+if test "x$req_fcmp_gtk" = "xyes" &&
+   test "x$fcmp_gtk2" != "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
+  AC_MSG_ERROR([Cannot build gtk-version of freeciv-modpack as requested])
+fi
+
+if test "x$req_fcmp_qt" = "xyes" ||
+   test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
+
    if test "x$cxx_works" = "xyes" ; then
      FC_QT
 
      if test "x$fc_qt_usable" = "xtrue" ; then
-       modinst=qt
+       fcmp_qt=yes
 
        MP_qt_CPPFLAGS=$FC_QT_CPPFLAGS
        MP_qt_LIBS=$FC_QT_LIBS
+
+       if test "x$modinst" = "xauto" ; then
+         modinst=found
+       fi
      fi
    fi
+
 fi
 
-if test "x$fc_mp" = "xqt" && test "x$modinst" != "xqt" ; then
+if test "x$req_fcmp_qt" = "xyes" && test "x$fcmp_qt" != "xyes" ; then
   AC_MSG_ERROR([Cannot build Qt-version of freeciv-modpack as requested])
 fi
+
+if test "x$modinst" != "xfound" &&
+   test "x$modinst" != "xno" &&
+   test "x$fcmp_gtk3" != "xyes" &&
+   test "x$fcmp_gtk2" != "xyes" &&
+   test "x$fcmp_qt" != "xyes" ;then
+  AC_MSG_ERROR([Cannot build modpack installer with any gui])
+fi 
 
 if test "x$modinst" != "xno" && test "x$MINGW32" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
   MP_gtk_CFLAGS="$MP_gtk_CFLAGS -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
 fi
 
-if test "x$fc_mp" = "xyes" && test "x$modinst" = "xno" ; then
-  AC_MSG_ERROR([freeciv-modpack build requested but it's impossible])
-fi
-
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
-AM_CONDITIONAL([MODINST_GTK], [test "x$modinst" = "xgtk2" || test "x$modinst" = "xgtk3"])
-AM_CONDITIONAL([MODINST_QT], [test "x$modinst" = "xqt"])
+AM_CONDITIONAL([MODINST_GTK],
+[test "x$fcmp_gtk3" = "xyes" || test "x$fcmp_gtk2" = "xyes"])
+AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_LIBS])
