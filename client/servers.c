@@ -126,14 +126,15 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     return NULL;
   }
 
-  latest_ver = secfile_lookup_str_default(file, NULL, "versions.latest_stable");
+  latest_ver = secfile_lookup_str_default(file, NULL, "versions." FOLLOWTAG);
 
   if (latest_ver != NULL) {
     if (cvercmp_greater(latest_ver, VERSION_STRING)) {
       char vertext[2048];
 
-      fc_snprintf(vertext, sizeof(vertext), _("Latest stable release of freeciv is %s, this is %s."),
-                  latest_ver, VERSION_STRING);
+      /* TRANS: Type is something like "stable", "S2_4", "winbuild" */
+      fc_snprintf(vertext, sizeof(vertext), _("Latest %s release of freeciv is %s, this is %s."),
+                  FOLLOWTAG, latest_ver, VERSION_STRING);
       output_window_append(ftc_client, vertext);
     } else {
       output_window_append(ftc_client, _("There is no newer version of freeciv available."));

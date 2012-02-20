@@ -186,6 +186,12 @@ WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
+FOLLOWTAG=${DEFAULT_FOLLOW_TAG}
+AC_ARG_WITH([followtag],
+[  --with-followtag        version tag to follow],
+[FOLLOWTAG=${withval}])
+AC_DEFINE_UNQUOTED([FOLLOWTAG], ["${FOLLOWTAG}"], [Version tag to follow])
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no
