@@ -551,12 +551,8 @@ int build_points_left(struct city *pcity)
 int do_make_unit_veteran(struct city *pcity,
                          const struct unit_type *punittype)
 {
-  if (get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
-                         EFT_VETERAN_BUILD) > 0) {
-    return TRUE;
-  }
-
-  return FALSE;
+  return get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
+                            EFT_VETERAN_BUILD);
 }
 
 /*********************************************************************
