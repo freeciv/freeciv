@@ -8,7 +8,7 @@ export WANT_AUTOMAKE
 
 DIE=0
 package=freeciv
-srcfile=client/civclient.c
+srcfile=common/game.c
 
 SRCDIR=`dirname "$0"`
 BUILDDIR=`pwd`
