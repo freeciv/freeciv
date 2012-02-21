@@ -3234,24 +3234,6 @@ static void game_load_internal(struct section_file *file)
     technology_order = secfile_lookup_str_vec(file, &technology_order_size,
                                               "savefile.technology_order");
   }
-  if (has_capability("resources", savefile_options)) {
-    const char **modname;
-    size_t nmod;
-    enum tile_special_type j;
-
-    modname = secfile_lookup_str_vec(file, &nmod,
-				     "savefile.specials");
-    /* make sure that the size of the array is divisible by 4 */
-    special_order = fc_calloc(nmod + (4 - (nmod % 4)),
-			      sizeof(*special_order));
-    for (j = 0; j < nmod; j++) {
-      special_order[j] = special_by_rule_name(modname[j]);
-    }
-    free(modname);
-    for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
-      special_order[j] = S_LAST;
-    }
-  }
 
   /* [scenario] */
   scen_text = secfile_lookup_str_default(file, "", "scenario.name");
@@ -3339,6 +3321,25 @@ static void game_load_internal(struct section_file *file)
     /* TRANS: Fatal error message. */
     log_fatal(_("Saved game is too old, at least version 1.9.0 required."));
     exit(EXIT_FAILURE);
+  }
+
+  if (has_capability("resources", savefile_options)) {
+    const char **modname;
+    size_t nmod;
+    enum tile_special_type j;
+
+    modname = secfile_lookup_str_vec(file, &nmod,
+				     "savefile.specials");
+    /* make sure that the size of the array is divisible by 4 */
+    special_order = fc_calloc(nmod + (4 - (nmod % 4)),
+			      sizeof(*special_order));
+    for (j = 0; j < nmod; j++) {
+      special_order[j] = special_by_rule_name(modname[j]);
+    }
+    free(modname);
+    for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
+      special_order[j] = S_LAST;
+    }
   }
 
   tmp_server_state = server_states_invalid();
