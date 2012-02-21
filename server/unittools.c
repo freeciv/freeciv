@@ -648,7 +648,7 @@ static int total_activity_road(struct tile *ptile, Road_type_id road)
   int total = 0;
 
   unit_list_iterate (ptile->units, punit)
-    if (punit->activity == ACTIVITY_ROAD
+    if (punit->activity == ACTIVITY_GEN_ROAD
         && punit->activity_target.obj.road == road) {
       total += punit->activity_count;
     }
