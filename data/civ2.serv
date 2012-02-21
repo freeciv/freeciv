@@ -1,6 +1,6 @@
 # Server commands to make rules similar to Civ2.
 #
-# Use this as, eg, "./ser -r data/civ2.serv" 
+# Use this as, eg, "./fcser -r data/civ2.serv" 
 #
 # Civ2 start:
 rulesetdir civ2
