@@ -661,7 +661,8 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
 
   /* Finally, put a picture of the unit in the tile */
 /*  if(i<utype_count()) */ {
-    struct sprite *s = get_unittype_sprite(tileset, punittype);
+    struct sprite *s = get_unittype_sprite(tileset, punittype,
+                                           direction8_invalid());
 
     XSetClipOrigin(display,civ_gc,0,0);
     XSetClipMask(display,civ_gc,s->mask);

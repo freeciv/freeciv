@@ -182,7 +182,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
         if (advance_number(unit->require_advance) != node->tech) {
           continue;
         }
-        sprite = get_unittype_sprite(tileset, unit);
+        sprite = get_unittype_sprite(tileset, unit, direction8_invalid());
         get_sprite_dimensions(sprite, &swidth, &sheight);
         max_icon_height = MAX(max_icon_height, sheight);
         icons_width_sum += swidth + 2;
@@ -1074,7 +1074,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
             if (advance_number(unit->require_advance) != node->tech) {
 	      continue;
 	    }
- 	    sprite = get_unittype_sprite(tileset, unit);
+ 	    sprite = get_unittype_sprite(tileset, unit, DIR8_SOUTH);
  	    get_sprite_dimensions(sprite, &swidth, &sheight);
  	    canvas_put_sprite_full(pcanvas,
  	                           icon_startx,

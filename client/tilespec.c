@@ -5057,7 +5057,8 @@ struct sprite *get_government_sprite(const struct tileset *t,
   Return the sprite for the unit type (the base "unit" sprite).
 ****************************************************************************/
 struct sprite *get_unittype_sprite(const struct tileset *t,
-                                   const struct unit_type *punittype)
+                                   const struct unit_type *punittype,
+                                   enum direction8 facing)
 {
   int uidx = utype_index(punittype);
 
@@ -5066,6 +5067,8 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
   if (t->sprites.units.icon[uidx]) {
     /* Has icon sprite */
     return t->sprites.units.icon[uidx];
+  } else if (is_valid_dir(facing)) {
+    return t->sprites.units.facing[uidx][facing];
   } else {
     /* Fallback to using random orientation sprite. */
     return t->sprites.units.facing[uidx][rand_direction()];

@@ -883,7 +883,8 @@ static void economy_report_update(struct economy_report *preport)
   for (i = 0; i < entries_used; i++) {
     struct unit_entry *pentry = unit_entries + i;
     struct unit_type *putype = pentry->type;
-    struct sprite *sprite = get_unittype_sprite(tileset, putype);
+    struct sprite *sprite = get_unittype_sprite(tileset, putype,
+                                                direction8_invalid());
     cid cid = cid_encode_unit(putype);
 
     pix = sprite_get_pixbuf(sprite);
