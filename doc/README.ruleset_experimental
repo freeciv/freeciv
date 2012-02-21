@@ -73,7 +73,7 @@ this file.
    -------------------
 
 To play a game with the experimental rules, start the server with:
-       ./ser -r data/experimental.serv
+       ./fcser -r data/experimental.serv
 or a single player game with
        ./freeciv-gtk2 -r data/experimental.serv
 (and any other command-line arguments you normally use; depending on

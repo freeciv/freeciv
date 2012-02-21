@@ -122,7 +122,7 @@ map settings are used.
    -------------------
 
 To play a game with the multiplayer rules, start the server with:
-       ./ser -r data/multiplayer.serv
+       ./fcser -r data/multiplayer.serv
 or a single player game with
        ./freeciv-gtk2 -r data/multiplayer.serv
 (and any other command-line arguments you normally use; depending on

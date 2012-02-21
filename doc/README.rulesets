@@ -15,7 +15,7 @@ Quickstart:
   behaviour.
 
 - To play a game with rules more like Civ1, start the server with:
-       ./ser -r data/civ1.serv
+       ./fcser -r data/civ1.serv
   (and any other command-line arguments you normally use; depending on
   how you have Freeciv installed you may have to give the installed
   data directory path instead of "data").  
@@ -48,7 +48,7 @@ Using and modifying rulesets:
 -----------------------------
 
 Rulesets are specified using the server command "rulesetdir".  The 
-command above of "./ser -r data/civ1.serv" just reads a file which 
+command above of "./fcser -r data/civ1.serv" just reads a file which 
 uses this command (as well as a few of the standard server options).  
 The server command specifies in which directory the ruleset files
 are to be found.
