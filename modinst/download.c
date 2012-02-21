@@ -344,8 +344,8 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
         mpver = "-";
       }
       cb(mp_name, mpURL, mpver, mplic, type);
-      modpack_count++;
     }
+    modpack_count++;
   } while (mp_name != NULL);
 
   return NULL;
