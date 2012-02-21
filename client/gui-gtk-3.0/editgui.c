@@ -886,7 +886,7 @@ static void editbar_reload_tileset(struct editbar *eb)
                        TVS_COL_ID, utype_number(putype),
                        TVS_COL_NAME, utype_name_translation(putype),
                        -1);
-    sprite = get_unittype_sprite(tileset, putype);
+    sprite = get_unittype_sprite(tileset, putype, direction8_invalid());
     if (sprite == NULL) {
       continue;
     }
@@ -1433,7 +1433,7 @@ static GdkPixbuf *get_tool_value_pixbuf(enum editor_tool_type ett,
   case ETT_UNIT:
     putype = utype_by_number(value);
     if (putype) {
-      sprite = get_unittype_sprite(tileset, putype);
+      sprite = get_unittype_sprite(tileset, putype, direction8_invalid());
     }
     break;
   case ETT_CITY:
