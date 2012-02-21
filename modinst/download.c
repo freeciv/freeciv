@@ -505,8 +505,9 @@ const char *download_modpack_list(const char *URL, modpack_list_setup_cb cb,
         mpver = "-";
       }
       cb(mp_name, mpURL, mpver, type);
-      modpack_count++;
     }
+
+    modpack_count++;
   } while (mp_name != NULL);
 
   return NULL;
