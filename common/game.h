@@ -365,6 +365,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_RAPTUREDELAY    1
 #define GAME_MIN_RAPTUREDELAY        1
 #define GAME_MAX_RAPTUREDELAY        99 /* 99 practicaly disables rapturing */
+
+#define GAME_DEFAULT_DISASTERS       0
+#define GAME_MIN_DISASTERS           0
+#define GAME_MAX_DISASTERS           100
  
 #define GAME_DEFAULT_SAVEPALACE      TRUE
 

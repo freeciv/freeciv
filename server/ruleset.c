@@ -3728,6 +3728,8 @@ static void load_ruleset_game(void)
   }
   free(svec);
 
+  game.control.num_disaster_types = DISASTER_LAST;
+
   settings_ruleset(file, "settings");
 
   secfile_check_unused(file);

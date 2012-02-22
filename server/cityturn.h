@@ -47,4 +47,6 @@ void nullify_prechange_production(struct city *pcity);
 
 void check_city_migrations(void);
 
+void check_disasters(void);
+
 #endif  /* FC__CITYTURN_H */

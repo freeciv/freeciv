@@ -30,6 +30,7 @@
 #include "base.h"
 #include "city.h"
 #include "connection.h"
+#include "disaster.h"
 #include "government.h"
 #include "idex.h"
 #include "map.h"
@@ -249,6 +250,7 @@ static void game_defaults(void)
   game.control.num_tech_types          = 0;
   game.control.num_unit_classes        = 0;
   game.control.num_unit_types          = 0;
+  game.control.num_disaster_types      = 0;
   game.control.prefered_tileset[0]     = '\0';
   game.control.resource_count          = 0;
   game.control.styles_count            = 0;
@@ -484,6 +486,7 @@ void game_ruleset_init(void)
 {
   nation_groups_init();
   ruleset_cache_init();
+  disaster_types_init();
   terrains_init();
   base_types_init();
   road_types_init();
@@ -510,6 +513,7 @@ void game_ruleset_free(void)
   base_types_free();
   road_types_free();
   city_styles_free();
+  disaster_types_free();
   terrains_free();
   ruleset_cache_free();
   nation_groups_free();

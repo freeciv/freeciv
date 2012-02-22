@@ -1125,6 +1125,8 @@ static void end_turn(void)
     check_city_migrations();
   }
 
+  check_disasters();
+
   if (game.info.global_warming) {
     update_environmental_upset(S_POLLUTION, &game.info.heating,
                                &game.info.globalwarming,

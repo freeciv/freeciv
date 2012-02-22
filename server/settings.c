@@ -1534,6 +1534,14 @@ static struct setting settings[] = {
           GAME_MIN_RAPTUREDELAY, GAME_MAX_RAPTUREDELAY,
           GAME_DEFAULT_RAPTUREDELAY)
 
+  GEN_INT("disasters", game.info.disasters,
+          SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Frequency of disasters"),
+          N_("Sets frequency of disasters occurring to cities."),
+          NULL, NULL,
+          GAME_MIN_DISASTERS, GAME_MAX_DISASTERS,
+          GAME_DEFAULT_DISASTERS)
+
   GEN_INT("razechance", game.server.razechance,
 	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Chance for conquered building destruction"),

@@ -31,6 +31,8 @@ libfreeciv_la_SOURCES = \
 		dataio.h	\
 		diptreaty.c	\
 		diptreaty.h	\
+		disaster.c	\
+		disaster.h	\
 		effects.c	\
 		effects.h	\
 		events.c	\

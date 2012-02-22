@@ -35,6 +35,7 @@
 #include "citizens.h"
 #include "city.h"
 #include "events.h"
+#include "disaster.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -2725,6 +2726,94 @@ void check_city_migrations(void)
     }
 
     check_city_migrations_player(pplayer);
+  } players_iterate_end;
+}
+
+/**************************************************************************
+  Disaster has hit a city. Apply its effects.
+**************************************************************************/
+static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
+{
+  struct player *pplayer = city_owner(pcity);
+  struct tile *ptile = city_tile(pcity);
+  bool had_effect = FALSE;
+
+  log_debug("%s at %s", disaster_rule_name(pdis), city_name(pcity));
+
+  notify_player(pplayer, ptile, E_DISASTER,
+                ftc_server,
+                /* TRANS: Disasters such as Earthquake */
+                _("%s was hit by %s."), city_name(pcity),
+                disaster_rule_name(pdis));
+
+  if (disaster_has_effect(pdis, DE_DESTROY_BUILDING)) {
+    int total = 0;
+    struct impr_type *imprs[B_LAST];
+
+    city_built_iterate(pcity, pimprove) {
+      if (is_improvement(pimprove)) {
+        imprs[total++] = pimprove;
+      }
+    } city_built_iterate_end;
+
+    if (total > 0) {
+      int num = fc_rand(total);
+
+      building_lost(pcity, imprs[num]);
+
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("%s destroyed."),
+                    improvement_name_translation(imprs[num]));
+
+      had_effect = TRUE;
+    }
+  }
+
+  if (disaster_has_effect(pdis, DE_REDUCE_POP)) {
+    if (!city_reduce_size(pcity, 1, NULL)) {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("City got destroyed completely."));
+    } else {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Some population lost."));
+    }
+
+    had_effect = TRUE;
+  }
+
+  if (!had_effect) {
+    notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                  _("We survived the disaster without serious damages."));
+  }
+}
+
+/**************************************************************************
+  Check for any disasters hitting any city, and apply those disasters.
+**************************************************************************/
+void check_disasters(void)
+{
+  if (game.info.disasters == 0) {
+    /* Shortcut out as no disaster is possible. */
+    return;
+  }
+
+  players_iterate(pplayer) {
+    /* Safe city iterator needed as disaster may destroy city */
+    city_list_iterate_safe(pplayer->cities, pcity) {
+      int id = pcity->id;
+
+      disaster_type_iterate(pdis) {
+        if (city_exist(id)) {
+          /* City survived earlier disasters. */
+          int probability = game.info.disasters * pdis->frequency;
+          int result = fc_rand(DISASTER_BASE_RARITY);
+
+          if (result < probability)  {
+            apply_disaster(pcity, pdis);
+          }
+        }
+      } disaster_type_iterate_end;
+    } city_list_iterate_safe_end;
   } players_iterate_end;
 }
 
