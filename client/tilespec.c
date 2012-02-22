@@ -3427,6 +3427,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     case ACTIVITY_GEN_ROAD:
       /* TODO: Road type specific activity icon */
       s = t->sprites.unit.road;
+      break;
     case ACTIVITY_CONVERT:
       s = t->sprites.unit.convert;
       break;
