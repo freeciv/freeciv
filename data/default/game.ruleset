@@ -18,7 +18,9 @@ options="+Freeciv-2.4-ruleset"
 name = _("Default ruleset")
 
 ; Description of the ruleset
-description = _("You are playing Freeciv with default rules.")
+description = _("\
+You are playing Freeciv with default ruleset for single player games.\
+")
 
 [options]
 global_init_techs=""
