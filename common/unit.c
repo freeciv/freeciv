@@ -1895,7 +1895,11 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
 **************************************************************************/
 bool is_losing_hp(const struct unit *punit)
 {
-  return unit_type_is_losing_hp(unit_owner(punit), unit_type(punit));
+  struct unit_type *punittype = unit_type(punit);
+
+  return get_unit_bonus(punit, EFT_UNIT_RECOVER)
+    < (punittype->hp *
+       utype_class(punittype)->hp_loss_pct / 100);
 }
 
 /**************************************************************************
@@ -1904,7 +1908,7 @@ bool is_losing_hp(const struct unit *punit)
 bool unit_type_is_losing_hp(const struct player *pplayer,
                             const struct unit_type *punittype)
 {
-  return get_player_bonus(pplayer, EFT_UNIT_RECOVER)
+  return get_unittype_bonus(pplayer, NULL, punittype, EFT_UNIT_RECOVER)
     < (punittype->hp *
        utype_class(punittype)->hp_loss_pct / 100);
 }
