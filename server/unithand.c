@@ -2060,13 +2060,21 @@ static void unit_activity_handling_targeted(struct unit *punit,
   } else if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
     struct act_tgt old_target = punit->activity_target;
+    enum unit_activity stored_activity = new_activity;
 
     free_unit_orders(punit);
     unit_assign_specific_activity_target(punit,
                                          &new_activity, new_target);
-    set_unit_activity_targeted(punit, new_activity, new_target);
-    send_unit_info(NULL, punit);    
-    unit_activity_dependencies(punit, old_activity, &old_target);
+    if (new_activity != stored_activity
+        && !activity_requires_target(new_activity)) {
+      /* unit_assign_specific_activity_target() changed our target activity
+       * (to ACTIVITY_IDLE in practice) */
+      unit_activity_handling(punit, new_activity);
+    } else {
+      set_unit_activity_targeted(punit, new_activity, new_target);
+      send_unit_info(NULL, punit);    
+      unit_activity_dependencies(punit, old_activity, &old_target);
+    }
   }
 }
 
