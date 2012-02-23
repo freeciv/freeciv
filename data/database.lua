@@ -61,7 +61,7 @@ end
 --   createtime int(11) default NULL,
 --   accesstime int(11) default NULL,
 --   address varchar(255) default NULL,
---   createaddress varchar(15) default NULL,
+--   createaddress varchar(255) default NULL,
 --   logincount int(11) default '0',
 --   PRIMARY KEY  (id),
 --   UNIQUE KEY name (name)
