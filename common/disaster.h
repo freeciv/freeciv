@@ -31,7 +31,7 @@ BV_DEFINE(bv_disaster_effects, DE_COUNT);
 
 struct disaster_type {
   int id;
-  const char name[MAX_LEN_NAME];
+  struct name_translation name;
 
   /* Final probability for each city each turn is
    * this frequency * game.info.disasters frequency setting / DISASTER_BASE_RARITY */
@@ -57,10 +57,10 @@ const char *disaster_rule_name(struct disaster_type *pdis);
 bool disaster_has_effect(const struct disaster_type *pdis,
                          enum disaster_effect_id effect);
 
-#define disaster_type_iterate(_p)                       \
-{                                                       \
-  int _i_;                                              \
-  for (_i_ = 0; _i_ < DISASTER_LAST ; _i_++) {          \
+#define disaster_type_iterate(_p)                                \
+{                                                                \
+  int _i_;                                                       \
+  for (_i_ = 0; _i_ < game.control.num_disaster_types ; _i_++) { \
     struct disaster_type *_p = disaster_by_number(_i_);
 
 #define disaster_type_iterate_end                       \

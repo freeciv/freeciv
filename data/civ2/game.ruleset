@@ -155,6 +155,20 @@ size_effect    = 1
 ; Year 1 instead of 0.
 skip_year_0 = 1
 
+; /* <-- avoid gettext warnings
+;
+; Disaster types:
+;
+; name                    = translatable name as seen by user
+; frequency               = how likely disaster is to occur
+; effects
+;   - "DestroyBuilding"   = Random building is destroyed
+;   - "ReducePopulation"  = Reduce city size by one
+;
+; */ <-- avoid gettext warnings
+
+; No disasters in civ2
+
 [playercolors]
 background.r = 86
 background.g = 86

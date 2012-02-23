@@ -206,6 +206,28 @@ skip_year_0 = 1
 positive_label = _("CE")
 negative_label = _("BCE")
 
+; /* <-- avoid gettext warnings
+;
+; Disaster types:
+;
+; name                    = translatable name as seen by user
+; frequency               = how likely disaster is to occur
+; effects
+;   - "DestroyBuilding"   = Random building is destroyed
+;   - "ReducePopulation"  = Reduce city size by one
+;
+; */ <-- avoid gettext warnings
+
+[disaster_earthquake]
+name           = _("Earthquake")
+frequency      = 10
+effects        = "DestroyBuilding"
+
+[disaster_fire]
+name           = _("Fire")
+frequency      = 10
+effects        = "DestroyBuilding"
+
 [playercolors]
 background.r = 86
 background.g = 86

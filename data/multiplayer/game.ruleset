@@ -204,6 +204,20 @@ skip_year_0 = 1
 positive_label = _("CE")
 negative_label = _("BCE")
 
+; /* <-- avoid gettext warnings
+;
+; Disaster types:
+;
+; name                    = translatable name as seen by user
+; frequency               = how likely disaster is to occur
+; effects
+;   - "DestroyBuilding"   = Random building is destroyed
+;   - "ReducePopulation"  = Reduce city size by one
+;
+; */ <-- avoid gettext warnings
+
+; No disasters in multiplayer ruleset
+
 [playercolors]
 background.r = 86
 background.g = 86

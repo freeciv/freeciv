@@ -29,8 +29,6 @@ extern "C" {
  * directory! */
 
 enum eroad { ROAD_ROAD = 0, ROAD_RAILROAD, ROAD_LAST };
-enum edis { DISASTER_EARTHQUAKE, DISASTER_PLAGUE, DISASTER_FIRE,
-            DISASTER_LAST };
 
 #define MAX_NUM_PLAYER_SLOTS 128
 #define MAX_NUM_BARBARIANS   2
@@ -44,7 +42,7 @@ enum edis { DISASTER_EARTHQUAKE, DISASTER_PLAGUE, DISASTER_FIRE,
 #define MAX_VET_LEVELS 20 /* see diplomat_success_vs_defender() */
 #define MAX_BASE_TYPES 32
 #define MAX_ROAD_TYPES ROAD_LAST /* Cannot be changed without major code changes */
-#define MAX_DISASTER_TYPES DISASTER_LAST
+#define MAX_DISASTER_TYPES 10
 #define MAX_NUM_USER_UNIT_FLAGS 4
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS
 #define MAX_NUM_NATION_GROUPS 128

@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 223
+Max id: 224
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -243,6 +243,7 @@ type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
 type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
 type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
+type BV_DISASTER_EFFECTS = bitvector(bv_disaster_effects)
 
 # typedefs for IDs
 type BASE               = sint8(Base_type_id)
@@ -1433,6 +1434,14 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   BV_UNIT_CLASSES native_to;
   BV_ROAD_FLAGS flags;
+end
+
+PACKET_RULESET_DISASTER = 224; sc, lsend
+  UINT8 id;
+  STRING name[MAX_LEN_NAME];
+  STRING rule_name[MAX_LEN_NAME];
+  UINT8 frequency;
+  BV_DISASTER_EFFECTS effects;
 end
 
 /**************************************************************************

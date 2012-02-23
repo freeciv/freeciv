@@ -97,6 +97,7 @@
 #define TERRAIN_SECTION_PREFIX "terrain_"
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
+#define DISASTER_SECTION_PREFIX "disaster_"
 
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 
@@ -3378,6 +3379,8 @@ static void load_ruleset_game(void)
   size_t teams;
   const char *text;
   size_t gni_tmp;
+  struct section_list *sec;
+  int nval;
 
   file = openload_ruleset_file("game");
   filename = secfile_name(file);
@@ -3728,7 +3731,47 @@ static void load_ruleset_game(void)
   }
   free(svec);
 
-  game.control.num_disaster_types = DISASTER_LAST;
+  sec = secfile_sections_by_name_prefix(file, DISASTER_SECTION_PREFIX);
+  nval = (NULL != sec ? section_list_size(sec) : 0);
+  if (nval > MAX_DISASTER_TYPES) {
+    ruleset_error(LOG_FATAL, "\"%s\": Too many disaster types (%d, max %d)",
+                  filename, nval, MAX_DISASTER_TYPES);
+  }
+  game.control.num_disaster_types = nval;
+
+  disaster_type_iterate(pdis) {
+    int id = disaster_index(pdis);
+    int j;
+    size_t eff_count;
+    const char *sec_name = section_name(section_list_get(sec, id));
+
+    ruleset_load_names(&pdis->name, file, sec_name);
+
+    pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
+                                                 sec_name);
+
+    svec = secfile_lookup_str_vec(file, &eff_count, "%s.effects", sec_name);
+
+    BV_CLR_ALL(pdis->effects);
+    for (j = 0; j < eff_count; j++) {
+      const char *sval = svec[j];
+      enum disaster_effect_id effect;
+
+      effect = disaster_effect_id_by_name(sval, fc_strcasecmp);
+
+      if (!disaster_effect_id_is_valid(effect)) {
+        ruleset_error(LOG_FATAL,
+                      "\"%s\" disaster \"%s\": unknown effect \"%s\".",
+                      filename,
+                      disaster_rule_name(pdis),
+                      sval);
+      } else {
+        BV_SET(pdis->effects, effect);
+      }
+    }
+
+    free(svec);
+  } disaster_type_iterate_end;
 
   settings_ruleset(file, "settings");
 
@@ -4103,6 +4146,28 @@ static void send_ruleset_roads(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the disaster ruleset information (all individual disaster types) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_disasters(struct conn_list *dest)
+{
+  struct packet_ruleset_disaster packet;
+
+  disaster_type_iterate(d) {
+    packet.id = disaster_number(d);
+
+    sz_strlcpy(packet.name, untranslated_name(&d->name));
+    sz_strlcpy(packet.rule_name, rule_name(&d->name));
+
+    packet.frequency = d->frequency;
+
+    packet.effects = d->effects;
+
+    lsend_packet_ruleset_disaster(dest, &packet);
+  } disaster_type_iterate_end;
+}
+
+/**************************************************************************
   Send the government ruleset information to the specified connections.
   One packet per government type, and for each type one per ruler title.
 **************************************************************************/
@@ -4454,6 +4519,7 @@ void send_rulesets(struct conn_list *dest)
 
   send_ruleset_control(dest);
   send_ruleset_game(dest);
+  send_ruleset_disasters(dest);
   send_ruleset_team_names(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);

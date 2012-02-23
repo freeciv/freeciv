@@ -3139,6 +3139,22 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 }
 
 /****************************************************************************
+  Handle a packet about a particular disaster type.
+****************************************************************************/
+void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
+{
+  struct disaster_type *pdis = disaster_by_number(p->id);
+
+  fc_assert_ret_msg(NULL != pdis, "Bad disaster %d.", p->id);
+
+  names_set(&pdis->name, p->name, p->rule_name);
+
+  pdis->frequency = p->frequency;
+
+  pdis->effects = p->effects;
+}
+
+/****************************************************************************
   Handle the terrain control ruleset packet sent by the server.
 ****************************************************************************/
 void handle_ruleset_terrain_control
