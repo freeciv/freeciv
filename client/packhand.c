@@ -2548,6 +2548,10 @@ void handle_tile_info(const struct packet_tile_info *packet)
     ptile->bases = packet->bases;
     tile_changed = TRUE;
   }
+  if (!BV_ARE_EQUAL(ptile->roads, packet->roads)) {
+    ptile->roads = packet->roads;
+    tile_changed = TRUE;
+  }
 
   tile_changed = tile_changed || (tile_resource(ptile) != presource);
 

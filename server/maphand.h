@@ -33,6 +33,7 @@ struct player_tile {
   struct player *owner; 		/* NULL for unowned */
   bv_special special;
   bv_bases bases;
+  bv_roads roads;
 
   /* If you build a city with an unknown square within city radius
      the square stays unknown. However, we still have to keep count
