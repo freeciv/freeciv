@@ -21,7 +21,7 @@ then
 else
   PROGRAM_NAME="setup_auth_server.sh"
 fi
-PROGRAM_VERSION="0.5"
+PROGRAM_VERSION="0.6"
 
 #############################################################################
 #
@@ -426,7 +426,7 @@ echo "Now we create the Freeciv tables."
    createtime int(11) default NULL, \
    accesstime int(11) default NULL, \
    address varchar(255) default NULL, \
-   createaddress varchar(15) default NULL, \
+   createaddress varchar(255) default NULL, \
    logincount int(11) default '0', \
    PRIMARY KEY  (id), \
    UNIQUE KEY name (name) \
