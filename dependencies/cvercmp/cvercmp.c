@@ -1,6 +1,6 @@
 /********************************************************
 *                                                       *
-* (c) 2011 Marko Lindqvist                              *
+* (c) 2011-2012 Marko Lindqvist                         *
 *                                                       *
 * Licensed under Gnu General Public License version 2   *
 *                                                       *
@@ -27,6 +27,7 @@ static enum cvercmp_prever cvercmp_parse_prever(const char *ver);
 
 enum cvercmp_prever
 {
+  CVERCMP_PRE_DEV,
   CVERCMP_PRE_ALPHA,
   CVERCMP_PRE_BETA,
   CVERCMP_PRE_PRE,
@@ -300,6 +301,9 @@ static enum cvercmp_prever cvercmp_parse_prever(const char *ver)
   }
   if (!strcasecmp(ver, "alpha")) {
     return CVERCMP_PRE_ALPHA;
+  }
+  if (!strcasecmp(ver, "dev")) {
+    return CVERCMP_PRE_DEV;
   }
 
   return CVERCMP_PRE_NONE;
