@@ -1101,8 +1101,17 @@ void server_player_init(struct player *pplayer, bool initmap,
     team_add_player(pplayer, NULL);
   }
 
-  /* This must be done after team information are initialised. */
-  pplayer->economic = player_limit_to_max_rates(pplayer);
+  /* This must be done after team information is initialised
+   * as it might be needed to determine max rate effects. 
+   * Sometimes this server_player_init() gets called twice
+   * with only latter one having needs_team set. We don't
+   * want to call player_limit_to_max_rates() at first time
+   * when team is not yet set. It's callers responsibility
+   * to always have one server_player_init() call with
+   * needs_team TRUE. */
+  if (needs_team) {
+    pplayer->economic = player_limit_to_max_rates(pplayer);
+  }
 
   adv_data_default(pplayer);
 
@@ -1195,6 +1204,9 @@ struct player *server_create_player(int player_id, const char *ai_type,
 
   CALL_FUNC_EACH_AI(player_alloc, pplayer);
 
+  /* TODO: Do we really need this server_player_init() here? All our callers
+   *       will later make another server_player_init() call anyway, with boolean
+   *       parameters set to what they really need. */
   server_player_init(pplayer, FALSE, FALSE);
   if (game_was_started()) {
     /* This function uses fc_rand which is initialised at game start. The
