@@ -1399,6 +1399,7 @@ static void load_ruleset_units(struct section_file *file)
     u->converted_to = lookup_unit_type(file, sec_name, "convert_to",
                                        LOG_ERROR, filename,
                                        rule_name(&u->name));
+    u->convert_time = secfile_lookup_int_default(file, 1, "%s.convert_time", sec_name);
   } unit_type_iterate_end;
 
   /* main stats: */
@@ -3865,6 +3866,7 @@ static void send_ruleset_units(struct conn_list *dest)
                           ? utype_number(u->obsoleted_by) : -1;
     packet.converted_to = u->converted_to
                           ? utype_number(u->converted_to) : -1;
+    packet.convert_time = u->convert_time;
     packet.fuel = u->fuel;
     packet.flags = u->flags;
     packet.roles = u->roles;

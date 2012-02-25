@@ -945,7 +945,7 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity == ACTIVITY_CONVERT) {
-    if (punit->activity_count >= 1) {
+    if (punit->activity_count >= unit_type(punit)->convert_time * ACTIVITY_FACTOR) {
       unit_convert(punit);
       set_unit_activity(punit, ACTIVITY_IDLE);
     }

@@ -2837,6 +2837,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->firepower          = p->firepower;
   u->obsoleted_by       = utype_by_number(p->obsoleted_by);
   u->converted_to       = utype_by_number(p->converted_to);
+  u->convert_time       = p->convert_time;
   u->fuel               = p->fuel;
   u->flags              = p->flags;
   u->roles              = p->roles;
