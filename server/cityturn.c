@@ -2809,7 +2809,9 @@ void check_disasters(void)
           int result = fc_rand(DISASTER_BASE_RARITY);
 
           if (result < probability)  {
-            apply_disaster(pcity, pdis);
+            if (can_disaster_happen(pdis, pcity)) {
+              apply_disaster(pcity, pdis);
+            }
           }
         }
       } disaster_type_iterate_end;

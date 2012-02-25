@@ -3769,9 +3769,16 @@ static void load_ruleset_game(void)
     int id = disaster_index(pdis);
     int j;
     size_t eff_count;
+    struct requirement_vector *reqs;
     const char *sec_name = section_name(section_list_get(sec, id));
 
     ruleset_load_names(&pdis->name, file, sec_name);
+
+    reqs = lookup_req_list(file, sec_name, "reqs", disaster_rule_name(pdis));
+    requirement_vector_copy(&pdis->reqs, reqs);
+
+    reqs = lookup_req_list(file, sec_name, "nreqs", disaster_rule_name(pdis));
+    requirement_vector_copy(&pdis->nreqs, reqs);
 
     pdis->frequency = secfile_lookup_int_default(file, 10, "%s.frequency",
                                                  sec_name);
@@ -4183,10 +4190,23 @@ static void send_ruleset_disasters(struct conn_list *dest)
   struct packet_ruleset_disaster packet;
 
   disaster_type_iterate(d) {
+    int j;
     packet.id = disaster_number(d);
 
     sz_strlcpy(packet.name, untranslated_name(&d->name));
     sz_strlcpy(packet.rule_name, rule_name(&d->name));
+
+    j = 0;
+    requirement_vector_iterate(&d->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
+
+    j = 0;
+    requirement_vector_iterate(&d->nreqs, preq) {
+      packet.nreqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.nreqs_count = j;
 
     packet.frequency = d->frequency;
 

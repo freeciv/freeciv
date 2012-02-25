@@ -33,6 +33,9 @@ struct disaster_type {
   int id;
   struct name_translation name;
 
+  struct requirement_vector reqs;
+  struct requirement_vector nreqs;
+
   /* Final probability for each city each turn is
    * this frequency * game.info.disasters frequency setting / DISASTER_BASE_RARITY */
   int frequency;
@@ -56,6 +59,8 @@ const char *disaster_rule_name(struct disaster_type *pdis);
 
 bool disaster_has_effect(const struct disaster_type *pdis,
                          enum disaster_effect_id effect);
+
+bool can_disaster_happen(struct disaster_type *pdis, struct city *pcity);
 
 #define disaster_type_iterate(_p)                                \
 {                                                                \

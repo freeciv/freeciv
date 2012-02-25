@@ -1444,6 +1444,10 @@ PACKET_RULESET_DISASTER = 224; sc, lsend
   UINT8 id;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+  UINT8 nreqs_count;
+  REQUIREMENT nreqs[MAX_NUM_REQS:nreqs_count];
   UINT8 frequency;
   BV_DISASTER_EFFECTS effects;
 end

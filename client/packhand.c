@@ -3151,10 +3151,21 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
 void handle_ruleset_disaster(const struct packet_ruleset_disaster *p)
 {
   struct disaster_type *pdis = disaster_by_number(p->id);
+  int i;
 
   fc_assert_ret_msg(NULL != pdis, "Bad disaster %d.", p->id);
 
   names_set(&pdis->name, p->name, p->rule_name);
+
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&pdis->reqs, p->reqs[i]);
+  }
+  fc_assert(pdis->reqs.size == p->reqs_count);
+
+  for (i = 0; i < p->nreqs_count; i++) {
+    requirement_vector_append(&pdis->nreqs, p->nreqs[i]);
+  }
+  fc_assert(pdis->nreqs.size == p->nreqs_count);
 
   pdis->frequency = p->frequency;
 
