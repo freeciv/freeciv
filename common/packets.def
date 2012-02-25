@@ -1434,6 +1434,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   UINT16 tile_bonus[O_LAST];
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
+  SPECIAL compat_special;
   BV_UNIT_CLASSES native_to;
   BV_ROAD_FLAGS flags;
 end

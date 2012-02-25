@@ -33,8 +33,7 @@ struct road_type {
   int build_time;
   int tile_incr[O_LAST];
   int tile_bonus[O_LAST];
-  enum unit_activity act;
-  enum tile_special_type special;
+  enum tile_special_type compat_special;
 
   struct requirement_vector reqs;
   bv_unit_classes native_to;
@@ -48,10 +47,10 @@ Road_type_id road_number(const struct road_type *proad);
 
 struct road_type *road_by_number(Road_type_id id);
 
-enum unit_activity road_activity(struct road_type *road);
+enum unit_activity road_activity(struct road_type *proad);
 struct road_type *road_by_activity(enum unit_activity act);
 
-enum tile_special_type road_special(const struct road_type *road);
+enum tile_special_type road_special(const struct road_type *proad);
 struct road_type *road_by_special(enum tile_special_type spe);
 
 const char *road_name_translation(struct road_type *road);

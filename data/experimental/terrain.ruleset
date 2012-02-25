@@ -1033,6 +1033,8 @@ They have no effect on gameplay.\
 ; food_bonus              = percent added to food production
 ; shield_bonus            = percent added to shield production
 ; trade_bonus             = percent added to trade production
+; compat_special          = road type used in old savegames with just two road specials:
+;                           "Road", "Railroad", or "None"
 ; native_to               = List of unit classes that consider tile
 ;                           with this road native even if terrain is not
 ; flags
@@ -1054,6 +1056,7 @@ trade_incr    = 1
 food_bonus    = 0
 shield_bonus  = 0
 trade_bonus   = 0
+compat_special = "Road"
 native_to     = "Land", "Big Land"
 flags         = "NativeTile"
 
@@ -1073,5 +1076,6 @@ trade_incr    = 0
 food_bonus    = 0
 shield_bonus  = 50
 trade_bonus   = 0
+compat_special = "Railroad"
 native_to     = "Land", "Big Land"
 flags         = "NativeTile"

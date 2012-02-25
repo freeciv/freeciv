@@ -1969,6 +1969,8 @@ static void load_ruleset_terrain(struct section_file *file)
   struct strvec *psv;
   size_t nval;
   int j;
+  bool compat_road = FALSE;
+  bool compat_rail = FALSE;
   const char **res;
   const char *filename = secfile_name(file);
   /* char *datafile_options = */ (void)
@@ -2353,6 +2355,7 @@ static void load_ruleset_terrain(struct section_file *file)
     const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
     const char **slist;
     struct requirement_vector *reqs;
+    const char *special;
 
     if (!secfile_lookup_int(file, &proad->move_cost,
                             "%s.move_cost", section)) {
@@ -2371,6 +2374,28 @@ static void load_ruleset_terrain(struct section_file *file)
 
     reqs = lookup_req_list(file, section, "reqs", road_rule_name(proad));
     requirement_vector_copy(&proad->reqs, reqs);
+
+    special = secfile_lookup_str_default(file, "None", "%s.compat_special", section);
+    if (!fc_strcasecmp(special, "Road")) {
+      if (compat_road) {
+        ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Road\"");
+      }
+      compat_road = TRUE;
+      proad->compat_special = S_OLD_ROAD;
+    } else if (!fc_strcasecmp(special, "Railroad")) {
+      if (compat_rail) {
+        ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Railroad\"");
+      }
+      compat_rail = TRUE;
+      proad->compat_special = S_OLD_RAILROAD;
+    } else if (!fc_strcasecmp(special, "None")) {
+      proad->compat_special = S_LAST;
+      ruleset_error(LOG_FATAL, "Compatibility special for road %s is still needed, \"None\" is not yet supported.",
+                    road_rule_name(proad));
+    } else {
+      ruleset_error(LOG_FATAL, "Illegal compatibility special \"%s\" for road %s",
+                    special, road_rule_name(proad));
+    }
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
     BV_CLR_ALL(proad->native_to);
@@ -4137,6 +4162,8 @@ static void send_ruleset_roads(struct conn_list *dest)
       packet.reqs[j++] = *preq;
     } requirement_vector_iterate_end;
     packet.reqs_count = j;
+
+    packet.compat_special = r->compat_special;
 
     packet.native_to = r->native_to;
     packet.flags = r->flags;

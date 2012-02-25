@@ -27,11 +27,7 @@
 
 #include "road.h"
 
-static struct road_type roads[ROAD_LAST] =
-  {
-    { ROAD_ROAD, {}, SINGLE_MOVE, 0, {}, {}, ACTIVITY_ROAD, S_ROAD },
-    { ROAD_RAILROAD, {}, SINGLE_MOVE, 0, {}, {}, ACTIVITY_RAILROAD, S_RAILROAD }
-  };
+static struct road_type roads[ROAD_LAST];
 
 /**************************************************************************
   Return the road id.
@@ -82,6 +78,7 @@ void road_types_init(void)
   int i;
 
   for (i = 0; i < ROAD_LAST; i++) {
+    roads[i].id = i;
     requirement_vector_init(&roads[i].reqs);
   }
 }
@@ -99,9 +96,15 @@ void road_types_free(void)
 /****************************************************************************
   Return activity that is required in order to build given road type.
 ****************************************************************************/
-enum unit_activity road_activity(struct road_type *road)
+enum unit_activity road_activity(struct road_type *proad)
 {
-  return road->act;
+  if (proad->id == ROAD_ROAD) {
+    return ACTIVITY_ROAD;
+  } else if (proad->id == ROAD_RAILROAD) {
+    return ACTIVITY_RAILROAD;
+  }
+
+  return ACTIVITY_LAST;
 }
 
 /****************************************************************************
@@ -110,9 +113,9 @@ enum unit_activity road_activity(struct road_type *road)
 ****************************************************************************/
 struct road_type *road_by_activity(enum unit_activity act)
 {
-  road_type_iterate(road) {
-    if (road->act == act) {
-      return road;
+  road_type_iterate(proad) {
+    if (road_activity(proad) == act) {
+      return proad;
     }
   } road_type_iterate_end;
 
@@ -122,9 +125,9 @@ struct road_type *road_by_activity(enum unit_activity act)
 /****************************************************************************
   Return tile special that represents this road type.
 ****************************************************************************/
-enum tile_special_type road_special(const struct road_type *road)
+enum tile_special_type road_special(const struct road_type *proad)
 {
-  return road->special;
+  return proad->compat_special;
 }
 
 /****************************************************************************
@@ -133,9 +136,13 @@ enum tile_special_type road_special(const struct road_type *road)
 ****************************************************************************/
 struct road_type *road_by_special(enum tile_special_type spe)
 {
-  road_type_iterate(road) {
-    if (road->special == spe) {
-      return road;
+  if (spe == S_LAST) {
+    return NULL;
+  }
+
+  road_type_iterate(proad) {
+    if (road_special(proad) == spe) {
+      return proad;
     }
   } road_type_iterate_end;
 

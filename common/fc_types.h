@@ -392,9 +392,9 @@ enum diplomacy_mode {
 };
 
 enum tile_special_type {
-  S_ROAD,
+  S_OLD_ROAD,
   S_IRRIGATION,
-  S_RAILROAD,
+  S_OLD_RAILROAD,
   S_MINE,
   S_POLLUTION,
   S_HUT,
@@ -408,6 +408,15 @@ enum tile_special_type {
   S_LAST,
   S_RESOURCE_VALID = S_LAST,
 };
+
+/* S_OLD_xxx is used where code refers to compatibility
+ * with old versions. S_xxx is still used where code
+ * in question works the old way and needs updating.
+ * These defines should be removed when transition
+ * to use of road types is finished. */
+#define S_ROAD S_OLD_ROAD
+#define S_RAILROAD S_OLD_RAILROAD
+
 
 #ifdef __cplusplus
 }
