@@ -948,15 +948,23 @@ int get_unittype_bonus(const struct player *pplayer,
 		       const struct unit_type *punittype,
 		       enum effect_type effect_type)
 {
+  struct city *pcity;
+
   if (!initialized) {
     return 0;
   }
 
-  fc_assert_ret_val(pplayer != NULL && ptile != NULL && punittype != NULL,
-                    0);
+  fc_assert_ret_val(pplayer != NULL && punittype != NULL, 0);
+
+  if (ptile != NULL) {
+    pcity = tile_city(ptile);
+  } else {
+    pcity = NULL;
+  }
+
   return get_target_bonus_effects(NULL,
-                                 pplayer, tile_city(ptile), NULL, ptile,
-                                 punittype, NULL, NULL, effect_type);
+                                  pplayer, pcity, NULL, ptile,
+                                  punittype, NULL, NULL, effect_type);
 }
 
 /**************************************************************************
