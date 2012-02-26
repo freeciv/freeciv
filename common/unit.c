@@ -954,7 +954,7 @@ bool can_unit_do_activity_road(const struct unit *punit,
 {
   struct act_tgt target = { .type = ATT_ROAD, .obj.road = road };
 
-  return can_unit_do_activity_targeted(punit, ACTIVITY_ROAD, &target);
+  return can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &target);
 }
 
 /**************************************************************************
