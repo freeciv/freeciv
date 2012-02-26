@@ -2707,7 +2707,9 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->cargo              = p->cargo;
   u->targets            = p->targets;
 
-  u->veteran_levels = 0; /* not used in the client */
+  u->veteran_levels = MAX_VET_LEVELS; /* not used in the client except in
+                                       * create_unit_virtual() for limiting
+                                       * initial veteral level to legal range. */
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     names_set(&u->veteran[i].name, p->veteran_name[i], NULL);
