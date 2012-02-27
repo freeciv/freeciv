@@ -113,7 +113,7 @@ struct fz_FILE_s {
   union {
     FILE *plain;		/* FZ_PLAIN */
 #ifdef HAVE_LIBZ
-    gzFile zlib;		/* FZ_ZLIB */
+    gzFile zlib;                 /* FZ_ZLIB */
 #endif
 #ifdef HAVE_LIBBZ2
     struct bzip2_struct bz2;

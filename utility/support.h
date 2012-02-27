@@ -106,7 +106,8 @@ int fc_stricoll(const char *str0, const char *str1);
 
 FILE *fc_fopen(const char *filename, const char *opentype);
 #ifdef HAVE_LIBZ
-FILE *fc_gzopen(const char *filename, const char *opentype);
+#include <zlib.h>
+gzFile fc_gzopen(const char *filename, const char *opentype);
 #endif
 DIR *fc_opendir(const char *dirname);
 int fc_remove(const char *filename);
