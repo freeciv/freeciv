@@ -1038,6 +1038,23 @@ const char *terrain_alteration_name_translation(enum terrain_alteration talter)
 }
 
 /****************************************************************************
+   Time to complete the base building activity on the given terrain.
+****************************************************************************/
+int terrain_base_time(const struct terrain *pterrain,
+                      Base_type_id base)
+{
+  struct base_type *pbase = base_by_number(base);
+
+  if (pbase->build_time == 0) {
+    /* Terrain specific build time */
+    return pterrain->base_time;
+  } else {
+    /* Road specific build time */
+    return pbase->build_time;
+  }
+}
+
+/****************************************************************************
   Time to complete the road building activity on the given terrain.
 ****************************************************************************/
 int terrain_road_time(const struct terrain *pterrain,

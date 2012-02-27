@@ -1369,6 +1369,7 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   RESOURCE resources[MAX_NUM_RESOURCES:num_resources];
 
   UINT16 road_output_incr_pct[O_LAST];
+  UINT8 base_time;
   UINT8 road_time;
 
   TERRAIN irrigation_result;

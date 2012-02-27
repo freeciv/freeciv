@@ -68,7 +68,7 @@
 #include "ruleset.h"
 
 
-#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2011.Nov.02"
+#define RULESET_CAPABILITIES "+Freeciv-ruleset-Devel-2012.Feb.28"
 /*
  * Ruleset capabilities acceptable to this program:
  *
@@ -2090,8 +2090,10 @@ static void load_ruleset_terrain(struct section_file *file)
                                                                      get_output_identifier(o));
     } output_type_iterate_end;
 
-    if (!secfile_lookup_int(file, &pterrain->road_time,
-                            "%s.road_time", tsection)) {
+    if (!secfile_lookup_int(file, &pterrain->base_time,
+                            "%s.base_time", tsection)
+        || !secfile_lookup_int(file, &pterrain->road_time,
+                               "%s.road_time", tsection)) {
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
 
@@ -4043,6 +4045,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.road_output_incr_pct[o] = pterrain->road_output_incr_pct[o];
     } output_type_iterate_end;
 
+    packet.base_time = pterrain->base_time;
     packet.road_time = pterrain->road_time;
 
     packet.irrigation_result = (pterrain->irrigation_result

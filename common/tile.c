@@ -506,7 +506,9 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 int tile_activity_base_time(const struct tile *ptile,
                             Base_type_id base)
 {
-  return base_by_number(base)->build_time * ACTIVITY_FACTOR;
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  return terrain_base_time(pterrain, base) * ACTIVITY_FACTOR;
 }
 
 /****************************************************************************

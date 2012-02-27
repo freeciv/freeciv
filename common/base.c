@@ -168,6 +168,11 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
     return FALSE;
   }
 
+  if (tile_terrain(ptile)->base_time == 0) {
+    /* Bases cannot be built on this terrain. */
+    return FALSE;
+  }
+
   if (!pbase->buildable) {
     /* Base type not buildable. */
     return FALSE;

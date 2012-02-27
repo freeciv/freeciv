@@ -186,6 +186,7 @@ struct terrain {
   struct resource **resources; /* NULL-terminated */
 
   int road_output_incr_pct[O_LAST];
+  int base_time;
   int road_time;
 
   struct terrain *irrigation_result;
@@ -322,6 +323,9 @@ bool get_preferred_pillage(struct act_tgt *tgt,
                            bv_special pset,
                            bv_bases bases,
                            bv_roads roads);
+
+int terrain_base_time(const struct terrain *pterrain,
+                      Base_type_id base);
 
 int terrain_road_time(const struct terrain *pterrain,
                       Road_type_id road);

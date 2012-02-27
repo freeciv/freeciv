@@ -3033,6 +3033,7 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
     pterrain->road_output_incr_pct[o] = p->road_output_incr_pct[o];
   } output_type_iterate_end;
 
+  pterrain->base_time = p->base_time;
   pterrain->road_time = p->road_time;
   pterrain->irrigation_result = terrain_by_number(p->irrigation_result);
   pterrain->irrigation_food_incr = p->irrigation_food_incr;
