@@ -38,6 +38,7 @@
  * are files returned by gtk_rc_get_default_files() on client startup.
  * There are two extra postions allocated in the array - one for
  * specific Freeciv file and one for NULL. */
+#if !GTK_CHECK_VERSION(3, 0, 0)
 static char** default_files;
 static int num_default_files;
 
@@ -68,12 +69,14 @@ static void load_default_files(void)
   }
   default_files[i] = default_files[i + 1] = NULL;
 }
+#endif /* !GTK3 */
 
 /*****************************************************************************
   Loads a gtk theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
+#if !GTK_CHECK_VERSION(3, 0, 0)
   GtkStyle *style;
   char buf[strlen(directory) + strlen(theme_name) + 32];
   
@@ -96,6 +99,24 @@ void gui_load_theme(const char *directory, const char *theme_name)
     style = gtk_widget_get_style(turn_done_button);
   }
   gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
+#else /* !GTK3 */
+  GtkCssProvider *css_provider;
+  GError *error = NULL;
+  char buf[strlen(directory) + strlen(theme_name) + 32];
+  /* Gtk theme is a directory containing gtk-3.0/gtkrc file */
+  fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtk.css", directory,
+              theme_name);
+  css_provider = gtk_css_provider_new();
+  gtk_css_provider_load_from_file(css_provider, g_file_new_for_path(buf), &error);
+  if (error) {
+    g_warning("%s\n", error->message);
+    return;
+  }
+  gtk_style_context_add_provider_for_screen(
+      gtk_widget_get_screen(toplevel),
+      GTK_STYLE_PROVIDER(css_provider),
+      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#endif /* GTK3 */
 }
 
 /*****************************************************************************
@@ -103,7 +124,6 @@ void gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void gui_clear_theme(void)
 {
-  GtkStyle *style;
   bool theme_loaded;
 
   /* try to load user defined theme */
@@ -119,6 +139,9 @@ void gui_clear_theme(void)
     
   /* still no theme loaded -> load system default theme */
   if (!theme_loaded) {
+#if !GTK_CHECK_VERSION(3, 0, 0)
+    GtkStyle *style;
+
     load_default_files();
     default_files[num_default_files] = NULL;
     gtk_rc_set_default_files(default_files);
@@ -131,6 +154,12 @@ void gui_clear_theme(void)
       style = gtk_widget_get_style(turn_done_button);
     }
     gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
+#else /* !GTK3 */
+    gtk_style_context_add_provider_for_screen(
+        gtk_widget_get_screen(toplevel),
+        GTK_STYLE_PROVIDER(gtk_css_provider_get_default()),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+#endif /* GTK3 */
   }
 }
 
@@ -206,8 +235,13 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     char buf[strlen(directory) + strlen(entry->d_name) + 32];
     struct stat stat_result;
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
     fc_snprintf(buf, sizeof(buf),
                 "%s/%s/gtk-3.0/gtkrc", directory, entry->d_name);
+#else /* !GTK3 */
+    fc_snprintf(buf, sizeof(buf),
+                "%s/%s/gtk-3.0/gtk.css", directory, entry->d_name);
+#endif /* GTK3 */
 
     if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */
