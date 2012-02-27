@@ -544,8 +544,8 @@ int build_points_left(struct city *pcity)
 /**************************************************************************
   Will unit of this type be created as veteran?
 **************************************************************************/
-int do_make_unit_veteran(struct city *pcity,
-                         const struct unit_type *punittype)
+bool do_make_unit_veteran(struct city *pcity,
+                          const struct unit_type *punittype)
 {
   if (get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
                          EFT_VETERAN_BUILD) > 0) {

@@ -370,7 +370,7 @@ void ai_best_government(struct player *pplayer)
       /* Bonuses for non-economic abilities. We increase val by
        * a very small amount here to choose govt in cases where
        * we have no cities yet. */
-      bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) ? 3 : 0;
+      bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
       bonus -= get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) ? 3 : 0;
       bonus += get_player_bonus(pplayer, EFT_NO_INCITE) ? 4 : 0;
       bonus += get_player_bonus(pplayer, EFT_UNBRIBABLE_UNITS) ? 2 : 0;
