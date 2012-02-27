@@ -1520,7 +1520,9 @@ int main(int argc, char **argv)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
+#if !GTK_CHECK_VERSION(3, 0, 0)
   const gchar *home;
+#endif /* !GTK3 */
   guint sig;
 
   parse_options(argc, argv);
@@ -1532,6 +1534,7 @@ void ui_main(int argc, char **argv)
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
   /* Load resources */
   gtk_rc_parse_string(fallback_resources);
 
@@ -1543,6 +1546,7 @@ void ui_main(int argc, char **argv)
     gtk_rc_parse(str);
     g_free(str);
   }
+#endif /* !GTK3 */
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(toplevel, "key_press_event",
