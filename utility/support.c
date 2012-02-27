@@ -86,6 +86,10 @@
 #  include <strings.h>
 #endif
 
+#ifdef HAVE_LIBZ
+#include <zlib.h>
+#endif
+
 /* utility */
 #include "fciconv.h"
 #include "fcintl.h"
@@ -288,10 +292,10 @@ FILE *fc_fopen(const char *filename, const char *opentype)
   encoding on Windows.
 *****************************************************************/
 #ifdef HAVE_LIBZ
-FILE *fc_gzopen(const char *filename, const char *opentype)
+gzFile fc_gzopen(const char *filename, const char *opentype)
 {
 #ifdef WIN32_NATIVE
-	FILE *result;
+	gzFile result;
 	char *filename_in_local_encoding =
 	     internal_to_local_string_malloc(filename);
 	result = gzopen(filename_in_local_encoding, opentype);
