@@ -81,7 +81,7 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
       double want, loss, cost = utype_build_shield_cost(punittype);
       struct unit *defender;
       int veteran = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
-                                       EFT_VETERAN_BUILD);
+                                       EFT_VETERAN_BUILD) > 0 ? 1 : 0;
 
       defender = unit_virtual_create(pplayer, pcity, punittype, veteran);
       defense = get_total_defense_power(attacker, defender);

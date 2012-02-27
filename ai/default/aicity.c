@@ -1305,7 +1305,11 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_VETERAN_BUILD:
     /* FIXME: check other reqs (e.g., unitflag) */
     num = num_affected_units(peffect, ai);
-    v += (3 * c + num);
+    if (amount < 0) {
+      v -= (3 * c + num);
+    } else if (amount > 0) {
+      v += (3 * c + num);
+    }
     break;
   case EFT_UPGRADE_UNIT:
     if (amount == 1) {
