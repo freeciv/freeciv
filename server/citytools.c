@@ -1472,11 +1472,6 @@ void remove_city(struct city *pcity)
   adv_city_free(pcity);
   game_remove_city(pcity);
 
-  if (tile_terrain(pcenter)->road_time == 0) {
-    tile_remove_special(pcenter, S_RAILROAD);
-    tile_remove_special(pcenter, S_ROAD);
-  }
-
   players_iterate(other_player) {
     if (map_is_known_and_seen(pcenter, other_player, V_MAIN)) {
       reality_check_city(other_player, pcenter);
