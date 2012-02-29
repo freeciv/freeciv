@@ -77,6 +77,19 @@ const char *fc_svn_revision(void)
 }
 
 /**********************************************************************
+  Returns version string that can be used to compare two freeciv builds.
+***********************************************************************/
+const char *fc_comparable_version(void)
+{
+#ifdef FC_SVNREV_ON
+  /* Sane revision number in FC_SVNREV */
+  return VERSION_STRING "-" FC_SVNREV;
+#else  /* FC_SVNREV_ON */
+  return VERSION_STRING;
+#endif
+}
+
+/**********************************************************************
   Return the BETA message.
   If returns NULL, not a beta version.
 ***********************************************************************/
