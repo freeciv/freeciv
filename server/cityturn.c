@@ -102,6 +102,10 @@ struct cityimpr {
 #define SPECLIST_TYPE struct cityimpr
 #include "speclist.h"
 
+#define cityimpr_list_iterate(cityimprlist, pcityimpr) \
+    TYPED_LIST_ITERATE(struct cityimpr, cityimprlist, pcityimpr)
+#define cityimpr_list_iterate_end  LIST_ITERATE_END
+
 static bool sell_random_building(struct player *pplayer,
                                  struct cityimpr_list *imprs);
 static bool sell_random_unit(struct player *pplayer,
@@ -1757,6 +1761,7 @@ static bool sell_random_building(struct player *pplayer,
             improvement_name_translation(pcityimpr->pimprove));
 
   do_sell_building(pplayer, pcityimpr->pcity, pcityimpr->pimprove);
+
   cityimpr_list_remove(imprs, pcityimpr);
 
   /* Get back the gold upkeep that was already paid this turn. */
@@ -1764,6 +1769,8 @@ static bool sell_random_building(struct player *pplayer,
                                                     pcityimpr->pimprove);
 
   city_refresh_queue_add(pcityimpr->pcity);
+
+  FC_FREE(pcityimpr);
 
   return TRUE;
 }
@@ -1820,7 +1827,6 @@ static bool player_balance_treasury_units_and_buildings
             (struct player *pplayer)
 {
   struct cityimpr_list *pimprlist;
-  struct cityimpr ci;
   struct unit_list *punitlist;
   bool sell_unit = TRUE;
 
@@ -1834,9 +1840,11 @@ static bool player_balance_treasury_units_and_buildings
   city_list_iterate(pplayer->cities, pcity) {
     city_built_iterate(pcity, pimprove) {
       if (can_city_sell_building(pcity, pimprove)) {
-        ci.pcity = pcity;
-        ci.pimprove = pimprove;
-        cityimpr_list_append(pimprlist, &ci);
+        struct cityimpr *ci = fc_malloc(sizeof(*ci));
+
+        ci->pcity = pcity;
+        ci->pimprove = pimprove;
+        cityimpr_list_append(pimprlist, ci);
       }
     } city_built_iterate_end;
 
@@ -1858,6 +1866,11 @@ static bool player_balance_treasury_units_and_buildings
     }
     sell_unit = !sell_unit;
   }
+
+  /* Free remaining entries from list */
+  cityimpr_list_iterate(pimprlist, pimpr) {
+    FC_FREE(pimpr);
+  } cityimpr_list_iterate_end;
 
   if (pplayer->economic.gold < 0) {
     /* If we get here it means the player has
@@ -1917,7 +1930,6 @@ static bool city_balance_treasury_buildings(struct city *pcity)
 {
   struct player *pplayer;
   struct cityimpr_list *pimprlist;
-  struct cityimpr ci;
 
   if (!pcity) {
     return TRUE;
@@ -1929,9 +1941,11 @@ static bool city_balance_treasury_buildings(struct city *pcity)
   /* Create a vector of all buildings that can be sold. */
   city_built_iterate(pcity, pimprove) {
     if (can_city_sell_building(pcity, pimprove)) {
-      ci.pcity = pcity;
-      ci.pimprove = pimprove;
-      cityimpr_list_append(pimprlist, &ci);
+      struct cityimpr *ci = fc_malloc(sizeof(*ci));
+
+      ci->pcity = pcity;
+      ci->pimprove = pimprove;
+      cityimpr_list_append(pimprlist, ci);
     }
   } city_built_iterate_end;
 
@@ -1941,8 +1955,10 @@ static bool city_balance_treasury_buildings(struct city *pcity)
     /* all done in sell_random_building */
   }
 
-  /* If we get here the player has negative gold, but hopefully
-   * another city will be able to pay the deficit, so continue. */
+  /* Free remaining entries from list */
+  cityimpr_list_iterate(pimprlist, pimpr) {
+    FC_FREE(pimpr);
+  } cityimpr_list_iterate_end;
 
   cityimpr_list_destroy(pimprlist);
 
