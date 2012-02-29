@@ -110,7 +110,7 @@ static struct {
 };
 
 /****************************************************************************
-  Called below, and by client/civclient.c client_game_free()
+  Called below, and by client/client_main.c client_game_free()
 ****************************************************************************/
 void packhand_free(void)
 {

@@ -91,7 +91,7 @@ static struct unit *quickselect(struct tile *ptile,
                                 enum quickselect_type qtype);
 
 /**************************************************************************
-  Called only by client_game_init() in client/civclient.c
+  Called only by client_game_init() in client/client_main.c
 **************************************************************************/
 void control_init(void)
 {
@@ -111,7 +111,7 @@ void control_init(void)
 }
 
 /**************************************************************************
-  Called only by client_game_free() in client/civclient.c
+  Called only by client_game_free() in client/client_main.c
 **************************************************************************/
 void control_free(void)
 {
