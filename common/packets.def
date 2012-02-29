@@ -556,8 +556,8 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   SINT16 usage[O_LAST];
   UINT16 food_stock, shield_stock;
 
-  UINT16 trade[NUM_TRADE_ROUTES];
-  UINT8 trade_value[NUM_TRADE_ROUTES];
+  UINT16 trade[MAX_TRADE_ROUTES];
+  UINT8 trade_value[MAX_TRADE_ROUTES];
 
   UINT16 pollution;
   UINT16 illness_trade;
@@ -1778,7 +1778,7 @@ PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
   UINT8 specialists_size;
   UINT8 specialists[SP_MAX:specialists_size];
-  UINT16 trade[NUM_TRADE_ROUTES];
+  UINT16 trade[MAX_TRADE_ROUTES];
   UINT16 food_stock, shield_stock;
   BOOL airlift;
   BOOL debug;

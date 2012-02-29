@@ -26,6 +26,7 @@
 #include "featured_text.h"
 #include "game.h"
 #include "map.h"
+#include "traderoutes.h"
 #include "unitlist.h"
 
 /* client/include */
@@ -1230,21 +1231,14 @@ static void draw_trade_route_line(const struct tile *ptile1,
 **************************************************************************/
 static void draw_trade_routes_for_city(const struct city *pcity_src)
 {
-  int i;
-  const struct city *pcity_dest;
-
   if (!pcity_src) {
     return;
   }
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    pcity_dest = game_city_by_number(pcity_src->trade[i]);
-    if (!pcity_dest) {
-      continue;
-    }
+  trade_routes_iterate(pcity_src, pcity_dest) {
     draw_trade_route_line(city_tile(pcity_src), city_tile(pcity_dest),
                           COLOR_MAPVIEW_TRADE_ROUTE_LINE);
-  }
+  } trade_routes_iterate_end;
 }
 
 /**************************************************************************
@@ -2364,6 +2358,7 @@ void get_city_mapview_trade_routes(struct city *pcity,
                                    enum color_std *pcolor)
 {
   int num_trade_routes = 0, i;
+  int max_routes;
 
   if (!trade_routes_buffer || trade_routes_buffer_len <= 0) {
     return;
@@ -2377,7 +2372,7 @@ void get_city_mapview_trade_routes(struct city *pcity,
     return;
   }
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pcity->trade[i] <= 0) {
       /* NB: pcity->trade_value[i] == 0 is a valid case. */
       continue;
@@ -2385,11 +2380,13 @@ void get_city_mapview_trade_routes(struct city *pcity,
     num_trade_routes++;
   }
 
+  max_routes = max_trade_routes(pcity);
+
   fc_snprintf(trade_routes_buffer, trade_routes_buffer_len,
-              "%d/%d", num_trade_routes, NUM_TRADE_ROUTES);
+              "%d/%d", num_trade_routes, max_routes);
 
   if (pcolor) {
-    if (num_trade_routes == NUM_TRADE_ROUTES) {
+    if (num_trade_routes == max_routes) {
       *pcolor = COLOR_MAPVIEW_TRADE_ROUTES_ALL_BUILT;
     } else if (num_trade_routes == 0) {
       *pcolor = COLOR_MAPVIEW_TRADE_ROUTES_NO_BUILT;

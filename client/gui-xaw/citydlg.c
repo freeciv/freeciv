@@ -1483,7 +1483,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	      city_name(pdialog->pcity));
   bptr = end_of_strn(bptr, &nleft);
   
-  for (i = 0; i < NUM_TRADE_ROUTES; i++)
+  for (i = 0; i < MAX_TRADE_ROUTES; i++)
     if(pdialog->pcity->trade[i]) {
       struct city *pcity;
       x=1;

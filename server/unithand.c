@@ -38,6 +38,7 @@
 #include "packets.h"
 #include "player.h"
 #include "specialist.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -1690,8 +1691,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   can_establish = !have_cities_trade_route(pcity_homecity, pcity_dest);
     
   if (can_establish) {
-    home_full = (city_num_trade_routes(pcity_homecity) == NUM_TRADE_ROUTES);
-    dest_full = (city_num_trade_routes(pcity_dest) == NUM_TRADE_ROUTES);
+    home_full = (city_num_trade_routes(pcity_homecity) == max_trade_routes(pcity_homecity));
+    dest_full = (city_num_trade_routes(pcity_dest) == max_trade_routes(pcity_dest));
   }
   
   if (home_full || dest_full) {
@@ -1713,7 +1714,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       _("      The city of %s already has %d "
                         "better trade routes!"),
                       homecity_link,
-                      NUM_TRADE_ROUTES);
+                      max_trade_routes(pcity_homecity));
 	can_establish = FALSE;
       }
     }
@@ -1734,7 +1735,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                       _("      The city of %s already has %d "
                         "better trade routes!"),
                       destcity_link,
-                      NUM_TRADE_ROUTES);
+                      max_trade_routes(pcity_dest));
 	can_establish = FALSE;
       }
     }
@@ -1838,21 +1839,21 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     }
 
     /* Actually create the new trade route */
-    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+    for (i = 0; i < MAX_TRADE_ROUTES; i++) {
       if (pcity_homecity->trade[i] == 0) {
         pcity_homecity->trade[i] = pcity_dest->id;
         break;
       }
     }
-    fc_assert(i < NUM_TRADE_ROUTES);
+    fc_assert(i < MAX_TRADE_ROUTES);
 
-    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+    for (i = 0; i < MAX_TRADE_ROUTES; i++) {
       if (pcity_dest->trade[i] == 0) {
         pcity_dest->trade[i] = pcity_homecity->id;
         break;
       }
     }
-    fc_assert(i < NUM_TRADE_ROUTES);
+    fc_assert(i < MAX_TRADE_ROUTES);
 
     /* Refresh the cities. */
     city_refresh(pcity_homecity);

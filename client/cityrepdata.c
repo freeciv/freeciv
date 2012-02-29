@@ -479,7 +479,7 @@ static const char *cr_entry_trade_routes(const struct city *pcity,
   static char buf[16];
   int num = 0, value = 0, i;
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (0 != pcity->trade[i]) {
       num++;
       value += pcity->trade_value[i];

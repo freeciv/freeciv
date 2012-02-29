@@ -671,7 +671,7 @@ void handle_city_info(const struct packet_city_info *packet)
 
   pcity->city_options = packet->city_options;
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     pcity->trade[i] = packet->trade[i];
     pcity->trade_value[i] = packet->trade_value[i];
   }

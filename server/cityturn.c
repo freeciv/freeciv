@@ -43,6 +43,7 @@
 #include "road.h"
 #include "specialist.h"
 #include "tech.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -619,7 +620,6 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
                       struct player *destroyer)
 {
   citizens loss_remain;
-  int i;
 
   if (pop_loss == 0) {
     return TRUE;
@@ -677,13 +677,9 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
                         city_name(pcity), city_size_get(pcity));
 
   /* Update cities that have trade routes with us */
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    struct city *pcity2 = game_city_by_number(pcity->trade[i]);
-
-    if (pcity2) {
-      city_refresh(pcity2);
-    }
-  }
+  trade_routes_iterate(pcity, pcity2) {
+    city_refresh(pcity2);
+  } trade_routes_iterate_end;
 
   sanity_check_city(pcity);
   return TRUE;
@@ -730,7 +726,7 @@ static int granary_savings(const struct city *pcity)
 **************************************************************************/
 static bool city_increase_size(struct city *pcity)
 {
-  int i, new_food;
+  int new_food;
   int savings_pct = granary_savings(pcity);
   bool have_square = FALSE;
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
@@ -803,13 +799,9 @@ static bool city_increase_size(struct city *pcity)
   city_refresh(pcity);
 
   /* Update cities that have trade routes with us */
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    struct city *pcity2 = game_city_by_number(pcity->trade[i]);
-
-    if (pcity2) {
-      city_refresh(pcity2);
-    }
-  }
+  trade_routes_iterate(pcity, pcity2) {
+    city_refresh(pcity2);
+  } trade_routes_iterate_end;
 
   notify_player(powner, city_tile(pcity), E_CITY_GROWTH, ftc_server,
                 _("%s grows to size %d."),

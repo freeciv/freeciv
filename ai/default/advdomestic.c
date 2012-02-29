@@ -28,6 +28,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"
@@ -165,6 +166,7 @@ static void dai_choose_trade_route(struct city *pcity,
   int want;
   int income, bonus;
   int trade_routes;
+  int max_routes;
   Continent_id continent = tile_continent(pcity->tile);
   bool dest_city_found = FALSE;
   int trader_trait;
@@ -202,6 +204,7 @@ static void dai_choose_trade_route(struct city *pcity,
   }
 
   trade_routes = city_num_trade_routes(pcity);
+  max_routes = max_trade_routes(pcity);
 
   /* We consider only initial benefit from establishing trade route.
    * We may actually get only initial benefit if both cities already
@@ -228,7 +231,7 @@ static void dai_choose_trade_route(struct city *pcity,
    * This method helps us out of deadlocks of completely stalled
    * scientific progress.
    */
-  if (pplayer->economic.science < 50 && trade_routes < NUM_TRADE_ROUTES) {
+  if (pplayer->economic.science < 50 && trade_routes < max_routes) {
     want *=
       (6 - pplayer->economic.science/10) * (6 - pplayer->economic.science/10);
   }
@@ -236,7 +239,7 @@ static void dai_choose_trade_route(struct city *pcity,
   if (trade_routes == 0) {
     /* If we have no trade routes at all, we are certainly creating a new one. */
     want += trader_trait;
-  } else if (trade_routes < NUM_TRADE_ROUTES) {
+  } else if (trade_routes < max_routes) {
     /* Possibly creating a new trade route */
     want += trader_trait / 4;
   }

@@ -441,4 +441,9 @@ struct act_tgt {
   union act_tgt_obj obj;
 };
 
+/*
+ * Maximum number of trade routes a city can have in any situation.
+ */
+#define MAX_TRADE_ROUTES        4
+
 #endif /* FC__FC_TYPES_H */

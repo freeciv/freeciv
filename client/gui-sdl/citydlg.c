@@ -1992,7 +1992,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   step = 0;
   dest.x = pCityWindow->size.x + adj_size(10);
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pCity->trade[i]) {
       step += pCity->trade_value[i];
 

@@ -3939,7 +3939,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     specialists += pcity->specialists[sp];
   } specialist_type_iterate_end;
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->trade[i],
                                       "%s.traderoute%d", citystr, i),
                     FALSE, "%s", secfile_error());
@@ -4241,7 +4241,7 @@ static void sg_save_player_cities(struct savedata *saving,
                          specialist_rule_name(specialist_by_number(sp)));
     } specialist_type_iterate_end;
 
-    for (j = 0; j < NUM_TRADE_ROUTES; j++) {
+    for (j = 0; j < MAX_TRADE_ROUTES; j++) {
       secfile_insert_int(saving->file, pcity->trade[j], "%s.traderoute%d",
                          buf, j);
     }

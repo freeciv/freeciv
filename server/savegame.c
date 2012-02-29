@@ -2461,7 +2461,7 @@ static void player_load_cities(struct player *plr, int plrno,
       specialists += pcity->specialists[sp];
     } specialist_type_iterate_end;
 
-    for (j = 0; j < NUM_TRADE_ROUTES; j++) {
+    for (j = 0; j < MAX_TRADE_ROUTES; j++) {
       fc_assert_exit_msg(secfile_lookup_int(file, &pcity->trade[j],
                                             "player%d.c%d.traderoute%d",
                                             plrno, i, j),

@@ -45,6 +45,7 @@
 #include "road.h"
 #include "specialist.h"
 #include "tech.h"
+#include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "vision.h"
@@ -838,17 +839,7 @@ static void raze_city(struct city *pcity)
 ***************************************************************************/
 static void reestablish_city_trade_routes(struct city *pcity) 
 {
-  int i;
-  struct city *ptrade_city;
-
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    ptrade_city = game_city_by_number(pcity->trade[i]);
-
-    if (!ptrade_city) {
-      /* no trade route on this slot */
-      continue;
-    }
-
+  trade_routes_iterate(pcity, ptrade_city) {
     /* Remove the city's trade routes (old owner). */
     remove_trade_route(ptrade_city, pcity);
 
@@ -868,7 +859,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
     reality_check_city(city_owner(pcity), ptrade_city->tile);
     update_dumb_city(city_owner(pcity), ptrade_city);
     send_city_info(city_owner(pcity), ptrade_city);
-  }
+  } trade_routes_iterate_end;
 }
 
 /**************************************************************************
@@ -1358,7 +1349,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
 **************************************************************************/
 void remove_city(struct city *pcity)
 {
-  int o;
   struct player *powner = city_owner(pcity);
   struct tile *pcenter = city_tile(pcity);
   bv_imprs had_small_wonders;
@@ -1444,15 +1434,9 @@ void remove_city(struct city *pcity)
     return;
   }
 
-  for (o = 0; o < NUM_TRADE_ROUTES; o++) {
-    struct city *pother_city = game_city_by_number(pcity->trade[o]);
-
-    if (!pother_city) {
-      continue;
-    }
-
+  trade_routes_iterate(pcity, pother_city) {
     remove_trade_route(pother_city, pcity);
-  }
+  } trade_routes_iterate_end;
 
   map_clear_border(pcenter);
   city_workers_queue_remove(pcity);
@@ -1697,14 +1681,12 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 static bool player_has_trade_route_with_city(struct player *pplayer,
                                              struct city *pcity)
 {
-  int i;
-
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    struct city *other = game_city_by_number(pcity->trade[i]);
-    if (other && city_owner(other) == pplayer) {
+  trade_routes_iterate(pcity, other) {
+    if (city_owner(other) == pplayer) {
       return TRUE;
     }
-  }
+  } trade_routes_iterate_end;
+
   return FALSE;
 }
 
@@ -2030,9 +2012,9 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->city_radius_sq = pcity->city_radius_sq;
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    packet->trade[i]=pcity->trade[i];
-    packet->trade_value[i]=pcity->trade_value[i];
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+    packet->trade[i] = pcity->trade[i];
+    packet->trade_value[i] = pcity->trade_value[i];
   }
 
   output_type_iterate(o) {
@@ -2193,11 +2175,13 @@ void remove_trade_route(struct city *pc1, struct city *pc2)
 
   fc_assert_ret(pc1 && pc2);
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    if (pc1->trade[i] == pc2->id)
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+    if (pc1->trade[i] == pc2->id) {
       pc1->trade[i] = 0;
-    if (pc2->trade[i] == pc1->id)
+    }
+    if (pc2->trade[i] == pc1->id) {
       pc2->trade[i] = 0;
+    }
   }
 }
 
@@ -2223,21 +2207,21 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
-  if (city_num_trade_routes(pc1) == NUM_TRADE_ROUTES) {
+  if (city_num_trade_routes(pc1) == max_trade_routes(pc1)) {
     remove_smallest_trade_route(pc1);
   }
 
-  if (city_num_trade_routes(pc2) == NUM_TRADE_ROUTES) {
+  if (city_num_trade_routes(pc2) == max_trade_routes(pc2)) {
     remove_smallest_trade_route(pc2);
   }
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pc1->trade[i] == 0) {
       pc1->trade[i] = pc2->id;
       break;
     }
   }
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     if (pc2->trade[i] == 0) {
       pc2->trade[i] = pc1->id;
       break;

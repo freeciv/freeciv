@@ -37,6 +37,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "specialist.h"
+#include "traderoutes.h"
 #include "unit.h"
 
 /* aicore */
@@ -1443,7 +1444,7 @@ int get_city_min_trade_route(const struct city *pcity, int *slot)
     *slot = 0;
   }
   /* find min */
-  for (i = 1; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 1; i < MAX_TRADE_ROUTES; i++) {
     if (value > pcity->trade_value[i]) {
       if (slot) {
 	*slot = i;
@@ -1471,7 +1472,7 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
     return FALSE;
   }
     
-  if (city_num_trade_routes(pc1) == NUM_TRADE_ROUTES) {
+  if (city_num_trade_routes(pc1) == max_trade_routes(pc1)) {
     trade = trade_between_cities(pc1, pc2);
     /* can we replace trade route? */
     if (get_city_min_trade_route(pc1, NULL) >= trade) {
@@ -1479,7 +1480,7 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
     }
   }
   
-  if (city_num_trade_routes(pc2) == NUM_TRADE_ROUTES) {
+  if (city_num_trade_routes(pc2) == max_trade_routes(pc2)) {
     if (trade == -1) {
       trade = trade_between_cities(pc1, pc2);
     }
@@ -1524,8 +1525,11 @@ int city_num_trade_routes(const struct city *pcity)
 {
   int i, n = 0;
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++)
-    if(pcity->trade[i] != 0) n++;
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
+    if (pcity->trade[i] != 0) {
+      n++;
+    }
+  }
   
   return n;
 }
@@ -1564,14 +1568,12 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
 **************************************************************************/
 bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 {
-  int i;
-  
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    if (pc1->trade[i] == pc2->id || pc2->trade[i] == pc1->id) {
-      /* Looks like they do have a trade route. */
+  trade_routes_iterate(pc1, route_to) {
+    if (route_to->id == pc2->id) {
       return TRUE;
     }
-  }
+  } trade_routes_iterate_end;
+
   return FALSE;
 }
 
@@ -2616,18 +2618,15 @@ int city_pollution(const struct city *pcity, int shield_total)
 static int get_trade_illness(const struct city *pcity)
 {
   float illness_trade = 0.0;
-  int i;
 
-  for (i = 0 ; i < NUM_TRADE_ROUTES ; i++) {
-    struct city *trade_city = game_city_by_number(pcity->trade[i]);
-    if (trade_city != NULL
-        && trade_city->turn_plague != -1
+  trade_routes_iterate(pcity, trade_city) {
+    if (trade_city->turn_plague != -1
         && game.info.turn - trade_city->turn_plague < 5) {
       illness_trade += (float)game.info.illness_trade_infection
                        * sqrt(1.0 * city_size_get(pcity)
                               * city_size_get(trade_city)) / 100.0;
     }
-  }
+  } trade_routes_iterate_end;
 
   return (int)illness_trade;
 }
@@ -2749,7 +2748,7 @@ static inline void set_city_production(struct city *pcity)
   } output_type_iterate_end;
 
   /* Add on special extra incomes: trade routes and tithes. */
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     pcity->trade_value[i] =
 	trade_between_cities(pcity, game_city_by_number(pcity->trade[i]));
     pcity->prod[O_TRADE] += pcity->trade_value[i];

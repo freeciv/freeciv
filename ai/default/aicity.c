@@ -1561,7 +1561,7 @@ static int city_want(struct player *pplayer, struct city *acity,
     memcpy(prod, acity->citizen_base, O_LAST * sizeof(*prod));
   }
 
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+  for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     prod[O_TRADE] += acity->trade_value[i];
   }
   prod[O_GOLD] += get_city_tithes_bonus(acity);

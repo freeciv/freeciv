@@ -22,6 +22,7 @@
 
 /* common */
 #include "game.h"
+#include "traderoutes.h"
 
 /* aicore */
 #include "path_finding.h"
@@ -259,7 +260,7 @@ static int one_city_trade_benefit(const struct city *pcity,
     newtrade = 0;
   }
 
-  if (city_num_trade_routes(pcity) < NUM_TRADE_ROUTES) {
+  if (city_num_trade_routes(pcity) < max_trade_routes(pcity)) {
     /* if the city can handle this route, we don't break any old routes */
     losttrade = 0;
   } else {
