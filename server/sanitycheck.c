@@ -81,10 +81,9 @@ static void check_specials(const char *file, const char *function, int line)
     const struct terrain *pterrain = tile_terrain(ptile);
     bv_special special = tile_specials(ptile);
 
-    if (contains_special(special, S_RAILROAD))
-      SANITY_TILE(ptile, contains_special(special, S_ROAD));
-    if (contains_special(special, S_FARMLAND))
+    if (contains_special(special, S_FARMLAND)) {
       SANITY_TILE(ptile, contains_special(special, S_IRRIGATION));
+    }
 
     if (contains_special(special, S_MINE)) {
       SANITY_TILE(ptile, pterrain->mining_result == pterrain);
