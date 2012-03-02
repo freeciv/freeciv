@@ -1939,9 +1939,9 @@ static void load_terrain_names(struct section_file *file)
 
   sec = secfile_sections_by_name_prefix(file, ROAD_SECTION_PREFIX);
   nval = (NULL != sec ? section_list_size(sec) : 0);
-  if (nval != MAX_ROAD_TYPES) {
-    ruleset_error(LOG_FATAL, "\"%s\": Number of road types not %d, but %d)",
-                  filename, MAX_ROAD_TYPES, nval);
+  if (nval > MAX_ROAD_TYPES) {
+    ruleset_error(LOG_FATAL, "\"%s\": Too many road types (%d, max %d)",
+                  filename, nval, MAX_ROAD_TYPES);
   }
   game.control.num_road_types = nval;
 
@@ -2435,6 +2435,15 @@ static void load_ruleset_terrain(struct section_file *file)
     free(slist);
 
   } road_type_iterate_end;
+
+  if (!compat_road) {
+    ruleset_error(LOG_FATAL, "\"%s\": No road has compat_special \"Road\".",
+                  filename);
+  }
+  if (!compat_rail) {
+    ruleset_error(LOG_FATAL, "\"%s\": No road has compat_special \"Railroad\".",
+                  filename);
+  }
 
   secfile_check_unused(file);
   secfile_destroy(file);
