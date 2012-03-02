@@ -1,1 +1,1 @@
-?package(freeciv-gtk3):needs="x11" section="Games/Strategy" title="Freeciv client (GTK2x version)" command="/usr/games/freeciv-gtk2x"
+?package(freeciv-gtk3):needs="x11" section="Games/Strategy" title="Freeciv client (GTK3 version)" command="/usr/games/freeciv-gtk3"
