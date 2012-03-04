@@ -24,9 +24,12 @@ endif
 libfcmp_la_SOURCES = \
 		download.c	\
 		download.h	\
+		modinst.c	\
 		modinst.h	\
 		mpcmdline.c	\
-		mpcmdline.h
+		mpcmdline.h	\
+		mpdb.c		\
+		mpdb.h
 
 if MODINST_GTK
 freeciv_modpack_SOURCES = mpgui_gtk.c

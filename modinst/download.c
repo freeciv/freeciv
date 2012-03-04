@@ -35,8 +35,6 @@
 /* modinst */
 #include "download.h"
 
-#define FCMP_CONTROLD ".control"
-
 /**************************************************************************
   Return path to control directory
 **************************************************************************/
@@ -89,6 +87,8 @@ const char *download_modpack(const char *URL,
   const char *baseURL;
   enum modpack_type type;
   const char *typestr;
+  const char *mpname;
+  const char *mpver;
   char fileURL[2048];
   const char *src_name;
   bool partial_failure = FALSE;
@@ -148,6 +148,15 @@ const char *download_modpack(const char *URL,
     secfile_destroy(control);
 
     return _("Modpack control file is incompatible");  
+  }
+
+  mpname = secfile_lookup_str(control, "info.name");
+  if (mpname == NULL) {
+    return _("Modpack name not defined in control file");
+  }
+  mpver = secfile_lookup_str(control, "info.version");
+  if (mpver  == NULL) {
+    return _("Modpack version not defined in control file");
   }
 
   typestr = secfile_lookup_str(control, "info.type");
@@ -255,11 +264,15 @@ const char *download_modpack(const char *URL,
     }
   }
 
-  secfile_destroy(control);
-
   if (partial_failure) {
+    secfile_destroy(control);
+
     return _("Some parts of the modpack failed to install.");
   }
+
+  update_install_info_lists(mpname, type, mpver);
+
+  secfile_destroy(control);
 
   return NULL;
 }

@@ -31,6 +31,7 @@
 /* modinst */
 #include "download.h"
 #include "mpcmdline.h"
+#include "mpdb.h"
 
 #include "modinst.h"
 
@@ -59,6 +60,8 @@ static gboolean quit_dialog_callback(void);
 ****************************************************************/
 static void modinst_quit(void)
 {
+  save_install_info_lists();
+
   registry_module_close();
   free_nls();
 
@@ -367,6 +370,8 @@ int main(int argc, char *argv[])
 
   if (ui_options != -1) {
 
+    load_install_info_lists(&fcmp);
+
     /* Process GTK arguments */
     gtk_init(&ui_options, &argv);
 
@@ -396,6 +401,8 @@ int main(int argc, char *argv[])
     gtk_widget_show_all(toplevel);
 
     gtk_main();
+
+    save_install_info_lists();
   }
 
   log_close();

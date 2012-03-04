@@ -29,4 +29,23 @@ struct fcmp_params
 
 #define EXAMPLE_URL DEFAULT_URL_START "ancients.modpack"
 
+#define SPECENUM_NAME modpack_type
+#define SPECENUM_VALUE0 MPT_RULESET
+#define SPECENUM_VALUE0NAME N_("Ruleset")
+#define SPECENUM_VALUE1 MPT_TILESET
+#define SPECENUM_VALUE1NAME N_("Tileset")
+#define SPECENUM_VALUE2 MPT_MODPACK
+#define SPECENUM_VALUE2NAME N_("Modpack")
+#define SPECENUM_VALUE3 MPT_SCENARIO
+#define SPECENUM_VALUE3NAME N_("Scenario")
+#define SPECENUM_VALUE4 MPT_SOUNDSET
+#define SPECENUM_VALUE4NAME N_("Soundset")
+#include "specenum_gen.h"
+
+void load_install_info_lists(struct fcmp_params *fcmp);
+void save_install_info_lists(void);
+void update_install_info_lists(const char *name,
+                               enum modpack_type type,
+                               const char *version);
+
 #endif /* FC__MODINST_H */

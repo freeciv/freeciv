@@ -28,6 +28,7 @@
 // modinst
 #include "download.h"
 #include "mpcmdline.h"
+#include "mpdb.h"
 #include "modinst.h"
 
 #include "mpgui_qt.h"
@@ -55,6 +56,8 @@ int main(int argc, char **argv)
     QMainWindow *main_window;
     QWidget *central;
 
+    load_install_info_lists(&fcmp);
+
     qapp = new QApplication(ui_options, argv);
     main_window = new QMainWindow;
     central = new QWidget;
@@ -73,6 +76,8 @@ int main(int argc, char **argv)
 
     delete gui;
     delete qapp;
+
+    save_install_info_lists();
   }
 
   log_close();
