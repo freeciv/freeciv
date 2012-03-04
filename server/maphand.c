@@ -221,11 +221,9 @@ bool upgrade_city_roads(struct city *pcity)
   bool upgradet = FALSE;
 
   road_type_iterate(proad) {
-    enum tile_special_type spe = road_special(proad);
-
-    if (!tile_has_special(ptile, spe)) {
+    if (!tile_has_road(ptile, proad)) {
       if (player_can_build_road(proad, pplayer, ptile)) {
-        tile_set_special(pcity->tile, spe);
+        tile_add_road(pcity->tile, proad);
         upgradet = TRUE;
       }
     }
