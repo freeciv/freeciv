@@ -21,7 +21,7 @@ then
 else
   PROGRAM_NAME="setup_auth_server.sh"
 fi
-PROGRAM_VERSION="0.7"
+PROGRAM_VERSION="0.8"
 
 #############################################################################
 #
@@ -422,7 +422,7 @@ echo "Now we create the Freeciv tables."
 (echo \
  "CREATE TABLE $TABLE_USER ( \
    id int(11) NOT NULL auto_increment, \
-   name varchar(32) default NULL, \
+   name varchar(48) default NULL, \
    password varchar(32) default NULL, \
    email varchar(128) default NULL, \
    createtime int(11) default NULL, \
@@ -436,7 +436,7 @@ echo "Now we create the Freeciv tables."
  echo \
  "CREATE TABLE $TABLE_LOG ( \
    id int(11) NOT NULL auto_increment, \
-   name varchar(32) default NULL, \
+   name varchar(48) default NULL, \
    logintime int(11) default NULL, \
    address varchar(255) default NULL, \
    succeed enum('S','F') default 'S', \
