@@ -1286,6 +1286,47 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
 }
 
 /****************************************************************************
+  Return text about disbanding these units.
+
+  Returns TRUE iff any units can be disbanded.
+****************************************************************************/
+bool get_units_disband_info(char *buf, size_t bufsz,
+			    struct unit_list *punits)
+{
+  if (unit_list_size(punits) == 0) {
+    fc_snprintf(buf, bufsz, _("No units to disband!"));
+    return FALSE;
+  } else if (unit_list_size(punits) == 1) {
+    if (unit_has_type_flag(unit_list_front(punits), F_UNDISBANDABLE)) {
+      fc_snprintf(buf, bufsz, _("%s refuses to disband!"),
+                  unit_name_translation(unit_list_front(punits)));
+      return FALSE;
+    } else {
+      /* TRANS: %s is a unit type */
+      fc_snprintf(buf, bufsz, _("Disband %s?"),
+                  unit_name_translation(unit_list_front(punits)));
+      return TRUE;
+    }
+  } else {
+    int count = 0;
+    unit_list_iterate(punits, punit) {
+      if (!unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+        count++;
+      }
+    } unit_list_iterate_end;
+    if (count == 0) {
+      fc_snprintf(buf, bufsz, _("None of these units may be disbanded."));
+      return FALSE;
+    } else {
+      /* TRANS: %d is never 0 or 1 */
+      fc_snprintf(buf, bufsz, PL_("Disband %d unit?",
+                                  "Disband %d units?", count), count);
+      return TRUE;
+    }
+  }
+}
+
+/****************************************************************************
   Get a tooltip text for the info panel research indicator.  See
   client_research_sprite().
 ****************************************************************************/

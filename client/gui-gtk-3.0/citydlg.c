@@ -2203,6 +2203,10 @@ static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
+    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
+
     gtk_widget_show_all(menu);
 
     gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
@@ -2299,6 +2303,10 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       G_CALLBACK(unit_disband_callback),
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+    if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
+      gtk_widget_set_sensitive(item, FALSE);
+    }
 
     item = gtk_menu_item_new_with_mnemonic(_("Set _Home City"));
     g_signal_connect(item, "activate",
@@ -2514,12 +2522,18 @@ static void unit_fortify_callback(GtkWidget * w, gpointer data)
 *****************************************************************/
 static void unit_disband_callback(GtkWidget * w, gpointer data)
 {
+  struct unit_list *punits;
   struct unit *punit =
     player_unit_by_number(client_player(), (size_t)data);
 
-  if (NULL != punit) {
-    request_unit_disband(punit);
+  if (NULL == punit) {
+    return;
   }
+
+  punits = unit_list_new();
+  unit_list_append(punits, punit);
+  popup_disband_dialog(punits);
+  unit_list_destroy(punits);
 }
 
 /****************************************************************

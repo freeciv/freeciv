@@ -396,6 +396,10 @@ unitupgrade_text = {"r", "g", "b", "a"
  75, 66, 47, 255
 }
 
+unitdisband_text = {"r", "g", "b", "a"
+ 75, 66, 47, 255
+}
+
 userpasswddlg_frame = {"r", "g", "b", "a"
   160, 150, 126, 255
 }

@@ -219,7 +219,6 @@ void key_unit_build_wonder(void);
 void key_unit_connect(enum unit_activity activity,
                       struct act_tgt *tgt);
 void key_unit_diplomat_actions(void);
-void key_unit_disband(void);
 void key_unit_convert(void);
 void key_unit_done(void);
 void key_unit_fallout(void);
