@@ -84,7 +84,7 @@ end
 --
 -- CREATE TABLE fcdb_log (
 --   id int(11) NOT NULL auto_increment,
---   name varchar(32) default NULL,
+--   name varchar(48) default NULL,
 --   logintime int(11) default NULL,
 --   address varchar(255) default NULL,
 --   succeed enum('S','F') default 'S',
