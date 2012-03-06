@@ -5396,7 +5396,7 @@ static bool fcdb_command(struct connection *caller, char *arg, bool check)
     /* Skip the base argument 'lua'. */
     arg += 3;
     /* Now execute the scriptlet. */
-    ret = script_fcdb_do_string(arg);
+    ret = script_fcdb_do_string(caller, arg);
     break;
   }
 
