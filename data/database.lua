@@ -1,3 +1,17 @@
+-- Freeciv - Copyright (C) 2011 - The Freeciv Project
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+
+-- This file is the Freeciv server's interface to the database backend
+-- when authentication is enabled. See doc/README.fcdb.
+
 -- **************************************************************************
 -- basic mysql functions
 -- **************************************************************************
@@ -51,7 +65,8 @@ end
 
 
 -- **************************************************************************
--- The freeciv database tables can be created with the following:
+-- The freeciv database tables can be created with the following
+-- (scripts/setup_auth_server.sh automates this):
 --
 -- CREATE TABLE fcdb_auth (
 --   id int(11) NOT NULL auto_increment,
@@ -134,7 +149,7 @@ function user_load(conn)
   return fcdb.status.TRUE
 end
 
--- save an user to the database
+-- save a user to the database
 function user_save(conn)
   local status  -- return value (status of the request)
   local res     -- result handle

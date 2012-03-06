@@ -1,58 +1,76 @@
 ===========================================================================
- Freeciv Database (fcdb)
+ Authentication and Freeciv database support (fcdb)
 ===========================================================================
 
-Freeciv allows the authentication of users against a database backend. To
-support different databases, this module is written in lua using luasql. The
-supported backends are: mysql, postgres and sqlite3.
+The Freeciv server allows the authentication of users, although by default
+it is not enabled and anyone can connect with any name.
 
-To use the Freeciv database, the server has to be configured with the option
-'--enable-fcdb=all'. After that, the database backend is activated with the
-command line option '--Database FILE', where FILE is a lua script containing
-the needed functions (included for mysql: ./data/database.lua). Authentication
-requires additionally the option '--auth'.
+In order to support authentication, the Freeciv server needs access to a
+database backend in which to store the credentials. To support different
+database backends, the database access code is written in Lua using luasql.
+In principle, luasql supports MySQL, Postgres and SQLite3 backends, and the
+Freeciv server can be built with any or all of these; however, the supplied
+scripts currently only support the MySQL backend.
 
 ================================
- Table layout
+ Basic usage
 ================================
 
-The default table layout is listed below. If it is changed, the function in
-the lua file have to be adapted.
+To use the Freeciv database and authentication, the server has to be built
+with the '--enable-fcdb' and '--enable-auth' options to 'configure'.
 
-CREATE TABLE fcdb_auth (
-  id int(11) NOT NULL auto_increment,
-  name varchar(48) default NULL,
-  password varchar(32) default NULL,
-  email varchar(128) default NULL,
-  createtime int(11) default NULL,
-  accesstime int(11) default NULL,
-  address varchar(255) default NULL,
-  createaddress varchar(255) default NULL,
-  logincount int(11) default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY name (name)
-) TYPE=MyISAM;
+The supplied scripts/setup_auth_server.sh can be used to create database
+tables in an existing MySQL database, and a suitable config file describing
+that database, which can be passed to the server's '--Database' option.
 
-CREATE TABLE fcdb_log (
-  id int(11) NOT NULL auto_increment,
-  name varchar(32) default NULL,
-  logintime int(11) default NULL,
-  address varchar(255) default NULL,
-  succeed enum('S','F') default 'S',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+Before running this script, you will need to have a MySQL database server
+running, with a user account for the Freeciv server and a database to
+contain the data (ideally empty). (The space required for a Freeciv user
+database is very small.)
+
+Having created the tables and config file, the following arguments to the
+server are relevant:
+  --Database <conffile>
+      Specifies a configuration file describing how to connect to the
+      database. Without this, all authentication will fail.
+  --auth
+      Enable authentication. Without this, anyone will be able to connect
+      without authentication, and --Database has no effect.
+  --Guests
+      Allow guests. These are usernames with names starting "guest". If
+      enabled, any number of guests may connect without accounts in the
+      database; if a guest name is already in use by a connection, a new
+      guest name is generated.
+      Once connected, guests have the same privileges as any other account.
+      If this option is not specified, accounts are required to connect,
+      and guest account names are forbidden.
+  --Newusers
+      Allow Freeciv clients to create new user accounts through the Freeciv
+      protocol.
+      Without this, only accounts which already exist in the database can
+      connect (which might be desirable if you wants users to register via
+      a web front end, for instance).
 
 ================================
  Lua script database.lua
 ================================
 
-Freeciv expects the following lua functions to exists in the lua file:
+This script (which lives by default in data/database.lua) is responsible
+for checking usernames, fetching passwords, and saving new users (if
+--Newusers is enabled). It encapsulates access to the database backend, and
+hence the details of the table layout.
 
-  -- load user data
+The supplied version supports basic authentication against a MySQL
+database; if that's sufficient for you, it's not necessary to read on.
+
+Freeciv expects the following lua functions to be defined in database.lua:
+
+  -- try to load data for an existing user
+  -- return TRUE if user exists, FALSE otherwise
   function user_load(conn)
-  -- save an user to the database
+  -- save a new user to the database
   function user_save(conn)
-  -- log the session
+  -- log the connection attempt (success is boolean)
   function user_log(conn, success)
 
   -- test and initialise the database connection
@@ -60,35 +78,50 @@ Freeciv expects the following lua functions to exists in the lua file:
   -- free the database connection
   function database_free()
 
-Where 'conn' is a connection to the client which request access.
+Where 'conn' is on object representing the connection to the client which
+requests access.
 
-The following lua functions are provided by freeciv:
-
-  const char *auth.get_username(Connection *pconn)
-  const char *auth.get_ipaddr(Connection *pconn)
-  bool auth.set_password(Connection *pconn, const char *password)
-  const char *auth.get_password(Connection *pconn)
-
-  const char *fcdb.option(int type)
-
-With type one of
-
-  fcdb.param.HOST
-  fcdb.param.USER
-  fcdb.param.PORT
-  fcdb.param.PASSWORD
-  fcdb.param.DATABASE
-  fcdb.param.TABLE_USER
-  fcdb.param.TABLE_LOG
-
-The return status of the lua functions user_load(), user_save() and user_log()
-should be one of
+The return status of all of these functions should be one of
 
   fcdb.status.ERROR
   fcdb.status.TRUE
   fcdb.status.FALSE
 
 indicating an error, a positive or a negative result.
+
+The following lua functions are provided by Freeciv:
+
+  -- return the client-specified username
+  auth.get_username(conn)
+  -- return the client IP address (string)
+  auth.get_ipaddr(conn)
+  -- tell the server (the MD5 hash of) the correct password to check against
+  -- for this connection (usually to be called by user_load())
+  -- returns whether this succeeded
+  auth.set_password(conn, password)
+  -- return (the MD5 hash of) the password for this connection (as specified
+  -- by the client in user_save(), or as previously set by set_password()).
+  auth.get_password(conn)
+
+  -- return a value from the --Database configuration file
+  fcdb.option(type)
+
+'type' selects one of the entries in the configuration file. An example
+configuration file is shown on the right:
+
+                                [fcdb]
+  fcdb.param.HOST               host="localhost"
+  fcdb.param.USER               user="Freeciv"
+  fcdb.param.PORT               port="3306"
+  fcdb.param.PASSWORD           password="s3krit"
+  fcdb.param.DATABASE           database="Freeciv"
+  fcdb.param.TABLE_USER         table_user="auth"
+  fcdb.param.TABLE_LOG          table_log="loginlog"
+
+Freeciv also provides some of the same Lua functions that ruleset scripts
+get -- log.*(), _(), etc -- but the script is executing in a separate
+context from ruleset scripts, and does not have access to signals, game
+data, etc.
 
 ================================
  TODO
