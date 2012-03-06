@@ -206,9 +206,6 @@ bool script_fcdb_init(const char *fcdb_luafile)
     return FALSE;
   }
 
-  /* Set the logging output function. */
-  fcl->output_fct = script_fcdb_cmd_reply;
-
   tolua_common_a_open(fcl->state);
   tolua_fcdb_open(fcl->state);
 #ifdef HAVE_FCDB_MYSQL
@@ -295,12 +292,26 @@ void script_fcdb_free(void)
   Parse and execute the script in str in the lua instance for the freeciv
   database.
 *****************************************************************************/
-bool script_fcdb_do_string(const char *str)
+bool script_fcdb_do_string(struct connection *caller, const char *str)
 {
 #ifdef HAVE_FCDB
   int status;
+  struct connection *save_caller;
+  luascript_log_func_t save_output_fct;
+
+  /* Set a log callback function which allows to send the results of the
+   * command to the clients. */
+  save_caller = fcl->caller;
+  save_output_fct = fcl->output_fct;
+  fcl->output_fct = script_fcdb_cmd_reply;
+  fcl->caller = caller;
 
   status = luascript_do_string(fcl, str, "cmd");
+
+  /* Reset the changes. */
+  fcl->caller = save_caller;
+  fcl->output_fct = save_output_fct;
+
   return (status == 0);
 #else
   return TRUE;
