@@ -2513,6 +2513,25 @@ Freeciv*upgradenodialog.*.button0.label:     _("Darn")
 Freeciv*upgradenodialog.*.button0.fromVert:  dlabel
 
 !
+! disband unit dialog
+!
+Freeciv*disbanddialog.title: _("Disband Units")
+Freeciv*disbanddialog.*.dlabel.borderWidth:  0
+Freeciv*disbanddialog.*.button0.label:     _("Yes")
+Freeciv*disbanddialog.*.button0.fromVert:  dlabel
+Freeciv*disbanddialog.*.button1.label:     _("No")
+Freeciv*disbanddialog.*.button1.fromVert:  dlabel
+Freeciv*disbanddialog.*.button1.fromHoriz: button0
+
+!
+! failed disband unit dialog
+!
+Freeciv*disbandnodialog.title: _("Disband Units")
+Freeciv*disbandnodialog.*.dlabel.borderWidth:  0
+Freeciv*disbandnodialog.*.button0.label:     _("Darn")
+Freeciv*disbandnodialog.*.button0.fromVert:  dlabel
+
+!
 ! government dialog
 !
 Freeciv*governmentdialog.title:			_("Your New Government")
