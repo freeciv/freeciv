@@ -336,17 +336,9 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct unit *pUnit = pButton->data.unit;
-  
-    free_city_units_lists();
-    popdown_city_menu_dlg(TRUE);
-  
-    /* ugly hack becouse this free unit widget list*/
-    /* FIX ME: add remove from list support */
-    pCityDlg->page = INFO_PAGE;
-  
-    if(pUnit) {
-      request_unit_disband(pUnit);
-    }
+
+    popdown_city_menu_dlg(TRUE);    
+    popup_unit_disband_dlg(pUnit, TRUE);
   }
   return -1;
 }

@@ -35,6 +35,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *pTile);
 void put_window_near_map_tile(struct widget *pWindow,
   		int window_width, int window_height, struct tile *ptile);
 void popup_unit_upgrade_dlg(struct unit *pUnit, bool city);
+void popup_unit_disband_dlg(struct unit *pUnit, bool city);
 void popup_revolution_dialog(void);
 void popdown_notify_goto_dialog(void);
 

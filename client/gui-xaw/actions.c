@@ -452,7 +452,7 @@ static void xaw_key_unit_convert(Widget w, XEvent *event, String *argv, Cardinal
 static void xaw_key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_DISBAND))
-    key_unit_disband();
+    popup_disband_dialog(get_units_in_focus());
 }
 
 static void xaw_key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *argc)

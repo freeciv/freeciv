@@ -183,6 +183,7 @@ static void unitupgrade_callback_yes(Widget w, XtPointer client_data,
 static void unitupgrade_callback_no(Widget w, XtPointer client_data,
 				    XtPointer call_data);
 static void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data);
+static void disband_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 static void present_units_callback(Widget w, XtPointer client_data, 
 				   XtPointer call_data);
@@ -1316,23 +1317,6 @@ static void present_units_fortify_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void present_units_disband_callback(Widget w, XtPointer client_data, 
-					   XtPointer call_data)
-{
-  struct unit *punit =
-    player_unit_by_number(client_player(), (size_t) client_data);
-
-  if (NULL != punit) {
-    request_unit_disband(punit);
-  }
-
-  destroy_message_dialog(w);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
 static void present_units_homecity_callback(Widget w, XtPointer client_data, 
 					    XtPointer call_data)
 {
@@ -1394,7 +1378,7 @@ void present_units_callback(Widget w, XtPointer client_data,
 			    present_units_activate_close_callback, punit->id, 1,
 			    present_units_sentry_callback, punit->id, 1,
 			    present_units_fortify_callback, punit->id, 1,
-			    present_units_disband_callback, punit->id, 1,
+			    disband_callback, punit->id, 1,
 			    present_units_homecity_callback, punit->id, 1,
 			    upgrade_callback, punit->id, 1,
 			    present_units_cancel_callback, 0, 0, 
@@ -1668,7 +1652,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
 			     supported_units_activate_callback, punit->id, 1,
 			     supported_units_activate_close_callback,
 			                                     punit->id, 1,
-			     present_units_disband_callback, punit->id, 1,
+			     disband_callback, punit->id, 1,
 			     present_units_cancel_callback, 0, 0,
 			     NULL);
         if (unit_has_type_flag(punit, F_UNDISBANDABLE)) {
@@ -2042,6 +2026,27 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 			 NULL);
   }
 
+  destroy_message_dialog(w);
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+void disband_callback(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  struct unit *punit = player_unit_by_number(client_player(),
+                                             (size_t) client_data);
+  struct unit_list *punits;
+
+  if (!punit) {
+    return;
+  }
+
+  punits = unit_list_new();
+  unit_list_append(punits, punit);
+  popup_disband_dialog(punits);
+  unit_list_destroy(punits);
   destroy_message_dialog(w);
 }
 

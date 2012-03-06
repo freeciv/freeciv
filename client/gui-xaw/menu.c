@@ -794,7 +794,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     key_unit_convert();
     break;
   case MENU_ORDER_DISBAND:
-    key_unit_disband();
+    popup_disband_dialog(get_units_in_focus());
     break;
   case MENU_ORDER_BUILD_WONDER:
     key_unit_build_wonder();

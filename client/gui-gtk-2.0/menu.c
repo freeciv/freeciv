@@ -974,7 +974,7 @@ static void unit_convert_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void unit_disband_callback(GtkAction *action, gpointer data)
 {
-  key_unit_disband();
+  popup_disband_dialog(get_units_in_focus());
 }
 
 /****************************************************************

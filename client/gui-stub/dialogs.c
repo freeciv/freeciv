@@ -160,6 +160,14 @@ void popup_pillage_dialog(struct unit *punit, bv_special may_pillage,
   /* PORTME */
 }
 
+/****************************************************************************
+  Pops up a dialog to confirm disband of the unit(s).
+****************************************************************************/
+void popup_disband_dialog(struct unit_list *punits)
+{
+  /* PORTME */
+}
+
 /**************************************************************************
   Ruleset (modpack) has suggested loading certain tileset. Confirm from
   user and load.

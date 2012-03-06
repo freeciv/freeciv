@@ -139,6 +139,7 @@ static char *color_names[] = {
   "unitsrep_frame",
   "unitsrep_text",
   "unitupgrade_text",
+  "unitdisband_text",
   "userpasswddlg_frame",  
   "userpasswddlg_text",
   "wardlg_text",

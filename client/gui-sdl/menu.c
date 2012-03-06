@@ -197,7 +197,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       key_unit_convert();
       break;
     case ID_UNIT_ORDER_DISBAND:
-      key_unit_disband();
+      popup_unit_disband_dlg(pUnit, FALSE);
       break;
     case ID_UNIT_ORDER_DIPLOMAT_DLG:
       key_unit_diplomat_actions();

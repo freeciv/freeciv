@@ -2712,16 +2712,6 @@ void key_unit_auto_settle(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void key_unit_disband(void)
-{
-  unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_disband(punit);
-  } unit_list_iterate_end;
-}
-
-/**************************************************************************
   Unit convert key pressed or respective menu entry selected.
 **************************************************************************/
 void key_unit_convert(void)

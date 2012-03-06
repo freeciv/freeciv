@@ -94,6 +94,7 @@ static void popdown_pillage_dialog(void);
 static void popdown_connect_dialog(void);
 static void popdown_revolution_dialog(void);
 static void popdown_unit_upgrade_dlg(void);
+static void popdown_unit_disband_dlg(void);
 
 /********************************************************************** 
   ...
@@ -168,6 +169,7 @@ void popdown_all_game_dialogs(void)
   popdown_players_dialog();
   popdown_goto_airlift_dialog();
   popdown_unit_upgrade_dlg();
+  popdown_unit_disband_dlg();
   popdown_help_dialog();
   popdown_notify_goto_dialog();
 
@@ -602,7 +604,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 }
 
 /* =======================================================================*/
-/* ======================== UNIT UPGRADE DIALOG ========================*/
+/* ========================= UNIT UPGRADE DIALOG =========================*/
 /* =======================================================================*/
 static struct SMALL_DLG *pUnit_Upgrade_Dlg = NULL;
 
@@ -756,7 +758,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
 
   if (UU_OK == unit_upgrade_result) {
-    /* sell button */
+    /* upgrade button */
     pBuf = pBuf->prev;
     pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(10))) / 2;
     pBuf->size.y = pBuf->next->size.y;
@@ -787,6 +789,200 @@ static void popdown_unit_upgrade_dlg(void)
     popdown_window_group_dialog(pUnit_Upgrade_Dlg->pBeginWidgetList,
 			      pUnit_Upgrade_Dlg->pEndWidgetList);
     FC_FREE(pUnit_Upgrade_Dlg);
+  }
+}
+
+/* =======================================================================*/
+/* ========================= UNIT DISBAND DIALOG =========================*/
+/* =======================================================================*/
+static struct SMALL_DLG *pUnit_Disband_Dlg = NULL;
+
+/****************************************************************
+...
+*****************************************************************/
+static int disband_unit_window_callback(struct widget *pWindow)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pUnit_Disband_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int cancel_disband_unit_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_unit_disband_dlg();
+    /* enable city dlg */
+    enable_city_dlg_widgets();
+    flush_dirty();
+  }
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static int ok_disband_unit_window_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pWidget->data.unit;
+    popdown_unit_disband_dlg();
+    /* enable city dlg */
+    enable_city_dlg_widgets();
+    free_city_units_lists();
+    request_unit_disband(pUnit);
+    flush_dirty();
+  }
+  return -1;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void popup_unit_disband_dlg(struct unit *pUnit, bool city)
+{
+  char cBuf[128];
+  struct widget *pBuf = NULL, *pWindow;
+  SDL_String16 *pStr;
+  SDL_Surface *pText;
+  SDL_Rect dst;
+  int window_x = 0, window_y = 0;
+  bool unit_disband_result;
+  SDL_Rect area;
+  
+  if (pUnit_Disband_Dlg) {
+    /* just in case */
+    flush_dirty();
+    return;
+  }
+
+  pUnit_Disband_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+
+  {
+    struct unit_list *pUnits = unit_list_new();
+    unit_list_append(pUnits, pUnit);
+    unit_disband_result = get_units_disband_info(cBuf, sizeof(cBuf), pUnits);
+    unit_list_destroy(pUnits);
+  }
+
+  pStr = create_str16_from_char(_("Disband Units"), adj_font(12));
+  pStr->style |= TTF_STYLE_BOLD;
+
+  pWindow = create_window_skeleton(NULL, pStr, 0);
+
+  pWindow->action = disband_unit_window_callback;
+  set_wstate(pWindow, FC_WS_NORMAL);
+
+  pUnit_Disband_Dlg->pEndWidgetList = pWindow;
+
+  add_to_gui_list(ID_WINDOW, pWindow);
+
+  area = pWindow->area;
+  
+  /* ============================================================= */
+  
+  /* create text label */
+  pStr = create_str16_from_char(cBuf, adj_font(10));
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITDISBAND_TEXT);
+  
+  pText = create_text_surf_from_str16(pStr);
+  FREESTRING16(pStr);
+  
+  area.w = MAX(area.w, pText->w + adj_size(20));
+  area.h += (pText->h + adj_size(10));
+  
+  /* cancel button */
+  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+			    pWindow->dst, _("Cancel"), adj_font(12), 0);
+
+  pBuf->action = cancel_disband_unit_callback;
+  set_wstate(pBuf, FC_WS_NORMAL);
+
+  area.h += (pBuf->size.h + adj_size(20));
+  
+  add_to_gui_list(ID_BUTTON, pBuf);
+
+  if (unit_disband_result) {
+    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+					      _("Disband"), adj_font(12), 0);
+        
+    pBuf->action = ok_disband_unit_window_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->data.unit = pUnit;    
+    add_to_gui_list(ID_BUTTON, pBuf);
+    pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
+    pBuf->next->size.w = pBuf->size.w;
+    area.w = MAX(area.w, adj_size(30) + pBuf->size.w * 2);
+  } else {
+    area.w = MAX(area.w, pBuf->size.w + adj_size(20));
+  }
+  /* ============================================ */
+  
+  pUnit_Disband_Dlg->pBeginWidgetList = pBuf;
+  
+  resize_window(pWindow, NULL, get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                (pWindow->size.w - pWindow->area.w) + area.w,
+                (pWindow->size.h - pWindow->area.h) + area.h);
+  
+  area = pWindow->area;
+  
+  if(city) {
+    window_x = Main.event.motion.x;
+    window_y = Main.event.motion.y;
+  } else {
+    put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h,
+                             pUnit->tile);
+  }
+  
+  widget_set_position(pWindow, window_x, window_y);
+  
+  /* setup rest of widgets */
+  /* label */
+  dst.x = area.x + (area.w - pText->w) / 2;
+  dst.y = area.y + adj_size(10);
+  alphablit(pText, NULL, pWindow->theme, &dst);
+  FREESURFACE(pText);
+   
+  /* cancel button */
+  pBuf = pWindow->prev;
+  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
+
+  if (unit_disband_result) {
+    /* disband button */
+    pBuf = pBuf->prev;
+    pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(10))) / 2;
+    pBuf->size.y = pBuf->next->size.y;
+    
+    /* cancel button */
+    pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
+  } else {
+    /* x position of cancel button */
+    pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(10);
+  }
+  
+  
+  /* ================================================== */
+  /* redraw */
+  redraw_group(pUnit_Disband_Dlg->pBeginWidgetList, pWindow, 0);
+    
+  widget_mark_dirty(pWindow);
+  flush_dirty();
+  
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void popdown_unit_disband_dlg(void)
+{
+  if (pUnit_Disband_Dlg) {
+    popdown_window_group_dialog(pUnit_Disband_Dlg->pBeginWidgetList,
+			      pUnit_Disband_Dlg->pEndWidgetList);
+    FC_FREE(pUnit_Disband_Dlg);
   }
 }
 
