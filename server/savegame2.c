@@ -365,7 +365,7 @@ struct savedata {
 #define log_worker      log_verbose
 
 static const char savefile_options_default[] =
-  " +version2";
+  " +version2 knownv2";
 /* The following savefile option are added if needed:
  *  - specials
  *  - riversoverlay
@@ -2695,6 +2695,22 @@ static void sg_save_map_worked(struct savedata *saving)
 ****************************************************************************/
 static void sg_load_map_known(struct loaddata *loading)
 {
+  char *kver = NULL;
+  int bit_magic;
+
+  if (has_capability("knownv2", loading->secfile_options)) {
+    kver = "kvb";
+    bit_magic = 32;
+  } else {
+    /* Backward compatibility with old 2.3.x savegames.
+     * This causes bit-shifts of >=32 (undefined behaviour), but on
+     * common platforms, information happens not to be lost, just
+     * oddly arranged.
+     * See gna bug #19029. */
+    kver = "k";
+    bit_magic = 8;
+  }
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -2706,21 +2722,24 @@ static void sg_load_map_known(struct loaddata *loading)
 
   if (secfile_lookup_bool_default(loading->file, TRUE,
                                   "game.save_known")) {
-    int lines = player_slot_max_used_number()/32 + 1, j, p, l;
-    int *known = fc_calloc(lines * MAP_INDEX_SIZE, sizeof(*known));
+    int lines = player_slot_max_used_number()/32 + 1, j, p, l, i;
+    unsigned int *known = fc_calloc(lines * MAP_INDEX_SIZE, sizeof(*known));
 
     for (l = 0; l < lines; l++) {
       for (j = 0; j < 8; j++) {
-        if (j == 0) {
-          LOAD_MAP_CHAR(ch, ptile,
-                        known[l * MAP_INDEX_SIZE + tile_index(ptile)]
-                          = ascii_hex2bin(ch, j),
-                        loading->file, "map.k%02d_%04d", l * 8 + j);
-        } else {
-          LOAD_MAP_CHAR(ch, ptile,
-                        known[l * MAP_INDEX_SIZE + tile_index(ptile)]
-                          |= ascii_hex2bin(ch, j),
-                        loading->file, "map.k%02d_%04d", l * 8 + j);
+        for (i = 0; i < 4; i++) {
+          /* Only bother trying to load the map for this halfbyte if at least
+           * one of the corresponding player slots is in use.
+           * (Unless we're in backward compatibility mode, in which case
+           * the mapping of slots to bits is wacky and unpredictable.) */
+          if (bit_magic == 8
+              || player_slot_is_used(player_slot_by_number(l*32 + j*4 + i))) {
+            LOAD_MAP_CHAR(ch, ptile,
+                          known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+                            |= ascii_hex2bin(ch, j),
+                          loading->file, "map.%s%02d_%04d", kver, l * 8 + j);
+            break;
+          }
         }
       }
     }
@@ -2729,7 +2748,7 @@ static void sg_load_map_known(struct loaddata *loading)
       dbv_clr_all(&pplayer->tile_known);
     } players_iterate_end;
 
-    /* HACK: we read the known data from hex into a 32-bit integers, and
+    /* HACK: we read the known data from hex into 32-bit integers, and
      * now we convert it to the known tile data of each player. */
     whole_map_iterate(ptile) {
       players_iterate(pplayer) {
@@ -2737,7 +2756,7 @@ static void sg_load_map_known(struct loaddata *loading)
         l = player_index(pplayer) / 32;
 
         if (known[l * MAP_INDEX_SIZE + tile_index(ptile)]
-            & (1u << (p - l * 8))) {
+            & (1u << (p - l * bit_magic))) {
           map_set_known(ptile, pplayer);
         }
       } players_iterate_end;
@@ -2764,8 +2783,11 @@ static void sg_save_map_known(struct savedata *saving)
     secfile_insert_bool(saving->file, game.server.save_options.save_known,
                         "game.save_known");
     if (game.server.save_options.save_known) {
-      int j, p, l;
-      int *known = fc_calloc(lines * MAP_INDEX_SIZE, sizeof(*known));
+      int j, p, l, i;
+      unsigned int *known_old = fc_calloc(lines * MAP_INDEX_SIZE,
+                                          sizeof(*known_old));
+      unsigned int *known = fc_calloc(lines * MAP_INDEX_SIZE,
+                                      sizeof(*known));
 
       /* HACK: we convert the data into a 32-bit integer, and then save it as
        * hex. */
@@ -2775,22 +2797,48 @@ static void sg_save_map_known(struct savedata *saving)
           if (map_is_known(ptile, pplayer)) {
             p = player_index(pplayer);
             l = p / 32;
-            known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+            /* Backward compatibility: this calculation deliberately shifts
+             * too far left (invoking undefined behaviour) so that old
+             * (2.3.0/2.3.1) servers stand a chance of loading new savegames
+             * (since in practice the undefined behaviour doesn't seem to lose
+             * information on common platforms). See gna bug #19029. */
+            known_old[l * MAP_INDEX_SIZE + tile_index(ptile)]
               |= (1u << (p - l * 8));
+            /* Sensible version for newer servers */
+            known[l * MAP_INDEX_SIZE + tile_index(ptile)]
+              |= (1u << (p % 32)); /* "p % 32" = "p - l * 32" */ 
           }
         } players_iterate_end;
       } whole_map_iterate_end;
 
       for (l = 0; l < lines; l++) {
         for (j = 0; j < 8; j++) {
+          /* Backward compatibility: save all halfbytes (even if none of the
+           * player slots are used) */
           /* put 4-bit segments of the 32-bit "known" field */
-          SAVE_MAP_CHAR(ptile, bin2ascii_hex(known[l * MAP_INDEX_SIZE
+          SAVE_MAP_CHAR(ptile, bin2ascii_hex(known_old[l * MAP_INDEX_SIZE
                                                    + tile_index(ptile)], j),
                         saving->file, "map.k%02d_%04d", l * 8 + j);
         }
       }
+      for (l = 0; l < lines; l++) {
+        for (j = 0; j < 8; j++) {
+          for (i = 0; i < 4; i++) {
+            /* Only bother saving the map for this halfbyte if at least one
+             * of the corresponding player slots is in use */
+            if (player_slot_is_used(player_slot_by_number(l*32 + j*4 + i))) {
+              /* put 4-bit segments of the 32-bit "known" field */
+              SAVE_MAP_CHAR(ptile, bin2ascii_hex(known[l * MAP_INDEX_SIZE
+                                                       + tile_index(ptile)], j),
+                            saving->file, "map.kvb%02d_%04d", l * 8 + j);
+              break;
+            }
+          }
+        }
+      }
 
       FC_FREE(known);
+      FC_FREE(known_old);
     }
   }
 }
