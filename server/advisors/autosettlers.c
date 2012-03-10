@@ -567,6 +567,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
     if (displaced) {
       struct tile *goto_tile = punit->goto_tile;
       int saved_id = punit->id;
+      struct tile *old_pos = unit_tile(punit);
 
       displaced->goto_tile = NULL;
       auto_settler_findwork(pplayer, displaced, state, recursion + 1);
@@ -576,13 +577,18 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
          */
         return;
       }
-      if (goto_tile != punit->goto_tile) {
+      if (goto_tile != punit->goto_tile || old_pos != unit_tile(punit)) {
         /* Actions of the displaced settler somehow caused this settler
-         * to get a new job. (A displaced B, B displaced C, C displaced A)
+         * to get a new job, or to already move toward current job.
+         * (A displaced B, B displaced C, C displaced A)
          */
-        UNIT_LOG(LOG_DEBUG, punit, "%d has changed goals from (%d, %d) "
-                 "to (%d, %d) due to recursion",
-                 punit->id, TILE_XY(goto_tile), TILE_XY(punit->goto_tile));
+        UNIT_LOG(LOG_DEBUG, punit,
+                 "%d itself acted due to displacement recursion. "
+                 "Was going from (%d, %d) to (%d, %d). "
+                 "Now heading from (%d, %d) to (%d, %d).",
+                 punit->id,
+                 TILE_XY(old_pos), TILE_XY(goto_tile),
+                 TILE_XY(unit_tile(punit)), TILE_XY(punit->goto_tile));
         return;
       }
     }
