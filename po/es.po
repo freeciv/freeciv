@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-08 00:38+0100\n"
-"PO-Revision-Date: 2012-03-08 18:40+0100\n"
+"PO-Revision-Date: 2012-03-11 17:56+0000\n"
 "Last-Translator: Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -17140,7 +17140,7 @@ msgstr "_Minas"
 
 #: client/gui-gtk-2.0/menu.c:1408
 msgid "_Bases"
-msgstr "Bases"
+msgstr "_Bases"
 
 #: client/gui-gtk-2.0/menu.c:1411
 msgid "_Specials"
