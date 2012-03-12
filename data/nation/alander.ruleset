@@ -2,7 +2,7 @@
 
 ; /* TRANS: The first letter in "Aland" should be */
 ; /* TRANS: U+00C5 LATIN CAPITAL A WITH RING if available in */
-; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 197. *
+; /* TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 197. */
 name=_("Alander")
 plural=_("?plural:Alanders")
 groups="European"
