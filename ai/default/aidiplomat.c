@@ -605,6 +605,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   /* Generate map */
   pft_fill_unit_parameter(&parameter, punit);
   parameter.get_zoc = NULL; /* kludge */
+  parameter.get_TB = no_intermediate_fights;
   pfm = pf_map_new(&parameter);
 
   pcity = tile_city(unit_tile(punit));
@@ -673,6 +674,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     pf_map_destroy(pfm);
     pft_fill_unit_parameter(&parameter, punit);
     parameter.get_zoc = NULL; /* kludge */
+    parameter.get_TB = no_intermediate_fights;
     pfm = pf_map_new(&parameter);
   }
 
