@@ -1585,7 +1585,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-  Build city units. Several units can be build in one turn if the effect
+  Build city units. Several units can be built in one turn if the effect
   City_Build_Slots is used.
 **************************************************************************/
 static bool city_build_unit(struct player *pplayer, struct city *pcity)
@@ -1596,10 +1596,17 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
   fc_assert_ret_val(pcity->production.kind == VUT_UTYPE, FALSE);
 
+  /* If the city has already bought a unit which is now obsolete, don't try
+   * to upgrade the production. The new unit might require more shields, which
+   * would be bad if it was bought to urgently defend a city. (Equally it
+   * might be the same cost or cheaper, but tough; you hurried the unit so
+   * you miss out on technological advances.) */
+  if (city_can_change_build(pcity)) {
+    upgrade_unit_prod(pcity);
+  }
+
   utype = pcity->production.value.utype;
   unit_shield_cost = utype_build_shield_cost(utype);
-
-  upgrade_unit_prod(pcity);
 
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
@@ -1650,6 +1657,9 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     /* check if we can build more than one unit (effect City_Build_Slots) */
     (void) city_production_build_units(pcity, FALSE, &num_units);
+
+    /* We should be able to build at least one (by checks above) */
+    fc_assert(num_units >= 1);
 
     for (i = 0; i < num_units; i++) {
       punit = create_unit(pplayer, pcity->tile, utype,
