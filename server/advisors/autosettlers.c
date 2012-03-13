@@ -70,10 +70,6 @@
  * goodness of building worker units. */
 #define WORKER_FACTOR 1024
 
-/* if an enemy unit gets within this many turns of a worker, the worker
- * flees */
-#define WORKER_FEAR_FACTOR 2
-
 struct settlermap {
 
   int enroute; /* unit ID of settler en route to this tile */
