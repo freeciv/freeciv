@@ -73,6 +73,9 @@
  * previously used one. This is important for diplomacy. - Per */
 #define DIPLO_DEFENSE_WANT 3000
 
+static bool is_city_surrounded_by_our_spies(struct player *pplayer, 
+                                            struct city *pcity);
+
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist,
                                   struct pf_map *pfm);
@@ -353,6 +356,30 @@ static void dai_diplomat_city(struct unit *punit, struct city *ctarget)
   dai_unit_new_task(punit, AIUNIT_NONE, NULL);
 }
 
+/*****************************************************************************
+  Check if we have a diplomat / spy near a given city. This is used to prevent
+  a stack of such units next to a foreign city.
+*****************************************************************************/
+static bool is_city_surrounded_by_our_spies(struct player *pplayer,
+                                            struct city *enemy_city)
+{
+  adjc_iterate(city_tile(enemy_city), ptile) {
+    if (ai_handicap(pplayer, H_FOG)
+        && !map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+      /* We cannot see danger at (ptile) => assume there is none. */
+      continue;
+    }
+    unit_list_iterate(ptile->units, punit) {
+      if (unit_owner(punit) == pplayer &&
+          unit_has_type_flag(punit, F_DIPLOMAT)) {
+        return TRUE;
+      }
+    } unit_list_iterate_end;
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
   Returns (in ctarget) the closest city to send diplomats against, or NULL 
   if none available on this continent.  punit can be virtual.
@@ -400,15 +427,17 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
      * 3. inciting revolt */
     if (!has_embassy
         || (acity->server.steal == 0
-	    && (player_research_get(pplayer)->techs_researched
-		< player_research_get(aplayer)->techs_researched)
-	    && !dipldef)
+            && (player_research_get(pplayer)->techs_researched
+                < player_research_get(aplayer)->techs_researched)
+            && !dipldef)
         || (incite_cost < (pplayer->economic.gold - expenses)
             && can_incite && !dipldef)) {
-      /* We have the closest enemy city on the continent */
-      *ctarget = acity;
-      *move_dist = move_cost;
-      break;
+      if (!is_city_surrounded_by_our_spies(pplayer, acity)) {
+        /* We have the closest enemy city on the continent */
+        *ctarget = acity;
+        *move_dist = move_cost;
+        break;
+      }
     }
   } pf_map_move_costs_iterate_end;
 }
