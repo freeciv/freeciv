@@ -414,6 +414,13 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
   city_units_upkeep(new_pcity);
 
   punit->homecity = new_pcity->id;
+
+  if (!can_unit_continue_current_activity(punit)) {
+    /* This is mainly for cases where unit owner changes to one not knowing
+     * Railroad tech when unit is already building railroad. */
+    set_unit_activity(punit, ACTIVITY_IDLE);
+  }
+
   if (old_owner == new_owner) {
     /* Only changed homecity only owner can see it. */
     send_unit_info(new_owner, punit);
