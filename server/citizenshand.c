@@ -109,7 +109,7 @@ void citizens_update(struct city *pcity)
         citizens_nation_set(pcity, pslot, 0);
         /* Remove this nation from the list of nationalities. */
         if (select != count) {
-          city_nations[select] = city_nations[count];
+          city_nations[select] = city_nations[count - 1];
         }
         count--;
 
