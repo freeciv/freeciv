@@ -305,13 +305,25 @@ struct ai_plr *dai_plr_data_get(struct player *pplayer)
 
   /* This assert really is required. See longer comment
      in adv_data_get() for equivalent code. */
+#if defined(DEBUG) || defined(IS_DEVEL_VERSION)
   fc_assert(ai->phase_initialized);
+#endif
 
   if (ai->last_num_continents != map.num_continents
       || ai->last_num_oceans != map.num_oceans) {
     /* We have discovered more continents, recalculate! */
-    dai_data_phase_finished(pplayer);
-    dai_data_phase_begin(pplayer, FALSE);
+
+    /* See adv_data_get() */
+    if (ai->phase_initialized) {
+      dai_data_phase_finished(pplayer);
+      dai_data_phase_begin(pplayer, FALSE);
+    } else {
+      /* wrong order */
+      log_debug("%s advisor data phase closed when adv_data_get() called",
+                player_name(pplayer));
+      dai_data_phase_begin(pplayer, FALSE);
+      dai_data_phase_finished(pplayer);
+    }
   }
 
   return ai;
