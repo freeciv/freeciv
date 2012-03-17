@@ -904,14 +904,14 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (ptile, ACTIVITY_ROAD)
 	+ total_activity (ptile, ACTIVITY_RAILROAD)
         >= tile_activity_time(ACTIVITY_ROAD, ptile)) {
-      tile_set_special(ptile, S_ROAD);
+      tile_add_road(ptile, road_by_special(S_ROAD));
       unit_activity_done = TRUE;
     }
     break;
 
   case ACTIVITY_RAILROAD:
     if (total_activity_done(ptile, ACTIVITY_RAILROAD)) {
-      tile_set_special(ptile, S_RAILROAD);
+      tile_add_road(ptile, road_by_special(S_RAILROAD));
       unit_activity_done = TRUE;
     }
     break;

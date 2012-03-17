@@ -915,11 +915,17 @@ bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
 ****************************************************************************/
 void tile_add_road(struct tile *ptile, const struct road_type *proad)
 {
-  BV_SET(ptile->roads, road_index(proad));
+  if (proad != NULL) {
+    enum tile_special_type spe = road_special(proad);
 
-  /* Maintain information in old specials vector too. That's still the
-   * trusted information. */
-  BV_SET(ptile->special, road_special(proad));
+    BV_SET(ptile->roads, road_index(proad));
+
+    /* Maintain information in old specials vector too. That's still the
+     * trusted information. */
+    if (spe != S_LAST) {
+      BV_SET(ptile->special, spe);
+    }
+  }
 }
 
 /****************************************************************************
@@ -927,11 +933,17 @@ void tile_add_road(struct tile *ptile, const struct road_type *proad)
 ****************************************************************************/
 void tile_remove_road(struct tile *ptile, const struct road_type *proad)
 {
-  BV_CLR(ptile->roads, road_index(proad));
+  if (proad != NULL) {
+    enum tile_special_type spe = road_special(proad);
 
-  /* Maintain information in old specials vector too. That's still the
-   * trusted information. */
-  BV_CLR(ptile->special, road_special(proad));
+    BV_CLR(ptile->roads, road_index(proad));
+
+    /* Maintain information in old specials vector too. That's still the
+     * trusted information. */
+    if (spe != S_LAST) {
+      BV_CLR(ptile->special, spe);
+    }
+  }
 }
 
 /****************************************************************************
