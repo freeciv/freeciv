@@ -203,6 +203,58 @@ nreqs           =
 frequency      = 10
 effects        = "DestroyBuilding"
 
+[disaster_flood]
+name           = _("Flood")
+reqs           =
+    { "type", "name", "range"
+      "Special", "River", "Adjacent"
+    }
+nreqs          =
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+frequency      = 10
+effects        = "ReducePopulation"
+
+[disaster_piracy]
+name           = _("Piracy")
+reqs           =
+    { "type", "name", "range"
+      "Terrain", "Ocean", "Adjacent"
+    }
+nreqs          =
+    { "type", "name", "range"
+      "Building", "Barracks", "City"
+      "Building", "Barracks II", "City"
+      "Building", "Barracks III", "City"
+    }
+frequency      = 10
+; No effects supported yet, pirates never do any real harm.
+
+[disaster_plague]
+name           = _("Plague")
+nreqs          =
+    { "type", "name", "range"
+      "Tech", "Medicine", "Player"
+      "Building", "Aqueduct", "City"
+    }
+frequency      = 10
+effects        = "ReducePopulation"
+
+[disaster_volcano]
+name           = _("Volcano")
+reqs           =
+    { "type", "name", "range"
+      "Terrain", "Mountains", "Adjacent"
+    }
+nreqs          =
+    { "type", "name", "range"
+      "Building", "Temple", "City"
+    }
+frequency      = 10
+effects        = "ReducePopulation"
+
+
 [playercolors]
 background.r = 86
 background.g = 86
