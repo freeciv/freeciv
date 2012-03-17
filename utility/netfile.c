@@ -42,15 +42,21 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
                                        nf_errmsg cb, void *data)
 {
   CURLcode curlret;
+  struct curl_slist *headers = NULL;
 
   if (handle == NULL) {
     handle = curl_easy_init();
   }
 
+  headers = curl_slist_append(headers,"User-Agent: Freeciv/" VERSION_STRING);
+
   curl_easy_setopt(handle, CURLOPT_URL, URL);
   curl_easy_setopt(handle, CURLOPT_WRITEDATA, fp);
+  curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
 
   curlret = curl_easy_perform(handle);
+
+  curl_slist_free_all(headers);
 
   if (curlret != CURLE_OK) {
     if (cb != NULL) {
@@ -201,10 +207,13 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 {
   CURLcode curlret;
   long http_resp;
+  struct curl_slist *headers = NULL;
 
   if (handle == NULL) {
     handle = curl_easy_init();
   }
+
+  headers = curl_slist_append(headers,"User-Agent: Freeciv/" VERSION_STRING);
 
   curl_easy_setopt(handle, CURLOPT_URL, URL);
   curl_easy_setopt(handle, CURLOPT_HTTPPOST, post->first);
@@ -216,8 +225,11 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
   if (addr != NULL) {
     curl_easy_setopt(handle, CURLOPT_INTERFACE, addr);
   }
+  curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
 
   curlret = curl_easy_perform(handle);
+
+  curl_slist_free_all(headers);
 
   if (curlret != CURLE_OK) {
     return FALSE;
