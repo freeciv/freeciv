@@ -641,18 +641,22 @@ static int total_activity_base(struct tile *ptile, Base_type_id base)
 
 /**************************************************************************
   Calculate the total amount of road building activity performed by all
-  units on a tile for a given base.
+  units on a tile for a given road.
 **************************************************************************/
 static int total_activity_road(struct tile *ptile, Road_type_id road)
 {
   int total = 0;
+  enum tile_special_type spe = road_special(road_by_number(road));
 
-  unit_list_iterate (ptile->units, punit)
+  unit_list_iterate (ptile->units, punit) {
     if (punit->activity == ACTIVITY_GEN_ROAD
         && punit->activity_target.obj.road == road) {
       total += punit->activity_count;
+    } else if ((spe == S_ROAD && punit->activity == ACTIVITY_ROAD)
+               || (spe == S_RAILROAD && punit->activity == ACTIVITY_RAILROAD)) {
+      total += punit->activity_count;
     }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
   return total;
 }
 
