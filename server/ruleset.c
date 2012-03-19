@@ -2360,6 +2360,12 @@ static void load_ruleset_terrain(struct section_file *file)
     struct requirement_vector *reqs;
     const char *special;
 
+    sz_strlcpy(proad->graphic_str,
+               secfile_lookup_str_default(file, "-", "%s.graphic", section));
+    sz_strlcpy(proad->graphic_alt,
+               secfile_lookup_str_default(file, "-",
+                                          "%s.graphic_alt", section));
+
     if (!secfile_lookup_int(file, &proad->move_cost,
                             "%s.move_cost", section)) {
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
@@ -2388,6 +2394,9 @@ static void load_ruleset_terrain(struct section_file *file)
     } else if (!fc_strcasecmp(special, "Railroad")) {
       if (compat_rail) {
         ruleset_error(LOG_FATAL, "Multiple roads marked as compatibility \"Railroad\"");
+      }
+      if (!compat_road) {
+        ruleset_error(LOG_FATAL, "Road with compatibility \"Road\" must be before one with compatibility \"Railroad\"");
       }
       compat_rail = TRUE;
       proad->compat_special = S_OLD_RAILROAD;
@@ -4169,6 +4178,9 @@ static void send_ruleset_roads(struct conn_list *dest)
 
     sz_strlcpy(packet.name, untranslated_name(&r->name));
     sz_strlcpy(packet.rule_name, rule_name(&r->name));
+
+    sz_strlcpy(packet.graphic_str, r->graphic_str);
+    sz_strlcpy(packet.graphic_alt, r->graphic_alt);
 
     packet.move_cost = r->move_cost;
     packet.build_time = r->build_time;

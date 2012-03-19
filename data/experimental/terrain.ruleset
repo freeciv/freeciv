@@ -1035,6 +1035,9 @@ They have no effect on gameplay.\
 ; Current code requires exactly two road definitions
 ;
 ; name                    = translatable name as seen by user
+; graphic                 = tag specifing preferred graphic
+; graphic_alt             = tag for alternate graphic if preferred graphic is not 
+;                           present. Can use eg "-" for no alternate graphic.
 ; reqs                    = requirements to build the road (see effects.ruleset
 ;                           and README.effects for help on requirements)
 ; move_cost               = how much movement it takes to to travel
@@ -1058,39 +1061,43 @@ They have no effect on gameplay.\
 ; */ <-- avoid gettext warnings
 
 [road_road]
-name          = _("Road")
+name           = _("Road")
+graphic        = "road"
+graphic_alt    = "-"
 reqs           =
     { "type", "name", "range"
       "UnitFlag", "Settlers", "Local"
     }
-move_cost     = 1
-built_time    = 0
-food_incr     = 0
-shield_incr   = 0
-trade_incr    = 1
-food_bonus    = 0
-shield_bonus  = 0
-trade_bonus   = 0
+move_cost      = 1
+built_time     = 0
+food_incr      = 0
+shield_incr    = 0
+trade_incr     = 1
+food_bonus     = 0
+shield_bonus   = 0
+trade_bonus    = 0
 compat_special = "Road"
-native_to     = "Land", "Big Land"
-flags         = "NativeTile"
+native_to      = "Land", "Big Land"
+flags          = "NativeTile"
 
 [road_railroad]
-name          = _("Railroad")
+name           = _("Railroad")
+graphic        = "rail"
+graphic_alt    = "-"
 reqs           =
     { "type", "name", "range"
       "Tech", "Railroad", "Player"
       "Road", "Road", "Local"
       "UnitFlag", "Settlers", "Local"
     }
-move_cost     = 0
-build_time    = 3
-food_incr     = 0
-shield_incr   = 0
-trade_incr    = 0
-food_bonus    = 0
-shield_bonus  = 50
-trade_bonus   = 0
+move_cost      = 0
+build_time     = 3
+food_incr      = 0
+shield_incr    = 0
+trade_incr     = 0
+food_bonus     = 0
+shield_bonus   = 50
+trade_bonus    = 0
 compat_special = "Railroad"
-native_to     = "Land", "Big Land"
-flags         = "NativeTile"
+native_to      = "Land", "Big Land"
+flags          = "NativeTile"

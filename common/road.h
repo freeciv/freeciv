@@ -29,6 +29,9 @@ BV_DEFINE(bv_road_flags, RF_COUNT);
 struct road_type {
   int id;
   struct name_translation name;
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+
   int move_cost;
   int build_time;
   int tile_incr[O_LAST];

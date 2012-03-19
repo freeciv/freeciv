@@ -237,7 +237,7 @@ struct named_sprites {
       *isolated,
       *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
       *total[MAX_INDEX_VALID];     /* includes all possibilities */
-  } road, rail;
+  } roads[MAX_ROAD_TYPES];
   struct {
     struct sprite_vector unit;
     struct sprite *nuke;
@@ -504,6 +504,13 @@ struct tileset *tileset;
 
 int focus_unit_state = 0;
 
+
+/* Index of road type in tileset
+ * Needed in transitional phase between old two roads and
+ * new gen-roads systems. These tell remaining old code how to map
+ * roads to new system. */
+#define TSI_ROAD 0
+#define TSI_RAIL 1
 
 static int fill_unit_type_sprite_array(const struct tileset *t,
                                        struct drawn_sprite *sprs,
@@ -1091,6 +1098,9 @@ void tilespec_reread(const char *new_tileset_name)
   governments_iterate(gov) {
     tileset_setup_government(tileset, gov);
   } governments_iterate_end;
+  road_type_iterate(proad) {
+    tileset_setup_road(tileset, proad);
+  } road_type_iterate_end;
   base_type_iterate(pbase) {
     tileset_setup_base(tileset, pbase);
   } base_type_iterate_end;
@@ -2305,90 +2315,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     SET_SPRITE(icon[i], buffer);
   }
 
-  /* Isolated road graphics are used by roadstyle 0 and 1*/
-  if (t->roadstyle == 0 || t->roadstyle == 1) {
-    SET_SPRITE(road.isolated, "r.road_isolated");
-    SET_SPRITE(rail.isolated, "r.rail_isolated");
-  }
-  
-  if (t->roadstyle == 0) {
-    /* Roadstyle 0 has just 8 additional sprites for both road and rail:
-     * one for the road/rail going off in each direction. */
-    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-      enum direction8 dir = t->valid_tileset_dirs[i];
-      const char *dir_name = dir_get_tileset_name(dir);
-
-      fc_snprintf(buffer, sizeof(buffer), "r.road_%s", dir_name);
-      SET_SPRITE(road.dir[i], buffer);
-      fc_snprintf(buffer, sizeof(buffer), "r.rail_%s", dir_name);
-      SET_SPRITE(rail.dir[i], buffer);
-    }
-  } else if (t->roadstyle == 1) {
-    int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
-
-    /* Roadstyle 1 has 32 additional sprites for both road and rail:
-     * 16 each for cardinal and diagonal directions.  Each set
-     * of 16 provides a NSEW-indexed sprite to provide connectors for
-     * all rails in the cardinal/diagonal directions.  The 0 entry is
-     * unused (the "isolated" sprite is used instead). */
-
-    for (i = 1; i < num_index; i++) {
-      char c[64] = "", d[64] = "";
-
-      for (j = 0; j < t->num_valid_tileset_dirs / 2; j++) {
-	int value = (i >> j) & 1;
-
-	cat_snprintf(c, sizeof(c), "%s%d",
-		     dir_get_tileset_name(t->valid_tileset_dirs[2 * j]),
-		     value);
-	cat_snprintf(d, sizeof(d), "%s%d",
-		     dir_get_tileset_name(t->valid_tileset_dirs[2 * j + 1]),
-		     value);
-      }
-
-      fc_snprintf(buffer, sizeof(buffer), "r.c_road_%s", c);
-      SET_SPRITE(road.even[i], buffer);
-
-      fc_snprintf(buffer, sizeof(buffer), "r.d_road_%s", d);
-      SET_SPRITE(road.odd[i], buffer);
-
-      fc_snprintf(buffer, sizeof(buffer), "r.c_rail_%s", c);
-      SET_SPRITE(rail.even[i], buffer);
-
-      fc_snprintf(buffer, sizeof(buffer), "r.d_rail_%s", d);
-      SET_SPRITE(rail.odd[i], buffer);
-    }
-  } else {
-    /* Roadstyle 2 includes 256 sprites, one for every possibility.
-     * Just go around clockwise, with all combinations. */
-    for (i = 0; i < t->num_index_valid; i++) {
-      fc_snprintf(buffer, sizeof(buffer), "r.road_%s",
-                  valid_index_str(t, i));
-      SET_SPRITE(road.total[i], buffer);
-
-      fc_snprintf(buffer, sizeof(buffer), "r.rail_%s",
-                  valid_index_str(t, i));
-      SET_SPRITE(rail.total[i], buffer);
-    }
-  }
-
-  /* Corner road/rail graphics are used by roadstyle 0 and 1. */
-  if (t->roadstyle == 0 || t->roadstyle == 1) {
-    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
-      enum direction8 dir = t->valid_tileset_dirs[i];
-
-      if (!is_cardinal_tileset_dir(t, dir)) {
-        fc_snprintf(buffer, sizeof(buffer), "r.c_road_%s",
-                    dir_get_tileset_name(dir));
-        SET_SPRITE_OPT(road.corner[dir], buffer);
-
-        fc_snprintf(buffer, sizeof(buffer), "r.c_rail_%s",
-                    dir_get_tileset_name(dir));
-        SET_SPRITE_OPT(rail.corner[dir], buffer);
-      }
-    }
-  }
-
   SET_SPRITE(explode.nuke, "explode.nuke");
 
   sprite_vector_init(&t->sprites.explode.unit);
@@ -2868,6 +2794,113 @@ void tileset_setup_resource(struct tileset *t,
     tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, presource->graphic_str,
                                 presource->graphic_alt, "resource",
                                 resource_rule_name(presource));
+}
+
+/****************************************************************************
+  Set road sprite values; should only happen after
+  tilespec_load_tiles().
+****************************************************************************/
+void tileset_setup_road(struct tileset *t,
+                        const struct road_type *proad)
+{
+  char full_tag_name[MAX_LEN_NAME + strlen("r._isolated")];
+  char full_alt_name[MAX_LEN_NAME + strlen("r._isolated")];
+  const int id = road_index(proad);
+  int i;
+
+  /* Isolated road graphics are used by roadstyle 0 and 1*/
+  if (t->roadstyle == 0 || t->roadstyle == 1) {
+    fc_snprintf(full_tag_name, sizeof(full_tag_name),
+                "r.%s_isolated", proad->graphic_str);
+    fc_snprintf(full_alt_name, sizeof(full_alt_name),
+                "r.%s_isolated", proad->graphic_alt);
+
+    SET_SPRITE_ALT(roads[id].isolated, full_tag_name, full_alt_name);
+  }
+
+  if (t->roadstyle == 0) {
+    /* Roadstyle 0 has just 8 additional sprites for both road and rail:
+     * one for the road/rail going off in each direction. */
+    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
+      enum direction8 dir = t->valid_tileset_dirs[i];
+      const char *dir_name = dir_get_tileset_name(dir);
+
+      fc_snprintf(full_tag_name, sizeof(full_tag_name),
+                  "r.%s_%s", proad->graphic_str, dir_name);
+      fc_snprintf(full_alt_name, sizeof(full_alt_name),
+                  "r.%s_%s", proad->graphic_alt, dir_name);
+
+      SET_SPRITE_ALT(roads[id].dir[i], full_tag_name, full_alt_name);
+    }
+  } else if (t->roadstyle == 1) {
+    int num_index = 1 << (t->num_valid_tileset_dirs / 2), j;
+
+    /* Roadstyle 1 has 32 additional sprites for both road and rail:
+     * 16 each for cardinal and diagonal directions.  Each set
+     * of 16 provides a NSEW-indexed sprite to provide connectors for
+     * all rails in the cardinal/diagonal directions.  The 0 entry is
+     * unused (the "isolated" sprite is used instead). */
+
+    for (i = 1; i < num_index; i++) {
+      char c[64] = "", d[64] = "";
+
+      for (j = 0; j < t->num_valid_tileset_dirs / 2; j++) {
+	int value = (i >> j) & 1;
+
+	cat_snprintf(c, sizeof(c), "%s%d",
+		     dir_get_tileset_name(t->valid_tileset_dirs[2 * j]),
+		     value);
+	cat_snprintf(d, sizeof(d), "%s%d",
+		     dir_get_tileset_name(t->valid_tileset_dirs[2 * j + 1]),
+		     value);
+      }
+
+      fc_snprintf(full_tag_name, sizeof(full_tag_name),
+                  "r.c_%s_%s", proad->graphic_str, c);
+      fc_snprintf(full_alt_name, sizeof(full_alt_name),
+                  "r.c_%s_%s", proad->graphic_alt, c);
+
+      SET_SPRITE_ALT(roads[id].even[i], full_tag_name, full_alt_name);
+
+      fc_snprintf(full_tag_name, sizeof(full_tag_name),
+                  "r.d_%s_%s", proad->graphic_str, c);
+      fc_snprintf(full_alt_name, sizeof(full_alt_name),
+                  "r.d_%s_%s", proad->graphic_alt, c);
+
+      SET_SPRITE_ALT(roads[id].odd[i], full_tag_name, full_alt_name);
+    }
+  } else {
+    /* Roadstyle 2 includes 256 sprites, one for every possibility.
+     * Just go around clockwise, with all combinations. */
+    for (i = 0; i < t->num_index_valid; i++) {
+      char *idx_str = valid_index_str(t, i);
+
+      fc_snprintf(full_tag_name, sizeof(full_tag_name),
+                  "r.%s_%s", proad->graphic_str, idx_str);
+      fc_snprintf(full_alt_name, sizeof(full_alt_name),
+                  "r.%s_%s", proad->graphic_alt, idx_str);
+
+      SET_SPRITE_ALT(roads[id].total[i], full_tag_name, full_alt_name);
+    }
+  }
+
+  /* Corner road/rail graphics are used by roadstyle 0 and 1. */
+  if (t->roadstyle == 0 || t->roadstyle == 1) {
+    for (i = 0; i < t->num_valid_tileset_dirs; i++) {
+      enum direction8 dir = t->valid_tileset_dirs[i];
+
+      if (!is_cardinal_tileset_dir(t, dir)) {
+        const char *dtn = dir_get_tileset_name(dir);
+
+        fc_snprintf(full_tag_name, sizeof(full_tag_name),
+                    "r.c_%s_%s", proad->graphic_str, dtn);
+        fc_snprintf(full_alt_name, sizeof(full_alt_name),
+                    "r.c_%s_%s", proad->graphic_alt, dtn);
+
+        SET_SPRITE_ALT_OPT(roads[id].corner[dir], full_tag_name, full_alt_name);
+      }
+    }
+  }
 }
 
 /****************************************************************************
@@ -3524,11 +3557,11 @@ static int fill_road_corner_sprites(const struct tileset *t,
       enum direction8 dir_cw = t->valid_tileset_dirs[cw];
       enum direction8 dir_ccw = t->valid_tileset_dirs[ccw];
 
-      if (t->sprites.road.corner[dir]
+      if (t->sprites.roads[TSI_ROAD].corner[dir]
 	  && (road_near[dir_cw] && road_near[dir_ccw]
 	      && !(rail_near[dir_cw] && rail_near[dir_ccw]))
 	  && !(road && road_near[dir] && !(rail && rail_near[dir]))) {
-	ADD_SPRITE_SIMPLE(t->sprites.road.corner[dir]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].corner[dir]);
       }
     }
   }
@@ -3562,10 +3595,10 @@ static int fill_rail_corner_sprites(const struct tileset *t,
       enum direction8 dir_cw = t->valid_tileset_dirs[cw];
       enum direction8 dir_ccw = t->valid_tileset_dirs[ccw];
 
-      if (t->sprites.rail.corner[dir]
+      if (t->sprites.roads[TSI_RAIL].corner[dir]
 	  && rail_near[dir_cw] && rail_near[dir_ccw]
 	  && !(rail && rail_near[dir])) {
-	ADD_SPRITE_SIMPLE(t->sprites.rail.corner[dir]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].corner[dir]);
       }
     }
   }
@@ -3631,7 +3664,7 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
     if (road) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
 	if (draw_road[t->valid_tileset_dirs[i]]) {
-	  ADD_SPRITE_SIMPLE(t->sprites.road.dir[i]);
+	  ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].dir[i]);
 	}
       }
     }
@@ -3640,7 +3673,7 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
     if (rail) {
       for (i = 0; i < t->num_valid_tileset_dirs; i++) {
 	if (draw_rail[t->valid_tileset_dirs[i]]) {
-	  ADD_SPRITE_SIMPLE(t->sprites.rail.dir[i]);
+	  ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].dir[i]);
 	}
       }
     }
@@ -3669,10 +3702,10 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
 
       /* Draw the cardinal/even roads first. */
       if (road_even_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.road.even[road_even_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].even[road_even_tileno]);
       }
       if (road_odd_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.road.odd[road_odd_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].odd[road_odd_tileno]);
       }
     }
 
@@ -3694,10 +3727,10 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
 
       /* Draw the cardinal/even rails first. */
       if (rail_even_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.rail.even[rail_even_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].even[rail_even_tileno]);
       }
       if (rail_odd_tileno != 0) {
-	ADD_SPRITE_SIMPLE(t->sprites.rail.odd[rail_odd_tileno]);
+	ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].odd[rail_odd_tileno]);
       }
     }
   } else {
@@ -3718,7 +3751,7 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
       }
 
       if (road_tileno != 0 || draw_single_road) {
-        ADD_SPRITE_SIMPLE(t->sprites.road.total[road_tileno]);
+        ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].total[road_tileno]);
       }
     }
 
@@ -3735,7 +3768,7 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
       }
 
       if (rail_tileno != 0 || draw_single_rail) {
-        ADD_SPRITE_SIMPLE(t->sprites.rail.total[rail_tileno]);
+        ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].total[rail_tileno]);
       }
     }
   }
@@ -3743,9 +3776,9 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
   /* Draw isolated rail/road separately (styles 0 and 1 only). */
   if (t->roadstyle == 0 || t->roadstyle == 1) { 
     if (draw_single_rail) {
-      ADD_SPRITE_SIMPLE(t->sprites.rail.isolated);
+      ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_RAIL].isolated);
     } else if (draw_single_road) {
-      ADD_SPRITE_SIMPLE(t->sprites.road.isolated);
+      ADD_SPRITE_SIMPLE(t->sprites.roads[TSI_ROAD].isolated);
     }
   }
 
@@ -5465,11 +5498,11 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
         continue;
       }
       if (t->roadstyle == 0) {
-        return t->sprites.road.dir[i];
+        return t->sprites.roads[TSI_ROAD].dir[i];
       } else if (t->roadstyle == 1) {
-        return t->sprites.road.even[1 << i];
+        return t->sprites.roads[TSI_ROAD].even[1 << i];
       } else if (t->roadstyle == 2) {
-        return t->sprites.road.total[1 << i];
+        return t->sprites.roads[TSI_ROAD].total[1 << i];
       }
     }
     return NULL;
@@ -5483,11 +5516,11 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
         continue;
       }
       if (t->roadstyle == 0) {
-        return t->sprites.rail.dir[i];
+        return t->sprites.roads[TSI_RAIL].dir[i];
       } else if (t->roadstyle == 1) {
-        return t->sprites.rail.even[1 << i];
+        return t->sprites.roads[TSI_RAIL].even[1 << i];
       } else if (t->roadstyle == 2) {
-        return t->sprites.rail.total[1 << i];
+        return t->sprites.roads[TSI_RAIL].total[1 << i];
       }
     }
     return NULL;
