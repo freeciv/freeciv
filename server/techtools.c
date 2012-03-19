@@ -469,7 +469,7 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
    * - try to reduce the number of future techs
    * - or lose one random tech
    * after that the number of bulbs available is set to zero */
-  if (research->bulbs_researched < 0
+  if (game.info.tech_upkeep_style > 0 && research->bulbs_researched < 0
       && (research->techs_researched > 0 || research->future_tech > 0)) {
     if (research->future_tech > 0) {
       notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
@@ -493,9 +493,6 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 
     research->bulbs_researched = 0;
   }
-
-  /* now we should have a positive balance */
-  fc_assert_ret_val(research->bulbs_researched >= 0, FALSE);
 
   if (check_tech && research->researching != A_UNSET) {
     /* check for finished research */
