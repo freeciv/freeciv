@@ -98,6 +98,11 @@ static struct player *create_barbarian_player(enum barbarian_type type)
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         player_status_reset(barbarians);
+
+        /* Free old name so pick_random_player_name() can select it again.
+         * This is needed in case ruleset defines just one leader for
+         * barbarian nation. */
+        barbarians->name[0] = '\0';
         sz_strlcpy(barbarians->name,
                    pick_random_player_name(nation_of_player(barbarians)));
         sz_strlcpy(barbarians->username, ANON_USER_NAME);
