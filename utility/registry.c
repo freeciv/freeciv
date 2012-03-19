@@ -30,3 +30,12 @@ void registry_module_init(void)
 void registry_module_close(void)
 {
 }
+
+/**************************************************************************
+  Create a section file from a file.  Returns NULL on error.
+**************************************************************************/
+struct section_file *secfile_load(const char *filename,
+                                  bool allow_duplicates)
+{
+  return secfile_load_section(filename, NULL, allow_duplicates);
+}

@@ -17,8 +17,20 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "shared.h"
+
+struct section;
+
 void registry_module_init(void);
 void registry_module_close(void);
+
+struct section_file *secfile_new(bool allow_duplicates);
+void secfile_destroy(struct section_file *secfile);
+struct section_file *secfile_load(const char *filename,
+                                  bool allow_duplicates);
+
+const char *secfile_error(void);
+const char *section_name(const struct section *psection);
 
 #include "registry_ini.h"
 

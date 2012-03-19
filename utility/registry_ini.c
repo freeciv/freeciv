@@ -160,13 +160,13 @@
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
+#include "registry.h"
 #include "section_file.h"
 #include "shared.h"
 #include "support.h"
 
 #include "registry_ini.h"
 
-#define MAX_LEN_ERRORBUF 1024
 #define MAX_LEN_SECPATH 1024
 
 /* Set to FALSE for old-style savefiles. */
@@ -177,78 +177,12 @@
 #define SPECVEC_TAG astring
 #include "specvec.h"
 
-#define SPECHASH_TAG section
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct section *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#include "spechash.h"
-
-#define SPECHASH_TAG entry
-#define SPECHASH_KEY_TYPE char *
-#define SPECHASH_DATA_TYPE struct entry *
-#define SPECHASH_KEY_VAL genhash_str_val_func
-#define SPECHASH_KEY_COMP genhash_str_comp_func
-#define SPECHASH_KEY_COPY genhash_str_copy_func
-#define SPECHASH_KEY_FREE genhash_str_free_func
-#include "spechash.h"
-
-static void secfile_log(const struct section_file *secfile,
-                        const struct section *psection,
-                        const char *file, const char *function, int line,
-                        const char *format, ...)
-                        fc__attribute((__format__(__printf__, 6, 7)));
-#define SECFILE_LOG(secfile, psection, format, ...)                         \
-  secfile_log(secfile, psection, __FILE__, __FUNCTION__, __FC_LINE__,       \
-              format, ## __VA_ARGS__)
-#define SECFILE_RETURN_IF_FAIL(secfile, psection, condition)                \
-  if (!(condition)) {                                                       \
-    SECFILE_LOG(secfile, psection, "Assertion '%s' failed.", #condition);   \
-    return;                                                                 \
-  }
-#define SECFILE_RETURN_VAL_IF_FAIL(secfile, psection, condition, value)     \
-  if (!(condition)) {                                                       \
-    SECFILE_LOG(secfile, psection, "Assertion '%s' failed.", #condition);   \
-    return value;                                                           \
-  }
-
 static inline bool entry_used(const struct entry *pentry);
 static inline void entry_use(struct entry *pentry);
 
 static void entry_to_file(const struct entry *pentry, fz_FILE *fs);
 static void entry_from_token(struct section *psection, const char *name,
                              const char *tok, struct inputfile *file);
-
-static char error_buffer[MAX_LEN_ERRORBUF] = "\0";
-
-/**************************************************************************
-  Returns the last error which occured in a string.  It never returns NULL.
-**************************************************************************/
-const char *secfile_error(void)
-{
-  return error_buffer;
-}
-
-/**************************************************************************
-  Edit the error_buffer.
-**************************************************************************/
-static void secfile_log(const struct section_file *secfile,
-                        const struct section *psection,
-                        const char *file, const char *function, int line,
-                        const char *format, ...)
-{
-  char message[MAX_LEN_ERRORBUF];
-  va_list args;
-
-  va_start(args, format);
-  fc_vsnprintf(message, sizeof(message), format, args);
-  va_end(args);
-
-  fc_snprintf(error_buffer, sizeof(error_buffer),
-              "In %s() [%s:%d]: secfile '%s' in section '%s': %s",
-              function, file, line, secfile_name(secfile),
-              psection != NULL ? section_name(psection) : "NULL", message);
-}
 
 /****************************************************************************
   Copies a string. Backslash followed by a genuine newline always
@@ -337,53 +271,6 @@ static bool check_name(const char *name)
     name++;
   }
   return TRUE;
-}
-
-
-/**************************************************************************
-  Create a new empty section file.
-**************************************************************************/
-struct section_file *secfile_new(bool allow_duplicates)
-{
-  struct section_file *secfile = fc_malloc(sizeof(struct section_file));
-
-  secfile->name = NULL;
-  secfile->num_entries = 0;
-  secfile->sections = section_list_new_full(section_destroy);
-  secfile->allow_duplicates = allow_duplicates;
-
-  secfile->hash.sections = section_hash_new();
-  /* Maybe allocated later. */
-  secfile->hash.entries = NULL;
-
-  return secfile;
-}
-
-/**************************************************************************
-  Free a section file.
-**************************************************************************/
-void secfile_destroy(struct section_file *secfile)
-{
-  SECFILE_RETURN_IF_FAIL(secfile, NULL, secfile != NULL);
-
-  section_hash_destroy(secfile->hash.sections);
-  /* Mark it NULL to be sure to don't try to make operations when
-   * deleting the entries. */
-  secfile->hash.sections = NULL;
-  if (NULL != secfile->hash.entries) {
-    entry_hash_destroy(secfile->hash.entries);
-    /* Mark it NULL to be sure to don't try to make operations when
-     * deleting the entries. */
-    secfile->hash.entries = NULL;
-  }
-
-  section_list_destroy(secfile->sections);
-
-  if (NULL != secfile->name) {
-    free(secfile->name);
-  }
-
-  free(secfile);
 }
 
 /**************************************************************************
@@ -691,15 +578,6 @@ END:
   } else {
     return secfile;
   }
-}
-
-/**************************************************************************
-  Create a section file from a file.  Returns NULL on error.
-**************************************************************************/
-struct section_file *secfile_load(const char *filename,
-                                  bool allow_duplicates)
-{
-  return secfile_load_section(filename, NULL, allow_duplicates);
 }
 
 /**************************************************************************
@@ -2701,14 +2579,6 @@ secfile_sections_by_name_prefix(const struct section_file *secfile,
   return matches;
 }
 
-
-/* Section structure. */
-struct section {
-  struct section_file *secfile; /* Parent structure. */
-  char *name;                   /* Name of the section. */
-  struct entry_list *entries;   /* The list of the children. */
-};
-
 /**************************************************************************
   Create a new section in the secfile.
 **************************************************************************/
@@ -2793,14 +2663,6 @@ void section_clear_all(struct section *psection)
                 "After clearing all, %d entries are still remaining.",
                 entry_list_size(psection->entries));
   }
-}
-
-/**************************************************************************
-  Returns the section name.
-**************************************************************************/
-const char *section_name(const struct section *psection)
-{
-  return (NULL != psection ? psection->name : NULL);
 }
 
 /**************************************************************************

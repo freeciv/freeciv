@@ -55,19 +55,12 @@ typedef const char * (*secfile_enum_name_data_fn_t) (secfile_data_t data,
        TYPED_LIST_ITERATE(struct entry, entlist, pentry)
 #define entry_list_iterate_end  LIST_ITERATE_END
 
-/* Global functions. */
-const char *secfile_error(void);
-
 /* Main functions. */
-struct section_file *secfile_new(bool allow_duplicates);
-struct section_file *secfile_load(const char *filename,
-                                  bool allow_duplicates);
 struct section_file *secfile_load_section(const char *filename,
                                           const char *section,
                                           bool allow_duplicates);
 struct section_file *secfile_from_stream(fz_FILE *stream,
                                          bool allow_duplicates);
-void secfile_destroy(struct section_file *secfile);
 
 bool secfile_save(const struct section_file *secfile, const char *filename,
                   int compression_level, enum fz_method compression_method);
@@ -549,7 +542,6 @@ struct section *secfile_section_new(struct section_file *secfile,
 void section_destroy(struct section *psection);
 void section_clear_all(struct section *psection);
 
-const char *section_name(const struct section *psection);
 bool section_set_name(struct section *psection, const char *section_name);
 
 /* Entry functions. */
