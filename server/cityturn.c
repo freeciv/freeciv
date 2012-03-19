@@ -2799,6 +2799,29 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     had_effect = TRUE;
   }
 
+  if (disaster_has_effect(pdis, DE_EMPTY_FOODSTOCK)) {
+    if (pcity->food_stock > 0) {
+      pcity->food_stock = 0;
+
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Foodbox emptied."));
+
+      had_effect = TRUE;
+    }
+  }
+
+  if (disaster_has_effect(pdis, DE_EMPTY_PRODSTOCK)) {
+    if (pcity->shield_stock > 0) {
+      pcity->shield_stock = 0;
+
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Production box emptied."));
+
+      had_effect = TRUE;
+
+    }
+  }
+
   if (!had_effect) {
     notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                   _("We survived the disaster without serious damages."));

@@ -216,6 +216,8 @@ negative_label = _("BCE")
 ; effects
 ;   - "DestroyBuilding"   = Random building is destroyed
 ;   - "ReducePopulation"  = Reduce city size by one
+;   - "EmptyFoodStock"    = Remove all food from food stock
+;   - "EmptyProdStock"    = Destroy current production
 ;
 ; */ <-- avoid gettext warnings
 

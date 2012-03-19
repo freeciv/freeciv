@@ -173,6 +173,8 @@ skip_year_0 = 1
 ; effects
 ;   - "DestroyBuilding"   = Random building is destroyed
 ;   - "ReducePopulation"  = Reduce city size by one
+;   - "EmptyFoodStock"    = Remove all food from food stock
+;   - "EmptyProdStock"    = Destroy current production
 ;
 ; */ <-- avoid gettext warnings
 
@@ -192,7 +194,7 @@ nreqs           =
       "Building", "Granary", "City"
     }
 frequency      = 10
-effects        = "ReducePopulation"
+effects        = "ReducePopulation", "EmptyFoodStock"
 
 [disaster_fire]
 name           = _("Fire")
@@ -229,7 +231,7 @@ nreqs          =
       "Building", "Barracks III", "City"
     }
 frequency      = 10
-; No effects supported yet, pirates never do any real harm.
+effects        = "EmptyFoodStock", "EmptyProdStock"
 
 [disaster_plague]
 name           = _("Plague")
