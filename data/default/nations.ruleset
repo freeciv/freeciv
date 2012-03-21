@@ -414,6 +414,7 @@ match=2
 *include "nation/papuan.ruleset"
 *include "nation/papuanewguinean.ruleset"
 *include "nation/paraguayan.ruleset"
+*include "nation/pelasgian.ruleset"
 *include "nation/persian.ruleset"
 *include "nation/peruvian.ruleset"
 *include "nation/pashtun.ruleset"
