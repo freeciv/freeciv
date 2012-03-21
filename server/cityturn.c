@@ -2023,40 +2023,51 @@ static bool city_balance_treasury_units(struct city *pcity)
   return pplayer->economic.gold >= 0;
 }
 
+/**************************************************************************
+ Add some Pollution if we have waste
+**************************************************************************/
+static bool place_pollution(struct city *pcity, enum tile_special_type type)
+{
+  struct tile *ptile;
+  struct tile *pcenter = city_tile(pcity);
+  int city_radius_sq = city_map_radius_sq_get(pcity);
+  int k = 100;
+
+  while (k > 0) {
+    /* place pollution on a random city tile */
+    int cx, cy;
+    int tile_id = fc_rand(city_map_tiles(city_radius_sq));
+    city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
+
+    /* check for a a real map position */
+    if (!(ptile = city_map_to_tile(pcenter, city_radius_sq, cx, cy))) {
+      continue;
+    }
+
+    if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
+        && !tile_has_special(ptile, type)) {
+      tile_set_special(ptile, type);
+      update_tile_knowledge(ptile);
+
+      return TRUE;
+    }
+    k--;
+  }
+  log_debug("pollution not placed: city: %s", city_name(pcity));
+
+  return FALSE;
+}
 
 /**************************************************************************
  Add some Pollution if we have waste
 **************************************************************************/
 static void check_pollution(struct city *pcity)
 {
-  struct tile *ptile;
-  struct tile *pcenter = city_tile(pcity);
-  int city_radius_sq = city_map_radius_sq_get(pcity);
-  int k=100;
-
   if (pcity->pollution != 0 && fc_rand(100) <= pcity->pollution) {
-    while (k > 0) {
-      /* place pollution on a random city tile */
-      int cx, cy;
-      int tile_id = fc_rand(city_map_tiles(city_radius_sq));
-      city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
-
-      /* check for a a real map position */
-      if (!(ptile = city_map_to_tile(pcenter, city_radius_sq, cx, cy))) {
-        continue;
-      }
-
-      if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
-	  && !tile_has_special(ptile, S_POLLUTION)) {
-	tile_set_special(ptile, S_POLLUTION);
-	update_tile_knowledge(ptile);
-        notify_player(city_owner(pcity), pcenter, E_POLLUTION, ftc_server,
-                      _("Pollution near %s."), city_link(pcity));
-	return;
-      }
-      k--;
+    if (place_pollution(pcity, S_POLLUTION)) {
+      notify_player(city_owner(pcity), city_tile(pcity), E_POLLUTION, ftc_server,
+                    _("Pollution near %s."), city_link(pcity));
     }
-    log_debug("pollution not placed: city: %s", city_name(pcity));
   }
 }
 
@@ -2819,6 +2830,22 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
 
       had_effect = TRUE;
 
+    }
+  }
+
+  if (disaster_has_effect(pdis, DE_POLLUTION)) {
+    if (place_pollution(pcity, S_POLLUTION)) {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Tile polluted"));
+      had_effect = TRUE;
+    }
+  }
+
+  if (disaster_has_effect(pdis, DE_FALLOUT)) {
+    if (place_pollution(pcity, S_FALLOUT)) {
+      notify_player(pplayer, ptile, E_DISASTER, ftc_server,
+                    _("Fallout contaminated tile."));
+      had_effect = TRUE;
     }
   }
 

@@ -214,6 +214,8 @@ negative_label = _("BCE")
 ;   - "ReducePopulation"  = Reduce city size by one
 ;   - "EmptyFoodStock"    = Remove all food from food stock
 ;   - "EmptyProdStock"    = Destroy current production
+;   - "Pollution"         = One tile surrounding city polluted
+;   - "Fallout"           = One tile surrounding city polluted with fallout
 ;
 ; */ <-- avoid gettext warnings
 
@@ -231,6 +233,15 @@ effects        = "ReducePopulation"
 name           = _("Fire")
 frequency      = 10
 effects        = "DestroyBuilding"
+
+[disaster_nuclear_accident]
+name           = _("Nuclear Accident")
+reqs           =
+    { "type", "name", "range"
+      "Building", "Nuclear Plant", "City"
+    }
+frequency      = 10
+effects        = "ReducePopulation", "Fallout"
 
 
 [playercolors]

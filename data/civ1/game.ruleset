@@ -175,6 +175,8 @@ skip_year_0 = 1
 ;   - "ReducePopulation"  = Reduce city size by one
 ;   - "EmptyFoodStock"    = Remove all food from food stock
 ;   - "EmptyProdStock"    = Destroy current production
+;   - "Pollution"         = One tile surrounding city polluted
+;   - "Fallout"           = One tile surrounding city polluted with fallout
 ;
 ; */ <-- avoid gettext warnings
 

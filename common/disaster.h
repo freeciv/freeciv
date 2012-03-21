@@ -26,6 +26,10 @@ extern "C" {
 #define SPECENUM_VALUE2NAME "EmptyFoodStock"
 #define SPECENUM_VALUE3 DE_EMPTY_PRODSTOCK
 #define SPECENUM_VALUE3NAME "EmptyProdStock"
+#define SPECENUM_VALUE4 DE_POLLUTION
+#define SPECENUM_VALUE4NAME "Pollution"
+#define SPECENUM_VALUE5 DE_FALLOUT
+#define SPECENUM_VALUE5NAME "Fallout"
 #define SPECENUM_COUNT DE_COUNT
 #include "specenum_gen.h"
 
