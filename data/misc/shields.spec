@@ -281,6 +281,7 @@ sprites =
 		"f.shield.lorraine", "flags/lorraine-shield"
 		"f.shield.luna", "flags/luna-shield"
 		"f.shield.lusatia", "flags/lusatia-shield"
+		"f.shield.luwian", "flags/luwian-shield"
 		"f.shield.luxembourg", "flags/luxembourg-shield"
 		"f.shield.maasai", "flags/maasai-shield"
 		"f.shield.macedon", "flags/macedon-shield"

@@ -282,6 +282,7 @@ sprites =
 		"f.lorraine", "flags/lorraine-large"
 		"f.luna", "flags/luna-large"
 		"f.lusatia", "flags/lusatia-large"
+		"f.luwian", "flags/luwian-large"
 		"f.luxembourg", "flags/luxembourg-large"
 		"f.maasai", "flags/maasai-large"
 		"f.macedon", "flags/macedon-large"
