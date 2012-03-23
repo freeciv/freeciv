@@ -96,7 +96,7 @@ Starting a game:
   The following examples assume that Freeciv has been installed on
   your system, and that the directory containing the "freeciv-gtk2"
   and "freeciv-server" programs is in your PATH.  If Freeciv is not
-  installed, then you may want to use the "civ" and "ser" programs,
+  installed, then you may want to use the "fcgui" and "fcser" programs,
   which can be found in the top Freeciv directory.  They are used
   in exactly the same fashion as "freeciv-gtk2" and "freeciv-server".
 
