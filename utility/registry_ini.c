@@ -171,8 +171,6 @@
 
 /* Set to FALSE for old-style savefiles. */
 #define SAVE_TABLES TRUE
-/* Debug function for every new entry. */
-#define DEBUG_ENTRIES(...) /* log_debug(__VA_ARGS__); */
 
 #define SPECVEC_TAG astring
 #include "specvec.h"
@@ -181,40 +179,8 @@ static inline bool entry_used(const struct entry *pentry);
 static inline void entry_use(struct entry *pentry);
 
 static void entry_to_file(const struct entry *pentry, fz_FILE *fs);
-static void entry_from_token(struct section *psection, const char *name,
-                             const char *tok, struct inputfile *file);
-
-/****************************************************************************
-  Copies a string. Backslash followed by a genuine newline always
-  removes the newline.
-  If full_escapes is TRUE:
-    - '\n' -> newline translation.
-    - Other '\c' sequences (any character 'c') are just passed
-      through with the '\' removed (eg, includes '\\', '\"').
-  See also make_escapes().
-****************************************************************************/
-static void remove_escapes(const char *str, bool full_escapes,
-                           char *buf, size_t buf_len)
-{
-  char *dest = buf;
-  const char *const max = buf + buf_len - 1;
-
-  while (*str != '\0' && dest < max) {
-    if (*str == '\\' && *(str + 1) == '\n') {
-      /* Escape followed by newline. Skip both */
-      str += 2;
-    } else if (full_escapes && *str == '\\') {
-      str++;
-      if (*str == 'n') {
-        *dest++ = '\n';
-        str++;
-      }
-    } else {
-      *dest++ = *str++;
-    }
-  }
-  *dest = '\0';
-}
+static void entry_from_inf_token(struct section *psection, const char *name,
+                                 const char *tok, struct inputfile *file);
 
 /****************************************************************************
   Copies a string and convert the following characters:
@@ -447,7 +413,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
                    table_lineno, astr_str(&columns.p[num_columns - 1]),
                    (int) (i - num_columns + 1));
         }
-        entry_from_token(psection, astr_str(&entry_name), tok, inf);
+        entry_from_inf_token(psection, astr_str(&entry_name), tok, inf);
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
@@ -526,10 +492,10 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         goto END;
       }
       if (i == 0) {
-        entry_from_token(psection, astr_str(&base_name), tok, inf);
+        entry_from_inf_token(psection, astr_str(&base_name), tok, inf);
       } else {
         astr_set(&entry_name, "%s,%d", astr_str(&base_name), i);
-        entry_from_token(psection, astr_str(&entry_name), tok, inf);
+        entry_from_inf_token(psection, astr_str(&entry_name), tok, inf);
       }
     } while (inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
@@ -3217,37 +3183,10 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
 /**************************************************************************
   Creates a new entry from the token.
 **************************************************************************/
-static void entry_from_token(struct section *psection, const char *name,
-                             const char *tok, struct inputfile *inf)
+static void entry_from_inf_token(struct section *psection, const char *name,
+                                 const char *tok, struct inputfile *inf)
 {
-  if ('$' == tok[0] || '"' == tok[0]) {
-    char buf[strlen(tok) + 1];
-    bool escaped = ('"' == tok[0]);
-
-    remove_escapes(tok + 1, escaped, buf, sizeof(buf));
-    (void) section_entry_str_new(psection, name, buf, escaped);
-    DEBUG_ENTRIES("entry %s '%s'", name, buf);
-    return;
+  if (!entry_from_token(psection, name, tok)) {
+    log_error("%s", inf_log_str(inf, "Entry value not recognized: %s", tok));
   }
-
-  if (fc_isdigit(tok[0]) || ('-' == tok[0] && fc_isdigit(tok[1]))) {
-    int value;
-
-    if (str_to_int(tok, &value)) {
-      (void) section_entry_int_new(psection, name, value);
-      DEBUG_ENTRIES("entry %s %d", name, value);
-      return;
-    }
-  }
-
-  if (0 == fc_strncasecmp(tok, "FALSE", 5)
-      || 0 == fc_strncasecmp(tok, "TRUE", 4)) {
-    bool value = (0 == fc_strncasecmp(tok, "TRUE", 4));
-
-    (void) section_entry_bool_new(psection, name, value);
-    DEBUG_ENTRIES("entry %s %s", name, value ? "TRUE" : "FALSE");
-    return;
-  }
-
-  log_error("%s", inf_log_str(inf, "Entry value not recognized: %s", tok));
 }

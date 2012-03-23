@@ -25,6 +25,9 @@
 
 static char error_buffer[MAX_LEN_ERRORBUF] = "\0";
 
+/* Debug function for every new entry. */
+#define DEBUG_ENTRIES(...) /* log_debug(__VA_ARGS__); */
+
 /**************************************************************************
   Returns the last error which occured in a string.  It never returns NULL.
 **************************************************************************/
@@ -106,4 +109,75 @@ void secfile_destroy(struct section_file *secfile)
   }
 
   free(secfile);
+}
+
+/****************************************************************************
+  Copies a string. Backslash followed by a genuine newline always
+  removes the newline.
+  If full_escapes is TRUE:
+    - '\n' -> newline translation.
+    - Other '\c' sequences (any character 'c') are just passed
+      through with the '\' removed (eg, includes '\\', '\"').
+  See also make_escapes().
+****************************************************************************/
+static void remove_escapes(const char *str, bool full_escapes,
+                           char *buf, size_t buf_len)
+{
+  char *dest = buf;
+  const char *const max = buf + buf_len - 1;
+
+  while (*str != '\0' && dest < max) {
+    if (*str == '\\' && *(str + 1) == '\n') {
+      /* Escape followed by newline. Skip both */
+      str += 2;
+    } else if (full_escapes && *str == '\\') {
+      str++;
+      if (*str == 'n') {
+        *dest++ = '\n';
+        str++;
+      }
+    } else {
+      *dest++ = *str++;
+    }
+  }
+  *dest = '\0';
+}
+
+
+/**************************************************************************
+  Add entry to section from token.
+**************************************************************************/
+bool entry_from_token(struct section *psection, const char *name,
+                      const char *tok)
+{
+  if ('$' == tok[0] || '"' == tok[0]) {
+    char buf[strlen(tok) + 1];
+    bool escaped = ('"' == tok[0]);
+
+    remove_escapes(tok + 1, escaped, buf, sizeof(buf));
+    (void) section_entry_str_new(psection, name, buf, escaped);
+    DEBUG_ENTRIES("entry %s '%s'", name, buf);
+    return TRUE;
+  }
+
+  if (fc_isdigit(tok[0]) || ('-' == tok[0] && fc_isdigit(tok[1]))) {
+    int value;
+
+    if (str_to_int(tok, &value)) {
+      (void) section_entry_int_new(psection, name, value);
+      DEBUG_ENTRIES("entry %s %d", name, value);
+      return TRUE;
+    }
+  }
+
+  if (0 == fc_strncasecmp(tok, "FALSE", 5)
+      || 0 == fc_strncasecmp(tok, "TRUE", 4)) {
+    bool value = (0 == fc_strncasecmp(tok, "TRUE", 4));
+
+    (void) section_entry_bool_new(psection, name, value);
+    DEBUG_ENTRIES("entry %s %s", name, value ? "TRUE" : "FALSE");
+    return TRUE;
+  }
+
+  return FALSE;
 }

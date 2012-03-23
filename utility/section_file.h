@@ -76,6 +76,9 @@ void secfile_log(const struct section_file *secfile,
 #define SPECHASH_KEY_FREE genhash_str_free_func
 #include "spechash.h"
 
+bool entry_from_token(struct section *psection, const char *name,
+                      const char *tok);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
