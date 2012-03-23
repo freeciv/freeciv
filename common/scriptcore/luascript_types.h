@@ -53,6 +53,7 @@ typedef struct advance Tech_Type;
 typedef struct terrain Terrain;
 typedef struct connection Connection;
 typedef enum direction8 Direction;
+typedef struct disaster_type Disaster;
 
 typedef void Nonexistent;
 
@@ -94,6 +95,8 @@ typedef const struct city_list_link City_List_Link;
 #define SPECENUM_VALUE13NAME "Connection"
 #define SPECENUM_VALUE14      API_TYPE_DIRECTION
 #define SPECENUM_VALUE14NAME "Direction"
+#define SPECENUM_VALUE15      API_TYPE_DISASTER
+#define SPECENUM_VALUE15NAME "Disaster"
 #include "specenum_gen.h"
 
 #ifdef __cplusplus

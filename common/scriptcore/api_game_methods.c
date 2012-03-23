@@ -342,7 +342,6 @@ const char *api_methods_tech_type_name_translation(lua_State *L,
   return advance_name_translation(ptech);
 }
 
-
 /*****************************************************************************
   Return rule name for Terrain
 *****************************************************************************/
@@ -364,6 +363,29 @@ const char *api_methods_terrain_name_translation(lua_State *L,
   LUASCRIPT_CHECK_SELF(L, pterrain, NULL);
 
   return terrain_name_translation(pterrain);
+}
+
+/*****************************************************************************
+  Return rule name for Disaster
+*****************************************************************************/
+const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pdis, NULL);
+
+  return disaster_rule_name(pdis);
+}
+
+/*****************************************************************************
+  Return translated name for Disaster
+*****************************************************************************/
+const char *api_methods_disaster_name_translation(lua_State *L,
+                                                  Disaster *pdis)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pdis, NULL);
+
+  return disaster_name_translation(pdis);
 }
 
 /*****************************************************************************

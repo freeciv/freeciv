@@ -361,6 +361,9 @@ static void script_server_signal_create(void)
   luascript_signal_create(fcl, "unit_lost", 3,
                           API_TYPE_UNIT, API_TYPE_PLAYER, API_TYPE_STRING);
 
+  luascript_signal_create(fcl, "disaster", 2,
+                          API_TYPE_DISASTER, API_TYPE_CITY);
+
   luascript_signal_create(fcl, "map_generated", 0);
 }
 

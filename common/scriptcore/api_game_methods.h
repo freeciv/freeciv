@@ -87,6 +87,11 @@ const char *api_methods_terrain_rule_name(lua_State *L, Terrain *pterrain);
 const char *api_methods_terrain_name_translation(lua_State *L,
                                                  Terrain *pterrain);
 
+/* Disaster */
+const char *api_methods_disaster_rule_name(lua_State *L, Disaster *pdis);
+const char *api_methods_disaster_name_translation(lua_State *L,
+                                                  Disaster *pdis);
+
 /* Tile */
 int api_methods_tile_nat_x(lua_State *L, Tile *ptile);
 int api_methods_tile_nat_y(lua_State *L, Tile *ptile);

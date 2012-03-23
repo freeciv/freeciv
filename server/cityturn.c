@@ -2766,6 +2766,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
   bool had_effect = FALSE;
+  struct city *city_or_null = pcity;
 
   log_debug("%s at %s", disaster_rule_name(pdis), city_name(pcity));
 
@@ -2802,6 +2803,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     if (!city_reduce_size(pcity, 1, NULL)) {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("City got destroyed completely."));
+      city_or_null = NULL;
     } else {
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     _("Some population lost."));
@@ -2853,6 +2855,10 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                   _("We survived the disaster without serious damages."));
   }
+
+  script_server_signal_emit("disaster", 2,
+                            API_TYPE_DISASTER, pdis,
+                            API_TYPE_CITY, city_or_null);
 }
 
 /**************************************************************************

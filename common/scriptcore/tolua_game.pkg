@@ -93,6 +93,10 @@ struct Terrain {
   const int item_number @ id;
 };
 
+struct Disaster {
+  const int id;
+};
+
 struct Unit_List_Link {
 };
 
@@ -326,6 +330,14 @@ module Terrain {
     @ rule_name (lua_State *L, Terrain *self);
   const char *api_methods_terrain_name_translation
     @ name_translation (lua_State *L, Terrain *self);
+}
+
+/* Module Disaster. */
+module Disaster {
+  const char *api_methods_disaster_rule_name
+    @ rule_name (lua_State *L, Disaster *self);
+  const char *api_methods_disaster_name_translation
+    @ name_translation (lua_State *L, Disaster *self);
 }
 
 /* Module Unit_List_Link. */
