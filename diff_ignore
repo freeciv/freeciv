@@ -30,8 +30,9 @@ aclocal.m4
 autom4te.cache
 cat-id-tbl.c
 charset.alias
-civ
+fcgui
 freeciv-gtk2
+freeciv-gtk3
 freeciv-sdl
 freeciv-xaw
 freeciv-qt
@@ -54,7 +55,7 @@ missing
 mkinstalldirs
 ref-add.sed
 ref-del.sed
-ser
+fcser
 stamp-cat-id
 stamp-h
 stamp-h1

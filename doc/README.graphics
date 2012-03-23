@@ -9,7 +9,7 @@ To use different graphics with Freeciv, use the '--tiles' argument to
 the Freeciv client. Eg, to use the 'engels' graphics, start the
 client as:
   
-    freeciv-gtk2 --tiles engels
+    freeciv-gtk3 --tiles engels
 
 What Freeciv actually does in this case is look for a file called
 'engels.tilespec' somewhere in your Freeciv data path. (See the file

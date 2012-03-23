@@ -117,8 +117,8 @@
    worry about this; the server is run automatically for you when you
    start a new game. So unless you're using one of the older Freeciv
    client programs all you have to do is run the client. Do this by
-   double-clicking on the freeciv-gtk2 executable program or by typing
-   freeciv-gtk2 in a terminal (in the case of the gtk2 client).
+   double-clicking on the freeciv-gtk3 executable program or by typing
+   freeciv-gtk3 in a terminal (in the case of the gtk3 client).
 
    Once the client starts, select start new game. Now edit your game
    settings (the defaults should be fine for a beginner-level
@@ -341,7 +341,7 @@ games?
    mode), and civ2 (Civilization 2 compatibility mode). Use the rulesetdir
    command (see rulesetdir) to change the ruleset (as in /rulesetdir
    civ2). Note the ruleset mechanism is still being refined from version
-   to version. In the GTK2 client you are able to choose the ruleset from
+   to version. In the GTK clients you are able to choose the ruleset from
    a dropdown on the pregame screen.
 
    Finally, upgrade! Freeciv continues to improve from version to version:
@@ -482,13 +482,13 @@ cannot conquer it, and he won't give up. What can I do?
    If you start a new game the grid (topology) will automatically be set
    to match your tileset. However since you can't change the tileset in
    pre-game this may not be helpful. You can try running the client as
-freeciv-gtk2 -t isophex
+freeciv-gtk3 -t isophex
 
    or
-freeciv-gtk2 -t hex2t
+freeciv-gtk3 -t hex2t
 
    to set the tileset immediately on startup. (This assumes that you are
-   using the gtk2 client.)
+   using the gtk3 client.)
 
 -------
 
@@ -496,7 +496,7 @@ freeciv-gtk2 -t hex2t
 
    See also the How do I play against computer players? section.
 
-   The GTK2 client has a GUI for setting up teams - just right click on
+   The GTK clients has a GUI for setting up teams - just right click on
    any player and assign it to any team. You may also use the command-line
    interface (through the chatline.)
 
@@ -542,7 +542,7 @@ freeciv-gtk2 -t hex2t
 
 1.23 I can't see trade routes in the city dialog (GTK+)
 
-   In the GTK2 client, you can see the effect of trade routes by left
+   In the GTK clients, you can see the effect of trade routes by left
    clicking and holding on the trade value in the Info panel of the city
    dialog.
 
@@ -923,12 +923,12 @@ configure --with-xaw3d
 3.20 I hate isometric view! How do I play with Civilization I style graphics?
 
    Start the client as
-freeciv-gtk2 --tiles trident
+freeciv-gtk3 --tiles trident
 
-   for the gtk2 client.
+   for the gtk3 client.
 
    There is also a client option in the Local Client sub-menu under
-   Options (gtk2 client) or Local Settings (xaw client) menu.
+   Options (gtk clients) or Local Settings (xaw client) menu.
 
 -------
 
@@ -977,11 +977,11 @@ freeciv-gtk2 --tiles trident
    you can extract that into /usr/local/share/freeciv, such that a
    directory /usr/local/share/freeciv/data/stdsounds will exist.
 
-   You can then start the (gtk2) client as follows:
-freeciv-gtk2 -P <plugin> -S stdsounds
+   You can then start the (gtk3) client as follows:
+freeciv-gtk3 -P <plugin> -S stdsounds
 
    If that does not work, try:
-freeciv-gtk2 -d 3 -P <plugin> -S stdsounds
+freeciv-gtk3 -d 3 -P <plugin> -S stdsounds
 
    This will help you get some debug information (e.g. why the sound does
    not work).
@@ -1079,20 +1079,20 @@ set HOME="C:\Documents And Settings\(your username goes here)\Application Data"
 
 3.27 How can i change the language of my client/server?
 
-   On Linux, it may be possible to start the (gtk2) client in the
+   On Linux, it may be possible to start the (gtk3) client in the
    following fashion (for US English):
-LANG=en_US freeciv-gtk2
+LANG=en_US freeciv-gtk3
 
    For a server in another language start is with (for German):
 LANG=de_DE freeciv-server
 
    On Windows create a simple batch file (e.g. freeciv.bat, in the same
    directory, where you have installed the package) and then run this file
-   instead of freeciv-gtk2.exe or freeciv-sdl.exe (do not forget to change
+   instead of freeciv-gtk3.exe or freeciv-sdl.exe (do not forget to change
    the target of all shortcuts pointing to this new file). The batch
-   consists of 2 lines (example given for the gtk2 client):
+   consists of 2 lines (example given for the gtk3 client):
 set LANG=EN
-freeciv-gtk2.exe
+freeciv-gtk3.exe
 
 -------
 
@@ -1128,7 +1128,7 @@ freeciv-gtk2.exe
 
 3.29 How do I disable full screen mode?
 
-   In the GTK2 client, go to View and select Full Screen. It may not take
+   In the GTK clients, go to View and select Full Screen. It may not take
    effect until the next time you start the client.
 
    In the SDL client, open the Options dialogue, select Video options,
@@ -1171,7 +1171,7 @@ freeciv-gtk2.exe
 
 3.30.3 Graphic display
 
-   The GTK2 client works well on 1024x800 or higher resolutions. On
+   The GTK clients works well on 1024x800 or higher resolutions. On
    smaller screens you may want to enable the Arrange widgets for small
    displays option under Interface tab in local options.
 
@@ -1263,8 +1263,8 @@ freeciv-gtk2.exe
    Start→Programs→Accessories→Command Prompt in my case, sometimes called
    an MS-DOS Window). Change to the Freeciv directory (for example, cd
    \FREECIV-2.2.3) and start the client with the --tiles tilesetname
-   option. For example for the gtk2 client,
-FREECIV-GTK2 --tiles freeland
+   option. For example for the gtk3 client,
+FREECIV-GTK3 --tiles freeland
 
    You should be good to go then!
 

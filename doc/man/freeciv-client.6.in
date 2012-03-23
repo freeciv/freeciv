@@ -206,8 +206,8 @@ Print the client-specific parameter help.
 Use a particular GUI theme.  Only implemented in the \fBfreeciv-sdl\fP client.
 .SH "EXAMPLES"
 .TP
-.B "freeciv-gtk2 \-\-name ""King Richard"" \-\-server io.daimi.aau.dk"
-Starts the GTK2 client using the name \fIKing Richard\fP and connecting
+.B "freeciv-gtk3 \-\-name ""King Richard"" \-\-server io.daimi.aau.dk"
+Starts the GTK3 client using the name \fIKing Richard\fP and connecting
 to the server at \fIio.daimi.aau.dk\fP.
 .TP
 .B freeciv-sdl \-a \-t trident

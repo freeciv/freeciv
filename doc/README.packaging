@@ -75,7 +75,7 @@ Building multiple clients at once
 ---------------------------------
 Starting from 2.2 it has been possible to build multiple clients running
 'make' just once. Just give configure option "--enable-client" comma
-separated list of clients to compile, e.g. "--enable-client=gtk2,sdl,xaw,qt"
+separated list of clients to compile, e.g. "--enable-client=gtk3,gtk2,sdl,xaw,qt"
 
 ----------------------------------------------------------------------
 Savegame compression support
