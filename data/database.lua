@@ -9,7 +9,7 @@
 --   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 --   GNU General Public License for more details.
 
--- This file is the Freeciv server's interface to the database backend
+-- This file is the Freeciv server`s interface to the database backend
 -- when authentication is enabled. See doc/README.fcdb.
 
 -- **************************************************************************
