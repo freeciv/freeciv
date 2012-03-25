@@ -43,6 +43,8 @@ struct road_type {
   bv_road_flags flags;
 };
 
+#define ROAD_NONE (-1)
+
 /* General road type accessor functions. */
 Road_type_id road_count(void);
 Road_type_id road_index(const struct road_type *proad);
@@ -74,8 +76,6 @@ bool can_build_road(struct road_type *road,
 bool player_can_build_road(struct road_type *road,
 			   const struct player *pplayer,
 			   const struct tile *ptile);
-
-struct road_type *road_type_by_eroad(enum eroad type);
 
 bool is_native_tile_to_road(const struct road_type *proad,
                             const struct tile *ptile);

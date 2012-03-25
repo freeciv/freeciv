@@ -284,6 +284,7 @@ static bool manual_command(void)
               _("Clean pollution"), _("Clean fallout"));
       terrain_type_iterate(pterrain) {
         struct resource **r;
+        struct road_type *proad;
 
         if (0 == strlen(terrain_rule_name(pterrain))) {
           /* Must be a disabled piece of terrain */
@@ -332,11 +333,19 @@ static bool manual_command(void)
                   terrain_name_translation(pterrain->mining_result),
                   pterrain->mining_time);
         }
-        fprintf(doc, "<tr><td>+%d%% %d%% %d%%</td><td align=\"right\">(%d)</td></tr>\n",
+        proad = road_by_special(S_ROAD);
+        fprintf(doc, "<tr><td>+%d%% %d%% %d%%</td><td align=\"right\">",
                 pterrain->road_output_incr_pct[O_FOOD],
                 pterrain->road_output_incr_pct[O_SHIELD],
-                pterrain->road_output_incr_pct[O_TRADE],
-                terrain_road_time(pterrain, ROAD_ROAD));
+                pterrain->road_output_incr_pct[O_TRADE]);
+
+        if (proad != NULL) {
+          fprintf(doc, "(%d)", terrain_road_time(pterrain, road_number(proad)));
+        } else {
+          fprintf(doc, "(n/a)");
+        }
+
+        fprintf(doc, "</td></tr>\n");
 
         if (pterrain->transform_result) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
@@ -346,8 +355,15 @@ static bool manual_command(void)
           fprintf(doc, "<tr><td>-</td><td align=\"right\">(-)</td></tr>\n</table></td>\n");
         }
 
-        fprintf(doc, "<td align=\"center\">%d / %d / %d</td></tr>\n\n",
-                terrain_road_time(pterrain, ROAD_RAILROAD),
+        fprintf(doc, "<td align=\"center\">");
+
+        proad = road_by_special(S_RAILROAD);
+        if (proad != NULL) {
+          fprintf(doc, "%d ", terrain_road_time(pterrain, road_number(proad)));
+        } else {
+          fprintf(doc, "n/a ");
+        }
+        fprintf(doc, "/ %d / %d</td></tr>\n\n",
                 pterrain->clean_pollution_time, pterrain->clean_fallout_time);
       } terrain_type_iterate_end;
       fprintf(doc, "</table>\n");

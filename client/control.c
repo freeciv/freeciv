@@ -1129,10 +1129,10 @@ bool can_unit_do_connect(struct unit *punit,
 
   switch (activity) {
    case ACTIVITY_ROAD:
-     proad = road_type_by_eroad(ROAD_ROAD);
+     proad = road_by_special(S_OLD_ROAD);
      break;
    case ACTIVITY_RAILROAD:
-     proad = road_type_by_eroad(ROAD_RAILROAD);
+     proad = road_by_special(S_OLD_RAILROAD);
      break;
    case ACTIVITY_GEN_ROAD:
      fc_assert(tgt->type == ATT_ROAD);
@@ -1152,6 +1152,9 @@ bool can_unit_do_connect(struct unit *punit,
   case ACTIVITY_ROAD:
   case ACTIVITY_RAILROAD:
   case ACTIVITY_GEN_ROAD:
+    if (proad == NULL) {
+      return FALSE;
+    }
     return tile_has_road(ptile, proad)
       || can_build_road(proad, punit, ptile);
   case ACTIVITY_IRRIGATE:

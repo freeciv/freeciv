@@ -985,6 +985,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   struct terrain *pterrain = tile_terrain(ptile);
   struct unit_class *pclass = unit_class(punit);
+  struct road_type *proad;
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -1000,8 +1001,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	    && tile_has_special(ptile, S_FALLOUT));
 
   case ACTIVITY_ROAD:
-    return can_build_road(road_by_number(ROAD_ROAD),
-			  punit, ptile);
+    proad = road_by_special(S_OLD_ROAD);
+    return proad != NULL && can_build_road(proad, punit, ptile);
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
@@ -1084,8 +1085,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return TRUE;
 
   case ACTIVITY_RAILROAD:
-    return can_build_road(road_by_number(ROAD_RAILROAD),
-			  punit, ptile);
+    proad = road_by_special(S_OLD_RAILROAD);
+    return proad != NULL && can_build_road(proad, punit, ptile);
 
   case ACTIVITY_PILLAGE:
     {

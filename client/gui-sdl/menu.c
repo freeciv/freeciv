@@ -372,6 +372,8 @@ void create_units_order_widgets(void)
   char cBuf[128];
   Uint16 *unibuf;  
   size_t len;
+  struct road_type *proad;
+  struct road_type *prail;
   
   /* No orders */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("No Orders"),
@@ -540,35 +542,42 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect road */
-  fc_snprintf(cBuf, sizeof(cBuf),
-              _("Connect With %s (%s)"),
-              road_name_translation(road_by_number(ROAD_ROAD)),
-              "Shift+R");
-  pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
-                          WF_HIDDEN | WF_RESTORE_BACKGROUND
-                          | WF_WIDGET_HAS_INFO_LABEL);
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->action = unit_order_callback;
-  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
-  pBuf->key = SDLK_r;
-  pBuf->mod = KMOD_SHIFT;
-  add_to_gui_list(ID_UNIT_ORDER_CONNECT_ROAD, pBuf);
+  proad = road_by_special(S_ROAD);
+
+  if (proad != NULL) {
+    fc_snprintf(cBuf, sizeof(cBuf),
+                _("Connect With %s (%s)"),
+                road_name_translation(proad),
+                "Shift+R");
+    pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
+                            WF_HIDDEN | WF_RESTORE_BACKGROUND
+                            | WF_WIDGET_HAS_INFO_LABEL);
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->action = unit_order_callback;
+    pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
+    pBuf->key = SDLK_r;
+    pBuf->mod = KMOD_SHIFT;
+    add_to_gui_list(ID_UNIT_ORDER_CONNECT_ROAD, pBuf);
+  }
   /* --------- */
 
   /* Connect railroad */
-  fc_snprintf(cBuf, sizeof(cBuf),
-              _("Connect With %s (%s)"),
-              road_name_translation(road_by_number(ROAD_RAILROAD)),
-              "Shift+L");
-  pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
-                          WF_HIDDEN | WF_RESTORE_BACKGROUND
-                          | WF_WIDGET_HAS_INFO_LABEL);
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->action = unit_order_callback;
-  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
-  pBuf->key = SDLK_l;
-  pBuf->mod = KMOD_SHIFT;
-  add_to_gui_list(ID_UNIT_ORDER_CONNECT_RAILROAD, pBuf);
+  prail = road_by_special(S_RAILROAD);
+  if (prail != NULL) {
+    fc_snprintf(cBuf, sizeof(cBuf),
+                _("Connect With %s (%s)"),
+                road_name_translation(prail),
+                "Shift+L");
+    pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
+                            WF_HIDDEN | WF_RESTORE_BACKGROUND
+                            | WF_WIDGET_HAS_INFO_LABEL);
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->action = unit_order_callback;
+    pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
+    pBuf->key = SDLK_l;
+    pBuf->mod = KMOD_SHIFT;
+    add_to_gui_list(ID_UNIT_ORDER_CONNECT_RAILROAD, pBuf);
+  }
   /* --------- */
 
   /* Auto-Explore */
@@ -820,16 +829,20 @@ void create_units_order_widgets(void)
 
   /* Build (Rail-)Road */
   /* TRANS: "Build Railroad (R) 999 turns" */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-              road_name_translation(road_by_number(ROAD_RAILROAD)), "R", 999, 
-              PL_("turn", "turns", 999));
-  len = strlen(cBuf);
+  if (prail != NULL) {
+    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                road_name_translation(prail), "R", 999, 
+                PL_("turn", "turns", 999));
+    len = strlen(cBuf);
+  }
   /* TRANS: "Build Road (R) 999 turns" */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-              road_name_translation(road_by_number(ROAD_ROAD)), "R", 999, 
-              PL_("turn", "turns", 999));
-  len = MAX(len, strlen(cBuf));
-  
+  if (proad != NULL) {
+    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                road_name_translation(proad), "R", 999, 
+                PL_("turn", "turns", 999));
+    len = MAX(len, strlen(cBuf));
+  }
+
   pBuf = create_themeicon(pTheme->ORoad_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -1024,7 +1037,7 @@ void real_menus_update(void)
       /* show minimap buttons and unitinfo buttons */
       show_minimap_window_buttons();      
       show_unitinfo_window_buttons();
-            
+
       counter = 0;
     }
 
@@ -1071,19 +1084,26 @@ void real_menus_update(void)
 
       time = can_unit_do_activity(pUnit, ACTIVITY_RAILROAD);
       if (can_unit_do_activity(pUnit, ACTIVITY_ROAD) || time) {
-	if(time) {
+        struct road_type *proad;
+	if (time) {
+          proad = road_by_special(S_RAILROAD);
+          /* We trust proad never to be NULL as can_unit_do_activity()
+           * already passed. */
+
 	  time = tile_activity_time(ACTIVITY_RAILROAD, unit_tile(pUnit));
           /* TRANS: "Build Railroad (R) 3 turns" */
 	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                      road_name_translation(road_by_number(ROAD_RAILROAD)),
+                      road_name_translation(proad),
                       "R", time, 
                       PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
+          proad = road_by_special(S_ROAD);
+
 	  time = tile_activity_time(ACTIVITY_ROAD, unit_tile(pUnit));
           /* TRANS: "Build Road (R) 1 turn" */
 	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-		      road_name_translation(road_by_number(ROAD_ROAD)),
+		      road_name_translation(proad),
                       "R", time,
                       PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORoad_Icon;

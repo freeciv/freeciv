@@ -331,9 +331,14 @@ static int adv_calc_railroad(const struct city *pcity,
                             const struct tile *ptile)
 {
   int goodness = -1;
-  struct road_type *proad = road_type_by_eroad(ROAD_RAILROAD);
+  struct road_type *proad = road_by_special(S_RAILROAD);
 
-  fc_assert_ret_val(ptile != NULL, -1)
+  fc_assert_ret_val(ptile != NULL, -1);
+
+  if (proad == NULL) {
+    /* No railroad type in ruleset */
+    return -1;
+  }
 
   if (!is_ocean_tile(ptile)
       && player_can_build_road(proad, city_owner(pcity), ptile)

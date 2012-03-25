@@ -27,7 +27,7 @@
 
 #include "road.h"
 
-static struct road_type roads[ROAD_LAST];
+static struct road_type roads[MAX_ROAD_TYPES];
 
 /**************************************************************************
   Return the road id.
@@ -77,7 +77,7 @@ void road_types_init(void)
 {
   int i;
 
-  for (i = 0; i < ROAD_LAST; i++) {
+  for (i = 0; i < MAX_ROAD_TYPES; i++) {
     roads[i].id = i;
     requirement_vector_init(&roads[i].reqs);
   }
@@ -98,10 +98,15 @@ void road_types_free(void)
 ****************************************************************************/
 enum unit_activity road_activity(struct road_type *proad)
 {
-  if (proad->id == ROAD_ROAD) {
+  enum tile_special_type spe = road_special(proad);
+
+  switch (spe) {
+  case S_ROAD:
     return ACTIVITY_ROAD;
-  } else if (proad->id == ROAD_RAILROAD) {
+  case S_RAILROAD:
     return ACTIVITY_RAILROAD;
+  default:
+    return ACTIVITY_LAST;
   }
 
   return ACTIVITY_LAST;
@@ -279,21 +284,6 @@ bool is_road_near_tile(const struct tile *ptile, const struct road_type *proad)
   } adjc_iterate_end;
 
   return FALSE;
-}
-
-/****************************************************************************
-  Return road type matching given eroad type. This function exist only
-  to help transition from old two-hardcoded-roads system to gane-roads.
-****************************************************************************/
-struct road_type *road_type_by_eroad(enum eroad type)
-{
-  road_type_iterate(proad) {
-    if (proad->id == type) {
-      return proad;
-    }
-  } road_type_iterate_end;
-
-  return NULL;
 }
 
 /****************************************************************************

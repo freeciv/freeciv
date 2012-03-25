@@ -471,6 +471,7 @@ enum known_type tile_get_known(const struct tile *ptile,
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 {
   struct terrain *pterrain = tile_terrain(ptile);
+  struct road_type *proad;
 
   /* Make sure nobody uses old activities */
   fc_assert_ret_val(activity != ACTIVITY_FORTRESS
@@ -484,13 +485,21 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
   case ACTIVITY_POLLUTION:
     return pterrain->clean_pollution_time * ACTIVITY_FACTOR;
   case ACTIVITY_ROAD:
-    return tile_activity_road_time(ptile, ROAD_ROAD);
+    proad = road_by_special(S_OLD_ROAD);
+    if (proad == NULL) {
+      return FC_INFINITY;
+    }
+    return tile_activity_road_time(ptile, road_number(proad));
   case ACTIVITY_MINE:
     return pterrain->mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
     return pterrain->irrigation_time * ACTIVITY_FACTOR;
   case ACTIVITY_RAILROAD:
-    return tile_activity_road_time(ptile, ROAD_RAILROAD);
+    proad = road_by_special(S_OLD_RAILROAD);
+    if (proad == NULL) {
+      return FC_INFINITY;
+    }
+    return tile_activity_road_time(ptile, road_number(proad));
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:

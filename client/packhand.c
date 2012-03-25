@@ -182,7 +182,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   if (packet->activity_tgt_base != BASE_NONE) {
     punit->activity_target.type = ATT_BASE;
     punit->activity_target.obj.base = packet->activity_tgt_base;
-  } else if (packet->activity_tgt_road != ROAD_LAST) {
+  } else if (packet->activity_tgt_road != ROAD_NONE) {
     punit->activity_target.type = ATT_ROAD;
     punit->activity_target.obj.road = packet->activity_tgt_road;
   }
@@ -195,7 +195,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   if (packet->changed_from_tgt_base != BASE_NONE) {
     punit->changed_from_target.type = ATT_BASE;
     punit->changed_from_target.obj.base = packet->changed_from_tgt_base;
-  } else if (packet->changed_from_tgt_road != ROAD_LAST) {
+  } else if (packet->changed_from_tgt_road != ROAD_NONE) {
     punit->changed_from_target.type = ATT_ROAD;
     punit->changed_from_target.obj.road = packet->changed_from_tgt_road;
   }
@@ -270,7 +270,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
   if (packet->activity_tgt_base != BASE_NONE) {
     punit->activity_target.type = ATT_BASE;
     punit->activity_target.obj.base = packet->activity_tgt_base;
-  } else if (packet->activity_tgt_road != ROAD_LAST) {
+  } else if (packet->activity_tgt_road != ROAD_NONE) {
     punit->activity_target.type = ATT_ROAD;
     punit->activity_target.obj.road = packet->activity_tgt_road;
   }

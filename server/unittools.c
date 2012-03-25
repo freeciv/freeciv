@@ -2001,7 +2001,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 
   packet->activity_tgt_spe = S_LAST;
   packet->activity_tgt_base = BASE_NONE;
-  packet->activity_tgt_road = ROAD_LAST;
+  packet->activity_tgt_road = ROAD_NONE;
   switch (punit->activity_target.type) {
     case ATT_SPECIAL:
       packet->activity_tgt_spe = punit->activity_target.obj.spe;
@@ -2019,7 +2019,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
 
   packet->changed_from_tgt_spe = S_LAST;
   packet->changed_from_tgt_base = BASE_NONE;
-  packet->changed_from_tgt_road = ROAD_LAST;
+  packet->changed_from_tgt_road = ROAD_NONE;
   switch (punit->changed_from_target.type) {
     case ATT_SPECIAL:
       packet->changed_from_tgt_spe = punit->changed_from_target.obj.spe;
@@ -2108,7 +2108,7 @@ void package_short_unit(struct unit *punit,
   }
 
   packet->activity_tgt_base = BASE_NONE;
-  packet->activity_tgt_road = ROAD_LAST;
+  packet->activity_tgt_road = ROAD_NONE;
 
   if (packet->activity == ACTIVITY_BASE) {
     packet->activity_tgt_base = punit->activity_target.obj.base;

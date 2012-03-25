@@ -28,8 +28,6 @@ extern "C" {
  * Nothing in this file should require anything else from the common/
  * directory! */
 
-enum eroad { ROAD_ROAD = 0, ROAD_RAILROAD, ROAD_LAST };
-
 #define MAX_NUM_PLAYER_SLOTS 128
 #define MAX_NUM_BARBARIANS   2
 #define MAX_NUM_PLAYERS      MAX_NUM_PLAYER_SLOTS - MAX_NUM_BARBARIANS
@@ -41,7 +39,7 @@ enum eroad { ROAD_ROAD = 0, ROAD_RAILROAD, ROAD_LAST };
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 20 /* see diplomat_success_vs_defender() */
 #define MAX_BASE_TYPES 32
-#define MAX_ROAD_TYPES ROAD_LAST /* Cannot be changed without major code changes */
+#define MAX_ROAD_TYPES 2 /* Cannot be changed without major code changes */
 #define MAX_DISASTER_TYPES 10
 #define MAX_NUM_USER_UNIT_FLAGS 4
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS

@@ -374,39 +374,41 @@ int settler_evaluate_improvements(struct unit *punit,
               time = pos.turn + get_turns_for_activity_at(punit, act, ptile);
 
               if (act == ACTIVITY_ROAD) {
-                struct road_type *proad = road_type_by_eroad(ROAD_ROAD);
-                struct road_type *prail = road_type_by_eroad(ROAD_RAILROAD);
+                struct road_type *proad = road_by_special(S_ROAD);
+                struct road_type *prail = road_by_special(S_RAILROAD);
 
                 extra = road_bonus(ptile, S_ROAD) * 5;
 
-                if (!can_build_road(prail, punit, ptile)) {
-                  /* Railroad building is not possible without road... */
-                  struct tile *virt = tile_virtual_new(ptile);
+                if (prail != NULL) {
+                  if (!can_build_road(prail, punit, ptile)) {
+                    /* Railroad building is not possible without road... */
+                    struct tile *virt = tile_virtual_new(ptile);
 
-                  tile_add_road(virt, proad);
+                    tile_add_road(virt, proad);
 
-                  if (can_build_road(prail, punit, virt)) {
-                    /* ... but is possible with road.
-                     * Consider making
-                     * road here, and set extras and time to to consider
-                     * railroads in main consider_settler_action call. */
-                    consider_settler_action(pplayer, act, extra, base_value,
-                                            oldv, in_use, time,
-                                            &best_newv, &best_oldv,
-                                            best_act, best_tile, ptile);
+                    if (can_build_road(prail, punit, virt)) {
+                      /* ... but is possible with road.
+                       * Consider making
+                       * road here, and set extras and time to to consider
+                       * railroads in main consider_settler_action call. */
+                      consider_settler_action(pplayer, act, extra, base_value,
+                                              oldv, in_use, time,
+                                              &best_newv, &best_oldv,
+                                              best_act, best_tile, ptile);
 
-                    base_value = adv_city_worker_act_get(pcity, cindex,
-                                                         ACTIVITY_RAILROAD);
+                      base_value = adv_city_worker_act_get(pcity, cindex,
+                                                           ACTIVITY_RAILROAD);
 
-                    /* Count road time plus rail time. */
-                    time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
-                                                      ptile);
+                      /* Count road time plus rail time. */
+                      time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
+                                                        ptile);
 
-                    /* Bonus for rail connectivity instead of road. */
-                    extra = road_bonus(ptile, S_RAILROAD) * 3;
+                      /* Bonus for rail connectivity instead of road. */
+                      extra = road_bonus(ptile, S_RAILROAD) * 3;
+                    }
+
+                    tile_virtual_destroy(virt);
                   }
-
-                  tile_virtual_destroy(virt);
                 }
               } else if (act == ACTIVITY_RAILROAD) {
                 extra = road_bonus(ptile, S_RAILROAD) * 3;

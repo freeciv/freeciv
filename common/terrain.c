@@ -783,7 +783,7 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
 {
   static char s[256];
   char *p;
-  enum eroad road = ROAD_LAST;
+  struct road_type *proad = NULL;
 
   s[0] = '\0';
 
@@ -799,14 +799,14 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
 
   /* Since railroad requires road, Road/Railroad is redundant */
   if (contains_special(spe, S_RAILROAD)) {
-    road = ROAD_RAILROAD;
+    proad = road_by_special(S_RAILROAD);
   } else if (contains_special(spe, S_ROAD)) {
-    road = ROAD_ROAD;
+    proad = road_by_special(S_ROAD);
   }
 
-  if (road != ROAD_LAST) {
+  if (proad != NULL) {
     cat_snprintf(s, sizeof(s), "%s/",
-                 road_name_translation(road_by_number(road)));
+                 road_name_translation(proad));
   }
 
   /* Likewise for farmland on irrigation */

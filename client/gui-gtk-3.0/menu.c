@@ -2004,15 +2004,22 @@ void real_menus_update(void)
 
   {
     char road_buf[500];
+    struct road_type *proad;
 
-    /* TRANS: Connect with some road type (Road/Railroad) */
-    snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
-             road_name_translation(road_by_number(ROAD_ROAD)));
-    menus_rename(unit_group, "CONNECT_ROAD", road_buf);
+    proad = road_by_special(S_ROAD);
+    if (proad != NULL) {
+      /* TRANS: Connect with some road type (Road/Railroad) */
+      snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
+               road_name_translation(proad));
+      menus_rename(unit_group, "CONNECT_ROAD", road_buf);
+    }
 
-    snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
-             road_name_translation(road_by_number(ROAD_RAILROAD)));
-    menus_rename(unit_group, "CONNECT_RAIL", road_buf);
+    proad = road_by_special(S_RAILROAD);
+    if (proad != NULL) {
+      snprintf(road_buf, sizeof(road_buf), _("Connect With %s"),
+               road_name_translation(proad));
+      menus_rename(unit_group, "CONNECT_RAIL", road_buf);
+    }
   }
 
   if (!can_client_issue_orders()) {
@@ -2152,8 +2159,8 @@ void real_menus_update(void)
     menus_rename(unit_group, "BUILD_ROAD", _("Establish Trade _Route"));
   } else if (units_have_flag(punits, F_SETTLERS, TRUE)) {
     bool has_road = FALSE;
-    enum eroad rtype;
     char road_item[500];
+    struct road_type *proad;
 
     /* FIXME: this overloading doesn't work well with multiple focus
      * units. */
@@ -2165,15 +2172,17 @@ void real_menus_update(void)
     } unit_list_iterate_end;
 
     if (has_road) {
-      rtype = ROAD_RAILROAD;
+      proad = road_by_special(S_RAILROAD);
     } else {
-      rtype = ROAD_ROAD;
+      proad = road_by_special(S_ROAD);
     }
 
-    /* TRANS: Build road of specific type (Road/Railroad) */
-    snprintf(road_item, sizeof(road_item), _("Build %s"),
-             road_name_translation(road_by_number(rtype)));
-    menus_rename(unit_group, "BUILD_ROAD", road_item);
+    if (proad != NULL) {
+      /* TRANS: Build road of specific type (Road/Railroad) */
+      snprintf(road_item, sizeof(road_item), _("Build %s"),
+               road_name_translation(proad));
+      menus_rename(unit_group, "BUILD_ROAD", road_item);
+    }
   } else {
     menus_rename(unit_group, "BUILD_ROAD", _("Build _Road"));
   }

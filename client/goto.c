@@ -478,6 +478,7 @@ static int get_activity_time(const struct tile *ptile,
 {
   struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
+  struct road_type *proad;
 
   fc_assert_ret_val(hover_state == HOVER_CONNECT, -1);
   fc_assert_ret_val(terrain_control.may_road, -1);
@@ -507,14 +508,21 @@ static int get_activity_time(const struct tile *ptile,
 	/* 0 means road is impossible here (??) */
 	return -1;
       }
-      activity_mc += terrain_road_time(pterrain, ROAD_ROAD);
+      proad = road_by_special(S_ROAD);
+      if (proad == NULL) {
+        return -1;
+      }
+      activity_mc += terrain_road_time(pterrain, road_number(proad));
     }
-    if (connect_activity == ACTIVITY_ROAD 
+    if (connect_activity == ACTIVITY_ROAD
         || tile_has_special(ptile, S_RAILROAD)) {
       break;
     }
-    activity_mc +=  terrain_road_time(pterrain, ROAD_RAILROAD);
-    /* No break */
+    proad = road_by_special(S_RAILROAD);
+    if (proad == NULL) {
+      return -1;
+    }
+    activity_mc +=  terrain_road_time(pterrain, road_number(proad));
     break;
   case ACTIVITY_GEN_ROAD:
     fc_assert(connect_tgt.type == ATT_ROAD);
@@ -590,10 +598,15 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   if (connect_activity == ACTIVITY_GEN_ROAD) {
     proad = road_by_number(connect_tgt.obj.road);
   } else if (connect_activity == ACTIVITY_ROAD) {
-    proad = road_type_by_eroad(ROAD_ROAD);
+    proad = road_by_special(S_OLD_ROAD);
   } else {
     fc_assert(connect_activity == ACTIVITY_RAILROAD);
-    proad = road_type_by_eroad(ROAD_RAILROAD);
+    proad = road_by_special(S_OLD_RAILROAD);
+  }
+
+  if (proad == NULL) {
+    /* No suitable road type available */
+    return -1;
   }
 
   /* Ok, the move is possible.  What are the costs? */
@@ -602,18 +615,9 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   total_extra = src_extra + 1;
 
   /* Special cases: get_MC function doesn't know that we would have built
-   * a road (railroad) on src tile by that time */
-  if (connect_activity == ACTIVITY_ROAD
-      && tile_has_special(dest_tile, S_ROAD)) {
-    move_cost = road_type_by_eroad(ROAD_ROAD)->move_cost;
-  }
-  if (connect_activity == ACTIVITY_RAILROAD
-      && tile_has_special(dest_tile, S_RAILROAD)) {
-    move_cost = road_type_by_eroad(ROAD_RAILROAD)->move_cost;
-  }
-
-  if (connect_activity == ACTIVITY_GEN_ROAD
-      && tile_has_road(dest_tile, proad)) {
+   * a road (railroad) on src tile by that time.
+   * We assume that settler building the road can also travel it. */
+  if (tile_has_road(dest_tile, proad)) {
     move_cost = proad->move_cost;
   }
 
