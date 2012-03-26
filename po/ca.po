@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-11 17:48+0100\n"
-"PO-Revision-Date: 2012-03-11 17:54+0100\n"
+"POT-Creation-Date: 2012-03-27 00:28+0200\n"
+"PO-Revision-Date: 2012-03-27 00:29+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: \n"
@@ -1911,17 +1911,17 @@ msgstr ""
 "La contrasenya ha de tenir com a mínim %d lletres majúscules, %d nombres, i "
 "tenir com a mínim %d caràcters de longitud (imprimibles). Torna a provar-ho."
 
-#: server/barbarian.c:157
+#: server/barbarian.c:162
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
 msgstr "%s nomenen un líder anomenat %s. S'acosten temps perillosos."
 
-#: server/barbarian.c:630
+#: server/barbarian.c:635
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Descontent dels nadius prop de %s dirigit per %s."
 
-#: server/barbarian.c:635
+#: server/barbarian.c:640
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "S'han vist pirates prop de %s!"
@@ -2354,7 +2354,7 @@ msgstr "%s no pot mantenir %s, s'ha desmobilitzat la unitat."
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Ciutadans de %s moren perquè no poden mantenir %s!"
 
-#: server/cityturn.c:1493 server/cityturn.c:1619
+#: server/cityturn.c:1493 server/cityturn.c:1626
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s està construint %s, que ja no està disponible."
@@ -2386,74 +2386,74 @@ msgstr "Els %s han adquirit %s dels %s."
 msgid "The %s have started building a spaceship!"
 msgstr "Els %s han començat a construir una nau espacial!"
 
-#: server/cityturn.c:1646
+#: server/cityturn.c:1653
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "%s encara no pot construir %s."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1682
+#: server/cityturn.c:1689
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s ha acabat de construir %s."
 
 #. TRANS: <unit> cost... <city> shrinks...
-#: server/cityturn.c:1690
+#: server/cityturn.c:1697
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgstr "%s costen %d de població. %s s'encongeix a mida %d."
 
-#: server/cityturn.c:1772
+#: server/cityturn.c:1779
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "No es pot mantenir %s a %s, s'ha venut l'edifici!"
 
-#: server/cityturn.c:1821
+#: server/cityturn.c:1828
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "No hi ha prou or. %s desmobilitzada."
 
-#: server/cityturn.c:2047
+#: server/cityturn.c:2054
 #, c-format
 msgid "Pollution near %s."
 msgstr "Contaminació a prop de %s."
 
-#: server/cityturn.c:2202
+#: server/cityturn.c:2209
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Celebracions en honor teu a %s"
 
-#: server/cityturn.c:2208
+#: server/cityturn.c:2215
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Celebracions cancel·lades a %s."
 
-#: server/cityturn.c:2225
+#: server/cityturn.c:2232
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s ha estat afectada per una epidèmia! Es perd població!"
 
-#: server/cityturn.c:2271
+#: server/cityturn.c:2278
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Desordre civil a %s."
 
-#: server/cityturn.c:2275
+#: server/cityturn.c:2282
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "EL DESORDRE CIVIL CONTINUA A %s."
 
-#: server/cityturn.c:2281
+#: server/cityturn.c:2288
 #, c-format
 msgid "Order restored in %s."
 msgstr "S'ha restablert l'ordre a %s."
 
-#: server/cityturn.c:2292
+#: server/cityturn.c:2299
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "La gent ha destronat el teu %s, hi ha desordres al teu país."
 
-#: server/cityturn.c:2331
+#: server/cityturn.c:2338
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -2461,20 +2461,20 @@ msgstr ""
 "tenim."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2360
+#: server/cityturn.c:2367
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s desmantellada en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2544
+#: server/cityturn.c:2551
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr "Els emigrants de %s no poden anar a %s perquè no hi ha prou menjar!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2551
+#: server/cityturn.c:2558
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2483,7 +2483,7 @@ msgstr ""
 "Els emigrants de %s no poden anar a %s (%s) perquè no hi ha prou menjar!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2556
+#: server/cityturn.c:2563
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2492,7 +2492,7 @@ msgstr ""
 "Els emigrants de %s (%s) no poden anar a %s perquè no hi ha prou menjar!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2571
+#: server/cityturn.c:2578
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -2501,7 +2501,7 @@ msgstr ""
 "créixer!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2578
+#: server/cityturn.c:2585
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -2510,7 +2510,7 @@ msgstr ""
 "créixer!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2583
+#: server/cityturn.c:2590
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -2518,30 +2518,30 @@ msgstr ""
 "Els emigrants de %s (%s) no poden anar a %s perquè necessita una millora per "
 "créixer!"
 
-#: server/cityturn.c:2619
+#: server/cityturn.c:2626
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s ha estat abandonada pels seus ciutadans."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2641
+#: server/cityturn.c:2648
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Emigrants de %s han anat a %s buscant una vida millor."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2647
+#: server/cityturn.c:2654
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Emigrants de %s han anat a %s (%s) buscant una vida millor."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2652
+#: server/cityturn.c:2659
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Emigrants de %s (%s) han anat a %s buscant una vida millor."
 
-#: server/cityturn.c:2826
+#: server/cityturn.c:2833
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
@@ -2549,7 +2549,7 @@ msgstr ""
 "de vida."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2847
+#: server/cityturn.c:2854
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -9627,157 +9627,157 @@ msgstr "%s convertit en %s."
 msgid "%s cannot be converted."
 msgstr "%s no es pot convertir."
 
-#: server/unithand.c:506 client/text.c:1235
+#: server/unithand.c:513 client/text.c:1235
 #, c-format
 msgid "%s refuses to disband!"
 msgstr "%s es nega a desmobilitzar-se!"
 
 #. TRANS: <tile-terrain>.
-#: server/unithand.c:560
+#: server/unithand.c:567
 #, c-format
 msgid "Can't build a city on %s."
 msgstr "No es pot construir una ciutat sobre %s."
 
 #. TRANS: <unit> ... <tile-terrain>.
-#: server/unithand.c:566
+#: server/unithand.c:573
 #, c-format
 msgid "%s can't build a city on %s."
 msgstr "Els %s no poden construir una ciutat sobre %s."
 
-#: server/unithand.c:571
+#: server/unithand.c:578
 msgid "Can't place a city inside foreigner borders."
 msgstr "No es pot ubicar una ciutat dins de territori estranger."
 
-#: server/unithand.c:575
+#: server/unithand.c:582
 msgid "Can't place a city there because another city is too close."
 msgstr ""
 "No s'hi pot ubicar una ciutat perquè hi ha una altra ciutat massa a prop."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:585
+#: server/unithand.c:592
 #, c-format
 msgid "Only %s can build a city."
 msgstr "Només %s pot construir una ciutat."
 
-#: server/unithand.c:589
+#: server/unithand.c:596
 msgid "Can't build a city."
 msgstr "No es pot construir una ciutat."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:600
+#: server/unithand.c:607
 #, c-format
 msgid "Only %s can add to a city."
 msgstr "Només %s es poden afegir a una ciutat."
 
-#: server/unithand.c:604
+#: server/unithand.c:611
 msgid "Can't add to a city."
 msgstr "No es pot afegir a una ciutat."
 
-#: server/unithand.c:610
+#: server/unithand.c:617
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr "A la unitat %s no li queden moviments per a afegir-se a %s."
 
-#: server/unithand.c:615
+#: server/unithand.c:622
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr "A la unitat %s no li queden moviments per construir una ciutat."
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
-#: server/unithand.c:621
+#: server/unithand.c:628
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
 msgstr "%s pertany als %s, no s'hi poden afegir %s."
 
-#: server/unithand.c:628
+#: server/unithand.c:635
 #, c-format
 msgid "%s is too big to add %s."
 msgstr "%s és massa gran per afegir %s."
 
-#: server/unithand.c:633
+#: server/unithand.c:640
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr "%s necessita alguna millora per créixer, no pots afegir %s."
 
-#: server/unithand.c:643
+#: server/unithand.c:650
 #, c-format
 msgid "Can't add %s to %s."
 msgstr "No pots afegir %s a %s."
 
-#: server/unithand.c:667
+#: server/unithand.c:674
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s afegits per ajudar al creixement de %s."
 
-#: server/unithand.c:1030
+#: server/unithand.c:1037
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "El teu %s ha estat destruït per la defensa SDI, malaguanyat."
 
-#: server/unithand.c:1033
+#: server/unithand.c:1040
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "L'atac nuclear a %s ha estat evitat per la teva defensa SDI."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1112
+#: server/unithand.c:1119
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "El teu %1$s ha sobreviscut l'atac ridícul del %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1122
+#: server/unithand.c:1129
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "El teu %1$s ha fallat l'atac contra el %3$s %2$s!"
 
-#: server/unithand.c:1200
+#: server/unithand.c:1207
 msgid "This type of troops cannot take over a city."
 msgstr "Aquest tipus de tropes no poden conquerir una ciutat."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1210
+#: server/unithand.c:1217
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Només els %s poden atacar des del mar."
 
-#: server/unithand.c:1214
+#: server/unithand.c:1221
 msgid "Cannot attack from sea."
 msgstr "No pots atacar des del mar."
 
-#: server/unithand.c:1221 server/unittools.c:2349
+#: server/unithand.c:1228 server/unittools.c:2349
 msgid "Cannot attack unless you declare war first."
 msgstr "No pots atacar a no ser que declaris la guerra abans."
 
-#: server/unithand.c:1226
+#: server/unithand.c:1233
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s només es pot moure dins de la teva zona de control."
 
-#: server/unithand.c:1232
+#: server/unithand.c:1239
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s no pot moure's tan lluny de la costa."
 
-#: server/unithand.c:1239 server/unittools.c:2356
+#: server/unithand.c:1246 server/unittools.c:2356
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "No pots envair si no trenques primer la pau amb %s."
 
-#: server/unithand.c:1285
+#: server/unithand.c:1292
 msgid "This unit has no moves left."
 msgstr "A aquesta unitat no li queden moviments."
 
-#: server/unithand.c:1345
+#: server/unithand.c:1352
 msgid "No diplomat action possible."
 msgstr "No hi ha cap acció diplomàtica possible."
 
-#: server/unithand.c:1348
+#: server/unithand.c:1355
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "La unitat no pot dur a terme l'acció diplomàtica des de %s."
 
-#: server/unithand.c:1366
+#: server/unithand.c:1373
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -9785,42 +9785,42 @@ msgstr ""
 "(F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1408
+#: server/unithand.c:1415
 #, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "El teu %s ha reeixit a capturar el %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1413
+#: server/unithand.c:1420
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "El teu %s ha estat capturat pels %s."
 
-#: server/unithand.c:1438
+#: server/unithand.c:1445
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Aquesta unitat està sent transportada, i per tant no pot bombardejar."
 
-#: server/unithand.c:1450
+#: server/unithand.c:1457
 msgid "You can't attack there."
 msgstr "No pots atacar aquí."
 
-#: server/unithand.c:1486
+#: server/unithand.c:1493
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Una unitat transportada no està aliada a totes les unitats o ciutat de la "
 "casella destí."
 
-#: server/unithand.c:1534
+#: server/unithand.c:1541
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "La teva %s ajuda a construir %s a %s (en queden %d)."
 
-#: server/unithand.c:1536
+#: server/unithand.c:1543
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "La teva %s ajuda a construir %s a %s (excedent %d)."
 
-#: server/unithand.c:1589
+#: server/unithand.c:1596
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -9828,23 +9828,23 @@ msgstr ""
 "Ho sento, el teu %s no pot establir una ruta comercial perquè no té ciutat "
 "d'origen."
 
-#: server/unithand.c:1601
+#: server/unithand.c:1608
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Ho sento, el teu %s no pot establir una ruta comercial entre %s i %s."
 
-#: server/unithand.c:1633 server/unithand.c:1654
+#: server/unithand.c:1640 server/unithand.c:1661
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Ho sento, el teu %s no pot establir una ruta comercial aquí!"
 
-#: server/unithand.c:1638 server/unithand.c:1659
+#: server/unithand.c:1645 server/unithand.c:1666
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      La ciutat de %s ja té %d rutes comercials millors!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1681
+#: server/unithand.c:1688
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -9859,22 +9859,22 @@ msgstr[1] ""
 "La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
 "recerca."
 
-#: server/unithand.c:1707
+#: server/unithand.c:1714
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Ruta comercial nova establerta entre %s i %s."
 
-#: server/unithand.c:1713
+#: server/unithand.c:1720
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Els %s han establert una ruta comercial entre la seva ciutat %s i %s."
 
-#: server/unithand.c:1728 server/unithand.c:1750
+#: server/unithand.c:1735 server/unithand.c:1757
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Ruta comercial entre %s i %s cancel·lada."
 
-#: server/unithand.c:1735 server/unithand.c:1757
+#: server/unithand.c:1742 server/unithand.c:1764
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr ""
@@ -39395,7 +39395,7 @@ msgstr "Tolteques"
 #: data/nation/toltec.ruleset:6
 msgid ""
 "The Toltecs were a Meso-American civilization that existed from the 10th to "
-"the 12th century. The Toltec Empire was founded by Ce Tecpatl Mixcoac, who "
+"the 12th century. The Toltec Empire was founded by Ce Tecpatl Mixcoatl, who "
 "led his nomadic people from the north to settle on the Mexican High Plain. "
 "Mixcoatl was murdered by his enemies but was later avenged by his son Ce "
 "Acatl Topilitzin Quetzalcoatl, who would lead the Toltec civilization to "
