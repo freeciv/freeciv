@@ -24,7 +24,7 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "Trader"
 #include "specenum_gen.h"
 
-#define TRAIT_DEFAULT_VALUE 100
+#define TRAIT_DEFAULT_VALUE 50
 
 struct ai_trait
 {
