@@ -96,6 +96,16 @@ void road_types_free(void);
 #define road_type_iterate_end                    \
   }}
 
+#define road_deps_iterate(_reqs, _dep)                  \
+{                                                       \
+  requirement_vector_iterate(_reqs, preq) {             \
+    if (preq->source.kind == VUT_ROAD) {                \
+      struct road_type *_dep = preq->source.value.road;
+
+#define road_deps_iterate_end                           \
+    }                                                   \
+  } requirement_vector_iterate_end;                     \
+}
 
 #ifdef __cplusplus
 }

@@ -76,40 +76,88 @@ struct settlermap {
 
   "special" must be either S_ROAD or S_RAILROAD.
 **************************************************************************/
-static int road_bonus(struct tile *ptile, enum tile_special_type special)
+static int road_bonus(struct tile *ptile, struct road_type *proad)
 {
+#define MAX_DEP_ROADS 5
+
   int bonus = 0, i;
-  bool has_road[12], is_slow[12];
+  bool potential_road[12], real_road[12], is_slow[12];
   int dx[12] = {-1,  0,  1, -1, 1, -1, 0, 1,  0, -2, 2, 0};
   int dy[12] = {-1, -1, -1,  0, 0,  1, 1, 1, -2,  0, 0, 2};
   int x, y;
+  int rnbr;
+  struct road_type *pdep_roads[MAX_DEP_ROADS];
+  int dep_rnbr[MAX_DEP_ROADS];
+  int dep_count = 0;
 
-  fc_assert_ret_val(special == S_ROAD || special == S_RAILROAD, 0);
+  if (proad == NULL) {
+    return 0;
+  }
+
+  rnbr = road_number(proad);
+
+  road_deps_iterate(&(proad->reqs), pdep) {
+    if (dep_count < MAX_DEP_ROADS) {
+      pdep_roads[dep_count] = pdep;
+      dep_rnbr[dep_count++] = road_number(pdep);
+    }
+  } road_deps_iterate_end;
 
   index_to_map_pos(&x, &y, tile_index(ptile));
   for (i = 0; i < 12; i++) {
     struct tile *tile1 = map_pos_to_tile(x + dx[i], y + dy[i]);
 
     if (!tile1) {
-      has_road[i] = FALSE;
+      real_road[i] = FALSE;
+      potential_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      struct terrain *pterrain = tile_terrain(tile1);
+      int build_time = terrain_road_time(tile_terrain(tile1), rnbr);
+      int j;
 
-      has_road[i] = tile_has_special(tile1, special);
+      real_road[i] = tile_has_road(tile1, proad);
+      potential_road[i] = real_road[i];
+      for (j = 0 ; !potential_road[i] && j < dep_count ; j++) {
+        potential_road[i] = tile_has_road(tile1, pdep_roads[j]);
+      }
 
       /* If TRUE, this value indicates that this tile does not need
        * a road connector.  This is set for terrains which cannot have
        * road or where road takes "too long" to build. */
-      is_slow[i] = (pterrain->road_time == 0 || pterrain->road_time > 5);
+      is_slow[i] = (build_time == 0 || build_time > 5);
 
-      if (!has_road[i]) {
+      if (!real_road[i]) {
 	unit_list_iterate(tile1->units, punit) {
-	  if (punit->activity == ACTIVITY_ROAD 
-              || punit->activity == ACTIVITY_RAILROAD) {
-	    /* If a road is being built here, consider as if it's already
-	     * built. */
-	    has_road[i] = TRUE;
+          int build_rnbr = -1;
+
+          if (punit->activity == ACTIVITY_GEN_ROAD) {
+            build_rnbr = punit->activity_target.obj.road;
+          } else if (punit->activity == ACTIVITY_ROAD) {
+            struct road_type *pbr = road_by_special(S_ROAD);
+
+            if (pbr != NULL) {
+              build_rnbr = road_number(pbr);
+            }
+          } else if (punit->activity == ACTIVITY_RAILROAD) {
+            struct road_type *pbr = road_by_special(S_RAILROAD);
+
+            if (pbr != NULL) {
+              build_rnbr = road_number(pbr);
+            }
+          }
+
+          /* If a road, or its dependency is being built here, consider as if it's already
+	   * built. */
+          if (build_rnbr != -1) {
+            if (build_rnbr == rnbr) {
+              real_road[i] = TRUE;
+              potential_road[i] = TRUE;
+            }
+            for (j = 0 ; !potential_road[i] && j < dep_count ; j++) {
+              if (build_rnbr == dep_rnbr[j]) {
+                potential_road[i] = TRUE;
+              }
+            }
           }
 	} unit_list_iterate_end;
       }
@@ -134,30 +182,30 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
    * FIXME: if you can understand the algorithm below please rewrite this
    * explanation!
    */
-  if (has_road[0]
-      && !has_road[1] && !has_road[3]
-      && (!has_road[2] || !has_road[8])
+  if (potential_road[0]
+      && !real_road[1] && !real_road[3]
+      && (!real_road[2] || !real_road[8])
       && (!is_slow[2] || !is_slow[4] || !is_slow[7]
 	  || !is_slow[6] || !is_slow[5])) {
     bonus++;
   }
-  if (has_road[2]
-      && !has_road[1] && !has_road[4]
-      && (!has_road[7] || !has_road[10])
+  if (potential_road[2]
+      && !real_road[1] && !real_road[4]
+      && (!real_road[7] || !real_road[10])
       && (!is_slow[0] || !is_slow[3] || !is_slow[7]
 	  || !is_slow[6] || !is_slow[5])) {
     bonus++;
   }
-  if (has_road[5]
-      && !has_road[6] && !has_road[3]
-      && (!has_road[5] || !has_road[11])
+  if (potential_road[5]
+      && !real_road[6] && !real_road[3]
+      && (!real_road[5] || !real_road[11])
       && (!is_slow[2] || !is_slow[4] || !is_slow[7]
 	  || !is_slow[1] || !is_slow[0])) {
     bonus++;
   }
-  if (has_road[7]
-      && !has_road[6] && !has_road[4]
-      && (!has_road[0] || !has_road[9])
+  if (potential_road[7]
+      && !real_road[6] && !real_road[4]
+      && (!real_road[0] || !real_road[9])
       && (!is_slow[2] || !is_slow[3] || !is_slow[0]
 	  || !is_slow[1] || !is_slow[5])) {
     bonus++;
@@ -172,19 +220,19 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
    *
    * Of course the same logic applies if you rotate the diagram.
    */
-  if (has_road[1] && !has_road[4] && !has_road[3]
+  if (potential_road[1] && !real_road[4] && !real_road[3]
       && (!is_slow[5] || !is_slow[6] || !is_slow[7])) {
     bonus++;
   }
-  if (has_road[3] && !has_road[1] && !has_road[6]
+  if (potential_road[3] && !real_road[1] && !real_road[6]
       && (!is_slow[2] || !is_slow[4] || !is_slow[7])) {
     bonus++;
   }
-  if (has_road[4] && !has_road[1] && !has_road[6]
+  if (potential_road[4] && !real_road[1] && !real_road[6]
       && (!is_slow[0] || !is_slow[3] || !is_slow[5])) {
     bonus++;
   }
-  if (has_road[6] && !has_road[4] && !has_road[3]
+  if (potential_road[6] && !real_road[4] && !real_road[3]
       && (!is_slow[0] || !is_slow[1] || !is_slow[2])) {
     bonus++;
   }
@@ -377,7 +425,7 @@ int settler_evaluate_improvements(struct unit *punit,
                 struct road_type *proad = road_by_special(S_ROAD);
                 struct road_type *prail = road_by_special(S_RAILROAD);
 
-                extra = road_bonus(ptile, S_ROAD) * 5;
+                extra = road_bonus(ptile, road_by_special(S_ROAD)) * 5;
 
                 if (prail != NULL) {
                   if (!can_build_road(prail, punit, ptile)) {
@@ -404,14 +452,14 @@ int settler_evaluate_improvements(struct unit *punit,
                                                         ptile);
 
                       /* Bonus for rail connectivity instead of road. */
-                      extra = road_bonus(ptile, S_RAILROAD) * 3;
+                      extra = road_bonus(ptile, road_by_special(S_RAILROAD)) * 2;
                     }
 
                     tile_virtual_destroy(virt);
                   }
                 }
               } else if (act == ACTIVITY_RAILROAD) {
-                extra = road_bonus(ptile, S_RAILROAD) * 3;
+                extra = road_bonus(ptile, road_by_special(S_RAILROAD)) * 2;
               } else if (act == ACTIVITY_FALLOUT) {
                 extra = pplayer->ai_common.frost;
               } else if (act == ACTIVITY_POLLUTION) {
