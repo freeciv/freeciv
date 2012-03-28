@@ -463,7 +463,7 @@ PACKET_GAME_INFO = 16; sc
   BOOL pillage_select;
   STRING positive_year_label[MAX_LEN_NAME];
   UINT8 rapturedelay;
-  UINT8 disasters;
+  UINT16 disasters;
   BOOL restrictinfra;
   BOOL unreachable_protects;
   UINT32 sciencebox;
