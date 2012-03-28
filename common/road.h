@@ -40,6 +40,7 @@ struct road_type {
 
   struct requirement_vector reqs;
   bv_unit_classes native_to;
+  bv_roads hidden_by;
   bv_road_flags flags;
 };
 

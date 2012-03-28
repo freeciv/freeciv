@@ -789,10 +789,24 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
 
   road_type_iterate(proad) {
     if (BV_ISSET(roads, road_index(proad))) {
-      /* TODO: This is just to avoid duplicate if road is also part of specials.
-       *       Once roads are not part of specials, remove this check */
-      if (!contains_special(spe, road_special(proad))) {
-        cat_snprintf(s, sizeof(s), "%s/", road_name_translation(proad));
+      bool hidden = FALSE;
+
+      road_type_iterate(top) {
+        int topi = road_index(top);
+
+        if (BV_ISSET(proad->hidden_by, topi)
+            && BV_ISSET(roads, topi)) {
+          hidden = TRUE;
+          break;
+        }
+      } road_type_iterate_end;
+
+      if (!hidden) {
+        /* TODO: This is just to avoid duplicate if road is also part of specials.
+         *       Once roads are not part of specials, remove this check */
+        if (!contains_special(spe, road_special(proad))) {
+          cat_snprintf(s, sizeof(s), "%s/", road_name_translation(proad));
+        }
       }
     }
   } road_type_iterate_end;

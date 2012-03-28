@@ -2426,6 +2426,23 @@ static void load_ruleset_terrain(struct section_file *file)
     }
     free(slist);
 
+    slist = secfile_lookup_str_vec(file, &nval, "%s.hidden_by", section);
+    BV_CLR_ALL(proad->hidden_by);
+    for (j = 0; j < nval; j++) {
+      const char *sval = slist[j];
+      const struct road_type *top = road_type_by_rule_name(sval);
+
+      if (top == NULL) {
+        ruleset_error(LOG_FATAL, "\"%s\" road \"%s\" hidden by unknown road \"%s\".",
+                      filename,
+                      road_rule_name(proad),
+                      sval);
+      } else {
+        BV_SET(proad->hidden_by, road_index(top));
+      }
+    }
+    free(slist);
+
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
     BV_CLR_ALL(proad->flags);
     for (j = 0; j < nval; j++) {
@@ -4199,6 +4216,7 @@ static void send_ruleset_roads(struct conn_list *dest)
     packet.compat_special = r->compat_special;
 
     packet.native_to = r->native_to;
+    packet.hidden_by = r->hidden_by;
     packet.flags = r->flags;
 
     lsend_packet_ruleset_road(dest, &packet);

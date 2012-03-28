@@ -912,6 +912,8 @@ airbase may be attacked by land units.\
 ;                           "Road", "Railroad", or "None"
 ; native_to               = List of unit classes that consider tile
 ;                           with this road native even if terrain is not
+; hidden_by               = List of road types that will make this road
+;                           type not to show on UI if both present.
 ; flags
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
 ;
@@ -935,6 +937,7 @@ shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "Road"
 native_to      = "Land"
+hidden_by      = "Railroad"
 
 [road_railroad]
 name           = _("Railroad")

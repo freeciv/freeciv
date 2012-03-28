@@ -3607,6 +3607,22 @@ static int fill_rail_corner_sprites(const struct tileset *t,
 }
 
 /**************************************************************************
+  Check if one road type would hide another.
+**************************************************************************/
+static bool road_hides_another(struct road_type *hider, struct road_type *hidden)
+{
+  if (hidden == NULL) {
+    return TRUE;
+  }
+
+  if (hider == NULL) {
+    return FALSE;
+  }
+
+  return BV_ISSET(hidden->hidden_by, road_index(hider));
+}
+
+/**************************************************************************
   Fill all road and rail sprites into the sprite array.
 **************************************************************************/
 static int fill_road_rail_sprite_array(const struct tileset *t,
@@ -3619,6 +3635,8 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
   bool road, road_near[8], rail, rail_near[8];
   bool draw_road[8], draw_single_road, draw_rail[8], draw_single_rail;
   enum direction8 dir;
+  struct road_type *proad = road_by_special(S_ROAD);
+  struct road_type *prail = road_by_special(S_RAILROAD);
 
   if (!draw_roads_rails) {
     /* Don't draw anything. */
@@ -3632,9 +3650,13 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
    * drawn. */
   road = contains_special(tspecial, S_ROAD);
   rail = contains_special(tspecial, S_RAILROAD);
-  draw_single_road = road && (!pcity || !draw_cities) && !rail;
-  draw_single_rail = rail && (!pcity || !draw_cities);
+  draw_single_road = road && (!pcity || !draw_cities)
+                     && (!rail || !road_hides_another(prail, proad));
+  draw_single_rail = rail && (!pcity || !draw_cities)
+                     && (!road || !road_hides_another(proad, prail));
   for (dir = 0; dir < 8; dir++) {
+    bool roads_exist, rails_exist;
+
     /* Check if there is adjacent road/rail. */
     road_near[dir] = contains_special(tspecial_near[dir], S_ROAD);
     rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
@@ -3642,12 +3664,14 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
     /* Draw rail/road if there is a connection from this tile to the
      * adjacent tile.  But don't draw road if there is also a rail
      * connection. */
-    draw_rail[dir] = rail && rail_near[dir];
-    draw_road[dir] = road && road_near[dir] && !draw_rail[dir];
+    roads_exist = road && road_near[dir];
+    rails_exist = rail && rail_near[dir];
+    draw_road[dir] = roads_exist && (!rails_exist || !road_hides_another(prail, proad));
+    draw_rail[dir] = rails_exist && (!roads_exist || !road_hides_another(proad, prail));
 
     /* Don't draw an isolated road/rail if there's any connection. */
-    draw_single_rail &= !draw_rail[dir];
-    draw_single_road &= !draw_rail[dir] && !draw_road[dir];
+    draw_single_road &= !draw_road[dir] && !(draw_rail[dir] && road_hides_another(prail, proad));
+    draw_single_rail &= !draw_rail[dir] && !(draw_road[dir] && road_hides_another(proad, prail));
   }
 
   /* Draw road corners underneath rails (styles 0 and 1). */

@@ -3145,6 +3145,7 @@ void handle_ruleset_road(const struct packet_ruleset_road *p)
   proad->compat_special = p->compat_special;
 
   proad->native_to = p->native_to;
+  proad->hidden_by = p->hidden_by;
   proad->flags = p->flags;
 
   tileset_setup_road(tileset, proad);

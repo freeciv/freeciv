@@ -1440,6 +1440,7 @@ PACKET_RULESET_ROAD = 220; sc, lsend
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   SPECIAL compat_special;
   BV_UNIT_CLASSES native_to;
+  BV_ROADS hidden_by;
   BV_ROAD_FLAGS flags;
 end
 
