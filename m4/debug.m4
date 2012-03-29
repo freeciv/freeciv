@@ -48,13 +48,6 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 
-  if test "x$ignore_accept_warn" = "xyes" ; then
-    FC_C_FLAGS([-Wno-unused-but-set-variable], [], [EXTRA_DEBUG_CFLAGS])
-    if test "x$cxx_works" = "xyes" ; then
-      FC_CXX_FLAGS([-Wno-unused-but-set-variable], [], [EXTRA_DEBUG_CXXFLAGS])
-    fi
-  fi
-
   dnl backtrace log callback needs "-rdynamic" in order to work well.
   FC_LD_FLAGS([-rdynamic -Wl,--no-add-needed], [], [EXTRA_DEBUG_LDFLAGS])
 fi
