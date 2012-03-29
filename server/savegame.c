@@ -1418,6 +1418,7 @@ static void player_load_units(struct player *plr, int plrno,
     struct unit_type *type;
     enum tile_special_type target;
     struct base_type *pbase = NULL;
+    struct road_type *proad = NULL;
     int base;
     char unitstr[32];
     int ei;
@@ -1507,6 +1508,14 @@ static void player_load_units(struct player *plr, int plrno,
       pbase = base_type_by_rule_name("Airbase");
     }
 
+    if (target == S_OLD_ROAD) {
+      target = S_LAST;
+      proad = road_by_special(S_ROAD);
+    } else if (target == S_OLD_RAILROAD) {
+      target = S_LAST;
+      proad = road_by_special(S_RAILROAD);
+    }
+
     if (activity == ACTIVITY_PATROL_UNUSED) {
       /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
        * client-side goto.  Now client-side goto is handled by setting
@@ -1526,12 +1535,28 @@ static void player_load_units(struct player *plr, int plrno,
       pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
     }
 
+    if (activity == ACTIVITY_ROAD) {
+      activity = ACTIVITY_GEN_ROAD;
+      proad = road_by_special(S_ROAD);
+    } else if (activity == ACTIVITY_RAILROAD) {
+      activity = ACTIVITY_GEN_ROAD;
+      proad = road_by_special(S_RAILROAD);
+    }
+
     if (activity == ACTIVITY_BASE) {
       if (pbase) {
         set_unit_activity_base(punit, base_number(pbase));
       } else {
         log_error("Cannot find base %d for %s to build",
                   base, unit_rule_name(punit));
+        set_unit_activity(punit, ACTIVITY_IDLE);
+      }
+    } else if (activity == ACTIVITY_GEN_ROAD) {
+      if (proad) {
+        set_unit_activity_road(punit, road_number(proad));
+      } else {
+        log_error("Cannot find road for %s to build",
+                  unit_rule_name(punit));
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
     } else if (activity == ACTIVITY_PILLAGE) {
@@ -1543,6 +1568,9 @@ static void player_load_units(struct player *plr, int plrno,
       } else if (pbase != NULL) {
         a_target.type = ATT_BASE;
         a_target.obj.base = base_index(pbase);
+      } else if (proad != NULL) {
+        a_target.type = ATT_ROAD;
+        a_target.obj.road = road_index(proad);
       } else {
         a_target.type = ATT_SPECIAL;
         a_target.obj.road = S_LAST;
@@ -1627,6 +1655,9 @@ static void player_load_units(struct player *plr, int plrno,
 
     /* load the unit orders */
     if (has_capability("orders", savefile_options)) {
+      int road_idx = road_index(road_by_special(S_ROAD));
+      int rail_idx = road_index(road_by_special(S_RAILROAD));
+
       int len = secfile_lookup_int_default(file, 0,
 			"player%d.u%d.orders_length", plrno, i);
       if (len > 0) {
@@ -1698,6 +1729,14 @@ static void player_load_units(struct player *plr, int plrno,
             }
 
             order->base = base;
+          }
+
+          if (order->activity == ACTIVITY_ROAD) {
+            order->activity = ACTIVITY_GEN_ROAD;
+            order->road = road_idx;
+          } else if (order->activity == ACTIVITY_RAILROAD) {
+            order->activity = ACTIVITY_GEN_ROAD;
+            order->road = rail_idx;
           }
 	}
       } else {

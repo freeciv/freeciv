@@ -4434,8 +4434,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int nat_x, nat_y;
   enum tile_special_type target;
   struct base_type *pbase = NULL;
+  struct road_type *proad = NULL;
   struct tile *ptile;
   int base;
+  int road;
   int ei;
   const char *facing_str;
   enum tile_special_type cfspe;
@@ -4490,6 +4492,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
   if (base >= 0 && base < loading->base.size) {
     pbase = loading->base.order[base];
   }
+  road = secfile_lookup_int_default(loading->file, -1,
+                                    "%s.activity_road", unitstr);
+  if (road >= 0 && road < loading->road.size) {
+    proad = loading->road.order[road];
+  }
 
   target = secfile_lookup_int_default(loading->file, S_LAST,
                                       "%s.activity_target", unitstr);
@@ -4499,6 +4506,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
   } else if (target == S_OLD_AIRBASE) {
     target = S_LAST;
     pbase = base_type_by_rule_name("Airbase");
+  }
+
+  if (target == S_OLD_ROAD) {
+    target = S_LAST;
+    proad = road_by_special(S_ROAD);
+  } else if (target == S_OLD_RAILROAD) {
+    target = S_LAST;
+    proad = road_by_special(S_RAILROAD);
   }
 
   if (activity == ACTIVITY_PATROL_UNUSED) {
@@ -4520,6 +4535,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
     pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, unit_tile(punit));
   }
 
+  if (activity == ACTIVITY_ROAD) {
+    activity = ACTIVITY_GEN_ROAD;
+    proad = road_by_special(S_ROAD);
+  } else if (activity == ACTIVITY_RAILROAD) {
+    activity = ACTIVITY_GEN_ROAD;
+    proad = road_by_special(S_RAILROAD);
+  }
+
   /* We need changed_from == ACTIVITY_IDLE by now so that
    * set_unit_activity() and friends don't spuriously restore activity
    * points -- unit should have been created this way */
@@ -4533,6 +4556,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
              base, unit_rule_name(punit));
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
+  } else if (activity == ACTIVITY_GEN_ROAD) {
+    if (proad) {
+      set_unit_activity_road(punit, road_number(proad));
+    } else {
+      log_sg("Cannot find road %d for %s to build",
+             road, unit_rule_name(punit));
+      set_unit_activity(punit, ACTIVITY_IDLE);
+    }
   } else if (activity == ACTIVITY_PILLAGE) {
     struct act_tgt a_target;
 
@@ -4542,6 +4573,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
     } else if (pbase != NULL) {
       a_target.type = ATT_BASE;
       a_target.obj.base = base_index(pbase);
+    } else if (proad != NULL) {
+      a_target.type = ATT_ROAD;
+      a_target.obj.road = road_index(proad);
     } else {
       a_target.type = ATT_SPECIAL;
       a_target.obj.spe = S_LAST;
@@ -4567,9 +4601,30 @@ static bool sg_load_player_unit(struct loaddata *loading,
   base =
     secfile_lookup_int_default(loading->file, -1,
                                "%s.changed_from_base", unitstr);
+  road =
+    secfile_lookup_int_default(loading->file, -1,
+                               "%s.changed_from_road", unitstr);
+
+  if (road == -1) {
+    if (cfspe == S_OLD_ROAD) {
+      proad = road_type_by_rule_name("Road");
+      if (proad) {
+        road = road_index(proad);
+      }
+    } else if (cfspe == S_OLD_RAILROAD) {
+      proad = road_by_special(S_RAILROAD);
+      if (proad) {
+        road = road_index(proad);
+      }
+    }
+  }
+
   if (base >= 0 && base < loading->base.size) {
     punit->changed_from_target.type = ATT_BASE;
     punit->changed_from_target.obj.base = base_number(loading->base.order[base]);
+  } else if (road >= 0 && road < loading->road.size) {
+    punit->changed_from_target.type = ATT_ROAD;
+    punit->changed_from_target.obj.road = road_number(loading->road.order[road]);
   } else {
     punit->changed_from_target.type = ATT_SPECIAL;
     punit->changed_from_target.obj.spe = cfspe;
@@ -4650,6 +4705,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                          "%s.orders_length", unitstr);
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr, *base_unitstr;
+      const char *road_unitstr;
+      int road_idx = road_index(road_by_special(S_ROAD));
+      int rail_idx = road_index(road_by_special(S_RAILROAD));
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -4674,6 +4732,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                      "%s.activity_list", unitstr);
       base_unitstr
         = secfile_lookup_str(loading->file, "%s.base_list", unitstr);
+      road_unitstr
+        = secfile_lookup_str_default(loading->file, NULL, "%s.road_list", unitstr);
+
       punit->has_orders = TRUE;
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
@@ -4709,6 +4770,26 @@ static bool sg_load_player_unit(struct loaddata *loading,
           }
 
           order->base = base;
+        }
+
+        if (road_unitstr && road_unitstr[j] != '?') {
+          road = char2num(road_unitstr[j]);
+
+          if (road < 0 || road >= loading->road.size) {
+            log_sg("Cannot find road %d for %s to build",
+                   road, unit_rule_name(punit));
+            road = 0;
+          }
+
+          order->road = road;
+        }
+
+        if (order->activity == ACTIVITY_ROAD) {
+          order->activity = ACTIVITY_GEN_ROAD;
+          order->road = road_idx;
+        } else if (order->activity == ACTIVITY_RAILROAD) {
+          order->activity = ACTIVITY_GEN_ROAD;
+          order->road = rail_idx;
         }
       }
     } else {
@@ -4790,7 +4871,6 @@ static void sg_save_player_units(struct savedata *saving,
 
     fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(plr), i);
     dirbuf[0] = dir2char(punit->facing);
-
     secfile_insert_int(saving->file, punit->id, "%s.id", buf);
 
     index_to_native_pos(&nat_x, &nat_y, tile_index(unit_tile(punit)));
@@ -4821,6 +4901,13 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_int(saving->file, BASE_NONE,
                          "%s.activity_base", buf);
     }
+    if (punit->activity_target.type == ATT_ROAD) {
+      secfile_insert_int(saving->file, punit->activity_target.obj.road,
+                         "%s.activity_road", buf);
+    } else {
+      secfile_insert_int(saving->file, ROAD_NONE,
+                         "%s.activity_road", buf);
+    }
     secfile_insert_int(saving->file, punit->changed_from,
                        "%s.changed_from", buf);
     secfile_insert_int(saving->file, punit->changed_from_count,
@@ -4838,6 +4925,13 @@ static void sg_save_player_units(struct savedata *saving,
     } else {
       secfile_insert_int(saving->file, BASE_NONE,
                          "%s.changed_from_base", buf);
+    }
+    if (punit->changed_from_target.type == ATT_ROAD) {
+      secfile_insert_int(saving->file, punit->changed_from_target.obj.road,
+                         "%s.changed_from_road", buf);
+    } else {
+      secfile_insert_int(saving->file, ROAD_NONE,
+                         "%s.changed_from_road", buf);
     }
     secfile_insert_bool(saving->file, punit->done_moving,
                         "%s.done_moving", buf);
@@ -4881,6 +4975,7 @@ static void sg_save_player_units(struct savedata *saving,
       int len = punit->orders.length, j;
       char orders_buf[len + 1], dir_buf[len + 1];
       char act_buf[len + 1], base_buf[len + 1];
+      char road_buf[len + 1];
 
       secfile_insert_int(saving->file, len, "%s.orders_length", buf);
       secfile_insert_int(saving->file, punit->orders.index,
@@ -4895,6 +4990,7 @@ static void sg_save_player_units(struct savedata *saving,
         dir_buf[j] = '?';
         act_buf[j] = '?';
         base_buf[j] = '?';
+        road_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
@@ -4902,6 +4998,8 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_ACTIVITY:
           if (punit->orders.list[j].activity == ACTIVITY_BASE) {
             base_buf[j] = num2char(punit->orders.list[j].base);
+          } else if (punit->orders.list[j].activity == ACTIVITY_GEN_ROAD) {
+            road_buf[j] = num2char(punit->orders.list[j].road);
           }
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;
@@ -4916,11 +5014,13 @@ static void sg_save_player_units(struct savedata *saving,
         }
       }
       orders_buf[len] = dir_buf[len] = act_buf[len] = base_buf[len] = '\0';
+      road_buf[len] = '\0';
 
       secfile_insert_str(saving->file, orders_buf, "%s.orders_list", buf);
       secfile_insert_str(saving->file, dir_buf, "%s.dir_list", buf);
       secfile_insert_str(saving->file, act_buf, "%s.activity_list", buf);
       secfile_insert_str(saving->file, base_buf, "%s.base_list", buf);
+      secfile_insert_str(saving->file, road_buf, "%s.road_list", buf);
     } else {
       /* Put all the same fields into the savegame - otherwise the
        * registry code can't correctly use a tabular format and the
@@ -4933,6 +5033,7 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_str(saving->file, "-", "%s.dir_list", buf);
       secfile_insert_str(saving->file, "-", "%s.activity_list", buf);
       secfile_insert_str(saving->file, "-", "%s.base_list", buf);
+      secfile_insert_str(saving->file, "-", "%s.road_list", buf);
     }
 
     i++;
@@ -5973,6 +6074,20 @@ static void compat_load_020500(struct loaddata *loading)
 }
 
 /****************************************************************************
+  Helper function to convert road type to old two-road-types type.
+****************************************************************************/
+static enum tile_special_type old_road_from_road_id(Road_type_id id)
+{
+  struct road_type *proad = road_by_number(id);
+
+  if (proad != NULL) {
+    return road_special(proad);
+  }
+
+  return S_LAST;
+}
+
+/****************************************************************************
   Translate savegame secfile data from 2.5.0 to 2.4.x format.
 ****************************************************************************/
 static void compat_save_020500(struct savedata *saving)
@@ -5984,6 +6099,108 @@ static void compat_save_020500(struct savedata *saving)
 
   secfile_entry_delete(saving->file, "savefile.roads_size");
   secfile_entry_delete(saving->file, "savefile.roads_vector");
+
+
+  /* Here we shamelessly use current game state information instead
+   * of trying to parse passed in savedata. */
+  players_iterate(pplayer) {
+    int i = 0;
+
+    unit_list_iterate(pplayer->units, punit) {
+      char buf[512];
+
+      fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(pplayer), i);
+
+      secfile_entry_delete(saving->file, "%s.activity_road", buf);
+
+      if (punit->activity_target.type == ATT_ROAD) {
+        enum tile_special_type type = old_road_from_road_id(punit->activity_target.obj.road);
+
+        secfile_entry_delete(saving->file, "%s.activity", buf);
+
+        if (punit->activity == ACTIVITY_GEN_ROAD) {
+          switch (type) {
+          case S_ROAD:
+            secfile_insert_int(saving->file, ACTIVITY_ROAD, "%s.activity", buf);
+            break;
+          case S_RAILROAD:
+            secfile_insert_int(saving->file, ACTIVITY_RAILROAD, "%s.activity", buf);
+            break;
+          case S_LAST:
+          default:
+            secfile_insert_int(saving->file, ACTIVITY_IDLE, "%s.activity", buf);
+            break;
+          }
+        } else if (punit->activity == ACTIVITY_PILLAGE) {
+          secfile_entry_delete(saving->file, "%s.activity_target", buf);
+          secfile_insert_int(saving->file, type, "%s.activity_target", buf);
+        }
+      }
+
+      secfile_entry_delete(saving->file, "%s.changed_from_road", buf);
+
+      if (punit->changed_from_target.type == ATT_ROAD) {
+        enum tile_special_type type = old_road_from_road_id(punit->changed_from_target.obj.road);
+
+        secfile_entry_delete(saving->file, "%s.changed_from", buf);
+
+        if (punit->changed_from == ACTIVITY_GEN_ROAD) {
+          switch (type) {
+          case S_ROAD:
+            secfile_insert_int(saving->file, ACTIVITY_ROAD, "%s.changed_from", buf);
+            break;
+          case S_RAILROAD:
+            secfile_insert_int(saving->file, ACTIVITY_RAILROAD, "%s.changed_from", buf);
+            break;
+          case S_LAST:
+          default:
+            secfile_insert_int(saving->file, ACTIVITY_IDLE, "%s.changed_from", buf);
+            break;
+          }
+        } else if (punit->changed_from == ACTIVITY_PILLAGE) {
+          secfile_entry_delete(saving->file, "%s.changed_from_target", buf);
+          secfile_insert_int(saving->file, type, "%s.changed_from_target", buf);
+        }
+      }
+
+      if (punit->has_orders) {
+        int len = punit->orders.length;
+        int j;
+        char act_buf[len];
+        const char *act_in;
+
+        act_in = secfile_lookup_str(saving->file, "%s.activity_list", buf);
+        strncpy(act_buf, act_in, sizeof(act_buf));
+
+        secfile_entry_delete(saving->file, "%s.road_list", buf);
+
+        for (j = 0; j < len; j++) {
+          if (punit->orders.list[j].order == ORDER_ACTIVITY) {
+            if (punit->orders.list[j].activity == ACTIVITY_GEN_ROAD) {
+              enum tile_special_type type = old_road_from_road_id(punit->orders.list[j].road);
+
+              switch (type) {
+              case S_ROAD:
+                act_buf[j] = activity2char(ACTIVITY_ROAD);
+                break;
+              case S_RAILROAD:
+                act_buf[j] = activity2char(ACTIVITY_RAILROAD);
+                break;
+              case S_LAST:
+              default:
+                act_buf[j] = activity2char(ACTIVITY_IDLE);
+                break;
+              }
+            }
+          }
+        }
+
+        secfile_insert_str(saving->file, act_buf, "%s.activity_list", buf);
+      }
+
+      i++;
+    } unit_list_iterate_end;
+  } players_iterate_end;
 }
 
 struct compatibility {
