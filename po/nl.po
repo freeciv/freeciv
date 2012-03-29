@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-21 00:23+0100\n"
+"POT-Creation-Date: 2012-03-23 16:03+0100\n"
 "PO-Revision-Date: 2007-09-01 22:18+0300\n"
 "Last-Translator: Jos Maalderink <josmaalderink@hotmail.com>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -120,7 +120,7 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
-"*%s (KI)* Eindelijk kom ik aan u toe! Dacht u nu echt dat u weg konkomen met "
+"*%s (KI)* Eindelijk kom ik aan u toe! Dacht u nu echt dat u weg kon komen met "
 "uw misdaden?"
 
 #: ai/default/advdiplomacy.c:1194
@@ -9361,11 +9361,11 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 "Deze optie aanzetten zal opdrachten voor eenheden wissen wanneer deze worden "
-"geselecteerd. Als deze optie is uitgezet zullen eenheden die ergems mee bezig "
-"zijn hun huidige activiteit niet stoppen als ze worden geactiveerd. Een nieuwe "
-"opdracht geven zal de huidige opdracht wissen; eenmaal <spatie> indrukken zal "
-"de opdrachten wissen en ze geselecteerd houden en een tweede keer <spatie> indrukken "
-"zal de selectie beëindigen."
+"geselecteerd. Als deze optie is uitgezet zullen eenheden die ergems mee "
+"bezig zijn hun huidige activiteit niet stoppen als ze worden geactiveerd. "
+"Een nieuwe opdracht geven zal de huidige opdracht wissen; eenmaal <spatie> "
+"indrukken zal de opdrachten wissen en ze geselecteerd houden en een tweede "
+"keer <spatie> indrukken zal de selectie beëindigen."
 
 #: client/options.c:2008
 msgid "Enable vote bar"
@@ -9376,8 +9376,8 @@ msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
-"Als deze optie aanstaat zal een balk worden weergegeven om informatie "
-"over stemmingen te tonen."
+"Als deze optie aanstaat zal een balk worden weergegeven om informatie over "
+"stemmingen te tonen."
 
 #: client/options.c:2013
 msgid "Always display the vote bar"
@@ -9388,8 +9388,8 @@ msgid ""
 "If this option is turned on, the vote bar will never be hidden, even if "
 "there is no running vote."
 msgstr ""
-"Als deze optie aanstaat zal de stembalk nooit worden verborgen, zelfs als "
-"er geen stemming actief is."
+"Als deze optie aanstaat zal de stembalk nooit worden verborgen, zelfs als er "
+"geen stemming actief is."
 
 #: client/options.c:2018
 msgid "Do not show vote bar if not a player"
@@ -9412,8 +9412,8 @@ msgid ""
 "If this option is enabled, then new votes will go to the front of the vote "
 "list."
 msgstr ""
-"Als deze optie aanstaat zullen nieuwe stemmingen aan het begin van de stemmingslijst "
-"geplaatst worden."
+"Als deze optie aanstaat zullen nieuwe stemmingen aan het begin van de "
+"stemmingslijst geplaatst worden."
 
 #: client/options.c:2028
 msgid "Background layer"
@@ -9501,8 +9501,9 @@ msgstr "Gebied binnen grenzen weergeven"
 
 #: client/options.c:2075
 msgid "If set, the territory of each nation is shown on the saved image."
-msgstr "Als aangezet zal het territorium van elke natie worden weergegeven in "
-"de opgeslagen afbeelding."
+msgstr ""
+"Als aangezet zal het territorium van elke natie worden weergegeven in de "
+"opgeslagen afbeelding."
 
 #: client/options.c:2079
 msgid "Show borders"
@@ -9510,8 +9511,9 @@ msgstr "Grenzen weergeven"
 
 #: client/options.c:2080
 msgid "If set, the border of each nation is shown on the saved image."
-msgstr "Als aangezet zal de grens van elke natie worden weergeven in "
-"de opgeslagen afbeelding."
+msgstr ""
+"Als aangezet zal de grens van elke natie worden weergeven in de opgeslagen "
+"afbeelding."
 
 #: client/options.c:2084
 msgid "Show cities"
@@ -9519,8 +9521,8 @@ msgstr "Steden weergeven"
 
 #: client/options.c:2085
 msgid "If set, cities are shown on the saved image."
-msgstr "Als aangezet zullen steden worden weergeven in de opgeslagen "
-"afbeelding."
+msgstr ""
+"Als aangezet zullen steden worden weergeven in de opgeslagen afbeelding."
 
 #: client/options.c:2088
 msgid "Show fog of war"
@@ -9528,8 +9530,8 @@ msgstr "Oorlogsmist weergeven"
 
 #: client/options.c:2089
 msgid "If set, the extent of fog of war is shown on the saved image."
-msgstr "Als aangezet zal oorlogsmist worden weergeven in de opgeslagen "
-"afbeelding."
+msgstr ""
+"Als aangezet zal oorlogsmist worden weergeven in de opgeslagen afbeelding."
 
 #: client/options.c:2093
 msgid "Show full terrain"
@@ -9539,9 +9541,10 @@ msgstr "Volledig terrein weergeven"
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
-msgstr "Als aangezet zal terreinreliëf met verschillende kleuren worden "
-"weergegeven in de opgeslagen afbeelding; anders zullen alleen land en water "
-"worden onderscheiden."
+msgstr ""
+"Als aangezet zal terreinreliëf met verschillende kleuren worden weergegeven "
+"in de opgeslagen afbeelding; anders zullen alleen land en water worden "
+"onderscheiden."
 
 #: client/options.c:2099
 msgid "Show units"
@@ -9549,7 +9552,8 @@ msgstr "Eenheden tonen"
 
 #: client/options.c:2100
 msgid "If set, units are shown in the saved image."
-msgstr "Als aangezet zullen eenheden worden weergeven in de opgeslagen afbeelding."
+msgstr ""
+"Als aangezet zullen eenheden worden weergeven in de opgeslagen afbeelding."
 
 #: client/options.c:2103
 msgid "Map image file name"
@@ -9560,8 +9564,8 @@ msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
 msgstr ""
-"Het basisdeel van de bestandsnaam voor opgeslagen kaartafbeeldingen. Een string "
-"met de beurt en kaartopties zal worden toegevoegd." 
+"Het basisdeel van de bestandsnaam voor opgeslagen kaartafbeeldingen. Een "
+"string met de beurt en kaartopties zal worden toegevoegd."
 
 #: client/options.c:2110 client/options.c:2312
 msgid "Show map scrollbars"
@@ -9580,9 +9584,9 @@ msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
-"Als deze optie aanstaat dan zullen vensters altijd voor het hoofdvenster blijven "
-"hangen en kan je ze niet per ongeluk uit het oog verliezen. Dit uitschakelen "
-"heeft geen effect in volledigschermmodus."
+"Als deze optie aanstaat dan zullen vensters altijd voor het hoofdvenster "
+"blijven hangen en kan je ze niet per ongeluk uit het oog verliezen. Dit "
+"uitschakelen heeft geen effect in volledigschermmodus."
 
 #: client/options.c:2119 client/options.c:2321
 msgid "Show worklist task icons"
@@ -9605,8 +9609,8 @@ msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
-"Als deze optie aanstaat zullen rapportvensters getoond worden in aparte "
-"tabs ipv in opspringende vensters."
+"Als deze optie aanstaat zullen rapportvensters getoond worden in aparte tabs "
+"ipv in opspringende vensters."
 
 #: client/options.c:2130 client/options.c:2332 client/options.c:2533
 msgid "Better fog-of-war drawing"
@@ -9658,11 +9662,11 @@ msgid ""
 "closed and reopened."
 msgstr ""
 "Als deze optie aanstaat zullen er twee knoppen getoond worden in het "
-"berichtvenster, voor het inspecteren van een stad en voor het naar een locatie "
-"gaan. Als deze optie uitstaat zullen deze knoppen niet verschijnen (je kan nog "
-"steeds met links dubbelklikken of rechts op een rij klikken om respectievelijk "
-"te inspecteren en te gaan naar). Deze optie zal pas van kracht worden nadat "
-"het berichtvenster is gesloten en opnieuw geopend."
+"berichtvenster, voor het inspecteren van een stad en voor het naar een "
+"locatie gaan. Als deze optie uitstaat zullen deze knoppen niet verschijnen "
+"(je kan nog steeds met links dubbelklikken of rechts op een rij klikken om "
+"respectievelijk te inspecteren en te gaan naar). Deze optie zal pas van "
+"kracht worden nadat het berichtvenster is gesloten en opnieuw geopend."
 
 #: client/options.c:2160 client/options.c:2362
 msgid "Metaserver tab first in network page"
@@ -9673,8 +9677,8 @@ msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
-"Als deze optie aanstaat zal de metaservertab de eerste notebooktab zijn op de "
-"netwerkpagina. Voordat deze optie van kracht wordt is een herstart nodig."
+"Als deze optie aanstaat zal de metaservertab de eerste notebooktab zijn op "
+"de netwerkpagina. Voordat deze optie van kracht wordt is een herstart nodig."
 
 #: client/options.c:2166 client/options.c:2368
 msgid "Plain chat messages are sent to allies only"
@@ -9690,15 +9694,15 @@ msgid ""
 "visible in multiplayer games)."
 msgstr ""
 "Als deze optie aanstaat zullen reguliere berichten die in het chatvenster "
-"worden ingevoerd alleen naar bondgenoten verzonden. Zo niet dan zullen berichten "
-"als openbare berichten worden verstuurd. Om een openbaar chatbeericht te versturen "
-"met deze optie aan moet het bericht voorafegaan worden door een dubbelepunt ':'. "
-"Deze optie kan ook worden ingesteld door een schakelknop naast de chatregel (alleen "
-"zichtbaar in meerspelerspellen)."
+"worden ingevoerd alleen naar bondgenoten verzonden. Zo niet dan zullen "
+"berichten als openbare berichten worden verstuurd. Om een openbaar "
+"chatbeericht te versturen met deze optie aan moet het bericht voorafegaan "
+"worden door een dubbelepunt ':'. Deze optie kan ook worden ingesteld door "
+"een schakelknop naast de chatregel (alleen zichtbaar in meerspelerspellen)."
 
 #: client/options.c:2179 client/options.c:2381
 msgid "Messages and Chat reports location"
-msgstr ""
+msgstr "Locatie berichten en chatverslagen"
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2_message_chat_location'
@@ -9716,10 +9720,20 @@ msgid ""
 "other reports; this allows a larger map view on small screens.\n"
 "This option requires a restart in order to take effect."
 msgstr ""
+"Bepaalt waar de Berichten en Chatverslagen verschijnen ten opzichte van het "
+"hoofdvenster met de kaart.\n"
+"'Gesplitst' laat alledrie tegelijk zien, wat het meest geschikt is voor meerspeler "
+"maar een groot venster nodig heeft.\n"
+"'Gescheiden' plaatst berichten en chat in een notebook gescheiden van het "
+"hoofdvenster zodat een ervan altijd naast het hoofdvenster bekeken kan worden.\n"
+"'Samengevoegd' brengt de berichten en chatverslagen samen in tabs naast de kaart "
+"en andere rapporten; hierdoor is een groter kaartvenster mogelijk op kleine "
+"schermen.\n"
+"Deze optie heeft een herstart nodig om van kracht te worden."
 
 #: client/options.c:2198 client/options.c:2400
 msgid "Arrange widgets for small displays"
-msgstr ""
+msgstr "Widgets schikken voor kleine schermen"
 
 #: client/options.c:2199 client/options.c:2401
 msgid ""
@@ -9729,45 +9743,54 @@ msgid ""
 "box will be extended over the entire left side of the window. This option "
 "requires a restart in order to take effect."
 msgstr ""
+"Als deze optie aanstaat zullen widgets in het hoofdvenster zo geschikt worden "
+"dat ze een zo klein mogelijk deel van het totale scherm in beslag nemen. "
+"In het bezonder zal het linkerpaneel met het overzicht, de spelerstatus en de "
+"eenheidsinformatiebox over de hele linkerkant van het scherm uitgetrokken worden. "
+"Deze optie heeft een herstart nodig om van kracht te worden."
 
 #: client/options.c:2208 client/options.c:2410
 msgid "Mouse over the map widget selects it automatically"
-msgstr ""
+msgstr "Muis over de kaartwidget selecteert het automatisch"
 
 #: client/options.c:2209 client/options.c:2411
-#, fuzzy
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
 msgstr ""
-"Als deze optie aanstaat zullen rapport-vensters getoond worden in aparte "
-"tabs ipv in opspringende vensters."
+"Als deze optie aanstaat zal de kaart automatisch gefocust worden als de muis "
+"er over wordt bewogen. "
 
 #: client/options.c:2213 client/options.c:2415
 msgid "Player or user name autocompletion"
-msgstr ""
+msgstr "Spelers- of gebruikersnaam auto-aanvullen"
 
 #: client/options.c:2214 client/options.c:2416
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
 msgstr ""
+"Als deze optie aan staat kan de tab-toets in de chatregel gebruikt worden om "
+"het woord dat je aan het typen bent aan te vullen als dit de naam van een speler "
+"of gebruiker is."
 
 #: client/options.c:2219 client/options.c:2421
 msgid "Width of the city dialog"
-msgstr ""
+msgstr "Breedte van het stadsvenster"
 
 #: client/options.c:2220 client/options.c:2422
 msgid "This value is only used if the width of the city dialog is saved."
-msgstr ""
+msgstr "Deze waarde wordt alleen gebruikt als de breedte van het stadsvenster "
+"wordt opgeslagen."
 
 #: client/options.c:2226 client/options.c:2428
 msgid "Height of the city dialog"
-msgstr ""
+msgstr "Hoogte van het stadsvenster"
 
 #: client/options.c:2227 client/options.c:2429
 msgid "This value is only used if the height of the city dialog is saved."
-msgstr ""
+msgstr "Deze waarde wordt alleen gebruikt als de hoogte van het stadsvenster "
+"wordt opgeslagen."
 
 #: client/options.c:2233 client/options.c:2435
 msgid "City Label"
@@ -9775,50 +9798,51 @@ msgstr "Stadslabel"
 
 #: client/options.c:2234 client/options.c:2436
 msgid "This font is used to display the city labels on city dialogs."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de stadslabels in stadsvensters."
 
 #: client/options.c:2239 client/options.c:2441
 msgid "Notify Label"
-msgstr "Waarschuw label"
+msgstr "Waarschuwlabel"
 
 #: client/options.c:2240 client/options.c:2442
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
 msgstr ""
+"Dit lettertype wordt gebruikt voor serververslagen zoals het demografierapport "
+"of geschiedkundige publicaties."
 
 #: client/options.c:2245 client/options.c:2447
 msgid "Spaceship Label"
-msgstr "Ruimteschip Label"
+msgstr "Ruimteschiplabel"
 
 #: client/options.c:2246 client/options.c:2448
-#, fuzzy
 msgid "This font is used to display the spaceship widgets."
-msgstr "Als deze optie 1 is dan kunnen spelers ruimteschepen bouwen."
+msgstr "Dit lettertype wordt gebruikt voor de ruimteschipwidgets."
 
 #: client/options.c:2250 client/options.c:2452
 msgid "Help Label"
-msgstr "Help Label"
+msgstr "Hulplabel"
 
 #: client/options.c:2251 client/options.c:2453
 msgid "This font is used to display the help headers in the help window."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de hulpkopjes in het hulpscherm."
 
 #: client/options.c:2256 client/options.c:2458
 msgid "Help Link"
-msgstr "Help Link"
+msgstr "Hulpkoppeling"
 
 #: client/options.c:2257 client/options.c:2459
 msgid "This font is used to display the help links in the help window."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de koppelingen in het hulpscherm."
 
 #: client/options.c:2262 client/options.c:2464
 msgid "Help Text"
-msgstr "Help Text"
+msgstr "Hulptekst"
 
 #: client/options.c:2263 client/options.c:2465
 msgid "This font is used to display the help body text in the help window."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de tekst in het hulpscherm."
 
 #: client/options.c:2268 client/options.c:2470
 msgid "Chatline Area"
@@ -9826,15 +9850,15 @@ msgstr "Chatregel"
 
 #: client/options.c:2269 client/options.c:2471
 msgid "This font is used to display the text in the chatline area."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de tekst van de chatregel."
 
 #: client/options.c:2274 client/options.c:2476
 msgid "Beta Label"
-msgstr "Beta Label"
+msgstr "Bétalabel"
 
 #: client/options.c:2275 client/options.c:2477
 msgid "This font is used to display the beta label."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor het bétalabel."
 
 #: client/options.c:2279 client/options.c:2481
 msgid "Small Font"
@@ -9846,42 +9870,45 @@ msgid ""
 "display the building lists in the city dialog, the Economy report or the "
 "Units report."
 msgstr ""
+"Dit lettertype wordt gebruikt wanneer kleine lettertypes nodig zijn.  Het wordt "
+"bijgoorbeeld gebruikt voor de gebouwenlijsten in het stadsvenster, het "
+"economierapport of het eenhedenrapport."
 
 #: client/options.c:2287 client/options.c:2489
 msgid "Comment Label"
-msgstr "Commentaar Label"
+msgstr "Commentaarlabel"
 
 #: client/options.c:2288 client/options.c:2490
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
 msgstr ""
+"Dit lettertype wordt gebruikt voor commentaarlabels, zoals de gouverneurspagina "
+"of de stadsdialogen."
 
 #: client/options.c:2294 client/options.c:2496
 msgid "This font is used to the display the city names on the map."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de stadsnamen op de kaart."
 
 #: client/options.c:2299 client/options.c:2501
 msgid "City Productions"
-msgstr "Stads Producties"
+msgstr "Stadsproducties"
 
 #: client/options.c:2300 client/options.c:2502
 msgid "This font is used to the display the city production names on the map."
-msgstr ""
+msgstr "Dit lettertype wordt gebruikt voor de stadsproductie op de kaart."
 
 #: client/options.c:2305 client/options.c:2507
-#, fuzzy
 msgid "Requirement Tree"
-msgstr "Benodigd"
+msgstr "Benodigdhedenboom"
 
 #: client/options.c:2306 client/options.c:2508
-#, fuzzy
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
-msgstr "Als deze optie 1 is dan kunnen spelers ruimteschepen bouwen."
+msgstr ""
+"Dit lettertype wordt gebruikt voor de benodigdhedenboom in het onderzoeksrapport."
 
 #: client/options.c:2514
-#, fuzzy
 msgid "Fullscreen"
 msgstr "Volledig scherm"
 
@@ -9889,45 +9916,40 @@ msgstr "Volledig scherm"
 msgid ""
 "If this option is set the client will use the whole screen area for drawing."
 msgstr ""
+"Als deze optie aan staat zal de client het hele scherm gebruiken."
 
 #: client/options.c:2518
-#, fuzzy
 msgid "Screen resolution"
-msgstr "Kies nieuwe productie"
+msgstr "Schermresolutie"
 
 #: client/options.c:2519
 msgid "This option controls the resolution of the selected screen."
-msgstr ""
+msgstr "Deze optie bepaalt de resolutie van het geselecteerde scherm."
 
 #: client/options.c:2522
-#, fuzzy
 msgid "Do cursor animation"
-msgstr "Toon cursor animatie"
+msgstr "Aanwijzeranimatie laten zien"
 
 #: client/options.c:2523
-#, fuzzy
 msgid ""
 "If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
-"Als deze optie aanstaat zullen rapport-vensters getoond worden in aparte "
-"tabs ipv in opspringende vensters."
+"Als deze optie uit staat zal de muisaanwijzer altijd statisch worden afgebeeld."
 
 #: client/options.c:2526
 msgid "Use color cursors"
 msgstr "Gebruik kleurenaanwijzers"
 
 #: client/options.c:2527
-#, fuzzy
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
-"Als deze optie aanstaat zullen rapport-vensters getoond worden in aparte "
-"tabs ipv in opspringende vensters."
+"Als deze optie uitstaat zal de muisaanwijzer altijd zwart-wit worden afgebeeld."
 
 #: client/options.c:2539
 msgid "Enable alpha blending"
-msgstr "Zet transparantie aan"
+msgstr "Alfablending activeren"
 
 #: client/options.c:2540
 msgid ""
@@ -9936,15 +9958,14 @@ msgid ""
 "this is much slower."
 msgstr ""
 "Als dit aanstaat worden transparantie-effecten gebruikt ipv dithering. Als "
-"de hardware dit niet ondersteund is dit veel trager."
+"de hardware geen alfablending ondersteunt is dit veel trager."
 
 #: client/options.c:2616
 msgid "Graphics"
-msgstr "Afbeeldingen"
+msgstr "Graphics"
 
 #. TRANS: Options section for overview map (mini-map)
 #: client/options.c:2619
-#, fuzzy
 msgid "?map:Overview"
 msgstr "Overzicht"
 
@@ -9957,9 +9978,8 @@ msgid "Interface"
 msgstr "Interface"
 
 #: client/options.c:2625
-#, fuzzy
 msgid "Map Image"
-msgstr "Landkaarten Maken"
+msgstr "Kaartafbeelding"
 
 #: client/options.c:2627
 msgid "Network"
@@ -9971,22 +9991,20 @@ msgstr "Lettertype"
 
 #: client/options.c:4453
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr ""
-"Als u een snelkeuze met de hand toevoegt, wijzig dan ook \"number_of_presets"
-"\""
+msgstr "Als je handmatig een snelkeuze toevoegt, wijzig dan ook \"number_of_presets\""
 
 #: client/options.c:4497 client/options.c:4533
 msgid "Cannot find your home directory"
-msgstr "Kan uw home directory niet vinden"
+msgstr "Kan de thuisdirectory niet vinden"
 
 #: client/options.c:4547 client/options.c:4561
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
-msgstr ""
+msgstr "Kan optiebestand '%s' niet vinden, gebruik nu '%s'."
 
 #: client/options.c:5021
 msgid "Didn't find the option file."
-msgstr ""
+msgstr "Kan het optiebstand niet vinden."
 
 #: client/options.c:5037 client/options.c:5149
 #, c-format
@@ -10005,17 +10023,17 @@ msgstr "Opslaan mislukt, kan geen bestandsnaam vinden."
 #: client/packhand.c:329 client/packhand.c:333
 #, c-format
 msgid "You were rejected from the game: %s"
-msgstr "U werd uit het spel gezet: %s"
+msgstr "Je werd uit het spel gezet: %s"
 
 #: client/packhand.c:344
 #, c-format
 msgid "Client capability string: %s"
-msgstr "Client capaciteits string: %s"
+msgstr "Capabiliteitsstring client: %s"
 
 #: client/packhand.c:346
 #, c-format
 msgid "Server capability string: %s"
-msgstr "Server capaciteits string: %s"
+msgstr "Capabiliteitsstring server: %s"
 
 #: client/packhand.c:1090
 #, c-format
@@ -10023,27 +10041,24 @@ msgid "Start of turn %d"
 msgstr "Begin van beurt %d"
 
 #: client/packhand.c:1219
-#, fuzzy
 msgid "Welcome"
-msgstr "%s Welkom"
+msgstr "Welkom"
 
 #: client/packhand.c:2002
-#, fuzzy
 msgid "AI mode is now ON."
-msgstr "KI-modus is nu %s."
+msgstr "KI-modus is nu AAN."
 
 #: client/packhand.c:2004
-#, fuzzy
 msgid "AI mode is now OFF."
-msgstr "KI-modus is nu %s."
+msgstr "KI-modus is nu UIT."
 
 #: client/plrdlg_common.c:182
 msgid "waiting"
-msgstr "wachten..."
+msgstr "wachten"
 
 #: client/plrdlg_common.c:229
 msgid "?Player:Name"
-msgstr "?Player:Naam"
+msgstr "Naam"
 
 #: client/plrdlg_common.c:230
 msgid "Username"
@@ -10068,11 +10083,11 @@ msgstr "Dipl.Toestand"
 
 #: client/plrdlg_common.c:242
 msgid "?Player_dlg:Host"
-msgstr "?Player_dlg:Gastheer"
+msgstr "Gastheer"
 
 #: client/plrdlg_common.c:243
 msgid "?Player_dlg:Idle"
-msgstr "?Player_dlg:Geen Reactie"
+msgstr "Geen Reactie"
 
 #: client/plrdlg_common.c:244
 msgid "Ping"
@@ -10080,12 +10095,12 @@ msgstr "Ping"
 
 #: client/repodlgs_common.c:166
 msgid "You cannot sell improvements."
-msgstr "U kan geen verbeteringen verkopen."
+msgstr "Je kan geen verbeteringen verkopen."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:207
 msgid "You cannot disband units."
-msgstr "U kan geen eenheden ontbinden."
+msgstr "Je kan geen eenheden ontbinden."
 
 #: client/repodlgs_common.c:212
 #, c-format
@@ -10095,7 +10110,7 @@ msgstr "%s kan niet ontbonden worden."
 #: client/repodlgs_common.c:233
 #, c-format
 msgid "Disbanded %d %s."
-msgstr "Ontbond %d %s."
+msgstr "%d %s ontbonden."
 
 #: client/repodlgs_common.c:236
 #, c-format
@@ -10106,17 +10121,17 @@ msgstr "Kon geen %s ontbinden."
 #: client/servers.c:137
 #, c-format
 msgid "Latest %s release of freeciv is %s, this is %s."
-msgstr ""
+msgstr "Meest recente %s versie van freeciv is %s, dit is %s."
 
 #: client/servers.c:141
 #, c-format
 msgid "There is no newer %s release of freeciv available."
-msgstr ""
+msgstr "Er is geen nieuwere %s versie van freeciv beschikbaar."
 
 #: client/servers.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read the metaserver data from %s."
-msgstr "Fout bij maken nieuwe KI-speler: %s."
+msgstr "Fout bij lezen van metaservergegevens van %s."
 
 #: client/servers.c:244
 #, c-format
@@ -10130,29 +10145,28 @@ msgid "Could not open temp file."
 msgstr "Kon tijdelijk bestand niet openen."
 
 #: client/servers.c:315
-#, fuzzy
 msgid "Error connecting to metaserver"
-msgstr "Verbinding met server verloren!"
+msgstr "Verbinding met metaserver verloren"
 
 #. TRANS: "AI <player name>"
 #: client/text.c:100
 #, c-format
 msgid "AI %s"
-msgstr ""
+msgstr "KI %s"
 
 #. TRANS: "<nation adjective>, team <team name>"
 #: client/text.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "%s, team %s"
-msgstr ", team %s"
+msgstr "%s, team %s"
 
 #: client/text.c:144
 msgid "?nation:Friendly(team)"
-msgstr "?nation:Vriendelijk(team)"
+msgstr "Vriendelijk(team)"
 
 #: client/text.c:149
 msgid "?city:Friendly(team)"
-msgstr "?city:Vriendelijk(team)"
+msgstr "Vriendelijk(team)"
 
 #: client/text.c:157
 #, c-format
@@ -10162,7 +10176,7 @@ msgstr "Locatie: (%d, %d) [%d]"
 #: client/text.c:160
 #, c-format
 msgid "Native coordinates: (%d, %d)"
-msgstr ""
+msgstr "Eigen coördinaten: (%d, %d)"
 
 #: client/text.c:167
 #, c-format
@@ -10172,29 +10186,26 @@ msgstr "Terrein: %s"
 #: client/text.c:168
 #, c-format
 msgid "Food/Prod/Trade: %s"
-msgstr "Voeding/Hulp/Handel: %s"
+msgstr "Voedsel/Prod/Handel: %s"
 
 #: client/text.c:171
 msgid "Minor Tribe Village"
 msgstr "Klein Inboorlingendorp"
 
 #: client/text.c:180
-#, fuzzy
 msgid "Our territory"
 msgstr "Ons territorium"
 
 #. TRANS: "Territory of <username> (<nation + team>)"
 #: client/text.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of %s (%s)"
-msgstr ""
-"\n"
-"Gebied van de %s %s"
+msgstr "Gebied van %s (%s)"
 
 #. TRANS: "Territory of <username> (<nation + team>)
 #. * (<number> turn cease-fire)"
 #: client/text.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of %s (%s) (%d turn cease-fire)"
 msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
 msgstr[0] "Stad: %s (%s, %d beurt staakt-het-vuren)"
@@ -10203,11 +10214,9 @@ msgstr[1] "Stad: %s (%s, %d beurten staakt-het-vuren)"
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
 #: client/text.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of %s (%s | %s)"
-msgstr ""
-"\n"
-"Gebied van de %s %s"
+msgstr "Gebied van %s (%s | %s)"
 
 #: client/text.c:208
 msgid "Unclaimed territory"
@@ -10215,9 +10224,9 @@ msgstr "Vrij gebied"
 
 #. TRANS: "City: <city name> | <username> (<nation + team>)"
 #: client/text.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s | %s (%s)"
-msgstr "Stad: %s (%s, %s)"
+msgstr "Stad: %s | %s (%s)"
 
 #. TRANS:  "City: <city name> | <username>
 #. * (<nation + team>, <number> turn cease-fire)"
@@ -11110,7 +11119,7 @@ msgstr " - festiviteiten"
 msgid "Civil Disorder"
 msgstr "Stad: Onlusten"
 
-#: common/events.c:98 data/civ1/game.ruleset:191
+#: common/events.c:98 data/civ1/game.ruleset:193
 #, fuzzy
 msgid "Famine"
 msgstr "Stad: Hongersnood"
@@ -13280,53 +13289,53 @@ msgid ""
 "health.\n"
 msgstr ""
 
-#: data/civ1/game.ruleset:182 data/default/game.ruleset:221
-#: data/experimental/game.ruleset:227
+#: data/civ1/game.ruleset:184 data/default/game.ruleset:223
+#: data/experimental/game.ruleset:229
 msgid "Earthquake"
 msgstr ""
 
-#: data/civ1/game.ruleset:200 data/default/game.ruleset:231
-#: data/experimental/game.ruleset:232
+#: data/civ1/game.ruleset:202 data/default/game.ruleset:233
+#: data/experimental/game.ruleset:234
 #, fuzzy
 msgid "Fire"
 msgstr "Stad: Hongersnood"
 
-#: data/civ1/game.ruleset:209
+#: data/civ1/game.ruleset:211
 #, fuzzy
 msgid "Flood"
 msgstr "Voedsel"
 
-#: data/civ1/game.ruleset:222
+#: data/civ1/game.ruleset:224
 #, fuzzy
 msgid "Piracy"
 msgstr "Geletterdheid"
 
-#: data/civ1/game.ruleset:237 data/default/game.ruleset:226
+#: data/civ1/game.ruleset:239 data/default/game.ruleset:228
 msgid "Plague"
 msgstr "Epidemie"
 
-#: data/civ1/game.ruleset:247
+#: data/civ1/game.ruleset:249
 msgid "Volcano"
 msgstr ""
 
-#: data/civ1/game.ruleset:306 data/civ2/game.ruleset:223
-#: data/default/game.ruleset:282 data/experimental/game.ruleset:282
+#: data/civ1/game.ruleset:308 data/civ2/game.ruleset:225
+#: data/default/game.ruleset:293 data/experimental/game.ruleset:284
 #, fuzzy
 msgid "Team 0"
 msgstr "Team 10"
 
-#: data/civ1/game.ruleset:307 data/civ2/game.ruleset:224
-#: data/default/game.ruleset:283 data/experimental/game.ruleset:283
+#: data/civ1/game.ruleset:309 data/civ2/game.ruleset:226
+#: data/default/game.ruleset:294 data/experimental/game.ruleset:285
 msgid "Team 1"
 msgstr "Team 1"
 
-#: data/civ1/game.ruleset:308 data/civ2/game.ruleset:225
-#: data/default/game.ruleset:284 data/experimental/game.ruleset:284
+#: data/civ1/game.ruleset:310 data/civ2/game.ruleset:227
+#: data/default/game.ruleset:295 data/experimental/game.ruleset:286
 msgid "Team 2"
 msgstr "Team 2"
 
-#: data/civ1/game.ruleset:309 data/civ2/game.ruleset:226
-#: data/default/game.ruleset:285 data/experimental/game.ruleset:285
+#: data/civ1/game.ruleset:311 data/civ2/game.ruleset:228
+#: data/default/game.ruleset:296 data/experimental/game.ruleset:287
 msgid "Team 3"
 msgstr "Team 3"
 
@@ -14060,6 +14069,7 @@ msgstr "De oude Grieken, tussen Mycene en de Romeinse veroveringen."
 #: data/nation/bosporan.ruleset:34 data/nation/byzantium.ruleset:26
 #: data/nation/cretan.ruleset:27 data/nation/cypriot.ruleset:23
 #: data/nation/greek.ruleset:22 data/nation/macedon.ruleset:24
+#: data/nation/pelasgian.ruleset:25
 #, fuzzy, c-format
 msgid "Despot %s"
 msgstr "Despoot"
@@ -14068,6 +14078,7 @@ msgstr "Despoot"
 #: data/nation/bosporan.ruleset:34 data/nation/byzantium.ruleset:26
 #: data/nation/cretan.ruleset:27 data/nation/cypriot.ruleset:23
 #: data/nation/greek.ruleset:22 data/nation/macedon.ruleset:24
+#: data/nation/pelasgian.ruleset:25
 #, fuzzy, c-format
 msgid "?female:Despot %s"
 msgstr "?female:Despot"
@@ -14288,10 +14299,11 @@ msgstr "Imperatrix"
 #: data/nation/hittite.ruleset:25 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
 #: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
-#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
-#: data/nation/roman.ruleset:47 data/nation/seleucid.ruleset:28
-#: data/nation/sumerian.ruleset:26 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
+#: data/nation/pictish.ruleset:24 data/nation/roman.ruleset:47
+#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:26
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, fuzzy, c-format
 msgid "Usurper %s"
 msgstr "Veroveraar"
@@ -14306,11 +14318,11 @@ msgstr "Veroveraar"
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:21
 #: data/nation/hittite.ruleset:25 data/nation/mitanni.ruleset:30
 #: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
-#: data/nation/palatinate.ruleset:28 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/roman.ruleset:47
-#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:26
-#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
-#: data/nation/westernroman.ruleset:29
+#: data/nation/palatinate.ruleset:28 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/roman.ruleset:47 data/nation/seleucid.ruleset:28
+#: data/nation/sumerian.ruleset:26 data/nation/vandalic.ruleset:29
+#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
 #, fuzzy, c-format
 msgid "?female:Usurper %s"
 msgstr "?female:Veroveraar"
@@ -17847,6 +17859,11 @@ msgstr "CE"
 #: data/multiplayer/game.ruleset:205
 msgid "BCE"
 msgstr "BCE"
+
+#: data/default/game.ruleset:238
+#, fuzzy
+msgid "Nuclear Accident"
+msgstr "Kernenergie"
 
 #: data/default/nations.ruleset:32
 msgid "?nationgroup:Medieval"
@@ -22036,132 +22053,132 @@ msgid ""
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:271
+#: data/multiplayer/game.ruleset:273
 #, fuzzy
 msgid "?team name:Red"
 msgstr "?female:Dominee"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:273
+#: data/multiplayer/game.ruleset:275
 msgid "?team name:Blue"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:275
+#: data/multiplayer/game.ruleset:277
 msgid "?team name:Green"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:277
+#: data/multiplayer/game.ruleset:279
 msgid "?team name:White"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:279
+#: data/multiplayer/game.ruleset:281
 msgid "?team name:Yellow"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:281
+#: data/multiplayer/game.ruleset:283
 msgid "?team name:Pink"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:283
+#: data/multiplayer/game.ruleset:285
 msgid "?team name:Orange"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:285
+#: data/multiplayer/game.ruleset:287
 msgid "?team name:Violet"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:287
+#: data/multiplayer/game.ruleset:289
 msgid "?team name:Turquoise"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:289
+#: data/multiplayer/game.ruleset:291
 msgid "?team name:Cyan"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:291
+#: data/multiplayer/game.ruleset:293
 msgid "?team name:Azure"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:293
+#: data/multiplayer/game.ruleset:295
 msgid "?team name:Dark White"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:295
+#: data/multiplayer/game.ruleset:297
 msgid "?team name:Fuchsia"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:297
+#: data/multiplayer/game.ruleset:299
 msgid "?team name:Indigo"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:299
+#: data/multiplayer/game.ruleset:301
 msgid "?team name:Lavender"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:301
+#: data/multiplayer/game.ruleset:303
 #, fuzzy
 msgid "?team name:Magenta"
 msgstr "?female:Mahatma"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:303
+#: data/multiplayer/game.ruleset:305
 msgid "?team name:Silver"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:305
+#: data/multiplayer/game.ruleset:307
 #, fuzzy
 msgid "?team name:Emerald"
 msgstr "?female:Generaal"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:307
+#: data/multiplayer/game.ruleset:309
 msgid "?team name:Heliotrope"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:309
+#: data/multiplayer/game.ruleset:311
 msgid "?team name:Jade"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:311
+#: data/multiplayer/game.ruleset:313
 #, fuzzy
 msgid "?team name:Khaki"
 msgstr "?female:Khan"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:313
+#: data/multiplayer/game.ruleset:315
 msgid "?team name:Nutmeg"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:315
+#: data/multiplayer/game.ruleset:317
 #, fuzzy
 msgid "?team name:Quince"
 msgstr "?female:Dominee"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:317
+#: data/multiplayer/game.ruleset:319
 msgid "?team name:Ultramarine"
 msgstr ""
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:319
+#: data/multiplayer/game.ruleset:321
 msgid "?team name:Xanadu"
 msgstr ""
 
@@ -22294,22 +22311,22 @@ msgstr ""
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/greek.ruleset:23 data/nation/maori.ruleset:26
-#: data/nation/mayan.ruleset:26 data/nation/samoan.ruleset:30
-#: data/nation/scottishgaelic.ruleset:38 data/nation/scottish.ruleset:25
-#: data/nation/somaliland.ruleset:24 data/nation/somali.ruleset:35
-#: data/nation/tongan.ruleset:22 data/nation/tswana.ruleset:29
-#: data/nation/zulu.ruleset:37
+#: data/nation/mayan.ruleset:26 data/nation/pelasgian.ruleset:26
+#: data/nation/samoan.ruleset:30 data/nation/scottishgaelic.ruleset:38
+#: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
+#: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
+#: data/nation/tswana.ruleset:29 data/nation/zulu.ruleset:37
 #, c-format
 msgid "Elder %s"
 msgstr "Ouderling %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/greek.ruleset:23 data/nation/maori.ruleset:26
-#: data/nation/mayan.ruleset:26 data/nation/samoan.ruleset:30
-#: data/nation/scottishgaelic.ruleset:38 data/nation/scottish.ruleset:25
-#: data/nation/somaliland.ruleset:24 data/nation/somali.ruleset:35
-#: data/nation/tongan.ruleset:22 data/nation/tswana.ruleset:29
-#: data/nation/zulu.ruleset:37
+#: data/nation/mayan.ruleset:26 data/nation/pelasgian.ruleset:26
+#: data/nation/samoan.ruleset:30 data/nation/scottishgaelic.ruleset:38
+#: data/nation/scottish.ruleset:25 data/nation/somaliland.ruleset:24
+#: data/nation/somali.ruleset:35 data/nation/tongan.ruleset:22
+#: data/nation/tswana.ruleset:29 data/nation/zulu.ruleset:37
 #, c-format
 msgid "?female:Elder %s"
 msgstr "Ouderling %s"
@@ -24484,10 +24501,9 @@ msgid ""
 "independence from the UK in 1966. Botswana is considered the least corrupt "
 "country in Africa and it has a rapidly developing economy."
 msgstr ""
-"De Republiek Botswana is een land in zuidelijk Afrika. Het werd in "
-"1966 onafhankelijk van het Verenigd Koninkrijk. Botswana wordt beschouwd als "
-"het minst corrupte land van Afrika en heeft een zich snel ontwikkelende "
-"economie."
+"De Republiek Botswana is een land in zuidelijk Afrika. Het werd in 1966 "
+"onafhankelijk van het Verenigd Koninkrijk. Botswana wordt beschouwd als het "
+"minst corrupte land van Afrika en heeft een zich snel ontwikkelende economie."
 
 #: data/nation/brandenburgian.ruleset:3
 msgid "Brandenburgian"
@@ -24507,11 +24523,11 @@ msgid ""
 "Republic of Germany."
 msgstr ""
 "De voormalige Noordmark van Oost-Francië werd in de twaalfde eeuw als "
-"Brandenburg een keurvorstendom van het Heilige Roomse Rijk. In 1618 verkregen "
-"de heersers van Brandenburg de macht over Pruis en in 1701 ging Brandenburg "
-"zelf op in Pruisen. Het behield haar papieren onafhankelijkheid tot het in "
-"1806 een provincie van Pruisen werd. Tegenwoordig is Brandenburg een van de "
-"bondslanden van de Bondsrepubliek Duitsland."
+"Brandenburg een keurvorstendom van het Heilige Roomse Rijk. In 1618 "
+"verkregen de heersers van Brandenburg de macht over Pruis en in 1701 ging "
+"Brandenburg zelf op in Pruisen. Het behield haar papieren onafhankelijkheid "
+"tot het in 1806 een provincie van Pruisen werd. Tegenwoordig is Brandenburg "
+"een van de bondslanden van de Bondsrepubliek Duitsland."
 
 #: data/nation/brandenburgian.ruleset:29 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
@@ -24540,11 +24556,11 @@ msgid ""
 "first established as an empire under the exiled Portuguese royal family. The "
 "empire lasted until the establishment of a republican government in 1889."
 msgstr ""
-"Brazilië werd gesticht als kolonie van Portugal maar werd in 1822 onafhankelijk "
-"als gevolg van Portugals bezetting door het Napoleontische Frankrijk. Het "
-"land werd eerst een keizerrijk onder heerschappij van de gevluchte Portugese "
-"koninklijke familie. Het keizerrijk bestond tot in 1889 een republikeins "
-"systeem werd ingesteld."
+"Brazilië werd gesticht als kolonie van Portugal maar werd in 1822 "
+"onafhankelijk als gevolg van Portugals bezetting door het Napoleontische "
+"Frankrijk. Het land werd eerst een keizerrijk onder heerschappij van de "
+"gevluchte Portugese koninklijke familie. Het keizerrijk bestond tot in 1889 "
+"een republikeins systeem werd ingesteld."
 
 #: data/nation/brazilian.ruleset:29 data/nation/comorian.ruleset:24
 #: data/nation/congolesebrazzaville.ruleset:27
@@ -24586,12 +24602,13 @@ msgid ""
 "people speaking French instead. The Dukedom of Brittany itself was formally "
 "annexed to France in 1491."
 msgstr ""
-"Bretagne, door de Romeinen Armorica genoemd, was al geruime tijd Keltischtalig "
-"toen de Britten arriveerden als huurlingen, kolonisten en vluchtelingen als "
-"gevolg van de chaos in Gallië en de invasie van Brittannië door Germaanse stammen "
-"in de vijfde eeuw CE. Gedurende de eeuwen is het gebruik van de Bretoense taal "
-"teruggedrongen naar het westen van het schiereiland terwijl de bevolking overschakelt "
-"op Frans. Het Hertogdom Bretagne werd in 1491 door Frankrijk geannexeerd."
+"Bretagne, door de Romeinen Armorica genoemd, was al geruime tijd "
+"Keltischtalig toen de Britten arriveerden als huurlingen, kolonisten en "
+"vluchtelingen als gevolg van de chaos in Gallië en de invasie van Brittannië "
+"door Germaanse stammen in de vijfde eeuw CE. Gedurende de eeuwen is het "
+"gebruik van de Bretoense taal teruggedrongen naar het westen van het "
+"schiereiland terwijl de bevolking overschakelt op Frans. Het Hertogdom "
+"Bretagne werd in 1491 door Frankrijk geannexeerd."
 
 #: data/nation/british.ruleset:3
 msgid "British"
@@ -24658,12 +24675,11 @@ msgstr "Brythonen"
 
 #: data/nation/bruneian.ruleset:3
 msgid "Bruneian"
-msgstr ""
+msgstr "Bruneise"
 
 #: data/nation/bruneian.ruleset:4
-#, fuzzy
 msgid "?plural:Bruneians"
-msgstr "?plural:Britten"
+msgstr "Bruneiers"
 
 #: data/nation/bruneian.ruleset:6
 msgid ""
@@ -24672,6 +24688,10 @@ msgid ""
 "century later thanks to its control of the maritime trade in much of "
 "Southeast Asia. Brunei was a British protectorate from 1888 to 1984."
 msgstr ""
+"Brunei Darussalam is een land op Borneo in de Maleise archipel. Het sultanaat "
+"bestaat sinds de veertiende eeuw en werd de volgende eeuw een vrij machtige "
+"staat door haar controle over de zeehandel in een groot deel van Zuidoost-Azië. "
+"Brunei was van 1888 tot 1984 een Brits protectoraat."
 
 #: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:36
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
@@ -24682,9 +24702,9 @@ msgstr ""
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:18 data/nation/tatar.ruleset:30
 #: data/nation/turkishcypriot.ruleset:27 data/nation/volgabulgar.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Mufti %s"
-msgstr "Gran Bardo"
+msgstr "Grootmoefti %s"
 
 #: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:36
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
@@ -24695,36 +24715,34 @@ msgstr "Gran Bardo"
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:18 data/nation/tatar.ruleset:30
 #: data/nation/turkishcypriot.ruleset:27 data/nation/volgabulgar.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Grand Mufti %s"
-msgstr "?female:Druide"
+msgstr "Grootmoefti %s"
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "Bulgaar"
+msgstr "Bulgaarse"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr "?plural:Bulgaren"
+msgstr "Bulgaren"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
 "Bulgar leader Khan Asparukh led his people into the northern Balkans, and "
 "founded Bulgaria in 681. This was the first Slavic nation-state in history."
 msgstr ""
-"Khan Asparukh, de leider van de Bulgaren, nam zijn volk naar de noordelijke "
-"Balkan en stichtte Bulgarije in 681. Het was de eerste Slavische natiestaat "
+"Khan Asparoech, de leider van de Bulgaren, nam zijn volk naar de noordelijke "
+"Balkan en stichtte Bulgarije in 681. Dit was de eerste Slavische natiestaat "
 "in de geschiedenis."
 
 #: data/nation/burgundian.ruleset:3
-#, fuzzy
 msgid "Burgundian"
-msgstr "Buruzagi"
+msgstr "Bourgondische"
 
 #: data/nation/burgundian.ruleset:4
-#, fuzzy
 msgid "?plural:Burgundians"
-msgstr "?plural:Britten"
+msgstr "Bourgondiërs"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -24734,50 +24752,54 @@ msgid ""
 "court in Dijon outshining that of Paris. It is today one of the regions of "
 "France."
 msgstr ""
+"Na de val van het West-Romeinse Rijk vestigde het Germaanse volk van de "
+"Bourgondiërs zich in de riviervalleien van het oosten van Gallië en gaf haar "
+"naam aan het gebied. Eeuwen later werd het Hertogdom Bourgondië een welvarend "
+"land waarvan het hof in Dijon dat van Parijs in de schaduw zette. Tegenwoordig "
+"is het een van de regio's van Frankrijk."
 
 #. TRANS: The last letter in "Burkinabe" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
 #: data/nation/burkinabe.ruleset:6
 msgid "Burkinabe"
-msgstr ""
+msgstr "Burkinabese"
 
 #: data/nation/burkinabe.ruleset:7
-#, fuzzy
 msgid "?plural:Burkinabes"
-msgstr "?plural:Britten"
+msgstr "Burkinabezen"
 
 #: data/nation/burkinabe.ruleset:9
 msgid ""
 "Formerly Upper Volta, Burkina Faso is a country in inland West Africa. It "
 "achieved its independence from France in 1960."
 msgstr ""
+"Burkina Faso, het vroegere Opper-Volta, is een land in het binnenland van "
+"West-Afrika. Het werd in 1960 onafhankelijk van Frankrijk."
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "Birmaans"
+msgstr "Birmaanse"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr "?plural:Birmezen"
+msgstr "Birmezen"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
 msgstr ""
-"De Unie van Birma (officieel Myanmar) is het grootste land van continentaal "
-"zuidoost Azi�."
+"De Unie van Birma (officieel \"Myanmar\") is het grootste land op het "
+"vasteland van Zuidoost-Azië."
 
 #: data/nation/burundi.ruleset:3
-#, fuzzy
 msgid "Burundian"
-msgstr "Buruzagi"
+msgstr "Burundese"
 
 #: data/nation/burundi.ruleset:4
-#, fuzzy
 msgid "?plural:Burundians"
-msgstr "?plural:Britten"
+msgstr "Burundezen"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -24790,15 +24812,22 @@ msgid ""
 "Following international pressure after World War II, Burundi became an "
 "independent nation in January 1962."
 msgstr ""
+"In de twaalfde eeuw kwam in het Grote Merengebied van Oost-Afrika een koninkrijk "
+"op dat werd geregeerd door een mwami (koning) en meerdere ganwa (prinsen). Het "
+"kende een periode van uitbreiding tot het in de zeventiende eeuw ongeveer de "
+"oppervlakte van het huidige Burundi besloeg. Rond 1800 verzwakte onenigheid "
+"over de erfopvolging de monarchie en tegen het einde van de negentiende eeuw werd "
+"het een Duitse kolonie. Na afloop van de Eerste Wereldoorlog kwam de kolonie aan "
+"België toe. Na internationale druk na de Tweede Wereldoorlog werd Burundi in "
+"januari 1962 een onafhankelijke natie."
 
 #: data/nation/buryat.ruleset:3
 msgid "Buryat"
-msgstr ""
+msgstr "Boerjatische"
 
 #: data/nation/buryat.ruleset:4
-#, fuzzy
 msgid "?plural:Buryats"
-msgstr "?plural:Arabieren"
+msgstr "Boerjaten"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -24811,18 +24840,24 @@ msgid ""
 "half-million Buryats in the world as well as the center of Buddhism in "
 "Russia."
 msgstr ""
+"Volgens historische Mongoolse annalen waren de Boerjaten Mongoolse stammen "
+"die de bosgebieden rond het Bajkalmeer bewoonden. In 1207 werden ze onderworpen "
+"door Jotsji, de oudste zoon van Dzjengis Khan. Toen het Boerjatische grondgebied "
+"door verdragen in 1689 en 1728 door Rusland werd geannexeerd kwamen zij politiek "
+"lost te staan van andere Mongoolse volkeren en begonnen zij een eigen nationale "
+"identiteit te ontwikkelen. Vandaag de dag is de Republiek Boerjatië het thuis "
+"voor het merendeel van de half miljoen Boerjaten in de wereld en bovendien het "
+"centrum voor het boeddhisme in Rusland."
 
 #: data/nation/byzantium.ruleset:3
-#, fuzzy
 msgid "Byzantine"
-msgstr "ByzantiÃ«"
+msgstr "Byzantijnse"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr "?plural:Byzanti�rs"
+msgstr "Byzantijnen"
 
 #: data/nation/byzantium.ruleset:6
-#, fuzzy
 msgid ""
 "At the time of the decline of the old Roman empire, the Emperor Constantine "
 "moved the empire's capital to Byzantium and formed a new empire mostly known "
@@ -24833,20 +24868,18 @@ msgid ""
 msgstr ""
 "Ten tijde van de achteruitgang van het oude Romeinse Rijk, verplaatste "
 "keizer Constantijn de hoofdstad naar Byzantium en vormde hij een nieuw rijk: "
-"het Oost-Romeinse of Byzantijnse Rijk. Dit overleefde tot 1453 wanneer de "
-"hoofdstad onder de Ottomanen viel. Tijdens de heerschappij van Justinianus I "
-"beheerste het rijk bijna heel het Midden-Oosten, Noord-Afrika, Itali� en "
+"het Oost-Romeinse of Byzantijnse Rijk. Dit rijk overleefde tot 1453 toen de "
+"hoofdstad aan de Ottomanen viel. Tijdens de heerschappij van Justinianus I "
+"beheerste het rijk bijna heel het Midden-Oosten, Noord-Afrika, Italië en "
 "delen van Spanje."
 
 #: data/nation/californian.ruleset:3
-#, fuzzy
 msgid "Californian"
-msgstr "Babylonische"
+msgstr "Californische"
 
 #: data/nation/californian.ruleset:4
-#, fuzzy
 msgid "?plural:Californians"
-msgstr "?plural:Babyloni�rs"
+msgstr "Californiërs"
 
 #: data/nation/californian.ruleset:6
 msgid ""
@@ -24859,18 +24892,26 @@ msgid ""
 "numbers of immigrants to California. In the 20th century the state became a "
 "center of the world's entertainment and technology industries."
 msgstr ""
+"Californië is de grootste staat van de Verenigde Staten naar bevolking en "
+"economie. Oorspronkelijk bevolkt door indianen werd het in de achtiende eeuw "
+"door Spaanse missionarisen gekoloniseerd. tijdens de Mexicaans-Amerikaanse "
+"Oorlog riepen locale Amerikaanse kolonisten de 'Bear Flag Republic' uit, die "
+"niet veel later werd opgenomen in de Verengide Staten. De goudkoorts van 1848 "
+"bracht vervolgens enorme hoeveelheden immigranten naar Californië. In de "
+"twintigste eeuw werde de staat het centrum van 's werelds entertainment- en "
+"technologie-industrieën."
 
 #: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
 #: data/nation/vermont.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Sheriff %s"
-msgstr "Zweedse"
+msgstr "Sheriff %s"
 
 #: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
 #: data/nation/vermont.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Sheriff %s"
-msgstr "?female: Kameraad"
+msgstr "Sheriff %s"
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
@@ -25134,14 +25175,12 @@ msgstr "Opperste Directrice %s"
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
 #: data/nation/chadian.ruleset:6
-#, fuzzy
 msgid "Chadian"
-msgstr "Canadese"
+msgstr "Tsjadische"
 
 #: data/nation/chadian.ruleset:7
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "?plural:Canadezen"
+msgstr "Tsjadiërs"
 
 #: data/nation/chadian.ruleset:9
 msgid ""
@@ -25150,15 +25189,18 @@ msgid ""
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
 "Habre led a notoriously brutal dictatorship."
 msgstr ""
+"Tsjaad is een land in het binnenland van Afrika. Het land, ooit de locatie van "
+"het rijk Kanem-Bornu, werd in 1900 gekoloniseerd door Frankrijk. Tsjaad werd "
+"onafhankelijk in 1960 maar is nog steeds een van de armste landen ter wereld. "
+"Van 1982 tot 1990 leidde Hissene Habré een beruchte dictatuur."
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
-msgstr ""
+msgstr "Cham"
 
 #: data/nation/cham.ruleset:4
-#, fuzzy
 msgid "?plural:Chams"
-msgstr "?plural:Chilenen"
+msgstr "Cham"
 
 #: data/nation/cham.ruleset:6
 msgid ""
@@ -25170,16 +25212,21 @@ msgid ""
 "century. By this time, most of the Cham nobility had converted to Islam. The "
 "majority of Muslims in modern Vietnam are of Cham ethnicity."
 msgstr ""
+"Champa was de naam van een groep nauw verwante hoofdmanschappen in wat "
+"nu de zuidelijke helft van Viëtnam is. Ten tijde van de oudste historische "
+"bronnen waren de koningen van Champa Hindoes die vooral Sjiva vereerden. "
+"Champa streed eeuwenlang met de naburige staten Khmer en Dai viet en werd "
+"in de late vijfitiende eeuw praktisch onderworpen door Dai Viet. Tegen deze "
+"tijd had de Chamadel zich bekeerd tot de islam. Het merendeel van de moslims "
+"in het hedendaagse Viëtnam is Cham."
 
 #: data/nation/chananean.ruleset:3
-#, fuzzy
 msgid "Chananean"
-msgstr "Canadese"
+msgstr "Chananese"
 
 #: data/nation/chananean.ruleset:4
-#, fuzzy
 msgid "?plural:Chananeans"
-msgstr "?plural:Canadezen"
+msgstr "Chananese"
 
 #: data/nation/chananean.ruleset:6
 msgid ""
@@ -25192,25 +25239,32 @@ msgid ""
 "comes from the German poet Walter of Speyer. In the account by Sir John "
 "Mandeville, the people were known as the Nacumerians."
 msgstr ""
+"Verslagen van kynokefalie (het hebben van een hondenhoofd) bestaan sinds "
+"de Griekse oudheid. De dokter Ktesias en de reiziger Megasthenes plaatsten "
+"ze in India. In de Middeleeuwen verwezen Giovannia da Pian en Marco Polo naar "
+"ze twerijl de theoloog Ratramnus zich bezig hield met de vraag of zij beschouwd "
+"moesten worden als mensen. Volgens verschillende verhalen zouden zij wonen in "
+"Schotland, Kanaän, Cyrenaica en de Andamanen. Het land 'Chananea' komt van de "
+"Duitse dichter Wouter van Spiers. In het verslag van Sir John Mandeville worden "
+"deze mensen Nacumeriërs genoemd."
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Alpha"
-msgstr "Alfabet"
+msgstr "%s Alfa"
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Alpha"
-msgstr "?female: Oorlogsleider"
+msgstr "%s Alfa"
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
-msgstr ""
+msgstr "Tsjetsjeense"
 
 #: data/nation/chechen.ruleset:4
-#, fuzzy
 msgid "?plural:Chechens"
-msgstr "?plural:Tsjechen"
+msgstr "Tsjetsjenen"
 
 #: data/nation/chechen.ruleset:7
 msgid ""
@@ -25221,6 +25275,12 @@ msgid ""
 "war erupted when Chechen separatists proclaimed an independent Chechen "
 "Republic of Ichkeria."
 msgstr ""
+"Tsjetsjenië is een oude natie in de Kaukasus, tegenwoordig deel van de Russiche "
+"Federatie. In 1588 onderwierpen de Tsjetsjenen zich vrijwillig als vazallen aan "
+"de Moskovitische tsaar. Desalniettemin hebben zij regelmatig oorlog gevoerd tegen "
+"Rusland. In de jaren 1990, na het uiteenvallen van de Sovjet-Unie, brak een "
+"burgeroorlog uit toen Tsjetsjeense separatisten een onafhankelijke Tsjetsjeense "
+"Republiek Itsjkerië uitriepen."
 
 #: data/nation/cherokee.ruleset:3
 msgid "Cherokee"
@@ -25228,24 +25288,22 @@ msgstr "Cherokee"
 
 #: data/nation/cherokee.ruleset:4
 msgid "?plural:Cherokees"
-msgstr "?plural:Cherokee"
+msgstr "Cherokee"
 
 #: data/nation/cherokee.ruleset:6
 msgid ""
 "The Cherokee nation is the largest Native American nation in North America "
 "today."
 msgstr ""
-"De�Cherokee�is de grootste natie van oorspronkelijke bewoners die nu in "
-"Noord-Amerika bestaat."
+"De Cherokeenatie is vandaag de dag de grootste Indiaanse natie in Noord-Amerika."
 
 #: data/nation/chiapanec.ruleset:3
 msgid "Chiapanec"
-msgstr ""
+msgstr "Chiapaneekse"
 
 #: data/nation/chiapanec.ruleset:4
-#, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "?plural:Chinezen"
+msgstr "Chiapaneken"
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -25257,15 +25315,21 @@ msgid ""
 "cities, Mayan peoples and natural wealth have made it one of Mexico's mayor "
 "tourist destinations."
 msgstr ""
+"Chiapas is een staat in het zuiden van Mexico. In de Koloniale Tijd werd "
+"het bestuurd vanuit Guatemala maar in 1824 besloot het zich na een korte "
+"periode van onafhankelijkheid aan te sluiten bij Mexico. Chiapas heeft een "
+"aanzienlijke inheemse bevolking (overwegend Maya). Chiapas' geschiedenis wordt "
+"gekenmerkt door conflicten tussen de inheemse plattelandsbevolking en de uit "
+"ladino's bestaande elite. Haar koloniale steden, Mayavolkeren en natuurschoon "
+"hebben de staat tot een van Mexico's grote toeristentrekkers gemaakt."
 
 #: data/nation/chickasaw.ruleset:3
 msgid "Chickasaw"
-msgstr ""
+msgstr "Chickasaw"
 
 #: data/nation/chickasaw.ruleset:4
-#, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "?plural:Chilenen"
+msgstr "Chickasaw"
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -25274,6 +25338,10 @@ msgid ""
 "of first contact with Europeans. The name \"Mississippi\" itself originates "
 "from a Chickasaw word meaning \"Without Source.\""
 msgstr ""
+"De Chickasaw, een van de zogeheten vijf beschaafde stammen, bewoonden ten "
+"tijde van het eerste contact met de Europeanen wat nu het noordelijk deel van "
+"de Amerikaanse staat Mississippi is. De naam \"Mississippi zelf\" komt van een "
+"Chickasawwoord dat \"Zonder Bron\" betekent."
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -25310,14 +25378,12 @@ msgid "?female:Captain General %s"
 msgstr "Kapitein-Generaal %s"
 
 #: data/nation/chimu.ruleset:3
-#, fuzzy
 msgid "Chimu"
-msgstr "Voorzitter"
+msgstr "Chimú"
 
 #: data/nation/chimu.ruleset:4
-#, fuzzy
 msgid "?plural:Chimu"
-msgstr "?plural:Finnen"
+msgstr "Chimor"
 
 #: data/nation/chimu.ruleset:6
 msgid ""
@@ -25329,15 +25395,21 @@ msgid ""
 "manufacture of Inka artistic wares. Until its fall, Chimor controlled "
 "perhaps 2/3 of the population of the northern Andes."
 msgstr ""
+"De expansie van Chimor, erfgenaam van de culturele traditie van de Moche, begon "
+"in de twaalfde eeuw vanuit de riviervallei van de Moche in wat nu noordelijk Peru "
+"is. Hun expansie ging door tot hen een halt werd toegeroepen door het opkomende "
+"Inkarijk in 1470. Hun laatste koning Minchancaman werd als gevangene naar de "
+"Inkahoofdstad Qosqo geleid. Chimúhandwerkslieden leverden een grote bijdrage aan "
+"de vervaardiging van Inkakunstschatten. Tot haar val beheerste Chimor misschien "
+"tweederde van de bevolking van de noordelijke Andes."
 
 #: data/nation/chinook.ruleset:3
 msgid "Chinook"
-msgstr ""
+msgstr "Chinook"
 
 #: data/nation/chinook.ruleset:4
-#, fuzzy
 msgid "?plural:Chinooks"
-msgstr "?plural:Chinezen"
+msgstr "Chinook"
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -25349,15 +25421,20 @@ msgid ""
 "Whites throughout Oregon, Washington, British Columbia and all the way to "
 "Alaska."
 msgstr ""
+"De Chinookconfederatie was een groep stammen dezelfde gebruiken en taal. Zij "
+"waren een sedentair volk dat leefde rond de Columbiarivier in het huidige "
+"Oregon en Washington in de Verenigde Staten. De regionale invloed van de Chinook "
+"wordt duidelijk uit het feit dat hun taal de basis werd van een pidgintaal die "
+"door zowel blanken als de inheemse bevolking gebruikt werd doorheen Oregon, "
+"Washington, Brits-Columbia en zelfs Alaska."
 
 #: data/nation/choctaw.ruleset:3
 msgid "Choctaw"
-msgstr ""
+msgstr "Choctaw"
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "?plural:Chilenen"
+msgstr "Choctaw"
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -25371,16 +25448,23 @@ msgid ""
 "managed to escape removal and stay behind. The word \"Oklahoma\" itself is "
 "derived from a Choctaw language term meaning \"red people\"."
 msgstr ""
+"De Choctaw, een van de zogeheten vijf beschaafde stamen, bewoonden traditioneel "
+"het midden en zuiden van de hedendaagse Amerikaanse staat Mississippi. Hoewel "
+"zij eerst in contact kwamen met de Spanjaarden waren zij langdurig bondgenoten van "
+"de Fransen en kozen zij tijdens de Amerikaanse Burgeroorlog de zijde van de "
+"Geconfedereerde Staten. Tegenwoordig wonen de meeste Choctaw in Oklahoma nadat "
+"zij in 1831 door president Andrew Jackson gedwongen werden hun thuisland te "
+"verlaten, maar er bestaat ook nog een actieve stam Mississippi, bestaande uit "
+"Choctaw die erin slaagden de deportatie te ontvluchten. Het word \"Oklahoma\""
+"zelf is afkomstig van een term uit het Choctaw en betekent \"rode mensen\"."
 
 #: data/nation/chola.ruleset:3
-#, fuzzy
 msgid "Chola"
-msgstr "Kolen"
+msgstr "Chola"
 
 #: data/nation/chola.ruleset:4
-#, fuzzy
 msgid "?plural:Cholas"
-msgstr "?plural:Chilenen"
+msgstr "Chola's"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -25392,16 +25476,20 @@ msgid ""
 "Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s as "
 "other southern Indian states rose up."
 msgstr ""
+"De Chola's waren een Tamildynastie uit zuidelijk India die ook in het noorden "
+"van India ongebruikelijk machtig was. Ze begonnen als vasalstaat van de Pallava's "
+"maar in de negende eeuw begon hun macht te groeien. In de elfde eeuw voerden zij "
+"expedities tegen andere Indiase staten tot aan Bengalen, alsook naar de Maldiven, "
+"Sri Lanka en zelfs het Indonesische koninkrijk Srivijaya. Hun rijk stortte echter "
+"in elkaar in de jaren 1250 toen andere Zuid-Indiase staten opkwamen."
 
 #: data/nation/chrobatian.ruleset:3
-#, fuzzy
 msgid "Chrobatian"
-msgstr "Kroatische"
+msgstr "Wit-Kroatische"
 
 #: data/nation/chrobatian.ruleset:4
-#, fuzzy
 msgid "?plural:Chrobatians"
-msgstr "?plural:Kroaten"
+msgstr "Witte Kroaten"
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -25412,25 +25500,31 @@ msgid ""
 "White Croatia is sometimes associated with a prince Slavnik, lord of Libice, "
 "whose influence extended to the region of Silesia and the land of Krakow."
 msgstr ""
+"Chorwatië of Wit-Kroatië was een vroegmiddeleeuwse, half-legendarische Slavische "
+"staat opgericht door de Witte Kroaten in een gebied in Centraal-Europa dat vandaag "
+"de dag niet meer eenduidig kan worden geïdentificeerd. De belangrijjkste bron voor "
+"het bestaan van een Wit-Kroatische is een vermelding door de Byzantijnse keizer "
+"Constantijn VII Porphyrogennetos. Wit-Kroatie wordt vaak geassocieerd met ene prins "
+"Slavnik, heer van Libice, wiens macht uitstrekte tot Silezië en het land van Krakau."
 
 #: data/nation/chrobatian.ruleset:29 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:23
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "Voivode %s"
-msgstr "Voievod"
+msgstr "Vojvode %s"
 
 #: data/nation/chrobatian.ruleset:29 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:23
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Voivode %s"
-msgstr "?female: Kameraad"
+msgstr "Vojvode %s"
 
 #: data/nation/chrobatian.ruleset:30 data/nation/slovakian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Priestess %s"
-msgstr "Hogepriesteres"
+msgstr "Priesteres %s"
 
 #: data/nation/chrobatian.ruleset:31 data/nation/cossack.ruleset:30
 #: data/nation/cuyavian.ruleset:26 data/nation/finnish.ruleset:27
@@ -25440,9 +25534,9 @@ msgstr "Hogepriesteres"
 #: data/nation/slavic.ruleset:32 data/nation/transylvanian.ruleset:29
 #: data/nation/ukrainian.ruleset:36 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Prince %s"
-msgstr "Prinses"
+msgstr "Grootvorst %s"
 
 #: data/nation/chrobatian.ruleset:31 data/nation/cossack.ruleset:30
 #: data/nation/cuyavian.ruleset:26 data/nation/finnish.ruleset:27
@@ -25452,18 +25546,17 @@ msgstr "Prinses"
 #: data/nation/slavic.ruleset:32 data/nation/transylvanian.ruleset:29
 #: data/nation/ukrainian.ruleset:36 data/nation/vistulan.ruleset:27
 #: data/nation/westernpomeranian.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Princess %s"
-msgstr "Prinses"
+msgstr "Grootvorstin %s"
 
 #: data/nation/chumash.ruleset:3
 msgid "Chumash"
-msgstr ""
+msgstr "Chumash"
 
 #: data/nation/chumash.ruleset:4
-#, fuzzy
 msgid "?plural:Chumash"
-msgstr "?plural:Chilenen"
+msgstr "Chumash"
 
 #: data/nation/chumash.ruleset:6
 msgid ""
@@ -25476,15 +25569,23 @@ msgid ""
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
+"De Chumash, bewoners van de Santa Barbara-eilanden en kustlijn van het zuiden "
+"van Californië tussen Malibu en Paso Robles en landinwaarts tot de Vallei van "
+"San Joaquin, leven in grote permanente dorpen en onderhielden een semi-monetaire "
+"economie. Deze dorpen werden bestuurd door erfelijke stamhoofden, die zowel "
+"mannelijk als vrouwelijk konden zijn. Ten tijde van het eerste contact met de "
+"Europeanen bestond hun bevolking waarschijnlijk uit 8.000 tot 18.000 en misschien "
+"zelfs 22.000 mensen. De Spanjarden verstigden vijf missieposten in het land van "
+"de Chumash. Als gevolg van ziektes en andere neveneffecten van het koloniale "
+"bestuur viel hun bevolking terug tot minder dan 3000 in 1831."
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "Tsjoevasjische"
 
 #: data/nation/chuvash.ruleset:4
-#, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "?plural:Chilenen"
+msgstr "Tsjoevasjen"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -25493,16 +25594,21 @@ msgid ""
 "possibily Huns. Today there are about 1.8 million Chuvashes, about half of "
 "them in the Republic of Chuvashia, which is part of the Russian Federation."
 msgstr ""
+"De Tsjoevasjen zijn een Turkse bevolkingsgroep in het oosten van Europees "
+"Rusland het het westen van Siberië. Zij zijn misschien afstammelingen van "
+"oude Bulgaars-Turkse stammen en misschien zelfs van de Hunnen. Vandaag de "
+"dag zijn er ongeveer 1,8 miljoen Tsjoevasjen, waarvan de helft in de "
+"Republiek Tsjoevasjië, dat deel uitmaakt van de Russische Federatie."
 
 #: data/nation/chuvash.ruleset:28 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "?female:Hoge Commissaris"
+msgstr "Volkscommissaris %s"
 
 #: data/nation/chuvash.ruleset:28 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "?female:Despot"
+msgstr "Volkscommissaris %s"
 
 #: data/nation/circassian.ruleset:3
 msgid "Circassian"
@@ -28842,6 +28948,24 @@ msgid ""
 "province of France in 1766."
 msgstr ""
 
+#: data/nation/luwian.ruleset:3
+#, fuzzy
+msgid "Luwian"
+msgstr "Litouwse"
+
+#: data/nation/luwian.ruleset:4
+#, fuzzy
+msgid "?plural:Luwians"
+msgstr "?plural:Libi�rs"
+
+#: data/nation/luwian.ruleset:6
+msgid ""
+"The Luwians were an ancient Indo-European Anatolian people who lived in the "
+"late Bronze Age. For a time after the fall of the Hittite Empire they took a "
+"dominant role in the region. One of the most important Neo-Hittite states "
+"was Tabal (biblical Tubal), located in Syria and Southeastern Anatolia."
+msgstr ""
+
 #: data/nation/luxembourgish.ruleset:3
 #, fuzzy
 msgid "Luxembourgish"
@@ -30678,6 +30802,23 @@ msgid ""
 "The Pashtuns are an ethnic group that lives mainly in Afghanistan and "
 "Pakistan. They speak Pashto, a language closely related to Persian, and live "
 "by an age-old code of honor known as Pashtunwali."
+msgstr ""
+
+#: data/nation/pelasgian.ruleset:3
+#, fuzzy
+msgid "Pelasgian"
+msgstr "Perzische"
+
+#: data/nation/pelasgian.ruleset:4
+#, fuzzy
+msgid "?plural:Pelasgians"
+msgstr "Perzen"
+
+#: data/nation/pelasgian.ruleset:6
+msgid ""
+"Pelasgians or Pelasgoi were an ancient pre-Greek people of Greece. Much is "
+"still unknown about them, but it is probable they were of pre-Indo-European "
+"origin."
 msgstr ""
 
 #: data/nation/peruvian.ruleset:3
@@ -33506,14 +33647,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/walloon.ruleset:3
-#, fuzzy
 msgid "Walloon"
-msgstr "Galjoen"
+msgstr "Waalse"
 
 #: data/nation/walloon.ruleset:4
-#, fuzzy
 msgid "?plural:Walloons"
-msgstr "?plural:Spanjaarden"
+msgstr "Walen"
 
 #: data/nation/walloon.ruleset:6
 msgid ""
@@ -33522,31 +33661,34 @@ msgid ""
 "industrialize and the second in the world after England. It subsequently "
 "became a hotbed of socialist and labor union activity."
 msgstr ""
+"De Walen zijn de Franstalige inwoners van België. In de negentiende eeuw "
+"was Wallonië de eerste regio op het Europese vasteland waar de Industriële "
+"Revolutie in gang werd gezet en na Engeland de tweede ter wereld. Het werd "
+"vervolgens een bron van socialistisch en vakbondsactivisme."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "Welsh"
+msgstr "Welshe"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "?plural:Welsh"
+msgstr "Welsh"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
 "The Welsh at one time controlled all of what is now England until being "
 "driven into the mountainous western reaches by invading Saxons."
 msgstr ""
-"De Welsh beheersten ooit alles wat nu Engeland is totdat ze verdreven werden "
+"De Welshen beheersten ooit alles wat nu Engeland is totdat ze verdreven werden "
 "naar de bergen in het westen door binnenvallende Saksen."
 
 #: data/nation/werewolf.ruleset:4
 msgid "Werewolf"
-msgstr ""
+msgstr "Weerwolf"
 
 #: data/nation/werewolf.ruleset:5
-#, fuzzy
 msgid "?plural:Werewolves"
-msgstr "?plural:Welsh"
+msgstr "Weerwolven"
 
 #: data/nation/werewolf.ruleset:7
 msgid ""
@@ -33555,6 +33697,10 @@ msgid ""
 "to terrorize villages in search of human flesh and were often blamed for "
 "unexplained or particularly brutal killings."
 msgstr ""
+"Een weerwolf is een mens die onder bepaalde omstandigheden verandert in een "
+"wolfachtig beest. In Middeleeuws Europa geloofde men dat weervolven dorpen "
+"terroriseerden op zoek naar mensenlijk vlees en zij werden vaak beschuldigd "
+"voor onverklaarde of bijzonder gruwelijke sterfgevallen."
 
 #: data/nation/westernpomeranian.ruleset:3
 msgid "Western Pomeranian"
@@ -35337,66 +35483,66 @@ msgstr "Onderhoud van %s in %s niet meer op te brengen, gebouw verkocht!"
 msgid "Not enough gold. %s disbanded."
 msgstr "Niet genoeg goud. %s ontbonden."
 
-#: server/cityturn.c:2054
+#: server/cityturn.c:2069
 #, c-format
 msgid "Pollution near %s."
 msgstr "Verontreiniging bij %s."
 
-#: server/cityturn.c:2210
+#: server/cityturn.c:2221
 #, fuzzy, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Er zijn wilde feesten aan de gang ter uwer ere in %s."
 
-#: server/cityturn.c:2216
+#: server/cityturn.c:2227
 #, fuzzy, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Festival afgezegd in %s."
 
-#: server/cityturn.c:2233
+#: server/cityturn.c:2244
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
-#: server/cityturn.c:2279
+#: server/cityturn.c:2290
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Burgelijke onlusten in %s."
 
-#: server/cityturn.c:2283
+#: server/cityturn.c:2294
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "BURGELIJKE ONLUSTEN GAAN DOOR in %s."
 
-#: server/cityturn.c:2289
+#: server/cityturn.c:2300
 #, c-format
 msgid "Order restored in %s."
 msgstr "Orde hersteld in %s."
 
-#: server/cityturn.c:2300
+#: server/cityturn.c:2311
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "De bevolking heeft uw %s omvergeworpen, uw land is in verwarring."
 
-#: server/cityturn.c:2340
+#: server/cityturn.c:2351
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr "%s kan nog geen %s bouwen en we kunnen onze enige stad niet ontbinden."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2369
+#: server/cityturn.c:2380
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s is ontbonden in %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2566
+#: server/cityturn.c:2577
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2573
+#: server/cityturn.c:2584
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -35404,7 +35550,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2578
+#: server/cityturn.c:2589
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -35412,90 +35558,99 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2593
+#: server/cityturn.c:2604
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2600
+#: server/cityturn.c:2611
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2605
+#: server/cityturn.c:2616
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:2641
+#: server/cityturn.c:2652
 #, fuzzy, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s is ontbonden in %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2677
+#: server/cityturn.c:2688
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2683
+#: server/cityturn.c:2694
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2688
+#: server/cityturn.c:2699
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:2764
+#: server/cityturn.c:2775
 #, fuzzy, c-format
 msgid "%s was hit by %s."
 msgstr "%s is geatomiseerd door %s."
 
-#: server/cityturn.c:2783
+#: server/cityturn.c:2794
 #, fuzzy, c-format
 msgid "%s destroyed."
 msgstr "Torpedojager"
 
-#: server/cityturn.c:2793
+#: server/cityturn.c:2804
 #, fuzzy
 msgid "City got destroyed completely."
 msgstr "U vernietigt %s volledig."
 
-#: server/cityturn.c:2796
+#: server/cityturn.c:2807
 #, fuzzy
 msgid "Some population lost."
 msgstr "Hongersnood veroorzaakt sterfte in %s."
 
-#: server/cityturn.c:2807
+#: server/cityturn.c:2818
 msgid "Foodbox emptied."
 msgstr ""
 
-#: server/cityturn.c:2818
+#: server/cityturn.c:2829
 #, fuzzy
 msgid "Production box emptied."
 msgstr "Productie gereed:"
 
-#: server/cityturn.c:2827
+#: server/cityturn.c:2839
+#, fuzzy
+msgid "Tile polluted"
+msgstr "Verwijder Verontreiniging"
+
+#: server/cityturn.c:2847
+msgid "Fallout contaminated tile."
+msgstr ""
+
+#: server/cityturn.c:2854
 msgid "We survived the disaster without serious damages."
 msgstr ""
 
-#: server/cityturn.c:2988
+#: server/cityturn.c:3015
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3009
+#: server/cityturn.c:3036
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
