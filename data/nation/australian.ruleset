@@ -33,7 +33,7 @@ city_style = "European"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="Australian Aboriginal", "British"
+civilwar_nations="Australian Aboriginal", "Nauruan"
 
 cities =
  "Canberra (river, hills, forest, !desert, !ocean)",

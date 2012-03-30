@@ -334,6 +334,7 @@ sprites =
 		"f.namibia", "flags/namibia-large"
 		"f.naples", "flags/naples-large"
 ;		"f.nato", "flags/nato-large"
+		"f.nauru", "flags/nauru-large"
 		"f.navajo", "flags/navajo-large"
 		"f.nenetsia", "flags/nenetsia-large"
 		"f.nepal", "flags/nepal-large"
