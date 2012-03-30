@@ -622,6 +622,7 @@ bool activity_requires_target(enum unit_activity activity)
   switch (activity) {
   case ACTIVITY_PILLAGE:
   case ACTIVITY_BASE:
+  case ACTIVITY_GEN_ROAD:
     return TRUE;
   case ACTIVITY_IDLE:
   case ACTIVITY_POLLUTION:
