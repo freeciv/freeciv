@@ -299,8 +299,10 @@ bool player_invention_reachable(const struct player *pplayer,
   if (A_NONE != root) {
     if (root == tech) {
       /* This tech requires itself; it can only be reached by special means
-       * (lua script). */
-      return FALSE;
+       * (init_techs, lua script, ...).
+       * If you already know it, you can "reach" it; if not, not. (This case
+       * is needed for descendants of this tech.) */
+      return TECH_KNOWN == player_invention_state(pplayer, tech);
     } else if (allow_prereqs) {
       /* Recursive check if the player can ever reach this tech (root tech
        * and both requirements). */
