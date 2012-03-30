@@ -744,8 +744,10 @@ data/scenarios/tutorial.sav
 manual/civmanual.c
 modinst/download.c
 modinst/download.h
+modinst/modinst.c
 modinst/mpcmdline.c
 modinst/mpgui_gtk.c
+modinst/mpgui_qt.cpp
 server/aiiface.c
 server/auth.c
 server/barbarian.c
