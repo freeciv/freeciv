@@ -58,7 +58,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString);
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString);
 
 /**************************************************************************
-  ...
+  Adjust font sizes for small screen.
 **************************************************************************/
 #ifdef SMALL_SCREEN
 int adj_font(int size) {
@@ -85,10 +85,10 @@ int adj_font(int size) {
       return size;    
   }
 }
-#endif
+#endif /* SMALL_SCREEN */
 
 /**************************************************************************
-  ...
+  Calculate display size of string.
 **************************************************************************/
 SDL_Rect str16size(SDL_String16 *pString16)
 {
@@ -187,10 +187,11 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
 }
 
 /**************************************************************************
-  ...
+  Convert char array to SDL_String16. Pointer to target string is needed
+  as parameter, but also returned for convenience.
 **************************************************************************/
 SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
-						const char *pCharString)
+                                      const char *pCharString)
 {
   size_t n;
 
@@ -212,7 +213,7 @@ SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
 }
 
 /**************************************************************************
-  ...
+  Blit text to surface.
 **************************************************************************/
 int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
 		 SDL_String16 * pString)
@@ -290,7 +291,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 }
 
 /**************************************************************************
-  ...
+  Create surface with multiline text drawn.
 **************************************************************************/
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 {
@@ -364,16 +365,17 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
     FC_FREE(UniTexts[i]);
     FREESURFACE(pTmp[i]);
   }
-  
+
   FC_FREE(pTmp);
 
   return pText;
 }
 
 /**************************************************************************
-  ...
+  Generic function to create surface with any kind of text, single line or
+  multiline, drawn.
 **************************************************************************/
-SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString)
+SDL_Surface *create_text_surf_from_str16(SDL_String16 *pString)
 {
   if (pString && pString->text) {
     Uint16 *pStr16 = pString->text;
@@ -439,13 +441,13 @@ SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
     
   return pText;
 }
-#endif
+#endif /* 0 */
 
 /**************************************************************************
-  ...
+  Wrap text to make it fit to given screen width.
 **************************************************************************/
 bool convert_string_to_const_surface_width(SDL_String16 *pString,
-								int width)
+                                           int width)
 {  
   int w;
   bool converted = FALSE;
@@ -460,7 +462,7 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
     int len = 0, adv;
     Uint16 New_Line, Space;
     Uint16 *ptr_rev, *ptr = pString->text;
-        
+
     {
       Uint16 pBuf[2];
       convertcopy_to_utf16(pBuf, sizeof(pBuf), "\n");
@@ -473,18 +475,18 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
     
     do {
       if (!resize) {
-	
+
 	if (*ptr == '\0') {
 	  resize = TRUE;
 	  continue;
 	}
-	
+
 	if (*ptr == New_Line) {
 	  len = 0;
 	  ptr++;
 	  continue;
 	}
-		
+
 	if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
     	  TTF_SetFontStyle(pString->font, (pString->style & 0x0F));
 	}
@@ -492,9 +494,9 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
 	if (!((pString->style & 0x0F) & TTF_STYLE_NORMAL)) {
     	  TTF_SetFontStyle(pString->font, TTF_STYLE_NORMAL);
 	}
-	
+
 	len += adv;
-	
+
 	if (len > width) {
 	  ptr_rev = ptr;
 	  while(ptr_rev != pString->text) {
@@ -514,7 +516,7 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
 	    resize = TRUE;
 	  }
 	}
-	
+
 	ptr++;
       } else {
         if (pString->ptsize > 8) {
@@ -525,15 +527,16 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
           break;
 	}
       }  
-      
+
     } while (w > width);
   }
-    
+
   return converted;
 }
 
 /**************************************************************************
-  ...
+  Create surface with text drawn to it. Wrap text as needed to make it
+  fit in given width.
 **************************************************************************/
 SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
 {
@@ -553,7 +556,7 @@ SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
 }
 
 /**************************************************************************
-  ...
+  Change font size of text.
 **************************************************************************/
 void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
 {
@@ -576,14 +579,14 @@ void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
 /* =================================================== */
 
 /**************************************************************************
-  ...
+  Load font of given pointsize.
 **************************************************************************/
-static TTF_Font * load_font(Uint16 ptsize)
+static TTF_Font *load_font(Uint16 ptsize)
 {
   struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
   TTF_Font *font_tmp = NULL;
 
-  /* find existing font and return pointer to him */
+  /* find existing font and return pointer to it */
   if (Sizeof_Font_TAB) {
     while (Font_TAB_TMP) {
       if (Font_TAB_TMP->ptsize == ptsize) {
@@ -632,7 +635,7 @@ static TTF_Font * load_font(Uint16 ptsize)
 }
 
 /**************************************************************************
-  ...
+  Free font of given pointsize.
 **************************************************************************/
 void unload_font(Uint16 ptsize)
 {
@@ -678,6 +681,9 @@ void unload_font(Uint16 ptsize)
   FC_FREE(Font_TAB_TMP);
 }
 
+/**************************************************************************
+  Free all fonts.
+**************************************************************************/
 void free_font_system(void)
 {
   struct TTF_Font_Chain *Font_TAB_TMP;
@@ -698,5 +704,4 @@ void free_font_system(void)
       FC_FREE(Font_TAB);
     }
   }
-  
 }

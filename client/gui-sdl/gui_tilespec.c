@@ -118,7 +118,7 @@ void reload_citizens_icons(int style)
 }
 
 /**************************************************************************
-  ...
+  Load theme city screen graphics.
 **************************************************************************/
 void tilespec_setup_city_gfx(void) {
   struct sprite *pSpr =
@@ -135,24 +135,23 @@ void tilespec_setup_city_gfx(void) {
 ***********************************************************************/
 void tilespec_setup_city_icons(void)
 {
-
   struct sprite *pSpr = NULL;
-  
+
   pIcons = ( struct City_Icon *)fc_calloc(1,  sizeof( struct City_Icon ));
-  
+
   load_city_icon_surface(pSpr, pBIG_Food_Corr, "city.food_waste");
   load_city_icon_surface(pSpr, pBIG_Shield_Corr, "city.shield_waste");
   load_city_icon_surface(pSpr, pBIG_Trade_Corr, "city.trade_waste");
   load_city_icon_surface(pSpr, pBIG_Food, "city.food");
-      
+
   pIcons->pBIG_Food_Surplus = crop_rect_from_surface(pIcons->pBIG_Food, NULL);
   SDL_SetAlpha(pIcons->pBIG_Food_Surplus, SDL_SRCALPHA, 128);
-    
+
   load_city_icon_surface(pSpr, pBIG_Shield, "city.shield");
-  
+
   pIcons->pBIG_Shield_Surplus = crop_rect_from_surface(pIcons->pBIG_Shield, NULL);
   SDL_SetAlpha(pIcons->pBIG_Shield_Surplus, SDL_SRCALPHA, 128);
-  
+
   load_city_icon_surface(pSpr, pBIG_Trade, "city.trade");
   load_city_icon_surface(pSpr, pBIG_Luxury, "city.lux");
   load_city_icon_surface(pSpr, pBIG_Coin, "city.coin");
@@ -197,6 +196,9 @@ void tilespec_setup_city_icons(void)
   pIcons->style = 999;
 }
 
+/**********************************************************************
+  Free resources associated with city screen icons.
+***********************************************************************/
 void tilespec_free_city_icons(void)
 {
   if (!pIcons) {
@@ -253,9 +255,9 @@ void tilespec_free_city_icons(void)
 /* ===================== THEME ======================= */
 /* =================================================== */
 
-/*
- *	Alloc and fill Theme struct
- */
+/**********************************************************************
+  Alloc and fill Theme struct
+***********************************************************************/
 void tilespec_setup_theme(void)
 {
   struct sprite *pBuf = NULL;
@@ -363,9 +365,9 @@ void tilespec_setup_theme(void)
   return;
 }
 
-/*
- *	Free memmory
- */
+/**********************************************************************
+  Free theme memory
+***********************************************************************/
 void tilespec_free_theme(void)
 {
   if (!pTheme) {
@@ -476,7 +478,7 @@ void tilespec_free_theme(void)
 }
 
 /**************************************************************************
-  ...
+  Setup icons for special (non-real) technologies.
 **************************************************************************/
 void setup_auxiliary_tech_icons(void)
 {
@@ -520,7 +522,7 @@ void setup_auxiliary_tech_icons(void)
 }
 
 /**************************************************************************
-  ...
+  Free resources associated with aux tech icons.
 **************************************************************************/
 void free_auxiliary_tech_icons(void)
 {
@@ -530,7 +532,7 @@ void free_auxiliary_tech_icons(void)
 }
 
 /**************************************************************************
-  ...
+  Return tech icon surface.
 **************************************************************************/
 SDL_Surface * get_tech_icon(Tech_type_id tech)
 {
@@ -554,9 +556,9 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
 }
 
 /**************************************************************************
-  ...
+  Return color associated with current tech knowledge state.
 **************************************************************************/
-SDL_Color * get_tech_color(Tech_type_id tech_id)
+SDL_Color *get_tech_color(Tech_type_id tech_id)
 {
   if (player_invention_reachable(client.conn.playing, tech_id, FALSE))
   {
@@ -576,15 +578,15 @@ SDL_Color * get_tech_color(Tech_type_id tech_id)
 }
 
 /**************************************************************************
-  ...
+  Return current city screen graphics
 **************************************************************************/
-SDL_Surface * get_city_gfx(void)
+SDL_Surface *get_city_gfx(void)
 {
   return pCity_Surf;
 }
 
 /**************************************************************************
-  ...
+  Draw theme intro gfx.
 **************************************************************************/
 void draw_intro_gfx(void)
 {

@@ -206,7 +206,7 @@ static void parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
-...
+  Main handler for key presses
 **************************************************************************/
 static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 {
@@ -248,7 +248,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	  case SDLK_F7:
             send_report_request(REPORT_WONDERS_OF_THE_WORLD);
           return ID_ERROR;
-	    
+
           case SDLK_F8:
             send_report_request(REPORT_TOP_5_CITIES);
           return ID_ERROR;
@@ -265,11 +265,11 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	  case SDLK_F11:
             send_report_request(REPORT_DEMOGRAPHIC);
           return ID_ERROR;
-	    
+
 	  case SDLK_F12:
             popup_spaceship_dialog(client.conn.playing);
           return ID_ERROR;
-	  
+
 	  default:
 	  return ID_ERROR;
 	}
@@ -281,7 +281,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 }
 
 /**************************************************************************
-...
+  Main key release handler.
 **************************************************************************/
 static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
 {
@@ -292,7 +292,7 @@ static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
 }
 
 /**************************************************************************
-...
+  Main mouse click handler.
 **************************************************************************/
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
@@ -308,7 +308,7 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
     /* no visible widget at this position -> map click */ 
 #ifdef UNDER_CE
     if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
-#endif        
+#endif
     if (!button_behavior.counting) {
       /* start counting */
       button_behavior.counting = TRUE;
@@ -319,11 +319,14 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
     }
 #ifdef UNDER_CE
     }
-#endif    
+#endif
   }
   return ID_ERROR;
 }
 
+/**************************************************************************
+  Main mouse button release handler.
+**************************************************************************/
 static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
   if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
@@ -347,7 +350,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
 #endif
 
 /**************************************************************************
-...
+  Main handler for mouse movement handling.
 **************************************************************************/
 static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
@@ -362,7 +365,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
       button_behavior.counting = FALSE;
     }
   }
-  
+
   if(draw_goto_patrol_lines) {
     update_line(pMotionEvent->x, pMotionEvent->y);
   }
@@ -371,7 +374,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   if (gui_sdl_fullscreen) {
     check_scroll_area(pMotionEvent->x, pMotionEvent->y);
   }
-#endif          
+#endif /* UNDER_CE */
 
   if ((pWidget = find_next_widget_at_pos(NULL,
                                          pMotionEvent->x,
@@ -423,6 +426,9 @@ static void update_button_hold_state(void)
   return;
 }
 
+/**************************************************************************
+  Check if coordinate is in scroll area.
+**************************************************************************/
 static int check_scroll_area(int x, int y) {
   
   SDL_Rect rect_north = {0, 0, Main.map->w, SCROLL_MAP_AREA};
@@ -457,14 +463,14 @@ static int check_scroll_area(int x, int y) {
   } else {
     is_map_scrolling = FALSE;
   }
-  
+
   return is_map_scrolling;
 }
 
 /* ============================ Public ========================== */
 
 /**************************************************************************
-...
+  Instruct event loop to exit.
 **************************************************************************/
 void force_exit_from_event_loop(void)
 {
@@ -474,12 +480,14 @@ void force_exit_from_event_loop(void)
   Event.user.code = EXIT_FROM_EVENT_LOOP;
   Event.user.data1 = NULL;
   Event.user.data2 = NULL;
-  
+
   SDL_PushEvent(&Event);
-  
 }
 
-/* This function may run in a separate event thread */
+/**************************************************************************
+  Filter out mouse motion events for too small movement to react to.
+  This function may run in a separate event thread.
+**************************************************************************/
 int FilterMouseMotionEvents(const SDL_Event *event)
 {
   if (event->type == SDL_MOUSEMOTION) {
@@ -497,7 +505,7 @@ int FilterMouseMotionEvents(const SDL_Event *event)
 }
 
 /**************************************************************************
-...
+  SDL-client main loop.
 **************************************************************************/
 Uint16 gui_event_loop(void *pData,
 	void (*loop_action)(void *pData),
@@ -595,13 +603,13 @@ Uint16 gui_event_loop(void *pData,
     /* ========================================= */
     
     while (SDL_PollEvent(&Main.event) == 1) {
-      
+
       switch (Main.event.type) {
-        
+
         case SDL_QUIT:
           return MAX_ID;
         break;
-    
+
         case SDL_KEYUP:
           switch (Main.event.key.keysym.sym) {
             /* find if Shifts are released */
@@ -627,7 +635,7 @@ Uint16 gui_event_loop(void *pData,
             break;
           }
           break;
-          
+
         case SDL_KEYDOWN:
           switch(Main.event.key.keysym.sym) {
             case SDLK_PRINT:
@@ -635,32 +643,32 @@ Uint16 gui_event_loop(void *pData,
               log_normal(_("Making screenshot %s"), schot);
               SDL_SaveBMP(Main.screen, schot);
             break;
-            
+
             case SDLK_RSHIFT:
               /* Right Shift is Pressed */
               RSHIFT = TRUE;
             break;
-              
+
             case SDLK_LSHIFT:
               /* Left Shift is Pressed */
               LSHIFT = TRUE;
             break;
-              
+
             case SDLK_LCTRL:
               /* Left CTRL is Pressed */
               LCTRL = TRUE;
             break;
-             
+
             case SDLK_RCTRL:
               /* Right CTRL is Pressed */
               RCTRL = TRUE;
             break;
-            
+
             case SDLK_LALT:
               /* Left ALT is Pressed */
               LALT = TRUE;
             break;
-            
+
             default:
               if(key_down_handler) {
                 ID = key_down_handler(Main.event.key.keysym, pData);
@@ -668,25 +676,25 @@ Uint16 gui_event_loop(void *pData,
             break;
           }
         break;
-          
+
         case SDL_MOUSEBUTTONDOWN:
           if(mouse_button_down_handler) {
             ID = mouse_button_down_handler(&Main.event.button, pData);
           }	
         break;
-          
+
         case SDL_MOUSEBUTTONUP:
           if(mouse_button_up_handler) {
             ID = mouse_button_up_handler(&Main.event.button, pData);
           }
         break;
-          
+
         case SDL_MOUSEMOTION:
           if(mouse_motion_handler) {
             ID = mouse_motion_handler(&Main.event.motion, pData);
           }	
         break;
-          
+
         case SDL_USEREVENT:
           switch(Main.event.user.code) {
             case NET:
@@ -722,10 +730,10 @@ Uint16 gui_event_loop(void *pData,
             break;
           }    
         break;
-          
+
       }
     }
-    
+
     if (ID == ID_ERROR) {
       if (callbacks && callback_list_size(callbacks) > 0) {
         struct callback *cb = callback_list_get(callbacks, 0);
@@ -735,7 +743,7 @@ Uint16 gui_event_loop(void *pData,
       }
     }
   }
-  
+
   return ID;
 }
 
@@ -758,15 +766,15 @@ void ui_init(void)
   
   SDL_Client_Flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
-  
+
   /* auto center new windows in X enviroment */
   putenv((char *)"SDL_VIDEO_CENTERED=yes");
-  
+
   init_sdl(iSDL_Flags);
 
   log_normal(_("Using Video Output: %s"),
              SDL_VideoDriverName(device, sizeof(device)));
-  
+
   /* create splash screen */  
 #ifdef SMALL_SCREEN
   {
@@ -775,18 +783,18 @@ void ui_init(void)
     pBgd = zoomSurface(pTmpSurf, DEFAULT_ZOOM, DEFAULT_ZOOM, 0);
     FREESURFACE(pTmpSurf);
   }
-#else
+#else  /* SMALL_SCREEN */
   pBgd = load_surf(fileinfoname(get_data_dirs(), "misc/intro.png"));
-#endif
+#endif /* SMALL_SCREEN */
   
-  if(pBgd && SDL_GetVideoInfo()->wm_available) {
+  if (pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT);
 #if 0    
     /*
-     * call this for other that X enviroments - currently not supported.
+     * call this for other than X enviroments - currently not supported.
      */
     center_main_window_on_screen();
-#endif
+#endif /* 0 */
     alphablit(pBgd, NULL, Main.map, NULL);
     putframe(Main.map,
              0, 0, Main.map->w - 1, Main.map->h - 1,
@@ -797,9 +805,9 @@ void ui_init(void)
     
 #ifndef SMALL_SCREEN
     set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT);
-#else
+#else  /* SMALL_SCREEN */
     set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
-#endif    
+#endif /* SMALL_SCREEN */
     
     if(pBgd) {
       blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
@@ -832,7 +840,7 @@ void ui_init(void)
   copy_chars_to_string16(pInit_String->string16,
   			_("Waiting for the beginning of the game"));
 
-#endif    
+#endif /* 0 */
 
   flush_all();
 }
@@ -908,7 +916,8 @@ void gui_options_extra_init(void)
 }
 
 /**************************************************************************
-...
+  Remove double messages caused by message configured to both MW_MESSAGES
+  and MW_OUTPUT.
 **************************************************************************/
 static void clear_double_messages_call(void)
 {
@@ -1011,15 +1020,15 @@ void ui_main(int argc, char *argv[])
         /* set 320x240 fullscreen */
         set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                        SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-      #else
+      #else  /* UNDER_CE */
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
         set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                        SDL_SWSURFACE | SDL_ANYFORMAT);
-      #endif
-    #else
+      #endif /* UNDER_CE */
+    #else  /* SMALL_SCREEN */
       set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-    #endif
+    #endif /* SMALL_SCREEN */
     
   } else {
     
@@ -1027,21 +1036,21 @@ void ui_main(int argc, char *argv[])
       #ifdef UNDER_CE    
       set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
-      #else
+      #else  /* UNDER_CE */
       set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
-      #endif
-    #else
+      #endif /* UNDER_CE */
+    #else  /* SMALL_SCREEN */
     set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
       SDL_SWSURFACE | SDL_ANYFORMAT);
-    #endif
+    #endif /* SMALL_SCREEN */
     
 #if 0    
     /*
      * call this for other that X enviroments - currently not supported.
      */
     center_main_window_on_screen();
-#endif
+#endif /* 0 */
   }
 
   /* SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv")); */

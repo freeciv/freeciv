@@ -174,7 +174,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
 
   char *pResult;
   iconv_t cd;
-  
+
   /* ===== */
 
   if (!pStart) {
@@ -188,7 +188,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
     }
   }
 
-  if(pToString) {
+  if (pToString) {
     pResult = pToString;
   } else {
     length = ulength * 2; /* UTF-8: up to 4 bytes per char */
