@@ -507,6 +507,7 @@ artists = "
    Vatican		Flanker (Wikimedia Commons)
    Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
    Venda		Walden69 (Wikimedia Commons)
+   Venetic		Andrzej G.
    Venezuela		Zachary Harden et al.
    Venice		Daniel Markstedt
    Vermont		Mysid (Wikipedia)
@@ -1033,6 +1034,7 @@ sprites =
 		"f.vatican", "flags/vatican"
 		"f.vedic", "flags/vedic"
 		"f.venda", "flags/venda"
+		"f.venetic", "flags/venetic"
 		"f.venezuela", "flags/venezuela"
 		"f.venice", "flags/venice"
 		"f.vermont", "flags/vermont"

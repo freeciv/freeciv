@@ -508,6 +508,7 @@ sprites =
 		"f.vatican", "flags/vatican-large"
 		"f.vedic", "flags/vedic-large"
 		"f.venda", "flags/venda-large"
+		"f.venetic", "flags/venetic-large"
 		"f.venezuela", "flags/venezuela-large"
 		"f.venice", "flags/venice-large"
 		"f.vermont", "flags/vermont-large"
