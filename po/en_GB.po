@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-23 20:55+0000\n"
+"POT-Creation-Date: 2012-03-31 13:25+0100\n"
 "PO-Revision-Date: 2012-03-23 21:04+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
@@ -858,13 +858,13 @@ msgstr ""
 msgid "team %d"
 msgstr ""
 
-#: common/tech.c:886
+#: common/tech.c:888
 #, c-format
 msgid "Future Tech. %d"
 msgstr ""
 
 #. TRANS: "None" tech
-#: common/tech.c:957 common/tech.c:960 server/settings.h:59
+#: common/tech.c:959 common/tech.c:962 server/settings.h:59
 #: client/gui-gtk-2.0/helpdlg.c:123 client/gui-sdl/citydlg.c:722
 #: client/gui-sdl/gui_tilespec.c:486 client/gui-sdl/helpdlg.c:376
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:828
@@ -875,12 +875,12 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: common/tech.c:963
+#: common/tech.c:965
 msgid "Future Tech."
 msgstr ""
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:967 client/gui-gtk-2.0/inteldlg.c:403
+#: common/tech.c:969 client/gui-gtk-2.0/inteldlg.c:403
 msgid "(Unknown)"
 msgstr ""
 

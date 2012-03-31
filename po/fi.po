@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-07 07:20+0200\n"
+"POT-Creation-Date: 2012-03-31 13:25+0100\n"
 "PO-Revision-Date: 2012-03-11 18:35+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -833,13 +833,13 @@ msgstr "joukkue %s"
 msgid "team %d"
 msgstr "joukkue %d"
 
-#: common/tech.c:886
+#: common/tech.c:888
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Tulevaisuuden teknologia %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:957 common/tech.c:960 server/settings.h:59
+#: common/tech.c:959 common/tech.c:962 server/settings.h:59
 #: client/gui-gtk-2.0/helpdlg.c:123 client/gui-sdl/citydlg.c:722
 #: client/gui-sdl/gui_tilespec.c:486 client/gui-sdl/helpdlg.c:376
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:828
@@ -850,12 +850,12 @@ msgstr "Tulevaisuuden teknologia %d"
 msgid "None"
 msgstr "Ei mikään"
 
-#: common/tech.c:963
+#: common/tech.c:965
 msgid "Future Tech."
 msgstr "Tulevaisuuden teknologia"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:967 client/gui-gtk-2.0/inteldlg.c:403
+#: common/tech.c:969 client/gui-gtk-2.0/inteldlg.c:403
 msgid "(Unknown)"
 msgstr "(Tuntematon)"
 
@@ -1931,18 +1931,18 @@ msgstr ""
 "Salasanassa on oltava vähintään %d isoa kirjainta, %d numeroa ja sen "
 "pituuden on oltava vähintään %d [näkyvää] merkkiä pitkä. Anna uusi salasana."
 
-#: server/barbarian.c:157
+#: server/barbarian.c:162
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
 msgstr ""
 "Vaaralliset ajat uhkaavat, %s ovat saaneet uuden hallitsijan nimeltään %s."
 
-#: server/barbarian.c:630
+#: server/barbarian.c:635
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "%s raportoi levottomuuksia lähistöllä, %s johtaa rähinöijiä."
 
-#: server/barbarian.c:635
+#: server/barbarian.c:640
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "%s on havainnut merirosvoja!"
@@ -2369,7 +2369,7 @@ msgstr "%s ei voi ylläpitää kaikkia yksikköjään, %s hajotettu."
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Kaupungin %s asukkaat kuolevat, kun %s rapistuu ylläpidon puutteesta!"
 
-#: server/cityturn.c:1493 server/cityturn.c:1619
+#: server/cityturn.c:1493 server/cityturn.c:1626
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s: rakenteilla on %s, joka ei enää ole saatavilla."
@@ -2401,75 +2401,75 @@ msgstr "Tiedonjanoiset %s saivat edistysaskeleen %s, opettajina %s."
 msgid "The %s have started building a spaceship!"
 msgstr "Peli: %s rakentavat jo avaruusalusta!"
 
-#: server/cityturn.c:1646
+#: server/cityturn.c:1653
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "%s ei voi vielä saada hanketta %s valmiiksi."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1682
+#: server/cityturn.c:1689
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s sai valmiiksi hankkeensa %s."
 
 #. TRANS: <unit> cost... <city> shrinks...
-#: server/cityturn.c:1690
+#: server/cityturn.c:1697
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgstr "%s vaatii väestöä %d, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:1772
+#: server/cityturn.c:1779
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:1821
+#: server/cityturn.c:1828
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:2047
+#: server/cityturn.c:2054
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:2202
+#: server/cityturn.c:2209
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:2208
+#: server/cityturn.c:2215
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
-#: server/cityturn.c:2225
+#: server/cityturn.c:2232
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s on ruton riipimä! Väestöä kuolee!"
 
-#: server/cityturn.c:2271
+#: server/cityturn.c:2278
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "%s on kapinan partaalla."
 
-#: server/cityturn.c:2275
+#: server/cityturn.c:2282
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "%s: LEVOTTOMUUDET JATKUVAT."
 
-#: server/cityturn.c:2281
+#: server/cityturn.c:2288
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s: Järjestys on palannut kaupunkiin."
 
 # government - e.g. Yksinvalta
-#: server/cityturn.c:2292
+#: server/cityturn.c:2299
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "%s kaatui kansannousussa, valtio natisee liitoksissaan."
 
-#: server/cityturn.c:2331
+#: server/cityturn.c:2338
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -2477,13 +2477,13 @@ msgstr ""
 "lakkauttaa."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2360
+#: server/cityturn.c:2367
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s lakkautettiin, kun %s koottiin."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2544
+#: server/cityturn.c:2551
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -2492,7 +2492,7 @@ msgstr ""
 "syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2551
+#: server/cityturn.c:2558
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2502,7 +2502,7 @@ msgstr ""
 "s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2556
+#: server/cityturn.c:2563
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2512,7 +2512,7 @@ msgstr ""
 "s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2571
+#: server/cityturn.c:2578
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -2521,7 +2521,7 @@ msgstr ""
 "parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2578
+#: server/cityturn.c:2585
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -2530,7 +2530,7 @@ msgstr ""
 "vaatii parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2583
+#: server/cityturn.c:2590
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -2538,36 +2538,36 @@ msgstr ""
 "Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupunki %s "
 "vaatii parannuksen kasvaakseen!"
 
-#: server/cityturn.c:2619
+#: server/cityturn.c:2626
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s on tyhjentynyt asukkaista."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2641
+#: server/cityturn.c:2648
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Siirtolaisia kaupungista %1$s on saapunut kaupunkiin %2$s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2647
+#: server/cityturn.c:2654
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Siirtolaisia kaupungistasi %1$s on päätynyt %3$s kaupunkiin %2$s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2652
+#: server/cityturn.c:2659
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Siirtolaisia %2$s kaupungista %1$s on saapunut kaupunkiisi %3$s."
 
-#: server/cityturn.c:2826
+#: server/cityturn.c:2833
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "%s ei houkuta. Sen asukkaat harkitsevat muuttoa kaupunkiin %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2847
+#: server/cityturn.c:2854
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -5510,32 +5510,32 @@ msgstr ""
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 1.9.0."
 
-#: server/savegame.c:5243 server/savegame2.c:3001 server/srv_main.c:1837
+#: server/savegame.c:5243 server/savegame2.c:3049 server/srv_main.c:1837
 #: server/srv_main.c:1841
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi."
 
-#: server/savegame.c:5247 server/savegame2.c:3005
+#: server/savegame.c:5247 server/savegame2.c:3053
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:5292 server/savegame2.c:3024
+#: server/savegame.c:5292 server/savegame2.c:3072
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakuntaa ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame2.c:5363
+#: server/savegame2.c:5411
 msgid "current version"
 msgstr "nykyinen versio"
 
-#: server/savegame2.c:5367
+#: server/savegame2.c:5415
 msgid "freeciv 2.3.0"
 msgstr "freeciv 2.3.0"
 
-#: server/savegame2.c:5417
+#: server/savegame2.c:5465
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
@@ -5543,7 +5543,7 @@ msgstr ""
 "Suoritetaan yhteensopivuustoiminto versiolle: <%d (tiedosto: %d, palvelin: %"
 "d)."
 
-#: server/savegame2.c:5451
+#: server/savegame2.c:5499
 #, c-format
 msgid "Run compatibility function for version: <%d (want: %d, server: %d)."
 msgstr ""
@@ -9635,161 +9635,161 @@ msgstr "%s muunnettu yksiköksi %s."
 msgid "%s cannot be converted."
 msgstr "Yksikköä %s ei voi muuntaa."
 
-#: server/unithand.c:506 client/text.c:1235
+#: server/unithand.c:513 client/text.c:1235
 #, c-format
 msgid "%s refuses to disband!"
 msgstr "%s vastustaa lakkauttamistaan!"
 
 #. TRANS: <tile-terrain>.
-#: server/unithand.c:560
+#: server/unithand.c:567
 #, c-format
 msgid "Can't build a city on %s."
 msgstr "Kaupunkia ei voi perustaa maastotyypissä %s."
 
 #. TRANS: <unit> ... <tile-terrain>.
-#: server/unithand.c:566
+#: server/unithand.c:573
 #, c-format
 msgid "%s can't build a city on %s."
 msgstr "%s ei voi perustaa kaupunkia maastotyypissä %s."
 
-#: server/unithand.c:571
+#: server/unithand.c:578
 msgid "Can't place a city inside foreigner borders."
 msgstr "Kaupunkia ei voi perustaa toisen rajojen sisäpuolelle."
 
-#: server/unithand.c:575
+#: server/unithand.c:582
 msgid "Can't place a city there because another city is too close."
 msgstr "Kaupunkia ei voi perustaa liian lähelle toista kaupunkia."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:585
+#: server/unithand.c:592
 #, c-format
 msgid "Only %s can build a city."
 msgstr "Vain %s voi perustaa kaupungin."
 
-#: server/unithand.c:589
+#: server/unithand.c:596
 msgid "Can't build a city."
 msgstr "Kaupungin perustaminen ei onnistu."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:600
+#: server/unithand.c:607
 #, c-format
 msgid "Only %s can add to a city."
 msgstr "Vain %s voi liittyä kaupunkiin."
 
-#: server/unithand.c:604
+#: server/unithand.c:611
 msgid "Can't add to a city."
 msgstr "Kaupunkiin liittyminen epäonnistui."
 
 # Settlers can add population to a city.
-#: server/unithand.c:610
+#: server/unithand.c:617
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr ""
 "Yksikkö %s ei voi kasvattaa kaupunkia %s, koska sillä ei ole liikepisteitä."
 
-#: server/unithand.c:615
+#: server/unithand.c:622
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr ""
 "Yksikkö %s ei voi perustaa kaupunkia, koska sillä ei ole liikepisteitä."
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
-#: server/unithand.c:621
+#: server/unithand.c:628
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
 msgstr "Koska %s on %s kaupunki, %s ei voi liittyä siihen."
 
-#: server/unithand.c:628
+#: server/unithand.c:635
 #, c-format
 msgid "%s is too big to add %s."
 msgstr "%s on liian suuri, %s ei voi liittyä joukkoon."
 
-#: server/unithand.c:633
+#: server/unithand.c:640
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr "%s: kasvamiseen tarvitaan rakennushanke, %s ei voi liittyä."
 
-#: server/unithand.c:643
+#: server/unithand.c:650
 #, c-format
 msgid "Can't add %s to %s."
 msgstr "%s ei voi liittyä kaupunkiin %s."
 
-#: server/unithand.c:667
+#: server/unithand.c:674
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s lisätty auttamaan kaupunkia %s kasvamaan."
 
-#: server/unithand.c:1030
+#: server/unithand.c:1037
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr ""
 "Laukaisemasi %s ammuttiin alas ohjuspuolustusjärjestelmällä. Ilonpilaajat!"
 
-#: server/unithand.c:1033
+#: server/unithand.c:1040
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Ohjustentorjuntajärjestelmäsi torjui ydiniskun – %s ei vahingoittunut."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1112
+#: server/unithand.c:1119
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "%s selviytyi surkeasta hyökkäyksestä, jota %s %s yritti."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1122
+#: server/unithand.c:1129
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "Hyökkäyksesi meni mönkään, %s hävisi ja %s %s selviytyi voittajana."
 
-#: server/unithand.c:1200
+#: server/unithand.c:1207
 msgid "This type of troops cannot take over a city."
 msgstr "Tämäntyyppinen yksikkö ei voi valloittaa kaupunkia."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1210
+#: server/unithand.c:1217
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Vain %s voi hyökätä mereltä."
 
-#: server/unithand.c:1214
+#: server/unithand.c:1221
 msgid "Cannot attack from sea."
 msgstr "Et voi hyökätä mereltä."
 
-#: server/unithand.c:1221 server/unittools.c:2349
+#: server/unithand.c:1228 server/unittools.c:2349
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
-#: server/unithand.c:1226
+#: server/unithand.c:1233
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s voi siirtyä vain itse valvomallesi alueelle."
 
-#: server/unithand.c:1232
+#: server/unithand.c:1239
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ei voi liikkua niin kauas rannikolta."
 
-#: server/unithand.c:1239 server/unittools.c:2356
+#: server/unithand.c:1246 server/unittools.c:2356
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
 "Sinä ja %s olette solmineet rauhan, et voi hyökätä ennen sopimuksen purkua."
 
-#: server/unithand.c:1285
+#: server/unithand.c:1292
 msgid "This unit has no moves left."
 msgstr "Tällä yksiköllä ei ole liikepisteitä jäljellä."
 
-#: server/unithand.c:1345
+#: server/unithand.c:1352
 msgid "No diplomat action possible."
 msgstr "Diplomaattitoiminta ei ole mahdollista."
 
-#: server/unithand.c:1348
+#: server/unithand.c:1355
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "Yksikkö ei kykene diplomaattisiin toimiin maastotyypistä %s."
 
-#: server/unithand.c:1366
+#: server/unithand.c:1373
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -9797,64 +9797,64 @@ msgstr ""
 "Kansakunnat-näkymää (F3)."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1408
+#: server/unithand.c:1415
 #, c-format
 msgid "Your %s succeeded in capturing the %s."
 msgstr "Lähettämäsi %s onnistui lahjomaan yksikön %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1413
+#: server/unithand.c:1420
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Petolliset %2$s lahjoivat yksikkösi %1$s puolelleen."
 
-#: server/unithand.c:1438
+#: server/unithand.c:1445
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Tätä yksikköä kuljetetaan, joten se ei voi pommittaa."
 
-#: server/unithand.c:1450
+#: server/unithand.c:1457
 msgid "You can't attack there."
 msgstr "Et voi hyökätä sinne."
 
-#: server/unithand.c:1486
+#: server/unithand.c:1493
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Kuljetettu yksikkö ei ole liitossa kaikkien kohderuudun joukkojen tai sen "
 "kaupungin kanssa."
 
-#: server/unithand.c:1534
+#: server/unithand.c:1541
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s auttaa rakennushanketta %s kaupungissa %s (%d jäljellä)."
 
-#: server/unithand.c:1536
+#: server/unithand.c:1543
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s auttaa rakennushanketta %s kaupungissa %s (%d jäi yli)."
 
-#: server/unithand.c:1589
+#: server/unithand.c:1596
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia"
 
-#: server/unithand.c:1601
+#: server/unithand.c:1608
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s ei voi luoda kauppareittiä kaupunkien %s ja %s välille"
 
-#: server/unithand.c:1633 server/unithand.c:1654
+#: server/unithand.c:1640 server/unithand.c:1661
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s ei voi luoda kauppareittiä tänne!"
 
-#: server/unithand.c:1638 server/unithand.c:1659
+#: server/unithand.c:1645 server/unithand.c:1666
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      Kaupungilla %s on jo %d parempaa kauppareittiä!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1681
+#: server/unithand.c:1688
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -9869,22 +9869,22 @@ msgstr[1] ""
 "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d kultaa ja "
 "tutkimuspanosta."
 
-#: server/unithand.c:1707
+#: server/unithand.c:1714
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Uusi kauppareitti perustettu kaupungista %s kaupunkiin %s."
 
-#: server/unithand.c:1713
+#: server/unithand.c:1720
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s perusti kauppareitin kaupunkinsa %s ja kaupungin %s välille."
 
-#: server/unithand.c:1728 server/unithand.c:1750
+#: server/unithand.c:1735 server/unithand.c:1757
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Kauppareitti kaupunkien %s ja %s välillä on peruttu."
 
-#: server/unithand.c:1735 server/unithand.c:1757
+#: server/unithand.c:1742 server/unithand.c:1764
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "%s on perunut kauppareitin kaupungista %s kaupunkiisi %s."
@@ -22385,7 +22385,15 @@ msgid ""
 "naturally content, angry citizens will appear; these must all be made merely "
 "unhappy before any unhappy citizens can be made content, but in all other "
 "respects behave as unhappy citizens."
-msgstr "Niinpä voitkin huomata että kaupungin perustaminen tai valloittaminen laukaisee levottomuuksia ympäri valtakuntaasi. Valtakunnan jatkuva kasvattaminen johtaa sääntöjen mukaan tilanteen asteettaiseen hankaloitumiseen. Valtakuntiin jotka ovat kasvaneet niin suuriksi, ettei yksikään asukas ole luonnostaan tyytyväinen, ilmestyy vimmoissaan olevia asukkaita, jotka pitää saada tyytymättömiksi ennen kuin tyytymättömät asukkaat voidaan rauhoittaa, mutta jotka muutoin toimivat kuten tyytymättömät asukkaat."
+msgstr ""
+"Niinpä voitkin huomata että kaupungin perustaminen tai valloittaminen "
+"laukaisee levottomuuksia ympäri valtakuntaasi. Valtakunnan jatkuva "
+"kasvattaminen johtaa sääntöjen mukaan tilanteen asteettaiseen "
+"hankaloitumiseen. Valtakuntiin jotka ovat kasvaneet niin suuriksi, ettei "
+"yksikään asukas ole luonnostaan tyytyväinen, ilmestyy vimmoissaan olevia "
+"asukkaita, jotka pitää saada tyytymättömiksi ennen kuin tyytymättömät "
+"asukkaat voidaan rauhoittaa, mutta jotka muutoin toimivat kuten "
+"tyytymättömät asukkaat."
 
 #: data/helpdata.txt:812
 msgid ""
@@ -22865,7 +22873,12 @@ msgid ""
 "once built, units can also become veteran through experience (such as "
 "surviving combat), which may provide further levels of bonuses beyond those "
 "available from their initial training."
-msgstr "Yksiköiden ominaisuuksia voi edelleen tehostaa niiden yleneminen. Tiettyjen kaupunkien kehityshankkeiden tai muiden vaikutusten myötä yksiköt voivat yletä jo kokoamisvaiheen harjoituksissa. Kerran kootut yksiköt voivat yletä kokemuksen kertyessä (vaikkapa taistelusta selviämisen jälkeen). Siten ne voivat myös yletä pidemmälle kuin pelkästään alkuharjoituksissa."
+msgstr ""
+"Yksiköiden ominaisuuksia voi edelleen tehostaa niiden yleneminen. Tiettyjen "
+"kaupunkien kehityshankkeiden tai muiden vaikutusten myötä yksiköt voivat "
+"yletä jo kokoamisvaiheen harjoituksissa. Kerran kootut yksiköt voivat yletä "
+"kokemuksen kertyessä (vaikkapa taistelusta selviämisen jälkeen). Siten ne "
+"voivat myös yletä pidemmälle kuin pelkästään alkuharjoituksissa."
 
 #: data/helpdata.txt:1058
 msgid ""
@@ -29771,7 +29784,15 @@ msgid ""
 "in these wars earned them the title of French neutrals, but also the "
 "distrust of British colonial authorities who would forcefully deport them in "
 "1755. Acadians have since returned to their land and rebuilt."
-msgstr "Acadie perustettiin 1604, ja se oli ensimmäinen Ranskan siirtomaa Pohjois-Amerikassa. Se joutui pian ristituleen Ranskan ja Englannin välisissä sodissa, ja valta vaihtui toistuvasti. Tämän seurauksena akadialaiset muodostivat erillisen identiteetin ja itsehallinnon. Koska tukea ei juuri herunut kummaltakaan sodan osapuolelta, Acadie tunnettiin \"ranskalaisina puolueettomina\", eivätkä Iso-Britannian siirtomaavaltiaat myöskään luottaneet paikallisiin, vaan karkottivat heitä alueeltaan väkipakolla 1755. Acadieläiset ovat sittemmin palanneet alueelle ja jälleenrakentaneet."
+msgstr ""
+"Acadie perustettiin 1604, ja se oli ensimmäinen Ranskan siirtomaa Pohjois-"
+"Amerikassa. Se joutui pian ristituleen Ranskan ja Englannin välisissä "
+"sodissa, ja valta vaihtui toistuvasti. Tämän seurauksena akadialaiset "
+"muodostivat erillisen identiteetin ja itsehallinnon. Koska tukea ei juuri "
+"herunut kummaltakaan sodan osapuolelta, Acadie tunnettiin \"ranskalaisina "
+"puolueettomina\", eivätkä Iso-Britannian siirtomaavaltiaat myöskään "
+"luottaneet paikallisiin, vaan karkottivat heitä alueeltaan väkipakolla 1755. "
+"Acadieläiset ovat sittemmin palanneet alueelle ja jälleenrakentaneet."
 
 #: data/nation/acadian.ruleset:31 data/nation/afghani.ruleset:27
 #: data/nation/asturian.ruleset:28 data/nation/australian.ruleset:26
@@ -29881,7 +29902,11 @@ msgid ""
 "was a regional power in the 16th and 17th centuries, controlling much of the "
 "trade through the Strait of Malacca. Aceh was subjugated by the Dutch in the "
 "bloody Aceh War of 1873-1903."
-msgstr "Acehin sulttaanikunta sijaitsi Sumatran saaren länsikärjessä, ja oli aluevalta 1500- ja 1600-luvulla. Se hallitsi tällöin suurta osaa Malakan salmen yli tehtävää kauppaa. Aceh liitettiin Hollannin Itä-Intiaan verisessä Acehin sodassa 1873-1903."
+msgstr ""
+"Acehin sulttaanikunta sijaitsi Sumatran saaren länsikärjessä, ja oli "
+"aluevalta 1500- ja 1600-luvulla. Se hallitsi tällöin suurta osaa Malakan "
+"salmen yli tehtävää kauppaa. Aceh liitettiin Hollannin Itä-Intiaan verisessä "
+"Acehin sodassa 1873-1903."
 
 #: data/nation/acehnese.ruleset:27 data/nation/alandalus.ruleset:32
 #: data/nation/algerian.ruleset:24 data/nation/amazigh.ruleset:72
@@ -30077,7 +30102,15 @@ msgid ""
 "they are ruled by councils of elders who elect a chief and have likely lived "
 "in large ring villages since about the 9th century AD. They are Ge speakers "
 "who farm maize, manioc, sweet potatoes and yams."
-msgstr "Šavantet tunnetaan useilla heimonimillä, kuten portugalista johdetut Xakriaba, Xerente ja Xavante. Klaani periytyy isän puolelta. Šavantet elävät Brasiliassa kahden osavaltion, Mato Grosson ja Tocantinsin alueella, tosin brasilialaiset ovat pakottaneet heimot muuttamaan useita kertoja historiansa aikana. Perinteisesti heimoa johtavat vanhmpien neuvostot, jotka valitsevat päällikön. Šavantet ovat todennäköisesti eläneet laajoissa rinkikylissä noin 800-luvulta jaa. lähtien. He puhuvat gen kieltä ja kasvattavat maissia, maniokkia, bataattia ja jamssia."
+msgstr ""
+"Šavantet tunnetaan useilla heimonimillä, kuten portugalista johdetut "
+"Xakriaba, Xerente ja Xavante. Klaani periytyy isän puolelta. Šavantet elävät "
+"Brasiliassa kahden osavaltion, Mato Grosson ja Tocantinsin alueella, tosin "
+"brasilialaiset ovat pakottaneet heimot muuttamaan useita kertoja historiansa "
+"aikana. Perinteisesti heimoa johtavat vanhmpien neuvostot, jotka valitsevat "
+"päällikön. Šavantet ovat todennäköisesti eläneet laajoissa rinkikylissä noin "
+"800-luvulta jaa. lähtien. He puhuvat gen kieltä ja kasvattavat maissia, "
+"maniokkia, bataattia ja jamssia."
 
 #: data/nation/alandalus.ruleset:3
 msgid "Al-Andalus"
@@ -30138,7 +30171,12 @@ msgid ""
 "Classical Antiquity. Albania changed hands several times during its  "
 "history. It has been an independent state again since 1912. For much of the "
 "20th century Albania was ruled by communist dictator Enver Hoxha."
-msgstr "Albaanit asuttavat Balkanin niemimaata. Heidän etniset juurensa ovat epäselviä, vaikkakin on arveltu kansan polveutuvan antiikin illyrialaisista. Albaniassa valta on vaihtunut moneen kertaan sen historian aikana. Se on ollut itsenäinen valtio vuodesta 1912. Suuren osan 1900-lukua Albaniaa hallitsi kommunistidiktaattori Enver Hoxha."
+msgstr ""
+"Albaanit asuttavat Balkanin niemimaata. Heidän etniset juurensa ovat "
+"epäselviä, vaikkakin on arveltu kansan polveutuvan antiikin illyrialaisista. "
+"Albaniassa valta on vaihtunut moneen kertaan sen historian aikana. Se on "
+"ollut itsenäinen valtio vuodesta 1912. Suuren osan 1900-lukua Albaniaa "
+"hallitsi kommunistidiktaattori Enver Hoxha."
 
 #: data/nation/albanian.ruleset:30 data/nation/andorran.ruleset:24
 #: data/nation/cossack.ruleset:30 data/nation/greaterpolish.ruleset:20
@@ -30214,8 +30252,10 @@ msgstr ""
 "ja kalastuskylissään. Aleutit asuttivat Aleuttien saaristoa tuhansia vuosia\n"
 "ennen eurooppalaisten saapumista. He muodostivat yhteyden venäläisiin\n"
 "lähetyssaarnaajiin ja kauppiaisiin, jolloin monet kääntyivät venäläiseen\n"
-"tapaan ortodoksikristityiksi ja menivät naimisiin venäläisten kanssa. Jotkut\n"
-"seurasivat venäläisiä näiden muihin vapaasatamiin, kuten Ft. Rossiin pohjoisessa\n"
+"tapaan ortodoksikristityiksi ja menivät naimisiin venäläisten kanssa. "
+"Jotkut\n"
+"seurasivat venäläisiä näiden muihin vapaasatamiin, kuten Ft. Rossiin "
+"pohjoisessa\n"
 "Kaliforniassa ja Ft. Elizabethiin Havaijilla."
 
 #: data/nation/aleut.ruleset:23 data/nation/comanche.ruleset:26
@@ -30299,7 +30339,17 @@ msgid ""
 "Algeria, and Tunisia. The Imazighen speak old languages such as Tamazirt, "
 "Tachelhit or Tarifit, collectively known as Berber languages, using an age-"
 "old writing system called Tifinagh."
-msgstr "Berberien kansa on yksi Välimeren maiden vanhimmista, ja se oli olemassa jo muinasten egyptiläisten aikaan. Berberi-termi viittaa kreikan kielen sanaan Barbaros, joka merkitsee vierasta tai ulkopuolista; kansan berberinkielinen nimi Imazighen tarkoittaa \"vapaita\".  Berberit on tunnettu vankkoina ja väkevinä, mutta hyväntuulisina ja anteliaina, sekä perhettä ja heimoa kunnioittavina ihmisinä. Kullakin heimolla on omat perinteet ja kulttuurinsa, mistä johtuen erot nyky-Marokon, Algerian ja Tunisian alueiden välillä ovat huomattavia. Berberikieliin kuuluvat mm. tamazight, tašelhit ja tarafit, ja niiden alkuperäinen kirjoitusjärjestelmää, tifinagh-aakkostoa, käytetään yhä."
+msgstr ""
+"Berberien kansa on yksi Välimeren maiden vanhimmista, ja se oli olemassa jo "
+"muinasten egyptiläisten aikaan. Berberi-termi viittaa kreikan kielen sanaan "
+"Barbaros, joka merkitsee vierasta tai ulkopuolista; kansan berberinkielinen "
+"nimi Imazighen tarkoittaa \"vapaita\".  Berberit on tunnettu vankkoina ja "
+"väkevinä, mutta hyväntuulisina ja anteliaina, sekä perhettä ja heimoa "
+"kunnioittavina ihmisinä. Kullakin heimolla on omat perinteet ja "
+"kulttuurinsa, mistä johtuen erot nyky-Marokon, Algerian ja Tunisian alueiden "
+"välillä ovat huomattavia. Berberikieliin kuuluvat mm. tamazight, tašelhit ja "
+"tarafit, ja niiden alkuperäinen kirjoitusjärjestelmää, tifinagh-aakkostoa, "
+"käytetään yhä."
 
 #: data/nation/amazonian.ruleset:3
 msgid "Amazonian"
@@ -30384,7 +30434,12 @@ msgid ""
 "to share the sovereignty of Andorra. This arrangement is still in effect and "
 "their successors - the current bishop of Urgell and the President of the "
 "French Republic - bear the (mostly honorific) title of co-prince of Andorra."
-msgstr "Andorra on pieni maa Pyreneiden vuoriston itäosissa. Vuonna 1278 Urgellin piispan ja Foix'n kreivin välinen valtataistelu päättyi sopimukseen jakaa valta Andorrassa. Sopimus on yhä voimassa, ja näiden seuraajat - Urgellin nykyinen piispa ja Ranskan tasavallan presidentti - kantavat nykyään lähinnä muodollista Andorran yhteishallitsijan kunnianimitystä."
+msgstr ""
+"Andorra on pieni maa Pyreneiden vuoriston itäosissa. Vuonna 1278 Urgellin "
+"piispan ja Foix'n kreivin välinen valtataistelu päättyi sopimukseen jakaa "
+"valta Andorrassa. Sopimus on yhä voimassa, ja näiden seuraajat - Urgellin "
+"nykyinen piispa ja Ranskan tasavallan presidentti - kantavat nykyään lähinnä "
+"muodollista Andorran yhteishallitsijan kunnianimitystä."
 
 #: data/nation/andorran.ruleset:23 data/nation/brazilian.ruleset:27
 #: data/nation/catalan.ruleset:31 data/nation/iraqi.ruleset:21
@@ -30446,7 +30501,13 @@ msgid ""
 "achieved independence in 1975. Soon the various guerilla groups started "
 "fighting each other. After half a century of war a peace agreement was "
 "finally reached in 2002."
-msgstr "Kun portugalilaiset saapuivat Angolaan 1400-luvulla, aluetta hallitsi joukko bantujen kuningaskuntia. Angolasta tuli keskeinen orjakauppiaiden lähde pitkälle 1800-luvulle asti. Kaksi vuosikymmentä sissisotaa portugalilaisten siirtomaavaltiaita vastaan johti lopulta Angolan itsenäistymiseen 1975. Pian sissijoukot alkoivat taistella toisiaan vastaan. Puoli vuosisataa kestäneen sotimisen jälkeen rauhansopimus solmittiin vihdoin vuonna 2002."
+msgstr ""
+"Kun portugalilaiset saapuivat Angolaan 1400-luvulla, aluetta hallitsi joukko "
+"bantujen kuningaskuntia. Angolasta tuli keskeinen orjakauppiaiden lähde "
+"pitkälle 1800-luvulle asti. Kaksi vuosikymmentä sissisotaa portugalilaisten "
+"siirtomaavaltiaita vastaan johti lopulta Angolan itsenäistymiseen 1975. Pian "
+"sissijoukot alkoivat taistella toisiaan vastaan. Puoli vuosisataa kestäneen "
+"sotimisen jälkeen rauhansopimus solmittiin vihdoin vuonna 2002."
 
 #: data/nation/anishinaabe.ruleset:3
 msgid "Anishinaabe"
@@ -30462,7 +30523,12 @@ msgid ""
 "the North American Great Lakes region, including the Ottawa, Ojibwe, "
 "Algonkin and Potawatomi. They speak Algonquian languages. Together they are "
 "one of the most numerous indigenous peoples of North America."
-msgstr "Anišinabit ovat joukko Amerikan alkuperäiskansojen heimoja, jotka ovat läheistä sukua toisilleen. Heimot asuttavat Pohjois-Amerikan Suurten järvien aluetta, mukaanlukien Ottawaa, Ojibwea, Algonkinia ja Potawatomia. Anišinabit puhuvat algonkin-ryhmän kieliä, ja ovat yhdessä yksi lukumäärältään suurimmista Pohjois-Amerikan alkuperäiskansoista."
+msgstr ""
+"Anišinabit ovat joukko Amerikan alkuperäiskansojen heimoja, jotka ovat "
+"läheistä sukua toisilleen. Heimot asuttavat Pohjois-Amerikan Suurten järvien "
+"aluetta, mukaanlukien Ottawaa, Ojibwea, Algonkinia ja Potawatomia. "
+"Anišinabit puhuvat algonkin-ryhmän kieliä, ja ovat yhdessä yksi "
+"lukumäärältään suurimmista Pohjois-Amerikan alkuperäiskansoista."
 
 #: data/nation/anishinaabe.ruleset:28 data/nation/cherokee.ruleset:22
 #: data/nation/comanche.ruleset:25 data/nation/iroquois.ruleset:26
@@ -30765,7 +30831,16 @@ msgid ""
 "establishing the Asturian Kingdom, which lasted until year 910 when the "
 "capital town was moved from Uvieu to Leon. Now, Asturias is an autonomous "
 "community of Spain"
-msgstr "Asturialaiset olivat kelttikansa, joka asutti suurta osaa Espanjan pohjoisrannikosta. Asturialaiset taistelivat Rooman keisarikuntaa vastaan, kunnes kärsivät tappion Caesar Augustuksen legioonia vastaan 29-19 eaa. Visigoottien hallitseman Toledon kuningaskunnan alaisten asturialaisten suhteet visigootteihin ovat levottomat. Vuonna 722 kuningas Pelayo voitti taistelun islaminuskoisia maurijoukkoja vastaan Covadongassa, mikä johti Asturian kuningaskunnan perustamiseen. Vuonna 910 pääkaupunki siirrettiin Oviedosta Leóniin, minkä jälkeen maa nimettiin uudelleen Leónin kuningaskunnaksi. Nykyään Asturia on Espanjan itsehallintoalue."
+msgstr ""
+"Asturialaiset olivat kelttikansa, joka asutti suurta osaa Espanjan "
+"pohjoisrannikosta. Asturialaiset taistelivat Rooman keisarikuntaa vastaan, "
+"kunnes kärsivät tappion Caesar Augustuksen legioonia vastaan 29-19 eaa. "
+"Visigoottien hallitseman Toledon kuningaskunnan alaisten asturialaisten "
+"suhteet visigootteihin ovat levottomat. Vuonna 722 kuningas Pelayo voitti "
+"taistelun islaminuskoisia maurijoukkoja vastaan Covadongassa, mikä johti "
+"Asturian kuningaskunnan perustamiseen. Vuonna 910 pääkaupunki siirrettiin "
+"Oviedosta Leóniin, minkä jälkeen maa nimettiin uudelleen Leónin "
+"kuningaskunnaksi. Nykyään Asturia on Espanjan itsehallintoalue."
 
 #: data/nation/atlantean.ruleset:3
 msgid "Atlantean"
@@ -30822,7 +30897,19 @@ msgid ""
 "First Austrian Republic in 1919, Austria joined Nazi Germany in the "
 "Anschluss in 1938. This lasted until the end of World War II in 1945, after "
 "which Austria was occupied by the Allies."
-msgstr "Itävallan alkujuuret ulottuvat Rooman valtakunnan aikaan, jolloin kelttiläisten kansojen vuonna 15 eaa. vallatut maat liitettiin Roomaan Noricumin provinssina. Noricumin provinssin alue ajanlaskumme ensimmäisellä vuosisadalla kattoi alueen joka sisältää suurimman osan nyky-Itävallasta. Vuonna 788 frankkien kuningas Kaarle Suuri valloitti alueen ja levitti kristinuskoa tullessaan. Paikallisen Hapsburg-suvun hallinnon alla Itävallasta kasvoi eurooppalainen mahti. Vuonna 1867 Itävallan keisarikunta muuttui Itävalta-Unkariksi Unkarin saatua valtakunnassa samat oikeudet kuin saksalaiset. Itävalta-Unkari paloiteltiin ensimmäisen maailmansodan lopulla. Saksalaisesta osasta tuli Itävallan tasavalta 1919, joka liitettiin natsi-Saksaan Anschluss-operaatiossa 1938. Toisen maailmansodan päätyttyä 1945 liittoutuneiden joukot valloittivat Itävallan."
+msgstr ""
+"Itävallan alkujuuret ulottuvat Rooman valtakunnan aikaan, jolloin "
+"kelttiläisten kansojen vuonna 15 eaa. vallatut maat liitettiin Roomaan "
+"Noricumin provinssina. Noricumin provinssin alue ajanlaskumme ensimmäisellä "
+"vuosisadalla kattoi alueen joka sisältää suurimman osan nyky-Itävallasta. "
+"Vuonna 788 frankkien kuningas Kaarle Suuri valloitti alueen ja levitti "
+"kristinuskoa tullessaan. Paikallisen Hapsburg-suvun hallinnon alla "
+"Itävallasta kasvoi eurooppalainen mahti. Vuonna 1867 Itävallan keisarikunta "
+"muuttui Itävalta-Unkariksi Unkarin saatua valtakunnassa samat oikeudet kuin "
+"saksalaiset. Itävalta-Unkari paloiteltiin ensimmäisen maailmansodan lopulla. "
+"Saksalaisesta osasta tuli Itävallan tasavalta 1919, joka liitettiin natsi-"
+"Saksaan Anschluss-operaatiossa 1938. Toisen maailmansodan päätyttyä 1945 "
+"liittoutuneiden joukot valloittivat Itävallan."
 
 #: data/nation/austrian.ruleset:46 data/nation/curonian.ruleset:29
 #: data/nation/maltese.ruleset:28 data/nation/templar.ruleset:40
@@ -30928,7 +31015,13 @@ msgid ""
 "followed by a short period of independence in 1918-1920 - as the first "
 "Islamic republic in history. Then Azerbaijan became part of the Soviet Union "
 "until its dissolution in 1991."
-msgstr "Azerit ovat Azerbaidžanin kansa. Nykyisen Azerbaidžanin alueella nousi ja kaatui joukko erilaisia kaukasuslaisia antiikin ajan valtakuntia. Vuonna 1813 Azerbaidžan liitettiin osaksi Venäjän keisarikuntaa, jonka jälkeen se itsenäistyi lyhyeksi ajaksi 1918-1920 - historian ensimmäiseksi muslimitasavallaksi. Puna-armeijan joukkojen saavuttua Azerbaidžanista tuli osa Neuvostoliittoa tämän hajoamiseen 1991 asti."
+msgstr ""
+"Azerit ovat Azerbaidžanin kansa. Nykyisen Azerbaidžanin alueella nousi ja "
+"kaatui joukko erilaisia kaukasuslaisia antiikin ajan valtakuntia. Vuonna "
+"1813 Azerbaidžan liitettiin osaksi Venäjän keisarikuntaa, jonka jälkeen se "
+"itsenäistyi lyhyeksi ajaksi 1918-1920 - historian ensimmäiseksi "
+"muslimitasavallaksi. Puna-armeijan joukkojen saavuttua Azerbaidžanista tuli "
+"osa Neuvostoliittoa tämän hajoamiseen 1991 asti."
 
 #: data/nation/azeri.ruleset:35 data/nation/bashkir.ruleset:24
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
@@ -31352,7 +31445,11 @@ msgid ""
 "a millennium if not more. In the 17th century Bhutan became a unified nation "
 "under Shabdrung Ngawang Namgyal, who repelled a Mongol invasion and united "
 "the rivaling Bhutanese tribes."
-msgstr "Himalajalla sijaitseva Bhutan on yksi maailman eristyneimmistä maista. Sitä ei ole valloitettu ulkopuolelta yli tuhanteen vuoteen. 1600-luvulla Shabdrung Ngawang Namgyal yhdisti kilpailevat läänitykset yhdeksi valtioksi, ja torjui mongolien maahantunkeutumisen."
+msgstr ""
+"Himalajalla sijaitseva Bhutan on yksi maailman eristyneimmistä maista. Sitä "
+"ei ole valloitettu ulkopuolelta yli tuhanteen vuoteen. 1600-luvulla "
+"Shabdrung Ngawang Namgyal yhdisti kilpailevat läänitykset yhdeksi valtioksi, "
+"ja torjui mongolien maahantunkeutumisen."
 
 #: data/nation/bhutanese.ruleset:26 data/nation/kalmyk.ruleset:25
 #, c-format
@@ -31447,7 +31544,16 @@ msgid ""
 "After a series of military coups in the 1970s the country returned to "
 "democratic rule in the 1980s. In 2006 Evo Morales became the country's first "
 "indigenous president."
-msgstr "Bolivia on sisämaavaltio Etelä-Amerikassa, ja siellä on pitkään ollut hyvin edistyneitä kulttuureita. Maa on nimetty Simón Bolívarin mukaan. Se itsenäistyi 1825, mutta kärsi epävakaudesta ja menetti Tyynenmeren rantakaistaleensa Chilelle. Chacon sodassa 1932-1936 Bolivia hävisi karvaasti Paraguaylle. Tyytymättömyys entiseen oligarkiaan johti vallankumoukseen 1952. 1970-lukua värittäneiden sotilasvallankaappausten sarjan jälkeen maa palasi demokraattiseen hallintoon 1980-luvulla. Vuonna 2006 virkaan astui Eva Morales, ensimmäinen alkuperäisväestöä edustava presidentti."
+msgstr ""
+"Bolivia on sisämaavaltio Etelä-Amerikassa, ja siellä on pitkään ollut hyvin "
+"edistyneitä kulttuureita. Maa on nimetty Simón Bolívarin mukaan. Se "
+"itsenäistyi 1825, mutta kärsi epävakaudesta ja menetti Tyynenmeren "
+"rantakaistaleensa Chilelle. Chacon sodassa 1932-1936 Bolivia hävisi "
+"karvaasti Paraguaylle. Tyytymättömyys entiseen oligarkiaan johti "
+"vallankumoukseen 1952. 1970-lukua värittäneiden sotilasvallankaappausten "
+"sarjan jälkeen maa palasi demokraattiseen hallintoon 1980-luvulla. Vuonna "
+"2006 virkaan astui Eva Morales, ensimmäinen alkuperäisväestöä edustava "
+"presidentti."
 
 #: data/nation/bolivian.ruleset:39 data/nation/colombian.ruleset:27
 #: data/nation/cuban.ruleset:22 data/nation/guatemalan.ruleset:32
@@ -31565,7 +31671,13 @@ msgid ""
 "Brandenburg kept its nominal independence until 1806, when it became a "
 "province of Prussia. Currently it is one of the states of the Federal "
 "Republic of Germany."
-msgstr "Alkujaan itäiseen Frankkien valtakuntaan kuulunut Nordmarkin alue liitettiin Pyhään Saksalais-Roomalaiseen keisarikuntaan 1100-luvulla. Brandenburgin hallitsijat saivat Preussin valtaansa 1618, ja alueet muodostivat yhdessä 1701 Preussin kuningaskunnan. Brandenburgin nimellinen itsenäisyys säilyi vuoteen 1806 asti, jolloin siitä tuli Preussin maakunta. Nykyään Brandenburg on yksi Saksan liittotasavallan osavaltioista."
+msgstr ""
+"Alkujaan itäiseen Frankkien valtakuntaan kuulunut Nordmarkin alue liitettiin "
+"Pyhään Saksalais-Roomalaiseen keisarikuntaan 1100-luvulla. Brandenburgin "
+"hallitsijat saivat Preussin valtaansa 1618, ja alueet muodostivat yhdessä "
+"1701 Preussin kuningaskunnan. Brandenburgin nimellinen itsenäisyys säilyi "
+"vuoteen 1806 asti, jolloin siitä tuli Preussin maakunta. Nykyään Brandenburg "
+"on yksi Saksan liittotasavallan osavaltioista."
 
 # Wikipedia: Rajakreivi
 #: data/nation/brandenburgian.ruleset:27 data/nation/burgundian.ruleset:28
@@ -31823,7 +31935,9 @@ msgstr "burkinalaiset"
 msgid ""
 "Formerly Upper Volta, Burkina Faso is a country in inland West Africa. It "
 "achieved its independence from France in 1960."
-msgstr "Burkina Faso, alkujaan Ylä-Volta, on sisämaavaltio Länsi-Afrikassa. Se itsenäistyi Ranskan alta 1960."
+msgstr ""
+"Burkina Faso, alkujaan Ylä-Volta, on sisämaavaltio Länsi-Afrikassa. Se "
+"itsenäistyi Ranskan alta 1960."
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
@@ -31859,7 +31973,14 @@ msgid ""
 "German colony. In the aftermath of World War I the colony fell to Belgium. "
 "Following international pressure after World War II, Burundi became an "
 "independent nation in January 1962."
-msgstr "Itä-Afrikan suurten järvien alueelta nousi monarkia, jota hallitsi Mwami-kuningas ja useita Ganwa-prinsessoja. Maa laajeni kattamaan 1600-lukuun mennessä suurimman osan nyky-Burundin aluetta. 1700- ja 1800-luvuilla perimyskiista heikensi monarkiaa, ja vuosisadan loppuun mennessä siitä oli tullut Saksan siirtomaa. Ensimmäisen maailmansodan jälkijäristyksissä Burundi siirtyi Belgialle. Toisen maailmansodan jälkeisen kansainvälisen painostuksen saattelemana Burundi itsenäistyi tammikuussa 1962."
+msgstr ""
+"Itä-Afrikan suurten järvien alueelta nousi monarkia, jota hallitsi Mwami-"
+"kuningas ja useita Ganwa-prinsessoja. Maa laajeni kattamaan 1600-lukuun "
+"mennessä suurimman osan nyky-Burundin aluetta. 1700- ja 1800-luvuilla "
+"perimyskiista heikensi monarkiaa, ja vuosisadan loppuun mennessä siitä oli "
+"tullut Saksan siirtomaa. Ensimmäisen maailmansodan jälkijäristyksissä "
+"Burundi siirtyi Belgialle. Toisen maailmansodan jälkeisen kansainvälisen "
+"painostuksen saattelemana Burundi itsenäistyi tammikuussa 1962."
 
 #. TRANS: Mwami/Mwamikazi = King/Queen
 #: data/nation/burundi.ruleset:31 data/nation/rwandan.ruleset:21
@@ -31997,7 +32118,10 @@ msgid ""
 "Cameroon is a country in West Central Africa. Colonized by the Germans, it "
 "was divided between Britain and France after World War I. It has been "
 "independent since 1960."
-msgstr "Kamerun sijaitsee Keski-Afrikan länsiosissa. Se oli aluksi Saksan siirtomaa, ja jaettiin Iso-Britannian ja Ranskan välillä ensimmäisen maailmansodan jälkeen. Maa on ollut itsenäinen vuodesta 1960."
+msgstr ""
+"Kamerun sijaitsee Keski-Afrikan länsiosissa. Se oli aluksi Saksan siirtomaa, "
+"ja jaettiin Iso-Britannian ja Ranskan välillä ensimmäisen maailmansodan "
+"jälkeen. Maa on ollut itsenäinen vuodesta 1960."
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -32047,7 +32171,11 @@ msgid ""
 "kingdoms. It absorbed Leon and later formed a personal union with Aragon. "
 "Its current territory is divided over several autonomous communities of "
 "Spain."
-msgstr "Kastilia yhdistyi alkujaan pienistä kreivikunnista, ja siitä tuli keskiaikaisista Espanjan kuningaskunnista mahtavin. Se yhdistyi Leónin kanssa ja liittoutui Ferdinand II:n ja Isabellan avioliiton myötä Aragonian kanssa. Kastilian alue kuuluu nykyään joukkoon Espanjan itsehallintoalueita."
+msgstr ""
+"Kastilia yhdistyi alkujaan pienistä kreivikunnista, ja siitä tuli "
+"keskiaikaisista Espanjan kuningaskunnista mahtavin. Se yhdistyi Leónin "
+"kanssa ja liittoutui Ferdinand II:n ja Isabellan avioliiton myötä Aragonian "
+"kanssa. Kastilian alue kuuluu nykyään joukkoon Espanjan itsehallintoalueita."
 
 # Katalaanit asuvat Kataloniassa, Valensiassa ja Mallorcalla...
 #: data/nation/catalan.ruleset:3
@@ -32094,7 +32222,11 @@ msgid ""
 "The Celtiberians were a people from East-Central Spain that lived during the "
 "last millennium BC. They were of mixed Celtic and Iberian descent and were "
 "defeated by Rome in the Numantian War."
-msgstr "Keltiberit olivat Keski-Espanjan itäisen alueen kansa viimeisellä vuosituhannella eaa. Keltiberit koostuivat kelteistä ja ibereistä. Roomalaiset kukistivat keltiberit sitkeän vastarinnan jälkeen Numantian sodassa ."
+msgstr ""
+"Keltiberit olivat Keski-Espanjan itäisen alueen kansa viimeisellä "
+"vuosituhannella eaa. Keltiberit koostuivat kelteistä ja ibereistä. "
+"Roomalaiset kukistivat keltiberit sitkeän vastarinnan jälkeen Numantian "
+"sodassa ."
 
 #: data/nation/centralafrican.ruleset:3
 msgid "Central African"
@@ -32134,7 +32266,16 @@ msgid ""
 "Later attempts of reunification all failed, though since 1993 the Central "
 "American republics cooperate in the Central American Integration System "
 "(SICA)."
-msgstr "Siirtomaavallan aikoihin Keski-Amerikka oli osa Guatemalan kapteenikenraalikuntaa, joka oli Espanjan siirtomaa. Se julistautui itsenäiseksi 1821, liittyi lyhyeksi aikaa yhteen Meksikon kanssa, ja muodosti sen jälkeen liittotasavallan. Guatemalan ja muiden tasavaltojen sekä liberaalien ja konservatiivien väliset kahnaukset johtivat liittovaltion hajoamiseen, ja vuoteen 1840 mennessä se lakkasi olemasta. Myöhemmät liittouman uudelleenherättely-yritykset ovat epäonnistuneet, vaikkakin vuodesta 1993 Keski-Amerikan tasavallat toimivat yhdessä Keski-Amerikan integraatiojärjestelmässä (SICA)."
+msgstr ""
+"Siirtomaavallan aikoihin Keski-Amerikka oli osa Guatemalan "
+"kapteenikenraalikuntaa, joka oli Espanjan siirtomaa. Se julistautui "
+"itsenäiseksi 1821, liittyi lyhyeksi aikaa yhteen Meksikon kanssa, ja "
+"muodosti sen jälkeen liittotasavallan. Guatemalan ja muiden tasavaltojen "
+"sekä liberaalien ja konservatiivien väliset kahnaukset johtivat "
+"liittovaltion hajoamiseen, ja vuoteen 1840 mennessä se lakkasi olemasta. "
+"Myöhemmät liittouman uudelleenherättely-yritykset ovat epäonnistuneet, "
+"vaikkakin vuodesta 1993 Keski-Amerikan tasavallat toimivat yhdessä Keski-"
+"Amerikan integraatiojärjestelmässä (SICA)."
 
 #: data/nation/centralamerican.ruleset:29 data/nation/chilean.ruleset:31
 #: data/nation/nicaraguan.ruleset:34 data/nation/peruvian.ruleset:27
@@ -32164,7 +32305,14 @@ msgid ""
 "centuries, Champa was essentially subdued by Dai Viet in the late 15th "
 "century. By this time, most of the Cham nobility had converted to Islam. The "
 "majority of Muslims in modern Vietnam are of Cham ethnicity."
-msgstr "Champa oli nykyisen Vietnamin eteläpuoliskolla sijaitseva chamien hindulais-buddhalainen kuningaskunta. Varhaisimmista kirjoituksista lähtien Champan kuninkaat olivat hinduja, jotka palvoivat varsinkin Shivaa. Champa oli Khmerin ja vietnamilaisen Dai Vietin hyökkäysten kohteena, ja lopulta Dai Viet valloitti sen 1400-luvun lopulla. Tähän mennessä suurin osa chamien ylimystöstä oli kääntynyt islaminuskoon. Enemmistö nyky-Vietnamissa asuvista muslimeista kuuluu chamien etniseen ryhmään."
+msgstr ""
+"Champa oli nykyisen Vietnamin eteläpuoliskolla sijaitseva chamien hindulais-"
+"buddhalainen kuningaskunta. Varhaisimmista kirjoituksista lähtien Champan "
+"kuninkaat olivat hinduja, jotka palvoivat varsinkin Shivaa. Champa oli "
+"Khmerin ja vietnamilaisen Dai Vietin hyökkäysten kohteena, ja lopulta Dai "
+"Viet valloitti sen 1400-luvun lopulla. Tähän mennessä suurin osa chamien "
+"ylimystöstä oli kääntynyt islaminuskoon. Enemmistö nyky-Vietnamissa asuvista "
+"muslimeista kuuluu chamien etniseen ryhmään."
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
@@ -32209,7 +32357,15 @@ msgid ""
 "Scotland, Canaan, Cyrenaica, and the Andaman Islands. The country 'Chananea' "
 "comes from the German poet Walter of Speyer. In the account by Sir John "
 "Mandeville, the people were known as the Nacumerians."
-msgstr "Maininnat koirankuonolaisuudesta (chynocephalia), koiran tai jakaalin päästä ihmisruumiissa, voidaan jäljittää Antiikin Kreikkaan. Lääkäri Ktesias ja matkailija Megasthenes sijoittivat heidät Intiaan. Keskiajalla Giovanni da Pian ja Marco Polo viittasivat näihin, ja toisaalta teologi Ratramnus pohti, ovatko koirankuonolaiset ihmisiä vaiko eivät. Useissa tarinoissa koiranpäisiä hahmoja on sijoitettu Skotlantiin, Kaanaan maalle, Kyrenaikaan ja Andamaaneille. Chananean valtakunnan kuvaili saksalainen runoilija Walter von Speyer. Sir John Mandevillen kuvailussa kansan nimi oli Nacumerianit."
+msgstr ""
+"Maininnat koirankuonolaisuudesta (chynocephalia), koiran tai jakaalin päästä "
+"ihmisruumiissa, voidaan jäljittää Antiikin Kreikkaan. Lääkäri Ktesias ja "
+"matkailija Megasthenes sijoittivat heidät Intiaan. Keskiajalla Giovanni da "
+"Pian ja Marco Polo viittasivat näihin, ja toisaalta teologi Ratramnus pohti, "
+"ovatko koirankuonolaiset ihmisiä vaiko eivät. Useissa tarinoissa "
+"koiranpäisiä hahmoja on sijoitettu Skotlantiin, Kaanaan maalle, Kyrenaikaan "
+"ja Andamaaneille. Chananean valtakunnan kuvaili saksalainen runoilija Walter "
+"von Speyer. Sir John Mandevillen kuvailussa kansan nimi oli Nacumerianit."
 
 #: data/nation/chananean.ruleset:32
 #, c-format
@@ -32268,7 +32424,11 @@ msgid ""
 "its territory in the 19th century. Always having been more stable and "
 "prosperous than its neighbors, Chile currently is the most developed country "
 "of Latin America."
-msgstr "Chile sijaitsee Etelä-Amerikan lounaisrannikolla. Chile yli kaksinkertaisti maa-alueensa 1800-luvulla valtaamalla alueita Bolivialta, Perulta ja alkuperäiskansa Mapucheilta. Chile on aina ollut vakaampi ja hyvinvoivampi kuin naapurinsa, ja onkin nykyään Latinalaisen Amerikan kehittynein maa."
+msgstr ""
+"Chile sijaitsee Etelä-Amerikan lounaisrannikolla. Chile yli kaksinkertaisti "
+"maa-alueensa 1800-luvulla valtaamalla alueita Bolivialta, Perulta ja "
+"alkuperäiskansa Mapucheilta. Chile on aina ollut vakaampi ja hyvinvoivampi "
+"kuin naapurinsa, ja onkin nykyään Latinalaisen Amerikan kehittynein maa."
 
 #: data/nation/chilean.ruleset:29 data/nation/puertorican.ruleset:28
 #: data/nation/yucatecan.ruleset:30
@@ -32304,7 +32464,15 @@ msgid ""
 "the Inka capital Qosqo. Chimu artisans contributed greatly to the "
 "manufacture of Inka artistic wares. Until its fall, Chimor controlled "
 "perhaps 2/3 of the population of the northern Andes."
-msgstr "Mochenkulttuurin raunioille noussut Chimú-kulttuuri muodosti Chimor-valtion, jonka kasvu alkoi 1100-luvulla Mochen jokilaaksosta nykyisen Perun pohjoisosissa. Chimor jatkoi laajentumistaan, kunnes inkojen armeijat pysäyttivät ja lopulta valloittivat Chimorin 1470. Chimujen viimeinen kuningas, Minchanman, joutui vangiksi ja vietiin inkojen pääkaupunkiin, Qoscoon (nyk. Cuzco). Chimujen artesaanit vaikuttivat suuresti inkojen taidetavaroiden valmistukseen. Kaatumisensa aikoihin Chimor hallitsi noin kahta kolmannesta pohjoisten Andien väestöstä."
+msgstr ""
+"Mochenkulttuurin raunioille noussut Chimú-kulttuuri muodosti Chimor-valtion, "
+"jonka kasvu alkoi 1100-luvulla Mochen jokilaaksosta nykyisen Perun "
+"pohjoisosissa. Chimor jatkoi laajentumistaan, kunnes inkojen armeijat "
+"pysäyttivät ja lopulta valloittivat Chimorin 1470. Chimujen viimeinen "
+"kuningas, Minchanman, joutui vangiksi ja vietiin inkojen pääkaupunkiin, "
+"Qoscoon (nyk. Cuzco). Chimujen artesaanit vaikuttivat suuresti inkojen "
+"taidetavaroiden valmistukseen. Kaatumisensa aikoihin Chimor hallitsi noin "
+"kahta kolmannesta pohjoisten Andien väestöstä."
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -32627,7 +32795,10 @@ msgid ""
 "Historical feudal state on the Crimean Peninsula, existing from the 15th to "
 "the 18th century. Crimean Tatars invaded Poland and Russia, which caused "
 "wars with Turkey."
-msgstr "Krimin tataarien muodostama Krimin kaanikunta perustettiin 1400-luvulla ja kesti 1700-luvulle. Krimin tataarit valloittivat Puolan ja Venäjän, mikä johti sotiin Turkin kanssa."
+msgstr ""
+"Krimin tataarien muodostama Krimin kaanikunta perustettiin 1400-luvulla ja "
+"kesti 1700-luvulle. Krimin tataarit valloittivat Puolan ja Venäjän, mikä "
+"johti sotiin Turkin kanssa."
 
 # 'suurkaani'; WSOYn sivistyssanakirjasta
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:45
@@ -32731,7 +32902,10 @@ msgid ""
 "Cyprus became an independent republic on 16th August 1960. It is a Eurasian "
 "island country located in the eastern Mediterranean, south of Turkey and "
 "west of Syria and Lebanon."
-msgstr "Kyproksesta tuli itsenäinen tasavalta 16. elokuuta 1960. Se on euraasialainen saarivaltio, joka sijaitsee itäisellä Välimerellä, Turkin eteläpuolella, Syyriasta ja Libanonista länteen."
+msgstr ""
+"Kyproksesta tuli itsenäinen tasavalta 16. elokuuta 1960. Se on "
+"euraasialainen saarivaltio, joka sijaitsee itäisellä Välimerellä, Turkin "
+"eteläpuolella, Syyriasta ja Libanonista länteen."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -32851,7 +33025,11 @@ msgid ""
 "island of Hispaniola. Its capital - Santo Domingo - became the first "
 "permanent European settlement in the Americas when it was founded by "
 "Bartholomew Columbus in 1498."
-msgstr "Dominikaaninen tasavalta kattaa Karibianmeren toiseksi suuremman saaren, Hispaniolan, lukuunottamatta sen läntistä kolmannesta, joka kuuluu Haitille. Sen pääkaupungin, Santo Domingon, perusti Bartholomew Columbus vuonna 1498, ja se oli ensimmäinen pysyvä eurooppalaisasutus Amerikassa."
+msgstr ""
+"Dominikaaninen tasavalta kattaa Karibianmeren toiseksi suuremman saaren, "
+"Hispaniolan, lukuunottamatta sen läntistä kolmannesta, joka kuuluu Haitille. "
+"Sen pääkaupungin, Santo Domingon, perusti Bartholomew Columbus vuonna 1498, "
+"ja se oli ensimmäinen pysyvä eurooppalaisasutus Amerikassa."
 
 #: data/nation/dryad.ruleset:3
 msgid "Dryad"
@@ -32906,7 +33084,13 @@ msgid ""
 "internal security apparatus, the Stasi. In 1989 the communist regime "
 "collapsed and one year later it was annexed to the Federal Republic of "
 "Germany."
-msgstr "Saksan demokraattinen tasavalta perustettiin 1949 Neuvostoliiton miehitysvyöhykkeelle, joka käsitti sodan jälkeen itäisen Saksan. Se oli neuvostovetoisen itäblokin osa kylmän sodan aikana. DDR tunnettiin Berliinin muurista ja laajasta sisäisestä turvallisuuselimestään, Stasista. Vuonna 1989 kommunistihallinto kaatui, ja vuotta myöhemmin DDR liitettiin Saksan liittotasavaltaan."
+msgstr ""
+"Saksan demokraattinen tasavalta perustettiin 1949 Neuvostoliiton "
+"miehitysvyöhykkeelle, joka käsitti sodan jälkeen itäisen Saksan. Se oli "
+"neuvostovetoisen itäblokin osa kylmän sodan aikana. DDR tunnettiin Berliinin "
+"muurista ja laajasta sisäisestä turvallisuuselimestään, Stasista. Vuonna "
+"1989 kommunistihallinto kaatui, ja vuotta myöhemmin DDR liitettiin Saksan "
+"liittotasavaltaan."
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
@@ -32949,7 +33133,15 @@ msgid ""
 "coast (Guayaquil) and the mountains (Quito). It also fought numerous border "
 "wars with both Colombia and Peru. Nowadays Ecuador is one of the main oil "
 "producing countries of South America."
-msgstr "Ecuador on maa Etelä-Amerikan länsiosissa. Se jakautuu kolmeen hyvin erilaiseen maantieteelliseen alueeseen: rannikon alankoihin, Andien vuoristoon ja Orienten viidakoihin. Galapagossaaret kuuluvat myös Ecuadoriin. Maa itsenäistyi Espanjan siirtomaavallan alta 1821, ja hajonneesta Suur-Kolumbiasta 1830. Ecuadorin historiaa on täplittänyt kilpailu rannikon (Guayaquil) ja vuoriston (Quito) välillä. Se on myös käynyt useita rajasotia sekä Kolumbian että Perun kanssa. Nyttemmin Ecuador on yksi Etelä-Amerikan pääasiallisia öljyntuottajamaita."
+msgstr ""
+"Ecuador on maa Etelä-Amerikan länsiosissa. Se jakautuu kolmeen hyvin "
+"erilaiseen maantieteelliseen alueeseen: rannikon alankoihin, Andien "
+"vuoristoon ja Orienten viidakoihin. Galapagossaaret kuuluvat myös "
+"Ecuadoriin. Maa itsenäistyi Espanjan siirtomaavallan alta 1821, ja "
+"hajonneesta Suur-Kolumbiasta 1830. Ecuadorin historiaa on täplittänyt "
+"kilpailu rannikon (Guayaquil) ja vuoriston (Quito) välillä. Se on myös "
+"käynyt useita rajasotia sekä Kolumbian että Perun kanssa. Nyttemmin Ecuador "
+"on yksi Etelä-Amerikan pääasiallisia öljyntuottajamaita."
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
@@ -33138,7 +33330,12 @@ msgid ""
 "In 1951 it was federated with Ethiopia, which led to the development of an "
 "independence movement in the 1960s. In 1991 the 31-year war ended with "
 "Eritrea gaining independence."
-msgstr "Eritrea on Itä-Afrikan maa, jonka rajanaapureita ovat Sudan, Etiopia ja Djibouti. Se oli alkuaan D'mtin kuningaskunta, jonka Italia valloitti myöhemmin. Vuonna 1951 se liitettiin osaksi Etiopiaa, jolloin itsenäistymisliike alkoi kehittyä 1960-luvulla. Vuonna 1991 31-vuotinen sota päättyi Eritrean itsenäistymiseen."
+msgstr ""
+"Eritrea on Itä-Afrikan maa, jonka rajanaapureita ovat Sudan, Etiopia ja "
+"Djibouti. Se oli alkuaan D'mtin kuningaskunta, jonka Italia valloitti "
+"myöhemmin. Vuonna 1951 se liitettiin osaksi Etiopiaa, jolloin "
+"itsenäistymisliike alkoi kehittyä 1960-luvulla. Vuonna 1991 31-vuotinen sota "
+"päättyi Eritrean itsenäistymiseen."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -33237,7 +33434,13 @@ msgid ""
 "independent from Britain since 1970. Since then the country's politics have "
 "been characterized by ethnic tensions between Indo-Fijians and indigenous "
 "Fijians."
-msgstr "Fidži on väkiluvultaan suurin pienistä Tyynenmeren saarivaltioista. Siihen kuuluu Viti Levu, Vanua Levu ja satoja pienempiä saaria. Polynesian alkuperäiskansojen asuttama alue valloitettiin Iso-Britannian siirtomaavallaksi 1800-luvulla. Fidži itsenäistyi 1970, minkä jälkeen maan sisäpolitiikassa ovat korostuneet etniset jännitteet indo-fidžiläisten ja alkuperäisfidžiläisten välillä."
+msgstr ""
+"Fidži on väkiluvultaan suurin pienistä Tyynenmeren saarivaltioista. Siihen "
+"kuuluu Viti Levu, Vanua Levu ja satoja pienempiä saaria. Polynesian "
+"alkuperäiskansojen asuttama alue valloitettiin Iso-Britannian "
+"siirtomaavallaksi 1800-luvulla. Fidži itsenäistyi 1970, minkä jälkeen maan "
+"sisäpolitiikassa ovat korostuneet etniset jännitteet indo-fidžiläisten ja "
+"alkuperäisfidžiläisten välillä."
 
 # TODO: (non-translation, as is Adi)
 #: data/nation/fijian.ruleset:24
@@ -33617,7 +33820,9 @@ msgstr "suurpuolalaiset"
 msgid ""
 "Greater Poland or Wielkopolska is a historic and geographic region of "
 "central-western Poland."
-msgstr "Suur-Puola eli Wielkopolska on historiallinen ja maantieteellinen alue Puolan keskilännessä."
+msgstr ""
+"Suur-Puola eli Wielkopolska on historiallinen ja maantieteellinen alue "
+"Puolan keskilännessä."
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -33673,7 +33878,9 @@ msgid ""
 "Grenada is an island nation in the Caribbean. It gained independence from "
 "the United Kingdom in 1974. The main island was known as Camahogne by the "
 "indigenous Caribs."
-msgstr "Grenada on saarivaltio Karibianmerellä. Se itsenäistyi Iso-Britanniasta 1974. Pääsaari tunnetaan Camerhoguena alkuperäiskansa karibien keskuudessa."
+msgstr ""
+"Grenada on saarivaltio Karibianmerellä. Se itsenäistyi Iso-Britanniasta "
+"1974. Pääsaari tunnetaan Camerhoguena alkuperäiskansa karibien keskuudessa."
 
 #: data/nation/guanche.ruleset:3
 msgid "Guanche"
@@ -33736,7 +33943,12 @@ msgid ""
 "turmoil for much of its history. Guatemala lived through one of the most "
 "brutal civil wars of the 20th century until a peace agreement was signed in "
 "1996."
-msgstr "Guatemala sijaitsee mayojen vanhoilla sydänmailla. Espanja valloitti sen 1500-luvulla. Guatemala itsenäistyi 1821, ja oli osa Keski-Amerikan liittovaltiota vuoteen 1840 asti. Se on kärsinyt poliittisesta kuohunnasta huomattavan osan historiaansa. Guatemalaa riepoi yksi armottomimmista sisällissodista 1900-luvulla, kunnes rauhansopimus allekirjoitettiin 1996."
+msgstr ""
+"Guatemala sijaitsee mayojen vanhoilla sydänmailla. Espanja valloitti sen "
+"1500-luvulla. Guatemala itsenäistyi 1821, ja oli osa Keski-Amerikan "
+"liittovaltiota vuoteen 1840 asti. Se on kärsinyt poliittisesta kuohunnasta "
+"huomattavan osan historiaansa. Guatemalaa riepoi yksi armottomimmista "
+"sisällissodista 1900-luvulla, kunnes rauhansopimus allekirjoitettiin 1996."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -33769,7 +33981,12 @@ msgid ""
 "became a British colony after the Napoleonic Wars. It gained independence in "
 "1966. Under Forbes Burnham Guyana became a Marxist oriented country, but in "
 "the 1980s it started its transition to a market democracy."
-msgstr "Arawak-heimojen alunperin asuttamalle Guyanan alueelle perustettiin ensin hollantilaisia siirtokuntia, minkä jälkeen britit ottivat alueen haltuunsa Napoleonin sotien jälkeen.  Se itsenäistyi 1966. Forbes Burnhamin vallan aikana Guyanan hallinto suosi marxilaisuutta, mutta 1980-luvulla se alkoi siirtyä markkinavetoiseksi demokratiaksi."
+msgstr ""
+"Arawak-heimojen alunperin asuttamalle Guyanan alueelle perustettiin ensin "
+"hollantilaisia siirtokuntia, minkä jälkeen britit ottivat alueen haltuunsa "
+"Napoleonin sotien jälkeen.  Se itsenäistyi 1966. Forbes Burnhamin vallan "
+"aikana Guyanan hallinto suosi marxilaisuutta, mutta 1980-luvulla se alkoi "
+"siirtyä markkinavetoiseksi demokratiaksi."
 
 #: data/nation/guyanese.ruleset:28
 #, c-format
@@ -33860,7 +34077,10 @@ msgid ""
 "The Han people are the majority ethnic group in China, tracing their lineage "
 "back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the Yellow Emperor), "
 "legendary god-kings of prehistory."
-msgstr "Han-kiinalaiset ovat Kiinan suurin etninen ryhmä. Kansa johtaa alkuperänsä Yandiin (Yan-keisariin) ja Huangdiin (Keltainen keisari), jotka olivat esihistoriallisia jumalkuninkaita."
+msgstr ""
+"Han-kiinalaiset ovat Kiinan suurin etninen ryhmä. Kansa johtaa alkuperänsä "
+"Yandiin (Yan-keisariin) ja Huangdiin (Keltainen keisari), jotka olivat "
+"esihistoriallisia jumalkuninkaita."
 
 #: data/nation/hanoverian.ruleset:3
 msgid "Hanoverian"
@@ -33875,7 +34095,10 @@ msgid ""
 "Hanover was a state in Northern Germany, in current Lower Saxony. From 1714 "
 "to 1837 Hanover and the United Kingdom were united in a personal union. In "
 "1866 it was gobbled up by Prussia."
-msgstr "Hannover oli osavaltio Pohjois-Saksassa, nykyisen Ala-Saksin alueella. Vuodesta 1714 vuoteen 1837 Hannover ja Iso-Britannia olivat liittolaisia hallitsijoidensa kautta. Vuonna 1866 Preussi nielaisi Hannoverin."
+msgstr ""
+"Hannover oli osavaltio Pohjois-Saksassa, nykyisen Ala-Saksin alueella. "
+"Vuodesta 1714 vuoteen 1837 Hannover ja Iso-Britannia olivat liittolaisia "
+"hallitsijoidensa kautta. Vuonna 1866 Preussi nielaisi Hannoverin."
 
 #: data/nation/hansa.ruleset:3
 msgid "Hanseatic"
@@ -34093,7 +34316,14 @@ msgid ""
 "the 8th century AD from territory donated to the Church by the pious and the "
 "wealthy, the Papal States grew to become the dominant power in Italy for "
 "centuries."
-msgstr "Kirkkovaltio koostui Italian niemimaalla ja sen ulkopuolella sijainneista alueista, jotka olivat suoraan roomalaiskatolisen paavin vallan alla. Valtio perustettiin 700-luvulla uskovaisten ja rikkaiden kirkolle lahjoittamista maista, ja kasvoi huomattavaksi vallaksi Italiassa vuosisatojen ajan. Guelfit kannattivat paavinvaltaa ja ottivat Pyhän saksalais-roomalaisen keisarin vallankäyttöä puoltaneiden ghibelliinien kanssa yhteen rajusti 1100- ja 1200-luvuilla."
+msgstr ""
+"Kirkkovaltio koostui Italian niemimaalla ja sen ulkopuolella sijainneista "
+"alueista, jotka olivat suoraan roomalaiskatolisen paavin vallan alla. Valtio "
+"perustettiin 700-luvulla uskovaisten ja rikkaiden kirkolle lahjoittamista "
+"maista, ja kasvoi huomattavaksi vallaksi Italiassa vuosisatojen ajan. "
+"Guelfit kannattivat paavinvaltaa ja ottivat Pyhän saksalais-roomalaisen "
+"keisarin vallankäyttöä puoltaneiden ghibelliinien kanssa yhteen rajusti "
+"1100- ja 1200-luvuilla."
 
 #: data/nation/holysee.ruleset:28
 #, c-format
@@ -34119,7 +34349,11 @@ msgid ""
 "Central American Federation in 1840. The archetypical 'banana republic', "
 "periods of dictatorship and of more or less democratic rule have followed "
 "each other. Its current constitution was adopted in 1982."
-msgstr "Honduras on ollut itsenäinen tasavalta Keski-Amerikan liittovaltion hajottua 1840. Se on arkkityyppinen 'banaanivaltio', jossa diktatuurin ja enemmän tai vähemmän demokraattisen vallan ajat ovat vuorotelleet. Sen nykyinen perustuslaki otettiin käyttöön 1982."
+msgstr ""
+"Honduras on ollut itsenäinen tasavalta Keski-Amerikan liittovaltion hajottua "
+"1840. Se on arkkityyppinen 'banaanivaltio', jossa diktatuurin ja enemmän tai "
+"vähemmän demokraattisen vallan ajat ovat vuorotelleet. Sen nykyinen "
+"perustuslaki otettiin käyttöön 1982."
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
@@ -34358,7 +34592,9 @@ msgid ""
 "Iran means \"Land of the Aryans\" - long known as Persia in the Western "
 "world. The country is today an Islamic Republic and a major power in the "
 "Middle East."
-msgstr "Länsimaissa pitkään Persiana tunnettu Iran tarkoittaa \"arjalaisten maata\". Maa on nykyään islamilainen tasavalta ja keskeinen toimija Lähi-idässä."
+msgstr ""
+"Länsimaissa pitkään Persiana tunnettu Iran tarkoittaa \"arjalaisten maata\". "
+"Maa on nykyään islamilainen tasavalta ja keskeinen toimija Lähi-idässä."
 
 #: data/nation/iranian.ruleset:41 data/nation/persian.ruleset:22
 #, c-format
@@ -34499,7 +34735,10 @@ msgid ""
 "Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
 "relatively stable compared to other West African countries, but in the 2000s "
 "it lived through a civil war."
-msgstr "Norsunluurannikko, eli Côte d'Ivoire, itsenäistyi 1960. Se on ollut suhteellisen vakaa verrattuna muihin Länsi-Afrikan maihin, mutta 2000-luvulla sitä ravisteli sisällissota."
+msgstr ""
+"Norsunluurannikko, eli Côte d'Ivoire, itsenäistyi 1960. Se on ollut "
+"suhteellisen vakaa verrattuna muihin Länsi-Afrikan maihin, mutta 2000-"
+"luvulla sitä ravisteli sisällissota."
 
 #: data/nation/jamaican.ruleset:3
 msgid "Jamaican"
@@ -34517,7 +34756,12 @@ msgid ""
 "became an independent country within the Commonwealth in 1962. Jamaica is "
 "famous around the world for its music; genres such as reggae and ska "
 "originated on the island."
-msgstr "Kolumbus saapui Jamaikalle 1494. Espanjalaiset asuttivat saaren, mutta 1655 englantilaiset valloittivat sen ja muuttivat alueen orjavetoisiksi plantaaseiksi. Orjuus kiellettiin 1834. Maa itsenäistyi osana Kansainyhteisöä 1962. Jamaika on maailmankuulu musiikistaan: suuntaukset kuten reggae ja ska ovat peräisin saarelta."
+msgstr ""
+"Kolumbus saapui Jamaikalle 1494. Espanjalaiset asuttivat saaren, mutta 1655 "
+"englantilaiset valloittivat sen ja muuttivat alueen orjavetoisiksi "
+"plantaaseiksi. Orjuus kiellettiin 1834. Maa itsenäistyi osana "
+"Kansainyhteisöä 1962. Jamaika on maailmankuulu musiikistaan: suuntaukset "
+"kuten reggae ja ska ovat peräisin saarelta."
 
 #: data/nation/jamaican.ruleset:26
 #, c-format
@@ -34594,7 +34838,11 @@ msgid ""
 "southern Russia. They migrated to the Caspian plains in the 17th century and "
 "formed a khanate that was allied with Russia. The Kalmyks are the only "
 "Buddhist nation of Europe."
-msgstr "Kalmukit ovat Länsi-Mongolian etninen ryhmä, jotka asuvat Kalmukian osatasavallassa Etelä-Venäjällä. Kalmukit muuttivat Kaspian syvängön alueelle 1600-luvulla, ja muodostivat kaanivaltion joka liittoutui Venäjän kanssa. Kalmukit ovat Euroopan ainoa buddhalainen kansa."
+msgstr ""
+"Kalmukit ovat Länsi-Mongolian etninen ryhmä, jotka asuvat Kalmukian "
+"osatasavallassa Etelä-Venäjällä. Kalmukit muuttivat Kaspian syvängön "
+"alueelle 1600-luvulla, ja muodostivat kaanivaltion joka liittoutui Venäjän "
+"kanssa. Kalmukit ovat Euroopan ainoa buddhalainen kansa."
 
 # TODO: unfoncirmed, eiku
 #: data/nation/kanem-bornu.ruleset:3
@@ -34645,7 +34893,9 @@ msgid ""
 "The Kashmir valley is situated by the western foothills of the Himalayas. "
 "Having been inhabited for millennia, it is a melting pot of Hindu, Tibetan, "
 "and Islamic culture."
-msgstr "Kasmirlaakso sijaitsee Himalajan läntisellä juurella. Vuosituhansien ajan asuttu alue on sulatusuuni hindu-, tiibetiläis- ja islamilaiskulttuureille."
+msgstr ""
+"Kasmirlaakso sijaitsee Himalajan läntisellä juurella. Vuosituhansien ajan "
+"asuttu alue on sulatusuuni hindu-, tiibetiläis- ja islamilaiskulttuureille."
 
 # Kazakit ovat turkkilais-tataarilainen kansa Keski-Aasiassa,
 # kazakstanilaiset Kazakstanin asukkaita.
@@ -34792,7 +35042,12 @@ msgid ""
 "in 668 by king Munmu. Today the Korean peninsula is divided into two states, "
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
-msgstr "Tarinan mukaan korealaisten esi-isät, Tangun, perustivat ensimmäisen Korean kuningaskunnan esihistoriallisina aikoina eteläisen Mantšurian alueelle. Kuningas Munmu yhdisti Korean kuningaskunnat vuonna 668. Nykyään Korean niemimaa on jaettu kahteen valtioon, Pohjois- ja Etelä-Koreaan, Korean sodan 1953 pattitilanteen jäljiltä."
+msgstr ""
+"Tarinan mukaan korealaisten esi-isät, Tangun, perustivat ensimmäisen Korean "
+"kuningaskunnan esihistoriallisina aikoina eteläisen Mantšurian alueelle. "
+"Kuningas Munmu yhdisti Korean kuningaskunnat vuonna 668. Nykyään Korean "
+"niemimaa on jaettu kahteen valtioon, Pohjois- ja Etelä-Koreaan, Korean sodan "
+"1953 pattitilanteen jäljiltä."
 
 #: data/nation/kosovar.ruleset:3
 msgid "Kosovar"
@@ -34845,7 +35100,9 @@ msgstr "kirgiisit"
 msgid ""
 "Nation in Central Asia. Conquered by the Russian Empire in the 19th century, "
 "Kyrgyzstan got independence from the Soviet Union in 1991."
-msgstr "Kirgiisia on valtio Keski-Aasiassa. Venäjän keisarikunta valloitti sen 1800-luvulla. Kirgiisia itsenäistyi Neuvostoliiton hajotessa 1991."
+msgstr ""
+"Kirgiisia on valtio Keski-Aasiassa. Venäjän keisarikunta valloitti sen 1800-"
+"luvulla. Kirgiisia itsenäistyi Neuvostoliiton hajotessa 1991."
 
 # Lankese? Whut? Singaleesi is the largest ethnic group.
 #: data/nation/lankese.ruleset:3
@@ -34894,7 +35151,14 @@ msgid ""
 "1975 the communist Pathet Lao established a strict socialist regime. "
 "However, in 1986 the liberalization and a gradual return to private "
 "enterprise started."
-msgstr "Laosin historia alkaa Lan Xang -kuningaskunnasta, joka luotiin 1300-luvulla ja päättyi myöhään 1700-luvulla Siamin (nyk. Thaimaa) valloitukseen. 1800-luvun lopulla Laosista tuli osa Ranskalaista Indokiinaa. Ranskan valta päättyi Laosin itsenäistyessä 1946, mitä seurasi 30 vuotta sisällissotaa. Vuonna 1975 kommunistijohtaja Pathet Lao pystytti maahan tiukan sosialistisen hallinnon. Talouden vapauttaminen ja yksityisyrittämisen vähittäinen paluu alkoivat 1986."
+msgstr ""
+"Laosin historia alkaa Lan Xang -kuningaskunnasta, joka luotiin 1300-luvulla "
+"ja päättyi myöhään 1700-luvulla Siamin (nyk. Thaimaa) valloitukseen. 1800-"
+"luvun lopulla Laosista tuli osa Ranskalaista Indokiinaa. Ranskan valta "
+"päättyi Laosin itsenäistyessä 1946, mitä seurasi 30 vuotta sisällissotaa. "
+"Vuonna 1975 kommunistijohtaja Pathet Lao pystytti maahan tiukan "
+"sosialistisen hallinnon. Talouden vapauttaminen ja yksityisyrittämisen "
+"vähittäinen paluu alkoivat 1986."
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -34929,7 +35193,13 @@ msgid ""
 "the Phoenicians, Lebanon has since been ruled by many empires. It was part "
 "of the Ottoman Empire for over four centuries and became a French mandate "
 "after World War I. Lebanon proclaimed its independence in 1943."
-msgstr "Levantin alueella, Välimeren itärannalla sijaitseva Libanon on foinikialaisten vanha kotimaa, ja sen alueella on joitakin ihmisasutuksen vanhimmista jäänteistä. Foinikialaisten jälkeen Libanonia on hallinnut joukko ulkovaltoja. Se oli Osmanien valtakunnan osa yli neljän vuosisadan ajan, ja siirtyi Ranskan mandaattialueeksi ensimmäisen maailmansodan jälkeen. Libanon julistautui itsenäiseksi 1943."
+msgstr ""
+"Levantin alueella, Välimeren itärannalla sijaitseva Libanon on "
+"foinikialaisten vanha kotimaa, ja sen alueella on joitakin ihmisasutuksen "
+"vanhimmista jäänteistä. Foinikialaisten jälkeen Libanonia on hallinnut "
+"joukko ulkovaltoja. Se oli Osmanien valtakunnan osa yli neljän vuosisadan "
+"ajan, ja siirtyi Ranskan mandaattialueeksi ensimmäisen maailmansodan "
+"jälkeen. Libanon julistautui itsenäiseksi 1943."
 
 #: data/nation/lebanese.ruleset:27 data/nation/southamerican.ruleset:23
 #, c-format
@@ -34974,7 +35244,9 @@ msgid ""
 "Leon was a medieval kingdom in the northwestern part of the Iberian "
 "peninsula. Currently Leon is part of the Spanish autonomous community of "
 "Castile and Leon."
-msgstr "León oli keskiaikainen kuningaskunta Iberian niemimaan luoteisosissa. Nykyään León on osa Kastiliaa ja Leónia, joka on Espanjan itsehallintoalue."
+msgstr ""
+"León oli keskiaikainen kuningaskunta Iberian niemimaan luoteisosissa. "
+"Nykyään León on osa Kastiliaa ja Leónia, joka on Espanjan itsehallintoalue."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -35151,7 +35423,10 @@ msgid ""
 "One of Europe's smaller countries, Luxembourg was founded as a county in "
 "963. In 1815 it was elevated to a Grand Duchy in a personal union with the "
 "Netherlands, which was severed in 1890."
-msgstr "Luxemburg on yksi Euroopan pienimmistä maista, joka perustettiin maakuntana 963. Se korotettiin ruhtinaskunnaksi Alankomaiden kanssa tehdyn henkilökohtaisen liiton kautta, joka katkesi 1890."
+msgstr ""
+"Luxemburg on yksi Euroopan pienimmistä maista, joka perustettiin maakuntana "
+"963. Se korotettiin ruhtinaskunnaksi Alankomaiden kanssa tehdyn "
+"henkilökohtaisen liiton kautta, joka katkesi 1890."
 
 # Sic: maasai, taivutuskin wikipediasta
 #: data/nation/maasai.ruleset:3
@@ -35190,7 +35465,11 @@ msgid ""
 "Alexander the Great it became one of the most powerful states in the world "
 "but it splintered into several states after Alexander's death. Macedonia was "
 "eventually conquered by Rome in 146 BC. "
-msgstr "Antiikin Makedonian kuningaskunta sijaitsi eteläisellä Balkanin niemimaalla. Aleksanteri suuren vallan alla siitä tuli yksi maailman mahtavimmista valtioista, mutta se hajosi Aleksanterin kuoltua joukoksi pienempiä valtioita. Lopulta jäljelle jääneen Makedonian valtasi Rooma 146 eaa."
+msgstr ""
+"Antiikin Makedonian kuningaskunta sijaitsi eteläisellä Balkanin niemimaalla. "
+"Aleksanteri suuren vallan alla siitä tuli yksi maailman mahtavimmista "
+"valtioista, mutta se hajosi Aleksanterin kuoltua joukoksi pienempiä "
+"valtioita. Lopulta jäljelle jääneen Makedonian valtasi Rooma 146 eaa."
 
 # Wikipedia: diadokit
 #: data/nation/macedon.ruleset:23
@@ -35382,7 +35661,11 @@ msgid ""
 "been ruled by the Phoenicians, Romans, Fatimids, Sicilians, Knights "
 "Hospitaller, French, and British. Malta became independent in 1964 and "
 "joined the EU in 2004."
-msgstr "Malta asutettiin ensimmäisen kerran 5200 eaa. Vuosisatojen kuluessa saaria ovat hallinneet foinikialaiset, roomalaiset, fatimidit, sisilialaiset, Johanniittain ritarikunta, ranskalaiset ja britit. Malta itsenäistyi 1964 ja liittyi EU:hun 2004."
+msgstr ""
+"Malta asutettiin ensimmäisen kerran 5200 eaa. Vuosisatojen kuluessa saaria "
+"ovat hallinneet foinikialaiset, roomalaiset, fatimidit, sisilialaiset, "
+"Johanniittain ritarikunta, ranskalaiset ja britit. Malta itsenäistyi 1964 ja "
+"liittyi EU:hun 2004."
 
 #: data/nation/maltese.ruleset:29 data/nation/templar.ruleset:41
 #: data/nation/teutonic.ruleset:31
@@ -35494,7 +35777,12 @@ msgid ""
 "halting them at the Maule river in what is now central Chile. They proved to "
 "be stubborn opponents of the Spanish, too, who, along with their Chilean "
 "successors, took 300 years to conquer them."
-msgstr "Mapuchet vastustivat onnistuneesti inkojen valtakunnan laajentumista alueelleen; eteneminen pysähtyi Maule-joelle, joka on nykyisen Chilen keskiosissa. Mapuchet näyttivät itsepintaisuutensa myös espanjalaisia vastaan; näiltä kesti chileläisten jälkeläistensä kanssa 300 vuotta valloittaa mapuchekansan alueet."
+msgstr ""
+"Mapuchet vastustivat onnistuneesti inkojen valtakunnan laajentumista "
+"alueelleen; eteneminen pysähtyi Maule-joelle, joka on nykyisen Chilen "
+"keskiosissa. Mapuchet näyttivät itsepintaisuutensa myös espanjalaisia "
+"vastaan; näiltä kesti chileläisten jälkeläistensä kanssa 300 vuotta "
+"valloittaa mapuchekansan alueet."
 
 # TODO: unconfirmed
 #: data/nation/mapuche.ruleset:21
@@ -35623,7 +35911,21 @@ msgid ""
 "million dead. The Revolution led to the establishment of a corporatist one "
 "party state in 1929. Only in 2000 did Mexico see its first democratic "
 "transfer of power."
-msgstr "Meksiko on saanut nimensä Mexica-kansalta, jota kutsuttiin myös asteekeiksi yhdessä muiden etnisten ryhmien kanssa. Se itsenäistyi Espanjan siirtomaavallan alta 1821. Suurimman osan 1800-lukua Meksikoa ryöpyttivät kapinat ja ulkopuoliset valloittajat; se menetti yli puolet maa-alueestaan Yhdysvalloille. Liberaali perustuslaki julistettiin 1857, mistä seurasi 10 vuotta sisällissotaa liberaalien ja konservatiivien välillä. Sodan aikana jälkimmäiset kruunasivat Itävallan Maximilianin keisarikseen Ranskan miehityksen alaisena. Benito Juarezin liberaalit voittivat lopulta ranskalaiset ja konservatiivit vuonna 1867. Meksiko siirtyi Porifirio Diazin johtamana (1876-1911) nykyaikaan, mutta yhteiskunnallinen epätasa-arvoisuus ja poliittiset patoumat johtivat Meksikon vallankumoukseen 1910, jossa kuoli yli miljoona ihmistä. Vallankumouksen jälkeen Institutionaalinen vallankumouspuolue piti valtaa 1929 alkaen 70 vuotta, ja vasta 2000 vaaleissa valta siirtyi puolueen ulkopuolelle."
+msgstr ""
+"Meksiko on saanut nimensä Mexica-kansalta, jota kutsuttiin myös asteekeiksi "
+"yhdessä muiden etnisten ryhmien kanssa. Se itsenäistyi Espanjan "
+"siirtomaavallan alta 1821. Suurimman osan 1800-lukua Meksikoa ryöpyttivät "
+"kapinat ja ulkopuoliset valloittajat; se menetti yli puolet maa-alueestaan "
+"Yhdysvalloille. Liberaali perustuslaki julistettiin 1857, mistä seurasi 10 "
+"vuotta sisällissotaa liberaalien ja konservatiivien välillä. Sodan aikana "
+"jälkimmäiset kruunasivat Itävallan Maximilianin keisarikseen Ranskan "
+"miehityksen alaisena. Benito Juarezin liberaalit voittivat lopulta "
+"ranskalaiset ja konservatiivit vuonna 1867. Meksiko siirtyi Porifirio Diazin "
+"johtamana (1876-1911) nykyaikaan, mutta yhteiskunnallinen epätasa-arvoisuus "
+"ja poliittiset patoumat johtivat Meksikon vallankumoukseen 1910, jossa kuoli "
+"yli miljoona ihmistä. Vallankumouksen jälkeen Institutionaalinen "
+"vallankumouspuolue piti valtaa 1929 alkaen 70 vuotta, ja vasta 2000 "
+"vaaleissa valta siirtyi puolueen ulkopuolelle."
 
 #: data/nation/mexican.ruleset:52 data/nation/nicaraguan.ruleset:33
 #, c-format
@@ -35668,7 +35970,10 @@ msgid ""
 "Micronesia is located in the Central Western Pacific. The site of several "
 "ancient seafaring cultures, nowadays most of the region is governed by the "
 "Federated States of Micronesia."
-msgstr "Mikronesia sijaitsee Länsi-Tyynenmeren keskiosissa. Sen alueella on asunut useita muinaisia merenkulkijakulttuureita. Nykyään suurinta osaa alueesta hallinnoi Mikronesian liittovaltio."
+msgstr ""
+"Mikronesia sijaitsee Länsi-Tyynenmeren keskiosissa. Sen alueella on asunut "
+"useita muinaisia merenkulkijakulttuureita. Nykyään suurinta osaa alueesta "
+"hallinnoi Mikronesian liittovaltio."
 
 #: data/nation/mikmaq.ruleset:3
 msgid "Mi'kmaq"
@@ -35699,7 +36004,12 @@ msgid ""
 "Milan is the capital of Lombardy, a region in Northern Italy. From 1395 to "
 "1797 it was the seat of the Duchy of Milan. Lombardy came under Austrian "
 "domination after the Napoleonic War. In 1859 it was annexed by Italy."
-msgstr "Milano on Pohjois-Italiassa sijaitsevan Lombardian pääkaupunki. Vuodesta 1395 vuoteen 1797 se oli Milanon herttuakunnan keskus. Lombardia luovutettiin Napoleonin sotien jälkeen Hapsburgien itävaltalaiselle sukuhaaralle, ja 1859 se liitettiin Piemonte-Sardinian kuningaskuntaan, joka vaihtoi pian nimensä Italian kuningaskunnaksi."
+msgstr ""
+"Milano on Pohjois-Italiassa sijaitsevan Lombardian pääkaupunki. Vuodesta "
+"1395 vuoteen 1797 se oli Milanon herttuakunnan keskus. Lombardia "
+"luovutettiin Napoleonin sotien jälkeen Hapsburgien itävaltalaiselle "
+"sukuhaaralle, ja 1859 se liitettiin Piemonte-Sardinian kuningaskuntaan, joka "
+"vaihtoi pian nimensä Italian kuningaskunnaksi."
 
 # Friar != normimunkki, mutta tehdään vähän eroa Brother %s:äänkin. Huom. kirjaimellisesti 'veli', naispuolisille sopii heikosti.
 #: data/nation/milanese.ruleset:26 data/nation/piedmontese.ruleset:34
@@ -35775,7 +36085,11 @@ msgid ""
 "Moldova became part of the Russian Empire. From 1918 Moldova was part of "
 "Romania until inclusion in the Soviet Union in 1940. The modern Republic of "
 "Moldova gained independence from the Soviet Union in 1991."
-msgstr "Osmanit valloittivat Moldovan 1500-luvulla, ja se oli osa Venäjän keisarikuntaa 1812 lähtien. Vuodesta 1918 Moldova kuului Romaniaan, kunnes sekin liitettiin Neuvostoliittoon 1940. Nykyinen Moldovan tasavalta itsenäistyi Neuvostoliiton hajotessa 1991."
+msgstr ""
+"Osmanit valloittivat Moldovan 1500-luvulla, ja se oli osa Venäjän "
+"keisarikuntaa 1812 lähtien. Vuodesta 1918 Moldova kuului Romaniaan, kunnes "
+"sekin liitettiin Neuvostoliittoon 1940. Nykyinen Moldovan tasavalta "
+"itsenäistyi Neuvostoliiton hajotessa 1991."
 
 #. TRANS: Voievod = Prince
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:32
@@ -35807,7 +36121,13 @@ msgid ""
 "taxes, its casino and its Formula 1 track. Foreigners make up more than 80 "
 "percent of the population. In terms of GDP per capita Monaco is the "
 "wealthiest country in the world by a large margin."
-msgstr "Kahden neliökilometrin alueeseen rajoittuva Monaco on maailman toiseksi pienin valtio. Sitä on hallinnut Grimaldien suku maan perustamisesta 1297 lähtien. Vuonna 1861 Monaco menetti 95% alueestaan Ranskalle. Ruhtinaskunta tunnetaan tuloverojen puutteesta, kasinostaan ja Formula 1 -radastaan. Ulkomaalaiset muodostavat yli 80% väestöstä. Väkimäärään suhteutetun kansantuotteen perusteella Monaco on kirkkaasti maailman rikkain maa."
+msgstr ""
+"Kahden neliökilometrin alueeseen rajoittuva Monaco on maailman toiseksi "
+"pienin valtio. Sitä on hallinnut Grimaldien suku maan perustamisesta 1297 "
+"lähtien. Vuonna 1861 Monaco menetti 95% alueestaan Ranskalle. Ruhtinaskunta "
+"tunnetaan tuloverojen puutteesta, kasinostaan ja Formula 1 -radastaan. "
+"Ulkomaalaiset muodostavat yli 80% väestöstä. Väkimäärään suhteutetun "
+"kansantuotteen perusteella Monaco on kirkkaasti maailman rikkain maa."
 
 # Kirj. valtionministeri, mutta ei tietääkseni käytössä tässä muodossa.
 # ... so sade statsminister Katainen ju också
@@ -35853,7 +36173,10 @@ msgid ""
 "Montenegro is a small country on the Balkans, the last to be conquered by "
 "the Ottomans and the first to become independent again. Part of Yugoslavia "
 "in the 20th century, it dissolved its union with Serbia in 2006."
-msgstr "Montenegro on pieni maa Balkanin niemimaalla. Se oli viimeinen Osmanien valloittama maa, ja ensimmäinen uudelleen itsenäistynyt. Montenegro oli 1900-luvulla osa Jugoslaviaa, ja irtautui liitostaan Serbian kanssa 2006."
+msgstr ""
+"Montenegro on pieni maa Balkanin niemimaalla. Se oli viimeinen Osmanien "
+"valloittama maa, ja ensimmäinen uudelleen itsenäistynyt. Montenegro oli 1900-"
+"luvulla osa Jugoslaviaa, ja irtautui liitostaan Serbian kanssa 2006."
 
 #: data/nation/moravian.ruleset:3
 msgid "Moravian"
@@ -35929,7 +36252,9 @@ msgid ""
 "Modern Morocco gained independence in 1956.  However, the area has been "
 "inhabited since at least 8000 BC.  In classical times the region was known "
 "as Mauretania."
-msgstr "Nykyinen Marokko itsenäistyi 1956. Sitä ennen aluetta on asutettu ainakin 8000 vuotta eaa. Aikoinaan alue tunnettiin Mauritanian nimellä."
+msgstr ""
+"Nykyinen Marokko itsenäistyi 1956. Sitä ennen aluetta on asutettu ainakin "
+"8000 vuotta eaa. Aikoinaan alue tunnettiin Mauritanian nimellä."
 
 #: data/nation/mozambican.ruleset:3
 msgid "Mozambican"
@@ -36014,7 +36339,12 @@ msgid ""
 "After losing World War I, the territory became a mandate under the "
 "responsibility of the Union of South Africa. It finally became independent "
 "in 1990, under the name of Namibia."
-msgstr "Vaikka Euroopan vallat jättivät pitkään Afrikan aavikkoisen lounaisosan rauhaan, Saksan keisarikunta perusti sinne siirtomaan (Saksan Lounais-Afrikka) myöhään 1800-luvulla. Ensimmäisen maailmansodan aikana Etelä-Afrikka piti Namibiaa hallussaan Kansainliiton mandaatilla. Namibia itsenäistyi lopulta Etelä-Afrikan hallinnon alta 1990."
+msgstr ""
+"Vaikka Euroopan vallat jättivät pitkään Afrikan aavikkoisen lounaisosan "
+"rauhaan, Saksan keisarikunta perusti sinne siirtomaan (Saksan Lounais-"
+"Afrikka) myöhään 1800-luvulla. Ensimmäisen maailmansodan aikana Etelä-"
+"Afrikka piti Namibiaa hallussaan Kansainliiton mandaatilla. Namibia "
+"itsenäistyi lopulta Etelä-Afrikan hallinnon alta 1990."
 
 #: data/nation/navajo.ruleset:3
 msgid "Navajo"
@@ -36153,7 +36483,13 @@ msgid ""
 "dictatorship in the 1930s. His family continued to rule until 1979, when the "
 "last Somoza was overthrown by sandinista revolutionaries, starting 11 years "
 "of civil war between the sandinista government and the contras."
-msgstr "Nicaragua on Keski-Amerikan tasavalloista suurin, ja tunnetaan levottomasta historiastaan. Maata riepoivat lukuisat sisällissodat ja ulkomaiset interventiot, kunnes Anastasio Somoza pystytti pahamaineisen korruptoituneen diktatuurin 1930-luvulla. Hänen perheensä pysyi vallassa vuoteen 1979 asti, jolloin sandinistit suistivat viimeisen Somozan vallasta. Tästä alkoi 11 vuoden sisällissota sandinistihallituksen ja contrien välillä."
+msgstr ""
+"Nicaragua on Keski-Amerikan tasavalloista suurin, ja tunnetaan levottomasta "
+"historiastaan. Maata riepoivat lukuisat sisällissodat ja ulkomaiset "
+"interventiot, kunnes Anastasio Somoza pystytti pahamaineisen korruptoituneen "
+"diktatuurin 1930-luvulla. Hänen perheensä pysyi vallassa vuoteen 1979 asti, "
+"jolloin sandinistit suistivat viimeisen Somozan vallasta. Tästä alkoi 11 "
+"vuoden sisällissota sandinistihallituksen ja contrien välillä."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -36187,7 +36523,14 @@ msgid ""
 "such as the Human Development Index. Niger has both the highest fertility "
 "rate and infant mortality rate in the world. Niger should not be confused "
 "with Nigeria."
-msgstr "Niger on maa Länsi-Afrikan Sahel-alueella. Se on saanut nimensä Niger-joen mukaan, eikä sitä pidä sekoittaa saman joen varrella sijaitsevan Nigerian kanssa. Maa itsenäistyi Ranskan alta 1960. Sittemmin sitä ovat vuoroittain hallinneet siviili- ja sotilashallitukset. Niger on yksi maailman köyhimmistä maista, ja pitää perää kansainvälisissä vertailuissa kuten Human Development Index -listalla. Nigerissä on sekä maailman korkein syntyvyys että lapsikuolleisuus. "
+msgstr ""
+"Niger on maa Länsi-Afrikan Sahel-alueella. Se on saanut nimensä Niger-joen "
+"mukaan, eikä sitä pidä sekoittaa saman joen varrella sijaitsevan Nigerian "
+"kanssa. Maa itsenäistyi Ranskan alta 1960. Sittemmin sitä ovat vuoroittain "
+"hallinneet siviili- ja sotilashallitukset. Niger on yksi maailman "
+"köyhimmistä maista, ja pitää perää kansainvälisissä vertailuissa kuten Human "
+"Development Index -listalla. Nigerissä on sekä maailman korkein syntyvyys "
+"että lapsikuolleisuus. "
 
 # TODO: unconf
 #. TRANS: The fourth letter in "Nimiipuu" should be
@@ -36230,7 +36573,13 @@ msgid ""
 "leader Rollo a fiefdom in the area. This fief evolved into the Duchy of "
 "Normandy, of which the most famous duke is William II \"the Conqueror\" who "
 "invaded England in 1066."
-msgstr "Vuonna 911 viikinkipäällikkö Rollo allekirjoitti frankkikuningas Kaarle Yksinkertaisen kanssa sopimuksen, jossa hän sai alueelta läänityksen. Tällä pantiin piste viikinkien tuhoisille ryöstöretkille nykyisen Pohjois-Ranskan alueella, sekä Pariisin piiritykselle. Läänityksestä kehittyi Normandian herttuakunta, jonka kuuluisin herttua on Vilhelm Valloittaja, joka tunkeutui Englantiin ja kruunautti itsensä sen kuninkaaksi 1066."
+msgstr ""
+"Vuonna 911 viikinkipäällikkö Rollo allekirjoitti frankkikuningas Kaarle "
+"Yksinkertaisen kanssa sopimuksen, jossa hän sai alueelta läänityksen. Tällä "
+"pantiin piste viikinkien tuhoisille ryöstöretkille nykyisen Pohjois-Ranskan "
+"alueella, sekä Pariisin piiritykselle. Läänityksestä kehittyi Normandian "
+"herttuakunta, jonka kuuluisin herttua on Vilhelm Valloittaja, joka tunkeutui "
+"Englantiin ja kruunautti itsensä sen kuninkaaksi 1066."
 
 #: data/nation/norman.ruleset:25 data/nation/swiss.ruleset:38
 #: data/nation/tyrolian.ruleset:22
@@ -36442,7 +36791,10 @@ msgid ""
 "Oman is an Arab country in southwest Asia on the southeast coast of the "
 "Arabian Peninsula. Before the arrival of Islam Oman was controlled by "
 "Achaemenids, Parthians and Sassanids."
-msgstr "Oman on arabimaa Lounais-Aasiassa, Arabian niemimaan kaakkoisrannikolla. Ennen islamin rantautumista Omania hallitsivat akhaemenidit, parthialaiset ja sassanidit."
+msgstr ""
+"Oman on arabimaa Lounais-Aasiassa, Arabian niemimaan kaakkoisrannikolla. "
+"Ennen islamin rantautumista Omania hallitsivat akhaemenidit, parthialaiset "
+"ja sassanidit."
 
 # TODO: go through General Xs with an axe at some point.
 #: data/nation/omani.ruleset:32
@@ -36492,7 +36844,13 @@ msgid ""
 "Mongol invasions. Nowadays Ossetians live in the Republic of North Ossetia "
 "(part of Russian Federation) and in the partially recognized Republic of "
 "South Ossetia."
-msgstr "Nykyiset osseetit polveutuvat esihistoriallisista alaneista, jotka pakenivat vuorille hunnien hyökkäysten aikaan. Noin vuonna 800 jaa. Alanian kuningaskunta perustettiin Pohjois-Kaukasuksella, ja se pysyi pystyssä mongolien valloitukseen asti. Nykyään osseetit asuvat Pohjois-Ossetia-Alanian tasavaltaan, joka kuuluu Venäjän federaatioon, sekä osin tunnustettuun Etelä-Ossetian tasavaltaan."
+msgstr ""
+"Nykyiset osseetit polveutuvat esihistoriallisista alaneista, jotka pakenivat "
+"vuorille hunnien hyökkäysten aikaan. Noin vuonna 800 jaa. Alanian "
+"kuningaskunta perustettiin Pohjois-Kaukasuksella, ja se pysyi pystyssä "
+"mongolien valloitukseen asti. Nykyään osseetit asuvat Pohjois-Ossetia-"
+"Alanian tasavaltaan, joka kuuluu Venäjän federaatioon, sekä osin "
+"tunnustettuun Etelä-Ossetian tasavaltaan."
 
 # Itägootit. TODO: unconf
 #: data/nation/ostrogothic.ruleset:3
@@ -36570,7 +36928,14 @@ msgid ""
 "south-eastern Europe, the Islamic Arab world as well as Egypt and much of "
 "North Africa, making it a regional superpower until its dissolution in the "
 "aftermath of World War I."
-msgstr "1300-luvun alussa Osman, Länsi-Anatoliassa sijaitsevan pienen turkkilaisen heimon johtaja, valloitti kaikki naapuriheimonsa. Vuosisata myöhemmin Bysantin valtakunnan pääkaupunki joutui turkkilaisvallan alle, mikä antoi Osmanien valtakunnalle portin Eurooppaan. Osmanit valloittivat pikemmittä puheitta suuria alueita Kaakkois-Eurooppaa, islaminuskoista arabimaailmaa ja huomattavan osan Pohjois-Afrikkaa, mikä teki siitä alueellisen supervallan valtakunnan hajoamiseen asti ensimmäisen maailmansodan jälkimainingeissa."
+msgstr ""
+"1300-luvun alussa Osman, Länsi-Anatoliassa sijaitsevan pienen turkkilaisen "
+"heimon johtaja, valloitti kaikki naapuriheimonsa. Vuosisata myöhemmin "
+"Bysantin valtakunnan pääkaupunki joutui turkkilaisvallan alle, mikä antoi "
+"Osmanien valtakunnalle portin Eurooppaan. Osmanit valloittivat pikemmittä "
+"puheitta suuria alueita Kaakkois-Eurooppaa, islaminuskoista arabimaailmaa ja "
+"huomattavan osan Pohjois-Afrikkaa, mikä teki siitä alueellisen supervallan "
+"valtakunnan hajoamiseen asti ensimmäisen maailmansodan jälkimainingeissa."
 
 #: data/nation/ozite.ruleset:3
 msgid "Ozite"
@@ -37360,7 +37725,10 @@ msgstr "samogiitit"
 msgid ""
 "Samogitia - historical country near the Baltic Sea - home to the last pagans "
 "in Europe (official until 1413). Today, Samogitia is a region of Lithuania."
-msgstr "Samogitia on historiallinen maa Itämeren läheisyydessä. Sen alueella asuivat (virallisesti vuoteen 1413 asti) Euroopan viimeiset pakanat. Nykyään Samogitia on Liettuan alue."
+msgstr ""
+"Samogitia on historiallinen maa Itämeren läheisyydessä. Sen alueella asuivat "
+"(virallisesti vuoteen 1413 asti) Euroopan viimeiset pakanat. Nykyään "
+"Samogitia on Liettuan alue."
 
 #: data/nation/sarmatian.ruleset:3
 msgid "Sarmatian"
@@ -37543,7 +37911,10 @@ msgid ""
 "Senegal is the westernmost country of mainland Africa. It has been "
 "independent from France since 1960. Senegal is relatively stable and "
 "democratic compared to its neighbors."
-msgstr "Senegal on Afrikan mantereen läntisin maa. Se itsenäistyi Ranskan siirtomaavallan alta 1960. Naapureihinsa verrattuna Senegal on suhteellisen vakaa ja demokraattinen valtio."
+msgstr ""
+"Senegal on Afrikan mantereen läntisin maa. Se itsenäistyi Ranskan "
+"siirtomaavallan alta 1960. Naapureihinsa verrattuna Senegal on suhteellisen "
+"vakaa ja demokraattinen valtio."
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -38069,7 +38440,12 @@ msgid ""
 "traded it with the Dutch for New Amsterdam, modern New York, in 1667. "
 "Suriname was granted self government in 1954 and became fully independent in "
 "1975."
-msgstr "Surinam on Etelä-Amerikan pienin itsenäinen valtio. Sitä asuttivat alunperin arawak-intiaanit. Englantilaiset perustivat sinne ensimmäisen siirtomaan, jotka vaihtoivat sen Alankomaiden kanssa Uuteen Amsterdamiin 1667, ja nimesivät jälkimmäisen sittemmin New Yorkiksi. Surinam sai itsehallinnon 1954, ja itsenäistyi 1975."
+msgstr ""
+"Surinam on Etelä-Amerikan pienin itsenäinen valtio. Sitä asuttivat alunperin "
+"arawak-intiaanit. Englantilaiset perustivat sinne ensimmäisen siirtomaan, "
+"jotka vaihtoivat sen Alankomaiden kanssa Uuteen Amsterdamiin 1667, ja "
+"nimesivät jälkimmäisen sittemmin New Yorkiksi. Surinam sai itsehallinnon "
+"1954, ja itsenäistyi 1975."
 
 #: data/nation/surinamese.ruleset:28
 #, c-format
@@ -38138,7 +38514,11 @@ msgid ""
 "the Swiss Federal Constitution in 1848. The precursors of modern Switzerland "
 "established a protective alliance at the end of the 13th century, forming a "
 "loose confederation of states which persisted for centuries."
-msgstr "Sveitsi on ollut olemassa nykyisen valtion muodossa Sveitsin liittotasavallan perustuslain julistuksesta 1848 lähtien. Nykyisen Sveitsin edeltäjät perustivat alueen asemaa turvaavan liittouman 1200-luvun lopulla, ja tämä löyhä liittouma kesti vuosisatojen ajan."
+msgstr ""
+"Sveitsi on ollut olemassa nykyisen valtion muodossa Sveitsin "
+"liittotasavallan perustuslain julistuksesta 1848 lähtien. Nykyisen Sveitsin "
+"edeltäjät perustivat alueen asemaa turvaavan liittouman 1200-luvun lopulla, "
+"ja tämä löyhä liittouma kesti vuosisatojen ajan."
 
 #: data/nation/swiss.ruleset:38 data/nation/tyrolian.ruleset:22
 #, c-format
@@ -38167,7 +38547,9 @@ msgstr "syyrialaiset"
 msgid ""
 "The modern Syrian Arab Republic was formed from a French mandate and "
 "gradually gained independence during the 1940s."
-msgstr "Nykyinen Syyrian arabitasavalta muodostui Ranskan mandaattialueesta, ja itsenäistyi vaiheittain 1940-luvulla."
+msgstr ""
+"Nykyinen Syyrian arabitasavalta muodostui Ranskan mandaattialueesta, ja "
+"itsenäistyi vaiheittain 1940-luvulla."
 
 # TODO: uncon - appears in a desc elsewhere as well
 #: data/nation/taino.ruleset:3
@@ -38244,7 +38626,10 @@ msgid ""
 "Tajikistan is a nation in Central Asia. The Tajiks trace the foundation of "
 "their nation back to the Samanid Empire, one of the first Persian states to "
 "appear after the Arab conquest."
-msgstr "Tadžikistan on maa Keski-Aasiassa. Tadžikit määrittävät maansa perustamisen Samanidien valtakuntaan asti; tämä oli yksi ensimmäisestä persialaisvaltioista jotka perustettiin arabivalloitusten jälkeen."
+msgstr ""
+"Tadžikistan on maa Keski-Aasiassa. Tadžikit määrittävät maansa perustamisen "
+"Samanidien valtakuntaan asti; tämä oli yksi ensimmäisestä "
+"persialaisvaltioista jotka perustettiin arabivalloitusten jälkeen."
 
 #: data/nation/tanzanian.ruleset:3
 msgid "Tanzanian"
@@ -38493,7 +38878,7 @@ msgstr "tolteekit"
 #: data/nation/toltec.ruleset:6
 msgid ""
 "The Toltecs were a Meso-American civilization that existed from the 10th to "
-"the 12th century. The Toltec Empire was founded by Ce Tecpatl Mixcoac, who "
+"the 12th century. The Toltec Empire was founded by Ce Tecpatl Mixcoatl, who "
 "led his nomadic people from the north to settle on the Mexican High Plain. "
 "Mixcoatl was murdered by his enemies but was later avenged by his son Ce "
 "Acatl Topilitzin Quetzalcoatl, who would lead the Toltec civilization to "
@@ -38521,7 +38906,11 @@ msgid ""
 "around 1000 BC. Although the islands became a British protectorate in the "
 "19th century, they are the only country in Oceania to have escaped actual "
 "colonization."
-msgstr "Tonga on saariryhmä eteläisellä Tyynellämerellä. Polynesialaiset kansat asuttivat saaret noin 1000 eaa. Vaikka saaret siirtyivät Brittien protektoraatiksi 1800-luvulla, ne ovat ainoa varsinaisen siirtomaavallan välttänyt maa Oseaniassa."
+msgstr ""
+"Tonga on saariryhmä eteläisellä Tyynellämerellä. Polynesialaiset kansat "
+"asuttivat saaret noin 1000 eaa. Vaikka saaret siirtyivät Brittien "
+"protektoraatiksi 1800-luvulla, ne ovat ainoa varsinaisen siirtomaavallan "
+"välttänyt maa Oseaniassa."
 
 #: data/nation/transylvanian.ruleset:3
 msgid "Transylvanian"
@@ -38677,7 +39066,10 @@ msgid ""
 "Tyrol was a county in the Alps. In the 16th century its own dynasty died out "
 "and the region passed to Habsburg Austria. The southern part was annexed by "
 "Italy after World War I."
-msgstr "Tiroli oli maakunta Alpeilla. 1500-luvulla sen oma hallitsijasuku kuoli pois, ja alue siirtyi Itävallan Hapsburgeille. Tirolin eteläosat liitettiin Italiaan ensimmäisen maailmansodan jälkeen."
+msgstr ""
+"Tiroli oli maakunta Alpeilla. 1500-luvulla sen oma hallitsijasuku kuoli "
+"pois, ja alue siirtyi Itävallan Hapsburgeille. Tirolin eteläosat liitettiin "
+"Italiaan ensimmäisen maailmansodan jälkeen."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -38709,7 +39101,11 @@ msgid ""
 "part of Lake Victoria, which is also in Kenya and Tanzania. In the past, the "
 "southern part of the country was part of the Buganda kingdom. Modern Uganda "
 "gained independence in 1962."
-msgstr "Ugandan tasavalta sijaitsee Afrikan itäosissa. Maa sisältää osan Viktoriajärvestä, joka ulottuu myös Keniaan ja Tansaniaan. Historiallisesti maan eteläosa on kuulunut Bugandan kuningaskuntaan. Nykyinen Uganda itsenäistyi 1962."
+msgstr ""
+"Ugandan tasavalta sijaitsee Afrikan itäosissa. Maa sisältää osan "
+"Viktoriajärvestä, joka ulottuu myös Keniaan ja Tansaniaan. Historiallisesti "
+"maan eteläosa on kuulunut Bugandan kuningaskuntaan. Nykyinen Uganda "
+"itsenäistyi 1962."
 
 #: data/nation/ugandan.ruleset:32
 #, c-format
@@ -39217,7 +39613,12 @@ msgid ""
 "powers. After a national liberation war the communists threw out the "
 "occupants and continued to rule until the 1980s. The 1990s saw the bloody "
 "breakup of Yugoslavia into independent republics."
-msgstr "Jugoslavia oli Balkanin länsiosien slaavikansakunnista koostuva valtio. Se oli kuningaskunta vuoteen 1941, jolloin Akselivallat valloittivat sen. Kansallisen vapautussodan jälkeen kommunistit näyttivät valtaajille ovea, ja jatkoivat vallanpitoa 1980-luvulle asti. 1990-luvulla Jugoslavia repesi verisesti itsenäisiksi tasavalloiksi."
+msgstr ""
+"Jugoslavia oli Balkanin länsiosien slaavikansakunnista koostuva valtio. Se "
+"oli kuningaskunta vuoteen 1941, jolloin Akselivallat valloittivat sen. "
+"Kansallisen vapautussodan jälkeen kommunistit näyttivät valtaajille ovea, ja "
+"jatkoivat vallanpitoa 1980-luvulle asti. 1990-luvulla Jugoslavia repesi "
+"verisesti itsenäisiksi tasavalloiksi."
 
 # TODO: conf
 #: data/nation/zapotec.ruleset:3

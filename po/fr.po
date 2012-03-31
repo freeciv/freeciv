@@ -15,14 +15,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-16 20:57+0200\n"
+"POT-Creation-Date: 2012-03-31 13:25+0100\n"
 "PO-Revision-Date: 2012-03-18 23:09+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
@@ -824,13 +824,13 @@ msgstr "équipe %s"
 msgid "team %d"
 msgstr "équipe %d"
 
-#: common/tech.c:886
+#: common/tech.c:888
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Techno. Future %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:957 common/tech.c:960 server/settings.h:59
+#: common/tech.c:959 common/tech.c:962 server/settings.h:59
 #: client/gui-gtk-2.0/helpdlg.c:123 client/gui-sdl/citydlg.c:722
 #: client/gui-sdl/gui_tilespec.c:486 client/gui-sdl/helpdlg.c:376
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:828
@@ -841,12 +841,12 @@ msgstr "Techno. Future %d"
 msgid "None"
 msgstr "Aucun"
 
-#: common/tech.c:963
+#: common/tech.c:965
 msgid "Future Tech."
 msgstr "Techno. Future"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:967 client/gui-gtk-2.0/inteldlg.c:403
+#: common/tech.c:969 client/gui-gtk-2.0/inteldlg.c:403
 msgid "(Unknown)"
 msgstr "(Inconnu)"
 
@@ -1315,8 +1315,8 @@ msgstr ""
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
-"\"%s\" est spécifié mais vide ; les répertoires de sauvegardes par défaut "
-"\"%s\" seront utilisés à la place."
+"\"%s\" est spécifié mais vide ; les répertoires de sauvegardes par défaut \"%"
+"s\" seront utilisés à la place."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1061
@@ -1455,8 +1455,8 @@ msgstr "*%s (IA)* Rompez d'abord votre alliance avec %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IA)* J'aurais aimé vous voir garder vos distances avec %s pour quelques "
 "temps, %s."
@@ -1722,8 +1722,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutations allié, je vois que vous n'avez pas encore déclaré la "
 "guerre à notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
@@ -1814,8 +1814,8 @@ msgid ""
 "Cannot load auth config file '%s':\n"
 "%s"
 msgstr ""
-"Impossible de charger le fichier de configuration de l'authentification "
-"'%s':\n"
+"Impossible de charger le fichier de configuration de l'authentification '%"
+"s':\n"
 "%s"
 
 #: server/auth.c:400
@@ -1934,19 +1934,19 @@ msgstr ""
 "Le mot de passe doit avoir au moins %d lettres capitales, %d chiffres, et "
 "être long d'au moins %d caractères [imprimables]. Essayez encore."
 
-#: server/barbarian.c:157
+#: server/barbarian.c:162
 #, c-format
 msgid "%s gain a leader by the name %s. Dangerous times may lie ahead."
 msgstr ""
 "Les %s trouvent un nouveau chef en la personne de %s. Des temps difficiles "
 "sont à prévoir."
 
-#: server/barbarian.c:630
+#: server/barbarian.c:635
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Apparition d'indigènes menés par %2$s aux abords de %1$s."
 
-#: server/barbarian.c:635
+#: server/barbarian.c:640
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Pirates aperçus au large de %s !"
@@ -4391,8 +4391,8 @@ msgstr ""
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr ""
-"Les %s ont provoqué un incident diplomatique en fomentant une révolte dans "
-"%s."
+"Les %s ont provoqué un incident diplomatique en fomentant une révolte dans %"
+"s."
 
 #: server/edithand.c:190
 #, c-format
@@ -5898,8 +5898,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
 "Le nombre de joueurs (%d) est plus grand que le nombre de positions de "
 "départ disponibles (%d).\n"
@@ -7709,8 +7709,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+05Y%S-%R' => 'civgame-T0100-A00001-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T"
-"%04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T%"
+"04T-Y%05Y-%R' est ajouté à la valeur de 'savename'."
 
 #: server/settings.c:2078
 msgid "Whether to log player statistics"
@@ -8837,8 +8837,8 @@ msgstr "Vote"
 #: server/stdinhand.c:2293
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (besoin : %0.0f%%%s): %d pour, %d contre, et %d blancs pour un "
 "total de %d joueurs."
@@ -33033,8 +33033,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -39822,7 +39822,21 @@ msgid ""
 "Toltecs is based on Aztec mythology, some claim there was never a Toltec "
 "Empire, but that Aztec references to the Toltecs were an allegory for "
 "civilization."
-msgstr "Les Toltèques étaient une civilisation mésoaméricaine qui a existé du Xème au XIIème siècle. L'empire Toltèque fut fondé par Ce Mixcoatl Tecpatl, qui mena son peuple nomade depuis le Nord pour se fixer dans la Haute Plaine Mexicaine. Mixcoatl fut assassiné par ses ennemis, mais fut plus tard vengé par son fils Topiltzin Ce Acatl Quetzalcoatl, qui mènerait la civilisation Toltèque à un niveau indicible. La culture Toltèque continua à prospérer jusqu'au XIIème siècle. Leur capitale Tollan fut violemment détruite en 1168, et la région toltèque fragmentée en cités-états rivales. Des influences culturelles toltèques ont été identifiées du Nouveau Mexique au Nicaragua, bien que les historiens ne s'accordent pas sur l'histoire politique des Toltèques. Étant donné que la plupart de l'histoire Toltèque se base sur la mythologie aztèque, certains prétendent qu'il n'y aurait jamais eu d'Empire Toltèque, mais que les références aztèques aux Toltèques étaient une allégorie de la civilisation."
+msgstr ""
+"Les Toltèques étaient une civilisation mésoaméricaine qui a existé du Xème "
+"au XIIème siècle. L'empire Toltèque fut fondé par Ce Mixcoatl Tecpatl, qui "
+"mena son peuple nomade depuis le Nord pour se fixer dans la Haute Plaine "
+"Mexicaine. Mixcoatl fut assassiné par ses ennemis, mais fut plus tard vengé "
+"par son fils Topiltzin Ce Acatl Quetzalcoatl, qui mènerait la civilisation "
+"Toltèque à un niveau indicible. La culture Toltèque continua à prospérer "
+"jusqu'au XIIème siècle. Leur capitale Tollan fut violemment détruite en "
+"1168, et la région toltèque fragmentée en cités-états rivales. Des "
+"influences culturelles toltèques ont été identifiées du Nouveau Mexique au "
+"Nicaragua, bien que les historiens ne s'accordent pas sur l'histoire "
+"politique des Toltèques. Étant donné que la plupart de l'histoire Toltèque "
+"se base sur la mythologie aztèque, certains prétendent qu'il n'y aurait "
+"jamais eu d'Empire Toltèque, mais que les références aztèques aux Toltèques "
+"étaient une allégorie de la civilisation."
 
 #: data/nation/tongan.ruleset:3
 msgid "Tongan"
@@ -46168,8 +46182,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "* Can build fortresses (if any of the following are known: %s).\n"
 #~ msgstr ""
-#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi "
-#~ "%s).\n"
+#~ "* Peut construire des forteresses (si connaissance de 1 au moins parmi %"
+#~ "s).\n"
 
 #~ msgid "* Can build airbases.\n"
 #~ msgstr "* Peut construire des bases aériennes.\n"
@@ -46295,8 +46309,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
 #~ "when not celebrating.\n"
 #~ msgstr ""
-#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1 quand la ville n'est pas en extase.\n"
+#~ "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1 quand la ville n'est pas en extase.\n"
 
 #~ msgid ""
 #~ "* Each worked tile with at least 1 %s will yield %d more of it when "
@@ -49149,8 +49163,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr ""
-#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion "
-#~ "%s."
+#~ "Le niveau d'accès aux commandes ne peut être à \"%s\" pour la connexion %"
+#~ "s."
 
 #~ msgid "Observers cannot vote."
 #~ msgstr "Les observateurs ne peuvent pas voter."
@@ -49286,8 +49300,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Votre %1$s a réussi à soudoyer %3$s de %2$s et a acquis de l'expérience."
 
 #~ msgid ""
-#~ "Your %s has successfully completed her mission and returned unharmed to "
-#~ "%s and has become more experienced."
+#~ "Your %s has successfully completed her mission and returned unharmed to %"
+#~ "s and has become more experienced."
 #~ msgstr ""
 #~ "Votre %s a rempli sa mission avec succès, est revenu sain et sauf à %s et "
 #~ "a acquis de l'expérience."
@@ -49318,8 +49332,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 #~ "became more experienced!"
 #~ msgstr[0] ""
-#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre "
-#~ "unité)%5$s et a acquis de l'expérience !"
+#~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autre unité)%"
+#~ "5$s et a acquis de l'expérience !"
 #~ msgstr[1] ""
 #~ "Votre %1$s a réussi son attaque contre %3$s de %2$s (et %4$d autres "
 #~ "unités)%5$s et a acquis de l'expérience !"
@@ -49434,8 +49448,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgstr "Impossible de copier le texte sur l'affichage : %s"
 
 #~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: "
-#~ "%s"
+#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
+#~ "s"
 #~ msgstr ""
 #~ "Erreur dans SDL_create_str16_surf : impossible de convertir le texte au "
 #~ "format d'affichage : %s"
@@ -50379,8 +50393,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 
 #~ msgid "Couldn't open gamelogfile \"%s\" for appending."
 #~ msgstr ""
-#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter "
-#~ "\"%s\"."
+#~ "Impossible d'ouvrir le fichier de journal de parties %s pour y ajouter \"%"
+#~ "s\"."
 
 #~ msgid "Detail level for logging game events"
 #~ msgstr "Niveau de détail pour la journalisation"
@@ -50576,8 +50590,8 @@ msgstr "Vous jouez Freeciv avec les règles standard."
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 #~ msgstr ""
-#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de "
-#~ "-1.\n"
+#~ "* Chaque case travaillée qui rend plus de %d %s subira une pénalité de -"
+#~ "1.\n"
 
 #~ msgid ""
 #~ "* Each worked tile that gives more than %d %s will suffer a -1 penalty "

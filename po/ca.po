@@ -11,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-27 00:28+0200\n"
+"POT-Creation-Date: 2012-03-31 13:25+0100\n"
 "PO-Revision-Date: 2012-03-27 00:32+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: Lokalize 1.2\n"
 
@@ -812,13 +812,13 @@ msgstr "equip %s"
 msgid "team %d"
 msgstr "equip %d"
 
-#: common/tech.c:886
+#: common/tech.c:888
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Tecnologia del futur %d"
 
 #. TRANS: "None" tech
-#: common/tech.c:957 common/tech.c:960 server/settings.h:59
+#: common/tech.c:959 common/tech.c:962 server/settings.h:59
 #: client/gui-gtk-2.0/helpdlg.c:123 client/gui-sdl/citydlg.c:722
 #: client/gui-sdl/gui_tilespec.c:486 client/gui-sdl/helpdlg.c:376
 #: client/gui-sdl/helpdlg.c:802 client/gui-sdl/helpdlg.c:828
@@ -829,12 +829,12 @@ msgstr "Tecnologia del futur %d"
 msgid "None"
 msgstr "Cap"
 
-#: common/tech.c:963
+#: common/tech.c:965
 msgid "Future Tech."
 msgstr "Tecnologia del futur"
 
 #. TRANS: "Unknown" advance/technology
-#: common/tech.c:967 client/gui-gtk-2.0/inteldlg.c:403
+#: common/tech.c:969 client/gui-gtk-2.0/inteldlg.c:403
 msgid "(Unknown)"
 msgstr "(Desconegut)"
 
@@ -1441,8 +1441,8 @@ msgstr "*%s (IA)* Primer trenca l'aliança amb %s, %s."
 #: ai/advdiplomacy.c:341
 #, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, "
-"%s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
+"s."
 msgstr ""
 "*%s (IA)* M'agradaria que mantinguessis les distàncies amb %s una estona, %s."
 
@@ -1707,8 +1707,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1611
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
-"%s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
+"s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (IA)* Salutacions aliat, veig que encara no has declarat la guerra al "
 "nostre enemic %s. Com és que t'he de recordar les teves promeses?"
@@ -2302,8 +2302,8 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida "
-"%d.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, la ciutat ha de ser de mida %"
+"d.  S'ajorna..."
 
 #: server/cityturn.c:1162
 #, c-format
@@ -2320,8 +2320,8 @@ msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, necessita classe de terreny "
-"%s.  S'ajorna..."
+"%s no pot construir %s de la llista de treball, necessita classe de terreny %"
+"s.  S'ajorna..."
 
 #: server/cityturn.c:1202
 #, c-format
@@ -3607,9 +3607,9 @@ msgid ""
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Desar la partida actual al fitxer <nom-fitxer>. Si no s'especifica cap nom "
-"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[."
-"gz]\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar "
-"el servidor amb l'argument de la línia de comanda: \n"
+"de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]"
+"\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar el "
+"servidor amb l'argument de la línia de comanda: \n"
 "    '--file <nomfitxer>' o '-f <nomfitxer>'\n"
 "i usar la comanda 'start' un cop els jugadors s'hagin reconnectat."
 
@@ -4510,8 +4510,8 @@ msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
-"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors "
-"(%d)."
+"No es poden afegir més jugadors perquè s'ha arribat al màxim de jugadors (%"
+"d)."
 
 #: server/edithand.c:992
 #, c-format
@@ -4519,8 +4519,8 @@ msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
-"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir "
-"%d)."
+"No es poden afegir més jugadors perquè no queden nacions (se'n fan servir %"
+"d)."
 
 #: server/edithand.c:1001
 msgid "Player cannot be created because random nation selection failed."
@@ -5043,8 +5043,8 @@ msgstr ""
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
 msgstr ""
-"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el "
-"%1$s."
+"L'informe de %2$s sobre les civilitzacions MÉS MILITARITZADES del món el %1"
+"$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:91
@@ -5757,8 +5757,8 @@ msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"help "
 "allowtake\"."
 msgstr ""
-"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: "
-"'%c'. Prova \"help allowtake\"."
+"La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: '%"
+"c'. Prova \"help allowtake\"."
 
 #: server/settings.c:610
 #, c-format
@@ -5798,8 +5798,8 @@ msgstr ""
 #: server/settings.c:669
 #, c-format
 msgid ""
-"Requested value (%d) is greater than number of available start positions "
-"(%d). Keeping old value."
+"Requested value (%d) is greater than number of available start positions (%"
+"d). Keeping old value."
 msgstr ""
 "El valor sol·licitat (%d) és més gran que el nombre de posicions d'inici "
 "disponibles (%d). Es manté el valor anterior."
@@ -8352,8 +8352,8 @@ msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
 msgstr ""
-"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió "
-"'%s'; només tens '%s'."
+"No es pot disminuir el nivell d'accés de comanda '%s' per a la connexió '%"
+"s'; només tens '%s'."
 
 #: server/stdinhand.c:1316
 #, c-format
@@ -8679,8 +8679,8 @@ msgstr "Votació"
 #: server/stdinhand.c:2293
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
-"%d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
+"d players."
 msgstr ""
 "%s %d \"%s\" (cal %0.0f%%%s): %d a favor, %d en contra, i %d abstencions "
 "sobre %d jugadors."
@@ -11077,8 +11077,8 @@ msgstr "servidor desconnectat"
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
-"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de "
-"%d intents"
+"No s'ha pogut contactar el servidor \"%s\" port %d com a  \"%s\" després de %"
+"d intents"
 
 #: client/clinet.c:527
 msgid "Connection to server refused. Please start the server."
@@ -18680,8 +18680,8 @@ msgstr "No s'ha pogut convertir la imatge des de l'arxiu %s al format %d."
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 msgstr ""
-"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format "
-"%d"
+"No s'ha pogut crear l'Sprite (superfície) de mida %d x %d %d Bits en format %"
+"d"
 
 #: client/gui-sdl/graphics.c:564
 #, c-format
@@ -32679,8 +32679,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely "
-"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely 8-"
+"18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
