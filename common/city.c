@@ -1402,18 +1402,21 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
 **************************************************************************/
 int get_city_min_trade_route(const struct city *pcity, int *slot)
 {
-  int i, value = pcity->trade_value[0];
+  int i;
+  int value = 0;
+  bool found = FALSE;
 
   if (slot) {
     *slot = 0;
   }
   /* find min */
-  for (i = 1; i < NUM_TRADE_ROUTES; i++) {
-    if (value > pcity->trade_value[i]) {
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+    if (pcity->trade[i] && (!found || value > pcity->trade_value[i])) {
       if (slot) {
 	*slot = i;
       }
       value = pcity->trade_value[i];
+      found = TRUE;
     }
   }
 
