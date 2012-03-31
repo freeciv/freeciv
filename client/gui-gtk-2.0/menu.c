@@ -1228,6 +1228,18 @@ static void base_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
+/****************************************************************************
+  The player has chosen a road to build from the menu.
+****************************************************************************/
+static void road_callback(GtkMenuItem *item, gpointer data)
+{
+  struct road_type *proad = data;
+
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_new_unit_activity_road(punit, proad);
+  } unit_list_iterate_end;
+}
+
 /****************************************************************
   Action "CENTER_VIEW" callback.
 *****************************************************************/
@@ -1543,6 +1555,7 @@ static GtkActionGroup *get_unit_group(void)
       {"MENU_WORK", NULL, _("_Work"), NULL, NULL, NULL},
       {"MENU_COMBAT", NULL, _("_Combat"), NULL, NULL, NULL},
       {"MENU_BUILD_BASE", NULL, _("Build _Base"), NULL, NULL, NULL},
+      {"MENU_BUILD_PATH", NULL, _("Build _Path"), NULL, NULL, NULL}
     };
 
     const GtkActionEntry action_entries[] = {
@@ -2067,6 +2080,23 @@ void real_menus_update(void)
     g_list_free(list);
   }
 
+  /* Set road sensitivity. */
+  if ((menu = find_action_menu(unit_group, "MENU_BUILD_PATH"))) {
+    GList *list, *iter;
+    struct road_type *proad;
+
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      proad = g_object_get_data(G_OBJECT(iter->data), "road");
+      if (NULL != proad) {
+        gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
+                                 can_units_do_road(punits,
+                                                   road_number(proad)));
+      }
+    }
+    g_list_free(list);
+  }
+
   /* Enable the button for adding to a city in all cases, so we
    * get an eventual error message from the server if we try. */
   menus_set_sensitive(unit_group, "BUILD_CITY",
@@ -2394,6 +2424,27 @@ void real_menus_init(void)
         gtk_widget_show(item);
       }
     } base_type_iterate_end;
+  }
+
+  if ((menu = find_action_menu(unit_group, "MENU_BUILD_PATH"))) {
+    GList *list, *iter;
+    GtkWidget *item;
+
+    /* Remove previous road entries. */
+    list = gtk_container_get_children(GTK_CONTAINER(menu));
+    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+      gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+    g_list_free(list);
+
+    /* Add new road entries. */
+    road_type_iterate(r) {
+      item = gtk_menu_item_new_with_label(road_name_translation(r));
+      g_object_set_data(G_OBJECT(item), "road", r);
+      g_signal_connect(item, "activate", G_CALLBACK(road_callback), r);
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      gtk_widget_show(item);
+    } road_type_iterate_end;
   }
 
   gtk_action_group_set_sensitive(safe_group, TRUE);

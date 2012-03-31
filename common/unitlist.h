@@ -68,6 +68,8 @@ bool can_units_do_activity(const struct unit_list *punits,
 			   enum unit_activity activity);
 bool can_units_do_base(const struct unit_list *punits,
                        Base_type_id base);
+bool can_units_do_road(const struct unit_list *punits,
+                       Road_type_id road);
 bool can_units_do_base_gui(const struct unit_list *punits,
                            enum base_gui_type base_gui);
 bool can_units_do_diplomat_action(const struct unit_list *punits,

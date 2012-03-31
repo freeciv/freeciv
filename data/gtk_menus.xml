@@ -111,6 +111,10 @@
       <menuitem action="AUTO_SETTLER" />
       <separator />
       <menuitem action="BUILD_ROAD" />
+      <menu action="MENU_BUILD_PATH">
+        <!-- The buildable road list is ruleset dependent -->
+        <menuitem action="NULL" />
+      </menu>
       <menuitem action="BUILD_IRRIGATION" />
       <menuitem action="BUILD_MINE" />
       <separator />
