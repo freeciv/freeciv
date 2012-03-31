@@ -41,7 +41,7 @@
   current | (mapped to current savegame format)            | ----/--/-- |  0
           | first version (svn17538)                       | 2010/07/05 |  -
   2.3.0   | 2.3.0 release                                  | 2010/11/?? |  3
-  2.4.0   | 2.4.0 release (development)                    | 20../../.. | 10
+  2.4.0   | 2.4.0 release                                  | 20../../.. | 10
           | * player ai type                               |            |
           | * delegation                                   |            |
           | * citizens                                     |            |
@@ -5907,7 +5907,7 @@ static struct compatibility compat[] = {
    * from previous format */
   { 3, { "2.3.0", N_("freeciv 2.3.0") }, NULL, NULL },
   /* version 4 to 9 are reserved for possible changes in 2.3.x */
-  { 10, { "2.4.0", N_("freeciv 2.4.0 (development)") },
+  { 10, { "2.4.0", N_("freeciv 2.4.0") },
     compat_load_020400, compat_save_020400},
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
