@@ -1186,7 +1186,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_EXPLORE:
-    return (is_ground_unit(punit) || is_sailing_unit(punit));
+    return (!unit_type(punit)->fuel && !is_losing_hp(punit));
 
   case ACTIVITY_TRANSFORM:
     return (terrain_control.may_transform
