@@ -18,6 +18,8 @@
 
 #include "tolua.h"
 
+#include "tolua_event.h"
+
 /* Store at peer
 	* It stores, creating the corresponding table if needed,
 	* the pair key/value in the corresponding peer table

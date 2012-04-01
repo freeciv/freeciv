@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+int tolua_bnd_takeownership(lua_State *L);
 
 static char toluaname[128] = "tolua.";
 static const char* TOLUANAME (const char* n)  

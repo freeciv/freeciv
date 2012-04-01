@@ -22,6 +22,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef LUA_SOURCE
+int tolua_tolua_open(lua_State *L);
+#endif
+
 
 static void help (void)
 {
@@ -106,7 +110,6 @@ int main (int argc, char* argv[])
 
 #ifndef LUA_SOURCE
  {
-  int tolua_tolua_open (lua_State* L);
   tolua_tolua_open(L);
  }
 #else
