@@ -1699,6 +1699,11 @@ static void map_claim_ownership_full(struct tile *ptile,
 
   tile_set_owner(ptile, powner, psource);
 
+  /* Needed only when foggedborders enabled, but we do it unconditionally
+   * in case foggedborders ever gets enabled later. Better to have correct
+   * information in player map just in case. */
+  update_tile_knowledge(ptile);
+
   if (ploser != powner) {
     if (S_S_RUNNING == server_state() && game.info.happyborders > 0) {
       map_unit_homecity_enqueue(ptile);
