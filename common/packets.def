@@ -1234,6 +1234,9 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   UINT8 fallout_tile_penalty[O_LAST]; /* % taken from output if polluted */
 end
 
+PACKET_RULESETS_READY = 221; sc, lsend
+end
+
 PACKET_RULESET_NATION_GROUPS = 147; sc, lsend
   UINT8 ngroups;
   STRING groups[MAX_NUM_NATION_GROUPS:ngroups][MAX_LEN_NAME];

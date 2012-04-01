@@ -4077,7 +4077,9 @@ void send_rulesets(struct conn_list *dest)
 {
   conn_list_compression_freeze(dest);
 
+  /* ruleset_control also indicates to client that ruleset sending starts. */
   send_ruleset_control(dest);
+
   send_ruleset_game(dest);
   send_ruleset_team_names(dest);
   send_ruleset_techs(dest);
@@ -4092,6 +4094,13 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
   send_ruleset_cache(dest);
+
+  /* Indicate client that all rulesets have now been sent. */
+  conn_list_iterate(dest, pconn) {
+    if (has_capability("rules_finished", pconn->capability)) {
+      lsend_packet_rulesets_ready(pconn->self);
+    }
+  } conn_list_iterate_end;
 
   /* changed game settings will be send in
    * connecthand.c:establish_new_connection() */

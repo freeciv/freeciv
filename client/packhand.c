@@ -2643,6 +2643,15 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
 }
 
 /****************************************************************************
+  Received packet indicating that all rulesets have now been received.
+****************************************************************************/
+void handle_rulesets_ready(void)
+{
+  /* We are not going to crop any more sprites from big sprites, free them. */
+  finish_loading_sprites(tileset);
+}
+
+/****************************************************************************
   Packet ruleset_unit_class handler.
 ****************************************************************************/
 void handle_ruleset_unit_class(const struct packet_ruleset_unit_class *p)
