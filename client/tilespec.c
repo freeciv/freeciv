@@ -2701,7 +2701,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   call.  This saves a fair amount of memory, but it will take extra time
   the next time we start loading sprites again.
 **************************************************************************/
-static void finish_loading_sprites(struct tileset *t)
+void finish_loading_sprites(struct tileset *t)
 {
   specfile_list_iterate(t->specfiles, sf) {
     if (sf->big_sprite) {
