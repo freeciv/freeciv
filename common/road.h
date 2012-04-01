@@ -74,7 +74,7 @@ bool is_native_road_to_uclass(const struct road_type *proad,
 bool can_build_road(struct road_type *road,
 		    const struct unit *punit,
 		    const struct tile *ptile);
-bool player_can_build_road(struct road_type *road,
+bool player_can_build_road(const struct road_type *road,
 			   const struct player *pplayer,
 			   const struct tile *ptile);
 

@@ -642,6 +642,7 @@ static void contemplate_terrain_improvements(struct city *pcity)
   struct unit *virtualunit;
   int want;
   enum unit_activity best_act;
+  struct act_tgt best_target;
   struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
@@ -659,7 +660,8 @@ static void contemplate_terrain_improvements(struct city *pcity)
   /* Advisors data space not allocated as it's not needed in the
      lifetime of the virtualunit. */
   unit_tile_set(virtualunit, pcenter);
-  want = settler_evaluate_improvements(virtualunit, &best_act, &best_tile,
+  want = settler_evaluate_improvements(virtualunit, &best_act, &best_target,
+                                       &best_tile,
                                        NULL, NULL);
   want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
          / (40 + unit_foodbox_cost(virtualunit));

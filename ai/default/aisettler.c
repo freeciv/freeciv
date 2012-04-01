@@ -984,6 +984,7 @@ void dai_auto_settler_run(struct player *pplayer, struct unit *punit,
 {
   int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
+  struct act_tgt best_target;
   struct tile *best_tile = NULL;
   struct pf_path *path = NULL;
 
@@ -1040,8 +1041,8 @@ BUILD_CITY:
 
   if (unit_has_type_flag(punit, F_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
-    best_impr = settler_evaluate_improvements(punit, &best_act, &best_tile, 
-                                              &path, state);
+    best_impr = settler_evaluate_improvements(punit, &best_act, &best_target,
+                                              &best_tile, &path, state);
     UNIT_LOG(LOG_DEBUG, punit, "impr want %d", best_impr);
     if (path) {
       completion_time = pf_path_last_position(path)->turn;
@@ -1100,7 +1101,7 @@ BUILD_CITY:
   }
 
   auto_settler_setup_work(pplayer, punit, state, 0, path,
-                          best_tile, best_act,
+                          best_tile, best_act, &best_target,
                           completion_time);
 
 CLEANUP:

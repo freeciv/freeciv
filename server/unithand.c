@@ -66,9 +66,6 @@
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
                        const char *name);
-static void unit_activity_handling_targeted(struct unit *punit,
-					    enum unit_activity new_activity,
-					    struct act_tgt *new_target);
 static void unit_activity_handling_base(struct unit *punit,
                                         Base_type_id base);
 static void unit_activity_handling_road(struct unit *punit,
@@ -2059,9 +2056,9 @@ void unit_activity_handling(struct unit *punit,
 /**************************************************************************
   Handle request for targeted activity.
 **************************************************************************/
-static void unit_activity_handling_targeted(struct unit *punit,
-					    enum unit_activity new_activity,
-					    struct act_tgt *new_target)
+void unit_activity_handling_targeted(struct unit *punit,
+                                     enum unit_activity new_activity,
+                                     struct act_tgt *new_target)
 {
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity);
