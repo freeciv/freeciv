@@ -278,7 +278,7 @@ static int reverse_move_unit(const struct tile *tile0,
 {
   int move_cost = PF_IMPOSSIBLE_MC;
 
-  if (!is_native_to_class(param->uclass, ptile)) {
+  if (!is_native_tile_to_class(param->uclass, ptile)) {
     if (unit_class_transporter_capacity(ptile, param->owner,
                                         param->uclass) > 0) {
       /* Landing */
@@ -344,7 +344,7 @@ static int reverse_igter_move_unit(const struct tile *tile0,
 {
   int move_cost;
 
-  if (!is_native_to_class(param->uclass, ptile)) {
+  if (!is_native_tile_to_class(param->uclass, ptile)) {
     if (unit_class_transporter_capacity(ptile, param->owner,
                                         param->uclass) > 0) {
       /* Landing */
@@ -352,7 +352,7 @@ static int reverse_igter_move_unit(const struct tile *tile0,
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (!is_native_to_class(param->uclass, tile0)) {
+  } else if (!is_native_tile_to_class(param->uclass, tile0)) {
     /* Boarding */
     move_cost = MOVE_COST_ROAD;
   } else {
