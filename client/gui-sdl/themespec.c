@@ -938,7 +938,7 @@ static void theme_lookup_sprite_tags(struct theme *t)
   call.  This saves a fair amount of memory, but it will take extra time
   the next time we start loading sprites again.
 **************************************************************************/
-static void finish_loading_sprites(struct theme *t)
+static void theme_finish_loading_sprites(struct theme *t)
 {
   specfile_list_iterate(t->specfiles, sf) {
     if (sf->big_sprite) {
@@ -947,6 +947,7 @@ static void finish_loading_sprites(struct theme *t)
     }
   } specfile_list_iterate_end;
 }
+
 /**********************************************************************
   Load the tiles; requires themespec_read_toplevel() called previously.
   Leads to tile_sprites being allocated and filled with pointers
@@ -956,7 +957,7 @@ static void finish_loading_sprites(struct theme *t)
 void theme_load_sprites(struct theme *t)
 {
   theme_lookup_sprite_tags(t);
-  finish_loading_sprites(t);
+  theme_finish_loading_sprites(t);
 }
 
 /**********************************************************************
