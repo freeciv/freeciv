@@ -301,7 +301,7 @@ struct fc_lua *luascript_new(luascript_log_func_t output_fct)
 {
   struct fc_lua *fcl = fc_calloc(1, sizeof(*fcl));
 
-  fcl->state = lua_open();
+  fcl->state = luaL_newstate();
   if (!fcl->state) {
     return NULL;
   }
