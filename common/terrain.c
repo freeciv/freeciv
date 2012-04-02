@@ -894,10 +894,6 @@ bool get_preferred_pillage(struct act_tgt *tgt,
     }
   } base_type_iterate_end;
 
-#if 0
-  /* TODO: Use this code that handles roads as road types and not as
-   *       special types once it's possible. Currently savegame format
-   *       does not support having road type as activity target. */
   road_type_iterate(proad) {
     if (BV_ISSET(roads, road_index(proad))) {
       tgt->type = ATT_ROAD;
@@ -905,18 +901,6 @@ bool get_preferred_pillage(struct act_tgt *tgt,
       return TRUE;
     }
   } road_type_iterate_end;
-
-#else
-
-  if (contains_special(pset, S_RAILROAD)) {
-    tgt->obj.spe = S_RAILROAD;
-    return TRUE;
-  }
-  if (contains_special(pset, S_ROAD)) {
-    tgt->obj.spe = S_ROAD;
-    return TRUE;
-  }
-#endif
 
   return FALSE;
 }
