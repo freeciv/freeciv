@@ -196,6 +196,7 @@ data/default/cities.ruleset
 data/default/default.lua
 data/default/game.ruleset
 data/default/governments.ruleset
+data/default/nationlist.ruleset
 data/default/nations.ruleset
 # lua files are included nevertheless
 data/default/script.lua
