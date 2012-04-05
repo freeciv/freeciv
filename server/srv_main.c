@@ -1159,9 +1159,22 @@ void save_game(const char *orig_filename, const char *save_reason,
     if ('\0' == *dot) {
       /* Only dots in this file name, consider it as empty. */
       filename[0] = '\0';
-    } else if ((dot = strchr(dot, '.'))) {
-      /* Strikes extension. */
-      *dot = '\0';
+    } else {
+      char *end_dot;
+      char *strip_extensions[] = { ".sav", ".gz", ".bz2", NULL };
+      bool stripped = TRUE;
+
+      while ((end_dot = strrchr(dot, '.')) && stripped) {
+	int i;
+        stripped = FALSE;
+
+	for (i = 0; strip_extensions[i] != NULL && !stripped; i++) {
+          if (!strcmp(end_dot, strip_extensions[i])) {
+            *end_dot = '\0';
+            stripped = TRUE;
+          }
+        }
+      }
     }
   }
 
