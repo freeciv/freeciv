@@ -223,12 +223,19 @@ static void trydecpoint (LexState *ls, SemInfo *seminfo) {
 
 /* LUA_NUMBER */
 static void read_numeral (LexState *ls, SemInfo *seminfo) {
+  const char *expo = "Ee";
+  int first = ls->current;
   lua_assert(lisdigit(ls->current));
-  do {
-    save_and_next(ls);
-    if (check_next(ls, "EePp"))  /* exponent part? */
+  save_and_next(ls);
+  if (first == '0' && check_next(ls, "Xx"))  /* hexadecimal? */
+    expo = "Pp";
+  for (;;) {
+    if (check_next(ls, expo))  /* exponent part? */
       check_next(ls, "+-");  /* optional exponent sign */
-  } while (lislalnum(ls->current) || ls->current == '.');
+    if (lisxdigit(ls->current) || ls->current == '.')
+      save_and_next(ls);
+    else  break;
+  }
   save(ls, '\0');
   buffreplace(ls, '.', ls->decpoint);  /* follow locale for decimal point */
   if (!buff2d(ls->buff, &seminfo->r))  /* format error? */
