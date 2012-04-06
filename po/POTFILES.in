@@ -82,6 +82,7 @@ client/gui-gtk-3.0/optiondlg.c
 client/gui-gtk-3.0/pages.c
 client/gui-gtk-3.0/plrdlg.c
 client/gui-gtk-3.0/repodlgs.c
+client/gui-gtk-3.0/soundset_dlg.c
 client/gui-gtk-3.0/spaceshipdlg.c
 client/gui-gtk-3.0/theme_dlg.c
 client/gui-gtk-3.0/tileset_dlg.c
