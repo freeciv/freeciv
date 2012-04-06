@@ -1161,3 +1161,12 @@ void popdown_all_game_dialogs(void)
   property_editor_popdown(editprop_get_property_editor());
   unit_select_dialog_popdown();
 }
+
+/****************************************************************
+  Ruleset (modpack) has suggested loading certain soundset. Confirm from
+  user and load.
+*****************************************************************/
+void popup_soundset_suggestion_dialog(void)
+{
+  /* PORTME */
+}

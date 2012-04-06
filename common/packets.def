@@ -1481,6 +1481,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
   UINT16 num_specialist_types;
 
   STRING prefered_tileset[MAX_LEN_NAME];
+  STRING prefered_soundset[MAX_LEN_NAME];
 
   STRING name[MAX_LEN_NAME];
   STRING description[MAX_LEN_PACKET];

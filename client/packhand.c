@@ -2785,6 +2785,14 @@ void handle_ruleset_control(const struct packet_ruleset_control *packet)
       popup_tileset_suggestion_dialog();
     }
   }
+
+  if (packet->prefered_soundset[0] != '\0') {
+    /* There is soundset suggestion */
+    if (strcmp(packet->prefered_soundset, sound_set_name)) {
+      /* It's not currently in use */
+      popup_soundset_suggestion_dialog();
+    }
+  }
 }
 
 /****************************************************************************

@@ -3462,6 +3462,16 @@ static void load_ruleset_game(void)
     game.control.prefered_tileset[0] = '\0';
   }
 
+  /* section: soundset */
+  text = secfile_lookup_str_default(file, "", "soundset.prefered");
+  if (text[0] != '\0') {
+    /* There was soundset suggestion */
+    sz_strlcpy(game.control.prefered_soundset, text);
+  } else {
+    /* No soundset suggestions */
+    game.control.prefered_soundset[0] = '\0';
+  }
+
   /* section: about */
   text = secfile_lookup_str(file, "about.name");
   /* Ruleset/modpack name found */
