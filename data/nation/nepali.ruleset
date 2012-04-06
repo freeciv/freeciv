@@ -37,7 +37,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="indian", "sikkimese"
+civilwar_nations="sherpa", "sikkimese"
 
 cities = 
  "Kathmandu",

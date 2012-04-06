@@ -428,6 +428,7 @@ artists = "
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
    Shan			Daniel Markstedt
    Shawnee		Daniel Markstedt
+   Sherpa		Daniel Markstedt
    Siberia		Daniel Markstedt
    Sicily		Lexicon (Wikimedia Commons)
    Sierra Leone		J.M. Maalderink
@@ -955,6 +956,7 @@ sprites =
 		"f.serbia", "flags/serbia"
 		"f.shan", "flags/shan"
 		"f.shawnee", "flags/shawnee"
+		"f.sherpa", "flags/sherpa"
 		"f.siberia", "flags/siberia"
 		"f.sicily", "flags/sicily"
 		"f.sierra_leone", "flags/sierra_leone"

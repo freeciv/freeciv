@@ -411,6 +411,7 @@ pkgdata_DATA = \
 		serbian.ruleset \
 		shan.ruleset \
 		shawnee.ruleset \
+		sherpa.ruleset \
 		siberian.ruleset \
 		sicilian.ruleset \
 		sierraleonean.ruleset \
