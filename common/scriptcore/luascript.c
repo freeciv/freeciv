@@ -59,7 +59,8 @@
   * Reading files and running processes
   * Loading lua files or libraries
 *****************************************************************************/
-#define LUASCRIPT_SECURE_LUA_VERSION 501
+#define LUASCRIPT_SECURE_LUA_VERSION1 502
+#define LUASCRIPT_SECURE_LUA_VERSION2 501
 
 static const char *luascript_unsafe_symbols[] = {
   "debug",
@@ -68,7 +69,7 @@ static const char *luascript_unsafe_symbols[] = {
   NULL
 };
 
-#if LUA_VERSION_NUM != LUASCRIPT_SECURE_LUA_VERSION
+#if LUA_VERSION_NUM != LUASCRIPT_SECURE_LUA_VERSION1 && LUA_VERSION_NUM != LUASCRIPT_SECURE_LUA_VERSION2
 #warning "The script runtime's unsafe symbols information is not up to date."
 #warning "This can be a big security hole!"
 #endif
