@@ -77,7 +77,7 @@ int main(int argc, char **argv)
     delete gui;
     delete qapp;
 
-    save_install_info_lists();
+    save_install_info_lists(&fcmp);
   }
 
   log_close();

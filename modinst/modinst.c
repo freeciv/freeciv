@@ -53,13 +53,34 @@ void load_install_info_lists(struct fcmp_params *fcmp)
 /**************************************************************************
   Save all changed install info lists.
 **************************************************************************/
-void save_install_info_lists(void)
+void save_install_info_lists(struct fcmp_params *fcmp)
 {
   if (main_list_changed) {
-    save_install_info_list(main_ii_filename, main_ii_list);
+    char controld[500];
+
+    fc_snprintf(controld, sizeof(controld),
+                "%s/" DATASUBDIR "/" FCMP_CONTROLD, fcmp->inst_prefix);
+
+    if (make_dir(controld)) {
+      save_install_info_list(main_ii_filename, main_ii_list);
+    } else {
+      log_error(_("Failed to create control directory \"%s\""),
+                controld);
+    }
   }
+
   if (scenario_list_changed) {
-    save_install_info_list(scenario_ii_filename, scenario_ii_list);
+    char controld[500];
+
+    fc_snprintf(controld, sizeof(controld),
+                "%s/scenarios/" FCMP_CONTROLD, fcmp->inst_prefix);
+
+    if (make_dir(controld)) {
+      save_install_info_list(scenario_ii_filename, scenario_ii_list);
+    } else {
+      log_error(_("Failed to create control directory \"%s\""),
+                controld);
+    }
   }
 
   install_info_list_iterate(scenario_ii_list, ii) {

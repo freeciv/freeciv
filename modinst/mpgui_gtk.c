@@ -60,7 +60,7 @@ static gboolean quit_dialog_callback(void);
 ****************************************************************/
 static void modinst_quit(void)
 {
-  save_install_info_lists();
+  save_install_info_lists(&fcmp);
 
   registry_module_close();
   free_nls();
@@ -402,7 +402,7 @@ int main(int argc, char *argv[])
 
     gtk_main();
 
-    save_install_info_lists();
+    save_install_info_lists(&fcmp);
   }
 
   log_close();

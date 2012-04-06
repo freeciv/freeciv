@@ -36,28 +36,6 @@
 #include "download.h"
 
 /**************************************************************************
-  Return path to control directory
-**************************************************************************/
-static char *control_dir(const struct fcmp_params *fcmp)
-{
-  static char controld[500] = { '\0' };
-
-  if (controld[0] != '\0') {
-    return controld;
-  }
-
-  if (fcmp->inst_prefix == NULL) {
-    return NULL;
-  }
-
-  fc_snprintf(controld, sizeof(controld),
-              "%s/" DATASUBDIR "/" FCMP_CONTROLD,
-              fcmp->inst_prefix);
-
-  return controld;
-}
-
-/**************************************************************************
   Message callback called by netfile module when downloading files.
 **************************************************************************/
 static void nf_cb(const char *msg, void *data)
@@ -77,7 +55,6 @@ const char *download_modpack(const char *URL,
                              dl_msg_callback mcb,
                              dl_pb_callback pbcb)
 {
-  char *controld;
   char local_dir[2048];
   char local_name[2048];
   int start_idx;
@@ -112,16 +89,6 @@ const char *download_modpack(const char *URL,
 
   if (fcmp->inst_prefix == NULL) {
     return _("Cannot install to given directory hierarchy");
-  }
-
-  controld = control_dir(fcmp);
-
-  if (controld == NULL) {
-    return _("Cannot determine control directory");
-  }
-
-  if (!make_dir(controld)) {
-    return _("Cannot create required directories");
   }
 
   if (mcb != NULL) {
@@ -284,20 +251,11 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
                                   modpack_list_setup_cb cb,
                                   dl_msg_callback mcb)
 {
-  const char *controld = control_dir(fcmp);
   struct section_file *list_file;
   const char *list_capstr;
   int modpack_count;
   const char *msg;
   const char *mp_name;
-
-  if (controld == NULL) {
-    return _("Cannot determine control directory");
-  }
-
-  if (!make_dir(controld)) {
-    return _("Cannot create required directories");
-  }
 
   list_file = netfile_get_section_file(fcmp->list_url, nf_cb, mcb);
 
