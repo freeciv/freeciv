@@ -27,9 +27,6 @@ endif
 if CLIENT_GUI_STUB
 GUI_SUBDIRS += gui-stub
 endif
-if CLIENT_GUI_WIN32
-GUI_SUBDIRS += gui-win32
-endif
 
 ALL_AUDIO_SDL_FILES=audio_sdl.c audio_sdl.h
 
@@ -248,23 +245,6 @@ freeciv_qt_LDADD = \
  $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
  $(MAPIMG_WAND_LIBS) \
  $(GUI_qt_LIBS)
-endif
-
-if CLIENT_GUI_WIN32
-bin_PROGRAMS += freeciv-win32
-noinst_LTLIBRARIES += libfcgui-win32.la
-libfcgui_win32_la_SOURCES = $(freeciv_client_src)
-libfcgui_win32_la_LIBADD = gui-win32/libgui-win32.la $(clientlibs)
-freeciv_win32_SOURCES = dummy.c
-freeciv_win32_LDFLAGS = $(GUI_win32_LDFLAGS) $(GGZMOD_LDFLAGS)
-freeciv_win32_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-win32.la \
- $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD) $(CLIENTICON) \
- $(LUA_LIBS) $(TOLUA_LIBS) $(LUASQL_LIBS) \
- $(MAPIMG_WAND_LIBS) \
- $(GUI_win32_LIBS)
 endif
 
 if CLIENT_GUI_STUB

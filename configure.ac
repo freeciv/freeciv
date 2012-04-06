@@ -231,11 +231,10 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/win32/stub]
+[  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/stub]
                           clients to compile [[auto]] (or list for multiple)
                           maintained clients: gtk2/sdl/xaw/stub
-                          clients in development: gtk3/qt
-                          unmaintained clients: win32],
+                          clients in development: gtk3/qt],
 [clients=${enableval}],
 [client=auto])
 
@@ -244,7 +243,6 @@ gui_gtk3=no
 gui_sdl=no
 gui_xaw=no
 gui_qt=no
-gui_win32=no
 gui_beos=no
 gui_stub=no
 
@@ -267,7 +265,7 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
          test "x$gui" = "xgtk-3.0" ; then
       gui_gtk3=yes
     elif test "x$gui" = "xgtk" ; then
-      AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since eaerlier versions])
+      AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since earlier versions])
       gui_gtk3=yes
     else
       if test ! -d "${srcdir}/client/gui-$gui" ; then
@@ -759,9 +757,6 @@ if test "x$client" != "xno"; then
     fi
   fi
 
-  dnl Win32-specific overrides
-  FC_WIN32_CLIENT
-
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
     found_client=yes
@@ -792,7 +787,6 @@ if test "x$client" = "xall" ; then
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_xaw" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
-     test "x$gui_win32" = "xyes" ||
      test "x$gui_beos" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
     client=yes
@@ -981,9 +975,6 @@ AC_SUBST([GUI_qt_CFLAGS])
 AC_SUBST([GUI_qt_CXXFLAGS])
 AC_SUBST([GUI_qt_LIBS])
 AC_SUBST([GUI_qt_LDFLAGS])
-AC_SUBST([GUI_win32_CFLAGS])
-AC_SUBST([GUI_win32_LIBS])
-AC_SUBST([GUI_win32_LDFLAGS])
 AC_SUBST([GUI_stub_CFLAGS])
 AC_SUBST([GUI_stub_LIBS])
 AC_SUBST([GUI_stub_LDFLAGS])
@@ -1007,7 +998,6 @@ AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_WIN32, test "x$gui_win32" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "x$gui_beos" = "xyes")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
@@ -1379,7 +1369,6 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-gtk-3.0/Makefile
 	  client/gui-xaw/Makefile
           client/gui-qt/Makefile
-	  client/gui-win32/Makefile
 	  client/gui-stub/Makefile
           client/luascript/Makefile
 	  server/Makefile
@@ -1466,10 +1455,6 @@ AC_MSG_NOTICE([
   (these are not yet ready for general use)
     Gtk-3.0: $gui_gtk3
     QT:      $gui_qt
-
-  Not maintained client frontends:
-  (no guarantee that they even compile)
-    Win32:   $gui_win32
 
   == Server ==
   Build freeciv server:  $server

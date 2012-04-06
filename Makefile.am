@@ -99,7 +99,6 @@ EXTRA_DIST=	autogen.sh 			\
 		m4/sqlite3.m4			\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\
-		m4/win32-client.m4		\
 		m4/xaw-client.m4		\
 		m4/x.m4				\
 		vms/config.h_vms		\
