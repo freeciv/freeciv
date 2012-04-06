@@ -3,19 +3,24 @@
 name=_("Boer")
 plural=_("?plural:Boers")
 groups= "African"
-legend=_("The Boers were Dutch settlers in British-controlled South\
- Africa from 1650 AD.  They briefly controlled two republics, the\
- Transvaal and the Orange Free State, before being defeated by the British\
- in the war of 1899-1902.")
+legend=_("The Boers were descendents of Dutch colonists who settled in\
+ South Africa after 1650 AD. After migrating into the hinterland after the\
+ British takeover of South Africa, they briefly controlled a number of\
+ republics, inclulcind the Transvaal and the Orange Free State, before\
+ being defeated by the British in the war of 1899-1902.")
 
 leaders = {
  "name",                "sex"
- "Jacobus Pretorius",   "Male"
- "Louis Botha",         "Male"
+ "Jan van Riebeeck",    "Male"
  "Wessel Pretorius",    "Male"
- "Paulus Krüger",       "Male"
  "Piet Retief",         "Male"
+ "Racheltjie de Beer",  "Female"
+ "Andries Pretorius",   "Male"
+ "Paulus Kruger",       "Male"
+ "Louis Botha",         "Male"
  "Jan Smuts",           "Male"
+ "Hendrik Verwoerd",    "Male"
+ "Pik Botha",           "Male"
 }
 
 ruler_titles = {
@@ -35,11 +40,42 @@ init_units=""
 civilwar_nations = "dutch"
 
 cities =
-  "Kaapstad", "Stellenbosch", "Swellendam", "Graaff-Reinet",
-  "Johannesburg", "Oudtshoorn", "Vereeniging",
-  "Bloemfontein", "Welkom", "Bethlehem", "Nieu-Bethesda",
-  "Pretoria", "De Aar", "Middelburg", "Springbok", "Uitenhage",
-  "Paarl", "Potchefstroom", "Leliesfontein", "Nelspruit",
-  "Pietermaritzburg", "Lydenburg", "Ermelo", "Klerksdorp",
-  "Vryburg", "Hotazel", "Postmasburg", "Pofadder", "Kenhardt",
-  "Vanrhynsdorp", "Bitterfontein", "Potgietersrus", "Waterkloof"
+ "Kaapstad",
+ "Stellenbosch",
+ "Swellendam",
+ "Graaff-Reinet",
+ "Johannesburg",
+ "Oudtshoorn",
+ "Vereeniging",
+ "Bloemfontein",
+ "Welkom",
+ "Bethlehem",
+ "Nieu-Bethesda",
+ "Pretoria",
+ "De Aar",
+ "Middelburg",
+ "Springbok",
+ "Uitenhage",
+ "Paarl",
+ "Potchefstroom",
+ "Leliesfontein",
+ "Nelspruit",
+ "Pietermaritzburg",
+ "Lydenburg",
+ "Ermelo",
+ "Klerksdorp",
+ "Vryburg",
+ "Hotazel",
+ "Postmasburg",
+ "Pofadder",
+ "Kenhardt",
+ "Vanrhynsdorp",
+ "Bitterfontein",
+ "Potgietersrus",
+ "Waterkloof",
+ "Utrecht",
+ "Piet Retief",
+ "Potchefstroom",
+ "Winburg",
+ "Rooigrond",
+ "Vryheid"

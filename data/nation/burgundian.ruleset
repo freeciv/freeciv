@@ -4,10 +4,10 @@ name=_("Burgundian")
 plural=_("?plural:Burgundians")
 groups="Medieval", "European"
 legend=_("After the fall of the Western Roman Empire, a Germanic people\
- known as the Burgundians settled in the Rhine Valley, lending their name\
- to the region. Centuries later, the Duchy of Burgundy was a prosperous\
- country with the court in Dijon outshining that of Paris. It is today one\
- of the regions of France.")
+ known as the Burgundians settled in the river valleys of eastern Gaul,\
+ lending their name to the region. Centuries later, the Duchy of Burgundy\
+ was a prosperous country with the court in Dijon outshining that of\
+ Paris. Today, it is today one of the regions of France.")
 
 leaders = {
  "name",                        "sex"
@@ -60,12 +60,21 @@ cities =
  "Charolles",
  "Château-Chinon",
  "Semur-en-Brionnais",
+ "Cluny",
+ "Vézelay",
+ "Langres",
+ "Châtillon-sur-Seine",
+ "Auxonne",
+ "Paray-le-Monial",
+ "Cuiseaux",
 
 ; Franche-Comté
  "Besançon",
  "Pontarlier",
  "Vesoul",
- "Saint-Claude",
+ "Dole",
  "Luxeuil",
+ "Lons-le-Saunier",
+ "Saint-Claude",
  "Auxonne",
  "Poligny"

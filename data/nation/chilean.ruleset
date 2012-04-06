@@ -4,10 +4,11 @@ name=_("Chilean")
 plural=_("?plural:Chileans")
 groups="Modern", "American"
 legend=_("Chile is located on the south-western coast of South America.\
- At the expense of Bolivia, Peru and the indigenous Mapuche people, Chile\
- more than doubled its territory in the 19th century. Always having been\
- more stable and prosperous than its neighbors, Chile currently is the\
- most developed country of Latin America.")
+ Chile declared its independence from Spain in 1810. At the expense of\
+ Bolivia, Peru and the indigenous Mapuche people, Chile more than doubled\
+ its territory in the 19th century. Often having been more stable and\
+ prosperous than its neighbors, Chile currently is the most developed\
+ country of Latin America.")
 
 leaders = {
  "name",                        "sex"

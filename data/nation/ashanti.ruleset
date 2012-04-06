@@ -3,8 +3,9 @@
 name=_("Ashanti") 
 plural=_("?plural:Ashantis") 
 groups="African", "Medieval", "Early Modern" 
-legend=_("The Ashanti were an ancient kingdom in part of modern Ghana. The\
- first Ashanti kingdom was founded in the 11th century.")
+legend=_("The Ashanti were an ancient kingdom in a region that is\
+ currently a part of Ghana. The first Ashanti kingdom was founded in the\
+ 11th century.")
 
 leaders = {
  "name",                "sex"
