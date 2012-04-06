@@ -144,6 +144,7 @@ static bool manual_command(void)
   load_rulesets();
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
     int i;
+    int ri;
 
     fc_snprintf(filename, sizeof(filename), "manual%d.html", manuals + 1);
 
@@ -278,13 +279,24 @@ static bool manual_command(void)
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
       fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
-              _("Irrigation"), _("Mining"), _("Road"), _("Transform"), _("turns"));
-      fprintf(doc, "<th>%s<br/>%s<br/>%s</th></tr>\n\n",
-              _("Rail"),
+              _("Irrigation"), _("Mining"), _("Transform"), _("% of Road bonus"), _("turns"));
+      fprintf(doc, "<th>%s<br/>%s</th>",
               _("Clean pollution"), _("Clean fallout"));
+      ri = 0;
+      if (game.control.num_road_types > 0) {
+        fprintf(doc, "<th>");
+      }
+      road_type_iterate(proad) {
+        if (++ri < game.control.num_road_types) {
+          fprintf(doc, "%s<br/>", road_name_translation(proad));
+        } else {
+          /* Last one */
+          fprintf(doc, "%s</th>", road_name_translation(proad));
+        }
+      } road_type_iterate_end;
+      fprintf(doc, "</tr>\n\n");
       terrain_type_iterate(pterrain) {
         struct resource **r;
-        struct road_type *proad;
 
         if (0 == strlen(terrain_rule_name(pterrain))) {
           /* Must be a disabled piece of terrain */
@@ -333,39 +345,38 @@ static bool manual_command(void)
                   terrain_name_translation(pterrain->mining_result),
                   pterrain->mining_time);
         }
-        proad = road_by_special(S_ROAD);
-        fprintf(doc, "<tr><td>+%d%% %d%% %d%%</td><td align=\"right\">",
+
+        if (pterrain->transform_result) {
+          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
+                  terrain_name_translation(pterrain->transform_result),
+                  pterrain->transform_time);
+        } else {
+          fprintf(doc, "<tr><td>-</td><td align=\"right\">(-)</td></tr>\n");
+        }
+        fprintf(doc, "<tr><td>%d / %d / %d</td></tr>\n</table></td>\n",
                 pterrain->road_output_incr_pct[O_FOOD],
                 pterrain->road_output_incr_pct[O_SHIELD],
                 pterrain->road_output_incr_pct[O_TRADE]);
 
-        if (proad != NULL) {
-          fprintf(doc, "(%d)", terrain_road_time(pterrain, road_number(proad)));
-        } else {
-          fprintf(doc, "(n/a)");
-        }
-
-        fprintf(doc, "</td></tr>\n");
-
-        if (pterrain->transform_result) {
-          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
-                  terrain_name_translation(pterrain->transform_result),
-                  pterrain->transform_time);
-        } else {
-          fprintf(doc, "<tr><td>-</td><td align=\"right\">(-)</td></tr>\n</table></td>\n");
-        }
-
-        fprintf(doc, "<td align=\"center\">");
-
-        proad = road_by_special(S_RAILROAD);
-        if (proad != NULL) {
-          fprintf(doc, "%d ", terrain_road_time(pterrain, road_number(proad)));
-        } else {
-          fprintf(doc, "n/a ");
-        }
-        fprintf(doc, "/ %d / %d</td></tr>\n\n",
+        fprintf(doc, "<td align=\"center\">%d / %d</td>",
                 pterrain->clean_pollution_time, pterrain->clean_fallout_time);
+
+        ri = 0;
+        if (game.control.num_road_types > 0) {
+          fprintf(doc, "<td>");
+        }
+        road_type_iterate(proad) {
+          if (++ri < game.control.num_road_types) {
+            fprintf(doc, "%d / ", terrain_road_time(pterrain,
+                                                   road_number(proad)));
+          } else {
+            fprintf(doc, "%d</td>", terrain_road_time(pterrain,
+                                                      road_number(proad)));
+          }
+        } road_type_iterate_end;
+        fprintf(doc, "</tr>\n\n");
       } terrain_type_iterate_end;
+
       fprintf(doc, "</table>\n");
 
       break;
