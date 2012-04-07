@@ -94,35 +94,17 @@ void road_types_free(void)
 }
 
 /****************************************************************************
-  Return activity that is required in order to build given road type.
+  Return road type that is built by given deprecated road building activity.
+  Returns NULL if activity is not road building activity at all.
 ****************************************************************************/
-enum unit_activity road_activity(struct road_type *proad)
+struct road_type *road_by_deprecated_activity(enum unit_activity act)
 {
-  enum tile_special_type spe = road_special(proad);
-
-  switch (spe) {
-  case S_ROAD:
-    return ACTIVITY_ROAD;
-  case S_RAILROAD:
-    return ACTIVITY_RAILROAD;
-  default:
-    return ACTIVITY_LAST;
+  if (act == ACTIVITY_ROAD) {
+    return road_by_special(S_ROAD);
   }
-
-  return ACTIVITY_LAST;
-}
-
-/****************************************************************************
-  Return road type that is built by give activity. Returns ROAD_LAST if
-  activity is not road building activity at all.
-****************************************************************************/
-struct road_type *road_by_activity(enum unit_activity act)
-{
-  road_type_iterate(proad) {
-    if (road_activity(proad) == act) {
-      return proad;
-    }
-  } road_type_iterate_end;
+  if (act == ACTIVITY_RAILROAD) {
+    return road_by_special(S_RAILROAD);
+  }
 
   return NULL;
 }

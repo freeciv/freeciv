@@ -713,7 +713,7 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Pollution");
   case ACTIVITY_ROAD:
   case ACTIVITY_RAILROAD:
-    return road_name_translation(road_by_activity(activity));
+    return road_name_translation(road_by_deprecated_activity(activity));
   case ACTIVITY_MINE:
     return _("Mine");
   case ACTIVITY_IRRIGATE:

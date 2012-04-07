@@ -53,8 +53,7 @@ Road_type_id road_number(const struct road_type *proad);
 
 struct road_type *road_by_number(Road_type_id id);
 
-enum unit_activity road_activity(struct road_type *proad);
-struct road_type *road_by_activity(enum unit_activity act);
+struct road_type *road_by_deprecated_activity(enum unit_activity act);
 
 enum tile_special_type road_special(const struct road_type *proad);
 struct road_type *road_by_special(enum tile_special_type spe);
