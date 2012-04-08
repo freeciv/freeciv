@@ -1537,6 +1537,16 @@ static void sg_load_savefile(struct loaddata *loading)
                    "Failed to load specials order: %s",
                    secfile_error());
     /* make sure that the size of the array is divisible by 4 */
+    /* Allocating extra 4 slots, just a couple of bytes,
+     * in case of special.size being divisible by 4 already is intentional.
+     * Added complexity would cost those couple of bytes in code size alone,
+     * and we actually need at least one slot immediately after last valid
+     * one. That's where S_LAST is (or was in version that saved the game)
+     * and in some cases S_LAST gets written to savegame, at least as
+     * activity target special when activity targets some base or road
+     * instead. By having current S_LAST in that index allows us to map
+     * that old S_LAST to current S_LAST, just like any real special within
+     * special.size gets mapped. */
     nmod = loading->special.size + (4 - (loading->special.size % 4));
     loading->special.order = fc_calloc(nmod,
                                        sizeof(*loading->special.order));
@@ -1544,7 +1554,7 @@ static void sg_load_savefile(struct loaddata *loading)
       loading->special.order[j] = special_by_rule_name(modname[j]);
     }
     free(modname);
-    for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
+    for (; j < nmod; j++) {
       loading->special.order[j] = S_LAST;
     }
   }
