@@ -95,7 +95,6 @@ void save_install_info_lists(struct fcmp_params *fcmp)
   install_info_list_destroy(main_ii_list);
 }
 
-
 /**************************************************************************
   Modpack successfully installed. Store information to appropriate list.
 **************************************************************************/
@@ -139,4 +138,27 @@ void update_install_info_lists(const char *name,
   strncpy(new_ii->version, version, sizeof(new_ii->version));
 
   install_info_list_append(ii_list, new_ii);
+}
+
+/**************************************************************************
+  Get version number string of currently installed version, or NULL if not
+  installed.
+**************************************************************************/
+const char *get_installed_version(const char *name, enum modpack_type type)
+{
+  struct install_info_list *ii_list;
+
+  if (type == MPT_SCENARIO) {
+    ii_list = scenario_ii_list;
+  } else {
+    ii_list = main_ii_list;
+  }
+
+  install_info_list_iterate(ii_list, ii) {
+    if (!fc_strcasecmp(name, ii->name)) {
+      return ii->version;
+    }
+  } install_info_list_iterate_end;
+
+  return NULL;
 }

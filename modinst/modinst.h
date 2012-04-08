@@ -47,5 +47,6 @@ void save_install_info_lists(struct fcmp_params *fcmp);
 void update_install_info_lists(const char *name,
                                enum modpack_type type,
                                const char *version);
+const char *get_installed_version(const char *name, enum modpack_type type);
 
 #endif /* FC__MODINST_H */
