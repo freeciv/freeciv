@@ -11,6 +11,7 @@ pkgdata_DATA =          \
 	script.lua	\
 	game.ruleset	\
 	governments.ruleset \
+	nations.ruleset	\
 	techs.ruleset	\
 	terrain.ruleset	\
 	units.ruleset
