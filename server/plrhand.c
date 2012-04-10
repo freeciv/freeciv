@@ -1301,6 +1301,9 @@ void server_remove_player(struct player *pplayer)
   send_updated_vote_totals(NULL);
   /* must be called after the player was destroyed */
   send_player_remove_info_c(pslot, NULL);
+
+  /* Recalculate borders. */
+  map_calculate_borders();
 }
 
 /**************************************************************************

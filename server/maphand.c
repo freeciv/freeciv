@@ -1072,9 +1072,6 @@ void player_map_free(struct player *pplayer)
   pplayer->server.private_map = NULL;
 
   dbv_free(&pplayer->tile_known);
-
-  /* Recalculate borders. */
-  map_calculate_borders();
 }
 
 /***************************************************************
