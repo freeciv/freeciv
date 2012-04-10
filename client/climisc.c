@@ -1315,11 +1315,22 @@ void client_player_destroy(struct player *pplayer)
 void client_player_maps_reset(void)
 {
   players_iterate(pplayer) {
+    int new_size;
+
+    if (pplayer == client.conn.playing) {
+      new_size = MAP_INDEX_SIZE;
+    } else {
+      /* We don't need (or have) information about players other
+       * than user of the client. Allocate just one bit as that's
+       * the minimum bitvector size (cannot allocate 0 bits)*/
+      new_size = 1;
+    }
+
     vision_layer_iterate(v) {
-      dbv_resize(&pplayer->client.tile_vision[v], MAP_INDEX_SIZE);
+      dbv_resize(&pplayer->client.tile_vision[v], new_size);
     } vision_layer_iterate_end;
 
-    dbv_resize(&pplayer->tile_known, MAP_INDEX_SIZE);
+    dbv_resize(&pplayer->tile_known, new_size);
   } players_iterate_end;
 }
 
