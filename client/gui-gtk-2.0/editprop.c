@@ -199,6 +199,7 @@ enum value_types {
   VALTYPE_BUILT_ARRAY,        /* struct built_status[B_LAST] */
   VALTYPE_INVENTIONS_ARRAY,   /* bool[A_LAST] */
   VALTYPE_BV_SPECIAL,
+  VALTYPE_BV_ROADS,
   VALTYPE_BV_BASES,
   VALTYPE_NATION,
   VALTYPE_NATION_HASH,        /* struct nation_hash */
@@ -225,6 +226,7 @@ union propval_data {
   GdkPixbuf *v_pixbuf;
   struct built_status *v_built;
   bv_special v_bv_special;
+  bv_roads v_bv_roads;
   bv_bases v_bv_bases;
   struct nation_type *v_nation;
   struct nation_hash *v_nation_hash;
@@ -312,6 +314,7 @@ enum object_property_ids {
   OPID_TILE_XY,
   OPID_TILE_RESOURCE,
   OPID_TILE_SPECIALS,
+  OPID_TILE_ROADS,
   OPID_TILE_BASES,
   OPID_TILE_VISION, /* tile_known and tile_seen */
   OPID_TILE_LABEL,
@@ -777,6 +780,8 @@ static const char *valtype_get_name(enum value_types valtype)
     return "bool[A_LAST]";
   case VALTYPE_BV_SPECIAL:
     return "bv_special";
+  case VALTYPE_BV_ROADS:
+    return "bv_roads";
   case VALTYPE_BV_BASES:
     return "bv_bases";
   case VALTYPE_NATION:
@@ -897,11 +902,21 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
   case VALTYPE_BV_SPECIAL:
     tile_special_type_iterate(spe) {
       if (BV_ISSET(pv->data.v_bv_special, spe)) {
-        count++;
+        if (spe != S_ROAD && spe != S_RAILROAD) {
+          count++;
+        }
       }
     } tile_special_type_iterate_end;
-    /* TRANS: "The number of terrain specials (e.g. road,
-     * rail, hut, etc.) present on a tile." */
+    /* TRANS: "The number of terrain specials (e.g. hut,
+     * river, pollution, etc.) present on a tile." */
+    return fc_snprintf(buf, buflen, _("%d present"), count);
+
+  case VALTYPE_BV_ROADS:
+    road_type_iterate(proad) {
+      if (BV_ISSET(pv->data.v_bv_roads, road_number(proad))) {
+        count++;
+      }
+    } road_type_iterate_end;
     return fc_snprintf(buf, buflen, _("%d present"), count);
 
   case VALTYPE_BV_BASES:
@@ -1047,6 +1062,9 @@ static struct propval *propval_copy(struct propval *pv)
   case VALTYPE_BV_SPECIAL:
     pv_copy->data.v_bv_special = pv->data.v_bv_special;
     return pv_copy;
+  case VALTYPE_BV_ROADS:
+    pv_copy->data.v_bv_roads = pv->data.v_bv_roads;
+    return pv_copy;
   case VALTYPE_BV_BASES:
     pv_copy->data.v_bv_bases = pv->data.v_bv_bases;
     return pv_copy;
@@ -1112,6 +1130,7 @@ static void propval_free_data(struct propval *pv)
   case VALTYPE_INT:
   case VALTYPE_BOOL:
   case VALTYPE_BV_SPECIAL:
+  case VALTYPE_BV_ROADS:
   case VALTYPE_BV_BASES:
   case VALTYPE_NATION:
     return;
@@ -1197,6 +1216,8 @@ static bool propval_equal(struct propval *pva,
     return TRUE;
   case VALTYPE_BV_SPECIAL:
     return BV_ARE_EQUAL(pva->data.v_bv_special, pvb->data.v_bv_special);
+  case VALTYPE_BV_ROADS:
+    return BV_ARE_EQUAL(pva->data.v_bv_roads, pvb->data.v_bv_roads);
   case VALTYPE_BV_BASES:
     return BV_ARE_EQUAL(pva->data.v_bv_bases, pvb->data.v_bv_bases);
   case VALTYPE_NATION:
@@ -1492,6 +1513,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         break;
       case OPID_TILE_SPECIALS:
         pv->data.v_bv_special = tile_specials(ptile);
+        break;
+      case OPID_TILE_ROADS:
+        pv->data.v_bv_roads = tile_roads(ptile);
         break;
       case OPID_TILE_BASES:
         pv->data.v_bv_bases = tile_bases(ptile);
@@ -2297,6 +2321,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
       case OPID_TILE_SPECIALS:
         packet->specials = pv->data.v_bv_special;
         return;
+      case OPID_TILE_ROADS:
+        packet->roads = pv->data.v_bv_roads;
+        return;
       case OPID_TILE_BASES:
         packet->bases = pv->data.v_bv_bases;
         return;
@@ -2525,6 +2552,7 @@ static GType objprop_get_gtype(const struct objprop *op)
   case VALTYPE_BUILT_ARRAY:
   case VALTYPE_INVENTIONS_ARRAY:
   case VALTYPE_BV_SPECIAL:
+  case VALTYPE_BV_ROADS:
   case VALTYPE_BV_BASES:
   case VALTYPE_NATION_HASH:
     return G_TYPE_STRING;
@@ -2863,6 +2891,7 @@ static void objprop_setup_widget(struct objprop *op)
     return;
 
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_ROADS:
   case OPID_TILE_BASES:
   case OPID_TILE_VISION:
   case OPID_STARTPOS_NATIONS:
@@ -3065,6 +3094,7 @@ static void objprop_refresh_widget(struct objprop *op,
     break;
 
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_ROADS:
   case OPID_TILE_BASES:
   case OPID_TILE_VISION:
   case OPID_STARTPOS_NATIONS:
@@ -3280,6 +3310,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
 
   switch (propid) {
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_ROADS:
   case OPID_TILE_BASES:
   case OPID_STARTPOS_NATIONS:
   case OPID_CITY_BUILDINGS:
@@ -3343,6 +3374,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
 
   switch (propid) {
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_ROADS:
   case OPID_TILE_BASES:
   case OPID_PLAYER_INVENTIONS:
     store = gtk_list_store_new(3, G_TYPE_BOOLEAN, G_TYPE_INT,
@@ -3421,6 +3453,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   switch (propid) {
 
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_ROADS:
   case OPID_TILE_BASES:
     /* TRANS: As in "this tile special is present". */
     add_column(view, 0, _("Present"), G_TYPE_BOOLEAN, TRUE, FALSE,
@@ -3587,12 +3620,27 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   case OPID_TILE_SPECIALS:
     gtk_list_store_clear(store);
     tile_special_type_iterate(spe) {
-      id = spe;
-      name = special_name_translation(spe);
-      present = BV_ISSET(pv->data.v_bv_special, spe);
+      if (spe != S_ROAD && spe != S_RAILROAD) {
+        id = spe;
+        name = special_name_translation(spe);
+        present = BV_ISSET(pv->data.v_bv_special, spe);
+        gtk_list_store_append(store, &iter);
+        gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
+      }
+    } tile_special_type_iterate_end;
+    propval_as_string(pv, buf, sizeof(buf));
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+
+  case OPID_TILE_ROADS:
+    gtk_list_store_clear(store);
+    road_type_iterate(proad) {
+      id = road_number(proad);
+      name = road_name_translation(proad);
+      present = BV_ISSET(pv->data.v_bv_roads, id);
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
-    } tile_special_type_iterate_end;
+    } road_type_iterate_end;
     propval_as_string(pv, buf, sizeof(buf));
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
     break;
@@ -3769,6 +3817,7 @@ static void extviewer_clear_widgets(struct extviewer *ev)
 
   switch (propid) {
   case OPID_TILE_SPECIALS:
+  case OPID_TILE_ROADS:
   case OPID_TILE_BASES:
   case OPID_TILE_VISION:
   case OPID_STARTPOS_NATIONS:
@@ -3869,6 +3918,21 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
       BV_SET(pv->data.v_bv_special, id);
     } else {
       BV_CLR(pv->data.v_bv_special, id);
+    }
+    gtk_list_store_set(ev->store, &iter, 0, present, -1);
+    propval_as_string(pv, buf, sizeof(buf));
+    gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
+    break;
+
+  case OPID_TILE_ROADS:
+    gtk_tree_model_get(model, &iter, 1, &id, -1);
+    if (!(0 <= id && id < road_count())) {
+      return;
+    }
+    if (present) {
+      BV_SET(pv->data.v_bv_roads, id);
+    } else {
+      BV_CLR(pv->data.v_bv_roads, id);
     }
     gtk_list_store_set(ev->store, &iter, 0, present, -1);
     propval_as_string(pv, buf, sizeof(buf));
@@ -4072,6 +4136,8 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET, VALTYPE_STRING);
     ADDPROP(OPID_TILE_SPECIALS, _("Specials"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_SPECIAL);
+    ADDPROP(OPID_TILE_ROADS, _("Roads"), OPF_IN_LISTVIEW
+            | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_ROADS);
     ADDPROP(OPID_TILE_BASES, _("Bases"), OPF_IN_LISTVIEW
             | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BV_BASES);
 #ifdef DEBUG
@@ -4904,6 +4970,7 @@ static bool property_page_set_store_value(struct property_page *pp,
   case VALTYPE_BUILT_ARRAY:
   case VALTYPE_INVENTIONS_ARRAY:
   case VALTYPE_BV_SPECIAL:
+  case VALTYPE_BV_ROADS:
   case VALTYPE_BV_BASES:
   case VALTYPE_NATION_HASH:
     propval_as_string(pv, buf, sizeof(buf));

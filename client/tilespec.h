@@ -178,6 +178,9 @@ int fill_basic_terrain_layer_sprite_array(struct tileset *t,
                                           struct drawn_sprite *sprs,
                                           int layer,
                                           struct terrain *pterrain);
+int fill_basic_road_sprite_array(const struct tileset *t,
+                                 struct drawn_sprite *sprs,
+                                 const struct road_type *proad);
 int fill_basic_base_sprite_array(const struct tileset *t,
                                  struct drawn_sprite *sprs,
                                  const struct base_type *pbase);
@@ -258,6 +261,7 @@ struct editor_sprites {
     *vision,
     *territory,
     *properties,
+    *road,
     *military_base;
 };
 

@@ -47,6 +47,7 @@
 #include "movement.h"
 #include "nation.h"
 #include "player.h"
+#include "road.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -2413,6 +2414,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_EDITOR_SPRITE(vision);
   SET_EDITOR_SPRITE(territory);
   SET_EDITOR_SPRITE(properties);
+  SET_EDITOR_SPRITE(road);
   SET_EDITOR_SPRITE(military_base);
 #undef SET_EDITOR_SPRITE
 
@@ -5572,6 +5574,45 @@ struct sprite *get_basic_special_sprite(const struct tileset *t,
   }
 
   return NULL;
+}
+
+/****************************************************************************
+  Fills the sprite array with sprites that together make a representative
+  image of the given road type. The image is suitable for use as an icon
+  for the road type, for example.
+****************************************************************************/
+int fill_basic_road_sprite_array(const struct tileset *t,
+                                 struct drawn_sprite *sprs,
+                                 const struct road_type *proad)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+  int index;
+  int i;
+
+  if (!t || !sprs || !proad) {
+    return 0;
+  }
+
+  index = road_index(proad);
+
+  if (!(0 <= index && index < game.control.num_road_types)) {
+    return 0;
+  }
+
+  for (i = 0; i < t->num_valid_tileset_dirs; i++) {
+    if (!t->valid_tileset_dirs[i]) {
+      continue;
+    }
+    if (t->roadstyle == 0) {
+      ADD_SPRITE_FULL(t->sprites.roads[index].dir[i]);
+    } else if (t->roadstyle == 1) {
+      ADD_SPRITE_FULL(t->sprites.roads[index].even[1 << i]);
+    } else if (t->roadstyle == 2) {
+      ADD_SPRITE_FULL(t->sprites.roads[index].total[1 << i]);
+    }
+  }
+
+  return sprs - saved_sprs;
 }
 
 /****************************************************************************

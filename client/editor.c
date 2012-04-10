@@ -25,6 +25,7 @@
 #include "support.h"
 
 /* common */
+#include "game.h"
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
@@ -123,6 +124,12 @@ static void tool_init(enum editor_tool_type ett, const char *name,
   tool->size = 1;
   tool->count = 1;
   tool->applied_player_no = 0;
+
+  if (ett == ETT_TERRAIN_SPECIAL) {
+    tool->value = S_IRRIGATION;
+  } else {
+    tool->value = 0;
+  }
 }
 
 /****************************************************************************
@@ -149,6 +156,10 @@ void editor_init(void)
             | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
             _("Modify tile specials.\nShortcut: s\n"
               "Select special type: shift+s or right-click here."));
+  tool_init(ETT_ROAD, _("Road"), ETF_HAS_VALUE
+            | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
+            _("Modify roads on tile.\nShortcut: p\n"
+              "Select road type: shift+p or right-click here."));
   tool_init(ETT_MILITARY_BASE, _("Military Base"), ETF_HAS_VALUE
             | ETF_HAS_SIZE | ETF_HAS_VALUE_ERASE,
             _("Create a military base.\nShortcut: m\n"
@@ -165,7 +176,7 @@ void editor_init(void)
             _("Place a start position which allows any nation to "
               "start at the tile. To allow only certain nations to "
               "start there, middle click on the start position on "
-              "the map and use the property editor.\nShortcut: p"));
+              "the map and use the property editor.\nShortcut: b"));
 
   tool_init(ETT_COPYPASTE, _("Copy/Paste"), ETF_HAS_SIZE,
             _("Copy and paste tiles.\n"
@@ -262,7 +273,7 @@ bool editor_is_active(void)
 }
 
 /****************************************************************************
-  Returns TRUE if the given tool should be made availble to the user via
+  Returns TRUE if the given tool should be made available to the user via
   the editor GUI. For example, this will return FALSE for ETT_MILITARY_BASE
   if there are no bases defined in the ruleset.
 
@@ -278,13 +289,12 @@ bool editor_tool_is_usable(enum editor_tool_type ett)
   switch (ett) {
   case ETT_MILITARY_BASE:
     return base_count() > 0;
-    break;
+  case ETT_ROAD:
+    return road_count() > 0;
   case ETT_TERRAIN_RESOURCE:
     return resource_count() > 0;
-    break;
   case ETT_UNIT:
     return utype_count() > 0;
-    break;
   default:
     break;
   }
@@ -325,7 +335,7 @@ int editor_tool_get_value(enum editor_tool_type ett)
       || !editor_tool_has_value(ett)) {
     return 0;
   }
-  
+
   return editor->tools[ett].value;
 }
 
@@ -367,6 +377,10 @@ static inline bool tile_really_has_any_specials(const struct tile *ptile)
   specials = tile_specials(ptile);
 
   BV_CLR(specials, S_RESOURCE_VALID);
+
+  /* Roads are no longer edited as part of specials */
+  BV_CLR(specials, S_ROAD); 
+  BV_CLR(specials, S_RAILROAD);
 
   return BV_ISSET_ANY(specials);
 }
@@ -410,6 +424,7 @@ static void editor_grab_tool(const struct tile *ptile)
 {
   int ett = -1, value = 0;
   struct base_type *first_base = NULL;
+  struct road_type *first_road = NULL;
 
   if (!editor) {
     return;
@@ -425,6 +440,13 @@ static void editor_grab_tool(const struct tile *ptile)
       break;
     }
   } base_type_iterate_end;
+
+  road_type_iterate(proad) {
+    if (tile_has_road(ptile, proad)) {
+      first_road = proad;
+      break;
+    }
+  } road_type_iterate_end;
 
   if (client_has_player()
       && tile_get_known(ptile, client_player()) == TILE_UNKNOWN) {
@@ -465,12 +487,18 @@ static void editor_grab_tool(const struct tile *ptile)
     ett = ETT_MILITARY_BASE;
     value = base_number(first_base);
 
+  } else if (first_road != NULL) {
+    ett = ETT_ROAD;
+    value = road_number(first_road);
+
   } else if (tile_really_has_any_specials(ptile)) {
     int specials_array[S_LAST];
     int count = 0, i, special = -1;
 
     tile_special_type_iterate(s) {
-      specials_array[count++] = s;
+      if (s != S_ROAD && s != S_RAILROAD) {
+        specials_array[count++] = s;
+      }
     } tile_special_type_iterate_end;
 
     /* Grab specials in reverse order of enum tile_special_type. */
@@ -867,6 +895,10 @@ void editor_apply_tool(const struct tile *ptile,
     dsend_packet_edit_tile_special(my_conn, tile, value, erase, size);
     break;
 
+  case ETT_ROAD:
+    dsend_packet_edit_tile_road(my_conn, tile, value, erase, size);
+    break;
+
   case ETT_MILITARY_BASE:
     dsend_packet_edit_tile_base(my_conn, tile, value, erase, size);
     break;
@@ -1072,6 +1104,7 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
   struct resource *presource;
   struct unit_type *putype;
   struct base_type *pbase;
+  struct road_type *proad;
 
   if (!editor) {
     return "";
@@ -1092,10 +1125,14 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
     }
     return special_name_translation(value);
     break;
+  case ETT_ROAD:
+    proad = road_by_number(value);
+
+    return proad != NULL ? road_name_translation(proad) : "";
   case ETT_MILITARY_BASE:
     pbase = base_by_number(value);
+
     return pbase != NULL ? base_name_translation(pbase) : "";
-    break;
   case ETT_UNIT:
     putype = utype_by_number(value);
     return putype ? utype_name_translation(putype) : "";
@@ -1203,9 +1240,10 @@ struct sprite *editor_tool_get_sprite(enum editor_tool_type ett)
   case ETT_TERRAIN_SPECIAL:
     return sprites->terrain_special;
     break;
+  case ETT_ROAD:
+    return sprites->road;
   case ETT_MILITARY_BASE:
     return sprites->military_base;
-    break;
   case ETT_UNIT:
     return sprites->unit;
     break;

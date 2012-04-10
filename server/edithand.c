@@ -273,6 +273,11 @@ static bool edit_tile_special_handling(struct tile *ptile,
                                        bool remove_mode,
                                        bool send_tile_info)
 {
+  /* Roads are not handled as part of specials, but separately */
+  if (special == S_ROAD || special == S_RAILROAD) {
+    return FALSE;
+  }
+
   if (remove_mode) {
     if (!tile_has_special(ptile, special)) {
       return FALSE;
@@ -289,6 +294,49 @@ static bool edit_tile_special_handling(struct tile *ptile,
     }
 
     tile_add_special(ptile, special);
+  }
+
+  if (send_tile_info) {
+    update_tile_knowledge(ptile);
+  }
+
+  return TRUE;
+}
+
+
+/****************************************************************************
+  Base function to edit the road property of a tile. Returns TRUE if
+  the road state has changed.
+****************************************************************************/
+static bool edit_tile_road_handling(struct tile *ptile,
+                                    struct road_type *proad,
+                                    bool remove_mode, bool send_tile_info)
+{
+  if (remove_mode) {
+    if (!tile_has_road(ptile, proad)) {
+      return FALSE;
+    }
+
+    tile_remove_road(ptile, proad);
+  } else {
+    /* First add all dependency roads */
+    road_deps_iterate(&(proad->reqs), pdep) {
+      if (!tile_has_road(ptile, pdep)) {
+        if (!is_native_tile_to_road(pdep, ptile)) {
+          return FALSE;
+        }
+
+        tile_add_road(ptile, pdep);
+      }
+    } road_deps_iterate_end;
+
+    /* Then road itself */
+    if (tile_has_road(ptile, proad)
+        || !is_native_tile_to_road(proad, ptile)) {
+      return FALSE;
+    }
+
+    tile_add_road(ptile, proad);
   }
 
   if (send_tile_info) {
@@ -428,6 +476,41 @@ void handle_edit_tile_special(struct connection *pc, int tile,
 }
 
 /****************************************************************************
+  Handle a request to change the road at one or more than one tile.
+****************************************************************************/
+void handle_edit_tile_road(struct connection *pc, int tile,
+                           Road_type_id id, bool remove, int size)
+{
+  struct tile *ptile_center;
+  struct road_type *proad;
+
+  ptile_center = index_to_tile(tile);
+  if (!ptile_center) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
+                _("Cannot edit the tile because %d is not a valid "
+                  "tile index on this map!"), tile);
+    return;
+  }
+
+  proad = road_by_number(id);
+
+  if (!proad) {
+    notify_conn(pc->self, ptile_center, E_BAD_COMMAND, ftc_editor,
+                /* TRANS: ..." the tile <tile-coordinates> because"... */
+                _("Cannot modify road for the tile %s because "
+                  "%d is not a valid road type id."),
+                tile_link(ptile_center), id);
+    return;
+  }
+
+  conn_list_do_buffer(game.est_connections);
+  square_iterate(ptile_center, size - 1, ptile) {
+    edit_tile_road_handling(ptile, proad, remove, TRUE);
+  } square_iterate_end;
+  conn_list_do_unbuffer(game.est_connections);
+}
+
+/****************************************************************************
   Handle a request to change the military base at one or more than one tile.
 ****************************************************************************/
 void handle_edit_tile_base(struct connection *pc, int tile,
@@ -482,9 +565,20 @@ void handle_edit_tile(struct connection *pc,
   /* Handle changes in specials. */
   if (!BV_ARE_EQUAL(packet->specials, ptile->special)) {
     tile_special_type_iterate(spe) {
-      edit_tile_special_handling(ptile, spe,
-                                 !BV_ISSET(packet->specials, spe), FALSE);
+      if (edit_tile_special_handling(ptile, spe,
+                                     !BV_ISSET(packet->specials, spe), FALSE)) {
+        changed = TRUE;
+      }
     } tile_special_type_iterate_end;
+  }
+
+  /* Handle changes in roads. */
+  if (!(BV_ARE_EQUAL(packet->roads, ptile->roads))) {
+    road_type_iterate(proad) {
+      edit_tile_road_handling(ptile, proad,
+                              !BV_ISSET(packet->roads, road_number(proad)),
+                              FALSE);
+    } road_type_iterate_end;
     changed = TRUE;
   }
 

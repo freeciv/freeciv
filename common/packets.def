@@ -3,7 +3,7 @@
 Max used id:
 ============
 
-Max id: 225
+Max id: 226
 
 Packets are not ordered by their id, but by their category. New packet
 with higher id may get added to existing category, and not to the end of file.
@@ -1705,6 +1705,13 @@ PACKET_EDIT_TILE_BASE = 203; cs, handle-per-conn, dsend
   UINT8 size;
 end
 
+PACKET_EDIT_TILE_ROAD = 226; cs, handle-per-conn, dsend
+  TILE tile; key
+  ROAD road_type_id;
+  BOOL remove;
+  UINT8 size;
+end
+
 PACKET_EDIT_STARTPOS = 204; cs, sc, dsend, handle-per-conn, handle-via-packet, no-delta
   TILE id;
   BOOL remove;
@@ -1720,6 +1727,7 @@ end
 PACKET_EDIT_TILE = 206; cs, handle-per-conn, handle-via-packet
   TILE tile; key
   BV_SPECIAL specials;
+  BV_ROADS roads;
   BV_BASES bases;
   RESOURCE resource;
   TERRAIN terrain;
