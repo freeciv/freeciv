@@ -369,15 +369,18 @@ void fc_fprintf(FILE *stream, const char *format, ...)
 size_t get_internal_string_length(const char *text)
 {
   int text2[(strlen(text) + 1)]; /* UCS-4 text */
-  int i = 0;
+  int i;
+  int len = 0;
 
   convert_string(text, internal_encoding, "UCS-4",
                  (char *)text2, sizeof(text2));
-  /* Check BOM */
-  fc_assert_ret_val(0x0000FEFF != text2[0]&& 0xFFFE0000!= text2[0], -1);
   for (i = 0; ; i++) {
     if (text2[i] == 0) {
-      return i;
+      return len;
+    }
+    if (text2[i] != 0x0000FEFF && text2[i] != 0xFFFE0000) {
+      /* Not BOM */
+      len++;
     }
   }
 }
