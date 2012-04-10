@@ -39,6 +39,14 @@ void load_install_info_list(const char *filename,
 
   file = secfile_load(filename, FALSE);
 
+  if (file == NULL) {
+    /* This happens in first run - or actually all runs until something is
+     * installed. Previous run has not saved database. */
+    log_debug("No install info file");
+
+    return;
+  }
+
   caps = secfile_lookup_str(file, "info.options");
 
   if (caps == NULL) {
