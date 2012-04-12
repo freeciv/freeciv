@@ -2865,9 +2865,9 @@ void tileset_setup_road(struct tileset *t,
       SET_SPRITE_ALT(roads[id].even[i], full_tag_name, full_alt_name);
 
       fc_snprintf(full_tag_name, sizeof(full_tag_name),
-                  "r.d_%s_%s", proad->graphic_str, c);
+                  "r.d_%s_%s", proad->graphic_str, d);
       fc_snprintf(full_alt_name, sizeof(full_alt_name),
-                  "r.d_%s_%s", proad->graphic_alt, c);
+                  "r.d_%s_%s", proad->graphic_alt, d);
 
       SET_SPRITE_ALT(roads[id].odd[i], full_tag_name, full_alt_name);
     }
