@@ -382,7 +382,6 @@ static void game_defaults(void)
     game.server.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
     game.server.save_compress_type = GAME_DEFAULT_COMPRESS_TYPE;
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
-    game.server.saveversion       = GAME_DEFAULT_SAVEVERSION;
     game.server.save_nturns       = GAME_DEFAULT_SAVETURNS;
     game.server.save_options.save_known = TRUE;
     game.server.save_options.save_private_map = TRUE;

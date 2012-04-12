@@ -19,6 +19,4 @@ void savegame2_load(struct section_file *file);
 void savegame2_save(struct section_file *file, const char *save_reason,
                     bool scenario);
 
-const struct sset_val_name *saveversion_name(int saveversion);
-
 #endif /* FC__SAVEGAME2_H */

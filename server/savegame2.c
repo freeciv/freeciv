@@ -9,23 +9,21 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-******************************************************************ac*****/
+***********************************************************************/
 
 /*
   This file includes the definition of a new savegame format introduced with
   2.3.0. It is defined by the mandatory option '+version2'. The main load
   function checks if this option is present. If not, the old (pre-2.3.0)
-  loading routines are used. With regard to creating a savegame, the server
-  option 'saveversion' defines the format (version) of the savegame.
-  The version is also saved in the settings section of the savefile, as an
+  loading routines are used.
+  The format version is also saved in the settings section of the savefile, as an
   integer (savefile.version). The integer is used to determine the version
   of the savefile.
   
   For each savefile format after 2.3.0, compatibility functions are defined
-  which translate secfile structures between that version and the next
-  older version; all necessary compat functions are called in order to
-  translate between the file and current version. See sg_load_compat() and
-  sg_save_compat().
+  which translate secfile structures from previous version to that version;
+  all necessary compat functions are called in order to
+  translate between the file and current version. See sg_load_compat().
  
   The integer version ID should be increased every time the format is changed.
   If the change is not backwards compatible, please state the changes in the
@@ -53,8 +51,8 @@
   Structure of this file:
 
   - The main functions are savegame2_load() and savegame2_save(). Within
-    these functions the savegame version or the setting of 'saveversion' are
-    tested and the requested savegame version is loaded / saved.
+    former function the savegame version is tested and the requested savegame version is
+    loaded.
 
   - The real work is done by savegame2_load_real() and savegame2_save_real().
     This function call all submodules (settings, players, etc.)
@@ -372,7 +370,6 @@ struct savedata {
   /* set by the caller */
   const char *save_reason;
   bool scenario;
-  int version;
 
   /* Set in sg_save_game(); needed in sg_save_map_*(); ... */
   bool save_players;
@@ -396,13 +393,13 @@ static const char num_chars[] =
 static void savegame2_load_real(struct section_file *file);
 static void savegame2_save_real(struct section_file *file,
                                 const char *save_reason,
-                                bool scenario, int version);
+                                bool scenario);
 struct loaddata *loaddata_new(struct section_file *file);
 void loaddata_destroy(struct loaddata *loading);
 
 struct savedata *savedata_new(struct section_file *file,
                               const char *save_reason,
-                              bool scenario, int version);
+                              bool scenario);
 void savedata_destroy(struct savedata *saving);
 
 static enum unit_orders char2order(char order);
@@ -442,7 +439,6 @@ static void technology_save(struct section_file *file,
                             const char* path, int plrno, Tech_type_id tech);
 
 static void sg_load_compat(struct loaddata *loading);
-static void sg_save_compat(struct savedata *saving);
 
 static void sg_load_savefile(struct loaddata *loading);
 static void sg_save_savefile(struct savedata *saving);
@@ -534,6 +530,51 @@ static void sg_save_mapimg(struct savedata *saving);
 static void sg_load_sanitycheck(struct loaddata *loading);
 static void sg_save_sanitycheck(struct savedata *saving);
 
+
+
+typedef void (*load_version_func_t) (struct loaddata *loading);
+
+static void compat_load_020400(struct loaddata *loading);
+static void compat_load_020500(struct loaddata *loading);
+
+struct compatibility {
+  int version;
+  const struct sset_val_name name;
+  const load_version_func_t load;
+};
+
+/* The struct below contains the information about the savegame versions. It
+ * is identified by the version number (first element), which should be
+ * steadily increasing. It is saved as 'savefile.version'. The support
+ * string (first element of 'name') is not saved in the savegame; it is
+ * saved in settings files (so, once assigned, cannot be changed). The
+ * 'pretty' string (second element of 'name') can be changed if necessary
+ * For changes in the development version, edit the definitions above and
+ * add the needed code to load the old version below. Thus, old
+ * savegames can still be loaded while the main definition
+ * represents the current state of the art. */
+/* While developing freeciv 2.5.0, add the compatibility functions to
+ * - compat_load_020500 to load old savegame. */
+static struct compatibility compat[] = {
+  /* dummy; equal to the current version (last element) */
+  { 0, { "CURRENT", N_("current version") }, NULL },
+  /* version 1 and 2 is not used */
+  /* version 3: first savegame2 format, so no compat functions for translation
+   * from previous format */
+  { 3, { "2.3.0", N_("freeciv 2.3.0") }, NULL },
+  /* version 4 to 9 are reserved for possible changes in 2.3.x */
+  { 10, { "2.4.0", N_("freeciv 2.4.0") },
+    compat_load_020400 },
+  /* version 11 to 19 are reserved for possible changes in 2.4.x */
+  { 20, { "2.5.0", N_("freeciv 2.5.0 (development)") },
+    compat_load_020500 },
+  /* Current savefile version is listed above this line; it corresponds to
+     the definitions in this file. */
+};
+
+static const int compat_num = ARRAY_SIZE(compat);
+#define compat_current (compat_num - 1)
+
 /****************************************************************************
   Main entry point for loading a game.
   Called only in ./server/stdinhand.c:load_command().
@@ -587,8 +628,7 @@ void savegame2_save(struct section_file *file, const char *save_reason,
 #endif
 
   log_verbose("saving game in new format ...");
-  savegame2_save_real(file, save_reason, scenario,
-                      game.server.saveversion);
+  savegame2_save_real(file, save_reason, scenario);
 
 #ifdef DEBUG_TIMERS
   stop_timer(savetimer);
@@ -660,12 +700,12 @@ static void savegame2_load_real(struct section_file *file)
 ****************************************************************************/
 static void savegame2_save_real(struct section_file *file,
                                 const char *save_reason,
-                                bool scenario, int version)
+                                bool scenario)
 {
   struct savedata *saving;
 
   /* initialise loading */
-  saving = savedata_new(file, save_reason, scenario, version);
+  saving = savedata_new(file, save_reason, scenario);
   sg_success = TRUE;
 
   /* [savefile] */
@@ -691,9 +731,6 @@ static void savegame2_save_real(struct section_file *file,
 
   /* Sanity checks for the saved game. */
   sg_save_sanitycheck(saving);
-
-  /* [compat] */
-  sg_save_compat(saving);
 
   /* deinitialise saving */
   savedata_destroy(saving);
@@ -767,7 +804,7 @@ void loaddata_destroy(struct loaddata *loading)
 ****************************************************************************/
 struct savedata *savedata_new(struct section_file *file,
                               const char *save_reason,
-                              bool scenario, int version)
+                              bool scenario)
 {
   struct savedata *saving = calloc(1, sizeof(*saving));
   saving->file = file;
@@ -775,7 +812,6 @@ struct savedata *savedata_new(struct section_file *file,
 
   saving->save_reason = save_reason;
   saving->scenario = scenario;
-  saving->version = version;
 
   saving->save_players = FALSE;
 
@@ -1630,6 +1666,8 @@ static void sg_save_savefile(struct savedata *saving)
 
   /* Save savefile options. */
   sg_save_savefile_options(saving, savefile_options_default);
+
+  secfile_insert_int(saving->file, compat[compat_current].version, "savefile.version");
 
   /* Save reason of the savefile generation. */
   secfile_insert_str(saving->file, saving->save_reason, "savefile.reason");
@@ -5814,11 +5852,8 @@ static void sg_save_sanitycheck(struct savedata *saving)
 }
 
 /* =======================================================================
- * Compatibility functions for loading / saving a game.
+ * Compatibility functions for loading a game.
  * ======================================================================= */
-
-typedef void (*load_version_func_t) (struct loaddata *loading);
-typedef void (*save_version_func_t) (struct savedata *saving);
 
 /****************************************************************************
   Translate savegame secfile data from 2.3.x to 2.4.0 format.
@@ -5963,109 +5998,6 @@ static void compat_load_020400(struct loaddata *loading)
 }
 
 /****************************************************************************
-  Translate savegame secfile data from 2.4.0 to 2.3.x format.
-****************************************************************************/
-static void compat_save_020400(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_debug("Downgrading data from version 2.4.0 for savegame");
-
-  /* Iterate over all players. */
-  player_slots_iterate(pslot) {
-    int plrno = player_slot_index(pslot);
-
-    if (NULL == secfile_section_lookup(saving->file, "player%d",
-                                       player_slot_index(pslot))) {
-      continue;
-    }
-
-    /* Remove the definition of the AI type. */
-    secfile_entry_delete(saving->file, "player%d.ai_type", plrno);
-
-    /* Remove delegation information. */
-    secfile_entry_delete(saving->file, "player%d.delegation_username", plrno);
-
-    /* Pre-2.4.0 did not track lost small wonders. */
-    secfile_entry_delete(saving->file, "player%d.lost_wonders", plrno);
-  } player_slots_iterate_end;
-
-  player_slots_iterate(pslot) {
-    int ncities, i, plrid = player_slot_index(pslot);
-
-    if (NULL == secfile_section_lookup(saving->file, "player%d", plrid)) {
-      continue;
-    }
-
-    /* Remove citizens informations. */
-    ncities = secfile_lookup_int_default(saving->file, 0, "player%d.ncities",
-                                         plrid);
-    for (i = 0; i < ncities; i++) {
-      player_slots_iterate(pslot2) {
-        secfile_entry_delete(saving->file, "player%d.c%d.citizen%d",
-                             plrid, i, player_slot_index(pslot2));
-      } player_slots_iterate_end;
-    }
-
-    /* Delete player colors. */
-    secfile_entry_delete(saving->file, "player%d.color.red", plrid);
-    secfile_entry_delete(saving->file, "player%d.color.green", plrid);
-    secfile_entry_delete(saving->file, "player%d.color.blue", plrid);
-  } player_slots_iterate_end;
-
-  /* Put "known" information where 2.3.x expects it. See gna bug #19029. */
-  if (secfile_lookup_bool_default(saving->file, FALSE, "game.save_known")) {
-    int l, j, y;
-    /* "knownv2" => information saved in both sane and buggy formats */
-    sg_save_savefile_options(saving, " knownv2");
-
-    /* Move sane format to where 2.3.2 and later expect it */
-    for (j = 0; j < player_slot_max_used_number()/4 + 1; j++) {
-      for (y = 0; y < map.ysize; y++) {
-        const char *s = secfile_lookup_str_default(saving->file, NULL,
-                                                   "map.k%02d_%04d", j, y);
-        if (s) {
-          secfile_insert_str(saving->file, s, "map.kvb%02d_%04d", j, y);
-          secfile_entry_delete(saving->file, "map.k%02d_%04d", j, y);
-        }
-      }
-    }
-
-    /* Save broken format for 2.3.0/2.3.1 */
-    {
-      int lines = player_slot_max_used_number()/32 + 1;
-      unsigned int *known_old = fc_calloc(lines * MAP_INDEX_SIZE,
-                                          sizeof(*known_old));
-      whole_map_iterate(ptile) {
-        players_iterate(pplayer) {
-          if (map_is_known(ptile, pplayer)) {
-            int p = player_index(pplayer);
-            l = p / 32;
-            /* Backward compatibility: this calculation deliberately shifts
-             * too far left (invoking undefined behaviour) so that old
-             * (2.3.0/2.3.1) servers stand a chance of loading new savegames
-             * (since in practice the undefined behaviour doesn't seem to lose
-             * information on common platforms). */
-            known_old[l * MAP_INDEX_SIZE + tile_index(ptile)]
-              |= (1u << (p - l * 8));
-          }
-        } players_iterate_end;
-      } whole_map_iterate_end;
-      for (l = 0; l < lines; l++) {
-        for (j = 0; j < 8; j++) {
-          /* put 4-bit segments of the 32-bit "known" field */
-          SAVE_MAP_CHAR(ptile, bin2ascii_hex(known_old[l * MAP_INDEX_SIZE
-                                                   + tile_index(ptile)], j),
-                        saving->file, "map.k%02d_%04d", l * 8 + j);
-        }
-      }
-      FC_FREE(known_old);
-    }
-  }
-}
-
-/****************************************************************************
   Translate savegame secfile data from 2.4.x to 2.5.0 format.
 ****************************************************************************/
 static void compat_load_020500(struct loaddata *loading)
@@ -6081,187 +6013,6 @@ static void compat_load_020500(struct loaddata *loading)
 
   secfile_insert_str_vec(loading->file, modname, 2,
                          "savefile.roads_vector");
-}
-
-/****************************************************************************
-  Helper function to convert road type to old two-road-types type.
-****************************************************************************/
-static enum tile_special_type old_road_from_road_id(Road_type_id id)
-{
-  struct road_type *proad = road_by_number(id);
-
-  if (proad != NULL) {
-    return road_special(proad);
-  }
-
-  return S_LAST;
-}
-
-/****************************************************************************
-  Translate savegame secfile data from 2.5.0 to 2.4.x format.
-****************************************************************************/
-static void compat_save_020500(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_debug("Downgrading data from version 2.5.0 for savegame");
-
-  secfile_entry_delete(saving->file, "savefile.roads_size");
-  secfile_entry_delete(saving->file, "savefile.roads_vector");
-
-
-  /* Here we shamelessly use current game state information instead
-   * of trying to parse passed in savedata. */
-  players_iterate(pplayer) {
-    int i = 0;
-
-    unit_list_iterate(pplayer->units, punit) {
-      char buf[512];
-
-      fc_snprintf(buf, sizeof(buf), "player%d.u%d", player_number(pplayer), i);
-
-      secfile_entry_delete(saving->file, "%s.activity_road", buf);
-
-      if (punit->activity_target.type == ATT_ROAD) {
-        enum tile_special_type type = old_road_from_road_id(punit->activity_target.obj.road);
-
-        secfile_entry_delete(saving->file, "%s.activity", buf);
-
-        if (punit->activity == ACTIVITY_GEN_ROAD) {
-          switch (type) {
-          case S_ROAD:
-            secfile_insert_int(saving->file, ACTIVITY_ROAD, "%s.activity", buf);
-            break;
-          case S_RAILROAD:
-            secfile_insert_int(saving->file, ACTIVITY_RAILROAD, "%s.activity", buf);
-            break;
-          case S_LAST:
-          default:
-            secfile_insert_int(saving->file, ACTIVITY_IDLE, "%s.activity", buf);
-            break;
-          }
-        } else if (punit->activity == ACTIVITY_PILLAGE) {
-          secfile_entry_delete(saving->file, "%s.activity_target", buf);
-          secfile_insert_int(saving->file, type, "%s.activity_target", buf);
-        }
-      }
-
-      secfile_entry_delete(saving->file, "%s.changed_from_road", buf);
-
-      if (punit->changed_from_target.type == ATT_ROAD) {
-        enum tile_special_type type = old_road_from_road_id(punit->changed_from_target.obj.road);
-
-        secfile_entry_delete(saving->file, "%s.changed_from", buf);
-
-        if (punit->changed_from == ACTIVITY_GEN_ROAD) {
-          switch (type) {
-          case S_ROAD:
-            secfile_insert_int(saving->file, ACTIVITY_ROAD, "%s.changed_from", buf);
-            break;
-          case S_RAILROAD:
-            secfile_insert_int(saving->file, ACTIVITY_RAILROAD, "%s.changed_from", buf);
-            break;
-          case S_LAST:
-          default:
-            secfile_insert_int(saving->file, ACTIVITY_IDLE, "%s.changed_from", buf);
-            break;
-          }
-        } else if (punit->changed_from == ACTIVITY_PILLAGE) {
-          secfile_entry_delete(saving->file, "%s.changed_from_target", buf);
-          secfile_insert_int(saving->file, type, "%s.changed_from_target", buf);
-        }
-      }
-
-      if (punit->has_orders) {
-        int len = punit->orders.length;
-        int j;
-        char act_buf[len];
-        const char *act_in;
-
-        act_in = secfile_lookup_str(saving->file, "%s.activity_list", buf);
-        strncpy(act_buf, act_in, sizeof(act_buf));
-
-        secfile_entry_delete(saving->file, "%s.road_list", buf);
-
-        for (j = 0; j < len; j++) {
-          if (punit->orders.list[j].order == ORDER_ACTIVITY) {
-            if (punit->orders.list[j].activity == ACTIVITY_GEN_ROAD) {
-              enum tile_special_type type = old_road_from_road_id(punit->orders.list[j].road);
-
-              switch (type) {
-              case S_ROAD:
-                act_buf[j] = activity2char(ACTIVITY_ROAD);
-                break;
-              case S_RAILROAD:
-                act_buf[j] = activity2char(ACTIVITY_RAILROAD);
-                break;
-              case S_LAST:
-              default:
-                act_buf[j] = activity2char(ACTIVITY_IDLE);
-                break;
-              }
-            }
-          }
-        }
-
-        secfile_insert_str(saving->file, act_buf, "%s.activity_list", buf);
-      }
-
-      i++;
-    } unit_list_iterate_end;
-  } players_iterate_end;
-}
-
-struct compatibility {
-  int version;
-  const struct sset_val_name name;
-  const load_version_func_t load;
-  const save_version_func_t save;
-};
-
-/* The struct below contains the information about the savegame versions. It
- * is identified by the version number (first element), which should be
- * steadily increasing. It is saved as 'savefile.version'. The support
- * string (first element of 'name') is not saved in the savegame; it is
- * used as a value for the 'saveversion' option entered at the server prompt
- * and saved in settings files (so, once assigned, cannot be changed). The
- * 'pretty' string (second element of 'name') is presented in places like
- * 'help saveversion' output, and can be changed if necessary
- * For changes in the development version, edit the definitions above and
- * add the needed code to save/load the old version below. Thus, old
- * savegames can still be created and loaded while the main definition
- * represents the current state of the art. */
-/* While developing freeciv 2.5.0, add the compatibility functions to
- * - compat_load_020500 to load old savegame, and to
- * - compat_save_020500 to create an old savegame. */
-static struct compatibility compat[] = {
-  /* dummy; equal to the current version (last element) */
-  { 0, { "CURRENT", N_("current version") }, NULL, NULL },
-  /* version 1 and 2 is not used */
-  /* version 3: first savegame2 format, so no compat functions for translation
-   * from previous format */
-  { 3, { "2.3.0", N_("freeciv 2.3.0") }, NULL, NULL },
-  /* version 4 to 9 are reserved for possible changes in 2.3.x */
-  { 10, { "2.4.0", N_("freeciv 2.4.0") },
-    compat_load_020400, compat_save_020400},
-  /* version 11 to 19 are reserved for possible changes in 2.4.x */
-  { 20, { "2.5.0", N_("freeciv 2.5.0 (development)") },
-    compat_load_020500, compat_save_020500},
-  /* Current savefile version is listed above this line; it corresponds to
-     the definitions in this file. */
-};
-
-static const int compat_num = ARRAY_SIZE(compat);
-#define compat_current (compat_num - 1)
-
-/****************************************************************************
-  Savefile version setting names accessor.
-****************************************************************************/
-const struct sset_val_name *saveversion_name(int saveversion)
-{
-  return (0 <= saveversion && saveversion < compat_num
-          ? &compat[saveversion].name : NULL);
 }
 
 /****************************************************************************
@@ -6303,41 +6054,4 @@ static void sg_load_compat(struct loaddata *loading)
       compat[i].load(loading);
     }
   }
-}
-
-/****************************************************************************
-  Compatibility functions for saved game.
-
-  This function is called at the end of saving the game data. The data in
-  saving->file should be change such, that the resulting save file can be
-  loaded by the version defined in game.server.saveversion.
-****************************************************************************/
-static void sg_save_compat(struct savedata *saving)
-{
-  int i, version;
-
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  sg_failure_ret(saveversion_name(game.server.saveversion) != NULL,
-                 "Unknown savefile format version.");
-
-  if (0 == game.server.saveversion) {
-    /* A value of zero is set to current save file format */
-    version = compat[compat_current].version;
-  } else {
-    version = compat[game.server.saveversion].version;
-  }
-
-  for (i = compat_current; i >= 0; i--) {
-    if (compat[i].version > version && compat[i].save != NULL) {
-      log_normal(_("Run compatibility function for version: <%d "
-                   "(want: %d, server: %d)."), compat[i].version,
-                 version, compat[compat_current].version);
-      compat[i].save(saving);
-    }
-  }
-
-  /* update version information */
-  secfile_replace_int(saving->file, version, "savefile.version");
 }

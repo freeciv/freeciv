@@ -149,7 +149,6 @@ struct civ_game {
       int revolution_length;
       int save_compress_level;
       enum fz_method save_compress_type;
-      int saveversion; /* save game version to use */
       int save_nturns;
       unsigned autosaves; /* FIXME: char would be enough, but current settings.c code wants to
                              write sizeof(unsigned) bytes */
@@ -510,7 +509,6 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_RULESETDIR      "default"
 
-#define GAME_DEFAULT_SAVEVERSION     0
 #define GAME_DEFAULT_SAVE_NAME       "freeciv"
 #define GAME_DEFAULT_SAVETURNS       1
 #define GAME_MIN_SAVETURNS           1
