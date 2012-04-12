@@ -2379,6 +2379,10 @@ value   = 1
 name    = "City_Build_Slots"
 value   = 1
 
+[effect_trade_routes]
+name    = "Max_Trade_Routes"
+value   = 4
+
 ; Base vision range - radius of vision is sqrt(2) = 1.41
 [effect_city_vision_0]
 name    = "City_Vision_Radius_Sq"

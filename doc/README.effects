@@ -274,6 +274,13 @@ cities are taken.
 Happiness_To_Gold
     Make all Make_Content and Force_Content effects instead generate gold.
 
+Max_Trade_Routes
+    Number of trade routes that city can establish.
+    This is forced on trade route creation only. Existing trade routes
+    are never removed due to reduction of effect value. This is to
+    avoid micro-management, need to create same trade routes again
+    after their max number has been temporarily down.
+
 Fanatics
     Special case for Fanatics unit only.
 

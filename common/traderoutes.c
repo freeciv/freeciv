@@ -17,6 +17,7 @@
 
 /* common */
 #include "city.h"
+#include "effects.h"
 
 #include "traderoutes.h"
 
@@ -25,6 +26,7 @@
 *************************************************************************/
 int max_trade_routes(const struct city *pcity)
 {
-  return MAX_TRADE_ROUTES;
-}
+  int eft = get_city_bonus(pcity, EFT_MAX_TRADE_ROUTES);
 
+  return CLIP(0, eft, MAX_TRADE_ROUTES);
+}

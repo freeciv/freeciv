@@ -200,6 +200,10 @@ reqs    =
 name    = "City_Vision_Radius_Sq"
 value   = 5
 
+[effect_trade_routes]
+name    = "Max_Trade_Routes"
+value   = 3
+
 [effect_base_unit_upkeep]
 name  = "Upkeep_Factor"
 value = 1

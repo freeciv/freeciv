@@ -327,6 +327,10 @@ reqs    =
 name    = "City_Vision_Radius_Sq"
 value   = 5
 
+[effect_trade_routes]
+name    = "Max_Trade_Routes"
+value   = 4
+
 [effect_republic]
 name  = "Make_Content_Mil"
 value = 1

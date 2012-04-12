@@ -101,6 +101,9 @@ reqs    =
 name    = "City_Vision_Radius_Sq"
 value   = 5
 
+[effect_trade_routes]
+name    = "Max_Trade_Routes"
+value   = 4
 
 ; Nuclear power gives +1 moves to sea units
 [effect_nuclear_powered_boats]

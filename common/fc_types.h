@@ -441,7 +441,8 @@ struct act_tgt {
 
 /*
  * Maximum number of trade routes a city can have in any situation.
+ * Changing this changes network protocol.
  */
-#define MAX_TRADE_ROUTES        4
+#define MAX_TRADE_ROUTES        5
 
 #endif /* FC__FC_TYPES_H */

@@ -26,6 +26,7 @@
 #include "game.h"
 #include "government.h"
 #include "specialist.h"
+#include "traderoutes.h"
 
 /* server */
 #include "cityhand.h"
@@ -1086,6 +1087,7 @@ static int improvement_effect_value(struct player *pplayer,
   struct unit_class *uclass;
   enum unit_move_type move = unit_move_type_invalid();
   int num;
+  int trait;
 
   switch (peffect->type) {
   /* These (Wonder) effects have already been evaluated in base_want() */
@@ -1409,7 +1411,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_OUTPUT_INC_TILE_CELEBRATE:
   case EFT_TRADE_REVENUE_BONUS:
   case EFT_TILE_WORKABLE:
-   case EFT_IRRIG_POSSIBLE:
+  case EFT_IRRIG_POSSIBLE:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
@@ -1437,6 +1439,20 @@ static int improvement_effect_value(struct player *pplayer,
 
       v += amount; /* AI wants migration into its cities! */
     } iterate_outward_end;
+    break;
+  case EFT_MAX_TRADE_ROUTES:
+    trait = ai_trait_get_value(TRAIT_TRADER, pplayer);
+    v += amount
+      * (pow(2.0,
+             (double) get_city_bonus(pcity, EFT_TRADE_REVENUE_BONUS) / 1000.0)
+         + c)
+      * trait
+      / TRAIT_DEFAULT_VALUE;
+    if (city_num_trade_routes(pcity) >= max_trade_routes(pcity)
+        && amount > 0) {
+      /* Has no free trade routes before this */
+      v += trait;
+    }
     break;
   case EFT_LAST:
     log_error("Bad effect type.");

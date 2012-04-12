@@ -236,7 +236,7 @@ static void dai_choose_trade_route(struct city *pcity,
       (6 - pplayer->economic.science/10) * (6 - pplayer->economic.science/10);
   }
 
-  if (trade_routes == 0) {
+  if (trade_routes == 0 && max_routes > 0) {
     /* If we have no trade routes at all, we are certainly creating a new one. */
     want += trader_trait;
   } else if (trade_routes < max_routes) {
