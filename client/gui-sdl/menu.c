@@ -1012,8 +1012,8 @@ void real_menus_update(void)
       disable_unitinfo_window_buttons();
     }
 
-    return;   
-    
+    return;
+
   } else {
       
     /* running state with human player */
@@ -1051,7 +1051,8 @@ void real_menus_update(void)
       struct city *pCity = tile_city(pTile);
       struct terrain *pTerrain = tile_terrain(pTile);
       struct base_type *pbase;
-      
+      struct road_type *proad = next_road_for_tile(pTile, unit_owner(pUnit), pUnit);
+
       if (!counter) {
 	local_show(ID_UNIT_ORDER_GOTO);
 	local_show(ID_UNIT_ORDER_DISBAND);
@@ -1082,30 +1083,20 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_BUILD_WONDER);
       }
 
-      time = can_unit_do_activity(pUnit, ACTIVITY_RAILROAD);
-      if (can_unit_do_activity(pUnit, ACTIVITY_ROAD) || time) {
-        struct road_type *proad;
-	if (time) {
-          proad = road_by_special(S_RAILROAD);
-          /* We trust proad never to be NULL as can_unit_do_activity()
-           * already passed. */
+      if (proad != NULL) {
+        enum tile_special_type spe = road_special(proad);
 
-	  time = tile_activity_time(ACTIVITY_RAILROAD, unit_tile(pUnit));
-          /* TRANS: "Build Railroad (R) 3 turns" */
-	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                      road_name_translation(proad),
-                      "R", time, 
-                      PL_("turn", "turns", time));
+	time = tile_activity_road_time(pTile, road_number(proad));
+
+        /* TRANS: "Build Railroad (R) 3 turns" */
+	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                    road_name_translation(proad),
+                    "R", time, 
+                    PL_("turn", "turns", time));
+
+	if (spe == S_RAILROAD) {
 	  pOrder_Road_Button->theme = pTheme->ORailRoad_Icon;
 	} else {
-          proad = road_by_special(S_ROAD);
-
-	  time = tile_activity_time(ACTIVITY_ROAD, unit_tile(pUnit));
-          /* TRANS: "Build Road (R) 1 turn" */
-	  fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-		      road_name_translation(proad),
-                      "R", time,
-                      PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORoad_Icon;
 	}
         copy_chars_to_string16(pOrder_Road_Button->info_label, cBuf);

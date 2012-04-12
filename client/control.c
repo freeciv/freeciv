@@ -2940,10 +2940,16 @@ void key_unit_pollution(void)
 void key_unit_road(void)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    if (can_unit_do_activity(punit, ACTIVITY_ROAD)) {
-      request_new_unit_activity(punit, ACTIVITY_ROAD);
-    } else if (can_unit_do_activity(punit, ACTIVITY_RAILROAD)) {
-      request_new_unit_activity(punit, ACTIVITY_RAILROAD);
+    struct road_type *proad = next_road_for_tile(unit_tile(punit),
+                                                 unit_owner(punit),
+                                                 punit);
+
+    if (proad != NULL) {
+      struct act_tgt tgt = { .type = ATT_ROAD, .obj.road = road_number(proad) };
+
+      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &tgt)) {
+        request_new_unit_activity_road(punit, proad);
+      }
     }
   } unit_list_iterate_end;
 }

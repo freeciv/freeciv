@@ -312,3 +312,28 @@ bool is_native_tile_to_road(const struct road_type *proad,
           && are_reqs_active(NULL, NULL, NULL, ptile,
                              NULL, NULL, NULL, &proad->reqs, RPT_POSSIBLE));
 }
+ 
+/****************************************************************************
+  Returns next road that unit or player can build to tile.
+****************************************************************************/
+struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
+                                     struct unit *punit)
+{
+  fc_assert(punit != NULL || pplayer != NULL);
+
+  road_type_iterate(proad) {
+    if (!tile_has_road(ptile, proad)) {
+      if (punit != NULL) {
+        if (can_build_road(proad, punit, ptile)) {
+          return proad;
+        }
+      } else {
+        if (player_can_build_road(proad, pplayer, ptile)) {
+          return proad;
+        }
+      }
+    }
+  } road_type_iterate_end;
+
+  return NULL;
+}

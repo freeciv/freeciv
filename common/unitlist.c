@@ -123,6 +123,22 @@ bool can_units_do_activity(const struct unit_list *punits,
 }
 
 /****************************************************************************
+  Returns TRUE if any of the units can build any road.
+****************************************************************************/
+bool can_units_do_any_road(const struct unit_list *punits)
+{
+  unit_list_iterate(punits, punit) {
+    road_type_iterate(proad) {
+      if (can_build_road(proad, punit, unit_tile(punit))) {
+        return TRUE;
+      }
+    } road_type_iterate_end;
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Returns TRUE if any of the units can do the base building activity
 ****************************************************************************/
 bool can_units_do_base(const struct unit_list *punits,

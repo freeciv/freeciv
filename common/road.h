@@ -87,6 +87,9 @@ void fill_special_vector_from_roads(bv_roads *roads, bv_special *specials);
 void road_types_init(void);
 void road_types_free(void);
 
+struct road_type *next_road_for_tile(struct tile *ptile, struct player *pplayer,
+                                     struct unit *punit);
+
 #define road_type_iterate(_p)                    \
 {                                                \
   int _i_;                                       \

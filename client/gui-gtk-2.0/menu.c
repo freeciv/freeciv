@@ -1065,12 +1065,18 @@ static void build_road_callback(GtkAction *action, gpointer data)
   unit_list_iterate(get_units_in_focus(), punit) {
     /* FIXME: this can provide different actions for different units...
      * not good! */
-    if (can_unit_do_activity(punit, ACTIVITY_ROAD)) {
-      request_new_unit_activity(punit, ACTIVITY_ROAD);
-    } else if (can_unit_do_activity(punit, ACTIVITY_RAILROAD)) {
-      request_new_unit_activity(punit, ACTIVITY_RAILROAD);
-    } else if (unit_can_est_trade_route_here(punit)) {
-      request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
+    struct road_type *proad = next_road_for_tile(unit_tile(punit),
+                                                 unit_owner(punit),
+                                                 punit);
+
+    if (proad != NULL) {
+      struct act_tgt tgt = { .type = ATT_ROAD, .obj.road = road_number(proad) };
+
+      if (can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, &tgt)) {
+        request_new_unit_activity_road(punit, proad);
+      } else if (unit_can_est_trade_route_here(punit)) {
+        request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
+      }
     }
   } unit_list_iterate_end;
 }
@@ -2105,8 +2111,7 @@ void real_menus_update(void)
   menus_set_sensitive(unit_group, "GO_BUILD_CITY",
                       units_have_flag(punits, F_CITIES, TRUE));
   menus_set_sensitive(unit_group, "BUILD_ROAD",
-                      (can_units_do_activity(punits, ACTIVITY_ROAD)
-                       || can_units_do_activity(punits, ACTIVITY_RAILROAD)
+                      (can_units_do_any_road(punits)
                        || can_units_do(punits,
                                        unit_can_est_trade_route_here)));
   menus_set_sensitive(unit_group, "BUILD_IRRIGATION",
@@ -2189,24 +2194,17 @@ void real_menus_update(void)
   if (units_have_flag(punits, F_TRADE_ROUTE, TRUE)) {
     menus_rename(unit_group, "BUILD_ROAD", _("Establish Trade _Route"));
   } else if (units_have_flag(punits, F_SETTLERS, TRUE)) {
-    bool has_road = FALSE;
     char road_item[500];
-    struct road_type *proad;
+    struct road_type *proad = NULL;
 
     /* FIXME: this overloading doesn't work well with multiple focus
      * units. */
     unit_list_iterate(punits, punit) {
-      if (tile_has_special(unit_tile(punit), S_ROAD)) {
-        has_road = TRUE;
+     proad = next_road_for_tile(unit_tile(punit), unit_owner(punit), punit);
+     if (proad != NULL) {
         break;
       }
     } unit_list_iterate_end;
-
-    if (has_road) {
-      proad = road_by_special(S_RAILROAD);
-    } else {
-      proad = road_by_special(S_ROAD);
-    }
 
     if (proad != NULL) {
       /* TRANS: Build road of specific type (Road/Railroad) */
