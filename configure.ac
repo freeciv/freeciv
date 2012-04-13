@@ -231,8 +231,8 @@ dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
 [  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/win32/stub]
                           clients to compile [[auto]] (or list for multiple)
-                          maintained clients: gtk2/sdl/xaw/stub
-                          clients in development: gtk3/qt
+                          maintained clients: gtk2/gtk3/sdl/xaw/stub
+                          clients in development: qt
                           unmaintained clients: win32],
 [clients=${enableval}],
 [client=auto])
@@ -1374,13 +1374,13 @@ AC_MSG_NOTICE([
 
   Maintained client frontends:
     Gtk-2.0: $gui_gtk2
+    Gtk-3.0: $gui_gtk3
     SDL:     $gui_sdl
     Xaw:     $gui_xaw
     Stub:    $gui_stub
 
   In-development client frontends:
   (these are not yet ready for general use)
-    Gtk-3.0: $gui_gtk3
     QT:      $gui_qt
 
   Not maintained client frontends:
