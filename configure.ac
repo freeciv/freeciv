@@ -233,8 +233,8 @@ dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
 [  --enable-client[=auto/all/gtk2/gtk3/sdl/xaw/qt/stub]
                           clients to compile [[auto]] (or list for multiple)
-                          maintained clients: gtk2/sdl/xaw/stub
-                          clients in development: gtk3/qt],
+                          maintained clients: gtk3/gtk2/sdl/xaw/stub
+                          clients in development: qt],
 [clients=${enableval}],
 [client=auto])
 
@@ -1446,6 +1446,7 @@ AC_MSG_NOTICE([
   Build freeciv client:  $client
 
   Maintained client frontends:
+    Gtk-3.0: $gui_gtk3
     Gtk-2.0: $gui_gtk2
     SDL:     $gui_sdl
     Xaw:     $gui_xaw
@@ -1453,7 +1454,6 @@ AC_MSG_NOTICE([
 
   In-development client frontends:
   (these are not yet ready for general use)
-    Gtk-3.0: $gui_gtk3
     QT:      $gui_qt
 
   == Server ==
