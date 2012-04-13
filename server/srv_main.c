@@ -390,31 +390,6 @@ bool check_for_game_over(void)
       } players_iterate_end;
 
       if (NULL != winner_list) {
-        /* Now ensure a non allied has conceded the game. */
-        bool found = FALSE;
-
-        players_iterate(pplayer) {
-          if (is_barbarian(pplayer)
-              || PLAYER_IS_CANDIDATE(pplayer)) {
-            continue;
-          }
-
-          player_list_iterate(winner_list, aplayer) {
-            if (!pplayers_allied(aplayer, pplayer)) {
-              found = TRUE;
-              break;
-            }
-          } player_list_iterate_end;
-        } players_iterate_end;
-
-        if (!found) {
-          /* Seems all players are allied. */
-          player_list_destroy(winner_list);
-          winner_list = NULL;
-        }
-      }
-
-      if (NULL != winner_list) {
         bool first = TRUE;
 
         fc_assert(candidates == player_list_size(winner_list));
