@@ -69,7 +69,7 @@ CLIENTDATADIRS =
 endif
 
 if SERVER
-SERVERDATADIRS = default civ1 civ2 experimental multiplayer scenarios nation
+SERVERDATADIRS = default classic civ1 civ2 experimental multiplayer scenarios nation
 else
 SERVERDATADIRS = 
 endif

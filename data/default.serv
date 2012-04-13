@@ -4,6 +4,6 @@
 # rules after they've been changed.
 #
 
-rulesetdir default
+rulesetdir classic
 
 # changed game settings are defined in game.ruleset

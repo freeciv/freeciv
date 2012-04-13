@@ -3296,26 +3296,33 @@ static void game_load_internal(struct section_file *file)
   if ((string = secfile_lookup_str(file, "game.rulesetdir"))) {
     /* A ruleset was explicitly required, let's ignore the "rulesetdir"
      * capability then. */
-    sz_strlcpy(game.server.rulesetdir, string);
+    if (!strcmp("default", string)) {
+      sz_strlcpy(game.server.rulesetdir, "classic");
+    } else {
+      sz_strlcpy(game.server.rulesetdir, string);
+    }
   } else {
     civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
-    string = (civstyle == 1) ? "civ1" : "default";
+    string = (civstyle == 1) ? "civ1" : "classic";
 
     if (!has_capability("rulesetdir", savefile_options)) {
       const char *str2, *str =
-        secfile_lookup_str_default(file, "default", "game.info.t.techs");
+        secfile_lookup_str_default(file, "classic", "game.info.t.techs");
 
+      /* Savegame is missing "rulesetdir" capability, so this is ancient
+       * terrain ruleset known as "classic", not to be confused with current
+       * "classic" ruleset. */
       if (strcmp("classic",
-                 secfile_lookup_str_default(file, "default",
+                 secfile_lookup_str_default(file, "foobar",
                                             "game.info.t.terrain")) == 0) {
         /* TRANS: Fatal error message. */
-        log_fatal(_("Saved game uses the \"classic\" terrain"
+        log_fatal(_("Saved game uses the ancient \"classic\" terrain"
                     " ruleset, and is no longer supported."));
         exit(EXIT_FAILURE);
       }
 
 #define T(x) \
-    str2 = secfile_lookup_str_default(file, "default", x);                   \
+    str2 = secfile_lookup_str_default(file, "classic", x);                   \
     if (strcmp(str, str2) != 0) {                                            \
       log_normal(_("Warning: Different rulesetdirs ('%s' and '%s') are "     \
                    "no longer supported. Using '%s'."), str, str2, str);     \
@@ -3330,7 +3337,11 @@ static void game_load_internal(struct section_file *file)
       T("game.info.t.game");
 #undef T
 
-      sz_strlcpy(game.server.rulesetdir, str);
+      if (!strcmp("default", str)) {
+        sz_strlcpy(game.server.rulesetdir, "classic");
+      } else {
+        sz_strlcpy(game.server.rulesetdir, str);
+      }
     } else {
       sz_strlcpy(game.server.rulesetdir, string);
     }

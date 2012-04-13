@@ -462,7 +462,7 @@ start_units="cx"
 dispersion=0
 randseed=0
 save_random=0
-rulesetdir="default"
+rulesetdir="classic"
 
 [savefile]
 options="startoptions spacerace2 rulesets diplchance_percent worklists2 map_editor known32fix turn attributes watchtower rulesetdir client_worklists orders startunits turn_last_built improvement_order technology_order embassies"

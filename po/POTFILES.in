@@ -192,18 +192,18 @@ data/civ2/terrain.ruleset
 data/civ2/units.ruleset
 # lua files are included nevertheless
 data/database.lua
-data/default/buildings.ruleset
-data/default/cities.ruleset
 data/default/default.lua
-data/default/game.ruleset
-data/default/governments.ruleset
 data/default/nationlist.ruleset
-data/default/nations.ruleset
+data/classic/buildings.ruleset
+data/classic/cities.ruleset
+data/classic/game.ruleset
+data/classic/governments.ruleset
+data/classic/nations.ruleset
 # lua files are included nevertheless
-data/default/script.lua
-data/default/techs.ruleset
-data/default/terrain.ruleset
-data/default/units.ruleset
+data/classic/script.lua
+data/classic/techs.ruleset
+data/classic/terrain.ruleset
+data/classic/units.ruleset
 data/experimental/buildings.ruleset
 data/experimental/cities.ruleset
 data/experimental/game.ruleset

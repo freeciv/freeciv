@@ -1528,8 +1528,11 @@ static void sg_load_savefile(struct loaddata *loading)
 
   /* Load ruleset. */
   sz_strlcpy(game.server.rulesetdir,
-             secfile_lookup_str_default(loading->file, "default",
+             secfile_lookup_str_default(loading->file, "classic",
                                         "savefile.rulesetdir"));
+  if (!strcmp("default", game.server.rulesetdir)) {
+    sz_strlcpy(game.server.rulesetdir, "classic");
+  }
   load_rulesets();
 
   /* Load improvements. */

@@ -5,17 +5,7 @@ pkgdatadir = $(datadir)/$(PACKAGE)/default
 
 pkgdata_DATA =          \
 	ai_effects.ruleset \
-	buildings.ruleset \
-	cities.ruleset	\
 	default.lua	\
-	effects.ruleset	\
-	script.lua	\
-	game.ruleset	\
-	governments.ruleset \
-	nationlist.ruleset \
-	nations.ruleset	\
-	techs.ruleset	\
-	terrain.ruleset	\
-	units.ruleset
+	nationlist.ruleset
 
 EXTRA_DIST = $(pkgdata_DATA)
