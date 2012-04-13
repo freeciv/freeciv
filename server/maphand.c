@@ -1808,6 +1808,11 @@ void map_calculate_borders(void)
     return;
   }
 
+  if (map.tiles == NULL) {
+    /* Map not yet initialized */
+    return;
+  }
+
   log_verbose("map_calculate_borders()");
 
   whole_map_iterate(ptile) {
