@@ -280,6 +280,7 @@ match=2
 *include "nation/khmer.ruleset"
 *include "nation/khwarezmian.ruleset"
 *include "nation/kiribati.ruleset"
+*include "nation/kittitian.ruleset"
 *include "nation/kongo.ruleset"
 *include "nation/korean.ruleset"
 *include "nation/kosovar.ruleset"
