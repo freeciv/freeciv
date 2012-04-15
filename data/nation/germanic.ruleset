@@ -38,16 +38,16 @@ conflicts_with = "alander", "alsatian", "austrian", "badian", "bavarian",
  "belgian", "boer", "brandenburgian", "british", "danish", "dutch", 
  "east german", "english", "faroese", "flemish", "franconian", "frankish",
  "frisian", "german", "hanseatic", "hanoverian", "hessian", "holy roman",
- "icelandic", "liechtensteiner", "lippian", "luxembourgian", "mecklenburgian",
+ "icelandic", "liechtensteiner", "lippian", "luxembourgish", "mecklenburgian",
  "northumbrian", "norwegian", "oldenburgian", "ostrogothic", "prussian",
- "rhenish", "saxon", "scanian", "schleswig-holesteinian", "scottish",
+ "rhenish", "saxon", "scanian", "schleswig-holsteinian", "scottish",
  "swedish", "swiss", "teutonic", "thuringian", "tyrolian", "vandalic",
  "viking", "visigothic", "volga german", "westphalian", "wuerttembergian"
 ; gepid, gothic, suebian
 
-civilwar_nations = "baviarian", "frankish", "frisian", "hessian",
+civilwar_nations = "bavarian", "frankish", "frisian", "hessian",
  "ostrogothic", "saxon", "thuringian", "vandalic", "viking", "visigothic",
- "viking", "holyroman", "frankish", "northumbrian"
+ "viking", "frankish", "northumbrian"
 ; gepid, gothic, suebian
 
 cities =
