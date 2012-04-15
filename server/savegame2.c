@@ -304,10 +304,10 @@ static bool sg_success;
 }
 
 /* Iterate on the specials half-bytes */
-#define halfbyte_iterate_special(s)                                         \
+#define halfbyte_iterate_special(s, num_specials_types)                     \
 {                                                                           \
   enum tile_special_type s;                                                 \
-  for(s = 0; 4 * s < S_LAST; s++) {
+  for(s = 0; 4 * s < (num_specials_types); s++) {
 
 #define halfbyte_iterate_special_end                                        \
   }                                                                         \
@@ -2435,7 +2435,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
    * only if you've already called map_load_tiles(), and want to load only
    * the rivers overlay but no other specials. Scenarios that encode things
    * this way should have the "riversoverlay" capability. */
-  halfbyte_iterate_special(j) {
+  halfbyte_iterate_special(j, loading->special.size) {
     LOAD_MAP_CHAR(ch, ptile, sg_special_set(&ptile->special, ch,
                                             loading->special.order + 4 * j,
                                             rivers_overlay),
@@ -2452,7 +2452,7 @@ static void sg_save_map_tiles_specials(struct savedata *saving,
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  halfbyte_iterate_special(j) {
+  halfbyte_iterate_special(j, S_LAST) {
     enum tile_special_type mod[4];
     int l;
 
@@ -4549,8 +4549,16 @@ static bool sg_load_player_unit(struct loaddata *loading,
     proad = loading->road.order[road];
   }
 
-  target = secfile_lookup_int_default(loading->file, S_LAST,
-                                      "%s.activity_target", unitstr);
+  {
+    int tgt_no = secfile_lookup_int_default(loading->file,
+                                            loading->special.size /* S_LAST */,
+                                            "%s.activity_target", unitstr);
+    if (tgt_no >= 0 && tgt_no < loading->special.size) {
+      target = loading->special.order[tgt_no];
+    } else {
+      target = S_LAST;
+    }
+  }
   if (target == S_OLD_FORTRESS) {
     target = S_LAST;
     pbase = base_type_by_rule_name("Fortress");
@@ -5313,7 +5321,7 @@ static void sg_load_player_vision(struct loaddata *loading,
                 "player%d.map_res%04d", plrno);
 
   /* Load player map (specials). */
-  halfbyte_iterate_special(j) {
+  halfbyte_iterate_special(j, loading->special.size) {
     LOAD_MAP_CHAR(ch, ptile,
                   sg_special_set(
                     &map_get_player_tile(ptile, plr)->special,
@@ -5556,7 +5564,7 @@ static void sg_save_player_vision(struct savedata *saving,
   }
 
   /* Save the map (specials). */
-  halfbyte_iterate_special(j) {
+  halfbyte_iterate_special(j, S_LAST) {
     enum tile_special_type mod[4];
     int l;
 

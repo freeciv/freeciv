@@ -194,11 +194,11 @@
 }
 
 /* Iterate on the specials half-bytes */
-#define special_halfbyte_iterate(s)					    \
+#define special_halfbyte_iterate(s, num_specials_types)			    \
 {									    \
   enum tile_special_type s;						    \
 									    \
-  for(s = 0; 4 * s < S_LAST; s++) {
+  for(s = 0; 4 * s < (num_specials_types); s++) {
 
 #define special_halfbyte_iterate_end					    \
   }									    \
@@ -749,13 +749,14 @@ static const enum tile_special_type default_specials[] = {
   way should have the "riversoverlay" capability.
 ****************************************************************************/
 static void map_load_rivers_overlay(struct section_file *file,
-			      const enum tile_special_type *special_order)
+                              const enum tile_special_type *special_order,
+                              int num_special_types)
 {
   /* used by set_savegame_special */
   map.server.have_rivers_overlay = TRUE;
 
   if (special_order) {
-    special_halfbyte_iterate(j) {
+    special_halfbyte_iterate(j, num_special_types) {
       char buf[16]; /* enough for sprintf() below */
       sprintf (buf, "map.spe%02d_%%03d", j);
 
@@ -921,6 +922,7 @@ load a complete map from a savegame file
 static void map_load(struct section_file *file,
                      const char *savefile_options,
                      const enum tile_special_type *special_order,
+                     int num_special_types,
                      struct base_type **base_order,
                      int num_bases_types)
 {
@@ -940,7 +942,7 @@ static void map_load(struct section_file *file,
 		  secfile_lookup_str(file, "map.res%03d", nat_y),
 		  ptile->resource = identifier_to_resource(ch));
 
-    special_halfbyte_iterate(j) {
+    special_halfbyte_iterate(j, num_special_types) {
       char buf[16]; /* enough for sprintf() below */
       sprintf (buf, "map.spe%02d_%%03d", j);
 
@@ -1397,6 +1399,8 @@ static const char* old_government_name(int id)
 static void player_load_units(struct player *plr, int plrno,
                               struct section_file *file,
                               const char *savefile_options,
+                              const enum tile_special_type *special_order,
+                              int num_special_types,
                               struct base_type **base_order,
                               int num_base_types)
 {
@@ -1497,9 +1501,27 @@ static void player_load_units(struct player *plr, int plrno,
       pbase = base_order[base];
     }
 
-    target
-      = secfile_lookup_int_default(file, S_LAST,
-                                   "player%d.u%d.activity_target", plrno, i);
+    if (special_order) {
+      int tgt_no
+        = secfile_lookup_int_default(file, num_special_types /* S_LAST */,
+                                     "player%d.u%d.activity_target", plrno, i);
+      if (tgt_no >= 0 && tgt_no < num_special_types) {
+        target = special_order[tgt_no];
+      } else {
+        target = S_LAST;
+      }
+    } else {
+      /* (Perhaps targeted pillaging post-dates default_specials, but better
+       * safe than sorry.) */
+      int tgt_no
+        = secfile_lookup_int_default(file, ARRAY_SIZE(default_specials),
+                                     "player%d.u%d.activity_target", plrno, i);
+      if (tgt_no >= 0 && tgt_no < ARRAY_SIZE(default_specials)) {
+        target = default_specials[tgt_no];
+      } else {
+        target = S_LAST;
+      }
+    }
     if (target == S_OLD_FORTRESS) {
       target = S_LAST;
       pbase = base_type_by_rule_name("Fortress");
@@ -2945,6 +2967,7 @@ static void player_load_vision(struct player *plr, int plrno,
                                struct section_file *file,
                                const char *savefile_options,
                                const enum tile_special_type *special_order,
+                               size_t num_special_types,
                                const char **improvement_order,
                                size_t improvement_order_size,
                                struct base_type **base_order,
@@ -2981,7 +3004,7 @@ static void player_load_vision(struct player *plr, int plrno,
 	map_get_player_tile(ptile, plr)->resource
 		    = identifier_to_resource(ch));
 
-      special_halfbyte_iterate(j) {
+      special_halfbyte_iterate(j, num_special_types) {
 	char buf[32]; /* enough for sprintf() below */
 	sprintf (buf, "player%d.map_spe%02d_%%03d", plrno, j);
 	LOAD_MAP_DATA(ch, nat_y, ptile,
@@ -3253,6 +3276,7 @@ static void game_load_internal(struct section_file *file)
   const char **improvement_order = NULL;
   const char **technology_order = NULL;
   enum tile_special_type *special_order = NULL;
+  size_t num_special_types = 0;
   struct base_type **base_order = NULL;
   size_t num_base_types = 0;
   const char *savefile_options = secfile_lookup_str(file, "savefile.options");
@@ -3378,16 +3402,26 @@ static void game_load_internal(struct section_file *file)
     size_t nmod;
     enum tile_special_type j;
 
-    modname = secfile_lookup_str_vec(file, &nmod,
+    modname = secfile_lookup_str_vec(file, &num_special_types,
 				     "savefile.specials");
     /* make sure that the size of the array is divisible by 4 */
-    special_order = fc_calloc(nmod + (4 - (nmod % 4)),
-			      sizeof(*special_order));
-    for (j = 0; j < nmod; j++) {
+    /* Allocating extra 4 slots, just a couple of bytes, in case of
+     * num_special_types being divisible by 4 already is intentional.
+     * Added complexity would cost those couple of bytes in code size alone,
+     * and we actually need at least one slot immediately after last valid
+     * one. That's where S_LAST is (or was in version that saved the game)
+     * and in some cases S_LAST gets written to savegame, at least as
+     * activity target special when activity targets some base instead.
+     * By having current S_LAST in that index allows us to map that old
+     * S_LAST to current S_LAST, just like any real special within range
+     * gets mapped. */
+    nmod = num_special_types + (4 - (num_special_types % 4));
+    special_order = fc_calloc(nmod, sizeof(*special_order));
+    for (j = 0; j < num_special_types; j++) {
       special_order[j] = special_by_rule_name(modname[j]);
     }
     free(modname);
-    for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
+    for (; j < nmod; j++) {
       special_order[j] = S_LAST;
     }
   }
@@ -3951,13 +3985,14 @@ static void game_load_internal(struct section_file *file)
           && MAPGEN_SCENARIO == map.server.generator) {
         /* generator 0 = map done with a map editor aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
-          map_load(file, savefile_options, special_order,
+          map_load(file, savefile_options,
+                   special_order, num_special_types,
                    base_order, num_base_types);
           return;
         }
         map_load_tiles(file);
         if (has_capability("riversoverlay",savefile_options)) {
-	  map_load_rivers_overlay(file, special_order);
+	  map_load_rivers_overlay(file, special_order, num_special_types);
 	}
         if (has_capability("startpos",savefile_options)) {
           map_load_startpos(file);
@@ -4012,7 +4047,8 @@ static void game_load_internal(struct section_file *file)
                                sizeof(server.game_identifier));
   }
 
-  map_load(file, savefile_options, special_order,
+  map_load(file, savefile_options,
+           special_order, num_special_types,
            base_order, num_base_types);
 
   if (!game.info.is_new_game) {
@@ -4122,6 +4158,7 @@ static void game_load_internal(struct section_file *file)
                          improvement_order, improvement_order_size,
                          worked_tiles);
       player_load_units(pplayer, plrno, file, savefile_options,
+                        special_order, num_special_types,
                         base_order, num_base_types);
       player_load_attributes(pplayer, plrno, file);
 
@@ -4214,7 +4251,8 @@ static void game_load_internal(struct section_file *file)
        player map we do this afterwards */
     players_iterate(pplayer) {
       int n = player_index(pplayer);
-      player_load_vision(pplayer, n, file, savefile_options, special_order,
+      player_load_vision(pplayer, n, file, savefile_options,
+                         special_order, num_special_types,
                          improvement_order, improvement_order_size,
                          base_order, num_base_types);
     } players_iterate_end;
