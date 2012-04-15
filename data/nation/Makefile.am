@@ -490,6 +490,7 @@ pkgdata_DATA = \
 		vandalic.ruleset \
 		vanuatuan.ruleset \
 		vedic.ruleset \
+		veletian.ruleset \
 		venda.ruleset \
 		venetian.ruleset \
 		venetic.ruleset \

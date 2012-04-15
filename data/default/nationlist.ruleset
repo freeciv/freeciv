@@ -521,6 +521,7 @@ match=2
 *include "nation/vandalic.ruleset"
 *include "nation/vanuatuan.ruleset"
 *include "nation/vedic.ruleset"
+*include "nation/veletian.ruleset"
 *include "nation/venda.ruleset"
 *include "nation/venetian.ruleset"
 *include "nation/venetic.ruleset"

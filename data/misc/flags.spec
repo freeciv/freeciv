@@ -510,6 +510,7 @@ artists = "
    Vanuatu		Vzb83 (Wikimedia Commons)
    Vatican		Flanker (Wikimedia Commons)
    Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
+   Veletian		Andrzej G.
    Venda		Walden69 (Wikimedia Commons)
    Venetic		Andrzej G.
    Venezuela		Zachary Harden et al.
@@ -1041,6 +1042,7 @@ sprites =
 		"f.vanuatu", "flags/vanuatu"
 		"f.vatican", "flags/vatican"
 		"f.vedic", "flags/vedic"
+		"f.veletian", "flags/veletian"
 		"f.venda", "flags/venda"
 		"f.venetic", "flags/venetic"
 		"f.venezuela", "flags/venezuela"
