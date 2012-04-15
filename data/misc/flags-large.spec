@@ -405,6 +405,7 @@ sprites =
 		"f.ryukyu", "flags/ryukyu-large"
 		"f.sadr", "flags/sadr-large"
 		"f.saint_kitts_and_nevis", "flags/saint_kitts_and_nevis-large"
+		"f.saint_lucia", "flags/saint_lucia-large"
 		"f.saka", "flags/saka-large"
 		"f.sakha", "flags/sakha-large"
 		"f.salish", "flags/salish-large"

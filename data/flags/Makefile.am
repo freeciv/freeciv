@@ -396,6 +396,7 @@ flag_files =				\
 		ryukyu.png		\
 		sadr.png		\
 		saint_kitts_and_nevis.png	\
+		saint_lucia.png		\
 		saka.png		\
 		sakha.png		\
 		salish.png		\
@@ -922,6 +923,7 @@ flag_files =				\
 		ryukyu-large.png		\
 		sadr-large.png		\
 		saint_kitts_and_nevis-large.png	\
+		saint_lucia-large.png		\
 		saka-large.png			\
 		sakha-large.png		\
 		salish-large.png		\
@@ -1450,6 +1452,7 @@ shield_files =					\
 		ryukyu-shield.png		\
 		sadr-shield.png			\
 		saint_kitts_and_nevis-shield.png	\
+		saint_lucia-shield.png		\
 		saka-shield.png			\
 		sakha-shield.png		\
 		salish-shield.png		\
@@ -1976,6 +1979,7 @@ shield_files =					\
 		ryukyu-shield-large.png		\
 		sadr-shield-large.png			\
 		saint_kitts_and_nevis-shield-large.png	\
+		saint_lucia-large.png			\
 		saka-shield-large.png			\
 		sakha-shield-large.png		\
 		salish-shield-large.png			\
@@ -2504,6 +2508,7 @@ svg_files = 				\
 		ryukyu.svg		\
 		sadr.svg		\
 		saint_kitts_and_nevis.svg	\
+		saint_lucia.svg		\
 		saka.svg		\
 		sakha.svg		\
 		salish.svg		\
