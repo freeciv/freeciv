@@ -2462,15 +2462,6 @@ static void load_ruleset_terrain(struct section_file *file)
 
   } road_type_iterate_end;
 
-  if (!compat_road) {
-    ruleset_error(LOG_FATAL, "\"%s\": No road has compat_special \"Road\".",
-                  filename);
-  }
-  if (!compat_rail) {
-    ruleset_error(LOG_FATAL, "\"%s\": No road has compat_special \"Railroad\".",
-                  filename);
-  }
-
   secfile_check_unused(file);
   secfile_destroy(file);
 }

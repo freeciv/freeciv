@@ -757,7 +757,9 @@ Fortresses improve defense for land units.\
 ; /* <-- avoid gettext warnings
 ;
 ; Road types:
-; Current code requires exactly two road definitions
+;
+; Current code allows maximum of two road types, of which first one must have
+; compat_special "Road" and second "Railroad"
 ;
 ; name                    = translatable name as seen by user
 ; graphic                 = tag specifing preferred graphic
