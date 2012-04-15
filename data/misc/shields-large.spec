@@ -179,6 +179,7 @@ sprites =
 		"f.shield.gambia", "flags/gambia-shield-large"
 		"f.shield.gaul", "flags/gaul-shield-large"
 		"f.shield.georgia", "flags/georgia-shield-large"
+		"f.shield.germanic", "flags/germanic-shield-large"
 		"f.shield.germany", "flags/germany-shield-large"
 		"f.shield.ghana", "flags/ghana-shield-large"
 		"f.shield.ghana_ancient", "flags/ghana_ancient-shield-large"
