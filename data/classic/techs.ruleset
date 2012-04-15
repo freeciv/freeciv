@@ -412,6 +412,7 @@ req2     = "Physics"
 flags    = ""
 graphic     = "a.magnetism"
 graphic_alt = "-"
+helptext    = _("Allows establishing one more trade route from each city.")
 
 [advance_map_making]
 name     = _("Map Making")
@@ -698,6 +699,7 @@ req2     = "Industrialization"
 flags    = ""
 graphic     = "a.the_corporation"
 graphic_alt = "-"
+helptext    = _("Allows establishing one more trade route from each city.")
 
 [advance_the_republic]
 name     = _("The Republic")
