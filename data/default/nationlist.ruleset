@@ -415,6 +415,7 @@ match=2
 *include "nation/riograndense.ruleset"
 *include "nation/romanian.ruleset"
 *include "nation/roman.ruleset"
+*include "nation/romansh.ruleset"
 *include "nation/russian.ruleset"
 *include "nation/ruthenian.ruleset"
 *include "nation/rwandan.ruleset"

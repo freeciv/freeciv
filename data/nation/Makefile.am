@@ -384,6 +384,7 @@ pkgdata_DATA = \
 		riograndense.ruleset \
 		romanian.ruleset \
 		roman.ruleset \
+		romansh.ruleset \
 		russian.ruleset \
 		ruthenian.ruleset \
 		rwandan.ruleset \

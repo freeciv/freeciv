@@ -190,6 +190,7 @@ artists = "
    Greece		Daniel McRae
    Greenland		Daniel McRae
    Grenada		SKopp (Wikimedia Commons)
+   Grisons		Denelson83 (Wikimedia Commons)
    Guanche		HansenBCN (Wikimedia Commons)
    Guarani		Daniel Markstedt
    Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
@@ -725,6 +726,7 @@ sprites =
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"
 		"f.grenada", "flags/grenada"
+		"f.grisons", "flags/grisons"
 		"f.guanche", "flags/guanche"
 		"f.guarani", "flags/guarani"
 		"f.guatemala", "flags/guatemala"

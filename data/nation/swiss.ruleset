@@ -45,7 +45,7 @@ city_style = "European"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="austrian", "french", "italian"
+civilwar_nations="austrian", "french", "italian", "romansh"
 
 cities =
  "Bern (river)",

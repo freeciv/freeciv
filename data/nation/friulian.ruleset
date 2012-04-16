@@ -33,7 +33,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "venetian", "slovenian"
+civilwar_nations = "venetian", "slovenian", "romansh"
 
 cities =
  "Aquilee (ocean)",
