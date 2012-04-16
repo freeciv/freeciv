@@ -22,9 +22,13 @@ extern "C" {
 #define SPECENUM_VALUE0NAME "Expansionist"
 #define SPECENUM_VALUE1 TRAIT_TRADER
 #define SPECENUM_VALUE1NAME "Trader"
+#define SPECENUM_VALUE2 TRAIT_AGGRESSIVE
+#define SPECENUM_VALUE2NAME "Aggressive"
 #include "specenum_gen.h"
 
 #define TRAIT_DEFAULT_VALUE 50
+#define TRAIT_MAX_VALUE (TRAIT_DEFAULT_VALUE * TRAIT_DEFAULT_VALUE)
+#define TRAIT_MAX_VALUE_SR (TRAIT_DEFAULT_VALUE)
 
 struct ai_trait
 {

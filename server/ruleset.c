@@ -835,6 +835,7 @@ static void ruleset_load_traits(int *traits, struct section_file *file,
   const char *trait_names[] = {
     "expansionist",
     "trader",
+    "aggressive",
     NULL
   };
 

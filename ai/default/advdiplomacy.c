@@ -52,6 +52,9 @@
 #include "advtools.h"
 
 /* ai */
+#include "aitraits.h"
+
+/* ai/default */
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
@@ -68,10 +71,6 @@
 /* One hundred thousand. Basically a number of gold that no player is
  * ever likely to have, but not so big that we get integer overflows. */
 #define BIG_NUMBER 100000
-
-/* This is how much negative AI love we need before we decide to embark
- * on opportunistic war for spoils. */
-#define WAR_THRESHOLD -(MAX_AI_LOVE / 8)
 
 /* turn this off when we don't want functions to message players */
 static bool diplomacy_verbose = TRUE;
@@ -1378,6 +1377,10 @@ void dai_diplomacy_actions(struct player *pplayer)
   bool need_targets = TRUE;
   struct player *target = NULL;
   int most_hatred = MAX_AI_LOVE;
+  int war_threshold;
+  int aggr;
+  float aggr_sr;
+  float max_sr;
 
   fc_assert_ret(pplayer->ai_controlled);
   if (!pplayer->is_alive) {
@@ -1468,7 +1471,13 @@ void dai_diplomacy_actions(struct player *pplayer)
     }
   } players_iterate_alive_end;
 
-  if (need_targets && target && most_hatred < WAR_THRESHOLD
+  aggr = ai_trait_get_value(TRAIT_AGGRESSIVE, pplayer);
+  max_sr = TRAIT_MAX_VALUE_SR;
+  aggr_sr = sqrt(aggr);
+
+  war_threshold = (MAX_AI_LOVE * (0.67 + aggr_sr / max_sr / 3.0)) - MAX_AI_LOVE;
+
+  if (need_targets && target && most_hatred < war_threshold
       && dai_diplomacy_get(pplayer, target)->countdown == -1) {
     enum war_reason war_reason;
 

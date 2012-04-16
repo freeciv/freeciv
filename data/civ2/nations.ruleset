@@ -25,6 +25,11 @@ options="+Freeciv-ruleset-Devel-2012.Feb.28"
 ; have it explicitly defined
 default_government = "Despotism"
 
+[default_traits]
+;expansionist = 50
+;trader = 50
+aggressive = 150
+
 [ngroup_ancient]
 name=_("?nationgroup:Ancient")
 match=0

@@ -62,7 +62,7 @@ int ai_trait_get_value(enum trait tr, struct player *pplayer)
    * minimum value of 1 ->
    * minimum is default / TRAIT_DEFAULT_VALUE,
    * maximum is default * TRAIT_DEFAULT_VALUE */
-  val = CLIP(1, val, TRAIT_DEFAULT_VALUE * (TRAIT_DEFAULT_VALUE / 1));
+  val = CLIP(1, val, TRAIT_MAX_VALUE);
 
   return val;
 }
