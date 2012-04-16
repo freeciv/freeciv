@@ -30,7 +30,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "Chinese", "Vietnamese", "Thai", "Laotian"
+civilwar_nations = "Cantonese", "Vietnamese", "Thai", "Laotian"
 
 cities =
 ; Mountains with Miao population

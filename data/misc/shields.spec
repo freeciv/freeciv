@@ -94,6 +94,7 @@ sprites =
 		"f.shield.canada", "flags/canada-shield"
 		"f.shield.canada_old", "flags/canada_old-shield"
 		"f.shield.canar", "flags/canar-shield"
+		"f.shield.cantonese", "flags/cantonese-shield"
 		"f.shield.cape_verde", "flags/cape_verde-shield"
 		"f.shield.car", "flags/car-shield"
 		"f.shield.cartago", "flags/cartago-shield"

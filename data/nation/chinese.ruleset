@@ -39,7 +39,7 @@ civilwar_nations=
 ; Technically Taiwan (ROC) is the site of government-in-exile of China proper
  "taiwanese",
 ; Nations part of modern PRC
- "manchu", "miao", "tibetan", "uyghur", "zhuang"
+ "manchu", "miao", "tibetan", "uyghur", "zhuang", "cantonese"
 
 cities =
  "Beijing",

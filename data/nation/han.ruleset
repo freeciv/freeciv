@@ -43,7 +43,7 @@ civilwar_nations=
 ; /* Republic of China */
 "Taiwanese",
 
-"Korean", "Vietnamese", "Miao", "Zhuang"
+"Korean", "Vietnamese", "Miao", "Zhuang", "Cantonese"
 
 cities =
 ; Xia dynasty
