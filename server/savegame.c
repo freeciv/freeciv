@@ -60,6 +60,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "ruleset.h"
+#include "savegame2.h"
 #include "score.h"
 #include "settings.h"
 #include "spacerace.h"
@@ -3988,6 +3989,7 @@ static void game_load_internal(struct section_file *file)
           map_load(file, savefile_options,
                    special_order, num_special_types,
                    base_order, num_base_types);
+          mainmap_specials_to_roads();
           return;
         }
         map_load_tiles(file);
@@ -4050,6 +4052,7 @@ static void game_load_internal(struct section_file *file)
   map_load(file, savefile_options,
            special_order, num_special_types,
            base_order, num_base_types);
+  mainmap_specials_to_roads();
 
   if (!game.info.is_new_game) {
     int *worked_tiles = NULL; /* temporary map for worked tiles */
@@ -4255,6 +4258,7 @@ static void game_load_internal(struct section_file *file)
                          special_order, num_special_types,
                          improvement_order, improvement_order_size,
                          base_order, num_base_types);
+      plrmap_specials_to_roads(pplayer);
     } players_iterate_end;
 
     /* We do this here since if the did it in player_load, player 1

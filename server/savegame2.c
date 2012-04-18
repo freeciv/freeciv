@@ -323,6 +323,16 @@ static bool sg_success;
   }                                                                         \
 }
 
+/* Iterate on the roads half-bytes */
+#define halfbyte_iterate_roads(r, num_roads_types)                          \
+{                                                                           \
+  int r;                                                                    \
+  for(r = 0; 4 * r < (num_roads_types); r++) {
+
+#define halfbyte_iterate_roads_end                                          \
+  }                                                                         \
+}
+
 struct loaddata {
   struct section_file *file;
   const char *secfile_options;
@@ -425,6 +435,8 @@ static char sg_special_get(bv_special specials,
                            const enum tile_special_type *index);
 static void sg_bases_set(bv_bases *bases, char ch, struct base_type **index);
 static char sg_bases_get(bv_bases bases, const int *index);
+static void sg_roads_set(bv_roads *roads, char ch, struct road_type **index);
+static char sg_roads_get(bv_roads roads, const int *index);
 static struct resource *char2resource(char c);
 static char resource2char(const struct resource *presource);
 /* bin2ascii_hex() is defined as macro */
@@ -466,6 +478,8 @@ static void sg_load_map_tiles(struct loaddata *loading);
 static void sg_save_map_tiles(struct savedata *saving);
 static void sg_load_map_tiles_bases(struct loaddata *loading);
 static void sg_save_map_tiles_bases(struct savedata *saving);
+static void sg_load_map_tiles_roads(struct loaddata *loading);
+static void sg_save_map_tiles_roads(struct savedata *saving);
 static void sg_load_map_tiles_specials(struct loaddata *loading,
                                        bool rivers_overlay);
 static void sg_save_map_tiles_specials(struct savedata *saving,
@@ -1314,6 +1328,61 @@ static char sg_bases_get(bv_bases bases, const int *index)
       break;
     }
     if (BV_ISSET(bases, base)) {
+      bin |= (1 << i);
+    }
+  }
+
+  return hex_chars[bin];
+}
+
+/****************************************************************************
+  Helper function for loading roads from a savegame.
+
+  'ch' gives the character loaded from the savegame. Roads are packed
+  in four to a character in hex notation. 'index' is a mapping of
+  savegame bit -> road bit.
+****************************************************************************/
+static void sg_roads_set(bv_roads *roads, char ch, struct road_type **index)
+{
+  int i, bin;
+  const char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    log_sg("Unknown hex value: '%c' (%d)", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    struct road_type *proad = index[i];
+
+    if (proad == NULL) {
+      continue;
+    }
+    if (bin & (1 << i)) {
+      BV_SET(*roads, road_index(proad));
+    }
+  }
+}
+
+/****************************************************************************
+  Helper function for saving roads into a savegame.
+
+  Specials are packed in four to a character in hex notation. 'index'
+  specifies which set of roads are included in this character.
+****************************************************************************/
+static char sg_roads_get(bv_roads roads, const int *index)
+{
+  int i, bin = 0;
+
+  for (i = 0; i < 4; i++) {
+    int road = index[i];
+
+    if (road < 0) {
+      break;
+    }
+    if (BV_ISSET(roads, road)) {
       bin |= (1 << i);
     }
   }
@@ -2219,6 +2288,53 @@ static void sg_save_settings(struct savedata *saving)
  * ======================================================================= */
 
 /****************************************************************************
+  Fill main map road vectors with roads indicated by (old savegame) specials
+****************************************************************************/
+void mainmap_specials_to_roads(void)
+{
+  struct road_type *proad = road_by_special(S_OLD_ROAD);
+  struct road_type *prail = road_by_special(S_OLD_RAILROAD);
+
+  whole_map_iterate(ptile) {
+    if (tile_has_special(ptile, S_OLD_ROAD)) {
+      tile_add_road(ptile, proad);
+    }
+    if (tile_has_special(ptile, S_OLD_RAILROAD)) {
+      tile_add_road(ptile, prail);
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Fill player map road vectors with roads indicated by (old savegame) specials
+****************************************************************************/
+void plrmap_specials_to_roads(struct player *plr)
+{
+  struct road_type *proad = road_by_special(S_OLD_ROAD);
+  struct road_type *prail = road_by_special(S_OLD_RAILROAD);
+  int road_no = -1;
+  int rail_no = -1;
+
+  if (proad != NULL) {
+    road_no = road_number(proad);
+  }
+  if (prail != NULL) {
+    rail_no = road_number(prail);
+  }
+
+  whole_map_iterate(ptile) {
+    struct player_tile *pptile = map_get_player_tile(ptile, plr);
+
+    if (contains_special(pptile->special, S_OLD_ROAD) && road_no >= 0) {
+      BV_SET(pptile->roads, road_no);
+    }
+    if (contains_special(pptile->special, S_OLD_RAILROAD) && rail_no >= 0) {
+      BV_SET(pptile->roads, rail_no);
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
   Load '[map'].
 ****************************************************************************/
 static void sg_load_map(struct loaddata *loading)
@@ -2238,6 +2354,7 @@ static void sg_load_map(struct loaddata *loading)
     sg_load_map_tiles(loading);
     sg_load_map_startpos(loading);
     sg_load_map_tiles_bases(loading);
+    sg_load_map_tiles_roads(loading);
     if (has_capability("specials", loading->secfile_options)) {
       /* Load specials and resources. */
       sg_load_map_tiles_specials(loading, FALSE);
@@ -2260,6 +2377,7 @@ static void sg_load_map(struct loaddata *loading)
   sg_load_map_tiles(loading);
   sg_load_map_startpos(loading);
   sg_load_map_tiles_bases(loading);
+  sg_load_map_tiles_roads(loading);
   sg_load_map_tiles_specials(loading, FALSE);
   sg_load_map_tiles_resources(loading);
   sg_load_map_known(loading);
@@ -2285,6 +2403,7 @@ static void sg_save_map(struct savedata *saving)
   sg_save_map_tiles(saving);
   sg_save_map_startpos(saving);
   sg_save_map_tiles_bases(saving);
+  sg_save_map_tiles_roads(saving);
   if (!map.server.have_resources) {
     if (map.server.have_rivers_overlay) {
       /* Save the rivers overlay map; this is a special case to allow
@@ -2410,6 +2529,47 @@ static void sg_save_map_tiles_bases(struct savedata *saving)
     SAVE_MAP_CHAR(ptile, sg_bases_get(ptile->bases, mod), saving->file,
                   "map.b%02d_%04d", j);
   } halfbyte_iterate_bases_end;
+}
+
+/****************************************************************************
+  Load roads to map
+****************************************************************************/
+static void sg_load_map_tiles_roads(struct loaddata *loading)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  /* Load roads. */
+  halfbyte_iterate_roads(j, loading->road.size) {
+    LOAD_MAP_CHAR(ch, ptile, sg_roads_set(&ptile->roads, ch,
+                                          loading->road.order + 4 * j),
+                  loading->file, "map.r%02d_%04d", j);
+  } halfbyte_iterate_roads_end;
+}
+
+/****************************************************************************
+  Save information about roads on map
+****************************************************************************/
+static void sg_save_map_tiles_roads(struct savedata *saving)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  /* Save roads. */
+  halfbyte_iterate_roads(j, game.control.num_road_types) {
+    int mod[4];
+    int l;
+
+    for (l = 0; l < 4; l++) {
+      if (4 * j + 1 > game.control.num_road_types) {
+        mod[l] = -1;
+      } else {
+        mod[l] = 4 * j + l;
+      }
+    }
+    SAVE_MAP_CHAR(ptile, sg_roads_get(ptile->roads, mod), saving->file,
+                  "map.r%02d_%04d", j);
+  } halfbyte_iterate_roads_end;
 }
 
 /****************************************************************************
@@ -3246,6 +3406,7 @@ static void sg_load_players(struct loaddata *loading)
      player map we do this afterwards */
   players_iterate(pplayer) {
     sg_load_player_vision(loading, pplayer);
+    plrmap_specials_to_roads(pplayer);
     /* Check the sucess of the function above. */
     sg_check_ret();
   } players_iterate_end;
@@ -5337,6 +5498,14 @@ static void sg_load_player_vision(struct loaddata *loading,
                   loading->file, "player%d.map_b%02d_%04d", plrno, j);
   } halfbyte_iterate_bases_end;
 
+  /* Load player map (roads). */
+  halfbyte_iterate_roads(j, loading->road.size) {
+    LOAD_MAP_CHAR(ch, ptile,
+                  sg_roads_set(&map_get_player_tile(ptile, plr)->roads,
+                               ch, loading->road.order + 4 * j),
+                  loading->file, "player%d.map_r%02d_%04d", plrno, j);
+  } halfbyte_iterate_roads_end;
+
   if (game.server.foggedborders) {
     /* Load player map (border). */
     int x, y;
@@ -5594,6 +5763,24 @@ static void sg_save_player_vision(struct savedata *saving,
                   sg_bases_get(map_get_player_tile(ptile, plr)->bases, mod),
                   saving->file, "player%d.map_b%02d_%04d", plrno, j);
   } halfbyte_iterate_bases_end;
+
+  /* Save the map (roads). */
+  halfbyte_iterate_roads(j, game.control.num_road_types) {
+    int mod[4];
+    int l;
+
+    for (l = 0; l < 4; l++) {
+      if (4 * j + 1 > game.control.num_road_types) {
+        mod[l] = -1;
+      } else {
+        mod[l] = 4 * j + l;
+      }
+    }
+
+    SAVE_MAP_CHAR(ptile,
+                  sg_roads_get(map_get_player_tile(ptile, plr)->roads, mod),
+                  saving->file, "player%d.map_r%02d_%04d", plrno, j);
+  } halfbyte_iterate_roads_end;
 
   /* Save the map (update time). */
   for (i = 0; i < 4; i++) {
