@@ -23,8 +23,8 @@ struct fcmp_params
 #define MODPACK_LIST_URL  "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/modpack.list"
 #define DEFAULT_URL_START "http://www.cazfi.net/freeciv/modinst/" DATASUBDIR "/"
 #else  /* IS_DEVEL_VERSION */
-#define MODPACK_LIST_URL  "http://download.gna.org/freeciv/modinst/" DATASUBDIR "/modpack.list"
-#define DEFAULT_URL_START "http://download.gna.org/freeciv/modinst/" DATASUBDIR "/"
+#define MODPACK_LIST_URL  "http://modpack.freeciv.org/" DATASUBDIR "/modpack.list"
+#define DEFAULT_URL_START "http://modpack.freeciv.org/" DATASUBDIR "/"
 #endif /* IS_DEVEL_VERSION */
 
 #define EXAMPLE_URL DEFAULT_URL_START "ancients.modpack"
