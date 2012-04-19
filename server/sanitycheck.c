@@ -77,9 +77,13 @@ static void check_city_feelings(const struct city *pcity, const char *file,
 **************************************************************************/
 static void check_specials(const char *file, const char *function, int line)
 {
+  struct road_type *proad = road_by_special(S_OLD_ROAD);
+  struct road_type *prail = road_by_special(S_OLD_RAILROAD);
+
   whole_map_iterate(ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
     bv_special special = tile_specials(ptile);
+    bv_roads roads = tile_roads(ptile);
 
     if (contains_special(special, S_FARMLAND)) {
       SANITY_TILE(ptile, contains_special(special, S_IRRIGATION));
@@ -94,6 +98,18 @@ static void check_specials(const char *file, const char *function, int line)
 
     SANITY_TILE(ptile, terrain_index(pterrain) >= T_FIRST 
                        && terrain_index(pterrain) < terrain_count());
+
+    /* Road vector & backward compatibility specials consistency */
+    if (contains_special(special, S_ROAD)) {
+      SANITY_TILE(ptile, proad != NULL && BV_ISSET(roads, road_index(proad)));
+    } else {
+      SANITY_TILE(ptile, proad == NULL || !BV_ISSET(roads, road_index(proad)));
+    }
+    if (contains_special(special, S_RAILROAD)) {
+      SANITY_TILE(ptile, prail != NULL && BV_ISSET(roads, road_index(prail)));
+    } else {
+      SANITY_TILE(ptile, prail == NULL || !BV_ISSET(roads, road_index(prail)));
+    }
   } whole_map_iterate_end;
 }
 
