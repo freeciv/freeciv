@@ -2476,6 +2476,7 @@ void do_explore(struct unit *punit)
 bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
+  struct player_tile *plrtile;
 
   if (!unit_has_type_flag(punit, F_PARATROOPERS)) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -2499,11 +2500,14 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
+  plrtile = map_get_player_tile(ptile, pplayer);
+
   /* Safe terrain according to player map? */
   if (!is_native_terrain(unit_type(punit),
-                         map_get_player_tile(ptile, pplayer)->terrain,
-                         map_get_player_tile(ptile, pplayer)->special,
-                         map_get_player_tile(ptile, pplayer)->bases)) {
+                         plrtile->terrain,
+                         plrtile->special,
+                         plrtile->bases,
+                         plrtile->roads)) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("This unit cannot paradrop into %s."),
                   terrain_name_translation(
