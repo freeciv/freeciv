@@ -246,6 +246,7 @@ match=2
 *include "nation/honduran.ruleset"
 *include "nation/hopi.ruleset"
 *include "nation/hungarian.ruleset"
+*include "nation/hunnic.ruleset"
 *include "nation/iberian.ruleset"
 *include "nation/icelandic.ruleset"
 *include "nation/illyrian.ruleset"

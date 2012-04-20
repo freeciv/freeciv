@@ -205,6 +205,7 @@ flag_files =				\
 		hopi.png		\
 		hre.png			\
 		hungary.png		\
+		hunnic.png		\
 		iberian.png		\
 		iceland.png		\
 		illyria.png		\
@@ -732,6 +733,7 @@ flag_files =				\
 		hopi-large.png		\
 		hre-large.png			\
 		hungary-large.png		\
+		hunnic-large.png		\
 		iberian-large.png		\
 		iceland-large.png		\
 		illyria-large.png		\
@@ -1261,6 +1263,7 @@ shield_files =					\
 		hopi-shield.png			\
 		hre-shield.png			\
 		hungary-shield.png		\
+		hunnic-shield.png		\
 		iberian-shield.png		\
 		iceland-shield.png		\
 		illyria-shield.png		\
@@ -1788,6 +1791,7 @@ shield_files =					\
 		hopi-shield-large.png			\
 		hre-shield-large.png			\
 		hungary-shield-large.png		\
+		hunnic-shield-large.png			\
 		iberian-shield-large.png		\
 		iceland-shield-large.png		\
 		illyria-shield-large.png		\
@@ -2317,6 +2321,7 @@ svg_files = 				\
 		hopi.svg		\
 		hre.svg			\
 		hungary.svg		\
+		hunnic.svg		\
 		iberian.svg		\
 		iceland.svg		\
 		illyria.svg		\
