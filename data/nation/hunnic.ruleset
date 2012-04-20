@@ -34,7 +34,7 @@ city_style = "Celtic"
 
 ruler_titles = {
  "government",      "male_title",      "female_title"
- "Anarchy",         _("Usurper"),      _("?female:Usurper %s")
+ "Anarchy",         _("Usurper %s"),      _("?female:Usurper %s")
  "Despotism",       _("%s Khan"),      _("%s Khatan")
  "Monarchy",        _("%s Khagan"),    _("%s Khagan")
 }

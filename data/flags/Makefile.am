@@ -523,6 +523,7 @@ flag_files =				\
 		westphalia.png		\
 		wuerttemberg.png	\
 		xhosa.png		\
+		xiongnu.png		\
 		yemen.png		\
 		yucatan.png		\
 		yugoslavia.png		\
@@ -1051,6 +1052,7 @@ flag_files =				\
 		westphalia-large.png		\
 		wuerttemberg-large.png		\
 		xhosa-large.png			\
+		xiongnu-large.png		\
 		yemen-large.png			\
 		yucatan-large.png		\
 		yugoslavia-large.png		\
@@ -1581,6 +1583,7 @@ shield_files =					\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
 		xhosa-shield.png		\
+		xiongnu-shield.png		\
 		yemen-shield.png		\
 		yucatan-shield.png		\
 		yugoslavia-shield.png		\
@@ -2109,6 +2112,7 @@ shield_files =					\
 		westphalia-shield-large.png		\
 		wuerttemberg-shield-large.png		\
 		xhosa-shield-large.png			\
+		xiongnu-shield-large.png		\
 		yemen-shield-large.png			\
 		yucatan-shield-large.png		\
 		yugoslavia-shield-large.png		\
@@ -2639,6 +2643,7 @@ svg_files = 				\
 		westphalia.svg		\
 		wuerttemberg.svg	\
 		xhosa.svg		\
+		xiongnu.svg		\
 		yemen.svg		\
 		yucatan.svg		\
 		yugoslavia.svg		\

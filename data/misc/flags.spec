@@ -534,6 +534,7 @@ artists = "
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons)
    Xhosa		Madden (Wikimedia Commons)
+   Xiongnu		Andrzej G.
    Yemen		J.M. Maalderink
    Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
@@ -1070,6 +1071,7 @@ sprites =
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
 		"f.xhosa", "flags/xhosa"
+		"f.xiongnu", "flags/xiongnu"
 		"f.yemen", "flags/yemen"
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
