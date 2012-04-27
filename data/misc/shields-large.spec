@@ -511,6 +511,7 @@ sprites =
 		"f.shield.vanuatu", "flags/vanuatu-shield-large"
 		"f.shield.vatican", "flags/vatican-shield-large"
 		"f.shield.vedic", "flags/vedic-shield-large"
+		"f.shield.veletian", "flags/veletian-shield-large"
 		"f.shield.venda", "flags/venda-shield-large"
 		"f.shield.venetic", "flags/venetic-shield-large"
 		"f.shield.venezuela", "flags/venezuela-shield-large"
