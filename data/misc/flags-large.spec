@@ -126,6 +126,7 @@ sprites =
 		"f.cossack", "flags/cossack-large"
 		"f.costa_rica", "flags/costa_rica-large"
 		"f.courland", "flags/courland-large"
+		"f.crete", "flags/crete-large"
 		"f.crimean_tatar", "flags/crimean_tatar-large"
 		"f.croatia", "flags/croatia-large"
 		"f.cuba", "flags/cuba-large"
