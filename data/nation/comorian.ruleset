@@ -4,7 +4,7 @@ name=_("Comorian")
 plural=_("?plural:Comorians")
 groups="Modern", "African"
 legend=_("The Comoros is an island country in the Mozambique channel,\
- consisting of Grande Comore, Moheli and Ajouan, although the Comoran\
+ consisting of Grande Comore, Moheli and Anjouan, although the Comoran\
  government also claims Mayotte, which is currently a French overseas\
  departement. Having been under Arab influence since the 8th century,\
  the Comoros is the southernmost Muslim-majority country in the world.")
