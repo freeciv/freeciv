@@ -234,6 +234,7 @@ sprites =
 		"f.shield.jamaica", "flags/jamaica-shield-large"
 		"f.shield.japan", "flags/japan-shield-large"
 		"f.shield.jbonai", "flags/jbonai-shield-large"
+		"f.shield.jerusalem", "flags/jerusalem-shield-large"
 		"f.shield.jolof", "flags/jolof-shield-large"
 		"f.shield.jordan", "flags/jordan-shield-large"
 		"f.shield.kalmykia", "flags/kalmykia-shield-large"

@@ -127,6 +127,7 @@ pkgdata_DATA = \
 		cretan.ruleset \
 		crimeantatar.ruleset \
 		croatian.ruleset \
+		crusader.ruleset \
 		cuban.ruleset \
 		curonian.ruleset \
 		cuyavian.ruleset \
