@@ -46,7 +46,7 @@ init_units=""
 
 conflicts_with= "Russian", "Soviet", "Manchu", "Kazakh", "Gokturk",
                 "Uyghur", "Buryat", "Chinese", "Tuvan"
-civilwar_nations = "Gokturk", "Saka", "Mongolian", "Han", "Tocharian"
+civilwar_nations = "Gokturk", "Saka", "Mongol", "Han", "Tocharian"
 
 cities =
  "Tongwancheng",
