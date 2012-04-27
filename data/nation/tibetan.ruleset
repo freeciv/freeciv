@@ -34,7 +34,7 @@ city_style = "Asian"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations = "mongol", "nepali", "bhutanese"
+civilwar_nations = "mongol", "nepali", "bhutanese", "sherpa"
 
 cities =
  "Lhasa",

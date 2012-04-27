@@ -419,6 +419,7 @@ flag_files =				\
 		serbia.png		\
 		shan.png		\
 		shawnee.png		\
+		sherpa.png		\
 		siberia.png		\
 		sicily.png		\
 		sierra_leone.png	\
@@ -942,6 +943,7 @@ flag_files =				\
 		serbia-large.png		\
 		shan-large.png			\
 		shawnee-large.png		\
+		sherpa-large.png		\
 		siberia-large.png		\
 		sicily-large.png		\
 		sierra_leone-large.png		\
@@ -1467,6 +1469,7 @@ shield_files =					\
 		serbia-shield.png		\
 		shan-shield.png			\
 		shawnee-shield.png		\
+		sherpa-shield.png		\
 		siberia-shield.png		\
 		sicily-shield.png		\
 		sierra_leone-shield.png		\
@@ -1990,6 +1993,7 @@ shield_files =					\
 		serbia-shield-large.png		\
 		shan-shield-large.png			\
 		shawnee-shield-large.png		\
+		sherpa-shield-large.png			\
 		siberia-shield-large.png		\
 		sicily-shield-large.png		\
 		sierra_leone-shield-large.png		\
@@ -2515,6 +2519,7 @@ svg_files = 				\
 		serbia.svg		\
 		shan.svg		\
 		shawnee.svg		\
+		sherpa.svg		\
 		siberia.svg		\
 		sicily.svg		\
 		sierra_leone.svg	\

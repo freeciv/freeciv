@@ -465,6 +465,7 @@ match=2
 *include "nation/serbian.ruleset"
 *include "nation/shan.ruleset"
 *include "nation/shawnee.ruleset"
+*include "nation/sherpa.ruleset"
 *include "nation/siberian.ruleset"
 *include "nation/sicilian.ruleset"
 *include "nation/sierraleonean.ruleset"
