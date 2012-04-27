@@ -325,6 +325,7 @@ flag_files =				\
 		namibia.png		\
 		naples.png		\
 		nato.png		\
+		nauru.png		\
 		navajo.png		\
 		nenetsia.png		\
 		nepal.png		\
@@ -846,7 +847,8 @@ flag_files =				\
 		nagorno_karabakh-large.png	\
 		namibia-large.png		\
 		naples-large.png		\
-		nato-large.png		\
+		nato-large.png			\
+		nauru-large.png			\
 		navajo-large.png		\
 		nenetsia-large.png		\
 		nepal-large.png		\
@@ -1371,6 +1373,7 @@ shield_files =					\
 		namibia-shield.png		\
 		naples-shield.png		\
 		nato-shield.png			\
+		nauru-shield.png		\
 		navajo-shield.png		\
 		nenetsia-shield.png		\
 		nepal-shield.png		\
@@ -1893,7 +1896,8 @@ shield_files =					\
 		namibia-shield-large.png		\
 		naples-shield-large.png		\
 		nato-shield-large.png			\
-		navajo-shield-large.png		\
+		nauru-shield-large.png			\
+		navajo-shield-large.png			\
 		nenetsia-shield-large.png		\
 		nepal-shield-large.png		\
 		nestoria-shield-large.png		\
@@ -2417,6 +2421,7 @@ svg_files = 				\
 		namibia.svg		\
 		naples.svg		\
 		nato.svg		\
+		nauru.svg		\
 		navajo.svg		\
 		nenetsia.svg		\
 		nepal.svg		\

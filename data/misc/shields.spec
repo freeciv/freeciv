@@ -333,6 +333,7 @@ sprites =
 		"f.shield.namibia", "flags/namibia-shield"
 		"f.shield.naples", "flags/naples-shield"
 ;		"f.shield.nato", "flags/nato-shield"
+		"f.shield.nauru", "flags/nauru-shield"
 		"f.shield.navajo", "flags/navajo-shield"
 		"f.shield.nenetsia", "flags/nenetsia-shield"
 		"f.shield.nepal", "flags/nepal-shield"

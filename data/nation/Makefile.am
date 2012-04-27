@@ -320,6 +320,7 @@ pkgdata_DATA = \
 		muscovite.ruleset \
 		mwiska.ruleset \
 		namibian.ruleset \
+		nauruan.ruleset \
 		navajo.ruleset \
 		neapolitan.ruleset \
 		nenets.ruleset \
