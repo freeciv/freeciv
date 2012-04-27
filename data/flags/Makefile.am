@@ -499,6 +499,7 @@ flag_files =				\
 		vatican.png		\
 		vedic.png		\
 		venda.png		\
+		venetic.png		\
 		venezuela.png		\
 		venice.png		\
 		vermont.png		\
@@ -1020,6 +1021,7 @@ flag_files =				\
 		vatican-large.png		\
 		vedic-large.png			\
 		venda-large.png			\
+		venetic-large.png		\
 		venezuela-large.png		\
 		venice-large.png		\
 		vermont-large.png		\
@@ -1543,6 +1545,7 @@ shield_files =					\
 		vatican-shield.png		\
 		vedic-shield.png		\
 		venda-shield.png		\
+		venetic-shield.png		\
 		venezuela-shield.png		\
 		venice-shield.png		\
 		vermont-shield.png		\
@@ -2064,6 +2067,7 @@ shield_files =					\
 		vatican-shield-large.png		\
 		vedic-shield-large.png			\
 		venda-shield-large.png			\
+		venetic-shield-large.png		\
 		venezuela-shield-large.png		\
 		venice-shield-large.png		\
 		vermont-shield-large.png		\
@@ -2587,6 +2591,7 @@ svg_files = 				\
 		vatican.svg		\
 		vedic.svg		\
 		venda.svg		\
+		venetic.svg		\
 		venezuela.svg		\
 		venice.svg		\
 		vermont.svg		\
