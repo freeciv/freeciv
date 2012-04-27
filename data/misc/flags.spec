@@ -404,6 +404,7 @@ artists = "
    Ryukyu		Daniel Markstedt
    SADR			J.M. Maalderink
    St. Kitts and Nevis	Denelson83 and Pumbaa80 (Wikimedia Commons)
+   Saint Lucia		Kopp, Denelson83 and Zscout370 (Wikimedia Commons)
    Saka			Madden, J.M. Maalderink and Andrzej G.
    Sakha		Zachary Harden
    Salish		kubble (Open Clip Art)
@@ -936,6 +937,7 @@ sprites =
 		"f.ryukyu", "flags/ryukyu"
 		"f.sadr", "flags/sadr"
 		"f.saint_kitts_and_nevis", "flags/saint_kitts_and_nevis"
+		"f.saint_lucia", "flags/saint_lucia"
 		"f.saka", "flags/saka"
 		"f.sakha", "flags/sakha"
 		"f.salish", "flags/salish"
