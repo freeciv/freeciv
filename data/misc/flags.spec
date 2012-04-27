@@ -214,6 +214,7 @@ artists = "
    Hopi			Daniel Markstedt
    HRE			Gryffindor (Wikimedia Commons) and J.M. Maalderink
    Hungary		Laszlo Dvornik
+   Hunnic		Andrzej G.
    Iberian		J.M. Maalderink
    Iceland		Áki G. Karlsson
    Illyria		William Allen Simpson
@@ -750,6 +751,7 @@ sprites =
 		"f.hopi", "flags/hopi"
 		"f.hre", "flags/hre"
 		"f.hungary", "flags/hungary"
+		"f.hunnic", "flags/hunnic"
 		"f.iberian", "flags/iberian"
 		"f.iceland", "flags/iceland"
 		"f.illyria", "flags/illyria"

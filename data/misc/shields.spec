@@ -215,6 +215,7 @@ sprites =
 		"f.shield.hopi", "flags/hopi-shield"
 		"f.shield.hre", "flags/hre-shield"
 		"f.shield.hungary", "flags/hungary-shield"
+		"f.shield.hunnic", "flags/hunnic-shield"
 		"f.shield.iberian", "flags/iberian-shield"
 		"f.shield.iceland", "flags/iceland-shield"
 		"f.shield.illyria", "flags/illyria-shield"
