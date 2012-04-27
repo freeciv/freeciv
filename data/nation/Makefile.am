@@ -284,6 +284,7 @@ pkgdata_DATA = \
 		manx.ruleset \
 		maori.ruleset \
 		mapuche.ruleset \
+		marathi.ruleset \
 		martian.ruleset \
 		mauritanian.ruleset \
 		mauritian.ruleset \

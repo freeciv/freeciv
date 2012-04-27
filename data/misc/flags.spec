@@ -294,6 +294,7 @@ artists = "
    Manchuria		Zachary Harden
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
+   Marathi		Sankalp Dravid
    Mars			Vasco Alexandre Da Silva Costa
    Mauritania		Flad (Wikimedia Commons)
    Mauritius		J.M. Maalderink
@@ -815,6 +816,7 @@ sprites =
 		"f.manchuria", "flags/manchuria"
 		"f.maori", "flags/maori"
 		"f.mapuche", "flags/mapuche"
+		"f.marathi", "flags/marathi"
 		"f.mars", "flags/mars"
 		"f.mauritania", "flags/mauritania"
 		"f.mauritius", "flags/mauritius"
