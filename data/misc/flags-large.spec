@@ -192,6 +192,7 @@ sprites =
 		"f.greece", "flags/greece-large"
 		"f.greenland", "flags/greenland-large"
 		"f.grenada", "flags/grenada-large"
+		"f.grisons", "flags/grisons-large"
 		"f.guanche", "flags/guanche-large"
 		"f.guarani", "flags/guarani-large"
 		"f.guatemala", "flags/guatemala-large"
