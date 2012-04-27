@@ -4,9 +4,9 @@ name=_("Frankish")
 plural=_("?plural:Franks")
 groups="European", "Ancient", "Medieval"
 legend=_("The Franks were a Germanic confederation that formed in what is\
- now Northwest Germany in the 3rd century AD. In the late 5th their leader\
- Clovis converted to Christianity, united the Frankish tribes an conquered\
- much of Gaul. Clovis' successors expanded Frankish rule over much of\
+ now Northwest Germany in the 3rd century AD. In the late 5th century their\
+ leader Clovis converted to Christianity, united the Frankish tribes and\
+ conquered much of Gaul. Clovis' successors expanded Frankish rule over much of\
  Central Europe. The Frankish kingdom mixed Germanic and Roman elements and\
  would lay the foundation for much of European Medieval culture, society\
  and politics. After a period of stagnation the Frankish realm was reunited\
@@ -14,7 +14,7 @@ legend=_("The Franks were a Germanic confederation that formed in what is\
  emperor by the pope. Upon his death the Frankish Empire was divided once\
  again. By the 10th century AD the Frankish empire had broken up for good\
  into West Francia, which later became France, and East Francia, which later\
- became the Holy Roman Empire or Germany")
+ became the Holy Roman Empire or Germany.")
 
 leaders = {
  "name",                "sex"

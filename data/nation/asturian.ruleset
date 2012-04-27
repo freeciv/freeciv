@@ -9,7 +9,8 @@ legend=_("The Astures were a Celtic people which occupied most of the northern\
  Toledo, there were uneasy relations between Visigoths and Asturians. In 722 AD,\
  king Pelayo defeated the Umayyad Muslim troops at Covadonga, establishing\
  the Asturian Kingdom, which lasted until year 910 when the capital town was\
- moved from Oviedo to Leon. Nowadays, Asturias is an autonomous community of Spain")
+ moved from Oviedo to Leon. Nowadays, Asturias is an autonomous community of\
+ Spain.")
 
 leaders = {
  "name",                        "sex"

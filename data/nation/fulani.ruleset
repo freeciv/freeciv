@@ -4,11 +4,11 @@ name=_("Fulani")
 plural=_("?plural:Fulani")
 groups="African", "Early Modern"
 legend=_("The Fulani or Fulbe are an ethnic group in West Africa. Originally\
- pastoralists, in the 18th and 19th they led the Fulani Jihads, founding a\
- number of states across the region. The biggest Fulani state was the Sokoto\
- Caliphate, founded by Usuman dan Fodio during the Fulani Jihad of 1809. It\
- was one of the most powerful empires in Sub-Saharan Africa prior to the\
- European conquest and colonization. The caliphate remained extant through\
+ pastoralists, in the 18th and 19th centuries they led the Fulani Jihads,\
+ founding a number of states across the region. The biggest Fulani state was\
+ the Sokoto Caliphate, founded by Usuman dan Fodio during the Fulani Jihad of\
+ 1809. It was one of the most powerful empires in Sub-Saharan Africa prior to\
+ the European conquest and colonization. The caliphate remained extant through\
  the colonial period and afterwards, though with reduced power.")
 leaders = {
  "name",                            "sex"
