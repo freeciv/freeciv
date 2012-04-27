@@ -369,6 +369,7 @@ artists = "
    Papua New Guinea	Tobias Jakobs
    Paraguay		Vzb83 (Wikimedia Commons)
    Pashtun		Paul Zastoupil
+   Pelasgian		Andrzej G.
    Peru			Brett Roper
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
@@ -893,6 +894,7 @@ sprites =
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.paraguay", "flags/paraguay"
 		"f.pashtun", "flags/pashtun"
+		"f.pelasgian", "flags/pelasgian"
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"

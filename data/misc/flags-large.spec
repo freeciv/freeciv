@@ -370,6 +370,7 @@ sprites =
 		"f.papua_newguinea", "flags/papua_newguinea-large"
 		"f.paraguay", "flags/paraguay-large"
 		"f.pashtun", "flags/pashtun-large"
+		"f.pelasgian", "flags/pelasgian-large"
 		"f.peru", "flags/peru-large"
 		"f.philippines", "flags/philippines-large"
 		"f.phoenicia", "flags/phoenicia-large"
