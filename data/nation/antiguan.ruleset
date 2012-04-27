@@ -29,7 +29,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="Dominican" ; Kittian and Nevisian
+civilwar_nations="Dominican", "kittitian and nevisian"
 
 cities =
  "Saint John's",

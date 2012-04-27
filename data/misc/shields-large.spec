@@ -404,6 +404,7 @@ sprites =
 		"f.shield.rwanda", "flags/rwanda-shield-large"
 		"f.shield.ryukyu", "flags/ryukyu-shield-large"
 		"f.shield.sadr", "flags/sadr-shield-large"
+		"f.shield.saint_kitts_and_nevis", "flags/saint_kitts_and_nevis-shield-large"
 		"f.shield.saka", "flags/saka-shield-large"
 		"f.shield.sakha", "flags/sakha-shield-large"
 		"f.shield.salish", "flags/salish-shield-large"

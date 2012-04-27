@@ -33,9 +33,9 @@ init_techs=""
 init_buildings=""
 init_units=""
 conflicts_with = "antiguan and barbudan", "barbadian", "dominican", "grenadian",
- "jamaican", "trinidadian and tobagonian", "vincentian"
+ "jamaican", "kittitian and nevisian", "trinidadian and tobagonian", "vincentian"
 civilwar_nations = "antiguan and barbudan", "barbadian", "dominican", "grenadian",
- "jamaican", "trinidadian and tobagonian", "vincentian"
+ "jamaican", "kittitian and nevisian", "trinidadian and tobagonian", "vincentian"
 
 cities =
  "Chaguaramas",
