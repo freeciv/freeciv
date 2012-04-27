@@ -121,6 +121,7 @@ flag_files =				\
 		crimean_tatar.png	\
 		croatia.png		\
 		cuba.png		\
+		cuyavia.png		\
 		cyprus.png		\
 		czech.png		\
 		czechoslovakia.png	\
@@ -637,6 +638,7 @@ flag_files =				\
 		crimean_tatar-large.png	\
 		croatia-large.png		\
 		cuba-large.png		\
+		cuyavia-large.png		\
 		cyprus-large.png		\
 		czech-large.png		\
 		czechoslovakia-large.png	\
@@ -1155,6 +1157,7 @@ shield_files =					\
 		crimean_tatar-shield.png	\
 		croatia-shield.png		\
 		cuba-shield.png			\
+		cuyavia-shield.png		\
 		cyprus-shield.png		\
 		czech-shield.png		\
 		czechoslovakia-shield.png	\
@@ -1671,6 +1674,7 @@ shield_files =					\
 		crimean_tatar-shield-large.png	\
 		croatia-shield-large.png		\
 		cuba-shield-large.png			\
+		cuyavia-shield-large.png		\
 		cyprus-shield-large.png		\
 		czech-shield-large.png		\
 		czechoslovakia-shield-large.png		\
@@ -2189,6 +2193,7 @@ svg_files = 				\
 		crimean_tatar.svg	\
 		croatia.svg		\
 		cuba.svg		\
+		cuyavia.svg		\
 		cyprus.svg		\
 		czech.svg		\
 		czechoslovakia.svg	\

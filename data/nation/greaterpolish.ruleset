@@ -30,7 +30,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "polish", "silesian"
+civilwar_nations = "polish", "silesian", "cuyavian"
 
 cities =
   "Poznań",

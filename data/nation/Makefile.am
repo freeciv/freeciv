@@ -129,6 +129,7 @@ pkgdata_DATA = \
 		croatian.ruleset \
 		cuban.ruleset \
 		curonian.ruleset \
+		cuyavian.ruleset \
 		cypriot.ruleset \
 		czech.ruleset \
 		czechoslovak.ruleset \

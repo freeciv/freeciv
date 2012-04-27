@@ -33,7 +33,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "polish"
+civilwar_nations = "polish", "cuyavian"
 
 cities =
   "Czersk",
