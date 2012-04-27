@@ -478,6 +478,7 @@ sprites =
 		"f.transylvania", "flags/transylvania-large"
 		"f.trinidad_and_tobago", "flags/trinidad_and_tobago-large"
 		"f.trnc", "flags/trnc-large"
+		"f.tuareg", "flags/tuareg-large"
 		"f.tunisia", "flags/tunisia-large"
 		"f.tupi", "flags/tupi-large"
 		"f.turkey", "flags/turkey-large"

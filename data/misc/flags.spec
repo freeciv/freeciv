@@ -477,6 +477,7 @@ artists = "
    Transylvania		Alex:D (Wikipedia)
    Trinidad and Tobago	J.M. Maalderink
    TRNC			David Benbennick and J.M Maalderink
+   Tuareg		Escondites (Wikimedia Commons)
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		David Benbennick
@@ -996,6 +997,7 @@ sprites =
 		"f.transylvania", "flags/transylvania"
 		"f.trinidad_and_tobago", "flags/trinidad_and_tobago"
 		"f.trnc", "flags/trnc"
+		"f.tuareg", "flags/tuareg"
 		"f.tunisia", "flags/tunisia"
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"
