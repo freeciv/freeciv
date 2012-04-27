@@ -534,6 +534,7 @@ sprites =
 		"f.shield.westphalia", "flags/westphalia-shield"
 		"f.shield.wuerttemberg", "flags/wuerttemberg-shield"
 		"f.shield.xhosa", "flags/xhosa-shield"
+		"f.shield.xiongnu", "flags/xiongnu-shield"
 		"f.shield.yemen", "flags/yemen-shield"
 		"f.shield.yucatan", "flags/yucatan-shield"
 		"f.shield.yugoslavia", "flags/yugoslavia-shield"
