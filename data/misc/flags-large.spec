@@ -114,6 +114,7 @@ sprites =
 		"f.china", "flags/china-large"
 		"f.choctaw", "flags/choctaw-large"
 		"f.chola", "flags/chola-large"
+		"f.chrobatian", "flags/chrobatian-large"
 		"f.chumash", "flags/chumash-large"
 		"f.chuvashia", "flags/chuvashia-large"
 		"f.clatsop", "flags/clatsop-large"

@@ -164,6 +164,7 @@ match=2
 *include "nation/chinook.ruleset"
 *include "nation/choctaw.ruleset"
 *include "nation/chola.ruleset"
+*include "nation/chrobatian.ruleset"
 *include "nation/chumash.ruleset"
 *include "nation/chuvash.ruleset"
 *include "nation/circassian.ruleset"

@@ -110,6 +110,7 @@ pkgdata_DATA = \
 		chinook.ruleset \
 		choctaw.ruleset \
 		chola.ruleset \
+		chrobatian.ruleset \
 		chumash.ruleset \
 		chuvash.ruleset \
 		circassian.ruleset \
