@@ -226,6 +226,7 @@ flag_files =				\
 		jamaica.png		\
 		japan.png		\
 		jbonai.png		\
+		jerusalem.png		\
 		jolof.png		\
 		jordan.png		\
 		kalmykia.png		\
@@ -744,6 +745,7 @@ flag_files =				\
 		jamaica-large.png		\
 		japan-large.png		\
 		jbonai-large.png		\
+		jerusalem-large.png		\
 		jolof-large.png		\
 		jordan-large.png		\
 		kalmykia-large.png		\
@@ -1264,6 +1266,7 @@ shield_files =					\
 		jamaica-shield.png		\
 		japan-shield.png		\
 		jbonai-shield.png		\
+		jerusalem-shield.png		\
 		jolof-shield.png		\
 		jordan-shield.png		\
 		kalmykia-shield.png		\
@@ -1782,6 +1785,7 @@ shield_files =					\
 		jamaica-shield-large.png		\
 		japan-shield-large.png		\
 		jbonai-shield-large.png		\
+		jerusalem-shield-large.png		\
 		jolof-shield-large.png		\
 		jordan-shield-large.png			\
 		kalmykia-shield-large.png		\
@@ -2302,6 +2306,7 @@ svg_files = 				\
 		jamaica.svg		\
 		japan.svg		\
 		jbonai.svg		\
+		jerusalem.svg		\
 		jolof.svg		\
 		jordan.svg		\
 		kalmykia.svg		\
