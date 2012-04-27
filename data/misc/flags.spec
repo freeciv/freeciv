@@ -177,6 +177,7 @@ artists = "
    Gambia		J.M. Maalderink
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
+   Germanic		Andrzej G.
    Germany		Philipp Sadleder
    Ghana		J.M. Maalderink
    Ghana (ancient)	J_Alves (Open Clip Art)
@@ -707,6 +708,7 @@ sprites =
 		"f.gambia", "flags/gambia"
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
+		"f.germanic", "flags/germanic"
 		"f.germany", "flags/germany"
 		"f.ghana", "flags/ghana"
 		"f.ghana_ancient", "flags/ghana_ancient"

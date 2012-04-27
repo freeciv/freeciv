@@ -180,6 +180,7 @@ pkgdata_DATA = \
 		genoese.ruleset \
 		georgian.ruleset \
 		german.ruleset \
+		germanic.ruleset \
 		ghana.ruleset \
 		ghanaian.ruleset \
 		ghaznavid.ruleset \

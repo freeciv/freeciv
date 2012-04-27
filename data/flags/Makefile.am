@@ -170,6 +170,7 @@ flag_files =				\
 		gambia.png		\
 		gaul.png		\
 		georgia.png		\
+		germanic.png		\
 		germany.png		\
 		gokturk.png		\
 		ghana.png		\
@@ -694,6 +695,7 @@ flag_files =				\
 		gambia-large.png		\
 		gaul-large.png		\
 		georgia-large.png		\
+		germanic-large.png		\
 		germany-large.png		\
 		gokturk-large.png		\
 		ghana-large.png		\
@@ -1220,6 +1222,7 @@ shield_files =					\
 		gambia-shield.png		\
 		gaul-shield.png			\
 		georgia-shield.png		\
+		germanic-shield.png		\
 		germany-shield.png		\
 		ghana-shield.png		\
 		ghana_ancient-shield.png	\
@@ -1744,6 +1747,7 @@ shield_files =					\
 		gambia-shield-large.png			\
 		gaul-shield-large.png			\
 		georgia-shield-large.png		\
+		germanic-shield-large.png		\
 		germany-shield-large.png		\
 		ghana-shield-large.png		\
 		ghana_ancient-shield-large.png		\
@@ -2270,6 +2274,7 @@ svg_files = 				\
 		gambia.svg		\
 		gaul.svg		\
 		georgia.svg		\
+		germanic.svg		\
 		germany.svg		\
 		ghana.svg		\
 		ghana_ancient.svg	\

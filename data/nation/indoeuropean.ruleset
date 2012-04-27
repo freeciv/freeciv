@@ -43,7 +43,7 @@ conflicts_with="gallic", "briton", "roman", "western roman", "byzantine", "scyth
 		"illyrian", "persian", "tocharian", "saka", "hephthalite",
 		"slavic", "liburnian", "helvetian", "gaelic", "pictish", "viking",
 		"ostrogothic", "visigothic", "vandalic", "armenian", "hittite",
-		"epirote", "teutonic" ; frank boian phrygian lydian galatian dacian belgic hunnic
+		"epirote", "teutonic", "frankish" ; boian phrygian lydian galatian dacian belgic hunnic
 civilwar_nations =
 ; armenian
  "armenian",
@@ -61,9 +61,7 @@ civilwar_nations =
  "gaelic",
 
 ; germanic
- ; frankish
- "viking",
- "visigothic",
+ "germanic",
 
 ; greek
  "greek",
