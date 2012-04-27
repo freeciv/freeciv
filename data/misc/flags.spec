@@ -280,6 +280,7 @@ artists = "
    Lorraine		J.M. Maalderink
    Luna			Daniel Markstedt
    Lusatia		J.M. Maalderink
+   Luwian		Andrzej G.
    Luxembourg		J.M. Maalderink
    Maasai		James Ots and J.M. Maalderink
    Macedon		Mysid (Wikimedia Commons)
@@ -806,6 +807,7 @@ sprites =
 		"f.lorraine", "flags/lorraine"
 		"f.luna", "flags/luna"
 		"f.lusatia", "flags/lusatia"
+		"f.luwian", "flags/luwian"
 		"f.luxembourg", "flags/luxembourg"
 		"f.maasai", "flags/maasai"
 		"f.macedon", "flags/macedon"

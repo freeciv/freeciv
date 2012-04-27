@@ -325,6 +325,7 @@ match=2
 *include "nation/lithuanian.ruleset"
 *include "nation/lojbanistani.ruleset"
 *include "nation/lorrain.ruleset"
+*include "nation/luwian.ruleset"
 *include "nation/luxembourgish.ruleset"
 *include "nation/maasai.ruleset"
 *include "nation/macedon.ruleset"

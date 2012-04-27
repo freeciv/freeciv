@@ -35,7 +35,7 @@ city_style = "Babylonian"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations = "babylonian", "sumerian", "assyrian", "mitanni"
+civilwar_nations = "babylonian", "sumerian", "assyrian", "mitanni", "luwian"
 
 cities =
  "Nesa",
