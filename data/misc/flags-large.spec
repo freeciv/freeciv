@@ -432,6 +432,7 @@ sprites =
 		"f.slavic", "flags/slavic-large"
 		"f.slovakia", "flags/slovakia-large"
 		"f.slovenia", "flags/slovenia-large"
+		"f.sokoto", "flags/sokoto-large"
 		"f.solomon_islands", "flags/solomon_islands-large"
 		"f.somalia", "flags/somalia-large"
 		"f.somaliland", "flags/somaliland-large"

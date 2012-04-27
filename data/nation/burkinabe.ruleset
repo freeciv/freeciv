@@ -25,7 +25,7 @@ city_style = "Tropical"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="malian", "kanem-bornu", "ivoirian"
+civilwar_nations="fulani", "kanem-bornu", "ivoirian"
 
 cities =
  "Ouagadougou",

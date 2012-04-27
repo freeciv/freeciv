@@ -423,6 +423,7 @@ flag_files =				\
 		slavic.png		\
 		slovakia.png		\
 		slovenia.png		\
+		sokoto.png		\
 		solomon_islands.png	\
 		somalia.png		\
 		somaliland.png		\
@@ -936,6 +937,7 @@ flag_files =				\
 		slavic-large.png		\
 		slovakia-large.png		\
 		slovenia-large.png		\
+		sokoto-large.png		\
 		solomon_islands-large.png	\
 		somalia-large.png		\
 		somaliland-large.png		\
@@ -1451,6 +1453,7 @@ shield_files =					\
 		slavic-shield.png		\
 		slovakia-shield.png		\
 		slovenia-shield.png		\
+		sokoto-shield.png		\
 		solomon_islands-shield.png	\
 		somalia-shield.png		\
 		somaliland-shield.png		\
@@ -1964,6 +1967,7 @@ shield_files =					\
 		slavic-shield-large.png		\
 		slovakia-shield-large.png		\
 		slovenia-shield-large.png		\
+		sokoto-shield-large.png			\
 		solomon_islands-shield-large.png	\
 		somalia-shield-large.png		\
 		somaliland-shield-large.png		\
@@ -2479,6 +2483,7 @@ svg_files = 				\
 		slavic.svg		\
 		slovakia.svg		\
 		slovenia.svg		\
+		sokoto.svg		\
 		solomon_islands.svg	\
 		somalia.svg		\
 		somaliland.svg		\

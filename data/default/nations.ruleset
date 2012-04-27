@@ -221,6 +221,7 @@ match=2
 *include "nation/french.ruleset"
 *include "nation/frisian.ruleset"
 *include "nation/friulian.ruleset"
+*include "nation/fulani.ruleset"
 *include "nation/gabonese.ruleset"
 *include "nation/gaelic.ruleset"
 *include "nation/galician.ruleset"
