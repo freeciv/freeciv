@@ -279,7 +279,9 @@ static bool manual_command(void)
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
       fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
-              _("Irrigation"), _("Mining"), _("Transform"), _("% of Road bonus"), _("turns"));
+              _("Irrigation"), _("Mining"), _("Transform"),
+              /* xgettext:no-c-format */
+              _("% of Road bonus"), _("turns"));
       fprintf(doc, "<th>%s<br/>%s</th>",
               _("Clean pollution"), _("Clean fallout"));
       ri = 0;
