@@ -415,6 +415,7 @@ pkgdata_DATA = \
 		seminole.ruleset \
 		senegalese.ruleset \
 		serbian.ruleset \
+		seychellois.ruleset \
 		shan.ruleset \
 		shawnee.ruleset \
 		sherpa.ruleset \

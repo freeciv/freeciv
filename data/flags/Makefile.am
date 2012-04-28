@@ -422,6 +422,7 @@ flag_files =				\
 		seminole.png		\
 		senegal.png		\
 		serbia.png		\
+		seychelles.png		\
 		shan.png		\
 		shawnee.png		\
 		sherpa.png		\
@@ -953,6 +954,7 @@ flag_files =				\
 		seminole-large.png		\
 		senegal-large.png		\
 		serbia-large.png		\
+		seychelles-large.png		\
 		shan-large.png			\
 		shawnee-large.png		\
 		sherpa-large.png		\
@@ -1486,6 +1488,7 @@ shield_files =					\
 		seminole-shield.png		\
 		senegal-shield.png		\
 		serbia-shield.png		\
+		seychelles-shield.png		\
 		shan-shield.png			\
 		shawnee-shield.png		\
 		sherpa-shield.png		\
@@ -2017,6 +2020,7 @@ shield_files =					\
 		seminole-shield-large.png		\
 		senegal-shield-large.png		\
 		serbia-shield-large.png		\
+		seychelles-shield-large.png		\
 		shan-shield-large.png			\
 		shawnee-shield-large.png		\
 		sherpa-shield-large.png			\
@@ -2550,6 +2554,7 @@ svg_files = 				\
 		seminole.svg		\
 		senegal.svg		\
 		serbia.svg		\
+		seychelles.svg		\
 		shan.svg		\
 		shawnee.svg		\
 		sherpa.svg		\

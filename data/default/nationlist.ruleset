@@ -447,6 +447,7 @@ match=2
 *include "nation/seminole.ruleset"
 *include "nation/senegalese.ruleset"
 *include "nation/serbian.ruleset"
+*include "nation/seychellois.ruleset"
 *include "nation/shan.ruleset"
 *include "nation/shawnee.ruleset"
 *include "nation/sherpa.ruleset"

@@ -27,7 +27,6 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-
 conflicts_with="algerian", "angolan", "beninese", "bissau-guinean",
  "botswanan", "brazzaville-congolese", "burkinabe", "burundian",
  "cameroonian", "cape verdean", "central african", "comorian", "congolese",
@@ -35,7 +34,7 @@ conflicts_with="algerian", "angolan", "beninese", "bissau-guinean",
  "gabonese", "gambian", "ghanaian", "guinean", "ivoirian", "kenyan",
  "lesothoan", "liberian", "libyan", "malagasy", "malawian", "malian",
  "mauritanian", "mauritian", "mozambican", "namibian", "nigerian",
- "nigerien", "rwandan", "senegalese", ;santomean seychellois
+ "nigerien", "rwandan", "senegalese", "santomean", "seychellois",
  "sierra leonean", "somali", "south african", "sudanese", "swazi",
  "tanzanian", "togolese", "tunisian", "ugandan", "sahrawi", "zambian",
  "zimbabwean"
@@ -46,7 +45,7 @@ civilwar_nations="algerian", "angolan", "beninese", "bissau-guinean",
  "gabonese", "gambian", "ghanaian", "guinean", "ivoirian", "kenyan",
  "lesothoan", "liberian", "libyan", "malagasy", "malawian", "malian",
  "mauritanian", "mauritian", "mozambican", "namibian", "nigerian",
- "nigerien", "rwandan", "senegalese", ;santomean seychellois
+ "nigerien", "rwandan", "senegalese", "santomean", "seychellois",
  "sierra leonean", "somali", "south african", "sudanese", "swazi",
  "tanzanian", "togolese", "tunisian", "ugandan", "sahrawi", "zambian",
  "zimbabwean"
