@@ -24,7 +24,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="Swazi", "Tanzanian", "Zulu", "Malawian", "Zimbabwean"
+civilwar_nations="Swazi", "Swahili", "Zulu"
 
 cities =
  "Maputo",

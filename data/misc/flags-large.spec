@@ -465,6 +465,7 @@ sprites =
 		"f.sumeria", "flags/sumeria-large"
 		"f.suriname", "flags/suriname-large"
 		"f.svg", "flags/svg-large"
+		"f.swahili", "flags/swahili-large"
 		"f.swaziland", "flags/swaziland-large"
 		"f.sweden", "flags/sweden-large"
 		"f.switzerland", "flags/switzerland-large"

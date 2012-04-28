@@ -34,7 +34,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "zanzibari", "arab" ; anjouan
+civilwar_nations = "swahili", "arab" ; anjouan
 
 cities =
  "Moroni",

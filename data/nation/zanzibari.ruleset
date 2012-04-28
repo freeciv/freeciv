@@ -37,7 +37,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations = "arab", "tanzanian", "omani", "comorian"
+civilwar_nations = "arab", "tanzanian", "omani", "swahili"
 
 cities =
  "Zanzibar",

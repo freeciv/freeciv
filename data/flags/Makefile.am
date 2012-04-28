@@ -454,6 +454,7 @@ flag_files =				\
 		sumeria.png		\
 		suriname.png		\
 		svg.png			\
+		swahili.png		\
 		swaziland.png		\
 		sweden.png		\
 		switzerland.png		\
@@ -984,6 +985,7 @@ flag_files =				\
 		sumeria-large.png		\
 		suriname-large.png		\
 		svg-large.png			\
+		swahili-large.png		\
 		swaziland-large.png		\
 		sweden-large.png		\
 		switzerland-large.png		\
@@ -1516,6 +1518,7 @@ shield_files =					\
 		sumeria-shield.png		\
 		suriname-shield.png		\
 		svg-shield.png			\
+		swahili-shield.png		\
 		swaziland-shield.png		\
 		sweden-shield.png		\
 		switzerland-shield.png		\
@@ -2046,6 +2049,7 @@ shield_files =					\
 		sumeria-shield-large.png		\
 		suriname-shield-large.png		\
 		svg-shield-large.png			\
+		swahili-shield-large.png		\
 		swaziland-shield-large.png		\
 		sweden-shield-large.png		\
 		switzerland-shield-large.png		\
@@ -2578,6 +2582,7 @@ svg_files = 				\
 		sumeria.svg		\
 		suriname.svg		\
 		svg.svg			\
+		swahili.svg		\
 		swaziland.svg		\
 		sweden.svg		\
 		switzerland.svg		\
