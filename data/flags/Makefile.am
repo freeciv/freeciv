@@ -124,6 +124,7 @@ flag_files =				\
 		cuba.png		\
 		cuyavia.png		\
 		cyprus.png		\
+		cyrenaica.png		\
 		czech.png		\
 		czechoslovakia.png	\
 		dahomey.png		\
@@ -656,6 +657,7 @@ flag_files =				\
 		cuba-large.png		\
 		cuyavia-large.png		\
 		cyprus-large.png		\
+		cyrenaica-large.png		\
 		czech-large.png		\
 		czechoslovakia-large.png	\
 		dahomey-large.png		\
@@ -1190,6 +1192,7 @@ shield_files =					\
 		cuba-shield.png			\
 		cuyavia-shield.png		\
 		cyprus-shield.png		\
+		cyrenaica-shield.png		\
 		czech-shield.png		\
 		czechoslovakia-shield.png	\
 		dahomey-shield.png		\
@@ -1722,6 +1725,7 @@ shield_files =					\
 		cuba-shield-large.png			\
 		cuyavia-shield-large.png		\
 		cyprus-shield-large.png		\
+		cyrenaica-shield-large.png		\
 		czech-shield-large.png		\
 		czechoslovakia-shield-large.png		\
 		dahomey-shield-large.png		\
@@ -2256,6 +2260,7 @@ svg_files = 				\
 		cuba.svg		\
 		cuyavia.svg		\
 		cyprus.svg		\
+		cyrenaica.svg		\
 		czech.svg		\
 		czechoslovakia.svg	\
 		dahomey.svg		\

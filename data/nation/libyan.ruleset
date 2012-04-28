@@ -30,7 +30,7 @@ city_style = "Classical"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations = "egyptian arab", "tunisian"
+civilwar_nations = "cyrenaican"
 
 cities =
  "Tarabulus",	; Also known as "Tripoli"

@@ -165,6 +165,7 @@ match=2
 *include "nation/curonian.ruleset"
 *include "nation/cuyavian.ruleset"
 *include "nation/cypriot.ruleset"
+*include "nation/cyrenaican.ruleset"
 *include "nation/czech.ruleset"
 *include "nation/czechoslovak.ruleset"
 *include "nation/dahomean.ruleset"
