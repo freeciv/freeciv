@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-17 19:46+0200\n"
+"POT-Creation-Date: 2012-04-22 23:21+0200\n"
 "PO-Revision-Date: 2007-09-01 22:18+0300\n"
 "Last-Translator: Jos Maalderink <josmaalderink@hotmail.com>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -1552,8 +1552,8 @@ msgid ""
 "position on the map and use the property editor.\n"
 "Shortcut: b"
 msgstr ""
-"Plaats een beginpositie die elke natie toestaat op het vlak te beginnen. "
-"Om alleen bepaalde naties hier te laten starten, middenlik op de beginpositie "
+"Plaats een beginpositie die elke natie toestaat op het vlak te beginnen. Om "
+"alleen bepaalde naties hier te laten starten, middenlik op de beginpositie "
 "opde kaart en gebruik de eigenschappenbewerker.\n"
 "Sneltoets: b"
 
@@ -12985,8 +12985,8 @@ msgid ""
 "Factories and Mfg. Plants.)"
 msgstr ""
 "Werkt als een Waterkrachtcentrale in elke stad op hetzelfde continent waar "
-"het wonder gebouwd is. (Dit vermindert de vervuiling en verhoogt het "
-"effect van Fabrieken en Assemblagehallen.)"
+"het wonder gebouwd is. (Dit vermindert de vervuiling en verhoogt het effect "
+"van Fabrieken en Assemblagehallen.)"
 
 #: data/civ1/buildings.ruleset:833 data/civ2/buildings.ruleset:1181
 #: data/classic/buildings.ruleset:1247
@@ -14149,12 +14149,13 @@ msgstr ""
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/goldenhorde.ruleset:36 data/nation/hephthalite.ruleset:30
-#: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
-#: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:31
-#: data/nation/mughal.ruleset:19 data/nation/tatar.ruleset:28
-#: data/nation/timurid.ruleset:25 data/nation/turkmen.ruleset:25
-#: data/nation/tuvan.ruleset:31 data/nation/uyghur.ruleset:28
-#: data/nation/uzbek.ruleset:23
+#: data/nation/hunnic.ruleset:38 data/nation/kalmyk.ruleset:24
+#: data/nation/kazakh.ruleset:24 data/nation/kyrgyz.ruleset:22
+#: data/nation/mongol.ruleset:31 data/nation/mughal.ruleset:19
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
+#: data/nation/turkmen.ruleset:25 data/nation/tuvan.ruleset:31
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
+#: data/nation/xiongnu.ruleset:39
 #, c-format
 msgid "%s Khan"
 msgstr "%s Khan"
@@ -14164,12 +14165,13 @@ msgstr "%s Khan"
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
 #: data/nation/goldenhorde.ruleset:36 data/nation/hephthalite.ruleset:30
-#: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
-#: data/nation/kyrgyz.ruleset:22 data/nation/mongol.ruleset:31
-#: data/nation/mughal.ruleset:19 data/nation/tatar.ruleset:28
-#: data/nation/timurid.ruleset:25 data/nation/turkmen.ruleset:25
-#: data/nation/tuvan.ruleset:31 data/nation/uyghur.ruleset:28
-#: data/nation/uzbek.ruleset:23
+#: data/nation/hunnic.ruleset:38 data/nation/kalmyk.ruleset:24
+#: data/nation/kazakh.ruleset:24 data/nation/kyrgyz.ruleset:22
+#: data/nation/mongol.ruleset:31 data/nation/mughal.ruleset:19
+#: data/nation/tatar.ruleset:28 data/nation/timurid.ruleset:25
+#: data/nation/turkmen.ruleset:25 data/nation/tuvan.ruleset:31
+#: data/nation/uyghur.ruleset:28 data/nation/uzbek.ruleset:23
+#: data/nation/xiongnu.ruleset:39
 #, c-format
 msgid "%s Khatan"
 msgstr "%s Khagan"
@@ -14178,10 +14180,11 @@ msgstr "%s Khagan"
 #: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:45
 #: data/nation/goldenhorde.ruleset:37 data/nation/hephthalite.ruleset:31
-#: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
-#: data/nation/kyrgyz.ruleset:23 data/nation/mongol.ruleset:32
-#: data/nation/tatar.ruleset:29 data/nation/tuvan.ruleset:32
-#: data/nation/uyghur.ruleset:29 data/nation/volgabulgar.ruleset:29
+#: data/nation/hunnic.ruleset:39 data/nation/kazakh.ruleset:25
+#: data/nation/khazar.ruleset:36 data/nation/kyrgyz.ruleset:23
+#: data/nation/mongol.ruleset:32 data/nation/tatar.ruleset:29
+#: data/nation/tuvan.ruleset:32 data/nation/uyghur.ruleset:29
+#: data/nation/volgabulgar.ruleset:29 data/nation/xiongnu.ruleset:40
 #, c-format
 msgid "%s Khagan"
 msgstr "%s Khagan"
@@ -14193,7 +14196,7 @@ msgstr "%s Khagan"
 #: data/nation/khazar.ruleset:36 data/nation/kyrgyz.ruleset:23
 #: data/nation/mongol.ruleset:32 data/nation/tatar.ruleset:29
 #: data/nation/tuvan.ruleset:32 data/nation/uyghur.ruleset:29
-#: data/nation/volgabulgar.ruleset:29
+#: data/nation/volgabulgar.ruleset:29 data/nation/xiongnu.ruleset:40
 #, c-format
 msgid "?female:%s Khagan"
 msgstr "%s Khagan"
@@ -14250,14 +14253,14 @@ msgstr "Imperatrix %s"
 #: data/nation/egyptian.ruleset:25 data/nation/elamite.ruleset:32
 #: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:21
-#: data/nation/hittite.ruleset:25 data/nation/mitanni.ruleset:30
-#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
-#: data/nation/palatinate.ruleset:28 data/nation/palmyrene.ruleset:19
-#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
-#: data/nation/pictish.ruleset:24 data/nation/roman.ruleset:47
-#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:26
-#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
-#: data/nation/westernroman.ruleset:29
+#: data/nation/hittite.ruleset:25 data/nation/hunnic.ruleset:37
+#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
+#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
+#: data/nation/palmyrene.ruleset:19 data/nation/pelasgian.ruleset:24
+#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
+#: data/nation/roman.ruleset:47 data/nation/seleucid.ruleset:28
+#: data/nation/sumerian.ruleset:26 data/nation/vandalic.ruleset:29
+#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
 #, c-format
 msgid "Usurper %s"
 msgstr "Usurpator %s"
@@ -14270,13 +14273,14 @@ msgstr "Usurpator %s"
 #: data/nation/egyptian.ruleset:25 data/nation/elamite.ruleset:32
 #: data/nation/epirote.ruleset:28 data/nation/etruscan.ruleset:31
 #: data/nation/frankish.ruleset:39 data/nation/greek.ruleset:21
-#: data/nation/hittite.ruleset:25 data/nation/mitanni.ruleset:30
-#: data/nation/nubian.ruleset:32 data/nation/ostrogothic.ruleset:30
-#: data/nation/palatinate.ruleset:28 data/nation/pelasgian.ruleset:24
-#: data/nation/phoenician.ruleset:27 data/nation/pictish.ruleset:24
-#: data/nation/roman.ruleset:47 data/nation/seleucid.ruleset:28
-#: data/nation/sumerian.ruleset:26 data/nation/vandalic.ruleset:29
-#: data/nation/visigothic.ruleset:37 data/nation/westernroman.ruleset:29
+#: data/nation/hittite.ruleset:25 data/nation/hunnic.ruleset:37
+#: data/nation/mitanni.ruleset:30 data/nation/nubian.ruleset:32
+#: data/nation/ostrogothic.ruleset:30 data/nation/palatinate.ruleset:28
+#: data/nation/pelasgian.ruleset:24 data/nation/phoenician.ruleset:27
+#: data/nation/pictish.ruleset:24 data/nation/roman.ruleset:47
+#: data/nation/seleucid.ruleset:28 data/nation/sumerian.ruleset:26
+#: data/nation/vandalic.ruleset:29 data/nation/visigothic.ruleset:37
+#: data/nation/westernroman.ruleset:29
 #, c-format
 msgid "?female:Usurper %s"
 msgstr "Usurpatrix %s"
@@ -15132,10 +15136,10 @@ msgid ""
 "mines, and roads. See the Terrain Alterations section of the help for more "
 "details."
 msgstr ""
-"Kolonisten behoren tot de belangrijkste eenheden in het spel. Naast het stichten "
-"van steden kunnen zij ook het terrein verbeteren, bijvoorbeeld door het aanleggen "
-"van irrigatie, mijnen of wegen. Zie de sectie Terreinaanpassingen van de hulp voor "
-"meer details."
+"Kolonisten behoren tot de belangrijkste eenheden in het spel. Naast het "
+"stichten van steden kunnen zij ook het terrein verbeteren, bijvoorbeeld door "
+"het aanleggen van irrigatie, mijnen of wegen. Zie de sectie "
+"Terreinaanpassingen van de hulp voor meer details."
 
 #: data/civ1/units.ruleset:230 data/classic/units.ruleset:348
 #: data/experimental/units.ruleset:362
@@ -15144,16 +15148,17 @@ msgid ""
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
 "require twice as much food per turn."
 msgstr ""
-"Onderhoud van kolonisten bestaat uit zowel voedsel als productie en een kolonist "
-"kan sterven als zijn ondersteunende stad geen voedsel meer heeft. Kolonisten in "
-"een republiek of democratie hebben elke beurt twee keer zo veel voedsel nodig."
+"Onderhoud van kolonisten bestaat uit zowel voedsel als productie en een "
+"kolonist kan sterven als zijn ondersteunende stad geen voedsel meer heeft. "
+"Kolonisten in een republiek of democratie hebben elke beurt twee keer zo "
+"veel voedsel nodig."
 
 #: data/civ1/units.ruleset:237
 msgid "Militia"
 msgstr "Burgerwacht"
 
 #: data/civ1/units.ruleset:263 data/civ2/units.ruleset:309
-#: data/default/units.ruleset:456 data/experimental/units.ruleset:475
+#: data/classic/units.ruleset:456 data/experimental/units.ruleset:475
 #: data/multiplayer/units.ruleset:457
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
@@ -15163,35 +15168,36 @@ msgstr ""
 "zwakste eenheid."
 
 #: data/civ1/units.ruleset:269 data/civ2/units.ruleset:315
-#: data/default/units.ruleset:462 data/experimental/units.ruleset:481
+#: data/classic/units.ruleset:462 data/experimental/units.ruleset:481
 #: data/multiplayer/units.ruleset:463
 msgid "Phalanx"
 msgstr "Falanx"
 
 #: data/civ1/units.ruleset:295 data/civ2/units.ruleset:341
-#: data/default/units.ruleset:488 data/experimental/units.ruleset:507
+#: data/classic/units.ruleset:488 data/experimental/units.ruleset:507
 #: data/multiplayer/units.ruleset:489
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr "De Falanx is gepandserde infanterie, geschikt voor het verdedigen van steden."
+msgstr ""
+"De Falanx is gepandserde infanterie, geschikt voor het verdedigen van steden."
 
 #: data/civ1/units.ruleset:300 data/civ2/units.ruleset:378
-#: data/default/units.ruleset:525 data/experimental/units.ruleset:544
+#: data/classic/units.ruleset:525 data/experimental/units.ruleset:544
 #: data/multiplayer/units.ruleset:526
 msgid "Legion"
 msgstr "Legioen"
 
 #: data/civ1/units.ruleset:326 data/civ2/units.ruleset:404
-#: data/default/units.ruleset:551 data/experimental/units.ruleset:570
+#: data/classic/units.ruleset:551 data/experimental/units.ruleset:570
 #: data/multiplayer/units.ruleset:552
 msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
 msgstr ""
-"Legioenen zijn zwaar bewapende en gediscilplineerde infanterie-eenheden "
-"met een zeer goede aanvalswaarde."
+"Legioenen zijn zwaar bewapende en gediscilplineerde infanterie-eenheden met "
+"een zeer goede aanvalswaarde."
 
 #: data/civ1/units.ruleset:332 data/civ2/units.ruleset:442
-#: data/default/units.ruleset:589 data/experimental/units.ruleset:608
+#: data/classic/units.ruleset:589 data/experimental/units.ruleset:608
 #: data/multiplayer/units.ruleset:590
 msgid "Musketeers"
 msgstr "Musketiers"
@@ -15205,13 +15211,13 @@ msgstr ""
 "Falanx als meest geschikte eenheid voor het beschermen van steden."
 
 #: data/civ1/units.ruleset:366 data/civ2/units.ruleset:583
-#: data/default/units.ruleset:695 data/experimental/units.ruleset:714
+#: data/classic/units.ruleset:695 data/experimental/units.ruleset:714
 #: data/multiplayer/units.ruleset:731
 msgid "Riflemen"
 msgstr "Jagers"
 
 #: data/civ1/units.ruleset:392 data/civ2/units.ruleset:609
-#: data/default/units.ruleset:721 data/experimental/units.ruleset:740
+#: data/classic/units.ruleset:721 data/experimental/units.ruleset:740
 #: data/multiplayer/units.ruleset:757
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
@@ -15220,7 +15226,7 @@ msgstr ""
 "erg geschikt voor het verdedigen van steden."
 
 #: data/civ1/units.ruleset:398 data/civ2/units.ruleset:681
-#: data/default/units.ruleset:793 data/experimental/units.ruleset:812
+#: data/classic/units.ruleset:793 data/experimental/units.ruleset:812
 #: data/multiplayer/units.ruleset:829
 msgid "Mech. Inf."
 msgstr "Pantsergrenadiers"
@@ -15230,11 +15236,11 @@ msgid ""
 "Mechanized Infantry; this unit has the strongest defense strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
-"Deze eenheid heeft de grootste verdedigingssterkte van alle grondeenheden, maar "
-"is pas tegen het einde van de technologische ontwikkeling beschikbaar."
+"Deze eenheid heeft de grootste verdedigingssterkte van alle grondeenheden, "
+"maar is pas tegen het einde van de technologische ontwikkeling beschikbaar."
 
 #: data/civ1/units.ruleset:431 data/civ2/units.ruleset:907
-#: data/default/units.ruleset:955 data/experimental/units.ruleset:975
+#: data/classic/units.ruleset:955 data/experimental/units.ruleset:975
 #: data/multiplayer/units.ruleset:1055
 msgid "Cavalry"
 msgstr "Cavalerie"
@@ -15248,7 +15254,7 @@ msgstr ""
 "in vijandelijk gebied kunnen doordringen."
 
 #: data/civ1/units.ruleset:464 data/civ2/units.ruleset:747
-#: data/default/units.ruleset:859 data/experimental/units.ruleset:879
+#: data/classic/units.ruleset:859 data/experimental/units.ruleset:879
 #: data/multiplayer/units.ruleset:895
 msgid "Chariot"
 msgstr "Strijdwagen"
@@ -15259,28 +15265,28 @@ msgid ""
 "Cavalry."
 msgstr ""
 "Strijdwagens worden door paarden getrokken. Zij zijn sterker maar duurder "
-"dan cavalerie."
+"dan Cavalerie."
 
 #: data/civ1/units.ruleset:496 data/civ2/units.ruleset:843
-#: data/default/units.ruleset:891 data/experimental/units.ruleset:911
+#: data/classic/units.ruleset:891 data/experimental/units.ruleset:911
 #: data/multiplayer/units.ruleset:991
 msgid "Knights"
 msgstr "Ridders"
 
 #: data/civ1/units.ruleset:523 data/civ2/units.ruleset:870
-#: data/default/units.ruleset:918 data/experimental/units.ruleset:938
+#: data/classic/units.ruleset:918 data/experimental/units.ruleset:938
 #: data/multiplayer/units.ruleset:1018
 msgid "Knights are mounted and heavily armored warriors."
 msgstr "Ridders zijn zwaarbewapende bereden strijders."
 
 #: data/civ1/units.ruleset:528 data/civ2/units.ruleset:938
-#: data/default/units.ruleset:986 data/experimental/units.ruleset:1006
+#: data/classic/units.ruleset:986 data/experimental/units.ruleset:1006
 #: data/multiplayer/units.ruleset:1086
 msgid "Armor"
 msgstr "Tank"
 
 #: data/civ1/units.ruleset:554 data/civ2/units.ruleset:964
-#: data/default/units.ruleset:1012 data/experimental/units.ruleset:1032
+#: data/classic/units.ruleset:1012 data/experimental/units.ruleset:1032
 #: data/multiplayer/units.ruleset:1112
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
@@ -15290,21 +15296,21 @@ msgstr ""
 "schade kunnen opnemen dan elke andere bereden eenheid."
 
 #: data/civ1/units.ruleset:561 data/civ2/units.ruleset:971
-#: data/default/units.ruleset:1019 data/experimental/units.ruleset:1039
+#: data/classic/units.ruleset:1019 data/experimental/units.ruleset:1039
 #: data/multiplayer/units.ruleset:1119
 msgid "Catapult"
 msgstr "Katapult"
 
 #: data/civ1/units.ruleset:587 data/civ2/units.ruleset:997
-#: data/default/units.ruleset:1045 data/experimental/units.ruleset:1065
+#: data/classic/units.ruleset:1045 data/experimental/units.ruleset:1065
 #: data/multiplayer/units.ruleset:1145
 msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
 msgstr ""
-"Katapulten zijn groot oorlogstuig dat stenen afwerpt. Zij zijn erg sterk "
-"in de aanval maar zeer zwak in de verdediging en hebben een escorte nodig "
-"om effectief te zijn."
+"Katapulten zijn groot oorlogstuig dat stenen afwerpt. Zij zijn erg sterk in "
+"de aanval maar even zwak in de verdediging en hebben een escorte nodig om "
+"effectief te zijn."
 
 #: data/civ1/units.ruleset:594 data/civ2/units.ruleset:1004
 #: data/classic/units.ruleset:1052 data/experimental/units.ruleset:1072
@@ -15321,7 +15327,7 @@ msgid ""
 "will need an escort to be effective."
 msgstr ""
 "Kannonen zijn grote vuurwapens die zware projectielen over grote afstanden "
-"kunnen schieten. Zij zijn erg sterk in de aanval maar zeer zwak in de "
+"kunnen schieten. Zij zijn erg sterk in de aanval maar even zwak in de "
 "verdediging en hebben een escorte nodig om effectief te zijn."
 
 #: data/civ1/units.ruleset:628 data/civ2/units.ruleset:1038
@@ -15335,8 +15341,8 @@ msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities."
 msgstr ""
-"Artillerie is een verbeterde versie van het kannon met betere defensieve "
-"en offensieve waarden."
+"Artillerie is een verbeterde versie van het kannon met betere defensieve en "
+"offensieve waarden."
 
 #: data/civ1/units.ruleset:660 data/civ2/units.ruleset:1103
 #: data/classic/units.ruleset:1151 data/experimental/units.ruleset:1171
@@ -15351,8 +15357,8 @@ msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
 msgstr ""
-"Jachtvliegtuigen zijn je eerste luchteenheden. Ze kunnen overal "
-"heen bewegen en elke eenheid aanvallen."
+"Jachtvliegtuigen zijn je eerste luchteenheden. Ze kunnen overal heen bewegen "
+"en elke eenheid aanvallen."
 
 #: data/civ1/units.ruleset:693 data/civ2/units.ruleset:1136
 #: data/classic/units.ruleset:1184 data/experimental/units.ruleset:1204
@@ -15383,8 +15389,8 @@ msgid ""
 "rudimentary offensive capabilities, but may not stray too far from the shore."
 msgstr ""
 "De Trireem is je eerste booteenheid. Het kan functioneren als transportschip "
-"en heeft rudimentaire aanvalsmogelijkheden maar het kan zich niet te ver buiten "
-"de kust wagen."
+"en heeft rudimentaire aanvalsmogelijkheden maar het kan zich niet te ver "
+"buiten de kust wagen."
 
 #: data/civ1/units.ruleset:761
 msgid "Sail"
@@ -15409,8 +15415,8 @@ msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
 msgstr ""
-"De Fregat is een veelzijdige booteenheid, die zowel een sterke aanvalseenheid "
-"als een trasportschip is."
+"De Fregat is een veelzijdige booteenheid, die zowel een sterke "
+"aanvalseenheid als een trasportschip is."
 
 #: data/civ1/units.ruleset:828 data/civ2/units.ruleset:1406
 #: data/classic/units.ruleset:1454 data/experimental/units.ruleset:1474
@@ -15425,8 +15431,8 @@ msgid ""
 "The Ironclad is an armored ship that is much more sturdy than the Frigate "
 "but loses the latter's transport capability."
 msgstr ""
-"Het pantserschip is een bepantserd schip dat veel steviger is dan het "
-"fregat maar geen transportmogelijkheid heeft."
+"Het pantserschip is een bepantserd schip dat veel steviger is dan het fregat "
+"maar geen transportmogelijkheid heeft."
 
 #: data/civ1/units.ruleset:861 data/civ2/units.ruleset:1473
 #: data/classic/units.ruleset:1521 data/experimental/units.ruleset:1541
@@ -15453,8 +15459,8 @@ msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
 msgstr ""
-"Het Slagschip is de sterkste maritieme eenheid met uitstekende offensieve "
-"en defensieve waarden."
+"Het Slagschip is de sterkste maritieme eenheid met uitstekende offensieve en "
+"defensieve waarden."
 
 #: data/civ1/units.ruleset:924 data/civ2/units.ruleset:1568
 #: data/classic/units.ruleset:1616 data/experimental/units.ruleset:1636
@@ -15525,8 +15531,8 @@ msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player."
 msgstr ""
-"Je kan Kernwapens bouwen als je de benodigde vooruitgang hebt en als "
-"een speler het Manhattanproject heeft gebouwd."
+"Je kan Kernwapens bouwen als je de benodigde vooruitgang hebt en als een "
+"speler het Manhattanproject heeft gebouwd."
 
 #: data/civ1/units.ruleset:1055 data/civ2/units.ruleset:1736
 #: data/classic/units.ruleset:1784 data/experimental/units.ruleset:1804
@@ -15548,10 +15554,10 @@ msgid ""
 "increases with fallout. If nuclear winter occurs, terrain across the globe "
 "changes into desert, tundra, and ice. Settlers can clean up nuclear fallout."
 msgstr ""
-"Net als met vervuiling en opwarming van de aarde neemt de risk op een nucleaire "
-"winter toe met fallout. Als een nucleaire winter plaatsvindt kan overal over "
-"de wereld terrein veranderen in woestijn, toendra en ijs. Kolonisten kunnen "
-"fallout opruimen."
+"Net als met vervuiling en opwarming van de aarde neemt de risk op een "
+"nucleaire winter toe met fallout. Als een nucleaire winter plaatsvindt kan "
+"overal over de wereld terrein veranderen in woestijn, toendra en ijs. "
+"Kolonisten kunnen fallout opruimen."
 
 #: data/civ1/units.ruleset:1065 data/civ2/units.ruleset:1746
 #: data/classic/units.ruleset:1794 data/experimental/units.ruleset:1814
@@ -15561,8 +15567,8 @@ msgid ""
 "(but expensive!!) way of getting rid of enemy ships."
 msgstr ""
 "TIP1: Een kernwapen tot ontploffing brengen op de oceaan zal geen fallout "
-"veroorzaken en is een effectieve (maar dure!) manier om van vijandelijke schepen "
-"af te komen."
+"veroorzaken en is een effectieve (maar dure!) manier om van vijandelijke "
+"schepen af te komen."
 
 #: data/civ1/units.ruleset:1069
 msgid ""
@@ -15573,10 +15579,10 @@ msgid ""
 "chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 "TIP2:  Je kan te maken krijgen met een situatie waarin je een vijandelijk "
-"land waarvan de steden te sterk zijn bent binnengevallen. Verzamel een "
-"groep kolonisten voordat je een Kernwapen gebruikt en laat ze de fallout "
-"opruimen direct nadat het heeft plaatsgevonden.  Dit minimaliseert het risico "
-"op een nucleaire winter.  Klimaatneutrale kernbommen!"
+"land waarvan de steden te sterk zijn bent binnengevallen. Verzamel een groep "
+"kolonisten voordat je een Kernwapen gebruikt en laat ze de fallout opruimen "
+"direct nadat het heeft plaatsgevonden.  Dit minimaliseert het risico op een "
+"nucleaire winter.  Klimaatneutrale kernbommen!"
 
 #: data/civ1/units.ruleset:1079 data/civ2/units.ruleset:1760
 #: data/classic/units.ruleset:1808 data/experimental/units.ruleset:1828
@@ -15594,9 +15600,10 @@ msgid ""
 "cities defend them against such actions."
 msgstr ""
 "Een Diplomaat is een ambtsdrager die je zendingen meeneemt en toestemming "
-"heeft met buitenlandse hoogwaardigheidsbekleders te onderhandelen. Hij kan ook "
-"verscheidene geheime acties ondernemen met als doel je vijanden te verzwakken; "
-"Diplomaten in je eigen steden kunnen deze beschermen tegen dergelijke acties."
+"heeft met buitenlandse hoogwaardigheidsbekleders te onderhandelen. Hij kan "
+"ook verscheidene geheime acties ondernemen met als doel je vijanden te "
+"verzwakken; Diplomaten in je eigen steden kunnen deze beschermen tegen "
+"dergelijke acties."
 
 #: data/civ1/units.ruleset:1111 data/civ2/units.ruleset:1792
 #: data/classic/units.ruleset:1840 data/experimental/units.ruleset:1860
@@ -15621,12 +15628,13 @@ msgid ""
 "owning it. However, units belonging to Democratic governments cannot be "
 "bribed. Bribery when not at war will cause a diplomatic incident."
 msgstr ""
-"Als een vreemde eenheid alleen op een vlak staat kan je proberen hem om te kopen "
-"met je Diplomaat. Als je een hoeveelheid geld betaald wordt de eenhein onmiddelijk "
-"van jou; de precieze hoeveelheid hangt af van de status van de eenheid en van de "
-"beschaving waar hij bij hoort. Eenheden van Democratische regereingen kunnen echter "
-"niet omgekocht worden. Omkoping van een eenheid van een natie waarmee je niet in "
-"oorlog bent leidt tot een diplomatiek incident."
+"Als een vreemde eenheid alleen op een vlak staat kan je proberen hem om te "
+"kopen met je Diplomaat. Als je een hoeveelheid geld betaald wordt de eenhein "
+"onmiddelijk van jou; de precieze hoeveelheid hangt af van de status van de "
+"eenheid en van de beschaving waar hij bij hoort. Eenheden van Democratische "
+"regereingen kunnen echter niet omgekocht worden. Omkoping van een eenheid "
+"van een natie waarmee je niet in oorlog bent leidt tot een diplomatiek "
+"incident."
 
 #: data/civ1/units.ruleset:1122 data/civ2/units.ruleset:1803
 #: data/classic/units.ruleset:1851 data/experimental/units.ruleset:1871
@@ -15640,11 +15648,11 @@ msgid ""
 "may try again."
 msgstr ""
 "Diplomaten kunnen ook een aantal acties uitvoeren in een stad van een andere "
-"speler, hoewel elke diplomaat maar een actie kan proberen. De meeste acties kunnen "
-"mislukken. Vijandelijke diplomaten en spionnen in de stad zullen vijandige acties "
-"proberen tegen te gaan; in dat geval zal ofwel jouw eenheid ofwel de verdedigende "
-"eenheid om het leven komen. Als de verdedigende eenheid sterft verlies je een "
-"bewegingspunt en mag je nog een poging wagen."
+"speler, hoewel elke diplomaat maar een actie kan proberen. De meeste acties "
+"kunnen mislukken. Vijandelijke diplomaten en spionnen in de stad zullen "
+"vijandige acties proberen tegen te gaan; in dat geval zal ofwel jouw eenheid "
+"ofwel de verdedigende eenheid om het leven komen. Als de verdedigende "
+"eenheid sterft verlies je een bewegingspunt en mag je nog een poging wagen."
 
 #: data/civ1/units.ruleset:1129 data/civ2/units.ruleset:1810
 #: data/classic/units.ruleset:1858 data/experimental/units.ruleset:1878
@@ -15660,9 +15668,9 @@ msgid ""
 "contact with the city's owner, as well as intelligence on their tax rates "
 "and technology."
 msgstr ""
-" - \"Ambassade Vestigen\": Deze actie is altijd succesvol en leidt tot permanent "
-"contact met de eigenaar van de stad, evenals inlichten over hun belastingen "
-"en technologie."
+" - \"Ambassade Vestigen\": Deze actie is altijd succesvol en leidt tot "
+"permanent contact met de eigenaar van de stad, evenals inlichten over hun "
+"belastingen en technologie."
 
 #: data/civ1/units.ruleset:1135 data/civ2/units.ruleset:1816
 #: data/classic/units.ruleset:1864 data/experimental/units.ruleset:1884
@@ -15672,9 +15680,9 @@ msgid ""
 "about the city: its status, what buildings and units are within, and what it "
 "is currently producing."
 msgstr ""
-" - \"Stad Pnderzoeken\": Je eenheid zal proberen gedetailleerde informatie over "
-"de stad te vinden: de status, welke gebouwen en eenheden zich er bevinden en wat "
-"het momenteel produceert."
+" - \"Stad Pnderzoeken\": Je eenheid zal proberen gedetailleerde informatie "
+"over de stad te vinden: de status, welke gebouwen en eenheden zich er "
+"bevinden en wat het momenteel produceert."
 
 #: data/civ1/units.ruleset:1139 data/civ2/units.ruleset:1820
 #: data/classic/units.ruleset:1868 data/experimental/units.ruleset:1888
@@ -15688,10 +15696,10 @@ msgid ""
 msgstr ""
 " - \"Stad Saboteren\": Je eenheid zal proberen ofwel alle voortgang voor het "
 "huidige bouwproject te verstoren ofwel een bestaand gebouw te vernietigen, "
-"willekeurigerwijs. Paleizen en Wonderen die volotooid zijn kunnen niet gesaboteerd "
-"worden en pogingen stadsmuren of een gebouw in een hoofdstad te saboteren hebben "
-"een gehalveerde kans van slagen. Sabotagepogingen mogen alleen worden onernomen "
-"tegen naties waartegen je in oorlog bent."
+"willekeurigerwijs. Paleizen en Wonderen die volotooid zijn kunnen niet "
+"gesaboteerd worden en pogingen stadsmuren of een gebouw in een hoofdstad te "
+"saboteren hebben een gehalveerde kans van slagen. Sabotagepogingen mogen "
+"alleen worden onernomen tegen naties waartegen je in oorlog bent."
 
 #: data/civ1/units.ruleset:1146 data/civ2/units.ruleset:1827
 #: data/classic/units.ruleset:1875 data/experimental/units.ruleset:1895
@@ -15702,11 +15710,11 @@ msgid ""
 "stolen once from a given enemy city by Diplomats. This action may be "
 "attempted even when not at war, but will cause a diplomatic incident."
 msgstr ""
-" - \"Technologie Stelen\": Je eenheid zal proberen de geheimen van een willekeurige "
-"technologie die niet bekend is bij jou maar wel bij de eigenaar van de stad te leren. "
-"Technologie kan maar een keer per stad voor een diplomaat worden gestolen. Deze actie mag "
-"ook worden uitgevoerd als je niet in oorlog bent, maar zal dan een diplomatiek incident "
-"veroorzaken."
+" - \"Technologie Stelen\": Je eenheid zal proberen de geheimen van een "
+"willekeurige technologie die niet bekend is bij jou maar wel bij de eigenaar "
+"van de stad te leren. Technologie kan maar een keer per stad voor een "
+"diplomaat worden gestolen. Deze actie mag ook worden uitgevoerd als je niet "
+"in oorlog bent, maar zal dan een diplomatiek incident veroorzaken."
 
 #: data/civ1/units.ruleset:1152 data/civ2/units.ruleset:1833
 #: data/classic/units.ruleset:1881 data/experimental/units.ruleset:1901
@@ -15727,10 +15735,10 @@ msgstr ""
 "verkleind. Eenheden in andere steden blijven onder controle van de vijand, "
 "maar eenheden buiten steden gaan verloren voor beide eenheden. De precieze "
 "kosten hangen af van de status van de stad en van de beschaving die de stad "
-"in bezit heeft. Het is niet mogelijk aan te zetten tot opstand in een hoofdstad "
-"of in een stad die bestuurd wordt door een democratie. Het is mogelijk een "
-"opstand te veroorzaken in vredestijd, maar dat zal een diplomatiek incident "
-"veroorzaken."
+"in bezit heeft. Het is niet mogelijk aan te zetten tot opstand in een "
+"hoofdstad of in een stad die bestuurd wordt door een democratie. Het is "
+"mogelijk een opstand te veroorzaken in vredestijd, maar dat zal een "
+"diplomatiek incident veroorzaken."
 
 #: data/civ1/units.ruleset:1162 data/civ2/units.ruleset:1843
 #: data/classic/units.ruleset:1891 data/experimental/units.ruleset:1911
@@ -15741,8 +15749,8 @@ msgid ""
 "fear!"
 msgstr ""
 "In sommige spelstrategieën worden hordes diplomaten gebruikt om een ravage "
-"aan te richten bij de vijand.  Het is dan ook geen wonder dat diplomaten vaak "
-"met vrees en wantrouwen worden bekeken!"
+"aan te richten bij de vijand.  Het is dan ook geen wonder dat diplomaten "
+"vaak met vrees en wantrouwen worden bekeken!"
 
 #: data/civ1/units.ruleset:1169 data/civ2/units.ruleset:1903
 #: data/classic/units.ruleset:1951 data/experimental/units.ruleset:1971
@@ -15756,8 +15764,8 @@ msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
 "foreign countries, or to help build wonders in your cities."
 msgstr ""
-"Een Karavaan vervoert goederen of materiaal om in verafgelegen steden "
-"en vreemde landen te verhandelen of om te helpen wonderen te bouwen in je "
+"Een Karavaan vervoert goederen of materiaal om in verafgelegen steden en "
+"vreemde landen te verhandelen of om te helpen wonderen te bouwen in je "
 "steden."
 
 #: data/civ1/units.ruleset:1198 data/civ2/units.ruleset:1932
@@ -15766,8 +15774,8 @@ msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder."
 msgstr ""
-"Elke Karavaan die wordt gebruikt om een wonder te bouwen voegt 50 schildjes toe "
-"aan de productie van het wonder."
+"Elke Karavaan die wordt gebruikt om een wonder te bouwen voegt 50 schildjes "
+"toe aan de productie van het wonder."
 
 #: data/civ1/units.ruleset:1201 data/civ2/units.ruleset:1935
 #: data/classic/units.ruleset:1983 data/experimental/units.ruleset:2003
@@ -15814,9 +15822,10 @@ msgid ""
 "damaged air units (again, including helicopters) which stay in town for one "
 "full turn without moving are completely restored."
 msgstr ""
-"Stelt een stad in staat om luchteenheden (inclusief helikopters) met veteranenstatus "
-"te bouwen. Ook worden beschadigde luchteenheden (wederom inclusief helikopters) die "
-"een volle beurt zonder te bewegen in de stad blijven volledig hersteld."
+"Stelt een stad in staat om luchteenheden (inclusief helikopters) met "
+"veteranenstatus te bouwen. Ook worden beschadigde luchteenheden (wederom "
+"inclusief helikopters) die een volle beurt zonder te bewegen in de stad "
+"blijven volledig hersteld."
 
 #: data/civ2/buildings.ruleset:46 data/classic/buildings.ruleset:67
 #: data/experimental/buildings.ruleset:69
@@ -15837,8 +15846,8 @@ msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
 msgstr ""
-"Stelt een stad in staat om groter dan grootte 8 te groeien.  Om de stad groter "
-"dan grootte 12 te laten groeie is ook Riolering nodig "
+"Stelt een stad in staat om groter dan grootte 8 te groeien.  Om de stad "
+"groter dan grootte 12 te laten groeie is ook Riolering nodig "
 
 #: data/civ2/buildings.ruleset:111 data/civ2/buildings.ruleset:135
 #: data/civ2/buildings.ruleset:159 data/classic/buildings.ruleset:135
@@ -15856,10 +15865,11 @@ msgid ""
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
-"Met een Kazerne krijgt elke nieuw gebouwde grondeenheid in een stad automatisch "
-"de veteranenstatus, wat inhoudt dat zijn aanvals- en verdedigingssterkte "
-"worden verhoogd met 50%. Ook worden beschadigde grondeenheden die een volle "
-"beurt zonder verplaatsing in de stad blijven volledig hersteld."
+"Met een Kazerne krijgt elke nieuw gebouwde grondeenheid in een stad "
+"automatisch de veteranenstatus, wat inhoudt dat zijn aanvals- en "
+"verdedigingssterkte worden verhoogd met 50%. Ook worden beschadigde "
+"grondeenheden die een volle beurt zonder verplaatsing in de stad blijven "
+"volledig hersteld."
 
 #: data/civ2/buildings.ruleset:182 data/classic/buildings.ruleset:208
 #: data/experimental/buildings.ruleset:213
@@ -15874,11 +15884,11 @@ msgid ""
 msgstr ""
 "Een Kathedraal maakt drie ontevreden burgers tevreden in een stad, wat het "
 "makkelijker maakt om in die stad de orde te handhaven. Het heeft echter geen "
-"invloed op burgers die ontevreden worden door miltiaire activiteit. De ontdekking "
-"van Theologie vergroot het effect van een Kathedraal door een extra ontevreden "
-"burger tevreden te maken. De ontdekking van het Communisme vermindert het "
-"effect van een Kathedraal, er wordt dan één ontevreden burger minder "
-"tevreden."
+"invloed op burgers die ontevreden worden door miltiaire activiteit. De "
+"ontdekking van Theologie vergroot het effect van een Kathedraal door een "
+"extra ontevreden burger tevreden te maken. De ontdekking van het Communisme "
+"vermindert het effect van een Kathedraal, er wordt dan één ontevreden burger "
+"minder tevreden."
 
 #: data/civ2/buildings.ruleset:208 data/classic/buildings.ruleset:234
 #: data/experimental/buildings.ruleset:239
@@ -15919,8 +15929,9 @@ msgid ""
 "made unhappy by military activity."
 msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
-"stedelingen tevreden. (Vier na de ontdekking van Electronica.) Het heeft echter "
-"geen invloed op burgers die ontevreden worden door militaire activiteit."
+"stedelingen tevreden. (Vier na de ontdekking van Electronica.) Het heeft "
+"echter geen invloed op burgers die ontevreden worden door militaire "
+"activiteit."
 
 #: data/civ2/buildings.ruleset:274
 #, no-c-format
@@ -15930,10 +15941,11 @@ msgid ""
 "unhappy about military activity).  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
-"Vermindert de corruptie en verspilling in een stad met 50%. In een Democratie "
-"maakt een Gerechtshof bovendien één ontevreden burger tevreden (tenzij die burger "
-"ontevreden is over militaire activiteit).  Halveert bovendien de effectieve "
-"afstand tot de hoofdstad in de berekening van de kosten van een opstand."
+"Vermindert de corruptie en verspilling in een stad met 50%. In een "
+"Democratie maakt een Gerechtshof bovendien één ontevreden burger tevreden "
+"(tenzij die burger ontevreden is over militaire activiteit).  Halveert "
+"bovendien de effectieve afstand tot de hoofdstad in de berekening van de "
+"kosten van een opstand."
 
 #: data/civ2/buildings.ruleset:328 data/classic/buildings.ruleset:355
 #: data/experimental/buildings.ruleset:360
@@ -16084,8 +16096,8 @@ msgstr ""
 "Beschermt een stad en haar omgeving (tot 2 vlakken) tegen aanvallen met "
 "kernwapens. Een nucleaire eenheid die een stad met een raketschild aanvalt, "
 "of die in de nabijheid een eenheid aanvalt (of daar tot ontploffing wordt "
-"gebracht) wordt neergeschoten en heeft geen effect. Verdubbelt bovendien "
-"de verdedigen voor eenheden binnen de stad tegen conventionele raketten."
+"gebracht) wordt neergeschoten en heeft geen effect. Verdubbelt bovendien de "
+"verdedigen voor eenheden binnen de stad tegen conventionele raketten."
 
 #: data/civ2/buildings.ruleset:709 data/classic/buildings.ruleset:759
 #: data/experimental/buildings.ruleset:811
@@ -16115,11 +16127,10 @@ msgid ""
 "Factory and a Solar Plant together give a 100% production bonus, and a "
 "Factory, Mfg. Plant and Solar Plant together give a 150% production bonus."
 msgstr ""
-"Vermindert de hoeveelheid vervuiling die een stad maakt. Het verhoogt "
-"ook de schildjesproductie van een Fabriek of Assemblagehal in de stad: een "
-"Fabriek en een Zonnekrachtcentrale samen geven een bonus van 100% en een "
-"Fabriek, Assemblagehal en een Zonnekrachtcentrale samen geven een bonus van "
-"150%."
+"Vermindert de hoeveelheid vervuiling die een stad maakt. Het verhoogt ook de "
+"schildjesproductie van een Fabriek of Assemblagehal in de stad: een Fabriek "
+"en een Zonnekrachtcentrale samen geven een bonus van 100% en een Fabriek, "
+"Assemblagehal en een Zonnekrachtcentrale samen geven een bonus van 150%."
 
 #: data/civ2/buildings.ruleset:839 data/classic/buildings.ruleset:898
 #: data/experimental/buildings.ruleset:950
@@ -16136,9 +16147,9 @@ msgid ""
 "city by 50%. Together with a Marketplace and a Bank, a Stock Exchange boosts "
 "tax and luxury production in a city by 150%."
 msgstr ""
-"Samen met een Bank verhoogt een Effectenbeurs de belastings- en luxe-opbrengsten "
-"in een stad met 50%. Samen met een Markthal en een Bank verhoogt de Effectenbeurs "
-"de belastings- en luxe-opbrengsten in een stad met 150%."
+"Samen met een Bank verhoogt een Effectenbeurs de belastings- en luxe-"
+"opbrengsten in een stad met 50%. Samen met een Markthal en een Bank verhoogt "
+"de Effectenbeurs de belastings- en luxe-opbrengsten in een stad met 150%."
 
 #: data/civ2/buildings.ruleset:863 data/classic/buildings.ruleset:922
 #: data/experimental/buildings.ruleset:974
@@ -16151,7 +16162,8 @@ msgstr "Snelwegen"
 #: data/multiplayer/buildings.ruleset:919
 #, no-c-format
 msgid "Increases trade resources by 50% on all tiles with roads or railroads."
-msgstr "Vergroot de handelsopbrengst met 50% op alle vlakken met wegen of spoorwegen."
+msgstr ""
+"Vergroot de handelsopbrengst met 50% op alle vlakken met wegen of spoorwegen."
 
 #: data/civ2/buildings.ruleset:884 data/classic/buildings.ruleset:945
 #: data/experimental/buildings.ruleset:1000
@@ -16167,9 +16179,9 @@ msgid ""
 "used around the city.  Farmland tiles are those which have been irrigated a "
 "second time."
 msgstr ""
-"Vergroot de voedingsopbrengst met 50% op elk vlak landbouwgrond dat in gebruik is "
-"rond de stad.  Vlakken krijgen landbouwgrond als ze een tweede keer geïrrigeerd "
-"zijn."
+"Vergroot de voedingsopbrengst met 50% op elk vlak landbouwgrond dat in "
+"gebruik is rond de stad.  Vlakken krijgen landbouwgrond als ze een tweede "
+"keer geïrrigeerd zijn."
 
 #: data/civ2/buildings.ruleset:964 data/classic/buildings.ruleset:1025
 #: data/experimental/buildings.ruleset:1082
@@ -16180,10 +16192,10 @@ msgid ""
 "parts (assuming they have researched the necessary technologies)."
 msgstr ""
 "De hele kaart wordt permanent zichtbaar voor de speler die eigenaar is -- de "
-"speler heeft altijd actuele kennis van alle terrein en steden (maar niet eenheden) "
-"ondanks oorlogsmist. Het stelt alle spelers in de gelegenheid om te beginnen met "
-"het bouwen van ruimteschepen (aangenomen dat zij alle benodigde technologieën "
-"verworven hebben)."
+"speler heeft altijd actuele kennis van alle terrein en steden (maar niet "
+"eenheden) ondanks oorlogsmist. Het stelt alle spelers in de gelegenheid om "
+"te beginnen met het bouwen van ruimteschepen (aangenomen dat zij alle "
+"benodigde technologieën verworven hebben)."
 
 #: data/civ2/buildings.ruleset:973 data/classic/buildings.ruleset:1034
 #: data/experimental/buildings.ruleset:1091
@@ -16210,8 +16222,7 @@ msgstr "Eiffeltoren"
 msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
-msgstr ""
-"Je reputatie bij andere naties herstelt vier keer zo snel."
+msgstr "Je reputatie bij andere naties herstelt vier keer zo snel."
 
 #: data/civ2/buildings.ruleset:1151 data/classic/buildings.ruleset:1216
 #: data/experimental/buildings.ruleset:1273
@@ -16278,8 +16289,8 @@ msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all cities)."
 msgstr ""
-"Geeft al je zee-eenheden 1 extra bewegingspunt.  Maakt alle nieuwe zee-eenheden "
-"veteraan (voor alle steden)."
+"Geeft al je zee-eenheden 1 extra bewegingspunt.  Maakt alle nieuwe zee-"
+"eenheden veteraan (voor alle steden)."
 
 #: data/civ2/buildings.ruleset:1294
 msgid "Gives all sea units 2 additional movement points."
@@ -16362,11 +16373,11 @@ msgid ""
 "neutralizes the unhappiness caused by a single military unit per city. This "
 "wonder has no effect under other governments.)"
 msgstr ""
-"Telt als een Politiebureau in elke stad. (Dat houdt in dat voor elke stad "
-"de onrust over militaire eenheden buiten de landsgrenzen in een Democratie met "
-"2 afneemt, en in een Republiek met 1 -- in andere woorden, het neutraliseert de "
-"ontevredenheid veroorzaakt door één militaire eenheid per stad. Dit wonder heeft "
-"geen effect onder andere staatsvormen.)"
+"Telt als een Politiebureau in elke stad. (Dat houdt in dat voor elke stad de "
+"onrust over militaire eenheden buiten de landsgrenzen in een Democratie met "
+"2 afneemt, en in een Republiek met 1 -- in andere woorden, het neutraliseert "
+"de ontevredenheid veroorzaakt door één militaire eenheid per stad. Dit "
+"wonder heeft geen effect onder andere staatsvormen.)"
 
 #: data/civ2/buildings.ruleset:1537
 msgid "Capitalization"
@@ -16378,8 +16389,8 @@ msgid ""
 "Capitalization means its shield production is converted to tax output "
 "(money)."
 msgstr ""
-"Dit is geen normale verbetering. Een stad op Kapitalisatie zetten "
-"betekent dat alle schildjesproductie wordt omgezet naar belasting (geld)."
+"Dit is geen normale verbetering. Een stad op Kapitalisatie zetten betekent "
+"dat alle schildjesproductie wordt omgezet naar belasting (geld)."
 
 #: data/civ2/game.ruleset:18
 msgid "Civ2 ruleset"
@@ -16398,15 +16409,16 @@ msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
 msgstr ""
-"Anarchie veroorzaakt een klein beetje minder corruptie en verspilling "
-"dan Despotisme, maar iets meer ontevredenheid."
+"Anarchie veroorzaakt een klein beetje minder corruptie en verspilling dan "
+"Despotisme, maar iets meer ontevredenheid."
 
 #: data/civ2/governments.ruleset:89
 msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
-"Despotisme veroorzaakt het meeste corruptie en verspilling van alle staatsvormen. "
+"Despotisme veroorzaakt het meeste corruptie en verspilling van alle "
+"staatsvormen. "
 
 #: data/civ2/governments.ruleset:111
 msgid ""
@@ -16422,8 +16434,8 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
-"Onder Communisme verschillen corruptie en verspilling niet door afstand "
-"van de hoofdstad; alle steden (inclusief de hoofdstad) hebben een matige "
+"Onder Communisme verschillen corruptie en verspilling niet door afstand van "
+"de hoofdstad; alle steden (inclusief de hoofdstad) hebben een matige "
 "hoeveelheid corruptie."
 
 #: data/civ2/governments.ruleset:143 data/civ2/techs.ruleset:294
@@ -16457,8 +16469,8 @@ msgid ""
 "to their beliefs, and are usually willing to die to preserve them."
 msgstr ""
 "In een fundamentalistische samenleving zijn de bevolking en de bestuurders "
-"volledig toegewijd aan hun overtuigingen en zijn ze meestal bereid te sterven om "
-"deze te behouden."
+"volledig toegewijd aan hun overtuigingen en zijn ze meestal bereid te "
+"sterven om deze te behouden."
 
 #: data/civ2/governments.ruleset:162 data/multiplayer/governments.ruleset:208
 msgid ""
@@ -16466,9 +16478,9 @@ msgid ""
 "produce `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
-"Verbeteringen die normaal gesproken ontevreden burgers veranderen in tevreden "
-"burgers produceren 'tienden' (goud) evenredig naar het aantal mensen dat zij "
-"tevreden zouden maken, en kosten geen onderhoud."
+"Verbeteringen die normaal gesproken ontevreden burgers veranderen in "
+"tevreden burgers produceren 'tienden' (goud) evenredig naar het aantal "
+"mensen dat zij tevreden zouden maken, en kosten geen onderhoud."
 
 #: data/civ2/governments.ruleset:203
 msgid ""
@@ -16478,9 +16490,9 @@ msgid ""
 "Democracy, but citizens become very upset during wars."
 msgstr ""
 "In een Democratie regeren de burgers zelf door over onderwerpen te stemmen. "
-"Democratie laat het hoogste niveau van handel toe, maar heeft ook het grootste "
-"potentieel voor ontevredenheid.  Er is geen corruptie in een Democratie, maar "
-"burgers worden heel ontevreden tijdens oorlogen."
+"Democratie laat het hoogste niveau van handel toe, maar heeft ook het "
+"grootste potentieel voor ontevredenheid.  Er is geen corruptie in een "
+"Democratie, maar burgers worden heel ontevreden tijdens oorlogen."
 
 #: data/civ2/nations.ruleset:57 data/nation/american.ruleset:48
 #: data/nation/boer.ruleset:29 data/nation/confederate.ruleset:36
@@ -16908,7 +16920,7 @@ msgstr "Monotheïsme"
 #: data/civ2/techs.ruleset:525 data/classic/techs.ruleset:529
 #: data/experimental/techs.ruleset:583 data/multiplayer/techs.ruleset:537
 msgid "Gives sea units one extra move."
-msgstr "Geeft zee-eenheden éé extra beweging."
+msgstr "Geeft zee-eenheden één extra beweging."
 
 #: data/civ2/techs.ruleset:532 data/classic/techs.ruleset:536
 #: data/experimental/techs.ruleset:591
@@ -16982,9 +16994,10 @@ msgid ""
 "movement along a River costs only 1/3 of a movement point."
 msgstr ""
 "Elk landterreintype kan een Rivier bevatten. Een Rivier voegt 1 handel toe "
-"aan de hulpbronnen in dat vlak. Het verhoogt ook de verdedigingsfactor van het "
-"vlak met 50%. Tenslotte kunnen landeenheden over een Rivier bewegen (maar niet "
-"diagonaal); beweging langs een Rivier kost slechts 1/3 van een bewegingspunt."
+"aan de hulpbronnen in dat vlak. Het verhoogt ook de verdedigingsfactor van "
+"het vlak met 50%. Tenslotte kunnen landeenheden over een Rivier bewegen "
+"(maar niet diagonaal); beweging langs een Rivier kost slechts 1/3 van een "
+"bewegingspunt."
 
 #: data/civ2/terrain.ruleset:59 data/classic/terrain.ruleset:62
 #: data/experimental/terrain.ruleset:64 data/multiplayer/terrain.ruleset:62
@@ -17076,6 +17089,9 @@ msgid ""
 "remaining in a fortress for a whole turn without moving recovers a quarter "
 "of its hit points."
 msgstr ""
+"Forten verbeteren verdediging voor landeenheden. Een van de effecten is het "
+"herstellen van een kwart van de levenspunten van eenheden die een hele beurt "
+"zonder te bewegen in een fort verblijven." 
 
 #: data/civ2/terrain.ruleset:884 data/classic/terrain.ruleset:1016
 #: data/experimental/terrain.ruleset:991 data/multiplayer/terrain.ruleset:989
@@ -17083,13 +17099,14 @@ msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
 msgstr ""
+"Vliegbases staan je luchteenheden toe te landen en te tanken. Luchteenheden "
+"op een vliegbasis kunnen worden aangevallen door landeenheden."
 
 #. TRANS: Unit class: used adjectivally
 #: data/civ2/units.ruleset:120 data/classic/units.ruleset:132
 #: data/experimental/units.ruleset:146 data/multiplayer/units.ruleset:132
-#, fuzzy
 msgid "?unitclass:Helicopter"
-msgstr "Helicopter"
+msgstr "Helikopter"
 
 #: data/civ2/units.ruleset:233
 msgid ""
@@ -17098,6 +17115,11 @@ msgid ""
 "require twice as much food per turn, and in Communist or Fundamentalist "
 "societies, three times as much."
 msgstr ""
+"Onderhoud voor Kolonisten wordt gerekend in zowel voedsel als productie, en "
+"een Kolonist kan om het leven komen als zijn ondersteunende stad geen voedsel "
+"meer heeft. Kolonisten in een Republiek of Democratie hebben viermaal zo veel "
+"voedsel nodig per beurt, Kolonisten in Communistische of Fundamentalistische "
+"samenlevingen driemaal."
 
 #: data/civ2/units.ruleset:241 data/classic/units.ruleset:388
 #: data/experimental/units.ruleset:407 data/multiplayer/units.ruleset:389
@@ -17105,7 +17127,6 @@ msgid "Engineers"
 msgstr "Ingenieurs"
 
 #: data/civ2/units.ruleset:267
-#, fuzzy
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -17113,22 +17134,19 @@ msgid ""
 "capabilities of Settlers; see the Terrain Alterations section for more "
 "details."
 msgstr ""
-"Ingenieurs zijn als Kolonisten, maar ze werken tweemaal zo snel en bewegen "
-"zich tweemaal zo snel. Ingenieurs mogen ook grote terreinveranderingen "
-"verrichten (bijvoorbeeld, Toendra omzetten in Woestijn) die buiten bereik "
-"van Kolonisten liggen.\n"
-"TIP 1:  Waardeer Kolonisten op naar Ingenieurs wanneer mogelijk, aangezien "
-"Ingenieurs dezelfde voorzieningen nodig hebben als gewone Kolonisten.\n"
-"\n"
-"TIP 2:  Als het u lukt om Leonardo's Werkplaats te bouwen, onderzoek dan "
-"Explosieven voordat de Werkplaats verouderd raakt. Op deze manier worden uw "
-"Kolonisten gratis opgewaardeerd."
+"Ingenieurs zijn vergelijkbaar met Kolonisten, maar ze werken tweemaal zo "
+"snel en bewegen zich tweemaal zo snel. Ingenieurs mogen ook grote "
+"terreinveranderingen verrichten die buiten de capaciteiten van Kolonisten "
+"liggen (bijvoorbeeld, Toendra omzetten in Woestijn); zie de sectie "
+"Terreinaanpassingen voor meer details."
 
 #: data/civ2/units.ruleset:273
 msgid ""
 "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
 "the same resources as ordinary Settlers."
 msgstr ""
+"TIP 1:  Waardeer Kolonisten op naar Ingenieurs wanneer mogelijk, aangezien "
+"Ingenieurs dezelfde grondstoffen vereisen als gewone Kolonisten."
 
 #: data/civ2/units.ruleset:276
 msgid ""
@@ -17136,6 +17154,9 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
 msgstr ""
+"TIP 2:  Als het lukt om Leonardo's Werkplaats te bouwen, onderzoek dan "
+"Explosieven voordat de Werkplaats verouderd raakt. Op deze manier worden uw "
+"Kolonisten gratis opgewaardeerd."
 
 #: data/civ2/units.ruleset:283 data/classic/units.ruleset:430
 #: data/experimental/units.ruleset:449 data/multiplayer/units.ruleset:431
@@ -17153,6 +17174,8 @@ msgid ""
 "Archers fight with bows and arrows and have a good offensive value as well "
 "as decent defense."
 msgstr ""
+"Boogschutters vechten met pijl en boog en hebben een goede aanvallende waarde "
+"en een redelijke verdedigende."
 
 #: data/civ2/units.ruleset:410 data/classic/units.ruleset:557
 #: data/experimental/units.ruleset:576 data/multiplayer/units.ruleset:558
@@ -17165,6 +17188,8 @@ msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
 msgstr ""
+"Piekeniers zijn gewapend met lange pieken en vervangen de Falanx als meest "
+"geschikte eenheid voor het verdedigen van steden."
 
 #: data/civ2/units.ruleset:469 data/classic/units.ruleset:616
 #: data/experimental/units.ruleset:635 data/multiplayer/units.ruleset:617
@@ -17172,6 +17197,8 @@ msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
 msgstr ""
+"Musketiers zijn infanterie uitgerust met vroege vuurwapens en vervangen Piekeniers "
+"als meest geschikte eenheid voor het verdedigen van steden."
 
 #: data/civ2/units.ruleset:476 data/multiplayer/units.ruleset:624
 msgid "Fanatics"
@@ -17179,20 +17206,20 @@ msgstr "Fanatici"
 
 #: data/civ2/units.ruleset:503 data/multiplayer/units.ruleset:651
 msgid "Fanatics are warriors extremely devoted to a higher cause."
-msgstr ""
+msgstr "Fanatici zijn krijgers die buitengewoon toegewijd zijn aan een hoger doel."
 
 #: data/civ2/units.ruleset:505 data/multiplayer/units.ruleset:653
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
-"Fundamentalistische naties kunnen Fanatici onderhouden zonder hiervoor te "
-"hoeven betalen in de vorm van productieverlies."
+"Fundamentalistische naties kunnen Fanatici onderhouden zonder schildjes te "
+"hoeven betalen voor onderhoud."
 
 #: data/civ2/units.ruleset:511 data/classic/units.ruleset:623
 #: data/experimental/units.ruleset:642 data/multiplayer/units.ruleset:659
 msgid "Partisan"
-msgstr "Partisaan"
+msgstr "Partizaan"
 
 #: data/civ2/units.ruleset:537 data/classic/units.ruleset:649
 #: data/experimental/units.ruleset:668 data/multiplayer/units.ruleset:685
@@ -17200,10 +17227,11 @@ msgid ""
 "Partisans are guerilla fighters who are experts at using the terrain to "
 "their advantage."
 msgstr ""
+"Partizanen zijn guerrillakrijgers die experts zijn in het gebruiken van "
+"het terrein in hun voordeel."
 
 #: data/civ2/units.ruleset:540 data/classic/units.ruleset:652
 #: data/experimental/units.ruleset:671 data/multiplayer/units.ruleset:688
-#, fuzzy
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -17213,16 +17241,13 @@ msgid ""
 " - You must know about Communism and Gunpowder.\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
-"Een aantal Partisanen worden gratis toegewezen wanneer een vijand uw stad "
-"verovert, maar uitsluitend onder deze voorwaarden:\n"
-"\n"
-" - Guerilla Oorlogvoering moet bekend zijn bij tenminste ��n speler.\n"
-"\n"
-" - U moet de speler zijn die de stad oorspronkelijk heeft gebouwd.\n"
-"\n"
-" - U moet van Communisme en Kruit weten.\n"
-"\n"
-" - U moet een Communistisch of Democratisch bewind voeren."
+"Een aantal Partisanen verschijnen automatisch op strategische posities in het "
+"platteland rond een stad wanneer deze wordt ingenomen door een vijand -- maar "
+"uitsluitend onder deze voorwaarden:\n"
+" - Guerilla-oorlogsvoering moet bekend zijn bij tenminste één speler.\n"
+" - Je moet de speler zijn die de stad oorspronkelijk heeft gesticht.\n"
+" - Je moet bekend zijn met Communisme en Buskruit.\n"
+" - Je moet een Communistisch of Democratisch bewind voeren."
 
 #: data/civ2/units.ruleset:551 data/classic/units.ruleset:663
 #: data/experimental/units.ruleset:682 data/multiplayer/units.ruleset:699
@@ -17232,7 +17257,7 @@ msgstr "Bergtroepen"
 #: data/civ2/units.ruleset:577 data/classic/units.ruleset:689
 #: data/experimental/units.ruleset:708 data/multiplayer/units.ruleset:725
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
-msgstr ""
+msgstr "Bergtroepen zijn uiterst mobiele eenheden en uitstekende verdedigers."
 
 #: data/civ2/units.ruleset:615 data/classic/units.ruleset:727
 #: data/experimental/units.ruleset:746 data/multiplayer/units.ruleset:763
@@ -17242,27 +17267,26 @@ msgstr "Mariniers"
 #: data/civ2/units.ruleset:641 data/classic/units.ruleset:753
 #: data/experimental/units.ruleset:772 data/multiplayer/units.ruleset:789
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr ""
+msgstr "Mariniers zijn infanterie die experts zijn in maritieme oorlogsvoering."
 
 #: data/civ2/units.ruleset:646 data/classic/units.ruleset:758
 #: data/experimental/units.ruleset:777 data/multiplayer/units.ruleset:794
 msgid "Paratroopers"
-msgstr "Paratroepen"
+msgstr "Parachutisten"
 
 #: data/civ2/units.ruleset:672 data/classic/units.ruleset:784
 #: data/experimental/units.ruleset:803 data/multiplayer/units.ruleset:820
 msgid "Paratroopers are experts at airborne attacks."
-msgstr ""
+msgstr "Parachutisten zijn experts in aanvallen vanuit de lucht."
 
 #: data/civ2/units.ruleset:707 data/classic/units.ruleset:819
 #: data/experimental/units.ruleset:839 data/multiplayer/units.ruleset:855
-#, fuzzy
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
 msgstr ""
-"Pantser Grenadiers; deze eenheid heeft de grootste verdedigingssterkte van "
-"alle landeenheden, maar is pas tegen het einde van de technologische "
+"Pantsergrenadiers hebben de grootste verdedigingssterkte van alle "
+"landeenheden, maar zijn pas tegen het einde van de technologische "
 "ontwikkeling beschikbaar."
 
 #: data/civ2/units.ruleset:714 data/classic/units.ruleset:826
@@ -17276,6 +17300,8 @@ msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
 msgstr ""
+"Ruiters zijn bereden krijgers en vroege stoottroepen die ver in vijandelijk "
+"gebied kunnen doordringen."
 
 #: data/civ2/units.ruleset:773 data/classic/units.ruleset:885
 #: data/experimental/units.ruleset:905 data/multiplayer/units.ruleset:921
@@ -17283,6 +17309,8 @@ msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
 msgstr ""
+"Strijdwagens worden door paarden getrokken. Zij zijn sterker maar duurder "
+"dan ruiters."
 
 #: data/civ2/units.ruleset:779 data/multiplayer/units.ruleset:927
 msgid "Elephants"
@@ -17293,6 +17321,9 @@ msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
 msgstr ""
+"Olifanten zijn reusachtige dieren die getraind worden voor oorlog en "
+"vaak worden gebruikt als krachttige stoottroepen, maar zijn zwak in "
+"de verdediging tegen de meeste andere eenheden."
 
 #: data/civ2/units.ruleset:811 data/multiplayer/units.ruleset:959
 msgid "Crusaders"
@@ -17302,6 +17333,8 @@ msgstr "Kruisvaarders"
 msgid ""
 "Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
+"Kruisvaarders zin uiterst gedisciplineerde bereden krijgers die gedreven worden "
+"door een hogere zaak."
 
 #: data/civ2/units.ruleset:875 data/classic/units.ruleset:923
 #: data/experimental/units.ruleset:943 data/multiplayer/units.ruleset:1023
@@ -17311,12 +17344,12 @@ msgstr "Huzaren"
 #: data/civ2/units.ruleset:902 data/classic/units.ruleset:950
 #: data/experimental/units.ruleset:970 data/multiplayer/units.ruleset:1050
 msgid "Dragoons are mounted warriors carrying early firearms."
-msgstr ""
+msgstr "Huzaren zijn bereden krijgers die vroege vuurwapens dragen."
 
 #: data/civ2/units.ruleset:933 data/classic/units.ruleset:981
 #: data/experimental/units.ruleset:1001 data/multiplayer/units.ruleset:1081
 msgid "Cavalry are mounted and highly trained soldiers."
-msgstr ""
+msgstr "Cavalerie zijn bereden en zeer goed opgeleide soldaten."
 
 #: data/civ2/units.ruleset:1064 data/classic/units.ruleset:1112
 #: data/experimental/units.ruleset:1132 data/multiplayer/units.ruleset:1212
@@ -17324,11 +17357,13 @@ msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
 msgstr ""
+"Artillerie is een verbeterd kanon. Het is een erg sterk in de aanval maar "
+"net zo zwak in de verdediging en heeft een escorte nodig om effectief te zijn."
 
 #: data/civ2/units.ruleset:1071 data/classic/units.ruleset:1119
 #: data/experimental/units.ruleset:1139 data/multiplayer/units.ruleset:1219
 msgid "Howitzer"
-msgstr "Houwitzer"
+msgstr "Houwitser"
 
 #: data/civ2/units.ruleset:1097 data/classic/units.ruleset:1145
 #: data/experimental/units.ruleset:1165 data/multiplayer/units.ruleset:1245
@@ -17336,16 +17371,17 @@ msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities."
 msgstr ""
+"Houwitsers zijn verbeterde artillerie met verbeterde defensieve en offensieve "
+"mogelijkheden."
 
 #. TRANS: unit type
 #: data/civ2/units.ruleset:1170 data/classic/units.ruleset:1218
 #: data/experimental/units.ruleset:1238 data/multiplayer/units.ruleset:1318
 msgid "Helicopter"
-msgstr "Helicopter"
+msgstr "Helikopter"
 
 #: data/civ2/units.ruleset:1196 data/classic/units.ruleset:1244
 #: data/experimental/units.ruleset:1264
-#, fuzzy
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -17353,10 +17389,11 @@ msgid ""
 "you have the United Nations wonder, and Helicopters may be attacked by "
 "ground units."
 msgstr ""
-"Een Helicopter is een zeer krachtige eenheid, omdat het zowel kan vliegen "
-"als steden kan veroveren. Voorzichtigheid is nodig, aangezien Helicopters "
+"De Helicopter is een zeer krachtige eenheid, omdat het zowel kan vliegen "
+"als steden kan veroveren. Voorzichtigheid is geboden, aangezien Helikopters "
 "een kleine hoeveelheid gezondheid verliezen voor elke beurt die ze niet in "
-"een stad doorbrengen, tenzij u het Verenigde Naties wonder hebt."
+"een stad doorbrengen, tenzij u het wonder Verenigde Naties hebt, en "
+"Helikopters kunnen aangevallen worden door grondeenheden."
 
 #: data/civ2/units.ruleset:1205 data/classic/units.ruleset:1253
 #: data/experimental/units.ruleset:1273 data/multiplayer/units.ruleset:1352
@@ -17368,7 +17405,7 @@ msgstr "Stealth Jachtvliegtuig"
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Een verbeterd Jachtvliegtuig met een vebeterde aanval en een grotere "
-"bewegings radius."
+"bewegingsradius."
 
 #: data/civ2/units.ruleset:1238 data/classic/units.ruleset:1286
 #: data/experimental/units.ruleset:1306 data/multiplayer/units.ruleset:1385
@@ -17385,12 +17422,13 @@ msgstr ""
 #: data/civ2/units.ruleset:1305 data/classic/units.ruleset:1353
 #: data/experimental/units.ruleset:1373 data/multiplayer/units.ruleset:1452
 msgid "Caravel"
-msgstr "Karavel"
+msgstr "Karveel"
 
 #: data/civ2/units.ruleset:1332
 msgid ""
 "The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
+"Het Karveel vervangt de Trireem en is veel betrouwbaarden op de open zee."
 
 #: data/civ2/units.ruleset:1338 data/classic/units.ruleset:1386
 #: data/experimental/units.ruleset:1406 data/multiplayer/units.ruleset:1485
@@ -17403,6 +17441,8 @@ msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
 msgstr ""
+"Het Galjoen is zuiver een transportschip en kan geen andere schepen aanvallen, "
+"hoewel het zich wel kan verdedigen als het aangevallen wordt."
 
 #: data/civ2/units.ruleset:1439 data/classic/units.ruleset:1487
 #: data/experimental/units.ruleset:1507 data/multiplayer/units.ruleset:1586
@@ -17412,7 +17452,7 @@ msgstr "Torpedojager"
 #: data/civ2/units.ruleset:1465 data/classic/units.ruleset:1513
 #: data/experimental/units.ruleset:1533 data/multiplayer/units.ruleset:1612
 msgid "An improved Ironclad, with better move rate and vision."
-msgstr ""
+msgstr "Een verbeterd Pantserschip met verbeterde beweging en zicht."
 
 #: data/civ2/units.ruleset:1467 data/classic/units.ruleset:1515
 #: data/experimental/units.ruleset:1535 data/multiplayer/units.ruleset:1614
@@ -17426,13 +17466,14 @@ msgstr ""
 #: data/civ2/units.ruleset:1504 data/classic/units.ruleset:1552
 #: data/experimental/units.ruleset:1572 data/multiplayer/units.ruleset:1651
 msgid "AEGIS Cruiser"
-msgstr "AEGIS Kruiser"
+msgstr "AEGIS-kruiser"
 
 #: data/civ2/units.ruleset:1530 data/classic/units.ruleset:1578
 #: data/experimental/units.ruleset:1598 data/multiplayer/units.ruleset:1677
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
+"De AEGIS-kruiser is uitgerust met een geavanceerd defensief raketsysteem."
 
 #: data/civ2/units.ruleset:1672 data/classic/units.ruleset:1720
 #: data/experimental/units.ruleset:1740 data/multiplayer/units.ruleset:1819
@@ -17441,13 +17482,12 @@ msgstr "Kruisraket"
 
 #: data/civ2/units.ruleset:1698 data/classic/units.ruleset:1746
 #: data/experimental/units.ruleset:1766 data/multiplayer/units.ruleset:1845
-#, fuzzy
 msgid ""
 "The Cruise Missile is a long-distance missile that can strike deep into "
 "enemy territory."
 msgstr ""
-"TIP: Een handvol van deze kunnen met succes de wateren rond uw gekoesterde "
-"vaderland vrij van vijandelijke schepen houden."
+"De Kruisraket is een langeafstandsraket die diep in vijandelijk grondgebied "
+"kan toeslaan."
 
 #: data/civ2/units.ruleset:1701 data/classic/units.ruleset:1749
 #: data/experimental/units.ruleset:1769 data/multiplayer/units.ruleset:1848
@@ -17455,7 +17495,7 @@ msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr ""
-"TIP: Een handvol van deze kunnen met succes de wateren rond uw gekoesterde "
+"TIP: Een handvol van deze kunnen met succes de wateren rond je gekoesterde "
 "vaderland vrij van vijandelijke schepen houden."
 
 #: data/civ2/units.ruleset:1741
@@ -17465,6 +17505,10 @@ msgid ""
 "changes into desert, tundra, and ice. Settlers and Engineers can clean up "
 "nuclear fallout."
 msgstr ""
+"Net als met vervuiling en opwarming van de aarde neemt de risk op een "
+"nucleaire winter toe met fallout. Als een nucleaire winter plaatsvindt kan "
+"overal over de wereld terrein veranderen in woestijn, toendra en ijs. "
+"Kolonisten en Ingenieurs kunnen fallout opruimen."
 
 #: data/civ2/units.ruleset:1750
 msgid ""
@@ -17474,6 +17518,11 @@ msgid ""
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
+"TIP2:  Je kan te maken krijgen met een situatie waarin je een vijandelijk "
+"land waarvan de steden te sterk zijn bent binnengevallen. Verzamel een groep "
+"Kolonisten en/of Ingenieurs voordat je een Kernwapen gebruikt en laat ze de "
+"fallout opruimen direct nadat het heeft plaatsgevonden.  Dit minimaliseert het "
+"risico op een nucleaire winter.  Klimaatneutrale kernbommen!"
 
 #: data/civ2/units.ruleset:1850 data/classic/units.ruleset:1898
 #: data/experimental/units.ruleset:1918 data/multiplayer/units.ruleset:1997
@@ -17485,6 +17534,8 @@ msgstr "Spion"
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
 msgstr ""
+"Een Spionne is vaardiger in de kunst van het spioneren dan haar Diplomatieke "
+"voorganger."
 
 #: data/civ2/units.ruleset:1878 data/classic/units.ruleset:1926
 #: data/experimental/units.ruleset:1946 data/multiplayer/units.ruleset:2025
@@ -17495,6 +17546,10 @@ msgid ""
 "are also more effective than Diplomats at defending cities against foreign "
 "Diplomats and Spies."
 msgstr ""
+"Ze kan alle functies van de Diplomaat vervullen; zie de ingang voor Diplomaat "
+"voor meer details. Anders dan een Diplomaat kan een Spionne een operatie in een "
+"buitenlandse stad overleven en meer ervaren worden. Spionnen zijn ook effectiever "
+"in het verdedigen van steden tegen buitenlandse Diplomaten en Spionnen."
 
 #: data/civ2/units.ruleset:1884 data/classic/units.ruleset:1932
 #: data/experimental/units.ruleset:1952 data/multiplayer/units.ruleset:2031
@@ -17509,6 +17564,17 @@ msgid ""
 "(although cities become more resistant each time they are stolen from);\n"
 " - sabotage predetermined city targets (with a reduced chance of success)."
 msgstr ""
+"Een Spion kan ook gebruikt worden om:\n"
+" - een vijandelijke eenheid te saboteren (waarmee de levenspunten gehalveerd "
+"worden) als die alleen op een vlak staat en de spelers in oorlog zijn;\n"
+" - de watervoorraad van een bijandelijke stad te vergiftigen (waarbij de "
+"bevolking met één verminderd wordt en de graanschuur geleegd);\n"
+" - een specifieke technologie stelen (met een kleinere kans op succes);\n"
+" - meerdere technologieën stelen van een stad waarvan al eens technologieën "
+"gestolen zijn (hoewel steden steeds resistenter worden elke keer dat ze bestolen "
+"worden);\n"
+" - van tevoren aangeduide doelen in een stad saboteren (met een kleinere kans op "
+"succes)."
 
 #: data/civ2/units.ruleset:1896 data/classic/units.ruleset:1944
 #: data/experimental/units.ruleset:1964 data/multiplayer/units.ruleset:2043
@@ -17516,6 +17582,8 @@ msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
+"Een Spion die de aggresievere acties (sabotage, diefstal, aanzetten tot opstand "
+"en vergiftiging) overleeft onstnapt naar de dichtstbijzijnde bevriende stad."
 
 #: data/civ2/units.ruleset:1942 data/classic/units.ruleset:1990
 #: data/experimental/units.ruleset:2010 data/multiplayer/units.ruleset:2089
@@ -17525,8 +17593,7 @@ msgstr "Vrachtwagen"
 #: data/civ2/units.ruleset:1968 data/classic/units.ruleset:2016
 #: data/experimental/units.ruleset:2036
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr ""
-"De Vrachtwagen vervangt de Karavaan en beweegt met de dubbele snelheid."
+msgstr "De Vrachtwagen vervangt de Karavaan en beweegt met de dubbele snelheid."
 
 #: data/civ2/units.ruleset:1973 data/classic/units.ruleset:2021
 #: data/experimental/units.ruleset:2041 data/multiplayer/units.ruleset:2121
@@ -17535,71 +17602,70 @@ msgstr "Verkenner"
 
 #: data/civ2/units.ruleset:1999 data/classic/units.ruleset:2047
 #: data/experimental/units.ruleset:2067 data/multiplayer/units.ruleset:2147
-#, fuzzy
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
 msgstr ""
-"Verkenners zijn zeer bruikbaar voor het in kaart brengen van onbekend gebied."
+"Verkenners zijn dappere lieden die bruikbaar zijn voor het in kaart brengen "
+"van onbekend gebied."
 
 #: data/civ2/units.ruleset:2034 data/classic/units.ruleset:2116
 #: data/experimental/units.ruleset:2136 data/multiplayer/units.ruleset:2216
-#, fuzzy
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
-"Waneer een barbarenleider wordt gedood op een vlak zonder verdedigende "
+"Waneer een Barbarenleider wordt gedood op een vlak zonder verdedigende "
 "eenheden, dan wordt het losgeld van 100 goud betaald, maar alleen aan "
-"landeenheden en helicopters."
+"landeenheden en helikopters."
 
-#: data/default/default.lua:22 server/unittools.c:2590
-#, fuzzy, c-format
+#: data/default/default.lua:22 server/unittools.c:2594
+#, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
-msgstr[0] "U vond %d goud."
-msgstr[1] "U vond %d goud."
+msgstr[0] "Je hebt %d goud gevonden."
+msgstr[1] "Je hebt %d goud gevonden."
 
 #: data/default/default.lua:35
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr "U hebt %s ontdekt in oude boekrollen met wijsheid."
+msgstr "Je hebt %s ontdekt in oude boekrollen der wijsheid."
 
 #: data/default/default.lua:38
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
-msgstr "De %s hebben %s verkregen van oude boekrollen met wijsheid."
+msgstr "De %s hebben %s verkregen van oude boekrollen der wijsheid."
 
 #: data/default/default.lua:58
 msgid "A band of friendly mercenaries joins your cause."
-msgstr "Een troep vriendelijke huurlingen sluit zich bij u aan."
+msgstr "Een troep vriendelijke huurlingen sluit zich bij je aan."
 
 #: data/default/default.lua:74
 msgid "You found a friendly city."
-msgstr "U heeft een bevriende stad gevonden."
+msgstr "Je heeft een bevriende stad gevonden."
 
 #: data/default/default.lua:78
 msgid "Friendly nomads are impressed by you, and join you."
-msgstr ""
-"Vriendelijke nomaden zijn door u ge�mponeerd en sluiten zich bij u aan."
+msgstr "Vriendelijke nomaden van je onder onder de indruk en "
+"sluiten zich bij je aan."
 
-#: data/default/default.lua:96 server/unittools.c:2597
+#: data/default/default.lua:96 server/unittools.c:2601
 msgid "An abandoned village is here."
 msgstr "Hier is een verlaten dorp."
 
 #: data/default/default.lua:103
 msgid "You have unleashed a horde of barbarians!"
-msgstr "U hebt een horde barbaren ontketend!"
+msgstr "Je hebt een horde barbaren ontketend!"
 
-#: data/default/default.lua:106 server/unittools.c:2600
+#: data/default/default.lua:106 server/unittools.c:2604
 #, c-format
 msgid "Your %s has been killed by barbarians!"
-msgstr "Uw %s is vermoord door barbaren!"
+msgstr "Je %s is vermoord door barbaren!"
 
 #: data/default/default.lua:174 data/default/default.lua:176
 #, c-format
 msgid "The loss of %s has inspired partisans!"
-msgstr ""
+msgstr "De val van %s heeft partizanen geïnspireerd."
 
 #: data/default/nationlist.ruleset:5
 msgid "?nationgroup:Medieval"
@@ -17634,41 +17700,41 @@ msgid "?nationgroup:Imaginary"
 msgstr "Fictief"
 
 #: data/classic/buildings.ruleset:89 data/multiplayer/buildings.ruleset:113
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8 and reduces the chance of plague "
 "within the city. A Sewer System is required for a city to grow larger than "
 "size 12."
 msgstr ""
-"Stelt een stad in staat om groter dan grootte 8 te groeien. Een Riolering is "
-"ook nodig om de stad groter dan grootte 12 te laten groeien."
+"Stelt een stad in staat om groter dan grootte 8 te groeien. Om de stad groter "
+"dan grootte 12 te laten gorien is Riolering nodig."
 
 #: data/classic/buildings.ruleset:278 data/experimental/buildings.ruleset:283
 #: data/multiplayer/buildings.ruleset:92
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
-"stedelingen tevreden. (Vier na de ontdekking van Electriciteit.)"
+"stedelingen tevreden. (Vier na de ontdekking van Elektriciteit.) Het heeft "
+"echter geen invloed op inwoners die ontevreden zijn over militaire activiteit."
 
 #: data/classic/buildings.ruleset:302 data/experimental/buildings.ruleset:307
 #: data/multiplayer/buildings.ruleset:303
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "also makes 1 unhappy citizen content (unless that citizen is unhappy about "
 "military activity).  Also makes the revolt cost of the city 4 times bigger."
 msgstr ""
 "Vermindert de corruptie en verspilling in een stad met 50%. Onder een "
-"Democratie maakt een Gerechtshof ��n ontevreden burger tevreden. Maakt ook "
-"de opstand kost van de stad 4 keer groter."
+"Democratie maakt een Gerechtshof bovendien één ontevreden burger tevreden (tenzij "
+"die burger ontevreden is over militaire activiteit). Maakt ook de kosten van een "
+"opstand vier keer zo groot."
 
 #: data/classic/buildings.ruleset:394 data/experimental/buildings.ruleset:419
 #: data/multiplayer/buildings.ruleset:392
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also reduces the amount of pollution generated by that "
@@ -17679,13 +17745,14 @@ msgid ""
 "150% production bonus with pollution only 50% of the equivalent combination "
 "with a Power Plant."
 msgstr ""
-"Verhoogt de schild-productie van een Fabriek of Assemblagehal in de stad: "
-"een Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en "
-"een Fabriek, Assemblagehal en een Electriciteitscentrale samen geven een "
-"bonus van 150%.\n"
-"\n"
-"Een stad kan slechts ��n Waterkrachtcentrale of ��n Electriciteitscentrale "
-"of ��n Kerncentrale bezitten."
+"Verhoogt het effect van een Fabriek of Assemblagehal op de schildjesproductie "
+"in de stad, en brengt ook de hoeveelheid vervuiling terug die door die productie "
+"wordt gegenereerd. Een Waterkrachtcentrale in combinatie met een Fabriek of "
+"Assemblagehal geeft een 75% productiebonus over het niveau zonder een van deze "
+"verbeteringen, terwijl het slechts 75% van de vervuiling veroorzaakt als in de "
+"overeenkomstige combinatie met een Elekticiteitscentrale; een Waterkrachtcentrale, "
+"Fabriek en een Assemblagehal geven gezamenlijk een 150% productiebonus met slechts "
+"50% van de vervuiling."
 
 #: data/classic/buildings.ruleset:404 data/classic/buildings.ruleset:523
 #: data/classic/buildings.ruleset:660 data/classic/buildings.ruleset:808
@@ -17701,16 +17768,18 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"In elke stad kan op één tijdstip slechts één Elekticiteitscentrale, "
+"Waterkrachtcentrale, Kerncentrale of Zonnecentrale effect veroorzaken."
 
 #: data/classic/buildings.ruleset:428 data/experimental/buildings.ruleset:477
 #: data/multiplayer/buildings.ruleset:423
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr "Verhoogt de wetenschapelijke opbrengsten van een stad met 100%."
+msgstr "Verhoogt de wetenschappelijke opbrengsten van een stad met 100%."
 
 #: data/classic/buildings.ruleset:513 data/experimental/buildings.ruleset:565
 #: data/multiplayer/buildings.ruleset:508
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also reduces the amount of pollution generated by that "
@@ -17721,13 +17790,14 @@ msgid ""
 "150% production bonus with pollution only 50% of the equivalent combination "
 "with a Power Plant."
 msgstr ""
-"Verhoogt de schild-productie van een Fabriek of Assemblagehal in de stad: "
-"een Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en "
-"een Fabriek, Assemblagehal en een Electriciteitscentrale samen geven een "
-"bonus van 150%.\n"
-"\n"
-"Een stad kan slechts ��n Waterkrachtcentrale of ��n Electriciteitscentrale "
-"of ��n Kerncentrale bezitten."
+"Verhoogt het effect van een Fabriek of Assemblagehal op de schildjesproductie "
+"in de stad, en brengt ook de hoeveelheid vervuiling terug die door die productie "
+"wordt gegenereerd. Een Kerncentrale in combinatie met een Fabriek of "
+"Assemblagehal geeft een 75% productiebonus over het niveau zonder een van deze "
+"verbeteringen, terwijl het slechts 75% van de vervuiling veroorzaakt als in de "
+"overeenkomstige combinatie met een Elekticiteitscentrale; een Kerncentrale, "
+"Fabriek en een Assemblagehal geven gezamenlijk een 150% productiebonus met slechts "
+"50% van de vervuiling."
 
 #: data/classic/buildings.ruleset:583 data/experimental/buildings.ruleset:635
 #: data/multiplayer/buildings.ruleset:573
@@ -17736,10 +17806,12 @@ msgid ""
 "Under Despotism the city containing the palace gains a +75% production "
 "bonus, and under Monarchy a +50% production bonus."
 msgstr ""
+"Onder Despotisme krijgt de stad waarin het paleis zich bevindt een +75% "
+"productiebonus, onder Monarchie een +50% productiebonus."
 
 #: data/classic/buildings.ruleset:652 data/experimental/buildings.ruleset:704
 #: data/multiplayer/buildings.ruleset:639
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city.  A Power Plant in combination with either a Factory or Mfg. Plant "
@@ -17748,13 +17820,12 @@ msgid ""
 "production bonus. The extra production may lead to the city generating more "
 "pollution."
 msgstr ""
-"Verhoogt de schild-productie van een Fabriek of Assemblagehal in de stad: "
-"een Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en "
-"een Fabriek, Assemblagehal en een Electriciteitscentrale samen geven een "
-"bonus van 150%.\n"
-"\n"
-"Een stad kan slechts ��n Waterkrachtcentrale of ��n Electriciteitscentrale "
-"of ��n Kerncentrale bezitten."
+"Verhoogt het effect van een Fabriek of Assemblagehal op de schildjesproductie "
+"in de stad. Een Elektrictieitscentrale in combinatie met een Fabriek of "
+"Assemblagehal geeft een 75% productiebonus over het niveau zonder een van deze "
+"verbeteringen; een Elektriciteitscentrale, Fabriek en een Assemblagehal geven "
+"gezamenlijk een 150% productiebonus. De extra productie kan ertoe leiden dat de "
+"stad meer vervuiling veroorzaakt."
 
 #: data/classic/buildings.ruleset:706 data/experimental/buildings.ruleset:758
 #: data/multiplayer/buildings.ruleset:690
@@ -17764,25 +17835,25 @@ msgid ""
 "a city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
 msgstr ""
-"Samen met een Bibliotheek verhoogt een Onderzoeks Laboratorium de "
+"Samen met een Bibliotheek verhoogt een Onderzoekslaboratorium de "
 "wetenschappelijke opbrengsten van een stad met 200%. Samen met een "
 "Bibliotheek en een Universiteit wordt de wetenschappelijke opbrengst van een "
-"stad met 450% verhoogt."
+"stad met 450% verhoogd."
 
 #: data/classic/buildings.ruleset:774 data/experimental/buildings.ruleset:826
 #: data/multiplayer/buildings.ruleset:756
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
 "for a city to grow larger than size 8. The Sewer System further reduces the "
 "chance of a plague."
 msgstr ""
 "Stelt een stad in staat om groter dan grootte 12 te groeien. Een Aquaduct is "
-"eerst nodig om de stad groter dan grootte 8 te laten groeien."
+"eerst nodig om de stad groter dan grootte 8 te laten groeien. Riolering "
+"verlaagt verder het risico op een epidemie."
 
 #: data/classic/buildings.ruleset:798 data/experimental/buildings.ruleset:850
 #: data/multiplayer/buildings.ruleset:780
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Increases the effect of Factory and Mfg. Plant on the shield production of a "
 "city, and also greatly reduces the amount of pollution generated by that "
@@ -17793,13 +17864,15 @@ msgid ""
 "150% production bonus, and eliminates all pollution generated by production "
 "in that city."
 msgstr ""
-"Verhoogt de schild-productie van een Fabriek of Assemblagehal in de stad: "
-"een Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en "
-"een Fabriek, Assemblagehal en een Electriciteitscentrale samen geven een "
-"bonus van 150%.\n"
-"\n"
-"Een stad kan slechts ��n Waterkrachtcentrale of ��n Electriciteitscentrale "
-"of ��n Kerncentrale bezitten."
+"Verhoogt het effect van een Fabriek of Assemblagehal op de schildjesproductie "
+"in de stad, en brengt ook sterk de hoeveelheid vervuiling terug die door die "
+"productie wordt gegenereerd. Een Zonnecentrale in combinatie met een Fabriek of "
+"Assemblagehal geeft een 75% productiebonus over het niveau zonder een van deze "
+"verbeteringen, terwijl het slechts 75% van de vervuiling veroorzaakt als in de "
+"overeenkomstige combinatie met een Elekticiteitscentrale; een Zonnecentrale, "
+"Fabriek en een Assemblagehal geven gezamenlijk een 150% productiebonus en "
+"maken een eind aan alle vervuilding die door productie in die stad wordt "
+"veroorzaakt."
 
 #: data/classic/buildings.ruleset:1005
 #: data/experimental/buildings.ruleset:1062
@@ -17823,23 +17896,22 @@ msgstr ""
 
 #: data/classic/buildings.ruleset:1108
 #: data/experimental/buildings.ruleset:1165
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
 "further reduces the possibility for an illness in the city."
 msgstr ""
-"Deze verbijsterende technologische prestatie maakt ��n ontevreden burger "
-"tevreden in elke stad."
+"Deze verbijsterende technologische prestatie maakt één ontevreden burger "
+"tevreden in elke stad. (inclusief burgers die ontevreden zijn over militaire "
+"activiteit). Het brengt verder het risico op een epidemie in de stad terug."
 
 #: data/classic/buildings.ruleset:1154
 #: data/experimental/buildings.ruleset:1211
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
-"Uw reputatie bij en de inschikkelijkheid van andere naties vergroot terwijl "
-"u dit wonder hebt. Reputatieherstel gaat dubbel zo snel als normaal."
+"Je reputatie bij andere naties herstelt vier keer zo snel."
 
 #: data/classic/buildings.ruleset:1262
 #: data/experimental/buildings.ruleset:1319
@@ -17848,24 +17920,22 @@ msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
 msgstr ""
-"Versterkt het wetenschappelijk onderzoek met 100% in al uw steden met "
+"Versterkt het wetenschappelijk onderzoek met 100% in al je steden met "
 "Universiteit."
 
 #: data/classic/buildings.ruleset:1342
 #: data/experimental/buildings.ruleset:1399
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
 msgstr ""
-"Geeft al uw zee-eenheden 1 extra bewegingspunt en verwijdert het risico van "
-"het verliezen van Triremen in de diepzee.  Maakt alle nieuwe zee-eenheden "
+"Geeft al je zee-eenheden 1 extra bewegingspunt. aakt alle nieuwe zee-eenheden "
 "veteraan (voor alle steden)."
 
 #: data/classic/buildings.ruleset:1363
 #: data/experimental/buildings.ruleset:1420
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "Geeft al uw zee-eenheden twee extra bewegingspunten."
+msgstr "Geeft al je zee-eenheden twee extra bewegingspunten."
 
 #: data/classic/buildings.ruleset:1466
 #: data/experimental/buildings.ruleset:1523
@@ -17877,24 +17947,24 @@ msgid ""
 msgstr ""
 "De hoeveelheid voedsel die verloren gaat wanneer een stad groeit of krimpt "
 "vermindert met 25%. Dit helpt een stad om sneller en gemakkelijker te "
-"groeien zonder angst voor hongersnood.  Cumulatief met een Graanopslag"
+"groeien zonder angst voor hongersnood.  Cumulatief met een Graanschuur."
 
 #: data/classic/buildings.ruleset:1488
 #: data/experimental/buildings.ruleset:1545
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
-msgstr "Versterkt de wetenschap in elke stad met een Onderzoekslabo met 100%."
+msgstr "Versterkt de wetenschappelijke productie in elke stad met een "
+"Onderzoekslaboratorium met 100%."
 
 #: data/classic/buildings.ruleset:1549
 #: data/experimental/buildings.ruleset:1606
-#, fuzzy
 msgid ""
 "All your new military land units start at the first veteran level. The "
 "chance of a land unit getting the next veteran level after a battle "
 "increases by half."
 msgstr ""
-"Al uw nieuwe grond-eenheden worden 1ste niveau veteraan . De kans dat een "
-"eenheid een veteraansniveau bijkrijgt na vechten wordt 50 %verhoogd."
+"Al uw nieuwe grond-eenheden beginnen met het eerste veteranenniveau. De kans dat een "
+"eenheid een veteranenniveau stijft na een gevecht wordt met de helft verhoogd."
 
 #: data/classic/buildings.ruleset:1610
 #: data/experimental/buildings.ruleset:1667
@@ -17910,7 +17980,7 @@ msgid ""
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
 msgstr ""
-"Dit is niet een normale verbetering. Een stad op Munten zetten betekent dat "
+"Dit is geen normale verbetering. Een stad op Munten zetten betekent dat "
 "alle productie wordt omgezet naar belasting (geld, munten!)."
 
 #: data/classic/cities.ruleset:62 data/experimental/cities.ruleset:64
@@ -17918,27 +17988,28 @@ msgstr ""
 msgid ""
 "Each scientist adds three points to your empire's research output per turn."
 msgstr ""
+"Elke wetenschapper voegt per beurt drie punten toe aan de wetenschappelijkelijke "
+"output van je rijk."
 
 #: data/classic/cities.ruleset:75 data/experimental/cities.ruleset:77
 #: data/multiplayer/cities.ruleset:74
 msgid ""
 "Each tax collector produces three extra gold for your treasury per turn."
 msgstr ""
+"Elke belastingontvanger produceert per beurt drie extra goud voor je schatkist."
 
 #: data/classic/cities.ruleset:180 data/experimental/cities.ruleset:182
 #: data/multiplayer/cities.ruleset:179
-#, fuzzy
 msgid "?citystyle:ElectricAge"
-msgstr "?citystyle:Keltisch"
+msgstr "ElektrischeTijd"
 
 #: data/classic/game.ruleset:18
-#, fuzzy
 msgid "Default ruleset"
-msgstr "Snelkeuze verwij_deren"
+msgstr "Standaardruleset"
 
 #: data/classic/game.ruleset:21
 msgid "You are playing Freeciv with default ruleset for single player games."
-msgstr ""
+msgstr "Je speelt Freeciv met de standaardruleset voor éénspelerspellen."
 
 #: data/classic/game.ruleset:200 data/experimental/game.ruleset:206
 #: data/multiplayer/game.ruleset:204
@@ -17951,44 +18022,39 @@ msgid "BCE"
 msgstr "BCE"
 
 #: data/classic/game.ruleset:238
-#, fuzzy
 msgid "Nuclear Accident"
-msgstr "Kernenergie"
+msgstr "Kernramp"
 
 #: data/classic/techs.ruleset:211 data/experimental/techs.ruleset:229
 #: data/multiplayer/techs.ruleset:211
-#, fuzzy
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
-msgstr ""
-"Kolonisten en Ingenieurs zijn in staat terreinvlakken op verschillende "
-"manieren te transformeren."
+msgstr "Maakt het mogelijk voor Kolonisten, Arbeiders en Ingenieurs om "
+"forten te bouwen."
 
 #: data/classic/techs.ruleset:358 data/experimental/techs.ruleset:393
 #: data/multiplayer/techs.ruleset:367
 msgid "Increases units' vision when in fortresses."
-msgstr ""
+msgstr "Verbeterd zicht voor eenheden in forten."
 
 #: data/classic/techs.ruleset:415 data/classic/techs.ruleset:702
-#, fuzzy
 msgid "Allows establishing one more trade route from each city."
-msgstr "Poging om handelsroute noor %s te vestigen mislukt."
+msgstr "Maakt het mogelijk een extra handelsroute vanaf elke stad te vestigen."
 
 #: data/classic/techs.ruleset:580 data/experimental/techs.ruleset:639
 #: data/multiplayer/techs.ruleset:588
-#, fuzzy
 msgid "Allows Workers and Engineers to build airbases and buoys."
-msgstr "* Staat %s toe om luchtbases te bouwen.\n"
+msgstr "Maakt het mogelijk voor Arbeiders en Ingenieurs om luchtbases en boeien "
+"te bouwen."
 
 #: data/classic/terrain.ruleset:193 data/experimental/terrain.ruleset:195
 #: data/multiplayer/terrain.ruleset:193
-#, fuzzy
 msgid "Lake"
-msgstr "Lankese"
+msgstr "Meer"
 
 #: data/classic/terrain.ruleset:228 data/experimental/terrain.ruleset:228
 #: data/multiplayer/terrain.ruleset:226
 msgid "Lakes are substantial bodies of fresh water."
-msgstr ""
+msgstr "Meren zijn zoetwateroppervlakken van aanzienlijke omvang."
 
 #: data/classic/terrain.ruleset:268 data/experimental/terrain.ruleset:266
 #: data/multiplayer/terrain.ruleset:264
@@ -17997,25 +18063,23 @@ msgid ""
 "of food and other resources. They can be traversed by sea units, including "
 "Triremes."
 msgstr ""
+"Ondiepe oceanen worden meestal gevonden aan de kustlijn en zijn vaak rijke "
+"bronnen voor voedsel en andere grondstoffen. Ze kunnen bevaren worden door "
+"zee-eenheden, inclusief Triremen."
 
 #: data/classic/terrain.ruleset:275 data/experimental/terrain.ruleset:273
 #: data/multiplayer/terrain.ruleset:271
-#, fuzzy
 msgid "Deep Ocean"
-msgstr "Oceaan"
+msgstr "Diepe Oceaan"
 
 #: data/classic/terrain.ruleset:310 data/experimental/terrain.ruleset:306
 #: data/multiplayer/terrain.ruleset:304
-#, fuzzy
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
 msgstr ""
-"Oceanen vormen het grootste gedeelte van de wereld en alleen zee-eenheden "
-"(Triremen en andere schepen) kunnen erover reizen.\n"
-"\n"
-"Oceanen kunnen nooit verontreinigd raken of besmet worden met "
-"radioactiviteit."
+"Oceanen vormen het grootste gedeelte van de wereld buiten de kustlijnen en kunnen "
+"alleen bevaren worden doorzeewaardige eenheden (dus geen Triremen)."
 
 #: data/classic/terrain.ruleset:994 data/experimental/terrain.ruleset:969
 #: data/multiplayer/terrain.ruleset:967
@@ -18025,23 +18089,26 @@ msgid ""
 "of its hit points. With Invention, fortresses gain watchtowers from which "
 "units can see further afield."
 msgstr ""
+"Forten verbeteren verdediging voor grondeenheden. Een landeenheid die een "
+"hele beurt in een fort blijft zonder te bewegen wint bijvoorbeeld een kwart "
+"van zijn levenspunten terug. Met Uitvinding krijgen forten wachttorens van "
+"waaruit eenheden terrein tot grotere afstanden kunnen waarnemen."
 
 #: data/classic/terrain.ruleset:1022 data/experimental/terrain.ruleset:997
 #: data/multiplayer/terrain.ruleset:995
-#, fuzzy
 msgid "Buoy"
-msgstr "Koop"
+msgstr "Boei"
 
 #: data/classic/terrain.ruleset:1036 data/experimental/terrain.ruleset:1011
 #: data/multiplayer/terrain.ruleset:1009
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
-msgstr ""
+msgstr "Boeien kunnen gebouwd worden op de oceaan (bij eenheden op een zeevarend "
+"schip)."
 
 #: data/classic/terrain.ruleset:1041 data/experimental/terrain.ruleset:1016
 #: data/multiplayer/terrain.ruleset:1014
-#, fuzzy
 msgid "Ruins"
-msgstr "Ronden"
+msgstr "Ruïnes"
 
 #: data/classic/terrain.ruleset:1052 data/experimental/terrain.ruleset:1027
 #: data/multiplayer/terrain.ruleset:1025
@@ -18049,6 +18116,8 @@ msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
 msgstr ""
+"Ruïnes zijn de restanten van steden die zijn vernietigd of verlaten. Ze hebben "
+"geen effect op het verloop van het speld."
 
 #: data/classic/units.ruleset:28 data/experimental/units.ruleset:31
 #: data/multiplayer/units.ruleset:28
@@ -18063,13 +18132,11 @@ msgstr "elite"
 #. TRANS: Unit class: used adjectivally
 #: data/classic/units.ruleset:125 data/experimental/units.ruleset:139
 #: data/multiplayer/units.ruleset:125
-#, fuzzy
 msgid "?unitclass:Trireme"
-msgstr "Leider"
+msgstr "Trireem"
 
 #: data/classic/units.ruleset:355 data/experimental/units.ruleset:369
 #: data/multiplayer/units.ruleset:356
-#, fuzzy
 msgid "?unit:Workers"
 msgstr "Arbeiders"
 
@@ -18080,6 +18147,9 @@ msgid ""
 "Terrain Alterations section of the help for more details of the available "
 "improvements. However, Workers cannot build new cities."
 msgstr ""
+"Arbeiders zijn vergelijkbaar met Kolonisten in dat ze terrein kunnen verbeteren "
+"-- zie de sectie Terreinaanpassingen van hulp voor meer informatie over de mogelijke "
+"verbeteringen. Arbeiders kunnen echter geen nieuwe steden bouwen."
 
 #: data/classic/units.ruleset:414 data/experimental/units.ruleset:433
 #: data/multiplayer/units.ruleset:415
@@ -20529,7 +20599,6 @@ msgstr ""
 "de verdediger automatisch."
 
 #: data/helpdata.txt:1147
-
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "De vuurkracht van de aanvaller en verdediger worden ook gewijzigd."
 
@@ -25107,12 +25176,12 @@ msgid ""
 "over much of Southern China and dominated Vietnam."
 msgstr ""
 "De Kantonezen zijn een subgroep van het Chinese volk, afkomstig uit de "
-"provincie Guangdong in het zuiden van China en bestaande uit ongeveer 70 miljoen "
-"zielen. De Kantonezen zijn bekend om hun muziek en keuken en leveren een belangrijke "
-"bijdrage aan overzeese Chinese gemeenschappen wereldwijd. Zij vormen ook een "
-"meerderheid in de Speciale Administratieve Regio's Hong Kong en Macao. In de tweede "
-"eeuw BCE beheerste het door Kantonezen gedomineerde koninkrijk Nanyue een groot "
-"deel van Zuid-China en Vietnam."
+"provincie Guangdong in het zuiden van China en bestaande uit ongeveer 70 "
+"miljoen zielen. De Kantonezen zijn bekend om hun muziek en keuken en leveren "
+"een belangrijke bijdrage aan overzeese Chinese gemeenschappen wereldwijd. "
+"Zij vormen ook een meerderheid in de Speciale Administratieve Regio's Hong "
+"Kong en Macao. In de tweede eeuw BCE beheerste het door Kantonezen "
+"gedomineerde koninkrijk Nanyue een groot deel van Zuid-China en Vietnam."
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
@@ -27347,14 +27416,14 @@ msgid ""
 "Napoleon, this was short-lived, and the Republic was ultimately annexed by "
 "the Kingdom of Sardinia."
 msgstr ""
-"De Hoogst Serene Republiek Genua (Italiaans: Serenissima Repubblica di Genova) "
-"was een onafhankelijke staat in Ligua in het noordwesten van de Italiaanse "
-"kust die bestond van de elfde eeuw tot 1797, toen het werd binnengevallen door "
-"de legers van Revolutionair Frankrijk onder Napoleon. Het werd opgevolgd door "
-"de Ligurische Republiek, die bestond tot het in 1805 werd geannexeerd door het "
-"Franse Keizerrijk. Hoewel na de nederlaag van Napoleon in 1814 de restauratie "
-"korstondig werd uitgeroepen, werd de Republiek uiteindelijke geannexeerd door het "
-"Koninkrijk Sardinië."
+"De Hoogst Serene Republiek Genua (Italiaans: Serenissima Repubblica di "
+"Genova) was een onafhankelijke staat in Ligua in het noordwesten van de "
+"Italiaanse kust die bestond van de elfde eeuw tot 1797, toen het werd "
+"binnengevallen door de legers van Revolutionair Frankrijk onder Napoleon. "
+"Het werd opgevolgd door de Ligurische Republiek, die bestond tot het in 1805 "
+"werd geannexeerd door het Franse Keizerrijk. Hoewel na de nederlaag van "
+"Napoleon in 1814 de restauratie korstondig werd uitgeroepen, werd de "
+"Republiek uiteindelijke geannexeerd door het Koninkrijk Sardinië."
 
 #: data/nation/genoese.ruleset:51 data/nation/venetian.ruleset:30
 #, c-format
@@ -27417,16 +27486,16 @@ msgid ""
 "Christianity."
 msgstr ""
 "De Germanen zijn een etnolinguistisch complex in Noord- en Noordwest-Europa. "
-"De Germaanse talen stammen af van een hypothetische Proto-Germaanse taal binnen "
-"de Indo-Europese taalfamilie. De oorsprong van de oude Germaanse volkeren zijn "
-"grotendeels hypothetisch; de Germaanse talen vertonen meerdere kernmerken die "
-"niet voorkomen in andere Indo-Europese talen. De Germanen zijn voor het eerst "
-"geattesteerd op de Noord-Duitse Laagvlakte en in Zuid-Scandinavië. Vanaf de "
-"tweede eeuw voor Christus botsten zij met de Romeinen. Uiteindelijk, tegen "
-"het begin van de Vroege Middeleeuwen, werden Germaanse koninkrijken gevestigd "
-"in wat eens het West-Romeinse Rijk was. Op dat moment hadden de meeste Germaanse "
-"volkeren hun voorouderlijke polytheïstische religie al ingeruild voor het "
-"christendom."
+"De Germaanse talen stammen af van een hypothetische Proto-Germaanse taal "
+"binnen de Indo-Europese taalfamilie. De oorsprong van de oude Germaanse "
+"volkeren zijn grotendeels hypothetisch; de Germaanse talen vertonen meerdere "
+"kernmerken die niet voorkomen in andere Indo-Europese talen. De Germanen "
+"zijn voor het eerst geattesteerd op de Noord-Duitse Laagvlakte en in Zuid-"
+"Scandinavië. Vanaf de tweede eeuw voor Christus botsten zij met de Romeinen. "
+"Uiteindelijk, tegen het begin van de Vroege Middeleeuwen, werden Germaanse "
+"koninkrijken gevestigd in wat eens het West-Romeinse Rijk was. Op dat moment "
+"hadden de meeste Germaanse volkeren hun voorouderlijke polytheïstische "
+"religie al ingeruild voor het christendom."
 
 #: data/nation/ghanaian.ruleset:3
 msgid "Ghanaian"
@@ -27443,10 +27512,10 @@ msgid ""
 "19th century Ghana became a British colony. In 1957 Kwame Nkrumah proclaimed "
 "Ghana's independence."
 msgstr ""
-"Ghana is genoemd naar het oude Ghanarijk. De Portugezen, Nederlanders en Zweden "
-"vestigden handelsposten in Ghana, door de Europeanen Goudkust genoemd, maar in "
-"de negentiende eeuw werd het een Britse kolonie. Kwame Nkrumah riep in 1957 "
-"Ghana's onafhankelijkheid uit."
+"Ghana is genoemd naar het oude Ghanarijk. De Portugezen, Nederlanders en "
+"Zweden vestigden handelsposten in Ghana, door de Europeanen Goudkust "
+"genoemd, maar in de negentiende eeuw werd het een Britse kolonie. Kwame "
+"Nkrumah riep in 1957 Ghana's onafhankelijkheid uit."
 
 #: data/nation/ghana.ruleset:3
 msgid "Ghana"
@@ -27467,9 +27536,10 @@ msgid ""
 msgstr ""
 "Het Ghana- of Wagadourijk bestond van de negende tot de dertiende eeuw in "
 "West-Afrika. Het is genoemd naar de titel van de vorst, die 'grote krijger' "
-"betekent. Het Ghanarijk werd rijk door de trans-Saharahandel en de goudmijnen "
-"binnen haar grondgebied. De huidige Republiek Ghana is genoemd naar het "
-"Ghanarijk, hoewel het rijk zich bevond in het huidige Mali en Mauretanië."
+"betekent. Het Ghanarijk werd rijk door de trans-Saharahandel en de "
+"goudmijnen binnen haar grondgebied. De huidige Republiek Ghana is genoemd "
+"naar het Ghanarijk, hoewel het rijk zich bevond in het huidige Mali en "
+"Mauretanië."
 
 #: data/nation/ghana.ruleset:25
 #, c-format
@@ -27495,9 +27565,9 @@ msgid ""
 "977 to 1186 AD in Afghanistan and Northern India, and at the peak of their "
 "power also in eastern Iran and Central Asia."
 msgstr ""
-"De Ghaznaviden waren een soennitische islamitische dynastie van Turkse orgine, "
-"die van 977 tot 1186 Afghanistan en Noord-India beheersten, en op het hoogtepunt "
-"van hun macht ook Iran en Centraal-Azië."
+"De Ghaznaviden waren een soennitische islamitische dynastie van Turkse "
+"orgine, die van 977 tot 1186 Afghanistan en Noord-India beheersten, en op "
+"het hoogtepunt van hun macht ook Iran en Centraal-Azië."
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
@@ -27523,8 +27593,8 @@ msgid ""
 msgstr ""
 "Het Gökturkse of Oud-Turkse Khaganaat werd bestuurd door de Ashinadynastie "
 "die zich voor haar oorsprong beriep op de legende van de rode wolvin. De "
-"Göktürken waren de voorouders van de huidige Turkse naties in Azië en "
-"Oost-Europa. Zij veroverden een enorm rijk dat zich uitstrekte over de steppen "
+"Göktürken waren de voorouders van de huidige Turkse naties in Azië en Oost-"
+"Europa. Zij veroverden een enorm rijk dat zich uitstrekte over de steppen "
 "van de de Koeban in het westen tot Korea in het oosten."
 
 #: data/nation/goldenhorde.ruleset:3
@@ -27546,14 +27616,15 @@ msgid ""
 "country gradually descended into instability, which at the beginning of the "
 "15th century led to the complete disintegration of the state."
 msgstr ""
-"De Gouden Horde was een historische Mongools-Tataarse staat, die omstreekt 1240 "
-"werd gesticht in het westelijk deel van het rijk van Dzjengis Khan door zijn "
-"kleinzoon Batoe Khan met de hoofstad in Sarai Batu. Ten tijde van haar grootste "
-"omvang besloeg het het gebied van de Irtysj tot de bergen van de Kaukasus, de "
-"Zwarte Zee en de bassins van de Volga en Kama. In 1375 werd het hele land "
-"onderworpen door Timoer Lenk, van wie het een vassal werd. Na de veertiende eeuw "
-"verzonk de Gouden Horde langzaam maar zeker in instabiliteit wat tegen het begin "
-"van de vijftiende eeuw leidde tot de volledige desintegratie van de staat."
+"De Gouden Horde was een historische Mongools-Tataarse staat, die omstreekt "
+"1240 werd gesticht in het westelijk deel van het rijk van Dzjengis Khan door "
+"zijn kleinzoon Batoe Khan met de hoofstad in Sarai Batu. Ten tijde van haar "
+"grootste omvang besloeg het het gebied van de Irtysj tot de bergen van de "
+"Kaukasus, de Zwarte Zee en de bassins van de Volga en Kama. In 1375 werd het "
+"hele land onderworpen door Timoer Lenk, van wie het een vassal werd. Na de "
+"veertiende eeuw verzonk de Gouden Horde langzaam maar zeker in instabiliteit "
+"wat tegen het begin van de vijftiende eeuw leidde tot de volledige "
+"desintegratie van de staat."
 
 #: data/nation/greaterpolish.ruleset:3
 msgid "Greater Polish"
@@ -27568,8 +27639,8 @@ msgid ""
 "Greater Poland or Wielkopolska is a historic and geographic region of "
 "central-western Poland."
 msgstr ""
-"Groot-Polen of Wielkopolska is een historische en geografische regio in "
-"West-Centraal-Polen."
+"Groot-Polen of Wielkopolska is een historische en geografische regio in West-"
+"Centraal-Polen."
 
 #: data/nation/greenlander.ruleset:3
 msgid "Greenlander"
@@ -27588,10 +27659,11 @@ msgid ""
 "Kingdom of Denmark with mixed Inuit and Scaninavian population."
 msgstr ""
 "Volgens de legende leidde de grote sjamaan Qitdlarssuaq in de tiende eeuw de "
-"Inuit naar Thule (Qaanaaq) op de westkust van Groenland. Ongeveer tegelijkertijd "
-"bereikten Scandinavische kolonisten de fjorden aan de zuidwestpunt van het eiland. "
-"Vandaag de dag is Groenland een land met zelfbestuur binnen het Koninkrijk Denemarken "
-"Met een gemengde Inuit en Scandinavische bevolking."
+"Inuit naar Thule (Qaanaaq) op de westkust van Groenland. Ongeveer "
+"tegelijkertijd bereikten Scandinavische kolonisten de fjorden aan de "
+"zuidwestpunt van het eiland. Vandaag de dag is Groenland een land met "
+"zelfbestuur binnen het Koninkrijk Denemarken Met een gemengde Inuit en "
+"Scandinavische bevolking."
 
 #: data/nation/grenadian.ruleset:3
 msgid "Grenadian"
@@ -27607,9 +27679,9 @@ msgid ""
 "the United Kingdom in 1974. The main island was known as Camahogne by the "
 "indigenous Caribs."
 msgstr ""
-"Grenada is een eilandstaad in het Caribisch Gebied. Het is sinds 1974 onafhankelijk "
-"van het Verenigd Koninkrijk. Het hoofdeiland werd door de inheemse Kariben "
-"Camahogne genoemd."
+"Grenada is een eilandstaad in het Caribisch Gebied. Het is sinds 1974 "
+"onafhankelijk van het Verenigd Koninkrijk. Het hoofdeiland werd door de "
+"inheemse Kariben Camahogne genoemd."
 
 #: data/nation/guanche.ruleset:3
 msgid "Guanche"
@@ -27625,9 +27697,10 @@ msgid ""
 "known of their origins, but it appears that they were related to the "
 "Berbers. In the 15th century they were subjugated by Castile."
 msgstr ""
-"De Guanchen waren de oorspronkelijke bewoners van de Canarische Eilanden. Er is "
-"weinig bekend over hun oorsprong, maar het lijkt er op dat zij verwant waren aan "
-"de Berbers. In de vijftiende eeuw werden zij onderworpen door Castilië."
+"De Guanchen waren de oorspronkelijke bewoners van de Canarische Eilanden. Er "
+"is weinig bekend over hun oorsprong, maar het lijkt er op dat zij verwant "
+"waren aan de Berbers. In de vijftiende eeuw werden zij onderworpen door "
+"Castilië."
 
 #: data/nation/guarani.ruleset:3
 msgid "Guarani"
@@ -27644,10 +27717,11 @@ msgid ""
 "Paraguay in agricultural villages. Today their Guarani language is spoken by "
 "over 4 million people and is an official language of the nation of Paraguay."
 msgstr ""
-"Met een bevolking van ongeveer 400.000 zielen ten tijde van het eerste contact "
-"met de Europeanen leefden de Abá (beter bekend als de Guaraní) voornamelijk in "
-"landbouwdorpen in wat nu Paraguay is. Vandaag de dag wordt hun taal door vier "
-"miljoen mensen gesproken en is het een officiële taal van het land Paraguay."
+"Met een bevolking van ongeveer 400.000 zielen ten tijde van het eerste "
+"contact met de Europeanen leefden de Abá (beter bekend als de Guaraní) "
+"voornamelijk in landbouwdorpen in wat nu Paraguay is. Vandaag de dag wordt "
+"hun taal door vier miljoen mensen gesproken en is het een officiële taal van "
+"het land Paraguay."
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
@@ -27667,11 +27741,11 @@ msgid ""
 "1996."
 msgstr ""
 "Het oude kernland van de Maya's Guatemala werd in de zestiende eeuw door de "
-"Spanjarden veroverd. Het werd in 1821 onafhankelijk maar maakte tot 1840 deel "
-"uit van de Verenigde Staten van Centraal-Amerika. Het land heeft geleden onder "
-"politieke onrust voor het grootste deel van haar geschiedenis. Guatemala maakte "
-"een van de meest wrede burgeroorlogen van de twintigste eeuw mee tot in 1996 "
-"een vredesakkoord werd getekend."
+"Spanjarden veroverd. Het werd in 1821 onafhankelijk maar maakte tot 1840 "
+"deel uit van de Verenigde Staten van Centraal-Amerika. Het land heeft "
+"geleden onder politieke onrust voor het grootste deel van haar geschiedenis. "
+"Guatemala maakte een van de meest wrede burgeroorlogen van de twintigste "
+"eeuw mee tot in 1996 een vredesakkoord werd getekend."
 
 #. TRANS: The second letter in "Sekou" and last in "Toure" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -27690,9 +27764,9 @@ msgid ""
 "Sekou Toure continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
-"Guinee riep in 1958 de onafhankelijkheid uit van Frankrijk. De eerste president "
-"Ahmed Sékou Touré bleef het land tot zijn dood in 1984 regeren. Guinee dient niet "
-"verward te worden met het buurland Guinee-Bissau."
+"Guinee riep in 1958 de onafhankelijkheid uit van Frankrijk. De eerste "
+"president Ahmed Sékou Touré bleef het land tot zijn dood in 1984 regeren. "
+"Guinee dient niet verward te worden met het buurland Guinee-Bissau."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -27707,8 +27781,8 @@ msgid ""
 "The Gupta Empire was one of the great classical empires. It ruled northern "
 "India from around 240 to 550 AD."
 msgstr ""
-"Het Guptarijk was een van de grote klassieke rijken. Het beheerste het noorden "
-"van India van ongeveer 240 tot 550 na Christus."
+"Het Guptarijk was een van de grote klassieke rijken. Het beheerste het "
+"noorden van India van ongeveer 240 tot 550 na Christus."
 
 #: data/nation/guyanese.ruleset:3
 msgid "Guyanese"
@@ -27726,9 +27800,10 @@ msgid ""
 "the 1980s it started its transition to a market democracy."
 msgstr ""
 "Guayana was oorspronkelijk bewoond door de Arowakken. Het werd gekoloniseerd "
-"door de Nederlanders mar werd een Britse kolonie na de Napoleonitsche Oorlogen. "
-"Het werd in 1966 onafhankelijk. Onder Forbes Burnhem werd Guyana een op het "
-"marxisme georienteerd land maar in 1980 begon het de transitie naar een markteconomie."
+"door de Nederlanders mar werd een Britse kolonie na de Napoleonitsche "
+"Oorlogen. Het werd in 1966 onafhankelijk. Onder Forbes Burnhem werd Guyana "
+"een op het marxisme georienteerd land maar in 1980 begon het de transitie "
+"naar een markteconomie."
 
 #: data/nation/guyanese.ruleset:27 data/nation/lankese.ruleset:22
 #, c-format
@@ -27773,14 +27848,12 @@ msgid "?female:1337 %s"
 msgstr "1337 %s"
 
 #: data/nation/haitian.ruleset:3
-#, fuzzy
 msgid "Haitian"
-msgstr "wachten..."
+msgstr "Haïtiaanse"
 
 #: data/nation/haitian.ruleset:4
-#, fuzzy
 msgid "?plural:Haitians"
-msgstr "?plural:Baverianen"
+msgstr "Haïtianen"
 
 #: data/nation/haitian.ruleset:6
 msgid ""
@@ -27788,26 +27861,27 @@ msgid ""
 "independent black republic and the second independent country in the "
 "Americas."
 msgstr ""
+"Een slavenopstand leidde in 1804 tot de onafhankelijkheid van Haïti. Het "
+"was de eerste onafhankelijke zwarte republiek en het tweede onafhankelijke "
+"land in de Amerika's."
 
 #: data/nation/haitian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "President-for-Life %s"
-msgstr "President"
+msgstr "President-voor-het-leven %s"
 
 #: data/nation/haitian.ruleset:26
-#, fuzzy, c-format
+#, c-format
 msgid "?female:President-for-Life %s"
-msgstr "?female:Presidente"
+msgstr "Presidente-voor-het-leven %s"
 
 #: data/nation/hanoverian.ruleset:3
-#, fuzzy
 msgid "Hanoverian"
-msgstr "Bavariaanse"
+msgstr "Hannoverse"
 
 #: data/nation/hanoverian.ruleset:4
-#, fuzzy
 msgid "?plural:Hanoverians"
-msgstr "?plural:Baverianen"
+msgstr "Hannoveranen"
 
 #: data/nation/hanoverian.ruleset:6
 msgid ""
@@ -27815,24 +27889,25 @@ msgid ""
 "to 1837 Hanover and the United Kingdom were united in a personal union. In "
 "1866 it was gobbled up by Prussia."
 msgstr ""
+"Hannover was een staat in Noord-Duitsland in het huidige Nedersaksen. Van "
+"1714 tot 1837 waren Hannover en het Verenigd Koninkrijk verenigd in een "
+"personele unie. In 1866 werd het opgeslokt door Pruisen."
 
 #: data/nation/hanoverian.ruleset:23 data/nation/lorrain.ruleset:31
 #: data/nation/montenegrin.ruleset:28 data/nation/rhenish.ruleset:38
 #: data/nation/tyrolian.ruleset:23 data/nation/walloon.ruleset:26
 #: data/nation/westphalian.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "Princess-Bishop %s"
-msgstr "Prinses"
+msgstr "Prinses-bisschop %s"
 
 #: data/nation/han.ruleset:3
-#, fuzzy
 msgid "Han"
-msgstr "Menselijk"
+msgstr "Han"
 
 #: data/nation/han.ruleset:4
-#, fuzzy
 msgid "?plural:Han"
-msgstr "?plural:Thai"
+msgstr "Han"
 
 #: data/nation/han.ruleset:6
 msgid ""
@@ -27840,16 +27915,17 @@ msgid ""
 "back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the Yellow Emperor), "
 "legendary god-kings of prehistory."
 msgstr ""
+"De Han zijn de grootste etnische groep in China en herleiden hun oorsprong tot "
+"\"Yandi\" (de Yan-keizer) en \"Huangdi\" (de Gele Keizer), legendarische goddelijke "
+"koningen uit de prehistorie."
 
 #: data/nation/hansa.ruleset:3
-#, fuzzy
 msgid "Hanseatic"
-msgstr "Fanatici"
+msgstr "Hanze"
 
 #: data/nation/hansa.ruleset:4
-#, fuzzy
 msgid "?plural:Hanseatic League"
-msgstr "?plural:Zuidpolers"
+msgstr "Hanze"
 
 #: data/nation/hansa.ruleset:6
 msgid ""
@@ -27858,16 +27934,18 @@ msgid ""
 "Sea and Baltic regions. Members of the league had their own law system and "
 "occasionally the Hansa went to war with rival powers."
 msgstr ""
+"De Hanze was een machtig verbond van handelssteden dat bestond van de twaalfde "
+"tot de negentiende eeuw. Hanzesteden bevonden zich in het gebied rond de Noordzee "
+"en de Oostzee. Leden van het verbond hadden hun eigen wetssysteem en af en toe "
+"trokken zij gezamenlijk op in oorlogen tegen rivaliserende machten."
 
 #: data/nation/hasinay.ruleset:3
-#, fuzzy
 msgid "Hasinay"
-msgstr "Reina"
+msgstr "Hasinay"
 
 #: data/nation/hasinay.ruleset:4
-#, fuzzy
 msgid "?plural:Hasinay"
-msgstr "?plural:Thai"
+msgstr "Hasinay"
 
 #: data/nation/hasinay.ruleset:6
 msgid ""
@@ -27878,16 +27956,20 @@ msgid ""
 "in line with the other mound-building cultures of the Southeast. The word "
 "Texas is derived from Caddoan word for \"Friend.\""
 msgstr ""
+"De Hasinayconfederatie, een Caddoaans stamverbond uit Oost-Texas, bestond uit "
+"een groep landbouwdorpen. Hoewel ze deel uitmaakten van handelsnetwerken die hen "
+"verbonden met ver naar het westen gelegen volkeren als de Pueblo-staten van het "
+"Amerikaanse Zuidwesten waren hun culturele banden duidelijk eerder met de andere "
+"Moundbuilders van het Zuidoosten. Het woord Texas is afgeleid van het Caddowoord "
+"voor \"Vriend\"."
 
 #: data/nation/hawaiian.ruleset:3
-#, fuzzy
 msgid "Hawaiian"
-msgstr "wachten..."
+msgstr "Hawaïaanse"
 
 #: data/nation/hawaiian.ruleset:4
-#, fuzzy
 msgid "?plural:Hawaiians"
-msgstr "?plural:Baverianen"
+msgstr "Hawaïanen"
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
@@ -27895,32 +27977,34 @@ msgid ""
 "Abolished in 1893, and subsequently annexed to the United States, the former "
 "kingdom became the 50th state of the United States on August 21, 1959."
 msgstr ""
+"Het Koninkrijk Hawaï werd in 1810 gesticht door Koning Kamehameha de Grote. "
+"Het werd afgeschaft in 1893 en vervolgens geannexeerd door de Verenigde Staten. "
+"Het voormalige koninkrijk werd op 21 augustus 1959 de vijftigste staat van de "
+"Verenigde Staten."
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr "Helleens"
+msgstr "Helleense"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr "?plural:Hellenen"
+msgstr "Hellenen"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
 msgstr ""
-"De Helleense Republiek, ook gekend als Griekenland, ontstond toen de "
-"Hellenen in 1830 onafhankelijk werden van de Ottomanen"
+"De Helleense Republiek, ook bekend als Griekenland, ontstond toen de "
+"Hellenen in 1832 onafhankelijk werden van de Ottomanen"
 
 #: data/nation/helvetian.ruleset:3
-#, fuzzy
 msgid "Helvetian"
-msgstr "Veteraan"
+msgstr "Helvetische"
 
 #: data/nation/helvetian.ruleset:4
-#, fuzzy
 msgid "?plural:Helvetians"
-msgstr "?plural:Venezuelanen"
+msgstr "Helvetiërs"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -27933,26 +28017,32 @@ msgid ""
 "Helvetians succumbed to the Romans and became Romanized during the following "
 "centuries."
 msgstr ""
+"De Helvetiës (Latijn: Helvetii) waren een oud Keltisch volk dat leefde in wat "
+"nu Zwitserland en aangrenzende delen van Frankrijk en Duitsland is. Helvetiërs "
+"namen soms deel aan de interne conflicten van Romen, bijvoorbeeld aan de kant "
+"van Cicero. Ze waren een grote, expansieve stam, die poogde de dominantie te "
+"vestigen over de andere stammen van Gallië. De campagnes van het Helvetische "
+"stamhoofd Orgetorix werden door Caesar aangegrepen als voorwendsel om Helvetië "
+"en de rest van Gallië te veroveren. De Helvetiërs werden onderworpen door de "
+"Romeinen en werden gedurende de volgende eeuwen geromaniseerd."
 
 #: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "High Druid %s"
-msgstr "Dru�de"
+msgstr "Hoge druïde %s"
 
 #: data/nation/helvetian.ruleset:29
-#, fuzzy, c-format
+#, c-format
 msgid "?female:High Druid %s"
-msgstr "?female:Druide"
+msgstr "Hoge druïde %s"
 
 #: data/nation/hephthalite.ruleset:3
-#, fuzzy
 msgid "Hephthalite"
-msgstr "elite"
+msgstr "Heftalitische"
 
 #: data/nation/hephthalite.ruleset:4
-#, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "?plural:Bengalen"
+msgstr "Heftalieten"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -27965,16 +28055,22 @@ msgid ""
 "subcontinent some Hephthalite successor kingdoms survived until the late 7th "
 "century."
 msgstr ""
+"De Heftalieten waren een Centraal-Aziatische nomadische stammenbond uit de "
+"vijfde en zesde eeuw CE. Hun precieze oorsprong en samenstelling zijn "
+"onzeker. Ze waren wellicht van Iraanse, Tochaarse en Turkse origine maar hun "
+"omgangstaal is onbekend. Hoewel ook wel Witte Hunnen werden genoemd is een "
+"relatie met de Hunnen onwaarschijnlijk. De Heftalieten werden verpletterd "
+"door de Gökturken en Sassaniden in de zesde eeuw, maar op het Indische "
+"subcontinent bleven Heftalitische opvolgerskoninkrijkjes bestaan tot de "
+"late zevende eeuw." 
 
 #: data/nation/hessian.ruleset:3
-#, fuzzy
 msgid "Hessian"
-msgstr "Perzische"
+msgstr "Hessische"
 
 #: data/nation/hessian.ruleset:4
-#, fuzzy
 msgid "?plural:Hessians"
-msgstr "?plural:Perzen"
+msgstr "Hessen"
 
 #: data/nation/hessian.ruleset:6
 msgid ""
@@ -27983,26 +28079,28 @@ msgid ""
 "Hessians fought in the American Revolution as mercenaries on both sides. "
 "Currently Hesse is one of the states of the Federal Republic of Germany."
 msgstr ""
+"Hessen werd in de dertiende eeuw een landgraafschap van het Heilige Roomse Rijk. "
+"In de zestiende eeuw versplinterde het in een aantal kleinere territoria. In de "
+"Amerikaanse Revolutie vochten veel Hessen als huurlingen aan beide zeiden. Tegenwoordig "
+"is Hessen een van de bondslanden van de Bondsrepubliek Duitsland."
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Landgrave %s"
-msgstr "Karavel"
+msgstr "Landgraaf %s"
 
 #: data/nation/hessian.ruleset:27 data/nation/thuringian.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Landgravine %s"
-msgstr "Mariniers"
+msgstr "Landgravin %s"
 
 #: data/nation/himyarite.ruleset:3
-#, fuzzy
 msgid "Himyarite"
-msgstr "Hittiet"
+msgstr "Himjaritische"
 
 #: data/nation/himyarite.ruleset:4
-#, fuzzy
 msgid "?plural:Himyar"
-msgstr "?plural:Aymaras"
+msgstr "Himjarieten"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -28019,14 +28117,28 @@ msgid ""
 "converted to Islam and Southern Arabia was incorporated into the new, "
 "expanding Muslim empire."
 msgstr ""
+"De Himjarieten waren oorspronkelijk een bergstam in wat nu Jemen is. Zij "
+"veroverden de andere Zuid-Arabische koninkrijken die rijk waren geworden van "
+"de handel in wierook, inclusief Sabaea in 115 BCE. De Himjarieten waren "
+"kasteelbouwers, en zagen zich genoodzaakt citadels te bouwen om zich te "
+"beschermen tegen plundertochten van Bedoeïenen. Het Aksumitische koninkrijk "
+"regeerde Sabaea vanuit Etiopië van 340 tot 378 AD, maar het gebied werd in "
+"525 door Himjarische troepen heroverd. De neergang van de natie was een "
+"langzaam proces, waarbij een de ande kant de Christelijke staten van Aksum "
+"en het Byzantijnse Rijk waren betrokken, aan de andere kant het Mandeïsche "
+"Sassaniedenrijk van Perzië, met verschillende Zuid-Arabische facties er "
+"tussen in. Het land ging in 575 over van Aksumitisch naar Sassanidisch "
+"bestuurd. In 628 bekeerde de vijfde Sassanidische Satraap van \"al-Jaman\" "
+"zich tot de islam en werd Zuid-Arabië geincorporeerd in het nieuwe, zich "
+"uitbreidende moslimrijk."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr "Hittiet"
+msgstr "Hettitische"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr "?plural:Hittieten"
+msgstr "Hettieten"
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -28035,20 +28147,18 @@ msgid ""
 "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 "Babylon."
 msgstr ""
-"Het koninkrijk van de Hittieten duurde van ongeveer 1680 BC tot 1180 BC. Het "
-"was de eerste beschaving die ijzer leerde bewerken. Op hun hoogtepunt "
-"beheerste ze centraal Anatoli�, noordwest Syri� en Mesopotami� tot aan "
+"Het koninkrijk van de Hettieten bestond van ongeveer 1680 BCE tot 1180 BCE. "
+"Het was de eerste beschaving die ijzer leerde te bewerken. Op hun hoogtepunt "
+"beheersten zij Centraal-Anatolië, Noordwest-Syrië en Mesopotamië tot aan "
 "Babylon."
 
 #: data/nation/holyroman.ruleset:3
-#, fuzzy
 msgid "Holy Roman"
-msgstr "Romeinse"
+msgstr "Heilige Roomse"
 
 #: data/nation/holyroman.ruleset:4
-#, fuzzy
 msgid "?plural:Holy Romans"
-msgstr "?plural:Romeinen"
+msgstr "Rooms-Duitsers"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -28060,21 +28170,27 @@ msgid ""
 "imperial free cities and other territories. In 1806 it was dissolved by "
 "Napoleon and replaced by the Confederation of the Rhine."
 msgstr ""
+"Het Heilige Roomse Rijk werd beschouwd als opvolger van het Romeinse Rijk, "
+"maar zoals Voltaire eens grapte was het Heilig noch Romeins en al helemaal "
+"geen Rijk. Desalniettemin bleek het uiterst weerbarstig te zijn en verloor "
+"het slechts heel geleidelijk grondgebied. Gedurende het grootste deel van "
+"zijn bestaan was het een ingewikkelde lappendeken die bestond uit een "
+"ontelbare hoeveelheid grafschappen, hertogdommen, keurvorstendommen, vrije "
+"rijkssteden en andere territoria. In 1806 werd het door Napoleon ontbonden "
+"en vervangen door de Rijnbond."
 
 #: data/nation/holyroman.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Popess %s"
-msgstr "?female:Despot"
+msgstr "Pausin %s"
 
 #: data/nation/holysee.ruleset:3
-#, fuzzy
 msgid "Papal"
-msgstr "Papua"
+msgstr "Kerkelijke"
 
 #: data/nation/holysee.ruleset:4
-#, fuzzy
 msgid "?plural:Papal States"
-msgstr "?plural:Lankezen"
+msgstr "Kerkelijke Staat"
 
 #: data/nation/holysee.ruleset:6
 msgid ""
@@ -28084,28 +28200,33 @@ msgid ""
 "wealthy, the Papal States grew to become the dominant power in Italy for "
 "centuries."
 msgstr ""
+"De Kerkelijke Staat was het gebied op het Italiaans Schiereiland en daarbuiten dat "
+"onder directe soevereine heerschappij stond van de Rooms-Katholieke pausen. "
+"Opgericht in de achtste eeuw na Christus in territorium dat door de vromen en "
+"rijken aan de kerk was gedoneerd, was de Kerkelijke Staat de volgende eeuwen de "
+"dominante macht in Italië."
 
 #: data/nation/holysee.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Antipope %s"
-msgstr "Paus"
+msgstr "Tegenpaus %s"
 
 #: data/nation/holysee.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Antipopess %s"
-msgstr "Paus"
+msgstr "Tegenpausin %s"
 
 #: data/nation/holysee.ruleset:32 data/nation/maltese.ruleset:28
 #: data/nation/templar.ruleset:41 data/nation/teutonic.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Master %s"
-msgstr "Gran Bardo"
+msgstr "Grootmeester %s"
 
 #: data/nation/holysee.ruleset:32 data/nation/maltese.ruleset:28
 #: data/nation/templar.ruleset:41 data/nation/teutonic.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Grand Mistress %s"
-msgstr "Gran Bardo"
+msgstr "Grootmeesteres %s"
 
 #: data/nation/honduran.ruleset:3
 msgid "Honduran"
@@ -28151,6 +28272,29 @@ msgstr "?plural:Hongaren"
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
 msgstr "Volgens de legende werd Hongarije in de 9de eeuw gesticht door Arpad."
+
+#: data/nation/hunnic.ruleset:3
+#, fuzzy
+msgid "Hunnic"
+msgstr "Raffinage"
+
+#: data/nation/hunnic.ruleset:4
+#, fuzzy
+msgid "?plural:Huns"
+msgstr "?plural:Kenianen"
+
+#: data/nation/hunnic.ruleset:6
+msgid ""
+"The European Huns were an ancient tribal confederation who first appeared in "
+"the 4th century. The Huns inhabited the Eurasian steppes and were known as "
+"formidable horse archers. In the fifth century AD they created a powerful "
+"military empire under the leadership of Attila, famous for his campaigns "
+"against the Roman Empire. Attila died in 453, the empire fell apart one year "
+"later. The origins of the Huns are still a matter of dispute; they have long "
+"been associated with the Xiongnu mentioned in Chinese sources, but that link "
+"has still not been unequivocally proven. Hunnic ethnic relations and "
+"language are likewise controversial."
+msgstr ""
 
 #: data/nation/iberian.ruleset:3
 #, fuzzy
@@ -34368,6 +34512,26 @@ msgstr ""
 "Veel van de leidende anti-apartheidactivisten, waaronder Nelson Mandela en "
 "Desmond Tutu, waren Xhosa."
 
+#: data/nation/xiongnu.ruleset:3
+msgid "Xiongnu"
+msgstr ""
+
+#: data/nation/xiongnu.ruleset:4
+#, fuzzy
+msgid "?plural:Xiongnu"
+msgstr "Ainoes"
+
+#: data/nation/xiongnu.ruleset:6
+msgid ""
+"The Xiongnu, also called as Asiatic Huns, were an ancient tribal "
+"confederation of mixed origin. Their language is unknown, it may have "
+"belonged to the Altaic or Yeniseian language family. The Xiongnu created a "
+"strong state in the plains of the eastern part of Central Asia, which was an "
+"important threat to China. From the second century onwards the northern wing "
+"of the Xiongnu is known as Xianbei, while another group of the Xiongnu "
+"emigrated to the west."
+msgstr ""
+
 #: data/nation/yakut.ruleset:3
 msgid "Yakut"
 msgstr "Jakoetische"
@@ -39153,17 +39317,17 @@ msgstr "schild"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Kon geen leesbaar spelregelbestand \"%s.%s\" vinden."
 
-#: server/ruleset.c:4506
+#: server/ruleset.c:4508
 #, fuzzy
 msgid "Loading rulesets."
 msgstr "Laad spelregels"
 
-#: server/ruleset.c:4587
+#: server/ruleset.c:4589
 msgid "Reducing aifill because there are not enough playable nations."
 msgstr ""
 
 #. TRANS: Minor error message.
-#: server/savegame2.c:300 server/savegame.c:190
+#: server/savegame2.c:300 server/savegame.c:191
 #, fuzzy
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
@@ -39174,51 +39338,51 @@ msgstr ""
 "oudere opgeslagen spelen of het kan een beschadigd spelbestand betekenen. Ga "
 "verder op eigen risico."
 
-#: server/savegame2.c:560
+#: server/savegame2.c:574
 #, fuzzy
 msgid "current version"
 msgstr "(beta versie)"
 
-#: server/savegame2.c:564
+#: server/savegame2.c:578
 #, fuzzy
 msgid "freeciv 2.3.0"
 msgstr "Freeciv"
 
-#: server/savegame2.c:566
+#: server/savegame2.c:580
 #, fuzzy
 msgid "freeciv 2.4.0"
 msgstr "Freeciv"
 
-#: server/savegame2.c:569
+#: server/savegame2.c:583
 #, fuzzy
 msgid "freeciv 2.5.0 (development)"
 msgstr "Freeciv"
 
-#: server/savegame2.c:3186 server/savegame.c:4168 server/srv_main.c:1902
+#: server/savegame2.c:3346 server/savegame.c:4171 server/srv_main.c:1902
 #: server/srv_main.c:1907
 #, fuzzy, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s is toegevoegd als een niveau %s KI-gestuurde speler."
 
-#: server/savegame2.c:3191 server/savegame.c:4173
+#: server/savegame2.c:3351 server/savegame.c:4176
 #, fuzzy, c-format
 msgid "%s has been added as human player."
 msgstr "%s is toegevoegd als een KI-gestuurde speler."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame2.c:3214 server/savegame.c:4219
+#: server/savegame2.c:3374 server/savegame.c:4222
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
 
-#: server/savegame2.c:6062
+#: server/savegame2.c:6249
 #, c-format
 msgid ""
 "Run compatibility function for version: <%d (save file: %d; server: %d)."
 msgstr ""
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3343
+#: server/savegame.c:3344
 #, fuzzy
 msgid ""
 "Saved game uses the ancient \"classic\" terrain ruleset, and is no longer "
@@ -39227,7 +39391,7 @@ msgstr ""
 "Het opgeslagen spel gebruikt de klassieke spelregelset die niet langer "
 "ondersteund wordt."
 
-#: server/savegame.c:3351
+#: server/savegame.c:3352
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -39237,7 +39401,7 @@ msgstr ""
 "langer ondersteund. Gebruik '%s'."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3396
+#: server/savegame.c:3397
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Opgeslagen spel te oud; tenminste versie 1.9.0 is nodig."
@@ -43748,7 +43912,7 @@ msgstr "Alleen %s kunnen aanvallen vanuit zee."
 msgid "Cannot attack from sea."
 msgstr "Kan niet aanvallen vanuit zee."
 
-#: server/unithand.c:1298 server/unittools.c:2519
+#: server/unithand.c:1298 server/unittools.c:2523
 msgid "Cannot attack unless you declare war first."
 msgstr "U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
@@ -43762,7 +43926,7 @@ msgstr "%s kan alleen binnen uw eigen invloedssfeer bewegen."
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1316 server/unittools.c:2526
+#: server/unithand.c:1316 server/unittools.c:2530
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "U kunt niet aanvallen voordat u de oorlog verklaard heeft."
@@ -44064,103 +44228,103 @@ msgstr "Transformeer naar %s"
 msgid "%s transported successfully."
 msgstr "%s succesvol overgeplaatst."
 
-#: server/unittools.c:2482
+#: server/unittools.c:2483
 msgid "This unit type can not be paradropped."
 msgstr "Deze eenheid kan niet worden geparadropt."
 
-#: server/unittools.c:2492
+#: server/unittools.c:2493
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Deze eenheid kan niet paradroppen op een transporteenheid."
 
-#: server/unittools.c:2498
+#: server/unittools.c:2499
 msgid "The destination location is not known."
 msgstr "De plaats van bestemming is onbekend."
 
-#: server/unittools.c:2508
+#: server/unittools.c:2512
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Deze eenheid kan niet paradroppen in %s."
 
-#: server/unittools.c:2537
+#: server/unittools.c:2541
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "De afstand naar het doel (%i) is groter dan het bereik van de eenheid (%i)."
 
-#: server/unittools.c:2548
+#: server/unittools.c:2552
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Uw %s is in %s geland en ging verloren."
 
-#: server/unittools.c:2561
+#: server/unittools.c:2565
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Uw %s is vermoord door vijandelijke eenheden in de landingszone."
 
-#: server/unittools.c:2629
+#: server/unittools.c:2633
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in terreur."
 
-#: server/unittools.c:2872
+#: server/unittools.c:2876
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Orders voor %s afgebroken aangezien er vijandelijke eenheden gezien zijn."
 
-#: server/unittools.c:3407
+#: server/unittools.c:3411
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Orders voor %s afgebroken aangezien er eenheden in de buurt zijn."
 
-#: server/unittools.c:3458
+#: server/unittools.c:3462
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Orders voor %s afgebroken omdat het stichten van een stad mislukte."
 
-#: server/unittools.c:3477
+#: server/unittools.c:3481
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Orders voor %s afgebroken aangezien de activiteit ongeldig is."
 
-#: server/unittools.c:3498
+#: server/unittools.c:3502
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Orders voor %s afgebroken aangezien ze een ongeldige locatie aanduiden."
 
-#: server/unittools.c:3508
+#: server/unittools.c:3512
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Orders voor %s afgebroken aangezien er eenheden in de weg staan."
 
-#: server/unittools.c:3533
+#: server/unittools.c:3537
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Orders voor %s afgebroken door een gefaalde verplaatsing."
 
-#: server/unittools.c:3574
+#: server/unittools.c:3578
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Hoofdstad verplaatsen voor %s is mislukt."
 
-#: server/unittools.c:3585
+#: server/unittools.c:3589
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Poging om handelsroute noor %s te vestigen mislukt."
 
-#: server/unittools.c:3597
+#: server/unittools.c:3601
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Poging om wonder te bouwen voor %s mislukt."
 
-#: server/unittools.c:3606
+#: server/unittools.c:3610
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Uw %s heeft ongeldige orders."
 
-#: server/unittools.c:3704
+#: server/unittools.c:3708
 #, c-format
 msgid ""
 "Your unit may not move for another %s this turn. See /help unitwaittime."
