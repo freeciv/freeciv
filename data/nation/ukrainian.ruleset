@@ -2,32 +2,34 @@
 
 name=_("Ukrainian")
 plural=_("?plural:Ukrainians")
-groups="Early Modern", "Modern", "European"
-legend=_("The Ukraine is a vast region on the westernmost marches of the\
+groups="Modern", "European"
+legend=_("Ukraine is a vast region on the westernmost marches of the\
  former Soviet Union. It includes some of the most fertile black-soil\
  cropland on Earth.")
 
 leaders = {
  "name",                          "sex"
+ "Ryuryk",                        "Male"
  "Olga Prekrasa",                 "Female"
  "Svyatoslav Igorovych",          "Male"
  "Volodymyr Svyatoslavych",       "Male"
  "Yaroslav Mudry",                "Male"
  "Volodymyr Monomakh",            "Male"
- "Danylo Halytsky",               "Male"
  "Yaroslav Osmomysl",             "Male"
+ "Danylo Halytsky",               "Male"
  "Petro Konashevych-Sahaydachny", "Male"
  "Bohdan Khmelnytsky",            "Male"
- "Petro Doroshenko",              "Male"
  "Ivan Sirko",                    "Male"
+ "Petro Doroshenko",              "Male"
  "Ivan Mazepa",                   "Male"
  "Pylyp Orlyk",                   "Male"
  "Mykhaylo Hrushevsky",           "Male"
- "Symon Petliura",                "Male"
  "Yevhen Petrushevych",           "Male"
- "Stepan Bandera",                "Male"
+ "Symon Petlyura",                "Male"
  "Nestor Makhno",                 "Male"
- "Yuliya Timoshenko",             "Female"
+ "Stepan Bandera",                "Male"
+ "Mykyta Khrushchov",             "Male"
+ "Yuliya Tymoshenko",             "Female"
 }
 
 ruler_titles = {
@@ -40,7 +42,7 @@ ruler_titles = {
 
 flag="ukraine"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
 
 init_techs=""
 init_buildings=""
@@ -53,20 +55,22 @@ civilwar_nations="Soviet", "Polish", "Russian", "Belarusian",
 cities =
  "Kyiv",
  "Lviv",
+ "Chyhyryn",
+ "Kharkiv",
  "Zhytomyr (forest)",
+ "Dnipropetrovsk (river)",
+ "Odesa (ocean)",
+ "Kryvyy Rih",
  "Lutsk",
+ "Donetsk (hills)",
  "Pereyaslav",
  "Zaporizhzhia (river)",
  "Chernihiv",
  "Bratslav",
  "Kherson (river, ocean)",
- "Kharkiv",
  "Sumy",
  "Poltava (plains)",
- "Odesa (ocean)",
  "Cherkasy (river)",
- "Donetsk (hills)",
- "Dnipropetrovsk (river)",
  "Rivne",
  "Sevastopol (ocean)",
  "Chernivtsi (hills)",
@@ -81,4 +85,14 @@ cities =
  "Yalta (ocean)",
  "Luhansk",
  "Mykolayiv",
- "Chornobyl"
+ "Baturyn",
+ "Chornobyl",
+ "Mariupol (ocean)",
+ "Simferopol",
+ "Dniprodzerzhynsk (river)",
+ "Kremenchuk",
+ "Kerch (ocean)",
+ "Makiyivka",
+ "Kramatorsk",
+ "Horlyvka",
+ "Melitopol"
