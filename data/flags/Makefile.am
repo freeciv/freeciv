@@ -86,6 +86,7 @@ flag_files =				\
 		canada.png		\
 		canada_old.png		\
 		canar.png		\
+		cantonese.png		\
 		cape_verde.png		\
 		car.png			\
 		cartago.png		\
@@ -184,6 +185,7 @@ flag_files =				\
 		greece.png		\
 		greenland.png		\
 		grenada.png		\
+		grisons.png		\
 		guanche.png		\
 		guarani.png		\
 		guatemala.png		\
@@ -508,6 +510,7 @@ flag_files =				\
 		vanuatu.png		\
 		vatican.png		\
 		vedic.png		\
+		veletian.png		\
 		venda.png		\
 		venetic.png		\
 		venezuela.png		\
@@ -619,6 +622,7 @@ flag_files =				\
 		canada-large.png		\
 		canada_old-large.png		\
 		canar-large.png			\
+		cantonese-large.png		\
 		cape_verde-large.png		\
 		car-large.png			\
 		cartago-large.png		\
@@ -717,6 +721,7 @@ flag_files =				\
 		greece-large.png		\
 		greenland-large.png		\
 		grenada-large.png		\
+		grisons-large.png		\
 		guanche-large.png		\
 		guarani-large.png		\
 		guatemala-large.png		\
@@ -1041,6 +1046,7 @@ flag_files =				\
 		vanuatu-large.png		\
 		vatican-large.png		\
 		vedic-large.png			\
+		veletian-large.png		\
 		venda-large.png			\
 		venetic-large.png		\
 		venezuela-large.png		\
@@ -1154,6 +1160,7 @@ shield_files =					\
 		canada-shield.png		\
 		canada_old-shield.png		\
 		canar-shield.png		\
+		cantonese-shield.png		\
 		cape_verde-shield.png		\
 		car-shield.png			\
 		cartago-shield.png		\
@@ -1252,6 +1259,7 @@ shield_files =					\
 		greece-shield.png		\
 		greenland-shield.png		\
 		grenada-shield.png		\
+		grisons-shield.png		\
 		guanche-shield.png		\
 		guarani-shield.png		\
 		guatemala-shield.png		\
@@ -1576,6 +1584,7 @@ shield_files =					\
 		vanuatu-shield.png		\
 		vatican-shield.png		\
 		vedic-shield.png		\
+		veletian-shield.png		\
 		venda-shield.png		\
 		venetic-shield.png		\
 		venezuela-shield.png		\
@@ -1687,6 +1696,7 @@ shield_files =					\
 		canada-shield-large.png		\
 		canada_old-shield-large.png		\
 		canar-shield-large.png			\
+		cantonese-shield-large.png		\
 		cape_verde-shield-large.png		\
 		car-shield-large.png			\
 		cartago-shield-large.png		\
@@ -1785,6 +1795,7 @@ shield_files =					\
 		greece-shield-large.png		\
 		greenland-shield-large.png		\
 		grenada-shield-large.png		\
+		grisons-shield-large.png		\
 		guanche-shield-large.png		\
 		guarani-shield-large.png		\
 		guatemala-shield-large.png		\
@@ -2000,7 +2011,7 @@ shield_files =					\
 		ryukyu-shield-large.png		\
 		sadr-shield-large.png			\
 		saint_kitts_and_nevis-shield-large.png	\
-		saint_lucia-large.png			\
+		saint_lucia-shield-large.png		\
 		saka-shield-large.png			\
 		sakha-shield-large.png		\
 		salish-shield-large.png			\
@@ -2109,6 +2120,7 @@ shield_files =					\
 		vanuatu-shield-large.png		\
 		vatican-shield-large.png		\
 		vedic-shield-large.png			\
+		veletian-shield-large.png		\
 		venda-shield-large.png			\
 		venetic-shield-large.png		\
 		venezuela-shield-large.png		\
@@ -2222,6 +2234,7 @@ svg_files = 				\
 		canada.svg		\
 		canada_old.svg		\
 		canar.svg		\
+		cantonese.svg		\
 		cape_verde.svg		\
 		car.svg			\
 		cartago.svg		\
@@ -2320,6 +2333,7 @@ svg_files = 				\
 		greece.svg		\
 		greenland.svg		\
 		grenada.svg		\
+		grisons.svg		\
 		guanche.svg		\
 		guarani.svg		\
 		guatemala.svg		\
@@ -2644,6 +2658,7 @@ svg_files = 				\
 		vanuatu.svg		\
 		vatican.svg		\
 		vedic.svg		\
+		veletian.svg		\
 		venda.svg		\
 		venetic.svg		\
 		venezuela.svg		\
