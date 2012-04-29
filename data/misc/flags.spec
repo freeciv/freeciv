@@ -132,6 +132,7 @@ artists = "
    Cuba			Lauris Kaplinski
    Cuyavia		Lech Tadeusz Karczewski
    Cyprus		Vzb83 (Wikimedia Commons)
+   Cyrenaica		Daniel Markstedt and J.M. Maalderink
    Czech		Lauris Kaplinski
    Czechoslovakia	Tlusťa (Wikimedia Commons)
    Dahomey		Daniel Markstedt 
@@ -673,6 +674,7 @@ sprites =
 		"f.cuba", "flags/cuba"
 		"f.cuyavia", "flags/cuyavia"
 		"f.cyprus", "flags/cyprus"
+		"f.cyrenaica", "flags/cyrenaica"
 		"f.czech", "flags/czech"
 		"f.czechoslovakia", "flags/czechoslovakia"
 		"f.dahomey", "flags/dahomey"

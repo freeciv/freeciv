@@ -35,7 +35,8 @@ init_units=""
 conflicts_with="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
  "Yemeni", "South Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani",
- "Sahrawi", "Mauritanian", "Kuwaiti", "Qatari", "Bahraini", "Mamluk"
+ "Sahrawi", "Mauritanian", "Kuwaiti", "Qatari", "Bahraini", "Mamluk",
+ "Cyrenaican"
 ; ...civil war to them.
 civilwar_nations="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
