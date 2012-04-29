@@ -31,7 +31,7 @@ init_techs=""
 init_buildings=""
 init_units=""
 
-civilwar_nations="malagasy"
+civilwar_nations="malagasy", "seychellois"
 
 cities =
  "Port Louis",

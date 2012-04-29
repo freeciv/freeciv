@@ -433,6 +433,7 @@ artists = "
    Seminole		Daniel Markstedt
    Senegal		SonofSenegal (Wikimedia Commons)
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
+   Seychelles		Vzb83 (Wikimedia Commons)
    Shan			Daniel Markstedt
    Shawnee		Daniel Markstedt
    Sherpa		Daniel Markstedt
@@ -971,6 +972,7 @@ sprites =
 		"f.seminole", "flags/seminole"
 		"f.senegal", "flags/senegal"
 		"f.serbia", "flags/serbia"
+		"f.seychelles", "flags/seychelles"
 		"f.shan", "flags/shan"
 		"f.shawnee", "flags/shawnee"
 		"f.sherpa", "flags/sherpa"
