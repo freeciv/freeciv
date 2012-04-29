@@ -20,7 +20,7 @@ city_style = "Tropical"
 init_techs=""
 init_buildings=""
 init_units=""
-civilwar_nations="ethiopian", "sudanese", "maasai"
+civilwar_nations="swahili", "maasai"
 
 cities =
   "Nairobi", "Mombasa", "Malindi", "Kisumu", "Labu", "Kitale", "Nakuru",

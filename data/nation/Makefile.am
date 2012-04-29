@@ -448,6 +448,7 @@ pkgdata_DATA = \
 		sudanese.ruleset \
 		sumerian.ruleset \
 		surinamese.ruleset \
+		swahili.ruleset \
 		swazi.ruleset \
 		swedish.ruleset \
 		swiss.ruleset \

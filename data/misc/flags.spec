@@ -464,6 +464,7 @@ artists = "
    Sumeria		Franz Mach, Jason Short, Daniel Markstedt
    Suriname		Vzb83 (Wikimedia Commons)
    SVG			SKopp (Wikimedia Commons)
+   Swahili		J.M. Maalderink
    Swaziland		Caleb Moore
    Sweden		Richard Torkar
    Switzerland		Philipp Frauenfelder
@@ -1002,6 +1003,7 @@ sprites =
 		"f.sumeria", "flags/sumeria"
 		"f.suriname", "flags/suriname"
 		"f.svg", "flags/svg"
+		"f.swahili", "flags/swahili"
 		"f.swaziland", "flags/swaziland"
 		"f.sweden", "flags/sweden"
 		"f.switzerland", "flags/switzerland"

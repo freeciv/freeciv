@@ -503,6 +503,7 @@ match=2
 *include "nation/sudanese.ruleset"
 *include "nation/sumerian.ruleset"
 *include "nation/surinamese.ruleset"
+*include "nation/swahili.ruleset"
 *include "nation/swazi.ruleset"
 *include "nation/swedish.ruleset"
 *include "nation/swiss.ruleset"
