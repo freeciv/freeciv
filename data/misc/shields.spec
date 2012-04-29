@@ -186,6 +186,7 @@ sprites =
 		"f.shield.ghaznavid", "flags/ghaznavid-shield"
 		"f.shield.gokturk", "flags/gokturk-shield"
 		"f.shield.golden_horde", "flags/golden_horde-shield"
+		"f.shield.gothic", "flags/gothic-shield"
 		"f.shield.greater_poland", "flags/greater_poland-shield"
 		"f.shield.greece_ancient", "flags/greece_ancient-shield"
 		"f.shield.greece", "flags/greece-shield"

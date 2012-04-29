@@ -241,6 +241,7 @@ match=2
 *include "nation/ghaznavid.ruleset"
 *include "nation/gokturk.ruleset"
 *include "nation/goldenhorde.ruleset"
+*include "nation/gothic.ruleset"
 *include "nation/greaterpolish.ruleset"
 *include "nation/greek.ruleset"
 *include "nation/greenlander.ruleset"

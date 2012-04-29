@@ -185,6 +185,7 @@ artists = "
    Ghaznavid		J.M. Maalderink
    Gokturk		J.M. Maalderink
    Golden Horde		J.M. Maalderink
+   Gothic		Andzej G.
    Greater Poland	J.M. Maalderink
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
    Greece		Daniel McRae
@@ -723,6 +724,7 @@ sprites =
 		"f.ghaznavid", "flags/ghaznavid"
 		"f.gokturk", "flags/gokturk"
 		"f.golden_horde", "flags/golden_horde"
+		"f.gothic", "flags/gothic"
 		"f.greater_poland", "flags/greater_poland"
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"
