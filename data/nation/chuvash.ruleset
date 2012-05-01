@@ -5,7 +5,7 @@ plural=_("?plural:Chuvashes")
 groups="European"
 legend=_("Chuvashes are a Turkic ethnic group in Eastern European Russia\
  and Western Siberia. They may be descendants of Old Bulgarian Turkic\
- tribes and possibily Huns. Today there are about 1.8 million Chuvashes,\
+ tribes and possibly Huns. Today there are about 1.8 million Chuvashes,\
  about half of them in the Republic of Chuvashia, which is part of the\
  Russian Federation.")
 leaders = {
