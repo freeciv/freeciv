@@ -4,7 +4,7 @@ name=_("Gothic")
 plural=_("?plural:Goths")
 groups="Ancient", "European"
 legend = _("The Goths were an East Germanic people who originated in what\
- is now Poland or possibily in Scandinavia. They dominated Southeastern\
+ is now Poland or possibly in Scandinavia. They dominated Southeastern\
  Europe in the fourth century AD. The Goths played a major role in the\
  fall of the Roman Empire, sacking Rome itself in 410 AD. The Visigoths\
  conquered Roman Iberia while the Ostrogoths founded a kingdom in Italy.")
@@ -42,7 +42,7 @@ cities =
  "Skandja",		; Scandza, mythical gothic homeland
  "Gutiskandja",		; Gothiscandza, mythical first settlement south of the Baltic
  "Aƕosheims",		; Arheimar, mythical capital
- "Aujum",		; Oium, area in Scythia of Gothic settlement, possibily Chernyakov
+ "Aujum",		; Oium, area in Scythia of Gothic settlement, possibly Chernyakov
  "Raidagutland",	; Reidgotaland, land of the Goths in Nordic mythology
  "Hailigs Þaiudaurus",	; Saint Theodore, Mangup, Crimean Gothic capital
  "Hrekkaredisbaurgs",	; Reccopolis, Visigothic city in Spain
