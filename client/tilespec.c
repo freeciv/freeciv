@@ -3336,7 +3336,8 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 static void build_tile_data(const struct tile *ptile,
 			    struct terrain *pterrain,
 			    struct terrain **tterrain_near,
-			    bv_special *tspecial_near)
+			    bv_special *tspecial_near,
+                            bv_roads *troad_near)
 {
   enum direction8 dir;
 
@@ -3350,6 +3351,7 @@ static void build_tile_data(const struct tile *ptile,
       if (NULL != terrain1) {
         tterrain_near[dir] = terrain1;
         tspecial_near[dir] = tile_specials(tile1);
+        troad_near[dir] = tile_roads(tile1);
         continue;
       }
       log_error("build_tile_data() tile (%d,%d) has no terrain!",
@@ -3359,6 +3361,7 @@ static void build_tile_data(const struct tile *ptile,
      * past the edge of the map. */
     tterrain_near[dir] = pterrain;
     BV_CLR_ALL(tspecial_near[dir]);
+    BV_CLR_ALL(troad_near[dir]);
   }
 }
 
@@ -3629,8 +3632,8 @@ static bool road_hides_another(struct road_type *hider, struct road_type *hidden
 **************************************************************************/
 static int fill_road_rail_sprite_array(const struct tileset *t,
 				       struct drawn_sprite *sprs,
-				       bv_special tspecial,
-				       bv_special *tspecial_near,
+				       bv_roads troad,
+				       bv_roads *troad_near,
 				       const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
@@ -3639,10 +3642,19 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
   enum direction8 dir;
   struct road_type *proad = road_by_special(S_ROAD);
   struct road_type *prail = road_by_special(S_RAILROAD);
+  int road_idx = -1;
+  int rail_idx = -1;
 
   if (!draw_roads_rails) {
     /* Don't draw anything. */
     return 0;
+  }
+
+  if (proad != NULL) {
+    road_idx = road_index(proad);
+  }
+  if (prail != NULL) {
+    rail_idx = road_index(prail);
   }
 
   /* Fill some data arrays. rail_near and road_near store whether road/rail
@@ -3650,8 +3662,16 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
    * whether road/rail is to be drawn in that direction.  draw_single_road
    * and draw_single_rail store whether we need an isolated road/rail to be
    * drawn. */
-  road = contains_special(tspecial, S_ROAD);
-  rail = contains_special(tspecial, S_RAILROAD);
+  if (road_idx >= 0) {
+    road = BV_ISSET(troad, road_idx);
+  } else {
+    road = FALSE;
+  }
+  if (rail_idx >= 0) {
+    rail = BV_ISSET(troad, rail_idx);
+  } else {
+    rail = FALSE;
+  }
   draw_single_road = road && (!pcity || !draw_cities)
                      && (!rail || !road_hides_another(prail, proad));
   draw_single_rail = rail && (!pcity || !draw_cities)
@@ -3660,8 +3680,16 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
     bool roads_exist, rails_exist;
 
     /* Check if there is adjacent road/rail. */
-    road_near[dir] = contains_special(tspecial_near[dir], S_ROAD);
-    rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
+    if (road_idx >= 0) {
+      road_near[dir] = BV_ISSET(troad_near[dir], road_idx);
+    } else {
+      road_near[dir] = FALSE;
+    }
+    if (rail_idx >= 0) {
+      rail_near[dir] = BV_ISSET(troad_near[dir], rail_idx);
+    } else {
+      rail_near[dir] = FALSE;
+    }
 
     /* Draw rail/road if there is a connection from this tile to the
      * adjacent tile.  But don't draw road if there is also a rail
@@ -4522,6 +4550,8 @@ int fill_sprite_array(struct tileset *t,
   int tileno, dir;
   bv_special tspecial_near[8];
   bv_special tspecial;
+  bv_roads troad;
+  bv_roads troad_near[8];
   struct terrain *tterrain_near[8];
   struct terrain *pterrain = NULL;
   struct drawn_sprite *save_sprs = sprs;
@@ -4565,10 +4595,12 @@ int fill_sprite_array(struct tileset *t,
 
   if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
     tspecial = tile_specials(ptile);
+    troad = tile_roads(ptile);
     pterrain = tile_terrain(ptile);
 
     if (NULL != pterrain) {
-      build_tile_data(ptile, pterrain, tterrain_near, tspecial_near);
+      build_tile_data(ptile, pterrain, tterrain_near, tspecial_near,
+                      troad_near);
     } else {
       log_error("fill_sprite_array() tile (%d,%d) has no terrain!",
                 TILE_XY(ptile));
@@ -4646,7 +4678,7 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_ROADS:
     if (NULL != pterrain) {
       sprs += fill_road_rail_sprite_array(t, sprs,
-					  tspecial, tspecial_near, pcity);
+					  troad, troad_near, pcity);
     }
     break;
 
