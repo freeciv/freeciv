@@ -188,6 +188,7 @@ pkgdata_DATA = \
 		ghaznavid.ruleset \
 		gokturk.ruleset \
 		goldenhorde.ruleset \
+		gothic.ruleset \
 		greaterpolish.ruleset \
 		greek.ruleset \
 		greenlander.ruleset \
