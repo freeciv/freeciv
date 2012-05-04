@@ -480,6 +480,7 @@ match=2
 *include "nation/spanish.ruleset"
 *include "nation/srivijaya.ruleset"
 *include "nation/sudanese.ruleset"
+*include "nation/suebian.ruleset"
 *include "nation/sumerian.ruleset"
 *include "nation/surinamese.ruleset"
 *include "nation/swahili.ruleset"

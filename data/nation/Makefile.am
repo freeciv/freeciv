@@ -449,6 +449,7 @@ pkgdata_DATA = \
 		spanish.ruleset \
 		srivijaya.ruleset \
 		sudanese.ruleset \
+		suebian.ruleset \
 		sumerian.ruleset \
 		surinamese.ruleset \
 		swahili.ruleset \

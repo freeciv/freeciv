@@ -41,14 +41,14 @@ conflicts_with = "alander", "alsatian", "austrian", "badian", "bavarian",
  "holy roman", "icelandic", "liechtensteiner", "lippian", "luxembourgish",
  "mecklenburgian", "northumbrian", "norwegian", "oldenburgian", "ostrogothic",
  "prussian",  "rhenish", "saxon", "scanian", "schleswig-holsteinian", "scottish",
- "swedish", "swiss", "teutonic", "thuringian", "tyrolian", "vandalic",
+ "suebian", "swedish", "swiss", "teutonic", "thuringian", "tyrolian", "vandalic",
  "viking", "visigothic", "volga german", "westphalian", "wuerttembergian"
-; gepid, suebian
+; gepid
 
 civilwar_nations = "bavarian", "frankish", "frisian", "hessian",
  "gothic", "saxon", "thuringian", "vandalic", "viking", "frankish",
- "northumbrian"
-; gepid, suebian
+ "northumbrian", "suebian"
+; gepid
 
 cities =
  "Jastorf",
