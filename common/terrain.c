@@ -783,7 +783,6 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
 {
   static char s[256];
   char *p;
-  struct road_type *proad = NULL;
 
   s[0] = '\0';
 
@@ -802,26 +801,10 @@ const char *get_infrastructure_text(bv_special spe, bv_bases bases, bv_roads roa
       } road_type_iterate_end;
 
       if (!hidden) {
-        /* TODO: This is just to avoid duplicate if road is also part of specials.
-         *       Once roads are not part of specials, remove this check */
-        if (!contains_special(spe, road_special(proad))) {
-          cat_snprintf(s, sizeof(s), "%s/", road_name_translation(proad));
-        }
+        cat_snprintf(s, sizeof(s), "%s/", road_name_translation(proad));
       }
     }
   } road_type_iterate_end;
-
-  /* Since railroad requires road, Road/Railroad is redundant */
-  if (contains_special(spe, S_RAILROAD)) {
-    proad = road_by_special(S_RAILROAD);
-  } else if (contains_special(spe, S_ROAD)) {
-    proad = road_by_special(S_ROAD);
-  }
-
-  if (proad != NULL) {
-    cat_snprintf(s, sizeof(s), "%s/",
-                 road_name_translation(proad));
-  }
 
   /* Likewise for farmland on irrigation */
   if (contains_special(spe, S_FARMLAND)) {
