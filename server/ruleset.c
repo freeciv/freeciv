@@ -3344,8 +3344,12 @@ static void load_ruleset_effects(struct section_file *file)
     struct effect *peffect;
     const char *sec_name = section_name(psection);
 
-    type = secfile_lookup_str(file, "%s.name", sec_name);
-    if (!type) {
+    type = secfile_lookup_str(file, "%s.type", sec_name);
+    if (type == NULL) {
+      /* Backward compatibility. Field used to be named "name" */
+      type = secfile_lookup_str(file, "%s.name", sec_name);
+    }
+    if (type == NULL) {
       log_error("\"%s\" [%s] missing effect name.", filename, sec_name);
       continue;
     }
