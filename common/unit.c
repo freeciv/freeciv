@@ -1142,11 +1142,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
             BV_CLR(pspossible, prereq);
           }
         } tile_special_type_iterate_end;
-        if (tile_city(ptile)) {
-          /* Can't pillage roads on city tiles */
-          BV_CLR(pspossible, S_ROAD);
-          BV_CLR(pspossible, S_RAILROAD);
-        }
 
         BV_CLR_ALL(bspossible);
         base_type_iterate(pb) {
